@@ -1,25 +1,32 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9434] Test bug 3 -- please ignore
-Date: Thu, 22 Nov 2007 03:08:19 -0800 (PST)
-Message-ID: <20071122110819.CB20010806A@picon.linux-foundation.org>
-References: <bug-9434-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 9435] New: getlogin(3) typo patch
+Date: Thu, 22 Nov 2007 08:46:24 -0800 (PST)
+Message-ID: <bug-9435-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-9434-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=9434
+http://bugzilla.kernel.org/show_bug.cgi?id=9435
+
+           Summary: getlogin(3) typo patch
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: n/a
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org
 
 
-michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
+Real world bugzilla test.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |REJECTED
-         Resolution|                            |INVALID
-
-
+There's a typo at the beginning of getlogin(3) in man-pages-2.68
 
 
 -- 
