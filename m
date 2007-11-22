@@ -1,32 +1,24 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9435] New: getlogin(3) typo patch
-Date: Thu, 22 Nov 2007 08:46:24 -0800 (PST)
-Message-ID: <bug-9435-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 9435] getlogin(3) typo patch
+Date: Thu, 22 Nov 2007 08:47:27 -0800 (PST)
+Message-ID: <20071122164727.F298B108068@picon.linux-foundation.org>
+References: <bug-9435-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-9435-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 http://bugzilla.kernel.org/show_bug.cgi?id=9435
 
-           Summary: getlogin(3) typo patch
-           Product: Documentation
-           Version: unspecified
-     KernelVersion: n/a
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org
 
 
-Real world bugzilla test.
 
-There's a typo at the beginning of getlogin(3) in man-pages-2.68
+
+------- Comment #1 from mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org  2007-11-22 08:47 -------
+Created an attachment (id=13695)
+ --> (http://bugzilla.kernel.org/attachment.cgi?id=13695&action=view)
+Patch to getlogin(3)
 
 
 -- 
