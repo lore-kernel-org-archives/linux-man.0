@@ -1,23 +1,36 @@
-From: bugme-admin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
-Subject: [Kernel Bug Tracker] Your account linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is being impersonated
-Date: Wed, 21 Nov 2007 09:42:41 -0800 (PST)
-Message-ID: <20071121174241.4155C108069@picon.linux-foundation.org>
-Content-Type: text/plain
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 9430] New: Test bug report -- please ignore
+Date: Thu, 22 Nov 2007 00:45:59 -0800 (PST)
+Message-ID: <bug-9430-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-    Martin J. Bligh <mbligh-4sHKUK52ZVEdnm+yROfE0A@public.gmane.org> has used the 'sudo' feature to access 
-Kernel Bug Tracker using your account.
+http://bugzilla.kernel.org/show_bug.cgi?id=9430
 
-    Martin J. Bligh <mbligh-4sHKUK52ZVEdnm+yROfE0A@public.gmane.org> provided the following reason for doing this:
-setup email watch
+           Summary: Test bug report -- please ignore
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: 2.6.24
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
-    If you feel that this action was inappropiate, please contact 
-bugme-admin-de/tnXTf+JLsfHDXvbKv3VN6ohzGQtmt@public.gmane.org  For more information on this feature, 
-visit <http://bugzilla.kernel.org/page.cgi?id=sudo.html>.
+Test bug -- please ignore
+
+
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
