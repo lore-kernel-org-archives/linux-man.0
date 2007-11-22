@@ -1,25 +1,30 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9430] Test bug report -- please ignore
-Date: Thu, 22 Nov 2007 02:49:05 -0800 (PST)
-Message-ID: <20071122104905.3AFD010806A@picon.linux-foundation.org>
-References: <bug-9430-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 9433] New: Test bug 2 -- please ignore
+Date: Thu, 22 Nov 2007 03:05:46 -0800 (PST)
+Message-ID: <bug-9433-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-9430-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=9430
+http://bugzilla.kernel.org/show_bug.cgi?id=9433
+
+           Summary: Test bug 2 -- please ignore
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: n/a
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
-michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |CLOSED
-         Resolution|                            |PATCH_ALREADY_AVAILABLE
-
-
+Test bug 2 -- please ignore
 
 
 -- 
