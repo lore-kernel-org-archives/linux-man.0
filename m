@@ -1,25 +1,61 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: man-pages website + online man pages
-Date: Fri, 23 Nov 2007 13:31:29 +0100
-Message-ID: <cfd18e0f0711230431gc9dbb58r6482e513f9ee8ec1@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [patch] document new "e" fopen() flag from glibc-2.7
+Date: Fri, 23 Nov 2007 18:12:14 +0100
+Message-ID: <474709EE.1080602@gmail.com>
+References: <200710232000.20800.vapier@gentoo.org> <4741B71E.30800@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <4741B71E.30800-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi folks,
+I meant to say: applied for 2.69 there.
 
-The man-pages website at http://www.kernel.org/doc/man-pages is now
-semi-official, and includes online pages.  Comments and feedback
-welcome.
+Michael Kerrisk wrote:
+> Mike Frysinger wrote:
+>> per the subject, patch attached
+>> -mike
+> 
+> Hi Mike,
+> 
+> Thanks.  Applied for 2.67.
+> 
+> Cheers,
+> 
+> Michael
+> 
+>> ------------------------------------------------------------------------
+>>
+>> --- man3/fopen.3.orig	2007-10-23 19:52:39.000000000 -0400
+>> +++ man3/fopen.3	2007-10-23 19:56:01.000000000 -0400
+>> @@ -257,6 +257,13 @@
+>>  or subsequent read and write operations,
+>>  thread cancellation points.
+>>  .TP
+>> +.BR e " (since glibc 2.7)"
+>> +Open the file with the
+>> +.B O_CLOEXEC
+>> +flag.  See
+>> +.BR open (2)
+>> +for more information.
+>> +.TP
+>>  .BR m " (since glibc 2.3)"
+>>  Attempt to access the file using
+>>  .BR mmap (2),
+> 
 
-Cheers,
+-- 
+Michael Kerrisk
+maintainer of Linux man pages Sections 2, 3, 4, 5, and 7
 
-Michael
+Want to help with man page maintenance?  Grab the latest tarball at
+http://www.kernel.org/pub/linux/docs/manpages/
+read the HOWTOHELP file and grep the source files for 'FIXME'.
+
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
