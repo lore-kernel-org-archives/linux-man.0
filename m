@@ -1,30 +1,25 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9437] copy-paste error in mkdirat(2)
-Date: Thu, 22 Nov 2007 08:52:14 -0800 (PST)
-Message-ID: <20071122165214.2B9B610806A@picon.linux-foundation.org>
-References: <bug-9437-11311@http.bugzilla.kernel.org/>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages website + online man pages
+Date: Fri, 23 Nov 2007 13:31:29 +0100
+Message-ID: <cfd18e0f0711230431gc9dbb58r6482e513f9ee8ec1@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-9437-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=9437
+Hi folks,
 
+The man-pages website at http://www.kernel.org/doc/man-pages is now
+semi-official, and includes online pages.  Comments and feedback
+welcome.
 
+Cheers,
 
-
-
-------- Comment #1 from mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org  2007-11-22 08:52 -------
-Created an attachment (id=13698)
- --> (http://bugzilla.kernel.org/attachment.cgi?id=13698&action=view)
-Patch to mkdirat(2)
-
-
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
+Michael
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
