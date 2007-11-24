@@ -1,15 +1,15 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9436] Extra blank line in intro(3)
-Date: Fri, 23 Nov 2007 23:01:15 -0800 (PST)
-Message-ID: <20071124070115.168B210806A@picon.linux-foundation.org>
-References: <bug-9436-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 9437] copy-paste error in mkdirat(2)
+Date: Fri, 23 Nov 2007 23:04:26 -0800 (PST)
+Message-ID: <20071124070426.9631210806A@picon.linux-foundation.org>
+References: <bug-9437-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-9436-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+In-Reply-To: <bug-9437-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=9436
+http://bugzilla.kernel.org/show_bug.cgi?id=9437
 
 
 mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
