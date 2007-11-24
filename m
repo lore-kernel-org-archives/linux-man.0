@@ -1,24 +1,22 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 9437] copy-paste error in mkdirat(2)
-Date: Fri, 23 Nov 2007 23:04:26 -0800 (PST)
-Message-ID: <20071124070426.9631210806A@picon.linux-foundation.org>
-References: <bug-9437-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 9433] Test bug 2 -- please ignore
+Date: Fri, 23 Nov 2007 23:54:17 -0800 (PST)
+Message-ID: <20071124075417.DBC2410806D@picon.linux-foundation.org>
+References: <bug-9433-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-9437-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+In-Reply-To: <bug-9433-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=9437
+http://bugzilla.kernel.org/show_bug.cgi?id=9433
 
 
 mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         AssignedTo|documentation_man-          |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
-             Status|NEW                         |ASSIGNED
+             Status|REJECTED                    |CLOSED
 
 
 
@@ -26,7 +24,6 @@ mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
 ------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
 You are the assignee for the bug, or are watching the assignee.
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
