@@ -1,61 +1,33 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] document new "e" fopen() flag from glibc-2.7
-Date: Fri, 23 Nov 2007 18:12:14 +0100
-Message-ID: <474709EE.1080602@gmail.com>
-References: <200710232000.20800.vapier@gentoo.org> <4741B71E.30800@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 9435] getlogin(3) typo patch
+Date: Fri, 23 Nov 2007 22:58:29 -0800 (PST)
+Message-ID: <20071124065829.94B1610806D@picon.linux-foundation.org>
+References: <bug-9435-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4741B71E.30800-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <bug-9435-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-I meant to say: applied for 2.69 there.
+http://bugzilla.kernel.org/show_bug.cgi?id=9435
 
-Michael Kerrisk wrote:
-> Mike Frysinger wrote:
->> per the subject, patch attached
->> -mike
-> 
-> Hi Mike,
-> 
-> Thanks.  Applied for 2.67.
-> 
-> Cheers,
-> 
-> Michael
-> 
->> ------------------------------------------------------------------------
->>
->> --- man3/fopen.3.orig	2007-10-23 19:52:39.000000000 -0400
->> +++ man3/fopen.3	2007-10-23 19:56:01.000000000 -0400
->> @@ -257,6 +257,13 @@
->>  or subsequent read and write operations,
->>  thread cancellation points.
->>  .TP
->> +.BR e " (since glibc 2.7)"
->> +Open the file with the
->> +.B O_CLOEXEC
->> +flag.  See
->> +.BR open (2)
->> +for more information.
->> +.TP
->>  .BR m " (since glibc 2.3)"
->>  Attempt to access the file using
->>  .BR mmap (2),
-> 
+
+mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         AssignedTo|documentation_man-          |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
+             Status|NEW                         |ASSIGNED
+
+
+
 
 -- 
-Michael Kerrisk
-maintainer of Linux man pages Sections 2, 3, 4, 5, and 7
-
-Want to help with man page maintenance?  Grab the latest tarball at
-http://www.kernel.org/pub/linux/docs/manpages/
-read the HOWTOHELP file and grep the source files for 'FIXME'.
-
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
+You are the assignee for the bug, or are watching the assignee.
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
