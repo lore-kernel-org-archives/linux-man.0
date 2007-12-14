@@ -1,115 +1,171 @@
-From: Thomas Egerer <thomas.Egerer-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
-Subject: [patch] add tcp congestion control relevant parts
-Date: Wed, 12 Dec 2007 16:40:23 +0100
-Message-ID: <476000E7.4060104@secunet.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages-2.71 released
+Date: Fri, 14 Dec 2007 09:47:13 +0100
+Message-ID: <47624311.70303@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: John Sigler <linux.kernel-GANU6spQydw@public.gmane.org>, Josh Triplett <josh-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>, Pascal MALAISE <malaise@magi>
+Cc: "M. Alain PORTAL" <alain.portal-GANU6spQydw@public.gmane.org>, base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, feedback-GR7eSQ5yZPdAfugRpC6u6w@public.gmane.org, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, prabu.ayyappan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mats Wichmann <mats.d.wichmann-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: RIPEMD160
+Gidday,
 
-Hello *,
+Some news:
 
-man-pages version : 2.70 from http://www.kernel.org/pub/linux/docs/man-pages/
-All required information were obtained by reading the kernel code/documentation.
-I'm not sure, whether it is completely bullet proof on when the sysctl
-variables/socket option first appeared in the kernel, so you might as well drop
-this information, but I'm pretty sure about how it works.
-Here we go with my patch:
+* man-pages now has an (irregularly updated) blog.
 
-diff -ru man-pages-2.70/man7/tcp.7 man-pages-2.70.new/man7/tcp.7
-- --- man-pages-2.70/man7/tcp.7   2007-11-24 14:33:34.000000000 +0100
-+++ man-pages-2.70.new/man7/tcp.7       2007-12-12 16:34:52.000000000 +0100
-@@ -177,8 +177,6 @@
- .\" FIXME As at Sept 2006, kernel 2.6.18-rc5, the following are
- .\"    not yet documented (shown with default values):
- .\"
-- -.\"     /proc/sys/net/ipv4/tcp_congestion_control (since 2.6.13)
-- -.\"     bic
- .\"     /proc/sys/net/ipv4/tcp_moderate_rcvbuf
- .\"     1
- .\"     /proc/sys/net/ipv4/tcp_no_metrics_save
-@@ -224,6 +222,20 @@
- are reserved for the application buffer.
- A value of 0
- implies that no amount is reserved.
-+.TP
-+.BR tcp_allowed_congestion_control \
-+" (String; default: cubic reno) (since 2.6.13) "
-+Show/set the congestion control choices available to non-privileged
-+processes. The list is a subset of those listed in
-+.IR tcp_available_congestion_control "."
-+Default is "cubic reno" and the default setting
-+.RI ( tcp_congestion_control ).
-+.TP
-+.BR tcp_available_congestion_control \
-+" (String; default: cubic reno) (since 2.6.13) "
-+Lists the TCP congestion control algorithms available on the system. This value
-+can only be changed by loading/unloading modules responsible for congestion
-+control.
- .\"
- .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
- .TP
-@@ -257,6 +269,17 @@
- Allows two flows sharing the same connection to converge
- more rapidly.
- .TP
-+.BR tcp_congestion_control " (String; default: cubic reno) (since 2.6.13) "
-+Determines the congestion control algorithm used for newly created TCP
-+sockets. By default Linux uses cubic with reno as fallback. If you want
-+to have more control over the algorithm used, you must enable the symbol
-+CONFIG_TCP_CONG_ADVANCED in your kernel config.
-+You can use
-+.BR setsockopt (2)
-+to individually change the algorithm on a single socket.
-+Requires CAP_NET_ADMIN or congestion algorithm to be listed in
-+.IR tcp_allowed_congestion_control "."
-+.TP
- .BR tcp_dsack " (Boolean; default: enabled)"
- Enable RFC\ 2883 TCP Duplicate SACK support.
- .TP
-@@ -649,7 +672,21 @@
- socket options are valid on TCP sockets.
- For more information see
- .BR ip (7).
-- -.\" FIXME Document TCP_CONGESTION (new in 2.6.13)
-+.TP
-+.BR TCP_CONGESTION " (new since kernel version 2.6.13)"
-+If set to the name of an available congestion control algorithm,
-+it will henceforth be used for the socket. To get a list of
-+available congestion control algorithms, consult the sysctl variable
-+.IR net.ipv4.tcp_available_congestion_control "."
-+The algorithm that is used by default for all newly created
-+TCP sockets can be viewed/changed via the sysctl variable
-+.IR net.ipv4.tcp_congestion_control "."
-+If you feel, you are missing an algorithm in the list,
-+you may try to load the corresponding module using
-+.BR modprobe (8),
-+or if your kernel is built with module autoloading support
-+.RI ( CONFIG_KMOD )
-+and the algorithm has been compiled as a module, it will be autoloaded.
- .TP
- .B TCP_CORK
- If set, don't send out partial frames.
+      http://linux-man-pages.blogspot.com/
+
+* man-pages now has a website:
+
+      http://www.kernel.org/doc/man-pages
+
+  The site includes HTML versions of the current set of man-pages.
+
+* Since man-pages-2.69, each man page now includes a COLOPHON
+  section at the end of the page which indicates the version of
+  man-pages in which this page is released, and also contains a
+  pointer to the man-pages web site.
+
+Back to the program as usual...
+
+The Linux man-pages maintainer proudly announces:
+
+    man-pages-2.71.tar.gz - man pages for Linux
+
+This release is now available for download at:
+
+    http://www.kernel.org/pub/linux/docs/man-pages
+    or ftp://ftp.kernel.org/pub/linux/docs/man-pages
+
+    (Note the s/manpages/man-pages/ in these paths;
+    a symlink with the old path will exist for
+    a limited time.)
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the maintainer of
+a translation of the manual pages, or are the maintainer of the manual
+pages set in a particular distribution, or have expressed interest in
+helping with man-pages maintenance, or have otherwise expressed interest in
+being notified about man-pages releases.  If you don't want to receive such
+messages from me, or you know of some other translator or maintainer who
+may want to receive such notifications, send me a message.
+
+Cheers,
+
+Michael
+(man-pages maintenance is supported by Google, as a Google engineer 20%
+project.)
+
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscribe
+by sending a message to majordomo-jcmN7YZNQjL9qxiX1TGQuw@public.gmane.org, with the body:
+
+    subscribe linux-man
+
+==================== Changes in man-pages-2.71 ====================
+
+Released: 2007-12-17
 
 
+Contributors
+------------
 
-- --
-Thomas
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.6 (GNU/Linux)
-Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
 
-iD8DBQFHYADnUGqFG0l5Kr0RAyDDAJ9T/lIYEHk8MklyI8WY6VTHbhCtJwCdGl07
-Ny/XbyN7UqTrnl9/6HjAQRk=
-=Yy8V
------END PGP SIGNATURE-----
+Alain PORTAL <alain.portal-GANU6spQydw@public.gmane.org>
+John Sigler <linux.kernel-GANU6spQydw@public.gmane.org>
+Josh Triplett <josh-CC+yJ3UmIYqDUpFQwHEjaQ@public.gmane.org>
+Mats Wichmann <mats.d.wichmann-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Pascal MALAISE <malaise-nJJpUPIbDOA@public.gmane.org>
+Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+Global changes
+--------------
+
+err.3
+fts.3
+getloadavg.3
+queue.3
+rcmd.3
+rexec.3
+stdin.3
+elf.5
+operator.7
+    mtk
+        Replaced the use of mdoc macros on these pagess with man
+        macros.  The only pages in man-pages that still use
+        mdoc macros are mdoc.7 and mdoc.samples.7.
+
+Typographical or grammatical errors have been corrected in several places.
+
+
+Deleted pages
+-------------
+
+TODO
+    mtk
+        This information is now on the website.
+
+
+Changes to individual pages
+---------------------------
+
+Changes.old
+    mtk
+        Reformat various change log entries to use a consistent format.
+        Expand Debian bug report numbers to be URLs.
+        Other minor tidy-ups.
+
+fcntl.2
+    mtk
+        Document the F_DUPFD_CLOEXEC operation, which is
+        new in kernel 2.6.24.
+
+listen.2
+    Josh Triplett
+        Fix incorrect path for somaxconn.
+
+getpw.3
+    Alain PORTAL
+        Add ENOENT error to ERRORS.
+
+sysconf.3
+    Mats Wichmann
+        Add documentation of _SC_NPROCESSORS_CONF and _SC_NPROCESSORS_ONLN.
+
+tty.4
+    John Sigler
+        Add tty_ioctl(4) to SEE ALSO list.
+
+regex.7
+    Pascal MALAISE <malaise-nJJpUPIbDOA@public.gmane.org>
+        Separate text on back regerences from that describing basic regexps,
+        as per http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=379829.
+    mtk
+        Remove crufty text about word boundaries.
+
+
+-- 
+Michael Kerrisk
+Maintainer of the Linux man-pages project
+http://www.kernel.org/doc/man-pages/
+Want to report a man-pages bug?  Look here:
+http://www.kernel.org/doc/man-pages/reporting_bugs.html
+
+
+
 -
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
