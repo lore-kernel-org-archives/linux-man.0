@@ -1,53 +1,32 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: man-pages-2.75 and man-pages-fr-2.75.0 released
-Date: Tue, 08 Jan 2008 16:41:16 +0100
-Message-ID: <4783999C.6090808@gmail.com>
+Subject: man-pages-2.76 released
+Date: Mon, 14 Jan 2008 12:06:54 +0100
+Message-ID: <478B424E.1010407@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alain Portal <aportal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Andi Kleen <ak-l3A5Bk7waGM@public.gmane.org>, Andreas Henriksson <andreas-/WpnEnaIE6I@public.gmane.org>, Jeremy Kerr <jk-mnsaURCQ41sdnm+yROfE0A@public.gmane.org>, Justin Pryzby hb <jpryzby+d-5RRqz+Dk6F1BDgjK7y7TUQ@public.gmane.org>, Phil
+To: Alain Portal <aportal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Carlo Marcelo Arenas Belon <carenas-kLeDWSohozoJb6fo7hG9ng@public.gmane.org>, Jeremy Kerr <jk-mnsaURCQ41sdnm+yROfE0A@public.gmane.org>, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>, Trond Myklebust <tro>
 Cc: Alain PORTAL <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, feedback-GR7eSQ5yZPdAfugRpC6u6w@public.gmane.org, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, prabu.ayyappan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mats Wichmann <mats.d.wichmann-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Gidday,
 
-The Linux man-pages maintainer, Michael Kerrisk, and the maintainer of the
-French translation of man-pages, Alain Portal, proudly announce the
-simultaneous release (*) of man-pages-2.75 in English original and French
-translation.
+The Linux man-pages maintainer proudly announces:
 
-The English version:
+    man-pages-2.76.tar.gz - man pages for Linux
 
-    man-pages-2.75.tar.gz - man pages for Linux
-
-is now available for download at:
+This release is now available for download at:
 
     http://www.kernel.org/pub/linux/docs/man-pages
     or ftp://ftp.kernel.org/pub/linux/docs/man-pages
-
-The French translation is available for download here:
-
-    http://manpagesfr.free.fr/download.html
-
-The translated pages are viewable online, along with some translated man
-pages from other projects, here:
-
-    http://manpagesfr.free.fr/consulter.html
-
-    Comments and suggestions for the French translation can be
-    sent to manpagesfr-1ilfxriDbwA@public.gmane.org
-
-A huge thanks to Alain, who has over the last two and a half years made a
-terrific effort to bring the French translation fully up to date with the
-English original.
 
 You are receiving this message either because:
 
 a) You contributed to the content of this release.
 
-b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (**).
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
 
 c) I have information (possibly inaccurate) that you are the maintainer of
 a translation of the manual pages, or are the maintainer of the manual
@@ -61,17 +40,14 @@ Cheers,
 
 Michael
 
-(*) See
-http://linux-man-pages.blogspot.com/2007/12/man-pages-fr-2740-est-sorti.html
-
-(**) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscribe
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscribe
 by sending a message to majordomo-jcmN7YZNQjL9qxiX1TGQuw@public.gmane.org, with the body:
 
     subscribe linux-man
 
-==================== Changes in man-pages-2.75 ====================
+==================== Changes in man-pages-2.76 ====================
 
-Released: 2008-01-08
+Released: 2008-01-14
 
 
 Contributors
@@ -81,14 +57,9 @@ The following people contributed notes, ideas, or patches that have
 been incorporated in changes in this release:
 
 Alain Portal <aportal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>
-Andi Kleen <ak-l3A5Bk7waGM@public.gmane.org>
-Andreas Henriksson <andreas-/WpnEnaIE6I@public.gmane.org>
+Carlo Marcelo Arenas Belon <carenas-kLeDWSohozoJb6fo7hG9ng@public.gmane.org>
 Jeremy Kerr <jk-mnsaURCQ41sdnm+yROfE0A@public.gmane.org>
-Justin Pryzby <jpryzby+d-5RRqz+Dk6F1BDgjK7y7TUQ@public.gmane.org>
-Phil Endecott <spam_from_debian_bugs_4-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
 Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Thomas Huriaux <thomas.huriaux-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Timo Sirainen <tss-X3B1VOXEql0@public.gmane.org>
 Trond Myklebust <trond.myklebust-41N18TsMXrtuMpJDpNschA@public.gmane.org>
 
 Apologies if I missed anyone!
@@ -97,340 +68,32 @@ Apologies if I missed anyone!
 Global changes
 --------------
 
-Various pages
+longjmp.3
+printf.3
+scanf.3
+setbuf.3
+setjmp.3
+sk98lin.4
+environ.7
     mtk
-        (Grammatical) hyphenation was fixed in many places.
+        Rework/remove use of ".ad" macros.
 
-epoll_wait.2, Acked by Andi Kleen
-mbind.2
-spu_run.2
-ecvt.3
-fmtmsg.3
-getnameinfo.3
-rtc.4
-proc.5
-charsets.7
-ip.7
-ipv6.7
-raw.7
-uri.7
-    Justin Pryzby / mtk
-        Fix incorrect usage of "a" and "an" before following vowel /
-        consonant, by reviewing the output of the following scripts:
-
-            for a in  $(wc */*.? | awk '$1 > 10 {print $4}' | gv total); do
-                echo $a
-                MANWIDTH=4000 man -l $a 2>/dev/null |
-                        egrep '(^| )an [^aeiou][a-z]'
-            done | less
-
-            for a in  $(wc */*.? | awk '$1 > 10 {print $4}' | gv total); do
-                echo $a
-                MANWIDTH=4000 man -l $a 2>/dev/null | \
-                        egrep '(^| )a [aeiou][a-z]'
-            done| less
-
-err.3
-fts.3
-queue.3
-rcmd.3
-rexec.3
-stdin.3
-elf.5
-    mtk, after a note by Alain Portal
-        Improve macros used in 2.71 to convert from "mdoc" to "man".
-
-_exit.2
-chroot.2
-getgid.2
-getpid.2
-getrusage.2
-getsid.2
-gettid.2
-getuid.2
-iopl.2
-kill.2
-personality.2
-pivot_root.2
-ptrace.2
-sched_setparam.2
-sched_setscheduler.2
-sched_yield.2
-seteuid.2
-setgid.2
-setpgid.2
-setresuid.2
-setreuid.2
-setuid.2
-unlink.2
-wait.2
-openpty.3
-raise.3
-setlogmask.3
-sleep.3
-ttyslot.3
-ulimit.3
-tty.4
-tty_ioctl.4
-path_resolution.7
-    mtk
-        s/current process/calling process/
-
-cacheflush.2
-clone.2
-fcntl.2
-getitimer.2
-getrlimit.2
-mmap.2
-mprotect.2
-times.2
-adjtime.3
-byteorder.3
-inet.3
-offsetof.3
-rtc.4
-icmp.7
-pipe.7
-time.7
-    mtk
-        s/x86/i386/ since that is the name used in 'arch' directories
-        in the kernel source, and previously both i386 and x86 were both
-        used in man pages; also nowadays 'x86' is somewhat ambiguous,
-        since it is the name of the 'arch' directory for i386 and x86-64.
-
-conj.3
-cacos.3
-cacosh.3
-cabs.3
-carg.3
-casin.3
-casinh.3
-catan.3
-catanh.3
-ccos.3
-ccosh.3
-cexp.3
-cimag.3
-clog.3
-cosh.3
-creal.3
-csin.3
-csinh.3
-ctan.3
-ctanh.3
-sinh.3
-tanh.3
-    mtk
-        Various reformattings.
-
-Various pages
-    Alain Portal
-        Formating fixes.
-
+ioctl_list.2
 mlock.2
 mprotect.2
+mremap.2
+syslog.2
+cfree.3
 mpool.3
 offsetof.3
-    Alain Portal
-        Format SYNOPSIS in a manner consistent with other pages.
-
-Various pages
-    mtk / Alain Portal
-        Format casts so that there is a non-breaking space after the
-        type, and remove unnecessary parentheses around the casted value.
-        Thus, for example, the following:
-
-            .IR "(size_t) (\-1)" .
-
-        becomes:
-
-            .IR "(size_t)\ \-1" .
-
-Various pages
-    mtk / Alain Portal
-        Replace "-" by "\-" where a real dash is required.
-
-Various pages
-    mtk
-        Make the formatting of instances of '*varname' consistent, changing
-        instances such as:
-
-            .RI * varname
-
-        to:
-
-            .I *varname
-
-pciconfig_read.2
-nfsservctl.2
-bstring.3
-cpow.3
-getipnodebyname.3
-getpwnam.3
-getrpcent.3
-lsearch.3
-malloc_hook.3
-mpool.3
+rpc.3
 stdin.3
-strtol.3
-strtoul.3
-unlocked_stdio.3
-regex.3
-sd.4
-resolv.conf.5
-utmp.5
-futex.7
     mtk
-        Format SYNOPSIS consistently.
+        Fix unbalanced quotes in formatting macros.
 
-drand48.3
-drand48_r.3
-flockfile.3
-erf.3
-sigvec.3
-timeradd.3
-wprintf.3
-    mtk, after a note by Alain Portal
-        Standardize sentence used under "Feature Test Macro Requirements"
-        when referring to all functions shown in the SYNOPSIS.
-
-get_kernel_syms.2
-getdents.2
-getitimer.2
-nanosleep.2
-query_module.2
-statvfs.2
-clock_getres.3
-getaddrinfo.3
-getgrent.3
-getipnodebyname.3
-console_ioctl.4
-tty_ioctl.4
-rtnetlink.7
+ftok.3
     mtk
-        Indent structure definitions by +4n.
-
-recv.2
-btree.3
-dbopen.3
-ether_aton.3
-fts.3
-hash.3
-mpool.3
-profil.3
-rcmd.3
-recno.3
-rpc.3
-xdr.3
-console_ioctl.4
-ddp.7
-ip.7
-ipv6.7
-svipc.7
-    mtk
-        Use C99 standard types in declarations.
-            s/u_long/unsigned long/
-            s/ulong/unsigned long/
-            s/u_char/unsigned char/
-            s/u_short/unsigned short/
-            s/ushort/unsigned short/
-            s/u_int8_t/uint8_t/
-            s/u_int16_t/uint16_t/
-            s/u_int32_t/uint32_t/
-            s/u_int/unsigned int/
-
-exit_group.2
-fallocate.2
-getdents.2
-ioctl_list.2
-nfsservctl.2
-sched_setaffinity.2
-set_tid_address.2
-ustat.2
-argz_add.3
-confstr.3
-envz_add.3
-getline.3
-getpwnam.3
-gets.3
-getw.3
-inet_ntop.3
-inet_pton.3
-offsetof.3
-console_ioctl.4
-termcap.5
-ascii.7
-feature_test_macros.7
-netlink.7
-operator.7
-svipc.7
-   mtk
-       Fix unbalanced .nf/.fi pairs.
-
-chmod.2
-getxattr.2
-listxattr.2
-lseek.2
-removexattr.2
-setxattr.2
-stat.2
-feature_test_macros.7
-fpathconf.3
-fopen.3
-
-    mtk
-        Rename argument: s/file*des/fd/ , since that is the name most
-        commonly used on man pages for a file descriptor argument.
-
-bindresvport.3
-des_crypt.3
-getopt.3
-getrpcent.3
-realpath.3
-rpc.3
-xdr.3
-    mtk
-        Removed .SM macros.
-
-madvise.2
-getdirentries.3
-printf.3
-sigvec.3
-    mtk
-        Remove extraneous .br macro before/after .SH/.SS.
-
-_syscall.2
-lookup_dcookie.2
-aio_cancel.3
-aio_error.3
-aio_fsync.3
-aio_read.3
-aio_return.3
-aio_write.3
-canonicalize_file_name.3
-envz_add.3
-getgrouplist.3
-getttyent.3
-key_setsecret.3
-mtrace.3
-tcgetpgrp.3
-tcgetsid.3
-ttyslot.3
-tty_ioctl.4
-    mtk
-        Remove extraneous .sp macros.
-
-fcntl.2
-outb.2
-send.2
-syscalls.2
-getopt.3
-proc.5
-man-pages.7
-standards.7
-tcp.7
-    mtk
-        Remove/replace extraneous .sp macros.
+        s/i-node/inode/, for consistency with other pages and POSIX.1-2001.
 
 Typographical or grammatical errors have been corrected in several places.
 
@@ -438,208 +101,52 @@ Typographical or grammatical errors have been corrected in several places.
 Changes to individual pages
 ---------------------------
 
-_syscall.2
+chown.2
     mtk
-      Nowadays there are seven macros (see 2.74 change log also).
+        Minor wording change.
 
-arch_prctl.2
-    mtk, Acked by Andi Kleen
-        Clarify interpretation of 'addr'; plus a few other minor edits
-        and updates.
-
-bind.2
+dup.2
     mtk
-        Minor rewrites.
-
-close.2
-    mtk
-        Clarify relationship between file descriptor and open file
-        description.
-
-connect.2
-    mtk, Acked by Andi Kleen
-        Since kernel 2.2, AF_UNSPEC for unconnecting a connected
-        socket *is* supported.
-
-execve.2
-    Alain Portal
-        Minor rewordings.
-
-futimesat.2
-    Alain Portal
-        Remove duplicate "#include <fcntl.h>" from SYNOPSIS.
-
-getgid.2
-    mtk
-        Add getresgid(2) and credentials(7) to SEE ALSO.
-
-getpagesize.2
-    mtk
-        Small rewording.
-
-getresuid.2
-    mtk
-        Rewrote various parts.
-
-getuid.2
-    mtk
-        Add getresuid(2) and credentials(7) to SEE ALSO.
-
-ioctl_list.2
-    Alain Portal
-        Use proper tables for layout, and various formatting fixes.
-    mtk
-        Various formatting fixes.
-
-listen.2
-    mtk
-        Rewrote various parts.
-
-mbind.2
-    Andi Kleen / mtk / Alain Portal
-        Modify explanation of EINVAL 'maxnode' error.
-
-mmap.2
-    mtk
-        Add comma to clarify meaning of a sentence.
+        Reordered text in DESCRIPTION and added some details for dup2().
 
 open.2
+    Trond Myklebust / mtk
+        Minor fix to O_EXCL changes in previous release.
+
+gettid.2
     mtk
-        Clarify initial description of O_EXCL.
-        Clarify description of behaviors of O_CREAT | O_EXCL
-        for symbolic links.
-        Clarify text describing use of lockfiles without O_EXCL.
-    mtk, with input from Timo Sirainen and Trond Myklebust
-        O_EXCL is supported on NFSv3 and later, with Linux 2.6 and later.
+        Rewrote DESCRIPTION; noted that thread ID is not the same
+        thing as a POSIX thread ID.
 
 pipe.2
     mtk
-        Rename 'filedes' argument 'pipefd'.
+        Rewrote DESCRIPTION; minor additions to EXAMPLE text.
 
-pivot_root.2
+umask.2
     mtk
-        s/cwd/current working directory/
+        A few rewrites and additions.
 
-seteuid.2
+strptime.3
+    Carlo Marcelo Arenas Belon / mtk
+        Add "#define _XOPEN_SOURCE" to example program.
+
+initrd.4
+    mtk
+        Use quotes more consistently in formatting macros.
+
+random.4
+    mtk, after a report by Daniel Kahn Gilmor
+        Add 2.6 details for /proc/sys/kernel/random/poolsize.
+        as per http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=459232.
+
+pthreads.7
     mtk
         Minor changes.
 
-setpgid.2
-    mtk
-        Add credentials(7) to SEE ALSO, and updated copyright credits,
-        to reflect my rewrite of a few months ago.
-
-setsid.2
-    mtk
-        Add getsid(2) and credentials(7) to SEE ALSO.
-
-spu_create.2
-    Alain Portal / mtk; acked by Jeremy Kerr
-        Minor formatting/wording changes.
-    mtk
-        Put EPERM in right alphabetical position in ERRORS list.
-
-argz_add.3
-    mtk
-        Formatting fixes.
-
-atexit.3
-    mtk
-        Minor changes to example program.
-
-cerf.3
-    mtk
-        These functions are still not present as at glibc 2.7.
-
-dbopen.3
-    Alain Portal / mtk
-        Various minor spelling and formatting fixes.
-
-envz_add.3
-    mtk
-        Formatting fixes.
-
-fexecve.3
-    mtk
-        Fix placement of feature test macro in SYNOPSIS.
-
-fmax.3
-fmin.3
-    mtk
-        Small rewording.
-
-getline.3
-    mtk
-        Minor changes to example program.
-
-getrpcent.3
-getrpcport.3
-    mtk
-        Use modern C prototypes in SYNOPSIS.
-
-getutent.3
-    Alain Portal / mtk
-        Formatting fixes.
-
-mbsnrtowcs.3
-mbsrtowcs.3
-mbstowcs.3
-    mtk
-        Use .IP tags to create properly formatted lists.
-
-rpc.3
-    mtk
-        Convert function declarations to use modern C prototypes.
-        Add text and start of page describing header files
-        and types required by functions.
-        Reformat discussion of request under clnt_control().
-
-xdr.3
-    mtk
-        Convert function declarations to use modern C prototypes.
-        Remove crufty "int empty" from xdrrec_eof() description.
-
-console_codes.4
-    Phil Endecott
-        Relocate misplaced line:
-            "and if LF/NL (new line mode) is set also a carriage return;"
-        as per http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458338.
-
-console_ioctl.4
-    mtk
-        Formatting fixes.
-
-bootparam.7
-    mtk, after a note by Alan Portal
-        Fix reference to kernel documentation source file in the
-        "The Sound Driver" subsection.
-
-man-pages.7
-    Alain Portal
-        Move CONFIGURATION description after SYNOPSIS description.
-    mtk / Alain Portal
-        Note that header files should be surrounded by angle brackets (<>).
-
-posixoptions.7
-    mtk
-        Minor formatting and wording fixes.
-
-rtnetlink.7
-    Andreas Henriksson
-        Fix description of RTM_F_EQUALIZE.
-        as per http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458325.
-
-signal.7
-    mtk
-        Minor formatting and wording fixes.
-
-socket.7
-    mtk
-        Small rewording of discussion of O_ASYNC.
-
 spufs.7
-    mtk / Jeremy Kerr / Alain Portal
-        s/SPE/SPU/
+    mtk / Jeremy Kerr
+        s/MultiSource Synchronization/MultiSource Synchronization (MSS)/
+
 
 -- 
 Michael Kerrisk
@@ -647,12 +154,3 @@ Maintainer of the Linux man-pages project
 http://www.kernel.org/doc/man-pages/
 Want to report a man-pages bug?  Look here:
 http://www.kernel.org/doc/man-pages/reporting_bugs.html
-
-
-
-
-
--
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
