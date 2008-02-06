@@ -1,63 +1,44 @@
-From: WANG Cong <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Man page bugs?
-Date: Thu, 31 Jan 2008 23:11:46 +0800
-Message-ID: <20080131151146.GD2471@hacking>
-References: <20080119130029.GC2466@hacking> <47A1C58D.9060101@gmail.com> <20080131130202.GT15220@kernel.dk> <47A1CAF1.9090802@gmail.com> <20080131132858.GZ15220@kernel.dk> <20080131143954.GA2471@hacking> <20080131150345.GC15220@kernel.dk>
-Reply-To: WANG Cong <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Fernando Luis =?ISO-8859-1?Q?V=E1zquez?= Cao
+	<fernando-gVGce1chcLdL9jVzuh4AOg@public.gmane.org>
+Subject: proc(5): /proc/[number]/cmdline explanation update
+Date: Wed, 06 Feb 2008 15:14:10 +0900
+Message-ID: <1202278450.3897.32.camel@sebastian.kern.oss.ntt.co.jp>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20080131150345.GC15220-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: WANG Cong <xiyou.wangcong-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
->> 
->> I think man page should mention about this usage.
->
->Hmm, but it does - you even quoted the EINVAL return documentation
->yourself. The description mentions that it dupes between the pipes
->referred to by fd_in and fd_out. Not sure how much else we can do there?
+It used to be true that the command line arguments were not accessible
+when the process had been swapped out. In ancient kernels (circa 2.0.*)
+the problem was that the kernel relied on get_phys_addr to access the
+user space buffer, which stopped working as soon as the process was
+swapped out. Recent kernels use get_user_pages for the same purpose and
+thus they should not have that limitation.
 
+Signed-off-by: Fernando Luis Vazquez Cao <fernando-gVGce1chcLdL9jVzuh4AOg@public.gmane.org>
+---
 
-I meant it should explicitly describe how to use that example. ;)
-
->
->> >> Hi jens,
->> >> 
->> >> Yes, I guessed you probably should run it like that.  And it does produce
->> >> the expected output on stdout.  However, the command then blocks, and if
->> >> one types control-C, the output_file is empty.  How should this program be
->> >> terminated so that something does end up in the output_file?
->> >
->> >See ktee.c from the splice sample repo, it works correctly:
->> >
->> >axboe@carl:~/git/splice> echo hello | ./ktee outfile | cat
->> >hello
->> >axboe@carl:~/git/splice> cat outfile 
->> >hello
->> >
->> >I don't have the tee(2) man page here so can't verify, but try and
->> >compare them!
->> >
->> 
->> I have the same problem here with what Michael mentioned.
->> But my output file is *not* empty. Shown below:
->> 
->> $ echo hello | ./tee fooo.txt | cat
->> hello
->> 	<=== here blocked, type ctrl+c, exit
->> $ cat fooo.txt 
->> hello
->> 
->> My kernel version is 2.6.21-1.3194.fc7.
->
->I don't know what 'tee' is - is it the one from the man page, or the one
->from my splice tools?
-
-My bad. The file "./tee" is just the output executable of the
-given example in tee(2).
-
-Thanks!
+--- proc.5.orig	2008-02-06 14:11:58.000000000 +0900
++++ proc.5	2008-02-06 14:56:22.000000000 +0900
+@@ -87,12 +87,11 @@ plus one \fIunsigned long\fP value for e
+ The last entry contains two zeros.
+ .TP
+ .I /proc/[number]/cmdline
+-This holds the complete command line for the process, unless the whole
+-process has been swapped out or the process is a zombie.
+-In either of these latter cases, there is nothing in this file:
+-that is, a read on this file will return 0 characters.
+-The command line arguments appear in this file as a set of
+-null-separated strings, with a further null byte after the last string.
++This holds the complete command line for the process, unless the process is a
++zombie. In the latter case, there is nothing in this file: that is, a read on
++this file will return 0 characters. The command line arguments appear in this
++file as a set of null-separated strings, with a further null byte after the
++last string.
+ .TP
+ .I /proc/[number]/cwd
+ This is a symbolic link to the current working directory of the process.
