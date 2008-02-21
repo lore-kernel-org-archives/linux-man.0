@@ -1,105 +1,78 @@
-From: =?UTF-8?B?TGFzc2UgS8Okcmtrw6RpbmVu?= <tronic-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>
-Subject: Error in man page: realloc(ptr, 0) is not equivalent to free(ptr)
-Date: Thu, 21 Feb 2008 08:26:55 +0200
-Message-ID: <47BD19AF.4000101@trn.iki.fi>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: Error in man page: realloc(ptr, 0) is not equivalent to free(ptr)
+Date: Thu, 21 Feb 2008 01:59:02 -0500
+Message-ID: <200802210159.03465.vapier@gentoo.org>
+References: <47BD19AF.4000101@trn.iki.fi>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed;
+  boundary="nextPart1995177.HKOzvWdSKH";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <47BD19AF.4000101-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Lasse =?iso-8859-1?q?K=E4rkk=E4inen?= <tronic-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The man page says that realloc(ptr, 0) is equivalent to free, even
-though it isn't. The text on the man page says
+--nextPart1995177.HKOzvWdSKH
+Content-Type: text/plain;
+  charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
----
-realloc()  changes the size of the memory block pointed to by ptr to
-size bytes.  The contents will be unchanged to the minimum of the old
-and new sizes;  newly  allocated memory  will  be  uninitialized.   If
-ptr  is  NULL,  the call is equivalent to malloc(size); if size is equa=
-l
-to zero, the call is equivalent to free(ptr).  Unless ptr is NULL, it
-must have been returned by an earlier call to malloc(), calloc() or
-realloc().  If the area pointed to was moved, a free(ptr) is done.
-[...]
-realloc()  returns a pointer to the newly allocated memory, which is
-suitably aligned for any kind of variable and may be different from ptr=
-,
-or NULL if the request fails.  If  size  was equal to 0, either NULL or
-a pointer suitable to be passed to free() is returned.  If realloc()
-fails the original block is left untouched; it is not freed or moved.
----
+On Thursday 21 February 2008, Lasse K=C3=A4rkk=C3=A4inen wrote:
+> The man page says that realloc(ptr, 0) is equivalent to free, even
+> though it isn't. The text on the man page says
+>
+> ---
+> realloc()  changes the size of the memory block pointed to by ptr to
+> size bytes.  The contents will be unchanged to the minimum of the old
+> and new sizes;  newly  allocated memory  will  be  uninitialized.   If
+> ptr  is  NULL,  the call is equivalent to malloc(size); if size is equal
+> to zero, the call is equivalent to free(ptr).  Unless ptr is NULL, it
+> must have been returned by an earlier call to malloc(), calloc() or
+> realloc().  If the area pointed to was moved, a free(ptr) is done.
+> [...]
+> realloc()  returns a pointer to the newly allocated memory, which is
+> suitably aligned for any kind of variable and may be different from ptr,
+> or NULL if the request fails.  If  size  was equal to 0, either NULL or
+> a pointer suitable to be passed to free() is returned.  If realloc()
+> fails the original block is left untouched; it is not freed or moved.
 
-The C99 standard says:
+i would just word it to say that when realloc() is given a size of 0, it is=
+=20
+implementation defined as to the behavior, but it tends to match the behavi=
+or=20
+of malloc(0) (which too is implementation defined).  POSIX and C99 allow bo=
+th=20
+cases to return either a NULL pointer or a "unique" pointer.  glibc will=20
+return a unique pointer (which cannot actually be used to store anything),=
+=20
+but uClibc may return NULL.
+=2Dmike
 
----
-7.20.3.4 The realloc function
-Synopsis
-        #include <stdlib.h>
-        void *realloc(void *ptr, size_t size);
-Description
+--nextPart1995177.HKOzvWdSKH
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-The realloc function deallocates the old object pointed to by ptr and
-returns a pointer to a new object that has the size speci=EF=AC=81ed by=
- size.
-The contents of the new object shall be the same as that of the old
-object prior to deallocation, up to the lesser of the new and old sizes=
-=2E
-Any bytes in the new object beyond the size of the old object have
-indeterminate values.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.7 (GNU/Linux)
 
-If ptr is a null pointer, the realloc function behaves like the malloc
-function for the speci=EF=AC=81ed size. Otherwise, if ptr does not matc=
-h a
-pointer earlier returned by the calloc, malloc, or realloc function, or
-if the space has been deallocated by a call to the free or realloc
-function, the behavior is unde=EF=AC=81ned. If memory for the new objec=
-t cannot
-be allocated, the old object is not deallocated and its value is unchan=
-ged.
+iQIVAwUAR70hN0FjO5/oN/WBAQKxbBAAyPynRVx9jdIri869pAYPUq6bWADHEeoQ
+U1bo9II+tSkq+MN6+Gwftt2QLuE+9CEqng3PXLiRKr0i1hPIvrbaB8GP0bSRFr8A
+BuZMePSkV4EiUTlrhQJvA9/aPN6ZeyeFLfNqi2D9t0HOKLmVn/ilNTZEovHP23Gi
+1YSKxj6NFOX11ihaUor1BEo8FdV55vTXF3a0I6J3xiaHbMe9kHrNz0Kn37dXpnKP
+Rf6QISYQHOZqEQKLzLV90unZS5soXiRefyw91iBT0u4AcoEEByrCbWGNhG1SUjo5
+PrIflarMszQVYCWn1X7DCHNKpFBMTyrxFeakXFcof0jOU+TObIP7WkH6P1C+ZmYo
+d4P5h+c3+owKU6lfV5X+92TljJGZUkBahfyLsbn0AxFl4J5kqeqVZkgLbTJQtUXc
+cXPTrsTNO7pdFpoYytO9gE8kpE5xPZ1ER3zSoVrZLFL9E/M6qrsLoxr0yZrYJLsz
+ppMfyjrqXaoOXdxbPlEk+h6llEtNYffTPbJZqibb3xt3HCHW46ARgvXTux7w684I
+kp8uKAUNC1fCr5a3ozgRanFvTcjtmQz5gheI0LDIANQl029m7wjHtjxo91oUkZES
+Szq7aKHD9c2hSEG5B4qcBwHjuDCy0lryJU6igeh89HBlOUkQofBeppsm322pCaB/
+WA/DYGDXVxY=
+=akgQ
+-----END PGP SIGNATURE-----
 
-Returns
-
-The realloc function returns a pointer to the new object (which may hav=
-e
-the same value as a pointer to the old object), or a null pointer if th=
-e
-new object could not be allocated.
----
-
-
-glibc implements the behavior specified by the standard, not that
-specified on the man page. realloc(NULL, 0) is equivalent to malloc(24)=
-,
-actually allocating the minimum block (which is 24 bytes at least on my
-architecture) instead of doing nothing like free(NULL) does.
-
-One test case to demonstrate this:
-
-#include <stdlib.h>
-
-int main(void) {
-    void* ptr =3D malloc(100);
-    // Man page says this is equivalent to free(ptr)
-    ptr =3D realloc(ptr, 0);
-    // ... but according to Valgrind, this program leaks memory,
-    // unless you add
-    free(ptr);
-    // ... which should be invalid (double free)
-}
-
-Another one (as requested by jeffz on #gnu):
-
-#include <stdlib.h>
-
-int main(void) {
-    for (size_t i =3D 0; i < 0x7FFFFFFF; ++i) {
-        void* ptr =3D realloc(NULL, 0);
-    }
-}
-
-According to the man page, this program should not allocate any memory,
-but it ends up allocating several gigabytes until OOM killer takes care
-of it.
+--nextPart1995177.HKOzvWdSKH--
