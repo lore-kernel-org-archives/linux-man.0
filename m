@@ -1,115 +1,59 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Error in man page: realloc(ptr, 0) is not equivalent to free(ptr)
-Date: Sun, 2 Mar 2008 14:01:03 +0100
-Message-ID: <cfd18e0f0803020501y4e803b6dk5479db1f1f36b37@mail.gmail.com>
-References: <47BD19AF.4000101@trn.iki.fi>
-	 <200802210159.03465.vapier@gentoo.org>
-	 <cfd18e0f0802220215l6e61ab90h4a2d9b2e3e2a194d@mail.gmail.com>
-	 <1203754246.3021.104.camel@linux.heathens.co.nz>
-	 <47C42C68.405@gmail.com>
+From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+Subject: Re: epoll design problems with common fork/exec patterns
+Date: Sun, 02 Mar 2008 10:11:57 -0500
+Message-ID: <cone.1204470717.369031.30230.500@commodore.email-scan.com>
+References: <MDEHLPKNGKAHNMBLJOLKAEHCHNAC.davids@webmaster.com> <Pine.LNX.4.64.0710291147180.3387@alien.or.mcafeemobile.com> <47C42CA7.4030607@gmail.com> <Pine.LNX.4.64.0802261049040.27243@alien.or.mcafeemobile.com> <1204075804.5238.7.camel@linux.heathens.co.nz> <Pine.LNX.4.64.0802271131180.377@alien.or.mcafeemobile.com> <cfd18e0f0802280512q43a457d0sc9a8dc83c51e8e1c@mail.gmail.com> <Pine.LNX.4.64.0802281106050.7660@alien.or.mcafeemobile.com> <cfd18e0f0802290746p3cb7efc9j72394cd77ff37829@mail.gmail.com> <Pine.LNX.4.64.0802291111320.31028@alien.or.mcafeemobile.com> <cfd18e0f0802291154j612b4238i66cb8323b72814ca@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed;
+    boundary="=_mimegpg-commodore.email-scan.com-30230-1204470717-0001";
+    micalg=pgp-sha1; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <47C42C68.405-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-2022-JP?B?IkNocmlzIFwiGyRCJS8bKEJcIiBIZWF0aCI=?= <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, =?ISO-8859-1?Q?Lasse_K=E4rkk=E4inen?= <tronic-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Chris =?UTF-8?B?wqXCrw==?= Heath <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>, David Schwartz <davids-Rrbileazn+l54TAoqtyWWQ@public.gmane.org>, dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, =?UTF-8?B?TGludXgtS2VybmVsQFZnZXIuIEtlcm5lbC4=?= Org <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Q2hyaXMsCgpQaW5nISAgRGlkIHlvdSBoYXZlIGFueXRoaW5nIGZ1cnRoZXIgdG8gYWRkPwoKQ2hl
-ZXJzLAoKTWljaGFlbAoKT24gVHVlLCBGZWIgMjYsIDIwMDggYXQgNDoxMiBQTSwgTWljaGFlbCBL
-ZXJyaXNrCjxtdGsubWFucGFnZXNAZ29vZ2xlbWFpbC5jb20+IHdyb3RlOgo+Cj4gQ2hyaXMg44Kv
-IEhlYXRoIHdyb3RlOgo+ID4gT24gRnJpLCAyMDA4LTAyLTIyIGF0IDExOjE1ICswMTAwLCBNaWNo
-YWVsIEtlcnJpc2sgd3JvdGU6Cj4gPj4gT24gVGh1LCBGZWIgMjEsIDIwMDggYXQgNzo1OSBBTSwg
-TWlrZSBGcnlzaW5nZXIgPHZhcGllckBnZW50b28ub3JnPiB3cm90ZToKPiA+Pj4gT24gVGh1cnNk
-YXkgMjEgRmVicnVhcnkgMjAwOCwgTGFzc2UgS8Okcmtrw6RpbmVuIHdyb3RlOgo+ID4+PiAgPiBU
-aGUgbWFuIHBhZ2Ugc2F5cyB0aGF0IHJlYWxsb2MocHRyLCAwKSBpcyBlcXVpdmFsZW50IHRvIGZy
-ZWUsIGV2ZW4KPiA+Pj4gID4gdGhvdWdoIGl0IGlzbid0LiBUaGUgdGV4dCBvbiB0aGUgbWFuIHBh
-Z2Ugc2F5cwo+ID4+PiAgPgo+ID4+PiAgPiAtLS0KPiA+Pj4gID4gcmVhbGxvYygpICBjaGFuZ2Vz
-IHRoZSBzaXplIG9mIHRoZSBtZW1vcnkgYmxvY2sgcG9pbnRlZCB0byBieSBwdHIgdG8KPiA+Pj4g
-ID4gc2l6ZSBieXRlcy4gIFRoZSBjb250ZW50cyB3aWxsIGJlIHVuY2hhbmdlZCB0byB0aGUgbWlu
-aW11bSBvZiB0aGUgb2xkCj4gPj4+ICA+IGFuZCBuZXcgc2l6ZXM7ICBuZXdseSAgYWxsb2NhdGVk
-IG1lbW9yeSAgd2lsbCAgYmUgIHVuaW5pdGlhbGl6ZWQuICAgSWYKPiA+Pj4gID4gcHRyICBpcyAg
-TlVMTCwgIHRoZSBjYWxsIGlzIGVxdWl2YWxlbnQgdG8gbWFsbG9jKHNpemUpOyBpZiBzaXplIGlz
-IGVxdWFsCj4gPj4+ICA+IHRvIHplcm8sIHRoZSBjYWxsIGlzIGVxdWl2YWxlbnQgdG8gZnJlZShw
-dHIpLiAgVW5sZXNzIHB0ciBpcyBOVUxMLCBpdAo+ID4+PiAgPiBtdXN0IGhhdmUgYmVlbiByZXR1
-cm5lZCBieSBhbiBlYXJsaWVyIGNhbGwgdG8gbWFsbG9jKCksIGNhbGxvYygpIG9yCj4gPj4+ICA+
-IHJlYWxsb2MoKS4gIElmIHRoZSBhcmVhIHBvaW50ZWQgdG8gd2FzIG1vdmVkLCBhIGZyZWUocHRy
-KSBpcyBkb25lLgo+ID4+PiAgPiBbLi4uXQo+ID4+PiAgPiByZWFsbG9jKCkgIHJldHVybnMgYSBw
-b2ludGVyIHRvIHRoZSBuZXdseSBhbGxvY2F0ZWQgbWVtb3J5LCB3aGljaCBpcwo+ID4+PiAgPiBz
-dWl0YWJseSBhbGlnbmVkIGZvciBhbnkga2luZCBvZiB2YXJpYWJsZSBhbmQgbWF5IGJlIGRpZmZl
-cmVudCBmcm9tIHB0ciwKPiA+Pj4gID4gb3IgTlVMTCBpZiB0aGUgcmVxdWVzdCBmYWlscy4gIElm
-ICBzaXplICB3YXMgZXF1YWwgdG8gMCwgZWl0aGVyIE5VTEwgb3IKPiA+Pj4gID4gYSBwb2ludGVy
-IHN1aXRhYmxlIHRvIGJlIHBhc3NlZCB0byBmcmVlKCkgaXMgcmV0dXJuZWQuICBJZiByZWFsbG9j
-KCkKPiA+Pj4gID4gZmFpbHMgdGhlIG9yaWdpbmFsIGJsb2NrIGlzIGxlZnQgdW50b3VjaGVkOyBp
-dCBpcyBub3QgZnJlZWQgb3IgbW92ZWQuCj4gPj4+Cj4gPj4+ICBpIHdvdWxkIGp1c3Qgd29yZCBp
-dCB0byBzYXkgdGhhdCB3aGVuIHJlYWxsb2MoKSBpcyBnaXZlbiBhIHNpemUgb2YgMCwgaXQgaXMK
-PiA+Pj4gIGltcGxlbWVudGF0aW9uIGRlZmluZWQgYXMgdG8gdGhlIGJlaGF2aW9yLCBidXQgaXQg
-dGVuZHMgdG8gbWF0Y2ggdGhlIGJlaGF2aW9yCj4gPj4+ICBvZiBtYWxsb2MoMCkgKHdoaWNoIHRv
-byBpcyBpbXBsZW1lbnRhdGlvbiBkZWZpbmVkKS4gIFBPU0lYIGFuZCBDOTkgYWxsb3cgYm90aAo+
-ID4+PiAgY2FzZXMgdG8gcmV0dXJuIGVpdGhlciBhIE5VTEwgcG9pbnRlciBvciBhICJ1bmlxdWUi
-IHBvaW50ZXIuICBnbGliYyB3aWxsCj4gPj4+ICByZXR1cm4gYSB1bmlxdWUgcG9pbnRlciAod2hp
-Y2ggY2Fubm90IGFjdHVhbGx5IGJlIHVzZWQgdG8gc3RvcmUgYW55dGhpbmcpLAo+ID4+PiAgYnV0
-IHVDbGliYyBtYXkgcmV0dXJuIE5VTEwuCj4gPj4+ICAtbWlrZQo+ID4+IExhc3NlLCB0aGFua3Mg
-Zm9yIHJhaXNpbmcgdGhpczsgTWlrZSwgdGhhbmtzIGZvciB5b3VyIGlucHV0Lgo+ID4+Cj4gPj4g
-Rm9yIG1hbi1wYWdlcy0yLjc5LCBJIHByb3Bvc2UgdG8gYW1lbmQgdGhlIGRlc2NyaXB0aW9uIG9m
-IHJlYWxsb2MoKSB0byBiZToKPiA+Pgo+ID4+ICAgICAgICByZWFsbG9jKCkgY2hhbmdlcyB0aGUg
-c2l6ZSBvZiB0aGUgbWVtb3J5IGJsb2NrIHBvaW50ZWQgdG8KPiA+PiAgICAgICAgYnkgIHB0ciB0
-byBzaXplIGJ5dGVzLiAgVGhlIGNvbnRlbnRzIHdpbGwgYmUgdW5jaGFuZ2VkIHRvCj4gPj4gICAg
-ICAgIHRoZSBtaW5pbXVtIG9mIHRoZSBvbGQgYW5kICBuZXcgIHNpemVzOyAgbmV3bHkgIGFsbG9j
-YXRlZAo+ID4+ICAgICAgICBtZW1vcnkgIHdpbGwgIGJlIHVuaW5pdGlhbGl6ZWQuICBJZiBwdHIg
-aXMgTlVMTCwgdGhlbiB0aGUKPiA+PiAgICAgICAgY2FsbCBpcyBlcXVpdmFsZW50IHRvIG1hbGxv
-YyhzaXplKTsgaWYgc2l6ZSBpcyAgZXF1YWwgIHRvCj4gPj4gICAgICAgIHplcm8sIGFuZCBwdHIg
-aXMgbm90IE5VTEwsIHRoZW4gdGhlIGNhbGwgaXMgZXF1aXZhbGVudCB0bwo+ID4+ICAgICAgICBm
-cmVlKHB0cikuICAgVW5sZXNzICBwdHIgIGlzICBOVUxMLCAgaXQgIG11c3QgIGhhdmUgIGJlZW4K
-PiA+PiAgICAgICAgcmV0dXJuZWQgIGJ5ICBhbiAgZWFybGllciAgY2FsbCAgdG8gbWFsbG9jKCks
-IGNhbGxvYygpIG9yCj4gPj4gICAgICAgIHJlYWxsb2MoKS4gIElmIHRoZSBhcmVhIHBvaW50ZWQg
-dG8gd2FzIG1vdmVkLCBhIGZyZWUocHRyKQo+ID4+ICAgICAgICBpcyBkb25lLgo+ID4KPiA+IEht
-bW0uICBUaGUgcGhyYXNlCj4gPgo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGlmIHNpemUgaXMgIGVxdWFsICB0bwo+ID4gICAgICAgIHplcm8sIGFuZCBwdHIg
-aXMgbm90IE5VTEwsIHRoZW4gdGhlIGNhbGwgaXMgZXF1aXZhbGVudCB0bwo+ID4gICAgICAgIGZy
-ZWUocHRyKS4KPiA+Cj4gPiBzZWVtcyB0byBjb250cmFkaWN0IHRoZSBmb2xsb3dpbmcgc2VudGVu
-Y2UsIGZvdW5kIHVuZGVyIFJFVFVSTiBWQUxVRVM6Cj4gPgo+ID4gICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgSWYgc2l6ZSB3YXMgZXF1YWwgdG8gMCwgZWl0aGVyIE5VTEwKPiA+ICAgICAg
-ICAgb3IgYSBwb2ludGVyIHN1aXRhYmxlIHRvIGJlIHBhc3NlZCB0byBmcmVlKCkgaXMgcmV0dXJu
-ZWQuCj4gPgo+ID4gSWYgcmVhbGxvYyhwdHIsIDApIGNhbiByZXR1cm4gYSBub24tTlVMTCBwb2lu
-dGVyLCB0aGVuIGl0IGlzbid0Cj4gPiBlcXVpdmFsZW50IHRvIGZyZWUocHRyKS4KPiA+Cj4gPiBT
-byB3aGljaCBvbmUgaXMgY29ycmVjdD8gIE15IHRlc3RzIHdpdGggZ2xpYmMgMi42IGluZGljYXRl
-IHRoYXQKPiA+IHJlYWxsb2MocHRyLCAwKSBhbHdheXMgcmV0dXJucyBOVUxMLCBzbyBpdCBJUyBl
-cXVpdmFsZW50IHRvIGZyZWUocHRyKS4KPiA+IEhvd2V2ZXIsIEkgZG9uJ3Qga25vdyBpZiB0aGF0
-IGlzIGd1YXJhbnRlZWQgdG8gYWx3YXlzIGJlIHRoZSBjYXNlLgo+Cj4gQ2hyaXMsCj4KPiBUaGUg
-dGV4dCB1bmRlciBSRVRVUk4gVkFMVUUgaXMgcXVpdGUgY2xvc2UgdG8gdGhlIFBPU0lYLjEgc3Bl
-YyBmb3IKPiByZWFsbG9jKCksIHdoaWNoIHNheXMgdGhpczoKPgo+ICAgICAgIElmIHNpemUgaXMg
-MCwgZWl0aGVyIGEgbnVsbCBwb2ludGVyIG9yIGEKPiAgICAgICB1bmlxdWUgcG9pbnRlciB0aGF0
-IGNhbiBiZSBzdWNjZXNzZnVsbHkgcGFzc2VkIHRvICBmcmVlKCkKPiAgICAgICBzaGFsbCBiZSBy
-ZXR1cm5lZC4KPgo+IEFmdGVyIE1pa2UncyBsYXN0IHN1Z2dlc3Rpb24sIHRoZSBib2R5IG9mIHRo
-ZSBMaW51eCBtYW4gcGFnZSBzYXlzIHRoaXM6Cj4KPiAgICAgICBJZiBwdHIgaXMgTlVMTCwgdGhl
-biB0aGUKPiAgICAgICBjYWxsIGlzIGVxdWl2YWxlbnQgdG8gbWFsbG9jKHNpemUpLCAgZm9yICBh
-bGwgIHZhbHVlcyAgb2YKPiAgICAgICBzaXplOyBpZiBzaXplIGlzIGVxdWFsIHRvIHplcm8sIGFu
-ZCBwdHIgaXMgbm90IE5VTEwsIHRoZW4KPiAgICAgICB0aGUgY2FsbCBpcyBlcXVpdmFsZW50IHRv
-IGZyZWUocHRyKS4KPgo+IFNvOgo+Cj4gYSkgSWYgcHRyIGlzIE5VTEwsIGFuZCBzaXplIGlzIHpl
-cm8sIHRoZW4gcmVhbGxvYygpIGlzIGVxdWl2YWxlbnQgdG8KPiBtYWxsb2MoMCksIHdoaWNoIGRv
-ZXMgdGhlIGZvbGxvd2luZyAoYXMgYWxyZWFkeSBkb2N1bWVudGVkIGluIHRoZSBMaW51eAo+IG1h
-bGxvYy4zIG1hbiBwYWdlKToKPgo+ICAgICAgIElmIHNpemUgaXMgMCwgdGhlbiBtYWxsb2MoKSBy
-ZXR1cm5zIGVpdGhlciBOVUxMLCBvciBhIHVuaXF1ZQo+ICAgICAgIHBvaW50ZXIgdmFsdWUgdGhh
-dCBjYW4gbGF0ZXIgYmUgc3VjY2Vzc2Z1bGx5IHBhc3NlZCB0byBmcmVlKCkuCj4KPiBUaGF0IHNl
-ZW1zIGVudGlyZWx5IGNvbnNpc3RlbnQgd2l0aCB0aGUgdGV4dCB1bmRlciBSRVRVUk4gVkFMVUUg
-Zm9yIHRoZQo+IExpbnV4IG1hbGxvYy4zIG1hbiBwYWdlLgo+Cj4gYikgSWYgcHRyIGlzIG5vdCBO
-VUxMLCBhbmQgc2l6ZSBpcyB6ZXJvLCB0aGVuIHRoZSBzdGFuZGFyZCBpc24ndCAoQUZBSUNTKQo+
-IGV4cGxpY2l0IGFib3V0IHdoZXRoZXIgImEgbnVsbCBwb2ludGVyIG9yIGEgdW5pcXVlIHBvaW50
-ZXIgdGhhdCBjYW4gYmUKPiBzdWNjZXNzZnVsbHkgcGFzc2VkIHRvIGZyZWUoKSIgc2hhbGwgYmUg
-cmV0dXJuZWQsIGJ1dCB0aGUgZm9ybWVyIGNlcnRhaW5seQo+IHNlZW1zIG1vcmUgcmVhc29uYWJs
-ZSwgYW5kIGlzIHdoYXQgeW91IG9ic2VydmVkIGZvciBnbGliYy4KPgo+Cj4gQ2hlZXJzLAo+Cj4g
-TWljaGFlbAo+Cj4gLS0KPiBNaWNoYWVsIEtlcnJpc2sKPiBNYWludGFpbmVyIG9mIHRoZSBMaW51
-eCBtYW4tcGFnZXMgcHJvamVjdAo+IGh0dHA6Ly93d3cua2VybmVsLm9yZy9kb2MvbWFuLXBhZ2Vz
-Lwo+IFdhbnQgdG8gcmVwb3J0IGEgbWFuLXBhZ2VzIGJ1Zz8gIExvb2sgaGVyZToKPiBodHRwOi8v
-d3d3Lmtlcm5lbC5vcmcvZG9jL21hbi1wYWdlcy9yZXBvcnRpbmdfYnVncy5odG1sCj4KPgo+CgoK
-Ci0tIApNaWNoYWVsIEtlcnJpc2sKTWFpbnRhaW5lciBvZiB0aGUgTGludXggbWFuLXBhZ2VzIHBy
-b2plY3QKaHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvCldhbnQgdG8gcmVwb3J0
-IGEgbWFuLXBhZ2VzIGJ1Zz8gIExvb2sgaGVyZToKaHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9t
-YW4tcGFnZXMvcmVwb3J0aW5nX2J1Z3MuaHRtbAo=
+This is a MIME GnuPG-signed message.  If you see this text, it means that
+your E-mail or Usenet software does not support MIME signed messages.
+The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
+To open this message correctly you will need to install E-mail or Usenet
+software that supports modern Internet standards.
+
+--=_mimegpg-commodore.email-scan.com-30230-1204470717-0001
+Content-Type: text/plain; format=flowed; charset="US-ASCII"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+Hijacking this epoll thread, the following related question occurs to me:
+
+#Q8
+#    Does an operation on a file descriptor affect the already collected but 
+#not yet reported events?
+#
+#A8
+#    You can do two operations on an existing file descriptor. Remove would 
+#be meaningless for this case. Modify will re-read available I/O.
+
+Why is EPOLL_CTL_DEL considered meaningless? A process is wrapping up its 
+business and is preparing to remove the fd from the epoll set, and then 
+close the file descriptor itself. In the meantime, the fd became readable, 
+and a POLLIN event gets collected. So, what happens to the collected event, 
+when the EPOLL_CTL_DEL operation is made?
+
+
+--=_mimegpg-commodore.email-scan.com-30230-1204470717-0001
+Content-Type: application/pgp-signature
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.7 (GNU/Linux)
+
+iD8DBQBHysO9x9p3GYHlUOIRAqEQAJ9QcE4nl6OQ3ZxOXDdM7Mr9ZpXBWQCfSZwp
+bxUJC9q3agGsE9Kd4EkV/w8=
+=JtXf
+-----END PGP SIGNATURE-----
+
+--=_mimegpg-commodore.email-scan.com-30230-1204470717-0001--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
