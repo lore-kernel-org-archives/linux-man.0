@@ -1,52 +1,198 @@
-From: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>
-Subject: Re: epoll design problems with common fork/exec patterns
-Date: Sun, 2 Mar 2008 13:44:53 -0800 (PST)
-Message-ID: <Pine.LNX.4.64.0803021342070.16600@alien.or.mcafeemobile.com>
-References: <MDEHLPKNGKAHNMBLJOLKAEHCHNAC.davids@webmaster.com>
- <Pine.LNX.4.64.0710291147180.3387@alien.or.mcafeemobile.com>
- <47C42CA7.4030607@gmail.com> <Pine.LNX.4.64.0802261049040.27243@alien.or.mcafeemobile.com>
- <1204075804.5238.7.camel@linux.heathens.co.nz>
- <Pine.LNX.4.64.0802271131180.377@alien.or.mcafeemobile.com>
- <cfd18e0f0802280512q43a457d0sc9a8dc83c51e8e1c@mail.gmail.com>
- <Pine.LNX.4.64.0802281106050.7660@alien.or.mcafeemobile.com>
- <cfd18e0f0802290746p3cb7efc9j72394cd77ff37829@mail.gmail.com>
- <Pine.LNX.4.64.0802291111320.31028@alien.or.mcafeemobile.com>
- <cfd18e0f0802291154j612b4238i66cb8323b72814ca@mail.gmail.com>
- <cone.1204470717.369031.30230.500@commodore.email-scan.com>
+From: Chris =?UTF-8?Q?=22=E3=82=AF=22?= Heath <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>
+Subject: Re: Error in man page: realloc(ptr, 0) is not equivalent to
+	free(ptr)
+Date: Sun, 02 Mar 2008 18:53:26 -0500
+Message-ID: <1204502006.5238.86.camel@linux.heathens.co.nz>
+References: <47BD19AF.4000101@trn.iki.fi>
+	 <200802210159.03465.vapier@gentoo.org>
+	 <cfd18e0f0802220215l6e61ab90h4a2d9b2e3e2a194d@mail.gmail.com>
+	 <1203754246.3021.104.camel@linux.heathens.co.nz> <47C42C68.405@gmail.com>
+	 <cfd18e0f0803020501y4e803b6dk5479db1f1f36b37@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cone.1204470717.369031.30230.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
+In-Reply-To: <cfd18e0f0803020501y4e803b6dk5479db1f1f36b37-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?X-UNKNOWN?Q?Chris_=C2=A5=C2=AF_Heath?= <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>, David Schwartz <davids-Rrbileazn+l54TAoqtyWWQ@public.gmane.org>, dada1-fPLkHRcR87vqlBn2x/YWAg@public.gmane.org, =?UTF-8?B?TGludXgtS2VybmVsQFZnZXIuIEtlcm5lbC4=?= Org <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Lasse =?ISO-8859-1?Q?K=E4rkk=E4inen?= <tronic-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 2 Mar 2008, Sam Varshavchik wrote:
+On Sun, 2008-03-02 at 14:01 +0100, Michael Kerrisk wrote:
+> Chris,
+>=20
+> Ping!  Did you have anything further to add?
 
-> Hijacking this epoll thread, the following related question occurs to me:
-> 
-> #Q8
-> #    Does an operation on a file descriptor affect the already collected but
-> #not yet reported events?
-> #
-> #A8
-> #    You can do two operations on an existing file descriptor. Remove would
-> #be meaningless for this case. Modify will re-read available I/O.
-> 
-> Why is EPOLL_CTL_DEL considered meaningless? A process is wrapping up its
-> business and is preparing to remove the fd from the epoll set, and then close
-> the file descriptor itself. In the meantime, the fd became readable, and a
-> POLLIN event gets collected. So, what happens to the collected event, when the
-> EPOLL_CTL_DEL operation is made?
+I stopped following this thread because I realized that my main issue
+was with the standards.
 
-Any epoll_wait() done after the POLLIN and before the EPOLL_CTL_DEL, will 
-show up. After the EPOLL_CTL_DEL, of course, no events will be reported.
+I have one comment though:  I believe that the ISO C standard mandates
+that, for ptr !=3D NULL, realloc(ptr,0) be equivalent to free() (and
+return NULL), whereas POSIX uses the vaguer phrase "pointer is
+freed" (and return a null pointer or a unique pointer that can be
+successfully passed to free()).
+
+The man-page is mixing the two standards, saying it is equivalent to
+free() but returns a null pointer or a unique pointer that can be
+successfully passed to free().  While this is technically correct, it i=
+s
+less internally consistent than either of the standards.  How about
+following POSIX and using "ptr is freed" instead of "equivalent to
+free(ptr)"?
+
+Chris
 
 
-
-- Davide
-
+> Cheers,
+>=20
+> Michael
+>=20
+> On Tue, Feb 26, 2008 at 4:12 PM, Michael Kerrisk
+> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> >
+> > Chris =E3=82=AF Heath wrote:
+> > > On Fri, 2008-02-22 at 11:15 +0100, Michael Kerrisk wrote:
+> > >> On Thu, Feb 21, 2008 at 7:59 AM, Mike Frysinger <vapier@gentoo.o=
+rg> wrote:
+> > >>> On Thursday 21 February 2008, Lasse K=C3=A4rkk=C3=A4inen wrote:
+> > >>>  > The man page says that realloc(ptr, 0) is equivalent to free=
+, even
+> > >>>  > though it isn't. The text on the man page says
+> > >>>  >
+> > >>>  > ---
+> > >>>  > realloc()  changes the size of the memory block pointed to b=
+y ptr to
+> > >>>  > size bytes.  The contents will be unchanged to the minimum o=
+f the old
+> > >>>  > and new sizes;  newly  allocated memory  will  be  uninitial=
+ized.   If
+> > >>>  > ptr  is  NULL,  the call is equivalent to malloc(size); if s=
+ize is equal
+> > >>>  > to zero, the call is equivalent to free(ptr).  Unless ptr is=
+ NULL, it
+> > >>>  > must have been returned by an earlier call to malloc(), call=
+oc() or
+> > >>>  > realloc().  If the area pointed to was moved, a free(ptr) is=
+ done.
+> > >>>  > [...]
+> > >>>  > realloc()  returns a pointer to the newly allocated memory, =
+which is
+> > >>>  > suitably aligned for any kind of variable and may be differe=
+nt from ptr,
+> > >>>  > or NULL if the request fails.  If  size  was equal to 0, eit=
+her NULL or
+> > >>>  > a pointer suitable to be passed to free() is returned.  If r=
+ealloc()
+> > >>>  > fails the original block is left untouched; it is not freed =
+or moved.
+> > >>>
+> > >>>  i would just word it to say that when realloc() is given a siz=
+e of 0, it is
+> > >>>  implementation defined as to the behavior, but it tends to mat=
+ch the behavior
+> > >>>  of malloc(0) (which too is implementation defined).  POSIX and=
+ C99 allow both
+> > >>>  cases to return either a NULL pointer or a "unique" pointer.  =
+glibc will
+> > >>>  return a unique pointer (which cannot actually be used to stor=
+e anything),
+> > >>>  but uClibc may return NULL.
+> > >>>  -mike
+> > >> Lasse, thanks for raising this; Mike, thanks for your input.
+> > >>
+> > >> For man-pages-2.79, I propose to amend the description of reallo=
+c() to be:
+> > >>
+> > >>        realloc() changes the size of the memory block pointed to
+> > >>        by  ptr to size bytes.  The contents will be unchanged to
+> > >>        the minimum of the old and  new  sizes;  newly  allocated
+> > >>        memory  will  be uninitialized.  If ptr is NULL, then the
+> > >>        call is equivalent to malloc(size); if size is  equal  to
+> > >>        zero, and ptr is not NULL, then the call is equivalent to
+> > >>        free(ptr).   Unless  ptr  is  NULL,  it  must  have  been
+> > >>        returned  by  an  earlier  call  to malloc(), calloc() or
+> > >>        realloc().  If the area pointed to was moved, a free(ptr)
+> > >>        is done.
+> > >
+> > > Hmmm.  The phrase
+> > >
+> > >                                            if size is  equal  to
+> > >        zero, and ptr is not NULL, then the call is equivalent to
+> > >        free(ptr).
+> > >
+> > > seems to contradict the following sentence, found under RETURN VA=
+LUES:
+> > >
+> > >                               If size was equal to 0, either NULL
+> > >         or a pointer suitable to be passed to free() is returned.
+> > >
+> > > If realloc(ptr, 0) can return a non-NULL pointer, then it isn't
+> > > equivalent to free(ptr).
+> > >
+> > > So which one is correct?  My tests with glibc 2.6 indicate that
+> > > realloc(ptr, 0) always returns NULL, so it IS equivalent to free(=
+ptr).
+> > > However, I don't know if that is guaranteed to always be the case=
+=2E
+> >
+> > Chris,
+> >
+> > The text under RETURN VALUE is quite close to the POSIX.1 spec for
+> > realloc(), which says this:
+> >
+> >       If size is 0, either a null pointer or a
+> >       unique pointer that can be successfully passed to  free()
+> >       shall be returned.
+> >
+> > After Mike's last suggestion, the body of the Linux man page says t=
+his:
+> >
+> >       If ptr is NULL, then the
+> >       call is equivalent to malloc(size),  for  all  values  of
+> >       size; if size is equal to zero, and ptr is not NULL, then
+> >       the call is equivalent to free(ptr).
+> >
+> > So:
+> >
+> > a) If ptr is NULL, and size is zero, then realloc() is equivalent t=
+o
+> > malloc(0), which does the following (as already documented in the L=
+inux
+> > malloc.3 man page):
+> >
+> >       If size is 0, then malloc() returns either NULL, or a unique
+> >       pointer value that can later be successfully passed to free()=
+=2E
+> >
+> > That seems entirely consistent with the text under RETURN VALUE for=
+ the
+> > Linux malloc.3 man page.
+> >
+> > b) If ptr is not NULL, and size is zero, then the standard isn't (A=
+=46AICS)
+> > explicit about whether "a null pointer or a unique pointer that can=
+ be
+> > successfully passed to free()" shall be returned, but the former ce=
+rtainly
+> > seems more reasonable, and is what you observed for glibc.
+> >
+> >
+> > Cheers,
+> >
+> > Michael
+> >
+> > --
+> > Michael Kerrisk
+> > Maintainer of the Linux man-pages project
+> > http://www.kernel.org/doc/man-pages/
+> > Want to report a man-pages bug?  Look here:
+> > http://www.kernel.org/doc/man-pages/reporting_bugs.html
+> >
+> >
+> >
+>=20
+>=20
+>=20
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
