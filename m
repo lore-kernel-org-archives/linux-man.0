@@ -1,198 +1,156 @@
-From: Chris =?UTF-8?Q?=22=E3=82=AF=22?= Heath <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>
-Subject: Re: Error in man page: realloc(ptr, 0) is not equivalent to
-	free(ptr)
-Date: Sun, 02 Mar 2008 18:53:26 -0500
-Message-ID: <1204502006.5238.86.camel@linux.heathens.co.nz>
-References: <47BD19AF.4000101@trn.iki.fi>
-	 <200802210159.03465.vapier@gentoo.org>
-	 <cfd18e0f0802220215l6e61ab90h4a2d9b2e3e2a194d@mail.gmail.com>
-	 <1203754246.3021.104.camel@linux.heathens.co.nz> <47C42C68.405@gmail.com>
-	 <cfd18e0f0803020501y4e803b6dk5479db1f1f36b37@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: random_r.3 man pages
+Date: Mon, 03 Mar 2008 19:47:33 +0100
+Message-ID: <47CC47C5.1030902@gmail.com>
+References: <20080222122651.GA27115@affenbande.org> <cfd18e0f0802260317k7c2119bdg42c6ff3cd7fc4327@mail.gmail.com> <20080226124127.GA24141@mette> <cfd18e0f0802260754y22ee5b8bxeecf652e95267934@mail.gmail.com> <20080226203531.GA24804@mette>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0803020501y4e803b6dk5479db1f1f36b37-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20080226203531.GA24804@mette>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Lasse =?ISO-8859-1?Q?K=E4rkk=E4inen?= <tronic-ze05kZMmeybHOG6cAo2yLw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Tolga Dalman <tdalman-PWUXgD0Mw7jQPojr80n/Gg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 2008-03-02 at 14:01 +0100, Michael Kerrisk wrote:
-> Chris,
->=20
-> Ping!  Did you have anything further to add?
+Hi Andries, (and anyone else who cares to comment)
 
-I stopped following this thread because I realized that my main issue
-was with the standards.
+This is my first pass at a random_r.3 page.  Would you be willing to look
+it over to check if it's okay?
 
-I have one comment though:  I believe that the ISO C standard mandates
-that, for ptr !=3D NULL, realloc(ptr,0) be equivalent to free() (and
-return NULL), whereas POSIX uses the vaguer phrase "pointer is
-freed" (and return a null pointer or a unique pointer that can be
-successfully passed to free()).
+Cheers,
 
-The man-page is mixing the two standards, saying it is equivalent to
-free() but returns a null pointer or a unique pointer that can be
-successfully passed to free().  While this is technically correct, it i=
-s
-less internally consistent than either of the standards.  How about
-following POSIX and using "ptr is freed" instead of "equivalent to
-free(ptr)"?
+Michael
 
-Chris
+.\" Copyright 2008 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH RANDOM_R 3  2008-03-07 "GNU" "Linux Programmer's Manual"
+.SH NAME
+random_r, srandom_r, initstate_r, setstate_r \- reentrant
+random number generator
+.\" FIXME add links for the other functions, pointing to this page.
+.SH SYNOPSIS
+.nf
+.B #include <stdlib.h>
+.sp
+.BI "int random_r(struct random_data *" buf ", int32_t " result );
 
+.BI "int srandom_r(unsigned int " seed ", struct random_data *" buf );
 
-> Cheers,
->=20
-> Michael
->=20
-> On Tue, Feb 26, 2008 at 4:12 PM, Michael Kerrisk
-> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> >
-> > Chris =E3=82=AF Heath wrote:
-> > > On Fri, 2008-02-22 at 11:15 +0100, Michael Kerrisk wrote:
-> > >> On Thu, Feb 21, 2008 at 7:59 AM, Mike Frysinger <vapier@gentoo.o=
-rg> wrote:
-> > >>> On Thursday 21 February 2008, Lasse K=C3=A4rkk=C3=A4inen wrote:
-> > >>>  > The man page says that realloc(ptr, 0) is equivalent to free=
-, even
-> > >>>  > though it isn't. The text on the man page says
-> > >>>  >
-> > >>>  > ---
-> > >>>  > realloc()  changes the size of the memory block pointed to b=
-y ptr to
-> > >>>  > size bytes.  The contents will be unchanged to the minimum o=
-f the old
-> > >>>  > and new sizes;  newly  allocated memory  will  be  uninitial=
-ized.   If
-> > >>>  > ptr  is  NULL,  the call is equivalent to malloc(size); if s=
-ize is equal
-> > >>>  > to zero, the call is equivalent to free(ptr).  Unless ptr is=
- NULL, it
-> > >>>  > must have been returned by an earlier call to malloc(), call=
-oc() or
-> > >>>  > realloc().  If the area pointed to was moved, a free(ptr) is=
- done.
-> > >>>  > [...]
-> > >>>  > realloc()  returns a pointer to the newly allocated memory, =
-which is
-> > >>>  > suitably aligned for any kind of variable and may be differe=
-nt from ptr,
-> > >>>  > or NULL if the request fails.  If  size  was equal to 0, eit=
-her NULL or
-> > >>>  > a pointer suitable to be passed to free() is returned.  If r=
-ealloc()
-> > >>>  > fails the original block is left untouched; it is not freed =
-or moved.
-> > >>>
-> > >>>  i would just word it to say that when realloc() is given a siz=
-e of 0, it is
-> > >>>  implementation defined as to the behavior, but it tends to mat=
-ch the behavior
-> > >>>  of malloc(0) (which too is implementation defined).  POSIX and=
- C99 allow both
-> > >>>  cases to return either a NULL pointer or a "unique" pointer.  =
-glibc will
-> > >>>  return a unique pointer (which cannot actually be used to stor=
-e anything),
-> > >>>  but uClibc may return NULL.
-> > >>>  -mike
-> > >> Lasse, thanks for raising this; Mike, thanks for your input.
-> > >>
-> > >> For man-pages-2.79, I propose to amend the description of reallo=
-c() to be:
-> > >>
-> > >>        realloc() changes the size of the memory block pointed to
-> > >>        by  ptr to size bytes.  The contents will be unchanged to
-> > >>        the minimum of the old and  new  sizes;  newly  allocated
-> > >>        memory  will  be uninitialized.  If ptr is NULL, then the
-> > >>        call is equivalent to malloc(size); if size is  equal  to
-> > >>        zero, and ptr is not NULL, then the call is equivalent to
-> > >>        free(ptr).   Unless  ptr  is  NULL,  it  must  have  been
-> > >>        returned  by  an  earlier  call  to malloc(), calloc() or
-> > >>        realloc().  If the area pointed to was moved, a free(ptr)
-> > >>        is done.
-> > >
-> > > Hmmm.  The phrase
-> > >
-> > >                                            if size is  equal  to
-> > >        zero, and ptr is not NULL, then the call is equivalent to
-> > >        free(ptr).
-> > >
-> > > seems to contradict the following sentence, found under RETURN VA=
-LUES:
-> > >
-> > >                               If size was equal to 0, either NULL
-> > >         or a pointer suitable to be passed to free() is returned.
-> > >
-> > > If realloc(ptr, 0) can return a non-NULL pointer, then it isn't
-> > > equivalent to free(ptr).
-> > >
-> > > So which one is correct?  My tests with glibc 2.6 indicate that
-> > > realloc(ptr, 0) always returns NULL, so it IS equivalent to free(=
-ptr).
-> > > However, I don't know if that is guaranteed to always be the case=
-=2E
-> >
-> > Chris,
-> >
-> > The text under RETURN VALUE is quite close to the POSIX.1 spec for
-> > realloc(), which says this:
-> >
-> >       If size is 0, either a null pointer or a
-> >       unique pointer that can be successfully passed to  free()
-> >       shall be returned.
-> >
-> > After Mike's last suggestion, the body of the Linux man page says t=
-his:
-> >
-> >       If ptr is NULL, then the
-> >       call is equivalent to malloc(size),  for  all  values  of
-> >       size; if size is equal to zero, and ptr is not NULL, then
-> >       the call is equivalent to free(ptr).
-> >
-> > So:
-> >
-> > a) If ptr is NULL, and size is zero, then realloc() is equivalent t=
-o
-> > malloc(0), which does the following (as already documented in the L=
-inux
-> > malloc.3 man page):
-> >
-> >       If size is 0, then malloc() returns either NULL, or a unique
-> >       pointer value that can later be successfully passed to free()=
-=2E
-> >
-> > That seems entirely consistent with the text under RETURN VALUE for=
- the
-> > Linux malloc.3 man page.
-> >
-> > b) If ptr is not NULL, and size is zero, then the standard isn't (A=
-=46AICS)
-> > explicit about whether "a null pointer or a unique pointer that can=
- be
-> > successfully passed to free()" shall be returned, but the former ce=
-rtainly
-> > seems more reasonable, and is what you observed for glibc.
-> >
-> >
-> > Cheers,
-> >
-> > Michael
-> >
-> > --
-> > Michael Kerrisk
-> > Maintainer of the Linux man-pages project
-> > http://www.kernel.org/doc/man-pages/
-> > Want to report a man-pages bug?  Look here:
-> > http://www.kernel.org/doc/man-pages/reporting_bugs.html
-> >
-> >
-> >
->=20
->=20
->=20
+.BI "int initstate_r(unsigned int " seed ", char *" statebuf ,
+.BI "                size_t " statelen ", struct random_data *" buf );
+.br
+.BI "int setstate_r(char *" statebuf ", struct random_data *" buf );
+.fi
+.sp
+.in -4n
+Feature Test Macro Requirements for glibc (see
+.BR feature_test_macros (7)):
+.in
+.sp
+.ad l
+.BR random_r (),
+.BR srandom_r (),
+.BR initstate_r (),
+.BR setstate_r ():
+_SVID_SOURCE || _BSD_SOURCE
+.ad b
+.SH DESCRIPTION
+These functions are the reentrant equivalents
+of the functions described in
+.BR random (3).
+They are suitable for use in multithreaded programs where each thread
+needs to obtain an independent, reproducible sequence of random numbers.
+
+The
+.BR random_r ()
+function is like
+.BR random (3),
+except that instead of using state information maintained
+in a global variable,
+it uses the state information in the argument pointed to by
+.IR buf .
+The generated random number is returned in the argument
+.IR result .
+
+The
+.BR srandom_r ()
+function is like
+.BR srandom (3),
+except that it initializes the seed for the random number generator
+whose state is maintained in the object pointed to by
+.IR buf ,
+instead of the seed associated with the global state variable.
+
+The
+.BR initstate_r ()
+function is like
+.BR initstate (3)
+except that it initializes the state in the object pointed to by
+.IR buf ,
+rather than initializing the global state variable.
+
+The
+.BR setstate_r ()
+function is like
+.BR setstate (3)
+except that it modifies the state in the object pointer to by
+.IR buf ,
+rather than modifying the global state variable.
+.SH "RETURN VALUE"
+All of these functions return 0 on success, or \-1 on error.
+.SH ERRORS
+.TP
+.B EINVAL
+A state array of less than 8 bytes was specified to
+.BR initstate_r ().
+.TP
+.B EINVAL
+The
+.I statebuf
+or
+.I buf
+argument to
+.BR setstate_r ()
+was NULL.
+.TP
+.B EINVAL
+The
+.I buf
+or
+.I result
+argument to
+.BR random_r ()
+was NULL.
+.SH "CONFORMING TO"
+These functions are non-standard glibc extensions.
+.\" These functions appear to be on Tru64, but don't seem to be on
+.\" Solaris, HP-UX, or FreeBSD.
+.SH "SEE ALSO"
+.BR drand48 (3),
+.BR rand (3),
+.BR random (3)
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
