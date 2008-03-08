@@ -1,50 +1,48 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: random_r.3 man pages
-Date: Tue, 4 Mar 2008 10:54:18 +0100
-Message-ID: <cfd18e0f0803040154v3021e693i11232ac1740461c3@mail.gmail.com>
-References: <20080222122651.GA27115@affenbande.org>
-	 <cfd18e0f0802260317k7c2119bdg42c6ff3cd7fc4327@mail.gmail.com>
-	 <20080226124127.GA24141@mette>
-	 <cfd18e0f0802260754y22ee5b8bxeecf652e95267934@mail.gmail.com>
-	 <20080226203531.GA24804@mette> <47CC47C5.1030902@gmail.com>
-	 <20080303191415.GA2682@mette>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 10197] New: maybe one of the two flags has a mistyping description
+Date: Fri,  7 Mar 2008 18:35:30 -0800 (PST)
+Message-ID: <bug-10197-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080303191415.GA2682@mette>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Cc: Tolga Dalman <tdalman-PWUXgD0Mw7jQPojr80n/Gg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 3, 2008 at 8:14 PM, Andries E. Brouwer
-<Andries.Brouwer-rh8NL+sEX9E@public.gmane.org> wrote:
-> On Mon, Mar 03, 2008 at 07:47:33PM +0100, Michael Kerrisk wrote:
-> > Hi Andries, (and anyone else who cares to comment)
-> >
-> > This is my first pass at a random_r.3 page.  Would you be willing to look
-> > it over to check if it's okay?
->
-> >        int random_r(struct random_data *buf, int32_t result);
->
-> Hi Michael,
->
-> What about adding a * in front of result?
+http://bugzilla.kernel.org/show_bug.cgi?id=10197
 
-Thanks for spotting that.  Otherwise, the page looked okay?
+           Summary: maybe one of the two flags has a mistyping description
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: 2.6.x
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: antonio_macchi-1Ph4/jfBtgs@public.gmane.org
 
-Cheers,
 
-Michael
+Well, it's a very little thing
+
+in the header file /usr/include/asm-i486/cpufeature.h
+
+(...)
+#define X86_FEATURE_MCE         (0*32+ 7) /* Machine Check Architecture */
+(...)
+#define X86_FEATURE_MCA         (0*32+14) /* Machine Check Architecture */
+(...)
+
+
+two flags for the same behavior?
+maybe the first one is Machine Check *Exception*
+
 
 -- 
-Michael Kerrisk
-Maintainer of the Linux man-pages project
-http://www.kernel.org/doc/man-pages/
-Want to report a man-pages bug?  Look here:
-http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
