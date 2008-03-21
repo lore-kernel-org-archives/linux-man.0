@@ -1,85 +1,53 @@
-From: "Stefan Puiu" <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: missing error value from bind.2
-Date: Fri, 14 Mar 2008 08:40:41 +0200
-Message-ID: <775f04010803132340x3be1f3a3naa86097d62115909@mail.gmail.com>
+From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+Subject: gettid(2)
+Date: Fri, 21 Mar 2008 10:34:57 -0400
+Message-ID: <cone.1206110097.469414.10945.500@commodore.email-scan.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
-	boundary="----=_Part_14393_22224770.1205476842068"
+Content-Type: multipart/signed;
+    boundary="=_mimegpg-commodore.email-scan.com-10945-1206110097-0001";
+    micalg=pgp-sha1; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-------=_Part_14393_22224770.1205476842068
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+This is a MIME GnuPG-signed message.  If you see this text, it means that
+your E-mail or Usenet software does not support MIME signed messages.
+The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
+To open this message correctly you will need to install E-mail or Usenet
+software that supports modern Internet standards.
+
+--=_mimegpg-commodore.email-scan.com-10945-1206110097-0001
+Content-Type: text/plain; format=flowed; charset="US-ASCII"
 Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
 
-I just stumbled upon bind() returning -1 with errno set to ENODEV and
-noticed that this value for errno is not documented in bind.2. I was
-trying to bind to an IPv6 address.
+gettid() is not defined in my copy of sys/types.h, and it does not appear to 
+be a glibc wrapper for it.
 
-I just checked the kernel code we are using, and then the one in
-2.6.23 and noticed this in inet6_bind():
+The only way to access this syscall, it seems:
 
-#
-# if (addr_type & IPV6_ADDR_LINKLOCAL) {
-# if (addr_len >= sizeof(struct sockaddr_in6) &&
-# addr->sin6_scope_id) {
-# /* Override any existing binding, if another one
-# * is supplied by user.
-# */
-# sk->sk_bound_dev_if = addr->sin6_scope_id;
-# }
-#
-# /* Binding to link-local address requires an interface */
-# if (!sk->sk_bound_dev_if) {
-# err = -EINVAL;
-# goto out;
-# }
-# dev = dev_get_by_index(sk->sk_bound_dev_if);
-# if (!dev) {
-# err = -ENODEV;
-# goto out;
-# }
-# }
+#include <sys/types.h>
+#include <sys/syscalls.h>
 
-Notice the err = -ENODEV because the value set in sin6_scope_id isn't
-something we expect. We are indeed setting that in our code, and using
-a link-local address. Now, 'man ipv6' says:
+syscall(SYS_gettid);
 
-      sin6_scope_id is an ID  of  depending  of  on  the
-      scope  of  the address.  It is new in Linux 2.4.  Linux only
-supports it for
-      link scope addresses, in that  case  sin6_scope_id  contains
-the  interface
-      index (see netdevice(7))
 
-So ENODEV is returned for IPv6 when using a link-local address and a
-sin6_scope_id that doesn't include a valid interface index. Not sure
-if this needs to go in bind.2 or in ipv6.7 - I guess you would know
-better.
 
-I've attached a suggested patch.
+--=_mimegpg-commodore.email-scan.com-10945-1206110097-0001
+Content-Type: application/pgp-signature
+Content-Transfer-Encoding: 7bit
 
-------=_Part_14393_22224770.1205476842068
-Content-Type: application/octet-stream; name=bind.2.patch
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_fdsdr01u0
-Content-Disposition: attachment; filename=bind.2.patch
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.7 (GNU/Linux)
 
-LS0tIC9kL1ZNV2FyZS9TaGFyZWQvbWFucGFnZXMvbWFuLXBhZ2VzLTIuNzkvbWFuMi9iaW5kLjIu
-b3JpZwkyMDA4LTAzLTEzIDE5OjE3OjUwLjc2MjM3NTAwMCArMDIwMAorKysgL2QvVk1XYXJlL1No
-YXJlZC9tYW5wYWdlcy9tYW4tcGFnZXMtMi43OS9tYW4yL2JpbmQuMgkyMDA4LTAzLTEzIDE5OjI2
-OjAzLjEzNzM3NTAwMCArMDIwMApAQCAtMjE3LDYgKzIxNywxOCBAQAogLlRQCiAuQiBFUk9GUwog
-VGhlIHNvY2tldCBpbm9kZSB3b3VsZCByZXNpZGUgb24gYSByZWFkLW9ubHkgZmlsZSBzeXN0ZW0u
-CisuUFAKK1RoZSBmb2xsb3dpbmcgZXJyb3JzIGFyZSBzcGVjaWZpYyB0byBJUHY2CisuUkIgKCBB
-Rl9JTkVUNiApCitzb2NrZXRzOgorLlRQCisuQiBFTk9ERVYKKy5JIGFkZHIKK2lzIGEgbGluay1s
-b2NhbCBJUHY2IGFkZHJlc3MsIGFuZCB0aGUgc2luNl9zY29wZV9pZCBpbiBpdCB3YXMgc2V0IHRv
-CithbiBpbnZhbGlkIGludGVyZmFjZSBpbmRleCAoU2VlIGFsc28KKy5CUiBpcHY2KDcpCisgYW5k
-IAorLkJSIG5ldGRldmljZSAoNykuKQogLlNIICJDT05GT1JNSU5HIFRPIgogU1ZyNCwgNC40QlNE
-LCBQT1NJWC4xLTIwMDEKIC5SQiAoIGJpbmQgKCkK
-------=_Part_14393_22224770.1205476842068--
+iD8DBQBH48eRx9p3GYHlUOIRAsqSAJ425KiLcek9h5oau0OuaZskgHnS3wCfRL1j
+iyoyqj3xJslTGp1p5u0wXqI=
+=OAsY
+-----END PGP SIGNATURE-----
+
+--=_mimegpg-commodore.email-scan.com-10945-1206110097-0001--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
