@@ -1,53 +1,49 @@
-From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Subject: gettid(2)
-Date: Fri, 21 Mar 2008 10:34:57 -0400
-Message-ID: <cone.1206110097.469414.10945.500@commodore.email-scan.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: gettid(2)
+Date: Sat, 22 Mar 2008 07:02:55 +0100
+Message-ID: <cfd18e0f0803212302s210ac598ua6959abc93628f11@mail.gmail.com>
+References: <cone.1206110097.469414.10945.500@commodore.email-scan.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-    boundary="=_mimegpg-commodore.email-scan.com-10945-1206110097-0001";
-    micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cone.1206110097.469414.10945.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a MIME GnuPG-signed message.  If you see this text, it means that
-your E-mail or Usenet software does not support MIME signed messages.
-The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
-To open this message correctly you will need to install E-mail or Usenet
-software that supports modern Internet standards.
-
---=_mimegpg-commodore.email-scan.com-10945-1206110097-0001
-Content-Type: text/plain; format=flowed; charset="US-ASCII"
-Content-Disposition: inline
-Content-Transfer-Encoding: 7bit
-
-gettid() is not defined in my copy of sys/types.h, and it does not appear to 
-be a glibc wrapper for it.
-
-The only way to access this syscall, it seems:
-
-#include <sys/types.h>
-#include <sys/syscalls.h>
-
-syscall(SYS_gettid);
+On Fri, Mar 21, 2008 at 3:34 PM, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
+> gettid() is not defined in my copy of sys/types.h, and it does not appear to
+> be a glibc wrapper for it.
+>
+> The only way to access this syscall, it seems:
+>
+> #include <sys/types.h>
+> #include <sys/syscalls.h>
+>
+> syscall(SYS_gettid);
 
 
+Sam,
 
---=_mimegpg-commodore.email-scan.com-10945-1206110097-0001
-Content-Type: application/pgp-signature
-Content-Transfer-Encoding: 7bit
+Raed the NOTES section:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.7 (GNU/Linux)
+    Glibc does not provide a wrapper for this system call; call it
+    using syscall(2).
 
-iD8DBQBH48eRx9p3GYHlUOIRAsqSAJ425KiLcek9h5oau0OuaZskgHnS3wCfRL1j
-iyoyqj3xJslTGp1p5u0wXqI=
-=OAsY
------END PGP SIGNATURE-----
+Cheers,
 
---=_mimegpg-commodore.email-scan.com-10945-1206110097-0001--
+Michael
+
+
+-- 
+Michael Kerrisk
+Maintainer of the Linux man-pages project
+http://www.kernel.org/doc/man-pages/
+Want to report a man-pages bug?  Look here:
+http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
