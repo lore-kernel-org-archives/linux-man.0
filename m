@@ -1,49 +1,60 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: gettid(2)
-Date: Sat, 22 Mar 2008 07:02:55 +0100
-Message-ID: <cfd18e0f0803212302s210ac598ua6959abc93628f11@mail.gmail.com>
-References: <cone.1206110097.469414.10945.500@commodore.email-scan.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 10354] New: Obsolete contact addresses in usb-serial.txt
+Date: Sat, 29 Mar 2008 01:40:20 -0700 (PDT)
+Message-ID: <bug-10354-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cone.1206110097.469414.10945.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Mar 21, 2008 at 3:34 PM, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
-> gettid() is not defined in my copy of sys/types.h, and it does not appear to
-> be a glibc wrapper for it.
->
-> The only way to access this syscall, it seems:
->
-> #include <sys/types.h>
-> #include <sys/syscalls.h>
->
-> syscall(SYS_gettid);
+http://bugzilla.kernel.org/show_bug.cgi?id=10354
+
+           Summary: Obsolete contact addresses in usb-serial.txt
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: 2.6.25-rc7-git5
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: mattilinnanvuori-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
 
 
-Sam,
+From: Matti Linnanvuori <mattilinnanvuori-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 
-Raed the NOTES section:
+Remove obsolete contact addresses.
 
-    Glibc does not provide a wrapper for this system call; call it
-    using syscall(2).
+Signed-off-by: Matti Linnanvuori <mattilinnanvuori-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
 
-Cheers,
+---
 
-Michael
+--- linux-2.6/Documentation/usb/usb-serial.txt 2008-03-23 09:01:20.488174000
++0200
++++ linux/Documentation/usb/usb-serial.txt 2008-03-23 13:01:44.806540000 +0200
+@@ -192,12 +192,9 @@
+
+ FTDI Single Port Serial Driver
+
+-  This is a single port DB-25 serial adapter. More information about this
+-  device and the Linux driver can be found at:
+- http://reality.sgi.com/bryder_wellington/ftdi_sio/
++  This is a single port DB-25 serial adapter.
+
+   For any questions or problems with this driver, please contact Bill Ryder
+-  at bryder-sJ/iWh9BUns@public.gmane.org
+
+
+ ZyXEL omni.net lcd plus ISDN TA
 
 
 -- 
-Michael Kerrisk
-Maintainer of the Linux man-pages project
-http://www.kernel.org/doc/man-pages/
-Want to report a man-pages bug?  Look here:
-http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
