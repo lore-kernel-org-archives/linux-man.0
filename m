@@ -1,70 +1,164 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 10356] New: glibc 2.7 notes for eventfd(2)
-Date: Sat, 29 Mar 2008 08:46:31 -0700 (PDT)
-Message-ID: <bug-10356-11311@http.bugzilla.kernel.org/>
+From: Justin Pryzby <justinpryzby-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Subject: manpages: explicit set SIGCHLD to SIG_IGN is distinct from SIG_DFL
+Date: Mon, 7 Apr 2008 12:16:51 -0400
+Message-ID: <20080407161651.GA22034@cetus>
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary="KsGdsel6WgEHnImy"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=10356
 
-           Summary: glibc 2.7 notes for eventfd(2)
-           Product: Documentation
-           Version: unspecified
-     KernelVersion: n/a
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org
+--KsGdsel6WgEHnImy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Version: 2.79-2
+File: /usr/share/man/man2/wait.2.gz
 
-I tested this, and it works:
+What do people think of something like the attached change?  While
+working with Debian's cron package, I found that explicitly setting
+the SIGCHLD action to SIG_IGN inhibits the creation of zombie
+processes, even though kill(1) gives the "ignore" as the default
+disposition.
 
---- /home/mrsam/src/man-pages/sources/manpages/man-pages-2.79/man2/eventfd.2   
-2008-03-03 08:25:44.000000000 -0500
-+++ ./eventfd.2 2008-03-29 11:42:24.000000000 -0400
-@@ -204,8 +204,28 @@
- .SH VERSIONS
- .BR eventfd ()
- is available on Linux since kernel 2.6.22.
--Working support is provided in glibc since version 2.8.
-+Working support is provided in glibc since version 2.8,
- .\" eventfd() is in glibc 2.7, but reportedly does not build
-+but it's possible to create an event file descriptor with glibc 2.7 using
-+.BR syscall (2):
-+.RS
-+.nf
-+
-+#include <sys/syscall.h>
-+#include <unistd.h>
-+
-+...
-+
-+int efd=syscall(SYS_eventfd, 0, 0);
-+
-+.fi
-+.RE
-+Then use
-+.BR read (2)
-+and
-+.BR write (2)
-+with this file descriptor.
-+This works as long as glibc 2.7 itself was built on kernel 2.6.22, or later.
- .SH CONFORMING TO
- .BR eventfd ()
- is Linux-specific.
+Consider the attached example program.  Any of the following changes
+will cause a zombie process to be visible in a ps -ef process listing:
+
+ . remove the call to signal();
+ . change SIG_IGN to SIG_DFL;
+ . remove the sleep(1); (due to process scheduling, the zombie is only
+   sometimes visible);
+ . ???
+
+--- /usr/share/man/man2/wait.2.gz
++++ /tmp/wait2.gz.22000	2008-04-07 12:02:31.000000000 -0400
+@@ -46,7 +46,7 @@
+ .\"	Much other text rewritten
+ .\" 2005-05-10, mtk, __W* flags can't be used with waitid()
+ .\"
+-.TH WAIT 2  2007-07-26 "Linux" "Linux Programmer's Manual"
++.TH WAIT 2  2008-04-07 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ wait, waitpid, waitid \- wait for process to change state
+ .SH SYNOPSIS
+@@ -429,7 +429,7 @@
+ 
+ POSIX.1-2001 specifies that if the disposition of
+ .B SIGCHLD
+-is set to
++is set explicitly to
+ .B SIG_IGN
+ or the
+ .B SA_NOCLDWAIT
 
 
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
+--KsGdsel6WgEHnImy
+Content-Type: text/x-csrc; charset=us-ascii
+Content-Disposition: attachment; filename="sig.c"
+
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
+
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main()
+{
+	int status;
+	void *ret;
+	pid_t pid, p2;
+
+	int pp[2];
+	if (pipe(pp)) {
+		perror("pipe");
+		exit(EXIT_FAILURE);
+	}
+
+	switch (pid=fork()) {
+	case -1:
+		perror("fork");
+		exit(EXIT_FAILURE);
+	case 0:	// Child
+		close(pp[0]);
+		switch (pid=fork()) {
+		case -1:
+			perror("fork");
+			exit(EXIT_FAILURE);
+		case 0:	// Child
+			sleep(10);
+			break;
+		default:
+			exit(EXIT_SUCCESS);
+		}
+		exit(EXIT_SUCCESS);
+	default: // Parent
+		close(pp[1]);
+
+		ret=signal(SIGCHLD, SIG_IGN);
+		if (ret==SIG_ERR) {
+			perror("signal");
+		} else if (ret==SIG_IGN) {
+			fputs("was: sig_ign\n", stderr);
+		} else if (ret==SIG_DFL) {
+			fputs("was: sig_dfl\n", stderr);
+		} else {
+			fputs("unknown initial signal handler\n", stderr);
+		}
+
+		break;
+	}
+
+	sleep(1);
+	for ( ; 1; ) {
+		char buf;
+		switch (read(pp[0], &buf, sizeof buf)) {
+			case 0:	// EOF
+				exit(EXIT_SUCCESS);
+			case -1:
+				perror("read");
+				exit(EXIT_FAILURE);
+			case 1:
+				continue;
+		}
+	}
+
+	for ( ; 1; ) {
+		p2=waitpid(pid, &status, WUNTRACED);
+		if (p2==-1) {
+			if (errno==ECHILD) break;
+			perror("wait");
+			exit(EXIT_FAILURE);
+		}
+
+		if (WIFEXITED(status)) {
+			status=WEXITSTATUS(status);
+			if (status==0) {
+				puts("Exited successfully");
+			} else {
+				printf("Exited with status: %d\n", status);
+			}
+		} else if (WIFSIGNALED(status)) {
+#ifndef	WCOREDUMP
+#define	WCOREDUMP 0
+#endif
+			printf("Killed by signal: %d%s\n", WTERMSIG(status),
+					WCOREDUMP(status)?"; dumped core":"");
+		} else if (WIFSTOPPED(status)) {
+			status=WSTOPSIG(status);
+			printf("Stopped by signal: %d\n", status);
+			// kill(getpid(), status);
+		}
+	}
+
+	exit(EXIT_SUCCESS);
+}
+
+--KsGdsel6WgEHnImy--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
