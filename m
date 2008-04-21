@@ -1,106 +1,75 @@
-From: Michael Kerrisk <mtk.manpages@googlemail.com>
-Subject: core_pattern pipe documentation
-Date: Fri, 18 Apr 2008 18:53:08 +0200
-Message-ID: <4808D1F4.7050705@gmail.com>
-References: <cfd18e0f0804151409q178addf4t4c6cba683bd0bff4@mail.gmail.com> <cfd18e0f0804151411x62080f10y833493db7f1b8cfd@mail.gmail.com> <48051FBA.60503@firstfloor.org>
+From: Ulrich Drepper <drepper@redhat.com>
+Subject: Re: [PATCH] utimensat() non-conformances and fixes
+Date: Sun, 20 Apr 2008 23:20:43 -0700
+Message-ID: <480C323B.3060608@redhat.com>
+References: <47FA9DA1.8040508@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1757087AbYDRPlW@vger.kernel.org>
-In-Reply-To: <48051FBA.60503@firstfloor.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756577AbYDUGYP@vger.kernel.org>
+In-Reply-To: <47FA9DA1.8040508@gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Andi Kleen <andi@firstfloor.org>
-Cc: linux-man@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Petr Gajdos <pgajdos@suse.cz>, michael.kerrisk@gmail.com
+To: Michael Kerrisk <mtk.manpages@googlemail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Andi,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-I wrote the following description of the core_pattern pipe feature.  Does this
-seem okay?
+Michael Kerrisk wrote:
+> 1. The draft POSIX.1-200x specification for utimensat() says that if =
+a
+> times[n].tv_nsec field is UTIME_OMIT or UTIME_NOW, then the value in =
+the
+> corresponding tv_sec field is ignored.  However the current Linux
+> implementation requires the tv_sec value to be zero (or the EINVAL er=
+ror
+> results).  This requirement should be removed.
 
-   Piping core dumps to a program
-       Since kernel 2.6.19, Linux supports an  alternate  syntax
-       for the /proc/sys/kernel/core_pattern file.  If the first
-       character of this file is a pipe  symbol  (|),  then  the
-       remainder  of  the line is interpreted as a program to be
-       executed.  Instead of being written to a disk  file,  the
-       core  dump  is  given  as  standard input to the program.
-       Note the following points:
-
-       *  The program must be specified using an absolute  path-
-          name  (or  a  pathname relative to the root directory,
-          /), and must immediately follow the '|' character.
-
-       *  The process created to run the program  runs  as  user
-          and group root.
-
-       *  Arguments can be supplied to the program, delimited by
-          white space (up to a total line length of 128  bytes).
-
-Cheers,
-
-Michael
+OK, for now.  I think the implemented behavior is better, though.
 
 
-Andi Kleen wrote:
-> Michael Kerrisk wrote:
->> On Tue, Apr 15, 2008 at 11:09 PM, Michael Kerrisk
->> <mtk.manpages@googlemail.com> wrote:
->>> Hi Andi,
->>>
->>> In 2.6.19 you added the pipiing syntax
->>> (http://lwn.net/Articles/195310/) to core_pattern.  Petr pointed out
->>> that this is not yet documented in core(5), so I set to testing it.
->>>
->>> The change log has the text:
->>>
->>>    The core dump proces will run with the privileges and in the name space
->>>    of the process that caused the core dump.
-> 
-> My memory is fuzzy but something might have changed this afterwards
-> (there were some semantics changes afterwards by other people)  I think
-> my original version ran as non root.
-> 
-> Anyways the reference as usual is the code, not the change log.
-> 
->>> This appears not to be true (as tested on 2.6.25-rc8).  Instead the
->>> pipe program is run as root.  I'm not sure what "in the name space of
->>> the process that caused the core dump" means 
-> 
-> namespace is a concept from plan9. It basically means the tree
-> of mounts the current process has access to. On 99+% of the systems
-> that is only a single global tree, but there is support for processes
-> creating their own name space using clone CLONE_NEWNS and then
-> mount/umount/mount --bind etc. Linux VFS had this support for
-> some time.
-> 
-> The whole thing is very obscure but perhaps some more
-> coverage in the man pages would be not bad. It seems to move
-> slowly out of obscurity now with all the new container work.
-> 
-> There is some scattered information in Documentation/*. You'll need
-> someone else to explain you all the finer details though.
-> 
-> Also there are lots of different mounts now since a few 2.6 kernels --
-> to be honest I don't understand what they are all good for.
-> 
-> 
-> -- I wondered if it might
->>> mean that the current working directory of the program would be the
->>> same as that of the process that caused the core dump.  However that
->>> is not so: the current directory for the pipe program is the root
->>> directory.
-> 
-> Basically with a different namespace the paths can change completely,
-> which can in theory have some unpleasant effects on the core dumper
-> script. I skimped this by just always using the same as the process.
-> 
-> -Andi
-> 
-> 
+> However, the current implementation does not generate
+> EPERM if one tv_nsec field is UTIME_NOW while the other is UTIME_OMIT=
+ -- it
+> should give this error for that case.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Want to report a man-pages bug?  Look here:
-http://www.kernel.org/doc/man-pages/reporting_bugs.html
+This is probably a necessary change.  Non-synchronized changes might be
+a security problem.
+
+
+> However, in
+> the same circumstances, when utimensat() is given a 'times' array in =
+which
+> both tv_nsec fields are UTIME_NOW, which provides equivalent function=
+ality
+> to specifying 'times' as NULL, the call succeeds.  I think that it sh=
+ould fail
+> with the error EACCES in this case.
+
+I guess so.
+
+
+> (times =3D=3D NULL && times[0].tv_nsec =3D=3D UTIME_NOW && times[1].t=
+v_nsec =3D=3D
+> UTIME_NOW)
+>=20
+> case should be treated like the traditional utimes() case where 'time=
+s'
+> is NULL.  That is, the call should succeed for a file marked append-o=
+nly
+> and should give the error EACCES if the file is marked as immutable.
+
+Is this something I changed?  I doubt I added this.
+
+- --
+=E2=9E=A7 Ulrich Drepper =E2=9E=A7 Red Hat, Inc. =E2=9E=A7 444 Castro S=
+t =E2=9E=A7 Mountain View, CA =E2=9D=96
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org
+
+iEYEARECAAYFAkgMMjsACgkQ2ijCOnn/RHT9dwCgxhprkeAg86sW11ilKtHaVYtO
+Ae0An18utIREI/MnfwPO5HixxZbJz7zD
+=3DhrvK
+-----END PGP SIGNATURE-----
