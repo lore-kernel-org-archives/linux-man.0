@@ -1,82 +1,101 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+From: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
 Subject: Re: [PATCH] utimensat() non-conformances and fixes
-Date: Mon, 21 Apr 2008 17:41:57 +0200
-Message-ID: <cfd18e0f0804210841v600c9e7w5081146a68590630@mail.gmail.com>
-References: <47FA9DA1.8040508@gmail.com> <480C323B.3060608@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Date: Wed, 23 Apr 2008 11:37:04 +0200
+Message-ID: <E1JobPU-0007o5-6H@pomaz-ex.szeredi.hu>
+References: <47FA9DA1.8040508@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <480C323B.3060608-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Content-Disposition: inline
+In-reply-to: <47FA9DA1.8040508-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (message from Michael Kerrisk on
+	Tue, 08 Apr 2008 00:18:09 +0200)
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
+Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 21, 2008 at 8:20 AM, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> Michael Kerrisk wrote:
-> > 1. The draft POSIX.1-200x specification for utimensat() says that if a
-> > times[n].tv_nsec field is UTIME_OMIT or UTIME_NOW, then the value in the
-> > corresponding tv_sec field is ignored.  However the current Linux
-> > implementation requires the tv_sec value to be zero (or the EINVAL error
-> > results).  This requirement should be removed.
->
-> OK, for now.  I think the implemented behavior is better, though.
+[Please, please, please always CC linux-fsdevel on VFS related work.
+It's even in MAINTAINERS now]
 
-My only real objection to the implemented behavior is that it doesn't
-follow the spec.  It doesn't seem unreasonable to change the spec
-here.  Or is it already too late for that?  (I suppose it may well
-be.)
+> --- linux-2.6.25-rc6-orig/fs/utimes.c	2008-04-07 22:25:08.000000000 +0200
+> +++ linux-2.6.25-rc6/fs/utimes.c	2008-04-07 23:57:41.000000000 +0200
+> @@ -95,27 +95,37 @@
+> 
+>  	/* Don't worry, the checks are done in inode_change_ok() */
+>  	newattrs.ia_valid = ATTR_CTIME | ATTR_MTIME | ATTR_ATIME;
+> -	if (times) {
+> +	if (times && ! ((times[0].tv_nsec == UTIME_NOW &&
+> +			 times[1].tv_nsec == UTIME_NOW) ||
+> +			(times[0].tv_nsec == UTIME_OMIT &&
+> +			 times[1].tv_nsec == UTIME_OMIT))) {
+>  		error = -EPERM;
+>                  if (IS_APPEND(inode) || IS_IMMUTABLE(inode))
+>                          goto dput_and_out;
+> 
+> -		if (times[0].tv_nsec == UTIME_OMIT)
+> -			newattrs.ia_valid &= ~ATTR_ATIME;
+> -		else if (times[0].tv_nsec != UTIME_NOW) {
+> +		if (times[0].tv_nsec == UTIME_OMIT) {
+> +			newattrs.ia_atime = inode->i_atime;
+> +			newattrs.ia_valid |= ATTR_ATIME_SET;
 
-> > However, the current implementation does not generate
-> > EPERM if one tv_nsec field is UTIME_NOW while the other is UTIME_OMIT -- it
-> > should give this error for that case.
->
-> This is probably a necessary change.  Non-synchronized changes might be
-> a security problem.
+This seems wrong.  Why exactly was this change made?
 
-Yes.
+Setting the time to inode->i_atime is *not* the same as not setting
+the time.  For some filesystems i_atime is just a cached value, that
+may or may not match the actual last access time.  For those
+filesystems this could have very strange effects.
 
-> > However, in
-> > the same circumstances, when utimensat() is given a 'times' array in which
-> > both tv_nsec fields are UTIME_NOW, which provides equivalent functionality
-> > to specifying 'times' as NULL, the call succeeds.  I think that it should fail
-> > with the error EACCES in this case.
->
-> I guess so.
+> +		} else if (times[0].tv_nsec != UTIME_NOW) {
+>  			newattrs.ia_atime.tv_sec = times[0].tv_sec;
+>  			newattrs.ia_atime.tv_nsec = times[0].tv_nsec;
+>  			newattrs.ia_valid |= ATTR_ATIME_SET;
+>  		}
+> 
+> -		if (times[1].tv_nsec == UTIME_OMIT)
+> -			newattrs.ia_valid &= ~ATTR_MTIME;
+> -		else if (times[1].tv_nsec != UTIME_NOW) {
+> +		if (times[1].tv_nsec == UTIME_OMIT) {
+> +			newattrs.ia_mtime = inode->i_mtime;
+> +			newattrs.ia_valid |= ATTR_MTIME_SET;
 
-Ok.
+Ditto.
 
-> > (times == NULL && times[0].tv_nsec == UTIME_NOW && times[1].tv_nsec ==
-> > UTIME_NOW)
-> >
-> > case should be treated like the traditional utimes() case where 'times'
-> > is NULL.  That is, the call should succeed for a file marked append-only
-> > and should give the error EACCES if the file is marked as immutable.
->
-> Is this something I changed?  I doubt I added this.
+> +		} else if (times[1].tv_nsec != UTIME_NOW) {
+>  			newattrs.ia_mtime.tv_sec = times[1].tv_sec;
+>  			newattrs.ia_mtime.tv_nsec = times[1].tv_nsec;
+>  			newattrs.ia_valid |= ATTR_MTIME_SET;
+>  		}
+> +
+> +	} else if (unlikely(times && times[0].tv_nsec == UTIME_OMIT &&
+> +			times[1].tv_nsec == UTIME_OMIT)) {
+> +		newattrs.ia_valid &= ~(ATTR_ATIME | ATTR_MTIME | ATTR_CTIME);
 
-Well, I just went away and tested yet again, and utime[s]() with a
-NULL second argument gives the behavior I describe (and always did) --
-and utimensat() should behave the same way for the
-(times == NULL && times[0].tv_nsec == UTIME_NOW && times[1].tv_nsec ==
-UTIME_NOW)
-case, but does not.
+So this is a no-op?  In which case this check could be moved to the
+top of the function to just return zero.
 
-Cheers,
+Miklos
 
-Michael
-
--- 
-Michael Kerrisk
-Maintainer of the Linux man-pages project
-http://www.kernel.org/doc/man-pages/
-Want to report a man-pages bug? Look here:
-http://www.kernel.org/doc/man-pages/reporting_bugs.html
+>  	} else {
+> +		/* times is NULL, or both tv_nsec fields are UTIME_NOW */
+>  		error = -EACCES;
+>                  if (IS_IMMUTABLE(inode))
+>                          goto dput_and_out;
+> @@ -150,14 +160,6 @@
+>  	if (utimes) {
+>  		if (copy_from_user(&tstimes, utimes, sizeof(tstimes)))
+>  			return -EFAULT;
+> -		if ((tstimes[0].tv_nsec == UTIME_OMIT ||
+> -		     tstimes[0].tv_nsec == UTIME_NOW) &&
+> -		    tstimes[0].tv_sec != 0)
+> -			return -EINVAL;
+> -		if ((tstimes[1].tv_nsec == UTIME_OMIT ||
+> -		     tstimes[1].tv_nsec == UTIME_NOW) &&
+> -		    tstimes[1].tv_sec != 0)
+> -			return -EINVAL;
+> 
+>  		/* Nothing to do, we must not even check the path.  */
+>  		if (tstimes[0].tv_nsec == UTIME_OMIT &&
+> 
+> 
+> ==================================================
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
