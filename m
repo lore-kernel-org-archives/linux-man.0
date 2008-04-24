@@ -1,37 +1,44 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+From: Ulrich Drepper <drepper@redhat.com>
 Subject: Re: [PATCH] alternative to sys_indirect, part 1
-Date: Thu, 24 Apr 2008 15:42:20 +0100
-Message-ID: <20080424154220.3dae36a1@the-village.bc.nu>
-References: <200804240403.m3O43us8028699@devserv.devel.redhat.com>
-	<20080424112514.055d8071@the-village.bc.nu>
-	<517f3f820804240534r3bbbdc52s52a6dfe3f2d14b7f@mail.gmail.com>
-	<48109DFB.900@redhat.com>
+Date: Thu, 24 Apr 2008 08:19:27 -0700
+Message-ID: <4810A4FF.7030004@redhat.com>
+References: <200804240403.m3O43us8028699@devserv.devel.redhat.com>	<20080424112514.055d8071@the-village.bc.nu>	<517f3f820804240534r3bbbdc52s52a6dfe3f2d14b7f@mail.gmail.com>	<48109DFB.900@redhat.com> <20080424154220.3dae36a1@the-village.bc.nu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <48109DFB.900-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20080424154220.3dae36a1@the-village.bc.nu>
+Sender: netdev-owner@vger.kernel.org
+To: Alan Cox <alan@lxorguk.ukuu.org.uk>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, akpm@linux-foundation.org, Linus Torvalds <torvalds@linux-foundation.org>, michael.kerrisk@gmail.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-> Somebody please make a call and then let's go on with life.  I don't
-> care much either way anymore.  I do hope nobody thinks this is an issue
-> which can be completely ignored (see, e.g., the bug I pointed to the
-> other day).
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
 
-Its very hard to do that without knowing what other Unixlike and POSIX OS
-plan to do and if we'll end up with a third yet again different API to
-support when it reaches a standards body.
+Alan Cox wrote:
+> We shouldn't be seeing this as a Linux problem, its a BSD problem, an=
+ AIX
+> problem, a Solaris problem and an HPUX problem and really wants one
+> solution applying across distributions or it will harm everyone in th=
+e
+> long term.
 
-We shouldn't be seeing this as a Linux problem, its a BSD problem, an AIX
-problem, a Solaris problem and an HPUX problem and really wants one
-solution applying across distributions or it will harm everyone in the
-long term.
+Look at the other interfaces.  I've proposed them for POSIX and they ar=
+e
+going to be in the next revision (O_CLOEXEC, F_DUPFD_CLOEXEC).  I'm
+confident that whatever we'll do will be endorsed this way.  It's just
+too late for the next revision, it'd have to wait a few years until wor=
+k
+on the next revision (esp reviews) start.  That's too long.
 
-Alan
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+- --
+=E2=9E=A7 Ulrich Drepper =E2=9E=A7 Red Hat, Inc. =E2=9E=A7 444 Castro S=
+t =E2=9E=A7 Mountain View, CA =E2=9D=96
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.7 (GNU/Linux)
+
+iD8DBQFIEKT/2ijCOnn/RHQRAkyoAJ9/FRwN3r6zg2cSvzVrA2TiGlfergCdG1r9
+H/UghrO5A99ieG6O7wXvu7I=3D
+=3DpUfi
+-----END PGP SIGNATURE-----
