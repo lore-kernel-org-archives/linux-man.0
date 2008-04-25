@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: core_pattern pipe documentation
-Date: Fri, 25 Apr 2008 21:50:24 +0200
-Message-ID: <cfd18e0f0804251250i74cd42d4v5b408a74635e7254@mail.gmail.com>
+Date: Fri, 25 Apr 2008 22:05:35 +0200
+Message-ID: <cfd18e0f0804251305u4edb2bb1k290553965291c4fa@mail.gmail.com>
 References: <cfd18e0f0804151409q178addf4t4c6cba683bd0bff4@mail.gmail.com>
 	 <cfd18e0f0804151411x62080f10y833493db7f1b8cfd@mail.gmail.com>
 	 <48051FBA.60503@firstfloor.org> <4808D1F4.7050705@gmail.com>
@@ -18,11 +18,9 @@ Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <20080425185442.GC9833-B26myB8xz7F8NnZeBjwnZQMhkBWG/bsMQH7oEaQurus@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>, michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>, michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
-
-Andi, Can you offer any input on the last topic in the message below?
 
 On Fri, Apr 25, 2008 at 8:54 PM, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org> wrote:
 >
@@ -210,23 +208,13 @@ On Fri, Apr 25, 2008 at 8:54 PM, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@pub
 >
 > I say documented like your experiment shows it to work, and I'll try to find
 > some time to investigate where we switch uids and why.
->
-> Thanks for the info!
-> Neil
->
-> --
-> /****************************************************
->  * Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
->  * Software Engineer, Red Hat
->  ****************************************************/
->
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+There was another aspect of this behavior that bugs me.  The current
+working directory of the dumping program is /.  This means it's
+impossible for the dumping program to produce an output file in the
+current working directory of the program that is crashing (which of
+course is where a "core" file is normally written).  Is that really
+intended behavior?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
