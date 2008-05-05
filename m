@@ -1,73 +1,152 @@
-From: "Michael Kerrisk" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: RLIMIT_RTTIME documentation for getrlimit.2
-Date: Mon, 28 Apr 2008 14:14:46 +0200
-Message-ID: <517f3f820804280514p16cb5658ree503816bca20ca3@mail.gmail.com>
-References: <20080208145950.GA3910@kernel.sg> <1207904485.7074.28.camel@twins>
-	 <cfd18e0f0804110216l3c679bb6ned83f5d58d1c9d66@mail.gmail.com>
-	 <1207905668.7074.32.camel@twins>
-	 <cfd18e0f0804110227w37915734r8ca31271a3dfc8ab@mail.gmail.com>
-	 <1207906325.7153.2.camel@twins>
-	 <cfd18e0f0804110238l66fb60c8pa8ac934a2a43baa7@mail.gmail.com>
-	 <4808D1CC.80103@gmail.com>
-	 <cfd18e0f0804280444jd558060g6cf5ee7df0248ee1@mail.gmail.com>
-	 <1209384560.13978.9.camel@twins>
+From: Michael Kerrisk <mtk.manpages@googlemail.com>
+Subject: core_pattern pipe documentation - draft 2
+Date: Mon, 05 May 2008 09:19:16 +0200
+Message-ID: <481EB4F4.8050901@gmail.com>
+References: <cfd18e0f0804151411x62080f10y833493db7f1b8cfd@mail.gmail.com>	 <4808D1F4.7050705@gmail.com>	 <cfd18e0f0804230509g4e7456ecgd40c0bfee874a82c@mail.gmail.com>	 <20080423145933.GA26228@hmsendeavour.rdu.redhat.com>	 <cfd18e0f0804250618ic6dfd09gf68573256be3ff@mail.gmail.com>	 <20080425162225.GA9833@hmsreliant.think-freely.org>	 <cfd18e0f0804251113w4ef2dea3t6727009aa67e6e09@mail.gmail.com>	 <20080425185442.GC9833@hmsreliant.think-freely.org>	 <cfd18e0f0804251305u4edb2bb1k290553965291c4fa@mail.gmail.com>	 <20080425201800.GD9833@hmsreliant.think-freely.org> <cfd18e0f0804251339x2b19dd79o593d836986bf99ee@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1209384560.13978.9.camel@twins>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Eugene Teo <eugeneteo-X4ZF2iejbADYtjvyW6yDsg@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1756305AbYEEHTs@vger.kernel.org>
+In-Reply-To: <cfd18e0f0804251339x2b19dd79o593d836986bf99ee@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Neil Horman <nhorman@tuxdriver.com>
+Cc: Michael Kerrisk <mtk.manpages@googlemail.com>, Andi Kleen <andi@firstfloor.org>, linux-man@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Petr Gajdos <pgajdos@suse.cz>, michael.kerrisk@gmail.com
 List-Id: linux-man@vger.kernel.org
 
->  > Below is the draft text that I will add to the getrlimit.2 man page to describe
->  > RLIMIT_RTTIME.  Does it look okay to you?  (I will add a pointer in
->  > sched_setscheduler.2 to this description in getrlimit.2.)
->  >
->  >       RLIMIT_RTTIME (Since Linux 2.6.25)
->  >              Specifies a limit on the amount of CPU time that a
->  >              process  scheduled  under  a  real-time scheduling
->  >              policy may consume without making a blocking  sys-
->  >              tem  call.   For  the  purpose of this limit, each
->  >              time a process makes a blocking system  call,  the
->  >              count  of  its consumed CPU time is reset to zero.
->  >              The CPU time count is not  reset  if  the  process
->  >              continues  trying to use the CPU but is preempted,
->  >              its   time   slice   expires,    or    it    calls
->  >              sched_yield(2).
->  >
->  >              Upon  reaching the soft limit, the process is sent
->  >              a SIGXCPU  signal.   If  the  process  catches  or
->  >              ignores  this  signal  and continues consuming CPU
->  >              time, then SIGXCPU will  be  generated  once  each
->  >              second  until  the hard limit is reached, at which
->  >              point the process is sent a SIGKILL signal.
->  >
->  >              The intended use of this limit is to stop  a  run-
->  >              away real-time process from locking up the system.
->
->
-> Looks excellent, thanks!
+Hi Neil,
 
-Good -- thanks for checking it over.
-
->  Acked-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
->
->  in so far that is applicable to man pages ;-)
-
-It works for me.
+Below is a revised draft of the text for core_pattern.  Would you be willing
+check it over?
 
 Cheers,
 
 Michael
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+     Naming of core dump files
+       By   default,   a  core  dump  file  is  named  core,  but  the
+       /proc/sys/kernel/core_pattern file (since Linux 2.6 and 2.4.21)
+       can  be set to define a template that is used to name core dump
+       files.  The template can contain % specifiers which are substi-
+       tuted by the following values when a core file is created:
+
+           %%  a single % character
+           %p  PID of dumped process
+           %u  (numeric) real UID of dumped process
+           %g  (numeric) real GID of dumped process
+           %s  number of signal causing dump
+           %t  time  of  dump,  expressed  as  seconds since the Epoch
+               (00:00h, 1 Jan 1970, UTC)
+           %h  hostname (same as 'nodename' returned by uname(2))
+           %e  executable filename (without path prefix)
+           %c  core file size soft resource limit of crashing  process
+               (since Linux 2.6.24)
+
+       A  single % at the end of the template is dropped from the core
+       filename, as is the combination of a % followed by any  charac-
+       ter other than those listed above.  All other characters in the
+       template become a literal part of the core filename.  The  tem-
+       plate  may  include  '/'  characters,  which are interpreted as
+       delimiters for  directory  names.   The  maximum  size  of  the
+       resulting  core  filename  is  128  bytes  (64 bytes in kernels
+       before 2.6.19).
+   [...]
+
+     Piping core dumps to a program
+       Since kernel 2.6.19, Linux supports an alternate syntax for the
+       /proc/sys/kernel/core_pattern  file.  If the first character of
+       this file is a pipe symbol (|), then the remainder of the  line
+       is  interpreted  as a program to be executed.  Instead of being
+       written to a disk file, the core  dump  is  given  as  standard
+       input to the program.  Note the following points:
+
+       *  The program must be specified using an absolute pathname (or
+          a pathname relative to the  root  directory,  /),  and  must
+          immediately follow the '|' character.
+
+       *  The  process  created  to  run  the program runs as user and
+          group root.
+
+       *  Command-line arguments can be supplied to the program (since
+          kernel 2.6.24), delimited by white space (up to a total line
+          length of 128 bytes).
+
+       *  The command-line arguments can include any of the  %  speci-
+          fiers  listed  above.   For  example, to pass the PID of the
+          process that is being dumped, specify %p in an argument.
+
+   [...]
+   EXAMPLE
+       The  program  below  can  be used to demonstrate the use of the
+       pipe syntax in  the  /proc/sys/kernel/core_pattern  file.   The
+       following  shell  session  demonstrates the use of this program
+       (compiled to create an executable named core_pattern_test):
+
+           $ cc -o core_pattern_test core_pattern_test.c
+           $ su
+           Password:
+           # echo "|$PWD/core_pattern_test %p UID=%u GID=%g sig=%s" > \
+               /proc/sys/kernel/core_pattern
+           # exit
+           $ sleep 100
+           type control-backslash
+           Quit (core dumped)
+           $ cat core.info
+           argc=5
+           argc[0]=</home/mtk/core_pattern_test>
+           argc[1]=<20575>
+           argc[2]=<UID=1000>
+           argc[3]=<GID=100>
+           argc[4]=<sig=3>
+           Total bytes in core dump: 282624
+
+       The source code of the program is as follows:
+
+       /* core_pattern_test.c */
+
+       #define _GNU_SOURCE
+       #include <sys/stat.h>
+       #include <fcntl.h>
+       #include <limits.h>
+       #include <stdio.h>
+       #include <stdlib.h>
+       #include <unistd.h>
+
+       #define BUF_SIZE 1024
+
+       int
+       main(int argc, char *argv[])
+       {
+           int tot, j;
+           ssize_t nread;
+           char buf[BUF_SIZE];
+           FILE *fp;
+           char cwd[PATH_MAX];
+
+           /* Change our current working directory to that of the
+              crashing process */
+
+           snprintf(cwd, PATH_MAX, "/proc/%s/cwd", argv[1]);
+           chdir(cwd);
+
+           /* Write output to file "core.info" in that directory */
+
+           fp = fopen("core.info", "w+");
+           if (fp == NULL)
+               exit(EXIT_FAILURE);
+
+           /* Display command-line arguments given to core_pattern
+              pipe program */
+
+           fprintf(fp, "argc=%d\n", argc);
+           for (j = 0; j < argc; j++)
+               fprintf(fp, "argc[%d]=<%s>\n", j, argv[j]);
+
+           /* Count bytes in standard input (the core dump) */
+
+           tot = 0;
+           while ((nread = read(STDIN_FILENO, buf, BUF_SIZE)) > 0)
+               tot += nread;
+           fprintf(fp, "Total bytes in core dump: %d\n", tot);
+
+           exit(EXIT_SUCCESS);
+       }
