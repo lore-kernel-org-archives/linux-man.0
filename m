@@ -1,211 +1,110 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+From: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
 Subject: Re: [PATCH] utimensat() non-conformances and fixes -- version 2
-Date: Fri, 16 May 2008 10:34:31 +0200
-Message-ID: <482D4717.3030105@gmail.com>
+Date: Fri, 16 May 2008 18:59:10 +0200
+Message-ID: <E1Jx3Gw-0002eA-55@pomaz-ex.szeredi.hu>
 References: <482D4665.4050401@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <482D4665.4050401-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-reply-to: <482D4665.4050401-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (message from Michael Kerrisk on
+	Fri, 16 May 2008 10:31:33 +0200)
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
+Cc: miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-For completeness here's the test program again:
+> This is a revised version of my earlier
+> (http://article.gmane.org/gmane.linux.man/129/ ) patch to fix
+> non-conformances in the utimensat() implementation.
 
-/* t_utimensat.c
+The patch looks functionally correct.  But there are several things I
+don't really like...
 
-   Copyright (C) 2008, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> --- linux-2.6.26-rc2/fs/utimes.c	2008-05-15 10:33:20.000000000 +0200
+> +++ linux-2.6.26-rc2-mtk/fs/utimes.c	2008-05-16 07:33:02.000000000 +0200
+> @@ -40,14 +40,9 @@
+> 
+>  #endif
+> 
+> -static bool nsec_special(long nsec)
+> -{
+> -	return nsec == UTIME_OMIT || nsec == UTIME_NOW;
+> -}
+> -
+>  static bool nsec_valid(long nsec)
+>  {
+> -	if (nsec_special(nsec))
+> +	if (nsec == UTIME_OMIT || nsec == UTIME_NOW)
+>  		return true;
+> 
+>  	return nsec >= 0 && nsec <= 999999999;
+> @@ -106,7 +101,9 @@
+>  	newattrs.ia_valid = ATTR_CTIME | ATTR_MTIME | ATTR_ATIME;
+>  	if (times) {
+>  		error = -EPERM;
+> -                if (IS_APPEND(inode) || IS_IMMUTABLE(inode))
+> +		if (!(times[0].tv_nsec == UTIME_NOW &&
+> +		      times[1].tv_nsec == UTIME_NOW) &&
+> +		    (IS_IMMUTABLE(inode) || IS_APPEND(inode)))
+>  			goto mnt_drop_write_and_out;
+> 
+>  		if (times[0].tv_nsec == UTIME_OMIT)
+> @@ -131,9 +128,10 @@
+>  	 * UTIME_NOW, then need to check permissions, because
+>  	 * inode_change_ok() won't do it.
+>  	 */
+> -	if (!times || (nsec_special(times[0].tv_nsec) &&
+> -		       nsec_special(times[1].tv_nsec))) {
+> +	if (!times || (times[0].tv_nsec == UTIME_NOW &&
+> +		       times[1].tv_nsec == UTIME_NOW)) {
+>  		error = -EACCES;
+> +
 
-   Licensed under the GPLv2 or later.
+How about explicitly turning UTIME_NOW/UTIME_NOW into times = NULL at
+the beginning of the function?  That would both simplify things and
+also make it absolutely sure that the two cases are handled the same
+way (which makes sense, and is also what the standard wants).
 
-   A command-line interface for testing the utimensat() system
-   call.
+>                  if (IS_IMMUTABLE(inode))
+>  			goto mnt_drop_write_and_out;
+> 
+> @@ -147,7 +145,20 @@
+>  					goto mnt_drop_write_and_out;
+>  			}
+>  		}
+> +	} else if (times && ((times[0].tv_nsec == UTIME_NOW &&
+> +			      times[1].tv_nsec == UTIME_OMIT)
+> +			     ||
+> +			     (times[0].tv_nsec == UTIME_OMIT &&
+> +			      times[1].tv_nsec == UTIME_NOW))) {
+> +		error = -EPERM;
+> +
+> +		if (IS_IMMUTABLE(inode) || IS_APPEND(inode))
+> +			goto mnt_drop_write_and_out;
+> +
+> +		if (!is_owner_or_cap(inode))
+> +			goto mnt_drop_write_and_out;
 
-   17 Mar 2008  Initial creation
-*/
-#define _GNU_SOURCE
-#define _ATFILE_SOURCE
-#include <stdio.h>
-#include <time.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/syscall.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/stat.h>
+I don't like adding _more_ owner checks to this function.  It would be
+better if we were removing them: some weird filesystems want to do
+their own permission checking and so the owner checks should really be
+moved into inode_change_ok().
 
-#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
-                        } while (0)
+One way to do that could be to add a pseudo attribute flag,
+e.g. ATTR_TIMES_UPDATE, that tells the permission checking code to
+check the owner, even when neither ATTR_[AM]TIME_SET flag is set.
 
+Even the check for the owner in the !times case could be removed, by
+adding ATTR_TIMES_UPDATE only if we don't have write permission on the
+file.  That's a cleanup I'd really be happy with.
 
-#define __NR_utimensat          320     /* x86 syscall number */
+All this may also be done with the ATTR_FORCE flag, but that would
+mean:
 
-# define UTIME_NOW      ((1l << 30) - 1l)
-# define UTIME_OMIT     ((1l << 30) - 2l)
+  - modifying lots of call sites
+  - making it impossible to selectively check the permission if
+    multiple attributes are being modified (don't know if any callers
+    want that though).
 
-static inline int
-utimensat(int dirfd, const char *pathname,
-          const struct timespec times[2], int flags)
-{
-    return syscall(__NR_utimensat, dirfd, pathname, times, flags);
-}
-
-static void
-usageError(char *progName)
-{
-    fprintf(stderr, "Usage: %s pathname [atime-sec "
-            "atime-nsec mtime-sec mtime-nsec]\n\n", progName);
-    fprintf(stderr, "Permitted options are:\n");
-    fprintf(stderr, "    [-d path] "
-            "open a directory file descriptor"
-            " (instead of using AT_FDCWD)\n");
-    fprintf(stderr, "    -w        Open directory file "
-            "descriptor with O_RDWR (instead of O_RDONLY)\n");
-    fprintf(stderr, "    -n        Use AT_SYMLINK_NOFOLLOW\n");
-    fprintf(stderr, "\n");
-
-    fprintf(stderr, "pathname can be \"NULL\" to use NULL "
-            "argument in call\n");
-    fprintf(stderr, "\n");
-
-    fprintf(stderr, "Either nsec field can be\n");
-    fprintf(stderr, "    'n' for UTIME_NOW\n");
-    fprintf(stderr, "    'o' for UTIME_OMIT\n");
-    fprintf(stderr, "\n");
-
-    fprintf(stderr, "If the time fields are omitted, "
-            "then a NULL 'times' argument is used\n");
-    fprintf(stderr, "\n");
-
-    exit(EXIT_FAILURE);
-}
-
-int
-main(int argc, char *argv[])
-{
-    int flags, dirfd, opt, oflag;
-    struct timespec ts[2];
-    struct timespec *tsp;
-    char *pathname, *dirfdPath;
-    struct stat sb;
-
-    flags = 0;
-    dirfd = AT_FDCWD;
-    dirfdPath = NULL;
-    oflag = O_RDONLY;
-
-    while ((opt = getopt(argc, argv, "d:nw")) != -1) {
-        switch (opt) {
-        case 'd':
-            dirfdPath = optarg;
-            break;
-
-        case 'n':
-            flags |= AT_SYMLINK_NOFOLLOW;
-            printf("Not following symbolic links\n");
-            break;
-
-        case 'w':
-            oflag = O_RDWR;
-            break;
-
-        default:
-            usageError(argv[0]);
-        }
-    }
-
-    if ((optind + 5 != argc) && (optind + 1 != argc))
-        usageError(argv[0]);
-
-    if (dirfdPath != NULL) {
-        dirfd = open(dirfdPath, oflag);
-        if (dirfd == -1) errExit("open");
-
-        printf("Opened dirfd");
-        printf(" O_RDWR");
-        printf(": %s\n", dirfdPath);
-    }
-
-    pathname = (strcmp(argv[optind], "NULL") == 0) ?
-                        NULL : argv[optind];
-
-    if (argc == optind + 1) {
-        tsp = NULL;
-
-    } else {
-        ts[0].tv_sec = atoi(argv[optind + 1]);
-        if (argv[optind + 2][0] == 'n') {
-            ts[0].tv_nsec = UTIME_NOW;
-        } else if (argv[optind + 2][0] == 'o') {
-            ts[0].tv_nsec = UTIME_OMIT;
-        } else {
-            ts[0].tv_nsec = atoi(argv[optind + 2]);
-        }
-
-        ts[1].tv_sec = atoi(argv[optind + 3]);
-        if (argv[optind + 4][0] == 'n') {
-            ts[1].tv_nsec = UTIME_NOW;
-        } else if (argv[optind + 4][0] == 'o') {
-            ts[1].tv_nsec = UTIME_OMIT;
-        } else {
-            ts[1].tv_nsec = atoi(argv[optind + 4]);
-        }
-
-        tsp = ts;
-    }
-
-    /* For testing purposes, it may have been useful to run this
-       program as set-user-ID-root so that a directory file
-       descriptor could be opened as root.  Now we reset to the
-       real UID before making the utimensat() call, so that the
-       permission checking is performed under that UID. */
-
-    if (geteuid() == 0) {
-        uid_t u;
-
-        u = getuid();
-
-        printf("Resettng UIDs to %ld\n", (long) u);
-
-        if (setresuid(u, u, u) == -1)
-            errExit("setresuid");
-    }
-
-    printf("dirfd is %d\n", dirfd);
-    printf("pathname is %s\n", pathname);
-    printf("tsp is %p", tsp);
-    if (tsp != NULL) {
-        printf("; struct  = { %ld, %ld } { %ld, %ld }",
-                (long) tsp[0].tv_sec, (long) tsp[0].tv_nsec,
-                (long) tsp[1].tv_sec, (long) tsp[1].tv_nsec);
-    }
-    printf("\n");
-    printf("flags is %d\n", flags);
-
-    if (utimensat(dirfd, pathname, tsp, flags) == -1) {
-        if (errno == EPERM)
-            printf("utimensat failed with EPERM\n");
-        else if (errno == EACCES)
-            printf("utimensat failed with EACCES\n");
-        else
-            perror("utimensat");
-        exit(EXIT_FAILURE);
-    }
-
-    printf("utimensat() succeeded\n");
-
-    if (stat(pathname, &sb) == -1) errExit("stat");
-    printf("Last file access:         %s", ctime(&sb.st_atime));
-    printf("Last file modification:   %s", ctime(&sb.st_mtime));
-    printf("Last status change:       %s", ctime(&sb.st_ctime));
-
-    exit(EXIT_SUCCESS);
-}
-
+Miklos
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
