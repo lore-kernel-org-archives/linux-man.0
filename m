@@ -1,48 +1,25 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 10770] New: many modules lacking description: field in modinfo
-Date: Wed, 21 May 2008 10:32:45 -0700 (PDT)
-Message-ID: <bug-10770-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 10770] many modules lacking description: field in modinfo
+Date: Wed, 21 May 2008 10:33:51 -0700 (PDT)
+Message-ID: <20080521173351.9B35E11D107@picon.linux-foundation.org>
+References: <bug-10770-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-10770-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 http://bugzilla.kernel.org/show_bug.cgi?id=10770
 
-           Summary: many modules lacking description: field in modinfo
-           Product: Documentation
-           Version: unspecified
-     KernelVersion: 2.6
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: enhancement
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: devzero-S0/GAf8tV78@public.gmane.org
 
 
-Problem Description:
 
-more than once i wanted to check "what is this module for?" - but modinfo
-didn't give any information about that. 
 
-no kernel source available at the customer machine.....and no internet
-available in the serverroom...
+------- Comment #1 from devzero-S0/GAf8tV78@public.gmane.org  2008-05-21 10:33 -------
+>what about making the description field mandatory for modules and warn about
+>that on load or at compile time ?
 
-i checked this and i tested modules (suse default install) for description:
-availability. 
-
-2145 modules tested
-1741 modules have the description field
-404 modules missing the description field
-
-what about making the description field mandatory for modules and warn about
-that on load or at compile time ?
-
-that would make sure that each module get`s one sooner or later....
+sorry, i meant "warn about a missing one"
 
 
 -- 
