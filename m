@@ -1,87 +1,37 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: epoll(7) redux
-Date: Wed, 21 May 2008 19:53:50 +0200
-Message-ID: <483461AE.9080305@gmail.com>
-References: <cone.1207739243.602382.23947.500@commodore.email-scan.com> <cfd18e0f0804090415m1ddb36bahce8e6b724e60da7d@mail.gmail.com> <Pine.LNX.4.64.0804091209270.7000@alien.or.mcafeemobile.com> <cone.1207780987.222099.27997.500@commodore.email-scan.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 10770] many modules lacking description: field in modinfo
+Date: Wed, 21 May 2008 11:10:00 -0700 (PDT)
+Message-ID: <20080521181000.754AD11D10C@picon.linux-foundation.org>
+References: <bug-10770-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cone.1207780987.222099.27997.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
+In-Reply-To: <bug-10770-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Cc: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+http://bugzilla.kernel.org/show_bug.cgi?id=10770
 
 
-Sam Varshavchik wrote:
-> Davide Libenzi writes:
-> 
->> On Wed, 9 Apr 2008, Michael Kerrisk wrote:
->>
->>> On Wed, Apr 9, 2008 at 1:07 PM, Sam Varshavchik
->>> <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
->>> > Q2
->>> >
->>> >   Can two epoll sets wait for the same file descriptor? If so, are
->>> events
->>> > reported to both epoll file descriptors?
->>> >
->>> > A2
->>> >
->>> >   Yes, and events would be reported to both. However, it is not
->>> recommended.
->>> >
->>> > =========
->>> >
->>> > It's not clear what "not recommended" means. Furthermore, I don't
->>> think
->>> > there's anything wrong with two epoll file descriptors waiting for
->>> different
->>> > events on the same file descriptor. One's waiting for POLLIN, the
->>> other for
->>> > POLLOUT. What's wrong with that?
->>>
->>> Perhaps Davide has some thought to offer here?
->>
->> You can do it. No problem as far as epoll goes. The "recommended" bit
->> was more because it is very easy to get things wrong from an
->> application perspective POV, when doing that.
->> In the case above, first POLLOUT is "almost" always signaled, so
->> you'll receive continuous events over there. Second, if both events
->> shows up at the same time (say in two different threads) and you do
->> not take care of it, you'll end up handling the same fd, at the same
->> time, in two different threads.
-> 
-> That's what I had in mind. One thread has the fd in its epoll fd for
-> POLLIN, and handles the read aspect of it. Another thread puts the fd
-> into a different epoll fd, for POLLOUT, and handles the writing aspect
-> of it. It shouldn't be too difficult for both threads to correctly
-> implement their corresponding semantics.
+bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |sam-uyr5N9Q2VtJg9hUCZPvPmw@public.gmane.org,
+                   |                            |bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+         AssignedTo|documentation_man-          |other_modules@kernel-
+                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |bugs.osdl.org
+          Component|man-pages                   |Modules
+            Product|Documentation               |Other
+            Version|unspecified                 |2.5
 
 
-So how about I change:
 
-A2. Yes, and events would be reported to both. However, it is
-not recommended.
-
-to:
-
-Yes, and events would be reported to both. However, careful programming
-may be needed to do this correctly.
-
-?
-
-Cheers,
-
-Michael
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
-
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
