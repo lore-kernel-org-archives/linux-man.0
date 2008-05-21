@@ -1,62 +1,86 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] ptrace.2: Add note regarding 'struct user'
-Date: Wed, 21 May 2008 19:53:59 +0200
-Message-ID: <483461B7.5090706@gmail.com>
-References: <20080517064309.gnqp888k2s8wo4sk@imap.linux.ibm.com>
+Subject: Re: epoll(7) redux
+Date: Wed, 21 May 2008 19:53:50 +0200
+Message-ID: <483461AE.9080305@gmail.com>
+References: <cone.1207739243.602382.23947.500@commodore.email-scan.com> <cfd18e0f0804090415m1ddb36bahce8e6b724e60da7d@mail.gmail.com> <Pine.LNX.4.64.0804091209270.7000@alien.or.mcafeemobile.com> <cone.1207780987.222099.27997.500@commodore.email-scan.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080517064309.gnqp888k2s8wo4sk-FJGp5E75HVmZamtmwQBW5tBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <cone.1207780987.222099.27997.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Anoop <acv-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+Cc: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Anoop, Roland,
 
 
-
-Anoop wrote:
+Sam Varshavchik wrote:
+> Davide Libenzi writes:
 > 
-> A few days back Roland McGrath discussed about the ptrace
-> PTRACE_PEEKUSER behavior @ http://lkml.org/lkml/2008/5/8/375
+>> On Wed, 9 Apr 2008, Michael Kerrisk wrote:
+>>
+>>> On Wed, Apr 9, 2008 at 1:07 PM, Sam Varshavchik
+>>> <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
+>>> > Q2
+>>> >
+>>> >   Can two epoll sets wait for the same file descriptor? If so, are
+>>> events
+>>> > reported to both epoll file descriptors?
+>>> >
+>>> > A2
+>>> >
+>>> >   Yes, and events would be reported to both. However, it is not
+>>> recommended.
+>>> >
+>>> > =========
+>>> >
+>>> > It's not clear what "not recommended" means. Furthermore, I don't
+>>> think
+>>> > there's anything wrong with two epoll file descriptors waiting for
+>>> different
+>>> > events on the same file descriptor. One's waiting for POLLIN, the
+>>> other for
+>>> > POLLOUT. What's wrong with that?
+>>>
+>>> Perhaps Davide has some thought to offer here?
+>>
+>> You can do it. No problem as far as epoll goes. The "recommended" bit
+>> was more because it is very easy to get things wrong from an
+>> application perspective POV, when doing that.
+>> In the case above, first POLLOUT is "almost" always signaled, so
+>> you'll receive continuous events over there. Second, if both events
+>> shows up at the same time (say in two different threads) and you do
+>> not take care of it, you'll end up handling the same fd, at the same
+>> time, in two different threads.
 > 
-> Thought that adding a note saying - the offsets and data returned might
-> not match with the definition of struct user - will help.
-> 
-> Signed-off-by: Anoop Vijayan <acv-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> 
-> --- man-pages-2.79/man2/ptrace.2.orig   2008-05-17 12:54:50.000000000 +0530
-> +++ man-pages-2.79/man2/ptrace.2        2008-05-17 13:45:53.000000000 +0530
-> @@ -138,7 +138,7 @@ The word is returned as the result of th
->  .BR ptrace ()
->  call.
->  Typically the offset must be word-aligned, though this might vary by
-> -architecture.  (\fIdata\fP is ignored.)
-> +architecture. See NOTES. (\fIdata\fP is ignored.)
->  .TP
->  .BR PTRACE_POKETEXT ", " PTRACE_POKEDATA
->  Copies the word
-> @@ -454,7 +454,9 @@ behavior.
->  the process with PID 1, may not be traced.
->  .LP
->  The layout of the contents of memory and the USER area are quite OS- and
-> -architecture-specific.
-> +architecture-specific. The offset supplied and the data returned might
-> +not entirely match with the definition of
-> +.I struct user
->  .LP
->  The size of a "word" is determined by the OS variant
->  (e.g., for 32-bit Linux it is 32 bits, etc.).
+> That's what I had in mind. One thread has the fd in its epoll fd for
+> POLLIN, and handles the read aspect of it. Another thread puts the fd
+> into a different epoll fd, for POLLOUT, and handles the writing aspect
+> of it. It shouldn't be too difficult for both threads to correctly
+> implement their corresponding semantics.
 
-Anoop -- I'll just ask for a second opinion here, since I'm not familiar with all the details.
 
-Roland, does this change seem okay to you?
+So how about I change:
+
+A2. Yes, and events would be reported to both. However, it is
+not recommended.
+
+to:
+
+Yes, and events would be reported to both. However, careful programming
+may be needed to do this correctly.
+
+?
 
 Cheers,
 
 Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
