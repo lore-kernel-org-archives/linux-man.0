@@ -1,90 +1,34 @@
-From: Miklos Szeredi <miklos@szeredi.hu>
+From: Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
 Subject: Re: [PATCH] utimensat() non-conformances and fixes [v3]
-Date: Fri, 30 May 2008 21:22:30 +0200
-Message-ID: <E1K2ABK-0002ck-UT@pomaz-ex.szeredi.hu>
-References: <482D4665.4050401@gmail.com>
-	 <E1Jx3Gw-0002eA-55@pomaz-ex.szeredi.hu> <48401E7E.9090304@gmail.com>
-	 <E1K27bZ-0002Gk-3b@pomaz-ex.szeredi.hu> <cfd18e0f0805301124o5f217dden10726b268d05d81a@mail.gmail.com>
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-reply-to: <cfd18e0f0805301124o5f217dden10726b268d05d81a@mail.gmail.com>
-	(mtk.manpages@googlemail.com)
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: mtk.manpages@googlemail.com
-Cc: miklos@szeredi.hu, drepper@redhat.com, viro@zeniv.linux.org.uk, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Date: Fri, 30 May 2008 13:32:07 -0600
+Message-ID: <20080530193207.GB28074@parisc-linux.org>
+References: <482D4665.4050401@gmail.com> <E1Jx3Gw-0002eA-55@pomaz-ex.szeredi.hu> <48401E7E.9090304@gmail.com> <E1K27bZ-0002Gk-3b@pomaz-ex.szeredi.hu> <cfd18e0f0805301124o5f217dden10726b268d05d81a@mail.gmail.com> <E1K2ABK-0002ck-UT@pomaz-ex.szeredi.hu>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <E1K2ABK-0002ck-UT-8f8m9JG5TPIdUIPVzhDTVZP2KDSNp7ea@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+Cc: mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-> >> Here's a further version of the patch, against 2.6.26rc2, with the
-> >> 2008-05-19 git changes you sent me applied.  This patch is based on
-> >> the draft patch you sent me.  I've tested this version of the patch,
-> >> and it works as for all cases except the one mentioned below.  But
-> >> note the following points:
-> >>
-> >> 1) I didn't make use of the code in notify_change() that checks
-> >> IS_IMMUTABLE() and IS_APPEND() (i.e., I did not add
-> >> ATTR_OWNER_CHECK to the mask in the controlling if statement).
-> >> Doing this can't easily be made to work for the
-> >> do_futimes() case without reworking the arguments passed to
-> >> notify_change().  Actually, I'm inclined to doubt whether it
-> >> is a good idea to try to roll that check into notify_change() --
-> >> at least for utimensat() it seems simpler to not do so.
-> >
-> > Ugh...  Could we just omit this part (the if !times and write error
-> > then check owner)?  I know it was my idea, but
-> >
-> >  a) my ideas are often stupid
-> >  b) one patch should ideally do just one thing
-> >
-> > After we fixed the original issue, we can still think about this other
-> > thing :)
-> 
-> Okay, by now quite a bit of my time has been wasted, and my patience
-> is starting to get a little thin.
+On Fri, May 30, 2008 at 09:22:30PM +0200, Miklos Szeredi wrote:
+> For 2) you can just use permission() instead of vfs_permission() which
+> is exactly the same in this case (and consolidated into a common
+> function later in the vfs-cleanups tree).
 
-I understand your frustration, but actually I did say this the last
-time as well:
+Miklos, don't delude people into thinking the vfs-cleanups tree is ever
+going to get merged in its current state.  Al's NAKed the path_* stuff,
+Christoph's NAKed it too.  Ignoring them and putting up a VFS tree of
+your own is not going to help matters.
 
-  "Sorry, that was just an idea, but since it's not as simple as it
-   should be, I guess we should leave that till later.  My main
-   objection was against introducing more is_owner_or_cap() checks.
-   Just doing the times == NULL case with ATTR_OWNER_CHECK should be
-   fine."
-
-Yeah, I may have been more explicit...
-
-> The relevant interfaces here are:
-> 
-> utimensat()
-> futimesat()
-> utime()
-> utimes()
-> futimens() -- because implemented in glibc via utimensat() with path==NULL.
-> 
-> * utime() and utimes() can't be affected by this point: they don't use
-> file descriptors.
-
-OK, you're right.  I've overlooked this point.
-
-So as long as we believe that nobody is using the futime*() interfaces
-in the way you described, which is highly probable, then we can fix
-that as well.  Which is actually a nice thing, because it means the
-permission checking for the times == NULL case can move from both
-do_utimes_name() and do_futimes() into utimes_common().
-
-So let's make two patches, and let's forget about the write_error
-thing for now:
-
-1)
-  - turn UTIME_NOW/UTIME_NOW into times = NULL
-  - for times != NULL set ATTR_OWNER_CHECK
-
-2)
-  - move times == NULL permission check into utimes_common.
-
-For 2) you can just use permission() instead of vfs_permission() which
-is exactly the same in this case (and consolidated into a common
-function later in the vfs-cleanups tree).
-
-OK?
-
-Thanks,
-Miklos
+-- 
+Intel are signing my paycheques ... these opinions are still mine
+"Bill, look, we understand that you're interested in selling us this
+operating system, but compare it to ours.  We can't possibly take such
+a retrograde step."
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
