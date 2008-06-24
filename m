@@ -1,33 +1,157 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 10967] include/asm-i386 removed but not documented
-Date: Mon, 23 Jun 2008 12:46:32 -0700 (PDT)
-Message-ID: <20080623194632.B3EDB108009@picon.linux-foundation.org>
-References: <bug-10967-11311@http.bugzilla.kernel.org/>
+From: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+Subject: [manpages]: First stab at a udplite(7) manpage
+Date: Tue, 24 Jun 2008 14:36:25 +0100
+Message-ID: <20080624133625.GA16424@gerrit.erg.abdn.ac.uk>
+References: <20080517155916.34622BD22@poczta.oswiecenia.net> <200806150158.28488.tomasz@grobelny.oswiecenia.net> <20080617111638.GA14409@gerrit.erg.abdn.ac.uk> <200806172228.06801.tomasz@grobelny.oswiecenia.net> <Pine.LNX.4.64.0806171344370.25191@shark.he.net> <cfd18e0f0806180207x783d83d0j3d5e42987be24ea6@mail.gmail.com> <20080618092707.GC23684@gerrit.erg.abdn.ac.uk> <cfd18e0f0806180248g35bec32n7977c46cbcf4142@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary="82I3+IH0IqGh5yIs"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-10967-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+Content-Disposition: inline
+In-Reply-To: <cfd18e0f0806180248g35bec32n7977c46cbcf4142-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=10967
 
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-devzero-S0/GAf8tV78@public.gmane.org changed:
+Hi Michael (cc-ed to list),
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         AssignedTo|documentation_man-          |devzero-S0/GAf8tV78@public.gmane.org
-                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
-             Status|NEW                         |ASSIGNED
+as per earlier conversation, I have sat down and assembled a udplite.7
+manpage. I have checked it against the conventions (in particular spelling)
+mentioned in man-pages(7) and it seems ok.
 
+Since I am rather a groff-newbie, I'd welcome suggestions to improve the
+format, the content seems now stable (after a few iterations).
 
+With best regards
+Gerrit
 
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="udplite.7"
 
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
-You are the assignee for the bug, or are watching the assignee.
+.TH UDPLITE  7 2008-06-23 "Linux" "Linux Programmer's Manual"
+
+.SH NAME
+udplite \- Lightweight User Datagram Protocol
+.SH SYNOPSIS
+.B #include <sys/socket.h>
+.br
+.\" FIXME: see #defines under `BUGS',
+.\"        when glibc supports this, add 
+.\"        #include <netinet/udplite.h>
+.sp
+.B s = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDPLITE);
+.SH DESCRIPTION
+This is an implementation of the Lightweight User Datagram Protocol
+(UDP-Lite), as described in RFC\ 3828.
+
+UDP-Lite is an extension of UDP (RFC\ 768) to support variable-length
+checksums. This has advantages for some types of multimedia transport,
+as it allows to reuse partly damaged frames (with few bit errors).
+
+The variable-length checksum coverage is set via a
+.BR setsockopt (2)
+option. If this option is not set, the only difference to UDP is
+in using a different IP protocol identifier (IANA number 136).
+
+The UDP-Lite implementation is a full extension of
+.BR udp (7),
+i.e.  it shares the same API and API behaviour, and in addition
+offers two socket options to control the checksum coverage.
+.SS "Address Format"
+UDP-Litev4 uses the
+.I sockaddr_in
+address format described in
+.BR ip (7).
+UDP-Litev6 uses the
+.I sockaddr_in6
+address format described in
+.BR ipv6 (7).
+.SS "Socket Options"
+To set or get a UDP-Lite socket option, call
+.BR getsockopt (2)
+to read or
+.BR setsockopt (2)
+to write the option with the option level argument set to
+.BR IPPROTO_UDPLITE .
+In addition, all 
+.B IPPROTO_UDP
+socket options are valid on a UDP-Lite socket. See
+.BR udp (7)
+for more information.
+
+The following two options are specific to UDP-Lite.
+.TP
+.BR UDPLITE_SEND_CSCOV
+This option sets the sender checksum coverage and takes an 
+.B int
+as argument, with a checksum coverage value in the range 0..2^16-1.
+
+A value of 0 means that always the entire datagram is covered,
+values from 1-7 are illegal (RFC\ 3828, 3.1) and are rounded up to
+the minimum coverage of 8.
+
+With regard to IPv6 jumbograms (RFC\ 2675), the UDP-Litev6 checksum
+coverage is limited to the first 2^16-1 octets, as per RFC\ 3828, 3.5.
+Higher values are therefore not supported.
+.TP
+.BR UDPLITE_RECV_CSCOV
+This is the receiver-side analogue and uses uses the same argument format
+and value range as
+.BR UDPLITE_SEND_CSCOV .
+This option is not required to enable traffic with partial checksum 
+coverage. Its function is that of a traffic filter: when enabled, it
+instructs the kernel to drop all packets which have a coverage
+.I less
+than the specified coverage value.
+.\" FIXME: SO_NO_CHECK exists and is supported by UDPv4, but is
+.\" commented out in socket(7), hence also here ???
+.\".PP
+.\"Since UDP-Lite mandates checksums, checksumming can not be disabled 
+.\"via the
+.\".B SO_NO_CHECK
+.\"option from 
+.\".BR socket (7).
+.SH ERRORS
+All errors documented for
+.BR udp (7)
+may be returned. UDP-Lite does not add further errors. When the value of
+.B UDPLITE_RECV_CSCOV
+exceeds the actual coverage, incoming packets are silently dropped,
+but may generate a warning message in the system log.
+.SH BUGS
+.\" FIXME: remove this section once glibc supports UDP-Lite
+Where glibc support is missing, the following defintions are needed:
+.sp
+.br
+#define IPPROTO_UDPLITE     136
+.br
+.\" The following two are defined in the kernel in linux/net/udplite.h
+#define UDPLITE_SEND_CSCOV  10
+.br
+#define UDPLITE_RECV_CSCOV  11
+.SH FILES
+.I /proc/net/snmp 
+.br
+.IR /proc/net/snmp6
+.SH VERSIONS
+UDP-Litev4/v6 first appeared in Linux 2.6.20.
+.SH "SEE ALSO"
+.BR udp (7),
+.BR ip (7),
+.BR ipv6 (7),
+.BR socket (7)
+
+RFC\ 3828 for the Lightweight User Datagram Protocol (UDP-Lite)
+.br
+.I Documentation/networking/udplite.txt
+
+--82I3+IH0IqGh5yIs--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
