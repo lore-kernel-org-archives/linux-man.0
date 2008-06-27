@@ -1,195 +1,422 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [manpages]: First stab at a udplite(7) manpage
-Date: Fri, 27 Jun 2008 11:03:18 +0200
-Message-ID: <cfd18e0f0806270203p4305cd2jae9cb8a79d7c33e9@mail.gmail.com>
-References: <20080517155916.34622BD22@poczta.oswiecenia.net>
-	 <200806150158.28488.tomasz@grobelny.oswiecenia.net>
-	 <20080617111638.GA14409@gerrit.erg.abdn.ac.uk>
-	 <200806172228.06801.tomasz@grobelny.oswiecenia.net>
-	 <Pine.LNX.4.64.0806171344370.25191@shark.he.net>
-	 <cfd18e0f0806180207x783d83d0j3d5e42987be24ea6@mail.gmail.com>
-	 <20080618092707.GC23684@gerrit.erg.abdn.ac.uk>
-	 <cfd18e0f0806180248g35bec32n7977c46cbcf4142@mail.gmail.com>
-	 <20080624133625.GA16424@gerrit.erg.abdn.ac.uk>
+Subject: Review request: new clock_nanosleep.2 page
+Date: Fri, 27 Jun 2008 15:27:45 +0200
+Message-ID: <cfd18e0f0806270627l30acfd1ei7565dba1d1ebd3e3@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080624133625.GA16424-w6qhtmnlW2CgJ32XgR7WtTYRy0cijUJx@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Gerrit,
+Hi,
 
-On Tue, Jun 24, 2008 at 3:36 PM, Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org> wrote:
-> Hi Michael (cc-ed to list),
->
-> as per earlier conversation, I have sat down and assembled a udplite.7
-> manpage.
+I've drafted a page for clock_nanosleep(), a system call added in
+kernel 2.6.  Would anyone on this list be prepared to check the draft
+for readability or accuracy or both?  A formatted version is shown
+below; the raw groff is at the end of that.
 
-Thanks for that!
-
-> I have checked it against the conventions (in particular spelling)
-> mentioned in man-pages(7) and it seems ok.
-
-Yes, it looks good.
-
-> Since I am rather a groff-newbie, I'd welcome suggestions to improve the
-> format, the content seems now stable (after a few iterations).
-
-The groff was fine.  I made a few light edits to the page.  I also
-added some comments to the page with some "FIXME(gr)" pointing to
-places where I think some work is needed.  (I will later pick up the
-FIXMEs you had already put in the page, when the glibc support
-appears.)  Could you take a look at these?  The modified page is
-inline below.
-
-Thanks,
+Cheers,
 
 Michael
 
-==============
-.\" FIXME(gr) we need a license for this page.
-.\" The one I tend to favor is shown in the capabilities.7 page,
-.\" but others are also used in man-pages (e.g., GPL, BSD).
-.TH UDPLITE  7 2008-06-23 "Linux" "Linux Programmer's Manual"
-.SH NAME
-udplite \- Lightweight User Datagram Protocol
-.SH SYNOPSIS
-.B #include <sys/socket.h>
-.br
-.\" FIXME: see #defines under `BUGS',
-.\"        when glibc supports this, add
-.\"        #include <netinet/udplite.h>
-.sp
-.B s = socket(PF_INET, SOCK_DGRAM, IPPROTO_UDPLITE);
-.SH DESCRIPTION
-This is an implementation of the Lightweight User Datagram Protocol
-(UDP-Lite), as described in RFC\ 3828.
 
-UDP-Lite is an extension of UDP (RFC\ 768) to support variable-length
-checksums.
-This has advantages for some types of multimedia transport,
-since it makes it possible to reuse partly damaged frames
-(with few bit errors).
-.\" FIXME(gr) is "reuse" the right word in the previous sentence?
-.\" Reading the RFC suggests to me that a better wording might be:
+==========
+
+CLOCK_NANOSLEEP(2)     Linux Programmer's Manual    CLOCK_NANOSLEEP(2)
+
+
+
+NAME
+       clock_nanosleep - high-resolution sleep with specifiable clock
+
+SYNOPSIS
+       #include <time.h>
+
+       int clock_nanosleep(clockid_t clock_id, int flags,
+                           const struct timespec *request,
+                           struct timespec *remain);
+
+   Feature    Test    Macro   Requirements   for   glibc   (see   fea-
+   ture_test_macros(7)):
+
+       clock_nanosleep(): _XOPEN_SOURCE >= 600
+
+DESCRIPTION
+       Like nanosleep(2), clock_nanosleep() allows allows  the  caller
+       to  sleep  for an interval specified with nanosecond precision.
+       It differs in allowing the caller to select the  clock  against
+       which the sleep interval is to be measured, and in allowing the
+       sleep interval to be specified as either an absolute or a rela-
+       tive value.
+
+       The  time values passed to and returned by this call are speci-
+       fied using timespec structures, defined as follows:
+
+           struct timespec {
+               time_t tv_sec;        /* seconds */
+               long   tv_nsec;       /* nanoseconds [0 .. 999999999] */
+           };
+
+       The clock_id argument specifies the  clock  against  which  the
+       sleep  interval  is to be measured.  This argument can have one
+       of the following values:
+
+       CLOCK_REALTIME   A settable system-wide real-time clock.
+
+       CLOCK_MONOTONIC  A non-settable, monotonically increasing clock
+                        that  measures  time  since  some  unspecified
+                        point in the past that does not  change  after
+                        system startup.
+
+       CLOCK_PROCESS_CPUTIME_ID
+                        A settable per-process clock that measures CPU
+                        time consumed by all threads in the process.
+
+       See clock_getres(3) for further details on these clocks.
+
+       If flags is 0, then the value specified in  request  is  inter-
+       preted  as  an  interval  relative  to the current value of the
+       clock specified by clock_id.
+
+       If flags is TIMER_ABSTIME, then request is  interpreted  as  an
+       absolute  time  as measured by the clock, clock_id.  If request
+       is less than or equal to the current value of the  clock,  then
+       clock_nanosleep()  returns  immediately  without suspending the
+       calling thread.
+
+       clock_nanosleep() suspends the execution of the calling  thread
+       until  either  at  least  the  time  specified  by  request has
+       elapsed, or a signal is delivered that causes a signal  handler
+       to be called or that terminates the process.
+
+       If   the   call   is   interrupted   by   a   signal   handler,
+       clock_nanosleep() returns -1, and  sets  errno  to  EINTR.   In
+       addition,   if   remain   is   not  NULL,  and  flags  was  not
+       TIMER_ABSTIME, it returns the remaining unslept time in remain.
+       This value can then be used to call clock_nanosleep() again and
+       complete a (relative) sleep.
+
+RETURN VALUE
+       On  successfully   sleeping   for   the   requested   interval,
+       clock_nanosleep()  returns  0.  If the call is interrupted by a
+       signal handler or encounters an error, then it returns a  posi-
+       tive error number.
+
+ERRORS
+       EFAULT request or remain specified an invalid address.
+
+       EINTR  The sleep was interrupted by a signal handler.
+
+       EINVAL The value in the tv_nsec field was not in the range 0 to
+              999999999 or tv_sec was negative.
+
+       EINVAL clock_id was invalid.  (CLOCK_THREAD_CPUTIME_ID is not a
+              permitted value for clock_id.)
+
+VERSIONS
+       The clock_nanosleep(2) system call first appeared in Linux 2.6.
+       Support is available in glibc since version 2.1.
+
+CONFORMING TO
+       POSIX.1-2001.
+
+NOTES
+       If the interval specified in request is not an  exact  multiple
+       of  the  granularity  underlying  clock (see time(7)), then the
+       interval will be rounded up to the next multiple.  Furthermore,
+       after  the  sleep  completes, there may still be a delay before
+       the CPU becomes free to once again execute the calling  thread.
+
+       Using  an  absolute  timer is useful for preventing timer drift
+       problems of the type described in nanosleep(2).  (Such problems
+       are  exacerbated  in  programs  that  try to restart a relative
+       sleep that is repeatedly interrupted by signals.)  To perform a
+       relative  sleep  that  avoids  these  problems, call clock_get-
+       time(3) for the desired clock, add the desired interval to  the
+       returned  time  value, and then call clock_nanosleep() with the
+       TIMER_ABSTIME flag.
+
+       clock_nanosleep() is never restarted after being interrupted by
+       a  signal  handler,  regardless  of the use of the sigaction(2)
+       SA_SIGACTION flag.
+
+       The remain argument is unused, and unnecessary, when  flags  is
+       TIMER_ABSTIME.   (An  absolute sleep can be restarted using the
+       same request argument.)
+
+       POSIX.1 specifies that clock_nanosleep() has no effect on  sig-
+       nals dispositions or the signal mask.
+
+       POSIX.1   specifies  that  after  changing  the  value  of  the
+       CLOCK_REALTIME clock via clock_settime(), the new  clock  value
+       shall  be  used to determine the time at which a thread blocked
+       on an absolute clock_nanosleep() will wake up; if the new clock
+       value  falls  past  the  end  of  the  sleep interval, then the
+       clock_nanosleep() call will return immediately.
+
+       POSIX.1 specifies that changing the value of the CLOCK_REALTIME
+       clock via clock_settime() shall have no effect on a thread that
+       is blocked on a relative clock_nanosleep().
+
+SEE ALSO
+       nanosleep(2),   clock_getres(3),   sleep(3),   timer_create(3),
+       usleep(3), time(7)
+
+
+
+Linux                         2008-06-26            CLOCK_NANOSLEEP(2)
+
+==========
+
+.\" Copyright (c) 2008, Linux Foundation, written by Michael Kerrisk
+.\" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 .\"
-.\" This has advantages for some types of multimedia transport that
-.\" may be able to make use of slightly damaged datagrams,
-.\" rather than having them discarded by lower layer protocols.
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH CLOCK_NANOSLEEP 2 2008-06-26 "Linux" "Linux Programmer's Manual"
+.SH NAME
+clock_nanosleep \- high-resolution sleep with specifiable clock
+.SH SYNOPSIS
+.B #include <time.h>
+.nf
+.sp
+.BI "int clock_nanosleep(clockid_t " clock_id ", int " flags ,
+.BI "                    const struct timespec *" request ,
+.BI "                    struct timespec *" remain );
+.fi
+.sp
+.in -4n
+Feature Test Macro Requirements for glibc (see
+.BR feature_test_macros (7)):
+.in
+.sp
+.BR clock_nanosleep ():
+_XOPEN_SOURCE\ >=\ 600
+.SH DESCRIPTION
+Like
+.BR nanosleep (2),
+.BR clock_nanosleep ()
+allows allows the caller to sleep for an interval specified
+with nanosecond precision.
+It differs in allowing the caller to select the clock against
+which the sleep interval is to be measured,
+and in allowing the sleep interval to be specified as
+either an absolute or a relative value.
 
-The variable-length checksum coverage is set via a
-.BR setsockopt (2)
-option.
-If this option is not set, the only difference to UDP is
-in using a different IP protocol identifier (IANA number 136).
-
-The UDP-Lite implementation is a full extension of
-.BR udp (7),
-i.e., it shares the same API and API behaviour, and in addition
-offers two socket options to control the checksum coverage.
-.SS "Address Format"
-UDP-Litev4 uses the
-.I sockaddr_in
-address format described in
-.BR ip (7).
-UDP-Litev6 uses the
-.I sockaddr_in6
-address format described in
-.BR ipv6 (7).
-.SS "Socket Options"
-To set or get a UDP-Lite socket option, call
-.BR getsockopt (2)
-to read or
-.BR setsockopt (2)
-to write the option with the option level argument set to
-.BR IPPROTO_UDPLITE .
-In addition, all
-.B IPPROTO_UDP
-socket options are valid on a UDP-Lite socket.
-See
-.BR udp (7)
-for more information.
-
-The following two options are specific to UDP-Lite.
-.TP
-.BR UDPLITE_SEND_CSCOV
-This option sets the sender checksum coverage and takes an
-.B int
-as argument, with a checksum coverage value in the range 0..2^16-1.
-
-A value of 0 means that the entire datagram is always covered,
-values from 1-7 are illegal (RFC\ 3828, 3.1) and are rounded up to
-the minimum coverage of 8.
-
-With regard to IPv6 jumbograms (RFC\ 2675), the UDP-Litev6 checksum
-coverage is limited to the first 2^16-1 octets, as per RFC\ 3828, 3.5.
-Higher values are therefore not supported.
-.\" FIXME(gr) If higher values are specified, what happens?
-.\" If they are silently ignored, probably we should explicitly
-.\" say so here.
-.TP
-.BR UDPLITE_RECV_CSCOV
-This is the receiver-side analogue and uses uses the same argument format
-and value range as
-.BR UDPLITE_SEND_CSCOV .
-This option is not required to enable traffic with partial checksum
-coverage.
-Its function is that of a traffic filter: when enabled, it
-instructs the kernel to drop all packets which have a coverage
-.I less
-than the specified coverage value.
-.\" FIXME: SO_NO_CHECK exists and is supported by UDPv4, but is
-.\" commented out in socket(7), hence also here ???
-.\".PP
-.\"Since UDP-Lite mandates checksums, checksumming can not be disabled
-.\"via the
-.\".B SO_NO_CHECK
-.\"option from
-.\".BR socket (7).
-.SH ERRORS
-All errors documented for
-.BR udp (7)
-may be returned.
-UDP-Lite does not add further errors.
-When the value of
-.B UDPLITE_RECV_CSCOV
-exceeds the actual coverage, incoming packets are silently dropped,
-but may generate a warning message in the system log.
-.SH BUGS
-.\" FIXME: remove this section once glibc supports UDP-Lite
-Where glibc support is missing, the following definitions are needed:
+The time values passed to and returned by this call are specified using
+.I timespec
+structures, defined as follows:
+.sp
 .in +4n
 .nf
-
-#define IPPROTO_UDPLITE     136
-.\" The following two are defined in the kernel in linux/net/udplite.h
-#define UDPLITE_SEND_CSCOV  10
-#define UDPLITE_RECV_CSCOV  11
+struct timespec {
+    time_t tv_sec;        /* seconds */
+    long   tv_nsec;       /* nanoseconds [0 .. 999999999] */
+};
 .fi
 .in
-.SH FILES
-.I /proc/net/snmp
-.br
-.IR /proc/net/snmp6
-.\" FIXME(gr)
-.\" Could you add some discussion of the UDPLITE-specific
-.\" info in these files?
-.SH VERSIONS
-UDP-Litev4/v6 first appeared in Linux 2.6.20.
-.SH "SEE ALSO"
-.BR udp (7),
-.BR ip (7),
-.BR ipv6 (7),
-.BR socket (7)
 
-RFC\ 3828 for the Lightweight User Datagram Protocol (UDP-Lite)
-.br
-.I Documentation/networking/udplite.txt
+The
+.I clock_id
+argument specifies the clock against which the sleep interval
+is to be measured.
+This argument can have one of the following values:
+.TP 17
+.BR CLOCK_REALTIME
+A settable system-wide real-time clock.
+.TP
+.BR CLOCK_MONOTONIC
+A non-settable, monotonically increasing clock that measures time
+since some unspecified point in the past that does not change after
+system startup.
+.\" On Linux this clock measures time since boot.
+.TP
+.BR CLOCK_PROCESS_CPUTIME_ID
+A settable per-process clock that measures CPU time consumed
+by all threads in the process.
+.\" There is some trickery between glibc and the kernel
+.\" to deal with the CLOCK_PROCESS_CPUTIME_ID case.
+.PP
+See
+.BR clock_getres (3)
+for further details on these clocks.
+
+If
+.I flags
+is 0, then the value specified in
+.I request
+is interpreted as an interval relative to the current
+value of the clock specified by
+.IR clock_id .
+
+If
+.I flags
+is
+.BR TIMER_ABSTIME ,
+then
+.I request
+is interpreted as an absolute time as measured by the clock,
+.IR clock_id .
+If
+.I request
+is less than or equal to the current value of the clock,
+then
+.BR clock_nanosleep ()
+returns immediately without suspending the calling thread.
+
+.BR clock_nanosleep ()
+suspends the execution of the calling thread
+until either at least the time specified by
+.IR request
+has elapsed,
+or a signal is delivered that causes a signal handler to be called or
+that terminates the process.
+
+If the call is interrupted by a signal handler,
+.BR clock_nanosleep ()
+returns \-1, and sets
+.I errno
+to
+.BR EINTR .
+In addition, if
+.I remain
+is not NULL, and
+.I flags
+was not
+.BR TIMER_ABSTIME ,
+it returns the remaining unslept time in
+.IR remain .
+This value can then be used to call
+.BR clock_nanosleep ()
+again and complete a (relative) sleep.
+.SH "RETURN VALUE"
+On successfully sleeping for the requested interval,
+.BR clock_nanosleep ()
+returns 0.
+If the call is interrupted by a signal handler or encounters an error,
+then it returns a positive error number.
+.SH ERRORS
+.B EFAULT
+.I request
+or
+.I remain
+specified an invalid address.
+.TP
+.B EINTR
+The sleep was interrupted by a signal handler.
+.TP
+.B EINVAL
+The value in the
+.I tv_nsec
+field was not in the range 0 to 999999999 or
+.I tv_sec
+was negative.
+.TP
+.B EINVAL
+.I clock_id
+was invalid.
+.RB ( CLOCK_THREAD_CPUTIME_ID
+is not a permitted value for
+.IR clock_id .)
+.SH VERSIONS
+The
+.BR clock_nanosleep (2)
+system call first appeared in Linux 2.6.
+Support is available in glibc since version 2.1.
+.SH "CONFORMING TO"
+POSIX.1-2001.
+.SH NOTES
+If the interval specified in
+.I request
+is not an exact multiple of the granularity underlying clock (see
+.BR time (7)),
+then the interval will be rounded up to the next multiple.
+Furthermore, after the sleep completes, there may still be a delay before
+the CPU becomes free to once again execute the calling thread.
+
+Using an absolute timer is useful for preventing
+timer drift problems of the type described in
+.BR nanosleep (2).
+(Such problems are exacerbated in programs that try to restart
+a relative sleep that is repeatedly interrupted by signals.)
+To perform a relative sleep that avoids these problems, call
+.BR clock_gettime (3)
+for the desired clock,
+add the desired interval to the returned time value,
+and then call
+.BR clock_nanosleep ()
+with the
+.B TIMER_ABSTIME
+flag.
+
+.BR clock_nanosleep ()
+is never restarted after being interrupted by a signal handler,
+regardless of the use of the
+.BR sigaction (2)
+.B SA_SIGACTION
+flag.
+
+The
+.I remain
+argument is unused, and unnecessary, when
+.I flags
+is
+.BR TIMER_ABSTIME .
+(An absolute sleep can be restarted using the same
+.I request
+argument.)
+
+POSIX.1 specifies that
+.BR clock_nanosleep ()
+has no effect on signals dispositions or the signal mask.
+
+POSIX.1 specifies that after changing the value of the
+.B CLOCK_REALTIME
+clock via
+.BR clock_settime (),
+the new clock value shall be used to determine the time
+at which a thread blocked on an absolute
+.BR clock_nanosleep ()
+will wake up;
+if the new clock value falls past the end of the sleep interval, then the
+.BR clock_nanosleep ()
+call will return immediately.
+
+POSIX.1 specifies that
+changing the value of the
+.B CLOCK_REALTIME
+clock via
+.BR clock_settime ()
+shall have no effect on a thread that is blocked on a relative
+.BR clock_nanosleep ().
+.SH "SEE ALSO"
+.BR nanosleep (2),
+.BR clock_getres (3),
+.BR sleep (3),
+.BR timer_create (3),
+.BR usleep (3),
+.BR time (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
