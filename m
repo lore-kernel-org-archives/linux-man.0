@@ -1,55 +1,121 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [manpages]: First stab at a udplite(7) manpage
-Date: Mon, 30 Jun 2008 15:03:13 +0200
-Message-ID: <cfd18e0f0806300603g38cc4222r37996404390dfcbf@mail.gmail.com>
-References: <20080517155916.34622BD22@poczta.oswiecenia.net>
-	 <20080617111638.GA14409@gerrit.erg.abdn.ac.uk>
-	 <200806172228.06801.tomasz@grobelny.oswiecenia.net>
-	 <Pine.LNX.4.64.0806171344370.25191@shark.he.net>
-	 <cfd18e0f0806180207x783d83d0j3d5e42987be24ea6@mail.gmail.com>
-	 <20080618092707.GC23684@gerrit.erg.abdn.ac.uk>
-	 <cfd18e0f0806180248g35bec32n7977c46cbcf4142@mail.gmail.com>
-	 <20080624133625.GA16424@gerrit.erg.abdn.ac.uk>
-	 <cfd18e0f0806270203p4305cd2jae9cb8a79d7c33e9@mail.gmail.com>
-	 <20080630112751.GB5040@gerrit.erg.abdn.ac.uk>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: getcpu(2) man page
+Date: Wed, 02 Jul 2008 21:06:03 +0200
+Message-ID: <486BD19B.7040302@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080630112751.GB5040-w6qhtmnlW2CgJ32XgR7WtTYRy0cijUJx@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jun 30, 2008 at 1:27 PM, Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org> wrote:
-> |
-> | The groff was fine.  I made a few light edits to the page.  I also
-> | added some comments to the page with some "FIXME(gr)" pointing to
-> | places where I think some work is needed.
-> Thanks a lot for the review. It was particularly useful since it brought
-> to light an unresolved issue: when the coverage > 65535, then unexpected
-> things will happen since the internal fields are u16 and the
-> setsockopt() argument is `int'.
+Hi Andi,
 
-Writing man pages tends to turn up bugs pretty often, I find.
-
-> Will submit a bug-fix to netdev and resubmit the updated manpage when this
-> issue has been resolved.
-
-Thanks.
+Long ago, when I ran out of time, things stalled on incorporating a getcpu.2 man page that you
+wrote ino man-pages.  There were still some open questions that I wanted to get sorted before
+releasing the page.  Could you take a look at the FIXME(ak)s below please?
 
 Cheers,
 
 Michael
 
+.\" This man page is Copyright (C) 2006 Andi Kleen <ak-h9bWGtP8wOw@public.gmane.org>.
+.\" Permission is granted to distribute possibly modified copies
+.\" of this page provided the header is included verbatim,
+.\" and in case of nontrivial modification author and date
+.\" of the modification is added to the header.
+.TH getcpu 2 2008-06-02 "Linux" "Linux Programmer's Manual"
+.SH NAME
+getcpu \- determine CPU and NUMA node on which the calling thread is running
+.SH SYNOPSIS
+.nf
+.B #include <linux/getcpu.h>
+.sp
+.BI "int getcpu(unsigned *" cpu ", unsigned *" node \
+", struct getcpu_cache *" tcache );
+.fi
+.SH DESCRIPTION
+.BR getcpu ()
+identifies the processor and node on which the calling
+thread or process is currently
+running and writes them into the integers pointed to by the
+.I cpu
+and
+.I node
+arguments.
+The processor is a unique small integer identifying a CPU.
+The node is a unique small identifier identifying a NUMA node.
+When either
+.I cpu
+or
+.I node
+is NULL nothing is written to the respective pointer.
+.I tcache
+is a pointer to a
+.I struct getcpu_cache.
+The caller should put the cache into a thread
+local variable if the process is multithreaded because the cache
+cannot be shared between different threads.
+.I tcache
+can be NULL.
+If it is not NULL
+.BR getcpu ()
+will use it to speed up operation.
+The information inside the cache is private to the system call
+and should not be accessed by the user program.
+The information placed in the cache can change between kernel releases.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+.\" FIXME(ak) If the following formulation is correct, I think it would
+.\" be better to substitute it instead of the next sentence:
+.\"     The information placed in \fIcpu\fP is only guaranteed to be
+.\"     current at the time of the call: ...
+This information is only a hint: unless the CPU affinity
+has been fixed using
+.BR sched_setaffinity (2),
+the kernel might change the CPU at any time.
+(Normally this does not happen
+because the scheduler tries to minimize movements between CPUs to
+keep caches hot, but it is possible.)
+.\" FIXME(ak) Can you explain what you mean in the next sentence when
+.\" you say "recover"
+The caller has to properly recover from the case when
+.I cpu
+and
+.I node
+are not the current CPU and node anymore.
+.\" FIXME(ak) In the following, what precisely do you mean by "advisory"?
+.\" It is not really clear to me whether you mean the information
+.\" may not be "true", or whether you are just reiterating the point that
+.\" the CPU/node might already have changed by the time the call returns.
+All information returned by
+.I getcpu(2)
+is just advisory and not a guarantee.
+
+When no cache is specified
+.BR getcpu ()
+will be slower, but always retrieve the current state.
+With a cache
+.\" FIXME(ak) what does the phrase "but might query the current state
+.\" only during a short implementation specific interval" mean?
+it will be faster, but might query the current state only during
+a short implementation specific interval.
+
+Linux makes a best effort to make this call as fast possible. The
+intention of
+.I getcpu(2)
+is to allow programs to make optimizations with per-CPU data
+or for NUMA optimization.
+.SH VERSIONS
+.BR getcpu (2)
+was added in 2.6.19 for x86_64 and i386.
+.SH SEE ALSO
+.BR mbind (2),
+.BR set_mempolicy (2),
+.BR sched_setaffinity (2)
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
