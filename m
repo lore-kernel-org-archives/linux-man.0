@@ -1,53 +1,193 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+From: "Michael Kerrisk" <mtk.manpages@googlemail.com>
 Subject: Re: getcpu(2) man page
-Date: Wed, 02 Jul 2008 21:57:20 +0200
-Message-ID: <486BDDA0.4070306@firstfloor.org>
-References: <486BD19B.7040302@gmail.com>
+Date: Thu, 3 Jul 2008 14:33:12 +0200
+Message-ID: <cfd18e0f0807030533q714f4e17w640580a60c300cbd@mail.gmail.com>
+References: <486BD19B.7040302@gmail.com> <486BDDA0.4070306@firstfloor.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <486BD19B.7040302-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1759481AbYGCMda@vger.kernel.org>
+In-Reply-To: <486BDDA0.4070306@firstfloor.org>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+To: Andi Kleen <andi@firstfloor.org>
+Cc: lkml <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org, Ingo Molnar <mingo@elte.hu>, Thomas Gleixner <tglx@linutronix.de>
 List-Id: linux-man@vger.kernel.org
 
-Michael Kerrisk wrote:
+[CC += tglx, mingo]
 
-> .\" FIXME(ak) If the following formulation is correct, I think it would
-> .\" be better to substitute it instead of the next sentence:
-> .\"     The information placed in \fIcpu\fP is only guaranteed to be
-> .\"     current at the time of the call: ...
+Hi Andi
 
-At least sched_setaffinity should be still mentioned.
-Feel free to rephrase it if you think it's better in some other way.
+On Wed, Jul 2, 2008 at 9:57 PM, Andi Kleen <andi@firstfloor.org> wrote:
+> Michael Kerrisk wrote:
+>
+>> .\" FIXME(ak) If the following formulation is correct, I think it would
+>> .\" be better to substitute it instead of the next sentence:
+>> .\"     The information placed in \fIcpu\fP is only guaranteed to be
+>> .\"     current at the time of the call: ...
+>
+> At least sched_setaffinity should be still mentioned.
+> Feel free to rephrase it if you think it's better in some other way.
 
-> .\" FIXME(ak) In the following, what precisely do you mean by "advisory"?
-> .\" It is not really clear to me whether you mean the information
-> .\" may not be "true", or whether you are just reiterating the point that
-> .\" the CPU/node might already have changed by the time the call returns.
+Okay -- I rewored the text there, and kept mention of sched_setaffinity().
 
-It's reiterating the point, but in general the caller has to consider
-it advisory as a hint only because it cannot rely on it 100% (unless it set the affinity)
+>> .\" FIXME(ak) In the following, what precisely do you mean by "advisory"?
+>> .\" It is not really clear to me whether you mean the information
+>> .\" may not be "true", or whether you are just reiterating the point that
+>> .\" the CPU/node might already have changed by the time the call returns.
+>
+> It's reiterating the point, but in general the caller has to consider
+> it advisory as a hint only because it cannot rely on it 100% (unless it set the affinity)
 
-> .\" FIXME(ak) what does the phrase "but might query the current state
-> .\" only during a short implementation specific interval" mean?
-> it will be faster, but might query the current state only during
-> a short implementation specific interval.
+Okay -- because it's just repeating the point, I removed that sentence.
 
-Originally the cache had a time stamp and then would only get the CPU
-information once each jiffie. That works well because the CPU affinity
-is typically hold long enough.
+>> .\" FIXME(ak) what does the phrase "but might query the current state
+>> .\" only during a short implementation specific interval" mean?
+>> it will be faster, but might query the current state only during
+>> a short implementation specific interval.
+>
+> Originally the cache had a time stamp and then would only get the CPU
+> information once each jiffie. That works well because the CPU affinity
+> is typically hold long enough.
+>
+> Unfortunately someone who didn't understand the design and didn't think
+> it through took that out  so currently applications have to reimplement that
+> mechanism in a usually inferior and slower way (querying timers is much slower in
+> general user space) or do "endless caches" which are also bad
 
-Unfortunately someone who didn't understand the design and didn't think
-it through took that out  so currently applications have to reimplement that
-mechanism in a usually inferior and slower way (querying timers is much slower in
-general user space) or do "endless caches" which are also bad
+Okay.  I see the change was in 2.6.24.  I've rewritten the test to
+clarify that this argument is no longer used, and I've trimmed the
+explanation of tcache and moved it to notes.  Could you please check
+the text below, to see if it suffices (Ingo, Thomas, perhaps you also
+have some input?).
 
+Cheers,
 
--Andi
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael
+
+.\" This man page is Copyright (C) 2006 Andi Kleen <ak@muc.de>.
+.\" Permission is granted to distribute possibly modified copies
+.\" of this page provided the header is included verbatim,
+.\" and in case of nontrivial modification author and date
+.\" of the modification is added to the header.
+.\" 2008, mtk, various edits
+.TH getcpu 2 2008-06-03 "Linux" "Linux Programmer's Manual"
+.SH NAME
+getcpu \- determine CPU and NUMA node on which the calling thread is running
+.SH SYNOPSIS
+.nf
+.B #include <linux/getcpu.h>
+.sp
+.BI "int getcpu(unsigned *" cpu ", unsigned *" node \
+", struct getcpu_cache *" tcache );
+.fi
+.SH DESCRIPTION
+The
+.BR getcpu ()
+system call identifies the processor and node on which the calling
+thread or process is currently running and writes them into the
+integers pointed to by the
+.I cpu
+and
+.I node
+arguments.
+The processor is a unique small integer identifying a CPU.
+The node is a unique small identifier identifying a NUMA node.
+When either
+.I cpu
+or
+.I node
+is NULL nothing is written to the respective pointer.
+
+The third argument to this system call is nowadays unused.
+
+The information placed in
+.I cpu
+is only guaranteed to be current at the time of the call:
+unless the CPU affinity has been fixed using
+.BR sched_setaffinity (2),
+the kernel might change the CPU at any time.
+(Normally this does not happen
+because the scheduler tries to minimize movements between CPUs to
+keep caches hot, but it is possible.)
+The caller must be prepared to handle the situation when
+.I cpu
+and
+.I node
+are no longer the current CPU and node.
+.SH VERSIONS
+.BR getcpu ()
+was added in kernel 2.6.19 for x86_64 and i386.
+.SH CONFORMING TO
+.BR getcpu ()
+is Linux specific.
+.SH NOTES
+Linux makes a best effort to make this call as fast possible.
+The intention of
+.BR getcpu ()
+is to allow programs to make optimizations with per-CPU data
+or for NUMA optimization.
+
+Glibc does not provide a wrapper for this system call; call it using
+.BR syscall (2);
+or use
+.BR sched_getcpu (3)
+instead.
+
+The
+.I tcache
+argument is unused since Linux 2.6.24.
+.\" commit 4307d1e5ada595c87f9a4d16db16ba5edb70dcb1
+.\" Author: Ingo Molnar <mingo@elte.hu>
+.\" Date:   Wed Nov 7 18:37:48 2007 +0100
+.\" x86: ignore the sys_getcpu() tcache parameter
+In earlier kernels,
+if this argument was non-NULL,
+then it specified a pointer to a caller-allocated buffer in thread-local
+storage that was used to provide a caching mechanism for
+.BR getcpu ().
+Use of the cache could speed
+.BR getcpu ()
+calls, at the cost that there was a very small chance that
+the returned information would be out of date.
+The caching mechanism was considered to cause problems when
+migrating threads between CPUs, and so the argument is now ignored.
+.\"
+.\" ===== Before kernel 2.6.24: =====
+.\" .I tcache
+.\" is a pointer to a
+.\" .IR "struct getcpu_cache"
+.\" that is used as a cache by
+.\" .BR getcpu ().
+.\" The caller should put the cache into a thread-local variable
+.\" if the process is multithreaded,
+.\" because the cache cannot be shared between different threads.
+.\" .I tcache
+.\" can be NULL.
+.\" If it is not NULL
+.\" .BR getcpu ()
+.\" will use it to speed up operation.
+.\" The information inside the cache is private to the system call
+.\" and should not be accessed by the user program.
+.\" The information placed in the cache can change between kernel releases.
+.\"
+.\" When no cache is specified
+.\" .BR getcpu ()
+.\" will be slower,
+.\" but always retrieve the current CPU and node information.
+.\" With a cache
+.\" .BR getcpu ()
+.\" is faster.
+.\" However, the cached information is only updated once per jiffy (see
+.\" .BR time (7)).
+.\" This means that the information could theoretically be out of date,
+.\" although in practice the scheduler's attempt to maintain
+.\" soft CPU affinity means that the information is unlikely to change
+.\" over the course of the caching interval.
+.SH SEE ALSO
+.\" FIXME . add SEE ALSO entry in cpuset.7
+.BR mbind (2),
+.BR set_mempolicy (2),
+.BR sched_getcpu (3)
+.BR sched_setaffinity (2),
+.\" FIXME . cpuset (7)
