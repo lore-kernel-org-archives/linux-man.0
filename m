@@ -1,114 +1,178 @@
-From: Nanno Langstraat <nlcom_os-lQF5CfOoLd8@public.gmane.org>
-Subject: New manpage for betoh64() and friends
-Date: Tue, 08 Jul 2008 23:50:26 +0200
-Message-ID: <4873E122.1010504@ii.nl>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: New manpage for betoh64() and friends
+Date: Wed, 9 Jul 2008 00:22:15 +0200
+Message-ID: <cfd18e0f0807081522u710a15e1wa1a513843e46ee2f@mail.gmail.com>
+References: <4873E122.1010504@ii.nl>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------080906040309070607060508"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4873E122.1010504-lQF5CfOoLd8@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Nanno Langstraat <nlcom_os-lQF5CfOoLd8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------080906040309070607060508
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Hi Nanno,
 
-Hello,
+On Tue, Jul 8, 2008 at 11:50 PM, Nanno Langstraat <nlcom_os-lQF5CfOoLd8@public.gmane.org> wrote:
+> Hello,
+>
+> A few months ago Ulrich Drepper added a family of byteorder conversion
+> macros to glibc.
 
-A few months ago Ulrich Drepper added a family of byteorder conversion
-macros to glibc.
+What version of glibc do these appear in?  I can't find them in the
+headers or source for glibc 2.8.
 
-I've written a rough manpage for them; attached.
+Cheers,
 
-The colophon may have the wrong version, I just guessed it.
+Michael
 
-The endian.3 file needs an big bundle of links to it, listed below:
-betoh64
-betoh32
-betoh16
-htobe64
-htobe32
-htobe16
-letoh64
-letoh32
-letoh16
-htole64
-htole32
-htole16
+> I've written a rough manpage for them; attached.
+>
+> The colophon may have the wrong version, I just guessed it.
+>
+> The endian.3 file needs an big bundle of links to it, listed below:
+> betoh64
+> betoh32
+> betoh16
+> htobe64
+> htobe32
+> htobe16
+> letoh64
+> letoh32
+> letoh16
+> htole64
+> htole32
+> htole16
+>
+> Also, the existing byteorder.3 manpage should get a "SEE ALSO" reference
+> to the new family:
+> .BR endian (3)
+>
+>    Regards,
+>    Nanno
+>
+>
+> PS. Please CC me explicitly on any email, I'm not on the 'vger' list.
+>
+>
+> .\" Written by Nanno Langstraat, released into the Public Domain
+> .\"
+> .\" Since the Linux kernel and libraries are constantly changing, this
+> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> .\" responsibility for errors or omissions, or for damages resulting from
+> .\" the use of the information contained herein.  The author(s) may not
+> .\" have taken the same level of care in the production of this manual,
+> .\" which is licensed free of charge, as they might when working
+> .\" professionally.
+> .\"
+> .TH ENDIAN 3  2008-07-08 "GNU" "Linux Programmer's Manual"
+> .SH NAME
+> htobeNN, htoleNN, betohNN, letohNN \- convert values between host and
+> big/little-endian byte order
+> .SH SYNOPSIS
+> .nf
+> .B #define __USE_BSD
+> .B #include <endian.h>
+> .sp
+> .BI "uint64_t htobe64(uint64_t " host_64bits );
+> .sp
+> .BI "uint16_t letoh16(uint16_t " little_endian_16bits );
+> .sp
+> .BI "uint32_t betoh32(uint32_t " big_endian_32bits );
+> .sp
+>  ...
+>  etc.
+> .fi
+> .SH DESCRIPTION
+> These functions convert the byte encoding of integer values from
+> the byte order that the current CPU (the "host") happens to use,
+> to the standard little-endian / big-endian byte orders, and back
+> again.
+>
+> The functions all follow the following naming pattern:
+> .BR {SRC} to {DST}{BITS} ().
+>
+> .BI {SRC}
+> is the byte order of the input parameter,
+> .BI {DST}
+> is the byte order of the desired return value.
+> These can be
+> .BI be
+> for "big endian",
+> .BI le
+> for "little endian", or
+> .BI h
+> for "host".
+>
+> .BI {BITS}
+> is the number of bits of the value. It can currently be
+> .BI 16
+> ,
+> .BI 32
+> or
+> .BI 64 .
+>
+>
+> .SH VERSIONS
+> These function were added to GNU glibc version 2.8.90.
+>
+> .SH "CONFORMING TO"
+> OpenBSD contains these functions, but requires <sys/endian.h> instead of
+> <endian.h>.
+>
+> FreeBSD has not (as of 2008) adopted these functions.
+>
+> .SH NOTES
+> These
+> .BR endian (3)
+> functions are similar to the older
+> .BR byteorder (3)
+> family of functions.
+>
+> For example,
+> .BR betoh32 ()
+> is identical to
+> .BR ntohl () .
+>
+> The advantage of the
+> .BR byteorder (3)
+> functions is that they are available on most operating systems. Their drawback
+> is that they were designed only for use in the context of TCP/IP. They
+> therefore lack 64-bit variants and little-endian variants.
+>
+> .SH EXAMPLE
+> Given the following code:
+>    uint8_t   file_input[4] = { 0x12, 0x34, 0x56, 0x78 };
+>    uint32_t  out = betoh32( (uint32_t*)file_input );
+>
+> Variable "out" will equal 0x12345678.
+>
+> (Unrelated side note: this short code example is not alignment-safe in
+> the (uint32_t*) pointer cast)
+>
+> .SH "SEE ALSO"
+> .BR byteorder (3)
+> .SH COLOPHON
+> This page is part of release 3.04 of the Linux
+> .I man-pages
+> project.
+> A description of the project,
+> and information about reporting bugs,
+> can be found at
+> http://www.kernel.org/doc/man-pages/.
+>
+>
 
-Also, the existing byteorder.3 manpage should get a "SEE ALSO" reference
-to the new family:
-.BR endian (3)
-
-    Regards,
-    Nanno
 
 
-PS. Please CC me explicitly on any email, I'm not on the 'vger' list.
-
-
---------------080906040309070607060508
-Content-Type: text/plain;
- name="endian.3"
-Content-Transfer-Encoding: base64
-Content-Disposition: inline;
- filename="endian.3"
-
-LlwiIFdyaXR0ZW4gYnkgTmFubm8gTGFuZ3N0cmFhdCwgcmVsZWFzZWQgaW50byB0aGUgUHVi
-bGljIERvbWFpbgouXCIKLlwiIFNpbmNlIHRoZSBMaW51eCBrZXJuZWwgYW5kIGxpYnJhcmll
-cyBhcmUgY29uc3RhbnRseSBjaGFuZ2luZywgdGhpcwouXCIgbWFudWFsIHBhZ2UgbWF5IGJl
-IGluY29ycmVjdCBvciBvdXQtb2YtZGF0ZS4gIFRoZSBhdXRob3IocykgYXNzdW1lIG5vCi5c
-IiByZXNwb25zaWJpbGl0eSBmb3IgZXJyb3JzIG9yIG9taXNzaW9ucywgb3IgZm9yIGRhbWFn
-ZXMgcmVzdWx0aW5nIGZyb20KLlwiIHRoZSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRh
-aW5lZCBoZXJlaW4uICBUaGUgYXV0aG9yKHMpIG1heSBub3QKLlwiIGhhdmUgdGFrZW4gdGhl
-IHNhbWUgbGV2ZWwgb2YgY2FyZSBpbiB0aGUgcHJvZHVjdGlvbiBvZiB0aGlzIG1hbnVhbCwK
-LlwiIHdoaWNoIGlzIGxpY2Vuc2VkIGZyZWUgb2YgY2hhcmdlLCBhcyB0aGV5IG1pZ2h0IHdo
-ZW4gd29ya2luZwouXCIgcHJvZmVzc2lvbmFsbHkuCi5cIgouVEggRU5ESUFOIDMgIDIwMDgt
-MDctMDggIkdOVSIgIkxpbnV4IFByb2dyYW1tZXIncyBNYW51YWwiCi5TSCBOQU1FCmh0b2Jl
-Tk4sIGh0b2xlTk4sIGJldG9oTk4sIGxldG9oTk4gXC0gY29udmVydCB2YWx1ZXMgYmV0d2Vl
-biBob3N0IGFuZApiaWcvbGl0dGxlLWVuZGlhbiBieXRlIG9yZGVyCi5TSCBTWU5PUFNJUwou
-bmYKLkIgI2RlZmluZSBfX1VTRV9CU0QKLkIgI2luY2x1ZGUgPGVuZGlhbi5oPgouc3AKLkJJ
-ICJ1aW50NjRfdCBodG9iZTY0KHVpbnQ2NF90ICIgaG9zdF82NGJpdHMgKTsKLnNwCi5CSSAi
-dWludDE2X3QgbGV0b2gxNih1aW50MTZfdCAiIGxpdHRsZV9lbmRpYW5fMTZiaXRzICk7Ci5z
-cAouQkkgInVpbnQzMl90IGJldG9oMzIodWludDMyX3QgIiBiaWdfZW5kaWFuXzMyYml0cyAp
-Owouc3AKICAuLi4KICBldGMuCi5maQouU0ggREVTQ1JJUFRJT04KVGhlc2UgZnVuY3Rpb25z
-IGNvbnZlcnQgdGhlIGJ5dGUgZW5jb2Rpbmcgb2YgaW50ZWdlciB2YWx1ZXMgZnJvbQp0aGUg
-Ynl0ZSBvcmRlciB0aGF0IHRoZSBjdXJyZW50IENQVSAodGhlICJob3N0IikgaGFwcGVucyB0
-byB1c2UsCnRvIHRoZSBzdGFuZGFyZCBsaXR0bGUtZW5kaWFuIC8gYmlnLWVuZGlhbiBieXRl
-IG9yZGVycywgYW5kIGJhY2sKYWdhaW4uCgpUaGUgZnVuY3Rpb25zIGFsbCBmb2xsb3cgdGhl
-IGZvbGxvd2luZyBuYW1pbmcgcGF0dGVybjoKLkJSIHtTUkN9IHRvIHtEU1R9e0JJVFN9ICgp
-LgoKLkJJIHtTUkN9CmlzIHRoZSBieXRlIG9yZGVyIG9mIHRoZSBpbnB1dCBwYXJhbWV0ZXIs
-Ci5CSSB7RFNUfQppcyB0aGUgYnl0ZSBvcmRlciBvZiB0aGUgZGVzaXJlZCByZXR1cm4gdmFs
-dWUuClRoZXNlIGNhbiBiZQouQkkgYmUKZm9yICJiaWcgZW5kaWFuIiwKLkJJIGxlCmZvciAi
-bGl0dGxlIGVuZGlhbiIsIG9yCi5CSSBoCmZvciAiaG9zdCIuCgouQkkge0JJVFN9CmlzIHRo
-ZSBudW1iZXIgb2YgYml0cyBvZiB0aGUgdmFsdWUuIEl0IGNhbiBjdXJyZW50bHkgYmUKLkJJ
-IDE2CiwgCi5CSSAzMgpvcgouQkkgNjQgLgoKCi5TSCBWRVJTSU9OUwpUaGVzZSBmdW5jdGlv
-biB3ZXJlIGFkZGVkIHRvIEdOVSBnbGliYyB2ZXJzaW9uIDIuOC45MC4KCi5TSCAiQ09ORk9S
-TUlORyBUTyIKT3BlbkJTRCBjb250YWlucyB0aGVzZSBmdW5jdGlvbnMsIGJ1dCByZXF1aXJl
-cyA8c3lzL2VuZGlhbi5oPiBpbnN0ZWFkIG9mCjxlbmRpYW4uaD4uCgpGcmVlQlNEIGhhcyBu
-b3QgKGFzIG9mIDIwMDgpIGFkb3B0ZWQgdGhlc2UgZnVuY3Rpb25zLgoKLlNIIE5PVEVTClRo
-ZXNlCi5CUiBlbmRpYW4gKDMpCmZ1bmN0aW9ucyBhcmUgc2ltaWxhciB0byB0aGUgb2xkZXIK
-LkJSIGJ5dGVvcmRlciAoMykKZmFtaWx5IG9mIGZ1bmN0aW9ucy4KCkZvciBleGFtcGxlLAou
-QlIgYmV0b2gzMiAoKQppcyBpZGVudGljYWwgdG8KLkJSIG50b2hsICgpIC4KClRoZSBhZHZh
-bnRhZ2Ugb2YgdGhlCi5CUiBieXRlb3JkZXIgKDMpCmZ1bmN0aW9ucyBpcyB0aGF0IHRoZXkg
-YXJlIGF2YWlsYWJsZSBvbiBtb3N0IG9wZXJhdGluZyBzeXN0ZW1zLiBUaGVpciBkcmF3YmFj
-awppcyB0aGF0IHRoZXkgd2VyZSBkZXNpZ25lZCBvbmx5IGZvciB1c2UgaW4gdGhlIGNvbnRl
-eHQgb2YgVENQL0lQLiBUaGV5CnRoZXJlZm9yZSBsYWNrIDY0LWJpdCB2YXJpYW50cyBhbmQg
-bGl0dGxlLWVuZGlhbiB2YXJpYW50cy4KCi5TSCBFWEFNUExFCkdpdmVuIHRoZSBmb2xsb3dp
-bmcgY29kZToKICAgIHVpbnQ4X3QgICBmaWxlX2lucHV0WzRdID0geyAweDEyLCAweDM0LCAw
-eDU2LCAweDc4IH07CiAgICB1aW50MzJfdCAgb3V0ID0gYmV0b2gzMiggKHVpbnQzMl90Kilm
-aWxlX2lucHV0ICk7CgpWYXJpYWJsZSAib3V0IiB3aWxsIGVxdWFsIDB4MTIzNDU2NzguCgoo
-VW5yZWxhdGVkIHNpZGUgbm90ZTogdGhpcyBzaG9ydCBjb2RlIGV4YW1wbGUgaXMgbm90IGFs
-aWdubWVudC1zYWZlIGluCnRoZSAodWludDMyX3QqKSBwb2ludGVyIGNhc3QpCgouU0ggIlNF
-RSBBTFNPIgouQlIgYnl0ZW9yZGVyICgzKQouU0ggQ09MT1BIT04KVGhpcyBwYWdlIGlzIHBh
-cnQgb2YgcmVsZWFzZSAzLjA0IG9mIHRoZSBMaW51eAouSSBtYW4tcGFnZXMKcHJvamVjdC4K
-QSBkZXNjcmlwdGlvbiBvZiB0aGUgcHJvamVjdCwKYW5kIGluZm9ybWF0aW9uIGFib3V0IHJl
-cG9ydGluZyBidWdzLApjYW4gYmUgZm91bmQgYXQKaHR0cDovL3d3dy5rZXJuZWwub3JnL2Rv
-Yy9tYW4tcGFnZXMvLgo=
---------------080906040309070607060508--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
