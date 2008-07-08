@@ -1,69 +1,114 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] ioprio_set.2: CAP_SYS_ADMIN is not reqd to set IOPRIO_CLASS_IDLE anymore
-Date: Tue, 8 Jul 2008 12:11:39 +0200
-Message-ID: <cfd18e0f0807080311m41a33b3dld0fb268729a05829@mail.gmail.com>
-References: <200807081207.39693.knikanth@suse.de>
-	 <cfd18e0f0807080017y56441677wdf8163c520e8103f@mail.gmail.com>
+From: Nanno Langstraat <nlcom_os-lQF5CfOoLd8@public.gmane.org>
+Subject: New manpage for betoh64() and friends
+Date: Tue, 08 Jul 2008 23:50:26 +0200
+Message-ID: <4873E122.1010504@ii.nl>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed;
+ boundary="------------080906040309070607060508"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0807080017y56441677wdf8163c520e8103f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Jul 8, 2008 at 9:17 AM, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> On Tue, Jul 8, 2008 at 8:37 AM, Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org> wrote:
->> Since linux-2.6.25 CAP_SYS_ADMIN capability is not required to set
->> IOPRIO_CLASS_IDLE.
->>
->> Signed-off-by: Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org>
->>
->> ---
->>  man2/ioprio_set.2 |    7 ++++---
->>  1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> Index: b/man2/ioprio_set.2
->> ===================================================================
->> --- a/man2/ioprio_set.2
->> +++ b/man2/ioprio_set.2
->> @@ -293,11 +293,12 @@ capability can change the priority of an
->>  .B "What is the desired priority"
->>  Attempts to set very high priorities
->>  .RB ( IOPRIO_CLASS_RT )
->> -or very low ones
->> -.RB ( IOPRIO_CLASS_IDLE )
->>  require the
->>  .B CAP_SYS_ADMIN
->> -capability.
->> +capability. Kernel versions till 2.6.24 require
->> +.B CAP_SYS_ADMIN
->> +capability even to set very low priority
->> +.RB ( IOPRIO_CLASS_IDLE ).
->
-> Hi Nikanth,
->
-> Thanks for this!
->
-> I'll reword this as
->
-> ==
-> Attempts to set very high priorities
-> .RB ( IOPRIO_CLASS_RT )
-> require the
-> .B CAP_SYS_ADMIN
-> capability.
-> Kernel versions up to 2.6.24 also required
-> B CAP_SYS_ADMIN
-> to set very low priority
-> .RB ( IOPRIO_CLASS_IDLE ),
-> but since Linux 2.6.24 this is no longer required.
+This is a multi-part message in MIME format.
+--------------080906040309070607060508
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-And I fixed my typo there: "since Linux 2.6.25..."
+Hello,
+
+A few months ago Ulrich Drepper added a family of byteorder conversion
+macros to glibc.
+
+I've written a rough manpage for them; attached.
+
+The colophon may have the wrong version, I just guessed it.
+
+The endian.3 file needs an big bundle of links to it, listed below:
+betoh64
+betoh32
+betoh16
+htobe64
+htobe32
+htobe16
+letoh64
+letoh32
+letoh16
+htole64
+htole32
+htole16
+
+Also, the existing byteorder.3 manpage should get a "SEE ALSO" reference
+to the new family:
+.BR endian (3)
+
+    Regards,
+    Nanno
+
+
+PS. Please CC me explicitly on any email, I'm not on the 'vger' list.
+
+
+--------------080906040309070607060508
+Content-Type: text/plain;
+ name="endian.3"
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename="endian.3"
+
+LlwiIFdyaXR0ZW4gYnkgTmFubm8gTGFuZ3N0cmFhdCwgcmVsZWFzZWQgaW50byB0aGUgUHVi
+bGljIERvbWFpbgouXCIKLlwiIFNpbmNlIHRoZSBMaW51eCBrZXJuZWwgYW5kIGxpYnJhcmll
+cyBhcmUgY29uc3RhbnRseSBjaGFuZ2luZywgdGhpcwouXCIgbWFudWFsIHBhZ2UgbWF5IGJl
+IGluY29ycmVjdCBvciBvdXQtb2YtZGF0ZS4gIFRoZSBhdXRob3IocykgYXNzdW1lIG5vCi5c
+IiByZXNwb25zaWJpbGl0eSBmb3IgZXJyb3JzIG9yIG9taXNzaW9ucywgb3IgZm9yIGRhbWFn
+ZXMgcmVzdWx0aW5nIGZyb20KLlwiIHRoZSB1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGNvbnRh
+aW5lZCBoZXJlaW4uICBUaGUgYXV0aG9yKHMpIG1heSBub3QKLlwiIGhhdmUgdGFrZW4gdGhl
+IHNhbWUgbGV2ZWwgb2YgY2FyZSBpbiB0aGUgcHJvZHVjdGlvbiBvZiB0aGlzIG1hbnVhbCwK
+LlwiIHdoaWNoIGlzIGxpY2Vuc2VkIGZyZWUgb2YgY2hhcmdlLCBhcyB0aGV5IG1pZ2h0IHdo
+ZW4gd29ya2luZwouXCIgcHJvZmVzc2lvbmFsbHkuCi5cIgouVEggRU5ESUFOIDMgIDIwMDgt
+MDctMDggIkdOVSIgIkxpbnV4IFByb2dyYW1tZXIncyBNYW51YWwiCi5TSCBOQU1FCmh0b2Jl
+Tk4sIGh0b2xlTk4sIGJldG9oTk4sIGxldG9oTk4gXC0gY29udmVydCB2YWx1ZXMgYmV0d2Vl
+biBob3N0IGFuZApiaWcvbGl0dGxlLWVuZGlhbiBieXRlIG9yZGVyCi5TSCBTWU5PUFNJUwou
+bmYKLkIgI2RlZmluZSBfX1VTRV9CU0QKLkIgI2luY2x1ZGUgPGVuZGlhbi5oPgouc3AKLkJJ
+ICJ1aW50NjRfdCBodG9iZTY0KHVpbnQ2NF90ICIgaG9zdF82NGJpdHMgKTsKLnNwCi5CSSAi
+dWludDE2X3QgbGV0b2gxNih1aW50MTZfdCAiIGxpdHRsZV9lbmRpYW5fMTZiaXRzICk7Ci5z
+cAouQkkgInVpbnQzMl90IGJldG9oMzIodWludDMyX3QgIiBiaWdfZW5kaWFuXzMyYml0cyAp
+Owouc3AKICAuLi4KICBldGMuCi5maQouU0ggREVTQ1JJUFRJT04KVGhlc2UgZnVuY3Rpb25z
+IGNvbnZlcnQgdGhlIGJ5dGUgZW5jb2Rpbmcgb2YgaW50ZWdlciB2YWx1ZXMgZnJvbQp0aGUg
+Ynl0ZSBvcmRlciB0aGF0IHRoZSBjdXJyZW50IENQVSAodGhlICJob3N0IikgaGFwcGVucyB0
+byB1c2UsCnRvIHRoZSBzdGFuZGFyZCBsaXR0bGUtZW5kaWFuIC8gYmlnLWVuZGlhbiBieXRl
+IG9yZGVycywgYW5kIGJhY2sKYWdhaW4uCgpUaGUgZnVuY3Rpb25zIGFsbCBmb2xsb3cgdGhl
+IGZvbGxvd2luZyBuYW1pbmcgcGF0dGVybjoKLkJSIHtTUkN9IHRvIHtEU1R9e0JJVFN9ICgp
+LgoKLkJJIHtTUkN9CmlzIHRoZSBieXRlIG9yZGVyIG9mIHRoZSBpbnB1dCBwYXJhbWV0ZXIs
+Ci5CSSB7RFNUfQppcyB0aGUgYnl0ZSBvcmRlciBvZiB0aGUgZGVzaXJlZCByZXR1cm4gdmFs
+dWUuClRoZXNlIGNhbiBiZQouQkkgYmUKZm9yICJiaWcgZW5kaWFuIiwKLkJJIGxlCmZvciAi
+bGl0dGxlIGVuZGlhbiIsIG9yCi5CSSBoCmZvciAiaG9zdCIuCgouQkkge0JJVFN9CmlzIHRo
+ZSBudW1iZXIgb2YgYml0cyBvZiB0aGUgdmFsdWUuIEl0IGNhbiBjdXJyZW50bHkgYmUKLkJJ
+IDE2CiwgCi5CSSAzMgpvcgouQkkgNjQgLgoKCi5TSCBWRVJTSU9OUwpUaGVzZSBmdW5jdGlv
+biB3ZXJlIGFkZGVkIHRvIEdOVSBnbGliYyB2ZXJzaW9uIDIuOC45MC4KCi5TSCAiQ09ORk9S
+TUlORyBUTyIKT3BlbkJTRCBjb250YWlucyB0aGVzZSBmdW5jdGlvbnMsIGJ1dCByZXF1aXJl
+cyA8c3lzL2VuZGlhbi5oPiBpbnN0ZWFkIG9mCjxlbmRpYW4uaD4uCgpGcmVlQlNEIGhhcyBu
+b3QgKGFzIG9mIDIwMDgpIGFkb3B0ZWQgdGhlc2UgZnVuY3Rpb25zLgoKLlNIIE5PVEVTClRo
+ZXNlCi5CUiBlbmRpYW4gKDMpCmZ1bmN0aW9ucyBhcmUgc2ltaWxhciB0byB0aGUgb2xkZXIK
+LkJSIGJ5dGVvcmRlciAoMykKZmFtaWx5IG9mIGZ1bmN0aW9ucy4KCkZvciBleGFtcGxlLAou
+QlIgYmV0b2gzMiAoKQppcyBpZGVudGljYWwgdG8KLkJSIG50b2hsICgpIC4KClRoZSBhZHZh
+bnRhZ2Ugb2YgdGhlCi5CUiBieXRlb3JkZXIgKDMpCmZ1bmN0aW9ucyBpcyB0aGF0IHRoZXkg
+YXJlIGF2YWlsYWJsZSBvbiBtb3N0IG9wZXJhdGluZyBzeXN0ZW1zLiBUaGVpciBkcmF3YmFj
+awppcyB0aGF0IHRoZXkgd2VyZSBkZXNpZ25lZCBvbmx5IGZvciB1c2UgaW4gdGhlIGNvbnRl
+eHQgb2YgVENQL0lQLiBUaGV5CnRoZXJlZm9yZSBsYWNrIDY0LWJpdCB2YXJpYW50cyBhbmQg
+bGl0dGxlLWVuZGlhbiB2YXJpYW50cy4KCi5TSCBFWEFNUExFCkdpdmVuIHRoZSBmb2xsb3dp
+bmcgY29kZToKICAgIHVpbnQ4X3QgICBmaWxlX2lucHV0WzRdID0geyAweDEyLCAweDM0LCAw
+eDU2LCAweDc4IH07CiAgICB1aW50MzJfdCAgb3V0ID0gYmV0b2gzMiggKHVpbnQzMl90Kilm
+aWxlX2lucHV0ICk7CgpWYXJpYWJsZSAib3V0IiB3aWxsIGVxdWFsIDB4MTIzNDU2NzguCgoo
+VW5yZWxhdGVkIHNpZGUgbm90ZTogdGhpcyBzaG9ydCBjb2RlIGV4YW1wbGUgaXMgbm90IGFs
+aWdubWVudC1zYWZlIGluCnRoZSAodWludDMyX3QqKSBwb2ludGVyIGNhc3QpCgouU0ggIlNF
+RSBBTFNPIgouQlIgYnl0ZW9yZGVyICgzKQouU0ggQ09MT1BIT04KVGhpcyBwYWdlIGlzIHBh
+cnQgb2YgcmVsZWFzZSAzLjA0IG9mIHRoZSBMaW51eAouSSBtYW4tcGFnZXMKcHJvamVjdC4K
+QSBkZXNjcmlwdGlvbiBvZiB0aGUgcHJvamVjdCwKYW5kIGluZm9ybWF0aW9uIGFib3V0IHJl
+cG9ydGluZyBidWdzLApjYW4gYmUgZm91bmQgYXQKaHR0cDovL3d3dy5rZXJuZWwub3JnL2Rv
+Yy9tYW4tcGFnZXMvLgo=
+--------------080906040309070607060508--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
