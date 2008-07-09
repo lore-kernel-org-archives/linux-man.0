@@ -1,42 +1,38 @@
-From: Nanno Langstraat <nal-lQF5CfOoLd8@public.gmane.org>
-Subject: Re: New manpage for betoh64() and friends
-Date: Wed, 09 Jul 2008 00:43:04 +0200
-Message-ID: <4873ED78.2080303@ii.nl>
-References: <4873E122.1010504@ii.nl> <cfd18e0f0807081522u710a15e1wa1a513843e46ee2f@mail.gmail.com> <4873EBB4.4030307@ii.nl>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 11060] New: man2/getrusage.2 does not explain RUSAGE_THREAD
+Date: Wed,  9 Jul 2008 02:14:53 -0700 (PDT)
+Message-ID: <bug-11060-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4873EBB4.4030307-lQF5CfOoLd8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+http://bugzilla.kernel.org/show_bug.cgi?id=11060
 
->> What version of glibc do these appear in?  I can't find them in the
->> headers or source for glibc 2.8.
->>   
->>     
->
-> In the manpage, I describe it as:
->   
->>> .SH VERSIONS
->>> These function were added to GNU glibc version 2.8.90.
->>>     
->>>       
-> which I guesstimated from the CVS tags.
->   
+           Summary: man2/getrusage.2 does not explain RUSAGE_THREAD
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: v2.6.25-6070-g679c9cd
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: knikanth-l3A5Bk7waGM@public.gmane.org
+                CC: sripathik-xthvdsQ13ZrQT0dZR+AlfA@public.gmane.org, roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 
-Oops, I missed the "fedora-branch" versus "MAIN" branch difference.
 
-Does that mean that the next "release" of glibc will be called 2.9 ? 
-I'm not sure, myself: glibc doesn't do tarball releases anymore, you're
-supposed to go by the CVS tags.
+commit 679c9cd4acc2cf2872171813752eab3320273339 v2.6.25-6070-g679c9cd adds
+RUSAGE_THREAD option to getrusage which is not documented in man pages
 
-    Regards,
-    Nanno
 
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
