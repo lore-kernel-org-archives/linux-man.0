@@ -1,194 +1,260 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: math_error.7 page for review
-Date: Mon, 14 Jul 2008 15:37:40 +0200
-Message-ID: <cfd18e0f0807140637n45d88e3hf880de462fdac81f@mail.gmail.com>
+Date: Mon, 14 Jul 2008 16:00:40 +0200
+Message-ID: <cfd18e0f0807140700x14478de5s1e32a4c1de9dfe29@mail.gmail.com>
 References: <487A2C29.8060303@gmail.com> <20080714025730.GA19705@ub>
+	 <cfd18e0f0807140637n45d88e3hf880de462fdac81f@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20080714025730.GA19705@ub>
+In-Reply-To: <cfd18e0f0807140637n45d88e3hf880de462fdac81f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
 Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Andries,
-
-Thanks for looking at this.  I have one or two more questions, marked *** below.
-
-On Mon, Jul 14, 2008 at 4:57 AM, Andries E. Brouwer
-<Andries.Brouwer-rh8NL+sEX9E@public.gmane.org> wrote:
-> On Sun, Jul 13, 2008 at 06:24:09PM +0200, Michael Kerrisk wrote:
->> Andries (and others),
->>
->> I'd appreciate comments on the following, especially the FIXMES.
->>
->> Cheers,
->>
->> Michael
->
-> Hi Michael,
->
-> The includes <math.h>, <errno.h>, <fenv.h> are not mentioned.
-> The dependence on C99 is not mentioned.
-
-Okay -- I added a SYNOPSIS section showing those headers.
-
->> The common convention of returning \-1 on error does not carry over well
->
-> Often the special return value is NaN, and one can forget
-> about all errno and fetestexcept nonsense.
-
-Yes.  I'll rewrite the intro paragraph to say that.
-
->> The
->> .I math_errhandling
->> identifier defined by POSIX.1 is not supported.
->
-> I think math_errhandling is part of C99.
-
-True.  I added mention of C99 there.
-
->> A program that needs to check for an error from a mathematical
->> function should set errno to zero, and make the following call
->> feclearexcept(FE_ALL_EXCEPT);
->> before calling a mathematical function.
->> Upon return from the mathematical function, if errno
->> is non-zero, or the following call returns non-zero
->> fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
->>              FE_UNDERFLOW);
->> then an error occurred in the mathematical function.
->
->> .\" FIXME My understanding is that you must check *both* errno and
->> .\" fetestexcep() and an error has occurred if *either* of them
->> .\" is non-zero.  SUSv3 seems a little ambiguous on this point.
->> .\" I'd appreciate confirmation/contradiction that my understanding
->> .\" is correct.
->
-> I think math_errhandling can have the MATH_ERRNO bit set to indicate
-> that errors are signalled via errno, and it can have the MATH_ERREXCEPT
-> bit set to indicate that errors are signalled via floating-point exceptions,
-> but it can also be 0 and then neither errno nor fetestexcept are required
-> to give information.
-
-AFAICS, at least one of the bits must be set in a conforming implementation.
-
-The POSIX.1-2001 specs of the various functions say:
-
-[[
-On error, the expressions (math_errhandling & MATH_ERRNO) and
-(math_errhandling & MATH_ERREXCEPT) are independent of each other, but
-at least one of them must be non-zero.
-]]
-
-And C99 Sec. 7.12 says:
-
-[[
-The macros
-
-MATH_ERRNO
-MATH_ERREXCEPT
-
-expand to the integer constants 1 and 2, respectively; the macro
-
-math_errhandling
-
-expands to an expression that has type int and the value MATH_ERRNO,
-MATH_ERREXCEPT, or the bitwise OR of both. The value of math_errhandling is
-constant for the duration of the program. It is unspecified whether
-math_errhandling is a macro or an identifier with external linkage. If a macro
-definition is suppressed or a program defines an identifier with the name
-math_errhandling, the behavior is undefined. If the expression
-math_errhandling & MATH_ERREXCEPT can be nonzero, the implementation
-shall define the macros FE_DIVBYZERO, FE_INVALID, and FE_OVERFLOW in
-<fenv.h>.
-]]
-
-*** In the end, I'm still not certain whether *both* errno and
-fetestexcept() need to be checked to determine if an error occurred,
-or it if its sufficient to test either.  If I'm understanding right:
-if we had math_errhandling support on gcc/glibc then we could test
-which of the error notification mechanism(s) is provided and then test
-just one of these.  But without the glibc/gcc support for
-math_errhandling, it's not quite clear.  Looking through:
-
-info libc "Math Error Reporting"
-
-suggests that it's sufficient to test either, except in the case of
-underflow, where it isn't guaranteed that ERANGE is assigned to errno.
- (I'm not quite sure how much to trust this info doc.)  Your thoughts?
-
-> More precisely, the above is required for the float/double functions,
-
-Yes, that's encapsulated in the mention of <math.h> at the start of
-the DESCRIPTION.
-
-> but for complex-valued functions setting of errno is never required.
-
-But perhaps it's worth making that point clearer. I will add some text
-to NOTES to make it clear that the discussion on this page does not
-apply to complex math functions.
-
-> (And in practice clog will not give any error for the call clog(-0.0).)
-
-errno is not set in this case, but on glibc, at least, fetestexcept()
-yields FE_DIVBYZERO.
-
-> Since glibc/gcc do not support math_errhandling, the details
-> of these requirements are not relevant for Linux.
-
-It's not quite clear to me here whether you are suggesting that I need
-to change something in the page, but I'm assuming not.
-
-> gcc has options -ffast-math, -fno-math-errno that influence the
-> error settings.
-
-Thanks.  I was unaware of these options.  I've added a paragraph to
-NOTES mentioning -fno-math-errno
-
-> The standard does not follow the SUSv3 math_err setup.
-
-*** I do not understand this last sentence.  Did you omit/mistype some
-word here?  If not, can you say a little more?
-
-> In reality it is often advised to check for bad
-> parameters before calling the math functions, avoiding
-> all this nonsense. See, e.g.,
-> https://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
-
-Thanks.  I'll incorporate that topic into NOTES.
-
->> e.g., giving a negative argument to a logarithm function
->
-> But z = clog(-1.0) is quite ok and returns pi
-> (so instead of "a logarithm function you want perhaps "the function log").
-
-Done.
-
->> The error conditions that can occur for mathematical functions
->> are described below.
->
-> The text seems taken literally from the standard.
-> Copyright?
-
-I did a fair bit of rewriting, but was looking pretty closely at
-POSIX.1 at the time.  Probably one or two sentence are still too close
-to the standard's wording.  I'll try to reword them.
-
-Thanks Andries.
+And the next revision of the page ie below.
 
 Cheers,
 
 Michael
 
+.\" Copyright (c) 2008, Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH MATH_ERROR 7 2008-07-15 "Linux" "Linux Programmer's Manual"
+.SH SYNOPSIS
+.B #include <math.h>
+.B #include <errno.h>
+.B #include <fenv.h>
+.SH NAME
+math_error \- detecting errors from mathematical functions
+.SH DESCRIPTION
+On error, many mathematical functions
+(i.e., those declared in
+.IR <math.h> )
+return a NaN (not a number).
+However, in error cases where a NaN is not returned,
+the techniques described below are required.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+A program that needs to check for an error from a mathematical
+function should set
+.I errno
+to zero, and make the following call
+.in +4n
+.nf
+
+feclearexcept(FE_ALL_EXCEPT);
+
+.fi
+.in
+before calling a mathematical function.
+
+Upon return from the mathematical function, if
+.I errno
+is non-zero, or the following call (see
+.BR fenv (3))
+returns non-zero
+.in +4n
+.nf
+
+fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
+             FE_UNDERFLOW);
+
+.fi
+.in
+.\" enum
+.\" {
+.\" FE_INVALID = 0x01,
+.\" __FE_DENORM = 0x02,
+.\" FE_DIVBYZERO = 0x04,
+.\" FE_OVERFLOW = 0x08,
+.\" FE_UNDERFLOW = 0x10,
+.\" FE_INEXACT = 0x20
+.\" };
+then an error occurred in the mathematical function.
+
+The error conditions that can occur for mathematical functions
+are described below.
+.SS Domain Error
+A
+.I domain error
+occurs when a mathematical function is supplied with an argument whose
+value falls outside the domain for which the function
+is defined (e.g., giving a negative argument to
+.BR log (3)).
+When a domain error occurs,
+.I errno
+is set to
+.BR EDOM ,
+and an "invalid"
+.RB ( FE_INVALID )
+floating-point exception is raised.
+.SS Pole Error
+A
+.I pole error
+occurs when the mathematical result of a function is an exact infinity
+(e.g., the logarithm of 0 is negative infinity).
+When a pole error occurs,
+the function returns the (signed) value
+.BR HUGE_VAL ,
+.BR HUGE_VALF ,
+or
+.BR HUGE_VALL ,
+depending on whether the function result type is
+.IR double ,
+.IR float ,
+or
+.IR "long double" .
+The sign of the result is that which is mathematically correct for
+the function.
+.I errno
+is set to
+.BR ERANGE ,
+and a "divide-by-zero"
+.RB ( FE_DIVBYZERO )
+floating-point exception is raised.
+.SS Range Error
+A
+.I range error
+occurs when the magnitude of the function result means that it
+cannot be represented in the result type of the function.
+The return value of the function depends on whether the range error
+was an overflow or an underflow.
+
+A floating result
+.I overflows
+if the  result is finite,
+but is too large to represented in the result type.
+When an overflow occurs,
+the function returns the value
+.BR HUGE_VAL ,
+.BR HUGE_VALF ,
+or
+.BR HUGE_VALL ,
+depending on whether the function result type is
+.IR double ,
+.IR float ,
+or
+.IR "long double" .
+.I errno
+is set to
+.BR ERANGE ,
+and an "overflow"
+.RB ( FE_OVERFLOW )
+floating-point exception is raised.
+
+A floating result
+.I underflows
+if the result is too small to be represented in the result type.
+If an underflow occurs,
+a mathematical function typically returns 0.0
+(C99 says a function shall return "an implementation-defined value
+whose magnitude is no greater than the smallest normalized
+positive number in the specified type").
+.\" FIXME(mtk) POSIX.1 says "may" for the following two cases; need to
+.\" investigate this further for specific functions.
+.I errno
+may be set to
+.BR ERANGE ,
+and an "overflow"
+.RB ( FE_UNDERFLOW )
+floating-point exception may be raised.
+
+Some functions deliver a range error if the supplied argument value,
+or the correct function result, would be
+.IR subnormal .
+A subnormal value is one that is non-zero,
+but with a magnitude that is so small that
+it can't be presented in normalized form
+(i.e., with a 1 in the most significant bit of the significand).
+The representation of a subnormal number will include one
+or more leading zeros in the significand.
+.SH NOTES
+The
+.I math_errhandling
+identifier specified by C99 and POSIX.1-2001 is not supported.
+.\" See CONFORMANCE in the glibc 2.8 (and earlier) source.
+
+To avoid the complexities of using
+.I errno
+and
+.BR fetestexcept (3)
+for error checking,
+it is often advised that one should instead check for bad argument
+values before each call.
+.\" http://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
+For example, the following code ensures that
+.BR log (3)'s
+argument is not a NaN and is not zero (a pole error) or
+less than zero (a domain error):
+.in +4n
+.nf
+
+double x, r;
+
+if (isnan(x) || islessequal(x, 0)) {
+    /* Deal with NaN / pole error / domain error */
+}
+
+r = log(x);
+
+.fi
+.in
+The discussion on this page does not apply to the complex
+mathematical functions (i.e., those declared by
+.IR <complex.h> ),
+which in general are not required to return errors by C99
+and POSIX.1-2001.
+
+The
+.BR gcc (1)
+.I "-fno-math-errno"
+option causes the executable to employ implementations of some
+mathematical functions that are faster than the standard
+implementations, but do not set
+.I errno
+on error.
+(The
+.BR gcc (1)
+.I "-ffast-math"
+option also enables
+.IR "-fno-math-errno" .)
+An error can still be tested for using
+.BR fetestexcept (3).
+.SH SEE ALSO
+.BR gcc (1),
+.BR errno (3),
+.BR fenv (3),
+.BR fpclassify (3),
+.BR INFINITY (3),
+.BR isgreater (3),
+.BR nan (3)
+.br
+.I "info libc"
+.\" FIXME(mtk) add SEE ALSO in fenv.3, fpclassify.3, nan.3, INFINITY.3
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
