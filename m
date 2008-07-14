@@ -1,73 +1,94 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Example of changes to math function page (log.3)
-Date: Sun, 13 Jul 2008 18:25:05 +0200
-Message-ID: <487A2C61.1080108@gmail.com>
+From: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Subject: Re: math_error.7 page for review
+Date: Mon, 14 Jul 2008 04:57:35 +0200
+Message-ID: <20080714025730.GA19705@ub>
+References: <487A2C29.8060303@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <487A2C29.8060303-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Andries, (and Fabian, et al.)
+On Sun, Jul 13, 2008 at 06:24:09PM +0200, Michael Kerrisk wrote:
+> Andries (and others),
+>
+> I'd appreciate comments on the following, especially the FIXMES.
+>
+> Cheers,
+>
+> Michael
 
-Just by way of background, below are the kinds of changes I plan to
-make to the math pages to address:
+Hi Michael,
 
-a) The poor discussion of return values for various special cases (Nan, +/-Inf).
+The includes <math.h>, <errno.h>, <fenv.h> are not mentioned.
+The dependence on C99 is not mentioned.
 
-b) The need to tell the programmer how to detect errrors (addressed
-    by referring them to math-error.7).
+> The common convention of returning \-1 on error does not carry over well
 
-The example here is the changed text for log.3.
+Often the special return value is NaN, and one can forget
+about all errno and fetestexcept nonsense.
 
-Does this seem like a reasonable approach?
+> The
+> .I math_errhandling
+> identifier defined by POSIX.1 is not supported.
 
-Cheers,
+I think math_errhandling is part of C99.
 
-Michael
+> A program that needs to check for an error from a mathematical
+> function should set errno to zero, and make the following call
+> feclearexcept(FE_ALL_EXCEPT);
+> before calling a mathematical function.
+> Upon return from the mathematical function, if errno
+> is non-zero, or the following call returns non-zero
+> fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
+>              FE_UNDERFLOW);
+> then an error occurred in the mathematical function.
 
+> .\" FIXME My understanding is that you must check *both* errno and
+> .\" fetestexcep() and an error has occurred if *either* of them
+> .\" is non-zero.  SUSv3 seems a little ambiguous on this point.
+> .\" I'd appreciate confirmation/contradiction that my understanding
+> .\" is correct.
 
-+.SH RETURN VALUE
-+On success, these functions return the natural logarithm of
-+.IR x .
-+
-+If
-+.I x
-+is a NaN, then a NaN is returned.
-+
-+If
-+.I x
-+is the representation of positive infinity, then
-+.I x
-+is returned.
-+
-+If
-+.I x
-+is zero, a "pole error" occurs, and the functions
-+return
-+.RB - HUGEVAL ,
-+.RB - HUGEVALF ,
-+or
-+.RB - HUGEVALL ,
-+respectively.
-+
-+If
-+.I x
-+is negative
-+(including the representation of negative infinity)
-+a "domain error" occurs, and a NaN (not a number) is returned.
-  .SH ERRORS
-+See
-+.BR math_error (7)
-+for information on how to determine whether an error has occurred
-+when calling these functions.
-+.PP
-+.I errno
-+may be set to the following values:
+I think math_errhandling can have the MATH_ERRNO bit set to indicate
+that errors are signalled via errno, and it can have the MATH_ERREXCEPT
+bit set to indicate that errors are signalled via floating-point exceptions,
+but it can also be 0 and then neither errno nor fetestexcept are required
+to give information.
 
+More precisely, the above is required for the float/double functions,
+but for complex-valued functions setting of errno is never required.
+(And in practice clog will not give any error for the call clog(-0.0).)
+
+Since glibc/gcc do not support math_errhandling, the details
+of these requirements are not relevant for Linux.
+
+gcc has options -ffast-math, -fno-math-errno that influence the
+error settings.
+
+The standard does not follow the SUSv3 math_err setup.
+
+In reality it is often advised to check for bad
+parameters before calling the math functions, avoiding
+all this nonsense. See, e.g.,
+https://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
+
+> e.g., giving a negative argument to a logarithm function
+
+But z = clog(-1.0) is quite ok and returns pi
+(so instead of "a logarithm function you want perhaps "the function log").
+
+> The error conditions that can occur for mathematical functions
+> are described below.
+
+The text seems taken literally from the standard.
+Copyright?
+
+Andries
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
