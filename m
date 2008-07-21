@@ -1,334 +1,48 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: math_error.7 draft 4, for review
-Date: Mon, 21 Jul 2008 12:25:26 +0200
-Message-ID: <cfd18e0f0807210325m7606441as19811b6802661a8c@mail.gmail.com>
-References: <cfd18e0f0807210323m4912a31pa5359c2b7409167c@mail.gmail.com>
+Subject: Re: math_error.7 draft 3, for review
+Date: Mon, 21 Jul 2008 13:36:52 +0200
+Message-ID: <cfd18e0f0807210436h558aae2cu46f0100c439a8e4a@mail.gmail.com>
+References: <cfd18e0f0807160647o776d8523yb2f1ed4f0d946911@mail.gmail.com>
+	 <20080716213732.GA10011@ub>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0807210323m4912a31pa5359c2b7409167c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20080716213732.GA10011@ub>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org
-Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Cc: aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC+= Andries]
+Hi Andries,
 
-On Mon, Jul 21, 2008 at 12:23 PM, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> [Ooops -- wrong list CCed on previous mail; and this time, I'll update
-> the draft number]
->
-> Andreas,
->
-> The latest version of the page is below.
->
-> ===
->
-> Hi Andreas,
->
-> (Andries suggested that you probably have the background knowledge to
-> help here.)
->
-> The math man pages in man-pages are in a somewhat sorry state, with
-> respect to the following:
->
-> * Few of the pages properly describe the special cases for Inf, -Inf,
-> NaN arguments (e.g., compare "man 3 log" with the POSIX.1 page "man 3p
-> log").
->
-> * There isn't a clear discussion of error cases, and how to determine
-> if an error occurrred using errno and/or fetestexcept(3).
->
-> I'm planning to fix each of the math man pages to address these
-> issues, and use a new page, math_error.7, as an anchor page referenced
-> by all of the math pages for discussion of how to handle errors.
->
-> Would you be willing to review this new page (below) to see whether it
-> correctly describes the glibc details?  Might you also be willing to
-> look at a sampling of the changed math page pages that I'll make later
-> this week/early next week in order to let me know I'm on the right
-> track in terms of the changes I'm making?
->
-> Cheers,
->
-> Michael
->
->
-> .\" Copyright (c) 2008, Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of this
-> .\" manual provided the copyright notice and this permission notice are
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of this
-> .\" manual under the conditions for verbatim copying, provided that the
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, this
-> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> .\" responsibility for errors or omissions, or for damages resulting from
-> .\" the use of the information contained herein.  The author(s) may not
-> .\" have taken the same level of care in the production of this manual,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied by
-> .\" the source, must acknowledge the copyright and authors of this work.
-> .\"
-> .TH MATH_ERROR 7 2008-07-21 "Linux" "Linux Programmer's Manual"
-> .SH SYNOPSIS
-> .nf
-> .B #include <math.h>
-> .B #include <errno.h>
-> .B #include <fenv.h>
-> .fi
-> .SH NAME
-> math_error \- detecting errors from mathematical functions
-> .SH DESCRIPTION
-> On error, many of the mathematical functions declared in
-> .IR <math.h>
-> return a NaN (not a number).
-> However, rather than looking at the return value
-> (which is not always possible)
-> one can also check whether an error was signaled.
-> There are two signaling mechanisms:
-> the older one sets
-> .IR errno ;
-> the newer one uses the floating-point exception mechanism (the use of
-> .BR feclearexcept (3)
-> and
-> .BR fetestexcept (3),
-> as outlined below)
-> described in
-> .BR fenv (3).
->
-> C99 and POSIX.1-2001 specify a
-> .I math_errhandling
-> identifier,
-> which is supposed to indicate which of these two mechanisms is in use;
-> the standards require that at least one be in use,
-> but permit both to be available.
-> Although glibc does not support this identifier,
-> in practice it supports both mechanisms.
->
-> A portable program that needs to check for an error from a mathematical
-> function should set
-> .I errno
-> to zero, and make the following call
-> .in +4n
-> .nf
->
-> feclearexcept(FE_ALL_EXCEPT);
->
-> .fi
-> .in
-> before calling a mathematical function.
->
-> Upon return from the mathematical function, if
-> .I errno
-> is non-zero, or the following call (see
-> .BR fenv (3))
-> returns non-zero
-> .in +4n
-> .nf
->
-> fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
->            FE_UNDERFLOW);
->
-> .fi
-> .in
-> .\" enum
-> .\" {
-> .\" FE_INVALID = 0x01,
-> .\" __FE_DENORM = 0x02,
-> .\" FE_DIVBYZERO = 0x04,
-> .\" FE_OVERFLOW = 0x08,
-> .\" FE_UNDERFLOW = 0x10,
-> .\" FE_INEXACT = 0x20
-> .\" };
-> then an error occurred in the mathematical function.
->
-> The error conditions that can occur for mathematical functions
-> are described below.
-> .SS Domain Error
-> A
-> .I domain error
-> occurs when a mathematical function is supplied with an argument whose
-> value falls outside the domain for which the function
-> is defined (e.g., giving a negative argument to
-> .BR log (3)).
-> When a domain error occurs,
-> .I errno
-> is set to
-> .BR EDOM ,
-> and an "invalid"
-> .RB ( FE_INVALID )
-> floating-point exception is raised.
-> .SS Pole Error
-> A
-> .I pole error
-> occurs when the mathematical result of a function is an exact infinity
-> (e.g., the logarithm of 0 is negative infinity).
-> When a pole error occurs,
-> the function returns the (signed) value
-> .BR HUGE_VAL ,
-> .BR HUGE_VALF ,
-> or
-> .BR HUGE_VALL ,
-> depending on whether the function result type is
-> .IR double ,
-> .IR float ,
-> or
-> .IR "long double" .
-> The sign of the result is that which is mathematically correct for
-> the function.
-> .I errno
-> is set to
-> .BR ERANGE ,
-> and a "divide-by-zero"
-> .RB ( FE_DIVBYZERO )
-> floating-point exception is raised.
-> .SS Range Error
-> A
-> .I range error
-> occurs when the magnitude of the function result means that it
-> cannot be represented in the result type of the function.
-> The return value of the function depends on whether the range error
-> was an overflow or an underflow.
->
-> A floating result
-> .I overflows
-> if the  result is finite,
-> but is too large to represented in the result type.
-> When an overflow occurs,
-> the function returns the value
-> .BR HUGE_VAL ,
-> .BR HUGE_VALF ,
-> or
-> .BR HUGE_VALL ,
-> depending on whether the function result type is
-> .IR double ,
-> .IR float ,
-> or
-> .IR "long double" .
-> .I errno
-> is set to
-> .BR ERANGE ,
-> and an "overflow"
-> .RB ( FE_OVERFLOW )
-> floating-point exception is raised.
->
-> A floating result
-> .I underflows
-> if the result is too small to be represented in the result type.
-> If an underflow occurs,
-> a mathematical function typically returns 0.0
-> (C99 says a function shall return "an implementation-defined value
-> whose magnitude is no greater than the smallest normalized
-> positive number in the specified type").
-> .\" FIXME(mtk) POSIX.1 says "may" for the following two cases; need to
-> .\" investigate this further for specific functions.
-> .I errno
-> may be set to
-> .BR ERANGE ,
-> and an "overflow"
-> .RB ( FE_UNDERFLOW )
-> floating-point exception may be raised.
->
-> Some functions deliver a range error if the supplied argument value,
-> or the correct function result, would be
-> .IR subnormal .
-> A subnormal value is one that is non-zero,
-> but with a magnitude that is so small that
-> it can't be presented in normalized form
-> (i.e., with a 1 in the most significant bit of the significand).
-> The representation of a subnormal number will contain one
-> or more leading zeros in the significand.
-> .SH NOTES
-> The
-> .I math_errhandling
-> identifier specified by C99 and POSIX.1-2001 is not supported.
-> .\" See CONFORMANCE in the glibc 2.8 (and earlier) source.
->
-> To avoid the complexities of using
-> .I errno
-> and
-> .BR fetestexcept (3)
-> for error checking,
-> it is often advised that one should instead check for bad argument
-> values before each call.
-> .\" http://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
-> For example, the following code ensures that
-> .BR log (3)'s
-> argument is not a NaN and is not zero (a pole error) or
-> less than zero (a domain error):
-> .in +4n
-> .nf
->
-> double x, r;
->
-> if (isnan(x) || islessequal(x, 0)) {
->   /* Deal with NaN / pole error / domain error */
-> }
->
-> r = log(x);
->
-> .fi
-> .in
-> The discussion on this page does not apply to the complex
-> mathematical functions (i.e., those declared by
-> .IR <complex.h> ),
-> which in general are not required to return errors by C99
-> and POSIX.1-2001.
->
-> The
-> .BR gcc (1)
-> .I "-fno-math-errno"
-> option causes the executable to employ implementations of some
-> mathematical functions that are faster than the standard
-> implementations, but do not set
-> .I errno
-> on error.
-> (The
-> .BR gcc (1)
-> .I "-ffast-math"
-> option also enables
-> .IR "-fno-math-errno" .)
-> An error can still be tested for using
-> .BR fetestexcept (3).
-> .fi
-> .in
-> .SH SEE ALSO
-> .BR gcc (1),
-> .BR errno (3),
-> .BR fenv (3),
-> .BR fpclassify (3),
-> .BR INFINITY (3),
-> .BR isgreater (3),
-> .BR matherr (3),
-> .BR nan (3)
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-> Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
->
+Reading the POSIX.1 specs of various functions, I see that sometimes
+they talk of the return value of a function as being +0, sometimes
++-0, and sometimes -0.  Does one need to care about this?  (e.g., in
+updating them man-pages, I'm inclined to group the 0 cases togetehr,
+where possible).  If one does need to care, then could you explain to
+me why?  Are there cases where one gets bitten by not caring?  (I've
+had a browse through the C standard, but I'm not sure that I am yet
+any the wiser.)
 
+Hmmm -- just now, I find the Wikipedia article:
+http://en.wikipedia.org/wiki/%E2%88%920_(number).  So, are these the
+only cases that matter (quoting test from wp):
 
+* using the copysign() function, which is defined by IEEE 754 to copy
+the sign of the zero, to some non-zero number
+* dividing the number into a positive number=97the resulting Infinity
+will reflect the sign of the zero.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+?
+
+It starts to sound like I should care about postive and negative zero
+when rewriting the man pages, or?
+
+Cheers,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
