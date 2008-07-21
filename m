@@ -1,75 +1,330 @@
-From: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
-Subject: Re: [manpages]: First stab at a udplite(7) manpage
-Date: Fri, 18 Jul 2008 12:09:23 +0100
-Message-ID: <20080718110923.GA12919@gerrit.erg.abdn.ac.uk>
-References: <200806172228.06801.tomasz@grobelny.oswiecenia.net> <Pine.LNX.4.64.0806171344370.25191@shark.he.net> <cfd18e0f0806180207x783d83d0j3d5e42987be24ea6@mail.gmail.com> <20080618092707.GC23684@gerrit.erg.abdn.ac.uk> <cfd18e0f0806180248g35bec32n7977c46cbcf4142@mail.gmail.com> <20080624133625.GA16424@gerrit.erg.abdn.ac.uk> <cfd18e0f0806270203p4305cd2jae9cb8a79d7c33e9@mail.gmail.com> <20080630112751.GB5040@gerrit.erg.abdn.ac.uk> <cfd18e0f0806300603g38cc4222r37996404390dfcbf@mail.gmail.com> <cfd18e0f0807160810p7d40e3bbpe150d695aca8c5ea@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: math_error.7 draft 3, for review
+Date: Mon, 21 Jul 2008 12:12:56 +0200
+Message-ID: <cfd18e0f0807210312s78b1183ao5ec2932a5317decc@mail.gmail.com>
+References: <cfd18e0f0807160647o776d8523yb2f1ed4f0d946911@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cfd18e0f0807160647o776d8523yb2f1ed4f0d946911-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <cfd18e0f0807160810p7d40e3bbpe150d695aca8c5ea-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Quoting Michael Kerrisk:
-| Hi Gerrit,
-| 
-| [...]
-| 
-| >> Will submit a bug-fix to netdev and resubmit the updated manpage when this
-| >> issue has been resolved.
-| 
-| Where are we with udplite.7 then?
-| 
-Not forgotten. Patch was submitted to netdev@vger on Monday 30th June, which 
-tried to handle the illegal values consistently, i.e. return EINVAL for
- * values between 1..7 (illegal as per RFC 3828, 3.1);
- * values greater than 65535 (since IPv6 jumbograms are not supported as
-   per RFC 3828, 3.5 and since the u16 value internally wraps around to 1..7).
+Hmmm -- no response from Andreas.  Perhaps the old suse address is no
+longer active.  This looks like the up to date address.
 
-The reply came back on Sat 5 July asking not to return EINVAL in the first case.
+Andreas, a new version of the page below will be sent in just a moment.
 
-I haven't submitted a new patch so far since I was asking for input regarding 
-these cases. Maybe someone has a good suggestion regarding this?
+Cheers,
 
-I will either re-post this on netdev very soon or work on a new patch.
-But can't submit manpage while the API is still not clear.
+Michael
 
-Copy of email posted to netdev on Mon 7 July:
-> Can I just clarify illegal checksum values, as there are two different cases:
-> 
->  (a) Values between 1..7 
->      The specification marks these as illegal in RFC 3828, sec. 3.1.
->      The Linux UDP-Lite API allowed the user to get away with these illegal 
->      coverage values and documented this fact in udplite.txt. Since I am guilty
->      of having written this file, I can add that I am not aware that the same 
->      behaviour is specified in another place -- other than RFC 3828.
-> 
->  (b) Values greater than 0xFFFF
->      The UDP-Lite checksum coverage field has the same u16 size as the
->      UDP Length field but, in contrast, IPv6 jumbograms are not supported
->      (RFC 3828, 3.5). This means that checksum coverage values greater than
->      65535 are undefined. 
->      Since the internal field is u16 and since the setsockopt() argument
->      is `int', there is a need to protect against this range, not only 
->      since the wrap-around can again cause values in the range 1..7.
->        
-> Can you and/or other people please provide input what to do API-wise in
-> the two above cases, since this information is needed for the manpage also?
-> 
-> These options come to mind:
-> 
->   (1) Keep behaviour for (a), return EINVAL for (b).
->   (2) Keep behaviour for (a) and silently ignore values > 0xffff by
->       replacing these with "full coverage" (0) - problematic if 
->       negative values were supplied.
->   (3) Return EINVAL in both cases (as sketched by the patch).
->   (4) Other alternative?
+On Wed, Jul 16, 2008 at 3:47 PM, Michael Kerrisk
+<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hi Andreas,
+>
+> (Andries suggested that you probably have the background knowledge to
+> help here.)
+>
+> The math man pages in man-pages are in a somewhat sorry state, with
+> respect to the following:
+>
+> * Few of the pages properly describe the special cases for Inf, -Inf,
+> NaN arguments (e.g., compare "man 3 log" with the POSIX.1 page "man 3p
+> log").
+>
+> * There isn't a clear discussion of error cases, and how to determine
+> if an error occurrred using errno and/or fetestexcept(3).
+>
+> I'm planning to fix each of the math man pages to address these
+> issues, and use a new page, math_error.7, as an anchor page referenced
+> by all of the math pages for discussion of how to handle errors.
+>
+> Would you be willing to review this new page (below) to see whether it
+> correctly describes the glibc details?  Might you also be willing to
+> look at a sampling of the changed math page pages that I'll make later
+> this week/early next week in order to let me know I'm on the right
+> track in terms of the changes I'm making?
+>
+> Cheers,
+>
+> Michael
+>
+>
+>
+> .\" Copyright (c) 2008, Linux Foundation, written by Michael Kerrisk
+> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> .\"
+> .\" Permission is granted to make and distribute verbatim copies of this
+> .\" manual provided the copyright notice and this permission notice are
+> .\" preserved on all copies.
+> .\"
+> .\" Permission is granted to copy and distribute modified versions of this
+> .\" manual under the conditions for verbatim copying, provided that the
+> .\" entire resulting derived work is distributed under the terms of a
+> .\" permission notice identical to this one.
+> .\"
+> .\" Since the Linux kernel and libraries are constantly changing, this
+> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> .\" responsibility for errors or omissions, or for damages resulting from
+> .\" the use of the information contained herein.  The author(s) may not
+> .\" have taken the same level of care in the production of this manual,
+> .\" which is licensed free of charge, as they might when working
+> .\" professionally.
+> .\"
+> .\" Formatted or processed versions of this manual, if unaccompanied by
+> .\" the source, must acknowledge the copyright and authors of this work.
+> .\"
+> .TH MATH_ERROR 7 2008-07-15 "Linux" "Linux Programmer's Manual"
+> .SH SYNOPSIS
+> .nf
+> .B #include <math.h>
+> .B #include <errno.h>
+> .B #include <fenv.h>
+> .fi
+> .SH NAME
+> math_error \- detecting errors from mathematical functions
+> .SH DESCRIPTION
+> On error, many of the mathematical functions declared in
+> .IR <math.h>
+> return a NaN (not a number).
+> However, rather than looking at the return value
+> (which is not always possible)
+> one can also check whether an an error was signaled.
+> There are two signaling mechanism:
+> the older one sets
+> .IR errno ;
+> the newer one uses the floating-point exception mechanism (the use of
+> .BR feclearexcept (3)
+> and
+> .BR fetestexcept (3),
+> as outlined below)
+> described in
+> .BR fenv (3).
+>
+> C99 and POSIX.1-2001 specify a
+> .I math_errhandling
+> identifier,
+> which is supposed to indicate which of these two mechanisms is in use;
+> the standards require that at least one be in use,
+> but permit both to be available.
+> Although glibc does not support this identifier,
+> in practice it supports both.
+>
+> A portable program that needs to check for an error from a mathematical
+> function should set
+> .I errno
+> to zero, and make the following call
+> .in +4n
+> .nf
+>
+> feclearexcept(FE_ALL_EXCEPT);
+>
+> .fi
+> .in
+> before calling a mathematical function.
+>
+> Upon return from the mathematical function, if
+> .I errno
+> is non-zero, or the following call (see
+> .BR fenv (3))
+> returns non-zero
+> .in +4n
+> .nf
+>
+> fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
+>             FE_UNDERFLOW);
+>
+> .fi
+> .in
+> .\" enum
+> .\" {
+> .\" FE_INVALID = 0x01,
+> .\" __FE_DENORM = 0x02,
+> .\" FE_DIVBYZERO = 0x04,
+> .\" FE_OVERFLOW = 0x08,
+> .\" FE_UNDERFLOW = 0x10,
+> .\" FE_INEXACT = 0x20
+> .\" };
+> then an error occurred in the mathematical function.
+>
+> The error conditions that can occur for mathematical functions
+> are described below.
+> .SS Domain Error
+> A
+> .I domain error
+> occurs when a mathematical function is supplied with an argument whose
+> value falls outside the domain for which the function
+> is defined (e.g., giving a negative argument to
+> .BR log (3)).
+> When a domain error occurs,
+> .I errno
+> is set to
+> .BR EDOM ,
+> and an "invalid"
+> .RB ( FE_INVALID )
+> floating-point exception is raised.
+> .SS Pole Error
+> A
+> .I pole error
+> occurs when the mathematical result of a function is an exact infinity
+> (e.g., the logarithm of 0 is negative infinity).
+> When a pole error occurs,
+> the function returns the (signed) value
+> .BR HUGE_VAL ,
+> .BR HUGE_VALF ,
+> or
+> .BR HUGE_VALL ,
+> depending on whether the function result type is
+> .IR double ,
+> .IR float ,
+> or
+> .IR "long double" .
+> The sign of the result is that which is mathematically correct for
+> the function.
+> .I errno
+> is set to
+> .BR ERANGE ,
+> and a "divide-by-zero"
+> .RB ( FE_DIVBYZERO )
+> floating-point exception is raised.
+> .SS Range Error
+> A
+> .I range error
+> occurs when the magnitude of the function result means that it
+> cannot be represented in the result type of the function.
+> The return value of the function depends on whether the range error
+> was an overflow or an underflow.
+>
+> A floating result
+> .I overflows
+> if the  result is finite,
+> but is too large to represented in the result type.
+> When an overflow occurs,
+> the function returns the value
+> .BR HUGE_VAL ,
+> .BR HUGE_VALF ,
+> or
+> .BR HUGE_VALL ,
+> depending on whether the function result type is
+> .IR double ,
+> .IR float ,
+> or
+> .IR "long double" .
+> .I errno
+> is set to
+> .BR ERANGE ,
+> and an "overflow"
+> .RB ( FE_OVERFLOW )
+> floating-point exception is raised.
+>
+> A floating result
+> .I underflows
+> if the result is too small to be represented in the result type.
+> If an underflow occurs,
+> a mathematical function typically returns 0.0
+> (C99 says a function shall return "an implementation-defined value
+> whose magnitude is no greater than the smallest normalized
+> positive number in the specified type").
+> .\" FIXME(mtk) POSIX.1 says "may" for the following two cases; need to
+> .\" investigate this further for specific functions.
+> .I errno
+> may be set to
+> .BR ERANGE ,
+> and an "overflow"
+> .RB ( FE_UNDERFLOW )
+> floating-point exception may be raised.
+>
+> Some functions deliver a range error if the supplied argument value,
+> or the correct function result, would be
+> .IR subnormal .
+> A subnormal value is one that is non-zero,
+> but with a magnitude that is so small that
+> it can't be presented in normalized form
+> (i.e., with a 1 in the most significant bit of the significand).
+> The representation of a subnormal number will include one
+> or more leading zeros in the significand.
+> .SH NOTES
+> The
+> .I math_errhandling
+> identifier specified by C99 and POSIX.1-2001 is not supported.
+> .\" See CONFORMANCE in the glibc 2.8 (and earlier) source.
+>
+> To avoid the complexities of using
+> .I errno
+> and
+> .BR fetestexcept (3)
+> for error checking,
+> it is often advised that one should instead check for bad argument
+> values before each call.
+> .\" http://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
+> For example, the following code ensures that
+> .BR log (3)'s
+> argument is not a NaN and is not zero (a pole error) or
+> less than zero (a domain error):
+> .in +4n
+> .nf
+>
+> double x, r;
+>
+> if (isnan(x) || islessequal(x, 0)) {
+>    /* Deal with NaN / pole error / domain error */
+> }
+>
+> r = log(x);
+>
+> .fi
+> .in
+> The discussion on this page does not apply to the complex
+> mathematical functions (i.e., those declared by
+> .IR <complex.h> ),
+> which in general are not required to return errors by C99
+> and POSIX.1-2001.
+>
+> The
+> .BR gcc (1)
+> .I "-fno-math-errno"
+> option causes the executable to employ implementations of some
+> mathematical functions that are faster than the standard
+> implementations, but do not set
+> .I errno
+> on error.
+> (The
+> .BR gcc (1)
+> .I "-ffast-math"
+> option also enables
+> .IR "-fno-math-errno" .)
+> An error can still be tested for using
+> .BR fetestexcept (3).
+>
+> If
+> .B_SVID_SOURCE
+> is defined, glibc provides the older
+> .I matherr ()
+> error-reporting framework defined by SVID.
+> .SH SEE ALSO
+> .BR gcc (1),
+> .BR errno (3),
+> .BR fenv (3),
+> .BR fpclassify (3),
+> .BR INFINITY (3),
+> .BR isgreater (3),
+> .BR nan (3)
+> .br
+> .I "info libc"
+>
 
-Regards
-Gerrit
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
