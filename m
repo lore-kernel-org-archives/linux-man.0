@@ -1,27 +1,56 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: matherr.
-Date: Mon, 21 Jul 2008 12:21:15 +0200
-Message-ID: <cfd18e0f0807210321u4639317ide3760515a667d66@mail.gmail.com>
+Subject: math_error.7 draft 4, for review
+Date: Mon, 21 Jul 2008 12:23:57 +0200
+Message-ID: <cfd18e0f0807210323m4912a31pa5359c2b7409167c@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>
+To: aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org
+Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, Andrew Morgan <morgan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Andries,
+[Ooops -- wrong list CCed on previous mail; and this time, I'll update
+the draft number]
 
-Since I have done the research, I decided to also write a matherr.3
-page.  Maybe you (or others) would have a moment to look it over?
+Andreas,
+
+The latest version of the page is below.
+
+===
+
+Hi Andreas,
+
+(Andries suggested that you probably have the background knowledge to
+help here.)
+
+The math man pages in man-pages are in a somewhat sorry state, with
+respect to the following:
+
+* Few of the pages properly describe the special cases for Inf, -Inf,
+NaN arguments (e.g., compare "man 3 log" with the POSIX.1 page "man 3p
+log").
+
+* There isn't a clear discussion of error cases, and how to determine
+if an error occurrred using errno and/or fetestexcept(3).
+
+I'm planning to fix each of the math man pages to address these
+issues, and use a new page, math_error.7, as an anchor page referenced
+by all of the math pages for discussion of how to handle errors.
+
+Would you be willing to review this new page (below) to see whether it
+correctly describes the glibc details?  Might you also be willing to
+look at a sampling of the changed math page pages that I'll make later
+this week/early next week in order to let me know I'm on the right
+track in terms of the changes I'm making?
 
 Cheers,
 
 Michael
 
-'\" t
+
 .\" Copyright (c) 2008, Linux Foundation, written by Michael Kerrisk
 .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 .\"
@@ -45,404 +74,246 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH MATHERR 3 2008-07-21 "Linux" "Linux Programmer's Manual"
-.SH NAME
-matherr \- SVID math library exception handling
+.TH MATH_ERROR 7 2008-07-21 "Linux" "Linux Programmer's Manual"
 .SH SYNOPSIS
 .nf
-.B #define _SVID_SOURCE
 .B #include <math.h>
-
-.BI "int matherr(struct exception *" exc );
-
-.B extern _LIB_VERSION_TYPE _LIB_VERSION;
+.B #include <errno.h>
+.B #include <fenv.h>
 .fi
-.sp
-Link with \fI\-lm\fP.
+.SH NAME
+math_error \- detecting errors from mathematical functions
 .SH DESCRIPTION
-The System V Interface Definition (SVID) specifies that various
-math functions should invoke a function called
-.BR matherr ()
-if a math exception is detected.
-This function is called before the math function returns;
-after
-.BR matherr ()
-returns, the system then returns to the math function,
-which in turn returns to the caller.
-
-The
-.BR matherr ()
-mechanism is supported by glibc, but is now obsolete:
-new applications should use the techniques described in
-.BR math_error (7)
+On error, many of the mathematical functions declared in
+.IR <math.h>
+return a NaN (not a number).
+However, rather than looking at the return value
+(which is not always possible)
+one can also check whether an error was signaled.
+There are two signaling mechanisms:
+the older one sets
+.IR errno ;
+the newer one uses the floating-point exception mechanism (the use of
+.BR feclearexcept (3)
 and
+.BR fetestexcept (3),
+as outlined below)
+described in
 .BR fenv (3).
-This page documents the glibc
-.BR matherr ()
-mechanism as an aid for maintaining and porting older applications.
 
-To employ
-.BR matherr (),
-the programmer must define the
-.B _SVID_SOURCE
-feature test macro, and assign the value
-.B _SVID_
-to the external variable
-.BR _LIB_VERSION .
+C99 and POSIX.1-2001 specify a
+.I math_errhandling
+identifier,
+which is supposed to indicate which of these two mechanisms is in use;
+the standards require that at least one be in use,
+but permit both to be available.
+Although glibc does not support this identifier,
+in practice it supports both mechanisms.
 
-The system provides a default version of
-.BR matherr ().
-This version does nothing, and returns zero
-(see below for the significance of this).
-The default
-.BR matherr ()
-can be overridden by a programmer-defined
-version, which will be invoked when an exception occurs.
-The function is invoked with one argument, a pointer to an
-.I exception
-structure, defined as follows:
-
+A portable program that needs to check for an error from a mathematical
+function should set
+.I errno
+to zero, and make the following call
 .in +4n
 .nf
-struct exception {
-    int    type;      /* Exception type */
-    char  *name;      /* Name of function causing exception */
-    double arg1;      /* 1st argument to function */
-    double arg2;      /* 2nd argument to function */
-    double retval;    /* Function return value */
-}
+
+feclearexcept(FE_ALL_EXCEPT);
+
 .fi
 .in
-.PP
+before calling a mathematical function.
+
+Upon return from the mathematical function, if
+.I errno
+is non-zero, or the following call (see
+.BR fenv (3))
+returns non-zero
+.in +4n
+.nf
+
+fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW |
+            FE_UNDERFLOW);
+
+.fi
+.in
+.\" enum
+.\" {
+.\" FE_INVALID = 0x01,
+.\" __FE_DENORM = 0x02,
+.\" FE_DIVBYZERO = 0x04,
+.\" FE_OVERFLOW = 0x08,
+.\" FE_UNDERFLOW = 0x10,
+.\" FE_INEXACT = 0x20
+.\" };
+then an error occurred in the mathematical function.
+
+The error conditions that can occur for mathematical functions
+are described below.
+.SS Domain Error
+A
+.I domain error
+occurs when a mathematical function is supplied with an argument whose
+value falls outside the domain for which the function
+is defined (e.g., giving a negative argument to
+.BR log (3)).
+When a domain error occurs,
+.I errno
+is set to
+.BR EDOM ,
+and an "invalid"
+.RB ( FE_INVALID )
+floating-point exception is raised.
+.SS Pole Error
+A
+.I pole error
+occurs when the mathematical result of a function is an exact infinity
+(e.g., the logarithm of 0 is negative infinity).
+When a pole error occurs,
+the function returns the (signed) value
+.BR HUGE_VAL ,
+.BR HUGE_VALF ,
+or
+.BR HUGE_VALL ,
+depending on whether the function result type is
+.IR double ,
+.IR float ,
+or
+.IR "long double" .
+The sign of the result is that which is mathematically correct for
+the function.
+.I errno
+is set to
+.BR ERANGE ,
+and a "divide-by-zero"
+.RB ( FE_DIVBYZERO )
+floating-point exception is raised.
+.SS Range Error
+A
+.I range error
+occurs when the magnitude of the function result means that it
+cannot be represented in the result type of the function.
+The return value of the function depends on whether the range error
+was an overflow or an underflow.
+
+A floating result
+.I overflows
+if the  result is finite,
+but is too large to represented in the result type.
+When an overflow occurs,
+the function returns the value
+.BR HUGE_VAL ,
+.BR HUGE_VALF ,
+or
+.BR HUGE_VALL ,
+depending on whether the function result type is
+.IR double ,
+.IR float ,
+or
+.IR "long double" .
+.I errno
+is set to
+.BR ERANGE ,
+and an "overflow"
+.RB ( FE_OVERFLOW )
+floating-point exception is raised.
+
+A floating result
+.I underflows
+if the result is too small to be represented in the result type.
+If an underflow occurs,
+a mathematical function typically returns 0.0
+(C99 says a function shall return "an implementation-defined value
+whose magnitude is no greater than the smallest normalized
+positive number in the specified type").
+.\" FIXME(mtk) POSIX.1 says "may" for the following two cases; need to
+.\" investigate this further for specific functions.
+.I errno
+may be set to
+.BR ERANGE ,
+and an "overflow"
+.RB ( FE_UNDERFLOW )
+floating-point exception may be raised.
+
+Some functions deliver a range error if the supplied argument value,
+or the correct function result, would be
+.IR subnormal .
+A subnormal value is one that is non-zero,
+but with a magnitude that is so small that
+it can't be presented in normalized form
+(i.e., with a 1 in the most significant bit of the significand).
+The representation of a subnormal number will contain one
+or more leading zeros in the significand.
+.SH NOTES
 The
-.I type
-field has one of the following values:
-.TP 12
-.B DOMAIN
-A domain error occurred (the function argument was outside the range
-for which the function is defined).
-The return value depends on the function;
+.I math_errhandling
+identifier specified by C99 and POSIX.1-2001 is not supported.
+.\" See CONFORMANCE in the glibc 2.8 (and earlier) source.
+
+To avoid the complexities of using
 .I errno
-is set to
-.BR EDOM .
-.TP
-.B SING
-A pole error occurred (the function result is an infinity).
-The return value in most cases is
-.B HUGE
-(the largest single precision floating-point number),
-appropriately signed.
-In most cases,
-.I errno
-is set to
-.BR EDOM .
-.TP
-.B OVERFLOW
-An overflow occurred.
-In most cases, the value
-.B HUGE
-is returned, and
-.I errno
-is set to
-.BR ERANGE .
-.TP
-.B UNDERFLOW
-An underflow occurred.
-0.0 is returned, and
-.I errno
-is set to
-.BR ERANGE .
-.TP
-.B TLOSS
-Total loss of significance.
-0.0 is returned, and
-.I errno
-is set to
-.BR ERANGE .
-.TP
-.B PLOSS
-Partial loss of significance.
-This value is unused on glibc
-(and many other systems).
-.PP
-The
-.I arg1
 and
-.I arg2
-fields are the arguments supplied to the function
-.RI ( arg2
-is undefined for functions that take only one argument).
+.BR fetestexcept (3)
+for error checking,
+it is often advised that one should instead check for bad argument
+values before each call.
+.\" http://www.securecoding.cert.org/confluence/display/seccode/FLP32-C.+Prevent+or+detect+domain+and+range+errors+in+math+functions
+For example, the following code ensures that
+.BR log (3)'s
+argument is not a NaN and is not zero (a pole error) or
+less than zero (a domain error):
+.in +4n
+.nf
+
+double x, r;
+
+if (isnan(x) || islessequal(x, 0)) {
+   /* Deal with NaN / pole error / domain error */
+}
+
+r = log(x);
+
+.fi
+.in
+The discussion on this page does not apply to the complex
+mathematical functions (i.e., those declared by
+.IR <complex.h> ),
+which in general are not required to return errors by C99
+and POSIX.1-2001.
 
 The
-.I retval
-field specifies the return value that the math
-function will return to its caller.
-The programmer-defined
-.BR matherr ()
-can modify this field to change the return value of the math function.
-
-If the
-.BR matherr ()
-function returns zero, then the system sets
+.BR gcc (1)
+.I "-fno-math-errno"
+option causes the executable to employ implementations of some
+mathematical functions that are faster than the standard
+implementations, but do not set
 .I errno
-as described above, and may print an error message on standard error
-(see below).
-
-If the
-.BR matherr ()
-function returns a non-zero value, then the system does not set
-.IR errno ,
-and doesn't print an error message.
-.SS Math functions that employ matherr()
-The table below lists the functions and circumstances in which
-.BR matherr ()
-is called.
-The "Type" column indicates the value assigned to
-.I exc\->type
-when calling
-.BR matherr ().
-The "Result" column is the default return value assigned to
-.IR exc\->retval .
-
-The "Msg?" and "errno" columns describe the default behavior if
-.BR matherr ()
-returns zero.
-If the "Msg?" columns contains "y",
-then the system prints an error message on standard error.
-
-The table uses the following notations and abbreviations:
-.RS
-.nf
-
-x        first argument to function
-y        second argument to function
-fin      finite value for argument
-neg      negative value for argument
-int      integral value for argument
-o/f      result overflowed
-u/f      result underflowed
-|x|      absolute value of x
-X_TLOSS  is a constant defined in \fI<math.h>\fP
-.fi
-.RE
-.\" Details below from glibc 2.8's sysdeps/ieee754/k_standard.c
-.\" A subset of cases were test by experimental programs.
-.TS
-lB lB lB cB lB
-l l l c l.
-Function	Type	Result	Msg?	errno
-acos(|x|>1)	DOMAIN	HUGE	y	EDOM
-asin(|x|>1)	DOMAIN	HUGE	y	EDOM
-atan2(0,0)	DOMAIN	HUGE	y	EDOM
-acosh(x<1)	DOMAIN	NAN	y	EDOM    \" retval is 0.0/0.0
-atanh(|x|>1)	DOMAIN	NAN	y	EDOM    \" retval is 0.0/0.0
-atanh(|x|==1)	SING	(x>0.0)?	y	EDOM    \" retval is x/0.0
-\ 	\ 	HUGE_VAL :
-\ 	\ 	\-HUGE_VAL
-cosh(fin) o/f	OVERFLOW	HUGE	n	ERANGE
-sinh(fin) o/f	OVERFLOW	(x>0.0) ?	n	ERANGE
-\ 	\ 	HUGE : \-HUGE
-sqrt(x<0)	DOMAIN	0.0	y	EDOM
-hypot(fin,fin) o/f	OVERFLOW	HUGE	n	ERANGE
-exp(fin) o/f	OVERFLOW	HUGE	n	ERANGE
-exp(fin) u/f	UNDERFLOW	0.0	n	ERANGE
-exp2(fin) o/f	OVERFLOW	HUGE	n	ERANGE
-exp2(fin) u/f	UNDERFLOW	0.0	n	ERANGE
-exp10(fin) o/f	OVERFLOW	HUGE	n	ERANGE
-exp10(fin) u/f	UNDERFLOW	0.0	n	ERANGE
-j0(|x|>X_TLOSS)	TLOSS	0.0	y	ERANGE
-j1(|x|>X_TLOSS)	TLOSS	0.0	y	ERANGE
-jn(|x|>X_TLOSS)	TLOSS	0.0	y	ERANGE
-y0(x>X_TLOSS)	TLOSS	0.0	y	ERANGE
-y1(x>X_TLOSS)	TLOSS	0.0	y	ERANGE
-yn(x>X_TLOSS)	TLOSS	0.0	y	ERANGE
-y0(0)	DOMAIN	\-HUGE	y	EDOM
-y0(x<0)	DOMAIN	\-HUGE	y	EDOM
-y1(0)	DOMAIN	\-HUGE	y	EDOM
-y1(x<0)	DOMAIN	\-HUGE	y	EDOM
-yn(n,0)	DOMAIN	\-HUGE	y	EDOM
-yn(x<0)	DOMAIN	\-HUGE	y	EDOM
-lgamma(fin) o/f	OVERFLOW	HUGE	n	ERANGE
-lgamma(\-int) or	SING	HUGE	y	EDOM
-\ \ lgamma(0)
-tgamma(fin) o/f	OVERFLOW	HUGE_VAL	n	ERANGE
-tgamma(\-int)	SING	NAN	y	EDOM
-tgamma(0)	SING	copysign(	y	ERANGE
-\ 	\ 	HUGE_VAL,x)
-log(0)	SING	\-HUGE	y	EDOM
-log(x<0)	DOMAIN	\-HUGE	y	EDOM
-log2(0)	SING	\-HUGE	n	EDOM	\" different from log()
-log2(x<0)	DOMAIN	-HUGE	n	EDOM	\" different from log()
-log10(0)	SING	\-HUGE	y	EDOM
-log10(x<0)	DOMAIN	\-HUGE	y	EDOM
-pow(0.0,0.0)	DOMAIN	0.0	y	EDOM
-pow(x,y) o/f	OVERFLOW	HUGE	n	ERANGE
-pow(x,y) u/f	UNDERFLOW	0.0	n	ERANGE
-pow(NaN,0.0)	DOMAIN	x	n	EDOM
-0**neg	DOMAIN	0.0	y	EDOM	\" +0 and -0
-neg**non-int	DOMAIN	0.0	y	EDOM
-scalb() o/f	OVERFLOW	(x>0.0) ?	n	ERANGE
-\ 	\ 	HUGE_VAL :
-\ 	\ 	\-HUGE_VAL
-scalb() u/f	UNDERFLOW	copysign(	n	ERANGE
-\ 	\ 	\ \ 0.0,x)
-fmod(x,0)	DOMAIN	x	y	EDOM
-remainder(x,0)	DOMAIN	NAN	y	EDOM    \" retval is 0.0/0.0
-.TE
-.SH EXAMPLE
-The example program demonstrates the use of
-.BR matherr ()
-when calling
-.BR log (3).
-The program takes up to three command-line arguments.
-The first argument is the floating-point number to be given to
-.BR log (3).
-If the optional second argument is provided, then
-.B _LIB_VERSION
-is set to
-.B _SVID_
-so that
-.BR matherr ()
-is called, and the integer supplied in the
-command-line argument is used as the return value from
-.BR matherr ().
-If the optional third command-line argument is supplied,
-then it specifies an alternative return value that
-.BR matherr ()
-should assign as the return value of the math function.
-
-The following example run, where
-.BR log (3)
-is given an argument of 0.0, does not use
-.BR matherr() :
-
-.in +4n
-.nf
-$ ./a.out 0.0
-errno: Numerical result out of range
-x=-inf
+on error.
+(The
+.BR gcc (1)
+.I "-ffast-math"
+option also enables
+.IR "-fno-math-errno" .)
+An error can still be tested for using
+.BR fetestexcept (3).
 .fi
 .in
-
-In the following run,
-.BR matherr ()
-is called, and returns 0:
-
-.in +4n
-.nf
-$ ./a.out 0.0 0
-matherr SING exception in log() function
-        args:   0.000000, 0.000000
-        retval: -340282346638528859811704183484516925440.000000
-log: SING error
-errno: Numerical argument out of domain
-x=-340282346638528859811704183484516925440.000000
-.fi
-.in
-
-The message "log: SING error" was printed by the C library.
-
-In the following run,
-.BR matherr ()
-is called, and returns a non-zero value:
-
-.in +4n
-.nf
-$ ./a.out 0.0 1
-matherr SING exception in log() function
-        args:   0.000000, 0.000000
-        retval: -340282346638528859811704183484516925440.000000
-x=-340282346638528859811704183484516925440.000000
-.fi
-.in
-
-In this case, the C library did not print a message, and
-.I errno
-was not set.
-
-In the following run,
-.BR matherr ()
-is called, changes the return value of the math function,
-and returns a non-zero value:
-
-.in +4n
-.nf
-$ ./a.out 0.0 1 12345.0
-matherr SING exception in log() function
-        args:   0.000000, 0.000000
-        retval: -340282346638528859811704183484516925440.000000
-x=12345.000000
-.fi
-.in
-.SS Example code
-.nf
-#define _SVID_SOURCE
-#include <errno.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-static int matherr_ret = 0;     /* Value that matherr()
-                                   should return */
-static int change_retval = 0;   /* Should matherr() change
-                                   function\(aqs return value? */
-static double new_retval;       /* New function return value */
-
-int
-matherr(struct exception *exc)
-{
-    fprintf(stderr, "matherr %s exception in %s() function\\n",
-           (exc\->type == DOMAIN) ?    "DOMAIN" :
-           (exc\->type == OVERFLOW) ?  "OVERFLOW" :
-           (exc\->type == UNDERFLOW) ? "UNDERFLOW" :
-           (exc\->type == SING) ?      "SING" :
-           (exc\->type == TLOSS) ?     "TLOSS" :
-           (exc\->type == PLOSS) ?     "PLOSS" : "???",
-            exc\->name);
-    fprintf(stderr, "        args:   %f, %f\\n",
-            exc\->arg1, exc->arg2);
-    fprintf(stderr, "        retval: %f\\n", exc\->retval);
-
-    if (change_retval)
-        exc\->retval = new_retval;
-
-    return matherr_ret;
-}
-
-int
-main(int argc, char *argv[])
-{
-    double x;
-
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s <argval>"
-                " [<matherr\-ret> [<new\-func-retval>]]\\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    if (argc > 2) {
-        _LIB_VERSION = _SVID_;
-        matherr_ret = atoi(argv[2]);
-    }
-
-    if (argc > 3) {
-        change_retval = 1;
-        new_retval = atof(argv[3]);
-    }
-
-    x = log(atof(argv[1]));
-    if (errno != 0)
-        perror("errno");
-
-    printf("x=%f\\n", x);
-    exit(EXIT_SUCCESS);
-}
-.fi
 .SH SEE ALSO
-.\" FIXME(mtk) Add SEE ALSO in fenv(3)
+.BR gcc (1),
+.BR errno (3),
 .BR fenv (3),
-.BR math_error (7),
-.BR standards (7)
+.BR fpclassify (3),
+.BR INFINITY (3),
+.BR isgreater (3),
+.BR matherr (3),
+.BR nan (3)
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
