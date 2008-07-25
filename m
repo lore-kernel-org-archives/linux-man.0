@@ -1,52 +1,59 @@
-From: Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
-Subject: Re: math_error.7 draft 3, for review
-Date: Fri, 25 Jul 2008 11:31:00 +0200
-Message-ID: <m3vdyub99n.fsf@gromit.moeb>
-References: <cfd18e0f0807160647o776d8523yb2f1ed4f0d946911@mail.gmail.com>
-	<cfd18e0f0807210312s78b1183ao5ec2932a5317decc@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: math_error.7 draft 4, for review
+Date: Fri, 25 Jul 2008 11:36:49 +0200
+Message-ID: <cfd18e0f0807250236y476023fan90e97822e772859e@mail.gmail.com>
+References: <cfd18e0f0807210323m4912a31pa5359c2b7409167c@mail.gmail.com>
+	 <cfd18e0f0807210325m7606441as19811b6802661a8c@mail.gmail.com>
+	 <m3zlo6b9b8.fsf@gromit.moeb>
 Mime-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0807210312s78b1183ao5ec2932a5317decc-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(Michael Kerrisk's message of "Mon, 21 Jul 2008 12:12:56 +0200")
+In-Reply-To: <m3zlo6b9b8.fsf-Qr39nsLl7G5WFLYQ/5USTw@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>
+To: Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+On Fri, Jul 25, 2008 at 11:30 AM, Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org> wrote:
+> "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
+>
+>> [CC+= Andries]
+>>
+>> On Mon, Jul 21, 2008 at 12:23 PM, Michael Kerrisk
+>> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>>> [Ooops -- wrong list CCed on previous mail; and this time, I'll update
+>>> the draft number]
+>>>
+>>> Andreas,
+>>>
+>>> The latest version of the page is below.
+>
+> This one looked ok to me,
 
-"Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
+Thanks Andreas.
 
-> Hmmm -- no response from Andreas.  Perhaps the old suse address is no
-> longer active.  This looks like the up to date address.
+So I've been testing all of the math functions lately (on glibc 2.8),
+and I discover the following:
 
-It is active - but I've been travelling ;-)
+a) on error, many functions set errno AND raise an exception (fetestexcept()).
+b) on error, a few functions set errno but DON"T raise an exception
+(fetestexcept()).
+c) on error, a few functions DON'T set errno BUT DO raise an exception
+(fetestexcept()).
+d) on error, a very few functions pursue a mixture of all of the
+above, depending on the error.
 
-> Andreas, a new version of the page below will be sent in just a moment.
+My math_error.7 page currently implies that all functions should do
+a).  Clearly I'll need to amend that.
 
-OK, thanks,
-Andreas
-=2D-=20
- Andreas Jaeger, Director Platform/openSUSE, aj-l3A5Bk7waGM@public.gmane.org
-  SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG N=FCrnberg)
-   Maxfeldstr. 5, 90409 N=FCrnberg, Germany
-    GPG fingerprint =3D 93A3 365E CE47 B889 DF7F  FED1 389A 563C C272 A126
+But the main question is, should I raise a pile of glibc bugs for the
+functions in cases b), c), and d)?
 
---=-=-=
-Content-Type: application/pgp-signature
+Cheers,
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.9 (GNU/Linux)
-
-iD8DBQFIiZ1VOJpWPMJyoSYRArqHAKCO9L96DvmOmQ7O+P9Btzx1/onl4gCfdG4R
-CUpRvCKP7pdIYxIHbvFyUiE=
-=vaBg
------END PGP SIGNATURE-----
---=-=-=--
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
