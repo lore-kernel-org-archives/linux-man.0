@@ -1,106 +1,87 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: math_error.7 draft 3, for review
-Date: Fri, 25 Jul 2008 11:51:32 +0200
-Message-ID: <cfd18e0f0807250251t2d150340pbb9673bf049a58bf@mail.gmail.com>
-References: <cfd18e0f0807160647o776d8523yb2f1ed4f0d946911@mail.gmail.com>
-	 <cfd18e0f0807210314s6556f15bue41b1af46e28f77d@mail.gmail.com>
-	 <517f3f820807210326x30ce95dayf18d72ba0ce03588@mail.gmail.com>
-	 <m3r69ib8sz.fsf@gromit.moeb>
+From: Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+Subject: Re: math_error.7 draft 4, for review
+Date: Fri, 25 Jul 2008 12:02:44 +0200
+Message-ID: <m37ibab7sr.fsf@gromit.moeb>
+References: <cfd18e0f0807210323m4912a31pa5359c2b7409167c@mail.gmail.com>
+	<cfd18e0f0807210325m7606441as19811b6802661a8c@mail.gmail.com>
+	<m3zlo6b9b8.fsf@gromit.moeb>
+	<cfd18e0f0807250236y476023fan90e97822e772859e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha1; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <m3r69ib8sz.fsf-Qr39nsLl7G5WFLYQ/5USTw@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <cfd18e0f0807250236y476023fan90e97822e772859e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(Michael Kerrisk's message of "Fri, 25 Jul 2008 11:36:49 +0200")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Fabian Kreutz <kreutz-WMH0Fc3rTAP1qYPpFx2fzhvVK+yQ3ZXh@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[CC-=LKML (my mistake at start of thread; += linux-man]
+--=-=-=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+"Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
 
-On Fri, Jul 25, 2008 at 11:41 AM, Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org> wrote:
-> "Michael Kerrisk" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->
->> [ooops -- sorry for the noise.  Wrong list CCed]
+> On Fri, Jul 25, 2008 at 11:30 AM, Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org> wrote:
+>> "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
 >>
->> On 7/21/08, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->>> Andreas,
+>>> [CC+=3D Andries]
 >>>
->>>  The latest version of the page is below.
->>>
->>>  ===
->>>
->>>  Hi Andreas,
->>>
->>>  (Andries suggested that you probably have the background knowledge to
->>>  help here.)
->>>
->>>  The math man pages in man-pages are in a somewhat sorry state, with
->>>  respect to the following:
->>>
->>>  * Few of the pages properly describe the special cases for Inf, -Inf,
->>>  NaN arguments (e.g., compare "man 3 log" with the POSIX.1 page "man 3p
->>>  log").
->>>
->>>  * There isn't a clear discussion of error cases, and how to determine
->>>  if an error occurrred using errno and/or fetestexcept(3).
->>>
->>>  I'm planning to fix each of the math man pages to address these
->>>  issues, and use a new page, math_error.7, as an anchor page referenced
->>>  by all of the math pages for discussion of how to handle errors.
->>>
->>>  Would you be willing to review this new page (below) to see whether it
->>>  correctly describes the glibc details?  Might you also be willing to
->>>  look at a sampling of the changed math page pages that I'll make later
->>>  this week/early next week in order to let me know I'm on the right
->>>  track in terms of the changes I'm making?
+>>> On Mon, Jul 21, 2008 at 12:23 PM, Michael Kerrisk
+>>> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>>>> [Ooops -- wrong list CCed on previous mail; and this time, I'll update
+>>>> the draft number]
+>>>>
+>>>> Andreas,
+>>>>
+>>>> The latest version of the page is below.
+>>
+>> This one looked ok to me,
 >
-> In general glibc should follow the ISO C99 and Posix Standards and if
-> there is any discrepancy between those and the glibc implementation,
-> it's a bug.  That should help you to verify the details as well.
+> Thanks Andreas.
 >
-> I'll try to answer questions and should be able to look at them but I
-> cannot double check each and every case myself.
+> So I've been testing all of the math functions lately (on glibc 2.8),
+> and I discover the following:
+>
+> a) on error, many functions set errno AND raise an exception (fetestexcep=
+t()).
+> b) on error, a few functions set errno but DON"T raise an exception
+> (fetestexcept()).
+> c) on error, a few functions DON'T set errno BUT DO raise an exception
+> (fetestexcept()).
+> d) on error, a very few functions pursue a mixture of all of the
+> above, depending on the error.
+>
+> My math_error.7 page currently implies that all functions should do
+> a).  Clearly I'll need to amend that.
+>
+> But the main question is, should I raise a pile of glibc bugs for the
+> functions in cases b), c), and d)?
 
-Understood.  Actually, since I wrote the earlier message, I've got
-more confident about the direction the pages are going in anyway.
+I suggest to discuss on the libc-alpha mailing list first.=20=20
 
-See also my question in the other thread: should I provide bug reports
-for the discrepant cases?
+We have not done the exception handling properly.  errno setting should
+be correct, we have tests for these,
 
->>>  .I math_errhandling
->>>  identifier,
->>>  which is supposed to indicate which of these two mechanisms is in use;
->>>  the standards require that at least one be in use,
->>>  but permit both to be available.
->>>  Although glibc does not support this identifier,
->>>  in practice it supports both mechanisms.
->
-> I just noticed something that's also in draft 4, so let me cite from the
-> CONFORMANCE file of glibc:
->
->   Implementing MATH_ERRNO, MATH_ERREXCEPT and math_errhandling in
->   <math.h> needs compiler support: see
->
->   http://sources.redhat.com/ml/libc-hacker/2000-06/msg00008.html
->   http://sources.redhat.com/ml/libc-hacker/2000-06/msg00014.html
->   http://sources.redhat.com/ml/libc-hacker/2000-06/msg00015.html
->
-> I check gcc and glibc and this is still missing,
+Andreas
+=2D-=20
+ Andreas Jaeger, Director Platform/openSUSE, aj-l3A5Bk7waGM@public.gmane.org
+  SUSE LINUX Products GmbH, GF: Markus Rex, HRB 16746 (AG N=FCrnberg)
+   Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+    GPG fingerprint =3D 93A3 365E CE47 B889 DF7F  FED1 389A 563C C272 A126
 
-Yes, understood.  But I had the impression that this piece is just
-about whether we can use math_errhandling to determine which of errno
-or fetestexcept() can be used to check for errors.  Glibc doesn't
-provide math_errhandling, but the tendency seems to be that both
-mechanisms are supported, with a few discrepancies.
+--=-=-=
+Content-Type: application/pgp-signature
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.9 (GNU/Linux)
+
+iD8DBQFIiaTEOJpWPMJyoSYRAqKIAJ9sPV/CdUhsubXLohaMlv+KZcygmQCgiuRK
+IzI6Xz1pWC253p/j9FvNT/8=
+=2AuM
+-----END PGP SIGNATURE-----
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
