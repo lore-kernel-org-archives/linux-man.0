@@ -1,48 +1,697 @@
-From: "Maxin John" <maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] mprotect.2: removal of EFAULT from mprotect man page
-Date: Tue, 5 Aug 2008 10:51:25 +0530
-Message-ID: <9debc4410808042221u2dcd955ap62db32c7034608f8@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages-3.06 released
+Date: Tue, 05 Aug 2008 21:19:57 +0200
+Message-ID: <4898A7DD.9000107@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Gernot Tenchio <g.tenchio-oQX7y91WME3oK6nBLMlh1Q@public.gmane.org>, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>, Tolga Dalman <tdalman@pro>
+Cc: base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, Thorsten Kukuk <prabu.ayyappan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mats Wichmann <mats.d.wichmann-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Alain
 List-Id: linux-man@vger.kernel.org
 
-Dear Michael,
+Gidday,
 
-              As per the discussion in linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, I
-am sending the patch for removal of EFAULT from mprotect.2 man page to
-the linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org mailing list.
+The Linux man-pages maintainer proudly announces:
 
-Signed-off-by: Maxin B. John <maxin.john-qujY0cBTTHtBDgjK7y7TUQ@public.gmane.org>
+     man-pages-3.06.tar.gz - man pages for Linux
+
+This release is now available for download at:
+
+     http://www.kernel.org/pub/linux/docs/man-pages
+     or ftp://ftp.kernel.org/pub/linux/docs/man-pages
+
+The online changelog is available at
+http://www.kernel.org/doc/man-pages/changelog.html
+(blogged at
+http://linux-man-pages.blogspot.com/2008/08/man-pages-306-is-released.html)
+
+and the current version of the pages is browsable at
+http://www.kernel.org/doc/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the maintainer of
+a translation of the manual pages, or are the maintainer of the manual
+pages set in a particular distribution, or have expressed interest in
+helping with man-pages maintenance, or have otherwise expressed interest in
+being notified about man-pages releases.  If you don't want to receive such
+messages from me, or you know of some other translator or maintainer who
+may want to receive such notifications, send me a message.
+
+Cheers,
+
+Michael
+
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscribe
+by sending a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, with the body:
+
+     subscribe linux-man
 
 
-diff -Naur man-pages-3.05/man2/mprotect.2
-man-pages-3.05_modified/man2/mprotect.2
---- man-pages-3.05/man2/mprotect.2      2008-07-23 19:42:13.000000000 +0530
-+++ man-pages-3.05_modified/man2/mprotect.2     2008-08-04
-15:34:33.400869088 +0530
-@@ -87,9 +87,6 @@
- to mark it
- .BR PROT_WRITE .
- .TP
--.B EFAULT
--The memory cannot be accessed.
--.TP
- .B EINVAL
- \fIaddr\fP is not a valid pointer,
- or not a multiple of the system page size.
+==================== Changes in man-pages-3.06 ====================
+
+Released: 2008-08-05, Konolfingen
 
 
+Contributors
+------------
 
-Thanks and Regards,
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
 
-Maxin B. John
-Bangalore, India
+Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>
+Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Gernot Tenchio <g.tenchio-oQX7y91WME3oK6nBLMlh1Q@public.gmane.org>
+Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+Tolga Dalman <tdalman-PWUXgD0Mw7jQPojr80n/Gg@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+erfc.3
+     mtk
+         Created after removing the erfc() material from erf.3.
+         Documents the complementary error function.
+
+y0.3
+     mtk
+         Created after removing the y*() material from j0.3.
+         Documents the Bessel functions of the second kind.
+         Included ERRORS section; noted that an exception is not
+         raised on underflow, see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6806;
+         and errno is not set on overflow, see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6808;
+         Included BUGS section noting that errno is incorrectly
+         set for pole error; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6807.
+
+scalbln.3
+     mtk
+         Created after removing the scalbln*() and scalbn*() material
+         from scalb.3.  Documents scalbln() and scalbn() functions.
+         Included ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6803.
+
+
+New and changed links
+---------------------
+
+erfcf.3
+erfcl.3
+     mtk
+         Changed these links to point to new erfc.3 page.
+
+scalblnf.3
+scalblnl.3
+scalbn.3
+scalbnf.3
+scalbnl.3
+     mtk
+         Changed these links to point to new scalbln.3 page.
+
+y0f.3
+y0l.3
+y1.3
+y1f.3
+y1l.3
+yn.3
+ynf.3
+ynl.3
+     mtk
+         Changed these links to point to new y0.3 page.
+
+
+Global changes
+--------------
+
+Various pages
+     mtk
+         s/floating point/floating-point/ when used attributively.
+
+Typographical or grammatical errors have been corrected in several
+other places.
+
+
+Changes to individual pages
+---------------------------
+
+crypt.3
+     mtk
+         Tweak discuss text describing support for Blowfish.
+
+ctime.3
+     mtk / Gernot Tenchio
+         Added some words to make clear that the string returned by
+         ctime() and asctime() is null-terminated.
+
+math_error.7
+     Sam Varshavchik
+         Reverse order of SYNOPSIS and NAME sections.
+     mtk
+         NOTES: Summarize the state of glibc support for exceptions
+         and errno for error reporting.
+
+
+Changes to individual pages (math functions)
+--------------------------------------------
+
+Almost all of the changes in this release relate to math man pages.
+Very many changes were made to the math pages, including:
+
+* Fixed feature test macros (FTMs).  Often, the FTM requirements
+   for the "float" and "long double" versions of a math function are
+   different from the requirements for the "double version".  Each math
+   page now shows the correct FTM requirements for all three versions
+   of the function(s) it describes.  This may have required either
+   a change to the existing FTM text (if the requirements for the
+   "double" function were already described), or the addition of an FTM
+   description to a SYNOPSIS where one was not previously present
+   (typically because the "double" version of the function does not
+   require any FTMs to be defined).
+* CONFORMING TO: in many cases, POSIX.1-2001 was not mentioned.
+   Where a function is specified in POSIX.1-2001, this is now noted.
+   Also, statements about what other standards a function conforms to
+   were generally clarified.  (The wording about which functions conformed
+   to C99 was previously often done as an add on sentence; now it is made
+   part of the first sentence of the CONFORMING TO section, along with
+   POSIX.1-2001.)
+* RETURN VALUE: in many cases, pages lacked descriptions of the return
+   value when the function arguments are special values such as +0, -0,
+   NaN (not-a-number), +infinity, -infinity, etc.  This has been fixed.
+   I carried out tests on glibc 2.8 to ensure that all of these
+   functions match the RETURN VALUE descriptions (and the POSIX.1-2001
+   requirements).
+* ERRORS: many pages lacked a clear (or indeed any) description of
+   how errno is set on error and what exception is raised for each error.
+   This has been fixed.  The ERRORS sections are now generally headed up
+   as per the POSIX.1 way of doing things, describing Pole / Range /
+   Domain errors, as applicable.
+   I carried out tests on glibc 2.8 to ensure that all of these
+   functions match the ERRORS descriptions.  Deviations from POSIX.1-2001
+   requirements have been filed as glibc bug reports, and noted in the
+   man pages.  (The pages now describe the situation for ERRORS as at glibc
+   2.8; I may eventually try and extend the text with descriptions of
+   changes in older versions of glibc.)
+   NOTE: one point that has not been covered in any page is the
+   circumstances that generate inexact (FE_INEXACT) exceptions.
+   (The details for these exceptions are not specified in POSIX.1-2001,
+   and I haven't gone looking for the standards that describe the details.)
+
+acos.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+acosh.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+asin.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+asinh.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Some rewording.
+         RETURN VALUE: Added details for special argument cases.
+         Added (null) ERRORS section.
+         Updated CONFORMING TO.
+
+atan.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Some rewording.
+         RETURN VALUE: Added details for special argument cases.
+         Added (null) ERRORS section.
+         Updated CONFORMING TO.
+
+atan2.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Some rewording.
+         RETURN VALUE: Added details for special argument cases.
+         Added (null) ERRORS section.
+         Updated CONFORMING TO.
+
+atanh.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+         Added BUGS section noting that pole error sets errno to EDOM,
+         when it should be ERANGE instead; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6759.
+
+cbrt.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Added (null) ERRORS section.
+         Updated CONFORMING TO.
+
+ceil.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Enhanced.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+         NOTES: Added some details.
+
+copysign.3
+     mtk
+         Added RETURN VALUE section.
+         Updated CONFORMING TO.
+
+cos.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Rewrote RETURN VALUE section.
+         Added ERRORS section; noted errno is not set:
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6780.
+         Updated CONFORMING TO.
+
+cosh.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section.
+         Updated CONFORMING TO.
+
+erf.3
+     mtk
+         Removed the erfc() material (there is now a new erfc page).
+         Reason: the functions are logically separate; also their
+         return values differ, and it would have been confusing
+         to document them on the same page.
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6785.
+         Updated CONFORMING TO.
+
+exp.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6786.
+         Updated CONFORMING TO.
+
+exp10.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set for underflow;
+         see http://sources.redhat.com/bugzilla/show_bug.cgi?id=6787.
+
+exp2.3
+     mtk
+         Added RETURN VALUE and ERRORS sections.
+         Updated CONFORMING TO.
+
+expm1.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set for overflow;
+         see http://sources.redhat.com/bugzilla/show_bug.cgi?id=6788.
+         Updated CONFORMING TO.
+         Added BUGS section, describing bogus underflow exception for -large,
+         see http://sources.redhat.com/bugzilla/show_bug.cgi?id=6778;
+         and describing bogus invalid exception for certain +large,
+         see http://sources.redhat.com/bugzilla/show_bug.cgi?id=6814.
+
+fabs.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Updated CONFORMING TO.
+
+fdim.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Some rewording.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6796.
+         Updated CONFORMING TO.
+
+fenv.3
+     mtk
+         Make style of writing exception names consistent with other
+         pages and POSIX.1-2001.
+         Updated CONFORMING TO.
+
+finite.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+
+floor.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Enhanced.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+fma.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         DESCRIPTION: Some rewording.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6801.
+         Updated CONFORMING TO.
+
+fmax.3
+fmin.3
+     mtk
+         NAME: Make description clearer
+         SYNOPSIS: Added feature test macro requirements.
+         SYNOPSIS: Remove unneeded "Compile with" piece.
+         CONFORMING TO: Added POSIX.1-2001.
+         Added RETURN VALUE and ERRORS sections.
+
+fmod.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section; noted that errno is not always set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6783.
+         Updated CONFORMING TO.
+
+fpclassify.3
+     mtk
+         Minor wording changes.
+         CONFORMING TO: Added POSIX.1-2001.
+         SEE ALSO: Add signbit(3).
+
+frexp.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added details to RETURN VALUE section.
+         Added (null) ERRORS section.
+         CONFORMING TO: Added POSIX.1-2001.
+
+gamma.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added (null) RETURN VALUE section referring to tgamma(3).
+         Added (null) ERRORS section referring to tgamma(3).
+         CONFORMING TO: Rewrote.
+
+hypot.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         DESCRIPTION: note that calculation is done without causing
+         undue overflow or underflow.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not always set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6795.
+         Updated CONFORMING TO.
+
+ilogb.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Rewrote RETURN VALUE section.
+         Rewrote ERRORS section; noted that errno is not set, and in some
+         cases an exception is not raised; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6794.
+         CONFORMING TO: Added POSIX.1-2001.
+
+isgreater.3
+     mtk
+         NAME: Make description clearer
+         Improve the description of isunordered().
+         Added RETURN VALUE and ERRORS sections.
+         Formatting fixes.
+         A few wording improvements.
+
+j0.3
+     mtk
+         Removed material for the y*() functions to a separate y0.3 page.
+         Reason: the return values and errors/exceptions differ, and it
+         would have been confusing to document them on the same page.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6805.
+
+ldexp.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE and ERRORS sections.
+         Updated CONFORMING TO.
+
+lgamma.3
+     mtk
+         Note that these functions are deprecated.
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE and ERRORS sections referring to lgamma(3).
+         Added BUGS section noting that pole error sets errno to EDOM,
+         when it should be ERANGE instead; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6777.
+
+log.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+log10.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+log1p.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6792.
+         Updated CONFORMING TO.
+
+log2.3
+     mtk
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+logb.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         DESCRIPTION: added a little detail; some rewordings.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6793.
+         CONFORMING TO: Added POSIX.1-2001.
+
+lrint.3
+     mtk
+         DESCRIPTION: some rewording.
+         RETURN VALUE: Added details for special argument cases.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6798.
+         CONFORMING TO: Added POSIX.1-2001.
+
+lround.3
+     mtk
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6797.
+         CONFORMING TO: Added POSIX.1-2001.
+
+modf.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Added (null) ERRORS section.
+         CONFORMING TO: Added POSIX.1-2001.
+
+nan.3
+     mtk
+         Small wording changes.
+         CONFORMING TO: Added POSIX.1-2001.
+
+nextafter.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6799.
+         CONFORMING TO: Added POSIX.1-2001.
+
+pow.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+         Added BUGS section noting that pole error sets errno to EDOM,
+         when it should be ERANGE instead; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6776.
+
+remainder.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         DESCRIPTION: added some details.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section; noted that errno is not always set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6783.
+         Updated CONFORMING TO.
+         Added BUGS section noting that remainder(nan(""), 0)
+         wrongly causes a domain error; see
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6779
+
+remquo.3
+    mtk
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6801.
+         Updated CONFORMING TO.
+
+fmax.3
+fmin.3
+     mtk
+         NAME: Make description clearer
+         SYNOPSIS: Added feature test macro requirements.
+         SYNOPSIS: Remove unneeded "Compile with" piece.
+         CONFORMING TO: Added POSIX.1-2001.
+         Added RETURN VALUE and ERRORS sections.
+
+fmod.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         RETURN VALUE: Added details for special argument cases.
+         Rewrote ERRORS section; noted that errno is not always set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6783.
+         Updated CONFORMING TO.
+
+fpclassify.3
+         CONFORMING TO: Added POSIX.1-2001.
+
+rint.3
+     mtk
+         SYNOPSIS: Fixed feature test macro requirements.
+         DESCRIPTION: added some details.
+         RETURN VALUE: Added details for special argument cases.
+         ERRORS: no errors can occur (previous text was misleading).
+         CONFORMING TO: Added POSIX.1-2001.
+         NOTES: point out that lrint() may be preferred in some cases.
+
+round.3
+     mtk
+         DESCRIPTION: added some details.
+         RETURN VALUE: Added details for special argument cases.
+         ERRORS: no errors can occur (previous text was misleading).
+         CONFORMING TO: Added POSIX.1-2001.
+         NOTES: point out that lround() may be preferred in some cases.
+
+scalb.3
+     mtk
+         Removed the scalbn() and scalbln() material to a separate
+         scalbln.3 page.  Reason: scalb() is obsolete; also the
+         exception/error conditions differ somewhat, so that it
+         would have been confusing to document them on the same page.
+         SYNOPSIS: Fixed feature test macro requirements.
+         DESCRIPTION: some rewrites and added details.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted that errno is not set; see
+         also http://sources.redhat.com/bugzilla/show_bug.cgi?id=6803
+         and http://sources.redhat.com/bugzilla/show_bug.cgi?id=6804.
+         CONFORMING TO: Rewrote.
+
+signbit.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         SYNOPSIS: Remove unneeded "Compile with" piece.
+         Added RETURN VALUE section.
+         Added (null) ERRORS section.
+         CONFORMING TO: Added POSIX.1-2001.
+
+sin.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section; noted errno is not set:
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6781.
+         Updated CONFORMING TO.
+
+sincos.3
+     mtk
+         DESCRIPTION: Added details for special argument cases.
+         Added (null) RETURN VALUE section.
+         Added ERRORS section.
+
+sinh.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section.
+         Updated CONFORMING TO.
+
+sqrt.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Rewrote ERRORS section.
+         Updated CONFORMING TO.
+
+tan.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added ERRORS section.
+         Added ERRORS section; noted errno is not set:
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6782.
+         Updated CONFORMING TO.
+
+tanh.3
+     mtk
+         SYNOPSIS: Added feature test macro requirements.
+         Added RETURN VALUE section.
+         Added (null) ERRORS section.
+         Updated CONFORMING TO.
+
+tgamma.3
+     mtk
+         Added RETURN VALUE section.
+         Rewrote ERRORS section; noted that errno is not set /
+         incorrectly set in some cases; see also
+         http://sources.redhat.com/bugzilla/show_bug.cgi?id=6809
+         and http://sources.redhat.com/bugzilla/show_bug.cgi?id=6810.
+         CONFORMING TO: Added POSIX.1-2001.
+         Added NOTES section to hold text explaining origin of tgamma().
+
+trunc.3
+     mtk
+         RETURN VALUE: small rewording.
+         CONFORMING TO: Added POSIX.1-2001.
+         Added NOTES section explaining that result may be too large
+         to store in an integer type.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
