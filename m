@@ -1,121 +1,51 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [RFH] Math function error-reporting tests
-Date: Wed, 6 Aug 2008 11:37:49 +0200
-Message-ID: <cfd18e0f0808060237s3fefd0cfl483898b59d664b75@mail.gmail.com>
-References: <cfd18e0f0808040848k4b93edafvbfc5b59d19093ee6@mail.gmail.com>
-	 <5EFD4D7AC6265F4D9D3A849CEA9219190E31E0@LAXA.intra.cea.fr>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [manpages]: Version 2 of a udplite(7) manpage
+Date: Thu, 07 Aug 2008 15:34:09 +0200
+Message-ID: <489AF9D1.4010403@gmail.com>
+References: <Pine.LNX.4.64.0806171344370.25191@shark.he.net> <cfd18e0f0806180207x783d83d0j3d5e42987be24ea6@mail.gmail.com> <20080618092707.GC23684@gerrit.erg.abdn.ac.uk> <cfd18e0f0806180248g35bec32n7977c46cbcf4142@mail.gmail.com> <20080624133625.GA16424@gerrit.erg.abdn.ac.uk> <cfd18e0f0806270203p4305cd2jae9cb8a79d7c33e9@mail.gmail.com> <20080630112751.GB5040@gerrit.erg.abdn.ac.uk> <cfd18e0f0806300603g38cc4222r37996404390dfcbf@mail.gmail.com> <cfd18e0f0807160810p7d40e3bbpe150d695aca8c5ea@mail.gmail.com> <20080718110923.GA12919@gerrit.erg.abdn.ac.uk> <20080723154017.GA14244@gerrit.erg.abdn.ac.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5EFD4D7AC6265F4D9D3A849CEA9219190E31E0-W3oABskqM8nDbSVrWjnAJFAUjnlXr6A1@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <20080723154017.GA14244-w6qhtmnlW2CgJ32XgR7WtTYRy0cijUJx@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: GHORBAL Khalil 218205 <khalil.ghorbal-KCE40YydGKI@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-help-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: Gerrit Renker <gerrit-VsoRXqaLlyfQzY9nttDBhA@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Khalil,
+Gerrit,
 
-I've improved my scripts to provide more tests, and fix one or two
-bugs.  Would you be willing to rerun the scripts provided here on your
-three systems?
+Gerrit Renker wrote:
+> Michael,
+> 
+> can you please have a look at the revised version of the udplite(7) manpage?
+> 
+> The main changes are:
+>  * the patch correcting the behaviour for large checksum coverages (> 0xffff)
+>    has been accepted by Dave Miller into the netdev-2.6 tree and pushed to -stable;
+>  * this behaviour has been documented (truncation to maximum value);
 
-http://linux-man-pages.blogspot.com/2008/08/help-request-testing-of-math-function.html
+Okay.
+
+>  * also attached is an rcsdiff where the responses to your Fixme's are good to see;
+
+Thanks for that -- much easier to see what you did in response to my comments.
+
+>  * the rest is minor editorial changes.
+
+Yep.
+
+Thanks for this revision.  I made one or two small edits.  The most notable
+is that I changed PF_INET to AF_INET in the SYNOPSIS.  (As fas as POSIX.1
+is concerned, the PF_* constants are obsolete, in favour of the AF_*
+constants with the same value.)  I think we're good to go otherwise, and
+I'll include this page in man-pages-3.07, unless you think some further work
+still needs to be done.
 
 Cheers,
 
 Michael
 
-
-On Mon, Aug 4, 2008 at 7:25 PM, GHORBAL Khalil 218205
-<khalil.ghorbal-KCE40YydGKI@public.gmane.org> wrote:
->
-> attached, mt.log files for 2.3.2, 2.3.6 and 2.7 versions.
->
-> Regards,
->
-> Khalil.
->
-> -----Original Message-----
-> From: libc-help-owner-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org on behalf of Michael Kerrisk
-> Sent: Mon 8/4/2008 5:48 PM
-> To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org; libc-help-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
-> Cc: Andreas Jaeger; Joseph S. Myers; Andries Brouwer; Fabian Kreutz
-> Subject: [RFH] Math function error-reporting tests
->
-> Hello linux-man and libc-help,
->
-> I'm in the process of revising all of the man-pages describing the
-> math functions in glibc.  I recently wrote some scripts to test the
-> error-reporting support (i.e., errno versus exceptions) in all of the
-> glibc math functions (for some background, look here:
-> http://thread.gmane.org/gmane.comp.lib.glibc.alpha/13583/).  Andries
-> helped me iron out a few bugs, and get a few more test results, so
-> that I now have data for the following glibc versions:
->
-> 2.2.4
-> 2.3.3
-> 2.3.5
-> 2.7
-> 2.8
->
-> I'd like to get test results for as many (x86) glibc versions as
-> possible, especially (but not only) for glibc versions before 2.2.4.
-> Would any folk on the list who have x86 systems with other glibc
-> versions be prepared to run my test scripts and send me the results?
->
-> A run of the scripts takes of the order of one minute.
->
-> (To find out what glibc version you are running, enter the following command
->
->    /lib/libc.so.6
->
-> and look at the first line of output.)
->
-> To run the script:
->
-> a) Extract the two attached shell scripts to the same directory.
->
-> b) Run the test:
->
->        sh math_tests.sh > mt.log
->
->
->   (This step will also produce around 100 (C and executable) files in /tmp.)
->
-> c) clean up:
->
->        rm /tmp/mt_*
->
-> d) Send me the results (i.e., the mt.log above), CCing the list and
-> mentioning what glibc version(s) you used, so that other people don't
-> duplicate tests for the same glibc.
->
-> Thanks,
->
-> Michael
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-> Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
->
->
->
->
->
->
->
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
