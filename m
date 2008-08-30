@@ -1,40 +1,44 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 11444] New: misspelling in Documentation/sound/alsa/ALSA-Configuration.txt
-Date: Thu, 28 Aug 2008 02:22:08 -0700 (PDT)
-Message-ID: <bug-11444-11311@http.bugzilla.kernel.org/>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] fix typo in glibc reference: sigorset and not sigdelset
+Date: Fri, 29 Aug 2008 23:36:36 -0400
+Message-ID: <1220067396-5425-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=11444
+From: Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
 
-           Summary: misspelling in Documentation/sound/alsa/ALSA-
-                    Configuration.txt
-           Product: Documentation
-           Version: unspecified
-     KernelVersion: 2.6.27-rc4
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: chaos.proton-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+In the man page sigsetops(3), in the last paragraph under the DESCRIPTION
+section, is this fragment:
 
+"or the additional glibc functions described below (sigisemptyset(),
+sigandset(), and sigdelset())."
 
-According to the context, the word "SD_LPLIB" in line 1082 is a misspelling for
-"SD_LPIB". Please check it.
+In this fragment, sigdelset() should be sigorset().
 
-Thanks
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man3/sigsetops.3 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-
+diff --git a/man3/sigsetops.3 b/man3/sigsetops.3
+index d679a14..0ea0d76 100644
+--- a/man3/sigsetops.3
++++ b/man3/sigsetops.3
+@@ -84,7 +84,7 @@ or the additional glibc functions described below
+ .RB ( sigisemptyset (),
+ .BR sigandset (),
+ and
+-.BR sigdelset ()).
++.BR sigorset ()).
+ The results are undefined if this is not done.
+ .SH "RETURN VALUE"
+ .BR sigemptyset (),
 -- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
+1.6.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
