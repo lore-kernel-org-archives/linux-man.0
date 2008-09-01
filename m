@@ -1,63 +1,37 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] fix typo in glibc reference: sigorset and not sigdelset
-Date: Mon, 01 Sep 2008 12:42:43 +0200
-Message-ID: <48BBC723.8020901@gmail.com>
-References: <1220067396-5425-1-git-send-email-vapier@gentoo.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 11444] misspelling in Documentation/sound/alsa/ALSA-Configuration.txt
+Date: Mon,  1 Sep 2008 04:24:19 -0700 (PDT)
+Message-ID: <20080901112419.D6DCE108056@picon.linux-foundation.org>
+References: <bug-11444-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1220067396-5425-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <bug-11444-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
-
-Mike Frysinger wrote:
-> From: Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
-> 
-> In the man page sigsetops(3), in the last paragraph under the DESCRIPTION
-> section, is this fragment:
-> 
-> "or the additional glibc functions described below (sigisemptyset(),
-> sigandset(), and sigdelset())."
-> 
-> In this fragment, sigdelset() should be sigorset().
+http://bugzilla.kernel.org/show_bug.cgi?id=11444
 
 
-Applied for 3.09.  Thanks  Chris/Mike!
+mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
-Cheers,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         AssignedTo|documentation_man-          |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
+             Status|NEW                         |ASSIGNED
 
-Michael
 
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man3/sigsetops.3 |    2 +-
->  1 files changed, 1 inse
-rtions(+), 1 deletions(-)
-> 
-> diff --git a/man3/sigsetops.3 b/man3/sigsetops.3
-> index d679a14..0ea0d76 100644
-> --- a/man3/sigsetops.3
-> +++ b/man3/sigsetops.3
-> @@ -84,7 +84,7 @@ or the additional glibc functions described below
->  .RB ( sigisemptyset (),
->  .BR sigandset (),
->  and
-> -.BR sigdelset ()).
-> +.BR sigorset ()).
->  The results are undefined if this is not done.
->  .SH "RETURN VALUE"
->  .BR sigemptyset (),
+
+
+------- Comment #1 from mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org  2008-09-01 04:24 -------
+I agree.  Patch submitted to Andrew M.
+
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
