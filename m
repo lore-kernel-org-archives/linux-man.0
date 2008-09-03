@@ -1,356 +1,106 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Patch to hsearch.3 from man-pages-3.08
-Date: Wed, 03 Sep 2008 10:10:05 +0200
-Message-ID: <48BE465D.50107@gmail.com>
-References: <alpine.LRH.1.10.0809021415510.3454@gwalcmai.nelson.org.au> <48BD4CD4.7030102@gmail.com> <alpine.LRH.1.10.0809030917380.3410@gwalcmai.nelson.org.au>
+Subject: Re: Math error-reporting test scripts useful in glibc?
+Date: Wed, 03 Sep 2008 10:29:50 +0200
+Message-ID: <48BE4AFE.6020106@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LRH.1.10.0809030917380.3410-/IIiqYPLJX27UUr8seqV7NQ83Er7SCjg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Timothy S. Nelson" <wayland-r28gBBs99rhWo+R/V/U2/g@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+Cc: "Joseph S. Myers" <joseph-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>, Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-And, a further revision:
+Ping?
 
-.\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Copyright 1993 Ulrich Drepper (drepper-R/BzpT9BeSbQ/dyy7Hk5pA@public.gmane.org)
-.\" and Copyright 2008, Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" This is free documentation; you can redistribute it and/or
-.\" modify it under the terms of the GNU General Public License as
-.\" published by the Free Software Foundation; either version 2 of
-.\" the License, or (at your option) any later version.
-.\"
-.\" The GNU General Public License's references to "object code"
-.\" and "executables" are to be interpreted as the output of any
-.\" document formatting or typesetting system, including
-.\" intermediate and printed output.
-.\"
-.\" This manual is distributed in the hope that it will be useful,
-.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-.\" GNU General Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public
-.\" License along with this manual; if not, write to the Free
-.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
-.\" USA.
-.\"
-.\" References consulted:
-.\"     SunOS 4.1.1 man pages
-.\" Modified Sat Sep 30 21:52:01 1995 by Jim Van Zandt <jrv-krxCGfS0CTlN0jTZmbxGZA@public.gmane.org>
-.\" Remarks from dhw-iOD1Ui1JDHCMQhOLUu48bZQCsf4PZ8us@public.gmane.org Fri Jun 19 06:46:31 1998
-.\" Modified 2001-12-26, 2003-11-28, 2004-05-20, aeb
-.\" 2008-09-02, mtk: various additions and rewrites
-.\" 2008-09-03, mtk, restructured somewhat, in part after suggestions from
-.\"     Timothy S. Nelson <wayland-r28gBBs99rhWo+R/V/U2/g@public.gmane.org>
-.\"
-.TH HSEARCH 3 2008-09-03 "GNU" "Linux Programmer's Manual"
-.SH NAME
-hcreate, hdestroy, hsearch, hcreate_r, hdestroy_r,
-hsearch_r \- hash table management
-.SH SYNOPSIS
-.nf
-.B #include <search.h>
-.sp
-.BI "int hcreate(size_t " nel );
-.sp
-.BI "ENTRY *hsearch(ENTRY " item ", ACTION " action );
-.sp
-.B "void hdestroy(void);"
-.sp
-.B #define _GNU_SOURCE
-.br
-.B #include <search.h>
-.sp
-.BI "int hcreate_r(size_t " nel ", struct hsearch_data *" htab );
-.sp
-.BI "int hsearch_r(ENTRY " item ", ACTION " action ", ENTRY **" retval ,
-.BI "              struct hsearch_data *" htab );
-.sp
-.BI "void hdestroy_r(struct hsearch_data *" htab );
-.fi
-.SH DESCRIPTION
-The three functions
-.BR hcreate (),
-.BR hsearch (),
-and
-.BR hdestroy ()
-allow the caller to create and manage a hash table
-containing entries, each of which consists of a key (a string)
-and associated data.
-Using these functions, only one hash table can be used at a time.
+-------- Original Message --------
+Subject: Math error-reporting test scripts useful in glibc?
+Date: Mon, 25 Aug 2008 10:49:33 +0200
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+CC: Joseph S. Myers <joseph-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>, 	Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, 	Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, 
+linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 
-The three functions
-.BR hcreate_r (),
-.BR hsearch_r (),
-.BR hdestroy_r ()
-are reentrant versions that allow a program to use
-more than one table at the same time.
-The last argument,
-.IR htab ,
-points to a structure that describes the table
-on which the function is to operate.
-The programmer should treat this structure as opaque
-(i.e., do not attempt to directly access or modify
-the fields in this structure).
+A few weeks back I wrote some scripts to test error reporting by
+nearly all math functions in glibc.  (Some details below.)  These
+scripts are available here:
+http://linux-man-pages.blogspot.com/2008/08/help-request-testing-of-math-function.html.
 
-First a hash table must be created using
-.BR hcreate ().
-The argument \fInel\fP specifies the maximum number of entries
-in the table.
-(This maximum cannot be changed later, so choose it wisely.)
-The implementation may adjust this value upward to improve the
-performance of the resulting hash table.
-.\" e.g., in glibc it is raised to the next higher prime number
+The main points about these scripts are that:
 
-The
-.BR hcreate_r ()
-function performs the same task as
-.BR hcreate (),
-but for the table described by the structure
-.IR *htab .
-The structure pointed to by
-.I htab
-must be zeroed before the first call to
-.BR hcreate_r ().
+a) They automate generation of test programs for math functions, so
+that together two scripts generate tests for about 70 math functions
+(in any of the three type flavors, float, double, and long double).
 
-The function
-.BR hdestroy ()
-frees the memory occupied by the hash table that was created by
-.BR hcreate ().
-After calling
-.BR hdestroy ()
-a new hash table can be created using
-.BR hcreate ().
-The
-.BR hdestroy_r ()
-function performs the analogous task for the hash table described by
-.IR *htab .
+b) They produce C programs that can be driven from the command-line to
+perform almost any test of the math function.  Thus, as well as
+accepting numeric vales for the function arguments, one can use words
+such as "+inf", "-inf", "nan", "max" (the largest value of the
+function's type), "subnormal:N" (a subnormal power-of-two number with
+N leading zeroes in the significand), etc.  The resulting programs can
+be useful for working with glibc bug reports for math functions where
+no test program is supplied, or the test program is very limited in
+its operation.
 
-The
-.BR hsearch ()
-function searches the hash table for an
-item with the same key as \fIitem\fP (where "the same" is determined using
-.BR strcmp (3)),
-and if successful returns a pointer to it.
+c) The generated test programs produce output that can easily be
+script processed -- each program produces a summary line containing
+the errno setting, the exception raised (if any), and the (class of
+the) result value.  For example, the log(3) test program produces the
+following output when given a command-line argument of 0:
+ERANGE FE_DIVBYZERO -inf
+And an argument of 10 produces the output:
+0 0 normal
+(where normal is indicates that the result is a normalized floating
+point number; it is also possible to use the programs to test that the
+result matches a specific value, if merely knowing that the value is
+"normal" is insufficient).
 
-The argument \fIitem\fP is of type \fIENTRY\fP, which is defined in
-\fI<search.h>\fP as follows:
-.in +4n
-.sp
-.nf
-typedef struct entry {
-     char *key;
-     void *data;
-} ENTRY;
-.in
-.fi
-.sp
-The field \fIkey\fP points to a null-terminated string which is the
-search key.
-The field \fIdata\fP points to data that is associated with that key.
+d) They can be extended fairly easily to cover other math functions
+(though in fact I think I've covered most math functions already,
+including all of those in POSIX.1-2001, and most of the glibc
+extensions -- however, note that these scripts don't deal with the
+complex math functions).
 
-The argument \fIaction\fP determines what
-.BR hsearch ()
-does after an unsuccessful search.
-This argument must either have the value
-.BR ENTER ,
-meaning insert a copy of
-.IR item
-(and return a pointer to the new hash table entry as the function result),
-or the value
-.BR FIND ,
-meaning that NULL should be returned.
-(If
-.I action
-is
-.BR FIND ,
-then
-.I data
-is ignored.)
+My question is: would / could these tests be usefully integrated into
+glibc?  If necessary, I may have some time to do some reworking to
+make them more suited to glibc requirements.
 
-The
-.BR hsearch_r ()
-function is like
-.BR hsearch ()
-but operates on the hash table described by
-.IR *htab .
-The
-.BR hsearch_r ()
-function differs from
-.BR hsearch ()
-in that a pointer to the found item is returned in
-.IR *retval ,
-rather than as the function result.
-.SH "RETURN VALUE"
-.BR hcreate ()
-and
-.BR hcreate_r ()
-return non-zero on success.
-They return 0 on error.
+Cheers,
 
-On success,
-.BR hsearch ()
-returns a pointer to an entry in the hash table.
-.BR hsearch ()
-returns NULL on error, that is,
-if \fIaction\fP is \fBENTER\fP and
-the hash table is full, or \fIaction\fP is \fBFIND\fP and \fIitem\fP
-cannot be found in the hash table.
-.BR hsearch_r ()
-returns non-zero on success, and 0 on error.
-.SH ERRORS
-.LP
-.BR hcreate ()
-and
-.BR hcreate_r ()
-can fail for the following reasons:
-.TP
-.B EINVAL
-.RB ( hcreate_r ())
-.I htab
-is NULL.
-.TP
-.B ENOMEM
-Table full with \fIaction\fP set to \fBENTER\fP.
-.TP
-.B ESRCH
-The \fIaction\fP argument is \fBFIND\fP and no corresponding element
-is found in the table.
-.\" hdestroy_r() can set errno to EINVAL if 'tab' is NULL.
-.PP
-.BR hsearch ()
-and
-.BR hsearch_r ()
-can fail for the following reasons:
-.TP
-.B ENOMEM
-.I action
-was
-.BR ENTER ,
-.I key
-was not found in the table,
-and there was no room in the table to add a new entry.
-.TP
-.B ESRCH
-.I action
-was
-.BR FIND ,
-and
-.I key
-was not found in the table.
-.PP
-POSIX.1-2001 only specifies the
-.B ENOMEM
-error.
-.SH "CONFORMING TO"
-The functions
-.BR hcreate (),
-.BR hsearch (),
-and
-.BR hdestroy ()
-are from SVr4, and are described in POSIX.1-2001.
-The functions
-.BR hcreate_r (),
-.BR hsearch_r (),
-and
-.BR hdestroy_r ()
-are GNU extensions.
-.SH NOTES
-Hash table implementations are usually more efficient when the
-table contains enough free space to minimize collisions.
-Typically, this means that
-.I nel
-should be at least 25% larger than the maximum number of elements
-that the caller expects to store in the table.
+Michael
 
-The
-.BR hdestroy ()
-and
-.BR hdestroy _r()
-functions do not free the buffers pointed to by the
-.I key
-and
-.I data
-elements of the hash table entries.
-(It can't do this because it doesn't know
-whether these buffers were allocated dynamically.)
-If these buffers need to be freed (perhaps because the program
-is repeatedly creating and destroying hash tables,
-rather than creating a single table whose lifetime
-matches that of the program),
-then the program must maintain bookkeeping data structures that
-allow it to free them.
-.SH BUGS
-SVr4 and POSIX.1-2001 specify that \fIaction\fP
-is significant only for unsuccessful searches, so that an \fBENTER\fP
-should not do anything for a successful search.
-In libc and glibc (before version 2.3), the
-implementation violates the specification,
-updating the \fIdata\fP for the given \fIkey\fP in this case.
+PS The scripts check things such as:
 
-Individual hash table entries can be added, but not deleted.
-.SH EXAMPLE
-.PP
-The following program inserts 24 items into a hash table, then prints
-some of them.
-.nf
+* Are errors reported via errno, via exceptions, or both?  For cases
+where errors are reported using only one of these mechanisms, or
+reported the wrong errors (see next point) or where errors are not
+reported at all, I logged bugs  --
+http://thread.gmane.org/gmane.comp.lib.glibc.alpha/13583/focus=13594 .
+  The results of my tests are here:
+http://linux-man-pages.blogspot.com/2008/08/math-functions-and-error-reporting.html
+.)
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <search.h>
+* Do the functions report errors for the appropriate cases (e.g.,
+underflow overflow, domain error, pole error), and (more difficult to
+determine, so not complete) are there cases where errors are being
+reported when they shouldn't be?
 
-char *data[] = { "alpha", "bravo", "charlie", "delta",
-      "echo", "foxtrot", "golf", "hotel", "india", "juliet",
-      "kilo", "lima", "mike", "november", "oscar", "papa",
-      "quebec", "romeo", "sierra", "tango", "uniform",
-      "victor", "whisky", "x\-ray", "yankee", "zulu"
-};
+* Are errors reported correctly?  (i.e., is errno set to the right
+value, or is the correct exception raised)?
 
-int
-main(void)
-{
-     ENTRY e, *ep;
-     int i;
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 
-     hcreate(30);
 
-     for (i = 0; i < 24; i++) {
-         e.key = data[i];
-         /* data is just an integer, instead of a
-            pointer to something */
-         e.data = (void *) i;
-         ep = hsearch(e, ENTER);
-         /* there should be no failures */
-         if (ep == NULL) {
-             fprintf(stderr, "entry failed\\n");
-             exit(EXIT_FAILURE);
-         }
-     }
-
-     for (i = 22; i < 26; i++) {
-         /* print two entries from the table, and
-            show that two are not in the table */
-         e.key = data[i];
-         ep = hsearch(e, FIND);
-         printf("%9.9s \-> %9.9s:%d\\n", e.key,
-                ep ? ep\->key : "NULL", ep ? (int)(ep\->data) : 0);
-     }
-     exit(EXIT_SUCCESS);
-}
-.fi
-.SH "SEE ALSO"
-.BR bsearch (3),
-.BR lsearch (3),
-.BR malloc (3),
-.BR tsearch (3),
-.BR feature_test_macros (7)
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
