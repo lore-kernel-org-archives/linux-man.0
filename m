@@ -1,106 +1,114 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Math error-reporting test scripts useful in glibc?
-Date: Wed, 03 Sep 2008 10:29:50 +0200
-Message-ID: <48BE4AFE.6020106@gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: networks.5 man page
+Date: Fri, 5 Sep 2008 08:18:09 +0200
+Message-ID: <cfd18e0f0809042318w25398e00n9772dfed69fbef0c@mail.gmail.com>
+References: <48BD0587.4080803@gmail.com>
+	 <20080902115633.GK1145@finlandia.home.infodrom.org>
+	 <cfd18e0f0809020504v26c9b61bu6ad45ce56d5d5be6@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cfd18e0f0809020504v26c9b61bu6ad45ce56d5d5be6-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
-Cc: "Joseph S. Myers" <joseph-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>, Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Ping?
+On Tue, Sep 2, 2008 at 2:04 PM, Michael Kerrisk
+<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> On Tue, Sep 2, 2008 at 4:56 AM, Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org> wrote:
+>> Michael Kerrisk wrote:
+>>> Hi Joey,
+>>>
+>>> I see that Debian downstream has a networks(5) page (below) that you
+>>> wrote some years back (before my time as maintainer).  It seems
+>>> to me that it might make sense to take this page upstream.
+>>> What do you think?
+>>
+>> Great!  I'd appreciate this!
+>
+> And your thoughts on this piece?
+>
+> [[
+> PS The FreeBSD networks(5) page has some details not in your page
+> http://www.freebsd.org/cgi/man.cgi?query=networks&apropos=0&sektion=0&manpath=FreeBSD+7.0-RELEASE&format=html
+> Perhaps some of those details might also be usefully
+> covered in your page?
+> ]]
 
--------- Original Message --------
-Subject: Math error-reporting test scripts useful in glibc?
-Date: Mon, 25 Aug 2008 10:49:33 +0200
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-To: libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
-CC: Joseph S. Myers <joseph-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>, 	Andreas Jaeger <aj-Et1tbQHTxzrQT0dZR+AlfA@public.gmane.org>, 	Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, 
-linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Hi Joey,
 
-A few weeks back I wrote some scripts to test error reporting by
-nearly all math functions in glibc.  (Some details below.)  These
-scripts are available here:
-http://linux-man-pages.blogspot.com/2008/08/help-request-testing-of-math-function.html.
+After reviewing the FreeBSD page, and doing a little testing, I
+made a few edits to the Debian downstream networks(5) page
+and have included it for man-pages-3.09.
 
-The main points about these scripts are that:
-
-a) They automate generation of test programs for math functions, so
-that together two scripts generate tests for about 70 math functions
-(in any of the three type flavors, float, double, and long double).
-
-b) They produce C programs that can be driven from the command-line to
-perform almost any test of the math function.  Thus, as well as
-accepting numeric vales for the function arguments, one can use words
-such as "+inf", "-inf", "nan", "max" (the largest value of the
-function's type), "subnormal:N" (a subnormal power-of-two number with
-N leading zeroes in the significand), etc.  The resulting programs can
-be useful for working with glibc bug reports for math functions where
-no test program is supplied, or the test program is very limited in
-its operation.
-
-c) The generated test programs produce output that can easily be
-script processed -- each program produces a summary line containing
-the errno setting, the exception raised (if any), and the (class of
-the) result value.  For example, the log(3) test program produces the
-following output when given a command-line argument of 0:
-ERANGE FE_DIVBYZERO -inf
-And an argument of 10 produces the output:
-0 0 normal
-(where normal is indicates that the result is a normalized floating
-point number; it is also possible to use the programs to test that the
-result matches a specific value, if merely knowing that the value is
-"normal" is insufficient).
-
-d) They can be extended fairly easily to cover other math functions
-(though in fact I think I've covered most math functions already,
-including all of those in POSIX.1-2001, and most of the glibc
-extensions -- however, note that these scripts don't deal with the
-complex math functions).
-
-My question is: would / could these tests be usefully integrated into
-glibc?  If necessary, I may have some time to do some reworking to
-make them more suited to glibc requirements.
+Could you please review the diff below?  The most notable
+change is the substitution of "dotted-decimal" by "numbers-and-dots"
+notation, since getnetent(3) etc. do indeed accept that more
+general form, according to my tests.
 
 Cheers,
 
 Michael
 
-PS The scripts check things such as:
+--- networks.5.orig     2008-09-04 15:52:03.000000000 +0200
++++ networks.5  2008-09-04 15:51:13.000000000 +0200
+@@ -19,8 +19,9 @@
+ .\" License along with this manual; if not, write to the Free
+ .\" Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139,
+ .\" USA.
++.\" 2008-09-04, mtk, taken from Debian downstream, with a few light edits
+ .\"
+-.TH NETWORKS 5 2001-12-22 "GNU/Linux" "Linux System Administration"
++.TH NETWORKS 5 2008-09-04 "GNU/Linux" "Linux System Administration"
+ .SH NAME
+ networks \- network name information
+ .SH DESCRIPTION
+@@ -36,27 +37,32 @@
 
-* Are errors reported via errno, via exceptions, or both?  For cases
-where errors are reported using only one of these mechanisms, or
-reported the wrong errors (see next point) or where errors are not
-reported at all, I logged bugs  --
-http://thread.gmane.org/gmane.comp.lib.glibc.alpha/13583/focus=13594 .
-  The results of my tests are here:
-http://linux-man-pages.blogspot.com/2008/08/math-functions-and-error-reporting.html
-.)
+ where the fields are delimited by spaces or tabs.
+ Empty lines are ignored.
+-If a line contains a hash mark (#), the hash mark and the remaining
+-part of the line are ignored.
++The hash character (\fB#\fP) indicates the start of a comment:
++this character, and the remaining characters up to
++the end of the current line,
++are ignored by library functions that process the file.
 
-* Do the functions report errors for the appropriate cases (e.g.,
-underflow overflow, domain error, pole error), and (more difficult to
-determine, so not complete) are there cases where errors are being
-reported when they shouldn't be?
+ The field descriptions are:
 
-* Are errors reported correctly?  (i.e., is errno set to the right
-value, or is the correct exception raised)?
+ .TP
+ .I name
+ The symbolic name for the network.
++Network names can contain any printable characters execept
++white-space characters or the comment character.
+ .TP
+ .I number
+-The official number for this network in dotted-decimal notation.
+-The trailing ".0" may be omitted.
++The official number for this network in numbers-and-dots notation (see
++.BR inet (3)).
++The trailing ".0" (for the host component of the network address) may
+be omitted.
+ .TP
+ .I aliases
+ Optional aliases for the network.
+ .LP
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+-This file is read by
+-.B route
+-or
+-.B netstat
++This file is read by the
++.BR route (8)
++and
++.BR netstat (8)
+ utilities.
+ Only Class A, B or C networks are supported, partitioned networks
+ (i.e. network/26 or network/28) are not supported by this facility.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
