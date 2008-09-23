@@ -1,50 +1,63 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: timerfd_create confusion
-Date: Tue, 23 Sep 2008 07:10:05 +0200
-Message-ID: <cfd18e0f0809222210r7e069987t8575669ac885001d@mail.gmail.com>
-References: <cone.1221531974.45416.7917.500@commodore.email-scan.com>
+Subject: Re: [patch] tsearch.3: dispose properly of allocated resources in example code
+Date: Tue, 23 Sep 2008 08:28:31 +0200
+Message-ID: <cfd18e0f0809222328r599e22c1je0f4261ee969bca8@mail.gmail.com>
+References: <200809210310.43647.andre.goddard@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cone.1221531974.45416.7917.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
+In-Reply-To: <200809210310.43647.andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+To: =?ISO-8859-1?Q?Andr=E9_Goddard_Rosa?= <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Sam,
+Andr=E9,
 
-On Tue, Sep 16, 2008 at 4:26 AM, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
-> The following paragraph in timerfd_create looks confusing to me:
->
->      The   flags   argument   is   either  0,  to  start  a  relative  timer
->      (new_value.it_interval specifies a time relative to the  current  value
->      of  the  clock specified by clockid), or TFD_TIMER_ABSTIME, to start an
->      absolute timer (new_value.it_interval specifies an  absolute  time  for
->      the clock specified by clockid; that is, the timer will expire when the
->      value of that clock reaches the value specified in  new_value.it_inter-
->      val).
->
-> The way I parse this, it makes more sense if the flags argument actually
-> applies to the it_value field, the field that sets the initial timer
-> expiration, rather than it_interval, the periodic timer expiration duration.
+On Sun, Sep 21, 2008 at 8:10 AM, Andr=E9 Goddard Rosa
+<andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> As there are many users who base their own code on these examples, we
+> should avoid leaking memory when using functions of tsearch() family.
+> In the provided example, tsearch() leaks memory whenever it tries to
+> insert a number which was already inserted before.
 
-Yes, you are right; a moment of inattention when I wrote that text.
-Fixed for 3.10.
+Thanks.  My first patch applied via 'git am'!
 
-thanks,
+I applied this patch for man-pages-3.10.  (I added
+#define _GNU_SOURCE
+since that's required to expose the tdestroy() declaration.)
+
+Cheers,
 
 Michael
 
+> --- man3/tsearch.3      2008-09-10 10:16:13.000000000 -0300
+> +++ man3/tsearch.3.goddard      2008-09-21 02:42:55.000000000 -0300
+> @@ -246,8 +246,11 @@
+>         val =3D tsearch((void *) ptr, &root, compare);
+>         if (val =3D=3D NULL)
+>             exit(EXIT_FAILURE);
+> +        else if (!((*(int **) val) =3D=3D ptr))
+> +            free(ptr);
+>     }
+>     twalk(root, action);
+> +    tdestroy(root, free);
+>     exit(EXIT_SUCCESS);
+>  }
+>  .fi
+>
+>
 
--- 
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
