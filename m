@@ -1,65 +1,120 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] hsearch.3: Call hdestroy() after using hash table created by hcreate(), for the sake of completeness
-Date: Thu, 25 Sep 2008 10:04:13 +0200
-Message-ID: <cfd18e0f0809250104h4df88e07taaa136e5e8749353@mail.gmail.com>
-References: <200809210310.43647.andre.goddard@gmail.com>
-	 <200809241101.23128.andre.goddard@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Garrett Cooper" <yanegomi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [LTP] ltp getdents syscalls testcases and 2.6.27-rcX
+Date: Thu, 25 Sep 2008 01:08:28 -0700
+Message-ID: <364299f40809250108x714a5ba7ob31fb89b0d7c195c@mail.gmail.com>
+References: <200809161427.36373.dgollub@suse.de>
+	 <1222260480.5395.17.camel@subratamodak.linux.ibm.com>
+	 <200809241605.24925.dgollub@suse.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809241101.23128.andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <200809241605.24925.dgollub-l3A5Bk7waGM@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Andr=E9_Goddard_Rosa?= <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org>
+Cc: subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Andre,
-
-On Wed, Sep 24, 2008 at 4:01 PM, Andr=E9 Goddard Rosa
-<andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> From dc0f26d3112519229671c621832f87a48e972642 Mon Sep 17 00:00:00 200=
-1
-> From: =3D?utf-8?q?Andr=3DC3=3DA9=3D20Goddard=3D20Rosa?=3D <andre.godd=
-ard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date: Wed, 24 Sep 2008 10:59:37 -0300
-> Subject: [PATCH] Call hdestroy() after using hash table created by hc=
-reate(), for the sake of completeness.
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=3Dutf-8
-> Content-Transfer-Encoding: 8bit
+On Wed, Sep 24, 2008 at 7:05 AM, Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org> wrote:
+> On Wednesday 24 September 2008 14:48:00 Subrata Modak wrote:
+>> On Tue, 2008-09-16 at 14:27 +0200, Daniel Gollub wrote:
+>> > Hi,
+>> >
+>> > with 2.6.27-rc1(?) linux/dirent.h got removed Kbuild headers_install
+>> > targe and dirent struct got removed:
+>> >
+>> >
+>> > commit cf6ae8b50e0ee3f764392dadd1970e3f03c40773
+>> > Author: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+>> > Date:   Fri Jul 25 01:46:46 2008 -0700
+>> >
+>> >     remove the in-kernel struct dirent{,64}
+>> >
+>> >     The kernel struct dirent{,64} were different from the ones in
+>> >     userspace.
+>> >
+>> >     Even worse, we exported the kernel ones to userspace.
+>> >
+>> >     But after the fat usages are fixed we can remove the conflicting
+>> >     kernel versions.
+>> >
+>> >
+>> > This broke the build of some LTP syscalls testcases for "getdents", since
+>> > the <linux/dirent.h> include is missing and the "internal" dirent struct
+>> > get/got used in:
+>> >
+>> > testcases/kernel/syscalls/getdents/getdents01.c
+>> > testcases/kernel/syscalls/getdents/getdents03.c
+>> > testcases/kernel/syscalls/getdents/getdents02.c
+>> > testcases/kernel/syscalls/getdents/getdents04.c
+>> >
+>> > http://ltp.cvs.sourceforge.net/ltp/ltp/testcases/kernel/syscalls/getdents
+>> >/
+>> >
+>> > Is it safe to use the userspace dirent struct from <dirent.h> to fix the
+>> > build of this? Or what should be used for testing the getdents interface
+>> > instead?
+>>
+>> Yes, it is. There are numerous test cases in LTP which use:
+>>         struct dirent,
+>> by including /usr/include/dirent.h. The interesting part is, this guy
+>> (/usr/include/dirent.h) in turn includes /usr/include/bits/dirent.h,
+>> where the definition of struct resides. Following is the patch which
+>> solves this issue along with page.h header file removal from 2.6.25
+>> onwards, reported by Garret earlier.
 >
-> Signed-off-by: Andr=E9 Goddard Rosa <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Tried the patch - ltp build with 2.6.27-rc linux headers sucessfully.
+> Thanks for the info and the patch!
+>
+> Btw. man pages need to get also updated ... there are some pages which still
+> mention <linux/dirent.h>.
+>
+> Garret, with 2.6.25 <asm/page.h> got removed - right?
+> If so swapon(2) man page needs also get fixed:
+>
+> dgollub@marvin:~/projects/man-pages> grep -r "asm\/page.h" *
+> man2/swapon.2:.B #include <asm/page.h>     /* to find PAGE_SIZE */
+>
+> best regards,
+> Daniel
+>
 > ---
->  man3/hsearch.3 |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
 >
-> diff --git a/man3/hsearch.3 b/man3/hsearch.3
-> index 16e3b6b..d5ae21c 100644
-> --- a/man3/hsearch.3
-> +++ b/man3/hsearch.3
-> @@ -325,6 +325,7 @@ main(void)
->         printf("%9.9s \-> %9.9s:%d\\n", e.key,
->                ep ? ep\->key : "NULL", ep ? (int)(ep\->data) : 0);
->     }
-> +    hdestroy();
->     exit(EXIT_SUCCESS);
->  }
->  .fi
+> diff --git a/man2/getdents.2 b/man2/getdents.2
+> index bd9d261..eb13258 100644
+> --- a/man2/getdents.2
+> +++ b/man2/getdents.2
+> @@ -30,8 +30,8 @@ getdents \- get directory entries
+>  .SH SYNOPSIS
+>  .nf
+>  .B #include <unistd.h>
+> +.B #include <dirent.h>
+>  .B #include <linux/types.h>
+> -.B #include <linux/dirent.h>
+>  .B #include <linux/unistd.h>
+>  .B #include <errno.h>
+>
+> diff --git a/man2/readdir.2 b/man2/readdir.2
+> index a757da1..b831320 100644
+> --- a/man2/readdir.2
+> +++ b/man2/readdir.2
+> @@ -30,8 +30,8 @@
+>  readdir \- read directory entry
+>  .SH SYNOPSIS
+>  .nf
+> +.B #include <dirent.h>
+>  .B #include <linux/types.h>
+> -.B #include <linux/dirent.h>
+>  .sp
+>  .BI "int readdir(unsigned int " fd ", struct dirent *" dirp ","
+>  .BI "            unsigned int " count );
 
-Yes, good idea.  Thanks.  Applied for 3.11.
+I find it interesting because I honestly don't remember mentioning this :D..
 
-Cheers,
+Would you perhaps mean linux/signalfd.h vs sys/signalfd.h?
 
-Michael
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+-Garrett
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
