@@ -1,103 +1,131 @@
-From: Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [LTP] ltp getdents syscalls testcases and 2.6.27-rcX
-Date: Thu, 25 Sep 2008 11:17:30 +0200
-Message-ID: <200809251117.30959.dgollub@suse.de>
-References: <200809161427.36373.dgollub@suse.de> <200809241605.24925.dgollub@suse.de> <364299f40809250108x714a5ba7ob31fb89b0d7c195c@mail.gmail.com>
+From: "Maxin John" <maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: FW: mlock(2) man page modifications
+Date: Thu, 25 Sep 2008 15:17:33 +0530
+Message-ID: <9debc4410809250247j1d275ed2qd598837537e3ff64@mail.gmail.com>
+References: <9debc4410809240747h5e74e3eft39f4231db0d9cf2c@mail.gmail.com>
+	 <20080925145503.3552.KOSAKI.MOTOHIRO@jp.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <364299f40809250108x714a5ba7ob31fb89b0d7c195c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20080925145503.3552.KOSAKI.MOTOHIRO-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Garrett Cooper <yanegomi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thursday 25 September 2008 10:08:28 Garrett Cooper wrote:
-> >> Yes, it is. There are numerous test cases in LTP which use:
-> >> =A0 =A0 =A0 =A0 struct dirent,
-> >> by including /usr/include/dirent.h. The interesting part is, this =
-guy
-> >> (/usr/include/dirent.h) in turn includes /usr/include/bits/dirent.=
-h,
-> >> where the definition of struct resides. Following is the patch whi=
-ch
-> >> solves this issue along with page.h header file removal from 2.6.2=
-5
-> >> onwards, reported by Garret earlier.
+Hi all,
 
-^^^^^^^^^
+          I am forwarding the comments by Mr.Kosaki to the mailing
+list. It was due to a mistake from my side as I have used
+man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org for my first mail and later corrected it.
 
-> >
-> > Tried the patch - ltp build with 2.6.27-rc linux headers sucessfull=
-y.
-> > Thanks for the info and the patch!
-> >
-> > Btw. man pages need to get also updated ... there are some pages wh=
-ich
-> > still mention <linux/dirent.h>.
-> >
-> > Garret, with 2.6.25 <asm/page.h> got removed - right?
-> > If so swapon(2) man page needs also get fixed:
-> >
-> > dgollub@marvin:~/projects/man-pages> grep -r "asm\/page.h" *
-> > man2/swapon.2:.B #include <asm/page.h> =A0 =A0 /* to find PAGE_SIZE=
- */
-> >
-> > best regards,
-> > Daniel
-> >
-> > ---
-> >
-[...]
+Best regards and thanks for the Comments,
+
+Maxin B. John
+Sony India Software Center
+Bangalore, India
 
 
-> I find it interesting because I honestly don't remember mentioning th=
-is
-> :D..
+---------- Forwarded message ----------
+From: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Date: Thu, Sep 25, 2008 at 11:34 AM
+Subject: Re: mlock(2) man page modifications
+To: Maxin John <maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, Michael Kerrisk
+<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+
+
+Hi Maxin,
+
+Thank you for your attention.
+I think your point and your patch are right.
+
+However, my patch is trivial regression fix, not behavior change.
+An older kernel can return EAGAIN at memory stavation.
+my patch has following hunk.
+
+> +++ b/mm/mlock.c
+> @@ -78,8 +78,6 @@ success:
 >
-> Would you perhaps mean linux/signalfd.h vs sys/signalfd.h?
+>         mm->locked_vm -= pages;
+>  out:
+> -       if (ret == -ENOMEM)
+> -               ret = -EAGAIN;
 
-I don't know either - i was just refering to Subrata's reply...
-Anyway, asm/page.h is really gone:
-
-commit ed7b1889da256977574663689b598d88950bbd23
-Author: Kirill A. Shutemov <k.shutemov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date:   Thu Feb 7 00:15:56 2008 -0800
-
-    Unexport asm/page.h
-
-    Do not export asm/page.h during make headers_install.  This removes=
-=20
-PAGE_SIZE
-    from userspace headers.
+In addition, 2.6.11 (oldest code of git repository) has following code.
 
 
+static int mlock_fixup(struct vm_area_struct * vma,
+       unsigned long start, unsigned long end, unsigned int newflags)
+{
+(snip)
+       vma->vm_mm->locked_vm -= pages;
+out:
+       if (ret == -ENOMEM)
+               ret = -EAGAIN;
+       return ret;
+}
 
-Garret, just to refresh your memory ..... ;)=20
-http://article.gmane.org/gmane.linux.ltp/4873
+
+that behavior is linux mlock's behavior for long long time.
+
+Thanks!
 
 
-best regards,
-Daniel
 
----
-
-diff --git a/man2/swapon.2 b/man2/swapon.2
-index 4c7008a..2a22be7 100644
---- a/man2/swapon.2
-+++ b/man2/swapon.2
-@@ -40,8 +40,6 @@ swapon, swapoff \- start/stop swapping to file/device
- .SH SYNOPSIS
- .B #include <unistd.h>
- .br
--.B #include <asm/page.h>     /* to find PAGE_SIZE */
--.br
- .B #include <sys/swap.h>
- .sp
- .BI "int swapon(const char *" path ", int " swapflags );
-
+> Dear Michael,
+>
+>     As per the mlock(2) implementation bugfix which is present in
+> Linux 2.6.27-rc2 git commit,
+> (http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=a477097d9c37c1cf289c7f0257dffcfa42d50197),
+> the mlock(2) man page should be modified to reflect the latest changes
+> in the kernel.
+>
+> See the LKML thread regarding this commit :
+> http://www.nabble.com/mlock()-return-value-issue-in-kernel-2.6.23.17-td18751601.html
+>
+> This patch modifies the mlock(2) behaviour as per the SUSv3 specification.
+>
+> [ENOMEM]
+>     Some or all of the address range specified by the addr and
+>     len arguments does not correspond to valid mapped pages
+>     in the address space of the process.
+>
+> [EAGAIN]
+>     Some or all of the memory identified by the operation could not
+>     be locked when the call was made.
+>
+>
+> Patch for the mlock.2 to include information about EAGAIN.
+> ==========================================================
+>
+> diff -uNr man-pages-3.10/man2/mlock.2 man-pages-3.10_mlock/man2/mlock.2
+> --- man-pages-3.10/man2/mlock.2 2008-09-23 19:22:25.000000000 +0530
+> +++ man-pages-3.10_mlock/man2/mlock.2   2008-09-24 19:38:27.786315672 +0530
+> @@ -175,6 +175,10 @@
+>  .B ENOMEM
+>  Some of the specified address range does not correspond to mapped
+>  pages in the address space of the process.
+> +.TP
+> +.B EAGAIN
+> +Some of the memory identified by the operation could not be locked when
+> +the function call was made.
+>  .LP
+>  For
+>  .BR mlockall ():
+>
+> =================================================================
+>
+> Signed-off-by: Maxin B. John <maxin.john-qujY0cBTTHtBDgjK7y7TUQ@public.gmane.org>
+>
+> Kindly let me know if there are any issues with respect to this modification.
+>
+> Thanks and Regards,
+>
+> Maxin B. John
+> Sony India Software Center
+> Bangalore, India
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
