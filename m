@@ -1,120 +1,78 @@
-From: "Garrett Cooper" <yanegomi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [LTP] ltp getdents syscalls testcases and 2.6.27-rcX
-Date: Thu, 25 Sep 2008 01:08:28 -0700
-Message-ID: <364299f40809250108x714a5ba7ob31fb89b0d7c195c@mail.gmail.com>
-References: <200809161427.36373.dgollub@suse.de>
-	 <1222260480.5395.17.camel@subratamodak.linux.ibm.com>
-	 <200809241605.24925.dgollub@suse.de>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [patch] strcpy.3: Avoid redundantly filling the position 'n - 1' two times in strncpy() example code
+Date: Thu, 25 Sep 2008 10:14:08 +0200
+Message-ID: <cfd18e0f0809250114i12a1f899iab6e554a6a66a12@mail.gmail.com>
+References: <200809210310.43647.andre.goddard@gmail.com>
+	 <200809241101.34334.andre.goddard@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809241605.24925.dgollub-l3A5Bk7waGM@public.gmane.org>
+In-Reply-To: <200809241101.34334.andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org>
-Cc: subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?ISO-8859-1?Q?Andr=E9_Goddard_Rosa?= <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Sep 24, 2008 at 7:05 AM, Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org> wrote:
-> On Wednesday 24 September 2008 14:48:00 Subrata Modak wrote:
->> On Tue, 2008-09-16 at 14:27 +0200, Daniel Gollub wrote:
->> > Hi,
->> >
->> > with 2.6.27-rc1(?) linux/dirent.h got removed Kbuild headers_install
->> > targe and dirent struct got removed:
->> >
->> >
->> > commit cf6ae8b50e0ee3f764392dadd1970e3f03c40773
->> > Author: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
->> > Date:   Fri Jul 25 01:46:46 2008 -0700
->> >
->> >     remove the in-kernel struct dirent{,64}
->> >
->> >     The kernel struct dirent{,64} were different from the ones in
->> >     userspace.
->> >
->> >     Even worse, we exported the kernel ones to userspace.
->> >
->> >     But after the fat usages are fixed we can remove the conflicting
->> >     kernel versions.
->> >
->> >
->> > This broke the build of some LTP syscalls testcases for "getdents", since
->> > the <linux/dirent.h> include is missing and the "internal" dirent struct
->> > get/got used in:
->> >
->> > testcases/kernel/syscalls/getdents/getdents01.c
->> > testcases/kernel/syscalls/getdents/getdents03.c
->> > testcases/kernel/syscalls/getdents/getdents02.c
->> > testcases/kernel/syscalls/getdents/getdents04.c
->> >
->> > http://ltp.cvs.sourceforge.net/ltp/ltp/testcases/kernel/syscalls/getdents
->> >/
->> >
->> > Is it safe to use the userspace dirent struct from <dirent.h> to fix the
->> > build of this? Or what should be used for testing the getdents interface
->> > instead?
->>
->> Yes, it is. There are numerous test cases in LTP which use:
->>         struct dirent,
->> by including /usr/include/dirent.h. The interesting part is, this guy
->> (/usr/include/dirent.h) in turn includes /usr/include/bits/dirent.h,
->> where the definition of struct resides. Following is the patch which
->> solves this issue along with page.h header file removal from 2.6.25
->> onwards, reported by Garret earlier.
+Hi Andre,
+
+On Wed, Sep 24, 2008 at 4:01 PM, Andr=E9 Goddard Rosa
+<andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> From 88a02845c606413444bfb055935303b4896d0271 Mon Sep 17 00:00:00 200=
+1
+> From: =3D?utf-8?q?Andr=3DC3=3DA9=3D20Goddard=3D20Rosa?=3D <andre.godd=
+ard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Date: Wed, 24 Sep 2008 10:25:08 -0300
+> Subject: [PATCH] Avoid redundantly filling the position 'n - 1' two t=
+imes in strncpy() example code.
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=3Dutf-8
+> Content-Transfer-Encoding: 8bit
 >
-> Tried the patch - ltp build with 2.6.27-rc linux headers sucessfully.
-> Thanks for the info and the patch!
->
-> Btw. man pages need to get also updated ... there are some pages which still
-> mention <linux/dirent.h>.
->
-> Garret, with 2.6.25 <asm/page.h> got removed - right?
-> If so swapon(2) man page needs also get fixed:
->
-> dgollub@marvin:~/projects/man-pages> grep -r "asm\/page.h" *
-> man2/swapon.2:.B #include <asm/page.h>     /* to find PAGE_SIZE */
->
-> best regards,
-> Daniel
->
+> When we use 'strncpy(buf, str, n)', strncpy() will fill chars from 0.=
+=2E(n - 1).
+> As we force the character at position 'n - 1' to be '\0' anyway, don'=
+t fill it in strncpy() before.
+
+Thanks!  Applied for 3.11.
+
+Cheers,
+
+Michael
+
+> Signed-off-by: Andr=E9 Goddard Rosa <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
+>  man3/strcpy.3 |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 >
-> diff --git a/man2/getdents.2 b/man2/getdents.2
-> index bd9d261..eb13258 100644
-> --- a/man2/getdents.2
-> +++ b/man2/getdents.2
-> @@ -30,8 +30,8 @@ getdents \- get directory entries
->  .SH SYNOPSIS
+> diff --git a/man3/strcpy.3 b/man3/strcpy.3
+> index 7a8091f..d2e08a3 100644
+> --- a/man3/strcpy.3
+> +++ b/man3/strcpy.3
+> @@ -115,7 +115,7 @@ as follows:
+>  .in +4n
 >  .nf
->  .B #include <unistd.h>
-> +.B #include <dirent.h>
->  .B #include <linux/types.h>
-> -.B #include <linux/dirent.h>
->  .B #include <linux/unistd.h>
->  .B #include <errno.h>
 >
-> diff --git a/man2/readdir.2 b/man2/readdir.2
-> index a757da1..b831320 100644
-> --- a/man2/readdir.2
-> +++ b/man2/readdir.2
-> @@ -30,8 +30,8 @@
->  readdir \- read directory entry
->  .SH SYNOPSIS
->  .nf
-> +.B #include <dirent.h>
->  .B #include <linux/types.h>
-> -.B #include <linux/dirent.h>
->  .sp
->  .BI "int readdir(unsigned int " fd ", struct dirent *" dirp ","
->  .BI "            unsigned int " count );
+> -strncpy(buf, str, n);
+> +strncpy(buf, str, n \- 1);
+>  if (n > 0)
+>     buf[n \- 1]=3D \(aq\\0\(aq;
+>  .fi
+> --
+> 1.6.0.2.508.g24593
+>
+>
+>
 
-I find it interesting because I honestly don't remember mentioning this :D..
 
-Would you perhaps mean linux/signalfd.h vs sys/signalfd.h?
 
--Garrett
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
