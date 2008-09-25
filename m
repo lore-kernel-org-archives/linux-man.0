@@ -1,78 +1,97 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] strcpy.3: Avoid redundantly filling the position 'n - 1' two times in strncpy() example code
-Date: Thu, 25 Sep 2008 10:14:08 +0200
-Message-ID: <cfd18e0f0809250114i12a1f899iab6e554a6a66a12@mail.gmail.com>
-References: <200809210310.43647.andre.goddard@gmail.com>
-	 <200809241101.34334.andre.goddard@gmail.com>
+Subject: Re: mlock(2) man page modifications
+Date: Thu, 25 Sep 2008 11:16:01 +0200
+Message-ID: <cfd18e0f0809250216o7a12899du5e62a1ca049439cb@mail.gmail.com>
+References: <9debc4410809240747h5e74e3eft39f4231db0d9cf2c@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200809241101.34334.andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <9debc4410809240747h5e74e3eft39f4231db0d9cf2c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Andr=E9_Goddard_Rosa?= <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Maxin John <maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Andre,
+Hi Maxin, Kosaki,
 
-On Wed, Sep 24, 2008 at 4:01 PM, Andr=E9 Goddard Rosa
-<andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> From 88a02845c606413444bfb055935303b4896d0271 Mon Sep 17 00:00:00 200=
-1
-> From: =3D?utf-8?q?Andr=3DC3=3DA9=3D20Goddard=3D20Rosa?=3D <andre.godd=
-ard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date: Wed, 24 Sep 2008 10:25:08 -0300
-> Subject: [PATCH] Avoid redundantly filling the position 'n - 1' two t=
-imes in strncpy() example code.
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=3Dutf-8
-> Content-Transfer-Encoding: 8bit
+>    As per the mlock(2) implementation bugfix which is present in
+> Linux 2.6.27-rc2 git commit,
+> (http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=a477097d9c37c1cf289c7f0257dffcfa42d50197),
+> the mlock(2) man page should be modified to reflect the latest changes
+> in the kernel.
 >
-> When we use 'strncpy(buf, str, n)', strncpy() will fill chars from 0.=
-=2E(n - 1).
-> As we force the character at position 'n - 1' to be '\0' anyway, don'=
-t fill it in strncpy() before.
+> See the LKML thread regarding this commit :
+> http://www.nabble.com/mlock()-return-value-issue-in-kernel-2.6.23.17-td18751601.html
+>
+> This patch modifies the mlock(2) behaviour as per the SUSv3 specification.
+>
+> [ENOMEM]
+>    Some or all of the address range specified by the addr and
+>    len arguments does not correspond to valid mapped pages
+>    in the address space of the process.
+>
+> [EAGAIN]
+>    Some or all of the memory identified by the operation could not
+>    be locked when the call was made.
 
-Thanks!  Applied for 3.11.
+Thanks for your patch!  (Kosaki, thanks for your additional comments.)
+
+A few pointers for future patches:
+
+* Your subject line was good, but could have been even more
+descriptive.  I changed the patch title to: mlock.2: Add EAGAIN error.
+
+* It's best to make the patch the very last piece of the message: put
+the Signed-off-by and other text above the patch.  This makes the mail
+easier for me to read, and to process in git.
+
+I've applied your patch for 3.11.
 
 Cheers,
 
 Michael
 
-> Signed-off-by: Andr=E9 Goddard Rosa <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man3/strcpy.3 |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+> Patch for the mlock.2 to include information about EAGAIN.
+> ==========================================================
 >
-> diff --git a/man3/strcpy.3 b/man3/strcpy.3
-> index 7a8091f..d2e08a3 100644
-> --- a/man3/strcpy.3
-> +++ b/man3/strcpy.3
-> @@ -115,7 +115,7 @@ as follows:
->  .in +4n
->  .nf
+> diff -uNr man-pages-3.10/man2/mlock.2 man-pages-3.10_mlock/man2/mlock.2
+> --- man-pages-3.10/man2/mlock.2 2008-09-23 19:22:25.000000000 +0530
+> +++ man-pages-3.10_mlock/man2/mlock.2   2008-09-24 19:38:27.786315672 +0530
+> @@ -175,6 +175,10 @@
+>  .B ENOMEM
+>  Some of the specified address range does not correspond to mapped
+>  pages in the address space of the process.
+> +.TP
+> +.B EAGAIN
+> +Some of the memory identified by the operation could not be locked when
+> +the function call was made.
+>  .LP
+>  For
+>  .BR mlockall ():
 >
-> -strncpy(buf, str, n);
-> +strncpy(buf, str, n \- 1);
->  if (n > 0)
->     buf[n \- 1]=3D \(aq\\0\(aq;
->  .fi
-> --
-> 1.6.0.2.508.g24593
+> =================================================================
 >
+> Signed-off-by: Maxin B. John <maxin.john-qujY0cBTTHtBDgjK7y7TUQ@public.gmane.org>
 >
+> Kindly let me know if there are any issues with respect to this modification.
+>
+> Thanks and Regards,
+>
+> Maxin B. John
+> Sony India Software Center
+> Bangalore, India
 >
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
