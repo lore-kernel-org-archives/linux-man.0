@@ -1,35 +1,35 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 10995] Incorrect data being reported in /proc/pid/statm
-Date: Fri, 26 Sep 2008 06:42:29 -0700 (PDT)
-Message-ID: <20080926134229.ED01D108060@picon.linux-foundation.org>
-References: <bug-10995-11311@http.bugzilla.kernel.org/>
+From: "=?UTF-8?Q?Ricardo_Catalinas_Jim=C3=A9nez?=" <jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Small improvement in man page readdir(3)
+Date: Sat, 27 Sep 2008 16:04:40 +0200
+Message-ID: <28ecc63c0809270704v627aeaa1v906718ddbb33cca5@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-10995-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=10995
+In NOTES section says Linux use the d_type field of the struct dirent
+which is only true with certain filesystem like ext2 and ext3. With
+XFS and reiserfs d_type is always equal to 0.
+I think would be a good idea to add just a small comment like "Under
+certain filesystem like ext2 and ext3..." to avoid confussion.
 
+Also there is a small typo in the SYNOPSIS section where there is an
+extra line break between the two includes:
+#include <sys/types.h>
+     //extra line break here
+#include <dirent.h>
 
-alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org changed:
+I have the readdir(3) from 2007-07-30 which comes with the ubuntu 8.04
+in the manpages-dev package version 2.77-1.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         AssignedTo|process_other@kernel-       |documentation_man-
-                   |bugs.osdl.org               |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-
-
-
-
-------- Comment #1 from alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org  2008-09-26 06:42 -------
-Agreed - this is a documentation item
-
-
+Thanks in advance for your attention.
 -- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
+Ricardo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
