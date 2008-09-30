@@ -1,72 +1,66 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Small improvement in man page readdir(3)
-Date: Mon, 29 Sep 2008 15:11:20 +0200
-Message-ID: <cfd18e0f0809290611s18532b1dx8bc74bf6f47d8fec@mail.gmail.com>
-References: <28ecc63c0809270704v627aeaa1v906718ddbb33cca5@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Maxin John" <maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] mount.2 : Add MS_SILENT mountflag
+Date: Tue, 30 Sep 2008 17:23:44 +0530
+Message-ID: <9debc4410809300453p638d3515sc2ae330263039b9c@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <28ecc63c0809270704v627aeaa1v906718ddbb33cca5-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Ricardo_Catalinas_Jim=E9nez?= <jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: tytso-3s7WtUTddSA@public.gmane.org, Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, tytso-AKGzg7BKzIDYtjvyW6yDsg@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ricardo
+Dear Michael,
 
-On Sat, Sep 27, 2008 at 4:04 PM, Ricardo Catalinas Jim=E9nez
-<jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> In NOTES section says Linux use the d_type field of the struct dirent
-> which is only true with certain filesystem like ext2 and ext3. With
-> XFS and reiserfs d_type is always equal to 0.
-> I think would be a good idea to add just a small comment like "Under
-> certain filesystem like ext2 and ext3..." to avoid confussion.
+ The MS_VERBOSE in mountflags option of mount system call was replaced
+by MS_SILENT in Kernel version 2.6.17
+(http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=9b04c997b1120feefa1e6ee8e2902270bc055cd2
+).
 
-Thanks.  I've added some text covering that point to readdir.3, and
-also to getdents.2 (which is used to implement readdir(3)).
+The LKML thread regarding this commit:
+http://linux.derkeiler.com/Mailing-Lists/Kernel/2006-03/msg08081.html
 
-The fixes will be in man-pages-3.11, and are available on git now.
+eg:
+mount("/dev/sda1", "/mnt/test", "ext3", MS_SILENT, "");
 
-> Also there is a small typo in the SYNOPSIS section where there is an
-> extra line break between the two includes:
-> #include <sys/types.h>
->     //extra line break here
-> #include <dirent.h>
+The patch also includes some miscellaneous cleanups of the mount.2 man page.
 
-An earlier commit makes this point redundant:
-
-commit 15dd4fb58b96d3cf9cc88eab85bce8e7baf4f8c0
-Author: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date:   Fri Jul 4 22:38:01 2008 +0000
-
-    Add documentation of readdir_r().
-    Remove <sys/types.h> from SYNOPSIS; POSIX.1-2001 does not require i=
-t.
-    Some minor rewordings.
-
-> I have the readdir(3) from 2007-07-30 which comes with the ubuntu 8.0=
-4
-> in the manpages-dev package version 2.77-1.
-
-Thanks for the details.
-
-> Thanks in advance for your attention.
-
-And thanks very much for your report.
+Kindly let me know if there are any issues with respect to this patch.
 
 Cheers,
 
-Michael
+Maxin B. John
+Sony India Software Center
+Bangalore, India
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Signed-off-by: Maxin B. John <maxin.john-qujY0cBTTHtBDgjK7y7TUQ@public.gmane.org>
+-------
+
+diff -uNr man-pages-3.10/man2/mount.2 man-pages-3.10_mount/man2/mount.2
+--- man-pages-3.10/man2/mount.2	2008-09-23 19:22:25.000000000 +0530
++++ man-pages-3.10_mount/man2/mount.2	2008-09-30 17:15:29.087697160 +0530
+@@ -128,7 +128,6 @@
+ Since Linux 2.6.26, the
+ .B MS_RDONLY
+ flag is honored when making a bind mount.
+-Since Linux 2.6.2
+ .TP
+ .BR MS_DIRSYNC " (since Linux 2.5.19)"
+ Make directory changes on this file system synchronous.
+@@ -228,6 +227,9 @@
+ .BR MS_NODEV ,
+ .BR MS_NOEXEC .
+ .TP
++.B MS_SILENT " (Linux 2.6.17 onwards)"
++This flag suppresses the display of verbose messages.
++.TP
+ .B MS_SYNCHRONOUS
+ Make writes on this file system synchronous (as though
+ the
+
+-------
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
