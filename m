@@ -1,54 +1,74 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: signal(7) and restartable syscalls
-Date: Thu, 16 Oct 2008 20:38:05 +0200
-Message-ID: <cfd18e0f0810161138l4f5f7167g714c1deac56a2f65@mail.gmail.com>
-References: <eba800c90810130810y237bed5dkdc108bce094529ab@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael B. Trausch" <mike-cRPrJ27hGUicqzYg7KEe8g@public.gmane.org>
+Subject: Apparent bug in dlopen(3) documentation
+Date: Tue, 21 Oct 2008 16:53:34 -0400
+Message-ID: <20081021165334.02caa540@zest>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Sdvc6eRb703xK2189wWFHqR";
+ protocol="application/pgp-signature"; micalg=PGP-RIPEMD160
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <eba800c90810130810y237bed5dkdc108bce094529ab-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: didier <did447-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Didier,
+--Sig_/Sdvc6eRb703xK2189wWFHqR
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 13, 2008 at 5:10 PM, didier <did447-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi
->
-> In current man page (version 3.11) there's no mention that  with
-> timeout set on sockets (SO_RCVTIMEO, SO_SNDTIMEO)
-> read, write,send,... aren't restartable.
->
-> from include/net/sock.h
-> /* Alas, with timeout socket operations are not restartable.
->  * Compare this to poll().
->  */
+The documentation says:
 
-Yes, you are of course correct.  I'd verified this a while back, but
-just had not got around to writing it up.  An analogous behavior
-occurs with respect to stop signals (see lower in the signal(7) page),
-if timeouts have been set.
+       o   If  the  environment  variable  LD_LIBRARY_PATH  is
+           defined to contain a colon-separated list of direc=E2=80=90
+           tories, then these are searched.   (As  a  security
+           measure  this  variable  is ignored for set-user-ID
+           and set-group-ID programs.)
 
-Basically, a SO_SNDTIMEO timeout will affect connect() and send*(),
-and a SO_RCVTIMEO timeout will affect accept() and recv*().  For
-man-pages-3.12, I've updated the page to note these points.
+However, this is not (completely) the case, as demonstrable by:
 
-Thanks for your report!
+Tuesday, 2008-Oct-21 at 16:50:55 - mbt@zest - Linux v2.6.27
+Ubuntu Intrepid:[1-59/7133-0]:dl-test> ./dlc dl1.so
+LD_LIBRARY_PATH=3D(null)
+LD_LIBRARY_PATH=3D.
+dlc: dl-caller.c:46: main: Assertion `module !=3D ((void *)0)' failed.
+zsh: abort (core dumped)  ./dlc dl1.so
 
-Cheers,
+Tuesday, 2008-Oct-21 at 16:50:57 - mbt@zest - Linux v2.6.27
+Ubuntu Intrepid:[1-60/7134-134]:dl-test> LD_LIBRARY_PATH=3D. ./dlc dl1.so
+LD_LIBRARY_PATH=3D.
+LD_LIBRARY_PATH=3D.
+entrypoint_1() has been called.
+entrypoint_2() has been called.
+1
 
-Michael
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+It would appear that dlopen(3) only considers LD_LIBRARY_PATH at the
+time the executable was run, not after the executable alters its own
+environment.  Either that, or it uses the LD_LIBRARY_PATH from the
+process' parent, not its own environment.  Not sure which, but the
+documentation should probably be updated to reflect this fact.  The way
+it is written now would indicate that you could modify LD_LIBRARY_PATH
+from within the program and load libraries in different locations.  I
+suspect this is done for reasons of security, but it'd still be good to
+be documented.
+
+	Thanks,
+	Mike
+
+--=20
+My sigfile ran away and is on hiatus.
+
+--Sig_/Sdvc6eRb703xK2189wWFHqR
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Disposition: attachment; filename=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEAREDAAYFAkj+QU4ACgkQ0kE/IBnFmjA4XwCdHwFviGxMMZ0EtT+ynCj4a3zv
+yWkAoI2/L6jf9n59sjr85VIKYrf3755v
+=52GT
+-----END PGP SIGNATURE-----
+
+--Sig_/Sdvc6eRb703xK2189wWFHqR--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
