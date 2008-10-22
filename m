@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: new pthread_create(3) page
-Date: Wed, 22 Oct 2008 12:48:30 -0500
-Message-ID: <cfd18e0f0810221048m75e46850n5206b905897deaeb@mail.gmail.com>
+Subject: Review request: new pthread_exit(3) page
+Date: Wed, 22 Oct 2008 12:48:25 -0500
+Message-ID: <cfd18e0f0810221048h7d682a8ey71d1517302b18045@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -13,14 +13,7 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-I have started writing some pthreads man pages, and would appreciate
-reviewer for them.  Any takers?
-
-First off, a page for pthread_create(3).
-
-Cheers,
-
-Michael
+Any reviews for pthread_exit(3)?
 
 .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
 .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -45,359 +38,78 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_CREATE 3 2008-10-19 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_EXIT 3 2008-10-19 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_create \- create a new thread
+pthread_exit \- terminate calling thread
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_create(pthread_t *" thread ", const pthread_attr_t *" attr ,
-.BI "                   void *(*" start_routine ") (void *), void *" arg );
-.fi
+.BI "void pthread_exit(void *" value_ptr );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_create ()
-functions starts a new thread in the calling process.
-The new thread starts execution by invoking
-.IR start_routine ();
-.IR arg
-is passed as the sole argument of
-.IR start_routine ().
-
-The new thread terminates in one of the following ways:
-.IP * 2
-It calls
-.BR pthread_exit (3),
-specifying an exit status value that is available to another thread
-in the same process that calls
+.BR pthread_exit ()
+function terminates the calling thread and returns a value via
+.I retval
+that (if the thread is joinable)
+is available to another thread in the process that calls
 .BR pthread_join (3).
-.IP *
-It returns from
-.IR start_routine ().
-This is equivalent to calling
-.BR pthread_exit (3)
-with the value supplied in the
-.I return
-statement.
-.IP *
-It is canceled (see
-.BR pthread_cancel (3)).
-.IP *
-Any of the threads in the process calls
-.BR exit (3),
-or the main thread performs a return from
-.IR main ().
-This causes the termination of all threads in the process.
-.PP
-The
-.I attr
-argument points to a
-.I pthread_attr_t
-structure whose contents are used at thread creation time to
-determine attributes for the new thread;
-this structure is initialized using
-.BR pthread_attr_init (3)
-and related functions.
-If
-.I attr
-is NULL,
-then the thread is created with default attributes.
 
-Before returning, a successful call to
-.BR pthread_create ()
-stores the ID of the new thread in the buffer pointed to by
-.IR thread ;
-this identifier is used to refer to the thread
-in subsequent calls to other pthreads functions.
+Any clean-up handlers established by
+.BR pthread_cleanup_push (3)
+that have not yet been popped,
+are popped (in the reverse of the order in which they were pushed)
+and executed.
+If the thread has any thread-specific data, then,
+after the clean-up handlers have been executed,
+the corresponding destructor functions are called,
+in an unspecified order.
 
-The new thread inherits a copy of the creating thread's signal mask
-.RB ( pthread_sigmask (3)).
-The set of pending signals for the new thread is empty
-.RB ( sigpending (2)).
-The new thread does not inherit the creating thread's
-alternate signal stack
-.RB ( sigaltstack (2)).
+When a thread terminates,
+process-shared resources (e.g., mutexes, condition variables,
+semaphores, and file descriptors) are not released,
+and functions registered using
+.BR atexit (3)
+are not called.
 
-The new thread inherits the calling thread's floating-point environment
-.RB ( fenv (3)).
-
-The initial value of the new thread's CPU-time clock is 0
-(see the description of
-.\" FIXME . better to mention pthread_getcpuclockid() here?
-.BR CLOCK_THREAD_CPUTIME_ID
-in
-.BR clock_gettime (3)).
-.SS Linux-specific details
-The new thread inherits a copy of the calling thread's capability sets
-(see
-.BR capabilities (7)).
-
-The new thread inherits a copy of the calling thread's CPU affinity mask
-(see
-.BR sched_setaffinity (2)).
+After the last thread in a process terminates,
+the process terminates as by calling
+.BR exit (3)
+supplying an exit status of zero;
+thus, process-shared resources
+are released and functions registered using
+.BR atexit (3)
+are called.
 .SH RETURN VALUE
-On success,
-.BR pthread_create ()
-returns 0;
-on error, it returns an error number, and the contents of
-.IR *thread
-are undefined.
+This function does not return to the caller.
 .SH ERRORS
-.TP
-.B EAGAIN
-Insufficient resources to create another thread,
-or a system-imposed limit on the number of threads was encountered.
-The latter case may occur in two ways:
-the
-.BR RLIMIT_NPROC
-soft resource limit (set via
-.BR setrlimit (2)),
-which limits the number of process for a real user ID,
-was reached;
-or the kernel's system-wide limit on the number of threads,
-.IR /proc/sys/kernel/threads-max ,
-was reached.
-.TP
-.B EINVAL
-Invalid settings in
-.IR attr .
-.TP
-.B EPERM
-No permission to set the scheduling policy and parameters specified in
-.IR attr .
+This function always succeeds.
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-See
-.BR pthread_self (3)
-for further information on the thread ID returned in
-.IR *thread
-by
-.BR pthread_create ().
-Unless real-time scheduling policies are being employed,
-after a call to
-.BR pthread_create (),
-it is indeterminate which thread\(emthe caller or the new thread\(emwill
-next execute.
+Performing a return from the start function of any thread other
+than the main thread results in an implicit call to
+.BR pthread_exit (),
+using the function's return value as the thread's exit status.
 
-A thread may either be
-.I joinable
-or
-.IR detached .
-If a thread is joinable, then another thread can call
-.BR pthread_join (3)
-to wait for the thread to terminate and fetch its exit status.
-Only when a terminated joinable thread has been joined are
-the last of its resources released back to the system.
-When a detached thread terminates,
-its resources are automatically released back to the system:
-it is not possible to join with the thread in order to obtain
-its exit status.
-Making a thread detached is useful for some types of daemon threads
-whose exit status the application does not need to care about.
-By default, a new thread is created in a joinable state, unless
-.I attr
-was set to create the thread in a detached state (using
-.BR pthread_attr_setdetachstate (3)).
+To allow other threads to continue execution,
+the main thread should terminate by calling
+.BR pthread_create ()
+rather than
+.BR exit (3).
 
-.\" FIXME . Perhaps some of the following detail should be in
-.\" a future pthread_attr_setstacksize(3) page.
-On Linux/x86-32, the default stack size for a new thread is 2 megabytes.
-Under the NPTL threading implementation, if the
-.BR RLIMIT_STACK
-soft resource limit
-.IR "at the time the program started"
-has any value other than "unlimited",
-then it determines the default stack size of new threads.
-Using
-.BR pthread_attr_setstacksize (3),
-the stack size attribute can be explicitly set in the
-.I attr
-argument used to create a thread.
+The value pointed to by
+.IR retval
+should not be on the located on the calling thread's stack,
+since the contents of that stack are undefined after the thread terminates.
 .SH EXAMPLE
-The program below demonstrates the use of
-.BR pthread_create (),
-as well as a number of other functions in the pthreads API.
-
-In the following run,
-on a system providing the NPTL threading implementation,
-the stack size defaults to the value given by the
-"stack size" resource limit:
-
-.in +4n
-.nf
-$ ulimit \-s
-8192            # The stack size limit is 8 MB (0x80000 bytes)
-$ ./a.out hola salut servus
-Thread 1: top of stack near 0xb7dd03b8; argv_string=hola
-Thread 2: top of stack near 0xb75cf3b8; argv_string=salut
-Thread 3: top of stack near 0xb6dce3b8; argv_string=servus
-Joined with thread 1; returned value was HOLA
-Joined with thread 2; returned value was SALUT
-Joined with thread 3; returned value was SERVUS
-.fi
-.in
-
-In the next run, the program explicitly sets a stack size of 1MB (using
-.BR pthread_attr_setstacksize (3))
-for the created threads:
-
-.in +4n
-.nf
-$ ./a.out \-s 0x100000 hola salut servus
-Thread 1: top of stack near 0xb7d723b8; argv_string=hola
-Thread 2: top of stack near 0xb7c713b8; argv_string=salut
-Thread 3: top of stack near 0xb7b703b8; argv_string=servus
-Joined with thread 1; returned value was HOLA
-Joined with thread 2; returned value was SALUT
-Joined with thread 3; returned value was SERVUS
-.fi
-.in
-
-.nf
-#include <pthread.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-#include <ctype.h>
-
-/* Simple error handling functions */
-
-#define errExit(msg)            { perror(msg); exit(EXIT_FAILURE); }
-
-#define errExitEN(en, msg)      { errno = en; perror(msg); \\
-                                  exit(EXIT_FAILURE); }
-
-struct thread_info {    /* Used as argument to thread_start() */
-    pthread_t thread_id;        /* ID returned by pthread_create */
-    int       thread_num;       /* Application\-defined thread # */
-    char     *argv_string;      /* From command\-line argument */
-};
-
-/* Thread start function: display address near top of our stack,
-   and return upper\-cased copy of argv_string */
-
-static void *
-thread_start(void *arg)
-{
-    struct thread_info *tinfo = (struct thread_info *) arg;
-    char *uargv, *p;
-
-    printf("Thread %d: top of stack near %p; argv_string=%s\\n",
-            tinfo\->thread_num, &p, tinfo->argv_string);
-
-    uargv = strdup(tinfo\->argv_string);
-    if (uargv == NULL)
-        errExit("strdup");
-
-    for (p = uargv; *p != \(aq\\0'; p++)
-        *p = toupper(*p);
-
-    return uargv;
-}
-
-int
-main(int argc, char *argv[])
-{
-    int s, tnum, opt, num_threads;
-    struct thread_info *tinfo;
-    pthread_attr_t attr;
-    int stack_size;
-    void *res;
-
-    /* The "\-s" option specifies a stack size for our threads */
-
-    stack_size = \-1;
-    while ((opt = getopt(argc, argv, "s:")) != \-1) {
-        switch (opt) {
-        case \(aqs':
-            stack_size = strtoul(optarg, NULL, 0);
-            break;
-
-        default:
-            fprintf(stderr, "Usage: %s [\-s stack-size] arg...\\n",
-                    argv[0]);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    num_threads = argc \- optind;
-
-    /* Initialize thread creation attributes */
-
-    s = pthread_attr_init(&attr);
-    if (s != 0)
-        errExitEN(s, "pthread_attr_init");
-
-    if (stack_size > 0) {
-        s = pthread_attr_setstacksize(&attr, stack_size);
-        if (s != 0)
-            errExitEN(s, "pthread_attr_setstacksize");
-    }
-
-    /* Allocate memory for pthread_create() arguments */
-
-    tinfo = calloc(argc \- 1, num_threads);
-    if (tinfo == NULL)
-        errExit("calloc");
-
-    /* Create one thread for each command\-line argument */
-
-    for (tnum = 0; tnum < num_threads; tnum++) {
-        tinfo[tnum].thread_num = tnum + 1;
-        tinfo[tnum].argv_string = argv[optind + tnum];
-
-        /* The pthread_create() call stores the thread ID into
-           corresponding element of tinfo[] */
-
-        s = pthread_create(&tinfo[tnum].thread_id, &attr,
-                           &thread_start, &tinfo[tnum]);
-        if (s != 0)
-            errExitEN(s, "pthread_create");
-    }
-
-    /* Destroy the threads attribute object, since it is no
-       longer needed */
-
-    s = pthread_attr_destroy(&attr);
-    if (s != 0)
-        errExitEN(s, "pthread_attr_destroy");
-
-    /* Now join with each thread, and display its returned value */
-
-    for (tnum = 0; tnum < num_threads; tnum++) {
-        s = pthread_join(tinfo[tnum].thread_id, &res);
-        if (s != 0)
-            errExitEN(s, "pthread_join");
-
-        printf("Joined with thread %d; returned value was %s\\n",
-                tinfo[tnum].thread_num, (char *) res);
-        free(res);      /* Free memory allocated by thread */
-    }
-
-    exit(EXIT_SUCCESS);
-}
-.fi
-.SH BUGS
-In the obsolete LinuxThreads implementation,
-each of the threads in a process has a different process ID.
-This is in violation of the POSIX threads specification,
-and is the source of many other non-conformances to the standard; see
-.BR pthreads (7).
+See
+.BR pthread_create (3).
 .SH SEE ALSO
-.BR pthread_attr_init (3),
-.BR pthread_cancel (3),
-.BR pthread_detach (3),
-.BR pthread_equal (3),
-.BR pthread_exit (3),
-.BR pthread_getattr_np (3),
+.BR pthread_create (3),
 .BR pthread_join (3),
-.BR pthread_self (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
