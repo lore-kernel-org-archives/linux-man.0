@@ -1,138 +1,130 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_attr_setdetachstate.3
-Date: Fri, 24 Oct 2008 16:33:53 -0500
-Message-ID: <cfd18e0f0810241433l40e8b890ibb34e699478d71a0@mail.gmail.com>
+Subject: Re: [patch 0/3] [RFC] kernel/glibc mismatch of "readlink" syscall?
+Date: Fri, 24 Oct 2008 17:53:25 -0500
+Message-ID: <cfd18e0f0810241553x77194611o11655a89871dc210@mail.gmail.com>
+References: <20081023145054.998439866@marvin.suse.de>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081023145054.998439866-MHjlv9skyARbpigZmTR7Iw@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, "A.E. Brouwer" <aeb-ek1Qb6IBo2Pz+pZb47iToQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is the last one for this day/week...
+[Adding the man-pages historian to the CC.]
+
+Hi Daniel,
+
+On Thu, Oct 23, 2008 at 9:50 AM, Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org> wrote:
+> Hi,
+>
+> found something which looks for me like a kernel/glibc syscall mismatch. At
+> least the parameter list of "readlink" is different in the kernel compared to
+> glibc, POSIX and linux-man-pages. I'm not quite sure if this difference was
+> intended or not ...
+>
+> man 3p readlink:
+> ssize_t readlink(const char *restrict path, char *restrict buf, size_t bufsize);
+>
+> http://www.opengroup.org/onlinepubs/000095399/functions/readlink.html:
+> size_t readlink(const char *restrict path, char *restrict buf, size_t bufsize);
+>
+> glibc (/usr/include/unistd.h):
+> size_t readlink (__const char *__restrict __path, char *__restrict __buf, size_t
+>
+> man 2 readlink:
+> ssize_t readlink(const char *path, char *buf, size_t bufsiz);
+>                                              ^^^^^^
+> linux-2.6/include/linux/syscalls.h:
+> asmlinkage long sys_readlink(const char __user *path, char __user *buf, int
+>                bufsiz);                                                ^^^
+>
+>
+> All readlink prototypes, expect the one in the kernel, have an unsigned
+> buffer size. Even the readlink(2) man-page, which also describes an error
+> statement like this:
+>
+> EINVAL bufsiz is not positive.
+
+I agree; the inconsistency is strange.  Probably it was a historical accident.
+
+> Note: the same man-page defined bufsiz as type of size_t (unsigned).
+
+A little history, as it appears to me...
+
+It looks like the Linux man page came from BSD.  The 4.3BSD man page
+documented the type as "int" (and did not document an EINVAL error for
+a negative bufsize), and even today the FreeBSD (6.2) man page
+documents the type as "int" (and still does not document an EINVAL
+error for this case), and that is how the argument is prototyped in
+FreeBSD 6.2's <unistd.h>.  (I haven't tested what FreeBSD actually
+does with a negative bufsize value.)
+
+In 1993, when Linux man-pages-1.0 took the page from BSD (that page
+was timestamped 19991), it looks like someone must have changed the
+type of bufsize to "size_t" in the man page SYNOPSIS.  Now that could
+be to match Linux libc of the time, which was already using "size_t"
+(even though the then current kernel used "int"), or it could have
+been to match the current standards (SUSv1, which was based on the
+original POSIX.1, documents the type as "size"t").
+
+The EINVAL error was added to man-pages-1.18 in 1997 (even though, as
+you note, the type was "size_t").  I suspect (this was well before I
+had any association with man-pages) that was done to reflect kernel
+reality (since one could bypass glibc invoke the syscall directly),
+but obviously it is inconsistent with the prototype.
+
+> While reviewing LTP i discovered that the "readlink03" syscall test contains a
+> testcase to do a functional error-path test for "EINVAL bufsiz is not positive".
+> This testcase is using the glibc readlink() interface, which cause a unsigned
+> cast of the value "-1" and let the testcase fail (actually due to gcc/glibc
+> fortify checks and cause a __chk_fail()).
+>
+> Before workarounding the testcase, or not applying -D_FORTIFY_SOURCE=2 on LTP
+> build, i try to understand if there is any reason for this mismatch between
+> kernel and glibc/POSIX. Regarding the man-page, i'm quite certain this was a
+> copy&paste-error by coping the prototype from the POSIX man-page.
+
+(See above -- the type might have been taken either from POSIX.1 or
+glibc, and that might have been quite deliberate.)
+
+> Even sys_readlinkat(), which got introduced a long time after sys_readlink(),
+> got a signed buffer size. Intended?
+
+Probably done to match sys_readlink().
+
+> In the rare case all this was unintended, find patches for kernel, man-pages
+> and LTP to change the kernel readlink syscall interface to a unsigned buffer
+> size.
+>
+> Thoughts?
+
+Your proposed kernel patch is an ABI change, albeit one that quite
+likely would affect no applications.  So it might not hurt any one.
+On the other hand, is there a benefit to making the change?
+
+Perhaps the best think to do is simply to add a note to the man page
+about this inconsistency.  (It's not sufficient to just remove the
+EINVAL error as you propose in one of your patches, since that can
+still occur when bypassing glibc.)
+
+Perhaps others have some thoughts?
 
 Cheers,
 
 Michael
 
-.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH PTHREAD_ATTR_SETDETACHSTATE 3 2008-10-24 "Linux" "Linux Programmer's Manual"
-.SH NAME
-pthread_attr_setdetachstate, pthread_attr_getdetachstate \-
-set/get detach state attribute in thread attributes object
-.SH SYNOPSIS
-.nf
-.B #include <pthread.h>
-
-.BI "int pthread_attr_setdetachstate(pthread_attr_t *" attr \
-", int " detachstate );
-.BI "int pthread_attr_getdetachstate(pthread_attr_t *" attr \
-", int *" detachstate );
-.sp
-Compile and link with \fI\-pthread\fP.
-.SH DESCRIPTION
-The
-.BR pthread_attr_setdetachstate ()
-function sets the detach state attribute of the
-thread attributes object referred to by
-.IR thread
-to the value specified in
-.IR detachstate .
-The detach state attribute determines whether a thread created using
-the thread attributes object
-.I attr
-will be created in a joinable or a detached state.
-
-The following values may be specified in
-.IR detachstate :
-.TP
-.B PTHREAD_CREATE_DETACHED
-Threads that are created using
-.I attr
-will be created in a detached state.
-.TP
-.B PTHREAD_CREATE_JOINABLE
-Threads that are created using
-.I attr
-will be created in a joinable state.
-.PP
-The default setting of the detach state attribute in a newly initialized
-thread attributes object is
-.BR PTHREAD_CREATE_JOINABLE .
-
-The
-.BR pthread_attr_getdetachstate ()
-returns the detach state attribute of the thread attributes object
-.IR attr
-in the buffer pointed to by
-.IR detachstate .
-.SH RETURN VALUE
-On success, these functions return 0;
-on error, they return a non-zero error number.
-.SH ERRORS
-.BR pthread_attr_setdetachstate (3)
-can fail with the following error:
-.TP
-.B EINVAL
-An invalid value was specified in
-.IR detachstate .
-.SH CONFORMING TO
-POSIX.1-2001.
-.SH NOTES
-See
-.BR pthread_create (3)
-for more details on detached and joinable threads.
-
-A thread that is created in a joinable state should
-eventually either be joined using
-.BR pthread_join (3)
-or detached using
-.BR pthread_detach (3);
-see
-.BR pthread_create (3).
-
-It is an error to specify the thread ID of
-a thread that was created in a detached state
-in a later call to
-.BR pthread_detach (3)
-or
-.BR pthread_join (3).
-.SH EXAMPLE
-See
-.BR pthread_attr_init (3).
-.SH SEE ALSO
-.BR pthread_attr_init (3),
-.BR pthread_create (3),
-.BR pthread_detach (3),
-.BR pthread_join (3),
-.BR pthreads (7)
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
+To unsubscribe from this list: send the line "unsubscribe linux-api" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
