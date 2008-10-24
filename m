@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_equal.3
-Date: Fri, 24 Oct 2008 16:20:42 -0500
-Message-ID: <cfd18e0f0810241420x51f43601wf24ca6693490878e@mail.gmail.com>
+Subject: Review request: pthread_join.3
+Date: Fri, 24 Oct 2008 16:21:54 -0500
+Message-ID: <cfd18e0f0810241421u1c2a093di85f54fe495af4f29@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -12,12 +12,6 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
-
-Any reviews for this page (or any of the following)?
-
-Thanks
-
-Michael
 
 .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
 .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -42,38 +36,108 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_EQUAL 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_JOIN 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_self \- compare thread IDs
+pthread_join \- join with a terminated thread
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_equal(pthread_t " t1 ", pthread_t " t2 );
+.BI "int pthread_join(pthread_t " thread ", void **" retval );
+.fi
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_equal ()
-function compares two thread identifiers.
+.BR pthread_join ()
+function waits for the thread specified by
+.IR thread
+to terminate.
+If that thread has already terminated, then
+.BR pthread_join ()
+returns immediately.
+The thread specified by
+.I thread
+must be joinable.
+
+If
+.I retval
+is not NULL, then
+.BR pthread_join ()
+copies the exit status of the target thread
+(i.e., the value that the target thread supplied to
+.BR pthread_exit (3))
+into the location pointed to by
+.IR *retval .
+If the target thread was canceled, then
+.B PTHREAD_CANCELED
+is placed in
+.IR *retval .
+
+If multiple threads simultaneously try to join with the same thread,
+the results are undefined.
+If the thread calling
+.BR pthread_join ()
+is canceled, then the target thread will remain joinable
+(i.e., it will not be detached).
 .SH RETURN VALUE
-If the two thread IDs are equal,
-.BR pthread_equal ()
-returns a non-zero value; otherwise, it returns 0.
+On success,
+.BR pthread_join ()
+returns 0;
+on error, it returns an error number.
 .SH ERRORS
-This function always succeeds.
+.TP
+.B EDEADLK
+A deadlock was detected
+.\" The following verified by testing on glibc 2.8/NPTL:
+(e.g., two threads tried to join with each other);
+or
+.\" The following verified by testing on glibc 2.8/NPTL:
+.I thread
+specifies the calling thread.
+.TP
+.B EINVAL
+.I thread
+is not a joinable thread.
+.\" NPTL also produces this error if another thread is already
+.\" waiting to join the target thread.
+.TP
+.B ESRCH
+No thread could be found with the given thread ID.
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-The
-.BR pthread_equal ()
-function is necessary because thread IDs should be considered opaque:
-there is no portable way for applications to directly compare two
-.I pthread_t
-values.
+After a successful call to
+.BR pthread_create (),
+the caller is guaranteed that the target thread has terminated.
+
+Joining with a thread that has previously been joined results in
+unpredictable behavior.
+
+Failure to join with a thread that is joinable
+(i.e., one that is not detached),
+produces a "zombie thread".
+Avoid doing this,
+since each zombie thread consumes some system resources,
+and when enough zombie threads have accumulated,
+it will no longer be possible to create new threads (or processes).
+
+There is no pthreads analog of
+.IR "waitpid(-1,\ &status,\ 0)" ,
+that is, "join with any terminated thread".
+If you believe you need this functionality,
+you probably need to rethink your application design.
+
+All of the threads in a process are peers:
+any thread can join with any other thread in the process.
+.SH EXAMPLE
+See
+.BR pthread_create (3).
 .SH SEE ALSO
+.BR pthread_cancel (3),
 .BR pthread_create (3),
-.BR pthread_self (3),
+.BR pthread_detach (3),
+.BR pthread_exit (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
