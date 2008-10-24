@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_self.3
-Date: Fri, 24 Oct 2008 16:18:26 -0500
-Message-ID: <cfd18e0f0810241418o58144d86t4ff924a73f05721b@mail.gmail.com>
+Subject: Review request: pthread_equal.3
+Date: Fri, 24 Oct 2008 16:20:42 -0500
+Message-ID: <cfd18e0f0810241420x51f43601wf24ca6693490878e@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -13,7 +13,11 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-More pthreads man pages on the way, looking for reviewers...
+Any reviews for this page (or any of the following)?
+
+Thanks
+
+Michael
 
 .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
 .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -38,58 +42,38 @@ More pthreads man pages on the way, looking for reviewers...
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_SELF 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_EQUAL 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_self \- obtain ID of the calling thread
+pthread_self \- compare thread IDs
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.B pthread_t pthread_self(void);
+.BI "int pthread_equal(pthread_t " t1 ", pthread_t " t2 );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_self ()
-function returns the ID of the calling thread.
-This is the same value that is returned in
-.IR *thread
-in the
-.BR pthread_create (3)
-call that created this thread.
+.BR pthread_equal ()
+function compares two thread identifiers.
 .SH RETURN VALUE
-This function always succeeds, returning the calling thread's ID.
+If the two thread IDs are equal,
+.BR pthread_equal ()
+returns a non-zero value; otherwise, it returns 0.
 .SH ERRORS
 This function always succeeds.
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-POSIX.1 allows an implementation wide freedom in choosing
-the type used to represent a thread ID;
-for example, representation using either an arithmetic type or
-a structure is permitted.
-Therefore, variables of type
+The
+.BR pthread_equal ()
+function is necessary because thread IDs should be considered opaque:
+there is no portable way for applications to directly compare two
 .I pthread_t
-can't portably be compared using the C equality operator (\fB==\fP);
-use
-.BR pthread_equal (3)
-instead.
-
-Thread identifiers should be considered opaque:
-any attempt to use a thread ID other than in pthreads calls
-is non-portable and can lead to unspecified results.
-
-Thread IDs are only guaranteed to be unique within a process.
-A thread ID may be reused after a terminated thread has been joined,
-or a detached thread has terminated.
-
-The thread ID returned by
-.BR pthread_self ()
-is not the same thing as the kernel thread ID returned by a call to
-.BR gettid (2).
+values.
 .SH SEE ALSO
 .BR pthread_create (3),
-.BR pthread_equal (3),
+.BR pthread_self (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
