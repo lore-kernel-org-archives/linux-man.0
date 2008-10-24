@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_join.3
-Date: Fri, 24 Oct 2008 16:21:54 -0500
-Message-ID: <cfd18e0f0810241421u1c2a093di85f54fe495af4f29@mail.gmail.com>
+Subject: Review request: pthread_detach.3
+Date: Fri, 24 Oct 2008 16:23:09 -0500
+Message-ID: <cfd18e0f0810241423t1e454d60k4d094464e5c80647@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -36,108 +36,81 @@ List-Id: linux-man@vger.kernel.org
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_JOIN 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_DETACH 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_join \- join with a terminated thread
+pthread_detach \- detach a thread
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_join(pthread_t " thread ", void **" retval );
+.BI "int pthread_detach(pthread_t " thread );
 .fi
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_join ()
-function waits for the thread specified by
+.BR pthread_detach ()
+function marks the thread identified by
 .IR thread
-to terminate.
-If that thread has already terminated, then
-.BR pthread_join ()
-returns immediately.
-The thread specified by
-.I thread
-must be joinable.
+as detached.
+When a detached thread terminates,
+its resources are automatically released back to the system without
+the need for another thread to join with the terminated the thread.
 
-If
-.I retval
-is not NULL, then
-.BR pthread_join ()
-copies the exit status of the target thread
-(i.e., the value that the target thread supplied to
-.BR pthread_exit (3))
-into the location pointed to by
-.IR *retval .
-If the target thread was canceled, then
-.B PTHREAD_CANCELED
-is placed in
-.IR *retval .
-
-If multiple threads simultaneously try to join with the same thread,
-the results are undefined.
-If the thread calling
-.BR pthread_join ()
-is canceled, then the target thread will remain joinable
-(i.e., it will not be detached).
+Attempting to detach an already detached thread results
+in unspecified behavior.
 .SH RETURN VALUE
 On success,
-.BR pthread_join ()
+.BR pthread_detach ()
 returns 0;
 on error, it returns an error number.
 .SH ERRORS
 .TP
-.B EDEADLK
-A deadlock was detected
-.\" The following verified by testing on glibc 2.8/NPTL:
-(e.g., two threads tried to join with each other);
-or
-.\" The following verified by testing on glibc 2.8/NPTL:
-.I thread
-specifies the calling thread.
-.TP
 .B EINVAL
 .I thread
 is not a joinable thread.
-.\" NPTL also produces this error if another thread is already
-.\" waiting to join the target thread.
 .TP
 .B ESRCH
 No thread could be found with the given thread ID.
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-After a successful call to
-.BR pthread_create (),
-the caller is guaranteed that the target thread has terminated.
+Once a thread has been detached, it can't be joined with
+.BR pthread_join (3)
+or be made joinable again.
 
-Joining with a thread that has previously been joined results in
-unpredictable behavior.
-
-Failure to join with a thread that is joinable
-(i.e., one that is not detached),
-produces a "zombie thread".
-Avoid doing this,
-since each zombie thread consumes some system resources,
-and when enough zombie threads have accumulated,
-it will no longer be possible to create new threads (or processes).
-
-There is no pthreads analog of
-.IR "waitpid(-1,\ &status,\ 0)" ,
-that is, "join with any terminated thread".
-If you believe you need this functionality,
-you probably need to rethink your application design.
-
-All of the threads in a process are peers:
-any thread can join with any other thread in the process.
-.SH EXAMPLE
-See
+A new thread can be created in a detached state using
+.BR pthread_attr_setdetachstate (3)
+to set the detached attribute of the
+.I attr
+argument of
 .BR pthread_create (3).
+
+The detached attribute merely determines the behavior of the system
+when the thread terminates;
+it does not prevent the thread from being terminated
+if the process terminates using
+.BR exit (3)
+(or equivalently, if the main thread returns).
+
+Either
+.BR pthread_join (3)
+or
+.BR pthread_detach ()
+should be called for each thread that an application creates,
+so that system resources for the thread can be released.
+(But note that the resources of all threads are freed when the
+process terminates.)
+.SH EXAMPLE
+The following statement detaches the calling thread:
+
+    pthread_detach(pthread_self());
 .SH SEE ALSO
+.BR pthread_attr_setdetachstate (3),
 .BR pthread_cancel (3),
 .BR pthread_create (3),
-.BR pthread_detach (3),
 .BR pthread_exit (3),
+.BR pthread_join (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
