@@ -1,383 +1,159 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_getattr_np(3) man page
-Date: Thu, 23 Oct 2008 21:52:41 -0500
-Message-ID: <cfd18e0f0810231952u7c504530tb969c9991b13cf23@mail.gmail.com>
+Subject: Re: Review request: new pthread_exit(3) page
+Date: Fri, 24 Oct 2008 12:41:57 -0500
+Message-ID: <cfd18e0f0810241041n271b62ecsbe75fd957c36a3fa@mail.gmail.com>
+References: <cfd18e0f0810221048h7d682a8ey71d1517302b18045@mail.gmail.com>
+	 <36ca99e90810221358t2ac6090bh84fc5bba6af007fe@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <36ca99e90810221358t2ac6090bh84fc5bba6af007fe-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: harry-Ua4U3tYwen5g9hUCZPvPmw@public.gmane.org, mats-i3Vhvn7ZhtRyW0uyUquXMti2O/JbrIOy@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jeff Licquia <licquia-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, silakov-ufN2psIa012HXe+LvDLADg@public.gmane.org, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Mats, Harry,
+Hello Bert,
 
-http://bugs.linuxbase.org/show_bug.cgi?id=2364 prompted me to boost
-the priority for the pthread_getattr_np(3) man page.  I included a
-long example in the page.  It should be in reasonable shape already
-(modulo the fact that this has been a very long day) and should help
-as a starting point for an LSB spec.  Review comments welcome.
+Thanks for your review.  Follow-ups below.
+
+On Wed, Oct 22, 2008 at 3:58 PM, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> On Wed, Oct 22, 2008 at 19:48, Michael Kerrisk
+> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>> Any reviews for pthread_exit(3)?
+>>
+>> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+>> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> .\"
+>> .\" Permission is granted to make and distribute verbatim copies of this
+>> .\" manual provided the copyright notice and this permission notice are
+>> .\" preserved on all copies.
+>> .\"
+>> .\" Permission is granted to copy and distribute modified versions of this
+>> .\" manual under the conditions for verbatim copying, provided that the
+>> .\" entire resulting derived work is distributed under the terms of a
+>> .\" permission notice identical to this one.
+>> .\"
+>> .\" Since the Linux kernel and libraries are constantly changing, this
+>> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+>> .\" responsibility for errors or omissions, or for damages resulting from
+>> .\" the use of the information contained herein.  The author(s) may not
+>> .\" have taken the same level of care in the production of this manual,
+>> .\" which is licensed free of charge, as they might when working
+>> .\" professionally.
+>> .\"
+>> .\" Formatted or processed versions of this manual, if unaccompanied by
+>> .\" the source, must acknowledge the copyright and authors of this work.
+>> .\"
+>> .TH PTHREAD_EXIT 3 2008-10-19 "Linux" "Linux Programmer's Manual"
+>> .SH NAME
+>> pthread_exit \- terminate calling thread
+>> .SH SYNOPSIS
+>> .nf
+>> .B #include <pthread.h>
+>>
+>> .BI "void pthread_exit(void *" value_ptr );
+> In the reminder you are talking about 'retval' not 'value_ptr' anymore.
+
+Fixed.
+
+>> .sp
+>> Compile and link with \fI\-pthread\fP.
+>> .SH DESCRIPTION
+>> The
+>> .BR pthread_exit ()
+>> function terminates the calling thread and returns a value via
+>> .I retval
+>> that (if the thread is joinable)
+>> is available to another thread in the process that calls
+>> .BR pthread_join (3).
+>>
+>> Any clean-up handlers established by
+>> .BR pthread_cleanup_push (3)
+>> that have not yet been popped,
+>> are popped (in the reverse of the order in which they were pushed)
+>> and executed.
+>> If the thread has any thread-specific data, then,
+>> after the clean-up handlers have been executed,
+>> the corresponding destructor functions are called,
+>> in an unspecified order.
+>>
+>> When a thread terminates,
+>> process-shared resources (e.g., mutexes, condition variables,
+>> semaphores, and file descriptors) are not released,
+>> and functions registered using
+>> .BR atexit (3)
+>> are not called.
+>>
+>> After the last thread in a process terminates,
+>> the process terminates as by calling
+>> .BR exit (3)
+>> supplying an exit status of zero;
+>> thus, process-shared resources
+>> are released and functions registered using
+>> .BR atexit (3)
+>> are called.
+>> .SH RETURN VALUE
+>> This function does not return to the caller.
+>> .SH ERRORS
+>> This function always succeeds.
+>> .SH CONFORMING TO
+>> POSIX.1-2001.
+>> .SH NOTES
+>> Performing a return from the start function of any thread other
+>> than the main thread results in an implicit call to
+>> .BR pthread_exit (),
+>> using the function's return value as the thread's exit status.
+>>
+>> To allow other threads to continue execution,
+>> the main thread should terminate by calling
+>> .BR pthread_create ()
+>> rather than
+>> .BR exit (3).
+> This paragraph sounds wrong.
+
+Can you say more please?  Wrong in what way?
+
+> BTW, Linux behaves a little strange if you quit the main thread. For
+> example in top the task is marked '<defunct>'. If I press Ctrl+Z the
+> task go to sleep but I don't get my prompt back.
+
+Yes.  Can you provide any pointers to further ino. bug reports
+regarding that problem?
 
 Cheers,
 
 Michael
 
-.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH PTHREAD_GETATTR_NP 3 2008-10-23 "Linux" "Linux Programmer's Manual"
-.SH NAME
-pthread_getattr_np \- get attributes of created thread
-.SH SYNOPSIS
-.nf
-.B #define _GNU_SOURCE
-.B #include <pthread.h>
+>> The value pointed to by
+>> .IR retval
+>> should not be on the located on the calling thread's stack,
+>> since the contents of that stack are undefined after the thread terminates.
+>> .SH EXAMPLE
+>> See
+>> .BR pthread_create (3).
+>> .SH SEE ALSO
+>> .BR pthread_create (3),
+>> .BR pthread_join (3),
+>> .BR pthreads (7)
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>
+>
 
-.BI "int pthread_getattr_np(pthread_t " thread ", pthread_attr_t *" attr );
-.sp
-Compile and link with \fI\-pthread\fP.
-.SH DESCRIPTION
-The
-.BR pthread_getattr_np ()
-function initializes the thread attributes object referred to by
-.I attr
-so that it contains actual attribute values describing the running thread
-.IR thread .
 
-The returned attribute values may differ from
-the corresponding attribute values passed in the
-.I attr
-object that was used to create the thread using
-.BR pthread_create (3).
-In particular, the following attributes may differ:
-.IP * 2
-the detach state, since a joinable thread may have detached itself
-after creation;
-.IP *
-the stack size,
-which the implementation may align to a suitable boundary.
-.IP *
-and the guard size,
-which the implementation may round upwards to a multiple of the page size,
-or ignore (i.e., treat as 0),
-if the application is allocating its own stack.
-.PP
-Furthermore, if the stack address attribute was not set
-in the thread attributes object used to create the thread,
-then the returned thread attributes object
-will report the actual stack address attribute used for the thread.
 
-When the thread attributes object returned by
-.BR pthread_getattr_np ()
-is no longer required, it should be destroyed using
-.BR pthread_attr_destroy (3).
-.SH RETURN VALUE
-On success, this function return 0;
-on error, it returns a non-zero error number.
-.SH ERRORS
-.TP
-.B ENOMEM
-.\" Can happen (but unlikely) while trying to allocate memory for cpuset
-Insufficient memory.
-.PP
-In addition, if
-.I thread
-refers to the main thread, then
-.BR pthread_getattr_np ()
-may fail because of errors from various underlying calls:
-.BR fopen (3),
-if
-.IR /proc/self/maps
-can't be opened;
-and
-.BR getrlimit (2),
-if the
-.BR RLIMIT_STACK
-resource limit is not supported.
-.SH VERSIONS
-This function is available in glibc since version 2.2.3.
-.SH CONFORMING TO
-This function is a non-standard GNU extension.
-.SH EXAMPLE
-The program below demonstrates the use of
-.BR pthread_getattr_np ().
-The program creates a thread that then uses
-.BR pthread_getattr_np ()
-to retrieve and display its guard size, stack address,
-and stack size attributes.
-Command-line arguments can be used to set these attributes
-to values other than the default when creating the thread.
-The shell sessions below demonstrate the use of the program.
-
-In the first run, on an x86-32 system,
-a thread is created using default attributes:
-
-.in +4n
-.nf
-$ ulimit \-s         # No stack imit ==> default stack size is 2MB
-unlimited
-$ ./a.out
-Attributes of created thread:
-        Guard size          = 4096 bytes
-        Stack address       = 0x40196000 (EOS = 0x40397000)
-        Stack size          = 0x201000 (2101248) bytes
-.fi
-.in
-
-In the following run, we see that if a guard size is specified,
-it is rounded up to the next multiple of the system page size
-(4096 bytes on x86-32):
-
-.in +4n
-.nf
-$ ./a.out \-g 4097
-Thread attributes object after initializations:
-        Guard size          = 4097 bytes
-        Stack address       = (nil)
-        Stack size          = 0x0 (0) bytes
-
-Attributes of created thread:
-        Guard size          = 8192 bytes
-        Stack address       = 0x40196000 (EOS = 0x40397000)
-        Stack size          = 0x201000 (2101248) bytes
-.fi
-.in
-.\".in +4n
-.\".nf
-.\"$ ./a.out \-s 0x8000
-.\"Thread attributes object after initializations:
-.\"        Guard size          = 4096 bytes
-.\"        Stack address       = 0xffff8000 (EOS = (nil))
-.\"        Stack size          = 0x8000 (32768) bytes
-.\"
-.\"Attributes of created thread:
-.\"        Guard size          = 4096 bytes
-.\"        Stack address       = 0x4001e000 (EOS = 0x40026000)
-.\"        Stack size          = 0x8000 (32768) bytes
-.\".fi
-.\".in
-
-In the last run, the program manually allocates a stack for the thread.
-In this case, the guard size attribute is ignored.
-
-.in +4n
-.nf
-$ ./a.out \-g 4096 \-s 0x8000 \-a
-Allocated thread stack at 0x804d000
-
-Thread attributes object after initializations:
-        Guard size          = 4096 bytes
-        Stack address       = 0x804d000 (EOS = 0x8055000)
-        Stack size          = 0x8000 (32768) bytes
-
-Attributes of created thread:
-        Guard size          = 0 bytes
-        Stack address       = 0x804d000 (EOS = 0x8055000)
-        Stack size          = 0x8000 (32768) bytes
-.fi
-.in
-
-.nf
-#define _GNU_SOURCE     /* To get pthread_getattr_np() declaration */
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
-
-#define errExitEN(en, msg)      { errno = en; perror(msg); \\
-                                  exit(EXIT_FAILURE); }
-
-static void
-display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
-{
-    int s;
-    size_t stack_size, guard_size;
-    void *stack_addr;
-
-    s = pthread_attr_getguardsize(attr, &guard_size);
-    if (s != 0)
-        errExitEN(s, "pthread_attr_getguardsize");
-    printf("%sGuard size          = %d bytes\\n", prefix, guard_size);
-
-    s = pthread_attr_getstack(attr, &stack_addr, &stack_size);
-    if (s != 0)
-        errExitEN(s, "pthread_attr_getstack");
-    printf("%sStack address       = %p", prefix, stack_addr);
-    if (stack_size > 0)
-        printf(" (EOS = %p)", (char *) stack_addr + stack_size);
-    printf("\\n");
-    printf("%sStack size          = 0x%x (%d) bytes\\n",
-            prefix, stack_size, stack_size);
-}
-
-static void
-display_thread_attributes(pthread_t thread, char *prefix)
-{
-    int s;
-    pthread_attr_t attr;
-
-    s = pthread_getattr_np(thread, &attr);
-    if (s != 0)
-        errExitEN(s, "pthread_getattr_np");
-
-    display_stack_related_attributes(&attr, prefix);
-
-    s = pthread_attr_destroy(&attr);
-    if (s != 0)
-        errExitEN(s, "pthread_attr_destroy");
-}
-
-static void *           /* Start function for thread we create */
-thread_start(void *arg)
-{
-    printf("Attributes of created thread:\\n");
-    display_thread_attributes(pthread_self(), "\\t");
-
-    exit(EXIT_SUCCESS);         /* Terminate all threads */
-}
-
-static void
-usage(char *pname, char *msg)
-{
-    if (msg != NULL)
-        fputs(msg, stderr);
-    fprintf(stderr, "Usage: %s [\-s stack-size [-a]]"
-            " [\-g guard-size]\\n", pname);
-    fprintf(stderr, "\\t\\t\-a means program should allocate stack\\n");
-    exit(EXIT_FAILURE);
-}
-
-static pthread_attr_t *   /* Get thread attributes from command line */
-get_thread_attributes_from_cl(int argc, char *argv[],
-        pthread_attr_t *attrp)
-{
-    int s, opt, allocate_stack;
-    long stack_size, guard_size;
-            void *stack_addr;
-    pthread_attr_t *ret_attrp = NULL;   /* Set to attrp if we initialize
-                                           a thread attributes object */
-    allocate_stack = 0;
-    stack_size = \-1;
-    guard_size = \-1;
-
-    while ((opt = getopt(argc, argv, "ag:s:")) != \-1) {
-        switch (opt) {
-        case \(aqa':   allocate_stack = 1;                     break;
-        case \(aqg':   guard_size = strtoul(optarg, NULL, 0);  break;
-        case \(aqs':   stack_size = strtoul(optarg, NULL, 0);  break;
-        default:    usage(argv[0], NULL);
-        }
-    }
-
-    if (allocate_stack && stack_size == \-1)
-        usage(argv[0], "Specifying \-a without -s makes no sense\\n");
-
-    if (argc > optind)
-        usage(argv[0], "Extraneous command\-line arguments\\n");
-
-    if (stack_size >= 0 || guard_size > 0) {
-        ret_attrp = attrp;
-
-        s = pthread_attr_init(attrp);
-        if (s != 0)
-            errExitEN(s, "pthread_attr_init");
-    }
-
-    if (stack_size >= 0) {
-        if (!allocate_stack) {
-            s = pthread_attr_setstacksize(attrp, stack_size);
-            if (s != 0)
-                errExitEN(s, "pthread_attr_setstacksize");
-        } else {
-            s = posix_memalign(&stack_addr, sysconf(_SC_PAGESIZE),
-                               stack_size);
-            if (s != 0)
-                errExitEN(s, "posix_memalign");
-            printf("Allocated thread stack at %p\\n\\n", stack_addr);
-
-            s = pthread_attr_setstack(attrp, stack_addr, stack_size);
-            if (s != 0)
-                errExitEN(s, "pthread_attr_setstacksize");
-        }
-    }
-
-    if (guard_size >= 0) {
-        s = pthread_attr_setguardsize(attrp, guard_size);
-        if (s != 0)
-            errExitEN(s, "pthread_attr_setstacksize");
-    }
-
-    return ret_attrp;
-}
-
-int
-main(int argc, char *argv[])
-{
-    int s;
-    pthread_t thr;
-    pthread_attr_t attr;
-    pthread_attr_t *attrp = NULL;    /* Set to &attr if we initialize
-                                        a thread attributes object */
-
-    attrp = get_thread_attributes_from_cl(argc, argv, &attr);
-
-    if (attrp != NULL) {
-        printf("Thread attributes object after initializations:\\n");
-        display_stack_related_attributes(attrp, "\\t");
-        printf("\\n");
-    }
-
-    s = pthread_create(&thr, attrp, &thread_start, NULL);
-    if (s != 0)
-        errExitEN(s, "pthread_create");
-
-    if (attrp != NULL) {
-        s = pthread_attr_destroy(attrp);
-        if (s != 0)
-            errExitEN(s, "pthread_attr_destroy");
-    }
-
-    pause();    /* Terminates when other thread calls exit() */
-}
-.fi
-.SH SEE ALSO
-.BR pthread_attr_getaffinity_np (3),
-.BR pthread_attr_getdetachstate (3),
-.BR pthread_attr_getguardsize (3),
-.BR pthread_attr_getinheritsched (3),
-.BR pthread_attr_getschedparam (3),
-.BR pthread_attr_getschedpolicy (3),
-.BR pthread_attr_getscope (3),
-.BR pthread_attr_getstack (3),
-.BR pthread_attr_getstackaddr (3),
-.BR pthread_attr_getstacksize (3),
-.BR pthread_attr_init (3),
-.BR pthread_create (3),
-.BR pthreads (7)
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
