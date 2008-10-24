@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_attr_setstacksize.3
-Date: Fri, 24 Oct 2008 16:29:10 -0500
-Message-ID: <cfd18e0f0810241429n76e76524h7e1debed7ce4a3c8@mail.gmail.com>
+Subject: Review request: pthread_attr_setstack.3
+Date: Fri, 24 Oct 2008 16:31:02 -0500
+Message-ID: <cfd18e0f0810241431q28cf1167i3df49166479d516c@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -36,40 +36,63 @@ List-Id: linux-man@vger.kernel.org
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_ATTR_SETSTACKSIZE 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_ATTR_SETSTACK 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_attr_setstacksize, pthread_attr_getstacksize \- set/get stack size
-attribute in thread attributes object
+pthread_attr_setstack, pthread_attr_getstack \- set/get stack
+attributes in thread attributes object
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_attr_setstacksize(pthread_attr_t *" attr \
-", size_t " stacksize );
-.BI "int pthread_attr_getstacksize(pthread_attr_t *" attr \
-", size_t *" stacksize );
+.BI "int pthread_attr_setstack(pthread_attr_t *" attr ,
+.BI "                          void *" stackaddr ", size_t " stacksize );
+.BI "int pthread_attr_getstack(pthread_attr_t *" attr ,
+.BI "                          void **" stackaddr ", size_t *" stacksize );
 .sp
 Compile and link with \fI\-pthread\fP.
+.fi
+.sp
+.in -4n
+Feature Test Macro Requirements for glibc (see
+.BR feature_test_macros (7)):
+.in
+.sp
+.ad l
+.BR pthread_attr_getstack (),
+.BR pthread_attr_setstack ():
+_POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE\ >=\ 600
+.ad b
 .SH DESCRIPTION
 The
 .BR pthread_attr_setscope ()
-function sets the stack size attribute of the
+function sets the stack address and stack size attributes of the
 thread attributes object referred to by
 .I attr
-to the value specified in
-.IR stacksize .
-
-The stack size attribute determines the minimum size (in bytes) that
-will be allocated for threads created using the thread attributes object
+to the values specified in
+.IR stackaddr
+and
+.IR stacksize ,
+respectively.
+These attributes specify the location and size of the stack that should
+be used by a thread that is created using the thread attributes object
 .IR attr .
 
+.I stackaddr
+should point to the lowest addressable byte of a buffer of
+.I stacksize
+bytes that was allocated by the caller.
+The pages of the allocated buffer should be both readable and writable.
+
 The
-.BR pthread_attr_getstacksize ()
-function returns the stack size attribute of the
+.BR pthread_attr_getstack ()
+function returns the stack address and stack size attributes of the
 thread attributes object referred to by
 .I attr
-in the buffer pointed to by
-.IR stacksize .
+in the buffers pointed to by
+.IR stackaddr
+and
+.IR stacksize ,
+respectively.
 .SH RETURN VALUE
 On success, these functions return 0;
 on error, they return a non-zero error number.
@@ -78,44 +101,77 @@ on error, they return a non-zero error number.
 can fail with the following error:
 .TP
 .B EINVAL
-The stack size is less than
+.I stackaddr
+is less than
 .BR PTHREAD_STACK_MIN
 (16384) bytes.
+On some systems, this error may also occur if
+.IR stackaddr
+or
+.IR "stackaddr\ +\ stacksize"
+is not suitably aligned.
+.PP
+POSIX.1-2001 also documents an
+.BR EACCES
+error if the stack area described by
+.I stackaddr
+and
+.I stacksize
+is not both readable and writable by the caller.
 .SH VERSIONS
-These functions are provided by glibc since version 2.1.
+These functions are provided by glibc since version 2.2.
 .SH CONFORMING TO
 POSIX.1-2001.
+.SH NOTES
+These functions are provided for applications that must ensure that
+a thread's stack is placed in a particular location.
+For most applications, this is not necessary,
+and the use of these functions should be avoided.
+(Use
+.BR pthread_attr_setstacksize (3)
+if an application simply requires a stack size other than the default.)
+
+When an application employs
+.BR pthread_attr_setstack (),
+it takes over the responsibility of allocating the stack.
+Any guard size value that was set using
+.BR pthread_attr_setguardsize (3)
+is ignored.
+If deemed necessary,
+it is the application's responsibility to allocate a guard area
+(one or more pages protected against reading and writing)
+to handle the possibility of stack overflow.
+
+The address specified in
+.I stackaddr
+should be suitably aligned:
+for full portability, align it on a page boundary
+.RI ( sysconf(_SC_PAGESIZE) ).
+.BR posix_memalign (3)
+may be useful for allocation.
+Probably,
+.IR stacksize
+should also be a multiple of the system page size.
+
+If
+.I attr
+is used to create multiple threads, then the caller must change the
+stack address attribute between calls to
+.BR pthread_create (3);
+otherwise, the threads will attempt to use the same memory area
+for their stacks, and chaos will ensue.
+.BR
 .SH EXAMPLE
 See
-.BR pthread_create (3).
-.SH NOTES
-For details on the default stack size of new threads, see
-.BR pthread_create (3).
-
-A thread's stack size is fixed at the time of thread creation.
-Only the main thread can dynamically grow its stack.
-
-The
-.BR pthread_attr_setstack (3)
-function allows an application to set both the size and location
-of a caller-allocated stack that is to be used by a thread.
-.SH BUGS
-As at glibc 2.8,
-if the specified
-.I stacksize
-is not a multiple of
-.BR STACK_ALIGN
-(16 bytes on most architectures), it may be rounded
-.IR downwards ,
-in violation of POSIX.1-2001, which says that the allocated stack will
-be at least
-.I stacksize
-bytes.
+.BR pthread_attr_init (3).
 .SH SEE ALSO
-.BR getrlimit (2),
+.BR mmap (2),
+.BR mprotect (2),
+.BR posix_memalign (3),
 .BR pthread_attr_init (3),
 .BR pthread_attr_setguardsize (3),
-.BR pthread_attr_setstack (3),
+.BR pthread_attr_setstackaddr (3),
+.BR pthread_attr_setstacksize (3),
 .BR pthread_create (3),
 .BR pthreads (7)
 --
