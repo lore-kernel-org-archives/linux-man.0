@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_detach.3
-Date: Fri, 24 Oct 2008 16:23:09 -0500
-Message-ID: <cfd18e0f0810241423t1e454d60k4d094464e5c80647@mail.gmail.com>
+Subject: Review request: pthread_attr_init.3
+Date: Fri, 24 Oct 2008 16:23:58 -0500
+Message-ID: <cfd18e0f0810241423l2182df0cj9bf660d52798fd15@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -36,81 +36,290 @@ List-Id: linux-man@vger.kernel.org
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_DETACH 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_ATTR_INIT 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_detach \- detach a thread
+pthread_attr_init, pthread_attr_destroy \- initialize and destroy
+thread attributes object
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_detach(pthread_t " thread );
-.fi
+.BI "int pthread_attr_init(pthread_attr_t *" attr );
+.BI "int pthread_attr_destroy(pthread_attr_t *" attr );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_detach ()
-function marks the thread identified by
-.IR thread
-as detached.
-When a detached thread terminates,
-its resources are automatically released back to the system without
-the need for another thread to join with the terminated the thread.
+.BR pthread_attr_init ()
+function initializes the thread attributes object pointed to by
+.IR attr
+with default attribute values.
+After this call, individual attributes of the object can be set
+using various related functions (listed under SEE ALSO),
+and then the object can be used in one or more
+.BR pthread_create (3)
+calls that create threads.
 
-Attempting to detach an already detached thread results
-in unspecified behavior.
+Calling
+.BR pthread_attr_init ()
+on a thread attributes object that has already been initialized
+results in undefined behavior.
+
+When a thread attributes object is no longer required,
+it should be destroyed using the
+.BR pthread_attr_destroy ()
+function.
+Destroying a thread attributes object has no effect
+on threads that were created using that object.
+
+Once a thread attributes object has been destroyed,
+it can be reinitialized using
+.BR pthread_attr_init ().
+Any other use of a destroyed thread attributes object
+has undefined results.
 .SH RETURN VALUE
-On success,
-.BR pthread_detach ()
-returns 0;
-on error, it returns an error number.
+On success, these functions return 0;
+on error, they return a non-zero error number.
 .SH ERRORS
-.TP
-.B EINVAL
-.I thread
-is not a joinable thread.
-.TP
-.B ESRCH
-No thread could be found with the given thread ID.
+POSIX.1-2001 documents an
+.B ENOMEM
+error for
+.BR pthread_attr_init ();
+on Linux these functions always succeed
+(but portable and future-proof applications should nevertheless
+handle a possible error return).
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-Once a thread has been detached, it can't be joined with
-.BR pthread_join (3)
-or be made joinable again.
+The
+.I pthread_attr_t
+type should be treated as opaque:
+any access to the object other than via pthreads functions
+is non-portable and produces undefined results.
+.SH EXAMPLE
+The program below optionally makes use of
+.BR pthread_attr_init ()
+and various related functions to initialize a thread attributes
+object that is used to create a single thread.
+Once created, the thread uses the
+.BR pthread_getattr_np ()
+function (a non-standard GNU extension) to retrieve the thread's
+attributes, and then displays those attributes.
 
-A new thread can be created in a detached state using
-.BR pthread_attr_setdetachstate (3)
-to set the detached attribute of the
+If the program is run with no command-line argument,
+then it passes NULL as the
 .I attr
 argument of
-.BR pthread_create (3).
-
-The detached attribute merely determines the behavior of the system
-when the thread terminates;
-it does not prevent the thread from being terminated
-if the process terminates using
-.BR exit (3)
-(or equivalently, if the main thread returns).
-
-Either
-.BR pthread_join (3)
-or
-.BR pthread_detach ()
-should be called for each thread that an application creates,
-so that system resources for the thread can be released.
-(But note that the resources of all threads are freed when the
-process terminates.)
-.SH EXAMPLE
-The following statement detaches the calling thread:
-
-    pthread_detach(pthread_self());
-.SH SEE ALSO
-.BR pthread_attr_setdetachstate (3),
-.BR pthread_cancel (3),
 .BR pthread_create (3),
-.BR pthread_exit (3),
-.BR pthread_join (3),
+so that the thread is created with default attributes.
+Running the program on Linux/x86-32 with the NPTL threading implementation,
+we see the following:
+
+.in +4n
+.nf
+.\" Results from glibc 2.8, SUSE 11.0; Oct 2008
+$ ulimit \-s         # No stack imit ==> default stack size is 2MB
+unlimited
+$ ./a.out
+Thread attributes:
+        Detach state        = PTHREAD_CREATE_JOINABLE
+        Scope               = PTHREAD_SCOPE_SYSTEM
+        Inherit scheduler   = PTHREAD_INHERIT_SCHED
+        Scheduling policy   = SCHED_OTHER
+        Scheduling priority = 0
+        Guard size          = 4096 bytes
+        Stack address       = 0x40196000
+        Stack size          = 0x201000 bytes
+.fi
+.in
+
+When we supply a stack size as a command-line argument,
+the program initializes a thread attributes object,
+sets various attributes in that object,
+and passes a pointer to the object in the call to
+.BR pthread_create (3).
+Running the program on Linux/x86-32 with the NPTL threading implementation,
+we see the following:
+
+.in +4n
+.nf
+.\" Results from glibc 2.8, SUSE 11.0; Oct 2008
+$ ./a.out 0x3000000
+posix_memalign() allocated at 0x40197000
+Thread attributes:
+        Detach state        = PTHREAD_CREATE_DETACHED
+        Scope               = PTHREAD_SCOPE_SYSTEM
+        Inherit scheduler   = PTHREAD_EXPLICIT_SCHED
+        Scheduling policy   = SCHED_OTHER
+        Scheduling priority = 0
+        Guard size          = 0 bytes
+        Stack address       = 0x40197000
+        Stack size          = 0x3000000 bytes
+.fi
+.in
+
+Here is the program source:
+
+.nf
+#define _GNU_SOURCE     /* To get pthread_getattr_np() declaration */
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+
+#define errExitEN(en, msg)      { errno = en; perror(msg); \\
+                                  exit(EXIT_FAILURE); }
+
+static void
+display_pthread_attr(pthread_attr_t *attr, char *prefix)
+{
+    int s, i;
+    size_t v;
+    void *stkaddr;
+    struct sched_param sp;
+
+    s = pthread_attr_getdetachstate(attr, &i);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getdetachstate");
+    printf("%sDetach state        = %s\\n", prefix,
+            (i == PTHREAD_CREATE_DETACHED) ? "PTHREAD_CREATE_DETACHED" :
+            (i == PTHREAD_CREATE_JOINABLE) ? "PTHREAD_CREATE_JOINABLE" :
+            "???");
+
+    s = pthread_attr_getscope(attr, &i);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getscope");
+    printf("%sScope               = %s\\n", prefix,
+            (i == PTHREAD_SCOPE_SYSTEM)  ? "PTHREAD_SCOPE_SYSTEM" :
+            (i == PTHREAD_SCOPE_PROCESS) ? "PTHREAD_SCOPE_PROCESS" :
+            "???");
+
+    s = pthread_attr_getinheritsched(attr, &i);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getinheritsched");
+    printf("%sInherit scheduler   = %s\\n", prefix,
+            (i == PTHREAD_INHERIT_SCHED)  ? "PTHREAD_INHERIT_SCHED" :
+            (i == PTHREAD_EXPLICIT_SCHED) ? "PTHREAD_EXPLICIT_SCHED" :
+            "???");
+
+    s = pthread_attr_getschedpolicy(attr, &i);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getschedpolicy");
+    printf("%sScheduling policy   = %s\\n", prefix,
+            (i == SCHED_OTHER) ? "SCHED_OTHER" :
+            (i == SCHED_FIFO)  ? "SCHED_FIFO" :
+            (i == SCHED_RR)    ? "SCHED_RR" :
+            "???");
+
+    s = pthread_attr_getschedparam(attr, &sp);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getschedparam");
+    printf("%sScheduling priority = %d\\n", prefix, sp.sched_priority);
+
+    s = pthread_attr_getguardsize(attr, &v);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getguardsize");
+    printf("%sGuard size          = %d bytes\\n", prefix, v);
+
+    s = pthread_attr_getstack(attr, &stkaddr, &v);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_getstack");
+    printf("%sStack address       = %p\\n", prefix, stkaddr);
+    printf("%sStack size          = 0x%x bytes\\n", prefix, v);
+}
+
+static void *
+thread_start(void *arg)
+{
+    int s;
+    pthread_attr_t gattr;
+
+    /* pthread_getattr_np() is a non\-standard GNU extension that
+       retrieves the attributes of the thread specified in its
+       first argument */
+
+    s = pthread_getattr_np(pthread_self(), &gattr);
+    if (s != 0)
+        errExitEN(s, "pthread_getattr_np");
+
+    printf("Thread attributes:\\n");
+    display_pthread_attr(&gattr, "\\t");
+
+    exit(EXIT_SUCCESS);         /* Terminate all threads */
+}
+
+int
+main(int argc, char *argv[])
+{
+    pthread_t thr;
+    pthread_attr_t attr;
+    pthread_attr_t *attrp;      /* NULL or &attr */
+    int s;
+
+    attrp = NULL;
+
+    /* If a command\-line argument was supplied, use it to set the
+       stack\-size attribute and set a few other thread attributes,
+       and set attrp pointing to thread attributes object */
+
+    if (argc > 1) {
+        int stack_size;
+        void *sp;
+
+        attrp = &attr;
+
+        s = pthread_attr_init(&attr);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_init");
+
+        s = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setdetachstate");
+
+        s = pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setinheritsched");
+
+        stack_size = strtoul(argv[1], NULL, 0);
+
+        s = posix_memalign(&sp, sysconf(_SC_PAGESIZE), stack_size);
+        if (s != 0)
+            errExitEN(s, "posix_memalign");
+
+        printf("posix_memalign() allocated at %p\\n", sp);
+
+        s = pthread_attr_setstack(&attr, sp, stack_size);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setstack");
+    }
+
+    s = pthread_create(&thr, attrp, &thread_start, NULL);
+    if (s != 0)
+        errExitEN(s, "pthread_create");
+
+    if (attrp != NULL) {
+        s = pthread_attr_destroy(attrp);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_destroy");
+    }
+
+    pause();    /* Terminates when other thread calls exit() */
+}
+.fi
+.SH SEE ALSO
+.BR pthread_attr_setaffinity_np (3),
+.BR pthread_attr_setdetachstate (3),
+.BR pthread_attr_setguardsize (3),
+.BR pthread_attr_setinheritsched (3),
+.BR pthread_attr_setschedparam (3),
+.BR pthread_attr_setschedpolicy (3),
+.BR pthread_attr_setscope (3),
+.BR pthread_attr_setstack (3),
+.BR pthread_attr_setstackaddr (3),
+.BR pthread_attr_setstacksize (3),
+.BR pthread_create (3),
+.BR pthread_getattr_np (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
