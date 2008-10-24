@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Review request: pthread_attr_setguardsize.3
-Date: Fri, 24 Oct 2008 16:26:21 -0500
-Message-ID: <cfd18e0f0810241426l225157b3mfb0690520ff846ac@mail.gmail.com>
+Subject: Review request: pthread_attr_setstacksize.3
+Date: Fri, 24 Oct 2008 16:29:10 -0500
+Message-ID: <cfd18e0f0810241429n76e76524h7e1debed7ce4a3c8@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -36,144 +36,87 @@ List-Id: linux-man@vger.kernel.org
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_ATTR_SETGUARDSIZE 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_ATTR_SETSTACKSIZE 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_attr_setguardsize, pthread_attr_getguardsize \- set/get guard size
+pthread_attr_setstacksize, pthread_attr_getstacksize \- set/get stack size
 attribute in thread attributes object
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_attr_setguardsize(pthread_attr_t *" attr \
-", size_t " guardsize );
-.BI "int pthread_attr_getguardsize(pthread_attr_t *" attr \
-", size_t *" guardsize );
+.BI "int pthread_attr_setstacksize(pthread_attr_t *" attr \
+", size_t " stacksize );
+.BI "int pthread_attr_getstacksize(pthread_attr_t *" attr \
+", size_t *" stacksize );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_attr_setguardsize ()
-function sets the guard size attribute of the
+.BR pthread_attr_setscope ()
+function sets the stack size attribute of the
 thread attributes object referred to by
 .I attr
 to the value specified in
-.IR guardsize .
+.IR stacksize .
 
-If
-.I guardsize
-is greater than 0,
-then for each new thread created using
-.I attr
-the system allocates an additional region of at least
-.I guardsize
-bytes at the end of the thread's stack to act as the guard area
-for the stack (but see BUGS).
-
-If
-.I guardsize
-is 0, then new threads created with
-.I attr
-will not have a guard area.
-
-The default guard size is the same as the system page size.
-
-If the stack address attribute has been set in
-.I attr
-(using
-.BR pthread_attr_setstack (3)
-or
-.BR pthread_attr_setstackaddr (3)),
-meaning that the caller is allocating the thread's stack,
-then the guard size attribute is ignored
-(i.e., no guard area is created by the system):
-it is the application's responsibility to handle stack overflow
-(perhaps by using
-.BR mprotect (2)
-to manually define a guard area at the end of the stack
-that it has allocated).
+The stack size attribute determines the minimum size (in bytes) that
+will be allocated for threads created using the thread attributes object
+.IR attr .
 
 The
-.BR pthread_attr_getguardsize ()
-function returns the guard size attribute of the
+.BR pthread_attr_getstacksize ()
+function returns the stack size attribute of the
 thread attributes object referred to by
 .I attr
 in the buffer pointed to by
-.IR guardsize .
+.IR stacksize .
 .SH RETURN VALUE
 On success, these functions return 0;
 on error, they return a non-zero error number.
 .SH ERRORS
-POSIX.1-2001 documents an
+.BR pthread_attr_setstacksize ()
+can fail with the following error:
+.TP
 .B EINVAL
-error if
-.I attr
-or
-.I guardsize
-is invalid.
-On Linux these functions always succeed
-(but portable and future-proof applications should nevertheless
-handle a possible error return).
+The stack size is less than
+.BR PTHREAD_STACK_MIN
+(16384) bytes.
 .SH VERSIONS
 These functions are provided by glibc since version 2.1.
 .SH CONFORMING TO
 POSIX.1-2001.
-.SH NOTES
-A guard area consists of virtual memory pages that are protected
-to prevent read and write access.
-If a thread overflows its stack into the guard area,
-then, on most hard architectures, it receives a
-.B SIGSEGV
-signal, thus notifying it of the overflow.
-Guard areas start on page boundaries,
-and the guard size is internally rounded up to
-the system page size when creating a thread.
-(Nevertheless,
-.BR pthread_attr_getguardsize ()
-returns the guard size that was set by
-.BR pthread_attr_setguardsize ().)
-
-Setting a guard size of 0 may be useful to save memory
-in an application that creates many threads
-and knows that stack overflow can never occur.
-
-Choosing a guard size larger than the default size
-may be necessary for detecting stack overflows
-if a thread allocates large data structures on the stack.
-.SH BUGS
-As at glibc 2.8, the NPTL threading implementation includes
-the guard area within the stack size allocation,
-rather than allocating extra space at the end of the stack,
-as POSIX.1 requires.
-(This can result in an
-.B EINVAL
-error from
-.BR pthread_create (3)
-if the guard size value is too large,
-leaving no space for the actual stack.)
-
-The obsolete LinuxThreads implementation did the right thing,
-allocating extra space at the end of the stack for the guard area.
-.\" glibc includes the guardsize within the allocated stack size,
-.\" which looks pretty clearly to be in violation of POSIX.
-.\"
-.\" Filed bug, 22 Oct 2008:
-.\" http://sources.redhat.com/bugzilla/show_bug.cgi?id=6973
-.\"
-.\" Older reports:
-.\" https//bugzilla.redhat.com/show_bug.cgi?id=435337
-.\" Reportedly, LinuxThreads did the right thing, allocating
-.\" extra space at the end of the stack:
-.\" http://sourceware.org/ml/libc-alpha/2008-05/msg00086.html
 .SH EXAMPLE
 See
-.BR pthread_getattr_np (3).
+.BR pthread_create (3).
+.SH NOTES
+For details on the default stack size of new threads, see
+.BR pthread_create (3).
+
+A thread's stack size is fixed at the time of thread creation.
+Only the main thread can dynamically grow its stack.
+
+The
+.BR pthread_attr_setstack (3)
+function allows an application to set both the size and location
+of a caller-allocated stack that is to be used by a thread.
+.SH BUGS
+As at glibc 2.8,
+if the specified
+.I stacksize
+is not a multiple of
+.BR STACK_ALIGN
+(16 bytes on most architectures), it may be rounded
+.IR downwards ,
+in violation of POSIX.1-2001, which says that the allocated stack will
+be at least
+.I stacksize
+bytes.
 .SH SEE ALSO
-.BR mmap (2),
-.BR mprotect (2),
+.BR getrlimit (2),
 .BR pthread_attr_init (3),
-.BR pthread_create (3),
+.BR pthread_attr_setguardsize (3),
 .BR pthread_attr_setstack (3),
-.BR pthread_attr_setstacksize (3),
+.BR pthread_create (3),
 .BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
