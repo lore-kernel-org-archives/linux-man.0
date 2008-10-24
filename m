@@ -1,62 +1,96 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Review request: new pthread_create(3) page
-Date: Fri, 24 Oct 2008 14:16:46 -0500
-Message-ID: <cfd18e0f0810241216h78769619h70224115c477c1d3@mail.gmail.com>
-References: <cfd18e0f0810221048m75e46850n5206b905897deaeb@mail.gmail.com>
-	 <36ca99e90810221408t29afc0f7gddf40029f9cde3df@mail.gmail.com>
+Subject: For review: pthread_self.3
+Date: Fri, 24 Oct 2008 16:18:26 -0500
+Message-ID: <cfd18e0f0810241418o58144d86t4ff924a73f05721b@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <36ca99e90810221408t29afc0f7gddf40029f9cde3df-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Bert,
+More pthreads man pages on the way, looking for reviewers...
 
-Thanks again for reviewing.
+.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH PTHREAD_SELF 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+.SH NAME
+pthread_self \- obtain ID of the calling thread
+.SH SYNOPSIS
+.nf
+.B #include <pthread.h>
 
-[...]
->> .SH DESCRIPTION
->> The
->> .BR pthread_create ()
->> functions starts a new thread in the calling process.
-> function
+.B pthread_t pthread_self(void);
+.sp
+Compile and link with \fI\-pthread\fP.
+.SH DESCRIPTION
+The
+.BR pthread_self ()
+function returns the ID of the calling thread.
+This is the same value that is returned in
+.IR *thread
+in the
+.BR pthread_create (3)
+call that created this thread.
+.SH RETURN VALUE
+This function always succeeds, returning the calling thread's ID.
+.SH ERRORS
+This function always succeeds.
+.SH CONFORMING TO
+POSIX.1-2001.
+.SH NOTES
+POSIX.1 allows an implementation wide freedom in choosing
+the type used to represent a thread ID;
+for example, representation using either an arithmetic type or
+a structure is permitted.
+Therefore, variables of type
+.I pthread_t
+can't portably be compared using the C equality operator (\fB==\fP);
+use
+.BR pthread_equal (3)
+instead.
 
-fixed.
+Thread identifiers should be considered opaque:
+any attempt to use a thread ID other than in pthreads calls
+is non-portable and can lead to unspecified results.
 
-[...]
->>    /* Allocate memory for pthread_create() arguments */
->>
->>    tinfo = calloc(argc \- 1, num_threads);
->    tinfo = calloc(num_threads, sizeof(*tinfo));
+Thread IDs are only guaranteed to be unique within a process.
+A thread ID may be reused after a terminated thread has been joined,
+or a detached thread has terminated.
 
-Thanks.  I had reworked the program to use getopt, and missed cleanin
-this piece up.
-
-[...]
->>        printf("Joined with thread %d; returned value was %s\\n",
->>                tinfo[tnum].thread_num, (char *) res);
->>        free(res);      /* Free memory allocated by thread */
->>    }
->     free(tinfo); /*you free res, so you can free this too */
-
-Yes -- good point.  Fixed.
-
-Thanks,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+The thread ID returned by
+.BR pthread_self ()
+is not the same thing as the kernel thread ID returned by a call to
+.BR gettid (2).
+.SH SEE ALSO
+.BR pthread_create (3),
+.BR pthread_equal (3),
+.BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
