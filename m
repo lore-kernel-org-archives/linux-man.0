@@ -1,20 +1,20 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Review request: pthread_detach.3
-Date: Sat, 25 Oct 2008 08:21:14 +0200
-Message-ID: <36ca99e90810242321y7f7ee756l6546875ab7388717@mail.gmail.com>
-References: <cfd18e0f0810241423t1e454d60k4d094464e5c80647@mail.gmail.com>
+From: "Stefan Puiu" <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Review request: pthread_attr_setstack.3
+Date: Sat, 25 Oct 2008 15:01:24 +0300
+Message-ID: <775f04010810250501p63b11cbdv4ef4b1c70b6de332@mail.gmail.com>
+References: <cfd18e0f0810241431q28cf1167i3df49166479d516c@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0810241423t1e454d60k4d094464e5c80647-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0810241431q28cf1167i3df49166479d516c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Oct 24, 2008 at 23:23, Michael Kerrisk
+On Sat, Oct 25, 2008 at 12:31 AM, Michael Kerrisk
 <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
 > .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
 > .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -39,86 +39,153 @@ On Fri, Oct 24, 2008 at 23:23, Michael Kerrisk
 > .\" Formatted or processed versions of this manual, if unaccompanied by
 > .\" the source, must acknowledge the copyright and authors of this work.
 > .\"
-> .TH PTHREAD_DETACH 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+> .TH PTHREAD_ATTR_SETSTACK 3 2008-10-24 "Linux" "Linux Programmer's Manual"
 > .SH NAME
-> pthread_detach \- detach a thread
+> pthread_attr_setstack, pthread_attr_getstack \- set/get stack
+> attributes in thread attributes object
 > .SH SYNOPSIS
 > .nf
 > .B #include <pthread.h>
 >
-> .BI "int pthread_detach(pthread_t " thread );
-> .fi
+> .BI "int pthread_attr_setstack(pthread_attr_t *" attr ,
+> .BI "                          void *" stackaddr ", size_t " stacksize );
+> .BI "int pthread_attr_getstack(pthread_attr_t *" attr ,
+> .BI "                          void **" stackaddr ", size_t *" stacksize );
 > .sp
 > Compile and link with \fI\-pthread\fP.
+> .fi
+> .sp
+> .in -4n
+> Feature Test Macro Requirements for glibc (see
+> .BR feature_test_macros (7)):
+> .in
+> .sp
+> .ad l
+> .BR pthread_attr_getstack (),
+> .BR pthread_attr_setstack ():
+> _POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE\ >=\ 600
+> .ad b
 > .SH DESCRIPTION
 > The
-> .BR pthread_detach ()
-> function marks the thread identified by
-> .IR thread
-> as detached.
-> When a detached thread terminates,
-> its resources are automatically released back to the system without
-> the need for another thread to join with the terminated the thread.
-One 'the' too many.
+> .BR pthread_attr_setscope ()
+                               ^^^^^
+This looks like a copy/paste error - it's also present in at least one
+of the other manpages you posted. I guess this should be
+pthread_attr_setstack().
 
+> function sets the stack address and stack size attributes of the
+> thread attributes object referred to by
+> .I attr
+> to the values specified in
+> .IR stackaddr
+> and
+> .IR stacksize ,
+> respectively.
+> These attributes specify the location and size of the stack that should
+> be used by a thread that is created using the thread attributes object
+> .IR attr .
 >
-> Attempting to detach an already detached thread results
-> in unspecified behavior.
-Now you have three: undefined, unpredictable, and unspecified.
-
+> .I stackaddr
+> should point to the lowest addressable byte of a buffer of
+> .I stacksize
+> bytes that was allocated by the caller.
+> The pages of the allocated buffer should be both readable and writable.
+>
+> The
+> .BR pthread_attr_getstack ()
+> function returns the stack address and stack size attributes of the
+> thread attributes object referred to by
+> .I attr
+> in the buffers pointed to by
+> .IR stackaddr
+> and
+> .IR stacksize ,
+> respectively.
 > .SH RETURN VALUE
-> On success,
-> .BR pthread_detach ()
-> returns 0;
-> on error, it returns an error number.
+> On success, these functions return 0;
+> on error, they return a non-zero error number.
 > .SH ERRORS
+> .BR pthread_attr_setstacksize ()
+> can fail with the following error:
 > .TP
 > .B EINVAL
-> .I thread
-> is not a joinable thread.
-> .TP
-> .B ESRCH
-> No thread could be found with the given thread ID.
+> .I stackaddr
+> is less than
+> .BR PTHREAD_STACK_MIN
+> (16384) bytes.
+> On some systems, this error may also occur if
+> .IR stackaddr
+> or
+> .IR "stackaddr\ +\ stacksize"
+> is not suitably aligned.
+> .PP
+> POSIX.1-2001 also documents an
+> .BR EACCES
+> error if the stack area described by
+> .I stackaddr
+> and
+> .I stacksize
+> is not both readable and writable by the caller.
+> .SH VERSIONS
+> These functions are provided by glibc since version 2.2.
 > .SH CONFORMING TO
 > POSIX.1-2001.
 > .SH NOTES
-> Once a thread has been detached, it can't be joined with
-> .BR pthread_join (3)
-> or be made joinable again.
+> These functions are provided for applications that must ensure that
+> a thread's stack is placed in a particular location.
+> For most applications, this is not necessary,
+> and the use of these functions should be avoided.
+> (Use
+> .BR pthread_attr_setstacksize (3)
+> if an application simply requires a stack size other than the default.)
 >
-> A new thread can be created in a detached state using
-> .BR pthread_attr_setdetachstate (3)
-> to set the detached attribute of the
+> When an application employs
+> .BR pthread_attr_setstack (),
+> it takes over the responsibility of allocating the stack.
+> Any guard size value that was set using
+> .BR pthread_attr_setguardsize (3)
+> is ignored.
+> If deemed necessary,
+> it is the application's responsibility to allocate a guard area
+> (one or more pages protected against reading and writing)
+> to handle the possibility of stack overflow.
+>
+> The address specified in
+> .I stackaddr
+> should be suitably aligned:
+> for full portability, align it on a page boundary
+> .RI ( sysconf(_SC_PAGESIZE) ).
+> .BR posix_memalign (3)
+> may be useful for allocation.
+> Probably,
+> .IR stacksize
+> should also be a multiple of the system page size.
+>
+> If
 > .I attr
-> argument of
-> .BR pthread_create (3).
->
-> The detached attribute merely determines the behavior of the system
-> when the thread terminates;
-> it does not prevent the thread from being terminated
-> if the process terminates using
-> .BR exit (3)
-> (or equivalently, if the main thread returns).
->
-> Either
-> .BR pthread_join (3)
-> or
-> .BR pthread_detach ()
-> should be called for each thread that an application creates,
-> so that system resources for the thread can be released.
-> (But note that the resources of all threads are freed when the
-> process terminates.)
+> is used to create multiple threads, then the caller must change the
+> stack address attribute between calls to
+> .BR pthread_create (3);
+> otherwise, the threads will attempt to use the same memory area
+> for their stacks, and chaos will ensue.
+> .BR
 > .SH EXAMPLE
-> The following statement detaches the calling thread:
->
->    pthread_detach(pthread_self());
+> See
+> .BR pthread_attr_init (3).
 > .SH SEE ALSO
-> .BR pthread_attr_setdetachstate (3),
-> .BR pthread_cancel (3),
+> .BR mmap (2),
+> .BR mprotect (2),
+> .BR posix_memalign (3),
+> .BR pthread_attr_init (3),
+> .BR pthread_attr_setguardsize (3),
+> .BR pthread_attr_setstackaddr (3),
+> .BR pthread_attr_setstacksize (3),
 > .BR pthread_create (3),
-> .BR pthread_exit (3),
-> .BR pthread_join (3),
 > .BR pthreads (7)
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 >
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
