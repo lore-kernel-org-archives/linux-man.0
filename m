@@ -1,192 +1,55 @@
-From: "Stefan Puiu" <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Review request: pthread_attr_setstack.3
-Date: Sat, 25 Oct 2008 15:01:24 +0300
-Message-ID: <775f04010810250501p63b11cbdv4ef4b1c70b6de332@mail.gmail.com>
-References: <cfd18e0f0810241431q28cf1167i3df49166479d516c@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: Review request: new pthread_exit(3) page
+Date: Sat, 25 Oct 2008 13:42:48 -0500
+Message-ID: <cfd18e0f0810251142p47532d8bla92079f0b4294589@mail.gmail.com>
+References: <cfd18e0f0810221048h7d682a8ey71d1517302b18045@mail.gmail.com>
+	 <36ca99e90810221358t2ac6090bh84fc5bba6af007fe@mail.gmail.com>
+	 <cfd18e0f0810241041n271b62ecsbe75fd957c36a3fa@mail.gmail.com>
+	 <36ca99e90810242250g75e4e0a1y1702c25c1323c625@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0810241431q28cf1167i3df49166479d516c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <36ca99e90810242250g75e4e0a1y1702c25c1323c625-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Oct 25, 2008 at 12:31 AM, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of this
-> .\" manual provided the copyright notice and this permission notice are
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of this
-> .\" manual under the conditions for verbatim copying, provided that the
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, this
-> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> .\" responsibility for errors or omissions, or for damages resulting from
-> .\" the use of the information contained herein.  The author(s) may not
-> .\" have taken the same level of care in the production of this manual,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied by
-> .\" the source, must acknowledge the copyright and authors of this work.
-> .\"
-> .TH PTHREAD_ATTR_SETSTACK 3 2008-10-24 "Linux" "Linux Programmer's Manual"
-> .SH NAME
-> pthread_attr_setstack, pthread_attr_getstack \- set/get stack
-> attributes in thread attributes object
-> .SH SYNOPSIS
-> .nf
-> .B #include <pthread.h>
->
-> .BI "int pthread_attr_setstack(pthread_attr_t *" attr ,
-> .BI "                          void *" stackaddr ", size_t " stacksize );
-> .BI "int pthread_attr_getstack(pthread_attr_t *" attr ,
-> .BI "                          void **" stackaddr ", size_t *" stacksize );
-> .sp
-> Compile and link with \fI\-pthread\fP.
-> .fi
-> .sp
-> .in -4n
-> Feature Test Macro Requirements for glibc (see
-> .BR feature_test_macros (7)):
-> .in
-> .sp
-> .ad l
-> .BR pthread_attr_getstack (),
-> .BR pthread_attr_setstack ():
-> _POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE\ >=\ 600
-> .ad b
-> .SH DESCRIPTION
-> The
-> .BR pthread_attr_setscope ()
-                               ^^^^^
-This looks like a copy/paste error - it's also present in at least one
-of the other manpages you posted. I guess this should be
-pthread_attr_setstack().
+>>>> To allow other threads to continue execution,
+>>>> the main thread should terminate by calling
+>>>> .BR pthread_create ()
+>>>> rather than
+>>>> .BR exit (3).
+>>> This paragraph sounds wrong.
+>>
+>> Can you say more please?  Wrong in what way?
+> It should call pthread_exit not pthread_create.
 
-> function sets the stack address and stack size attributes of the
-> thread attributes object referred to by
-> .I attr
-> to the values specified in
-> .IR stackaddr
-> and
-> .IR stacksize ,
-> respectively.
-> These attributes specify the location and size of the stack that should
-> be used by a thread that is created using the thread attributes object
-> .IR attr .
->
-> .I stackaddr
-> should point to the lowest addressable byte of a buffer of
-> .I stacksize
-> bytes that was allocated by the caller.
-> The pages of the allocated buffer should be both readable and writable.
->
-> The
-> .BR pthread_attr_getstack ()
-> function returns the stack address and stack size attributes of the
-> thread attributes object referred to by
-> .I attr
-> in the buffers pointed to by
-> .IR stackaddr
-> and
-> .IR stacksize ,
-> respectively.
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a non-zero error number.
-> .SH ERRORS
-> .BR pthread_attr_setstacksize ()
-> can fail with the following error:
-> .TP
-> .B EINVAL
-> .I stackaddr
-> is less than
-> .BR PTHREAD_STACK_MIN
-> (16384) bytes.
-> On some systems, this error may also occur if
-> .IR stackaddr
-> or
-> .IR "stackaddr\ +\ stacksize"
-> is not suitably aligned.
-> .PP
-> POSIX.1-2001 also documents an
-> .BR EACCES
-> error if the stack area described by
-> .I stackaddr
-> and
-> .I stacksize
-> is not both readable and writable by the caller.
-> .SH VERSIONS
-> These functions are provided by glibc since version 2.2.
-> .SH CONFORMING TO
-> POSIX.1-2001.
-> .SH NOTES
-> These functions are provided for applications that must ensure that
-> a thread's stack is placed in a particular location.
-> For most applications, this is not necessary,
-> and the use of these functions should be avoided.
-> (Use
-> .BR pthread_attr_setstacksize (3)
-> if an application simply requires a stack size other than the default.)
->
-> When an application employs
-> .BR pthread_attr_setstack (),
-> it takes over the responsibility of allocating the stack.
-> Any guard size value that was set using
-> .BR pthread_attr_setguardsize (3)
-> is ignored.
-> If deemed necessary,
-> it is the application's responsibility to allocate a guard area
-> (one or more pages protected against reading and writing)
-> to handle the possibility of stack overflow.
->
-> The address specified in
-> .I stackaddr
-> should be suitably aligned:
-> for full portability, align it on a page boundary
-> .RI ( sysconf(_SC_PAGESIZE) ).
-> .BR posix_memalign (3)
-> may be useful for allocation.
-> Probably,
-> .IR stacksize
-> should also be a multiple of the system page size.
->
-> If
-> .I attr
-> is used to create multiple threads, then the caller must change the
-> stack address attribute between calls to
-> .BR pthread_create (3);
-> otherwise, the threads will attempt to use the same memory area
-> for their stacks, and chaos will ensue.
-> .BR
-> .SH EXAMPLE
-> See
-> .BR pthread_attr_init (3).
-> .SH SEE ALSO
-> .BR mmap (2),
-> .BR mprotect (2),
-> .BR posix_memalign (3),
-> .BR pthread_attr_init (3),
-> .BR pthread_attr_setguardsize (3),
-> .BR pthread_attr_setstackaddr (3),
-> .BR pthread_attr_setstacksize (3),
-> .BR pthread_create (3),
-> .BR pthreads (7)
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->
+D'oh!  I was not seeing the wood for the trees!  Will fix that.
+
+>>> BTW, Linux behaves a little strange if you quit the main thread. For
+>>> example in top the task is marked '<defunct>'. If I press Ctrl+Z the
+>>> task go to sleep but I don't get my prompt back.
+>>
+>> Yes.  Can you provide any pointers to further ino. bug reports
+>> regarding that problem?
+> That may take a while, but I remember darkly that this was on lkml sometime ago.
+
+Was this the thread?
+
+http://thread.gmane.org/gmane.linux.kernel/244552
+
+> This Ctrl+Z-behavior is new to me.
+
+It's new to me too -- but I did verify that it occurs.  I will raise a
+report in Bugzilla or on LKML, unless you would rather do it?
+
+Cheers,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
