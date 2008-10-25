@@ -1,168 +1,124 @@
 From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Review request: new pthread_exit(3) page
-Date: Sat, 25 Oct 2008 07:50:10 +0200
-Message-ID: <36ca99e90810242250g75e4e0a1y1702c25c1323c625@mail.gmail.com>
-References: <cfd18e0f0810221048h7d682a8ey71d1517302b18045@mail.gmail.com>
-	 <36ca99e90810221358t2ac6090bh84fc5bba6af007fe@mail.gmail.com>
-	 <cfd18e0f0810241041n271b62ecsbe75fd957c36a3fa@mail.gmail.com>
+Subject: Re: Review request: pthread_detach.3
+Date: Sat, 25 Oct 2008 08:21:14 +0200
+Message-ID: <36ca99e90810242321y7f7ee756l6546875ab7388717@mail.gmail.com>
+References: <cfd18e0f0810241423t1e454d60k4d094464e5c80647@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0810241041n271b62ecsbe75fd957c36a3fa-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0810241423t1e454d60k4d094464e5c80647-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Oct 24, 2008 at 19:41, Michael Kerrisk
+On Fri, Oct 24, 2008 at 23:23, Michael Kerrisk
 <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hello Bert,
+> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> .\"
+> .\" Permission is granted to make and distribute verbatim copies of this
+> .\" manual provided the copyright notice and this permission notice are
+> .\" preserved on all copies.
+> .\"
+> .\" Permission is granted to copy and distribute modified versions of this
+> .\" manual under the conditions for verbatim copying, provided that the
+> .\" entire resulting derived work is distributed under the terms of a
+> .\" permission notice identical to this one.
+> .\"
+> .\" Since the Linux kernel and libraries are constantly changing, this
+> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> .\" responsibility for errors or omissions, or for damages resulting from
+> .\" the use of the information contained herein.  The author(s) may not
+> .\" have taken the same level of care in the production of this manual,
+> .\" which is licensed free of charge, as they might when working
+> .\" professionally.
+> .\"
+> .\" Formatted or processed versions of this manual, if unaccompanied by
+> .\" the source, must acknowledge the copyright and authors of this work.
+> .\"
+> .TH PTHREAD_DETACH 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> pthread_detach \- detach a thread
+> .SH SYNOPSIS
+> .nf
+> .B #include <pthread.h>
 >
-> Thanks for your review.  Follow-ups below.
->
-> On Wed, Oct 22, 2008 at 3:58 PM, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> On Wed, Oct 22, 2008 at 19:48, Michael Kerrisk
->> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->>> Any reviews for pthread_exit(3)?
->>>
->>> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
->>> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->>> .\"
->>> .\" Permission is granted to make and distribute verbatim copies of this
->>> .\" manual provided the copyright notice and this permission notice are
->>> .\" preserved on all copies.
->>> .\"
->>> .\" Permission is granted to copy and distribute modified versions of this
->>> .\" manual under the conditions for verbatim copying, provided that the
->>> .\" entire resulting derived work is distributed under the terms of a
->>> .\" permission notice identical to this one.
->>> .\"
->>> .\" Since the Linux kernel and libraries are constantly changing, this
->>> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
->>> .\" responsibility for errors or omissions, or for damages resulting from
->>> .\" the use of the information contained herein.  The author(s) may not
->>> .\" have taken the same level of care in the production of this manual,
->>> .\" which is licensed free of charge, as they might when working
->>> .\" professionally.
->>> .\"
->>> .\" Formatted or processed versions of this manual, if unaccompanied by
->>> .\" the source, must acknowledge the copyright and authors of this work.
->>> .\"
->>> .TH PTHREAD_EXIT 3 2008-10-19 "Linux" "Linux Programmer's Manual"
->>> .SH NAME
->>> pthread_exit \- terminate calling thread
->>> .SH SYNOPSIS
->>> .nf
->>> .B #include <pthread.h>
->>>
->>> .BI "void pthread_exit(void *" value_ptr );
->> In the reminder you are talking about 'retval' not 'value_ptr' anymore.
->
-> Fixed.
->
->>> .sp
->>> Compile and link with \fI\-pthread\fP.
->>> .SH DESCRIPTION
->>> The
->>> .BR pthread_exit ()
->>> function terminates the calling thread and returns a value via
->>> .I retval
->>> that (if the thread is joinable)
->>> is available to another thread in the process that calls
->>> .BR pthread_join (3).
->>>
->>> Any clean-up handlers established by
->>> .BR pthread_cleanup_push (3)
->>> that have not yet been popped,
->>> are popped (in the reverse of the order in which they were pushed)
->>> and executed.
->>> If the thread has any thread-specific data, then,
->>> after the clean-up handlers have been executed,
->>> the corresponding destructor functions are called,
->>> in an unspecified order.
->>>
->>> When a thread terminates,
->>> process-shared resources (e.g., mutexes, condition variables,
->>> semaphores, and file descriptors) are not released,
->>> and functions registered using
->>> .BR atexit (3)
->>> are not called.
->>>
->>> After the last thread in a process terminates,
->>> the process terminates as by calling
->>> .BR exit (3)
->>> supplying an exit status of zero;
->>> thus, process-shared resources
->>> are released and functions registered using
->>> .BR atexit (3)
->>> are called.
->>> .SH RETURN VALUE
->>> This function does not return to the caller.
->>> .SH ERRORS
->>> This function always succeeds.
->>> .SH CONFORMING TO
->>> POSIX.1-2001.
->>> .SH NOTES
->>> Performing a return from the start function of any thread other
->>> than the main thread results in an implicit call to
->>> .BR pthread_exit (),
->>> using the function's return value as the thread's exit status.
->>>
->>> To allow other threads to continue execution,
->>> the main thread should terminate by calling
->>> .BR pthread_create ()
->>> rather than
->>> .BR exit (3).
->> This paragraph sounds wrong.
->
-> Can you say more please?  Wrong in what way?
-It should call pthread_exit not pthread_create.
+> .BI "int pthread_detach(pthread_t " thread );
+> .fi
+> .sp
+> Compile and link with \fI\-pthread\fP.
+> .SH DESCRIPTION
+> The
+> .BR pthread_detach ()
+> function marks the thread identified by
+> .IR thread
+> as detached.
+> When a detached thread terminates,
+> its resources are automatically released back to the system without
+> the need for another thread to join with the terminated the thread.
+One 'the' too many.
 
 >
->> BTW, Linux behaves a little strange if you quit the main thread. For
->> example in top the task is marked '<defunct>'. If I press Ctrl+Z the
->> task go to sleep but I don't get my prompt back.
->
-> Yes.  Can you provide any pointers to further ino. bug reports
-> regarding that problem?
-That may take a while, but I remember darkly that this was on lkml sometime ago.
+> Attempting to detach an already detached thread results
+> in unspecified behavior.
+Now you have three: undefined, unpredictable, and unspecified.
 
-This Ctrl+Z-behavior is new to me.
-
-Bert
+> .SH RETURN VALUE
+> On success,
+> .BR pthread_detach ()
+> returns 0;
+> on error, it returns an error number.
+> .SH ERRORS
+> .TP
+> .B EINVAL
+> .I thread
+> is not a joinable thread.
+> .TP
+> .B ESRCH
+> No thread could be found with the given thread ID.
+> .SH CONFORMING TO
+> POSIX.1-2001.
+> .SH NOTES
+> Once a thread has been detached, it can't be joined with
+> .BR pthread_join (3)
+> or be made joinable again.
 >
-> Cheers,
+> A new thread can be created in a detached state using
+> .BR pthread_attr_setdetachstate (3)
+> to set the detached attribute of the
+> .I attr
+> argument of
+> .BR pthread_create (3).
 >
-> Michael
+> The detached attribute merely determines the behavior of the system
+> when the thread terminates;
+> it does not prevent the thread from being terminated
+> if the process terminates using
+> .BR exit (3)
+> (or equivalently, if the main thread returns).
 >
->>> The value pointed to by
->>> .IR retval
->>> should not be on the located on the calling thread's stack,
->>> since the contents of that stack are undefined after the thread terminates.
->>> .SH EXAMPLE
->>> See
->>> .BR pthread_create (3).
->>> .SH SEE ALSO
->>> .BR pthread_create (3),
->>> .BR pthread_join (3),
->>> .BR pthreads (7)
->>> --
->>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
->>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->>>
->>
+> Either
+> .BR pthread_join (3)
+> or
+> .BR pthread_detach ()
+> should be called for each thread that an application creates,
+> so that system resources for the thread can be released.
+> (But note that the resources of all threads are freed when the
+> process terminates.)
+> .SH EXAMPLE
+> The following statement detaches the calling thread:
 >
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-> man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-> Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+>    pthread_detach(pthread_self());
+> .SH SEE ALSO
+> .BR pthread_attr_setdetachstate (3),
+> .BR pthread_cancel (3),
+> .BR pthread_create (3),
+> .BR pthread_exit (3),
+> .BR pthread_join (3),
+> .BR pthreads (7)
 >
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
