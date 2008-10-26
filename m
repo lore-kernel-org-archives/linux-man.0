@@ -1,68 +1,55 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Review request: new pthread_exit(3) page
-Date: Sat, 25 Oct 2008 20:58:41 +0200
-Message-ID: <36ca99e90810251158p12a48e6h40c6eacbec3e0c05@mail.gmail.com>
-References: <cfd18e0f0810221048h7d682a8ey71d1517302b18045@mail.gmail.com>
-	 <36ca99e90810221358t2ac6090bh84fc5bba6af007fe@mail.gmail.com>
-	 <cfd18e0f0810241041n271b62ecsbe75fd957c36a3fa@mail.gmail.com>
-	 <36ca99e90810242250g75e4e0a1y1702c25c1323c625@mail.gmail.com>
-	 <cfd18e0f0810251142p47532d8bla92079f0b4294589@mail.gmail.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: import queue(3) man page ?
+Date: Sun, 26 Oct 2008 00:58:01 -0400
+Message-ID: <200810260058.02527.vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed;
+  boundary="nextPart1514821.p1WB3VojrS";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0810251142p47532d8bla92079f0b4294589-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Oct 25, 2008 at 20:42, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->>>>> To allow other threads to continue execution,
->>>>> the main thread should terminate by calling
->>>>> .BR pthread_create ()
->>>>> rather than
->>>>> .BR exit (3).
->>>> This paragraph sounds wrong.
->>>
->>> Can you say more please?  Wrong in what way?
->> It should call pthread_exit not pthread_create.
->
-> D'oh!  I was not seeing the wood for the trees!  Will fix that.
->
->>>> BTW, Linux behaves a little strange if you quit the main thread. For
->>>> example in top the task is marked '<defunct>'. If I press Ctrl+Z the
->>>> task go to sleep but I don't get my prompt back.
->>>
->>> Yes.  Can you provide any pointers to further ino. bug reports
->>> regarding that problem?
->> That may take a while, but I remember darkly that this was on lkml sometime ago.
->
-> Was this the thread?
->
-> http://thread.gmane.org/gmane.linux.kernel/244552
-The time could fit and the name sounds familiar but it doesn't make
-click behind my eyes.
+--nextPart1514821.p1WB3VojrS
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 
-Thats what I found, time fits also but no click:
+how do people feel about importing the queue(3) man page from FreeBSD ?  gl=
+ibc=20
+provides the queue.h and related headers from FreeBSD, so i think it makes=
+=20
+sense if we include relevant documentation as well ...
+http://www.freebsd.org/cgi/cvsweb.cgi/src/share/man/man3/queue.3?rev=3D1.42
+=2Dmike
 
-http://thread.gmane.org/gmane.linux.kernel/331196
+--nextPart1514821.p1WB3VojrS
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
->
->> This Ctrl+Z-behavior is new to me.
->
-> It's new to me too -- but I did verify that it occurs.  I will raise a
-> report in Bugzilla or on LKML, unless you would rather do it?
-Please go ahead an add me to the Cc:.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.9 (GNU/Linux)
 
-Bert
->
-> Cheers,
->
-> Michael
->
+iQIcBAABAgAGBQJJA/jaAAoJEEFjO5/oN/WBqZIP/iLEOlbQbu6EaIAhEtHXY/m3
+2x5GkG450d/WSK9+6KcPJeMpISyEY6RYP3x0grAtfdS5MkaoMsGi9Wz0yRp0nSPc
+w5V8LHqhNNcKsCREtvdn074KU8A8X/Ok4QJ5ILkDLQl7gippCH3VTzWxOO5blIGq
+fzb1CPCi13qZEUpFpSESAbUY/u4MWxHkqkT+bFoqkYCvi4m79hNDlvoXfjA+Gp4C
+wPMQKa42+/5QfhFPFJ0B+P2Hp3o+J1gGRRlZG3UOXm7FFU79oWHe3qZqduSkya+7
+oP2KOdY3Gb3PzIuImA80YV7Wn5WyHTEPG1PspRVNDGDyYJV3LoVx8RmdbNRtKy57
+02nR+7URLsmrUWq4GTI7LkhNq70hkQCcXc/Avjv/OLsEuaIiK1ZWDQcokxeUG4NH
+Dgdn0KHiZ6HP1M/+3fpcUJRn3kEMzW8g2hmt7Jl9Y0bvxDVCP5jcz3dnO8syxY6S
+JmugEnyzpfHHiGOVXcFG3dTNG6Uc85NqE021Z09QJPp2TmIBigQGaIASTWPQHouk
+JaJ+fSHLiHFt/6el26V1jmsOpc+wTrsA0Rlp/JuBGPiwx78e0GzkOx0b/OpI5iOX
+x0zQYkZOfweSH44LsCJOZLS3RJMJkIiWa6A88EIZSEaKoZMtqm8WLootLqIIPj2e
+qrLP4aJmPNPghIHFtiJc
+=WSTD
+-----END PGP SIGNATURE-----
+
+--nextPart1514821.p1WB3VojrS--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
