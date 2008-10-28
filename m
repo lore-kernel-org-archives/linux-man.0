@@ -1,43 +1,57 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Documentation for LD_USE_LOAD_BIAS
-Date: Mon, 27 Oct 2008 17:13:01 -0500
-Message-ID: <cfd18e0f0810271513m77840afbre789eb130c10e93b@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Subject: Re: [patch 0/3] [RFC] kernel/glibc mismatch of "readlink" syscall?
+Date: Tue, 28 Oct 2008 10:11:48 +0100
+Message-ID: <20081027204509.GA27111@ub>
+References: <20081023145054.998439866@marvin.suse.de> <cfd18e0f0810241553x77194611o11655a89871dc210@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <cfd18e0f0810241553x77194611o11655a89871dc210-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ltp-list-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, "A.E. Brouwer" <aeb-ek1Qb6IBo2Pz+pZb47iToQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Jakub,
+On Fri, Oct 24, 2008 at 05:53:25PM -0500, Michael Kerrisk wrote:
 
-I noticed that ld.so(8) doesn't document LD_USE_LOAD_BIAS, so I drew
-heavily on your
-http://sources.redhat.com/ml/libc-hacker/2003-11/msg00127.html
-to write the following:
+> Hi Daniel,
+> 
+> On Thu, Oct 23, 2008 at 9:50 AM, Daniel Gollub <dgollub-l3A5Bk7waGM@public.gmane.org> wrote:
+>>
+>> found something which looks for me like a kernel/glibc syscall mismatch.
+>>
+>> The standard and the manpages and glibc have
+>> ssize_t readlink(..., size_t bufsize);
+>>
+>> But the kernel has
+>>
+>> linux-2.6/include/linux/syscalls.h:
+>> asmlinkage long sys_readlink(..., int bufsiz);
+>>
+>> All readlink prototypes, expect the one in the kernel, have an unsigned
+>> buffer size.
+> 
+> I agree; the inconsistency is strange.
 
-       LD_USE_LOAD_BIAS
-              By default (i.e., if this variable is not defined)  exe-
-              cutables  and  prelinked  shared objects will honor base
-              addresses of their  dependent  libraries  and  (non-pre-
-              linked)   position-independent  executables  (PIEs)  and
-              other  shared  objects  will   not   honor   them.    If
-              LD_USE_LOAD_BIAS is defined wit the value, both executa-
-              bles  and  PIEs  will  honor  the  base  addresses.   If
-              LD_USE_LOAD_BIAS  is  defined  with the value 0, neither
-              executables nor PIEs  will  honor  the  base  addresses.
-              This variable is ignored by set-user-ID and set-group-ID
-              programs.
+Hmm. I am inclined not to agree. There is no reason to expect
+any particular relation between the kernel prototype of sys_foo
+(if such a function exists)
+and the user space prototype of the foo() C-library function.
 
-Could you check this over and tell me if it looks okay?
+The POSIX standard, man-pages, libc include files document the
+userspace / libc interface, not the system call interface.
+The system call interface is mostly undocumented.
 
-Cheers,
+The kernel prototype is chosen for kernel-internal or historical reasons.
 
-Michael
+Andries
+
+
+sys_ppc32.c:
+/* Note: it is necessary to treat bufsiz as an unsigned int ... */
+asmlinkage long compat_sys_readlink(..., u32 bufsiz)
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
