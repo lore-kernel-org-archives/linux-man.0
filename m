@@ -1,510 +1,565 @@
-From: "Michael Kerrisk" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] reintroduce accept4
-Date: Tue, 28 Oct 2008 07:34:29 -0500
-Message-ID: <517f3f820810280534y6d7dbce9kf026474d944e0cba@mail.gmail.com>
-References: <200810261641.m9QGfotr024285@hs20-bc2-1.build.redhat.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages-3.12 released
+Date: Thu, 30 Oct 2008 09:48:50 -0500
+Message-ID: <4909C952.5030201@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200810261641.m9QGfotr024285-sQhldQRnEDHy+ZiRM8QlFPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-6lXkIZvqkOAvJsYlp49lxw@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Christian Grigis <glove-ihVZJaRskl3MFIMGWPqnnw@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Didier <did447-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Halesh S <halesh.s-AIU4XV7v+0kAvxtiuMwx3w@public.gmane.org>, J.
+Cc: base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, Alain Portal <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[linux-api + many indiiduals added to CC]
+Gidday,
 
-Ulrich,
+The Linux man-pages maintainer proudly announces:
 
-On Sun, Oct 26, 2008 at 11:41 AM, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> This patch reintroduces accept4, replacing paccept.  It's easy to see that
-> the patch only removes code and then redirects existing code away from the
-> removed functions.  Since the paccept code sans signal handling was never
-> in question I think there is no reason to quarantine the patch first.
+   man-pages-3.12.tar.gz - man pages for Linux
 
-When you (re)submit a patch:
+This release is now available for download at:
 
-1. Please take the trouble to CC interested parties.  For example, the
-people CCed in recent threads that discussed earlier versions of the
-the patch.  This is basic LKML basic etiquette, since almost no one
-reads all LKML, or reads it hourly.  Doing this allows interested
-prties to comment on the patch, and also avoids patches hitting the
-kernel "under the radar".
+   http://www.kernel.org/pub/linux/docs/man-pages
+   or ftp://ftp.kernel.org/pub/linux/docs/man-pages
 
-2. Don't assume anyone has cached earlier discussions of the topic.
-Write a clear, complete description of the patch tht could b red by
-someone new to the topic, something like a summary of
-http://lwn.net/Articles/281965/ and http://udrepper.livejournal.com/20407.html
+The online changelog is available at
+http://www.kernel.org/doc/man-pages/changelog.html
+(blogged at
+http://linux-man-pages.blogspot.com/2008/10/man-pages-312-is-released.html)
+and the current version of the pages is browsable at
+http://www.kernel.org/doc/man-pages/
 
-3. Explain what changes have been made from earlier versions of the
-patch, and why.
-E.g., some discussion thatsummarizes this:
-http://thread.gmane.org/gmane.linux.network/106071
+You are receiving this message either because:
 
-4. CC linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org on patches thatare API changes.  This
-requirement was added to SubmitChecklist in the last few weeks.
+a) You contributed to the content of this release.
 
-5. CC me or linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, so that something makes its way
-into man-pages.
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the maintainer of
+a translation of the manual pages, or are the maintainer of the manual
+pages set in a particular distribution, or have expressed interest in
+helping with man-pages maintenance, or have otherwise expressed interest in
+being notified about man-pages releases.  If you don't want to receive such
+messages from me, or you know of some other translator or maintainer who
+may want to receive such notifications, send me a message.
 
 Cheers,
 
 Michael
 
-> I've updated the test program which now looks as follows:
->
-> #include <fcntl.h>
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <unistd.h>
-> #include <netinet/in.h>
-> #include <sys/socket.h>
-> #include <sys/syscall.h>
->
-> #ifdef __x86_64__
-> #define __NR_accept4 288
-> #define SOCK_CLOEXEC O_CLOEXEC
-> #elif __i386__
-> #define SYS_ACCEPT4     18
-> #define USE_SOCKETCALL 1
-> #define SOCK_CLOEXEC O_CLOEXEC
-> #else
-> #error "define syscall numbers for this architecture"
-> #endif
->
-> #define PORT 57392
->
-> static pthread_barrier_t b;
->
-> static void *
-> tf (void *arg)
-> {
->  pthread_barrier_wait (&b);
->  int s = socket (AF_INET, SOCK_STREAM, 0);
->  struct sockaddr_in sin;
->  sin.sin_family = AF_INET;
->  sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
->  sin.sin_port = htons (PORT);
->  connect (s, (const struct sockaddr *) &sin, sizeof (sin));
->  close (s);
->  pthread_barrier_wait (&b);
->
->  pthread_barrier_wait (&b);
->  s = socket (AF_INET, SOCK_STREAM, 0);
->  sin.sin_family = AF_INET;
->  sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
->  sin.sin_port = htons (PORT + 1);
->  connect (s, (const struct sockaddr *) &sin, sizeof (sin));
->  close (s);
->  return NULL;
-> }
->
-> int
-> main (void)
-> {
->  alarm (5);
->
->  int status = 0;
->
->  pthread_barrier_init (&b, NULL, 2);
->
->  pthread_t th;
->  if (pthread_create (&th, NULL, tf, NULL) != 0)
->    {
->      puts ("pthread_create failed");
->      status = 1;
->    }
->  else
->    {
->      int s = socket (AF_INET, SOCK_STREAM, 0);
->      int fl = 1;
->      setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &fl, sizeof (fl));
->      struct sockaddr_in sin;
->      sin.sin_family = AF_INET;
->      sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
->      sin.sin_port = htons (PORT);
->      bind (s, (struct sockaddr *) &sin, sizeof (sin));
->      listen (s, SOMAXCONN);
->
->      pthread_barrier_wait (&b);
->
->      int s2 = accept (s, NULL, 0);
->      if (s2 < 0)
->        {
->          puts ("accept failed");
->          status = 1;
->        }
->      else
->        {
->          int fl = fcntl (s2, F_GETFD);
->          if ((fl & FD_CLOEXEC) != 0)
->            {
->              puts ("accept did set CLOEXEC");
->              status = 1;
->            }
->
->          close (s2);
->        }
->
->      close (s);
->
->      pthread_barrier_wait (&b);
->
->      sin.sin_family = AF_INET;
->      sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
->      sin.sin_port = htons (PORT + 1);
->      s = socket (AF_INET, SOCK_STREAM, 0);
->      bind (s, (struct sockaddr *) &sin, sizeof (sin));
->      listen (s, SOMAXCONN);
->
->      pthread_barrier_wait (&b);
->
-> #if USE_SOCKETCALL
->      s2 = syscall (__NR_socketcall, SYS_ACCEPT4, s, NULL, 0, SOCK_CLOEXEC);
-> #else
->      s2 = syscall (__NR_accept4, s, NULL, 0, SOCK_CLOEXEC);
-> #endif
->      if (s2 < 0)
->        {
->          puts ("accept4 failed");
->          status = 1;
->        }
->      else
->        {
->          int fl = fcntl (s2, F_GETFD);
->          if ((fl & FD_CLOEXEC) == 0)
->            {
->              puts ("accept4 did not set CLOEXEC");
->              status = 1;
->            }
->
->          close (s2);
->        }
->
->      close (s);
->    }
->
->  return status;
-> }
->
->
->  arch/x86/include/asm/unistd_64.h |    4 -
->  include/linux/net.h              |    6 --
->  include/linux/syscalls.h         |    3 -
->  kernel/sys_ni.c                  |    2
->  net/compat.c                     |   50 ++----------------------
->  net/socket.c                     |   80 ++++-----------------------------------
->  6 files changed, 21 insertions(+), 124 deletions(-)
->
->
-> Signed-off-by: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->
-> diff --git a/arch/x86/include/asm/unistd_64.h b/arch/x86/include/asm/unistd_64.h
-> index 834b2c1..d2e415e 100644
-> --- a/arch/x86/include/asm/unistd_64.h
-> +++ b/arch/x86/include/asm/unistd_64.h
-> @@ -639,8 +639,8 @@ __SYSCALL(__NR_fallocate, sys_fallocate)
->  __SYSCALL(__NR_timerfd_settime, sys_timerfd_settime)
->  #define __NR_timerfd_gettime                   287
->  __SYSCALL(__NR_timerfd_gettime, sys_timerfd_gettime)
-> -#define __NR_paccept                           288
-> -__SYSCALL(__NR_paccept, sys_paccept)
-> +#define __NR_accept4                           288
-> +__SYSCALL(__NR_accept4, sys_accept4)
->  #define __NR_signalfd4                         289
->  __SYSCALL(__NR_signalfd4, sys_signalfd4)
->  #define __NR_eventfd2                          290
-> diff --git a/include/linux/net.h b/include/linux/net.h
-> index 6dc14a2..4515efa 100644
-> --- a/include/linux/net.h
-> +++ b/include/linux/net.h
-> @@ -40,7 +40,7 @@
->  #define SYS_GETSOCKOPT 15              /* sys_getsockopt(2)            */
->  #define SYS_SENDMSG    16              /* sys_sendmsg(2)               */
->  #define SYS_RECVMSG    17              /* sys_recvmsg(2)               */
-> -#define SYS_PACCEPT    18              /* sys_paccept(2)               */
-> +#define SYS_ACCEPT4    18              /* sys_accept4(2)               */
->
->  typedef enum {
->        SS_FREE = 0,                    /* not allocated                */
-> @@ -100,7 +100,7 @@ enum sock_type {
->  * remaining bits are used as flags. */
->  #define SOCK_TYPE_MASK 0xf
->
-> -/* Flags for socket, socketpair, paccept */
-> +/* Flags for socket, socketpair, accept4 */
->  #define SOCK_CLOEXEC   O_CLOEXEC
->  #ifndef SOCK_NONBLOCK
->  #define SOCK_NONBLOCK  O_NONBLOCK
-> @@ -223,8 +223,6 @@ extern int       sock_map_fd(struct socket *sock, int flags);
->  extern struct socket *sockfd_lookup(int fd, int *err);
->  #define                     sockfd_put(sock) fput(sock->file)
->  extern int          net_ratelimit(void);
-> -extern long         do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
-> -                              int __user *upeer_addrlen, int flags);
->
->  #define net_random()           random32()
->  #define net_srandom(seed)      srandom32((__force u32)seed)
-> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
-> index d6ff145..04fb47b 100644
-> --- a/include/linux/syscalls.h
-> +++ b/include/linux/syscalls.h
-> @@ -410,8 +410,7 @@ asmlinkage long sys_getsockopt(int fd, int level, int optname,
->  asmlinkage long sys_bind(int, struct sockaddr __user *, int);
->  asmlinkage long sys_connect(int, struct sockaddr __user *, int);
->  asmlinkage long sys_accept(int, struct sockaddr __user *, int __user *);
-> -asmlinkage long sys_paccept(int, struct sockaddr __user *, int __user *,
-> -                           const __user sigset_t *, size_t, int);
-> +asmlinkage long sys_accept4(int, struct sockaddr __user *, int __user *, int);
->  asmlinkage long sys_getsockname(int, struct sockaddr __user *, int __user *);
->  asmlinkage long sys_getpeername(int, struct sockaddr __user *, int __user *);
->  asmlinkage long sys_send(int, void __user *, size_t, unsigned);
-> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
-> index a77b27b..e14a232 100644
-> --- a/kernel/sys_ni.c
-> +++ b/kernel/sys_ni.c
-> @@ -31,7 +31,7 @@ cond_syscall(sys_socketpair);
->  cond_syscall(sys_bind);
->  cond_syscall(sys_listen);
->  cond_syscall(sys_accept);
-> -cond_syscall(sys_paccept);
-> +cond_syscall(sys_accept4);
->  cond_syscall(sys_connect);
->  cond_syscall(sys_getsockname);
->  cond_syscall(sys_getpeername);
-> diff --git a/net/compat.c b/net/compat.c
-> index 67fb6a3..50ce0a9 100644
-> --- a/net/compat.c
-> +++ b/net/compat.c
-> @@ -725,7 +725,7 @@ EXPORT_SYMBOL(compat_mc_getsockopt);
->  static unsigned char nas[19]={AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
->                                AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
->                                AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
-> -                               AL(6)};
-> +                               AL(4)};
->  #undef AL
->
->  asmlinkage long compat_sys_sendmsg(int fd, struct compat_msghdr __user *msg, unsigned flags)
-> @@ -738,52 +738,13 @@ asmlinkage long compat_sys_recvmsg(int fd, struct compat_msghdr __user *msg, uns
->        return sys_recvmsg(fd, (struct msghdr __user *)msg, flags | MSG_CMSG_COMPAT);
->  }
->
-> -asmlinkage long compat_sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
-> -                                  int __user *upeer_addrlen,
-> -                                  const compat_sigset_t __user *sigmask,
-> -                                  compat_size_t sigsetsize, int flags)
-> -{
-> -       compat_sigset_t ss32;
-> -       sigset_t ksigmask, sigsaved;
-> -       int ret;
-> -
-> -       if (sigmask) {
-> -               if (sigsetsize != sizeof(compat_sigset_t))
-> -                       return -EINVAL;
-> -               if (copy_from_user(&ss32, sigmask, sizeof(ss32)))
-> -                       return -EFAULT;
-> -               sigset_from_compat(&ksigmask, &ss32);
-> -
-> -               sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
-> -               sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
-> -       }
-> -
-> -       ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
-> -
-> -       if (ret == -ERESTARTNOHAND) {
-> -               /*
-> -                * Don't restore the signal mask yet. Let do_signal() deliver
-> -                * the signal on the way back to userspace, before the signal
-> -                * mask is restored.
-> -                */
-> -               if (sigmask) {
-> -                       memcpy(&current->saved_sigmask, &sigsaved,
-> -                              sizeof(sigsaved));
-> -                       set_restore_sigmask();
-> -               }
-> -       } else if (sigmask)
-> -               sigprocmask(SIG_SETMASK, &sigsaved, NULL);
-> -
-> -       return ret;
-> -}
-> -
->  asmlinkage long compat_sys_socketcall(int call, u32 __user *args)
->  {
->        int ret;
->        u32 a[6];
->        u32 a0, a1;
->
-> -       if (call < SYS_SOCKET || call > SYS_PACCEPT)
-> +       if (call < SYS_SOCKET || call > SYS_ACCEPT4)
->                return -EINVAL;
->        if (copy_from_user(a, args, nas[call]))
->                return -EFAULT;
-> @@ -804,7 +765,7 @@ asmlinkage long compat_sys_socketcall(int call, u32 __user *args)
->                ret = sys_listen(a0, a1);
->                break;
->        case SYS_ACCEPT:
-> -               ret = do_accept(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
-> +               ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
->                break;
->        case SYS_GETSOCKNAME:
->                ret = sys_getsockname(a0, compat_ptr(a1), compat_ptr(a[2]));
-> @@ -844,9 +805,8 @@ asmlinkage long compat_sys_socketcall(int call, u32 __user *args)
->        case SYS_RECVMSG:
->                ret = compat_sys_recvmsg(a0, compat_ptr(a1), a[2]);
->                break;
-> -       case SYS_PACCEPT:
-> -               ret = compat_sys_paccept(a0, compat_ptr(a1), compat_ptr(a[2]),
-> -                                        compat_ptr(a[3]), a[4], a[5]);
-> +       case SYS_ACCEPT4:
-> +               ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), a[3]);
->                break;
->        default:
->                ret = -EINVAL;
-> diff --git a/net/socket.c b/net/socket.c
-> index 2b7a4b5..8e72806 100644
-> --- a/net/socket.c
-> +++ b/net/socket.c
-> @@ -1427,8 +1427,8 @@ asmlinkage long sys_listen(int fd, int backlog)
->  *     clean when we restucture accept also.
->  */
->
-> -long do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
-> -              int __user *upeer_addrlen, int flags)
-> +asmlinkage long sys_accept4(int fd, struct sockaddr __user *upeer_sockaddr,
-> +                           int __user *upeer_addrlen, int flags)
->  {
->        struct socket *sock, *newsock;
->        struct file *newfile;
-> @@ -1511,66 +1511,10 @@ out_fd:
->        goto out_put;
->  }
->
-> -#if 0
-> -#ifdef HAVE_SET_RESTORE_SIGMASK
-> -asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
-> -                           int __user *upeer_addrlen,
-> -                           const sigset_t __user *sigmask,
-> -                           size_t sigsetsize, int flags)
-> -{
-> -       sigset_t ksigmask, sigsaved;
-> -       int ret;
-> -
-> -       if (sigmask) {
-> -               /* XXX: Don't preclude handling different sized sigset_t's.  */
-> -               if (sigsetsize != sizeof(sigset_t))
-> -                       return -EINVAL;
-> -               if (copy_from_user(&ksigmask, sigmask, sizeof(ksigmask)))
-> -                       return -EFAULT;
-> -
-> -               sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
-> -               sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
-> -        }
-> -
-> -       ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
-> -
-> -       if (ret < 0 && signal_pending(current)) {
-> -               /*
-> -                * Don't restore the signal mask yet. Let do_signal() deliver
-> -                * the signal on the way back to userspace, before the signal
-> -                * mask is restored.
-> -                */
-> -               if (sigmask) {
-> -                       memcpy(&current->saved_sigmask, &sigsaved,
-> -                              sizeof(sigsaved));
-> -                       set_restore_sigmask();
-> -               }
-> -       } else if (sigmask)
-> -               sigprocmask(SIG_SETMASK, &sigsaved, NULL);
-> -
-> -       return ret;
-> -}
-> -#else
-> -asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
-> -                           int __user *upeer_addrlen,
-> -                           const sigset_t __user *sigmask,
-> -                           size_t sigsetsize, int flags)
-> -{
-> -       /* The platform does not support restoring the signal mask in the
-> -        * return path.  So we do not allow using paccept() with a signal
-> -        * mask.  */
-> -       if (sigmask)
-> -               return -EINVAL;
-> -
-> -       return do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
-> -}
-> -#endif
-> -#endif
-> -
->  asmlinkage long sys_accept(int fd, struct sockaddr __user *upeer_sockaddr,
->                           int __user *upeer_addrlen)
->  {
-> -       return do_accept(fd, upeer_sockaddr, upeer_addrlen, 0);
-> +       return sys_accept4(fd, upeer_sockaddr, upeer_addrlen, 0);
->  }
->
->  /*
-> @@ -2097,7 +2041,7 @@ static const unsigned char nargs[19]={
->        AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
->        AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
->        AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
-> -       AL(6)
-> +       AL(4)
->  };
->
->  #undef AL
-> @@ -2116,7 +2060,7 @@ asmlinkage long sys_socketcall(int call, unsigned long __user *args)
->        unsigned long a0, a1;
->        int err;
->
-> -       if (call < 1 || call > SYS_PACCEPT)
-> +       if (call < 1 || call > SYS_ACCEPT4)
->                return -EINVAL;
->
->        /* copy_from_user should be SMP safe. */
-> @@ -2144,9 +2088,8 @@ asmlinkage long sys_socketcall(int call, unsigned long __user *args)
->                err = sys_listen(a0, a1);
->                break;
->        case SYS_ACCEPT:
-> -               err =
-> -                   do_accept(a0, (struct sockaddr __user *)a1,
-> -                             (int __user *)a[2], 0);
-> +               err = sys_accept4(a0, (struct sockaddr __user *)a1,
-> +                                 (int __user *)a[2], 0);
->                break;
->        case SYS_GETSOCKNAME:
->                err =
-> @@ -2193,12 +2136,9 @@ asmlinkage long sys_socketcall(int call, unsigned long __user *args)
->        case SYS_RECVMSG:
->                err = sys_recvmsg(a0, (struct msghdr __user *)a1, a[2]);
->                break;
-> -       case SYS_PACCEPT:
-> -               err =
-> -                   sys_paccept(a0, (struct sockaddr __user *)a1,
-> -                               (int __user *)a[2],
-> -                               (const sigset_t __user *) a[3],
-> -                               a[4], a[5]);
-> +       case SYS_ACCEPT4:
-> +               err = sys_accept4(a0, (struct sockaddr __user *)a1,
-> +                                 (int __user *)a[2], a[3]);
->                break;
->        default:
->                err = -EINVAL;
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> Please read the FAQ at  http://www.tux.org/lkml/
->
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscribe
+by sending a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, with the body:
+
+   subscribe linux-man
 
 
+==================== Changes in man-pages-3.12 ====================
+
+Released: 2008-10-29, Bucaramanga
+
+
+Contributors
+------------
+
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
+
+Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Christian Grigis <glove-ihVZJaRskl3MFIMGWPqnnw@public.gmane.org>
+Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Didier <did447-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Halesh S <halesh.s-AIU4XV7v+0kAvxtiuMwx3w@public.gmane.org>
+J.H.M. Dassen (Ray) <fsmla-zsH8Au6cvWAdnm+yROfE0A@public.gmane.org>
+Jason Spiro <jasonspiro4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
+Michael B. Trausch <mike-cRPrJ27hGUicqzYg7KEe8g@public.gmane.org>
+Pierre Cazenave <pwc101-vCMG6aOuh8q+cE1VCfRBVw@public.gmane.org>
+Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+pthread_attr_init.3
+     Michael Kerrisk
+         New page for pthread_attr_init(3) and pthread_attr_destroy(3)
+
+pthread_attr_setdetachstate.3
+     Michael Kerrisk
+         New page for pthread_attr_setdetachstate(3) and
+         pthread_attr_getdetachstate(3)
+
+pthread_attr_setguardsize.3
+     Michael Kerrisk
+         New page for pthread_attr_setguardsize(3) and
+         pthread_attr_getguardsize(3)
+
+pthread_attr_setscope.3
+     Michael Kerrisk
+         New page for pthread_attr_setscope(3) and pthread_attr_getscope(3)
+
+pthread_attr_setstack.3
+     Michael Kerrisk
+         New page for pthread_attr_setstack(3) and pthread_attr_getstack(3)
+
+pthread_attr_setstackaddr.3
+     Michael Kerrisk
+         New page for pthread_attr_setstackaddr(3) and
+         pthread_attr_getstackaddr(3)
+
+pthread_attr_setstacksize.3
+     Michael Kerrisk
+         New page for pthread_attr_setstacksize(3) and
+         pthread_attr_getstacksize(3)
+
+pthread_create.3
+     Michael Kerrisk
+         New page describing pthread_create(3)
+
+pthread_detach.3
+     Michael Kerrisk
+         New page for pthread_detach(3)
+
+pthread_equal.3
+     Michael Kerrisk
+         New page for pthread_equal(3)
+
+pthread_exit.3
+     Michael Kerrisk
+         New page describing pthread_exit(3)
+
+pthread_getattr_np.3
+     Michael Kerrisk
+         New page for pthread_getattr_np(3)
+
+pthread_join.3
+     Michael Kerrisk
+         New page for pthread_join(3)
+
+pthread_self.3
+     Michael Kerrisk
+         New page for pthread_self(3)
+
+pthread_tryjoin_np.3
+     Michael Kerrisk
+         New page for pthread_tryjoin_np(3) and pthread_timedjoin_np(3)
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+dup.2
+     Michael Kerrisk
+         Add description of dup3()
+             dup3() was added in kernel 2.6.27.
+
+epoll_create.2
+     Michael Kerrisk
+         Add description of new epoll_create1()
+             The new epoll_create1() system call appeared in Linux 2.6.27.
+eventfd.2
+     Michael Kerrisk
+         Describe eventfd2() and EFD_NONBLOCK and EFD_CLOEXEC
+             Linux 2.6.27 added eventfd(), which supports a flags argument
+             that eventfd() did not provide.  The flags so far implemented
+             are EFD_NONBLOCK and EFD_CLOEXEC,
+
+inotify_init.2
+     Michael Kerrisk
+         Add description of inotify_init1()
+             The inotify_init1() system call was added in Linux 2.6.27.
+
+pipe.2
+     Michael Kerrisk
+         Add description of new pipe2() syscall
+             pipe2() was added in 2.6.27.  Describe the O_NONBLOCK and
+             O_CLOEXEC flags.
+
+signalfd.2
+     Michael Kerrisk
+         Describe signalfd4() and SFD_NONBLOCK and SFD_CLOEXEC
+             Linux 2.6.27 added signalfd4(), which supports a flags argument
+             that signalfd() did not provide.  The flags so far implemented
+             are SFD_NONBLOCK and SFD_CLOEXEC.
+
+
+New and changed links
+---------------------
+
+dup3.2
+     Michael Kerrisk
+         New link to dup.2
+             dup.2 now contains the description of the new dup3() syscall.
+
+epoll_create1.2
+     Michael Kerrisk
+         New link to epoll_create.2
+             epoll_create.2 now includes a description of the new
+             epoll_create1() system call.
+
+eventfd2.2
+     Michael Kerrisk
+         New link to eventfd.2
+             The eventfd.2 page has some details on the eventfd2() system call,
+             which was new in Linux 2.6.27.
+
+inotify_init1.2
+     Michael Kerrisk
+         New link to inotify_init.2
+             inotify_init.2 now includes a description of the new
+             inotify_init1() system call.
+
+pipe2.2
+     Michael Kerrisk
+         New link to pipe.2
+             pipe(2) now contains a description of the new pipe2() syscall.
+
+pthread_attr_destroy.3
+     Michael Kerrisk
+         New link to new pthread_attr_init.3
+
+pthread_attr_getdetachstate.3
+     Michael Kerrisk
+         New link to new pthread_attr_setdetachstate.3
+
+pthread_attr_getguardsize.3
+     Michael Kerrisk
+         New link to new pthread_attr_setguardsize.3
+
+pthread_attr_getscope.3
+     Michael Kerrisk
+         New link to new pthread_attr_setscope.3
+
+pthread_attr_getstack.3
+     Michael Kerrisk
+         New link to new pthread_attr_setstack.3
+
+pthread_attr_getstackaddr.3
+     Michael Kerrisk
+         New link to new pthread_attr_setstackaddr.3
+
+pthread_attr_getstacksize.3
+     Michael Kerrisk
+         New link to new pthread_attr_setstacksize.3
+
+pthread_timedjoin_np.3
+     Michael Kerrisk
+         New link to new pthread_tryjoin_np.3
+
+signalfd4.2
+     Michael Kerrisk
+         New link to signalfd.2
+             signalfd.2 now includes text describing signalfd4() system call,
+             new in Linux 2.6.27.
+
+
+Global changes
+--------------
+
+eventfd.2, getdents.2, mprotect.2, signalfd.2, timerfd_create.2,
+wait.2, backtrace.3, clock_getcpuclockid.3, end.3, fmemopen.3,
+fopencookie.3, getdate.3, getgrouplist.3, getprotoent_r.3,
+getservent_r.3, gnu_get_libc_version.3, inet.3, inet_pton.3,
+makecontext.3, matherr.3, offsetof.3, pthread_attr_init.3,
+pthread_create.3, pthread_getattr_np.3, sem_wait.3, strtol.3, core.5
+     Michael Kerrisk
+         Add ".SS Program source" to EXAMPLE
+             Add ".SS Program source" to clearly distinguish shell session and
+             descriptive text from actual program code.
+
+eventfd.2, execve.2, getdents.2, ioprio_set.2, mprotect.2,
+signalfd.2, timerfd_create.2, wait.2, backtrace.3,
+clock_getcpuclockid.3, end.3, fmemopen.3, fopencookie.3, frexp.3,
+getdate.3, getgrouplist.3, getprotoent_r.3, getservent_r.3,
+gnu_get_libc_version.3, inet.3, inet_pton.3, makecontext.3,
+malloc.3, matherr.3, offsetof.3, pthread_attr_init.3,
+pthread_create.3, pthread_getattr_np.3, sem_wait.3, strftime.3,
+strtok.3, strtol.3, core.5, proc.5, cpuset.7, mq_overview.7
+     Michael Kerrisk
+         Format user input in shell sessions in boldface
+
+frexp.3, strftime.3, strtok.3
+     Michael Kerrisk
+         Relocate shell session above example program
+             Move the shell session text that demonstrates the use of
+             the example program so that it precedes the actual
+             example program.  This makes the page consistent with the
+             majority of other pages.
+
+
+Changes to individual pages
+---------------------------
+
+epoll_create.2
+     Michael Kerrisk
+         Say more about unused epoll_create() 'size' arg
+             Supply a little more explanation about why the 'size' argument
+             of epoll_create() is nowadays ignored.
+
+eventfd.2
+     Michael Kerrisk
+         Remove crufty text relating to flags argument
+             Remove sentence saying that glibc adds a flags argument
+             to the syscall; that was only relevant for the older
+             eventfd() system call.
+getdents.2
+     Christoph Hellwig
+         Fix text relating to DT_UNKNOWN and 'd_type' support
+             Some file systems provide partial support for 'dt_type',
+             returning DT_UNKNOWN for cases they don't support.
+             Update the discussion of 'd_type' and DT_UNKNOWN to
+             support this.
+
+getpeername.2, getsockname.2
+     Michael Kerrisk
+         SEE ALSO: add ip(7) and unix(7)
+
+getsockopt.2
+     Michael Kerrisk
+         EINVAL can also occur if 'optval' is invalid
+             In some cases, EINVAL can occur if 'optval' is invalid.
+             Note this, and point reader to an example in ip(7).
+             In response to:
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=216092
+
+inotify_init.2, pipe.2, timerfd_create.2
+     Michael Kerrisk
+         Clarify *_NONBLOCK description
+             Make it clear that the NONBLOCK flag sets an attribute in the new
+             open file description.
+
+sched_yield.2
+     Michael Kerrisk
+         Rewrite description in terms of threads
+             The text formerly described the operation of sched_yield() in
+             terms of processes.  It should be in terms of threads.
+     Michael Kerrisk
+         Add NOTES text on appropriate use of sched_yield()
+             Strategic calls to sched_yield() can be used to improve
+             performance, but unnecessary use should be avoided.
+
+sigaction.2
+     Michael Kerrisk
+         Clarify that sa_mask affects the *per-thread* signal mask
+             The page didn't previously clearly explain the scope of the
+             signal mask that is affected by sa_mask.
+
+signalfd.2
+     Michael Kerrisk
+         Remove crufty text relating to flags argument
+             Remove sentence saying that glibc adds a flags argument
+             to the syscall; that was only relevant for the older
+             signalfd() system call.
+
+sigprocmask.2
+     Michael Kerrisk
+         Clarify that sigprocmask() operates on a per-thread mask
+             The first sentence of the page was vague on the scope of the
+             attribute changed by sigprocmask().  Reword to make this
+             clearer and add a sentence in NOTES to explicitly state that
+             the signal mask is a per-thread attribute.
+
+socket.2
+     Michael Kerrisk
+         Document SOCK_NONBLOCK and SOCK_CLOEXEC flags
+             These flags, specified in the 'type' argument, are supported
+             since Linux 2.6.27.
+
+socketpair.2
+     Michael Kerrisk
+         Refer to socket(2) for SOCK_CLOEXEC and SOCK_NONBLOCK
+             Refer the reader to socket(2) for a description of the SOCK_CLOEXEC
+             and SOCK_NONBLOCK flags, which are supported by socketpair() since
+             Linux 2.6.27.
+
+syscalls.2
+     Michael Kerrisk
+         Add new 2.6.27 system calls
+             Add pipe2(), dup3(), epoll_create1(), inotify_init1(),
+             eventfd2(), signalfd4().
+
+timerfd_create.2
+     Michael Kerrisk
+         Document timerfd_create() TFD_CLOEXEC and TFD_NONBLOCK
+             TFD_CLOEXEC and TFD_NONBLOCK are supported since LInux 2.6.27.
+
+vfork.2
+     Michael Kerrisk
+         Clarify meaning of "child releases the parent's memory"
+             The man page was not explicit about how the memory used by
+             the child is released back to the parent.
+
+ctime.3
+     Michael Kerrisk
+         ctime_r() and localtime_r() need not set 'timezone' and 'daylight'
+             The man page already noted that these functions need not set
+             'tzname', but things could be clearer: it tzset() is not called,
+             then the other two variables also are not set.
+
+             Also, clarify that ctime() does set 'timezone' and 'daylight'.
+
+dlopen.3
+     Michael Kerrisk
+         LD_LIBRARY_PATH is inspected once, at program start-up
+             Make it clear that LD_LIBRARY_PATH is inspected *once*, at
+             program start-up.  (Verified from source and by experiment.)
+
+fmemopen.3
+     Michael Kerrisk
+         Document binary mode (mode 'b')
+             Glibc 2.9 adds support to fmemopen() for binary mode opens.
+             Binary mode is specified by inclusion of the letter 'b' in
+             the 'mode' argument.
+
+getaddrinfo.3
+     Michael Kerrisk
+         Clarify error descriptions with some examples
+             Clarify the description of some errors by giving examples
+             that produce the errors.  (Text added for EAI_SERVICE and
+             EAI_SOCKTYPE.)
+
+             Also, add an error case for EAI_BADFLAGS.
+
+gethostbyname.3
+     Michael Kerrisk
+         Rationalize text on POSIX.1-2001 obsolete interfaces
+             POSIX.1 marks gethostbyname(), gethostbyaddr(), and 'h_errno'
+             as obsolete.  The man page explained this, but with some
+             duplication.  Remove the duplication, and otherwise tidy up
+             discussion of this point.
+
+popen.3
+     Michael Kerrisk
+         Change one-line description in NAME
+             s%process I/O%pipe stream to or from a process%
+     Michael Kerrisk
+         Document 'e' (close-on-exec) flag
+             glibc 2.9 implements the 'e' flag in 'type', which sets the
+             close-on-exec flag on the underlying file descriptor.
+
+raise.3
+     Michael Kerrisk
+         SEE ALSO: add pthread_kill(3)
+
+readdir.3
+     Christoph Hellwig
+         Fix text relating to DT_UNKNOWN and 'd_type' support
+             (This mirrors the previous change to getdents.2)
+             Some file systems provide partial support for 'dt_type',
+             returning DT_UNKNOWN for cases they don't support.
+             Update the discussion of 'd_type' and DT_UNKNOWN to
+             support this.
+
+strcpy.3
+     Jason Spiro
+         Strengthen warning about checking against buffer overruns
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=413940
+
+tty_ioctl.4
+     Michael Kerrisk
+         Explain capability requirements for TIOCCONS
+             Explain capability requirements for TIOCCONS, and describe
+             changes in 2.6.10 relating to capabilities.
+     Michael Kerrisk
+         Explain capability requirements for various ioctls
+             For TIOCSLCKTRMIOS, TIOCSCTTY, TIOCEXCL, explain the exact
+             capability that is required (the text formerly just said "root"
+             in each case).
+
+proc.5
+     Michael Kerrisk
+         Document /proc/sys/kernel/threads-max
+             Defines the system-wide limit on the number of threads (tasks).
+
+utmp.5
+     Pierre Cazenave
+         It is just "other" who should not have write perms on utmp
+             The page was vague before, saying that utmp should not be
+             writable by any user.  This isn't true: it can be, and
+             typically is, writable by user and group.
+
+epoll.7
+     Michael Kerrisk
+         Mention epoll_create1() as part of epoll API
+             epoll_create1() was added in Linux 2.6.27, and extends the
+             functionality of epoll_create().
+
+inotify.7
+     Michael Kerrisk
+         Mention inotify_init1() in overview of API
+             Discuss the new inotify_init1() system call in the overview of
+             the inotify API.
+
+ip.7
+     Michael Kerrisk
+         Detail EINVAL error for IP_ADD_MEMBERSHIP socket option
+             In response to:
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=216092
+
+iso_8859-7.7
+     Lefteris Dimitroulakis
+         Add Drachma, Euro, and Greek Ypogegrammeni
+             Also, amend description of characters 0241 and 0242.
+
+man-pages.7
+     Michael Kerrisk
+         Example shell sessions should have user input boldfaced
+
+pthreads.7
+     Michael Kerrisk
+         Describe return value from pthreads functions
+             Describe the usual success (0) and failure (non-zero) returns,
+             and note that POSIX.1-2001 specifies that pthreads functions
+             can never fail with the error EINTR.
+
+signal.7
+     Michael Kerrisk
+         Timeouts make socket interfaces non-restartable
+             If setsockopt() is used to set a timeout on a socket(),
+             then the various socket interfaces are not automatically
+             restarted, even if SA_RESTART is specified when
+             establishing the signal handler.  Analogous behavior occurs
+             for the "stop signals" case.
+
+socket.7
+     Michael Kerrisk
+         SEE ALSO: add unix(7)
+
+ld.so.8
+     Michael Kerrisk
+         Document LD_USE_LOAD_BIAS
+             Drawing heavily on Jakub Jelinek's description in
+             http://sources.redhat.com/ml/libc-hacker/2003-11/msg00127.html
+             (Subject: [PATCH] Support LD_USE_LOAD_BIAS)
+         --inhibit-rpath is ignored for setuid/setgid ld.so
+             The --inhibit-rpath option is ignored if ld.so is setuid/setgid
+             (not if the executable is setuid/setgid).
+     Michael Kerrisk
+         Since glibc 2.4, setuid/setgid programs ignore LD_ORIGIN_PATH
+     Michael Kerrisk
+         Fix description of LD_PROFILE and LD_PROFILE_OUTPUT
+             Clarify that LD_PROFILE is pathname or a soname,
+             and identify name of profiling output file.
+             Fix description of LD_PROFILE_OUTPUT, which wasn't even close to
+             the truth.  (But why did it remain unfixed for so many years?)
+     Michael Kerrisk
+         Since glibc 2.3.4, setuid/setgid programs ignore LD_DYNAMIC_WEAK
+     Michael Kerrisk
+         Since version 2.3.5, setuid/setgid programs ignore LD_SHOW_AUXV
+     Michael Kerrisk
+         Reorder lists of LD_* environment variables alphabetically
+     Michael Kerrisk
+         Since glibc 2.3.4, setuid/setgid programs ignore LD_DEBUG
 
 -- 
-Michael Kerrisk Linux man-pages maintainer;
-http://www.kernel.org/doc/man-pages/ Found a documentation bug?
-http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
-To unsubscribe from this list: send the line "unsubscribe linux-api" in
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
