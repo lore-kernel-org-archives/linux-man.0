@@ -1,154 +1,230 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: pthread_create(3) - example bug + problems
-Date: Wed, 5 Nov 2008 09:49:18 -0500
-Message-ID: <cfd18e0f0811050649s630e1709nf03cee9c4982a433@mail.gmail.com>
-References: <63134AC4-6552-4BFA-B9A6-D7D766DF07FE@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: pthread_setaffinity_np.3
+Date: Wed, 5 Nov 2008 19:00:27 +0100
+Message-ID: <36ca99e90811051000j619ff316u8c836352627fe4a0@mail.gmail.com>
+References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <63134AC4-6552-4BFA-B9A6-D7D766DF07FE-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <cfd18e0f0811041447w57dd5de4he68ca780ed963074-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Karsten Weiss <knweiss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, =?UTF-8?Q?Loic_Domaign=C3=A9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[This time, really: CC += linux-man]
+On Tue, Nov 4, 2008 at 23:47, Michael Kerrisk
+<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hi all,
+>
+> Another new pthreads man page looking for reviewers.
+>
+> Cheers,
+>
+> Michael
+>
+> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> .\"
+> .\" Permission is granted to make and distribute verbatim copies of this
+> .\" manual provided the copyright notice and this permission notice are
+> .\" preserved on all copies.
+> .\"
+> .\" Permission is granted to copy and distribute modified versions of this
+> .\" manual under the conditions for verbatim copying, provided that the
+> .\" entire resulting derived work is distributed under the terms of a
+> .\" permission notice identical to this one.
+> .\"
+> .\" Since the Linux kernel and libraries are constantly changing, this
+> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> .\" responsibility for errors or omissions, or for damages resulting from
+> .\" the use of the information contained herein.  The author(s) may not
+> .\" have taken the same level of care in the production of this manual,
+> .\" which is licensed free of charge, as they might when working
+> .\" professionally.
+> .\"
+> .\" Formatted or processed versions of this manual, if unaccompanied by
+> .\" the source, must acknowledge the copyright and authors of this work.
+> .\"
+> .TH PTHREAD_SETAFFINITY_NP 3 2008-11-04 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> pthread_setaffinity_np, pthread_getaffinity_np \- set/get
+> CPU affinity of a thread
+> .SH SYNOPSIS
+> .nf
+> .B #define _GNU_SOURCE
+> .B #include <pthread.h>
+>
+> .BI "int pthread_setaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
+> .BI "                           const cpu_set_t *" cpuset );
+> .BI "int pthread_getaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
+> .BI "                           cpu_set_t *" cpuset );
+> .sp
+> Compile and link with \fI\-pthread\fP.
+> .SH DESCRIPTION
+> The
+> .BR pthread_setaffinity_np ()
+> sets the CPU affinity mask of the thread
+> .I thread
+> to the CPU set pointed to by
+> .IR cpuset .
+> If the call is successful,
+> and the thread is not currently running on one of the CPUs in
+> .IR cpuset ,
+> then it is migrated to one of those CPUs.
+>
+> The
+> .BR pthread_getaffinity_np ()
+> function returns the CPU affinity mask of the thread
+> .I thread
+> in the buffer pointed to by
+> .IR cpuset .
+>
+> The argument
+> .I cpusetsize
+> is the length (in bytes) of the buffer pointed to by
+> .IR cpuset .
+> Normally this argument would be specified as
+> .IR sizeof(cpu_set_t) .
+> The constant
+> .B CPU_SETSIZE
+> specifies a value one greater than the
+> maximum CPU number that can be stored in a CPU set.
+Yeah, I like this naming confusion:
 
-Hello Karsten,
+http://sourceware.org/ml/libc-alpha/2008-03/msg00080.html
 
-On Fri, Oct 31, 2008 at 3:46 PM, Karsten Weiss <knweiss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello Michael!
 >
-> I was just reading your man-pages 3.12 announcement on
-> http://planet.kernel.org
-> and noticed the new man page for pthread_create(3). I saw the example code
-> at the end of the man page an decided to give it a try on my Mac.
-> Unfortunately,
-> it crashed immediately:
->
-> $ ./pthread_test a b c
-> Thread 2: top of stack near 0xb0102f6c; argv_string=b
-> Thread 1: top of stack near 0xb0080f6c; argv_string=a
-> Thread -1866982256: top of stack near 0xb0184f6c; argv_string=
-> Bus error
->
-> The bug is in this part of the code:
->
->    /* Allocate memory for pthread_create() arguments */
->
->    tinfo = calloc(num_threads, num_threads);
->    if (tinfo == NULL)
->        errExit("calloc");
->
-> The calloc() line should read like this instead:
->
-> tinfo = calloc(num_threads, sizeof(struct thread_info));
->                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> For more details on CPU affinity masks,
+> as well as a description of a set of macros
+> that can be used to manipulate and inspect CPU sets, see
+> .BR sched_setaffinity (2)
+> for details.
+> .SH RETURN VALUE
+> On success, these functions return 0;
+> on error, they return a non-zero error number.
+> .SH ERRORS
+> .TP
+> .B EFAULT
+> A supplied memory address was invalid.
+> .TP
+> .B EINVAL
+> .RB ( pthread_setaffinity_np ())
+> The affinity bit mask
+> .I mask
+> contains no processors that are physically on the system.
+> .TP
+> .BR EINVAL
+> .RB ( pthread_setaffinity_np ())
+> .I cpuset
+> specified a CPU that was outside the range
+> permitted by the kernel data type
+> .\" cpumask_t
+> used to represent CPU sets.
+> .\" The raw sched_getaffinity() system call returns the size (in bytes)
+> .\" of the cpumask_t type.
+Maybe a more detailed hint is needed, that cpumask_t and cpu_set_t are
+the 'same', the former inside the kernel the latter in user space. But
+I think such deep kernel internals doesn't belong to a API description
+(because cpumask_t may gone, see 'struct cpumask' patches). I would
+just replace cpumask_t by cpu_set_t.
 
-D'oh!  Thanks.  That was thinko on my part that by chance didn't stop
-the program working when I tested it.  (Or perhaps I made a botch up
-editing the page after testing, since I see now that before the change
-the test program happens still to work for some cases, but glibc
-detects a memory corruption problem in other cases.)
-
-I fixed that line as you suggest, for man-pages-3.13.
-
-> Now the example works fine - even on my Mac:
+> This range is determined by the kernel configuration option
+> .BR CONFIG_NR_CPUS .
+> .TP
+> .B EINVAL
+> .RB ( pthread_getaffinity_np ()
+> .I cpusetsize
+> is smaller than the size of the affinity mask used by the kernel.
+> .TP
+> .B ESRCH
+> There is no thread matching
+> .IR thread
+> (e.g., perhaps that thread has already terminated and been joined).
+> .SH VERSIONS
+> These functions are provided by glibc since version 2.3.4.
+> .SH CONFORMING TO
+> These functions are non-standard GNU extensions.
+> .SH NOTES
+> These functions are interpreted on top of the
+> .BR sched_setaffinity (2)
+> and
+> .BR sched_getaffinity (2)
+> system calls.
 >
-> $ ./pthread_test a b c
-> num_threads=3
-> Thread 1: top of stack near 0xb0080f6c; argv_string=a
-> Thread 2: top of stack near 0xb0102f6c; argv_string=b
-> Thread 3: top of stack near 0xb0184f6c; argv_string=c
-> Joined with thread 1; returned value was A
-> Joined with thread 2; returned value was B
-> Joined with thread 3; returned value was C
+> In glibc 2.3.3 only,
+> versions of these functions were provided that did not have a
+> .I cpusetsize
+> argument.
+> Instead the CPU set size given to the underlying system calls was always
+> .IR sizeof(cpu_set_t) .
 >
-> Then tried to play with the stack size argument and noticed that this
-> fails, too.
+> A new thread created by
+> .BR pthread_create ()
+> inherits a copy of its creator's CPU affinity mask.
+> .SH EXAMPLE
+> In the following program, the main thread uses
+> .BR pthread_setaffinity_np ()
+> to set its CPU affinity mask to include CPUs 0 to 7
+> (which may not all be available on the system),
+> and then calls
+> .BR pthread_getaffinity_np ()
+> to check the resulting CPU affinity mask of the thread.
 >
-> A look in the pthread_set_stacksize man page on Mac revealed that on
-> Mac the stack size must not only be at least PTHREAD_STACK_MIN...
+> .nf
+> #define _GNU_SOURCE
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <errno.h>
 >
-> [
-> So how about changing
->    if (stack_size > 0) {
-> into
->    if (stack_size > PTHREAD_STACK_MIN) {
-> (this also requires "include <limits.h>")
-> ]
-
-There's a good reason not to make this change: as the program stands
-it lets people experiment with doing "the wrong thing" to see that it
-really does cause an error return from the pthreads function.
-
-> ...but the new stack size must also be a multiple of the system page
-> size!
+> #define errExitEN(en, msg)      { errno = en; perror(msg); \\
+>                                  exit(EXIT_FAILURE); }
+> int
+> main(int argc, char *argv[])
+> {
+>    int s, j;
+>    cpu_set_t cpuset;
+>    pthread_t thread;
 >
-> From pthread_attr_setstacksize(3):
+>    thread = pthread_self();
 >
->     pthread_attr_setstacksize() will fail if:
+>    /* Set affinity mask to include CPUs 0 to 7 */
 >
->     [EINVAL]           Invalid value for attr.
->     [EINVAL]           stacksize is less than PTHREAD_STACK_MIN.
-> !!!  [EINVAL]           stacksize is not a multiple of the system page size.
+>    CPU_ZERO(&cpuset);
+>    for (j = 0; j < 8; j++)
+>        CPU_SET(j, &cpuset);
 >
-> See for yourself (PTHREAD_STACK_MIN==8192 on Mac OS X):
+>    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+>    if (s != 0)
+>        errExitEN(s, "sched_setaffinity");
 >
-> $ ./pthread_test -s $((8192*10-1)) a
-> pthread_attr_setstacksize: Invalid argument
-> $ ./pthread_test -s $((8192*10)) a
-> Thread 1: top of stack near 0xb0014f6c; argv_string=a
-> Joined with thread 1; returned value was A
-> $ ./pthread_test -s $((8192*10+1)) a
-> pthread_attr_setstacksize: Invalid argument
+>    /* Check the actual affinity mask assigned to the thread */
 >
-> I don't know offhand if this is a POSIX requirement or a Mac OS X
+>    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+>    if (s != 0)
+>        errExitEN(s, "sched_getaffinity");
+>
+>    printf("Set returned by pthread_getaffinity_np() contained:\\n");
+>    for (j = 0; j < CPU_SETSIZE; j++)
+>        if (CPU_ISSET(j, &cpuset))
+>            printf("    CPU %d\\n", j);
+>
+>    exit(EXIT_SUCCESS);
+> }
+> .fi
+> .SH SEE ALSO
+> .BR sched_getaffinity (2),
+> .BR sched_setaffinity (2),
+> .BR sched_getscheduler (2),
+> .BR pthread_getaffinity_np (3),
+> .BR pthread_setaffinity_np (3),
+Maybe pthread__attr_{set,get}affinity_np, too.
 
-(One can see the POSIX.1 requirements by reading the POSIX man pages
-on Linux: "man 3p pthread_attr_setstacksize".  POSIX.1 does not impose
-this requirement.  Offhand, I can't see such a requirement documented
-on any other systems either; even FreeBSD does not document such a
-restriction.)
-
-> speciality but maybe it could be mentioned as a compatibility note?
-
-So it looks like a MacOS-specific thing.  Still it's worth mentioning
-in the man page.  For man-pages-3.13, I made this change:
-
---- a/man3/pthread_attr_setstacksize.3
-+++ b/man3/pthread_attr_setstacksize.3
-@@ -66,6 +66,15 @@ can fail with the following error:
- The stack size is less than
- .BR PTHREAD_STACK_MIN
- (16384) bytes.
-+.PP
-+On some systems,
-+.\" e.g., MacOS
-+.BR pthread_attr_setstacksize ()
-+can fail with the error
-+.B EINVAL
-+if
-+.I stacksize
-+is not a multiple of the system page size.
- .SH VERSIONS
- These functions are provided by glibc since version 2.1.
- .SH CONFORMING TO
-
-Thanks for making this test and reporting the result!
-
-> Now for the most important part of this mail: Thank you so much for your
-> man-page love! I *really* appreciate your great work!
-
-You're welcome.  Please don't hesitate to make more reports and tests
-in the future!
-
-Thanks,
-
-Michael
+> .BR cpuset (7),
+> .BR pthreads (7)
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
