@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_setaffinity_np.3
-Date: Tue, 4 Nov 2008 17:47:29 -0500
-Message-ID: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+Subject: For review: pthread_attr_setaffinity_np.3
+Date: Wed, 5 Nov 2008 09:17:06 -0500
+Message-ID: <cfd18e0f0811050617h75c6ed47q31a10058fd257842@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -15,7 +15,7 @@ List-Id: linux-man@vger.kernel.org
 
 Hi all,
 
-Another new pthreads man page looking for reviewers.
+And yet another new pthreads man page looking for reviewers.
 
 Cheers,
 
@@ -44,37 +44,38 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_SETAFFINITY_NP 3 2008-11-04 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_ATTR_SETAFFINITY_NP 3 2008-11-05 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_setaffinity_np, pthread_getaffinity_np \- set/get
+pthread_attr_setaffinity_np, pthread_attr_getaffinity_np \- set/get
 CPU affinity of a thread
 .SH SYNOPSIS
 .nf
 .B #define _GNU_SOURCE
 .B #include <pthread.h>
 
-.BI "int pthread_setaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
-.BI "                           const cpu_set_t *" cpuset );
-.BI "int pthread_getaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
-.BI "                           cpu_set_t *" cpuset );
+.BI "int pthread_attr_setaffinity_np(pthread_attr_t " attr ,
+.BI "                   size_t " cpusetsize ", const cpu_set_t *" cpuset );
+.BI "int pthread_attr_getaffinity_np(pthread_attr_t " attr ,
+.BI "                   size_t " cpusetsize ", cpu_set_t *" cpuset );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
 The
-.BR pthread_setaffinity_np ()
-sets the CPU affinity mask of the thread
-.I thread
-to the CPU set pointed to by
+.BR pthread_attr_setaffinity_np ()
+sets the CPU affinity mask attribute of the
+thread attributes object referred to by
+.I attr
+to the value specified in
 .IR cpuset .
-If the call is successful,
-and the thread is not currently running on one of the CPUs in
-.IR cpuset ,
-then it is migrated to one of those CPUs.
+This attribute determines the CPU affinity mask
+of a thread created using the thread attributes object
+.IR attr .
 
 The
-.BR pthread_getaffinity_np ()
-function returns the CPU affinity mask of the thread
-.I thread
+.BR pthread_attr_getaffinity_np ()
+returns the CPU affinity mask attribute of the thread attributes object
+referred to by
+.IR attr
 in the buffer pointed to by
 .IR cpuset .
 
@@ -99,17 +100,14 @@ On success, these functions return 0;
 on error, they return a non-zero error number.
 .SH ERRORS
 .TP
-.B EFAULT
-A supplied memory address was invalid.
-.TP
 .B EINVAL
-.RB ( pthread_setaffinity_np ())
-The affinity bit mask
-.I mask
-contains no processors that are physically on the system.
+.I attr
+or
+.I cpuset
+is invalid.
 .TP
 .BR EINVAL
-.RB ( pthread_setaffinity_np ())
+.RB ( pthread_attr_setaffinity_np ())
 .I cpuset
 specified a CPU that was outside the range
 permitted by the kernel data type
@@ -121,91 +119,31 @@ This range is determined by the kernel configuration option
 .BR CONFIG_NR_CPUS .
 .TP
 .B EINVAL
-.RB ( pthread_getaffinity_np ()
-.I cpusetsize
-is smaller than the size of the affinity mask used by the kernel.
+.RB ( pthread_getaffinity_np ())
+A CPU in the affinity mask of the thread attributes object referred to by
+.I attr
+lies outside the range specified by
+.IR cpusetsize .
 .TP
-.B ESRCH
-There is no thread matching
-.IR thread
-(e.g., perhaps that thread has already terminated and been joined).
+.B ENOMEM
+.RB ( pthread_attr_setaffinity_np ())
+Could not allocate memory.
 .SH VERSIONS
 These functions are provided by glibc since version 2.3.4.
 .SH CONFORMING TO
-These functions are non-standard GNU extensions.
+These functions are non-standard GNU extensions;
+hence the suffix "_np" (non-portable) in the names.
 .SH NOTES
-These functions are interpreted on top of the
-.BR sched_setaffinity (2)
-and
-.BR sched_getaffinity (2)
-system calls.
-
 In glibc 2.3.3 only,
 versions of these functions were provided that did not have a
 .I cpusetsize
 argument.
 Instead the CPU set size given to the underlying system calls was always
 .IR sizeof(cpu_set_t) .
-
-A new thread created by
-.BR pthread_create ()
-inherits a copy of its creator's CPU affinity mask.
-.SH EXAMPLE
-In the following program, the main thread uses
-.BR pthread_setaffinity_np ()
-to set its CPU affinity mask to include CPUs 0 to 7
-(which may not all be available on the system),
-and then calls
-.BR pthread_getaffinity_np ()
-to check the resulting CPU affinity mask of the thread.
-
-.nf
-#define _GNU_SOURCE
-#include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-
-#define errExitEN(en, msg)      { errno = en; perror(msg); \\
-                                  exit(EXIT_FAILURE); }
-int
-main(int argc, char *argv[])
-{
-    int s, j;
-    cpu_set_t cpuset;
-    pthread_t thread;
-
-    thread = pthread_self();
-
-    /* Set affinity mask to include CPUs 0 to 7 */
-
-    CPU_ZERO(&cpuset);
-    for (j = 0; j < 8; j++)
-        CPU_SET(j, &cpuset);
-
-    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
-    if (s != 0)
-        errExitEN(s, "sched_setaffinity");
-
-    /* Check the actual affinity mask assigned to the thread */
-
-    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
-    if (s != 0)
-        errExitEN(s, "sched_getaffinity");
-
-    printf("Set returned by pthread_getaffinity_np() contained:\\n");
-    for (j = 0; j < CPU_SETSIZE; j++)
-        if (CPU_ISSET(j, &cpuset))
-            printf("    CPU %d\\n", j);
-
-    exit(EXIT_SUCCESS);
-}
-.fi
 .SH SEE ALSO
-.BR sched_getaffinity (2),
 .BR sched_setaffinity (2),
-.BR sched_getscheduler (2),
-.BR pthread_getaffinity_np (3),
+.BR sched_setscheduler (2),
+.BR pthread_attr_init (3),
 .BR pthread_setaffinity_np (3),
 .BR cpuset (7),
 .BR pthreads (7)
