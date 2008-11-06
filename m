@@ -1,230 +1,465 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: pthread_setaffinity_np.3
-Date: Wed, 5 Nov 2008 19:00:27 +0100
-Message-ID: <36ca99e90811051000j619ff316u8c836352627fe4a0@mail.gmail.com>
-References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: For review: pthread_setschedparam.3
+Date: Thu, 6 Nov 2008 12:45:10 -0500
+Message-ID: <cfd18e0f0811060945n3224567du5e98adecb074b5e@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811041447w57dd5de4he68ca780ed963074-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, =?UTF-8?Q?Loic_Domaign=C3=A9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 4, 2008 at 23:47, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi all,
->
-> Another new pthreads man page looking for reviewers.
->
-> Cheers,
->
-> Michael
->
-> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of this
-> .\" manual provided the copyright notice and this permission notice are
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of this
-> .\" manual under the conditions for verbatim copying, provided that the
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, this
-> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> .\" responsibility for errors or omissions, or for damages resulting from
-> .\" the use of the information contained herein.  The author(s) may not
-> .\" have taken the same level of care in the production of this manual,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied by
-> .\" the source, must acknowledge the copyright and authors of this work.
-> .\"
-> .TH PTHREAD_SETAFFINITY_NP 3 2008-11-04 "Linux" "Linux Programmer's Manual"
-> .SH NAME
-> pthread_setaffinity_np, pthread_getaffinity_np \- set/get
-> CPU affinity of a thread
-> .SH SYNOPSIS
-> .nf
-> .B #define _GNU_SOURCE
-> .B #include <pthread.h>
->
-> .BI "int pthread_setaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
-> .BI "                           const cpu_set_t *" cpuset );
-> .BI "int pthread_getaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
-> .BI "                           cpu_set_t *" cpuset );
-> .sp
-> Compile and link with \fI\-pthread\fP.
-> .SH DESCRIPTION
-> The
-> .BR pthread_setaffinity_np ()
-> sets the CPU affinity mask of the thread
-> .I thread
-> to the CPU set pointed to by
-> .IR cpuset .
-> If the call is successful,
-> and the thread is not currently running on one of the CPUs in
-> .IR cpuset ,
-> then it is migrated to one of those CPUs.
->
-> The
-> .BR pthread_getaffinity_np ()
-> function returns the CPU affinity mask of the thread
-> .I thread
-> in the buffer pointed to by
-> .IR cpuset .
->
-> The argument
-> .I cpusetsize
-> is the length (in bytes) of the buffer pointed to by
-> .IR cpuset .
-> Normally this argument would be specified as
-> .IR sizeof(cpu_set_t) .
-> The constant
-> .B CPU_SETSIZE
-> specifies a value one greater than the
-> maximum CPU number that can be stored in a CPU set.
-Yeah, I like this naming confusion:
+Here's another pthreads page looking for reviewers (and testers for
+the example program)
 
-http://sourceware.org/ml/libc-alpha/2008-03/msg00080.html
+thanks,
 
->
-> For more details on CPU affinity masks,
-> as well as a description of a set of macros
-> that can be used to manipulate and inspect CPU sets, see
-> .BR sched_setaffinity (2)
-> for details.
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a non-zero error number.
-> .SH ERRORS
-> .TP
-> .B EFAULT
-> A supplied memory address was invalid.
-> .TP
-> .B EINVAL
-> .RB ( pthread_setaffinity_np ())
-> The affinity bit mask
-> .I mask
-> contains no processors that are physically on the system.
-> .TP
-> .BR EINVAL
-> .RB ( pthread_setaffinity_np ())
-> .I cpuset
-> specified a CPU that was outside the range
-> permitted by the kernel data type
-> .\" cpumask_t
-> used to represent CPU sets.
-> .\" The raw sched_getaffinity() system call returns the size (in bytes)
-> .\" of the cpumask_t type.
-Maybe a more detailed hint is needed, that cpumask_t and cpu_set_t are
-the 'same', the former inside the kernel the latter in user space. But
-I think such deep kernel internals doesn't belong to a API description
-(because cpumask_t may gone, see 'struct cpumask' patches). I would
-just replace cpumask_t by cpu_set_t.
+Michael
 
-> This range is determined by the kernel configuration option
-> .BR CONFIG_NR_CPUS .
-> .TP
-> .B EINVAL
-> .RB ( pthread_getaffinity_np ()
-> .I cpusetsize
-> is smaller than the size of the affinity mask used by the kernel.
-> .TP
-> .B ESRCH
-> There is no thread matching
-> .IR thread
-> (e.g., perhaps that thread has already terminated and been joined).
-> .SH VERSIONS
-> These functions are provided by glibc since version 2.3.4.
-> .SH CONFORMING TO
-> These functions are non-standard GNU extensions.
-> .SH NOTES
-> These functions are interpreted on top of the
-> .BR sched_setaffinity (2)
-> and
-> .BR sched_getaffinity (2)
-> system calls.
->
-> In glibc 2.3.3 only,
-> versions of these functions were provided that did not have a
-> .I cpusetsize
-> argument.
-> Instead the CPU set size given to the underlying system calls was always
-> .IR sizeof(cpu_set_t) .
->
-> A new thread created by
-> .BR pthread_create ()
-> inherits a copy of its creator's CPU affinity mask.
-> .SH EXAMPLE
-> In the following program, the main thread uses
-> .BR pthread_setaffinity_np ()
-> to set its CPU affinity mask to include CPUs 0 to 7
-> (which may not all be available on the system),
-> and then calls
-> .BR pthread_getaffinity_np ()
-> to check the resulting CPU affinity mask of the thread.
->
-> .nf
-> #define _GNU_SOURCE
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <errno.h>
->
-> #define errExitEN(en, msg)      { errno = en; perror(msg); \\
->                                  exit(EXIT_FAILURE); }
-> int
-> main(int argc, char *argv[])
-> {
->    int s, j;
->    cpu_set_t cpuset;
->    pthread_t thread;
->
->    thread = pthread_self();
->
->    /* Set affinity mask to include CPUs 0 to 7 */
->
->    CPU_ZERO(&cpuset);
->    for (j = 0; j < 8; j++)
->        CPU_SET(j, &cpuset);
->
->    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
->    if (s != 0)
->        errExitEN(s, "sched_setaffinity");
->
->    /* Check the actual affinity mask assigned to the thread */
->
->    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
->    if (s != 0)
->        errExitEN(s, "sched_getaffinity");
->
->    printf("Set returned by pthread_getaffinity_np() contained:\\n");
->    for (j = 0; j < CPU_SETSIZE; j++)
->        if (CPU_ISSET(j, &cpuset))
->            printf("    CPU %d\\n", j);
->
->    exit(EXIT_SUCCESS);
-> }
-> .fi
-> .SH SEE ALSO
-> .BR sched_getaffinity (2),
-> .BR sched_setaffinity (2),
-> .BR sched_getscheduler (2),
-> .BR pthread_getaffinity_np (3),
-> .BR pthread_setaffinity_np (3),
-Maybe pthread__attr_{set,get}affinity_np, too.
+.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH PTHREAD_SETSCHEDPARAM 3 2008-11-07 "Linux" "Linux Programmer's Manual"
+.SH NAME
+pthread_setschedparam, pthread_setschedparam \- set/get
+scheduling policy and parameters of a thread
+.SH SYNOPSIS
+.nf
+.B #include <pthread.h>
 
-> .BR cpuset (7),
-> .BR pthreads (7)
->
+.BI "pthread_setschedparam(pthread_t " thread ", int " policy ,
+.BI "                      const struct sched_param *" param );
+.BI "pthread_getschedparam(pthread_t " thread ", int *" policy ,
+.BI "                      struct sched_param *" param );
+.sp
+Compile and link with \fI\-pthread\fP.
+.SH DESCRIPTION
+The
+.BR pthread_setschedparam ()
+function sets the scheduling policy and parameters of the thread
+.IR thread .
+
+.I policy
+specifies the new scheduling policy for
+.IR thread .
+The supported values for
+.IR policy ,
+and their semantics, are described in
+.BR sched_setscheduler (2).
+.\" FIXME . pthread_setschedparam() places no restriction on the policy,
+.\" but pthread_attr_setschedpolicy() restricts policy to RR/FIFO/OTHER
+.\" http://sourceware.org/bugzilla/show_bug.cgi?id=7013
+
+The structure pointed to by
+.I param
+specifies the new scheduling parameters for
+.IR thread .
+Scheduling parameters are maintained in the following structure:
+
+.in +4n
+.nf
+struct sched_param {
+    int sched_priority;     /* Scheduling priority */
+};
+.fi
+.in
+
+As can be seen, only one scheduling parameter is supported
+(this is the only parameter specified by POSIX.1-2001.)
+For details of the permitted ranges for scheduling priorities
+in each scheduling policy, see
+.BR sched_setscheduler (2).
+
+The
+.BR pthread_getschedparam ()
+function returns the scheduling policy and parameters of the thread
+.IR thread ,
+in the buffers pointed to by
+.I policy
+and
+.IR param ,
+respectively.
+The returned priority value is that set by the most recent
+.BR pthread_setschedparam (),
+.BR pthread_setschedprio (3),
+or
+.BR pthread_create (3)
+call that affected
+.IR thread .
+The returned priority does not reflect any temporary priority adjustments
+as a result of calls to any priority inheritance or
+priority ceiling functions (see, for example,
+.BR pthread_mutexattr_setprioceiling (3)
+and
+.BR pthread_mutexattr_setprotocol (3)).
+.\" FIXME . nptl/pthread_setschedparam.c has the following
+.\"   /* If the thread should have higher priority because of some
+.\"      PTHREAD_PRIO_PROTECT mutexes it holds, adjust the priority. */
+.\" Eventually (perhaps after writing the mutexattr pages), we
+.\" may want to add something on the topic to this page.
+.SH RETURN VALUE
+On success, these functions return 0;
+on error, they return a non-zero error number.
+If
+.BR pthread_setschedparam ()
+fails, the scheduling policy and parameters of
+.I thread
+are not changed.
+.SH ERRORS
+Both of these functions may fail with the following error:
+.TP
+.B ESRCH
+No thread with the ID
+.I thread
+could be found.
+.PP
+.BR pthread_setschedparam ()
+may additionally fail with the following errors:
+.TP
+.B EINVAL
+.I policy
+is not a recognized policy, or
+.I param
+does not make sense for the
+.IR policy .
+.TP
+.B EPERM
+The caller does not have appropriate privileges
+.RB ( CAP_SYS_NICE )
+to set the specified scheduling policy and parameters.
+See
+.BR sched_setscheduler (2)
+for more details on what scheduling changes require privileges.
+.PP
+POSIX.1-2001 also documents an
+.B ENOTSUP
+("attempt was made to set the policy or scheduling parameters
+to an unsupported value") error for
+.BR pthread_setschedparam ().
+.\" .SH VERSIONS
+.\" Available since glibc 2.0
+.SH CONFORMING TO
+POSIX.1-2001.
+.SH NOTES
+See
+.BR sched_setscheduler (2)
+for a description of the effect of changing a thread's
+scheduling policy and priority.
+.SH EXAMPLE
+The program below demonstrates the use of
+.BR pthread_setschedparam ()
+and
+.BR pthread_getschedparam (),
+as well as the use of a number of other scheduling-related
+pthreads functions.
+
+In the following run, the main thread sets its scheduling policy to
+.BR SCHED_FIFO
+with a priority of 10,
+and initializes a thread attributes object with
+a scheduling policy attribute of
+.BR SCHED_RR
+and a scheduling priority attribute of 20.
+The program then sets (using
+.BR pthread_attr_setinheritsched (3))
+the inherit scheduler attribute of the thread attributes object to
+.BR PTHREAD_EXPLICIT_SCHED ,
+meaning that threads created using this attributes object should
+take their scheduling attributes from the thread attributes object.
+The program then creates a thread using the thread attributes object,
+and that thread displays its scheduling policy and priority.
+.in +4n
+.nf
+
+$ \fBsu\fP      # Need privilege to set real-time scheduling policies
+Password:
+# \fB./a.out \-mf10 \-ar20 \-i e\fP
+Scheduler settings of main thread
+    policy=SCHED_FIFO, priority=10
+
+Scheduler settings in \(aqattr\(aq
+    policy=SCHED_RR, priority=20
+    inheritsched is EXPLICIT
+
+Scheduler attributes of new thread
+    policy=SCHED_RR, priority=20
+.fi
+.in
+
+In the above output, one can see that the scheduling policy and priority
+were taken from the values specified in the thread attributes object.
+
+The next run is the same as the previous,
+except that the inherit scheduler attribute is set to
+.BR PTHREAD_INHERIT_SCHED ,
+meaning that threads created using the thread attributes object should
+ignore the scheduling attributes specified in the attributes object
+and instead take their scheduling attributes from the creating thread.
+
+.in +4n
+.nf
+# \fB./a.out \-mf10 \-ar20 \-i i\fP
+Scheduler settings of main thread
+    policy=SCHED_FIFO, priority=10
+
+Scheduler settings in \(aqattr\(aq
+    policy=SCHED_RR, priority=20
+    inheritsched is INHERIT
+
+Scheduler attributes of new thread
+    policy=SCHED_FIFO, priority=10
+.fi
+.in
+
+In the above output, one can see that the scheduling policy and priority
+were taken from the creating thread,
+rather than the thread attributes object.
+.SS Program source
+\&
+.nf
+/* pthreads_sched_test.c */
+
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+
+/* Simple error handling functions */
+
+#define errExit(msg)            { perror(msg); exit(EXIT_FAILURE); }
+
+#define errExitEN(en, msg)      { errno = en; perror(msg); \\
+                                  exit(EXIT_FAILURE); }
+
+static void
+usage(char *prog_name, char *msg)
+{
+    if (msg != NULL)
+        fputs(msg, stderr);
+
+    fprintf(stderr, "Usage: %s [options]\\n", prog_name);
+    fprintf(stderr, "Options are:\\n");
+#define fpe(msg) fprintf(stderr, "\\t%s", msg);          /* Shorter */
+    fpe("\-a<policy><prio> Set scheduling policy and priority in\\n");
+    fpe("                 thread attributes object\\n");
+    fpe("                 <policy> can be\\n");
+    fpe("                     f  SCHED_FIFO\\n");
+    fpe("                     r  SCHED_RR\\n");
+    fpe("                     o  SCHED_OTHER\\n");
+    fpe("\-A               Use default thread attributes object\\n");
+    fpe("\-i {e|s}         Set inherit scheduler attribute to\\n");
+    fpe("                 \(aqexplicit\(aq or \(aqinherit\(aq\\n");
+    fpe("\-m<policy><prio> Set scheduling policy and priority on\\n");
+    fpe("                 main thread before pthread_create() call\\n");
+    exit(EXIT_FAILURE);
+} /* usage */
+
+static int
+get_policy(char p, int *policy)
+{
+    switch (p) {
+    case \(aqf\(aq: *policy = SCHED_FIFO;     return 1;
+    case \(aqr\(aq: *policy = SCHED_RR;       return 1;
+    case \(aqo\(aq: *policy = SCHED_OTHER;    return 1;
+    default:  return 0;
+    }
+} /* get_policy */
+
+static void
+display_sched_attr(int policy, struct sched_param *param)
+{
+    printf("    policy=%s, priority=%d\\n",
+            (policy == SCHED_FIFO)  ? "SCHED_FIFO" :
+            (policy == SCHED_RR)    ? "SCHED_RR" :
+            (policy == SCHED_OTHER) ? "SCHED_OTHER" :
+            "???",
+            param\->sched_priority);
+} /* display_sched_attr */
+
+static void
+display_thread_sched_attr(char *msg)
+{
+    int policy, s;
+    struct sched_param param;
+
+    s = pthread_getschedparam(pthread_self(), &policy, &param);
+    if (s != 0)
+        errExitEN(s, "pthread_getschedparam");
+
+    printf("%s\\n", msg);
+    display_sched_attr(policy, &param);
+} /* display_thread_sched_attr */
+
+static void *
+thread_start(void *arg)
+{
+    display_thread_sched_attr("Scheduler attributes of new thread");
+
+    return NULL;
+} /* thread_start */
+
+int
+main(int argc, char *argv[])
+{
+    int s, opt, inheritsched, use_null_attrib, policy;
+    pthread_t thread;
+    pthread_attr_t attr;
+    pthread_attr_t *attrp;
+    char *attr_sched_str, *main_sched_str, *inheritsched_str;
+    struct sched_param param;
+
+    /* Process command\-line options */
+
+    use_null_attrib = 0;
+    attr_sched_str = NULL;
+    main_sched_str = NULL;
+    inheritsched_str = NULL;
+
+    while ((opt = getopt(argc, argv, "a:Ai:m:")) != \-1) {
+        switch (opt) {
+        case \(aqa\(aq: attr_sched_str = optarg;      break;
+        case \(aqA\(aq: use_null_attrib = 1;          break;
+        case \(aqi\(aq: inheritsched_str = optarg;    break;
+        case \(aqm\(aq: main_sched_str = optarg;      break;
+        default:  usage(argv[0], "Unrecognized option\\n");
+        }
+    }
+
+    if (use_null_attrib &&
+            (inheritsched_str != NULL || attr_sched_str != NULL))
+        usage(argv[0], "Can\(aqt specify \-A with \-i or \-a\\n");
+
+    /* Optionally set scheduling attributes of main thread,
+       and display the attributes */
+
+    if (main_sched_str != NULL) {
+        if (!get_policy(main_sched_str[0], &policy))
+            usage(argv[0], "Bad policy for main thread (\-s)\\n");
+        param.sched_priority = strtol(&main_sched_str[1], NULL, 0);
+
+        s = pthread_setschedparam(pthread_self(), policy, &param);
+        if (s != 0)
+            errExitEN(s, "pthread_setschedparam");
+    }
+
+    display_thread_sched_attr("Scheduler settings of main thread");
+    printf("\\n");
+
+    /* Initialize thread attributes object according to options */
+
+    attrp = NULL;
+
+    if (!use_null_attrib) {
+        s = pthread_attr_init(&attr);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_init");
+        attrp = &attr;
+    }
+
+    if (inheritsched_str != NULL) {
+        if (inheritsched_str[0] == \(aqe\(aq)
+            inheritsched = PTHREAD_EXPLICIT_SCHED;
+        else if (inheritsched_str[0] == \(aqi\(aq)
+            inheritsched = PTHREAD_INHERIT_SCHED;
+        else
+            usage(argv[0], "Value for \-i must be \(aqe\(aq or \(aqi\(aq\\n");
+
+        s = pthread_attr_setinheritsched(&attr, inheritsched);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setinheritsched");
+    }
+
+    if (attr_sched_str != NULL) {
+        if (!get_policy(attr_sched_str[0], &policy))
+            usage(argv[0],
+                    "Bad policy for \(aqattr\(aq (\-a)\\n");
+        param.sched_priority = strtol(&attr_sched_str[1], NULL, 0);
+
+        s = pthread_attr_setschedpolicy(&attr, policy);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setschedpolicy");
+        s = pthread_attr_setschedparam(&attr, &param);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_setschedparam");
+    }
+
+    /* If we initialized a thread attributes object, display
+       the scheduling attributes that were set in the object */
+
+    if (attrp != NULL) {
+        s = pthread_attr_getschedparam(&attr, &param);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_getschedparam");
+        s = pthread_attr_getschedpolicy(&attr, &policy);
+        if (s != 0)
+            errExitEN(s, "pthread_attr_getschedpolicy");
+
+        printf("Scheduler settings in \(aqattr\(aq\\n");
+        display_sched_attr(policy, &param);
+
+        s = pthread_attr_getinheritsched(&attr, &inheritsched);
+        printf("    inheritsched is %s\\n",
+                (inheritsched == PTHREAD_INHERIT_SCHED)  ? "INHERIT" :
+                (inheritsched == PTHREAD_EXPLICIT_SCHED) ? "EXPLICIT" :
+                "???");
+        printf("\\n");
+    }
+
+    /* Create a thread that will display its scheduling attributes */
+
+    s = pthread_create(&thread, attrp, &thread_start, NULL);
+    if (s != 0)
+        errExitEN(s, "pthread_create");
+
+    /* Destroy unneeded thread attributes object */
+
+    s = pthread_attr_destroy(&attr);
+    if (s != 0)
+        errExitEN(s, "pthread_attr_destroy");
+
+    s = pthread_join(thread, NULL);
+    if (s != 0)
+        errExitEN(s, "pthread_join");
+
+    exit(EXIT_SUCCESS);
+} /* main */
+.fi
+.SH SEE ALSO
+.BR sched_get_priority_min (2),
+.BR sched_setscheduler (2),
+.BR pthread_attr_init (3),
+.BR pthread_attr_setinheritsched (3),
+.BR pthread_attr_setschedparam (3),
+.BR pthread_attr_setschedpolicy (3),
+.BR pthread_setschedprio (3),
+.BR pthread_create (3),
+.BR pthread_self (3),
+.BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
