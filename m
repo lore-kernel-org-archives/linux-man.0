@@ -1,284 +1,83 @@
-From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: For review: pthread_setaffinity_np.3
-Date: Sat, 08 Nov 2008 23:31:22 +0100
-Message-ID: <4916133A.8060209@domaigne.com>
+Date: Mon, 10 Nov 2008 19:38:16 +0100
+Message-ID: <36ca99e90811101038v62348fc0mbb366219168bf2ff@mail.gmail.com>
 References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+	 <4916133A.8060209@domaigne.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811041447w57dd5de4he68ca780ed963074-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4916133A.8060209-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
-
-this one is not 'straightforward' for me as I needed to look into the=20
-glibc and kernel source...
-
-I am not very knowledgeable in that area, so my review comments are in=20
-consequence...
-
-Cheers,
-Lo=EFc
---
-
-> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of t=
-his
-> .\" manual provided the copyright notice and this permission notice a=
-re
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of=
- this
-> .\" manual under the conditions for verbatim copying, provided that t=
-he
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-> .\" manual page may be incorrect or out-of-date.  The author(s) assum=
-e no
-> .\" responsibility for errors or omissions, or for damages resulting =
-from
-> .\" the use of the information contained herein.  The author(s) may n=
-ot
-> .\" have taken the same level of care in the production of this manua=
-l,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied =
-by
-> .\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-> .\"
-> .TH PTHREAD_SETAFFINITY_NP 3 2008-11-04 "Linux" "Linux Programmer's M=
-anual"
-> .SH NAME
-> pthread_setaffinity_np, pthread_getaffinity_np \- set/get
-> CPU affinity of a thread
-> .SH SYNOPSIS
-> .nf
-> .B #define _GNU_SOURCE
-> .B #include <pthread.h>
->=20
-> .BI "int pthread_setaffinity_np(pthread_t " thread ", size_t " cpuset=
-size ,
-> .BI "                           const cpu_set_t *" cpuset );
-> .BI "int pthread_getaffinity_np(pthread_t " thread ", size_t " cpuset=
-size ,
-> .BI "                           cpu_set_t *" cpuset );
-> .sp
-> Compile and link with \fI\-pthread\fP.
-> .SH DESCRIPTION
-> The
-> .BR pthread_setaffinity_np ()
-> sets the CPU affinity mask of the thread
-> .I thread
-> to the CPU set pointed to by
-> .IR cpuset .
-> If the call is successful,
-> and the thread is not currently running on one of the CPUs in
-> .IR cpuset ,
-> then it is migrated to one of those CPUs.
->=20
-> The
-> .BR pthread_getaffinity_np ()
-> function returns the CPU affinity mask of the thread
-> .I thread
-> in the buffer pointed to by
-> .IR cpuset .
->=20
-> The argument
-> .I cpusetsize
-> is the length (in bytes) of the buffer pointed to by
-> .IR cpuset .
-> Normally this argument would be specified as
-> .IR sizeof(cpu_set_t) .
-> The constant
-> .B CPU_SETSIZE
-> specifies a value one greater than the
-> maximum CPU number that can be stored in a CPU set.
-
-I came independently to the same conclusion than you. AFAICS,glibc=20
-defines the cpu_set_t to be a 1024 bits long structure. But the kernel=20
-defines the corresponding structure to be a bit field of appropriate=20
-length to store NR_CPUS.
-
-Interesting enough, the exact size of the kernel structure is determine=
-d=20
-by the glibc on the 1st call to pthread_setaffinity_np().
-
-We'll run into troubles if run this on a server with more than 1K core =
-;-)
-
-> For more details on CPU affinity masks,
-> as well as a description of a set of macros
-> that can be used to manipulate and inspect CPU sets, see
-> .BR sched_setaffinity (2)
-> for details.
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a non-zero error number.
-> .SH ERRORS
-> .TP
-> .B EFAULT
-> A supplied memory address was invalid.
-> .TP
-> .B EINVAL
-> .RB ( pthread_setaffinity_np ())
-> The affinity bit mask
-> .I mask
-> contains no processors that are physically on the system.
-
-If I got it right, it seems that Linux supports (or is preparing)=20
-hotplug of CPUs cards... So when you say that "mask contains no=20
-processors that are physically on the system", it should be understood:=
-=20
-at the point of time where pthread_setaffinity_np() has been issued.
-
-> .TP
-> .BR EINVAL
-> .RB ( pthread_setaffinity_np ())
-> .I cpuset
-> specified a CPU that was outside the range
-> permitted by the kernel data type
-> .\" cpumask_t
-> used to represent CPU sets.
-> .\" The raw sched_getaffinity() system call returns the size (in byte=
-s)
-> .\" of the cpumask_t type.
-> This range is determined by the kernel configuration option
-> .BR CONFIG_NR_CPUS .
-
-True. But what does it mean for an application programmer? That I am=20
-requesting a processor which is outside of the set supported by the=20
-kernel (structure). Strictly speaking, this processor could be=20
-physically present.
-
-So, If I sum-up the two EINVAL cases above, I get something like:
-
-The affinity bit mask <code>mask</code> contains no processors that are=
-=20
-physically on the system, or contains a processor outside of the set=20
-supported by the kernel.
-
-
-> .TP
-> .B EINVAL
-> .RB ( pthread_getaffinity_np ()
-> .I cpusetsize
-> is smaller than the size of the affinity mask used by the kernel.
-> .TP
-> .B ESRCH
-> There is no thread matching
-> .IR thread
-> (e.g., perhaps that thread has already terminated and been joined).
-> .SH VERSIONS
-> These functions are provided by glibc since version 2.3.4.
-> .SH CONFORMING TO
-> These functions are non-standard GNU extensions.
-> .SH NOTES
-> These functions are interpreted on top of the
-> .BR sched_setaffinity (2)
-> and
-> .BR sched_getaffinity (2)
-> system calls.
->=20
-> In glibc 2.3.3 only,
-> versions of these functions were provided that did not have a
-> .I cpusetsize
-> argument.
-> Instead the CPU set size given to the underlying system calls was alw=
-ays
-> .IR sizeof(cpu_set_t) .
-
-That's funny. Didn't you mention above that "the cpusetsize should be
-sizeof(cpu_set_t)"... So for now, it's not that much different ;-)
-
-> A new thread created by
-> .BR pthread_create ()
-> inherits a copy of its creator's CPU affinity mask.
-> .SH EXAMPLE
-> In the following program, the main thread uses
-> .BR pthread_setaffinity_np ()
-> to set its CPU affinity mask to include CPUs 0 to 7
-> (which may not all be available on the system),
-> and then calls
-> .BR pthread_getaffinity_np ()
-> to check the resulting CPU affinity mask of the thread.
->=20
-> .nf
-> #define _GNU_SOURCE
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <errno.h>
->=20
-> #define errExitEN(en, msg)      { errno =3D en; perror(msg); \\
->                                   exit(EXIT_FAILURE); }
-> int
-> main(int argc, char *argv[])
-> {
->     int s, j;
->     cpu_set_t cpuset;
->     pthread_t thread;
->=20
->     thread =3D pthread_self();
->=20
->     /* Set affinity mask to include CPUs 0 to 7 */
->=20
->     CPU_ZERO(&cpuset);
->     for (j =3D 0; j < 8; j++)
->         CPU_SET(j, &cpuset);
->=20
->     s =3D pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
->     if (s !=3D 0)
->         errExitEN(s, "sched_setaffinity");
->=20
->     /* Check the actual affinity mask assigned to the thread */
->=20
->     s =3D pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
->     if (s !=3D 0)
->         errExitEN(s, "sched_getaffinity");
->=20
->     printf("Set returned by pthread_getaffinity_np() contained:\\n");
->     for (j =3D 0; j < CPU_SETSIZE; j++)
->         if (CPU_ISSET(j, &cpuset))
->             printf("    CPU %d\\n", j);
->=20
->     exit(EXIT_SUCCESS);
-> }
-> .fi
-
-This might be obvious to all of you, but it wasn't to me... The CPU set=
-=20
-used for the affinity is the intersection of the set passed to=20
-pthread_setaffinity_np() and the set of processors supported by the=20
-kernel...
-
-That's why your example shall work, even if the system where it runs ha=
-s=20
-less than 8 processors.
-
-> .SH SEE ALSO
-> .BR sched_getaffinity (2),
-> .BR sched_setaffinity (2),
-> .BR sched_getscheduler (2),
-> .BR pthread_getaffinity_np (3),
-> .BR pthread_setaffinity_np (3),
-> .BR cpuset (7),
-> .BR pthreads (7)
->=20
-
+T24gU2F0LCBOb3YgOCwgMjAwOCBhdCAyMzozMSwgTG9pYyBEb21haWduZSA8dGVjaEBkb21haWdu
+ZS5jb20+IHdyb3RlOgo+IEhpIE1pY2hhZWwsCj4KPiB0aGlzIG9uZSBpcyBub3QgJ3N0cmFpZ2h0
+Zm9yd2FyZCcgZm9yIG1lIGFzIEkgbmVlZGVkIHRvIGxvb2sgaW50byB0aGUgZ2xpYmMKPiBhbmQg
+a2VybmVsIHNvdXJjZS4uLgo+Cj4gSSBhbSBub3QgdmVyeSBrbm93bGVkZ2VhYmxlIGluIHRoYXQg
+YXJlYSwgc28gbXkgcmV2aWV3IGNvbW1lbnRzIGFyZSBpbgo+IGNvbnNlcXVlbmNlLi4uCj4KPiBD
+aGVlcnMsCj4gTG/Dr2MKPiAtLQo+Cj4+IC5cIiBDb3B5cmlnaHQgKGMpIDIwMDggTGludXggRm91
+bmRhdGlvbiwgd3JpdHRlbiBieSBNaWNoYWVsIEtlcnJpc2sKPj4gLlwiICAgICA8bXRrLm1hbnBh
+Z2VzQGdtYWlsLmNvbT4KPj4gLlwiCj4+IC5cIiBQZXJtaXNzaW9uIGlzIGdyYW50ZWQgdG8gbWFr
+ZSBhbmQgZGlzdHJpYnV0ZSB2ZXJiYXRpbSBjb3BpZXMgb2YgdGhpcwo+PiAuXCIgbWFudWFsIHBy
+b3ZpZGVkIHRoZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIGFy
+ZQo+PiAuXCIgcHJlc2VydmVkIG9uIGFsbCBjb3BpZXMuCj4+IC5cIgo+PiAuXCIgUGVybWlzc2lv
+biBpcyBncmFudGVkIHRvIGNvcHkgYW5kIGRpc3RyaWJ1dGUgbW9kaWZpZWQgdmVyc2lvbnMgb2Yg
+dGhpcwo+PiAuXCIgbWFudWFsIHVuZGVyIHRoZSBjb25kaXRpb25zIGZvciB2ZXJiYXRpbSBjb3B5
+aW5nLCBwcm92aWRlZCB0aGF0IHRoZQo+PiAuXCIgZW50aXJlIHJlc3VsdGluZyBkZXJpdmVkIHdv
+cmsgaXMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1zIG9mIGEKPj4gLlwiIHBlcm1pc3Npb24g
+bm90aWNlIGlkZW50aWNhbCB0byB0aGlzIG9uZS4KPj4gLlwiCj4+IC5cIiBTaW5jZSB0aGUgTGlu
+dXgga2VybmVsIGFuZCBsaWJyYXJpZXMgYXJlIGNvbnN0YW50bHkgY2hhbmdpbmcsIHRoaXMKPj4g
+LlwiIG1hbnVhbCBwYWdlIG1heSBiZSBpbmNvcnJlY3Qgb3Igb3V0LW9mLWRhdGUuICBUaGUgYXV0
+aG9yKHMpIGFzc3VtZSBubwo+PiAuXCIgcmVzcG9uc2liaWxpdHkgZm9yIGVycm9ycyBvciBvbWlz
+c2lvbnMsIG9yIGZvciBkYW1hZ2VzIHJlc3VsdGluZyBmcm9tCj4+IC5cIiB0aGUgdXNlIG9mIHRo
+ZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluLiAgVGhlIGF1dGhvcihzKSBtYXkgbm90Cj4+
+IC5cIiBoYXZlIHRha2VuIHRoZSBzYW1lIGxldmVsIG9mIGNhcmUgaW4gdGhlIHByb2R1Y3Rpb24g
+b2YgdGhpcyBtYW51YWwsCj4+IC5cIiB3aGljaCBpcyBsaWNlbnNlZCBmcmVlIG9mIGNoYXJnZSwg
+YXMgdGhleSBtaWdodCB3aGVuIHdvcmtpbmcKPj4gLlwiIHByb2Zlc3Npb25hbGx5Lgo+PiAuXCIK
+Pj4gLlwiIEZvcm1hdHRlZCBvciBwcm9jZXNzZWQgdmVyc2lvbnMgb2YgdGhpcyBtYW51YWwsIGlm
+IHVuYWNjb21wYW5pZWQgYnkKPj4gLlwiIHRoZSBzb3VyY2UsIG11c3QgYWNrbm93bGVkZ2UgdGhl
+IGNvcHlyaWdodCBhbmQgYXV0aG9ycyBvZiB0aGlzIHdvcmsuCj4+IC5cIgo+PiAuVEggUFRIUkVB
+RF9TRVRBRkZJTklUWV9OUCAzIDIwMDgtMTEtMDQgIkxpbnV4IiAiTGludXggUHJvZ3JhbW1lcidz
+Cj4+IE1hbnVhbCIKPj4gLlNIIE5BTUUKPj4gcHRocmVhZF9zZXRhZmZpbml0eV9ucCwgcHRocmVh
+ZF9nZXRhZmZpbml0eV9ucCBcLSBzZXQvZ2V0Cj4+IENQVSBhZmZpbml0eSBvZiBhIHRocmVhZAo+
+PiAuU0ggU1lOT1BTSVMKPj4gLm5mCj4+IC5CICNkZWZpbmUgX0dOVV9TT1VSQ0UKPj4gLkIgI2lu
+Y2x1ZGUgPHB0aHJlYWQuaD4KPj4KPj4gLkJJICJpbnQgcHRocmVhZF9zZXRhZmZpbml0eV9ucChw
+dGhyZWFkX3QgIiB0aHJlYWQgIiwgc2l6ZV90ICIgY3B1c2V0c2l6ZQo+PiAsCj4+IC5CSSAiICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgY3B1X3NldF90ICoiIGNwdXNldCApOwo+PiAu
+QkkgImludCBwdGhyZWFkX2dldGFmZmluaXR5X25wKHB0aHJlYWRfdCAiIHRocmVhZCAiLCBzaXpl
+X3QgIiBjcHVzZXRzaXplCj4+ICwKPj4gLkJJICIgICAgICAgICAgICAgICAgICAgICAgICAgICBj
+cHVfc2V0X3QgKiIgY3B1c2V0ICk7Cj4+IC5zcAo+PiBDb21waWxlIGFuZCBsaW5rIHdpdGggXGZJ
+XC1wdGhyZWFkXGZQLgo+PiAuU0ggREVTQ1JJUFRJT04KPj4gVGhlCj4+IC5CUiBwdGhyZWFkX3Nl
+dGFmZmluaXR5X25wICgpCj4+IHNldHMgdGhlIENQVSBhZmZpbml0eSBtYXNrIG9mIHRoZSB0aHJl
+YWQKPj4gLkkgdGhyZWFkCj4+IHRvIHRoZSBDUFUgc2V0IHBvaW50ZWQgdG8gYnkKPj4gLklSIGNw
+dXNldCAuCj4+IElmIHRoZSBjYWxsIGlzIHN1Y2Nlc3NmdWwsCj4+IGFuZCB0aGUgdGhyZWFkIGlz
+IG5vdCBjdXJyZW50bHkgcnVubmluZyBvbiBvbmUgb2YgdGhlIENQVXMgaW4KPj4gLklSIGNwdXNl
+dCAsCj4+IHRoZW4gaXQgaXMgbWlncmF0ZWQgdG8gb25lIG9mIHRob3NlIENQVXMuCj4+Cj4+IFRo
+ZQo+PiAuQlIgcHRocmVhZF9nZXRhZmZpbml0eV9ucCAoKQo+PiBmdW5jdGlvbiByZXR1cm5zIHRo
+ZSBDUFUgYWZmaW5pdHkgbWFzayBvZiB0aGUgdGhyZWFkCj4+IC5JIHRocmVhZAo+PiBpbiB0aGUg
+YnVmZmVyIHBvaW50ZWQgdG8gYnkKPj4gLklSIGNwdXNldCAuCj4+Cj4+IFRoZSBhcmd1bWVudAo+
+PiAuSSBjcHVzZXRzaXplCj4+IGlzIHRoZSBsZW5ndGggKGluIGJ5dGVzKSBvZiB0aGUgYnVmZmVy
+IHBvaW50ZWQgdG8gYnkKPj4gLklSIGNwdXNldCAuCj4+IE5vcm1hbGx5IHRoaXMgYXJndW1lbnQg
+d291bGQgYmUgc3BlY2lmaWVkIGFzCj4+IC5JUiBzaXplb2YoY3B1X3NldF90KSAuCj4+IFRoZSBj
+b25zdGFudAo+PiAuQiBDUFVfU0VUU0laRQo+PiBzcGVjaWZpZXMgYSB2YWx1ZSBvbmUgZ3JlYXRl
+ciB0aGFuIHRoZQo+PiBtYXhpbXVtIENQVSBudW1iZXIgdGhhdCBjYW4gYmUgc3RvcmVkIGluIGEg
+Q1BVIHNldC4KPgo+IEkgY2FtZSBpbmRlcGVuZGVudGx5IHRvIHRoZSBzYW1lIGNvbmNsdXNpb24g
+dGhhbiB5b3UuIEFGQUlDUyxnbGliYyBkZWZpbmVzCj4gdGhlIGNwdV9zZXRfdCB0byBiZSBhIDEw
+MjQgYml0cyBsb25nIHN0cnVjdHVyZS4gQnV0IHRoZSBrZXJuZWwgZGVmaW5lcyB0aGUKPiBjb3Jy
+ZXNwb25kaW5nIHN0cnVjdHVyZSB0byBiZSBhIGJpdCBmaWVsZCBvZiBhcHByb3ByaWF0ZSBsZW5n
+dGggdG8gc3RvcmUKPiBOUl9DUFVTLgo+Cj4gSW50ZXJlc3RpbmcgZW5vdWdoLCB0aGUgZXhhY3Qg
+c2l6ZSBvZiB0aGUga2VybmVsIHN0cnVjdHVyZSBpcyBkZXRlcm1pbmVkIGJ5Cj4gdGhlIGdsaWJj
+IG9uIHRoZSAxc3QgY2FsbCB0byBwdGhyZWFkX3NldGFmZmluaXR5X25wKCkuCj4KPiBXZSdsbCBy
+dW4gaW50byB0cm91YmxlcyBpZiBydW4gdGhpcyBvbiBhIHNlcnZlciB3aXRoIG1vcmUgdGhhbiAx
+SyBjb3JlIDstKQpUaGF0cyB3aHkgZ2xpYmMgcHJvdmlkZXMgYSBuZXcgc2V0IG9mIGZ1bmN0aW9u
+IHRvIGhhbmRsZSBjcHVfc2V0X3QKd2l0aCBtb3JlIHRoYW4gMUsgYml0cy4KTG9vayBmb3IgdGhl
+IGRlZmluaXRpb25zIG9mIG1hY3JvcyB3aXRoIGEgX1Mgc3VmZml4IGluIDxzY2hlZC5oPi4KCkJl
+cnQK
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
