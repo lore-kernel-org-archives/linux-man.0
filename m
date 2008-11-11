@@ -1,83 +1,277 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: pthread_setaffinity_np.3
-Date: Mon, 10 Nov 2008 19:38:16 +0100
-Message-ID: <36ca99e90811101038v62348fc0mbb366219168bf2ff@mail.gmail.com>
-References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
-	 <4916133A.8060209@domaigne.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages-3.13 released
+Date: Tue, 11 Nov 2008 14:16:14 -0500
+Message-ID: <4919D9FE.8010809@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4916133A.8060209-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <knweiss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>, Olaf van der Spek <olafvdspek-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Sam Varshavchik <mrsa>
+Cc: base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, Alain Portal <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>Theodore T'so <t>
 List-Id: linux-man@vger.kernel.org
 
-T24gU2F0LCBOb3YgOCwgMjAwOCBhdCAyMzozMSwgTG9pYyBEb21haWduZSA8dGVjaEBkb21haWdu
-ZS5jb20+IHdyb3RlOgo+IEhpIE1pY2hhZWwsCj4KPiB0aGlzIG9uZSBpcyBub3QgJ3N0cmFpZ2h0
-Zm9yd2FyZCcgZm9yIG1lIGFzIEkgbmVlZGVkIHRvIGxvb2sgaW50byB0aGUgZ2xpYmMKPiBhbmQg
-a2VybmVsIHNvdXJjZS4uLgo+Cj4gSSBhbSBub3QgdmVyeSBrbm93bGVkZ2VhYmxlIGluIHRoYXQg
-YXJlYSwgc28gbXkgcmV2aWV3IGNvbW1lbnRzIGFyZSBpbgo+IGNvbnNlcXVlbmNlLi4uCj4KPiBD
-aGVlcnMsCj4gTG/Dr2MKPiAtLQo+Cj4+IC5cIiBDb3B5cmlnaHQgKGMpIDIwMDggTGludXggRm91
-bmRhdGlvbiwgd3JpdHRlbiBieSBNaWNoYWVsIEtlcnJpc2sKPj4gLlwiICAgICA8bXRrLm1hbnBh
-Z2VzQGdtYWlsLmNvbT4KPj4gLlwiCj4+IC5cIiBQZXJtaXNzaW9uIGlzIGdyYW50ZWQgdG8gbWFr
-ZSBhbmQgZGlzdHJpYnV0ZSB2ZXJiYXRpbSBjb3BpZXMgb2YgdGhpcwo+PiAuXCIgbWFudWFsIHBy
-b3ZpZGVkIHRoZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIGFy
-ZQo+PiAuXCIgcHJlc2VydmVkIG9uIGFsbCBjb3BpZXMuCj4+IC5cIgo+PiAuXCIgUGVybWlzc2lv
-biBpcyBncmFudGVkIHRvIGNvcHkgYW5kIGRpc3RyaWJ1dGUgbW9kaWZpZWQgdmVyc2lvbnMgb2Yg
-dGhpcwo+PiAuXCIgbWFudWFsIHVuZGVyIHRoZSBjb25kaXRpb25zIGZvciB2ZXJiYXRpbSBjb3B5
-aW5nLCBwcm92aWRlZCB0aGF0IHRoZQo+PiAuXCIgZW50aXJlIHJlc3VsdGluZyBkZXJpdmVkIHdv
-cmsgaXMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1zIG9mIGEKPj4gLlwiIHBlcm1pc3Npb24g
-bm90aWNlIGlkZW50aWNhbCB0byB0aGlzIG9uZS4KPj4gLlwiCj4+IC5cIiBTaW5jZSB0aGUgTGlu
-dXgga2VybmVsIGFuZCBsaWJyYXJpZXMgYXJlIGNvbnN0YW50bHkgY2hhbmdpbmcsIHRoaXMKPj4g
-LlwiIG1hbnVhbCBwYWdlIG1heSBiZSBpbmNvcnJlY3Qgb3Igb3V0LW9mLWRhdGUuICBUaGUgYXV0
-aG9yKHMpIGFzc3VtZSBubwo+PiAuXCIgcmVzcG9uc2liaWxpdHkgZm9yIGVycm9ycyBvciBvbWlz
-c2lvbnMsIG9yIGZvciBkYW1hZ2VzIHJlc3VsdGluZyBmcm9tCj4+IC5cIiB0aGUgdXNlIG9mIHRo
-ZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluLiAgVGhlIGF1dGhvcihzKSBtYXkgbm90Cj4+
-IC5cIiBoYXZlIHRha2VuIHRoZSBzYW1lIGxldmVsIG9mIGNhcmUgaW4gdGhlIHByb2R1Y3Rpb24g
-b2YgdGhpcyBtYW51YWwsCj4+IC5cIiB3aGljaCBpcyBsaWNlbnNlZCBmcmVlIG9mIGNoYXJnZSwg
-YXMgdGhleSBtaWdodCB3aGVuIHdvcmtpbmcKPj4gLlwiIHByb2Zlc3Npb25hbGx5Lgo+PiAuXCIK
-Pj4gLlwiIEZvcm1hdHRlZCBvciBwcm9jZXNzZWQgdmVyc2lvbnMgb2YgdGhpcyBtYW51YWwsIGlm
-IHVuYWNjb21wYW5pZWQgYnkKPj4gLlwiIHRoZSBzb3VyY2UsIG11c3QgYWNrbm93bGVkZ2UgdGhl
-IGNvcHlyaWdodCBhbmQgYXV0aG9ycyBvZiB0aGlzIHdvcmsuCj4+IC5cIgo+PiAuVEggUFRIUkVB
-RF9TRVRBRkZJTklUWV9OUCAzIDIwMDgtMTEtMDQgIkxpbnV4IiAiTGludXggUHJvZ3JhbW1lcidz
-Cj4+IE1hbnVhbCIKPj4gLlNIIE5BTUUKPj4gcHRocmVhZF9zZXRhZmZpbml0eV9ucCwgcHRocmVh
-ZF9nZXRhZmZpbml0eV9ucCBcLSBzZXQvZ2V0Cj4+IENQVSBhZmZpbml0eSBvZiBhIHRocmVhZAo+
-PiAuU0ggU1lOT1BTSVMKPj4gLm5mCj4+IC5CICNkZWZpbmUgX0dOVV9TT1VSQ0UKPj4gLkIgI2lu
-Y2x1ZGUgPHB0aHJlYWQuaD4KPj4KPj4gLkJJICJpbnQgcHRocmVhZF9zZXRhZmZpbml0eV9ucChw
-dGhyZWFkX3QgIiB0aHJlYWQgIiwgc2l6ZV90ICIgY3B1c2V0c2l6ZQo+PiAsCj4+IC5CSSAiICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgY29uc3QgY3B1X3NldF90ICoiIGNwdXNldCApOwo+PiAu
-QkkgImludCBwdGhyZWFkX2dldGFmZmluaXR5X25wKHB0aHJlYWRfdCAiIHRocmVhZCAiLCBzaXpl
-X3QgIiBjcHVzZXRzaXplCj4+ICwKPj4gLkJJICIgICAgICAgICAgICAgICAgICAgICAgICAgICBj
-cHVfc2V0X3QgKiIgY3B1c2V0ICk7Cj4+IC5zcAo+PiBDb21waWxlIGFuZCBsaW5rIHdpdGggXGZJ
-XC1wdGhyZWFkXGZQLgo+PiAuU0ggREVTQ1JJUFRJT04KPj4gVGhlCj4+IC5CUiBwdGhyZWFkX3Nl
-dGFmZmluaXR5X25wICgpCj4+IHNldHMgdGhlIENQVSBhZmZpbml0eSBtYXNrIG9mIHRoZSB0aHJl
-YWQKPj4gLkkgdGhyZWFkCj4+IHRvIHRoZSBDUFUgc2V0IHBvaW50ZWQgdG8gYnkKPj4gLklSIGNw
-dXNldCAuCj4+IElmIHRoZSBjYWxsIGlzIHN1Y2Nlc3NmdWwsCj4+IGFuZCB0aGUgdGhyZWFkIGlz
-IG5vdCBjdXJyZW50bHkgcnVubmluZyBvbiBvbmUgb2YgdGhlIENQVXMgaW4KPj4gLklSIGNwdXNl
-dCAsCj4+IHRoZW4gaXQgaXMgbWlncmF0ZWQgdG8gb25lIG9mIHRob3NlIENQVXMuCj4+Cj4+IFRo
-ZQo+PiAuQlIgcHRocmVhZF9nZXRhZmZpbml0eV9ucCAoKQo+PiBmdW5jdGlvbiByZXR1cm5zIHRo
-ZSBDUFUgYWZmaW5pdHkgbWFzayBvZiB0aGUgdGhyZWFkCj4+IC5JIHRocmVhZAo+PiBpbiB0aGUg
-YnVmZmVyIHBvaW50ZWQgdG8gYnkKPj4gLklSIGNwdXNldCAuCj4+Cj4+IFRoZSBhcmd1bWVudAo+
-PiAuSSBjcHVzZXRzaXplCj4+IGlzIHRoZSBsZW5ndGggKGluIGJ5dGVzKSBvZiB0aGUgYnVmZmVy
-IHBvaW50ZWQgdG8gYnkKPj4gLklSIGNwdXNldCAuCj4+IE5vcm1hbGx5IHRoaXMgYXJndW1lbnQg
-d291bGQgYmUgc3BlY2lmaWVkIGFzCj4+IC5JUiBzaXplb2YoY3B1X3NldF90KSAuCj4+IFRoZSBj
-b25zdGFudAo+PiAuQiBDUFVfU0VUU0laRQo+PiBzcGVjaWZpZXMgYSB2YWx1ZSBvbmUgZ3JlYXRl
-ciB0aGFuIHRoZQo+PiBtYXhpbXVtIENQVSBudW1iZXIgdGhhdCBjYW4gYmUgc3RvcmVkIGluIGEg
-Q1BVIHNldC4KPgo+IEkgY2FtZSBpbmRlcGVuZGVudGx5IHRvIHRoZSBzYW1lIGNvbmNsdXNpb24g
-dGhhbiB5b3UuIEFGQUlDUyxnbGliYyBkZWZpbmVzCj4gdGhlIGNwdV9zZXRfdCB0byBiZSBhIDEw
-MjQgYml0cyBsb25nIHN0cnVjdHVyZS4gQnV0IHRoZSBrZXJuZWwgZGVmaW5lcyB0aGUKPiBjb3Jy
-ZXNwb25kaW5nIHN0cnVjdHVyZSB0byBiZSBhIGJpdCBmaWVsZCBvZiBhcHByb3ByaWF0ZSBsZW5n
-dGggdG8gc3RvcmUKPiBOUl9DUFVTLgo+Cj4gSW50ZXJlc3RpbmcgZW5vdWdoLCB0aGUgZXhhY3Qg
-c2l6ZSBvZiB0aGUga2VybmVsIHN0cnVjdHVyZSBpcyBkZXRlcm1pbmVkIGJ5Cj4gdGhlIGdsaWJj
-IG9uIHRoZSAxc3QgY2FsbCB0byBwdGhyZWFkX3NldGFmZmluaXR5X25wKCkuCj4KPiBXZSdsbCBy
-dW4gaW50byB0cm91YmxlcyBpZiBydW4gdGhpcyBvbiBhIHNlcnZlciB3aXRoIG1vcmUgdGhhbiAx
-SyBjb3JlIDstKQpUaGF0cyB3aHkgZ2xpYmMgcHJvdmlkZXMgYSBuZXcgc2V0IG9mIGZ1bmN0aW9u
-IHRvIGhhbmRsZSBjcHVfc2V0X3QKd2l0aCBtb3JlIHRoYW4gMUsgYml0cy4KTG9vayBmb3IgdGhl
-IGRlZmluaXRpb25zIG9mIG1hY3JvcyB3aXRoIGEgX1Mgc3VmZml4IGluIDxzY2hlZC5oPi4KCkJl
-cnQK
+Gidday,
+
+The Linux man-pages maintainer proudly announces:
+
+   man-pages-3.13.tar.gz - man pages for Linux
+
+This release is now available for download at:
+
+   http://www.kernel.org/pub/linux/docs/man-pages
+   or ftp://ftp.kernel.org/pub/linux/docs/man-pages
+
+The online changelog is available at
+http://www.kernel.org/doc/man-pages/changelog.html
+(blogged at
+http://linux-man-pages.blogspot.com/2008/11/man-pages-313-is-released.h=
+tml)
+and the current version of the pages is browsable at
+http://www.kernel.org/doc/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the maintainer=
+ of
+a translation of the manual pages, or are the maintainer of the manual
+pages set in a particular distribution, or have expressed interest in
+helping with man-pages maintenance, or have otherwise expressed interes=
+t in
+being notified about man-pages releases.  If you don't want to receive =
+such
+messages from me, or you know of some other translator or maintainer wh=
+o
+may want to receive such notifications, send me a message.
+
+Cheers,
+
+Michael
+
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscr=
+ibe
+by sending a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, with the body:
+
+   subscribe linux-man
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.13 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+
+Released: 2008-11-07, Bucaramanga
+
+
+Contributors
+------------
+
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
+
+Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Karsten Weiss <knweiss-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
+Olaf van der Spek <olafvdspek-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+T=F6r=F6k Edwin <edwintorok-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Ulrich Mueller <ulm-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Valdis Kletnieks <Valdis.Kletnieks-PjAqaU27lzQ@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+pthread_attr_setaffinity_np.3
+     Michael Kerrisk
+         New page for pthread_attr_setaffinity_np(3) and
+         pthread_attr_getaffinity_np(3)
+
+pthread_attr_setschedparam.3
+     Michael Kerrisk
+         New page for pthread_attr_setschedparam(3) and
+         pthread_attr_getschedparam(3)
+
+pthread_attr_setschedpolicy.3
+     Michael Kerrisk
+         New page for pthread_attr_setschedpolicy(3) and
+         pthread_attr_getschedpolicy(3)
+
+pthread_setaffinity_np.3
+     Michael Kerrisk
+         New page for pthread_setaffinity_np(3) and pthread_getaffinity=
+_np(3)
+
+pthread_setschedparam.3
+     Michael Kerrisk
+         New page for pthread_setschedparam(3) and pthread_getschedpara=
+m(3)
+
+pthread_setschedprio.3
+     Michael Kerrisk
+         New page for pthread_setschedprio(3)
+
+
+New and changed links
+---------------------
+
+pthread_attr_getaffinity_np.3
+     Michael Kerrisk
+         New link to new pthread_attr_setaffinity_np.3
+
+pthread_attr_getschedparam.3
+     Michael Kerrisk
+         New link to new pthread_attr_setschedparam.3
+
+pthread_attr_getschedpolicy.3
+     Michael Kerrisk
+         New link to new pthread_attr_setschedpolicy.3
+
+pthread_getaffinity_np.3
+     Michael Kerrisk
+         New link to new pthread_setaffinity_np.3
+
+pthread_getschedparam.3
+     Michael Kerrisk
+         New link to new pthread_setschedparam.3
+
+
+Global changes
+--------------
+
+pthread_attr_setaffinity_np.3
+pthread_getattr_np.3
+pthread_setaffinity_np.3
+pthread_tryjoin_np.3
+     Michael Kerrisk
+         Explain _np suffix
+             Add text to CONFORMING TO explaining that the "_np"
+             suffix is because these functions are non-portable.
+
+
+Changes to individual pages
+---------------------------
+
+sched_setaffinity.2
+     Michael Kerrisk
+         SEE ALSO: add sched_getcpu(3)
+
+sched_setaffinity.2
+     Michael Kerrisk
+         SEE ALSO: Add pthread_setaffinity_np(3)
+
+sched_setaffinity.2
+     Michael Kerrisk
+         Clarify EINVAL error for cpusetsize < kernel mask size
+             For sched_setaffinity(), the EINVAL error that occurs
+             if 'cpusetsize' is smaller than the kernel CPU set size on=
+ly
+             occurs with kernels before 2.6.9.
+
+vfork.2
+     Michael Kerrisk
+         Child holds parent's memory until execve() or *termination*
+             The page was phrased in a few places to describe the child=
+ as
+             holding the parent's memory until the child does an execve=
+(2)
+             or an _exit(2).  The latter case should really be the more
+             general process termination (i.e., either _exit(2) or abno=
+rmal
+             termination).
+
+clock_getres.3
+     Michael Kerrisk
+         CLOCK_PROCESS_CPUTIME_ID and CLOCK_THREAD_CPUTIME_ID not setab=
+ble
+             According to POSIX.1-2001, the CLOCK_PROCESS_CPUTIME_ID an=
+d
+             CLOCK_THREAD_CPUTIME_ID clocks should be settable, but
+             currently they are not.
+
+pthread_attr_setstacksize.3
+     Michael Kerrisk, after a report by Karsten Weiss
+         EINVAL occurs on some systems if stacksize !=3D page-size
+             On MacOS X at least, pthread_attr_setstacksize(3) can fail
+             with EINVAL if 'stacksize' is not a multiple of the system
+             page size.  Best to mention this so as to aid people writi=
+ng
+             portable programs.
+
+pthread_create.3
+     Karsten Weiss
+         Fix bug in EXAMPLE program
+             The calloc() line should read like this instead:
+
+                 tinfo =3D calloc(num_threads, sizeof(struct thread_inf=
+o));
+
+pthread_exit.3
+     Michael Kerrisk
+         BUGS: thread group with a dead leader and stop signals
+             Document the bug that can occur when a stop signal
+             is sent to a thread group whose leader has terminated.
+             http://thread.gmane.org/gmane.linux.kernel/611611
+             http://marc.info/?l=3Dlinux-kernel&m=3D122525468300823&w=3D=
+2
+
+resolver.3
+     Michael Kerrisk
+         Fix prototype of dn_expand()
+             The 4th argument is "char *", not "unsigned char *".
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504708
+
+epoll.7
+     Michael Kerrisk
+         Fix error handling after accept() in example code
+             Simply continuing after an error is in most cases wrong,
+             and can lead to infinite loops (e.g., for EMFILE).
+             So handle an error by terminating.
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504202
+
+epoll.7
+     Michael Kerrisk
+         Add error handling for epoll_wait() call in example code
+
+epoll.7
+     Michael Kerrisk
+         Improve example code
+             Fill in some gaps in example code (variable declarations,
+             adding listening socket to epoll set).
+             Give variables more meaningful names.
+             Other minor changes.
+             http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504202
+
+iso_8859-7.7
+     Lefteris Dimitroulakis
+         Add characters for Drachma and Greek Ypogegrammeni
+             Lines for these two characters were added in the previous =
+patch,
+             but the actual characters were not included in the 4th col=
+umn
+             of the table.  This fixes that.
+
+pthreads.7
+     Michael Kerrisk
+         Add a section describing thread IDs
+             In particular, note that in each pthreads function that ta=
+kes
+             a thread ID argument, that ID by definition refers to a th=
+read
+             in the same process as the caller.
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
