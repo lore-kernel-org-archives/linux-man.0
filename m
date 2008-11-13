@@ -1,390 +1,557 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: CPU_SET.3
-Date: Thu, 13 Nov 2008 19:45:53 +0100
-Message-ID: <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
-References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] reintroduce accept4
+Date: Thu, 13 Nov 2008 16:51:56 -0500
+Message-ID: <517f3f820811131351l1305b2d2u43ab4e0601d97f93@mail.gmail.com>
+References: <200810261641.m9QGfotr024285@hs20-bc2-1.build.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811130606k1586607cy7846aee91d37c53b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <200810261641.m9QGfotr024285-sQhldQRnEDHy+ZiRM8QlFPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-6lXkIZvqkOAvJsYlp49lxw@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Alan Cox <alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Andrew,
 
-On Thu, Nov 13, 2008 at 15:06, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi Bert,
->
-> I created this page by removing the CPU_*() material from
-> sched_setscheduler.2 and adding documentation of the many other macros
-> that have been added in more recent glibc releases.
->
-> I remember looking at a mail thread you pointed at a few days back
-> where you said the interface of the CPU_*S() macros is somewhat
-> confusing in its use of bits in some places, and bytes in others.
-> It's hard to disagree with you -- so I included an example in the
-> man-pages which hopefully might reduce the confusion.
->
-> Of course, since these are macros, my use of types in the prototypes
-> in the SYNOPSIS is in many cases invention; let me know if something
-> looks weird.
->
-> Also, take a look at
-> http://sourceware.org/bugzilla/show_bug.cgi?id=7029.  Unless I'm
-> confused (which is always possible), this is a real bug.  Do you
-> agree?
-"It's hard to disagree with you." I can confirm this here on my x86-64
-box, a x86-32 exec returns 2048 the x86-64 1024.
+On 10/26/08, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> This patch reintroduces accept4, replacing paccept.  It's easy to see that
+> the patch only removes code and then redirects existing code away from the
+> removed functions.  Since the paccept code sans signal handling was never
+> in question I think there is no reason to quarantine the patch first.
 
->
-> Thanks,
->
-> Michael
->
-> .\" Copyright (C) 2006 Michael Kerrisk
-> .\" and Copyright (C) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of this
-> .\" manual provided the copyright notice and this permission notice are
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of this
-> .\" manual under the conditions for verbatim copying, provided that the
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, this
-> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> .\" responsibility for errors or omissions, or for damages resulting from
-> .\" the use of the information contained herein.  The author(s) may not
-> .\" have taken the same level of care in the production of this manual,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied by
-> .\" the source, must acknowledge the copyright and authors of this work.
-> .\"
-> .TH CPU_SET 2 2008-11-13 "Linux" "Linux Programmer's Manual"
-> .SH NAME
-> CPU_SET, CPU_CLR, CPU_ISSET, CPU_ZERO, CPU_COUNT,
-> CPU_AND, CPU_OR, CPU_XOR, CPU_EQUAL,
-> CPU_ALLOC, CPU_ALLOC_SIZE, CPU_FREE,
-> CPU_SET_S, CPU_CLR_S, CPU_ISSET_S, CPU_ZERO_S,
-> CPU_COUNT_S, CPU_AND_S, CPU_OR_S, CPU_XOR_S, CPU_EQUAL_S \-
-> macros for manipulating CPU sets
-> .SH SYNOPSIS
-> .nf
-> .B #define _GNU_SOURCE
-> .B #include <sched.h>
-> .sp
-> .BI "void CPU_ZERO(cpu_set_t *" set );
-> .sp
-> .BI "void CPU_SET(int " cpu ", cpu_set_t *" set );
-> .BI "void CPU_CLR(int " cpu ", cpu_set_t *" set );
-> .BI "int  CPU_ISSET(int " cpu ", cpu_set_t *" set );
-> .sp
-> .BI "void CPU_COUNT(cpu_set_t *" set );
-> .sp
-> .BI "void CPU_AND(cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .BI "void CPU_OR(cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .BI "void CPU_XOR(cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .sp
-> .BI "int  CPU_EQUAL(cpu_set_t *" set1 ", cpu_set_t *" set2 );
-> .sp
-> .BI "cpu_set_t *CPU_ALLOC(int " num_cpus );
-> .BR "void CPU_FREE(cpu_set_t *" set );
-> .BI "size_t CPU_ALLOC_SIZE(int " num_cpus );
-> .sp
-> .BI "void CPU_ZERO_S(size_t " setsize ", cpu_set_t *" set );
-> .sp
-> .BI "void CPU_SET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-> .BI "void CPU_CLR_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-> .BI "int  CPU_ISSET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-> .sp
-> .BI "void CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
-> .sp
-> .BI "void CPU_AND_S(size_t " setsize ", cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .BI "void CPU_OR_S(size_t " setsize ", cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .BI "void CPU_XOR_S(size_t " setsize ", cpu_set_t *" destset ,
-> .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-> .sp
-> .BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
-> ", cpu_set_t *" set2 );
-Even I like to see the equivalent C prototypes, I think this should be
-noted earlier that these are actually macros.
+I see you accepted this patch into -mm.  I've finally got to looking
+at and testing this, so:
 
-Also, I would like to see a note that the cpu_set_t type is opaque (as
-from the glibc manual) but there is no official copy operator. The
-glibc developer suggest using memcpy for this (see the reminder of
-this thread I posted). And you should not use '=' because of the
-dynamically allocated ones.
+Tested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Acked-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Last but not least, because CPU_ALLOC{,_SIZE} rounds the num_cpus
-argument up (i.e. CPU_ALLOC_SIZE(1) == sizeof(unsigned long)) there
-are probably more cpus possible in this set than you requested, so
-these blind bits should be mentioned as undefined.
+In my tests, everything looks fine.  I'll forward my test program in a
+follow-up mail.
 
-Now to the naming confusion, I think the main problem is CPU_SETSIZE
-and the setsize arguement to the CPU_*_S macros. The former is in bits
-the latter in bytes. Either put a note to CPU_SETSIZE that this is in
-bits and you should not pass this as an setsize argument to any
-CPU_*_S macro, because of the similar name. Or, rename the setsize
-argument to something other, and use the setsize name for the
-CPU_ALLOC{,_SIZE}, too.
+I think Ulrich wanted to try to see this patch in for 2.6.28; it's
+past the merge window of course, so it's up to you, but I have no
+problem with that.  The API is the one that Ulrich initially proposed,
+before taking a detour into paccept()
+(http://thread.gmane.org/gmane.linux.kernel/671443 ), which I argued
+against (http://thread.gmane.org/gmane.linux.kernel/723952,
+http://thread.gmane.org/gmane.linux.network/106071/), since I (and
+Roland) could see no reason for the added complexity of a signal set
+argument (like pselect()/ppoll()/epoll_pwait()).  (In any case, if
+someone does come up with a compelling reason to add a sigset
+argument, then we can add it via the use of a new flag bit.)
 
-I think option one should suffice.
+My only argument is with the name of the new sysytem call.
 
-> .fi
-> .SH DESCRIPTION
-> The
-> .I cpu_set_t
-> data structure represents a set of CPUs.
-> CPU sets are used by
-> .BR sched_setaffinity (2)
-> and similar interfaces.
->
-> The following macros are provided to operate on the CPU set
-> .IR set :
-> .TP 17
-> .BR CPU_ZERO ()
-> Clears
-> .IR set ,
-> so that it contains no CPUs.
-> .TP
-> .BR CPU_SET ()
-> Add CPU
-> .I cpu
-> to
-> .IR set .
-> .TP
-> .BR CPU_CLR ()
-> Remove CPU
-> .I cpu
-> from
-> .IR set .
-> .TP
-> .BR CPU_ISSET ()
-> Test to see if CPU
-> .I cpu
-> is a member of
-> .IR set .
-> .TP
-> .BR CPU_COUNT ()
-> Return the number of CPUs in
-> .IR set .
-> .PP
-> Where a
-> .I cpu
-> argument is specified, it should not produce side effects,
-> since the above macros may evaluate the argument more than once.
-> .PP
-> The first available CPU on the system corresponds to a
-> .I cpu
-> value of 0, the next CPU corresponds to a
-> .I cpu
-> value of 1, and so on.
-> The constant
-> .B CPU_SETSIZE
-> (currently 1024) specifies a value one greater than the maximum CPU
-> number that can be stored in
-> .IR cpu_set_t .
->
-> The following macros perform logical operations on CPU sets:
-> .TP 17
-> .BR CPU_AND ()
-> Store the logical AND of the sets
-> .I srcset1
-> and
-> .I srcset2
-> in
-> .I destset
-> (which may be one of the source sets).
-> .TP
-> .BR CPU_OR ()
-> Store the logical OR of the sets
-> .I srcset1
-> and
-> .I srcset2
-> in
-> .I destset
-> (which may be one of the source sets).
-> .TP
-> .BR CPU_XOR ()
-> Store the logical XOR of the sets
-> .I srcset1
-> and
-> .I srcset2
-> in
-> .I destset
-> (which may be one of the source sets).
-> .TP
-> .BR CPU_EQUAL ()
-> Test whether two CPU set contain exactly the same CPUs.
-> .SS Dynamically sized CPU sets
-> Because some applications may require the ability to dynamically
-> size CPU sets (e.g., to allocate sets larger than that
-> defined by the standard
-> .I cpu_set_t
-> data type), glibc nowadays provides a set of macros to support this.
->
-> The following macros are used to allocate and deallocate CPU sets:
-> .TP 17
-> .BR CPU_ALLOC ()
-> Allocate a CPU set large enough to hold CPUs
-> in the range 0 to
-> .IR num_cpus-1 .
-> .TP
-> .BR CPU_ALLOC_SIZE ()
-> Return the size in bytes of the CPU set that would be needed to
-> hold CPUs in the range 0 to
-> .IR num_cpus-1 .
-> .\" FIXME . track this bug
-> .\" Currently (glibc 2.8), CPU_ALLOC_SIZE() returns double the
-> .\" value that it should.  This also causes CPU_ALLOC() to allocate
-> .\" twice as much memory as is required.
-> .\" http://sourceware.org/bugzilla/show_bug.cgi?id=7029
-> .\" Eventually, write this up in BUGS.
-> This macro provides the value that can be used for
-the
-> .I setsize
-argument
-> in the
-> .BR CPU_*_S ()
-> macros described below.
-> .TP
-> .BR CPU_FREE ()
-> Free a CPU set previously allocated by
-> .BR CPU_ALLOC ().
-> .PP
-> The macros whose names end with "_S" are the analogs of
-> the similarly named macros without the suffix.
-> These macros perform the same tasks as their analogs,
-> but operate on the dynamically allocated CPU set(s) whose size is
-> .I setsize
-> bytes.
-> .SH "RETURN VALUE"
-> .BR CPU_ISSET ()
-> and
-> .BR CPU_ISSET_S ()
-> return non-zero if
-> .I cpu
-> is in
-> .IR set ;
-> otherwise, it returns 0.
->
-> .BR CPU_COUNT ()
-> and
-> .BR CPU_COUNT_S ()
-> return the number of CPUs in
-> .IR set .
->
-> .BR CPU_EQUAL ()
-> and
-> .BR CPU_EQUAL_S ()
-> return non-zero if the two CPU sets are equal; otherwise it returns 0.
->
-> .BR CPU_ALLOC ()
-> returns a pointer on success, or NULL on failure.
-> (Errors are as for
-> .BR malloc (3).)
->
-> .BR CPU_ALLOC_SIZE ()
-> returns the number of bytes required to store a
-> CPU set of the specified cardinality.
->
-> The other functions do not return a value.
-> .SH VERSIONS
-> The
-> .BR CPU_ZERO (),
-> .BR CPU_SET (),
-> .BR CPU_CLR (),
-> and
-> .BR CPU_ISSET ()
-> macros were added in glibc 2.3.3.
->
-> .BR CPU_COUNT ()
-> first appeared in glibc 2.6.
->
-> .BR CPU_AND (),
-> .BR CPU_OR (),
-> .BR CPU_XOR (),
-> .BR CPU_EQUAL (),
-> .BR CPU_ALLOC (),
-> .BR CPU_ALLOC_SIZE (),
-> .BR CPU_FREE (),
-> .BR CPU_ZERO_S (),
-> .BR CPU_SET_S (),
-> .BR CPU_CLR_S (),
-> .BR CPU_ISSET_S (),
-> .BR CPU_AND_S (),
-> .BR CPU_OR_S (),
-> .BR CPU_XOR_S (),
-> and
-> .BR CPU_EQUAL_S ()
-> first appeared in glibc 2.7.
-> .SH "CONFORMING TO"
-> These interfaces are Linux-specific.
-> .SH EXAMPLE
-> The following program demonstrates the use of some of the macros
-> used for dynamically allocated CPU sets.
->
-> .nf
-> #define _GNU_SOURCE
-> #include <sched.h>
-> #include <stdlib.h>
-> #include <unistd.h>
+> I've updated the test program which now looks as follows:
+
+(I assume that there had been no testing on x86-32, since, the
+__i386__ ifdef's notwithstanding,  the program below can't work on
+x86-32 -- sys_socketcall() takes its arguments packaged into an array
+on x86-32, not as an inline list.)
+
+Andrew, you noted a lack of explanation accompanying the original
+patch.  Here's something to fill the gap, and which may be suitable
+for the changelog.
+
+==
+Introduce a new accept4() system call.  The addition of this system
+call matches analogous changes in 2.6.27 (dup3(), evenfd2(),
+signalfd4(), inotify_init1(), epoll_create1(), pipe2()) which added
+new system calls that differed from analogous traditional system calls
+in adding a flags argument that can be used to access additional
+functionality. The accept4() system call is exactly the same as
+accept(), except that it adds a flags bit-mask argument.  Two flags
+are initially implemented.  (Most of the new system calls in 2.6.27
+also had both of these flags.)  SOCK_CLOEXEC causes the close-on-exec
+(FD_CLOEXEC) flag to be enabled for the new file descriptor returned
+by accept4().  This is a useful security feature to avoid leaking
+information in a multithreaded program where one thread is doing an
+accept() at the same time as another thread is doing a fork() plus
+exec().  (More details here:
+http://udrepper.livejournal.com/20407.html "Secure File Descriptor
+Handling", Ulrich Drepper)  The other flag is SOCK_NONBLOCK, which
+causes the O_NONBLOCK flag to be enabled on the new open file
+description created by accept4().  (This flag is merely a convenience,
+saving the use of additional calls fcntl(F_GETFL) and fcntl (F_SETFL)
+to achieve the same result.)
+==
+
+For the curious, some further background on accept4() and the new
+system calls in 2.6.27 is at
+http://linux-man-pages.blogspot.com/2008/10/recent-changes-in-file-descriptor.html
+and http://lwn.net/Articles/281965/)
+
+Cheers,
+
+Michael
+
+> #include <fcntl.h>
+> #include <pthread.h>
 > #include <stdio.h>
-> #include <assert.h>
+> #include <unistd.h>
+> #include <netinet/in.h>
+> #include <sys/socket.h>
+> #include <sys/syscall.h>
+>
+> #ifdef __x86_64__
+> #define __NR_accept4 288
+> #define SOCK_CLOEXEC O_CLOEXEC
+> #elif __i386__
+> #define SYS_ACCEPT4     18
+> #define USE_SOCKETCALL 1
+> #define SOCK_CLOEXEC O_CLOEXEC
+> #else
+> #error "define syscall numbers for this architecture"
+> #endif
+>
+> #define PORT 57392
+>
+> static pthread_barrier_t b;
+>
+> static void *
+> tf (void *arg)
+> {
+>   pthread_barrier_wait (&b);
+>   int s = socket (AF_INET, SOCK_STREAM, 0);
+>   struct sockaddr_in sin;
+>   sin.sin_family = AF_INET;
+>   sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+>   sin.sin_port = htons (PORT);
+>   connect (s, (const struct sockaddr *) &sin, sizeof (sin));
+>   close (s);
+>   pthread_barrier_wait (&b);
+>
+>   pthread_barrier_wait (&b);
+>   s = socket (AF_INET, SOCK_STREAM, 0);
+>   sin.sin_family = AF_INET;
+>   sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+>   sin.sin_port = htons (PORT + 1);
+>   connect (s, (const struct sockaddr *) &sin, sizeof (sin));
+>   close (s);
+>   return NULL;
+> }
 >
 > int
-> main(int argc, char *argv[])
+> main (void)
 > {
->    cpu_set_t *cpusetp;
->    size_t size;
->    int num_cpus, cpu;
+>   alarm (5);
 >
->    if (argc < 2) {
->        fprintf(stderr, "Usage: %s <num\-cpus>\\n", argv[0]);
->        exit(EXIT_FAILURE);
->    }
+>   int status = 0;
 >
->    num_cpus = atoi(argv[1]);
+>   pthread_barrier_init (&b, NULL, 2);
 >
->    cpusetp = CPU_ALLOC(num_cpus);
->    if (cpusetp == NULL) {
->        perror("CPU_ALLOC");
->        exit(EXIT_FAILURE);
->    }
+>   pthread_t th;
+>   if (pthread_create (&th, NULL, tf, NULL) != 0)
+>     {
+>       puts ("pthread_create failed");
+>       status = 1;
+>     }
+>   else
+>     {
+>       int s = socket (AF_INET, SOCK_STREAM, 0);
+>       int fl = 1;
+>       setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &fl, sizeof (fl));
+>       struct sockaddr_in sin;
+>       sin.sin_family = AF_INET;
+>       sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+>       sin.sin_port = htons (PORT);
+>       bind (s, (struct sockaddr *) &sin, sizeof (sin));
+>       listen (s, SOMAXCONN);
 >
->    size = CPU_ALLOC_SIZE(num_cpus);
+>       pthread_barrier_wait (&b);
 >
->    CPU_ZERO_S(size, cpusetp);
->    for (cpu = 0; cpu < num_cpus; cpu += 2)
->        CPU_SET_S(cpu, size, cpusetp);
+>       int s2 = accept (s, NULL, 0);
+>       if (s2 < 0)
+>         {
+>           puts ("accept failed");
+>           status = 1;
+>         }
+>       else
+>         {
+>           int fl = fcntl (s2, F_GETFD);
+>           if ((fl & FD_CLOEXEC) != 0)
+>             {
+>               puts ("accept did set CLOEXEC");
+>               status = 1;
+>             }
 >
->    printf("CPU_COUNT() of set:    %d\\n", CPU_COUNT_S(size, cpusetp));
+>           close (s2);
+>         }
 >
->    CPU_FREE(cpusetp);
->    exit(EXIT_SUCCESS);
+>       close (s);
+>
+>       pthread_barrier_wait (&b);
+>
+>       sin.sin_family = AF_INET;
+>       sin.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
+>       sin.sin_port = htons (PORT + 1);
+>       s = socket (AF_INET, SOCK_STREAM, 0);
+>       bind (s, (struct sockaddr *) &sin, sizeof (sin));
+>       listen (s, SOMAXCONN);
+>
+>       pthread_barrier_wait (&b);
+>
+> #if USE_SOCKETCALL
+>       s2 = syscall (__NR_socketcall, SYS_ACCEPT4, s, NULL, 0, SOCK_CLOEXEC);
+> #else
+>       s2 = syscall (__NR_accept4, s, NULL, 0, SOCK_CLOEXEC);
+> #endif
+>       if (s2 < 0)
+>         {
+>           puts ("accept4 failed");
+>           status = 1;
+>         }
+>       else
+>         {
+>           int fl = fcntl (s2, F_GETFD);
+>           if ((fl & FD_CLOEXEC) == 0)
+>             {
+>               puts ("accept4 did not set CLOEXEC");
+>               status = 1;
+>             }
+>
+>           close (s2);
+>         }
+>
+>       close (s);
+>     }
+>
+>   return status;
 > }
-> .fi
-> .SH "SEE ALSO"
-> .BR sched_setaffinity (2),
-> .BR pthread_attr_setaffinity_np (3),
-> .BR pthread_setaffinity_np (3),
-> .BR cpuset (7)
 >
+>
+>  arch/x86/include/asm/unistd_64.h |    4 -
+>  include/linux/net.h              |    6 --
+>  include/linux/syscalls.h         |    3 -
+>  kernel/sys_ni.c                  |    2
+>  net/compat.c                     |   50 ++----------------------
+>  net/socket.c                     |   80
+> ++++-----------------------------------
+>  6 files changed, 21 insertions(+), 124 deletions(-)
+>
+>
+> Signed-off-by: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>
+> diff --git a/arch/x86/include/asm/unistd_64.h
+> b/arch/x86/include/asm/unistd_64.h
+> index 834b2c1..d2e415e 100644
+> --- a/arch/x86/include/asm/unistd_64.h
+> +++ b/arch/x86/include/asm/unistd_64.h
+> @@ -639,8 +639,8 @@ __SYSCALL(__NR_fallocate, sys_fallocate)
+>  __SYSCALL(__NR_timerfd_settime, sys_timerfd_settime)
+>  #define __NR_timerfd_gettime			287
+>  __SYSCALL(__NR_timerfd_gettime, sys_timerfd_gettime)
+> -#define __NR_paccept				288
+> -__SYSCALL(__NR_paccept, sys_paccept)
+> +#define __NR_accept4				288
+> +__SYSCALL(__NR_accept4, sys_accept4)
+>  #define __NR_signalfd4				289
+>  __SYSCALL(__NR_signalfd4, sys_signalfd4)
+>  #define __NR_eventfd2				290
+> diff --git a/include/linux/net.h b/include/linux/net.h
+> index 6dc14a2..4515efa 100644
+> --- a/include/linux/net.h
+> +++ b/include/linux/net.h
+> @@ -40,7 +40,7 @@
+>  #define SYS_GETSOCKOPT	15		/* sys_getsockopt(2)		*/
+>  #define SYS_SENDMSG	16		/* sys_sendmsg(2)		*/
+>  #define SYS_RECVMSG	17		/* sys_recvmsg(2)		*/
+> -#define SYS_PACCEPT	18		/* sys_paccept(2)		*/
+> +#define SYS_ACCEPT4	18		/* sys_accept4(2)		*/
+>
+>  typedef enum {
+>  	SS_FREE = 0,			/* not allocated		*/
+> @@ -100,7 +100,7 @@ enum sock_type {
+>   * remaining bits are used as flags. */
+>  #define SOCK_TYPE_MASK 0xf
+>
+> -/* Flags for socket, socketpair, paccept */
+> +/* Flags for socket, socketpair, accept4 */
+>  #define SOCK_CLOEXEC	O_CLOEXEC
+>  #ifndef SOCK_NONBLOCK
+>  #define SOCK_NONBLOCK	O_NONBLOCK
+> @@ -223,8 +223,6 @@ extern int 	     sock_map_fd(struct socket *sock, int
+> flags);
+>  extern struct socket *sockfd_lookup(int fd, int *err);
+>  #define		     sockfd_put(sock) fput(sock->file)
+>  extern int	     net_ratelimit(void);
+> -extern long	     do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+> -			       int __user *upeer_addrlen, int flags);
+>
+>  #define net_random()		random32()
+>  #define net_srandom(seed)	srandom32((__force u32)seed)
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index d6ff145..04fb47b 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -410,8 +410,7 @@ asmlinkage long sys_getsockopt(int fd, int level, int
+> optname,
+>  asmlinkage long sys_bind(int, struct sockaddr __user *, int);
+>  asmlinkage long sys_connect(int, struct sockaddr __user *, int);
+>  asmlinkage long sys_accept(int, struct sockaddr __user *, int __user *);
+> -asmlinkage long sys_paccept(int, struct sockaddr __user *, int __user *,
+> -			    const __user sigset_t *, size_t, int);
+> +asmlinkage long sys_accept4(int, struct sockaddr __user *, int __user *,
+> int);
+>  asmlinkage long sys_getsockname(int, struct sockaddr __user *, int __user
+> *);
+>  asmlinkage long sys_getpeername(int, struct sockaddr __user *, int __user
+> *);
+>  asmlinkage long sys_send(int, void __user *, size_t, unsigned);
+> diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+> index a77b27b..e14a232 100644
+> --- a/kernel/sys_ni.c
+> +++ b/kernel/sys_ni.c
+> @@ -31,7 +31,7 @@ cond_syscall(sys_socketpair);
+>  cond_syscall(sys_bind);
+>  cond_syscall(sys_listen);
+>  cond_syscall(sys_accept);
+> -cond_syscall(sys_paccept);
+> +cond_syscall(sys_accept4);
+>  cond_syscall(sys_connect);
+>  cond_syscall(sys_getsockname);
+>  cond_syscall(sys_getpeername);
+> diff --git a/net/compat.c b/net/compat.c
+> index 67fb6a3..50ce0a9 100644
+> --- a/net/compat.c
+> +++ b/net/compat.c
+> @@ -725,7 +725,7 @@ EXPORT_SYMBOL(compat_mc_getsockopt);
+>  static unsigned char nas[19]={AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
+>  				AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
+>  				AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
+> -				AL(6)};
+> +				AL(4)};
+>  #undef AL
+>
+>  asmlinkage long compat_sys_sendmsg(int fd, struct compat_msghdr __user
+> *msg, unsigned flags)
+> @@ -738,52 +738,13 @@ asmlinkage long compat_sys_recvmsg(int fd, struct
+> compat_msghdr __user *msg, uns
+>  	return sys_recvmsg(fd, (struct msghdr __user *)msg, flags |
+> MSG_CMSG_COMPAT);
+>  }
+>
+> -asmlinkage long compat_sys_paccept(int fd, struct sockaddr __user
+> *upeer_sockaddr,
+> -				   int __user *upeer_addrlen,
+> -				   const compat_sigset_t __user *sigmask,
+> -				   compat_size_t sigsetsize, int flags)
+> -{
+> -	compat_sigset_t ss32;
+> -	sigset_t ksigmask, sigsaved;
+> -	int ret;
+> -
+> -	if (sigmask) {
+> -		if (sigsetsize != sizeof(compat_sigset_t))
+> -			return -EINVAL;
+> -		if (copy_from_user(&ss32, sigmask, sizeof(ss32)))
+> -			return -EFAULT;
+> -		sigset_from_compat(&ksigmask, &ss32);
+> -
+> -		sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
+> -		sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
+> -	}
+> -
+> -	ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+> -
+> -	if (ret == -ERESTARTNOHAND) {
+> -		/*
+> -		 * Don't restore the signal mask yet. Let do_signal() deliver
+> -		 * the signal on the way back to userspace, before the signal
+> -		 * mask is restored.
+> -		 */
+> -		if (sigmask) {
+> -			memcpy(&current->saved_sigmask, &sigsaved,
+> -			       sizeof(sigsaved));
+> -			set_restore_sigmask();
+> -		}
+> -	} else if (sigmask)
+> -		sigprocmask(SIG_SETMASK, &sigsaved, NULL);
+> -
+> -	return ret;
+> -}
+> -
+>  asmlinkage long compat_sys_socketcall(int call, u32 __user *args)
+>  {
+>  	int ret;
+>  	u32 a[6];
+>  	u32 a0, a1;
+>
+> -	if (call < SYS_SOCKET || call > SYS_PACCEPT)
+> +	if (call < SYS_SOCKET || call > SYS_ACCEPT4)
+>  		return -EINVAL;
+>  	if (copy_from_user(a, args, nas[call]))
+>  		return -EFAULT;
+> @@ -804,7 +765,7 @@ asmlinkage long compat_sys_socketcall(int call, u32
+> __user *args)
+>  		ret = sys_listen(a0, a1);
+>  		break;
+>  	case SYS_ACCEPT:
+> -		ret = do_accept(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
+> +		ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
+>  		break;
+>  	case SYS_GETSOCKNAME:
+>  		ret = sys_getsockname(a0, compat_ptr(a1), compat_ptr(a[2]));
+> @@ -844,9 +805,8 @@ asmlinkage long compat_sys_socketcall(int call, u32
+> __user *args)
+>  	case SYS_RECVMSG:
+>  		ret = compat_sys_recvmsg(a0, compat_ptr(a1), a[2]);
+>  		break;
+> -	case SYS_PACCEPT:
+> -		ret = compat_sys_paccept(a0, compat_ptr(a1), compat_ptr(a[2]),
+> -					 compat_ptr(a[3]), a[4], a[5]);
+> +	case SYS_ACCEPT4:
+> +		ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), a[3]);
+>  		break;
+>  	default:
+>  		ret = -EINVAL;
+> diff --git a/net/socket.c b/net/socket.c
+> index 2b7a4b5..8e72806 100644
+> --- a/net/socket.c
+> +++ b/net/socket.c
+> @@ -1427,8 +1427,8 @@ asmlinkage long sys_listen(int fd, int backlog)
+>   *	clean when we restucture accept also.
+>   */
+>
+> -long do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+> -	       int __user *upeer_addrlen, int flags)
+> +asmlinkage long sys_accept4(int fd, struct sockaddr __user *upeer_sockaddr,
+> +			    int __user *upeer_addrlen, int flags)
+>  {
+>  	struct socket *sock, *newsock;
+>  	struct file *newfile;
+> @@ -1511,66 +1511,10 @@ out_fd:
+>  	goto out_put;
+>  }
+>
+> -#if 0
+> -#ifdef HAVE_SET_RESTORE_SIGMASK
+> -asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
+> -			    int __user *upeer_addrlen,
+> -			    const sigset_t __user *sigmask,
+> -			    size_t sigsetsize, int flags)
+> -{
+> -	sigset_t ksigmask, sigsaved;
+> -	int ret;
+> -
+> -	if (sigmask) {
+> -		/* XXX: Don't preclude handling different sized sigset_t's.  */
+> -		if (sigsetsize != sizeof(sigset_t))
+> -			return -EINVAL;
+> -		if (copy_from_user(&ksigmask, sigmask, sizeof(ksigmask)))
+> -			return -EFAULT;
+> -
+> -		sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
+> -		sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
+> -        }
+> -
+> -	ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+> -
+> -	if (ret < 0 && signal_pending(current)) {
+> -		/*
+> -		 * Don't restore the signal mask yet. Let do_signal() deliver
+> -		 * the signal on the way back to userspace, before the signal
+> -		 * mask is restored.
+> -		 */
+> -		if (sigmask) {
+> -			memcpy(&current->saved_sigmask, &sigsaved,
+> -			       sizeof(sigsaved));
+> -			set_restore_sigmask();
+> -		}
+> -	} else if (sigmask)
+> -		sigprocmask(SIG_SETMASK, &sigsaved, NULL);
+> -
+> -	return ret;
+> -}
+> -#else
+> -asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
+> -			    int __user *upeer_addrlen,
+> -			    const sigset_t __user *sigmask,
+> -			    size_t sigsetsize, int flags)
+> -{
+> -	/* The platform does not support restoring the signal mask in the
+> -	 * return path.  So we do not allow using paccept() with a signal
+> -	 * mask.  */
+> -	if (sigmask)
+> -		return -EINVAL;
+> -
+> -	return do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+> -}
+> -#endif
+> -#endif
+> -
+>  asmlinkage long sys_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+>  			   int __user *upeer_addrlen)
+>  {
+> -	return do_accept(fd, upeer_sockaddr, upeer_addrlen, 0);
+> +	return sys_accept4(fd, upeer_sockaddr, upeer_addrlen, 0);
+>  }
+>
+>  /*
+> @@ -2097,7 +2041,7 @@ static const unsigned char nargs[19]={
+>  	AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
+>  	AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
+>  	AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
+> -	AL(6)
+> +	AL(4)
+>  };
+>
+>  #undef AL
+> @@ -2116,7 +2060,7 @@ asmlinkage long sys_socketcall(int call, unsigned long
+> __user *args)
+>  	unsigned long a0, a1;
+>  	int err;
+>
+> -	if (call < 1 || call > SYS_PACCEPT)
+> +	if (call < 1 || call > SYS_ACCEPT4)
+>  		return -EINVAL;
+>
+>  	/* copy_from_user should be SMP safe. */
+> @@ -2144,9 +2088,8 @@ asmlinkage long sys_socketcall(int call, unsigned long
+> __user *args)
+>  		err = sys_listen(a0, a1);
+>  		break;
+>  	case SYS_ACCEPT:
+> -		err =
+> -		    do_accept(a0, (struct sockaddr __user *)a1,
+> -			      (int __user *)a[2], 0);
+> +		err = sys_accept4(a0, (struct sockaddr __user *)a1,
+> +				  (int __user *)a[2], 0);
+>  		break;
+>  	case SYS_GETSOCKNAME:
+>  		err =
+> @@ -2193,12 +2136,9 @@ asmlinkage long sys_socketcall(int call, unsigned
+> long __user *args)
+>  	case SYS_RECVMSG:
+>  		err = sys_recvmsg(a0, (struct msghdr __user *)a1, a[2]);
+>  		break;
+> -	case SYS_PACCEPT:
+> -		err =
+> -		    sys_paccept(a0, (struct sockaddr __user *)a1,
+> -			        (int __user *)a[2],
+> -				(const sigset_t __user *) a[3],
+> -				a[4], a[5]);
+> +	case SYS_ACCEPT4:
+> +		err = sys_accept4(a0, (struct sockaddr __user *)a1,
+> +				  (int __user *)a[2], a[3]);
+>  		break;
+>  	default:
+>  		err = -EINVAL;
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+>
+
+
+-- 
+Michael Kerrisk Linux man-pages maintainer;
+http://www.kernel.org/doc/man-pages/ Found a documentation bug?
+http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
