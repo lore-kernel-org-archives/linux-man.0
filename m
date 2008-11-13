@@ -1,122 +1,62 @@
-From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: pthread_attr_setaffinity_np.3
-Date: Wed, 12 Nov 2008 22:23:13 +0100
-Message-ID: <36ca99e90811121323u2b3895dbld7a046d0545da9b3@mail.gmail.com>
-References: <cfd18e0f0811050617h75c6ed47q31a10058fd257842@mail.gmail.com>
-	 <491B509E.6070801@domaigne.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: pthread_setaffinity_np.3
+Date: Wed, 12 Nov 2008 21:30:06 -0500
+Message-ID: <cfd18e0f0811121830u3dc6ea30va0298bdbedf1f2fb@mail.gmail.com>
+References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+	 <4916133A.8060209@domaigne.com>
+	 <36ca99e90811101038v62348fc0mbb366219168bf2ff@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <491B509E.6070801-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+In-Reply-To: <36ca99e90811101038v62348fc0mbb366219168bf2ff-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-T24gV2VkLCBOb3YgMTIsIDIwMDggYXQgMjI6NTQsIExvaWMgRG9tYWlnbmUgPHRlY2hAZG9tYWln
-bmUuY29tPiB3cm90ZToKPiBIaSBNaWNoYWVsLAo+Cj4gc2VlIG15IGNvbW1lbnRzIGJlbG93IChy
-ZWZlciBhbHNvIHRvIG15IGNvbW1lbnRzIGZvcgo+IHB0aHJlYWRfc2V0YWZmaW5pdHlfbnAuMyku
-Cj4KPiBDaGVlcnMsCj4gTG/Dr2MuCj4gLS0KPgo+PiAuXCIgQ29weXJpZ2h0IChjKSAyMDA4IExp
-bnV4IEZvdW5kYXRpb24sIHdyaXR0ZW4gYnkgTWljaGFlbCBLZXJyaXNrCj4+IC5cIiAgICAgPG10
-ay5tYW5wYWdlc0BnbWFpbC5jb20+Cj4+IC5cIgo+PiAuXCIgUGVybWlzc2lvbiBpcyBncmFudGVk
-IHRvIG1ha2UgYW5kIGRpc3RyaWJ1dGUgdmVyYmF0aW0gY29waWVzIG9mIHRoaXMKPj4gLlwiIG1h
-bnVhbCBwcm92aWRlZCB0aGUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5v
-dGljZSBhcmUKPj4gLlwiIHByZXNlcnZlZCBvbiBhbGwgY29waWVzLgo+PiAuXCIKPj4gLlwiIFBl
-cm1pc3Npb24gaXMgZ3JhbnRlZCB0byBjb3B5IGFuZCBkaXN0cmlidXRlIG1vZGlmaWVkIHZlcnNp
-b25zIG9mIHRoaXMKPj4gLlwiIG1hbnVhbCB1bmRlciB0aGUgY29uZGl0aW9ucyBmb3IgdmVyYmF0
-aW0gY29weWluZywgcHJvdmlkZWQgdGhhdCB0aGUKPj4gLlwiIGVudGlyZSByZXN1bHRpbmcgZGVy
-aXZlZCB3b3JrIGlzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiBhCj4+IC5cIiBwZXJt
-aXNzaW9uIG5vdGljZSBpZGVudGljYWwgdG8gdGhpcyBvbmUuCj4+IC5cIgo+PiAuXCIgU2luY2Ug
-dGhlIExpbnV4IGtlcm5lbCBhbmQgbGlicmFyaWVzIGFyZSBjb25zdGFudGx5IGNoYW5naW5nLCB0
-aGlzCj4+IC5cIiBtYW51YWwgcGFnZSBtYXkgYmUgaW5jb3JyZWN0IG9yIG91dC1vZi1kYXRlLiAg
-VGhlIGF1dGhvcihzKSBhc3N1bWUgbm8KPj4gLlwiIHJlc3BvbnNpYmlsaXR5IGZvciBlcnJvcnMg
-b3Igb21pc3Npb25zLCBvciBmb3IgZGFtYWdlcyByZXN1bHRpbmcgZnJvbQo+PiAuXCIgdGhlIHVz
-ZSBvZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbi4gIFRoZSBhdXRob3IocykgbWF5
-IG5vdAo+PiAuXCIgaGF2ZSB0YWtlbiB0aGUgc2FtZSBsZXZlbCBvZiBjYXJlIGluIHRoZSBwcm9k
-dWN0aW9uIG9mIHRoaXMgbWFudWFsLAo+PiAuXCIgd2hpY2ggaXMgbGljZW5zZWQgZnJlZSBvZiBj
-aGFyZ2UsIGFzIHRoZXkgbWlnaHQgd2hlbiB3b3JraW5nCj4+IC5cIiBwcm9mZXNzaW9uYWxseS4K
-Pj4gLlwiCj4+IC5cIiBGb3JtYXR0ZWQgb3IgcHJvY2Vzc2VkIHZlcnNpb25zIG9mIHRoaXMgbWFu
-dWFsLCBpZiB1bmFjY29tcGFuaWVkIGJ5Cj4+IC5cIiB0aGUgc291cmNlLCBtdXN0IGFja25vd2xl
-ZGdlIHRoZSBjb3B5cmlnaHQgYW5kIGF1dGhvcnMgb2YgdGhpcyB3b3JrLgo+PiAuXCIKPj4gLlRI
-IFBUSFJFQURfQVRUUl9TRVRBRkZJTklUWV9OUCAzIDIwMDgtMTEtMDUgIkxpbnV4IiAiTGludXgg
-UHJvZ3JhbW1lcidzCj4+IE1hbnVhbCIKPgo+IFRpdGxlIGxvb2tzIHdlaXJkIG9uIGEgODB4MjQg
-dGVybWluYWwuCj4KPgo+PiAuU0ggTkFNRQo+PiBwdGhyZWFkX2F0dHJfc2V0YWZmaW5pdHlfbnAs
-IHB0aHJlYWRfYXR0cl9nZXRhZmZpbml0eV9ucCBcLSBzZXQvZ2V0Cj4+IENQVSBhZmZpbml0eSBv
-ZiBhIHRocmVhZAo+Cj4gWW91IHN1cmVseSBtZWFuOiAiQ1BVIGFmZmluaXR5IGF0dHJpYnV0ZSBv
-ZiBhIHRocmVhZCIKPgo+Cj4+IC5TSCBTWU5PUFNJUwo+PiAubmYKPj4gLkIgI2RlZmluZSBfR05V
-X1NPVVJDRQo+PiAuQiAjaW5jbHVkZSA8cHRocmVhZC5oPgo+Pgo+PiAuQkkgImludCBwdGhyZWFk
-X2F0dHJfc2V0YWZmaW5pdHlfbnAocHRocmVhZF9hdHRyX3QgIiBhdHRyICwKPj4gLkJJICIgICAg
-ICAgICAgICAgICAgICAgc2l6ZV90ICIgY3B1c2V0c2l6ZSAiLCBjb25zdCBjcHVfc2V0X3QgKiIg
-Y3B1c2V0Cj4+ICk7Cj4+IC5CSSAiaW50IHB0aHJlYWRfYXR0cl9nZXRhZmZpbml0eV9ucChwdGhy
-ZWFkX2F0dHJfdCAiIGF0dHIgLAo+PiAuQkkgIiAgICAgICAgICAgICAgICAgICBzaXplX3QgIiBj
-cHVzZXRzaXplICIsIGNwdV9zZXRfdCAqIiBjcHVzZXQgKTsKPj4gLnNwCj4+IENvbXBpbGUgYW5k
-IGxpbmsgd2l0aCBcZklcLXB0aHJlYWRcZlAuCj4+IC5TSCBERVNDUklQVElPTgo+PiBUaGUKPj4g
-LkJSIHB0aHJlYWRfYXR0cl9zZXRhZmZpbml0eV9ucCAoKQo+PiBzZXRzIHRoZSBDUFUgYWZmaW5p
-dHkgbWFzayBhdHRyaWJ1dGUgb2YgdGhlCj4+IHRocmVhZCBhdHRyaWJ1dGVzIG9iamVjdCByZWZl
-cnJlZCB0byBieQo+PiAuSSBhdHRyCj4+IHRvIHRoZSB2YWx1ZSBzcGVjaWZpZWQgaW4KPj4gLklS
-IGNwdXNldCAuCj4+IFRoaXMgYXR0cmlidXRlIGRldGVybWluZXMgdGhlIENQVSBhZmZpbml0eSBt
-YXNrCj4+IG9mIGEgdGhyZWFkIGNyZWF0ZWQgdXNpbmcgdGhlIHRocmVhZCBhdHRyaWJ1dGVzIG9i
-amVjdAo+PiAuSVIgYXR0ciAuCj4+Cj4+IFRoZQo+PiAuQlIgcHRocmVhZF9hdHRyX2dldGFmZmlu
-aXR5X25wICgpCj4+IHJldHVybnMgdGhlIENQVSBhZmZpbml0eSBtYXNrIGF0dHJpYnV0ZSBvZiB0
-aGUgdGhyZWFkIGF0dHJpYnV0ZXMgb2JqZWN0Cj4+IHJlZmVycmVkIHRvIGJ5Cj4+IC5JUiBhdHRy
-Cj4+IGluIHRoZSBidWZmZXIgcG9pbnRlZCB0byBieQo+PiAuSVIgY3B1c2V0IC4KPj4KPj4gVGhl
-IGFyZ3VtZW50Cj4+IC5JIGNwdXNldHNpemUKPj4gaXMgdGhlIGxlbmd0aCAoaW4gYnl0ZXMpIG9m
-IHRoZSBidWZmZXIgcG9pbnRlZCB0byBieQo+PiAuSVIgY3B1c2V0IC4KPj4gTm9ybWFsbHkgdGhp
-cyBhcmd1bWVudCB3b3VsZCBiZSBzcGVjaWZpZWQgYXMKPj4gLklSIHNpemVvZihjcHVfc2V0X3Qp
-IC4KPj4gVGhlIGNvbnN0YW50Cj4+IC5CIENQVV9TRVRTSVpFCj4+IHNwZWNpZmllcyBhIHZhbHVl
-IG9uZSBncmVhdGVyIHRoYW4gdGhlCj4+IG1heGltdW0gQ1BVIG51bWJlciB0aGF0IGNhbiBiZSBz
-dG9yZWQgaW4gYSBDUFUgc2V0Lgo+Pgo+PiBGb3IgbW9yZSBkZXRhaWxzIG9uIENQVSBhZmZpbml0
-eSBtYXNrcywKPj4gYXMgd2VsbCBhcyBhIGRlc2NyaXB0aW9uIG9mIGEgc2V0IG9mIG1hY3Jvcwo+
-PiB0aGF0IGNhbiBiZSB1c2VkIHRvIG1hbmlwdWxhdGUgYW5kIGluc3BlY3QgQ1BVIHNldHMsIHNl
-ZQo+PiAuQlIgc2NoZWRfc2V0YWZmaW5pdHkgKDIpCj4+IGZvciBkZXRhaWxzLgo+PiAuU0ggUkVU
-VVJOIFZBTFVFCj4+IE9uIHN1Y2Nlc3MsIHRoZXNlIGZ1bmN0aW9ucyByZXR1cm4gMDsKPj4gb24g
-ZXJyb3IsIHRoZXkgcmV0dXJuIGEgbm9uLXplcm8gZXJyb3IgbnVtYmVyLgo+PiAuU0ggRVJST1JT
-Cj4+IC5UUAo+PiAuQiBFSU5WQUwKPj4gLkkgYXR0cgo+PiBvcgo+PiAuSSBjcHVzZXQKPj4gaXMg
-aW52YWxpZC4KPgo+IEkgYmVnIHlvdXIgcGFyZG9uLCBidXQgSSBjb3VsZG4ndCBmaW5kIHdoZXJl
-IHRob3NlIGNoZWNrcyBhcmUgcGVyZm9ybWVkIGluCj4gdGhlIHJlbGV2YW50IGdsaWJjIGZpbGVz
-Li4uIFBlcmhhcHMgSSBhbSBub3QgbG9va2luZyBhdCB0aGUgcmlnaHQgcGxhY2U/Cj4KPj4gLlRQ
-Cj4+IC5CUiBFSU5WQUwKPj4gLlJCICggcHRocmVhZF9hdHRyX3NldGFmZmluaXR5X25wICgpKQo+
-PiAuSSBjcHVzZXQKPj4gc3BlY2lmaWVkIGEgQ1BVIHRoYXQgd2FzIG91dHNpZGUgdGhlIHJhbmdl
-Cj4+IHBlcm1pdHRlZCBieSB0aGUga2VybmVsIGRhdGEgdHlwZQo+PiAuXCIgY3B1bWFza190Cj4+
-IHVzZWQgdG8gcmVwcmVzZW50IENQVSBzZXRzLgo+PiAuXCIgVGhlIHJhdyBzY2hlZF9nZXRhZmZp
-bml0eSgpIHN5c3RlbSBjYWxsIHJldHVybnMgdGhlIHNpemUgKGluIGJ5dGVzKQo+PiAuXCIgb2Yg
-dGhlIGNwdW1hc2tfdCB0eXBlLgo+PiBUaGlzIHJhbmdlIGlzIGRldGVybWluZWQgYnkgdGhlIGtl
-cm5lbCBjb25maWd1cmF0aW9uIG9wdGlvbgo+PiAuQlIgQ09ORklHX05SX0NQVVMgLgo+Cj4gPGNo
-ZWNrPgo+IEhtbW0uIFdoYXQgZG9lcyBoYXBwZW4gaWYgQ1BVIHNldCBjb250YWlucyBubyBDUFUg
-cGh5c2ljYWxseSBvbiB0aGUgc3lzdGVtCj4gd2hlbiB0aGUgdGhyZWFkIGlzIGNyZWF0ZWQ/IEkg
-Z3Vlc3MgcHRocmVhZF9jcmVhdGUoKSBmYWlscz8KPiA8L2NoZWNrPgo+Cj4+IC5UUAo+PiAuQiBF
-SU5WQUwKPj4gLlJCICggcHRocmVhZF9nZXRhZmZpbml0eV9ucCAoKSkKPgo+IFRoaXMgc2hvdWxk
-IGJlOiBwdGhyZWFkX2F0dHJfZ2V0YWZmaW5pdHlfbnAoKS4KPgo+Cj4+IEEgQ1BVIGluIHRoZSBh
-ZmZpbml0eSBtYXNrIG9mIHRoZSB0aHJlYWQgYXR0cmlidXRlcyBvYmplY3QgcmVmZXJyZWQgdG8g
-YnkKPj4gLkkgYXR0cgo+PiBsaWVzIG91dHNpZGUgdGhlIHJhbmdlIHNwZWNpZmllZCBieQo+PiAu
-SVIgY3B1c2V0c2l6ZSAuCj4KPiBGb3IgdGhlIGFwcGxpY2F0aW9uIHByb2dyYW1tZXIsIHRoaXMg
-bWVhbnMgdGhhdCB0aGUgc3RydWN0dXJlIEkgcGFzc2VkIGZvcgo+IHN0b3JpbmcgdGhlIENQVSBz
-ZXQgd2Fzbid0IGJpZyBlbm91Z2ggdG8gc3RvcmUgdGhyZWFkJ3MgQ1BVIHNldCB3aXRob3V0Cj4g
-bG9vc2luZyAiYWZmaW5pdHkgaW5mb3JtYXRpb24iLgo+Cj4KPj4gLlRQCj4+IC5CIEVOT01FTQo+
-PiAuUkIgKCBwdGhyZWFkX2F0dHJfc2V0YWZmaW5pdHlfbnAgKCkpCj4+IENvdWxkIG5vdCBhbGxv
-Y2F0ZSBtZW1vcnkuCj4KPiBDb3JyZWN0LiBIb3dldmVyLCB0aGUgZ2xpYmMgbG9va3Mgc29tZXdo
-YXQgc3VzcGljaW91cyB0byBtZTogSSBoYWQgZXhwZWN0ZWQKPiB0aGUgbWVtb3J5IGFsbG9jYXRl
-ZCBieSBpYXR0ci0+Y3B1c2V0IHRvIGJlIGJvdW5kZWQgKGJ5IHRoZSBzaXplIG9mIHRoZQo+IHVu
-ZGVybHlpbmcga2VybmVsIHN0cnVjdHVyZSkuCkJ1dCB0aGlzIGtlcm5lbCBzdHJ1Y3R1cmUgaXMg
-bm90IGJvdW5kZWQsIGl0IGRlcGVuZHMgb24gdGhlIGNvbXBpbGUKdGltZSBjb25zdGFudCBDT05G
-SUdfTlJfQ1BVUyAob3IgaW4gdGhlIGZ1dHVyZSBvbiB0aGUga2VybmVsIHJ1bnRpbWUKdmFyaWFi
-bGUgbnJfY3B1c19pZCksIHRoZXJlZm9yZSBnbGliYyBjYW4ndCBrbm93IHRoaXMgYS1wcmlvcmku
-IChidXQgSQpoYXZlbid0IGxvb2tlZCBpbnRvIHRoZSBjb2RlKQoKPgo+IE9yIHBlcmhhcHMgSSBh
-bSBqdXN0IG1pc3NpbmcgbXkgY29mZmVpbmUgOm8KPgo+PiAuU0ggVkVSU0lPTlMKPj4gVGhlc2Ug
-ZnVuY3Rpb25zIGFyZSBwcm92aWRlZCBieSBnbGliYyBzaW5jZSB2ZXJzaW9uIDIuMy40Lgo+PiAu
-U0ggQ09ORk9STUlORyBUTwo+PiBUaGVzZSBmdW5jdGlvbnMgYXJlIG5vbi1zdGFuZGFyZCBHTlUg
-ZXh0ZW5zaW9uczsKPj4gaGVuY2UgdGhlIHN1ZmZpeCAiX25wIiAobm9uLXBvcnRhYmxlKSBpbiB0
-aGUgbmFtZXMuCj4+IC5TSCBOT1RFUwo+PiBJbiBnbGliYyAyLjMuMyBvbmx5LAo+PiB2ZXJzaW9u
-cyBvZiB0aGVzZSBmdW5jdGlvbnMgd2VyZSBwcm92aWRlZCB0aGF0IGRpZCBub3QgaGF2ZSBhCj4+
-IC5JIGNwdXNldHNpemUKPj4gYXJndW1lbnQuCj4+IEluc3RlYWQgdGhlIENQVSBzZXQgc2l6ZSBn
-aXZlbiB0byB0aGUgdW5kZXJseWluZyBzeXN0ZW0gY2FsbHMgd2FzIGFsd2F5cwo+PiAuSVIgc2l6
-ZW9mKGNwdV9zZXRfdCkgLgo+PiAuU0ggU0VFIEFMU08KPj4gLkJSIHNjaGVkX3NldGFmZmluaXR5
-ICgyKSwKPj4gLkJSIHNjaGVkX3NldHNjaGVkdWxlciAoMiksCj4KPiBXaHkgdGhlIHJlZmVyZW5j
-ZSB0byBzY2hlZF9zZXRzY2hlZHVsZXIoKT8KPgo+PiAuQlIgcHRocmVhZF9hdHRyX2luaXQgKDMp
-LAo+PiAuQlIgcHRocmVhZF9zZXRhZmZpbml0eV9ucCAoMyksCj4+IC5CUiBjcHVzZXQgKDcpLAo+
-PiAuQlIgcHRocmVhZHMgKDcpCj4+Cj4KPgo=
+Hi Bert,
+
+>>> The argument
+>>> .I cpusetsize
+>>> is the length (in bytes) of the buffer pointed to by
+>>> .IR cpuset .
+>>> Normally this argument would be specified as
+>>> .IR sizeof(cpu_set_t) .
+>>> The constant
+>>> .B CPU_SETSIZE
+>>> specifies a value one greater than the
+>>> maximum CPU number that can be stored in a CPU set.
+>>
+>> I came independently to the same conclusion than you. AFAICS,glibc defines
+>> the cpu_set_t to be a 1024 bits long structure. But the kernel defines the
+>> corresponding structure to be a bit field of appropriate length to store
+>> NR_CPUS.
+>>
+>> Interesting enough, the exact size of the kernel structure is determined by
+>> the glibc on the 1st call to pthread_setaffinity_np().
+>>
+>> We'll run into troubles if run this on a server with more than 1K core ;-)
+> Thats why glibc provides a new set of function to handle cpu_set_t
+> with more than 1K bits.
+> Look for the definitions of macros with a _S suffix in <sched.h>.
+
+Thanks for alerting me to this.  Of course those macros need
+documenting.  I've pretty much completed a page documenting them.
+Would you be willing to check it over?
+
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
