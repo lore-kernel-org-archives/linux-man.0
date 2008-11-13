@@ -1,627 +1,578 @@
-From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Subject: Re: For review: pthread_setschedparam.3
-Date: Sat, 15 Nov 2008 22:09:58 +0100
-Message-ID: <491F3AA6.6050303@domaigne.com>
-References: <cfd18e0f0811060945n3224567du5e98adecb074b5e@mail.gmail.com>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: [PATCH] reintroduce accept4
+Date: Thu, 13 Nov 2008 14:57:37 -0800
+Message-ID: <20081113145737.96898aaf.akpm@linux-foundation.org>
+References: <200810261641.m9QGfotr024285@hs20-bc2-1.build.redhat.com>
+	<517f3f820811131351l1305b2d2u43ab4e0601d97f93@mail.gmail.com>
+	<20081113140541.23754cad.akpm@linux-foundation.org>
+	<18716.43376.534965.688695@cargo.ozlabs.ibm.com>
+	<18716.43543.256621.825529@cargo.ozlabs.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811060945n3224567du5e98adecb074b5e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <18716.43543.256621.825529-UYQwCShxghk5kJ7NmlRacFaTQe2KTcn/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, oleg-6lXkIZvqkOAvJsYlp49lxw@public.gmane.org, hch-jcswGhMUV9g@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hallo Michael,
+On Fri, 14 Nov 2008 09:28:39 +1100
+Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org> wrote:
 
-enclosed my review comments.
+> I wrote:
+> 
+> > Andrew Morton writes:
+> > 
+> > > > I think Ulrich wanted to try to see this patch in for 2.6.28; it's
+> > > > past the merge window of course, so it's up to you, but I have no
+> > > > problem with that.
+> > > 
+> > > That's easy - I'll send it to Linus and let him decide ;)
+> > 
+> > Ulrich's patch only updated x86.  If you're going to send it to Linus,
+> > please give us other architecture maintainers a chance to get patches
+> > to you to wire it up on our architectures, and then send Linus the
+> > combined patch.
+> 
+> Actually, any architecture that uses sys_socketcall should be OK
+> already, by the looks, and that includes powerpc.
+> 
 
-Regards,
-Lo=EFc.
---
+Here's the latest version, for review-n-test enjoyment:
 
-> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of t=
-his
-> .\" manual provided the copyright notice and this permission notice a=
-re
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of=
- this
-> .\" manual under the conditions for verbatim copying, provided that t=
-he
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-> .\" manual page may be incorrect or out-of-date.  The author(s) assum=
-e no
-> .\" responsibility for errors or omissions, or for damages resulting =
-from
-> .\" the use of the information contained herein.  The author(s) may n=
-ot
-> .\" have taken the same level of care in the production of this manua=
-l,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied =
-by
-> .\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-> .\"
-> .TH PTHREAD_SETSCHEDPARAM 3 2008-11-07 "Linux" "Linux Programmer's Ma=
-nual"
-> .SH NAME
-> pthread_setschedparam, pthread_setschedparam \- set/get
-> scheduling policy and parameters of a thread
-> .SH SYNOPSIS
-> .nf
-> .B #include <pthread.h>
->=20
-> .BI "pthread_setschedparam(pthread_t " thread ", int " policy ,
-> .BI "                      const struct sched_param *" param );
-> .BI "pthread_getschedparam(pthread_t " thread ", int *" policy ,
-> .BI "                      struct sched_param *" param );
-> .sp
-> Compile and link with \fI\-pthread\fP.
+From: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-One question regarding the synopsis. Is there a reason with the=20
-"restrict" keyword is not used for pthread_getschedparam(). Accordingly=
-=20
-to /usr/include/pthread.h:
+Introduce a new accept4() system call.  The addition of this system call
+matches analogous changes in 2.6.27 (dup3(), evenfd2(), signalfd4(),
+inotify_init1(), epoll_create1(), pipe2()) which added new system calls
+that differed from analogous traditional system calls in adding a flags
+argument that can be used to access additional functionality.
 
-extern int pthread_getschedparam (pthread_t __target_thread,
-                                   int *__restrict __policy,
-                                   struct sched_param *__restrict __par=
-am);
+The accept4() system call is exactly the same as accept(), except that it
+adds a flags bit-mask argument.  Two flags are initially implemented. 
+(Most of the new system calls in 2.6.27 also had both of these flags.)
+SOCK_CLOEXEC causes the close-on-exec (FD_CLOEXEC) flag to be enabled for
+the new file descriptor returned by accept4().  This is a useful security
+feature to avoid leaking information in a multithreaded program where one
+thread is doing an accept() at the same time as another thread is doing a
+fork() plus exec().
 
+More details here: http://udrepper.livejournal.com/20407.html "Secure File
+Descriptor Handling", Ulrich Drepper) The other flag is SOCK_NONBLOCK,
+which causes the O_NONBLOCK flag to be enabled on the new open file
+description created by accept4().  (This flag is merely a convenience,
+saving the use of additional calls fcntl(F_GETFL) and fcntl (F_SETFL) to
+achieve the same result.
 
-> .SH DESCRIPTION
-> The
-> .BR pthread_setschedparam ()
-> function sets the scheduling policy and parameters of the thread
-> .IR thread .
->=20
-> .I policy
-> specifies the new scheduling policy for
-> .IR thread .
-> The supported values for
-> .IR policy ,
-> and their semantics, are described in
-> .BR sched_setscheduler (2).
-> .\" FIXME . pthread_setschedparam() places no restriction on the poli=
-cy,
-> .\" but pthread_attr_setschedpolicy() restricts policy to RR/FIFO/OTH=
-ER
-> .\" http://sourceware.org/bugzilla/show_bug.cgi?id=3D7013
+Here's my test program.  Works on x86-32.  Should work on x86-64, but
+I don't have a system to hand to test with.
 
-Perhaps it's my poor english... But why "new scheduling policy"? I may=20
-just want to change the priority, within the same scheduling policy...
+It tests accept4() with each of the four possible combinations of
+SOCK_CLOEXEC and SOCK_NONBLOCK set/clear in 'flags', and verifies that
+the appropriate flags are set on the file descriptor/open file
+description returned by accept4().
 
-> The structure pointed to by
-> .I param
-> specifies the new scheduling parameters for
-> .IR thread .
+I tested Ulrich's patch in this thread by applying against 2.6.28-rc2,
+and it passes according to my test program.
 
-Similar comment here. I may just want to change the scheduling policy,=20
-without changing the priority. ( I admit, this one is seldom compared t=
-o=20
-the previous one ).
+/* test_accept4.c
 
-> Scheduling parameters are maintained in the following structure:
->=20
-> .in +4n
-> .nf
-> struct sched_param {
->     int sched_priority;     /* Scheduling priority */
-> };
-> .fi
-> .in
->=20
-> As can be seen, only one scheduling parameter is supported
-> (this is the only parameter specified by POSIX.1-2001.)
+   Copyright (C) 2008, Linux Foundation, written by Michael Kerrisk
+        <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-No, it think this is not correct? If a system support SCHED_SPORADIC,=20
-then the sched_param structure has additional fields.
-
-
-> For details of the permitted ranges for scheduling priorities
-> in each scheduling policy, see
-> .BR sched_setscheduler (2).
-
-> The
-> .BR pthread_getschedparam ()
-> function returns the scheduling policy and parameters of the thread
-> .IR thread ,
-> in the buffers pointed to by
-> .I policy
-> and
-> .IR param ,
-> respectively.
-> The returned priority value is that set by the most recent
-> .BR pthread_setschedparam (),
-> .BR pthread_setschedprio (3),
-> or
-> .BR pthread_create (3)
-> call that affected
-> .IR thread .
-
-Hmm, that's perfectly right from a POSIX point of view. Knowing how=20
-Linux implements threads, I have been interested about the effect of=20
-sched_setscheduler() on a MT-process (since NPTL uses 1:1 model, this=20
-should be a NOP).
-
-I tested the following program against the stable glibc-2.7...=20
-Apparently, it seems that sched_setscheduler() might affect the main=20
-thread priority as well.
-
---
-#include <stdio.h>
-#include <pthread.h>
-#include <sched.h>
+   Licensed under the GNU GPLv2 or later.
+*/
+#define _GNU_SOURCE
 #include <unistd.h>
+#include <sys/syscall.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
 
-void
-print_schedinfo(const char* thread)
+#define PORT_NUM 33333
+
+#define die(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
+
+/**********************************************************************/
+
+/* The following is what we need until glibc gets a wrapper for
+   accept4() */
+
+/* Flags for socket(), socketpair(), accept4() */
+#ifndef SOCK_CLOEXEC
+#define SOCK_CLOEXEC    O_CLOEXEC
+#endif
+#ifndef SOCK_NONBLOCK
+#define SOCK_NONBLOCK   O_NONBLOCK
+#endif
+
+#ifdef __x86_64__
+#define SYS_accept4 288
+#elif __i386__
+#define USE_SOCKETCALL 1
+#define SYS_ACCEPT4 18
+#else
+#error "Sorry -- don't know the syscall # on this architecture"
+#endif
+
+static int
+accept4(int fd, struct sockaddr *sockaddr, socklen_t *addrlen, int flags)
 {
-    struct sched_param param;
-    int policy;
-    int rc;
+    printf("Calling accept4(): flags = %x", flags);
+    if (flags != 0) {
+        printf(" (");
+        if (flags & SOCK_CLOEXEC)
+            printf("SOCK_CLOEXEC");
+        if ((flags & SOCK_CLOEXEC) && (flags & SOCK_NONBLOCK))
+            printf(" ");
+        if (flags & SOCK_NONBLOCK)
+            printf("SOCK_NONBLOCK");
+        printf(")");
+    }
+    printf("\n");
 
-    rc =3D pthread_getschedparam(pthread_self(), &policy, &param);
-    if (rc!=3D0) printf("##%d\n", rc);
-    printf("%s > Policy=3D%s, prio=3D%d\n",
-           thread,
-           (policy=3D=3DSCHED_FIFO) ? "FIFO" : "*NOT* FIFO",
-	  param.sched_priority);
+#if USE_SOCKETCALL
+    long args[6];
+
+    args[0] = fd;
+    args[1] = (long) sockaddr;
+    args[2] = (long) addrlen;
+    args[3] = flags;
+
+    return syscall(SYS_socketcall, SYS_ACCEPT4, args);
+#else
+    return syscall(SYS_accept4, fd, sockaddr, addrlen, flags);
+#endif
 }
 
-// dummy thread...
-//
-void*
-thread(void* ignore)
+/**********************************************************************/
+
+
+static int
+do_test(int lfd, struct sockaddr_in *conn_addr,
+        int closeonexec_flag, int nonblock_flag)
 {
-    sleep(3);
-    print_schedinfo("dummy thread");
-    pthread_exit(NULL);
+    int connfd, acceptfd;
+    int fdf, flf, fdf_pass, flf_pass;
+    struct sockaddr_in claddr;
+    socklen_t addrlen;
+
+    printf("=======================================\n");
+
+    connfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (connfd == -1)
+        die("socket");
+    if (connect(connfd, (struct sockaddr *) conn_addr,
+                sizeof(struct sockaddr_in)) == -1)
+        die("connect");
+
+    addrlen = sizeof(struct sockaddr_in);
+    acceptfd = accept4(lfd, (struct sockaddr *) &claddr, &addrlen,
+                       closeonexec_flag | nonblock_flag);
+    if (acceptfd == -1) {
+        perror("accept4()");
+        close(connfd);
+        return 0;
+    }
+
+    fdf = fcntl(acceptfd, F_GETFD);
+    if (fdf == -1)
+        die("fcntl:F_GETFD");
+    fdf_pass = ((fdf & FD_CLOEXEC) != 0) ==
+               ((closeonexec_flag & SOCK_CLOEXEC) != 0);
+    printf("Close-on-exec flag is %sset (%s); ",
+            (fdf & FD_CLOEXEC) ? "" : "not ",
+            fdf_pass ? "OK" : "failed");
+
+    flf = fcntl(acceptfd, F_GETFL);
+    if (flf == -1)
+        die("fcntl:F_GETFD");
+    flf_pass = ((flf & O_NONBLOCK) != 0) ==
+               ((nonblock_flag & SOCK_NONBLOCK) !=0);
+    printf("nonblock flag is %sset (%s)\n",
+            (flf & O_NONBLOCK) ? "" : "not ",
+            flf_pass ? "OK" : "failed");
+
+    close(acceptfd);
+    close(connfd);
+
+    printf("Test result: %s\n", (fdf_pass && flf_pass) ? "PASS" : "FAIL");
+    return fdf_pass && flf_pass;
 }
+
+
+static int
+create_listening_socket(int port_num)
+{
+    struct sockaddr_in svaddr;
+    int lfd;
+    int optval;
+
+    memset(&svaddr, 0, sizeof(struct sockaddr_in));
+    svaddr.sin_family = AF_INET;
+    svaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    svaddr.sin_port = htons(port_num);
+
+    lfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (lfd == -1)
+        die("socket");
+
+    optval = 1;
+    if (setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &optval,
+                   sizeof(optval)) == -1)
+        die("setsockopt");
+
+    if (bind(lfd, (struct sockaddr *) &svaddr,
+             sizeof(struct sockaddr_in)) == -1)
+        die("bind");
+
+    if (listen(lfd, 5) == -1)
+        die("listen");
+
+    return lfd;
+}
+
 
 int
-main()
+main(int argc, char *argv[])
 {
-    struct sched_param param;
-    int    policy;
-    int    rc;
-    pthread_t tid;
+    struct sockaddr_in conn_addr;
+    int lfd;
+    int port_num;
+    int passed;
 
-    // create dummy thread
-    //
-    pthread_create(&tid, NULL, thread, NULL);
-    param.sched_priority=3D1;
+    passed = 1;
 
-    // now we shall change the process policy/prio using
-    // sched_setscheduler().
-    // Normally: this should be a NOP. But due to the way Linux
-    // implements threads, I am suspecting that this shall affect
-    // the main thread
-    //
-    rc=3Dsched_setscheduler(0, SCHED_FIFO, &param);
-    if (rc=3D=3D-1) printf("sched_setscheduler FAILED\n");
+    port_num = (argc > 1) ? atoi(argv[1]) : PORT_NUM;
 
-    // print my scheduling info
-    //
-    print_schedinfo("main");
+    memset(&conn_addr, 0, sizeof(struct sockaddr_in));
+    conn_addr.sin_family = AF_INET;
+    conn_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    conn_addr.sin_port = htons(port_num);
 
-    // join dummy thread and terminate
-    //
-    pthread_join(tid, NULL);
-    return 0;
+    lfd = create_listening_socket(port_num);
+
+    if (!do_test(lfd, &conn_addr, 0, 0))
+        passed = 0;
+    if (!do_test(lfd, &conn_addr, SOCK_CLOEXEC, 0))
+        passed = 0;
+    if (!do_test(lfd, &conn_addr, 0, SOCK_NONBLOCK))
+        passed = 0;
+    if (!do_test(lfd, &conn_addr, SOCK_CLOEXEC, SOCK_NONBLOCK))
+        passed = 0;
+
+    close(lfd);
+
+    exit(passed ? EXIT_SUCCESS : EXIT_FAILURE);
 }
 
---
+[mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org: rewrote changelog, updated test program]
+Signed-off-by: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Tested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Acked-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: <linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+---
 
-> The returned priority does not reflect any temporary priority adjustm=
-ents
-> as a result of calls to any priority inheritance or
-> priority ceiling functions (see, for example,
-> .BR pthread_mutexattr_setprioceiling (3)
-> and
-> .BR pthread_mutexattr_setprotocol (3)).
-> .\" FIXME . nptl/pthread_setschedparam.c has the following
-> .\"   /* If the thread should have higher priority because of some
-> .\"      PTHREAD_PRIO_PROTECT mutexes it holds, adjust the priority. =
-*/
-> .\" Eventually (perhaps after writing the mutexattr pages), we
-> .\" may want to add something on the topic to this page.
+ arch/x86/include/asm/unistd_64.h |    4 -
+ include/linux/net.h              |    6 --
+ include/linux/syscalls.h         |    3 -
+ kernel/sys_ni.c                  |    2 
+ net/compat.c                     |   50 +-----------------
+ net/socket.c                     |   80 +++--------------------------
+ 6 files changed, 21 insertions(+), 124 deletions(-)
 
-If I understood correctly, the thread can't lower the priority that he=20
-has resulting from priority inheritance/ceiling. That makes perfectly=20
-sense to me, otherwise this could defeat the purpose of such schemes,=20
-among others avoiding priority inversion.
+diff -puN arch/x86/include/asm/unistd_64.h~reintroduce-accept4 arch/x86/include/asm/unistd_64.h
+--- a/arch/x86/include/asm/unistd_64.h~reintroduce-accept4
++++ a/arch/x86/include/asm/unistd_64.h
+@@ -639,8 +639,8 @@ __SYSCALL(__NR_fallocate, sys_fallocate)
+ __SYSCALL(__NR_timerfd_settime, sys_timerfd_settime)
+ #define __NR_timerfd_gettime			287
+ __SYSCALL(__NR_timerfd_gettime, sys_timerfd_gettime)
+-#define __NR_paccept				288
+-__SYSCALL(__NR_paccept, sys_paccept)
++#define __NR_accept4				288
++__SYSCALL(__NR_accept4, sys_accept4)
+ #define __NR_signalfd4				289
+ __SYSCALL(__NR_signalfd4, sys_signalfd4)
+ #define __NR_eventfd2				290
+diff -puN include/linux/net.h~reintroduce-accept4 include/linux/net.h
+--- a/include/linux/net.h~reintroduce-accept4
++++ a/include/linux/net.h
+@@ -40,7 +40,7 @@
+ #define SYS_GETSOCKOPT	15		/* sys_getsockopt(2)		*/
+ #define SYS_SENDMSG	16		/* sys_sendmsg(2)		*/
+ #define SYS_RECVMSG	17		/* sys_recvmsg(2)		*/
+-#define SYS_PACCEPT	18		/* sys_paccept(2)		*/
++#define SYS_ACCEPT4	18		/* sys_accept4(2)		*/
+ 
+ typedef enum {
+ 	SS_FREE = 0,			/* not allocated		*/
+@@ -100,7 +100,7 @@ enum sock_type {
+  * remaining bits are used as flags. */
+ #define SOCK_TYPE_MASK 0xf
+ 
+-/* Flags for socket, socketpair, paccept */
++/* Flags for socket, socketpair, accept4 */
+ #define SOCK_CLOEXEC	O_CLOEXEC
+ #ifndef SOCK_NONBLOCK
+ #define SOCK_NONBLOCK	O_NONBLOCK
+@@ -223,8 +223,6 @@ extern int 	     sock_map_fd(struct sock
+ extern struct socket *sockfd_lookup(int fd, int *err);
+ #define		     sockfd_put(sock) fput(sock->file)
+ extern int	     net_ratelimit(void);
+-extern long	     do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+-			       int __user *upeer_addrlen, int flags);
+ 
+ #define net_random()		random32()
+ #define net_srandom(seed)	srandom32((__force u32)seed)
+diff -puN include/linux/syscalls.h~reintroduce-accept4 include/linux/syscalls.h
+--- a/include/linux/syscalls.h~reintroduce-accept4
++++ a/include/linux/syscalls.h
+@@ -410,8 +410,7 @@ asmlinkage long sys_getsockopt(int fd, i
+ asmlinkage long sys_bind(int, struct sockaddr __user *, int);
+ asmlinkage long sys_connect(int, struct sockaddr __user *, int);
+ asmlinkage long sys_accept(int, struct sockaddr __user *, int __user *);
+-asmlinkage long sys_paccept(int, struct sockaddr __user *, int __user *,
+-			    const __user sigset_t *, size_t, int);
++asmlinkage long sys_accept4(int, struct sockaddr __user *, int __user *, int);
+ asmlinkage long sys_getsockname(int, struct sockaddr __user *, int __user *);
+ asmlinkage long sys_getpeername(int, struct sockaddr __user *, int __user *);
+ asmlinkage long sys_send(int, void __user *, size_t, unsigned);
+diff -puN kernel/sys_ni.c~reintroduce-accept4 kernel/sys_ni.c
+--- a/kernel/sys_ni.c~reintroduce-accept4
++++ a/kernel/sys_ni.c
+@@ -31,7 +31,7 @@ cond_syscall(sys_socketpair);
+ cond_syscall(sys_bind);
+ cond_syscall(sys_listen);
+ cond_syscall(sys_accept);
+-cond_syscall(sys_paccept);
++cond_syscall(sys_accept4);
+ cond_syscall(sys_connect);
+ cond_syscall(sys_getsockname);
+ cond_syscall(sys_getpeername);
+diff -puN net/compat.c~reintroduce-accept4 net/compat.c
+--- a/net/compat.c~reintroduce-accept4
++++ a/net/compat.c
+@@ -725,7 +725,7 @@ EXPORT_SYMBOL(compat_mc_getsockopt);
+ static unsigned char nas[19]={AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
+ 				AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
+ 				AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
+-				AL(6)};
++				AL(4)};
+ #undef AL
+ 
+ asmlinkage long compat_sys_sendmsg(int fd, struct compat_msghdr __user *msg, unsigned flags)
+@@ -738,52 +738,13 @@ asmlinkage long compat_sys_recvmsg(int f
+ 	return sys_recvmsg(fd, (struct msghdr __user *)msg, flags | MSG_CMSG_COMPAT);
+ }
+ 
+-asmlinkage long compat_sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
+-				   int __user *upeer_addrlen,
+-				   const compat_sigset_t __user *sigmask,
+-				   compat_size_t sigsetsize, int flags)
+-{
+-	compat_sigset_t ss32;
+-	sigset_t ksigmask, sigsaved;
+-	int ret;
+-
+-	if (sigmask) {
+-		if (sigsetsize != sizeof(compat_sigset_t))
+-			return -EINVAL;
+-		if (copy_from_user(&ss32, sigmask, sizeof(ss32)))
+-			return -EFAULT;
+-		sigset_from_compat(&ksigmask, &ss32);
+-
+-		sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
+-		sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
+-	}
+-
+-	ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+-
+-	if (ret == -ERESTARTNOHAND) {
+-		/*
+-		 * Don't restore the signal mask yet. Let do_signal() deliver
+-		 * the signal on the way back to userspace, before the signal
+-		 * mask is restored.
+-		 */
+-		if (sigmask) {
+-			memcpy(&current->saved_sigmask, &sigsaved,
+-			       sizeof(sigsaved));
+-			set_restore_sigmask();
+-		}
+-	} else if (sigmask)
+-		sigprocmask(SIG_SETMASK, &sigsaved, NULL);
+-
+-	return ret;
+-}
+-
+ asmlinkage long compat_sys_socketcall(int call, u32 __user *args)
+ {
+ 	int ret;
+ 	u32 a[6];
+ 	u32 a0, a1;
+ 
+-	if (call < SYS_SOCKET || call > SYS_PACCEPT)
++	if (call < SYS_SOCKET || call > SYS_ACCEPT4)
+ 		return -EINVAL;
+ 	if (copy_from_user(a, args, nas[call]))
+ 		return -EFAULT;
+@@ -804,7 +765,7 @@ asmlinkage long compat_sys_socketcall(in
+ 		ret = sys_listen(a0, a1);
+ 		break;
+ 	case SYS_ACCEPT:
+-		ret = do_accept(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
++		ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), 0);
+ 		break;
+ 	case SYS_GETSOCKNAME:
+ 		ret = sys_getsockname(a0, compat_ptr(a1), compat_ptr(a[2]));
+@@ -844,9 +805,8 @@ asmlinkage long compat_sys_socketcall(in
+ 	case SYS_RECVMSG:
+ 		ret = compat_sys_recvmsg(a0, compat_ptr(a1), a[2]);
+ 		break;
+-	case SYS_PACCEPT:
+-		ret = compat_sys_paccept(a0, compat_ptr(a1), compat_ptr(a[2]),
+-					 compat_ptr(a[3]), a[4], a[5]);
++	case SYS_ACCEPT4:
++		ret = sys_accept4(a0, compat_ptr(a1), compat_ptr(a[2]), a[3]);
+ 		break;
+ 	default:
+ 		ret = -EINVAL;
+diff -puN net/socket.c~reintroduce-accept4 net/socket.c
+--- a/net/socket.c~reintroduce-accept4
++++ a/net/socket.c
+@@ -1425,8 +1425,8 @@ asmlinkage long sys_listen(int fd, int b
+  *	clean when we restucture accept also.
+  */
+ 
+-long do_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+-	       int __user *upeer_addrlen, int flags)
++asmlinkage long sys_accept4(int fd, struct sockaddr __user *upeer_sockaddr,
++			    int __user *upeer_addrlen, int flags)
+ {
+ 	struct socket *sock, *newsock;
+ 	struct file *newfile;
+@@ -1509,66 +1509,10 @@ out_fd:
+ 	goto out_put;
+ }
+ 
+-#if 0
+-#ifdef HAVE_SET_RESTORE_SIGMASK
+-asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
+-			    int __user *upeer_addrlen,
+-			    const sigset_t __user *sigmask,
+-			    size_t sigsetsize, int flags)
+-{
+-	sigset_t ksigmask, sigsaved;
+-	int ret;
+-
+-	if (sigmask) {
+-		/* XXX: Don't preclude handling different sized sigset_t's.  */
+-		if (sigsetsize != sizeof(sigset_t))
+-			return -EINVAL;
+-		if (copy_from_user(&ksigmask, sigmask, sizeof(ksigmask)))
+-			return -EFAULT;
+-
+-		sigdelsetmask(&ksigmask, sigmask(SIGKILL)|sigmask(SIGSTOP));
+-		sigprocmask(SIG_SETMASK, &ksigmask, &sigsaved);
+-        }
+-
+-	ret = do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+-
+-	if (ret < 0 && signal_pending(current)) {
+-		/*
+-		 * Don't restore the signal mask yet. Let do_signal() deliver
+-		 * the signal on the way back to userspace, before the signal
+-		 * mask is restored.
+-		 */
+-		if (sigmask) {
+-			memcpy(&current->saved_sigmask, &sigsaved,
+-			       sizeof(sigsaved));
+-			set_restore_sigmask();
+-		}
+-	} else if (sigmask)
+-		sigprocmask(SIG_SETMASK, &sigsaved, NULL);
+-
+-	return ret;
+-}
+-#else
+-asmlinkage long sys_paccept(int fd, struct sockaddr __user *upeer_sockaddr,
+-			    int __user *upeer_addrlen,
+-			    const sigset_t __user *sigmask,
+-			    size_t sigsetsize, int flags)
+-{
+-	/* The platform does not support restoring the signal mask in the
+-	 * return path.  So we do not allow using paccept() with a signal
+-	 * mask.  */
+-	if (sigmask)
+-		return -EINVAL;
+-
+-	return do_accept(fd, upeer_sockaddr, upeer_addrlen, flags);
+-}
+-#endif
+-#endif
+-
+ asmlinkage long sys_accept(int fd, struct sockaddr __user *upeer_sockaddr,
+ 			   int __user *upeer_addrlen)
+ {
+-	return do_accept(fd, upeer_sockaddr, upeer_addrlen, 0);
++	return sys_accept4(fd, upeer_sockaddr, upeer_addrlen, 0);
+ }
+ 
+ /*
+@@ -2095,7 +2039,7 @@ static const unsigned char nargs[19]={
+ 	AL(0),AL(3),AL(3),AL(3),AL(2),AL(3),
+ 	AL(3),AL(3),AL(4),AL(4),AL(4),AL(6),
+ 	AL(6),AL(2),AL(5),AL(5),AL(3),AL(3),
+-	AL(6)
++	AL(4)
+ };
+ 
+ #undef AL
+@@ -2114,7 +2058,7 @@ asmlinkage long sys_socketcall(int call,
+ 	unsigned long a0, a1;
+ 	int err;
+ 
+-	if (call < 1 || call > SYS_PACCEPT)
++	if (call < 1 || call > SYS_ACCEPT4)
+ 		return -EINVAL;
+ 
+ 	/* copy_from_user should be SMP safe. */
+@@ -2142,9 +2086,8 @@ asmlinkage long sys_socketcall(int call,
+ 		err = sys_listen(a0, a1);
+ 		break;
+ 	case SYS_ACCEPT:
+-		err =
+-		    do_accept(a0, (struct sockaddr __user *)a1,
+-			      (int __user *)a[2], 0);
++		err = sys_accept4(a0, (struct sockaddr __user *)a1,
++				  (int __user *)a[2], 0);
+ 		break;
+ 	case SYS_GETSOCKNAME:
+ 		err =
+@@ -2191,12 +2134,9 @@ asmlinkage long sys_socketcall(int call,
+ 	case SYS_RECVMSG:
+ 		err = sys_recvmsg(a0, (struct msghdr __user *)a1, a[2]);
+ 		break;
+-	case SYS_PACCEPT:
+-		err =
+-		    sys_paccept(a0, (struct sockaddr __user *)a1,
+-			        (int __user *)a[2],
+-				(const sigset_t __user *) a[3],
+-				a[4], a[5]);
++	case SYS_ACCEPT4:
++		err = sys_accept4(a0, (struct sockaddr __user *)a1,
++				  (int __user *)a[2], a[3]);
+ 		break;
+ 	default:
+ 		err = -EINVAL;
+_
 
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a non-zero error number.
-> If
-> .BR pthread_setschedparam ()
-> fails, the scheduling policy and parameters of
-> .I thread
-> are not changed.
-> .SH ERRORS
-> Both of these functions may fail with the following error:
-> .TP
-> .B ESRCH
-> No thread with the ID
-> .I thread
-> could be found.
-
-Should the ERSCH error description be consistent across pthread_* linux
-man-pages? See for instance pthread_attr_setaffinity_np().
-
-> .PP
-> .BR pthread_setschedparam ()
-> may additionally fail with the following errors:
-> .TP
-> .B EINVAL
-> .I policy
-> is not a recognized policy, or
-> .I param
-> does not make sense for the
-> .IR policy .
-
-I got troubled by the "may additionally", as "may" has a particular=20
-meaning in POSIX.1...
-
-But I guess, you just want to express that pthread_setschedparam() shal=
-l=20
-fail if the policy or the param is invalid, right?
-
-> .TP
-> .B EPERM
-> The caller does not have appropriate privileges
-> .RB ( CAP_SYS_NICE )
-> to set the specified scheduling policy and parameters.
-> See
-> .BR sched_setscheduler (2)
-> for more details on what scheduling changes require privileges.
-> .PP
-> POSIX.1-2001 also documents an
-> .B ENOTSUP
-> ("attempt was made to set the policy or scheduling parameters
-> to an unsupported value") error for
-> .BR pthread_setschedparam ().
-
-=2E.. but it doesn't seem to be used by Linux/Glibc...
-
-> .\" .SH VERSIONS
-> .\" Available since glibc 2.0
-> .SH CONFORMING TO
-> POSIX.1-2001.
-> .SH NOTES
-> See
-> .BR sched_setscheduler (2)
-> for a description of the effect of changing a thread's
-> scheduling policy and priority.
-> .SH EXAMPLE
-> The program below demonstrates the use of
-> .BR pthread_setschedparam ()
-> and
-> .BR pthread_getschedparam (),
-> as well as the use of a number of other scheduling-related
-> pthreads functions.
->=20
-> In the following run, the main thread sets its scheduling policy to
-> .BR SCHED_FIFO
-> with a priority of 10,
-> and initializes a thread attributes object with
-> a scheduling policy attribute of
-> .BR SCHED_RR
-> and a scheduling priority attribute of 20.
-> The program then sets (using
-> .BR pthread_attr_setinheritsched (3))
-> the inherit scheduler attribute of the thread attributes object to
-> .BR PTHREAD_EXPLICIT_SCHED ,
-> meaning that threads created using this attributes object should
-> take their scheduling attributes from the thread attributes object.
-> The program then creates a thread using the thread attributes object,
-> and that thread displays its scheduling policy and priority.
-> .in +4n
-> .nf
->=20
-> $ \fBsu\fP      # Need privilege to set real-time scheduling policies
-> Password:
-> # \fB./a.out \-mf10 \-ar20 \-i e\fP
-> Scheduler settings of main thread
->     policy=3DSCHED_FIFO, priority=3D10
->=20
-> Scheduler settings in \(aqattr\(aq
->     policy=3DSCHED_RR, priority=3D20
->     inheritsched is EXPLICIT
->=20
-> Scheduler attributes of new thread
->     policy=3DSCHED_RR, priority=3D20
-> .fi
-> .in
->=20
-> In the above output, one can see that the scheduling policy and prior=
-ity
-> were taken from the values specified in the thread attributes object.
->=20
-> The next run is the same as the previous,
-> except that the inherit scheduler attribute is set to
-> .BR PTHREAD_INHERIT_SCHED ,
-> meaning that threads created using the thread attributes object shoul=
-d
-> ignore the scheduling attributes specified in the attributes object
-> and instead take their scheduling attributes from the creating thread=
-=2E
->=20
-> .in +4n
-> .nf
-> # \fB./a.out \-mf10 \-ar20 \-i i\fP
-> Scheduler settings of main thread
->     policy=3DSCHED_FIFO, priority=3D10
->=20
-> Scheduler settings in \(aqattr\(aq
->     policy=3DSCHED_RR, priority=3D20
->     inheritsched is INHERIT
->=20
-> Scheduler attributes of new thread
->     policy=3DSCHED_FIFO, priority=3D10
-> .fi
-> .in
->=20
-> In the above output, one can see that the scheduling policy and prior=
-ity
-> were taken from the creating thread,
-> rather than the thread attributes object.
-
-A classical trap is that people don't set inheritsched to explicit, and=
-=20
-by default it is inherit... You could illustrate this by the following=20
-example: ./a.out -mf10 -ar20.
-
-( I don't know however if it is the right place to speak about such=20
-things ).
-
-
-> .SS Program source
-> \&
-> .nf
-> /* pthreads_sched_test.c */
->=20
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <unistd.h>
-> #include <errno.h>
->=20
-> /* Simple error handling functions */
->=20
-> #define errExit(msg)            { perror(msg); exit(EXIT_FAILURE); }
->=20
-> #define errExitEN(en, msg)      { errno =3D en; perror(msg); \\
->                                   exit(EXIT_FAILURE); }
->=20
-> static void
-> usage(char *prog_name, char *msg)
-> {
->     if (msg !=3D NULL)
->         fputs(msg, stderr);
->=20
->     fprintf(stderr, "Usage: %s [options]\\n", prog_name);
->     fprintf(stderr, "Options are:\\n");
-> #define fpe(msg) fprintf(stderr, "\\t%s", msg);          /* Shorter *=
-/
->     fpe("\-a<policy><prio> Set scheduling policy and priority in\\n")=
-;
->     fpe("                 thread attributes object\\n");
->     fpe("                 <policy> can be\\n");
->     fpe("                     f  SCHED_FIFO\\n");
->     fpe("                     r  SCHED_RR\\n");
->     fpe("                     o  SCHED_OTHER\\n");
->     fpe("\-A               Use default thread attributes object\\n");
->     fpe("\-i {e|s}         Set inherit scheduler attribute to\\n");
->     fpe("                 \(aqexplicit\(aq or \(aqinherit\(aq\\n");
->     fpe("\-m<policy><prio> Set scheduling policy and priority on\\n")=
-;
->     fpe("                 main thread before pthread_create() call\\n=
-");
->     exit(EXIT_FAILURE);
-> } /* usage */
->=20
-> static int
-> get_policy(char p, int *policy)
-> {
->     switch (p) {
->     case \(aqf\(aq: *policy =3D SCHED_FIFO;     return 1;
->     case \(aqr\(aq: *policy =3D SCHED_RR;       return 1;
->     case \(aqo\(aq: *policy =3D SCHED_OTHER;    return 1;
->     default:  return 0;
->     }
-> } /* get_policy */
->=20
-> static void
-> display_sched_attr(int policy, struct sched_param *param)
-> {
->     printf("    policy=3D%s, priority=3D%d\\n",
->             (policy =3D=3D SCHED_FIFO)  ? "SCHED_FIFO" :
->             (policy =3D=3D SCHED_RR)    ? "SCHED_RR" :
->             (policy =3D=3D SCHED_OTHER) ? "SCHED_OTHER" :
->             "???",
->             param\->sched_priority);
-> } /* display_sched_attr */
->=20
-> static void
-> display_thread_sched_attr(char *msg)
-> {
->     int policy, s;
->     struct sched_param param;
->=20
->     s =3D pthread_getschedparam(pthread_self(), &policy, &param);
->     if (s !=3D 0)
->         errExitEN(s, "pthread_getschedparam");
->=20
->     printf("%s\\n", msg);
->     display_sched_attr(policy, &param);
-> } /* display_thread_sched_attr */
->=20
-> static void *
-> thread_start(void *arg)
-> {
->     display_thread_sched_attr("Scheduler attributes of new thread");
->=20
->     return NULL;
-> } /* thread_start */
->=20
-> int
-> main(int argc, char *argv[])
-> {
->     int s, opt, inheritsched, use_null_attrib, policy;
->     pthread_t thread;
->     pthread_attr_t attr;
->     pthread_attr_t *attrp;
->     char *attr_sched_str, *main_sched_str, *inheritsched_str;
->     struct sched_param param;
->=20
->     /* Process command\-line options */
->=20
->     use_null_attrib =3D 0;
->     attr_sched_str =3D NULL;
->     main_sched_str =3D NULL;
->     inheritsched_str =3D NULL;
->=20
->     while ((opt =3D getopt(argc, argv, "a:Ai:m:")) !=3D \-1) {
->         switch (opt) {
->         case \(aqa\(aq: attr_sched_str =3D optarg;      break;
->         case \(aqA\(aq: use_null_attrib =3D 1;          break;
->         case \(aqi\(aq: inheritsched_str =3D optarg;    break;
->         case \(aqm\(aq: main_sched_str =3D optarg;      break;
->         default:  usage(argv[0], "Unrecognized option\\n");
->         }
->     }
->=20
->     if (use_null_attrib &&
->             (inheritsched_str !=3D NULL || attr_sched_str !=3D NULL))
->         usage(argv[0], "Can\(aqt specify \-A with \-i or \-a\\n");
->=20
->     /* Optionally set scheduling attributes of main thread,
->        and display the attributes */
->=20
->     if (main_sched_str !=3D NULL) {
->         if (!get_policy(main_sched_str[0], &policy))
->             usage(argv[0], "Bad policy for main thread (\-s)\\n");
->         param.sched_priority =3D strtol(&main_sched_str[1], NULL, 0);
->=20
->         s =3D pthread_setschedparam(pthread_self(), policy, &param);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_setschedparam");
->     }
->=20
->     display_thread_sched_attr("Scheduler settings of main thread");
->     printf("\\n");
->=20
->     /* Initialize thread attributes object according to options */
->=20
->     attrp =3D NULL;
->=20
->     if (!use_null_attrib) {
->         s =3D pthread_attr_init(&attr);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_init");
->         attrp =3D &attr;
->     }
->=20
->     if (inheritsched_str !=3D NULL) {
->         if (inheritsched_str[0] =3D=3D \(aqe\(aq)
->             inheritsched =3D PTHREAD_EXPLICIT_SCHED;
->         else if (inheritsched_str[0] =3D=3D \(aqi\(aq)
->             inheritsched =3D PTHREAD_INHERIT_SCHED;
->         else
->             usage(argv[0], "Value for \-i must be \(aqe\(aq or \(aqi\=
-(aq\\n");
->=20
->         s =3D pthread_attr_setinheritsched(&attr, inheritsched);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_setinheritsched");
->     }
->=20
->     if (attr_sched_str !=3D NULL) {
->         if (!get_policy(attr_sched_str[0], &policy))
->             usage(argv[0],
->                     "Bad policy for \(aqattr\(aq (\-a)\\n");
->         param.sched_priority =3D strtol(&attr_sched_str[1], NULL, 0);
->=20
->         s =3D pthread_attr_setschedpolicy(&attr, policy);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_setschedpolicy");
->         s =3D pthread_attr_setschedparam(&attr, &param);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_setschedparam");
->     }
->=20
->     /* If we initialized a thread attributes object, display
->        the scheduling attributes that were set in the object */
->=20
->     if (attrp !=3D NULL) {
->         s =3D pthread_attr_getschedparam(&attr, &param);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_getschedparam");
->         s =3D pthread_attr_getschedpolicy(&attr, &policy);
->         if (s !=3D 0)
->             errExitEN(s, "pthread_attr_getschedpolicy");
->=20
->         printf("Scheduler settings in \(aqattr\(aq\\n");
->         display_sched_attr(policy, &param);
->=20
->         s =3D pthread_attr_getinheritsched(&attr, &inheritsched);
->         printf("    inheritsched is %s\\n",
->                 (inheritsched =3D=3D PTHREAD_INHERIT_SCHED)  ? "INHER=
-IT" :
->                 (inheritsched =3D=3D PTHREAD_EXPLICIT_SCHED) ? "EXPLI=
-CIT" :
->                 "???");
->         printf("\\n");
->     }
->=20
->     /* Create a thread that will display its scheduling attributes */
->=20
->     s =3D pthread_create(&thread, attrp, &thread_start, NULL);
->     if (s !=3D 0)
->         errExitEN(s, "pthread_create");
->=20
->     /* Destroy unneeded thread attributes object */
->=20
->     s =3D pthread_attr_destroy(&attr);
->     if (s !=3D 0)
->         errExitEN(s, "pthread_attr_destroy");
->=20
->     s =3D pthread_join(thread, NULL);
->     if (s !=3D 0)
->         errExitEN(s, "pthread_join");
->=20
->     exit(EXIT_SUCCESS);
-> } /* main */
-> .fi
-> .SH SEE ALSO
-> .BR sched_get_priority_min (2),
-> .BR sched_setscheduler (2),
-> .BR pthread_attr_init (3),
-> .BR pthread_attr_setinheritsched (3),
-> .BR pthread_attr_setschedparam (3),
-> .BR pthread_attr_setschedpolicy (3),
-> .BR pthread_setschedprio (3),
-> .BR pthread_create (3),
-> .BR pthread_self (3),
-> .BR pthreads (7)
->=20
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
