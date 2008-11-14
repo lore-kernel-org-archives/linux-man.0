@@ -1,80 +1,117 @@
 From: "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Delivery Status Notification (Failure)
-Date: Fri, 14 Nov 2008 16:56:45 +0100
-Message-ID: <36ca99e90811140756q7c445d5ei7c31c5b59df7c7a7@mail.gmail.com>
-References: <cfd18e0f0811140738i33f2c671kc99bbb7750f2fa44@mail.gmail.com>
-	 <001636c5b6831e5a44045ba80779@googlemail.com>
-	 <cfd18e0f0811140745k69075aend9686e463c9c1a4d@mail.gmail.com>
+Subject: Re: For review: CPU_SET.3
+Date: Fri, 14 Nov 2008 17:02:13 +0100
+Message-ID: <36ca99e90811140802w421a6846ga3c76546ffd25c5a@mail.gmail.com>
+References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
+	 <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
+	 <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811140745k69075aend9686e463c9c1a4d-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0811131908y4b948844m680566bb27404666-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Li Zefan <lizf-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org, rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Hidetoshi Seto <seto.hidetoshi-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lameter <cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Nov 14, 2008 at 16:45, Michael Kerrisk
+On Fri, Nov 14, 2008 at 04:08, Michael Kerrisk
 <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Bother!  Mail to Paul Jackson bounced from the last address I had for
-> him.  Anyway know an up-to-date address?
-Hmm, the last message in linux@vger is from Sep 11.
+> Hi Bert,
+>
+> Thanks for looking this over.
+>
+> On Thu, Nov 13, 2008 at 1:45 PM, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>> Hi Michael,
+>>
+>> On Thu, Nov 13, 2008 at 15:06, Michael Kerrisk
+>> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>>> Hi Bert,
+>>>
+>>> I created this page by removing the CPU_*() material from
+>>> sched_setscheduler.2 and adding documentation of the many other macros
+>>> that have been added in more recent glibc releases.
+>>>
+>>> I remember looking at a mail thread you pointed at a few days back
+>>> where you said the interface of the CPU_*S() macros is somewhat
+>>> confusing in its use of bits in some places, and bytes in others.
+>>> It's hard to disagree with you -- so I included an example in the
+>>> man-pages which hopefully might reduce the confusion.
+>>>
+>>> Of course, since these are macros, my use of types in the prototypes
+>>> in the SYNOPSIS is in many cases invention; let me know if something
+>>> looks weird.
+>>>
+>>> Also, take a look at
+>>> http://sourceware.org/bugzilla/show_bug.cgi?id=7029.  Unless I'm
+>>> confused (which is always possible), this is a real bug.  Do you
+>>> agree?
+>> "It's hard to disagree with you." I can confirm this here on my x86-64
+>> box, a x86-32 exec returns 2048 the x86-64 1024.
+>
+> Yep.  In fact UD has already fixed it today.
+>
+> [...]
+>
+>>> .BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
+>>> ", cpu_set_t *" set2 );
+>> Even I like to see the equivalent C prototypes, I think this should be
+>> noted earlier that these are actually macros.
+>
+> Well, I do mention that they are macros a number of times.  What more
+> do you think I should add?
+Hmm, I thought something like "hey these are only theoretical C prototypes"
+
+>
+>> Also, I would like to see a note that the cpu_set_t type is opaque (as
+>> from the glibc manual)
+>
+> I added something on that.
+>
+>> but there is no official copy operator. The
+>> glibc developer suggest using memcpy for this (see the reminder of
+>> this thread I posted).
+>
+> Yes, good point.  I Added a NOTES section mentioning memcpy(3).
+>
+>> And you should not use '=' because of the
+>> dynamically allocated ones.
+>>
+>> Last but not least, because CPU_ALLOC{,_SIZE} rounds the num_cpus
+>> argument up (i.e. CPU_ALLOC_SIZE(1) == sizeof(unsigned long)) there
+>> are probably more cpus possible in this set than you requested, so
+>> these blind bits should be mentioned as undefined.
+>
+> I added something in NOTES about this.
+>
+>> Now to the naming confusion, I think the main problem is CPU_SETSIZE
+>> and the setsize arguement to the CPU_*_S macros. The former is in bits
+>> the latter in bytes. Either put a note to CPU_SETSIZE that this is in
+>> bits and you should not pass this as an setsize argument to any
+>> CPU_*_S macro, because of the similar name. Or, rename the setsize
+>> argument to something other, and use the setsize name for the
+>> CPU_ALLOC{,_SIZE}, too.
+>>
+>> I think option one should suffice.
+>
+> Again, I added something to NOTES on this.
+>
+> [...]
+>
+>>> This macro provides the value that can be used for
+>> the
+>>> .I setsize
+>> argument
+>
+> Done.
+>
+> Thanks Bert.
+New version looks good.
+
+Thank You.
 
 Bert
->
-> On Fri, Nov 14, 2008 at 10:38 AM, Mail Delivery Subsystem
-> <mailer-daemon-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> This is an automatically generated Delivery Status Notification
->>
->> Delivery to the following recipient failed permanently:
->>
->>     pj-sJ/iWh9BUns@public.gmane.org
->>
->> Technical details of permanent failure:
->> Google tried to deliver your message, but it was rejected by the recipient domain. We recommend contacting the other email provider for further information about the cause of this error. The error that the other server returned was: 550 550 cuda_nsu 5.7.1 <pj-sJ/iWh9BUns@public.gmane.org>: Recipient address rejected: THIS USER IS NO LONGER WITH SGI. CONTACT help-sJ/iWh9BUns@public.gmane.org IF YOU NEED INFO. (state 14).
->>
->>   ----- Original message -----
->>
->> Received: by 10.180.222.1 with SMTP id u1mr289004bkg.62.1226677136648;
->>        Fri, 14 Nov 2008 07:38:56 -0800 (PST)
->> Received: by 10.181.33.19 with HTTP; Fri, 14 Nov 2008 07:38:56 -0800 (PST)
->> Message-ID: <cfd18e0f0811140738i33f2c671kc99bbb7750f2fa44-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->> Date: Fri, 14 Nov 2008 10:38:56 -0500
->> From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
->> Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
->> To: "Loic Domaigne" <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, "Paul Jackson" <pj-sJ/iWh9BUns@public.gmane.org>
->> Subject: Re: For review: pthread_setaffinity_np.3
->> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org,
->>        "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>,
->>        "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>,
->>        "Stefan Puiu" <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>,
->>        "Karsten Weiss" <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
->> In-Reply-To: <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->> MIME-Version: 1.0
->> Content-Type: text/plain; charset=ISO-8859-1
->> Content-Transfer-Encoding: 7bit
->> Content-Disposition: inline
->> References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->>         <4916133A.8060209-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
->>         <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->>
->> [CC += "Paul Jackson" <pj-sJ/iWh9BUns@public.gmane.org>, who might want to Ack the patch below]
->>
->>>> This might be obvious to all of you, but it wasn't to me... The CPU set used
->>>> for the affinity is the intersection of the set passed to
->>>> pthread_setaffinity_np() and the set of processors supported by the
->>>> kernel...
->>>>
->>>> That's why your example shall work, even if the system where it runs has
->>>> less than 8 processors.
->>>
->>
->>   ----- Message truncated -----
->>
->>
->
 >
 >
 > --
