@@ -1,116 +1,373 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: For review: CPU_SET.3
-Date: Thu, 13 Nov 2008 22:08:47 -0500
-Message-ID: <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
+Date: Thu, 13 Nov 2008 22:09:43 -0500
+Message-ID: <cfd18e0f0811131909n2a97f953m15e6ace3bd1e3934@mail.gmail.com>
 References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
 	 <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
+	 <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <36ca99e90811131045o78507ee9wd603a3d64ea79c29-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0811131908y4b948844m680566bb27404666-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Bert,
+And this is the revised page.
 
-Thanks for looking this over.
+Cheers,
 
-On Thu, Nov 13, 2008 at 1:45 PM, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi Michael,
->
-> On Thu, Nov 13, 2008 at 15:06, Michael Kerrisk
-> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> Hi Bert,
->>
->> I created this page by removing the CPU_*() material from
->> sched_setscheduler.2 and adding documentation of the many other macros
->> that have been added in more recent glibc releases.
->>
->> I remember looking at a mail thread you pointed at a few days back
->> where you said the interface of the CPU_*S() macros is somewhat
->> confusing in its use of bits in some places, and bytes in others.
->> It's hard to disagree with you -- so I included an example in the
->> man-pages which hopefully might reduce the confusion.
->>
->> Of course, since these are macros, my use of types in the prototypes
->> in the SYNOPSIS is in many cases invention; let me know if something
->> looks weird.
->>
->> Also, take a look at
->> http://sourceware.org/bugzilla/show_bug.cgi?id=7029.  Unless I'm
->> confused (which is always possible), this is a real bug.  Do you
->> agree?
-> "It's hard to disagree with you." I can confirm this here on my x86-64
-> box, a x86-32 exec returns 2048 the x86-64 1024.
+Michael
 
-Yep.  In fact UD has already fixed it today.
+.\" Copyright (C) 2006 Michael Kerrisk
+.\" and Copyright (C) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH CPU_SET 2 2008-11-13 "Linux" "Linux Programmer's Manual"
+.SH NAME
+CPU_SET, CPU_CLR, CPU_ISSET, CPU_ZERO, CPU_COUNT,
+CPU_AND, CPU_OR, CPU_XOR, CPU_EQUAL,
+CPU_ALLOC, CPU_ALLOC_SIZE, CPU_FREE,
+CPU_SET_S, CPU_CLR_S, CPU_ISSET_S, CPU_ZERO_S,
+CPU_COUNT_S, CPU_AND_S, CPU_OR_S, CPU_XOR_S, CPU_EQUAL_S \-
+macros for manipulating CPU sets
+.SH SYNOPSIS
+.nf
+.B #define _GNU_SOURCE
+.B #include <sched.h>
+.sp
+.BI "void CPU_ZERO(cpu_set_t *" set );
+.sp
+.BI "void CPU_SET(int " cpu ", cpu_set_t *" set );
+.BI "void CPU_CLR(int " cpu ", cpu_set_t *" set );
+.BI "int  CPU_ISSET(int " cpu ", cpu_set_t *" set );
+.sp
+.BI "void CPU_COUNT(cpu_set_t *" set );
+.sp
+.BI "void CPU_AND(cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.BI "void CPU_OR(cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.BI "void CPU_XOR(cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.sp
+.BI "int  CPU_EQUAL(cpu_set_t *" set1 ", cpu_set_t *" set2 );
+.sp
+.BI "cpu_set_t *CPU_ALLOC(int " num_cpus );
+.BR "void CPU_FREE(cpu_set_t *" set );
+.BI "size_t CPU_ALLOC_SIZE(int " num_cpus );
+.sp
+.BI "void CPU_ZERO_S(size_t " setsize ", cpu_set_t *" set );
+.sp
+.BI "void CPU_SET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
+.BI "void CPU_CLR_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
+.BI "int  CPU_ISSET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
+.sp
+.BI "void CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
+.sp
+.BI "void CPU_AND_S(size_t " setsize ", cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.BI "void CPU_OR_S(size_t " setsize ", cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.BI "void CPU_XOR_S(size_t " setsize ", cpu_set_t *" destset ,
+.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+.sp
+.BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
+", cpu_set_t *" set2 );
+.fi
+.SH DESCRIPTION
+The
+.I cpu_set_t
+data structure represents a set of CPUs.
+CPU sets are used by
+.BR sched_setaffinity (2)
+and similar interfaces.
 
-[...]
+The
+.I cpu_set_t
+data type is implemented as a bitset.
+However, the data structure treated as considered opaque:
+all manipulation of CPU sets should be done via the macros
+described in this page.
 
->> .BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
->> ", cpu_set_t *" set2 );
-> Even I like to see the equivalent C prototypes, I think this should be
-> noted earlier that these are actually macros.
+The following macros are provided to operate on the CPU set
+.IR set :
+.TP 17
+.BR CPU_ZERO ()
+Clears
+.IR set ,
+so that it contains no CPUs.
+.TP
+.BR CPU_SET ()
+Add CPU
+.I cpu
+to
+.IR set .
+.TP
+.BR CPU_CLR ()
+Remove CPU
+.I cpu
+from
+.IR set .
+.TP
+.BR CPU_ISSET ()
+Test to see if CPU
+.I cpu
+is a member of
+.IR set .
+.TP
+.BR CPU_COUNT ()
+Return the number of CPUs in
+.IR set .
+.PP
+Where a
+.I cpu
+argument is specified, it should not produce side effects,
+since the above macros may evaluate the argument more than once.
+.PP
+The first available CPU on the system corresponds to a
+.I cpu
+value of 0, the next CPU corresponds to a
+.I cpu
+value of 1, and so on.
+The constant
+.B CPU_SETSIZE
+(currently 1024) specifies a value one greater than the maximum CPU
+number that can be stored in
+.IR cpu_set_t .
 
-Well, I do mention that they are macros a number of times.  What more
-do you think I should add?
+The following macros perform logical operations on CPU sets:
+.TP 17
+.BR CPU_AND ()
+Store the logical AND of the sets
+.I srcset1
+and
+.I srcset2
+in
+.I destset
+(which may be one of the source sets).
+.TP
+.BR CPU_OR ()
+Store the logical OR of the sets
+.I srcset1
+and
+.I srcset2
+in
+.I destset
+(which may be one of the source sets).
+.TP
+.BR CPU_XOR ()
+Store the logical XOR of the sets
+.I srcset1
+and
+.I srcset2
+in
+.I destset
+(which may be one of the source sets).
+.TP
+.BR CPU_EQUAL ()
+Test whether two CPU set contain exactly the same CPUs.
+.SS Dynamically sized CPU sets
+Because some applications may require the ability to dynamically
+size CPU sets (e.g., to allocate sets larger than that
+defined by the standard
+.I cpu_set_t
+data type), glibc nowadays provides a set of macros to support this.
 
-> Also, I would like to see a note that the cpu_set_t type is opaque (as
-> from the glibc manual)
+The following macros are used to allocate and deallocate CPU sets:
+.TP 17
+.BR CPU_ALLOC ()
+Allocate a CPU set large enough to hold CPUs
+in the range 0 to
+.IR num_cpus-1 .
+.TP
+.BR CPU_ALLOC_SIZE ()
+Return the size in bytes of the CPU set that would be needed to
+hold CPUs in the range 0 to
+.IR num_cpus-1 .
+This macro provides the value that can be used for the
+.I setsize
+argument in the
+.BR CPU_*_S ()
+macros described below.
+.TP
+.BR CPU_FREE ()
+Free a CPU set previously allocated by
+.BR CPU_ALLOC ().
+.PP
+The macros whose names end with "_S" are the analogs of
+the similarly named macros without the suffix.
+These macros perform the same tasks as their analogs,
+but operate on the dynamically allocated CPU set(s) whose size is
+.I setsize
+bytes.
+.SH "RETURN VALUE"
+.BR CPU_ISSET ()
+and
+.BR CPU_ISSET_S ()
+return non-zero if
+.I cpu
+is in
+.IR set ;
+otherwise, it returns 0.
 
-I added something on that.
+.BR CPU_COUNT ()
+and
+.BR CPU_COUNT_S ()
+return the number of CPUs in
+.IR set .
 
-> but there is no official copy operator. The
-> glibc developer suggest using memcpy for this (see the reminder of
-> this thread I posted).
+.BR CPU_EQUAL ()
+and
+.BR CPU_EQUAL_S ()
+return non-zero if the two CPU sets are equal; otherwise it returns 0.
 
-Yes, good point.  I Added a NOTES section mentioning memcpy(3).
+.BR CPU_ALLOC ()
+returns a pointer on success, or NULL on failure.
+(Errors are as for
+.BR malloc (3).)
 
-> And you should not use '=' because of the
-> dynamically allocated ones.
->
-> Last but not least, because CPU_ALLOC{,_SIZE} rounds the num_cpus
-> argument up (i.e. CPU_ALLOC_SIZE(1) == sizeof(unsigned long)) there
-> are probably more cpus possible in this set than you requested, so
-> these blind bits should be mentioned as undefined.
+.BR CPU_ALLOC_SIZE ()
+returns the number of bytes required to store a
+CPU set of the specified cardinality.
 
-I added something in NOTES about this.
+The other functions do not return a value.
+.SH VERSIONS
+The
+.BR CPU_ZERO (),
+.BR CPU_SET (),
+.BR CPU_CLR (),
+and
+.BR CPU_ISSET ()
+macros were added in glibc 2.3.3.
 
-> Now to the naming confusion, I think the main problem is CPU_SETSIZE
-> and the setsize arguement to the CPU_*_S macros. The former is in bits
-> the latter in bytes. Either put a note to CPU_SETSIZE that this is in
-> bits and you should not pass this as an setsize argument to any
-> CPU_*_S macro, because of the similar name. Or, rename the setsize
-> argument to something other, and use the setsize name for the
-> CPU_ALLOC{,_SIZE}, too.
->
-> I think option one should suffice.
+.BR CPU_COUNT ()
+first appeared in glibc 2.6.
 
-Again, I added something to NOTES on this.
+.BR CPU_AND (),
+.BR CPU_OR (),
+.BR CPU_XOR (),
+.BR CPU_EQUAL (),
+.BR CPU_ALLOC (),
+.BR CPU_ALLOC_SIZE (),
+.BR CPU_FREE (),
+.BR CPU_ZERO_S (),
+.BR CPU_SET_S (),
+.BR CPU_CLR_S (),
+.BR CPU_ISSET_S (),
+.BR CPU_AND_S (),
+.BR CPU_OR_S (),
+.BR CPU_XOR_S (),
+and
+.BR CPU_EQUAL_S ()
+first appeared in glibc 2.7.
+.SH "CONFORMING TO"
+These interfaces are Linux-specific.
+.SH NOTES
+To duplicate a CPU set, use
+.BR memcpy (3).
 
-[...]
+Since CPU sets are bitsets allocated in units of long words,
+the actual number of CPUs in a dynamically
+allocated CPU set will be rounded up to the next multiple of
+.IR "sizeof(unsigned long)" .
+An application should consider the contents on these extra bits
+to be undefined.
 
->> This macro provides the value that can be used for
-> the
->> .I setsize
-> argument
+Note that the constant
+.B CPU_SETSIZE
+indicated the number of CPUs in the
+.I cpu_set_t
+data type (thus, it is effectively a count of bits in the bitset),
+while the
+.I setsize
+argument of the
+.BR CPU_*_S ()
+macros is a size in bytes.
+.SH EXAMPLE
+The following program demonstrates the use of some of the macros
+used for dynamically allocated CPU sets.
 
-Done.
+.nf
+#define _GNU_SOURCE
+#include <sched.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <assert.h>
 
-Thanks Bert.
+int
+main(int argc, char *argv[])
+{
+    cpu_set_t *cpusetp;
+    size_t size;
+    int num_cpus, cpu;
 
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <num\-cpus>\\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+    num_cpus = atoi(argv[1]);
+
+    cpusetp = CPU_ALLOC(num_cpus);
+    if (cpusetp == NULL) {
+        perror("CPU_ALLOC");
+        exit(EXIT_FAILURE);
+    }
+
+    size = CPU_ALLOC_SIZE(num_cpus);
+
+    CPU_ZERO_S(size, cpusetp);
+    for (cpu = 0; cpu < num_cpus; cpu += 2)
+        CPU_SET_S(cpu, size, cpusetp);
+
+    printf("CPU_COUNT() of set:    %d\\n", CPU_COUNT_S(size, cpusetp));
+
+    CPU_FREE(cpusetp);
+    exit(EXIT_SUCCESS);
+}
+.fi
+.SH BUGS
+On 32-bit platforms with glibc 2.8 and earlier,
+.BR CPU_ALLOC ()
+allocates twice as much space as is required, and
+.BR CPU_ALLOC_SIZE ()
+returns a value twice as large as it should.
+The only consequences for most programs is wasted space,
+and slightly less efficient operation of the macros that
+operate on dynamically allocated CPU sets.
+These bugs are fixed in glibc 2.9.
+.\" http://sourceware.org/bugzilla/show_bug.cgi?id=7029
+.SH "SEE ALSO"
+.BR sched_setaffinity (2),
+.BR pthread_attr_setaffinity_np (3),
+.BR pthread_setaffinity_np (3),
+.BR cpuset (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
