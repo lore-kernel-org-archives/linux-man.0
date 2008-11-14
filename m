@@ -1,54 +1,91 @@
-From: "Michael Kerrisk" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] reintroduce accept4
-Date: Fri, 14 Nov 2008 10:24:22 -0500
-Message-ID: <517f3f820811140724l49dd0f31xffda837afd1986a8@mail.gmail.com>
-References: <200810261641.m9QGfotr024285@hs20-bc2-1.build.redhat.com>
-	 <517f3f820811131351l1305b2d2u43ab4e0601d97f93@mail.gmail.com>
-	 <20081113140541.23754cad.akpm@linux-foundation.org>
-	 <18716.43376.534965.688695@cargo.ozlabs.ibm.com>
-	 <18716.43543.256621.825529@cargo.ozlabs.ibm.com>
-	 <20081113145737.96898aaf.akpm@linux-foundation.org>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: pthread_setaffinity_np.3
+Date: Fri, 14 Nov 2008 10:38:56 -0500
+Message-ID: <cfd18e0f0811140738i33f2c671kc99bbb7750f2fa44@mail.gmail.com>
+References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+	 <4916133A.8060209@domaigne.com>
+	 <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-arch-owner@vger.kernel.org>
-In-Reply-To: <20081113145737.96898aaf.akpm@linux-foundation.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-arch-owner@vger.kernel.org
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Paul Mackerras <paulus@samba.org>, subrata@linux.vnet.ibm.com, linux-arch@vger.kernel.org, drepper@redhat.com, linux-kernel@vger.kernel.org, torvalds@linux-foundation.org, linux-api@vger.kernel.org, linux-man@vger.kernel.org, davidel@xmailserver.org, netdev@vger.kernel.org, roland@redhat.com, oleg@tv-sign.ru, hch@lst.de, davem@davemloft.net, alan@redhat.com, jakub@redhat.com
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Paul Jackson <pj-sJ/iWh9BUns@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Andrew,
+[CC += "Paul Jackson" <pj-sJ/iWh9BUns@public.gmane.org>, who might want to Ack the patch below]
 
-> From: Ulrich Drepper <drepper@redhat.com>
+>> This might be obvious to all of you, but it wasn't to me... The CPU set used
+>> for the affinity is the intersection of the set passed to
+>> pthread_setaffinity_np() and the set of processors supported by the
+>> kernel...
+>>
+>> That's why your example shall work, even if the system where it runs has
+>> less than 8 processors.
 >
-> Introduce a new accept4() system call.  The addition of this system call
-> matches analogous changes in 2.6.27 (dup3(), evenfd2(), signalfd4(),
-> inotify_init1(), epoll_create1(), pipe2()) which added new system calls
-> that differed from analogous traditional system calls in adding a flags
-> argument that can be used to access additional functionality.
+> It's true.  The page should say something to make this clearer.  I
+> added this text to NOTES
 >
-> The accept4() system call is exactly the same as accept(), except that it
-> adds a flags bit-mask argument.  Two flags are initially implemented.
-> (Most of the new system calls in 2.6.27 also had both of these flags.)
+>       After a call to  pthread_setaffinity_np(3),  the  set  of
+>       CPUs  on which the thread will actually run is the inter-
+>       section of the set specified in the cpuset  argument  and
+>       the set of CPUs actually present on the system.  The sys-
+>       tem may further restrict the set of  CPUs  on  which  the
+>       thread  runs  if  the  "cpuset"  mechanism  described  in
+>       cpuset(7) is  being  used.   These  restrictions  on  the
+>       actual  set  of  CPUs  on  which  the thread will run are
+>       silently imposed by the kernel.
 
-Add a para break here.
+Of course, the sched_setaffinity.2 page also deserves similar text.  I
+made the change below.
 
-> SOCK_CLOEXEC causes the close-on-exec (FD_CLOEXEC) flag to be enabled for
-> the new file descriptor returned by accept4().  This is a useful security
-> feature to avoid leaking information in a multithreaded program where one
-> thread is doing an accept() at the same time as another thread is doing a
-> fork() plus exec().
->
-
-This para break is in the wrong place.
-
-> More details here: http://udrepper.livejournal.com/20407.html "Secure File
-> Descriptor Handling", Ulrich Drepper) The other flag is SOCK_NONBLOCK,
-
-The para break should actually be at the sentence break in the previous line.
+Look ok?
 
 Cheers,
 
 Michael
+
+--- a/man2/sched_setaffinity.2
++++ b/man2/sched_setaffinity.2
+
+@@ -122,7 +122,10 @@ A supplied memory address was invalid.
+ .B EINVAL
+ The affinity bit mask
+ .I mask
+-contains no processors that are physically on the system.
++contains no processors that are currently physically on the system
++and permitted to the process according to any restrictions that
++may be imposed by the "cpuset" mechanism described in
++.BR cpuset (7).
+ .TP
+ .B EINVAL
+ .RB ( sched_getaffinity ()
+@@ -157,6 +160,19 @@ argument was removed, but was then restored in glibc 2.3.4,
+ with type
+ .SH "CONFORMING TO"
+ These system calls are Linux-specific.
+ .SH "NOTES"
++After a call to
++.BR sched_setaffinity (),
++the set of CPUs on which the process will actually run is
++the intersection of the set specified in the
++.I mask
++argument and the set of CPUs actually present on the system.
++The system may further restrict the set of CPUs on which the process
++runs if the "cpuset" mechanism described in
++.BR cpuset (7)
++is being used.
++These restrictions on the actual set of CPUs on which the process
++will run are silently imposed by the kernel.
++
+ .BR sched_setscheduler (2)
+ has a description of the Linux scheduling scheme.
+ .PP
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
