@@ -1,196 +1,273 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_setcancelstate.3
-Date: Fri, 14 Nov 2008 12:26:07 -0500
-Message-ID: <cfd18e0f0811140926r40781376t8a6340479bf8426f@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk" <mtk.manpages@googlemail.com>
+Subject: Re: [PATCH] reintroduce accept4
+Date: Fri, 14 Nov 2008 12:40:53 -0500
+Message-ID: <cfd18e0f0811140940n3efb1963qd5b1aab42dae1c1b@mail.gmail.com>
+References: <200810261641.m9QGfotr024285@hs20-bc2-1.build.redhat.com>
+	 <517f3f820811131351l1305b2d2u43ab4e0601d97f93@mail.gmail.com>
+	 <20081113140541.23754cad.akpm@linux-foundation.org>
+	 <18716.43376.534965.688695@cargo.ozlabs.ibm.com>
+	 <18716.43543.256621.825529@cargo.ozlabs.ibm.com>
+	 <20081113145737.96898aaf.akpm@linux-foundation.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-arch-owner@vger.kernel.org>
+In-Reply-To: <20081113145737.96898aaf.akpm@linux-foundation.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+Sender: linux-arch-owner@vger.kernel.org
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Paul Mackerras <paulus@samba.org>, subrata@linux.vnet.ibm.com, linux-arch@vger.kernel.org, drepper@redhat.com, linux-kernel@vger.kernel.org, torvalds@linux-foundation.org, linux-api@vger.kernel.org, linux-man@vger.kernel.org, davidel@xmailserver.org, netdev@vger.kernel.org, roland@redhat.com, oleg@tv-sign.ru, hch@lst.de, davem@davemloft.net, alan@redhat.com, jakub@redhat.com
 List-Id: linux-man@vger.kernel.org
 
-And one more for today... Any reviewers for pthread_setcancelstate(3)?
+> Here's the latest version, for review-n-test enjoyment:
+
+Andrew,
+
+I made a few small tweaks to the changelog: wording fixes, and para
+break fixes; other than that, changed the text to say that I rewrote
+(rather than updated) the test program.  Please substitute it with the
+following.
 
 Cheers,
 
 Michael
 
-.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH PTHREAD_SETCANCELSTATE 3 2008-11-14 "Linux" "Linux Programmer's Manual"
-.SH NAME
-pthread_setcancelstate, pthread_setcanceltype \-
-set cancelability state and type
-.SH SYNOPSIS
-.nf
-.B #include <pthread.h>
+===
+From: Ulrich Drepper <drepper@redhat.com>
 
-.BI "int pthread_setcancelstate(int " state ", int *" oldstate );
-.BI "int pthread_setcanceltype(int " type ", int *" oldtype );
-.sp
-Compile and link with \fI\-pthread\fP.
-.SH DESCRIPTION
-The
-.BR pthread_setcancelstate ()
-sets the cancelability state of the calling thread to the value
-given in
-.IR state .
-The previous cancelability state of the thread is returned
-in the buffer pointed to by
-.IR oldstate .
-The
-.I state
-argument must have one of the following values:
-.TP
-.B PTHREAD_CANCEL_ENABLE
-The thread is cancelable.
-This is the default cancelability state in all new threads,
-including the initial thread.
-The thread's cancelability type determines when a cancelable thread
-will respond to a cancellation request.
-.TP
-.B PTHREAD_CANCEL_DISABLE
-The thread is not cancelable.
-If a cancellation request is received,
-it is blocked until cancelability is enabled.
-.PP
-The
-.BR pthread_setcanceltype ()
-sets the cancelability type of the calling thread to the value
-given in
-.IR type .
-The previous cancelability type of the thread is returned
-in the buffer pointed to by
-.IR oldtype .
-The
-.I type
-argument must have one of the following values:
-.TP
-.B PTHREAD_CANCEL_DEFERRED
-A cancellation request is deferred until the thread next calls
-a function that is a cancellation point (see
-.BR pthreads (7)).
-This is the default cancelability type in all new threads,
-including the initial thread.
-.TP
-.B PTHREAD_CANCEL_ASYNCHRONOUS
-The thread can be canceled at any time.
-(Typically,
-it will be canceled immediately upon receiving a cancellation request,
-but the system doesn't guarantee this.)
-.PP
-The set-and-get operation performed by each of these functions
-is atomic with respect to other threads in the process
-calling the same function.
-.SH RETURN VALUE
-On success, these functions return 0;
-on error, they return a non-zero error number.
-.SH ERRORS
-The
-.BR pthread_setcancelstate ()
-can fail with the following error:
-.TP
-.B EINVAL
-Invalid value for
-.IR state .
-.PP
-The
-.BR pthread_setcanceltype ()
-can fail with the following error:
-.TP
-.B EINVAL
-Invalid value for
-.IR type .
-.\" .SH VERSIONS
-.\" Available since glibc 2.0
-.SH CONFORMING TO
-POSIX.1-2001.
-.SH NOTES
-For details of what happens when a thread is canceled, see
-.BR pthread_cancel (3).
+Introduce a new accept4() system call.  The addition of this system call
+matches analogous changes in 2.6.27 (dup3(), evenfd2(), signalfd4(),
+inotify_init1(), epoll_create1(), pipe2()) which added new system calls
+that differed from analogous traditional system calls in adding a flags
+argument that can be used to access additional functionality.
 
-Briefly disabling cancelability is useful
-if a thread performs some critical action
-that must not be interrupted by a cancellation request.
-Beware of disabling cancelability for long periods,
-or around operations that may block for long periods,
-since that will render the thread unresponsive to cancellation requests.
+The accept4() system call is exactly the same as accept(), except that
+it adds a flags bit-mask argument.  Two flags are initially implemented.
+(Most of the new system calls in 2.6.27 also had both of these flags.)
 
-Setting the cancelability type to
-.B PTHREAD_CANCEL_ASYNCHRONOUS
-is rarely useful.
-Since the thread could be canceled at
-.I any
-time, it cannot reserve resources (e.g., allocating memory),
-acquire mutexes, semaphores, or locks, and so on,
-since, when the thread is canceled,
-the application has no way of knowing what the state of these resources is;
-that is, did the canceled thread manage to release the resources or not?
-(Among other things, this means that clean-up handlers cease to be useful,
-since they can't determine the state of resources that
-they are intended to clean up.)
-In general, most library functions, including most pthreads functions,
-can't be safely called from an asynchronously cancelable thread.
-(POSIX.1-2001 only requires that
-.BR pthread_cancel (3),
-.BR pthread_setcancelstate (),
-and
-.BR pthread_setcanceltype ()
-be safe to call from an asynchronously cancelable thread.)
-One of the few circumstances in which asynchronous cancelability is useful
-is for cancellation of a thread that is in a pure compute-bound loop.
+SOCK_CLOEXEC causes the close-on-exec (FD_CLOEXEC) flag to be enabled
+for the new file descriptor returned by accept4().  This is a useful
+security feature to avoid leaking information in a multithreaded
+program where one thread is doing an accept() at the same time as
+another thread is doing a fork() plus exec().  More details here:
+http://udrepper.livejournal.com/20407.html "Secure File Descriptor Handling",
+Ulrich Drepper).
 
-The Linux threading implementations permit the
-.I oldstate
-argument of
-.BR pthread_setcancelstate ()
-to be NULL, in which case the information about the previous
-cancelability state is not returned to the caller.
-Many other implementations also permit a NULL
-.I oldstat
-argument,
-.\" It looks like at least Solaris, FreeBSD and Tru64 support this.
-but POSIX.1-2001 does not specify this point,
-so portable applications should always specify a non-NULL value in
-.IR oldstate .
-A precisely analogous set of statements applies for the
-.I oldtype
-argument of
-.BR pthread_setcanceltype ().
-.SH EXAMPLE
-See
-.BR pthread_cancel (3).
-.SH SEE ALSO
-.BR pthread_cleanup_push (3),
-.BR pthread_cancel (3),
-.BR pthread_testcancel (3),
-.BR pthreads (7)
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The other flag is SOCK_NONBLOCK, which causes the O_NONBLOCK flag
+to be enabled on the new open file description created by accept4().
+(This flag is merely a convenience, saving the use of additional calls
+fcntl(F_GETFL) and fcntl (F_SETFL) to achieve the same result.
+
+Here's a test program.  Works on x86-32.  Should work on x86-64, but
+I (mtk) don't have a system to hand to test with.
+
+It tests accept4() with each of the four possible combinations of
+SOCK_CLOEXEC and SOCK_NONBLOCK set/clear in 'flags', and verifies
+that the appropriate flags are set on the file descriptor/open file
+description returned by accept4().
+
+I tested Ulrich's patch in this thread by applying against 2.6.28-rc2,
+and it passes according to my test program.
+
+/* test_accept4.c
+
+  Copyright (C) 2008, Linux Foundation, written by Michael Kerrisk
+       <mtk.manpages@gmail.com>
+
+  Licensed under the GNU GPLv2 or later.
+*/
+#define _GNU_SOURCE
+#include <unistd.h>
+#include <sys/syscall.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <string.h>
+
+#define PORT_NUM 33333
+
+#define die(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
+
+/**********************************************************************/
+
+/* The following is what we need until glibc gets a wrapper for
+  accept4() */
+
+/* Flags for socket(), socketpair(), accept4() */
+#ifndef SOCK_CLOEXEC
+#define SOCK_CLOEXEC    O_CLOEXEC
+#endif
+#ifndef SOCK_NONBLOCK
+#define SOCK_NONBLOCK   O_NONBLOCK
+#endif
+
+#ifdef __x86_64__
+#define SYS_accept4 288
+#elif __i386__
+#define USE_SOCKETCALL 1
+#define SYS_ACCEPT4 18
+#else
+#error "Sorry -- don't know the syscall # on this architecture"
+#endif
+
+static int
+accept4(int fd, struct sockaddr *sockaddr, socklen_t *addrlen, int flags)
+{
+   printf("Calling accept4(): flags = %x", flags);
+   if (flags != 0) {
+       printf(" (");
+       if (flags & SOCK_CLOEXEC)
+           printf("SOCK_CLOEXEC");
+       if ((flags & SOCK_CLOEXEC) && (flags & SOCK_NONBLOCK))
+           printf(" ");
+       if (flags & SOCK_NONBLOCK)
+           printf("SOCK_NONBLOCK");
+       printf(")");
+   }
+   printf("\n");
+
+#if USE_SOCKETCALL
+   long args[6];
+
+   args[0] = fd;
+   args[1] = (long) sockaddr;
+   args[2] = (long) addrlen;
+   args[3] = flags;
+
+   return syscall(SYS_socketcall, SYS_ACCEPT4, args);
+#else
+   return syscall(SYS_accept4, fd, sockaddr, addrlen, flags);
+#endif
+}
+
+/**********************************************************************/
+
+
+static int
+do_test(int lfd, struct sockaddr_in *conn_addr,
+       int closeonexec_flag, int nonblock_flag)
+{
+   int connfd, acceptfd;
+   int fdf, flf, fdf_pass, flf_pass;
+   struct sockaddr_in claddr;
+   socklen_t addrlen;
+
+   printf("=======================================\n");
+
+   connfd = socket(AF_INET, SOCK_STREAM, 0);
+   if (connfd == -1)
+       die("socket");
+   if (connect(connfd, (struct sockaddr *) conn_addr,
+               sizeof(struct sockaddr_in)) == -1)
+       die("connect");
+
+   addrlen = sizeof(struct sockaddr_in);
+   acceptfd = accept4(lfd, (struct sockaddr *) &claddr, &addrlen,
+                      closeonexec_flag | nonblock_flag);
+   if (acceptfd == -1) {
+       perror("accept4()");
+       close(connfd);
+       return 0;
+   }
+
+   fdf = fcntl(acceptfd, F_GETFD);
+   if (fdf == -1)
+       die("fcntl:F_GETFD");
+   fdf_pass = ((fdf & FD_CLOEXEC) != 0) ==
+              ((closeonexec_flag & SOCK_CLOEXEC) != 0);
+   printf("Close-on-exec flag is %sset (%s); ",
+           (fdf & FD_CLOEXEC) ? "" : "not ",
+           fdf_pass ? "OK" : "failed");
+
+   flf = fcntl(acceptfd, F_GETFL);
+   if (flf == -1)
+       die("fcntl:F_GETFD");
+   flf_pass = ((flf & O_NONBLOCK) != 0) ==
+              ((nonblock_flag & SOCK_NONBLOCK) !=0);
+   printf("nonblock flag is %sset (%s)\n",
+           (flf & O_NONBLOCK) ? "" : "not ",
+           flf_pass ? "OK" : "failed");
+
+   close(acceptfd);
+   close(connfd);
+
+   printf("Test result: %s\n", (fdf_pass && flf_pass) ? "PASS" : "FAIL");
+   return fdf_pass && flf_pass;
+}
+
+
+static int
+create_listening_socket(int port_num)
+{
+   struct sockaddr_in svaddr;
+   int lfd;
+   int optval;
+
+   memset(&svaddr, 0, sizeof(struct sockaddr_in));
+   svaddr.sin_family = AF_INET;
+   svaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+   svaddr.sin_port = htons(port_num);
+
+   lfd = socket(AF_INET, SOCK_STREAM, 0);
+   if (lfd == -1)
+       die("socket");
+
+   optval = 1;
+   if (setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &optval,
+                  sizeof(optval)) == -1)
+       die("setsockopt");
+
+   if (bind(lfd, (struct sockaddr *) &svaddr,
+            sizeof(struct sockaddr_in)) == -1)
+       die("bind");
+
+   if (listen(lfd, 5) == -1)
+       die("listen");
+
+   return lfd;
+}
+
+
+int
+main(int argc, char *argv[])
+{
+   struct sockaddr_in conn_addr;
+   int lfd;
+   int port_num;
+   int passed;
+
+   passed = 1;
+
+   port_num = (argc > 1) ? atoi(argv[1]) : PORT_NUM;
+
+   memset(&conn_addr, 0, sizeof(struct sockaddr_in));
+   conn_addr.sin_family = AF_INET;
+   conn_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+   conn_addr.sin_port = htons(port_num);
+
+   lfd = create_listening_socket(port_num);
+
+   if (!do_test(lfd, &conn_addr, 0, 0))
+       passed = 0;
+   if (!do_test(lfd, &conn_addr, SOCK_CLOEXEC, 0))
+       passed = 0;
+   if (!do_test(lfd, &conn_addr, 0, SOCK_NONBLOCK))
+       passed = 0;
+   if (!do_test(lfd, &conn_addr, SOCK_CLOEXEC, SOCK_NONBLOCK))
+       passed = 0;
+
+   close(lfd);
+
+   exit(passed ? EXIT_SUCCESS : EXIT_FAILURE);
+}
+
+[mtk.manpages@gmail.com: rewrote changelog and test program]
+Signed-off-by: Ulrich Drepper <drepper@redhat.com>
+Tested-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: <linux-api@vger.kernel.org>
+Cc: <linux-arch@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
