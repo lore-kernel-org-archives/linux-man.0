@@ -1,373 +1,214 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: CPU_SET.3
-Date: Thu, 13 Nov 2008 22:09:43 -0500
-Message-ID: <cfd18e0f0811131909n2a97f953m15e6ace3bd1e3934@mail.gmail.com>
-References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
-	 <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
-	 <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
+Subject: Re: For review: pthread_setaffinity_np.3
+Date: Fri, 14 Nov 2008 10:04:18 -0500
+Message-ID: <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7@mail.gmail.com>
+References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+	 <4916133A.8060209@domaigne.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811131908y4b948844m680566bb27404666-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4916133A.8060209-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-And this is the revised page.
+Hi Lo=EFc,
+
+> this one is not 'straightforward' for me as I needed to look into the=
+ glibc
+> and kernel source...
+>
+> I am not very knowledgeable in that area, so my review comments are i=
+n
+> consequence...
+
+No problem.  Thanks for looking over the page.  My responses below.
+
+[...]
+
+>> The argument
+>> .I cpusetsize
+>> is the length (in bytes) of the buffer pointed to by
+>> .IR cpuset .
+>> Normally this argument would be specified as
+>> .IR sizeof(cpu_set_t) .
+>> The constant
+>> .B CPU_SETSIZE
+>> specifies a value one greater than the
+>> maximum CPU number that can be stored in a CPU set.
+>
+> I came independently to the same conclusion than you. AFAICS,glibc de=
+fines
+> the cpu_set_t to be a 1024 bits long structure. But the kernel define=
+s the
+> corresponding structure to be a bit field of appropriate length to st=
+ore
+> NR_CPUS.
+>
+> Interesting enough, the exact size of the kernel structure is determi=
+ned by
+> the glibc on the 1st call to pthread_setaffinity_np().
+>
+> We'll run into troubles if run this on a server with more than 1K cor=
+e ;-)
+
+As noted by Bert Wesarg, recent glibc provides some macros to deal
+with this, and I created CPU_SET.3 to document them.
+
+[...]
+
+>> .TP
+>> .B EINVAL
+>> .RB ( pthread_setaffinity_np ())
+>> The affinity bit mask
+>> .I mask
+>> contains no processors that are physically on the system.
+>
+> If I got it right, it seems that Linux supports (or is preparing) hot=
+plug of
+> CPUs cards... So when you say that "mask contains no processors that =
+are
+> physically on the system", it should be understood: at the point of t=
+ime
+> where pthread_setaffinity_np() has been issued.
+
+To hint at this, I added the word "currently"
+
+=3D=3D
+=2ETP
+=2EB EINVAL
+=2ERB ( pthread_setaffinity_np ())
+The affinity bit mask
+=2EI mask
+contains no processors that are currently physically on the system.
+=3D=3D
+
+> .TP
+>> .BR EINVAL
+>> .RB ( pthread_setaffinity_np ())
+>> .I cpuset
+>> specified a CPU that was outside the range
+>> permitted by the kernel data type
+>> .\" cpumask_t
+>> used to represent CPU sets.
+>> .\" The raw sched_getaffinity() system call returns the size (in byt=
+es)
+>> .\" of the cpumask_t type.
+>> This range is determined by the kernel configuration option
+>> .BR CONFIG_NR_CPUS .
+>
+> True. But what does it mean for an application programmer? That I am
+> requesting a processor which is outside of the set supported by the k=
+ernel
+> (structure). Strictly speaking, this processor could be physically pr=
+esent.
+>
+> So, If I sum-up the two EINVAL cases above, I get something like:
+>
+> The affinity bit mask <code>mask</code> contains no processors that a=
+re
+> physically on the system, or contains a processor outside of the set
+> supported by the kernel.
+
+Okay, I agree it could be clearer.  So, what I did was reword the
+second EINVAL error somewhat:
+
+=3D=3D
+=2ETP
+=2EBR EINVAL
+=2ERB ( pthread_setaffinity_np ())
+=2EI cpuset
+specified a CPU that was outside the set supported by the kernel.
+(The kernel configuration option
+=2EBR CONFIG_NR_CPUS
+defines the range of the set supported by the kernel data type
+=2E\" cpumask_t
+used to represent CPU sets.)
+=3D=3D
+
+>> In glibc 2.3.3 only,
+>> versions of these functions were provided that did not have a
+>> .I cpusetsize
+>> argument.
+>> Instead the CPU set size given to the underlying system calls was al=
+ways
+>> .IR sizeof(cpu_set_t) .
+>
+> That's funny. Didn't you mention above that "the cpusetsize should be
+> sizeof(cpu_set_t)"... So for now, it's not that much different ;-)
+
+Yes, once could get that impression.  In the light of your comments,
+Bert's comments, and my changes (CPU_SET.3), elsewhere in the page, I
+have now added this explanation elsewhere in the page:
+
+=3D=3D
+The argument
+=2EI cpusetsize
+is the length (in bytes) of the buffer pointed to by
+=2EIR cpuset .
+Typically, this argument would be specified as
+=2EIR sizeof(cpu_set_t) .
+(It may be some other value, if using the macros described in
+=2EBR CPU_SET (3)
+for dynamically allocating a CPU set.)
+=3D=3D
+
+[...]
+
+>>    /* Check the actual affinity mask assigned to the thread */
+>>
+>>    s =3D pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+>>    if (s !=3D 0)
+>>        errExitEN(s, "sched_getaffinity");
+>>
+>>    printf("Set returned by pthread_getaffinity_np() contained:\\n");
+>>    for (j =3D 0; j < CPU_SETSIZE; j++)
+>>        if (CPU_ISSET(j, &cpuset))
+>>            printf("    CPU %d\\n", j);
+>>
+>>    exit(EXIT_SUCCESS);
+>> }
+>> .fi
+>
+> This might be obvious to all of you, but it wasn't to me... The CPU s=
+et used
+> for the affinity is the intersection of the set passed to
+> pthread_setaffinity_np() and the set of processors supported by the
+> kernel...
+>
+> That's why your example shall work, even if the system where it runs =
+has
+> less than 8 processors.
+
+It's true.  The page should say something to make this clearer.  I
+added this text to NOTES
+
+       After a call to  pthread_setaffinity_np(3),  the  set  of
+       CPUs  on which the thread will actually run is the inter-
+       section of the set specified in the cpuset  argument  and
+       the set of CPUs actually present on the system.  The sys-
+       tem may further restrict the set of  CPUs  on  which  the
+       thread  runs  if  the  "cpuset"  mechanism  described  in
+       cpuset(7) is  being  used.   These  restrictions  on  the
+       actual  set  of  CPUs  on  which  the thread will run are
+       silently imposed by the kernel.
+
+Thanks for these insightful comments Lo=EFc!
 
 Cheers,
 
 Michael
 
-.\" Copyright (C) 2006 Michael Kerrisk
-.\" and Copyright (C) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH CPU_SET 2 2008-11-13 "Linux" "Linux Programmer's Manual"
-.SH NAME
-CPU_SET, CPU_CLR, CPU_ISSET, CPU_ZERO, CPU_COUNT,
-CPU_AND, CPU_OR, CPU_XOR, CPU_EQUAL,
-CPU_ALLOC, CPU_ALLOC_SIZE, CPU_FREE,
-CPU_SET_S, CPU_CLR_S, CPU_ISSET_S, CPU_ZERO_S,
-CPU_COUNT_S, CPU_AND_S, CPU_OR_S, CPU_XOR_S, CPU_EQUAL_S \-
-macros for manipulating CPU sets
-.SH SYNOPSIS
-.nf
-.B #define _GNU_SOURCE
-.B #include <sched.h>
-.sp
-.BI "void CPU_ZERO(cpu_set_t *" set );
-.sp
-.BI "void CPU_SET(int " cpu ", cpu_set_t *" set );
-.BI "void CPU_CLR(int " cpu ", cpu_set_t *" set );
-.BI "int  CPU_ISSET(int " cpu ", cpu_set_t *" set );
-.sp
-.BI "void CPU_COUNT(cpu_set_t *" set );
-.sp
-.BI "void CPU_AND(cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.BI "void CPU_OR(cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.BI "void CPU_XOR(cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.sp
-.BI "int  CPU_EQUAL(cpu_set_t *" set1 ", cpu_set_t *" set2 );
-.sp
-.BI "cpu_set_t *CPU_ALLOC(int " num_cpus );
-.BR "void CPU_FREE(cpu_set_t *" set );
-.BI "size_t CPU_ALLOC_SIZE(int " num_cpus );
-.sp
-.BI "void CPU_ZERO_S(size_t " setsize ", cpu_set_t *" set );
-.sp
-.BI "void CPU_SET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-.BI "void CPU_CLR_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-.BI "int  CPU_ISSET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-.sp
-.BI "void CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
-.sp
-.BI "void CPU_AND_S(size_t " setsize ", cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.BI "void CPU_OR_S(size_t " setsize ", cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.BI "void CPU_XOR_S(size_t " setsize ", cpu_set_t *" destset ,
-.BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-.sp
-.BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
-", cpu_set_t *" set2 );
-.fi
-.SH DESCRIPTION
-The
-.I cpu_set_t
-data structure represents a set of CPUs.
-CPU sets are used by
-.BR sched_setaffinity (2)
-and similar interfaces.
-
-The
-.I cpu_set_t
-data type is implemented as a bitset.
-However, the data structure treated as considered opaque:
-all manipulation of CPU sets should be done via the macros
-described in this page.
-
-The following macros are provided to operate on the CPU set
-.IR set :
-.TP 17
-.BR CPU_ZERO ()
-Clears
-.IR set ,
-so that it contains no CPUs.
-.TP
-.BR CPU_SET ()
-Add CPU
-.I cpu
-to
-.IR set .
-.TP
-.BR CPU_CLR ()
-Remove CPU
-.I cpu
-from
-.IR set .
-.TP
-.BR CPU_ISSET ()
-Test to see if CPU
-.I cpu
-is a member of
-.IR set .
-.TP
-.BR CPU_COUNT ()
-Return the number of CPUs in
-.IR set .
-.PP
-Where a
-.I cpu
-argument is specified, it should not produce side effects,
-since the above macros may evaluate the argument more than once.
-.PP
-The first available CPU on the system corresponds to a
-.I cpu
-value of 0, the next CPU corresponds to a
-.I cpu
-value of 1, and so on.
-The constant
-.B CPU_SETSIZE
-(currently 1024) specifies a value one greater than the maximum CPU
-number that can be stored in
-.IR cpu_set_t .
-
-The following macros perform logical operations on CPU sets:
-.TP 17
-.BR CPU_AND ()
-Store the logical AND of the sets
-.I srcset1
-and
-.I srcset2
-in
-.I destset
-(which may be one of the source sets).
-.TP
-.BR CPU_OR ()
-Store the logical OR of the sets
-.I srcset1
-and
-.I srcset2
-in
-.I destset
-(which may be one of the source sets).
-.TP
-.BR CPU_XOR ()
-Store the logical XOR of the sets
-.I srcset1
-and
-.I srcset2
-in
-.I destset
-(which may be one of the source sets).
-.TP
-.BR CPU_EQUAL ()
-Test whether two CPU set contain exactly the same CPUs.
-.SS Dynamically sized CPU sets
-Because some applications may require the ability to dynamically
-size CPU sets (e.g., to allocate sets larger than that
-defined by the standard
-.I cpu_set_t
-data type), glibc nowadays provides a set of macros to support this.
-
-The following macros are used to allocate and deallocate CPU sets:
-.TP 17
-.BR CPU_ALLOC ()
-Allocate a CPU set large enough to hold CPUs
-in the range 0 to
-.IR num_cpus-1 .
-.TP
-.BR CPU_ALLOC_SIZE ()
-Return the size in bytes of the CPU set that would be needed to
-hold CPUs in the range 0 to
-.IR num_cpus-1 .
-This macro provides the value that can be used for the
-.I setsize
-argument in the
-.BR CPU_*_S ()
-macros described below.
-.TP
-.BR CPU_FREE ()
-Free a CPU set previously allocated by
-.BR CPU_ALLOC ().
-.PP
-The macros whose names end with "_S" are the analogs of
-the similarly named macros without the suffix.
-These macros perform the same tasks as their analogs,
-but operate on the dynamically allocated CPU set(s) whose size is
-.I setsize
-bytes.
-.SH "RETURN VALUE"
-.BR CPU_ISSET ()
-and
-.BR CPU_ISSET_S ()
-return non-zero if
-.I cpu
-is in
-.IR set ;
-otherwise, it returns 0.
-
-.BR CPU_COUNT ()
-and
-.BR CPU_COUNT_S ()
-return the number of CPUs in
-.IR set .
-
-.BR CPU_EQUAL ()
-and
-.BR CPU_EQUAL_S ()
-return non-zero if the two CPU sets are equal; otherwise it returns 0.
-
-.BR CPU_ALLOC ()
-returns a pointer on success, or NULL on failure.
-(Errors are as for
-.BR malloc (3).)
-
-.BR CPU_ALLOC_SIZE ()
-returns the number of bytes required to store a
-CPU set of the specified cardinality.
-
-The other functions do not return a value.
-.SH VERSIONS
-The
-.BR CPU_ZERO (),
-.BR CPU_SET (),
-.BR CPU_CLR (),
-and
-.BR CPU_ISSET ()
-macros were added in glibc 2.3.3.
-
-.BR CPU_COUNT ()
-first appeared in glibc 2.6.
-
-.BR CPU_AND (),
-.BR CPU_OR (),
-.BR CPU_XOR (),
-.BR CPU_EQUAL (),
-.BR CPU_ALLOC (),
-.BR CPU_ALLOC_SIZE (),
-.BR CPU_FREE (),
-.BR CPU_ZERO_S (),
-.BR CPU_SET_S (),
-.BR CPU_CLR_S (),
-.BR CPU_ISSET_S (),
-.BR CPU_AND_S (),
-.BR CPU_OR_S (),
-.BR CPU_XOR_S (),
-and
-.BR CPU_EQUAL_S ()
-first appeared in glibc 2.7.
-.SH "CONFORMING TO"
-These interfaces are Linux-specific.
-.SH NOTES
-To duplicate a CPU set, use
-.BR memcpy (3).
-
-Since CPU sets are bitsets allocated in units of long words,
-the actual number of CPUs in a dynamically
-allocated CPU set will be rounded up to the next multiple of
-.IR "sizeof(unsigned long)" .
-An application should consider the contents on these extra bits
-to be undefined.
-
-Note that the constant
-.B CPU_SETSIZE
-indicated the number of CPUs in the
-.I cpu_set_t
-data type (thus, it is effectively a count of bits in the bitset),
-while the
-.I setsize
-argument of the
-.BR CPU_*_S ()
-macros is a size in bytes.
-.SH EXAMPLE
-The following program demonstrates the use of some of the macros
-used for dynamically allocated CPU sets.
-
-.nf
-#define _GNU_SOURCE
-#include <sched.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <assert.h>
-
-int
-main(int argc, char *argv[])
-{
-    cpu_set_t *cpusetp;
-    size_t size;
-    int num_cpus, cpu;
-
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s <num\-cpus>\\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    num_cpus = atoi(argv[1]);
-
-    cpusetp = CPU_ALLOC(num_cpus);
-    if (cpusetp == NULL) {
-        perror("CPU_ALLOC");
-        exit(EXIT_FAILURE);
-    }
-
-    size = CPU_ALLOC_SIZE(num_cpus);
-
-    CPU_ZERO_S(size, cpusetp);
-    for (cpu = 0; cpu < num_cpus; cpu += 2)
-        CPU_SET_S(cpu, size, cpusetp);
-
-    printf("CPU_COUNT() of set:    %d\\n", CPU_COUNT_S(size, cpusetp));
-
-    CPU_FREE(cpusetp);
-    exit(EXIT_SUCCESS);
-}
-.fi
-.SH BUGS
-On 32-bit platforms with glibc 2.8 and earlier,
-.BR CPU_ALLOC ()
-allocates twice as much space as is required, and
-.BR CPU_ALLOC_SIZE ()
-returns a value twice as large as it should.
-The only consequences for most programs is wasted space,
-and slightly less efficient operation of the macros that
-operate on dynamically allocated CPU sets.
-These bugs are fixed in glibc 2.9.
-.\" http://sourceware.org/bugzilla/show_bug.cgi?id=7029
-.SH "SEE ALSO"
-.BR sched_setaffinity (2),
-.BR pthread_attr_setaffinity_np (3),
-.BR pthread_setaffinity_np (3),
-.BR cpuset (7)
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
