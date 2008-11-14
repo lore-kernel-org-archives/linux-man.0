@@ -1,59 +1,249 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: CPU_SET.3
-Date: Fri, 14 Nov 2008 12:01:17 -0500
-Message-ID: <cfd18e0f0811140901i53ad05d3w194092e26fca880@mail.gmail.com>
-References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
-	 <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
-	 <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
-	 <36ca99e90811140802w421a6846ga3c76546ffd25c5a@mail.gmail.com>
+Subject: For review: pthread_cancel.3
+Date: Fri, 14 Nov 2008 12:17:44 -0500
+Message-ID: <cfd18e0f0811140917q5340504akc53d7ffa3eea483@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <36ca99e90811140802w421a6846ga3c76546ffd25c5a-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Bert,
+Any reviewer for pthread_cancel(3)?
 
-[...]
-
->>> Even I like to see the equivalent C prototypes, I think this should be
->>> noted earlier that these are actually macros.
->>
->> Well, I do mention that they are macros a number of times.  What more
->> do you think I should add?
-> Hmm, I thought something like "hey these are only theoretical C prototypes"
-
-How about this text, which I added to notes:
-
-==
-The data types for arguments and return values shown
-in the SYNOPSIS are hints what about is expected in each case.
-However, since these these interfaces are implemented as macros,
-the compiler won't necessarily catch all type errors
-if you violate the suggestions.
-==
-
-> New version looks good.
-
-Thanks for looking it over.
-
-Cheers,
+Thanks,
 
 Michael
 
+.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH PTHREAD_CANCEL 3 2008-11-14 "Linux" "Linux Programmer's Manual"
+.SH NAME
+pthread_cancel \- send a cancellation request to a thread
+.SH SYNOPSIS
+.nf
+.B #include <pthread.h>
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+.BI "int pthread_(pthread_t " thread );
+.sp
+Compile and link with \fI\-pthread\fP.
+.SH DESCRIPTION
+The
+.BR pthread_cancel ()
+function sends a cancellation request to the thread
+.IR thread .
+Whether and when the target thread
+reacts to the cancellation request depends on
+two attributes that are under the control of that thread:
+its cancelability \fIstate\fP and \fItype\fP.
+
+A thread's cancelability state, determined by
+.BR pthread_setcancelstate (3),
+can be
+.I enabled
+or
+.IR disabled .
+If a thread has disabled cancellation,
+then a cancellation request remains queued until the thread
+enables cancellation.
+If a thread has enabled cancellation,
+then its cancelability type determines when cancellation occurs.
+
+A thread's cancellation type, determined by
+.BR pthread_setcanceltype (3),
+may be either
+.IR asynchronous
+or
+.IR deferred .
+Asynchronous cancelability
+means that the thread can be canceled at any time
+(usually immediately, but the system does not guarantee this).
+Deferred cancelability means that cancellation will be delayed until
+the thread next calls a function that is a
+.IR "cancellation point" .
+A list of functions that are or may be cancellation points is provided in
+.IR pthreads (7).
+
+When a cancellation requested is acted on, the following steps occur for
+.IR thread
+(in this order):
+.IP 1. 3
+Cancellation clean-up handlers are popped
+(in the reverse of the order in which they were pushed) and called.
+(See
+.BR pthread_cleanup_push (3).)
+.IP 2.
+Thread-specific data destructors are called,
+in an unspecified order.
+(See
+.BR pthread_key_create (3).)
+.IP 3.
+The thread is terminated.
+(See
+.BR pthread_exit (3).)
+.PP
+The above steps happen asynchronously with respect to the
+.BR pthread_cancel ()
+call;
+the return status of
+.BR pthread_cancel ()
+merely informs the caller whether the cancellation request
+was successfully queued.
+.PP
+After a canceled thread has terminated,
+a join with that thread using
+.BR pthread_join (3)
+obtains
+.B PTHREAD_CANCELED
+as the thread's exit status.
+.SH RETURN VALUE
+On success,
+.BR pthread_cancel ()
+returns 0;
+on error, it returns a non-zero error number.
+.SH ERRORS
+.TP
+.B ESRCH
+Could not find a thread matching the ID
+.IR thread .
+.\" .SH VERSIONS
+.\" Available since glibc 2.0
+.SH CONFORMING TO
+POSIX.1-2001.
+.SH NOTES
+On Linux, cancellation is implemented using signals.
+Under the NPTL threading implementation,
+the first real-time signal (i.e., signal 32) is used for this purpose.
+On LinuxThreads, the second real-time signal is used,
+if real-time signals are available, otherwise
+.B SIGUSR2
+is used.
+.SH EXAMPLE
+The program below creates a thread and then cancels it.
+The main thread joins with the canceled thread to check
+that its exit status was
+.BR PTHREAD_CANCELED .
+The following shell session shows what happens when we run the program:
+
+.in +4n
+.nf
+$ ./a.out
+thread_func(): started; cancellation disabled
+main(): sending cancellation request
+thread_func(): about to enable cancellation
+main(): thread was canceled
+.fi
+.in
+.SS Program source
+\&
+.nf
+#include <pthread.h>
+#include <stdio.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define handle_error_en(en, msg) \\
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+
+static void *
+thread_func(void *ignored_argument)
+{
+    int s;
+
+    /* Disable cancellation for a while, so that we don\(aqt
+       immediately react to a cancellation request */
+
+    s = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+    if (s != 0)
+        handle_error_en(s, "pthread_setcancelstate");
+
+    printf("thread_func(): started; cancellation disabled\\n");
+    sleep(5);
+    printf("thread_func(): about to enable cancellation\\n");
+
+    s = pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    if (s != 0)
+        handle_error_en(s, "pthread_setcancelstate");
+
+    /* sleep() is a cancellation point */
+
+    sleep(1000);        /* Should get canceled while we sleep */
+
+    /* Should never get here */
+
+    printf("thread_func(): not canceled!\\n");
+    return NULL;
+}
+
+int
+main(void)
+{
+    pthread_t thr;
+    void *res;
+    int s;
+
+    /* Start a thread and then send it a cancellation request */
+
+    s = pthread_create(&thr, NULL, &thread_func, NULL);
+    if (s != 0)
+        handle_error_en(s, "pthread_create");
+
+    sleep(2);           /* Give thread a chance to get started */
+
+    printf("main(): sending cancellation request\\n");
+    s = pthread_cancel(thr);
+    if (s != 0)
+        handle_error_en(s, "pthread_cancel");
+
+    /* Join with thread to see what its exit status was */
+
+    s = pthread_join(thr, &res);
+    if (s != 0)
+        handle_error_en(s, "pthread_join");
+
+    if (res == PTHREAD_CANCELED)
+        printf("main(): thread was canceled\\n");
+    else
+        printf("main(): thread wasn\(aqt canceled (shouldn\(aqt happen!)\\n");
+    exit(EXIT_SUCCESS);
+}
+.fi
+.SH SEE ALSO
+.BR pthread_cleanup_push (3),
+.BR pthread_create (3),
+.BR pthread_exit (3),
+.BR pthread_join (3),
+.BR pthread_key_create (3),
+.BR pthread_setcancelstate (3),
+.BR pthread_setcanceltype (3),
+.BR pthread_testcancel (3),
+.BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
