@@ -1,83 +1,233 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Delivery Status Notification (Failure)
-Date: Fri, 14 Nov 2008 10:45:25 -0500
-Message-ID: <cfd18e0f0811140745k69075aend9686e463c9c1a4d@mail.gmail.com>
-References: <cfd18e0f0811140738i33f2c671kc99bbb7750f2fa44@mail.gmail.com>
-	 <001636c5b6831e5a44045ba80779@googlemail.com>
+Subject: Re: For review: pthread_setaffinity_np.3
+Date: Fri, 14 Nov 2008 10:50:47 -0500
+Message-ID: <cfd18e0f0811140750r5a22255bx7bd53c580b42cc6@mail.gmail.com>
+References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074@mail.gmail.com>
+	 <4916133A.8060209@domaigne.com>
+	 <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <001636c5b6831e5a44045ba80779-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Li Zefan <lizf-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Lee.Schermerhorn-VXdhtT5mjnY@public.gmane.org, rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Hidetoshi Seto <seto.hidetoshi-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Christoph Lame
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Bother!  Mail to Paul Jackson bounced from the last address I had for
-him.  Anyway know an up-to-date address?
+And, for completeness: the current version of the page is below.
 
-On Fri, Nov 14, 2008 at 10:38 AM, Mail Delivery Subsystem
-<mailer-daemon-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> This is an automatically generated Delivery Status Notification
->
-> Delivery to the following recipient failed permanently:
->
->     pj-sJ/iWh9BUns@public.gmane.org
->
-> Technical details of permanent failure:
-> Google tried to deliver your message, but it was rejected by the recipient domain. We recommend contacting the other email provider for further information about the cause of this error. The error that the other server returned was: 550 550 cuda_nsu 5.7.1 <pj-sJ/iWh9BUns@public.gmane.org>: Recipient address rejected: THIS USER IS NO LONGER WITH SGI. CONTACT help-sJ/iWh9BUns@public.gmane.org IF YOU NEED INFO. (state 14).
->
->   ----- Original message -----
->
-> Received: by 10.180.222.1 with SMTP id u1mr289004bkg.62.1226677136648;
->        Fri, 14 Nov 2008 07:38:56 -0800 (PST)
-> Received: by 10.181.33.19 with HTTP; Fri, 14 Nov 2008 07:38:56 -0800 (PST)
-> Message-ID: <cfd18e0f0811140738i33f2c671kc99bbb7750f2fa44-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> Date: Fri, 14 Nov 2008 10:38:56 -0500
-> From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-> Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-> To: "Loic Domaigne" <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, "Paul Jackson" <pj-sJ/iWh9BUns@public.gmane.org>
-> Subject: Re: For review: pthread_setaffinity_np.3
-> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org,
->        "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>,
->        "Bert Wesarg" <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>,
->        "Stefan Puiu" <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>,
->        "Karsten Weiss" <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
-> In-Reply-To: <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=ISO-8859-1
-> Content-Transfer-Encoding: 7bit
-> Content-Disposition: inline
-> References: <cfd18e0f0811041447w57dd5de4he68ca780ed963074-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->         <4916133A.8060209-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
->         <cfd18e0f0811140704l18e5741fgdbb5a6c52fb8cbe7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
->
-> [CC += "Paul Jackson" <pj-sJ/iWh9BUns@public.gmane.org>, who might want to Ack the patch below]
->
->>> This might be obvious to all of you, but it wasn't to me... The CPU set used
->>> for the affinity is the intersection of the set passed to
->>> pthread_setaffinity_np() and the set of processors supported by the
->>> kernel...
->>>
->>> That's why your example shall work, even if the system where it runs has
->>> less than 8 processors.
->>
->
->   ----- Message truncated -----
->
->
+Thanks,
 
+Michael
 
+.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH PTHREAD_SETAFFINITY_NP 3 2008-11-14 "Linux" "Linux Programmer's Manual"
+.SH NAME
+pthread_setaffinity_np, pthread_getaffinity_np \- set/get
+CPU affinity of a thread
+.SH SYNOPSIS
+.nf
+.B #define _GNU_SOURCE
+.B #include <pthread.h>
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+.BI "int pthread_setaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
+.BI "                           const cpu_set_t *" cpuset );
+.BI "int pthread_getaffinity_np(pthread_t " thread ", size_t " cpusetsize ,
+.BI "                           cpu_set_t *" cpuset );
+.sp
+Compile and link with \fI\-pthread\fP.
+.SH DESCRIPTION
+The
+.BR pthread_setaffinity_np ()
+sets the CPU affinity mask of the thread
+.I thread
+to the CPU set pointed to by
+.IR cpuset .
+If the call is successful,
+and the thread is not currently running on one of the CPUs in
+.IR cpuset ,
+then it is migrated to one of those CPUs.
+
+The
+.BR pthread_getaffinity_np ()
+function returns the CPU affinity mask of the thread
+.I thread
+in the buffer pointed to by
+.IR cpuset .
+
+For more details on CPU affinity masks, see
+.BR sched_setaffinity (2).
+For a description of a set of macros
+that can be used to manipulate and inspect CPU sets, see
+.BR CPU_SET (3).
+
+The argument
+.I cpusetsize
+is the length (in bytes) of the buffer pointed to by
+.IR cpuset .
+Typically, this argument would be specified as
+.IR sizeof(cpu_set_t) .
+(It may be some other value, if using the macros described in
+.BR CPU_SET (3)
+for dynamically allocating a CPU set.)
+.SH RETURN VALUE
+On success, these functions return 0;
+on error, they return a non-zero error number.
+.SH ERRORS
+.TP
+.B EFAULT
+A supplied memory address was invalid.
+.TP
+.B EINVAL
+.RB ( pthread_setaffinity_np ())
+The affinity bit mask
+.I mask
+contains no processors that are currently physically on the system
+and permitted to the thread according to any restrictions that
+may be imposed by the "cpuset" mechanism described in
+.BR cpuset (7).
+.TP
+.BR EINVAL
+.RB ( pthread_setaffinity_np ())
+.I cpuset
+specified a CPU that was outside the set supported by the kernel.
+(The kernel configuration option
+.BR CONFIG_NR_CPUS
+defines the range of the set supported by the kernel data type
+.\" cpumask_t
+used to represent CPU sets.)
+.\" The raw sched_getaffinity() system call returns the size (in bytes)
+.\" of the cpumask_t type.
+.TP
+.B EINVAL
+.RB ( pthread_getaffinity_np ())
+.I cpusetsize
+is smaller than the size of the affinity mask used by the kernel.
+.TP
+.B ESRCH
+There is no thread matching
+.IR thread
+(e.g., perhaps that thread has already terminated and been joined).
+.SH VERSIONS
+These functions are provided by glibc since version 2.3.4.
+.SH CONFORMING TO
+These functions are non-standard GNU extensions;
+hence the suffix "_np" (non-portable) in the names.
+.SH NOTES
+After a call to
+.BR pthread_setaffinity_np (),
+the set of CPUs on which the thread will actually run is
+the intersection of the set specified in the
+.I cpuset
+argument and the set of CPUs actually present on the system.
+The system may further restrict the set of CPUs on which the thread
+runs if the "cpuset" mechanism described in
+.BR cpuset (7)
+is being used.
+These restrictions on the actual set of CPUs on which the thread
+will run are silently imposed by the kernel.
+
+These functions are implemented on top of the
+.BR sched_setaffinity (2)
+and
+.BR sched_getaffinity (2)
+system calls.
+
+In glibc 2.3.3 only,
+versions of these functions were provided that did not have a
+.I cpusetsize
+argument.
+Instead the CPU set size given to the underlying system calls was always
+.IR sizeof(cpu_set_t) .
+
+A new thread created by
+.BR pthread_create ()
+inherits a copy of its creator's CPU affinity mask.
+.SH EXAMPLE
+In the following program, the main thread uses
+.BR pthread_setaffinity_np ()
+to set its CPU affinity mask to include CPUs 0 to 7
+(which may not all be available on the system),
+and then calls
+.BR pthread_getaffinity_np ()
+to check the resulting CPU affinity mask of the thread.
+
+.nf
+#define _GNU_SOURCE
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
+
+#define handle_error_en(en, msg) \\
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    int s, j;
+    cpu_set_t cpuset;
+    pthread_t thread;
+
+    thread = pthread_self();
+
+    /* Set affinity mask to include CPUs 0 to 7 */
+
+    CPU_ZERO(&cpuset);
+    for (j = 0; j < 8; j++)
+        CPU_SET(j, &cpuset);
+
+    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+    if (s != 0)
+        handle_error_en(s, "pthread_setaffinity_np");
+
+    /* Check the actual affinity mask assigned to the thread */
+
+    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+    if (s != 0)
+        handle_error_en(s, "pthread_getaffinity_np");
+
+    printf("Set returned by pthread_getaffinity_np() contained:\\n");
+    for (j = 0; j < CPU_SETSIZE; j++)
+        if (CPU_ISSET(j, &cpuset))
+            printf("    CPU %d\\n", j);
+
+    exit(EXIT_SUCCESS);
+}
+.fi
+.SH SEE ALSO
+.BR sched_getcpu (3),
+.BR sched_setaffinity (2),
+.BR sched_setscheduler (2),
+.BR pthread_attr_setaffinity_np (3),
+.BR pthread_self (3),
+.BR cpuset (7),
+.BR pthreads (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
