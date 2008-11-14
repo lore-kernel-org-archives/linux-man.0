@@ -1,125 +1,117 @@
-From: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
-Subject: Re: [PATCH] reintroduce accept4
-Date: Thu, 13 Nov 2008 16:07:38 -0800 (PST)
-Message-ID: <20081113.160738.193690346.davem@davemloft.net>
-References: <18716.43376.534965.688695@cargo.ozlabs.ibm.com>
-	<18716.43543.256621.825529@cargo.ozlabs.ibm.com>
-	<20081113145737.96898aaf.akpm@linux-foundation.org>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: CPU_SET.3
+Date: Thu, 13 Nov 2008 22:08:47 -0500
+Message-ID: <cfd18e0f0811131908y4b948844m680566bb27404666@mail.gmail.com>
+References: <cfd18e0f0811130606k1586607cy7846aee91d37c53b@mail.gmail.com>
+	 <36ca99e90811131045o78507ee9wd603a3d64ea79c29@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081113145737.96898aaf.akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
-Cc: paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, oleg-6lXkIZvqkOAvJsYlp49lxw@public.gmane.org, hch-jcswGhMUV9g@public.gmane.org, alan-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <36ca99e90811131045o78507ee9wd603a3d64ea79c29-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Date: Thu, 13 Nov 2008 14:57:37 -0800
+Hi Bert,
 
-> Here's the latest version, for review-n-test enjoyment:
+Thanks for looking this over.
 
-This adds the sparc syscall hookups.
+On Thu, Nov 13, 2008 at 1:45 PM, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hi Michael,
+>
+> On Thu, Nov 13, 2008 at 15:06, Michael Kerrisk
+> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+>> Hi Bert,
+>>
+>> I created this page by removing the CPU_*() material from
+>> sched_setscheduler.2 and adding documentation of the many other macros
+>> that have been added in more recent glibc releases.
+>>
+>> I remember looking at a mail thread you pointed at a few days back
+>> where you said the interface of the CPU_*S() macros is somewhat
+>> confusing in its use of bits in some places, and bytes in others.
+>> It's hard to disagree with you -- so I included an example in the
+>> man-pages which hopefully might reduce the confusion.
+>>
+>> Of course, since these are macros, my use of types in the prototypes
+>> in the SYNOPSIS is in many cases invention; let me know if something
+>> looks weird.
+>>
+>> Also, take a look at
+>> http://sourceware.org/bugzilla/show_bug.cgi?id=7029.  Unless I'm
+>> confused (which is always possible), this is a real bug.  Do you
+>> agree?
+> "It's hard to disagree with you." I can confirm this here on my x86-64
+> box, a x86-32 exec returns 2048 the x86-64 1024.
 
-Signed-off-by: David S. Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Yep.  In fact UD has already fixed it today.
 
-diff --git a/arch/sparc/include/asm/unistd_32.h b/arch/sparc/include/asm/unistd_32.h
-index 648643a..0d13d2a 100644
---- a/arch/sparc/include/asm/unistd_32.h
-+++ b/arch/sparc/include/asm/unistd_32.h
-@@ -338,8 +338,9 @@
- #define __NR_dup3		320
- #define __NR_pipe2		321
- #define __NR_inotify_init1	322
-+#define __NR_accept4		323
- 
--#define NR_SYSCALLS		323
-+#define NR_SYSCALLS		324
- 
- /* Sparc 32-bit only has the "setresuid32", "getresuid32" variants,
-  * it never had the plain ones and there is no value to adding those
-diff --git a/arch/sparc/include/asm/unistd_64.h b/arch/sparc/include/asm/unistd_64.h
-index c5cc0e0..fa5d3c0 100644
---- a/arch/sparc/include/asm/unistd_64.h
-+++ b/arch/sparc/include/asm/unistd_64.h
-@@ -340,8 +340,9 @@
- #define __NR_dup3		320
- #define __NR_pipe2		321
- #define __NR_inotify_init1	322
-+#define __NR_accept4		323
- 
--#define NR_SYSCALLS		323
-+#define NR_SYSCALLS		324
- 
- #ifdef __KERNEL__
- #define __ARCH_WANT_IPC_PARSE_VERSION
-diff --git a/arch/sparc/kernel/systbls.S b/arch/sparc/kernel/systbls.S
-index e1b9233..7d08075 100644
---- a/arch/sparc/kernel/systbls.S
-+++ b/arch/sparc/kernel/systbls.S
-@@ -81,4 +81,4 @@ sys_call_table:
- /*305*/	.long sys_set_mempolicy, sys_kexec_load, sys_move_pages, sys_getcpu, sys_epoll_pwait
- /*310*/	.long sys_utimensat, sys_signalfd, sys_timerfd_create, sys_eventfd, sys_fallocate
- /*315*/	.long sys_timerfd_settime, sys_timerfd_gettime, sys_signalfd4, sys_eventfd2, sys_epoll_create1
--/*320*/	.long sys_dup3, sys_pipe2, sys_inotify_init1
-+/*320*/	.long sys_dup3, sys_pipe2, sys_inotify_init1, sys_accept4
-diff --git a/arch/sparc64/kernel/sys32.S b/arch/sparc64/kernel/sys32.S
-index ade18ba..f061c4d 100644
---- a/arch/sparc64/kernel/sys32.S
-+++ b/arch/sparc64/kernel/sys32.S
-@@ -150,7 +150,7 @@ sys32_mmap2:
- sys32_socketcall:	/* %o0=call, %o1=args */
- 	cmp		%o0, 1
- 	bl,pn		%xcc, do_einval
--	 cmp		%o0, 17
-+	 cmp		%o0, 18
- 	bg,pn		%xcc, do_einval
- 	 sub		%o0, 1, %o0
- 	sllx		%o0, 5, %o0
-@@ -319,6 +319,15 @@ do_sys_recvmsg: /* compat_sys_recvmsg(int, struct compat_msghdr *, unsigned int)
- 	nop
- 	nop
- 	nop
-+do_sys_accept4: /* sys_accept4(int, struct sockaddr *, int *, int) */
-+63:	ldswa		[%o1 + 0x0] %asi, %o0
-+	sethi		%hi(sys_accept4), %g1
-+64:	lduwa		[%o1 + 0x8] %asi, %o2
-+65:	ldswa		[%o1 + 0xc] %asi, %o3
-+	jmpl		%g1 + %lo(sys_accept4), %g0
-+66:	 lduwa		[%o1 + 0x4] %asi, %o1
-+	nop
-+	nop
- 
- 	.section	__ex_table,"a"
- 	.align		4
-@@ -353,4 +362,6 @@ do_sys_recvmsg: /* compat_sys_recvmsg(int, struct compat_msghdr *, unsigned int)
- 	.word		57b, __retl_efault, 58b, __retl_efault
- 	.word		59b, __retl_efault, 60b, __retl_efault
- 	.word		61b, __retl_efault, 62b, __retl_efault
-+	.word		63b, __retl_efault, 64b, __retl_efault
-+	.word		65b, __retl_efault, 66b, __retl_efault
- 	.previous
-diff --git a/arch/sparc64/kernel/systbls.S b/arch/sparc64/kernel/systbls.S
-index b2fa4c1..9fc78cf 100644
---- a/arch/sparc64/kernel/systbls.S
-+++ b/arch/sparc64/kernel/systbls.S
-@@ -82,7 +82,7 @@ sys_call_table32:
- 	.word compat_sys_set_mempolicy, compat_sys_kexec_load, compat_sys_move_pages, sys_getcpu, compat_sys_epoll_pwait
- /*310*/	.word compat_sys_utimensat, compat_sys_signalfd, sys_timerfd_create, sys_eventfd, compat_sys_fallocate
- 	.word compat_sys_timerfd_settime, compat_sys_timerfd_gettime, compat_sys_signalfd4, sys_eventfd2, sys_epoll_create1
--/*320*/	.word sys_dup3, sys_pipe2, sys_inotify_init1
-+/*320*/	.word sys_dup3, sys_pipe2, sys_inotify_init1, sys_accept4
- 
- #endif /* CONFIG_COMPAT */
- 
-@@ -156,4 +156,4 @@ sys_call_table:
- 	.word sys_set_mempolicy, sys_kexec_load, sys_move_pages, sys_getcpu, sys_epoll_pwait
- /*310*/	.word sys_utimensat, sys_signalfd, sys_timerfd_create, sys_eventfd, sys_fallocate
- 	.word sys_timerfd_settime, sys_timerfd_gettime, sys_signalfd4, sys_eventfd2, sys_epoll_create1
--/*320*/	.word sys_dup3, sys_pipe2, sys_inotify_init1
-+/*320*/	.word sys_dup3, sys_pipe2, sys_inotify_init1, sys_accept4
+[...]
+
+>> .BI "int  CPU_EQUAL_S(size_t " setsize ", cpu_set_t *" set1 \
+>> ", cpu_set_t *" set2 );
+> Even I like to see the equivalent C prototypes, I think this should be
+> noted earlier that these are actually macros.
+
+Well, I do mention that they are macros a number of times.  What more
+do you think I should add?
+
+> Also, I would like to see a note that the cpu_set_t type is opaque (as
+> from the glibc manual)
+
+I added something on that.
+
+> but there is no official copy operator. The
+> glibc developer suggest using memcpy for this (see the reminder of
+> this thread I posted).
+
+Yes, good point.  I Added a NOTES section mentioning memcpy(3).
+
+> And you should not use '=' because of the
+> dynamically allocated ones.
+>
+> Last but not least, because CPU_ALLOC{,_SIZE} rounds the num_cpus
+> argument up (i.e. CPU_ALLOC_SIZE(1) == sizeof(unsigned long)) there
+> are probably more cpus possible in this set than you requested, so
+> these blind bits should be mentioned as undefined.
+
+I added something in NOTES about this.
+
+> Now to the naming confusion, I think the main problem is CPU_SETSIZE
+> and the setsize arguement to the CPU_*_S macros. The former is in bits
+> the latter in bytes. Either put a note to CPU_SETSIZE that this is in
+> bits and you should not pass this as an setsize argument to any
+> CPU_*_S macro, because of the similar name. Or, rename the setsize
+> argument to something other, and use the setsize name for the
+> CPU_ALLOC{,_SIZE}, too.
+>
+> I think option one should suffice.
+
+Again, I added something to NOTES on this.
+
+[...]
+
+>> This macro provides the value that can be used for
+> the
+>> .I setsize
+> argument
+
+Done.
+
+Thanks Bert.
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
-To unsubscribe from this list: send the line "unsubscribe linux-api" in
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
