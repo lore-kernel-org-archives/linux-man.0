@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_cancel.3
-Date: Fri, 14 Nov 2008 12:17:44 -0500
-Message-ID: <cfd18e0f0811140917q5340504akc53d7ffa3eea483@mail.gmail.com>
+Subject: For review: pthread_cleanup_push.3
+Date: Fri, 14 Nov 2008 12:19:25 -0500
+Message-ID: <cfd18e0f0811140919g11e625a2i8546b3296d008dce@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -13,9 +13,9 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Any reviewer for pthread_cancel(3)?
+Any reviewer for pthread_cleanup_push(3)?
 
-Thanks,
+Cheers,
 
 Michael
 
@@ -42,206 +42,279 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH PTHREAD_CANCEL 3 2008-11-14 "Linux" "Linux Programmer's Manual"
+.TH PTHREAD_CLEANUP_PUSH 3 2008-11-14 "Linux" "Linux Programmer's Manual"
 .SH NAME
-pthread_cancel \- send a cancellation request to a thread
+pthread_cleanup_push, pthread_cleanup_pop \- push and pop
+thread cancellation clean-up handlers
 .SH SYNOPSIS
 .nf
 .B #include <pthread.h>
 
-.BI "int pthread_(pthread_t " thread );
+.BI "void pthread_cleanup_push(void (*" routine ")(void *),"
+.BI "                          void *" arg );
+.BI "void pthread_cleanup_pop(int " execute );
 .sp
 Compile and link with \fI\-pthread\fP.
 .SH DESCRIPTION
+These functions manipulate the calling thread's stack of
+thread-cancellation clean-up handlers.
+A clean-up handler is a function that is automatically executed
+when a thread is canceled (or in various other circumstances
+described below);
+it might, for example, unlock a mutex so that
+it becomes available to other threads in the process.
+
 The
-.BR pthread_cancel ()
-function sends a cancellation request to the thread
-.IR thread .
-Whether and when the target thread
-reacts to the cancellation request depends on
-two attributes that are under the control of that thread:
-its cancelability \fIstate\fP and \fItype\fP.
+.BR pthread_cleanup_push ()
+function pushes
+.I routine
+onto the top of the stack of clean-up handlers.
+When
+.I routine
+is later invoked, it will be given
+.I arg
+as its argument.
 
-A thread's cancelability state, determined by
-.BR pthread_setcancelstate (3),
-can be
-.I enabled
-or
-.IR disabled .
-If a thread has disabled cancellation,
-then a cancellation request remains queued until the thread
-enables cancellation.
-If a thread has enabled cancellation,
-then its cancelability type determines when cancellation occurs.
+The
+.BR pthread_cleanup_pop ()
+function removes the routine at the top of the stack of clean-up handlers,
+and optionally executes it if
+.I execute
+is non-zero.
 
-A thread's cancellation type, determined by
-.BR pthread_setcanceltype (3),
-may be either
-.IR asynchronous
-or
-.IR deferred .
-Asynchronous cancelability
-means that the thread can be canceled at any time
-(usually immediately, but the system does not guarantee this).
-Deferred cancelability means that cancellation will be delayed until
-the thread next calls a function that is a
-.IR "cancellation point" .
-A list of functions that are or may be cancellation points is provided in
-.IR pthreads (7).
-
-When a cancellation requested is acted on, the following steps occur for
-.IR thread
-(in this order):
+A cancellation clean-up handler is popped from the stack
+and executed in the following circumstances:
 .IP 1. 3
-Cancellation clean-up handlers are popped
-(in the reverse of the order in which they were pushed) and called.
-(See
-.BR pthread_cleanup_push (3).)
+When a thread is canceled,
+all of the stacked clean-up handlers are popped and executed in
+the reverse of the order in which they were pushed onto the stack.
 .IP 2.
-Thread-specific data destructors are called,
-in an unspecified order.
-(See
-.BR pthread_key_create (3).)
+When a thread terminates by calling
+.BR pthread_exit (3),
+all clean-up handlers are executed as described in the preceding point.
+(Clean-up handlers are \fInot\fP called if the thread terminates by
+performing a
+.I return
+from the thread start function.)
 .IP 3.
-The thread is terminated.
-(See
-.BR pthread_exit (3).)
+When a thread calls
+.BR pthread_cleanup_pop ()
+with a non-zero
+.I execute
+argument, the top-most clean-up handler is popped and executed.
 .PP
-The above steps happen asynchronously with respect to the
-.BR pthread_cancel ()
-call;
-the return status of
-.BR pthread_cancel ()
-merely informs the caller whether the cancellation request
-was successfully queued.
-.PP
-After a canceled thread has terminated,
-a join with that thread using
-.BR pthread_join (3)
-obtains
-.B PTHREAD_CANCELED
-as the thread's exit status.
+POSIX.1 permits
+.BR pthread_cleanup_push ()
+and
+.BR pthread_cleanup_pop ()
+to be implemented as macros that expand to text
+containing \(aq\fB{\fP\(aq and \(aq\fB}\fP\(aq, respectively.
+For this reason, the caller must ensure that calls to these
+functions are paired within the same function,
+and at the same lexical nesting level.
+(In other words, a clean-up handler is only established
+during the execution of a specified section of code.)
+
+Calling
+.BR longjmp (3)
+.RB ( siglongjmp (3))
+produces undefined results if any call has been made to
+.BR pthread_cleanup_push ()
+or
+.BR pthread_cleanup_pop ()
+without the matching call of the pair since the jump buffer
+was filled by
+.BR setjmp (3)
+.RB ( sigsetjmp (3)).
+Likewise, calling
+.BR longjmp (3)
+.RB ( siglongjmp (3))
+from inside a clean-up handler produces undefined results
+unless the jump buffer was also filled by
+.BR setjmp (3)
+.RB ( sigsetjmp (3))
+inside the handler.
 .SH RETURN VALUE
-On success,
-.BR pthread_cancel ()
-returns 0;
-on error, it returns a non-zero error number.
+These functions do not return a value.
 .SH ERRORS
-.TP
-.B ESRCH
-Could not find a thread matching the ID
-.IR thread .
-.\" .SH VERSIONS
+There are no errors.
+.\" SH VERSIONS
 .\" Available since glibc 2.0
 .SH CONFORMING TO
 POSIX.1-2001.
 .SH NOTES
-On Linux, cancellation is implemented using signals.
-Under the NPTL threading implementation,
-the first real-time signal (i.e., signal 32) is used for this purpose.
-On LinuxThreads, the second real-time signal is used,
-if real-time signals are available, otherwise
-.B SIGUSR2
-is used.
+On Linux, the
+.BR pthread_cleanup_push ()
+and
+.BR pthread_cleanup_pop ()
+functions \fIare\fP implemented as macros that expand to text
+containing \(aq\fB{\fP\(aq and \(aq\fB}\fP\(aq, respectively.
+This means that variables declared within the scope of
+paired calls to these functions will only be visible within that scope.
 .SH EXAMPLE
-The program below creates a thread and then cancels it.
-The main thread joins with the canceled thread to check
-that its exit status was
-.BR PTHREAD_CANCELED .
-The following shell session shows what happens when we run the program:
+The program below provides a simple example of the use of the functions
+described in this page.
+The program creates a thread that executes a loop bracketed by
+.BR pthread_cleanup_push ()
+and
+.BR pthread_cleanup_pop ().
+This loop executes a global variable,
+.IR cnt ,
+once each second.
+Depending on what command-line arguments are supplied,
+the main thread sends the other thread a cancellation request,
+or sets a global variable that causes the other thread
+to exit its loop and terminate normally (by doing a
+.IR return ).
+
+In the following shell session,
+the main thread sends a cancellation request to the other thread:
 
 .in +4n
 .nf
-$ ./a.out
-thread_func(): started; cancellation disabled
-main(): sending cancellation request
-thread_func(): about to enable cancellation
-main(): thread was canceled
+$ \fB./a.out\fP
+New thread started
+cnt = 0
+cnt = 1
+Canceling thread
+Called clean-up handler
+Thread was canceled; cnt = 0
 .fi
 .in
+
+>From the above, we see that the thread was canceled,
+and that the cancellation clean-up handler was called
+and it reset the value of the global variable
+.I cnt
+to 0.
+
+In the next run, the main program sets a
+global variable that causes other thread to terminate normally:
+
+.in +4n
+.nf
+$ \fB./a.out x\fP
+New thread started
+cnt = 0
+cnt = 1
+Thread terminated normally; cnt = 2
+.fi
+.in
+
+>From the above, we see that the clean-up handler was not executed (because
+.I cleanup_pop_arg
+was 0), and therefore the value of
+.I cnt
+was not reset.
+
+In the next run, the main program sets a global variable that
+causes the other thread to terminate normally,
+and supplies a non-zero value for
+.IR cleanup_pop_arg :
+
+.in +4n
+.nf
+$ \fB./a.out x 1\fP
+New thread started
+cnt = 0
+cnt = 1
+Called clean-up handler
+Thread terminated normally; cnt = 0
+.fi
+.in
+
+In the above, we see that although the thread was not canceled,
+the clean-up handler was executed, because the argument given to
+.BR pthread_cleanup_pop ()
+was non-zero.
 .SS Program source
 \&
 .nf
 #include <pthread.h>
+#include <sys/types.h>
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 #define handle_error_en(en, msg) \\
         do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
 
-static void *
-thread_func(void *ignored_argument)
+static int done = 0;
+static int cleanup_pop_arg = 0;
+static int cnt = 0;
+
+static void
+cleanup_handler(void *arg)
 {
-    int s;
+    printf("Called clean\-up handler\\n");
+    cnt = 0;
+}
 
-    /* Disable cancellation for a while, so that we don\(aqt
-       immediately react to a cancellation request */
+static void *
+thread_start(void *arg)
+{
+    time_t start, curr;
 
-    s = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
-    if (s != 0)
-        handle_error_en(s, "pthread_setcancelstate");
+    printf("New thread started\\n");
 
-    printf("thread_func(): started; cancellation disabled\\n");
-    sleep(5);
-    printf("thread_func(): about to enable cancellation\\n");
+    pthread_cleanup_push(cleanup_handler, NULL);
 
-    s = pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-    if (s != 0)
-        handle_error_en(s, "pthread_setcancelstate");
+    curr = start = time(NULL);
 
-    /* sleep() is a cancellation point */
+    while (!done) {
+        pthread_testcancel();           /* A cancellation point */
+        if (curr < time(NULL)) {
+            curr = time(NULL);
+            printf("cnt = %d\\n", cnt);  /* A cancellation point */
+            cnt++;
+        }
+    }
 
-    sleep(1000);        /* Should get canceled while we sleep */
-
-    /* Should never get here */
-
-    printf("thread_func(): not canceled!\\n");
+    pthread_cleanup_pop(cleanup_pop_arg);
     return NULL;
 }
 
 int
-main(void)
+main(int argc, char *argv[])
 {
     pthread_t thr;
-    void *res;
     int s;
+    void *res;
 
-    /* Start a thread and then send it a cancellation request */
-
-    s = pthread_create(&thr, NULL, &thread_func, NULL);
+    s = pthread_create(&thr, NULL, thread_start, (void *) 1);
     if (s != 0)
         handle_error_en(s, "pthread_create");
 
-    sleep(2);           /* Give thread a chance to get started */
+    sleep(2);           /* Allow new thread to run a while */
 
-    printf("main(): sending cancellation request\\n");
-    s = pthread_cancel(thr);
-    if (s != 0)
-        handle_error_en(s, "pthread_cancel");
+    if (argc > 1) {
+        if (argc > 2)
+            cleanup_pop_arg = atoi(argv[2]);
+        done = 1;
 
-    /* Join with thread to see what its exit status was */
+    } else {
+        printf("Canceling thread\\n");
+        s = pthread_cancel(thr);
+        if (s != 0)
+            handle_error_en(s, "pthread_cancel");
+    }
 
     s = pthread_join(thr, &res);
     if (s != 0)
         handle_error_en(s, "pthread_join");
 
     if (res == PTHREAD_CANCELED)
-        printf("main(): thread was canceled\\n");
+        printf("Thread was canceled; cnt = %d\\n", cnt);
     else
-        printf("main(): thread wasn\(aqt canceled (shouldn\(aqt happen!)\\n");
+        printf("Thread terminated normally; cnt = %d\\n", cnt);
     exit(EXIT_SUCCESS);
 }
 .fi
 .SH SEE ALSO
-.BR pthread_cleanup_push (3),
-.BR pthread_create (3),
-.BR pthread_exit (3),
-.BR pthread_join (3),
-.BR pthread_key_create (3),
+.BR pthread_cancel (3),
+.BR pthread_cleanup_push_defer_np (3),
 .BR pthread_setcancelstate (3),
-.BR pthread_setcanceltype (3),
 .BR pthread_testcancel (3),
 .BR pthreads (7)
 --
