@@ -1,26 +1,29 @@
 From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Subject: Re: For review: pthread_cancel.3
-Date: Mon, 17 Nov 2008 20:41:52 +0100
-Message-ID: <4921C900.6040302@domaigne.com>
-References: <cfd18e0f0811140917q5340504akc53d7ffa3eea483@mail.gmail.com>
+Subject: Re: For review: pthread_testcancel.3
+Date: Mon, 17 Nov 2008 20:44:11 +0100
+Message-ID: <4921C98B.9000603@domaigne.com>
+References: <cfd18e0f0811141046t66b013dev7abc0fb9a36a96bf@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1;
 	format=flowed
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811140917q5340504akc53d7ffa3eea483-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0811141046t66b013dev7abc0fb9a36a96bf-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Gidday Michael,
+=46ine with me,
 
-one more review. The page rocks!
-
-Cheers,
 Lo=EFc.
---
+
+> Okay -- really the last one for today.  Any reviewers for pthread_tes=
+tcancel.3
+>=20
+> Cheers,
+>=20
+> Michael
 >=20
 > .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
 > .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -56,247 +59,48 @@ by
 > .\" the source, must acknowledge the copyright and authors of this wo=
 rk.
 > .\"
-> .TH PTHREAD_CANCEL 3 2008-11-14 "Linux" "Linux Programmer's Manual"
+> .TH PTHREAD_TESTCANCEL 3 2008-11-14 "Linux" "Linux Programmer's Manua=
+l"
 > .SH NAME
-> pthread_cancel \- send a cancellation request to a thread
+> pthread_testcancel \- request delivery of any pending cancellation re=
+quest
 > .SH SYNOPSIS
 > .nf
 > .B #include <pthread.h>
 >=20
-> .BI "int pthread_(pthread_t " thread );
-
-pthread_cancel ;-)
-
+> .B void pthread_testcancel(void);
 > .sp
 > Compile and link with \fI\-pthread\fP.
 > .SH DESCRIPTION
-> The
-> .BR pthread_cancel ()
-> function sends a cancellation request to the thread
-> .IR thread .
-> Whether and when the target thread
-> reacts to the cancellation request depends on
-> two attributes that are under the control of that thread:
-> its cancelability \fIstate\fP and \fItype\fP.
+> Calling
+> .BR pthread_testcancel ()
+> creates a cancellation point within the calling thread,
+> so that a thread that is otherwise executing code that contains
+> no cancellation points will respond to a cancellation request.
 >=20
-> A thread's cancelability state, determined by
-> .BR pthread_setcancelstate (3),
-> can be
-> .I enabled
-> or
-> .IR disabled .
-> If a thread has disabled cancellation,
-> then a cancellation request remains queued until the thread
-> enables cancellation.
-> If a thread has enabled cancellation,
-> then its cancelability type determines when cancellation occurs.
->=20
-> A thread's cancellation type, determined by
-> .BR pthread_setcanceltype (3),
-> may be either
-> .IR asynchronous
-> or
-> .IR deferred .
-> Asynchronous cancelability
-> means that the thread can be canceled at any time
-> (usually immediately, but the system does not guarantee this).
-> Deferred cancelability means that cancellation will be delayed until
-> the thread next calls a function that is a
-> .IR "cancellation point" .
-> A list of functions that are or may be cancellation points is provide=
-d in
-> .IR pthreads (7).
-
-It is very important to document the list of functions that are/are not=
-=20
-CP in the "may be a CP" list: this is system specific and belongs to th=
-e=20
-system documentation.
-
-=46urthermore we should perhaps add a sentence about the fact that when=
- a=20
-trace is created, cancellation is enabled and deferred by default ? (I=20
-have noticed that you mention this fact in pthread_setcancelstate.3 )
-
-> When a cancellation requested is acted on, the following steps occur =
-for
-> .IR thread
-> (in this order):
-> .IP 1. 3
-> Cancellation clean-up handlers are popped
-> (in the reverse of the order in which they were pushed) and called.
-> (See
-> .BR pthread_cleanup_push (3).)
-> .IP 2.
-> Thread-specific data destructors are called,
-> in an unspecified order.
-> (See
-> .BR pthread_key_create (3).)
-> .IP 3.
-> The thread is terminated.
-> (See
-> .BR pthread_exit (3).)
-> .PP
-> The above steps happen asynchronously with respect to the
+> If cancelability is disabled (using
+> .BR pthread_setcancelstate (3)),
+> or no cancellation request is pending,
+> then a call to
 > .BR pthread_cancel ()
-> call;
-> the return status of
-> .BR pthread_cancel ()
-> merely informs the caller whether the cancellation request
-> was successfully queued.
-> .PP
-> After a canceled thread has terminated,
-> a join with that thread using
-> .BR pthread_join (3)
-> obtains
-> .B PTHREAD_CANCELED
-> as the thread's exit status.
-
-Joining the canceled thread is the only way to know that cancellation=20
-has completed.
-
+> has no effect.
 > .SH RETURN VALUE
-> On success,
-> .BR pthread_cancel ()
-> returns 0;
-> on error, it returns a non-zero error number.
+> This function does not return a value.
+> If the calling thread is cancelled as a consequence of a call
+> to this function, then the function does not return.
 > .SH ERRORS
-> .TP
-> .B ESRCH
-> Could not find a thread matching the ID
-> .IR thread .
-> .\" .SH VERSIONS
+> This function always succeeds.
+> .\" SH VERSIONS
 > .\" Available since glibc 2.0
 > .SH CONFORMING TO
 > POSIX.1-2001.
-> .SH NOTES
-> On Linux, cancellation is implemented using signals.
-> Under the NPTL threading implementation,
-> the first real-time signal (i.e., signal 32) is used for this purpose=
-=2E
-
-Hmmm... You are right: NPTL uses the first real-time signal (32)=20
-provided by the *kernel*. As a matter of fact, Glibc reserves kernel=20
-real-time signals 32 and 33 for NPTL; real-time queued signals availabl=
-e=20
-to the application ranges from SIGRTMIN (34) to SIGRTMAX(64).
-
-
-> On LinuxThreads, the second real-time signal is used,
-> if real-time signals are available, otherwise
-> .B SIGUSR2
-> is used.
-
-IIRC, this was true on 'older LinuxThreads'. Never used real-time queue=
-d=20
-signals as well ? (To verify...)
-
 > .SH EXAMPLE
-> The program below creates a thread and then cancels it.
-> The main thread joins with the canceled thread to check
-> that its exit status was
-> .BR PTHREAD_CANCELED .
-> The following shell session shows what happens when we run the progra=
-m:
->=20
-> .in +4n
-> .nf
-> $ ./a.out
-> thread_func(): started; cancellation disabled
-> main(): sending cancellation request
-> thread_func(): about to enable cancellation
-> main(): thread was canceled
-> .fi
-> .in
-> .SS Program source
-> \&
-> .nf
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <errno.h>
-> #include <stdlib.h>
-> #include <unistd.h>
->=20
-> #define handle_error_en(en, msg) \\
->         do { errno =3D en; perror(msg); exit(EXIT_FAILURE); } while (=
-0)
->=20
-> static void *
-> thread_func(void *ignored_argument)
-> {
->     int s;
->=20
->     /* Disable cancellation for a while, so that we don\(aqt
->        immediately react to a cancellation request */
->=20
->     s =3D pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
->     if (s !=3D 0)
->         handle_error_en(s, "pthread_setcancelstate");
->=20
->     printf("thread_func(): started; cancellation disabled\\n");
->     sleep(5);
->     printf("thread_func(): about to enable cancellation\\n");
->=20
->     s =3D pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
->     if (s !=3D 0)
->         handle_error_en(s, "pthread_setcancelstate");
->=20
->     /* sleep() is a cancellation point */
->=20
->     sleep(1000);        /* Should get canceled while we sleep */
->=20
->     /* Should never get here */
->=20
->     printf("thread_func(): not canceled!\\n");
->     return NULL;
-> }
->=20
-> int
-> main(void)
-> {
->     pthread_t thr;
->     void *res;
->     int s;
->=20
->     /* Start a thread and then send it a cancellation request */
->=20
->     s =3D pthread_create(&thr, NULL, &thread_func, NULL);
->     if (s !=3D 0)
->         handle_error_en(s, "pthread_create");
->=20
->     sleep(2);           /* Give thread a chance to get started */
->=20
->     printf("main(): sending cancellation request\\n");
->     s =3D pthread_cancel(thr);
->     if (s !=3D 0)
->         handle_error_en(s, "pthread_cancel");
->=20
->     /* Join with thread to see what its exit status was */
->=20
->     s =3D pthread_join(thr, &res);
->     if (s !=3D 0)
->         handle_error_en(s, "pthread_join");
->=20
->     if (res =3D=3D PTHREAD_CANCELED)
->         printf("main(): thread was canceled\\n");
->     else
->         printf("main(): thread wasn\(aqt canceled (shouldn\(aqt happe=
-n!)\\n");
->     exit(EXIT_SUCCESS);
-> }
-
-sleep(3) is a CP on Linux (AFAIR, sleep is a "may be CP").
-
-> .fi
+> See
+> .BR pthread_cleanup_push (3).
 > .SH SEE ALSO
+> .BR pthread_cancel (3),
 > .BR pthread_cleanup_push (3),
-> .BR pthread_create (3),
-> .BR pthread_exit (3),
-> .BR pthread_join (3),
-> .BR pthread_key_create (3),
 > .BR pthread_setcancelstate (3),
-> .BR pthread_setcanceltype (3),
-> .BR pthread_testcancel (3),
 > .BR pthreads (7)
 >=20
 
