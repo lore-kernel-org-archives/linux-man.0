@@ -1,187 +1,88 @@
-From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Subject: Re: For review: pthread_attr_setinheritsched.3
-Date: Mon, 17 Nov 2008 20:49:22 +0100
-Message-ID: <4921CAC2.7080502@domaigne.com>
-References: <cfd18e0f0811100509y3b6ba724w45393697f68bc719@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: pthread_setschedparam.3
+Date: Tue, 18 Nov 2008 07:04:18 -0500
+Message-ID: <cfd18e0f0811180404v39215fa8rc367591eeb596d01@mail.gmail.com>
+References: <cfd18e0f0811060945n3224567du5e98adecb074b5e@mail.gmail.com>
+	 <491F3AA6.6050303@domaigne.com>
+	 <cfd18e0f0811171023l38ae6a0ci1bbece2dcc9e441d@mail.gmail.com>
+	 <4921C470.5070807@domaigne.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811100509y3b6ba724w45393697f68bc719-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4921C470.5070807-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Moin, Moin,
+Hi Loic,
 
-yet another review... Enough for today ;-)
+On Mon, Nov 17, 2008 at 2:22 PM, Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org> wrot=
+e:
+> Hi Michael,
+>
+> I've only a minor comment left.
+>
+> I've set the following reminder:
+>
+> <reminder>
+>
+> - effect of sched_setscheduler() on MT-process.
 
-Cheers,
-Lo=EFc.
---
+Will follow up shortly.
 
-> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of t=
-his
-> .\" manual provided the copyright notice and this permission notice a=
-re
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of=
- this
-> .\" manual under the conditions for verbatim copying, provided that t=
-he
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-> .\" manual page may be incorrect or out-of-date.  The author(s) assum=
-e no
-> .\" responsibility for errors or omissions, or for damages resulting =
-from
-> .\" the use of the information contained herein.  The author(s) may n=
-ot
-> .\" have taken the same level of care in the production of this manua=
-l,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied =
-by
-> .\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-> .\"
-> .TH PTHREAD_ATTR_SETINHERITSCHED 3 2008-11-06 "Linux" "Linux
-> Programmer's Manual"
-> .SH NAME
-> pthread_attr_setinheritsched, pthread_attr_getinheritsched \- set/get
-> inherit scheduler attribute in thread attributes object
-> .SH SYNOPSIS
-> .nf
-> .B #include <pthread.h>
->=20
-> .BI "int pthread_attr_setinheritsched(pthread_attr_t *" attr ,
-> .BI "                                 int " inheritsched );
-> .BI "int pthread_attr_getinheritsched(pthread_attr_t *" attr ,
-> .BI "                                 int *" inheritsched );
-> .sp
-> Compile and link with \fI\-pthread\fP.
-> .SH DESCRIPTION
-> The
-> .BR pthread_attr_setinheritsched ()
-> function sets the inherit scheduler attribute of the
-> thread attributes object referred to by
-> .IR thread
+> - priority adjustment =3D> later, when dealing with the topic on prio
+> inheritance/ceiling.
 
-should be "attr"
+There remains the FIXME in the page source.
 
-> to the value specified in
-> .IR inheritsched .
-> The inherit scheduler attribute determines whether a thread created u=
-sing
-> the thread attributes object
-> .I attr
-> will inherit its scheduling attributes from the calling thread
-> or whether it will take them from
-> .IR attr .
->=20
-> The following values may be specified in
-> .IR inheritsched :
-> .TP
-> .B PTHREAD_INHERIT_SCHED
-> Threads that are created using
-> .I attr
-> inherit scheduling attributes from the creating thread;
-> the scheduling attributes in
-> .I attr
-> are ignored.
-> .TP
-> .B PTHREAD_EXPLICIT_SCHED
-> Threads that are created using
-> .I attr
-> take their scheduling attributes from the values specified
-> by the attributes object.
-> .\" FIXME what are the defaults for scheduler settings?
-> .PP
-> The default setting of the inherit scheduler attribute in
-> a newly initialized thread attributes object is
-> .BR PTHREAD_INHERIT_SCHED .
->=20
-> The
-> .BR pthread_attr_getinheritsched ()
-> returns the inherit scheduler attribute of the thread attributes obje=
-ct
-> .IR attr
-> in the buffer pointed to by
-> .IR inheritsched .
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a non-zero error number.
-> .SH ERRORS
-> .BR pthread_attr_setinheritsched ()
-> can fail with the following error:
-> .TP
-> .B EINVAL
-> Invalid value in
-> .IR inheritsched .
-> .PP
-> POSIX.1-2001 also documents an optional
-> .B ENOTSUP
-> error ("attempt was made to set the attribute to an unsupported value=
-") for
-> .BR pthread_attr_setinheritsched ().
-> .\" .SH VERSIONS
-> .\" Available since glibc 2.0.
-> .SH CONFORMING TO
-> POSIX.1-2001.
-> .SH EXAMPLE
-> See
-> .BR pthread_setschedparam (3).
-> .SH BUGS
-> As at glibc 2.8, if a thread attributes object is initialized using
-> .BR pthread_attr_init (3),
-> then the scheduling policy of the attributes object is set to
-> .BR SCHED_OTHER
-> and the scheduling priority is set to 0.
-> However, if the inherit scheduler attribute is then set to
-> .BR PTHREAD_EXPLICIT_SCHED ,
-> then a thread created using the attribute object
-> wrongly inherits its scheduling attributes from the creating thread.
-> This bug does not occur if either the scheduling policy or
-> scheduling priority attribute is explicitly set
-> in the thread attributes object before calling
-> .BR pthread_create (3).
-> .\" FIXME . Track status of the following bug:
-> .\" http://sourceware.org/bugzilla/show_bug.cgi?id=3D7007
+> </reminder>
+>
+> Cheers,
+> Lo=EFc.
+> --
+>
+>>>> .PP
+>>>> .BR pthread_setschedparam ()
+>>>> may additionally fail with the following errors:
+>>>> .TP
+>>>> .B EINVAL
+>>>> .I policy
+>>>> is not a recognized policy, or
+>>>> .I param
+>>>> does not make sense for the
+>>>> .IR policy .
+>>>
+>>> I got troubled by the "may additionally", as "may" has a particular
+>>> meaning
+>>> in POSIX.1...
+>>>
+>>> But I guess, you just want to express that pthread_setschedparam() =
+shall
+>>> fail if the policy or the param is invalid, right?
+>>
+>> Yes.
+>
+> What about using "pthread_setschedparam() can additionally [...]" in =
+a
+> similar fashion to pthread_setcancelstate(3)" ?
 
-You raised an interesting issue. I checked the code responsible for
-pthread_create(). As a matter of fact, Glibc shall only take the=20
-explicit scheduling if either the policy or priority has been set. This=
-=20
-makes somehow sense: if you want explicit scheduling, you should at=20
-least set one of the two parameters, shouldn't you?
+Done.
 
-I was wondering how other Pthreads implementation behave in this case.=20
-Did you discuss this topic on Austin?
+Thanks,
+
+Michael
 
 
-> .SH SEE ALSO
-> .BR sched_setscheduler (2),
-> .BR pthread_attr_init (3),
-> .BR pthread_attr_setschedparam (3),
-> .BR pthread_attr_setschedpolicy (3),
-> .BR pthread_create (3),
-> .BR pthread_setschedparam (3),
-> .BR pthread_setschedprio (3),
-> .BR pthreads (7)
->=20
->=20
-
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
