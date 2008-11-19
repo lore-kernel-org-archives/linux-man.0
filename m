@@ -1,31 +1,35 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Current state of CLONE_NEWUSER?
-Date: Wed, 19 Nov 2008 15:04:22 -0500
-Message-ID: <cfd18e0f0811191204r4ccaeaf4m4145e67f408543e0@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Current state of Network Namespaces (NETNS, CLONE_NEWNET)?
+Date: Wed, 19 Nov 2008 16:49:05 -0500
+Message-ID: <492489D1.5080502@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Serge Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org
+Cc: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Stephen Hemminger <shemminger-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, den-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, Daniel Lezcano <dlezcano-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Serge,
+Sorry for the shotgun mail, but in the end,  it's
+not clear who can best answer my question(s).
 
-What is the current status of CLONE_NEWUSER?  I'm currently trying to
-test this flag in preparation for documenting it in the clone(2) man
-page, but am running into an ENOMEM error from the clone() call, which
-seems to occur after a failure in kobject_init_and_add() in the
-following call sequence:
+I'm currently trying to add documentation of all of
+the undocumented CLONE_* flags.  One of these is
+CLONE_NEWNET, and I could use (quite a lot of) help.  
 
-clone_user_ns() --> alloc_uid() --> uids_user_create() -->
-kobject_init_and_add()
+My questions:
 
-Are there already some test programs somewhere?  Is there any
-documentation already available for this flag?
+What is the current state of the network namespace 
+implementation?  Is it complete?  
+
+What objects are considered part of the network 
+namespace, and therefore distinct for a new network 
+namespace?
+
+Is there any documentation for network namespaces 
+already?
+
+Are there any test programs for network namespaces?
 
 Thanks,
 
@@ -37,6 +41,7 @@ Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
 Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
