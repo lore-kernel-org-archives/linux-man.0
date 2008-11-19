@@ -1,100 +1,96 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: CLONE_NEWUTS documentation
-Date: Wed, 19 Nov 2008 14:11:52 -0500
-Message-ID: <492464F8.8070101@gmail.com>
+From: Michael Kerrisk <mtk.manpages@googlemail.com>
+Subject: CLONE_NEWIPC documentation
+Date: Wed, 19 Nov 2008 14:12:28 -0500
+Message-ID: <4924651C.4080909@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, "Serge E. Hallyn" <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kirill Korotaev <dev-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Herbert Poetzl <herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org>, Andrey Savochkin <saw-3ImXcnM4P+0@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755108AbYKSTMv@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Kirill Korotaev <dev@openvz.org>, Pavel Emelianov <xemul@openvz.org>, "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: Cedric Le Goater <clg@fr.ibm.com>, lkml <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Serge, Eric,
+Kirill, Pavel,
 
-Below is a patch to document the CLONE_NEWUTS flag that was
+Below is a patch to document the CLONE_NEWIPC flag that was
 added in 2.6.19.
 
 Could you please review and let me know of improvements
 or inaccuracies?
 
-By the way, does anyone know where the UTS name in the uname()
-API comes from? My best guess is that it's from Unix Timesharing
-System, but I don't know this for sure.
-
 Cheers,
 
 Michael
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index 7212332..80f9caf 100644
 --- a/man2/clone.2
 +++ b/man2/clone.2
-@@ -341,6 +340,33 @@ configuration option and that the process be privileged
- This flag can't be specified in conjunction with
- .BR CLONE_THREAD .
+@@ -225,6 +224,36 @@ Calls to
+ .BR umask (2)
+ performed later by one of the processes do not affect the other process.
  .TP
-+.BR CLONE_NEWUTS " (since Linux 2.6.19)"
++.BR CLONE_NEWIPC " (since Linux 2.4.19)"
 +If
-+.B CLONE_NEWUTS
-+is set, then create the process in a new UTS namespace.
++.B CLONE_NEWIPC
++is set, then create the process in a new IPC namespace.
 +If this flag is not set, then (as with
 +.BR fork (2)),
-+the process is created in the same UTS namespace as
++the process is created in the same IPC namespace as
 +the calling process.
 +This flag is intended for the implementation of control groups.
 +
-+A UTS namespace is the set of identifiers returned by
-+.BR uname (2);
-+among these, the domain name and the host name can be modified by
-+.BR setdomainname (2)
++An IPC namespace consistes of the set of identifiers for
++System V IPC objects.
++(These objects are created using
++.BR msgctl (2),
++.BR semctl (2),
 +and
-+.BR
-+.BR sethostname (2),
-+respectively.
-+Changes made to these identifiers in one UTS namespace
-+are visible to other processes in the same namespace,
-+but are not visible to processes in other UTS namespaces.
++.BR shmctl (2)).
++Objects created in an IPC namespace are visible to other processes
++that are members of that namespace,
++but are not visible to processes in other IPC namespaces.
 +
 +Use of this flag requires: a kernel configured with the
-+.B CONFIG_UTS_NS
-+configuration option and that the process be privileged
++.B CONFIG_SYSVIPC
++and
++.B CONFIG_IPC_NS
++configuration options and that the process be privileged
 +.RB ( CAP_SYS_ADMIN ).
++This flag can't be specified in conjunction with
++.BR CLONE_SYSVSEM .
 +.TP
- .BR CLONE_PARENT " (since Linux 2.3.12)"
- If
- .B CLONE_PARENT
-@@ -723,15 +749,24 @@ but the kernel was not configured with the
- .B CONFIG_PID_NS
- option.
+ .BR CLONE_NEWNS " (since Linux 2.4.19)"
+ Start the child in a new namespace.
+
+@@ -729,6 +758,14 @@ were specified in
  .TP
+ .B EINVAL
+ Both
++.B CLONE_NEWIPC
++and
++.B CLONE_SYSVSEM
++were specified in
++.IR flags .
++.TP
 +.B EINVAL
-+.BR CLONE_NEWUTS
++Both
+ .BR CLONE_NEWPID
+ and
+ .BR CLONE_THREAD
+@@ -742,6 +779,16 @@ when a zero value is specified for
+ .IR child_stack .
+ .TP
+ .B EINVAL
++.BR CLONE_NEWIPC
 +was specified in
 +.IR flags ,
 +but the kernel was not configured with the
-+.B CONFIG_UTS
-+option.
++.B CONFIG_SYSVIPC
++and
++.BR CONFIG_IPC_NS
++options.
 +.TP
- .B ENOMEM
- Cannot allocate sufficient memory to allocate a task structure for the
- child, or to copy those parts of the caller's context that need to be
- copied.
- .TP
- .B EPERM
--.B CLONE_NEWNS
-+.BR CLONE_NEWNS ,
-+.BR CLONE_NEWPID ,
- or
--.B CLONE_NEWPID
-+.BR CLONE_NEWUTS
- was specified by a non-root process (process without \fBCAP_SYS_ADMIN\fP).
- .TP
- .B EPERM
-
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
++.B EINVAL
+ .BR CLONE_NEWPID
+ was specified in
+ .IR flags ,
