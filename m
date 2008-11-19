@@ -1,111 +1,129 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: pthread_testcancel.3
-Date: Tue, 18 Nov 2008 08:49:46 -0500
-Message-ID: <4922C7FA.3070609@gmail.com>
-References: <cfd18e0f0811141046t66b013dev7abc0fb9a36a96bf@mail.gmail.com> <4921C98B.9000603@domaigne.com>
+Subject: Documentation for CLONE_NEWPID
+Date: Tue, 18 Nov 2008 21:59:23 -0500
+Message-ID: <4923810B.7010201@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4921C98B.9000603-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Loic Domaigne wrote:
-> Fine with me,
+Pavel, Kir,
 
-Thanks for checking the page over Loic.
+Drawing fairly heavily on your LWN.net article (http://lwn.net/Articles/259217/), plus the kernel source and some experimentation, I created the patch below to document CLONE_NEWPID for the clone(2) manual page.  Could you please review and let me know of any improvements or inaccuracies.
 
-Cheers,
+Thanks,
 
 Michael
 
->> Okay -- really the last one for today.  Any reviewers for 
->> pthread_testcancel.3
->>
->> Cheers,
->>
->> Michael
->>
->> .\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
->> .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> .\"
->> .\" Permission is granted to make and distribute verbatim copies of this
->> .\" manual provided the copyright notice and this permission notice are
->> .\" preserved on all copies.
->> .\"
->> .\" Permission is granted to copy and distribute modified versions of 
->> this
->> .\" manual under the conditions for verbatim copying, provided that the
->> .\" entire resulting derived work is distributed under the terms of a
->> .\" permission notice identical to this one.
->> .\"
->> .\" Since the Linux kernel and libraries are constantly changing, this
->> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
->> .\" responsibility for errors or omissions, or for damages resulting from
->> .\" the use of the information contained herein.  The author(s) may not
->> .\" have taken the same level of care in the production of this manual,
->> .\" which is licensed free of charge, as they might when working
->> .\" professionally.
->> .\"
->> .\" Formatted or processed versions of this manual, if unaccompanied by
->> .\" the source, must acknowledge the copyright and authors of this work.
->> .\"
->> .TH PTHREAD_TESTCANCEL 3 2008-11-14 "Linux" "Linux Programmer's Manual"
->> .SH NAME
->> pthread_testcancel \- request delivery of any pending cancellation 
->> request
->> .SH SYNOPSIS
->> .nf
->> .B #include <pthread.h>
->>
->> .B void pthread_testcancel(void);
->> .sp
->> Compile and link with \fI\-pthread\fP.
->> .SH DESCRIPTION
->> Calling
->> .BR pthread_testcancel ()
->> creates a cancellation point within the calling thread,
->> so that a thread that is otherwise executing code that contains
->> no cancellation points will respond to a cancellation request.
->>
->> If cancelability is disabled (using
->> .BR pthread_setcancelstate (3)),
->> or no cancellation request is pending,
->> then a call to
->> .BR pthread_cancel ()
->> has no effect.
->> .SH RETURN VALUE
->> This function does not return a value.
->> If the calling thread is cancelled as a consequence of a call
->> to this function, then the function does not return.
->> .SH ERRORS
->> This function always succeeds.
->> .\" SH VERSIONS
->> .\" Available since glibc 2.0
->> .SH CONFORMING TO
->> POSIX.1-2001.
->> .SH EXAMPLE
->> See
->> .BR pthread_cleanup_push (3).
->> .SH SEE ALSO
->> .BR pthread_cancel (3),
->> .BR pthread_cleanup_push (3),
->> .BR pthread_setcancelstate (3),
->> .BR pthreads (7)
->>
-> 
-> 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
-
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -266,6 +268,78 @@ in the same
+ .BR clone ()
+ call.
+ .TP
++.BR CLONE_NEWPID " (since Linux 2.6.24)"
++.\" This explanation draws a lot of details from
++.\" http://lwn.net/Articles/259217/
++.\" Authors: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
++.\" and Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
++.\"
++.\" The primary kernel commit is 30e49c263e36341b60b735cbef5ca37912549264
++.\" Author: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
++If
++.B CLONE_PID
++is set, then create the process in a new PID namespace.
++If this flag is not set, then (as with
++.BR fork (2)),
++the process is created in the same PID namespace as
++the calling process.
++This flag is intended for the implementation of control groups.
++
++A PID namespace provides an isolated environment for PIDs:
++PIDs in a new namespace start at 1,
++somewhat like a standalone system, and calls to
++.BR fork (2),
++.BR vfork (2),
++or
++.BR clone (2)
++will produce processes whose PIDs within the namespace
++are only guaranteed to be unique within that namespace.
++
++The first process created in a new namespace
++(i.e., the process created using the
++.BR CLONE_NEWPID
++flag) has the PID 1, and is the "init" process for the namespace.
++Children that are orphaned within the namespace will be reparented
++to this process rather than
++.BR init (8).
++Unlike the traditional
++.B init
++process, the "init" process of a PID namespace can terminate,
++and if it does, all of the processes in the namespace are terminated.
++
++PID namespaces form a hierarchy.
++When a PID new namespace is created,
++the PIDs of the processes in that namespace are visible
++in the PID namespace of the process that created the new namespace;
++analogously, if the parent PID namespace is itself
++the child of another PID namespace,
++then PIDs of the child and parent PID namespaces will both be
++visible in the grandparent PID namespace.
++Conversely, the processes in the "child" PID namespace do not see
++the PIDs of the processes in the parent namespace.
++The existence of a namespace hierarchy means that each process
++may now have multiple PIDs:
++one for each namespace in which it is visible.
++(A call to
++.BR getpid (2)
++always returns the PID associated with the namespace in which
++the process was created.)
++
++After creating the new namespace,
++it is useful for the child to change its root directory
++and mount a new procfs instance at
++.I /proc
++so that tools such as
++.BR ps (1)
++work correctly.
++
++Use of this flag requires: a kernel configured with the
++.B CONFIG_PID_NS
++configuration option and requires that the process be privileged
++.RB (CAP_SYS_ADMIN ).
++This flag can't be specified in conjunction with
++.BR CLONE_THREAD .
++.TP
+ .BR CLONE_PARENT " (since Linux 2.3.12)"
+ If
+ .B CLONE_PARENT
+@@ -627,6 +701,14 @@ were specified in
+ .IR flags .
+ .TP
+ .B EINVAL
++Both
++.BR CLONE_NEWPID
++and
++.BR CLONE_THREAD
++were specified in
++.IR flags .
++.TP
++.B EINVAL
+ Returned by
+ .BR clone ()
+ when a zero value is specified for
+@@ -639,6 +721,8 @@ copied.
+ .TP
+ .B EPERM
+ .B CLONE_NEWNS
++or
++.B CLONE_NEWPID
+ was specified by a non-root process (process without \fBCAP_SYS_ADMIN\fP).
+ .TP
+ .B EPERM
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
