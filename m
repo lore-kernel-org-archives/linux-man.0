@@ -1,96 +1,43 @@
-From: Michael Kerrisk <mtk.manpages@googlemail.com>
-Subject: CLONE_NEWIPC documentation
-Date: Wed, 19 Nov 2008 14:12:28 -0500
-Message-ID: <4924651C.4080909@gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Current state of CLONE_NEWUSER?
+Date: Wed, 19 Nov 2008 15:04:22 -0500
+Message-ID: <cfd18e0f0811191204r4ccaeaf4m4145e67f408543e0@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner+glk-linux-kernel-3=40m.gmane.org-S1755108AbYKSTMv@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Kirill Korotaev <dev@openvz.org>, Pavel Emelianov <xemul@openvz.org>, "Eric W. Biederman" <ebiederm@xmission.com>
-Cc: Cedric Le Goater <clg@fr.ibm.com>, lkml <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Serge Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Cc: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Kirill, Pavel,
+Hi Serge,
 
-Below is a patch to document the CLONE_NEWIPC flag that was
-added in 2.6.19.
+What is the current status of CLONE_NEWUSER?  I'm currently trying to
+test this flag in preparation for documenting it in the clone(2) man
+page, but am running into an ENOMEM error from the clone() call, which
+seems to occur after a failure in kobject_init_and_add() in the
+following call sequence:
 
-Could you please review and let me know of improvements
-or inaccuracies?
+clone_user_ns() --> alloc_uid() --> uids_user_create() -->
+kobject_init_and_add()
 
-Cheers,
+Are there already some test programs somewhere?  Is there any
+documentation already available for this flag?
+
+Thanks,
 
 Michael
 
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -225,6 +224,36 @@ Calls to
- .BR umask (2)
- performed later by one of the processes do not affect the other process.
- .TP
-+.BR CLONE_NEWIPC " (since Linux 2.4.19)"
-+If
-+.B CLONE_NEWIPC
-+is set, then create the process in a new IPC namespace.
-+If this flag is not set, then (as with
-+.BR fork (2)),
-+the process is created in the same IPC namespace as
-+the calling process.
-+This flag is intended for the implementation of control groups.
-+
-+An IPC namespace consistes of the set of identifiers for
-+System V IPC objects.
-+(These objects are created using
-+.BR msgctl (2),
-+.BR semctl (2),
-+and
-+.BR shmctl (2)).
-+Objects created in an IPC namespace are visible to other processes
-+that are members of that namespace,
-+but are not visible to processes in other IPC namespaces.
-+
-+Use of this flag requires: a kernel configured with the
-+.B CONFIG_SYSVIPC
-+and
-+.B CONFIG_IPC_NS
-+configuration options and that the process be privileged
-+.RB ( CAP_SYS_ADMIN ).
-+This flag can't be specified in conjunction with
-+.BR CLONE_SYSVSEM .
-+.TP
- .BR CLONE_NEWNS " (since Linux 2.4.19)"
- Start the child in a new namespace.
-
-@@ -729,6 +758,14 @@ were specified in
- .TP
- .B EINVAL
- Both
-+.B CLONE_NEWIPC
-+and
-+.B CLONE_SYSVSEM
-+were specified in
-+.IR flags .
-+.TP
-+.B EINVAL
-+Both
- .BR CLONE_NEWPID
- and
- .BR CLONE_THREAD
-@@ -742,6 +779,16 @@ when a zero value is specified for
- .IR child_stack .
- .TP
- .B EINVAL
-+.BR CLONE_NEWIPC
-+was specified in
-+.IR flags ,
-+but the kernel was not configured with the
-+.B CONFIG_SYSVIPC
-+and
-+.BR CONFIG_IPC_NS
-+options.
-+.TP
-+.B EINVAL
- .BR CLONE_NEWPID
- was specified in
- .IR flags ,
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
