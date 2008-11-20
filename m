@@ -1,57 +1,129 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: Current state of CLONE_NEWUSER?
-Date: Thu, 20 Nov 2008 09:33:44 -0800
-Message-ID: <m1zlju9u9z.fsf@frodo.ebiederm.org>
-References: <cfd18e0f0811191204r4ccaeaf4m4145e67f408543e0@mail.gmail.com>
-	<m1vdujdvi6.fsf@frodo.ebiederm.org>
-	<cfd18e0f0811200349q788c2767i5164dc1c47e67925@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages@googlemail.com>
+Subject: CLONE_NEWNET documentation
+Date: Thu, 20 Nov 2008 13:20:06 -0500
+Message-ID: <4925AA56.9030409@gmail.com>
+References: <492489D1.5080502@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811200349q788c2767i5164dc1c47e67925-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(Michael Kerrisk's message of "Thu, 20 Nov 2008 06:49:54 -0500")
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Serge Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-net-owner@vger.kernel.org>
+In-Reply-To: <492489D1.5080502@gmail.com>
+Sender: linux-net-owner@vger.kernel.org
+Cc: Pavel Emelyanov <xemul@openvz.org>, David Miller <davem@davemloft.net>, "Eric W. Biederman" <ebiederm@xmission.com>, lkml <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org, Subrata Modak <subrata@linux.vnet.ibm.com>, Stephen Hemminger <shemminger@linux-foundation.org>, adobriyan@gmail.com, Patrick McHardy <kaber@trash.net>, den@openvz.org, Daniel Lezcano <dlezcano@fr.ibm.com>, linux-net@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
+Based on my reading of some of the kernel source, various
+documentation that I've now read, and comments I received
+from people to my earlier mail ("Current state of Network
+Namespaces (NETNS, CLONE_NEWNET)?"), I've written the patch
+below to document the CLONE_NEWNET clone(2) flag.
+Fixes and suggestions for improvements welcome.
 
-> Hi Eric,
->
-> On Wed, Nov 19, 2008 at 8:41 PM, Eric W. Biederman
-> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
->> "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
->>
->>> Hi Serge,
->>>
->>> What is the current status of CLONE_NEWUSER?  I'm currently trying to
->>> test this flag in preparation for documenting it in the clone(2) man
->>> page, but am running into an ENOMEM error from the clone() call, which
->>> seems to occur after a failure in kobject_init_and_add() in the
->>> following call sequence:
->>>
->>> clone_user_ns() --> alloc_uid() --> uids_user_create() -->
->>> kobject_init_and_add()
->>>
->>> Are there already some test programs somewhere?  Is there any
->>> documentation already available for this flag?
->>
->> This code is definitely still under development.
->>
->> When complete it should be able to create a new uid namespace,
->> as an unprivileged user.  Creating a new process with uid == gid == 0.
->> Have a full set of caps.  And have permission to do nothing on the system
->> except read world readable files and write world writable files.
->
-> Thanks for the info,
->
-> So the error I described is expected?
+Cheers,
 
-I don't think so.  Serge?
+Michael
 
-Eric
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+   CLONE_NEWNET (since Linux 2.6.24)
+      (The  implementation  of this flag is not yet com-
+      plete, but probably will  be  mostly  complete  by
+      about Linux 2.6.28.)
+
+      If CLONE_NEWNET is set, then create the process in
+      a new network namespace.  If this flag is not set,
+      then  (as with fork(2)), the process is created in
+      the same network namespace as the calling process.
+      This  flag  is  intended for the implementation of
+      containers.
+
+      A network namespace provides an isolated  view  of
+      the  networking  stack (network device interfaces,
+      IPv4 and IPv6 protocol stacks, IP routing  tables,
+      firewall  rules,  the /proc/net and /sys/class/net
+      directory trees, sockets, etc.).  A physical  net-
+      work device can live in exactly one network names-
+      pace.  A virtual network device ("veth") pair pro-
+      vides  a pipe-like abstraction that can be used to
+      create tunnels between network namespaces, and can
+      be  used  to create a bridge to a physical network
+      device in another namespace.
+
+      Use of this flag  requires:  a  kernel  configured
+      with the CONFIG_NET_NS option and that the process
+      be privileged (CAP_SYS_ADMIN).
+
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -286,10 +285,41 @@ and
+ configuration options and that the process be privileged
+ .RB ( CAP_SYS_ADMIN ).
+ This flag can't be specified in conjunction with
+ .BR CLONE_SYSVSEM .
+ .TP
++.BR CLONE_NEWNET " (since Linux 2.6.24)"
++(The implementation of this flag is not yet complete,
++but probably will be mostly complete by about Linux 2.6.28.)
++
++If
++.B CLONE_NEWNET
++is set, then create the process in a new network namespace.
++If this flag is not set, then (as with
++.BR fork (2)),
++the process is created in the same network namespace as
++the calling process.
++This flag is intended for the implementation of containers.
++
++A network namespace provides an isolated view of the networking stack
++(network device interfaces, IPv4 and IPv6 protocol stacks,
++IP routing tables, firewall rules, the
++.I /proc/net
++and
++.I /sys/class/net
++directory trees, sockets, etc.).
++A physical network device can live in exactly one
++network namespace.
++A virtual network device ("veth") pair provides a pipe-like abstraction
++that can be used to create tunnels between network namespaces,
++and can be used to create a bridge to a physical network device
++in another namespace.
++
++Use of this flag requires: a kernel configured with the
++.B CONFIG_NET_NS
++option and that the process be privileged
++.RB ( CAP_SYS_ADMIN ).
++.TP
+ .BR CLONE_NEWNS " (since Linux 2.4.19)"
+ Start the child in a new mount namespace.
+
+ Every process lives in a mount namespace.
+ The
+@@ -822,10 +852,18 @@ but the kernel was not configured with the
+ and
+ .BR CONFIG_IPC_NS
+ options.
+ .TP
+ .B EINVAL
++.BR CLONE_NEWNET
++was specified in
++.IR flags ,
++but the kernel was not configured with the
++.B CONFIG_NET_NS
++option.
++.TP
++.B EINVAL
+ .BR CLONE_NEWPID
+ was specified in
+ .IR flags ,
+ but the kernel was not configured with the
+ .B CONFIG_PID_NS
+@@ -844,10 +882,11 @@ Cannot allocate sufficient memory to allocate a task structure for the
+ child, or to copy those parts of the caller's context that need to be
+ copied.
+ .TP
+ .B EPERM
+ .BR CLONE_NEWIPC ,
++.BR CLONE_NEWNET ,
+ .BR CLONE_NEWNS ,
+ .BR CLONE_NEWPID ,
+ or
+ .BR CLONE_NEWUTS
+ was specified by a non-root process (process without \fBCAP_SYS_ADMIN\fP).
