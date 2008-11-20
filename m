@@ -1,70 +1,35 @@
-From: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: Current state of Network Namespaces (NETNS, CLONE_NEWNET)?
-Date: Thu, 20 Nov 2008 13:34:17 +0530
-Message-ID: <1227168257.4978.6.camel@subratamodak.linux.ibm.com>
-References: <492489D1.5080502@gmail.com>  <492517BC.3050205@fr.ibm.com>
-Reply-To: subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+From: Cedric Le Goater <clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>
+Subject: Re: CLONE_NEWIPC documentation
+Date: Thu, 20 Nov 2008 09:36:04 +0100
+Message-ID: <49252174.7080709@fr.ibm.com>
+References: <4924651C.4080909@gmail.com> <m163mji4cz.fsf@frodo.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <492517BC.3050205-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <m163mji4cz.fsf-B27657KtZYmhTnVgQlOflh2eb7JE58TQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Daniel Lezcano <dlezcano-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephen Hemminger <shemminger-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, den-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, ltp-list <ltp-list-TtF/mJH4Jtrk1uMJSBkQmQ@public.gmane.org>
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Kirill Korotaev <dev-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Pavel Emelianov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Eric W. Biederman wrote:
+> Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> writes:
+> 
+>> Kirill, Pavel,
+>>
+>> Below is a patch to document the CLONE_NEWIPC flag that was
+>> added in 2.6.19.
+>>
+>> Could you please review and let me know of improvements
+>> or inaccuracies?
 
-On Thu, 2008-11-20 at 08:54 +0100, Daniel Lezcano wrote:
-> Michael Kerrisk wrote:
-> > Sorry for the shotgun mail, but in the end,  it's
-> > not clear who can best answer my question(s).
-> > 
-> > I'm currently trying to add documentation of all of
-> > the undocumented CLONE_* flags.  One of these is
-> > CLONE_NEWNET, and I could use (quite a lot of) help.  
-> > 
-> > My questions:
-> > 
-> > What is the current state of the network namespace 
-> > implementation?  Is it complete?  
-> 
-> It is not complete but mostly usable for ipv4 and ipv6.
-> 
-> There is a network namespace status I filled at:
-> 
-> http://lxc.sourceforge.net/network/status.php
-> 
-> It should be up-to-date.
-> 
-> > What objects are considered part of the network 
-> > namespace, and therefore distinct for a new network 
-> > namespace?
-> 
-> The network namespace brings isolation from the layer-2 to upper layers.
-> 
-> > Is there any documentation for network namespaces 
-> > already?
-> 
-> http://lxc.sourceforge.net/network.php
-> http://lxc.sourceforge.net/doc/sigops/appcr.pdf
-> 
-> > Are there any test programs for network namespaces?
-> 
-> http://sourceforge.net/projects/lxc/
+I would also add that an interesting effect of the sysvipc namespace is
+the automatic cleanup of sysvipc objects when the namespace is destroyed.
 
-And also at:
+Thanks 
 
-http://ltp.cvs.sourceforge.net/viewvc/ltp/ltp/testcases/kernel/containers/
-
-Regards--
-Subrata
-
-> 
-> follow the README page. It is still in development but mainly usable  - 
-> any feedbacks are welcome :)
-> 
-
+C.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
