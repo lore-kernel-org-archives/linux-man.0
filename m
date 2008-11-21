@@ -1,30 +1,90 @@
-From: Michael Kerrisk <mtk.manpages@googlemail.com>
-Subject: Can you provide TCP_MD5SIG documentation?
-Date: Fri, 21 Nov 2008 13:28:12 -0500
-Message-ID: <4926FDBC.2090001@gmail.com>
+From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Subject: Re: For review: pthread_setschedparam.3
+Date: Fri, 21 Nov 2008 20:06:55 +0100
+Message-ID: <492706CF.7080105@domaigne.com>
+References: <cfd18e0f0811060945n3224567du5e98adecb074b5e@mail.gmail.com> <491F3AA6.6050303@domaigne.com> <4922C81F.6070907@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-net-owner@vger.kernel.org>
-Sender: linux-net-owner@vger.kernel.org
-To: David Miller <davem@davemloft.net>, yoshfuji@linux-ipv6.org
-Cc: linux-net@vger.kernel.org, rickp@rossfell.co.uk, Andi Kleen <andi@firstfloor.org>, linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@googlemail.com>
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4922C81F.6070907-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, "brian m. carlson" <sandals-spVehEqlxw627WubY2PhZQivdfXVPZ6z@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Stefan Puiu <stefanpuiuro-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hideaki, David,
+Gidday Michael,
 
-Back in 2.6.20, you added TCP_MD5SIG.  Currently, there is no
-documentation for this option in the tcp(7) man page.  Would
-you be able to supply some documentation please?
-Plain text is fine
+> Okay, here I'll revisit this piece.
+>=20
+>>> The returned priority value is that set by the most recent
+>>> .BR pthread_setschedparam (),
+>>> .BR pthread_setschedprio (3),
+>>> or
+>>> .BR pthread_create (3)
+>>> call that affected
+>>> .IR thread .
+>>
+>> Hmm, that's perfectly right from a POSIX point of view. Knowing how=20
+>> Linux implements threads, I have been interested about the effect of=
+=20
+>> sched_setscheduler() on a MT-process (since NPTL uses 1:1 model, thi=
+s=20
+>> should be a NOP).
+>=20
+> Why should it be a NOP?
 
-Thanks,
+Because it is stated in SuSv3 TC2:
 
-Michael
+<copy>
+Each process shall be controlled by an associated scheduling policy and
+priority. These parameters may be specified by explicit application
+execution of the sched_setscheduler() or sched_setparam() functions.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+The effect of the process scheduling attributes on individual threads
+in the process is dependent on the scheduling contention scope of the
+threads, see <ref>Thread Scheduling</ref>:
+
+(*) For threads with system scheduling contention scope, the process
+scheduling attributes shall have no effect on the scheduling attributes
+or behavior either of the visible POSIX thread or an underlying kernel
+scheduling entity dedicated to that thread.
+
+[...]
+
+</copy>
+
+Since NPTL uses 1:1 model, i.e. all threads have system scheduling=20
+contention scope. Hence, sched_setscheduler() should not affect the=20
+current threads scheduling.
+
+It happens that I know this part of the standard quite well, because I=20
+reworked it together with David Butenhof 4 years ago (XSH ERN 52)... We=
+=20
+attempt to describe in a better way what 1003.1-2004 meant in this rega=
+rd.
+
+By the way, on GNU/Linux sched_setscheduler() might possibly affect the=
+=20
+scheduling of the calling thread (and not only the main thread, as=20
+stated in my previous email). This was the true some Glibc version ago.=
+=2E.
+
+See also:
+http://groups.google.de/group/comp.unix.programmer/browse_thread/thread=
+/2531f90c0b05ef95/e66e69ad57349f7f
+https://www.opengroup.org/sophocles/show_mail.tpl?CALLER=3Dshow_archive=
+=2Etpl&source=3DL&listname=3Daustin-group-l&id=3D8143
+http://groups.google.de/group/comp.unix.programmer/browse_thread/thread=
+/5c305e82eef3f975/3cbb9722f1f49c15
+http://www.qnx.com/developers/docs/6.3.2/neutrino/lib_ref/s/sched_setsc=
+heduler.html
+
+
+HTH,
+Lo=EFc.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
