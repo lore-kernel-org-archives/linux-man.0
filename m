@@ -1,123 +1,114 @@
-From: "Michael Kerrisk" <mtk.manpages@googlemail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: TCP_CONGESTION documentation
-Date: Fri, 21 Nov 2008 15:34:53 -0500
-Message-ID: <cfd18e0f0811211234t1d3e4256kbbba36f0ccc65c37@mail.gmail.com>
-References: <4926DC7B.7020203@gmail.com> <20081121115759.5a53aaa4@extreme>
-	 <cfd18e0f0811211232q5025a785q52dfa1bbb846e0eb@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
+Date: Fri, 21 Nov 2008 15:44:05 -0500
+Message-ID: <cfd18e0f0811211244v5d391f8du3380332a721ed33@mail.gmail.com>
+References: <4926DC7B.7020203@gmail.com>
+	 <cfd18e0f0811210808u349aad61y2ae8a1590904a821@mail.gmail.com>
+	 <20081121204210.GG6703@one.firstfloor.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-net-owner@vger.kernel.org>
-In-Reply-To: <cfd18e0f0811211232q5025a785q52dfa1bbb846e0eb@mail.gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081121204210.GG6703-qrUzlfsMFqo/4alezvVtWx2eb7JE58TQ@public.gmane.org>
 Content-Disposition: inline
-Sender: linux-net-owner@vger.kernel.org
-To: Stephen Hemminger <shemminger@linux-foundation.org>
-Cc: David Miller <davem@davemloft.net>, linux-net@vger.kernel.org, linux-man@vger.kernel.org, Andi Kleen <andi@firstfloor.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: Stephen Hemminger <shemminger-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, linux-net-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Bother.  CC += Andi again.
+Hi Andi,
 
-On Fri, Nov 21, 2008 at 3:32 PM, Michael Kerrisk
-<mtk.manpages@googlemail.com> wrote:
-> Hi Stephen,
+On Fri, Nov 21, 2008 at 3:42 PM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
+> On Fri, Nov 21, 2008 at 11:08:22AM -0500, Michael Kerrisk wrote:
+>> [CC+= Andi, this time with the right address]
 >
-> On Fri, Nov 21, 2008 at 2:57 PM, Stephen Hemminger
-> <shemminger@linux-foundation.org> wrote:
->> On Fri, 21 Nov 2008 11:06:19 -0500
->> Michael Kerrisk <mtk.manpages@googlemail.com> wrote:
->>
->>> Hello Stephen,
->>>
->>> Back in 2.6.13, you added the TCP_CONGESTION sockopt, but
->>> provided no man-page patch...
->>>
->>> Below is my attempt to document this sockopt.  Could you please
->>> review.  Please don't assume I've well understood the code: I
->>> may well have messed up in my reading of it, so review what
->>> I've written with care.
->>>
->>> Also, a question: was the silent truncation of the returned
->>> string on getsockopt() if optlen is too small really intended?
->>> Would it not be/have been better to error on this case?
->
-> You added some other stuff below, but I got no response to the review
-> request and the question above?
->
->>>    TCP_CONGESTION (since Linux 2.6.13)
->>>       Get  or  set  the  congestion-control algorithm for this
->>>       socket.   The  optval  argument  is  a  pointer   to   a
->>>       character-string buffer.
->>>
->>>       For  getsockopt()  *optlen specifies the amount of space
->>>       available in the buffer  pointed  to  by  optval,  which
->>>       should  be  at  least  16  bytes (defined by the kernel-
->>>       internal  constant  TCP_CA_NAME_MAX).   On  return,  the
->>>       buffer  pointed to by optval is set to a null-terminated
->>>       string containing the  name  of  the  congestion-control
->>>       algorithm  for  this  socket,  and *optlen is set to the
->>>       minimum of its original value and  TCP_CA_NAME_MAX.   If
->>>       the  value  passed  in  *optlen  is  too small, then the
->>>       string returned in *optval is silently truncated, and no
->>>       terminating  null  byte is added.  If an empty string is
->>>       returned, then the socket is using the  default  conges-
->>>       tion-control  algorithm,  determined  as described under
->>>       tcp_congestion_control above.
->>>
->>>       For setsockopt() optlen specifies the length of the con-
->>>       gestion-control  algorithm  name contained in the buffer
->>>       pointed to by optval; this length need not  include  any
->>>       terminating  null  byte.  The algorithm "reno" is always
->>>       permitted; other algorithms may be available,  depending
->>>       on  kernel configuration.  Possible errors from setsock-
->>>       opt() include: algorithm not  found/available  (ENOENT);
->>>       setting  this algorithm requires the CAP_NET_ADMIN capa-
->>>       bility  (EPERM);  and  failure  getting  kernel   module
->>>       (EBUSY).
->
->> The tcp(7) man page is related
->
-> (I'm a little confused by that remark: the patch at the end of my mail
-> was *for* the tcp(7) man page; maybe you missed that.)
->
->> and seems out of date as well.
->
-> Yes, many things on it are out of date.  (I've made occasional
-> requests to linux-net for help on this point, but have had little
-> response.)
->
->> At least on this sytem (Ubuntu 8.04).it seems to be stuck back in pre 2.6.12
->
-> Yes, 2.6.12 sounds about right.
->
->> timewarp (see tcp_bic, tcp_bic_low_window, ...) values that no
->> longer exist.
->
-> And when they disappear, no one CCs the man-page maintainer :-(.
->
-> Anyway, thanks for the heads up
->
-> tcp_bic* is now fixed (disappeared in 2.6.13)
-> and
-> tcp_westwood is now fixed (disappeared in 2.6.13)
-> and
-> tcp_vegas_cong_avoid is now fixed (disappeared in 2.6.13)
->
->> Should be updated as well.
->
-> I'm working on it.  Many updates to tcp(7) will be in man-pages-3.14.
->
-> Cheers,
->
-> Michael
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-> man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-> Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
->
+> Just a general comment. The initial DESCRIPTION in tcp should
+> be probably adapted to mentioned that Linux has pluggable
+> congestion avoidance modules now and also that the defaults
+> have changed (from NewReno to CUBIC etc.)
+
+If I try to do this, I'm going to create rubbish, because I know next
+to nothing about these details...
+
+Could I ask a favor?  Below is the DESCRIPTION text.  Could you note
+write some sentences in the rough location where you think they below,
+and I will turn that into a *roff patch.
+
+Thanks,
+
+Michael
+
+       This  is an implementation of the TCP protocol defined in
+       RFC 793, RFC 1122 and RFC 2001 with the NewReno and  SACK
+       extensions.   It  provides  a  reliable, stream-oriented,
+       full-duplex connection between  two  sockets  on  top  of
+       ip(7),  for both v4 and v6 versions.  TCP guarantees that
+       the data arrives in order and retransmits  lost  packets.
+       It  generates  and  checks a per-packet checksum to catch
+       transmission errors.  TCP does not preserve record bound-
+       aries.
+
+       A newly created TCP socket has no remote or local address
+       and is not fully specified.  To create  an  outgoing  TCP
+       connection  use  connect(2)  to establish a connection to
+       another TCP socket.  To receive new incoming connections,
+       first  bind(2) the socket to a local address and port and
+       then call listen(2) to put the socket into the  listening
+       state.  After that a new socket for each incoming connec-
+       tion can be accepted using accept(2).  A socket which has
+       had  accept(2) or connect(2) successfully called on it is
+       fully specified and may transmit data.   Data  cannot  be
+       transmitted on listening or not yet connected sockets.
+
+       Linux  supports RFC 1323 TCP high performance extensions.
+       These include Protection Against Wrapped Sequence Numbers
+       (PAWS),  Window  Scaling  and Timestamps.  Window scaling
+       allows the use of large (> 64K) TCP windows in  order  to
+       support  links  with  high latency or bandwidth.  To make
+       use of them, the send and receive buffer  sizes  must  be
+       increased.    They   can   be   set   globally  with  the
+       /proc/sys/net/ipv4/tcp_wmem                           and
+       /proc/sys/net/ipv4/tcp_rmem files, or on individual sock-
+       ets by using the SO_SNDBUF and SO_RCVBUF  socket  options
+       with the setsockopt(2) call.
+
+       The  maximum  sizes  for  socket buffers declared via the
+       SO_SNDBUF and SO_RCVBUF mechanisms  are  limited  by  the
+       values    in    the    /proc/sys/net/core/rmem_max    and
+       /proc/sys/net/core/wmem_max files.  Note that  TCP  actu-
+       ally  allocates twice the size of the buffer requested in
+       the setsockopt(2) call, and so a succeeding getsockopt(2)
+       call will not return the same size of buffer as requested
+       in the setsockopt(2) call.  TCP uses the extra space  for
+       administrative  purposes  and internal kernel structures,
+       and the /proc file values reflect the larger  sizes  com-
+       pared  to  the actual TCP windows.  On individual connec-
+       tions, the socket buffer size must be set  prior  to  the
+       listen(2)  or  connect(2)  calls in order to have it take
+       effect.  See socket(7) for more information.
+
+       TCP supports urgent data.  Urgent data is used to  signal
+       the  receiver  that some important message is part of the
+       data stream and that it should be processed  as  soon  as
+       possible.  To send urgent data specify the MSG_OOB option
+       to send(2).  When urgent data  is  received,  the  kernel
+       sends  a  SIGURG  signal  to the process or process group
+       that has been set as the socket "owner" using the SIOCSP-
+       GRP  or  FIOSETOWN  ioctls (or the POSIX.1-2001-specified
+       fcntl(2)  F_SETOWN  operation).   When  the  SO_OOBINLINE
+       socket  option  is  enabled,  urgent data is put into the
+       normal data stream (a program can test for  its  location
+       using the SIOCATMARK ioctl described below), otherwise it
+       can be only received when the MSG_OOB  flag  is  set  for
+       recv(2) or recvmsg(2).
+
+       Linux  2.4  introduced  a  number of changes for improved
+       throughput and scaling, as well as  enhanced  functional-
+       ity.   Some  of  these features include support for zero-
+       copy sendfile(2), Explicit Congestion  Notification,  new
+       management   of   TIME_WAIT  sockets,  keep-alive  socket
+       options and support for Duplicate SACK extensions.
 
 
 
@@ -127,3 +118,7 @@ Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
 Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
