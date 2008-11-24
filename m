@@ -1,152 +1,101 @@
-From: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Subject: Re: Documentation for CLONE_NEWPID
-Date: Mon, 24 Nov 2008 15:46:57 +0300
-Message-ID: <492AA241.6050004@openvz.org>
-References: <4923810B.7010201@gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: pthread_cancel.3
+Date: Mon, 24 Nov 2008 12:30:47 -0500
+Message-ID: <cfd18e0f0811240930s4449cd8dn398ea6fda656057a@mail.gmail.com>
+References: <cfd18e0f0811140917q5340504akc53d7ffa3eea483@mail.gmail.com>
+	 <4921C900.6040302@domaigne.com> <4922C93D.1010804@gmail.com>
+	 <4927AC30.6030107@domaigne.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4923810B.7010201-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4927AC30.6030107-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Michael Kerrisk wrote:
-> Pavel, Kir,
-> 
-> Drawing fairly heavily on your LWN.net article (http://lwn.net/Articles/259217/), plus the kernel 
-> source and some experimentation, I created the patch below to document CLONE_NEWPID for the clone(2) 
-> manual page.  Could you please review and let me know of any improvements or inaccuracies.
+Hi Loic,
 
-Michael, sorry for the late response - I've been on vacation last week and didn't
-have chance to connect to check my mail. Some comments are inline.
+On Sat, Nov 22, 2008 at 1:52 AM, Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org> wrote:
+> Gidday Michael,
+>
+>>>> Asynchronous cancelability
+>>>> means that the thread can be canceled at any time
+>>>> (usually immediately, but the system does not guarantee this).
+>>>> Deferred cancelability means that cancellation will be delayed until
+>>>> the thread next calls a function that is a
+>>>> .IR "cancellation point" .
+>>>> A list of functions that are or may be cancellation points is provided
+>>>> in
+>>>> .IR pthreads (7).
+>>>
+>>> It is very important to document the list of functions that are/are not
+>>> CP in the "may be a CP" list: this is system specific and belongs to the
+>>> system documentation.
+>>
+>> For man-pages-3.14, I have added POSIX.1's lists of "are" and "may be"
+>> cancellation points to pthreads.7.
+>>
+>> However, it unclear to me how one determines the list of functions
+>> that are cancellation points under glibc.  Do you have some ideas
+>> about this?
+>
+> I checked out, and I found no obvious to extract the information
+> automatically from the source.
 
-> Thanks,
-> 
-> Michael
-> 
-> --- a/man2/clone.2
-> +++ b/man2/clone.2
-> @@ -266,6 +268,78 @@ in the same
->  .BR clone ()
->  call.
->  .TP
-> +.BR CLONE_NEWPID " (since Linux 2.6.24)"
-> +.\" This explanation draws a lot of details from
-> +.\" http://lwn.net/Articles/259217/
-> +.\" Authors: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-> +.\" and Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-> +.\"
-> +.\" The primary kernel commit is 30e49c263e36341b60b735cbef5ca37912549264
-> +.\" Author: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-> +If
-> +.B CLONE_PID
-> +is set, then create the process in a new PID namespace.
-> +If this flag is not set, then (as with
-> +.BR fork (2)),
-> +the process is created in the same PID namespace as
-> +the calling process.
-> +This flag is intended for the implementation of control groups.
+Me neither.
 
-Well, actually this has nothing to do with control groups. This
-flag is intended to be used to facilitate the creation of containers
-along with many other clone flags. Control groups is yet another
-way to create a container.
+> We may have to ask support from the Glibc
+> folks.
 
-> +A PID namespace provides an isolated environment for PIDs:
-> +PIDs in a new namespace start at 1,
-> +somewhat like a standalone system, and calls to
-> +.BR fork (2),
-> +.BR vfork (2),
-> +or
-> +.BR clone (2)
-> +will produce processes whose PIDs within the namespace
-> +are only guaranteed to be unique within that namespace.
+I just shot a note into libc-help@ (and CCed you).
 
-Well, I'm not sure I understood correctly what was meant here, but after 
-we have a namespace each task has two pids. And _all_ of them are unique 
-in corresponding namespaces.
+>>>> .SH NOTES
+>>>> On Linux, cancellation is implemented using signals.
+>>>> Under the NPTL threading implementation,
+>>>> the first real-time signal (i.e., signal 32) is used for this purpose.
+>>>
+>>> Hmmm... You are right: NPTL uses the first real-time signal (32) provided
+>>> by the *kernel*. As a matter of fact, Glibc reserves kernel real-time
+>>> signals 32 and 33 for NPTL; real-time queued signals available to the
+>>> application ranges from SIGRTMIN (34) to SIGRTMAX(64).
+>>
+>> Yes... exactly.
+>>
+>>>> On LinuxThreads, the second real-time signal is used,
+>>>> if real-time signals are available, otherwise
+>>>> .B SIGUSR2
+>>>> is used.
+>>>
+>>> IIRC, this was true on 'older LinuxThreads'. Never used real-time queued
+>>> signals as well ? (To verify...)
+>>
+>> I'm not quite sure what you want to say there.  Can you say some
+>> more please.
+>
+> Sorry, typo and missing words make this sentence hard to understand...
+> Second try:
+>
+> Newer version of LinuxThreads uses RT signal as well? (this claim has to be
+> verified).
 
-> +The first process created in a new namespace
-> +(i.e., the process created using the
-> +.BR CLONE_NEWPID
-> +flag) has the PID 1, and is the "init" process for the namespace.
-> +Children that are orphaned within the namespace will be reparented
-> +to this process rather than
-> +.BR init (8).
-> +Unlike the traditional
-> +.B init
-> +process, the "init" process of a PID namespace can terminate,
-> +and if it does, all of the processes in the namespace are terminated.
-> +
-> +PID namespaces form a hierarchy.
-> +When a PID new namespace is created,
-> +the PIDs of the processes in that namespace are visible
-> +in the PID namespace of the process that created the new namespace;
-> +analogously, if the parent PID namespace is itself
-> +the child of another PID namespace,
-> +then PIDs of the child and parent PID namespaces will both be
-> +visible in the grandparent PID namespace.
-> +Conversely, the processes in the "child" PID namespace do not see
-> +the PIDs of the processes in the parent namespace.
-> +The existence of a namespace hierarchy means that each process
-> +may now have multiple PIDs:
-> +one for each namespace in which it is visible.
-> +(A call to
-> +.BR getpid (2)
-> +always returns the PID associated with the namespace in which
-> +the process was created.)
+Yes, more recent LinuxThreads uses RT signals as well.
 
-I don't thinks it's a good example - the getpid cannot be called
-for other process other than current :)
+[...]
 
-> +
-> +After creating the new namespace,
-> +it is useful for the child to change its root directory
-> +and mount a new procfs instance at
-> +.I /proc
-> +so that tools such as
-> +.BR ps (1)
-> +work correctly.
-> +
-> +Use of this flag requires: a kernel configured with the
-> +.B CONFIG_PID_NS
-> +configuration option and requires that the process be privileged
-> +.RB (CAP_SYS_ADMIN ).
-> +This flag can't be specified in conjunction with
-> +.BR CLONE_THREAD .
-> +.TP
->  .BR CLONE_PARENT " (since Linux 2.3.12)"
->  If
->  .B CLONE_PARENT
-> @@ -627,6 +701,14 @@ were specified in
->  .IR flags .
->  .TP
->  .B EINVAL
-> +Both
-> +.BR CLONE_NEWPID
-> +and
-> +.BR CLONE_THREAD
-> +were specified in
-> +.IR flags .
-> +.TP
-> +.B EINVAL
->  Returned by
->  .BR clone ()
->  when a zero value is specified for
-> @@ -639,6 +721,8 @@ copied.
->  .TP
->  .B EPERM
->  .B CLONE_NEWNS
-> +or
-> +.B CLONE_NEWPID
->  was specified by a non-root process (process without \fBCAP_SYS_ADMIN\fP).
->  .TP
->  .B EPERM
-> 
+Thanks,
 
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
