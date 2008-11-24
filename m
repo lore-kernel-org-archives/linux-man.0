@@ -1,101 +1,99 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: For review: pthread_cancel.3
-Date: Mon, 24 Nov 2008 12:30:47 -0500
-Message-ID: <cfd18e0f0811240930s4449cd8dn398ea6fda656057a@mail.gmail.com>
-References: <cfd18e0f0811140917q5340504akc53d7ffa3eea483@mail.gmail.com>
-	 <4921C900.6040302@domaigne.com> <4922C93D.1010804@gmail.com>
-	 <4927AC30.6030107@domaigne.com>
+Subject: Re: For review: pthread_setcancelstate.3
+Date: Mon, 24 Nov 2008 13:23:37 -0500
+Message-ID: <cfd18e0f0811241023n55ef2a9dk3ed77455b5c36841@mail.gmail.com>
+References: <cfd18e0f0811140926r40781376t8a6340479bf8426f@mail.gmail.com>
+	 <4927AEAF.6060802@domaigne.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4927AC30.6030107-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+In-Reply-To: <4927AEAF.6060802-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Hi Loic,
 
-On Sat, Nov 22, 2008 at 1:52 AM, Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org> wrote:
-> Gidday Michael,
->
->>>> Asynchronous cancelability
->>>> means that the thread can be canceled at any time
->>>> (usually immediately, but the system does not guarantee this).
->>>> Deferred cancelability means that cancellation will be delayed until
->>>> the thread next calls a function that is a
->>>> .IR "cancellation point" .
->>>> A list of functions that are or may be cancellation points is provided
->>>> in
->>>> .IR pthreads (7).
->>>
->>> It is very important to document the list of functions that are/are not
->>> CP in the "may be a CP" list: this is system specific and belongs to the
->>> system documentation.
->>
->> For man-pages-3.14, I have added POSIX.1's lists of "are" and "may be"
->> cancellation points to pthreads.7.
->>
->> However, it unclear to me how one determines the list of functions
->> that are cancellation points under glibc.  Do you have some ideas
->> about this?
->
-> I checked out, and I found no obvious to extract the information
-> automatically from the source.
-
-Me neither.
-
-> We may have to ask support from the Glibc
-> folks.
-
-I just shot a note into libc-help@ (and CCed you).
-
->>>> .SH NOTES
->>>> On Linux, cancellation is implemented using signals.
->>>> Under the NPTL threading implementation,
->>>> the first real-time signal (i.e., signal 32) is used for this purpose.
->>>
->>> Hmmm... You are right: NPTL uses the first real-time signal (32) provided
->>> by the *kernel*. As a matter of fact, Glibc reserves kernel real-time
->>> signals 32 and 33 for NPTL; real-time queued signals available to the
->>> application ranges from SIGRTMIN (34) to SIGRTMAX(64).
->>
->> Yes... exactly.
->>
->>>> On LinuxThreads, the second real-time signal is used,
->>>> if real-time signals are available, otherwise
->>>> .B SIGUSR2
->>>> is used.
->>>
->>> IIRC, this was true on 'older LinuxThreads'. Never used real-time queued
->>> signals as well ? (To verify...)
->>
->> I'm not quite sure what you want to say there.  Can you say some
->> more please.
->
-> Sorry, typo and missing words make this sentence hard to understand...
-> Second try:
->
-> Newer version of LinuxThreads uses RT signal as well? (this claim has to be
-> verified).
-
-Yes, more recent LinuxThreads uses RT signals as well.
+Thanks for reviewing.
 
 [...]
 
-Thanks,
+>> Setting the cancelability type to
+>> .B PTHREAD_CANCEL_ASYNCHRONOUS
+>> is rarely useful.
+>> Since the thread could be canceled at
+>> .I any
+>> time, it cannot reserve resources (e.g., allocating memory),
+>> acquire mutexes, semaphores, or locks, and so on,
+>> since, when the thread is canceled,
+>> the application has no way of knowing what the state of these resources
+>> is;
+>> that is, did the canceled thread manage to release the resources or not?
+>> (Among other things, this means that clean-up handlers cease to be useful,
+>> since they can't determine the state of resources that
+>> they are intended to clean up.)
+>> In general, most library functions, including most pthreads functions,
+>> can't be safely called from an asynchronously cancelable thread.
+>> (POSIX.1-2001 only requires that
+>> .BR pthread_cancel (3),
+>> .BR pthread_setcancelstate (),
+>> and
+>> .BR pthread_setcanceltype ()
+>> be safe to call from an asynchronously cancelable thread.)
+>> One of the few circumstances in which asynchronous cancelability is useful
+>> is for cancellation of a thread that is in a pure compute-bound loop.
+>
+> The paragraph is important, but I found it somewhat difficult to read.
+
+Yes, I see.  There was at least one clumsy wording "Since...since"
+which made that over-long sentence had to parse.
+
+> I
+> don't pretend to compete with a native speaker, but find below a reworked
+> version:
+>
+> Setting the cancelability type to *PTHREAD_CANCEL_ASYNCHRONOUS* is rarely
+> useful. The cancelation could occur at any time, for instance in a middle of
+> a library call, like malloc(), leaving possibly inconsistent state. The
+> application is not aware of those internal library states, and as no
+> possibly to recover from possible inconsistencies. That is, clean-up
+> handlers cease to be useful.  Functions that can be safely asynchronously
+> canceled are called async-cancel-safe functions. POSIX.1-2001 only requires
+> pthread_cancel(3), pthread_setcancelstate(3) and pthread_setcanceltype(3) to
+> be async-cancel-safe. One of the few circumstances in which asynchronous
+> cancelability is useful is for cancellation of a thread that is in a pure
+> compute-bound loop.
+
+Thanks Loic.  I took some pieces of your suggestion, and arrived at
+the following
+
+       Setting  the  cancelability type to PTHREAD_CANCEL_ASYNCHRONOUS
+       is rarely useful.  Since the thread could be  canceled  at  any
+       time, it cannot safely reserve resources (e.g., allocating mem-
+       ory with malloc(3)), acquire mutexes, semaphores, or locks, and
+       so  on.   Reserving  resources is unafe because the application
+       has no way of knowing what the state of these resources is when
+       the  thread is canceled; that is, did cancellation occur before
+       the resources were reserved, while they were reserved, or after
+       they  were  released?  Consequently, clean-up handlers cease to
+       be useful.  Functions that can be  safely  asynchronously  can-
+       celed  are  called  async-cancel-safe  functions.  POSIX.1-2001
+       only requires that pthread_cancel(3), pthread_setcancelstate(),
+       and  pthread_setcanceltype() be async-cancel-safe.  In general,
+       other library functions can't be safely called  from  an  asyn-
+       chronously  cancelable thread.  One of the few circumstances in
+       which asynchronous cancelability is useful is for  cancellation
+       of a thread that is in a pure compute-bound loop.
+
+Look okay to you?
+
+Cheers,
 
 Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
