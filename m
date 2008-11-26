@@ -1,235 +1,715 @@
-From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
-Subject: Re: For review: pthread_cleanup_push.3
-Date: Tue, 25 Nov 2008 22:11:02 +0100
-Message-ID: <492C69E6.3030402@domaigne.com>
-References: <cfd18e0f0811140919g11e625a2i8546b3296d008dce@mail.gmail.com>	 <4927B203.3000702@domaigne.com> <cfd18e0f0811241404o1415d18bq497ff34b29502263@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man-pages-3.14 released
+Date: Tue, 25 Nov 2008 22:42:18 -0500
+Message-ID: <492CC59A.1050308@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811241404o1415d18bq497ff34b29502263-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: Andreas Henriksson <andreas-/WpnEnaIE6I@public.gmane.org>, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Cedric Le Goater <clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>, Chris Heath <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>, Eric Biederman <ebiederm@xmiss>
+Cc: base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, Christophe-MeO/4o4RY/8dnm+yROfE0A@public.gmane.org, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, =?ISO-8859-1?Q?Giulio_Daprel=E0?= <giulio-pvpjhgE6P/E@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Thorsten Kukuk <kukuk-l3A5Bk7waGM@public.gmane.org>, Mohsen Pahlevanzadeh <mohsen-iPr4nGsj6FvziFbYTSYfcdi2O/JbrIOy@public.gmane.org>, Alain Portal <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ro-l3A5Bk7waGM@public.gmane.org, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Senthil Kumar <senthilkumar_sen-ktR7oAotx3zQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Elisa <lab-LS/GNBF6ldo@public.gmane.org>, "Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>Theodore T'so <t>
 List-Id: linux-man@vger.kernel.org
 
-Gidday Michael,
+Gidday,
 
-let's see...
+The Linux man-pages maintainer proudly announces:
 
->>> A cancellation clean-up handler is popped from the stack
->>> and executed in the following circumstances:
->>> .IP 1. 3
->>> When a thread is canceled,
->>> all of the stacked clean-up handlers are popped and executed in
->>> the reverse of the order in which they were pushed onto the stack.
->>> .IP 2.
->>> When a thread terminates by calling
->>> .BR pthread_exit (3),
->>> all clean-up handlers are executed as described in the preceding po=
-int.
->>> (Clean-up handlers are \fInot\fP called if the thread terminates by
->>> performing a
->>> .I return
->>> from the thread start function.)
->> Generally speaking, it is left to the implementation to call or not
->> clean-up handlers when a thread returns from the start function.
->=20
-> Is it?  As far as I can see POSIX.1 just says the result is
-> "undefined".  Does that mean it's up to the implementation?  I'm not
-> sure.  Anyway< I added this text to NOTES:
->=20
->        POSIX.1  says that the effect of using return, break, continue=
+  man-pages-3.14.tar.gz - man pages for Linux
+
+This release is now available for download at:
+
+  http://www.kernel.org/pub/linux/docs/man-pages
+  or ftp://ftp.kernel.org/pub/linux/docs/man-pages
+
+The online changelog is available at
+http://www.kernel.org/doc/man-pages/changelog.html
+(blogged at
+http://linux-man-pages.blogspot.com/2008/11/man-pages-314-is-released.h=
+tml)
+and the current version of the pages is browsable at
+http://www.kernel.org/doc/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the maintainer=
+ of
+a translation of the manual pages, or are the maintainer of the manual
+pages set in a particular distribution, or have expressed interest in
+helping with man-pages maintenance, or have otherwise expressed interes=
+t in
+being notified about man-pages releases.  If you don't want to receive =
+such
+messages from me, or you know of some other translator or maintainer wh=
+o
+may want to receive such notifications, send me a message.
+
+Cheers,
+
+Michael
+
+(*) linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org is the man pages discussion list.  Subscr=
+ibe
+by sending a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, with the body:
+
+  subscribe linux-man
+
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.14 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+
+Released: 2008-11-25, Bucaramanga
+
+
+Contributors
+------------
+
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
+
+Andreas Henriksson <andreas-/WpnEnaIE6I@public.gmane.org>
+Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cedric Le Goater <clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org>
+Chris Heath <chris-FSXMH2gLahXJKwlM9GxbOw@public.gmane.org>
+Eric Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Eugen Dedu <Eugen.Dedu-C66Sk7uXGWIalAAbUx3MVP3zm4ADWneb@public.gmane.org>
+Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Jen Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Jens Axboe <jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Lo=EFc Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Masanari Iida <masanari.iida-VXdhtT5mjnY@public.gmane.org>
+Paul Evans <leonerd-1IFLfc+FfvwDXYZnReoRVg@public.gmane.org>
+Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Pierre-Paul Paquin <pierrepaulpaquin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Serge E. Hallyn <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+Stefano Teso <teso-+cHZLFJ93xAO91npARCAeA@public.gmane.org>
+Stew Benedict <stewb-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+CPU_SET.3
+    Michael Kerrisk
+        New page documenting CPU_* macros
+            This page contains material moved out of sched_setscheduler=
+(2).
+            It overwrites a previously existing link file with the same=
+ name.
+    Michael Kerrisk
+        Add description of macros for dynamically allocated CPU sets
+            Add descriptions of CPU_ALLOC(), CPU_ALLOC_SIZE(), CPU_FREE=
+(),
+            CPU_SET_S(), CPU_CLR_S(), CPU_ISSET_S(), CPU_ZERO_S(),
+            CPU_COUNT_S(), CPU_AND_S(), CPU_OR_S(), CPU_XOR_S(), and
+            CPU_EQUAL_S().
+    Michael Kerrisk
+        Add documentation of CPU_COUNT()
+    Michael Kerrisk
+        Add description of CPU_AND(), CPU_OR, CPU_XOR(), and CPU_EQUAL(=
+)
+            Plus a few other small clean-ups of the text
+    Michael Kerrisk
+        Various improvements in DESCRIPTION
+            After review comments by Bert Wesarg:
+            * Explain that cpu_set_t is a bitset, but should be conside=
+red
+              opaque.
+            * A CPU set can be duplicated with memset().
+            * Size of a CPU set is rounded up to size of long.
+            * CPU_SETSIZE is in bits, but the setsize argument is in by=
+tes.
+    Michael Kerrisk
+        Document CPU_ALLOC()/CPU_ALLOC_SIZE() bug
+            These macros return twice what they should because of think=
+o
+            in glibc 2.8 and earlier.  The bug is fixed for glibc 2.9.
+            http://sourceware.org/bugzilla/show_bug.cgi?id=3D7029
+    Michael Kerrisk
+        NOTES: Discuss use of types in "prototypes" for these macros
+            The SYNOPSIS shows types for arguments and return values, b=
+ut
+            these are really just suggestions: since the interfaces are
+            macros, the compiler won't catch all violations of
+            the "type rules".  Warn the reader of this.
+
+pthread_attr_setinheritsched.3
+    Michael Kerrisk
+        New page for pthread_attr_setinheritsched(3) and
+        pthread_attr_getinheritsched(3)
+
+pthread_cancel.3
+    Michael Kerrisk
+        New page for pthread_cancel(3)
+
+pthread_cleanup_push.3
+    Michael Kerrisk
+        New page for pthread_cleanup_push(3) and pthread_cleanup_pop(3)
+
+pthread_setcancelstate.3
+    Michael Kerrisk
+        New page for pthread_setcancelstate(3) and pthread_setcanceltyp=
+e(3)
+
+pthread_testcancel.3
+    Michael Kerrisk
+        New page for pthread_testcancel(3)
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+clone.2
+    Jens Axboe
+        Document CLONE_IO (new in Linux 2.6.25)
+            Some text also by mtk.
+    Michael Kerrisk
+        Document CLONE_NEWNET
+    Michael Kerrisk
+        Document CLONE_NEWUTS (new in Linux 2.6.19)
+    Michael Kerrisk
+        Document CLONE_NEWIPC flag (new in Linux 2.6.19)
+    Michael Kerrisk
+        Document CLONE_NEWPID flag (new in Linux 2.6.24)
+
+mmap.2
+    Michael Kerrisk
+        Document MAP_STACK flag (new in Linux 2.6.27)
+
+arp.7
+    Michael Kerrisk
+        Document /proc file retrans_time_ms (new in Linux 2.6.12)
+    Michael Kerrisk
+        Document /proc file base_reachable_time_ms (new in Linux 2.6.12=
+)
+
+icmp.7
+    Michael Kerrisk
+        Document icmp_ignore_bogus_error_responses (new in Linux 2.2)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document icmp_ratelimit and icmp_ratemask (new in Linux 2.4.10)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document icmp_echo_ignore_broadcasts (new in Linux 2.6.12)
+            Text taken from Documentation/networking/ip-sysctl.txt
+
+tcp.7
+    Michael Kerrisk
+        Document /proc file tcp_slow_start_after_idle (new in Linux 2.6=
+=2E18)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_base_mss (new in Linux 2.6.17)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_frto_response (new in Linux 2.6.22)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_moderate_rcvbuf (new in Linux 2.4.17/2.=
+6.7)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_congestion_control (new in Linux 2.4.13=
+)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_no_metrics_save (new in Linux 2.6.6)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_mtu_probing (new in Linux 2.6.17)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_dma_copybreak (new in Linux 2.6.24)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_tso_win_divisor (new in Linux 2.6.9)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_allowed_congestion_control (new in Linu=
+x 2.4.20)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_workaround_signed_windows (new in Linux=
+ 2.6.26)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_available_congestion_control (new in Li=
+nux 2.4.20)
+            Text taken from Documentation/networking/ip-sysctl.txt
+    Michael Kerrisk
+        Document /proc file tcp_abc (new in Linux 2.6.15)
+            Text taken from Documentation/networking/ip-sysctl.txt
+
+udp.7
+    Michael Kerrisk
+        Document /proc files udp_mem, udp_rmem_min, and udp_wmem_min
+            All of these are new in Linux 2.6.25
+
+
+New and changed links
+---------------------
+
+CPU_ALLOC.3
+CPU_ALLOC_SIZE.3
+CPU_AND.3
+CPU_AND_S.3
+CPU_CLR_S.3
+CPU_COUNT.3
+CPU_COUNT_S.3
+CPU_EQUAL.3
+CPU_EQUAL_S.3
+CPU_FREE.3
+CPU_ISSET_S.3
+CPU_OR.3
+CPU_OR_S.3
+CPU_SET_S.3
+CPU_XOR.3
+CPU_XOR_S.3
+CPU_ZERO_S.3
+    Michael Kerrisk
+        New link to new CPU_SET.3
+
+CPU_CLR.3
+CPU_ISSET.3
+CPU_ZERO.3
+    Michael Kerrisk
+        Update links to point to CPU_SET.3
+            The documentation of the CPU_* macros migrated to a new
+            location: CPU_SET.3.
+
+pthread_attr_getinheritsched.3
+    Michael Kerrisk
+        New link to new pthread_attr_setinheritsched.3
+
+pthread_cleanup_pop.3
+    Michael Kerrisk
+        New link to new pthread_cleanup_push.3
+
+pthread_setcanceltype.3
+    Michael Kerrisk
+        New link to new pthread_setcancelstate.3
+
+
+Global changes
+--------------
+
+clone.2
+mount.2
+unshare.2
+proc.5
+path_resolution.7
+    Michael Kerrisk
+        Global fix: s/namespace/mount-point namespace/, as appropriate
+            In recent times, a number of other namespace flags have bee=
+n
+            added to clone(2).  As such, it is no longer clear to use
+            the generic term "namespace" to refer to the particular
+            namespace controlled by CLONE_NEWNS; instead, use the
+            term "mount-point namespace".
+    Michael Kerrisk
+        Global fix: s/mount-point namespace/mount namespace/
+            This is more consistent with the term "mounts namespace"
+            used in the 2008 ACM SIGOPS paper, "Virtual servers
+            and and checkpoint/restart in mainstream Linux".
+            (I avoided the "s", because using the plural strikes me
+            as klunky English, and anyway we don't talk about
+            the "PIDs namespace" or the "networks namespace", etc..)
+
+connect.2
+listen.2
+send.2
+uname.2
+cmsg.3
+proc.5
+arp.7
+ddp.7
+icmp.7
+ip.7
+raw.7
+socket.7
+tcp.7
+udp.7
+    Michael Kerrisk
+        Global fix: eliminate mention of the obsolete sysctl(2) interfa=
+ce
+            Many pages still mention use of the obsolete sysctl(2) syst=
+em
+            call, or used the term "sysctls"; rewrite these mentions to
+            instead be in terms of /proc interfaces.
+
+fcntl.2
+signal.2
+mbsnrtowcs.3
+mbsrtowcs.3
+mbtowc.3
+wcrtomb.3
+wcsnrtombs.3
+wcsrtombs.3
+wctomb.3
+    Michael Kerrisk
+        Global fix: s/multi-thread/multithread/
+
+getdents.2
+pthread_attr_init.3
+pthread_create.3
+pthread_getattr_np.3
+pthread_setaffinity_np.3
+pthread_setschedparam.3
+pthread_tryjoin_np.3
+    Michael Kerrisk
+        Use consistent error-handling function names
+            Many older pages use a handle_error() macro to do simple
+            error handling from system and library function calls.
+            Switch these pages to do similar.
+
+
+Changes to individual pages
+---------------------------
+
+time.1
+    Michael Kerrisk
+        Note that some shells have a 'time' built-in command
+            Therefore, to access the functionality described on this pa=
+ge,
+            it may be necessary to specify the full pathname.
+
+clone.2
+    Michael Kerrisk
+        Place list of CLONE_* flags in alphabetical order
+            (No content changes.)
+fsync.2
+    Michael Kerrisk
+        Update feature test macro requirements for fsync()
+            Since glibc 2.8, the fsync() declaration is also exposed if
+            _POSIX_C_SOURCE >=3D 200112L
+
+sched_setaffinity.2
+    Michael Kerrisk
+        Add note on system-imposed restrictions on CPUs actually used
+            After Loic Domaigne's suggestion for pthread_setaffinity_np=
+(3), add
+            similar text to this page noting that the system silently
+            limits the set of CPUs on which the process actually runs t=
+o
+            the set of CPUs physically present and the limits imposed b=
+y
+            cpuset(7).
+
+sched_setaffinity.2
+    Michael Kerrisk
+        Removed discussion of CPU_* macros()
+            These macros are now moving to a separate page.
+    Michael Kerrisk
+        Refer reader to pthread_setaffinity_np(3)
+            pthread_setaffinity_np() is preferable for setting
+            thread CPU affinity if using the POSIX threads API.
+
+sysctl.2
+    Michael Kerrisk
+        Add prominent warning against using this system call
+            This was already stated under NOTES, but make it even more
+            prominent by adding a sentence at the start of the DESCRIPT=
+ION.
+
+uname.2
+    Michael Kerrisk
+        Add C comments describing fields in utsname structure
+
+atan2.3
+    Stefano Teso
+        Fix description of range of function value return
+            The range is not [-pi/2, pi/2], but [-pi, pi].
+
+            (mtk: This error was reported by Nicolas Francois, and
+            should have been fixed in 3.11, but somewhere along the way=
 ,
->        or   goto   to   prematurely   leave    a    block    brackete=
-d
->        pthread_cleanup_push()  and pthread_cleanup_pop() is undefined=
-=2E
->        Portable applications should avoid doing this.
->=20
-> Thanks for spotting this.
+            the fix got lost.)
 
-Tru64 implements the clean-up behavior when leaving the scope of=20
-pthread_cleanup_{push,pop} with a return.
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D506299
 
-Interesting c.p.t. threads on this issue:
-http://groups.google.de/group/comp.programming.threads/browse_thread/th=
-read/2a1cf7d5d44989a9/1b7431bc0e265cae
-http://groups.google.de/group/comp.programming.threads/browse_thread/th=
-read/295beb4eb09b610e/5257747c038d5162
+bindresvport.3
+    Michael Kerrisk
+        Since glibc 2.8, EPFNOSUPPORT error is now EAFNOSUPPORT
+            Glibc switched to using a POSIX-specified error code for
+            this error case.
 
-By the way, even recognized UNIX Author errs:
-http://www.apuebook.com/errata.html (Entry #13)
+            http://bugs.linuxbase.org/show_bug.cgi?id=3D2375
 
->>> .nf
->>> #include <pthread.h>
->>> #include <sys/types.h>
->>> #include <stdio.h>
->>> #include <stdlib.h>
->>> #include <unistd.h>
->>> #include <errno.h>
->>>
->>> #define handle_error_en(en, msg) \\
->>>        do { errno =3D en; perror(msg); exit(EXIT_FAILURE); } while =
-(0)
->>>
->>> static int done =3D 0;
->>> static int cleanup_pop_arg =3D 0;
->>> static int cnt =3D 0;
->>>
->>> static void
->>> cleanup_handler(void *arg)
->>> {
->>>    printf("Called clean\-up handler\\n");
->>>    cnt =3D 0;
->>> }
->>>
->>> static void *
->>> thread_start(void *arg)
->>> {
->>>    time_t start, curr;
->>>
->>>    printf("New thread started\\n");
->>>
->>>    pthread_cleanup_push(cleanup_handler, NULL);
->>>
->>>    curr =3D start =3D time(NULL);
->>>
->>>    while (!done) {
->>>        pthread_testcancel();           /* A cancellation point */
->>>        if (curr < time(NULL)) {
->>>            curr =3D time(NULL);
->>>            printf("cnt =3D %d\\n", cnt);  /* A cancellation point *=
-/
->> printf() is not a mandatory CP (but is a CP on Linux).
->=20
-> Yes, but I think no change is required -- or do you think something i=
-s required.
+clock_getres.3
+    Michael Kerrisk
+        CLOCK_PROCESS_CPUTIME_ID and CLOCK_THREAD_CPUTIME_ID not settab=
+le
+            According to POSIX.1-2001, the CLOCK_PROCESS_CPUTIME_ID and
+            CLOCK_THREAD_CPUTIME_ID clocks should be settable, but
+            currently they are not.
 
-No. Just wanted to make you aware that your program might break on=20
-platform where printf() is not a CP. But I Agree: this is just=20
-irrelevant here ;-)
-
->>>            cnt++;
->>>        }
->>>    }
->>>
->>>    pthread_cleanup_pop(cleanup_pop_arg);
->>>    return NULL;
->>> }
->>>
->>> int
->>> main(int argc, char *argv[])
->>> {
->>>    pthread_t thr;
->>>    int s;
->>>    void *res;
->>>
->>>    s =3D pthread_create(&thr, NULL, thread_start, (void *) 1);
->> Why (void*) 1 as arg?
->=20
-> Because I failed to clean-up after extracting code from another examp=
-le...
- >
-> Fixed now.
-
-I'd have bet...
-
->>>    if (s !=3D 0)
->>>        handle_error_en(s, "pthread_create");
->>>
->>>    sleep(2);           /* Allow new thread to run a while */
->>>
->>>    if (argc > 1) {
->>>        if (argc > 2)
->>>            cleanup_pop_arg =3D atoi(argv[2]);
->>>        done =3D 1;
->>>
->>>    } else {
->>>        printf("Canceling thread\\n");
->>>        s =3D pthread_cancel(thr);
->>>        if (s !=3D 0)
->>>            handle_error_en(s, "pthread_cancel");
->>>    }
->>>
->>>    s =3D pthread_join(thr, &res);
->>>    if (s !=3D 0)
->>>        handle_error_en(s, "pthread_join");
->>>
->>>    if (res =3D=3D PTHREAD_CANCELED)
->>>        printf("Thread was canceled; cnt =3D %d\\n", cnt);
->>>    else
->>>        printf("Thread terminated normally; cnt =3D %d\\n", cnt);
->>>    exit(EXIT_SUCCESS);
->>> }
->> I see a major deficiency in your code. Unless I am mistaken, the glo=
-bal
->> variable <done> and <cleanup_pop_arg> are accessed from two differen=
+getgrnam.3
+    Michael Kerrisk
+        Clarify and add more detail in RETURN VALUE description
+            The page was a bit fuzzy in describing the return values fo=
+r
+            various cases.  In particular, it needed to be more explici=
 t
->> threads.
->=20
-> True.
->=20
->> Following the POSIX memory model, you need mutex to synchronize the
->> visibility.
->=20
-> Please educate me about the POSIX memory model ;-).  Say some more
-> here please.  Are you meaning that the change made in main are not
-> guaranteed to visible in the other thread, unless I use a
-> synchronization mechanism?  (or, perhaps, a barrier?)
+            in describing what happens for the "not found" case.
 
-Oh, that's a long story. Tomorrow perhaps (I just came home, and I gues=
-s=20
-Antje would like to spend some time with me...)
+            This is an analogous change to the change for
+            getpwnam.3, made after Andreas Henriksson's report.
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504787
+    Michael Kerrisk
+        Rename arguments to getgrnam_r() and getgrgid_r()
+            s/gbuf/grp/ and s/gbufp/result/, for consistency
+            with POSIX.1 argument names.
+    Michael Kerrisk
+        Clarify RETURN VALUE description
+            The page was a bit fuzzy in describing the return values fo=
+r
+            various cases.  In particular, it needed to be more explici=
+t
+            in describing what happens for the "not found" case.
 
->>> .fi
->>> .SH SEE ALSO
->>> .BR pthread_cancel (3),
->>> .BR pthread_cleanup_push_defer_np (3),
->>> .BR pthread_setcancelstate (3),
->>> .BR pthread_testcancel (3),
->>> .BR pthreads (7)
->>>
->> A last comment: pthread_join(3) and pthread_cond_wait(3) are CP, so =
-it would
->> be nice to describe the cancellation semantic in their respective ma=
-n-page.
->=20
-> Well, it would be nice to explain the CP semantics of every glibc
-> function, but that's a prpoblem still to be resolved, right?
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504708
 
-Yes, you are perfectly right.
+getpwnam.3
+    Michael Kerrisk
+        Rename arguments to getpwnam_r() and getpwuid_r()
+            s/pwbuf/pwd/ and s/pwbufp/result/, for consistency
+            with POSIX.1 argument names.
+    Michael Kerrisk
+        Clarify and add more detail in RETURN VALUE description
+            The page was a bit fuzzy in describing the return values fo=
+r
+            various cases.  In particular, it needed to be more explici=
+t
+            in describing what happens for the "not found" case.
 
-Regarding the Pthreads functions:
-- for pthread_cond_wait(3), you need a cleanup handler to release the=20
-mutex associated to the condvar if the thread currently waiting on this=
-=20
-condvar is canceled.
-- for pthread_join(3), you need to describe what happens to the thread=20
-that was about being joined by the thread you just canceled.
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504787
+    Michael Kerrisk
+        Add an EXAMPLE program for getpwnam_r()
 
+inet_ntop.3
+    Michael Kerrisk
+        Rename 'cnt' argument to 'size'
+            This is consistent with POSIX.1, and also a more sensible n=
+ame.
+    Michael Kerrisk
+        Rework text describing 'size' argument
+            (After a suggestion by Vegard Nossum.)
+            Also made a few other small rewordings to in the initial
+            paragraph.
 
->> Besides that, you need clean-up handler if you use deferred cancella=
-tion on
->> pthread_cond_wait(3). Indeed, when this function is cancelled, the m=
-utex is
->> relocked.So, you need clean-up handler to unlock the mutex.
->=20
-> So, I'm unclear here: what specifically are you suggesting needs to b=
+makecontext.3
+    Michael Kerrisk
+        Add text on use of pointer arguments to makecontext()
+            Passing pointer arguments to makecontext() is possible,
+            but only on some architectures, and with no guarantees
+            of portability.
+
+            http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D504699
+
+pthread_attr_setaffinity_np.3
+    Michael Kerrisk
+        Various fixes after review by Loic Domaigne
+            Reviewed-by: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+
+pthread_attr_setaffinity_np.3
+pthread_setaffinity_np.3
+    Michael Kerrisk
+        Update to reflect new location of CPU_*() documentation
+            The CPU_*() macros are now documented in CPU_SET.3;
+            update to reflect that fact.
+    Michael Kerrisk
+        Remove redundant text relating to CPU sets
+            Information about CPU_SETSIZE can be found in CPU_SET.3, so
+            remove discussion of it here.
+
+pthread_attr_setschedparam.3
+pthread_setschedparam.3
+    Michael Kerrisk
+        Remove text saying that only sched_priority is required by POSI=
+X.1
+            Loic Domaigne points out that if a system implements
+            SCHED_SPORADIC (which Linux does not), then other
+            fields are also specified in sched_param.  The simple
+            solution is just to remove that phrase from the man
+            page.
+
+pthread_cancel.3
+pthread_detach.3
+pthread_join.3
+pthread_setaffinity_np.3
+    Michael Kerrisk
+        Make text of ESRCH error consistent
+
+pthread_setaffinity_np.3
+    Michael Kerrisk
+        Add text to EINVAL error mentioning cpuset(7)
+    Michael Kerrisk
+        Various improvements after review by Lo=EFc Domaigne
+            Various fix-ups after Lo=EFc's review.
+
+            Reviewed-by: Lo=EFc Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+
+pthread_setschedparam.3
+    Michael Kerrisk
+        PTHREAD_INHERIT_SCHED is default for inherit scheduler attribut=
 e
-> changed, and on what page?
+            In EXAMPLE, note that PTHREAD_INHERIT_SCHED is the default =
+for
+            the inherit scheduler attribute attribute.
 
-I am suggesting to describe in the man-page of pthread_cond_wait(3) wha=
-t=20
-does happen if a thread waiting on the condvar gets canceled.
+syslog.3
+    Masanari Iida
+        LOG_KERN messages can't be generated from user processes
+            Masanari notes that this is an FAQ for logger(1) and that
+            Solaris and FreeBSD document this point in syslog(3).
+            The glibc info page also hides this comment in its source:
 
-In addition, it is perhaps a good idea to add a reference <SEE also=20
-pthread_cond_wait(3)> for the present man-page.
+                Internally, there is also LOG_KERN, but LOG_KERN =3D=3D=
+ 0,
+                which means if you try to use it here, just selects def=
+ault.
 
-HTH,
-Lo=EFc.
---
+proc.5
+    Ivana Varekova
+        Fix reference to kernel source file
+            Use relative reference to Documentation/mtrr.txt.
+
+arp.7
+    Michael Kerrisk
+        Add kernel version numbers for /proc interfaces
+
+cpuset.7
+    Michael Kerrisk
+        SEE ALSO: add CPU_SET(3)
+
+epoll.7
+    Michael Kerrisk
+        Note glibc version that added epoll support
+
+icmp.7
+    Michael Kerrisk
+        Add kernel version numbers to /proc file descriptions
+
+inotify.7
+    Vegard Nossum
+        Fix description of max_user_watches
+            It seems that inotify(7) is wrong here:
+
+            "/proc/sys/fs/inotify/max_user_watches
+                This specifies a limit on the number of watches that ca=
+n be
+                associated with each inotify instance."
+
+            On my system, the default value for this variable is 8192. =
+But I
+            cannot create more than 8192 watches in total for the same =
+UID
+            even when they are on different inotify instances. So I sug=
+gest
+            to rephrase this as: "This specifies an upper limit on the
+            number of watches that can be created per real user ID."
+
+ip.7
+    Michael Kerrisk
+        Reorder socket options alphabetically
+    Michael Kerrisk
+        Added kernel version numbers for IP_* socket options
+    Michael Kerrisk
+        Relocate kernel version information for IP_PMTUDISC_PROBE
+    Michael Kerrisk
+        Add kernel version numbers for /proc/sys/net/ipv4/ip_* files
+    Michael Kerrisk
+        Remove mention of kernel header from description of IP_RECVERR
+            Looks like glibc has had this definition since about versio=
+n 2.1.
+    Michael Kerrisk
+        Relocate kernel version information for ip_mreqn structure
+    Michael Kerrisk
+        Relocate info about Linux-specific sockopts to NOTES
+            Also add some source comments about non-standard Linux-spec=
+ific
+            options that are not yet documented.
+
+netlink.7
+    Vegard Nossum
+        Fix incorrect variable names in example code
+            s/snl/sa/ * 2
+
+pthreads.7
+    Michael Kerrisk
+        Add section on cancellation points
+            This section includes a list of the functions that must and
+            may be cancellation points.
+    Michael Kerrisk
+        Rework, and fix small error in, thread-safe function list
+            Integrate the changes that occurred in POSIX.1-2008 into th=
+e
+            main list (to be consistent with the list, elsewhere on thi=
+s
+            page, of functions that are cancellation points).
+
+            Also, fix an error that said that strerror() was added to
+            the list in POSIX.1-2008.  It was strsignal() that was
+            added.  (strerror() was already in the list in POSIX.1-2001=
+=2E)
+    Michael Kerrisk
+        Tweak text on sigpause() cancellation point
+            In POSIX.1-2009, this function moves from the "must be"
+            to the "may be" list.
+    Michael Kerrisk
+        Add ref to signal(7) for further info on use of real-time signa=
+ls
+            signal(7) provides some further details on the use of real-=
+time
+            signals by the two Linux threading implementations.
+    Michael Kerrisk
+        SEE ALSO: add pthread_attr_init() and pthread_cancel()
+
+tcp.7
+    Michael Kerrisk
+        Update description of tcp_rmem defaults for Linux 2.6
+    Michael Kerrisk
+        Add kernel version numbers for TCP_* socket options
+            Note kernel version were each socket option first appeared.
+    Michael Kerrisk
+        The tcp_bic* proc files disappeared in Linux 2.6.13
+    Michael Kerrisk
+        tcp_vegas_cong_avoid disappeared in Linux 2.6.13
+    Michael Kerrisk
+        Add mention of RFC 4138 for 'tcp_frto' /proc file
+    Michael Kerrisk
+        Remove mention of /proc in VERSIONS
+            This information is not indicated for each /proc interface
+    Michael Kerrisk
+        Clarify that tcp_mem measures in units of the system page size
+    Michael Kerrisk
+        Update tcp_frto description for 2.6.22 changes
+            Linux 2.6.22 added a mode value 2 ("Enable SACK-enhanced
+            F-RTO if flow uses SACK").
+    Michael Kerrisk
+        Fix alphabetical order in /proc file list
+            A few entries were slightly out of order.
+    Michael Kerrisk
+        Remove obsolete statement about /proc from VERSIONS
+            Much of the text has been updated to 2.6.27 or so,
+            so this statement no longer applies.
+    Michael Kerrisk
+        Add kernel version numbers for each /proc interface
+            Note kernel version where each /proc interface first appear=
+ed
+    Michael Kerrisk
+        tcp_westwood /proc file disappeared in Linux 2.6.13
+    Michael Kerrisk
+        Update description of tcp_wmem defaults for Linux 2.6
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
