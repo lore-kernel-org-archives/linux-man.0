@@ -1,52 +1,41 @@
-From: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: mount(8) manpage and filesystem-specific options
-Date: Wed, 26 Nov 2008 11:54:44 +0100
-Message-ID: <20081126105444.GO2961@nb.net.home>
-References: <20081126041558.GA9251@infradead.org>
+From: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Documentation for CLONE_NEWPID
+Date: Wed, 26 Nov 2008 11:08:51 -0600
+Message-ID: <20081126170851.GA24943@hallyn.com>
+References: <4923810B.7010201@gmail.com> <20081123222023.GB12687@hallyn.com> <cfd18e0f0811250709x4e2cc5cdhafb9ccf494890442@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20081126041558.GA9251-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <cfd18e0f0811250709x4e2cc5cdhafb9ccf494890442-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: util-linux-ng-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sukadev Bhattiprolu <sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 25, 2008 at 11:15:58PM -0500, Christoph Hellwig wrote:
-> Currently the mount(8) manpages which is contained inside util-linux
-> has a list of mount options for various filesystem.  Now the filesystems
-> are in the kernel tree and can change options without affecting the
-> mount binary, and of course do so frequently.  This means these options
-> are frequently out of date.  All these options also make the manpage
+Quoting Michael Kerrisk (mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org):
+> Hi Serge,
+> > I assume you've considered the pros and cons of mentioning
+> > signal semantics with respect to init tasks of child pid namespaces,
+> > and decided it's not worth mentioning yet as the semantics are not
+> > yet finalized?
+> >
+> > The goal is to treat the process as a system-wide init with respect
+> > to signals coming from its own namespace, and treat it as an ordinary
+> > task for signals coming from its ancestor namespaces.  But as you've
+> > probably read, the implementation may result in some unfortunate
+> > side-effects regarding blocked signals etc.
+> 
+> No I haven't considered this at all.  Could you provide some pointers
+> to relevant discussions on this?
 
- Yes, you're right.
+The discussions are going on right now on lkml (see for instance
+http://lkml.org/lkml/2008/11/15/124).  But I think Nadia has already
+written something up.  Nadia, could you send what you have to
+Michael?
 
-> quite large and harder to read.  What do peope think about adding a
-> (section 4?) manpage for every common filesystem in the man-pages
-
- Something like this is on my wish list for long time ;-)
-
-> repository instead which people seems to help updating nowdays when
-> doing user ABI changes, and linking from the mount manpage to it?
-
- Do we have man-power to maintain the same thing on two places?
-
- The FS specific options are already documented in the kernel
- Documentation/ directory. I have no strong opinion about it, but I
- think the best solution is to maintain this docs on one place only.
- The place should be in the kernel tree otherwise developers will
- ignore the docs... (it's pretty simple to reject kernel patches
- without proper Documentation/ update).
-
- What about to keep this kernel docs in a parse-able (ascidoc?) format
- and generate the final man pages from this primary source. The final
- man pages could be distributed by util-linux-ng or man-pages.
-
-    Karel
-
--- 
- Karel Zak  <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+thanks,
+-serge
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
