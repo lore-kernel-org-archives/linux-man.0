@@ -1,65 +1,56 @@
-From: Nadia.Derbey-6ktuUTfB/bM@public.gmane.org
-Subject: signal handling description for Michaels CLONE_NEWPID man page
-Date: Thu, 27 Nov 2008 08:07:21 +0100
-Message-ID: <20081127070806.626288939@bull.net>
-References: <20081127070720.954560982@bull.net>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [RFC] devpts man page update
+Date: Thu, 27 Nov 2008 06:38:39 -0500
+Message-ID: <cfd18e0f0811270338o392daf81kdfd46cec51325891@mail.gmail.com>
+References: <20081126181732.GA1509@us.ibm.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline; filename=pidns_signals.patch
+In-Reply-To: <20081126181732.GA1509-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Nadia.Derbey-6ktuUTfB/bM@public.gmane.org
+To: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Michael,
+Suka,
 
-Here is the proposal for a description of signals handling in pid
-namespaces.
+On Wed, Nov 26, 2008 at 1:17 PM, Sukadev Bhattiprolu
+<sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> wrote:
+> Michael,
+>
+> Following is some text that would need to be added to devpts section of
+> mount(8) man page (its not a formal patch, just the text to be added).
+> I am looking for logistics and a general review of the text to be added.
 
-This applies on top of your CLONE_NEWPID patch.
+The mount(8) page is not part of the man-pages set.  Take a look here:
+http://www.kernel.org/doc/man-pages/man_pages_other.html
 
-Regards,
-Nadia
+> The relevant kernel patches are currently in ttydev/linux-next trees.
+> I can send the formal man page patch after those patches go into mainline.
 
----
- man2/clone.2 |   23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Though mount(8) is not on my set, I wonder if there is any text that
+should perhaps be added to pts(4) or pty(7).
 
-Index: man-pages-3.13/man2/clone.2
-===================================================================
---- man-pages-3.13.orig/man2/clone.2	2008-11-24 09:34:30.000000000 +0100
-+++ man-pages-3.13/man2/clone.2	2008-11-27 09:17:53.000000000 +0100
-@@ -226,6 +226,29 @@ configuration option and requires that t
- .RB (CAP_SYS_ADMIN ).
- This flag can't be specified in conjunction with
- .BR CLONE_THREAD .
-+
-+.BR "Signals handling:"
-+just like all the system calls that address a PID, signals can only be sent
-+to a process whose PID belongs to the same namespace as the caller.
-+
-+There are ways signals can be sent across namespaces boundaries such that
-+the sender does not have a valid pid in the receiver's pid namespace.
-+In such cases, the sender pid will be seen by the receiver as a 0 value
-+(this has an impact, for example, on the
-+.BR siginfo_t
-+structure contents - NOTE, this is still under development).
-+
-+The "init" process of a PID namespace has a particular status, since it
-+is known both by its children as PID 1 and by its father's PID namespace
-+as any other PID. Thus, the "init" process of a PID namespace can be sent
-+any signal by a process that belongs to its ancestor's PID namespace (given
-+that the sender has the appropriate permission). But the only signals that
-+can be sent to the "init" process of a PID namespace from its own namespace
-+are those for which it has explicitly installed signal handlers.
-+More precisely, signals are sent successfully (i.e
-+.BR kill (2)
-+will not fail), but the "init" process will silently ignore unhandled signals.
-+
- .TP
- .BR CLONE_PARENT " (since Linux 2.3.12)"
- If
+http://www.kernel.org/doc/man-pages/online/pages/man4/pts.4.html
+http://www.kernel.org/doc/man-pages/online/pages/man7/pty.7.html
 
--- 
+Take a look at those and let me know.
+
+> Also, is it ok to refer to 'Documentation' directory in the man page  -
+> there are several semantics outlined in Documentation/filesystem/devpts.txt
+> (http://www.linux.org.uk/~alan/ttydev/pty-multiple-doc), that may be of
+> use only to users of containers.
+
+Certainly as far as I'm concerned doing this is okay in the pages in
+man-pages -- you just need to say "the kernel source file
+Documentation/..."
+
+Cheers,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
