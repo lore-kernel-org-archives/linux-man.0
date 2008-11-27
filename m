@@ -1,50 +1,65 @@
-From: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: mount(8) manpage and filesystem-specific options
-Date: Thu, 27 Nov 2008 00:03:29 +0100
-Message-ID: <20081126230329.GA4307@nb.net.home>
-References: <20081126041558.GA9251@infradead.org> <20081126105444.GO2961@nb.net.home> <20081126200526.GX3186@webber.adilger.int>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Nadia.Derbey-6ktuUTfB/bM@public.gmane.org
+Subject: signal handling description for Michaels CLONE_NEWPID man page
+Date: Thu, 27 Nov 2008 08:07:21 +0100
+Message-ID: <20081127070806.626288939@bull.net>
+References: <20081127070720.954560982@bull.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20081126200526.GX3186-RIaA196FMs1uuQVovAj/GogTZbYi8/ss@public.gmane.org>
+Content-Disposition: inline; filename=pidns_signals.patch
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Dilger <adilger-xsfywfwIY+M@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, util-linux-ng-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Nadia.Derbey-6ktuUTfB/bM@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Nov 26, 2008 at 01:05:26PM -0700, Andreas Dilger wrote:
-> I never know what man section to put a new man page in, because the
-> descriptions of the section numers isn't given in the man(1) man page
-> itself, nor in any document in SEE ALSO.
+Michael,
 
- Hmm... man-1.6f-4.fc9, "man man" (yes, man(1) man page):
+Here is the proposal for a description of signals handling in pid
+namespaces.
 
-MANUAL SECTIONS
-       The standard sections of the manual include:
+This applies on top of your CLONE_NEWPID patch.
 
-       1      User Commands
+Regards,
+Nadia
 
-       2      System Calls
+---
+ man2/clone.2 |   23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-       3      C Library Functions
-
-       4      Devices and Special Files
-
-       5      File Formats and Conventions
-
-       6      Games et. Al.
-
-       7      Miscellanea
-
-       8      System Administration tools and Deamons
-
-       Distributions customize the manual section to their specifics,
-       which often include additional sections.
-
+Index: man-pages-3.13/man2/clone.2
+===================================================================
+--- man-pages-3.13.orig/man2/clone.2	2008-11-24 09:34:30.000000000 +0100
++++ man-pages-3.13/man2/clone.2	2008-11-27 09:17:53.000000000 +0100
+@@ -226,6 +226,29 @@ configuration option and requires that t
+ .RB (CAP_SYS_ADMIN ).
+ This flag can't be specified in conjunction with
+ .BR CLONE_THREAD .
++
++.BR "Signals handling:"
++just like all the system calls that address a PID, signals can only be sent
++to a process whose PID belongs to the same namespace as the caller.
++
++There are ways signals can be sent across namespaces boundaries such that
++the sender does not have a valid pid in the receiver's pid namespace.
++In such cases, the sender pid will be seen by the receiver as a 0 value
++(this has an impact, for example, on the
++.BR siginfo_t
++structure contents - NOTE, this is still under development).
++
++The "init" process of a PID namespace has a particular status, since it
++is known both by its children as PID 1 and by its father's PID namespace
++as any other PID. Thus, the "init" process of a PID namespace can be sent
++any signal by a process that belongs to its ancestor's PID namespace (given
++that the sender has the appropriate permission). But the only signals that
++can be sent to the "init" process of a PID namespace from its own namespace
++are those for which it has explicitly installed signal handlers.
++More precisely, signals are sent successfully (i.e
++.BR kill (2)
++will not fail), but the "init" process will silently ignore unhandled signals.
++
+ .TP
+ .BR CLONE_PARENT " (since Linux 2.3.12)"
+ If
 
 -- 
- Karel Zak  <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
