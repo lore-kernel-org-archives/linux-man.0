@@ -1,90 +1,130 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: signal handling description for Michaels CLONE_NEWPID man page
-Date: Fri, 28 Nov 2008 16:58:00 -0500
-Message-ID: <cfd18e0f0811281358s2e831b04qc56277db403c2039@mail.gmail.com>
-References: <20081127070720.954560982@bull.net>
-	 <20081127070806.626288939@bull.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk" <mtk.manpages@googlemail.com>
+Subject: Re: Query about uname.
+Date: Sat, 29 Nov 2008 08:08:43 -0500
+Message-ID: <cfd18e0f0811290508m6bec0b6at173f2f282a924e61@mail.gmail.com>
+References: <200811270735.42064.rob@landley.net>
+	 <cfd18e0f0811281300r6a487be9p6f0fbc1175bfd1a0@mail.gmail.com>
+	 <200811290207.27989.rob@landley.net>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081127070806.626288939-6ktuUTfB/bM@public.gmane.org>
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <200811290207.27989.rob@landley.net>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nadia.Derbey-6ktuUTfB/bM@public.gmane.org
-Cc: serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-doc-owner@vger.kernel.org
+To: Rob Landley <rob@landley.net>
+Cc: linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Nadia,
+[CC+= linux-msan@, which is where man-pages discussions really belong...]
 
-Thanks for putting this together.  A few questions below.
+On Sat, Nov 29, 2008 at 3:07 AM, Rob Landley <rob@landley.net> wrote:
+> On Friday 28 November 2008 15:00:23 Michael Kerrisk wrote:
+>> Rob,
+>>
+>> On Thu, Nov 27, 2008 at 8:35 AM, Rob Landley <rob@landley.net> wrote:
+>> > http://kernel.org/doc/man-pages/online/pages/man2/uname.2.html
+>> >
+>> > It says the length of the fields was unspecified.
+>>
+>> Yup -- that's what POSIX says.
+>
+> Posix doesn't specify init or mount either.  "Posix doesn't specify" doesn't
+> forbid something else from specifying it.
 
-On Thu, Nov 27, 2008 at 2:07 AM,  <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org> wrote:
-> Michael,
->
-> Here is the proposal for a description of signals handling in pid
-> namespaces.
->
-> This applies on top of your CLONE_NEWPID patch.
->
-> Regards,
-> Nadia
->
-> ---
->  man2/clone.2 |   23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> Index: man-pages-3.13/man2/clone.2
-> ===================================================================
-> --- man-pages-3.13.orig/man2/clone.2    2008-11-24 09:34:30.000000000 +0100
-> +++ man-pages-3.13/man2/clone.2 2008-11-27 09:17:53.000000000 +0100
-> @@ -226,6 +226,29 @@ configuration option and requires that t
->  .RB (CAP_SYS_ADMIN ).
->  This flag can't be specified in conjunction with
->  .BR CLONE_THREAD .
-> +
-> +.BR "Signals handling:"
-> +just like all the system calls that address a PID, signals can only be sent
-> +to a process whose PID belongs to the same namespace as the caller.
-> +
-> +There are ways signals can be sent across namespaces boundaries such that
+I think you somewhat misunderstand "unspecified".  For a wise
+application writer, this means: avoid relying on specific behaviors
+here if you want to write portable and future-proof programs.
 
-Just so I'm clear.  We're talking about the case here where, for
-example, a process in a parent namespace sends a signal to a process
-in the child namespace.  In such a case, the PID of the sender is not
-meaningful.  Right?
+>> As noted in the first para of the description,
+>> the fields of the structure are null-terminated, which, in the typical
+>> case, makes it quite possible to use them without knowing their
+>> (maximum) lengths.
+>
+> Use a field, yes.  Iterate though the fields/find the next field, no.
 
-> +the sender does not have a valid pid in the receiver's pid namespace.
-> +In such cases, the sender pid will be seen by the receiver as a 0 value
-> +(this has an impact, for example, on the
-> +.BR siginfo_t
-> +structure contents - NOTE, this is still under development).
+(This strikes me as a somewhat unusual requirement in the context of uname())
 
-Can you fill me in on the possibilities of "this is still under development"?
+> (I
+> suppose you can memset the memory block you feed to the syscall to "null" and
+> iterate through to the next non-null character, as long there's a guarantee
+> none of the fields will be zero length.)
+>
+>> And indeed, a portable program should not care.
+>
+> When I start writing portable programs that I intend to support on Dragonfly
+> BSD, I'll let you know.  "Posix portable" includes Windows NT and strange IBM
+> mainframes.
+
+Sure, but the man-pages are written for a general audience, many of
+whom most certainly *do* care about portability.
+
+>> > so leaving it unspecified is silly.  It's part of the current kernel's
+>> > binary abi, and the value is currently 65.
+>>
+>> And that last piece is exactly part of the problem, because once upon
+>> a time (okay: a long time ago, now), it was true that "the value is
+>> currently 9".
+>>
+>> It seems to me that all the info you needed was there in the page, but
+>> you didn't read the whole page.
+>
+> True.  I didn't notice that there was a "notes" field (my screen ended with
+> "return value", "errors", and "conforming to", didn't hit page down) that was
+> larger than the rest of the page.  My bad.
+>
+>> The question is, whether the page
+>> could/should provide more clues to make sure that the reader is
+>> pointed to the fine details (which, for the reasons I described above,
+>> are often not needed).
+>
+> I thought the point of the man pages on kernel.org was to document the kernel
+> API.
+
+See http://www.kernel.org/doc/man-pages/
+
+And especially, have a good look at
+http://www.kernel.org/doc/man-pages/maintaining.html
+
+Man-pages serves many purposes -- a probably incomplete list, in no
+particular order:
+
+1.Documenting the kernel API
+2. Documenting the glibc API
+3. Managing the sometimes tricky balance between the first two goals
+when there is a glibc wrapper that is non-trivial and changes the
+interface of the underlying system call.
+4. Providing guidance on writing programs portable across Unix systems.
+5. Providing information on historical variations in the Linux kernel
+and glibc interfaces -- in other words, providing guidance for
+programmers writing programs portable across Linux kernel and glibc
+versions.
+
+> (If you're programming against glibc I assume that has its own
+> documentation somewhere.)
+
+An interesting surmise.  There is the glibc manual.  But
+
+1. Many people (greatly) prefer man(1) format
+2. The glibc manual is far from complete.  (Often there is a man page
+for a glibc function, but no info page; sometimes the reverse is also
+true.)
+3. The glibc manual often doesn't seem to cover details of historical
+changes in the glibc interface, or to document bugs.
+4. Oftentimes a function's man page is better (more info, and/or a
+better (or any) example program) than the glibc info page (sometimes,
+the reverse is true, but often that changes after I find out about
+it).
+
+> I suppose those of us programming against uClibc or
+> other low level interfaces can always just look at the kernel source code.
+
+(Not sure of where you mean to go with that statement.)
 
 Cheers,
 
 Michael
-
-> +The "init" process of a PID namespace has a particular status, since it
-> +is known both by its children as PID 1 and by its father's PID namespace
-> +as any other PID. Thus, the "init" process of a PID namespace can be sent
-> +any signal by a process that belongs to its ancestor's PID namespace (given
-> +that the sender has the appropriate permission). But the only signals that
-> +can be sent to the "init" process of a PID namespace from its own namespace
-> +are those for which it has explicitly installed signal handlers.
-> +More precisely, signals are sent successfully (i.e
-> +.BR kill (2)
-> +will not fail), but the "init" process will silently ignore unhandled signals.
-> +
->  .TP
->  .BR CLONE_PARENT " (since Linux 2.3.12)"
->  If
->
-> --
->
-
 
 
 -- 
@@ -93,7 +133,3 @@ Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
 Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
