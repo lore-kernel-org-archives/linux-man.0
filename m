@@ -1,89 +1,72 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Cannot bind an AF_UNIX socket with large filenames
-Date: Sat, 29 Nov 2008 14:59:43 -0500
-Message-ID: <cfd18e0f0811291159n4e3cf6e8o193416d1e6905215@mail.gmail.com>
-References: <cone.1227969283.265765.5728.500@commodore.email-scan.com>
-	 <cfd18e0f0811290821i12790c61v8bdf8de4814522e4@mail.gmail.com>
-	 <cone.1227977665.259611.8091.500@commodore.email-scan.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Loic Domaigne <tech-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
+Subject: Re: For review: pthread_cleanup_push.3
+Date: Sun, 30 Nov 2008 21:10:24 +0100
+Message-ID: <4932F330.1010603@domaigne.com>
+References: <cfd18e0f0811140919g11e625a2i8546b3296d008dce@mail.gmail.com>	 <4927B203.3000702@domaigne.com> <cfd18e0f0811241404o1415d18bq497ff34b29502263@mail.gmail.com> <492C69E6.3030402@domaigne.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cone.1227977665.259611.8091.500-lO+bjgoT4TKm14v+eVDVcBDJ/jce7dRH@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <492C69E6.3030402-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Nov 29, 2008 at 11:54 AM, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> wrote:
-> Michael Kerrisk writes:
->
->> Hi Sam,
+Gidday Michael,
+
+IIRC, I had an issue left:
+
+>>> I see a major deficiency in your code. Unless I am mistaken, the gl=
+obal
+>>> variable <done> and <cleanup_pop_arg> are accessed from two differe=
+nt
+>>> threads.
 >>
->> (Always worth CCing me as well as the list, if you want my attention
->> on a bug report.)
->> On Sat, Nov 29, 2008 at 9:34 AM, Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
->> wrote:
->>>
->>> It looks like the kernel -- at least 2.6.27.5 -- rejects with EINVAL a
->>> bind() of an AF_UNIX socket whose given size exceeds sizeof(struct
->>> sockaddr_un).
->>>
->>> Even if I make arrangements for a larger structure to accomodate a path
->>> that
->>> exceeds sockaddr_un's 107 bytes + \0, and I specify the actual size of
->>> the
->>> structure, bind() fails for me.
->>>
->>> I don't have the details, but I'm pretty sure other unixes accept domain
->>> sockets with larger filenames.
+>> True.
 >>
->> Are you sure of that?  Offhand, I don't know of such implementations,
->> but it's been a while since I tested this.  Which systems have you
->> seen this on?
->
-> Well, by process of elimination it has to be either Solaris or AIX, since
-> those are the only ones I've worked with, in the last couple of decades.
-> However, I don't remember which specific versions.
-
-AIX is a system where I don't know the details.
-
->>> There, the sockaddr_un structure exists for
->>> historical reasons, and you can pretty much roll your own.
->>>
->>> This is perhaps worth mentioning in the description of EINVAL in unix(7).
+>>> Following the POSIX memory model, you need mutex to synchronize the
+>>> visibility.
 >>
->> I'm not (yet) convinced.
->
-> Well, various pathnames on various distros are getting longer, as times go
-> by. That's how this one came up on my radar screen.
->
-> It might be interesting to track down where the magical 108 byte limitation
-> came from, but I don't really know where to look.
+>> Please educate me about the POSIX memory model ;-).  Say some more
+>> here please.  Are you meaning that the change made in main are not
+>> guaranteed to visible in the other thread, unless I use a
+>> synchronization mechanism?  (or, perhaps, a barrier?)
+>=20
+> Oh, that's a long story. Tomorrow perhaps (I just came home, and I gu=
+ess=20
+> Antje would like to spend some time with me...)
 
-It's historical -- it's what was used on some of the early BSD sockets
-implementations.
+Please refer to St Butenhof's bible "Programming with POSIX Threads",=20
+=A73.4, pp88-95.
 
-Cheers,
+An excerpt can be found at:
+http://markmail.org/message/24zdwjjkbe4dqz5o
 
-Michael
+Basically:
 
-> Presuming four bytes for
-> the address family, that leaves the total structure of 112 bytes. Can't
-> think of a reason to use precisely that size, nothing more, and nothing
-> less.
->
+1) the values you write prior to pthread_create(3) can be seen in the=20
+new thread.
 
+2) the values you write prior to mutex_unlock(3) can be seen in any=20
+thread that locks later the same mutex.
 
+3) the values you write prior to terminating a thread can be seen in th=
+e=20
+thread that joins.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+4) the values you write prior to pthread_cond_{signal,broadcast}(3) can=
+=20
+be seen by any thread that is awakened.
+
+=46ailing to comply these rules may cause your program to fail in very=20
+subtle ways on multi-processors machine. Even if I may save here and=20
+there a mutex; I apply those rules religiously (but, yeah, I am a=20
+Pthreads fanatic ;-)
+
+HTH,
+Lo=EFc.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
