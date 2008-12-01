@@ -1,179 +1,123 @@
-From: "Michael Kerrisk" <mtk.manpages@googlemail.com>
-Subject: Re: Query about uname.
-Date: Sun, 30 Nov 2008 22:41:09 -0500
-Message-ID: <cfd18e0f0811301941g5a71e8do507bba3567d043d8@mail.gmail.com>
-References: <200811270735.42064.rob@landley.net>
-	 <200811290207.27989.rob@landley.net>
-	 <cfd18e0f0811290508m6bec0b6at173f2f282a924e61@mail.gmail.com>
-	 <200811301927.27969.rob@landley.net>
-Reply-To: mtk.manpages@gmail.com
+From: Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
+Subject: Re: signal handling description for Michaels CLONE_NEWPID man page
+Date: Mon, 01 Dec 2008 08:36:44 +0100
+Message-ID: <1228117005.2615.186.camel@frecb000730.frec.bull.fr>
+References: <20081127070720.954560982@bull.net>
+	 <20081127070806.626288939@bull.net>
+	 <cfd18e0f0811281358s2e831b04qc56277db403c2039@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-doc-owner@vger.kernel.org>
-In-Reply-To: <200811301927.27969.rob@landley.net>
-Content-Disposition: inline
-Sender: linux-doc-owner@vger.kernel.org
-To: Rob Landley <rob@landley.net>
-Cc: linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <cfd18e0f0811281358s2e831b04qc56277db403c2039-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Nov 30, 2008 at 8:27 PM, Rob Landley <rob@landley.net> wrote:
-> On Saturday 29 November 2008 07:08:43 Michael Kerrisk wrote:
->> [CC+= linux-msan@, which is where man-pages discussions really belong...]
->
-> I wonder what linux-doc is for?
+On Fri, 2008-11-28 at 16:58 -0500, Michael Kerrisk wrote:
+> Hi Nadia,
+> 
+> Thanks for putting this together.  A few questions below.
+> 
+> On Thu, Nov 27, 2008 at 2:07 AM,  <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org> wrote:
+> > Michael,
+> >
+> > Here is the proposal for a description of signals handling in pid
+> > namespaces.
+> >
+> > This applies on top of your CLONE_NEWPID patch.
+> >
+> > Regards,
+> > Nadia
+> >
+> > ---
+> >  man2/clone.2 |   23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > Index: man-pages-3.13/man2/clone.2
+> > ===================================================================
+> > --- man-pages-3.13.orig/man2/clone.2    2008-11-24 09:34:30.000000000 +0100
+> > +++ man-pages-3.13/man2/clone.2 2008-11-27 09:17:53.000000000 +0100
+> > @@ -226,6 +226,29 @@ configuration option and requires that t
+> >  .RB (CAP_SYS_ADMIN ).
+> >  This flag can't be specified in conjunction with
+> >  .BR CLONE_THREAD .
+> > +
+> > +.BR "Signals handling:"
+> > +just like all the system calls that address a PID, signals can only be sent
+> > +to a process whose PID belongs to the same namespace as the caller.
+> > +
+> > +There are ways signals can be sent across namespaces boundaries such that
+> 
+> Just so I'm clear.  We're talking about the case here where, for
+> example, a process in a parent namespace sends a signal to a process
+> in the child namespace.  In such a case, the PID of the sender is not
+> meaningful.  Right?
 
-Something else.
+Yes, a process doesn't have a valid pid number in a descendant pid
+namespace. So a process receiving a signal from an upper level PID
+namespace will see the signal originator as "not meaningful".
 
->> > Posix doesn't specify init or mount either.  "Posix doesn't specify"
->> > doesn't forbid something else from specifying it.
->>
->> I think you somewhat misunderstand "unspecified".  For a wise
->> application writer, this means: avoid relying on specific behaviors
->> here if you want to write portable and future-proof programs.
->
-> Perhaps I'm strange in trying to treat Linux as a platform I want to write
-> software for.  I'm all for future-proofing, but after a binary's compiled
-> there's not a whole lot you can do about it,
+> 
+> > +the sender does not have a valid pid in the receiver's pid namespace.
+> > +In such cases, the sender pid will be seen by the receiver as a 0 value
+> > +(this has an impact, for example, on the
+> > +.BR siginfo_t
+> > +structure contents - NOTE, this is still under development).
+> 
+> Can you fill me in on the possibilities of "this is still under development"?
 
-Untrue.  There are often things you can do *before* the binary is
-compiled, so as to avoid relying on unspecified details.
+This is because the semantics are still under discussion (see thread
+http://lkml.org/lkml/2008/11/25/458).
+There are also places that are not addressed by this patchset, but where
+the signal originator pid might have to be cleared, like the following:
+1. POSIX message queues: if the process that registers for notification
+through mq_notify() is in a descendant namespace of the one that sends a
+message to the mqueue.
+2. a process is set as the SIGIO receiver through fcntl(F_SETOWN) and
+the write() to the file is done by a process that belongs to an ancestor
+namespace.
 
-[...]
+Also, if the implementation proposed by this patchset is adopted, we
+should add a note on what could appear as a change in the ABI for the
+rt_sigqueueinfo() call: this call explicitely sends a siginfo_t
+structure. So the si_pid might have been filled by the caller. But if
+the signal receiver of this rt_sigqueueinfo() is in a descendant
+namespace, the si_pid field will be cleared by the kernel.
 
->> >> And indeed, a portable program should not care.
->> >
->> > When I start writing portable programs that I intend to support on
->> > Dragonfly BSD, I'll let you know.  "Posix portable" includes Windows NT
->> > and strange IBM mainframes.
->>
->> Sure, but the man-pages are written for a general audience, many of
->> whom most certainly *do* care about portability.
->
-> As long as that general audience doesn't _exclude_ people who think that Linux
-> is a platform in its own right,
+Regards,
+Nadia
 
-I'm not sure where this idea of yours even comes from?  It's certainly
-not the intent of man-pages...
-
-[...]
-
->> >> It seems to me that all the info you needed was there in the page, but
->> >> you didn't read the whole page.
->> >
->> > True.  I didn't notice that there was a "notes" field (my screen ended
->> > with "return value", "errors", and "conforming to", didn't hit page down)
->> > that was larger than the rest of the page.  My bad.
->> >
->> >> The question is, whether the page
->> >> could/should provide more clues to make sure that the reader is
->> >> pointed to the fine details (which, for the reasons I described above,
->> >> are often not needed).
->> >
->> > I thought the point of the man pages on kernel.org was to document the
->> > kernel API.
->>
->> See http://www.kernel.org/doc/man-pages/
->>
->> And especially, have a good look at
->> http://www.kernel.org/doc/man-pages/maintaining.html
->
-> I read the first five screens full, and skimmed the first three pages of the
-> first link (man 7 man-pages).  I assume there's a policy statement buried
-> somewhere under there, but didn't dig far enough to find it.
->
-> I was under the impression that man page section 2 was about the kernel, and
-> man page section 3 was about glibc.
-
-Life is not so simple, because of (g)libc wrappers.
-
->> Man-pages serves many purposes -- a probably incomplete list, in no
->> particular order:
->>
->> 1.Documenting the kernel API
->> 2. Documenting the glibc API
->> 3. Managing the sometimes tricky balance between the first two goals
->> when there is a glibc wrapper that is non-trivial and changes the
->> interface of the underlying system call.
->
-> I'm aware of this.  I thought the kernel.org pages would document the kernel,
-> because glibc has its own documentation and nothing else is going to.  If it
-> wants to document how glibc does things as well, I'd like to if people using
-> klibc or uClibc or dietlibc or newlib or one of the others had at least the
-> capability to distinguish and ignore it.
-
-Ideally (the pages in man-pages are not perfect), this capability
-exists.  If you look in section 2 pages, you'll *often* see notes that
-point out what's added to the kernel by glibc.
-
-> Glibc isn't the only C library used
-> on Linux.
-
-But it is the one used by the overwhelming majority of applications.
-
->> 4. Providing guidance on writing programs portable across Unix systems.
->
-> SUSv3 is available online:
-> http://www.opengroup.org/onlinepubs/009695399/
-> http://www.opengroup.org/onlinepubs/009695399/idx/xsh_chap02.html
-> http://www.opengroup.org/onlinepubs/009695399/idx/functions.html
->
-> When I want "portable", I look there.
-
-Good for you.
-
->> 5. Providing information on historical variations in the Linux kernel
->> and glibc interfaces -- in other words, providing guidance for
->> programmers writing programs portable across Linux kernel and glibc
->> versions.
->
-> Sure.  As a computer history buff, I'm all for it.
->
-> As a programmer, it's not usually what I'm looking for when I open a man page,
-> and if I wanted to look at Red Hat 7's man pages I have
-> http://archive.download.redhat.com and qemu...
-
-Maybe you don't; some programmers do though.
-
->> > (If you're programming against glibc I assume that has its own
->> > documentation somewhere.)
->>
->> An interesting surmise.  There is the glibc manual.  But
->>
->> 1. Many people (greatly) prefer man(1) format
->> 2. The glibc manual is far from complete.  (Often there is a man page
->> for a glibc function, but no info page; sometimes the reverse is also
->> true.)
->> 3. The glibc manual often doesn't seem to cover details of historical
->> changes in the glibc interface, or to document bugs.
->> 4. Oftentimes a function's man page is better (more info, and/or a
->> better (or any) example program) than the glibc info page (sometimes,
->> the reverse is true, but often that changes after I find out about
->> it).
->
-> Doing the whole codependent enabler thing and compensating for deficiencies
-
-Okay -- at this point your tone is starting to grate (more).  By your
-own admission, you are unaware of many details of the origins, goals,
-and operation of the man-pages project.  If you have specific
-suggestions on how to improve specific pages, send them,  So far,
-mostly it looks like you are arm waving, and, by now, starting to get
-disrespectful with it.  If you want to offer suggestions or advice
-about what the project does, or should do, they'll be much better
-received if you first educate yourself about the project and why it
-does things the way it does.
-
-[...]
-
-Cheers,
-
-Michael
-
-
+> 
+> Cheers,
+> 
+> Michael
+> 
+> > +The "init" process of a PID namespace has a particular status, since it
+> > +is known both by its children as PID 1 and by its father's PID namespace
+> > +as any other PID. Thus, the "init" process of a PID namespace can be sent
+> > +any signal by a process that belongs to its ancestor's PID namespace (given
+> > +that the sender has the appropriate permission). But the only signals that
+> > +can be sent to the "init" process of a PID namespace from its own namespace
+> > +are those for which it has explicitly installed signal handlers.
+> > +More precisely, signals are sent successfully (i.e
+> > +.BR kill (2)
+> > +will not fail), but the "init" process will silently ignore unhandled signals.
+> > +
+> >  .TP
+> >  .BR CLONE_PARENT " (since Linux 2.3.12)"
+> >  If
+> >
+> > --
+> >
+> 
+> 
+> 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
