@@ -1,14 +1,14 @@
 From: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [RFC] devpts man page update
-Date: Mon, 01 Dec 2008 15:03:30 -0800
-Message-ID: <49346D42.3060409@zytor.com>
+Date: Mon, 01 Dec 2008 15:19:16 -0800
+Message-ID: <493470F4.3080602@zytor.com>
 References: <20081126181732.GA1509@us.ibm.com> <cfd18e0f0811270338o392daf81kdfd46cec51325891@mail.gmail.com> <20081201181055.GA12493@us.ibm.com> <cfd18e0f0812011131g2bbe2d6flb8cc89eaa7f96ad4@mail.gmail.com> <49343E32.50707@zytor.com> <20081201223913.GF2956@nb.net.home> <4934682F.7050305@zytor.com> <20081201230031.GA26838@nb.net.home>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <util-linux-ng-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <20081201230031.GA26838-sHeGUpI7y9L/9pzu0YdTqQ@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: util-linux-ng-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Karel Zak <kzak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, List util-linux-ng <util-linux-ng-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
@@ -29,10 +29,14 @@ Karel Zak wrote:
 >  maintained *together* with fs-depend code.
 > 
 
-Acked-by: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org> ;)
+By the way, lest someone gets the wrong idea... I think mtk has done a
+fantastic job with the man pages recently, and I certainly don't want to
+replace him.  I think he should push into the kernel tree via git like
+all the other maintainers (for the relevant portions, obviously --
+section 3, for example, doesn't make sense in the kernel tree.)
 
 	-hpa
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
+To unsubscribe from this list: send the line "unsubscribe util-linux-ng" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
