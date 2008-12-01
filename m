@@ -1,30 +1,46 @@
-From: Randy Dunlap <randy.dunlap@oracle.com>
-Subject: Re: Query about uname.
-Date: Mon, 1 Dec 2008 09:46:33 -0800
-Message-ID: <20081201094633.754bf248.randy.dunlap@oracle.com>
-References: <200811270735.42064.rob@landley.net>
-	<200811290207.27989.rob@landley.net>
-	<cfd18e0f0811290508m6bec0b6at173f2f282a924e61@mail.gmail.com>
-	<200811301927.27969.rob@landley.net>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: For review: makedev(3)
+Date: Mon, 1 Dec 2008 12:50:35 -0500
+Message-ID: <cfd18e0f0812010950i57661876m12710b7c3c55d008@mail.gmail.com>
+References: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9@mail.gmail.com>
+	 <1228152997563@dmwebmail.dmwebmail.chezphil.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-doc-owner@vger.kernel.org>
-In-Reply-To: <200811301927.27969.rob@landley.net>
-Sender: linux-doc-owner@vger.kernel.org
-To: Rob Landley <rob@landley.net>
-Cc: mtk.manpages@gmail.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1228152997563-YnoLgZYwwYuCbKHnblo0pmrPP3OPMK55cpQHUIT47Ck@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Phil Endecott <phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 30 Nov 2008 19:27:27 -0600 Rob Landley wrote:
+On Mon, Dec 1, 2008 at 12:36 PM, Phil Endecott
+<phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org> wrote:
+> Michael Kerrisk wrote:
+>>
+>> Phil noted the absence of a page documenting the macros for manging
+>> device IDs.  review comments for the following welcome.
+>
+> Looks good to me.
 
-> On Saturday 29 November 2008 07:08:43 Michael Kerrisk wrote:
-> > [CC+= linux-msan@, which is where man-pages discussions really belong...]
-> 
-> I wonder what linux-doc is for?
+Thanks.
 
-It's for Linux documentation that's in the kernel tree.
-Or for doc tools that the Linux kernel uses.
+> I trust you'll add a SEE ALSO from the mknod page.
 
----
-~Randy
+Already done.
+
+Cheers,
+
+Michael
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
