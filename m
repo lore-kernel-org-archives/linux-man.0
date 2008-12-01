@@ -1,28 +1,30 @@
-From: "Phil Endecott" <phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
-Subject: Re: For review: makedev(3)
-Date: Mon, 01 Dec 2008 17:43:40 +0000
-Message-ID: <1228153420990@dmwebmail.dmwebmail.chezphil.org>
-References: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9@mail.gmail.com>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: Re: Query about uname.
+Date: Mon, 1 Dec 2008 09:46:33 -0800
+Message-ID: <20081201094633.754bf248.randy.dunlap@oracle.com>
+References: <200811270735.42064.rob@landley.net>
+	<200811290207.27989.rob@landley.net>
+	<cfd18e0f0811290508m6bec0b6at173f2f282a924e61@mail.gmail.com>
+	<200811301927.27969.rob@landley.net>
 Mime-Version: 1.0
-Content-Type: text/plain; format="flowed"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <200811301927.27969.rob@landley.net>
+Sender: linux-doc-owner@vger.kernel.org
+To: Rob Landley <rob@landley.net>
+Cc: mtk.manpages@gmail.com, linux-doc@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Michael Kerrisk wrote:
-> .B #define <sys/types.h>
+On Sun, 30 Nov 2008 19:27:27 -0600 Rob Landley wrote:
 
-Just spotted that obvious typo.
+> On Saturday 29 November 2008 07:08:43 Michael Kerrisk wrote:
+> > [CC+= linux-msan@, which is where man-pages discussions really belong...]
+> 
+> I wonder what linux-doc is for?
 
+It's for Linux documentation that's in the kernel tree.
+Or for doc tools that the Linux kernel uses.
 
-Phil.
-
-
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+---
+~Randy
