@@ -1,105 +1,31 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: makedev(3)
-Date: Mon, 1 Dec 2008 12:32:11 -0500
-Message-ID: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Phil Endecott" <phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
+Subject: Re: For review: makedev(3)
+Date: Mon, 01 Dec 2008 17:36:37 +0000
+Message-ID: <1228152997563@dmwebmail.dmwebmail.chezphil.org>
+References: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; format="flowed"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Phil Endecott <phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Phil noted the absence of a page documenting the macros for manging
-device IDs.  review comments for the following welcome.
+Michael Kerrisk wrote:
+> Phil noted the absence of a page documenting the macros for manging
+> device IDs.  review comments for the following welcome.
 
-Thanks,
+Looks good to me.
 
-Michael
+I trust you'll add a SEE ALSO from the mknod page.
 
-.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH MAKEDEV 3 2008-12-01 "Linux" "Linux Programmer's Manual"
-.SH NAME
-makedev, major, minor \- manage a device number
-.SH SYNOPSIS
-.nf
-.B #define _BSD_SOURCE
-.B #define <sys/types.h>
 
-.BI "dev_t makedev(int " maj ", int " min );
+Cheers,  Phil.
 
-.BI "int major(dev_t " dev );
-.BI "int minor(dev_t " dev );
 
-.fi
-.SH DESCRIPTION
-A device ID consists of two parts:
-a major ID, identifying the class of the device,
-and a minor ID, identifying a specific instance of a device in that class.
-A device ID is represented using the type
-.IR dev_t .
 
-Given major and minor device IDs,
-.BR makedev ()
-combines these to produce a device ID, returned as the function result.
-This device ID can be given to
-.BR mknod (2),
-for example.
 
-The
-.BR major ()
-and
-.BR minor ()
-functions perform the converse task: given a device ID,
-they return, respectively, the major and minor components.
-These macros can be useful to, for example,
-decompose the device IDs in the structure returned by
-.BR stat (2).
-.SH "CONFORMING TO"
-The
-.BR makedev ()
-.BR major ()
-and
-.BR minor ()
-functions are not specified in POSIX.1,
-but are present on many other systems.
-.\" The BSDs, HP-UX, Solaris, AIX, Irix
-.SH NOTES
-These interfaces are defined as macros.
-Since glibc 2.3.3,
-they have been aliases for three GNU-specific functions:
-.BR gnu_dev_makedev (3),
-.BR gnu_dev_major (3),
-and
-.BR gnu_dev_minor (3).
-The latter names are exported, but the traditional names are more portable.
-.SH "SEE ALSO"
-.BR mknod (2),
-.BR stat (2)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
