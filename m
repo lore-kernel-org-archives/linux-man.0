@@ -1,122 +1,35 @@
-From: Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
-Subject: Re: signal handling description for Michaels CLONE_NEWPID man page
-Date: Mon, 01 Dec 2008 08:36:44 +0100
-Message-ID: <1228117005.2615.186.camel@frecb000730.frec.bull.fr>
-References: <20081127070720.954560982@bull.net>
-	 <20081127070806.626288939@bull.net>
-	 <cfd18e0f0811281358s2e831b04qc56277db403c2039@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Documentation RFC: MSG_TRUNC and TCP sockets
+Date: Mon, 1 Dec 2008 11:16:01 -0500
+Message-ID: <cfd18e0f0812010816m5c8a689t2c28421d1bcdac84@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0811281358s2e831b04qc56277db403c2039-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
+To: netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Stephen Hemminger <shemminger-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: Hamish Moffatt <hamish-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 2008-11-28 at 16:58 -0500, Michael Kerrisk wrote:
-> Hi Nadia,
-> 
-> Thanks for putting this together.  A few questions below.
-> 
-> On Thu, Nov 27, 2008 at 2:07 AM,  <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org> wrote:
-> > Michael,
-> >
-> > Here is the proposal for a description of signals handling in pid
-> > namespaces.
-> >
-> > This applies on top of your CLONE_NEWPID patch.
-> >
-> > Regards,
-> > Nadia
-> >
-> > ---
-> >  man2/clone.2 |   23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > Index: man-pages-3.13/man2/clone.2
-> > ===================================================================
-> > --- man-pages-3.13.orig/man2/clone.2    2008-11-24 09:34:30.000000000 +0100
-> > +++ man-pages-3.13/man2/clone.2 2008-11-27 09:17:53.000000000 +0100
-> > @@ -226,6 +226,29 @@ configuration option and requires that t
-> >  .RB (CAP_SYS_ADMIN ).
-> >  This flag can't be specified in conjunction with
-> >  .BR CLONE_THREAD .
-> > +
-> > +.BR "Signals handling:"
-> > +just like all the system calls that address a PID, signals can only be sent
-> > +to a process whose PID belongs to the same namespace as the caller.
-> > +
-> > +There are ways signals can be sent across namespaces boundaries such that
-> 
-> Just so I'm clear.  We're talking about the case here where, for
-> example, a process in a parent namespace sends a signal to a process
-> in the child namespace.  In such a case, the PID of the sender is not
-> meaningful.  Right?
+After a bug report from Hamish, I did some reading to determine
+meaning of MSG_TRUNC for TCP sockets.  I'd appreciate confirmation
+that the following text, scheduled the tcp(7) page in man-pages-3.15,
+matches reality, and the developers' intentions (but I am not sure who
+implemented this piece).
 
-Yes, a process doesn't have a valid pid number in a descendant pid
-namespace. So a process receiving a signal from an upper level PID
-namespace will see the signal originator as "not meaningful".
+       Since version 2.4, Linux supports the use of MSG_TRUNC in
+       the flags argument of  recv(2)  (and  recvmsg(2)).   This
+       flag  causes  the received bytes of data to be discarded,
+       rather than passed  back  in  a  caller-supplied  buffer.
+       Since  Linux  2.4.4,  MSG_PEEK  also has this effect when
+       used in conjunction with MSG_OOB to  receive  out-of-band
+       data.
 
-> 
-> > +the sender does not have a valid pid in the receiver's pid namespace.
-> > +In such cases, the sender pid will be seen by the receiver as a 0 value
-> > +(this has an impact, for example, on the
-> > +.BR siginfo_t
-> > +structure contents - NOTE, this is still under development).
-> 
-> Can you fill me in on the possibilities of "this is still under development"?
+Cheers,
 
-This is because the semantics are still under discussion (see thread
-http://lkml.org/lkml/2008/11/25/458).
-There are also places that are not addressed by this patchset, but where
-the signal originator pid might have to be cleared, like the following:
-1. POSIX message queues: if the process that registers for notification
-through mq_notify() is in a descendant namespace of the one that sends a
-message to the mqueue.
-2. a process is set as the SIGIO receiver through fcntl(F_SETOWN) and
-the write() to the file is done by a process that belongs to an ancestor
-namespace.
-
-Also, if the implementation proposed by this patchset is adopted, we
-should add a note on what could appear as a change in the ABI for the
-rt_sigqueueinfo() call: this call explicitely sends a siginfo_t
-structure. So the si_pid might have been filled by the caller. But if
-the signal receiver of this rt_sigqueueinfo() is in a descendant
-namespace, the si_pid field will be cleared by the kernel.
-
-Regards,
-Nadia
-
-> 
-> Cheers,
-> 
-> Michael
-> 
-> > +The "init" process of a PID namespace has a particular status, since it
-> > +is known both by its children as PID 1 and by its father's PID namespace
-> > +as any other PID. Thus, the "init" process of a PID namespace can be sent
-> > +any signal by a process that belongs to its ancestor's PID namespace (given
-> > +that the sender has the appropriate permission). But the only signals that
-> > +can be sent to the "init" process of a PID namespace from its own namespace
-> > +are those for which it has explicitly installed signal handlers.
-> > +More precisely, signals are sent successfully (i.e
-> > +.BR kill (2)
-> > +will not fail), but the "init" process will silently ignore unhandled signals.
-> > +
-> >  .TP
-> >  .BR CLONE_PARENT " (since Linux 2.3.12)"
-> >  If
-> >
-> > --
-> >
-> 
-> 
-> 
--- 
-Nadia Derbey <Nadia.Derbey-6ktuUTfB/bM@public.gmane.org>
-
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
