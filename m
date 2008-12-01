@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: RFC: Updating MSG_TRUNC documentation for datagram/netlink/unix sockets
-Date: Mon, 1 Dec 2008 11:16:31 -0500
-Message-ID: <cfd18e0f0812010816x4b9f3458t18944179db9e50e2@mail.gmail.com>
+Subject: For review: makedev(3)
+Date: Mon, 1 Dec 2008 12:32:11 -0500
+Message-ID: <cfd18e0f0812010932x2b9258adxbcc8779341ee37f9@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -9,49 +9,97 @@ Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Stephen Hemminger <shemminger-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Kabs <dkabs-3Rif73Jvm8BBDgjK7y7TUQ@public.gmane.org>, Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Phil Endecott <phil_vonar_endecott-wZDNlLIRyE5g9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-I'm trying to update the description of MSG_TRUNC as an *input* flag
-value for calls to recv*().  I'd appreciate it if someone could could
-confirm the changes in the following patch to the recv(2) man page.
+Phil noted the absence of a page documenting the macros for manging
+device IDs.  review comments for the following welcome.
 
-(Dave, it looks like you implemented (commit commit
-b558ff799977a4eda8b3823d1cf6c1c33becb671) at least some of the parts
-that I'm trying to document here...  )
-
-Cheers,
+Thanks,
 
 Michael
 
--.TH RECV 2 2008-07-14 "Linux" "Linux Programmer's Manual"
-+.TH RECV 2 2008-12-01 "Linux" "Linux Programmer's Manual"
- .SH NAME
- recv, recvfrom, recvmsg \- receive a message from a socket
- .SH SYNOPSIS
-@@ -254,9 +254,18 @@ Thus, a
- subsequent receive call will return the same data.
- .TP
- .BR MSG_TRUNC " (since Linux 2.2)"
--Return the real length of the packet, even when it was longer than
--the passed buffer.
--Only valid for packet sockets.
-+For raw
-+.RB ( AF_PACKET ),
-+Internet datagram (since Linux 2.4.27/2.6.8),
-+and netlink (since Linux 2.6.22) sockets:
-+return the real length of the packet or datagram,
-+even when it was longer than the passed buffer.
-+Not implemented for Unix domain
-+.RP ( unix (7))
-+sockets.
-+
-+For use with Internet stream sockets, see
-+.BR tcp (7).
- .TP
- .BR MSG_WAITALL " (since Linux 2.2)"
- This flag requests that the operation block until the full request is
+.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
+.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH MAKEDEV 3 2008-12-01 "Linux" "Linux Programmer's Manual"
+.SH NAME
+makedev, major, minor \- manage a device number
+.SH SYNOPSIS
+.nf
+.B #define _BSD_SOURCE
+.B #define <sys/types.h>
+
+.BI "dev_t makedev(int " maj ", int " min );
+
+.BI "int major(dev_t " dev );
+.BI "int minor(dev_t " dev );
+
+.fi
+.SH DESCRIPTION
+A device ID consists of two parts:
+a major ID, identifying the class of the device,
+and a minor ID, identifying a specific instance of a device in that class.
+A device ID is represented using the type
+.IR dev_t .
+
+Given major and minor device IDs,
+.BR makedev ()
+combines these to produce a device ID, returned as the function result.
+This device ID can be given to
+.BR mknod (2),
+for example.
+
+The
+.BR major ()
+and
+.BR minor ()
+functions perform the converse task: given a device ID,
+they return, respectively, the major and minor components.
+These macros can be useful to, for example,
+decompose the device IDs in the structure returned by
+.BR stat (2).
+.SH "CONFORMING TO"
+The
+.BR makedev ()
+.BR major ()
+and
+.BR minor ()
+functions are not specified in POSIX.1,
+but are present on many other systems.
+.\" The BSDs, HP-UX, Solaris, AIX, Irix
+.SH NOTES
+These interfaces are defined as macros.
+Since glibc 2.3.3,
+they have been aliases for three GNU-specific functions:
+.BR gnu_dev_makedev (3),
+.BR gnu_dev_major (3),
+and
+.BR gnu_dev_minor (3).
+The latter names are exported, but the traditional names are more portable.
+.SH "SEE ALSO"
+.BR mknod (2),
+.BR stat (2)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
