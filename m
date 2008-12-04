@@ -1,42 +1,65 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Could you write some CLONE_NEWUSER?
-Date: Thu, 4 Dec 2008 10:41:14 -0500
-Message-ID: <cfd18e0f0812040741p1d062f93t3e3b4db52d77ef34@mail.gmail.com>
-References: <cfd18e0f0812040720y5cabd2aarbf3912644dea42c4@mail.gmail.com>
-	 <20081204153423.GA9233@us.ibm.com>
+Subject: Re: stat(2) can return EOVERFLOW
+Date: Thu, 4 Dec 2008 13:52:12 -0500
+Message-ID: <cfd18e0f0812041052v113510bbg389e8167758d1947@mail.gmail.com>
+References: <20081204155355.GI16402@aym.net2.nerim.net>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081204153423.GA9233-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20081204155355.GI16402-956IwFboN44acnK+F/IuxqxOck334EZe@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Serge E. Hallyn" <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+To: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Dec 4, 2008 at 10:34 AM, Serge E. Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org> wrote:
-> Quoting Michael Kerrisk (mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org):
->> Hi Serge,
->>
->> Thanks for CCing me on recent CLONE_NEWUSER patches.
->>
->> Would you be will to write some documentation for this flag?  (It's
->> the only remaining undocumented flag in clone(2).)  Plain text would
->> be fine -- I'll integrate it into the man page with suitable macros.
+[CC += linux-man@]
+
+Hi Andre,
+
+Thanks for the bug report.
+
+On Thu, Dec 4, 2008 at 10:53 AM, Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org> wrote:
+> Michael,
 >
-> Will do, will aim to send it to you by tomorrow.
+> On my system, stat(2) can return EOVERFLOW when stat'ing a file
+> larger than 4 (or 2 ?) GB.
 
-Thanks Serge.
+2!
 
+> The ERRORS section of stat(2) does not
+> mention EOVERFLOW.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+I made the change below, for man-pages-3.15.
+
+Thanks,
+
+Michael
+
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -319,6 +319,19 @@ Out of memory (i.e., kernel memory).
+ .TP
+ .B ENOTDIR
+ A component of the path is not a directory.
++.TP
++.B EOVERFLOW
++.RB ( stat ())
++.I path
++refers to a file whose size cannot be represented in the type
++.IR off_t .
++This can occur when an application compiled on a 32-bit platform without
++.I -D_FILE_OFF_SET_BITS=64
++calls
++.BR stat ()
++on a file whose size exceeds
++.I (2<<31)-1
++bits.
+ .SH "CONFORMING TO"
+ These system calls conform to SVr4, 4.3BSD, POSIX.1-2001.
+ .\" SVr4 documents additional
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
