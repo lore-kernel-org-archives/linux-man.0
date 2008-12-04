@@ -1,7 +1,7 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: pthread_cleanup_push_defer_np.3
-Date: Thu, 4 Dec 2008 09:47:14 -0500
-Message-ID: <cfd18e0f0812040647y6dee0c58hef8f36fe3d260965@mail.gmail.com>
+Subject: Could you write some CLONE_NEWUSER?
+Date: Thu, 4 Dec 2008 10:20:26 -0500
+Message-ID: <cfd18e0f0812040720y5cabd2aarbf3912644dea42c4@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -9,124 +9,66 @@ Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: josv-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, =?ISO-8859-1?Q?Loic_Domaign=E9?= <loic-Z4JMKDdsf89Wk0Htik3J/w@public.gmane.org>, Karsten Weiss <K.Weiss-Pt+Xe7GJXK+P2YhJcF5u+nqWYbMAw+HU@public.gmane.org>
+To: "Serge E. Hallyn" <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Cc: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Another pthreads man page looking for review...
+Hi Serge,
+
+Thanks for CCing me on recent CLONE_NEWUSER patches.
+
+Would you be will to write some documentation for this flag?  (It's
+the only remaining undocumented flag in clone(2).)  Plain text would
+be fine -- I'll integrate it into the man page with suitable macros.
 
 Cheers,
 
 Michael
 
 
-.\" Copyright (c) 2008 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH PTHREAD_CLEANUP_PUSH_DEFER_NP 3 2008-12-04 "Linux" "Linux
-Programmer's Manual"
-.SH NAME
-pthread_cleanup_push_defer_np, pthread_cleanup_pop_restore_np \- push and pop
-thread cancellation clean-up handlers while saving cancelability type
-.SH SYNOPSIS
-.nf
-.B #include <pthread.h>
+---------- Forwarded message ----------
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Date: Wed, Nov 19, 2008 at 3:04 PM
+Subject: Current state of CLONE_NEWUSER?
+To: Serge Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Cc: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org,
+lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
+clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org
 
-.BI "void pthread_cleanup_push_defer_np(void (*" routine ")(void *),"
-.BI "                                   void *" arg );
-.BI "void pthread_cleanup_pop_restore_np(int " execute );
-.sp
-Compile and link with \fI\-pthread\fP.
-.SH DESCRIPTION
-These functions are the same as
-.BR pthread_cleanup_push (3)
-and
-.BR pthread_cleanup_pop (3),
-except for the differences noted on this page.
 
-Like
-.BR pthread_cleanup_push (3),
-.BR pthread_cleanup_push_defer_np ()
-pushes
-.I routine
-onto the thread's stack of cancellation clean-up handlers.
-In addition, it also saves the thread's current cancelability type,
-and sets the cancelability type to "deferred" (see
-.BR pthread_setcanceltype (3));
-this ensures that cancellation clean-up will occur
-even if the thread's cancelability type was "asynchronous"
-before the the call.
+Hi Serge,
 
-Like
-.BR pthread_cleanup_pop (3),
-.BR pthread_cleanup_pop_restore_np ()
-pops the top-most clean-up handler from the thread's
-stack of cancellation clean-up handlers.
-In addition, it restores the thread's cancelability
-type to its value at the time of the matching
-.BR pthread_cleanup_push_defer_np ().
+What is the current status of CLONE_NEWUSER?  I'm currently trying to
+test this flag in preparation for documenting it in the clone(2) man
+page, but am running into an ENOMEM error from the clone() call, which
+seems to occur after a failure in kobject_init_and_add() in the
+following call sequence:
 
-The caller must ensure that calls to these
-functions are paired within the same function,
-and at the same lexical nesting level.
-Other restrictions apply, as described in
-.BR pthread_cleanup_push (3).
+clone_user_ns() --> alloc_uid() --> uids_user_create() -->
+kobject_init_and_add()
 
-This sequence of calls:
+Are there already some test programs somewhere?  Is there any
+documentation already available for this flag?
 
-.in +4n
-.nf
-pthread_cleanup_push_defer_np(routine, arg);
-pthread_cleanup_pop_restore_np(execute);
-.fi
-.in
+Thanks,
 
-is equivalent to (but shorter and more efficient than):
+Michael
 
-.\" As far as I can see, LinuxThreads reverses the two sub-steps
-.\" in the push and pop below.
-.in +4n
-.nf
-int oldtype;
+--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 
-pthread_cleanup_push(routine, arg);
-pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
-\&...
-pthread_setcanceltype(oldtype, NULL);
-pthread_cleanup_pop(execute);
-.fi
-.in
-.\" SH VERSIONS
-.\" Available since glibc 2.0
-.SH CONFORMING TO
-These functions are non-standard GNU extensions;
-hence the suffix "_np" (non-portable) in the names.
-.SH SEE ALSO
-.BR pthread_cancel (3),
-.BR pthread_cleanup_push (3),
-.BR pthread_setcancelstate (3),
-.BR pthread_testcancel (3),
-.BR pthreads (7)
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
