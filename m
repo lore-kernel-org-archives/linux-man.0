@@ -1,74 +1,30 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Could you write some CLONE_NEWUSER?
-Date: Thu, 4 Dec 2008 10:20:26 -0500
-Message-ID: <cfd18e0f0812040720y5cabd2aarbf3912644dea42c4@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Serge E. Hallyn" <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Could you write some CLONE_NEWUSER?
+Date: Thu, 4 Dec 2008 09:34:23 -0600
+Message-ID: <20081204153423.GA9233@us.ibm.com>
+References: <cfd18e0f0812040720y5cabd2aarbf3912644dea42c4@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <cfd18e0f0812040720y5cabd2aarbf3912644dea42c4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Serge E. Hallyn" <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org, Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Serge,
+Quoting Michael Kerrisk (mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org):
+> Hi Serge,
+> 
+> Thanks for CCing me on recent CLONE_NEWUSER patches.
+> 
+> Would you be will to write some documentation for this flag?  (It's
+> the only remaining undocumented flag in clone(2).)  Plain text would
+> be fine -- I'll integrate it into the man page with suitable macros.
 
-Thanks for CCing me on recent CLONE_NEWUSER patches.
+Will do, will aim to send it to you by tomorrow.
 
-Would you be will to write some documentation for this flag?  (It's
-the only remaining undocumented flag in clone(2).)  Plain text would
-be fine -- I'll integrate it into the man page with suitable macros.
-
-Cheers,
-
-Michael
-
-
----------- Forwarded message ----------
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Date: Wed, Nov 19, 2008 at 3:04 PM
-Subject: Current state of CLONE_NEWUSER?
-To: Serge Hallyn <serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: Subrata Modak <subrata-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org,
-lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
-clg-NmTC/0ZBporQT0dZR+AlfA@public.gmane.org, herbert-dBHVzrDq9nF4Lj/PQRBjDg@public.gmane.org, dev-3ImXcnM4P+0@public.gmane.org
-
-
-Hi Serge,
-
-What is the current status of CLONE_NEWUSER?  I'm currently trying to
-test this flag in preparation for documenting it in the clone(2) man
-page, but am running into an ENOMEM error from the clone() call, which
-seems to occur after a failure in kobject_init_and_add() in the
-following call sequence:
-
-clone_user_ns() --> alloc_uid() --> uids_user_create() -->
-kobject_init_and_add()
-
-Are there already some test programs somewhere?  Is there any
-documentation already available for this flag?
-
-Thanks,
-
-Michael
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+-serge
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
