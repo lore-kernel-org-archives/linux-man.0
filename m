@@ -1,88 +1,114 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] Clarify $LANGUAGE description
-Date: Thu, 4 Dec 2008 02:53:26 +0100
-Message-ID: <20081204015326.GS10491@machine.or.cz>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Review request: revised bindresvport() man page
+Date: Wed, 3 Dec 2008 22:17:42 -0500
+Message-ID: <cfd18e0f0812031917t3554bc17uc7ebf3e8221ab3e1@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Wichmann, Mats D" <mats.d.wichmann-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+Cc: Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This patch (against the latest git) attempts to clean up the $LANGUAGE
-description, by removing bogus comments from setlocale(3) and expanding
-the mention in locale(7).
+Mats,
 
-Maybe you will decide that a more detailed description should be left
-to the gettext(3) documentation, but I actually care about the invisible
-part of the patch more since the comments have put me off the track
-initially ($LANGUAGE has nothing to do with setlocale(3) and is
-completely isolated to gettext, as obvious from the glibc sources).
+After your (offlist) bug report, would you care to review the
+following revised bindresvport.3 man page?  I think the changes
+address the points you raised.
 
-Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Cheers,
 
-diff --git a/man3/setlocale.3 b/man3/setlocale.3
-index a5d9896..21eebfb 100644
---- a/man3/setlocale.3
-+++ b/man3/setlocale.3
-@@ -26,6 +26,7 @@
- .\" Modified Sun Jul  4 14:52:16 1999 by Bruno Haible (haible-dhnC2lb7rBJy/B6EtB590w@public.gmane.org)
- .\" Modified Tue Aug 24 17:11:01 1999 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
- .\" Modified Tue Feb  6 03:31:55 2001 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
-+.\" Modified Thu Dec  4 02:34:27 2008 by Petr Baudis (pasky-AlSwsSmVLrQ@public.gmane.org)
- .\"
- .TH SETLOCALE 3  1999-07-04 "GNU" "Linux Programmer's Manual"
- .SH NAME
-@@ -88,13 +89,7 @@ is
- each part of the locale that should be modified is set according to the
- environment variables.
- The details are implementation-dependent.
--For glibc, first
--.\" [This is false on my system - must check which library versions do this]
--.\" if
--.\" .I category
--.\" is LC_MESSAGES, the environment variable LANGUAGE is inspected,
--.\" then
--(regardless of
-+For glibc, first (regardless of
- .IR category ),
- the environment variable
- .B LC_ALL
-@@ -113,8 +108,6 @@ If its value is not a valid locale specification, the locale
- is unchanged, and
- .BR setlocale ()
- returns NULL.
--.\" The environment variable LANGUAGE may contain several, colon-separated,
--.\" locale names.
- .PP
- The locale
- .B """C"""
-diff --git a/man7/locale.7 b/man7/locale.7
-index 3da0ed7..8236e0f 100644
---- a/man7/locale.7
-+++ b/man7/locale.7
-@@ -24,6 +24,7 @@
- .\" Modified Sun Jun 01 17:16:34 1997 by Jochen Hein
- .\"   <jochen.hein-JaLWT6YIeqAVwOsi8Avp+rNAH6kLmebB@public.gmane.org>
- .\" Modified Thu Apr 25 00:43:19 2002 by Bruno Haible <bruno-nWNVUoHt2MvYtjvyW6yDsg@public.gmane.org>
-+.\" Modified Thu Dec  4 02:34:27 2008 by Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
- .\"
- .TH LOCALE 7  1993-04-24 "Linux" "Linux Programmer's Manual"
- .SH NAME
-@@ -98,7 +99,10 @@ and
- functions to ease the use of these information.
- The GNU gettext family of
- functions also obey the environment variable
--.BR LANGUAGE .
-+.BR LANGUAGE
-+(containing a colon-separated list of locales)
-+if the category is set to a valid locale other than
-+.BR """C""" .
- .TP
- .B LC_NUMERIC
- changes the information used by the
+Michael
+
+.\" This page was initially taken from the 4.4BSD-Lite CDROM (BSD license)
+.\" with substantial updates
+.\" Copyright (C) 2007, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" @(#)bindresvport.3n 2.2 88/08/02 4.0 RPCSRC; from 1.7 88/03/14 SMI
+.\"
+.\" 2007-05-31, mtk: Rewrite and substantial additional text.
+.\" 2008-12-0, mt: Rewrote some pieces and fixed some errors
+.\"
+.TH BINDRESVPORT 3  2008-12-03 "" "Linux Programmer's Manual"
+.SH NAME
+bindresvport \- bind a socket to a privileged IP port
+.SH SYNOPSIS
+.nf
+.B #include <sys/types.h>
+.B #include <netinet/in.h>
+.LP
+.BI "int bindresvport(int " sockfd ", struct sockaddr_in *" sin );
+.fi
+.SH DESCRIPTION
+.LP
+.BR bindresvport ()
+is used to bind a socket descriptor to a privileged anonymous IP port,
+that is, a port number arbitrarily selected from the range 512 to 1023.
+.\" Glibc actually starts searching with a port # the range 600 to 1023
+
+If the
+.BR bind (2)
+performed by
+.BR bindresvport ()
+is successful, and
+.I sin
+is not NULL, then
+.I sin\->sin_port
+returns the port number actually allocated.
+
+.I sin
+can be NULL, in which case
+.I sin\->sin_family
+is implicitly taken to be
+.BR AF_INET .
+However, in this case,
+.BR bindresvport ()
+has no way to return the port number actually allocated.
+(This information can later be obtained using
+.BR getsockname (2).)
+.SH RETURN VALUE
+.BR bindresvport ()
+returns 0 on success; otherwise \-1 is returned and
+.I errno
+set to indicate the cause of the error.
+.SH ERRORS
+.BR bindresvport ()
+can fail for any of the same reasons as
+.BR bind (2).
+In addition, the following errors may occur:
+.TP
+.BR EACCES
+The caller did not have superuser privilege (to be precise: the
+.B CAP_NET_BIND_SERVICE
+capability is required).
+.TP
+.B EADDRINUSE
+All reserved ports are in use.
+.TP
+.BR EAFNOSUPPORT " (" EPFNOSUPPORT " in glibc 2.7 and earlier)"
+.I sin
+is not NULL and
+.I sin->sin_family
+is not
+.BR AF_INET .
+.SH "CONFORMING TO"
+Not in POSIX.1-2001.
+Present on the BSDs, Solaris, and many other systems.
+.SH NOTES
+.LP
+Only root can bind to a privileged port; this call will fail for any
+other users.
+.I sin
+is not NULL and
+.I sin\->sin_family
+is not
+.BR AF_INET .
+.SH SEE ALSO
+.BR bind (2),
+.BR getsockname (2)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
