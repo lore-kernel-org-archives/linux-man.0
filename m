@@ -1,133 +1,140 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] open_wmemstream(3): Describe (as part of fmemopen.3)
-Date: Fri, 5 Dec 2008 12:53:26 -0500
-Message-ID: <cfd18e0f0812050953l4b0a6ca0mf2994623474b149f@mail.gmail.com>
-References: <20081204232328.GJ10491@machine.or.cz>
+Subject: Re: [PATCH] man3/dlopen.3: Describe confusing dladdr() behavior
+Date: Fri, 5 Dec 2008 17:50:25 -0500
+Message-ID: <cfd18e0f0812051450q438f9564w2f1aa7a82a993990@mail.gmail.com>
+References: <20081205024452.GM10491@machine.or.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081204232328.GJ10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+In-Reply-To: <20081205024452.GM10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Petr,
+Petr,
 
-Thanks for another good patch.  One thing (since you may be submitting
-future patches, I hope): the subject line would be better as something
-like:
+Thanks for the patch!
 
-[PATCH] fmemopen.3: Add description of open_wmemstream(3)
+On Thu, Dec 4, 2008 at 9:44 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> dladdr() will act unexpectedly if called from non-pic code on a
+> compile-time-generated function pointer:
+>
+>> #define _GNU_SOURCE
+>> #include <dlfcn.h>
+>> #include <stdio.h>
+>>
+>> int
+>> main(void)
+>> {
+>>       void *func;
+>>       Dl_info info = {};
+>>
+>>       func = printf;
+>>       dladdr(func, &info);
+>>       printf("%s at %p resolved from %s\n", info.dli_sname,
+>>                       func, info.dli_fname);
+>>
+>>       return 0;
+>>
 
-Other comments below.
+Thanks for the patch.  For the change log, I added sample runs.  See
+my follow-up mail.
 
-On Thu, Dec 4, 2008 at 6:23 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+I've applied the patch pretty much as you gave it for 3.15.  Some
+notes below, including a question or two.
+
+> In the long term, it might make sense to make dladdr() recognize
+> plt pointers and recurse, but I'm too afraid of Ulrich ;-)
+> (and he seems to be heavy proponent of pic code anyway, so
+> the chances for that to be accepted probably aren't high).
+>
 > Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 >
-> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
-> index 47187b6..add9d5f 100644
-> --- a/man3/fmemopen.3
-> +++ b/man3/fmemopen.3
-> @@ -2,9 +2,9 @@
->  .\" and Copyright 2005 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\" Distributed under the GPL.
-
-This time I added an in-source changelog entry listing you!
-
+> diff --git a/man3/dlopen.3 b/man3/dlopen.3
+> index d302360..649c449 100644
+> --- a/man3/dlopen.3
+> +++ b/man3/dlopen.3
+> @@ -30,8 +30,9 @@
+>  .\" Modified by Matt Domsch, 2003-04-09: _init and _fini obsolete
+>  .\" Modified by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> 2003-05-16.
+>  .\" Modified by Walter Harms: dladdr, dlvsym
+> +.\" Modified by Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, 2008-12-04: dladdr caveat
 >  .\"
-> -.TH FMEMOPEN 3 2008-10-12 "GNU" "Linux Programmer's Manual"
-> +.TH FMEMOPEN 3 2008-12-04 "GNU" "Linux Programmer's Manual"
+> -.TH DLOPEN 3 2008-10-27 "Linux" "Linux Programmer's Manual"
+> +.TH DLOPEN 3 2008-12-04 "Linux" "Linux Programmer's Manual"
 >  .SH NAME
-> -fmemopen, open_memstream \-  open memory as stream
-> +fmemopen, open_memstream, open_wmemstream \-  open memory as stream
->  .SH SYNOPSIS
->  .B #define _GNU_SOURCE
->  .br
-> @@ -14,6 +14,10 @@ fmemopen, open_memstream \-  open memory as stream
->  .BI "const char *" mode ");"
->  .sp
->  .BI "FILE *open_memstream(char **" ptr ", size_t *" sizeloc );
-> +.sp
-
-I imagine you were aware that _GNU_SOURCE is required.  Convention
-here is that since we are listing new header files, then we should
-again list the required FTMs, even if they are the same as for a
-previous function.  So I added
-
-+.B #define _GNU_SOURCE
-
-here.
-
-> +.B #include <wchar.h>
-> +.br
-> +.BI "FILE *open_wmemstream(wchar_t **" ptr ", size_t *" sizeloc );
->  .SH DESCRIPTION
->  The
->  .BR fmemopen ()
-> @@ -138,11 +142,16 @@ or
->  Moving the file position past the end
->  of the data already written fills the intervening space with
->  zeros.
+>  dladdr, dlclose, dlerror, dlopen, dlsym, dlvsym \- programming interface to
+>  dynamic linking loader
+> @@ -408,12 +409,37 @@ Since glibc 2.2.3,
+>  .BR atexit (3)
+>  can be used to register an exit handler that is automatically
+>  called when a library is unloaded.
 > +
-> +The
-> +.BR open_wmemstream ()
-> +is similar but operates on wide characters instead of bytes.
->  .SH "RETURN VALUE"
->  Upon successful completion
-> -.BR fmemopen ()
-> -and
-> +.BR fmemopen (),
->  .BR open_memstream ()
-> +and
-> +.BR open_wmemstream ()
->  return a
->  .I FILE
->  pointer.
 
-One thing that also is good to include is version information.
-Unfortunately the page was lacking a VERSIONS section, when it really
-should have had one.  I added the following:
+The convention in man-pages is not to add blank lines before .SS /
+.SH.  Dropped.
 
-diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
-index 2b87b69..0d540b5 100644
---- a/man3/fmemopen.3
-+++ b/man3/fmemopen.3
-@@ -160,6 +160,13 @@ pointer.
- Otherwise, NULL is returned and the global variable
- .I errno
- is set to indicate the error.
-+.SH VERSIONS
-+.BR fmemopen ()
-+is available since glibc 2.2.
-+.BR open_memstream ()
-+is available since glibc 2.0.
-+.BR open_wmemstream ()
-+is available since glibc 2.4.
- .SH "CONFORMING TO"
- These functions are GNU extensions.
- .\" Jan 06: But they appear to be going up for standardization by
+>  .SS History
+>  The dlopen interface standard comes from SunOS.
+>  That system also has
+>  .BR dladdr (),
+>  but not
+>  .BR dlvsym ().
+> +
 
-Look right to you?
+See above.
 
-> diff --git a/man3/open_wmemstream.3 b/man3/open_wmemstream.3
-> new file mode 100644
-> index 0000000..afcad2f
-> --- /dev/null
-> +++ b/man3/open_wmemstream.3
-> @@ -0,0 +1 @@
-> +.so man3/fmemopen.3
+> +.SH BUGS
+> +Sometimes, the function pointers you pass to
+> +.BR dladdr ()
+> +may surprise you.  On some architectures (notably i386 and x86_64),
+> +.IR "dli_fname " and " dli_fbase"
+> +may end up pointing back at the object where you called
+> +.BR dladdr ()
+> +from, even if the function used as an argument should come from
+> +a dynamically linked library.
+> +.PP
+> +The problem is that the function pointer will still be resolved
+> +at the compile time, but point merely to the
+> +.I plt
 
-It's rare that I get a patch that remembers to do pieces like this.  Thanks!
+(It would be kind here to explain what "plt" stand as for.  I added
+"Procedure Linkage Table".)
 
-These changes are applied for 3.15.  Thanks!
+> +section of the original object (which dispatches the call after
+> +asking the dynamic linker to resolve the symbol).
+> +To work this around, you can try to compile the code to be
+> +position-independent:
+
+I added: "gcc -fPIC" here
+
+> then, the compiler cannot prepare the pointer
+> +at the compile time anymore and today's gcc will just load
+
+I made it "gcc(1)", but this doesn't seem quite right.  It's not gcc
+in operation at program run time.  can you more precisely say what you
+mean here.
+
+> +the final symbol address from the
+> +.I GOT
+
+(I added "Global Offset Table")
+
+> +at runtime before passing it to
+> +.BR dladdr ().
+> +
+>  .SH EXAMPLE
+>  Load the math library, and print the cosine of 2.0:
+>  .nf
 
 Cheers,
 
 Michael
+
 
 -- 
 Michael Kerrisk
