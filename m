@@ -1,97 +1,93 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] man3/dlopen.3: Describe confusing dladdr() behavior
-Date: Fri, 5 Dec 2008 03:44:52 +0100
-Message-ID: <20081205024452.GM10491@machine.or.cz>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH] fopen(3), fmemopen(3), fopencookie(3): Cross-link
+Date: Fri, 5 Dec 2008 11:31:33 -0500
+Message-ID: <cfd18e0f0812050831q290525e7tcf4473699ea97af5@mail.gmail.com>
+References: <20081204232305.GI10491@machine.or.cz>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081204232305.GI10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-dladdr() will act unexpectedly if called from non-pic code on a
-compile-time-generated function pointer:
+Hi Petr
 
-> #define _GNU_SOURCE
-> #include <dlfcn.h>
-> #include <stdio.h>
+Thanks for the patch.
+
+On Thu, Dec 4, 2008 at 6:23 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 >
-> int
-> main(void)
-> {
-> 	void *func;
-> 	Dl_info info = {};
->
-> 	func = printf;
-> 	dladdr(func, &info);
-> 	printf("%s at %p resolved from %s\n", info.dli_sname,
-> 			func, info.dli_fname);
->
-> 	return 0;
-> }
+> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
+> index 47187b6..ccd0f7b 100644
+> --- a/man3/fmemopen.3
+> +++ b/man3/fmemopen.3
+> @@ -224,5 +224,6 @@ does not enlarge the buffer; instead the
+>  call fails, returning \-1.
+>  .\" http://sourceware.org/bugzilla/show_bug.cgi?id=1996
+>  .SH "SEE ALSO"
+> +.BR feature_test_macros (7),
+>  .BR fopen (3),
+> -.BR feature_test_macros (7)
 
-In the long term, it might make sense to make dladdr() recognize
-plt pointers and recurse, but I'm too afraid of Ulrich ;-)
-(and he seems to be heavy proponent of pic code anyway, so
-the chances for that to be accepted probably aren't high).
+The way that SEE ALSO lists are ordered is first by section number,
+then alphabetically within sections.  (This is longstanding Unix
+convention.)  Dropped.
 
-Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+> +.BR fopencookie (3)
 
-diff --git a/man3/dlopen.3 b/man3/dlopen.3
-index d302360..649c449 100644
---- a/man3/dlopen.3
-+++ b/man3/dlopen.3
-@@ -30,8 +30,9 @@
- .\" Modified by Matt Domsch, 2003-04-09: _init and _fini obsolete
- .\" Modified by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> 2003-05-16.
- .\" Modified by Walter Harms: dladdr, dlvsym
-+.\" Modified by Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, 2008-12-04: dladdr caveat
- .\"
--.TH DLOPEN 3 2008-10-27 "Linux" "Linux Programmer's Manual"
-+.TH DLOPEN 3 2008-12-04 "Linux" "Linux Programmer's Manual"
- .SH NAME
- dladdr, dlclose, dlerror, dlopen, dlsym, dlvsym \- programming interface to
- dynamic linking loader
-@@ -408,12 +409,37 @@ Since glibc 2.2.3,
- .BR atexit (3)
- can be used to register an exit handler that is automatically
- called when a library is unloaded.
-+
- .SS History
- The dlopen interface standard comes from SunOS.
- That system also has
- .BR dladdr (),
- but not
- .BR dlvsym ().
-+
-+.SH BUGS
-+Sometimes, the function pointers you pass to
-+.BR dladdr ()
-+may surprise you.  On some architectures (notably i386 and x86_64),
-+.IR "dli_fname " and " dli_fbase"
-+may end up pointing back at the object where you called
-+.BR dladdr ()
-+from, even if the function used as an argument should come from
-+a dynamically linked library.
-+.PP
-+The problem is that the function pointer will still be resolved
-+at the compile time, but point merely to the
-+.I plt
-+section of the original object (which dispatches the call after
-+asking the dynamic linker to resolve the symbol).
-+To work this around, you can try to compile the code to be
-+position-independent: then, the compiler cannot prepare the pointer
-+at the compile time anymore and today's gcc will just load
-+the final symbol address from the
-+.I GOT
-+at runtime before passing it to
-+.BR dladdr ().
-+
- .SH EXAMPLE
- Load the math library, and print the cosine of 2.0:
- .nf
+Applied.
+
+> diff --git a/man3/fopen.3 b/man3/fopen.3
+> index d6b6314..b59810f 100644
+> --- a/man3/fopen.3
+> +++ b/man3/fopen.3
+> @@ -38,6 +38,7 @@
+>  .\" Converted for Linux, Mon Nov 29 15:22:01 1993, faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org
+>  .\" Modified, aeb, 960421, 970806
+>  .\" Modified, joey, aeb, 2002-01-03
+> +.\" Cross-linked, pasky-AlSwsSmVLrQ@public.gmane.org, 2008-12-04
+
+Nowadays, I tend only to add lines to the in-source change log for
+major changes.  All changes are anyway recorded in the git changelog.
+
+>  .\"
+>  .TH FOPEN 3  2008-10-12 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -300,5 +301,6 @@ This flag is ignored for
+>  .\" FIXME document /,ccs= charset/
+>  .SH "SEE ALSO"
+>  .BR open (2),
+> -.BR fclose (3),
+
+Why remove fclose()?  Dropped.
+
+> -.BR fileno (3)
+> +.BR fileno (3),
+> +.BR fmemopen (3),
+> +.BR fopencookie (3)
+
+Applied this piece.
+
+Changes will be in 3.15.
+
+Thanks Petr!
+
+Chjeers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
