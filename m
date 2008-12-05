@@ -1,105 +1,99 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] Clarify $LANGUAGE description
-Date: Fri, 5 Dec 2008 18:33:05 -0500
-Message-ID: <cfd18e0f0812051533nbd0325eo2600144d9683f59e@mail.gmail.com>
-References: <20081204015326.GS10491@machine.or.cz>
+Subject: Re: [PATCH] nscd.8: Correct NOTES section on reloading configuration files
+Date: Fri, 5 Dec 2008 18:49:09 -0500
+Message-ID: <cfd18e0f0812051549o3d1d2273j8577bb0c69d71a58@mail.gmail.com>
+References: <20081205231738.GU10491@machine.or.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081204015326.GS10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+In-Reply-To: <20081205231738.GU10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Hi Petr,
 
-On Wed, Dec 3, 2008 at 8:53 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
-> This patch (against the latest git) attempts to clean up the $LANGUAGE
-> description, by removing bogus comments from setlocale(3) and expanding
-> the mention in locale(7).
->
-> Maybe you will decide that a more detailed description should be left
-> to the gettext(3) documentation, but I actually care about the invisible
-> part of the patch more since the comments have put me off the track
-> initially ($LANGUAGE has nothing to do with setlocale(3) and is
-> completely isolated to gettext, as obvious from the glibc sources).
->
-> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+On Fri, Dec 5, 2008 at 6:17 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> The original notes were obsolete, current nscd watches changes in
+> config files.
 
-I dropped your in-source changelog entries, but otherwise applied the
-patch as is. It was a good thing to clean out those comments: they've
-languished in the source for a decade or more.
-
-Thanks!
+Can you provide some supporting information here.  Pointers to
+relevant sources, or email threads.  I think what I'm really meaning
+is: could you write a nice changelog entry for this patch.  Also, my
+reading of the patch is that you are changing the page because glibc
+changed at a certain point.  If this is the case, it would be good to
+note in which glibc version the change occurred, and then it would be
+better to rewrite the page to describe old and new behaviors, rather
+than just dropping the text that describes the old behavior.  Do you
+see what I mean?
 
 Cheers,
 
 Michael
 
-> diff --git a/man3/setlocale.3 b/man3/setlocale.3
-> index a5d9896..21eebfb 100644
-> --- a/man3/setlocale.3
-> +++ b/man3/setlocale.3
-> @@ -26,6 +26,7 @@
->  .\" Modified Sun Jul  4 14:52:16 1999 by Bruno Haible (haible-dhnC2lb7rBJy/B6EtB590w@public.gmane.org)
->  .\" Modified Tue Aug 24 17:11:01 1999 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
->  .\" Modified Tue Feb  6 03:31:55 2001 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
-> +.\" Modified Thu Dec  4 02:34:27 2008 by Petr Baudis (pasky-AlSwsSmVLrQ@public.gmane.org)
+
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+>
+> diff --git a/man8/nscd.8 b/man8/nscd.8
+> index ecbd9ba..987efcb 100644
+> --- a/man8/nscd.8
+> +++ b/man8/nscd.8
+> @@ -17,7 +17,10 @@
+>  .\" write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+>  .\" Boston, MA 02111-1307, USA.
 >  .\"
->  .TH SETLOCALE 3  1999-07-04 "GNU" "Linux Programmer's Manual"
+> -.TH NSCD 8 1999-10-01 "GNU" "Linux Programmer's Manual"
+> +.\" 2008-12-05 Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+> +.\"    Rewrite the NOTES section to reflect modern reality
+> +.\"
+> +.TH NSCD 8 2008-12-05 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
-> @@ -88,13 +89,7 @@ is
->  each part of the locale that should be modified is set according to the
->  environment variables.
->  The details are implementation-dependent.
-> -For glibc, first
-> -.\" [This is false on my system - must check which library versions do this]
-> -.\" if
-> -.\" .I category
-> -.\" is LC_MESSAGES, the environment variable LANGUAGE is inspected,
-> -.\" then
-> -(regardless of
-> +For glibc, first (regardless of
->  .IR category ),
->  the environment variable
->  .B LC_ALL
-> @@ -113,8 +108,6 @@ If its value is not a valid locale specification, the locale
->  is unchanged, and
->  .BR setlocale ()
->  returns NULL.
-> -.\" The environment variable LANGUAGE may contain several, colon-separated,
-> -.\" locale names.
->  .PP
->  The locale
->  .B """C"""
-> diff --git a/man7/locale.7 b/man7/locale.7
-> index 3da0ed7..8236e0f 100644
-> --- a/man7/locale.7
-> +++ b/man7/locale.7
-> @@ -24,6 +24,7 @@
->  .\" Modified Sun Jun 01 17:16:34 1997 by Jochen Hein
->  .\"   <jochen.hein-JaLWT6YIeqAVwOsi8Avp+rNAH6kLmebB@public.gmane.org>
->  .\" Modified Thu Apr 25 00:43:19 2002 by Bruno Haible <bruno-nWNVUoHt2MvYtjvyW6yDsg@public.gmane.org>
-> +.\" Modified Thu Dec  4 02:34:27 2008 by Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
->  .\"
->  .TH LOCALE 7  1993-04-24 "Linux" "Linux Programmer's Manual"
->  .SH NAME
-> @@ -98,7 +99,10 @@ and
->  functions to ease the use of these information.
->  The GNU gettext family of
->  functions also obey the environment variable
-> -.BR LANGUAGE .
-> +.BR LANGUAGE
-> +(containing a colon-separated list of locales)
-> +if the category is set to a valid locale other than
-> +.BR """C""" .
->  .TP
->  .B LC_NUMERIC
->  changes the information used by the
+>  /usr/sbin/nscd \- name service cache daemon
+>  .SH DESCRIPTION
+> @@ -55,16 +58,29 @@ calls remain uncached as a result.
+>  .B "\-\-help"
+>  will give you a list with all options and what they do.
+>  .SH NOTES
+> -Nscd doesn't know anything about the underlying protocols for a
+> -service.
+> -This also means, that if you change
+> -.I /etc/resolv.conf
+> -for DNS queries, nscd will continue to use the old one if you have
+> -configured
+> -.I /etc/nsswitch.conf
+> -to use DNS for host lookups.
+> -In such a case, you need to restart
+> -nscd.
+> +The daemon will try to watch for changes in configuration files
+> +appropriate for each database (e.g.
+> +.I /etc/passwd
+> +for the
+> +.I passwd
+> +database or
+> +.IR "/etc/hosts " and " /etc/resolv.conf"
+> +for the
+> +.I hosts
+> +database) and flush the cache when these are changed.
+> +However, this will happen only after a short delay
+> +(unless the
+> +.BR inotify (7)
+> +mechanism is available and glibc-2.9 or newer is used)
+> +and this auto-detection does not cover configuration files
+> +required by non-standard NSS modules, if any are specified in
+> +.IR /etc/nsswitch.conf .
+> +In that case, you need to call
+> +.I nscd -i DATABASE
+> +after changing the configuration file of the database
+> +so that
+> +.B nscd
+> +invalidates its cache.
+>  .SH "SEE ALSO"
+>  .BR nscd.conf (5),
+>  .BR nsswitch.conf (5)
 >
 
 
