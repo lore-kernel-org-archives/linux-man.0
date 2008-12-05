@@ -1,16 +1,14 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] man3/getaddrinfo.3: Document results ordering and /etc/gai.conf
-Date: Fri, 5 Dec 2008 12:23:16 -0500
-Message-ID: <cfd18e0f0812050923n2739cbc9g43a7b43365c1420b@mail.gmail.com>
-References: <20081204232200.GG10491@machine.or.cz>
-	 <cfd18e0f0812050909o3556a118p25138870a3745ad8@mail.gmail.com>
-	 <20081205171506.GT10491@machine.or.cz>
+Subject: Re: [PATCH] open_wmemstream(3): Describe (as part of fmemopen.3)
+Date: Fri, 5 Dec 2008 12:53:26 -0500
+Message-ID: <cfd18e0f0812050953l4b0a6ca0mf2994623474b149f@mail.gmail.com>
+References: <20081204232328.GJ10491@machine.or.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20081205171506.GT10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+In-Reply-To: <20081204232328.GJ10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
@@ -19,79 +17,113 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Petr,
 
-On Fri, Dec 5, 2008 at 12:15 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
->  Hi,
+Thanks for another good patch.  One thing (since you may be submitting
+future patches, I hope): the subject line would be better as something
+like:
+
+[PATCH] fmemopen.3: Add description of open_wmemstream(3)
+
+Other comments below.
+
+On Thu, Dec 4, 2008 at 6:23 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 >
-> On Fri, Dec 05, 2008 at 12:09:44PM -0500, Michael Kerrisk wrote:
->> Hi Petr,
->>
->> On Thu, Dec 4, 2008 at 6:22 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
->> > This patch documents the order of the getaddrinfo(3) results (RFC 3484), how
->> > should the application deal with that, mentions the extremely common cause of
->> > having multiple results per query (both IPv4 and IPv6 addresses available)
->> > and mentions /etc/gai.conf.
->>
->> Thanks for this!  I've applied this for 3.15, but with tweaks as noted below.
->
->  thanks! (Purely out of curiosity, how often do you push out your git
-> tree? Only on releases?)
+> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
+> index 47187b6..add9d5f 100644
+> --- a/man3/fmemopen.3
+> +++ b/man3/fmemopen.3
+> @@ -2,9 +2,9 @@
+>  .\" and Copyright 2005 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>  .\" Distributed under the GPL.
 
-It varies.  (Maybe I don't push it out quite as often as I should.
-I'm open to input on that point.)  It does get pushed out at least on
-every release, and I try to do it mor often if there's a lot of stuff
-since the last push.
+This time I added an in-source changelog entry listing you!
 
->> > @@ -293,15 +295,26 @@ and returns a pointer to the start of the list in
->> >  The items in the linked list are linked by the
->> >  .I ai_next
->> >  field.
->> > +.PP
->>
->> This change is not relevant to the subject of the patch, and unneeded.  Dropped.
->  I simply think that with the addition, the whole paragraph is too big
-> and hard to read. But this is of course matter of personal preference.
+>  .\"
+> -.TH FMEMOPEN 3 2008-10-12 "GNU" "Linux Programmer's Manual"
+> +.TH FMEMOPEN 3 2008-12-04 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+> -fmemopen, open_memstream \-  open memory as stream
+> +fmemopen, open_memstream, open_wmemstream \-  open memory as stream
+>  .SH SYNOPSIS
+>  .B #define _GNU_SOURCE
+>  .br
+> @@ -14,6 +14,10 @@ fmemopen, open_memstream \-  open memory as stream
+>  .BI "const char *" mode ");"
+>  .sp
+>  .BI "FILE *open_memstream(char **" ptr ", size_t *" sizeloc );
+> +.sp
 
-D'oh!  I agree.  Changed now.
+I imagine you were aware that _GNU_SOURCE is required.  Convention
+here is that since we are listing new header files, then we should
+again list the required FTMs, even if they are the same as for a
+previous function.  So I added
 
->> >  There are several reasons why
->> >  the linked list may have more than one
->> >  .I addrinfo
->> > -structure, including: the network host is multi-homed; or the same service
->> > -is available from multiple socket protocols (one
->> > +structure, including: the network host is multi-homed, accessible
->> > +over multiple protocols (e.g. both
->> > +.BR AF_INET
->> > +and
->> > +.BR AF_INET6 );
->> > +or the same service is available from multiple socket types (one
->> >  .B SOCK_STREAM
->> >  address and another
->> >  .B SOCK_DGRAM
->> > -address, for example).
->> > +address, for example).  Normally, the application should try
->>
->> My preference (see man-pages(7) is to start new sentences on new line.
->>  This is because (later) diffs at least sometimes operate at the
->> sentence level.
->
->  Thanks, I did not actually read man-pages(7) yet, I will do that.
++.B #define _GNU_SOURCE
 
-Thanks.
+here.
 
->> > +using the addresses in the order they are returned in.
->> > +The sorting function used within
->> > +.BR getaddrinfo ()
->> > +is defined in RFC\ 3484; the order can be tweaked for a particular
->> > +system by editing
->> > +.IR /etc/gai.conf .
->>
->> Here, it is good to mention the glibc version that first started
->> supporting gai.conf.  It looks like it was 2.5, and I've added that
->> information.
->
->  Yes, glibc-2.5 introduced this.
+> +.B #include <wchar.h>
+> +.br
+> +.BI "FILE *open_wmemstream(wchar_t **" ptr ", size_t *" sizeloc );
+>  .SH DESCRIPTION
+>  The
+>  .BR fmemopen ()
+> @@ -138,11 +142,16 @@ or
+>  Moving the file position past the end
+>  of the data already written fills the intervening space with
+>  zeros.
+> +
+> +The
+> +.BR open_wmemstream ()
+> +is similar but operates on wide characters instead of bytes.
+>  .SH "RETURN VALUE"
+>  Upon successful completion
+> -.BR fmemopen ()
+> -and
+> +.BR fmemopen (),
+>  .BR open_memstream ()
+> +and
+> +.BR open_wmemstream ()
+>  return a
+>  .I FILE
+>  pointer.
 
-Thanks for the ACK.
+One thing that also is good to include is version information.
+Unfortunately the page was lacking a VERSIONS section, when it really
+should have had one.  I added the following:
+
+diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
+index 2b87b69..0d540b5 100644
+--- a/man3/fmemopen.3
++++ b/man3/fmemopen.3
+@@ -160,6 +160,13 @@ pointer.
+ Otherwise, NULL is returned and the global variable
+ .I errno
+ is set to indicate the error.
++.SH VERSIONS
++.BR fmemopen ()
++is available since glibc 2.2.
++.BR open_memstream ()
++is available since glibc 2.0.
++.BR open_wmemstream ()
++is available since glibc 2.4.
+ .SH "CONFORMING TO"
+ These functions are GNU extensions.
+ .\" Jan 06: But they appear to be going up for standardization by
+
+Look right to you?
+
+> diff --git a/man3/open_wmemstream.3 b/man3/open_wmemstream.3
+> new file mode 100644
+> index 0000000..afcad2f
+> --- /dev/null
+> +++ b/man3/open_wmemstream.3
+> @@ -0,0 +1 @@
+> +.so man3/fmemopen.3
+
+It's rare that I get a patch that remembers to do pieces like this.  Thanks!
+
+These changes are applied for 3.15.  Thanks!
 
 Cheers,
 
