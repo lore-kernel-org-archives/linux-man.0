@@ -1,71 +1,97 @@
 From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] open_wmemstream(3): Describe (as part of fmemopen.3)
-Date: Fri, 5 Dec 2008 00:23:28 +0100
-Message-ID: <20081204232328.GJ10491@machine.or.cz>
+Subject: [PATCH] man3/dlopen.3: Describe confusing dladdr() behavior
+Date: Fri, 5 Dec 2008 03:44:52 +0100
+Message-ID: <20081205024452.GM10491@machine.or.cz>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+dladdr() will act unexpectedly if called from non-pic code on a
+compile-time-generated function pointer:
+
+> #define _GNU_SOURCE
+> #include <dlfcn.h>
+> #include <stdio.h>
+>
+> int
+> main(void)
+> {
+> 	void *func;
+> 	Dl_info info = {};
+>
+> 	func = printf;
+> 	dladdr(func, &info);
+> 	printf("%s at %p resolved from %s\n", info.dli_sname,
+> 			func, info.dli_fname);
+>
+> 	return 0;
+> }
+
+In the long term, it might make sense to make dladdr() recognize
+plt pointers and recurse, but I'm too afraid of Ulrich ;-)
+(and he seems to be heavy proponent of pic code anyway, so
+the chances for that to be accepted probably aren't high).
 
 Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 
-diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
-index 47187b6..add9d5f 100644
---- a/man3/fmemopen.3
-+++ b/man3/fmemopen.3
-@@ -2,9 +2,9 @@
- .\" and Copyright 2005 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- .\" Distributed under the GPL.
+diff --git a/man3/dlopen.3 b/man3/dlopen.3
+index d302360..649c449 100644
+--- a/man3/dlopen.3
++++ b/man3/dlopen.3
+@@ -30,8 +30,9 @@
+ .\" Modified by Matt Domsch, 2003-04-09: _init and _fini obsolete
+ .\" Modified by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> 2003-05-16.
+ .\" Modified by Walter Harms: dladdr, dlvsym
++.\" Modified by Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, 2008-12-04: dladdr caveat
  .\"
--.TH FMEMOPEN 3 2008-10-12 "GNU" "Linux Programmer's Manual"
-+.TH FMEMOPEN 3 2008-12-04 "GNU" "Linux Programmer's Manual"
+-.TH DLOPEN 3 2008-10-27 "Linux" "Linux Programmer's Manual"
++.TH DLOPEN 3 2008-12-04 "Linux" "Linux Programmer's Manual"
  .SH NAME
--fmemopen, open_memstream \-  open memory as stream
-+fmemopen, open_memstream, open_wmemstream \-  open memory as stream
- .SH SYNOPSIS
- .B #define _GNU_SOURCE
- .br
-@@ -14,6 +14,10 @@ fmemopen, open_memstream \-  open memory as stream
- .BI "const char *" mode ");"
- .sp
- .BI "FILE *open_memstream(char **" ptr ", size_t *" sizeloc );
-+.sp
-+.B #include <wchar.h>
-+.br
-+.BI "FILE *open_wmemstream(wchar_t **" ptr ", size_t *" sizeloc );
- .SH DESCRIPTION
- The
- .BR fmemopen ()
-@@ -138,11 +142,16 @@ or
- Moving the file position past the end
- of the data already written fills the intervening space with
- zeros.
+ dladdr, dlclose, dlerror, dlopen, dlsym, dlvsym \- programming interface to
+ dynamic linking loader
+@@ -408,12 +409,37 @@ Since glibc 2.2.3,
+ .BR atexit (3)
+ can be used to register an exit handler that is automatically
+ called when a library is unloaded.
 +
-+The
-+.BR open_wmemstream ()
-+is similar but operates on wide characters instead of bytes.
- .SH "RETURN VALUE"
- Upon successful completion
--.BR fmemopen ()
--and
-+.BR fmemopen (),
- .BR open_memstream ()
-+and
-+.BR open_wmemstream ()
- return a
- .I FILE
- pointer.
-diff --git a/man3/open_wmemstream.3 b/man3/open_wmemstream.3
-new file mode 100644
-index 0000000..afcad2f
---- /dev/null
-+++ b/man3/open_wmemstream.3
-@@ -0,0 +1 @@
-+.so man3/fmemopen.3
+ .SS History
+ The dlopen interface standard comes from SunOS.
+ That system also has
+ .BR dladdr (),
+ but not
+ .BR dlvsym ().
++
++.SH BUGS
++Sometimes, the function pointers you pass to
++.BR dladdr ()
++may surprise you.  On some architectures (notably i386 and x86_64),
++.IR "dli_fname " and " dli_fbase"
++may end up pointing back at the object where you called
++.BR dladdr ()
++from, even if the function used as an argument should come from
++a dynamically linked library.
++.PP
++The problem is that the function pointer will still be resolved
++at the compile time, but point merely to the
++.I plt
++section of the original object (which dispatches the call after
++asking the dynamic linker to resolve the symbol).
++To work this around, you can try to compile the code to be
++position-independent: then, the compiler cannot prepare the pointer
++at the compile time anymore and today's gcc will just load
++the final symbol address from the
++.I GOT
++at runtime before passing it to
++.BR dladdr ().
++
+ .SH EXAMPLE
+ Load the math library, and print the cosine of 2.0:
+ .nf
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
