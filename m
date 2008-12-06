@@ -1,50 +1,78 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] nscd.8: Correct NOTES section on reloading
-	configuration files
-Date: Sat, 6 Dec 2008 11:26:16 +0100
-Message-ID: <20081206102616.GA10491@machine.or.cz>
-References: <20081205231738.GU10491@machine.or.cz> <cfd18e0f0812051549o3d1d2273j8577bb0c69d71a58@mail.gmail.com>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH] open_wmemstream(3): Describe (as part of fmemopen.3)
+Date: Sat, 6 Dec 2008 12:04:25 -0500
+Message-ID: <cfd18e0f0812060904n70faa5c0vdb13bafa6378106c@mail.gmail.com>
+References: <20081204232328.GJ10491@machine.or.cz>
+	 <cfd18e0f0812050953l4b0a6ca0mf2994623474b149f@mail.gmail.com>
+	 <20081206095414.GX10491@machine.or.cz>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20081206095414.GX10491-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <cfd18e0f0812051549o3d1d2273j8577bb0c69d71a58-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-  Hi,
+On Sat, Dec 6, 2008 at 4:54 AM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+>  Hi,
+>
+>  thanks for all the comments.
+>
+> On Fri, Dec 05, 2008 at 12:53:26PM -0500, Michael Kerrisk wrote:
+>> One thing that also is good to include is version information.
+>> Unfortunately the page was lacking a VERSIONS section, when it really
+>> should have had one.  I added the following:
+>>
+>> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
+>> index 2b87b69..0d540b5 100644
+>> --- a/man3/fmemopen.3
+>> +++ b/man3/fmemopen.3
+>> @@ -160,6 +160,13 @@ pointer.
+>>  Otherwise, NULL is returned and the global variable
+>>  .I errno
+>>  is set to indicate the error.
+>> +.SH VERSIONS
+>> +.BR fmemopen ()
+>> +is available since glibc 2.2.
+>> +.BR open_memstream ()
+>> +is available since glibc 2.0.
+>> +.BR open_wmemstream ()
+>> +is available since glibc 2.4.
+>>  .SH "CONFORMING TO"
+>>  These functions are GNU extensions.
+>>  .\" Jan 06: But they appear to be going up for standardization by
+>>
+>> Look right to you?
+>
+> open_wmemstream() yes. fmemopen() is much much older (bear in mind that
+> there was old GNU stdio library before GNU libio, and it contained
+> fmemopen() too - I have no idea which libc version "Thu Aug 8 00:39:56
+> 1991 +0000" is in, though) and same for open_memstream (Sun Jul 28
+> 00:22:19 1991 +0000).
 
-On Fri, Dec 05, 2008 at 06:49:09PM -0500, Michael Kerrisk wrote:
-> On Fri, Dec 5, 2008 at 6:17 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
-> > The original notes were obsolete, current nscd watches changes in
-> > config files.
-> 
-> Can you provide some supporting information here.  Pointers to
-> relevant sources, or email threads.
+Thanks for catching that.  I made the text
 
-  nscd/connections.c, git log nscd/connections.c. ;-)
+.BR fmemopen ()
+and
+.BR open_memstream ()
+were already available in glibc 1.0.x.
+.BR open_wmemstream ()
+is available since glibc 2.4.
 
-> I think what I'm really meaning
-> is: could you write a nice changelog entry for this patch.  Also, my
-> reading of the patch is that you are changing the page because glibc
-> changed at a certain point.  If this is the case, it would be good to
-> note in which glibc version the change occurred, and then it would be
-> better to rewrite the page to describe old and new behaviors, rather
-> than just dropping the text that describes the old behavior.  Do you
-> see what I mean?
+Cheers,
 
-  It behaved this way at least since "Sun Oct 18 15:02:11 1998 +0000",
-some four months after including the nscd implementation in glibc. But
-there does seem to be a short window between glibc-2.1 and glibc-2.1.3
-when nscd -i was not available, I don't think it's worth muddling the
-point of the page with that, though.
+Michael
 
 -- 
-				Petr "Pasky" Baudis
-People who take cold baths never have rheumatism, but they have
-cold baths.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
