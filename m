@@ -1,100 +1,71 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] ld.so.8: Document LD_AUDIT
-Date: Wed, 7 Jan 2009 19:25:54 +0100
-Message-ID: <20090107182554.GA21648@machine.or.cz>
-References: <cfd18e0f0812191320o54724999l622b1b3ea59755da@mail.gmail.com>
+From: Simon Oosthoek <simon-Hf+EfML1qzhUecB6AVeNQA@public.gmane.org>
+Subject: regex.7 manpage is awful
+Date: Fri, 9 Jan 2009 11:22:09 +0100
+Message-ID: <20090109102208.GA22747@atcmpg.ATComputing.nl>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <cfd18e0f0812191320o54724999l622b1b3ea59755da-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Jan Christiaan van Winkel <jc-Hf+EfML1qzhUecB6AVeNQA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+Hi
 
-On Fri, Dec 19, 2008 at 04:20:31PM -0500, Michael Kerrisk wrote:
-> On Sun, Dec 7, 2008 at 1:28 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
-> > +.TP
-> > +.B LD_AUDIT
-> > +(glibc since 2.4)
-> > +A colon-separated list of additional,
-> 
-> Why the word "additional" here?
+The manpage regex(7) is explcitly mentioned in the new LPI objectives,
+but in preparation to make study material for this subject, I feel a
+strong sense of repulsion to even mention this page, as I cannot
+understand what anyone would learn from it...
 
-Copy'n'paste oversight, sorry.
+Probably the source of the problem lies with POSIX.2, as this has
+apparently an ambiguous definition of the "extended" regular
+expressions and (IMO erroneously) defines the basic regular
+expressions as obsolete, though they are used in many many programs,
+including grep, vim, sed, etc.
 
-> > user-specified, ELF shared libraries
-> 
-> The word "libraries" is interesting.  The glibc sources imply that
-> multiple auditing libraries is supported, but a brief play with this
-> led to crashes for me.  (That could easily be because I'm doing things
-> wrong.)  Did you try this, or see an example anywhere?
+I may be wrong, but when I see so many (!)'s in the manpage,
+indicating that this is not implemented equally, the whole definition
+is broken and there is no such thing as "extended" or "modern" REs,
+but a bunch of varying implementations of roughly similar extended RE
+rules.
 
-I have not tested this, just assumed from the code. Maybe 'shared
-objects' would be more appropriate, too?
+Also, if I interpret the page correctly, "modern" REs don't have
+backreferences? They are mentioned as a new item for BASIC REs. While
+they are bothersome to use, backreference are useful and would be
+missed in an extended RE implementation without them. (certainly,
+egrep /did/ implement them)
 
-> --- a/man8/ld.so.8
-> +++ b/man8/ld.so.8
-> @@ -177,13 +177,47 @@ Version of
->  for a.out binaries only.
->  Old versions of ld\-linux.so.1 also supported
->  .BR LD_ELF_PRELOAD .
-> -.\" FIXME
-> -.\" Document LD_AUDIT ("Install audit libraries for glibc")
-> -.\" new in glibc 2.4
-> -.\" ignored in set-user-ID and set-group-ID programs
-> -.\"
-> -.\" For some info, see Solaris Linker and Libraries Guide,
-> -.\" "Runtime Linker Auditing Interface"
-> +.TP
-> +.B LD_AUDIT
-> +(glibc since 2.4)
-> +A colon-separated list of user-specified, ELF shared libraries
-> +to be loaded before all others in a separate linker namespace
-> +(i.e., one that does not intrude upon the normal symbol bindings that
-> +would occur in the process).
-> +These libraries can be used to audit the operation of the dynamic linker.
-> +.B LD_AUDIT
-> +is ignored for set-user-ID/set-group-ID binaries.
-> +
-> +The dynamic linker will notify the audit
-> +libraries at so-called auditing checkpoints\(emfor example,
-> +loading a new library, resolving a symbol,
-> +or calling a symbol from another shared object\(emby
-> +calling an appropriate function within the audit library.
-> +The following functions may be supplied in the audit library:
-> +.IR la_version (),
-> +.IR la_activity (),
-> +.IR la_objsearch (),
-> +.IR la_objopen (),
-> +.IR la_preinit (),
-> +.IR la_symbind32 (),
-> +.IR la_symbind64 (),
-> +.IR la_objclose (),
-> +.IR la_<platform>_pltenter ()
-> +(e.g.,
-> +.IR la_i86_gnu_pltenter ()),
-> +and
-> +.IR la_<platform>_pltexit ()
-> +(e.g.,
-> +.IR la_i86_gnu_pltexit ()).
-> +These functions are prototyped in
-> +.IR <link.h>
-> +and
-> +.IR <bits/link.h> .
-> +The auditing interface is largely compatible with that provided on Solaris,
-> +as described in its
-> +.IR "Linker and Libraries Guide" ,
-> +in the chapter
-> +.IR "Runtime Linker Auditing Interface" .
->  .TP
->  .B LD_BIND_NOT
->  (glibc since 2.1.95)
+To me, the "modern" REs are a simplification of the syntax with bounds
+and () enclosures without preceding '\'s and adding a bunch of weirdly
+long character class notations that I doubt anyone uses frequently,
+since they are too long to type and remember ([. [= [:) 
 
-Acked-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+If I were on the POSIX committee, I'd propose perl REs as the next
+"modern" RE, but I'd not obsolete the basic RE at all, because in 95%
+of the uses they are sufficient.
+Perl REs are easy to type, well documented and powerful. Also
+implementations already exist and are very well tested on probably all
+Unix platforms.
+
+Anyway, the point of this e-mail:
+- the current page is awful, hard to read and ambiguous
+- the implied POSIX decision to obsolete basic REs is bad
+- I would not recommend this manpage to anyone trying to understand
+  REs
+
+If possible I'd like to change the world ;-) but failing that, a less
+ambiguous (and easier to read) version of the regex(7) manpage would
+be greatly appreciated!
+
+Cheers
+
+Simon
+
+PS, speaking on personal title, not for my employer AT Computing
+
+PPS, I'd love to be proved wrong on any of my statements, so please
+correct me if I'm wrong.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
