@@ -1,43 +1,52 @@
-From: Simon Oosthoek <simon-Hf+EfML1qzhUecB6AVeNQA@public.gmane.org>
-Subject: Re: regex.7 manpage is awful
-Date: Mon, 12 Jan 2009 11:29:51 +0100
-Message-ID: <200901121129.51690.simon@atcomputing.nl>
-References: <20090109102208.GA22747@atcmpg.ATComputing.nl> <20090109113852.GB21648@machine.or.cz>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: gethostid/sethostid in wrong manual section
+Date: Tue, 13 Jan 2009 07:46:36 +1300
+Message-ID: <cfd18e0f0901121046l24accdcfw9422491ba8ab24c5@mail.gmail.com>
+References: <20081222233953.GG16155@riva.ucam.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain;
-  charset="iso-8859-1"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090109113852.GB21648-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+In-Reply-To: <20081222233953.GG16155-K2jUmMR1UYV4cg9Nei1l7Q@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jan Christiaan van Winkel <jc-I2/4/b2VdYhUecB6AVeNQA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Colin Watson <cjwatson-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Friday 09 January 2009 12:38, Petr Baudis wrote:
-> I doubt that you will succeed in adding a third regexp mode at this
-> point, but the POSIX development process seems very open, so feel free
-> to propose this: http://www.opengroup.org/austin/
+Hi Colin,
 
-Thanks for the link, but I'd have to think longer about it before I would 
-propose something like this ;-)
+On Tue, Dec 23, 2008 at 12:39 PM, Colin Watson <cjwatson-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
+> https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/17551 reports
+> (and I've confirmed) that gethostid/sethostid are in section 2 despite
+> being implemented by glibc, not the kernel; they aren't just syscall
+> stubs either. Should they be moved to section 3?
 
-[snip - good suggestions!]
+I suspect this is a historical thing, since in the original BSD docs,
+these interfaces were documented in Section 2, although I see FreeBSD
+for example now has them in Section 3.
 
->
-> (grep(1) has nice, concise and incomplete regex description.)
+Anyway, I have relocated the page to section 3 as you suggest, and
+created some .so link files so that "man 2 [gs]ethostid" will continue
+to do the right thing.
 
-I guess that would be a good place to start. And to verify all the things 
-mentioned there to some common GNU implementations (since these are the 
-Linux/GNU manpages).
-It might be worthwhile to create a section called PORTABILITY and list 
-all known exceptions to the description above it and wether the 
-behaviour is POSIX.2 compliant.
+(There were also a few other broken pieces in the page -- e.g., no
+return value or error description for sethostid() -- that I also fixed
+along the way.)
 
-Cheers
+The changes will be in man-pages-3.16.
 
-Simon
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
