@@ -1,69 +1,118 @@
 From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] ld.so.8: Document LD_AUDIT
-Date: Mon, 12 Jan 2009 19:08:20 +1300
-Message-ID: <cfd18e0f0901112208w6a323214w8344b31192a9cb01@mail.gmail.com>
-References: <cfd18e0f0812191320o54724999l622b1b3ea59755da@mail.gmail.com>
-	 <20090107182554.GA21648@machine.or.cz>
+Subject: Re: [PATCH] ld.so.8: Document LD_POINTER_GUARD
+Date: Mon, 12 Jan 2009 23:00:57 +1300
+Message-ID: <cfd18e0f0901120200i44dbb689x11b3748882fc339c@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090107182554.GA21648-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Petr,
+[Was: Re: [PATCH] ld.so.8: Document LD_AUDIT and LD_POINTER_GUARD]
 
-On Thu, Jan 8, 2009 at 7:25 AM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Hi!
->
-> On Fri, Dec 19, 2008 at 04:20:31PM -0500, Michael Kerrisk wrote:
->> On Sun, Dec 7, 2008 at 1:28 PM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
->> > +.TP
->> > +.B LD_AUDIT
->> > +(glibc since 2.4)
->> > +A colon-separated list of additional,
->>
->> Why the word "additional" here?
->
-> Copy'n'paste oversight, sorry.
+Petr,
 
-No problem.\
+I've applied the LD_POINTER_GUARD piece of this patch, with small
+edits, for man-pages-3.16.
 
->> > user-specified, ELF shared libraries
->>
->> The word "libraries" is interesting.  The glibc sources imply that
->> multiple auditing libraries is supported, but a brief play with this
->> led to crashes for me.  (That could easily be because I'm doing things
->> wrong.)  Did you try this, or see an example anywhere?
->
-> I have not tested this, just assumed from the code.
-
-I did some testing on Solaris, which did what I would have expected.
-But GNU's API fails for th same situation.  I filed
-http://sources.redhat.com/bugzilla/show_bug.cgi?id=9733
-
-> Maybe 'shared
-> objects' would be more appropriate, too?
-
-Changed.
-
-As you will have seen already,  I wrote an rtld-audit(7) page
-describing the API, so I've trimmed this patch somewhat (basically I
-removed the list of functions in the API, replacing it with a pointer
-to the new page).
-
-[...]
-
-> Acked-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-
-Thanks.
+Cheers,
 
 Michael
+
+On Mon, Dec 8, 2008 at 7:28 AM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> I was using existing comments, mailing list posts, and mainly the glibc
+> source code as a reference. I'm not sure if LD_AUDIT is 100% compatible
+> with Solaris but aside of the header names, it appears to be, based on
+> quick comparison.
+>
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+>
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index 6ca9a8c..69827f9 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -1,5 +1,9 @@
+>  .\" This is in the public domain
+> -.TH LD.SO 8 2008-10-27 "GNU" "Linux Programmer's Manual"
+> +.\"
+> +.\" 2008-12-07 Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+> +.\"    Document LD_AUDIT and LD_POINTER_GUARD
+> +.\"
+> +.TH LD.SO 8 2008-12-07 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+>  ld.so, ld-linux.so* \- dynamic linker/loader
+>  .SH SYNOPSIS
+> @@ -177,13 +181,25 @@ Version of
+>  for a.out binaries only.
+>  Old versions of ld\-linux.so.1 also supported
+>  .BR LD_ELF_PRELOAD .
+> -.\" FIXME
+> -.\" Document LD_AUDIT ("Install audit libraries for glibc")
+> -.\" new in glibc 2.4
+> -.\" ignored in set-user-ID and set-group-ID programs
+> -.\"
+> -.\" For some info, see Solaris Linker and Libraries Guide,
+> -.\" "Runtime Linker Auditing Interface"
+> +.TP
+> +.B LD_AUDIT
+> +(glibc since 2.4)
+> +A colon-separated list of additional, user-specified, ELF shared libraries
+> +to be loaded before all others in a separate linker namespace.
+> +.B LD_AUDIT
+> +is ignored for set-user-ID/set-group-ID binaries.
+> +
+> +The dynamic linker will notify the audit
+> +libraries at so-called auditing checkpoints, like loading a new library,
+> +resolving a symbol or calling a symbol from another shared object, by
+> +calling an appropriate function within the audit library (the functions
+> +start all with an
+> +.B la_
+> +prefix and are prototyped in
+> +.BR "<link.h> " and " <bits/link.h>").
+> +The auditing interface is compatible with Solaris as described in its
+> +.IR "Linker and Libraries Guide" ,
+> +chapter Runtime Linker Auditing Interface.
+>  .TP
+>  .B LD_BIND_NOT
+>  (glibc since 2.1.95)
+> @@ -240,18 +256,18 @@ For security reasons, since glibc 2.4,
+>  is ignored for set-user-ID/set-group-ID binaries.
+>  .\" Only used if $ORIGIN can't be determined by normal means
+>  .\" (from the origin path saved at load time, or from /proc/self/exe)?
+> -.\"
+> -.\" FIXME
+> -.\" Document LD_POINTER_GUARD
+> -.\" Since glibc 2.4
+> -.\" Set to 0 to disable pointer guarding
+> -.\" Any other value enables pointer guarding, which is also the default.
+> -.\" Pointer guarding is a security mechanism(?) to minimize the
+> -.\" the risk of having usable pointer in the event of a buffer overrun
+> -.\" or stack smashing attack(?).
+> -.\" http://article.gmane.org/gmane.comp.gdb.patches/41147/match=ld_pointer_guard
+> -.\" http://sourceware.org/ml/gdb-patches/2008-04/msg00252.html
+> -.\" http://www.cygwin.com/ml/libc-alpha/2006-01/msg00011.html
+> +.TP
+> +.B LD_POINTER_GUARD
+> +(glibc since 2.4)
+> +Set to 0 to disable pointer guarding.
+> +Any other value enables pointer guarding, which is also the default.
+> +Pointer guarding is a security mechanism where some pointers to code
+> +stored in writable program memory (return address saved by
+> +.BR setjmp (3)
+> +or function pointers used by various glibc internals) are mangled
+> +semi-randomly to make it more difficult for an attacker to hijack
+> +these to their own code in the event of a buffer overrun or stack
+> +smashing attack.
+>  .TP
+>  .B LD_PROFILE
+>  (glibc since 2.1)
+>
+
 
 
 -- 
