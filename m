@@ -1,58 +1,68 @@
-From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: New manpage for betoh64() and friends
-Date: Tue, 13 Jan 2009 22:13:27 +1300
-Message-ID: <cfd18e0f0901130113x605b09f6k724330d43e30dfce@mail.gmail.com>
-References: <4873E122.1010504@ii.nl>
-	 <cfd18e0f0807081522u710a15e1wa1a513843e46ee2f@mail.gmail.com>
-	 <4873EBB4.4030307@ii.nl> <4873ED78.2080303@ii.nl>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: Review request: rtld-audit(7)
+Date: Tue, 13 Jan 2009 18:08:39 +0100
+Message-ID: <20090113170839.GD21648@machine.or.cz>
+References: <cfd18e0f0901112107h4bfe3f64pa6e46136e2cc1e17@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4873ED78.2080303-lQF5CfOoLd8@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <cfd18e0f0901112107h4bfe3f64pa6e46136e2cc1e17-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nanno Langstraat <nal-lQF5CfOoLd8@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Nanno,
+  Hi!
 
-On Wed, Jul 9, 2008 at 11:43 AM, Nanno Langstraat <nal-lQF5CfOoLd8@public.gmane.org> wrote:
->
->>> What version of glibc do these appear in?  I can't find them in the
->>> headers or source for glibc 2.8.
->>>
->>>
->>
->> In the manpage, I describe it as:
->>
->>>> .SH VERSIONS
->>>> These function were added to GNU glibc version 2.8.90.
->>>>
->>>>
->> which I guesstimated from the CVS tags.
->>
->
-> Oops, I missed the "fedora-branch" versus "MAIN" branch difference.
->
-> Does that mean that the next "release" of glibc will be called 2.9 ?
-> I'm not sure, myself: glibc doesn't do tarball releases anymore, you're
-> supposed to go by the CVS tags.
+  I'm sorry, I won't have time to review the manpage in detail in the
+nearest future. :-( So three nits is all I can offer...
 
-These functions don't seem to have made it into glibc 2.9.  Do you
-know any more about this?
+On Mon, Jan 12, 2009 at 06:07:14PM +1300, Michael Kerrisk wrote:
+> .TH RTLD-AUDIT 7 2009-01-12 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> rtld-audit \- auditing API for the dynamic linker
+> .SH SYNOPSIS
+> .B #define _GNU_SOURCE
+> 
+> .B #include <link.h>
+> .SH DESCRIPTION
+> The GNU dynamic linker (run-time linker)
 
-Cheers,
+The parentheses look awkward, is it necessary to have?
 
-Michael
+> provides an auditing API that allows an application
+> to be notified when various dynamic linking events occur.
+> This API is very similar to the auditing interface provided by the
+> Solaris run-time linker.
+
+So there _are_ differences? "compatible with", maybe?
+
+> The necessary constants and prototypes are defined by including
+> .IR <link.h> .
+> 
+> To use this interface, the programmer creates a shared library
+> that implements a standard set of function names.
+> Not all of the functions need to be implemented: in most cases,
+> if the programmer is not interested in a particular class of auditing event,
+> then no implementation needs to be provided for the corresponding
+> auditing function.
+> 
+> To employ the auditing interface, the environment variable
+> .BR LD_AUDIT
+> must be defined to contain a colon-separated list of shared libraries,
+> each of which can implement (parts of) the auditing API.
+> .\" FIXME Does specifying multiple audit libraries actually work
+> .\" on GNU?  My simple tests on Solaris work okay, but not on
+> .\" Linux -- mtk, Jan 2009
+> .\" glibc bug filed: http://sourceware.org/bugzilla/show_bug.cgi?id=9733
+
+Make a BUGS section for this?
+
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+				Petr "Pasky" Baudis
+The average, healthy, well-adjusted adult gets up at seven-thirty
+in the morning feeling just terrible. -- Jean Kerr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
