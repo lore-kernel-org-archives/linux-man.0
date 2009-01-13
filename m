@@ -1,88 +1,60 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Review request: rtld-audit(7)
-Date: Tue, 13 Jan 2009 13:22:29 +1300
-Message-ID: <496BDEC5.9070907@gmail.com>
-References: <cfd18e0f0901112107h4bfe3f64pa6e46136e2cc1e17@mail.gmail.com> <20090113170839.GD21648@machine.or.cz>
+From: "Michael Kerrisk" <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: waitid() return value strangeness when infop is NULL
+Date: Wed, 14 Jan 2009 11:36:17 +1300
+Message-ID: <cfd18e0f0901131436ud2cf61bkf0e6b00f4b765bb5@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090113170839.GD21648-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Vegard Nossum <vegard.nossum-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Petr 
+Hello Roland,
 
-Petr Baudis wrote:
->   Hi!
-> 
->   I'm sorry, I won't have time to review the manpage in detail in the
-> nearest future. :-( So three nits is all I can offer...
+Vegard sent me a report of a possible bug in the waitid(2) man page,
+but on closer examination, the issue seems to be in the waitid()
+system call.
 
-Thanks for taking a look anyway...
+POSIX.1 says of waitid():
 
-> On Mon, Jan 12, 2009 at 06:07:14PM +1300, Michael Kerrisk wrote:
->> .TH RTLD-AUDIT 7 2009-01-12 "Linux" "Linux Programmer's Manual"
->> .SH NAME
->> rtld-audit \- auditing API for the dynamic linker
->> .SH SYNOPSIS
->> .B #define _GNU_SOURCE
->>
->> .B #include <link.h>
->> .SH DESCRIPTION
->> The GNU dynamic linker (run-time linker)
-> 
-> The parentheses look awkward, is it necessary to have?
+   RETURN VALUE
+       If WNOHANG was specified and there are no children to wait for,
+       0 shall be returned. If waitid() returns due to the  change  of
+       state  of  one of its children, 0 shall be returned. Otherwise,
+       -1 shall be returned and errno set to indicate the error.
 
-Better to have, IMO.
+The Linux waitid() follows this behavior, as long as infop is not
+NULL, which is what POSIX requires:
 
->> provides an auditing API that allows an application
->> to be notified when various dynamic linking events occur.
->> This API is very similar to the auditing interface provided by the
->> Solaris run-time linker.
-> 
-> So there _are_ differences? "compatible with", maybe?
+       The  application shall ensure that the infop argument points to
+       a siginfo_t structure.
 
-Actually, I think "very similar" is probably better.  To me, "compatible"
-implies something even closer to "they are the same".
+However, Linux's waitid() does permit infop to be NULL.  But in this
+case, a successful call returns the PID of the waited-for child.
+Thinking about it, I suppose there is a rationale for doing this,
+since otherwise the caller of waitid() has no way of obtaining the PID
+of the waited-for child.  Anyway, this behavior should either be
+documented, or "fixed" (i.e., change waitid() to return 0 on success
+even if infop is NULL).  So, some questions:
 
->> The necessary constants and prototypes are defined by including
->> .IR <link.h> .
->>
->> To use this interface, the programmer creates a shared library
->> that implements a standard set of function names.
->> Not all of the functions need to be implemented: in most cases,
->> if the programmer is not interested in a particular class of auditing event,
->> then no implementation needs to be provided for the corresponding
->> auditing function.
->>
->> To employ the auditing interface, the environment variable
->> .BR LD_AUDIT
->> must be defined to contain a colon-separated list of shared libraries,
->> each of which can implement (parts of) the auditing API.
->> .\" FIXME Does specifying multiple audit libraries actually work
->> .\" on GNU?  My simple tests on Solaris work okay, but not on
->> .\" Linux -- mtk, Jan 2009
->> .\" glibc bug filed: http://sourceware.org/bugzilla/show_bug.cgi?id=9733
-> 
-> Make a BUGS section for this?
+a) Is it intentional to support the infop==NULL case for waitid() --
+rather than simply giving an error return?
 
-I'm still not 100% sure whether this is a bug in glibc, or a bug in my
-understanding, so, I'm reluctant at this stage to write it up
-in a BUGS section.
+b) If so, what is the rationale for supporting this feature?
+
+c) If the the answer a) is "yes", is it intentional for
+waitid(idtype,id,NULL,options) to return the PID of the child, rather
+than returning 0?
+
+I'll post a test program in a follow-up message.
 
 Cheers,
 
 Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
