@@ -1,110 +1,102 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Bug in select_tut
-Date: Mon, 26 Jan 2009 15:08:09 +1300
-Message-ID: <cfd18e0f0901251808y4ae1d3e7r641d77c883ddd9f2@mail.gmail.com>
-References: <4971E510.9050301@riot.org> <497C46B0.7050509@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Subject: [PATCH] Improve capget manpage
+Date: Mon, 26 Jan 2009 21:29:42 +0100
+Message-ID: <20090126202942.GA8753@basil.nowhere.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <497C46B0.7050509-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sebastian Kienzl <seb-O0gdCS+Gcp8@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, morgan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jan 26, 2009 at 12:02 AM, Michael Kerrisk
-<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hello Sebastian,
->
-> Sebastian Kienzl wrote:
->> Hello!
->>
->> There's a bug in the select_tut man-page in the chapter "Combining
->> Signal and Data Events", which should illustrate pselect()-usage.
->>
->> See the attachments for detailed information, proof-code and a proposed
->> fix.
->>
->> Regards,
->> Seb.
->
-> What do you think of the revised (but still incomplete)
-> program below?
 
-Hmmm -- obviously, s/SIGCHILD/SIGCHLD/ throughout the example code I
-sent earlier.
+While writing a little program using capset
+I found the capset manpage quite light on crucial
+details and I had to resort to RTFS.
 
-Cheers,
+This patch improves the points I found unclear
+and also moves one misplaced paragraph around.
 
-Michael
+-Andi
 
-> Michael
->
->       static volatile sig_atomic_t got_SIGCHILD = 0;
->
->       void
->       child_sig_handler(int sig)
->       {
->           got_SIGCHILD = 1;
->       }
->
->       int
->       main(int argc, char *argv[])
->       {
->           sigset_t sigmask, empty_mask;
->           struct sigaction sa;
->           fd_set readfs, writefds, exceptfds;
->           int r;
->
->           sigemptyset(&sigmask);
->           sigaddset(&sigmask, SIGCHLD);
->           if (sigprocmask(SIG_BLOCK, &sigmask, NULL) == -1) {
->               perror("sigprocmask");
->               exit(EXIT_FAILURE);
->           }
->
->           sa.sa_flags = 0;
->           sa.sa_handler = child_sig_handler;
->           sigemptyset(&sa.sa_mask);
->           if (sigaction(SIGCHILD, &sa, NULL) == -1) {
->               perror("sigaction");
->               exit(EXIT_FAILURE);
->           }
->
->           sigemptyset(empty_mask);
->
->           for (;;) {          /* main loop */
->               /* Initialize readfds, writefds, and exceptfds
->                  before the pselect() call. (Code omitted.) */
->
->               r = pselect(nfds, &readfs, &writefds, &exceptfd,
->                           0, &empty_mask);
->               if (r == -1 && errno != EINTR) {
->                   /* Handle error */
->               }
->
->               if (got_SIGCHILD) {
->                   got_SIGCHILD = 0;
->
->                   /* Handle signalled event here; e.g., wait() for all
->                      terminated children. (Code omitted.) */
->               }
->
->               /* main body of program */
->           }
->       }
->
-
-
+--- man2/capget.2-o	2009-01-26 21:19:13.000000000 +0100
++++ man2/capget.2	2009-01-26 21:26:24.000000000 +0100
+@@ -6,6 +6,7 @@
+ .\" Modified 2008-04-28, morgan of kernel.org
+ .\"     Update in line with addition of file capabilities and
+ .\"     64-bit capability sets in kernel 2.6.2[45].
++.\" Modified 2009-01-26, andi kleen
+ .\"
+ .TH CAPGET 2 2008-07-14 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+@@ -36,7 +37,8 @@
+ but the kernel API is likely to change and use of
+ these functions (in particular the format of the
+ .I cap_user_*_t
+-types) is subject to change with each kernel revision.
++types) is subject to extension with each kernel revision,
++but old programs will keep working.
+ .sp
+ The portable interfaces are
+ .BR cap_set_proc (3)
+@@ -73,19 +75,19 @@
+ .fi
+ .in -4n
+ .sp
+-The calls will fail with the error
+-.BR EINVAL ,
+-and set the
+-.I version
+-field of
+-.I hdrp
+-to the kernel preferred value of
+-.B _LINUX_CAPABILITY_VERSION_?
+-when an unsupported
+-.I version
+-value is specified.
+-In this way, one can probe what the current
+-preferred capability revision is.
++.I effective, permitted, inheritable
++are bitmasks of the capabilities defined in
++.I capability(7).
++Note the 
++.I CAP_* 
++defines are bit indexes and need to be shifted up before oring into 
++the bitfields.
++To define the structures for passing to the syscall you have to use the 
++.I struct __user_cap_header_struct
++and 
++.I struct __user_cap_data_struct 
++names because the typedefs are only pointers.
++
+ Kernels prior to 2.6.25 prefer
+ 32-bit capabilities with version
+ .BR _LINUX_CAPABILITY_VERSION_1 ,
+@@ -154,6 +156,20 @@
+ On error, \-1 is returned, and
+ .I errno
+ is set appropriately.
++
++The calls will fail with the error
++.BR EINVAL ,
++and set the
++.I version
++field of
++.I hdrp
++to the kernel preferred value of
++.B _LINUX_CAPABILITY_VERSION_?
++when an unsupported
++.I version
++value is specified.
++In this way, one can probe what the current
++preferred capability revision is.
+ .SH ERRORS
+ .TP
+ .B EFAULT
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org -- Speaking for myself only.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
