@@ -1,72 +1,62 @@
 From: Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
 Subject: Re: open(2) says O_DIRECT works on 512 byte boundries?
-Date: Thu, 29 Jan 2009 22:16:47 -0800
-Message-ID: <20090130061647.GB31209@kroah.com>
-References: <20090128213322.GA15789@kroah.com> <4980FB4D.9090009@shaw.ca> <20090129011758.GA26534@kroah.com> <cfd18e0f0901281859u250f202fj3ef40fb8531f1dc3@mail.gmail.com> <20090129031349.GA23722@kroah.com> <x49iqnyi0ih.fsf@segfault.boston.devel.redhat.com>
+Date: Thu, 29 Jan 2009 22:17:14 -0800
+Message-ID: <20090130061714.GC31209@kroah.com>
+References: <20090128213322.GA15789@kroah.com> <20090129141338.34e44a1f.kamezawa.hiroyu@jp.fujitsu.com> <20090129160826.701E.KOSAKI.MOTOHIRO@jp.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <x49iqnyi0ih.fsf-RRHT56Q3PSP4kTEheFKJxxDDeQx5vsVwAInAS/Ez/D0@public.gmane.org>
+In-Reply-To: <20090129160826.701E.KOSAKI.MOTOHIRO-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Robert Hancock <hancockr-fVOoFLC7IWo@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jan 29, 2009 at 10:40:22AM -0500, Jeff Moyer wrote:
-> Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org> writes:
+On Thu, Jan 29, 2009 at 04:10:39PM +0900, KOSAKI Motohiro wrote:
+> (CC to andrea)
 > 
-> > On Thu, Jan 29, 2009 at 03:59:12PM +1300, Michael Kerrisk wrote:
-> >> On Thu, Jan 29, 2009 at 2:17 PM, Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org> wrote:
-> >> >
-> >> >
-> >> >
-> >> > On Wed, Jan 28, 2009 at 06:41:49PM -0600, Robert Hancock wrote:
-> >> >>
-> >> >>
-> >> >> Greg KH wrote:
-> >> >>> In looking at open(2), it says that O_DIRECT works on 512 byte boundries
-> >> >>> with the 2.6 kernel release:
-> >> >>>      Under Linux 2.4, transfer sizes, and the alignment of the user
-> >> >>>      buffer and  the file offset must all be multiples of the logical
-> >> >>>      block size of the file system.  Under Linux 2.6, alignment  to
-> >> >>>      512-byte  boundaries suffices.
-> >> >>> However if you try to access an O_DIRECT opened file with a buffer that
-> >> >>> is PAGE_SIZE aligned + 512 bytes, it fails in a bad way (wrong data is
-> >> >>> read.)
-> >> >>> Is this just a mistake in the documentation?  Or am I reading it
-> >> >>> incorrectly?
-> >> >>> I have a test program that shows this if anyone wants it.
-> >> >>
-> >> >> Well, it sounds like a bug to me.. even if it's not supported, if you do
-> >> >> such an access, surely the kernel should detect that and return EINVAL or
-> >> >> something rather than reading corrupted data..
-> >> >
-> >> > It doesn't.  It says the read is successful, yet the data is not really
-> >> > read into the buffer.  Portions of it is, but not the amount we asked
-> >> > for.
-> >> 
-> >> Greg,
-> >> 
-> >> Can you post your test program?
-> >
-> > Sure, here it is.  I'm still not quite sure it is valid, but at first
-> > glance it seems to be.
-> >
-> > Run it once with no arguments and all of the files will be created.
-> > Then run it again with no offset being asked for:
-> > 	./dma_thread -a 0
-> > then with an offset:
-> > 	./dma_thread -a 512
-> >
-> > The second one breaks.
+> > On Wed, 28 Jan 2009 13:33:22 -0800
+> > Greg KH <greg-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org> wrote:
+> > 
+> > > In looking at open(2), it says that O_DIRECT works on 512 byte boundries
+> > > with the 2.6 kernel release:
+> > > 	Under Linux 2.4, transfer sizes, and the alignment of the user
+> > > 	buffer and  the file offset must all be multiples of the logical
+> > > 	block size of the file system.  Under Linux 2.6, alignment  to
+> > > 	512-byte  boundaries suffices.
+> > > 
+> > > However if you try to access an O_DIRECT opened file with a buffer that
+> > > is PAGE_SIZE aligned + 512 bytes, it fails in a bad way (wrong data is
+> > > read.)
+> > > 
+> > 
+> > IIUC, it's not related to 512bytes boundary. Just a race between
+> > direct-io v.s. copy-on-write. Copy-on-Write while reading a page via DIO
+> > is a problem.
 > 
-> There are several folks working on this.  See "Corruption with O_DIRECT
-> and unaligned user buffers" on the linux-fsdevel list.  There is also a
-> Red Hat bugzilla for this (471613) that several folks have been working
-> through.
+> Yes.
+> Greg's reproducer is a bit misleading.
+> 
+> >	    for (j = 0; j < workers; j++) {
+> >		worker[j].offset = offset + j * PAGE_SIZE;
+> >		worker[j].buffer = buffer + align + j * PAGE_SIZE;
+> >		worker[j].length = PAGE_SIZE;
+> >	    }
+> 
+> this code mean,
+>   - if align == 0, reader thread touch only one page.
+>     and the page is touched only one thread.
+>   - if align != 0, reader thread touch two page.
+>     and the page is touched two thread.
+> 
+> then, race is happend if align != 0.
+> We discussed this issue with andrea last month.
+> ("Corruption with O_DIRECT and unaligned user buffers" thread)
+> 
+> As far as I know, he is working on fixing this issue now.
 
-Thanks for the pointers to that, I'll follow along with it.
+Thanks for the pointers, I'll go read the thread and follow up there.
 
 greg k-h
 --
