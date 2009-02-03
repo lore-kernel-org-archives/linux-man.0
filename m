@@ -1,7 +1,7 @@
 From: KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Subject: Re: open(2) says O_DIRECT works on 512 byte boundries?
-Date: Tue, 3 Feb 2009 13:13:47 +0900
-Message-ID: <20090203131347.0aa6c5d0.kamezawa.hiroyu@jp.fujitsu.com>
+Date: Tue, 3 Feb 2009 13:38:11 +0900
+Message-ID: <20090203133811.47324d80.kamezawa.hiroyu@jp.fujitsu.com>
 References: <20090128213322.GA15789@kroah.com>
 	<20090129141338.34e44a1f.kamezawa.hiroyu@jp.fujitsu.com>
 	<20090129160826.701E.KOSAKI.MOTOHIRO@jp.fujitsu.com>
@@ -67,68 +67,28 @@ Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 > 
 > Signed-off-by: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
-> 
-Just curious, could you confirm following ?
 
-(following is from RHEL5.3)
-
-It seems page_cache_release() is called before page_cache_get().
-Doesn't this break your assumption ? 
-(I mean following code is buggy.)
-Do we have extra page_count() somewhere before page_cache_release() ?
-
-=
- 667 submit_page_section(struct dio *dio, struct page *page,
- 668                 unsigned offset, unsigned len, sector_t blocknr)
- 669 {
- 670         int ret = 0;
- 671 
- 672         /*
- 673          * Can we just grow the current page's presence in the dio?
- 674          */
- 675         if (    (dio->cur_page == page) &&
- 676                 (dio->cur_page_offset + dio->cur_page_len == offset) &&
- 677                 (dio->cur_page_block +
- 678                         (dio->cur_page_len >> dio->blkbits) == blocknr)) {
- 679                 dio->cur_page_len += len;
- 680 
- 681                 /*
- 682                  * If dio->boundary then we want to schedule the IO now to
- 683                  * avoid metadata seeks.
- 684                  */
- 685                 if (dio->boundary) {
- 686                         ret = dio_send_cur_page(dio);
- 687                         page_cache_release(dio->cur_page);
- 688                         dio->cur_page = NULL;
- 689                 }
- 690                 goto out;
- 691         }
- 692 
- 693         /*
- 694          * If there's a deferred page already there then send it.
- 695          */
- 696         if (dio->cur_page) {
- 697                 ret = dio_send_cur_page(dio);
- 698                 page_cache_release(dio->cur_page);
- 699                 dio->cur_page = NULL;
- 700                 if (ret)
- 701                         goto out;
- 702         }
- 703 
- 704         page_cache_get(page);           /* It is in dio */
- 705         dio->cur_page = page;
- 706         dio->cur_page_offset = offset;
- 707         dio->cur_page_len = len;
- 708         dio->cur_page_block = blocknr;
- 709 out:
- 710         return ret;
- 711 }
+Sorry, one more ;)
+==
+1117                         cond_resched();
+1118                         while (!(page = follow_page(vma, start, foll_flags))) {
+1119                                 int ret;
+1120                                 ret = __handle_mm_fault(mm, vma, start,
+1121                                                 foll_flags & FOLL_WRITE);
+1122                                 /*
+1123                                  * The VM_FAULT_WRITE bit tells us that do_wp_page has
+1124                                  * broken COW when necessary, even if maybe_mkwrite
+1125                                  * decided not to set pte_write. We can thus safely do
+1126                                  * subsequent page lookups as if they were reads.
+1127                                  */
+1128                                 if (ret & VM_FAULT_WRITE)
+1129                                         foll_flags &= ~FOLL_WRITE;
 ==
 
-Regards,
+>From above, FOLL_WRITE can be dropped and PageGUP() will not be set ?
+
+Thanks,
 -Kame
-
-
 
 
 --
