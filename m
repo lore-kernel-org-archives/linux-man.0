@@ -1,57 +1,38 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] man2/epoll_create.2: fix typo in epoll_create1 desc
-Date: Sun, 8 Feb 2009 23:58:33 +1300
-Message-ID: <cfd18e0f0902080258h262410fcue7b1af6d4a10776c@mail.gmail.com>
-References: <1233992321-23201-1-git-send-email-vapier@gentoo.org>
+Subject: Why does timerfd() only support CLOCK_REALTIME and CLOCK_MONOTONIC?
+Date: Mon, 9 Feb 2009 07:25:50 +1300
+Message-ID: <cfd18e0f0902081025t3fe333ev1616af990e6d19ce@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1233992321-23201-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
+To: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+Hi Davide,
 
-On Sat, Feb 7, 2009 at 8:38 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> Christopher Head reported that there is a typo in the epoll_create1 desc.
-> When referring to the epoll_create func, we should say "size", not "flags".
+At the moment I'm looking into writing man pages for timer_create(2)
+and friends.  (Somewhat bizarrely, these pages do not yet exist.)  As
+I looked into the source code of timer_create(), etc., and did some
+tests, I saw that timer_create() supports the following clocks:
 
-Thanks.  Applied for 3.18.
+TIMER_REALTIME
+TIMER_MONOTONIC
+TIMER_PROCESS_CPUTIME_ID
+TIMER_THREAD_CPUTIME_ID
+clockid obtained from clock_getcpuclockid(3)
+clockid obtained from pthread_getcpuclockid(3)
+
+On the other hand, timerfd() only permits the first two of these.
+What's the reason for that limitation of timerfd()?  (It may be worth
+adding something to the man page on this point.)
 
 Cheers,
 
 Michael
-
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> CC: Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>
-> ---
->  man2/epoll_create.2 |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/man2/epoll_create.2 b/man2/epoll_create.2
-> index 9a0aea0..52b8f09 100644
-> --- a/man2/epoll_create.2
-> +++ b/man2/epoll_create.2
-> @@ -62,7 +62,7 @@ and releases the associated resources for re-use.
->  If
->  .I flags
->  is 0, then, other than the fact that the obsolete
-> -.I flags
-> +.I size
->  argument is dropped,
->  .BR epoll_create1 ()
->  is the same as
-> --
-> 1.6.1.1
->
->
-
-
-
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
