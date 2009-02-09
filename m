@@ -1,64 +1,133 @@
-From: Greg KH <gregkh-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: Why does timerfd() only support CLOCK_REALTIME and
-	CLOCK_MONOTONIC?
-Date: Sun, 8 Feb 2009 18:24:28 -0800
-Message-ID: <20090209022428.GA10891@suse.de>
-References: <cfd18e0f0902081025t3fe333ev1616af990e6d19ce@mail.gmail.com> <alpine.DEB.1.10.0902081127510.18839@alien.or.mcafeemobile.com> <alpine.DEB.1.10.0902081245560.18839@alien.or.mcafeemobile.com> <cfd18e0f0902081329j4b18c4f2g91269d3209f1932d@mail.gmail.com> <alpine.DEB.1.10.0902081340320.18839@alien.or.mcafeemobile.com> <cfd18e0f0902081353t70f9e107g28f8003f356f84db@mail.gmail.com> <alpine.DEB.1.10.0902081405120.18839@alien.or.mcafeemobile.com> <cfd18e0f0902081412x67f97e9eq7df94148807107c8@mail.gmail.com>
+From: =?iso-8859-1?b?RnLpZOlyaWM=?= Maria <frederic.maria-GANU6spQydw@public.gmane.org>
+Subject: Patch on man4/tty_ioctl.4 regarding TIOCMIWAIT & TIOCGICOUNT
+Date: Mon, 09 Feb 2009 11:48:00 +0100
+Message-ID: <1234176480.499009e0c8303@imp.free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="-MOQ123417648073f9ebdba6b6458217ecf6c980959b0f"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <cfd18e0f0902081412x67f97e9eq7df94148807107c8-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, stable-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Feb 09, 2009 at 11:12:21AM +1300, Michael Kerrisk wrote:
-> On Mon, Feb 9, 2009 at 11:06 AM, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org> wrote:
-> > On Mon, 9 Feb 2009, Michael Kerrisk wrote:
-> >
-> >> On Mon, Feb 9, 2009 at 10:50 AM, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org> wrote:
-> >> > On Mon, 9 Feb 2009, Michael Kerrisk wrote:
-> >> >
-> >> >> > @@ -186,12 +187,9 @@ SYSCALL_DEFINE2(timerfd_create, int, clo
-> >> >> >        BUILD_BUG_ON(TFD_CLOEXEC != O_CLOEXEC);
-> >> >> >        BUILD_BUG_ON(TFD_NONBLOCK != O_NONBLOCK);
-> >> >> >
-> >> >> > -       if (flags & ~(TFD_CLOEXEC | TFD_NONBLOCK))
-> >> >> > +       if ((flags & ~TFD_FLAGS_SET) ||
-> >> >> > +           invalid_clockid(clockid))
-> >> >> >                return -EINVAL;
-> >> >>
-> >> >> Oh!  Does this mean that in 2.6.2[789] it wasn't possible to use
-> >> >> TFD_TIMER_ABSTIME?
-> >> >
-> >> > No, sorry, my fault. Patch is wrong. In "create" ATM we accept only
-> >> > FCNTL-like flags. In "settime" we get TFD_TIMER_ABSTIME (that needs a
-> >> > check too for EINVAL).
-> >>
-> >> That last piece should be a separate patch, that also gets pushed back
-> >> into -stable.  Do you agree?
-> >
-> > Hmm, it's a check for extra bits that do not cause any harm. Dunno if it
-> > fits -stable requirements. You should ask Greg.
-> 
-> I agree that it's not a critical fix.  The point is of course that if
-> other flags are evntually added to timerfd_settime(), an application
-> needs a way of checking for kernel support / lack of support (a la the
-> recent discussion of eventfd "[patch/rfc] eventfd semaphore-like
-> behavior").  It seems to me it would be good to have that check work
-> as far back as possible in older kernels. If that check is to be added
-> to 2.6.29, it seems reasonable to push it back to the current -stable
-> kernels.
-> 
-> Greg?
+This message is in MIME format.
 
-Sounds reasonable to me.
+---MOQ123417648073f9ebdba6b6458217ecf6c980959b0f
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-thanks,
+Hello,
 
-greg k-h
+for a personal project I was interrested in using the wait for interrupt
+capability of serial ports.
+
+After searching for documentation I found very few data about the tty ioctl
+commands: TIOCMIWAIT and TIOCGICOUNT.
+Moreover this was not documented in man4/tty_ioctl.4 file.
+
+So here is a possible patch to add quick information on TIOCMIWAIT and
+TIOCGICOUNT commands.
+
+This patch is against version 3.17 of the man pages.
+
+Please do not hesitate to correct english terms as this is not my birth tongue.
+
+
+Best regards
+Fred
+
+
+
+--- /home/fred/man-pages-3.17/man4/tty_ioctl.4	2009-01-19 05:14:02.000000000
++0100
++++ /home/fred/man-pages-3.17-new/man4/tty_ioctl.4	2009-02-09 10:20:43.363377700
++0100
+@@ -349,18 +349,26 @@
+ .SS "Modem control"
+ .TP
+ .BI "TIOCMGET	int *" argp
+-get the status of modem bits.
++Get the status of modem bits.
+ .TP
+ .BI "TIOCMSET	const int *" argp
+-set the status of modem bits.
++Set the status of modem bits.
+ .TP
+ .BI "TIOCMBIC	const int *" argp
+-clear the indicated modem bits.
++Clear the indicated modem bits.
+ .TP
+ .BI "TIOCMBIS	const int *" argp
+-set the indicated modem bits.
++Set the indicated modem bits.
++.TP
++.BI "TIOCMIWAIT	int " arg
++Wait for any of the 4 modem bits (DCD, RI, DSR, CTS) to change.
++The mask is passed in arg for bits of interest (use |'ed
++TIOCM_RNG/DSR/CD/CTS for masking).
++Caller should use
++.B TIOCGICOUNT
++to see which one it was.
+ .LP
+-Bits used by these four ioctls:
++Bits used by these five ioctls:
+
+ .nf
+ TIOCM_LE        DSR (data set ready/line enable)
+@@ -375,6 +383,15 @@
+ TIOCM_RI         see TIOCM_RNG
+ TIOCM_DSR       DSR (data set ready)
+ .fi
++.TP
++.BI "TIOCGICOUNT	struct serial_icounter_struct *" argp
++Get counter of input serial line interrupts (DCD, RI, DSR, CTS).
++Write counters to the user passed
++.I argp
++serial_icounter_struct structure.
++.br
++NB: both 1->0 and 0->1 transitions are counted except for
++RI where only 0->1 is counted.
+ .SS "Marking a line as local"
+ .TP
+ .BI "TIOCGSOFTCAR	int *" argp
+
+
+
+
+
+---MOQ123417648073f9ebdba6b6458217ecf6c980959b0f
+Content-Type: application/octet-stream; name="tty_ioctl.4.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="tty_ioctl.4.patch"
+
+LS0tIC9ob21lL2ZyZWQvbWFuLXBhZ2VzLTMuMTcvbWFuNC90dHlfaW9jdGwuNAkyMDA5LTAxLTE5
+IDA1OjE0OjAyLjAwMDAwMDAwMCArMDEwMAorKysgL2hvbWUvZnJlZC9tYW4tcGFnZXMtMy4xNy1u
+ZXcvbWFuNC90dHlfaW9jdGwuNAkyMDA5LTAyLTA5IDEwOjIwOjQzLjM2MzM3NzcwMCArMDEwMApA
+QCAtMzQ5LDE4ICszNDksMjYgQEAKIC5TUyAiTW9kZW0gY29udHJvbCIKIC5UUAogLkJJICJUSU9D
+TUdFVAlpbnQgKiIgYXJncAotZ2V0IHRoZSBzdGF0dXMgb2YgbW9kZW0gYml0cy4KK0dldCB0aGUg
+c3RhdHVzIG9mIG1vZGVtIGJpdHMuCiAuVFAKIC5CSSAiVElPQ01TRVQJY29uc3QgaW50ICoiIGFy
+Z3AKLXNldCB0aGUgc3RhdHVzIG9mIG1vZGVtIGJpdHMuCitTZXQgdGhlIHN0YXR1cyBvZiBtb2Rl
+bSBiaXRzLgogLlRQCiAuQkkgIlRJT0NNQklDCWNvbnN0IGludCAqIiBhcmdwCi1jbGVhciB0aGUg
+aW5kaWNhdGVkIG1vZGVtIGJpdHMuCitDbGVhciB0aGUgaW5kaWNhdGVkIG1vZGVtIGJpdHMuCiAu
+VFAKIC5CSSAiVElPQ01CSVMJY29uc3QgaW50ICoiIGFyZ3AKLXNldCB0aGUgaW5kaWNhdGVkIG1v
+ZGVtIGJpdHMuCitTZXQgdGhlIGluZGljYXRlZCBtb2RlbSBiaXRzLgorLlRQCisuQkkgIlRJT0NN
+SVdBSVQJaW50ICIgYXJnCitXYWl0IGZvciBhbnkgb2YgdGhlIDQgbW9kZW0gYml0cyAoRENELCBS
+SSwgRFNSLCBDVFMpIHRvIGNoYW5nZS4KK1RoZSBtYXNrIGlzIHBhc3NlZCBpbiBhcmcgZm9yIGJp
+dHMgb2YgaW50ZXJlc3QgKHVzZSB8J2VkCitUSU9DTV9STkcvRFNSL0NEL0NUUyBmb3IgbWFza2lu
+ZykuCitDYWxsZXIgc2hvdWxkIHVzZQorLkIgVElPQ0dJQ09VTlQKK3RvIHNlZSB3aGljaCBvbmUg
+aXQgd2FzLgogLkxQCi1CaXRzIHVzZWQgYnkgdGhlc2UgZm91ciBpb2N0bHM6CitCaXRzIHVzZWQg
+YnkgdGhlc2UgZml2ZSBpb2N0bHM6CiAKIC5uZgogVElPQ01fTEUgICAgICAgIERTUiAoZGF0YSBz
+ZXQgcmVhZHkvbGluZSBlbmFibGUpCkBAIC0zNzUsNiArMzgzLDE1IEBACiBUSU9DTV9SSSAgICAg
+ICAgIHNlZSBUSU9DTV9STkcKIFRJT0NNX0RTUiAgICAgICBEU1IgKGRhdGEgc2V0IHJlYWR5KQog
+LmZpCisuVFAKKy5CSSAiVElPQ0dJQ09VTlQJc3RydWN0IHNlcmlhbF9pY291bnRlcl9zdHJ1Y3Qg
+KiIgYXJncAorR2V0IGNvdW50ZXIgb2YgaW5wdXQgc2VyaWFsIGxpbmUgaW50ZXJydXB0cyAoRENE
+LCBSSSwgRFNSLCBDVFMpLgorV3JpdGUgY291bnRlcnMgdG8gdGhlIHVzZXIgcGFzc2VkCisuSSBh
+cmdwCitzZXJpYWxfaWNvdW50ZXJfc3RydWN0IHN0cnVjdHVyZS4KKy5icgorTkI6IGJvdGggMS0+
+MCBhbmQgMC0+MSB0cmFuc2l0aW9ucyBhcmUgY291bnRlZCBleGNlcHQgZm9yCitSSSB3aGVyZSBv
+bmx5IDAtPjEgaXMgY291bnRlZC4KIC5TUyAiTWFya2luZyBhIGxpbmUgYXMgbG9jYWwiCiAuVFAK
+IC5CSSAiVElPQ0dTT0ZUQ0FSCWludCAqIiBhcmdwCg==
+
+---MOQ123417648073f9ebdba6b6458217ecf6c980959b0f--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
