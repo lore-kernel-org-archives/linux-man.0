@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: timer_settime.2
-Date: Tue, 10 Feb 2009 14:54:24 +1300
-Message-ID: <4990DE50.7090503@gmail.com>
+Subject: For review: timer_getoverrun.2
+Date: Tue, 10 Feb 2009 14:54:38 +1300
+Message-ID: <4990DE5E.2070506@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -12,129 +12,101 @@ List-Id: linux-man@vger.kernel.org
 
 Hello all,
 
-Again, looking for reviewers for this page for timer_settime(2)
-and timer_gettime(2).  Formatted output, and groff source below.
+Again, looking for reviewers for this page for timer_getoverrun(2).
+Formatted output, and groff source below.
 
 Cheers,
 
 Michael
 
 
+
 NAME
-       timer_settime,  timer_gettime  -  arm/disarm and fetch state of
-       POSIX per-process timer
+       timer_getoverrun  -  get  overrun count for a POSIX per-process
+       timer
 
 SYNOPSIS
        #include <time.h>
 
-       int timer_settime(timer_t timerid, int flags,
-                         const struct itimerspec *new_value,
-                         struct itimerspec * old_value);
-       int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
+       int timer_getoverrun(timer_t timerid);
 
        Link with -lrt.
 
    Feature   Test   Macro   Requirements   for   glibc    (see    fea-
    ture_test_macros(7)):
 
-       timer_settime(), timer_gettime(): _POSIX_C_SOURCE >= 199309
+       timer_getoverrun(): _POSIX_C_SOURCE >= 199309
 
 DESCRIPTION
-       timer_settime()   arms  or  disarms  the  timer  identified  by
-       timerid.  The new_value argument  is  an  itimerspec  structure
-       that  specifies  the new initial value and the new interval for
-       the timer.  The itimerspec structure is defined as follows:
+       timer_getoverrun()  returns  the  "overrun count" for the timer
+       referred to by timerid.  An application  can  use  the  overrun
+       count  to  accurately calculate the number of timer expirations
+       that would have occurred over a  given  time  interval.   Timer
+       overruns can occur both when receiving expiration notifications
+       via signals (SIGEV_SIGNAL), and via threads (SIGEV_THREAD).
 
-           struct timespec {
-               time_t tv_sec;                /* Seconds */
-               long   tv_nsec;               /* Nanoseconds */
-           };
+       When expiration notifications are delivered via a signal, over-
+       runs  can  occur  as  follows.   Regardless of whether or not a
+       real-time signal is used for timer  notifications,  the  system
+       queues  at  most  one  signal per timer.  (This is the behavior
+       specified by POSIX.1-2001.  The alternative, queuing one signal
+       for  each  timer expiration, could easily result in overflowing
+       the allowed limits for queued signals on the system.)   Because
+       of  system scheduling delays, or because the signal may be tem-
+       porarily blocked, there can be a delay between  the  time  when
+       the  notification  signal  is generated and the time when it is
+       delivered (e.g., caught by a signal handler) or accepted (e.g.,
+       using sigwaitinfo(2)).  In this interval, further timer expira-
+       tions may occur.  The timer overrun  count  is  the  number  of
+       additional  timer  expirations  that  occurred between the time
+       when the signal was generated and  when  it  was  delivered  or
+       accepted.
 
-           struct itimerspec {
-               struct timespec it_interval;  /* Timer interval */
-               struct timespec it_value;     /* Initial expiration */
-           };
-
-       Each of the substructures of  the  itimerspec  structure  is  a
-       timespec  structure that allows a time value to be specified in
-       seconds  and  nanoseconds.   These  time  values  are  measured
-       according  to  the  clock that was specified when the timer was
-       created by timer_create()
-
-       If new_value->it_value specifies a non-zero value (i.e., either
-       subfield  is  non-zero), then timer_settime() arms (starts) the
-       timer, setting it to initially expire at the given  time.   (If
-       the  timer  was  already  armed, then the previous settings are
-       overwritten.)  If new_value->it_value specifies  a  zero  value
-       (i.e., both subfields are zero), then the timer is disarmed.
-
-       The  new_value->it_interval  field  specifies the period of the
-       timer, in seconds and nanoseconds.  If this field is  non-zero,
-       then  each  time  that  an  armed  timer  expires, the timer is
-       reloaded from the value  specified  in  new_value->it_interval.
-       If new_value->it_interval specifies a zero value then the timer
-       expires just once, at the time specified by it_value.
-
-       By  default,  the  initial   expiration   time   specified   in
-       new_value->it_value is interpreted relative to the current time
-       on the timer's clock at the time of the call.  This can be mod-
-       ified  by  specifying  TIMER_ABSTIME  in  flags,  in which case
-       new_value->it_value is interpreted as an absolute value as mea-
-       sured on the timer's clock; that is, the timer will expire when
-       the   clock   value   reaches   the    value    specified    by
-       new_value->it_value.    If  the  specified  absolute  time  has
-       already passed, then the timer  expires  immediately,  and  the
-       overrun  count (see timer_getoverrun(2)) will be set correctly.
-
-       If the value of the CLOCK_REALTIME clock is adjusted  while  an
-       absolute  timer  based on that clock is armed, then the expira-
-       tion of the timer will be appropriately adjusted.   Adjustments
-       to  the  CLOCK_REALTIME clock have no effect on relative timers
-       based on that clock.
-
-       If old_value is not NULL, then it returns the previous interval
-       of the timer (in old_value->it_interval) and the amount of time
-       until  the  timer  would  previously  have  next  expired   (in
-       old_value->it_value).
-
-       timer_gettime() returns the time until next expiration, and the
-       the interval, for the timer specified by timerid, in the buffer
-       pointed  to  by  curr_value.  The time remaining until the next
-       timer expiration is returned in  curr_value.it_value;  this  is
-       always   a   relative   value,   regardless   of   whether  the
-       TIMER_ABSTIME flag was used when  arming  the  timer.   If  the
-       value  returned  in curr_value.it_value is zero, then the timer
-       is currently disarmed.   The  timer  interval  is  returned  in
-       curr_value.it_interval.     If    the    value    returned   in
-       curr_value.it_interval is  zero,  then  this  is  a  "one-shot"
-       timer.
+       Timer overruns can also occur when expiration notifications are
+       delivered via invocation of a thread, since  there  may  be  an
+       arbitrary  delay  between  an  expiration  of the timer and the
+       invocation of the notification thread, and in that delay inter-
+       val, additional timer expirations may occur
 
 RETURN VALUE
-       On  success,  timer_settime() and timer_gettime() return 0.  On
-       error, -1 is returned, and errno is set to indicate the  error.
+       On success, timer_getoverrun() returns the overrun count of the
+       specified timer; this count  may  be  0  if  no  overruns  have
+       occurred.   On  failure,  -1  is  returned, and errno is set to
+       indicate the error.
 
 ERRORS
-       These functions may fail with the following errors:
-
-       EFAULT new_value,  old_value,  or  curr_value  is  not  valid a
-              pointer.
-
-       EINVAL timerid is invalid.
-
-       timer_settime() may fail with the following errors:
-
-       EINVAL new_value.it_value        is        negative;         or
-              new_value.it_value.tv_nsec  is  negative or greater than
-              999,999,999.
+       EINVAL timerid is not a valid timer ID.
 
 VERSIONS
-       These system calls are available since Linux 2.6.
+       This system call is available since Linux 2.6.
 
 CONFORMING TO
        POSIX.1-2001
 
+NOTES
+       When timer notifications are delivered via signals  (SIGEV_SIG-
+       NAL),  on Linux it is also possible to obtain the overrun count
+       via the si_overrun field of the siginfo_t structure (see sigac-
+       tion(2)).   This allows an application to avoid the overhead of
+       making a system call to obtain the overrun count, but is a non-
+       portable extension POSIX.1-2001.
+
+       POSIX.1-2001  only  discusses  timer overruns in the context of
+       timer notifications using signals.
+
+BUGS
+       POSIX.1-2001 specifies that if the timer overrun count is equal
+       to  or  greater  than an implementation-defined maximum, DELAY-
+       TIMER_MAX,  then  timer_getoverrun()   should   return   DELAY-
+       TIMER_MAX.   However,  Linux  does  not implement this feature:
+       instead, if the timer overrun value exceeds the maximum  repre-
+       sentable  integer,  the counter cycles, starting once more from
+       low values.
+
 SEE ALSO
-       timer_create(2), timer_settime(2), timer_getoverrun(2), time(7)
+       clock_gettime(2),  sigaction(2),  signalfd(2),  sigwaitinfo(2),
+       timer_create(2),  timer_delete(2), timer_settime(2), signal(7),
+       time(7)
 
 
 
@@ -160,18 +132,14 @@ SEE ALSO
 .\"
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
-.TH TIMER_SETTIME 2 2009-02-16 Linux "Linux Programmer's Manual"
+.TH TIMER_GETOVERRUN 2 2009-02-16 Linux "Linux Programmer's Manual"
 .SH NAME
-timer_settime, timer_gettime \- arm/disarm and fetch
-state of POSIX per-process timer
+timer_getoverrun \- get overrun count for a POSIX per-process timer
 .SH SYNOPSIS
 .nf
 .B  #include <time.h>
 
-.BI "int timer_settime(timer_t " timerid ", int " flags ,
-.BI "                  const struct itimerspec *" new_value ,
-.BI "                  struct itimerspec * " old_value );
-.BI "int timer_gettime(timer_t " timerid ", struct itimerspec *" curr_value );
+.BI "int timer_getoverrun(timer_t " timerid );
 .fi
 
 Link with
@@ -182,171 +150,100 @@ Feature Test Macro Requirements for glibc (see
 .BR feature_test_macros (7)):
 .in
 .sp
-.BR timer_settime (),
-.BR timer_gettime ():
+.BR timer_getoverrun ():
 _POSIX_C_SOURCE >= 199309
 .SH DESCRIPTION
-.BR timer_settime ()
-arms or disarms the timer identified by
+.BR timer_getoverrun ()
+returns the "overrun count" for the timer referred to by
 .IR timerid .
-The
-.I new_value
-argument is an
-.I itimerspec
-structure that specifies the new initial value and
-the new interval for the timer.
-The
-.I itimerspec
-structure is defined as follows:
+An application can use the overrun count to accurately calculate the number
+of timer expirations that would have occurred over a given time interval.
+Timer overruns can occur both when receiving expiration notifications
+via signals
+.RB ( SIGEV_SIGNAL ),
+and via threads
+.RB ( SIGEV_THREAD ).
 
-.in +4n
-.nf
-struct timespec {
-    time_t tv_sec;                /* Seconds */
-    long   tv_nsec;               /* Nanoseconds */
-};
+When expiration notifications are delivered via a signal,
+overruns can occur as follows.
+Regardless of whether or not a real-time signal is used for
+timer notifications,
+the system queues at most one signal per timer.
+(This is the behavior specified by POSIX.1-2001.
+The alternative, queuing one signal for each timer expiration,
+could easily result in overflowing the allowed limits for
+queued signals on the system.)
+Because of system scheduling delays,
+or because the signal may be temporarily blocked,
+there can be a delay between the time when the notification
+signal is generated and the time when it
+is delivered (e.g., caught by a signal handler) or accepted (e.g., using
+.BR sigwaitinfo (2)).
+In this interval, further timer expirations may occur.
+The timer overrun count is the number of additional
+timer expirations that occurred between the time when the signal
+was generated and when it was delivered or accepted.
 
-struct itimerspec {
-    struct timespec it_interval;  /* Timer interval */
-    struct timespec it_value;     /* Initial expiration */
-};
-.fi
-.in
-
-Each of the substructures of the
-.I itimerspec
-structure is a
-.I timespec
-structure that allows a time value to be specified
-in seconds and nanoseconds.
-These time values are measured according to the clock
-that was specified when the timer was created by
-.BR timer_create ()
-
-If
-.I new_value->it_value
-specifies a non-zero value (i.e., either subfield is non-zero), then
-.BR timer_settime ()
-arms (starts) the timer,
-setting it to initially expire at the given time.
-(If the timer was already armed,
-then the previous settings are overwritten.)
-If
-.I new_value->it_value
-specifies a zero value
-(i.e., both subfields are zero),
-then the timer is disarmed.
-
-The
-.I new_value->it_interval
-field specifies the period of the timer, in seconds and nanoseconds.
-If this field is non-zero, then each time that an armed timer expires,
-the timer is reloaded from the value specified in
-.IR new_value->it_interval .
-If
-.I new_value->it_interval
-specifies a zero value
-then the timer expires just once, at the time specified by
-.IR it_value .
-
-By default, the initial expiration time specified in
-.I new_value->it_value
-is interpreted relative to the current time on the timer's
-clock at the time of the call.
-This can be modified by specifying
-.B TIMER_ABSTIME
-in
-.IR flags ,
-in which case
-.I new_value->it_value
-is interpreted as an absolute value as measured on the timer's clock;
-that is, the timer will expire when the clock value reaches the
-value specified by
-.IR new_value->it_value .
-If the specified absolute time has already passed,
-then the timer expires immediately,
-and the overrun count (see
-.BR timer_getoverrun (2))
-will be set correctly.
-.\" By experiment: the overrun count is set correctly, for CLOCK_REALTIME.
-
-If the value of the
-.B CLOCK_REALTIME
-clock is adjusted while an absolute timer based on that clock is armed,
-then the expiration of the timer will be appropriately adjusted.
-Adjustments to the
-.B CLOCK_REALTIME
-clock have no effect on relative timers based on that clock.
-.\" Similar remarks might apply with respect to process and thread CPU time
-.\" clocks, but these clocks are not currently (2.6.28) settable on Linux.
-
-If
-.I old_value
-is not NULL, then it returns the previous interval of the timer (in
-.IR old_value->it_interval )
-and the amount of time until the timer
-would previously have next expired (in
-.IR old_value->it_value ).
-
-.BR timer_gettime ()
-returns the time until next expiration, and the the interval,
-for the timer specified by
-.IR timerid ,
-in the buffer pointed to by
-.IR curr_value .
-The time remaining until the next timer expiration is returned in
-.IR curr_value.it_value ;
-this is always a relative value, regardless of whether the
-.BR TIMER_ABSTIME
-flag was used when arming the timer.
-If the value returned in
-.IR curr_value.it_value
-is zero, then the timer is currently disarmed.
-The timer interval is returned in
-.IR curr_value.it_interval .
-If the value returned in
-.IR curr_value.it_interval
-is zero, then this is a "one-shot" timer.
+Timer overruns can also occur when expiration notifications
+are delivered via invocation of a thread,
+since there may be an arbitrary delay between an expiration of the timer
+and the invocation of the notification thread,
+and in that delay interval, additional timer expirations may occur
 .SH RETURN VALUE
 On success,
-.BR timer_settime ()
-and
-.BR timer_gettime ()
-return 0.
-On error, \-1 is returned, and
+.BR timer_getoverrun ()
+returns the overrun count of the specified timer;
+this count may be 0 if no overruns have occurred.
+On failure, \-1 is returned, and
 .I errno
 is set to indicate the error.
 .SH ERRORS
-These functions may fail with the following errors:
-.TP
-.B EFAULT
-.IR new_value ,
-.IR old_value ,
-or
-.I curr_value
-is not valid a pointer.
 .TP
 .B EINVAL
 .I timerid
-is invalid.
-.\" FIXME . eventually: invalid value in flags
-.PP
-.BR timer_settime ()
-may fail with the following errors:
-.TP
-.B EINVAL
-.I new_value.it_value
-is negative; or
-.I new_value.it_value.tv_nsec
-is negative or greater than 999,999,999.
+is not a valid timer ID.
 .SH VERSIONS
-These system calls are available since Linux 2.6.
+This system call is available since Linux 2.6.
 .SH CONFORMING TO
 POSIX.1-2001
+.SH NOTES
+When timer notifications are delivered via signals
+.RB ( SIGEV_SIGNAL ),
+on Linux it is also possible to obtain the overrun count via the
+.I si_overrun
+field of the
+.I siginfo_t
+structure (see
+.BR sigaction (2)).
+This allows an application to avoid the overhead of making
+a system call to obtain the overrun count,
+but is a non-portable extension POSIX.1-2001.
+
+POSIX.1-2001 only discusses timer overruns in the context of
+timer notifications using signals.
+.\" FIXME . Austin bug filed, 11 Feb 09
+.SH BUGS
+POSIX.1-2001 specifies that if the timer overrun count
+is equal to or greater than an implementation-defined maximum,
+.BR DELAYTIMER_MAX ,
+then
+.BR timer_getoverrun ()
+should return
+.BR DELAYTIMER_MAX .
+However, Linux does not implement this feature: instead,
+if the timer overrun value exceeds the maximum representable integer,
+the counter cycles, starting once more from low values.
+.\" Bug filed: http://bugzilla.kernel.org/show_bug.cgi?id=12665
+.\" http://thread.gmane.org/gmane.linux.kernel/113276/
 .SH SEE ALSO
+.BR clock_gettime (2),
+.BR sigaction (2),
+.BR signalfd (2),
+.BR sigwaitinfo (2),
 .BR timer_create (2),
+.BR timer_delete (2),
 .BR timer_settime (2),
-.BR timer_getoverrun (2),
+.BR signal (7),
 .BR time (7)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
