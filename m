@@ -1,137 +1,48 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: For review: timer_delete.2
-Date: Tue, 10 Feb 2009 14:54:57 +1300
-Message-ID: <4990DE71.20803@gmail.com>
+From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: For review: timer_create.2
+Date: Wed, 11 Feb 2009 09:30:30 +0100
+Message-ID: <1234341030.23438.109.camel@twins>
+References: <4990DE09.7020801@gmail.com>  <1234340803.23438.107.camel@twins>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1234340803.23438.107.camel@twins>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+On Wed, 2009-02-11 at 09:26 +0100, Peter Zijlstra wrote:
+> On Tue, 2009-02-10 at 14:53 +1300, Michael Kerrisk wrote:
+> >        static void
+> >        handler(int sig, siginfo_t *si, void *uc)
+> >        {
+> >            /* Note: calling printf() from a signal handler is not
+> >               strictly correct, since printf() is not async-signal-safe;
+> >               see signal(7) */
+> > 
+> >            printf("Caught signal %d\n", sig);
+> >            print_siginfo(si);
+> >            signal(SIG, SIG_IGN);
+> >        }
+> 
+> Is that actually safe to do?
+> 
+> I can remember getting into deadlocks by doing this some few years ago.
+> 
+> The problem was that glibc uses a mutex to guard its memory area for the
+> malloc memory pool, and signals can come in while the main thread of
+> execution is within that mutex, if at that point the signal handler also
+> tries to use anything using malloc (here, I was thinking printf()
+> might), you've got a deadlock.
+> 
+> One thing I always enjoyed about the QNX man-pages was that it
+> explicitly states which functions are and are _NOT_ signal safe, iow
+> which functions can be reliably used from signal handler context.
 
-Again, looking for reviewers for this page for timer_delete(2).
-Formatted output, and groff source below.
-
-Cheers,
-
-Michael
-
-
-NAME
-       timer_delete - delete a POSIX per-process timer
-
-SYNOPSIS
-       #include <time.h>
-
-       int timer_delete(timer_t timerid);
-
-       Link with -lrt.
-
-   Feature    Test    Macro   Requirements   for   glibc   (see   fea-
-   ture_test_macros(7)):
-
-       timer_delete(): _POSIX_C_SOURCE >= 199309
-
-DESCRIPTION
-       timer_delete() deletes the timer whose ID is given in  timerid.
-       If the timer was armed at the time of this call, it is disarmed
-       before being deleted.  The treatment of any pending signal gen-
-       erated by the deleted timer is unspecified.
-
-RETURN VALUE
-       On  success,  timer_delete()  returns  0.   On  failure,  -1 is
-       returned, and errno is set to indicate the error.
-
-ERRORS
-       EINVAL timerid is not a valid timer ID.
-
-VERSIONS
-       This system call is available since Linux 2.6.
-
-CONFORMING TO
-       POSIX.1-2001
-
-SEE ALSO
-       clock_gettime(2),      timer_create(2),       timer_settime(2),
-       timer_getoverrun(2), time(7)
-
-
-
-.\" Copyright (c) 2009 Linux Foundation, written by Michael Kerrisk
-.\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.TH TIMER_DELETE 2 2009-02-16 Linux "Linux Programmer's Manual"
-.SH NAME
-timer_delete \- delete a POSIX per-process timer
-.SH SYNOPSIS
-.nf
-.B  #include <time.h>
-
-.BI "int timer_delete(timer_t " timerid );
-.fi
-
-Link with
-.IR \-lrt .
-.sp
-.in -4n
-Feature Test Macro Requirements for glibc (see
-.BR feature_test_macros (7)):
-.in
-.sp
-.BR timer_delete ():
-_POSIX_C_SOURCE >= 199309
-.SH DESCRIPTION
-.BR timer_delete ()
-deletes the timer whose ID is given in
-.IR timerid .
-If the timer was armed at the time of this call,
-it is disarmed before being deleted.
-The treatment of any pending signal generated by the deleted timer
-is unspecified.
-.SH RETURN VALUE
-On success,
-.BR timer_delete ()
-returns 0.
-On failure, \-1 is returned, and
-.I errno
-is set to indicate the error.
-.SH ERRORS
-.TP
-.B EINVAL
-.I timerid
-is not a valid timer ID.
-.SH VERSIONS
-This system call is available since Linux 2.6.
-.SH CONFORMING TO
-POSIX.1-2001
-.SH SEE ALSO
-.BR clock_gettime (2),
-.BR timer_create (2),
-.BR timer_settime (2),
-.BR timer_getoverrun (2),
-.BR time (7)
+Right, so maybe if I had read the comment this time... I'm so trained to
+ignore comments in code :-)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
