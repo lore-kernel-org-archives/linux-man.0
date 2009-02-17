@@ -1,31 +1,40 @@
-From: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] vm86.2: Add 32-bit specific to CONFORMING TO
-Date: Sun, 15 Feb 2009 14:27:26 -0500 (EST)
-Message-ID: <alpine.LFD.2.00.0902151421470.19327@localhost.localdomain>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 12726] New: sound/alsa/DocBook/* should be moved to DocBook/
+Date: Tue, 17 Feb 2009 09:43:41 -0800 (PST)
+Message-ID: <bug-12726-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-While playing around with Wine on 64-bit kernel I noticed that vm86 is 
-not supposed to work there. 
+http://bugzilla.kernel.org/show_bug.cgi?id=12726
 
-It might be a good idea to clarify that in the vm86 man page.
+           Summary: sound/alsa/DocBook/* should be moved to DocBook/
+           Product: Documentation
+           Version: unspecified
+     KernelVersion: 2.6.29-rc5
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: nsoranzo-IWqWACnzNjyonA0d6jMUrA@public.gmane.org
 
---- man-pages-3.18/man2/vm86.2	2009-02-08 21:14:13.000000000 -0500
-+++ man-pages-3.18-wk/man2/vm86.2	2009-02-15 14:19:08.072201220 -0500
-@@ -69,7 +69,7 @@
- (This is a kernel sanity check; the saved
- stack should only exist within vm86 mode itself.)
- .SH "CONFORMING TO"
--This call is specific to Linux on Intel processors, and should not be
-+This call is specific to 32-bit Linux on Intel processors, and should not be
- used in programs intended to be portable.
- .SH COLOPHON
- This page is part of release 3.18 of the Linux
+
+Problem Description:
+HTML and other documentation in not generated from DocBook files found in
+Documentation/sound/alsa/DocBook/ since there is no Makefile for them.
+The most logical solution is to move the 2 files in Documentation/DocBook/ and
+add them to the relative Makefile.
+
+
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
