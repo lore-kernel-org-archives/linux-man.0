@@ -1,47 +1,66 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] vm86.2: Add 32-bit specific to CONFORMING TO
-Date: Fri, 20 Feb 2009 12:39:01 +1300
-Message-ID: <cfd18e0f0902191539y3f883931rc088631cb583b849@mail.gmail.com>
-References: <alpine.LFD.2.00.0902151421470.19327@localhost.localdomain>
+Subject: Re: For review: timer_settime.2
+Date: Fri, 20 Feb 2009 12:48:21 +1300
+Message-ID: <cfd18e0f0902191548k70f53ba7ufcef2fe434daff32@mail.gmail.com>
+References: <4990DE50.7090503@gmail.com> <1234446864.10603.6.camel@laptop>
+	 <49932437.3030005@gmail.com> <1234647684.4695.14.camel@laptop>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.0902151421470.19327-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+In-Reply-To: <1234647684.4695.14.camel@laptop>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Parag,
+Hi Peter,
 
-On 2/16/09, Parag Warudkar <parag.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> While playing around with Wine on 64-bit kernel I noticed that vm86 is
-> not supposed to work there.
+On 2/15/09, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org> wrote:
+> On Thu, 2009-02-12 at 08:17 +1300, Michael Kerrisk wrote:
+>> Hi Peter,
+>>
+>> Peter Zijlstra wrote:
+>> > On Tue, 2009-02-10 at 14:54 +1300, Michael Kerrisk wrote:
+>> >>        If the value of the CLOCK_REALTIME clock is adjusted  while  an
+>> >>        absolute  timer  based on that clock is armed, then the expira-
+>> >>        tion of the timer will be appropriately adjusted.   Adjustments
+>> >>        to  the  CLOCK_REALTIME clock have no effect on relative timers
+>> >>        based on that clock.
+>> >
+>> > I cannot find this to be true.
+>> >
+>> >>From what I can make of the code, clock_settime() ends up calling
+>> > do_sys_settimeofday() for CLOCK_REALTIME (and the other clocks).
+>> >
+>> > It is, however, not treating relative/abs timers any differently.
+>> >
+>> > Both get converted to an absolute expiration time when set.
+>> >
+>> > If POSIX mandates that we keep relative timers unchanged when we change
+>> > the underlying clock, we'd have to iterate all pending timers and reset
+>> > them.
+>>
+>> The rules do indeed come from POSIX.
+>>
+>> And indeed the rules do seem to be followed on Linux.  Since I found
+>> parts of the code to be hard to track, I also checked things with an
+>> example program.  (Ahhh! the pitfalls of reading code to find the
+>> truth!)
 >
-> It might be a good idea to clarify that in the vm86 man page.
+> Ah, quite so. The magic is in hrtimers. Relative timers are ran on clock
+> monotonic.
+>
+> OK I think that was the last bit.
+>
+> Feel free to add:
+>
+> Reviewed-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+>
+> To all 4 pathces.
 
-Agreed -- see below.
-
-> --- man-pages-3.18/man2/vm86.2	2009-02-08 21:14:13.000000000 -0500
-> +++ man-pages-3.18-wk/man2/vm86.2	2009-02-15 14:19:08.072201220 -0500
-> @@ -69,7 +69,7 @@
->  (This is a kernel sanity check; the saved
->  stack should only exist within vm86 mode itself.)
->  .SH "CONFORMING TO"
-> -This call is specific to Linux on Intel processors, and should not be
-> +This call is specific to 32-bit Linux on Intel processors, and should not
-
-I made it:
-
-This call is specific to Linux on 32-bit Intel processors
-
-The change will be in 3.19.
-
-Thanks for reporting this.  I put the probablem down to bit-rot, since
-the last major change to this page was in 1997, when 64-bit Intel was
-not on most people's horizons.
+Done.  Thanks for looking the pages over.
 
 Cheers,
 
