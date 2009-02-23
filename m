@@ -1,74 +1,63 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: cpuid(7) manpage
-Date: Sun, 22 Feb 2009 18:06:16 +0100
-Message-ID: <20090222170616.GA23612@one.firstfloor.org>
+From: "Carlos O'Donell" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Subject: [PATCH] write.2: Mention EWOULDBLOCK in ERRORS.
+Date: Mon, 23 Feb 2009 00:12:14 -0500
+Message-ID: <119aab440902222112y11a770f4nf1f1824b9464c9c1@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kyle McMartin <kyle-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Simple manpage for the cpuid devices.
+On Sun, Feb 22, 2009 at 10:31 PM, Michael Kerrisk
+<mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hmmm -- "often" is rather strong.  I will certainly allow
+> "occasionally" (or perhaps a little more), and I note in passing that
+> for someone making the claim of "often", I never saw a patch from you
+> so far to correct an error...
 
--Andi
+Sorry Michael, I actually meant to say "often incomplete" instead of
+"often incorrect." I appreciate your work on the man-pages project.
 
+As penance.
 
-.\" Description based on comment in arch/x86/kernel/cpuid.c
-.TH MSR 7 2009-02-22 "Linux" "Linux Programmer's Manual"
-.SH NAME
-cpuid \- x86 CPUID access device
-.SH DESCRIPTIONS
-CPUID allows to query information about the x86 CPU.
+~~~
+The write.2 man-page should mention EWOULDBLOCK could be returned by a
+write to a socket.
 
-This device is accessed by 
-.I lseek(2) 
-or
-.I pread(2)
-to the appropriate CPUID level
-and then read in chunks of 16 bytes.  A larger size means multiple
-reads of consecutive levels.
+POSIX says it may return EWOULDBLOCK by a write to a socket.
+http://www.opengroup.org/onlinepubs/009695399/functions/write.html
 
-The lower 32 bits of the file position is used as the incoming %eax,
-and the upper 32 bits of the file position as the incoming %ecx,
-the latter intended for "counting" eax levels like eax=4.
+It appears that some of the linux kernel net code in 2.6.29-rc5 may
+return -EWOULDBLOCK, but I can't be 100%  sure that it would be the
+result of a write to a socket.
 
-This driver uses 
-.I /dev/cpu/CPUNUM/cpuid 
-where
-.I CPUNUM is the minor number, and on
-an SMP box will direct the access to CPU CPUNUM as listed in 
-.I /proc/cpuinfo.
-.SH NOTES
-The CPUID instruction can be directly executed by a program
-using inline assembler. However this device allows convenient
-access to all CPUs without changing process affinity. 
+Patch is against git master.
+~~~
+diff --git a/man2/write.2 b/man2/write.2
+index 3bcc93d..ad9ef56 100644
+--- a/man2/write.2
++++ b/man2/write.2
+@@ -157,6 +157,13 @@ When this happens the writing process will also receive a
+ signal.
+ (Thus, the write return value is seen only if the program
+ catches, blocks or ignores this signal.)
++.TP
++.B EAGAIN
++or
++.B EWOULDBLOCK
++.I fd
++is a socket, is marked O_NONBLOCK, and write would block. Sockets
++created with SOCK_NONBLOCK are marked O_NONBLOCK.
+ .PP
+ Other errors may occur, depending on the object connected to
+ .IR fd .
+~~~
 
-Most of the information in CPUID is reported by the kernel
-in cooked form either in 
-.I /proc/cpuinfo
-or through sub directories in 
-.I /sys/devices/system/cpu
-Direct cpuid access through this device should only
-be used in exceptional cases.
-
-The 
-.I cpuid
-driver is not auto-loaded. On modular kernel you might need to use
-.B modprobe cpuid
-to load it explicitely before use.
-
-There is no support for cpuid functions that require additional
-input registers.
-
-Very old x86 CPUs don't support CPUID.
-.SH SEE ALSO
-Intel Corporation, Intel 64 and IA-32 Architectures Software Developer's Manual Volume 2A
-Instruction Set Reference, A-M, 3-180 CPUID reference.
-
-Intel Corporation, Intel Processor Identification and the CPUID Instruction, Application note
-485.
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
