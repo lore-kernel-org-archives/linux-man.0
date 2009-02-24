@@ -1,99 +1,66 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] write.2: Mention EWOULDBLOCK in ERRORS.
-Date: Mon, 23 Feb 2009 18:26:51 +1300
-Message-ID: <cfd18e0f0902222126x6048d79ere0cbb92e186f2bf@mail.gmail.com>
-References: <119aab440902222112y11a770f4nf1f1824b9464c9c1@mail.gmail.com>
+Subject: Re: msr(7) manpage
+Date: Tue, 24 Feb 2009 22:40:57 +1300
+Message-ID: <cfd18e0f0902240140u464fdb95g25f9bb97a49cda63@mail.gmail.com>
+References: <20090222170549.GA23589@one.firstfloor.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <119aab440902222112y11a770f4nf1f1824b9464c9c1-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090222170549.GA23589-qrUzlfsMFqo/4alezvVtWx2eb7JE58TQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kyle McMartin <kyle-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Matthew Wilcox <matthew-Ztpu424NOJ8@public.gmane.org>
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Carlos,
-
-On 2/23/09, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org> wrote:
-> On Sun, Feb 22, 2009 at 10:31 PM, Michael Kerrisk
-> <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
->> Hmmm -- "often" is rather strong.  I will certainly allow
->> "occasionally" (or perhaps a little more), and I note in passing that
->> for someone making the claim of "often", I never saw a patch from you
->> so far to correct an error...
+On 2/23/09, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
+> Here's a simple manpage for the msr device.
 >
-> Sorry Michael, I actually meant to say "often incomplete" instead of
-> "often incorrect." I appreciate your work on the man-pages project.
->
-> As penance.
+> -Andi
 
-Thanks.  Apology accepted ;-).
+Thanks for this page Andi.
 
-> ~~~
-> The write.2 man-page should mention EWOULDBLOCK could be returned by a
-> write to a socket.
+A few comments/questions below.
 
-Thanks.
+> .\" Some sentences copied from comment in arch/x86/kernel/msr.c
+> .TH MSR 7 2009-02-22 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> msr \- x86 CPU MSR access device
+> .SH DESCRIPTION
+> .I /dev/cpu/CPUNUM/msr
+> allows to read and write the model specific registers (MSRs) of an x86 CPU.
+> .I CPUNUM
+> is the number of the cpu to access as listed in
+> .I /proc/cpuinfo.
+> The register access is done by opening the file and seeking to the MSR
+> number
 
-Yes, that mail thread already prompted me to look at all pages that
-discuss EAGAIN and EWOULDBLOCK, and I have a fix in progress for
-accept(2), recv(2), send(2), read(2), and write(2).  Essentially the
-fix to go in each of these pages is this:
+Could you clarify "seek to the MSR number" == does that mean seek to
+offset (MSR_number * 8) or something like that?
 
-For non-blocking sockets, POSIX says that the interfaces can return
-either error, and since POSIX.1 does require that EAGAIN ==
-EWOULDBLOCK, a portable application should check for both
-possibilities.
+> as offset in the file and then read or write in chunks of 8 bytes.
+> A larger size than 8 bytes means multiple reads or writes of the
+> same register.
 
-> POSIX says it may return EWOULDBLOCK by a write to a socket.
-> http://www.opengroup.org/onlinepubs/009695399/functions/write.html
->
-> It appears that some of the linux kernel net code in 2.6.29-rc5 may
-> return -EWOULDBLOCK, but I can't be 100%  sure that it would be the
-> result of a write to a socket.
-
-Yes, it looks to me like there is a little confusion in the kernel
-code (which isn't generally visible in userspace where EAGAIN ==
-EWOULDBLOCK).  I'd say that probably all the net/ code sould be using
-either one constant or the other.  (It appears to be only some of the
-more obscure networking protocols that use EWOULDBLOCK.)
-
-> Patch is against git master.
-
-Thanks.  My changes already encompass your proposal below, but I have
-taken the liberty to record a Reported-by: for you in the change log.
+What are the semantics of reading the same register multiple times?
+Is a read non-destructive?  Do the multiple reads always get the same
+value?
 
 Cheers,
 
 Michael
 
-
-> ~~~
-> diff --git a/man2/write.2 b/man2/write.2
-> index 3bcc93d..ad9ef56 100644
-> --- a/man2/write.2
-> +++ b/man2/write.2
-> @@ -157,6 +157,13 @@ When this happens the writing process will also receive
-> a
->  signal.
->  (Thus, the write return value is seen only if the program
->  catches, blocks or ignores this signal.)
-> +.TP
-> +.B EAGAIN
-> +or
-> +.B EWOULDBLOCK
-> +.I fd
-> +is a socket, is marked O_NONBLOCK, and write would block. Sockets
-> +created with SOCK_NONBLOCK are marked O_NONBLOCK.
->  .PP
->  Other errors may occur, depending on the object connected to
->  .IR fd .
-> ~~~
->
-> Cheers,
-> Carlos.
+> .SH NOTES
+> The
+> .I msr
+> driver is not auto-loaded. On modular kernel you might need to use
+> .B modprobe msr
+> to load it explicitely before use.
+> .SH SEE ALSO
+> Intel Corporation Intel 64 and IA-32 Architectures Software Developer's
+> Manual Volume 3B Appendix B
+> for an overview of the Intel CPU MSRs.
 >
 
 
