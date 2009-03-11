@@ -1,39 +1,40 @@
 From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 12726] sound/alsa/DocBook/* should be moved to DocBook/
-Date: Thu, 26 Feb 2009 14:11:00 -0800 (PST)
-Message-ID: <20090226221100.9CA52108048@picon.linux-foundation.org>
-References: <bug-12726-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 12853] New: cpu-freq/user-guide.txt should mention Celeron
+Date: Tue, 10 Mar 2009 17:59:07 -0700 (PDT)
+Message-ID: <bug-12853-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-12726-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=12726
+http://bugzilla.kernel.org/show_bug.cgi?id=12853
+
+           Summary: cpu-freq/user-guide.txt should mention Celeron
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: jidanni-8D0D3YcSAvhAfugRpC6u6w@public.gmane.org
 
 
-randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org changed:
+I was told to
+> please submit to bugzilla.kernel.org,
+> so that upstream gets notified.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |tiwai-l3A5Bk7waGM@public.gmane.org,
-                   |                            |perex-/Fr2/VpizcU@public.gmane.org
-         AssignedTo|documentation_man-          |randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
-                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
-             Status|NEW                         |ASSIGNED
+OK, please see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=328528
 
-
-
-
-------- Comment #1 from randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org  2009-02-26 14:10 -------
-Done. Patch is at
-http://oss.oracle.com/~rdunlap/patches/docbook-move-alsa-docs.patch
+Next time I find a bug, I will submit directly. Back then I didn't have ADSL...
 
 
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
 ------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
 You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
