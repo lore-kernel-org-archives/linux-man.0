@@ -1,92 +1,107 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: Obsoletions by POSIX.1-2008
-Date: Sun, 15 Mar 2009 08:17:55 +1300
-Message-ID: <cfd18e0f0903141217y3158eb6fneb9440771e5bd8aa@mail.gmail.com>
-References: <alpine.LSU.2.00.0903141255530.5204@fbirervta.pbzchgretzou.qr>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH] Document signal-semantics changes of container-init
+Date: Sat, 14 Mar 2009 16:23:53 -0700
+Message-ID: <20090314232353.GA29682@us.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LSU.2.00.0903141255530.5204-vVwEwcwQeYFPkBl3ERsXe1l1cybopEuJUBSOeVevoDU@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, Containers <containers-qjLDD68F18O7TbgM5vRIOg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jan,
 
-(Please CC bug reports to linux-man@)
+Hi Michael,
 
-On Sun, Mar 15, 2009 at 1:01 AM, Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org> wr=
-ote:
-> Hi,
->
->
-> in man-pages 3.13 (version shipped by openSUSE), some man-pages have
-> notes about the new POSIX.1-2008 standard, e.g. gethostbyname:
->
-> "CONFORMING TO
-> =A0 =A0 =A0 =A0[...]
-> =A0 =A0 =A0 =A0POSIX.1-2008 removes the specifications of gethostbyna=
-me(),..."
->
-> This also affects gettimeofday at least.
->
-> The man pages however do not tell which replacement POSIX provides. B=
-ut
-> there is a page which mentions the replacement functions:
->
-> http://www.opengroup.org/onlinepubs/9699919799/functions/time.html
-> (for gettimeofday)
->
-> Could you incorporate this information about new functions into the m=
-an
-> pages (if not already done in >3.13)?
+The kernel changes corresponding to his update were added to -mm
+on 2009-02-19. Please review and let me know if other man pages
+should be updated to document these semantics.
+---
 
-That makes sense.  For 3.20, I added such information to the pages
-where it is missing
+From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Date: Sat, 14 Mar 2009 16:08:42 -0700
+Subject: [PATCH] Document signal-semantics changes of container-init
 
-gettimeofday(2)
-getitimer(2)
-asctime(3)
-bcopy(3)
-bsd_signal(3)
-bzero(3)
-ctime(3)
-getcontext(3)
-getwd(3)
-ecvt(3)
-gcvt(3)
-index(3)
-gethostbyname(3)
-makecontext(3)
-scalb(3)
+Container-inits have some special signal semantics depending on
+whether the signal was sent from the same container or a parent
+container. These changes were implemented by the patchset:
 
-And for these functions that POSIX.1-2008 marks obsolescent, I added
-the alternatives:
+	http://lkml.org/lkml/2009/2/18/493
 
-siginterrupt(3)
-sigset(3)
 
-And for these functions, I added an explanation of why POSIX.1-2008
-marks them as obsolescent:
+Signed-off-by: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+---
+ man2/clone.2 |    7 ++++++-
+ man2/kill.2  |   27 +++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletions(-)
 
-isalpha(3) (isascii(3))
-toascii(3)
+diff --git a/man2/clone.2 b/man2/clone.2
+index 5d07f7c..975b321 100644
+--- a/man2/clone.2
++++ b/man2/clone.2
+@@ -396,7 +396,8 @@ will produce processes with PIDs that are unique within the namespace.
+ The first process created in a new namespace
+ (i.e., the process created using the
+ .BR CLONE_NEWPID
+-flag) has the PID 1, and is the "init" process for the namespace.
++flag) has the PID 1, and is the "init" process for the namespace,
++also referred to as "container-init" process.
+ Children that are orphaned within the namespace will be reparented
+ to this process rather than
+ .BR init (8).
+@@ -405,6 +406,10 @@ Unlike the traditional
+ process, the "init" process of a PID namespace can terminate,
+ and if it does, all of the processes in the namespace are terminated.
+ 
++See NOTES section of
++.B kill(2)
++for special signal semantics of the "container-init" process.
++
+ PID namespaces form a hierarchy.
+ When a PID new namespace is created,
+ the processes in that namespace are visible
+diff --git a/man2/kill.2 b/man2/kill.2
+index 5cfa9a4..d0ba8bb 100644
+--- a/man2/kill.2
++++ b/man2/kill.2
+@@ -128,6 +128,33 @@ has explicitly installed signal handlers.
+ This is done to assure the
+ system is not brought down accidentally.
+ .LP
++A
++.I container-init
++process (i.e a process created by a call to
++.I clone() 
++with
++.I CLONE_NEWPID
++flag) is also similarly immune to 'unhandled' signals
++sent by a descendant process.
++But the
++.I container-init
++recieves the unhandled signal and may terminate, if the signal is sent
++by a process in the parent namespace of the
++.I container-init.
++i.e the 
++.I container-init
++appears like an 
++.I init
++process to its descendant process and they cannot accidentally terminate
++the
++.I container-init
++and thereby, the entire pid-namespace.
++But
++.I container-init
++appears like a normal process to another process in its parent-pid-namespace,
++allowing an administrator to terminate any run-away
++.I container-inits.
++.LP
+ POSIX.1-2001 requires that \fIkill(\-1,sig)\fP send \fIsig\fP
+ to all processes that the calling process may send signals to,
+ except possibly for some implementation-defined system processes.
+-- 
+1.5.2.5
 
-Thanks for your report!
-
-Cheers,
-
-Michael
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
