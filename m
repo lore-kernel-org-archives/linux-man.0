@@ -1,115 +1,33 @@
-From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: Re: [PATCH] Document signal-semantics changes of container-init
-Date: Sat, 14 Mar 2009 21:06:42 -0700
-Message-ID: <20090315040642.GA32744@us.ibm.com>
-References: <20090314232353.GA29682@us.ibm.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 12853] cpu-freq/user-guide.txt should mention Celeron
+Date: Tue, 17 Mar 2009 08:09:47 -0700 (PDT)
+Message-ID: <20090317150947.A70F2108047@picon.linux-foundation.org>
+References: <bug-12853-11311@http.bugzilla.kernel.org/>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090314232353.GA29682-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <bug-12853-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, serue-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, Containers <containers-qjLDD68F18O7TbgM5vRIOg@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Sukadev Bhattiprolu [sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org] wrote:
-| 
-| Hi Michael,
-| 
-| The kernel changes corresponding to his update were added to -mm
-| on 2009-02-19. Please review and let me know if other man pages
-| should be updated to document these semantics.
+http://bugzilla.kernel.org/show_bug.cgi?id=12853
 
-Grr, failed to mention about SIGKILL/SIGSTOP from parent ns.
-Here is an updated patch.
----
-From: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Date: Sat, 14 Mar 2009 16:08:42 -0700
-Subject: [PATCH] Document signal-semantics changes of container-init
 
-Container-inits have some special signal semantics depending on
-whether the sender is from an ancestor pid-namespace or from a
-descendant process. These changes were implemented by the patchset:
+alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org changed:
 
-	http://lkml.org/lkml/2009/2/18/493
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         AssignedTo|documentation_man-          |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
+                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
+             Status|NEW                         |ASSIGNED
 
-Document the new semantics in the clone(2) and kill(2) man pages.
 
-Signed-off-by: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man2/clone.2 |    7 ++++++-
- man2/kill.2  |   29 +++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+), 1 deletions(-)
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index 5d07f7c..975b321 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -396,7 +396,8 @@ will produce processes with PIDs that are unique within the namespace.
- The first process created in a new namespace
- (i.e., the process created using the
- .BR CLONE_NEWPID
--flag) has the PID 1, and is the "init" process for the namespace.
-+flag) has the PID 1, and is the "init" process for the namespace,
-+also referred to as "container-init" process.
- Children that are orphaned within the namespace will be reparented
- to this process rather than
- .BR init (8).
-@@ -405,6 +406,10 @@ Unlike the traditional
- process, the "init" process of a PID namespace can terminate,
- and if it does, all of the processes in the namespace are terminated.
- 
-+See NOTES section of
-+.B kill(2)
-+for special signal semantics of the "container-init" process.
-+
- PID namespaces form a hierarchy.
- When a PID new namespace is created,
- the processes in that namespace are visible
-diff --git a/man2/kill.2 b/man2/kill.2
-index 5cfa9a4..a3bde50 100644
---- a/man2/kill.2
-+++ b/man2/kill.2
-@@ -128,6 +128,35 @@ has explicitly installed signal handlers.
- This is done to assure the
- system is not brought down accidentally.
- .LP
-+A
-+.I container-init
-+process (i.e a process created by a call to
-+.I clone() 
-+with
-+.I CLONE_NEWPID
-+flag) is also similarly immune to all "unhandled" signals sent by a
-+descendant process.
-+i.e the 
-+.I container-init
-+appears like an 
-+.I init
-+process to its descendant processes and they cannot accidentally terminate
-+the
-+.I container-init
-+and thereby, the entire pid-namespace.
-+
-+The
-+.I container-init
-+also ignores all "unhandled" signals sent from an ancestor pid-namespace,
-+except SIGKILL and SIGSTOP. i.e. if a
-+.I container-init
-+receives a SIGKILL or SIGSTOP from a process in an ancestor pid-namespace
-+the
-+.I container-init
-+behaves like a normal process allowing an administrator in ancestor container
-+to stop/terminate the
-+.I container-init.
-+.LP
- POSIX.1-2001 requires that \fIkill(\-1,sig)\fP send \fIsig\fP
- to all processes that the calling process may send signals to,
- except possibly for some implementation-defined system processes.
+
 -- 
-1.5.2.5
-
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are the assignee for the bug, or are watching the assignee.
+You are the assignee for the bug, or are watching the assignee.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
