@@ -1,33 +1,47 @@
-From: bugme-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 12853] cpu-freq/user-guide.txt should mention Celeron
-Date: Tue, 17 Mar 2009 08:09:47 -0700 (PDT)
-Message-ID: <20090317150947.A70F2108047@picon.linux-foundation.org>
-References: <bug-12853-11311@http.bugzilla.kernel.org/>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] ptrace(2): only reference sys/user.h
+Date: Tue, 17 Mar 2009 19:58:01 -0400
+Message-ID: <1237334281-20353-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-12853-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=12853
+The kernel no longer installs linux/user.h, so update references to
+sys/user.h.
 
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/ptrace.2 |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
-alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-         AssignedTo|documentation_man-          |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
-                   |pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org  |
-             Status|NEW                         |ASSIGNED
-
-
-
-
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index f75435d..0611bfe 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -133,8 +133,7 @@ Reads a word at offset
+ .I addr
+ in the child's USER area,
+ which holds the registers and other information about the process
+-(see \fI<linux/user.h>\fP and \fI<sys/user.h>\fP).
+-The word is returned as the result of the
++(see \fI<sys/user.h>\fP).  The word is returned as the result of the
+ .BR ptrace ()
+ call.
+ Typically the offset must be word-aligned, though this might vary by
+@@ -165,7 +164,7 @@ some modifications to the USER area are disallowed.
+ .BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
+ Copies the child's general purpose or floating-point registers,
+ respectively, to location \fIdata\fP in the parent.
+-See \fI<linux/user.h>\fP for information on
++See \fI<sys/user.h>\fP for information on
+ the format of this data.
+ (\fIaddr\fP is ignored.)
+ .TP
 -- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are the assignee for the bug, or are watching the assignee.
-You are the assignee for the bug, or are watching the assignee.
+1.6.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
