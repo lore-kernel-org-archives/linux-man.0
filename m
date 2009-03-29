@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: ptrace(PTRACE_SYSCALL) and data field
-Date: Mon, 30 Mar 2009 12:43:01 +1300
-Message-ID: <cfd18e0f0903291643j551c4804s73a019fa263a282b@mail.gmail.com>
+Date: Mon, 30 Mar 2009 12:54:44 +1300
+Message-ID: <cfd18e0f0903291654uea58687x5fb16d0b794e69cf@mail.gmail.com>
 References: <200903172346.32372.vapier@gentoo.org>
 	 <cfd18e0f0903291500s42eb323nd0d9ab8c1f7c4dbc@mail.gmail.com>
 	 <20090329223508.4521DFC2A8@magilla.sf.frob.com>
@@ -37,7 +37,14 @@ ote:
 >
 > For all those requests, yes.
 
-Thanks for the confirmation, Roland.
+Hmmm.  The existing man page includes this text:
+
+       PTRACE_SYSEMU, PTRACE_SYSEMU_SINGLESTEP (since Linux 2.6.14)
+              ...
+              (addr and data are ignored; ...
+
+which according to what you've said (and also according to my reading
+of the source), is wrong.  Correct?
 
 Cheers,
 
