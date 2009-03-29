@@ -1,53 +1,66 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] lockf.3: update pointer to documentation in the kernel
-	source in SEE ALSO
-Date: Mon, 30 Mar 2009 07:30:59 +1300
-Message-ID: <cfd18e0f0903291130m4f54a799jc8ae93fc9bbf3311@mail.gmail.com>
-References: <200903261117.08423.knikanth@suse.de>
+Subject: Re: [PATCH] ptrace(2): only reference sys/user.h
+Date: Mon, 30 Mar 2009 09:34:54 +1300
+Message-ID: <cfd18e0f0903291334s491578e0v7ff55caac2b3b188@mail.gmail.com>
+References: <1237334281-20353-1-git-send-email-vapier@gentoo.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200903261117.08423.knikanth-l3A5Bk7waGM@public.gmane.org>
+In-Reply-To: <1237334281-20353-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Nikanth,
+Hi Mike,
 
-On Thu, Mar 26, 2009 at 6:47 PM, Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org>=
- wrote:
-> The lockf.3 points to locks.txt and mandatory.txt in Documentation wh=
-ich has
-> been moved to Documentation/filesystems/locks.txt and
-> Documentation/filesystems/mandatory-locking.txt
->
-> Signed-off-by: Nikanth Karthikesan <knikanth-l3A5Bk7waGM@public.gmane.org>
+On Wed, Mar 18, 2009 at 12:58 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wr=
+ote:
+> The kernel no longer installs linux/user.h, so update references to
+> sys/user.h.
 
-Thanks.  Fixed for 3.20.  I also included some text noting that
-mandatory.txt was the name in kernels <=3D 2.6.23.
+Thanks.  Applied for 3.20.
 
 Cheers,
 
 Michael
 
 
-> diff --git a/man3/lockf.3 b/man3/lockf.3
-> index 53b5837..44fe024 100644
-> --- a/man3/lockf.3
-> +++ b/man3/lockf.3
-> @@ -134,6 +134,6 @@ SVr4, POSIX.1-2001.
-> =A0There are also
-> =A0.I locks.txt
-> =A0and
-> -.I mandatory.txt
-> +.I mandatory-locking.txt
-> =A0in
-> -.IR /usr/src/linux/Documentation .
-> +.IR /usr/src/linux/Documentation/filesystems .
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+> =A0man2/ptrace.2 | =A0 =A05 ++---
+> =A01 files changed, 2 insertions(+), 3 deletions(-)
 >
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index f75435d..0611bfe 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -133,8 +133,7 @@ Reads a word at offset
+> =A0.I addr
+> =A0in the child's USER area,
+> =A0which holds the registers and other information about the process
+> -(see \fI<linux/user.h>\fP and \fI<sys/user.h>\fP).
+> -The word is returned as the result of the
+> +(see \fI<sys/user.h>\fP). =A0The word is returned as the result of t=
+he
+> =A0.BR ptrace ()
+> =A0call.
+> =A0Typically the offset must be word-aligned, though this might vary =
+by
+> @@ -165,7 +164,7 @@ some modifications to the USER area are disallowe=
+d.
+> =A0.BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
+> =A0Copies the child's general purpose or floating-point registers,
+> =A0respectively, to location \fIdata\fP in the parent.
+> -See \fI<linux/user.h>\fP for information on
+> +See \fI<sys/user.h>\fP for information on
+> =A0the format of this data.
+> =A0(\fIaddr\fP is ignored.)
+> =A0.TP
+> --
+> 1.6.2
 >
 >
 
