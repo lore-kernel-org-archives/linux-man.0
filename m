@@ -1,70 +1,98 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 12919] posix_fallocate: what if len == 0?
-Date: Mon, 30 Mar 2009 01:20:19 GMT
-Message-ID: <200903300120.n2U1KJka010038@demeter.kernel.org>
-References: <bug-12919-11311@http.bugzilla.kernel.org/>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: msr(7) manpage
+Date: Tue, 31 Mar 2009 08:29:31 +1300
+Message-ID: <cfd18e0f0903301229n73c47368v64c1aadc12f58056@mail.gmail.com>
+References: <20090222170549.GA23589@one.firstfloor.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-12919-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+In-Reply-To: <20090222170549.GA23589-qrUzlfsMFqo/4alezvVtWx2eb7JE58TQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=12919
+Hi Andi,
 
+On Mon, Feb 23, 2009 at 6:05 AM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
+> Here's a simple manpage for the msr device.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+I've incorporated this page for man-pages-3.20, with the following changes:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+* made some small wording edits to the page
+* I added a copyright in your name, and a license -- I used the
+verbatim license, since that's what you used at least some times in
+the past:
+http://www.kernel.org/doc/man-pages/licenses.html#verbatim
+* I added text noting that the file is only r/w for root.root.
 
+Please let me know if any of the above should be changed/fixed.
 
-
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2009-03-30 01:20:18 ---
-(In reply to comment #0)
-
-Hi,
-
-Thanks for the great supporting info on this bug report.
-
-> Hi,
-> I noticed the following in the manpage for posix_fallocate.  It currently (in
-> man-pages 3.19) says under "Errors":
->   EINVAL  offset or len was less than 0.
-> However, the Linux kernel also returns EINVAL if len is *equal* to 0.  (See
-> fallocate() in
-> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob_plain;f=fs/open.c;hb=HEAD).
->  This follows IEEE Std 1003.1-2001, which says
-> (http://www.opengroup.org/onlinepubs/009695399/functions/posix_fallocate.html):
-> [EINVAL]
->     The len argument was zero or the offset argument was less than zero.
-> (Interestingly, this doesn't mention what should happen if len is negative...)
-> However POSIX.1-2008 says
-> (http://www.opengroup.org/onlinepubs/9699919799/functions/posix_fallocate.html):
-> [EINVAL]
->     The len argument is less than zero, or the offset argument is less than   
-> zero, or the underlying file system does not support this operation.
-> Thus the manpage should probably be updated to reflect that you cannot rely on
-> len being allowed to be 0 in portable code.
-
-For man-pages-3.20, I added the words "or equal" when talking about 'len;under
-teh EINVAL description.  I also added text under CONFORMING TO describing the
-POSIX.1-* specifications for the EINVAL error.
+The current draft of the page is below.
 
 Cheers,
 
 Michael
 
-PS See also:
-https://www.opengroup.org/austin/interps/uploads/40/14574/AI-162.txt
 
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+.\" Copyright (c) 2009 by Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+.\" Some sentences copied from comments in arch/x86/kernel/msr.c
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH MSR 7 2009-03-31 "Linux" "Linux Programmer's Manual"
+.SH NAME
+msr \- x86 CPU MSR access device
+.SH DESCRIPTION
+.I /dev/cpu/CPUNUM/msr
+provides an interface to read and write the model-specific
+registers (MSRs) of an x86 CPU.
+.I CPUNUM
+is the number of the CPU to access as listed in
+.IR /proc/cpuinfo .
+
+The register access is done by opening the file and seeking
+to the MSR number as offset in the file, and then
+reading or writing in chunks of 8 bytes.
+An I/O transfer of more than 8 bytes means multiple reads or writes
+of the same register.
+
+This file is protected so that it can only be read and written by the user
+.IR root ,
+or members of the group
+.IR root .
+.SH NOTES
+The
+.I msr
+driver is not auto-loaded.
+On modular kernels you might need to use the following command
+to load it explicitly before use:
+
+    $ \fImodprobe msr\fP
+.SH SEE ALSO
+Intel Corporation Intel 64 and IA-32 Architectures
+Software Developer's Manual Volume 3B Appendix B
+for an overview of the Intel CPU MSRs.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
