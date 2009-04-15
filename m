@@ -1,55 +1,35 @@
 From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] Link to some less-known string functions
-Date: Wed, 15 Apr 2009 13:13:00 +0200
-Message-ID: <20090415111300.GM8940@machine.or.cz>
+Subject: Re: [PATCH] Link to some less-known string functions
+Date: Wed, 15 Apr 2009 13:25:57 +0200
+Message-ID: <20090415112557.GG21271@machine.or.cz>
+References: <20090415111300.GM8940@machine.or.cz>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20090415111300.GM8940-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Some string functions are almost unknown, yet might be useful.
-This adds ffs(3) to SEE ALSO section of memchr(3) and strverscmp(3)
-to SEE ALSO section of strcmp(3).
+On Wed, Apr 15, 2009 at 01:13:00PM +0200, Petr Baudis wrote:
+> Some string functions are almost unknown, yet might be useful.
+> This adds ffs(3) to SEE ALSO section of memchr(3) and strverscmp(3)
+> to SEE ALSO section of strcmp(3).
+> 
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
 
-Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+  Oops, I guess the SEE ALSO lists are alphabetically ordered (and you
+might even tell me before ;-). Will you fix it up or should I submit
+a new patch?
 
-diff --git a/man3/ffs.3 b/man3/ffs.3
-index 95c8924..dae8e03 100644
---- a/man3/ffs.3
-+++ b/man3/ffs.3
-@@ -68,4 +68,5 @@ or 0 if no bits are set in
- BSD systems have a prototype in
- .IR <string.h> .
- .SH "SEE ALSO"
--.BR feature_test_macros (7)
-+.BR feature_test_macros (7),
-+.BR memchr (3)
-diff --git a/man3/memchr.3 b/man3/memchr.3
-index f98eaf7..b9bb8ae 100644
---- a/man3/memchr.3
-+++ b/man3/memchr.3
-@@ -135,4 +135,5 @@ function is a GNU extension, available since glibc 2.1.
- .BR strsep (3),
- .BR strspn (3),
- .BR strstr (3),
--.BR wmemchr (3)
-+.BR wmemchr (3),
-+.BR ffs (3)
-diff --git a/man3/strcmp.3 b/man3/strcmp.3
-index 0304a85..8814fdd 100644
---- a/man3/strcmp.3
-+++ b/man3/strcmp.3
-@@ -69,4 +69,5 @@ SVr4, 4.3BSD, C89, C99.
- .BR strcoll (3),
- .BR strncasecmp (3),
- .BR wcscmp (3),
--.BR wcsncmp (3)
-+.BR wcsncmp (3),
-+.BR strverscmp (3)
+  Sorry,
+
+-- 
+				Petr "Pasky" Baudis
+The average, healthy, well-adjusted adult gets up at seven-thirty
+in the morning feeling just terrible. -- Jean Kerr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
