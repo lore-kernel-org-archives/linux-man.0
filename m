@@ -1,69 +1,60 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] Note in fmemopen() that no file descriptor is allocated
-Date: Thu, 16 Apr 2009 16:58:04 +0200
-Message-ID: <20090416145804.GZ8940@machine.or.cz>
-References: <9c3275a90904151642n7a13cf06w6e1834b849d37f1a@mail.gmail.com> <20090416082503.GH21271@machine.or.cz> <9c3275a90904160726i68a4c1f6u8173f72365042e65@mail.gmail.com>
+From: Gueven Bay <gueven.bay-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Would like to contribute .. but first some questions
+Date: Thu, 16 Apr 2009 17:11:22 +0200
+Message-ID: <13413b8f0904160811k77b142eag3c3a2d85915f4174@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <9c3275a90904160726i68a4c1f6u8173f72365042e65-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Lamaison <awl03-CezfXpuMXD6Fxr2TtlUqVg@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: libc-help-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Alexander Lamaison <awl03-CezfXpuMXD6Fxr2TtlUqVg@public.gmane.org> pointed out that this is
-not obvious from the documentation, citing an example with passing
-the FILE * handle to a function that tries to fstat() its fileno()
-in order to determine the buffer size.
+Hello,
 
-This also moves BUGS before EXAMPLE according to the recommended
-section order.
+I would like to contribute to the man-pages project but I have some questions.
 
-Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+1) If I use the "Advanced Search" of the bugzilla and choose under
+Product "Documentation"
+and under Component "man-pages" then I get only three bugs - #10356 ,
+#12919 and
+#12726 - .
 
-diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
-index 608e16f..3ed6930 100644
---- a/man3/fmemopen.3
-+++ b/man3/fmemopen.3
-@@ -173,6 +173,22 @@ POSIX.1-2008.
- These functions are not specified in POSIX.1-2001,
- and are not widely available on other systems.
- These functions are GNU extensions.
-+.SH NOTES
-+There is no valid file descriptor associated with
-+the returned handle, therefore
-+.BR fileno (3)
-+will return a negative value.
-+Thus, you e.g. cannot determine the buffer size using
-+.I fstat(fileno(f), &stat)
-+and looking at
-+.IR stat.st_size .
-+.SH BUGS
-+In glibc before version 2.7, seeking past the end of a stream created by
-+.BR open_memstream ()
-+does not enlarge the buffer; instead the
-+.BR fseek ()
-+call fails, returning \-1.
-+.\" http://sourceware.org/bugzilla/show_bug.cgi?id=1996
- .SH "EXAMPLE"
- The program below uses
- .BR fmemopen ()
-@@ -236,13 +252,6 @@ main(int argc, char *argv[])
-     exit(EXIT_SUCCESS);
- }
- .fi
--.SH BUGS
--In glibc before version 2.7, seeking past the end of a stream created by
--.BR open_memstream ()
--does not enlarge the buffer; instead the
--.BR fseek ()
--call fails, returning \-1.
--.\" http://sourceware.org/bugzilla/show_bug.cgi?id=1996
- .SH "SEE ALSO"
- .BR fopen (3),
- .BR fopencookie (3),
+http://bugzilla.kernel.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&product=Documentation&component=man-pages&long_desc_type=substring&long_desc=&cf_kernel_version_type=allwordssubstr&cf_kernel_version=&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&chfieldfrom=&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=
+
+I don't think that these three bugs is the complete list.
+Can you tell me how I can list the current bug list for the man pages, please?
+
+
+2) I would like to contribute man pages for drivers like the
+(Free|Net|Open)BSD man pages have.
+Here
+
+http://www.kernel.org/doc/man-pages/online/dir_section_4.html
+
+are no driver man pages like for example these listed :
+
+http://www.freebsd.org/cgi/man.cgi?query=aha&sektion=4&apropos=0&manpath=FreeBSD+7.1-RELEASE
+(Adaptec SCSI host adapter driver)
+
+http://www.freebsd.org/cgi/man.cgi?query=aue&sektion=4&apropos=0&manpath=FreeBSD+7.1-RELEASE
+(ADMtek AN986 Pegasus USB Ethernet driver)
+
+Do you not have such driver man pages because of missing contributers
+who write these
+or
+is there some "technical" reason that such man pages are or maybe
+cannot be written?
+
+
+3) On which version of the kernel/glibc do you write the man pages?
+The current stable version? Or
+the development trunk (head) of the kernel and glibc?
+
+
+
+regards
+Gueven
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
