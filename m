@@ -1,60 +1,58 @@
-From: Gueven Bay <gueven.bay-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Would like to contribute .. but first some questions
-Date: Thu, 16 Apr 2009 17:11:22 +0200
-Message-ID: <13413b8f0904160811k77b142eag3c3a2d85915f4174@mail.gmail.com>
+From: Gokdeniz Karadag <gokdenizk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: incomplete si_codes for waitid(2) [patch available]
+Date: Thu, 16 Apr 2009 19:11:20 +0300
+Message-ID: <49E758A8.1080406@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hi,
 
-I would like to contribute to the man-pages project but I have some questions.
+In a program I was debugging, waitid(2) returned a strange value in siginfo_t
+structure's si_code field. It was different that those stated in the man page
+for waitid(2) [ waitid(2) man page is the same as wait(2) ].
 
-1) If I use the "Advanced Search" of the bugzilla and choose under
-Product "Documentation"
-and under Component "man-pages" then I get only three bugs - #10356 ,
-#12919 and
-#12726 - .
+When I looked at the relevant file "/usr/include/bits/siginfo.h" there were two
+more values for si_code:
 
-http://bugzilla.kernel.org/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&product=Documentation&component=man-pages&long_desc_type=substring&long_desc=&cf_kernel_version_type=allwordssubstr&cf_kernel_version=&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&chfieldfrom=&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=
+ CLD_DUMPED,                   /* Child terminated abnormally.  */
+ CLD_TRAPPED,                  /* Traced child has trapped.  */
 
-I don't think that these three bugs is the complete list.
-Can you tell me how I can list the current bug list for the man pages, please?
+I was getting CLD_DUMPED value along with core dumps so I state that as an
+example in the patch.  I'm not sure about how a process can get CLD_TRAPPED but
+I include it for completeness' sake.
 
+The diff applies to today's git version.
 
-2) I would like to contribute man pages for drivers like the
-(Free|Net|Open)BSD man pages have.
-Here
+============================== diff ======================
 
-http://www.kernel.org/doc/man-pages/online/dir_section_4.html
+diff --git a/man2/wait.2 b/man2/wait.2
+index c95ff2c..4028fae 100644
+--- a/man2/wait.2
++++ b/man2/wait.2
+@@ -310,6 +310,10 @@ Set to one of:
+ .BR _exit (2));
+ .B CLD_KILLED
+ (child killed by signal);
++.B CLD_DUMPED
++(child terminated abnormally, ie. core dump);
++.B CLD_TRAPPED
++(child has trapped while being traced);
+ .B CLD_STOPPED
+ (child stopped by signal); or
+ .B CLD_CONTINUED
 
-are no driver man pages like for example these listed :
-
-http://www.freebsd.org/cgi/man.cgi?query=aha&sektion=4&apropos=0&manpath=FreeBSD+7.1-RELEASE
-(Adaptec SCSI host adapter driver)
-
-http://www.freebsd.org/cgi/man.cgi?query=aue&sektion=4&apropos=0&manpath=FreeBSD+7.1-RELEASE
-(ADMtek AN986 Pegasus USB Ethernet driver)
-
-Do you not have such driver man pages because of missing contributers
-who write these
-or
-is there some "technical" reason that such man pages are or maybe
-cannot be written?
-
-
-3) On which version of the kernel/glibc do you write the man pages?
-The current stable version? Or
-the development trunk (head) of the kernel and glibc?
+==========================================================
 
 
+-- 
+Gokdeniz Karadag
 
-regards
-Gueven
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
