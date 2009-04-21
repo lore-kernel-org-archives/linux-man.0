@@ -1,67 +1,72 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] sigpending(2): fix typos in NOTES
-Date: Tue, 21 Apr 2009 04:44:15 +0200
-Message-ID: <cfd18e0f0904201944m2e88a709gb9776a5d9708d352@mail.gmail.com>
-References: <1239583361-13442-1-git-send-email-vapier@gentoo.org>
+Subject: Re: [PATCH] Note in fmemopen() that no file descriptor is allocated
+Date: Tue, 21 Apr 2009 16:19:23 +1200
+Message-ID: <cfd18e0f0904202119v6d507b72j555aaef97f1394f9@mail.gmail.com>
+References: <9c3275a90904151642n7a13cf06w6e1834b849d37f1a@mail.gmail.com>
+	 <20090416082503.GH21271@machine.or.cz>
+	 <9c3275a90904160726i68a4c1f6u8173f72365042e65@mail.gmail.com>
+	 <20090416145804.GZ8940@machine.or.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1239583361-13442-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20090416145804.GZ8940-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Cc: Alexander Lamaison <awl03-CezfXpuMXD6Fxr2TtlUqVg@public.gmane.org>, libc-help-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 13, 2009 at 2:42 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
-te:
-> As Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org> describes:
-> In NOTES, there is the sentence "The set of signals that is pending f=
-or a
-> thread is the union of the set of signals that is pending for that th=
-read
-> and the set of threads that is peding for the process as a whole; see
-> signal(7).". =A0The word "pending" is misspelt (missing a letter "n")=
-; also,
-> "the set of threads that is pending" should be "the set of signals th=
-at is
-> pending".
+Hi Petr
 
-Thanks.  Applied for man-pages-3.22.
+On Fri, Apr 17, 2009 at 2:58 AM, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Alexander Lamaison <awl03-CezfXpuMXD6Fxr2TtlUqVg@public.gmane.org> pointed out that this is
+> not obvious from the documentation, citing an example with passing
+> the FILE * handle to a function that tries to fstat() its fileno()
+> in order to determine the buffer size.
+>
+> This also moves BUGS before EXAMPLE according to the recommended
+> section order.
 
-Cheers,
+Thanks -- I applied that as a separate change.
+
+> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+>
+> diff --git a/man3/fmemopen.3 b/man3/fmemopen.3
+> index 608e16f..3ed6930 100644
+> --- a/man3/fmemopen.3
+> +++ b/man3/fmemopen.3
+> @@ -173,6 +173,22 @@ POSIX.1-2008.
+> =A0These functions are not specified in POSIX.1-2001,
+> =A0and are not widely available on other systems.
+> =A0These functions are GNU extensions.
+> +.SH NOTES
+> +There is no valid file descriptor associated with
+> +the returned handle, therefore
+> +.BR fileno (3)
+> +will return a negative value.
+> +Thus, you e.g. cannot determine the buffer size using
+> +.I fstat(fileno(f), &stat)
+> +and looking at
+> +.IR stat.st_size .
+
+I shortened and reworded your text somewhat, since I don't think we
+need to mention details about fstat():
+
+[[
+=2ESH NOTES
+There is no file descriptor associated with the file stream
+returned by these functions
+(i.e.,
+=2EBR fileno (3)
+will return an error if called on the returned stream).
+]]
+
+The changes will be in man-pages-3.22.
+
+Thanks,
 
 Michael
-
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
-> =A0man2/sigpending.2 | =A0 =A04 ++--
-> =A01 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/sigpending.2 b/man2/sigpending.2
-> index e70b614..b5a2715 100644
-> --- a/man2/sigpending.2
-> +++ b/man2/sigpending.2
-> @@ -64,8 +64,8 @@ See
-> =A0for details on manipulating signal sets.
->
-> =A0The set of signals that is pending for a thread
-> -is the union of the set of signals that is pending for that thread
-> -and the set of threads that is peding for the process as a whole; se=
-e
-> +is the union of the set of signals that are pending for that thread
-> +and the set of signals that are pending for the process as a whole; =
-see
-> =A0.BR signal (7).
->
-> =A0A child created via
-> --
-> 1.6.2.2
->
->
-
-
 
 --=20
 Michael Kerrisk
