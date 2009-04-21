@@ -1,46 +1,34 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] execve(2): pending signals are not cleared
-Date: Tue, 21 Apr 2009 04:41:28 +0200
-Message-ID: <cfd18e0f0904201941l69190228t134f2a701ba0303b@mail.gmail.com>
-References: <1239584543-13548-1-git-send-email-vapier@gentoo.org>
+Subject: Re: [PATCH] sigpending(2): fix typos in NOTES
+Date: Tue, 21 Apr 2009 04:44:15 +0200
+Message-ID: <cfd18e0f0904201944m2e88a709gb9776a5d9708d352@mail.gmail.com>
+References: <1239583361-13442-1-git-send-email-vapier@gentoo.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1239584543-13548-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1239583361-13442-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
-
-On Mon, Apr 13, 2009 at 3:02 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
+On Mon, Apr 13, 2009 at 2:42 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
 te:
-> As pointed out by Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org>, the sigpending(=
-2)
-> contradicts the execve(2) page.
->
-> The sigpending(2) page states:
-> ... the pending signal set is preserved across an execve(2).
->
-> While the execve(2) page states:
-> The set of pending signals is cleared (sigpending(2)).
->
-> POSIX supports the sigpending(2) statement, so the line from execve(2=
-)
-> should be dropped. =A0See this page:
-> http://www.opengroup.org/onlinepubs/9699919799/functions/exec.html
-> Where it states:
-> The new process shall inherit at least the following attributes from =
-the
-> calling process image:
-> =A0* Pending signal (see sigpending())
+> As Christopher Head <chead-EynCeXvFgoheoWH0uzbU5w@public.gmane.org> describes:
+> In NOTES, there is the sentence "The set of signals that is pending f=
+or a
+> thread is the union of the set of signals that is pending for that th=
+read
+> and the set of threads that is peding for the process as a whole; see
+> signal(7).". =A0The word "pending" is misspelt (missing a letter "n")=
+; also,
+> "the set of threads that is pending" should be "the set of signals th=
+at is
+> pending".
 
-Yes, the statement in execve.2 is clearly wrong.  I suspect that I may
-even have written it, but I don't know what I could have been thinking
-of when I did so.  I applied your pattch for man-pages-3.22.
+Thanks.  Applied for man-pages-3.22.
 
 Cheers,
 
@@ -48,23 +36,26 @@ Michael
 
 > Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 > ---
-> =A0man2/execve.2 | =A0 =A03 ---
-> =A01 files changed, 0 insertions(+), 3 deletions(-)
+> =A0man2/sigpending.2 | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/man2/execve.2 b/man2/execve.2
-> index 0602a56..c3a43e1 100644
-> --- a/man2/execve.2
-> +++ b/man2/execve.2
-> @@ -118,9 +118,6 @@ glibc 2.
-> =A0All process attributes are preserved during an
-> =A0.BR execve (),
-> =A0except the following:
-> -.IP * 3
-> -The set of pending signals is cleared
-> -.RB ( sigpending (2)).
-> =A0.IP *
-> =A0The dispositions of any signals that are being caught are
-> =A0reset to being ignored.
+> diff --git a/man2/sigpending.2 b/man2/sigpending.2
+> index e70b614..b5a2715 100644
+> --- a/man2/sigpending.2
+> +++ b/man2/sigpending.2
+> @@ -64,8 +64,8 @@ See
+> =A0for details on manipulating signal sets.
+>
+> =A0The set of signals that is pending for a thread
+> -is the union of the set of signals that is pending for that thread
+> -and the set of threads that is peding for the process as a whole; se=
+e
+> +is the union of the set of signals that are pending for that thread
+> +and the set of signals that are pending for the process as a whole; =
+see
+> =A0.BR signal (7).
+>
+> =A0A child created via
 > --
 > 1.6.2.2
 >
