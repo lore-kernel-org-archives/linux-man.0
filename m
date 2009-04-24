@@ -1,56 +1,61 @@
-From: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] epoll.7: fix unfinished string in example code
-Date: Thu, 23 Apr 2009 00:22:23 +0300
-Message-ID: <acf3f2e60904221422l33e37f8bg969c242d6e7dd1a7@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [patch] epoll.7: fix unfinished string in example code
+Date: Fri, 24 Apr 2009 13:16:57 +1200
+Message-ID: <cfd18e0f0904231816x2941c7c5qa33efdc9280ff807@mail.gmail.com>
+References: <acf3f2e60904221422l33e37f8bg969c242d6e7dd1a7@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=0016e64987c0e2d1b204682b5c01
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <acf3f2e60904221422l33e37f8bg969c242d6e7dd1a7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---0016e64987c0e2d1b204682b5c01
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hello Lucian,
 
-There is an unfinished string =C3=AEn an example =C3=AEn epoll.7
-Patch inline and attached.
+On Thu, Apr 23, 2009 at 9:22 AM, Lucian Adrian Grijincu
+<lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> There is an unfinished string =EEn an example =EEn epoll.7
+> Patch inline and attached.
 
-diff --git a/man7/epoll.7 b/man7/epoll.7
-index ba9ec06..ff67371 100644
---- a/man7/epoll.7
-+++ b/man7/epoll.7
-@@ -263,7 +263,7 @@ for (;;) {
-             ev.data.fd =3D conn_sock;
-             if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock,
-                         &ev) =3D=3D \-1) {
--                perror("epoll_ctl: conn_sock);
-+                perror("epoll_ctl: conn_sock");
-                 exit(EXIT_FAILURE);
-             }
-         } else {
+Thanks!  Applied for 3.22.
+
+Cheers,
+
+Michael
+
+> diff --git a/man7/epoll.7 b/man7/epoll.7
+> index ba9ec06..ff67371 100644
+> --- a/man7/epoll.7
+> +++ b/man7/epoll.7
+> @@ -263,7 +263,7 @@ for (;;) {
+> =A0 =A0 =A0 =A0 =A0 =A0 ev.data.fd =3D conn_sock;
+> =A0 =A0 =A0 =A0 =A0 =A0 if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_so=
+ck,
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &ev) =3D=3D \-1) {
+> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0perror("epoll_ctl: conn_sock);
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0perror("epoll_ctl: conn_sock");
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 exit(EXIT_FAILURE);
+> =A0 =A0 =A0 =A0 =A0 =A0 }
+> =A0 =A0 =A0 =A0 } else {
+>
+>
+> --
+> =A0.
+> ..: Lucian
+>
+
 
 
 --=20
- .
-..: Lucian
-
---0016e64987c0e2d1b204682b5c01
-Content-Type: text/x-patch; charset=US-ASCII; name="epoll.7-string-unfinished.patch"
-Content-Disposition: attachment; filename="epoll.7-string-unfinished.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_ftuj58ax0
-
-ZGlmZiAtLWdpdCBhL21hbjcvZXBvbGwuNyBiL21hbjcvZXBvbGwuNwppbmRleCBiYTllYzA2Li5m
-ZjY3MzcxIDEwMDY0NAotLS0gYS9tYW43L2Vwb2xsLjcKKysrIGIvbWFuNy9lcG9sbC43CkBAIC0y
-NjMsNyArMjYzLDcgQEAgZm9yICg7OykgewogICAgICAgICAgICAgZXYuZGF0YS5mZCA9IGNvbm5f
-c29jazsKICAgICAgICAgICAgIGlmIChlcG9sbF9jdGwoZXBvbGxmZCwgRVBPTExfQ1RMX0FERCwg
-Y29ubl9zb2NrLAogICAgICAgICAgICAgICAgICAgICAgICAgJmV2KSA9PSBcLTEpIHsKLSAgICAg
-ICAgICAgICAgICBwZXJyb3IoImVwb2xsX2N0bDogY29ubl9zb2NrKTsKKyAgICAgICAgICAgICAg
-ICBwZXJyb3IoImVwb2xsX2N0bDogY29ubl9zb2NrIik7CiAgICAgICAgICAgICAgICAgZXhpdChF
-WElUX0ZBSUxVUkUpOwogICAgICAgICAgICAgfQogICAgICAgICB9IGVsc2Ugewo=
---0016e64987c0e2d1b204682b5c01--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
