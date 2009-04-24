@@ -1,53 +1,86 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] epoll.7: fix unfinished string in example code
-Date: Fri, 24 Apr 2009 13:16:57 +1200
-Message-ID: <cfd18e0f0904231816x2941c7c5qa33efdc9280ff807@mail.gmail.com>
-References: <acf3f2e60904221422l33e37f8bg969c242d6e7dd1a7@mail.gmail.com>
+Subject: Re: man-pages-3.21 released
+Date: Sat, 25 Apr 2009 04:31:45 +1200
+Message-ID: <cfd18e0f0904240931m51784430n560203a8c372d989@mail.gmail.com>
+References: <cfd18e0f0904202202l3f50bde9yd0085e0797a553e3@mail.gmail.com>
+	 <20090421090528.GL21271@machine.or.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <acf3f2e60904221422l33e37f8bg969c242d6e7dd1a7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090421090528.GL21271-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Lucian,
+Hi Petr,
 
-On Thu, Apr 23, 2009 at 9:22 AM, Lucian Adrian Grijincu
-<lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> There is an unfinished string =EEn an example =EEn epoll.7
-> Patch inline and attached.
+2009/4/21 Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>:
+> =A0Hullo,
+>
+> On Tue, Apr 21, 2009 at 05:02:25PM +1200, Michael Kerrisk wrote:
+>> Gidday,
+>>
+>> The Linux man-pages maintainer proudly announces:
+>>
+>> =A0 =A0man-pages-3.21.tar.gz - man pages for Linux
+>>
+>> This release is now available for download at:
+>>
+>> =A0http://www.kernel.org/pub/linux/docs/man-pages
+>> =A0or ftp://ftp.kernel.org/pub/linux/docs/man-pages
+>
+> =A0can you please push out your current tree?
 
-Thanks!  Applied for 3.22.
+Done.  Sorry -- I was on the move quite a bit, and then stuck behind a
+rather restrictive firewall.
+
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes=
+ in man-pages-3.21 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>>
+>> Released: 2009-04-15, Los Gatos
+>
+> =A0Isn't this date wrong?
+
+I don't think so.  Why do you?  (But, it's true that my announcement
+went out a few days after I posted the tarball.)
+
+>> Changes to individual pages
+>> ---------------------------
+>>
+>> initrd.4
+>> =A0 =A0Michael Kerrisk
+>> =A0 =A0 =A0 =A0Various minor wording improvements
+>>
+>> initrd.4
+>> =A0 =A0Frank Dana
+>> =A0 =A0 =A0 =A0Add missing word in description
+>>
+>> feature_test_macros.7
+>> =A0 =A0Michael Kerrisk
+>> =A0 =A0 =A0 =A0Update for glibc 2.10 changes to <features.h>
+>> =A0 =A0 =A0 =A0 =A0 =A0From glibc 2.10, <features.h> understands the=
+ values 200809
+>> =A0 =A0 =A0 =A0 =A0 =A0for _POSIX_C_SOURCE and 700 for _XOPEN_SOURCE=
+, and makes
+>> =A0 =A0 =A0 =A0 =A0 =A0corresponding changes to defaults for other f=
+eature test macros.
+>
+> =A0So far I was guessing that man-pages are supposed only to have cha=
+nges
+> in latest released glibc version when they aren't in flux yet. Is the
+> policy different? Or is it just a "common sense" policy that changes
+> that are obviously fixed already are included?
+
+It's "common sense" -- if I see something that is clearly destined for
+a release soon, and I can easily document it, I will.
 
 Cheers,
 
 Michael
-
-> diff --git a/man7/epoll.7 b/man7/epoll.7
-> index ba9ec06..ff67371 100644
-> --- a/man7/epoll.7
-> +++ b/man7/epoll.7
-> @@ -263,7 +263,7 @@ for (;;) {
-> =A0 =A0 =A0 =A0 =A0 =A0 ev.data.fd =3D conn_sock;
-> =A0 =A0 =A0 =A0 =A0 =A0 if (epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_so=
-ck,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &ev) =3D=3D \-1) {
-> - =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0perror("epoll_ctl: conn_sock);
-> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0perror("epoll_ctl: conn_sock");
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 exit(EXIT_FAILURE);
-> =A0 =A0 =A0 =A0 =A0 =A0 }
-> =A0 =A0 =A0 =A0 } else {
->
->
-> --
-> =A0.
-> ..: Lucian
->
-
 
 
 --=20
