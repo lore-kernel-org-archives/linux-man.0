@@ -1,39 +1,55 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH 2/3] strcmp.3: Reference strstr(3)
-Date: Mon, 1 Jun 2009 15:54:15 +0200
-Message-ID: <20090601135415.GB31043@machine.or.cz>
-References: <1835422551-6657-1-git-send-email-mark@pogo.org.uk> <1835422551-6657-2-git-send-email-mark@pogo.org.uk> <cfd18e0f0906010559i6a6c61d7g3c625a7a04de4323@mail.gmail.com> <alpine.BSO.2.00.0906011413080.32660@zrgural.vwaro.pbz>
+From: "Alfie John" <alfie-pV9j36CBp5Q@public.gmane.org>
+Subject: Re: [patch] standards.7: Added more references
+Date: Tue, 2 Jun 2009 08:13:07 +1000 (EST)
+Message-ID: <59652.59.167.195.42.1243894387.squirrel@h4c.kr>
+References: <45544.118.208.205.39.1243685024.squirrel@h4c.kr>
+    <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd@mail.gmail.com>
+Reply-To: alfie-pV9j36CBp5Q@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.BSO.2.00.0906011413080.32660-W2yLvLHlugRLAO5i3VPXnKVXKuFTiq87@public.gmane.org>
+In-Reply-To: <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jun 01, 2009 at 02:15:31PM +0100, Mark Hills wrote:
-> On Mon, 1 Jun 2009, Michael Kerrisk wrote:
->
->> Mark,
->>
->> Why do you think this patch is needed?
->
-> I deemed that strstr() was relevant as the 'other' string comparison  
-> function, but didn't go as far as to reference character-based functions  
-> like strchr(). Apologies that the commit message didn't explain this.
->
-> However, after sending the patch I was made aware of string(3). To make 
-> it easy to discover the string functions (as this patch intended to do) 
-> would it be more appropriate for all functions listed in string(3) to 
-> reference it?
+Hey,
 
-I'd agree, I've never known of string(3) either.
+> I don't doubt that these are the best currently available books on
+> their subject matter, but in the end, I don't think standards(7)
+> should act as a bibliography.
 
--- 
-				Petr "Pasky" Baudis
-The lyf so short, the craft so long to lerne. -- Chaucer
+> But my inclination would be to take the references to Gallmeister and
+> Lewine out (both now rather dated), rather than add more references.
+> And in fact, that is what I've done. (Adding more books to
+> standards(7) would only lead me into temptation one day in the
+> future.)
+
+Are you sure that is the best thing to do? Man pages are there to help the
+reader get a better picture. The more information the better I would have
+thought.
+
+What if somebody were to look at standards(7) and wanted to know more
+information? Instead of going to what people considered the best material
+available (be it books, websites etc), they would instead waste their time
+searching and maybe getting inferior or incorrect information. This leads
+to floods of questions to forums, IRC and mailing lists. And I'm sure one
+common response to these type of questions is going to be "if you want
+more info, the best place is X book"!
+
+It would cut out the middle man if references were there from the
+beginning :)
+
+> So, sorry -- but I won't take this patch.
+
+No problem. I'm just trying to help out people who are in the same boat as
+me -- people wanting to know where the best place to find things are.
+Maybe a man page called "unix-references", "unix-books" or
+"programming-books" would be a better option.
+
+Alfie
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
