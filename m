@@ -1,80 +1,60 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] standards.7: Added more references
-Date: Mon, 1 Jun 2009 14:39:00 +0200
-Message-ID: <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd@mail.gmail.com>
-References: <45544.118.208.205.39.1243685024.squirrel@h4c.kr>
+Subject: Re: [PATCH 1/3] strcpy.3: Reference strdup(3)
+Date: Mon, 1 Jun 2009 14:57:53 +0200
+Message-ID: <cfd18e0f0906010557q7f97efd3k2d62309c4e7a3661@mail.gmail.com>
+References: <1243287829-2704-1-git-send-email-mark@pogo.org.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <45544.118.208.205.39.1243685024.squirrel-pV9j36CBp5Q@public.gmane.org>
+In-Reply-To: <1243287829-2704-1-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: alfie-pV9j36CBp5Q@public.gmane.org
+To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Alfie,
+Hi Mark,
 
-On Sat, May 30, 2009 at 2:03 PM, Alfie <alfie-pV9j36CBp5Q@public.gmane.org> wrote:
-> Hi guys,
->
-> I have added more references to standards.7 (Version 3.22). IMHO, the=
-se
-> books are the definitive guides in their subject matter.
+The fact that a patch is simple doesn't mean it should have no explanat=
+ion.
 
-I don't doubt that these are the best currently available books on
-their subject matter, but in the end, I don't think standards(7)
-should act as a bibliography.
-
-Yes, I know there are a few books listed there already, and, yes, I
-wrote the page.
-
-But my inclination would be to take the references to Gallmeister and
-Lewine out (both now rather dated), rather than add more references.
-And in fact, that is what I've done. (Adding more books to
-standards(7) would only lead me into temptation one day in the
-future.)
-
-So, sorry -- but I won't take this patch.
+I've applied this one, but for the future, please do include an
+explanation of why the patch is needed.
 
 Cheers,
 
 Michael
 
-> -- 8< --
+On Mon, May 25, 2009 at 11:43 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+> ---
+> =A0man3/strcpy.3 | =A0 =A03 ++-
+> =A01 files changed, 2 insertions(+), 1 deletions(-)
 >
-> diff --git a/man7/standards.7 b/man7/standards.7
-> index 1c7dbdd..a8c8e90 100644
-> --- a/man7/standards.7
-> +++ b/man7/standards.7
-> @@ -130,13 +130,18 @@ For further information, see
-> =A0by Bill O. Gallmeister (O'Reilly & Associates, Inc. ISBN 1-56592-0=
-74-0).
-> =A0.TP
-> =A0.B POSIX.1c
-> -IEEE Std 1003.1c-1995 describing the POSIX threads interfaces.
-> +IEEE Std 1003.1c-1995 describing the POSIX threads interfaces. For f=
-urther
-> +information, see "Programming with POSIX Threads" by David R. Butenh=
-of
-> +(Addison-Wesley. ISBN 0-201-63392-2).
-> =A0.TP
-> =A0.B POSIX.1d
-> =A0IEEE Std 1003.1c-1999 describing additional real-time extensions.
-> =A0.TP
-> =A0.B POSIX.1g
-> -IEEE Std 1003.1g-2000 describing networking APIs (including sockets)=
-=2E
-> +IEEE Std 1003.1g-2000 describing networking APIs (including sockets)=
-=2E For
-> +further information, see "UNIX Network Programming: Networking APIs:=
- Sockets
-> +and XTI; Volume 1" by W. Richard Stevens (Prentice-Hall, Inc. ISBN
-> +0-13-490012-X).
-> =A0.TP
-> =A0.B POSIX.1j
-> =A0IEEE Std 1003.1j-2000 describing advanced real-time extensions.
+> diff --git a/man3/strcpy.3 b/man3/strcpy.3
+> index 8fd2c1d..2b4d8ba 100644
+> --- a/man3/strcpy.3
+> +++ b/man3/strcpy.3
+> @@ -30,7 +30,7 @@
+> =A0.\" 2007-06-15, Marc Boyer <marc.boyer-oUYRw6/Rnm9Wj0EZb7rXcA@public.gmane.org> + mtk
+> =A0.\" =A0 =A0 Improve discussion of strncpy().
+> =A0.\"
+> -.TH STRCPY 3 =A02009-02-04 "GNU" "Linux Programmer's Manual"
+> +.TH STRCPY 3 =A02009-05-09 "GNU" "Linux Programmer's Manual"
+> =A0.SH NAME
+> =A0strcpy, strncpy \- copy a string
+> =A0.SH SYNOPSIS
+> @@ -136,6 +136,7 @@ in ways that may make the impossible possible.
+> =A0.BR memccpy (3),
+> =A0.BR memcpy (3),
+> =A0.BR memmove (3),
+> +.BR strdup (3),
+> =A0.BR strpcpy (3),
+> =A0.BR wcscpy (3),
+> =A0.BR wcsncpy (3)
+> --
+> 1.6.2.4
+>
 >
 
 
