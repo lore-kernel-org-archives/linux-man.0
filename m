@@ -1,15 +1,15 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: [PATCH 2/3] strcmp.3: Reference strstr(3)
-Date: Mon, 1 Jun 2009 14:59:38 +0200
-Message-ID: <cfd18e0f0906010559i6a6c61d7g3c625a7a04de4323@mail.gmail.com>
-References: <1835422551-6657-1-git-send-email-mark@pogo.org.uk>
-	 <1835422551-6657-2-git-send-email-mark@pogo.org.uk>
+Date: Mon, 1 Jun 2009 15:00:19 +0200
+Message-ID: <cfd18e0f0906010600s435c4649x1b856f293e5a916@mail.gmail.com>
+References: <1243287829-2704-1-git-send-email-mark@pogo.org.uk>
+	 <1243287829-2704-2-git-send-email-mark@pogo.org.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1835422551-6657-2-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+In-Reply-To: <1243287829-2704-2-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -17,13 +17,14 @@ List-Id: linux-man@vger.kernel.org
 
 Mark,
 
-Why do you think this patch is needed?
+Why do you think this is needed?
 
 Cheers,
 
 Michael
 
-On Tue, Feb 29, 2028 at 9:35 AM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+
+On Mon, May 25, 2009 at 11:43 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
 > ---
 > =A0man3/strcmp.3 | =A0 =A03 ++-
 > =A01 files changed, 2 insertions(+), 1 deletions(-)
