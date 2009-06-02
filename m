@@ -1,76 +1,121 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [patch] standards.7: Added more references
-Date: Tue, 2 Jun 2009 06:14:19 +0200
-Message-ID: <cfd18e0f0906012114l95fdfd3pff241c319335cef4@mail.gmail.com>
-References: <45544.118.208.205.39.1243685024.squirrel@h4c.kr>
-	 <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd@mail.gmail.com>
-	 <59652.59.167.195.42.1243894387.squirrel@h4c.kr>
+Subject: Re: poll never return EBADF?
+Date: Tue, 2 Jun 2009 06:45:22 +0200
+Message-ID: <cfd18e0f0906012145h28827eccu1d9fa2aed2e7355@mail.gmail.com>
+References: <20090526175622.687B.A69D9226@jp.fujitsu.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <59652.59.167.195.42.1243894387.squirrel-pV9j36CBp5Q@public.gmane.org>
+In-Reply-To: <20090526175622.687B.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: alfie-pV9j36CBp5Q@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Alfie,
+Hello Motohiro,
 
-On Tue, Jun 2, 2009 at 12:13 AM, Alfie John <alfie-pV9j36CBp5Q@public.gmane.org> wrote:
-> Hey,
+On Tue, May 26, 2009 at 11:09 AM, KOSAKI Motohiro
+<kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org> wrote:
+> Hi
 >
->> I don't doubt that these are the best currently available books on
->> their subject matter, but in the end, I don't think standards(7)
->> should act as a bibliography.
->
->> But my inclination would be to take the references to Gallmeister and
->> Lewine out (both now rather dated), rather than add more references.
->> And in fact, that is what I've done. (Adding more books to
->> standards(7) would only lead me into temptation one day in the
->> future.)
->
-> Are you sure that is the best thing to do? Man pages are there to help the
-> reader get a better picture. The more information the better I would have
-> thought.
->
-> What if somebody were to look at standards(7) and wanted to know more
-> information? Instead of going to what people considered the best material
-> available (be it books, websites etc), they would instead waste their time
-> searching and maybe getting inferior or incorrect information. This leads
-> to floods of questions to forums, IRC and mailing lists. And I'm sure one
-> common response to these type of questions is going to be "if you want
-> more info, the best place is X book"!
+> I have one stupid question.
 
-To which my answer would be: look at a search engine, or an online bookstore.
+It doesn't look stupid to me...
 
-I don't think it is the place of man pages to adjudicate on what are
-the "best" books.
-
-> It would cut out the middle man if references were there from the
-> beginning :)
+> "man poll" describe this error code.
 >
->> So, sorry -- but I won't take this patch.
->
-> No problem. I'm just trying to help out people who are in the same boat as
-> me -- people wanting to know where the best place to find things are.
-> Maybe a man page called "unix-references", "unix-books" or
-> "programming-books" would be a better option.
+>>ERRORS
+>> =A0 =A0 =A0 EBADF =A0An invalid file descriptor was given in one of =
+the sets.
 
-Or maybe looking somewhere else than man pages is best ;-).
+This text seems to have been added in man-pages-1.39 (around 2000),
+but with no explanation or note on authorship. I suspect someone was
+confused.
+
+> but current kernel implementation ignore invalid file descriptor,
+> not return EBADF.
+
+Which is what I understand it should do.
+
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D cut code =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> static inline unsigned int do_pollfd(struct pollfd *pollfd, poll_tabl=
+e *pwait)
+> {
+> =A0 =A0 =A0 =A0unsigned int mask;
+> =A0 =A0 =A0 =A0int fd;
+>
+> =A0 =A0 =A0 =A0mask =3D 0;
+> =A0 =A0 =A0 =A0fd =3D pollfd->fd;
+> =A0 =A0 =A0 =A0if (fd >=3D 0) { =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 =A0//// here
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0int fput_needed;
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0struct file * file;
+>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file =3D fget_light(fd, &fput_needed);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0mask =3D POLLNVAL;
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (file !=3D NULL) { =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 //// and here
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0mask =3D DEFAULT_POLLM=
+ASK;
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if (file->f_op && file=
+->f_op->poll)
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0mask =3D=
+ file->f_op->poll(file, pwait);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0/* Mask out unneeded e=
+vents. */
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0mask &=3D pollfd->even=
+ts | POLLERR | POLLHUP;
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0fput_light(file, fput_=
+needed);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0}
+> =A0 =A0 =A0 =A0}
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D end code =3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> In the other hand, SUSv3 talk about
+>
+>> POLLNVAL
+>> =A0 =A0The specified fd value is invalid. This flag is only valid in=
+ the
+>> =A0 =A0revents member; it shall ignored in the events member.
+>
+> and
+>
+>> If the value of fd is less than 0, events shall be ignored, and reve=
+nts
+>> shall be set to 0 in that entry on return from poll().
+
+Exactly.
+
+> but, no desribe EBADF.
+> (see http://www.opengroup.org/onlinepubs/009695399/functions/poll.htm=
+l)
+>
+> So, I think the implementation is correct.
+
+Agreed.
+
+> Why don't we remove EBADF description?
+
+Yes, that seems corrrrect for me. I've removed it for the next release =
+(3.22).
 
 Cheers,
 
 Michael
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
 man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
