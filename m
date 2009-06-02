@@ -1,35 +1,36 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: poll never return EBADF?
-Date: Tue, 2 Jun 2009 06:49:55 +0200
-Message-ID: <cfd18e0f0906012149l1f567acdxdde9c65f9408b368@mail.gmail.com>
-References: <20090526175622.687B.A69D9226@jp.fujitsu.com>
-	 <cfd18e0f0906012145h28827eccu1d9fa2aed2e7355@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Alfie John" <alfie-pV9j36CBp5Q@public.gmane.org>
+Subject: Re: [patch] standards.7: Added more references
+Date: Tue, 2 Jun 2009 18:21:49 +1000 (EST)
+Message-ID: <49303.118.208.205.39.1243930909.squirrel@h4c.kr>
+References: <45544.118.208.205.39.1243685024.squirrel@h4c.kr>
+    <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd@mail.gmail.com>
+    <59652.59.167.195.42.1243894387.squirrel@h4c.kr>
+    <cfd18e0f0906012114l95fdfd3pff241c319335cef4@mail.gmail.com>
+Reply-To: alfie-pV9j36CBp5Q@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0906012145h28827eccu1d9fa2aed2e7355-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <cfd18e0f0906012114l95fdfd3pff241c319335cef4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Cc: LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
->> Why don't we remove EBADF description?
+Hey again,
+
+On Tue, June 2, 2009 2:14 pm, Michael Kerrisk wrote:
+>> No problem. I'm just trying to help out people who are in the same boat
+>> as
+>> me -- people wanting to know where the best place to find things are.
+>> Maybe a man page called "unix-references", "unix-books" or
+>> "programming-books" would be a better option.
 >
-> Yes, that seems corrrrect for me. I've removed it for the next release (3.22).
+> Or maybe looking somewhere else than man pages is best ;-).
 
-And I forgot to say: thanks for the very detailed bug report!
+lol. Good point.
 
-Cheers,
-
-Michael
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-Found a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+Alfie
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
