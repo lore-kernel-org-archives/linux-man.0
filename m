@@ -1,36 +1,17 @@
-From: "Alfie John" <alfie-pV9j36CBp5Q@public.gmane.org>
-Subject: Re: [patch] standards.7: Added more references
-Date: Tue, 2 Jun 2009 18:21:49 +1000 (EST)
-Message-ID: <49303.118.208.205.39.1243930909.squirrel@h4c.kr>
-References: <45544.118.208.205.39.1243685024.squirrel@h4c.kr>
-    <cfd18e0f0906010539w7dc1b0aw2b53901bd32994dd@mail.gmail.com>
-    <59652.59.167.195.42.1243894387.squirrel@h4c.kr>
-    <cfd18e0f0906012114l95fdfd3pff241c319335cef4@mail.gmail.com>
-Reply-To: alfie-pV9j36CBp5Q@public.gmane.org
+From: "Daniel Weeks" <m_t_n_t-euttLLf7UUOzIcu0qZex+pqQE7yCjDx5@public.gmane.org>
+Subject: New products everyday at our chemists.
+Date: Wed, 3 Jun 2009 13:01:07 +0100
+Message-ID: <20090603130107.5010107@patriarchpartners.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0906012114l95fdfd3pff241c319335cef4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hey again,
+Power to express your love http://odc.cuvxoqoz.cn/
 
-On Tue, June 2, 2009 2:14 pm, Michael Kerrisk wrote:
->> No problem. I'm just trying to help out people who are in the same boat
->> as
->> me -- people wanting to know where the best place to find things are.
->> Maybe a man page called "unix-references", "unix-books" or
->> "programming-books" would be a better option.
->
-> Or maybe looking somewhere else than man pages is best ;-).
-
-lol. Good point.
-
-Alfie
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
