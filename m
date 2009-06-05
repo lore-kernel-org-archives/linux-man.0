@@ -1,17 +1,39 @@
-From: "Daniel Weeks" <m_t_n_t-euttLLf7UUOzIcu0qZex+pqQE7yCjDx5@public.gmane.org>
-Subject: New products everyday at our chemists.
-Date: Wed, 3 Jun 2009 13:01:07 +0100
-Message-ID: <20090603130107.5010107@patriarchpartners.com>
+From: Rowland Hook <rjhook70-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: From Martins D.Legacy
+Date: Fri, 5 Jun 2009 13:35:59 -0700
+Message-ID: <73e2b0650906051335u7fbb0886x64d3f6216e0c30b3__25275.6196227439$1244234173$gmane$org@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Power to express your love http://odc.cuvxoqoz.cn/
+My name is Martines Legacy
 
+I am an American soldier serving in the military with the army's 3rd
+infantry division.with a need for assistance, I have summed up courage
+to contact you. I found your contact in address on  journal. I got a
+huge fund of Forty Million United States Dollars, (US$40,000,000)
+.This money is among the various currencies which was discovered in
+barrels at a farm-house near one of  Saddam Hussein old palaces in
+Tikrit-Iraq during a rescue operation. I and Sgt James.Howie where the
+first to discover this fund. We concluded and took part of this money
+which is ($40,000.000.00) and shared between us before informing
+anybody about it. This was quite an illegal even last week a roadside
+bomb killed my brother in-law. Find the story on
+web-address below:  http://news.bbc.co.uk/2/hi/middle_east/2988455.stm?
+If  you will do this with good faith and you assure me that my
+percentage will be safe in your care until I complete my service
+here,then I shall agree with You. This is no stolen money, and there
+is no danger involved. We will share upon this ratio: I will take 50%
+and you will take 30%. and 20% shall be given to charity organisation
+which you shall takecare of this offer after a sucessfull transaction,
+We will discuss this in details.
+
+Thanks
+Sgt.Martines Legacy
+Email: proger34-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
