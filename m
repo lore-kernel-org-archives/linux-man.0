@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 13510] New: resolv.conf.5 implies that only IPv4 addresses are
- allowed
-Date: Thu, 11 Jun 2009 19:45:26 GMT
-Message-ID: <bug-13510-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 13569] New: Examples in some pages make invalid use of the
+ assert macro
+Date: Thu, 18 Jun 2009 15:10:26 GMT
+Message-ID: <bug-13569-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,12 +10,13 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=13510
+http://bugzilla.kernel.org/show_bug.cgi?id=13569
 
-           Summary: resolv.conf.5 implies that only IPv4 addresses are
-                    allowed
+           Summary: Examples in some pages make invalid use of the assert
+                    macro
            Product: Documentation
            Version: unspecified
+    Kernel Version: n/a
           Platform: All
         OS/Version: Linux
               Tree: Mainline
@@ -24,25 +25,48 @@ http://bugzilla.kernel.org/show_bug.cgi?id=13510
           Priority: P1
          Component: man-pages
         AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: danw-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org
+        ReportedBy: andrey.vihrov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
         Regression: No
 
 
-resolv.conf.5 says:
+The purpose of the assert macro, defined in <assert.h>, is to provide a tool to
+check for programming mistakes or program logic errors. However, the assert
+macro must never be used to perform checks for run time errors, since, with the
+NDEBUG macro defined, expressions within the assert macro invocations are not
+evaluated/checked for, resulting in behavior that was not originally intended.
 
-   nameserver Name server IP address
-      Internet address (in dot notation) of a name server that the resolver
-      should query.
+Currently (man-pages 3.20, Gentoo Linux), some pages contain example programs
+that use assert to check for run time errors, specifically, like this:
 
-Only IPv4 addresses have a "dot notation", so this suggests that IPv6 addresses
-aren't allowed. But they are.
+#include <assert.h>
 
-Given that the "sortlist" field is IPv4-only, it's probably best to actually be
-explicit that nameserver supports either. So:
+int main (int argc, char *argv[])
+{
+    assert(argc == 2); /* Check for argc value was intended */
+}
 
-   nameserver Name server IP address
-      IP address (IPv4 or IPv6) of a name server that the resolver
-      should query.
+The proper way to do this is without assert, for example, like this:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main (int argc, char *argv[])
+{
+    if (argc != 2)
+    {
+        fprintf(stderr, "invalid parameter count\n");
+        exit(EXIT_FAILURE);       
+    }
+}
+
+The pages affected in the core package are
+
+execve(2)
+pipe(2)
+tee(2)
+fmemopen(3)
+mq_notify(3)
+qsort(3)
 
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
