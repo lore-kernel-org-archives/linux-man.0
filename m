@@ -1,20 +1,27 @@
 From: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] man page update (ip.7) to reflect new socket option in 2.6.31
-Date: Fri, 19 Jun 2009 00:02:21 -0700
-Message-ID: <4A3B37FD.4040801@us.ibm.com>
+Subject: Re: [PATCH] man page update (ip.7) to reflect new socket option in
+ 2.6.31
+Date: Fri, 19 Jun 2009 00:21:54 -0700
+Message-ID: <4A3B3C92.9050003@us.ibm.com>
+References: <4A3B37FD.4040801@us.ibm.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4A3B37FD.4040801-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This patch adds the IP_MULTICAST_ALL option to
-the ip.7 man page, to bring it up to date with
-2.6.31 development.
+Nivedita Singhvi wrote:
+> This patch adds the IP_MULTICAST_ALL option to
+> the ip.7 man page, to bring it up to date with
+> 2.6.31 development.
 
+Ah, the "since" is intended to be inclusive. The
+2.6.30 needs to be 2.6.31. Correct version below.
+Apologies!
 
 Signed-off-by: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 
