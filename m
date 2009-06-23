@@ -1,43 +1,46 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 13608] New: Invalid default in bridge-nf-filter-vlan-tagged
- description
-Date: Tue, 23 Jun 2009 14:07:56 GMT
-Message-ID: <bug-13608-11311@http.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] setjmp(3): fix typo and clarify return
+Date: Tue, 23 Jun 2009 12:50:03 -0400
+Message-ID: <1245775803-1692-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=13608
+The word "signal" was duplicated in the NOTES, and the RETURN section
+refers to setjmp and sigsetjmp, but only longjmp.
 
-           Summary: Invalid default in bridge-nf-filter-vlan-tagged
-                    description
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: adwol-TYYqm83AhCE@public.gmane.org
-        Regression: No
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man3/setjmp.3 |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
 
-
-After
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=47e0e1ca13d64eeeb687995fbe4e239e743d7544
-commit, documentation has not beed updated:
-
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/networking/ip-sysctl.txt;h=8be76235fe6724c43e0c2b39778f3f741e53b619;hb=HEAD#l1104
-
+diff --git a/man3/setjmp.3 b/man3/setjmp.3
+index 5dae1ab..2368242 100644
+--- a/man3/setjmp.3
++++ b/man3/setjmp.3
+@@ -75,6 +75,8 @@ and
+ return 0 if returning directly, and
+ non-zero when returning from
+ .BR longjmp (3)
++or
++.BR siglongjmp (3)
+ using the saved context.
+ .SH "CONFORMING TO"
+ C89, C99, and POSIX.1-2001 specify
+@@ -84,7 +86,7 @@ POSIX.1-2001 specifies
+ .SH NOTES
+ POSIX does not specify whether
+ .BR setjmp ()
+-will save the signal signal mask.
++will save the signal mask.
+ In System V it will not.
+ In 4.3BSD it will, and there
+ is a function \fB_setjmp\fP that will not.
 -- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.6.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
