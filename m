@@ -1,39 +1,44 @@
-From: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] man page update (ip.7) to reflect new socket option in
- 2.6.31
-Date: Fri, 19 Jun 2009 00:21:54 -0700
-Message-ID: <4A3B3C92.9050003@us.ibm.com>
-References: <4A3B37FD.4040801@us.ibm.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 13608] New: Invalid default in bridge-nf-filter-vlan-tagged
+ description
+Date: Tue, 23 Jun 2009 14:07:56 GMT
+Message-ID: <bug-13608-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4A3B37FD.4040801-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Nivedita Singhvi wrote:
-> This patch adds the IP_MULTICAST_ALL option to
-> the ip.7 man page, to bring it up to date with
-> 2.6.31 development.
+http://bugzilla.kernel.org/show_bug.cgi?id=13608
 
-Ah, the "since" is intended to be inclusive. The
-2.6.30 needs to be 2.6.31. Correct version below.
-Apologies!
+           Summary: Invalid default in bridge-nf-filter-vlan-tagged
+                    description
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: adwol-TYYqm83AhCE@public.gmane.org
+        Regression: No
 
-Signed-off-by: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
 
----
-  man7/ip.7 |   10 +++++++++-
-  1 files changed, 9 insertions(+), 1 deletions(-)
+After
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=47e0e1ca13d64eeeb687995fbe4e239e743d7544
+commit, documentation has not beed updated:
 
-diff --git a/man7/ip.7 b/man7/ip.7
-index ab866a1..6932ba2 100644
---- a/man7/ip.7
-+++ b/man7/ip.7
-@@ -357,7 +357,6 @@ and retrieve the MTU by calling
-  with the
-  .B IP_MTU
-  option.
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/networking/ip-sysctl.txt;h=8be76235fe6724c43e0c2b39778f3f741e53b619;hb=HEAD#l1104
+
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
