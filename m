@@ -1,82 +1,74 @@
-From: Scott James Remnant <scott-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] proc connector: add event for process becoming session
- leader
-Date: Fri, 26 Jun 2009 13:38:51 +0100
-Message-ID: <1246019931.10001.7.camel@quest>
-References: <E1MGUmL-00036A-EE@zelda.netsplit.com>
-	 <20090622161909.e5706885.akpm@linux-foundation.org>
-	 <20090623210110.GB7931@count0.beaverton.ibm.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH] setjmp(3): fix typo and clarify return
+Date: Fri, 26 Jun 2009 15:07:20 +0200
+Message-ID: <cfd18e0f0906260607k1f5d228ckdaf37f5bed978514@mail.gmail.com>
+References: <1245775803-1692-1-git-send-email-vapier@gentoo.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-CTfRoWWA/NCjTplhDOgz"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090623210110.GB7931-52DBMbEzqgQ/wnmkkaCWp/UQ3DHhIser@public.gmane.org>
+In-Reply-To: <1245775803-1692-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Matt Helsley <matthltc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Sukadev <sukadev-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>, Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hi Mike,
 
---=-CTfRoWWA/NCjTplhDOgz
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jun 23, 2009 at 6:50 PM, Mike Frysinger<vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
+e:
+> The word "signal" was duplicated in the NOTES, and the RETURN section
+> refers to setjmp and sigsetjmp, but only longjmp.
+>
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 
-On Tue, 2009-06-23 at 14:01 -0700, Matt Helsley wrote:
+Thanks.  Applied for 3.22.
 
-> On Mon, Jun 22, 2009 at 04:19:09PM -0700, Andrew Morton wrote:
-> > > +	get_seq(&msg->seq, &ev->cpu);
-> > > +	ktime_get_ts(&ts); /* get high res monotonic timestamp */
-> > > +	put_unaligned(timespec_to_ns(&ts), (__u64 *)&ev->timestamp_ns);
-> > > +	ev->what =3D PROC_EVENT_SID;
-> > > +	ev->event_data.sid.process_pid =3D task->pid;
-> >=20
-> > This is a bit of a worry.  In a containerised environment, pids are not
-> > unique.  Now what do we do?
->=20
-> An excellent point. It's broadcast via a netlink multicast address. That
-> means we'd have pids and listeners from arbitrary combinations of pid
-> namespaces.
->=20
-Yeah, right now that's a general problem with the netlink approach
-compared to the signal approach I was using before.  Of course, it's
-also non-obvious how init in the initial pid namespace should deal with
-processes dying in a different pid namespace.
+Cheers,
 
-> One obvious but poor solution is to only send the pid of the initial
-> pid namespace. Then it's not ambiguous what an event refers to. However
-> it also means that the events would only be useful to tasks running
-> in the initial pid namespace -- not a good solution given Scott's example
-> and our desire to run things like sshd in separate pid namespaces.
->=20
-> Alternatively, we may be able to split up the connector such that the
-> listeners only see events from their own pid namespace. I'm not
-> sure that netlink and connectors can enable this change though.
->=20
-Or the netlink socket could include both the pid, and a descriptor of
-the pid namespace that it is in (isn't it just a pid itself?)  That way
-listeners could check the namespace is the same before carrying on.
+Michael
 
-Though that obviously leaks information you may not actually want
-leaked?
 
-Scott
+> ---
+> =A0man3/setjmp.3 | =A0 =A04 +++-
+> =A01 files changed, 3 insertions(+), 1 deletions(-)
+>
+> diff --git a/man3/setjmp.3 b/man3/setjmp.3
+> index 5dae1ab..2368242 100644
+> --- a/man3/setjmp.3
+> +++ b/man3/setjmp.3
+> @@ -75,6 +75,8 @@ and
+> =A0return 0 if returning directly, and
+> =A0non-zero when returning from
+> =A0.BR longjmp (3)
+> +or
+> +.BR siglongjmp (3)
+> =A0using the saved context.
+> =A0.SH "CONFORMING TO"
+> =A0C89, C99, and POSIX.1-2001 specify
+> @@ -84,7 +86,7 @@ POSIX.1-2001 specifies
+> =A0.SH NOTES
+> =A0POSIX does not specify whether
+> =A0.BR setjmp ()
+> -will save the signal signal mask.
+> +will save the signal mask.
+> =A0In System V it will not.
+> =A0In 4.3BSD it will, and there
+> =A0is a function \fB_setjmp\fP that will not.
+> --
+> 1.6.3
+>
+>
+
+
+
 --=20
-Scott James Remnant
-scott-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org
-
---=-CTfRoWWA/NCjTplhDOgz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEABECAAYFAkpEwVsACgkQSnQiFMl4yK57OACfVQ8ViJZ7b+jZbZX9uGrUDbm7
-j5IAn25/66V08JFiIVSD4sS+GT8iViQz
-=d+9F
------END PGP SIGNATURE-----
-
---=-CTfRoWWA/NCjTplhDOgz--
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
+=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
