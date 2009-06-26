@@ -1,74 +1,31 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] setjmp(3): fix typo and clarify return
-Date: Fri, 26 Jun 2009 15:07:20 +0200
-Message-ID: <cfd18e0f0906260607k1f5d228ckdaf37f5bed978514@mail.gmail.com>
-References: <1245775803-1692-1-git-send-email-vapier@gentoo.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: MS_I_VERSION added in 2.6.25
+Date: Fri, 26 Jun 2009 13:11:44 -0400
+Message-ID: <20090626171144.GA2282@infradead.org>
+References: <cfd18e0f0906252346v53594fb5u2b2bd630b12ded8e@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1245775803-1692-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <cfd18e0f0906252346v53594fb5u2b2bd630b12ded8e-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: jean-noel.cordenner-6ktuUTfB/bM@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, cmm-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, mk <michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+On Fri, Jun 26, 2009 at 08:46:34AM +0200, Michael Kerrisk wrote:
+> Hi,
+> 
+> Linux 2.6.25 added the MS_I_VERSION flag for inode versioning. Some
+> text on this should be added to the mount(2) man page. Could someone
+> of you provide a short description of
+> 
+> * What inode versions are used for
 
-On Tue, Jun 23, 2009 at 6:50 PM, Mike Frysinger<vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
-e:
-> The word "signal" was duplicated in the NOTES, and the RETURN section
-> refers to setjmp and sigsetjmp, but only longjmp.
->
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+I don't think it should be documented.  It should never have been a
+user-visible option to start with and I'm eventually going to fix that.
 
-Thanks.  Applied for 3.22.
-
-Cheers,
-
-Michael
-
-
-> ---
-> =A0man3/setjmp.3 | =A0 =A04 +++-
-> =A01 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/man3/setjmp.3 b/man3/setjmp.3
-> index 5dae1ab..2368242 100644
-> --- a/man3/setjmp.3
-> +++ b/man3/setjmp.3
-> @@ -75,6 +75,8 @@ and
-> =A0return 0 if returning directly, and
-> =A0non-zero when returning from
-> =A0.BR longjmp (3)
-> +or
-> +.BR siglongjmp (3)
-> =A0using the saved context.
-> =A0.SH "CONFORMING TO"
-> =A0C89, C99, and POSIX.1-2001 specify
-> @@ -84,7 +86,7 @@ POSIX.1-2001 specifies
-> =A0.SH NOTES
-> =A0POSIX does not specify whether
-> =A0.BR setjmp ()
-> -will save the signal signal mask.
-> +will save the signal mask.
-> =A0In System V it will not.
-> =A0In 4.3BSD it will, and there
-> =A0is a function \fB_setjmp\fP that will not.
-> --
-> 1.6.3
->
->
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-man-pages online: http://www.kernel.org/doc/man-pages/online_pages.html
-=46ound a bug? http://www.kernel.org/doc/man-pages/reporting_bugs.html
+The correct way to do this would be a feature flag in the superblock.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
