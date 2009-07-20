@@ -1,101 +1,54 @@
-From: Rob Somers <uberkermit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] encrypt.3: changed code for example usage
-Date: Sun, 12 Jul 2009 18:37:01 -0400
-Message-ID: <4A5A658D.1090200@gmail.com>
+From: Zhang Xiliang <zhangxiliang-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] Add the pthread_rwlock_rdlock() different point explanation
+ between Linux and POSIX
+Date: Mon, 20 Jul 2009 09:51:56 +0800
+Message-ID: <4A63CDBC.4030102@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk-manpages-hi6Y0CQ0nG0@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This patch is against the 3.21 version of the man pages.  I (and some 
-others) found that the original example code
-did not seem to work as advertised.  The new code (used by permission of 
-the original author, Jens Thoms Toerring) was found
-on comp.os.linux.development.
+I tested the scheduler of rwlock in Linux, and found that when write lock is blocked
+(a read process has acquired read lock), the other read process can acquire
+read lock again.
 
-Rob Somers
+A read process                       <--acquired read lock
+  ->A write process                  <--block for the reading process unlock
+    ->The other read process         <--it acquired read lock again
+      ->The write process            <--block for the two reading process unlock
 
---- encrypt.3    2009-04-15 12:05:39.000000000 -0400
-+++ encrypt.3.new    2009-07-12 18:31:23.000000000 -0400
-@@ -129,27 +129,59 @@
- .SH NOTES
- In glibc 2.2 these functions use the DES algorithm.
- .SH EXAMPLE
--You need to link with libcrypt to compile this example with glibc.
--To do useful work the
--.I key[]
--and
--.I txt[]
--arrays must be filled with a useful bit pattern.
-+You need to link with libcrypt (-lcrypt) to compile this example with 
-glibc.
- .sp
- .nf
-+/* Modified from original source code
-+ * written by Jens Thoms Toerring.  The original
-+ * can be found on comp.os.linux.development.
-+ */
-+
- #define _XOPEN_SOURCE
--#include <unistd.h>
-+#include <stdio.h>
- #include <stdlib.h>
-+#include <unistd.h>
-+#include <crypt.h>
- 
--int
--main(void)
-+int main(void)
- {
--    char key[64];      /* bit pattern for key */
--    char txt[64];      /* bit pattern for messages */
-+    char key[64];
-+    char orig[9] = "eggplant";
-+    char buf[64];
-+    char txt[9];
-+    int i, j;
-+
-+    for (i = 0; i < 64; i++) {
-+        key[i] = rand() & 1;
-+    }
-+
-+    for (i = 0; i < 8; i++) {
-+        for (j = 0; j < 8; j++) {
-+            buf[i * 8 + j] = orig[i] >> j & 1;
-+        }
-+        setkey(key);
-+    }
-+    printf("Before encrypting: %s\n", orig);
-+
-+    encrypt(buf, 0);
-+    for (i = 0; i < 8; i++) {
-+        for (j = 0, txt[i] = '\0'; j < 8; j++) {
-+            txt[i] |= buf[i * 8 + j] << j;
-+        }
-+        txt[8] = '\0';
-+    }
-+    printf("After encrypting:  %s\n", txt);
-+
-+    encrypt(buf, 1);
-+    for (i = 0; i < 8; i++) {
-+        for (j = 0, txt[i] = '\0'; j < 8; j++) {
-+            txt[i] |= buf[i * 8 + j] << j;
-+        }
-+        txt[8] = '\0';
-+    }
-+    printf("After decrypting:  %s\n", txt);
- 
--    setkey(key);
--    encrypt(txt, 0);   /* encode */
--    encrypt(txt, 1);   /* decode */
-+    return 0;
- }
- .fi
- .SH "SEE ALSO"
+In pthread_rwlock_rdlock() manual, the other read process should be blocked when 
+a write process blocked. Write locks shall take precedence over read locks by
+default.
+
+The diffrent point between Linux and POSIX should be listed in linux-glibc man page.
+
+Signed-off-by: Zhang Xiliang <zhangxiliang-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3p/pthread_rwlock_rdlock.3p |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
+
+diff --git a/man3p/pthread_rwlock_rdlock.3p b/man3p/pthread_rwlock_rdlock.3p
+index b63adbf..6e471d8 100644
+--- a/man3p/pthread_rwlock_rdlock.3p
++++ b/man3p/pthread_rwlock_rdlock.3p
+@@ -77,6 +77,12 @@ If a signal is delivered to a thread waiting for a read-write lock
+ for reading, upon return from the signal handler the thread
+ resumes waiting for the read-write lock for reading as if it was not
+ interrupted.
++.SH DIFFERENCE BETWEEN LINUX and POSIX
++.LP
++In linux, when the threads involved in the lock are executing with 
++the scheduling policies SCHED_FIFO or SCHED_RR, if a reader holds the 
++lock and writers of higher or equal priority are blocked on the lock, 
++the other readers also hold the lock by default.
+ .SH RETURN VALUE
+ .LP
+ If successful, the \fIpthread_rwlock_rdlock\fP() function shall return
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
