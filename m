@@ -1,35 +1,47 @@
-From: Corrado Zoccolo <czoccolo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: wrong description for readahead(2)
-Date: Fri, 31 Jul 2009 10:18:38 +0200
-Message-ID: <4e5e476b0907310118g1702b935tdfca3e12d0b05565@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: Typo in pthread_getschedparam(3)
+Date: Sun, 2 Aug 2009 14:02:29 +0200
+Message-ID: <cfd18e0f0908020502u41bcd30chfcbfac4498960953@mail.gmail.com>
+References: <78ed569a3120ef840168cfb0b2c27c46.squirrel@mail.stardawn.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <78ed569a3120ef840168cfb0b2c27c46.squirrel-Zd6/SMYpz31T4FTSkWmNU9i2O/JbrIOy@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: leslie.polzer-hi6Y0CQ0nG0@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-It says
-> readahead() blocks until the specified data has been read.
-but reading the kernel source code, it simply calls
-force_page_cache_readahead (the same called by fadvise/madvise), that
-just post a prefetch, and it may block only when the I/O queue is
-full.
+On Sat, Jul 25, 2009 at 11:33 AM, Leslie P.
+Polzer<sky-A/mCt7huS1RhCjiJDEAuBxvVK+yQ3ZXh@public.gmane.org> wrote:
+>
+> http://www.kernel.org/doc/man-pages/online/pages/man3/pthread_setsche=
+dparam.3.html
+>
+> =A0 =A0 =A0 pthread_setschedparam, =A0pthread_setschedparam =A0- set/=
+get scheduling policy and
+> =A0 =A0 =A0 parameters of a thread
+>
+> should be
+>
+> =A0 =A0 =A0 pthread_setschedparam, =A0pthread_getschedparam =A0- set/=
+get scheduling policy and
+> =A0 =A0 =A0 parameters of a thread =A0 =A0 =A0 =A0 ^^^
 
-posix_fadvise (with POSIX_FADV_WILLNEED flag) description says, instead:
-       POSIX_FADV_WILLNEED initiates a non-blocking read of the
-specified region into
-       the page cache.  The amount of data read may be decreased by the kernel
-       depending on virtual memory load.  (A few megabytes will usually be fully
-       satisfied, and more is rarely useful.)
+Thanks. Fixed for man-pages-3.23.
 
--- 
-__________________________________________________________________________
+Cheers,
 
-dott. Corrado Zoccolo                          mailto:czoccolo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-PhD - Department of Computer Science - University of Pisa, Italy
---------------------------------------------------------------------------
+Michael
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Watch my Linux system programming book progress to publication!
+http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
