@@ -1,72 +1,133 @@
-From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Re: linux strlen man page accepts NULL?
-Date: Mon, 10 Aug 2009 13:06:27 +0100
-Message-ID: <19ac3f7a0908100506j7ec9933gec944f3b5bb92ef0@mail.gmail.com>
-References: <19ac3f7a0908070455s33ecb5efo6810eb7959df1f70@mail.gmail.com>
-	 <cfd18e0f0908071251h27d2d7d6o4c7d8ae2a4c1913f@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f0908071251h27d2d7d6o4c7d8ae2a4c1913f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH 1/3] hugetlbfs: Allow the creation of files suitable for MAP_PRIVATE on the vfs internal mount
+Date: Tue, 11 Aug 2009 23:13:17 +0100
+Message-ID: <2154e5ac91c7acd5505c5fc6c55665980cbc1bf8.1249999949.git.ebmunson@us.ibm.com>
+References: <cover.1249999949.git.ebmunson@us.ibm.com>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <cover.1249999949.git.ebmunson@us.ibm.com>
+In-Reply-To: <cover.1249999949.git.ebmunson@us.ibm.com>
+References: <cover.1249999949.git.ebmunson@us.ibm.com>
+Sender: owner-linux-mm@kvack.org
+To: linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc: linux-man@vger.kernel.org, mtk.manpages@gmail.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-Hello
+There are two means of creating mappings backed by huge pages:
 
-2009/8/7 Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>:
-> Jon,
->
-> On Fri, Aug 7, 2009 at 1:55 PM, Jon Grant<jg-hus3n9K41k0@public.gmane.org> wrote:
->> Looking at this man page:
->>
->> http://linux.die.net/man/3/strlen
->>
->> Should it not mention that a NULL address is a valid param? Or is it
->> not a valid param?
->
-> What makes you think it is a valid parameter?
+        1. mmap() a file created on hugetlbfs
+        2. Use shm which creates a file on an internal mount which essentially
+           maps it MAP_SHARED
 
-NULL points to 0x0, which could be mapped to something. On my embedded
-platform it is the beginning of the boot ROM. However typically 0x0 is
-an invalid address, in which case strlen should check for NULL, and
-return 0
+The internal mount is only used for shared mappings but there is very
+little that stops it being used for private mappings. This patch extends
+hugetlbfs_file_setup() to deal with the creation of files that will be
+mapped MAP_PRIVATE on the internal hugetlbfs mount. This extended API is
+used in a subsequent patch to implement the MAP_LARGEPAGE mmap() flag.
 
-e.g.:
+Signed-off-by: Eric Munson <ebmunson@us.ibm.com>
+---
+ fs/hugetlbfs/inode.c    |   22 ++++++++++++++++++----
+ include/linux/hugetlb.h |   10 +++++++++-
+ ipc/shm.c               |    3 ++-
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-size_t strlen(const char *str)
-{
-        const char *s;
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 941c842..361f536 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -506,6 +506,13 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb, uid_t uid,
+ 		inode->i_atime = inode->i_mtime = inode->i_ctime = CURRENT_TIME;
+ 		INIT_LIST_HEAD(&inode->i_mapping->private_list);
+ 		info = HUGETLBFS_I(inode);
++		/*
++		 * The policy is initialized here even if we are creating a
++		 * private inode because initialization simply creates an
++		 * an empty rb tree and calls spin_lock_init(), later when we
++		 * call mpol_free_shared_policy() it will just return because
++		 * the rb tree will still be empty.
++		 */
+ 		mpol_shared_policy_init(&info->policy, NULL);
+ 		switch (mode & S_IFMT) {
+ 		default:
+@@ -930,12 +937,19 @@ static struct file_system_type hugetlbfs_fs_type = {
+ 
+ static struct vfsmount *hugetlbfs_vfsmount;
+ 
+-static int can_do_hugetlb_shm(void)
++static int can_do_hugetlb_shm(int creat_flags)
+ {
+-	return capable(CAP_IPC_LOCK) || in_group_p(sysctl_hugetlb_shm_group);
++	if (!(creat_flags & HUGETLB_SHMFS_INODE))
++		return 0;
++	if (capable(CAP_IPC_LOCK))
++		return 1;
++	if (in_group_p(sysctl_hugetlb_shm_group))
++		return 1;
++	return 0;
+ }
+ 
+-struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag)
++struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
++				int creat_flags)
+ {
+ 	int error = -ENOMEM;
+ 	int unlock_shm = 0;
+@@ -948,7 +962,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag)
+ 	if (!hugetlbfs_vfsmount)
+ 		return ERR_PTR(-ENOENT);
+ 
+-	if (!can_do_hugetlb_shm()) {
++	if (!can_do_hugetlb_shm(creat_flags)) {
+ 		if (user_shm_lock(size, user)) {
+ 			unlock_shm = 1;
+ 			WARN_ONCE(1,
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 2723513..78b6ddf 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -109,6 +109,14 @@ static inline void hugetlb_report_meminfo(struct seq_file *m)
+ 
+ #endif /* !CONFIG_HUGETLB_PAGE */
+ 
++enum {
++	/*
++	 * The file will be used as an shm file so shmfs accounting rules
++	 * apply
++	 */
++	HUGETLB_SHMFS_INODE     = 0x01,
++};
++
+ #ifdef CONFIG_HUGETLBFS
+ struct hugetlbfs_config {
+ 	uid_t   uid;
+@@ -146,7 +154,7 @@ static inline struct hugetlbfs_sb_info *HUGETLBFS_SB(struct super_block *sb)
+ 
+ extern const struct file_operations hugetlbfs_file_operations;
+ extern struct vm_operations_struct hugetlb_vm_ops;
+-struct file *hugetlb_file_setup(const char *name, size_t, int);
++struct file *hugetlb_file_setup(const char *name, size_t, int, int);
+ int hugetlb_get_quota(struct address_space *mapping, long delta);
+ void hugetlb_put_quota(struct address_space *mapping, long delta);
+ 
+diff --git a/ipc/shm.c b/ipc/shm.c
+index 15dd238..801c68a 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -369,7 +369,8 @@ static int newseg(struct ipc_namespace *ns, struct ipc_params *params)
+ 		/* hugetlb_file_setup applies strict accounting */
+ 		if (shmflg & SHM_NORESERVE)
+ 			acctflag = VM_NORESERVE;
+-		file = hugetlb_file_setup(name, size, acctflag);
++		file = hugetlb_file_setup(name, size, acctflag,
++					HUGETLB_SHMFS_INODE);
+ 		shp->mlock_user = current_user();
+ 	} else {
+ 		/*
+-- 
+1.6.3.2
 
-if(str == NULL)
-{
-    return 0;
-}
-
-        for (s = str; *s; ++s)
-                ;
-        return (s - str);
-}
-
->> On most systems NULL is a special error pointer.
->
-> I don't understand what you mean with this last sentence. Please explain.
-
-Well, the purpose of strlen is to count chars (excluding terminating
-'\0') but on most systems address 0x0 [which is what NULL is, (void*)0
-].
-
-So if something is mapped by the hardware at 0x0 address then strlen
-could be used to count the number of characters at that location.
-However, on most systems his 0x0 address (NULL) indicates an invalid
-address.
-
-I am not on this mailing list, so please keep my email address in any replies.
-
-Best regards, Jon
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
