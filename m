@@ -1,117 +1,40 @@
 From: Eric B Munson <ebmunson@us.ibm.com>
-Subject: [PATCH 3/3] Add MAP_LARGEPAGE example to vm/hugetlbpage.txt
-Date: Tue, 11 Aug 2009 23:13:19 +0100
-Message-ID: <c5882be4e782296c6e02ff20927b87d72dad418f.1249999949.git.ebmunson@us.ibm.com>
-References: <cover.1249999949.git.ebmunson@us.ibm.com>
- <2154e5ac91c7acd5505c5fc6c55665980cbc1bf8.1249999949.git.ebmunson@us.ibm.com>
- <a45eb555ca7d9e23e5eb051e27f757ae70a6b0c5.1249999949.git.ebmunson@us.ibm.com>
+Subject: [PATCH 0/3] Add pseudo-anonymous huge page mappings
+Date: Tue, 11 Aug 2009 23:13:16 +0100
+Message-ID: <cover.1249999949.git.ebmunson@us.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <a45eb555ca7d9e23e5eb051e27f757ae70a6b0c5.1249999949.git.ebmunson@us.ibm.com>
-In-Reply-To: <cover.1249999949.git.ebmunson@us.ibm.com>
-References: <cover.1249999949.git.ebmunson@us.ibm.com>
 Sender: owner-linux-mm@kvack.org
 To: linux-kernel@vger.kernel.org, linux-mm@kvack.org
 Cc: linux-man@vger.kernel.org, mtk.manpages@gmail.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-This patch adds an example of how to use the MAP_LARGEPAGE flag to
-the vm documentation.
+This patch set adds a flag to mmap that allows the user to request
+a mapping to be backed with huge pages.  This mapping will borrow
+functionality from the huge page shm code to create a file on the
+kernel internal mount and uses it to approximate an anonymous
+mapping.  The MAP_LARGEPAGE flag is a modifier to MAP_ANONYMOUS
+and will not work without both flags being preset.
 
-Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
----
- Documentation/vm/hugetlbpage.txt |   80 ++++++++++++++++++++++++++++++++++++++
- 1 files changed, 80 insertions(+), 0 deletions(-)
+A new flag is necessary because there is no other way to hook into
+huge pages without creating a file on a hugetlbfs mount which
+wouldn't be MAP_ANONYMOUS.
 
-diff --git a/Documentation/vm/hugetlbpage.txt b/Documentation/vm/hugetlbpage.txt
-index ea8714f..fec7fc1 100644
---- a/Documentation/vm/hugetlbpage.txt
-+++ b/Documentation/vm/hugetlbpage.txt
-@@ -337,3 +337,83 @@ int main(void)
- 
- 	return 0;
- }
-+
-+*******************************************************************
-+
-+/*
-+ * Example of using hugepage memory in a user application using the mmap
-+ * system call with MAP_LARGEPAGE flag.  Before running this program make
-+ * sure the administrator has allocated enough default sized huge pages
-+ * to cover the 256 MB allocation.
-+ *
-+ * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
-+ * That means the addresses starting with 0x800000... will need to be
-+ * specified.  Specifying a fixed address is not required on ppc64, i386
-+ * or x86_64.
-+ */
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <sys/mman.h>
-+#include <fcntl.h>
-+
-+#define LENGTH (256UL*1024*1024)
-+#define PROTECTION (PROT_READ | PROT_WRITE)
-+
-+#ifndef MAP_LARGEPAGE
-+#define MAP_LARGEPAGE 0x40
-+#endif
-+
-+/* Only ia64 requires this */
-+#ifdef __ia64__
-+#define ADDR (void *)(0x8000000000000000UL)
-+#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_LARGEPAGE | MAP_FIXED)
-+#else
-+#define ADDR (void *)(0x0UL)
-+#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_LARGEPAGE)
-+#endif
-+
-+void check_bytes(char *addr)
-+{
-+	printf("First hex is %x\n", *((unsigned int *)addr));
-+}
-+
-+void write_bytes(char *addr)
-+{
-+	unsigned long i;
-+
-+	for (i = 0; i < LENGTH; i++)
-+		*(addr + i) = (char)i;
-+}
-+
-+void read_bytes(char *addr)
-+{
-+	unsigned long i;
-+
-+	check_bytes(addr);
-+	for (i = 0; i < LENGTH; i++)
-+		if (*(addr + i) != (char)i) {
-+			printf("Mismatch at %lu\n", i);
-+			break;
-+		}
-+}
-+
-+int main(void)
-+{
-+	void *addr;
-+
-+	addr = mmap(ADDR, LENGTH, PROTECTION, FLAGS, 0, 0);
-+	if (addr == MAP_FAILED) {
-+		perror("mmap");
-+		exit(1);
-+	}
-+
-+	printf("Returned address is %p\n", addr);
-+	check_bytes(addr);
-+	write_bytes(addr);
-+	read_bytes(addr);
-+
-+	munmap(addr, LENGTH);
-+
-+	return 0;
-+}
--- 
-1.6.3.2
+To userspace, this mapping will behave just like an anonymous mapping
+because the file is not accessible outside of the kernel.
+
+Eric B Munson (3):
+  hugetlbfs: Allow the creation of files suitable for MAP_PRIVATE on
+    the vfs internal mount
+  Add MAP_LARGEPAGE for mmaping pseudo-anonymous huge page regions
+  Add MAP_LARGEPAGE example to vm/hugetlbpage.txt
+
+ Documentation/vm/hugetlbpage.txt  |   80 +++++++++++++++++++++++++++++++++++++
+ fs/hugetlbfs/inode.c              |   22 ++++++++--
+ include/asm-generic/mman-common.h |    1 +
+ include/linux/hugetlb.h           |   17 +++++++-
+ ipc/shm.c                         |    3 +-
+ mm/mmap.c                         |   16 +++++++
+ 6 files changed, 133 insertions(+), 6 deletions(-)
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
