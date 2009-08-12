@@ -1,43 +1,50 @@
-From: Eric B Munson <ebmunson@us.ibm.com>
-Subject: [PATCH 0/3] Add pseudo-anonymous huge page mappings
-Date: Tue, 11 Aug 2009 23:13:16 +0100
-Message-ID: <cover.1249999949.git.ebmunson@us.ibm.com>
-Return-path: <owner-linux-mm@kvack.org>
-Sender: owner-linux-mm@kvack.org
-To: linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc: linux-man@vger.kernel.org, mtk.manpages@gmail.com, Eric B Munson <ebmunson@us.ibm.com>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH 2/3] Add MAP_LARGEPAGE for mmaping pseudo-anonymous huge
+	page regions
+Date: Wed, 12 Aug 2009 07:07:48 +0200
+Message-ID: <cfd18e0f0908112207y186d0aav6e0e55ce070778cf@mail.gmail.com>
+References: <cover.1249999949.git.ebmunson@us.ibm.com>
+	 <2154e5ac91c7acd5505c5fc6c55665980cbc1bf8.1249999949.git.ebmunson@us.ibm.com>
+	 <a45eb555ca7d9e23e5eb051e27f757ae70a6b0c5.1249999949.git.ebmunson@us.ibm.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <a45eb555ca7d9e23e5eb051e27f757ae70a6b0c5.1249999949.git.ebmunson-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eric B Munson <ebmunson-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This patch set adds a flag to mmap that allows the user to request
-a mapping to be backed with huge pages.  This mapping will borrow
-functionality from the huge page shm code to create a file on the
-kernel internal mount and uses it to approximate an anonymous
-mapping.  The MAP_LARGEPAGE flag is a modifier to MAP_ANONYMOUS
-and will not work without both flags being preset.
+Eric,
 
-A new flag is necessary because there is no other way to hook into
-huge pages without creating a file on a hugetlbfs mount which
-wouldn't be MAP_ANONYMOUS.
+On Wed, Aug 12, 2009 at 12:13 AM, Eric B Munson<ebmunson-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org> wr=
+ote:
+> This patch adds a flag for mmap that will be used to request a huge
+> page region that will look like anonymous memory to user space. =A0Th=
+is
+> is accomplished by using a file on the internal vfsmount. =A0MAP_LARG=
+EPAGE
+> is a modifier of MAP_ANONYMOUS and so must be specified with it. =A0T=
+he
+> region will behave the same as a MAP_ANONYMOUS region using small pag=
+es.
 
-To userspace, this mapping will behave just like an anonymous mapping
-because the file is not accessible outside of the kernel.
+Does this flag provide functionality analogous to shmget(SHM_HUGETLB)?
+If so, would iot not make sense to name it similarly (i.e.,
+MAP_HUGETLB)?
 
-Eric B Munson (3):
-  hugetlbfs: Allow the creation of files suitable for MAP_PRIVATE on
-    the vfs internal mount
-  Add MAP_LARGEPAGE for mmaping pseudo-anonymous huge page regions
-  Add MAP_LARGEPAGE example to vm/hugetlbpage.txt
+Cheers,
 
- Documentation/vm/hugetlbpage.txt  |   80 +++++++++++++++++++++++++++++++++++++
- fs/hugetlbfs/inode.c              |   22 ++++++++--
- include/asm-generic/mman-common.h |    1 +
- include/linux/hugetlb.h           |   17 +++++++-
- ipc/shm.c                         |    3 +-
- mm/mmap.c                         |   16 +++++++
- 6 files changed, 133 insertions(+), 6 deletions(-)
+Michael
 
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Watch my Linux system programming book progress to publication!
+http://blog.man7.org/
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
