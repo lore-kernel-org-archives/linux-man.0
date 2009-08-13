@@ -1,64 +1,124 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: futex(7) has a broken link ?
-Date: Thu, 13 Aug 2009 02:19:42 -0400
-Message-ID: <200908130219.43803.vapier@gentoo.org>
-References: <20090808175923.GA7302@us.ibm.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart3578202.KfJjDv4dZm";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090808175923.GA7302-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sukadev Bhattiprolu <sukadev-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH 3/3] Add MAP_HUGETLB example to vm/hugetlbpage.txt V2
+Date: Thu, 13 Aug 2009 10:57:06 +0100
+Message-ID: <617054c59f53f43f6fecfd6908cfb86ea1dd6f72.1250156841.git.ebmunson@us.ibm.com>
+References: <cover.1250156841.git.ebmunson@us.ibm.com>
+ <e9b02974a0cca308927ff3a4a0765b93faa6d12f.1250156841.git.ebmunson@us.ibm.com>
+ <83949d066e2a7221a25dd74d12d6dcf7e8b4e9ba.1250156841.git.ebmunson@us.ibm.com>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <83949d066e2a7221a25dd74d12d6dcf7e8b4e9ba.1250156841.git.ebmunson@us.ibm.com>
+In-Reply-To: <cover.1250156841.git.ebmunson@us.ibm.com>
+References: <cover.1250156841.git.ebmunson@us.ibm.com>
+Sender: owner-linux-mm@kvack.org
+To: linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc: linux-man@vger.kernel.org, akpm@linux-foundation.org, mtk.manpages@gmail.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
---nextPart3578202.KfJjDv4dZm
-Content-Type: text/plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+This patch adds an example of how to use the MAP_HUGETLB flag to
+the vm documentation.
 
-On Saturday 08 August 2009 13:59:23 Sukadev Bhattiprolu wrote:
-> futex(7) SEE ALSO lists following URL which is obsolete ?
->
-> 	URL:ftp://ftp.kernel.org:/pub/linux/kernel/people/rusty/>
->
-> Specifically, futex-*.tar.bz2 is not found in the above directory
-> or in the "Misc" sub directory.
+Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+---
+Changes from V1:
+ Rebase to newest linux-2.6 tree
+ Change MAP_LARGEPAGE to MAP_HUGETLB to match flag name in huge page shm
 
-i see it in that location just fine.  make sure you delete the spurious sec=
-ond=20
-colon (this has already been reported & fixed).
-=2Dmike
+ Documentation/vm/hugetlbpage.txt |   80 ++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 80 insertions(+), 0 deletions(-)
 
---nextPart3578202.KfJjDv4dZm
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+diff --git a/Documentation/vm/hugetlbpage.txt b/Documentation/vm/hugetlbpage.txt
+index ea8714f..d30fa1a 100644
+--- a/Documentation/vm/hugetlbpage.txt
++++ b/Documentation/vm/hugetlbpage.txt
+@@ -337,3 +337,83 @@ int main(void)
+ 
+ 	return 0;
+ }
++
++*******************************************************************
++
++/*
++ * Example of using hugepage memory in a user application using the mmap
++ * system call with MAP_LARGEPAGE flag.  Before running this program make
++ * sure the administrator has allocated enough default sized huge pages
++ * to cover the 256 MB allocation.
++ *
++ * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
++ * That means the addresses starting with 0x800000... will need to be
++ * specified.  Specifying a fixed address is not required on ppc64, i386
++ * or x86_64.
++ */
++#include <stdlib.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <sys/mman.h>
++#include <fcntl.h>
++
++#define LENGTH (256UL*1024*1024)
++#define PROTECTION (PROT_READ | PROT_WRITE)
++
++#ifndef MAP_HUGETLB
++#define MAP_HUGETLB 0x40
++#endif
++
++/* Only ia64 requires this */
++#ifdef __ia64__
++#define ADDR (void *)(0x8000000000000000UL)
++#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
++#else
++#define ADDR (void *)(0x0UL)
++#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
++#endif
++
++void check_bytes(char *addr)
++{
++	printf("First hex is %x\n", *((unsigned int *)addr));
++}
++
++void write_bytes(char *addr)
++{
++	unsigned long i;
++
++	for (i = 0; i < LENGTH; i++)
++		*(addr + i) = (char)i;
++}
++
++void read_bytes(char *addr)
++{
++	unsigned long i;
++
++	check_bytes(addr);
++	for (i = 0; i < LENGTH; i++)
++		if (*(addr + i) != (char)i) {
++			printf("Mismatch at %lu\n", i);
++			break;
++		}
++}
++
++int main(void)
++{
++	void *addr;
++
++	addr = mmap(ADDR, LENGTH, PROTECTION, FLAGS, 0, 0);
++	if (addr == MAP_FAILED) {
++		perror("mmap");
++		exit(1);
++	}
++
++	printf("Returned address is %p\n", addr);
++	check_bytes(addr);
++	write_bytes(addr);
++	read_bytes(addr);
++
++	munmap(addr, LENGTH);
++
++	return 0;
++}
+-- 
+1.6.3.2
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.12 (GNU/Linux)
-
-iQIcBAABAgAGBQJKg7B/AAoJEEFjO5/oN/WBx6MP/1eV+1Qhhb6hzHAERwRGARX+
-GqAr7TxfQ1XxlTtnHfChQ6Mordq6H39bgRg/+mclhoGXgFxoqgZkm7MZh0EL8D30
-wq2DyYSLfndWE1zueMdqU4qvIhavPeichBmXYiQfsuvEodH8L94EX6KZq4WNzpPT
-9bBnKhcWddYoozZjAvhNQrs754FMciW4+Zf9xf8GpMutAbAzhHU9d0EK+HlnztmV
-jnL3zGAgYhvReg0oC2nOopuX3QPMdUE33f1MI+D4to9ZrAIGznj9RXYQ7RZ8H/Aj
-H7FAEhLmFmsoBUhhYdA3udjvRUoGac9qyScwtiKc3izBUHwwCmk4etSuxyh7MnXu
-cIMDnBYvPa0JsGwgqKz3T9EkO1O/iQIUWEurj8pgHvag7QnpCo6DU0HN7lYlQ405
-TsOqQ2odo2PVLFIfyDJ3QTR8rr03zJNVJ4kz+wcQDUdpiTaNYHGORul7enbHhxs9
-pzNEOzaTycyK3i3lK8e5P/ayNimj8msp4pSQ3lQY7Xrd9Nxmt5lyAS7FIcYs4PHZ
-m88/e1FR3vpHSnBdppqYh8BWNcxFc8LXKaplgTaGObG4GE38g7A8K9zCfknzfg0d
-z8RanEJJ5PtlkHHGANRXNLTuBIDH81CLlLblLAbqfiYqphFmerFiiSrgDNBNDlvz
-idcd4gmCr8vP4h+cjwRM
-=hcxS
------END PGP SIGNATURE-----
-
---nextPart3578202.KfJjDv4dZm--
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
