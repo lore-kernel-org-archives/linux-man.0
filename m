@@ -1,159 +1,137 @@
 From: Eric B Munson <ebmunson@us.ibm.com>
-Subject: Re: [PATCH 2/3] Add MAP_HUGETLB for mmaping pseudo-anonymous huge
-	page regions V2
-Date: Fri, 14 Aug 2009 13:40:16 +0100
-Message-ID: <20090814124016.GB6180@us.ibm.com>
-References: <cover.1250156841.git.ebmunson@us.ibm.com> <e9b02974a0cca308927ff3a4a0765b93faa6d12f.1250156841.git.ebmunson@us.ibm.com> <83949d066e2a7221a25dd74d12d6dcf7e8b4e9ba.1250156841.git.ebmunson@us.ibm.com> <alpine.DEB.2.00.0908131443350.9805@chino.kir.corp.google.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ZfOjI3PrQbgiZnxM"
+Subject: [PATCH 1/3] hugetlbfs: Allow the creation of files suitable for MAP_PRIVATE on the vfs internal mount V3
+Date: Fri, 14 Aug 2009 15:08:47 +0100
+Message-ID: <d2e4f6625a147c1ef6cb26de66849875f57a8155.1250258125.git.ebmunson@us.ibm.com>
+References: <cover.1250258125.git.ebmunson@us.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.0908131443350.9805@chino.kir.corp.google.com>
+In-Reply-To: <cover.1250258125.git.ebmunson@us.ibm.com>
+In-Reply-To: <cover.1250258125.git.ebmunson@us.ibm.com>
+References: <cover.1250258125.git.ebmunson@us.ibm.com>
 Sender: owner-linux-mm@kvack.org
-To: David Rientjes <rientjes@google.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, akpm@linux-foundation.org, mtk.manpages@gmail.com
+To: linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc: linux-man@vger.kernel.org, akpm@linux-foundation.org, mtk.manpages@gmail.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
+There are two means of creating mappings backed by huge pages:
 
---ZfOjI3PrQbgiZnxM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+        1. mmap() a file created on hugetlbfs
+        2. Use shm which creates a file on an internal mount which essentially
+           maps it MAP_SHARED
 
-On Thu, 13 Aug 2009, David Rientjes wrote:
+The internal mount is only used for shared mappings but there is very
+little that stops it being used for private mappings. This patch extends
+hugetlbfs_file_setup() to deal with the creation of files that will be
+mapped MAP_PRIVATE on the internal hugetlbfs mount. This extended API is
+used in a subsequent patch to implement the MAP_HUGETLB mmap() flag.
 
-> On Thu, 13 Aug 2009, Eric B Munson wrote:
->=20
-> > This patch adds a flag for mmap that will be used to request a huge
-> > page region that will look like anonymous memory to user space.  This
-> > is accomplished by using a file on the internal vfsmount.  MAP_HUGETLB
-> > is a modifier of MAP_ANONYMOUS and so must be specified with it.  The
-> > region will behave the same as a MAP_ANONYMOUS region using small pages.
-> >=20
-> > Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
-> > ---
-> > Changes from V1
-> >  Rebase to newest linux-2.6 tree
-> >  Rename MAP_LARGEPAGE to MAP_HUGETLB to match flag name for huge page s=
-hm
-> >=20
-> >  include/asm-generic/mman-common.h |    1 +
-> >  include/linux/hugetlb.h           |    7 +++++++
-> >  mm/mmap.c                         |   16 ++++++++++++++++
-> >  3 files changed, 24 insertions(+), 0 deletions(-)
-> >=20
-> > diff --git a/include/asm-generic/mman-common.h b/include/asm-generic/mm=
-an-common.h
-> > index 3b69ad3..12f5982 100644
-> > --- a/include/asm-generic/mman-common.h
-> > +++ b/include/asm-generic/mman-common.h
-> > @@ -19,6 +19,7 @@
-> >  #define MAP_TYPE	0x0f		/* Mask for type of mapping */
-> >  #define MAP_FIXED	0x10		/* Interpret addr exactly */
-> >  #define MAP_ANONYMOUS	0x20		/* don't use a file */
-> > +#define MAP_HUGETLB	0x40		/* create a huge page mapping */
-> > =20
-> >  #define MS_ASYNC	1		/* sync memory asynchronously */
-> >  #define MS_INVALIDATE	2		/* invalidate the caches */
-> > diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-> > index 78b6ddf..b84361c 100644
-> > --- a/include/linux/hugetlb.h
-> > +++ b/include/linux/hugetlb.h
-> > @@ -109,12 +109,19 @@ static inline void hugetlb_report_meminfo(struct =
-seq_file *m)
-> > =20
-> >  #endif /* !CONFIG_HUGETLB_PAGE */
-> > =20
-> > +#define HUGETLB_ANON_FILE "anon_hugepage"
-> > +
-> >  enum {
-> >  	/*
-> >  	 * The file will be used as an shm file so shmfs accounting rules
-> >  	 * apply
-> >  	 */
-> >  	HUGETLB_SHMFS_INODE     =3D 0x01,
-> > +	/*
-> > +	 * The file is being created on the internal vfs mount and shmfs
-> > +	 * accounting rules do not apply
-> > +	 */
-> > +	HUGETLB_ANONHUGE_INODE  =3D 0x02,
-> >  };
-> > =20
-> >  #ifdef CONFIG_HUGETLBFS
->=20
-> While I think it's appropriate to use an enum here, these two "flags"=20
-> can't be used together so it would probably be better to avoid the=20
-> hexadecimal.
->=20
-> If flags were ever needed in the future, you could reserve the upper eigh=
-t=20
-> bits of the int for such purposes similiar to mempolicy flags.
->=20
-> > diff --git a/mm/mmap.c b/mm/mmap.c
-> > index 34579b2..3612b20 100644
-> > --- a/mm/mmap.c
-> > +++ b/mm/mmap.c
-> > @@ -29,6 +29,7 @@
-> >  #include <linux/rmap.h>
-> >  #include <linux/mmu_notifier.h>
-> >  #include <linux/perf_counter.h>
-> > +#include <linux/hugetlb.h>
-> > =20
-> >  #include <asm/uaccess.h>
-> >  #include <asm/cacheflush.h>
-> > @@ -954,6 +955,21 @@ unsigned long do_mmap_pgoff(struct file *file, uns=
-igned long addr,
-> >  	if (mm->map_count > sysctl_max_map_count)
-> >  		return -ENOMEM;
-> > =20
-> > +	if (flags & MAP_HUGETLB) {
-> > +		if (file)
-> > +			return -EINVAL;
-> > +
-> > +		/*
-> > +		 * VM_NORESERVE is used because the reservations will be
-> > +		 * taken when vm_ops->mmap() is called
-> > +		 */
-> > +		len =3D ALIGN(len, huge_page_size(&default_hstate));
-> > +		file =3D hugetlb_file_setup(HUGETLB_ANON_FILE, len, VM_NORESERVE,
-> > +						HUGETLB_ANONHUGE_INODE);
-> > +		if (IS_ERR(file))
-> > +			return -ENOMEM;
-> > +	}
-> > +
-> >  	/* Obtain the address to map to. we verify (or select) it and ensure
-> >  	 * that it represents a valid section of the address space.
-> >  	 */
->=20
-> hugetlb_file_setup() can fail for reasons other than failing to reserve=
-=20
-> pages, so maybe it would be better to return PTR_ERR(file) instead of=20
-> hardcoding -ENOMEM?
->=20
+Signed-off-by: Eric Munson <ebmunson@us.ibm.com>
+---
+Changes from V2:
+ Rebase to newest linux-2.6 tree
+ Use base 10 value for HUGETLB_SHMFS_INODE instead of hex
 
-I will make these changes for V3, thanks for your review.
+Changes from V1:
+ Rebase to newest linux-2.6 tree
 
---=20
-Eric B Munson
-IBM Linux Technology Center
-ebmunson@us.ibm.com
+ fs/hugetlbfs/inode.c    |   22 ++++++++++++++++++----
+ include/linux/hugetlb.h |   10 +++++++++-
+ ipc/shm.c               |    3 ++-
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-
---ZfOjI3PrQbgiZnxM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-
-iEYEARECAAYFAkqFWzAACgkQsnv9E83jkzraCwCfSxw/vg/lKXE6ehhsKrwWhofz
-0IYAoLLmmZPku0Q6Dxd9glh3pRa0rmg2
-=e186
------END PGP SIGNATURE-----
-
---ZfOjI3PrQbgiZnxM--
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 941c842..361f536 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -506,6 +506,13 @@ static struct inode *hugetlbfs_get_inode(struct super_block *sb, uid_t uid,
+ 		inode->i_atime = inode->i_mtime = inode->i_ctime = CURRENT_TIME;
+ 		INIT_LIST_HEAD(&inode->i_mapping->private_list);
+ 		info = HUGETLBFS_I(inode);
++		/*
++		 * The policy is initialized here even if we are creating a
++		 * private inode because initialization simply creates an
++		 * an empty rb tree and calls spin_lock_init(), later when we
++		 * call mpol_free_shared_policy() it will just return because
++		 * the rb tree will still be empty.
++		 */
+ 		mpol_shared_policy_init(&info->policy, NULL);
+ 		switch (mode & S_IFMT) {
+ 		default:
+@@ -930,12 +937,19 @@ static struct file_system_type hugetlbfs_fs_type = {
+ 
+ static struct vfsmount *hugetlbfs_vfsmount;
+ 
+-static int can_do_hugetlb_shm(void)
++static int can_do_hugetlb_shm(int creat_flags)
+ {
+-	return capable(CAP_IPC_LOCK) || in_group_p(sysctl_hugetlb_shm_group);
++	if (!(creat_flags & HUGETLB_SHMFS_INODE))
++		return 0;
++	if (capable(CAP_IPC_LOCK))
++		return 1;
++	if (in_group_p(sysctl_hugetlb_shm_group))
++		return 1;
++	return 0;
+ }
+ 
+-struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag)
++struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
++				int creat_flags)
+ {
+ 	int error = -ENOMEM;
+ 	int unlock_shm = 0;
+@@ -948,7 +962,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag)
+ 	if (!hugetlbfs_vfsmount)
+ 		return ERR_PTR(-ENOENT);
+ 
+-	if (!can_do_hugetlb_shm()) {
++	if (!can_do_hugetlb_shm(creat_flags)) {
+ 		if (user_shm_lock(size, user)) {
+ 			unlock_shm = 1;
+ 			WARN_ONCE(1,
+diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+index 2723513..3c48a63 100644
+--- a/include/linux/hugetlb.h
++++ b/include/linux/hugetlb.h
+@@ -109,6 +109,14 @@ static inline void hugetlb_report_meminfo(struct seq_file *m)
+ 
+ #endif /* !CONFIG_HUGETLB_PAGE */
+ 
++enum {
++	/*
++	 * The file will be used as an shm file so shmfs accounting rules
++	 * apply
++	 */
++	HUGETLB_SHMFS_INODE     = 1,
++};
++
+ #ifdef CONFIG_HUGETLBFS
+ struct hugetlbfs_config {
+ 	uid_t   uid;
+@@ -146,7 +154,7 @@ static inline struct hugetlbfs_sb_info *HUGETLBFS_SB(struct super_block *sb)
+ 
+ extern const struct file_operations hugetlbfs_file_operations;
+ extern struct vm_operations_struct hugetlb_vm_ops;
+-struct file *hugetlb_file_setup(const char *name, size_t, int);
++struct file *hugetlb_file_setup(const char *name, size_t, int, int);
+ int hugetlb_get_quota(struct address_space *mapping, long delta);
+ void hugetlb_put_quota(struct address_space *mapping, long delta);
+ 
+diff --git a/ipc/shm.c b/ipc/shm.c
+index 15dd238..801c68a 100644
+--- a/ipc/shm.c
++++ b/ipc/shm.c
+@@ -369,7 +369,8 @@ static int newseg(struct ipc_namespace *ns, struct ipc_params *params)
+ 		/* hugetlb_file_setup applies strict accounting */
+ 		if (shmflg & SHM_NORESERVE)
+ 			acctflag = VM_NORESERVE;
+-		file = hugetlb_file_setup(name, size, acctflag);
++		file = hugetlb_file_setup(name, size, acctflag,
++					HUGETLB_SHMFS_INODE);
+ 		shp->mlock_user = current_user();
+ 	} else {
+ 		/*
+-- 
+1.6.3.2
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
