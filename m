@@ -1,43 +1,41 @@
-From: Andi Kleen <andi@firstfloor.org>
-Subject: Re: [PATCH 0/3] Add pseudo-anonymous huge page mappings V3
-Date: Mon, 17 Aug 2009 15:53:41 +0200
-Message-ID: <87d46usg0q.fsf@basil.nowhere.org>
-References: <cover.1250258125.git.ebmunson@us.ibm.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14001] New: eventfd manpage missing EFD_SEMAPHORE flag
+Date: Tue, 18 Aug 2009 05:38:40 GMT
+Message-ID: <bug-14001-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <cover.1250258125.git.ebmunson@us.ibm.com> (Eric B. Munson's message of "Fri, 14 Aug 2009 15:08:46 +0100")
-Sender: owner-linux-mm@kvack.org
-To: Eric B Munson <ebmunson@us.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, akpm@linux-foundation.org, mtk.manpages@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Eric B Munson <ebmunson@us.ibm.com> writes:
+http://bugzilla.kernel.org/show_bug.cgi?id=14001
 
-> This patch set adds a flag to mmap that allows the user to request
-> a mapping to be backed with huge pages.  This mapping will borrow
-> functionality from the huge page shm code to create a file on the
-> kernel internal mount and uses it to approximate an anonymous
-> mapping.  The MAP_HUGETLB flag is a modifier to MAP_ANONYMOUS
-> and will not work without both flags being preset.
+           Summary: eventfd manpage missing EFD_SEMAPHORE flag
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org
+        Regression: No
 
 
-You seem to have forgotten to describe WHY you want this?
+I noticed eventfd added a new flag, EFD_SEMAPHORE which isn't documented
+in the git manpages tree:
 
->From my guess, this seems to be another step into turning hugetlb.c
-into another parallel VM implementation. Instead of basically
-developing two parallel VMs wouldn't it be better to unify the two?
-
-I think extending hugetlb.c forever without ever thinking about
-that is not the right approach.
-
--Andi
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=bcd0b235bf3808dec5115c381cd55568f63b85f0
 
 -- 
-ak@linux.intel.com -- Speaking for myself only.
-
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
