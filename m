@@ -1,35 +1,152 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH 1/3] hugetlbfs: Allow the creation of files suitable for
- MAP_PRIVATE on the vfs internal mount
-Date: Wed, 26 Aug 2009 12:34:15 -0700 (PDT)
-Message-ID: <alpine.DEB.2.00.0908261234020.4511@chino.kir.corp.google.com>
-References: <cover.1251197514.git.ebmunson@us.ibm.com> <25614b0d0581e2d49e1024dc1671b282f193e139.1251197514.git.ebmunson@us.ibm.com>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH 3/3] Add MAP_HUGETLB example
+Date: Wed, 26 Aug 2009 11:44:53 +0100
+Message-ID: <745880949456dd59ee098722614dc329081100ee.1251282769.git.ebmunson@us.ibm.com>
+References: <cover.1251282769.git.ebmunson@us.ibm.com>
+ <1c66a9e98a73d61c611e5cf09b276e954965046e.1251282769.git.ebmunson@us.ibm.com>
+ <1721a3e8bdf8f311d2388951ec65a24d37b513b1.1251282769.git.ebmunson@us.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <25614b0d0581e2d49e1024dc1671b282f193e139.1251197514.git.ebmunson@us.ibm.com>
+In-Reply-To: <1721a3e8bdf8f311d2388951ec65a24d37b513b1.1251282769.git.ebmunson@us.ibm.com>
+In-Reply-To: <cover.1251282769.git.ebmunson@us.ibm.com>
+References: <cover.1251282769.git.ebmunson@us.ibm.com>
 Sender: owner-linux-mm@kvack.org
-To: Eric B Munson <ebmunson@us.ibm.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com
+To: linux-kernel@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org
+Cc: linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 25 Aug 2009, Eric B Munson wrote:
+This patch adds an example of how to use the MAP_HUGETLB flag to the
+vm documentation directory and a reference to the example in
+hugetlbpage.txt.
 
-> There are two means of creating mappings backed by huge pages:
-> 
->         1. mmap() a file created on hugetlbfs
->         2. Use shm which creates a file on an internal mount which essentially
->            maps it MAP_SHARED
-> 
-> The internal mount is only used for shared mappings but there is very
-> little that stops it being used for private mappings. This patch extends
-> hugetlbfs_file_setup() to deal with the creation of files that will be
-> mapped MAP_PRIVATE on the internal hugetlbfs mount. This extended API is
-> used in a subsequent patch to implement the MAP_HUGETLB mmap() flag.
-> 
-> Signed-off-by: Eric Munson <ebmunson@us.ibm.com>
-
+Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
 Acked-by: David Rientjes <rientjes@google.com>
+---
+ Documentation/vm/00-INDEX        |    2 +
+ Documentation/vm/hugetlbpage.txt |   14 ++++---
+ Documentation/vm/map_hugetlb.c   |   77 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 87 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/vm/map_hugetlb.c
+
+diff --git a/Documentation/vm/00-INDEX b/Documentation/vm/00-INDEX
+index 2f77ced..aabd973 100644
+--- a/Documentation/vm/00-INDEX
++++ b/Documentation/vm/00-INDEX
+@@ -20,3 +20,5 @@ slabinfo.c
+ 	- source code for a tool to get reports about slabs.
+ slub.txt
+ 	- a short users guide for SLUB.
++map_hugetlb.c
++	- an example program that uses the MAP_HUGETLB mmap flag.
+diff --git a/Documentation/vm/hugetlbpage.txt b/Documentation/vm/hugetlbpage.txt
+index ea8714f..6a8feab 100644
+--- a/Documentation/vm/hugetlbpage.txt
++++ b/Documentation/vm/hugetlbpage.txt
+@@ -146,12 +146,14 @@ Regular chown, chgrp, and chmod commands (with right permissions) could be
+ used to change the file attributes on hugetlbfs.
+ 
+ Also, it is important to note that no such mount command is required if the
+-applications are going to use only shmat/shmget system calls.  Users who
+-wish to use hugetlb page via shared memory segment should be a member of
+-a supplementary group and system admin needs to configure that gid into
+-/proc/sys/vm/hugetlb_shm_group.  It is possible for same or different
+-applications to use any combination of mmaps and shm* calls, though the
+-mount of filesystem will be required for using mmap calls.
++applications are going to use only shmat/shmget system calls or mmap with
++MAP_HUGETLB.  Users who wish to use hugetlb page via shared memory segment
++should be a member of a supplementary group and system admin needs to
++configure that gid into /proc/sys/vm/hugetlb_shm_group.  It is possible for
++same or different applications to use any combination of mmaps and shm*
++calls, though the mount of filesystem will be required for using mmap calls
++without MAP_HUGETLB.  For an example of how to use mmap with MAP_HUGETLB see
++map_hugetlb.c.
+ 
+ *******************************************************************
+ 
+diff --git a/Documentation/vm/map_hugetlb.c b/Documentation/vm/map_hugetlb.c
+new file mode 100644
+index 0000000..e2bdae3
+--- /dev/null
++++ b/Documentation/vm/map_hugetlb.c
+@@ -0,0 +1,77 @@
++/*
++ * Example of using hugepage memory in a user application using the mmap
++ * system call with MAP_HUGETLB flag.  Before running this program make
++ * sure the administrator has allocated enough default sized huge pages
++ * to cover the 256 MB allocation.
++ *
++ * For ia64 architecture, Linux kernel reserves Region number 4 for hugepages.
++ * That means the addresses starting with 0x800000... will need to be
++ * specified.  Specifying a fixed address is not required on ppc64, i386
++ * or x86_64.
++ */
++#include <stdlib.h>
++#include <stdio.h>
++#include <unistd.h>
++#include <sys/mman.h>
++#include <fcntl.h>
++
++#define LENGTH (256UL*1024*1024)
++#define PROTECTION (PROT_READ | PROT_WRITE)
++
++#ifndef MAP_HUGETLB
++#define MAP_HUGETLB 0x40
++#endif
++
++/* Only ia64 requires this */
++#ifdef __ia64__
++#define ADDR (void *)(0x8000000000000000UL)
++#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB | MAP_FIXED)
++#else
++#define ADDR (void *)(0x0UL)
++#define FLAGS (MAP_PRIVATE | MAP_ANONYMOUS | MAP_HUGETLB)
++#endif
++
++void check_bytes(char *addr)
++{
++	printf("First hex is %x\n", *((unsigned int *)addr));
++}
++
++void write_bytes(char *addr)
++{
++	unsigned long i;
++
++	for (i = 0; i < LENGTH; i++)
++		*(addr + i) = (char)i;
++}
++
++void read_bytes(char *addr)
++{
++	unsigned long i;
++
++	check_bytes(addr);
++	for (i = 0; i < LENGTH; i++)
++		if (*(addr + i) != (char)i) {
++			printf("Mismatch at %lu\n", i);
++			break;
++		}
++}
++
++int main(void)
++{
++	void *addr;
++
++	addr = mmap(ADDR, LENGTH, PROTECTION, FLAGS, 0, 0);
++	if (addr == MAP_FAILED) {
++		perror("mmap");
++		exit(1);
++	}
++
++	printf("Returned address is %p\n", addr);
++	check_bytes(addr);
++	write_bytes(addr);
++	read_bytes(addr);
++
++	munmap(addr, LENGTH);
++
++	return 0;
++}
+-- 
+1.6.3.2
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
