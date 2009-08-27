@@ -1,7 +1,7 @@
 From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: [PATCH] open.2: add some comments on O_SYNC and friends
-Date: Thu, 27 Aug 2009 20:00:04 +0200
-Message-ID: <20090827180004.GA31605@lst.de>
+Subject: sync_file_range.2:  add some big WARNINGS
+Date: Thu, 27 Aug 2009 20:01:16 +0200
+Message-ID: <20090827180116.GB31605@lst.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,52 +11,43 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The language probably needs some editing, but this was the best
-I could come up with.
+This system call is by design completely unsuitable for any data
+integrity operations.  Make that very clear in the manpage.
 
 
 Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
 
-Index: man-pages/man2/open.2
+Index: man-pages/man2/sync_file_range.2
 ===================================================================
---- man-pages.orig/man2/open.2	2009-08-27 14:43:43.589383500 -0300
-+++ man-pages/man2/open.2	2009-08-27 14:51:01.729354515 -0300
-@@ -276,12 +276,12 @@ The following symbolic constants are pro
- Try to minimize cache effects of the I/O to and from this file.
- In general this will degrade performance, but it is useful in
- special situations, such as when applications do their own caching.
--File I/O is done directly to/from user space buffers.
--The I/O is synchronous, that is, at the completion of a
--.BR read (2)
--or
--.BR write (2),
--data is guaranteed to have been transferred.
-+File I/O is done directly to/from user space buffers.  The
-+\fBO_DIRECT\fP flag alone does make at an effort to transfer
-+data synchronously, but does not give the guarantees of the
-+\fBO_SYNC\fP that data and nessecary data must be transferred.
-+To guarantee synchronous I/O the \fBO_SYNC\fP must be used
-+in addition to \fBO_DIRECT\fP.
- See
- .B NOTES
- below for further discussion.
-@@ -661,8 +661,14 @@ amongst others
+--- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
++++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
+@@ -80,11 +80,22 @@ after performing any write.
+ Specifying
+ .I flags
+ as 0 is permitted, as a no-op.
+-.SS Some details
+-None of these operations write out the file's metadata.
++.SS WARNING
++This system call is extremly dangerous and should not be used in portable
++programs.  None of these operations write out the file's metadata.
+ Therefore, unless the application is strictly performing overwrites of
+-already-instantiated disk blocks,
+-there are no guarantees that the data will be available after a crash.
++already-instantiated disk blocks, there are no guarantees that the data will
++be available after a crash.  There is no user interface to know if a
++write is purely an overwrite. On filesystem using copy on write semantics
++like
++.IR btrfs
++an over write of existing allocated blocks is impossible.  Writing into
++pre-allocated space many filesystems also require calls into the block
++allocator which this system call does not sync out to disk.
++This system call does not flush disk write caches and thus does not provide
++any data integrity on systems with volatile disk write caches.
++
++.SS Some details
  
- POSIX provides for three different variants of synchronized I/O,
- corresponding to the flags \fBO_SYNC\fP, \fBO_DSYNC\fP and
--\fBO_RSYNC\fP.
--Currently (2.1.130) these are all synonymous under Linux.
-+\fBO_RSYNC\fP.  Currently (2.6.31) Linux only implements the
-+\fBO_SYNC\fP but glibc maps \fBO_DSYNC\fP and \fBO_SYNC\fP to
-+the same numerical value.  Most Linux filesystems do however not
-+actually implement the Posix \fBO_SYNC\fP, semantics which
-+require all metadata updates of a write to be on disk on returning
-+to userspace, but only the \fBO_DSYNC\fP semantics, which require
-+only actual file data and metadata nessecary to retreive it to
-+be on disk by the time the system call returns.
- 
- Note that
- .BR open ()
+ .B SYNC_FILE_RANGE_WAIT_BEFORE
+ and
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
