@@ -1,54 +1,75 @@
-From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: sync_file_range.2:  add some big WARNINGS
-Date: Thu, 27 Aug 2009 20:01:16 +0200
-Message-ID: <20090827180116.GB31605@lst.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH] hugetlbfs: Do not call user_shm_lock() for MAP_HUGETLB fix
+Date: Mon, 31 Aug 2009 11:20:20 +0100
+Message-ID: <1251714020-10709-1-git-send-email-ebmunson@us.ibm.com>
+References: <20090827152050.GD6323@us.ibm.com>
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20090827152050.GD6323@us.ibm.com>
+References: <20090827152050.GD6323@us.ibm.com>
+In-Reply-To: <20090827152050.GD6323@us.ibm.com>
+Sender: owner-linux-mm@kvack.org
+To: akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Cc: mel@csn.ul.ie, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-This system call is by design completely unsuitable for any data
-integrity operations.  Make that very clear in the manpage.
+Sorry for the resend but there was whitespace damage on the previous
+mail.
 
+====
+hugetlbfs: Do not call user_shm_lock() for MAP_HUGETLB fix
 
-Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+The patch
+hugetlbfs-allow-the-creation-of-files-suitable-for-map_private-on-the-vfs-internal-mount.patch
+alters can_do_hugetlb_shm() to check if a file is being created for shared
+memory or mmap(). If this returns false, we then unconditionally call
+user_shm_lock() triggering a warning. This block should never be entered
+for MAP_HUGETLB. This patch partially reverts the problem and fixes the check.
 
-Index: man-pages/man2/sync_file_range.2
-===================================================================
---- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
-+++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
-@@ -80,11 +80,22 @@ after performing any write.
- Specifying
- .I flags
- as 0 is permitted, as a no-op.
--.SS Some details
--None of these operations write out the file's metadata.
-+.SS WARNING
-+This system call is extremly dangerous and should not be used in portable
-+programs.  None of these operations write out the file's metadata.
- Therefore, unless the application is strictly performing overwrites of
--already-instantiated disk blocks,
--there are no guarantees that the data will be available after a crash.
-+already-instantiated disk blocks, there are no guarantees that the data will
-+be available after a crash.  There is no user interface to know if a
-+write is purely an overwrite. On filesystem using copy on write semantics
-+like
-+.IR btrfs
-+an over write of existing allocated blocks is impossible.  Writing into
-+pre-allocated space many filesystems also require calls into the block
-+allocator which this system call does not sync out to disk.
-+This system call does not flush disk write caches and thus does not provide
-+any data integrity on systems with volatile disk write caches.
-+
-+.SS Some details
+This patch should be considered a fix to
+hugetlbfs-allow-the-creation-of-files-suitable-for-map_private-on-the-vfs-internal-mount.patch.
+
+From: Mel Gorman <mel@csn.ul.ie>
+Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+---
+ fs/hugetlbfs/inode.c |   12 +++---------
+ 1 files changed, 3 insertions(+), 9 deletions(-)
+
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index 5584d55..0d03c41 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -937,15 +937,9 @@ static struct file_system_type hugetlbfs_fs_type = {
  
- .B SYNC_FILE_RANGE_WAIT_BEFORE
- and
+ static struct vfsmount *hugetlbfs_vfsmount;
+ 
+-static int can_do_hugetlb_shm(int creat_flags)
++static int can_do_hugetlb_shm()
+ {
+-	if (creat_flags != HUGETLB_SHMFS_INODE)
+-		return 0;
+-	if (capable(CAP_IPC_LOCK))
+-		return 1;
+-	if (in_group_p(sysctl_hugetlb_shm_group))
+-		return 1;
+-	return 0;
++	return capable(CAP_IPC_LOCK) || in_group_p(sysctl_hugetlb_shm_group);
+ }
+ 
+ struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
+@@ -961,7 +955,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
+ 	if (!hugetlbfs_vfsmount)
+ 		return ERR_PTR(-ENOENT);
+ 
+-	if (!can_do_hugetlb_shm(creat_flags)) {
++	if (creat_flags == HUGETLB_SHMFS_INODE && !can_do_hugetlb_shm()) {
+ 		*user = current_user();
+ 		if (user_shm_lock(size, *user)) {
+ 			WARN_ONCE(1,
+-- 
+1.6.3.2
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
