@@ -1,30 +1,49 @@
-From: gsauthof-If1cxaH3S3JVgF+RW+Bo1SZEdBbF94EN@public.gmane.org
-Subject: Definition of orphaned process group missing
-Date: Tue, 8 Sep 2009 11:29:06 +0200
-Message-ID: <20090908092906.GG15639@lenovo.private>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH] MAP_HUGETLB value collision fix
+Date: Wed,  9 Sep 2009 10:16:51 +0100
+Message-ID: <1252487811-9205-1-git-send-email-ebmunson@us.ibm.com>
+References: <cover.1251282769.git.ebmunson@us.ibm.com> <1c66a9e98a73d61c611e5cf09b276e954965046e.1251282769.git.ebmunson@us.ibm.com> <1721a3e8bdf8f311d2388951ec65a24d37b513b1.1251282769.git.ebmunson@us.ibm.com> <Pine.LNX.4.64.0908312036410.16402@sister.anvils>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: akpm@linux-foundation.org
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, hugh.dickins@tiscali.co.uk, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+The patch
+hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch
+used the value 0x40 for MAP_HUGETLB which is the same value used for
+various other flags on some architectures.  This collision causes
+unexpected use of huge pages in the best case and mmap to fail with
+ENOMEM or ENOSYS in the worst.  This patch changes the value for
+MAP_HUGETLB to a value that is not currently used on any arch.
 
-setpgid(2) and exit(3) use the term 'orphaned process group', but they
-don't define it.
+This patch should be considered a fix to
+hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch.
 
-And if I am not missing it, the term is not defined in a referenced man
-page, either.
+Reported-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
+Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+---
+ include/asm-generic/mman-common.h |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Suggested fix: add the defintion of 'orphaned process group' to the 'right'
-place(s) (man-page).
+diff --git a/include/asm-generic/mman-common.h b/include/asm-generic/mman-common.h
+index 12f5982..e6adb68 100644
+--- a/include/asm-generic/mman-common.h
++++ b/include/asm-generic/mman-common.h
+@@ -19,7 +19,7 @@
+ #define MAP_TYPE	0x0f		/* Mask for type of mapping */
+ #define MAP_FIXED	0x10		/* Interpret addr exactly */
+ #define MAP_ANONYMOUS	0x20		/* don't use a file */
+-#define MAP_HUGETLB	0x40		/* create a huge page mapping */
++#define MAP_HUGETLB	0x080000	/* create a huge page mapping */
+ 
+ #define MS_ASYNC	1		/* sync memory asynchronously */
+ #define MS_INVALIDATE	2		/* invalidate the caches */
+-- 
+1.6.3.2
 
-Best regards
-Georg Sauthoff
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
