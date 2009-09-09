@@ -1,69 +1,67 @@
-From: Eric B Munson <ebmunson@us.ibm.com>
-Subject: [PATCH] hugetlbfs: Do not call user_shm_lock() for MAP_HUGETLB fix
-Date: Wed,  9 Sep 2009 10:17:54 +0100
-Message-ID: <1252487874-9453-1-git-send-email-ebmunson@us.ibm.com>
-References: <20090827152050.GD6323@us.ibm.com>
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20090827152050.GD6323@us.ibm.com>
-Sender: owner-linux-mm@kvack.org
-To: akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, mel@cs.ul.ie, Eric B Munson <ebmunson@us.ibm.com>
+From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Subject: [PATCH] splice.2, tee.2, vmsplice.2: Update return type
+Date: Wed,  9 Sep 2009 21:48:00 +0100
+Message-ID: <1252529280-3366-1-git-send-email-mark@pogo.org.uk>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-hugetlbfs: Do not call user_shm_lock() for MAP_HUGETLB fix
-
-The patch
-hugetlbfs-allow-the-creation-of-files-suitable-for-map_private-on-the-vfs-internal-mount.patch
-alters can_do_hugetlb_shm() to check if a file is being created for shared
-memory or mmap(). If this returns false, we then unconditionally call
-user_shm_lock() triggering a warning. This block should never be entered
-for MAP_HUGETLB. This patch partially reverts the problem and fixes the check.
-
-This patch should be considered a fix to
-hugetlbfs-allow-the-creation-of-files-suitable-for-map_private-on-the-vfs-internal-mount.patch.
-
-From: Mel Gorman <mel@csn.ul.ie>
-Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+Return type is ssize_t since glibc-2.7, see /usr/include/bits/fcntl.h
 ---
- fs/hugetlbfs/inode.c |   12 +++---------
- 1 files changed, 3 insertions(+), 9 deletions(-)
+ man2/splice.2   |    4 ++--
+ man2/tee.2      |    2 +-
+ man2/vmsplice.2 |    4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index 5584d55..0d03c41 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -937,15 +937,9 @@ static struct file_system_type hugetlbfs_fs_type = {
+diff --git a/man2/splice.2 b/man2/splice.2
+index d9c192a..1d4b74f 100644
+--- a/man2/splice.2
++++ b/man2/splice.2
+@@ -31,8 +31,8 @@ splice \- splice data to/from a pipe
+ .B #define _GNU_SOURCE
+ .B #include <fcntl.h>
  
- static struct vfsmount *hugetlbfs_vfsmount;
+-.BI "long splice(int " fd_in ", loff_t *" off_in ", int " fd_out ,
+-.BI "            loff_t *" off_out ", size_t " len \
++.BI "ssize_t splice(int " fd_in ", loff_t *" off_in ", int " fd_out ,
++.BI "               loff_t *" off_out ", size_t " len \
+ ", unsigned int " flags );
+ .fi
+ .SH DESCRIPTION
+diff --git a/man2/tee.2 b/man2/tee.2
+index 323bee5..feda6c8 100644
+--- a/man2/tee.2
++++ b/man2/tee.2
+@@ -31,7 +31,7 @@ tee \- duplicating pipe content
+ .B #define _GNU_SOURCE
+ .B #include <fcntl.h>
  
--static int can_do_hugetlb_shm(int creat_flags)
-+static int can_do_hugetlb_shm()
- {
--	if (creat_flags != HUGETLB_SHMFS_INODE)
--		return 0;
--	if (capable(CAP_IPC_LOCK))
--		return 1;
--	if (in_group_p(sysctl_hugetlb_shm_group))
--		return 1;
--	return 0;
-+	return capable(CAP_IPC_LOCK) || in_group_p(sysctl_hugetlb_shm_group);
- }
+-.BI "long tee(int " fd_in ", int " fd_out ", size_t " len \
++.BI "ssize_t tee(int " fd_in ", int " fd_out ", size_t " len \
+ ", unsigned int " flags );
+ .fi
+ .SH DESCRIPTION
+diff --git a/man2/vmsplice.2 b/man2/vmsplice.2
+index 2c95893..91b2d04 100644
+--- a/man2/vmsplice.2
++++ b/man2/vmsplice.2
+@@ -32,8 +32,8 @@ vmsplice \- splice user pages into a pipe
+ .B #include <fcntl.h>
+ .B #include <sys/uio.h>
  
- struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
-@@ -961,7 +955,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size, int acctflag,
- 	if (!hugetlbfs_vfsmount)
- 		return ERR_PTR(-ENOENT);
- 
--	if (!can_do_hugetlb_shm(creat_flags)) {
-+	if (creat_flags == HUGETLB_SHMFS_INODE && !can_do_hugetlb_shm()) {
- 		*user = current_user();
- 		if (user_shm_lock(size, *user)) {
- 			WARN_ONCE(1,
+-.BI "long vmsplice(int " fd ", const struct iovec *" iov ,
+-.BI "              unsigned long " nr_segs ", unsigned int " flags );
++.BI "ssize_t vmsplice(int " fd ", const struct iovec *" iov ,
++.BI "                 unsigned long " nr_segs ", unsigned int " flags );
+ .fi
+ .SH DESCRIPTION
+ .\" Linus: vmsplice() system call to basically do a "write to
 -- 
 1.6.3.2
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
