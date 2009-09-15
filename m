@@ -1,51 +1,38 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] setmntent() takes a filename, not fp
-Date: Tue, 15 Sep 2009 06:19:04 +0200
-Message-ID: <cfd18e0f0909142119p11f634edj18eb7b6224f64368@mail.gmail.com>
-References: <1251893007-18490-1-git-send-email-vapier@gentoo.org>
+Subject: Re: typo/grammar error: printf(3)
+Date: Tue, 15 Sep 2009 06:26:08 +0200
+Message-ID: <cfd18e0f0909142126i79f4948fha8b4e7b448fa06b2@mail.gmail.com>
+References: <200908221302.50988.aaron.j.gardner@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1251893007-18490-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <200908221302.50988.aaron.j.gardner-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: "A.J. Gardner" <aaron.j.gardner-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+Hi Aaron,
 
-On Wed, Sep 2, 2009 at 2:03 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
-e:
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
-> =A0man3/getmntent.3 | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
+On Sat, Aug 22, 2009 at 8:02 PM, A.J. Gardner <aaron.j.gardner-Re5JQEeQqe8@public.gmane.org=
+m> wrote:
+> On the line beginning "C99 and POSIX.1-2001 specify that" there's a s=
+mall
+> mistyping.
 >
-> diff --git a/man3/getmntent.3 b/man3/getmntent.3
-> index f775fa1..32078a5 100644
-> --- a/man3/getmntent.3
-> +++ b/man3/getmntent.3
-> @@ -68,7 +68,7 @@ These routines are used to access the file system d=
-escription file
-> =A0The
-> =A0.BR setmntent ()
-> =A0function opens the file system description file
-> -\fIfp\fP and returns a file pointer which can be used by
-> +\fIfilename\fP and returns a file pointer which can be used by
-> =A0.BR getmntent ().
-> =A0The argument \fItype\fP is the type of access
-> =A0required and can take the same values as the \fImode\fP argument o=
-f
-> --
-> 1.6.4
+> The phrase reading: =A0"would cause to copying to take place"
+> should be: =A0"would cause copying to take place"
 
-Thanks. Applied for 3.23.
+Thanks.
+
+=46ixed for 3.23.
 
 Cheers,
 
 Michael
+
 
 
 --=20
