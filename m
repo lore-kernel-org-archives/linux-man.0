@@ -1,30 +1,53 @@
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 2/3] Add MAP_HUGETLB for mmaping pseudo-anonymous huge
- page regions
-Date: Thu, 17 Sep 2009 17:46:16 -0700
-Message-ID: <20090917174616.f64123fb.akpm@linux-foundation.org>
-References: <cover.1251197514.git.ebmunson@us.ibm.com>
-	<25614b0d0581e2d49e1024dc1671b282f193e139.1251197514.git.ebmunson@us.ibm.com>
-	<8504342f7be19e416ef769d1edd24b8549f8dc39.1251197514.git.ebmunson@us.ibm.com>
-	<20090917154404.e1d3694e.akpm@linux-foundation.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: [PATCH 7/7] Add MAP_HUGETLB flag to mips mman.h
+Date: Fri, 18 Sep 2009 06:21:53 -0600
+Message-ID: <2cf4dc5ff484753493263c5aa3fdd21ca62aa9bf.1253272709.git.ebmunson@us.ibm.com>
+References: <cover.1253272709.git.ebmunson@us.ibm.com>
+ <653aa659fd7970f7428f4eb41fa10693064e4daf.1253272709.git.ebmunson@us.ibm.com>
+ <08251014d2eb30e9016bab16404133f5c13beacf.1253272709.git.ebmunson@us.ibm.com>
+ <462331ca14e2ed47b20b047342e73b92559e1c5b.1253272709.git.ebmunson@us.ibm.com>
+ <be5687cbd44413416009466357c1ded6418cc163.1253272709.git.ebmunson@us.ibm.com>
+ <d8e315b04749f73765e61eb7e4cbbaed2b946dfd.1253272709.git.ebmunson@us.ibm.com>
+ <309744fd80915ce157aa90dbb807101f61b1f334.1253272709.git.ebmunson@us.ibm.com>
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20090917154404.e1d3694e.akpm@linux-foundation.org>
+In-Reply-To: <309744fd80915ce157aa90dbb807101f61b1f334.1253272709.git.ebmunson@us.ibm.com>
+In-Reply-To: <cover.1253272709.git.ebmunson@us.ibm.com>
+References: <cover.1253272709.git.ebmunson@us.ibm.com>
 Sender: owner-linux-mm@kvack.org
-To: ebmunson@us.ibm.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, rth@twiddle.net, ink@ju
+To: linux-kernel@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org
+Cc: rdunlap@xenotime.net, michael@ellerman.id.au, ralf@linux-mips.org, wli@holomorphy.com, mel@csn.ul.ie, dhowells@redhat.com, arnd@arndb.de, fengguang.wu@intel.com, shuber2@gmail.com, hugh.dickins@tiscali.co.uk, zohar@us.ibm.com, hugh@veritas.com, mtk.manpages@gmail.com, chris@zankel.net, linux-man@vger.kernel.org, linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, linux-mips@linux-mips.org, linux-parisc@vger.kernel.org, linux-arch@vger.kernel.org, Eric B Munson <ebmunson@us.ibm.com>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, 17 Sep 2009 15:44:04 -0700
-Andrew Morton <akpm@linux-foundation.org> wrote:
+Even though mips does not support huge pages this flag needs to
+be defined here to keep the compiler happy.  This is because
+mips does not make use of mman-common.h, so any flags defined
+there and used in common code need to be added to mips's mman.h
+manually.
 
-> mm/mmap.c: In function 'do_mmap_pgoff':
-> mm/mmap.c:953: error: 'MAP_HUGETLB' undeclared (first use in this function)
+Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+---
+ arch/mips/include/asm/mman.h |    6 ++++++
+ 1 files changed, 6 insertions(+), 0 deletions(-)
 
-mips breaks as well.
-
-I don't know how many other architectures broke.  I disabled the patches.
+diff --git a/arch/mips/include/asm/mman.h b/arch/mips/include/asm/mman.h
+index e4d6f1f..c4f29da 100644
+--- a/arch/mips/include/asm/mman.h
++++ b/arch/mips/include/asm/mman.h
+@@ -46,6 +46,12 @@
+ #define MAP_LOCKED	0x8000		/* pages are locked */
+ #define MAP_POPULATE	0x10000		/* populate (prefault) pagetables */
+ #define MAP_NONBLOCK	0x20000		/* do not block on IO */
++/*
++ * This flag is included even though huge pages are not supported because
++ * the flag is defined in mman-common.h and used in common vm code but
++ * mman-common.h is not included here
++ */
++#define MAP_HUGETLB	0x080000
+ 
+ /*
+  * Flags for msync
+-- 
+1.6.3.2
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
