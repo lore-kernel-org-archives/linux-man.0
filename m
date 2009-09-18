@@ -1,51 +1,32 @@
-From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] remove duplicate asm/mman.h files
-Date: Fri, 18 Sep 2009 12:37:23 -0700 (PDT)
-Message-ID: <alpine.DEB.1.00.0909181236190.27556@chino.kir.corp.google.com>
-References: <cover.1251197514.git.ebmunson@us.ibm.com> <20090917174616.f64123fb.akpm@linux-foundation.org> <200909181719.47240.arnd@arndb.de> <200909181848.42192.arnd@arndb.de>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH 1/7] hugetlbfs: Allow the creation of files suitable for
+ MAP_PRIVATE on the vfs internal mount
+Date: Fri, 18 Sep 2009 13:06:59 -0700 (PDT)
+Message-ID: <alpine.DEB.1.00.0909181306450.27556@chino.kir.corp.google.com>
+References: <653aa659fd7970f7428f4eb41fa10693064e4daf.1253272709.git.ebmunson@us.ibm.com> <0f28cb0d89a7b83f7edf92181c5d13422f5b009c.1253276847.git.ebmunson@us.ibm.com>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <200909181848.42192.arnd-r2nGTMty4D4@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, ebmunson-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, rth-hL46jP5Bxq7R7s880joybQ@public.gmane.org, ink-biIs/Y0ymYJMZLIVYojuPNP0rXTJTi09@public.gmane.org
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <0f28cb0d89a7b83f7edf92181c5d13422f5b009c.1253276847.git.ebmunson@us.ibm.com>
+Sender: linux-doc-owner@vger.kernel.org
+To: Eric B Munson <ebmunson@us.ibm.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, akpm@linux-foundation.org, rdunlap@xenotime.net, michael@ellerman.id.au, ralf@linux-mips.org, wli@holomorphy.com, mel@csn.ul.ie, dhowells@redhat.com, arnd@arndb.de, fengguang.wu@intel.com, shuber2@gmail.com, hugh.dickins@tiscali.co.uk, zohar@us.ibm.com, hugh@veritas.com, mtk.manpages@gmail.com, chris@zankel.net, linux-man@vger.kernel.org, linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, linux-mips@linux-mips.org, linux-parisc@vger.kernel.org, linux-arch@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 18 Sep 2009, Arnd Bergmann wrote:
+On Fri, 18 Sep 2009, Eric B Munson wrote:
 
-> diff --git a/arch/ia64/include/asm/mman.h b/arch/ia64/include/asm/mman.h
-> index cf55884..4459028 100644
-> --- a/arch/ia64/include/asm/mman.h
-> +++ b/arch/ia64/include/asm/mman.h
-> @@ -8,21 +8,9 @@
->   *	David Mosberger-Tang <davidm-sDzT885Ts8HQT0dZR+AlfA@public.gmane.org>, Hewlett-Packard Co
->   */
->  
-> -#include <asm-generic/mman-common.h>
-> +#include <asm-generic/mman.h>
->  
-> -#define MAP_GROWSDOWN	0x00100		/* stack-like segment */
-> -#define MAP_GROWSUP	0x00200		/* register stack-like segment */
-> -#define MAP_DENYWRITE	0x00800		/* ETXTBSY */
-> -#define MAP_EXECUTABLE	0x01000		/* mark it as an executable */
-> -#define MAP_LOCKED	0x02000		/* pages are locked */
-> -#define MAP_NORESERVE	0x04000		/* don't check for reservations */
-> -#define MAP_POPULATE	0x08000		/* populate (prefault) pagetables */
-> -#define MAP_NONBLOCK	0x10000		/* do not block on IO */
-> -#define MAP_STACK	0x20000		/* give out an address that is best suited for process/thread stacks */
-> -#define MAP_HUGETLB	0x40000		/* create a huge page mapping */
-> -
-> -#define MCL_CURRENT	1		/* lock all current mappings */
-> -#define MCL_FUTURE	2		/* lock all future mappings */
-> +#define MAP_GROWSUP	0x0200		/* register stack-like segment */
->  
->  #ifdef __KERNEL__
->  #ifndef __ASSEMBLY__
+> There are two means of creating mappings backed by huge pages:
+> 
+>         1. mmap() a file created on hugetlbfs
+>         2. Use shm which creates a file on an internal mount which essentially
+>            maps it MAP_SHARED
+> 
+> The internal mount is only used for shared mappings but there is very
+> little that stops it being used for private mappings. This patch extends
+> hugetlbfs_file_setup() to deal with the creation of files that will be
+> mapped MAP_PRIVATE on the internal hugetlbfs mount. This extended API is
+> used in a subsequent patch to implement the MAP_HUGETLB mmap() flag.
+> 
+> Signed-off-by: Eric Munson <ebmunson@us.ibm.com>
 
-ia64 doesn't use MAP_GROWSUP, so it's probably not necessary to carry it 
-along with your cleanup.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Acked-by: David Rientjes <rientjes@google.com>
