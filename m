@@ -1,13 +1,13 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: setenv may set errno
-Date: Sun, 20 Sep 2009 05:01:38 +0200
-Message-ID: <cfd18e0f0909192001g79154e7axe123e77901e7cbb2@mail.gmail.com>
-References: <20090908091236.GF15639@lenovo.private>
+Subject: Re: Definition of orphaned process group missing
+Date: Sun, 20 Sep 2009 05:41:29 +0200
+Message-ID: <cfd18e0f0909192041q53b71c56tb52ca2ecdd889735@mail.gmail.com>
+References: <20090908092906.GG15639@lenovo.private>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090908091236.GF15639-tjyxa8jfGxeYtgw7cXKeDw@public.gmane.org>
+In-Reply-To: <20090908092906.GG15639-tjyxa8jfGxeYtgw7cXKeDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: gsauthof-If1cxaH3S3JVgF+RW+Bo1SZEdBbF94EN@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,51 +15,55 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Georg,
 
-On Tue, Sep 8, 2009 at 11:12 AM,  <gsauthof-If1cxaH3S3JVgF+RW+Bo1SZEdBbF94EN@public.gmane.org> wrote:
+On Tue, Sep 8, 2009 at 11:29 AM,  <gsauthof-If1cxaH3S3JVgF+RW+Bo1SZEdBbF94EN@public.gmane.org> wrote:
 > Hi,
 >
-> in setenv(3) in the section 'RETURN VALUE' it is not mentioned, that
-> setenv() may set errno. For unsetenv() the section mentions this.
+> setpgid(2) and exit(3) use the term 'orphaned process group', but they
+> don't define it.
+>
+> And if I am not missing it, the term is not defined in a referenced man
+> page, either.
+>
+> Suggested fix: add the defintion of 'orphaned process group' to the 'right'
+> place(s) (man-page).
 
-Thanks! Your comment actually triggered a few other changes as well.
-See the patc below, which will be in man-pages-3.22.
+Thanks for your report. I made the following patches for man-pages- 3.23.
 
 Cheers,
 
 Michael
 
+--- a/man2/setpgid.2
++++ b/man2/setpgid.2
+@@ -293,6 +293,12 @@ signal followed by a
+ .B SIGCONT
+ signal will be sent to each process
+ in the newly orphaned process group.
++.\" exit.3 refers to the following text:
++An orphaned process group is one in which the parent of
++every member of process group is either itself also a member
++of the process group or is a member of a process group
++in a different session (see also
++.BR credentials (7)).
+ .SH "SEE ALSO"
+ .BR getuid (2),
+ .BR setsid (2),
 
---- a/man3/setenv.3
-+++ b/man3/setenv.3
-@@ -82,8 +82,10 @@ then the function succeeds, and the environment is unchanged.
- .SH "RETURN VALUE"
- The
- .BR setenv ()
--function returns zero on success, or \-1 if there
--was insufficient space in the environment.
-+function returns zero on success,
-+or \-1 on error, with
-+.I errno
-+set to indicate the cause of the error.
-
- The
- .BR unsetenv ()
-@@ -95,7 +97,11 @@ set to indicate the cause of the error.
- .TP
- .B EINVAL
- .I name
--contained an \(aq=\(aq character.
-+is NULL, points to a string of length 0,
-+or contains an \(aq=\(aq character.
-+.TP
-+.B ENOMEM
-+Insufficient memory to add a new variable to the environment.
- .SH "CONFORMING TO"
- 4.3BSD, POSIX.1-2001.
- .SH "NOTES"
-
-
-
+--- a/man3/exit.3
++++ b/man3/exit.3
+@@ -159,8 +159,12 @@ signal followed by a
+ .B SIGCONT
+ signal will be
+ sent to each process in this process group.
++See
++.BR setpgid (2)
++for an explanation of orphaned process groups.
+ .SH "SEE ALSO"
+ .BR _exit (2),
++.BR setpgid (2),
+ .BR wait (2),
+ .BR atexit (3),
+ .BR on_exit (3),
 
 -- 
 Michael Kerrisk
