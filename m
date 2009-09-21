@@ -1,77 +1,62 @@
-From: Hugh Dickins <hugh.dickins-IWqWACnzNjwqdlJmJB21zg@public.gmane.org>
-Subject: Re: [PATCH] remove duplicate asm/mman.h files
-Date: Mon, 21 Sep 2009 13:02:44 +0100 (BST)
-Message-ID: <Pine.LNX.4.64.0909211258570.7831@sister.anvils>
-References: <cover.1251197514.git.ebmunson@us.ibm.com> <200909181848.42192.arnd@arndb.de>
- <alpine.DEB.1.00.0909181236190.27556@chino.kir.corp.google.com>
- <200909211031.25369.arnd@arndb.de> <alpine.DEB.1.00.0909210208180.16086@chino.kir.corp.google.com>
+From: Eric B Munson <ebmunson@us.ibm.com>
+Subject: Re: [PATCH] Add MAP_HUGETLB for mmaping pseudo-anonymous huge page
+	regions
+Date: Mon, 21 Sep 2009 06:25:20 -0600
+Message-ID: <20090921122520.GA6706@us.ibm.com>
+References: <cover.1251197514.git.ebmunson@us.ibm.com> <20090917154404.e1d3694e.akpm@linux-foundation.org> <20090917174616.f64123fb.akpm@linux-foundation.org> <200909181719.47240.arnd@arndb.de>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.1.00.0909210208180.16086-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Fenghua Yu <fenghua.yu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Tony Luck <tony.luck-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, ebmunson-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, randy.dunlap-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, rth-hL46jP5Bxq7R7s880joybQ@public.gmane.org, ink-biIs/Y0ymYJMZLIVYojuPNP0rXTJTi09@public.gmane.org, linux-ia64-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Kj7319i9nmIyA2yE"
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <200909181719.47240.arnd@arndb.de>
+Sender: owner-linux-mm@kvack.org
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, rth@twiddle.net, ink@jurassic.park.msu.ru
 List-Id: linux-man@vger.kernel.org
 
-On Mon, 21 Sep 2009, David Rientjes wrote:
-> On Mon, 21 Sep 2009, Arnd Bergmann wrote:
-> 
-> > > > -#define MCL_CURRENT	1		/* lock all current mappings */
-> > > > -#define MCL_FUTURE	2		/* lock all future mappings */
-> > > > +#define MAP_GROWSUP	0x0200		/* register stack-like segment */
-> > > >  
-> > > >  #ifdef __KERNEL__
-> > > >  #ifndef __ASSEMBLY__
-> > > 
-> > > ia64 doesn't use MAP_GROWSUP, so it's probably not necessary to carry it 
-> > > along with your cleanup.
-> > 
-> > ia64 is the only architecture defining it, nobody uses it in the kernel.
-> > If the ia64 maintainers want to remove it in a separate patch, that
-> > would probably be a good idea.
-> > 
-> 
-> I'll do it then.
-> 
-> > I tried not to change the ABI in any way in my patch, and there is
-> > a theoretical possibility that some user space program on ia64 currently
-> > depends on that definition.
-> > 
-> 
-> I don't buy that as justification, if some userspace program uses it based 
-> on the false belief that it actually does what it says, it's probably 
-> better to break their build than perpetuating the lie that it's different 
-> than ~MAP_GROWSDOWN.
-> 
-> 
-> ia64: remove definition for MAP_GROWSUP
-> 
-> MAP_GROWSUP is unused.
 
-Is it perhaps the case that some UNIX on ia64 does implement MAP_GROWSUP,
-and these numbers in the Linux ia64 mman.h have been chosen to match that
-reference implementation?  Tony will know.  But I wonder if you'd do
-better at least to leave a MAP_GROWSUP comment on that line, so that
-somebody doesn't go and reuse the empty slot later on.
+--Kj7319i9nmIyA2yE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hugh
+On Fri, 18 Sep 2009, Arnd Bergmann wrote:
 
-> 
-> Signed-off-by: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> ---
-> diff --git a/arch/ia64/include/asm/mman.h b/arch/ia64/include/asm/mman.h
-> --- a/arch/ia64/include/asm/mman.h
-> +++ b/arch/ia64/include/asm/mman.h
-> @@ -11,7 +11,6 @@
->  #include <asm-generic/mman-common.h>
->  
->  #define MAP_GROWSDOWN	0x00100		/* stack-like segment */
-> -#define MAP_GROWSUP	0x00200		/* register stack-like segment */
->  #define MAP_DENYWRITE	0x00800		/* ETXTBSY */
->  #define MAP_EXECUTABLE	0x01000		/* mark it as an executable */
->  #define MAP_LOCKED	0x02000		/* pages are locked */
+> This patch adds a flag for mmap that will be used to request a huge
+> page region that will look like anonymous memory to user space.  This
+> is accomplished by using a file on the internal vfsmount.  MAP_HUGETLB
+> is a modifier of MAP_ANONYMOUS and so must be specified with it.  The
+> region will behave the same as a MAP_ANONYMOUS region using small pages.
+>=20
+> The patch also adds the MAP_STACK flag, which was previously defined
+> only on some architectures but not on others. Since MAP_STACK is meant
+> to be a hint only, architectures can define it without assigning a
+> specific meaning to it.
+>=20
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+I think this is a more sane way of handling the mman flags.
+
+Acked-by: Eric B Munson <ebmunson@us.ibm.com>
+
+--Kj7319i9nmIyA2yE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAkq3cLAACgkQsnv9E83jkzogIwCg0C3UQ940Rgg3GBLsZPOGpRSV
+OqEAn3NAWPo80yUM0uy/L18dcsTRzzG7
+=ErOm
+-----END PGP SIGNATURE-----
+
+--Kj7319i9nmIyA2yE--
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
