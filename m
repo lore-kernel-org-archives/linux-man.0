@@ -1,44 +1,44 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] Document struct sigevent in sigevent(7)
-Date: Sun, 20 Sep 2009 17:05:00 +0200
-Message-ID: <20090920150500.GO3674@machine.or.cz>
-References: <20090415111442.GN8940@machine.or.cz>
+From: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] remove duplicate asm/mman.h files
+Date: Mon, 21 Sep 2009 10:31:25 +0200
+Message-ID: <200909211031.25369.arnd@arndb.de>
+References: <cover.1251197514.git.ebmunson@us.ibm.com> <200909181848.42192.arnd@arndb.de> <alpine.DEB.1.00.0909181236190.27556@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090415111442.GN8940-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.1.00.0909181236190.27556@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+To: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, ebmunson@us.ibm.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, randy.dunlap@oracle.com, rth@twiddle.net, ink@jurassic.park.msu.ru, Tony Luck <tony.luck@intel.com>, Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Apr 15, 2009 at 01:14:42PM +0200, Petr Baudis wrote:
-> The sigevent structure is used as a common interface for several
-> asynchronous pthreads functions; also, getaddrinfo_a() uses it
-> and in the future, other library functions might.
+On Friday 18 September 2009, David Rientjes wrote:
+> On Fri, 18 Sep 2009, Arnd Bergmann wrote:
+>
+> > -#define MCL_CURRENT	1		/* lock all current mappings */
+> > -#define MCL_FUTURE	2		/* lock all future mappings */
+> > +#define MAP_GROWSUP	0x0200		/* register stack-like segment */
+> >  
+> >  #ifdef __KERNEL__
+> >  #ifndef __ASSEMBLY__
 > 
-> Currently, it is completely non-descript in some cases, plus
-> there are two competing descriptions in timer_create(2) and
-> mq_notify(3) (the former appears to be based on the latter).
-> This patch attempts to unify the descriptions in a single
-> manual page and networks it to the rest, so that I do not
-> have to add yet another description for the getaddrinfo_a(3)
-> manual page (currently in the works).
-> 
-> P.S.: There are two unresolved issues with this patch - the
-> timer_create(2) requirement of real-time signal requirements
-> is somewhat confusing and it seems that SIGEV_THREAD_ID can
-> be or'd with SIGEV_SIGNAL or not. I did not have time to research
-> this so far, so I decided to rather send it in and see if someone
-> knows about this off the top of their head.
-> 
-> Signed-off-by: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+> ia64 doesn't use MAP_GROWSUP, so it's probably not necessary to carry it 
+> along with your cleanup.
 
-Ping...
+ia64 is the only architecture defining it, nobody uses it in the kernel.
+If the ia64 maintainers want to remove it in a separate patch, that
+would probably be a good idea.
 
-				Petr "Pasky" Baudis
+I tried not to change the ABI in any way in my patch, and there is
+a theoretical possibility that some user space program on ia64 currently
+depends on that definition.
+
+	Arnd <><
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
