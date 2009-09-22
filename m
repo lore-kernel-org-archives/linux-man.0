@@ -1,42 +1,35 @@
-From: Ulrich Drepper <drepper@redhat.com>
-Subject: Re: [PATCH] remove duplicate asm/mman.h files
-Date: Mon, 21 Sep 2009 16:58:53 -0700
-Message-ID: <4AB8133D.7060506@redhat.com>
-References: <cover.1251197514.git.ebmunson@us.ibm.com> <200909181848.42192.arnd@arndb.de> <alpine.DEB.1.00.0909181236190.27556@chino.kir.corp.google.com> <200909211031.25369.arnd@arndb.de> <alpine.DEB.1.00.0909210208180.16086@chino.kir.corp.google.com> <Pine.LNX.4.64.0909211258570.7831@sister.anvils> <alpine.DEB.1.00.0909211553000.30561@chino.kir.corp.google.com> <57C9024A16AD2D4C97DC78E552063EA3E29CC3F1@orsmsx505.amr.corp.intel.com> <alpine.DEB.1.00.0909211638001.2388@chino.kir.corp.google.com>
+From: Tim Stoakes <tim-TvTPyCxgtD3R7s880joybQ@public.gmane.org>
+Subject: BUG: shm_overview notes mistype
+Date: Tue, 22 Sep 2009 15:51:41 +0930
+Message-ID: <20090922062141.GA11068@mail.rocksoft.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <alpine.DEB.1.00.0909211638001.2388@chino.kir.corp.google.com>
-Sender: owner-linux-mm@kvack.org
-To: David Rientjes <rientjes@google.com>
-Cc: "Luck, Tony" <tony.luck@intel.com>, Hugh Dickins <hugh.dickins@tiscali.co.uk>, Andrew Morton <akpm@linux-foundation.org>, "Yu, Fenghua" <fenghua.yu@intel.com>, ebmunson@us.ibm.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, Randy Dunlap <randy.dunlap@oracle.com>, rth@twiddle.net, ink@jurassic.park.msu.ru, linux-ia64@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Alan Cox <alan@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+man-pages version 3.22, Gentoo linux
 
-David Rientjes wrote:
-> Ulrich wanted to do this last year but it appears to have been dropped.
+$ man shm_overview
 
-I've mentioned that at that time, these flags cannot be used at all for
-stacks.  And I don't know for what else it is useful.  They should
-really be removed.
+In the NOTES section, second sentence:
+"
+System V shared memory (shmget(2), shmop(2), etc.) is an older semaphore
+API.
+"
 
-- --
-=E2=9E=A7 Ulrich Drepper =E2=9E=A7 Red Hat, Inc. =E2=9E=A7 444 Castro St =
-=E2=9E=A7 Mountain View, CA =E2=9D=96
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
-Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org/
+It's not a semaphore API, it's a shared memory API.
 
-iEYEARECAAYFAkq4Ez0ACgkQ2ijCOnn/RHQNtACfX+y5pIQhDusikKiQwQ8nvGRN
-cI8An0oThAXSwXRALt9598vbPbiVwEeJ
-=3DsxfU
------END PGP SIGNATURE-----
+Perhaps this is a paste-o from the sem_overview man page.
 
+Tim
+
+-- 
+Tim Stoakes
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=3Dmailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
