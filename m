@@ -1,54 +1,41 @@
-From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: Re: [PATCH] open.2: add some comments on O_SYNC and friends
-Date: Tue, 22 Sep 2009 13:42:51 +0200
-Message-ID: <20090922114251.GB1521@lst.de>
-References: <20090827180004.GA31605@lst.de> <cfd18e0f0909192241y5b45aa79u305f1e8e3295aea9@mail.gmail.com>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: sync_file_range.2: add some big WARNINGS
+Date: Tue, 22 Sep 2009 11:47:37 -0700
+Message-ID: <20090922114737.abbe3b19.akpm@linux-foundation.org>
+References: <20090827180116.GB31605@lst.de>
+	<cfd18e0f0909192234l57ad4ec0rda34dcb83e355c5e@mail.gmail.com>
+	<20090921131519.875b4608.akpm@linux-foundation.org>
+	<20090922114052.GA1521@lst.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <cfd18e0f0909192241y5b45aa79u305f1e8e3295aea9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20090922114052.GA1521-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Sep 20, 2009 at 07:41:34AM +0200, Michael Kerrisk wrote:
-> > -data is guaranteed to have been transferred.
-> > +File I/O is done directly to/from user space buffers. ?The
-> > +\fBO_DIRECT\fP flag alone does make at an effort to transfer
-> > +data synchronously, but does not give the guarantees of the
-> > +\fBO_SYNC\fP that data and nessecary data must be transferred.
+On Tue, 22 Sep 2009 13:40:52 +0200 Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org> wrote:
+
+> On Mon, Sep 21, 2009 at 01:15:19PM -0700, Andrew Morton wrote:
+> > The syscall is all about dirty memory management and userspace control
+> > over IO timing/volume.  Trying to use it for data integrity purposes is a
+> > bit perverse.
 > 
-> Here I wrote "data and necessary metadata".
-> Okay?
-
-Yes.
-
-> > ?POSIX provides for three different variants of synchronized I/O,
-> > ?corresponding to the flags \fBO_SYNC\fP, \fBO_DSYNC\fP and
-> > -\fBO_RSYNC\fP.
-> > -Currently (2.1.130) these are all synonymous under Linux.
-> > +\fBO_RSYNC\fP. ?Currently (2.6.31) Linux only implements the
-> > +\fBO_SYNC\fP but glibc maps \fBO_DSYNC\fP and \fBO_SYNC\fP to
-> > +the same numerical value.
+> Yes, its is.  But that needs to be clearly documented.  If you have
+> better wording to make it crystal clear you're welcome.
 > 
-> Here, I made it
-> 
->     but glibc maps O_DSYNC and O_RSYNC to
->     the same numerical value as O_SYNC.
-> 
-> Okay?
+> Additionally I have a half-backed patch to allow it calling into ->fsync
+> to actually make it usable as a fdatasync_range/fsync_range, but I
+> wonder if we should just add those as syscalls instead.
 
-Yes, again much better than my version.
+hm, hard call.
 
-> Aside from the changes notes above, and some language clean-ups, I
-> applied your patch as given, for man-pages-3.23.
-
-Thanks a lot.  Note that in the meantime I sent patches to implement
-real O_SYNC/O_DSYNC and I'll send you another update once they get
-applied.
-
+I guess we should avoid permitting people to sync the metadata before
+the data, because that would provide an easy way to expose huge amounts
+of unwritten blocks if the machine crashes at the right time.  Or
+perhaps it's not worth bothering about that.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
