@@ -1,8 +1,8 @@
 From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: for review:  man3/posix_spawnattr_getpgroup.3 (replaces 3p POSIX
+Subject: for review:  man3/posix_spawnattr_getsigdefault.3 (replaces 3p POSIX
  verbiage)
-Date: Sat, 26 Sep 2009 11:47:43 -0700
-Message-ID: <4ABE61CF.5010900@gmail.com>
+Date: Sat, 26 Sep 2009 11:48:45 -0700
+Message-ID: <4ABE620D.2050604@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -38,19 +38,19 @@ List-Id: linux-man@vger.kernel.org
 .\"     Linux glibc source code
 .\"     POSIX 1003.1-2004 documentation (http://www.opengroup.org/onlinepubs/009695399)
 .\"
-.TH "POSIX_SPAWNATTR_GETPGROUP" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
-.\" posix_spawnattr_getpgroup, posix_spawnattr_setpgroup
+.TH "POSIX_SPAWNATTR_GETSIGDEFAULT" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
+.\" posix_spawnattr_getsigdefault, posix_spawnattr_setsigdefault
 .SH NAME
-posix_spawnattr_getpgroup, posix_spawnattr_setpgroup \- get/set process group attribute
+posix_spawnattr_getsigdefault, posix_spawnattr_setsigdefault \- get/set spawn signal defaults attribute
 .SH SYNOPSIS
 .nf
 .B #include <spawn.h>
 
-.BI "int posix_spawnattr_getpgroup(const posix_spawnattr_t *" attrp ,
-.BI "       pid_t *" pgroup);
+.BI "int posix_spawnattr_getsigdefault(const posix_spawnattr_t *" attrp ,
+.BI "       sigset_t *" sigmask);
 
-.BI "int posix_spawnattr_setsigmask(posix_spawnattr_t *" attrp ,
-.BI "       pid_t " pgroup);
+.BI "int posix_spawnattr_setsigdefault(posix_spawnattr_t *" attrp ,
+.BI "       const sigset_t *" sigmask);
 
 .fi
 .sp
@@ -60,9 +60,9 @@ Feature Test Macro Requirements for glibc (see
 .in
 .sp
 .ad l
-.BR posix_spawnattr_getpgroup ()
+.BR posix_spawnattr_getsigdefault ()
 and
-.BR posix_spawnattr_setpgroup ():
+.BR posix_spawnattr_setsigdefault ():
 (_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)
 .ad b
 
@@ -78,52 +78,53 @@ child process by passing a pointer to an appropriately-initialized
 .B posix_spawnattr_t
 structure.
 .LP
-One of these actions is the setting of the process group in the child process.
-By default, the process group of the spawned child process will be the same as that of the parent process.
-If the calling process has set the
-.B POSIX_SPAWN_SETPGROUP
-flag, using
-.BR posix_spawnattr_setflags (),
-then the signal mask will be set according to the value of the
-.I spawn-pgroup
+One of these actions is the setting of a set of signals to their default actions.
+The signal mask in the spawned child process is set as follows:
+.IP 1 2
+First, the signal actions are set as if the child had just been created by
+.BR fork ()
+(which is, in fact, the case).
+.IP 2 2
+Then, if
+.B POSIX_SPAWN_SETSIGDEF
+is set in the
+.I posix_spawnattr_t ,
+all signals which are set in the
+.I spawn-sigdefault
+element will be set to their default handlers.
+The
+.I spawn-sigdefault
 element in the
 .I posix_spawnattr_t
-structure.
-This element is set by calling
-.BR posix_spawnattr_setpgroup ().
-The programmer passes a
-.I pid_t
-value to the function.
-If the value is 0, then the child process will be placed in a new process
-group having the same ID as the PID of the child process.
-Otherwise, the child will have its process group ID set to the value passed in the
-.I spawn-pgroup
-element in the
-.I posix_spawnattr_t
-structure.
+structure is set by calling
+.BR posix_spawnattr_setsigdefault ().
+The programmer passes a signal mask, constructed with
+.BR sigemptyset (),
+.BR sigaddset (),
+and so forth, to the function.
 .LP
 To retrieve the value of the
-.I spawn-pgroup
+.I spawn-sigdefault
 element in the
 .I posix_spawnattr_t
 structure,
 use
-.BR posix_spawnattr_getpgroup ().
+.BR posix_spawnattr_getsigdefault ().
 .SH RETURN VALUE
 .LP
-.BR posix_spawnattr_setpgroup ()
+.BR posix_spawnattr_setsigdefault ()
 and
-.BR posix_spawnattr_getpgroup ()
+.BR posix_spawnattr_setsigdefault ()
 always return 0 on Linux/Glibc systems.
 .SH ERRORS
 .LP
-.BR Posix_spawnattr_setpgroup ()
+.BR posix_spawnattr_setsigdefault ()
 and
-.BR posix_spawnattr_getpgroup ()
-return no errors on Linux/Glibc systems,
-other than the possible error when the system is not configured to support the
+.BR posix_spawnattr_setsigdefault ()
+return no errors on Linux/Glibc systems, other than the possible error
+for a system where
 .I posix_spawn*
-functions:
+are not supported:
 .TP
 .B ENOSYS
 This function is not supported on this system.
@@ -146,6 +147,7 @@ POSIX.1-2004.
 .BR execlp (2),
 .BR fork (2),
 .BR open (2),
+.BR pthread_atfork (3),
 .BR sched_setparam (2),
 .BR sched_setscheduler (2),
 .BR setpgid (2),
@@ -157,19 +159,16 @@ POSIX.1-2004.
 .BR posix_spawnattr_getpgroup (3),
 .BR posix_spawnattr_getschedparam (3),
 .BR posix_spawnattr_getschedpolicy (3),
-.BR posix_spawnattr_getsigdefault (3),
 .BR posix_spawnattr_init (3),
 .BR posix_spawnattr_setflags (3),
 .BR posix_spawnattr_setpgroup (3),
 .BR posix_spawnattr_setschedparam (3),
 .BR posix_spawnattr_setschedpolicy (3),
-.BR posix_spawnattr_setsigdefault (3),
 .BR posix_spawn_file_actions_addclose (3),
 .BR posix_spawn_file_actions_adddup2 (3),
 .BR posix_spawn_file_actions_addopen (3),
 .BR posix_spawn_file_actions_destroy (3),
 .BR posix_spawn_file_actions_init (3),
-.BR pthread_atfork (3),
 .BR sigaddset (3),
 .BR sigemptyset (3),
 .BR sigfillset (3),
