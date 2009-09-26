@@ -1,8 +1,8 @@
 From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: for review:  man3/posix_spawnattr_getsigdefault.3 (replaces 3p POSIX
+Subject: for review:  man3/posix_spawnattr_getsigmask.3 (replaces 3p POSIX
  verbiage)
-Date: Sat, 26 Sep 2009 11:48:45 -0700
-Message-ID: <4ABE620D.2050604@gmail.com>
+Date: Sat, 26 Sep 2009 11:49:49 -0700
+Message-ID: <4ABE624D.7080400@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -38,18 +38,18 @@ List-Id: linux-man@vger.kernel.org
 .\"     Linux glibc source code
 .\"     POSIX 1003.1-2004 documentation (http://www.opengroup.org/onlinepubs/009695399)
 .\"
-.TH "POSIX_SPAWNATTR_GETSIGDEFAULT" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
-.\" posix_spawnattr_getsigdefault, posix_spawnattr_setsigdefault
+.TH "POSIX_SPAWNATTR_GETSIGMASK" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
+.\" posix_spawnattr_getsigmask, posix_spawnattr_setsigmask
 .SH NAME
-posix_spawnattr_getsigdefault, posix_spawnattr_setsigdefault \- get/set spawn signal defaults attribute
+posix_spawnattr_getsigmask, posix_spawnattr_setsigmask \- get/set spawn signal mask attribute
 .SH SYNOPSIS
 .nf
 .B #include <spawn.h>
 
-.BI "int posix_spawnattr_getsigdefault(const posix_spawnattr_t *" attrp ,
+.BI "int posix_spawnattr_getsigmask(const posix_spawnattr_t *" attrp ,
 .BI "       sigset_t *" sigmask);
 
-.BI "int posix_spawnattr_setsigdefault(posix_spawnattr_t *" attrp ,
+.BI "int posix_spawnattr_setsigmask(posix_spawnattr_t *" attrp ,
 .BI "       const sigset_t *" sigmask);
 
 .fi
@@ -60,9 +60,9 @@ Feature Test Macro Requirements for glibc (see
 .in
 .sp
 .ad l
-.BR posix_spawnattr_getsigdefault ()
+.BR posix_spawnattr_getsigmask ()
 and
-.BR posix_spawnattr_setsigdefault ():
+.BR posix_spawnattr_setsigmask ():
 (_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)
 .ad b
 
@@ -78,53 +78,46 @@ child process by passing a pointer to an appropriately-initialized
 .B posix_spawnattr_t
 structure.
 .LP
-One of these actions is the setting of a set of signals to their default actions.
-The signal mask in the spawned child process is set as follows:
-.IP 1 2
-First, the signal actions are set as if the child had just been created by
-.BR fork ()
-(which is, in fact, the case).
-.IP 2 2
-Then, if
-.B POSIX_SPAWN_SETSIGDEF
-is set in the
-.I posix_spawnattr_t ,
-all signals which are set in the
-.I spawn-sigdefault
-element will be set to their default handlers.
-The
-.I spawn-sigdefault
+One of these actions is the setting of the signal mask in the child process.
+By default, the signal mask in the spawned child process will be the same as that of the parent process.
+If the calling process has set the
+.B POSIX_SPAWN_SETSIGMASK
+flag, using
+.BR posix_spawnattr_setflags (),
+then the signal mask will be set according to the value of the
+.I spawn-sigmask
 element in the
 .I posix_spawnattr_t
-structure is set by calling
-.BR posix_spawnattr_setsigdefault ().
+structure.
+This signal mask is set by calling
+.BR posix_spawnattr_setsigmask ().
 The programmer passes a signal mask, constructed with
 .BR sigemptyset (),
 .BR sigaddset (),
 and so forth, to the function.
 .LP
 To retrieve the value of the
-.I spawn-sigdefault
+.I spawn-sigmask
 element in the
 .I posix_spawnattr_t
 structure,
 use
-.BR posix_spawnattr_getsigdefault ().
+.BR posix_spawnattr_getsigmask ().
 .SH RETURN VALUE
 .LP
-.BR posix_spawnattr_setsigdefault ()
+.BR posix_spawnattr_setsigmask ()
 and
-.BR posix_spawnattr_setsigdefault ()
+.BR posix_spawnattr_getsigmask ()
 always return 0 on Linux/Glibc systems.
 .SH ERRORS
 .LP
-.BR posix_spawnattr_setsigdefault ()
+.BR posix_spawnattr_setsigmask ()
 and
-.BR posix_spawnattr_setsigdefault ()
-return no errors on Linux/Glibc systems, other than the possible error
-for a system where
+.BR posix_spawnattr_getsigmask ()
+return no errors on Linux/Glibc systems,
+other than the possible error when
 .I posix_spawn*
-are not supported:
+are not supported on the particular system where the functions are executed:
 .TP
 .B ENOSYS
 This function is not supported on this system.
@@ -147,7 +140,6 @@ POSIX.1-2004.
 .BR execlp (2),
 .BR fork (2),
 .BR open (2),
-.BR pthread_atfork (3),
 .BR sched_setparam (2),
 .BR sched_setscheduler (2),
 .BR setpgid (2),
@@ -159,16 +151,19 @@ POSIX.1-2004.
 .BR posix_spawnattr_getpgroup (3),
 .BR posix_spawnattr_getschedparam (3),
 .BR posix_spawnattr_getschedpolicy (3),
+.BR posix_spawnattr_getsigdefault (3),
 .BR posix_spawnattr_init (3),
 .BR posix_spawnattr_setflags (3),
 .BR posix_spawnattr_setpgroup (3),
 .BR posix_spawnattr_setschedparam (3),
 .BR posix_spawnattr_setschedpolicy (3),
+.BR posix_spawnattr_setsigdefault (3),
 .BR posix_spawn_file_actions_addclose (3),
 .BR posix_spawn_file_actions_adddup2 (3),
 .BR posix_spawn_file_actions_addopen (3),
 .BR posix_spawn_file_actions_destroy (3),
 .BR posix_spawn_file_actions_init (3),
+.BR pthread_atfork (3),
 .BR sigaddset (3),
 .BR sigemptyset (3),
 .BR sigfillset (3),
