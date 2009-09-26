@@ -1,8 +1,7 @@
 From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: for review:  man3/posix_spawnattr_getsigmask.3 (replaces 3p POSIX
- verbiage)
-Date: Sat, 26 Sep 2009 11:49:49 -0700
-Message-ID: <4ABE624D.7080400@gmail.com>
+Subject: for review:  posix_spawnattr_init.3 (replaces 3p POSIX verbiage)
+Date: Sat, 26 Sep 2009 11:50:47 -0700
+Message-ID: <4ABE6287.7080607@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -38,19 +37,17 @@ List-Id: linux-man@vger.kernel.org
 .\"     Linux glibc source code
 .\"     POSIX 1003.1-2004 documentation (http://www.opengroup.org/onlinepubs/009695399)
 .\"
-.TH "POSIX_SPAWNATTR_GETSIGMASK" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
-.\" posix_spawnattr_getsigmask, posix_spawnattr_setsigmask
+.TH "POSIX_SPAWNATTR_INIT" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
+.\" posix_spawnattr_init, posix_spawnattr_destroy
 .SH NAME
-posix_spawnattr_getsigmask, posix_spawnattr_setsigmask \- get/set spawn signal mask attribute
+posix_spawnattr_init, posix_spawnattr_destroy \- initialize/destroy POSIX spawnattr objects
 .SH SYNOPSIS
 .nf
 .B #include <spawn.h>
 
-.BI "int posix_spawnattr_getsigmask(const posix_spawnattr_t *" attrp ,
-.BI "       sigset_t *" sigmask);
+.BI "int posix_spawnattr_init(posix_spawnattr_t *" attrp );
 
-.BI "int posix_spawnattr_setsigmask(posix_spawnattr_t *" attrp ,
-.BI "       const sigset_t *" sigmask);
+.BI "int posix_spawnattr_destroy(posix_spawnattr_t *" attrp );
 
 .fi
 .sp
@@ -60,9 +57,9 @@ Feature Test Macro Requirements for glibc (see
 .in
 .sp
 .ad l
-.BR posix_spawnattr_getsigmask ()
+.BR posix_spawnattr_init ()
 and
-.BR posix_spawnattr_setsigmask ():
+.BR posix_spawnattr_destroy ():
 (_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)
 .ad b
 
@@ -73,47 +70,75 @@ and
 are used to create a new child process from the specified
 process image.  Think of these functions as a combined
 .BR fork ()/ exec ().
-As part of calling these functions, the programmer can specify actions to be taken in the newly-created
+As part of calling these functions, te programmer can specify actions to be taken in the newly-created
 child process by passing a pointer to an appropriately-initialized
 .B posix_spawnattr_t
 structure.
+POSIX requires that the
+.B posix_spawnattr_t
+structure be initialized by a call to
+.BR posix_spawnattr_init ()
+before it is populated with desired actions.
+POSIX further requires that the
+.B posix_spawnattr_t
+be cleaned up by a call to
+.BR posix_spawnattr_destroy ()
+after its use in
+.BR posix_spawn ()
+or
+.BR posix_spawnp ().
 .LP
-One of these actions is the setting of the signal mask in the child process.
-By default, the signal mask in the spawned child process will be the same as that of the parent process.
-If the calling process has set the
-.B POSIX_SPAWN_SETSIGMASK
-flag, using
-.BR posix_spawnattr_setflags (),
-then the signal mask will be set according to the value of the
+Once initialized, the programmer can specify actions to be taken in the child process when
+.BR posix_spawn ()
+or
+.BR posix_spawnp ()
+are called, by setting various elements in the
+.BR posix_spawnattr_t :
+.IP "Setting the signal mask:" 2
+Use
+.BR posix_spawnattr_setsigmask ()
+to set the
 .I spawn-sigmask
-element in the
-.I posix_spawnattr_t
-structure.
-This signal mask is set by calling
-.BR posix_spawnattr_setsigmask ().
-The programmer passes a signal mask, constructed with
-.BR sigemptyset (),
-.BR sigaddset (),
-and so forth, to the function.
-.LP
-To retrieve the value of the
-.I spawn-sigmask
-element in the
-.I posix_spawnattr_t
-structure,
-use
-.BR posix_spawnattr_getsigmask ().
+element, which will be used to set the signal mask in the child process.
+.IP "Setting the signal actions to their defaults:" 2
+Use
+.BR posix_spawnattr_setsigdefault ()
+to set the
+.I spawn-sigdefault
+element, which indicates which signal handlers to set back to their defaults in the child process.
+.IP "Setting the scheduling policy:" 2
+Use
+.BR posix_spawnattr_setschedpolicy ()
+to set the
+.I spawn-schedpolicy
+element, which indicates the desired scheduling policy for the child process (only supported if
+.B _POSIX_PRIORITY_SCHEDULING
+is supported on your system).
+.IP "Setting the scheduling parameters:" 2
+Use
+.BR posix_spawnattr_setschedparam ()
+to set the
+.I spawn-schedparam
+element, which indicates the desired scheduling paramters for the child process (only supported if
+.B _POSIX_PRIORITY_SCHEDULING
+is supported on your system).
+.IP "Setting the process group:" 2
+Use
+.BR posix_spawnattr_setproup ()
+to set the
+.I spawn-pgroup
+element, which controls the process group setting for the child process.
 .SH RETURN VALUE
 .LP
-.BR posix_spawnattr_setsigmask ()
+.BR posix_spawnattr_init ()
 and
-.BR posix_spawnattr_getsigmask ()
+.BR posix_spawnattr_destroy ()
 always return 0 on Linux/Glibc systems.
 .SH ERRORS
 .LP
-.BR posix_spawnattr_setsigmask ()
+.BR Posix_spawnattr_init ()
 and
-.BR posix_spawnattr_getsigmask ()
+.BR posix_spawnattr_destroy ()
 return no errors on Linux/Glibc systems,
 other than the possible error when
 .I posix_spawn*
@@ -152,21 +177,20 @@ POSIX.1-2004.
 .BR posix_spawnattr_getschedparam (3),
 .BR posix_spawnattr_getschedpolicy (3),
 .BR posix_spawnattr_getsigdefault (3),
+.BR posix_spawnattr_getsigmask (3),
 .BR posix_spawnattr_init (3),
 .BR posix_spawnattr_setflags (3),
 .BR posix_spawnattr_setpgroup (3),
 .BR posix_spawnattr_setschedparam (3),
 .BR posix_spawnattr_setschedpolicy (3),
 .BR posix_spawnattr_setsigdefault (3),
+.BR posix_spawnattr_setsigmask (3),
 .BR posix_spawn_file_actions_addclose (3),
 .BR posix_spawn_file_actions_adddup2 (3),
 .BR posix_spawn_file_actions_addopen (3),
 .BR posix_spawn_file_actions_destroy (3),
 .BR posix_spawn_file_actions_init (3),
 .BR pthread_atfork (3),
-.BR sigaddset (3),
-.BR sigemptyset (3),
-.BR sigfillset (3),
 .BR posixoptions (7),
 .BR <spawn.h>,
 Base Definitions volume of POSIX.1-2004,
