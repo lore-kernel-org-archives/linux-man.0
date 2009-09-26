@@ -1,8 +1,7 @@
 From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: for review:  man3/posix_spawnattr_getschedpolicy.3 (replaces 3p POSIX
- verbiage)
-Date: Sat, 26 Sep 2009 11:45:41 -0700
-Message-ID: <4ABE6155.40105@gmail.com>
+Subject: for review:  man3/posix_spawnattr_getflags.3 (replaces 3p POSIX verbiage)
+Date: Sat, 26 Sep 2009 11:46:40 -0700
+Message-ID: <4ABE6190.2000700@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -38,26 +37,18 @@ List-Id: linux-man@vger.kernel.org
 .\"     Linux glibc source code
 .\"     POSIX 1003.1-2004 documentation (http://www.opengroup.org/onlinepubs/009695399)
 .\"
-.TH "POSIX_SPAWNATTR_GETSCHEDPOLICY" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
-.\" posix_spawnattr_getschedpolicy, posix_spawnattr_setschedpolicy, posix_spawnattr_getschedparam, posix_spawnattr_setschedparam
+.TH "POSIX_SPAWNATTR_GETFLAGS" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
+.\" posix_spawnattr_getflags, posix_spawnattr_setflags
 .SH NAME
-posix_spawnattr_getschedpolicy, posix_spawnattr_setschedpolicy, posix_spawnattr_getschedparam, posix_spawnattr_setschedparam \- get/set spawn
-scheduling policy and parameters attributes
+posix_spawnattr_getflags, posix_spawnattr_setflags \- get/set spawn attribute flags
 .SH SYNOPSIS
 .nf
 .B #include <spawn.h>
 
-.BI "int posix_spawnattr_setschedpolicy(posix_spawnattr_t *" attrp ,
-.BI "       int " schedpolicy);
+.BI "int posix_spawnattr_getflags(const posix_spawnattr_t *" attrp ,
+.BI "       short *" flags);
 
-.BI "int posix_spawnattr_getschedpolicy(const posix_spawnattr_t *" attrp ,
-.BI "       int *" schedpolicy);
-
-.BI "int posix_spawnattr_setschedparam(posix_spawnattr_t *" attrp ,
-.BI "       struct sched_param " schedparam);
-
-.BI "int posix_spawnattr_getschedparam(const posix_spawnattr_t *" attrp ,
-.BI "       struct sched_param *" schedparam);
+.BI "int posix_spawnattr_setflags(posix_spawnattr_t *" attrp ", short " flags );
 
 .fi
 .sp
@@ -67,12 +58,10 @@ Feature Test Macro Requirements for glibc (see
 .in
 .sp
 .ad l
-.BR posix_spawnattr_getschedpolicy (),
-.BR posix_spawnattr_setschedpolicy (),
-.BR posix_spawnattr_getschedparam (),
+.BR posix_spawnattr_getflags ()
 and
-.BR posix_spawnattr_setschedparam ():
-(_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)\ &&\ (_POSIX_PRIORITY_SCHEDULING)
+.BR posix_spawnattr_setflags ():
+(_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)
 .ad b
 
 .SH DESCRIPTION
@@ -87,70 +76,115 @@ child process by passing a pointer to an appropriately-initialized
 .B posix_spawnattr_t
 structure.
 .LP
-Two of these actions are the setting of the scheduling policy and parameters for
-the child process.
-By default, these attributes in the spawned child process will be the same as that of the parent process.
-If the calling process has set the
-.B POSIX_SPAWN_SETSCHEDPARAM
-flag, using
-.BR posix_spawnattr_setflags (),
-then the scheduling parameters for the child process will be set according to the value of the
-.I spawn-schedparam
-element in the
+By setting flags and elements in this structure, the programmer can set various actions
+to be taken when
+.BR posix_spawn ()
+is called.
+.LP
+The flags are set using
+.BR posix_spawnattr_setflags ().
+The corresponding elements in the
 .I posix_spawnattr_t
-structure.
-This scheduling parameter is set by calling
+are set using the other
+.I posix_spawnattr_set*
+functions.
+.LP
+The following flags are supported:
+.IP [POSIX_SPAWN_SETSIGMASK] 2
+Set its signal mask as if using
+.BI sigprocmask( SIG_SETMASK )
+and the signal set specified in
+the
+.I spawn-sigmask
+element.  Set
+.I spawn-sigmask
+using
+.BR posix_spawnattr_setsigmask ().
+.IP [POSIX_SPAWN_SETSIGDEF]
+Reset the handler for all signals specified in
+the
+.I spawn-sigdefault
+element back to default state.
+Set
+.I spawn-sigdefault
+using
+.BR posix_spawnattr_setsigdefault ().
+.IP [POSIX_SPAWN_SETSCHEDPARAM]
+Set the scheduling parameters (POSIX_PRIORITY_SCHEDULING only)
+to the parameters specified in the
+.I spawn-schedparam
+element.
+Set
+.I spawn-schedparam
+using
 .BR posix_spawnattr_setschedparam ().
-The programmer passes a
-.BR "struct sched_param" ,
-initialized as for a call to
-.BR sched_setparam ().
-This parameter will be interpreted relative to the scheduling policy in effect for the child process.
-.LP
-If the programmer wishes to set the scheduling policy for the child process,
-then the
-.B POSIX_SPAWN_SETSCHEDPOLICY
-flag should be set using
-.BR posix_spawnattr_setflags (),
-and the desired policy should be set using
+.IP [POSIX_SPAWN_SETSCHEDULER]
+Set the scheduling algorithm and parameters according to
+the
+.I spawn-schedpolicy
+element of
+.I *attrp
+(If
+.I POSIX_SPAWN_SETSCHEDPARAM
+is also set, then the scheduling parameters are set according to the corresponding element;
+otherwise, the effect is as if a NULL was passed as the
+.I param
+argument to
+.BR sched_setscheduler ()).
+Set
+.I spawn-schedpolicy
+using
 .BR posix_spawnattr_setschedpolicy ().
-.LP
-If both
-.B POSIX_SPAWN_SETSCHEDPOLICY
-and
-.B POSIX_SPAWN_SETSCHEDPARAM
-are set, then the desired scheduling policy will be put into effect with the desired parameters (if possible).
-If only
-.B POSIX_SPAWN_SETSCHEDPOLICY
-is set, then the scheduling policy will be set with default parameters for that policy.
+.IP [POSIX_SPAWN_RESETIDS]
+Set the effective UID and GID to the real UID and GID of the parent process.
+If this flag is not set, then the child gets the effective UID and GID of the parent.
+In either case, the setuid and setgid bits of the executable file themselves take precedence.
+.IP [POSIX_SPAWN_SETPGROUP]
+Set the process group to the value specified in
+the \fIspawn-pgroup\fP element.
+Set
+.I spawn-pgroup
+using
+.BR posix_spawnattr_setpgroup ().
+.IP [POSIX_SPAWN_USEVFORK]
+Use
+.BR vfork (),
+rather than
+.BR fork (),
+when creating the child process.  Note that, in order for this action to be taken, none of the other flag values can be specified;  nor can any file
+actions be specified in the call to
+.BR posix_spawn ()/ posix_spawnp ().
 .LP
 To retrieve the value of the
-.I spawn-schedpolicy
-or
-.I spawn-schedparam
-elements in the
+flags in the
 .I posix_spawnattr_t
 structure,
 use
-.BR posix_spawnattr_getschedpolicy ()
-or
-.BR posix_spawnattr_getschedpolicy (),
-respectively.
+.BR posix_spawnattr_getflags ().
 .SH RETURN VALUE
 .LP
-All four of these functions return 0 unless an error occurs.
-If an error occurs, then the error value is returned.
+If the system supports these functions,
+.BR posix_spawnattr_setflags ()
+returns 0 and sets the flags in the passed attribute structure,
+unless an unsupported flag value is passed.
+.LP
+.BR Posix_spawnattr_getflags (),
+on the other hand, always returns 0.
 .SH ERRORS
 .LP
-The following errors may be returned on
-Linux/glibc systems:
+.BR posix_spawnattr_setflags ()
+returns an error in the following cases:
 .TP
 .B EINVAL
-An invalid value for
-.I sched_policy
-was specified (
-.BR posix_spawnattr_setschedpolicy ()
-only).
+An unsupported flag value was specified.
+.LP
+Both
+.BR posix_spawnattr_setflags ()
+and
+.BR posix_spawnattr_getflags ()
+can fail if the system is not configured to support the
+.I posix_spawn*
+functions:
 .TP
 .B ENOSYS
 This function is not supported on this system.
@@ -204,7 +238,6 @@ POSIX.1-2004.
 .BR <spawn.h>,
 Base Definitions volume of POSIX.1-2004,
 .I http://www.opengroup.org/unix/online.html
-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
