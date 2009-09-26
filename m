@@ -1,7 +1,8 @@
 From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: for review:  man3/posix_spawnattr_getflags.3 (replaces 3p POSIX verbiage)
-Date: Sat, 26 Sep 2009 11:46:40 -0700
-Message-ID: <4ABE6190.2000700@gmail.com>
+Subject: for review:  man3/posix_spawnattr_getpgroup.3 (replaces 3p POSIX
+ verbiage)
+Date: Sat, 26 Sep 2009 11:47:43 -0700
+Message-ID: <4ABE61CF.5010900@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
@@ -37,18 +38,19 @@ List-Id: linux-man@vger.kernel.org
 .\"     Linux glibc source code
 .\"     POSIX 1003.1-2004 documentation (http://www.opengroup.org/onlinepubs/009695399)
 .\"
-.TH "POSIX_SPAWNATTR_GETFLAGS" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
-.\" posix_spawnattr_getflags, posix_spawnattr_setflags
+.TH "POSIX_SPAWNATTR_GETPGROUP" 3 2009-09-22 "GNU" "Linux Programmer's Manual"
+.\" posix_spawnattr_getpgroup, posix_spawnattr_setpgroup
 .SH NAME
-posix_spawnattr_getflags, posix_spawnattr_setflags \- get/set spawn attribute flags
+posix_spawnattr_getpgroup, posix_spawnattr_setpgroup \- get/set process group attribute
 .SH SYNOPSIS
 .nf
 .B #include <spawn.h>
 
-.BI "int posix_spawnattr_getflags(const posix_spawnattr_t *" attrp ,
-.BI "       short *" flags);
+.BI "int posix_spawnattr_getpgroup(const posix_spawnattr_t *" attrp ,
+.BI "       pid_t *" pgroup);
 
-.BI "int posix_spawnattr_setflags(posix_spawnattr_t *" attrp ", short " flags );
+.BI "int posix_spawnattr_setsigmask(posix_spawnattr_t *" attrp ,
+.BI "       pid_t " pgroup);
 
 .fi
 .sp
@@ -58,9 +60,9 @@ Feature Test Macro Requirements for glibc (see
 .in
 .sp
 .ad l
-.BR posix_spawnattr_getflags ()
+.BR posix_spawnattr_getpgroup ()
 and
-.BR posix_spawnattr_setflags ():
+.BR posix_spawnattr_setpgroup ():
 (_POSIX_C_SOURCE\ >=\ 200112L)\ &&\ (_POSIX_SPAWN)
 .ad b
 
@@ -76,113 +78,50 @@ child process by passing a pointer to an appropriately-initialized
 .B posix_spawnattr_t
 structure.
 .LP
-By setting flags and elements in this structure, the programmer can set various actions
-to be taken when
-.BR posix_spawn ()
-is called.
-.LP
-The flags are set using
-.BR posix_spawnattr_setflags ().
-The corresponding elements in the
-.I posix_spawnattr_t
-are set using the other
-.I posix_spawnattr_set*
-functions.
-.LP
-The following flags are supported:
-.IP [POSIX_SPAWN_SETSIGMASK] 2
-Set its signal mask as if using
-.BI sigprocmask( SIG_SETMASK )
-and the signal set specified in
-the
-.I spawn-sigmask
-element.  Set
-.I spawn-sigmask
-using
-.BR posix_spawnattr_setsigmask ().
-.IP [POSIX_SPAWN_SETSIGDEF]
-Reset the handler for all signals specified in
-the
-.I spawn-sigdefault
-element back to default state.
-Set
-.I spawn-sigdefault
-using
-.BR posix_spawnattr_setsigdefault ().
-.IP [POSIX_SPAWN_SETSCHEDPARAM]
-Set the scheduling parameters (POSIX_PRIORITY_SCHEDULING only)
-to the parameters specified in the
-.I spawn-schedparam
-element.
-Set
-.I spawn-schedparam
-using
-.BR posix_spawnattr_setschedparam ().
-.IP [POSIX_SPAWN_SETSCHEDULER]
-Set the scheduling algorithm and parameters according to
-the
-.I spawn-schedpolicy
-element of
-.I *attrp
-(If
-.I POSIX_SPAWN_SETSCHEDPARAM
-is also set, then the scheduling parameters are set according to the corresponding element;
-otherwise, the effect is as if a NULL was passed as the
-.I param
-argument to
-.BR sched_setscheduler ()).
-Set
-.I spawn-schedpolicy
-using
-.BR posix_spawnattr_setschedpolicy ().
-.IP [POSIX_SPAWN_RESETIDS]
-Set the effective UID and GID to the real UID and GID of the parent process.
-If this flag is not set, then the child gets the effective UID and GID of the parent.
-In either case, the setuid and setgid bits of the executable file themselves take precedence.
-.IP [POSIX_SPAWN_SETPGROUP]
-Set the process group to the value specified in
-the \fIspawn-pgroup\fP element.
-Set
+One of these actions is the setting of the process group in the child process.
+By default, the process group of the spawned child process will be the same as that of the parent process.
+If the calling process has set the
+.B POSIX_SPAWN_SETPGROUP
+flag, using
+.BR posix_spawnattr_setflags (),
+then the signal mask will be set according to the value of the
 .I spawn-pgroup
-using
+element in the
+.I posix_spawnattr_t
+structure.
+This element is set by calling
 .BR posix_spawnattr_setpgroup ().
-.IP [POSIX_SPAWN_USEVFORK]
-Use
-.BR vfork (),
-rather than
-.BR fork (),
-when creating the child process.  Note that, in order for this action to be taken, none of the other flag values can be specified;  nor can any file
-actions be specified in the call to
-.BR posix_spawn ()/ posix_spawnp ().
+The programmer passes a
+.I pid_t
+value to the function.
+If the value is 0, then the child process will be placed in a new process
+group having the same ID as the PID of the child process.
+Otherwise, the child will have its process group ID set to the value passed in the
+.I spawn-pgroup
+element in the
+.I posix_spawnattr_t
+structure.
 .LP
 To retrieve the value of the
-flags in the
+.I spawn-pgroup
+element in the
 .I posix_spawnattr_t
 structure,
 use
-.BR posix_spawnattr_getflags ().
+.BR posix_spawnattr_getpgroup ().
 .SH RETURN VALUE
 .LP
-If the system supports these functions,
-.BR posix_spawnattr_setflags ()
-returns 0 and sets the flags in the passed attribute structure,
-unless an unsupported flag value is passed.
-.LP
-.BR Posix_spawnattr_getflags (),
-on the other hand, always returns 0.
+.BR posix_spawnattr_setpgroup ()
+and
+.BR posix_spawnattr_getpgroup ()
+always return 0 on Linux/Glibc systems.
 .SH ERRORS
 .LP
-.BR posix_spawnattr_setflags ()
-returns an error in the following cases:
-.TP
-.B EINVAL
-An unsupported flag value was specified.
-.LP
-Both
-.BR posix_spawnattr_setflags ()
+.BR Posix_spawnattr_setpgroup ()
 and
-.BR posix_spawnattr_getflags ()
-can fail if the system is not configured to support the
+.BR posix_spawnattr_getpgroup ()
+return no errors on Linux/Glibc systems,
+other than the possible error when the system is not configured to support the
 .I posix_spawn*
 functions:
 .TP
