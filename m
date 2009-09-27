@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: [PATCHES] Typos and questions
-Date: Sun, 27 Sep 2009 09:36:22 +0200
-Message-ID: <cfd18e0f0909270036x454a5f42q91dce7e9252bf6f5@mail.gmail.com>
+Date: Sun, 27 Sep 2009 09:56:34 +0200
+Message-ID: <cfd18e0f0909270056m39a15b1dy1ffcd88a32f2023f@mail.gmail.com>
 References: <20090926054751.GA11597@nekral.nekral.homelinux.net>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
@@ -14,74 +14,35 @@ To: =?ISO-8859-1?Q?Nicolas_Fran=E7ois?= <nicolas.francois-Fa7rcPG4DJn7nK0/Xc0eeg
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Salut Nicolas,
-
-On Sat, Sep 26, 2009 at 7:47 AM, Nicolas Fran=E7ois
-<nicolas.francois-Fa7rcPG4DJn7nK0/Xc0eeg@public.gmane.org> wrote:
-> Hello,
->
-> Please find attached a set of patches.
-> They should have a explicit name, and some have additional info in th=
-e
-> header if needed.
->
-> In my opinion, the patches starting with 0 can be applied as is (afte=
-r a
-> short review).
-
-Yes. A great set of patches! Thanks! one or two comments below.
-
 > The patches starting with a 9 need to be reviewed. Some of them are n=
 ot
 > patches, but questions:
 > =A0* 904-tcp.7-list_separator.patch
 > =A0* 919_cpuset.7-question.patch
->
-> Please let me know if after a short look some of them should be repor=
-ted
-> first to bugzilla.
 
-I will cover the 9* patches in a separate reply.
+Hi Nicolas,
 
-> The patches should apply to current git. The order should not be an i=
-ssue.
+It was great how you split out the 0* and 9* series. Thanks. In fact,
+you could have been even more confident with some of the 9* patches,
+since they were (to my eye) unquestionably correct :-).
 
-I applied all of the 0* patches except for two.
+I have so far processed the following:
 
-009:
-I see why you wanted to change this, but the change is not correct.
-Really, "current processor" is best made into "host system". (The
-domain name is a property of the system, not a process.)
+905 applied
+906 applied
+908 applied
+909 rejected (this preposition is okay)
+910 applied
+911 edited: in fact what was missing was "to" berfor "POSIX.1-2001".
+912 applied
+914 applied
 
-018:
+I will get to the rest later.
 
-The first part of the patch isn't right (but again, I can see why you
-wanted to malke a change). "waied for" is a qualify phrase for
-"children". Adding a hyphen helps make that clear.
-
-I applied this:
-
---- a/man2/sigaction.2
-+++ b/man2/sigaction.2
-@@ -304,10 +304,10 @@ The
- .I si_utime
- and
- .I si_stime
--fields do not include the times used by waited for children (unlike
-+fields do not include the times used by waited-for children (unlike
- .BR getrusage (2)
- and
--.BR time (2).
-+.BR time (2)).
- In kernels up to 2.6, and since 2.6.27, these fields report
- CPU time in units of
- .IR sysconf(_SC_CLK_TCK) .
-
-Thanks very much for all of these!!
-
-Cheers,
+Thanks.
 
 Michael
+
 
 --=20
 Michael Kerrisk
