@@ -1,33 +1,102 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCHES] Typos and questions
-Date: Mon, 28 Sep 2009 18:57:06 +0200
-Message-ID: <cfd18e0f0909280957w72f6784em22851b58a86682f@mail.gmail.com>
-References: <20090926054751.GA11597@nekral.nekral.homelinux.net>
-	 <cfd18e0f0909270056m39a15b1dy1ffcd88a32f2023f@mail.gmail.com>
-	 <20090927101253.GA11460@nekral.nekral.homelinux.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: for review: posix-spawn*, the remaining bits
+Date: Mon, 28 Sep 2009 14:32:54 -0700
+Message-ID: <4AC12B86.1000705@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090927101253.GA11460-pDMkYksm/NDBVznEOA0nCqMXiC8k1aZu0e7PPNI6Mm0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Nicolas_Fran=E7ois?= <nicolas.francois-Fa7rcPG4DJn7nK0/Xc0eeg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-> Thanks for the reviews and good luck with your book.
+The attached are various linkage files with little informational content--they just .so the content pages I sent a couple of days ago.  It seemed
+annoying to send them all separately.
 
-I forgot to say: Thanks!
-
-Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Watch my Linux system programming book progress to publication!
-http://blog.man7.org/
+diff --git a/man3/posix_spawn_file_actions_addclose.3 b/man3/posix_spawn_file_actions_addclose.3
+new file mode 100644
+index 0000000..62ed8c1
+--- /dev/null
++++ b/man3/posix_spawn_file_actions_addclose.3
+@@ -0,0 +1 @@
++.so man3/posix_spawn_file_actions_addopen.3
+diff --git a/man3/posix_spawn_file_actions_adddup2.3 b/man3/posix_spawn_file_actions_adddup2.3
+new file mode 100644
+index 0000000..62ed8c1
+--- /dev/null
++++ b/man3/posix_spawn_file_actions_adddup2.3
+@@ -0,0 +1 @@
++.so man3/posix_spawn_file_actions_addopen.3
+diff --git a/man3/posix_spawn_file_actions_destroy.3 b/man3/posix_spawn_file_actions_destroy.3
+new file mode 100644
+index 0000000..4c93004
+--- /dev/null
++++ b/man3/posix_spawn_file_actions_destroy.3
+@@ -0,0 +1 @@
++.so man3/posix_spawn_file_actions_init.3
+diff --git a/man3/posix_spawnattr_destroy.3 b/man3/posix_spawnattr_destroy.3
+new file mode 100644
+index 0000000..3330979
+--- /dev/null
++++ b/man3/posix_spawnattr_destroy.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_init.3
+diff --git a/man3/posix_spawnattr_getschedparam.3 b/man3/posix_spawnattr_getschedparam.3
+new file mode 100644
+index 0000000..0dfdbcf
+--- /dev/null
++++ b/man3/posix_spawnattr_getschedparam.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getschedpolicy.3
+diff --git a/man3/posix_spawnattr_setflags.3 b/man3/posix_spawnattr_setflags.3
+new file mode 100644
+index 0000000..fada4ac
+--- /dev/null
++++ b/man3/posix_spawnattr_setflags.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getflags.3
+diff --git a/man3/posix_spawnattr_setpgroup.3 b/man3/posix_spawnattr_setpgroup.3
+new file mode 100644
+index 0000000..c2521f4
+--- /dev/null
++++ b/man3/posix_spawnattr_setpgroup.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getpgroup.3
+diff --git a/man3/posix_spawnattr_setschedparam.3 b/man3/posix_spawnattr_setschedparam.3
+new file mode 100644
+index 0000000..2416e9e
+--- /dev/null
++++ b/man3/posix_spawnattr_setschedparam.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getschedparam.3
+diff --git a/man3/posix_spawnattr_setschedpolicy.3 b/man3/posix_spawnattr_setschedpolicy.3
+new file mode 100644
+index 0000000..0dfdbcf
+--- /dev/null
++++ b/man3/posix_spawnattr_setschedpolicy.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getschedpolicy.3
+diff --git a/man3/posix_spawnattr_setsigdefault.3 b/man3/posix_spawnattr_setsigdefault.3
+new file mode 100644
+index 0000000..fbffeae
+--- /dev/null
++++ b/man3/posix_spawnattr_setsigdefault.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getsigdefault.3
+diff --git a/man3/posix_spawnattr_setsigmask.3 b/man3/posix_spawnattr_setsigmask.3
+new file mode 100644
+index 0000000..8c9b4a3
+--- /dev/null
++++ b/man3/posix_spawnattr_setsigmask.3
+@@ -0,0 +1 @@
++.so man3/posix_spawnattr_getsigmask.3
+diff --git a/man3/posix_spawnp.3 b/man3/posix_spawnp.3
+new file mode 100644
+index 0000000..a6f49d0
+--- /dev/null
++++ b/man3/posix_spawnp.3
+@@ -0,0 +1 @@
++.so man3/posix_spawn.3
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
