@@ -1,21 +1,55 @@
-From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: Re: sync_file_range.2: add some big WARNINGS
-Date: Wed, 30 Sep 2009 17:47:49 +0200
-Message-ID: <20090930154749.GA6349@lst.de>
-References: <20090827180116.GB31605@lst.de> <cfd18e0f0909192234l57ad4ec0rda34dcb83e355c5e@mail.gmail.com> <20090921131519.875b4608.akpm@linux-foundation.org> <20090922114052.GA1521@lst.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14303] New: futex(2) manpage missing FUTEX_WAKE_OP, *_PRIVATE,
+ *_BITSET and *_PI options
+Date: Fri, 2 Oct 2009 01:48:40 GMT
+Message-ID: <bug-14303-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090922114052.GA1521-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org, hch-jcswGhMUV9g@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-So what are we going to do with it?  The current manpage still suggests
-it might actuall be safe for overwrites which it really isn't.
+http://bugzilla.kernel.org/show_bug.cgi?id=14303
 
+           Summary: futex(2) manpage missing FUTEX_WAKE_OP, *_PRIVATE,
+                    *_BITSET and *_PI options
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org
+        Regression: No
+
+
+There are a number of futex features that aren't documented:
+
+FUTEX_WAKE_OP:
+
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=4732efbeb997189d9f9b04708dc26bf8613ed721
+
+*_PRIVATE:
+
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=34f01cc1f512fa783302982776895c73714ebbc2
+
+*_BITSET:
+
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=cd689985cf49f6ff5c8eddc48d98b9d581d9475d
+
+*_PI:
+
+http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commit;h=c87e2837be82df479a6bae9f155c43516d2feebc
+
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
