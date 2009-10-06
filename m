@@ -1,46 +1,34 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14328] New: Consistent the size type. New logic to use.
-Date: Mon, 5 Oct 2009 21:23:36 GMT
-Message-ID: <bug-14328-11311@http.bugzilla.kernel.org/>
+Subject: [Bug 14328] Consistent the size type. New logic to use.
+Date: Tue, 6 Oct 2009 08:54:14 GMT
+Message-ID: <200910060854.n968sE00004988@demeter.kernel.org>
+References: <bug-14328-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-14328-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 http://bugzilla.kernel.org/show_bug.cgi?id=14328
 
-           Summary: Consistent the size type. New logic to use.
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: 2.6.30.9
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: vik-cfgfcfnPGrx6k2ZkT/Rh8A@public.gmane.org
-        Regression: No
+
+Victor Mineev <vik-cfgfcfnPGrx6k2ZkT/Rh8A@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+           Severity|normal                      |enhancement
 
 
-It is possible to do consistent the sizeof(). Just the size type be unsigned.
-Next is sample:
 
-unsigned long *p,*p2,length;
-p=some_value;
-p2=p;
-length=sizeof(type_or_lvalue);
-p+=length;
-if(p<p2)
-  catch_overrun...
-*p=some_value2;
 
-However the error codes is negative so it is hard to accept big size. Are the
-race of system calls and kernel subroutines is different?
+--- Comment #1 from Victor Mineev <vik-cfgfcfnPGrx6k2ZkT/Rh8A@public.gmane.org>  2009-10-06 08:54:14 ---
+Lazy algorithm is the right thing to do. Do user space read a lot better. Let
+protect high half of memory region as read/write disabled. So data begin can go
+to user space fast soon. And lazy detect of negative size value become true. Is
+the kernel do read syncronicly? It is so fantastic to test where is a kvm guest
+do the last access.
 
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
