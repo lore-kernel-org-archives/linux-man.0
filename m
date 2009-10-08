@@ -1,39 +1,39 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14328] Consistent the size type. New logic to use.
-Date: Tue, 6 Oct 2009 08:54:14 GMT
-Message-ID: <200910060854.n968sE00004988@demeter.kernel.org>
-References: <bug-14328-11311@http.bugzilla.kernel.org/>
+From: Presi <presidev-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: crypt (3) significant key lenght (DES, MD5, SHA)
+Date: Thu, 8 Oct 2009 13:13:37 +0200 (CEST)
+Message-ID: <alpine.DEB.2.00.0910081256550.1467@luna.local.presi.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14328-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=14328
 
+Hello,
 
-Victor Mineev <vik-cfgfcfnPGrx6k2ZkT/Rh8A@public.gmane.org> changed:
+In current version of crypt (3) at the end of "glibc notes":
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|normal                      |enhancement
+"In the SHA implementation the entire key is significant (instead of only 
+the first 8 bytes in MD5)."
 
+While in older versions with no mention to SHA:
 
+"The entire key is significant here (instead of only the first 8 bytes)."
 
+I understand the last sentence mean MD5 has entire key significant while 
+older DES not. If this is true, I think there is a contradiction with the 
+new version of manpage.
 
---- Comment #1 from Victor Mineev <vik-cfgfcfnPGrx6k2ZkT/Rh8A@public.gmane.org>  2009-10-06 08:54:14 ---
-Lazy algorithm is the right thing to do. Do user space read a lot better. Let
-protect high half of memory region as read/write disabled. So data begin can go
-to user space fast soon. And lazy detect of negative size value become true. Is
-the kernel do read syncronicly? It is so fantastic to test where is a kvm guest
-do the last access.
+Is wrong the old version? (though I think MD5 has more than 8 bytes 
+significant of the key) Can someone clarify this? or I am missing 
+something?
 
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Thanks in advance
+
+Regards
+Enrique D. Bosch 'presi'
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
