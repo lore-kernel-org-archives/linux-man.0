@@ -1,35 +1,41 @@
 From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: man-pages-3.23 is released
-Date: Fri, 9 Oct 2009 09:02:44 +0200
-Message-ID: <20091009070244.GC3708@machine.or.cz>
-References: <cfd18e0f0910022313q61824b0fh34c21d3f18bdf71b@mail.gmail.com>
+Subject: Re: [PATCH] Add the pthread_rwlock_unlock() different point
+ explanation between Linux and POSIX
+Date: Fri, 9 Oct 2009 08:59:02 +0200
+Message-ID: <20091009065901.GB3708@machine.or.cz>
+References: <4A63CDF9.6040603@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <cfd18e0f0910022313q61824b0fh34c21d3f18bdf71b-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4A63CDF9.6040603-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Zhang Xiliang <zhangxiliang-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk-manpages-hi6Y0CQ0nG0@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
   Hi!
 
-On Sat, Oct 03, 2009 at 08:13:30AM +0200, Michael Kerrisk wrote:
-> The Linux man-pages maintainer proudly announces:
+On Mon, Jul 20, 2009 at 09:52:57AM +0800, Zhang Xiliang wrote:
+> I tested the unlock order of rwlock in Linux with SCHED_FIFO and SCHED_RR, and found 
+> that when readers blocked has higher priority than writers, writers always shall 
+> take precedence over readers.
 > 
->    man-pages-3.23.tar.gz - man pages for Linux
+> A write process                         <--unlock the rwlock
+>   ->A higher priority read process      <--block
+>   ->A lower priority write process      <--acquired rwlock
+> 
+> In pthread_rwlock_rdlock() manual, it says: If the Thread Execution Scheduling option is
+> supported, when threads executing with the scheduling policies SCHED_FIFO, SCHED_RR, or 
+> SCHED_SPORADIC are waiting on the lock, they shall acquire the lock in priority order
+> when the lock becomes available.
+> 
+> Signed-off-by: Zhang Xiliang <zhangxiliang-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
-  Seeing how many patches seem to be left on the floor, do you need some
-help with the maintenance? I don't really have that much time myself,
-but maybe just making the process a bit more open and liberal could
-help... (If it's wrong, sooner or later someone will send in a patch to
-fix it. ;-)
-
-  It's rather sad when people spend many hours composing a manpage, only
-to see their work ignored.
-
-  Kind regards,
+  I wonder if there is some kind of policy about how to incorporate this
+information; putting it in the POSIX manpages is probably unfeasible,
+but maybe a nptl(7) man-page could be created, covering implementation
+notes, and put in SEE ALSO section of all pthread manpages?
 
 -- 
 				Petr "Pasky" Baudis
