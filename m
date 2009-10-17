@@ -1,66 +1,40 @@
-From: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
-Subject: log*.3: add cross-references to other-base logarithmic functions
-Date: Fri, 16 Oct 2009 12:48:45 +0200 (CEST)
-Message-ID: <alpine.LSU.2.00.0910161248010.6221@obet.zrqbmnf.qr>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: typo in clone(2)
+Date: Sat, 17 Oct 2009 06:06:31 +0200
+Message-ID: <cfd18e0f0910162106r671f61cbg6f3bb0af3bf3295f@mail.gmail.com>
+References: <20091008185805.GA28839@mette>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20091008185805.GA28839@mette>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On Thu, Oct 8, 2009 at 8:58 PM, Andries E. Brouwer
+<Andries.Brouwer-rh8NL+sEX9E@public.gmane.org> wrote:
+> --- clone.2 =A0 =A0 2009-10-08 20:56:13.000000000 +0200
+> +++ clone.2a =A0 =A02009-10-08 20:56:35.000000000 +0200
+> @@ -786,7 +786,7 @@
+> =A0.IR ptid ,
+> =A0.IR tls ,
+> =A0and
+> -.IT ctid .
+> +.IR ctid .
+> =A0.SH "RETURN VALUE"
+> =A0.\" gettid(2) returns current->pid;
+> =A0.\" getpid(2) returns current->tgid;
 
-parent 576b0bccd1d120880c5d3bbf252c8ac66245103a ()
-commit c351c2b325fd365da02e8437053fc2d2b5e7d69a
-Author: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
-Date:   Fri Oct 16 12:47:56 2009 +0200
+Thanks. Applied.
 
-log*.3: add cross-references to other-base logarithmic functions
 
-Signed-off-by: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
----
- man3/log.3   |    2 ++
- man3/log10.3 |    2 ++
- man3/log2.3  |    2 ++
- 3 files changed, 6 insertions(+), 0 deletions(-)
-
-diff --git a/man3/log.3 b/man3/log.3
-index d0426c2..8a41306 100644
---- a/man3/log.3
-+++ b/man3/log.3
-@@ -133,5 +133,7 @@ exception.
- .SH "SEE ALSO"
- .BR cbrt (3),
- .BR clog (3),
-+\fBlog2\fP(3),
-+\fBlog10\fP(3),
- .BR log1p (3),
- .BR sqrt (3)
-diff --git a/man3/log10.3 b/man3/log10.3
-index 5528d94..a6dcca3 100644
---- a/man3/log10.3
-+++ b/man3/log10.3
-@@ -88,4 +88,6 @@ SVr4, 4.3BSD, C89.
- .BR cbrt (3),
- .BR clog10 (3),
- .BR exp10 (3),
-+\fBlog\fP(3),
-+\fBlog2\fP(3),
- .BR sqrt (3)
-diff --git a/man3/log2.3 b/man3/log2.3
-index 6a86b9a..8e10fed 100644
---- a/man3/log2.3
-+++ b/man3/log2.3
-@@ -90,4 +90,6 @@ SVr4, 4.3BSD, C89.
- .SH "SEE ALSO"
- .BR cbrt (3),
- .BR clog2 (3),
-+\fBlog\fP(3),
-+\fBlog10\fP(3),
- .BR sqrt (3)
--- 
-# Created with git-export-patch
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
