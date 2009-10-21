@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 14449] Ambiguity in SIGSYS <-> SIGUNUSED portion of signal(7)
-Date: Wed, 21 Oct 2009 05:35:08 GMT
-Message-ID: <200910210535.n9L5Z8TG012640@demeter.kernel.org>
+Date: Wed, 21 Oct 2009 05:35:35 GMT
+Message-ID: <200910210535.n9L5ZZmx012703@demeter.kernel.org>
 References: <bug-14449-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,10 +17,10 @@ http://bugzilla.kernel.org/show_bug.cgi?id=14449
 
 
 
---- Comment #1 from Garrett Cooper <yaneurabeya-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>  2009-10-21 05:35:07 ---
-Created an attachment (id=23483)
- --> (http://bugzilla.kernel.org/attachment.cgi?id=23483)
-Execution log for kernel specified.
+--- Comment #2 from Garrett Cooper <yaneurabeya-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>  2009-10-21 05:35:34 ---
+Created an attachment (id=23484)
+ --> (http://bugzilla.kernel.org/attachment.cgi?id=23484)
+Driver script for killme application
 
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
