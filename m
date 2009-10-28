@@ -1,22 +1,33 @@
-From: Stuart Kemp <skemp-sVxMeHNilT2ukZHgTAicrQ@public.gmane.org>
-Subject: fopencookie(3) typo
-Date: Mon, 26 Oct 2009 10:53:18 -0500
-Message-ID: <6DAFA96EDD92F844A36E08EE4EA663F803F2E5CDBB@34093-MBX-C01.mex07a.mlsrvr.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] fork(2): fix style around io_setup highlight
+Date: Wed, 28 Oct 2009 01:09:58 -0400
+Message-ID: <1256706598-21429-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In the man-page for fopencookie(3) it says:
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/fork.2 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-"which provides a steam interface"
-
-The "steam" should be "stream"
+diff --git a/man2/fork.2 b/man2/fork.2
+index 17c42db..0a371cd 100644
+--- a/man2/fork.2
++++ b/man2/fork.2
+@@ -85,7 +85,7 @@ from its parent
+ .RB ( aio_read (3),
+ .BR aio_write (3)),
+ nor does it inherit any asynchronous I/O contexts from its parent
+-.RB ( see io_setup (2)).
++.RB (see\  io_setup (2)).
+ .PP
+ The process attributes in the preceding list are all specified
+ in POSIX.1-2001.
+-- 
+1.6.5.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
