@@ -1,34 +1,106 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] fork(2): fix style around io_setup highlight
-Date: Wed, 28 Oct 2009 01:09:58 -0400
-Message-ID: <1256706598-21429-1-git-send-email-vapier@gentoo.org>
+From: =?ISO-8859-1?Q?Andr=E9_Goddard_Rosa?= <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH][RESEND] vfork.2: Improve text legibility and fix verbs tense
+Date: Thu, 29 Oct 2009 10:47:04 +0900
+Message-ID: <b8bf37780910281847q78c0108ew16fa43804ecb5868@mail.gmail.com>
+References: <b8bf37780910180551g23f00ff2x1f2fca413a4b4842@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary=001636d33e9ec630b30477091739
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <b8bf37780910180551g23f00ff2x1f2fca413a4b4842-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
----
- man2/fork.2 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+--001636d33e9ec630b30477091739
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/man2/fork.2 b/man2/fork.2
-index 17c42db..0a371cd 100644
---- a/man2/fork.2
-+++ b/man2/fork.2
-@@ -85,7 +85,7 @@ from its parent
- .RB ( aio_read (3),
- .BR aio_write (3)),
- nor does it inherit any asynchronous I/O contexts from its parent
--.RB ( see io_setup (2)).
-+.RB (see\  io_setup (2)).
- .PP
- The process attributes in the preceding list are all specified
- in POSIX.1-2001.
--- 
-1.6.5.1
+>From 33671da01189ff40533708c1d81e6d78bfa5e312 Mon Sep 17 00:00:00 2001
+From: =3D?UTF-8?q?Andr=3DC3=3DA9=3D20Goddard=3D20Rosa?=3D <andre.goddard@gm=
+ail.com>
+Date: Sat, 17 Oct 2009 09:44:17 -0300
+Subject: [PATCH] [PATCH] vfork.2: Improve text legibility and fix verbs ten=
+se
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Andr=E9 Goddard Rosa <andre.goddard-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+diff --git a/man2/vfork.2 b/man2/vfork.2
+index ef86812..4f73f80 100644
+--- a/man2/vfork.2
++++ b/man2/vfork.2
+@@ -74,7 +74,7 @@ is a special case of
+=A0It is used to create new processes without copying the page tables of
+=A0the parent process.
+=A0It may be useful in performance-sensitive applications
+-where a child will be created which then immediately issues an
++where a child will be created which then will immediately issue an
+=A0.BR execve (2).
+=A0.PP
+=A0.BR vfork ()
+@@ -110,7 +110,9 @@ and to create a unique task structure for the child.
+=A0However, in the bad old days a
+=A0.BR fork (2)
+=A0would require making a complete copy of the caller's data space,
+-often needlessly, since usually immediately afterwards an
++often needlessly, since usually immediately afterwards a
++.BR vfork ()
++an
+=A0.BR exec (3)
+=A0is done.
+=A0Thus, for greater efficiency, BSD introduced the
+@@ -125,7 +127,7 @@ child was using its resources.
+=A0The use of
+=A0.BR vfork ()
+=A0was tricky: for example, not modifying data
+-in the parent process depended on knowing which variables are
++in the parent process depended on knowing which variables were
+=A0held in a register.
+=A0.SH "CONFORMING TO"
+=A04.3BSD, POSIX.1-2001.
+--
+1.6.5.1.31.gad12b
+
+--001636d33e9ec630b30477091739
+Content-Type: text/x-patch; charset=UTF-8;
+	name="0001-PATCH-vfork.2-Improve-text-legibility-and-fix-verbs-.patch"
+Content-Disposition: attachment;
+	filename="0001-PATCH-vfork.2-Improve-text-legibility-and-fix-verbs-.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_g0wd9dqc0
+
+RnJvbSAzMzY3MWRhMDExODlmZjQwNTMzNzA4YzFkODFlNmQ3OGJmYTVlMzEyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/QW5kcj1DMz1BOT0yMEdvZGRhcmQ9MjBSb3Nh
+Pz0gPGFuZHJlLmdvZGRhcmRAZ21haWwuY29tPgpEYXRlOiBTYXQsIDE3IE9jdCAyMDA5IDA5OjQ0
+OjE3IC0wMzAwClN1YmplY3Q6IFtQQVRDSF0gW1BBVENIXSB2Zm9yay4yOiBJbXByb3ZlIHRleHQg
+bGVnaWJpbGl0eSBhbmQgZml4IHZlcmJzIHRlbnNlCk1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQt
+VHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5n
+OiA4Yml0CgpTaWduZWQtb2ZmLWJ5OiBBbmRyw6kgR29kZGFyZCBSb3NhIDxhbmRyZS5nb2RkYXJk
+QGdtYWlsLmNvbT4KCmRpZmYgLS1naXQgYS9tYW4yL3Zmb3JrLjIgYi9tYW4yL3Zmb3JrLjIKaW5k
+ZXggZWY4NjgxMi4uNGY3M2Y4MCAxMDA2NDQKLS0tIGEvbWFuMi92Zm9yay4yCisrKyBiL21hbjIv
+dmZvcmsuMgpAQCAtNzQsNyArNzQsNyBAQCBpcyBhIHNwZWNpYWwgY2FzZSBvZgogSXQgaXMgdXNl
+ZCB0byBjcmVhdGUgbmV3IHByb2Nlc3NlcyB3aXRob3V0IGNvcHlpbmcgdGhlIHBhZ2UgdGFibGVz
+IG9mCiB0aGUgcGFyZW50IHByb2Nlc3MuCiBJdCBtYXkgYmUgdXNlZnVsIGluIHBlcmZvcm1hbmNl
+LXNlbnNpdGl2ZSBhcHBsaWNhdGlvbnMKLXdoZXJlIGEgY2hpbGQgd2lsbCBiZSBjcmVhdGVkIHdo
+aWNoIHRoZW4gaW1tZWRpYXRlbHkgaXNzdWVzIGFuCit3aGVyZSBhIGNoaWxkIHdpbGwgYmUgY3Jl
+YXRlZCB3aGljaCB0aGVuIHdpbGwgaW1tZWRpYXRlbHkgaXNzdWUgYW4KIC5CUiBleGVjdmUgKDIp
+LgogLlBQCiAuQlIgdmZvcmsgKCkKQEAgLTExMCw3ICsxMTAsOSBAQCBhbmQgdG8gY3JlYXRlIGEg
+dW5pcXVlIHRhc2sgc3RydWN0dXJlIGZvciB0aGUgY2hpbGQuCiBIb3dldmVyLCBpbiB0aGUgYmFk
+IG9sZCBkYXlzIGEKIC5CUiBmb3JrICgyKQogd291bGQgcmVxdWlyZSBtYWtpbmcgYSBjb21wbGV0
+ZSBjb3B5IG9mIHRoZSBjYWxsZXIncyBkYXRhIHNwYWNlLAotb2Z0ZW4gbmVlZGxlc3NseSwgc2lu
+Y2UgdXN1YWxseSBpbW1lZGlhdGVseSBhZnRlcndhcmRzIGFuCitvZnRlbiBuZWVkbGVzc2x5LCBz
+aW5jZSB1c3VhbGx5IGltbWVkaWF0ZWx5IGFmdGVyd2FyZHMgYQorLkJSIHZmb3JrICgpCithbgog
+LkJSIGV4ZWMgKDMpCiBpcyBkb25lLgogVGh1cywgZm9yIGdyZWF0ZXIgZWZmaWNpZW5jeSwgQlNE
+IGludHJvZHVjZWQgdGhlCkBAIC0xMjUsNyArMTI3LDcgQEAgY2hpbGQgd2FzIHVzaW5nIGl0cyBy
+ZXNvdXJjZXMuCiBUaGUgdXNlIG9mCiAuQlIgdmZvcmsgKCkKIHdhcyB0cmlja3k6IGZvciBleGFt
+cGxlLCBub3QgbW9kaWZ5aW5nIGRhdGEKLWluIHRoZSBwYXJlbnQgcHJvY2VzcyBkZXBlbmRlZCBv
+biBrbm93aW5nIHdoaWNoIHZhcmlhYmxlcyBhcmUKK2luIHRoZSBwYXJlbnQgcHJvY2VzcyBkZXBl
+bmRlZCBvbiBrbm93aW5nIHdoaWNoIHZhcmlhYmxlcyB3ZXJlCiBoZWxkIGluIGEgcmVnaXN0ZXIu
+CiAuU0ggIkNPTkZPUk1JTkcgVE8iCiA0LjNCU0QsIFBPU0lYLjEtMjAwMS4KLS0gCjEuNi41LjEu
+MzEuZ2FkMTJiCgo=
+--001636d33e9ec630b30477091739--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
