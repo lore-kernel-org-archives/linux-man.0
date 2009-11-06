@@ -1,76 +1,47 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] getline(3) was added to POSIX 2008
-Date: Fri, 6 Nov 2009 15:41:30 -0400
-Message-ID: <200911061441.31540.vapier@gentoo.org>
-References: <1257370830-12899-1-git-send-email-vapier@gentoo.org> <87fx8t89aa.fsf@basil.nowhere.org>
+From: bill o gallmeister <bog.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: pthread_self.3: arith type or structure
+Date: Fri, 06 Nov 2009 13:50:06 -0800
+Message-ID: <4AF49A0E.6080004@gmail.com>
+References: <alpine.LSU.2.00.0911060158001.12689@obet.zrqbmnf.qr>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart5272498.ucgagAVkVU";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87fx8t89aa.fsf-3rXA9MLqAseW/qJFnhkgxti2O/JbrIOy@public.gmane.org>
+In-Reply-To: <alpine.LSU.2.00.0911060158001.12689-SHaQjdQMGhDmsUXKMKRlFA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: Michael Kerrisk <public-mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, public-linux-man-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org
+To: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Jan Engelhardt wrote:
 
+> in man-pages 3.23, one can read in pthread_self.3:
+> 
+> 
+> "POSIX.1 allows an implementation wide freedom in choosing the type
+> used to represent a thread ID; for example, representation using
+> either an arithmetic type or a structure is permitted."
+> 
+> http://opengroup.org/onlinepubs/007908799/xsh/systypes.h.html
+> however mentions "all of the types are defined as arithmetic types".
+> Would you know which of the two documentations (linux-man-pages,
+> opengroup's website) is correct?
 
+It depends on which spec the implementation conforms to.  An Opengroup conformant
+system would need to provide an arithmetic type, whereas an IEEE 1003.1c-1995
+conformant system could get away with a more relaxed specification of pthread_t.
 
---nextPart5272498.ucgagAVkVU
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+I can speak to the POSIX spec for pthread_t.  The idea was to allow it to be
+implemented as any sort of type;  hence the provision of pthread_equal() to
+compare two pthread_t variables.
 
-On Thursday 05 November 2009 07:07:25 Andi Kleen wrote:
-> Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
-> > Signed-off-by: Mike Frysinger
-> > <vapier-aBrp7R+bbdUdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> ---
-> >  man3/getline.3 |    4 +---
-> >  1 files changed, 1 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/man3/getline.3 b/man3/getline.3
-> > index 2687809..622b5c8 100644
-> > --- a/man3/getline.3
-> > +++ b/man3/getline.3
-> > @@ -26,7 +26,6 @@
-> >  getline, getdelim \- delimited string input
-> >  .SH SYNOPSIS
-> >  .nf
-> > -.B #define _GNU_SOURCE
-> >  .B #include <stdio.h>
->=20
-> Dropping the symbol wouldn't work on any older libc.
+The opengroup spec would seem to have specified this further (the pthreads spec
+is from 1995 and the Opengroup spec says 1997).  I am not sure why that would be.
+If you're an application programmer,  I would advise you to assume that pthread_t
+is not an arithmetic type.  On the other hand, I have yet to see an implementation
+where it is not some sort of integer or pointer.
 
-the description section needs a feature_test_macros section added to it
-=2Dmike
-
---nextPart5272498.ucgagAVkVU
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.13 (GNU/Linux)
-
-iQIcBAABAgAGBQJK9HvrAAoJEEFjO5/oN/WB0b8P/RaBM4ZkBqk32iS4HdlJhT2+
-Ek56kOOaC198HCUiKeJLJw4yS57PKT/YSecMvaf/uacK3TGLBIY9k73IuyAtY5NI
-5fwaaT2tLKVFiJn/sEYh4+X+kNkaboreV4amz6qcKakQZ6U7U23UneYN/m0QEFU9
-63wCqvE2KtCqMzJrmIwihIZgXUdAfKZN51Y+Bm1YFHt+I5kJH/n2hbOz5+IfkRyN
-C8KdMAZw6YwFWoyjgSFf61Ys26nS5JZt4t/sWTHHOaL3FVT6Ac1t1FmYgOyMdl8H
-D09N+yKY/t3FoOuWTDuNr7ojrVgLL3SxAjCKq5w7m85eN12D8i/euwwzQd05/Jmq
-GjmYeRWVWxYUhZljkEjUfpqpO0waXXYy4HhukA2rr6gM+EPaIX9rMAtcbfPAOziQ
-w7/1t5STm5afEA9TYcEbXh3Ch57CO+PqHvwyA/SbQMMr9+C50vGhUD/nZbL5Q6Qj
-kuUWako+S1A6ZwbvX5yjK/4PBd7/UFf5ivLdURPNWT7kF/CoVWHezPF17EH8GfLM
-FMTD6z0cScHjDvM/oj+BjsjEzG0mhaa9gM0x/BCdE2aAbdzntfE5tXH2sxGsLgkL
-MtKA+bhzmfkfeUAU5ouLrMpxAu3EkKn+tSRhBtT/zOUzoW8W1nhvgrbUOKkeFhmT
-Oe8uZOl794vbDJzXG2Pc
-=u2QI
------END PGP SIGNATURE-----
-
---nextPart5272498.ucgagAVkVU--
-
+- bog
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
