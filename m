@@ -1,43 +1,29 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: Re: [PATCH] getline(3) was added to POSIX 2008
-Date: Thu, 05 Nov 2009 13:07:25 +0100
-Message-ID: <87fx8t89aa.fsf@basil.nowhere.org>
-References: <1257370830-12899-1-git-send-email-vapier@gentoo.org>
+From: Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org>
+Subject: pthread_self.3: arith type or structure
+Date: Fri, 6 Nov 2009 01:59:55 +0100 (CET)
+Message-ID: <alpine.LSU.2.00.0911060158001.12689@obet.zrqbmnf.qr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1257370830-12899-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> (Mike Frysinger's message of "Wed,  4 Nov 2009 16:40:30 -0500")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <public-vapier-aBrp7R+bbdUdnm+yROfE0A-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>
-Cc: Michael Kerrisk <public-mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w-wOFGN7rlS/M9smdsby/KFg@public.gmane.org>, public-linux-man-u79uwXL29TY76Z2rM5mHXA-wOFGN7rlS/M9smdsby/KFg@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hi,
 
 
-Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org> writes:
+in man-pages 3.23, one can read in pthread_self.3:
 
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>
-> ---
->  man3/getline.3 |    4 +---
->  1 files changed, 1 insertions(+), 3 deletions(-)
->
-> diff --git a/man3/getline.3 b/man3/getline.3
-> index 2687809..622b5c8 100644
-> --- a/man3/getline.3
-> +++ b/man3/getline.3
-> @@ -26,7 +26,6 @@
->  getline, getdelim \- delimited string input
->  .SH SYNOPSIS
->  .nf
-> -.B #define _GNU_SOURCE
->  .B #include <stdio.h>
 
-Dropping the symbol wouldn't work on any older libc.
+"POSIX.1 allows an implementation wide freedom in choosing the type
+used to represent a thread ID; for example, representation using
+either an arithmetic type or a structure is permitted."
 
--Andi
-
--- 
-ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org -- Speaking for myself only.
+http://opengroup.org/onlinepubs/007908799/xsh/systypes.h.html
+however mentions "all of the types are defined as arithmetic types".
+Would you know which of the two documentations (linux-man-pages,
+opengroup's website) is correct?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
