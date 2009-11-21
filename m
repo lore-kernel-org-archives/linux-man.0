@@ -1,35 +1,35 @@
-From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-Subject: [PATCH 1/2] strcpy.3: Fix typo in reference
-Date: Sat, 21 Nov 2009 21:18:46 +0000
-Message-ID: <1258838327-31762-1-git-send-email-mark@pogo.org.uk>
-References: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: typo in getaddrinfo.3
+Date: Sat, 21 Nov 2009 23:18:24 +0300
+Message-ID: <20091121231824.1962ea8e@keeper.home.local>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.NEB.2.01.0911212052050.25031-4Gsws06j5aKxDRllUHgonQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello.
 
-Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
----
- man3/strcpy.3 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Like after .SS Server program
 
-diff --git a/man3/strcpy.3 b/man3/strcpy.3
-index 9d47e37..a3e6d3b 100644
---- a/man3/strcpy.3
-+++ b/man3/strcpy.3
-@@ -137,6 +137,6 @@ in ways that may make the impossible possible.
- .BR memcpy (3),
- .BR memmove (3),
- .BR strdup (3),
--.BR strpcpy (3),
-+.BR stpcpy (3),
- .BR wcscpy (3),
- .BR wcsncpy (3)
+--- /srv/d1/repo/git/man-pages/man3/getaddrinfo.3       2009-11-15
+12:30:46.000000000 +0300 +++ getaddrinfo.3       2009-11-21
+18:31:38.000000000 +0300 @@ -713,7 +713,7 @@
+ }
+ .fi
+ .SS Client program
+-.R " "
++\&
+ .nf
+ #include <sys/types.h>
+ #include <sys/socket.h>
+
 -- 
-1.6.5.2
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
