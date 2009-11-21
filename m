@@ -1,9 +1,9 @@
-From: Denis Silakov <silakov-ufN2psIa012HXe+LvDLADg@public.gmane.org>
-Subject: Misspelling in pthread_getattr_np man page
-Date: Thu, 19 Nov 2009 16:25:44 +0300
-Message-ID: <4B054758.8000602@ispras.ru>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: typo in the clone.2
+Date: Sat, 21 Nov 2009 17:08:47 +0300
+Message-ID: <20091121170847.05357d0b@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -11,17 +11,24 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Man pthread_getattr_np, 'CONFORMING TO' section - "... GNU extension. 
-hence the ..." - replace '.' with ';' after 'extension'.
+Hello.
 
-Additionally, it probably makes sense to add the sentence 'hence the
-suffix "_np" (non-portable) in the name' to
-pthread_kill_other_threads_np man page. All other mans for pthread_*_np
-functions contain this note.
+--- clone.2.orig        2009-11-21 17:06:58.000000000 +0300
++++ clone.2     2009-11-21 17:07:10.000000000 +0300
+@@ -786,7 +786,7 @@
+ .IR ptid ,
+ .IR tls ,
+ and
+-.IT ctid .
++.IR ctid .
+ .SH "RETURN VALUE"
+ .\" gettid(2) returns current->pid;
+ .\" getpid(2) returns current->tgid;
+
 
 -- 
-Regards,
-Denis.
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
