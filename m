@@ -1,50 +1,57 @@
 From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-Subject: Re: [PATCH] strcpy.3: Remove reference to non-existent strpcpy(3)
-Date: Sat, 21 Nov 2009 21:16:07 +0000 (GMT)
-Message-ID: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
-References: <1258826146-4474-1-git-send-email-mark@pogo.org.uk> <20091121205012.GF3708@machine.or.cz>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Subject: [PATCH 2/2] string.3: Reference stpcpy(3)
+Date: Sat, 21 Nov 2009 21:18:47 +0000
+Message-ID: <1258838327-31762-2-git-send-email-mark@pogo.org.uk>
+References: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
+ <1258838327-31762-1-git-send-email-mark@pogo.org.uk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091121205012.GF3708-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
+In-Reply-To: <1258838327-31762-1-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, 21 Nov 2009, Petr Baudis wrote:
+This function is a variant of strcpy(3). Even though it is lesser-used
+it appears at the top alphabetically because of its unusual name.
 
-> On Sat, Nov 21, 2009 at 05:55:46PM +0000, Mark Hills wrote:
-> > There is no man page or function by this name.
-> > 
-> > Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-> > ---
-> >  man3/strcpy.3 |    1 -
-> >  1 files changed, 0 insertions(+), 1 deletions(-)
-> > 
-> > diff --git a/man3/strcpy.3 b/man3/strcpy.3
-> > index 9d47e37..c79efb1 100644
-> > --- a/man3/strcpy.3
-> > +++ b/man3/strcpy.3
-> > @@ -137,6 +137,5 @@ in ways that may make the impossible possible.
-> >  .BR memcpy (3),
-> >  .BR memmove (3),
-> >  .BR strdup (3),
-> > -.BR strpcpy (3),
-> >  .BR wcscpy (3),
-> >  .BR wcsncpy (3)
-> 
-> In fact, this should be fixed by making it a reference to stpcpy().
+Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+---
+ man3/string.3 |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-... which is the function I was looking for when I stumbled across the 
-missing strpcpy() reference. Thanks for finding it for me :-)
-
-I grep'd for any other misleading references to strpcpy() and can't see 
-any, so I'll follow up with a revised (tiny) patch, and an extra reference 
-in string(3).
-
+diff --git a/man3/string.3 b/man3/string.3
+index 89d60e1..1fa71b8 100644
+--- a/man3/string.3
++++ b/man3/string.3
+@@ -27,7 +27,7 @@
+ .\" Modified Sun Jul 25 10:54:31 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .TH STRING 3  1993-04-09 "" "Linux Programmer's Manual"
+ .SH NAME
+-strcasecmp, strcat, strchr, strcmp, strcoll, strcpy, strcspn,
++stpcpy, strcasecmp, strcat, strchr, strcmp, strcoll, strcpy, strcspn,
+ strdup, strfry, strlen, strncat, strncmp, strncpy, strncasecmp, strpbrk,
+ strrchr, strsep, strspn, strstr, strtok, strxfrm, index, rindex
+ \- string operations
+@@ -45,6 +45,8 @@ strrchr, strsep, strspn, strstr, strtok, strxfrm, index, rindex
+ .sp
+ .B #include <string.h>
+ .sp
++.BI "char *stpcpy(char *" dest ", const char *" src );
++.sp
+ .BI "char *strcat(char *" dest ", const char *" src );
+ .sp
+ .BI "char *strchr(const char *" s ", int " c );
+@@ -90,6 +92,7 @@ See the individual man pages for descriptions of each function.
+ .SH "SEE ALSO"
+ .BR index (3),
+ .BR rindex (3),
++.BR stpcpy (3),
+ .BR strcasecmp (3),
+ .BR strcat (3),
+ .BR strchr (3),
 -- 
-Mark
+1.6.5.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
