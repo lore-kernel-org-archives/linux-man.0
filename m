@@ -1,49 +1,22 @@
-From: =?UTF-8?B?6JSh6L+w5a6q?= <caishuxian-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: bug report: rtnetlink(7)
-Date: Tue, 24 Nov 2009 20:15:50 +0800
-Message-ID: <63526fa40911240415v5473ea18y9e09b9bf9546bfe2@mail.gmail.com>
+From: =?GB2312?B?y++9qLjV?= <sunjiangangok-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: The error of "getpwuid"
+Date: Wed, 25 Nov 2009 13:44:52 +0800
+Message-ID: <bdf46e580911242144s733020bamd6816a7853887ccb@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-version: online pages
-
-number of errors: 2
-
-classification: typos
-
-bug description:
-
-RTNETLINK(7)                  Linux Programmer's Manual
-  RTNETLINK(7)
-...
-DESCRIPTION
-...
-
-  Messages
-  ...
-    RTM_NEWADDR, RTM_DELADDR, RTM_GETADDR
-              Add, remove or receive information about an IP address
-associated with
-              an interface.  In Linux 2.2 an interface can carry multiple IP
-
-              addresses, this replaces the alias device concept in
-2.0.  In Linux 2.2
-              these messages support IPv4 and IPv6 addresses.  They contain an
-              ifaddrmsg structure, optionally followed by rtaddr
-routing attributes.
-                                                          ~~~~~typo for "rtattr"
-    ...
-    RTM_NEWNEIGH, RTM_DELNEIGH, RTM_GETNEIGH
-              ...
-              The rtaddr struct has the following meanings for the
-rta_type field:
-                  ~~~~~typo for "rtattr"
-              ...
+I have found an spelling error of "getpwuid" which is in the section 3
+of man-pages.
+The error is in the last third line of EXAMPLE in "getpwuid",
+the primary is
+ printf("Name: %s; UID: %ld0, pwd.pw_gecos, (long) pwd.pw_uid);
+but it is wrong.The right is
+ printf("Name: %s; UID: %ld", pwd.pw_gecos, (long) pwd.pw_uid);
+should change "0" to quotation mark("), not "0".
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
