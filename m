@@ -1,30 +1,110 @@
-From: =?GB2312?B?y++9qLjV?= <sunjiangangok-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: The error of "getpwuid"
-Date: Fri, 27 Nov 2009 13:52:39 +0800
-Message-ID: <bdf46e580911262152u27a3e96bx3bde63668afaa240@mail.gmail.com>
-References: <bdf46e580911242144s733020bamd6816a7853887ccb@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Subject: [PATCH 1/3] getrusage.2: Description of maintained fields
+Date: Sat, 28 Nov 2009 13:57:15 +0000
+Message-ID: <1259416637-8118-1-git-send-email-mark@pogo.org.uk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bdf46e580911242144s733020bamd6816a7853887ccb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org,linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+These descriptions are taken from NetBSD 5.0's getrusage(2).
 
-2009/11/25, =CB=EF=BD=A8=B8=D5 <sunjiangangok-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> I have found an spelling error of "getpwuid" which is in the section =
-3
-> of man-pages.
-> The error is in the last third line of EXAMPLE in "getpwuid",
-> the primary is
->  printf("Name: %s; UID: %ld0, pwd.pw_gecos, (long) pwd.pw_uid);
-> but it is wrong.The right is
->  printf("Name: %s; UID: %ld", pwd.pw_gecos, (long) pwd.pw_uid);
-> should change "0" to quotation mark("), not "0".
->
+Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+---
+ man2/getrusage.2 |   69 +++++++++++++++++++++++++++++++++++++++--------------
+ 1 files changed, 51 insertions(+), 18 deletions(-)
+
+diff --git a/man2/getrusage.2 b/man2/getrusage.2
+index 0f2ed4a..b5564fc 100644
+--- a/man2/getrusage.2
++++ b/man2/getrusage.2
+@@ -89,6 +89,57 @@ struct rusage {
+ };
+ .fi
+ .in
++.PP
++Not all fields are completed; unmaintained fields are set to zero by
++the kernel. The fields are interpreted as follows:
++.TP
++.I ru_utime
++the total amount of time spent executing in user mode.
++.TP
++.I ru_stime
++the total amount of time spent in the system executing on behalf
++of the process(es).
++.TP
++.IR ru_maxrss " (unmaintained)"
++.TP
++.IR ru_ixrss " (unmaintained)"
++.TP
++.IR ru_idrss " (unmaintained)"
++.TP
++.IR ru_isrss " (unmaintained)"
++.TP
++.I ru_minflt
++the number of page faults serviced without any I/O activity; here
++I/O activity is avoided by \*(lqreclaiming\*(rq a page frame from
++the list of pages awaiting reallocation.
++.TP
++.I ru_majflt
++the number of page faults serviced that required I/O activity.
++.TP
++.IR ru_nswap  " (unmaintained)"
++.TP
++.IR ru_inblock " (since Linux 2.6.22)"
++the number of times the file system had to perform input.
++.TP
++.IR ru_oublock " (since Linux 2.6.22)"
++the number of times the file system had to perform output.
++.TP
++.IR ru_msgsnd " (unmaintained)"
++.TP
++.IR ru_msgrcv " (unmaintained)"
++.TP
++.IR ru_nsignals " (unmaintained)"
++.TP
++.IR ru_nvcsw " (since Linux 2.6)"
++the number of times a context switch resulted due to a process
++voluntarily giving up the processor before its time slice was
++completed (usually to await availability of a resource).
++.TP
++.IR ru_nivcsw " (since Linux 2.6)"
++the number of times a context switch resulted due to a higher
++priority process becoming runnable or because the current process
++exceeded its time slice.
++.PP
+ .SH "RETURN VALUE"
+ On success, zero is returned.
+ On error, \-1 is returned, and
+@@ -140,24 +191,6 @@ This non-conformance is rectified in Linux 2.6.9 and later.
+ .LP
+ The structure definition shown at the start of this page
+ was taken from 4.3BSD Reno.
+-Not all fields are meaningful under Linux.
+-In Linux 2.4 only the fields
+-.IR ru_utime ,
+-.IR ru_stime ,
+-.IR ru_minflt ,
+-and
+-.I ru_majflt
+-are maintained.
+-Since Linux 2.6,
+-.I ru_nvcsw
+-and
+-.I ru_nivcsw
+-are also maintained.
+-Since Linux 2.6.22,
+-.I ru_inblock
+-and
+-.I ru_oublock
+-are also maintained.
+ 
+ See also the description of
+ .IR /proc/PID/stat
+-- 
+1.6.5.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
