@@ -1,56 +1,39 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: typo in getaddrinfo.3
-Date: Thu, 3 Dec 2009 16:38:17 +0100
-Message-ID: <cfd18e0f0912030738x3ef3b152mf4ec002067d2ea1a@mail.gmail.com>
-References: <20091121231824.1962ea8e@keeper.home.local>
+Subject: Re: pthread_join man page bug
+Date: Thu, 3 Dec 2009 16:47:13 +0100
+Message-ID: <cfd18e0f0912030747q5b6e0fb3hdfcd6986df31da17@mail.gmail.com>
+References: <da5b0fda0912020038n1cda0b8ay59fc4f4d0c43c1fc@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091121231824.1962ea8e-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <da5b0fda0912020038n1cda0b8ay59fc4f4d0c43c1fc-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: Sam Liao <phyomh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yuri,
+On Wed, Dec 2, 2009 at 9:38 AM, Sam Liao <phyomh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> The pthread_create here should be pthread_join.
 
-On Sat, Nov 21, 2009 at 9:18 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
-:
-> Hello.
->
-> Like after .SS Server program
+Thanks. Fixed for man-pages-3.24.
 
-Applied for 3.24.
-
-Thanks!
+Cheers,
 
 Michael
 
 
-> --- /srv/d1/repo/git/man-pages/man3/getaddrinfo.3 =A0 =A0 =A0 2009-11=
--15
-> 12:30:46.000000000 +0300 +++ getaddrinfo.3 =A0 =A0 =A0 2009-11-21
-> 18:31:38.000000000 +0300 @@ -713,7 +713,7 @@
-> =A0}
-> =A0.fi
-> =A0.SS Client program
-> -.R " "
-> +\&
-> =A0.nf
-> =A0#include <sys/types.h>
-> =A0#include <sys/socket.h>
+> -----
 >
-> --
-> Best Regards,
-> Yuri Kozlov
+> NOTES
 >
+> After a successful call to pthread_create(), the caller is guaranteed
+> that the target thread has terminated.
 >
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
