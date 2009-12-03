@@ -1,14 +1,14 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: typo in the clone.2
-Date: Thu, 3 Dec 2009 16:34:38 +0100
-Message-ID: <cfd18e0f0912030734h421b1608mde417aa58ba2c9e1@mail.gmail.com>
-References: <20091121170847.05357d0b@keeper.home.local>
+Subject: Re: typo in getaddrinfo.3
+Date: Thu, 3 Dec 2009 16:38:17 +0100
+Message-ID: <cfd18e0f0912030738x3ef3b152mf4ec002067d2ea1a@mail.gmail.com>
+References: <20091121231824.1962ea8e@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091121170847.05357d0b-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <20091121231824.1962ea8e-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,30 +16,31 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Yuri,
 
-Someone else recently reported this, and it's fixed for the next releas=
-e.
+On Sat, Nov 21, 2009 at 9:18 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+:
+> Hello.
+>
+> Like after .SS Server program
 
-Thanks for the report!
+Applied for 3.24.
+
+Thanks!
 
 Michael
 
 
-On Sat, Nov 21, 2009 at 3:08 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
-:
-> Hello.
->
-> --- clone.2.orig =A0 =A0 =A0 =A02009-11-21 17:06:58.000000000 +0300
-> +++ clone.2 =A0 =A0 2009-11-21 17:07:10.000000000 +0300
-> @@ -786,7 +786,7 @@
-> =A0.IR ptid ,
-> =A0.IR tls ,
-> =A0and
-> -.IT ctid .
-> +.IR ctid .
-> =A0.SH "RETURN VALUE"
-> =A0.\" gettid(2) returns current->pid;
-> =A0.\" getpid(2) returns current->tgid;
->
+> --- /srv/d1/repo/git/man-pages/man3/getaddrinfo.3 =A0 =A0 =A0 2009-11=
+-15
+> 12:30:46.000000000 +0300 +++ getaddrinfo.3 =A0 =A0 =A0 2009-11-21
+> 18:31:38.000000000 +0300 @@ -713,7 +713,7 @@
+> =A0}
+> =A0.fi
+> =A0.SS Client program
+> -.R " "
+> +\&
+> =A0.nf
+> =A0#include <sys/types.h>
+> =A0#include <sys/socket.h>
 >
 > --
 > Best Regards,
