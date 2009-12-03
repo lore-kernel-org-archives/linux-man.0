@@ -1,102 +1,44 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14723] New: Undocumented behaviour of connect() with
- SO_SNDTIMEO
-Date: Thu, 3 Dec 2009 10:08:54 GMT
-Message-ID: <bug-14723-11311@http.bugzilla.kernel.org/>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: Date of today in man scp & man ssh
+Date: Thu, 3 Dec 2009 15:46:40 +0100
+Message-ID: <cfd18e0f0912030646u5c837b40u4a05f94f5de3823@mail.gmail.com>
+References: <4B16306E.3060107@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4B16306E.3060107-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Yinon Ehrlich <yinon.me-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=14723
+Hello Yinon,
 
-           Summary: Undocumented behaviour of connect() with SO_SNDTIMEO
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: rchebotarev-m0ImkXdSVU0@public.gmane.org
-        Regression: No
+On Wed, Dec 2, 2009 at 10:16 AM, Yinon Ehrlich <yinon.me-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wro=
+te:
+> Hi,
+>
+> Just noted than man ssh | tail =A0and man scp | tail displays current=
+ date in
+> their footer (instead of last change date as in other man pages).
+>
+> Saw this on several Debian & Ubuntu versions.
 
+These pages are in other packages, and you need to redirect your
+report. Take a look here:
 
-Setting option SO_SNDTIMEO to the socket cause connect() return with
-EINPROGRESS errno after timeout, but this nonstandard feature is not described
-in man pages of socket(7) and connect(2).
+http://www.kernel.org/doc/man-pages/man_pages_other.html
 
-Sample:
+Cheers,
 
-int main(int argc, char *argv[])
-{
-    int sockfd, n;
-    struct sockaddr_in serv_addr;
+Michael
 
-    struct timeval timeout;
-    timeout.tv_sec = 4;
-    timeout.tv_usec = 0;
-
-    if( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
-    {
-        perror("socket");
-        return -1;
-    }
-
-    if( setsockopt(sockfd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout))
-== -1 )
-    {
-        perror("setsockopt");
-        return -1;
-    }
-
-    bzero (&serv_addr, sizeof(serv_addr));
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(9999);
-
-    if(inet_pton(AF_INET, argv[1], &serv_addr.sin_addr) < 1)
-    {
-        printf("Invalid IP address value. Exit.\n");
-        return -1;
-    }
-
-    if(connect(sockfd, (struct sockaddr*) &serv_addr, sizeof(serv_addr)) < 0)
-    {
-        printf("errno = %d\n", errno);
-        perror("connect()");
-        return -1;
-    }
-
-    close(sockfd);
-
-    return 0;
-}
-
-$ time ./client 88.88.88.88
-errno = 115
-connect(): Operation now in progress
-
-real    0m4.001s
-user    0m0.000s
-sys     0m0.000s
-
-# tcpdump -i ppp0 -n port 9999 -ttt
-tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
-listening on ppp0, link-type LINUX_SLL (Linux cooked), capture size 96 bytes
-000000 IP 81.25.50.166.47087 > 88.88.88.88.9999: S 3574453598:3574453598(0) win
-5840 <mss 1460,sackOK,timestamp 207409345 0,nop,wscale 6>
-2. 997721 IP 81.25.50.166.47087 > 88.88.88.88.9999: S 3574453598:3574453598(0)
-win 5840 <mss 1460,sackOK,timestamp 207410245 0,nop,wscale 6>
-
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
