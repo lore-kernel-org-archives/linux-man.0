@@ -1,107 +1,59 @@
-From: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 5/9] strftime.3: Move 822-compliant date format example to EXAMPLES section
-Date: Thu,  3 Dec 2009 23:38:26 -0600
-Message-ID: <1259905106-4887-1-git-send-email-mfwitten@gmail.com>
-References: <1259879998-1140-5-git-send-email-mfwitten@gmail.com>
+From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Subject: Re: sync_file_range.2:  add some big WARNINGS
+Date: Fri, 4 Dec 2009 16:25:43 +0100
+Message-ID: <20091204152543.GA18599@lst.de>
+References: <20090827180116.GB31605@lst.de>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1259879998-1140-5-git-send-email-mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090827180116.GB31605-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The RFC 822-compliant date format given in the description of `%z'
-is now moved to the EXAMPLE section (and EXAMPLE has been renamed
-EXAMPLES).
+ping?
 
-Furthermore, that format example is now actually RFC 822-compliant
-(using `%y' instead of `%Y') and has been qualified as being correct
-only when in the context of at least an English locale. Also, `%T'
-is used in place of `%H:%M:%S'.
-
-For completeness, an RFC 2822-compliant format example has been
-similarly added.
-
-The formatting of the EXAMPLES section has been improved.
-
-Signed-off-by: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
-
-                   WOOPS!
-
-Somehow I managed to produce a commit without actually
-having changed `EXAMPLE' to `EXAMPLES'. This version
-fixes that.
-
-
- man3/strftime.3 |   30 +++++++++++++++++++++++-------
- 1 files changed, 23 insertions(+), 7 deletions(-)
-
-diff --git a/man3/strftime.3 b/man3/strftime.3
-index 0d925fa..bafe841 100644
---- a/man3/strftime.3
-+++ b/man3/strftime.3
-@@ -242,9 +242,7 @@ The year as a decimal number without a century (range 00 to 99).
- The year as a decimal number including the century.
- .TP
- .B %z
--The +hhmm or -hhmm numeric time zone (that is, the hour and minute offset from UTC).
--Required to emit RFC\ 822-conformant dates
--(using "%a,\ %d\ %b\ %Y\ %H:%M:%S\ %z"). (SU)
-+The +hhmm or -hhmm numeric time zone (that is, the hour and minute offset from UTC). (SU)
- .TP
- .B %Z
- The timezone or name or abbreviation.
-@@ -441,14 +439,30 @@ Nowadays,
- .BR gcc (1)
- provides the \fI\-Wno\-format\-y2k\fP option to prevent the warning,
- so that the above workaround is no longer required.
--.SH EXAMPLE
-+.SH EXAMPLES
-+.BR "RFC\ 2822-compliant date format"
-+(with an English locale for %a and %b)
-+.PP
-+.in +2n
-+"%a,\ %d\ %b\ %Y\ %T\ %z"
-+.PP
-+.BR "RFC\ 822-compliant date format"
-+(with an English locale for %a and %b)
-+.PP
-+.in +2n
-+"%a,\ %d\ %b\ %y\ %T\ %z"
-+.PP
-+.BR "Sample program"
-+.PP
-+.in +2n
- The program below can be used to experiment with
- .BR strftime ().
- .PP
-+.in +2n
- Some examples of the result string produced by the glibc implementation of
- .BR strftime ()
- are as follows:
--.in +4n
-+.in +2n
- .nf
- 
- .RB "$" " ./a.out \(aq%m\(aq"
-@@ -457,9 +471,11 @@ Result string is "11"
- Result string is "00011"
- .RB "$" " ./a.out \(aq%_5m\(aq"
- Result string is "   11"
-+
- .fi
--.in
--.SS Program source
-+.in -2n
-+Here is the program source:
-+.in +2n
- \&
- .nf
- #include <time.h>
--- 
-1.6.5.2.180.gc5b3e
-
+On Thu, Aug 27, 2009 at 08:01:16PM +0200, Christoph Hellwig wrote:
+> This system call is by design completely unsuitable for any data
+> integrity operations.  Make that very clear in the manpage.
+> 
+> 
+> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+> 
+> Index: man-pages/man2/sync_file_range.2
+> ===================================================================
+> --- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
+> +++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
+> @@ -80,11 +80,22 @@ after performing any write.
+>  Specifying
+>  .I flags
+>  as 0 is permitted, as a no-op.
+> -.SS Some details
+> -None of these operations write out the file's metadata.
+> +.SS WARNING
+> +This system call is extremly dangerous and should not be used in portable
+> +programs.  None of these operations write out the file's metadata.
+>  Therefore, unless the application is strictly performing overwrites of
+> -already-instantiated disk blocks,
+> -there are no guarantees that the data will be available after a crash.
+> +already-instantiated disk blocks, there are no guarantees that the data will
+> +be available after a crash.  There is no user interface to know if a
+> +write is purely an overwrite. On filesystem using copy on write semantics
+> +like
+> +.IR btrfs
+> +an over write of existing allocated blocks is impossible.  Writing into
+> +pre-allocated space many filesystems also require calls into the block
+> +allocator which this system call does not sync out to disk.
+> +This system call does not flush disk write caches and thus does not provide
+> +any data integrity on systems with volatile disk write caches.
+> +
+> +.SS Some details
+>  
+>  .B SYNC_FILE_RANGE_WAIT_BEFORE
+>  and
+---end quoted text---
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
