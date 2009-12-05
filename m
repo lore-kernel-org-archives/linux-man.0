@@ -1,54 +1,34 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH 1/2] strcpy.3: Fix typo in reference
-Date: Sat, 5 Dec 2009 07:05:48 +0100
-Message-ID: <cfd18e0f0912042205s360cc4a7ja5a8e9daf1dec184@mail.gmail.com>
-References: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
-	 <1258838327-31762-1-git-send-email-mark@pogo.org.uk>
+Subject: Re: fopencookie(3) typo
+Date: Sat, 5 Dec 2009 07:18:28 +0100
+Message-ID: <cfd18e0f0912042218u6981a432n49cb416749641206@mail.gmail.com>
+References: <6DAFA96EDD92F844A36E08EE4EA663F803F2E5CDBB@34093-MBX-C01.mex07a.mlsrvr.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1258838327-31762-1-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+In-Reply-To: <6DAFA96EDD92F844A36E08EE4EA663F803F2E5CDBB-kdG1m4129Bu2DLRS85gIqUIB4+oPu58X+FjS3EuObs0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stuart Kemp <skemp-sVxMeHNilT2ukZHgTAicrQ@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mark,
-
-On Sat, Nov 21, 2009 at 10:18 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+On Mon, Oct 26, 2009 at 4:53 PM, Stuart Kemp <skemp-sVxMeHNilT2ukZHgTAicrQ@public.gmane.org> wrote:
+> In the man-page for fopencookie(3) it says:
 >
-> Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
-> ---
-> =A0man3/strcpy.3 | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
+> "which provides a steam interface"
 >
-> diff --git a/man3/strcpy.3 b/man3/strcpy.3
-> index 9d47e37..a3e6d3b 100644
-> --- a/man3/strcpy.3
-> +++ b/man3/strcpy.3
-> @@ -137,6 +137,6 @@ in ways that may make the impossible possible.
-> =A0.BR memcpy (3),
-> =A0.BR memmove (3),
-> =A0.BR strdup (3),
-> -.BR strpcpy (3),
-> +.BR stpcpy (3),
-> =A0.BR wcscpy (3),
-> =A0.BR wcsncpy (3)
-> --
-> 1.6.5.2
+> The "steam" should be "stream"
+>
+>
 
-Thanks.
+Thanks Stuart. Fixed for man-pages-3.24.
 
-Applied for 3.24.
-
-Thanks,
+Cheers,
 
 Michael
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
