@@ -1,62 +1,80 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] strcpy.3: Remove reference to non-existent strpcpy(3)
-Date: Sat, 5 Dec 2009 08:36:21 +0100
-Message-ID: <cfd18e0f0912042336i5deb6e19kdbfc6de94435035f@mail.gmail.com>
-References: <1258826146-4474-1-git-send-email-mark@pogo.org.uk>
-	 <20091121205012.GF3708@machine.or.cz>
-	 <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
+Subject: Re: [PATCH 2/2] string.3: Reference stpcpy(3)
+Date: Sat, 5 Dec 2009 08:42:57 +0100
+Message-ID: <cfd18e0f0912042342o57b65e56ub70950afe81d915b@mail.gmail.com>
+References: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
+	 <1258838327-31762-1-git-send-email-mark@pogo.org.uk>
+	 <1258838327-31762-2-git-send-email-mark@pogo.org.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.NEB.2.01.0911212052050.25031-4Gsws06j5aKxDRllUHgonQ@public.gmane.org>
+In-Reply-To: <1258838327-31762-2-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Nov 21, 2009 at 10:16 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
-> On Sat, 21 Nov 2009, Petr Baudis wrote:
->
->> On Sat, Nov 21, 2009 at 05:55:46PM +0000, Mark Hills wrote:
->> > There is no man page or function by this name.
->> >
->> > Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
->> > ---
->> > =A0man3/strcpy.3 | =A0 =A01 -
->> > =A01 files changed, 0 insertions(+), 1 deletions(-)
->> >
->> > diff --git a/man3/strcpy.3 b/man3/strcpy.3
->> > index 9d47e37..c79efb1 100644
->> > --- a/man3/strcpy.3
->> > +++ b/man3/strcpy.3
->> > @@ -137,6 +137,5 @@ in ways that may make the impossible possible.
->> > =A0.BR memcpy (3),
->> > =A0.BR memmove (3),
->> > =A0.BR strdup (3),
->> > -.BR strpcpy (3),
->> > =A0.BR wcscpy (3),
->> > =A0.BR wcsncpy (3)
->>
->> In fact, this should be fixed by making it a reference to stpcpy().
->
-> ... which is the function I was looking for when I stumbled across th=
-e
-> missing strpcpy() reference. Thanks for finding it for me :-)
->
-> I grep'd for any other misleading references to strpcpy() and can't s=
-ee
-> any, so I'll follow up with a revised (tiny) patch, and an extra refe=
-rence
-> in string(3).
+Hello Mark,
 
-Okay -- so in the light of your other report, this report is obsolete. =
-Right?
+On Sat, Nov 21, 2009 at 10:18 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+> This function is a variant of strcpy(3). Even though it is lesser-use=
+d
+> it appears at the top alphabetically because of its unusual name.
+
+Thanks. Applied for 2.34.
 
 Cheers,
 
 Michael
+
+
+> Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+> ---
+> =A0man3/string.3 | =A0 =A05 ++++-
+> =A01 files changed, 4 insertions(+), 1 deletions(-)
+>
+> diff --git a/man3/string.3 b/man3/string.3
+> index 89d60e1..1fa71b8 100644
+> --- a/man3/string.3
+> +++ b/man3/string.3
+> @@ -27,7 +27,7 @@
+> =A0.\" Modified Sun Jul 25 10:54:31 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org=
+)
+> =A0.TH STRING 3 =A01993-04-09 "" "Linux Programmer's Manual"
+> =A0.SH NAME
+> -strcasecmp, strcat, strchr, strcmp, strcoll, strcpy, strcspn,
+> +stpcpy, strcasecmp, strcat, strchr, strcmp, strcoll, strcpy, strcspn=
+,
+> =A0strdup, strfry, strlen, strncat, strncmp, strncpy, strncasecmp, st=
+rpbrk,
+> =A0strrchr, strsep, strspn, strstr, strtok, strxfrm, index, rindex
+> =A0\- string operations
+> @@ -45,6 +45,8 @@ strrchr, strsep, strspn, strstr, strtok, strxfrm, i=
+ndex, rindex
+> =A0.sp
+> =A0.B #include <string.h>
+> =A0.sp
+> +.BI "char *stpcpy(char *" dest ", const char *" src );
+> +.sp
+> =A0.BI "char *strcat(char *" dest ", const char *" src );
+> =A0.sp
+> =A0.BI "char *strchr(const char *" s ", int " c );
+> @@ -90,6 +92,7 @@ See the individual man pages for descriptions of ea=
+ch function.
+> =A0.SH "SEE ALSO"
+> =A0.BR index (3),
+> =A0.BR rindex (3),
+> +.BR stpcpy (3),
+> =A0.BR strcasecmp (3),
+> =A0.BR strcat (3),
+> =A0.BR strchr (3),
+> --
+> 1.6.5.2
+>
+>
+
 
 
 --=20
