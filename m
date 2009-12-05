@@ -1,59 +1,55 @@
-From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: Re: sync_file_range.2:  add some big WARNINGS
-Date: Fri, 4 Dec 2009 16:25:43 +0100
-Message-ID: <20091204152543.GA18599@lst.de>
-References: <20090827180116.GB31605@lst.de>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: memrchr(3): depends on _GNU_SOURCE
+Date: Sat, 5 Dec 2009 06:06:38 +0100
+Message-ID: <cfd18e0f0912042106we0323fcx56556b438bca5591@mail.gmail.com>
+References: <4B0D3255.9080305@iki.fi>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090827180116.GB31605-jcswGhMUV9g@public.gmane.org>
+In-Reply-To: <4B0D3255.9080305-X3B1VOXEql0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Markus Peuhkuri <puhuri-X3B1VOXEql0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-ping?
+Hello Markus,
 
-On Thu, Aug 27, 2009 at 08:01:16PM +0200, Christoph Hellwig wrote:
-> This system call is by design completely unsuitable for any data
-> integrity operations.  Make that very clear in the manpage.
-> 
-> 
-> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-> 
-> Index: man-pages/man2/sync_file_range.2
-> ===================================================================
-> --- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
-> +++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
-> @@ -80,11 +80,22 @@ after performing any write.
->  Specifying
->  .I flags
->  as 0 is permitted, as a no-op.
-> -.SS Some details
-> -None of these operations write out the file's metadata.
-> +.SS WARNING
-> +This system call is extremly dangerous and should not be used in portable
-> +programs.  None of these operations write out the file's metadata.
->  Therefore, unless the application is strictly performing overwrites of
-> -already-instantiated disk blocks,
-> -there are no guarantees that the data will be available after a crash.
-> +already-instantiated disk blocks, there are no guarantees that the data will
-> +be available after a crash.  There is no user interface to know if a
-> +write is purely an overwrite. On filesystem using copy on write semantics
-> +like
-> +.IR btrfs
-> +an over write of existing allocated blocks is impossible.  Writing into
-> +pre-allocated space many filesystems also require calls into the block
-> +allocator which this system call does not sync out to disk.
-> +This system call does not flush disk write caches and thus does not provide
-> +any data integrity on systems with volatile disk write caches.
-> +
-> +.SS Some details
->  
->  .B SYNC_FILE_RANGE_WAIT_BEFORE
->  and
----end quoted text---
+On Wed, Nov 25, 2009 at 2:34 PM, Markus Peuhkuri <puhuri-X3B1VOXEql0@public.gmane.org> wrote:
+> At manual page (memchr, memrchr and rawmemchr) it is listed that only
+> rawmemchr needs _GNU_SOURCE feature test macro. However, at least in
+> /usr/include/string.h shipped with Debian Lenny and Ubuntu 9.04 both
+> have also memrchr in same #ifdef __USE_GNU block.
+>
+> Correction:
+>
+> --- memchr.old =A02008-07-26 15:31:57.431082210 +0200
+> +++ memchr.3 =A0 =A02009-11-25 15:31:39.000000000 +0200
+> @@ -46,6 +46,8 @@
+> =A0.BR feature_test_macros (7)):
+> =A0.in
+> =A0.sp
+> +.BR memrchr ():
+> +_GNU_SOURCE
+> =A0.BR rawmemchr ():
+> =A0_GNU_SOURCE
+> =A0.SH DESCRIPTION
+>
+>
+> (or should them be at same line.)
+
+Thanks for the report. Indeed, it should be at the same line. Fixed for=
+ 3.24.
+
+Cheers,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
