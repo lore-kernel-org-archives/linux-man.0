@@ -1,50 +1,52 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: memrchr(3): depends on _GNU_SOURCE
-Date: Sat, 5 Dec 2009 06:06:38 +0100
-Message-ID: <cfd18e0f0912042106we0323fcx56556b438bca5591@mail.gmail.com>
-References: <4B0D3255.9080305@iki.fi>
+Subject: Re: [PATCH 1/2] strcpy.3: Fix typo in reference
+Date: Sat, 5 Dec 2009 07:05:48 +0100
+Message-ID: <cfd18e0f0912042205s360cc4a7ja5a8e9daf1dec184@mail.gmail.com>
+References: <alpine.NEB.2.01.0911212052050.25031@jrf.vwaro.pbz>
+	 <1258838327-31762-1-git-send-email-mark@pogo.org.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B0D3255.9080305-X3B1VOXEql0@public.gmane.org>
+In-Reply-To: <1258838327-31762-1-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Markus Peuhkuri <puhuri-X3B1VOXEql0@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Markus,
+Hi Mark,
 
-On Wed, Nov 25, 2009 at 2:34 PM, Markus Peuhkuri <puhuri-X3B1VOXEql0@public.gmane.org> wrote:
-> At manual page (memchr, memrchr and rawmemchr) it is listed that only
-> rawmemchr needs _GNU_SOURCE feature test macro. However, at least in
-> /usr/include/string.h shipped with Debian Lenny and Ubuntu 9.04 both
-> have also memrchr in same #ifdef __USE_GNU block.
+On Sat, Nov 21, 2009 at 10:18 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
 >
-> Correction:
+> Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+> ---
+> =A0man3/strcpy.3 | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
 >
-> --- memchr.old =A02008-07-26 15:31:57.431082210 +0200
-> +++ memchr.3 =A0 =A02009-11-25 15:31:39.000000000 +0200
-> @@ -46,6 +46,8 @@
-> =A0.BR feature_test_macros (7)):
-> =A0.in
-> =A0.sp
-> +.BR memrchr ():
-> +_GNU_SOURCE
-> =A0.BR rawmemchr ():
-> =A0_GNU_SOURCE
-> =A0.SH DESCRIPTION
->
->
-> (or should them be at same line.)
+> diff --git a/man3/strcpy.3 b/man3/strcpy.3
+> index 9d47e37..a3e6d3b 100644
+> --- a/man3/strcpy.3
+> +++ b/man3/strcpy.3
+> @@ -137,6 +137,6 @@ in ways that may make the impossible possible.
+> =A0.BR memcpy (3),
+> =A0.BR memmove (3),
+> =A0.BR strdup (3),
+> -.BR strpcpy (3),
+> +.BR stpcpy (3),
+> =A0.BR wcscpy (3),
+> =A0.BR wcsncpy (3)
+> --
+> 1.6.5.2
 
-Thanks for the report. Indeed, it should be at the same line. Fixed for=
- 3.24.
+Thanks.
 
-Cheers,
+Applied for 3.24.
+
+Thanks,
 
 Michael
+
 
 --=20
 Michael Kerrisk
