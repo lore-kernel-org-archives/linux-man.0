@@ -1,35 +1,25 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: some unification section headers in the man pages
-Date: Sun, 6 Dec 2009 13:05:19 +0300
-Message-ID: <20091206130519.7d997197@keeper.home.local>
+From: Samy Al Bahra <sbahra-U2IGjetiQ8Mdnm+yROfE0A@public.gmane.org>
+Subject: sched_getcpu header file
+Date: Sun, 6 Dec 2009 13:50:37 -0500
+Message-ID: <c5c36f160912061050l33d36e54g5fc2fb340876f4b6@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+Hi,
 
-$grep -r 'Authors and Copyright Conditions' man-pages-git/
-man-pages-git/man4/intro.4:.SS Authors and Copyright Conditions
-man-pages-git/man6/intro.6:.SS Authors and Copyright Conditions
-man-pages-git/man5/intro.5:.SS Authors and Copyright Conditions
-man-pages-git/man8/intro.8:.SS Authors and Copyright Conditions
-man-pages-git/man7/intro.7:.SS Authors and Copyright Conditions
+sched_getcpu(3):
+- #include <utmpx.h>
++ #include <sched.h>
 
-$ grep -r 'Authors and Copyright Terms' man-pages-git/
-man-pages-git/man2/intro.2:.SS Authors and Copyright Terms
-man-pages-git/man3/intro.3:.SS Authors and Copyright Terms
+This is at least on version 3.23 of Linux man-pages.
 
-May be choose just one?
-
+Regards.
 -- 
-Best Regards,
-Yuri Kozlov
-
+Samy Al Bahra [http://repnop.org]
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
