@@ -1,56 +1,35 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: man-pages-3.23 is released
-Date: Sat, 5 Dec 2009 16:18:32 +0100
-Message-ID: <cfd18e0f0912050718h2498aa7aia6819a8f41b600ad@mail.gmail.com>
-References: <cfd18e0f0910022313q61824b0fh34c21d3f18bdf71b@mail.gmail.com>
-	 <20091009070244.GC3708@machine.or.cz>
-	 <cfd18e0f0910090224n7547c0e5x8d41e9e0ceaa9291@mail.gmail.com>
-	 <20091009093756.GW6695@machine.or.cz>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: some unification section headers in the man pages
+Date: Sun, 6 Dec 2009 13:05:19 +0300
+Message-ID: <20091206130519.7d997197@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091009093756.GW6695-DDGJ70k9y3lX+M3pkMnKjw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Petr,
+Hello.
 
->> > =A0Seeing how many patches seem to be left on the floor, do you ne=
-ed some
->> > help with the maintenance? I don't really have that much time myse=
-lf,
->> > but maybe just making the process a bit more open and liberal coul=
-d
->> > help... (If it's wrong, sooner or later someone will send in a pat=
-ch to
->> > fix it. ;-)
->>
->> Well, I could do with some good help right now, but there are few vo=
-lunteers.
->
-> =A0Ok, how can we help?
+$grep -r 'Authors and Copyright Conditions' man-pages-git/
+man-pages-git/man4/intro.4:.SS Authors and Copyright Conditions
+man-pages-git/man6/intro.6:.SS Authors and Copyright Conditions
+man-pages-git/man5/intro.5:.SS Authors and Copyright Conditions
+man-pages-git/man8/intro.8:.SS Authors and Copyright Conditions
+man-pages-git/man7/intro.7:.SS Authors and Copyright Conditions
 
-Review incoming patches and ACK/NAK them. See if you can find someone
-to do the same for your patches.
+$ grep -r 'Authors and Copyright Terms' man-pages-git/
+man-pages-git/man2/intro.2:.SS Authors and Copyright Terms
+man-pages-git/man3/intro.3:.SS Authors and Copyright Terms
 
-Nothing is dropped, but my queue is long. Around February, I'll become
-much more responsive. Sorry about this. Completely overloaded these
-days as I make the last push to get the book out the door (while also
-carrying a day job and being a parent)
+May be choose just one?
 
-Cheers,
+-- 
+Best Regards,
+Yuri Kozlov
 
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
