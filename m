@@ -1,42 +1,29 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: sched_getcpu header file
-Date: Tue, 8 Dec 2009 03:32:02 +0100
-Message-ID: <cfd18e0f0912071832n1752852ap1e64ab2147f54dc8@mail.gmail.com>
-References: <c5c36f160912061050l33d36e54g5fc2fb340876f4b6@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org>
+Subject: symlinkat, unlinkat man page problem
+Date: Tue, 08 Dec 2009 06:40:31 -0700
+Message-ID: <4B1E574F.20805@byu.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <c5c36f160912061050l33d36e54g5fc2fb340876f4b6-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Samy Al Bahra <sbahra-U2IGjetiQ8Mdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Samy,
+Per POSIX and the system headers, symlinkat and unlinkat both live in
+<unistd.h>, but:
 
-On Sun, Dec 6, 2009 at 7:50 PM, Samy Al Bahra <sbahra-U2IGjetiQ8Mdnm+yROfE0A@public.gmane.org> wrote:
-> Hi,
->
-> sched_getcpu(3):
-> - #include <utmpx.h>
-> + #include <sched.h>
->
-> This is at least on version 3.23 of Linux man-pages.
+http://www.kernel.org/doc/man-pages/online/pages/man2/symlinkat.2.html
+claims <stdio.h>
 
-Thanks.
-
-Applied for man-pages-3.24.
-
-Cheers,
-
-Michael
-
+http://www.kernel.org/doc/man-pages/online/pages/man2/unlinkat.2.html
+claims <fcntl.h>
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+Don't work too hard, make some time for fun as well!
+
+Eric Blake             ebb9-PGZyUNKar/Q@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
