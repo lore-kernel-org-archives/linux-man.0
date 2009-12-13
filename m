@@ -1,29 +1,42 @@
-From: Petre Mierlutiu <peter-zTtBy73WAK9hl2p70BpVqQ@public.gmane.org>
-Subject: sleep(3) manpage
-Date: Thu, 10 Dec 2009 19:50:30 +0200
-Message-ID: <9C1C3093-079B-4125-8621-56628C4A963B@cs.upt.ro>
-Mime-Version: 1.0 (Apple Message framework v1077)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 8BIT
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14795] New: getdents manpage wrong
+Date: Sun, 13 Dec 2009 09:17:24 GMT
+Message-ID: <bug-14795-11311@http.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+http://bugzilla.kernel.org/show_bug.cgi?id=14795
 
-the sleep(3) manpage states, under DESCRIPTION, that "sleep()  makes  the  calling  process sleep [...]". I believe this not to be true and the appropriate text would be: "sleep() makes the calling thread sleep [...]".
+               URL: n/a
+           Summary: getdents manpage wrong
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: 2.6.31
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: blah-hRtevi7K+EU+Va1GwOuvDg@public.gmane.org
+        Regression: No
 
- I think in the past Linux did implement it so it would block the process, I am not sure.
-Anyway, sleep is currently implemented using nanosleep() and a simple threaded program can be written to prove sleep only sleeps the calling thread.
 
-Manpages version: 3.21
-Distribution: ubuntu 9.10
+It shows source creating a struct instead of including, which doesn't work when
+the dents can be 64 or 32 bit, it also shows the d_type byte being after the
+offset, but it is before it in bits/dirent.h
 
-Kind regards,
-
-Petre Mierlutiu--
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
