@@ -1,57 +1,34 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: Re: [PATCH] Fix ppoll example
-Date: Sun, 27 Dec 2009 01:44:22 +0100
-Message-ID: <20091227004422.GA8673@basil.fritz.box>
-References: <20091227004007.GA8638@basil.fritz.box>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Fang Wenqi <anton.fang-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] proc.5: Fix typo for CONFIG_MAGIC_SYSRQ.
+Date: Mon, 28 Dec 2009 14:08:32 +0800
+Message-ID: <1261980512-5073-1-git-send-email-antonf@turbolinux.com.cn>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20091227004007.GA8638-u0/ZJuX+froe6aEkudXLsA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nicolas.francois-Fa7rcPG4DJn7nK0/Xc0eeg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Fang Wenqi <antonf-Qbad7dcHD6Y0jvc7zYWOs/8+0UxHXcjY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Dec 27, 2009 at 01:40:07AM +0100, Andi Kleen wrote:
-> 
-> The ppoll replacement example gets the timeout argument
-> wrong. Fix that.
+Signed-off-by: Fang Wenqi <antonf-Qbad7dcHD6Y0jvc7zYWOs/8+0UxHXcjY@public.gmane.org>
+---
+ man5/proc.5 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Sorry, the first version was still wrong. This one
-should be correct.
-
--Andi
-
-
---- man-pages-3.23/man2/poll.2	2009-09-30 03:36:44.000000000 +0200
-+++ man-pages-3.23-hacked/man2/poll.2	2009-12-27 01:43:31.000000000 +0100
-@@ -27,6 +27,7 @@
- .\" 2006-03-13, mtk, Added ppoll() + various other rewordings
- .\" 2006-07-01, mtk, Added POLLRDHUP + various other wording and
- .\"	formatting changes.
-+.\" 2009-12, ak, Fix ppoll example.
- .\"
- .TH POLL 2 2009-09-15 "Linux" "Linux Programmer's Manual"
- .SH NAME
-@@ -193,7 +194,7 @@
- call:
- .nf
+diff --git a/man5/proc.5 b/man5/proc.5
+index 3da30af..b50fdae 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -2313,7 +2313,7 @@ Possible values in this file are:
+         256 - allow nicing of all real-time tasks
  
--    ready = ppoll(&fds, nfds, timeout, &sigmask);
-+    ready = ppoll(&fds, nfds, ts, &sigmask);
- 
- .fi
- is equivalent to
-@@ -204,7 +205,7 @@
-     sigset_t origmask;
- 
-     sigprocmask(SIG_SETMASK, &sigmask, &origmask);
--    ready = poll(&fds, nfds, timeout);
-+    ready = poll(&fds, nfds, ts ? ts.tv_sec : -1);
-     sigprocmask(SIG_SETMASK, &origmask, NULL);
- .fi
- .PP
+ This file is only present if the
+-.B CONFIG_MAGIG_SYSRQ
++.B CONFIG_MAGIC_SYSRQ
+ kernel configuration option is enabled.
+ For further details see the kernel source file
+ .IR Documentation/sysrq.txt .
+-- 
+1.6.5.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
