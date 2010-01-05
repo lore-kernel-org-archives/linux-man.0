@@ -1,66 +1,80 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: execve signal reset
-Date: Wed, 6 Jan 2010 04:12:53 +1300
-Message-ID: <cfd18e0f1001050712u2a46a62bk944805e2a6c8557@mail.gmail.com>
-References: <20100105142136.GI5847@riva.ucam.org>
+Subject: Re: possibly a Bug in proc man page
+Date: Wed, 6 Jan 2010 05:31:53 +1300
+Message-ID: <cfd18e0f1001050831n37787505y2d05d37aca2cbaa4@mail.gmail.com>
+References: <9b0a5b991001010142w12fe5259v5819b925d13f352c@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100105142136.GI5847-K2jUmMR1UYV4cg9Nei1l7Q@public.gmane.org>
+In-Reply-To: <9b0a5b991001010142w12fe5259v5819b925d13f352c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Colin Watson <cjwatson-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Siddu <siddu.sjce-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Colin,
+Siddu,
 
-On Wed, Jan 6, 2010 at 3:21 AM, Colin Watson <cjwatson-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
-e:
-> Using man-pages 3.23 on Ubuntu lucid, I recently had cause to look up
-> what happens to signal handlers across execve(). The execve(2) manual
-> page contains the following sentence:
+On Fri, Jan 1, 2010 at 10:42 PM, Siddu <siddu.sjce-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello folks
 >
-> =A0The dispositions of any signals that are being caught are reset to
-> =A0being ignored.
 >
-> As it happened, though, the signal I'm interested in right now defaul=
-ts
-> to "terminate process", so I found this statement ambiguous, and look=
-ed
-> up POSIX, which says "Signals set to be caught by the calling process
-> image shall be set to the default action in the new process image".
->
-> How about the following patch?
+> The format in /proc/<pid>/maps seems to be updated in the man page
+> for every mapped library it lists only two section while in reality t=
+here
+> are three sections like shown
+> below
 
-Obviously correct, and applied for 2.34.
+I don't understand what yo mean here. Can you please say more.
 
-Thanks,
+Cheers,
 
 Michael
 
+
 >
-> diff --git a/man2/execve.2 b/man2/execve.2
-> index 0ea50db..11bec18 100644
-> --- a/man2/execve.2
-> +++ b/man2/execve.2
-> @@ -120,7 +120,8 @@ All process attributes are preserved during an
-> =A0except the following:
-> =A0.IP *
-> =A0The dispositions of any signals that are being caught are
-> -reset to being ignored.
-> +reset to the default action
-> +.RB ( signal (7)).
-> =A0.IP *
-> =A0Any alternate signal stack is not preserved
-> =A0.RB ( sigaltstack (2)).
+> 00110000-0024e000 r-xp 00000000 08:05 1619
+> /lib/tls/i686/cmov/libc-2.10.1.so
+> 0024e000-00250000 r--p 0013e000 08:05 1619
+> /lib/tls/i686/cmov/libc-2.10.1.so
+> 00250000-00251000 rw-p 00140000 08:05 1619
+> /lib/tls/i686/cmov/libc-2.10.1.so
+> 00251000-00254000 rw-p 00000000 00:00 0
+> 002b6000-002d1000 r-xp 00000000 08:05 775=A0=A0=A0=A0=A0=A0=A0 /lib/l=
+d-2.10.1.so
+> 002d1000-002d2000 r--p 0001a000 08:05 775=A0=A0=A0=A0=A0=A0=A0 /lib/l=
+d-2.10.1.so
+> 002d2000-002d3000 rw-p 0001b000 08:05 775=A0=A0=A0=A0=A0=A0=A0 /lib/l=
+d-2.10.1.so
+> 0039d000-00451000 r-xp 00000000 08:05 829
+> /lib/libglib-2.0.so.0.2200.2
+> 00451000-00452000 r--p 000b4000 08:05 829
+> /lib/libglib-2.0.so.0.2200.2
+> 00452000-00453000 rw-p 000b5000 08:05 829
+> /lib/libglib-2.0.so.0.2200.2
+> 00732000-00734000 r-xp 00000000 08:05 1625
+> /lib/tls/i686/cmov/libdl-2.10.1.so
+> 00734000-00735000 r--p 00001000 08:05 1625
+> /lib/tls/i686/cmov/libdl-2.10.1.so
+> 00735000-00736000 rw-p 00002000 08:05 1625
+> /lib/tls/i686/cmov/libdl-2.10.1.so
+> 0091e000-0091f000 r-xp 00000000 00:00 0=A0=A0=A0=A0=A0=A0=A0=A0=A0 [v=
+dso]
+> 00afa000-00afd000 r-xp 00000000 08:05 4796
+> /usr/lib/libgmodule-2.0.so.0.2200.2
+> 00afd000-00afe000 r--p 00002000 08:05 4796
+> /usr/lib/libgmodule-2.0.so.0.2200.2
+> 00afe000-00aff000 rw-p 00003000 08:05 4796
+> /usr/lib/libgmodule-2.0.so.0.2200.2
 >
-> Thanks,
 >
 > --
-> Colin Watson =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0 =A0 =A0 =A0 =A0 [cjwatson-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org]
+> Regards,
+> ~Sid~
+> I have never met a man so ignorant that i couldn't learn something fr=
+om him
+>
 >
 
 
