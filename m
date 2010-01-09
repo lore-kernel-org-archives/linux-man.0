@@ -1,7 +1,7 @@
 From: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 4/9] strftime.3: %z is defined by the SUSv3
-Date: Sat,  9 Jan 2010 17:45:32 -0600
-Message-ID: <1263080737-2868-5-git-send-email-mfwitten@gmail.com>
+Subject: [PATCH 5/9] strftime.3: Move 822-compliant date format example to EXAMPLES section
+Date: Sat,  9 Jan 2010 17:45:33 -0600
+Message-ID: <1263080737-2868-6-git-send-email-mfwitten@gmail.com>
 References: <1263080737-2868-1-git-send-email-mfwitten@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1263080737-2868-1-git-send-email-mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -10,32 +10,87 @@ To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On my system, `man 3p strftime' defines %z (much more rigorously).
-You can see for yourself here:
+The RFC 822-compliant date format given in the description of `%z'
+is now moved to the `EXAMPLES' section (note: `EXAMPLE' has been
+renamed `EXAMPLES').
 
-  http://www.opengroup.org/onlinepubs/009695399/functions/strftime.html
+Furthermore, that format example is now actually RFC 822-compliant
+(using `%y' instead of `%Y') and has been qualified as being correct
+only when in the context of at least an English locale. Also, `%T'
+is used in place of `%H:%M:%S'.
 
-So, it would appear that %z is no longer just a GNU extension.
-Hence, the `(GNU)' tag has been replaced with the `(SU)' tag.
+For completeness, an RFC 2822-compliant format example has been
+similarly added.
+
+The formatting of the EXAMPLES section has been improved.
 
 Signed-off-by: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man3/strftime.3 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ man3/strftime.3 |   30 +++++++++++++++++++++++-------
+ 1 files changed, 23 insertions(+), 7 deletions(-)
 
 diff --git a/man3/strftime.3 b/man3/strftime.3
-index 9b1b0b0..0d925fa 100644
+index 0d925fa..bafe841 100644
 --- a/man3/strftime.3
 +++ b/man3/strftime.3
-@@ -244,7 +244,7 @@ The year as a decimal number including the century.
+@@ -242,9 +242,7 @@ The year as a decimal number without a century (range 00 to 99).
+ The year as a decimal number including the century.
+ .TP
  .B %z
- The +hhmm or -hhmm numeric time zone (that is, the hour and minute offset from UTC).
- Required to emit RFC\ 822-conformant dates
--(using "%a,\ %d\ %b\ %Y\ %H:%M:%S\ %z"). (GNU)
-+(using "%a,\ %d\ %b\ %Y\ %H:%M:%S\ %z"). (SU)
+-The +hhmm or -hhmm numeric time zone (that is, the hour and minute offset from UTC).
+-Required to emit RFC\ 822-conformant dates
+-(using "%a,\ %d\ %b\ %Y\ %H:%M:%S\ %z"). (SU)
++The +hhmm or -hhmm numeric time zone (that is, the hour and minute offset from UTC). (SU)
  .TP
  .B %Z
  The timezone or name or abbreviation.
+@@ -441,14 +439,30 @@ Nowadays,
+ .BR gcc (1)
+ provides the \fI\-Wno\-format\-y2k\fP option to prevent the warning,
+ so that the above workaround is no longer required.
+-.SH EXAMPLE
++.SH EXAMPLES
++.BR "RFC\ 2822-compliant date format"
++(with an English locale for %a and %b)
++.PP
++.in +2n
++"%a,\ %d\ %b\ %Y\ %T\ %z"
++.PP
++.BR "RFC\ 822-compliant date format"
++(with an English locale for %a and %b)
++.PP
++.in +2n
++"%a,\ %d\ %b\ %y\ %T\ %z"
++.PP
++.BR "Sample program"
++.PP
++.in +2n
+ The program below can be used to experiment with
+ .BR strftime ().
+ .PP
++.in +2n
+ Some examples of the result string produced by the glibc implementation of
+ .BR strftime ()
+ are as follows:
+-.in +4n
++.in +2n
+ .nf
+ 
+ .RB "$" " ./a.out \(aq%m\(aq"
+@@ -457,9 +471,11 @@ Result string is "11"
+ Result string is "00011"
+ .RB "$" " ./a.out \(aq%_5m\(aq"
+ Result string is "   11"
++
+ .fi
+-.in
+-.SS Program source
++.in -2n
++Here is the program source:
++.in +2n
+ \&
+ .nf
+ #include <time.h>
 -- 
 1.6.6.102.gd6f8f
 
