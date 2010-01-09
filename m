@@ -1,61 +1,73 @@
-From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-Subject: Re: sync_file_range.2:  add some big WARNINGS
-Date: Sat, 9 Jan 2010 15:49:10 +0100
-Message-ID: <20100109144910.GA30167@lst.de>
-References: <20090827180116.GB31605@lst.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [OVERVIEW 0/9] Cleanup Time
+Date: Sat,  9 Jan 2010 17:45:28 -0600
+Message-ID: <1263080737-2868-1-git-send-email-mfwitten@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20090827180116.GB31605-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Are you going to put this or some equivalent note in?   Currently the
-manpages is extremly dangerous as it doesn't warn people about this
-system call not actually guaranteeing any data integrity.
+This patch series is a medley of cleanups
+focused mainly on issues related to time.
 
-On Thu, Aug 27, 2009 at 08:01:16PM +0200, Christoph Hellwig wrote:
-> This system call is by design completely unsuitable for any data
-> integrity operations.  Make that very clear in the manpage.
-> 
-> 
-> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-> 
-> Index: man-pages/man2/sync_file_range.2
-> ===================================================================
-> --- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
-> +++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
-> @@ -80,11 +80,22 @@ after performing any write.
->  Specifying
->  .I flags
->  as 0 is permitted, as a no-op.
-> -.SS Some details
-> -None of these operations write out the file's metadata.
-> +.SS WARNING
-> +This system call is extremly dangerous and should not be used in portable
-> +programs.  None of these operations write out the file's metadata.
->  Therefore, unless the application is strictly performing overwrites of
-> -already-instantiated disk blocks,
-> -there are no guarantees that the data will be available after a crash.
-> +already-instantiated disk blocks, there are no guarantees that the data will
-> +be available after a crash.  There is no user interface to know if a
-> +write is purely an overwrite. On filesystem using copy on write semantics
-> +like
-> +.IR btrfs
-> +an over write of existing allocated blocks is impossible.  Writing into
-> +pre-allocated space many filesystems also require calls into the block
-> +allocator which this system call does not sync out to disk.
-> +This system call does not flush disk write caches and thus does not provide
-> +any data integrity on systems with volatile disk write caches.
-> +
-> +.SS Some details
->  
->  .B SYNC_FILE_RANGE_WAIT_BEFORE
->  and
----end quoted text---
+Subjects:
+
+    [PATCH 1/9] tzset.3: Cleanup grammar/clarity
+    [PATCH 2/9] stime.2, strftime.3, tzset.3, zic.8: GMT -> UTC (where appropriate)
+    [PATCH 3/9] strftime.3: Clarification of %z
+    [PATCH 4/9] strftime.3: %z is defined by the SUSv3
+    [PATCH 5/9] strftime.3: Move 822-compliant date format example to EXAMPLES section
+    [PATCH 6/9] strftime.3: Expanded introduction
+    [PATCH 7/9] "timezone" -> "time zone"
+    [PATCH 8/9] Consistently define the Epoch
+    [PATCH 9/9] "null terminated" -> "null-terminated"
+
+Overall diffstat
+
+    man2/gettimeofday.2  |    4 +-
+    man2/stime.2         |    4 +-
+    man2/time.2          |    4 +-
+    man2/utimensat.2     |    6 ++--
+    man3/ctime.3         |   13 +++++------
+    man3/difftime.3      |    6 ++--
+    man3/ftime.3         |    6 ++--
+    man3/fts.3           |    8 +++---
+    man3/getdate.3       |    2 +-
+    man3/getnetent.3     |    2 +-
+    man3/getprotoent.3   |    2 +-
+    man3/getrpcent.3     |    2 +-
+    man3/getservent.3    |    2 +-
+    man3/getspnam.3      |    4 +-
+    man3/getsubopt.3     |    2 +-
+    man3/mq_receive.3    |    2 +-
+    man3/mq_send.3       |    2 +-
+    man3/putgrent.3      |    2 +-
+    man3/rtime.3         |    4 +-
+    man3/sem_wait.3      |    2 +-
+    man3/strcat.3        |    4 +-
+    man3/strcpy.3        |    2 +-
+    man3/strftime.3      |   58 +++++++++++++++++++++++++++++++++----------------
+    man3/strptime.3      |    7 ++---
+    man3/sysconf.3       |    2 +-
+    man3/timeradd.3      |    3 +-
+    man3/tzset.3         |   44 +++++++++++++++++++-------------------
+    man4/console_ioctl.4 |    2 +-
+    man4/rtc.4           |    2 +-
+    man5/core.5          |    2 +-
+    man5/proc.5          |    2 +-
+    man5/tzfile.5        |   18 +++++++-------
+    man7/environ.7       |    2 +-
+    man7/hier.7          |    2 +-
+    man7/icmp.7          |    2 +-
+    man7/time.7          |    2 +-
+    man8/tzselect.8      |   10 ++++----
+    man8/zdump.8         |    2 +-
+    man8/zic.8           |   30 +++++++++++++-------------
+    39 files changed, 146 insertions(+), 129 deletions(-)
+
+Sincerely,
+Michael Witten
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
