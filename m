@@ -1,38 +1,61 @@
-From: "Gregory P. Smith" <gps-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: PATCH: readahead(2) man page incorrectly states that it blocks
-Date: Thu, 7 Jan 2010 16:51:47 -0800
-Message-ID: <8bf6f5a21001071651s6fa4bcf3q4eae23ba628fb609@mail.gmail.com>
+From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+Subject: Re: sync_file_range.2:  add some big WARNINGS
+Date: Sat, 9 Jan 2010 15:49:10 +0100
+Message-ID: <20100109144910.GA30167@lst.de>
+References: <20090827180116.GB31605@lst.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20090827180116.GB31605-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Patch below.
+Are you going to put this or some equivalent note in?   Currently the
+manpages is extremly dangerous as it doesn't warn people about this
+system call not actually guaranteeing any data integrity.
 
-This was reported on the mailing list several months ago by Corrado Zoc=
-colo:
-
-=A0http://www.spinics.net/lists/linux-man/msg00961.html
-
-diff --git a/man2/readahead.2 b/man2/readahead.2
-index 886b22a..a07bcbe 100644
---- a/man2/readahead.2
-+++ b/man2/readahead.2
-@@ -58,7 +58,9 @@ equal to
- .BR readahead ()
- does not read beyond the end of the file.
- .BR readahead ()
--blocks until the specified data has been read.
-+is asynchronous and returns immediately.
-+The next system call reading from the file descriptor
-+will block until data is available.
- The current file offset of the open file referred to by
- .I fd
- is left unchanged.
+On Thu, Aug 27, 2009 at 08:01:16PM +0200, Christoph Hellwig wrote:
+> This system call is by design completely unsuitable for any data
+> integrity operations.  Make that very clear in the manpage.
+> 
+> 
+> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+> 
+> Index: man-pages/man2/sync_file_range.2
+> ===================================================================
+> --- man-pages.orig/man2/sync_file_range.2	2009-08-27 14:51:51.373360594 -0300
+> +++ man-pages/man2/sync_file_range.2	2009-08-27 14:57:35.213854927 -0300
+> @@ -80,11 +80,22 @@ after performing any write.
+>  Specifying
+>  .I flags
+>  as 0 is permitted, as a no-op.
+> -.SS Some details
+> -None of these operations write out the file's metadata.
+> +.SS WARNING
+> +This system call is extremly dangerous and should not be used in portable
+> +programs.  None of these operations write out the file's metadata.
+>  Therefore, unless the application is strictly performing overwrites of
+> -already-instantiated disk blocks,
+> -there are no guarantees that the data will be available after a crash.
+> +already-instantiated disk blocks, there are no guarantees that the data will
+> +be available after a crash.  There is no user interface to know if a
+> +write is purely an overwrite. On filesystem using copy on write semantics
+> +like
+> +.IR btrfs
+> +an over write of existing allocated blocks is impossible.  Writing into
+> +pre-allocated space many filesystems also require calls into the block
+> +allocator which this system call does not sync out to disk.
+> +This system call does not flush disk write caches and thus does not provide
+> +any data integrity on systems with volatile disk write caches.
+> +
+> +.SS Some details
+>  
+>  .B SYNC_FILE_RANGE_WAIT_BEFORE
+>  and
+---end quoted text---
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
