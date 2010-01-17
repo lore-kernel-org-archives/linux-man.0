@@ -1,96 +1,86 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [OVERVIEW 0/9] Cleanup Time
-Date: Sun, 17 Jan 2010 18:35:13 +1300
-Message-ID: <cfd18e0f1001162135s7a9bf828oe08694374022199b@mail.gmail.com>
-References: <1263080737-2868-1-git-send-email-mfwitten@gmail.com>
+Subject: Re: sync_file_range.2: add some big WARNINGS
+Date: Sun, 17 Jan 2010 18:48:03 +1300
+Message-ID: <cfd18e0f1001162148w78c3ebe8u9d54fdeb7dac8892@mail.gmail.com>
+References: <20090827180116.GB31605@lst.de> <20100109144910.GA30167@lst.de>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1263080737-2868-1-git-send-email-mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20100109144910.GA30167-jcswGhMUV9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Hi Christoph,
 
-On Sun, Jan 10, 2010 at 12:45 PM, Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
-rote:
-> This patch series is a medley of cleanups
-> focused mainly on issues related to time.
+On Sun, Jan 10, 2010 at 3:49 AM, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org> wrote:
+> Are you going to put this or some equivalent note in? =A0 Currently t=
+he
+> manpages is extremly dangerous as it doesn't warn people about this
+> system call not actually guaranteeing any data integrity.
 
-Thanks for the very nicely broken down patch set. All patches
-processed now, I think.
+I lightly edited your patch, and applied it. Sorry for the long delay.
 
 Cheers,
 
 Michael
 
-
-> Subjects:
->
-> =A0 =A0[PATCH 1/9] tzset.3: Cleanup grammar/clarity
-> =A0 =A0[PATCH 2/9] stime.2, strftime.3, tzset.3, zic.8: GMT -> UTC (w=
-here appropriate)
-> =A0 =A0[PATCH 3/9] strftime.3: Clarification of %z
-> =A0 =A0[PATCH 4/9] strftime.3: %z is defined by the SUSv3
-> =A0 =A0[PATCH 5/9] strftime.3: Move 822-compliant date format example=
- to EXAMPLES section
-> =A0 =A0[PATCH 6/9] strftime.3: Expanded introduction
-> =A0 =A0[PATCH 7/9] "timezone" -> "time zone"
-> =A0 =A0[PATCH 8/9] Consistently define the Epoch
-> =A0 =A0[PATCH 9/9] "null terminated" -> "null-terminated"
->
-> Overall diffstat
->
-> =A0 =A0man2/gettimeofday.2 =A0| =A0 =A04 +-
-> =A0 =A0man2/stime.2 =A0 =A0 =A0 =A0 | =A0 =A04 +-
-> =A0 =A0man2/time.2 =A0 =A0 =A0 =A0 =A0| =A0 =A04 +-
-> =A0 =A0man2/utimensat.2 =A0 =A0 | =A0 =A06 ++--
-> =A0 =A0man3/ctime.3 =A0 =A0 =A0 =A0 | =A0 13 +++++------
-> =A0 =A0man3/difftime.3 =A0 =A0 =A0| =A0 =A06 ++--
-> =A0 =A0man3/ftime.3 =A0 =A0 =A0 =A0 | =A0 =A06 ++--
-> =A0 =A0man3/fts.3 =A0 =A0 =A0 =A0 =A0 | =A0 =A08 +++---
-> =A0 =A0man3/getdate.3 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/getnetent.3 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/getprotoent.3 =A0 | =A0 =A02 +-
-> =A0 =A0man3/getrpcent.3 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/getservent.3 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man3/getspnam.3 =A0 =A0 =A0| =A0 =A04 +-
-> =A0 =A0man3/getsubopt.3 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/mq_receive.3 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man3/mq_send.3 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/putgrent.3 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man3/rtime.3 =A0 =A0 =A0 =A0 | =A0 =A04 +-
-> =A0 =A0man3/sem_wait.3 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man3/strcat.3 =A0 =A0 =A0 =A0| =A0 =A04 +-
-> =A0 =A0man3/strcpy.3 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man3/strftime.3 =A0 =A0 =A0| =A0 58 ++++++++++++++++++++++++++=
-+++++++----------------
-> =A0 =A0man3/strptime.3 =A0 =A0 =A0| =A0 =A07 ++---
-> =A0 =A0man3/sysconf.3 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man3/timeradd.3 =A0 =A0 =A0| =A0 =A03 +-
-> =A0 =A0man3/tzset.3 =A0 =A0 =A0 =A0 | =A0 44 +++++++++++++++++++-----=
---------------
-> =A0 =A0man4/console_ioctl.4 | =A0 =A02 +-
-> =A0 =A0man4/rtc.4 =A0 =A0 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man5/core.5 =A0 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man5/proc.5 =A0 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man5/tzfile.5 =A0 =A0 =A0 =A0| =A0 18 +++++++-------
-> =A0 =A0man7/environ.7 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man7/hier.7 =A0 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man7/icmp.7 =A0 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man7/time.7 =A0 =A0 =A0 =A0 =A0| =A0 =A02 +-
-> =A0 =A0man8/tzselect.8 =A0 =A0 =A0| =A0 10 ++++----
-> =A0 =A0man8/zdump.8 =A0 =A0 =A0 =A0 | =A0 =A02 +-
-> =A0 =A0man8/zic.8 =A0 =A0 =A0 =A0 =A0 | =A0 30 +++++++++++++---------=
-----
-> =A0 =A039 files changed, 146 insertions(+), 129 deletions(-)
->
-> Sincerely,
-> Michael Witten
+> On Thu, Aug 27, 2009 at 08:01:16PM +0200, Christoph Hellwig wrote:
+>> This system call is by design completely unsuitable for any data
+>> integrity operations. =A0Make that very clear in the manpage.
+>>
+>>
+>> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
+>>
+>> Index: man-pages/man2/sync_file_range.2
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> --- man-pages.orig/man2/sync_file_range.2 =A0 =A0 2009-08-27 14:51:5=
+1.373360594 -0300
+>> +++ man-pages/man2/sync_file_range.2 =A02009-08-27 14:57:35.21385492=
+7 -0300
+>> @@ -80,11 +80,22 @@ after performing any write.
+>> =A0Specifying
+>> =A0.I flags
+>> =A0as 0 is permitted, as a no-op.
+>> -.SS Some details
+>> -None of these operations write out the file's metadata.
+>> +.SS WARNING
+>> +This system call is extremly dangerous and should not be used in po=
+rtable
+>> +programs. =A0None of these operations write out the file's metadata=
+=2E
+>> =A0Therefore, unless the application is strictly performing overwrit=
+es of
+>> -already-instantiated disk blocks,
+>> -there are no guarantees that the data will be available after a cra=
+sh.
+>> +already-instantiated disk blocks, there are no guarantees that the =
+data will
+>> +be available after a crash. =A0There is no user interface to know i=
+f a
+>> +write is purely an overwrite. On filesystem using copy on write sem=
+antics
+>> +like
+>> +.IR btrfs
+>> +an over write of existing allocated blocks is impossible. =A0Writin=
+g into
+>> +pre-allocated space many filesystems also require calls into the bl=
+ock
+>> +allocator which this system call does not sync out to disk.
+>> +This system call does not flush disk write caches and thus does not=
+ provide
+>> +any data integrity on systems with volatile disk write caches.
+>> +
+>> +.SS Some details
+>>
+>> =A0.B SYNC_FILE_RANGE_WAIT_BEFORE
+>> =A0and
+> ---end quoted text---
 >
 
 
