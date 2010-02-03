@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 14870] FUTEX_FD was removed already. man description shold be
  removed too.
-Date: Wed, 3 Feb 2010 06:13:46 GMT
-Message-ID: <201002030613.o136DkgT012425@demeter.kernel.org>
+Date: Wed, 3 Feb 2010 06:16:35 GMT
+Message-ID: <201002030616.o136GZIM018024@demeter.kernel.org>
 References: <bug-14870-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,25 +15,20 @@ List-Id: linux-man@vger.kernel.org
 http://bugzilla.kernel.org/show_bug.cgi?id=14870
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+             Status|NEW                         |RESOLVED
+         Resolution|                            |WILL_NOT_FIX
 
 
 
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-02-03 06:13:44 ---
-Hi Motohiro,
+--- Comment #2 from KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>  2010-02-03 06:16:34 ---
+ok. I'll close this ticket.
 
-The man page clearly states that FUTEX_FD is removed, but the text needs to
-stay there, so that people using older kernels know about FUTEX_FD. So, I don't
-plan to make any change to the page.
-
-Cheers,
-
-Michael
+Thanks.
 
 -- 
 Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
