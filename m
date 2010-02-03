@@ -1,71 +1,94 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14449] Ambiguity in SIGSYS <-> SIGUNUSED portion of signal(7)
-Date: Wed, 3 Feb 2010 05:55:21 GMT
-Message-ID: <201002030555.o135tLhD005317@demeter.kernel.org>
-References: <bug-14449-11311@http.bugzilla.kernel.org/>
+From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: Subject: [PATCH] sleep.3: sleep suspends the thread, not the
+	process. (Re: sleep(3) manpage)
+Date: Wed, 3 Feb 2010 07:01:35 +0100
+Message-ID: <cfd18e0f1002022201g9923cemfe3e7a8cbc481355@mail.gmail.com>
+References: <9C1C3093-079B-4125-8621-56628C4A963B@cs.upt.ro>
+	 <4B57F6F0.8010904@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14449-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+In-Reply-To: <4B57F6F0.8010904-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: bill o gallmeister <bog.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Petre Mierlutiu <peter-zTtBy73WAK9hl2p70BpVqQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=14449
+On Thu, Jan 21, 2010 at 7:40 AM, bill o gallmeister
+<bog.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Petre Mierlutiu wrote:
+>> Hello,
+>>
+>> the sleep(3) manpage states, under DESCRIPTION, that "sleep() =A0mak=
+es =A0the =A0calling =A0process sleep [...]". I believe this not to be =
+true and the appropriate text would be: "sleep() makes the calling thre=
+ad sleep [...]".
+>>
+>> =A0I think in the past Linux did implement it so it would block the =
+process, I am not sure.
+>> Anyway, sleep is currently implemented using nanosleep() and a simpl=
+e threaded program can be written to prove sleep only sleeps the callin=
+g thread.
+>>
+>> Manpages version: 3.21
+>> Distribution: ubuntu 9.10
+>>
+>> Kind regards,
+>>
+>> Petre Mierlutiu--
+>> To unsubscribe from this list: send the line "unsubscribe linux-man"=
+ in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+>>
+>
+> Signed-off-by: Bill O. Gallmeister <bog.kernel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+Thanks Bill.
+
+Applied for 3.24.
+
+Cheers,
+
+Michael
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+> ---
+> =A0man3/sleep.3 | =A0 =A03 ++-
+> =A01 files changed, 2 insertions(+), 1 deletions(-)
+>
+> diff --git a/man3/sleep.3 b/man3/sleep.3
+> index 900b7fc..41575b7 100644
+> --- a/man3/sleep.3
+> +++ b/man3/sleep.3
+> @@ -32,7 +32,7 @@ sleep \- Sleep for the specified number of seconds
+> =A0.fi
+> =A0.SH DESCRIPTION
+> =A0.BR sleep ()
+> -makes the calling process sleep until
+> +makes the calling thread sleep until
+> =A0.I seconds
+> =A0seconds have elapsed or a signal arrives which is not ignored.
+> =A0.SH "RETURN VALUE"
+> @@ -58,5 +58,6 @@ from a signal handler or modifying the handling of
+> =A0while sleeping will cause undefined results.
+> =A0.SH "SEE ALSO"
+> =A0.BR alarm (2),
+> +.BR nanosleep (2),
+> =A0.BR signal (2),
+> =A0.BR signal (7)
+> --
+> 1.6.0.6
+>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
-
-
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-02-03 05:55:18 ---
-Thanks for this report. I applied the patch below. Satisfactory?
-
---- a/man7/signal.7
-+++ b/man7/signal.7
-@@ -270,7 +270,7 @@ SIGBUS      10,7,10 Core    Bus error (bad memory access)
- SIGPOLL                Term    Pollable event (Sys V).
-                        Synonym for \fBSIGIO\fP
- SIGPROF        27,27,29        Term    Profiling timer expired
--SIGSYS 12,\-,12        Core    Bad argument to routine (SVr4)
-+SIGSYS 12,31,12        Core    Bad argument to routine (SVr4)
- SIGTRAP        5       Core    Trace/breakpoint trap
- SIGURG 16,23,21        Ign     Urgent condition on socket (4.2BSD)
- SIGVTALRM      26,26,28        Term    Virtual alarm clock (4.2BSD)
-@@ -304,7 +304,7 @@ SIGPWR      29,30,19        Term    Power failure (System
-V)
- SIGINFO        29,\-,\-                A synonym for \fBSIGPWR\fP
- SIGLOST        \-,\-,\-        Term    File lock lost
- SIGWINCH       28,28,20        Ign     Window resize signal (4.3BSD, Sun)
--SIGUNUSED      \-,31,\-        Term    Unused signal (will be \fBSIGSYS\fP)
-+SIGUNUSED      \-,31,\-        Core    Synonymous with \fBSIGSYS\fP
- .TE
-
- (Signal 29 is
-@@ -328,6 +328,13 @@ by default on those other Unix systems where it appears.
- .B SIGIO
- (which is not specified in POSIX.1-2001) is ignored by default
- on several other Unix systems.
-+
-+Where defined,
-+.B SIGUNUSED
-+is synonymous with
-+.\" parisc is the only exception: SIGSYS is 12, SIGUNUSED is 31
-+.B SIGSYS
-+on most architectures.
- .SS "Real-time Signals"
- Linux supports real-time signals as originally defined in the POSIX.1b
- real-time extensions (and now included in POSIX.1-2001).
-
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
