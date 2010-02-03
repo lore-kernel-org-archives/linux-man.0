@@ -1,50 +1,34 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: some unification section headers in the man pages
-Date: Wed, 3 Feb 2010 07:19:05 +0100
-Message-ID: <cfd18e0f1002022219q5d6175b7o476b4ed9dbe72be9@mail.gmail.com>
-References: <20091206130519.7d997197@keeper.home.local>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] statfs: Add OCFS2_SUPER_MAGIC.
+Date: Wed,  3 Feb 2010 14:27:14 +0800
+Message-ID: <1265178434-25008-1-git-send-email-tao.ma@oracle.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091206130519.7d997197-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yuri
+Signed-off-by: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+---
+ man2/statfs.2 |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-On Sun, Dec 6, 2009 at 11:05 AM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
-> Hello.
->
-> $grep -r 'Authors and Copyright Conditions' man-pages-git/
-> man-pages-git/man4/intro.4:.SS Authors and Copyright Conditions
-> man-pages-git/man6/intro.6:.SS Authors and Copyright Conditions
-> man-pages-git/man5/intro.5:.SS Authors and Copyright Conditions
-> man-pages-git/man8/intro.8:.SS Authors and Copyright Conditions
-> man-pages-git/man7/intro.7:.SS Authors and Copyright Conditions
->
-> $ grep -r 'Authors and Copyright Terms' man-pages-git/
-> man-pages-git/man2/intro.2:.SS Authors and Copyright Terms
-> man-pages-git/man3/intro.3:.SS Authors and Copyright Terms
->
-> May be choose just one?
-
-Makes sense. I made .2 and .3 the same as the other pages. Changes
-will be in man-pages 3.24.
-
-Thanks for the report!
-
-Cheers,
-
-Michael
-
-
+diff --git a/man2/statfs.2 b/man2/statfs.2
+index 73ec57f..8a79321 100644
+--- a/man2/statfs.2
++++ b/man2/statfs.2
+@@ -87,6 +87,7 @@ File system types:
+    NCP_SUPER_MAGIC       0x564c
+    NFS_SUPER_MAGIC       0x6969
+    NTFS_SB_MAGIC         0x5346544e
++   OCFS2_SUPER_MAGIC     0x7461636f
+    OPENPROM_SUPER_MAGIC  0x9fa1
+    PROC_SUPER_MAGIC      0x9fa0
+    QNX4_SUPER_MAGIC      0x002f
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+1.6.3.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
