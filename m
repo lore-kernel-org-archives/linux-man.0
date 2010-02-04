@@ -1,76 +1,54 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: elf.5: EI_BRAND is not exist in Linux
-Date: Wed, 3 Feb 2010 02:04:35 -0500
-Message-ID: <201002030204.36675.vapier@gentoo.org>
-References: <20100107133046.7d380dcb@keeper.home.local> <cfd18e0f1002022208j7e78def6ycee31e0c818b9351@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15223] New: Mention security in the manpages for strcat, scanf,
+ and getopt
+Date: Thu, 4 Feb 2010 09:51:31 GMT
+Message-ID: <bug-15223-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart1466829.9opsQaaGoa";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cfd18e0f1002022208j7e78def6ycee31e0c818b9351-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart1466829.9opsQaaGoa
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+http://bugzilla.kernel.org/show_bug.cgi?id=15223
 
-On Wednesday 03 February 2010 01:08:03 Michael Kerrisk wrote:
-> On Thu, Jan 7, 2010 at 11:30 AM, Yuri Kozlov wrote:
-> > From elf.5:
-> >  e_ident     This array of bytes specifies to interpret the file, ...
-> >    EI_BRAND    Start of architecture identification.
-> >
-> > Value for EI_BRAND is not defined in the linux/elf.h (and gabi too).
-> > Maybe add some comment, that is for *BSD only?
->
-> You've done a patch or two to the elf.5 page in the past. Are you able
-> to comment on the below? I confirmed Yuri's statement: EI_BRAND isn't
-> in glibc 2.11 source.
+           Summary: Mention security in the manpages for strcat, scanf,
+                    and getopt
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: Linux man-pages 3.23
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: enhancement
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: jasonspiro4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-not being the glibc source isnt terribly important imo (since there are a l=
-ot=20
-of things glibc's elf.h doesnt define), but the fact it isnt in the gabi as=
-=20
-Yuri notes seems pretty important:
-http://www.sco.com/developers/gabi/latest/ch4.eheader.html
 
-whether it be marked as non-standard (and then we research what random OSes=
-=20
-actually define it) or simply drop it, either makes sense to me.  the latte=
-r=20
-is obviously less work :).
-=2Dmike
+Thanks for all the hard work you put in on maintaining kernel documentation.
 
---nextPart1466829.9opsQaaGoa
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+The manpages for strcat[1], scanf[2], and getopt[3] don't mention the fact that
+using those functions can lead to buffer overflow security exploits.  The
+Secure Programming HOWTO section about C/C++[4] explains how to avoid such
+exploits when using these functions.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.14 (GNU/Linux)
+Please add a "BUGS" or "SECURITY" section to those functions' manpages, which
+talks about security.
 
-iQIcBAABAgAGBQJLaSAEAAoJEEFjO5/oN/WBytoQAN2uqJUHfURO171SaBZEzKss
-TVEGCefhMXumIVaq/winR/QAdEjzIqI2zt7JnnUa/cpJSyCcAOMWD4qrtsGoT9Xz
-nhnfk9DhIhVtTDim3Z9f45TJ90/qqd2s3G6QKithKp+eFYY5S2ywCunZP0N4PxhV
-pJmoDCuEBeiSTPLXMsEBF/IwRwvGHlwsEgvxIdFodHy9NDV8rKsLza3Wz0dRaXi3
-0xHynfMFWP75xyw63wWBV58o+nLSYiB/kft+EQvVjlOX6s4d0Aq0/DJy6dWdGaXg
-yZZXyReoW4h+GSUtKU25elVd4OqRC/XbvxaiRDDKqA3wZcMAv9WjYrVDp5Hpq5j1
-ckbv4S+evbomb2wSR0FvDKX4G0T8iCbbUrYD66PvtSSjVFEhAt6OMgdZ8LUytmjl
-QVXuZrUCrN/3CImorGrzok8mNZFieyC5A+W/ESkGn3XKbrESIr/jyS7c6SIGY/9p
-baSGLnrr2gM6khQ6AqkSrnChBnSvtw1f9YVqiBrGdBEnL2NX/jLlRrqeV+/469Ia
-v/NcV0oFvOBd07oebp/+4t//lpVM5SYBx2FqAINzIsOjt5g2EKsXeh3rlBYIy4KK
-ie13cWaYUElBy5G1NWsDoQIie0rKeeHugHvEB9dzl3J6ZqC3tfSsc2WkYTavHYMx
-xpVoGOnoTgKD81hyA3Ay
-=J4nk
------END PGP SIGNATURE-----
+^  [1].  http://www.kernel.org/doc/man-pages/online/pages/man3/strcat.3.html
+^  [2].  http://www.kernel.org/doc/man-pages/online/pages/man3/scanf.3.html
+^  [3].  http://www.kernel.org/doc/man-pages/online/pages/man3/getopt.3.html
+^  [4]. 
+http://www.dwheeler.com/secure-programs/Secure-Programs-HOWTO/dangers-c.html
 
---nextPart1466829.9opsQaaGoa--
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
