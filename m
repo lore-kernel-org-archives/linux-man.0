@@ -1,54 +1,53 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15223] New: Mention security in the manpages for strcat, scanf,
- and getopt
-Date: Thu, 4 Feb 2010 09:51:31 GMT
-Message-ID: <bug-15223-11311@http.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org>
+Subject: [PATCH] * openpty.3: Use const as appropriate
+Date: Fri,  5 Feb 2010 14:05:30 -0700
+Message-ID: <1265403930-5005-1-git-send-email-ebb9@byu.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: ebb9-PGZyUNKar/Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=15223
+Signed-off-by: Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org>
+---
+Make the openpty/forkpty man page match /usr/include/pty.h as
+included in glibc 2.11.1.
 
-           Summary: Mention security in the manpages for strcat, scanf,
-                    and getopt
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: Linux man-pages 3.23
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: enhancement
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: jasonspiro4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+ man3/openpty.3 |   10 ++++++----
+ 1 files changed, 6 insertions(+), 4 deletions(-)
 
-
-Thanks for all the hard work you put in on maintaining kernel documentation.
-
-The manpages for strcat[1], scanf[2], and getopt[3] don't mention the fact that
-using those functions can lead to buffer overflow security exploits.  The
-Secure Programming HOWTO section about C/C++[4] explains how to avoid such
-exploits when using these functions.
-
-Please add a "BUGS" or "SECURITY" section to those functions' manpages, which
-talks about security.
-
-^  [1].  http://www.kernel.org/doc/man-pages/online/pages/man3/strcat.3.html
-^  [2].  http://www.kernel.org/doc/man-pages/online/pages/man3/scanf.3.html
-^  [3].  http://www.kernel.org/doc/man-pages/online/pages/man3/getopt.3.html
-^  [4]. 
-http://www.dwheeler.com/secure-programs/Secure-Programs-HOWTO/dangers-c.html
-
+diff --git a/man3/openpty.3 b/man3/openpty.3
+index e033af0..a36352b 100644
+--- a/man3/openpty.3
++++ b/man3/openpty.3
+@@ -29,7 +29,7 @@
+ .\"
+ .\" Added -lutil remark, 030718
+ .\"
+-.TH OPENPTY 3  2003-07-18 "GNU" "Linux Programmer's Manual"
++.TH OPENPTY 3  2010-02-05 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ openpty, login_tty, forkpty \- tty utility functions
+ .SH SYNOPSIS
+@@ -37,10 +37,12 @@ openpty, login_tty, forkpty \- tty utility functions
+ .B #include <pty.h>
+ .sp
+ .BI "int openpty(int *" amaster ", int *" aslave ", char *" name ,
+-.BI "            struct termios *" termp ", struct winsize *" winp );
++.BI "            const struct termios *" termp ,
++.BI "            const struct winsize *" winp );
+ .sp
+-.BI "pid_t forkpty(int *" amaster ", char *" name ", struct termios *" termp ,
+-.BI "              struct winsize *" winp );
++.BI "pid_t forkpty(int *" amaster ", char *" name ,
++.BI "              const struct termios *" termp ,
++.BI "              const struct winsize *" winp );
+ .sp
+ .B #include <utmp.h>
+ .sp
 -- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.6.6
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
