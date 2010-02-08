@@ -1,44 +1,74 @@
-From: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] statfs: Add OCFS2_SUPER_MAGIC.
-Date: Mon, 08 Feb 2010 11:03:03 +0800
-Message-ID: <4B6F7EE7.2030100@oracle.com>
-References: <1265178483-25044-1-git-send-email-tao.ma@oracle.com>
+From: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: Re: [PATCH] Fix for
+ hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch
+ in -mm
+Date: Mon, 8 Feb 2010 14:56:05 -0800
+Message-ID: <20100208145605.5eea30b5.randy.dunlap@oracle.com>
+References: <1252487811-9205-1-git-send-email-ebmunson@us.ibm.com>
+	<1253011613-6429-1-git-send-email-ebmunson@us.ibm.com>
+	<Pine.LNX.4.64.0909152146470.25625@sister.anvils>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1265178483-25044-1-git-send-email-tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <Pine.LNX.4.64.0909152146470.25625@sister.anvils>
+Sender: owner-linux-mm@kvack.org
+To: Hugh Dickins <hugh.dickins@tiscali.co.uk>
+Cc: Eric B Munson <ebmunson@us.ibm.com>, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, Arnd Bergman <arnd@arndb.de>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
-	any reason why this can't be merged by now?
+On Tue, 15 Sep 2009 21:53:12 +0100 (BST) Hugh Dickins wrote:
 
-Regards,
-tao
-
-Tao Ma wrote:
-> Signed-off-by: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> ---
->  man2/statfs.2 |    1 +
->  1 files changed, 1 insertions(+), 0 deletions(-)
+> On Tue, 15 Sep 2009, Eric B Munson wrote:
+> > Resending because this seems to have fallen between the cracks.
 > 
-> diff --git a/man2/statfs.2 b/man2/statfs.2
-> index 73ec57f..8a79321 100644
-> --- a/man2/statfs.2
-> +++ b/man2/statfs.2
-> @@ -87,6 +87,7 @@ File system types:
->     NCP_SUPER_MAGIC       0x564c
->     NFS_SUPER_MAGIC       0x6969
->     NTFS_SB_MAGIC         0x5346544e
-> +   OCFS2_SUPER_MAGIC     0x7461636f
->     OPENPROM_SUPER_MAGIC  0x9fa1
->     PROC_SUPER_MAGIC      0x9fa0
->     QNX4_SUPER_MAGIC      0x002f
+> Yes, indeed.  I think it isn't quite what Arnd was suggesting, but I
+> agree with you that we might as well go for 0x080000 (so that even Alpha
+> can be just a cut-and-paste job from asm-generic), and right now it's
+> more important to finalize the number than what file it appears in.
+> 
+> Acked-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
+
+so what happened with this patch ??
+
+> > 
+> > The patch
+> > hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch
+> > used the value 0x40 for MAP_HUGETLB which is the same value used for
+> > various other flags on some architectures.  This collision causes
+> > unexpected use of huge pages in the best case and mmap to fail with
+> > ENOMEM or ENOSYS in the worst.  This patch changes the value for
+> > MAP_HUGETLB to a value that is not currently used on any arch.
+> > 
+> > This patch should be considered a fix to
+> > hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch.
+> > 
+> > Reported-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
+> > Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
+> > ---
+> >  include/asm-generic/mman-common.h |    2 +-
+> >  1 files changed, 1 insertions(+), 1 deletions(-)
+> > 
+> > diff --git a/include/asm-generic/mman-common.h b/include/asm-generic/mman-common.h
+> > index 12f5982..e6adb68 100644
+> > --- a/include/asm-generic/mman-common.h
+> > +++ b/include/asm-generic/mman-common.h
+> > @@ -19,7 +19,7 @@
+> >  #define MAP_TYPE	0x0f		/* Mask for type of mapping */
+> >  #define MAP_FIXED	0x10		/* Interpret addr exactly */
+> >  #define MAP_ANONYMOUS	0x20		/* don't use a file */
+> > -#define MAP_HUGETLB	0x40		/* create a huge page mapping */
+> > +#define MAP_HUGETLB	0x080000	/* create a huge page mapping */
+> >  
+> >  #define MS_ASYNC	1		/* sync memory asynchronously */
+> >  #define MS_INVALIDATE	2		/* invalidate the caches */
+> > -- 
+
+---
+~Randy
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
