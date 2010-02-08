@@ -1,29 +1,43 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14449] Ambiguity in SIGSYS <-> SIGUNUSED portion of signal(7)
-Date: Mon, 8 Feb 2010 01:40:46 GMT
-Message-ID: <201002080140.o181ek0W027260@demeter.kernel.org>
-References: <bug-14449-11311@http.bugzilla.kernel.org/>
+From: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] statfs: Add OCFS2_SUPER_MAGIC.
+Date: Mon, 08 Feb 2010 11:03:03 +0800
+Message-ID: <4B6F7EE7.2030100@oracle.com>
+References: <1265178483-25044-1-git-send-email-tao.ma@oracle.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14449-11311-V0hAGp6uBxO456/isadD/XN4h3HLQggn@public.gmane.org/>
+In-Reply-To: <1265178483-25044-1-git-send-email-tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://bugzilla.kernel.org/show_bug.cgi?id=14449
+Hi Michael,
+	any reason why this can't be merged by now?
 
+Regards,
+tao
 
-
-
-
---- Comment #4 from Garrett Cooper <yaneurabeya-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>  2010-02-08 01:40:43 ---
-Sounds good -- thanks!
-
--- 
-Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Tao Ma wrote:
+> Signed-off-by: Tao Ma <tao.ma-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> ---
+>  man2/statfs.2 |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
+> 
+> diff --git a/man2/statfs.2 b/man2/statfs.2
+> index 73ec57f..8a79321 100644
+> --- a/man2/statfs.2
+> +++ b/man2/statfs.2
+> @@ -87,6 +87,7 @@ File system types:
+>     NCP_SUPER_MAGIC       0x564c
+>     NFS_SUPER_MAGIC       0x6969
+>     NTFS_SB_MAGIC         0x5346544e
+> +   OCFS2_SUPER_MAGIC     0x7461636f
+>     OPENPROM_SUPER_MAGIC  0x9fa1
+>     PROC_SUPER_MAGIC      0x9fa0
+>     QNX4_SUPER_MAGIC      0x002f
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
