@@ -1,71 +1,38 @@
-From: Randy Dunlap <randy.dunlap@oracle.com>
-Subject: Re: [PATCH] Fix for
- hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch
- in -mm
-Date: Mon, 8 Feb 2010 14:56:05 -0800
-Message-ID: <20100208145605.5eea30b5.randy.dunlap@oracle.com>
-References: <1252487811-9205-1-git-send-email-ebmunson@us.ibm.com>
-	<1253011613-6429-1-git-send-email-ebmunson@us.ibm.com>
-	<Pine.LNX.4.64.0909152146470.25625@sister.anvils>
+From: Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] Fix for hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch in -mm
+Date: Tue, 9 Feb 2010 16:01:27 +0100
+Message-ID: <201002091601.28463.arnd@arndb.de>
+References: <1252487811-9205-1-git-send-email-ebmunson@us.ibm.com> <Pine.LNX.4.64.0909152146470.25625@sister.anvils> <20100208145605.5eea30b5.randy.dunlap@oracle.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <Pine.LNX.4.64.0909152146470.25625@sister.anvils>
+In-Reply-To: <20100208145605.5eea30b5.randy.dunlap@oracle.com>
 Sender: owner-linux-mm@kvack.org
-To: Hugh Dickins <hugh.dickins@tiscali.co.uk>
-Cc: Eric B Munson <ebmunson@us.ibm.com>, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com, Arnd Bergman <arnd@arndb.de>
+To: Randy Dunlap <randy.dunlap@oracle.com>
+Cc: Hugh Dickins <hugh.dickins@tiscali.co.uk>, Eric B Munson <ebmunson@us.ibm.com>, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 15 Sep 2009 21:53:12 +0100 (BST) Hugh Dickins wrote:
-
-> On Tue, 15 Sep 2009, Eric B Munson wrote:
-> > Resending because this seems to have fallen between the cracks.
+On Monday 08 February 2010, Randy Dunlap wrote:
+> On Tue, 15 Sep 2009 21:53:12 +0100 (BST) Hugh Dickins wrote:
 > 
-> Yes, indeed.  I think it isn't quite what Arnd was suggesting, but I
-> agree with you that we might as well go for 0x080000 (so that even Alpha
-> can be just a cut-and-paste job from asm-generic), and right now it's
-> more important to finalize the number than what file it appears in.
+> > On Tue, 15 Sep 2009, Eric B Munson wrote:
+> > > Resending because this seems to have fallen between the cracks.
+> > 
+> > Yes, indeed.  I think it isn't quite what Arnd was suggesting, but I
+> > agree with you that we might as well go for 0x080000 (so that even Alpha
+> > can be just a cut-and-paste job from asm-generic), and right now it's
+> > more important to finalize the number than what file it appears in.
+> > 
+> > Acked-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
 > 
-> Acked-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
+> so what happened with this patch ??
 
-so what happened with this patch ??
+In a later revision, we agreed to put the definition into
+asm-generic/mman.h, where it was merged in 2.6.32.
 
-> > 
-> > The patch
-> > hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch
-> > used the value 0x40 for MAP_HUGETLB which is the same value used for
-> > various other flags on some architectures.  This collision causes
-> > unexpected use of huge pages in the best case and mmap to fail with
-> > ENOMEM or ENOSYS in the worst.  This patch changes the value for
-> > MAP_HUGETLB to a value that is not currently used on any arch.
-> > 
-> > This patch should be considered a fix to
-> > hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch.
-> > 
-> > Reported-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
-> > Signed-off-by: Eric B Munson <ebmunson@us.ibm.com>
-> > ---
-> >  include/asm-generic/mman-common.h |    2 +-
-> >  1 files changed, 1 insertions(+), 1 deletions(-)
-> > 
-> > diff --git a/include/asm-generic/mman-common.h b/include/asm-generic/mman-common.h
-> > index 12f5982..e6adb68 100644
-> > --- a/include/asm-generic/mman-common.h
-> > +++ b/include/asm-generic/mman-common.h
-> > @@ -19,7 +19,7 @@
-> >  #define MAP_TYPE	0x0f		/* Mask for type of mapping */
-> >  #define MAP_FIXED	0x10		/* Interpret addr exactly */
-> >  #define MAP_ANONYMOUS	0x20		/* don't use a file */
-> > -#define MAP_HUGETLB	0x40		/* create a huge page mapping */
-> > +#define MAP_HUGETLB	0x080000	/* create a huge page mapping */
-> >  
-> >  #define MS_ASYNC	1		/* sync memory asynchronously */
-> >  #define MS_INVALIDATE	2		/* invalidate the caches */
-> > -- 
-
----
-~Randy
+	Arnd
 
 --
 To unsubscribe, send a message with 'unsubscribe linux-mm' in
