@@ -1,41 +1,48 @@
-From: Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH] Fix for hugetlb-add-map_hugetlb-for-mmaping-pseudo-anonymous-huge-page-regions.patch in -mm
-Date: Tue, 9 Feb 2010 16:01:27 +0100
-Message-ID: <201002091601.28463.arnd@arndb.de>
-References: <1252487811-9205-1-git-send-email-ebmunson@us.ibm.com> <Pine.LNX.4.64.0909152146470.25625@sister.anvils> <20100208145605.5eea30b5.randy.dunlap@oracle.com>
+From: Vlastimil Babka <caster-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [patch] CPU_SET.3: CPU_COUNT() and CPU_COUNT_S() return int, not
+ void
+Date: Thu, 11 Feb 2010 12:05:42 +0100
+Message-ID: <4B73E486.9090303@gentoo.org>
 Mime-Version: 1.0
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20100208145605.5eea30b5.randy.dunlap@oracle.com>
-Sender: owner-linux-mm@kvack.org
-To: Randy Dunlap <randy.dunlap@oracle.com>
-Cc: Hugh Dickins <hugh.dickins@tiscali.co.uk>, Eric B Munson <ebmunson@us.ibm.com>, akpm@linux-foundation.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org, mtk.manpages@gmail.com
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Monday 08 February 2010, Randy Dunlap wrote:
-> On Tue, 15 Sep 2009 21:53:12 +0100 (BST) Hugh Dickins wrote:
-> 
-> > On Tue, 15 Sep 2009, Eric B Munson wrote:
-> > > Resending because this seems to have fallen between the cracks.
-> > 
-> > Yes, indeed.  I think it isn't quite what Arnd was suggesting, but I
-> > agree with you that we might as well go for 0x080000 (so that even Alpha
-> > can be just a cut-and-paste job from asm-generic), and right now it's
-> > more important to finalize the number than what file it appears in.
-> > 
-> > Acked-by: Hugh Dickins <hugh.dickins@tiscali.co.uk>
-> 
-> so what happened with this patch ??
+Hi, found a minor error in man-pages 3.23, git is the same (2008-11-14).
+The functions return a number of CPU's, so void is obviously wrong, in 
+my glibc-2.11 it's declared as int (__sched_cpucount() in 
+/usr/include/bits/sched.h).
 
-In a later revision, we agreed to put the definition into
-asm-generic/mman.h, where it was merged in 2.6.32.
+Patch below. Regards,
+Vlastimil Babka
 
-	Arnd
-
+diff --git a/man3/CPU_SET.3 b/man3/CPU_SET.3
+index cf186c8..a03f23b 100644
+--- a/man3/CPU_SET.3
++++ b/man3/CPU_SET.3
+@@ -41,7 +41,7 @@ macros for manipulating CPU sets
+  .BI "void CPU_CLR(int " cpu ", cpu_set_t *" set );
+  .BI "int  CPU_ISSET(int " cpu ", cpu_set_t *" set );
+  .sp
+-.BI "void CPU_COUNT(cpu_set_t *" set );
++.BI "int  CPU_COUNT(cpu_set_t *" set );
+  .sp
+  .BI "void CPU_AND(cpu_set_t *" destset ,
+  .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+@@ -62,7 +62,7 @@ macros for manipulating CPU sets
+  .BI "void CPU_CLR_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
+  .BI "int  CPU_ISSET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
+  .sp
+-.BI "void CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
++.BI "int  CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
+  .sp
+  .BI "void CPU_AND_S(size_t " setsize ", cpu_set_t *" destset ,
+  .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
