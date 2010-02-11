@@ -1,47 +1,54 @@
-From: Vlastimil Babka <caster-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [patch] CPU_SET.3: CPU_COUNT() and CPU_COUNT_S() return int, not
- void
-Date: Thu, 11 Feb 2010 12:05:42 +0100
-Message-ID: <4B73E486.9090303@gentoo.org>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: indent in the elf.5
+Date: Thu, 11 Feb 2010 21:13:26 +0300
+Message-ID: <20100211211326.2eb251c3@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="MP_/G_hvBEnnGkF_QO9Uf6GyTb7"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi, found a minor error in man-pages 3.23, git is the same (2008-11-14).
-The functions return a number of CPU's, so void is obviously wrong, in 
-my glibc-2.11 it's declared as int (__sched_cpucount() in 
-/usr/include/bits/sched.h).
+--MP_/G_hvBEnnGkF_QO9Uf6GyTb7
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Patch below. Regards,
-Vlastimil Babka
+Hello.
 
-diff --git a/man3/CPU_SET.3 b/man3/CPU_SET.3
-index cf186c8..a03f23b 100644
---- a/man3/CPU_SET.3
-+++ b/man3/CPU_SET.3
-@@ -41,7 +41,7 @@ macros for manipulating CPU sets
-  .BI "void CPU_CLR(int " cpu ", cpu_set_t *" set );
-  .BI "int  CPU_ISSET(int " cpu ", cpu_set_t *" set );
-  .sp
--.BI "void CPU_COUNT(cpu_set_t *" set );
-+.BI "int  CPU_COUNT(cpu_set_t *" set );
-  .sp
-  .BI "void CPU_AND(cpu_set_t *" destset ,
-  .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
-@@ -62,7 +62,7 @@ macros for manipulating CPU sets
-  .BI "void CPU_CLR_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-  .BI "int  CPU_ISSET_S(int " cpu ", size_t " setsize ", cpu_set_t *" set );
-  .sp
--.BI "void CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
-+.BI "int  CPU_COUNT_S(size_t " setsize ", cpu_set_t *" set );
-  .sp
-  .BI "void CPU_AND_S(size_t " setsize ", cpu_set_t *" destset ,
-  .BI "             cpu_set_t *" srcset1 ", cpu_set_t *" srcset2 );
+Tiny patch for adding indent.
+
+-- 
+Best Regards,
+Yuri Kozlov
+
+
+--MP_/G_hvBEnnGkF_QO9Uf6GyTb7
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=elf.5.diff
+
+--- /tmp/elf.5	2010-02-11 20:59:36.000000000 +0300
++++ elf.5	2010-02-11 21:04:57.000000000 +0300
+@@ -845,6 +845,7 @@
+ An object file does not have sections for
+ these special indices:
+ .\" .Bl -tag -width "SHN_LORESERVE"
++.RS
+ .TP 14
+ .BR SHN_UNDEF
+ This value marks an undefined, missing, irrelevant or otherwise meaningless
+@@ -884,6 +885,7 @@
+ inclusive.
+ The section header table does not contain entries for the
+ reserved indices.
++.RE
+ .\" .El
+ .PP
+ The section header has the following structure:
+
+--MP_/G_hvBEnnGkF_QO9Uf6GyTb7--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
