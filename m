@@ -1,9 +1,9 @@
-From: Jon <jg-hus3n9K41k0@public.gmane.org>
-Subject: should strstr    return const char*  ?
-Date: Sun, 28 Feb 2010 21:29:59 +0000
-Message-ID: <4B8AE057.7000000@jguk.org>
+From: Manfred Schwarb <manfred99-OI3hZJvNYWs@public.gmane.org>
+Subject: posix_fadvise(2): mention sync_file_range(2)
+Date: Wed, 03 Mar 2010 15:16:08 +0100
+Message-ID: <4B8E6F28.2020109@gmx.ch>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -11,31 +11,19 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi there,
+Hi,
 
-A couple of queries. I hope could be considered.
+for POSIX_FADV_DONTNEED, syncing with fsync(2) or fdatasync(2) is recommended in
+the man page of posix_fadvise(2).
+However, for this task sync_file_range(2) is probably best suited, as it 
+is fast and has the same granularity as posix_fadvise(2).
+akpm also used sync_file_range(2) for his user space helpers:
+http://userweb.kernel.org/~akpm/pagecache-management/pagecache-management/pagecache-management.c
 
-I see this function on Ubuntu 9.10:
+So I suggest to add sync_file_range(2) to the list of mentioned sync functions.
 
-      char *strstr(const char *haystack, const char *needle);
-
-Should it not return as const char * though?
-
-Also could the description be clarified:
-
-DESCRIPTION
-        The strstr() function finds the first occurrence of the 
-substring needle in the string haystack.  The terminating
-        '\0' characters are not compared.
-
-
-Can this be added: "If needle is longer than haystack it will never 
-match. When the search reaches a character position in haystack which 
-does not leave enough characters left to compare, searching will end, 
-the haystack buffer will not be overrun.
-
-Thanks again for considering this.
-Cheers, Jon
+Cheers,
+Manfred
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
