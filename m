@@ -1,7 +1,7 @@
 From: "Ersek, Laszlo" <lacos-hjAHdpL4VZo5Z0SDYBDJZg@public.gmane.org>
-Subject: write(2) / SIGXFSZ
-Date: Thu, 4 Mar 2010 01:14:08 +0100 (CET)
-Message-ID: <Pine.LNX.4.64.1003040040220.6496@login01.caesar.elte.hu>
+Subject: gethostbyname(3) / IPv6
+Date: Thu, 4 Mar 2010 01:14:18 +0100 (CET)
+Message-ID: <Pine.LNX.4.64.1003040102490.6496@login01.caesar.elte.hu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -17,20 +17,31 @@ starting with Message-ID:
 <e8e1cb1d-9693-4803-bf29-b4828de384e0-nbjlO0B5Z98wq+9lhVFwFGB/v6IoIuQBVpNB7YpNyf8@public.gmane.org>. 
 Consequently, I'd like to report two bugs (in separate e-mails):
 
-(1/2) write(2) does not mention SIGXFSZ, even though Linux (the kernel) 
-does generate SIGXFSZ for the thread calling write(), when appropriate.
+(2/2) gethostbyname(3) fails to resolve the IPv6 address "::1", but the 
+manual page says: "If name is an IPv4 or IPv6 address, no lookup is 
+performed and gethostbyname() simply copies name into the h_name field 
+[...]".
 
-SUSv[234] links for write(2):
+Debian bug report:
 
-http://www.opengroup.org/onlinepubs/007908775/xsh/write.html
-http://www.opengroup.org/onlinepubs/000095399/functions/write.html
-http://www.opengroup.org/onlinepubs/9699919799/functions/write.html
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=455762
+
+glibc bug report:
+
+http://sourceware.org/bugzilla/show_bug.cgi?id=5479
+
+SUSv3 link for gethostbyname(3):
+
+http://www.opengroup.org/onlinepubs/000095399/functions/gethostbyname.html
+
+It seems that the glibc behavior is conformant, and the manual page is in 
+error.
 
 I'm using the manpages-dev package, version 3.05-1, under Debian Lenny. 
 However, before sending this report, I've verified the bug's existence in 
 the online page under
 
-http://www.kernel.org/doc/man-pages/online/pages/man2/write.2.html
+http://www.kernel.org/doc/man-pages/online/pages/man3/gethostbyname.3.html
 
 If this goes anywhere on linux-man@vger, please keep me CC'd.
 
