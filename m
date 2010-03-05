@@ -1,62 +1,140 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: should strstr    return const char*  ?
-Date: Fri, 5 Mar 2010 15:08:17 -0500
-Message-ID: <201003051508.18959.vapier@gentoo.org>
-References: <4B8AE057.7000000@jguk.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart13354321.DvvRFS6uBz";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+From: Mike Hayward <hayward-AB0c8HnZplU@public.gmane.org>
+Subject: [PATCH] O_NONBLOCK is NOOP on files and block devices
+Date: Fri, 5 Mar 2010 14:08:14 -0700
+Message-ID: <201003052108.o25L8EpW013900@alien.loup.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B8AE057.7000000-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon <jg-hus3n9K41k0@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org, kasey.erickson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mvds.00-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, greg.freemyer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, hancockrwd-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, kernel-R6A+fiHC8nRWk0Htik3J/w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart13354321.DvvRFS6uBz
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+After careful testing on various kernel versions, different CPU
+architectures, and numerous hardware configurations, timing results
+consistently and incontrovertibly indicate that io to block devices
+opened with the O_NONBLOCK flag specified do in fact block when they
+cannot be immediately serviced with the buffer cache.  This behavior
+has been independently confirmed by other contributors to lkml (see
+recent discussion).  Alan Cox has confirmed the behavior is the same
+with files.
 
-On Sunday 28 February 2010 16:29:59 Jon wrote:
-> I see this function on Ubuntu 9.10:
->=20
->       char *strstr(const char *haystack, const char *needle);
->=20
-> Should it not return as const char * though?
+Since changing the behavior of the kernel in this regard is
+nontrivial, I am submitting a man-page patch for consideration.
 
-man pages document the API only.  if you want to propose changing a functio=
-n,=20
-you'd have to ask the glibc mainling lists and/or more likely the POSIX=20
-mailing lists.
-=2Dmike
+The updated man pages more accurately describe the existing O_NONBLOCK
+semantics as well as reserve non-blocking file and block device
+semantics for future implementation.
 
---nextPart13354321.DvvRFS6uBz
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+Did I miss any of the relevant read/write calls?
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.14 (GNU/Linux)
+In the process I noticed there is no mention of pread64/pwrite64 in
+the pread.2 man page.  I didn't realize until just now that 64 bit
+versions of these methods existed (I noticed pread64.2 and pwrite64.2
+includes in man2) and I would like to use them instead of doing a 64
+bit seek before read/write.  I assume they just take off64_t instead
+of off_t?  Is there someone familiar enough with these functions who
+could update pread.2?
 
-iQIcBAABAgAGBQJLkWSyAAoJEEFjO5/oN/WBcFgP/2opxMbIeDbrLZe7fbllStUr
-ApxcdYXbCb+93FkoviW8Eafv7hIAgrq30Vrvfq10x8f4YYgYFEJ8tkvhU+Ajat7K
-csj8aGY9B2J5422hKCQN4PyAO/k33psUiLXHYdWoAmsAikz9yWrTHOLpJTDADvDH
-jGmE2LIPUH3DGnaMXtWZDPQP/paBC63CBz3eozsYeIkAmXC14mBhNBL0ewcHhWBQ
-6io4iq+LmYcgxNDVSxFCZ8CjsifvjpZ8n2JtjgMAFX+KVQTHxvHnfMgMKTXjTZ4o
-J2aP6s5kgYjopHzxYpSnhDV9fQxNEquOWo0G5SkR0Afl4P4rcwKsAX7bkCK5Id3a
-Ny5PtW2hS53+wIQrpyNxRBlkHUp3XLrSKSNHJjhCIxMXF8wILPuUMoVgaYdC73Ra
-lXMgISFJ85kxw6/zX/TzX3GQ3szi0+FwvQjJEIdWO/gXAtD8dCpca8BLScfACxms
-vKWkH07CkReuKoBNnRNV2zF8uNbZzoqPVQwuUzrAYL9OKIa7o/LIL75WtJw0Ycc5
-vk3NpLFC+Dg6S0gMi4oEcPV3VdzPD4R10iHjeF6wT6314799xdY0XW2zWthhBBKU
-wmAVAT5Pk/5PbBKVG6kPSXi1MxsuQ5XAyksNeffyvBWRINI40dvOeySPQHciO59K
-tyD++v0NCFqFbglam3zE
-=x/K+
------END PGP SIGNATURE-----
+- Mike
 
---nextPart13354321.DvvRFS6uBz--
+diff -Naur man-pages/man2/open.2 man-pages2/man2/open.2
+--- man-pages/man2/open.2	2010-03-05 17:57:27.000000000 +0000
++++ man-pages2/man2/open.2	2010-03-05 20:22:38.000000000 +0000
+@@ -401,12 +401,15 @@
+ .\" used\fP.
+ .TP
+ .BR O_NONBLOCK " or " O_NDELAY
+-When possible, the file is opened in nonblocking mode.
+-Neither the
+-.BR open ()
+-nor any subsequent operations on the file descriptor which is
+-returned will cause the calling process to wait.
+-For the handling of FIFOs (named pipes), see also
++For files and block devices, this flag does not currently prevent
++blocking io.  Since such semantics may eventually be implemented,
++usage should not depend upon blocking behavior when specifying this
++flag.  For streaming io (e.g. named pipes), this flag selects a
++non-blocking mode in which neither
++.BR open (2)
++nor any subsequent operations on the file descriptor which is returned
++will cause the calling process to wait.  For the handling of FIFOs
++(named pipes), see also
+ .BR fifo (7).
+ For a discussion of the effect of
+ .B O_NONBLOCK
+diff -Naur man-pages/man2/pread.2 man-pages2/man2/pread.2
+--- man-pages/man2/pread.2	2010-03-05 17:57:27.000000000 +0000
++++ man-pages2/man2/pread.2	2010-03-05 20:27:33.000000000 +0000
+@@ -97,6 +97,13 @@
+ on older kernels without the system calls) was added in glibc 2.1.
+ .SH "CONFORMING TO"
+ POSIX.1-2001.
++.SH NOTES
++.B O_NONBLOCK
++does not currently prevent the calling process thread from blocking
++when writing to files or block devices (i.e. non-streaming file
++descriptors).  Since non-blocking semantics may eventually be
++implemented, usage should not depend upon blocking behavior when this
++flag is specified.
+ .SH "SEE ALSO"
+ .BR lseek (2),
+ .BR read (2),
+diff -Naur man-pages/man2/read.2 man-pages2/man2/read.2
+--- man-pages/man2/read.2	2010-03-05 17:57:27.000000000 +0000
++++ man-pages2/man2/read.2	2010-03-05 20:24:33.000000000 +0000
+@@ -167,14 +167,12 @@
+ side attribute caching, but in most situations this will substantially
+ increase server load and decrease performance.
+ .PP
+-Many file systems and disks were considered to be fast enough that the
+-implementation of
+ .B O_NONBLOCK
+-was deemed unnecessary.
+-So,
+-.B O_NONBLOCK
+-may not be available on files
+-and/or disks.
++does not currently prevent the calling process thread from blocking
++when reading from files or block devices (i.e. non-streaming file
++descriptors).  Since non-blocking semantics may eventually be
++implemented, usage should not depend upon blocking behavior when this
++flag is specified.
+ .SH "SEE ALSO"
+ .BR close (2),
+ .BR fcntl (2),
+diff -Naur man-pages/man2/readv.2 man-pages2/man2/readv.2
+--- man-pages/man2/readv.2	2010-03-05 17:57:27.000000000 +0000
++++ man-pages2/man2/readv.2	2010-03-05 20:26:34.000000000 +0000
+@@ -189,6 +189,13 @@
+ .BR writev ()
+ performs the analogous task using a temporary buffer and a call to
+ .BR write (2).
++.PP
++.B O_NONBLOCK
++does not currently prevent the calling process thread from blocking
++when writing to files or block devices (i.e. non-streaming file
++descriptors).  Since non-blocking semantics may eventually be
++implemented, usage should not depend upon blocking behavior when this
++flag is specified.
+ .SH BUGS
+ It is not advisable to mix calls to functions like
+ .BR readv ()
+diff -Naur man-pages/man2/write.2 man-pages2/man2/write.2
+--- man-pages/man2/write.2	2010-03-05 17:57:27.000000000 +0000
++++ man-pages2/man2/write.2	2010-03-05 20:25:46.000000000 +0000
+@@ -197,6 +197,13 @@
+ .BR EINTR ;
+ if it is interrupted after at least one byte has been written,
+ the call succeeds, and returns the number of bytes written.
++.PP
++.B O_NONBLOCK
++does not currently prevent the calling process thread from blocking
++when writing to files or block devices (i.e. non-streaming file
++descriptors).  Since non-blocking semantics may eventually be
++implemented, usage should not depend upon blocking behavior when this
++flag is specified.
+ .SH "SEE ALSO"
+ .BR close (2),
+ .BR fcntl (2),
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
