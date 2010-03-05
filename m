@@ -1,52 +1,56 @@
-From: "Ersek, Laszlo" <lacos-hjAHdpL4VZo5Z0SDYBDJZg@public.gmane.org>
-Subject: gethostbyname(3) / IPv6
-Date: Thu, 4 Mar 2010 01:14:18 +0100 (CET)
-Message-ID: <Pine.LNX.4.64.1003040102490.6496@login01.caesar.elte.hu>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15446] New: sysctl(2) can return EACCES without sufficient
+ permissions
+Date: Fri, 5 Mar 2010 07:37:38 GMT
+Message-ID: <bug-15446-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk / Linux man-pages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+http://bugzilla.kernel.org/show_bug.cgi?id=15446
 
-we were having a discussion in the comp.unix.programmer Usenet newsgroup, 
-starting with Message-ID: 
-<e8e1cb1d-9693-4803-bf29-b4828de384e0-nbjlO0B5Z98wq+9lhVFwFGB/v6IoIuQBVpNB7YpNyf8@public.gmane.org>. 
-Consequently, I'd like to report two bugs (in separate e-mails):
+               URL: http://sourceforge.net/mailarchive/forum.php?thread_na
+                    me=364299f41003042320n7437e4a2j219b32a0a5f8dc50%40mail
+                    .gmail.com&forum_name=ltp-list
+           Summary: sysctl(2) can return EACCES without sufficient
+                    permissions
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: yaneurabeya-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-(2/2) gethostbyname(3) fails to resolve the IPv6 address "::1", but the 
-manual page says: "If name is an IPv4 or IPv6 address, no lookup is 
-performed and gethostbyname() simply copies name into the h_name field 
-[...]".
 
-Debian bug report:
+After a semi-lengthy discussion, it turns out that EACCES can and would be set
+in cases where a sysctl(2) isn't available [in the old model, pending a bug in
+test_perm] or the file isn't accessible [in the new model].
 
-http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=455762
+This currently isn't documented as such in the manpage.
 
-glibc bug report:
+It would probably be prudent to add the following to the manpage:
 
-http://sourceware.org/bugzilla/show_bug.cgi?id=5479
+    EACCES The requested access to the sysctl is not allowed.
 
-SUSv3 link for gethostbyname(3):
+More testing will need to be performed to ensure that other unexpected errors
+don't pop up with sysctl(2), if possible time-wise.
 
-http://www.opengroup.org/onlinepubs/000095399/functions/gethostbyname.html
+Credit goes to Shi Weihua for finding the documentation bug, and Eric W.
+Biederman for noting the bug in the original sysctl(2) implementation.
 
-It seems that the glibc behavior is conformant, and the manual page is in 
-error.
-
-I'm using the manpages-dev package, version 3.05-1, under Debian Lenny. 
-However, before sending this report, I've verified the bug's existence in 
-the online page under
-
-http://www.kernel.org/doc/man-pages/online/pages/man3/gethostbyname.3.html
-
-If this goes anywhere on linux-man@vger, please keep me CC'd.
-
-Thank you very much,
-lacos
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
