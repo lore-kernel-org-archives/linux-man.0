@@ -1,76 +1,53 @@
-From: Joern Heissler <contact-pbvhy9/vjlfAiHgwPnP32rNAH6kLmebB@public.gmane.org>
-Subject: %n in fscanf
-Date: Mon, 08 Mar 2010 12:38:48 +0100
-Message-ID: <4B94E1C8.8010100@joern.heissler.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15484] New: amd_adac error
+Date: Tue, 9 Mar 2010 11:46:43 GMT
+Message-ID: <bug-15484-11311@http.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The fscanf manpage contains this:
+http://bugzilla.kernel.org/show_bug.cgi?id=15484
 
-n      Nothing  is  expected;  instead, the number of characters consum=
-ed thus far from the input is=20
-stored through the next pointer, which must be a pointer to int.  This =
-is not a conversion, although it=20
-can be suppressed with the * assignment-suppression character.  The  C =
- standard  says:
-"Execution  of  a  %n  directive does not increment the assignment coun=
-t returned at the completion of=20
-execution" but the Corrigendum seems to contradict this.  Probably it i=
-s wise not to make any=20
-assumptions on the effect of %n conversions on the return value.
-
-
-I wondered about this and looked at c89, c99+tc3, c1x, k&r2, posix manp=
-ages; all say that %n does *not*=20
-increase the counter. %*n causes undefined behaviour according to c99+t=
-c3.
-I wasn't able to find proof that any Corrigendum says otherwise.
-Therefore I think it's safe to say that you can indeed make the assumpt=
-ion that %n does not affect the=20
-return value.
-
-Suggested patch:
---- scanf.3.orig        2010-03-08 12:21:59.000000000 +0100
-+++ scanf.3     2010-03-08 12:29:59.000000000 +0100
-@@ -506,18 +506,15 @@
-  .IR int .
-  This is
-  .I not
--a conversion, although it can be suppressed with the
--.B *
--assignment-suppression character.
--The C standard says: "Execution of a
--.B %n
--directive does not increment
--the assignment count returned at the completion of execution"
--but the Corrigendum seems to contradict this.
--Probably it is wise
--not to make any assumptions on the effect of
--.B %n
--conversions on the return value.
-+a conversion and does
-+.I not
-+increase the count returned by the function.
-+The assignment can be suppressed with the
-+.B *
-+assignment-suppression character, but the effect on the
-+return value is undefined. Therefore
-+.B %*n
-+conversions should not be used.
-  .SH "RETURN VALUE"
-  These functions return the number of input items
-  successfully matched and assigned,
+           Summary: amd_adac error
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: 2.6.31
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: masoudnahali-EMRzualFZlQ@public.gmane.org
+        Regression: No
 
 
-Cheers,
-J=F6rn Heissler
+when I execute a software (XCrysden) that has a graphical face, I see the
+graphical face only for less than one second and then disappears. the operating
+system is SUSE 11.2 (64 bit), and Hardwares :
+AMD 3 cores 2.8 GHz (64 bit)
+RAM : DDR3 8 Gig
+Motherboard: Asus
+Graphics: on board 
+
+the error:
+ > drmRadeonCmdBuffer: -22. Kernel failed to parse or rejected command >
+stream. See dmesg for more info
+
+I executed "dmesg" in the /bin for finding the probelm and in the results there
+is a line included an error : 
+
+ [ 8.255075] amd64_edac: probe of 0000:00:18.2 failed with error -22
+
+-- 
+Configure bugmail: http://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
