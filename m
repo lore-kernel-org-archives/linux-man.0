@@ -1,71 +1,125 @@
-From: Mike Hayward <hayward-AB0c8HnZplU@public.gmane.org>
-Subject: Re: O_NONBLOCK is NOOP on block devices
-Date: Thu, 11 Mar 2010 00:41:21 -0700
-Message-ID: <201003110741.o2B7fLTH011465@alien.loup.net>
-References: <4B904D98.50602@gmail.com> <4B9060DE.4080104@gmail.com>	<4B96ECDD.1070006@gmail.com> <x494oko5n2o.fsf@segfault.boston.devel.redhat.com> <4B97D258.7060702@gmail.com> <201003102350.o2ANousd007794@alien.loup.net> <4B983E88.5080901@gmail.com>
+From: Daisuke HATAYAMA <d.hatayama-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] elf.5: Add description for ELF extension
+Date: Mon, 15 Mar 2010 12:02:46 +0900 (JST)
+Message-ID: <20100315.120246.193685481.d.hatayama@jp.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <4B983E88.5080901-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (message from M vd S on Thu, 11 Mar
-	2010 01:51:20 +0100)
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mvds.00-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi M,
+Hi. I resend the patch because I didn't receive any comment in the
+previous post.
 
- > >  > > What you missed is that the native aio system calls require O_DIRECT.
- > >  > >   
- > >  > 
- > >  > Thanks, that made it work. It seems without O_DIRECT it's just like 
- > >  > aio_* but without the separate thread. But I now get the "benefits" of 
- > >  > O_DIRECT for free...
- > >
- > > That is awesome news; I was worried.  I saw that about O_DIRECT in the
- > > doc but assumed you were doing it.
- > >
- > >   
- > Where did you see that? I reverted to the kernel source where indeed I 
- > saw __generic_file_aio_read() in mm/filemap.c check for O_DIRECT.
- >
- > io_submit(3), io_setup(3) etc don't mention O_DIRECT. Even the example 
- > in io(3) doesn't do O_DIRECT, so it must be broken. The example has no 
- > means to see if it is in fact a non blocking system call. But io(3) 
- > states "The  libaio  library defines a new set of I/O operations which 
- > can significantly reduce the time an application spends waiting at I/O.  
- > The new functions allow a program to initiate one or more I/O operations 
- > and then immediately resume normal work while the I/O operations are 
- > executed in parallel."
+Thanks
+HATAYAMA Daisuke
+==
+In linux-2.6.34-rc1, an ELF core extension was added; user-land tools
+manipulating ELF core dump such as gdb and binutils has already been
+modified before; so elf.5 needs to be modified accordingly.
 
-Not in the linux man pages, but a few folks around have web pages I
-was able to google about actual behavior:
+You can follow information on the ELF extension via the LKML post:
+http://lkml.org/lkml/2010/1/3/103
 
-http://lse.sourceforge.net/io/aio.html
+Signed-off-by: Daisuke HATAYAMA <d.hatayama-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+---
+ man5/elf.5 |   53 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 files changed, 52 insertions(+), 1 deletions(-)
 
-Like you, I trusted that the man pages actually described the behavior
-in my software design until the "nonblocking" read and writev calls
-choked off the nonblocking sockets :-)  Now I am writing extra test code
-for all system calls I consider using; not sure if there is actual public
-test code or not.
+diff --git a/man5/elf.5 b/man5/elf.5
+index 20ed3d8..e4987b8 100644
+--- a/man5/elf.5
++++ b/man5/elf.5
+@@ -30,7 +30,7 @@
+ .\" 2007-10-11, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, various fixes
+ .\" 2007-12-08, mtk, Converted from mdoc to man macros
+ .\"
+-.TH ELF 5 2007-12-28 "Linux" "Linux Programmer's Manual"
++.TH ELF 5 2010-01-21 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ elf \- format of Executable and Linking Format (ELF) files
+ .SH SYNOPSIS
+@@ -543,6 +543,28 @@ in bytes.
+ If a file has no program header,
+ .IR e_phnum
+ holds the value zero.
++.IP
++If the number of entries in the program header table is larger than or equal to
++.BR PN_XNUM
++(0xffff), this member holds
++.BR PN_XNUM
++(0xffff). The real number of entries in the program header table is held in
++.IR sh_info
++member of the initial entry in section header table. Otherwise, the
++.IR sh_info
++member of the initial entry contains the value zero.
++.\" .Bl -tag -width "PN_XNUM"
++.RS 12
++.TP 9
++.BR PN_XNUM
++This is defined as 0xffff, the largest number
++.IR e_phnum
++can have, specifying where the actual number of program headers is
++assigned.
++.PD
++.RE
++.\" .El
++.IP
+ .TP
+ .IR e_shentsize
+ This member holds a sections header's size in bytes.
+@@ -561,6 +583,17 @@ If a file has no section
+ header table,
+ .IR e_shnum
+ holds the value of zero.
++.IP
++If the number of entries in the section header table is larger than or equal to
++.BR SHN_LORESERVE
++(0xff00),
++.IR e_shnum
++holds the value zero. The real number of entries in the section header
++table is held in
++.IR sh_size
++of the initial entry in section header table. Otherwise, the
++.IR sh_size
++of the initial entry in section header table holds the value zero.
+ .TP
+ .IR e_shstrndx
+ This member holds the section header table index of the entry associated
+@@ -568,6 +601,17 @@ with the section name string table.
+ If the file has no section name string
+ table, this member holds the value
+ .BR SHN_UNDEF .
++.IP
++If the index of section name string table section is larger than or equal to
++.BR SHN_LORESERVE
++(0xff00), this member holds
++.BR SHN_XINDEX
++(0xffff) and the real index of the section name string table section
++is held in the
++.IR sh_link
++member of the initial entry in section header table. Otherwise, the
++.IR sh_link
++member of the initial entry in section header table contains the value zero.
+ .RS 12
+ .\" .Bl -tag -width "SHN_LORESERVE"
+ .TP 14
+@@ -1876,3 +1920,10 @@ Santa Cruz Operation,
+ Unix System Laboratories,
+ "Object Files",
+ .IR "Executable and Linking Format (ELF)" .
++.PP
++Sun microsystems,
++.IR "Linker and Libraries Guide" .
++.PP
++AMD64 ABI Draft,
++.IR "System V Application Binary Interface AMD64 Architecture Processor Supplement" .
++.PP
+-- 
+1.6.5.1
 
-You are absolutely right, the blocking behavior of libaio without
-specifying O_DIRECT should also definitely be in the man pages.  Why
-isn't it an error to not specify O_DIRECT when that's the only way
-libaio to block devs is actual async io?  It seems a bit odd to go to
-the trouble to use libaio if synchronous behavior is expected?!
-
-You might want to wait and see if my man patch even gets applied
-before going to the trouble to make another one.  Alan Cox suggested I
-post a patch to spell out the actual behavior of the blocking
-"O_NONBLOCK" read and write class of calls.  I did that and a number
-of us vetted the patch before I posted it to linux-man like a week
-ago, but no feedback there from Michael Kerrisk or anyone else yet.
-Maybe he's on holiday, or maybe someone else can also carry the man
-page pumpkin, I don't know...
-
-Either way I imagine lkml sees this over and over again and fixing the
-man pages would go a long way toward cutting down on confusion.
-
-- Mike
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
