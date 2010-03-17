@@ -1,125 +1,54 @@
-From: Daisuke HATAYAMA <d.hatayama-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] elf.5: Add description for ELF extension
-Date: Mon, 15 Mar 2010 12:02:46 +0900 (JST)
-Message-ID: <20100315.120246.193685481.d.hatayama@jp.fujitsu.com>
+From: Sebastian Krohn <seb-MqitPnHoYOBn68oJJulU0Q@public.gmane.org>
+Subject: [PATCH] flock(2) does work with NFS/NLM
+Date: Wed, 17 Mar 2010 10:58:37 +0100
+Message-ID: <20100317095835.GD87508@knorr.darksystem.net>
 Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi. I resend the patch because I didn't receive any comment in the
-previous post.
 
-Thanks
-HATAYAMA Daisuke
-==
-In linux-2.6.34-rc1, an ELF core extension was added; user-land tools
-manipulating ELF core dump such as gdb and binutils has already been
-modified before; so elf.5 needs to be modified accordingly.
+While debugging an NFS setup I've noticed flock(2) says the following:
 
-You can follow information on the ELF extension via the LKML post:
-http://lkml.org/lkml/2010/1/3/103
+> flock() does not lock files over NFS. Use fcntl(2) instead: that does
+> work over NFS, given a sufficiently recent version of Linux and a
+> server which supports locking.
 
-Signed-off-by: Daisuke HATAYAMA <d.hatayama-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
----
- man5/elf.5 |   53 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 files changed, 52 insertions(+), 1 deletions(-)
+This is not true. I used flock(1) which uses flock(2) as per it's
+manpage and strace and the locks worked fine:
 
-diff --git a/man5/elf.5 b/man5/elf.5
-index 20ed3d8..e4987b8 100644
---- a/man5/elf.5
-+++ b/man5/elf.5
-@@ -30,7 +30,7 @@
- .\" 2007-10-11, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, various fixes
- .\" 2007-12-08, mtk, Converted from mdoc to man macros
- .\"
--.TH ELF 5 2007-12-28 "Linux" "Linux Programmer's Manual"
-+.TH ELF 5 2010-01-21 "Linux" "Linux Programmer's Manual"
- .SH NAME
- elf \- format of Executable and Linking Format (ELF) files
- .SH SYNOPSIS
-@@ -543,6 +543,28 @@ in bytes.
- If a file has no program header,
- .IR e_phnum
- holds the value zero.
-+.IP
-+If the number of entries in the program header table is larger than or equal to
-+.BR PN_XNUM
-+(0xffff), this member holds
-+.BR PN_XNUM
-+(0xffff). The real number of entries in the program header table is held in
-+.IR sh_info
-+member of the initial entry in section header table. Otherwise, the
-+.IR sh_info
-+member of the initial entry contains the value zero.
-+.\" .Bl -tag -width "PN_XNUM"
-+.RS 12
-+.TP 9
-+.BR PN_XNUM
-+This is defined as 0xffff, the largest number
-+.IR e_phnum
-+can have, specifying where the actual number of program headers is
-+assigned.
-+.PD
-+.RE
-+.\" .El
-+.IP
- .TP
- .IR e_shentsize
- This member holds a sections header's size in bytes.
-@@ -561,6 +583,17 @@ If a file has no section
- header table,
- .IR e_shnum
- holds the value of zero.
-+.IP
-+If the number of entries in the section header table is larger than or equal to
-+.BR SHN_LORESERVE
-+(0xff00),
-+.IR e_shnum
-+holds the value zero. The real number of entries in the section header
-+table is held in
-+.IR sh_size
-+of the initial entry in section header table. Otherwise, the
-+.IR sh_size
-+of the initial entry in section header table holds the value zero.
- .TP
- .IR e_shstrndx
- This member holds the section header table index of the entry associated
-@@ -568,6 +601,17 @@ with the section name string table.
- If the file has no section name string
- table, this member holds the value
- .BR SHN_UNDEF .
-+.IP
-+If the index of section name string table section is larger than or equal to
-+.BR SHN_LORESERVE
-+(0xff00), this member holds
-+.BR SHN_XINDEX
-+(0xffff) and the real index of the section name string table section
-+is held in the
-+.IR sh_link
-+member of the initial entry in section header table. Otherwise, the
-+.IR sh_link
-+member of the initial entry in section header table contains the value zero.
- .RS 12
- .\" .Bl -tag -width "SHN_LORESERVE"
- .TP 14
-@@ -1876,3 +1920,10 @@ Santa Cruz Operation,
- Unix System Laboratories,
- "Object Files",
- .IR "Executable and Linking Format (ELF)" .
-+.PP
-+Sun microsystems,
-+.IR "Linker and Libraries Guide" .
-+.PP
-+AMD64 ABI Draft,
-+.IR "System V Application Binary Interface AMD64 Architecture Processor Supplement" .
-+.PP
--- 
-1.6.5.1
+> NLM[host,0]: 0:0 1 GRANTED (0x0000000062720038) \
+>    fsid=0x00c8c721 fileid=0x004108d1
 
+Thus, I believe this paragraph should be deleted.
+
+Regards,
+
+   Sebastian
+
+
+diff --git a/man2/flock.2 b/man2/flock.2
+index f009ea3..d604318 100644
+--- a/man2/flock.2
++++ b/man2/flock.2
+@@ -143,13 +143,6 @@ possibly implemented in terms of
+ .BR fcntl (2),
+ appears on most Unix systems.
+ .SH NOTES
+-.BR flock ()
+-does not lock files over NFS.
+-Use
+-.BR fcntl (2)
+-instead: that does work over NFS, given a sufficiently recent version of
+-Linux and a server which supports locking.
+-.PP
+ Since kernel 2.0,
+ .BR flock ()
+ is implemented as a system call in its own right rather
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
