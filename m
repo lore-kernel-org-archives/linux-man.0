@@ -1,68 +1,57 @@
-From: Bo Borgerson <gigabo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] sem_overview.7: Fix typo (semget => shmget)
-Date: Mon, 29 Mar 2010 19:01:01 -0700
-Message-ID: <4BB15B5D.7050706@gmail.com>
+From: =?ISO-8859-1?Q?Zsb=E1n_Ambrus?= <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org>
+Subject: Fwd: [PATCH] linux man-pages ioctl_list(2) FAT_IOCTL_GET_ATTRIBUTES
+Date: Sat, 3 Apr 2010 18:37:21 +0200
+Message-ID: <z2h25d4951c1004030937xf216955aja619eb4322125e59@mail.gmail.com>
+References: <j2n25d4951c1004030936ia8b558e9w8951691fb29a6693@mail.gmail.com>
+Reply-To: ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------020006010207000104060303"
+Content-Type: multipart/mixed; boundary=00148531b974ebff01048357b6b8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <j2n25d4951c1004030936ia8b558e9w8951691fb29a6693-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------020006010207000104060303
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--00148531b974ebff01048357b6b8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Dear linux man-pages,
 
-The sem_overview(7) man page makes reference to "a System V shared 
-memory segment created using semget(2)".  Was this intended to be 
-"shmget(2)"?
+The attached patch adds four ioctls from linux/msdos_fs.h to the
+ioctl_list(2) manpage.
 
-Please see attached patch against current git master.
+The ioctl FAT_IOCTL_GET_ATTRIBUTES reads FAT attributes of a file a
+mounted vfat file system. =A0I tested this on Linux 2.6.33, an example
+script can be found at "http://www.perlmonks.com/?node_id=3D832623".
 
-Thanks,
+The constants are a bit difficult to access, you may need to include
+the following headers to get them defined correctly (and the order
+matters; and even then they are defined the have the wrong type,
+unsigned long instead of int): <sys/types.h> <sys/ioctl.h>
+<linux/types.h> <linux/dirent.h> <linux/msdos_fs.h>. =A0Do you suppose
+this should be mentioned in the manpage?
 
-Bo
+Ambrus
 
---------------020006010207000104060303
-Content-Type: text/x-diff;
- name="0001-sem_overview.7-Fix-typo-semget-shmget.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline;
- filename="0001-sem_overview.7-Fix-typo-semget-shmget.patch"
+--00148531b974ebff01048357b6b8
+Content-Type: text/x-diff; charset=US-ASCII; name="fatioc.diff"
+Content-Disposition: attachment; filename="fatioc.diff"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_g7kn1n8h0
 
->From cc406c10dd443f79e9073f053619a9c475ec97ad Mon Sep 17 00:00:00 2001
-From: Bo Borgerson <gigabo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Mon, 29 Mar 2010 18:12:33 -0700
-Subject: [PATCH] sem_overview.7: Fix typo (semget => shmget)
-
-In reference to creation of a SysV shared memory segment.
----
- man7/sem_overview.7 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/man7/sem_overview.7 b/man7/sem_overview.7
-index ef354fe..fb706d2 100644
---- a/man7/sem_overview.7
-+++ b/man7/sem_overview.7
-@@ -88,7 +88,7 @@ A thread-shared semaphore is placed in an area of memory shared
- between by the threads of a process, for example, a global variable.
- A process-shared semaphore must be placed in a shared memory region
- (e.g., a System V shared memory segment created using
--.BR semget (2),
-+.BR shmget (2),
- or a POSIX shared memory object built created using
- .BR shm_open (3)).
- 
--- 
-1.6.3.3
-
-
---------------020006010207000104060303--
+LS0tIC4vaW9jdGxfbGlzdC4yCTIwMTAtMDQtMDMgMTc6NTI6MzkuMDAwMDAwMDAwICswMjAwCisr
+KyAuL2lvY3RsX2xpc3QuMgkyMDEwLTA0LTAzIDE4OjIzOjMxLjAwMDAwMDAwMCArMDIwMApAQCAt
+NDMwLDggKzQzMCwxNyBAQAogMHgwMDAwODlFMAlTSU9DR0VUVklGQ05UCXN0cnVjdCBzaW9jX3Zp
+Zl9yZXEgKgkvLyBJLU8KIDB4MDAwMDg5RTEJU0lPQ0dFVFNHQ05UCXN0cnVjdCBzaW9jX3NnX3Jl
+cSAqCS8vIEktTwogLlRFCiAKKy8vIDxpbmNsdWRlL2xpbnV4L21zZG9zX2ZzLmg+CisuVFMKK2wg
+bCBsIGwuCisweDgyMzA3MjAxCVZGQVRfSU9DVExfUkVBRERJUl9CT1RICXN0cnVjdCBkaXJlbnQg
+WzJdCisweDgyMzA3MjAyCVZGQVRfSU9DVExfUkVBRERJUl9TSE9SVAlzdHJ1Y3QgZGlyZW50IFsy
+XQorMHg4MDA0NzIxMAlGQVRfSU9DVExfR0VUX0FUVFJJQlVURVMJX191MzIgKgorMHg0MDA0NzIx
+MQlGQVRfSU9DVExfU0VUX0FUVFJJQlVURVMJY29uc3QgX191MzIgKgorLlRFCisKIC8vIDxpbmNs
+dWRlL2xpbnV4L210aW8uaD4KIC5UUwogbCBsIGwgbC4KIDB4NDAwODZEMDEJTVRJT0NUT1AJY29u
+c3Qgc3RydWN0IG10b3AgKgo=
+--00148531b974ebff01048357b6b8--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
