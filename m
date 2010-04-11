@@ -1,7 +1,7 @@
 From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small fix for rpc.5
-Date: Thu, 8 Apr 2010 20:43:26 +0400
-Message-ID: <20100408204326.7ce7288e@keeper.home.local>
+Subject: small correction for services.5
+Date: Sun, 11 Apr 2010 09:23:53 +0400
+Message-ID: <20100411092353.421f8cda@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -13,17 +13,20 @@ List-Id: linux-man@vger.kernel.org
 
 Hello.
 
---- man-pages-git/man5/rpc.5    2010-03-26 17:46:41.000000000 +0300
-+++ /tmp/rpc.5  2010-04-08 20:40:05.000000000 +0400
-@@ -3,7 +3,7 @@
- .\" @(#)rpc.5  2.2 88/08/03 4.0 RPCSRC; from 1.4 87/11/27 SMI;
- .TH RPC 5  1985-09-26 "" "Linux Programmer's Manual"
- .SH NAME
--rpc \- rpc program number data base
-+rpc \- RPC program number data base
- .SH SYNOPSIS
- .B /etc/rpc
- .SH DESCRIPTION
+Removed link to BUGS section (has commented).
+
+--- services.5  2010-03-26 17:46:41.000000000 +0300
++++ /tmp/services.5     2010-04-11 09:20:37.000000000 +0400
+@@ -120,7 +120,7 @@
+ .TP
+ .I aliases
+ is an optional space or tab separated list of other names for this
+-service (but see the BUGS section below).
++service.
+ Again, the names are case
+ sensitive.
+ .PP
+
 
 -- 
 Best Regards,
