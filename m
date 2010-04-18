@@ -1,36 +1,33 @@
-From: Keisial <keisial-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: strftime(3) clarifying the 'current locales'
-Date: Mon, 12 Apr 2010 23:29:57 +0200
-Message-ID: <4BC390D5.3000709@gmail.com>
+From: Mihai Paraschivescu <paraschivescu_mihail-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Subject: Man page typo
+Date: Sun, 18 Apr 2010 08:57:54 -0700 (PDT)
+Message-ID: <838959.52751.qm@web45611.mail.sp1.yahoo.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
-Could you add a note to strftime(3) stating that to take advantage of
-locale specific names you need to call setlocale(3) first?
-It seems silly when you know it, but wasn't aware that the C locale was
-automatically selected on startup (I expected it to be automatically
-lazy-loaded, based on the environment vars).
-Alternatively, the example could be changed to need a setlocale call,
-like strftime(3P) does, so it can at least point in the right direction.
+Hi!
 
-The man page is not wrong on itself, but I don't think that it is to be
-expected before you know it that the "current locale" would be
-something different than the locale that the user has been seeing
-all along its session (or maybe i'm more noob than most
-programmers :).
+My name is Mihail Paraschivescu, I'm from Romania. I have a lot of experience under Linux in C/C++ and a few days ago I got a new project related to System V message queues. So I start to document myself about all the things it may involve. While reading the man page of msgsnd(2) function I saw that among other thing it's written that:
 
-Thanks for your documentation work.
-It's really useful!
+"The queue capacity is defined by the msg_bytes field in the associated data structure for the message queue."
 
-PS: Please CC in reply.
+If I'm not wrong, the exact name of that field in the msqid_ds structure is msg_qbytes. The same thing appears also on the online manual pages, I checked it already.
 
+I know this is a very minor typo, but I thought that it would be better to fix it such that other coders to get 100% correct information form this man page.
+
+I am using Mandriva Linux 2010 and the man page is "part of release 3.23 of the Linux man-pages project".
+
+Thanks a lot and have a nice day!
+
+Mihail
+
+
+      
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
