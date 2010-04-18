@@ -1,33 +1,43 @@
-From: Mihai Paraschivescu <paraschivescu_mihail-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
-Subject: Man page typo
-Date: Sun, 18 Apr 2010 08:57:54 -0700 (PDT)
-Message-ID: <838959.52751.qm@web45611.mail.sp1.yahoo.com>
+From: Marcel Moreaux <marcelm-MO7g/Hy4xaE@public.gmane.org>
+Subject: Small error in crypt() manpage
+Date: Sun, 18 Apr 2010 19:17:18 +0200
+Message-ID: <20100418171718.GB25938@zuul.luon.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+Hey,
 
-My name is Mihail Paraschivescu, I'm from Romania. I have a lot of experience under Linux in C/C++ and a few days ago I got a new project related to System V message queues. So I start to document myself about all the things it may involve. While reading the man page of msgsnd(2) function I saw that among other thing it's written that:
+The Linux manpage for crypt()[1] contains the following statement as the
+last sentence of the NOTES section:
 
-"The queue capacity is defined by the msg_bytes field in the associated data structure for the message queue."
+    In the SHA implementation the entire key is significant (instead of
+    only the first 8 bytes in MD5).
 
-If I'm not wrong, the exact name of that field in the msqid_ds structure is msg_qbytes. The same thing appears also on the online manual pages, I checked it already.
+It should probably say "DES" where it says "MD5" (and maybe "MD5/SHA"
+where it says "SHA"), because in MD5 password hashing, the entire key is
+significant, not just the first 8 bytes.
 
-I know this is a very minor typo, but I thought that it would be better to fix it such that other coders to get 100% correct information form this man page.
+Quoting the glibc documentation[2]:
 
-I am using Mandriva Linux 2010 and the man page is "part of release 3.23 of the Linux man-pages project".
-
-Thanks a lot and have a nice day!
-
-Mihail
+    For the MD5-based algorithm, [...] Every character in the key is
+    significant. 
 
 
-      
+
+Best regards,
+
+Marcel Moreaux
+
+
+
+[1] http://www.kernel.org/doc/man-pages/online/pages/man3/crypt.3.html
+[2] http://www.gnu.org/s/libc/manual/html_node/crypt.html#crypt
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
