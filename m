@@ -1,73 +1,42 @@
-From: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] msgsnd(2): msg_bytes -> msg_qbytes
-Date: Wed, 28 Apr 2010 23:59:35 +0000
-Message-ID: <1272503151-6937-1-git-send-email-mfwitten@gmail.com>
-References: <4bce5f4c.0d67f10a.33b0.ffff9e3e@mx.google.com> <838959.52751.qm@web45611.mail.sp1.yahoo.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15883] New: downloaded ubuntu updates now cannot start ubuntu
+Date: Fri, 30 Apr 2010 14:46:27 GMT
+Message-ID: <bug-15883-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4bce5f4c.0d67f10a.33b0.ffff9e3e-ATjtLOhZ0NVl57MIdRCFDg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Mihail Paraschivescu <paraschivescu_mihail-/E1597aS9LQAvxtiuMwx3w@public.gmane.org> reported
-here:
+https://bugzilla.kernel.org/show_bug.cgi?id=15883
 
-    http://marc.info/?l=linux-man&m=127160667709342&w=2
-    http://www.spinics.net/lists/linux-man/msg01271.html
+           Summary: downloaded ubuntu updates now cannot start ubuntu
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: josebau9-fOdFMYwuEsI@public.gmane.org
+        Regression: No
 
-the following:
 
-    "The queue capacity is defined by the msg_bytes field in
-    the associated data structure for the message queue."
+I'm new to Linux and Ubuntu. so far I've had a great experience. However, today
+I my update manager wanted to install a bunch of updates and when I restarted I
+got an error that says "you need to load kernel first" it will not let me start
+Ubuntu. If I cursor down 3 lines on the boot menu and pick another Ubuntu it
+lets me start. I'm assuming that's the old version before the updates. How do I
+load a kernel? What should I do?
 
-    If I'm not wrong, the exact name of that field in the
-    msqid_ds structure is msg_qbytes. The same thing appears
-    also on the online [POSIX] manual pages, I checked it
-    already.
-
-I provided a detailed confirmation with quotes from the
-Linux kernel sources:
-
-    http://marc.info/?l=linux-man&m=127181601631737&w=2
-    http://www.spinics.net/lists/linux-man/msg01273.html
-
-This patch (requested by Mihail) makes the correction and
-removes unnecessary implementation details.
----
- man2/msgop.2 |   16 ++++++++--------
- 1 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/man2/msgop.2 b/man2/msgop.2
-index 2b29cac..f236c5a 100644
---- a/man2/msgop.2
-+++ b/man2/msgop.2
-@@ -102,14 +102,14 @@ by
- .PP
- If sufficient space is available in the queue,
- .BR msgsnd ()
--succeeds immediately.
-+succeeds immediately;
--(The queue capacity is defined by the
--.I msg_bytes
--field in the associated data structure for the message queue.
--During queue creation this field is initialized to
--.B MSGMNB
--bytes, but this limit can be modified using
--.BR msgctl (2).)
-+the queue capacity can be queried and set via
-+.BR msgctl (2)
-+by using the
-+.I msg_qbytes
-+field of that function's
-+.I msqid_ds
-+pointer parameter.
- If insufficient space is available in the queue, then the default
- behavior of
- .BR msgsnd ()
 -- 
-1.7.1
-
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
