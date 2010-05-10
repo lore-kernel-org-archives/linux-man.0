@@ -1,63 +1,37 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15952] New: man page cmsg(3) inconsistency
-Date: Sun, 9 May 2010 22:56:06 GMT
-Message-ID: <bug-15952-11311@https.bugzilla.kernel.org/>
+From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: suggestion: ANSI color codes manpage
+Date: Mon, 10 May 2010 22:58:54 +0200
+Message-ID: <20100510205854.GC16800@machine.or.cz>
+References: <3756413b1002241248o7e9a65b4q6b9c73bc8d3451f6@mail.gmail.com>
+ <20100224215615.GE19115@machine.or.cz>
+ <3756413b1002250610i3f5ead7cw4e74771c3de58d0f@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <3756413b1002250610i3f5ead7cw4e74771c3de58d0f-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Leonardo Boiko <leoboiko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15952
+On Thu, Feb 25, 2010 at 11:10:42AM -0300, Leonardo Boiko wrote:
+> Ok, I think I fixed most of the problems.  A revised version is at
+> the same URL, http://namakajiri.net/code/ansicolors.7 (beware of
+> caching).
 
-               URL: http://bugs.gentoo.org/show_bug.cgi?id=318801
-           Summary: man page cmsg(3) inconsistency
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: chris2k01-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
-        Regression: No
+That looks good!
 
+Could you please prepare a patch based on this file, that also adds
+appropriate cross-references especially to console_codes(4) and probably
+also to ascii(7)?
 
-In man page cmsg(3), I see the following prose:
-
-"Finally, the msg_controllen field of the msghdr should be set to the sum of
-the CMSG_SPACE() of the length of all control messages in the buffer. For more 
-information on the msghdr, see recvmsg(2)."
-
-Then, in the sample code at the bottom, I see this code:
-           msg.msg_control = buf;
-           msg.msg_controllen = sizeof buf;
-           cmsg = CMSG_FIRSTHDR(&msg);
-           cmsg->cmsg_level = SOL_SOCKET;
-           cmsg->cmsg_type = SCM_RIGHTS;
-           cmsg->cmsg_len = CMSG_LEN(sizeof(int) * NUM_FD);
-           /* Initialize the payload: */
-           fdptr = (int *) CMSG_DATA(cmsg);
-           memcpy(fdptr, myfds, NUM_FD * sizeof(int));
-           /* Sum of the length of all control messages in the buffer: */
-           msg.msg_controllen = cmsg->cmsg_len;
-
-This is inconsistent: the prose states that msg_controllen should be
-initialized with the sum of CMSG_SPACE across all messages, whereas the example
-code shows msg_controllen being initialized with cmsg->cmsg_len, which is
-itself initialized with CMSG_LEN, not CMSG_SPACE.
-
-I don't know what the right answer is, but for control messages whose length is
-not a multiple of the alignment requirement, this could make a difference.
+Thanks,
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+				Petr "Pasky" Baudis
+When I feel like exercising, I just lie down until the feeling
+goes away.  -- xed_over
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
