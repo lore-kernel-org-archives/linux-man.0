@@ -1,39 +1,33 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15568] O_NONBLOCK is NOOP on block devices
-Date: Tue, 11 May 2010 08:43:45 GMT
-Message-ID: <201005110843.o4B8hjeZ003212@demeter.kernel.org>
-References: <bug-15568-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Fang Wenqi <anton.fang-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] statfs.2: Add definition EXT4_SUPER_MAGIC = 0xEF53
+Date: Wed, 12 May 2010 11:22:46 +0800
+Message-ID: <1273634566-4159-1-git-send-email-antonf@turbolinux.com.cn>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15568-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nicolas.francois-Fa7rcPG4DJn7nK0/Xc0eeg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: antonf-Qbad7dcHD6Y0jvc7zYWOs/8+0UxHXcjY@public.gmane.org, anton.fang-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15568
+Signed-off-by: Fang Wenqi <antonf-Qbad7dcHD6Y0jvc7zYWOs/8+0UxHXcjY@public.gmane.org>
+---
+ man2/statfs.2 |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-
-
-
-
---- Comment #3 from Petr Baudis <pasky-+ZI9xUNit7I@public.gmane.org>  2010-05-11 08:43:41 ---
-Mike, I have not meant covering for some possible old versions, but covering
-for future versions; if you know which version the man-page documents, you can
-decide if you need to check further to see if your version has something new
-there.
-
-I don't know who was the original author describing O_NONBLOCK. I have never
-really tended to misinterpret this myself, "Many  file  systems and disks were
-considered to be fast enough that the implementation of O_NONBLOCK was deemed
-unnecessary.  So, O_NONBLOCK may not be available on files and/or disks" seemed
-always rather clear to me, but I agree more detail and mentioning this at other
-places than read(2) documentation as well would do good.
-
+diff --git a/man2/statfs.2 b/man2/statfs.2
+index 73ec57f..36852af 100644
+--- a/man2/statfs.2
++++ b/man2/statfs.2
+@@ -73,6 +73,7 @@ File system types:
+    EXT2_OLD_SUPER_MAGIC  0xEF51
+    EXT2_SUPER_MAGIC      0xEF53
+    EXT3_SUPER_MAGIC      0xEF53
++   EXT4_SUPER_MAGIC      0xEF53
+    HFS_SUPER_MAGIC       0x4244
+    HPFS_SUPER_MAGIC      0xF995E849
+    HUGETLBFS_MAGIC       0x958458f6
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.6.6.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
