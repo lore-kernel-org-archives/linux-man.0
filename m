@@ -1,99 +1,38 @@
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+From: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 Subject: Re: Unexpected splice "always copy" behavior observed
-Date: Wed, 19 May 2010 21:56:05 -0400
-Message-ID: <20100520015605.GA28411@Krystal>
-References: <1274280968.26328.774.camel@gandalf.stny.rr.com> <alpine.LFD.2.00.1005190758070.23538@i5.linux-foundation.org> <E1OElGh-0005wc-I8@pomaz-ex.szeredi.hu> <1274283942.26328.783.camel@gandalf.stny.rr.com> <20100519155732.GB2039@Krystal> <20100519162729.GE2516@laptop> <20100519191439.GA2845@Krystal> <alpine.LFD.2.00.1005191220370.23538@i5.linux-foundation.org> <20100519214905.GA22486@Krystal> <alpine.LFD.2.00.1005191659100.23538@i5.linux-foundation.org>
+Date: Thu, 20 May 2010 07:18:21 -0700 (PDT)
+Message-ID: <alpine.LFD.2.00.1005200715460.23538@i5.linux-foundation.org>
+References: <1274280968.26328.774.camel@gandalf.stny.rr.com> <alpine.LFD.2.00.1005190758070.23538@i5.linux-foundation.org> <E1OElGh-0005wc-I8@pomaz-ex.szeredi.hu> <1274283942.26328.783.camel@gandalf.stny.rr.com> <20100519155732.GB2039@Krystal>
+ <20100519162729.GE2516@laptop> <20100519191439.GA2845@Krystal> <alpine.LFD.2.00.1005191220370.23538@i5.linux-foundation.org> <20100519214905.GA22486@Krystal> <alpine.LFD.2.00.1005191659100.23538@i5.linux-foundation.org> <20100520015605.GA28411@Krystal>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.00.1005191659100.23538@i5.linux-foundation.org>
-Sender: owner-linux-mm@kvack.org
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Nick Piggin <npiggin@suse.de>, Steven Rostedt <rostedt@goodmis.org>, Miklos Szeredi <miklos@szeredi.hu>, peterz@infradead.org, fweisbec@gmail.com, tardyp@gmail.com, mingo@elte.hu, acme@redhat.com, tzanussi@gmail.com, paulus@samba.org, linux-kernel@vger.kernel.org, arjan@infradead.org, ziga.mahkovec@gmail.com, davem@davemloft.net, linux-mm@kvack.org, akpm@linux-foundation.org, kosaki.motohiro@jp.fujitsu.com, cl@linux-foundation.org, tj@kernel.org, jens.axboe@oracle.com, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100520015605.GA28411@Krystal>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mathieu Desnoyers <mathieu.desnoyers-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
+Cc: Nick Piggin <npiggin-l3A5Bk7waGM@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>, peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, tardyp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, mingo-X9Un+BFzKDI@public.gmane.org, acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, tzanussi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, arjan-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, ziga.mahkovec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org, cl-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, jens.axboe-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-* Linus Torvalds (torvalds@linux-foundation.org) wrote:
+
+
+On Wed, 19 May 2010, Mathieu Desnoyers wrote:
 > 
-> 
-> On Wed, 19 May 2010, Mathieu Desnoyers wrote:
-> > 
-> > A faced a small counter-intuitive fadvise behavior though.
-> > 
-> >   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-> > 
-> > only seems to affect the parts of a file that already exist.
-> 
-> POSIX_FADV_DONTNEED does not have _any_ long-term behavior. So when you do 
-> a 
-> 
-> 	posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
-> 
-> it only affects the pages that are there right now, it has no effect on 
-> any future actions.
+>        Programs  can  use  posix_fadvise()  to announce an intention to access
+>        file data in a specific pattern in the future, thus allowing the kernel
+>        to perform appropriate optimizations.
 
-Hrm, someone should tell the author of posix_fadvise(2) about the benefit of
-some clarifications (I'm CCing the manpage maintainer)
+It's true for some of them. The random-vs-linear behavior is a flag for 
+the future, for example (relevant for prefetching).
 
-Quoting man posix_fadvise, annotated:
+In fact, it's technically true even for DONTNEED. It's true that we won't 
+need the pages in the future! So we throw the pages away. But that means 
+that we throw the _current_ pages away.
 
+If we actually touch pages later, than that obviously invalidates the fact 
+that we said 'DONTNEED' - we clearly needed them.
 
-       Programs  can  use  posix_fadvise()  to announce an intention to access
-       file data in a specific pattern in the future, thus allowing the kernel
-       to perform appropriate optimizations.
-
-This only talks about future accesses, not past. From what I understand, you are
-saying that in the writeback case it's better to think of posix_fadvise() as
-applying to pages that have been written in the past too.
-
-
-       The  advice  applies to a (not necessarily existent) region starting at
-       offset and extending for len bytes (or until the end of the file if len
-       is 0) within the file referred to by fd.  The advice is not binding; it
-       merely constitutes an expectation on behalf of the application.
- 
-This could be enhanced by saying that it applies up to the current file size if
-0 is specified, and does not extend as the file grows. The formulation as it is
-currently stated is a bit misleading.
-
-> > So after each splice() that appends to the file, I have to call fadvise 
-> > again. I would have expected the "0" len parameter to tell the kernel to 
-> > apply the hint to the whole file, even parts that will be added in the 
-> > future.
-> 
-> It's not a hint about future at all. It's a "throw current pages away".
-> 
-> I would also suggest against doing that kind of thing in a streaming write 
-> situation. The behavior for dirty page writeback is _not_ welldefined, and 
-> if you do POSIX_FADV_DONTNEED, I would suggest you do it as part of that 
-> writeback logic, ie you do it only on ranges that you have just waited on.
-> 
-> IOW, in my example, you'd couple the
-> 
-> 	sync_file_range(fd, (index-1)*BUFSIZE, BUFSIZE, SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE|SYNC_FILE_RANGE_WAIT_AFTER);
-> 
-> with a
-> 
-> 	posix_fadvise(fd, (index-1)*BUFSIZE, BUFSIZE, POSIX_FADV_DONTNEED);
-> 
-> afterwards to throw out the pages that you just waited for.
-
-OK, so it's better to do the writeback as part of sync_file_range rather than
-relying on the dirty page writeback to do it for us. I guess the I/O scheduler
-will have more room to ensure that writes are contiguous.
-
-Thanks for the feedback,
-
-Mathieu
-
--- 
-Mathieu Desnoyers
-Operating System Efficiency R&D Consultant
-EfficiOS Inc.
-http://www.efficios.com
-
+		Linus
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
