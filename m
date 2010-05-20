@@ -1,61 +1,99 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: fs(5) man page is out of date
-Date: Wed, 19 May 2010 18:23:52 -0400
-Message-ID: <201005191823.54159.vapier@gentoo.org>
-References: <4BF2BAD0.5070100@myLetters.US> <20100519193941.GK1951@machine.or.cz> <4BF44CBD.3000304@myLetters.US>
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Subject: Re: Unexpected splice "always copy" behavior observed
+Date: Wed, 19 May 2010 21:56:05 -0400
+Message-ID: <20100520015605.GA28411@Krystal>
+References: <1274280968.26328.774.camel@gandalf.stny.rr.com> <alpine.LFD.2.00.1005190758070.23538@i5.linux-foundation.org> <E1OElGh-0005wc-I8@pomaz-ex.szeredi.hu> <1274283942.26328.783.camel@gandalf.stny.rr.com> <20100519155732.GB2039@Krystal> <20100519162729.GE2516@laptop> <20100519191439.GA2845@Krystal> <alpine.LFD.2.00.1005191220370.23538@i5.linux-foundation.org> <20100519214905.GA22486@Krystal> <alpine.LFD.2.00.1005191659100.23538@i5.linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart2640322.ipL3oH0BAc";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4BF44CBD.3000304-yboC7gn3QBoJzESkhhYsnQ@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff B <JeffBatHome-XMwiTyDR5eL3nsQPz6zGkQ@public.gmane.org>
-Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.00.1005191659100.23538@i5.linux-foundation.org>
+Sender: owner-linux-mm@kvack.org
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Nick Piggin <npiggin@suse.de>, Steven Rostedt <rostedt@goodmis.org>, Miklos Szeredi <miklos@szeredi.hu>, peterz@infradead.org, fweisbec@gmail.com, tardyp@gmail.com, mingo@elte.hu, acme@redhat.com, tzanussi@gmail.com, paulus@samba.org, linux-kernel@vger.kernel.org, arjan@infradead.org, ziga.mahkovec@gmail.com, davem@davemloft.net, linux-mm@kvack.org, akpm@linux-foundation.org, kosaki.motohiro@jp.fujitsu.com, cl@linux-foundation.org, tj@kernel.org, jens.axboe@oracle.com, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart2640322.ipL3oH0BAc
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+* Linus Torvalds (torvalds@linux-foundation.org) wrote:
+> 
+> 
+> On Wed, 19 May 2010, Mathieu Desnoyers wrote:
+> > 
+> > A faced a small counter-intuitive fadvise behavior though.
+> > 
+> >   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
+> > 
+> > only seems to affect the parts of a file that already exist.
+> 
+> POSIX_FADV_DONTNEED does not have _any_ long-term behavior. So when you do 
+> a 
+> 
+> 	posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
+> 
+> it only affects the pages that are there right now, it has no effect on 
+> any future actions.
 
-On Wednesday 19 May 2010 16:40:29 Jeff B wrote:
-> > On 05/19/2010 03:39 PM, Petr Baudis wrote:
-> > Thanks! I hope mtk will be able to apply it -
->=20
-> Who or what is "mtk"?
+Hrm, someone should tell the author of posix_fadvise(2) about the benefit of
+some clarifications (I'm CCing the manpage maintainer)
 
-he is the man pages maintainer
+Quoting man posix_fadvise, annotated:
 
-please dont bcc the mailing lists.  it screws things up.
-=2Dmike
 
---nextPart2640322.ipL3oH0BAc
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+       Programs  can  use  posix_fadvise()  to announce an intention to access
+       file data in a specific pattern in the future, thus allowing the kernel
+       to perform appropriate optimizations.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.14 (GNU/Linux)
+This only talks about future accesses, not past. From what I understand, you are
+saying that in the writeback case it's better to think of posix_fadvise() as
+applying to pages that have been written in the past too.
 
-iQIcBAABAgAGBQJL9GT6AAoJEEFjO5/oN/WBtmMP/RSTBntr4iQtVzYXq31Qb8jP
-+PY3U8lYAU5xMrKoF/YHMu6dgaZwQhYbfz0gNUiNP7hrhWwRPadvsHJPg3zhmIpM
-lWYdK5s8Z7F5k9+fe7eQh5JOqOu4tsM1vujocts+NlKaUm0C2zCmGCG/10A9ibH4
-h538P/2jzBLNQeAI3Q6qXAu5rDflSXegZ++ZWFP3QaKL8YigbYqB02dhnrM75oii
-PFFOLqSWx5IlbytjfdCBEZI/7N42oSAvYkaEN1fwzjree0lz4gMunfaWBRf+POao
-YHsb6B3t3w/PSGu2tS9anWjpi7AS6UxDOnWvn5eAmW9oDWypQ7B6RCVk8TZbW0HX
-fuQrDQ1bovyobKkmLrbOkyfYAoB8+tOLzBuRBGpMUJlk7Hw9UAIDQmYO2X4OayUS
-gZAkwI/AhYJeCPsFVRBymV9pxk8zZO/uDZuxWvlC4STFU/lLGGMJj5Ggx9ZdnYEn
-LtRm3c/Z1jdKhh1InU7WX4eO0V8/3SPddj0rABpcT4vreMf6VDz4c+nmYRTLoUIv
-HF5CX2fWD0PrU3+wjA3mX95vxwve+P8o2Q4inTBiXDnoaXQljeKfVRdJypkh1ePy
-lr4mRlWYP+XtGe3pJ763KavznoLMvDTrRbJoind11DC3WHCQmkiL5u5YO+BezzcL
-QSmcsGmVuAUFW3r0aSN6
-=GThe
------END PGP SIGNATURE-----
 
---nextPart2640322.ipL3oH0BAc--
+       The  advice  applies to a (not necessarily existent) region starting at
+       offset and extending for len bytes (or until the end of the file if len
+       is 0) within the file referred to by fd.  The advice is not binding; it
+       merely constitutes an expectation on behalf of the application.
+ 
+This could be enhanced by saying that it applies up to the current file size if
+0 is specified, and does not extend as the file grows. The formulation as it is
+currently stated is a bit misleading.
+
+> > So after each splice() that appends to the file, I have to call fadvise 
+> > again. I would have expected the "0" len parameter to tell the kernel to 
+> > apply the hint to the whole file, even parts that will be added in the 
+> > future.
+> 
+> It's not a hint about future at all. It's a "throw current pages away".
+> 
+> I would also suggest against doing that kind of thing in a streaming write 
+> situation. The behavior for dirty page writeback is _not_ welldefined, and 
+> if you do POSIX_FADV_DONTNEED, I would suggest you do it as part of that 
+> writeback logic, ie you do it only on ranges that you have just waited on.
+> 
+> IOW, in my example, you'd couple the
+> 
+> 	sync_file_range(fd, (index-1)*BUFSIZE, BUFSIZE, SYNC_FILE_RANGE_WAIT_BEFORE|SYNC_FILE_RANGE_WRITE|SYNC_FILE_RANGE_WAIT_AFTER);
+> 
+> with a
+> 
+> 	posix_fadvise(fd, (index-1)*BUFSIZE, BUFSIZE, POSIX_FADV_DONTNEED);
+> 
+> afterwards to throw out the pages that you just waited for.
+
+OK, so it's better to do the writeback as part of sync_file_range rather than
+relying on the dirty page writeback to do it for us. I guess the I/O scheduler
+will have more room to ensure that writes are contiguous.
+
+Thanks for the feedback,
+
+Mathieu
+
+-- 
+Mathieu Desnoyers
+Operating System Efficiency R&D Consultant
+EfficiOS Inc.
+http://www.efficios.com
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
