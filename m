@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 16030] New: hackersinci
-Date: Sat, 22 May 2010 18:47:10 GMT
-Message-ID: <bug-16030-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 16031] New: slabinfo description inaccurate (out of date?)
+Date: Sat, 22 May 2010 21:45:01 GMT
+Message-ID: <bug-16031-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,31 +9,29 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=16030
+https://bugzilla.kernel.org/show_bug.cgi?id=16031
 
-               URL: https://bugzilla.kernel.org/
-           Summary: hackersinci
+           Summary: slabinfo description inaccurate (out of date?)
            Product: Documentation
            Version: unspecified
-    Kernel Version: 2.0
           Platform: All
         OS/Version: Linux
-              Tree: Fedora
+              Tree: Mainline
             Status: NEW
           Severity: normal
           Priority: P1
          Component: man-pages
         AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: cyberturk-zR4LltBu46M@public.gmane.org
-                CC: cyberturk-zR4LltBu46M@public.gmane.org
-        Regression: Yes
+        ReportedBy: bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org
+        Regression: No
 
 
-Created an attachment (id=26506)
- --> (https://bugzilla.kernel.org/attachment.cgi?id=26506)
-hackersinci
+"man slabinfo" claims, for example, that the fifth column is "the  number  of 
+pages with at least one active object", when /proc/slabinfo on my (2.6.32)
+machine uses it for number of objects per slab.  Presumably the format it
+describes is outdated (example shows version 1.1, current is 2.1).
 
-Hackersinci
+This is from Ubuntu (Lucid)'s 3.23-1.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
