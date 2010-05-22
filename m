@@ -1,49 +1,42 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] mount.2: fix incorrect path
-Date: Sat, 22 May 2010 08:37:28 +0200
-Message-ID: <AANLkTikZo3HM7rIdFuH7FQZ0GFIL6rctHpx4RsthE4fu@mail.gmail.com>
-References: <20100519123203.GA9081@foxbat.suse.cz>
+Subject: Re: small fix for rpc.5
+Date: Sat, 22 May 2010 08:43:21 +0200
+Message-ID: <AANLkTimLVQoxxEa5ICPjJqX0HRs3tRUZCrDaCAb4UHBJ@mail.gmail.com>
+References: <20100408204326.7ce7288e@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100519123203.GA9081-hLZXBWembXzjFM9bn6wA6Q@public.gmane.org>
+In-Reply-To: <20100408204326.7ce7288e-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Petr,
-
-On Wed, May 19, 2010 at 2:32 PM, Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Signed-off-by: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
-> ---
-> =A0man2/mount.2 | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
+On Thu, Apr 8, 2010 at 6:43 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
+> Hello.
 >
-> diff --git a/man2/mount.2 b/man2/mount.2
-> index a79bdca..486fb4f 100644
-> --- a/man2/mount.2
-> +++ b/man2/mount.2
-> @@ -438,7 +438,7 @@ to other processes (except child processes that t=
-he caller
-> =A0subsequently creates) and vice versa.
->
-> =A0The Linux-specific
-> -.I /proc/PID/self
-> +.I /proc/PID/mounts
-> =A0file exposes the list of mount points in the mount
-> =A0namespace of the process with the specified ID; see
-> =A0.BR proc (5)
-> --
-> 1.6.4.2
+> --- man-pages-git/man5/rpc.5 =9A =9A2010-03-26 17:46:41.000000000 +03=
+00
+> +++ /tmp/rpc.5 =9A2010-04-08 20:40:05.000000000 +0400
+> @@ -3,7 +3,7 @@
+> =9A.\" @(#)rpc.5 =9A2.2 88/08/03 4.0 RPCSRC; from 1.4 87/11/27 SMI;
+> =9A.TH RPC 5 =9A1985-09-26 "" "Linux Programmer's Manual"
+> =9A.SH NAME
+> -rpc \- rpc program number data base
+> +rpc \- RPC program number data base
+> =9A.SH SYNOPSIS
+> =9A.B /etc/rpc
+> =9A.SH DESCRIPTION
 
 Thanks. Applied for 3.25.
 
 Cheers,
 
 Michael
+
+
 
 
 --=20
