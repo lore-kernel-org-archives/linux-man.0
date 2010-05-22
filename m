@@ -1,36 +1,43 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: small typo in the proc.5 (+ to mail list)
-Date: Sat, 22 May 2010 08:33:53 +0200
-Message-ID: <AANLkTimkugvnKCsoKIJyNjSS2KtW_wpfhIFqyUhheERk@mail.gmail.com>
-References: <20100501211725.14934451@keeper.home.local>
+Subject: Re: [PATCH] mount.2: fix incorrect path
+Date: Sat, 22 May 2010 08:37:28 +0200
+Message-ID: <AANLkTikZo3HM7rIdFuH7FQZ0GFIL6rctHpx4RsthE4fu@mail.gmail.com>
+References: <20100519123203.GA9081@foxbat.suse.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100501211725.14934451-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <20100519123203.GA9081-hLZXBWembXzjFM9bn6wA6Q@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yuri,
+Hello Petr,
 
-On Sat, May 1, 2010 at 7:17 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
-> Hello.
+On Wed, May 19, 2010 at 2:32 PM, Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Signed-off-by: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
+> ---
+> =A0man2/mount.2 | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
 >
-> --- proc.5 =A0 =A0 =A02010-03-26 17:46:41.000000000 +0300
-> +++ /tmp/proc.5 2010-05-01 12:58:03.000000000 +0400
-> @@ -633,7 +633,7 @@
-> =A0The controlling terminal of the process.
-> =A0(The minor device number is contained in the combination of bits
-> =A031 to 20 and 7 to 0;
-> -the major device number is in bits 15 t0 8.)
-> +the major device number is in bits 15 to 8.)
-> =A0.TP
-> =A0\fItpgid\fP %d
-> =A0.\" This field and following, up to and including wchan added 0.99=
-=2E1
+> diff --git a/man2/mount.2 b/man2/mount.2
+> index a79bdca..486fb4f 100644
+> --- a/man2/mount.2
+> +++ b/man2/mount.2
+> @@ -438,7 +438,7 @@ to other processes (except child processes that t=
+he caller
+> =A0subsequently creates) and vice versa.
+>
+> =A0The Linux-specific
+> -.I /proc/PID/self
+> +.I /proc/PID/mounts
+> =A0file exposes the list of mount points in the mount
+> =A0namespace of the process with the specified ID; see
+> =A0.BR proc (5)
+> --
+> 1.6.4.2
 
 Thanks. Applied for 3.25.
 
