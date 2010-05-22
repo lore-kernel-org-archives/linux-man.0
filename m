@@ -1,40 +1,44 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] sem_overview.7: Fix typo (semget => shmget)
-Date: Sat, 22 May 2010 08:54:05 +0200
-Message-ID: <AANLkTinF-1SaUT8GW1kaTAMktco46pT0ZI-hUsngVVw2@mail.gmail.com>
-References: <4BB15B5D.7050706@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 16030] New: hackersinci
+Date: Sat, 22 May 2010 18:47:10 GMT
+Message-ID: <bug-16030-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4BB15B5D.7050706-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bo Borgerson <gigabo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Mar 30, 2010 at 4:01 AM, Bo Borgerson <gigabo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi,
->
-> The sem_overview(7) man page makes reference to "a System V shared me=
-mory
-> segment created using semget(2)". =A0Was this intended to be "shmget(=
-2)"?
->
-> Please see attached patch against current git master.
+https://bugzilla.kernel.org/show_bug.cgi?id=16030
 
-Thanks. Patch applied for 3.25.
+               URL: https://bugzilla.kernel.org/
+           Summary: hackersinci
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: 2.0
+          Platform: All
+        OS/Version: Linux
+              Tree: Fedora
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: cyberturk-zR4LltBu46M@public.gmane.org
+                CC: cyberturk-zR4LltBu46M@public.gmane.org
+        Regression: Yes
 
-Cheers,
 
-Michael
+Created an attachment (id=26506)
+ --> (https://bugzilla.kernel.org/attachment.cgi?id=26506)
+hackersinci
 
+Hackersinci
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
