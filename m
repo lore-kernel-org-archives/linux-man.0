@@ -1,43 +1,42 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: small fix for rpc.5
-Date: Sat, 22 May 2010 08:43:21 +0200
-Message-ID: <AANLkTimLVQoxxEa5ICPjJqX0HRs3tRUZCrDaCAb4UHBJ@mail.gmail.com>
-References: <20100408204326.7ce7288e@keeper.home.local>
+Subject: Re: small correction for services.5
+Date: Sat, 22 May 2010 08:51:19 +0200
+Message-ID: <AANLkTildY_oO48CaGT1M1V3tZ6T65HRZXj3zGyw4fKIt@mail.gmail.com>
+References: <20100411092353.421f8cda@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100408204326.7ce7288e-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <20100411092353.421f8cda-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Apr 8, 2010 at 6:43 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
+On Sun, Apr 11, 2010 at 7:23 AM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+:
 > Hello.
 >
-> --- man-pages-git/man5/rpc.5 =9A =9A2010-03-26 17:46:41.000000000 +03=
-00
-> +++ /tmp/rpc.5 =9A2010-04-08 20:40:05.000000000 +0400
-> @@ -3,7 +3,7 @@
-> =9A.\" @(#)rpc.5 =9A2.2 88/08/03 4.0 RPCSRC; from 1.4 87/11/27 SMI;
-> =9A.TH RPC 5 =9A1985-09-26 "" "Linux Programmer's Manual"
-> =9A.SH NAME
-> -rpc \- rpc program number data base
-> +rpc \- RPC program number data base
-> =9A.SH SYNOPSIS
-> =9A.B /etc/rpc
-> =9A.SH DESCRIPTION
+> Removed link to BUGS section (has commented).
+>
+> --- services.5 =9A2010-03-26 17:46:41.000000000 +0300
+> +++ /tmp/services.5 =9A =9A 2010-04-11 09:20:37.000000000 +0400
+> @@ -120,7 +120,7 @@
+> =9A.TP
+> =9A.I aliases
+> =9Ais an optional space or tab separated list of other names for this
+> -service (but see the BUGS section below).
+> +service.
+> =9AAgain, the names are case
+> =9Asensitive.
+> =9A.PP
 
 Thanks. Applied for 3.25.
 
 Cheers,
 
 Michael
-
-
-
 
 --=20
 Michael Kerrisk
