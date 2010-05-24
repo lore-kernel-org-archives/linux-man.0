@@ -1,46 +1,36 @@
-From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: stat(2) does not indicate behavior with NULL filename arg, man
-	pages 3.24
-Date: Mon, 24 May 2010 07:23:00 +0200
-Message-ID: <AANLkTinqBaEquWOSvaFBEosJ2Fritb2D3h6YVbosFfVk@mail.gmail.com>
-References: <4BCF4B3A.8020909@dreamworks.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15883] downloaded ubuntu updates now cannot start ubuntu
+Date: Mon, 24 May 2010 05:24:48 GMT
+Message-ID: <201005240524.o4O5OmVY001283@demeter.kernel.org>
+References: <bug-15883-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4BCF4B3A.8020909-hCDZnVt6e3JSwrhanM7KvQ@public.gmane.org>
+In-Reply-To: <bug-15883-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Mahovsky <Jeff.Mahovsky-hCDZnVt6e3JSwrhanM7KvQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Jeff
-
-On Wed, Apr 21, 2010 at 9:00 PM, Jeff Mahovsky
-<Jeff.Mahovsky-hCDZnVt6e3JSwrhanM7KvQ@public.gmane.org> wrote:
-> The stat(2) manpage does not indicate the behavior of the stat() func=
-tion
-> when the filename is a NULL pointer. =A0Does stat() return an error o=
-r is the
-> behavior undefined?
->
-> Jeff Mahovsky
-> Dreamworks Animation
-
-Just to add to what Petr said. A NULL pointer is a general kind of
-error that can affect many interfaces. I don't really see a need to
-document this case for a specific interface.
-
-Thanks,
-
-Michael
+https://bugzilla.kernel.org/show_bug.cgi?id=15883
 
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+
+
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-05-24 05:24:45 ---
+Sorry this isn't a man-pages bug. Sounds like a distribution-specific error. Go
+to your distributor's web site.
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
