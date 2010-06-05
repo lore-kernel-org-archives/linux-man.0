@@ -1,52 +1,48 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: [PATCH] MAN: Clarify mremap.2 prototype
-Date: Thu, 3 Jun 2010 11:08:18 +0200
-Message-ID: <20100603090818.GA4741@basil.fritz.box>
+From: Paul A Sand <pas-JNhspZqLHXk@public.gmane.org>
+Subject: Bug in crypt(3) man page
+Date: Sat, 5 Jun 2010 07:44:05 -0400
+Message-ID: <20100605114404.GA30106@cisunix.unh.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+To: mtk-manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-MAN: Clarify mremap.2 prototype
+Hi --
 
-mremap sometimes accepts more arguments and sometimes less.
-Clarify this in the prototype and initial description in the manpage.
+I have version 3.23 of man-pages (Fedora 13). At the very
+end of 'Glibc Notes' of crypt(3):
 
-Signed-off-by: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+    In the SHA implementation the entire key is significant
+    (instead of only the first 8 bytes in MD5).
 
----
- man2/mremap.2 |    8 ++++++++
- 1 file changed, 8 insertions(+)
+I'm pretty sure that's incorrect. I think both MD5 and SHA implementations
+use the whole key, and the 8-byte significance restriction is
+applies to (just) the original DES. 
 
-Index: man-pages-3.24/man2/mremap.2
-===================================================================
---- man-pages-3.24.orig/man2/mremap.2
-+++ man-pages-3.24/man2/mremap.2
-@@ -39,6 +39,9 @@ mremap \- remap a virtual memory address
- .sp
- .BI "void *mremap(void *" old_address ", size_t " old_size ,
- .BI "             size_t " new_size ", int " flags );
-+.sp
-+.BI "void *mremap(void *" old_address ", size_t " old_size ,
-+.BI "             size_t " new_size ", int " flags ", void *" new_address );
- .fi
- .SH DESCRIPTION
- .BR mremap ()
-@@ -54,6 +57,11 @@ aligned.
- virtual memory block.
- \fInew_size\fP is the requested size of the
- virtual memory block after the resize.
-+\fInew_address\fP is the new address to move the block to. Only valid when
-+.I MREMAP_FIXED
-+and
-+.I MREMAP_MAYMOVE
-+are specified. The function is declared in a way that this argument can be omitted.
- 
- In Linux the memory is divided into pages.
- A user process has (one or)
+I also have version 2.39 of man-pages on Red Hat 5; I think it's more
+accurate there.
+
+The problem is also present on the online man page:
+
+    http://www.kernel.org/doc/man-pages/online/pages/man3/crypt.3.html
+
+The man page also may be incorrect with the max salt lengths.
+I think this is eight bytes for MD5, 16 for SHA-256 and SHA-512.
+(The page implies 16 for MD5 too.)
+
+Thanks much for your work on the man pages.
+
+
+
+
+-- 
+-- Paul A. Sand                 | Necessity is the plea for every infringement
+-- University of New Hampshire  | of human freedom. It is the argument of
+-- pas-JNhspZqLHXk@public.gmane.org                  | tyrants; it is the creed of slaves.
+-- http://pubpages.unh.edu/~pas |     (William Pitt, 1783)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
