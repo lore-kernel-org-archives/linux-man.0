@@ -1,102 +1,67 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] MAN: Clarify mremap.2 prototype
-Date: Thu, 10 Jun 2010 06:06:16 +0200
-Message-ID: <AANLkTim4NYbt66oTsxS7ECTzi63gpli6GuSOBgR2ZlR7@mail.gmail.com>
-References: <20100603090818.GA4741@basil.fritz.box>
+Subject: Re: select_tut(2): error in example code
+Date: Thu, 10 Jun 2010 06:10:55 +0200
+Message-ID: <AANLkTilMEFef1CF5uYpNBddPRDfwfiNyQK0UqaiD8Gq_@mail.gmail.com>
+References: <201006081541.o58FfQTt015276@pogo.cesa.opbu.xerox.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100603090818.GA4741-u0/ZJuX+froe6aEkudXLsA@public.gmane.org>
+In-Reply-To: <201006081541.o58FfQTt015276-1qr3+Ib8l7hP+3OIzQSClA49vMN11MuG@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+To: Andrew Klossner <andrew-pwabbKueSRu4mpay0g/RMEEOCMrvLtNR@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jun 3, 2010 at 11:08 AM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote=
-:
-> MAN: Clarify mremap.2 prototype
->
-> mremap sometimes accepts more arguments and sometimes less.
-> Clarify this in the prototype and initial description in the manpage.
->
-> Signed-off-by: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
->
-> ---
-> =A0man2/mremap.2 | =A0 =A08 ++++++++
-> =A01 file changed, 8 insertions(+)
->
-> Index: man-pages-3.24/man2/mremap.2
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- man-pages-3.24.orig/man2/mremap.2
-> +++ man-pages-3.24/man2/mremap.2
-> @@ -39,6 +39,9 @@ mremap \- remap a virtual memory address
-> =A0.sp
-> =A0.BI "void *mremap(void *" old_address ", size_t " old_size ,
-> =A0.BI " =A0 =A0 =A0 =A0 =A0 =A0 size_t " new_size ", int " flags );
-> +.sp
-> +.BI "void *mremap(void *" old_address ", size_t " old_size ,
-> +.BI " =A0 =A0 =A0 =A0 =A0 =A0 size_t " new_size ", int " flags ", vo=
-id *" new_address );
-> =A0.fi
-> =A0.SH DESCRIPTION
-> =A0.BR mremap ()
-> @@ -54,6 +57,11 @@ aligned.
-> =A0virtual memory block.
-> =A0\fInew_size\fP is the requested size of the
-> =A0virtual memory block after the resize.
-> +\fInew_address\fP is the new address to move the block to. Only vali=
-d when
-> +.I MREMAP_FIXED
-> +and
-> +.I MREMAP_MAYMOVE
-> +are specified. The function is declared in a way that this argument =
-can be omitted.
->
-> =A0In Linux the memory is divided into pages.
-> =A0A user process has (one or)
->
+Hello Andrew,
 
-Hi Andi,
+On Tue, Jun 8, 2010 at 5:41 PM, Andrew Klossner
+<andrew-pwabbKueSRu4mpay0g/RMEEOCMrvLtNR@public.gmane.org> wrote:
+> The select_tut(2) EXAMPLE has a one-character bug:
+>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* NB: read oob data before normal reads =
+*/
+>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (fd1 > 0)
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (FD_ISSET(fd1, &er)) {
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 char c;
+>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 r =3D recv(fd1, &c, 1, MS=
+G_OOB);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (r < 1)
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 SHUT_FD1;
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 send(fd2, &c, 1, =
+MSG_OOB);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 }
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (fd2 > 0)
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (FD_ISSET(fd2, &er)) {
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 char c;
+>
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 r =3D recv(fd2, &c, 1, MS=
+G_OOB);
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (r < 1)
+> +-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0SHUT_FD1;
+> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else
+> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0send(fd1, &c, 1,=
+ MSG_OOB);
+> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0}
+> |
+> +-- should be SHUT_FD2;
 
-Thanks for the patch. I agree that mremap() could be improved
-somewhat. But note that new_size was already described in the page. I
-applied the following simpler patch.
-
-The change will be in man-pages-3.25.
+Thanks. Fixed for man-pages-3.25.
 
 Cheers,
 
 Michael
 
-diff --git a/man2/mremap.2 b/man2/mremap.2
-index f9d4068..c12ccb2 100644
---- a/man2/mremap.2
-+++ b/man2/mremap.2
-@@ -38,7 +38,7 @@ mremap \- remap a virtual memory address
- .B #include <sys/mman.h>
- .sp
- .BI "void *mremap(void *" old_address ", size_t " old_size ,
--.BI "             size_t " new_size ", int " flags );
-+.BI "             size_t " new_size ", int " flags ", ...);"
- .fi
- .SH DESCRIPTION
- .BR mremap ()
-@@ -54,6 +54,11 @@ aligned.
- virtual memory block.
- \fInew_size\fP is the requested size of the
- virtual memory block after the resize.
-+An optional fifth argument,
-+.IR new_size ,
-+may be provided; see the description of
-+.B MREMAP_FIXED
-+below.
 
- In Linux the memory is divided into pages.
- A user process has (one or)
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
