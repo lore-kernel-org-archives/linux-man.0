@@ -1,60 +1,52 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: select_tut(2): error in example code
-Date: Thu, 10 Jun 2010 06:10:55 +0200
-Message-ID: <AANLkTilMEFef1CF5uYpNBddPRDfwfiNyQK0UqaiD8Gq_@mail.gmail.com>
-References: <201006081541.o58FfQTt015276@pogo.cesa.opbu.xerox.com>
+Subject: Re: [PATCH] Cosmetic change in man5/core.5
+Date: Thu, 10 Jun 2010 06:12:49 +0200
+Message-ID: <AANLkTil_GkGrBlyDjT542XoXMmEV1hICnDMx6W8hcuR-@mail.gmail.com>
+References: <AANLkTilhsx7SMVtj7UX21Ni6H-AAeh-bPGe7r0ra_6h7@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201006081541.o58FfQTt015276-1qr3+Ib8l7hP+3OIzQSClA49vMN11MuG@public.gmane.org>
+In-Reply-To: <AANLkTilhsx7SMVtj7UX21Ni6H-AAeh-bPGe7r0ra_6h7-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrew Klossner <andrew-pwabbKueSRu4mpay0g/RMEEOCMrvLtNR@public.gmane.org>
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Andrew,
+Hello Denis.
 
-On Tue, Jun 8, 2010 at 5:41 PM, Andrew Klossner
-<andrew-pwabbKueSRu4mpay0g/RMEEOCMrvLtNR@public.gmane.org> wrote:
-> The select_tut(2) EXAMPLE has a one-character bug:
+On Thu, May 27, 2010 at 11:39 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
+e:
+> Hello,
 >
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* NB: read oob data before normal reads =
-*/
->
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (fd1 > 0)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (FD_ISSET(fd1, &er)) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 char c;
->
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 r =3D recv(fd1, &c, 1, MS=
-G_OOB);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (r < 1)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 SHUT_FD1;
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 else
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 send(fd2, &c, 1, =
-MSG_OOB);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 }
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (fd2 > 0)
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (FD_ISSET(fd2, &er)) {
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 char c;
->
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 r =3D recv(fd2, &c, 1, MS=
-G_OOB);
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (r < 1)
-> +-> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0SHUT_FD1;
-> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0else
-> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0send(fd1, &c, 1,=
- MSG_OOB);
-> | =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0}
-> |
-> +-- should be SHUT_FD2;
+> Description of all other bits have a full stop, adding one to bit 4.
 
-Thanks. Fixed for man-pages-3.25.
+Thanks. Applied for man-pages-3.25.
 
 Cheers,
 
 Michael
+
+
+> Thanks,
+>
+> Denis
+>
+> diff --git a/man5/core.5 b/man5/core.5
+> index 4b6a5bf..f890799 100644
+> --- a/man5/core.5
+> +++ b/man5/core.5
+> @@ -224,7 +224,7 @@ Dump file-backed shared mappings.
+> =A0.\" mapped file.
+> =A0.TP
+> =A0bit 4 (since Linux 2.6.24)
+> -Dump ELF headers
+> +Dump ELF headers.
+> =A0.TP
+> =A0bit 5 (since Linux 2.6.28)
+> =A0Dump private huge pages.
+>
 
 
 
