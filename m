@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Subject: Re: [PATCH] [1/4] Document hwpoison signal extensions
-Date: Fri, 11 Jun 2010 07:45:35 +0200
-Message-ID: <AANLkTikuSkJYM2BwPPS-QJZTx7ejdlCcbBLjOhZa2GN5@mail.gmail.com>
+Date: Fri, 11 Jun 2010 10:06:50 +0200
+Message-ID: <AANLkTimT70TyR_mr3B44DpseY6KobM1441KAO1IhvkCY@mail.gmail.com>
 References: <20100320429.026463287@firstfloor.org> <20100320152928.0FA17B19E8@basil.firstfloor.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
@@ -73,156 +73,142 @@ l
 > +Please see the
 > +.I sigaction(2)
 > +manpage for more details on the various fields
-> =A0.SS "Real-time Signals"
-> =A0Linux supports real-time signals as originally defined in the POSI=
-X.1b
-> =A0real-time extensions (and now included in POSIX.1-2001).
-> Index: man-pages-3.24/man2/sigaction.2
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- man-pages-3.24.orig/man2/sigaction.2
-> +++ man-pages-3.24/man2/sigaction.2
-> @@ -39,6 +39,7 @@
-> =A0.\" 2004-12-09, mtk, added SI_TKILL + other minor changes
-> =A0.\" 2005-09-15, mtk, split sigpending(), sigprocmask(), sigsuspend=
-()
-> =A0.\" =A0 =A0out of this page into separate pages.
-> +.\" 2009-10-03 Andi Kleen, add hwpoison signal extensions
-> =A0.\"
-> =A0.TH SIGACTION 2 2009-07-25 "Linux" "Linux Programmer's Manual"
-> =A0.SH NAME
-> @@ -271,6 +272,7 @@ siginfo_t {
-> =A0 =A0 void =A0 =A0*si_addr; =A0 =A0 /* Memory location which caused=
- fault */
-> =A0 =A0 int =A0 =A0 =A0si_band; =A0 =A0 /* Band event */
-> =A0 =A0 int =A0 =A0 =A0si_fd; =A0 =A0 =A0 /* File descriptor */
-> + =A0 =A0short =A0 =A0si_addr_lsb; /* Least Signifcant bit of address=
- */
-> =A0}
-> =A0.fi
-> =A0.in
-> @@ -343,7 +345,20 @@ and
-> =A0.B SIGBUS
-> =A0fill in
-> =A0.I si_addr
-> -with the address of the fault.
-> +with the address of the fault. Some suberrors of
-> +.I SIGBUS,
-> +in particular
-> +.B BUS_MCEERR_AO
-> +and
-> +.B BUS_MCEERR_AR
-> +also fill in
-> +.B si_addr_lsb
-> +This field defines the least significant bit of the reported address=
- and therefore the extent of
-> +the corruption. For example if a full page was corrupted it contains=
- log2(get_page_size()).
-> +.I BUS_MCERR_*
-> +and
-> +.I si_addr_lsb
-> +are only available with Linux 2.6.32 and later and are a Linux speci=
-fic extension.
-> =A0.B SIGPOLL
-> =A0fills in
-> =A0.IR si_band " and " si_fd .
-> @@ -483,6 +498,12 @@ nonexistent physical address
-> =A0.TP
-> =A0.B BUS_OBJERR
-> =A0object-specific hardware error
-> +.TP
-> +.B BUS_MCEERR_AR
-> +hardware memory error consumed after a machine check: action require=
-d. Program cannot continue current execution stream. For this error the=
- si_addr_lsb field is valid. Since Linux 2.6.32 and a Linux specific ex=
-tension.
-> +.TP
-> +.B BUS_MCEERR_AO
-> +hardware memory error detected in process but not consumed: action o=
-ptional. Program is allowed to continue current execution stream, but t=
-he page containing the reported address is corrupted. The extent of the=
- corruption is defined by the si_addr_lsb field. Since Linux 2.6.32 and=
- a Linux specific extension.
-> =A0.RE
-> =A0.PP
-> =A0The following values can be placed in
->
 
-It would have been best to separate these two patches. I took the
-patch to sigaction.2, and enhanced slightly (some small grammar fixes,
-plus addition of the new BUS_MCERR constants in the list further down
-the page), as below. Thanks for that patch, and sorry for the long
-delay in dealing with it.
-
-The update will be in man-pages-3.25.
+The information in this patch is rather incomplete, and is in any case
+covered more completely in sigaction(2), so I haven't applied this
+patch. On the other hand, it triggered me to make some improvements to
+sigaction(2), as shown below.
 
 Cheers,
 
 Michael
 
-
 --- a/man2/sigaction.2
 +++ b/man2/sigaction.2
-@@ -39,8 +39,9 @@
+@@ -39,7 +39,8 @@
  .\" 2004-12-09, mtk, added SI_TKILL + other minor changes
  .\" 2005-09-15, mtk, split sigpending(), sigprocmask(), sigsuspend()
  .\"    out of this page into separate pages.
-++.\" 2010-06-10 Andi Kleen, add hwpoison signal extensions
+-+.\" 2010-06-10 Andi Kleen, add hwpoison signal extensions
++.\" 2010-06-11 Andi Kleen, add hwpoison signal extensions
++.\" 2010-06-11 mtk, improvements to discussion of various siginfo_t fi=
+elds.
  .\"
--.TH SIGACTION 2 2009-07-25 "Linux" "Linux Programmer's Manual"
-+.TH SIGACTION 2 2010-06-11 "Linux" "Linux Programmer's Manual"
+ .TH SIGACTION 2 2010-06-11 "Linux" "Linux Programmer's Manual"
  .SH NAME
- sigaction \- examine and change a signal action
- .SH SYNOPSIS
-@@ -271,6 +272,8 @@ siginfo_t {
+@@ -174,7 +175,7 @@ or resume (i.e., they receive
+ This flag is only meaningful when establishing a handler for
+ .BR SIGCHLD .
+ .TP
+-.BR SA_NOCLDWAIT " (Since Linux 2.6)"
++.BR SA_NOCLDWAIT " (since Linux 2.6)"
+ .\" To be precise: Linux 2.5.60 -- MTK
+ If
+ .I signum
+@@ -270,9 +271,10 @@ siginfo_t {
+     int      si_timerid;  /* Timer ID; POSIX.1b timers */
+ .\" In the kernel: si_tid
      void    *si_addr;     /* Memory location which caused fault */
-     int      si_band;     /* Band event */
+-    int      si_band;     /* Band event */
++    long     si_band;     /* Band event (was \fIint\fP in
++                             glibc 2.3.2 and earlier) */
      int      si_fd;       /* File descriptor */
-+    short    si_addr_lsb; /* Least signifcant bit of address
-+                             (since kernel 2.6.32) */
+-    short    si_addr_lsb; /* Least signifcant bit of address
++    short    si_addr_lsb; /* Least significant bit of address
+                              (since kernel 2.6.32) */
  }
  .fi
- .in
-@@ -344,6 +347,24 @@ and
+@@ -285,8 +287,10 @@ is generally unused on Linux.)
+ The rest of the struct may be a union, so that one should only
+ read the fields that are meaningful for the given signal:
+ .IP * 2
+-POSIX.1b signals and
+-.B SIGCHLD
++Signals sent with
++.BR kill (2)
++and
++.BR sigqueue (2)
  fill in
+ .IR si_pid " and " si_uid .
+ .IP *
+@@ -299,15 +303,35 @@ The
+ field is an internal ID used by the kernel to identify
+ the timer; it is not the same as the timer ID returned by
+ .BR timer_create (2).
++The
++.I si_overrun
++field is the timer overrun count;
++this is the same information as is obtained by a call to
++.BR timer_getoverrun (2).
++These fields are nonstandard Linux extensions.
+ .IP *
+ .B SIGCHLD
+ fills in
+-.IR si_status ", " si_utime " and " si_stime .
++.IR si_pid ", " si_uid ", " si_status ", " si_utime " and " si_stime ,
++providing information about the child.
++The
++.I si_pid
++field is the process ID of the child;
++.I si_uid
++is the child's real user ID.
++The
++.I si_status
++field contains the exit status of the child (if
++.I si_code
++is
++.BR CLD_EXITED ),
++or the signal number that caused the process to change state.
+ The
+ .I si_utime
+ and
+ .I si_stime
+-fields do not include the times used by waited-for children (unlike
++contain the user and system CPU time used by the child process;
++these fields do not include the times used by waited-for children (unl=
+ike
+ .BR getrusage (2)
+ and
+ .BR time (2)).
+@@ -318,7 +342,7 @@ In 2.6 kernels before 2.6.27,
+ a bug meant that these fields reported time in units
+ of the (configurable) system jiffy (see
+ .BR time (7)).
+-\" FIXME .
++.\" FIXME .
+ .\" When si_utime and si_stime where originally implemented, the
+ .\" measurement unit was HZ, which was the same as clock ticks
+ .\" (sysconf(_SC_CLK_TCK)).  In 2.6, HZ became configurable, and
+@@ -348,7 +372,7 @@ fill in
  .I si_addr
  with the address of the fault.
-+Some suberrors of
-+.I SIGBUS,
-+in particular
-+.B BUS_MCEERR_AO
-+and
-+.BR BUS_MCEERR_AR ,
-+also fill in
-+.IR si_addr_lsb .
-+This field indicates the least significant bit of the reported address
-+and therefore the extent of the corruption.
-+For example, if a full page was corrupted,
-+.I si_addr_lsb
-+contains
-+.IR log2(sysconf(_SC_PAGESIZE)) .
-+.B BUS_MCERR_*
-+and
-+.I si_addr_lsb
-+are Linux-specific extensions.
- .B SIGPOLL
+ Some suberrors of
+-.I SIGBUS,
++.BR SIGBUS ,
+ in particular
+ .B BUS_MCEERR_AO
+ and
+@@ -365,9 +389,19 @@ contains
+ and
+ .I si_addr_lsb
+ are Linux-specific extensions.
+-.B SIGPOLL
++.IP *
++.BR SIGPOLL / SIGIO
  fills in
  .IR si_band " and " si_fd .
-@@ -483,6 +504,12 @@ nonexistent physical address
- .TP
- .B BUS_OBJERR
- object-specific hardware error
-+.TP
-+.BR BUS_MCEERR_AR " (since Linux 2.6.32)"
-+Hardware memory error consumed on a machine check; action required.
-+.TP
-+.BR BUS_MCEERR_AO " (since Linux 2.6.32)"
-+Hardware memory error detected in process but not consumed; action opt=
-ional.
- .RE
++The
++.I si_band
++event is a bit mask containing the same values as are filled in the
++.I revents
++field by
++.BR poll (2).
++The
++.I si_fd
++field indicates the file descriptor for which the I/O event occurred.
  .PP
- The following values can be placed in
+ .I si_code
+ is a value (not a bit mask)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
