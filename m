@@ -1,87 +1,60 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH 2/2] msgctl.2, semctl.2, shmctl.2: Move ipcs from section
-	8 to section 1
-Date: Mon, 14 Jun 2010 06:06:24 +0200
-Message-ID: <AANLkTim3p_dwOQRbvrWkcvZCth-OcJ8LkwaPD3mdO_Pl@mail.gmail.com>
-References: <1276420363-6226-1-git-send-email-cosoleto@gmail.com>
-	<1276420363-6226-2-git-send-email-cosoleto@gmail.com>
+Subject: Re: [PATCH] [2/4] Add a migrate_pages(2) page
+Date: Mon, 14 Jun 2010 06:08:23 +0200
+Message-ID: <AANLkTilmfas_rUlx8tftG_R4NW_NDv2JKJKrN-tpOnS9@mail.gmail.com>
+References: <20100320429.026463287@firstfloor.org> <20100320152929.12751B19E8@basil.firstfloor.org>
+	<AANLkTiltMCXRd9jKI5Rd9b6Kt-t_zIHuOtkq0-IMGVyS@mail.gmail.com>
+	<20100613102345.GD31464@basil.fritz.box>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1276420363-6226-2-git-send-email-cosoleto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20100613102345.GD31464-u0/ZJuX+froe6aEkudXLsA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Francesco Cosoleto <cosoleto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Francesco,
+Hi Andi.
 
-On Sun, Jun 13, 2010 at 11:12 AM, Francesco Cosoleto <cosoleto-Re5JQEeQqe8@public.gmane.org=
-m> wrote:
-> Signed-off-by: Francesco Cosoleto <cosoleto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
-> =A0man2/msgctl.2 | =A0 =A02 +-
-> =A0man2/semctl.2 | =A0 =A02 +-
-> =A0man2/shmctl.2 | =A0 =A02 +-
-> =A03 files changed, 3 insertions(+), 3 deletions(-)
+On Sun, Jun 13, 2010 at 12:23 PM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
+> On Fri, Jun 11, 2010 at 05:38:19PM +0200, Michael Kerrisk wrote:
+>> Andi,
+>>
+>> On Sat, Mar 20, 2010 at 5:29 PM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
+>> >
+>> > Based on move_pages.
+>> >
+>> > Signed-off-by: Andi Kleen <ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+>> >
+>> > Index: man-pages-3.24/man2/migrate_pages.2
+>>
+>> Thanks for this page!
+>>
+>> I made some language edits, and add a couple of errors in the (still
+>> incomplete) ERRORS section.
+>>
+>> Could you please review, to make sure my changes are okay?
+>
+> I did a quick read and don't see anything wrong.
 
-Thanks. Applied for man-pages-3.25.
+Thanks.
+
+>>
+>> Also, if you have any insights on the FIXME related to "current
+>> cpset", let me know.
+>
+> get_mempolicy always acts on the current task, so current.
+> Yes it means it cannot be done for a target with different cpuset.
+
+Okay.
 
 Cheers,
 
 Michael
 
 
-
-> diff --git a/man2/msgctl.2 b/man2/msgctl.2
-> index 2ecbdcf..9514f85 100644
-> --- a/man2/msgctl.2
-> +++ b/man2/msgctl.2
-> @@ -316,7 +316,7 @@ The
-> =A0and
-> =A0.B MSG_INFO
-> =A0operations are used by the
-> -.BR ipcs (8)
-> +.BR ipcs (1)
-> =A0program to provide information on allocated resources.
-> =A0In the future these may modified or moved to a /proc file system
-> =A0interface.
-> diff --git a/man2/semctl.2 b/man2/semctl.2
-> index fba8d7d..457a395 100644
-> --- a/man2/semctl.2
-> +++ b/man2/semctl.2
-> @@ -467,7 +467,7 @@ The
-> =A0and
-> =A0.B SEM_INFO
-> =A0operations are used by the
-> -.BR ipcs (8)
-> +.BR ipcs (1)
-> =A0program to provide information on allocated resources.
-> =A0In the future these may modified or moved to a /proc file system
-> =A0interface.
-> diff --git a/man2/shmctl.2 b/man2/shmctl.2
-> index d893947..5552bd3 100644
-> --- a/man2/shmctl.2
-> +++ b/man2/shmctl.2
-> @@ -375,7 +375,7 @@ The
-> =A0and
-> =A0.B SHM_INFO
-> =A0operations are used by the
-> -.BR ipcs (8)
-> +.BR ipcs (1)
-> =A0program to provide information on allocated resources.
-> =A0In the future these may modified or moved to a /proc file system
-> =A0interface.
-> --
-> 1.6.4.2
->
->
-
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
