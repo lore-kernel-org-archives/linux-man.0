@@ -1,138 +1,204 @@
 From: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: [PATCH] [1/4] Document hwpoison signal extensions
-Date: Mon, 14 Jun 2010 07:10:06 +0200
-Message-ID: <AANLkTilzdFecfwtgrMjEX2bT_ruPa6oegFeVUgSXBvM0@mail.gmail.com>
-References: <20100320429.026463287@firstfloor.org> <20100320152928.0FA17B19E8@basil.firstfloor.org>
-	<AANLkTimT70TyR_mr3B44DpseY6KobM1441KAO1IhvkCY@mail.gmail.com>
-	<20100611083134.GF6864@basil.fritz.box> <AANLkTikG5Axa39aSgHkCRzmk56fGBIE6rqkXzko3iuOa@mail.gmail.com>
-	<20100613103343.GE31464@basil.fritz.box>
+Subject: Re: [PATCH 3/3] getrusage.2: Bump revision
+Date: Mon, 14 Jun 2010 07:34:21 +0200
+Message-ID: <AANLkTilIJP0qepLuCReHIbVvia5ajVjyJ25Xxrhop4pR@mail.gmail.com>
+References: <1272228153-11825-1-git-send-email-mark@pogo.org.uk>
+	<1272228153-11825-4-git-send-email-mark@pogo.org.uk> <AANLkTikYUdg2o9JAH8NOK0Wjk6aWQlr-x2k4-Ts_XF3Z@mail.gmail.com>
+	<alpine.NEB.2.01.1005271220220.21247@jrf.vwaro.pbz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100613103343.GE31464-u0/ZJuX+froe6aEkudXLsA@public.gmane.org>
+In-Reply-To: <alpine.NEB.2.01.1005271220220.21247-4Gsws06j5aKxDRllUHgonQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Andi,
+Hi Mark,
 
-Aside from anything else, I'd especially like your input about si_trapn=
-o below.
-
-On Sun, Jun 13, 2010 at 12:33 PM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrot=
-e:
-> On Fri, Jun 11, 2010 at 04:46:28PM +0200, Michael Kerrisk wrote:
->> +Signal =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0siginfo_t fields
->> +SIGKILL =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_pid, si_uid
->> +SIGCHLD =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_pid, si_uid, si_stat=
-us, si_utime, si_stime
->> +SIGILL =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0si_code, si_addr, si_=
-trapno
->> +SIGFPE =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0si_code, si_addr, si_=
-trapno
->> +SIGSEGV =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_code, si_addr, si_tr=
-apno
->> +SIGBUS =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0si_code, si_addr, si_=
-trapno, si_addr_lsb
->> +SIGTRAP =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_code, si_addr, si_tr=
-apno
->> +SIGPOLL =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_band, si_fd
->> +realtime signals > 32 =A0 =A0 si_pid, si_uid, si_value
->> +posix timer =A0 =A0 =A0 =A0 =A0 =A0 =A0 si_tid, si_overrun, si_sigv=
-al
->>
->> * It duplicates info that can be found in sigaction(2).
+On Thu, May 27, 2010 at 1:49 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+> On Mon, 24 May 2010, Michael Kerrisk wrote:
 >
-> The latest version is better, but I'm pretty sure it wasn't
-> like that when I submitted the pages.
-
-That's true. I said earlier that though I didn't accept your patch, it
-prompted me to make improvements to sigaction.2.
-
->> * It's incomplete. If you compare against the corresponding
->> information in sigaction(2) [better pull the latest page from git fo=
-r
->> this comparison], there is more information about which fields are s=
-et
->> by the various signals. Also, various siginfo_t fields (si_signo) ar=
-e
->> missing from your table.
+>> Your patches prompted me to add various other pieces to the man page=
+=2E
+>> Your comments welcome, if you have a chance to review.
 >
-> Ok it could be listed.
-
-This was an example. I didn't check for all incomplete pieces.
-
->> * It's misleading. For example, it implies that some signals set
->> si_code while others don't. But, AFAIK, all signals set this field.
+> Sure, no problem.
 >
-> The point was for which signals these fields contain useful
-> information.
+> The extra detail to the descriptions is good, but I have some comment=
+s on
+> the unmaintained ones:
 >
-> Maybe that could be clarified in a introductionary sentence though.
+>> .IR ru_ixrss " (unmaintained)"
+>> On some systems, this is the integral of the text segment memory con=
+sumption,
+>> expressed in kilobyte-seconds.
+>> .TP
+>> .IR ru_idrss " (unmaintained)"
+>> On some systems, this is the integral of the data segment memory con=
+sumption,
+>> expressed in kilobyte-seconds.
+>> .TP
+>> .IR ru_isrss " (unmaintained)"
+>> On some systems, this is the integral of the stack memory consumptio=
+n,
+>> expressed in kilobyte-seconds.
+>> .TP
+> [...]
+>> .IR ru_nswap =A0" (unmaintained)"
+>> On some systems, this is the number of swaps out of physical memory.
+>> .TP
+> [...]
+>> .IR ru_msgsnd " (unmaintained)"
+>> .\" On FreeBSD 6.2, this appears to measure messages sent on sockets
+>> On some systems,
+>> this field records the number of messages sent over sockets.
+>> .TP
+>> .IR ru_msgrcv " (unmaintained)"
+>> .\" On FreeBSD 6.2, this appears to measure messages received on soc=
+kets
+>> On some systems,
+>> this field records the number of messages received over sockets.
+>> .TP
+>> .IR ru_nsignals " (unmaintained)"
+>> On some systems, this field records the numner of signals received.
+>> .TP
 >
->> Likewise, it suggests that there is useful info in si_trapno, but
->> usually there is not. The entry for SIGKILL also seems strange.
+> In my changes I decided specifically to leave out the unmaintained fi=
+elds.
+> My reasoning was an assumption that the man page is to document the L=
+inux
+> getrusage() call. If something is unimplemented on Linux then a
+> explanation of what it does or "appears to" do on another platform is=
+ not
+> relevant, and will easily be misleading or out of date; that informat=
+ion
+> can easily and definitively be found in documentation for the other
+> platforms.
 >
-> There is useful information in trapno for the signals where
-> I listed it.
+> Including them has opened a can of worms already: what is the differe=
+nce
+> between messages "sent on" sockets, or "sent over" sockets?
 
-So, there may be a problem here. sigaction.2 currently states
+Hmmm -- that's just a language issue.
 
-               int      si_trapno;   /* Trap number that caused
-                                        hardware-generated signal
-                                        (unused on most architectures) =
-*/
+> There's a typo: "numner".
 
-Is the last line true? Checking this, my reading of the source is that
-si_trapno is only used on SPARC/MIPS/Alpha. (These are the
-architectures that define __ARCH_SI_TRAPNO) Is that wrong? In
-particular, x86 doesn't generally seem to set si_trapno, right?
+Thanks.
 
-> Why is SIGKILL strange?
+> Thanks for applying the patches.
 
-I suspect that this should be a more general statement about signals
-sent with kill(2), right? There's nothing special about SIGKILL in
-this respect, AFAIK. By the way, the sigaction.2 page, has a statement
-that covers this.
+I see your point, but on the other hand, people will always ask: why
+are those fields there? The text was my attempt to address that
+question. But, perhaps you are right. I've commented out my text, and
+added a generic statement for each of the fields that it is currently
+unused on Linux, and an overall statement about why the unmaintained
+fields even appear in the structure.
 
->> It would help if you could explain what the problem was that you wer=
-e
->> trying to solve with this patch, and explain why sigaction(2) doesn'=
-t
->> solve the problem.
->
-> My problem was that i had to look this up in the source code because
-> I couldn't find it in the manpages.
-
-It may not be the perfect solution, but I believe you can deduce the
-info you need from sigaction.2. If you still think that that is
-insufficient, then I'd entertain a patch of the style you suggest, for
-the sigaction.2 page, but it would need to be more complete and
-accurate than the earlier patch.
-
-> And there was no clear place to put the fields for my hwpoison extens=
-ions.
->
-> Also even if there's a bit redundancy I don't understand why
-> that is a problem? imho the goal should be for individual
-> pages be useful without having to cross reference all the time.
-
-I don't have a problem with useful redundancy, but in combination with
-the problems I listed, plus the fact that this info is probably better
-on the sigaction.2 page (which shows the siginfo_t definition), I
-didn't think the patch worked.
-
-Thanks,
+Cheers,
 
 Michael
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+--- a/man2/getrusage.2
++++ b/man2/getrusage.2
+@@ -36,7 +36,7 @@
+ .\"     document ru_maxrss
+ .\" 2010-05-24, mtk, enhanced description of various fields
+ .\"
+-.TH GETRUSAGE 2 2010-05-24 "Linux" "Linux Programmer's Manual"
++.TH GETRUSAGE 2 2010-06-14 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ getrusage \- get resource usage
+ .SH SYNOPSIS
+@@ -93,8 +93,11 @@ struct rusage {
+ .fi
+ .in
+ .PP
+-Not all fields are completed; unmaintained fields are set to zero by
+-the kernel. The fields are interpreted as follows:
++Not all fields are completed;
++unmaintained fields are set to zero by the kernel.
++(The unmaintained fields are provided for compatibility with other sys=
+tems,
++and because they may one day be supported on Linux.)
++The fields are interpreted as follows:
+ .TP
+ .I ru_utime
+ This is the total amount of time spent executing in user mode,
+@@ -115,16 +118,20 @@ this is the resident set size of the largest
+child, not the maximum
+ resident set size of the process tree.
+ .TP
+ .IR ru_ixrss " (unmaintained)"
+-On some systems, this is the integral of the text segment memory consu=
+mption,
+-expressed in kilobyte-seconds.
++This field is currently unused on Linux.
++.\" On some systems,
++.\" this is the integral of the text segment memory consumption,
++.\" expressed in kilobyte-seconds.
+ .TP
+ .IR ru_idrss " (unmaintained)"
+-On some systems, this is the integral of the data segment memory consu=
+mption,
+-expressed in kilobyte-seconds.
++This field is currently unused on Linux.
++.\" On some systems, this is the integral of the data segment memory
+consumption,
++.\" expressed in kilobyte-seconds.
+ .TP
+ .IR ru_isrss " (unmaintained)"
+-On some systems, this is the integral of the stack memory consumption,
+-expressed in kilobyte-seconds.
++This field is currently unused on Linux.
++.\" On some systems, this is the integral of the stack memory consumpt=
+ion,
++.\" expressed in kilobyte-seconds.
+ .TP
+ .I ru_minflt
+ The number of page faults serviced without any I/O activity; here
+@@ -135,7 +142,8 @@ the list of pages awaiting reallocation.
+ The number of page faults serviced that required I/O activity.
+ .TP
+ .IR ru_nswap  " (unmaintained)"
+-On some systems, this is the number of swaps out of physical memory.
++This field is currently unused on Linux.
++.\" On some systems, this is the number of swaps out of physical memor=
+y.
+ .TP
+ .IR ru_inblock " (since Linux 2.6.22)"
+ The number of times the file system had to perform input.
+@@ -144,17 +152,20 @@ The number of times the file system had to perfor=
+m input.
+ The number of times the file system had to perform output.
+ .TP
+ .IR ru_msgsnd " (unmaintained)"
++This field is currently unused on Linux.
+ .\" On FreeBSD 6.2, this appears to measure messages sent over sockets
+-On some systems,
+-this field records the number of messages sent over sockets.
++.\" On some systems,
++.\" this field records the number of messages sent over sockets.
+ .TP
+ .IR ru_msgrcv " (unmaintained)"
++This field is currently unused on Linux.
+ .\" On FreeBSD 6.2, this appears to measure messages received over soc=
+kets
+-On some systems,
+-this field records the number of messages received over sockets.
++.\" On some systems,
++.\" this field records the number of messages received over sockets.
+ .TP
+ .IR ru_nsignals " (unmaintained)"
+-On some systems, this field records the number of signals received.
++This field is currently unused on Linux.
++.\" On some systems, this field records the number of signals received=
+=2E
+ .TP
+ .IR ru_nvcsw " (since Linux 2.6)"
+ The number of times a context switch resulted due to a process
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
