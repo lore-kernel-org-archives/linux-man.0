@@ -1,71 +1,153 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: Re: [PATCH] [1/4] Document hwpoison signal extensions
-Date: Mon, 14 Jun 2010 10:20:54 +0200
-Message-ID: <20100614082054.GD17092@basil.fritz.box>
-References: <20100320429.026463287@firstfloor.org> <20100320152928.0FA17B19E8@basil.firstfloor.org> <AANLkTimT70TyR_mr3B44DpseY6KobM1441KAO1IhvkCY@mail.gmail.com> <20100611083134.GF6864@basil.fritz.box> <AANLkTikG5Axa39aSgHkCRzmk56fGBIE6rqkXzko3iuOa@mail.gmail.com> <20100613103343.GE31464@basil.fritz.box> <AANLkTilzdFecfwtgrMjEX2bT_ruPa6oegFeVUgSXBvM0@mail.gmail.com>
+From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Subject: Re: [PATCH 3/3] getrusage.2: Bump revision
+Date: Mon, 14 Jun 2010 10:00:55 +0100 (BST)
+Message-ID: <alpine.NEB.2.01.1006140958390.8008@jrf.vwaro.pbz>
+References: <1272228153-11825-1-git-send-email-mark@pogo.org.uk>  <1272228153-11825-4-git-send-email-mark@pogo.org.uk> <AANLkTikYUdg2o9JAH8NOK0Wjk6aWQlr-x2k4-Ts_XF3Z@mail.gmail.com>  <alpine.NEB.2.01.1005271220220.21247@jrf.vwaro.pbz>
+ <AANLkTilIJP0qepLuCReHIbVvia5ajVjyJ25Xxrhop4pR@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <AANLkTilzdFecfwtgrMjEX2bT_ruPa6oegFeVUgSXBvM0-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTilIJP0qepLuCReHIbVvia5ajVjyJ25Xxrhop4pR-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jun 14, 2010 at 07:10:06AM +0200, Michael Kerrisk wrote:
-> >> * It's incomplete. If you compare against the corresponding
-> >> information in sigaction(2) [better pull the latest page from git for
-> >> this comparison], there is more information about which fields are set
-> >> by the various signals. Also, various siginfo_t fields (si_signo) are
-> >> missing from your table.
+On Mon, 14 Jun 2010, Michael Kerrisk wrote:
+
+> Hi Mark,
+> 
+> On Thu, May 27, 2010 at 1:49 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+[...]
+> > In my changes I decided specifically to leave out the unmaintained fields.
+> > My reasoning was an assumption that the man page is to document the Linux
+> > getrusage() call. If something is unimplemented on Linux then a
+> > explanation of what it does or "appears to" do on another platform is not
+> > relevant, and will easily be misleading or out of date; that information
+> > can easily and definitively be found in documentation for the other
+> > platforms.
 > >
-> > Ok it could be listed.
+> > Including them has opened a can of worms already: what is the difference
+> > between messages "sent on" sockets, or "sent over" sockets?
 > 
-> This was an example. I didn't check for all incomplete pieces.
+> Hmmm -- that's just a language issue.
 
-What else should be missing?
-
-I generated the table by looking at the trap handlers.
-
-> >> Likewise, it suggests that there is useful info in si_trapno, but
-> >> usually there is not. The entry for SIGKILL also seems strange.
-> >
-> > There is useful information in trapno for the signals where
-> > I listed it.
+That makes sense. Sorry, I didn't realise that the FreeBSD notes are 
+actually in a comment and do not appear in the actual page.
+ 
+> > There's a typo: "numner".
 > 
-> So, there may be a problem here. sigaction.2 currently states
+> Thanks.
 > 
->                int      si_trapno;   /* Trap number that caused
->                                         hardware-generated signal
->                                         (unused on most architectures) */
+> > Thanks for applying the patches.
 > 
-> Is the last line true? Checking this, my reading of the source is that
+> I see your point, but on the other hand, people will always ask: why
+> are those fields there? The text was my attempt to address that
+> question. But, perhaps you are right. I've commented out my text, and
+> added a generic statement for each of the fields that it is currently
+> unused on Linux, and an overall statement about why the unmaintained
+> fields even appear in the structure.
 
-It's not true.
+Great, I think it's better overall now.
 
-I think it's also needed in some cases to figure out what exactly
-happened, although in most cases code gives this information.
-
-> si_trapno is only used on SPARC/MIPS/Alpha. (These are the
-> architectures that define __ARCH_SI_TRAPNO) Is that wrong? In
-> particular, x86 doesn't generally seem to set si_trapno, right?
-
-arch/x86/kernel/signal.c:162:             put_user_ex(current->thread.trap_no, &sc->trapno);
+> Cheers,
 > 
-> > Why is SIGKILL strange?
+> Michael
 > 
-> I suspect that this should be a more general statement about signals
-> sent with kill(2), right? There's nothing special about SIGKILL in
-> this respect, AFAIK. By the way, the sigaction.2 page, has a statement
-> that covers this.
+> --- a/man2/getrusage.2
+> +++ b/man2/getrusage.2
+> @@ -36,7 +36,7 @@
+>  .\"     document ru_maxrss
+>  .\" 2010-05-24, mtk, enhanced description of various fields
+>  .\"
+> -.TH GETRUSAGE 2 2010-05-24 "Linux" "Linux Programmer's Manual"
+> +.TH GETRUSAGE 2 2010-06-14 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  getrusage \- get resource usage
+>  .SH SYNOPSIS
+> @@ -93,8 +93,11 @@ struct rusage {
+>  .fi
+>  .in
+>  .PP
+> -Not all fields are completed; unmaintained fields are set to zero by
+> -the kernel. The fields are interpreted as follows:
+> +Not all fields are completed;
+> +unmaintained fields are set to zero by the kernel.
+> +(The unmaintained fields are provided for compatibility with other systems,
+> +and because they may one day be supported on Linux.)
+> +The fields are interpreted as follows:
+>  .TP
+>  .I ru_utime
+>  This is the total amount of time spent executing in user mode,
+> @@ -115,16 +118,20 @@ this is the resident set size of the largest
+> child, not the maximum
+>  resident set size of the process tree.
+>  .TP
+>  .IR ru_ixrss " (unmaintained)"
+> -On some systems, this is the integral of the text segment memory consumption,
+> -expressed in kilobyte-seconds.
+> +This field is currently unused on Linux.
+> +.\" On some systems,
+> +.\" this is the integral of the text segment memory consumption,
+> +.\" expressed in kilobyte-seconds.
+>  .TP
+>  .IR ru_idrss " (unmaintained)"
+> -On some systems, this is the integral of the data segment memory consumption,
+> -expressed in kilobyte-seconds.
+> +This field is currently unused on Linux.
+> +.\" On some systems, this is the integral of the data segment memory
+> consumption,
+> +.\" expressed in kilobyte-seconds.
+>  .TP
+>  .IR ru_isrss " (unmaintained)"
+> -On some systems, this is the integral of the stack memory consumption,
+> -expressed in kilobyte-seconds.
+> +This field is currently unused on Linux.
+> +.\" On some systems, this is the integral of the stack memory consumption,
+> +.\" expressed in kilobyte-seconds.
+>  .TP
+>  .I ru_minflt
+>  The number of page faults serviced without any I/O activity; here
+> @@ -135,7 +142,8 @@ the list of pages awaiting reallocation.
+>  The number of page faults serviced that required I/O activity.
+>  .TP
+>  .IR ru_nswap  " (unmaintained)"
+> -On some systems, this is the number of swaps out of physical memory.
+> +This field is currently unused on Linux.
+> +.\" On some systems, this is the number of swaps out of physical memory.
+>  .TP
+>  .IR ru_inblock " (since Linux 2.6.22)"
+>  The number of times the file system had to perform input.
+> @@ -144,17 +152,20 @@ The number of times the file system had to perform input.
+>  The number of times the file system had to perform output.
+>  .TP
+>  .IR ru_msgsnd " (unmaintained)"
+> +This field is currently unused on Linux.
+>  .\" On FreeBSD 6.2, this appears to measure messages sent over sockets
+> -On some systems,
+> -this field records the number of messages sent over sockets.
+> +.\" On some systems,
+> +.\" this field records the number of messages sent over sockets.
+>  .TP
+>  .IR ru_msgrcv " (unmaintained)"
+> +This field is currently unused on Linux.
+>  .\" On FreeBSD 6.2, this appears to measure messages received over sockets
+> -On some systems,
+> -this field records the number of messages received over sockets.
+> +.\" On some systems,
+> +.\" this field records the number of messages received over sockets.
+>  .TP
+>  .IR ru_nsignals " (unmaintained)"
+> -On some systems, this field records the number of signals received.
+> +This field is currently unused on Linux.
+> +.\" On some systems, this field records the number of signals received.
+>  .TP
+>  .IR ru_nvcsw " (since Linux 2.6)"
+>  The number of times a context switch resulted due to a process
+> 
 
-It was more a comparison to non KILL signals, but ok
-you're right RT signals would need to be listed too.
-
--Andi
 -- 
-ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org -- Speaking for myself only.
+Mark
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
