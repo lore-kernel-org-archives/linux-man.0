@@ -1,71 +1,33 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getaddrinfo.3: fix ai_flags ai_family mixup
-Date: Thu, 17 Jun 2010 06:12:15 +0200
-Message-ID: <AANLkTikJX5qmDkxCTKxUj9mQdjW1ItMittGqPDRiXEcB@mail.gmail.com>
-References: <20100616132659.GA16973@ts2server.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: "Ebony Clemons" <steve-JE8hqn47KVJzQnqF2U/Hd0EOCMrvLtNR@public.gmane.org>
+Subject: Massage Therapists marketing email list
+Date: Thu, 17 Jun 2010 13:45:40 -0400 (EDT)
+Message-ID: <20100617174540.1DEB5358BE7@Barracuda.tighe.com>
+Reply-To: steve-JE8hqn47KVJzQnqF2U/Hd0EOCMrvLtNR@public.gmane.org
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100616132659.GA16973-FCpQSzCsxjR54TAoqtyWWQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: rgghkinf-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, beverly.brown-LVvIjLR0h5w@public.gmane.org, info-WGB6tguolmcz3LtNkWE17dzvaeBRiXi0Evhb3Hwu1Ks@public.gmane.org, jimmycomposer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, clacasse-zJ6mu/LMO3fby3iVrkZq2A@public.gmane.org, sara.macdonald-I1m3D+DYSVWlP80pJB477g@public.gmane.org, karel.dvorak-kF9K7b7+x9LrBKCeMvbIDA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Christian,
+Here's a business list package on sale this week only:
 
-On Wed, Jun 16, 2010 at 3:26 PM, Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org> w=
-rote:
-> Please CC me in list replies as I am not subscribed to this list.
+Business List Silver Package
 
-Thanks. Applied for 3.25.
-
-Cheers,
-
-Michael
+Manufacturers Database - 1,057,119 records with 476,509 emails
+Real Estate Agents - 1 million records with emails
+US New Business Database - 4.8 million records all with emails
+Financial Planners Database - 148,857 records all with emails
+Finance and Money Professionals Database - 116,568 records all with emails
 
 
-> Signed-off-by: Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org>
-> ---
-> =A0man3/getaddrinfo.3 | =A0 =A04 +++-
-> =A01 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
-> index d33b8ab..82ffa73 100644
-> --- a/man3/getaddrinfo.3
-> +++ b/man3/getaddrinfo.3
-> @@ -35,6 +35,8 @@
-> =A0.\" 2008-06-18, mtk: many parts rewritten
-> =A0.\" 2008-12-04, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-> =A0.\" =A0 =A0Describe results ordering and reference /etc/gai.conf.
-> +.\" 2010-06-16, Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org>
-> +.\" =A0 =A0Fixed a bug where ai_flags and ai_family got mixed up.
-> =A0.\" FIXME . glibc's 2.9 NEWS file documents DCCP and UDP-lite supp=
-ort
-> =A0.\" =A0 =A0 =A0 =A0 =A0 and is SCTP support now also there?
-> =A0.\"
-> @@ -393,7 +395,7 @@ If both
-> =A0and
-> =A0.B AI_ALL
-> =A0are specified in
-> -.IR hints.ai_family ,
-> +.IR hints.ai_flags ,
-> =A0then return both IPv6 and IPv4-mapped IPv6 addresses
-> =A0in the list pointed to by
-> =A0.IR res .
-> --
-> 1.5.6.5
->
->
+All complete lists above: $345
 
 
+There are more packages and not just for business. we also have healthcare, consumers and more. Contact me here for more info or to get samples: Doug.Hankins-QNGYSb390WXkAZHsRKhlHA@public.gmane.org
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+  
+
+
+to kill the postman that delivered this email to you press here please send an email to disappear-QNGYSb390WXkAZHsRKhlHA@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
