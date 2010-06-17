@@ -1,48 +1,63 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] minor formatting error in quotactl.2
-Date: Thu, 17 Jun 2010 06:11:42 +0200
-Message-ID: <AANLkTikjkS4bZ-hjaWhP7aBSroW9DBCyPULX3_mvaaj4@mail.gmail.com>
-References: <AANLkTinJChI74JCJ5D3RahBo2mDGRbon9weyPUJPaOtn@mail.gmail.com>
+Subject: Re: [PATCH] getaddrinfo.3: fix ai_flags ai_family mixup
+Date: Thu, 17 Jun 2010 06:12:15 +0200
+Message-ID: <AANLkTikJX5qmDkxCTKxUj9mQdjW1ItMittGqPDRiXEcB@mail.gmail.com>
+References: <20100616132659.GA16973@ts2server.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinJChI74JCJ5D3RahBo2mDGRbon9weyPUJPaOtn-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20100616132659.GA16973-FCpQSzCsxjR54TAoqtyWWQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Denis,
+Hello Christian,
 
-On Wed, Jun 16, 2010 at 10:01 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
-e:
-> Hi,
->
-> =A0today's changes in man2/quotactl.2 introduced a minor formatting e=
-rror:
+On Wed, Jun 16, 2010 at 3:26 PM, Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org> w=
+rote:
+> Please CC me in list replies as I am not subscribed to this list.
 
-Applied. Thanks.
+Thanks. Applied for 3.25.
 
 Cheers,
 
 Michael
 
-> --- a/man2/quotactl.2
-> +++ b/man2/quotactl.2
-> @@ -87,7 +87,7 @@ The
-> =A0.I subcmd
-> =A0value is one of the following:
-> =A0.TP 8
-> -.SB Q_QUOTAON
-> +.B Q_QUOTAON
-> =A0Turn on quotas for a file system.
-> =A0The
-> =A0.I id
+
+> Signed-off-by: Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org>
+> ---
+> =A0man3/getaddrinfo.3 | =A0 =A04 +++-
+> =A01 files changed, 3 insertions(+), 1 deletions(-)
 >
+> diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+> index d33b8ab..82ffa73 100644
+> --- a/man3/getaddrinfo.3
+> +++ b/man3/getaddrinfo.3
+> @@ -35,6 +35,8 @@
+> =A0.\" 2008-06-18, mtk: many parts rewritten
+> =A0.\" 2008-12-04, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
+> =A0.\" =A0 =A0Describe results ordering and reference /etc/gai.conf.
+> +.\" 2010-06-16, Christian Franke <nobody-e83xkrq8dvbLvtPRa3sz4w@public.gmane.org>
+> +.\" =A0 =A0Fixed a bug where ai_flags and ai_family got mixed up.
+> =A0.\" FIXME . glibc's 2.9 NEWS file documents DCCP and UDP-lite supp=
+ort
+> =A0.\" =A0 =A0 =A0 =A0 =A0 and is SCTP support now also there?
+> =A0.\"
+> @@ -393,7 +395,7 @@ If both
+> =A0and
+> =A0.B AI_ALL
+> =A0are specified in
+> -.IR hints.ai_family ,
+> +.IR hints.ai_flags ,
+> =A0then return both IPv6 and IPv4-mapped IPv6 addresses
+> =A0in the list pointed to by
+> =A0.IR res .
+> --
+> 1.5.6.5
 >
-> Denis
 >
 
 
