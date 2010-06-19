@@ -1,52 +1,150 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: missing section in the elf.5
-Date: Sat, 19 Jun 2010 15:15:43 +0200
-Message-ID: <AANLkTilVjgDgvjrq40OlObe7q3dZizoFY9q5ILoMPyGi@mail.gmail.com>
-References: <20100223184933.0a0d876b@keeper.home.local>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Subject: [PATCH] kexec_load manpage
+Date: Sat, 19 Jun 2010 15:26:33 +0200
+Message-ID: <20100619132633.GA24277@basil.fritz.box>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100223184933.0a0d876b-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yuri,
+Here are the beginnings of a kexec_load manpage.
 
-On Tue, Feb 23, 2010 at 5:49 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
-:
-> Hello.
->
-> .note =9A =9A This section holds information in the "Note Section" fo=
-rmat
-> described below. =9AThis section is of type SHT_NOTE. =9ANo attribute=
- types
-> are used. =9AOpenBSD native executables usually contain
-> a .note.openbsd.ident section to identify themselves, for the =9Akern=
-el to
-> bypass any compatibility ELF binary emulation tests when loading the
-> file.
->
->
-> I no find " "Note Section" format described below."
+Probably needs some more review from Eric and may need some additional
+information.
 
-Sadly, neither do I. The Linux elf(5) man page seems to have come from
-the BSDs, and I see the same problem in the OpenBSD and FreeBSD man
-pages. My solution, not ideal, is to remove the words "described
-below", and that's what I have done for man-pages-3.25.
+The syscall is actually only usable with a kernel patch to export
+the header I just sent separately.
 
-Thanks,
+Also added the kexec subcall to reboot(2)
 
-Michael
+-Andi
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+diff --git a/man2/kexec_load.2 b/man2/kexec_load.2
+new file mode 100644
+index 0000000..f486641
+--- /dev/null
++++ b/man2/kexec_load.2
+@@ -0,0 +1,94 @@
++.TH KEXEC_LOAD 2 2010-06-16 "Linux" "Linux Programmer's Manual"
++.SH NAME
++kexec_load \- Load a new kernel for later execution.
++.SH SYNOPSIS
++.b #include <linux/kexec.h>
++.br
++.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ","
++.br
++.BI       "struct kexec_segment *" segments ", unsigned long " flags ");"
++.SH DESCRIPTION
++.BR kexec_load 
++loads a new kernel that can be executed later
++by 
++.I reboot(2).
++An alternative approach is to specify
++.B KEXEC_ON_CRASH
++in the 
++.I flags
++argument and then the new kernel will be automatically executed on a 
++system crash. 
++.\" XXX figure out how this is really used 
++With 
++.B KEXEC_PRESERVE_CONTEXT 
++specified in 
++.I flags
++kexec will preserve the system hard and 
++software state before executing the kexec kernel. This 
++could be used for system suspend.
++
++.I flags
++also contains the architecture of the executed kernel or
++be 
++.I KEXEC_ARCH_DEFAULT
++for the current architecture.
++Valid architectures are 
++.I KEXEC_ARCH_I386,
++.I KEXEC_ARCH_X86_64,
++.I KEXEC_ARCH_PPC,
++.I KEXEC_ARCH_PPC64,
++.I KEXEC_ARCH_IA_64,
++.I KEXEC_ARCH_ARM,
++.I KEXEC_ARCH_S390,
++.I KEXEC_ARCH_SH,
++.I KEXEC_ARCH_MIPS,
++.I KEXEC_ARCH_MIPS_LE.
++The architecture must be executable on the CPU of the system.
++
++.I entry 
++is the virtual entry address in the kernel image.
++.I nr_segments
++is the number of segments pointed to by the 
++.I segments
++pointer. 
++.I segments 
++is an array of 
++.I struct kexec_segment
++structures which define the kernel layout:
++.in +4n
++.nf
++
++struct kexec_segment {
++	void   *buf;	/* Buffer in user space */
++	size_t  bufsz;	/* Buffer length in user space */
++	void   *mem;	/* Virtual address of kernel */
++	size_t  memsz;	/* Virtual address length */
++};
++.fi
++.in
++.PP
++.\" XXX elaborate on this
++The kernel image defined by
++.I segments
++is copied from the calling process into previously reserved memory.
++.SH CONFORMING TO
++This system call is Linux-specific.
++.SH NOTES
++kexec_load is currently not defined in glibc. To call it use:
++.in +4n
++.nf
++#define _GNU_SOURCE
++#include <syscall.h>
++#include <asm/unistd.h>
++#include <linux/kexec.h>
++
++ret = syscall(__NR_kexec_load, entry, nr_segments, segments, flags);
++.fi
++.in
++.PP
++.I linux/kexec.h as a exported header is only available in 2.6.38
++and later kernels, in earlier kernels the constants need to be copied
++out of the kernel source.
++.SH SEE ALSO
++.BR syscall (2),
++.BR reboot (2)
+diff --git a/man2/reboot.2 b/man2/reboot.2
+index 253bd34..87204b1 100644
+--- a/man2/reboot.2
++++ b/man2/reboot.2
+@@ -139,6 +139,11 @@ For the i386 architecture, the additional argument does not do
+ anything at present (2.1.122), but the type of reboot can be
+ determined by kernel command-line arguments ("reboot=...") to be
+ either warm or cold, and either hard or through the BIOS.
++.TP
++.B LINUX_REBOOT_KEXEC
++executes a kernel that has been loaded earlier
++with 
++.I kexec_load(2).
+ .SH "RETURN VALUE"
+ For the values of
+ .I cmd
+@@ -177,4 +182,5 @@ and should not be used in programs intended to be portable.
+ .BR capabilities (7),
+ .BR ctrlaltdel (8),
+ .BR halt (8),
+-.BR reboot (8)
++.BR reboot (8),
++.BR kexec_load (2)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
