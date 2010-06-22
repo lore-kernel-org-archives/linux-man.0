@@ -1,53 +1,40 @@
-From: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re:
-Date: Mon, 21 Jun 2010 14:05:53 -0700
-Message-ID: <4C1FD431.6030505@gmail.com>
-References: <460216361116404BB61933403540E169B645A3E596@ushqwmb03>
+From: Patrick McHardy <kaber@trash.net>
+Subject: Re: [PATCH 0/2] net,man - IP_NODEFRAG option for IPv4 socket
+Date: Tue, 22 Jun 2010 08:21:20 +0200
+Message-ID: <4C205660.7050501@trash.net>
+References: <1276600052-16499-1-git-send-email-jolsa@redhat.com> <20100619233241.GA1876@jolsa.colubris.lan>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <460216361116404BB61933403540E169B645A3E596@ushqwmb03>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bob Eggers <Bob.Eggers-C65YXLrEp3M@public.gmane.org>
-Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <netfilter-devel-owner@vger.kernel.org>
+In-Reply-To: <20100619233241.GA1876@jolsa.colubris.lan>
+Sender: netfilter-devel-owner@vger.kernel.org
+To: Jiri Olsa <jolsa@redhat.com>
+Cc: eric.dumazet@gmail.com, jengelh@medozas.de, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-I believe that's the correct result for a NULL-terminated string of length 1.
+Jiri Olsa wrote:
+> hi,
+> any feedback?
+>   
 
-- bog
+Your patch seems fine to me.
 
-On 06/21/2010 01:30 PM, Bob Eggers wrote:
-> I noticed an error in and example on the man page for strncpy(). The page is http://www.kernel.org/doc/man-pages/online/pages/man3/strncpy.3.html
-> 
-> The error is in the section, "NOTES", specifically in the code example after the text:
-> 
->       If there is no terminating null byte in the first n characters of src,
->        strncpy() produces an unterminated string in dest.  Programmers often prevent
->        this mistake by forcing termination as follows:
-> 
->            strncpy(buf, str, n);
->            if (n > 0)
->                buf[n - 1]= '\0';
-> 
-> Substituting 1 for n and "123" for str, this would equate to:
-> 
->            strncpy(buf, "123", 1);  // buf is now "1"
->            if (1 > 0)
->                buf[1 - 1]= '\0';                // buf is now ""
-> 
-> Bob Eggers--
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Acked-by: Patrick McHardy <kaber@trash.net>
 
+> thanks,
+> jirka
+>
+> On Tue, Jun 15, 2010 at 01:07:30PM +0200, Jiri Olsa wrote:
+>   
+>> hi,
+>>
+>> this series contains patch for IP_NODEFRAG option for RAW sockets,
+>> and changes for man pages.
+>>
+>> I'm sending this together, hope it's ok.
+>>
+>> 1/2 - net - IP_NODEFRAG option for IPv4 socket
+>> 2/2 - man - IP_NODEFRAG option for IPv4 socket
+>>     
 
--- 
-Bill O. Gallmeister
-bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-http://geekwhisperer.blogspot.com
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
