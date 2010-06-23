@@ -1,40 +1,38 @@
-From: Patrick McHardy <kaber@trash.net>
-Subject: Re: [PATCH 0/2] net,man - IP_NODEFRAG option for IPv4 socket
-Date: Tue, 22 Jun 2010 08:21:20 +0200
-Message-ID: <4C205660.7050501@trash.net>
-References: <1276600052-16499-1-git-send-email-jolsa@redhat.com> <20100619233241.GA1876@jolsa.colubris.lan>
+From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: filesystems.5 man page
+Date: Wed, 23 Jun 2010 09:38:37 +0200
+Message-ID: <4C21B9FD.60402@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <netfilter-devel-owner@vger.kernel.org>
-In-Reply-To: <20100619233241.GA1876@jolsa.colubris.lan>
-Sender: netfilter-devel-owner@vger.kernel.org
-To: Jiri Olsa <jolsa@redhat.com>
-Cc: eric.dumazet@gmail.com, jengelh@medozas.de, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Jiri Olsa wrote:
-> hi,
-> any feedback?
->   
+filesystems.5 man page does not mention ext4 filesystem, so I'm sending 
+a patch which adds it.
+Ivana
 
-Your patch seems fine to me.
+diff -up ./filesystems.5.pom ./filesystems.5
+--- ./filesystems.5.pom    2010-02-26 05:46:53.000000000 +0100
++++ ./filesystems.5    2010-06-23 09:16:42.000000000 +0200
+@@ -77,6 +77,11 @@ is a journaling version of the ext2 file
+  It is easy to
+  switch back and forth between ext2 and ext3.
+  .TP
++.B ext4
++is the next generation of the ext filesystem series.  In addition to
++journaling, ext4 supports larger files and filesystems than ext3, and 
+provides
++other modern features such as preallocation and an extent-based allocator.
++.TP
+  .B Reiserfs
+  is a journaling file system, designed by Hans Reiser,
+  that was integrated into Linux in kernel 2.4.1.
 
-Acked-by: Patrick McHardy <kaber@trash.net>
-
-> thanks,
-> jirka
->
-> On Tue, Jun 15, 2010 at 01:07:30PM +0200, Jiri Olsa wrote:
->   
->> hi,
->>
->> this series contains patch for IP_NODEFRAG option for RAW sockets,
->> and changes for man pages.
->>
->> I'm sending this together, hope it's ok.
->>
->> 1/2 - net - IP_NODEFRAG option for IPv4 socket
->> 2/2 - man - IP_NODEFRAG option for IPv4 socket
->>     
-
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
