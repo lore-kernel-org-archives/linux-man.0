@@ -1,38 +1,26 @@
-From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: filesystems.5 man page
-Date: Wed, 23 Jun 2010 09:38:37 +0200
-Message-ID: <4C21B9FD.60402@redhat.com>
+From: David Miller <davem@davemloft.net>
+Subject: Re: [PATCH 1/2] net - IP_NODEFRAG option for IPv4 socket
+Date: Wed, 23 Jun 2010 12:31:35 -0700 (PDT)
+Message-ID: <20100623.123135.48523240.davem@davemloft.net>
+References: <1276600052-16499-1-git-send-email-jolsa@redhat.com>
+	<1276600052-16499-2-git-send-email-jolsa@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: Text/Plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1276600052-16499-2-git-send-email-jolsa@redhat.com>
+Sender: netdev-owner@vger.kernel.org
+To: jolsa@redhat.com
+Cc: eric.dumazet@gmail.com, jengelh@medozas.de, kaber@trash.net, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-filesystems.5 man page does not mention ext4 filesystem, so I'm sending 
-a patch which adds it.
-Ivana
+From: Jiri Olsa <jolsa@redhat.com>
+Date: Tue, 15 Jun 2010 13:07:31 +0200
 
-diff -up ./filesystems.5.pom ./filesystems.5
---- ./filesystems.5.pom    2010-02-26 05:46:53.000000000 +0100
-+++ ./filesystems.5    2010-06-23 09:16:42.000000000 +0200
-@@ -77,6 +77,11 @@ is a journaling version of the ext2 file
-  It is easy to
-  switch back and forth between ext2 and ext3.
-  .TP
-+.B ext4
-+is the next generation of the ext filesystem series.  In addition to
-+journaling, ext4 supports larger files and filesystems than ext3, and 
-provides
-+other modern features such as preallocation and an extent-based allocator.
-+.TP
-  .B Reiserfs
-  is a journaling file system, designed by Hans Reiser,
-  that was integrated into Linux in kernel 2.4.1.
+> this patch is implementing IP_NODEFRAG option for IPv4 socket.
+> The reason is, there's no other way to send out the packet with user
+> customized header of the reassembly part.
+> 
+> Signed-off-by: Jiri Olsa <jolsa@redhat.com>
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Applied to net-next-2.6, thanks!
