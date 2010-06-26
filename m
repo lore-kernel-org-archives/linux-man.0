@@ -1,69 +1,74 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re:
-Date: Sat, 26 Jun 2010 14:52:23 +0200
-Message-ID: <AANLkTim6qZTM5lO3e98iQvZ3qo5aEmiYgLNm2wRNsfHO@mail.gmail.com>
-References: <460216361116404BB61933403540E169B645A3E596@ushqwmb03>
-	<4C1FD431.6030505@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 2/2] man - IP_NODEFRAG option for IPv4 socket
+Date: Sat, 26 Jun 2010 15:01:03 +0200
+Message-ID: <AANLkTim4N5rc8Sn_uo5bXsb9vjvKd3GTQD3p-1uApbB8@mail.gmail.com>
+References: <1276600052-16499-1-git-send-email-jolsa@redhat.com>
+	<1276600052-16499-3-git-send-email-jolsa@redhat.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C1FD431.6030505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Bob Eggers <Bob.Eggers-C65YXLrEp3M@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <netfilter-devel-owner@vger.kernel.org>
+In-Reply-To: <1276600052-16499-3-git-send-email-jolsa@redhat.com>
+Sender: netfilter-devel-owner@vger.kernel.org
+To: Jiri Olsa <jolsa@redhat.com>
+Cc: eric.dumazet@gmail.com, jengelh@medozas.de, kaber@trash.net, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jun 21, 2010 at 11:05 PM, bill o gallmeister
-<bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> I believe that's the correct result for a NULL-terminated string of l=
-ength 1.
+Hi Jiri,
 
-And I agree.
+Thanks for this patch. See below.
 
-Thanks,
+On Tue, Jun 15, 2010 at 1:07 PM, Jiri Olsa <jolsa@redhat.com> wrote:
+> hi,
+>
+> this patch adds description for IP_NODEFRAG option for IPv4 socket.
+>
+> wbr,
+> jirka
+>
+>
+> Signed-off-by: Jiri Olsa <jolsa@redhat.com>
+> ---
+> =A0man7/ip.7 | =A0 =A06 ++++++
+> =A01 files changed, 6 insertions(+), 0 deletions(-)
+>
+> diff --git a/man7/ip.7 b/man7/ip.7
+> index 34f7e80..12c0d5b 100644
+> --- a/man7/ip.7
+> +++ b/man7/ip.7
+> @@ -705,6 +705,12 @@ socket option (see
+> =A0.BR IP_TTL " (since Linux 1.0)"
+> =A0Set or retrieve the current time-to-live field that is used in eve=
+ry packet
+> =A0sent from this socket.
+> +.TP
+> +.BR IP_NODEFRAG " (since Linux 2.6)"
+
+here, we'd write the exact version in which the flag is added. It
+looks like that might be 2.36, right?
+
+Otherwise, this patch looks fine.
+
+Cheers,
 
 Michael
 
 
-> On 06/21/2010 01:30 PM, Bob Eggers wrote:
->> I noticed an error in and example on the man page for strncpy(). The=
- page is http://www.kernel.org/doc/man-pages/online/pages/man3/strncpy.=
-3.html
->>
->> The error is in the section, "NOTES", specifically in the code examp=
-le after the text:
->>
->> =A0 =A0 =A0 If there is no terminating null byte in the first n char=
-acters of src,
->> =A0 =A0 =A0 =A0strncpy() produces an unterminated string in dest. =A0=
-Programmers often prevent
->> =A0 =A0 =A0 =A0this mistake by forcing termination as follows:
->>
->> =A0 =A0 =A0 =A0 =A0 =A0strncpy(buf, str, n);
->> =A0 =A0 =A0 =A0 =A0 =A0if (n > 0)
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0buf[n - 1]=3D '\0';
->>
->> Substituting 1 for n and "123" for str, this would equate to:
->>
->> =A0 =A0 =A0 =A0 =A0 =A0strncpy(buf, "123", 1); =A0// buf is now "1"
->> =A0 =A0 =A0 =A0 =A0 =A0if (1 > 0)
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0buf[1 - 1]=3D '\0'; =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0// buf is now ""
->>
->> Bob Eggers--
->> To unsubscribe from this list: send the line "unsubscribe linux-man"=
- in
->> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
->>
->
->
+
+> +If enabled, the reassembly of outgoing packets is disabled in the ne=
+tfilter layer.
+> +Only valid for
+> +.B SOCK_RAW
+> +sockets.
+> =A0.\" FIXME Document IP_XFRM_POLICY
+> =A0.\" Since Linux 2.5.48
+> =A0.\" Needs CAP_NET_ADMIN
 > --
-> Bill O. Gallmeister
-> bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-> http://geekwhisperer.blogspot.com
+> To unsubscribe from this list: send the line "unsubscribe linux-man" =
+in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
 >
 
 
@@ -73,6 +78,7 @@ Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To unsubscribe from this list: send the line "unsubscribe netfilter-dev=
+el" in
+the body of a message to majordomo@vger.kernel.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
