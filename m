@@ -1,74 +1,198 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 2/2] man - IP_NODEFRAG option for IPv4 socket
-Date: Sat, 26 Jun 2010 15:01:03 +0200
-Message-ID: <AANLkTim4N5rc8Sn_uo5bXsb9vjvKd3GTQD3p-1uApbB8@mail.gmail.com>
-References: <1276600052-16499-1-git-send-email-jolsa@redhat.com>
-	<1276600052-16499-3-git-send-email-jolsa@redhat.com>
-Reply-To: mtk.manpages@gmail.com
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] kexec_load manpage
+Date: Sat, 26 Jun 2010 15:23:08 +0200
+Message-ID: <AANLkTillNx5owgU4O71izNz9FEL06MiI-FquTZ3ofktP@mail.gmail.com>
+References: <20100619132633.GA24277@basil.fritz.box> <m1mxuqu8yr.fsf@fess.ebiederm.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netfilter-devel-owner@vger.kernel.org>
-In-Reply-To: <1276600052-16499-3-git-send-email-jolsa@redhat.com>
-Sender: netfilter-devel-owner@vger.kernel.org
-To: Jiri Olsa <jolsa@redhat.com>
-Cc: eric.dumazet@gmail.com, jengelh@medozas.de, kaber@trash.net, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <m1mxuqu8yr.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kexec Mailing List <kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jiri,
+Hi Andi,
 
-Thanks for this patch. See below.
+Are Eric's suggestions of "physical" below correct? If so, could you
+amend the page and resubmit?
 
-On Tue, Jun 15, 2010 at 1:07 PM, Jiri Olsa <jolsa@redhat.com> wrote:
-> hi,
->
-> this patch adds description for IP_NODEFRAG option for IPv4 socket.
->
-> wbr,
-> jirka
->
->
-> Signed-off-by: Jiri Olsa <jolsa@redhat.com>
-> ---
-> =A0man7/ip.7 | =A0 =A06 ++++++
-> =A01 files changed, 6 insertions(+), 0 deletions(-)
->
-> diff --git a/man7/ip.7 b/man7/ip.7
-> index 34f7e80..12c0d5b 100644
-> --- a/man7/ip.7
-> +++ b/man7/ip.7
-> @@ -705,6 +705,12 @@ socket option (see
-> =A0.BR IP_TTL " (since Linux 1.0)"
-> =A0Set or retrieve the current time-to-live field that is used in eve=
-ry packet
-> =A0sent from this socket.
-> +.TP
-> +.BR IP_NODEFRAG " (since Linux 2.6)"
+Also, I'd prefer to have the reboot.2 and kexec_load.2 page as
+separate patches, so could you split them on the resend please?
 
-here, we'd write the exact version in which the flag is added. It
-looks like that might be 2.36, right?
-
-Otherwise, this patch looks fine.
-
-Cheers,
+Thanks,
 
 Michael
 
-
-
-> +If enabled, the reassembly of outgoing packets is disabled in the ne=
-tfilter layer.
-> +Only valid for
-> +.B SOCK_RAW
-> +sockets.
-> =A0.\" FIXME Document IP_XFRM_POLICY
-> =A0.\" Since Linux 2.5.48
-> =A0.\" Needs CAP_NET_ADMIN
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" =
-in
-> the body of a message to majordomo@vger.kernel.org
-> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+On Sat, Jun 19, 2010 at 9:18 PM, Eric W. Biederman
+<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+> Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> writes:
+>
+>> Here are the beginnings of a kexec_load manpage.
+>>
+>> Probably needs some more review from Eric and may need some addition=
+al
+>> information.
+>>
+>> The syscall is actually only usable with a kernel patch to export
+>> the header I just sent separately.
+>
+> The syscall has been used for years with a separate non-kernel header=
+=2E
+>
+>
+> Eric
+>
+>
+>> Also added the kexec subcall to reboot(2)
+>>
+>> -Andi
+>>
+>> diff --git a/man2/kexec_load.2 b/man2/kexec_load.2
+>> new file mode 100644
+>> index 0000000..f486641
+>> --- /dev/null
+>> +++ b/man2/kexec_load.2
+>> @@ -0,0 +1,94 @@
+>> +.TH KEXEC_LOAD 2 2010-06-16 "Linux" "Linux Programmer's Manual"
+>> +.SH NAME
+>> +kexec_load \- Load a new kernel for later execution.
+>> +.SH SYNOPSIS
+>> +.b #include <linux/kexec.h>
+>> +.br
+>> +.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_se=
+gments ","
+>> +.br
+>> +.BI =A0 =A0 =A0 "struct kexec_segment *" segments ", unsigned long =
+" flags ");"
+>> +.SH DESCRIPTION
+>> +.BR kexec_load
+>> +loads a new kernel that can be executed later
+>> +by
+>> +.I reboot(2).
+>> +An alternative approach is to specify
+>> +.B KEXEC_ON_CRASH
+>> +in the
+>> +.I flags
+>> +argument and then the new kernel will be automatically executed on =
+a
+>> +system crash.
+>> +.\" XXX figure out how this is really used
+>> +With
+>> +.B KEXEC_PRESERVE_CONTEXT
+>> +specified in
+>> +.I flags
+>> +kexec will preserve the system hard and
+>> +software state before executing the kexec kernel. This
+>> +could be used for system suspend.
+>> +
+>> +.I flags
+>> +also contains the architecture of the executed kernel or
+>> +be
+>> +.I KEXEC_ARCH_DEFAULT
+>> +for the current architecture.
+>> +Valid architectures are
+>> +.I KEXEC_ARCH_I386,
+>> +.I KEXEC_ARCH_X86_64,
+>> +.I KEXEC_ARCH_PPC,
+>> +.I KEXEC_ARCH_PPC64,
+>> +.I KEXEC_ARCH_IA_64,
+>> +.I KEXEC_ARCH_ARM,
+>> +.I KEXEC_ARCH_S390,
+>> +.I KEXEC_ARCH_SH,
+>> +.I KEXEC_ARCH_MIPS,
+>> +.I KEXEC_ARCH_MIPS_LE.
+>> +The architecture must be executable on the CPU of the system.
+>> +
+>> +.I entry
+>> +is the virtual entry address in the kernel image.
+>
+> Physical.
+>
+>> +.I nr_segments
+>> +is the number of segments pointed to by the
+>> +.I segments
+>> +pointer.
+>> +.I segments
+>> +is an array of
+>> +.I struct kexec_segment
+>> +structures which define the kernel layout:
+>> +.in +4n
+>> +.nf
+>> +
+>> +struct kexec_segment {
+>> + =A0 =A0 void =A0 *buf; =A0 =A0/* Buffer in user space */
+>> + =A0 =A0 size_t =A0bufsz; =A0/* Buffer length in user space */
+>> + =A0 =A0 void =A0 *mem; =A0 =A0/* Virtual address of kernel */
+>> + =A0 =A0 size_t =A0memsz; =A0/* Virtual address length */
+>
+> There are again physical addresses.
+>
+> There is an expectation that at hand off from sys_kexec that
+> virtual and physical addresses will be identity mapped. =A0But
+> this isn't the old Alpha booting convention where you have
+> a virtual address and then you have to parse the page table
+> to figure out where your kernel was actually loaded.
+>
+>> +};
+>> +.fi
+>> +.in
+>> +.PP
+>> +.\" XXX elaborate on this
+>> +The kernel image defined by
+>> +.I segments
+>> +is copied from the calling process into previously reserved memory.
+>> +.SH CONFORMING TO
+>> +This system call is Linux-specific.
+>> +.SH NOTES
+>> +kexec_load is currently not defined in glibc. To call it use:
+>> +.in +4n
+>> +.nf
+>> +#define _GNU_SOURCE
+>> +#include <syscall.h>
+>> +#include <asm/unistd.h>
+>> +#include <linux/kexec.h>
+>> +
+>> +ret =3D syscall(__NR_kexec_load, entry, nr_segments, segments, flag=
+s);
+>> +.fi
+>> +.in
+>> +.PP
+>> +.I linux/kexec.h as a exported header is only available in 2.6.38
+>> +and later kernels, in earlier kernels the constants need to be copi=
+ed
+>> +out of the kernel source.
+>> +.SH SEE ALSO
+>> +.BR syscall (2),
+>> +.BR reboot (2)
+>> diff --git a/man2/reboot.2 b/man2/reboot.2
+>> index 253bd34..87204b1 100644
+>> --- a/man2/reboot.2
+>> +++ b/man2/reboot.2
+>> @@ -139,6 +139,11 @@ For the i386 architecture, the additional argum=
+ent does not do
+>> =A0anything at present (2.1.122), but the type of reboot can be
+>> =A0determined by kernel command-line arguments ("reboot=3D...") to b=
+e
+>> =A0either warm or cold, and either hard or through the BIOS.
+>> +.TP
+>> +.B LINUX_REBOOT_KEXEC
+>> +executes a kernel that has been loaded earlier
+>> +with
+>> +.I kexec_load(2).
+>> =A0.SH "RETURN VALUE"
+>> =A0For the values of
+>> =A0.I cmd
+>> @@ -177,4 +182,5 @@ and should not be used in programs intended to b=
+e portable.
+>> =A0.BR capabilities (7),
+>> =A0.BR ctrlaltdel (8),
+>> =A0.BR halt (8),
+>> -.BR reboot (8)
+>> +.BR reboot (8),
+>> +.BR kexec_load (2)
 >
 
 
@@ -78,7 +202,6 @@ Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
 --
-To unsubscribe from this list: send the line "unsubscribe netfilter-dev=
-el" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
