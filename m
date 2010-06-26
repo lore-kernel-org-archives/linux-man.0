@@ -1,47 +1,74 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: getaddrinfo(3) bug
-Date: Sat, 26 Jun 2010 14:42:21 +0200
-Message-ID: <AANLkTilKYaVlOdHYNvfmkt5cgmWipMdiE1k0n09klNDi@mail.gmail.com>
-References: <AANLkTin62DCx2CbEGjasHY7jx1XEUedAUJG-0ObpUkXA@mail.gmail.com>
+Subject: Re:
+Date: Sat, 26 Jun 2010 14:52:23 +0200
+Message-ID: <AANLkTim6qZTM5lO3e98iQvZ3qo5aEmiYgLNm2wRNsfHO@mail.gmail.com>
+References: <460216361116404BB61933403540E169B645A3E596@ushqwmb03>
+	<4C1FD431.6030505@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTin62DCx2CbEGjasHY7jx1XEUedAUJG-0ObpUkXA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4C1FD431.6030505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Scott Walls <sawalls-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Bob Eggers <Bob.Eggers-C65YXLrEp3M@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Scot,
+On Mon, Jun 21, 2010 at 11:05 PM, bill o gallmeister
+<bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> I believe that's the correct result for a NULL-terminated string of l=
+ength 1.
 
-On Thu, Jun 24, 2010 at 6:27 PM, Scott Walls <sawalls-63aXycvo3TyHXe+LvDLADg@public.gmane.org> wrote:
-> manpages-dev version 3.23-1
-> Ubuntu 10.04
-> man 3 getaddrinfo
-> On line 74-75, in the description of the ai_flags member, it says "Multiple
-> flags are specified by logically OR-ing them together."
-> This should say "Multiple flags are specified by bitwise OR-ing them
-> together."
-> I believe this to be true for the following reasons:
->
-> the result of logical OR ( || ) is always 1 or 0 (this is how it is defined
-> in Harbinson and Steele, at least), so it would be impossible to extract out
-> the different bitflags
-> on lines 80 "and ai_flags to (AI_V4MAPPED | AI_ADDRCONFIG)" it seems that
-> bitwise or is the proper choice
->
-> If you need any more information, please feel free to ask.
-> Thanks
-> Scott Walls
+And I agree.
 
-Thanks. Of course you are right. Changed for man-pages-3.26.
-
-thanks,
+Thanks,
 
 Michael
 
--- 
+
+> On 06/21/2010 01:30 PM, Bob Eggers wrote:
+>> I noticed an error in and example on the man page for strncpy(). The=
+ page is http://www.kernel.org/doc/man-pages/online/pages/man3/strncpy.=
+3.html
+>>
+>> The error is in the section, "NOTES", specifically in the code examp=
+le after the text:
+>>
+>> =A0 =A0 =A0 If there is no terminating null byte in the first n char=
+acters of src,
+>> =A0 =A0 =A0 =A0strncpy() produces an unterminated string in dest. =A0=
+Programmers often prevent
+>> =A0 =A0 =A0 =A0this mistake by forcing termination as follows:
+>>
+>> =A0 =A0 =A0 =A0 =A0 =A0strncpy(buf, str, n);
+>> =A0 =A0 =A0 =A0 =A0 =A0if (n > 0)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0buf[n - 1]=3D '\0';
+>>
+>> Substituting 1 for n and "123" for str, this would equate to:
+>>
+>> =A0 =A0 =A0 =A0 =A0 =A0strncpy(buf, "123", 1); =A0// buf is now "1"
+>> =A0 =A0 =A0 =A0 =A0 =A0if (1 > 0)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0buf[1 - 1]=3D '\0'; =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0// buf is now ""
+>>
+>> Bob Eggers--
+>> To unsubscribe from this list: send the line "unsubscribe linux-man"=
+ in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+>>
+>
+>
+> --
+> Bill O. Gallmeister
+> bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+> http://geekwhisperer.blogspot.com
+>
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
