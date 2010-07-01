@@ -1,32 +1,39 @@
-From: Paul Zimmermann <Paul.Zimmermann-/zGXu1G9BXs@public.gmane.org>
-Subject: bug report: fma.3
-Date: Tue, 29 Jun 2010 16:48:35 +0200
-Message-ID: <E1OTc71-0007aT-IF@tarte.loria.fr>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] Fix ppoll example
+Date: Thu, 1 Jul 2010 23:49:47 +0200
+Message-ID: <AANLkTimkwPS5_6yltbKsCFf-HeVVF5Ox1elT9R1rMcN-@mail.gmail.com>
+References: <20091227004007.GA8638@basil.fritz.box>
+	<20091227004422.GA8673@basil.fritz.box>
+	<AANLkTimHnSfMtcsuG8lJ-MTLeMCA3f9XQkL26bEdth1F@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AANLkTimHnSfMtcsuG8lJ-MTLeMCA3f9XQkL26bEdth1F-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vincent.Lefevre-vYW+cPY1g1pWj0EZb7rXcA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-       Hi,
+On 2010/6/12 Michael Kerrisk wrote:
+[...]
+> --- a/man2/poll.2
+> +++ b/man2/poll.2
+[...]
+> @@ -304,13 +304,15 @@ is Linux-specific.
+> =C2=A0Some implementations define the nonstandard constant
+> =C2=A0.B INFTIM
+> =C2=A0with the value \-1 for use as a
+> -.IR timeout .
+> +.IR timeout
+> +for
+> +.BR poll ()..
 
-the man page fma.3 says in release 3.22:
+Hi Michael,
 
-DESCRIPTION
-       The fma() function computes x * y + z.  The result is  rounded  as  one
-       ternary operation according to the current rounding mode (see fenv(3)).
+There is a spurious trailing dot.
 
-However, this is wrong on most current architectures (which do not have a
-hardware fma). See http://sourceware.org/bugzilla/show_bug.cgi?id=3268.
-
-Since glibc bug #3268 is still unresolved after 4 years, it would be good to
-mention on the man page that fma() might return (x*y)+z with two roundings.
-
-Paul Zimmermann
-
-PS: I am using Fedora 12.
+Denis
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
