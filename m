@@ -1,58 +1,56 @@
 From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small fix for open.2
-Date: Sat, 17 Jul 2010 12:58:48 +0400
-Message-ID: <20100717125848.41342e70@keeper.home.local>
+Subject: small fix for umount.2
+Date: Sat, 17 Jul 2010 13:05:34 +0400
+Message-ID: <20100717130534.2b2a8049@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/tIVIJVpwxV3t_peQ8=/pNNM"
+Content-Type: multipart/mixed; boundary="MP_/2/GvLPblFIrLlABETUCYlav"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/tIVIJVpwxV3t_peQ8=/pNNM
+--MP_/2/GvLPblFIrLlABETUCYlav
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
 
 Hello.
-
---- man-pages-git/man2/open.2   2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/open.2 2010-07-17 12:56:34.000000000 +0400
-@@ -679,7 +679,7 @@
- and
- .B O_RSYNC
- to the same numerical value as
--.BR O_SYNC
-+.BR O_SYNC .
- Most Linux file systems don't actually implement the POSIX
- .B O_SYNC
- semantics, which require all metadata updates of a write
-
-
+-- man-pages-git/man2/umount.2 2010-07-17 09:02:09.000000000 +0400
++++ /tmp/umount.2       2010-07-17 13:04:34.000000000 +0400
+@@ -93,7 +93,7 @@
+ Don't dereference
+ .I target
+ if it is a symbolic link.
+-This flag allows security problems to be avoided in in set-user-ID-\fIroot\fP
++This flag allows security problems to be avoided in set-user-ID-\fIroot\fP
+ programs that allow unprivileged users to unmount file systems.
+ .SH "RETURN VALUE"
+ On success, zero is returned.
 
 -- 
 Best Regards,
 Yuri Kozlov
 
 
---MP_/tIVIJVpwxV3t_peQ8=/pNNM
+--MP_/2/GvLPblFIrLlABETUCYlav
 Content-Type: text/x-patch
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=open.2.patch
+Content-Disposition: attachment; filename=umount.2.patch
 
---- man-pages-git/man2/open.2	2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/open.2	2010-07-17 12:56:34.000000000 +0400
-@@ -679,7 +679,7 @@
- and
- .B O_RSYNC
- to the same numerical value as
--.BR O_SYNC
-+.BR O_SYNC .
- Most Linux file systems don't actually implement the POSIX
- .B O_SYNC
- semantics, which require all metadata updates of a write
+--- man-pages-git/man2/umount.2	2010-07-17 09:02:09.000000000 +0400
++++ /tmp/umount.2	2010-07-17 13:04:34.000000000 +0400
+@@ -93,7 +93,7 @@
+ Don't dereference
+ .I target
+ if it is a symbolic link.
+-This flag allows security problems to be avoided in in set-user-ID-\fIroot\fP
++This flag allows security problems to be avoided in set-user-ID-\fIroot\fP
+ programs that allow unprivileged users to unmount file systems.
+ .SH "RETURN VALUE"
+ On success, zero is returned.
 
---MP_/tIVIJVpwxV3t_peQ8=/pNNM--
+--MP_/2/GvLPblFIrLlABETUCYlav--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
