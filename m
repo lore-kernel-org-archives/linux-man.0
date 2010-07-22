@@ -1,56 +1,30 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small fix for umount.2
-Date: Sat, 17 Jul 2010 13:05:34 +0400
-Message-ID: <20100717130534.2b2a8049@keeper.home.local>
+From: "fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org" <fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: readdir_r: return values not clearly mentioned
+Date: Thu, 22 Jul 2010 09:26:14 +0200
+Message-ID: <20100722072614.GA6355@comppasch2>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/2/GvLPblFIrLlABETUCYlav"
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/2/GvLPblFIrLlABETUCYlav
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hi,
 
-Hello.
--- man-pages-git/man2/umount.2 2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/umount.2       2010-07-17 13:04:34.000000000 +0400
-@@ -93,7 +93,7 @@
- Don't dereference
- .I target
- if it is a symbolic link.
--This flag allows security problems to be avoided in in set-user-ID-\fIroot\fP
-+This flag allows security problems to be avoided in set-user-ID-\fIroot\fP
- programs that allow unprivileged users to unmount file systems.
- .SH "RETURN VALUE"
- On success, zero is returned.
+in man 3 readdir_r (man-pages-3.24, page date 2009-07-04)
+the possible return values are described as:
 
--- 
-Best Regards,
-Yuri Kozlov
+"The readdir_r() function returns 0 on success.  On error,
+it returns a positive error number."
+
+It is not mentioned which possible error numbers may occur.
+
+Thank You
+ Felix
 
 
---MP_/2/GvLPblFIrLlABETUCYlav
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=umount.2.patch
-
---- man-pages-git/man2/umount.2	2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/umount.2	2010-07-17 13:04:34.000000000 +0400
-@@ -93,7 +93,7 @@
- Don't dereference
- .I target
- if it is a symbolic link.
--This flag allows security problems to be avoided in in set-user-ID-\fIroot\fP
-+This flag allows security problems to be avoided in set-user-ID-\fIroot\fP
- programs that allow unprivileged users to unmount file systems.
- .SH "RETURN VALUE"
- On success, zero is returned.
-
---MP_/2/GvLPblFIrLlABETUCYlav--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
