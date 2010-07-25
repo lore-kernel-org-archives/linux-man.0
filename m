@@ -1,59 +1,48 @@
-From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Subject: Description of POLLHUP in poll(2)
-Date: Sat, 24 Jul 2010 21:12:38 -0400
-Message-ID: <cone.1280020358.708902.17185.500@commodore.email-scan.com>
+From: =?iso-8859-1?q?L=E9na=EFc_Huard?= <lenaic.huard-QFKgK+z4sOrR7s880joybQ@public.gmane.org>
+Subject: return type of mqueue functions are wrong
+Date: Sun, 25 Jul 2010 11:59:30 +0200
+Message-ID: <201007251159.30470.lenaic.huard@laposte.net>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-    boundary="=_mimegpg-commodore.email-scan.com-17185-1280020358-0001";
-    micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Type: Text/Plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a MIME GnuPG-signed message.  If you see this text, it means that
-your E-mail or Usenet software does not support MIME signed messages.
-The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
-To open this message correctly you will need to install E-mail or Usenet
-software that supports modern Internet standards.
+Hello,
 
---=_mimegpg-commodore.email-scan.com-17185-1280020358-0001
-Content-Type: text/plain; format=flowed; charset="US-ASCII"
-Content-Disposition: inline
-Content-Transfer-Encoding: 7bit
+I think I've found a little error in the manpages of the mqueue functio=
+ns=20
+(mq_close, mq_getattr, mq_setattr, mq_unlink, mq_notify, mq_send and=20
+mq_timedsend). In the linux manpages, all these functions are documente=
+d as=20
+returning an mqd_t whereas in the mqueue.h shipped with the glibc, thes=
+e=20
+functions are returning an int.
 
-I'd like to propose adding the following to the current, somewhat terse, 
-description of POLLHUP:
+This is not a big matter in Linux where mqd_t is a typedef for int, but=
+ the=20
+problem is that a programmer worried about the portability of his code =
+might=20
+be tempted to write things like
 
-==
+  if( mq_getattr( _mqdes, &aMqAttr ) =3D=3D (mqd_t)-1 )
+    ...
 
-For stream sockets, this indicates that the peer closed its side of the 
-connection. This does not necessarily imply that there's no more data to be 
-read from the socket. POLLHUP may be set even if some unread data remains in 
-the socket. Applications that need to process all data sent from their 
-socket peer should use read(2) to check for unread data if POLLHUP is set.
+And this is not portable. (For example, it won't compile on Solaris whe=
+re=20
+mqd_t is a typedef for void * but where mq_getattr returns an int like =
+on=20
+Linux.)
 
-==
+If the functions were documented as returning an int, one won't put the=
+ cast,=20
+and the code would be portable.
 
-That's something I didn't know -- I still learn something new every day -- 
-When I get a POLLHUP I've assumed that it indicates an end-of-file 
-condition, but that's not apparently the case, and having this documented 
-would be helpful.
-
-
---=_mimegpg-commodore.email-scan.com-17185-1280020358-0001
-Content-Type: application/pgp-signature
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.14 (GNU/Linux)
-
-iEYEABECAAYFAkxLj4YACgkQx9p3GYHlUOJcygCePBZBGYkglmeo8A87zAlyjvwp
-S3QAn16BpJDyGtRBbOwBghICRgHYbCWp
-=Hyzs
------END PGP SIGNATURE-----
-
---=_mimegpg-commodore.email-scan.com-17185-1280020358-0001--
+Kind regards,
+L=E9na=EFc.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
