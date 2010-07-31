@@ -1,61 +1,56 @@
-From: Andre Landwehr <andrel-qFpIZCbatykuZeo0DBJMuQ@public.gmane.org>
-Subject: Re: bug in proc(5) manpage
-Date: Wed, 28 Jul 2010 12:41:23 +0200
-Message-ID: <1280313683.1994.70.camel@precision.loewe-komp.de>
-References: <1280311444.1994.67.camel@precision.loewe-komp.de>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: small improvement for st.4
+Date: Sat, 31 Jul 2010 14:49:09 +0400
+Message-ID: <20100731144909.528c8104@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature"; boundary="=-0obE5mKWHs7sr4q4PME3"
+Content-Type: multipart/mixed; boundary="MP_/gsZSrJHU.JY0T/MX627vsKR"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1280311444.1994.67.camel-cB/ihCqopeGbpGji+OEwdKSq0ejlY3ad@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+--MP_/gsZSrJHU.JY0T/MX627vsKR
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
---=-0obE5mKWHs7sr4q4PME3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello.
 
-On Wednesday, 2010/07/28, 12:04 +0200 Andre Landwehr wrote:
-> hi,
-> the man page for "proc" says for the /proc/[pid]/stat files the field
-> "itrealvalue":
->
-> "Since kernel 2.6.17, this field is no longer maintained, and is hard
-> coded as 0."
->=20
-> Looking at the kernel source[1] however, I see that the field is not
-> hard coded as 0 but instead has been removed completely. Since this may
-> result in a one-off when searching for a specific field, it should be
-> documented correctly.
-
-Forget it, the man page is correct. I overlooked the hardcoded "0" in
-the format string of the printf. Sorry for the noise.
-
-Regards,
-Andre
-
---=20
-Andre Landwehr, Ricklinger Stadtweg 42, D-30459 Hannover
+--- man-pages-git/man4/st.4     2010-03-26 17:46:41.000000000 +0300
++++ /tmp/st.4   2010-07-31 14:48:15.000000000 +0400
+@@ -490,6 +490,7 @@
+ If this option is false and the drive uses a fixed block size, then
+ all write operations must be for a multiple of the block size.
+ This option must be set false to write reliable multivolume archives.
++.TP
+ .BR MT_ST_ASYNC_WRITES " (Default: true)"
+ When this option is true, write operations return immediately without
+ waiting for the data to be transferred to the drive if the data fits
 
 
+-- 
+Best Regards,
+Yuri Kozlov
 
 
---=-0obE5mKWHs7sr4q4PME3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+--MP_/gsZSrJHU.JY0T/MX627vsKR
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=st.4.patch
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+--- man-pages-git/man4/st.4	2010-03-26 17:46:41.000000000 +0300
++++ /tmp/st.4	2010-07-31 14:48:15.000000000 +0400
+@@ -490,6 +490,7 @@
+ If this option is false and the drive uses a fixed block size, then
+ all write operations must be for a multiple of the block size.
+ This option must be set false to write reliable multivolume archives.
++.TP
+ .BR MT_ST_ASYNC_WRITES " (Default: true)"
+ When this option is true, write operations return immediately without
+ waiting for the data to be transferred to the drive if the data fits
 
-iEYEABECAAYFAkxQCU8ACgkQC3ZlGS1b0mOlUQCgttwdtm59MCQ3/OaBlivXvtDS
-Wo0AnRVwtZg7fJ5pkXQYadqH0cdpBXmH
-=dM9i
------END PGP SIGNATURE-----
-
---=-0obE5mKWHs7sr4q4PME3--
-
+--MP_/gsZSrJHU.JY0T/MX627vsKR--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
