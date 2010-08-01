@@ -1,56 +1,48 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small improvement for st.4
-Date: Sat, 31 Jul 2010 14:49:09 +0400
-Message-ID: <20100731144909.528c8104@keeper.home.local>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: strncpy, strcat and memalign
+Date: Sun, 1 Aug 2010 01:10:24 +0100
+Message-ID: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/gsZSrJHU.JY0T/MX627vsKR"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/gsZSrJHU.JY0T/MX627vsKR
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hello
 
-Hello.
-
---- man-pages-git/man4/st.4     2010-03-26 17:46:41.000000000 +0300
-+++ /tmp/st.4   2010-07-31 14:48:15.000000000 +0400
-@@ -490,6 +490,7 @@
- If this option is false and the drive uses a fixed block size, then
- all write operations must be for a multiple of the block size.
- This option must be set false to write reliable multivolume archives.
-+.TP
- .BR MT_ST_ASYNC_WRITES " (Default: true)"
- When this option is true, write operations return immediately without
- waiting for the data to be transferred to the drive if the data fits
+I think these two man pages could be adjusted to use a consistent name
+for "nul" terminators, that is '\0' in a const char * string.
+http://linux.die.net/man/3/strncpy
 
 
--- 
-Best Regards,
-Yuri Kozlov
+this one consistently uses '\0'
+http://linux.die.net/man/3/strcat
+
+strncpy talks about '\0', "null-terminating", and "null byte"
+
+IMHO "NUL" is the correct name to use, which is different again (N.B.
+single L), compared to NULL (#define NULL (void*)0
 
 
---MP_/gsZSrJHU.JY0T/MX627vsKR
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=st.4.patch
+Also this page seems to have lost formatting, this may only be the web
+page generation though.
 
---- man-pages-git/man4/st.4	2010-03-26 17:46:41.000000000 +0300
-+++ /tmp/st.4	2010-07-31 14:48:15.000000000 +0400
-@@ -490,6 +490,7 @@
- If this option is false and the drive uses a fixed block size, then
- all write operations must be for a multiple of the block size.
- This option must be set false to write reliable multivolume archives.
-+.TP
- .BR MT_ST_ASYNC_WRITES " (Default: true)"
- When this option is true, write operations return immediately without
- waiting for the data to be transferred to the drive if the data fits
 
---MP_/gsZSrJHU.JY0T/MX627vsKR--
+http://linux.die.net/man/3/memalign
+Synopsis
+
+#define _XOPEN_SOURCE 600#include <stdlib.h>
+int posix_memalign(void **memptr, size_t alignment, size_t size);
+#include <malloc.h>
+void *valloc(size_t size);void *memalign(size_t boundary, size_t size);
+
+
+See the #include is not on its own line after "XOPEN_SOURCE 600".
+Likewise memalign should be on its own line.
+
+Thank you for taking a look, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
