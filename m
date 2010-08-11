@@ -1,48 +1,52 @@
-From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: strncpy, strcat and memalign
-Date: Sun, 1 Aug 2010 01:10:24 +0100
-Message-ID: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di@mail.gmail.com>
+From: der Mouse <mouse-QYwwddsQ6tkEPrhfXw3Q4tGeqqvjHH9B@public.gmane.org>
+Subject: lseek(2) BSD buglet
+Date: Wed, 11 Aug 2010 14:13:35 -0400 (EDT)
+Message-ID: <201008111813.OAA03192@Sparkle.Rodents-Montreal.ORG>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello
+lseek(2) (noticed on 3.23, 3.25 has similar wording) says, in part,
 
-I think these two man pages could be adjusted to use a consistent name
-for "nul" terminators, that is '\0' in a const char * string.
-http://linux.die.net/man/3/strncpy
+       SVr1-3 returns long instead of off_t, BSD returns int.
 
+While the BSDs are not a single monolithic entity, NetBSD has returned
+off_t from lseek(2) since 1.5 at the very latest, meaning late 2000.
+I'd be surprised if there's a non-orphaned BSD left that still uses
+int.
 
-this one consistently uses '\0'
-http://linux.die.net/man/3/strcat
+I'm not sure what wording would be best.  Depends on whether you think
+it's worth mentioning the historical practice from the days when BSD
+deserved the B in its name or not, I'd say.  Perhaps something like
 
-strncpy talks about '\0', "null-terminating", and "null byte"
+	..., BSD from Berkeley returned int but modern BSD variants
+	have switched to off_t.
 
-IMHO "NUL" is the correct name to use, which is different again (N.B.
-single L), compared to NULL (#define NULL (void*)0
+or
 
+	..., most (all?) BSDs use off_t.
 
-Also this page seems to have lost formatting, this may only be the web
-page generation though.
+or some such.
 
+Note, if you want to write back to me for any reason, you will not get
+through from gmail (nor hotmail nor yahoo webmail; there seems to be
+something about running a big webmailer that's incompatible with
+running a civilized shop).  Depending on where you're sending from, you
+may get better results from with mouse-S783fYmB3Ccdnm+yROfE0A@public.gmane.org and/or
+mouse-N7zJMUF80UksA/PxXw9srA@public.gmane.org - actually, sending to all three might not be a bad
+idea.
 
-http://linux.die.net/man/3/memalign
-Synopsis
+Of course, if you don't need to write back, that's no issue. :)
 
-#define _XOPEN_SOURCE 600#include <stdlib.h>
-int posix_memalign(void **memptr, size_t alignment, size_t size);
-#include <malloc.h>
-void *valloc(size_t size);void *memalign(size_t boundary, size_t size);
-
-
-See the #include is not on its own line after "XOPEN_SOURCE 600".
-Likewise memalign should be on its own line.
-
-Thank you for taking a look, Jon
+/~\ The ASCII				  Mouse
+\ / Ribbon Campaign
+ X  Against HTML		mouse-NcIlfYlhY41Ekk/fuQG8RGD2FQJk+8+b@public.gmane.org
+/ \ Email!	     7D C8 61 52 5D E7 2D 39  4E F1 31 3E E8 B3 27 4B
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
