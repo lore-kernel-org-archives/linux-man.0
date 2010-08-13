@@ -1,37 +1,25 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: incorrect clock_nanosleep.2
-Date: Thu, 12 Aug 2010 09:59:39 +0400
-Message-ID: <20100812095939.13c8ab26@keeper.home.local>
+From: Moureen Ahmed <elef-/5coHaFx8LM@public.gmane.org>
+Subject: Hello,
+Date: Fri, 13 Aug 2010 14:44:13 +0300 (EEST)
+Message-ID: <77080762.30388.1281699853847.JavaMail.root__24654.6679911718$1281699875$gmane$org@mail.hcg.gr>
+Reply-To: Moureen Ahmed <moureen01ahmed-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-7
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
-
-Next two paragraph is contradict.
-
-If the call is interrupted by a signal handler, clock_nanosleep() returns
--1, and sets errno to EINTR.
-
-And below:
-RETURN VALUE
-       On successfully sleeping for the requested interval,
-       clock_nanosleep() returns 0.  If the call is interrupted by a
-       signal handler or encounters an error, then it returns a positive
-       error number.
-
-So, return value is positive or -1 ?
 
 
--- 
-Best Regards,
-Yuri Kozlov
+Hello,
 
+My name is Moureen Ahmed a young girl from Ivorie.
+I got your contact email while making some research for reliable foreigner on the Internet (Remember the distance or colour does not matter but our good heart and sincerity matters allot in life ) i will be waiting to
+hear from you so that i will tell you more about my self and send my picture to you.I wish you all the best for your day.Always stay blessed from my deepest heart.
+
+Yours respectfully,
+Miss Moureen.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
