@@ -1,25 +1,71 @@
-From: Moureen Ahmed <elef-/5coHaFx8LM@public.gmane.org>
-Subject: Hello,
-Date: Fri, 13 Aug 2010 14:44:13 +0300 (EEST)
-Message-ID: <77080762.30388.1281699853847.JavaMail.root__24654.6679911718$1281699875$gmane$org@mail.hcg.gr>
-Reply-To: Moureen Ahmed <moureen01ahmed-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: small improvement for epoll_ctl.2
+Date: Sat, 14 Aug 2010 09:53:15 +0400
+Message-ID: <20100814095315.0b88bf18@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="MP_/b1g3lnAi=f2D8k0xBXfv4Re"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+--MP_/b1g3lnAi=f2D8k0xBXfv4Re
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+Hello.
+--- man-pages-git/man2/epoll_ctl.2      2010-03-26 17:46:41.000000000 +0300
++++ /tmp/epoll_ctl.2    2010-08-14 09:51:09.000000000 +0400
+@@ -81,12 +81,12 @@
+ typedef union epoll_data {
+     void        *ptr;
+     int          fd;
+-    __uint32_t   u32;
+-    __uint64_t   u64;
++    uint32_t   u32;
++    uint64_t   u64;
+ } epoll_data_t;
+ 
+ struct epoll_event {
+-    __uint32_t   events;      /* Epoll events */
++    uint32_t   events;      /* Epoll events */
+     epoll_data_t data;        /* User data variable */
+ };
+ .fi
 
 
-Hello,
+-- 
+Best Regards,
+Yuri Kozlov
 
-My name is Moureen Ahmed a young girl from Ivorie.
-I got your contact email while making some research for reliable foreigner on the Internet (Remember the distance or colour does not matter but our good heart and sincerity matters allot in life ) i will be waiting to
-hear from you so that i will tell you more about my self and send my picture to you.I wish you all the best for your day.Always stay blessed from my deepest heart.
 
-Yours respectfully,
-Miss Moureen.
+--MP_/b1g3lnAi=f2D8k0xBXfv4Re
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=epoll_ctl.2.patch
+
+--- man-pages-git/man2/epoll_ctl.2	2010-03-26 17:46:41.000000000 +0300
++++ /tmp/epoll_ctl.2	2010-08-14 09:51:09.000000000 +0400
+@@ -81,12 +81,12 @@
+ typedef union epoll_data {
+     void        *ptr;
+     int          fd;
+-    __uint32_t   u32;
+-    __uint64_t   u64;
++    uint32_t   u32;
++    uint64_t   u64;
+ } epoll_data_t;
+ 
+ struct epoll_event {
+-    __uint32_t   events;      /* Epoll events */
++    uint32_t   events;      /* Epoll events */
+     epoll_data_t data;        /* User data variable */
+ };
+ .fi
+
+--MP_/b1g3lnAi=f2D8k0xBXfv4Re--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
