@@ -1,30 +1,26 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15446] sysctl(2) can return EACCES without sufficient
- permissions
-Date: Tue, 17 Aug 2010 06:58:00 GMT
-Message-ID: <201008170658.o7H6w0nM027805@demeter.kernel.org>
-References: <bug-15446-11311@https.bugzilla.kernel.org/>
+From: "TAN Yee Fan" <tanyeefa-re5r+meJ/dN84TsAtUCrkA@public.gmane.org>
+Subject: Typo in CTIME(3) man page
+Date: Wed, 18 Aug 2010 21:38:19 +0800 (SGT)
+Message-ID: <50607.137.132.84.138.1282138699.squirrel@mysoc.nus.edu.sg>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15446-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15446
+Hi,
 
+In the CTIME(3) man page at:
+http://www.kernel.org/doc/man-pages/online/pages/man3/ctime.3.html
 
+I think "broken-time" in the localtime() function description most
+probably should be "broken-down time".
 
-
-
---- Comment #1 from Garrett Cooper <yaneurabeya-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>  2010-08-17 06:57:57 ---
-Would someone please look into patching the manpage for this requirement?
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Regards,
+Yee Fan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
