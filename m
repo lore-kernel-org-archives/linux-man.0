@@ -1,7 +1,7 @@
 From: Alexander Shishkin <virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org>
-Subject: [PATCH] README: add mailing list info
-Date: Fri, 20 Aug 2010 15:38:33 +0300
-Message-ID: <1282307913-29019-1-git-send-email-virtuoso@slind.org>
+Subject: [PATCH 1/2] eventfd.2: fix a typo
+Date: Fri, 20 Aug 2010 15:30:42 +0300
+Message-ID: <1282307443-28511-1-git-send-email-virtuoso@slind.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -10,19 +10,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Alexander Shishkin <virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org>
 ---
- README |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+ man2/eventfd.2 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/README b/README
-index 3f06a5e..da07857 100644
---- a/README
-+++ b/README
-@@ -29,3 +29,5 @@ All pages are freely distributable when the nroff source is included.
- 
- If you have corrections and additions to suggest, see
- http://www.kernel.org/doc/man-pages/
-+
-+The mailing list address is linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+diff --git a/man2/eventfd.2 b/man2/eventfd.2
+index 88ca50d..2071e48 100644
+--- a/man2/eventfd.2
++++ b/man2/eventfd.2
+@@ -44,7 +44,7 @@ to change the behaviour of
+ .B EFD_NONBLOCK
+ Set the
+ .BR O_NONBLOCK
+-file status flag on the new open file description.
++file status flag on the new open file descriptor.
+ Using this flag saves extra calls to
+ .BR fcntl (2)
+ to achieve the same result.
 -- 
 1.7.2.1.45.gb66c2
 
