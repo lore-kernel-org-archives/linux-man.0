@@ -1,58 +1,27 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small improvement for futex.2
-Date: Sun, 22 Aug 2010 18:40:47 +0400
-Message-ID: <20100822184047.7d233455@keeper.home.local>
+From: "Sutin, Brian M            HS" <Brian.Sutin-ErF4HNK4sl3QT0dZR+AlfA@public.gmane.org>
+Subject: write(2) man page missing error code
+Date: Thu, 26 Aug 2010 16:30:58 -0400
+Message-ID: <E2C0377E93FA8B4194658987E40226F001073EDC@UUSMNEL1.na.utcmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/JoRry3p4+8O.f+fLacHtx_s"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-class: urn:content-classes:message
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/JoRry3p4+8O.f+fLacHtx_s
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Manpages-dev 3.23-1
+Linux 2.6.32-24
+Ubuntu Lucid
 
-Hello.
-futex.2 describe syscall with 6 arguments.
+I am getting the error code EDESTADDRREQ from a write() to a udp port.  It isn't mentioned in the man page as a possibility.
 
---- man-pages-git/man2/futex.2  2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/futex.2        2010-08-22 18:39:05.000000000 +0400
-@@ -239,7 +239,7 @@
- Initial futex support was merged in Linux 2.5.7 but with different semantics
- from what was described above.
- A 4-argument system call with the semantics
--given here was introduced in Linux 2.5.40.
-+was introduced in Linux 2.5.40.
- In Linux 2.5.70 one argument
- was added.
- In Linux 2.6.7 a sixth argument was added \(em messy, especially
+--
+Brian M. Sutin, Ph.D.  Hamilton Sundstrand Space Systems International
+2771 North Garey Avenue, Pomona, CA 91767       (909) 593 - 3581 x4793
 
--- 
-Best Regards,
-Yuri Kozlov
-
-
---MP_/JoRry3p4+8O.f+fLacHtx_s
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=futex.2.patch
-
---- man-pages-git/man2/futex.2	2010-07-17 09:02:09.000000000 +0400
-+++ /tmp/futex.2	2010-08-22 18:39:05.000000000 +0400
-@@ -239,7 +239,7 @@
- Initial futex support was merged in Linux 2.5.7 but with different semantics
- from what was described above.
- A 4-argument system call with the semantics
--given here was introduced in Linux 2.5.40.
-+was introduced in Linux 2.5.40.
- In Linux 2.5.70 one argument
- was added.
- In Linux 2.6.7 a sixth argument was added \(em messy, especially
-
---MP_/JoRry3p4+8O.f+fLacHtx_s--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
