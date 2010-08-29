@@ -1,94 +1,80 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] send.2, recv.2: Fixed type of msg_controllen in struct msghdr
-Date: Sun, 29 Aug 2010 08:30:43 +0200
-Message-ID: <AANLkTi=9xfA2UFUj_M-3FiGTgJqO7QSfRnuXC+7nzgar@mail.gmail.com>
-References: <20100818181346.7dee6951@Semtex>
+Subject: Re: strncpy, strcat and memalign
+Date: Sun, 29 Aug 2010 09:08:52 +0200
+Message-ID: <AANLkTinYg=ke4ju2L+6aqGQNEvzB4JuomfFUrV9sRKkG@mail.gmail.com>
+References: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100818181346.7dee6951@Semtex>
+In-Reply-To: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nicholas Hunt <nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org>
+To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Nicholas,
+Hello Jon,
 
-On Thu, Aug 19, 2010 at 3:13 AM, Nicholas Hunt <nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org=
-> wrote:
-> Hello,
+On Sun, Aug 1, 2010 at 2:10 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
+> Hello
 >
-> This patch fixes the type of msg_controllen in the struct msghdr
-> definition given in send.2 and recv.2 to match the definition in glib=
-c
-> and the kernel. Applies cleanly to the current head of git (sha hash:
-> 55d56b71...).
+> I think these two man pages could be adjusted to use a consistent name
+> for "nul" terminators, that is '\0' in a const char * string.
+> http://linux.die.net/man/3/strncpy
 
-This was already a know issue, see
-http://sourceware.org/bugzilla/show_bug.cgi?id=3D2448
-See also the NOTES on each page.
+The HTML-rendered man pages at linux.die.net are created by someone
+unknown to me. They are also years out of date.
 
-However, your patch is probably still a good idea. I applied it for
-man-pages 2.26.
+For up-to-date HTML renderings, produced by me, see
+http://www.kernel.org/doc/man-pages/online_pages.html
 
-Thanks,
+> this one consistently uses '\0'
+> http://linux.die.net/man/3/strcat
+>
+> strncpy talks about '\0', "null-terminating", and "null byte"
+>
+> IMHO "NUL" is the correct name to use, which is different again (N.B.
+> single L), compared to NULL (#define NULL (void*)0
+
+(Take a look at up-to-date pages.)
+
+I tend to avoid NUL, simply because it is so easy to visually confuse
+with "NULL".
+
+Other than that, I think the pages pretty consistently use '\0',
+"terminating null byte", and "null-terminated string". I think this is
+okay.
+
+> Also this page seems to have lost formatting, this may only be the web
+> page generation though.
+>
+>
+> http://linux.die.net/man/3/memalign
+> Synopsis
+>
+> #define _XOPEN_SOURCE 600#include <stdlib.h>
+> int posix_memalign(void **memptr, size_t alignment, size_t size);
+> #include <malloc.h>
+> void *valloc(size_t size);void *memalign(size_t boundary, size_t size);
+>
+>
+> See the #include is not on its own line after "XOPEN_SOURCE 600".
+> Likewise memalign should be on its own line.
+
+See comments above about the die.net pages.
+
+Cheers,
 
 Michael
 
 
 
-> -Nick
->
-> diff --git a/man2/recv.2 b/man2/recv.2
-> index 9431b5c..d5eaf33 100644
-> --- a/man2/recv.2
-> +++ b/man2/recv.2
-> @@ -304,7 +304,7 @@ struct msghdr {
-> =A0 =A0 struct iovec *msg_iov; =A0 =A0 =A0 =A0/* scatter/gather array=
- */
-> =A0 =A0 size_t =A0 =A0 =A0 =A0msg_iovlen; =A0 =A0 /* # elements in ms=
-g_iov */
-> =A0 =A0 void =A0 =A0 =A0 =A0 *msg_control; =A0 =A0/* ancillary data, =
-see below */
-> - =A0 =A0socklen_t =A0 =A0 msg_controllen; /* ancillary data buffer l=
-en */
-> + =A0 =A0size_t =A0 =A0 =A0 =A0msg_controllen; /* ancillary data buff=
-er len */
-> =A0 =A0 int =A0 =A0 =A0 =A0 =A0 msg_flags; =A0 =A0 =A0/* flags on rec=
-eived message */
-> =A0};
-> =A0.fi
-> diff --git a/man2/send.2 b/man2/send.2
-> index c99b77a..c9e76b0 100644
-> --- a/man2/send.2
-> +++ b/man2/send.2
-> @@ -250,7 +250,7 @@ struct msghdr {
-> =A0 =A0 struct iovec *msg_iov; =A0 =A0 =A0 =A0/* scatter/gather array=
- */
-> =A0 =A0 size_t =A0 =A0 =A0 =A0msg_iovlen; =A0 =A0 /* # elements in ms=
-g_iov */
-> =A0 =A0 void =A0 =A0 =A0 =A0 *msg_control; =A0 =A0/* ancillary data, =
-see below */
-> - =A0 =A0socklen_t =A0 =A0 msg_controllen; /* ancillary data buffer l=
-en */
-> + =A0 =A0size_t =A0 =A0 =A0 =A0msg_controllen; /* ancillary data buff=
-er len */
-> =A0 =A0 int =A0 =A0 =A0 =A0 =A0 msg_flags; =A0 =A0 =A0/* flags on rec=
-eived message */
-> =A0};
-> =A0.fi
->
-> --
-> Computer Science and Engineering, University of Washington
-> E-mail =A0 : nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org
-> PGP Key =A0: http://students.washington.edu/nhunt/cs.asc
+> Thank you for taking a look, Jon
 >
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface" http://blog.man7.org/
