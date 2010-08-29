@@ -1,68 +1,89 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] a64l.3: Fix a function name mixup: s/a64l/l64a/
-Date: Sun, 29 Aug 2010 08:21:17 +0200
-Message-ID: <AANLkTi==ZU3t9xD+2nQ_gT33dcpS-Y7yDfiyueNkV_08@mail.gmail.com>
-References: <4C2DAB4B.4080200@cn.fujitsu.com>
+Subject: Re: [patch] send.2, recv.2: Fixed type of msg_controllen in struct msghdr
+Date: Sun, 29 Aug 2010 08:30:43 +0200
+Message-ID: <AANLkTi=9xfA2UFUj_M-3FiGTgJqO7QSfRnuXC+7nzgar@mail.gmail.com>
+References: <20100818181346.7dee6951@Semtex>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C2DAB4B.4080200-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20100818181346.7dee6951@Semtex>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Nicholas Hunt <nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao
+Hello Nicholas,
 
-On Fri, Jul 2, 2010 at 11:03 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wr=
-ote:
-> Hi Michael,
+On Thu, Aug 19, 2010 at 3:13 AM, Nicholas Hunt <nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org=
+> wrote:
+> Hello,
 >
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> This patch fixes the type of msg_controllen in the struct msghdr
+> definition given in send.2 and recv.2 to match the definition in glib=
+c
+> and the kernel. Applies cleanly to the current head of git (sha hash:
+> 55d56b71...).
 
-Thanks. Applied for man-pages 2.26.
+This was already a know issue, see
+http://sourceware.org/bugzilla/show_bug.cgi?id=3D2448
+See also the NOTES on each page.
 
-Cheers,
+However, your patch is probably still a good idea. I applied it for
+man-pages 2.26.
+
+Thanks,
 
 Michael
 
 
-> ---
-> =A0man3/a64l.3 | =A0 =A04 ++--
-> =A01 files changed, 2 insertions(+), 2 deletions(-)
+
+> -Nick
 >
-> diff --git a/man3/a64l.3 b/man3/a64l.3
-> index dbcb897..f0d7d64 100644
-> --- a/man3/a64l.3
-> +++ b/man3/a64l.3
-> @@ -3,7 +3,7 @@
-> =A0.\"
-> =A0.\" Corrected, aeb, 2002-05-30
-> =A0.\"
-> -.TH A64L 3 2007-07-26 "" "Linux Programmer's Manual"
-> +.TH A64L 3 2010-07-02 "" "Linux Programmer's Manual"
-> =A0.SH NAME
-> =A0a64l, l64a \- convert between long and base-64
-> =A0.SH SYNOPSIS
-> @@ -54,7 +54,7 @@ So 123 =3D 59*64^0 + 1*64^1 =3D "v/".
-> =A0POSIX.1-2001.
-> =A0.SH NOTES
-> =A0The value returned by
-> -.BR a64l ()
-> +.BR l64a ()
-> =A0may be a pointer to a static buffer, possibly overwritten
-> =A0by later calls.
-> =A0.LP
+> diff --git a/man2/recv.2 b/man2/recv.2
+> index 9431b5c..d5eaf33 100644
+> --- a/man2/recv.2
+> +++ b/man2/recv.2
+> @@ -304,7 +304,7 @@ struct msghdr {
+> =A0 =A0 struct iovec *msg_iov; =A0 =A0 =A0 =A0/* scatter/gather array=
+ */
+> =A0 =A0 size_t =A0 =A0 =A0 =A0msg_iovlen; =A0 =A0 /* # elements in ms=
+g_iov */
+> =A0 =A0 void =A0 =A0 =A0 =A0 *msg_control; =A0 =A0/* ancillary data, =
+see below */
+> - =A0 =A0socklen_t =A0 =A0 msg_controllen; /* ancillary data buffer l=
+en */
+> + =A0 =A0size_t =A0 =A0 =A0 =A0msg_controllen; /* ancillary data buff=
+er len */
+> =A0 =A0 int =A0 =A0 =A0 =A0 =A0 msg_flags; =A0 =A0 =A0/* flags on rec=
+eived message */
+> =A0};
+> =A0.fi
+> diff --git a/man2/send.2 b/man2/send.2
+> index c99b77a..c9e76b0 100644
+> --- a/man2/send.2
+> +++ b/man2/send.2
+> @@ -250,7 +250,7 @@ struct msghdr {
+> =A0 =A0 struct iovec *msg_iov; =A0 =A0 =A0 =A0/* scatter/gather array=
+ */
+> =A0 =A0 size_t =A0 =A0 =A0 =A0msg_iovlen; =A0 =A0 /* # elements in ms=
+g_iov */
+> =A0 =A0 void =A0 =A0 =A0 =A0 *msg_control; =A0 =A0/* ancillary data, =
+see below */
+> - =A0 =A0socklen_t =A0 =A0 msg_controllen; /* ancillary data buffer l=
+en */
+> + =A0 =A0size_t =A0 =A0 =A0 =A0msg_controllen; /* ancillary data buff=
+er len */
+> =A0 =A0 int =A0 =A0 =A0 =A0 =A0 msg_flags; =A0 =A0 =A0/* flags on rec=
+eived message */
+> =A0};
+> =A0.fi
+>
 > --
-> 1.6.0.1
->
->
-> --
-> Regards
-> Peng Haitao
->
+> Computer Science and Engineering, University of Washington
+> E-mail =A0 : nhunt-GmWTxIRN22iJaUV4rX00uodd74u8MsAO@public.gmane.org
+> PGP Key =A0: http://students.washington.edu/nhunt/cs.asc
 >
 
 
