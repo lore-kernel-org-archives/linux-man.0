@@ -1,59 +1,49 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] README: add mailing list info
-Date: Sun, 29 Aug 2010 07:40:56 +0200
-Message-ID: <AANLkTi=EtK5Spo9yPV-RHXciT71DqoJbCwkwCizKBQdQ@mail.gmail.com>
-References: <1282307913-29019-1-git-send-email-virtuoso@slind.org>
+Subject: Re: sem_overview(7)
+Date: Sun, 29 Aug 2010 07:51:29 +0200
+Message-ID: <AANLkTinaJnZSV37a9ma5=ffUSmYbXYW__Ep3c52pgRS8@mail.gmail.com>
+References: <AANLkTim8ci2eGeHuijipUWNrl3jVcAX40djPClk1Jc3j@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1282307913-29019-1-git-send-email-virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org>
+In-Reply-To: <AANLkTim8ci2eGeHuijipUWNrl3jVcAX40djPClk1Jc3j-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Shishkin <virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org>
+To: Peter Bailey <peter.eldridge.bailey-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Alexander,
+Hi Peter,
 
-On Fri, Aug 20, 2010 at 2:38 PM, Alexander Shishkin <virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org=
-> wrote:
-> Signed-off-by: Alexander Shishkin <virtuoso-0lOfPCoBze7YtjvyW6yDsg@public.gmane.org>
-> ---
-> =A0README | =A0 =A02 ++
-> =A01 files changed, 2 insertions(+), 0 deletions(-)
->
-> diff --git a/README b/README
-> index 3f06a5e..da07857 100644
-> --- a/README
-> +++ b/README
-> @@ -29,3 +29,5 @@ All pages are freely distributable when the nroff s=
-ource is included.
->
-> =A0If you have corrections and additions to suggest, see
-> =A0http://www.kernel.org/doc/man-pages/
-> +
-> +The mailing list address is linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
-> --
-> 1.7.2.1.45.gb66c2
+On Wed, Jul 14, 2010 at 7:36 PM, Peter Bailey
+<peter.eldridge.bailey-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> I believe I have found a typo in sem_overview(7):
+> "e.g., a System V shared memory segment created using=A0semget(2)"
+> should be
+> "e.g., a System V shared memory segment created using=A0shmget(2)"
 
-I won't make this change. The reason is that I want people to look at
-the website to see how the mailing list is used. Having said that, I
-could make the README more precise, and I did make this change:
+Thanks for the report. This error was independently reported and fixed
+a couple of months ago.
 
---- a/README
-+++ b/README
-@@ -28,4 +28,4 @@ Copyrights: These man pages come under various copyri=
-ghts.
- All pages are freely distributable when the nroff source is included.
-
- If you have corrections and additions to suggest, see
--http://www.kernel.org/doc/man-pages/
-+http://www.kernel.org/doc/man-pages/contributing.html
-
-Thanks,
+Cheers,
 
 Michael
+
+
+> Thanks,
+> =A0- Peter Bailey
+> --
+> Peter Bailey
+> Software Engineer
+> Steward Observatory
+> University of Arizona
+> 933 N Cherry Ave
+> Tucson, Arizona 85719
+> Phone: (651) 538-0340
+>
+
+
 
 --=20
 Michael Kerrisk
