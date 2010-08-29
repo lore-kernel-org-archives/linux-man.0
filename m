@@ -1,83 +1,42 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: strncpy, strcat and memalign
-Date: Sun, 29 Aug 2010 09:08:52 +0200
-Message-ID: <AANLkTinYg=ke4ju2L+6aqGQNEvzB4JuomfFUrV9sRKkG@mail.gmail.com>
-References: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Doubts with sysfs(2)
+Date: Sun, 29 Aug 2010 11:25:34 +0200
+Message-ID: <AANLkTi=kh3Tnuh+QZxsa8JpAv-RJ8mC9bYUe8cga-sux@mail.gmail.com>
+References: <1277635872.25713.4.camel@cowboy>
+	<AANLkTilFc81wcLlG_ELqjDb8xz1RZC_Y3Okh5ncCrOxH@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTilFc81wcLlG_ELqjDb8xz1RZC_Y3Okh5ncCrOxH-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Jon,
+On 2010/6/27 Michael Kerrisk wrote:
+[...]
+> --- a/man2/sysfs.2
+> +++ b/man2/sysfs.2
+> @@ -90,12 +90,12 @@ is invalid.
+> =C2=A0.SH "CONFORMING TO"
+> =C2=A0SVr4.
+> =C2=A0.SH NOTES
+> -On Linux with the
+> -.I proc
+> -file system mounted on
+> +This System-V derived system call is obsolete; don't use it.
+> +On systems with
+> =C2=A0.IR /proc ,
+> -the same information can be derived from
+> -.IR /proc/filesystems .
+> +the the same information can be obtained via
 
-On Sun, Aug 1, 2010 at 2:10 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> Hello
->
-> I think these two man pages could be adjusted to use a consistent name
-> for "nul" terminators, that is '\0' in a const char * string.
-> http://linux.die.net/man/3/strncpy
+Hello Michael,
 
-The HTML-rendered man pages at linux.die.net are created by someone
-unknown to me. They are also years out of date.
+There is an extra 'the' just above, found in commit d1d721be.
 
-For up-to-date HTML renderings, produced by me, see
-http://www.kernel.org/doc/man-pages/online_pages.html
-
-> this one consistently uses '\0'
-> http://linux.die.net/man/3/strcat
->
-> strncpy talks about '\0', "null-terminating", and "null byte"
->
-> IMHO "NUL" is the correct name to use, which is different again (N.B.
-> single L), compared to NULL (#define NULL (void*)0
-
-(Take a look at up-to-date pages.)
-
-I tend to avoid NUL, simply because it is so easy to visually confuse
-with "NULL".
-
-Other than that, I think the pages pretty consistently use '\0',
-"terminating null byte", and "null-terminated string". I think this is
-okay.
-
-> Also this page seems to have lost formatting, this may only be the web
-> page generation though.
->
->
-> http://linux.die.net/man/3/memalign
-> Synopsis
->
-> #define _XOPEN_SOURCE 600#include <stdlib.h>
-> int posix_memalign(void **memptr, size_t alignment, size_t size);
-> #include <malloc.h>
-> void *valloc(size_t size);void *memalign(size_t boundary, size_t size);
->
->
-> See the #include is not on its own line after "XOPEN_SOURCE 600".
-> Likewise memalign should be on its own line.
-
-See comments above about the die.net pages.
-
-Cheers,
-
-Michael
-
-
-
-> Thank you for taking a look, Jon
->
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+Denis
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
