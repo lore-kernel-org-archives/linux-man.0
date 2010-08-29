@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: SO_NO_CHECK socket option
-Date: Sun, 29 Aug 2010 15:39:34 +0200
-Message-ID: <AANLkTikadQTx+bNVx1uF8SvjwTvSKVWDRsyp4LWnJNxE@mail.gmail.com>
+Date: Sun, 29 Aug 2010 15:42:34 +0200
+Message-ID: <AANLkTinO+EwgAOAG0vHAapCU4fc_3OQwWxJG0F+z-Q35@mail.gmail.com>
 References: <20100820174917.GA18018@sig21.net>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
@@ -12,6 +12,8 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
+
+[Hit send to soon on the last reply...]
 
 Hello Johannes,
 
@@ -28,10 +30,19 @@ On Fri, Aug 20, 2010 at 7:49 PM, Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@
 In the source of the socket.7 man page, there is a comment:
 
 [[
+.\" don't document it because it can do too much harm.
+.\".B SO_NO_CHECK
 
 ]]
+
 One of the coauthors of this page was Andi Kleen, and I suspect he
-wrote the comment
+wrote the comment. Given that Andi knows far more about the socket
+stack than I, I am reluctant to make any change. But perhaps Andi can
+comment further.
+
+Thanks,
+
+Michael
 
 
 -- 
