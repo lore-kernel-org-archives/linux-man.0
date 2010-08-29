@@ -1,59 +1,43 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Doubts with sysfs(2)
-Date: Sun, 29 Aug 2010 14:39:33 +0200
-Message-ID: <AANLkTik0D7AummdRGF0d8VWtfXffWd5ZFUOpfwTvLGUb@mail.gmail.com>
-References: <1277635872.25713.4.camel@cowboy> <AANLkTilFc81wcLlG_ELqjDb8xz1RZC_Y3Okh5ncCrOxH@mail.gmail.com>
- <AANLkTi=kh3Tnuh+QZxsa8JpAv-RJ8mC9bYUe8cga-sux@mail.gmail.com>
+Subject: Re: SO_NO_CHECK socket option
+Date: Sun, 29 Aug 2010 15:39:34 +0200
+Message-ID: <AANLkTikadQTx+bNVx1uF8SvjwTvSKVWDRsyp4LWnJNxE@mail.gmail.com>
+References: <20100820174917.GA18018@sig21.net>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=kh3Tnuh+QZxsa8JpAv-RJ8mC9bYUe8cga-sux-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20100820174917.GA18018-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Denis,
+Hello Johannes,
 
-On Sun, Aug 29, 2010 at 11:25 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
-e:
-> On 2010/6/27 Michael Kerrisk wrote:
-> [...]
->> --- a/man2/sysfs.2
->> +++ b/man2/sysfs.2
->> @@ -90,12 +90,12 @@ is invalid.
->> =A0.SH "CONFORMING TO"
->> =A0SVr4.
->> =A0.SH NOTES
->> -On Linux with the
->> -.I proc
->> -file system mounted on
->> +This System-V derived system call is obsolete; don't use it.
->> +On systems with
->> =A0.IR /proc ,
->> -the same information can be derived from
->> -.IR /proc/filesystems .
->> +the the same information can be obtained via
+On Fri, Aug 20, 2010 at 7:49 PM, Johannes Stezenbach <js-FF7aIK3TAVNeoWH0uzbU5w@public.gmane.org> wrote:
+> Hi,
 >
-> Hello Michael,
+> according to RFC 768 the UDP checksum is optional, and
+> indeed the kernel has support for the SO_NO_CHECK socket
+> option (boolean: 0 == default, calculate checksum on xmit,
+> 1 == do not calculate checksum on xmit).
 >
-> There is an extra 'the' just above, found in commit d1d721be.
->
-> Denis
+> Maybe you would like to add this to socket(7).
 
-Thanks. Fixed.
+In the source of the socket.7 man page, there is a comment:
 
-Cheers,
+[[
 
-Michael
+]]
+One of the coauthors of this page was Andi Kleen, and I suspect he
+wrote the comment
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface" http://blog.man7.org/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
