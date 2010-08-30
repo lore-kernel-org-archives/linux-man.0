@@ -1,28 +1,31 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15883] downloaded ubuntu updates now cannot start ubuntu
-Date: Mon, 30 Aug 2010 14:28:08 GMT
-Message-ID: <201008301428.o7UES8vZ016706@demeter1.kernel.org>
-References: <bug-15883-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 10356] [PATCH]glibc 2.7 notes for eventfd(2)
+Date: Mon, 30 Aug 2010 14:30:17 GMT
+Message-ID: <201008301430.o7UEUH0f017230@demeter1.kernel.org>
+References: <bug-10356-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15883-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-10356-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15883
+https://bugzilla.kernel.org/show_bug.cgi?id=10356
 
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|                            |INVALID
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
 
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-08-30 14:30:11 ---
+Sam, I don't think that counts as "Working support is provided in glibc", so I
+think adding the text you propose would just be confusing.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
