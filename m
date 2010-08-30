@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 12919] posix_fallocate: what if len == 0?
-Date: Mon, 30 Aug 2010 14:31:02 GMT
-Message-ID: <201008301431.o7UEV2l0017453@demeter1.kernel.org>
+Date: Mon, 30 Aug 2010 14:31:12 GMT
+Message-ID: <201008301431.o7UEVC2U017517@demeter1.kernel.org>
 References: <bug-12919-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,8 +18,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-         Regression|---                         |No
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
