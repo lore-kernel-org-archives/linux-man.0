@@ -1,32 +1,37 @@
-From: Peter Stuge <peter-Y+HMSxxDrH8@public.gmane.org>
-Subject: mq_send(3) copypaste error
-Date: Mon, 30 Aug 2010 21:34:21 +0200
-Message-ID: <20100830193421.28262.qmail@stuge.se>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 10356] [PATCH]glibc 2.7 notes for eventfd(2)
+Date: Mon, 30 Aug 2010 21:51:11 GMT
+Message-ID: <201008302151.o7ULpBvb021768@demeter1.kernel.org>
+References: <bug-10356-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <bug-10356-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello, both mq_send(3) and mq_receive(3) in 3.25 read as follows:
-
---8<--
-ERRORS
-       EAGAIN The queue was empty, and the O_NONBLOCK flag  was  set  for  the
-              message queue description referred to by mqdes.
--->8--
-
-This is only accurate for mq_receive(). For mq_send() I think
-
-s/empty/full/
-
-would be in place. Thanks!
+https://bugzilla.kernel.org/show_bug.cgi?id=10356
 
 
-//Peter
+Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|                            |INVALID
+
+
+
+
+--- Comment #2 from Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>  2010-08-30 21:50:20 ---
+Ok. Most distros have already caught up to a fully supported glibc/kernel
+combination, so this is not really as important, any more...
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
