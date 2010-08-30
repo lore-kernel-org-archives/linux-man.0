@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 13569] Examples in some pages make invalid use of the assert
  macro
-Date: Mon, 30 Aug 2010 14:32:40 GMT
-Message-ID: <201008301432.o7UEWeCp017748@demeter1.kernel.org>
+Date: Mon, 30 Aug 2010 14:35:32 GMT
+Message-ID: <201008301435.o7UEZWOs018421@demeter1.kernel.org>
 References: <bug-13569-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -19,7 +19,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
