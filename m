@@ -1,49 +1,46 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14001] eventfd manpage missing EFD_SEMAPHORE flag
-Date: Mon, 30 Aug 2010 05:29:54 GMT
-Message-ID: <201008300529.o7U5TsgG013372@demeter1.kernel.org>
-References: <bug-14001-11311@https.bugzilla.kernel.org/>
+From: Jon <jg-hus3n9K41k0@public.gmane.org>
+Subject: Re: strncpy, strcat and memalign
+Date: Mon, 30 Aug 2010 11:45:03 +0100
+Message-ID: <4C7B8BAF.9040605@jguk.org>
+References: <AANLkTimhujBTS5G_Q3BoFrVe1DKXsftrN14eMC5BD+di@mail.gmail.com> <AANLkTinYg=ke4ju2L+6aqGQNEvzB4JuomfFUrV9sRKkG@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14001-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <AANLkTinYg=ke4ju2L+6aqGQNEvzB4JuomfFUrV9sRKkG-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=14001
+Hello Michael,
 
+Thanks for your reply.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Michael Kerrisk wrote, On 29/08/10 08:08:
+[.]
+> The HTML-rendered man pages at linux.die.net are created by someone
+> unknown to me. They are also years out of date.
+> 
+> For up-to-date HTML renderings, produced by me, see
+> http://www.kernel.org/doc/man-pages/online_pages.html
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Perfect! These are great. It is a shame those die.net are still 
+comming up first on google "linux man strncpy".
 
+I'll just refer to the your kernel.org link now.
 
+[.]
+> I tend to avoid NUL, simply because it is so easy to visually confuse
+> with "NULL".
+> 
+> Other than that, I think the pages pretty consistently use '\0',
+> "terminating null byte", and "null-terminated string". I think this is
+> okay.
 
+This looks great, very clear in these up to date man pages.
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-08-30 05:29:50 ---
-For man-pages-3.26, I added this text:
-
-       EFD_SEMAPHORE (since Linux 2.6.30)
-              Provide semaphore-like semantics  for  reads  from
-              the new file descriptor.  See below.
-...
-              *  If EFD_SEMAPHORE  was  not  specified  and  the
-                 eventfd  counter  has  a  nonzero value, then a
-                 read(2) returns 8 bytes containing that  value,
-                 and the counter's value is reset to zero.
-
-              *  If  EFD_SEMAPHORE was specified and the eventfd
-                 counter has a nonzero  value,  then  a  read(2)
-                 returns 8 bytes containing the value 1, and the
-                 counter's value is decremented by 1.
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
