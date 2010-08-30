@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 14001] eventfd manpage missing EFD_SEMAPHORE flag
-Date: Mon, 30 Aug 2010 14:24:44 GMT
-Message-ID: <201008301424.o7UEOiSP015841@demeter1.kernel.org>
+Date: Mon, 30 Aug 2010 14:25:17 GMT
+Message-ID: <201008301425.o7UEPHNa016011@demeter1.kernel.org>
 References: <bug-14001-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,7 +18,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
