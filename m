@@ -1,26 +1,24 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 13569] Examples in some pages make invalid use of the assert
- macro
-Date: Mon, 30 Aug 2010 14:35:32 GMT
-Message-ID: <201008301435.o7UEZWOs018421@demeter1.kernel.org>
-References: <bug-13569-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 14449] Ambiguity in SIGSYS <-> SIGUNUSED portion of signal(7)
+Date: Mon, 30 Aug 2010 14:44:10 GMT
+Message-ID: <201008301444.o7UEiAFw020447@demeter1.kernel.org>
+References: <bug-14449-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-13569-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-14449-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=13569
+https://bugzilla.kernel.org/show_bug.cgi?id=14449
 
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|ASSIGNED                    |RESOLVED
-         Resolution|                            |CODE_FIX
+             Status|NEW                         |ASSIGNED
 
 
 
