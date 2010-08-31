@@ -1,50 +1,33 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mq_send(3) copypaste error
-Date: Tue, 31 Aug 2010 06:24:19 +0200
-Message-ID: <AANLkTimx9LKgqpq3dnN07aKiy87-Jw-1=XC8EFkFDaxH@mail.gmail.com>
-References: <20100830193421.28262.qmail@stuge.se>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14449] Ambiguity in SIGSYS <-> SIGUNUSED portion of signal(7)
+Date: Tue, 31 Aug 2010 04:30:13 GMT
+Message-ID: <201008310430.o7V4UD8u029362@demeter1.kernel.org>
+References: <bug-14449-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100830193421.28262.qmail-Y+HMSxxDrH8@public.gmane.org>
+In-Reply-To: <bug-14449-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Stuge <peter-Y+HMSxxDrH8@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Peter,
+https://bugzilla.kernel.org/show_bug.cgi?id=14449
 
-On Mon, Aug 30, 2010 at 9:34 PM, Peter Stuge <peter-Y+HMSxxDrH8@public.gmane.org> wrote:
-> Hello, both mq_send(3) and mq_receive(3) in 3.25 read as follows:
->
-> --8<--
-> ERRORS
-> =A0 =A0 =A0 EAGAIN The queue was empty, and the O_NONBLOCK flag =A0wa=
-s =A0set =A0for =A0the
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0message queue description referred to by m=
-qdes.
-> -->8--
->
-> This is only accurate for mq_receive(). For mq_send() I think
->
-> s/empty/full/
->
-> would be in place. Thanks!
 
-Agreed.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-=46ixed for man-pages-3.26.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
-Thanks,
 
-Michael
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
