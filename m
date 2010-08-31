@@ -1,33 +1,109 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14411] pselect man page Linux notes appear to be out of date
-Date: Tue, 31 Aug 2010 05:02:59 GMT
-Message-ID: <201008310502.o7V52x39002849@demeter1.kernel.org>
-References: <bug-14411-11311@https.bugzilla.kernel.org/>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: About thread-safety information in library functions' man-pages
+Date: Tue, 31 Aug 2010 14:18:14 +0800
+Message-ID: <4C7C9EA6.90609@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed;
+ boundary="------------090402090107050307000100"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14411-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: pasky-AlSwsSmVLrQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=14411
+This is a multi-part message in MIME format.
+--------------090402090107050307000100
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Michael and all,
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+When doing multithreaded programming, it is necessary to know the thread-safety
+levels of the library functions. However, there is little thread-safety
+information in current man-pages. And the lack of information often makes us
+confused when programming in multithreaded environment.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|ASSIGNED                    |RESOLVED
-         Resolution|                            |CODE_FIX
+If we could add information about functions' thread-safety levels based on
+POSIX standard into man-pages, just like man-pages in Solaris, it will be
+more helpful to programmers who are doing multithreaded programming with GLIBC. 
 
+For function whose thread-safety level is clear, I have made several patches
+which contain detailed descriptions of the thread-safety levels. The attached
+patches can be as samples. If necessary, I will gradually make more patches
+to enhance thread-safety information in man-pages. So what do you think?
 
-
+I am looking forward to your feedback soon!
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Best Regards,
+Peng Haitao
+
+--------------090402090107050307000100
+Content-Type: text/plain;
+ name="0002-hsearch.3-Add-description-of-the-functions-are-not.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*0="0002-hsearch.3-Add-description-of-the-functions-are-not.patc";
+ filename*1="h"
+
+RnJvbSA0NDYzNjYyZWYyZDljOTQ4MDNkY2RiZTMyOTBhZDE5NjlhMDc0MzliIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3Uu
+Y29tPgpEYXRlOiBUdWUsIDMxIEF1ZyAyMDEwIDE0OjEzOjM3ICswODAwClN1YmplY3Q6IFtQ
+QVRDSF0gaHNlYXJjaC4zOiBBZGQgZGVzY3JpcHRpb24gb2YgdGhlIGZ1bmN0aW9ucyBhcmUg
+bm90IHRocmVhZC1zYWZlCgpUaGUgdGhyZWUgZnVuY3Rpb25zIGhjcmVhdGUoKSwgaGRlc3Ry
+b3koKSBhbmQgaHNlYXJjaCgpIHVzZSBhIGdsb2JhbCBzcGFjZQpmb3Igc3RvcmluZyB0aGUg
+dGFibGUsIHNvIHRoZXkgYXJlIG5vdCB0aHJlYWQtc2FmZS4KClNpZ25lZC1vZmYtYnk6IFBl
+bmcgSGFpdGFvIDxwZW5naHRAY24uZnVqaXRzdS5jb20+Ci0tLQogbWFuMy9oc2VhcmNoLjMg
+fCAgICA5ICsrKysrKysrLQogMSBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDEg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuMy9oc2VhcmNoLjMgYi9tYW4zL2hzZWFy
+Y2guMwppbmRleCBiMzkyYjU1Li5mOTAyYWFlIDEwMDY0NAotLS0gYS9tYW4zL2hzZWFyY2gu
+MworKysgYi9tYW4zL2hzZWFyY2guMwpAQCAtMzIsNyArMzIsNyBAQAogLlwiIDIwMDgtMDkt
+MDMsIG10aywgcmVzdHJ1Y3R1cmVkIHNvbWV3aGF0LCBpbiBwYXJ0IGFmdGVyIHN1Z2dlc3Rp
+b25zIGZyb20KIC5cIiAgICAgVGltb3RoeSBTLiBOZWxzb24gPHdheWxhbmRAd2F5bGFuZC5p
+ZC5hdT4KIC5cIgotLlRIIEhTRUFSQ0ggMyAyMDA4LTEwLTA2ICJHTlUiICJMaW51eCBQcm9n
+cmFtbWVyJ3MgTWFudWFsIgorLlRIIEhTRUFSQ0ggMyAyMDEwLTA4LTMxICJHTlUiICJMaW51
+eCBQcm9ncmFtbWVyJ3MgTWFudWFsIgogLlNIIE5BTUUKIGhjcmVhdGUsIGhkZXN0cm95LCBo
+c2VhcmNoLCBoY3JlYXRlX3IsIGhkZXN0cm95X3IsCiBoc2VhcmNoX3IgXC0gaGFzaCB0YWJs
+ZSBtYW5hZ2VtZW50CkBAIC0yNzAsNiArMjcwLDEzIEBAIHJhdGhlciB0aGFuIGNyZWF0aW5n
+IGEgc2luZ2xlIHRhYmxlIHdob3NlIGxpZmV0aW1lCiBtYXRjaGVzIHRoYXQgb2YgdGhlIHBy
+b2dyYW0pLAogdGhlbiB0aGUgcHJvZ3JhbSBtdXN0IG1haW50YWluIGJvb2trZWVwaW5nIGRh
+dGEgc3RydWN0dXJlcyB0aGF0CiBhbGxvdyBpdCB0byBmcmVlIHRoZW0uCisuUFAKK1RoZSB0
+aHJlZSBmdW5jdGlvbnMKKy5CUiBoY3JlYXRlICgpLAorLkJSIGhzZWFyY2ggKCkKK2FuZAor
+LkJSIGhkZXN0cm95ICgpCit1c2UgYSBnbG9iYWwgc3BhY2UgZm9yIHN0b3JpbmcgdGhlIHRh
+YmxlLCBzbyB0aGV5IGFyZSBub3QgdGhyZWFkLXNhZmUuCiAuU0ggQlVHUwogU1ZyNCBhbmQg
+UE9TSVguMS0yMDAxIHNwZWNpZnkgdGhhdCBcZklhY3Rpb25cZlAKIGlzIHNpZ25pZmljYW50
+IG9ubHkgZm9yIHVuc3VjY2Vzc2Z1bCBzZWFyY2hlcywgc28gdGhhdCBhbiBcZkJFTlRFUlxm
+UAotLSAKMS42LjAuMQoK
+--------------090402090107050307000100
+Content-Type: text/plain;
+ name="0001-a64l.3-Add-description-of-the-function-is-not-threa.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*0="0001-a64l.3-Add-description-of-the-function-is-not-threa.pat";
+ filename*1="ch"
+
+RnJvbSBhNjZhNWI3MjA5ODk3YjkyY2Y2NDc1NWVkZDMxYjljNzdlYjdjMWFhIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3Uu
+Y29tPgpEYXRlOiBUdWUsIDMxIEF1ZyAyMDEwIDE0OjEzOjI4ICswODAwClN1YmplY3Q6IFtQ
+QVRDSF0gYTY0bC4zOiBBZGQgZGVzY3JpcHRpb24gb2YgdGhlIGZ1bmN0aW9uIGlzIG5vdCB0
+aHJlYWQtc2FmZQoKVGhlIGZ1bmN0aW9uIGw2NGEoKSB1c2VzIGEgc3RhdGljIHZhcmlhYmxl
+ICJyZXN1bHQiLCBzbyBpdCBpcyBub3QgdGhyZWFkLXNhZmUuCgpTaWduZWQtb2ZmLWJ5OiBQ
+ZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3UuY29tPgotLS0KIG1hbjMvYTY0bC4zIHwg
+ICAgNiArKysrKy0KIDEgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9ucygtKQoKZGlmZiAtLWdpdCBhL21hbjMvYTY0bC4zIGIvbWFuMy9hNjRsLjMKaW5kZXgg
+MGMxMDY1MS4uYjE0NTUwZCAxMDA2NDQKLS0tIGEvbWFuMy9hNjRsLjMKKysrIGIvbWFuMy9h
+NjRsLjMKQEAgLTMsNyArMyw3IEBACiAuXCIKIC5cIiBDb3JyZWN0ZWQsIGFlYiwgMjAwMi0w
+NS0zMAogLlwiCi0uVEggQTY0TCAzIDIwMTAtMDgtMjkgIiIgIkxpbnV4IFByb2dyYW1tZXIn
+cyBNYW51YWwiCisuVEggQTY0TCAzIDIwMTAtMDgtMzEgIiIgIkxpbnV4IFByb2dyYW1tZXIn
+cyBNYW51YWwiCiAuU0ggTkFNRQogYTY0bCwgbDY0YSBcLSBjb252ZXJ0IGJldHdlZW4gbG9u
+ZyBhbmQgYmFzZS02NAogLlNIIFNZTk9QU0lTCkBAIC03Miw2ICs3MiwxMCBAQCBUaGVzZSBm
+dW5jdGlvbnMgYXJlIGJyb2tlbiBpbiBnbGliYyBiZWZvcmUgMi4yLjUKIC5MUAogVGhpcyBp
+cyBub3QgdGhlIGVuY29kaW5nIHVzZWQgYnkKIC5CUiB1dWVuY29kZSAoMSkuCisuTFAKK1Ro
+ZQorLkJSIGw2NGEgKCkKK2Z1bmN0aW9uIGlzIG5vdCB0aHJlYWQtc2FmZS4KIC5TSCAiU0VF
+IEFMU08iCiAuQlIgdXVlbmNvZGUgKDEpLAogLlwiIC5CUiBpdG9hICgzKSwKLS0gCjEuNi4w
+LjEKCg==
+--------------090402090107050307000100--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
