@@ -1,63 +1,72 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] statfs.2: Fix copy & paste error for __SWORD_TYPE definition
-Date: Sat, 4 Sep 2010 06:45:50 +0200
-Message-ID: <AANLkTikq8Nh=bHHTZL2bL-BbX-Z6+ftBwh_O9hS3B0rL@mail.gmail.com>
-References: <20100903032531.GA16572@gaara.hadrons.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Daniel U. Thibault" <d.u.thibault-rieW9WUcm8FFJ04o6PK0Fg@public.gmane.org>
+Subject: Errors in man git
+Date: Wed, 08 Sep 2010 10:36:53 -0400
+Message-ID: <BLU0-SMTP666507C6D3E37A50B92431BB720@phx.gbl>
+Reply-To: D.U.Thibault-qnhUSoYa74pBDgjK7y7TUQ@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100903032531.GA16572-v62vTE6/wQGgM1MOaoewpti2O/JbrIOy@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, git-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Guillem
 
-On Fri, Sep 3, 2010 at 5:25 AM, Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org> wro=
-te:
-> The statfs structs only make use of __SWORD_TYPE, so the __UWORD_TYPE
-> macro is wrong there.
+     There are no indications in the "man git" pages as to how to repor=
+t=20
+errors, so I'm following the instructions I googled at=20
+http://www.kernel.org/doc/man-pages/reporting_bugs.html (adding=20
+git-u79uwXL29TY76Z2rM5mHXA@public.gmane.org to the mailing list as it seems appropriate).
 
-Thanks. Fixed for man-pages 3.26.
+    The "man git" pages give the syntax (SYNOPSIS) as:
 
-Cheers,
+##########
+git [--version] [--exec-path[=3DGIT_EXEC_PATH]] [--html-path]
+            [-p|--paginate|--no-pager] [--no-replace-objects]
+            [--bare] [--git-dir=3DGIT_DIR] [--work-tree=3DGIT_WORK_TREE=
+]
+            [--help] COMMAND [ARGS]
+##########
 
-Michael
+    Hence "git COMMAND" should work once the appropriate value is=20
+substituted for COMMAND.  The COMMANDs are later documented (GIT=20
+COMMANDS) as long lists of "porcelain" and "plumbing" COMMANDs. =20
+However, *none* of the COMMANDs given actually work.  For instance, one=
+=20
+(porcelain) COMMAND is "git-gui" but typing "git git-gui" in a command=20
+shell results in the message:
 
+##########
+git: 'git-gui' is not a git command. See 'git --help'.
+##########
 
-> Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-> ---
-> =A0man2/statfs.2 | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/man2/statfs.2 b/man2/statfs.2
-> index ea2f085..e0e5988 100644
-> --- a/man2/statfs.2
-> +++ b/man2/statfs.2
-> @@ -46,7 +46,7 @@ structure defined approximately as follows:
-> =A0.in +4n
-> =A0.nf
-> =A0#if __WORDSIZE =3D=3D 32 =A0 =A0 =A0 =A0 =A0 /* System word size *=
-/
-> -# define __UWORD_TYPE =A0 =A0 =A0 =A0 =A0unsigned int
-> +# define __SWORD_TYPE =A0 =A0 =A0 =A0 =A0int
-> =A0#else /* __WORDSIZE =3D=3D 64 */
-> =A0# define __SWORD_TYPE =A0 =A0 =A0 =A0 =A0long int
-> =A0#endif
-> --
-> 1.7.1
->
->
+    The actual COMMAND (documented under "man git-gui") is "gui".
 
+    Now, if the intent of the COMMAND lists is to send the user off to=20
+the other man-pages, that is fine but ought to be clearly indicated by =
+a=20
+preamble of some sort.  Maybe the man pages should read something like:
 
+##########
+GIT COMMANDS
+        We divide git into high level ("porcelain") commands and low le=
+vel
+        ("plumbing") commands.
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+        The actual COMMAND strings are documented under the individual
+        man pages listed in what follows.  For instance, the COMMAND fo=
+r
+        "adding file contents to the index" is given by the git-add man=
+=20
+pages.
+##########
+
+Daniel U. Thibault
+a.k.a. Urhixidur
+a.k.a. Seigneur Boh=E9mond de Nic=E9e
+URL: <http://www.bigfoot.com/~D.U.Thibault>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
