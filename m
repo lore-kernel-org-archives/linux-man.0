@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 17541] man7/*.7: off-by-one errors in some encoding tables
-Date: Thu, 9 Sep 2010 05:39:31 GMT
-Message-ID: <201009090539.o895dVZ7003847@demeter1.kernel.org>
+Date: Thu, 9 Sep 2010 06:03:59 GMT
+Message-ID: <201009090603.o8963x8O006993@demeter1.kernel.org>
 References: <bug-17541-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,15 +14,11 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=17541
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
 
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-09-09 06:03:57 ---
+Applied for man-pages 3.27. Thanks for the patch Denis.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
