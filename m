@@ -1,48 +1,30 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 18132] ipv6(7) describes IP_PKTINFO, but should be
- IP_RECVPKTINFO instead
-Date: Thu, 9 Sep 2010 06:47:51 GMT
-Message-ID: <201009090647.o896lp4C011989@demeter1.kernel.org>
-References: <bug-18132-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 13608] Invalid default in bridge-nf-filter-vlan-tagged
+ description
+Date: Thu, 9 Sep 2010 09:27:22 GMT
+Message-ID: <201009090927.o899RMm1024831@demeter1.kernel.org>
+References: <bug-13608-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-18132-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-13608-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D18132
+https://bugzilla.kernel.org/show_bug.cgi?id=3D13608
 
 
 
 
 
---- Comment #1 from Cameron Kerr <cameron-IvVilBYyKXnB6jxDxCEJHA@public.gmane.org>  2010-09-09 0=
-6:47:45 ---
-RFC3542 explains this newer API, so I guess the bugs section of the ipv=
-6 manual
-page needs to be updated also. Particularly, the "2.2 kernel" makes it =
-seem
-very out-dated; should it say "since the 2.2 kernel"?
+--- Comment #1 from Stephan B=C3=A4rwolf <stephan.baerwolf@tu-ilmenau.d=
+e>  2010-09-09 09:27:18 ---
+Changing the default value causes something nasty, please see
+https://bugzilla.kernel.org/show_bug.cgi?id=3D17912.
 
-BUGS
-       The  IPv6  extended  API as in RFC 2292 is currently only partly=
- imple=E2=80=90
-       mented; although the 2.2 kernel has near complete support for re=
-ceiving
-       options,  the  macros  for generating IPv6 options are missing i=
-n glibc
-       2.1.
-
-
-RFC3542 Section 4.2, "UDP and Raw Socket Implications", gives a descrip=
-tion of
-the IPV6_RECVxxx options and the rationale for the "sticky" options.
-
-
-It would seem that strace is also outdated in this respect.
+Regards, Stephan B=C3=A4rwolf (stephan.baerwolf-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org)
 
 --=20
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=3Demai=
