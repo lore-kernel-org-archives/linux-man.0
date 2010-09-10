@@ -1,58 +1,72 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: readdir_r: return values not clearly mentioned
-Date: Fri, 10 Sep 2010 07:50:32 +0200
-Message-ID: <AANLkTimQ1Ed8_d3ed=1aMfpddsKGQDVwa7tu0WS_onLb@mail.gmail.com>
-References: <20100722072614.GA6355@comppasch2>
+Subject: Re: [PATCH] armscii-8.7, cp1251.7, iso_8859-3.7, iso_8859-5.7,
+ iso_8859-6.7, iso_8859-8.7, iso_8859-10.7, iso_8859-11.7, iso_8859-13.7,
+ iso_8859-14.7, koi8-u.7: Fix decimal values in encoding tables
+Date: Fri, 10 Sep 2010 07:53:04 +0200
+Message-ID: <AANLkTint3HS3-OyZr=99EkxvQEBPxr6sdOR42Rs3G4fK@mail.gmail.com>
+References: <7b3bdec71001181345j72878787re36cd36b5911c1d4@mail.gmail.com> <AANLkTikRqfakpkU1VbqGAzI0VsClvWGZ0dGaJqq4jc2g@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20100722072614.GA6355@comppasch2>
+In-Reply-To: <AANLkTikRqfakpkU1VbqGAzI0VsClvWGZ0dGaJqq4jc2g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org" <fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jul 22, 2010 at 9:26 AM, fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org
-<fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi,
->
-> in man 3 readdir_r (man-pages-3.24, page date 2009-07-04)
-> the possible return values are described as:
->
-> "The readdir_r() function returns 0 on success. =A0On error,
-> it returns a positive error number."
->
-> It is not mentioned which possible error numbers may occur.
+On Fri, Jul 2, 2010 at 9:00 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On 2010/1/18 I wrote:
+> [...]
+>> Octal and hexadecimal values are right, but there are some off-by on=
+e
+>> errors in decimal values. =A0Correct values are printed by this comm=
+and:
+>>
+>> =A0perl -pi -e 'if (s/^([0-7]+)\t([0-9]+)\t([0-9a-fA-F]+)//)
+>> =A0 =A0{printf "%03o\t%d\t%s", hex($3), hex($3), $3;};' man7/*.7
 
-Well, it is, but it could be clearer. See the patch below, for man-page=
-s-3.27.
+Applied (finally) as per https://bugzilla.kernel.org/show_bug.cgi?id=3D=
+17541
 
 Thanks,
 
 Michael
 
---- a/man3/readdir.3
-+++ b/man3/readdir.3
-@@ -31,7 +31,7 @@
- .\"     Rework discussion of nonstandard structure fields.
- .\" 2008-09-11, mtk, Document readdir_r().
- .\"
--.TH READDIR 3  2009-07-04 "" "Linux Programmer's Manual"
-+.TH READDIR 3  2010-09-10 "" "Linux Programmer's Manual"
- .SH NAME
- readdir, readdir_r \- read a directory
- .SH SYNOPSIS
-@@ -131,7 +131,7 @@ is set appropriately.
- The
- .BR readdir_r ()
- function returns 0 on success.
--On error, it returns a positive error number.
-+On error, it returns a positive error number (listed under ERRORS).
- If the end of the directory stream is reached,
- .BR readdir_r ()
- returns 0, and returns NULL in
+
+>> ---
+>> =A0man7/armscii-8.7 =A0 | =A0 70 +++++++++++++++++++++++++----------=
+---------------
+>> =A0man7/cp1251.7 =A0 =A0 =A0| =A0 72 ++++++++++++++++++++++++++-----=
+---------------------
+>> =A0man7/iso_8859-10.7 | =A0 72 ++++++++++++++++++++++++++-----------=
+---------------
+>> =A0man7/iso_8859-11.7 | =A0 58 +++++++++++++++++++++----------------=
+-----
+>> =A0man7/iso_8859-13.7 | =A0 72 ++++++++++++++++++++++++++-----------=
+---------------
+>> =A0man7/iso_8859-14.7 | =A0 72 ++++++++++++++++++++++++++-----------=
+---------------
+>> =A0man7/iso_8859-3.7 =A0| =A0 68 ++++++++++++++++++++++++-----------=
+-------------
+>> =A0man7/iso_8859-5.7 =A0| =A0 72 ++++++++++++++++++++++++++---------=
+-----------------
+>> =A0man7/iso_8859-6.7 =A0| =A0 38 +++++++++++++-------------
+>> =A0man7/iso_8859-8.7 =A0| =A0 60 +++++++++++++++++++++--------------=
+-------
+>> =A0man7/koi8-u.7 =A0 =A0 =A0| =A0 72 ++++++++++++++++++++++++++-----=
+---------------------
+>> =A011 files changed, 363 insertions(+), 363 deletions(-)
+> [...]
+>
+> Hi,
+>
+> Please consider applying this patch, it fixes off-by-one errors in
+> tables of various charsets.
+>
+> Denis
+>
 
 
 
