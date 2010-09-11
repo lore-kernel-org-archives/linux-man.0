@@ -1,58 +1,57 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: lseek(2) BSD buglet
-Date: Sat, 11 Sep 2010 06:18:58 +0200
-Message-ID: <AANLkTin69YtLQCTpUfxMKNZ9-QC9bZxr+Yt1_q1hV8Eg@mail.gmail.com>
-References: <201008111813.OAA03192@Sparkle.Rodents-Montreal.ORG>
- <20100814094840.GA6217@infradead.org> <201008141409.KAA00313@Sparkle.Rodents-Montreal.ORG>
+Subject: Re: Couple of small issues
+Date: Sat, 11 Sep 2010 06:46:09 +0200
+Message-ID: <AANLkTikRu19i0JQm78AKqmdF75ftJKG6JGCkAvptXWRd@mail.gmail.com>
+References: <20100702094656.GA3504@marx.bitnet>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201008141409.KAA00313-23rEAq0nvmRBjDB12xDq2QQ+uF9fDdDi0Z6qq+Mcf0E@public.gmane.org>
+In-Reply-To: <20100702094656.GA3504-LhEd4YUrAk/R7s880joybQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: der Mouse <mouse-NcIlfYlhY41Ekk/fuQG8RGD2FQJk+8+b@public.gmane.org>, mouse-S783fYmB3Ccdnm+yROfE0A@public.gmane.org, mouse-N7zJMUF80UksA/PxXw9srA@public.gmane.org
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: jruohonen-X3B1VOXEql0@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Hello Jukka,
 
-On Sat, Aug 14, 2010 at 4:09 PM, der Mouse <mouse-NcIlfYlhY41Ekk/fuQG8RGD2FQJk+8+b@public.gmane.org>=
- wrote:
->>> lseek(2) (noticed on 3.23, 3.25 has similar wording) says, in part,
+On Fri, Jul 2, 2010 at 11:46 AM, Jukka Ruohonen <jruohonen-X3B1VOXEql0@public.gmane.org> wrot=
+e:
+> Hi.
 >
->>> =A0 =A0 =A0 =A0SVr1-3 returns long instead of off_t, BSD returns in=
-t.
+> Two small issues:
 >
->> I think removing it is fine. =A0Historical SysV and BSD behaviour mi=
-ght
->> have been interesting in the early 90s, but these days it's somethin=
-g
->> for a history book and not a manual page.
+> 1. At least FreeBSD and NetBSD define ffs(3) in <strings.h>, as
+> =A0 mandated/recommended by POSIX.
 
-I agree. I removed this entire line.
+I'm not sure what you want to say here. Does something need fixing in
+ffs(3)? It's not obvious to me.
 
-> Sounds like a reasonable point of view to me.
->
-> However, since the manpages are also one of the places people go when
-> trying to figure out old code, I'd probably not delete it entirely bu=
-t
-> instead replace it with something alojng the lines of
->
-> =A0 =A0 =A0 =A0Hisorical practice has varied, but modern systems unif=
-ormly use
-> =A0 =A0 =A0 =A0off_t.
->
-> But, really, even that may be more than is worth bothering with; it's
-> been a long time since lseek returning non-off_t mattered to anyone b=
-ut
-> hardcore retrocomputing geeks.
+> 2. In endian(3) there are some historical notes that are incorrect or=
+ at
+> =A0 least unclear.
 
-Yes.
+Can you elaborate.
 
-Thanks for the note. The change will be in Linux man-pages-3.27.
+> I could probably go and audit rest of the manual pages that contains =
+(often
+> outdated or plain wrong) references to the BSDs and other operating s=
+ystems.
 
-Cheers,
+That would be good.
+
+> While reading the changelog, I noticed (an implicit?) trend towards t=
+rying
+> to limit the documentation to Linux only. I think this is a good idea=
+;
+> surely there is enough work to keep the manual pages updated with res=
+pect to
+> Linux alone.
+
+I'm not sure if I know what the implicit rend is ;-). But, obviously,
+the focus is Linux (with some attention to portability).
+
+Thanks,
 
 Michael
 
