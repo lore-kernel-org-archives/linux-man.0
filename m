@@ -1,48 +1,127 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: [PATCH] enable getsockopt() for IP_NODEFRAG
-Date: Sat, 11 Sep 2010 08:26:56 +0200
-Message-ID: <4C8B2130.7030605@gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Recently, the atanh implementation was changed, but the man seems
+ not changed yet
+Date: Sat, 11 Sep 2010 08:52:49 +0200
+Message-ID: <AANLkTimrtXabyGQp6G+8NOeDr3+G_PcpCUPB1YnFv8Ed@mail.gmail.com>
+References: <20100218115807.733E.A69D9226@jp.fujitsu.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <netfilter-devel-owner@vger.kernel.org>
-Sender: netfilter-devel-owner@vger.kernel.org
-To: Jiri Olsa <jolsa@redhat.com>
-Cc: eric.dumazet@gmail.com, jengelh@medozas.de, kaber@trash.net, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org, David Miller <davem@davemloft.net>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20100218115807.733E.A69D9226-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Jiri
+Hello Motohiro,
 
-While integrating your man-pages patch for IP_NODEFRAG, I noticed 
-that this option is settable by setsockopt(), but not gettable by 
-getsockopt(). I suppose this is not intended. The (untested, 
-trivial) patch below adds getsockopt() support.
+On Thu, Feb 18, 2010 at 5:19 AM, KOSAKI Motohiro
+<kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org> wrote:
+> Hi Michael,
+>
+> I recently found little mismatch between the impmentation and the man=
+ in
+> atanh function.
+>
+> current man page says
+> http://www.kernel.org/doc/man-pages/online/pages/man3/atanh.3.html
+>
+> ---------------------------------------------------------
+> BUGS
+> =A0 =A0 =A0 For a pole error, errno is set to EDOM; POSIX.1 says it s=
+hould be set to
+> =A0 =A0 =A0 ERANGE.
+> ---------------------------------------------------------
+>
+> but following test programs "34: Numerical result out of range".
+> It mean atanh return ERANGE rightly.
+>
+>
+> atanh_test.c
+> ---------------------------------------------------------
+> #include <math.h>
+> #include <stdio.h>
+> #include <sys/errno.h>
+> #include <string.h>
+>
+> int main(void)
+> {
+> =A0 =A0 =A0 =A0double d;
+>
+> =A0 =A0 =A0 =A0d =3D atanh(1.0);
+> =A0 =A0 =A0 =A0if (d =3D=3D HUGE_VAL)
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0printf("huge %d: %s\n", errno, strerro=
+r(errno));
+> =A0 =A0 =A0 =A0else
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0printf("Oops no error\n");
+>
+> =A0 =A0 =A0 =A0return 0;
+> }
+> ---------------------------------------------------------
+>
+>
+> I dug in glibc's ChangeLog and I found following change.
+> So, can we consider to change the man too?
+>
+>
+> ---------------------------------------------------------
+> 2009-04-26 =A0Ulrich Drepper =A0<drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>
+> =A0 =A0 =A0 =A0* sysdeps/ieee754/dbl-64/s_expm1.c: Set errno for over=
+flow.
+> =A0 =A0 =A0 =A0* sysdeps/ieee754/flt-32/s_expm1f.c: Likewise.
+> =A0 =A0 =A0 =A0* sysdeps/x86_64/fpu/s_expm1l.S: Likewise.
+>
+> =A0 =A0 =A0 =A0* sysdeps/ieee754/k_standard.c (__kernel_standard): Po=
+le errors in
+> =A0 =A0 =A0 =A0atanh should set ERANGE.
 
-The patch is against 2.6.36-rc3.
+Thanks for your detailed report. I applied the following change for
+man-pages-2.37.
 
 Cheers,
 
 Michael
 
-PS I've just configured Thunderbird on this machine, hopefully the 
-patch is not mangled. Please let me know if there are problems.
 
-Signed-off-by: Michael kerrisk <mtk.manpages@gmail.com>
+--- a/man3/atanh.3
++++ b/man3/atanh.3
+@@ -129,16 +129,16 @@ The variant returning
+ also conforms to
+ SVr4, 4.3BSD, C89.
+ .SH BUGS
+-For a pole error,
+-.\"
+-.\" FIXME . this is as at glibc 2.8; check later if this bug is fixed
++In glibc 2.9 and earlier,
++.\" Bug: http://sources.redhat.com/bugzilla/show_bug.cgi?id=3D6759
+ .\" This can be seen in sysdeps/ieee754/k_standard.c
+-.\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=3D6=
+759
++when a pole error occurs,
+ .I errno
+-is set to
+-.BR EDOM ;
+-POSIX.1 says it should be set to
++as set to
++.BR EDOM
++instead of the POSIX-mandated
+ .BR ERANGE .
++Since version 2.10, glibc does the right thing.
+ .SH "SEE ALSO"
+ .BR acosh (3),
+ .BR asinh (3),
 
---- net/ipv4/ip_sockglue.c.orig	2010-09-11 07:25:58.000000000 +0200
-+++ net/ipv4/ip_sockglue.c	2010-09-11 07:43:43.000000000 +0200
-@@ -1129,6 +1129,9 @@ static int do_ip_getsockopt(struct sock
- 	case IP_HDRINCL:
- 		val = inet->hdrincl;
- 		break;
-+	case IP_NODEFRAG:
-+		val = inet->nodefrag;
-+		break;
- 	case IP_MTU_DISCOVER:
- 		val = inet->pmtudisc;
- 		break;
--- 
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Watch my Linux system programming book progress towards publication!
-http://blog.man7.org/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
