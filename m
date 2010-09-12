@@ -1,64 +1,57 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: function cerf in manpage but not in <complex.h>
-Date: Sun, 12 Sep 2010 08:53:25 +0200
-Message-ID: <AANLkTi=gfsUWbHD1_vyN9sHu1U4RdtYjiVxYpQUs6za4@mail.gmail.com>
-References: <b7b0d7b84ae39fc2c80b7efd5d04965a.squirrel@webmail-lpp.polytechnique.fr>
+Subject: Re: [patch] log2.3: log2 functions do not conform to C89
+Date: Sun, 12 Sep 2010 09:19:50 +0200
+Message-ID: <AANLkTimKMXVdn0QTKD2T-GrtHt-RCmP9ZFnZjjJwoV9G@mail.gmail.com>
+References: <4BDE1C23.2090707@gatech.edu>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <b7b0d7b84ae39fc2c80b7efd5d04965a.squirrel-n3SY6/QrmYW9yqgUSJdT8BzNKWocxUEg/fObgANad5s@public.gmane.org>
+In-Reply-To: <4BDE1C23.2090707-/4noJB3qBVQ3uPMLIKxrzw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: ozgur.gurcan-vcqoFEiXU/AczSlqHMVBIP3zm4ADWneb@public.gmane.org
+To: Matthew Flaschen <matthew.flaschen-/4noJB3qBVQ3uPMLIKxrzw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ozgur,
+Hello Matthew,
 
-On Sun, Sep 12, 2010 at 12:06 AM,  <ozgur.gurcan-vcqoFEiXU/AczSlqHMVBIP3zm4ADWneb@public.gmane.org> wrote:
-> Hi,
->
-> in my system (2.6.34-gentoo-r2), "man cerf" gives me the description of a
-> certain complex error function. This function however is nowhere to be
-> found. I tried this on 5 other linux boxes with the same result.
->
-> May be the function was taken out at some point but the documentation stayed.
+On Mon, May 3, 2010 at 2:43 AM, Matthew Flaschen
+<matthew.flaschen-/4noJB3qBVQ3uPMLIKxrzw@public.gmane.org> wrote:
+> Patch against latest git. =A0log2, log2f, and log2l do not conform to=
+ C89.
+> =A0They are defined in C99. =A0See http://flash-gordon.me.uk/ansi.c.t=
+xt and
+> http://www.schweikhardt.net/identifiers.html
 
-Further down in the page is the line
-
-==
-.SH AVAILABILITY
-Not yet in glibc, as at version 2.12.
-==
-
-I suppose you missed that, which is easy to do. I tweaked the page
-(for man-pages-3.27) as below, to try to make it a little clearer.
+Thanks. Applied for man-pages-3.27.
 
 Cheers,
 
 Michael
 
---- a/man3/cerf.3
-+++ b/man3/cerf.3
-@@ -21,7 +21,7 @@ cerf, cerff, cerfl, cerfc, cerfcf, cerfcl \- complex
-error function
- .sp
- Link with \fI\-lm\fP.
- .SH DESCRIPTION
--The function
-+The (unimplemented) function
- .BR cerf ()
- is the complex version of the error function.
- erf(z) = 2/sqrt(pi) * integral from 0 to z of exp(\-t*t) dt.
-@@ -32,7 +32,7 @@ is defined as cerfc(z) = 1\-cerf(z).
- .SH "CONFORMING TO"
- The function names are reserved for future use in C99.
- .SH AVAILABILITY
--Not yet in glibc, as at version 2.8.
-+Not yet in glibc, as at version 2.12.
- .\" But reserved in NAMESPACE.
- .SH "SEE ALSO"
- .BR erf (3),
+
+> diff --git a/man3/log2.3 b/man3/log2.3
+> index 6a86b9a..7505039 100644
+> --- a/man3/log2.3
+> +++ b/man3/log2.3
+> @@ -86,7 +86,7 @@ C99, POSIX.1-2001.
+> =A0The variant returning
+> =A0.I double
+> =A0also conforms to
+> -SVr4, 4.3BSD, C89.
+> +SVr4, 4.3BSD.
+> =A0.SH "SEE ALSO"
+> =A0.BR cbrt (3),
+> =A0.BR clog2 (3),
+>
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
