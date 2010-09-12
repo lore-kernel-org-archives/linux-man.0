@@ -1,79 +1,48 @@
-From: ozgur.gurcan-vcqoFEiXU/AczSlqHMVBIP3zm4ADWneb@public.gmane.org
-Subject: Re: function cerf in manpage but not in <complex.h>
-Date: Sun, 12 Sep 2010 12:28:43 +0200 (CEST)
-Message-ID: <767f04770f3b96b1e04cabd4867f8b27.squirrel@webmail-lpp.polytechnique.fr>
-References: <b7b0d7b84ae39fc2c80b7efd5d04965a.squirrel@webmail-lpp.polytechnique.fr>
-    <AANLkTi=gfsUWbHD1_vyN9sHu1U4RdtYjiVxYpQUs6za4@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: 8bit
+From: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Subject: [PATCH] rand.3: Clarify the lowest and highest return values
+Date: Sun, 12 Sep 2010 14:30:08 +0100
+Message-ID: <1284298208-3861-1-git-send-email-mark@pogo.org.uk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=gfsUWbHD1_vyN9sHu1U4RdtYjiVxYpQUs6za4-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: ozgur.gurcan-vcqoFEiXU/AczSlqHMVBIP3zm4ADWneb@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Micheal,
+Commit 7155eb9 gives the range of return values, but the definition
+of 'range' is unclear. Indicate clearly that RAND_MAX is included in
+the set of possible return values.
 
-> Hello Ozgur,
->
-> On Sun, Sep 12, 2010 at 12:06 AM,  <ozgur.gurcan-vcqoFEiXU/AczSlqHMVBIP3zm4ADWneb@public.gmane.org>
-> wrote:
->> Hi,
->>
->> in my system (2.6.34-gentoo-r2), "man cerf" gives me the description of
->> a
->> certain complex error function. This function however is nowhere to be
->> found. I tried this on 5 other linux boxes with the same result.
->>
->> May be the function was taken out at some point but the documentation
->> stayed.
->
-> Further down in the page is the line
->
-> ==
-> .SH AVAILABILITY
-> Not yet in glibc, as at version 2.12.
-> ==
->
-> I suppose you missed that, which is easy to do. I tweaked the page
-> (for man-pages-3.27) as below, to try to make it a little clearer.
->
-> Cheers,
->
-> Michael
->
-> --- a/man3/cerf.3
-> +++ b/man3/cerf.3
-> @@ -21,7 +21,7 @@ cerf, cerff, cerfl, cerfc, cerfcf, cerfcl \- complex
-> error function
->  .sp
->  Link with \fI\-lm\fP.
->  .SH DESCRIPTION
-> -The function
-> +The (unimplemented) function
->  .BR cerf ()
->  is the complex version of the error function.
->  erf(z) = 2/sqrt(pi) * integral from 0 to z of exp(\-t*t) dt.
-> @@ -32,7 +32,7 @@ is defined as cerfc(z) = 1\-cerf(z).
->  .SH "CONFORMING TO"
->  The function names are reserved for future use in C99.
->  .SH AVAILABILITY
-> -Not yet in glibc, as at version 2.8.
-> +Not yet in glibc, as at version 2.12.
->  .\" But reserved in NAMESPACE.
->  .SH "SEE ALSO"
->  .BR erf (3),
->
+Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+---
+ man3/rand.3 |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-I see. I had seen the note, but I thought it was in "libm" and not in
-glibc or something like that (since it also says link with -lm). I think
-your version is much clearer.
-
-thanks,
-
-Ozgur
+diff --git a/man3/rand.3 b/man3/rand.3
+index e65e69e..d1e14d8 100644
+--- a/man3/rand.3
++++ b/man3/rand.3
+@@ -35,7 +35,7 @@
+ .\"          with contribution from Francesco Potorti <F.Potorti-Z3/l7hFotWqRIi+8W+d3eg@public.gmane.org>
+ .\" Modified 2003-11-15, aeb, added rand_r
+ .\"
+-.TH RAND 3 2008-08-29 "" "Linux Programmer's Manual"
++.TH RAND 3 2010-09-12 "" "Linux Programmer's Manual"
+ .SH NAME
+ rand, rand_r, srand \- pseudo-random number generator
+ .SH SYNOPSIS
+@@ -59,8 +59,8 @@ _POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
+ .SH DESCRIPTION
+ The
+ .BR rand ()
+-function returns a pseudo-random integer in
+-the range [0,\ \fBRAND_MAX\fR].
++function returns a pseudo-random integer between 0
++and \fBRAND_MAX\fR (inclusive).
+ .PP
+ The
+ .BR srand ()
+-- 
+1.7.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
