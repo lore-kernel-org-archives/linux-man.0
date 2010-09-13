@@ -1,60 +1,148 @@
-From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] enable getsockopt() for IP_NODEFRAG
-Date: Sun, 12 Sep 2010 23:52:30 +0200
-Message-ID: <20100912215230.GA2091@jolsa.Belkin>
-References: <4C8B2130.7030605@gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: About thread-safety information in library functions' man-pages
+Date: Mon, 13 Sep 2010 17:19:01 +0800
+Message-ID: <4C8DEC85.8030007@cn.fujitsu.com>
+References: <4C7C9EA6.90609@cn.fujitsu.com> <AANLkTimcJ4kSuB-vZSY2_CYDs12S0ODup9-Y9yj-uQrJ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed;
+ boundary="------------000005070204070205020409"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <4C8B2130.7030605-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <AANLkTimcJ4kSuB-vZSY2_CYDs12S0ODup9-Y9yj-uQrJ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org, kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netfilter-devel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: pasky-AlSwsSmVLrQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Sep 11, 2010 at 08:26:56AM +0200, Michael Kerrisk wrote:
-> Hello Jiri
-> 
-> While integrating your man-pages patch for IP_NODEFRAG, I noticed 
-> that this option is settable by setsockopt(), but not gettable by 
-> getsockopt(). I suppose this is not intended. The (untested, 
-> trivial) patch below adds getsockopt() support.
-> 
-> The patch is against 2.6.36-rc3.
-> 
-> Cheers,
-> 
-> Michael
-> 
-> PS I've just configured Thunderbird on this machine, hopefully the 
-> patch is not mangled. Please let me know if there are problems.
-hi,
+This is a multi-part message in MIME format.
+--------------000005070204070205020409
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-applied ok, compiled ok ;) thanks
+Hi Michael,
 
-Acked-by: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Michael Kerrisk said the following on 2010-9-11 12:06:
+> By "formal" I mean that we could have a section "ATTRIBUTES" that
+> lists such attributes. That section could fall between VERSIONS and
+> CONFORMING TO (see man-pages(7)). To start with, you might write
+> patches that document just thread-safety, but later other pieces might
+> get added as well (e.g., async-signal-safety).
+> 
+> What do you think? If this sounds sensible, write one or two patches
+> in the style I suggest, and then we can discuss furtehr.
+>  
 
-> 
-> Signed-off-by: Michael kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> 
-> --- net/ipv4/ip_sockglue.c.orig	2010-09-11 07:25:58.000000000 +0200
-> +++ net/ipv4/ip_sockglue.c	2010-09-11 07:43:43.000000000 +0200
-> @@ -1129,6 +1129,9 @@ static int do_ip_getsockopt(struct sock
->  	case IP_HDRINCL:
->  		val = inet->hdrincl;
->  		break;
-> +	case IP_NODEFRAG:
-> +		val = inet->nodefrag;
-> +		break;
->  	case IP_MTU_DISCOVER:
->  		val = inet->pmtudisc;
->  		break;
-> -- 
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Watch my Linux system programming book progress towards publication!
-> http://blog.man7.org/
+  I think your proposal is good. So, I make two patches in your style, 
+they are 0001* and 0002*. The third patch is used to add description
+of "ATTRIBUTES" into man-pages(7).
+
+  What's your opinion? If you agree with me, I'll gradually make more
+patches. 
+
+-- 
+Best Regards,
+Peng Haitao
+
+--------------000005070204070205020409
+Content-Type: text/plain;
+ name="0001-a64l.3-Add-description-of-the-function-thread-safe.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*0="0001-a64l.3-Add-description-of-the-function-thread-safe.patc";
+ filename*1="h"
+
+RnJvbSBiMzAyNTJjOGU3NjY3Nzk0NDlmNWQ2ZmZlYTU3YzBmY2E2ZWM2ZDcxIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3Uu
+Y29tPgpEYXRlOiBNb24sIDEzIFNlcCAyMDEwIDE2OjMxOjAwICswODAwClN1YmplY3Q6IFtQ
+QVRDSF0gYTY0bC4zOiBBZGQgZGVzY3JpcHRpb24gb2YgdGhlIGZ1bmN0aW9uJyB0aHJlYWQt
+c2FmZXR5CgpUaGUgZnVuY3Rpb24gbDY0YSgpIHVzZXMgYSBzdGF0aWMgdmFyaWFibGUgInJl
+c3VsdCIsIHNvIGl0IGlzIG5vdCB0aHJlYWQtc2FmZS4KClNpZ25lZC1vZmYtYnk6IFBlbmcg
+SGFpdGFvIDxwZW5naHRAY24uZnVqaXRzdS5jb20+Ci0tLQogbWFuMy9hNjRsLjMgfCAgIDEw
+ICsrKysrKysrKy0KIDEgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxIGRlbGV0
+aW9ucygtKQoKZGlmZiAtLWdpdCBhL21hbjMvYTY0bC4zIGIvbWFuMy9hNjRsLjMKaW5kZXgg
+MGMxMDY1MS4uNmI5YjdmMSAxMDA2NDQKLS0tIGEvbWFuMy9hNjRsLjMKKysrIGIvbWFuMy9h
+NjRsLjMKQEAgLTMsNyArMyw3IEBACiAuXCIKIC5cIiBDb3JyZWN0ZWQsIGFlYiwgMjAwMi0w
+NS0zMAogLlwiCi0uVEggQTY0TCAzIDIwMTAtMDgtMjkgIiIgIkxpbnV4IFByb2dyYW1tZXIn
+cyBNYW51YWwiCisuVEggQTY0TCAzIDIwMTAtMDktMTMgIiIgIkxpbnV4IFByb2dyYW1tZXIn
+cyBNYW51YWwiCiAuU0ggTkFNRQogYTY0bCwgbDY0YSBcLSBjb252ZXJ0IGJldHdlZW4gbG9u
+ZyBhbmQgYmFzZS02NAogLlNIIFNZTk9QU0lTCkBAIC01MCw2ICs1MCwxNCBAQCBhLXoJcmVw
+cmVzZW50IDM4LTYzCiAuZmkKIC5SRQogU28gMTIzID0gNTkqNjReMCArIDEqNjReMSA9ICJ2
+LyIuCisuU0ggIkFUVFJJQlVURVMiCitUaGUKKy5CUiBsNjRhICgpCitmdW5jdGlvbiBpcyBu
+b3QgdGhyZWFkLXNhZmUuCisuTFAKK1RoZQorLkJSIGE2NGwgKCkKK2Z1bmN0aW9uIGlzIHRo
+cmVhZC1zYWZlLgogLlNIICJDT05GT1JNSU5HIFRPIgogUE9TSVguMS0yMDAxLgogLlNIIE5P
+VEVTCi0tIAoxLjYuMC4xCgo=
+--------------000005070204070205020409
+Content-Type: text/plain;
+ name="0002-hsearch.3-Add-description-of-the-functions-thread.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename*0="0002-hsearch.3-Add-description-of-the-functions-thread.patch"
+
+RnJvbSAzNTczMTU3YmNmMmE2ZTdiZmQ0MTJkNmViODk0NGViMDRmMTk0ZGJmIE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3Uu
+Y29tPgpEYXRlOiBNb24sIDEzIFNlcCAyMDEwIDE2OjMxOjA5ICswODAwClN1YmplY3Q6IFtQ
+QVRDSF0gaHNlYXJjaC4zOiBBZGQgZGVzY3JpcHRpb24gb2YgdGhlIGZ1bmN0aW9ucycgdGhy
+ZWFkLXNhZmV0eQoKVGhlIHRocmVlIGZ1bmN0aW9ucyBoY3JlYXRlKCksIGhkZXN0cm95KCkg
+YW5kIGhzZWFyY2goKSB1c2UgYSBnbG9iYWwgc3BhY2UKZm9yIHN0b3JpbmcgdGhlIHRhYmxl
+LCBzbyB0aGV5IGFyZSBub3QgdGhyZWFkLXNhZmUuCgpTaWduZWQtb2ZmLWJ5OiBQZW5nIEhh
+aXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3UuY29tPgotLS0KIG1hbjMvaHNlYXJjaC4zIHwgICAx
+NiArKysrKysrKysrKysrKystCiAxIGZpbGVzIGNoYW5nZWQsIDE1IGluc2VydGlvbnMoKyks
+IDEgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWFuMy9oc2VhcmNoLjMgYi9tYW4zL2hz
+ZWFyY2guMwppbmRleCBiMzkyYjU1Li4zYTQ0OGQ4IDEwMDY0NAotLS0gYS9tYW4zL2hzZWFy
+Y2guMworKysgYi9tYW4zL2hzZWFyY2guMwpAQCAtMzIsNyArMzIsNyBAQAogLlwiIDIwMDgt
+MDktMDMsIG10aywgcmVzdHJ1Y3R1cmVkIHNvbWV3aGF0LCBpbiBwYXJ0IGFmdGVyIHN1Z2dl
+c3Rpb25zIGZyb20KIC5cIiAgICAgVGltb3RoeSBTLiBOZWxzb24gPHdheWxhbmRAd2F5bGFu
+ZC5pZC5hdT4KIC5cIgotLlRIIEhTRUFSQ0ggMyAyMDA4LTEwLTA2ICJHTlUiICJMaW51eCBQ
+cm9ncmFtbWVyJ3MgTWFudWFsIgorLlRIIEhTRUFSQ0ggMyAyMDEwLTA5LTEzICJHTlUiICJM
+aW51eCBQcm9ncmFtbWVyJ3MgTWFudWFsIgogLlNIIE5BTUUKIGhjcmVhdGUsIGhkZXN0cm95
+LCBoc2VhcmNoLCBoY3JlYXRlX3IsIGhkZXN0cm95X3IsCiBoc2VhcmNoX3IgXC0gaGFzaCB0
+YWJsZSBtYW5hZ2VtZW50CkBAIC0yMzIsNiArMjMyLDIwIEBAIHdhcyBub3QgZm91bmQgaW4g
+dGhlIHRhYmxlLgogUE9TSVguMS0yMDAxIG9ubHkgc3BlY2lmaWVzIHRoZQogLkIgRU5PTUVN
+CiBlcnJvci4KKy5TSCAiQVRUUklCVVRFUyIKK1RoZSB0aHJlZSBmdW5jdGlvbnMKKy5CUiBo
+Y3JlYXRlICgpLAorLkJSIGhzZWFyY2ggKCksCithbmQKKy5CUiBoZGVzdHJveSAoKQordXNl
+IGEgZ2xvYmFsIHNwYWNlIGZvciBzdG9yaW5nIHRoZSB0YWJsZSwgc28gdGhleSBhcmUgbm90
+IHRocmVhZC1zYWZlLgorLlBQCitUaGUgdGhyZWUgZnVuY3Rpb25zCisuQlIgaGNyZWF0ZV9y
+ICgpLAorLkJSIGhzZWFyY2hfciAoKSwKK2FuZAorLkJSIGhkZXN0cm95X3IgKCkKK2FyZSB0
+aHJlYWQtc2FmZS4KIC5TSCAiQ09ORk9STUlORyBUTyIKIFRoZSBmdW5jdGlvbnMKIC5CUiBo
+Y3JlYXRlICgpLAotLSAKMS42LjAuMQoK
+--------------000005070204070205020409
+Content-Type: text/plain;
+ name="0003-man-pages.7-Add-description-of-ATTRIBUTES.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0003-man-pages.7-Add-description-of-ATTRIBUTES.patch"
+
+RnJvbSA1YjY1ZWFmMTg1ZmRkMTk2NmIzNDUzMWZiOGY2OGNmY2FhNzZlZjc2IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBQZW5nIEhhaXRhbyA8cGVuZ2h0QGNuLmZ1aml0c3Uu
+Y29tPgpEYXRlOiBNb24sIDEzIFNlcCAyMDEwIDE2OjMxOjE3ICswODAwClN1YmplY3Q6IFtQ
+QVRDSF0gbWFuLXBhZ2VzLjc6IEFkZCBkZXNjcmlwdGlvbiBvZiAiQVRUUklCVVRFUyIKCiJB
+VFRSSUJVVEVTIiBzZWN0aW9uIGdpdmVzIHRoZSBpbmZvcm1hdGlvbiBvZiB0aHJlYWQtc2Fm
+ZXR5LgoKU2lnbmVkLW9mZi1ieTogUGVuZyBIYWl0YW8gPHBlbmdodEBjbi5mdWppdHN1LmNv
+bT4KLS0tCiBtYW43L21hbi1wYWdlcy43IHwgICAxOCArKysrKysrKysrKysrKysrKy0KIDEg
+ZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkKCmRpZmYg
+LS1naXQgYS9tYW43L21hbi1wYWdlcy43IGIvbWFuNy9tYW4tcGFnZXMuNwppbmRleCAyNjFl
+NTU2Li41OTAwNGQ2IDEwMDY0NAotLS0gYS9tYW43L21hbi1wYWdlcy43CisrKyBiL21hbjcv
+bWFuLXBhZ2VzLjcKQEAgLTI1LDcgKzI1LDcgQEAKIC5cIiAyMDA3LTA1LTMwIGNyZWF0ZWQg
+YnkgbXRrLCB1c2luZyB0ZXh0IGZyb20gb2xkIG1hbi43IHBsdXMKIC5cIiByZXdyaXRlcyBh
+bmQgYWRkaXRpb25hbCB0ZXh0LgogLlwiCi0uVEggTUFOLVBBR0VTIDcgMjAwOC0xMC0yOCAi
+TGludXgiICJMaW51eCBQcm9ncmFtbWVyJ3MgTWFudWFsIgorLlRIIE1BTi1QQUdFUyA3IDIw
+MTAtMDktMTMgIkxpbnV4IiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKIC5TSCBOQU1F
+CiBtYW4tcGFnZXMgXC0gY29udmVudGlvbnMgZm9yIHdyaXRpbmcgTGludXggbWFuIHBhZ2Vz
+CiAuU0ggU1lOT1BTSVMKQEAgLTE4MSw2ICsxODEsNyBAQCBFUlJPUlMgICAgICAgICAgICAg
+W1R5cGljYWxseSBvbmx5IGluIFNlY3Rpb25zIDIsIDNdCiBFTlZJUk9OTUVOVAogRklMRVMK
+IFZFUlNJT05TICAgICAgICAgICBbTm9ybWFsbHkgb25seSBpbiBTZWN0aW9ucyAyLCAzXQor
+QVRUUklCVVRFUyAgICAgICAgIFtOb3JtYWxseSBvbmx5IGluIFNlY3Rpb25zIDIsIDNdCiBD
+T05GT1JNSU5HIFRPCiBOT1RFUwogQlVHUwpAQCAtMzM4LDYgKzMzOSwyMSBAQCBUaGUKIG1h
+bnVhbCBwYWdlIGFsc28gcHJvdmlkZXMgaW5mb3JtYXRpb24gYWJvdXQga2VybmVsIHZlcnNp
+b25zCiBpbiB3aGljaCB2YXJpb3VzIHN5c3RlbSBjYWxscyBmaXJzdCBhcHBlYXJlZC4KIC5U
+UAorLkIgQVRUUklCVVRFUworRm9yIFNlY3Rpb24gMiBhbmQgMyBtYW51YWwgcGFnZXMsIHRo
+aXMgc2VjdGlvbiBnaXZlcyBhCitudW1iZXIgb2YgYXR0cmlidXRlcywgZS5nLiwKKy5SUwor
+LlRTCithbGxib3g7CitjLgordGhyZWFkLXNhZmV0eQorcmVlbnRyYW50L25vbi1yZWVudHJh
+bnQKK2FzeW5jLXNpZ25hbC1zYWZldHkKK2NhbmNlbGF0aW9uIHNhZmV0eQorLlRFCisuUkUK
+Ky5UUAorLnNwCiAuQiBDT05GT1JNSU5HIFRPCiBkZXNjcmliZXMgYW55IHN0YW5kYXJkcyBv
+ciBjb252ZW50aW9ucyB0aGF0IHJlbGF0ZSB0byB0aGUgZnVuY3Rpb24KIG9yIGNvbW1hbmQg
+ZGVzY3JpYmVkIGJ5IHRoZSBtYW51YWwgcGFnZS4KLS0gCjEuNi4wLjEKCg==
+--------------000005070204070205020409--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
