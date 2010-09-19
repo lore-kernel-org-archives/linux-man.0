@@ -1,53 +1,49 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Misspelling in pthread_getattr_np man page
-Date: Sun, 19 Sep 2010 11:46:51 +0200
-Message-ID: <AANLkTi=_hm=MZAmLJvaFjpU3PYcY5Gg9s11wR5gfzD8A@mail.gmail.com>
-References: <4B054758.8000602@ispras.ru>
-	<AANLkTi=XTJDCMd4H88Rp=M31hB5x1Qov5NFCmdvZO6SK@mail.gmail.com>
-	<AANLkTikw5caU=inGnGaNxG2hQAHrKwBr1nM4iH98vzDK@mail.gmail.com>
-	<AANLkTinSo+3gjRUssn=WL3pg-9aq7Q75vNU3LJo7mTbC@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: small improvement for boot.7
+Date: Sun, 19 Sep 2010 15:54:26 +0200
+Message-ID: <AANLkTi=C=daUa0Gh8aRCHmPG2SVYs=eE7br3F+1uejC9@mail.gmail.com>
+References: <20100913210251.620e7a76@keeper.home.local>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinSo+3gjRUssn=WL3pg-9aq7Q75vNU3LJo7mTbC-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20100913210251.620e7a76-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 2010/9/19 Michael Kerrisk wrote:
-> On Wed, Sep 15, 2010 at 11:13 PM, Denis Barbier wrote:
->> On 2010/9/9 Michael Kerrisk wrote:
->>> Hello Denis
->>>
->>> 2009/11/19 Denis Silakov <silakov-ufN2psIa012HXe+LvDLADg@public.gmane.org>:
->>>> Man pthread_getattr_np, 'CONFORMING TO' section - "... GNU extensi=
-on.
->>>> hence the ..." - replace '.' with ';' after 'extension'.
->>>
->>> Fixed for man-pages-3.27.
->>
->> Hello Michael,
->>
->> A spurious s has been added in 0a96a9f:
->> =C2=A0This function is a nonstandard GNU extension*s*;
->>
->> See
->> =C2=A0http://git.kernel.org/?p=3Ddocs/man-pages/man-pages.git;a=3Dco=
-mmitdiff;h=3D0a96a9f;hp=3D583dc9a
->>
->> Another Denis
+On Mon, Sep 13, 2010 at 7:02 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+:
+> Hello.
 >
-> Thanks. Fixed.
+> --- man-pages-git/man7/boot.7 =9A 2010-03-26 17:46:41.000000000 +0300
+> +++ /tmp/boot.7 2010-09-13 21:01:17.000000000 +0400
+> @@ -127,8 +127,8 @@
+> =9ANote:
+> =9AThe following description applies to System V release 4 based syst=
+em, which
+> =9Acurrently covers most commercial Unix systems (Solaris, HP-UX, Iri=
+x, Tru64)
+> -as well as the major Linux distributions (RedHat, Debian, Mandrake,
+> -Suse, Caldera).
+> +as well as the major Linux distributions (RedHat, Debian, Mandriva,
+> +Suse, Ubuntu).
+> =9ASome systems (Slackware Linux, FreeBSD, OpenBSD)
+> =9Ahave a somewhat different scheme of boot scripts.
 
-Hello Michael,
+Applied for 3.27. Thanks Yuri.
 
-Can you please push your changes, so that we can start translating them=
-?
-Thanks
+Cheers,
 
-Denis
+Michael
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
