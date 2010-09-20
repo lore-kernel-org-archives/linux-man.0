@@ -1,60 +1,51 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small improvement for lookup_dcookie.2
-Date: Sun, 19 Sep 2010 22:01:47 +0400
-Message-ID: <20100919220147.01103e22@keeper.home.local>
-Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/e2ljG2JsnaiyBjfpc/2QC9B"
+From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] net: ipv4,nodefrag: check socket type before touching nodefrag flag
+Date: Mon, 20 Sep 2010 11:27:56 +0200
+Message-ID: <1284974876-4596-1-git-send-email-jolsa@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org, kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org, davem-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netfilter-devel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---MP_/e2ljG2JsnaiyBjfpc/2QC9B
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+hi,
+we need to check proper socket type within ipv4_conntrack_defrag
+function before referencing the nodefrag flag.
 
-Hello.
+For example the tun driver receive path produces skbs with
+AF_UNSPEC socket type, and so current code is causing unwanted
+fragmented packets going out.
 
---- man-pages-git/man2/lookup_dcookie.2 2010-03-26 17:46:41.000000000 +0300
-+++ /tmp/lookup_dcookie.2       2010-09-19 22:00:02.000000000 +0400
-@@ -31,8 +31,7 @@
- .BI "int lookup_dcookie(u64 " cookie ", char *" buffer ", size_t " len );
- .SH DESCRIPTION
- Look up the full path of the directory entry specified by the value
--.I cookie
--.
-+.IR cookie .
- The cookie is an opaque identifier uniquely identifying a particular
- directory entry.
- The buffer given is filled in with the full path of the directory entry.
+wbr,
+jirka
 
 
+
+Signed-off-by: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ net/ipv4/netfilter/nf_defrag_ipv4.c |    4 +++-
+ 1 files changed, 3 insertions(+), 1 deletions(-)
+
+diff --git a/net/ipv4/netfilter/nf_defrag_ipv4.c b/net/ipv4/netfilter/nf_defrag_ipv4.c
+index eab8de3..f3a9b42 100644
+--- a/net/ipv4/netfilter/nf_defrag_ipv4.c
++++ b/net/ipv4/netfilter/nf_defrag_ipv4.c
+@@ -66,9 +66,11 @@ static unsigned int ipv4_conntrack_defrag(unsigned int hooknum,
+ 					  const struct net_device *out,
+ 					  int (*okfn)(struct sk_buff *))
+ {
++	struct sock *sk = skb->sk;
+ 	struct inet_sock *inet = inet_sk(skb->sk);
+ 
+-	if (inet && inet->nodefrag)
++	if (sk && (sk->sk_family == PF_INET) &&
++	    inet->nodefrag)
+ 		return NF_ACCEPT;
+ 
+ #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
 -- 
-Best Regards,
-Yuri Kozlov
+1.7.1
 
-
---MP_/e2ljG2JsnaiyBjfpc/2QC9B
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=lookup_dcookie.2.patch
-
---- man-pages-git/man2/lookup_dcookie.2	2010-03-26 17:46:41.000000000 +0300
-+++ /tmp/lookup_dcookie.2	2010-09-19 22:00:02.000000000 +0400
-@@ -31,8 +31,7 @@
- .BI "int lookup_dcookie(u64 " cookie ", char *" buffer ", size_t " len );
- .SH DESCRIPTION
- Look up the full path of the directory entry specified by the value
--.I cookie
--.
-+.IR cookie .
- The cookie is an opaque identifier uniquely identifying a particular
- directory entry.
- The buffer given is filled in with the full path of the directory entry.
-
---MP_/e2ljG2JsnaiyBjfpc/2QC9B--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
