@@ -1,51 +1,66 @@
-From: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] net: ipv4,nodefrag: check socket type before touching nodefrag flag
-Date: Mon, 20 Sep 2010 11:27:56 +0200
-Message-ID: <1284974876-4596-1-git-send-email-jolsa@redhat.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Misspelling in pthread_getattr_np man page
+Date: Tue, 21 Sep 2010 13:20:01 +0200
+Message-ID: <AANLkTimaxszOXkbpCuGsawf+a+V6Jgx566ykNZq5ZDgH@mail.gmail.com>
+References: <4B054758.8000602@ispras.ru> <AANLkTi=XTJDCMd4H88Rp=M31hB5x1Qov5NFCmdvZO6SK@mail.gmail.com>
+ <AANLkTikw5caU=inGnGaNxG2hQAHrKwBr1nM4iH98vzDK@mail.gmail.com>
+ <AANLkTinSo+3gjRUssn=WL3pg-9aq7Q75vNU3LJo7mTbC@mail.gmail.com> <AANLkTi=_hm=MZAmLJvaFjpU3PYcY5Gg9s11wR5gfzD8A@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AANLkTi=_hm=MZAmLJvaFjpU3PYcY5Gg9s11wR5gfzD8A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org, kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org, davem-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netfilter-devel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-hi,
-we need to check proper socket type within ipv4_conntrack_defrag
-function before referencing the nodefrag flag.
+On Sun, Sep 19, 2010 at 11:46 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
+e:
+> On 2010/9/19 Michael Kerrisk wrote:
+>> On Wed, Sep 15, 2010 at 11:13 PM, Denis Barbier wrote:
+>>> On 2010/9/9 Michael Kerrisk wrote:
+>>>> Hello Denis
+>>>>
+>>>> 2009/11/19 Denis Silakov <silakov-ufN2psIa012HXe+LvDLADg@public.gmane.org>:
+>>>>> Man pthread_getattr_np, 'CONFORMING TO' section - "... GNU extens=
+ion.
+>>>>> hence the ..." - replace '.' with ';' after 'extension'.
+>>>>
+>>>> Fixed for man-pages-3.27.
+>>>
+>>> Hello Michael,
+>>>
+>>> A spurious s has been added in 0a96a9f:
+>>> =A0This function is a nonstandard GNU extension*s*;
+>>>
+>>> See
+>>> =A0http://git.kernel.org/?p=3Ddocs/man-pages/man-pages.git;a=3Dcomm=
+itdiff;h=3D0a96a9f;hp=3D583dc9a
+>>>
+>>> Another Denis
+>>
+>> Thanks. Fixed.
+>
+> Hello Michael,
+>
+> Can you please push your changes, so that we can start translating th=
+em?
+> Thanks
 
-For example the tun driver receive path produces skbs with
-AF_UNSPEC socket type, and so current code is causing unwanted
-fragmented packets going out.
+Some changes pushed now.
 
-wbr,
-jirka
+Thanks,
 
+Michael
 
 
-Signed-off-by: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- net/ipv4/netfilter/nf_defrag_ipv4.c |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/net/ipv4/netfilter/nf_defrag_ipv4.c b/net/ipv4/netfilter/nf_defrag_ipv4.c
-index eab8de3..f3a9b42 100644
---- a/net/ipv4/netfilter/nf_defrag_ipv4.c
-+++ b/net/ipv4/netfilter/nf_defrag_ipv4.c
-@@ -66,9 +66,11 @@ static unsigned int ipv4_conntrack_defrag(unsigned int hooknum,
- 					  const struct net_device *out,
- 					  int (*okfn)(struct sk_buff *))
- {
-+	struct sock *sk = skb->sk;
- 	struct inet_sock *inet = inet_sk(skb->sk);
- 
--	if (inet && inet->nodefrag)
-+	if (sk && (sk->sk_family == PF_INET) &&
-+	    inet->nodefrag)
- 		return NF_ACCEPT;
- 
- #if defined(CONFIG_NF_CONNTRACK) || defined(CONFIG_NF_CONNTRACK_MODULE)
--- 
-1.7.1
-
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
