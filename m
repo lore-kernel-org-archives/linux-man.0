@@ -1,38 +1,26 @@
-From: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] Document struct sigevent in sigevent(7)
-Date: Tue, 21 Sep 2010 17:31:48 +0200
-Message-ID: <20100921153148.GA8806@machine.or.cz>
-References: <20090415111442.GN8940@machine.or.cz>
- <AANLkTin1o4JQ98zmsox6Qg9R5oaPCswieATTd98rCSjY@mail.gmail.com>
+From: Patrick McHardy <kaber@trash.net>
+Subject: Re: [PATCH] net: ipv4,nodefrag: check socket type before touching
+ nodefrag flag
+Date: Wed, 22 Sep 2010 08:59:55 +0200
+Message-ID: <4C99A96B.4020604@trash.net>
+References: <1284974876-4596-1-git-send-email-jolsa@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <AANLkTin1o4JQ98zmsox6Qg9R5oaPCswieATTd98rCSjY-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
+Return-path: <netfilter-devel-owner@vger.kernel.org>
+In-Reply-To: <1284974876-4596-1-git-send-email-jolsa@redhat.com>
+Sender: netfilter-devel-owner@vger.kernel.org
+To: Jiri Olsa <jolsa@redhat.com>
+Cc: eric.dumazet@gmail.com, jengelh@medozas.de, davem@redhat.com, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-  Hi!
+Am 20.09.2010 11:27, schrieb Jiri Olsa:
+> we need to check proper socket type within ipv4_conntrack_defrag
+> function before referencing the nodefrag flag.
+> 
+> For example the tun driver receive path produces skbs with
+> AF_UNSPEC socket type, and so current code is causing unwanted
+> fragmented packets going out.
 
-On Sun, Sep 19, 2010 at 06:23:03PM +0200, Michael Kerrisk wrote:
-> Like I say, when I wrote the timer_create.2 page, I ran into the same
-> problems, which is why I partially duplicated content, rather than
-> writing a separate page. Of course, this solution doesn't scale well,
-> as you highlight. So I think your idea is the right way to go, but it
-> needs tweaking. I propose to add the version below. Comments welcome.
+Looks good. Applied, thanks.
 
-  Hmm, what you write makes a lot of sense, the new versions looks good
-to me!
-
-  Thanks for looking into it,
-
--- 
-				Petr "Pasky" Baudis
-The true meaning of life is to plant a tree under whose shade
-you will never sit.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
