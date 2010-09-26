@@ -1,58 +1,40 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: small typo in rand.3 ?
-Date: Sun, 26 Sep 2010 17:32:56 +0400
-Message-ID: <20100926173256.69b0440e@keeper.home.local>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Patch] Fix groff syntax
+Date: Sun, 26 Sep 2010 16:08:37 +0200
+Message-ID: <AANLkTi=_UY9By=Vf8Jv_M4BK8M6ED318j9rhiYkVT5Sk@mail.gmail.com>
+References: <AANLkTinn0cN2w2+u0LuZWQcWZgCdEN6w=q3jq9zzLUr6@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/_g9qAuxyALQSa55TUK6KXA5"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <AANLkTinn0cN2w2+u0LuZWQcWZgCdEN6w=q3jq9zzLUr6-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---MP_/_g9qAuxyALQSa55TUK6KXA5
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+On Sun, Sep 26, 2010 at 12:09 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello,
+>
+> Here is a syntax.patch file to fix 2 groff issues, and another patch
+> to fix trivial issues with mknotat.2 and rand.3.
 
-Hello.
+Thanks Denis. All changes applied for 3.28.
 
---- man-pages-git/man3/rand.3   2010-09-26 17:14:11.000000000 +0400
-+++ /tmp/rand.3 2010-09-26 17:27:12.000000000 +0400
-@@ -34,7 +34,7 @@
- .\" Modified 1998-04-10, Nicol�s Lichtmaier <nick-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
- .\"          with contribution from Francesco Potorti <F.Potorti-Z3/l7hFotWqRIi+8W+d3eg@public.gmane.org>
- .\" Modified 2003-11-15, aeb, added rand_r
--.\| 2010-09-13, mtk, added example program
-+.\" 2010-09-13, mtk, added example program
- .\"
- .TH RAND 3 2010-09-13 "" "Linux Programmer's Manual"
- .SH NAME
+So, a question. How close is the Debian French translation behind me?
+It looks like: very close. (Are there any still untranslated pages?)
+If so, that's great, since it's good to to know I have sort of
+checking that you are doing with these packages.
+
+Cheers,
+
+Michael
+
 
 -- 
-Best Regards,
-Yuri Kozlov
-
-
---MP_/_g9qAuxyALQSa55TUK6KXA5
-Content-Type: text/x-patch
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment; filename=rand.3.patch
-
---- man-pages-git/man3/rand.3	2010-09-26 17:14:11.000000000 +0400
-+++ /tmp/rand.3	2010-09-26 17:27:12.000000000 +0400
-@@ -34,7 +34,7 @@
- .\" Modified 1998-04-10, Nicol=E1s Lichtmaier <nick-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
- .\"          with contribution from Francesco Potorti <F.Potorti-Z3/l7hFotWpQFI55V6+gNQ@public.gmane.org=
-.it>
- .\" Modified 2003-11-15, aeb, added rand_r
--.\| 2010-09-13, mtk, added example program
-+.\" 2010-09-13, mtk, added example program
- .\"
- .TH RAND 3 2010-09-13 "" "Linux Programmer's Manual"
- .SH NAME
-
---MP_/_g9qAuxyALQSa55TUK6KXA5--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
