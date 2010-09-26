@@ -1,63 +1,58 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [Patch] Fix groff syntax
-Date: Sun, 26 Sep 2010 12:09:22 +0200
-Message-ID: <AANLkTinn0cN2w2+u0LuZWQcWZgCdEN6w=q3jq9zzLUr6@mail.gmail.com>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: small typo in rand.3 ?
+Date: Sun, 26 Sep 2010 17:32:56 +0400
+Message-ID: <20100926173256.69b0440e@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=0050450172394cad47049126ce4b
+Content-Type: multipart/mixed; boundary="MP_/_g9qAuxyALQSa55TUK6KXA5"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---0050450172394cad47049126ce4b
+--MP_/_g9qAuxyALQSa55TUK6KXA5
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
 
-Hello,
+Hello.
 
-Here is a syntax.patch file to fix 2 groff issues, and another patch
-to fix trivial issues with mknotat.2 and rand.3.
+--- man-pages-git/man3/rand.3   2010-09-26 17:14:11.000000000 +0400
++++ /tmp/rand.3 2010-09-26 17:27:12.000000000 +0400
+@@ -34,7 +34,7 @@
+ .\" Modified 1998-04-10, Nicol�s Lichtmaier <nick-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+ .\"          with contribution from Francesco Potorti <F.Potorti-Z3/l7hFotWqRIi+8W+d3eg@public.gmane.org>
+ .\" Modified 2003-11-15, aeb, added rand_r
+-.\| 2010-09-13, mtk, added example program
++.\" 2010-09-13, mtk, added example program
+ .\"
+ .TH RAND 3 2010-09-13 "" "Linux Programmer's Manual"
+ .SH NAME
 
-Denis
+-- 
+Best Regards,
+Yuri Kozlov
 
---0050450172394cad47049126ce4b
-Content-Type: text/x-patch; charset=ISO-8859-1; name="syntax.patch"
-Content-Disposition: attachment; filename="syntax.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gejrb9o80
 
-ZGlmZiAtLWdpdCBhL21hbjMvcmFuZC4zIGIvbWFuMy9yYW5kLjMKaW5kZXggM2RjZjViOS4uNjgz
-ZDQ4NiAxMDA2NDQKLS0tIGEvbWFuMy9yYW5kLjMKKysrIGIvbWFuMy9yYW5kLjMKQEAgLTM0LDcg
-KzM0LDcgQEAKIC5cIiBNb2RpZmllZCAxOTk4LTA0LTEwLCBOaWNvbOFzIExpY2h0bWFpZXIgPG5p
-Y2tAZGViaWFuLm9yZz4KIC5cIiAgICAgICAgICB3aXRoIGNvbnRyaWJ1dGlvbiBmcm9tIEZyYW5j
-ZXNjbyBQb3RvcnRpIDxGLlBvdG9ydGlAY251Y2UuY25yLml0PgogLlwiIE1vZGlmaWVkIDIwMDMt
-MTEtMTUsIGFlYiwgYWRkZWQgcmFuZF9yCi0uXHwgMjAxMC0wOS0xMywgbXRrLCBhZGRlZCBleGFt
-cGxlIHByb2dyYW0KKy5cIiAyMDEwLTA5LTEzLCBtdGssIGFkZGVkIGV4YW1wbGUgcHJvZ3JhbQog
-LlwiCiAuVEggUkFORCAzIDIwMTAtMDktMTMgIiIgIkxpbnV4IFByb2dyYW1tZXIncyBNYW51YWwi
-CiAuU0ggTkFNRQpkaWZmIC0tZ2l0IGEvbWFuMy90YW5oLjMgYi9tYW4zL3RhbmguMwppbmRleCBi
-ZjUxOTc5Li40MGRiYzU3IDEwMDY0NAotLS0gYS9tYW4zL3RhbmguMworKysgYi9tYW4zL3Rhbmgu
-MwpAQCAtNjEsNyArNjEsNiBAQCBfUE9TSVhfQ19TT1VSQ0VcID49XCAyMDAxMTJMOwogb3IKIC5J
-IGNjXCAtc3RkPWM5OQogLlJFCi0uYS5SRQogLmFkCiAuU0ggREVTQ1JJUFRJT04KIFRoZQo=
---0050450172394cad47049126ce4b
-Content-Type: text/x-patch; charset=US-ASCII; name="trivial.patch"
-Content-Disposition: attachment; filename="trivial.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gejrepxc1
+--MP_/_g9qAuxyALQSa55TUK6KXA5
+Content-Type: text/x-patch
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename=rand.3.patch
 
-ZGlmZiAtLWdpdCBhL21hbjIvbWtub2RhdC4yIGIvbWFuMi9ta25vZGF0LjIKaW5kZXggYmI4ZjE5
-Ny4uZWU0MTc2YSAxMDA2NDQKLS0tIGEvbWFuMi9ta25vZGF0LjIKKysrIGIvbWFuMi9ta25vZGF0
-LjIKQEAgLTQ2LDcgKzQ2LDcgQEAgRmVhdHVyZSBUZXN0IE1hY3JvIFJlcXVpcmVtZW50cyBmb3Ig
-Z2xpYmMgKHNlZQogLmFkIGwKIC5SUyA0CiAuVFAgNAotU2luY2UgZ2xpYmMgMi4xMDpjdworU2lu
-Y2UgZ2xpYmMgMi4xMDoKICBfWE9QRU5fU09VUkNFXCA+PVwgNzAwCiAuXCIgT3RoZXIgRlRNIGNv
-bWJpbmF0aW9ucyB3aWxsIGFsc28gZXhwb3NlIG1rbm9kYXQoKSwgYnV0IHRoaXMgZnVuY3Rpb24g
-d2FzCiAuXCIgYWRkZWQgaW4gU1VTdjQsIG1ha2VkIFhTSSwgc28gd2UnbGwganVzdCBkb2N1bWVu
-dCB3aGF0IHRoZSBzdGFuZGFyZCBzYXlzCmRpZmYgLS1naXQgYS9tYW4zL3JhbmQuMyBiL21hbjMv
-cmFuZC4zCmluZGV4IDNkY2Y1YjkuLjY5YmQ0NjQgMTAwNjQ0Ci0tLSBhL21hbjMvcmFuZC4zCisr
-KyBiL21hbjMvcmFuZC4zCkBAIC04Niw3ICs4Niw3IEBAIG9yIGl0IG1pZ2h0IGJlIHNvbWV0aGlu
-ZyBtb3JlIGVsYWJvcmF0ZS4KIEluIG9yZGVyIHRvIGdldCByZXByb2R1Y2libGUgYmVoYXZpb3Ig
-aW4gYSB0aHJlYWRlZAogYXBwbGljYXRpb24sIHRoaXMgc3RhdGUgbXVzdCBiZSBtYWRlIGV4cGxp
-Y2l0OwogdGhpcyBjYW4gYmUgZG9uZSB1c2luZyB0aGUgcmVlbnRyYW50IGZ1bmN0aW9uCi0uQlIg
-cmFuZF9yICgpCisuQlIgcmFuZF9yICgpLgogCiBMaWtlCiAuQlIgcmFuZCAoKSwK
---0050450172394cad47049126ce4b--
+--- man-pages-git/man3/rand.3	2010-09-26 17:14:11.000000000 +0400
++++ /tmp/rand.3	2010-09-26 17:27:12.000000000 +0400
+@@ -34,7 +34,7 @@
+ .\" Modified 1998-04-10, Nicol=E1s Lichtmaier <nick-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+ .\"          with contribution from Francesco Potorti <F.Potorti-Z3/l7hFotWpQFI55V6+gNQ@public.gmane.org=
+.it>
+ .\" Modified 2003-11-15, aeb, added rand_r
+-.\| 2010-09-13, mtk, added example program
++.\" 2010-09-13, mtk, added example program
+ .\"
+ .TH RAND 3 2010-09-13 "" "Linux Programmer's Manual"
+ .SH NAME
+
+--MP_/_g9qAuxyALQSa55TUK6KXA5--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
