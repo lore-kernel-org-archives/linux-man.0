@@ -1,84 +1,71 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Patch] Fix groff syntax
-Date: Mon, 27 Sep 2010 07:59:01 +0200
-Message-ID: <AANLkTinxJdrMsObXZ9KYGqc6yP+V-p=yJS4RNWWiOW=a@mail.gmail.com>
-References: <AANLkTinn0cN2w2+u0LuZWQcWZgCdEN6w=q3jq9zzLUr6@mail.gmail.com>
- <AANLkTi=_UY9By=Vf8Jv_M4BK8M6ED318j9rhiYkVT5Sk@mail.gmail.com> <AANLkTik3+Wx3-dOnPmeCZoz_RLRjGSXbWRo=cW7vKR7k@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
+Subject: [patch] nl_langinfo.3: better explaination
+Date: Tue, 28 Sep 2010 13:45:36 +0200
+Message-ID: <E1P0Ycq-0004ph-WB@fangorn.moria.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTik3+Wx3-dOnPmeCZoz_RLRjGSXbWRo=cW7vKR7k-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Denis,
+Hello,
 
-On Sun, Sep 26, 2010 at 6:00 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
-:
-> On 2010/9/26 Michael Kerrisk wrote:
->> On Sun, Sep 26, 2010 at 12:09 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
-rote:
->>> Hello,
->>>
->>> Here is a syntax.patch file to fix 2 groff issues, and another patc=
-h
->>> to fix trivial issues with mknotat.2 and rand.3.
->>
->> Thanks Denis. All changes applied for 3.28.
->>
->> So, a question. How close is the Debian French translation behind me=
-?
->> It looks like: very close. (Are there any still untranslated pages?)
->
-> Hello Michael,
->
-> We are indeed very close ;)
-> =A03.24 man-pages (26-Feb-2010) man-pages-fr (28-Feb-2010)
-> =A03.25 man-pages (20-Jun-2010) man-pages-fr (11-Jul-2010)
-> =A03.26 man-pages (05-Sep-2010) man-pages-fr (13-Sep-2010)
-> All pages are translated except mdoc.samples.7, this page is huge and
-> not really useful IMHO.
-
-Excellent.
-
-Would you like to supply a small piece of text for
-http://www.kernel.org/doc/man-pages/translations.html
-?
-
-> We follow closely your git repository to translate HEAD, so that we
-> have only a small amount of work left when you release. =A0(Except wh=
-en
-> you don't push for a couple of weeks and send dozens of large commits
-> in a row ;))
-
-I'll try to be better. From now on, you can expect to be doing a bit
-more translation work.
-
->> If so, that's great, since it's good to to know I have sort of
->> checking that you are doing with these packages.
->
-> Right, and when you can, please push your changes as soon as possible=
-,
-> we may catch those mistakes before you release. =A0But it is up to yo=
-u,
-> really, we are happy with your current workflow, it does not matter
-> much if our release is delayed by 2 days instead of 2 weeks.
-
-Okay.
-
-thanks,
+it could be more clear that nl_langinfo() interacts with setlocale().
+I made a patch against 3.27 and added a short example to query the
+terminal character set.
 
 Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+----------------------------------------------------------------------
+--- ./nl_langinfo.3.orig	2010-09-28 13:14:39.000000000 +0200
++++ ./nl_langinfo.3	2010-09-28 13:33:26.000000000 +0200
+@@ -10,8 +10,9 @@
+ .\"   OpenGroup's Single Unix specification http://www.UNIX-systems.org/online.html
+ .\"
+ .\" Corrected prototype, 2002-10-18, aeb
++.\" Modified 2010-09-28 by Michael Haardt
+ .\"
+-.TH NL_LANGINFO 3  2001-05-11 "GNU" "Linux Programmer's Manual"
++.TH NL_LANGINFO 3 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ nl_langinfo \- query language and locale information
+ .SH SYNOPSIS
+@@ -97,7 +98,9 @@
+ For a more detailed list, consult
+ .IR "The GNU C Library Reference Manual" .
+ .SH "RETURN VALUE"
+-If no locale has been selected for the appropriate category,
++If no locale has been selected by
++.BR setlocale ()
++for the appropriate category,
+ .BR nl_langinfo ()
+ returns a pointer to the corresponding string in the
+ "C" locale.
+@@ -109,6 +112,23 @@
+ .BR nl_langinfo ()
+ or
+ .BR setlocale (3).
++.SH "EXAMPLE"
++This program sets the character type locale according to the
++environment and queries the terminal character set.
++.LP
++.nf
++#include <langinfo.h>
++#include <locale.h>
++#include <stdio.h>
++#include <stdlib.h>
++
++int main(int argc, char *argv[])
++{
++  setlocale(LC_CTYPE,"");
++  printf("%s\\n",nl_langinfo(CODESET));
++  exit(EXIT_SUCCESS);
++}
++.fi
+ .SH "CONFORMING TO"
+ SUSv2, POSIX.1-2001.
+ .SH "SEE ALSO"
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
