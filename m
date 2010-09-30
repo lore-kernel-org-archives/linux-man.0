@@ -1,31 +1,30 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 19382] oom_adj and oom_score are undocumented
-Date: Thu, 30 Sep 2010 18:57:27 GMT
-Message-ID: <201009301857.o8UIvRgh030234@demeter1.kernel.org>
-References: <bug-19382-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 19332] remove editorializing from malloc man page
+Date: Thu, 30 Sep 2010 18:57:31 GMT
+Message-ID: <201009301857.o8UIvVn7030265@demeter1.kernel.org>
+References: <bug-19332-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-19382-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-19332-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=19332
+
+
+Bug 19332 depends on bug 19382, which changed state.
+
+Bug 19382 Summary: oom_adj and oom_score are undocumented
 https://bugzilla.kernel.org/show_bug.cgi?id=19382
 
-
-landijk-user-/E1597aS9LQAvxtiuMwx3w@public.gmane.org changed:
-
-           What    |Removed                     |Added
+           What    |Old Value                   |New Value
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
          Resolution|                            |INVALID
 
 
-
-
---- Comment #2 from landijk-user-/E1597aS9LQAvxtiuMwx3w@public.gmane.org  2010-09-30 18:57:21 ---
-You are right.  I have no idea how I missed it.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
