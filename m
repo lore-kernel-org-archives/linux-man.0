@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 19332] remove editorializing from malloc man page
-Date: Thu, 30 Sep 2010 18:57:31 GMT
-Message-ID: <201009301857.o8UIvVn7030265@demeter1.kernel.org>
+Date: Thu, 30 Sep 2010 19:01:54 GMT
+Message-ID: <201009301901.o8UJ1s2o028814@demeter2.kernel.org>
 References: <bug-19332-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,17 +14,20 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=19332
 
 
-Bug 19332 depends on bug 19382, which changed state.
+Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> changed:
 
-Bug 19382 Summary: oom_adj and oom_score are undocumented
-https://bugzilla.kernel.org/show_bug.cgi?id=19382
-
-           What    |Old Value                   |New Value
+           What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|                            |INVALID
+                 CC|                            |vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org
 
 
+
+
+--- Comment #3 from Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>  2010-09-30 19:01:48 ---
+i'd agree with the linking to a diff man page.  proc(5) already has a section
+on overcommit_memory.  perhaps that should be extended with the stuff from
+malloc(3) and then malloc(3) simply makes an explicit note to also read about
+overcommit_memory in proc(5).
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
