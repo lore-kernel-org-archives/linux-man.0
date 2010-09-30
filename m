@@ -1,36 +1,46 @@
-From: Anders Thulin <anders.thulin-sdfhRxSboruzQB+pC5nmwQ@public.gmane.org>
-Subject: Problem with sd(4) man page -- null reference to scsi(4)
-Date: Thu, 30 Sep 2010 10:13:08 +0200
-Message-ID: <4CA44694.9000609@sentor.se>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 19332] remove editorializing from malloc man page
+Date: Thu, 30 Sep 2010 08:22:15 GMT
+Message-ID: <201009300822.o8U8MFC2027091@demeter2.kernel.org>
+References: <bug-19332-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-19332-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-
-  Noticed this in the Ubuntu 10.04 man pages (release 3.23, dated 1992-12-17), and it's also present
-in the http://www.kernel.org/doc/man-pages/online/pages/man4/sd.4.html page.
-
-  Just before the FILES section, the following text appears:
-	
-	The scsi(4) ioctl(2) operations are also supported.  If the ioctl(2)
-	parameter is required, and it is NULL, then ioctl(2) will fail with the
-	error EINVAL.
-
-  However, there is no scsi(4) man page -- and the web page link produces a 404 web error.
-
-  Looks like all those scsi(4) operations may be undocumented ...
+https://bugzilla.kernel.org/show_bug.cgi?id=19332
 
 
-  Additionally, I suspect (no more), that more of the ioctls available in <linux/hdreg.h>
-are provided, than just HDIO_GETGEO mentioned on this page.
+Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |pasky-AlSwsSmVLrQ@public.gmane.org
+
+
+
+
+--- Comment #1 from Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>  2010-09-30 08:22:13 ---
+I agree that the paragraph should be rewritten; it always strucks me as really
+opinionated one as well every time I stumble upon it. Moreover, I'd move it
+from section BUGS to section NOTES.
+
+I do not think it is wise to remove the information on how to turn it off,
+though - I see no harm in keeping the extra information. There are already
+references to more documentation in the manual page; if there is anything extra
+in the web page referenced, the information should be added to the kernel
+documentation, I think. I think it is wise to avoid web references in general
+whenever possible since most URLs actually tend to be quite volatile, and
+vendor-specific documentation specifically to avoid any bias, informational or
+otherwise.
 
 -- 
-Anders Thulin      anders.thulin-sdfhRxSboruzQB+pC5nmwQ@public.gmane.org      070-757 36 10 / Intl. +46 70 757 36 10
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
