@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 19332] remove editorializing from malloc man page
-Date: Sun, 3 Oct 2010 15:17:36 GMT
-Message-ID: <201010031517.o93FHaix014381@demeter2.kernel.org>
+Date: Sun, 3 Oct 2010 15:18:02 GMT
+Message-ID: <201010031518.o93FI2o2014915@demeter2.kernel.org>
 References: <bug-19332-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,8 +18,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         AssignedTo|documentation_man-pages@ker |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |nel-bugs.osdl.org           |
 
 
 
