@@ -1,52 +1,26 @@
-From: Thomas Jarosch <thomas.jarosch-XXsH3GEs1jrby3iVrkZq2A@public.gmane.org>
-Subject: getifaddrs: Prevent possible NULL pointer access
-Date: Tue, 5 Oct 2010 14:57:23 +0200
-Message-ID: <201010051457.23610.thomas.jarosch@intra2net.com>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: aio_init(3) page 404
+Date: Tue, 5 Oct 2010 22:18:36 +0100
+Message-ID: <AANLkTikpZpgvwMWHVik6_VyHwToUh4jj2sdb8AJfwwBZ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: Multipart/Mixed;
-  boundary="Boundary-00=_zCyqMYfRqft8X3F"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---Boundary-00=_zCyqMYfRqft8X3F
-Content-Type: Text/Plain;
-  charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Hello Michael
 
-Hello,
+Just noticed this page currently is 404 not found:
 
-the example code for getifaddrs() contains a possible NULL pointer access.
-Attached is a patch against man-pages 3.22 from Fedora 12.
+http://www.kernel.org/doc/man-pages/online/pages/man3/aio_init.3.html
 
-Best regards,
-Thomas Jarosch
+Linked from this page:
 
---Boundary-00=_zCyqMYfRqft8X3F
-Content-Type: text/x-patch;
-  charset="UTF-8";
-  name="man-pages-getifaddrs-prevent-NULL-access.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename="man-pages-getifaddrs-prevent-NULL-access.patch"
+http://www.kernel.org/doc/man-pages/online/pages/man7/aio.7.html
 
-diff -u -r -p man-pages-3.22/man3/getifaddrs.3 man-pages.prevent_NULL/man3/getifaddrs.3
---- man-pages-3.22/man3/getifaddrs.3	2009-07-25 08:53:32.000000000 +0200
-+++ man-pages.prevent_NULL/man3/getifaddrs.3	2010-10-05 14:13:25.536917362 +0200
-@@ -245,6 +245,9 @@ main(int argc, char *argv[])
-        can free list later */
- 
-     for (ifa = ifaddr; ifa != NULL; ifa = ifa\->ifa_next) {
-+        if (ifa\->ifa_addr == NULL)
-+            continue;
-+
-         family = ifa\->ifa_addr\->sa_family;
- 
-         /* Display interface name and family (including symbolic
-
---Boundary-00=_zCyqMYfRqft8X3F--
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
