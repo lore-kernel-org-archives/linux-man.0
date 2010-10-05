@@ -1,44 +1,52 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typos introduced in 5fab2e7?
-Date: Mon, 4 Oct 2010 08:47:37 +0200
-Message-ID: <AANLkTi=ruo2KYfTy9-CrAnX7sqwDg5hrmj7xyswH-rOE@mail.gmail.com>
-References: <AANLkTi=ZkHV97T49vsJaY8scUngP0JAGj12NnOvhTQb3@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Thomas Jarosch <thomas.jarosch-XXsH3GEs1jrby3iVrkZq2A@public.gmane.org>
+Subject: getifaddrs: Prevent possible NULL pointer access
+Date: Tue, 5 Oct 2010 14:57:23 +0200
+Message-ID: <201010051457.23610.thomas.jarosch@intra2net.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: Multipart/Mixed;
+  boundary="Boundary-00=_zCyqMYfRqft8X3F"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=ZkHV97T49vsJaY8scUngP0JAGj12NnOvhTQb3-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Denis,
+--Boundary-00=_zCyqMYfRqft8X3F
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 4, 2010 at 6:41 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello,
->
-> =A0$ git show 5fab2e7 | grep forward
-> =A0-The listing below is a TCP forwarding program that forwards
-> =A0+The listing below is a TCP forwarding program that forward
-> =A0-The above program properly forwards most kinds of TCP connections
-> =A0+The above program properly forward most kinds of TCP connections
-> =A0-pointed to by \fIs\fP instead of forwards from the beginning.
-> =A0+pointed to by \fIs\fP instead of forward from the beginning.
-> The first 2 change look wrong to me.
+Hello,
 
-You're right of course. I'll fix.
+the example code for getifaddrs() contains a possible NULL pointer access.
+Attached is a patch against man-pages 3.22 from Fedora 12.
 
-Thanks,
+Best regards,
+Thomas Jarosch
 
-Michael
+--Boundary-00=_zCyqMYfRqft8X3F
+Content-Type: text/x-patch;
+  charset="UTF-8";
+  name="man-pages-getifaddrs-prevent-NULL-access.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="man-pages-getifaddrs-prevent-NULL-access.patch"
 
+diff -u -r -p man-pages-3.22/man3/getifaddrs.3 man-pages.prevent_NULL/man3/getifaddrs.3
+--- man-pages-3.22/man3/getifaddrs.3	2009-07-25 08:53:32.000000000 +0200
++++ man-pages.prevent_NULL/man3/getifaddrs.3	2010-10-05 14:13:25.536917362 +0200
+@@ -245,6 +245,9 @@ main(int argc, char *argv[])
+        can free list later */
+ 
+     for (ifa = ifaddr; ifa != NULL; ifa = ifa\->ifa_next) {
++        if (ifa\->ifa_addr == NULL)
++            continue;
++
+         family = ifa\->ifa_addr\->sa_family;
+ 
+         /* Display interface name and family (including symbolic
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--Boundary-00=_zCyqMYfRqft8X3F--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
