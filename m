@@ -1,98 +1,76 @@
-From: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-Subject: [PATCH] psiginfo.3, psignal.3: Document psiginfo()
-Date: Wed, 6 Oct 2010 08:51:42 +0200
-Message-ID: <20101006065142.GA26673@gaara.hadrons.org>
+From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: gai_{error,suspend,cancel}.3 man-pages typo
+Date: Wed, 06 Oct 2010 17:03:18 +0200
+Message-ID: <4CAC8FB6.8010907@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed;
+ boundary="------------000107010602050100080009"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
----
- man3/psiginfo.3 |    1 +
- man3/psignal.3  |   28 ++++++++++++++++++++--------
- 2 files changed, 21 insertions(+), 8 deletions(-)
- create mode 100644 man3/psiginfo.3
+This is a multi-part message in MIME format.
+--------------000107010602050100080009
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-diff --git a/man3/psiginfo.3 b/man3/psiginfo.3
-new file mode 100644
-index 0000000..cd748fa
---- /dev/null
-+++ b/man3/psiginfo.3
-@@ -0,0 +1 @@
-+.so man3/psignal.3
-diff --git a/man3/psignal.3 b/man3/psignal.3
-index 128fe8f..729acc9 100644
---- a/man3/psignal.3
-+++ b/man3/psignal.3
-@@ -25,16 +25,15 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:45:17 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.\" FIXME glibc 2.10 adds psiginfo(), specified in SUSv4.  This function
--.\" should be documented, probably on this page.
--.TH PSIGNAL 3  2008-08-21 "GNU" "Linux Programmer's Manual"
-+.TH PSIGNAL 3  2010-10-06 "GNU" "Linux Programmer's Manual"
- .SH NAME
--psignal \- print signal message
-+psignal, psiginfo \- print signal message
- .SH SYNOPSIS
- .nf
- .B #include <signal.h>
- .sp
- .BI "void psignal(int " sig ", const char *" s );
-+.BI "void psiginfo(const siginfo_t *" pinfo ", const char *" s );
- .sp
- .BI "extern const char *const " sys_siglist [];
- .fi
-@@ -47,23 +46,36 @@ Feature Test Macro Requirements for glibc (see
- .BR psignal ():
- _SVID_SOURCE || _BSD_SOURCE
- .br
-+.BR psiginfo ():
-+_XOPEN_SOURCE\ >=\ 700 || _POSIX_C_SOURCE\ >=\ 200809L
-+.br
- .IR sys_siglist :
- _BSD_SOURCE
- .SH DESCRIPTION
- The
- .BR psignal ()
--function displays a message on \fIstderr\fP
-+and
-+.BR psiginfo ()
-+functions display a message on \fIstderr\fP
- consisting of the string \fIs\fP, a colon, a space, and a string
--describing the signal number \fIsig\fP.
--If \fIsig\fP is invalid,
-+describing the signal number \fIsig\fP or signal information \fIpinfo\fP.
-+If the string \fIs\fP is NULL or empty, the colon and space are omitted.
-+For
-+.BR psignal ()
-+if \fIsig\fP is invalid,
- the message displayed will indicate an unknown signal.
-+For
-+.BR psiginfo (),
-+\fIpinfo\fP should point to a valid \fIsiginfo_t\fP structure.
- .PP
- The array \fIsys_siglist\fP holds the signal description strings
- indexed by signal number.
- .SH "RETURN VALUE"
- The
- .BR psignal ()
--function returns no value.
-+and
-+.BR psiginfo ()
-+functions return no value.
- .SH "CONFORMING TO"
- POSIX.1-2008, 4.3BSD.
- .SH "SEE ALSO"
--- 
-1.7.2.3
+Hello,
+there is a small typo in gai_{error,suspend,cancel}.3 man-pages (Btw I'm 
+not sure whether it is intentional, but these man-pages are identical 
+copies. Iḿ not sure why there is not used link.). There is used ".ID" 
+instead of ".IR" in all these pages in one place.
+The patch is attached.
+Have a nice day.
+Ivana Hutarova Varekova
 
+
+--------------000107010602050100080009
+Content-Type: text/x-patch;
+ name="man-pages-3.28-typo.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="man-pages-3.28-typo.patch"
+
+diff -up man-pages-3.28/man3/gai_cancel.3.pom man-pages-3.28/man3/gai_cancel.3
+--- man-pages-3.28/man3/gai_cancel.3.pom	2010-10-04 05:04:35.000000000 +0200
++++ man-pages-3.28/man3/gai_cancel.3	2010-10-06 16:31:24.000000000 +0200
+@@ -180,7 +180,7 @@ The
+ .BR gai_suspend ()
+ function suspends execution of the calling thread,
+ waiting for the completion of one or more requests in the array
+-.ID list .
++.IR list .
+ The
+ .I nitems
+ argument specifies the size of the array
+diff -up man-pages-3.28/man3/gai_error.3.pom man-pages-3.28/man3/gai_error.3
+--- man-pages-3.28/man3/gai_error.3.pom	2010-10-04 05:04:35.000000000 +0200
++++ man-pages-3.28/man3/gai_error.3	2010-10-06 16:35:57.000000000 +0200
+@@ -180,7 +180,7 @@ The
+ .BR gai_suspend ()
+ function suspends execution of the calling thread,
+ waiting for the completion of one or more requests in the array
+-.ID list .
++.IR list .
+ The
+ .I nitems
+ argument specifies the size of the array
+diff -up man-pages-3.28/man3/gai_suspend.3.pom man-pages-3.28/man3/gai_suspend.3
+--- man-pages-3.28/man3/gai_suspend.3.pom	2010-10-04 05:04:35.000000000 +0200
++++ man-pages-3.28/man3/gai_suspend.3	2010-10-06 16:33:01.000000000 +0200
+@@ -180,7 +180,7 @@ The
+ .BR gai_suspend ()
+ function suspends execution of the calling thread,
+ waiting for the completion of one or more requests in the array
+-.ID list .
++.IR list .
+ The
+ .I nitems
+ argument specifies the size of the array
+
+--------------000107010602050100080009--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
