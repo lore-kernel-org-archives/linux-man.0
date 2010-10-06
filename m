@@ -1,81 +1,49 @@
-From: Simon Paillard <simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org>
-Subject: getaddrinfo_a.3: format fix for consistency
-Date: Wed, 6 Oct 2010 20:50:25 +0200
-Message-ID: <20101006185025.GA28069@dedibox.ebzao.info>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 19812] New: two issues in unix(7)
+Date: Wed, 6 Oct 2010 21:11:05 GMT
+Message-ID: <bug-19812-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="+HP7ph2BbKc20aGI"
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=19812
 
---+HP7ph2BbKc20aGI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+           Summary: two issues in unix(7)
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: mzxreary-uLTowLwuiw4b1SvskN2V4Q@public.gmane.org
+        Regression: No
 
-Hi,
 
-While translating getaddrinfo_a to french, I noticed that the english
-formatting was not very consistent from the synchronous to the
-asynchronous description.
+There are two smaller issues in the unix(7) man page:
 
-  Perform the look-ups synchronously; <--- ;
-[..]
- .B GAI_NOWAIT
- Perform the look-ups asynchronously. <--- .
+1) The part about "pathname" sockets suggests usage of sizeof(sa_family_t) +
+strlen(sun_path) + 1 for calculating the sockaddr size. Due to
+alignment/padding this is probably not a good idea. Instead, one should use
+offsetof(struct sockaddr_un, sun_path) + strlen() + 1 or something like that.
 
-Quite minor, patch attached.
+2) The part about "abstract" sockets is misleading as it suggests that the
+sockaddr returned by getsockname() would necessarily have the size of
+sizeof(struct sockaddr), which however is not the case: getsockname() returns
+exactly the sockaddr size that was passed in on bind(). In particular, two
+sockets that are bound to the same sockaddr but different sizes are completely
+independant.
 
 -- 
-Simon Paillard
-
---+HP7ph2BbKc20aGI
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-getaddrinfo_a.3-format-fix-for-consistency.patch"
-
->From 21b0256966c330c7194bc540db75eebf5979e1a8 Mon Sep 17 00:00:00 2001
-From: Simon Paillard <simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org>
-Date: Wed, 6 Oct 2010 20:43:57 +0200
-Subject: [PATCH] getaddrinfo_a.3: format fix for consistency
-
-
-diff --git a/man3/getaddrinfo_a.3 b/man3/getaddrinfo_a.3
-index ad2b899..e50753e 100644
---- a/man3/getaddrinfo_a.3
-+++ b/man3/getaddrinfo_a.3
-@@ -51,22 +51,22 @@ The
- function performs the same task as
- .BR getaddrinfo (3),
- but allows multiple name look-ups to be performed asynchronously,
- with optional notification on completion of look-up operations.
- 
- The
- .I mode
- argument has one of the following values:
- .TP
- .B GAI_WAIT
--Perform the look-ups synchronously;
--the call blocks until the look-ups have completed.
-+Perform the look-ups synchronously.
-+The call blocks until the look-ups have completed.
- .TP
- .B GAI_NOWAIT
- Perform the look-ups asynchronously.
- The call returns immediately,
- and the requests are resolved in the background.
- See the discussion of the
- .I sevp
- argument below.
- .PP
- The array
--- 
-1.5.6.5
-
-
---+HP7ph2BbKc20aGI--
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
