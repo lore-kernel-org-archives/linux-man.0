@@ -1,65 +1,206 @@
-From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
-Subject: [patch] aio.7: Some minor typos (Was: Missing word in aio.7)
-Date: Thu, 07 Oct 2010 11:43:56 -0400
-Message-ID: <4CADEABC.1040005@altern.org>
-References: <AANLkTi=TgkncPeFgP8WTKnHn96Qm6xYK4mdLzumY6Vie@mail.gmail.com>
+From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Subject: man pages for undocumented system calls
+Date: Fri, 8 Oct 2010 13:06:15 +0200
+Message-ID: <201010081306.17014.stephan.mueller@atsec.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: Multipart/Mixed;
+  boundary="Boundary-00=_osvrMvOYK61kCvo"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=TgkncPeFgP8WTKnHn96Qm6xYK4mdLzumY6Vie-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
 Hi,
 
-Please find inline a patch including Denis' proposal and two others
-spotted during translation, against current aio(7) manual page.
+please find attached man pages for system calls where there were no man pages 
+available.
 
+Please note that some of the system calls are applicable to only specific 
+architectures.
 
-diff --git a/man7/aio.7 b/man7/aio.7
-index e1d6d2b..5a0f734 100644
-- --- a/man7/aio.7
-+++ b/man7/aio.7
-@@ -119,11 +119,11 @@ This is the size of the buffer pointed to by
- .I aio_reqprio
- This field specifies a value that is subtracted
- from the calling thread's real-time priority in order to
-- -determine the priority for execution of this I/O request.
-+determine the priority for execution of this I/O request (see
- .BR pthread_setschedparam (3)).
- The specified value must be between 0 and the value returned by
- .IR sysconf(_SC_AIO_PRIO_DELTA_MAX) .
-- -This field is ignored file synchronization operations.
-+This field is ignored during file synchronization operations.
- .TP
- .I aio_sigevent
- This field is a structure that specifies how the caller is
-@@ -448,7 +448,7 @@ main(int argc, char *argv[])
- .BR io_setup (2),
- .BR io_cancel (2),
- .BR io_destroy (2),
-- -.BR io_getevents (2)),
-+.BR io_getevents (2),
- .BR aio_cancel (3),
- .BR aio_error (3),
- .BR aio_init (3),
+I tried to be careful in documenting the system calls, but if you identify 
+errors, please let me know.
 
+It would be great if you think they are worthwhile incorporating into the 
+upstream man page repository.
 
-Regards
+Ciao
+Stephan
 
-David
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="paccept.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="paccept.2.gz"
 
-iEYEARECAAYFAkyt6rsACgkQ18/WetbTC/op/QCfeVh+YZBzATMWFT+IuMpxLIfh
-cpwAoI8YdhmQGszmVYipdT4U5aEUJvmb
-=e8Tu
------END PGP SIGNATURE-----
+H4sICBz3rkwCA3BhY2NlcHQuMgCFVl1v4zYQfNevWPilSeEIaVD0pYdD3TSHGMiHYfsKFAhwoKmV
+RVgiVZJKzvfrO0vJtvIBNEAQMyRnZ2dnl86fJrSuTKDS1Eza2aiMDRQrplZpzW2ksA9a1TUVTncN
+40A0zmb500R+6dq1e2+2VaQzfU5Xl79c0ipyWylL9x3XNXv6FJr+0x8qBta5ds3n4/0F+8aEAEgC
+i61XNnJB0VGjdkzKFlSYEL3ZdJHpmf0G4RsQbQ0HciWYmpCAGmU7VVPr3bMpBKKSfA7krItG93hy
+g9pT2MOW54TTeg7sn4GAPcm7j5X/P2OJ9pZx4wpTGuyDulwRzgklsRg4d7aATD1hW5iYzpXOv8p3
+b+x2Ok5PxQGICVUxngnMuzriHAHPSAovzu+E5YlRMYoWkcmRkPpAE0QCMqov6SXGzvJJiZWxOCRI
+d8Z232nH3nKdJKjNxisvNYKuklaI0Knek4YztimVd5VTW+il9rRBYKud96wjQQXXxQtXXhQqck5w
+K2rVxcr5s3BOKgSYMlECaVGgRSyzMbWJ+6Qhe+98SDhDdmEqK9krVIOg4SRcD1R616S0usC9x4QR
+LjTJ+4c2gZYVezb2HStkcaAUqVLPEAlutgkoqIap5mcIBWgt8ph+B7UtOp0iDMbOR/pM6aUyupJq
+1qiNDQhfek4EIarf8hRqCNCemuT5lwohxQHHxBCh5KQBjL0/FfJLSk3MAVFwSOPQa8+O/TolU8JF
+GA+uaZUVd2/2Ry8G13kNLk0XIim9s+6l5mLLbxpSTNILdoIXrnmW5etbWsyur28Wa7pKI+Xi8reL
+qyuaJJtNhr+08A7d1zTsfwp0n6ghndUtPczub7LD+Hq6oOGTksJZHhRGc4Or3nFMd1b/PDwuVvNV
+llv0w59zmtQOjTSgnBkbCcYoaDIltBLKlC6rovD0M5pH/mKrv0njHzlWs/0WD+ewGKOYbeAou7iH
+RaPCDtsfAZkf/C32p3BFlligGD21Wm0DTc5/z/LSpIz+ulldL+eL9fzxIRN7Yo5HxiiRmaZ0DMBp
+TK08mrL3DWIuB61+pbOr82x848XEqp813+WASCgjSEQ0W9gJNreFTHuNyZ86GB2PoV/kCXbQMdvU
+kCPAPdHUxMDEjVd1MdKNmk0/gLN8DtEz509xxgcSA/wjtKz7MSs0cWl5lDJPuaM90tuVht18pGBW
+cIlO7l+8JOnQ762DriA3LDF81FCyzh9209QfIh4CZmLs5H2IwP92/ew8VDnPZtDS9WkPnPoR+WbU
+skxazG0OGnMbkYx9Wx7pFJT5Zrl8XK5Slp5BzqbWSlMPugJgpM57kEy1LSYBza14Mz090xS+dHXt
+XuQtGQaoTGZVB0dO686nNl0AjW7mD3/P7lL8VqEdGaqN9UB5ZAp+IEX26I8gX2Zf79avSjXGgKcE
+Y8P9YyyJAGl4bgK8xYMYs6/rW1HjzVcQtNNyTp/o/RcR+pz9B16N7fwDCQAA
+
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="revokeat.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="revokeat.2.gz"
+
+H4sICAv3rkwCA3Jldm9rZWF0LjIAhVbvb9s2EP2uv+LgL0sGR+kMrBjWoljauIuxJjJsd0WBAgUt
+URYXiRRIyq7/+707yT+SDNiHJI5Jvnv37t2R6bcRrSoTqDS1ptzZqIwNFCtNXm/do1aRwj7kqq6p
+cHnXaOyIxtkk/TbiH/riTYza0npPy6jbSlm673Rda09vQ9N/+kPFoPM0d807KrQ3W2M3ctjY0vlG
+AKn0rqEqxvb36+t6Z1Or4/WNjyavdbievJ78Ovnt+hh1rn1jQuBzIL/xykZdUHTUqEdNyhZUmBC9
+WXdR01b7NWI0yK81OpArkaAJAtQo26maWu+2pmCIimVo995sqkjWIX6PxyeoPYU9LHktOK3XQfst
+ELDGavWx0v9nzNGeM25cYUqDdVDnI8xZUITFwLmz0HIgbAsTZR/0fJLvHlKPz9NTcQDShFoaz4UO
+XR2xr68Ndu2cf2SWJ0bFWbSITI6E1H9ogkhAhmc4PWHsrD4psTQWmxjpk7HdD3rU3upaJKjN2ivP
+NYKunFaI0KneUw5fbSSVF5VTG+il9rRGYJs773UeCSq4Ll658qpQUacEk6NWXaycvwiXpEKAlYUS
+SLMCLWKZtalN3IuG2nvng+AM2YUx/8drhWoQNJyE64HEwJxWF3TvMf3E4EN3QctKe23sC1bI4kAp
+UqW2EAlutgIUVKOp1lsIBeic5TH9CmpbdLlEGIydnukzpl1l8oqrWaM2NiB86bUQhKh+o8dQg4H2
+1IjndxVCsgOOiSFCqUUDGHt/KuRHSY3NAVGwKcemp5499+uYTAkXqRxjoFWW3b3eH70YXOdzcGm6
+EEnlj9btal1s9LOGZJP0gp3gmWuaJOnqjhbTv7O/pjcrmtDk1S+vrl69vppMaCQ+Gw1/ae4d2q9p
+tP8p0L1wQz7LO3q4uZ8mx7H37WoYgaDDmbGZlcxJ2bz8+pDNl7Nlklp0wvsZjWqHFjocvzA20ggd
+5L+XBY3GvZlFcvp5JDCWSzqiyzeUpKUR0Nvp8sNiNl/NsoeEvdF2vnUHN/H88Y7/L3gmR40G50lj
+Qj9GmrbWUaNZ0LaIZtEHCa8fKhN6hyoKrc4xXnJhwR3VBR5ZbsczQJHVu8MZACdiRP0jr7uA4XAm
+Bs8SgYD4cocIG0ErHcP19wg3ACcA4K5ZY4bgs8OCh2oL+hlSXSZn6YSU7tAe4ySdHVVKTA8lig2d
+JRcWd2Pv74FWr8X6cHsVb9h0JuL7BBeTWgdX83xtVawEDEiWI/V14jhmY53XRUoZc9yZ0FM5bQCO
+a9EiQqDQIfemjcNkYGLYCeWd3w9MOq5X32IJxpmXSds69sfQwbVzj13LiR0STmUySJ0w4raq7rSo
+dbP6/vH2w5fbxGDg55hsvS55h6kHvKFrzygcSLGyEreva5rMREUBPTr+YnKZ5P3d1XspUOhE17JD
+42P+WbjrWd79lXOs1FANnt4emJx6GfWJBO0MfkEWJGWgciK+ny4W2QKttJqDEX/Xf5i+/7z8mhyl
+kBtRwnMZauAXezBc/8MTX7pzaFjUx8vMTY9In7JsnqwcPxAsDu2btcM8xEy0j5ggMBxuw9x1uJRR
+fC4Mhrur+4fKbHHq1xMiT4tVln3KHv584tUd1xqBeByc7c7up/fJzIauROcZrtZw7zW64UrxMbVV
+plZr7qjDuWz+kK2Wn+dzkUGSH5qlcnXBJT02Q+FQML46Qte2zsezV1xSdlauCMUX3Al9Pl3cvwCG
+YT3Nbg+NxlXDF4UpBBwTHwXmBbez0s3JkUH/Tjoe4ZT4SMsvvlpvIOzFh5v594/Zl4fp4jLta3/z
+eXXHxX/2ekTXLWb0ll6+Ield8i/6qhzttwoAAA==
+
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="sync_file_range2.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="sync_file_range2.2.gz"
+
+H4sICF33rkwCA3N5bmNfZmlsZV9yYW5nZTIuMgCFVV1v2zgQfNevWPilCWALOaHoyxXFpTm3MZAv
+WO5DgQIGTa0kIhIpkJRd/fsbUkrsOj3UgGGZXM7Ozs5S6Y8Z3ZhusKqqPV3IS8qu/rqi3HNXC033
+PTcNW/ro2vHpH+Edy1Sa9lOS/piFLz2xbZVzymhSjiortOeCvKFWPDMJXVChnLdq13umPdud8Kol
+aTrFjkxJvlYuArVC96Khzpq9KgJEzSFsIqeNV3LECyeoO6Z92bIccTrLju0eCNgTTTPlSv/MOGQ7
+Z9yaQpUK+6AejgTOESWymDj3uoBMI2FdKB/jSmN/qXdQupqflif8BMTE2ivLBOZ94xFHwFOhhIOx
+z4HlkVFxks2jkldC4jeaIBOQJSiivMjYaD4qkSuNoIB0p3T/k57Zam6iBI3aWWFDj6BrKMt56NQM
+JOGMKpbypnOigl5ioB0Sa2msZekJKpjeL0y5KITnlGiDdKL3tbEX7pKEc307UgLpoECHXGqnGuWH
+qCFba6yLOFN1bh7+hb1CtEjqjsKNQKU1bSyrdzx6LDDCgVaE3oRyvFAaWtZsWek3rFDFCyVPtdhD
+JLhZRyAnWqaG9xAK0DLIo8Yd9LboZcwwGTs90WdOh1rJOnSzQW+0Q/rSciQIUW3Fc6gRgAZqo+cP
+NVIGB7wWhgwlRw1g7OHYyC+xtGAOiIIgiaBfPXvq1zmpEi4SEoPcCR3cvRtevehMbyW4tL3zJOSz
+NoeGi4rPBjKYZBTsCB+4TqQ2t5R/f7jZflndLbfr64evy4yyeL0srj4ssoxm0XKz6ZeerMEkti3b
+d47uI02g5Lf0cH2/TNyg5bZUDW8xrRVntBjbAL3OtuIZZH58yld5kmrMxucVzZT255HZRViEWQqa
+zSGHU1VwxLTYiMphfTxNv/uYsvzwfhuC8eTYB5Tjmt4NHsa8/DtJSxVJ/bvMb9arp83q8SHZBLXc
+4Dzjagh3FP4KOljRYYajsyE2cq/PSdNFdpmcHEyTYFxcUSWMHIY5jjjGNFwvI8hqLCaBwzBpqE5F
+k1EWGvi6hvlmUbwMy3tfH/dcx3K8A0Hs/0ilSSxyli+XdH2XP87+EHj9bXP7uM6Ts3cNBF+v6CO9
+fePQp+Q/AgbfEK8GAAA=
+
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="arm_fadvise.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="arm_fadvise.2.gz"
+
+H4sICCD4rkwCA2FybV9mYWR2aXNlLjIAhVVda9tIFH3Xr7j4ZROwRdaEvGwp9bYuMTQfWOnCgiGM
+R1fWEGlGzIzs+t/vuSM7dpPSfdLX/Tj3zDlX+WpET7UJVJmGSTsblbGBYs2kfPtcqXJrAlPYB62a
+hkqn+5YRFI2zWY7kXW10TSiwVoFLcjbldi6YH8fsi+kltcpSpzacS1JK/Oy6vTebOtKFvqTp1Z9X
+VETuagTe9dw07OlDaIe7TyoG1rl27cfX/Ef2rQkBOKT7xisb0T86tHoBeFtSaUL0Zt1Hpi37NTC3
+mLAzHMhVgGlCKgRovWqo825rSilRCxFHcNZFo4d6kkHdqe3xk+dUp/Mc2G8HEoSsoVf+/4il21vE
+rStNZfAd0CVFMKcqCcUBc29L0DQAtqWJKa5y/qd598ZuxufjqXgoxISjNJ4JyPsmIo5Qz8gIO+df
+BOUJUXnWLWKSV0DqF5ygEypDMjJeQuzs2dkXxiJIKn0ztv9BL+wtN4mCxqy98nJG4FXGChE8NXvS
+UMYmjfLu5KAr3O9pjcZWO+9ZRwILro8TV01KFTknyBxn1cfa+YtwSSoEKDlBAmhhoEMvszaNifvE
+IXvvfEh1DtOFsTzJt1K1aBpOxA2FKu/aNFYPzySNCSIktMkwR3+By5o9G/sOFaY4QopUqy1IgpoH
+TwXVMjW8BVEorYUec3Cbd2WvU4eDsPMzfsYnjzY4Gys2rTwngCDVb3gMNqTQntqk+V2NlqKA18HQ
+oeLEAYS9Px3k1zSaiAOkIEgj6GfNnut1TKaCipSGkTtlRd3r/asWg+u9Bpa2D5GUfrFu13C54TeG
+FJEMhJ3KC9YDqKdbmi3vnr/OvvyzKOY0TZtlcnUzmU5plNQ2Olzp0TuYsG3Z/xHoLiFEgeKW7md3
+8+x8/a0m4u6SdSOsY0NhBEwK5WF2b5Mk0gKF1FQqUfx7//BYLIost3DJ3wsaNQ72Oit6YWwkSKak
+EXhJ9/IBvsCzq6pneYNr4ChvVtnxXYPDGV3+BaiVSb2+zIvPy8Xj0+LhPku7HNs6MrwvSwiPinZe
+dTBpwgk2AWhJBxg3188314QVnZ1l5ZnIEguogkzFqsnAMKEsj3Qeq2oxoF1Vj5hqk/4KEiYfp3JE
+h3cZfieRVXm0w3WsT/GhYz1sOSD7Jao8SyOOivmcZt+Kh9Hvombfn24flkX25j8yzvLlgj7Q+78J
+fcz+A88yRwkBBwAA
+
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="arm_mremap.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="arm_mremap.2.gz"
+
+H4sICDr4rkwCA2FybV9tcmVtYXAuMgCNVV1vGzcQfL9fsdBL7UISXD/0pUEQN1FgAZEtSC7QAAYM
+6rinI3wkDyRPivrrMyRP0kUO2grQx4nk7Ozs7HL6PKKnWnmqVMNUWhOEMp5CzSScftGOtWjJH3wp
+moakLTvN2BOUNcX0eRTf9NG2B6e2daCr8ppub367oXXgthaGFh03DTt653X+9UEEz+W0tPr96fyS
+nVbeA5JAZOuECSwpWNLiFTSMJKl8cGrTBaYduw3Ca3BtFXuyFcgqn4C0MJ1oqHV2p2SEqGNKR3LG
+BlVmvHiC2nPY45LjhNM69ux2QMBazDvHmv434xjtkrG2UlUK66Aej0TOCSWx6Dl3RkKmTNhIFdK+
+yrof8j0osx0P0xOhB2JCVZRjAvOuCdhHwFMxhb11r5HlmZEcRAvI5ERI/EQTRAIyqh/TS4yt4bMS
+a2WwKSJ9Uab7Rq/sDDdJgkZtnHCxRtA1puUDdGoOVMIZ25TKm8qJLfQSB9ogsCmtc1wGggq2CxNb
+TaQIPCUYFrXqQm3dlb8m4T1MmSiBdFSgRSy1UY0Kh6QhO2edTzh9dn4cn+KaFBpB/Vm4DFQ5q1Na
+nefsscgIB3Ty/rFToGXNjpV5wwpZHCkFqsUOIsHNJgF5oZka3kEoQJdRHpVXUFvZlSlCb+zpQJ8x
+7WtV1rGaDWpjPMJXjhNBiOq2PIYaEehAOnl+XyNkdMApMUSoOGkAYx/OhfycUovmgCjYVGLTj54d
++nVMqoKLRIlGboWJ7t4cTl70tnMluOjOBxLlq7H7huWWLxoymiQLdoaPXHtST/d0t1q8LFazxd2S
+btNgmdz8Prm9pVEy26j/pqWz6EGt2f3iaZEI4vz6nh7uFrNiMMeeJ6jzJP4StFMuRM9p1tahaaWE
+BXw6tv768Lhcz9fF1KAx/pzTyKt/+CUMRuLVzipJv47INvKlP0ujMfUb8//xgcYZgYav0y7D+7wL
+R5WJ/1SN2CakY4C45RTg+o9iWqlE8tNs/XE1Xz7NHx+KNMExpANjTsSBhUdBeydaNHSyOZQHjxX1
+QlzdXheD/dMimhdjqoKZY0OnNkerxhGTqhZpJYBcjpfP879nn4o8VgBg93BA8oLLgzDZAP0uhZP/
+GjjX6fFplijAXXkIgPPlMckVGi7fTcNc4Xj+1loXkgnTMkZPOc332hGxsLnDLD4cGjLO6P8PmMfa
+z2Q6KdRPviGQ49A59M5zNR9U8blaFggBXujYdJ3GNnWcOzdxj15gV4mSTxipOzD/RN/hVOQVqC5P
+EypJmvMesKxRHfQxbm8kG8eR0m0Tr6lDUXUmTRv0wfmA76syWs9mdPdl/Ti6KEW/fvfX0/3jal1c
+XPYw/GpO7+jtlU/vi+/t6rlrcAgAAA==
+
+--Boundary-00=_osvrMvOYK61kCvo
+Content-Type: application/x-gzip;
+  name="subpage_prot.2.gz"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+	filename="subpage_prot.2.gz"
+
+H4sICM74rkwCA3N1YnBhZ2VfcHJvdC4yAIVWYW8aORD9vr9ixJckJ0ApOfVLq+rSHr0gJYCAnHRS
+pMjsGtbKrr2yvVD+/b2ZXWCTtHeVoibYfvPmzZsZhk89WuUm0MYUmlJnozI2UMw1hXpdqa1+rryL
+FA4hVUVBmUvrUuNWNM4mw6ce/9A3Vx282eaRLtMrGl1/uKZl1FWuLD3Uuii0p8+hbH77Q8Wg02Hq
+yi+n93PtSxMCIAlUtl7ZqDOKjkr1oknZjDITojfrOmraab9G+BJsK6MDuQ3omiBApbK1KgiUdyZj
+iJyTOpKzLpq0weMXVJ3DHo+8FpzK66D9Dgg447ybWMP/Z8zR3jIuXWY2Buegzk+Ys6AIi5ZzbTPI
+1BC2mYlyb+P8q3wPxm773fRUbIE0oSrGawLzuoi4R8AznMLe+RdmeWaUdaJFZHIipH6iCSIBGdXn
+9ISxs/qsxNJYXGKke2PrH/SivdWFSFCYtVeeawRdOa0QoVNxoBTO2Eoq7yoHx+H3A60R2KbOe51G
+ggqujgO3GWQq6iHBsqhVHXPnL8MVqRBgSqEE0qxAhVhmbQoTD6Kh9t75IDhtdqHPf/FZpkoEDWfh
+GqCNd6WkVQfdeIwZ4UEp3j/2CrTMtdfGvmOFLI6UIuVqB5HgZtv0lio1FXoHoQCdsjymOUFtszqV
+CK2xhx19+rTPTZpzNQvUxgaE33gtBCGq3+o+1GCgA5Xi+X2OkOyAU2KIsNGiAYx9OBfyu6TG5oAo
+uJTi0mvPdv3aJ7OBi1SKRq6UZXevDycvBlf7FFzKOkRS6Yt1+0JnW/2mIdkkjWBneObaklrd0fLx
+6/z2r/HzfDFb0UhGy+D642A0op7Yrdf+T3Pv0IVlqf1FoAehCITlHU1vH8bJq1n2NGi79DjiONuo
+G9FLVaEU4nTdellglv9MZ/PlZJkMLVrl64R6hUOPYS4+d8Evaxhvy66QY3RUlnnq9ent54W2fcH5
+xb/6ZkS/UU/49K4+JcONER5/jpffFpP5ajKbJuw3EIgas4GHFNSrxREoYDssfp0kLiWYz8wPhSZM
+sK1+m/lQQvDtHK4a0dpEmZr0+8sRto9a003n6CPO+GCYjBWcOhrgBNtFFxnzu+YhAq5uj+KjBCm7
+rE8f+GMM3R1GDe29iTr0kxEb8aZ7wkk2T3gWN/m32UndAoVKp82s3ZuYJ8PJQk6aRCI3SBR5Ogvu
+XfV/giIyJVuzY0nlLbAiVQ6CIed2PJS6dP7AhNfscnQOEOBxBkC94cKqKg5HCHyyjfl/vUWKj5hk
+ICo5b2pMC0jczJ/4pvhex9rbVmFpM8XrdpjM8Iffm9A0n0xCBMh0N821lorI+mAYiS3dM1uNkyn0
+kV0jCJbnRDupz9JhxhdwguIMP3XlTbryap78JpQscmM+WXSqaLaDx0CN4qiqjrLDrhPMRfXKRXtn
+L2LrocYq4qmGkLDkFXVMOpErg5bEKa/xYjFboJlXczQhjSfTv2/vWz8hA5akUhgnGtVtttd5GV2e
+/NApbeZkzIshmM5OFSZri3qFGvhTqO+3j/crCVW4VJ0H/ckCrQcZDhXHtmQPttuhqelFSI5tGyqF
+7dsaugOQKssA4qWK05HObueZPHpFajp7GD+gzkcILs9OmUKt8a3w2C9n77WEO/ZrZb19XN2xrm++
+/WHSLSb0md5/B6Qvyb/wGUBqgwoAAA==
+
+--Boundary-00=_osvrMvOYK61kCvo--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
