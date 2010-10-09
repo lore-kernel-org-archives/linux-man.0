@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: sync_file_range2() man page
-Date: Sat, 9 Oct 2010 05:39:08 +0200
-Message-ID: <AANLkTi=WLtBgVaasueS_E59NpCJ++GP5sF4fFUdP+4T_@mail.gmail.com>
+Subject: arm_fadvise() man page
+Date: Sat, 9 Oct 2010 06:50:29 +0200
+Message-ID: <AANLkTinQ7xBBa1VqR9oiLoh=7JCiR7BAeFceE3Cgc+TT@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -11,66 +11,53 @@ To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[was: man pages for undocumented system calls]
+[Was: man pages for undocumented system calls]
 
 Stephan,
 
-Thanks for this page. It is worth documenting the existence of this
-system call, but we need to do it differently:
+The situation here is similar to sync_file_range, but specific to ARM.
+The documentation would better be in the posix_fadvise() page, should
+explicitly note that this system call is for ARM only, and should note
+why the system call exists. For man-pages-3.29, I applied the patch
+below.
 
-1. It's best documented as an addition to the sync_file_rabge.2 page.
-
-2. There needs to be an explanation of why the system call exists.
-
-I wrote the patch below for man-pages-3.29.
-
-Cheers,
+Thanks,
 
 Michael
 
---- a/man2/sync_file_range.2
-+++ b/man2/sync_file_range.2
-@@ -179,6 +180,40 @@ appeared on Linux in kernel 2.6.17.
- .SH "CONFORMING TO"
- This system call is Linux-specific, and should be avoided
- in portable programs.
-+.SH NOTES
-+Some architectures (e.g., PowerPC, ARM)
-+need 64-bit arguments to be aligned in a suitable pair of registers.
-+.\" See kernel commit edd5cd4a9424f22b0fa08bef5e299d41befd5622
-+On such architectures, the call signature of
-+.BR sync_file_range ()
+--- a/man2/posix_fadvise.2
++++ b/man2/posix_fadvise.2
+@@ -148,6 +149,30 @@ call
+ or
+ .BR fdatasync (2)
+ first.
++.SS arm_fadvise()
++The ARM architecture
++needs 64-bit arguments to be aligned in a suitable pair of registers.
++On this architecture, the call signature of
++.BR posix_fadvise ()
 +is flawed, since it forces a register to be wasted as padding between the
 +.I fd
 +and
-+.I offset
++.I len
 +arguments.
-+Therefore, these architectures define a different
++Therefore, since Linux 2.6.14, ARM defines a different
 +system call that orders the arguments suitably:
 +.PP
 +.in +4n
 +.nf
-+.BI "int sync_file_range2(int " fd ", unsigned int " flags ,
-+.BI "                     off64_t " offset ", off64_t " nbytes );
++.BI "long arm_fadvise64_64(int " fd ", int " advice ,
++.BI "                     loff_t " offset ", loff_t " len );
 +.fi
 +.in
 +.PP
 +The behavior of this system call is otherwise exactly the same as
-+.BR sync_file_range().
-+
-+A system call with this signature first appeared on the ARM architecture
-+in Linux 2.6.20, with the name
-+.BR arm_sync_file_range ().
-+It was renamed in Linux 2.6.22,
-+when the analogous system call was added for PowerPC.
-+On architectures where glibc support is provided,
-+glibc transparently wraps
-+.BR sync_file_range2 ()
-+under the name
-+.BR sync_file_range ().
- .SH "SEE ALSO"
- .BR fdatasync (2),
- .BR fsync (2),
++.BR posix_fadvise().
++No library support is provided for this system call in glibc.
++.\" No ARM support in glibc.
+ .SH BUGS
+ In kernels before 2.6.6, if
+ .I len
 
 -- 
 Michael Kerrisk
