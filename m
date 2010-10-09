@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: paccept() man page
-Date: Sat, 9 Oct 2010 05:28:15 +0200
-Message-ID: <AANLkTimNWdBCC44w_6Tdwg5Pc6SQcoq-rE6tgs7pT9Zd@mail.gmail.com>
+Subject: revokeat() man page
+Date: Sat, 9 Oct 2010 05:30:55 +0200
+Message-ID: <AANLkTikkYX2ZqnVKi69c2qcNaHE4J7dCe9b4a99aW-H8@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -15,8 +15,8 @@ List-Id: linux-man@vger.kernel.org
 
 Stephan,
 
-As far as I know, there is no paccept() system call. (There nearly
-was, but it never made it to mainline. Instead, we got accept4().)
+As you note in this page, this system call is proposed. It may never
+come to be. So, I would not want to add this page (yet).
 
 Cheers,
 
