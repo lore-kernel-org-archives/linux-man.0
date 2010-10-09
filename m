@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: revokeat() man page
-Date: Sat, 9 Oct 2010 05:30:55 +0200
-Message-ID: <AANLkTikkYX2ZqnVKi69c2qcNaHE4J7dCe9b4a99aW-H8@mail.gmail.com>
+Subject: sync_file_range2() man page
+Date: Sat, 9 Oct 2010 05:39:08 +0200
+Message-ID: <AANLkTi=WLtBgVaasueS_E59NpCJ++GP5sF4fFUdP+4T_@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -11,38 +11,66 @@ To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[Was: man pages for undocumented system calls]
+[was: man pages for undocumented system calls]
 
 Stephan,
 
-As you note in this page, this system call is proposed. It may never
-come to be. So, I would not want to add this page (yet).
+Thanks for this page. It is worth documenting the existence of this
+system call, but we need to do it differently:
+
+1. It's best documented as an addition to the sync_file_rabge.2 page.
+
+2. There needs to be an explanation of why the system call exists.
+
+I wrote the patch below for man-pages-3.29.
 
 Cheers,
 
 Michael
 
-On Fri, Oct 8, 2010 at 1:06 PM, Stephan Mueller
-<stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
-> Hi,
->
-> please find attached man pages for system calls where there were no man pages
-> available.
->
-> Please note that some of the system calls are applicable to only specific
-> architectures.
->
-> I tried to be careful in documenting the system calls, but if you identify
-> errors, please let me know.
->
-> It would be great if you think they are worthwhile incorporating into the
-> upstream man page repository.
->
-> Ciao
-> Stephan
->
-
-
+--- a/man2/sync_file_range.2
++++ b/man2/sync_file_range.2
+@@ -179,6 +180,40 @@ appeared on Linux in kernel 2.6.17.
+ .SH "CONFORMING TO"
+ This system call is Linux-specific, and should be avoided
+ in portable programs.
++.SH NOTES
++Some architectures (e.g., PowerPC, ARM)
++need 64-bit arguments to be aligned in a suitable pair of registers.
++.\" See kernel commit edd5cd4a9424f22b0fa08bef5e299d41befd5622
++On such architectures, the call signature of
++.BR sync_file_range ()
++is flawed, since it forces a register to be wasted as padding between the
++.I fd
++and
++.I offset
++arguments.
++Therefore, these architectures define a different
++system call that orders the arguments suitably:
++.PP
++.in +4n
++.nf
++.BI "int sync_file_range2(int " fd ", unsigned int " flags ,
++.BI "                     off64_t " offset ", off64_t " nbytes );
++.fi
++.in
++.PP
++The behavior of this system call is otherwise exactly the same as
++.BR sync_file_range().
++
++A system call with this signature first appeared on the ARM architecture
++in Linux 2.6.20, with the name
++.BR arm_sync_file_range ().
++It was renamed in Linux 2.6.22,
++when the analogous system call was added for PowerPC.
++On architectures where glibc support is provided,
++glibc transparently wraps
++.BR sync_file_range2 ()
++under the name
++.BR sync_file_range ().
+ .SH "SEE ALSO"
+ .BR fdatasync (2),
+ .BR fsync (2),
 
 -- 
 Michael Kerrisk
