@@ -1,33 +1,43 @@
 From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Subject: Re: man pages for undocumented system calls
-Date: Sat, 9 Oct 2010 14:18:57 +0200
-Message-ID: <201010091419.02497.stephan.mueller@atsec.com>
-References: <201010081306.17014.stephan.mueller@atsec.com> <AANLkTin2Bem8pU9E94iEYdXWVFT9Cbh11+xnrpG9iaNJ@mail.gmail.com>
+Subject: Re: sync_file_range2() man page
+Date: Sat, 9 Oct 2010 14:40:55 +0200
+Message-ID: <201010091440.58657.stephan.mueller@atsec.com>
+References: <AANLkTi=WLtBgVaasueS_E59NpCJ++GP5sF4fFUdP+4T_@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: Text/Plain; charset=iso-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTin2Bem8pU9E94iEYdXWVFT9Cbh11+xnrpG9iaNJ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTi=WLtBgVaasueS_E59NpCJ++GP5sF4fFUdP+4T_-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Am Samstag, 9. Oktober 2010, um 08:32:52 schrieb Michael Kerrisk:
+Am Samstag, 9. Oktober 2010, um 05:39:08 schrieb Michael Kerrisk:
 
 Hi Michael,
 
-> [Was: man pages for undocumented system calls]
+> [was: man pages for undocumented system calls]
 >=20
 > Stephan,
 >=20
-> Thanks for the idea for this page. However, there was much that was
-> missing, or not quite correct, so I wrote the version below. If you
-> have any comments or additions, please let me know
+> Thanks for this page. It is worth documenting the existence of this
+> system call, but we need to do it differently:
+>=20
+> 1. It's best documented as an addition to the sync_file_rabge.2 page.
+>=20
+> 2. There needs to be an explanation of why the system call exists.
+>=20
+> I wrote the patch below for man-pages-3.29.
 
-Yes, thanks a lot for the update. Yours is better.
+Thanks a lot. Your suggestion seems to be more appropriate than a separ=
+ate man=20
+page.
 
-Thanks
+But could you please add a symlink from sync_file_range2.2.gz=20
+sync_file_range.2.gz.
+
+Ciao
 Stephan
 
 --=20
