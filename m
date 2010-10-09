@@ -1,19 +1,26 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man pages for undocumented system calls
-Date: Sat, 9 Oct 2010 05:26:42 +0200
-Message-ID: <AANLkTim8C+T+9AzRF-B+UYbVxWOSeL-73McAK-jmoNLj@mail.gmail.com>
-References: <201010081306.17014.stephan.mueller@atsec.com>
+Subject: paccept() man page
+Date: Sat, 9 Oct 2010 05:28:15 +0200
+Message-ID: <AANLkTimNWdBCC44w_6Tdwg5Pc6SQcoq-rE6tgs7pT9Zd@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201010081306.17014.stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Stephan,
+[Was: man pages for undocumented system calls]
+
+Stephan,
+
+As far as I know, there is no paccept() system call. (There nearly
+was, but it never made it to mainline. Instead, we got accept4().)
+
+Cheers,
+
+Michael
 
 On Fri, Oct 8, 2010 at 1:06 PM, Stephan Mueller
 <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
@@ -30,14 +37,12 @@ On Fri, Oct 8, 2010 at 1:06 PM, Stephan Mueller
 >
 > It would be great if you think they are worthwhile incorporating into the
 > upstream man page repository.
+>
+> Ciao
+> Stephan
+>
 
-Thanks for the mail. It would have been best to send these as separate
-mails, so that I can deal with them separately. I'll respond to each
-of these in a separate mail.
 
-Cheers,
-
-Michael
 
 -- 
 Michael Kerrisk
