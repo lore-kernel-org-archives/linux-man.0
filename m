@@ -1,72 +1,69 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] aio.7: Some minor typos (Was: Missing word in aio.7)
-Date: Sat, 9 Oct 2010 16:46:17 +0200
-Message-ID: <AANLkTik+eJRw9Eb5Jmb7ac3SwNhpS5VWCxNM3e6E1s_1@mail.gmail.com>
-References: <AANLkTi=TgkncPeFgP8WTKnHn96Qm6xYK4mdLzumY6Vie@mail.gmail.com> <4CADEABC.1040005@altern.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Subject: Re: arm_mremap() man page
+Date: Sat, 9 Oct 2010 14:32:34 +0200
+Message-ID: <201010091432.37995.stephan.mueller@atsec.com>
+References: <AANLkTinaFiESuT6pU8w8OhfCH323-WS-haHRi4+fmkpo@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: Text/Plain; charset=iso-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4CADEABC.1040005-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <AANLkTinaFiESuT6pU8w8OhfCH323-WS-haHRi4+fmkpo-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello David,
+Am Samstag, 9. Oktober 2010, um 07:19:34 schrieb Michael Kerrisk:
 
-On Thu, Oct 7, 2010 at 5:43 PM, David Pr=E9vot <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org> wrot=
-e:
-> -----BEGIN PGP SIGNED MESSAGE-----
-> Hash: SHA1
->
-> Hi,
->
-> Please find inline a patch including Denis' proposal and two others
-> spotted during translation, against current aio(7) manual page.
->
->
-> diff --git a/man7/aio.7 b/man7/aio.7
-> index e1d6d2b..5a0f734 100644
-> - --- a/man7/aio.7
-> +++ b/man7/aio.7
-> @@ -119,11 +119,11 @@ This is the size of the buffer pointed to by
-> =A0.I aio_reqprio
-> =A0This field specifies a value that is subtracted
-> =A0from the calling thread's real-time priority in order to
-> - -determine the priority for execution of this I/O request.
-> +determine the priority for execution of this I/O request (see
-> =A0.BR pthread_setschedparam (3)).
-> =A0The specified value must be between 0 and the value returned by
-> =A0.IR sysconf(_SC_AIO_PRIO_DELTA_MAX) .
-> - -This field is ignored file synchronization operations.
-> +This field is ignored during file synchronization operations.
-> =A0.TP
-> =A0.I aio_sigevent
-> =A0This field is a structure that specifies how the caller is
-> @@ -448,7 +448,7 @@ main(int argc, char *argv[])
-> =A0.BR io_setup (2),
-> =A0.BR io_cancel (2),
-> =A0.BR io_destroy (2),
-> - -.BR io_getevents (2)),
-> +.BR io_getevents (2),
-> =A0.BR aio_cancel (3),
-> =A0.BR aio_error (3),
-> =A0.BR aio_init (3),
+Hi Michael,
 
-I had already myself found and fixed the first two problems, but the
-third one I had missed. Thanks for the patch. Applied for 3.29.
+> [Was: man pages for undocumented system calls]
+>=20
+> Stephan,
+>=20
+> I don't think we really need to document this system call. It has gon=
+e
+> away nowadays. Note also that your description below is incorrect. Th=
+e
+> 2.4 Linux source reads as follows:
 
-Cheers,
+You are right. But it exists in the kernel I am looking at: a 2.6.27 wi=
+th some=20
+patches by a vendor.
+>=20
+>         unsigned long ret =3D -EINVAL;
+>=20
+>         /*
+>          * If we are doing a fixed mapping, and address < PAGE_SIZE,
+>          * then deny it.
+>          */
+>         if (flags & MREMAP_FIXED && new_addr < PAGE_SIZE &&
+>             vectors_base() =3D=3D 0)
+>                 goto out;
+>=20
+> In other words, new_addr can't be less than PAGE_SIZE for MREMAP_FIXE=
+D
+> (if vectors_base() =3D=3D 0, which I gather to mean if page 0 is bein=
+g
+> used as a vector address page).
+>=20
+> Also, your point in NOTES is not correct. The new_addr argument is
+> passed by value; it can;t be used to return anything.
 
-Michael
+Of course, sorry for the noise then. But since the syscall went away an=
+yway,=20
+we can skip the man page.
 
+Thanks
+Stephan
 
 --=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+       Stephan M=FCller Stephan.Mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org +49 172 216 55 78
+atsec information security GmbH, Steinstra=DFe 70, 81667 M=FCnchen, Ger=
+many
+         Gesch=E4ftsf=FChrer: Salvatore la Pietra, Staffan Persson
+                   HRB: 129439 (Amtsgericht M=FCnchen)
+ atsec it security news blog - atsec-information-security.blogspot.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
