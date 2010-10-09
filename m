@@ -1,19 +1,19 @@
 From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Subject: Re: arm_mremap() man page
-Date: Sat, 9 Oct 2010 14:32:34 +0200
-Message-ID: <201010091432.37995.stephan.mueller@atsec.com>
-References: <AANLkTinaFiESuT6pU8w8OhfCH323-WS-haHRi4+fmkpo@mail.gmail.com>
+Subject: Re: arm_fadvise() man page
+Date: Sat, 9 Oct 2010 14:40:10 +0200
+Message-ID: <201010091440.12442.stephan.mueller@atsec.com>
+References: <AANLkTinQ7xBBa1VqR9oiLoh=7JCiR7BAeFceE3Cgc+TT@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: Text/Plain; charset=iso-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinaFiESuT6pU8w8OhfCH323-WS-haHRi4+fmkpo-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTinQ7xBBa1VqR9oiLoh=7JCiR7BAeFceE3Cgc+TT-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Am Samstag, 9. Oktober 2010, um 07:19:34 schrieb Michael Kerrisk:
+Am Samstag, 9. Oktober 2010, um 06:50:29 schrieb Michael Kerrisk:
 
 Hi Michael,
 
@@ -21,38 +21,19 @@ Hi Michael,
 >=20
 > Stephan,
 >=20
-> I don't think we really need to document this system call. It has gon=
+> The situation here is similar to sync_file_range, but specific to ARM=
+=2E
+> The documentation would better be in the posix_fadvise() page, should
+> explicitly note that this system call is for ARM only, and should not=
 e
-> away nowadays. Note also that your description below is incorrect. Th=
-e
-> 2.4 Linux source reads as follows:
+> why the system call exists. For man-pages-3.29, I applied the patch
+> below.
 
-You are right. But it exists in the kernel I am looking at: a 2.6.27 wi=
-th some=20
-patches by a vendor.
->=20
->         unsigned long ret =3D -EINVAL;
->=20
->         /*
->          * If we are doing a fixed mapping, and address < PAGE_SIZE,
->          * then deny it.
->          */
->         if (flags & MREMAP_FIXED && new_addr < PAGE_SIZE &&
->             vectors_base() =3D=3D 0)
->                 goto out;
->=20
-> In other words, new_addr can't be less than PAGE_SIZE for MREMAP_FIXE=
-D
-> (if vectors_base() =3D=3D 0, which I gather to mean if page 0 is bein=
-g
-> used as a vector address page).
->=20
-> Also, your point in NOTES is not correct. The new_addr argument is
-> passed by value; it can;t be used to return anything.
+Same here, I think your approach is better than a stand-alone man page.
 
-Of course, sorry for the noise then. But since the syscall went away an=
-yway,=20
-we can skip the man page.
+Nevertheless, are you going to please add a symlink from posix_fadvise.=
+2.gz to=20
+arm_fadvise.2.gz?
 
 Thanks
 Stephan
