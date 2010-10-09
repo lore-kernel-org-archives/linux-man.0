@@ -1,39 +1,43 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: gai_{error,suspend,cancel}.3 man-pages typo
-Date: Sat, 9 Oct 2010 16:31:17 +0200
-Message-ID: <AANLkTimKz+09y2BNMA5mSFMqvRju8EjYtDgNBQDJX7Ne@mail.gmail.com>
-References: <4CAC8FB6.8010907@redhat.com>
+Subject: Re: Missing word in aio.7
+Date: Sat, 9 Oct 2010 16:43:17 +0200
+Message-ID: <AANLkTiknPL=Ovy=36643gz2EhLeNRNi0W=FYwb4Omben@mail.gmail.com>
+References: <AANLkTi=TgkncPeFgP8WTKnHn96Qm6xYK4mdLzumY6Vie@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4CAC8FB6.8010907-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <AANLkTi=TgkncPeFgP8WTKnHn96Qm6xYK4mdLzumY6Vie-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ivana,
+Hello Denis,
 
-On Wed, Oct 6, 2010 at 5:03 PM, Ivana Hutarova Varekova
-<varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+On Wed, Oct 6, 2010 at 11:39 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
+:
 > Hello,
-> there is a small typo in gai_{error,suspend,cancel}.3 man-pages (Btw =
-I'm not
-> sure whether it is intentional, but these man-pages are identical cop=
-ies. I=E1=B8=BF
-> not sure why there is not used link.). There is used ".ID" instead of=
- ".IR"
-> in all these pages in one place.
-> The patch is attached.
+>
+> Around line 120 of man7/aio.7:
+> =A0This field specifies a value that is subtracted
+> =A0from the calling thread's real-time priority in order to
+> =A0determine the priority for execution of this I/O request.
+> =A0.BR pthread_setschedparam (3)).
+>
+> Here is a patch
+> -determine the priority for execution of this I/O request.
+> +determine the priority for execution of this I/O request (see
+> but you may want to change punctuation.
 
-Thanks. By chance someone reported these issues just a few hours
-before you, and they are already fixed.
+By chance, I had already caught and fixed this.
 
 Cheers,
 
 Michael
+
+
 
 --=20
 Michael Kerrisk
