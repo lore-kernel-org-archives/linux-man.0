@@ -1,50 +1,36 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: arm_mremap() man page
-Date: Sat, 9 Oct 2010 07:19:34 +0200
-Message-ID: <AANLkTinaFiESuT6pU8w8OhfCH323-WS-haHRi4+fmkpo@mail.gmail.com>
+Subject: Re: man pages for undocumented system calls
+Date: Sat, 9 Oct 2010 08:32:52 +0200
+Message-ID: <AANLkTin2Bem8pU9E94iEYdXWVFT9Cbh11+xnrpG9iaNJ@mail.gmail.com>
+References: <201010081306.17014.stephan.mueller@atsec.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201010081306.17014.stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 [Was: man pages for undocumented system calls]
 
 Stephan,
 
-I don't think we really need to document this system call. It has gone
-away nowadays. Note also that your description below is incorrect. The
-2.4 Linux source reads as follows:
+Thanks for the idea for this page. However, there was much that was
+missing, or not quite correct, so I wrote the version below. If you
+have any comments or additions, please let me know
 
-        unsigned long ret = -EINVAL;
-
-        /*
-         * If we are doing a fixed mapping, and address < PAGE_SIZE,
-         * then deny it.
-         */
-        if (flags & MREMAP_FIXED && new_addr < PAGE_SIZE &&
-            vectors_base() == 0)
-                goto out;
-
-In other words, new_addr can't be less than PAGE_SIZE for MREMAP_FIXED
-(if vectors_base() == 0, which I gather to mean if page 0 is being
-used as a vector address page).
-
-Also, your point in NOTES is not correct. The new_addr argument is
-passed by value; it can;t be used to return anything.
+Paul, would you be willing to review this page for the system call
+that you added?
 
 Thanks,
 
 Michael
 
 
-=====
-.\" This file contains the arm_mremap syscall documentation
-.\"
-.\" Copyright (c) 2010 Stephan Mueller <smueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+.\" Copyright (c) 2010 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\" based on a proposal from Stephan Mueller <smueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 .\"
 .\" Permission is granted to make and distribute verbatim copies of this
 .\" manual provided the copyright notice and this permission notice are
@@ -66,40 +52,113 @@ Michael
 .\" Formatted or processed versions of this manual, if unaccompanied by
 .\" the source, must acknowledge the copyright and authors of this work.
 .\"
-.TH ARM_MREMAP 2 2010-06-22 "Linux" "Linux Programmer's Manual"
+.\" Various pieces of text taken from the kernel source and the commentary
+.\" in kernel commit fa28237cfcc5827553044cbd6ee52e33692b0faa
+.\" both written by Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
+.\"
+.TH SUBPAGE_PROT 2 2010-10-09 "Linux" "Linux Programmer's Manual"
 .SH NAME
-arm_mremap \- re-map a virtual memory address
+subpage_prot \- copy a subpage protection map into the kernel
 .SH SYNOPSIS
 .nf
-.BI "size_t arm_mremap(void *" old_address ", size_t " old_size ,
-.BI "             size_t " new_size ", int " flags ", void *" new_address ");
+.BI "long subpage_prot(unsigned long " addr ", unsigned long " len ,
+.BI "                  uint32_t *" map ");
 .fi
 .SH DESCRIPTION
-This system call is a wrapper for the
-.BR mremap (2)
-system call.
-The difference is only that the flag
-.BR MREMAP_FIXED
-is disallowed compared to the standard
-.BR mremap (2)
-system call.
+The PowerPC-specific
+.BR subpage_prot ()
+system call provides the facility to control the access
+permissions on individual 4kB subpages on systems configured with
+a page size of 64kB.
 
-.SH NOTE
-The man page for
-.BR mremap (2)
-defines the system call as exported by the libc. This man page
-on the other hand defines the system call as exported by the kernel.
-The difference is that the kernel system call returns \fInew_address\fP
-as an argument whereas the libc interface returns this data as the
-return code of the call. This difference however does not imply any
-functional differences.
+The protection map is applied to the memory pages in the region starting at
+.I addr
+and continuing for
+.I len
+bytes.
+Both of these arguments must be aligned to a 64-kB boundary.
 
-.SH "SEE ALSO"
-.BR mremap (2).
+The protection map is specified in the buffer pointed to by
+.IR map .
+The map has 2 bits per 4kB subpage;
+thus each 32-bit word specifies the protections of 16 4kB subpages
+inside a 64kB page
+(so, the number of 32-bit words pointed to by
+.I map
+should equate to the number of 64-kB pages specified by
+.IR len ).
+Each 2-bit field in the protection map is either 0 to allow any access,
+1 to prevent writes, or 2 or 3 to prevent all accesses.
+.SH RETURN VALUE
+On success,
+.BR subpage_prot ()
+returns 0.
+Otherwise, one of the negated  error codes specified below is returned.
+.SH ERRORS
+.TP
+.B EINVAL
+The
+.I addr
+or
+.I len
+arguments are incorrect.
+Both of these arguments must be aligned to a multiple of the system page size,
+and they must not refer to a region outside of the
+address space of the process or to a region that consists of huge pages.
+.TP
+.B EFAULT
+The buffer referred to by
+.I map
+is not accessible.
+.TP
+.B ENOMEM
+Out of memory.
+.SH VERSIONS
+This system call is provided on the PowerPC architecture
+since Linux 2.6.25.
+The system call is provided only if the kernel is configured with
+.BR CONFIG_PPC_64K_PAGES .
+No library support is provided.
+.SH CONFORMING TO
+This system call is Linux-specific.
+.SH NOTES
+Normal page protections (at the 64-kB page level) also apply;
+the subpage protection mechanism is an additional constraint,
+so putting 0 in a 2-bit field won't allow writes to a page that is otherwise
+write-protected.
+.SS Rationale
+This system call is provided to assist writing emulators that
+operate using 64-kB pages on PowerPC systems.
+When emulating systems such as x86, which uses a smaller page size,
+the emulator can no longer use the memory-management unit (MMU)
+and normal system calls for controlling page protections.
+(The emulator could emulate the MMU by checking and possibly remapping
+the address for each memory access in software, but that is slow.)
+The idea is that the emulator supplies an array of protection masks
+to apply to a specified range of virtual addresses.
+These masks are applied at the level where hardware page-table entries (PTEs)
+are inserted into the hardware page table based on the Linux PTEs,
+so the Linux PTEs are not affected.
+.\" Perhaps we don't need to document this implementation detail:
+.\"
+.\" Implicit in this is that the regions of the address space that are
+.\" protected are switched to use 4k hardware pages rather than 64k
+.\" hardware pages (on machines with hardware 64k page support).
+.\" In fact the whole process is switched to use 4k hardware pages when the
+.\" subpage_prot system call is used, but this could be improved in future
+.\" to switch only the affected segments.
+.SH SEE ALSO
+.BR mprotect (2),
+.BR syscall (2);
+.br
+the kernel source file
+.IR Documentation/vm/hugetlbpage.txt .
 
-.SH AUTHORS
-Stephan Mueller,
-.RI < smueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org >
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
