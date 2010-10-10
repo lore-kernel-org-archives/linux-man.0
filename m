@@ -1,90 +1,77 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] psiginfo.3, psignal.3: Document psiginfo()
-Date: Sun, 10 Oct 2010 18:21:25 +0200
-Message-ID: <AANLkTim==RDg8a8eVYT1Dd=RRe2HKVaffW178opoycwe@mail.gmail.com>
+Date: Sun, 10 Oct 2010 18:24:15 +0200
+Message-ID: <AANLkTikPJmqPGGO5teK0BCsvya=7HaS21zAEqbuJkqqx@mail.gmail.com>
 References: <20101006065142.GA26673@gaara.hadrons.org> <AANLkTi=WhRscu96fioF0jvfp2a874gtA=niw-DDx8NC-@mail.gmail.com>
+ <AANLkTim==RDg8a8eVYT1Dd=RRe2HKVaffW178opoycwe@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=WhRscu96fioF0jvfp2a874gtA=niw-DDx8NC--JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTim==RDg8a8eVYT1Dd=RRe2HKVaffW178opoycwe-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Guillem,
+Hi Guillem,
 
-I applied the slightly modified version of your patch below. Thanks!
+I also added some details for psiginfo().
 
-Cheers,
+thanks,
 
-Michael--- a/man3/psignal.3
+Michael
+
+
+--- a/man3/psignal.3
 +++ b/man3/psignal.3
-@@ -25,16 +25,15 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:45:17 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.\" FIXME glibc 2.10 adds psiginfo(), specified in SUSv4.  This function
--.\" should be documented, probably on this page.
--.TH PSIGNAL 3  2008-08-21 "GNU" "Linux Programmer's Manual"
-+.TH PSIGNAL 3  2010-10-06 "GNU" "Linux Programmer's Manual"
- .SH NAME
--psignal \- print signal message
-+psignal, psiginfo \- print signal message
- .SH SYNOPSIS
- .nf
- .B #include <signal.h>
- .sp
- .BI "void psignal(int " sig ", const char *" s );
-+.BI "void psiginfo(const siginfo_t *" pinfo ", const char *" s );
- .sp
- .BI "extern const char *const " sys_siglist [];
- .fi
-@@ -47,23 +46,39 @@ Feature Test Macro Requirements for glibc (see
- .BR psignal ():
- _SVID_SOURCE || _BSD_SOURCE
- .br
-+.BR psiginfo ():
-+_XOPEN_SOURCE\ >=\ 700 || _POSIX_C_SOURCE\ >=\ 200809L
-+.br
- .IR sys_siglist :
- _BSD_SOURCE
- .SH DESCRIPTION
- The
- .BR psignal ()
- function displays a message on \fIstderr\fP
--consisting of the string \fIs\fP, a colon, a space, and a string
--describing the signal number \fIsig\fP.
-+consisting of the string \fIs\fP, a colon, a space, a string
-+describing the signal number \fIsig\fP, and a trailing newline.
-+If the string \fIs\fP is NULL or empty, the colon and space are omitted.
- If \fIsig\fP is invalid,
- the message displayed will indicate an unknown signal.
--.PP
-+
-+The
+@@ -70,6 +70,17 @@ except that it displays information about the
+signal described by
+ which should point to a valid
+ .I siginfo_t
+ structure.
++As well as the signal description,
 +.BR psiginfo ()
-+function is like
-+.BR psignal (),
-+except that it displays information about the signal described by
-+.IR pinfo ,
-+which should point to a valid
-+.I siginfo_t
-+structure.
-+
++displays information about the origin of the signal,
++and other information relevant to the signal
++(e.g., the relevant memory address for hardware-generated signals,
++the child process ID for
++.BR SIGCHLD ,
++and the user ID and process ID of the sender, for signals set using
++.BR kill (2)
++or
++.BR sigqueue (2)).
+
  The array \fIsys_siglist\fP holds the signal description strings
  indexed by signal number.
- .SH "RETURN VALUE"
- The
- .BR psignal ()
--function returns no value.
-+and
-+.BR psiginfo ()
-+functions return no value.
+@@ -79,8 +90,22 @@ The
+ and
+ .BR psiginfo ()
+ functions return no value.
++.SH VERSIONS
++The
++.BR psiginfo()
++function was added to glibc in version 2.10.
  .SH "CONFORMING TO"
  POSIX.1-2008, 4.3BSD.
++.SH BUGS
++As at glibc 2.12,
++.BR psiginfo ()
++has the following bugs:
++.IP * 3
++In some circumstances, a trailing newline is not printed.
++.\" FIXME http://sourceware.org/bugzilla/show_bug.cgi?id=12107
++.IP *
++Additional details for are not displayed for realtime signals.
++.\" FIXME http://sourceware.org/bugzilla/show_bug.cgi?id=12108
  .SH "SEE ALSO"
+ .BR sigaction (2),
+ .BR perror (3),
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
