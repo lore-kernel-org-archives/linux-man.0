@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 20082] Please document IP_FREEBIND
-Date: Wed, 13 Oct 2010 04:33:09 GMT
-Message-ID: <201010130433.o9D4X9iX008705@demeter2.kernel.org>
+Date: Wed, 13 Oct 2010 04:33:28 GMT
+Message-ID: <201010130433.o9D4XSiB009101@demeter2.kernel.org>
 References: <bug-20082-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,28 +17,12 @@ https://bugzilla.kernel.org/show_bug.cgi?id=20082
 
 
 
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-10-13 04:33:08 ---
-(In reply to comment #0)
-> IP_FREEBIND is one of my favourite sockopts ;-) , as it allows race-free
-> listening on any socket without requiring the network interface to be up. Would
-> be cool to document this in inet(7).
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-10-13 04:33:28 ---
+(In reply to comment #1)
+> Oh, and there are actually a few more undocumented IP-related sockopts defined
+> in /usr/include/linux/in.h that could use some documentation love.
 
-
-How does the following look? 
-
-+.TP
-+.BR IP_FREEBIND " (since Linux 2.4)"
-+.\" Precisely: 2.4.0-test10
-+If enabled, this boolean option allows binding to an IP address
-+that is nonlocal or does not (yet) exist.
-+This permits listening on a socket,
-+without requiring the underlying network interface or the
-+specified dynamic IP address to be up at the time that
-+the application is trying to bind to it.
-+This option is the per-socket equivalent of the
-+.IR ip_nonlocal_bind
-+.I /proc
-+interface described below.
+This sounds like one or more separate bug reports...
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
