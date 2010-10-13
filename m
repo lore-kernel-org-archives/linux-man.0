@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 20082] Please document IP_FREEBIND
-Date: Wed, 13 Oct 2010 04:33:28 GMT
-Message-ID: <201010130433.o9D4XSiB009101@demeter2.kernel.org>
+Date: Wed, 13 Oct 2010 04:33:40 GMT
+Message-ID: <201010130433.o9D4Xe2p009434@demeter2.kernel.org>
 References: <bug-20082-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,15 +14,18 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=20082
 
 
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-10-13 04:33:28 ---
-(In reply to comment #1)
-> Oh, and there are actually a few more undocumented IP-related sockopts defined
-> in /usr/include/linux/in.h that could use some documentation love.
 
-This sounds like one or more separate bug reports...
+--- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-10-13 04:33:39 ---
+I'll close this now; please reopen if there is still something to be fixed.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
