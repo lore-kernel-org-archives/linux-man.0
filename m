@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 20102] malloc(3) should document MALLOC_PERTURB_ env option
-Date: Sat, 23 Oct 2010 12:31:57 GMT
-Message-ID: <201010231231.o9NCVvh3027290@demeter1.kernel.org>
+Date: Sat, 23 Oct 2010 12:32:59 GMT
+Message-ID: <201010231232.o9NCWxwR027789@demeter1.kernel.org>
 References: <bug-20102-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,26 +18,11 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         AssignedTo|documentation_man-pages@ker |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |nel-bugs.osdl.org           |
 
 
 
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2010-10-23 12:31:55 ---
-Mike,
-
-Thanks for the heads-up on this. Looking closer, there are a bunch of these
-environment variables that are undocumented, and they're also closely related
-to the mallopt() library function, which is also undocumented. I think it would
-be best to document all of this stuff together, and best done on a mallopt(3)
-page, rather that in the existing malloc(3). (And yes, the MALLOC_TRACE_ info
-that is currently in mallopt(3) should probably also move to the to-be-created
-mallopt(3) page.) I'll get onto this.
-
-Thanks,
-
-Michael
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
