@@ -1,185 +1,82 @@
 From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
-Subject: [patch] iso_8859-6.7: Capitalize hexadecimal numbers
-Date: Sun, 24 Oct 2010 18:00:46 -0400
-Message-ID: <ia2aag$tp6$1@dough.gmane.org>
+Subject: [patch] armscii-8.7, koi8-r.7, koi8-u.7, unicode.7: Uniform description
+Date: Sun, 24 Oct 2010 18:24:00 -0400
+Message-ID: <ia2bm0$2lt$1@dough.gmane.org>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------080800000509090200000001"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------080800000509090200000001
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
 Hi,
 
-The inline patch (and the gzipped one attached, hopefully not
-messing with encoding, e.g. my MUA skip no-break space) address
-the uppercase hexadecimal numbers minor issue for iso_8859-6.7.
+Please find inline a patch to address some consistency among
+character set manual page descriptions. If you prefer to
+shrink =E2=80=9Cthe=E2=80=9D from other manual page descriptions (ascii=
+=2E7,
+cp1251.7 and iso_8859-*.7 ones), I volunteer to provide the
+(trivial) patch instead.
 
 
-diff --git a/man7/iso_8859-6.7 b/man7/iso_8859-6.7
-index bab4ddf..03fdd09 100644
---- a/man7/iso_8859-6.7
-+++ b/man7/iso_8859-6.7
-@@ -59,57 +59,57 @@ in an environment configured for ISO 8859-6.
- l l l c lp-1.
- Oct	Dec	Hex	Char	Description
- _
--240	160	a0	 	NO-BREAK SPACE
--244	164	a4	¤	CURRENCY SIGN
--254	172	ac	،	ARABIC COMMA
--255	173	ad	­	SOFT HYPHEN
--273	187	bb	؛	ARABIC SEMICOLON
--277	191	bf	؟	ARABIC QUESTION MARK
--301	193	c1	ء	ARABIC LETTER HAMZA
--302	194	c2	آ	ARABIC LETTER ALEF WITH MADDA ABOVE
--303	195	c3	أ	ARABIC LETTER ALEF WITH HAMZA ABOVE
--304	196	c4	ؤ	ARABIC LETTER WAW WITH HAMZA ABOVE
--305	197	c5	إ	ARABIC LETTER ALEF WITH HAMZA BELOW
--306	198	c6	ئ	ARABIC LETTER YEH WITH HAMZA ABOVE
--307	199	c7	ا	ARABIC LETTER ALEF
--310	200	c8	ب	ARABIC LETTER BEH
--311	201	c9	ة	ARABIC LETTER TEH MARBUTA
--312	202	ca	ت	ARABIC LETTER TEH
--313	203	cb	ث	ARABIC LETTER THEH
--314	204	cc	ج	ARABIC LETTER JEEM
--315	205	cd	ح	ARABIC LETTER HAH
--316	206	ce	خ	ARABIC LETTER KHAH
--317	207	cf	د	ARABIC LETTER DAL
--320	208	d0	ذ	ARABIC LETTER THAL
--321	209	d1	ر	ARABIC LETTER REH
--322	210	d2	ز	ARABIC LETTER ZAIN
--323	211	d3	س	ARABIC LETTER SEEN
--324	212	d4	ش	ARABIC LETTER SHEEN
--325	213	d5	ص	ARABIC LETTER SAD
--326	214	d6	ض	ARABIC LETTER DAD
--327	215	d7	ط	ARABIC LETTER TAH
--330	216	d8	ظ	ARABIC LETTER ZAH
--331	217	d9	ع	ARABIC LETTER AIN
--332	218	da	غ	ARABIC LETTER GHAIN
--340	224	e0	ـ	ARABIC TATWEEL
--341	225	e1	ف	ARABIC LETTER FEH
--342	226	e2	ق	ARABIC LETTER QAF
--343	227	e3	ك	ARABIC LETTER KAF
--344	228	e4	ل	ARABIC LETTER LAM
--345	229	e5	م	ARABIC LETTER MEEM
--346	230	e6	ن	ARABIC LETTER NOON
--347	231	e7	ه	ARABIC LETTER HEH
--350	232	e8	و	ARABIC LETTER WAW
--351	233	e9	ى	ARABIC LETTER ALEF MAKSURA
--352	234	ea	ي	ARABIC LETTER YEH
--353	235	eb	ً 	ARABIC FATHATAN
--354	236	ec	ٌ 	ARABIC DAMMATAN
--355	237	ed	ٍ 	ARABIC KASRATAN
--356	238	ee	َ 	ARABIC FATHA
--357	239	ef	ُ 	ARABIC DAMMA
--360	240	f0	ِ 	ARABIC KASRA
--361	241	f1	ّ 	ARABIC SHADDA
--362	242	f2	ْ 	ARABIC SUKUN
-+240	160	A0	 	NO-BREAK SPACE
-+244	164	A4	¤	CURRENCY SIGN
-+254	172	AC	،	ARABIC COMMA
-+255	173	AD	­	SOFT HYPHEN
-+273	187	BB	؛	ARABIC SEMICOLON
-+277	191	BF	؟	ARABIC QUESTION MARK
-+301	193	C1	ء	ARABIC LETTER HAMZA
-+302	194	C2	آ	ARABIC LETTER ALEF WITH MADDA ABOVE
-+303	195	C3	أ	ARABIC LETTER ALEF WITH HAMZA ABOVE
-+304	196	C4	ؤ	ARABIC LETTER WAW WITH HAMZA ABOVE
-+305	197	C5	إ	ARABIC LETTER ALEF WITH HAMZA BELOW
-+306	198	C6	ئ	ARABIC LETTER YEH WITH HAMZA ABOVE
-+307	199	C7	ا	ARABIC LETTER ALEF
-+310	200	C8	ب	ARABIC LETTER BEH
-+311	201	C9	ة	ARABIC LETTER TEH MARBUTA
-+312	202	CA	ت	ARABIC LETTER TEH
-+313	203	CB	ث	ARABIC LETTER THEH
-+314	204	CC	ج	ARABIC LETTER JEEM
-+315	205	CD	ح	ARABIC LETTER HAH
-+316	206	CE	خ	ARABIC LETTER KHAH
-+317	207	CF	د	ARABIC LETTER DAL
-+320	208	D0	ذ	ARABIC LETTER THAL
-+321	209	D1	ر	ARABIC LETTER REH
-+322	210	D2	ز	ARABIC LETTER ZAIN
-+323	211	D3	س	ARABIC LETTER SEEN
-+324	212	D4	ش	ARABIC LETTER SHEEN
-+325	213	D5	ص	ARABIC LETTER SAD
-+326	214	D6	ض	ARABIC LETTER DAD
-+327	215	D7	ط	ARABIC LETTER TAH
-+330	216	D8	ظ	ARABIC LETTER ZAH
-+331	217	D9	ع	ARABIC LETTER AIN
-+332	218	DA	غ	ARABIC LETTER GHAIN
-+340	224	E0	ـ	ARABIC TATWEEL
-+341	225	E1	ف	ARABIC LETTER FEH
-+342	226	E2	ق	ARABIC LETTER QAF
-+343	227	E3	ك	ARABIC LETTER KAF
-+344	228	E4	ل	ARABIC LETTER LAM
-+345	229	E5	م	ARABIC LETTER MEEM
-+346	230	E6	ن	ARABIC LETTER NOON
-+347	231	E7	ه	ARABIC LETTER HEH
-+350	232	E8	و	ARABIC LETTER WAW
-+351	233	E9	ى	ARABIC LETTER ALEF MAKSURA
-+352	234	EA	ي	ARABIC LETTER YEH
-+353	235	EB	ً 	ARABIC FATHATAN
-+354	236	EC	ٌ 	ARABIC DAMMATAN
-+355	237	ED	ٍ 	ARABIC KASRATAN
-+356	238	EE	َ 	ARABIC FATHA
-+357	239	EF	ُ 	ARABIC DAMMA
-+360	240	F0	ِ 	ARABIC KASRA
-+361	241	F1	ّ 	ARABIC SHADDA
-+362	242	F2	ْ 	ARABIC SUKUN
- .TE
- .SH NOTES
- ISO 8859-6 lacks the glyphs required for many related languages,
+diff --git a/man7/armscii-8.7 b/man7/armscii-8.7
+index 9cd8bd1..597f0a8 100644
+--- a/man7/armscii-8.7
++++ b/man7/armscii-8.7
+@@ -25,7 +25,7 @@
+ .TH ARMSCII-8 7 2010-09-20 "Linux" "Linux Programmer's Manual"
+ .nh
+ .SH NAME
+-armscii-8 \- Armenian Character Set encoded in octal, decimal, and
++armscii-8 \- the Armenian character set encoded in octal, decimal, and
+ hexadecimal
+ .SH DESCRIPTION
+ The Armenian Standard Code for Information Interchange,
+diff --git a/man7/koi8-r.7 b/man7/koi8-r.7
+index 509adac..bb08d8b 100644
+--- a/man7/koi8-r.7
++++ b/man7/koi8-r.7
+@@ -25,7 +25,7 @@
+ .TH KOI8-R 7 2010-10-24 "Linux" "Linux Programmer's Manual"
+ .nh
+ .SH NAME
+-koi8-r \- Russian Net Character Set encoded in octal, decimal, and
++koi8-r \- the Russian character set encoded in octal, decimal, and
+ hexadecimal
+ .SH DESCRIPTION
+ KOI8-R is the character set of choice for encoding Russian texts for
+diff --git a/man7/koi8-u.7 b/man7/koi8-u.7
+index 5d30bb8..d59cb52 100644
+--- a/man7/koi8-u.7
++++ b/man7/koi8-u.7
+@@ -26,7 +26,7 @@
+ .TH KOI8-U 7 2010-09-20 "Linux" "Linux Programmer's Manual"
+ .nh
+ .SH NAME
+-koi8-u \- Ukrainian Net Character Set encoded in octal, decimal, and
++koi8-u \- the Ukrainian character set encoded in octal, decimal, and
+ hexadecimal
+ .SH DESCRIPTION
+ KOI8-U (KOI8 Ukrainian, described in RFC\ 2310)
+diff --git a/man7/unicode.7 b/man7/unicode.7
+index ee4c4bc..b8a8948 100644
+--- a/man7/unicode.7
++++ b/man7/unicode.7
+@@ -29,7 +29,7 @@
+ .\"
+ .TH UNICODE 7 2001-05-11 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+-Unicode \- the Universal Character Set
++Unicode \- the universal character set
+ .SH DESCRIPTION
+ The international standard
+ .B ISO 10646
 
 
 Regards
 
 David
-
-
-
-
-
-
-
---------------080800000509090200000001
-Content-Type: application/x-gzip;
- name="iso_8859-6.7.gz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="iso_8859-6.7.gz"
-
-H4sICMqrxEwAA2lzb184ODU5LTYuNwCNl8ly20YQhs/Np5h7mzI2Lrh5OBiajETSJqmo5IsL
-BECJFZpStKTst8khx+QJckhl3/c9p+z7/gTpgdS2NRjGKlVJRfz/DNkfoPmK+WI+F/X63uJE
-pFfvpKvW1cXxwe12uxHXmxstMateqy1WeXFXzNJZlOfzjQ0vnOe5Fwvf85pRVKvX666daojo
-3O3aNVFvxFcaLYFnf+jCYiXSlShWTy2ODlZ3itWJyA5W88Xe6VGRi/nBkehPRuJ8h5pYlj+Z
-WB7WfXo5yk4gKTLoFXdB7adH9OI4O1ocniwOVjVxu1YPIg/8pgepB0/DcFTvjLXcFJMbUmkT
-RhRGkEbwDKjt8VgP1a6Y9K8PKWtQ1gogzeBZkGPZ6SuhRoOBNFGDohDSHJ6Dyag7Fb3dGz1t
-FtFVv92C2Qye50UTPeir0daojFvgxz7M5vACxze39WTaHw3FQI43a/XQ86kSQubDi1zZ0tOp
-HoueHNySphFQI4IsgJeshtzSXbHTn/ZosySRQnZGj2uzgj5V3IAshJfXrih3f7CCho+bkEXw
-irViR+44FxCSuAVZA159xFt09NZox6xo0oo2ZE14zVqxq3vOtzDwYsha8LrjLajgexB4HmRt
-eMMqdHTP5D7lPmQxvGnlU22QjTvbUwPYD6gXQJbCW9WeyUPK6RbN4G07750VIirQHcrgHavw
-mNYDU2hQgW5IDu9WbnK5QZNywl/Ae1a+eV5oUYFwz+F9q5DILcoDg6INuQcfVD7iWcGwiCH3
-4UOrMC5HCIgB8cwD+MjKb8n+0BQIAgHNQ/jYKky0LgsEgUjmEXxiF3rnDaJALPMGfGo3ZGJy
-okAo8yZ8VhmyzAkCkcxb8Lk9ZAkpJAhEMm/DF5UZypwYEMg8hi/tB6ocMTQMCGIKX1n59d5Z
-gw6XgOYsPPiaG1M53dHaII5oexqx8OEba3m3RBzR9jRiEcC3Vn5Tmsc5IsI0YhHCd/ZDcJYT
-4KANRQTfW/mWNA9ZRHiDGIoG/GDlg7OnMCK+xKhowo9WYTgaleMRYIJUtOAn+zEtJ2jQ+ASp
-aMPP1VPC5EQgDKGI4RfXoTCQm5PtsfmPaxCKkDim8Gv1LDA5oQgJ5Qx+E1zoSnqUp9J8Tjqq
-g5BIZvD7/TiRdFafxwQiJJA5/HE/3pSTMccGA3Es4M+Lm5vMECCGc/jr4s6UkVWMXeYe/H1x
-W5PR5HT/5z78cz+b9MyhbEKalm7+PIB/H4Tbm9vDGrKupENXyLqSVV0h60oqW1fIupKJpStk
-XXU6Ll0h66rTXacrZF2pdbpC1pW6rK6QdaUuqytkXalL6gpZV+qyukLWlbqkrpB1pdboCllX
-yq0rZF2p/9cVsq6UdOoKWVeq49YVsq6UcusKWVcqceoKWVdKu3WFrCvVdeoKWVfJGl0h6ypx
-6wpZV8kaXSHrKlmjK2RdJet0hayrxK0rZF0lbl0h6ypx6wpZV4lbV8i6Sty6QtZVItfoCllX
-2qErZF1pt66QdaXdukLWlXbrCllX2q0rZF3pNbpC1pVeoytkXWm3rpB1pd26QtaVfoSukHWl
-pVNXyLrSHZeukHWllUtXyLrSiUtXyLrSuqIrZF3pbkVXyLrqVnWFrKuuQ1fIuupWdSU2ppp+
-TXp0B6Z6Unvoq5pYptkTx+JkvxB7y3uH+8fiqHjydMHf6eir4T26skxP6MIyXe2dpnvF8ZXa
-fyb7GQGiDgAA
---------------080800000509090200000001--
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
