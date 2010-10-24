@@ -1,59 +1,84 @@
-From: =?ISO-8859-1?Q?David_Pr=E9vot?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
-Subject: Re: [patch] koi8-r.7: potential wrong link, and letter names
-Date: Sun, 24 Oct 2010 09:43:58 -0400
-Message-ID: <ia1d6v$1m2$1@dough.gmane.org>
-References: <i9srb4$sk2$1@dough.gmane.org> <AANLkTi=t2G87OYioUg8reifMaPBiC=cYjE3uJSBNnAhs@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] unshare.2: Document CLONE_NEWNET
+Date: Sun, 24 Oct 2010 16:35:24 +0200
+Message-ID: <AANLkTimJrGJywCSNQKuP0p_hx9icbnXGcqRr600e5SY-@mail.gmail.com>
+References: <1287105955-32499-1-git-send-email-lucian.grijincu@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=t2G87OYioUg8reifMaPBiC=cYjE3uJSBNnAhs-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1287105955-32499-1-git-send-email-lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Hello Lucian,
 
-Le 24/10/2010 02:59, Michael Kerrisk a =E9crit :
+On Fri, Oct 15, 2010 at 3:25 AM, Lucian Adrian Grijincu
+<lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Signed-off-by: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> ---
+> =A0man2/unshare.2 | =A0 =A04 ++++
+> =A01 files changed, 4 insertions(+), 0 deletions(-)
+>
+> diff --git a/man2/unshare.2 b/man2/unshare.2
+> index 051ebf5..2e43806 100644
+> --- a/man2/unshare.2
+> +++ b/man2/unshare.2
+> @@ -93,6 +93,10 @@ its namespace which is not shared with any other p=
+rocess.
+> =A0Specifying this flag automatically implies
+> =A0.B CLONE_FS
+> =A0as well.
+> +.TP
+> +.B CLONE_NEWNET " (since Linux 2.6.24)"
+> +Unshare the old network namespace. Specifying this flag
+> +will move the process into a new network namespace.
+> =A0.\" As at 2.6.16, the following forced implications also apply,
+> =A0.\" although the relevant flags are not yet implemented.
+> =A0.\" If CLONE_THREAD is set force CLONE_VM.
+> --
+> 1.7.1
 
->> Could you please check the git. I had some problem saving and applyi=
-ng
->> this patch, so made the changes manually.
+Thanks for this proposal. I went with something a bit more consistent
+with flags already documented, and also included the kernel version
+number and capability requirements. Does it look okay to you?
 
-Sorry, I guess this was due to my GPG signature. please find attached
-just two s/LETTE /LETTER / in order to correct two typos, everything
-else seems fine, thanks.
+Cheers,
 
+Michael
 
-diff --git a/man7/koi8-r.7 b/man7/koi8-r.7
-index 8b7bf67..075dab7 100644
---- a/man7/koi8-r.7
-+++ b/man7/koi8-r.7
-@@ -128,7 +128,7 @@ _
- 305    197     C5      <C5>    CYRILLIC SMALL LETTER IE
- 306    198     C6      <C6>    CYRILLIC SMALL LETTER EF
- 307    199     C7      <C7>    CYRILLIC SMALL LETTER GHE
--310    200     C8      <C8>    CYRILLIC SMALL LETTE HA
-+310    200     C8      <C8>    CYRILLIC SMALL LETTER HA
- 311    201     C9      <C9>    CYRILLIC SMALL LETTER I
- 312    202     CA      <CA>    CYRILLIC SMALL LETTER SHORT I
- 313    203     CB      <CB>    CYRILLIC SMALL LETTER KA
-@@ -137,7 +137,7 @@ _
- 316    206     CE      <CE>    CYRILLIC SMALL LETTER EN
- 317    207     CF      <CF>    CYRILLIC SMALL LETTER O
- 320    208     D0      <D0>    CYRILLIC SMALL LETTER PE
--321    209     D1      <D1>    CYRILLIC SMALL LETTE YA
-+321    209     D1      <D1>    CYRILLIC SMALL LETTER YA
- 322    210     D2      <D2>    CYRILLIC SMALL LETTER ER
- 323    211     D3      <D3>    CYRILLIC SMALL LETTER ES
- 324    212     D4      <D4>    CYRILLIC SMALL LETTER TE
-
-
-Regards
-
-David
+--- a/man2/unshare.2
++++ b/man2/unshare.2
+@@ -89,6 +89,19 @@ requires the
+ .BR CAP_SYS_ADMIN
+ capability.
+ .TP
++.BR CLONE_NEWNET " (since Linux 2.6.24)
++This flag has the same effect as the
++.BR clone (2)
++.B CLONE_NEWNET
++flag.
++Unshare the network namespace,
++so that the calling process has a private copy of the
++network namespace which is not shared with any other process.
++.BR CLONE_NEWNET
++requires the
++.BR CAP_SYS_ADMIN
++capability.
++.TP
+ .B CLONE_NEWNS
+ .\" These flag name are inconsistent:
+ .\" CLONE_NEWNS does the same thing in clone(), but CLONE_VM,
 
 
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
