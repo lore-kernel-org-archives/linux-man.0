@@ -1,211 +1,241 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: subpage_prot() man page
-Date: Sun, 24 Oct 2010 16:54:53 +0200
-Message-ID: <AANLkTikwj8yOcGp7Pfhpj0_w0o4-zpTU0LN1i3VVuppF@mail.gmail.com>
-References: <AANLkTi=GZ5hxhbG7Frak-Hb+PC8=4uXcnBEgpcbCrmPG@mail.gmail.com>
+Subject: Re: [PATCH] kexec_load manpage
+Date: Sun, 24 Oct 2010 16:56:24 +0200
+Message-ID: <AANLkTinHP0Z-sQOgtETQsQ_5ZV1UbT+tGDJ47B23E4=0@mail.gmail.com>
+References: <20100619132633.GA24277@basil.fritz.box> <m1mxuqu8yr.fsf@fess.ebiederm.org>
+ <AANLkTillNx5owgU4O71izNz9FEL06MiI-FquTZ3ofktP@mail.gmail.com> <AANLkTi=HKMce2UojSRmqVdoLO3H4v+6Xtp-bgFuHwH+D@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=GZ5hxhbG7Frak-Hb+PC8=4uXcnBEgpcbCrmPG-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTi=HKMce2UojSRmqVdoLO3H4v+6Xtp-bgFuHwH+D-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-Cc: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kexec Mailing List <kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Paul,
+Hey Andi,
 
-Could you take a look at this page to see if it is accurate?
-
-Thanks,
-
-Michael
-
-
----------- Forwarded message ----------
-=46rom: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Sun, Oct 10, 2010 at 7:53 AM
-Subject: subpage_prot() man page
-To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-
-
-[Reseending with corrected subject line for Paul's benefit]
-[Was: man pages for undocumented system calls]
-
-Stephan,
-
-Thanks for the idea for this page. However, there was much that was
-missing, or not quite correct, so I wrote the version below. If you
-have any comments or additions, please let me know
-
-Paul, would you be willing to review this page for the system call
-that you added?
+I'd like to push this page out the door, but I'm blocked doing so
+until I hear back from you regarding the question below (plus a new
+version of the page, if needed please).
 
 Thanks,
 
 Michael
 
 
-=2E\" Copyright (c) 2010 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-=2E\" based on a proposal from Stephan Mueller <smueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-=2E\"
-=2E\" Permission is granted to make and distribute verbatim copies of t=
-his
-=2E\" manual provided the copyright notice and this permission notice a=
-re
-=2E\" preserved on all copies.
-=2E\"
-=2E\" Permission is granted to copy and distribute modified versions of
-=2E\" this manual under the conditions for verbatim copying, provided t=
-hat
-=2E\" the entire resulting derived work is distributed under the terms =
-of
-=2E\" a permission notice identical to this one.
-=2E\"
-=2E\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-=2E\" manual page may be incorrect or out-of-date. =A0The author(s) ass=
-ume.
-=2E\" no responsibility for errors or omissions, or for damages resulti=
-ng.
-=2E\" from the use of the information contained herein. =A0The author(s=
-) may.
-=2E\" not have taken the same level of care in the production of this.
-=2E\" manual, which is licensed free of charge, as they might when work=
-ing.
-=2E\" professionally.
-=2E\"
-=2E\" Formatted or processed versions of this manual, if unaccompanied =
-by
-=2E\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-=2E\"
-=2E\" Various pieces of text taken from the kernel source and the comme=
-ntary
-=2E\" in kernel commit fa28237cfcc5827553044cbd6ee52e33692b0faa
-=2E\" both written by Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-=2E\"
-=2ETH SUBPAGE_PROT 2 2010-10-09 "Linux" "Linux Programmer's Manual"
-=2ESH NAME
-subpage_prot \- copy a subpage protection map into the kernel
-=2ESH SYNOPSIS
-=2Enf
-=2EBI "long subpage_prot(unsigned long " addr ", unsigned long " len ,
-=2EBI " =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0uint32_t *" map ");
-=2Efi
-=2ESH DESCRIPTION
-The PowerPC-specific
-=2EBR subpage_prot ()
-system call provides the facility to control the access
-permissions on individual 4kB subpages on systems configured with
-a page size of 64kB.
-
-The protection map is applied to the memory pages in the region startin=
-g at
-=2EI addr
-and continuing for
-=2EI len
-bytes.
-Both of these arguments must be aligned to a 64-kB boundary.
-
-The protection map is specified in the buffer pointed to by
-=2EIR map .
-The map has 2 bits per 4kB subpage;
-thus each 32-bit word specifies the protections of 16 4kB subpages
-inside a 64kB page
-(so, the number of 32-bit words pointed to by
-=2EI map
-should equate to the number of 64-kB pages specified by
-=2EIR len ).
-Each 2-bit field in the protection map is either 0 to allow any access,
-1 to prevent writes, or 2 or 3 to prevent all accesses.
-=2ESH RETURN VALUE
-On success,
-=2EBR subpage_prot ()
-returns 0.
-Otherwise, one of the negated =A0error codes specified below is returne=
-d.
-=2ESH ERRORS
-=2ETP
-=2EB EINVAL
-The
-=2EI addr
-or
-=2EI len
-arguments are incorrect.
-Both of these arguments must be aligned to a multiple of the system pag=
-e size,
-and they must not refer to a region outside of the
-address space of the process or to a region that consists of huge pages=
-=2E
-=2ETP
-=2EB EFAULT
-The buffer referred to by
-=2EI map
-is not accessible.
-=2ETP
-=2EB ENOMEM
-Out of memory.
-=2ESH VERSIONS
-This system call is provided on the PowerPC architecture
-since Linux 2.6.25.
-The system call is provided only if the kernel is configured with
-=2EBR CONFIG_PPC_64K_PAGES .
-No library support is provided.
-=2ESH CONFORMING TO
-This system call is Linux-specific.
-=2ESH NOTES
-Normal page protections (at the 64-kB page level) also apply;
-the subpage protection mechanism is an additional constraint,
-so putting 0 in a 2-bit field won't allow writes to a page that is othe=
-rwise
-write-protected.
-=2ESS Rationale
-This system call is provided to assist writing emulators that
-operate using 64-kB pages on PowerPC systems.
-When emulating systems such as x86, which uses a smaller page size,
-the emulator can no longer use the memory-management unit (MMU)
-and normal system calls for controlling page protections.
-(The emulator could emulate the MMU by checking and possibly remapping
-the address for each memory access in software, but that is slow.)
-The idea is that the emulator supplies an array of protection masks
-to apply to a specified range of virtual addresses.
-These masks are applied at the level where hardware page-table entries =
-(PTEs)
-are inserted into the hardware page table based on the Linux PTEs,
-so the Linux PTEs are not affected.
-=2E\" Perhaps we don't need to document this implementation detail:
-=2E\"
-=2E\" Implicit in this is that the regions of the address space that ar=
-e
-=2E\" protected are switched to use 4k hardware pages rather than 64k
-=2E\" hardware pages (on machines with hardware 64k page support).
-=2E\" In fact the whole process is switched to use 4k hardware pages wh=
-en the
-=2E\" subpage_prot system call is used, but this could be improved in f=
-uture
-=2E\" to switch only the affected segments.
-=2ESH SEE ALSO
-=2EBR mprotect (2),
-=2EBR syscall (2);
-=2Ebr
-the kernel source file
-=2EIR Documentation/vm/hugetlbpage.txt .
-
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
-
-
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+On Sat, Sep 11, 2010 at 6:46 AM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8@public.gmane.org=
+m> wrote:
+> Hi Andi,
+>
+> Ping!
+>
+> Cheers,
+>
+> Michael
+>
+>
+> On Sat, Jun 26, 2010 at 3:23 PM, Michael Kerrisk <mtk.manpages@gmail.=
+com> wrote:
+>> Hi Andi,
+>>
+>> Are Eric's suggestions of "physical" below correct? If so, could you
+>> amend the page and resubmit?
+>>
+>> Also, I'd prefer to have the reboot.2 and kexec_load.2 page as
+>> separate patches, so could you split them on the resend please?
+>>
+>> Thanks,
+>>
+>> Michael
+>>
+>> On Sat, Jun 19, 2010 at 9:18 PM, Eric W. Biederman
+>> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+>>> Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> writes:
+>>>
+>>>> Here are the beginnings of a kexec_load manpage.
+>>>>
+>>>> Probably needs some more review from Eric and may need some additi=
+onal
+>>>> information.
+>>>>
+>>>> The syscall is actually only usable with a kernel patch to export
+>>>> the header I just sent separately.
+>>>
+>>> The syscall has been used for years with a separate non-kernel head=
+er.
+>>>
+>>>
+>>> Eric
+>>>
+>>>
+>>>> Also added the kexec subcall to reboot(2)
+>>>>
+>>>> -Andi
+>>>>
+>>>> diff --git a/man2/kexec_load.2 b/man2/kexec_load.2
+>>>> new file mode 100644
+>>>> index 0000000..f486641
+>>>> --- /dev/null
+>>>> +++ b/man2/kexec_load.2
+>>>> @@ -0,0 +1,94 @@
+>>>> +.TH KEXEC_LOAD 2 2010-06-16 "Linux" "Linux Programmer's Manual"
+>>>> +.SH NAME
+>>>> +kexec_load \- Load a new kernel for later execution.
+>>>> +.SH SYNOPSIS
+>>>> +.b #include <linux/kexec.h>
+>>>> +.br
+>>>> +.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_=
+segments ","
+>>>> +.br
+>>>> +.BI =A0 =A0 =A0 "struct kexec_segment *" segments ", unsigned lon=
+g " flags ");"
+>>>> +.SH DESCRIPTION
+>>>> +.BR kexec_load
+>>>> +loads a new kernel that can be executed later
+>>>> +by
+>>>> +.I reboot(2).
+>>>> +An alternative approach is to specify
+>>>> +.B KEXEC_ON_CRASH
+>>>> +in the
+>>>> +.I flags
+>>>> +argument and then the new kernel will be automatically executed o=
+n a
+>>>> +system crash.
+>>>> +.\" XXX figure out how this is really used
+>>>> +With
+>>>> +.B KEXEC_PRESERVE_CONTEXT
+>>>> +specified in
+>>>> +.I flags
+>>>> +kexec will preserve the system hard and
+>>>> +software state before executing the kexec kernel. This
+>>>> +could be used for system suspend.
+>>>> +
+>>>> +.I flags
+>>>> +also contains the architecture of the executed kernel or
+>>>> +be
+>>>> +.I KEXEC_ARCH_DEFAULT
+>>>> +for the current architecture.
+>>>> +Valid architectures are
+>>>> +.I KEXEC_ARCH_I386,
+>>>> +.I KEXEC_ARCH_X86_64,
+>>>> +.I KEXEC_ARCH_PPC,
+>>>> +.I KEXEC_ARCH_PPC64,
+>>>> +.I KEXEC_ARCH_IA_64,
+>>>> +.I KEXEC_ARCH_ARM,
+>>>> +.I KEXEC_ARCH_S390,
+>>>> +.I KEXEC_ARCH_SH,
+>>>> +.I KEXEC_ARCH_MIPS,
+>>>> +.I KEXEC_ARCH_MIPS_LE.
+>>>> +The architecture must be executable on the CPU of the system.
+>>>> +
+>>>> +.I entry
+>>>> +is the virtual entry address in the kernel image.
+>>>
+>>> Physical.
+>>>
+>>>> +.I nr_segments
+>>>> +is the number of segments pointed to by the
+>>>> +.I segments
+>>>> +pointer.
+>>>> +.I segments
+>>>> +is an array of
+>>>> +.I struct kexec_segment
+>>>> +structures which define the kernel layout:
+>>>> +.in +4n
+>>>> +.nf
+>>>> +
+>>>> +struct kexec_segment {
+>>>> + =A0 =A0 void =A0 *buf; =A0 =A0/* Buffer in user space */
+>>>> + =A0 =A0 size_t =A0bufsz; =A0/* Buffer length in user space */
+>>>> + =A0 =A0 void =A0 *mem; =A0 =A0/* Virtual address of kernel */
+>>>> + =A0 =A0 size_t =A0memsz; =A0/* Virtual address length */
+>>>
+>>> There are again physical addresses.
+>>>
+>>> There is an expectation that at hand off from sys_kexec that
+>>> virtual and physical addresses will be identity mapped. =A0But
+>>> this isn't the old Alpha booting convention where you have
+>>> a virtual address and then you have to parse the page table
+>>> to figure out where your kernel was actually loaded.
+>>>
+>>>> +};
+>>>> +.fi
+>>>> +.in
+>>>> +.PP
+>>>> +.\" XXX elaborate on this
+>>>> +The kernel image defined by
+>>>> +.I segments
+>>>> +is copied from the calling process into previously reserved memor=
+y.
+>>>> +.SH CONFORMING TO
+>>>> +This system call is Linux-specific.
+>>>> +.SH NOTES
+>>>> +kexec_load is currently not defined in glibc. To call it use:
+>>>> +.in +4n
+>>>> +.nf
+>>>> +#define _GNU_SOURCE
+>>>> +#include <syscall.h>
+>>>> +#include <asm/unistd.h>
+>>>> +#include <linux/kexec.h>
+>>>> +
+>>>> +ret =3D syscall(__NR_kexec_load, entry, nr_segments, segments, fl=
+ags);
+>>>> +.fi
+>>>> +.in
+>>>> +.PP
+>>>> +.I linux/kexec.h as a exported header is only available in 2.6.38
+>>>> +and later kernels, in earlier kernels the constants need to be co=
+pied
+>>>> +out of the kernel source.
+>>>> +.SH SEE ALSO
+>>>> +.BR syscall (2),
+>>>> +.BR reboot (2)
+>>>> diff --git a/man2/reboot.2 b/man2/reboot.2
+>>>> index 253bd34..87204b1 100644
+>>>> --- a/man2/reboot.2
+>>>> +++ b/man2/reboot.2
+>>>> @@ -139,6 +139,11 @@ For the i386 architecture, the additional arg=
+ument does not do
+>>>> =A0anything at present (2.1.122), but the type of reboot can be
+>>>> =A0determined by kernel command-line arguments ("reboot=3D...") to=
+ be
+>>>> =A0either warm or cold, and either hard or through the BIOS.
+>>>> +.TP
+>>>> +.B LINUX_REBOOT_KEXEC
+>>>> +executes a kernel that has been loaded earlier
+>>>> +with
+>>>> +.I kexec_load(2).
+>>>> =A0.SH "RETURN VALUE"
+>>>> =A0For the values of
+>>>> =A0.I cmd
+>>>> @@ -177,4 +182,5 @@ and should not be used in programs intended to=
+ be portable.
+>>>> =A0.BR capabilities (7),
+>>>> =A0.BR ctrlaltdel (8),
+>>>> =A0.BR halt (8),
+>>>> -.BR reboot (8)
+>>>> +.BR reboot (8),
+>>>> +.BR kexec_load (2)
+>>>
+>>
+>>
+>>
+>> --
+>> Michael Kerrisk
+>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+>> Author of "The Linux Programming Interface" http://blog.man7.org/
+>>
+>
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+>
 
 
 
