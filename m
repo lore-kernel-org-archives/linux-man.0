@@ -1,14 +1,14 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] ip.7: Convention, order, and typo
-Date: Sun, 24 Oct 2010 08:22:46 +0200
-Message-ID: <AANLkTimpJkye+Ja9SoKCctWPvwZ3wV07HZASZ_O+=Pdw@mail.gmail.com>
-References: <i9qub7$jge$1@dough.gmane.org> <i9qukb$jge$2@dough.gmane.org> <i9s6a5$lic$1@dough.gmane.org>
+Subject: Re: [patch] koi8-r.7: potential wrong link, and letter names
+Date: Sun, 24 Oct 2010 08:59:33 +0200
+Message-ID: <AANLkTi=t2G87OYioUg8reifMaPBiC=cYjE3uJSBNnAhs@mail.gmail.com>
+References: <i9srb4$sk2$1@dough.gmane.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <i9s6a5$lic$1@dough.gmane.org>
+In-Reply-To: <i9srb4$sk2$1@dough.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?ISO-8859-1?Q?David_Pr=E9vot?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,64 +16,226 @@ List-Id: linux-man@vger.kernel.org
 
 Hello David,
 
-On Fri, Oct 22, 2010 at 4:15 PM, David Pr=E9vot <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org> wro=
-te:
+On Fri, Oct 22, 2010 at 10:14 PM, David Pr=E9vot <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org> wr=
+ote:
 > -----BEGIN PGP SIGNED MESSAGE-----
 > Hash: SHA1
 >
-> Hi
+> Hi,
 >
-> Le 21/10/2010 22:58, David Pr=E9vot a =E9crit :
+> The koi8-r(7) (Russian Net Character Set) manual page refers to
+> iso-8859-7(7) manual page, which is the Latin/Greek one. I guess it
+> should refer instead to the iso-8859-5(7) (Latin/Cyrillic) one. This =
+is
+> addressed at the end of the patch.
 >
->> Please find inline a patch against current ip(7) manual page, in ord=
-er
->> to fix some issue spotted while reviewing it's translation.
+> It has also been spotted that letter names are different in this manu=
+al
+> page and in the Unicode related page [0], the first part of the page
+> address this.
+>
+> =A0 =A0 =A0 =A00: http://www.unicode.org/charts/PDF/U0400.pdf
 
-Thanks. Applied for 3.30.
+Thanks, applied for 3.30.
 
-> Please find some more =93bold=93 issues spotted later (please let me =
-know if
-> you prefer various messages for this type of issues in the future,
-> instead of just one typo patch).
+Could you please check the git. I had some problem saving and applying
+this patch, so made the changes manually.
 
-I prefer to split things up logically (see how I split up your first
-patch), but when all of the issues are minor, it's not too much of a
-problem to get everything in one patch.
-
-Cheers,
+Thanks,
 
 Michael
 
-> @@ -609,11 +597,13 @@ caused the error, which can be accessed with th=
-e
-> =A0macro.
-> =A0The
-> =A0.I sin_family
-> - -field of the SO_EE_OFFENDER address is
-> +field of the
-> +.B SO_EE_OFFENDER
-> +address is
-> =A0.B AF_UNSPEC
-> =A0when the source was unknown.
-> =A0When the error originated from the network, all IP options
-> - -.RI ( IP_OPTIONS ", " IP_TTL ", "
-> +.RB ( IP_OPTIONS ", " IP_TTL ", "
-> =A0etc.) enabled on the socket and contained in the
-> =A0error packet are passed as control messages.
-> =A0The payload of the packet causing the error is returned as normal =
-payload.
+
+> diff --git a/man7/koi8-r.7 b/man7/koi8-r.7
+> index 51478a6..2cd7047 100644
+> - --- a/man7/koi8-r.7
+> +++ b/man7/koi8-r.7
+> @@ -120,24 +120,24 @@ _
+> =A0275 =A0 =A0189 =A0 =A0 BD =A0 =A0 =A0<BD> =A0 =A0FORMS VERTICAL DO=
+UBLE AND HORIZONTAL SINGLE
+> =A0276 =A0 =A0190 =A0 =A0 BE =A0 =A0 =A0<BE> =A0 =A0FORMS DOUBLE VERT=
+ICAL AND HORIZONTAL
+> =A0277 =A0 =A0191 =A0 =A0 BF =A0 =A0 =A0<BF> =A0 =A0COPYRIGHT SIGN
+> - -300 =A0 =A0192 =A0 =A0 C0 =A0 =A0 =A0<C0> =A0 =A0CYRILLIC SMALL LE=
+TTER IU
+> +300 =A0 =A0192 =A0 =A0 C0 =A0 =A0 =A0<C0> =A0 =A0CYRILLIC SMALL LETT=
+ER YU
+> =A0301 =A0 =A0193 =A0 =A0 C1 =A0 =A0 =A0<C1> =A0 =A0CYRILLIC SMALL LE=
+TTER A
+> =A0302 =A0 =A0194 =A0 =A0 C2 =A0 =A0 =A0<C2> =A0 =A0CYRILLIC SMALL LE=
+TTER BE
+> =A0303 =A0 =A0195 =A0 =A0 C3 =A0 =A0 =A0<C3> =A0 =A0CYRILLIC SMALL LE=
+TTER TSE
+> =A0304 =A0 =A0196 =A0 =A0 C4 =A0 =A0 =A0<C4> =A0 =A0CYRILLIC SMALL LE=
+TTER DE
+> =A0305 =A0 =A0197 =A0 =A0 C5 =A0 =A0 =A0<C5> =A0 =A0CYRILLIC SMALL LE=
+TTER IE
+> =A0306 =A0 =A0198 =A0 =A0 C6 =A0 =A0 =A0<C6> =A0 =A0CYRILLIC SMALL LE=
+TTER EF
+> - -307 =A0 =A0199 =A0 =A0 C7 =A0 =A0 =A0<C7> =A0 =A0CYRILLIC SMALL LE=
+TTER GE
+> - -310 =A0 =A0200 =A0 =A0 C8 =A0 =A0 =A0<C8> =A0 =A0CYRILLIC SMALL LE=
+TTER KHA
+> - -311 =A0 =A0201 =A0 =A0 C9 =A0 =A0 =A0<C9> =A0 =A0CYRILLIC SMALL LE=
+TTER II
+> - -312 =A0 =A0202 =A0 =A0 CA =A0 =A0 =A0<CA> =A0 =A0CYRILLIC SMALL LE=
+TTER SHORT II
+> +307 =A0 =A0199 =A0 =A0 C7 =A0 =A0 =A0<C7> =A0 =A0CYRILLIC SMALL LETT=
+ER GHE
+> +310 =A0 =A0200 =A0 =A0 C8 =A0 =A0 =A0<C8> =A0 =A0CYRILLIC SMALL LETT=
+ER HA
+> +311 =A0 =A0201 =A0 =A0 C9 =A0 =A0 =A0<C9> =A0 =A0CYRILLIC SMALL LETT=
+ER I
+> +312 =A0 =A0202 =A0 =A0 CA =A0 =A0 =A0<CA> =A0 =A0CYRILLIC SMALL LETT=
+ER SHORT I
+> =A0313 =A0 =A0203 =A0 =A0 CB =A0 =A0 =A0<CB> =A0 =A0CYRILLIC SMALL LE=
+TTER KA
+> =A0314 =A0 =A0204 =A0 =A0 CC =A0 =A0 =A0<CC> =A0 =A0CYRILLIC SMALL LE=
+TTER EL
+> =A0315 =A0 =A0205 =A0 =A0 CD =A0 =A0 =A0<CD> =A0 =A0CYRILLIC SMALL LE=
+TTER EM
+> =A0316 =A0 =A0206 =A0 =A0 CE =A0 =A0 =A0<CE> =A0 =A0CYRILLIC SMALL LE=
+TTER EN
+> =A0317 =A0 =A0207 =A0 =A0 CF =A0 =A0 =A0<CF> =A0 =A0CYRILLIC SMALL LE=
+TTER O
+> =A0320 =A0 =A0208 =A0 =A0 D0 =A0 =A0 =A0<D0> =A0 =A0CYRILLIC SMALL LE=
+TTER PE
+> - -321 =A0 =A0209 =A0 =A0 D1 =A0 =A0 =A0<D1> =A0 =A0CYRILLIC SMALL LE=
+TTER IA
+> +321 =A0 =A0209 =A0 =A0 D1 =A0 =A0 =A0<D1> =A0 =A0CYRILLIC SMALL LETT=
+ER YA
+> =A0322 =A0 =A0210 =A0 =A0 D2 =A0 =A0 =A0<D2> =A0 =A0CYRILLIC SMALL LE=
+TTER ER
+> =A0323 =A0 =A0211 =A0 =A0 D3 =A0 =A0 =A0<D3> =A0 =A0CYRILLIC SMALL LE=
+TTER ES
+> =A0324 =A0 =A0212 =A0 =A0 D4 =A0 =A0 =A0<D4> =A0 =A0CYRILLIC SMALL LE=
+TTER TE
+> @@ -145,31 +145,31 @@ _
+> =A0326 =A0 =A0214 =A0 =A0 D6 =A0 =A0 =A0<D6> =A0 =A0CYRILLIC SMALL LE=
+TTER ZHE
+> =A0327 =A0 =A0215 =A0 =A0 D7 =A0 =A0 =A0<D7> =A0 =A0CYRILLIC SMALL LE=
+TTER VE
+> =A0330 =A0 =A0216 =A0 =A0 D8 =A0 =A0 =A0<D8> =A0 =A0CYRILLIC SMALL LE=
+TTER SOFT SIGN
+> - -331 =A0 =A0217 =A0 =A0 D9 =A0 =A0 =A0<D9> =A0 =A0CYRILLIC SMALL LE=
+TTER YERI
+> +331 =A0 =A0217 =A0 =A0 D9 =A0 =A0 =A0<D9> =A0 =A0CYRILLIC SMALL LETT=
+ER YERU
+> =A0332 =A0 =A0218 =A0 =A0 DA =A0 =A0 =A0<DA> =A0 =A0CYRILLIC SMALL LE=
+TTER ZE
+> =A0333 =A0 =A0219 =A0 =A0 DB =A0 =A0 =A0<DB> =A0 =A0CYRILLIC SMALL LE=
+TTER SHA
+> - -334 =A0 =A0220 =A0 =A0 DC =A0 =A0 =A0<DC> =A0 =A0CYRILLIC SMALL LE=
+TTER REVERSED E
+> +334 =A0 =A0220 =A0 =A0 DC =A0 =A0 =A0<DC> =A0 =A0CYRILLIC SMALL LETT=
+ER E
+> =A0335 =A0 =A0221 =A0 =A0 DD =A0 =A0 =A0<DD> =A0 =A0CYRILLIC SMALL LE=
+TTER SHCHA
+> =A0336 =A0 =A0222 =A0 =A0 DE =A0 =A0 =A0<DE> =A0 =A0CYRILLIC SMALL LE=
+TTER CHE
+> =A0337 =A0 =A0223 =A0 =A0 DF =A0 =A0 =A0<DF> =A0 =A0CYRILLIC SMALL LE=
+TTER HARD SIGN
+> - -340 =A0 =A0224 =A0 =A0 E0 =A0 =A0 =A0<E0> =A0 =A0CYRILLIC CAPITAL =
+LETTER IU
+> +340 =A0 =A0224 =A0 =A0 E0 =A0 =A0 =A0<E0> =A0 =A0CYRILLIC CAPITAL LE=
+TTER YU
+> =A0341 =A0 =A0225 =A0 =A0 E1 =A0 =A0 =A0<E1> =A0 =A0CYRILLIC CAPITAL =
+LETTER A
+> =A0342 =A0 =A0226 =A0 =A0 E2 =A0 =A0 =A0<E2> =A0 =A0CYRILLIC CAPITAL =
+LETTER BE
+> =A0343 =A0 =A0227 =A0 =A0 E3 =A0 =A0 =A0<E3> =A0 =A0CYRILLIC CAPITAL =
+LETTER TSE
+> =A0344 =A0 =A0228 =A0 =A0 E4 =A0 =A0 =A0<E4> =A0 =A0CYRILLIC CAPITAL =
+LETTER DE
+> =A0345 =A0 =A0229 =A0 =A0 E5 =A0 =A0 =A0<E5> =A0 =A0CYRILLIC CAPITAL =
+LETTER IE
+> =A0346 =A0 =A0230 =A0 =A0 E6 =A0 =A0 =A0<E6> =A0 =A0CYRILLIC CAPITAL =
+LETTER EF
+> - -347 =A0 =A0231 =A0 =A0 E7 =A0 =A0 =A0<E7> =A0 =A0CYRILLIC CAPITAL =
+LETTER GE
+> - -350 =A0 =A0232 =A0 =A0 E8 =A0 =A0 =A0<E8> =A0 =A0CYRILLIC CAPITAL =
+LETTER KHA
+> - -351 =A0 =A0233 =A0 =A0 E9 =A0 =A0 =A0<E9> =A0 =A0CYRILLIC CAPITAL =
+LETTER II
+> - -352 =A0 =A0234 =A0 =A0 EA =A0 =A0 =A0<EA> =A0 =A0CYRILLIC CAPITAL =
+LETTER SHORT II
+> +347 =A0 =A0231 =A0 =A0 E7 =A0 =A0 =A0<E7> =A0 =A0CYRILLIC CAPITAL LE=
+TTER GHE
+> +350 =A0 =A0232 =A0 =A0 E8 =A0 =A0 =A0<E8> =A0 =A0CYRILLIC CAPITAL LE=
+TTER HA
+> +351 =A0 =A0233 =A0 =A0 E9 =A0 =A0 =A0<E9> =A0 =A0CYRILLIC CAPITAL LE=
+TTER I
+> +352 =A0 =A0234 =A0 =A0 EA =A0 =A0 =A0<EA> =A0 =A0CYRILLIC CAPITAL LE=
+TTER SHORT I
+> =A0353 =A0 =A0235 =A0 =A0 EB =A0 =A0 =A0<EB> =A0 =A0CYRILLIC CAPITAL =
+LETTER KA
+> =A0354 =A0 =A0236 =A0 =A0 EC =A0 =A0 =A0<EC> =A0 =A0CYRILLIC CAPITAL =
+LETTER EL
+> =A0355 =A0 =A0237 =A0 =A0 ED =A0 =A0 =A0<ED> =A0 =A0CYRILLIC CAPITAL =
+LETTER EM
+> =A0356 =A0 =A0238 =A0 =A0 EE =A0 =A0 =A0<EE> =A0 =A0CYRILLIC CAPITAL =
+LETTER EN
+> =A0357 =A0 =A0239 =A0 =A0 EF =A0 =A0 =A0<EF> =A0 =A0CYRILLIC CAPITAL =
+LETTER O
+> =A0360 =A0 =A0240 =A0 =A0 F0 =A0 =A0 =A0<F0> =A0 =A0CYRILLIC CAPITAL =
+LETTER PE
+> - -361 =A0 =A0241 =A0 =A0 F1 =A0 =A0 =A0<F1> =A0 =A0CYRILLIC CAPITAL =
+LETTER IA
+> +361 =A0 =A0241 =A0 =A0 F1 =A0 =A0 =A0<F1> =A0 =A0CYRILLIC CAPITAL LE=
+TTER YA
+> =A0362 =A0 =A0242 =A0 =A0 F2 =A0 =A0 =A0<F2> =A0 =A0CYRILLIC CAPITAL =
+LETTER ER
+> =A0363 =A0 =A0243 =A0 =A0 F3 =A0 =A0 =A0<F3> =A0 =A0CYRILLIC CAPITAL =
+LETTER ES
+> =A0364 =A0 =A0244 =A0 =A0 F4 =A0 =A0 =A0<F4> =A0 =A0CYRILLIC CAPITAL =
+LETTER TE
+> @@ -177,10 +177,10 @@ _
+> =A0366 =A0 =A0246 =A0 =A0 F6 =A0 =A0 =A0<F6> =A0 =A0CYRILLIC CAPITAL =
+LETTER ZHE
+> =A0367 =A0 =A0247 =A0 =A0 F7 =A0 =A0 =A0<F7> =A0 =A0CYRILLIC CAPITAL =
+LETTER VE
+> =A0370 =A0 =A0248 =A0 =A0 F8 =A0 =A0 =A0<F8> =A0 =A0CYRILLIC CAPITAL =
+LETTER SOFT SIGN
+> - -371 =A0 =A0249 =A0 =A0 F9 =A0 =A0 =A0<F9> =A0 =A0CYRILLIC CAPITAL =
+LETTER YERI
+> +371 =A0 =A0249 =A0 =A0 F9 =A0 =A0 =A0<F9> =A0 =A0CYRILLIC CAPITAL LE=
+TTER YERU
+> =A0372 =A0 =A0250 =A0 =A0 FA =A0 =A0 =A0<FA> =A0 =A0CYRILLIC CAPITAL =
+LETTER ZE
+> =A0373 =A0 =A0251 =A0 =A0 FB =A0 =A0 =A0<FB> =A0 =A0CYRILLIC CAPITAL =
+LETTER SHA
+> - -374 =A0 =A0252 =A0 =A0 FC =A0 =A0 =A0<FC> =A0 =A0CYRILLIC CAPITAL =
+LETTER REVERSED E
+> +374 =A0 =A0252 =A0 =A0 FC =A0 =A0 =A0<FC> =A0 =A0CYRILLIC CAPITAL LE=
+TTER E
+> =A0375 =A0 =A0253 =A0 =A0 FD =A0 =A0 =A0<FD> =A0 =A0CYRILLIC CAPITAL =
+LETTER SHCHA
+> =A0376 =A0 =A0254 =A0 =A0 FE =A0 =A0 =A0<FE> =A0 =A0CYRILLIC CAPITAL =
+LETTER CHE
+> =A0377 =A0 =A0255 =A0 =A0 FF =A0 =A0 =A0<FF> =A0 =A0CYRILLIC CAPITAL =
+LETTER HARD SIGN
+> @@ -188,7 +188,7 @@ _
+> =A0.TE
+> =A0.SH "SEE ALSO"
+> =A0.BR ascii (7),
+> - -.BR iso-8859-7 (7),
+> +.BR iso-8859-5 (7),
+> =A0.BR koi8-u (7),
+> =A0RFC\ 1489,
+> =A0http://koi8.pp.ru/
 >
 >
 > Regards
 >
 > David
 >
+>
 > -----BEGIN PGP SIGNATURE-----
 > Version: GnuPG v1.4.10 (GNU/Linux)
 >
-> iEYEARECAAYFAkzBnIMACgkQ18/WetbTC/q8KwCdGxXFKvfVi50Cfyq0ynuFLUrf
-> 12cAn0ziNnze8W3FxXeyVUuX6gmA0nw9
-> =3DaTsu
+> iEYEARECAAYFAkzB8KEACgkQ18/WetbTC/p5PgCfWbyAoJLMWXEF0pmpEMq42yLZ
+> jc8An0qz/U3TrSuL/hX9PzPJGKDVhq8C
+> =3DzNky
 > -----END PGP SIGNATURE-----
 >
 > --
