@@ -1,33 +1,66 @@
-From: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] clone.2: remove forward reference to 2.6.28
-Date: Sat, 30 Oct 2010 15:19:51 +0300
-Message-ID: <20101030121951.GA17323@core2.telecom.by>
-References: <1287105955-32499-1-git-send-email-lucian.grijincu@gmail.com>
- <1287105955-32499-2-git-send-email-lucian.grijincu@gmail.com>
- <AANLkTik4kzXOTyeiYauMSri0xJVPamK4_RwxuJs9+Ufc@mail.gmail.com>
- <AANLkTi=QfA_h_U6A_W7TbYNXh2v2xnkbgLjVKRTJMX0X@mail.gmail.com>
- <AANLkTikgTd=onzd1rMkqfB8mcBhv+8ZA1xqV9MDG4_iB@mail.gmail.com>
+From: Florian Lehmann <flo.lehmann-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: man crypt: #define __USE_XOPEN on 64-bit systems
+Date: Sat, 30 Oct 2010 16:08:50 +0200
+Message-ID: <1288447730.1866.10.camel@hobbes>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="=-62fdt5zRx9bcPOy4djT+"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <AANLkTikgTd=onzd1rMkqfB8mcBhv+8ZA1xqV9MDG4_iB-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Lucian Adrian Grijincu <lucian.grijincu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Pavel Emelyanov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Oct 30, 2010 at 08:11:28AM +0200, Michael Kerrisk wrote:
-> by which kernel version did the CLONE_NEWNET implementation become complete?
-> We suppose it is 2.6.29, but it would be good to have confirmation
 
-In my book, this is 2.6.33 where netns XFRM became usable. :-)
+--=-62fdt5zRx9bcPOy4djT+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-commit d7c7544c3d5f59033d1bf3236bc7b289f5f26b75
-Author: Alexey Dobriyan <adobriyan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date:   Sun Jan 24 22:47:53 2010 -0800
+Dear all,
 
-    netns xfrm: deal with dst entries in netns
+I am using
+Linux hobbes 2.6.35-22-generic #35-Ubuntu SMP Sat Oct 16 20:45:36 UTC
+2010 x86_64 GNU/Linux
+
+with manpages 
+Version: 3.24-1ubuntu1
+
+I was trying to run a simple c-program using the function crypt from
+unistd.h
+
+Tha manpages states to define the macro _XOPEN_SOURCE in order to use
+this function. This works fine on a 32-bit Version of Ubuntu 10.10. On
+the mentioned 54-bit system the program could not be compiled. 
+
+On those systems you also have to define the macro __USE_XOPEN.
+I attached the program. Just compile with
+gcc -Wall crypter.c -lcrypt #will not work without __USE_XOPEN
+
+Thanks a lot and best regards from Ulm,
+Florian Lehmann
+
+
+--=-62fdt5zRx9bcPOy4djT+
+Content-Disposition: attachment; filename="crypter.c"
+Content-Type: text/x-csrc; name="crypter.c"; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+#include <stdio.h>
+#define _XOPEN_SOURCE
+#define __USE_XOPEN//needed on 64-bit
+#include <unistd.h>
+#include <string.h>
+int main(){
+  char pwd[9]="asd2/ASD";
+  char sa[20];
+  strcpy(sa,(char*)crypt(pwd,"xx") );
+ 
+  printf("xx-crypted pw: %s\n",sa);
+
+  return 0;
+
+}
+
+--=-62fdt5zRx9bcPOy4djT+--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
