@@ -1,42 +1,34 @@
-From: Simon Horman <horms-/R6kz+dDXgpPR4JQBCEnsQ@public.gmane.org>
-Subject: Re: [PATCH] kexec_load manpage
-Date: Sun, 31 Oct 2010 15:58:10 +0900
-Message-ID: <20101031065810.GB13793@verge.net.au>
-References: <20100619132633.GA24277@basil.fritz.box>
- <m1mxuqu8yr.fsf@fess.ebiederm.org>
- <20100619194532.GQ18946@basil.fritz.box>
- <AANLkTi=eT_6UjgLsrOtQt833xeTOkjDvHXvd=xbEZ34c@mail.gmail.com>
+From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] nroff syntax error in man2/kexec_load.2
+Date: Tue, 2 Nov 2010 00:13:45 +0100
+Message-ID: <AANLkTikqy1T+DSM9DTkj6D61i1vEBvDFZN+a53f56A0o@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <AANLkTi=eT_6UjgLsrOtQt833xeTOkjDvHXvd=xbEZ34c-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kexec Mailing List <kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Oct 31, 2010 at 07:19:58AM +0100, Michael Kerrisk wrote:
-> On Sat, Jun 19, 2010 at 9:45 PM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrote:
-> > On Sat, Jun 19, 2010 at 12:18:52PM -0700, Eric W. Biederman wrote:
-> >> Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> writes:
-> >>
-> >> > Here are the beginnings of a kexec_load manpage.
-> >> >
-> >> > Probably needs some more review from Eric and may need some additional
-> >> > information.
-> >> >
-> >> > The syscall is actually only usable with a kernel patch to export
-> >> > the header I just sent separately.
-> >>
-> >> The syscall has been used for years with a separate non-kernel header.
-> >
-> > Yes but that's not a sane interface that can be documented.
-> 
-> Agreed. Surely the right thing to do is export the proper header?
+Hello,
 
-I am in favour of that option.
+Here is a trivial patch to fix nroff syntax.
+Michael, there is something wrong on your git repository, master
+points to 09fa72f instead of d84f58c.
 
+
+diff --git a/man2/kexec_load.2 b/man2/kexec_load.2
+index e0dff72..dc250c4 100644
+--- a/man2/kexec_load.2
++++ b/man2/kexec_load.2
+@@ -25,7 +25,7 @@
+ .SH NAME
+ kexec_load \- load a new kernel for later execution
+ .SH SYNOPSIS
+-.b #include <linux/kexec.h>
++.B #include <linux/kexec.h>
+ .br
+ .BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ","
+ .br
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
