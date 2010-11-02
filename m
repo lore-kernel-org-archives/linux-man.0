@@ -1,33 +1,41 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] nroff syntax issue in man3/getutent.3
-Date: Tue, 2 Nov 2010 00:18:01 +0100
-Message-ID: <AANLkTikF9UQ9+q1TB3voccYwDPWOYKC-B+1hAe2YQh=-@mail.gmail.com>
+From: =?ISO-8859-1?Q?David_Pr=E9vot?= <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
+Subject: [patch] ip.7: Tiny style fix
+Date: Mon, 01 Nov 2010 23:21:15 -0400
+Message-ID: <iao03c$77p$1@dough.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+Hi,
 
-Here is another one, other pages look fine.
+Here is a trivial patch to fix a bold dot that shouldn't be bold (sorry
+that I didn't check this one better).
 
-Denis
 
-diff --git a/man3/getutent.3 b/man3/getutent.3
-index 13bd9e7..8e160d2 100644
---- a/man3/getutent.3
-+++ b/man3/getutent.3
-@@ -209,7 +209,7 @@ Glibc adds reentrant versions
- .sp
- .nf
- .BR "#define _GNU_SOURCE" "    /* or _SVID_SOURCE or _BSD_SOURCE;
--.R "\&                          see feature_test_macros(7) */
-+\&                          see feature_test_macros(7) */
- .B #include <utmp.h>
- .sp
- .BI "int getutent_r(struct utmp *" ubuf ", struct utmp **" ubufp );
+diff --git a/man7/ip.7 b/man7/ip.7
+index 821fa11..4561b2f 100644
+--- a/man7/ip.7
++++ b/man7/ip.7
+@@ -41,7 +41,7 @@ For more information on sockets, see
+ An IP socket is created by calling the
+ .BR socket (2)
+ function as
+-.BI "socket(AF_INET, " socket_type ", " protocol ) \fP.
++.BI "socket(AF_INET, " socket_type ", " protocol ) \fR.
+ Valid socket types are
+ .B SOCK_STREAM
+ to open a
+
+
+Regards
+
+David
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
