@@ -1,40 +1,55 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] nroff formatting issues in man2/kexec_load.2
-Date: Tue, 2 Nov 2010 21:57:31 +0100
-Message-ID: <AANLkTi=1vTqL=7CivdRY7nXoLFpTHmERTADM8-h=v=ok@mail.gmail.com>
+From: Christophe Lohr <Christophe.Lohr-+sCGM1tQGJejRLBOWInFB+yrfmlZI2zM@public.gmane.org>
+Subject: Bug about UNIX_PATH_MAX in the manpage of Unix(7)
+Date: Wed, 03 Nov 2010 15:38:10 +0100
+Message-ID: <4CD173D2.8020003@telecom-bretagne.eu>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=20cf3040ee4a5e022c0494182ccd
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---20cf3040ee4a5e022c0494182ccd
-Content-Type: text/plain; charset=UTF-8
+File: /usr/share/man/man7/unix.7.gz
+Version: 3.25-1
+System: debian testing
 
-Hello,
 
-There are minor formatting issues in kexec_load.2, here is a patch.
+Hi,
+   Manpage of Unix(7) says:
 
-Denis
+---------------------------------
+|    SYNOPSIS
+|           #include <sys/socket.h>
+|           #include <sys/un.h>
+(../..)
+|    DESCRIPTION
+(../..)
+|
+|       Address Format
+|           A Unix domain socket address is represented in the following 
+structure:
+|
+|               #define UNIX_PATH_MAX    108
+|
+|               struct sockaddr_un {
+|                   sa_family_t sun_family;               /* AF_UNIX */
+|                   char        sun_path[UNIX_PATH_MAX];  /* pathname */
+|               };
+---------------------------------
 
---20cf3040ee4a5e022c0494182ccd
-Content-Type: text/x-patch; charset=US-ASCII; name="kexec_load2.2.patch"
-Content-Disposition: attachment; filename="kexec_load2.2.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gg19fce00
 
-ZGlmZiAtLWdpdCBhL21hbjIva2V4ZWNfbG9hZC4yIGIvbWFuMi9rZXhlY19sb2FkLjIKaW5kZXgg
-ZTBkZmY3Mi4uNWNkOTBmMCAxMDA2NDQKLS0tIGEvbWFuMi9rZXhlY19sb2FkLjIKKysrIGIvbWFu
-Mi9rZXhlY19sb2FkLjIKQEAgLTM1LDcgKzM1LDcgQEAga2V4ZWNfbG9hZCBcLSBsb2FkIGEgbmV3
-IGtlcm5lbCBmb3IgbGF0ZXIgZXhlY3V0aW9uCiBUaGUKIC5CUiBrZXhlY19sb2FkICgpCiBzeXN0
-ZW0gY2FsbCBsb2FkcyBhIG5ldyBrZXJuZWwgdGhhdCBjYW4gYmUgZXhlY3V0ZWQgbGF0ZXIgYnkK
-LS5CUiByZWJvb3QoMikgLgorLkJSIHJlYm9vdCAoMikuCiAuUFAKIFRoZQogLkkgZmxhZ3MKQEAg
-LTEyMSw4ICsxMjEsOSBAQCBvciBhIGNyYXNoIGtlcm5lbCBpcyBhbHJlYWR5IGluIHVzZS4KIC5U
-UAogLkIgRUlOVkFMCiAuSSBmbGFncwotaXMgaW52YWxpZDsgb2YKLS5JUiBucl9zZWdtZW50cyBp
-cyB0b28gbGFyZ2UKK2lzIGludmFsaWQ7IG9yCisuSSBucl9zZWdtZW50cworaXMgdG9vIGxhcmdl
-CiAuXCIgS0VYRUNfU0VHTUVOVF9NQVggPT0gMTYKIC5UUAogLkIgRVBFUk0K
---20cf3040ee4a5e022c0494182ccd--
+However, UNIX_PATH_MAX is not defined in the mentioned include <sys/un.h>.
+In fact, these definitions come from <linux/un.h>.
+
+There is a confusion between the two includes (sys/un.h and linux/un.h).
+
+Maybe they should be merged, but today it is not the case... :-(
+
+Regards,
+Christophe
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
