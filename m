@@ -1,58 +1,52 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: small improvement for boot.7
-Date: Thu, 4 Nov 2010 07:26:38 +0100
-Message-ID: <AANLkTim4+0aiA85Q5wEL1FUh+vZOUjfyq1gnESw8rSRD@mail.gmail.com>
-References: <20100913210251.620e7a76@keeper.home.local> <AANLkTi=C=daUa0Gh8aRCHmPG2SVYs=eE7br3F+1uejC9@mail.gmail.com>
- <20101102185059.3fbf393c@keeper.home.local>
+Subject: Re: [PATCH] nroff syntax issue in man3/getutent.3
+Date: Thu, 4 Nov 2010 07:28:02 +0100
+Message-ID: <AANLkTikWtW1YyPGaHBzu7Yf5j_wvR7yObvVWd_77qN+N@mail.gmail.com>
+References: <AANLkTikF9UQ9+q1TB3voccYwDPWOYKC-B+1hAe2YQh=-@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20101102185059.3fbf393c-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <AANLkTikF9UQ9+q1TB3voccYwDPWOYKC-B+1hAe2YQh=-@mail.gmail.com>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 2, 2010 at 4:50 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
-> =F7 Sun, 19 Sep 2010 15:54:26 +0200
-> Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> =D0=C9=DB=C5=D4:
+On Tue, Nov 2, 2010 at 12:18 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
+:
+> Hello Michael,
 >
->> On Mon, Sep 13, 2010 at 7:02 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wr=
-ote:
->> > Hello.
->> >
->> > --- man-pages-git/man7/boot.7 =9A 2010-03-26 17:46:41.000000000 +0=
-300
->> > +++ /tmp/boot.7 2010-09-13 21:01:17.000000000 +0400
->> > @@ -127,8 +127,8 @@
->> > =9ANote:
->> > =9AThe following description applies to System V release 4 based s=
-ystem,
->> > which currently covers most commercial Unix systems (Solaris, HP-U=
-X,
->> > Irix, Tru64) -as well as the major Linux distributions (RedHat,
->> > Debian, Mandrake, -Suse, Caldera).
->> > +as well as the major Linux distributions (RedHat, Debian, Mandriv=
-a,
->> > +Suse, Ubuntu).
->> > =9ASome systems (Slackware Linux, FreeBSD, OpenBSD)
->> > =9Ahave a somewhat different scheme of boot scripts.
->>
->> Applied for 3.27. Thanks Yuri.
->
-> http://git.kernel.org/?p=3Ddocs/man-pages/man-pages.git;a=3Dblob;f=3D=
-man7/boot.7;h=3Dc1f3e10ce3e5c5bdd461ad0e451e530b22f26279;hb=3D80786722b=
-116f5002c28e9e0200044f825b236f6
->
-> 3.29, "Mandrake" is still here.
+> Here is another one, other pages look fine.
 
-=46ixed for 3.31. Thanks for catching that.
+Thanks Denis. Fixed in a different way after a report by Yuri Kozlov. S=
+ee git.
 
-Cheers,
+Thanks,
 
 Michael
+
+
+> diff --git a/man3/getutent.3 b/man3/getutent.3
+> index 13bd9e7..8e160d2 100644
+> --- a/man3/getutent.3
+> +++ b/man3/getutent.3
+> @@ -209,7 +209,7 @@ Glibc adds reentrant versions
+> =A0.sp
+> =A0.nf
+> =A0.BR "#define _GNU_SOURCE" " =A0 =A0/* or _SVID_SOURCE or _BSD_SOUR=
+CE;
+> -.R "\& =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0see featur=
+e_test_macros(7) */
+> +\& =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0see feature_te=
+st_macros(7) */
+> =A0.B #include <utmp.h>
+> =A0.sp
+> =A0.BI "int getutent_r(struct utmp *" ubuf ", struct utmp **" ubufp )=
+;
+>
+
 
 
 --=20
