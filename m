@@ -1,55 +1,63 @@
-From: Adam Lackorzynski <adam-IG//nw+yl+iQIjdd1DhZXWfrygkm6VTR@public.gmane.org>
-Subject: [PATCH] ioperm: Update port range description
-Date: Thu, 4 Nov 2010 20:16:09 +0100
-Message-ID: <20101104191609.GD5649@os.inf.tu-dresden.de>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: small improvement for kexec_load.2
+Date: Sat, 6 Nov 2010 11:38:09 +0300
+Message-ID: <20101106113809.49422a9b@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/mixed; boundary="MP_//u0W8tke6/30j5bD9vA55om"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In recent Linux versions the I/O port range limitation for ioperm() is gone.
+--MP_//u0W8tke6/30j5bD9vA55om
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
+Hello.
 
-Signed-off-by: Adam Lackorzynski <adam-IG//nw+yl+iQIjdd1DhZXWfrygkm6VTR@public.gmane.org>
----
- man2/ioperm.2 |   11 ++++-------
- 1 files changed, 4 insertions(+), 7 deletions(-)
+--- man-pages-git/man2/kexec_load.2     2010-11-02 13:41:53.000000000 +0300
++++ /tmp/kexec_load.2   2010-11-06 11:36:45.000000000 +0300
+@@ -121,8 +121,9 @@
+ .TP
+ .B EINVAL
+ .I flags
+-is invalid; of
+-.IR nr_segments is too large
++is invalid; or
++.IR nr_segments
++is too large.
+ .\" KEXEC_SEGMENT_MAX == 16
+ .TP
+ .B EPERM
 
-diff --git a/man2/ioperm.2 b/man2/ioperm.2
-index 3470a8d..1d55ad1 100644
---- a/man2/ioperm.2
-+++ b/man2/ioperm.2
-@@ -51,14 +51,11 @@ sets the port access permission bits for the calling process for
- If \fIturn_on\fP is nonzero, the calling process must be privileged
- .RB ( CAP_SYS_RAWIO ).
- 
--.\" FIXME is the following ("Only the first 0x3ff I/O ports can be
--.\" specified in this manner") still true?  Looking at changes in
--.\" include/asm-i386/processor.h between 2.4 and 2.6 suggests
--.\" that the limit is different in 2.6.
--Only the first 0x3ff I/O ports can be specified in this manner.
--For more ports, the
-+Up to Linux 2.6.7 only the first 0x3ff I/O ports can be specified in this
-+manner.  For more ports, the
- .BR iopl (2)
--system call must be used.
-+system call must be used. With Linux 2.6.8 or later all I/O ports can be
-+specified.
- 
- Permissions are not inherited by the child created by
- .BR fork (2).
 -- 
-1.7.2.3
+Best Regards,
+Yuri Kozlov
 
 
-Adam
--- 
-Adam                 adam-IG//nw+yl+iQIjdd1DhZXWfrygkm6VTR@public.gmane.org
-  Lackorzynski         http://os.inf.tu-dresden.de/~adam/
+--MP_//u0W8tke6/30j5bD9vA55om
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=kexec_load.2.patch
+
+--- man-pages-git/man2/kexec_load.2	2010-11-02 13:41:53.000000000 +0300
++++ /tmp/kexec_load.2	2010-11-06 11:36:45.000000000 +0300
+@@ -121,8 +121,9 @@
+ .TP
+ .B EINVAL
+ .I flags
+-is invalid; of
+-.IR nr_segments is too large
++is invalid; or
++.IR nr_segments
++is too large.
+ .\" KEXEC_SEGMENT_MAX == 16
+ .TP
+ .B EPERM
+
+--MP_//u0W8tke6/30j5bD9vA55om--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
