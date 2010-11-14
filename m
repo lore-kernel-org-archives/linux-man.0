@@ -1,143 +1,152 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: About thread-safety information in library functions' man-pages
-Date: Sun, 14 Nov 2010 07:40:38 +0100
-Message-ID: <AANLkTikVuuZ1N6C5T+GwbgQEH7EAxXPvqrmATZgcM-gE@mail.gmail.com>
-References: <4C7C9EA6.90609@cn.fujitsu.com> <AANLkTimcJ4kSuB-vZSY2_CYDs12S0ODup9-Y9yj-uQrJ@mail.gmail.com>
- <4C8DEC85.8030007@cn.fujitsu.com>
+Subject: man-pages-3.31 released
+Date: Sun, 14 Nov 2010 16:39:10 +0100
+Message-ID: <AANLkTimEoiZfLL4buagT4+rVR21YbMqoSQgn0m4_9xaY@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4C8DEC85.8030007-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: pasky-AlSwsSmVLrQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Peng,
+Gidday,
 
-On Mon, Sep 13, 2010 at 11:19 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> w=
-rote:
-> Hi Michael,
->
-> Michael Kerrisk said the following on 2010-9-11 12:06:
->> By "formal" I mean that we could have a section "ATTRIBUTES" that
->> lists such attributes. That section could fall between VERSIONS and
->> CONFORMING TO (see man-pages(7)). To start with, you might write
->> patches that document just thread-safety, but later other pieces mig=
-ht
->> get added as well (e.g., async-signal-safety).
->>
->> What do you think? If this sounds sensible, write one or two patches
->> in the style I suggest, and then we can discuss furtehr.
->>
->
-> =A0I think your proposal is good. So, I make two patches in your styl=
-e,
-> they are 0001* and 0002*. The third patch is used to add description
-> of "ATTRIBUTES" into man-pages(7).
->
-> =A0What's your opinion? If you agree with me, I'll gradually make mor=
-e
-> patches.
+The Linux man-pages maintainer proudly announces:
 
-Sorry for the very long delay in following up on this. I'm reflecting
-on this a little more. My idea is that the ATTRIBUTES section might
-eventually contain multiple subsections, but for now, we have just
-"Multithreading", which mentions thread safety, cancellation safety,
-and async-cancel-safety. And I think it might be better to place this
-section just above (rather than just below) VERSIONS. So, I'd fine
-tune things a little, with a patch something like this for
-man-pages(7).
+=C2=A0=C2=A0man-pages-3.31.tar.gz - man pages for Linux
 
-=3D=3D=3D
-@@ -180,6 +180,7 @@
- .\" SECURITY,
- ENVIRONMENT
- FILES
-+ATTRIBUTES         [Normally only in Sections 2, 3]
- VERSIONS           [Normally only in Sections 2, 3]
- CONFORMING TO
- NOTES
-@@ -202,7 +203,7 @@
+This release is now available for download at:
 
- The following list elaborates on the contents of each of
- the above sections.
--.TP 14
-+.TP 10
- .B NAME
- The name of this manual page.
- See
-@@ -316,6 +317,28 @@
- .\" section).
- .\" However, please include security information somewhere!
- .TP
-+.B ATTRIBUTES
-+A summary of various attributes of the function(s) documented on this =
-page,
-+broken into subsections.
-+The following subsections are defined:
-+.sp
-+.RS
-+.TP
-+.B "Multithreading (see pthreads(7))"
-+This subsection notes attributes relating to multithreaded application=
-s:
-+.RS
-+.IP * 3
-+Whether the function is thread-safe.
-+.IP *
-+Whether the function is a cancellation point.
-+.IP *
-+Whether the function is async-cancel-safe.
-+.RE
-+.IP
-+Details of these attributes can be found in
-+.BR pthreads (7).
-+.RE
-+.TP
- .B VERSIONS
- A brief summary of the Linux kernel or glibc versions where a
- system call or library function appeared,
-=3D=3D=3D
+=C2=A0=C2=A0http://www.kernel.org/pub/linux/docs/man-pages
+=C2=A0 or ftp://ftp.kernel.org/pub/linux/docs/man-pages
 
-Then for the individual pages, the patches might look like this:
-=3D=3D=3D
---- a64l.3	2010-11-01 08:07:38.000000000 +0100
-+++ a64l.3.attr	2010-11-14 07:34:42.000000000 +0100
-@@ -56,6 +56,15 @@
- .fi
- .RE
- So 123 =3D 59*64^0 + 1*64^1 =3D "v/".
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR l64a ()
-+function is not thread-safe.
-+.LP
-+The
-+.BR a64l ()
-+function is thread-safe.
- .SH "CONFORMING TO"
- POSIX.1-2001.
- .SH NOTES
-=3D=3D=3D
+The online changelog is available at
+http://www.kernel.org/doc/man-pages/changelog.html (blogged at
+http://linux-man-pages.blogspot.com/2010/11/man-pages-331-is-released.h=
+tml
+) and the current version of the pages is browsable at
+http://www.kernel.org/doc/man-pages/
 
-How does that sound?
+You are receiving this message either because:
 
-Now, before we apply a vast number of patches, it might be good to
-build a list of pages and the kinds of changes that would be needed
-for each (look at the latest pthreads(7) page in git for some starting
-points on functions that fall into the various categories; possibly
-your research has revealed additional information about the actual
-details in glibc). Could you come up with such lists? (They don't need
-to be complete or comprehensive, but it could be helpful to have a
-picture of where we might start making changes.)
+a) You contributed to the content of this release.
 
-Thanks,
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the
+maintainer of a translation of the manual pages, or are the maintainer
+of the manual pages set in a particular distribution, or have
+expressed interest in helping with man-pages maintenance, or have
+otherwise expressed interest in being notified about man-pages
+releases. =C2=A0If you don't want to receive such messages from me, or =
+you
+know of some other translator or maintainer who may want to receive
+such notifications, send me a message.
+
+Cheers,
 
 Michael
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.31 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+
+Released: 2010-11-12, Munich
+
+
+Contributors
+------------
+
+The following people contributed notes, ideas, or patches that have
+been incorporated in changes in this release:
+
+Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+David Prevot <davidp-whniv8GeeGkdnm+yROfE0A@public.gmane.org>
+Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Krzysztof =C5=BBelechowski <giecrilj-n4IAqcmFnHAX1+iMCFCb4w@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+getrlimit.2
+    Michael Kerrisk
+        Added documentation of prlimit()
+            prlimit() is new in kernel 2.6.36.
+
+inotify.7
+    Michael Kerrisk
+        Document IN_EXCL_UNLINK
+            This flag was added in Linux 2.6.36.
+            See kernel commit 8c1934c8d70b22ca8333b216aec6c7d09fdbd6a6.
+
+
+New and changed links
+---------------------
+
+prlimit.2
+    Michael Kerrisk
+        New link to getrlimit.2
+
+
+Changes to individual pages
+---------------------------
+
+getrlimit.2
+    Michael Kerrisk
+        Remove unneeded text in DESCRIPTION
+
+intro.2
+    Michael Kerrisk
+        Added various pages to SEE ALSO
+
+kexec_load.2
+    Michael Kerrisk
+        Add kernel version where KEXEC_PRESERVE_CONTEXT first appeared
+        Added kernel version number where KEXEC_ON_CRASH first appeared
+        Fix copyright
+            Make copyright in the name of Intel corporation
+        VERSIONS: Fix version number
+            kexec_load() was first implemented in 2.6.13, though the en=
+try
+            in the system call table was reserved starting in 2.6.7.
+
+migrate_pages.2
+    Michael Kerrisk
+        SEE ALSO: Add reference to Documentation/vm/page_migration
+
+sched_setaffinity.2
+    Michael Kerrisk
+        Add missing word "real" to "user ID"
+
+syscalls.2
+    Michael Kerrisk
+        Fix kernel version number for kexec_load
+            kexec_load() was first implemented in 2.6.13, though the en=
+try
+            in the system call table was reserved starting in 2.6.7.
+    Michael Kerrisk
+        Add prlimit() to list
+
+intro.3
+    Michael Kerrisk
+        Added various pages to SEE ALSO
+
+printf.3
+    Michael Kerrisk
+        Formatting fixes in example code
+
+hostname.7
+    Michael Kerrisk
+        Small improvement to description of domains
+            See: https://bugzilla.novell.com/show_bug.cgi?id=3D651900
+
 
 --=20
 Michael Kerrisk
