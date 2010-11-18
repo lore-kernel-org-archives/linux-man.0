@@ -1,10 +1,10 @@
 From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: awk.1p, man.1p, printf.1p: groff syntax typos
-Date: Thu, 18 Nov 2010 14:19:21 +0100
-Message-ID: <4CE527D9.6050902@redhat.com>
+Subject: prctl.2: PR_SET_SECCOMP - _exit behavior
+Date: Thu, 18 Nov 2010 15:51:38 +0100
+Message-ID: <4CE53D7A.6040502@redhat.com>
 Mime-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="------------000803070709080909090008"
+ boundary="------------090701040502040706060905"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -12,85 +12,50 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 This is a multi-part message in MIME format.
---------------000803070709080909090008
+--------------090701040502040706060905
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello,
-in posix man-pages (man-pages-posix-2003-a.tar.bz2) there are several 
-problems which cause groff syntax errors. The patches which fix them are 
-attached.
-Ivana Hutarova Varekova
+prctl.2 man page (man-pages-3.30) wrote:
+  PR_SET_SECCOMP ... After the secure computing mode has been set to 1, 
+the only system calls that the thread is permitted to make are read(2), 
+write(2),  _exit(2), and sigreturn(2),
+but _exit(2) wrapper from 2.3 does not call _exit() sysscall but invokes 
+exit_group(2) syscall(see exit.2). This may lead to misunderstanding. 
+prctl.2 man page may contain some note about this fact too.
+The patch which adds this note to prctl is attached
+Ivana HUtarova Varekova
 
-
-
---------------000803070709080909090008
+--------------090701040502040706060905
 Content-Type: text/x-patch;
- name="man-pages-posix-2003-awk.patch"
+ name="man-pages-3.30-prctl.patch"
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="man-pages-posix-2003-awk.patch"
+ filename="man-pages-3.30-prctl.patch"
 
-diff -up man-pages-3.29/man1p/awk.1p.qqq man-pages-3.29/man1p/awk.1p
---- man-pages-3.29/man1p/awk.1p.qqq	2008-06-05 11:22:12.000000000 +0200
-+++ man-pages-3.29/man1p/awk.1p	2010-10-22 15:45:44.000000000 +0200
-@@ -2197,7 +2197,7 @@ necessary to use parentheses to enforce 
- .LP
- The \fIawk\fP program specified in the command line is most easily
- specified within single-quotes (for example,
--'\fIprogram\fP') for applications using \fIsh\fP, because \fIawk\fP
-+\fI'program'\fP) for applications using \fIsh\fP, because \fIawk\fP
- programs commonly contain
- characters that are special to the shell, including double-quotes.
- In the cases where an \fIawk\fP program contains single-quote
-diff -up man-pages-3.29/man1p/.qqq man-pages-3.29/man1p/
+diff -up man-pages-3.30/man2/prctl.2.pom man-pages-3.30/man2/prctl.2
+--- man-pages-3.30/man2/prctl.2.pom	2010-11-01 15:55:38.000000000 +0100
++++ man-pages-3.30/man2/prctl.2	2010-11-18 14:42:50.000000000 +0100
+@@ -236,9 +236,15 @@ After the secure computing mode has been
+ the only system calls that the thread is permitted to make are
+ .BR read (2),
+ .BR write (2),
+-.BR _exit (2),
++.BR sigreturn (2)
+ and
+-.BR sigreturn (2).
++.BR _exit (2).
++In glibc up to version 2.3, the
++.BR _exit()
++wrapper function invoked the kernel system call of the same name.
++Since glibc 2.3, the  wrapper  function
++invokes
++.BR exit_group(2).
+ Other system calls result in the delivery of a
+ .BR SIGKILL
+ signal.
 
---------------000803070709080909090008
-Content-Type: text/x-patch;
- name="man-pages-posix-2003-man.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="man-pages-posix-2003-man.patch"
-
-diff -up man-pages-3.29/man1p/man.1p.pom man-pages-3.29/man1p/man.1p
---- man-pages-3.29/man1p/man.1p.pom	2008-06-05 11:22:12.000000000 +0200
-+++ man-pages-3.29/man1p/man.1p	2010-10-22 13:35:55.000000000 +0200
-@@ -44,10 +44,7 @@ command: 
- .RS
- .nf
- 
--\fBgrep -Ei '
--\fP\fIname
--name\fP\fB...
--'\fP \fIsummary-database\fP
-+\fBgrep -Ei '\fP\fIname name\fP\fB...' \fP \fIsummary-database\fP
- .fi
- .RE
- .LP
-
-
---------------000803070709080909090008
-Content-Type: text/x-patch;
- name="man-pages-posix-2003-printf.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="man-pages-posix-2003-printf.patch"
-
-diff -up man-pages-3.29/man1p/printf.1p.ppp man-pages-3.29/man1p/printf.1p
---- man-pages-3.29/man1p/printf.1p.ppp	2008-06-05 11:22:12.000000000 +0200
-+++ man-pages-3.29/man1p/printf.1p	2010-10-22 15:33:14.000000000 +0200
-@@ -144,7 +144,8 @@ octal number that shall be converted to 
- numeric value specified by the octal number
- .LP
- .IP " *" 3
--\fB'\\c'\fP, which shall not be written and shall cause \fIprintf\fP
-+sequence \fB'\\c'\fP
-+which shall not be written and shall cause \fIprintf\fP
- to ignore any remaining characters in the string
- operand containing it, any remaining string operands, and any additional
- characters in the \fIformat\fP operand
-
---------------000803070709080909090008--
+--------------090701040502040706060905--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
