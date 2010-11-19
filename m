@@ -1,48 +1,23 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 23282] New: vsnprintf(3) example promotes code which ignores
- error return code
-Date: Fri, 19 Nov 2010 02:58:11 GMT
-Message-ID: <bug-23282-11311@https.bugzilla.kernel.org/>
+From: Pawel Sikora <pluto-PIIpFW8S9c0@public.gmane.org>
+Subject: bug in execve() manpage.
+Date: Fri, 19 Nov 2010 16:43:05 +0100
+Message-ID: <201011191643.05870.pluto@agmk.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: Text/Plain;
+  charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=23282
+Hi,
 
-           Summary: vsnprintf(3) example promotes code which ignores error
-                    return code
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: graham.gower-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+FYI, http://sourceware.org/bugzilla/show_bug.cgi?id=12241
 
-
-The example given in the vsnprintf(3) man page (release 3.31) attempts to be
-backwards compatible with glibc < 2.0.6 by assuming that a negative return code
-from vsnprintf indicates truncation.
-
-If a negative return code is indicated for other reasons, the example will loop
-until the process' virtual memory is exhausted.
-
-Please see the following for an example of how a malicious user could
-deliberately trigger this (potentially causing a denial of service).
-http://my.opera.com/taviso/blog/2007/05/28/auditing-puzzle
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+BR,
+Pawel.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
