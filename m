@@ -1,23 +1,34 @@
-From: Pawel Sikora <pluto-PIIpFW8S9c0@public.gmane.org>
-Subject: bug in execve() manpage.
-Date: Fri, 19 Nov 2010 16:43:05 +0100
-Message-ID: <201011191643.05870.pluto@agmk.net>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 23072] preadv(2) and pwritev(2) lack man pages, pread64(2) and
+ pwrite64(2) aren't mentioned on their man pages
+Date: Sun, 21 Nov 2010 05:40:53 GMT
+Message-ID: <201011210540.oAL5erGg020261@demeter1.kernel.org>
+References: <bug-23072-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-23072-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=23072
 
-FYI, http://sourceware.org/bugzilla/show_bug.cgi?id=12241
 
-BR,
-Pawel.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |ASSIGNED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+
+
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
