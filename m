@@ -1,127 +1,27 @@
-From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
-Subject: Draft manpage for recvmmsg
-Date: Tue, 23 Nov 2010 11:15:51 +0100
-Message-ID: <20101123101551.GA20431@basil.fritz.box>
+From: Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>
+Subject: Re: Draft manpage for recvmmsg
+Date: Tue, 23 Nov 2010 10:36:56 -0200
+Message-ID: <20101123123656.GA23890@ghostprotocols.net>
+References: <20101123101551.GA20431@basil.fritz.box>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <20101123101551.GA20431-u0/ZJuX+froe6aEkudXLsA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Em Tue, Nov 23, 2010 at 11:15:51AM +0100, Andi Kleen escreveu:
+> 
+> Here's a draft manpage for recvmmsg(2), which is one 
+> of the last undocumented syscalls currently.
+> Please review and comment.
 
-Here's a draft manpage for recvmmsg(2), which is one 
-of the last undocumented syscalls currently.
-Please review and comment.
+Looks ok, thanks for writing it.
 
--Andi
-
-
-.TH RECVMMSG 2 2010-11-23 "Linux" "Linux Programmer's Manual"
-.SH NAME
-recvmmsg \- receive multiple messages on a socket
-.SH SYNOPSIS
-.BI "#include <sys/socket.h>"
-.br
-.BI "int recvmmsg(int " fd ", struct mmsghdr *" mmsghdr \
-", unsigned int " vlen ","
-.br
-.BI "             unsigned int " flags ", struct timespec *" timeout ");" 
-.SH DESCRIPTION
-The 
-.B recvmmsg 
-system call receives multiple messages in a socket.
-It acts similar to 
-.B recvmsg(2),
-but allows to batch multiple receive operations into a single syscall.
-In addition it support an explicit timeout. 
-
-.B fd 
-is the file descriptor of the socket to receive data from. 
-.B mmsghdr
-is a pointer to an array with length
-.B vlen
-of  
-.I mmsghdr
-structures. 
-.I struct mmsg 
-is defined in
-.I sys/socket.h
-as:
-.in +4n
-.nf
-struct mmsghdr {
-    struct msghdr msg_hdr;  /* Message header */
-    unsigned int  msg_len;  /* Number of received bytes for header */
-};
-.fi
-.in
-.PP
-.B msg_hdr 
-is a struct
-.I msghdr
-as described in
-.I recvmsg(2).
-.B msg_len
-is the number of bytes returned for the message in the entry.
-This field has the same value as the return value of a single
-.I recvmsg(2)
-on the header.
-
-.B flags
-contains flags ored together. The flags are the same
-as documented for
-.I recvmsg(2).
-The additional
-.B MSG_WAITFORONE
-turns one 
-.I MSG_DONTWAIT
-after the first message has been received.
-
-.B timeout
-points to a 
-.I struct timespec
-(see 
-.I clock_gettime(2)
-)
-defining a timeout for receiving, or 
-.I NULL 
-for no timeout. When the timeout expires
-.I recvmmsg
-returns.
-.SH RETURN VALUE
-.I recvmmsg
-returns the number of messages received in
-.I mmsghdr
-or 
--1
-when an error occurs. The 
-.I msg_len
-members of 
-.I mmsghdr
-are updated for each received message,
-in addition to other fields in the msg_hdr for each message,
-as described in 
-.I recvmsg(2).
-.SH SEE ALSO
-.B recvmsg(2),
-.B sendmsg(2),
-.B socket(7),
-.B socket(2),
-.B clock_gettime(2)
-.SH VERSIONS
-The
-.I recvmmsg
-syscall was added with kernel 2.6.32.
-Support in glibc was added with 2.6.12.
-On earlier glibcs the function can be called
-manually using 
-.I syscall(2).
-
-
--- 
-ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org -- Speaking for myself only.
+- Arnaldo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
