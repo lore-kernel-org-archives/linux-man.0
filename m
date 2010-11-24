@@ -1,69 +1,30 @@
-From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: man strnlen
-Date: Tue, 23 Nov 2010 18:13:40 +0000
-Message-ID: <AANLkTi=3H9mA+=c16qiS8TEfbxOaewvxxEJyDfELLRRG@mail.gmail.com>
+From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Man page for FITRIM ioctl
+Date: Wed, 24 Nov 2010 10:43:33 +0100 (CET)
+Message-ID: <alpine.LFD.2.00.1011241031550.3254@dhcp-lab-213.englab.brq.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Eric Sandeen <esandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello
+Hi all,
 
-Just looking at this page:
+I was alerted by Christoph regarding FITRIM ioctl that it would be nice to
+have some kind of specification, maybe manual pages, done for this so
+other people implementing (and using) FITRIM for their filesystems have a
+clue what to do to comply with "standard".
 
-http://www.kernel.org/doc/man-pages/online/pages/man3/strnlen.3.html
+So, what do you think about the idea of manual page for this ioctl ? I
+can provide proper text for it and if there is no one willing to do the
+work to generate a manual page from it I can do it as well. So let me
+know if you will be willing co adopt such a man page.
 
+Thanks!
 
-It says "This function is a GNU extension."
-
-Is strnlen still a GNU only extension?
-
-
-Microsoft and also The Open Group also document this function.
-
-http://www.opengroup.org/onlinepubs/9699919799/functions/strlen.html
-
-http://msdn.microsoft.com/en-us/library/z50ty2zh%28VS.80%29.aspx
-
-Microsoft call it "ANSI"
-
-
-
-Could strlen page link to strnlen(3) as well please.
-
-http://www.kernel.org/doc/man-pages/online/pages/man3/strlen.3.html
-
-Likewise, should all four pages refer to each other:
-
-wcsnlen
-wcslen
-strlen
-strnlen
-
-
-
-As there is a string(3) page, should there be a wchar(3) page? Even
-just a page to collectively refer to other pages.
-
-http://www.kernel.org/doc/man-pages/online/pages/man3/string.3.html
-
-wchar(3) page could list wcstok wcspbrk(3), wcsrchr(3), wcsstr(3), wmem=
-chr(3)
-
-Thank you for taking a look at these.
-
-Best regards, Jon
-
-
-p.s. I noticed the http://man7.org/tlpi/TLPI-front-cover.png is very
-large and slow to load. Also it is 674px =C3=97 890px (scaled to 454px =
-=C3=97
-600px). Reducing it and compressing would save a few seconds off the
-download!
+-Lukas
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
