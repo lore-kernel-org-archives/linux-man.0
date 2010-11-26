@@ -1,50 +1,77 @@
-From: Emil Mikulic <emikulic-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: stat(2) off by one
-Date: Thu, 25 Nov 2010 17:53:08 +1100
-Message-ID: <AANLkTi=85uQOOr7dUN8k7u7WkRRK2cgoV3gdt6w4rOgE@mail.gmail.com>
-References: <AANLkTim=JUmVVv+kfh-MX4H_zsitAgnOHiooxFRuYBNn@mail.gmail.com>
-	<AANLkTin1-g6vVN3B7UBUzmqwCU7dRVzCQ-5aps70ckd9@mail.gmail.com>
+From: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
+Subject: Wrong formulae for complex elementary functions
+Date: Fri, 26 Nov 2010 09:57:27 +0100
+Message-ID: <4CEF7677.30500@ginac.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTin1-g6vVN3B7UBUzmqwCU7dRVzCQ-5aps70ckd9-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Nov 25, 2010 at 4:32 PM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8@public.gmane.org=
-m> wrote:
-> Hello Emil,
->
-> On Thu, Nov 25, 2010 at 1:58 AM, Emil Mikulic <emikulic-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wr=
-ote:
->> As seen on http://www.kernel.org/doc/man-pages/online/pages/man2/sta=
-t.2.html:
->>
->> =A0 =A0 =A0 EOVERFLOW
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0(stat()) path refers to a file whose size=
- cannot be
->> represented in the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0type off_t. =A0This can occur when an app=
-lication compiled
->> on a 32-bit
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0platform without -D_FILE_OFFSET_BITS=3D64=
- calls stat() on
->> a file whose
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0size exceeds (2<<31)-1 bits.
->>
->> I believe 2<<31 should read 1<<31 (which equals 2^31).
->>
->> I've tested this on an Ubuntu 10.04 system and the largest file I ca=
-n
->> successfully stat [without the #define] is 2147483647 bytes.
->
-> Thanks for the report. You are of course right, and I made the change
-> you suggest for man-[ages-3.32.
+Hi!
 
-Excellent!  Thanks a bunch!
+The man pages for cacos, cacosf, cacosl, catan, catanf, catanl, cacosh, 
+cacoshf, cacoshl, catanh, catanhf, and catanhl contain wrong maths.
+
+cacos, cacosf, cacosl:
+   The formula given in the man page
+     cacos(z) = -i clog(z + csqrt(z * z - 1))
+   gives wrong results in second and fourth quadrant of complex plain.
+   The formula
+     cacos(z) = -i clog(z + I*csqrt(1 - z * z))
+   gives correct results.
+
+catan, catanf, catanl:
+   The formula given in the man page
+     catan(z) = 1 / 2i clog((1 + iz) / (1 - iz))
+   gives wrong results on the negative imaginary axis beginning at -I
+   (along one of the two branch cuts). Besides, the formula is written
+   in an ambiguous way.
+   The formula
+     catan(z) = (clog(1 + iz) - clog(1 - iz)) / 2i
+   gives correct results.
+
+cacosh, cacoshf, cacoshl:
+   The formula given in the man page
+     cacosh(z) = (0.5) * clog((1 + z) / (1 - z))
+   gives wrong results everywhere in the complex plain. (The formula
+   seems to be copied from the one for catanh, where it is sometimes
+   correct.)
+   The formula
+     cacosh(z) = 2 * clog(csqrt((z + 1)/2) + csqrt((z - 1)/2))
+   gives correct results.
+
+catanh, catanhf, catanhl:
+   The formula given in the man page
+     catanh(z) = 0.5 * clog((1 + z) / (1 - z))
+   gives wrong results on the positive real axis beginning at 1 (along
+   one of the two branch cuts).
+   The formula
+     catanh(z) = 0.5 * (clog(1 + z) - clog(1 - z))
+   gives correct results.
+
+I've also checked casin, casinf, casinl, casinh, casinhf, and casinhl 
+and the formulae given there
+     casin(z) = -i clog(iz + csqrt(1 - z * z))
+     casinh(z) = clog(z + csqrt(z * z + 1))
+are actually correct.
+
+I suspect that some of these errors are due to somebody trying to 
+"simplify" these formulae. Since this can ruin the behavior, I recommend 
+to add a comment to the upstream sources that warns against attempt of 
+simplification.
+
+For the sake of reference, I am looking at manpages-dev 3.25-1 on 
+Debian/squeeze.
+
+Bye!
+   -richy.
+-- 
+Richard B. Kreckel
+<http://www.ginac.de/~kreckel/>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
