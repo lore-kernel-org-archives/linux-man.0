@@ -1,67 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 23872] New: epoll_create(0) fails. Mismatch between
- implementation and manpage
-Date: Sun, 28 Nov 2010 13:13:07 GMT
-Message-ID: <bug-23872-11311@https.bugzilla.kernel.org/>
+From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] Minor issues in man2/open.2 man2/pread.2 man2/readv.2
+Date: Sun, 28 Nov 2010 21:38:44 +0100
+Message-ID: <AANLkTingGnMCm1zp09Y8h=BQHUT-NEwE5856Y3cgFtiH@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=23872
+Hello,
 
-           Summary: epoll_create(0) fails. Mismatch between implementation
-                    and manpage
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: 2.6.36
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: kernelbugs-pbvhy9/vjlfAiHgwPnP32rNAH6kLmebB@public.gmane.org
-        Regression: No
+Here is a patch about minor issues in recent changes.
 
+Denis
 
-The epoll_create manpage (current version as of 2010-11-28) contains:
+diff --git a/man2/open.2 b/man2/open.2
+index eeaf0e1..ff3aa88 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -339,8 +339,8 @@ can be used without
+ if
+ .I pathname
+ refers to a block device.
+-If the block device is in use by the system (e.g., mounted)
+-.BR open (),
++If the block device is in use by the system (e.g., mounted),
++.BR open ()
+ fails with the error
+ .BR EBUSY .
 
-SYNOPSIS
-...
-    int epoll_create(int size);
-...
-DESCRIPTION
-...
-    (Nowadays, size is ignored; see NOTES below.)
-...
-ERRORS
-    EINVAL size is not positive.
-...
-NOTES
-    Since Linux 2.6.8, the size argument is unused. ...
-
-
-on the other hand, fs/eventpoll.c contains:
-SYSCALL_DEFINE1(epoll_create, int, size)
-{
-        if (size <= 0)
-                return -EINVAL;
-
-        return sys_epoll_create1(0);
-}
-
-The size parameter is not ignored as stated in the manpage.
-Please correct the manpage or remove the check inside the implementation.
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+diff --git a/man2/pread.2 b/man2/pread.2
+index 3f341fb..6966b31 100644
+--- a/man2/pread.2
++++ b/man2/pread.2
+@@ -121,7 +121,7 @@ became
+ and
+ .BR pwrite ()
+ became
+-.BR pwrite64 (),
++.BR pwrite64 ().
+ The system call numbers remained the same.
+ The glibc
+ .BR pread ()
+diff --git a/man2/readv.2 b/man2/readv.2
+index 7dded97..5cf3ca4 100644
+--- a/man2/readv.2
++++ b/man2/readv.2
+@@ -173,7 +173,7 @@ The file referred to by
+ .I fd
+ must be capable of seeking.
+ .SH "RETURN VALUE"
+-On success, the
++On success,
+ .BR readv ()
+ and
+ .BR preadv ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
