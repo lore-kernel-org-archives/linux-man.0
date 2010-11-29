@@ -1,7 +1,7 @@
 From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] Typos in man2/swapon.2 man2/truncate.2
-Date: Sun, 28 Nov 2010 22:30:09 +0100
-Message-ID: <AANLkTind_ARPRgAjh0JZUNy48w2BCCL0VosqP-p=DZDz@mail.gmail.com>
+Subject: [PATCH] Typos in man2/getrlimit.2
+Date: Mon, 29 Nov 2010 21:20:13 +0100
+Message-ID: <AANLkTi=XkLN+t5iFT+uretO7V=p1mZnazH++DfFm42WK@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,36 +11,33 @@ List-Id: linux-man@vger.kernel.org
 
 Hello,
 
-Here is a patch.
+Here are the last bits against ea03a3a.
 
 Denis
 
 
-diff --git a/man2/swapon.2 b/man2/swapon.2
-index a849b6c..a4b34f5 100644
---- a/man2/swapon.2
-+++ b/man2/swapon.2
-@@ -74,7 +74,7 @@ If the
- flag is specified in the
- .BR swapon ()
- .I swapflags
--argumument, freed swap pages will be discarded before they are reused,
-+argument, freed swap pages will be discarded before they are reused,
- if the swap device supports the discard or trim operation.
- (This may improve performance on some Solid State Devices,
- but often it does not.)
-diff --git a/man2/truncate.2 b/man2/truncate.2
-index 1324017..fb388b2 100644
---- a/man2/truncate.2
-+++ b/man2/truncate.2
-@@ -239,7 +239,7 @@ and
- .BR ftruncate64 ()
- system calls that handle large files.
- However, these details can be ignored by applications using glibc, whose
--wrapper functions transparently employ the more recent system calla
-+wrapper functions transparently employ the more recent system calls
- where they are available.
- .SH BUGS
+diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
+index e34a152..fede0b2 100644
+--- a/man2/getrlimit.2
++++ b/man2/getrlimit.2
+@@ -542,7 +542,7 @@ main(int argc, char *argv[])
+         exit(EXIT_FAILURE);
+     }
+
+-    pid = atoi(argv[1]);        /* PID of traget process */
++    pid = atoi(argv[1]);        /* PID of target process */
+
+     newp = NULL;
+     if (argc == 4) {
+@@ -551,7 +551,7 @@ main(int argc, char *argv[])
+         newp = &new;
+     }
+
+-    /* Set CPU time limit of target prcess; retrieve and display
++    /* Set CPU time limit of target process; retrieve and display
+        previous limit */
+
+     if (prlimit(pid, RLIMIT_CPU, newp, &old) == \-1)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
