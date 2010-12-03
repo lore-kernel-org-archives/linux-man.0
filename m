@@ -1,42 +1,60 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] Trivial patch in man3/pthread_sigqueue.3
-Date: Fri, 3 Dec 2010 06:50:57 +0100
-Message-ID: <AANLkTi=5D+VJVYc-Oqhq1YuduVZLVEYHeKbKi6nZYwHq@mail.gmail.com>
-References: <AANLkTi=bXMmNmHceP=VXrQAeuFH2pwnK0mL8gE0-QsNm@mail.gmail.com>
+Subject: Re: [PATCH] Typos in man2/getrlimit.2
+Date: Fri, 3 Dec 2010 06:52:19 +0100
+Message-ID: <AANLkTinoHfyBS=aoWfQhugxAV3DZva0W4Vy9y0rPCvh9@mail.gmail.com>
+References: <AANLkTi=XkLN+t5iFT+uretO7V=p1mZnazH++DfFm42WK@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=bXMmNmHceP=VXrQAeuFH2pwnK0mL8gE0-QsNm-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTi=XkLN+t5iFT+uretO7V=p1mZnazH++DfFm42WK-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Nov 27, 2010 at 11:01 AM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
-e:
-> Hello, here it is
->
-> Denis
+Hello Denis,
 
-Thanks Denis. Applied for 3.32.
+On Mon, Nov 29, 2010 at 9:20 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
+:
+> Hello,
+>
+> Here are the last bits against ea03a3a.
+
+Thanks. Applied for 3.22.
 
 Cheers,
 
 Michael
 
 
-> diff --git a/man3/pthread_sigqueue.3 b/man3/pthread_sigqueue.3
-> index ebf995d..c4faa40 100644
-> --- a/man3/pthread_sigqueue.3
-> +++ b/man3/pthread_sigqueue.3
-> @@ -99,4 +99,4 @@ This function is a GNU extension.
-> =A0.BR sigwait (2),
-> =A0.BR pthread_sigmask (3),
-> =A0.BR pthreads (7),
-> -.br SIGNAL (7)
-> +.BR signal (7)
+>
+> diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
+> index e34a152..fede0b2 100644
+> --- a/man2/getrlimit.2
+> +++ b/man2/getrlimit.2
+> @@ -542,7 +542,7 @@ main(int argc, char *argv[])
+> =A0 =A0 =A0 =A0 exit(EXIT_FAILURE);
+> =A0 =A0 }
+>
+> - =A0 =A0pid =3D atoi(argv[1]); =A0 =A0 =A0 =A0/* PID of traget proce=
+ss */
+> + =A0 =A0pid =3D atoi(argv[1]); =A0 =A0 =A0 =A0/* PID of target proce=
+ss */
+>
+> =A0 =A0 newp =3D NULL;
+> =A0 =A0 if (argc =3D=3D 4) {
+> @@ -551,7 +551,7 @@ main(int argc, char *argv[])
+> =A0 =A0 =A0 =A0 newp =3D &new;
+> =A0 =A0 }
+>
+> - =A0 =A0/* Set CPU time limit of target prcess; retrieve and display
+> + =A0 =A0/* Set CPU time limit of target process; retrieve and displa=
+y
+> =A0 =A0 =A0 =A0previous limit */
+>
+> =A0 =A0 if (prlimit(pid, RLIMIT_CPU, newp, &old) =3D=3D \-1)
 >
 
 
