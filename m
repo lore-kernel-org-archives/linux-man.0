@@ -1,14 +1,14 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Minor issues in man2/open.2 man2/pread.2 man2/readv.2
-Date: Fri, 3 Dec 2010 06:55:12 +0100
-Message-ID: <AANLkTinDL8gYQ2dxp6zf+OLpfGEGrJfrOKBW9kogWcXq@mail.gmail.com>
-References: <AANLkTingGnMCm1zp09Y8h=BQHUT-NEwE5856Y3cgFtiH@mail.gmail.com>
+Subject: Re: [PATCH] Typos in man2/swapon.2 man2/truncate.2
+Date: Fri, 3 Dec 2010 06:56:53 +0100
+Message-ID: <AANLkTimQiEVr9H7OaRGcuK5WJ8VW=jk5oQk6CtZFG-s+@mail.gmail.com>
+References: <AANLkTind_ARPRgAjh0JZUNy48w2BCCL0VosqP-p=DZDz@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTingGnMCm1zp09Y8h=BQHUT-NEwE5856Y3cgFtiH-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTind_ARPRgAjh0JZUNy48w2BCCL0VosqP-p=DZDz-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,11 +16,11 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Denis,
 
-On Sun, Nov 28, 2010 at 9:38 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
-:
+On Sun, Nov 28, 2010 at 10:30 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
+e:
 > Hello,
 >
-> Here is a patch about minor issues in recent changes.
+> Here is a patch.
 
 Thanks. Applied for 3.22.
 
@@ -29,47 +29,33 @@ Cheers,
 Michael
 
 
-> diff --git a/man2/open.2 b/man2/open.2
-> index eeaf0e1..ff3aa88 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -339,8 +339,8 @@ can be used without
-> =A0if
-> =A0.I pathname
-> =A0refers to a block device.
-> -If the block device is in use by the system (e.g., mounted)
-> -.BR open (),
-> +If the block device is in use by the system (e.g., mounted),
-> +.BR open ()
-> =A0fails with the error
-> =A0.BR EBUSY .
->
-> diff --git a/man2/pread.2 b/man2/pread.2
-> index 3f341fb..6966b31 100644
-> --- a/man2/pread.2
-> +++ b/man2/pread.2
-> @@ -121,7 +121,7 @@ became
-> =A0and
-> =A0.BR pwrite ()
-> =A0became
-> -.BR pwrite64 (),
-> +.BR pwrite64 ().
-> =A0The system call numbers remained the same.
-> =A0The glibc
-> =A0.BR pread ()
-> diff --git a/man2/readv.2 b/man2/readv.2
-> index 7dded97..5cf3ca4 100644
-> --- a/man2/readv.2
-> +++ b/man2/readv.2
-> @@ -173,7 +173,7 @@ The file referred to by
-> =A0.I fd
-> =A0must be capable of seeking.
-> =A0.SH "RETURN VALUE"
-> -On success, the
-> +On success,
-> =A0.BR readv ()
-> =A0and
-> =A0.BR preadv ()
+> diff --git a/man2/swapon.2 b/man2/swapon.2
+> index a849b6c..a4b34f5 100644
+> --- a/man2/swapon.2
+> +++ b/man2/swapon.2
+> @@ -74,7 +74,7 @@ If the
+> =A0flag is specified in the
+> =A0.BR swapon ()
+> =A0.I swapflags
+> -argumument, freed swap pages will be discarded before they are reuse=
+d,
+> +argument, freed swap pages will be discarded before they are reused,
+> =A0if the swap device supports the discard or trim operation.
+> =A0(This may improve performance on some Solid State Devices,
+> =A0but often it does not.)
+> diff --git a/man2/truncate.2 b/man2/truncate.2
+> index 1324017..fb388b2 100644
+> --- a/man2/truncate.2
+> +++ b/man2/truncate.2
+> @@ -239,7 +239,7 @@ and
+> =A0.BR ftruncate64 ()
+> =A0system calls that handle large files.
+> =A0However, these details can be ignored by applications using glibc,=
+ whose
+> -wrapper functions transparently employ the more recent system calla
+> +wrapper functions transparently employ the more recent system calls
+> =A0where they are available.
+> =A0.SH BUGS
 >
 
 
