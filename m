@@ -1,14 +1,14 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Typos in man2/getrlimit.2
-Date: Fri, 3 Dec 2010 06:52:19 +0100
-Message-ID: <AANLkTinoHfyBS=aoWfQhugxAV3DZva0W4Vy9y0rPCvh9@mail.gmail.com>
-References: <AANLkTi=XkLN+t5iFT+uretO7V=p1mZnazH++DfFm42WK@mail.gmail.com>
+Subject: Re: [PATCH] Minor issues in man2/open.2 man2/pread.2 man2/readv.2
+Date: Fri, 3 Dec 2010 06:55:12 +0100
+Message-ID: <AANLkTinDL8gYQ2dxp6zf+OLpfGEGrJfrOKBW9kogWcXq@mail.gmail.com>
+References: <AANLkTingGnMCm1zp09Y8h=BQHUT-NEwE5856Y3cgFtiH@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTi=XkLN+t5iFT+uretO7V=p1mZnazH++DfFm42WK-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTingGnMCm1zp09Y8h=BQHUT-NEwE5856Y3cgFtiH-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,11 +16,11 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Denis,
 
-On Mon, Nov 29, 2010 at 9:20 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
+On Sun, Nov 28, 2010 at 9:38 PM, Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
 :
 > Hello,
 >
-> Here are the last bits against ea03a3a.
+> Here is a patch about minor issues in recent changes.
 
 Thanks. Applied for 3.22.
 
@@ -29,32 +29,47 @@ Cheers,
 Michael
 
 
+> diff --git a/man2/open.2 b/man2/open.2
+> index eeaf0e1..ff3aa88 100644
+> --- a/man2/open.2
+> +++ b/man2/open.2
+> @@ -339,8 +339,8 @@ can be used without
+> =A0if
+> =A0.I pathname
+> =A0refers to a block device.
+> -If the block device is in use by the system (e.g., mounted)
+> -.BR open (),
+> +If the block device is in use by the system (e.g., mounted),
+> +.BR open ()
+> =A0fails with the error
+> =A0.BR EBUSY .
 >
-> diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-> index e34a152..fede0b2 100644
-> --- a/man2/getrlimit.2
-> +++ b/man2/getrlimit.2
-> @@ -542,7 +542,7 @@ main(int argc, char *argv[])
-> =A0 =A0 =A0 =A0 exit(EXIT_FAILURE);
-> =A0 =A0 }
->
-> - =A0 =A0pid =3D atoi(argv[1]); =A0 =A0 =A0 =A0/* PID of traget proce=
-ss */
-> + =A0 =A0pid =3D atoi(argv[1]); =A0 =A0 =A0 =A0/* PID of target proce=
-ss */
->
-> =A0 =A0 newp =3D NULL;
-> =A0 =A0 if (argc =3D=3D 4) {
-> @@ -551,7 +551,7 @@ main(int argc, char *argv[])
-> =A0 =A0 =A0 =A0 newp =3D &new;
-> =A0 =A0 }
->
-> - =A0 =A0/* Set CPU time limit of target prcess; retrieve and display
-> + =A0 =A0/* Set CPU time limit of target process; retrieve and displa=
-y
-> =A0 =A0 =A0 =A0previous limit */
->
-> =A0 =A0 if (prlimit(pid, RLIMIT_CPU, newp, &old) =3D=3D \-1)
+> diff --git a/man2/pread.2 b/man2/pread.2
+> index 3f341fb..6966b31 100644
+> --- a/man2/pread.2
+> +++ b/man2/pread.2
+> @@ -121,7 +121,7 @@ became
+> =A0and
+> =A0.BR pwrite ()
+> =A0became
+> -.BR pwrite64 (),
+> +.BR pwrite64 ().
+> =A0The system call numbers remained the same.
+> =A0The glibc
+> =A0.BR pread ()
+> diff --git a/man2/readv.2 b/man2/readv.2
+> index 7dded97..5cf3ca4 100644
+> --- a/man2/readv.2
+> +++ b/man2/readv.2
+> @@ -173,7 +173,7 @@ The file referred to by
+> =A0.I fd
+> =A0must be capable of seeking.
+> =A0.SH "RETURN VALUE"
+> -On success, the
+> +On success,
+> =A0.BR readv ()
+> =A0and
+> =A0.BR preadv ()
 >
 
 
