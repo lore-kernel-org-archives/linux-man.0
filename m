@@ -1,7 +1,7 @@
 From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [patch] small improvement for poll.2
-Date: Thu, 16 Dec 2010 18:57:19 +0300
-Message-ID: <20101216185719.142f4d72@keeper.home.local>
+Subject: [patch] small improvement for poll.2 (+1)
+Date: Thu, 16 Dec 2010 19:03:23 +0300
+Message-ID: <20101216190323.49351495@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -14,18 +14,18 @@ List-Id: linux-man@vger.kernel.org
 Hello.
 
 --- man-pages-git/man2/poll.2   2010-11-02 13:41:53.000000000 +0300
-+++ /tmp/poll.2 2010-12-16 18:55:52.000000000 +0300
-@@ -191,7 +191,8 @@
- becomes ready or until a signal is caught.
- .PP
- Other than the difference in the precision of the
--timeout argument, the following
-+.I timeout
-+argument, the following
++++ /tmp/poll.2 2010-12-16 19:00:47.000000000 +0300
+@@ -228,7 +229,9 @@
  .BR ppoll ()
- call:
- .nf
-
+ differs from
+ .BR poll ()
+-only in the precision of the timeout argument).
++only in the precision of the
++.I timeout
++argument).
+ 
+ The
+ .I timeout_ts
 
 -- 
 Best Regards,
