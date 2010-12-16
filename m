@@ -1,36 +1,24 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [patch] small improvement for poll.2 (+1)
-Date: Thu, 16 Dec 2010 19:03:23 +0300
-Message-ID: <20101216190323.49351495@keeper.home.local>
+From: "Taylan Ulrich B." <taylanbayirli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: ed(1p) typo/mistake
+Date: Thu, 16 Dec 2010 18:25:53 +0100
+Message-ID: <AANLkTim11cTLhGfUQ+FoS=-124H+fKmWNi6Mt159FRb5@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+In upstream man-pages-posix-2003-a/man1p/ed.1p, line 282 misses a
+comma before the first "addr".
 
---- man-pages-git/man2/poll.2   2010-11-02 13:41:53.000000000 +0300
-+++ /tmp/poll.2 2010-12-16 19:00:47.000000000 +0300
-@@ -228,7 +229,9 @@
- .BR ppoll ()
- differs from
- .BR poll ()
--only in the precision of the timeout argument).
-+only in the precision of the
-+.I timeout
-+argument).
- 
- The
- .I timeout_ts
+The official documentation has it right (see the table at the bottom
+of the section "Addresses in ed"):
+http://pubs.opengroup.org/onlinepubs/9699919799/utilities/ed.html
 
--- 
-Best Regards,
-Yuri Kozlov
-
+In other words...
+printf '%s\n' '282s/^/, /' wq | ed man-pages-posix-2003-a/man1p/ed.1p
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
