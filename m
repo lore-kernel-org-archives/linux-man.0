@@ -1,7 +1,7 @@
 From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [patch] small improvement for poll.2 (+2)
-Date: Fri, 17 Dec 2010 18:40:03 +0300
-Message-ID: <20101217184003.51939de4@keeper.home.local>
+Subject: [patch] small improvement for posix_fadvise.2
+Date: Sat, 18 Dec 2010 09:04:27 +0300
+Message-ID: <20101218090427.60588090@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -13,20 +13,17 @@ List-Id: linux-man@vger.kernel.org
 
 Hello.
 
---- man-pages-git/man2/poll.2   2010-11-02 13:41:53.000000000 +0300
-+++ /tmp/poll.2 2010-12-17 18:39:02.000000000 +0300
-@@ -287,7 +287,9 @@
- The
- .BR poll ()
- library call was introduced in libc 5.4.28
--(and provides emulation using select(2) if your kernel does not
-+(and provides emulation using
-+.BR select (2)
-+if your kernel does not
- have a
- .BR poll ()
- system call).
-
+--- man-pages-git/man2/posix_fadvise.2  2010-11-02 13:41:53.000000000 +0300
++++ /tmp/posix_fadvise.2        2010-12-18 09:02:43.000000000 +0300
+@@ -56,7 +56,7 @@
+ The \fIadvice\fP applies to a (not necessarily existent) region starting
+ at \fIoffset\fP and extending for \fIlen\fP bytes (or until the end of
+ the file if \fIlen\fP is 0) within the file referred to by \fIfd\fP.
+-The advice is not binding; it merely constitutes an expectation on behalf of
++The \fIadvice\fP is not binding; it merely constitutes an expectation on behalf of
+ the application.
+ 
+ Permissible values for \fIadvice\fP include:
 
 -- 
 Best Regards,
