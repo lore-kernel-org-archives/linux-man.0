@@ -1,41 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 25322] [PATCH] tcp syn cookies will not eat your server anymore
-Date: Tue, 21 Dec 2010 22:25:59 GMT
-Message-ID: <201012212225.oBLMPxKD017277@demeter2.kernel.org>
-References: <bug-25322-11311@https.bugzilla.kernel.org/>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] ecvt.3: Add description of the functions are not thread-safe
+Date: Thu, 23 Dec 2010 17:07:29 +0800
+Message-ID: <4D131151.7020409@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-25322-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=25322
+Hi Michael,
 
+The functions "ecvt" and "fcvt" return a string located in a static buffer which
+is overwritten by the next call to the functions, so they are not thread-safe.
 
-Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> changed:
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/ecvt.3 |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+diff --git a/man3/ecvt.3 b/man3/ecvt.3
+index 0bc2a4f..83f51cc 100644
+--- a/man3/ecvt.3
++++ b/man3/ecvt.3
+@@ -27,7 +27,7 @@
+ .\" Modified Sat Jul 24 19:40:39 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified Fri Jun 25 12:10:47 1999 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
+ .\"
+-.TH ECVT 3 2010-09-20 "" "Linux Programmer's Manual"
++.TH ECVT 3 2010-12-23 "" "Linux Programmer's Manual"
+ .SH NAME
+ ecvt, fcvt \- convert a floating-point number to a string
+ .SH SYNOPSIS
+@@ -105,6 +105,13 @@ The static string is overwritten by each call to
+ .BR ecvt ()
+ or
+ .BR fcvt ().
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR ecvt ()
++and
++.BR fcvt ()
++functions are not thread-safe.
+ .SH "CONFORMING TO"
+ SVr2;
+ marked as LEGACY in POSIX.1-2001.
+-- 
+1.7.0.1
 
-
-
-
---- Comment #1 from Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>  2010-12-21 22:25:57 ---
-Please don't send patches via bugzilla - it causes lots of problems with
-our usual patch management and review processes.
-
-Please send this patch via email as per Documentation/SubmittingPatches. 
-Suitable recipients may be found via scripts/get_maintainer.pl.
-
-Thanks.
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Best Regards,
+Peng Haitao
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
