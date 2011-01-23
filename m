@@ -1,40 +1,47 @@
-From: Richard Kettlewell <rjk-2BcWPXkLGI+tmTQ+vhA3Yw@public.gmane.org>
-Subject: [patch] proc.5: correct RLIMIT_RSS reference, also note that it is
- obsolete
-Date: Sat, 22 Jan 2011 10:49:22 +0000
-Message-ID: <4D3AB632.6050405@terraraq.org.uk>
+From: Georg Sauthoff <gsauthof-If1cxaH3S3JVgF+RW+Bo1SZEdBbF94EN@public.gmane.org>
+Subject: fsync(2) EINVAL example, fifo(7) read-only
+Date: Sun, 23 Jan 2011 10:08:47 +0100
+Message-ID: <20110123090847.GQ3446@lenovo.private>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hi,
 
-The patch is against git head.  I obtained the information (that 
-RLIMIT_RSS is obsolete) from 'man setrlimit' and verified it by 
-inspecting kernel source.
+just small stuff:
 
-ttfn/rjk
+from the ERRORS section of fsync(2):
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 7c5ca4e..f7ab1e8 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -761,7 +761,9 @@ Current soft limit in bytes on the rss of the process;
-  see the description of
-  .B RLIMIT_RSS
-  in
--.BR getpriority (2).
-+.BR getrlimit (2).
-+.IP
-+Note that this has been obsolete since Linux 2.4.30.
-  .TP
-  \fIstartcode\fP %lu
-  The address above which program text can run.
+
+'EROFS, EINVAL
+              fd is bound to a special file which does not support
+              synchronization.
+'
+
+Consider adding an example of an file which does not support
+synchronization, i.e. a note that doing fsync on a fifo yields EINVAL.
+
+
+
+from fifo(7):
+
+'A process can open a FIFO in nonblocking mode.  In this case, opening for read
+ only will succeed even if no-one has opened on the write side yet, opening for
+ write only will fail with ENXIO (no such device or address) unless the other
+ end has already been opened.
+'
+
+IMHO it would be easier to parse, if 'read only'/'write only' would be
+substituted with 'read-only'/'write-only'.
+
+
+Best regards
+Georg
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
