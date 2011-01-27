@@ -1,121 +1,59 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] Convert ISO-8859-1 characters to groff glyph names
-Date: Mon, 24 Jan 2011 22:22:59 +0100
-Message-ID: <AANLkTimc8LgwDy25Lakobpvyts4139XBSaBTNxq=+t4k@mail.gmail.com>
+From: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
+Subject: [PATCH] sendfile.2: Fix description of the out_fd
+Date: Thu, 27 Jan 2011 17:48:40 +0900
+Message-ID: <4D413168.1080901@rs.jp.nec.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=0003255759564a1fff049a9e344a
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---0003255759564a1fff049a9e344a
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-Hello,
+commit cc56f7de7f00d188c7c4da1e9861581853b9e92f made
+sendfile(2) can work with any output file.
+Therefore the out_fd of sendfile(2) can refer to any file,
+but current manual (man-pages-3.32) has not been changed so far.
 
-Several manual pages contain non-ASCII characters; of course pages in
-man7 describing encodings have to use non-ASCII characters, but pages
-below contain non-ASCII characters only in groff comments:
+Signed-off-by: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
+---
+ man2/sendfile.2 |   11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
- man2/close.2
- man2/getdomainname.2
- man2/getrlimit.2
- man2/madvise.2
- man2/sysinfo.2
- man2/umask.2
- man3/encrypt.3
- man3/fclose.3
- man3/fflush.3
- man3/lockf.3
- man3/rand.3
- man3/strtok.3
- man3/toupper.3
- man3/updwtmp.3
- man4/st.4
- man5/utmp.5
- man7/environ.7
- man7/hier.7
- man7/suffixes.7
+diff -Nrup man-pages-3.32-a/man2/sendfile.2 man-pages-3.32-b/man2/sendfile.2
+--- man-pages-3.32-a/man2/sendfile.2	2010-12-03 16:01:59.000000000 +0900
++++ man-pages-3.32-b/man2/sendfile.2	2011-01-27 16:03:48.000000000 +0900
+@@ -87,15 +87,11 @@ and the file offset will be updated by t
+ .I count
+ is the number of bytes to copy between the file descriptors.
 
-The attached patch (compressed and not sent inline to avoid messing
-with encoding) replace those characters by groff glyph names, as found
-in groff_char(7).  This change is safe, since only comments are
-modified.  In Fedora, these non-ASCII characters cause duplicated
-manual pages (under /usr/share/man and /usr/share/man/en).
+-Presently (Linux 2.6.9):
+-.IR in_fd ,
++.IR in_fd
+ must correspond to a file which supports
+ .BR mmap (2)-like
+ operations
+-(i.e., it cannot be a socket);
+-and
+-.I out_fd
+-must refer to a socket.
++(i.e., it cannot be a socket).
 
-This patch also modifies man7/glob.7, which uses accented letters in
-output.  I have tested that this change is harmless under Debian, but
-I do not know for other Linux distributions.
+ Applications may wish to fall back to
+ .BR read (2)/ write (2)
+@@ -168,6 +164,9 @@ In Linux 2.4 and earlier,
+ could refer to a regular file, and
+ .BR sendfile ()
+ changed the current offset of that file.
++Since 2.6.33,
++.I out_fd
++can refer to any file.
 
-Denis
-
---0003255759564a1fff049a9e344a
-Content-Type: application/x-bzip2; name="to-glyph.patch.bz2"
-Content-Disposition: attachment; filename="to-glyph.patch.bz2"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gjbvg9u20
-
-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
---0003255759564a1fff049a9e344a--
+ The original Linux
+ .BR sendfile ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
