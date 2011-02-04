@@ -1,7 +1,7 @@
 From: reste donewell <aqbanking-9jue/HkscOUb1SvskN2V4Q@public.gmane.org>
 Subject: pthread_sigqueue.3
-Date: Fri, 04 Feb 2011 08:15:50 +0100
-Message-ID: <1296803750.3716.16.camel@localhost>
+Date: Fri, 04 Feb 2011 08:39:13 +0100
+Message-ID: <1296805153.3716.17.camel@localhost>
 Reply-To: aqbanking-9jue/HkscOUb1SvskN2V4Q@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
@@ -26,7 +26,7 @@ number.
 
 Best regards,
 
-Eric Thiele 
+Eric Thiele
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
