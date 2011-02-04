@@ -1,28 +1,33 @@
-From: wimpunk <wimpunk-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
-Subject: Error in the example of getaddrinfo
-Date: Thu, 3 Feb 2011 10:39:03 +0100
-Message-ID: <AANLkTinnWoSuV-oYxDMF-9yK22hpncerkEfD7R0h2YJk@mail.gmail.com>
+From: reste donewell <aqbanking-9jue/HkscOUb1SvskN2V4Q@public.gmane.org>
+Subject: pthread_sigqueue.3
+Date: Fri, 04 Feb 2011 08:15:50 +0100
+Message-ID: <1296803750.3716.16.camel@localhost>
+Reply-To: aqbanking-9jue/HkscOUb1SvskN2V4Q@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Section Retun Value:
 
-I believe there is a bug in de client example code of getaddrinfo.  It
-is in the ubuntu 10.10 man pages (Version: 3.24-1ubuntu1) and also on
-http://www.kernel.org/doc/man-pages/online/pages/man3/getaddrinfo.3.html.
-The 'close(sfd);' will never happen and using the code in a loop, it
-will cause your system running out of filedescriptors (at least,
-that's what happened to me).  To use the code cleanly, you should code
-the sfd after the last printf.
+current (3.32 (online version) )
 
-Kind regards,
+On success, pthread_create() returns 0; on error, it returns an error
+number.
 
-wimpunk.
+should be:
+
+On success, pthread_sigqueue() returns 0; on error, it returns an error
+number.
+
+Best regards,
+
+Eric Thiele 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
