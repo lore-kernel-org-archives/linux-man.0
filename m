@@ -1,142 +1,58 @@
-From: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
-Subject: Re: [PATCH] sendfile.2: Fix description of the out_fd
-Date: Mon, 14 Feb 2011 19:11:19 +0900
-Message-ID: <4D58FFC7.9060804@rs.jp.nec.com>
-References: <4D413168.1080901@rs.jp.nec.com> <AANLkTimMgyM+bUmePtxL83PZdQfRFdZes-hmOLAARRvp@mail.gmail.com>
+From: Helmut Grohne <h.grohne@cygnusnetworks.de>
+Subject: ENOBUFS missing in man recv(2) [Initially: What does
+	nflog_unbind_pf actually do?]
+Date: Mon, 14 Feb 2011 15:31:02 +0100
+Message-ID: <20110214143102.GA4392@buero.cygnusnet.de>
+References: <20110125125426.GA7749@buero.cygnusnet.de> <20110203120052.GA4217@buero.cygnusnet.de> <4D4AAD40.1060204@netfilter.org> <20110203172429.GA8709@buero.cygnusnet.de> <4D4BCD39.7010503@netfilter.org> <20110210085207.GA4042@buero.cygnusnet.de> <4D5547D0.7020804@netfilter.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTimMgyM+bUmePtxL83PZdQfRFdZes-hmOLAARRvp-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?UHJ6ZW15c8WCYXcgUGF3ZcWCY3p5aw==?= <przemoc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <netfilter-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <4D5547D0.7020804@netfilter.org>
+Sender: netfilter-owner@vger.kernel.org
+To: Pablo Neira Ayuso <pablo@netfilter.org>, mtk.manpages@gmail.com
+Cc: netfilter@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Przemys=C5=82aw,
+On Fri, Feb 11, 2011 at 03:29:36PM +0100, Pablo Neira Ayuso wrote:
+> On 10/02/11 09:52, Helmut Grohne wrote:
+> > Also I do wonder why the manual page for recv(2) does not list ENOBUFS
+> > in the list of possible errors. Since posix[1] seems to specify it, it
+> > looks like a bug in the manual page. *sigh*
+> 
+> This is quite netlink specific and nobody probably sent a patch for it
+> so far. I encourage you to send a patch to the manpage maintainers. This
+> is how things work, it's up to you to help others to fix this situation.
 
-Thank you for comment :)
-Would you review this patch again?
+The reference [1] in my previous mail referenced
+http://pubs.opengroup.org/onlinepubs/009695399/functions/recv.html.
 
-Regards,
-Akira Fujita
+Pablo, instead of complaining about missing patches, you could comment on the
+other patch I sent in. I do send patches when I am confident that I understood
+things. This just happens not to be the netfilter-log library.
 
----
+Let me propose the addition at the end of this email to the recv(2) manual
+page.
 
---- man-pages-3.32-a/man2/sendfile.2    2010-12-03 16:01:59.000000000 +=
-0900
-+++ man-pages-3.32-b/man2/sendfile.2    2011-02-14 09:02:57.000000000 +=
-0900
-@@ -87,15 +87,17 @@ and the file offset will be updated by t
-  .I count
-  is the number of bytes to copy between the file descriptors.
+Helmut
 
--Presently (Linux 2.6.9):
--.IR in_fd ,
-+.IR in_fd
-  must correspond to a file which supports
-  .BR mmap (2)-like
-  operations
--(i.e., it cannot be a socket);
--and
--.I out_fd
--must refer to a socket.
-+(i.e., it cannot be a socket).
-+
-+.IR out_fd
-+was required to be a socket, but since Linux 2.6.33 it can be
-+any file. If it is a regular file, then
-+.BR sendfile()
-+changes its offset appropriately.
-
-  Applications may wish to fall back to
-  .BR read (2)/ write (2)
-@@ -165,7 +167,7 @@ to minimize the number of packets and to
-
-  In Linux 2.4 and earlier,
-  .I out_fd
--could refer to a regular file, and
-+could also refer to a regular file, and
-  .BR sendfile ()
-  changed the current offset of that file.
-
-(2011/02/13 5:11), Przemys=C5=82aw Pawe=C5=82czyk wrote:
-> Hi,
->
-> 2011/1/27 Akira Fujita<a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>:
->> commit cc56f7de7f00d188c7c4da1e9861581853b9e92f made
->> sendfile(2) can work with any output file.
->> Therefore the out_fd of sendfile(2) can refer to any file,
->> but current manual (man-pages-3.32) has not been changed so far.
->
-> And I thought I was the only one discovering it recently (beside a fe=
-w
-> obvious people year ago). :)
->
->> diff -Nrup man-pages-3.32-a/man2/sendfile.2 man-pages-3.32-b/man2/se=
-ndfile.2
->> --- man-pages-3.32-a/man2/sendfile.2    2010-12-03 16:01:59.00000000=
-0 +0900
->> +++ man-pages-3.32-b/man2/sendfile.2    2011-01-27 16:03:48.00000000=
-0 +0900
->> @@ -87,15 +87,11 @@ and the file offset will be updated by t
->>   .I count
->>   is the number of bytes to copy between the file descriptors.
->>
->> -Presently (Linux 2.6.9):
->> -.IR in_fd ,
->> +.IR in_fd
->>   must correspond to a file which supports
->>   .BR mmap (2)-like
->>   operations
->> -(i.e., it cannot be a socket);
->> -and
->> -.I out_fd
->> -must refer to a socket.
->> +(i.e., it cannot be a socket).
->
-> I don't think that completely removing out_fd socket restriction part
-> is a proper way of fixing this page. Such information should not be
-> lost.
-> I would add here sth like:
->
-> out_fd was required to be a socket, but since Linux 2.6.33 it can be
-> any file. If it is a regular file, then sendfile() changes its offset
-> appropriately.
->
->>
->>   Applications may wish to fall back to
->>   .BR read (2)/ write (2)
->> @@ -168,6 +164,9 @@ In Linux 2.4 and earlier,
->>   could refer to a regular file, and
->
-> s/could/could also/
->
->>   .BR sendfile ()
->>   changed the current offset of that file.
->
->> +Since 2.6.33,
->> +.I out_fd
->> +can refer to any file.
->
-> IMO this change shouldn't be mentioned in NOTES section.
->
->>
->>   The original Linux
->>   .BR sendfile ()
->
-> Regards.
->
-
---=20
-Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
-
-The First Fundamental Software Development Group,
-Software Development Division,
-NEC Software Tohoku, Ltd.
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--- recv.2.orig 2011-02-14 15:05:49.000000000 +0100
++++ recv.2      2011-02-14 15:26:13.000000000 +0100
+@@ -425,6 +425,17 @@
+ Invalid argument passed.
+ .\" e.g., msg_namelen < 0 for recvmsg() or addrlen < 0 for recvfrom()
+ .TP
++.B ENOBUFS
++A positive number of messages was dropped due to insufficient socket
++buffer space. On Linux this can occur when operating on netlink
++sockets. The
++.BR SO_RCVBUF
++and
++.BR SO_RCVBUFFORCE
++socket options described in
++.BR socket (7)
++can be used to change the socket buffer size.
++.TP
+ .B ENOMEM
+ Could not allocate memory for
+ .BR recvmsg ().
