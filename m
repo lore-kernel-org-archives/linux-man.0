@@ -1,58 +1,76 @@
-From: Helmut Grohne <h.grohne@cygnusnetworks.de>
-Subject: ENOBUFS missing in man recv(2) [Initially: What does
-	nflog_unbind_pf actually do?]
-Date: Mon, 14 Feb 2011 15:31:02 +0100
-Message-ID: <20110214143102.GA4392@buero.cygnusnet.de>
-References: <20110125125426.GA7749@buero.cygnusnet.de> <20110203120052.GA4217@buero.cygnusnet.de> <4D4AAD40.1060204@netfilter.org> <20110203172429.GA8709@buero.cygnusnet.de> <4D4BCD39.7010503@netfilter.org> <20110210085207.GA4042@buero.cygnusnet.de> <4D5547D0.7020804@netfilter.org>
+From: Tanaka Akira <akr-Z4CJNWi2dO8@public.gmane.org>
+Subject: man7/ip.7: The argument for IP_MULTICAST_IF socket option
+Date: Wed, 16 Feb 2011 15:41:48 +0900
+Message-ID: <AANLkTin0LUpyFaL=siDNEK-wEqVFwEFsu8B_KQ=cd7Aa@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <netfilter-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <4D5547D0.7020804@netfilter.org>
-Sender: netfilter-owner@vger.kernel.org
-To: Pablo Neira Ayuso <pablo@netfilter.org>, mtk.manpages@gmail.com
-Cc: netfilter@vger.kernel.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 11, 2011 at 03:29:36PM +0100, Pablo Neira Ayuso wrote:
-> On 10/02/11 09:52, Helmut Grohne wrote:
-> > Also I do wonder why the manual page for recv(2) does not list ENOBUFS
-> > in the list of possible errors. Since posix[1] seems to specify it, it
-> > looks like a bug in the manual page. *sigh*
-> 
-> This is quite netlink specific and nobody probably sent a patch for it
-> so far. I encourage you to send a patch to the manpage maintainers. This
-> is how things work, it's up to you to help others to fix this situation.
+Hi.
 
-The reference [1] in my previous mail referenced
-http://pubs.opengroup.org/onlinepubs/009695399/functions/recv.html.
+I found a problem in man7/ip.7 in man-pages-3.32.tar.bz2.
+(I also checked man-pages git repository and the text is not changed.)
 
-Pablo, instead of complaining about missing patches, you could comment on the
-other patch I sent in. I do send patches when I am confident that I understood
-things. This just happens not to be the netfilter-log library.
+ip(7) describes that the argument for IP_MULTICAST_IF is ip_mreqn or ip_mreq:
 
-Let me propose the addition at the end of this email to the recv(2) manual
-page.
+   IP_MULTICAST_IF
+          Set the local device for a multicast  socket.   Argument  is  an
+          ip_mreqn or ip_mreq structure similar to IP_ADD_MEMBERSHIP.
 
-Helmut
+But it should be ip_mreqn or in_addr.
+It is different from IP_ADD_MEMBERSHIP.
 
---- recv.2.orig 2011-02-14 15:05:49.000000000 +0100
-+++ recv.2      2011-02-14 15:26:13.000000000 +0100
-@@ -425,6 +425,17 @@
- Invalid argument passed.
- .\" e.g., msg_namelen < 0 for recvmsg() or addrlen < 0 for recvfrom()
- .TP
-+.B ENOBUFS
-+A positive number of messages was dropped due to insufficient socket
-+buffer space. On Linux this can occur when operating on netlink
-+sockets. The
-+.BR SO_RCVBUF
-+and
-+.BR SO_RCVBUFFORCE
-+socket options described in
-+.BR socket (7)
-+can be used to change the socket buffer size.
-+.TP
- .B ENOMEM
- Could not allocate memory for
- .BR recvmsg ().
+do_ip_setsockopt() in linux-2.6.37/net/ipv4/ip_sockglue.c supports
+struct ip_mreqn and struct in_addr.
+
+|        case IP_MULTICAST_IF:
+|        {
+|                struct ip_mreqn mreq;
+|                struct net_device *dev = NULL;
+|
+|                if (sk->sk_type == SOCK_STREAM)
+|                        goto e_inval;
+|                /*
+|                 *      Check the arguments are allowable
+|                 */
+|
+|                if (optlen < sizeof(struct in_addr))
+|                        goto e_inval;
+|
+|                err = -EFAULT;
+|                if (optlen >= sizeof(struct ip_mreqn)) {
+|                        if (copy_from_user(&mreq, optval, sizeof(mreq)))
+|                                break;
+|                } else {
+|                        memset(&mreq, 0, sizeof(mreq));
+|                        if (optlen >= sizeof(struct in_addr) &&
+|                            copy_from_user(&mreq.imr_address, optval,
+|                                           sizeof(struct in_addr)))
+|                                break;
+|                }
+
+The third argument of copy_from_user() is sizeof(mreq) and
+sizeof(struct in_addr).
+The former is sizeof(struct mreqn) because the type of mreq is struct mreqn.
+
+The code copies struct mreqn or struct in_addr from user space.
+So, I think Linux supports struct mreqn and struct in_addr for IP_MULTICAST_IF.
+
+At the original API of BSD multicast, IP_MULTICAST_IF takes struct in_addr.
+http://www.kohala.com/start/mcast.api.txt :
+
+        struct in_addr addr;
+        setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, &addr, sizeof(addr))
+
+Note that I also reported this problem to
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=607979
+-- 
+Tanaka Akira
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
