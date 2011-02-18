@@ -1,75 +1,46 @@
-From: Tanaka Akira <akr-Z4CJNWi2dO8@public.gmane.org>
-Subject: man7/ip.7: The argument for IP_MULTICAST_IF socket option
-Date: Wed, 16 Feb 2011 15:41:48 +0900
-Message-ID: <AANLkTin0LUpyFaL=siDNEK-wEqVFwEFsu8B_KQ=cd7Aa@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 29362] New: flock: can return EAGAIN contrary to manpage
+Date: Fri, 18 Feb 2011 10:10:01 GMT
+Message-ID: <bug-29362-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi.
+https://bugzilla.kernel.org/show_bug.cgi?id=29362
 
-I found a problem in man7/ip.7 in man-pages-3.32.tar.bz2.
-(I also checked man-pages git repository and the text is not changed.)
+           Summary: flock: can return EAGAIN contrary to manpage
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: n/a
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: petr.uzel-AlSwsSmVLrQ@public.gmane.org
+        Regression: No
 
-ip(7) describes that the argument for IP_MULTICAST_IF is ip_mreqn or ip_mreq:
 
-   IP_MULTICAST_IF
-          Set the local device for a multicast  socket.   Argument  is  an
-          ip_mreqn or ip_mreq structure similar to IP_ADD_MEMBERSHIP.
+flock(2) manpage does not list EAGAIN as possible return value. As far as I
+understand, one can assume that flock never returns EAGAIN, which is not true:
 
-But it should be ip_mreqn or in_addr.
-It is different from IP_ADD_MEMBERSHIP.
+strace:
+...
+flock(3, LOCK_EX|LOCK_NB) = -1 EAGAIN (Resource temporarily unavailable)
+...
 
-do_ip_setsockopt() in linux-2.6.37/net/ipv4/ip_sockglue.c supports
-struct ip_mreqn and struct in_addr.
+FWIW, this was on kernel 2.6.37.
 
-|        case IP_MULTICAST_IF:
-|        {
-|                struct ip_mreqn mreq;
-|                struct net_device *dev = NULL;
-|
-|                if (sk->sk_type == SOCK_STREAM)
-|                        goto e_inval;
-|                /*
-|                 *      Check the arguments are allowable
-|                 */
-|
-|                if (optlen < sizeof(struct in_addr))
-|                        goto e_inval;
-|
-|                err = -EFAULT;
-|                if (optlen >= sizeof(struct ip_mreqn)) {
-|                        if (copy_from_user(&mreq, optval, sizeof(mreq)))
-|                                break;
-|                } else {
-|                        memset(&mreq, 0, sizeof(mreq));
-|                        if (optlen >= sizeof(struct in_addr) &&
-|                            copy_from_user(&mreq.imr_address, optval,
-|                                           sizeof(struct in_addr)))
-|                                break;
-|                }
-
-The third argument of copy_from_user() is sizeof(mreq) and
-sizeof(struct in_addr).
-The former is sizeof(struct mreqn) because the type of mreq is struct mreqn.
-
-The code copies struct mreqn or struct in_addr from user space.
-So, I think Linux supports struct mreqn and struct in_addr for IP_MULTICAST_IF.
-
-At the original API of BSD multicast, IP_MULTICAST_IF takes struct in_addr.
-http://www.kohala.com/start/mcast.api.txt :
-
-        struct in_addr addr;
-        setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, &addr, sizeof(addr))
-
-Note that I also reported this problem to
-http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=607979
 -- 
-Tanaka Akira
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
