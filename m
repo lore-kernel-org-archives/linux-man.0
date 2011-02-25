@@ -1,34 +1,35 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] small improvement for ptrace.2
-Date: Wed, 23 Feb 2011 10:53:55 +0300
-Message-ID: <20110223105355.1ae142f1@keeper.home.local>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15223] Mention security in the manpages for strcat, scanf, and
+ getopt
+Date: Fri, 25 Feb 2011 18:12:11 GMT
+Message-ID: <201102251812.p1PICB7W027507@demeter2.kernel.org>
+References: <bug-15223-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-15223-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+https://bugzilla.kernel.org/show_bug.cgi?id=15223
 
---- ptrace.2    2010-12-26 12:01:43.615106727 +0300
-+++ /tmp/ptrace.2       2011-02-23 10:52:27.371001084 +0300
-@@ -206,7 +206,7 @@
- .TP
- .BR PTRACE_O_TRACESYSGOOD " (since Linux 2.4.6)"
- When delivering syscall traps, set bit 7 in the signal number
--(i.e., deliver \fI(SIGTRAP | 0x80)\fP
-+(i.e., deliver \fI(SIGTRAP | 0x80)\fP.
- This makes it easy for the tracer to tell the difference
- between normal traps and those caused by a syscall.
- .RB ( PTRACE_O_TRACESYSGOOD
+
+Waseem Sarwar <mwasimsarwar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mwasimsarwar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         AssignedTo|documentation_man-pages@ker |mwasimsarwar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |nel-bugs.osdl.org           |
+
+
+
 
 -- 
-Best Regards,
-Yuri Kozlov
-
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
