@@ -1,61 +1,326 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 29972] New: Possibly bad EBADF error description in fsync(2)
-Date: Sat, 26 Feb 2011 23:49:30 GMT
-Message-ID: <bug-29972-11311@https.bugzilla.kernel.org/>
+From: Martin Eberhard Schauer <Martin.E.Schauer-Mmb7MZpHnFY@public.gmane.org>
+Subject: formatting of encoding standards in utf-8.7
+Date: Sun, 27 Feb 2011 19:15:47 +0100
+Message-ID: <4D6A94D3.2090701@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed;
+ boundary="------------010503000303020108050702"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=29972
+This is a multi-part message in MIME format.
+--------------010503000303020108050702
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-           Summary: Possibly bad EBADF error description in fsync(2)
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: N/A
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+                                     Dear Mr. Kerrisk,
 
+working on the update of the German translation of utf-8.7 I found an
+inconsistent markup for UCS, Unicode, ASCII. As it was bold in many
+cases, I made an "all-bold" version based on version 3.32.
 
-The man-page of fsync(2) has the next error description:
-    EBADF  fd is not a valid file descriptor open for writing.
+Kind regards
+    Martin Schauer
 
-This man-page says nothing about if fsync(2) works correctly on a file
-descriptor open with O_RDONLY, but it seems to work without any problem. So
-that description induce to think that O_WRONLY or O_RDWR must be used.
+--------------010503000303020108050702
+Content-Type: text/x-patch;
+ name="utf-8.7.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="utf-8.7.patch"
 
-The Open Group Base Specifications says nothing about in what mode the file
-must be open. And the EBADF error description also says nothing about not being
-open in writing mode
-(http://pubs.opengroup.org/onlinepubs/009695399/functions/fsync.html).
+--- utf-8.7~	2011-02-27 18:26:48.000000000 +0100
++++ utf-8.7	2011-02-27 18:24:22.000000000 +0100
+@@ -42,8 +42,10 @@
+ parts of many 16-bit characters bytes
+ like \(aq\\0\(aq or \(aq/\(aq which have a
+ special meaning in filenames and other C library function arguments.
+-In addition, the majority of UNIX tools expects ASCII files and can't
+-read 16-bit words as characters without major modifications.
++In addition, the majority of UNIX tools expects
++.B ASCII
++files and can't read 16-bit words as characters without major
++modifications.
+ For these reasons,
+ .B UCS-2
+ is not a suitable external encoding of
+@@ -51,7 +53,9 @@
+ in filenames, text files, environment variables, etc.
+ The
+ .BR "ISO 10646 Universal Character Set (UCS)" ,
+-a superset of Unicode, occupies even a 31-bit code space and the obvious
++a superset of
++.BR Unicode ,
++occupies even a 31-bit code space and the obvious
+ .B UCS-4
+ encoding for it (a sequence of 32-bit words) has the same problems.
+ 
+@@ -73,10 +77,13 @@
+ .B UCS
+ characters 0x00000000 to 0x0000007f (the classic
+ .B US-ASCII
+-characters) are encoded simply as bytes 0x00 to 0x7f (ASCII
++characters) are encoded simply as bytes 0x00 to 0x7f
++.RB ( ASCII
+ compatibility).
+ This means that files and strings which contain only
+-7-bit ASCII characters have the same encoding under both
++7-bit
++.B ASCII
++characters have the same encoding under both
+ .B ASCII
+ and
+ .BR UTF-8 .
+@@ -85,7 +92,8 @@
+ All
+ .B UCS
+ characters greater than 0x7f are encoded as a multibyte sequence
+-consisting only of bytes in the range 0x80 to 0xfd, so no ASCII
++consisting only of bytes in the range 0x80 to 0xfd, so no
++.B ASCII
+ byte can appear as part of another character and there are no
+ problems with, for example,  \(aq\\0\(aq or \(aq/\(aq.
+ .TP
+@@ -95,7 +103,9 @@
+ strings is preserved.
+ .TP
+ *
+-All possible 2^31 UCS codes can be encoded using
++All possible 2^31
++.B UCS
++codes can be encoded using
+ .BR UTF-8 .
+ .TP
+ *
+@@ -104,7 +114,8 @@
+ encoding.
+ .TP
+ *
+-The first byte of a multibyte sequence which represents a single non-ASCII
++The first byte of a multibyte sequence which represents a single non-
++.B ASCII
+ .B UCS
+ character is always in the range 0xc0 to 0xfd and indicates how long
+ this multibyte sequence is.
+@@ -119,12 +130,15 @@
+ .B UCS
+ characters may be up to six bytes long, however the
+ .B Unicode
+-standard specifies no characters above 0x10ffff, so Unicode characters
+-can only be up to four bytes long in
++standard specifies no characters above 0x10ffff, so
++.B Unicode
++characters can only be up to four bytes long in
+ .BR UTF-8 .
+ .SS Encoding
+ The following byte sequences are used to represent a character.
+-The sequence to be used depends on the UCS code number of the character:
++The sequence to be used depends on the
++.B UCS
++code number of the character:
+ .TP 0.4i
+ 0x00000000 \- 0x0000007F:
+ .RI 0 xxxxxxx
+@@ -168,15 +182,19 @@
+ .PP
+ The
+ .B UCS
+-code values 0xd800\(en0xdfff (UTF-16 surrogates) as well as 0xfffe and
+-0xffff (UCS noncharacters) should not appear in conforming
++code values 0xd800\(en0xdfff
++.RB ( UTF-16
++surrogates) as well as 0xfffe and 0xffff
++.RB ( UCS
++noncharacters) should not appear in conforming
+ .B UTF-8
+ streams.
+ .SS Example
+ The
+ .B Unicode
+-character 0xa9 = 1010 1001 (the copyright sign) is encoded
+-in UTF-8 as
++character 0xa9 = 1010 1001 (the copyright sign) is encoded in
++.B UTF-8
++as
+ .PP
+ .RS
+ 11000010 10101001 = 0xc2 0xa9
+@@ -256,8 +274,12 @@
+ ("\\x1b%G").
+ The corresponding return sequence from
+ .B UTF-8
+-to ISO 2022 is ESC % @ ("\\x1b%@").
+-Other ISO 2022 sequences (such as
++to
++.B ISO 2022
++is ESC % @ ("\\x1b%@").
++Other
++.B ISO 2022
++sequences (such as
+ for switching the G0 and G1 sets) are not applicable in UTF-8 mode.
+ .PP
+ It can be hoped that in the foreseeable future,
 
+--------------010503000303020108050702
+Content-Type: text/plain;
+ name="utf-8.7.new"
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+ filename="utf-8.7.new"
 
-In conclusion, as far as I know, the next code snippet is correct and seems to
-work correctly in my machine with regular files and directories:
-    fd = open(path, O_RDONLY);
-    fsync(fd);
-
-So the EBADF error description in man pages from fsync(2) is confusing, maybe
-it should be something like:
-    EBADF  fd is not a valid file descriptor.
-
-
-I'm using Ubuntu 10.10 with Linux man-pages 3.24.
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+LlwiIEhleSBFbWFjcyEgVGhpcyBmaWxlIGlzIC0qLSBucm9mZiAtKi0gc291cmNlLgouXCIK
+LlwiIENvcHlyaWdodCAoQykgTWFya3VzIEt1aG4sIDE5OTYsIDIwMDEKLlwiCi5cIiBUaGlz
+IGlzIGZyZWUgZG9jdW1lbnRhdGlvbjsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29y
+Ci5cIiBtb2RpZnkgaXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJs
+aWMgTGljZW5zZSBhcwouXCIgcHVibGlzaGVkIGJ5IHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5k
+YXRpb247IGVpdGhlciB2ZXJzaW9uIDIgb2YKLlwiIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91
+ciBvcHRpb24pIGFueSBsYXRlciB2ZXJzaW9uLgouXCIKLlwiIFRoZSBHTlUgR2VuZXJhbCBQ
+dWJsaWMgTGljZW5zZSdzIHJlZmVyZW5jZXMgdG8gIm9iamVjdCBjb2RlIgouXCIgYW5kICJl
+eGVjdXRhYmxlcyIgYXJlIHRvIGJlIGludGVycHJldGVkIGFzIHRoZSBvdXRwdXQgb2YgYW55
+Ci5cIiBkb2N1bWVudCBmb3JtYXR0aW5nIG9yIHR5cGVzZXR0aW5nIHN5c3RlbSwgaW5jbHVk
+aW5nCi5cIiBpbnRlcm1lZGlhdGUgYW5kIHByaW50ZWQgb3V0cHV0LgouXCIKLlwiIFRoaXMg
+bWFudWFsIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2Vm
+dWwsCi5cIiBidXQgV0lUSE9VVCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1w
+bGllZCB3YXJyYW50eSBvZgouXCIgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEg
+UEFSVElDVUxBUiBQVVJQT1NFLiAgU2VlIHRoZQouXCIgR05VIEdlbmVyYWwgUHVibGljIExp
+Y2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KLlwiCi5cIiBZb3Ugc2hvdWxkIGhhdmUgcmVjZWl2
+ZWQgYSBjb3B5IG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMKLlwiIExpY2Vuc2UgYWxvbmcg
+d2l0aCB0aGlzIG1hbnVhbDsgaWYgbm90LCB3cml0ZSB0byB0aGUgRnJlZQouXCIgU29mdHdh
+cmUgRm91bmRhdGlvbiwgSW5jLiwgNTkgVGVtcGxlIFBsYWNlLCBTdWl0ZSAzMzAsIEJvc3Rv
+biwgTUEgMDIxMTEsCi5cIiBVU0EuCi5cIgouXCIgMTk5NS0xMS0yNiAgTWFya3VzIEt1aG4g
+PG1za3VobkBjaXAuaW5mb3JtYXRpay51bmktZXJsYW5nZW4uZGU+Ci5cIiAgICAgIEZpcnN0
+IHZlcnNpb24gd3JpdHRlbgouXCIgMjAwMS0wNS0xMSAgTWFya3VzIEt1aG4gPG1nazI1QGNs
+LmNhbS5hYy51az4KLlwiICAgICAgVXBkYXRlCi5cIgouVEggVVRGLTggNyAyMDAxLTA1LTEx
+ICJHTlUiICJMaW51eCBQcm9ncmFtbWVyJ3MgTWFudWFsIgouU0ggTkFNRQpVVEYtOCBcLSBh
+biBBU0NJSSBjb21wYXRpYmxlIG11bHRpYnl0ZSBVbmljb2RlIGVuY29kaW5nCi5TSCBERVND
+UklQVElPTgpUaGUKLkIgVW5pY29kZSAzLjAKY2hhcmFjdGVyIHNldCBvY2N1cGllcyBhIDE2
+LWJpdCBjb2RlIHNwYWNlLgpUaGUgbW9zdCBvYnZpb3VzClVuaWNvZGUgZW5jb2RpbmcgKGtu
+b3duIGFzCi5CUiBVQ1MtMiApCmNvbnNpc3RzIG9mIGEgc2VxdWVuY2Ugb2YgMTYtYml0IHdv
+cmRzLgpTdWNoIHN0cmluZ3MgY2FuIGNvbnRhaW4gYXMKcGFydHMgb2YgbWFueSAxNi1iaXQg
+Y2hhcmFjdGVycyBieXRlcwpsaWtlIFwoYXFcXDBcKGFxIG9yIFwoYXEvXChhcSB3aGljaCBo
+YXZlIGEKc3BlY2lhbCBtZWFuaW5nIGluIGZpbGVuYW1lcyBhbmQgb3RoZXIgQyBsaWJyYXJ5
+IGZ1bmN0aW9uIGFyZ3VtZW50cy4KSW4gYWRkaXRpb24sIHRoZSBtYWpvcml0eSBvZiBVTklY
+IHRvb2xzIGV4cGVjdHMKLkIgQVNDSUkKZmlsZXMgYW5kIGNhbid0IHJlYWQgMTYtYml0IHdv
+cmRzIGFzIGNoYXJhY3RlcnMgd2l0aG91dCBtYWpvcgptb2RpZmljYXRpb25zLgpGb3IgdGhl
+c2UgcmVhc29ucywKLkIgVUNTLTIKaXMgbm90IGEgc3VpdGFibGUgZXh0ZXJuYWwgZW5jb2Rp
+bmcgb2YKLkIgVW5pY29kZQppbiBmaWxlbmFtZXMsIHRleHQgZmlsZXMsIGVudmlyb25tZW50
+IHZhcmlhYmxlcywgZXRjLgpUaGUKLkJSICJJU08gMTA2NDYgVW5pdmVyc2FsIENoYXJhY3Rl
+ciBTZXQgKFVDUykiICwKYSBzdXBlcnNldCBvZgouQlIgVW5pY29kZSAsCm9jY3VwaWVzIGV2
+ZW4gYSAzMS1iaXQgY29kZSBzcGFjZSBhbmQgdGhlIG9idmlvdXMKLkIgVUNTLTQKZW5jb2Rp
+bmcgZm9yIGl0IChhIHNlcXVlbmNlIG9mIDMyLWJpdCB3b3JkcykgaGFzIHRoZSBzYW1lIHBy
+b2JsZW1zLgoKVGhlCi5CIFVURi04CmVuY29kaW5nIG9mCi5CIFVuaWNvZGUKYW5kCi5CIFVD
+Uwpkb2VzIG5vdCBoYXZlIHRoZXNlIHByb2JsZW1zIGFuZCBpcyB0aGUgY29tbW9uIHdheSBp
+biB3aGljaAouQiBVbmljb2RlCmlzIHVzZWQgb24gVU5JWC1zdHlsZSBvcGVyYXRpbmcgc3lz
+dGVtcy4KLlNTIFByb3BlcnRpZXMKVGhlCi5CIFVURi04CmVuY29kaW5nIGhhcyB0aGUgZm9s
+bG93aW5nIG5pY2UgcHJvcGVydGllczoKLlRQIDAuMmkKKgouQiBVQ1MKY2hhcmFjdGVycyAw
+eDAwMDAwMDAwIHRvIDB4MDAwMDAwN2YgKHRoZSBjbGFzc2ljCi5CIFVTLUFTQ0lJCmNoYXJh
+Y3RlcnMpIGFyZSBlbmNvZGVkIHNpbXBseSBhcyBieXRlcyAweDAwIHRvIDB4N2YKLlJCICgg
+QVNDSUkKY29tcGF0aWJpbGl0eSkuClRoaXMgbWVhbnMgdGhhdCBmaWxlcyBhbmQgc3RyaW5n
+cyB3aGljaCBjb250YWluIG9ubHkKNy1iaXQKLkIgQVNDSUkKY2hhcmFjdGVycyBoYXZlIHRo
+ZSBzYW1lIGVuY29kaW5nIHVuZGVyIGJvdGgKLkIgQVNDSUkKYW5kCi5CUiBVVEYtOCAuCi5U
+UAoqCkFsbAouQiBVQ1MKY2hhcmFjdGVycyBncmVhdGVyIHRoYW4gMHg3ZiBhcmUgZW5jb2Rl
+ZCBhcyBhIG11bHRpYnl0ZSBzZXF1ZW5jZQpjb25zaXN0aW5nIG9ubHkgb2YgYnl0ZXMgaW4g
+dGhlIHJhbmdlIDB4ODAgdG8gMHhmZCwgc28gbm8KLkIgQVNDSUkKYnl0ZSBjYW4gYXBwZWFy
+IGFzIHBhcnQgb2YgYW5vdGhlciBjaGFyYWN0ZXIgYW5kIHRoZXJlIGFyZSBubwpwcm9ibGVt
+cyB3aXRoLCBmb3IgZXhhbXBsZSwgIFwoYXFcXDBcKGFxIG9yIFwoYXEvXChhcS4KLlRQCioK
+VGhlIGxleGljb2dyYXBoaWMgc29ydGluZyBvcmRlciBvZgouQiBVQ1MtNApzdHJpbmdzIGlz
+IHByZXNlcnZlZC4KLlRQCioKQWxsIHBvc3NpYmxlIDJeMzEKLkIgVUNTCmNvZGVzIGNhbiBi
+ZSBlbmNvZGVkIHVzaW5nCi5CUiBVVEYtOCAuCi5UUAoqClRoZSBieXRlcyAweGZlIGFuZCAw
+eGZmIGFyZSBuZXZlciB1c2VkIGluIHRoZQouQiBVVEYtOAplbmNvZGluZy4KLlRQCioKVGhl
+IGZpcnN0IGJ5dGUgb2YgYSBtdWx0aWJ5dGUgc2VxdWVuY2Ugd2hpY2ggcmVwcmVzZW50cyBh
+IHNpbmdsZSBub24tCi5CIEFTQ0lJCi5CIFVDUwpjaGFyYWN0ZXIgaXMgYWx3YXlzIGluIHRo
+ZSByYW5nZSAweGMwIHRvIDB4ZmQgYW5kIGluZGljYXRlcyBob3cgbG9uZwp0aGlzIG11bHRp
+Ynl0ZSBzZXF1ZW5jZSBpcy4KQWxsIGZ1cnRoZXIgYnl0ZXMgaW4gYSBtdWx0aWJ5dGUgc2Vx
+dWVuY2UKYXJlIGluIHRoZSByYW5nZSAweDgwIHRvIDB4YmYuClRoaXMgYWxsb3dzIGVhc3kg
+cmVzeW5jaHJvbml6YXRpb24gYW5kCm1ha2VzIHRoZSBlbmNvZGluZyBzdGF0ZWxlc3MgYW5k
+IHJvYnVzdCBhZ2FpbnN0IG1pc3NpbmcgYnl0ZXMuCi5UUAoqCi5CIFVURi04CmVuY29kZWQK
+LkIgVUNTCmNoYXJhY3RlcnMgbWF5IGJlIHVwIHRvIHNpeCBieXRlcyBsb25nLCBob3dldmVy
+IHRoZQouQiBVbmljb2RlCnN0YW5kYXJkIHNwZWNpZmllcyBubyBjaGFyYWN0ZXJzIGFib3Zl
+IDB4MTBmZmZmLCBzbwouQiBVbmljb2RlCmNoYXJhY3RlcnMgY2FuIG9ubHkgYmUgdXAgdG8g
+Zm91ciBieXRlcyBsb25nIGluCi5CUiBVVEYtOCAuCi5TUyBFbmNvZGluZwpUaGUgZm9sbG93
+aW5nIGJ5dGUgc2VxdWVuY2VzIGFyZSB1c2VkIHRvIHJlcHJlc2VudCBhIGNoYXJhY3Rlci4K
+VGhlIHNlcXVlbmNlIHRvIGJlIHVzZWQgZGVwZW5kcyBvbiB0aGUKLkIgVUNTCmNvZGUgbnVt
+YmVyIG9mIHRoZSBjaGFyYWN0ZXI6Ci5UUCAwLjRpCjB4MDAwMDAwMDAgXC0gMHgwMDAwMDA3
+RjoKLlJJIDAgeHh4eHh4eAouVFAKMHgwMDAwMDA4MCBcLSAweDAwMDAwN0ZGOgouUkkgMTEw
+IHh4eHh4Ci5SSSAxMCB4eHh4eHgKLlRQCjB4MDAwMDA4MDAgXC0gMHgwMDAwRkZGRjoKLlJJ
+IDExMTAgeHh4eAouUkkgMTAgeHh4eHh4Ci5SSSAxMCB4eHh4eHgKLlRQCjB4MDAwMTAwMDAg
+XC0gMHgwMDFGRkZGRjoKLlJJIDExMTEwIHh4eAouUkkgMTAgeHh4eHh4Ci5SSSAxMCB4eHh4
+eHgKLlJJIDEwIHh4eHh4eAouVFAKMHgwMDIwMDAwMCBcLSAweDAzRkZGRkZGOgouUkkgMTEx
+MTEwIHh4Ci5SSSAxMCB4eHh4eHgKLlJJIDEwIHh4eHh4eAouUkkgMTAgeHh4eHh4Ci5SSSAx
+MCB4eHh4eHgKLlRQCjB4MDQwMDAwMDAgXC0gMHg3RkZGRkZGRjoKLlJJIDExMTExMTAgeAou
+UkkgMTAgeHh4eHh4Ci5SSSAxMCB4eHh4eHgKLlJJIDEwIHh4eHh4eAouUkkgMTAgeHh4eHh4
+Ci5SSSAxMCB4eHh4eHgKLlBQClRoZQouSSB4eHgKYml0IHBvc2l0aW9ucyBhcmUgZmlsbGVk
+IHdpdGggdGhlIGJpdHMgb2YgdGhlIGNoYXJhY3RlciBjb2RlIG51bWJlciBpbgpiaW5hcnkg
+cmVwcmVzZW50YXRpb24uCk9ubHkgdGhlIHNob3J0ZXN0IHBvc3NpYmxlIG11bHRpYnl0ZSBz
+ZXF1ZW5jZQp3aGljaCBjYW4gcmVwcmVzZW50IHRoZSBjb2RlIG51bWJlciBvZiB0aGUgY2hh
+cmFjdGVyIGNhbiBiZSB1c2VkLgouUFAKVGhlCi5CIFVDUwpjb2RlIHZhbHVlcyAweGQ4MDBc
+KGVuMHhkZmZmCi5SQiAoIFVURi0xNgpzdXJyb2dhdGVzKSBhcyB3ZWxsIGFzIDB4ZmZmZSBh
+bmQgMHhmZmZmCi5SQiAoIFVDUwpub25jaGFyYWN0ZXJzKSBzaG91bGQgbm90IGFwcGVhciBp
+biBjb25mb3JtaW5nCi5CIFVURi04CnN0cmVhbXMuCi5TUyBFeGFtcGxlClRoZQouQiBVbmlj
+b2RlCmNoYXJhY3RlciAweGE5ID0gMTAxMCAxMDAxICh0aGUgY29weXJpZ2h0IHNpZ24pIGlz
+IGVuY29kZWQgaW4KLkIgVVRGLTgKYXMKLlBQCi5SUwoxMTAwMDAxMCAxMDEwMTAwMSA9IDB4
+YzIgMHhhOQouUkUKLlBQCmFuZCBjaGFyYWN0ZXIgMHgyMjYwID0gMDAxMCAwMDEwIDAxMTAg
+MDAwMCAodGhlICJub3QgZXF1YWwiIHN5bWJvbCkgaXMKZW5jb2RlZCBhczoKLlBQCi5SUwox
+MTEwMDAxMCAxMDAwMTAwMSAxMDEwMDAwMCA9IDB4ZTIgMHg4OSAweGEwCi5SRQouU1MgIkFw
+cGxpY2F0aW9uIE5vdGVzIgpVc2VycyBoYXZlIHRvIHNlbGVjdCBhCi5CIFVURi04CmxvY2Fs
+ZSwgZm9yIGV4YW1wbGUgd2l0aAouUFAKLlJTCmV4cG9ydCBMQU5HPWVuX0dCLlVURi04Ci5S
+RQouUFAKaW4gb3JkZXIgdG8gYWN0aXZhdGUgdGhlCi5CIFVURi04CnN1cHBvcnQgaW4gYXBw
+bGljYXRpb25zLgouUFAKQXBwbGljYXRpb24gc29mdHdhcmUgdGhhdCBoYXMgdG8gYmUgYXdh
+cmUgb2YgdGhlIHVzZWQgY2hhcmFjdGVyCmVuY29kaW5nIHNob3VsZCBhbHdheXMgc2V0IHRo
+ZSBsb2NhbGUgd2l0aCBmb3IgZXhhbXBsZQouUFAKLlJTCnNldGxvY2FsZShMQ19DVFlQRSwg
+IiIpCi5SRQouUFAKYW5kIHByb2dyYW1tZXJzIGNhbiB0aGVuIHRlc3QgdGhlIGV4cHJlc3Np
+b24KLlBQCi5SUwpzdHJjbXAobmxfbGFuZ2luZm8oQ09ERVNFVCksICJVVEYtOCIpID09IDAK
+LlJFCi5QUAp0byBkZXRlcm1pbmUgd2hldGhlciBhCi5CIFVURi04CmxvY2FsZSBoYXMgYmVl
+biBzZWxlY3RlZCBhbmQgd2hldGhlcgp0aGVyZWZvcmUgYWxsIHBsYWludGV4dCBzdGFuZGFy
+ZCBpbnB1dCBhbmQgb3V0cHV0LCB0ZXJtaW5hbApjb21tdW5pY2F0aW9uLCBwbGFpbnRleHQg
+ZmlsZSBjb250ZW50LCBmaWxlbmFtZXMgYW5kIGVudmlyb25tZW50CnZhcmlhYmxlcyBhcmUg
+ZW5jb2RlZCBpbgouQlIgVVRGLTggLgouUFAKUHJvZ3JhbW1lcnMgYWNjdXN0b21lZCB0byBz
+aW5nbGUtYnl0ZSBlbmNvZGluZ3Mgc3VjaCBhcwouQiBVUy1BU0NJSQpvcgouQiBJU08gODg1
+OQpoYXZlIHRvIGJlIGF3YXJlIHRoYXQgdHdvIGFzc3VtcHRpb25zIG1hZGUgc28gZmFyIGFy
+ZSBubyBsb25nZXIgdmFsaWQKaW4KLkIgVVRGLTgKbG9jYWxlcy4KRmlyc3RseSwgYSBzaW5n
+bGUgYnl0ZSBkb2VzIG5vdCBuZWNlc3NhcmlseSBjb3JyZXNwb25kIGFueQptb3JlIHRvIGEg
+c2luZ2xlIGNoYXJhY3Rlci4KU2Vjb25kbHksIHNpbmNlIG1vZGVybiB0ZXJtaW5hbCBlbXVs
+YXRvcnMKaW4KLkIgVVRGLTgKbW9kZSBhbHNvIHN1cHBvcnQgQ2hpbmVzZSwgSmFwYW5lc2Us
+IGFuZCBLb3JlYW4KLkIgZG91YmxlLXdpZHRoIGNoYXJhY3RlcnMKYXMgd2VsbCBhcyBub25z
+cGFjaW5nCi5CUiAiY29tYmluaW5nIGNoYXJhY3RlcnMiICAsCm91dHB1dHRpbmcgYSBzaW5n
+bGUgY2hhcmFjdGVyIGRvZXMgbm90IG5lY2Vzc2FyaWx5IGFkdmFuY2UgdGhlIGN1cnNvcgpi
+eSBvbmUgcG9zaXRpb24gYXMgaXQgZGlkIGluCi5CUiBBU0NJSSAuCkxpYnJhcnkgZnVuY3Rp
+b25zIHN1Y2ggYXMKLkJSIG1ic3J0b3djcyAoMykKYW5kCi5CUiB3Y3N3aWR0aCAoMykKc2hv
+dWxkIGJlIHVzZWQgdG9kYXkgdG8gY291bnQgY2hhcmFjdGVycyBhbmQgY3Vyc29yIHBvc2l0
+aW9ucy4KLlBQClRoZSBvZmZpY2lhbCBFU0Mgc2VxdWVuY2UgdG8gc3dpdGNoIGZyb20gYW4K
+LkIgSVNPIDIwMjIKZW5jb2Rpbmcgc2NoZW1lIChhcyB1c2VkIGZvciBpbnN0YW5jZSBieSBW
+VDEwMCB0ZXJtaW5hbHMpIHRvCi5CIFVURi04CmlzIEVTQyAlIEcKKCJcXHgxYiVHIikuClRo
+ZSBjb3JyZXNwb25kaW5nIHJldHVybiBzZXF1ZW5jZSBmcm9tCi5CIFVURi04CnRvCi5CIElT
+TyAyMDIyCmlzIEVTQyAlIEAgKCJcXHgxYiVAIikuCk90aGVyCi5CIElTTyAyMDIyCnNlcXVl
+bmNlcyAoc3VjaCBhcwpmb3Igc3dpdGNoaW5nIHRoZSBHMCBhbmQgRzEgc2V0cykgYXJlIG5v
+dCBhcHBsaWNhYmxlIGluIFVURi04IG1vZGUuCi5QUApJdCBjYW4gYmUgaG9wZWQgdGhhdCBp
+biB0aGUgZm9yZXNlZWFibGUgZnV0dXJlLAouQiBVVEYtOAp3aWxsIHJlcGxhY2UKLkIgQVND
+SUkKYW5kCi5CIElTTyA4ODU5CmF0IGFsbCBsZXZlbHMgYXMgdGhlIGNvbW1vbiBjaGFyYWN0
+ZXIgZW5jb2Rpbmcgb24gUE9TSVggc3lzdGVtcywKbGVhZGluZyB0byBhIHNpZ25pZmljYW50
+bHkgcmljaGVyIGVudmlyb25tZW50IGZvciBoYW5kbGluZyBwbGFpbiB0ZXh0LgouU1MgU2Vj
+dXJpdHkKVGhlCi5CUiBVbmljb2RlICIgYW5kICIgVUNTCnN0YW5kYXJkcyByZXF1aXJlIHRo
+YXQgcHJvZHVjZXJzIG9mCi5CIFVURi04CnNoYWxsIHVzZSB0aGUgc2hvcnRlc3QgZm9ybSBw
+b3NzaWJsZSwgZm9yIGV4YW1wbGUsIHByb2R1Y2luZyBhIHR3by1ieXRlCnNlcXVlbmNlIHdp
+dGggZmlyc3QgYnl0ZSAweGMwIGlzIG5vbmNvbmZvcm1pbmcuCi5CIFVuaWNvZGUgMy4xCmhh
+cyBhZGRlZCB0aGUgcmVxdWlyZW1lbnQgdGhhdCBjb25mb3JtaW5nIHByb2dyYW1zIG11c3Qg
+bm90IGFjY2VwdApub24tc2hvcnRlc3QgZm9ybXMgaW4gdGhlaXIgaW5wdXQuClRoaXMgaXMg
+Zm9yIHNlY3VyaXR5IHJlYXNvbnM6IGlmCnVzZXIgaW5wdXQgaXMgY2hlY2tlZCBmb3IgcG9z
+c2libGUgc2VjdXJpdHkgdmlvbGF0aW9ucywgYSBwcm9ncmFtCm1pZ2h0IGNoZWNrIG9ubHkg
+Zm9yIHRoZQouQiBBU0NJSQp2ZXJzaW9uIG9mICIvLi4vIiBvciAiOyIgb3IgTlVMIGFuZCBv
+dmVybG9vayB0aGF0IHRoZXJlIGFyZSBtYW55Ci5SQiBub24tIEFTQ0lJCndheXMgdG8gcmVw
+cmVzZW50IHRoZXNlIHRoaW5ncyBpbiBhIG5vbi1zaG9ydGVzdAouQiBVVEYtOAplbmNvZGlu
+Zy4KLlNTIFN0YW5kYXJkcwpJU08vSUVDIDEwNjQ2LTE6MjAwMCwgVW5pY29kZSAzLjEsIFJG
+Q1wgMjI3OSwgUGxhbiA5LgouXCIgLlNIIEFVVEhPUgouXCIgTWFya3VzIEt1aG4gPG1nazI1
+QGNsLmNhbS5hYy51az4KLlNIICJTRUUgQUxTTyIKLkJSIG5sX2xhbmdpbmZvICgzKSwKLkJS
+IHNldGxvY2FsZSAoMyksCi5CUiBjaGFyc2V0cyAoNyksCi5CUiB1bmljb2RlICg3KQouU0gg
+Q09MT1BIT04KVGhpcyBwYWdlIGlzIHBhcnQgb2YgcmVsZWFzZSAzLjMyIG9mIHRoZSBMaW51
+eAouSSBtYW4tcGFnZXMKcHJvamVjdC4KQSBkZXNjcmlwdGlvbiBvZiB0aGUgcHJvamVjdCwK
+YW5kIGluZm9ybWF0aW9uIGFib3V0IHJlcG9ydGluZyBidWdzLApjYW4gYmUgZm91bmQgYXQK
+aHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvLgo=
+--------------010503000303020108050702--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
