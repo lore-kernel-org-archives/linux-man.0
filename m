@@ -1,38 +1,55 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: aio manuals
-Date: Wed, 09 Mar 2011 12:53:34 -0500
-Message-ID: <x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
-References: <20110309180600.GA14533@saboteur.suse.cz>
+From: Simon Nicolussi <Simon.Nicolussi-oe7qfRrRQffpYOdAUmGicbNldLUNz+W/@public.gmane.org>
+Subject: Redundant sentence in man page of acos(3)
+Date: Sun, 13 Mar 2011 02:13:16 +0100
+Message-ID: <20110313011316.GA4539@vendetta.sinic.name>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FL5UXtIhxfXey3p5"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110309180600.GA14533-n1fJoQsqRnsVI8jrpt9EEQ@public.gmane.org> (Cyril Hrubis's message
-	of "Wed, 9 Mar 2011 19:06:00 +0100")
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> writes:
 
-> Hi!
-> The io_* manuals says that we should use aio_context_t as type for aio
-> handle. That is wrong as the functions are defined with io_context_t
-> (libaio.h). Patch attached.
->
-> The only oustanding issue is that manual for io_setup says that we must
-> set the io_context_t to 0 before use. And as the io_context_t is defined
-> as opaque type (and it's defined as pointer now) the only way to
-> initalize it without warnigs is memset(&ctxp, 0, sizeof(ctxp));. Perhaps
-> this is not needed at all, as the ctpx is passed to the syscall and then
-> initalized in the kernel (at least I haven't seem any checks in the
-> codepath).
+--FL5UXtIhxfXey3p5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are checks in place for this, so the man page should not change in
-that regard.
+Hello,
 
-Cheers,
-Jeff
+the sentence "If x is positive infinity or negative infinity, a domain
+error occurs, and a NaN is returned" in the man page of acos(3) seems
+to be redundant, since it is followed by the more specific sentence "If
+x is outside the range [-1, 1], a domain error occurs, and a NaN is
+returned". In the man page of asin(3) there's only the latter sentence,
+therefore the former should probably be removed, if only for consistency
+reasons.
+
+I've verified this in 3.32 and in a current checkout from git.
+
+--=20
+Simon Nicolussi, <Simon.Nicolussi-oe7qfRrRQffpYOdAUmGicbNldLUNz+W/@public.gmane.org>
+http://homepage.uibk.ac.at/~csag9583/
+
+--FL5UXtIhxfXey3p5
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iQEcBAEBAgAGBQJNfBooAAoJEAjZq1sVaquZiEUIAJD0yTruE811dtG5fvcJfwU9
+Ohmm98RtV3E0ttEMvTxxbUJlCFvOCxxPzc+Zb9KAdoE0YDgQI2e6pI/r9hlBQwsU
++Lnif8qf5gky5ep8VmWAJAmLYOUHtaorfXUElRRSexwN/k29jmH4MBKg9JZ6f7Oy
+Eun2o3BFgc8fWBww9nATrnP655ardViH4MMrXuXralw8hObgv57qcu/SRkI1Id4v
+0fhlJDSzPburCdo8P5Gnl4Ho9LeME22YmJOCD93fvtoDzHoMLCF0XRl6Mvj3GxtB
+mO68S+FTRVGcmbKi2pthmrsHy3oTg/rJmFaIummWG9vYwRw5qylNc1H4iSi5mMo=
+=OBm3
+-----END PGP SIGNATURE-----
+
+--FL5UXtIhxfXey3p5--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
