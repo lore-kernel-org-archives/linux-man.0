@@ -1,149 +1,95 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: aio manuals
-Date: Wed, 16 Mar 2011 16:20:18 +0100
-Message-ID: <20110316152018.GG2096@saboteur.suse.cz>
-References: <20110309180600.GA14533@saboteur.suse.cz>
- <x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
- <20110316104356.GB32095@saboteur.suse.cz>
- <x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
-Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="3MwIy2ne0vdjdPXF"
+From: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] strerror: improve strerror_r description
+Date: Thu, 17 Mar 2011 16:26:35 -0600
+Message-ID: <1300400795-9123-1-git-send-email-eblake@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <x49pqpr9m5l.fsf-RRHT56Q3PSP4kTEheFKJxxDDeQx5vsVwAInAS/Ez/D0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-
---3MwIy2ne0vdjdPXF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi!
-> > So should we settle for memset()? I could update send updated patch
-> > then.
-> 
-> Yeah, memset is what I typically have done.
-> 
-
-Here comes updated patch.
-
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
-
---3MwIy2ne0vdjdPXF
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment; filename="0001-Fix-io_-manuals.patch"
-
->From 61ea8972c02120ed534554b134c45086243d911e Mon Sep 17 00:00:00 2001
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Date: Wed, 16 Mar 2011 16:14:19 +0100
-Subject: [PATCH] Fix io_* manuals.
-
-The manuals says that we should use aio_context_t as type for ctpx
-handle. That is wrong as the functions are defined with io_context_t in
-libaio.h.
-
-Also as the io_context_t is opaque type, it should be initalized with:
-
-memset(&ctpx, 0, sizeof(ctpx));
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Signed-off-by: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 ---
- man2/io_cancel.2    |    2 +-
- man2/io_destroy.2   |    2 +-
- man2/io_getevents.2 |    2 +-
- man2/io_setup.2     |    8 ++++++--
- man2/io_submit.2    |    2 +-
- 5 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/man2/io_cancel.2 b/man2/io_cancel.2
-index a3fc213..1e21869 100644
---- a/man2/io_cancel.2
-+++ b/man2/io_cancel.2
-@@ -32,7 +32,7 @@ io_cancel \- cancel an outstanding asynchronous I/O operation
- .\"#include <linux/aio.h>
- .sp
- .\" .HP 16
--.BI "int io_cancel(aio_context_t " ctx_id ", struct iocb *" iocb ,
-+.BI "int io_cancel(io_context_t " ctx_id ", struct iocb *" iocb ,
- .BI "              struct io_event *" result );
- .\" .ad
- .\" .hy
-diff --git a/man2/io_destroy.2 b/man2/io_destroy.2
-index 6a165e1..47d031a 100644
---- a/man2/io_destroy.2
-+++ b/man2/io_destroy.2
-@@ -31,7 +31,7 @@ io_destroy \- destroy an asynchronous I/O context
- .\" #include <linux/aio.h>
- .sp
- .\" .HP 17
--.BI "int io_destroy(aio_context_t " ctx );
-+.BI "int io_destroy(io_context_t " ctx );
- .\" .ad
- .\" .hy
- .sp
-diff --git a/man2/io_getevents.2 b/man2/io_getevents.2
-index e990f6d..a337404 100644
---- a/man2/io_getevents.2
-+++ b/man2/io_getevents.2
-@@ -32,7 +32,7 @@ io_getevents \- read asynchronous I/O events from the completion queue
- .\" #include <linux/aio.h>
- .sp
- .\" .HP 19
--.BI "int io_getevents(aio_context_t " ctx_id ", long " min_nr ", long " nr ,
-+.BI "int io_getevents(io_context_t " ctx_id ", long " min_nr ", long " nr ,
- .BI "                 struct io_event *" events \
- ", struct timespec *" timeout );
- .\" .ad
-diff --git a/man2/io_setup.2 b/man2/io_setup.2
-index d9b5117..851b0c4 100644
---- a/man2/io_setup.2
-+++ b/man2/io_setup.2
-@@ -31,7 +31,7 @@ io_setup \- create an asynchronous I/O context
- .\" #include <linux/aio.h>
- .sp
- .\" .HP 15
--.BI "int io_setup(unsigned " nr_events ", aio_context_t *" ctxp );
-+.BI "int io_setup(unsigned " nr_events ", io_context_t *" ctxp );
- .\" .ad
- .\" .hy
- .sp
-@@ -42,8 +42,12 @@ Link with \fI\-laio\fP.
- .BR io_setup ()
- creates an asynchronous I/O context capable of receiving
- at least \fInr_events\fP.
--\fIctxp\fP must not point to an AIO context that already exists, and must
-+The \fIctxp\fP must not point to an AIO context that already exists, and must
- be initialized to 0 prior to the call.
-+
-+Note that io_context_t is opaque type and thuss \fIctxp\fP should be zeroed
-+with memset(&ctpx, 0, sizeof(ctpx)).
-+
- On successful creation of the AIO context, \fI*ctxp\fP is filled in
- with the resulting handle.
+POSIX requires that perror() not modify the static storage
+returned by strerror().  POSIX 2008 and C99 both require that
+strerror() never return NULL (a strerror() that always
+returns "" for all inputs is valid for C99, but not for POSIX).
+
+http://sourceware.org/bugzilla/show_bug.cgi?id=12204
+documents glibc's change to come into compliance with POSIX
+regarding strerror_r return value.  The GNU strerror_r use
+of buf was confusing - I ended up writing a test program that
+proves that buf is unused for valid errnum, but contains
+truncated "unknown message" for out-of-range errnum.
+
+See also http://austingroupbugs.net/view.php?id=382
+
+ man3/strerror.3 |   18 +++++++++++-------
+ 1 files changed, 11 insertions(+), 7 deletions(-)
+
+diff --git a/man3/strerror.3 b/man3/strerror.3
+index 37fc95d..8928a1e 100644
+--- a/man3/strerror.3
++++ b/man3/strerror.3
+@@ -71,10 +71,10 @@ code passed in the argument \fIerrnum\fP, possibly using the
+ part of the current locale to select the appropriate language.
+ This string must not be modified by the application, but may be
+ modified by a subsequent call to
+-.BR perror (3)
+-or
+ .BR strerror ().
+-No library function will modify this string.
++No other library function, including
++.BR perror (3),
++will modify this string.
+
+ The
+ .BR strerror_r ()
+@@ -84,7 +84,7 @@ but is
+ thread safe.
+ This function is available in two versions:
+ an XSI-compliant version specified in POSIX.1-2001
+-(available since glibc 2.3.4),
++(available since glibc 2.3.4, but not compliant until glibc 2.13),
+ and a GNU-specific version (available since glibc 2.0).
+ The XSI-compliant version is provided with the feature test macros
+ settings shown in the SYNOPSIS;
+@@ -120,7 +120,9 @@ then at most
+ .I buflen
+ bytes are stored (the string may be truncated if
+ .I buflen
+-is too small) and the string always includes a terminating null byte.
++is too small and
++.I errnum
++is unknown).  The string always includes a terminating null byte.
  .SH "RETURN VALUE"
-diff --git a/man2/io_submit.2 b/man2/io_submit.2
-index 1eae429..3b6bbf2 100644
---- a/man2/io_submit.2
-+++ b/man2/io_submit.2
-@@ -31,7 +31,7 @@ io_submit \- submit asynchronous I/O blocks for processing
- .\" #include <linux/aio.h>
- .sp
- .\" .HP 16
--.BI "int io_submit(aio_context_t " ctx_id ", long " nr \
-+.BI "int io_submit(io_context_t " ctx_id ", long " nr \
- ", struct iocb **" iocbpp );
- .\" .ad
- .\" .hy
+ The
+ .BR strerror ()
+@@ -133,9 +135,10 @@ or an "Unknown error nnn" message if the error number is unknown.
+ The XSI-compliant
+ .BR strerror_r ()
+ function returns 0 on success;
+-on error, \-1 is returned and
++on error, glibc 2.13 returns a positive error number, while
++older versions returned \-1 and set
+ .I errno
+-is set to indicate the error.
++indicate the error instead.
+ .SH ERRORS
+ .TP
+ .B EINVAL
+@@ -165,6 +168,7 @@ On some systems,
+ .\" e.g., Solaris 8, HP-UX 11
+ .BR strerror ()
+ returns NULL if the error number is unknown.
++POSIX.1-2008 requires the result to be non-NULL for all inputs.
+ On other systems,
+ .\" e.g., FreeBSD 5.4, Tru64 5.1B
+ .BR strerror ()
 -- 
-1.6.4.2
+1.7.4
 
-
---3MwIy2ne0vdjdPXF--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
