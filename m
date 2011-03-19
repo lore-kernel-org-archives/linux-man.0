@@ -1,12 +1,13 @@
 From: Ram Gupta <ram.gupta5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Man pages for a kernel version
-Date: Fri, 18 Mar 2011 11:50:11 -0500
-Message-ID: <AANLkTimLgj-X8k3V0=5BAcjVhpOP+SVyRtd8AZPkb7-w@mail.gmail.com>
+Subject: man pages for a specific kernel version
+Date: Fri, 18 Mar 2011 21:01:42 -0500
+Message-ID: <AANLkTi=0+Z-vxqG11JMCX3uscqvGZniOL9zgWjU7JA76@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux mailing-list <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux mailing-list <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Does any one know for a way to get accurate man pages for a particular
