@@ -1,102 +1,58 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: sendto() on UDP can return EACCES
-Date: Mon, 21 Mar 2011 12:49:15 +0200
-Message-ID: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 31752] New: pipe(2) #include <fcntl.h> is missing for the
+ pipe2() function
+Date: Wed, 23 Mar 2011 18:11:15 GMT
+Message-ID: <bug-31752-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=485b397dd7a9f62aef049efbe0bb
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---485b397dd7a9f62aef049efbe0bb
-Content-Type: text/plain; charset=ISO-8859-1
+https://bugzilla.kernel.org/show_bug.cgi?id=3D31752
 
-Hi,
+           Summary: pipe(2) #include <fcntl.h> is missing for the pipe2=
+()
+                    function
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: sebastien.wilmet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-It seems sendto() can return EACCES for UDP as well; the current man
-page in git only says it can return EACCES for Unix sockets:
 
-EACCES
-(For  UNIX  domain  sockets, which are identified by pathname) Write
-permission is denied on the destination socket file, or
-              search permission is denied for one of the directories
-the path prefix.  (See path_resolution(7).)
+Hello,
 
-I was able to make sendto() return EACCES if I try to send from
-192.168.1.1/24 to 192.168.1.0. I think the relevant code (in kernel
-2.6.38, but also present in 2.6.7 and 2.6.32, the 2 kernels we use) is
-this (net/ipv4/udp.c, udp_sendmsg()):
+As explained in the title, there is a missing #include for the pipe2() =
+function
+in the manpage of pipe (section 2).
 
- 910                err = -EACCES;
- 911                if ((rt->rt_flags & RTCF_BROADCAST) &&
- 912                    !sock_flag(sk, SOCK_BROADCAST))
- 913                        goto out;
+Indeed, we have to include fcntl.h to be able to use the flags O_NONBLO=
+CK or
+O_CLOEXEC.
 
-So I guess if the kernel finds a route to the destination and it's a
-broadcast route (and the socket doesn't have the broadcast flag), then
-it returns EACCES.
+I use Fedora 14, so it's the release 3.25. But here [1] it's not fixed =
+too.
 
-I can verify the behavior with a very simple program (attached). I've
-run it on my Ubuntu 10.10 (2.6.35 kernel) and got this:
+Best regards,
+S=C3=A9bastien
 
-stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
-10.205.20.1
-sendto() returned 4
-stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
-10.205.20.0
-sendto() returned negative, errno: 13/Permission denied
+[1] http://www.kernel.org/doc/man-pages/online/pages/man2/pipe.2.html
 
-(10.205.20.94 is my local IP, of course).
-
-How about updating the send.2 page like this?
-
-diff --git a/man2/send.2 b/man2/send.2
-index 69287fb..4d2faed 100644
---- a/man2/send.2
-+++ b/man2/send.2
-@@ -288,6 +288,8 @@ or search permission is denied for one of the directories
- the path prefix.
- (See
- .BR path_resolution (7).)
-+(For UDP sockets) An attempt was made to sendto() to a
-+network/broadcast address like it was a unicast address.
- .TP
- .BR EAGAIN " or " EWOULDBLOCK
- .\" Actually EAGAIN on Linux
-
-Thanks,
-Stefan.
-
---485b397dd7a9f62aef049efbe0bb
-Content-Type: text/x-csrc; charset=US-ASCII; name="broadcast_test.c"
-Content-Disposition: attachment; filename="broadcast_test.c"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_glj9r2vl0
-
-CiNpbmNsdWRlIDxzdGRpby5oPgoKI2luY2x1ZGUgPHN5cy90eXBlcy5oPgojaW5jbHVkZSA8c3lz
-L3NvY2tldC5oPgojaW5jbHVkZSA8bmV0aW5ldC9pbi5oPgojaW5jbHVkZSA8YXJwYS9pbmV0Lmg+
-CiNpbmNsdWRlIDxlcnJuby5oPgojaW5jbHVkZSA8c3RkbGliLmg+CgppbnQgbWFpbihpbnQgYXJn
-YywgY2hhciAqKmFyZ3YpCnsKICAgIGludCBzb2NrOwoKICAgIGlmIChhcmdjIDwgMikgewogICAg
-ICAgIHByaW50ZigiVXNhZ2U6ICVzIGxvY2FsX2FkZHJlc3MgZGVzdGluYXRpb25fYWRkcmVzc1xu
-IiwgYXJndlswXSk7CiAgICAgICAgZXhpdCgxKTsKICAgIH0KCiAgICBzb2NrID0gc29ja2V0KEFG
-X0lORVQsIFNPQ0tfREdSQU0sIDApOwogICAgaWYgKHNvY2sgPCAwKSB7CiAgICAgICAgcGVycm9y
-KCJzb2NrZXQiKTsKICAgICAgICByZXR1cm4gLTE7CiAgICB9CgogICAgc3RydWN0IHNvY2thZGRy
-X2luIGxvY2FsX2FkZHI7CiAgICBsb2NhbF9hZGRyLnNpbl9mYW1pbHkgPSBBRl9JTkVUOwogICAg
-bG9jYWxfYWRkci5zaW5fcG9ydCA9IGh0b25zKDEyMzQpOwogICAgbG9jYWxfYWRkci5zaW5fYWRk
-ci5zX2FkZHIgPSBpbmV0X2FkZHIoYXJndlsxXSk7CiAgICBpbnQgcmV0ID0gYmluZChzb2NrLCAo
-c3RydWN0IHNvY2thZGRyICopICZsb2NhbF9hZGRyLCBzaXplb2YobG9jYWxfYWRkcikpOwogICAg
-aWYgKHJldCA8IDApIHsKICAgICAgICBwZXJyb3IoImJpbmQiKTsKICAgICAgICByZXR1cm4gLTE7
-CiAgICB9CiAgICAKICAgIHN0cnVjdCBzb2NrYWRkcl9pbiByZW1vdGVfYWRkcjsKICAgIHJlbW90
-ZV9hZGRyLnNpbl9mYW1pbHkgPSBBRl9JTkVUOwogICAgcmVtb3RlX2FkZHIuc2luX3BvcnQgPSBo
-dG9ucygxMjM0KTsKICAgIHJlbW90ZV9hZGRyLnNpbl9hZGRyLnNfYWRkciA9IGluZXRfYWRkcihh
-cmd2WzJdKTsKICAgIHJldCA9IHNlbmR0byhzb2NrLCAiYmxhaCIsIDQsIDAsIChzdHJ1Y3Qgc29j
-a2FkZHIgKikmcmVtb3RlX2FkZHIsIHNpemVvZihyZW1vdGVfYWRkcikpOwogICAgaWYgKHJldCA8
-IDApIHsKICAgICAgICBwcmludGYoInNlbmR0bygpIHJldHVybmVkIG5lZ2F0aXZlLCBlcnJubzog
-JWQvJW1cbiIsIGVycm5vKTsKICAgIH0KICAgIGVsc2UgewogICAgICAgIHByaW50Zigic2VuZHRv
-KCkgcmV0dXJuZWQgJWRcbiIsIHJldCk7ICAgICAgICAKICAgIH0KCiAgICByZXR1cm4gMDsKfQo=
---485b397dd7a9f62aef049efbe0bb--
---
+--=20
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=3Demai=
+l
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
