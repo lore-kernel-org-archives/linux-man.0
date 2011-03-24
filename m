@@ -1,89 +1,70 @@
 From: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] strerror: improve strerror_r description
-Date: Thu, 24 Mar 2011 14:51:09 -0600
-Message-ID: <4D8BAEBD.4080202@redhat.com>
-References: <1300400795-9123-1-git-send-email-eblake@redhat.com> <AANLkTim_cCxXXGE_BgSV5ewEQziru=gH0LpeFAWRWdkb@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------enig87B36B8D09F220928602194E"
+Subject: [PATCH] malloc: warn about realloc portability pitfall
+Date: Thu, 24 Mar 2011 14:47:04 -0600
+Message-ID: <1300999624-26917-1-git-send-email-eblake@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTim_cCxXXGE_BgSV5ewEQziru=gH0LpeFAWRWdkb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enig87B36B8D09F220928602194E
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
 
-On 03/18/2011 03:35 AM, Stefan Puiu wrote:
->> Signed-off-by: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> [...]
->>
->> http://sourceware.org/bugzilla/show_bug.cgi?id=3D12204
->> documents glibc's change to come into compliance with POSIX
->> regarding strerror_r return value.  The GNU strerror_r use
->> of buf was confusing - I ended up writing a test program that
->> proves that buf is unused for valid errnum, but contains
->> truncated "unknown message" for out-of-range errnum.
->=20
+For more on the portability pitfall, and on the fact that glibc
+intentionally does not comply with C99 realloc:
 
->> +on error, glibc 2.13 returns a positive error number, while
->> +older versions returned \-1 and set
->>  .I errno
->> -is set to indicate the error.
->> +indicate the error instead.
->=20
-> to indicate the error instead?
+http://austingroupbugs.net/view.php?id=400
+http://sourceware.org/bugzilla/show_bug.cgi?id=12547
+http://lists.gnu.org/archive/html/bug-gnulib/2011-03/msg00247.html
 
-Yes.
+ man3/malloc.3 |   22 ++++++++++++++++++----
+ 1 files changed, 18 insertions(+), 4 deletions(-)
 
->=20
->>  .SH ERRORS
->>  .TP
->>  .B EINVAL
->> @@ -165,6 +168,7 @@ On some systems,
->>  .\" e.g., Solaris 8, HP-UX 11
->>  .BR strerror ()
->>  returns NULL if the error number is unknown.
->> +POSIX.1-2008 requires the result to be non-NULL for all inputs.
->=20
-> Maybe you could mention C99 as well, since you were saying it also
-> mandates this behavior?
+diff --git a/man3/malloc.3 b/man3/malloc.3
+index 4067aea..32815a1 100644
+--- a/man3/malloc.3
++++ b/man3/malloc.3
+@@ -113,8 +113,16 @@ is equal to zero,
+ and
+ .I ptr
+ is not NULL, then the call is equivalent to
+-.IR free(ptr) .
+-Unless
++.IR free(ptr)
++with a return of NULL, which is compliant to C89 but in violation of
++C99.  C99 semantics result in leaking either the original
++.I ptr
++(if NULL is returned) or an unexpected new zero-size allocation, if
++you are assuming GNU semantics; while GNU semantics result in a double
++free when NULL is returned if you are expecting C99 semantics.  It is
++better to avoid a
++.I size
++of 0.  Unless
+ .I ptr
+ is NULL, it must have been returned by an earlier call to
+ .BR malloc (),
+@@ -162,9 +170,15 @@ was equal to 0, either NULL or a pointer suitable to be passed to
+ is returned.
+ If
+ .BR realloc ()
+-fails the original block is left untouched; it is not freed or moved.
++fails and
++.I size
++was not 0, the original block is left untouched; it is not freed or
++moved.
+ .SH "CONFORMING TO"
+-C89, C99.
++C89 (all functions), C99 (only
++.BR malloc ,
++.BR calloc ,
++.BR free ).
+ .SH NOTES
+ By default, Linux follows an optimistic memory allocation strategy.
+ This means that when
+-- 
+1.7.4
 
-Would make sense.  Do you need me to resubmit with those corrections, or
-can you squash it in yourself when applying?
-
-> Otherwise, the patch looks ok to me.
-
---=20
-Eric Blake   eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org    +1-801-349-2682
-Libvirt virtualization library http://libvirt.org
-
-
---------------enig87B36B8D09F220928602194E
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
-Comment: Public key at http://people.redhat.com/eblake/eblake.gpg
-Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org/
-
-iQEcBAEBCAAGBQJNi669AAoJEKeha0olJ0NqbUsH/3KAGoNfjtcVnRTdOZ2NuWEx
-u7AnK+fcInRH4o+BYKyDbb583gL0smK1SGSPLKgA4YcIlad01VRuQNFzZ9XbYMrN
-7EMXBQJ7kKaBGakBriOpupSOCEcifDvQfOaU5rw8GlI7FR63St5EngW74YJ0z63Z
-ZHYKX3THyxnnHR9G8F98IdVWHUBzjKJrmes/oKJLX9kXLl9OTJ68Okb3ojb6Opf0
-ssnxnc9rBYvLwUwlNBf+IHlP0LzzL2xC+CT80OfogN1JAtG2y6B/mJ7c5r57s/QM
-6j8imnvSjlDSskDnwgcnEiTI7tjovZJ/Fwia4JyI6lmEgbnfb+MD4Zn7VBd6kg8=
-=D4BC
------END PGP SIGNATURE-----
-
---------------enig87B36B8D09F220928602194E--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
