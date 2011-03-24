@@ -1,65 +1,89 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: add io_getevents() BUGS
-Date: Wed, 23 Mar 2011 20:14:25 +0100
-Message-ID: <20110323191425.GA15819@saboteur.suse.cz>
+From: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] strerror: improve strerror_r description
+Date: Thu, 24 Mar 2011 14:51:09 -0600
+Message-ID: <4D8BAEBD.4080202@redhat.com>
+References: <1300400795-9123-1-git-send-email-eblake@redhat.com> <AANLkTim_cCxXXGE_BgSV5ewEQziru=gH0LpeFAWRWdkb@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="WIyZ46R2i8wDzkSu"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------enig87B36B8D09F220928602194E"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <AANLkTim_cCxXXGE_BgSV5ewEQziru=gH0LpeFAWRWdkb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
+--------------enig87B36B8D09F220928602194E
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 03/18/2011 03:35 AM, Stefan Puiu wrote:
+>> Signed-off-by: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> [...]
+>>
+>> http://sourceware.org/bugzilla/show_bug.cgi?id=3D12204
+>> documents glibc's change to come into compliance with POSIX
+>> regarding strerror_r return value.  The GNU strerror_r use
+>> of buf was confusing - I ended up writing a test program that
+>> proves that buf is unused for valid errnum, but contains
+>> truncated "unknown message" for out-of-range errnum.
+>=20
 
-Hi!
-The io_getevents() may cause segfault when called with invalid ctx_id.
+>> +on error, glibc 2.13 returns a positive error number, while
+>> +older versions returned \-1 and set
+>>  .I errno
+>> -is set to indicate the error.
+>> +indicate the error instead.
+>=20
+> to indicate the error instead?
 
-For reference see: http://marc.info/?l=linux-aio&m=130089887002435&w=2
+Yes.
 
-The attached patch adds BUGS paragraph into corresponding manpage.
+>=20
+>>  .SH ERRORS
+>>  .TP
+>>  .B EINVAL
+>> @@ -165,6 +168,7 @@ On some systems,
+>>  .\" e.g., Solaris 8, HP-UX 11
+>>  .BR strerror ()
+>>  returns NULL if the error number is unknown.
+>> +POSIX.1-2008 requires the result to be non-NULL for all inputs.
+>=20
+> Maybe you could mention C99 as well, since you were saying it also
+> mandates this behavior?
 
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+Would make sense.  Do you need me to resubmit with those corrections, or
+can you squash it in yourself when applying?
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/x-patch; charset=us-ascii
-Content-Disposition: attachment; filename="0001-Added-note-about-segfault-into-io_getevents-manual.patch"
+> Otherwise, the patch looks ok to me.
 
->From f8b30bf9d4a7ac1f821462906f43ca84624915cf Mon Sep 17 00:00:00 2001
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Date: Wed, 23 Mar 2011 20:06:22 +0100
-Subject: [PATCH] Added note about segfault into io_getevents manual.
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man2/io_getevents.2 |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
-
-diff --git a/man2/io_getevents.2 b/man2/io_getevents.2
-index a337404..e08fd01 100644
---- a/man2/io_getevents.2
-+++ b/man2/io_getevents.2
-@@ -98,6 +98,9 @@ then the return value follows the usual conventions for
- indicating an error: \-1, with
- .I errno
- set to a (positive) value that indicates the error.
-+.SH "BUGS"
-+This call may cause segmentation fault instead of returning
-+\fBEINVAL\fP for invalid \fIctx_id\fP.
- .SH "SEE ALSO"
- .PP
- .BR io_cancel (2),
--- 
-1.6.4.2
+--=20
+Eric Blake   eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org    +1-801-349-2682
+Libvirt virtualization library http://libvirt.org
 
 
---WIyZ46R2i8wDzkSu--
+--------------enig87B36B8D09F220928602194E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+Comment: Public key at http://people.redhat.com/eblake/eblake.gpg
+Comment: Using GnuPG with Fedora - http://enigmail.mozdev.org/
+
+iQEcBAEBCAAGBQJNi669AAoJEKeha0olJ0NqbUsH/3KAGoNfjtcVnRTdOZ2NuWEx
+u7AnK+fcInRH4o+BYKyDbb583gL0smK1SGSPLKgA4YcIlad01VRuQNFzZ9XbYMrN
+7EMXBQJ7kKaBGakBriOpupSOCEcifDvQfOaU5rw8GlI7FR63St5EngW74YJ0z63Z
+ZHYKX3THyxnnHR9G8F98IdVWHUBzjKJrmes/oKJLX9kXLl9OTJ68Okb3ojb6Opf0
+ssnxnc9rBYvLwUwlNBf+IHlP0LzzL2xC+CT80OfogN1JAtG2y6B/mJ7c5r57s/QM
+6j8imnvSjlDSskDnwgcnEiTI7tjovZJ/Fwia4JyI6lmEgbnfb+MD4Zn7VBd6kg8=
+=D4BC
+-----END PGP SIGNATURE-----
+
+--------------enig87B36B8D09F220928602194E--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
