@@ -1,52 +1,38 @@
-From: =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] console_codes(4): Add ESC [ 3 J
-Date: Fri, 22 Apr 2011 15:41:25 +0200
-Message-ID: <1303479685-12475-1-git-send-email-ppisar@redhat.com>
+From: Tomislav Jonjic <jonjic-iEixELS/QsY1GQ1Ptb7lUw@public.gmane.org>
+Subject: [patch] timerfd_create.2: fix timerfd_settime() argument
+ description
+Date: Sat, 30 Apr 2011 17:19:50 +0200
+Message-ID: <1304176790.10600.24.camel@soyuz>
+Reply-To: jonjic-iEixELS/QsY1GQ1Ptb7lUw@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?Petr=20P=C3=ADsa=C5=99?= <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Linux is going
-(http://git.kernel.org/?p=3Dlinux/kernel/git/next/linux-next.git;a=3Dco=
-mmit;h=3Df8df13e0a901fe55631fed66562369b4dba40f8b)
-to implement \E[3J to allow scrambling content of console including
-scroll-back buffer (http://thread.gmane.org/gmane.linux.kernel/1125792)=
-=2E
+The initial expiration of the timer in timerfd_settime() is specified by
+new_value.it_value, both for relative _and_ absolute timers.
 
-This is useful at terminal lock to disallow attacker to scroll visible
-window back and to see sensitive data. Other \E[J sequences do not
-blank history. Terminal reset (\Ec) or DECSRC are not suitable for
-extension too beacuse they reset font, keyboard locks, unicode mode
-etc. that are needed after unlocking session.
+diff --git a/man2/timerfd_create.2 b/man2/timerfd_create.2
+index c09e030..ae9d922 100644
+--- a/man2/timerfd_create.2
++++ b/man2/timerfd_create.2
+@@ -152,7 +152,7 @@ are zero, the timer expires just once, at the time specified by
+ The
+ .I flags
+ argument is either 0, to start a relative timer
+-.RI ( new_value.it_interval
++.RI ( new_value.it_value
+ specifies a time relative to the current value of the clock specified by
+ .IR clockid ),
+ or
 
-\E[3J is superset of \E[2J. IOW it clears visible screen too.
+--
+Tomislav Jonjic
 
-Signed-off-by: Petr P=C3=ADsa=C5=99 <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man4/console_codes.4 |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
-
-diff --git a/man4/console_codes.4 b/man4/console_codes.4
-index 2a806b7..62f2247 100644
---- a/man4/console_codes.4
-+++ b/man4/console_codes.4
-@@ -188,6 +188,8 @@ H	CUP	Move cursor to the indicated row, column (ori=
-gin at 1,1).
- J	ED	Erase display (default: from cursor to end of display).
- 		ESC [ 1 J: erase from start to cursor.
- 		ESC [ 2 J: erase whole display.
-+		ESC [ 3 J: erase whole display including scroll-back
-+		buffer.
- K	EL	Erase line (default: from cursor to end of line).
- 		ESC [ 1 K: erase from start of line to cursor.
- 		ESC [ 2 K: erase whole line.
---=20
-1.7.4.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
