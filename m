@@ -1,39 +1,35 @@
-From: Tomislav Jonjic <jonjic-iEixELS/QsY1GQ1Ptb7lUw@public.gmane.org>
-Subject: [patch] timerfd_create.2: fix timerfd_settime() argument
- description
-Date: Sat, 30 Apr 2011 17:19:50 +0200
-Message-ID: <1304176790.10600.24.camel@soyuz>
-Reply-To: jonjic-iEixELS/QsY1GQ1Ptb7lUw@public.gmane.org
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: mbstowcs wcsncpy wcsnrtombs wcsrtombs
+Date: Thu, 5 May 2011 22:30:24 +0100
+Message-ID: <BANLkTi=oB_g=L7bnOK1fOYL3VDT63xtZVA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The initial expiration of the timer in timerfd_settime() is specified by
-new_value.it_value, both for relative _and_ absolute timers.
+Hello
 
-diff --git a/man2/timerfd_create.2 b/man2/timerfd_create.2
-index c09e030..ae9d922 100644
---- a/man2/timerfd_create.2
-+++ b/man2/timerfd_create.2
-@@ -152,7 +152,7 @@ are zero, the timer expires just once, at the time specified by
- The
- .I flags
- argument is either 0, to start a relative timer
--.RI ( new_value.it_interval
-+.RI ( new_value.it_value
- specifies a time relative to the current value of the clock specified by
- .IR clockid ),
- or
+I wonder if these man pages could refer to each other:
 
---
-Tomislav Jonjic
+http://www.kernel.org/doc/man-pages/online/pages/man3/mbstowcs.3.html
 
 
+http://www.kernel.org/doc/man-pages/online/pages/man3/wcsncpy.3.html
+
+
+https://www.kernel.org/doc/man-pages/online/pages/man3/wcsnrtombs.3.html
+
+https://www.kernel.org/doc/man-pages/online/pages/man3/wcsrtombs.3.html
+
+
+In addition. Could I ask if it is possible to indicate if "wchar_t" is
+UTF-16 format, and if "multi-byte char" is UTF8 format? Would be
+useful to clarify that on the man pages.
+
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
