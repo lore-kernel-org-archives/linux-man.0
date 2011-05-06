@@ -1,86 +1,77 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: sendto() on UDP can return EACCES
-Date: Fri, 6 May 2011 10:36:47 +0300
-Message-ID: <BANLkTimfzcHPUD4MdPFjCkwSZXFf_M8pYQ@mail.gmail.com>
-References: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org (Paul Pluzhnikov)
+Subject: [patch] prctl.2: PR_SET_DUMPABLE makes process non-ptrace-attachable
+Date: Fri,  6 May 2011 08:49:51 -0700 (PDT)
+Message-ID: <20110506154952.1282C1909ED@elbrus2.mtv.corp.google.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Michael,
 
-Ping! :)
+We've recently discovered that GDB will fail to attach to any process that
+sets itself non-dumpable. Tested on kernel 2.6.32, with:
 
-On Mon, Mar 21, 2011 at 12:49 PM, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
-rote:
-> Hi,
->
-> It seems sendto() can return EACCES for UDP as well; the current man
-> page in git only says it can return EACCES for Unix sockets:
->
-> EACCES
-> (For =A0UNIX =A0domain =A0sockets, which are identified by pathname) =
-Write
-> permission is denied on the destination socket file, or
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0search permission is denied for one of the=
- directories
-> the path prefix. =A0(See path_resolution(7).)
->
-> I was able to make sendto() return EACCES if I try to send from
-> 192.168.1.1/24 to 192.168.1.0. I think the relevant code (in kernel
-> 2.6.38, but also present in 2.6.7 and 2.6.32, the 2 kernels we use) i=
-s
-> this (net/ipv4/udp.c, udp_sendmsg()):
->
-> =A0910 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0err =3D -EACCES;
-> =A0911 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if ((rt->rt_flags & RTCF_BROADC=
-AST) &&
-> =A0912 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0!sock_flag(sk, SOCK_BRO=
-ADCAST))
-> =A0913 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0goto out;
->
-> So I guess if the kernel finds a route to the destination and it's a
-> broadcast route (and the socket doesn't have the broadcast flag), the=
-n
-> it returns EACCES.
->
-> I can verify the behavior with a very simple program (attached). I've
-> run it on my Ubuntu 10.10 (2.6.35 kernel) and got this:
->
-> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
-> 10.205.20.1
-> sendto() returned 4
-> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
-> 10.205.20.0
-> sendto() returned negative, errno: 13/Permission denied
->
-> (10.205.20.94 is my local IP, of course).
->
-> How about updating the send.2 page like this?
->
-> diff --git a/man2/send.2 b/man2/send.2
-> index 69287fb..4d2faed 100644
-> --- a/man2/send.2
-> +++ b/man2/send.2
-> @@ -288,6 +288,8 @@ or search permission is denied for one of the dir=
-ectories
-> =A0the path prefix.
-> =A0(See
-> =A0.BR path_resolution (7).)
-> +(For UDP sockets) An attempt was made to sendto() to a
-> +network/broadcast address like it was a unicast address.
-> =A0.TP
-> =A0.BR EAGAIN " or " EWOULDBLOCK
-> =A0.\" Actually EAGAIN on Linux
->
-> Thanks,
-> Stefan.
->
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/prctl.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[])
+{
+  if (prctl(PR_SET_DUMPABLE, 0, 0, 0) != 0) {
+    perror("prctl");
+  }
+  printf("Run gdb %s %d\n", argv[0], getpid());
+  sleep(20);
+  abort();
+}
+
+
+./a.out
+Run gdb ./a.out 30476
+
+
+gdb -q  ./a.out 30476
+Reading symbols from /tmp/a.out...done.
+Attaching to program: /tmp/a.out, process 30476
+ptrace: Operation not permitted.
+/tmp/30476: No such file or directory.
+
+
+
+Attached patch (against current git trunk) documents this behavior.
+
+Thanks,
+
+--
+Paul Pluzhnikov
+
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index bb455fa..b469071 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -60,7 +60,7 @@ is called with a first argument describing what to do
+ arguments with a significance depending on the first one.
+ The first argument can be:
+ .TP
+-.BR PR_CAPBSET_READ " (since Linux 2.6.25)
++.BR PR_CAPBSET_READ " (since Linux 2.6.25)"
+ Return (as the function result) 1 if the capability specified in
+ .I arg2
+ is in the calling thread's capability bounding set,
+@@ -120,6 +120,9 @@ for security reasons, this feature has been removed.
+ .I /proc/sys/fs/suid_dumpable
+ in
+ .BR proc (5).)
++Processes that are not dumpable can not be attached via
++.BR ptrace(2)
++.BR PTRACE_ATTACH "."
+ .TP
+ .BR PR_GET_DUMPABLE " (since Linux 2.3.20)"
+ Return (as the function result) the current state of the calling
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
