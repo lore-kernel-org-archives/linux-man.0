@@ -1,67 +1,86 @@
 From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: missing error from bind.2
-Date: Fri, 6 May 2011 10:35:42 +0300
-Message-ID: <BANLkTi=ib1f1-Q-6ZwEQF=GZ7XoFV40-fw@mail.gmail.com>
-References: <775f04010802060518l11dbc1d6t2aa7e8b0b5a97904@mail.gmail.com>
+Subject: Re: sendto() on UDP can return EACCES
+Date: Fri, 6 May 2011 10:36:47 +0300
+Message-ID: <BANLkTimfzcHPUD4MdPFjCkwSZXFf_M8pYQ@mail.gmail.com>
+References: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <775f04010802060518l11dbc1d6t2aa7e8b0b5a97904-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-(Michael, I sent you this a while ago and didn't get any reply, so I
-thought maybe it got lost somehow, that's why I'm resending it to the
-linux-man list)
+Hi,
 
- I just stumbled upon bind() returning -1 with errno set to ENODEV and
- noticed that this value for errno is not documented in bind.2. I was
- trying to bind to an IPv6 address.
+Ping! :)
 
- I just checked the kernel code we are using, and then the one in
- 2.6.23 and noticed this in inet6_bind():
-
- #
- # if (addr_type & IPV6_ADDR_LINKLOCAL) {
- # if (addr_len >= sizeof(struct sockaddr_in6) &&
- # addr->sin6_scope_id) {
- # /* Override any existing binding, if another one
- # * is supplied by user.
- # */
- # sk->sk_bound_dev_if = addr->sin6_scope_id;
- # }
- #
- # /* Binding to link-local address requires an interface */
- # if (!sk->sk_bound_dev_if) {
- # err = -EINVAL;
- # goto out;
- # }
- # dev = dev_get_by_index(sk->sk_bound_dev_if);
- # if (!dev) {
- # err = -ENODEV;
- # goto out;
- # }
- # }
-
- Notice the err = -ENODEV because the value set in sin6_scope_id isn't
- something we expect. We are indeed setting that in our code, and using
- a link-local address. Now, 'man ipv6' says:
-
-       sin6_scope_id is an ID  of  depending  of  on  the
-       scope  of  the address.  It is new in Linux 2.4.  Linux only
- supports it for
-       link scope addresses, in that  case  sin6_scope_id  contains
- the  interface
-       index (see netdevice(7))
-
- So ENODEV is returned for IPv6 when using a link-local address and a
- sin6_scope_id that doesn't include a valid interface index. The
-manual page already has a section with errors specific to domain
-sockets, I guess a new section with IPv6 specific errors would be
-good.
-
- Stefan.
+On Mon, Mar 21, 2011 at 12:49 PM, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
+rote:
+> Hi,
+>
+> It seems sendto() can return EACCES for UDP as well; the current man
+> page in git only says it can return EACCES for Unix sockets:
+>
+> EACCES
+> (For =A0UNIX =A0domain =A0sockets, which are identified by pathname) =
+Write
+> permission is denied on the destination socket file, or
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0search permission is denied for one of the=
+ directories
+> the path prefix. =A0(See path_resolution(7).)
+>
+> I was able to make sendto() return EACCES if I try to send from
+> 192.168.1.1/24 to 192.168.1.0. I think the relevant code (in kernel
+> 2.6.38, but also present in 2.6.7 and 2.6.32, the 2 kernels we use) i=
+s
+> this (net/ipv4/udp.c, udp_sendmsg()):
+>
+> =A0910 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0err =3D -EACCES;
+> =A0911 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if ((rt->rt_flags & RTCF_BROADC=
+AST) &&
+> =A0912 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0!sock_flag(sk, SOCK_BRO=
+ADCAST))
+> =A0913 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0goto out;
+>
+> So I guess if the kernel finds a route to the destination and it's a
+> broadcast route (and the socket doesn't have the broadcast flag), the=
+n
+> it returns EACCES.
+>
+> I can verify the behavior with a very simple program (attached). I've
+> run it on my Ubuntu 10.10 (2.6.35 kernel) and got this:
+>
+> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
+> 10.205.20.1
+> sendto() returned 4
+> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
+> 10.205.20.0
+> sendto() returned negative, errno: 13/Permission denied
+>
+> (10.205.20.94 is my local IP, of course).
+>
+> How about updating the send.2 page like this?
+>
+> diff --git a/man2/send.2 b/man2/send.2
+> index 69287fb..4d2faed 100644
+> --- a/man2/send.2
+> +++ b/man2/send.2
+> @@ -288,6 +288,8 @@ or search permission is denied for one of the dir=
+ectories
+> =A0the path prefix.
+> =A0(See
+> =A0.BR path_resolution (7).)
+> +(For UDP sockets) An attempt was made to sendto() to a
+> +network/broadcast address like it was a unicast address.
+> =A0.TP
+> =A0.BR EAGAIN " or " EWOULDBLOCK
+> =A0.\" Actually EAGAIN on Linux
+>
+> Thanks,
+> Stefan.
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
