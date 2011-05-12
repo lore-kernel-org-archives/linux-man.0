@@ -1,53 +1,46 @@
-From: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] Typo in select.2
-Date: Thu, 12 May 2011 15:40:34 +0200
-Message-ID: <BANLkTikA4Mz9OQpat5K3QpVZaPZAcFoN+w@mail.gmail.com>
+From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] setbuf.3: stdio buffers are allocated by mmap() not malloc()
+Date: Thu, 12 May 2011 18:11:13 +0300
+Message-ID: <BANLkTin6ogPpQFDAkezygqAVtcfRZnoMMA@mail.gmail.com>
+References: <4DCAFFE0.7030307@tacc.utexas.edu>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=90e6ba6e842a95226f04a3145615
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4DCAFFE0.7030307-Tmo6s3XX3Xr5xfTjtVVUew@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: John Hammond <jhammond-Tmo6s3XX3Xr5xfTjtVVUew@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---90e6ba6e842a95226f04a3145615
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-Hello Michael,
+A little peer review before the maintainer gets a chance to reply...
 
-Bernard Siaud reported a typo in our French translation, but I believe
-that it is also present in English.  Here is a patch:
+On Thu, May 12, 2011 at 12:30 AM, John Hammond <jhammond-Tmo6s3XX3XpAj+jmLmNEOA@public.gmane.org=
+u> wrote:
+> ---
+> --- a/man3/setbuf.3
+> +++ b/man3/setbuf.3
+> @@ -83,7 +83,7 @@ may be used to force the block out early.
+> =A0.BR fclose (3).)
+> =A0Normally all files are block buffered.
+> =A0When the first I/O operation occurs on a file,
+> -.BR malloc (3)
+> +.BR mmap (2)
+> =A0is called, and a buffer is obtained.
+> =A0If a stream refers to a terminal (as
+> =A0.I stdout
 
-Denis
+Are you sure this applies to older glibc versions as well? When
+behavior of a glibc function has changed in time, usually (or I should
+probably rephrase this as "in the most fortunate cases..." :), but
+let's not be that pessimistic ) the man page specifies that; if it's
+the case here, it might be good to say: "mmap is used since glibc x.y,
+malloc was used before".
 
-diff --git a/man2/select.2 b/man2/select.2
-index 512471d..241694a 100644
---- a/man2/select.2
-+++ b/man2/select.2
-@@ -147,7 +147,7 @@ clears a set.
- .BR FD_SET ()
- and
- .BR FD_CLR ()
--respectively add and remove a given file descriptor from a set.
-+respectively adds and removes a given file descriptor from a set.
- .BR FD_ISSET ()
- tests to see if a file descriptor is part of the set;
- this is useful after
-
---90e6ba6e842a95226f04a3145615
-Content-Type: text/x-diff; charset=US-ASCII; name="select.2.patch"
-Content-Disposition: attachment; filename="select.2.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gnlqlhrj0
-
-ZGlmZiAtLWdpdCBhL21hbjIvc2VsZWN0LjIgYi9tYW4yL3NlbGVjdC4yCmluZGV4IDUxMjQ3MWQu
-LjI0MTY5NGEgMTAwNjQ0Ci0tLSBhL21hbjIvc2VsZWN0LjIKKysrIGIvbWFuMi9zZWxlY3QuMgpA
-QCAtMTQ3LDcgKzE0Nyw3IEBAIGNsZWFycyBhIHNldC4KIC5CUiBGRF9TRVQgKCkKIGFuZAogLkJS
-IEZEX0NMUiAoKQotcmVzcGVjdGl2ZWx5IGFkZCBhbmQgcmVtb3ZlIGEgZ2l2ZW4gZmlsZSBkZXNj
-cmlwdG9yIGZyb20gYSBzZXQuCityZXNwZWN0aXZlbHkgYWRkcyBhbmQgcmVtb3ZlcyBhIGdpdmVu
-IGZpbGUgZGVzY3JpcHRvciBmcm9tIGEgc2V0LgogLkJSIEZEX0lTU0VUICgpCiB0ZXN0cyB0byBz
-ZWUgaWYgYSBmaWxlIGRlc2NyaXB0b3IgaXMgcGFydCBvZiB0aGUgc2V0OwogdGhpcyBpcyB1c2Vm
-dWwgYWZ0ZXIK
---90e6ba6e842a95226f04a3145615--
+Thanks,
+Stefan.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
