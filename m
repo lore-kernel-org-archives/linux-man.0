@@ -1,55 +1,34 @@
-From: John Hammond <jhammond-Tmo6s3XX3Xr5xfTjtVVUew@public.gmane.org>
-Subject: Re: [PATCH] setbuf.3: stdio buffers are allocated by mmap() not malloc()
-Date: Thu, 12 May 2011 11:45:54 -0500
-Message-ID: <4DCC0EC2.5030901@tacc.utexas.edu>
-References: <4DCAFFE0.7030307@tacc.utexas.edu> <BANLkTin6ogPpQFDAkezygqAVtcfRZnoMMA@mail.gmail.com>
+From: Andi Kleen <andi@firstfloor.org>
+Subject: Re: [PATCH v3] net: ipv4: add IPPROTO_ICMP socket kind
+Date: Fri, 13 May 2011 14:30:43 -0700
+Message-ID: <m2wrhuxp8c.fsf@firstfloor.org>
+References: <20110510.121550.112583080.davem@davemloft.net>
+	<20110513200100.GA3875@albatros>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <BANLkTin6ogPpQFDAkezygqAVtcfRZnoMMA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20110513200100.GA3875@albatros> (Vasiliy Kulikov's message of
+	"Sat, 14 May 2011 00:01:00 +0400")
+Sender: linux-kernel-owner@vger.kernel.org
+To: Vasiliy Kulikov <segoon@openwall.com>
+Cc: David Miller <davem@davemloft.net>, solar@openwall.com, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, peak@argo.troja.mff.cuni.cz, kees.cook@canonical.com, dan.j.rosenberg@gmail.com, eugene@redhat.com, nelhage@ksplice.com, kuznet@ms2.inr.ac.ru, pekkas@netcore.fi, jmorris@namei.org, yoshfuji@linux-ipv6.org, kaber@trash.net, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Stefan,
+Vasiliy Kulikov <segoon@openwall.com> writes:
 
-> A little peer review before the maintainer gets a chance to reply...
+> This patch adds IPPROTO_ICMP socket kind.  It makes it possible to send
+> ICMP_ECHO messages and receive the corresponding ICMP_ECHOREPLY messages
+> without any special privileges.  In other words, the patch makes it
+> possible to implement setuid-less and CAP_NET_RAW-less /bin/ping.  In
+> order not to increase the kernel's attack surface, the new functionality
+> is disabled by default, but is enabled at bootup by supporting Linux
+> distributions, optionally with restriction to a group or a group range
+> (see below).
 
-Of course.
+You'll need to do a manpage patch too. Otherwise noone will know how to use
+it.
 
-> On Thu, May 12, 2011 at 12:30 AM, John Hammond <jhammond-Tmo6s3XX3Xr5xfTjtVVUew@public.gmane.org> wrote:
->> ---
->> --- a/man3/setbuf.3
->> +++ b/man3/setbuf.3
->> @@ -83,7 +83,7 @@ may be used to force the block out early.
->>  .BR fclose (3).)
->>  Normally all files are block buffered.
->>  When the first I/O operation occurs on a file,
->> -.BR malloc (3)
->> +.BR mmap (2)
->>  is called, and a buffer is obtained.
->>  If a stream refers to a terminal (as
->>  .I stdout
-> 
-> Are you sure this applies to older glibc versions as well? When
-> behavior of a glibc function has changed in time, usually (or I should
-> probably rephrase this as "in the most fortunate cases..." :), but
-> let's not be that pessimistic ) the man page specifies that; if it's
-> the case here, it might be good to say: "mmap is used since glibc x.y,
-> malloc was used before".
+-Andi
 
-malloc() was used in 1.09, and mmap() in 2.0.1.  I've also noticed this
-behavior other versions, including 2.3.4 and 2.13 (current).  But I
-haven't checked all intermediate versions.  See also
-http://sources.redhat.com/ml/libc-alpha/2006-11/msg00061.html for some
-fruitless discussion of this issue.
-
-Best,
-
-John
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+ak@linux.intel.com -- Speaking for myself only
