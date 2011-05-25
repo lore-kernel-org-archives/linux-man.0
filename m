@@ -1,33 +1,46 @@
-From: Eugen Dedu <Eugen.Dedu-C66Sk7uXGWIalAAbUx3MVP3zm4ADWneb@public.gmane.org>
-Subject: Trivial fix for iso_8859-1.7 man page
-Date: Tue, 24 May 2011 18:08:03 +0200
-Message-ID: <4DDBD7E3.5020608@pu-pm.univ-fcomte.fr>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 35852] New: SO_PRIORITY does not set TOS field in IP header
+Date: Wed, 25 May 2011 22:58:08 GMT
+Message-ID: <bug-35852-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, joey-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=35852
 
-http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=156154 is about a minor 
-issue in iso_8859-1.7 man page.
+               URL: http://www.kernel.org/doc/man-pages/online/pages/man7/
+                    socket.7.html
+           Summary: SO_PRIORITY does not set TOS field in IP header
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: n/a
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: advaitdixit-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
+        Regression: No
 
-I added a 1-line patch to fix it 
-(http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=156154#19), please 
-apply it so that it can be closed.
 
-snoopy:~$ dpkg -l manpages
-[...]
-ii  manpages            3.27-1              Manual pages about using a 
-GNU/Linux system
+The socket man page says that setsockopt with level=SOL_SOCKET  and
+optname=SO_PRIORITY sets the TOS field in IP header:
+http://www.kernel.org/doc/man-pages/online/pages/man7/socket.7.html
 
-Cheers,
+However, my experiments and other web search results suggest that the socket
+man page is wrong. SO_PRIORITY does not seem to set the TOS field in the IP
+header.
+
 -- 
-Eugen
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
