@@ -1,46 +1,53 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 35852] New: SO_PRIORITY does not set TOS field in IP header
-Date: Wed, 25 May 2011 22:58:08 GMT
-Message-ID: <bug-35852-11311@https.bugzilla.kernel.org/>
+From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
+Subject: Maximum number of file descriptors that may be passed via
+         =?UTF-8?Q?SCM=5FRIGHTS?=
+Date: Wed, 25 May 2011 19:57:09 -0400
+Message-ID: <cone.1306367829.726700.9970.500@monster.email-scan.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed;
+    boundary="=_mimegpg-monster.email-scan.com-9970-1306367829-0001";
+    micalg=pgp-sha1; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=35852
+This is a MIME GnuPG-signed message.  If you see this text, it means that
+your E-mail or Usenet software does not support MIME signed messages.
+The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
+To open this message correctly you will need to install E-mail or Usenet
+software that supports modern Internet standards.
 
-               URL: http://www.kernel.org/doc/man-pages/online/pages/man7/
-                    socket.7.html
-           Summary: SO_PRIORITY does not set TOS field in IP header
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: n/a
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: advaitdixit-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
-        Regression: No
+--=_mimegpg-monster.email-scan.com-9970-1306367829-0001
+Content-Type: text/plain; format=flowed; delsp=yes; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 7bit
+
+Anyone knows if the maximum number of file descriptors that can be passed  
+via SCM_RIGHTS is documented anywhere?
+
+Up to at least 2.6.35, I could stuff as many as 255 file descriptors. Which  
+sort of made sense.
+
+I updated to Fedora 15, which is based on 2.6.38, and the maximum number of  
+file descriptors I can stuff into a message seems to be 253. With 254,  
+strace tells me that the kernel refuses with EINVAL.
 
 
-The socket man page says that setsockopt with level=SOL_SOCKET  and
-optname=SO_PRIORITY sets the TOS field in IP header:
-http://www.kernel.org/doc/man-pages/online/pages/man7/socket.7.html
 
-However, my experiments and other web search results suggest that the socket
-man page is wrong. SO_PRIORITY does not seem to set the TOS field in the IP
-header.
+--=_mimegpg-monster.email-scan.com-9970-1306367829-0001
+Content-Type: application/pgp-signature
+Content-Transfer-Encoding: 7bit
 
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iEYEABECAAYFAk3dl1UACgkQx9p3GYHlUOLaLACfcfBnTRLGfxoeh5yDKWmHCqap
+tNMAn3Aj04T/r3k/BZEt4AxPGaEOOhxJ
+=Ki1z
+-----END PGP SIGNATURE-----
+
+--=_mimegpg-monster.email-scan.com-9970-1306367829-0001--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
