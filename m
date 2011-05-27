@@ -1,53 +1,80 @@
-From: Sam Varshavchik <mrsam-W1w4QoW4mIDgLSHwZvcCBg@public.gmane.org>
-Subject: Maximum number of file descriptors that may be passed via
-         =?UTF-8?Q?SCM=5FRIGHTS?=
-Date: Wed, 25 May 2011 19:57:09 -0400
-Message-ID: <cone.1306367829.726700.9970.500@monster.email-scan.com>
+From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: proc.5 /proc/[pid]/cgroup patch
+Date: Fri, 27 May 2011 10:37:39 +0200
+Message-ID: <4DDF62D3.6080700@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-    boundary="=_mimegpg-monster.email-scan.com-9970-1306367829-0001";
-    micalg=pgp-sha1; protocol="application/pgp-signature"
+Content-Type: multipart/mixed;
+ boundary="------------000203080604010303070907"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a MIME GnuPG-signed message.  If you see this text, it means that
-your E-mail or Usenet software does not support MIME signed messages.
-The Internet standard for MIME PGP messages, RFC 2015, was published in 1996.
-To open this message correctly you will need to install E-mail or Usenet
-software that supports modern Internet standards.
-
---=_mimegpg-monster.email-scan.com-9970-1306367829-0001
-Content-Type: text/plain; format=flowed; delsp=yes; charset="UTF-8"
-Content-Disposition: inline
+This is a multi-part message in MIME format.
+--------------000203080604010303070907
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Anyone knows if the maximum number of file descriptors that can be passed  
-via SCM_RIGHTS is documented anywhere?
+Hello,
+I'm sending the patch for proc.5 which adds the information about 
+/proc/[pid]/cgroup.
+Ivana Hutarova Varekova
 
-Up to at least 2.6.35, I could stuff as many as 255 file descriptors. Which  
-sort of made sense.
-
-I updated to Fedora 15, which is based on 2.6.38, and the maximum number of  
-file descriptors I can stuff into a message seems to be 253. With 254,  
-strace tells me that the kernel refuses with EINVAL.
-
-
-
---=_mimegpg-monster.email-scan.com-9970-1306367829-0001
-Content-Type: application/pgp-signature
+--------------000203080604010303070907
+Content-Type: text/x-patch;
+ name="man-pages-3.23-proc_cgroups.patch"
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="man-pages-3.23-proc_cgroups.patch"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.11 (GNU/Linux)
+diff -up man-pages-3.32/man5/proc.5.pom man-pages-3.32/man5/proc.5
+--- man-pages-3.32/man5/proc.5.pom	2011-05-27 10:11:52.000000000 +0200
++++ man-pages-3.32/man5/proc.5	2011-05-27 09:17:37.000000000 +0200
+@@ -94,12 +94,35 @@ to the process at exec time.
+ The format is one \fIunsigned long\fP ID
+ plus one \fIunsigned long\fP value for each entry.
+ The last entry contains two zeros.
+-.\" FIXME Describe /proc/[pid]/cgroup and
+-.\"       /proc/[pid]/task/[tid]/cgroup
+-.\" 	  Info in Documentation/cgroups.txt
+-.\"       Added in 2.6.24
+-.\"	  CONFIG_CGROUPS
+-.\"
++.TP
++.I /proc/[pid]/cgroup " (since Linux 2.6.24)"
++This file describes control groups to which the process/task
++belongs. For each cgroup hierarchy there is one entry of the form
++.nf
++.ft CW
++
++  5:cpuacct,cpu,cpuset:/daemons
++(1)         (2)          (3)
++.ft
++.fi
++.IP
++The numbers in parentheses are labels for the descriptions below:
++.RS 7
++.TP 5
++(1)
++hierarchy id number
++.TP
++(2)
++set of subsystems bound to the hierarchy
++.TP
++(3)
++control group in the hierarchy to which the process belongs
++.RE
++.IP
++
++This file is only present if the
++.B CONFIG_CGROUPS
++kernel configuration option is enabled.
+ .\" FIXME Describe /proc/[pid]/clear_refs
+ .\"       Added in 2.6.22
+ .\"       "Clears page referenced bits shown in smaps output"
 
-iEYEABECAAYFAk3dl1UACgkQx9p3GYHlUOLaLACfcfBnTRLGfxoeh5yDKWmHCqap
-tNMAn3Aj04T/r3k/BZEt4AxPGaEOOhxJ
-=Ki1z
------END PGP SIGNATURE-----
-
---=_mimegpg-monster.email-scan.com-9970-1306367829-0001--
+--------------000203080604010303070907--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
