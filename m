@@ -1,80 +1,119 @@
-From: Ivana Hutarova Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: proc.5 /proc/[pid]/cgroup patch
-Date: Fri, 27 May 2011 10:37:39 +0200
-Message-ID: <4DDF62D3.6080700@redhat.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: [PATCH 1/2] setns.2: Initial man page
+Date: Sun, 29 May 2011 20:16:46 -0700
+Message-ID: <m1r57gj2sh.fsf@fess.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------000203080604010303070907"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------000203080604010303070907
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hello,
-I'm sending the patch for proc.5 which adds the information about 
-/proc/[pid]/cgroup.
-Ivana Hutarova Varekova
+Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+---
+ man2/setns.2 |   88 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 88 insertions(+), 0 deletions(-)
+ create mode 100644 man2/setns.2
 
---------------000203080604010303070907
-Content-Type: text/x-patch;
- name="man-pages-3.23-proc_cgroups.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="man-pages-3.23-proc_cgroups.patch"
-
-diff -up man-pages-3.32/man5/proc.5.pom man-pages-3.32/man5/proc.5
---- man-pages-3.32/man5/proc.5.pom	2011-05-27 10:11:52.000000000 +0200
-+++ man-pages-3.32/man5/proc.5	2011-05-27 09:17:37.000000000 +0200
-@@ -94,12 +94,35 @@ to the process at exec time.
- The format is one \fIunsigned long\fP ID
- plus one \fIunsigned long\fP value for each entry.
- The last entry contains two zeros.
--.\" FIXME Describe /proc/[pid]/cgroup and
--.\"       /proc/[pid]/task/[tid]/cgroup
--.\" 	  Info in Documentation/cgroups.txt
--.\"       Added in 2.6.24
--.\"	  CONFIG_CGROUPS
--.\"
-+.TP
-+.I /proc/[pid]/cgroup " (since Linux 2.6.24)"
-+This file describes control groups to which the process/task
-+belongs. For each cgroup hierarchy there is one entry of the form
+diff --git a/man2/setns.2 b/man2/setns.2
+new file mode 100644
+index 0000000..8b48e14
+--- /dev/null
++++ b/man2/setns.2
+@@ -0,0 +1,88 @@
++.\" Copyright (C) 2011, Eric Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
++.\" Licensed under the GPLv2
++.\"
++.TH SETNS 2 2011-05-28 "Linux" "Linux Programmer's Manual"
++.SH NAME
++setns \- reassociate parts of the process execution context
++.SH SYNOPSIS
 +.nf
-+.ft CW
-+
-+  5:cpuacct,cpu,cpuset:/daemons
-+(1)         (2)          (3)
-+.ft
++.BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
++.B #include <sched.h>
++.sp
++.BI "int setns(int " fd ", int " nstype );
 +.fi
-+.IP
-+The numbers in parentheses are labels for the descriptions below:
-+.RS 7
-+.TP 5
-+(1)
-+hierarchy id number
-+.TP
-+(2)
-+set of subsystems bound to the hierarchy
-+.TP
-+(3)
-+control group in the hierarchy to which the process belongs
-+.RE
-+.IP
++.SH DESCRIPTION
++Given a file descriptor referring to a namespace reassociate the
++current process with that namespace.
 +
-+This file is only present if the
-+.B CONFIG_CGROUPS
-+kernel configuration option is enabled.
- .\" FIXME Describe /proc/[pid]/clear_refs
- .\"       Added in 2.6.22
- .\"       "Clears page referenced bits shown in smaps output"
++The
++.I nstype
++argument is an enumeration that specifies which type of namespace
++the current process may be reassociated with.  This argument can
++have one of the following values:
++
++.TP
++.BR 0
++Allow any namespace to be joined.
++.TP
++.BR CLONE_NEWIPC
++Only allow joining an ipc namespace.
++.TP
++.BR CLONE_NEWNET
++Only allow joining a network namespace.
++.TP
++.BR CLONE_NEWUTS
++Only allow joining a uts namespace.
++.PP
++If
++.I flags
++is specified as zero, then
++.BR setns ()
++is a no-op;
++no changes are made to the calling process's execution context.
++.SH RETURN VALUE
++On success, zero returned.
++On failure, \-1 is returned and
++.I errno
++is set to indicate the error.
++.SH ERRORS
++.TP
++.TP
++.B EBADF
++A bad file descriptor was passed to setns.
++
++.TP
++.B EINVAL
++A file descriptor that does not match the specified nstype.
++
++Attempting to change the mount namespace and the filesystem
++is shared between multiple tasks.
++
++.TP
++.B ENOMEM
++Cannot allocate sufficient memory to change the specified namespace.
++
++.TP
++.B EPERM
++The calling process did not have the required privileges for this operation.
++.SH VERSIONS
++The
++.BR setns ()
++system call first appeared in Linux in kernel 3.0
++.SH CONFORMING TO
++The
++.BR setns ()
++system call is Linux-specific.
++.SH NOTES
++Not all of the process attributes that can be shared when
++a new process is created using
++.BR clone (2)
++can be changed using
++.BR setns ().
++.SH BUGS
++The pid namespace and the mount namespace are not currently supported.
++.SH SEE ALSO
++.BR clone (2),
++.BR fork (2),
++.BR vfork (2),
++.BR setns(2)
+-- 
+1.7.5.1.217.g4e3aa
 
---------------000203080604010303070907--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
