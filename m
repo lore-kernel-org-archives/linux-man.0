@@ -1,10 +1,13 @@
 From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: [PATCH 1/2] setns.2: Initial man page
-Date: Sun, 29 May 2011 20:16:46 -0700
-Message-ID: <m1r57gj2sh.fsf@fess.ebiederm.org>
+Subject: [PATCH 2/2] proc.5: Document /proc/[pid]/ns/
+Date: Sun, 29 May 2011 20:17:49 -0700
+Message-ID: <m1lixoj2qq.fsf@fess.ebiederm.org>
+References: <m1r57gj2sh.fsf@fess.ebiederm.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <m1r57gj2sh.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org> (Eric W. Biederman's message
+	of "Sun, 29 May 2011 20:16:46 -0700")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -13,104 +16,64 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 ---
- man2/setns.2 |   88 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 88 insertions(+), 0 deletions(-)
- create mode 100644 man2/setns.2
+ man5/proc.5 |   44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 44 insertions(+), 0 deletions(-)
 
-diff --git a/man2/setns.2 b/man2/setns.2
-new file mode 100644
-index 0000000..8b48e14
---- /dev/null
-+++ b/man2/setns.2
-@@ -0,0 +1,88 @@
-+.\" Copyright (C) 2011, Eric Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-+.\" Licensed under the GPLv2
-+.\"
-+.TH SETNS 2 2011-05-28 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+setns \- reassociate parts of the process execution context
-+.SH SYNOPSIS
-+.nf
-+.BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
-+.B #include <sched.h>
-+.sp
-+.BI "int setns(int " fd ", int " nstype );
-+.fi
-+.SH DESCRIPTION
-+Given a file descriptor referring to a namespace reassociate the
-+current process with that namespace.
+diff --git a/man5/proc.5 b/man5/proc.5
+index 7c5ca4e..7ff82c4 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -476,6 +476,50 @@ information via this field.
+ .IP
+ This file is only readable by the owner of the process.
+ .TP
++.IR /proc/[pid]/ns/ " (since Linux 3.0)"
++This is a subdirectory containing one entry for each namespace that
++supports being manipulated by
++.BR setns(2).
++.TP
++.IR /proc/[pid]/ns/ipc " (since Linux 3.0)"
++Bind mounting this file to somewhere else in the filesystem keeps
++the ipc namespace of the process specified by 
++.I pid
++alive even if all of the processes currently in that ipc namespace exit.
 +
-+The
-+.I nstype
-+argument is an enumeration that specifies which type of namespace
-+the current process may be reassociated with.  This argument can
-+have one of the following values:
++Opening this file returnes a file handle for the ipc namespace
++of the process specified by
++.I pid,
++that keeps the ipc namespace alive while the file is open and that can
++be passed to
++.BR setns(2).
++.TP
++.IR /proc/[pid]/ns/net " (since Linux 3.0)"
++Bind mounting this file to somewhere else in the filesystem keeps
++the network namespace of the process specified by 
++.I pid
++alive even if all of the processes currently in that network namespace exit.
 +
++Opening this file returnes a file handle for the network namespace
++of the process specified by
++.I pid,
++that keeps the network namespace alive while the file is open and that can
++be passed to
++.BR setns(2).
 +.TP
-+.BR 0
-+Allow any namespace to be joined.
-+.TP
-+.BR CLONE_NEWIPC
-+Only allow joining an ipc namespace.
-+.TP
-+.BR CLONE_NEWNET
-+Only allow joining a network namespace.
-+.TP
-+.BR CLONE_NEWUTS
-+Only allow joining a uts namespace.
-+.PP
-+If
-+.I flags
-+is specified as zero, then
-+.BR setns ()
-+is a no-op;
-+no changes are made to the calling process's execution context.
-+.SH RETURN VALUE
-+On success, zero returned.
-+On failure, \-1 is returned and
-+.I errno
-+is set to indicate the error.
-+.SH ERRORS
-+.TP
-+.TP
-+.B EBADF
-+A bad file descriptor was passed to setns.
++.IR /proc/[pid]/ns/uts " (since Linux 3.0)"
++Bind mounting this file to somewhere else in the filesystem keeps
++the uts namespace of the process specified by 
++.I pid
++alive even if all of the processes currently in that uts namespace exit.
 +
++Opening this file returnes a file handle for the uts namespace
++of the process specified by
++.I pid,
++that keeps the uts namespace alive while the file is open and that can
++be passed to
++.BR setns(2).
 +.TP
-+.B EINVAL
-+A file descriptor that does not match the specified nstype.
-+
-+Attempting to change the mount namespace and the filesystem
-+is shared between multiple tasks.
-+
-+.TP
-+.B ENOMEM
-+Cannot allocate sufficient memory to change the specified namespace.
-+
-+.TP
-+.B EPERM
-+The calling process did not have the required privileges for this operation.
-+.SH VERSIONS
-+The
-+.BR setns ()
-+system call first appeared in Linux in kernel 3.0
-+.SH CONFORMING TO
-+The
-+.BR setns ()
-+system call is Linux-specific.
-+.SH NOTES
-+Not all of the process attributes that can be shared when
-+a new process is created using
-+.BR clone (2)
-+can be changed using
-+.BR setns ().
-+.SH BUGS
-+The pid namespace and the mount namespace are not currently supported.
-+.SH SEE ALSO
-+.BR clone (2),
-+.BR fork (2),
-+.BR vfork (2),
-+.BR setns(2)
+ .IR /proc/[pid]/numa_maps " (since Linux 2.6.14)"
+ See
+ .BR numa (7).
 -- 
 1.7.5.1.217.g4e3aa
 
