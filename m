@@ -1,9 +1,9 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: get_mempolicy.2 tfix + ipv6.7 wfix
-Date: Sun, 5 Jun 2011 02:04:53 +0200
-Message-ID: <20110605000453.GE28455@glenfiddich.mraw.org>
+Subject: ffix: no space in NAME section before \-
+Date: Sun, 5 Jun 2011 03:03:14 +0200
+Message-ID: <20110605010314.GG28455@glenfiddich.mraw.org>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="SkvwRMAIpAhPCcCJ"
+Content-Type: multipart/mixed; boundary="qGV0fN9tzfkG3CxV"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,81 +12,72 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---SkvwRMAIpAhPCcCJ
+--qGV0fN9tzfkG3CxV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi,
 
-Here are two patches against current git (3.32).
+Here is a patch for a minor formating issue.
 
-Thanks for your work and best regards.
+It allows lexgrog to parse successfully the name section.
+http://lintian.debian.org/tags/manpage-has-bad-whatis-entry.html
+
+http://lintian.debian.org/full/joey-8fiUuRrzOP0h++r+LBE8gg@public.gmane.org#manpages
+
 
 -- 
 Simon Paillard
 
---SkvwRMAIpAhPCcCJ
+--qGV0fN9tzfkG3CxV
 Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-ipv6.7-wfix-in-address-notation.patch"
+Content-Disposition: attachment; filename="0004-ffix-no-space-in-NAME-section-before.patch"
 
->From 1ffdaa56f059bd379915e747f24c4924dcbd90b1 Mon Sep 17 00:00:00 2001
+>From f9bcc26d8b409575571773c72bc10f6591ec862d Mon Sep 17 00:00:00 2001
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Date: Sat, 12 Feb 2011 19:11:43 +0100
-Subject: [PATCH 1/2] ipv6.7: wfix in address notation
+Date: Sun, 5 Jun 2011 02:58:24 +0200
+Subject: [PATCH 4/4] ffix: no space in NAME section before \-
 
-Reported by Paul LeoNerd Evans at http://bugs.debian.org/604044
+It allows lexgrog/serch to work:
+http://lintian.debian.org/tags/manpage-has-bad-whatis-entry.html
+
+From: http://lintian.debian.org/full/joey-8fiUuRrzOP0h++r+LBE8gg@public.gmane.org#manpages
 ---
- man7/ipv6.7 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ man7/operator.7 |    2 +-
+ man7/sigevent.7 |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man7/ipv6.7 b/man7/ipv6.7
-index 1e3b4c6..3951a2b 100644
---- a/man7/ipv6.7
-+++ b/man7/ipv6.7
-@@ -103,7 +103,7 @@ anycast to address the nearest member of a group of hosts
- (not implemented in Linux), IPv4-on-IPv6 to
- address a IPv4 host, and other reserved address types.
- .PP
--The address notation for IPv6 is a group of 16 2-digit hexadecimal
-+The address notation for IPv6 is a group of 8 4-digit hexadecimal
- numbers, separated with a \(aq:\(aq.
- \&"::" stands for a string of 0 bits.
- Special addresses are ::1 for loopback and ::FFFF:<IPv4 address>
+diff --git a/man7/operator.7 b/man7/operator.7
+index 3d8c42e..1473cb8 100644
+--- a/man7/operator.7
++++ b/man7/operator.7
+@@ -37,7 +37,7 @@
+ .\"
+ .TH OPERATOR 7 2007-12-08 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+-C operator \- C operator precedence and order of evaluation
++operator \- C operator precedence and order of evaluation
+ .SH DESCRIPTION
+ This manual page lists C operators and their precedence in evaluation.
+ .nf
+diff --git a/man7/sigevent.7 b/man7/sigevent.7
+index 229cc06..3ae93bd 100644
+--- a/man7/sigevent.7
++++ b/man7/sigevent.7
+@@ -23,7 +23,7 @@
+ .\"
+ .TH SIGEVENT 7 2010-10-04 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+-struct sigevent \- structure for notification from asynchronous routines
++sigevent \- structure for notification from asynchronous routines
+ .SH SYNOPSIS
+ .nf
+ 
 -- 
 1.7.2.5
 
 
---SkvwRMAIpAhPCcCJ
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0002-man2-get_mempolicy.2-tfix.patch"
-
->From 4cad619e09dff627d7adc0a7a55775cb753cf2fb Mon Sep 17 00:00:00 2001
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Date: Sun, 5 Jun 2011 01:57:40 +0200
-Subject: [PATCH 2/2] man2/get_mempolicy.2: tfix
-
----
- man2/get_mempolicy.2 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/man2/get_mempolicy.2 b/man2/get_mempolicy.2
-index bbbbab5..8212d4a 100644
---- a/man2/get_mempolicy.2
-+++ b/man2/get_mempolicy.2
-@@ -74,7 +74,7 @@ process is allowed to specify in subsequent calls to
- .BR mbind (2)
- or
- .BR set_mempolicy (2)
--[in the absense of any
-+[in the absence of any
- .IR "mode flags" ]
- is returned in
- .IR nodemask .
--- 
-1.7.2.5
-
-
---SkvwRMAIpAhPCcCJ--
+--qGV0fN9tzfkG3CxV--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
