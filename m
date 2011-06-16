@@ -1,45 +1,40 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] fix O_DIRECT alignment notes in open(2)
-Date: Mon, 13 Jun 2011 15:34:41 -0400
-Message-ID: <x49boy17cfi.fsf@segfault.boston.devel.redhat.com>
-References: <x49y615izh4.fsf@segfault.boston.devel.redhat.com>
-	<BANLkTinRGRO+w6ap0ei_BbQ7kQNHLhkJ7A@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 37572] New: 3.0 Documentation still mentions 2.6
+Date: Thu, 16 Jun 2011 00:12:50 GMT
+Message-ID: <bug-37572-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <BANLkTinRGRO+w6ap0ei_BbQ7kQNHLhkJ7A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org> (Mark
-	Robson's message of "Mon, 13 Jun 2011 20:13:55 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark Robson <markxr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Mark Robson <markxr-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+https://bugzilla.kernel.org/show_bug.cgi?id=37572
 
-> On 13 June 2011 15:21, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->
->> Hi,
->>
->> O_DIRECT requires alignment to the underlying device's logical block
->> size.  It used to be pretty safe to assume this was 512 bytes, but
->> that's no longer the case with the introduction of 4k logical sector
->> size devices.
->>
->> Feel free to change the wording in the man page as you see fit, but
->> here's an example of how it might be fixed...
->>
->
-> It seems to me, that we should cite in the man page the system call required
-> to get the underlying device's block size. Is this statfs(2) ?
+               URL: http://git.kernel.org/?p=linux/kernel/git/torvalds/lin
+                    ux-2.6.git;a=blob_plain;f=README;hb=HEAD
+           Summary: 3.0 Documentation still mentions 2.6
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: 3.0
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: bugzilla-RaxvPIb8m1QxPGQnf4u0eF6hYfS7NtTn@public.gmane.org
+        Regression: No
 
-Hi, Mark,
 
-I've added back the CC list, not sure why it was dropped.
 
-I think you would need to issue a BLKSSZGET ioctl to the block device.
 
-Cheers,
-Jeff
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
