@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 37572] 3.0 Documentation still mentions 2.6
-Date: Tue, 28 Jun 2011 15:53:23 GMT
-Message-ID: <201106281553.p5SFrN1j006112@demeter1.kernel.org>
+Date: Tue, 28 Jun 2011 15:59:26 GMT
+Message-ID: <201106281559.p5SFxQnV007088@demeter1.kernel.org>
 References: <bug-37572-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,8 +18,10 @@ Jan Jasper de Kroon <jjdekroon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-         AssignedTo|documentation_man-pages@ker |jjdekroon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-                   |nel-bugs.osdl.org           |
+             Status|NEW                         |RESOLVED
+         Resolution|                            |PATCH_ALREADY_AVAILABLE
+         AssignedTo|jjdekroon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org         |documentation_man-pages@ker
+                   |                            |nel-bugs.osdl.org
 
 
 
