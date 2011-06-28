@@ -1,64 +1,80 @@
-From: =?utf-8?q?K=C5=99i=C5=A1tof_=C5=BDelechovski?=
-	<giecrilj-n4IAqcmFnHAX1+iMCFCb4w@public.gmane.org>
-Subject: man(7): NAME sample incomplete?
-Date: Fri, 24 Jun 2011 22:10:29 +0200
-Message-ID: <201106242210.32411.giecrilj@stegny.2a.pl>
+From: Ulrich Drepper <drepper@akkadia.org>
+Subject: Re: [PATCH] Add cloexec information to fdinfo
+Date: Tue, 28 Jun 2011 03:07:58 -0400
+Message-ID: <4E097DCE.1090004@akkadia.org>
+References: <201106100355.p5A3t8Aa024924@drepperk.user.openhosting.com> <20110620143131.9c6e040c.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: Text/Plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="------------enig9A9705871A68BA8FF54D72F8"
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20110620143131.9c6e040c.akpm@linux-foundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kosaki.motohiro@jp.fujitsu.com, linux-kernel@vger.kernel.org, rientjes@google.com, torvalds@linux-foundation.org, viro@zeniv.linux.org.uk, wilsons@start.ca, linux-man@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>, Geert Uytterhoeven <geert@linux-m68k.org>, Chris Zankel <chris@zankel.net>
 List-Id: linux-man@vger.kernel.org
 
-* The code sample given for the NAME section is incomplete because the =
-actual content sample is not given. =20
-* Additionally, the description assumes that the item described is a co=
-mmand, which need not be the case. =20
-* The command makewhatis is not present on my system; the documented to=
-ol to create the whatis database is called mandb.
-* The reference to man(7) in man-pages(7) with respect to the NAME sect=
-ion should be replaced by lexgrog(1), since it is the authoritative pag=
-e for whatis. =20
-* The description on .SH NAME in man(7) should either copy the relevant=
- paragraph of lexgrog(1) or refer to it.
+This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
+--------------enig9A9705871A68BA8FF54D72F8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Please fix,
-Chris
+On 06/20/2011 05:31 PM, Andrew Morton wrote:
+> Does FD_ISSET return 0 or 1?  Or 0 or non-zero?
+>=20
+> For x86 it's the former.
+>=20
+> <checks the architectures>
+>=20
+> arch/h8300/include/asm/posix_types.h: busted
+> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
+(d))
+>=20
+> arch/m68k/include/asm/posix_types.h: busted
+> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
+(d))
+>=20
+> arch/xtensa/include/asm/posix_types.h: busted
+> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
+(d))
 
-Is:=20
+I agree, this is an issue.  Existing code works around this.  We should
+use the attached patch on top of the existing one.
 
-       The only mandatory heading is NAME, which should be the first se=
-ction and be fol=E2=80=90
-       lowed on the next line by a one line description of the program:
 
-              .SH NAME
+This doesn't invalidate your patch to harmonize the architectures but
+the above is what existing code does.  I didn't use a tab in the output
+since the initial string is long enough to force the subsequent text in
+a new column.  Using a single space seemed more visually pleasing.
 
-       It is extremely important that this format is followed, and that=
- there is a back=E2=80=90
-      slash before the single dash which follows the command name.  Thi=
-s syntax is used
-      by  the  makewhatis(8) program to create a database of short comm=
-and descriptions
-       for the whatis(1) and apropos(1) commands.
 
-Let:
 
-       The only mandatory heading is NAME, which should be the first se=
-ction and be fol=E2=80=90
-       lowed on the next line by a one line description of the program:
+Signed-off-by: Ulrich Drepper <drepper@gmail.com>
 
-              .SH NAME
-              item \- description
+--- a/fs/proc/base.c	2011-06-28 02:54:01.888793757 -0400
++++ b/fs/proc/base.c	2011-06-28 02:54:30.668664335 -0400
+@@ -1939,7 +1939,7 @@
+ 					 "cloexec:\t%d\n",
+ 					 (long long) file->f_pos,
+ 					 file->f_flags,
+-					 cloexec);
++					 cloexec ? FD_CLOEXEC : 0);
+ 			}
+ 			spin_unlock(&files->file_lock);
+ 			put_files_struct(files);
 
-       It is extremely important that this format is followed, and that=
- there is a back=E2=80=90
-      slash before the single dash which follows the item name.  This s=
-yntax is used
-      by  the mandb(8) program to create a database of short command de=
-scriptions
-       for the whatis(1) and apropos(1) commands.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+--------------enig9A9705871A68BA8FF54D72F8
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.16 (GNU/Linux)
+
+iEYEARECAAYFAk4Jfc4ACgkQ2ijCOnn/RHQ05gCgu4yikszRPlgoAIDnhuhVzyA4
+v4EAmwURz4ww9sirtln/5ELsYayqV2fD
+=Xsaa
+-----END PGP SIGNATURE-----
+
+--------------enig9A9705871A68BA8FF54D72F8--
