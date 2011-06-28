@@ -1,80 +1,37 @@
-From: Ulrich Drepper <drepper@akkadia.org>
-Subject: Re: [PATCH] Add cloexec information to fdinfo
-Date: Tue, 28 Jun 2011 03:07:58 -0400
-Message-ID: <4E097DCE.1090004@akkadia.org>
-References: <201106100355.p5A3t8Aa024924@drepperk.user.openhosting.com> <20110620143131.9c6e040c.akpm@linux-foundation.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 37572] 3.0 Documentation still mentions 2.6
+Date: Tue, 28 Jun 2011 15:30:58 GMT
+Message-ID: <201106281530.p5SFUwn9007221@demeter2.kernel.org>
+References: <bug-37572-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="------------enig9A9705871A68BA8FF54D72F8"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20110620143131.9c6e040c.akpm@linux-foundation.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: kosaki.motohiro@jp.fujitsu.com, linux-kernel@vger.kernel.org, rientjes@google.com, torvalds@linux-foundation.org, viro@zeniv.linux.org.uk, wilsons@start.ca, linux-man@vger.kernel.org, Yoshinori Sato <ysato@users.sourceforge.jp>, Geert Uytterhoeven <geert@linux-m68k.org>, Chris Zankel <chris@zankel.net>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-37572-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 2440 and 3156)
---------------enig9A9705871A68BA8FF54D72F8
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On 06/20/2011 05:31 PM, Andrew Morton wrote:
-> Does FD_ISSET return 0 or 1?  Or 0 or non-zero?
->=20
-> For x86 it's the former.
->=20
-> <checks the architectures>
->=20
-> arch/h8300/include/asm/posix_types.h: busted
-> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
-(d))
->=20
-> arch/m68k/include/asm/posix_types.h: busted
-> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
-(d))
->=20
-> arch/xtensa/include/asm/posix_types.h: busted
-> #define __FD_ISSET(d, set)      ((set)->fds_bits[__FDELT(d)] & __FDMASK=
-(d))
-
-I agree, this is an issue.  Existing code works around this.  We should
-use the attached patch on top of the existing one.
-
-
-This doesn't invalidate your patch to harmonize the architectures but
-the above is what existing code does.  I didn't use a tab in the output
-since the initial string is long enough to force the subsequent text in
-a new column.  Using a single space seemed more visually pleasing.
+https://bugzilla.kernel.org/show_bug.cgi?id=37572
 
 
 
-Signed-off-by: Ulrich Drepper <drepper@gmail.com>
-
---- a/fs/proc/base.c	2011-06-28 02:54:01.888793757 -0400
-+++ b/fs/proc/base.c	2011-06-28 02:54:30.668664335 -0400
-@@ -1939,7 +1939,7 @@
- 					 "cloexec:\t%d\n",
- 					 (long long) file->f_pos,
- 					 file->f_flags,
--					 cloexec);
-+					 cloexec ? FD_CLOEXEC : 0);
- 			}
- 			spin_unlock(&files->file_lock);
- 			put_files_struct(files);
 
 
---------------enig9A9705871A68BA8FF54D72F8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+--- Comment #1 from Jan Jasper de Kroon <jjdekroon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2011-06-28 15:30:57 ---
+Created an attachment (id=63762)
+ --> (https://bugzilla.kernel.org/attachment.cgi?id=63762)
+Readme patch generated with diff
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.16 (GNU/Linux)
+Of course this was a simple patch to make. Hopefully it safe's some valuable
+for the devs.
 
-iEYEARECAAYFAk4Jfc4ACgkQ2ijCOnn/RHQ05gCgu4yikszRPlgoAIDnhuhVzyA4
-v4EAmwURz4ww9sirtln/5ELsYayqV2fD
-=Xsaa
------END PGP SIGNATURE-----
+Greetings Jasper
 
---------------enig9A9705871A68BA8FF54D72F8--
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
