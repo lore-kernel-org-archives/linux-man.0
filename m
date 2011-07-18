@@ -1,558 +1,815 @@
-From: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Subject: [PATCH] errno: add numbers to the errno-names
-Date: Wed, 13 Jul 2011 23:03:42 +0200
-Message-ID: <1310591022-28752-1-git-send-email-w.sang@pengutronix.de>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
+From: Christopher Yeoh <cyeoh@au1.ibm.com>
+Subject: Cross Memory Attach v3
+Date: Tue, 19 Jul 2011 00:35:37 +0930
+Message-ID: <20110719003537.16b189ae@lilo>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Kernel logs often print errnos as '%d', so having the numbers next to the
-defined names in the man-page is convenient to find out what went wrong.
-Also move the indentation from 16 to 21 to make the numbers fit.
+Hi Andrew,
 
-Signed-off-by: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
----
+Resending with CC's as you requested. Have added information about a man
+page and what is required for arches other than x86 and powerpc which
+have already been done.
 
-The errorcodes were inserted by a little awk-script which parsed the numbers
-directly out of the Kernel include-files.
+Just as a reminder of what has happened so far, repeating some content
+from previous emails about it:
 
-The script also noted the following not mentioned error-codes:
+The basic idea behind cross memory attach is to allow MPI programs doing
+intra-node communication to do a single copy of the message rather than
+a double copy of the message via shared memory.
 
-ERFKILL (132) unused!
-EOWNERDEAD (130) unused!
-EHWPOISON (133) unused!
-ENOTRECOVERABLE (131) unused!
+The following patch attempts to achieve this by allowing a
+destination process, given an address and size from a source process, to
+copy memory directly from the source process into its own address space
+via a system call. There is also a symmetrical ability to copy from 
+the current process's address space into a destination process's
+address space.
 
- man3/errno.3 |  240 +++++++++++++++++++++++++++++-----------------------------
- 1 files changed, 120 insertions(+), 120 deletions(-)
+- Use of /proc/pid/mem has been considered, but there are issues with 
+  using it:
+  - Does not allow for specifying iovecs for both src and dest, assuming
+    preadv or pwritev was implemented either the area read from or
+  written to would need to be contiguous. 
+  - Currently mem_read allows only processes who are currently
+  ptrace'ing the target and are still able to ptrace the target to read
+  from the target. This check could possibly be moved to the open call,
+  but its not clear exactly what race this restriction is stopping
+  (reason  appears to have been lost)
+  - Having to send the fd of /proc/self/mem via SCM_RIGHTS on unix
+  domain socket is a bit ugly from a userspace point of view,
+  especially when you may have hundreds if not (eventually) thousands
+  of processes  that all need to do this with each other
+  - Doesn't allow for some future use of the interface we would like to
+  consider adding in the future (see below)
+  - Interestingly reading from /proc/pid/mem currently actually
+  involves two copies! (But this could be fixed pretty easily)
 
-diff --git a/man3/errno.3 b/man3/errno.3
-index af08aa7..32e7e36 100644
---- a/man3/errno.3
-+++ b/man3/errno.3
-@@ -90,296 +90,296 @@ Some of these are marked
- indicating that the name is defined by POSIX.1-2001, or
- .IR C99 ,
- indicating that the name is defined by C99.
--.TP 16
--.B E2BIG
-+.TP 21
-+.B E2BIG (7)
- Argument list too long (POSIX.1)
- .TP
--.B EACCES
-+.B EACCES (13)
- Permission denied (POSIX.1)
- .TP
--.B EADDRINUSE
-+.B EADDRINUSE (98)
- Address already in use (POSIX.1)
- .TP
--.B EADDRNOTAVAIL
-+.B EADDRNOTAVAIL (99)
- Address not available (POSIX.1)
- .\" EADV is only an error on HURD(?)
- .TP
--.B EAFNOSUPPORT
-+.B EAFNOSUPPORT (97)
- Address family not supported (POSIX.1)
- .TP
--.B EAGAIN
-+.B EAGAIN (11)
- Resource temporarily unavailable (may be the same value as
- .BR EWOULDBLOCK )
- (POSIX.1)
- .TP
--.B EALREADY
-+.B EALREADY (114)
- Connection already in progress (POSIX.1)
- .TP
--.B EBADE
-+.B EBADE (52)
- Invalid exchange
- .TP
--.B EBADF
-+.B EBADF (9)
- Bad file descriptor (POSIX.1)
- .TP
--.B EBADFD
-+.B EBADFD (77)
- File descriptor in bad state
- .TP
--.B EBADMSG
-+.B EBADMSG (74)
- Bad message (POSIX.1)
- .TP
--.B EBADR
-+.B EBADR (53)
- Invalid request descriptor
- .TP
--.B EBADRQC
-+.B EBADRQC (56)
- Invalid request code
- .TP
--.B EBADSLT
-+.B EBADSLT (57)
- Invalid slot
- .\" EBFONT is defined but appears not to be used by kernel or glibc.
- .TP
--.B EBUSY
-+.B EBUSY (16)
- Device or resource busy (POSIX.1)
- .TP
--.B ECANCELED
-+.B ECANCELED (125)
- Operation canceled (POSIX.1)
- .TP
--.B ECHILD
-+.B ECHILD (10)
- No child processes (POSIX.1)
- .TP
--.B ECHRNG
-+.B ECHRNG (44)
- Channel number out of range
- .TP
--.B ECOMM
-+.B ECOMM (70)
- Communication error on send
- .TP
--.B ECONNABORTED
-+.B ECONNABORTED (103)
- Connection aborted (POSIX.1)
- .TP
--.B ECONNREFUSED
-+.B ECONNREFUSED (111)
- Connection refused (POSIX.1)
- .TP
--.B ECONNRESET
-+.B ECONNRESET (104)
- Connection reset (POSIX.1)
- .TP
--.B EDEADLK
-+.B EDEADLK (35)
- Resource deadlock avoided (POSIX.1)
- .TP
--.B EDEADLOCK
-+.B EDEADLOCK (35)
- Synonym for
- .B EDEADLK
- .TP
--.B EDESTADDRREQ
-+.B EDESTADDRREQ (89)
- Destination address required (POSIX.1)
- .TP
--.B EDOM
-+.B EDOM (33)
- Mathematics argument out of domain of function (POSIX.1, C99)
- .\" EDOTDOT is defined but appears to be unused
- .TP
--.B EDQUOT
-+.B EDQUOT (122)
- .\" POSIX just says "Reserved"
- Disk quota exceeded (POSIX.1)
- .TP
--.B EEXIST
-+.B EEXIST (17)
- File exists (POSIX.1)
- .TP
--.B EFAULT
-+.B EFAULT (14)
- Bad address (POSIX.1)
- .TP
--.B EFBIG
-+.B EFBIG (27)
- File too large (POSIX.1)
- .TP
--.B EHOSTDOWN
-+.B EHOSTDOWN (112)
- Host is down
- .TP
--.B EHOSTUNREACH
-+.B EHOSTUNREACH (113)
- Host is unreachable (POSIX.1)
- .TP
--.B EIDRM
-+.B EIDRM (43)
- Identifier removed (POSIX.1)
- .TP
--.B EILSEQ
-+.B EILSEQ (84)
- Illegal byte sequence (POSIX.1, C99)
- .TP
--.B EINPROGRESS
-+.B EINPROGRESS (115)
- Operation in progress (POSIX.1)
- .TP
--.B EINTR
-+.B EINTR (4)
- Interrupted function call (POSIX.1); see
- .BR signal (7).
- .TP
--.B EINVAL
-+.B EINVAL (22)
- Invalid argument (POSIX.1)
- .TP
--.B EIO
-+.B EIO (5)
- Input/output error (POSIX.1)
- .TP
--.B EISCONN
-+.B EISCONN (106)
- Socket is connected (POSIX.1)
- .TP
--.B EISDIR
-+.B EISDIR (21)
- Is a directory (POSIX.1)
- .TP
--.B EISNAM
-+.B EISNAM (120)
- Is a named type file
- .TP
--.B EKEYEXPIRED
-+.B EKEYEXPIRED (127)
- Key has expired
- .TP
--.B EKEYREJECTED
-+.B EKEYREJECTED (129)
- Key was rejected by service
- .TP
--.B EKEYREVOKED
-+.B EKEYREVOKED (128)
- Key has been revoked
- .TP
--.B EL2HLT
-+.B EL2HLT (51)
- Level 2 halted
- .TP
--.B EL2NSYNC
-+.B EL2NSYNC (45)
- Level 2 not synchronized
- .TP
--.B EL3HLT
-+.B EL3HLT (46)
- Level 3 halted
- .TP
--.B EL3RST
-+.B EL3RST (47)
- Level 3 halted
- .TP
--.B ELIBACC
-+.B ELIBACC (79)
- Cannot access a needed shared library
- .TP
--.B ELIBBAD
-+.B ELIBBAD (80)
- Accessing a corrupted shared library
- .TP
--.B ELIBMAX
-+.B ELIBMAX (82)
- Attempting to link in too many shared libraries
- .TP
--.B ELIBSCN
-+.B ELIBSCN (81)
- lib section in a.out corrupted
- .TP
--.B ELIBEXEC
-+.B ELIBEXEC (83)
- Cannot exec a shared library directly
- .TP
--.B ELOOP
-+.B ELOOP (40)
- Too many levels of symbolic links (POSIX.1)
- .\" ELNRNG is defined but appears to be unused
- .TP
--.B EMEDIUMTYPE
-+.B EMEDIUMTYPE (124)
- Wrong medium type
- .TP
--.B EMFILE
-+.B EMFILE (24)
- Too many open files (POSIX.1)
- .TP
--.B EMLINK
-+.B EMLINK (31)
- Too many links (POSIX.1)
- .TP
--.B EMSGSIZE
-+.B EMSGSIZE (90)
- Message too long (POSIX.1)
- .TP
--.B EMULTIHOP
-+.B EMULTIHOP (72)
- .\" POSIX says "Reserved"
- Multihop attempted (POSIX.1)
- .TP
--.B ENAMETOOLONG
-+.B ENAMETOOLONG (36)
- Filename too long (POSIX.1)
- .\" ENAVAIL is defined, but appears not to be used
- .TP
--.B ENETDOWN
-+.B ENETDOWN (100)
- Network is down (POSIX.1)
- .TP
--.B ENETRESET
-+.B ENETRESET (102)
- Connection aborted by network (POSIX.1)
- .TP
--.B ENETUNREACH
-+.B ENETUNREACH (101)
- Network unreachable (POSIX.1)
- .TP
--.B ENFILE
-+.B ENFILE (23)
- Too many open files in system (POSIX.1)
- .\" ENOANO is defined but appears to be unused.
- .TP
--.B ENOBUFS
-+.B ENOBUFS (105)
- No buffer space available (POSIX.1 (XSI STREAMS option))
- .\" ENOCSI is defined but appears to be unused.
- .TP
--.B ENODATA
-+.B ENODATA (61)
- No message is available on the STREAM head read queue (POSIX.1)
- .TP
--.B ENODEV
-+.B ENODEV (19)
- No such device (POSIX.1)
- .TP
--.B ENOENT
-+.B ENOENT (2)
- No such file or directory (POSIX.1)
- .TP
--.B ENOEXEC
-+.B ENOEXEC (8)
- Exec format error (POSIX.1)
- .TP
--.B ENOKEY
-+.B ENOKEY (126)
- Required key not available
- .TP
--.B ENOLCK
-+.B ENOLCK (37)
- No locks available (POSIX.1)
- .TP
--.B ENOLINK
-+.B ENOLINK (67)
- .\" POSIX says "Reserved"
- Link has been severed (POSIX.1)
- .TP
--.B ENOMEDIUM
-+.B ENOMEDIUM (123)
- No medium found
- .TP
--.B ENOMEM
-+.B ENOMEM (12)
- Not enough space (POSIX.1)
- .TP
--.B ENOMSG
-+.B ENOMSG (42)
- No message of the desired type (POSIX.1)
- .TP
--.B ENONET
-+.B ENONET (64)
- Machine is not on the network
- .TP
--.B ENOPKG
-+.B ENOPKG (65)
- Package not installed
- .TP
--.B ENOPROTOOPT
-+.B ENOPROTOOPT (92)
- Protocol not available (POSIX.1)
- .TP
--.B ENOSPC
-+.B ENOSPC (28)
- No space left on device (POSIX.1)
- .TP
--.B ENOSR
-+.B ENOSR (63)
- No STREAM resources (POSIX.1 (XSI STREAMS option))
- .TP
--.B ENOSTR
-+.B ENOSTR (60)
- Not a STREAM (POSIX.1 (XSI STREAMS option))
- .TP
--.B ENOSYS
-+.B ENOSYS (38)
- Function not implemented (POSIX.1)
- .TP
--.B ENOTBLK
-+.B ENOTBLK (15)
- Block device required
- .TP
--.B ENOTCONN
-+.B ENOTCONN (107)
- The socket is not connected (POSIX.1)
- .TP
--.B ENOTDIR
-+.B ENOTDIR (20)
- Not a directory (POSIX.1)
- .TP
--.B ENOTEMPTY
-+.B ENOTEMPTY (39)
- Directory not empty (POSIX.1)
- .\" ENOTNAM is defined but appears to be unused.
- .TP
--.B ENOTSOCK
-+.B ENOTSOCK (88)
- Not a socket (POSIX.1)
- .TP
- .B ENOTSUP
- Operation not supported (POSIX.1)
- .TP
--.B ENOTTY
-+.B ENOTTY (25)
- Inappropriate I/O control operation (POSIX.1)
- .TP
--.B ENOTUNIQ
-+.B ENOTUNIQ (76)
- Name not unique on network
- .TP
--.B ENXIO
-+.B ENXIO (6)
- No such device or address (POSIX.1)
- .TP
--.B EOPNOTSUPP
-+.B EOPNOTSUPP (95)
- Operation not supported on socket (POSIX.1)
- .sp
- .RB ( ENOTSUP
-@@ -388,67 +388,67 @@ and
- have the same value on Linux, but
- according to POSIX.1 these error values should be distinct.)
- .TP
--.B EOVERFLOW
-+.B EOVERFLOW (75)
- Value too large to be stored in data type (POSIX.1)
- .TP
--.B EPERM
-+.B EPERM (1)
- Operation not permitted (POSIX.1)
- .TP
--.B EPFNOSUPPORT
-+.B EPFNOSUPPORT (96)
- Protocol family not supported
- .TP
--.B EPIPE
-+.B EPIPE (32)
- Broken pipe (POSIX.1)
- .TP
--.B EPROTO
-+.B EPROTO (71)
- Protocol error (POSIX.1)
- .TP
--.B EPROTONOSUPPORT
-+.B EPROTONOSUPPORT (93)
- Protocol not supported (POSIX.1)
- .TP
--.B EPROTOTYPE
-+.B EPROTOTYPE (91)
- Protocol wrong type for socket (POSIX.1)
- .TP
--.B ERANGE
-+.B ERANGE (34)
- Result too large (POSIX.1, C99)
- .TP
--.B EREMCHG
-+.B EREMCHG (78)
- Remote address changed
- .TP
--.B EREMOTE
-+.B EREMOTE (66)
- Object is remote
- .TP
--.B EREMOTEIO
-+.B EREMOTEIO (121)
- Remote I/O error
- .TP
--.B ERESTART
-+.B ERESTART (85)
- Interrupted system call should be restarted
- .TP
--.B EROFS
-+.B EROFS (30)
- Read-only file system (POSIX.1)
- .TP
--.B ESHUTDOWN
-+.B ESHUTDOWN (108)
- Cannot send after transport endpoint shutdown
- .TP
--.B ESPIPE
-+.B ESPIPE (29)
- Invalid seek (POSIX.1)
- .TP
--.B ESOCKTNOSUPPORT
-+.B ESOCKTNOSUPPORT (94)
- Socket type not supported
- .TP
--.B ESRCH
-+.B ESRCH (3)
- No such process (POSIX.1)
- .\" ESRMNT is defined but appears not to be used
- .TP
--.B ESTALE
-+.B ESTALE (116)
- Stale file handle (POSIX.1)
- .sp
- This error can occur for NFS and for other file systems
- .TP
--.B ESTRPIPE
-+.B ESTRPIPE (86)
- Streams pipe error
- .TP
--.B ETIME
-+.B ETIME (62)
- Timer expired
- (POSIX.1 (XSI STREAMS option))
- .sp
-@@ -456,31 +456,31 @@ Timer expired
- .BR ioctl (2)
- timeout")
- .TP
--.B ETIMEDOUT
-+.B ETIMEDOUT (110)
- Connection timed out (POSIX.1)
- .\" ETOOMANYREFS is defined, but appears not to be used.
- .TP
--.B ETXTBSY
-+.B ETXTBSY (26)
- Text file busy (POSIX.1)
- .TP
--.B EUCLEAN
-+.B EUCLEAN (117)
- Structure needs cleaning
- .TP
--.B EUNATCH
-+.B EUNATCH (49)
- Protocol driver not attached
- .TP
--.B EUSERS
-+.B EUSERS (87)
- Too many users
- .TP
--.B EWOULDBLOCK
-+.B EWOULDBLOCK (11)
- Operation would block (may be same value as
- .BR EAGAIN )
- (POSIX.1)
- .TP
--.B EXDEV
-+.B EXDEV (18)
- Improper link (POSIX.1)
- .TP
--.B EXFULL
-+.B EXFULL (54)
- Exchange full
- .SH NOTES
- A common mistake is to do
+As mentioned previously use of vmsplice instead was considered, 
+but has problems. Since you need the reader and writer working
+co-operatively if the pipe is not drained then you block. Which
+requires some wrapping to do non blocking on the send side or polling
+on the receive. In all to all communication it requires ordering
+otherwise you can deadlock. And in the example of many MPI tasks
+writing to one MPI task vmsplice serialises the copying.
+
+There are some cases of MPI collectives where even a single copy
+interface does not get us the performance gain we could. For example in
+an MPI_Reduce rather than copy the data from the source we would like
+to instead use it directly in a mathops (say the reduce is doing a sum)
+as this would save us doing a copy. We don't need to keep a copy of the
+data from the source. I haven't implemented this, but I think this
+interface could in the future do all this through the use of the flags
+- eg could specify the math operation and type and the kernel rather
+than just copying the data would apply the specified operation between
+the source and destination and store it in the destination. 
+
+Although we don't have a "second user" of the interface (though I've
+had some nibbles from people who may be interested in using it for
+intra process messaging which is not MPI). This interface is something
+which hardware vendors are already doing for their custom drivers to
+implement fast local communication. And so in addition to this being
+useful for OpenMPI it would mean the driver maintainers don't have to
+fix things up when the mm changes. 
+
+There was some discussion about how much faster a true zero copy would
+go. Here's a link back to the email with some testing I did on that:
+
+http://marc.info/?l=linux-mm&m=130105930902915&w=2
+
+There is a basic man page for the proposed interface here:
+
+http://ozlabs.org/~cyeoh/cma/process_vm_readv.txt
+
+This has been implemented for x86 and powerpc, other architecture should
+mainly (I think) just need to add syscall numbers for the process_vm_readv
+and process_vm_writev. There are 32 bit compatibility versions for
+64-bit kernels.
+
+For arch maintainers there are some simple tests to be able to quickly 
+verify that the syscalls are working correctly here:
+
+http://ozlabs.org/~cyeoh/cma/cma-test-20110718.tgz
+
+Regards,
+
+Chris
 -- 
-1.7.2.5
+cyeoh@au.ibm.com
+Signed-off-by: Chris Yeoh <yeohc@au1.ibm.com>
+---
+ arch/powerpc/include/asm/systbl.h  |    2 
+ arch/powerpc/include/asm/unistd.h  |    4 
+ arch/x86/include/asm/unistd_32.h   |    4 
+ arch/x86/kernel/syscall_table_32.S |    2 
+ fs/aio.c                           |    4 
+ fs/compat.c                        |    7 
+ fs/read_write.c                    |    8 
+ include/linux/compat.h             |    3 
+ include/linux/fs.h                 |    7 
+ include/linux/syscalls.h           |   13 +
+ mm/Makefile                        |    3 
+ mm/process_vm_access.c             |  446 +++++++++++++++++++++++++++++++++++++
+ security/keys/compat.c             |    2 
+ security/keys/keyctl.c             |    2 
+ 14 files changed, 490 insertions(+), 17 deletions(-)
+
+diff --git a/arch/powerpc/include/asm/systbl.h b/arch/powerpc/include/asm/systbl.h
+index f6736b7..525db4b 100644
+--- a/arch/powerpc/include/asm/systbl.h
++++ b/arch/powerpc/include/asm/systbl.h
+@@ -354,3 +354,5 @@ COMPAT_SYS_SPU(clock_adjtime)
+ SYSCALL_SPU(syncfs)
+ COMPAT_SYS_SPU(sendmmsg)
+ SYSCALL_SPU(setns)
++COMPAT_SYS(process_vm_readv)
++COMPAT_SYS(process_vm_writev)
+diff --git a/arch/powerpc/include/asm/unistd.h b/arch/powerpc/include/asm/unistd.h
+index b8b3f59..d3d1b5e 100644
+--- a/arch/powerpc/include/asm/unistd.h
++++ b/arch/powerpc/include/asm/unistd.h
+@@ -373,10 +373,12 @@
+ #define __NR_syncfs		348
+ #define __NR_sendmmsg		349
+ #define __NR_setns		350
++#define __NR_process_vm_readv	351
++#define __NR_process_vm_writev	352
+ 
+ #ifdef __KERNEL__
+ 
+-#define __NR_syscalls		351
++#define __NR_syscalls		353
+ 
+ #define __NR__exit __NR_exit
+ #define NR_syscalls	__NR_syscalls
+diff --git a/arch/x86/include/asm/unistd_32.h b/arch/x86/include/asm/unistd_32.h
+index 593485b..599c77d 100644
+--- a/arch/x86/include/asm/unistd_32.h
++++ b/arch/x86/include/asm/unistd_32.h
+@@ -352,10 +352,12 @@
+ #define __NR_syncfs             344
+ #define __NR_sendmmsg		345
+ #define __NR_setns		346
++#define __NR_process_vm_readv	347
++#define __NR_process_vm_writev	348
+ 
+ #ifdef __KERNEL__
+ 
+-#define NR_syscalls 347
++#define NR_syscalls 349
+ 
+ #define __ARCH_WANT_IPC_PARSE_VERSION
+ #define __ARCH_WANT_OLD_READDIR
+diff --git a/arch/x86/kernel/syscall_table_32.S b/arch/x86/kernel/syscall_table_32.S
+index fbb0a04..ca0fe4d 100644
+--- a/arch/x86/kernel/syscall_table_32.S
++++ b/arch/x86/kernel/syscall_table_32.S
+@@ -346,3 +346,5 @@ ENTRY(sys_call_table)
+ 	.long sys_syncfs
+ 	.long sys_sendmmsg		/* 345 */
+ 	.long sys_setns
++	.long sys_process_vm_readv
++	.long sys_process_vm_writev
+diff --git a/fs/aio.c b/fs/aio.c
+index e29ec48..632b235 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1387,13 +1387,13 @@ static ssize_t aio_setup_vectored_rw(int type, struct kiocb *kiocb, bool compat)
+ 		ret = compat_rw_copy_check_uvector(type,
+ 				(struct compat_iovec __user *)kiocb->ki_buf,
+ 				kiocb->ki_nbytes, 1, &kiocb->ki_inline_vec,
+-				&kiocb->ki_iovec);
++				&kiocb->ki_iovec, 1);
+ 	else
+ #endif
+ 		ret = rw_copy_check_uvector(type,
+ 				(struct iovec __user *)kiocb->ki_buf,
+ 				kiocb->ki_nbytes, 1, &kiocb->ki_inline_vec,
+-				&kiocb->ki_iovec);
++				&kiocb->ki_iovec, 1);
+ 	if (ret < 0)
+ 		goto out;
+ 
+diff --git a/fs/compat.c b/fs/compat.c
+index 0ea0083..ec53ccc 100644
+--- a/fs/compat.c
++++ b/fs/compat.c
+@@ -550,7 +550,7 @@ out:
+ ssize_t compat_rw_copy_check_uvector(int type,
+ 		const struct compat_iovec __user *uvector, unsigned long nr_segs,
+ 		unsigned long fast_segs, struct iovec *fast_pointer,
+-		struct iovec **ret_pointer)
++		struct iovec **ret_pointer, int check_access)
+ {
+ 	compat_ssize_t tot_len;
+ 	struct iovec *iov = *ret_pointer = fast_pointer;
+@@ -597,7 +597,8 @@ ssize_t compat_rw_copy_check_uvector(int type,
+ 		}
+ 		if (len < 0)	/* size_t not fitting in compat_ssize_t .. */
+ 			goto out;
+-		if (!access_ok(vrfy_dir(type), compat_ptr(buf), len)) {
++		if (check_access &&
++		    !access_ok(vrfy_dir(type), compat_ptr(buf), len)) {
+ 			ret = -EFAULT;
+ 			goto out;
+ 		}
+@@ -1111,7 +1112,7 @@ static ssize_t compat_do_readv_writev(int type, struct file *file,
+ 		goto out;
+ 
+ 	tot_len = compat_rw_copy_check_uvector(type, uvector, nr_segs,
+-					       UIO_FASTIOV, iovstack, &iov);
++					       UIO_FASTIOV, iovstack, &iov, 1);
+ 	if (tot_len == 0) {
+ 		ret = 0;
+ 		goto out;
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 5520f8a..b905826 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -575,7 +575,8 @@ ssize_t do_loop_readv_writev(struct file *filp, struct iovec *iov,
+ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+ 			      unsigned long nr_segs, unsigned long fast_segs,
+ 			      struct iovec *fast_pointer,
+-			      struct iovec **ret_pointer)
++			      struct iovec **ret_pointer,
++			      int check_access)
+ {
+ 	unsigned long seg;
+ 	ssize_t ret;
+@@ -631,7 +632,8 @@ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+ 			ret = -EINVAL;
+ 			goto out;
+ 		}
+-		if (unlikely(!access_ok(vrfy_dir(type), buf, len))) {
++		if (check_access
++		    && unlikely(!access_ok(vrfy_dir(type), buf, len))) {
+ 			ret = -EFAULT;
+ 			goto out;
+ 		}
+@@ -663,7 +665,7 @@ static ssize_t do_readv_writev(int type, struct file *file,
+ 	}
+ 
+ 	ret = rw_copy_check_uvector(type, uvector, nr_segs,
+-			ARRAY_SIZE(iovstack), iovstack, &iov);
++				    ARRAY_SIZE(iovstack), iovstack, &iov, 1);
+ 	if (ret <= 0)
+ 		goto out;
+ 
+diff --git a/include/linux/compat.h b/include/linux/compat.h
+index 846bb17..1cc917a 100644
+--- a/include/linux/compat.h
++++ b/include/linux/compat.h
+@@ -557,7 +557,8 @@ extern ssize_t compat_rw_copy_check_uvector(int type,
+ 		const struct compat_iovec __user *uvector,
+ 		unsigned long nr_segs,
+ 		unsigned long fast_segs, struct iovec *fast_pointer,
+-		struct iovec **ret_pointer);
++		struct iovec **ret_pointer,
++		int check_access);
+ 
+ extern void __user *compat_alloc_user_space(unsigned long len);
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index b5b9792..d97ffab 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1608,9 +1608,10 @@ struct inode_operations {
+ struct seq_file;
+ 
+ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+-				unsigned long nr_segs, unsigned long fast_segs,
+-				struct iovec *fast_pointer,
+-				struct iovec **ret_pointer);
++			      unsigned long nr_segs, unsigned long fast_segs,
++			      struct iovec *fast_pointer,
++			      struct iovec **ret_pointer,
++			      int check_access);
+ 
+ extern ssize_t vfs_read(struct file *, char __user *, size_t, loff_t *);
+ extern ssize_t vfs_write(struct file *, const char __user *, size_t, loff_t *);
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 8c03b98..0dc0809 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -847,4 +847,17 @@ asmlinkage long sys_open_by_handle_at(int mountdirfd,
+ 				      struct file_handle __user *handle,
+ 				      int flags);
+ asmlinkage long sys_setns(int fd, int nstype);
++asmlinkage long sys_process_vm_readv(pid_t pid,
++				     const struct iovec __user *lvec,
++				     unsigned long liovcnt,
++				     const struct iovec __user *rvec,
++				     unsigned long riovcnt,
++				     unsigned long flags);
++asmlinkage long sys_process_vm_writev(pid_t pid,
++				      const struct iovec __user *lvec,
++				      unsigned long liovcnt,
++				      const struct iovec __user *rvec,
++				      unsigned long riovcnt,
++				      unsigned long flags);
++
+ #endif
+diff --git a/mm/Makefile b/mm/Makefile
+index 836e416..50ec00e 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -5,7 +5,8 @@
+ mmu-y			:= nommu.o
+ mmu-$(CONFIG_MMU)	:= fremap.o highmem.o madvise.o memory.o mincore.o \
+ 			   mlock.o mmap.o mprotect.o mremap.o msync.o rmap.o \
+-			   vmalloc.o pagewalk.o pgtable-generic.o
++			   vmalloc.o pagewalk.o pgtable-generic.o \
++			   process_vm_access.o
+ 
+ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   maccess.o page_alloc.o page-writeback.o \
+diff --git a/mm/process_vm_access.c b/mm/process_vm_access.c
+new file mode 100644
+index 0000000..0df7696
+--- /dev/null
++++ b/mm/process_vm_access.c
+@@ -0,0 +1,446 @@
++/*
++ *  linux/mm/process_vm_access.c
++ *
++ *  Copyright (C) 2010-2011 Christopher Yeoh <cyeoh@au1.ibm.com>, IBM Corp.
++ */
++
++#include <linux/mm.h>
++#include <linux/uio.h>
++#include <linux/sched.h>
++#include <linux/highmem.h>
++#include <linux/ptrace.h>
++#include <linux/slab.h>
++#include <linux/syscalls.h>
++
++#ifdef CONFIG_COMPAT
++#include <linux/compat.h>
++#endif
++
++/*
++ * process_vm_rw_pages - read/write pages from task specified
++ * @task: task to read/write from
++ * @mm: mm for task
++ * @process_pages: struct pages area that can store at least
++ *  nr_pages_to_copy struct page pointers
++ * @pa: address of page in task to start copying from/to
++ * @start_offset: offset in page to start copying from/to
++ * @len: number of bytes to copy
++ * @lvec: iovec array specifying where to copy to/from
++ * @lvec_cnt: number of elements in iovec array
++ * @lvec_current: index in iovec array we are up to
++ * @lvec_offset: offset in bytes from current iovec iov_base we are up to
++ * @vm_write: 0 means copy from, 1 means copy to
++ * @nr_pages_to_copy: number of pages to copy
++ */
++static ssize_t process_vm_rw_pages(struct task_struct *task,
++				   struct mm_struct *mm,
++				   struct page **process_pages,
++				   unsigned long pa,
++				   unsigned long start_offset,
++				   unsigned long len,
++				   const struct iovec *lvec,
++				   unsigned long lvec_cnt,
++				   unsigned long *lvec_current,
++				   size_t *lvec_offset,
++				   int vm_write,
++				   unsigned int nr_pages_to_copy)
++{
++	int pages_pinned;
++	void *target_kaddr;
++	int pgs_copied = 0;
++	int j;
++	int ret;
++	ssize_t bytes_to_copy;
++	ssize_t bytes_copied = 0;
++	ssize_t rc = -EFAULT;
++
++	/* Get the pages we're interested in */
++	down_read(&mm->mmap_sem);
++	pages_pinned = get_user_pages(task, mm, pa,
++				      nr_pages_to_copy,
++				      vm_write, 0, process_pages, NULL);
++	up_read(&mm->mmap_sem);
++
++	if (pages_pinned != nr_pages_to_copy)
++		goto end;
++
++	/* Do the copy for each page */
++	for (pgs_copied = 0;
++	     (pgs_copied < nr_pages_to_copy) && (*lvec_current < lvec_cnt);
++	     pgs_copied++) {
++		/* Make sure we have a non zero length iovec */
++		while (*lvec_current < lvec_cnt
++		       && lvec[*lvec_current].iov_len == 0)
++			(*lvec_current)++;
++		if (*lvec_current == lvec_cnt)
++			break;
++
++		/*
++		 * Will copy smallest of:
++		 * - bytes remaining in page
++		 * - bytes remaining in destination iovec
++		 */
++		bytes_to_copy = min_t(ssize_t, PAGE_SIZE - start_offset,
++				      len - bytes_copied);
++		bytes_to_copy = min_t(ssize_t, bytes_to_copy,
++				      lvec[*lvec_current].iov_len
++				      - *lvec_offset);
++
++		target_kaddr = kmap(process_pages[pgs_copied]) + start_offset;
++
++		if (vm_write)
++			ret = copy_from_user(target_kaddr,
++					     lvec[*lvec_current].iov_base
++					     + *lvec_offset,
++					     bytes_to_copy);
++		else
++			ret = copy_to_user(lvec[*lvec_current].iov_base
++					   + *lvec_offset,
++					   target_kaddr, bytes_to_copy);
++		kunmap(process_pages[pgs_copied]);
++		if (ret) {
++			pgs_copied++;
++			goto end;
++		}
++		bytes_copied += bytes_to_copy;
++		*lvec_offset += bytes_to_copy;
++		if (*lvec_offset == lvec[*lvec_current].iov_len) {
++			/*
++			 * Need to copy remaining part of page into the
++			 * next iovec if there are any bytes left in page
++			 */
++			(*lvec_current)++;
++			*lvec_offset = 0;
++			start_offset = (start_offset + bytes_to_copy)
++				% PAGE_SIZE;
++			if (start_offset)
++				pgs_copied--;
++		} else {
++			start_offset = 0;
++		}
++	}
++
++	rc = bytes_copied;
++
++end:
++	if (vm_write) {
++		for (j = 0; j < pages_pinned; j++) {
++			if (j < pgs_copied)
++				set_page_dirty_lock(process_pages[j]);
++			put_page(process_pages[j]);
++		}
++	} else {
++		for (j = 0; j < pages_pinned; j++)
++			put_page(process_pages[j]);
++	}
++
++	return rc;
++}
++
++/* Maximum number of pages kmalloc'd to hold struct page's during copy */
++#define PVM_MAX_KMALLOC_PAGES (PAGE_SIZE * 2)
++
++/*
++ * process_vm_rw_single_vec - read/write pages from task specified
++ * @addr: start memory address of target process
++ * @len: size of area to copy to/from
++ * @lvec: iovec array specifying where to copy to/from locally
++ * @lvec_cnt: number of elements in iovec array
++ * @lvec_current: index in iovec array we are up to
++ * @lvec_offset: offset in bytes from current iovec iov_base we are up to
++ * @process_pages: struct pages area that can store at least
++ *  nr_pages_to_copy struct page pointers
++ * @mm: mm for task
++ * @task: task to read/write from
++ * @vm_write: 0 means copy from, 1 means copy to
++ */
++static ssize_t process_vm_rw_single_vec(unsigned long addr,
++					unsigned long len,
++					const struct iovec *lvec,
++					unsigned long lvec_cnt,
++					unsigned long *lvec_current,
++					size_t *lvec_offset,
++					struct page **process_pages,
++					struct mm_struct *mm,
++					struct task_struct *task,
++					int vm_write)
++{
++	unsigned long pa = addr & PAGE_MASK;
++	unsigned long start_offset = addr - pa;
++	unsigned long nr_pages;
++	ssize_t bytes_copied = 0;
++	ssize_t rc;
++	unsigned long nr_pages_copied = 0;
++	unsigned long nr_pages_to_copy;
++	unsigned long max_pages_per_loop = PVM_MAX_KMALLOC_PAGES
++		/ sizeof(struct pages *);
++
++
++	/* Work out address and page range required */
++	if (len == 0)
++		return 0;
++	nr_pages = (addr + len - 1) / PAGE_SIZE - addr / PAGE_SIZE + 1;
++
++
++	while ((nr_pages_copied < nr_pages) && (*lvec_current < lvec_cnt)) {
++		nr_pages_to_copy = min(nr_pages - nr_pages_copied,
++				       max_pages_per_loop);
++
++		rc = process_vm_rw_pages(task, mm, process_pages, pa,
++					 start_offset, len,
++					 lvec, lvec_cnt,
++					 lvec_current, lvec_offset,
++					 vm_write, nr_pages_to_copy);
++		start_offset = 0;
++
++		if (rc < 0)
++			return rc;
++		else {
++			bytes_copied += rc;
++			len -= rc;
++			nr_pages_copied += nr_pages_to_copy;
++			pa += nr_pages_to_copy * PAGE_SIZE;
++		}
++	}
++
++	rc = bytes_copied;
++	return rc;
++}
++
++static ssize_t process_vm_rw(pid_t pid, const struct iovec *lvec,
++			     unsigned long liovcnt,
++			     const struct iovec *rvec,
++			     unsigned long riovcnt,
++			     unsigned long flags, int vm_write)
++{
++	struct task_struct *task;
++	struct page **process_pages = NULL;
++	struct mm_struct *mm;
++	unsigned long i;
++	ssize_t rc;
++	ssize_t bytes_copied;
++	unsigned long nr_pages = 0;
++	unsigned long nr_pages_iov;
++	unsigned long iov_l_curr_idx = 0;
++	size_t iov_l_curr_offset = 0;
++	ssize_t iov_len;
++
++	/*
++	 * Work out how many pages of struct pages we're going to need
++	 * when eventually calling get_user_pages
++	 */
++	for (i = 0; i < riovcnt; i++) {
++		iov_len = rvec[i].iov_len;
++		if (iov_len > 0) {
++			nr_pages_iov = ((unsigned long)rvec[i].iov_base
++					+ iov_len)
++				/ PAGE_SIZE - (unsigned long)rvec[i].iov_base
++				/ PAGE_SIZE + 1;
++			nr_pages = max(nr_pages, nr_pages_iov);
++		}
++	}
++
++	if (nr_pages == 0)
++		return 0;
++
++	/* For reliability don't try to kmalloc more than 2 pages worth */
++	process_pages = kmalloc(min_t(size_t, PVM_MAX_KMALLOC_PAGES,
++				      sizeof(struct pages *)*nr_pages),
++				GFP_KERNEL);
++
++	if (!process_pages)
++		return -ENOMEM;
++
++	/* Get process information */
++	rcu_read_lock();
++	task = find_task_by_vpid(pid);
++	if (task)
++		get_task_struct(task);
++	rcu_read_unlock();
++	if (!task) {
++		rc = -ESRCH;
++		goto free_proc_pages;
++	}
++
++	task_lock(task);
++	if (__ptrace_may_access(task, PTRACE_MODE_ATTACH)) {
++		task_unlock(task);
++		rc = -EPERM;
++		goto put_task_struct;
++	}
++	mm = task->mm;
++
++	if (!mm || (task->flags & PF_KTHREAD)) {
++		task_unlock(task);
++		rc = -EINVAL;
++		goto put_task_struct;
++	}
++
++	atomic_inc(&mm->mm_users);
++	task_unlock(task);
++
++	rc = 0;
++	for (i = 0; i < riovcnt && iov_l_curr_idx < liovcnt; i++) {
++		bytes_copied = process_vm_rw_single_vec(
++			(unsigned long)rvec[i].iov_base, rvec[i].iov_len,
++			lvec, liovcnt, &iov_l_curr_idx, &iov_l_curr_offset,
++			process_pages, mm, task, vm_write);
++		if (bytes_copied < 0) {
++			rc = bytes_copied;
++			goto put_mm;
++		} else {
++			rc += bytes_copied;
++		}
++	}
++
++put_mm:
++	mmput(mm);
++
++put_task_struct:
++	put_task_struct(task);
++
++
++free_proc_pages:
++	kfree(process_pages);
++	return rc;
++}
++
++static ssize_t process_vm_rw_check_iovecs(pid_t pid,
++					  const struct iovec __user *lvec,
++					  unsigned long liovcnt,
++					  const struct iovec __user *rvec,
++					  unsigned long riovcnt,
++					  unsigned long flags, int vm_write)
++{
++	struct iovec iovstack_l[UIO_FASTIOV];
++	struct iovec iovstack_r[UIO_FASTIOV];
++	struct iovec *iov_l = iovstack_l;
++	struct iovec *iov_r = iovstack_r;
++	ssize_t rc;
++
++	if (flags != 0)
++		return -EINVAL;
++
++	/* Check iovecs */
++	if (vm_write)
++		rc = rw_copy_check_uvector(WRITE, lvec, liovcnt, UIO_FASTIOV,
++					   iovstack_l, &iov_l, 1);
++	else
++		rc = rw_copy_check_uvector(READ, lvec, liovcnt, UIO_FASTIOV,
++					   iovstack_l, &iov_l, 1);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = rw_copy_check_uvector(READ, rvec, riovcnt, UIO_FASTIOV,
++				   iovstack_r, &iov_r, 0);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = process_vm_rw(pid, iov_l, liovcnt, iov_r, riovcnt, flags,
++			    vm_write);
++
++free_iovecs:
++	if (iov_r != iovstack_r)
++		kfree(iov_r);
++	if (iov_l != iovstack_l)
++		kfree(iov_l);
++
++	return rc;
++}
++
++SYSCALL_DEFINE6(process_vm_readv, pid_t, pid, const struct iovec __user *, lvec,
++		unsigned long, liovcnt, const struct iovec __user *, rvec,
++		unsigned long, riovcnt,	unsigned long, flags)
++{
++	return process_vm_rw_check_iovecs(pid, lvec, liovcnt, rvec, riovcnt,
++					  flags, 0);
++}
++
++SYSCALL_DEFINE6(process_vm_writev, pid_t, pid,
++		const struct iovec __user *, lvec,
++		unsigned long, liovcnt, const struct iovec __user *, rvec,
++		unsigned long, riovcnt,	unsigned long, flags)
++{
++	return process_vm_rw_check_iovecs(pid, lvec, liovcnt, rvec, riovcnt,
++					  flags, 1);
++}
++
++#ifdef CONFIG_COMPAT
++
++asmlinkage ssize_t
++compat_process_vm_rw_check_iovecs(compat_pid_t pid,
++				  const struct compat_iovec __user *lvec,
++				  unsigned long liovcnt,
++				  const struct compat_iovec __user *rvec,
++				  unsigned long riovcnt,
++				  unsigned long flags, int vm_write)
++{
++	struct iovec iovstack_l[UIO_FASTIOV];
++	struct iovec iovstack_r[UIO_FASTIOV];
++	struct iovec *iov_l = iovstack_l;
++	struct iovec *iov_r = iovstack_r;
++	ssize_t rc = -EFAULT;
++
++	if (flags != 0)
++		return -EINVAL;
++
++	if (!access_ok(VERIFY_READ, lvec, liovcnt * sizeof(*lvec)))
++		goto out;
++
++	if (!access_ok(VERIFY_READ, rvec, riovcnt * sizeof(*rvec)))
++		goto out;
++
++	if (vm_write)
++		rc = compat_rw_copy_check_uvector(WRITE, lvec, liovcnt,
++						  UIO_FASTIOV, iovstack_l,
++						  &iov_l, 1);
++	else
++		rc = compat_rw_copy_check_uvector(READ, lvec, liovcnt,
++						  UIO_FASTIOV, iovstack_l,
++						  &iov_l, 1);
++	if (rc <= 0)
++		goto free_iovecs;
++	rc = compat_rw_copy_check_uvector(READ, rvec, riovcnt,
++					  UIO_FASTIOV, iovstack_r,
++					  &iov_r, 0);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = process_vm_rw(pid, iov_l, liovcnt, iov_r, riovcnt, flags,
++			    vm_write);
++
++free_iovecs:
++	if (iov_r != iovstack_r)
++		kfree(iov_r);
++	if (iov_l != iovstack_l)
++		kfree(iov_l);
++
++out:
++	return rc;
++}
++
++asmlinkage ssize_t
++compat_sys_process_vm_readv(compat_pid_t pid,
++			    const struct compat_iovec __user *lvec,
++			    unsigned long liovcnt,
++			    const struct compat_iovec __user *rvec,
++			    unsigned long riovcnt,
++			    unsigned long flags)
++{
++	return compat_process_vm_rw_check_iovecs(pid, lvec, liovcnt, rvec,
++						 riovcnt, flags, 0);
++}
++
++asmlinkage ssize_t
++compat_sys_process_vm_writev(compat_pid_t pid,
++			     const struct compat_iovec __user *lvec,
++			     unsigned long liovcnt,
++			     const struct compat_iovec __user *rvec,
++			     unsigned long riovcnt,
++			     unsigned long flags)
++{
++	return compat_process_vm_rw_check_iovecs(pid, lvec, liovcnt, rvec,
++						 riovcnt, flags, 1);
++}
++
++#endif
+diff --git a/security/keys/compat.c b/security/keys/compat.c
+index 338b510..4c48e13 100644
+--- a/security/keys/compat.c
++++ b/security/keys/compat.c
+@@ -38,7 +38,7 @@ long compat_keyctl_instantiate_key_iov(
+ 
+ 	ret = compat_rw_copy_check_uvector(WRITE, _payload_iov, ioc,
+ 					   ARRAY_SIZE(iovstack),
+-					   iovstack, &iov);
++					   iovstack, &iov, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret == 0)
+diff --git a/security/keys/keyctl.c b/security/keys/keyctl.c
+index eca5191..0b3f5d7 100644
+--- a/security/keys/keyctl.c
++++ b/security/keys/keyctl.c
+@@ -1065,7 +1065,7 @@ long keyctl_instantiate_key_iov(key_serial_t id,
+ 		goto no_payload;
+ 
+ 	ret = rw_copy_check_uvector(WRITE, _payload_iov, ioc,
+-				    ARRAY_SIZE(iovstack), iovstack, &iov);
++				    ARRAY_SIZE(iovstack), iovstack, &iov, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret == 0)
 
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
