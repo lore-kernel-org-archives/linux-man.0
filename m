@@ -1,81 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 39652] New: connect (2) under IPv6 has an incomplete list of
- returnable error numbers
-Date: Wed, 20 Jul 2011 17:55:00 GMT
-Message-ID: <bug-39652-11311@https.bugzilla.kernel.org/>
+From: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Subject: Re: Cross Memory Attach v3
+Date: Thu, 21 Jul 2011 14:54:33 -0700
+Message-ID: <20110721145433.a77818b2.akpm@linux-foundation.org>
+References: <20110719003537.16b189ae@lilo>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20110719003537.16b189ae@lilo>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>
+Cc: linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D39652
+On Tue, 19 Jul 2011 00:35:37 +0930
+Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org> wrote:
 
-           Summary: connect (2) under IPv6 has an incomplete list of
-                    returnable error numbers
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: 2.6.37
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: kernel-3dJX9IkHV5SkwWA8rprFa0EOCMrvLtNR@public.gmane.org
-        Regression: No
+> Hi Andrew,
+> 
+> Resending with CC's as you requested. Have added information about a man
+> page and what is required for arches other than x86 and powerpc which
+> have already been done.
+> 
+> Just as a reminder of what has happened so far, repeating some content
+> from previous emails about it:
+> 
+> The basic idea behind cross memory attach is to allow MPI programs doing
+> intra-node communication to do a single copy of the message rather than
+> a double copy of the message via shared memory.
+> 
+> The following patch attempts to achieve this by allowing a
+> destination process, given an address and size from a source process, to
+> copy memory directly from the source process into its own address space
+> via a system call. There is also a symmetrical ability to copy from 
+> the current process's address space into a destination process's
+> address space.
+>
+> ...
+>
+>  arch/powerpc/include/asm/systbl.h  |    2 
+>  arch/powerpc/include/asm/unistd.h  |    4 
+>  arch/x86/include/asm/unistd_32.h   |    4 
+>  arch/x86/kernel/syscall_table_32.S |    2 
+>  fs/aio.c                           |    4 
+>  fs/compat.c                        |    7 
+>  fs/read_write.c                    |    8 
+>  include/linux/compat.h             |    3 
+>  include/linux/fs.h                 |    7 
+>  include/linux/syscalls.h           |   13 +
+>  mm/Makefile                        |    3 
+>  mm/process_vm_access.c             |  446 +++++++++++++++++++++++++++++++++++++
+>  security/keys/compat.c             |    2 
+>  security/keys/keyctl.c             |    2 
+>  14 files changed, 490 insertions(+), 17 deletions(-)
 
-
-I believe this applies to many 2.6.xx kernel documentation sets.
-
-The man-page for connect (2) has an incomplete list of potential error =
-reasons
-(indicated in errno) and their descriptive causes when attempting to co=
-nnect to
-a remote IPv6 server and the return value indicates an error (-1).
-
-Observed by testing with 2.6.37:
-
-ENETUNREACH =E2=80=93 reason should additionally include reference to t=
-he receipt of an
-ICMPv6 type 1 code 0 (no route to destination) response.
-
-EACCES =E2=80=93 reason should additionally include reference to the re=
-ceipt of an
-ICMPv6 type 1 code 1 (Administratively prohibited) response.
-
-EHOSTUNREACH =E2=80=93 this isn't documented as a potential reason at p=
-resent, but I
-believe it should be added and the causes are ICMPv6 type 1 code 3 (Add=
-ress
-unreachable - I've verified this to be the case) or ICMPv6 type 3 (Time
-exceeded =E2=80=93 I haven't verified this case - please check source c=
-ode).
-
-ECONNREFUSED =E2=80=93 reason should additionally include reference to =
-the receipt of
-an ICMPv6 type 1 code 4 (Port unreachable) or TCP RST/ACK response.
-
-Having looked through v2.6.31 source it appears that potentially the fo=
-llowing
-could also occur although I haven't verified this to be the case:
-
-EMSGSIZE =E2=80=93 ICMPv6 type 2 =E2=80=93 ICMPv6 type 2 (Packet too bi=
-g)
-EPROTO =E2=80=93 ICMPv6 type 4 =E2=80=93 ICMPv6 type 4 (Parameter probl=
-em)
-
-Thanks.
-
---=20
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=3Demai=
-l
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.--
+Confused.  Why no arch/x86/include/asm/unistd_64.h wire-up?
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
