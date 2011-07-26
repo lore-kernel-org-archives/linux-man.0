@@ -1,155 +1,190 @@
-From: Christopher Yeoh <cyeoh@au1.ibm.com>
-Subject: Re: Cross Memory Attach v3
-Date: Mon, 25 Jul 2011 16:41:48 +0930
-Message-ID: <20110725164148.05a672b0@lilo>
-References: <20110719003537.16b189ae@lilo>
-	<20110721150908.a71a59d6.akpm@linux-foundation.org>
+From: =?UTF-8?B?5pyI5ZC5?= <getsufuki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [bug][wishlist]I have tranlate socket(2) man into chinese
+Date: Tue, 26 Jul 2011 12:51:50 +0800
+Message-ID: <4E2E47E6.1090805@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-arch-owner@vger.kernel.org>
-In-Reply-To: <20110721150908.a71a59d6.akpm@linux-foundation.org>
-Sender: linux-arch-owner@vger.kernel.org
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org
+Content-Type: multipart/mixed;
+ boundary="------------090107010108040607000401"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, 21 Jul 2011 15:09:08 -0700
-Andrew Morton <akpm@linux-foundation.org> wrote:
+This is a multi-part message in MIME format.
+--------------090107010108040607000401
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> On Tue, 19 Jul 2011 00:35:37 +0930
-> Christopher Yeoh <cyeoh@au1.ibm.com> wrote:
-> 
-> > +/*
-> > + * process_vm_rw_pages - read/write pages from task specified
-> > + * @task: task to read/write from
-> > + * @mm: mm for task
-> > + * @process_pages: struct pages area that can store at least
-> > + *  nr_pages_to_copy struct page pointers
-> > + * @pa: address of page in task to start copying from/to
-> > + * @start_offset: offset in page to start copying from/to
-> > + * @len: number of bytes to copy
-> > + * @lvec: iovec array specifying where to copy to/from
-> > + * @lvec_cnt: number of elements in iovec array
-> > + * @lvec_current: index in iovec array we are up to
-> > + * @lvec_offset: offset in bytes from current iovec iov_base we
-> > are up to
-> > + * @vm_write: 0 means copy from, 1 means copy to
-> > + * @nr_pages_to_copy: number of pages to copy
-> > + */
-> > +static ssize_t process_vm_rw_pages(struct task_struct *task,
-> > +				   struct mm_struct *mm,
-> > +				      - *lvec_offset);
-> > .....
-> > 
-> > +
-> > +		target_kaddr = kmap(process_pages[pgs_copied]) +
-> > start_offset; +
-> > +		if (vm_write)
-> > +			ret = copy_from_user(target_kaddr,
-> > +
-> > lvec[*lvec_current].iov_base
-> > +					     + *lvec_offset,
-> > +					     bytes_to_copy);
-> > +		else
-> > +			ret =
-> > copy_to_user(lvec[*lvec_current].iov_base
-> > +					   + *lvec_offset,
-> > +					   target_kaddr,
-> > bytes_to_copy);
-> > +		kunmap(process_pages[pgs_copied]);
-> > +		if (ret) {
-> > +			pgs_copied++;
-> > +			goto end;
-> 
-> afacit this will always return -EFAULT, even after copying some
-> memory.
-> 
-> Is this a misdesign?  Would it not be better to return the number of
-> bytes actually copied, or -EFAULT is we weren't able to copy any?
-> Like read().
-> 
-> That way, userspace can at least process the data which _was_
-> transferred, before retrying and then handling the fault.  With the
-> proposed interface this is not possible, and the data is lost.
+subscribe linux-man
 
-Perhaps because of how I'm using the interface for MPI I
-was thinking that if it fails at this point due to EFAULT then
-its an application error and that the partial read/write wouldn't be
-used. But I see your point could be true for other uses of the interface
-and the next version will return partial read/write information all the
-way back to userspace.
+I will format it later
 
-> And note that the function's kerneldoc doesn't document the return
-> value at all!  kerneldoc sucks that way - there's no formal place in
-> the template, so people often ignore this important part of the
-> function interface.  Similarly, there's no kerneldoc template for
-> preconditions such as irq on/off, locks which must be held, etc.
-> So they don't get documented.  But they're part of the interface.
-> 
 
-Ok. Will be fixed in next version
 
-> > nr_pages_to_copy);
-> > +		start_offset = 0;
-> > +
-> > +		if (rc < 0)
-> > +			return rc;
-> 
-> It's propagated here.
-> 
-> (CodingStyleNit: it's conventional to put {} around the single-line
-> block in this case, btw).
-> 
 
-Fixed now.
 
-> > +
-> > +	if (nr_pages == 0)
-> > +		return 0;
-> > +
-> > +	/* For reliability don't try to kmalloc more than 2 pages
-> > worth */
-> > +	process_pages = kmalloc(min_t(size_t,
-> > PVM_MAX_KMALLOC_PAGES,
-> > +				      sizeof(struct pages
-> > *)*nr_pages),
-> > +				GFP_KERNEL);
-> 
-> You might get some speed benefit by optimising for the small copies
-> here.  Define a local on-stack array of N page*'s and point
-> process_pages at that if the number of pages is <= N.  Saves a
-> malloc/free and is more cache-friendly.  But only if the result is
-> measurable!
 
-ok. will do some benchmarking to see if its worth it.
 
-> > +
-> > +static ssize_t process_vm_rw_check_iovecs(pid_t pid,
-> > +					  const struct iovec
-> > __user *lvec,
-> > +					  unsigned long liovcnt,
-> > +					  const struct iovec
-> > __user *rvec,
-> > +					  unsigned long riovcnt,
-> > +					  unsigned long flags, int
-> > vm_write)
-> 
-> I'm allergic to functions with "check" in their name.  Check for what?
-> 
-> And one would expect a check_foo() to return a bool or an errno.  This
-> one returns a ssize_t!  Weird!  Interface documentation, please. 
-> Including return value semantics ;)
 
-That part was split out from the main function because the iovec
-checks are different for 32 bit compatibility. Have renamed:
 
-process_vm_rw -> process_vm_rw_core 
-process_vm_rw_check_iovecs -> process_vm_rw
-compat_process_vm_rw_check_iovecs -> compat_process_vm_rw
 
-...and added more doco - with return value semantics :-)
 
-Chris
--- 
-cyeoh@au.ibm.com
+
+                                                                         
+In memories of HIZUKI AYAKA ,the angel!
+                                                                         
+                                                                     月 
+吹智也
+
+--------------090107010108040607000401
+Content-Type: text/plain;
+ name="socket_2"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="socket_2"
+
+U09DS0VU77yIMu+8iQoK5ZCN5a2XCglzb2NrZXQgLSDlu7rnq4vkuIDkuKrnlKjkuo7kuqTm
+tYHnmoTnq6/ngrkKCuamguimgQoJI2luY2x1ZGUgPHN5cy90eXBlLmg+ICAvKuWPguingeaz
+qOaEjyovCgkjaW5jbHVkZSA8c3lzL3NvY2tldC5oPgoKCWludCBzb2NrZXQoaW50IGRvbWFp
+biwgaW50IHR5cGUsIGludCBwcm90b2NvbCk7Cgrmj4/ov7AKCXNvY2tldCgpIOW7uueri+S4
+gOS4queUqOS6juS6pOa1geeahOerr+eCueW5tuS4lOi/lOWbnuS4gOS4quaPj+i/sOOAggoK
+CWRvbWFpbiDlj4LmlbDmjIflrprkuIDkuKrpgJrorq/ln5/lkI3vvJvpgInmi6nnmoTljY/o
+rq7lsIbkvJrnlKjkuo7pgJrorq/jgILljY/orq7lkI3lnKggPHN5cy9zb2NrZXQuaD4g5Lit
+5a6a5LmJ44CCIOebruWJjeW3suefpeeahOagvOW8j+WMheaLrO+8mgoJCgnlkI3np7AJCQnn
+m67nmoQJCQkJ5omL5YaM6aG1CglBRl9VTklYLCBBRl9MT0NBTAnmnKzlnLDpgJrorq8JCQl1
+bml4KDcpCiAgICAgICBBRl9JTkVUICAgICAgICAgICAgIElQdjQg572R57uc5Y2P6K6uCQkJ
+aXAoNykKICAgICAgIEFGX0lORVQ2ICAgICAgICAgICAgSVB2NiDnvZHnu5zljY/orq4JCQlp
+cHY2KDcpCiAgICAgICBBRl9JUFggICAgICAgICAgICAgIElQWCAtIE5vdmVsbCDljY/orq4K
+ICAgICAgIEFGX05FVExJTksgICAgICAgICAgS2VybmVsIHVzZXIgaW50ZXJmYWNlIGRldmlj
+ZSAgICAgbmV0bGluayg3KQogICAgICAgQUZfWDI1ICAgICAgICAgICAgICBJVFUtVCBYLjI1
+IC8gSVNPLTgyMDgg5Y2P6K6uCXgyNSg3KQogICAgICAgQUZfQVgyNSAgICAgICAgICAgICBB
+bWF0ZXVyIHJhZGlvIEFYLjI1IOWNj+iurgogICAgICAgQUZfQVRNUFZDICAgICAgICAgICBB
+Y2Nlc3MgdG8gcmF3IEFUTSBQVkNzCiAgICAgICBBRl9BUFBMRVRBTEsgICAgICAgIEFwcGxl
+dGFsayAgICAgICAgICAgICAgICAgICAgICAgIGRkcCg3KQogICAgICAgQUZfUEFDS0VUICAg
+ICAgICAgICBMb3cgbGV2ZWwgcGFja2V0IGludGVyZmFjZSAgICAgICBwYWNrZXQoNykKCgnl
+pZfmjqXlrZcg6YCa6L+HIHR5cGUg5Y+C5pWw5p2l56Gu5a6a6YCa5L+h6K+t5LmJ44CC55uu
+5YmN5a6a5LmJ55qE57G75Z6L5pyJ77yaCgogICAgICAgU09DS19TVFJFQU0gICAgIOaPkOS+
+m+acieW6j+eahO+8jOWPr+mdoOeahO+8jOWPjOWQkeeahO+8jOWfuuS6juWtl+iKgua1geea
+hOmAmuiur+OAguWPr+iDveaUr+aMgeWkmuS/oemBk+S8oOi+k+OAggoKICAgICAgIFNPQ0tf
+REdSQU0gICAgICDmj5DkvpvmlbDmja7miqXvvIjkuI3pnaLlkJHov57mjqXnmoQsIOS4jeWP
+r+mdoOeahOWbuuWumuacgOWkp+mVv+W6pueahOS/oeaBr++8iSAKCiAgICAgICBTT0NLX1NF
+UVBBQ0tFVCAg5o+Q5L6b5pyJ5bqP55qE77yM5Y+v6Z2g55qE77yM5Y+M5ZCR55qE77yM5Z+6
+5LqO5Zu65a6a5pyA5aSn6ZW/5bqm55qE5pWw5o2u5oql5Lyg6L6T6Lev5b6E77yb6ZyA6KaB
+5LiA5Liq6K+75Y+W5pW05Liq5Ly05pyJ6L6T5YWl57O757uf6LCD55So55qE5YyF55qE55So
+5oi344CCCgogICAgICAgU09DS19SQVcgICAgICAgIOaPkOS+m+acquWKoOW3pShyYXcp55qE
+572R57uc5Y2P6K6u6YCa6YGT44CCIAoKICAgICAgIFNPQ0tfUkRNICAgICAgICDmj5Dkvpvl
+j6/pnaDnmoTmlbDmja7miqXlsYLvvIzkvYbmmK/kuI3kv53or4Hpobrluo/jgIIgCgogICAg
+ICAgU09DS19QQUNLRVQgICAgIOW6n+W8g+eahO+8jOS4jeW6lOivpeWcqOaWsOeahOeoi+W6
+j+S4reS9v+eUqO+8jOWPguiAg3BhY2tldCg3KeOAggoKCeS4gOS6m+Wll+aOpeWtl+exu+We
+i+W5tuacquiiq+aJgOacieeahOWNj+iuruWunueOsO+8myDkvovlpoLvvIxTT0NLX1NFUVBB
+Q0tFVCDlubbkuI3ooqsgQUZfSU5FVCDlrp7njrDjgIIKCQoJ5LuOIExpbnV4IDIuNi4yNyDl
+vIDlp4vvvIwgdHlwZSDlj4LmlbDlj6/ku6Xmj5Dkvpvlhbbku5bnmoTlip/og73vvJog5rOo
+5oSP5LiA5LqbIOWll+aOpeWtlyDnsbvlnovlj6/og73ljIXmi6zkuIDkuIvlgLznmoTmiJbk
+vY3vvIznlKjmnaXkv67mlLkgc29ja2V0KCkg55qE6KGM5Li644CCCgoJU09DS19OT05CTE9D
+SyAgIOiuvue9riBPX05PTkJMT0NLIOeahOagh+W/l+S6juaWsOaJk+W8gOeahOaWh+S7tuaP
+j+i/sOespuOAgiDpgJrov4fov5nkuKrmoIflv5flj6/ku6XkuI3nlKjosIPnlKggZmNudGwo
+Mikg5p2l6L6+5Yiw55u45ZCM55qE57uT5p6c44CCCgoJU09DS19DTE9FWEVDICAgIOiuvue9
+riBjbG9zZS1vbi1leGVjIChGRF9DTE9FWEVDKSDnmoTmoIflv5fkuo7mlrDmiZPlvIDnmoTm
+lofku7bmj4/ov7DnrKbjgILlj4LliqAgb3BlbigyKSDkuK3lhbPkuo4gT19DTE9FWEVDIOea
+hOaPj+i/sO+8jOWboOS4ugoJICAgICAgICAgICAgICAgICAg5LiA5Lqb5Y6f5Zug6L+Z5Liq
+5qCH5b+X5b6I5pyJ55So44CCCgoJcHJvdG9jb2wg5oyH5a6a5LiA5Liq5Y2P6K6u55So5LqO
+5aWX5o6l5a2X44CC5LiA6Iis5oOF5Ya15LiL77yM5Zyo57uZ5a6a55qE5Y2P6K6u5Lit5Y+q
+5YWB6K645Zyo5LiA5LiqIOWll+aOpeWtlyDkuIrkvb/nlKjkuIDkuKrljY/orq7vvIwg5rOo
+5oSPIHByb3RvY29sIOWPr+S7peefpemBk+S4uuaVsOWtlyAwIOOAggoJ5L2G5piv77yMIOWP
+r+iDveWtmOWcqOedgOW+iOWkmuWNj+iuru+8jCDkvYbmmK/lnKjmnKzmiYvlhoznmoTljY/o
+rq7lv4Xpobvkvb/nlKjkuIDkuKrjgILljY/orq7nlKjkuo7mjIflrprpgJrorq/lj5HnlJ/l
+nLDmlrnnmoTigJzpgJrorq/ln5/lkI3igJ3vvIwg5Y+C6ICDIHByb3RvY29sKDUpIOOAggoJ
+5Y+C6ICDIGdldHByb3RvZW50KDMpIOS4reWFs+S6juWmguS9leaKiuWNj+iuruWQjeensOWt
+l+espuS4suS4juWNj+iurue8luWPt+i/m+ihjOaYoOWwhOOAggoKICAgICAgIFNPQ0tfU1RS
+RUFNIOexu+Wei+eahOWll+aOpeWtl+aYr+WPjOWQkeebtOaOpea1ge+8jCDlkoznrqHpgZPl
+jYHliIbnm7jkvLzjgIIg5LuW5Lus5LiN5a+56K6w5b2V5rqi5Ye65o+Q5L6b5L+d5oqk44CC
+IOS4gOS4quWll+aOpeWtl+a1geWcqOaOpeWPl+aIluWPkeWHuuS7u+S9leaVsOaNruaXtuW/
+hemhu+WkhOS6juW3sui/nuaOpeeahOeKtuaAgeOAguWSjOWFtuWug+Wll+aOpeWtl+mAmui/
+h2Nvbm5lY3QoMikg6LCD55So5p2l5bu656uL6L+e5o6l44CCIOS4gOaXpui/nuaOpe+8jCDm
+lbDmja7lj6/og73pgJrov4cgcmVhZCgyKSDlkowgd3JpdGUoMikg6LCD55So5Lyg6L6T77yM
+5Lmf5oiW6ICF5piv5LiN5ZCM55qEIHNlbmQoMikg5ZKMIHJlY3YoMikg6LCD55So44CC5b2T
+5Lya6K+d57uT5p2f5pe277yM5Y+v6IO95Lya5omn6KGMIGNsb3NlKDIp44CC5bim5aSW5pWw
+5o2u5Y+v6IO95Lmf55SoIHNlbmQoMikg5ZKMIHJlY3YoMikg5o+P6L+w5LiO5o6l5Y+X44CC
+CgoJU09DS19TVFJFQU0g57G75Z6L55qE55qE6YCa5L+h5Y2P6K6u5bqU56Gu5L+d5L+h5oGv
+5LiN5Lii5aSx5LiO6YeN5aSN44CC5aaC5p6c5LiA5Z2X5pyJ5Y2P6K6u57yT5Yay55qE5pWw
+5o2u5LiN6IO95Zyo5ZCI55CG5pe26Ze05YaF5Lyg6L6T77yM6L+e5o6l5Lya6KKr6K6k5Li6
+6LaF5pe244CC5b2T5Zyo5aWX5o6l5a2X5LiK5ZCv55SoIFNPX0tFRVBBTElWRSDvvIzljY/o
+rq7kvJrku6XlhbbnibnlrprmlrnlvI/mo4Dmn6Xlj6bkuIDnq6/mmK/lkKbmtLvnnYDjgILl
+vZPkuIDkuKrov5vnqIvmjqXlj5fmiJblj5HpgIHkuobkuIDkuKrplJnor6/nmoTmlbDmja7m
+tYHvvIzkvJrkuqfnlJ/lubbmjqXlj5fkuIDkuKogU0lHUElQRSDkv6Hlj7fvvJvlr7nkuo7p
+h4flj5bpu5jorqTlpITnkIbmraTkv6Hlj7fnmoTov5vnqIvvvIzlroPlsIbkvJrpgIDlh7rj
+gIJTT0NLX1NFUVBBQ0tFVCDlpZfmjqXlrZfph4fnlKjlkowgU09DS19TVFJFQU0g5aWX5o6l
+5a2X55u45ZCM55qE57O757uf6LCD55So44CC5ZSv5LiA5LiN5ZCM55qE5piv77yMcmVhZCgy
+KSDns7vnu5/osIPnlKjlj6rkvJrov5Tlm57or7fmsYLnmoTmlbDmja7ph4/vvIzlubblsIbk
+vZnkuIvliLDovr7nmoTku7vkvZXmlbDmja7mlbDmja7ljIXkuKLlvIPjgILmraTlpJbmiYDm
+nInnmoTmtojmga/ovrnnlYznmoTkvKDlhaXnmoTigIvigIvmlbDmja7miqXlsIbooqvkv53n
+lZnjgIIKCglTT0NLX0RHUkFNIOWSjCBTT0NLX1JBVyDnsbvlnovnmoTlpZfmjqXlrZfmlK/m
+jIHnlKggc2VuZHRvKDIpIOezu+e7n+iwg+eUqOadpeWPkemAgeaVsOaNruaKpe+8jCDlmajm
+lbDmja7miqXpgJrluLjmmK/nlKggcmVjdmZyb20oMikg5p2l5o6l5Y+X55qE77yM6L+Z5Liq
+6LCD55So5Lya5Zyo5LiL5LiA5Liq5pWw5o2u5oql5Lit5Y2V54us55qE6L+U5Zue5Y+R6YCB
+6ICF55qE5Zyw5Z2A44CCCgkKCVNPQ0tfUEFDS0VUIOaYr+S4gOS4qumBl+eVmeeahOWll+aO
+peWtl+exu+Wei++8jOeUqOadpeS7juiuvuWkh+mpseWKqOS4reaOpeWPl+WOn+Wni+aVsOaN
+ru+8jOW3sue7j+iiqyBwYWNrZXQoNykg6LCD55So5Y+W5Luj44CCCgoJZmNudGwoMikg55qE
+IEZfU0VUT1dOIOaTjeS9nOWPr+S7peWcqOW4puWkluaVsOaNruWIsOi+vuaXtuiuqei/m+eo
+i+aIlui/m+eoi+e7hOS8muaUtuWIsOS4gOS4qiBTSUdVUkcg5L+h5Y+377yM5oiW6ICF5Zyo
+IFNPQ0tfU1RSRUFNIOexu+Wei+eahOi/nuaOpeWcqOiiq+S4jeacn+acm+WcsOaJk+aWreaX
+tu+8jOaUtuWIsCBTSUdQSVBFIOS/oeWPt+OAgui/meS4quaTjeS9nOS5n+WPr+iDveiiq+eU
+qOS6juiuqei/m+eoi+aIlui/m+eoi+e7hOmAmui/hyBTSUdJTyDmjqXmlLYgSS9PIOWSjCBJ
+L08g5LiN5ZCM5q2l55qE6YCa55+l44CC5L2/55SoIEZfU0VUT1dOCuetieWQjOS6juS9v+eU
+qOS6hiBGSU9TRVRPV04g5oiWIFNJT0NTUEdSUCDlj4LmlbDnmoQgaW9jdGwoMikg57O757uf
+6LCD55So44CCCgkKCeW9k+e9kee7nOWQkeWNj+iuruaooeWei+WPkeWHuuS4gOS4qumUmeiv
+r+aDheWGteeahOS/oeWPtyjkvovlpoIsIOWvuSBJUCDkvb/nlKggSUNNUCDmtojmga/vvIkg
+77yM5aWX5o6l5a2X5bCG5Lya6K6+572u5LiKIHBlbmRpbmcg6ZSZ6K+v5qCH5b+X44CCIOWv
+ueWll+aOpeWtl+aOpeS4i+WOu+eahOaTjeS9nOWwhuS8mui/lOWbniBwZW5kaW5nIOmUmeiv
+r+eahOmUmeivr+S7o+eggeOAguWvueS6juS4gOS6m+WNj+iuru+8jOWPr+iDveS8muS4uuav
+j+S4gOS4quaOpeWtl+aOpeWQr+eUqOS4gOS4queUqOS6juWPluWHuuivpue7humUmeivr+S/
+oeaBr+eahOmUmeivr+WIl+mYn++8myDlj4Lop4EgaXAoNykg5Lit55qEIElQX1JFQ1ZFUlIg
+44CCCgoJ5aWX5o6l5a2X55qE5pON5L2c55Sx5aWX5o6l5a2X57qn55qE6YCJ6aG55p2l5o6n
+5Yi244CCIOi/meS6m+mAiemhueWumuS5ieS6jiA8c3lzL3NvY2tldC5oPiDkuK3jgIIgc2V0
+c29ja29wdCgyKSDlkowgZ2V0c29ja29wdCgyKSDnlKjkuo7liIbliKvnlKjkuo7orr7nva7l
+kozor7vlj5bpgInpobnjgIIKCui/lOWbnuWAvAoJ5oiQ5Yqf5pe277yM5Lya6L+U5Zue5paw
+5aWX5o6l5a2X55qE5paH5Lu25o+P6L+w56ym44CC6ZSZ6K+v5pe277yM6L+U5ZueIC0xIO+8
+jOWQjOaXtiBlcnJubyDkvJrooqvpgILlvZPorr7nva7jgIIKCumUmeivrwoJRUFDQ0VTIOS4
+jeWFgeiuuOWIm+W7uuaMh+WumueahCDnsbvlnosg5ZKML+aIliDmjIflrprnmoTljY/orq7n
+moTlpZfmjqXlrZfjgIIKCglFQUZOT1NVUFBPUlQKCQnlt6XlhbfkuI3mlK/mjIHmjIflrprn
+moTlnLDlnYDjgIIKCglFSU5WQUwg5pyq55+l5Y2P6K6u77yM5oiW5Y2P6K6u57uE5LiN5Y+v
+55So44CCCgkKCUVJTlZBTCDplJnor6/nmoQgdHlwZSDmoIflv5fjgIIKCglFTUZJTEUg6L+b
+56iL5paH5Lu26KGo5rqi5Ye644CCCgoJRU5GSUxFIOW3sue7j+i+vuWIsOezu+e7n+S4iumZ
+kOeahOaWh+S7tuaJk+W8gOaVsOOAggoKCUVOT0JVRlMg5oiWIEVOT01FTQoJCeayoeaciei2
+s+Wkn+eahOWGheWtmO+8jOebtOWIsOacieWPr+eUqOeahOi1hOa6kOWll+aOpeWtl+S4jeiD
+veiiq+WIm+W7uuOAggoKCUVQUk9UT05PU1VQUE9SVAoJCeWNj+iuruexu+Wei+aIluaMh+Wu
+mueahOWNj+iuruS4jeiiq+W9k+WJjeWfn+aJgOaUr+aMgeOAggoKCeWFtuWug+eahOmUmeiv
+r+WPr+iDveaYr+eUseWNj+iuruaooeWei+S6p+eUn+eahOOAggoK5YW85a655oCnCgk0LjRC
+U0QsIFBPU0lYLjEtMjAwMS4KCglTT0NLX05PTkJMT0NLIOS4jiBTT0NLX0NMT0VYRUMg5qCH
+5b+X5pivIExpbnV4IOeJueacieeahOOAggoKCXNvY2tldCgpIOWHuueOsOS6jiA0LjJCU0Qg
+44CC6YCa5bi477yM6Z2eIEJTRCDns7vnu5/nmoQgQlNEIOWll+aOpeWtl+WxguWFi+mahuaY
+r+WPr+enu+akjeeahO+8iOWMheaLrCBTeXN0ZW0gViDnmoTlj5jnp43vvInjgIIKCuazqOaE
+jwoJUE9TSVguMS0yMDAxIOW5tuS4jeimgeaxguWMheWQqyA8c3lzL3R5cGVzLmg+IO+8jOi/
+meS4quWktOaWh+S7tuWcqCBMaW51eCDkuIvmmK/kuI3lv4XpobvnmoTjgIIg5Y+v5piv5LiA
+5Lqb5Y6G5Y+y5LiK55qEIChCU0QpIOW3peWFt+imgeaxgui/meS4quWktOaWh+S7tu+8jCDl
+j6/np7vmpI3nqIvluo/lvojlj6/og73luIzmnJvljIXlkKvlroPjgIIKCgk0LnggQlNEIOS4
+i+aYjuaYvuWbuuWumueahOWNj+iurue7hOaciSBQRl9VTklYIO+8jCBQRl9JTkVUIO+8jOet
+ieetie+8jOS9huaYryBBRl9VTklYIOetie+8jOWug+S7rOaYr+eUqOS6juWcsOWdgOe7hOea
+hOOAguWPr+aYryBCU0Qg55qEIG1hbiBwYWdlIOS/neivgeKAnCDljY/orq7nu4TkuIDoiKzn
+rYnkuo7lnLDlnYDnu4TigJzvvIzpmo/lkI7nmoTmoIflh4blnKjmr4/kuKrlnLDmlrnpg73k
+vb/nlKjkuoYgQUZfKiDjgIIKCgk8c3lzL3R5cGVzLmg+IOaWh+S7tuWktOWPquWcqCBsaWJj
+NCDku6XliY3mmK/lv4XpobvnmoTjgIIg5LiA5Lqb5YyF77yMIOWmgiB1dGlsLWxpbnV4LCBj
+bGFpbSDvvIzmmK/nlKjkuo7lnKjmiYDku6UgTGludXgg54mI5pys5ZKM5bqT5LiK5Y+v56e7
+5qSN55qE44CC5a6D5Lus56Gu5a6e6ZyA6KaB6L+Z5Liq5aS05paH5Lu244CCCgrkvovlrZAK
+CeWcqCAgZ2V0YWRkcmluZm8oMykg5Lit5pyJ5LiA5Liq5L2/55So5aWX5o6l5a2X55qE5L6L
+5a2Q44CCCgrlj4Lop4EKICAgICAgIGFjY2VwdCgyKSwgIGJpbmQoMiksICBjb25uZWN0KDIp
+LCAgZmNudGwoMiksICBnZXRwZWVybmFtZSgyKSwgZ2V0c29ja25hbWUoMiksIGdldHNvY2tv
+cHQoMiksIGlvY3RsKDIpLCBsaXPigJAKICAgICAgIHRlbigyKSwgcmVhZCgyKSwgcmVjdigy
+KSwgc2VsZWN0KDIpLCBzZW5kKDIpLCBzaHV0ZG93bigyKSwgc29ja2V0cGFpcigyKSwgd3Jp
+dGUoMiksIGdldHByb3RvZW50KDMpLCAgaXAoNyksCiAgICAgICBzb2NrZXQoNyksIHRjcCg3
+KSwgdWRwKDcpLCB1bml4KDcpCgoJ4oCcQW4gIEludHJvZHVjdG9yeSAgNC4zQlNEIEludGVy
+cHJvY2VzcyBDb21tdW5pY2F0aW9uIFR1dG9yaWFs4oCdIOWcqCBVTklYIFByb2dyYW1tZXIn
+cyBTdXBwbGVtZW50YXJ5IERvY3VtZW50cyBWb2x1bWUgMSDkuK3ooqvph43ljbDjgIIKIAkK
+CeKAnEJTRCBJbnRlcnByb2Nlc3MgQ29tbXVuaWNhdGlvbiBUdXRvcmlhbOKAnSDlnKggVU5J
+WCBQcm9ncmFtbWVyJ3MgU3VwcGxlbWVudGFyeSBEb2N1bWVudHMgVm9sdW1lIDEg5Lit6KKr
+6YeN5Y2wCgoKCgoKCgoKCgoKCg==
+--------------090107010108040607000401--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
