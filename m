@@ -1,247 +1,805 @@
-From: =?UTF-8?B?5pyI5ZC5?= <getsufuki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [bug][wishlist]I have tranlate socket(2) man into chinese
-Date: Tue, 26 Jul 2011 13:47:54 +0800
-Message-ID: <4E2E550A.3020700@gmail.com>
+From: Christopher Yeoh <cyeoh@au1.ibm.com>
+Subject: [PATCH] Cross Memory Attach v4
+Date: Wed, 27 Jul 2011 12:53:42 +0930
+Message-ID: <20110727125342.5637308d@lilo>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------040501070508090108090207"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------040501070508090108090207
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Andrew,
 
-subscribe linux-man
+Here's an updated version of the Cross Memory Attach patch. Changes
+since the v3:
 
+- Adds x86_64 specific wire up
+- Changes behaviour so process_vm_readv and process_vm_writev return
+  the number of bytes successfully read or written even if an error
+  occurs
+- Adds more kernel doc interface comments 
+- rename of some internal functions (process_vm_rw_check_iovecs, 
+  process_vm_rw) so they make more sense. 
 
-modify some words
-but not good enough
+Still need to do benchmarking to see if the optimisation for small
+copies using a local on-stack array in process_vm_rw_core is worth it. 
 
+Regards,
 
+Chris
+-- 
+cyeoh@au.ibm.com
+diff --git a/arch/powerpc/include/asm/systbl.h b/arch/powerpc/include/asm/systbl.h
+index f6736b7..525db4b 100644
+--- a/arch/powerpc/include/asm/systbl.h
++++ b/arch/powerpc/include/asm/systbl.h
+@@ -354,3 +354,5 @@ COMPAT_SYS_SPU(clock_adjtime)
+ SYSCALL_SPU(syncfs)
+ COMPAT_SYS_SPU(sendmmsg)
+ SYSCALL_SPU(setns)
++COMPAT_SYS(process_vm_readv)
++COMPAT_SYS(process_vm_writev)
+diff --git a/arch/powerpc/include/asm/unistd.h b/arch/powerpc/include/asm/unistd.h
+index b8b3f59..d3d1b5e 100644
+--- a/arch/powerpc/include/asm/unistd.h
++++ b/arch/powerpc/include/asm/unistd.h
+@@ -373,10 +373,12 @@
+ #define __NR_syncfs		348
+ #define __NR_sendmmsg		349
+ #define __NR_setns		350
++#define __NR_process_vm_readv	351
++#define __NR_process_vm_writev	352
+ 
+ #ifdef __KERNEL__
+ 
+-#define __NR_syscalls		351
++#define __NR_syscalls		353
+ 
+ #define __NR__exit __NR_exit
+ #define NR_syscalls	__NR_syscalls
+diff --git a/arch/x86/ia32/ia32entry.S b/arch/x86/ia32/ia32entry.S
+index c1870dd..cde849f 100644
+--- a/arch/x86/ia32/ia32entry.S
++++ b/arch/x86/ia32/ia32entry.S
+@@ -850,4 +850,6 @@ ia32_sys_call_table:
+ 	.quad sys_syncfs
+ 	.quad compat_sys_sendmmsg	/* 345 */
+ 	.quad sys_setns
++	.quad compat_sys_process_vm_readv
++	.quad compat_sys_process_vm_writev
+ ia32_syscall_end:
+diff --git a/arch/x86/include/asm/unistd_32.h b/arch/x86/include/asm/unistd_32.h
+index 593485b..599c77d 100644
+--- a/arch/x86/include/asm/unistd_32.h
++++ b/arch/x86/include/asm/unistd_32.h
+@@ -352,10 +352,12 @@
+ #define __NR_syncfs             344
+ #define __NR_sendmmsg		345
+ #define __NR_setns		346
++#define __NR_process_vm_readv	347
++#define __NR_process_vm_writev	348
+ 
+ #ifdef __KERNEL__
+ 
+-#define NR_syscalls 347
++#define NR_syscalls 349
+ 
+ #define __ARCH_WANT_IPC_PARSE_VERSION
+ #define __ARCH_WANT_OLD_READDIR
+diff --git a/arch/x86/include/asm/unistd_64.h b/arch/x86/include/asm/unistd_64.h
+index 705bf13..1f1d1ef 100644
+--- a/arch/x86/include/asm/unistd_64.h
++++ b/arch/x86/include/asm/unistd_64.h
+@@ -681,6 +681,10 @@ __SYSCALL(__NR_syncfs, sys_syncfs)
+ __SYSCALL(__NR_sendmmsg, sys_sendmmsg)
+ #define __NR_setns				308
+ __SYSCALL(__NR_setns, sys_setns)
++#define __NR_process_vm_readv			309
++__SYSCALL(__NR_process_vm_readv, sys_process_vm_readv)
++#define __NR_process_vm_writev			310
++__SYSCALL(__NR_process_vm_writev, sys_process_vm_writev)
+ 
+ #ifndef __NO_STUBS
+ #define __ARCH_WANT_OLD_READDIR
+diff --git a/arch/x86/kernel/syscall_table_32.S b/arch/x86/kernel/syscall_table_32.S
+index fbb0a04..ca0fe4d 100644
+--- a/arch/x86/kernel/syscall_table_32.S
++++ b/arch/x86/kernel/syscall_table_32.S
+@@ -346,3 +346,5 @@ ENTRY(sys_call_table)
+ 	.long sys_syncfs
+ 	.long sys_sendmmsg		/* 345 */
+ 	.long sys_setns
++	.long sys_process_vm_readv
++	.long sys_process_vm_writev
+diff --git a/fs/aio.c b/fs/aio.c
+index e29ec48..632b235 100644
+--- a/fs/aio.c
++++ b/fs/aio.c
+@@ -1387,13 +1387,13 @@ static ssize_t aio_setup_vectored_rw(int type, struct kiocb *kiocb, bool compat)
+ 		ret = compat_rw_copy_check_uvector(type,
+ 				(struct compat_iovec __user *)kiocb->ki_buf,
+ 				kiocb->ki_nbytes, 1, &kiocb->ki_inline_vec,
+-				&kiocb->ki_iovec);
++				&kiocb->ki_iovec, 1);
+ 	else
+ #endif
+ 		ret = rw_copy_check_uvector(type,
+ 				(struct iovec __user *)kiocb->ki_buf,
+ 				kiocb->ki_nbytes, 1, &kiocb->ki_inline_vec,
+-				&kiocb->ki_iovec);
++				&kiocb->ki_iovec, 1);
+ 	if (ret < 0)
+ 		goto out;
+ 
+diff --git a/fs/compat.c b/fs/compat.c
+index 0ea0083..ec53ccc 100644
+--- a/fs/compat.c
++++ b/fs/compat.c
+@@ -550,7 +550,7 @@ out:
+ ssize_t compat_rw_copy_check_uvector(int type,
+ 		const struct compat_iovec __user *uvector, unsigned long nr_segs,
+ 		unsigned long fast_segs, struct iovec *fast_pointer,
+-		struct iovec **ret_pointer)
++		struct iovec **ret_pointer, int check_access)
+ {
+ 	compat_ssize_t tot_len;
+ 	struct iovec *iov = *ret_pointer = fast_pointer;
+@@ -597,7 +597,8 @@ ssize_t compat_rw_copy_check_uvector(int type,
+ 		}
+ 		if (len < 0)	/* size_t not fitting in compat_ssize_t .. */
+ 			goto out;
+-		if (!access_ok(vrfy_dir(type), compat_ptr(buf), len)) {
++		if (check_access &&
++		    !access_ok(vrfy_dir(type), compat_ptr(buf), len)) {
+ 			ret = -EFAULT;
+ 			goto out;
+ 		}
+@@ -1111,7 +1112,7 @@ static ssize_t compat_do_readv_writev(int type, struct file *file,
+ 		goto out;
+ 
+ 	tot_len = compat_rw_copy_check_uvector(type, uvector, nr_segs,
+-					       UIO_FASTIOV, iovstack, &iov);
++					       UIO_FASTIOV, iovstack, &iov, 1);
+ 	if (tot_len == 0) {
+ 		ret = 0;
+ 		goto out;
+diff --git a/fs/read_write.c b/fs/read_write.c
+index 5520f8a..b905826 100644
+--- a/fs/read_write.c
++++ b/fs/read_write.c
+@@ -575,7 +575,8 @@ ssize_t do_loop_readv_writev(struct file *filp, struct iovec *iov,
+ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+ 			      unsigned long nr_segs, unsigned long fast_segs,
+ 			      struct iovec *fast_pointer,
+-			      struct iovec **ret_pointer)
++			      struct iovec **ret_pointer,
++			      int check_access)
+ {
+ 	unsigned long seg;
+ 	ssize_t ret;
+@@ -631,7 +632,8 @@ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+ 			ret = -EINVAL;
+ 			goto out;
+ 		}
+-		if (unlikely(!access_ok(vrfy_dir(type), buf, len))) {
++		if (check_access
++		    && unlikely(!access_ok(vrfy_dir(type), buf, len))) {
+ 			ret = -EFAULT;
+ 			goto out;
+ 		}
+@@ -663,7 +665,7 @@ static ssize_t do_readv_writev(int type, struct file *file,
+ 	}
+ 
+ 	ret = rw_copy_check_uvector(type, uvector, nr_segs,
+-			ARRAY_SIZE(iovstack), iovstack, &iov);
++				    ARRAY_SIZE(iovstack), iovstack, &iov, 1);
+ 	if (ret <= 0)
+ 		goto out;
+ 
+diff --git a/include/linux/compat.h b/include/linux/compat.h
+index 846bb17..1cc917a 100644
+--- a/include/linux/compat.h
++++ b/include/linux/compat.h
+@@ -557,7 +557,8 @@ extern ssize_t compat_rw_copy_check_uvector(int type,
+ 		const struct compat_iovec __user *uvector,
+ 		unsigned long nr_segs,
+ 		unsigned long fast_segs, struct iovec *fast_pointer,
+-		struct iovec **ret_pointer);
++		struct iovec **ret_pointer,
++		int check_access);
+ 
+ extern void __user *compat_alloc_user_space(unsigned long len);
+ 
+diff --git a/include/linux/fs.h b/include/linux/fs.h
+index b5b9792..d97ffab 100644
+--- a/include/linux/fs.h
++++ b/include/linux/fs.h
+@@ -1608,9 +1608,10 @@ struct inode_operations {
+ struct seq_file;
+ 
+ ssize_t rw_copy_check_uvector(int type, const struct iovec __user * uvector,
+-				unsigned long nr_segs, unsigned long fast_segs,
+-				struct iovec *fast_pointer,
+-				struct iovec **ret_pointer);
++			      unsigned long nr_segs, unsigned long fast_segs,
++			      struct iovec *fast_pointer,
++			      struct iovec **ret_pointer,
++			      int check_access);
+ 
+ extern ssize_t vfs_read(struct file *, char __user *, size_t, loff_t *);
+ extern ssize_t vfs_write(struct file *, const char __user *, size_t, loff_t *);
+diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+index 8c03b98..0dc0809 100644
+--- a/include/linux/syscalls.h
++++ b/include/linux/syscalls.h
+@@ -847,4 +847,17 @@ asmlinkage long sys_open_by_handle_at(int mountdirfd,
+ 				      struct file_handle __user *handle,
+ 				      int flags);
+ asmlinkage long sys_setns(int fd, int nstype);
++asmlinkage long sys_process_vm_readv(pid_t pid,
++				     const struct iovec __user *lvec,
++				     unsigned long liovcnt,
++				     const struct iovec __user *rvec,
++				     unsigned long riovcnt,
++				     unsigned long flags);
++asmlinkage long sys_process_vm_writev(pid_t pid,
++				      const struct iovec __user *lvec,
++				      unsigned long liovcnt,
++				      const struct iovec __user *rvec,
++				      unsigned long riovcnt,
++				      unsigned long flags);
++
+ #endif
+diff --git a/kernel/sys_ni.c b/kernel/sys_ni.c
+index 62cbc88..7a34e9f 100644
+--- a/kernel/sys_ni.c
++++ b/kernel/sys_ni.c
+@@ -146,6 +146,10 @@ cond_syscall(sys_io_submit);
+ cond_syscall(sys_io_cancel);
+ cond_syscall(sys_io_getevents);
+ cond_syscall(sys_syslog);
++cond_syscall(sys_process_vm_readv);
++cond_syscall(sys_process_vm_writev);
++cond_syscall(compat_sys_process_vm_readv);
++cond_syscall(compat_sys_process_vm_writev);
+ 
+ /* arch-specific weak syscall entries */
+ cond_syscall(sys_pciconfig_read);
+diff --git a/mm/Makefile b/mm/Makefile
+index 836e416..50ec00e 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -5,7 +5,8 @@
+ mmu-y			:= nommu.o
+ mmu-$(CONFIG_MMU)	:= fremap.o highmem.o madvise.o memory.o mincore.o \
+ 			   mlock.o mmap.o mprotect.o mremap.o msync.o rmap.o \
+-			   vmalloc.o pagewalk.o pgtable-generic.o
++			   vmalloc.o pagewalk.o pgtable-generic.o \
++			   process_vm_access.o
+ 
+ obj-y			:= filemap.o mempool.o oom_kill.o fadvise.o \
+ 			   maccess.o page_alloc.o page-writeback.o \
+diff --git a/mm/process_vm_access.c b/mm/process_vm_access.c
+new file mode 100644
+index 0000000..a0e3cfb
+--- /dev/null
++++ b/mm/process_vm_access.c
+@@ -0,0 +1,482 @@
++/*
++ *  linux/mm/process_vm_access.c
++ *
++ *  Copyright (C) 2010-2011 Christopher Yeoh <cyeoh@au1.ibm.com>, IBM Corp.
++ */
++
++#include <linux/mm.h>
++#include <linux/uio.h>
++#include <linux/sched.h>
++#include <linux/highmem.h>
++#include <linux/ptrace.h>
++#include <linux/slab.h>
++#include <linux/syscalls.h>
++
++#ifdef CONFIG_COMPAT
++#include <linux/compat.h>
++#endif
++
++/*
++ * process_vm_rw_pages - read/write pages from task specified
++ * @task: task to read/write from
++ * @mm: mm for task
++ * @process_pages: struct pages area that can store at least
++ *  nr_pages_to_copy struct page pointers
++ * @pa: address of page in task to start copying from/to
++ * @start_offset: offset in page to start copying from/to
++ * @len: number of bytes to copy
++ * @lvec: iovec array specifying where to copy to/from
++ * @lvec_cnt: number of elements in iovec array
++ * @lvec_current: index in iovec array we are up to
++ * @lvec_offset: offset in bytes from current iovec iov_base we are up to
++ * @vm_write: 0 means copy from, 1 means copy to
++ * @nr_pages_to_copy: number of pages to copy
++ * @bytes_copied: returns number of bytes successfully copied
++ * Returns 0 on success, error code otherwise
++ */
++static int process_vm_rw_pages(struct task_struct *task,
++			       struct mm_struct *mm,
++			       struct page **process_pages,
++			       unsigned long pa,
++			       unsigned long start_offset,
++			       unsigned long len,
++			       const struct iovec *lvec,
++			       unsigned long lvec_cnt,
++			       unsigned long *lvec_current,
++			       size_t *lvec_offset,
++			       int vm_write,
++			       unsigned int nr_pages_to_copy,
++			       ssize_t *bytes_copied)
++{
++	int pages_pinned;
++	void *target_kaddr;
++	int pgs_copied = 0;
++	int j;
++	int ret;
++	ssize_t bytes_to_copy;
++	ssize_t rc = 0;
++
++	*bytes_copied = 0;
++
++	/* Get the pages we're interested in */
++	down_read(&mm->mmap_sem);
++	pages_pinned = get_user_pages(task, mm, pa,
++				      nr_pages_to_copy,
++				      vm_write, 0, process_pages, NULL);
++	up_read(&mm->mmap_sem);
++
++	if (pages_pinned != nr_pages_to_copy) {
++		rc = -EFAULT;
++		goto end;
++	}
++
++	/* Do the copy for each page */
++	for (pgs_copied = 0;
++	     (pgs_copied < nr_pages_to_copy) && (*lvec_current < lvec_cnt);
++	     pgs_copied++) {
++		/* Make sure we have a non zero length iovec */
++		while (*lvec_current < lvec_cnt
++		       && lvec[*lvec_current].iov_len == 0)
++			(*lvec_current)++;
++		if (*lvec_current == lvec_cnt)
++			break;
++
++		/*
++		 * Will copy smallest of:
++		 * - bytes remaining in page
++		 * - bytes remaining in destination iovec
++		 */
++		bytes_to_copy = min_t(ssize_t, PAGE_SIZE - start_offset,
++				      len - *bytes_copied);
++		bytes_to_copy = min_t(ssize_t, bytes_to_copy,
++				      lvec[*lvec_current].iov_len
++				      - *lvec_offset);
++
++		target_kaddr = kmap(process_pages[pgs_copied]) + start_offset;
++
++		if (vm_write)
++			ret = copy_from_user(target_kaddr,
++					     lvec[*lvec_current].iov_base
++					     + *lvec_offset,
++					     bytes_to_copy);
++		else
++			ret = copy_to_user(lvec[*lvec_current].iov_base
++					   + *lvec_offset,
++					   target_kaddr, bytes_to_copy);
++		kunmap(process_pages[pgs_copied]);
++		if (ret) {
++			*bytes_copied += bytes_to_copy - ret;
++			pgs_copied++;
++			rc = -EFAULT;
++			goto end;
++		}
++		*bytes_copied += bytes_to_copy;
++		*lvec_offset += bytes_to_copy;
++		if (*lvec_offset == lvec[*lvec_current].iov_len) {
++			/*
++			 * Need to copy remaining part of page into the
++			 * next iovec if there are any bytes left in page
++			 */
++			(*lvec_current)++;
++			*lvec_offset = 0;
++			start_offset = (start_offset + bytes_to_copy)
++				% PAGE_SIZE;
++			if (start_offset)
++				pgs_copied--;
++		} else {
++			start_offset = 0;
++		}
++	}
++
++end:
++	if (vm_write) {
++		for (j = 0; j < pages_pinned; j++) {
++			if (j < pgs_copied)
++				set_page_dirty_lock(process_pages[j]);
++			put_page(process_pages[j]);
++		}
++	} else {
++		for (j = 0; j < pages_pinned; j++)
++			put_page(process_pages[j]);
++	}
++
++	return rc;
++}
++
++/* Maximum number of pages kmalloc'd to hold struct page's during copy */
++#define PVM_MAX_KMALLOC_PAGES (PAGE_SIZE * 2)
++
++/*
++ * process_vm_rw_single_vec - read/write pages from task specified
++ * @addr: start memory address of target process
++ * @len: size of area to copy to/from
++ * @lvec: iovec array specifying where to copy to/from locally
++ * @lvec_cnt: number of elements in iovec array
++ * @lvec_current: index in iovec array we are up to
++ * @lvec_offset: offset in bytes from current iovec iov_base we are up to
++ * @process_pages: struct pages area that can store at least
++ *  nr_pages_to_copy struct page pointers
++ * @mm: mm for task
++ * @task: task to read/write from
++ * @vm_write: 0 means copy from, 1 means copy to
++ * @bytes_copied: returns number of bytes successfully copied
++ * Returns 0 on success or on failure error code
++ */
++static int process_vm_rw_single_vec(unsigned long addr,
++				    unsigned long len,
++				    const struct iovec *lvec,
++				    unsigned long lvec_cnt,
++				    unsigned long *lvec_current,
++				    size_t *lvec_offset,
++				    struct page **process_pages,
++				    struct mm_struct *mm,
++				    struct task_struct *task,
++				    int vm_write,
++				    ssize_t *bytes_copied)
++{
++	unsigned long pa = addr & PAGE_MASK;
++	unsigned long start_offset = addr - pa;
++	unsigned long nr_pages;
++	ssize_t bytes_copied_loop;
++	ssize_t rc = 0;
++	unsigned long nr_pages_copied = 0;
++	unsigned long nr_pages_to_copy;
++	unsigned long max_pages_per_loop = PVM_MAX_KMALLOC_PAGES
++		/ sizeof(struct pages *);
++
++	*bytes_copied = 0;
++
++	/* Work out address and page range required */
++	if (len == 0)
++		return 0;
++	nr_pages = (addr + len - 1) / PAGE_SIZE - addr / PAGE_SIZE + 1;
++
++	while ((nr_pages_copied < nr_pages) && (*lvec_current < lvec_cnt)) {
++		nr_pages_to_copy = min(nr_pages - nr_pages_copied,
++				       max_pages_per_loop);
++
++		rc = process_vm_rw_pages(task, mm, process_pages, pa,
++					 start_offset, len,
++					 lvec, lvec_cnt,
++					 lvec_current, lvec_offset,
++					 vm_write, nr_pages_to_copy,
++					 &bytes_copied_loop);
++		start_offset = 0;
++		*bytes_copied += bytes_copied_loop;
++
++		if (rc < 0) {
++			return rc;
++		} else {
++			len -= bytes_copied_loop;
++			nr_pages_copied += nr_pages_to_copy;
++			pa += nr_pages_to_copy * PAGE_SIZE;
++		}
++	}
++
++	return rc;
++}
++
++/*
++ * process_vm_rw_core - core of reading/writing pages from task specified
++ * @pid: PID of process to read/write from/to
++ * @lvec: iovec array specifying where to copy to/from locally
++ * @liovcnt: size of lvec array
++ * @rvec: iovec array specifying where to copy to/from in the other process
++ * @riovcnt: size of rvec array
++ * @flags: currently unused
++ * @vm_write: 0 if reading from other process, 1 if writing to other process
++ * Returns the number of bytes read/written or error code. May
++ *  return less bytes than expected if an error occurs during the copying
++ *  process.
++ */
++static ssize_t process_vm_rw_core(pid_t pid, const struct iovec *lvec,
++				  unsigned long liovcnt,
++				  const struct iovec *rvec,
++				  unsigned long riovcnt,
++				  unsigned long flags, int vm_write)
++{
++	struct task_struct *task;
++	struct page **process_pages = NULL;
++	struct mm_struct *mm;
++	unsigned long i;
++	ssize_t rc = 0;
++	ssize_t bytes_copied_loop;
++	ssize_t bytes_copied = 0;
++	unsigned long nr_pages = 0;
++	unsigned long nr_pages_iov;
++	unsigned long iov_l_curr_idx = 0;
++	size_t iov_l_curr_offset = 0;
++	ssize_t iov_len;
++
++	/*
++	 * Work out how many pages of struct pages we're going to need
++	 * when eventually calling get_user_pages
++	 */
++	for (i = 0; i < riovcnt; i++) {
++		iov_len = rvec[i].iov_len;
++		if (iov_len > 0) {
++			nr_pages_iov = ((unsigned long)rvec[i].iov_base
++					+ iov_len)
++				/ PAGE_SIZE - (unsigned long)rvec[i].iov_base
++				/ PAGE_SIZE + 1;
++			nr_pages = max(nr_pages, nr_pages_iov);
++		}
++	}
++
++	if (nr_pages == 0)
++		return 0;
++
++	/* For reliability don't try to kmalloc more than 2 pages worth */
++	process_pages = kmalloc(min_t(size_t, PVM_MAX_KMALLOC_PAGES,
++				      sizeof(struct pages *)*nr_pages),
++				GFP_KERNEL);
++
++	if (!process_pages)
++		return -ENOMEM;
++
++	/* Get process information */
++	rcu_read_lock();
++	task = find_task_by_vpid(pid);
++	if (task)
++		get_task_struct(task);
++	rcu_read_unlock();
++	if (!task) {
++		rc = -ESRCH;
++		goto free_proc_pages;
++	}
++
++	task_lock(task);
++	if (__ptrace_may_access(task, PTRACE_MODE_ATTACH)) {
++		task_unlock(task);
++		rc = -EPERM;
++		goto put_task_struct;
++	}
++	mm = task->mm;
++
++	if (!mm || (task->flags & PF_KTHREAD)) {
++		task_unlock(task);
++		rc = -EINVAL;
++		goto put_task_struct;
++	}
++
++	atomic_inc(&mm->mm_users);
++	task_unlock(task);
++
++	for (i = 0; i < riovcnt && iov_l_curr_idx < liovcnt; i++) {
++		rc = process_vm_rw_single_vec(
++			(unsigned long)rvec[i].iov_base, rvec[i].iov_len,
++			lvec, liovcnt, &iov_l_curr_idx, &iov_l_curr_offset,
++			process_pages, mm, task, vm_write, &bytes_copied_loop);
++		bytes_copied += bytes_copied_loop;
++		if (rc != 0) {
++			/* If we have managed to copy any data at all then
++			   we return the number of bytes copied. Otherwise
++			   we return the error code */
++			if (bytes_copied)
++				rc = bytes_copied;
++			goto put_mm;
++		}
++	}
++
++	rc = bytes_copied;
++put_mm:
++	mmput(mm);
++
++put_task_struct:
++	put_task_struct(task);
++
++free_proc_pages:
++	kfree(process_pages);
++	return rc;
++}
++
++/*
++ * process_vm_rw - check iovecs before calling core routine
++ * @pid: PID of process to read/write from/to
++ * @lvec: iovec array specifying where to copy to/from locally
++ * @liovcnt: size of lvec array
++ * @rvec: iovec array specifying where to copy to/from in the other process
++ * @riovcnt: size of rvec array
++ * @flags: currently unused
++ * @vm_write: 0 if reading from other process, 1 if writing to other process
++ * Returns the number of bytes read/written or error code. May
++ *  return less bytes than expected if an error occurs during the copying
++ *  process.
++ */
++static ssize_t process_vm_rw(pid_t pid,
++			     const struct iovec __user *lvec,
++			     unsigned long liovcnt,
++			     const struct iovec __user *rvec,
++			     unsigned long riovcnt,
++			     unsigned long flags, int vm_write)
++{
++	struct iovec iovstack_l[UIO_FASTIOV];
++	struct iovec iovstack_r[UIO_FASTIOV];
++	struct iovec *iov_l = iovstack_l;
++	struct iovec *iov_r = iovstack_r;
++	ssize_t rc;
++
++	if (flags != 0)
++		return -EINVAL;
++
++	/* Check iovecs */
++	if (vm_write)
++		rc = rw_copy_check_uvector(WRITE, lvec, liovcnt, UIO_FASTIOV,
++					   iovstack_l, &iov_l, 1);
++	else
++		rc = rw_copy_check_uvector(READ, lvec, liovcnt, UIO_FASTIOV,
++					   iovstack_l, &iov_l, 1);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = rw_copy_check_uvector(READ, rvec, riovcnt, UIO_FASTIOV,
++				   iovstack_r, &iov_r, 0);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = process_vm_rw_core(pid, iov_l, liovcnt, iov_r, riovcnt, flags,
++				vm_write);
++
++free_iovecs:
++	if (iov_r != iovstack_r)
++		kfree(iov_r);
++	if (iov_l != iovstack_l)
++		kfree(iov_l);
++
++	return rc;
++}
++
++SYSCALL_DEFINE6(process_vm_readv, pid_t, pid, const struct iovec __user *, lvec,
++		unsigned long, liovcnt, const struct iovec __user *, rvec,
++		unsigned long, riovcnt,	unsigned long, flags)
++{
++	return process_vm_rw(pid, lvec, liovcnt, rvec, riovcnt, flags, 0);
++}
++
++SYSCALL_DEFINE6(process_vm_writev, pid_t, pid,
++		const struct iovec __user *, lvec,
++		unsigned long, liovcnt, const struct iovec __user *, rvec,
++		unsigned long, riovcnt,	unsigned long, flags)
++{
++	return process_vm_rw(pid, lvec, liovcnt, rvec, riovcnt, flags, 1);
++}
++
++#ifdef CONFIG_COMPAT
++
++asmlinkage ssize_t
++compat_process_vm_rw(compat_pid_t pid,
++		     const struct compat_iovec __user *lvec,
++		     unsigned long liovcnt,
++		     const struct compat_iovec __user *rvec,
++		     unsigned long riovcnt,
++		     unsigned long flags, int vm_write)
++{
++	struct iovec iovstack_l[UIO_FASTIOV];
++	struct iovec iovstack_r[UIO_FASTIOV];
++	struct iovec *iov_l = iovstack_l;
++	struct iovec *iov_r = iovstack_r;
++	ssize_t rc = -EFAULT;
++
++	if (flags != 0)
++		return -EINVAL;
++
++	if (!access_ok(VERIFY_READ, lvec, liovcnt * sizeof(*lvec)))
++		goto out;
++
++	if (!access_ok(VERIFY_READ, rvec, riovcnt * sizeof(*rvec)))
++		goto out;
++
++	if (vm_write)
++		rc = compat_rw_copy_check_uvector(WRITE, lvec, liovcnt,
++						  UIO_FASTIOV, iovstack_l,
++						  &iov_l, 1);
++	else
++		rc = compat_rw_copy_check_uvector(READ, lvec, liovcnt,
++						  UIO_FASTIOV, iovstack_l,
++						  &iov_l, 1);
++	if (rc <= 0)
++		goto free_iovecs;
++	rc = compat_rw_copy_check_uvector(READ, rvec, riovcnt,
++					  UIO_FASTIOV, iovstack_r,
++					  &iov_r, 0);
++	if (rc <= 0)
++		goto free_iovecs;
++
++	rc = process_vm_rw_core(pid, iov_l, liovcnt, iov_r, riovcnt, flags,
++			   vm_write);
++
++free_iovecs:
++	if (iov_r != iovstack_r)
++		kfree(iov_r);
++	if (iov_l != iovstack_l)
++		kfree(iov_l);
++
++out:
++	return rc;
++}
++
++asmlinkage ssize_t
++compat_sys_process_vm_readv(compat_pid_t pid,
++			    const struct compat_iovec __user *lvec,
++			    unsigned long liovcnt,
++			    const struct compat_iovec __user *rvec,
++			    unsigned long riovcnt,
++			    unsigned long flags)
++{
++	return compat_process_vm_rw(pid, lvec, liovcnt, rvec,
++				    riovcnt, flags, 0);
++}
++
++asmlinkage ssize_t
++compat_sys_process_vm_writev(compat_pid_t pid,
++			     const struct compat_iovec __user *lvec,
++			     unsigned long liovcnt,
++			     const struct compat_iovec __user *rvec,
++			     unsigned long riovcnt,
++			     unsigned long flags)
++{
++	return compat_process_vm_rw(pid, lvec, liovcnt, rvec,
++				    riovcnt, flags, 1);
++}
++
++#endif
+diff --git a/security/keys/compat.c b/security/keys/compat.c
+index 338b510..4c48e13 100644
+--- a/security/keys/compat.c
++++ b/security/keys/compat.c
+@@ -38,7 +38,7 @@ long compat_keyctl_instantiate_key_iov(
+ 
+ 	ret = compat_rw_copy_check_uvector(WRITE, _payload_iov, ioc,
+ 					   ARRAY_SIZE(iovstack),
+-					   iovstack, &iov);
++					   iovstack, &iov, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret == 0)
+diff --git a/security/keys/keyctl.c b/security/keys/keyctl.c
+index eca5191..0b3f5d7 100644
+--- a/security/keys/keyctl.c
++++ b/security/keys/keyctl.c
+@@ -1065,7 +1065,7 @@ long keyctl_instantiate_key_iov(key_serial_t id,
+ 		goto no_payload;
+ 
+ 	ret = rw_copy_check_uvector(WRITE, _payload_iov, ioc,
+-				    ARRAY_SIZE(iovstack), iovstack, &iov);
++				    ARRAY_SIZE(iovstack), iovstack, &iov, 1);
+ 	if (ret < 0)
+ 		return ret;
+ 	if (ret == 0)
 
-
-
-
-
-
-
-
-
-                                                                         
-In memories of HIZUKI AYAKA ,the angel!
-                                                                         
-                                                                     月 
-吹智也
-
---------------040501070508090108090207
-Content-Type: text/plain;
- name="socket.2"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="socket.2"
-
-J1wiIHQKLlwiIENvcHlyaWdodCAoYykgMTk4MywgMTk5MSBUaGUgUmVnZW50cyBvZiB0aGUg
-VW5pdmVyc2l0eSBvZiBDYWxpZm9ybmlhLgouXCIgQWxsIHJpZ2h0cyByZXNlcnZlZC4KLlwi
-Ci5cIiBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNvdXJjZSBhbmQgYmluYXJ5IGZvcm1z
-LCB3aXRoIG9yIHdpdGhvdXQKLlwiIG1vZGlmaWNhdGlvbiwgYXJlIHBlcm1pdHRlZCBwcm92
-aWRlZCB0aGF0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9ucwouXCIgYXJlIG1ldDoKLlwiIDEu
-IFJlZGlzdHJpYnV0aW9ucyBvZiBzb3VyY2UgY29kZSBtdXN0IHJldGFpbiB0aGUgYWJvdmUg
-Y29weXJpZ2h0Ci5cIiAgICBub3RpY2UsIHRoaXMgbGlzdCBvZiBjb25kaXRpb25zIGFuZCB0
-aGUgZm9sbG93aW5nIGRpc2NsYWltZXIuCi5cIiAyLiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmlu
-YXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhlIGFib3ZlIGNvcHlyaWdodAouXCIgICAgbm90
-aWNlLCB0aGlzIGxpc3Qgb2YgY29uZGl0aW9ucyBhbmQgdGhlIGZvbGxvd2luZyBkaXNjbGFp
-bWVyIGluIHRoZQouXCIgICAgZG9jdW1lbnRhdGlvbiBhbmQvb3Igb3RoZXIgbWF0ZXJpYWxz
-IHByb3ZpZGVkIHdpdGggdGhlIGRpc3RyaWJ1dGlvbi4KLlwiIDMuIEFsbCBhZHZlcnRpc2lu
-ZyBtYXRlcmlhbHMgbWVudGlvbmluZyBmZWF0dXJlcyBvciB1c2Ugb2YgdGhpcyBzb2Z0d2Fy
-ZQouXCIgICAgbXVzdCBkaXNwbGF5IHRoZSBmb2xsb3dpbmcgYWNrbm93bGVkZ2VtZW50Ogou
-XCIJVGhpcyBwcm9kdWN0IGluY2x1ZGVzIHNvZnR3YXJlIGRldmVsb3BlZCBieSB0aGUgVW5p
-dmVyc2l0eSBvZgouXCIJQ2FsaWZvcm5pYSwgQmVya2VsZXkgYW5kIGl0cyBjb250cmlidXRv
-cnMuCi5cIiA0LiBOZWl0aGVyIHRoZSBuYW1lIG9mIHRoZSBVbml2ZXJzaXR5IG5vciB0aGUg
-bmFtZXMgb2YgaXRzIGNvbnRyaWJ1dG9ycwouXCIgICAgbWF5IGJlIHVzZWQgdG8gZW5kb3Jz
-ZSBvciBwcm9tb3RlIHByb2R1Y3RzIGRlcml2ZWQgZnJvbSB0aGlzIHNvZnR3YXJlCi5cIiAg
-ICB3aXRob3V0IHNwZWNpZmljIHByaW9yIHdyaXR0ZW4gcGVybWlzc2lvbi4KLlwiCi5cIiBU
-SElTIFNPRlRXQVJFIElTIFBST1ZJREVEIEJZIFRIRSBSRUdFTlRTIEFORCBDT05UUklCVVRP
-UlMgYGBBUyBJUycnIEFORAouXCIgQU5ZIEVYUFJFU1MgT1IgSU1QTElFRCBXQVJSQU5USUVT
-LCBJTkNMVURJTkcsIEJVVCBOT1QgTElNSVRFRCBUTywgVEhFCi5cIiBJTVBMSUVEIFdBUlJB
-TlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZIEFORCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIg
-UFVSUE9TRQouXCIgQVJFIERJU0NMQUlNRUQuICBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgUkVH
-RU5UUyBPUiBDT05UUklCVVRPUlMgQkUgTElBQkxFCi5cIiBGT1IgQU5ZIERJUkVDVCwgSU5E
-SVJFQ1QsIElOQ0lERU5UQUwsIFNQRUNJQUwsIEVYRU1QTEFSWSwgT1IgQ09OU0VRVUVOVElB
-TAouXCIgREFNQUdFUyAoSU5DTFVESU5HLCBCVVQgTk9UIExJTUlURUQgVE8sIFBST0NVUkVN
-RU5UIE9GIFNVQlNUSVRVVEUgR09PRFMKLlwiIE9SIFNFUlZJQ0VTOyBMT1NTIE9GIFVTRSwg
-REFUQSwgT1IgUFJPRklUUzsgT1IgQlVTSU5FU1MgSU5URVJSVVBUSU9OKQouXCIgSE9XRVZF
-UiBDQVVTRUQgQU5EIE9OIEFOWSBUSEVPUlkgT0YgTElBQklMSVRZLCBXSEVUSEVSIElOIENP
-TlRSQUNULCBTVFJJQ1QKLlwiIExJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HIE5FR0xJ
-R0VOQ0UgT1IgT1RIRVJXSVNFKSBBUklTSU5HIElOIEFOWSBXQVkKLlwiIE9VVCBPRiBUSEUg
-VVNFIE9GIFRISVMgU09GVFdBUkUsIEVWRU4gSUYgQURWSVNFRCBPRiBUSEUgUE9TU0lCSUxJ
-VFkgT0YKLlwiIFNVQ0ggREFNQUdFLgouXCIKLlwiICAgICAkSWQ6IHNvY2tldC4yLHYgMS40
-IDE5OTkvMDUvMTMgMTE6MzM6NDIgZnJlaXRhZyBFeHAgJAouXCIKLlwiIE1vZGlmaWVkIDE5
-OTMtMDctMjQgYnkgUmlrIEZhaXRoIDxmYWl0aEBjcy51bmMuZWR1PgouXCIgTW9kaWZpZWQg
-MTk5Ni0xMC0yMiBieSBFcmljIFMuIFJheW1vbmQgPGVzckB0aHlyc3VzLmNvbT4KLlwiIE1v
-ZGlmaWVkIDE5OTgsIDE5OTkgYnkgQW5kaSBLbGVlbiA8YWtAbXVjLmRlPgouXCIgTW9kaWZp
-ZWQgMjAwMi0wNy0xNyBieSBNaWNoYWVsIEtlcnJpc2sgPG10ay5tYW5wYWdlc0BnbWFpbC5j
-b20+Ci5cIiBNb2RpZmllZCAyMDA0LTA2LTE3IGJ5IE1pY2hhZWwgS2VycmlzayA8bXRrLm1h
-bnBhZ2VzQGdtYWlsLmNvbT4KLlwiCi5USCBTT0NLRVQgMiAyMDA5LTAxLTE5ICJMaW51eCIg
-IkxpbnV4IFByb2dyYW1tZXIncyBNYW51YWwiCi5TSCDlkI3lrZcKc29ja2V0IC0g5bu656uL
-5LiA5Liq55So5LqO5Lqk5rWB55qE56uv54K5Ci5TSCDmpoLopoEKLkJSICIjaW5jbHVkZSA8
-c3lzL3R5cGVzLmg+IiAiICAgICAgICAgIC8qIFNlZSBOT1RFUyAqLyIKLmJyCi5CICNpbmNs
-dWRlIDxzeXMvc29ja2V0Lmg+Ci5zcAouQkkgImludCBzb2NrZXQoaW50ICIgZG9tYWluICIs
-IGludCAiIHR5cGUgIiwgaW50ICIgcHJvdG9jb2wgKTsKLlNIIOaPj+i/sAouQlIgc29ja2V0
-ICgpCuW7uueri+S4gOS4queUqOS6juS6pOa1geeahOerr+eCueW5tuS4lOi/lOWbnuS4gOS4
-quaPj+i/sOespuOAggouUFAKVGhlCi5JIGRvbWFpbgrlj4LmlbDmjIflrprkuIDkuKrpgJro
-rq/ln5/lkI3vvJvpgInmi6nnmoTljY/orq7lsIbkvJrnlKjkuo7pgJrorq/jgILljY/orq7l
-kI3lnKgKLklSIDxzeXMvc29ja2V0Lmg+IC4K5Lit5a6a5LmJ44CCIOebruWJjeW3suefpeea
-hOagvOW8j+WMheaLrO+8mgouVFMKdGFiKDopOwpsIGwgbC4K5ZCN56ewOuebrueahO+8muaJ
-i+WGjOmhtQpUewouQlIgQUZfVU5JWCAiLCAiIOacrOWcsOmAmuiurzoKVH06VHsKdW5peCg3
-KQpUfTpUewouQlIgdW5peCAoNykKVH0KVHsKLkIgQUZfSU5FVApUfTpJUHY0IOe9kee7nOWN
-j+iurjpUewouQlIgaXAgKDcpClR9ClR7Ci5CIEFGX0lORVQ2ClR9OklQdjYg572R57uc5Y2P
-6K6uOlR7Ci5CUiBpcHY2ICg3KQpUfQpUewouQiBBRl9JUFgKVH06SVBYIFwtIE5vdmVsbCDl
-jY/orq4KVHsKLkIgQUZfTkVUTElOSwpUfTpUewrlhoXmoLjnlKjmiLfnlYzpnaLorr7lpIcK
-VH06VHsKLkJSIG5ldGxpbmsgKDcpClR9ClR7Ci5CIEFGX1gyNQpUfTpJVFUtVCBYLjI1IC8g
-SVNPLTgyMDgg5Y2P6K6uOlR7Ci5CUiB4MjUgKDcpClR9ClR7Ci5CIEFGX0FYMjUKVH06VHsK
-QW1hdGV1ciByYWRpbyBBWC4yNSBwcm90b2NvbApUfToKVHsKLkIgQUZfQVRNUFZDClR9OkFj
-Y2VzcyB0byByYXcgQVRNIFBWQ3M6ClR7Ci5CIEFGX0FQUExFVEFMSwpUfTpBcHBsZXRhbGs6
-VHsKLkJSIGRkcCAoNykKVH0KVHsKLkIgQUZfUEFDS0VUClR9OlR7CuW6leWxguWMhei/nuaO
-pQpUfTpUewouQlIgcGFja2V0ICg3KQpUfQouVEUKLlBQCuWll+aOpeWtl+mAmui/hwouSVIg
-dHlwZSAsCuWPguaVsOadpeehruWumumAmuS/oeivreS5ieOAguebruWJjeWumuS5ieeahOex
-u+Wei+acie+8mgouVFAgMTYKLkIgU09DS19TVFJFQU0K5o+Q5L6b5pyJ5bqP55qE77yM5Y+v
-6Z2g55qE77yM5Y+M5ZCR55qE77yM5Z+65LqO5a2X6IqC5rWB55qE6YCa6K6v44CC5Y+v6IO9
-5pSv5oyB5bim5aSW5Lyg6L6T44CCCi5UUAouQiBTT0NLX0RHUkFNCuaPkOS+m+aVsOaNruaK
-pe+8iOS4jemdouWQkei/nuaOpeeahCwg5LiN5Y+v6Z2g55qE5Zu65a6a5pyA5aSn6ZW/5bqm
-55qE5L+h5oGv77yJ44CCCi5UUAouQiBTT0NLX1NFUVBBQ0tFVArmj5DkvpvmnInluo/nmoTv
-vIzlj6/pnaDnmoTvvIzlj4zlkJHnmoTvvIzln7rkuo7lm7rlrprmnIDlpKfplb/luqbnmoTm
-lbDmja7miqXkvKDovpPot6/lvoTvvJvpnIDopoHkuIDkuKror7vlj5bmlbTkuKrkvLTmnIno
-vpPlhaXns7vnu5/osIPnlKjnmoTljIXnmoTnlKjmiLfjgIIKLlRQCi5CIFNPQ0tfUkFXCuaP
-kOS+m+acquWKoOW3pShyYXcp55qE572R57uc5Y2P6K6u6YCa6YGT44CCIAouVFAKLkIgU09D
-S19SRE0K5o+Q5L6b5Y+v6Z2g55qE5pWw5o2u5oql5bGC77yM5L2G5piv5LiN5L+d6K+B6aG6
-5bqP44CCIAouVFAKLkIgU09DS19QQUNLRVQK5bqf5byD55qE77yM5LiN5bqU6K+l5Zyo5paw
-55qE56iL5bqP5Lit5L2/55So77yM5Y+C6ICDCi5CUiBwYWNrZXQgKDcpLgouUFAK5LiA5Lqb
-5aWX5o6l5a2X57G75Z6L5bm25pyq6KKr5omA5pyJ55qE5Y2P6K6u5a6e546w77ybIOS+i+Wm
-gu+8jAouQiBTT0NLX1NFUVBBQ0tFVCAK5bm25LiN6KKrIEFGX0lORVQKLkJSIEFGX0lORVQg
-Lgrlrp7njrDjgIIKLlBQCuS7jiBMaW51eCAyLjYuMjcg5byA5aeL77yMCi5JIHR5cGUK5Y+C
-5pWw5Y+v5Lul5o+Q5L6b5YW25LuW55qE5Yqf6IO977yaIOazqOaEj+S4gOS6m+Wll+aOpeWt
-l+exu+Wei+WPr+iDveWMheaLrOS4gOS4i+WAvOeahOaIluS9je+8jOeUqOadpeS/ruaUuQou
-QlIgc29ja2V0ICgpOgrnmoTooYzkuLrjgIIKLlRQIDE2Ci5CIFNPQ0tfTk9OQkxPQ0sK6K6+
-572uCi5CUiBPX05PTkJMT0NLCueahOagh+W/l+S6juaWsOaJk+W8gOeahOaWh+S7tuaPj+i/
-sOespuOAgiDpgJrov4fov5nkuKrmoIflv5flj6/ku6XkuI3nlKjosIPnlKggCi5CUiBmY250
-bCgyKSAK5p2l6L6+5Yiw55u45ZCM55qE57uT5p6c44CCCi5UUAouQiBTT0NLX0NMT0VYRUMK
-6K6+572uIGNsb3NlLW9uLWV4ZWMgCi5SQiAoIEZEX0NMT0VYRUMgKQrnmoTmoIflv5fkuo7m
-lrDmiZPlvIDnmoTmlofku7bmj4/ov7DnrKbjgILlj4Lop4EKLkJSIG9wZW4gKDIpCuS4reWF
-s+S6jgouQiBPX0NMT0VYRUMK55qE5o+P6L+w77yM5Zug5Li65LiA5Lqb5Y6f5Zug6L+Z5Liq
-5qCH5b+X5b6I5pyJ55So44CCCi5QUAouSSBwcm90b2NvbArmjIflrprkuIDkuKrljY/orq7n
-lKjkuo7lpZfmjqXlrZfjgILmjIflrprkuIDkuKrljY/orq7nlKjkuo7lpZfmjqXlrZfjgILk
-uIDoiKzmg4XlhrXkuIvvvIzlnKjnu5nlrprnmoTljY/orq7kuK3lj6rlhYHorrjlnKjkuIDk
-uKrlpZfmjqXlrZfkuIrkvb/nlKjkuIDkuKrljY/orq7vvIwg5rOo5oSPCi5JIHByb3RvY29s
-CuWPr+S7peaMh+WumuS4uuaVsOWtlyAwIOOAggrkvYbmmK/vvIwg5Y+v6IO95a2Y5Zyo552A
-5b6I5aSa5Y2P6K6u77yMIOS9huaYr+WcqOacrOaJi+WGjOeahOWNj+iuruW/hemhu+S9v+eU
-qOS4gOS4quOAguWNj+iurueUqOS6juaMh+WumumAmuiur+WPkeeUn+WcsOaWueeahFwqKGxx
-6YCa6K6v5Z+f5ZCNXCoocnHvvIwg5Y+C6ICDCi5CUiBwcm90b2NvbHMgKDUp44CCCuWPguiA
-gwouQlIgZ2V0cHJvdG9lbnQgKDMpCuS4reWFs+S6juWmguS9leaKiuWNj+iuruWQjeensOWt
-l+espuS4suS4juWNj+iurue8luWPt+i/m+ihjOaYoOWwhOOAggouUFAKLkIgU09DS19TVFJF
-QU0K57G75Z6L55qE5aWX5o6l5a2X5piv5Y+M5ZCR55u05o6l5pWw5o2u5rWB55qE77yM5ZKM
-566h6YGT5Y2B5YiG55u45Ly844CCIOS7luS7rOS4jeWvueiusOW9lea6ouWHuuaPkOS+m+S/
-neaKpOOAgiDkuIDkuKrlpZfmjqXlrZfmtYHlnKjmjqXlj5fmiJblj5Hlh7rku7vkvZXmlbDm
-ja7ml7blv4XpobvlpITkuo4KLkkgY29ubmVjdGVkCueahOeKtuaAgeOAguWSjOWFtuWug+Wl
-l+aOpeWtl+mAmui/hwouQlIgY29ubmVjdCAoMikK6LCD55So5p2l5bu656uL6L+e5o6l44CC
-CuS4gOaXpui/nuaOpe+8jCDmlbDmja7lj6/og73pgJrov4cKLkJSIHJlYWQgKDIpCuWSjAou
-QlIgd3JpdGUgKDIpCuezu+e7n+iwg+eUqOadpeS8oOi+k++8jOS5n+aIluiAheaYr+S4jeWQ
-jOeahAouQlIgc2VuZCAoMikK5ZKMCi5CUiByZWN2ICgyKQrns7vnu5/osIPnlKjjgILlvZPk
-vJror53nu5PmnZ/ml7bvvIzlj6/og73kvJrmiafooYwKLkJSIGNsb3NlICgyKQrluKblpJbm
-lbDmja7lj6/og73kuZ/nlKgKLkJSIHNlbmQgKDIpCuWSjAouQlIgcmVjdiAoMikK5o+P6L+w
-5LiO5o6l5Y+X44CCCi5QUAouQiBTT0NLX1NUUkVBTQrnsbvlnovnmoTnmoTpgJrkv6HljY/o
-rq7lupTnoa7kv53kv6Hmga/kuI3kuKLlpLHkuI7ph43lpI3jgILlpoLmnpzkuIDlnZfmnInl
-jY/orq7nvJPlhrLnmoTmlbDmja7kuI3og73lnKjlkIjnkIbml7bpl7TlhoXkvKDovpPvvIzo
-v57mjqXkvJrooqvorqTkuLrotoXml7bjgILlvZPlnKjlpZfmjqXlrZfkuIrlkK/nlKgKLkIg
-U09fS0VFUEFMSVZFCu+8jOWNj+iuruS8muS7peWFtueJueWumuaWueW8j+ajgOafpeWPpuS4
-gOerr+aYr+WQpua0u+edgOOAguW9k+S4gOS4qui/m+eoi+aOpeWPl+aIluWPkemAgeS6huS4
-gOS4qumUmeivr+eahOaVsOaNrua1ge+8jOS8muS6p+eUn+W5tuaOpeWPl+S4gOS4qgouQiBT
-SUdQSVBFCuS/oeWPt++8m+WvueS6jumHh+WPlum7mOiupOWkhOeQhuatpOS/oeWPt+eahOi/
-m+eoi++8jOWug+WwhuS8mumAgOWHuuOAggouQiBTT0NLX1NFUVBBQ0tFVArlpZfmjqXlrZfp
-h4fnlKjlkowKLkIgU09DS19TVFJFQU0KIOWll+aOpeWtl+ebuOWQjOeahOezu+e7n+iwg+eU
-qOOAguWUr+S4gOS4jeWQjOeahOaYr++8jAouQlIgcmVhZCAoMikK57O757uf6LCD55So5Y+q
-5Lya6L+U5Zue6K+35rGC55qE5pWw5o2u6YeP77yM5bm25bCG5L2Z5LiL5Yiw6L6+55qE5Lu7
-5L2V5pWw5o2u5pWw5o2u5YyF5Lii5byD44CC5q2k5aSW5omA5pyJ55qE5raI5oGv6L6555WM
-55qE5Lyg5YWl55qE4oCL4oCL5pWw5o2u5oql5bCG6KKr5L+d55WZ44CCCi5QUAouQiBTT0NL
-X0RHUkFNCuWSjAouQiBTT0NLX1JBVwrnsbvlnovnmoTlpZfmjqXlrZfmlK/mjIHnlKgKLkJS
-IHNlbmR0byAoMikK57O757uf6LCD55So5p2l5Y+R6YCB5pWw5o2u5oql77yMIOaVsOaNruaK
-pemAmuW4uOaYr+eUqAouQlIgcmVjdmZyb20gKDIpLArmnaXmjqXlj5fnmoTvvIzov5nkuKro
-sIPnlKjkvJrlnKjkuIvkuIDkuKrmlbDmja7miqXkuK3ljZXni6znmoTov5Tlm57lj5HpgIHo
-gIXnmoTlnLDlnYDjgIIKLlBQCi5CIFNPQ0tfUEFDS0VUCuaYr+S4gOS4qumBl+eVmeeahOWl
-l+aOpeWtl+exu+Wei++8jOeUqOadpeS7juiuvuWkh+mpseWKqOS4reaOpeWPl+WOn+Wni+aV
-sOaNru+8jOW3sue7j+iiqwouQlIgcGFja2V0ICg3KQrosIPnlKjlj5bku6PjgIIKLlBQCi5C
-UiBmY250bCAoMikK55qECi5CIEZfU0VUT1dOCuaTjeS9nOWPr+S7peWcqOW4puWkluaVsOaN
-ruWIsOi+vuaXtuiuqei/m+eoi+aIlui/m+eoi+e7hOS8muaUtuWIsOS4gOS4qgouQiBTSUdV
-UkcK5L+h5Y+377yM5oiW6ICF5ZyoCi5CIFNPQ0tfU1RSRUFNCuexu+Wei+eahOi/nuaOpeWc
-qOiiq+S4jeacn+acm+WcsOaJk+aWreaXtu+8jOaUtuWIsAouQiBTSUdQSVBFCuS/oeWPt+OA
-gui/meS4quaTjeS9nOS5n+WPr+iDveiiq+eUqOS6juiuqei/m+eoi+aIlui/m+eoi+e7hOmA
-mui/hwouQlIgU0lHSU8gLgrmjqXmlLYgSS9PIOWSjCBJL08g5LiN5ZCM5q2l55qE6YCa55+l
-44CC5L2/55SoCi5CIEZfU0VUT1dOCuetieWQjOS6juS9v+eUqOS6hgouQiBGSU9TRVRPV04K
-5oiWCi5CIFNJT0NTUEdSUArlj4LmlbDnmoQKLkJSIGlvY3RsICgyKQrns7vnu5/osIPnlKjj
-gIIKLlBQCuW9k+e9kee7nOWQkeWNj+iuruaooeWei+WPkeWHuuS4gOS4qumUmeivr+aDheWG
-teeahOS/oeWPtyjkvovlpoIsIOWvuSBJUCDkvb/nlKggSUNNUCDmtojmga/vvIkg77yM5aWX
-5o6l5a2X5bCG5Lya6K6+572u5LiKIHBlbmRpbmcg6ZSZ6K+v5qCH5b+X44CCIOWvueWll+aO
-peWtl+aOpeS4i+WOu+eahOaTjeS9nOWwhuS8mui/lOWbniBwZW5kaW5nIOmUmeivr+eahOmU
-meivr+S7o+eggeOAguWvueS6juS4gOS6m+WNj+iuru+8jOWPr+iDveS8muS4uuavj+S4gOS4
-quaOpeWtl+aOpeWQr+eUqOS4gOS4queUqOS6juWPluWHuuivpue7humUmeivr+S/oeaBr+ea
-hOmUmeivr+WIl+mYn++8mwrlj4Lop4EKLkJSIGlwICg3KQrkuK3nmoQKLkIgSVBfUkVDVkVS
-UgrjgIIKLlBQCuWll+aOpeWtl+eahOaTjeS9nOeUseWll+aOpeWtl+e6p+eahAouSVIg6YCJ
-6aG5CuadpeaOp+WItuOAggrov5nkupvpgInpobnlrprkuYnkuo4KLklSIDxzeXMvc29ja2V0
-Lmg+IArkuK3jgIIKLkJSIHNldHNvY2tvcHQgKDIp5ZKMCi5CUiBzZXRzb2Nrb3B0ICgyKQrn
-lKjkuo7liIbliKvnlKjkuo7orr7nva7lkozor7vlj5bpgInpobnjgIIKLlNIICLov5Tlm57l
-gLwiCuaIkOWKn+aXtu+8jOS8mui/lOWbnuaWsOWll+aOpeWtl+eahOaWh+S7tuaPj+i/sOes
-puOAgumUmeivr+aXtu+8jOi/lOWbniBcLTEg77yM5ZCM5pe2Ci5JIGVycm5vCuS8muiiq+mA
-guW9k+iuvue9ruOAggouU0gg6ZSZ6K+vCi5UUAouQiBFQUNDRVMK5LiN5YWB6K645Yib5bu6
-5oyH5a6a55qEIOexu+WeiyDlkowv5oiWIOaMh+WumueahOWNj+iurueahOWll+aOpeWtl+OA
-ggouVFAKLkIgRUFGTk9TVVBQT1JUCuW3peWFt+S4jeaUr+aMgeaMh+WumueahOWcsOWdgOOA
-ggouVFAKLkIgRUlOVkFMCuacquefpeWNj+iuru+8jOaIluWNj+iurue7hOS4jeWPr+eUqOOA
-ggouVFAKLkIgRUlOVkFMCi5cIiBTaW5jZSBMaW51eCAyLjYuMjcK6ZSZ6K+v55qECi5JUiB0
-eXBlIArmoIflv5fjgIIKLlRQCi5CIEVNRklMRQrov5vnqIvmlofku7booajmuqLlh7rjgIIK
-LlRQCi5CIEVORklMRQrlt7Lnu4/ovr7liLDns7vnu5/kuIrpmZDnmoTmlofku7bmiZPlvIDm
-lbDjgIIKLlRQCi5CUiBFTk9CVUZTICIg5oiWICIgRU5PTUVNCuayoeaciei2s+Wkn+eahOWG
-heWtmO+8jOebtOWIsOacieWPr+eUqOeahOi1hOa6kOWll+aOpeWtl+S4jeiDveiiq+WIm+W7
-uuOAggouVFAKLkIgRVBST1RPTk9TVVBQT1JUCuWNj+iuruexu+Wei+aIluaMh+WumueahOWN
-j+iuruS4jeiiq+W9k+WJjeWfn+aJgOaUr+aMgeOAggouUFAK5YW25a6D55qE6ZSZ6K+v5Y+v
-6IO95piv55Sx5Y2P6K6u5qih5Z6L5Lqn55Sf55qE44CCCi5TSCAi5YW85a655oCnIgo0LjRC
-U0QsIFBPU0lYLjEtMjAwMS4KCgouQiBTT0NLX05PTkJMT0NLCuWSjAouQiBTT0NLX0NMT0VY
-RUMK5qCH5b+X5pivIExpbnV4IOeJueacieeahOOAggouQlIgc29ja2V0ICgpCmFwcGVhcmVk
-IGluIDQuMkJTRC4K5Ye6546w5LqOIDQuMkJTRCDjgILpgJrluLjvvIzpnZ4gQlNEIOezu+e7
-n+eahCBCU0Qg5aWX5o6l5a2X5bGC5YWL6ZqG5piv5Y+v56e75qSN55qE77yI5YyF5ousIFN5
-c3RlbSBWIOeahOWPmOenje+8ieOAggouU0gg5rOo5oSPCuW5tuS4jeimgeaxguWMheWQqwou
-SVIgPHN5cy90eXBlcy5oPiAK77yM6L+Z5Liq5aS05paH5Lu25ZyoIExpbnV4IOS4i+aYr+S4
-jeW/hemhu+eahOOAgiDlj6/mmK/kuIDkupvljoblj7LkuIrnmoQgKEJTRCkg5bel5YW36KaB
-5rGC6L+Z5Liq5aS05paH5Lu277yMIOWPr+enu+akjeeoi+W6j+W+iOWPr+iDveW4jOacm+WM
-heWQq+Wug+OAggoKNC54IEJTRCDkuIvmmI7mmL7lm7rlrprnmoTljY/orq7nu4TmnIkKLkJS
-IFBGX1VOSVggLAouQlIgUEZfSU5FVCAsCuetieetie+8jOS9huaYryBBRl9VTklYIOetie+8
-jOWug+S7rOaYr+eUqOS6juWcsOWdgOe7hOeahOOAguWPr+aYryBCU0Qg55qEIG1hbiBwYWdl
-IOS/neivgeKAnCDljY/orq7nu4TkuIDoiKznrYnkuo7lnLDlnYDnu4TigJzvvIzpmo/lkI7n
-moTmoIflh4blnKjmr4/kuKrlnLDmlrnpg73kvb/nlKjkuoYgQUZfKiDjgIIKCi5JIDxzeXMv
-dHlwZXMuaD4K5paH5Lu25aS05Y+q5ZyoIGxpYmM0IOS7peWJjeaYr+W/hemhu+eahOOAgiDk
-uIDkupvljIXvvIwg5aaCIHV0aWwtbGludXgsIGNsYWltIO+8jOaYr+eUqOS6juWcqOaJgOS7
-pSBMaW51eCDniYjmnKzlkozlupPkuIrlj6/np7vmpI3nmoTjgILlroPku6znoa7lrp7pnIDo
-poHov5nkuKrlpLTmlofku7bjgIIKLlNIIOS+i+WtkArlnKgKLkJSIGdldGFkZHJpbmZvICgz
-KS4K5Lit5pyJ5LiA5Liq5L2/55SoCi5CUiBzb2NrZXQgKCkK55qE5L6L5a2Q44CCCi5TSCAi
-5Y+C6KeBIgouQlIgYWNjZXB0ICgyKSwKLkJSIGJpbmQgKDIpLAouQlIgY29ubmVjdCAoMiks
-Ci5CUiBmY250bCAoMiksCi5CUiBnZXRwZWVybmFtZSAoMiksCi5CUiBnZXRzb2NrbmFtZSAo
-MiksCi5CUiBnZXRzb2Nrb3B0ICgyKSwKLkJSIGlvY3RsICgyKSwKLkJSIGxpc3RlbiAoMiks
-Ci5CUiByZWFkICgyKSwKLkJSIHJlY3YgKDIpLAouQlIgc2VsZWN0ICgyKSwKLkJSIHNlbmQg
-KDIpLAouQlIgc2h1dGRvd24gKDIpLAouQlIgc29ja2V0cGFpciAoMiksCi5CUiB3cml0ZSAo
-MiksCi5CUiBnZXRwcm90b2VudCAoMyksCi5CUiBpcCAoNyksCi5CUiBzb2NrZXQgKDcpLAou
-QlIgdGNwICg3KSwKLkJSIHVkcCAoNyksCi5CUiB1bml4ICg3KQouUFAKXChscUFuIEludHJv
-ZHVjdG9yeSAgNC4zQlNEIEludGVycHJvY2VzcyBDb21tdW5pY2F0aW9uIFR1dG9yaWFs4oCd
-IOWcqAouSVVOSVggUHJvZ3JhbW1lcidzIFN1cHBsZW1lbnRhcnkgRG9jdW1lbnRzIFZvbHVt
-ZSAxIArkuK3ooqvph43ljbDjgIIKLlBQClwobHFCU0QgSW50ZXJwcm9jZXNzIENvbW11bmlj
-YXRpb24gVHV0b3JpYWxcKHJxCuWcqAouSSBVTklYIFByb2dyYW1tZXIncyBTdXBwbGVtZW50
-YXJ5IERvY3VtZW50cyBWb2x1bWUgMQrkuK3ooqvph43ljbDjgIIKLlNIIENPTE9QSE9OClRo
-aXMgcGFnZSBpcyBwYXJ0IG9mIHJlbGVhc2UgMy4yNyBvZiB0aGUgTGludXgKLkkgbWFuLXBh
-Z2VzCnByb2plY3QuCkEgZGVzY3JpcHRpb24gb2YgdGhlIHByb2plY3QsCmFuZCBpbmZvcm1h
-dGlvbiBhYm91dCByZXBvcnRpbmcgYnVncywKY2FuIGJlIGZvdW5kIGF0Cmh0dHA6Ly93d3cu
-a2VybmVsLm9yZy9kb2MvbWFuLXBhZ2VzLy4K
---------------040501070508090108090207--
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
