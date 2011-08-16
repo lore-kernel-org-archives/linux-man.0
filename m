@@ -1,19 +1,18 @@
-From: akpm@linux-foundation.org
-Subject: + cross-memory-attach-v4.patch added to -mm tree
-Date: Tue, 16 Aug 2011 09:39:59 -0700
-Message-ID: <201108161637.p7GGb7Tr002944@imap1.linux-foundation.org>
-Reply-To: linux-kernel@vger.kernel.org
-Return-path: <mm-commits-owner@vger.kernel.org>
-Sender: mm-commits-owner@vger.kernel.org
-To: mm-commits@vger.kernel.org
-Cc: cyeoh@au1.ibm.com, arnd@arndb.de, benh@kernel.crashing.org, dhowells@redhat.com, hpa@zytor.com, jmorris@namei.org, linux-arch@vger.kernel.org, linux-man@vger.kernel.org, mingo@elte.hu, paulus@samba.org, tglx@linutronix.de
+From: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Subject: + prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch added to -mm tree
+Date: Tue, 16 Aug 2011 13:11:38 -0700
+Message-ID: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mm-commits-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, kay.sievers-tD+1rO4QERM@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
 The patch titled
-     cross-memory-attach-v4
+     prctl: add PR_{SET,GET}_CHILD_REAPER to allow simple process supervision
 has been added to the -mm tree.  Its filename is
-     cross-memory-attach-v4.patch
+     prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch
 
 Before you just go and hit "reply", please:
    a) Consider who else should be cc'ed
@@ -29,104 +28,133 @@ out what to do about this
 The current -mm tree may be found at http://userweb.kernel.org/~akpm/mmotm/
 
 ------------------------------------------------------
-Subject: cross-memory-attach-v4
-From: Christopher Yeoh <cyeoh@au1.ibm.com>
+Subject: prctl: add PR_{SET,GET}_CHILD_REAPER to allow simple process supervision
+From: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
 
-> You might get some speed benefit by optimising for the small copies
-> here.  Define a local on-stack array of N page*'s and point
-> process_pages at that if the number of pages is <= N.  Saves a
-> malloc/free and is more cache-friendly.  But only if the result is
-> measurable!
+Userspace service managers/supervisors need to track their started
+services.  Many services daemonize by double-forking and get implicitely
+re-parented to PID 1.  The process manager will no longer be able to
+receive the SIGCHLD signals for them.
 
-I have done some benchmarking on this, and it gains about 5-7% on a
-microbenchmark with 4kb size copies and about a 1% gain with a more
-realistic (but modified for smaller copies) hpcc benchmark. The
-performance gain disappears into the noise by about 64kb sized copies.
-No measurable overhead for larger copies. So I think its worth including
+With this prctl, a service manager can mark itself as a sort of 'sub-init'
+process, able to stay as the parent process for all processes created by
+the started services.  All SIGCHLD signals will be delivered to the
+service manager.
 
-Included below is the patch (based on v4) - for ease of review the first diff
-is just against the latest version of CMA which has been posted here previously.
-The second is the entire CMA patch.
+As a side effect, the relevant parent PID information does not get lost by
+a double-fork, which results in a more elaborate process tree and 'ps'
+output.
 
-Signed-off-by: Chris Yeoh <cyeoh@au1.ibm.com>
-Cc: Ingo Molnar <mingo@elte.hu>
-Cc: "H. Peter Anvin" <hpa@zytor.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: David Howells <dhowells@redhat.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: <linux-man@vger.kernel.org>
-Cc: <linux-arch@vger.kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+This is orthogonal to PID namespaces.  PID namespaces are isolated from
+each other, while a service management process usually requires the
+serices to live in the same namespace, to be able to talk to each other.
+
+Users of this will be the systemd per-user instance, which provides
+init-like functionality for the user's login session and D-Bus, which
+activates bus services on on-demand.  Both will need init-like
+capabilities to be able to properly keep track of the services they start.
+
+Signed-off-by: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
+Signed-off-by: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
+Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>
+Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 ---
 
- mm/process_vm_access.c |   25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
+ include/linux/prctl.h |    3 +++
+ include/linux/sched.h |    2 ++
+ kernel/exit.c         |    9 ++++++++-
+ kernel/fork.c         |    2 ++
+ kernel/sys.c          |    7 +++++++
+ 5 files changed, 22 insertions(+), 1 deletion(-)
 
-diff -puN mm/process_vm_access.c~cross-memory-attach-v4 mm/process_vm_access.c
---- a/mm/process_vm_access.c~cross-memory-attach-v4
-+++ a/mm/process_vm_access.c
-@@ -221,6 +221,10 @@ static int process_vm_rw_single_vec(unsi
- 	return rc;
- }
+diff -puN include/linux/prctl.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision include/linux/prctl.h
+--- a/include/linux/prctl.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
++++ a/include/linux/prctl.h
+@@ -102,4 +102,7 @@
  
-+/* Maximum number of entries for process pages array
-+   which lives on stack */
-+#define PVM_MAX_PP_ARRAY_COUNT 16
+ #define PR_MCE_KILL_GET 34
+ 
++#define PR_SET_CHILD_REAPER 35
++#define PR_GET_CHILD_REAPER 36
 +
- /**
-  * process_vm_rw_core - core of reading/writing pages from task specified
-  * @pid: PID of process to read/write from/to
-@@ -241,7 +245,8 @@ static ssize_t process_vm_rw_core(pid_t 
- 				  unsigned long flags, int vm_write)
+ #endif /* _LINUX_PRCTL_H */
+diff -puN include/linux/sched.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision include/linux/sched.h
+--- a/include/linux/sched.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
++++ a/include/linux/sched.h
+@@ -1296,6 +1296,8 @@ struct task_struct {
+ 				 * execve */
+ 	unsigned in_iowait:1;
+ 
++	/* Reparent child processes to this process instead of pid 1. */
++	unsigned child_reaper:1;
+ 
+ 	/* Revert to default priority/policy when forking */
+ 	unsigned sched_reset_on_fork:1;
+diff -puN kernel/exit.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/exit.c
+--- a/kernel/exit.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
++++ a/kernel/exit.c
+@@ -701,7 +701,7 @@ static struct task_struct *find_new_reap
+ 	__acquires(&tasklist_lock)
  {
- 	struct task_struct *task;
--	struct page **process_pages = NULL;
-+	struct page *pp_stack[PVM_MAX_PP_ARRAY_COUNT];
-+	struct page **process_pages = pp_stack;
- 	struct mm_struct *mm;
- 	unsigned long i;
- 	ssize_t rc = 0;
-@@ -271,13 +276,16 @@ static ssize_t process_vm_rw_core(pid_t 
- 	if (nr_pages == 0)
- 		return 0;
+ 	struct pid_namespace *pid_ns = task_active_pid_ns(father);
+-	struct task_struct *thread;
++	struct task_struct *thread, *reaper;
  
--	/* For reliability don't try to kmalloc more than 2 pages worth */
--	process_pages = kmalloc(min_t(size_t, PVM_MAX_KMALLOC_PAGES,
--				      sizeof(struct pages *)*nr_pages),
--				GFP_KERNEL);
-+	if (nr_pages > PVM_MAX_PP_ARRAY_COUNT) {
-+		/* For reliability don't try to kmalloc more than
-+		   2 pages worth */
-+		process_pages = kmalloc(min_t(size_t, PVM_MAX_KMALLOC_PAGES,
-+					      sizeof(struct pages *)*nr_pages),
-+					GFP_KERNEL);
+ 	thread = father;
+ 	while_each_thread(father, thread) {
+@@ -712,6 +712,13 @@ static struct task_struct *find_new_reap
+ 		return thread;
+ 	}
  
--	if (!process_pages)
--		return -ENOMEM;
-+		if (!process_pages)
-+			return -ENOMEM;
-+	}
++	/* find the first ancestor which is marked as child_reaper */
++	for (reaper = father->parent;
++	     reaper != &init_task && reaper != pid_ns->child_reaper;
++	     reaper = reaper->parent)
++		if (reaper->child_reaper)
++			return reaper;
++
+ 	if (unlikely(pid_ns->child_reaper == father)) {
+ 		write_unlock_irq(&tasklist_lock);
+ 		if (unlikely(pid_ns == &init_pid_ns))
+diff -puN kernel/fork.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/fork.c
+--- a/kernel/fork.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
++++ a/kernel/fork.c
+@@ -1328,6 +1328,8 @@ static struct task_struct *copy_process(
+ 		p->parent_exec_id = current->self_exec_id;
+ 	}
  
- 	/* Get process information */
- 	rcu_read_lock();
-@@ -331,7 +339,8 @@ put_task_struct:
- 	put_task_struct(task);
++	p->child_reaper = 0;
++
+ 	spin_lock(&current->sighand->siglock);
  
- free_proc_pages:
--	kfree(process_pages);
-+	if (process_pages != pp_stack)
-+		kfree(process_pages);
- 	return rc;
- }
- 
+ 	/*
+diff -puN kernel/sys.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/sys.c
+--- a/kernel/sys.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
++++ a/kernel/sys.c
+@@ -1800,6 +1800,13 @@ SYSCALL_DEFINE5(prctl, int, option, unsi
+ 			else
+ 				error = PR_MCE_KILL_DEFAULT;
+ 			break;
++		case PR_SET_CHILD_REAPER:
++			me->child_reaper = !!arg2;
++			error = 0;
++			break;
++		case PR_GET_CHILD_REAPER:
++			error = put_user(me->child_reaper, (int __user *) arg2);
++			break;
+ 		default:
+ 			error = -EINVAL;
+ 			break;
 _
 
-Patches currently in -mm which might be from cyeoh@au1.ibm.com are
+Patches currently in -mm which might be from lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org are
 
-cross-memory-attach-v3.patch
-cross-memory-attach-update.patch
-cross-memory-attach-v4.patch
+prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch
 
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
