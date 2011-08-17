@@ -1,76 +1,109 @@
-From: Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Subject: Re: + prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
- .patch added to -mm tree
-Date: Wed, 17 Aug 2011 18:03:26 +0200
-Message-ID: <CAK1hOcObOmC-rfAZY6sUX98VZZpDn6+6XrUDJ_nFFGHROEYniQ@mail.gmail.com>
-References: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org>
- <20110817115543.GA8745@redhat.com> <20110817130531.GA12204@redhat.com> <CAPXgP10A4rcQLht--h1d3PJE=oOrm=MSjGXTUSKVF+ssnkt_gw@mail.gmail.com>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: +
+	prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
+	.patch added to -mm tree
+Date: Wed, 17 Aug 2011 18:20:41 +0200
+Message-ID: <20110817162041.GA21406@redhat.com>
+References: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org> <20110817115543.GA8745@redhat.com> <CAPXgP12rYf2HmmsJAuJw=nrtcjTRR1WzDhLNM47eKhKA1UTfJQ@mail.gmail.com> <20110817134516.GA14136@redhat.com> <CAPXgP101N_GESzpqu=P_H8cLoekMzb2_W2eWyAqATSjm4Gj9CA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAPXgP10A4rcQLht--h1d3PJE=oOrm=MSjGXTUSKVF+ssnkt_gw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAPXgP101N_GESzpqu=P_H8cLoekMzb2_W2eWyAqATSjm4Gj9CA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
-Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Cc: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Aug 17, 2011 at 3:21 PM, Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org> wro=
-te:
-> On Wed, Aug 17, 2011 at 15:05, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> On 08/17, Oleg Nesterov wrote:
->>> On 08/16, Andrew Morton wrote:
->>> > From: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
->>> >
->>> > Userspace service managers/supervisors need to track their starte=
-d
->>> > services. =A0Many services daemonize by double-forking and get im=
-plicitely
->>> > re-parented to PID 1. =A0The process manager will no longer be ab=
-le to
->>> > receive the SIGCHLD signals for them.
->>> >
->>> > With this prctl, a service manager can mark itself as a sort of '=
-sub-init'
->>> > process, able to stay as the parent process for all processes cre=
-ated by
->>> > the started services. =A0All SIGCHLD signals will be delivered to=
- the
->>> > service manager.
->>>
->>> I try to never argue with the new features. But to be honest, this
->>> doesn't look very good to me.
->>>
->>> OK, a service manager M does prctl(PR_SET_CHILD_REAPER), then it fo=
-rks
->>> a service X which forks another child C and exits. Then C exits and
->>> notifies M.
->>>
->>> But. How can M know that the service X should be restarted? It only
->>> knows the pid. What if wait(WEXITED) succeeds because C in turn doe=
-s
->>> fork + exit? What M has 2 or more services?
->>
->> Also. I am almost sure I have already reviewed a very similar patch
->> a long ago.
+On 08/17, Kay Sievers wrote:
 >
-> It's almost the same.
+> On Wed, Aug 17, 2011 at 15:45, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> >
+> > OK. So, this patch can only help to handle the legacy services?
 >
->> Ungortunately, I can't find the previous discussion, and
->> I can't recall why that patch was not accepted.
+> It helps them with services that need it. It is not recommended to
+> double-fork ever with a modern init system, but it's historic default
+> and common practice, and we are not going to change that any time
+> soon.
 >
-> We've just been busy with other things. But now that systemd will not
-> only be PID 1 but also the process parent for every user logged into
-> the system, we need this functionality.
+> > And
+> > the service should participate (write pid files for example). And,
+>
+> This is not meant as a security feature, if that's what your asking.
 
-Getty and login worked rather well for 40+ years.
-You need to stop trying to supplant every traditional Unix utility
-with systemd. This is becoming ridiculous.
-You have is a hammer, everything looks like a nail to you.
-Where will you stop?
+Not at all.
 
---=20
-vda
+> It will not prevent services from doing nasty things and escape the
+> process that started them. But it's still a feature that today only
+> PID 1 and which we need for more processes.
+>
+> >> > What if wait(WEXITED) succeeds because C in turn does
+> >> > fork + exit?
+> >>
+> >> Nothing is really doing this.
+> >
+> > OK. But this means you propose this patch to solve the very specific
+> > problems.
+>
+> No, it's for a very common problem. But again, it's not a security feature.
+
+Once again, I didn't meant security.
+
+> > IOW, imho this doesn't look very useful "in general" to me.
+>
+> It is very useful if you have an init-like daemon.
+
+Well, this is subjective, but personally I don't agree.
+
+> > May be we need something else instead... And iiuc you don't really
+> > need to change the reparenting, you only want the notification if
+> > the process exits.
+>
+> No, we want to be the parent of the process,
+> ...
+> The sub-init is the babysitter of all the things it has
+> started, and that should be reflected in the parent child relation.
+
+OK. But could you explain why do we want this? This is not clear from
+the changelog/discussion.
+
+> > You should check ->child_reaper only. But see above, it can be multithreaded.
+>
+> The main PID 1 from the system has no ->child_reaper set as far as I
+> see, hence we check for init_task.
+
+No, you don't. Once again, if pid_ns->child_reaper exits, you should
+not even try to find the sub-reaper in its parents chain.
+
+see also below...
+
+> >> > Also. You shouldn't do this if the sub-namespace init exits, this is
+> >> > wrong.
+> >>
+> >> It we find a sub-init, before the namespace PID1, why wouldn't we return it?
+> >
+> > Ah, I meant pid_ns->child_reaper, not task->child_reaper.
+> >
+> > If pid_ns->child_reaper exits we should never try to "reparent" its
+> > children, see zap_pid_ns_processes() in particular. IOW, this should
+> > go into the "else" branch of "if (pid_ns->child_reaper == father)"
+>
+> I don't understand this. If we find a marked task->child_reaper
+> _before_ we find a pid_ns->child_reaper in the chain of parents,
+
+This is fine.
+
+OK. I guess I wasn't clear, and I do not know how to explaine better.
+Please look at your code ;) Suppose that a sub-namespace init exits.
+Not the global /sbin/init. Not the caller of prctl(REAPER).
+
+In this case we should kill the children, not reparent them. Or panic
+if it is the global init (see above).
+
+See?
+
+Oleg.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
