@@ -1,57 +1,133 @@
-From: Alan Cox <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: +
- prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision .patch
- added to -mm tree
-Date: Wed, 17 Aug 2011 14:37:28 +0100
-Message-ID: <20110817143728.7abc955b@lxorguk.ukuu.org.uk>
-References: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org>
-	<20110817115543.GA8745@redhat.com>
-	<20110817130531.GA12204@redhat.com>
-	<CAPXgP10A4rcQLht--h1d3PJE=oOrm=MSjGXTUSKVF+ssnkt_gw@mail.gmail.com>
+	prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
+	.patch added to -mm tree
+Date: Wed, 17 Aug 2011 20:57:09 +0200
+Message-ID: <20110817185709.GA27663@redhat.com>
+References: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org> <20110817115543.GA8745@redhat.com> <CAPXgP12rYf2HmmsJAuJw=nrtcjTRR1WzDhLNM47eKhKA1UTfJQ@mail.gmail.com> <20110817134516.GA14136@redhat.com> <CAPXgP101N_GESzpqu=P_H8cLoekMzb2_W2eWyAqATSjm4Gj9CA@mail.gmail.com> <20110817162041.GA21406@redhat.com> <CAPXgP13Dn2c-OnYg-Cty5r4JbqeH_zYPtXDj5GAfK1btoKYmDg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAPXgP10A4rcQLht--h1d3PJE=oOrm=MSjGXTUSKVF+ssnkt_gw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAPXgP13Dn2c-OnYg-Cty5r4JbqeH_zYPtXDj5GAfK1btoKYmDg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
-Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Cc: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-O> Why would it? Systemd can serialize its state and properly re-exec
-> itself as many times as needed during its lifetime. Why would the
-> kernel take something away from a process, which it explicitly asked
-> for?
+On 08/17, Kay Sievers wrote:
+>
+> On Wed, Aug 17, 2011 at 18:20, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> > On 08/17, Kay Sievers wrote:
+>
+> >> No, we want to be the parent of the process,
+> >> ...
+> >> The sub-init is the babysitter of all the things it has
+> >> started, and that should be reflected in the parent child relation.
+> >
+> > OK. But could you explain why do we want this? This is not clear from
+> > the changelog/discussion.
+>
+> As said, PID1 has the privilege of reaping all processes that
+> double-fork. Any sub-init wants to do the same for the stuff it
+> watches. The process that reaps has all the information about the
+> process as long as wants, it can look up stuff in /proc if needed or
+> has all the return values of wait().
 
-Because a re-exec is a change of context, in the same was as a re-exec
-closes some file handles kills alarms, adjusts signals etc. Across an
-suid boundary of course it gets even more important.
+OK.
 
-Why would the kernel allow a parent process, possibly with a different
-security context, to muck with defined and guaranteed standards compliant
-behaviour it may rely upon.
+> Async notifications like
+> taskstats just can not provide what SIGCHLD, /proc and wait() offer.
 
-> Hmm, I don't see why that would be necessary. It's just one of our
-> parents that aks for our signals.
+Why not? Async notifications can't delay the reaping, yes. But I am
+not sure /proc/ is that useful when the task exits. OK, I won't argue.
 
-I think it is fundamentally the wrong answer. The behaviour in question
-is in every Unix since day one and apps rely upon it.
 
-Now I can see why you want to know when processes exit and do it without
-tampering with the process, but it seems to me that's simply a question
-of us lacking a way to do this nicely, whether inotify/dnotify/etc
-on /proc, some kind of 'also signal me' property or some kind of process
-event interface.
 
-Of those a signal based one seems the weakest because programmers and
-signal often don't mix well because it is asychronous and also because it
-wouldn't naturally allow multiple users (eg a process monitoring tool and
-systemd to share)
 
-For that matter your init process could farm them back out down a named
-pipe or some other such interface and do the monitoring in userspace.
+> >> > You should check ->child_reaper only. But see above, it can be multithreaded.
+> >>
+> >> The main PID 1 from the system has no ->child_reaper set as far as I
+> >> see, hence we check for init_task.
+> >
+> > No, you don't.
+>
+> Don't? I don't check, or we don't have it set?
 
-Alan
+Argh, sorry. "No, this is not needed", this is what I tried to say.
+
+> > Once again, if pid_ns->child_reaper exits, you should
+> > not even try to find the sub-reaper in its parents chain.
+>
+> That would mean we can never run a sub-init in a pid namespace? Why not?
+>
+> Or do you mean that we *are* already the pid_ns->child_reaper, not
+> that one *exists*?
+
+I already got lost a bit, not sure I understand.
+I meant we *are* (the caller) the exiting pid_ns->child_reaper thread.
+
+> >> >> > Also. You shouldn't do this if the sub-namespace init exits, this is
+> >> >> > wrong.
+> >> >>
+> >> >> It we find a sub-init, before the namespace PID1, why wouldn't we return it?
+> >> >
+> >> > Ah, I meant pid_ns->child_reaper, not task->child_reaper.
+> >> >
+> >> > If pid_ns->child_reaper exits we should never try to "reparent" its
+> >> > children, see zap_pid_ns_processes() in particular. IOW, this should
+> >> > go into the "else" branch of "if (pid_ns->child_reaper == father)"
+> >>
+> >> I don't understand this. If we find a marked task->child_reaper
+> >> _before_ we find a pid_ns->child_reaper in the chain of parents,
+> >
+> > This is fine.
+> >
+> > OK. I guess I wasn't clear, and I do not know how to explaine better.
+> > Please look at your code ;) Suppose that a sub-namespace init exits.
+> > Not the global /sbin/init. Not the caller of prctl(REAPER).
+> >
+> > In this case we should kill the children, not reparent them. Or panic
+> > if it is the global init (see above).
+> >
+> > See?
+>
+> Not sure. You mean that the lookup for a possible task->cild_reaper
+> should be _before_ the check for pid_ns->child_reaper == father which
+> is currently below?
+
+Hmm. I am even more confused.
+
+So. I actually applied your patch. The code is
+
+	for (reaper = father->parent;
+	     reaper != &init_task && reaper != pid_ns->child_reaper;
+	     reaper = reaper->parent)
+		if (reaper->child_reaper)
+			return reaper;
+
+	if (unlikely(pid_ns->child_reaper == father)) {
+		...
+
+The lookup is already _before_ the check for pid_ns->child_reaper == father,
+what do you mean?
+
+And, ignoring the mt problems I mentioned, I mean we should do
+
+	if (pid_ns->child_reaper == father) {
+
+		panic_or_kill_this_namespace;	// the current code
+
+	} else {
+		for (reaper = father->parent;
+		     reaper != pid_ns->child_reaper;
+		     reaper = reaper->parent)
+			if (reaper->child_reaper)
+				return reaper;
+	}
+
+Oleg.
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
