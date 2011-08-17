@@ -1,158 +1,81 @@
-From: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
-Subject: + prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch added to -mm tree
-Date: Tue, 16 Aug 2011 13:11:38 -0700
-Message-ID: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: +
+	prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
+	.patch added to -mm tree
+Date: Wed, 17 Aug 2011 13:55:43 +0200
+Message-ID: <20110817115543.GA8745@redhat.com>
+References: <201108162011.p7GKBcY0023134@imap1.linux-foundation.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <201108162011.p7GKBcY0023134-AB4EexQrvXRQetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mm-commits-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, kay.sievers-tD+1rO4QERM@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+To: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org, kay.sievers-tD+1rO4QERM@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 08/16, Andrew Morton wrote:
+>
+> From: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
+>
+> Userspace service managers/supervisors need to track their started
+> services.  Many services daemonize by double-forking and get implicitely
+> re-parented to PID 1.  The process manager will no longer be able to
+> receive the SIGCHLD signals for them.
+>
+> With this prctl, a service manager can mark itself as a sort of 'sub-init'
+> process, able to stay as the parent process for all processes created by
+> the started services.  All SIGCHLD signals will be delivered to the
+> service manager.
 
-The patch titled
-     prctl: add PR_{SET,GET}_CHILD_REAPER to allow simple process supervision
-has been added to the -mm tree.  Its filename is
-     prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch
+I try to never argue with the new features. But to be honest, this
+doesn't look very good to me.
 
-Before you just go and hit "reply", please:
-   a) Consider who else should be cc'ed
-   b) Prefer to cc a suitable mailing list as well
-   c) Ideally: find the original patch on the mailing list and do a
-      reply-to-all to that, adding suitable additional cc's
+OK, a service manager M does prctl(PR_SET_CHILD_REAPER), then it forks
+a service X which forks another child C and exits. Then C exits and
+notifies M.
 
-*** Remember to use Documentation/SubmitChecklist when testing your code ***
+But. How can M know that the service X should be restarted? It only
+knows the pid. What if wait(WEXITED) succeeds because C in turn does
+fork + exit? What M has 2 or more services?
 
-See http://userweb.kernel.org/~akpm/stuff/added-to-mm.txt to find
-out what to do about this
 
-The current -mm tree may be found at http://userweb.kernel.org/~akpm/mmotm/
 
-------------------------------------------------------
-Subject: prctl: add PR_{SET,GET}_CHILD_REAPER to allow simple process supervision
-From: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
 
-Userspace service managers/supervisors need to track their started
-services.  Many services daemonize by double-forking and get implicitely
-re-parented to PID 1.  The process manager will no longer be able to
-receive the SIGCHLD signals for them.
+Anyway, the implementation is certainly buggy.
 
-With this prctl, a service manager can mark itself as a sort of 'sub-init'
-process, able to stay as the parent process for all processes created by
-the started services.  All SIGCHLD signals will be delivered to the
-service manager.
+> @@ -1296,6 +1296,8 @@ struct task_struct {
+>  				 * execve */
+>  	unsigned in_iowait:1;
+>
+> +	/* Reparent child processes to this process instead of pid 1. */
+> +	unsigned child_reaper:1;
 
-As a side effect, the relevant parent PID information does not get lost by
-a double-fork, which results in a more elaborate process tree and 'ps'
-output.
+First of all - this is already very wrong imho. This should be
+per-process, not per-thread.
 
-This is orthogonal to PID namespaces.  PID namespaces are isolated from
-each other, while a service management process usually requires the
-serices to live in the same namespace, to be able to talk to each other.
+> +	/* find the first ancestor which is marked as child_reaper */
+> +	for (reaper = father->parent;
+> +	     reaper != &init_task && reaper != pid_ns->child_reaper;
+> +	     reaper = reaper->parent)
 
-Users of this will be the systemd per-user instance, which provides
-init-like functionality for the user's login session and D-Bus, which
-activates bus services on on-demand.  Both will need init-like
-capabilities to be able to properly keep track of the services they start.
+This loop can never reach init_task/child_reaper and crash the kernel.
+For example, father->parent can point to init_task's sub-thread.
 
-Signed-off-by: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
-Signed-off-by: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
-Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>
-Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Signed-off-by: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
----
+OTOH you shouldn't use init_task at all.
 
- include/linux/prctl.h |    3 +++
- include/linux/sched.h |    2 ++
- kernel/exit.c         |    9 ++++++++-
- kernel/fork.c         |    2 ++
- kernel/sys.c          |    7 +++++++
- 5 files changed, 22 insertions(+), 1 deletion(-)
+Also. You shouldn't do this if the sub-namespace init exits, this is
+wrong.
 
-diff -puN include/linux/prctl.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision include/linux/prctl.h
---- a/include/linux/prctl.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-+++ a/include/linux/prctl.h
-@@ -102,4 +102,7 @@
- 
- #define PR_MCE_KILL_GET 34
- 
-+#define PR_SET_CHILD_REAPER 35
-+#define PR_GET_CHILD_REAPER 36
-+
- #endif /* _LINUX_PRCTL_H */
-diff -puN include/linux/sched.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision include/linux/sched.h
---- a/include/linux/sched.h~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-+++ a/include/linux/sched.h
-@@ -1296,6 +1296,8 @@ struct task_struct {
- 				 * execve */
- 	unsigned in_iowait:1;
- 
-+	/* Reparent child processes to this process instead of pid 1. */
-+	unsigned child_reaper:1;
- 
- 	/* Revert to default priority/policy when forking */
- 	unsigned sched_reset_on_fork:1;
-diff -puN kernel/exit.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/exit.c
---- a/kernel/exit.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-+++ a/kernel/exit.c
-@@ -701,7 +701,7 @@ static struct task_struct *find_new_reap
- 	__acquires(&tasklist_lock)
- {
- 	struct pid_namespace *pid_ns = task_active_pid_ns(father);
--	struct task_struct *thread;
-+	struct task_struct *thread, *reaper;
- 
- 	thread = father;
- 	while_each_thread(father, thread) {
-@@ -712,6 +712,13 @@ static struct task_struct *find_new_reap
- 		return thread;
- 	}
- 
-+	/* find the first ancestor which is marked as child_reaper */
-+	for (reaper = father->parent;
-+	     reaper != &init_task && reaper != pid_ns->child_reaper;
-+	     reaper = reaper->parent)
-+		if (reaper->child_reaper)
-+			return reaper;
-+
- 	if (unlikely(pid_ns->child_reaper == father)) {
- 		write_unlock_irq(&tasklist_lock);
- 		if (unlikely(pid_ns == &init_pid_ns))
-diff -puN kernel/fork.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/fork.c
---- a/kernel/fork.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-+++ a/kernel/fork.c
-@@ -1328,6 +1328,8 @@ static struct task_struct *copy_process(
- 		p->parent_exec_id = current->self_exec_id;
- 	}
- 
-+	p->child_reaper = 0;
-+
- 	spin_lock(&current->sighand->siglock);
- 
- 	/*
-diff -puN kernel/sys.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision kernel/sys.c
---- a/kernel/sys.c~prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-+++ a/kernel/sys.c
-@@ -1800,6 +1800,13 @@ SYSCALL_DEFINE5(prctl, int, option, unsi
- 			else
- 				error = PR_MCE_KILL_DEFAULT;
- 			break;
-+		case PR_SET_CHILD_REAPER:
-+			me->child_reaper = !!arg2;
-+			error = 0;
-+			break;
-+		case PR_GET_CHILD_REAPER:
-+			error = put_user(me->child_reaper, (int __user *) arg2);
-+			break;
- 		default:
- 			error = -EINVAL;
- 			break;
-_
+> +		if (reaper->child_reaper)
+> +			return reaper;
 
-Patches currently in -mm which might be from lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org are
+No, we can't blindly return this task, it can be dead/exiting. More
+precisely, we must not do this if it has already passed
+forget_original_parent(). That is why the code above checks PF_EXITING.
 
-prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision.patch
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
