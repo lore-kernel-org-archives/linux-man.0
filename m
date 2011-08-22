@@ -1,52 +1,111 @@
-From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: +
-	prctl-add-pr_setget_child_reaper-to-allow-simple-process-supervision
-	.patch added to -mm tree
-Date: Mon, 22 Aug 2011 13:14:02 +0200
-Message-ID: <20110822111402.GA13248@redhat.com>
-References: <1313691091.1107.9.camel@mop> <20110818184857.GA12094@redhat.com> <1313717521.991.4.camel@mop> <20110819122503.GA8411@redhat.com> <CAPXgP11KC2fTWBVYo6CBXe924YAyTGhx9=UTBDf4cP5Acuo0NA@mail.gmail.com> <20110819131339.GB8411@redhat.com> <1313763653.1119.12.camel@mop> <20110819145815.GA15420@redhat.com> <20110820153331.GA22577@redhat.com> <1313951606.16175.7.camel@mop>
+From: Alon Bar-Lev <alon.barlev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] ld.so - add environment placeholders
+Date: Mon, 22 Aug 2011 22:21:18 +0300
+Message-ID: <CAOazyz0=jopXbWJBtBLgxF087nmHph4u3q9nG=5CjPSzKqD8Mg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary=000e0cd56700c413c904ab1cfbc8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1313951606.16175.7.camel@mop>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kay Sievers <kay.sievers-tD+1rO4QERM@public.gmane.org>
-Cc: Lennart Poettering <mzxreary-uLTowLwuiw4b1SvskN2V4Q@public.gmane.org>, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org, torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/21, Kay Sievers wrote:
->
-> version 5:
-> - add back check for &init_task
+--000e0cd56700c413c904ab1cfbc8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Discussion is here[1].
 
+Apparently there is a hidden feature in ld.so, it support variable
+placeholders within environment.
 
+This is great for supporting mixed multilib environment.
 
+Example:
 
+export LD_LIBRARY_PATH=3D"${LD_LIBRARY_PATH}:/opt/my/\${LIB}"
 
-Just one note, to avoid the "doesn't look correct" questions.
+I believe this worth a documentation, as almost nobody knows this.
 
-> @@ -987,6 +987,9 @@ static int copy_signal(unsigned long clo
->  	sig->oom_score_adj = current->signal->oom_score_adj;
->  	sig->oom_score_adj_min = current->signal->oom_score_adj_min;
->
-> +	sig->has_child_subreaper = current->signal->has_child_subreaper ||
-> +				   current->signal->is_child_subreaper;
+---
+ ENVIRONMENT
++       ld.so understands the strings $ORIGIN, $LIB and $PLATFORM  (or  equ=
+iva=E2=80=90
++       lently   ${var})   in  some  of  the  environment  variables,  such=
+  as
++       LD_LIBRARY_PATH and LD_PRELOAD:
++
++              ORIGIN is expanded to the location of the binary which  is  =
+cur=E2=80=90
++              rently loaded.
++
++              LIB  is  expanded to lib, lib64 or any other multilib config=
+ura=E2=80=90
++              tion based on the ld configuration.  Use when mixed  environ=
+ment
++              (32bit and 64bit) searches for same libraries names.
++
++              PLATFORM is expanded to the running platform.
 
-This assumes that current == parent. But this is not true with
-CLONE_PARENT. If a task does prctl(REAPER) + clone(CLONE_PARENT)
-->has_child_subreaper == T is not exactly right.
+        There are four important environment variables.
+---
 
-But I think this is fine and we do not care, a "wrong"
-->has_child_subreaper is harmless and it can't be 100% correct in
-any case.
+Any test will do! as long as this feature gets documented.
 
-I believe the patch is correct.
+Signed-off-by: Alon Bar-Lev <alon.barlev-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Oleg.
+[1] http://sourceware.org/ml/libc-alpha/2011-08/msg00089.html
 
+---
+
+[Attached]
+I am not subscribed, so please CC me.
+
+--000e0cd56700c413c904ab1cfbc8
+Content-Type: plain/text; name="man-pages-master-ld.so.8-vars.diff"
+Content-Disposition: attachment;
+	filename="man-pages-master-ld.so.8-vars.diff"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_grntxssd1
+
+W1BBVENIXSBsZC5zbyAtIGFkZCBlbnZpcm9ubWVudCBwbGFjZWhvbGRlcnMKCkRpc2N1c3Npb24g
+aXMgaGVyZVsxXS4KCkFwcGFyZW50bHkgdGhlcmUgaXMgYSBoaWRkZW4gZmVhdHVyZSBpbiBsZC5z
+bywgaXQgc3VwcG9ydCB2YXJpYWJsZQpwbGFjZWhvbGRlcnMgd2l0aGluIGVudmlyb25tZW50LgoK
+VGhpcyBpcyBncmVhdCBmb3Igc3VwcG9ydGluZyBtaXhlZCBtdWx0aWxpYiBlbnZpcm9ubWVudC4K
+CkV4YW1wbGU6CgpleHBvcnQgTERfTElCUkFSWV9QQVRIPSIke0xEX0xJQlJBUllfUEFUSH06L29w
+dC9teS9cJHtMSUJ9IgoKSSBiZWxpZXZlIHRoaXMgd29ydGggYSBkb2N1bWVudGF0aW9uLCBhcyBh
+bG1vc3Qgbm9ib2R5IGtub3dzIHRoaXMuCgotLS0KIEVOVklST05NRU5UCisgICAgICAgbGQuc28g
+dW5kZXJzdGFuZHMgdGhlIHN0cmluZ3MgJE9SSUdJTiwgJExJQiBhbmQgJFBMQVRGT1JNICAob3Ig
+IGVxdWl2YeKAkAorICAgICAgIGxlbnRseSAgICR7dmFyfSkgICBpbiAgc29tZSAgb2YgIHRoZSAg
+ZW52aXJvbm1lbnQgIHZhcmlhYmxlcywgIHN1Y2ggIGFzCisgICAgICAgTERfTElCUkFSWV9QQVRI
+IGFuZCBMRF9QUkVMT0FEOgorCisgICAgICAgICAgICAgIE9SSUdJTiBpcyBleHBhbmRlZCB0byB0
+aGUgbG9jYXRpb24gb2YgdGhlIGJpbmFyeSB3aGljaCAgaXMgIGN1cuKAkAorICAgICAgICAgICAg
+ICByZW50bHkgbG9hZGVkLgorCisgICAgICAgICAgICAgIExJQiAgaXMgIGV4cGFuZGVkIHRvIGxp
+YiwgbGliNjQgb3IgYW55IG90aGVyIG11bHRpbGliIGNvbmZpZ3VyYeKAkAorICAgICAgICAgICAg
+ICB0aW9uIGJhc2VkIG9uIHRoZSBsZCBjb25maWd1cmF0aW9uLiAgVXNlIHdoZW4gbWl4ZWQgIGVu
+dmlyb25tZW50CisgICAgICAgICAgICAgICgzMmJpdCBhbmQgNjRiaXQpIHNlYXJjaGVzIGZvciBz
+YW1lIGxpYnJhcmllcyBuYW1lcy4KKworICAgICAgICAgICAgICBQTEFURk9STSBpcyBleHBhbmRl
+ZCB0byB0aGUgcnVubmluZyBwbGF0Zm9ybS4KCiAgICAgICAgVGhlcmUgYXJlIGZvdXIgaW1wb3J0
+YW50IGVudmlyb25tZW50IHZhcmlhYmxlcy4KLS0tCgpBbnkgdGVzdCB3aWxsIGRvISBhcyBsb25n
+IGFzIHRoaXMgZmVhdHVyZSBnZXRzIGRvY3VtZW50ZWQuCgpTaWduZWQtb2ZmLWJ5OiBBbG9uIEJh
+ci1MZXYgPGFsb24uYmFybGV2QGdtYWlsLmNvbT4KClsxXSBodHRwOi8vc291cmNld2FyZS5vcmcv
+bWwvbGliYy1hbHBoYS8yMDExLTA4L21zZzAwMDg5Lmh0bWwKCi0tLQoKZGlmZiAtLWdpdCBhL21h
+bjgvbGQuc28uOCBiL21hbjgvbGQuc28uOAppbmRleCA4NDI3OGQwLi5kYTdlZGFkIDEwMDY0NAot
+LS0gYS9tYW44L2xkLnNvLjgKKysrIGIvbWFuOC9sZC5zby44CkBAIC0xMjcsNiArMTI3LDMwIEBA
+IFRoaXMgb3B0aW9uIGlzIGlnbm9yZWQgaWYKIC5CIGxkLnNvCiBpcyBzZXQtdXNlci1JRCBvciBz
+ZXQtZ3JvdXAtSUQuCiAuU0ggRU5WSVJPTk1FTlQKKy5CIGxkLnNvCit1bmRlcnN0YW5kcyB0aGUg
+c3RyaW5ncworLklSICRPUklHSU4gLAorLkkgJExJQgorYW5kCisuSSAkUExBVEZPUk0KKyhvciBl
+cXVpdmFsZW50bHkKKy5JUiAke3Zhcn0gKQoraW4gc29tZSBvZiB0aGUgZW52aXJvbm1lbnQgdmFy
+aWFibGVzLCBzdWNoIGFzCisuQiBMRF9MSUJSQVJZX1BBVEgKK2FuZAorLkJSIExEX1BSRUxPQUQg
+OgorLklQCisuQiBPUklHSU4KK2lzIGV4cGFuZGVkIHRvIHRoZSBsb2NhdGlvbiBvZiB0aGUgYmlu
+YXJ5IHdoaWNoIGlzIGN1cnJlbnRseSBsb2FkZWQuCisuSVAKKy5CIExJQgoraXMgZXhwYW5kZWQg
+dG8gbGliLCBsaWI2NCBvciBhbnkgb3RoZXIgbXVsdGlsaWIgY29uZmlndXJhdGlvbiBiYXNlZCBv
+biB0aGUKK2xkIGNvbmZpZ3VyYXRpb24uCitVc2Ugd2hlbiBtaXhlZCBlbnZpcm9ubWVudCAoMzJi
+aXQgYW5kIDY0Yml0KSBzZWFyY2hlcyBmb3Igc2FtZSBsaWJyYXJpZXMgbmFtZXMuCisuSVAKKy5C
+IFBMQVRGT1JNCitpcyBleHBhbmRlZCB0byB0aGUgcnVubmluZyBwbGF0Zm9ybS4KKy5QUAogVGhl
+cmUgYXJlIGZvdXIgaW1wb3J0YW50IGVudmlyb25tZW50IHZhcmlhYmxlcy4KIC5UUAogLkIgTERf
+QklORF9OT1cK
+--000e0cd56700c413c904ab1cfbc8--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
