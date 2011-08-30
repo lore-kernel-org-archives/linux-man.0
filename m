@@ -1,44 +1,77 @@
-From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] close.2: Mention a need of shutdown before closing socket
-Date: Mon, 29 Aug 2011 14:26:40 +0200
-Message-ID: <1314620800-15587-1-git-send-email-lczerner@redhat.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 42042] New: strchr(3) and memchr(3) should explain behaviour
+ when character 'c' is '\0'.
+Date: Tue, 30 Aug 2011 13:18:14 GMT
+Message-ID: <bug-42042-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-When dealing with sockets, we have to be sure that there is no recv
-still blocking on it on another thread, otherwise it might block forever,
-since no more messages will be send via the socket. We should advice to
-use shutdown before closing socket.
+https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
-Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man2/close.2 |    7 +++++++
- 1 files changed, 7 insertions(+), 0 deletions(-)
+           Summary: strchr(3) and memchr(3) should explain behaviour when
+                    character 'c' is '\0'.
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: jamesodhunt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-diff --git a/man2/close.2 b/man2/close.2
-index a2a2961..02472f3 100644
---- a/man2/close.2
-+++ b/man2/close.2
-@@ -114,6 +114,13 @@ other threads in the same process.
- Since a file descriptor may be reused,
- there are some obscure race conditions
- that may cause unintended side effects.
-+.PP
-+When dealing with sockets, you have to be sure that there is no
-+.BR recv (2)
-+still blocking on it on another thread, otherwise it might block forever,
-+since no more messages will be send via the socket. Be sure to use
-+.BR shutdown (2)
-+to shut down all parts the connection before closing the socket.
- .\" Date: Tue, 4 Sep 2007 13:57:35 +0200
- .\" From: Fredrik Noring <noring-zgYzP9v7iJcdnm+yROfE0A@public.gmane.org>
- .\" One such race involves signals and ERESTARTSYS. If a file descriptor
+
+PROBLEM
+-------
+
+strchr(3) and memchr(3) do not explain the behaviour if the character to search
+for is specified as a null character ('\0'). According to my copy of Harbison
+and Steele, since the terminator is considered part of the string, a call such
+as:
+
+  strchr("hello", '\0')
+
+... will return the address of the terminating null in the specified string.
+
+RATIONALE
+---------
+
+strchr(3) and memchr(3) are inconsistent with index(3) which states:
+
+  "The terminating NULL character is considered to be a part of the strings."
+
+Adding such a note to strchr(3) and memchr(3) is also important since it is not
+unreasonable to assume that strchr() will return NULL in this scenario. This
+leads to code like the following which is guaranteed to fail should
+get_a_char() return '\0':
+
+
+  char string[] = "hello, world";
+  int c = get_a_char();
+
+  if (! strchr(string, c))
+    fprintf(stderr, "failed to find character in string\n");
+
+
+SUGGESTED UPDATE
+----------------
+
+I'd suggest adding something like the following to strchr(3) and memchr(3):
+
+  If 'c' is '\0' (the terminating null character), strchr() will return the
+  address of the terminating null character in 's'.
+
 -- 
-1.7.4.4
-
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
