@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] getrlimit.2: fix example program
-Date: Wed, 31 Aug 2011 23:38:30 +0900
-Message-ID: <4E5E4766.5040500@gmail.com>
+Subject: [patch] hsearch.3: update ERRORS section
+Date: Wed, 31 Aug 2011 23:46:00 +0900
+Message-ID: <4E5E4928.7030301@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=EUC-KR
 Content-Transfer-Encoding: 7bit
@@ -12,50 +12,43 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 man-pages version: latest git repository
-why: Fix compile error of the example program.
-Use struct rlimit instead of rlimit64, which is used in prlimit64().
-Make error handling code similar with other examples.
+why:
+Remove ENOMEM and ESRCH from the list for hcreate() and hcreate_h().
+The (e)glibc implementation of the two functions (of course!) doesn't
+set such errors. The two error codes are garbage from commit fe80e23e.
+
+Then, hdestroy_r() was added to the list.
 
 
-diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
---- a/man2/getrlimit.2
-+++ b/man2/getrlimit.2
-@@ -529,11 +529,14 @@ The program below demonstrates the use of
-#include <unistd.h>
-#include <sys/resource.h>
-
-+#define handle_error(msg) \\
-+ do { perror(msg); exit(EXIT_FAILURE); } while (0)
-+
-int
-main(int argc, char *argv[])
-{
-- struct rlimit64 old, new;
-- struct rlimit64 *newp;
-+ struct rlimit old, new;
-+ struct rlimit *newp;
-pid_t pid;
-
-if (!(argc == 2 || argc == 4)) {
-@@ -555,14 +558,16 @@ main(int argc, char *argv[])
-previous limit */
-
-if (prlimit(pid, RLIMIT_CPU, newp, &old) == \-1)
-- errExit("prlimit\-1");
-+ handle_error("prlimit\-1");
-+
-printf("Previous limits: soft=%lld; hard=%lld\\n",
-(long long) old.rlim_cur, (long long) old.rlim_max);
-
-/* Retrieve and display new CPU time limit */
-
-if (prlimit(pid, RLIMIT_CPU, NULL, &old) == \-1)
-- errExit("prlimit\-2");
-+ handle_error("prlimit\-2");
-+
-printf("New limits: soft=%lld; hard=%lld\\n",
-(long long) old.rlim_cur, (long long) old.rlim_max);
-
+diff --git a/man3/hsearch.3 b/man3/hsearch.3
+--- a/man3/hsearch.3
++++ b/man3/hsearch.3
+@@ -191,22 +191,16 @@ returns nonzero on success, and 0 on error.
+.SH ERRORS
+.LP
+.BR hcreate ()
+-and
++,
+.BR hcreate_r ()
++and
++.BR hdestroy_r ()
+can fail for the following reasons:
+.TP
+.B EINVAL
+.RB ( hcreate_r ())
+.I htab
+is NULL.
+-.TP
+-.B ENOMEM
+-Table full with \fIaction\fP set to \fBENTER\fP.
+-.TP
+-.B ESRCH
+-The \fIaction\fP argument is \fBFIND\fP and no corresponding element
+-is found in the table.
+-.\" hdestroy_r() can set errno to EINVAL if 'tab' is NULL.
+.PP
+.BR hsearch ()
+and
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
