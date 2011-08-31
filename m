@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] capabilities.7: fix typo
-Date: Wed, 31 Aug 2011 23:16:40 +0900
-Message-ID: <4E5E4248.1010602@gmail.com>
+Subject: [patch] cmsg.3: fix typo
+Date: Wed, 31 Aug 2011 23:17:37 +0900
+Message-ID: <4E5E4281.4070205@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=EUC-KR
 Content-Transfer-Encoding: 7bit
@@ -12,21 +12,20 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 man-pages version: latest git repository
-why: Just a typo. There's no flag named SECURE_KEEP_CAPS.
 
 
-diff --git a/man7/capabilities.7 b/man7/capabilities.7
---- a/man7/capabilities.7
-+++ b/man7/capabilities.7
-@@ -845,7 +845,7 @@ flags are inherited by child processes.
-During an
-.BR execve (2),
-all of the flags are preserved, except
--.B SECURE_KEEP_CAPS
-+.B SECBIT_KEEP_CAPS
-which is always cleared.
-
-An application can use the following call to lock itself,
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -105,7 +105,7 @@ Use
+on the
+.I msghdr
+to get the first control message and
+-.BR CMSG_NEXTHDR ()
++.BR CMSG_NXTHDR ()
+to get all subsequent ones.
+In each control message, initialize
+.I cmsg_len
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
