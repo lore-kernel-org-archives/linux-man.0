@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 42042] strchr(3) and memchr(3) should explain behaviour when
  character 'c' is '\0'.
-Date: Tue, 30 Aug 2011 19:36:40 GMT
-Message-ID: <201108301936.p7UJaehq010277@demeter2.kernel.org>
+Date: Wed, 31 Aug 2011 09:04:11 GMT
+Message-ID: <201108310904.p7V94BW5030661@demeter2.kernel.org>
 References: <bug-42042-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,19 +15,13 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
 
-Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org
 
 
 
-
---- Comment #1 from Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>  2011-08-30 19:36:38 ---
-Send us a patch ;)  
-
-Documentation/SubmittingPatches has some guidelines.
+--- Comment #2 from James Hunt <jamesodhunt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2011-08-31 09:04:06 ---
+Created an attachment (id=70952)
+ --> (https://bugzilla.kernel.org/attachment.cgi?id=70952)
+update to strchr.3 and memchr.3
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
