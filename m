@@ -1,7 +1,7 @@
 From: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] mlock.2: generalize EPERM description
-Date: Wed, 31 Aug 2011 23:56:41 +0900
-Message-ID: <4E5E4BA9.8000609@gmail.com>
+Subject: [patch] mprotect.2: fix off-by-one error in a memory range
+Date: Thu, 01 Sep 2011 00:05:49 +0900
+Message-ID: <4E5E4DCD.5080607@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=EUC-KR
 Content-Transfer-Encoding: 7bit
@@ -12,22 +12,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 man-pages version: latest git repository
-why: EPERM error code is not only set by munlock(), but also by other calls.
+why: Just a simple typo, maybe.
+See the address range in DESCRIPTION section.
 
 
-diff --git a/man2/mlock.2 b/man2/mlock.2
---- a/man2/mlock.2
-+++ b/man2/mlock.2
-@@ -151,8 +151,7 @@ soft resource limit was 0.
-.TP
-.B EPERM
-(Linux 2.6.8 and earlier)
--The calling process has insufficient privilege to call
--.BR munlockall ().
-+The calling process has insufficient privilege.
-Under Linux the
-.B CAP_IPC_LOCK
-capability is required.
+diff --git a/man2/mprotect.2 b/man2/mprotect.2
+--- a/man2/mprotect.2
++++ b/man2/mprotect.2
+@@ -98,7 +98,7 @@ Internal kernel structures could not be allocated.
+.B ENOMEM
+Addresses in the range
+.RI [ addr ,
+-.IR addr + len ]
++.IR addr + len \- 1 ]
+are invalid for the address space of the process,
+or specify one or more pages that are not mapped.
+(Before kernel 2.4.19, the error
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
