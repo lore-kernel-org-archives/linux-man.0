@@ -1,25 +1,32 @@
-From: Timmy Lee <scuttimmy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: timer_create(2) typo
-Date: Thu, 1 Sep 2011 07:42:15 +0800
-Message-ID: <CAN98ibbEpk7rbv8TBWD4kO1MXA6Cs-jTrX=wMsR6v2vfGj26PQ@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 42042] strchr(3) and memchr(3) should explain behaviour when
+ character 'c' is '\0'.
+Date: Thu, 1 Sep 2011 08:04:51 GMT
+Message-ID: <201109010804.p8184pZk003860@demeter1.kernel.org>
+References: <bug-42042-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-42042-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Manpage <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://www.kernel.org/doc/man-pages/online/pages/man2/timer_create.2.ht=
-ml
+https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
-There is an example which demonstrate the use of timer_create().
 
-I believe the line:=A0 ./a.out 1 10=A0=A0=A0=A0 should be ./a.out 1 100
 
-According to the description, the overrun count and the code, the
-timer frequency should be 100 nanoseconds.
+
+
+--- Comment #5 from James Hunt <jamesodhunt-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2011-09-01 08:04:46 ---
+The BSD folk already have this behaviour documented in their man pages:
+
+http://www.freebsd.org/cgi/man.cgi?query=strchr&apropos=0&sektion=0&manpath=FreeBSD+8.2-RELEASE&arch=default&format=html
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
