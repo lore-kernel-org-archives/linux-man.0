@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ttyname.3: Add description of the function is not thread-safe
-Date: Tue, 06 Sep 2011 17:57:59 +0800
-Message-ID: <4E65EEA7.5060804@cn.fujitsu.com>
+Subject: [PATCH] readdir.3: Add description of the function is not thread-safe
+Date: Wed, 07 Sep 2011 09:39:22 +0800
+Message-ID: <4E66CB4A.9070603@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -12,42 +12,43 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
-The function ttyname() uses a static variable "ttyname_buf", so it is not thread-safe.
+The data returned by readdir() may be overwritten by subsequent calls to
+readdir() for the same directory stream, so it is not thread-safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ttyname.3 |   11 ++++++++++-
+ man3/readdir.3 |   11 ++++++++++-
  1 files changed, 10 insertions(+), 1 deletions(-)
 
-diff --git a/man3/ttyname.3 b/man3/ttyname.3
-index 08fb2b7..5047e94 100644
---- a/man3/ttyname.3
-+++ b/man3/ttyname.3
-@@ -23,7 +23,7 @@
- .\" Modified 2001-12-13, Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
- .\" Added ttyname_r, aeb, 2002-07-20
+diff --git a/man3/readdir.3 b/man3/readdir.3
+index 04298ee..6227727 100644
+--- a/man3/readdir.3
++++ b/man3/readdir.3
+@@ -31,7 +31,7 @@
+ .\"     Rework discussion of nonstandard structure fields.
+ .\" 2008-09-11, mtk, Document readdir_r().
  .\"
--.TH TTYNAME 3 2008-07-14 "Linux" "Linux Programmer's Manual"
-+.TH TTYNAME 3 20011-09-06 "Linux" "Linux Programmer's Manual"
+-.TH READDIR 3  2010-09-10 "" "Linux Programmer's Manual"
++.TH READDIR 3  2011-09-07 "" "Linux Programmer's Manual"
  .SH NAME
- ttyname, ttyname_r \- return name of a terminal
+ readdir, readdir_r \- read a directory
  .SH SYNOPSIS
-@@ -70,6 +70,15 @@ File descriptor does not refer to a terminal device.
- .B ERANGE
- .I buflen
- was too small to allow storing the pathname.
+@@ -142,6 +142,15 @@ returns 0, and returns NULL in
+ .TP
+ .B EBADF
+ Invalid directory stream descriptor \fIdirp\fP.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR ttyname ()
++.BR readdir ()
 +function is not thread-safe.
 +.LP
 +The
-+.BR ttyname_r ()
++.BR readdir_r ()
 +function is thread-safe.
  .SH "CONFORMING TO"
- 4.2BSD, POSIX.1-2001.
- .SH "SEE ALSO"
+ SVr4, 4.3BSD, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.7.1
 
