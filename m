@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] readdir.3: Add description of the function is not thread-safe
-Date: Wed, 07 Sep 2011 09:39:22 +0800
-Message-ID: <4E66CB4A.9070603@cn.fujitsu.com>
+Subject: [PATCH] getgrnam.3: Add description of the functions are not thread-safe.
+Date: Wed, 07 Sep 2011 09:13:48 +0800
+Message-ID: <4E66C54C.1070303@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -12,40 +12,44 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
-The data returned by readdir() may be overwritten by subsequent calls to
-readdir() for the same directory stream, so it is not thread-safe.
+The functions getgrnam() and getgrgid() return a pointer to a static area which
+is overwritten by a subsequent call to them. So they are thread-unsafe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/readdir.3 |   11 ++++++++++-
- 1 files changed, 10 insertions(+), 1 deletions(-)
+ man3/getgrnam.3 |   15 ++++++++++++++-
+ 1 files changed, 14 insertions(+), 1 deletions(-)
 
-diff --git a/man3/readdir.3 b/man3/readdir.3
-index 04298ee..6227727 100644
---- a/man3/readdir.3
-+++ b/man3/readdir.3
-@@ -31,7 +31,7 @@
- .\"     Rework discussion of nonstandard structure fields.
- .\" 2008-09-11, mtk, Document readdir_r().
+diff --git a/man3/getgrnam.3 b/man3/getgrnam.3
+index e4afa3e..cbbdc74 100644
+--- a/man3/getgrnam.3
++++ b/man3/getgrnam.3
+@@ -28,7 +28,7 @@
+ .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified 2003-11-15 by aeb
  .\"
--.TH READDIR 3  2010-09-10 "" "Linux Programmer's Manual"
-+.TH READDIR 3  2011-09-07 "" "Linux Programmer's Manual"
+-.TH GETGRNAM 3 2010-10-21 "" "Linux Programmer's Manual"
++.TH GETGRNAM 3 2011-09-07 "" "Linux Programmer's Manual"
  .SH NAME
- readdir, readdir_r \- read a directory
+ getgrnam, getgrnam_r, getgrgid, getgrgid_r \- get group file entry
  .SH SYNOPSIS
-@@ -142,6 +142,15 @@ returns 0, and returns NULL in
+@@ -199,6 +199,19 @@ Insufficient buffer space supplied.
  .TP
- .B EBADF
- Invalid directory stream descriptor \fIdirp\fP.
+ .I /etc/group
+ local group database file
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
-+The
-+.BR readdir ()
-+function is not thread-safe.
++The two functions
++.BR getgrnam ()
++and
++.BR getgrgid ()
++are not thread-safe.
 +.LP
-+The
-+.BR readdir_r ()
-+function is thread-safe.
++The two functions
++.BR getgrnam_r ()
++and
++.BR getgrgid_r ()
++are thread-safe.
  .SH "CONFORMING TO"
  SVr4, 4.3BSD, POSIX.1-2001.
  .SH NOTES
