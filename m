@@ -1,40 +1,60 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Simple one-line errors (typos, spelling, grammar, etc.)
-Date: Wed, 7 Sep 2011 21:18:19 +0200
-Message-ID: <CAKgNAkgPKw908hEeS92332DM6fRx+OiUQUdfcn2AKOn+mtZHEw@mail.gmail.com>
-References: <BANLkTinaAAHL=kX=zH0ekZxrFUUdLhKV+w@mail.gmail.com>
+Subject: Re: spelling error in man page of strncpy
+Date: Wed, 7 Sep 2011 21:26:59 +0200
+Message-ID: <CAKgNAkjWR=Y04r8iJq4FpM3GFgDMg-CLF5aFHx3WKAs6bysX-Q@mail.gmail.com>
+References: <AANLkTim29PVzCycqOmaETSRyS=KJhjFKwac_yz452Reb@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <BANLkTinaAAHL=kX=zH0ekZxrFUUdLhKV+w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <AANLkTim29PVzCycqOmaETSRyS=KJhjFKwac_yz452Reb-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?6a2P572X55Sf?= <weiluosheng001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Nikos Vervelakis <vervelak-49+yhFPIGMysTnJN9+BGXg@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Jun 26, 2011 at 7:58 AM, =E9=AD=8F=E7=BD=97=E7=94=9F <weiluoshe=
-ng001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> http://www.kernel.org/doc/man-pages/online/pages/man3/pthread_sigqueu=
-e.3.html
->
->
-> NAME =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0top
->
->        pthread_sigqueue - queue a signal and data to a thread
->
-> RETURN VALUE =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0top
->
->        On success, pthread_create() returns 0; on error, it returns a=
-n error
-> number.
+Hello Nikos,
 
-=46ixed for 3.33.
+On Thu, Mar 10, 2011 at 3:42 PM, Nikos Vervelakis <vervelak-49+yhFPIGMysTnJN9+BGXg@public.gmane.org>=
+ wrote:
+> Hello
+> in the man page of strncpy is a simple implementation that dosn't wor=
+k
+> an error was found in the secont for loop.
+> =A0it must be "for ( ; i <=3D n ; i++) dest[i] =3D '\0';" insteed of =
+"for ( ; i <
+> n ; i++) dest[i] =3D '\0';"
+> =A0=A0=A0=A0=A0=A0 A simple implementation of strncpy() might be:
+
+At a quick glance, I don't think this report is correct. Could you
+please add more detail on a specific case where you think the
+implementation is broken?
 
 Thanks,
 
 Michael
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 char*
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 strncpy(char *dest, const char *src, s=
+ize_t n){
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 size_t i;
+>
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 for (i =3D 0 ; i < n && sr=
+c[i] !=3D '\0' ; i++)
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dest[i] =3D sr=
+c[i];
+> --->=A0=A0=A0=A0=A0=A0=A0=A0=A0 for ( ; i < n ; i++)
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dest[i] =3D '\=
+0';
+>
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return dest;
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 }
+>
+> Thanks
+> vervelak.
+>
+
+
 
 --=20
 Michael Kerrisk
