@@ -1,13 +1,13 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] mprotect.2: update example program
-Date: Thu, 8 Sep 2011 17:29:09 +0200
-Message-ID: <CAKgNAkieafqbv+S54h5B71UAJ_81DrAG9zGAXZ2HKKWpPmbU7w@mail.gmail.com>
-References: <4E5E4E6B.10703@gmail.com>
+Subject: Re: [patch] mkstemp.3: added missing character
+Date: Thu, 8 Sep 2011 17:30:25 +0200
+Message-ID: <CAKgNAkjXw9q3ePUsn_D94E-JyT7SCQ8dqdGnWGDVf5uDW52yPg@mail.gmail.com>
+References: <4E5E4B3C.1070007@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E5E4E6B.10703-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4E5E4B3C.1070007-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,28 +15,27 @@ List-Id: linux-man@vger.kernel.org
 
 2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
 > man-pages version: latest git repository
-> why: The description of the example program says that it makes
-> the third page "read-only". Thus PROT_READ instead of PROT_NONE.
+> why: ':' character was missed.
 
-Thanks. Applied for 3.33.
+Applied for 3.33.
 
-Cheers,
+Thanks,
 
 Michael
 
 
-> diff --git a/man2/mprotect.2 b/man2/mprotect.2
-> --- a/man2/mprotect.2
-> +++ b/man2/mprotect.2
-> @@ -207,7 +207,7 @@ main(int argc, char *argv[])
-> printf("Start of region: 0x%lx\\n", (long) buffer);
->
-> if (mprotect(buffer + pagesize * 2, pagesize,
-> - PROT_NONE) == \-1)
-> + PROT_READ) == \-1)
-> handle_error("mprotect");
->
-> for (p = buffer ; ; )
+> diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
+> --- a/man3/mkstemp.3
+> +++ b/man3/mkstemp.3
+> @@ -156,7 +156,7 @@ now \fItemplate\fP is unchanged.
+> For
+> .BR mkstemps ()
+> and
+> -.BR mkostemps ()
+> +.BR mkostemps ():
+> .I template
+> is less than
+> .I "(6 + suffixlen)"
 >
 >
 
