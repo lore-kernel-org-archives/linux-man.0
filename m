@@ -1,13 +1,13 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] mkstemp.3, perror(3): minor fixes in SYNOPSIS
-Date: Thu, 8 Sep 2011 17:34:14 +0200
-Message-ID: <CAKgNAkixC=Emgush8qyruAW63rMxVMPK8aBrU9EgmkXe7kqQJQ@mail.gmail.com>
-References: <4E5E4AEF.5090508@gmail.com>
+Subject: Re: [patch] malloc.3: reorder prototypes in SYNOPSIS
+Date: Thu, 8 Sep 2011 17:36:42 +0200
+Message-ID: <CAKgNAkibLz7kcjkxXf7rNj-cJq2YR+mg=mncsYRNx7G4JpMdiw@mail.gmail.com>
+References: <4E5E49AD.8030704@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E5E4AEF.5090508-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4E5E49AD.8030704-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,7 +15,8 @@ List-Id: linux-man@vger.kernel.org
 
 2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
 > man-pages version: latest git repository
-> why: A whitespace was removed, and the formatting corrected.
+> why: calloc() comes before realloc() in the other sections, so
+> should do in SYNOPSIS, too.
 
 Applied for 3.33.
 
@@ -23,31 +24,20 @@ Thanks,
 
 Michael
 
-
-> diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
-> --- a/man3/mkstemp.3
-> +++ b/man3/mkstemp.3
-> @@ -39,7 +39,7 @@ mkstemp, mkostemp \- create a unique temporary file
+> diff --git a/man3/malloc.3 b/man3/malloc.3
+> --- a/man3/malloc.3
+> +++ b/man3/malloc.3
+> @@ -34,8 +34,8 @@ malloc, free, calloc, realloc \- Allocate and free
+> dynamic memory
 > .sp
-> .BI "int mkstemp(char *" template );
-> .sp
-> -.BI "int mkostemp (char *" template ", int " flags );
-> +.BI "int mkostemp(char *" template ", int " flags );
-> .sp
-> .BI "int mkstemps(char *" template ", int " suffixlen );
-> .sp
-> diff --git a/man3/perror.3 b/man3/perror.3
-> --- a/man3/perror.3
-> +++ b/man3/perror.3
-> @@ -33,7 +33,7 @@ perror \- print a system error message
-> .SH SYNOPSIS
-> .B #include <stdio.h>
-> .sp
-> -.BI "void perror(const char " *s );
-> +.BI "void perror(const char *" s );
-> .sp
-> .B #include <errno.h>
-> .sp
+> .BI "void *malloc(size_t " "size" );
+> .BI "void free(void " "*ptr" );
+> -.BI "void *realloc(void " "*ptr" ", size_t " "size" );
+> .BI "void *calloc(size_t " "nmemb" ", size_t " "size" );
+> +.BI "void *realloc(void " "*ptr" ", size_t " "size" );
+> .fi
+> .SH DESCRIPTION
+> .PP
 >
 >
 
