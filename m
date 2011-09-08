@@ -1,39 +1,39 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: timer_create(2) typo
-Date: Wed, 7 Sep 2011 21:30:39 +0200
-Message-ID: <CAKgNAkjisPZPsR4mH3+nZOFT+tE2oxxLsrwOS9e8_D4=XJC-1w@mail.gmail.com>
-References: <CAN98ibaftoKgk-7uPsBE+aTUPEvd-qNo2S2OruseM3uSW79BnA@mail.gmail.com>
+Subject: Re: [patch] small improvement for poll.2
+Date: Thu, 8 Sep 2011 16:00:00 +0200
+Message-ID: <CAKgNAkjvThY0j3HefTwPPaLiKbfOoktO_7-bjGMmA5w=11vxMQ@mail.gmail.com>
+References: <20101216185719.142f4d72@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAN98ibaftoKgk-7uPsBE+aTUPEvd-qNo2S2OruseM3uSW79BnA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20101216185719.142f4d72-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Timmy Lee <scuttimmy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Linux Manpage <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Timmy,
-
-On Thu, Sep 1, 2011 at 1:32 AM, Timmy Lee <scuttimmy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> http://www.kernel.org/doc/man-pages/online/pages/man2/timer_create.2.=
-html
+On Thu, Dec 16, 2010 at 4:57 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+:
+> Hello.
 >
-> There is an example which demonstrate the use of timer_create().
->
-> I believe the line:=A0 ./a.out 1 10=A0=A0=A0=A0 should be ./a.out 1 1=
-00
->
-> According to the description, the overrun count and the code, the tim=
-er
-> frequency should be 100 nanoseconds.
+> --- man-pages-git/man2/poll.2 =9A 2010-11-02 13:41:53.000000000 +0300
+> +++ /tmp/poll.2 2010-12-16 18:55:52.000000000 +0300
+> @@ -191,7 +191,8 @@
+> =9Abecomes ready or until a signal is caught.
+> =9A.PP
+> =9AOther than the difference in the precision of the
+> -timeout argument, the following
+> +.I timeout
+> +argument, the following
+> =9A.BR ppoll ()
+> =9Acall:
+> =9A.nf
 
-Thanks. Fixed for 3.33.
+Applied for 3.33.
 
-Cheers,
-
-Michael
+Thanks, Michael
 
 
 --=20
