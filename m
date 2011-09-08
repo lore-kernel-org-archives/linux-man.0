@@ -1,13 +1,13 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] fallocate.2, unix.7: add section number
-Date: Thu, 8 Sep 2011 17:32:24 +0200
-Message-ID: <CAKgNAkiWU9G9J2AQ8t7ON-XE8JKVSacHYcaurF5mn9KSYuamNA@mail.gmail.com>
-References: <4E5E46D0.7080800@gmail.com>
+Subject: Re: [patch] mkstemp.3, perror(3): minor fixes in SYNOPSIS
+Date: Thu, 8 Sep 2011 17:34:14 +0200
+Message-ID: <CAKgNAkixC=Emgush8qyruAW63rMxVMPK8aBrU9EgmkXe7kqQJQ@mail.gmail.com>
+References: <4E5E4AEF.5090508@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E5E46D0.7080800-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <4E5E4AEF.5090508-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,7 +15,7 @@ List-Id: linux-man@vger.kernel.org
 
 2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
 > man-pages version: latest git repository
-> why: Add section number to references to functions documented in other pages
+> why: A whitespace was removed, and the formatting corrected.
 
 Applied for 3.33.
 
@@ -24,30 +24,30 @@ Thanks,
 Michael
 
 
-> diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> --- a/man2/fallocate.2
-> +++ b/man2/fallocate.2
-> @@ -17,7 +17,7 @@ fallocate \- manipulate file space
-> This is a nonportable, Linux-specific system call.
-> For the portable, POSIX.1-specified method of ensuring that space
-> is allocated for a file, see
-> -.BR posix_fallocate ().
-> +.BR posix_fallocate (3).
->
-> .BR fallocate ()
-> allows the caller to directly manipulate the allocated disk space
-> diff --git a/man7/unix.7 b/man7/unix.7
-> --- a/man7/unix.7
-> +++ b/man7/unix.7
-> @@ -346,7 +346,7 @@ specified on a connected socket.
-> .TP
-> .B ENOENT
-> The pathname in the remote address specified to
-> -.BR connect ()
-> +.BR connect (2)
-> did not exist.
-> .TP
-> .B ENOMEM
+> diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
+> --- a/man3/mkstemp.3
+> +++ b/man3/mkstemp.3
+> @@ -39,7 +39,7 @@ mkstemp, mkostemp \- create a unique temporary file
+> .sp
+> .BI "int mkstemp(char *" template );
+> .sp
+> -.BI "int mkostemp (char *" template ", int " flags );
+> +.BI "int mkostemp(char *" template ", int " flags );
+> .sp
+> .BI "int mkstemps(char *" template ", int " suffixlen );
+> .sp
+> diff --git a/man3/perror.3 b/man3/perror.3
+> --- a/man3/perror.3
+> +++ b/man3/perror.3
+> @@ -33,7 +33,7 @@ perror \- print a system error message
+> .SH SYNOPSIS
+> .B #include <stdio.h>
+> .sp
+> -.BI "void perror(const char " *s );
+> +.BI "void perror(const char *" s );
+> .sp
+> .B #include <errno.h>
+> .sp
 >
 >
 
