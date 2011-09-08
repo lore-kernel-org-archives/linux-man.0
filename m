@@ -1,43 +1,42 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] small improvement for poll.2 (+2)
-Date: Thu, 8 Sep 2011 16:02:12 +0200
-Message-ID: <CAKgNAkhZ8u9sVb6m4NN-rGWhc4iNrGvxuch8JDhu5OiqiZtKxA@mail.gmail.com>
-References: <20101217184003.51939de4@keeper.home.local>
+Subject: Re: [patch] small improvement for poll.2 (+1)
+Date: Thu, 8 Sep 2011 16:03:21 +0200
+Message-ID: <CAKgNAkhXbg-9pw8yoG1H-nrt2-3Z=qCEBS8eTSTmBz39T9rgTw@mail.gmail.com>
+References: <20101216190323.49351495@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20101217184003.51939de4-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <20101216190323.49351495-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Dec 17, 2010 at 4:40 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+On Thu, Dec 16, 2010 at 5:03 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
 :
 > Hello.
 >
 > --- man-pages-git/man2/poll.2 =9A 2010-11-02 13:41:53.000000000 +0300
-> +++ /tmp/poll.2 2010-12-17 18:39:02.000000000 +0300
-> @@ -287,7 +287,9 @@
+> +++ /tmp/poll.2 2010-12-16 19:00:47.000000000 +0300
+> @@ -228,7 +229,9 @@
+> =9A.BR ppoll ()
+> =9Adiffers from
+> =9A.BR poll ()
+> -only in the precision of the timeout argument).
+> +only in the precision of the
+> +.I timeout
+> +argument).
+>
 > =9AThe
-> =9A.BR poll ()
-> =9Alibrary call was introduced in libc 5.4.28
-> -(and provides emulation using select(2) if your kernel does not
-> +(and provides emulation using
-> +.BR select (2)
-> +if your kernel does not
-> =9Ahave a
-> =9A.BR poll ()
-> =9Asystem call).
+> =9A.I timeout_ts
 
 Applied for 3.33.
 
 Thanks,
 
 Michael
-
 
 --=20
 Michael Kerrisk
