@@ -1,36 +1,36 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] small improvement for poll.2 (+1)
-Date: Thu, 8 Sep 2011 16:03:21 +0200
-Message-ID: <CAKgNAkhXbg-9pw8yoG1H-nrt2-3Z=qCEBS8eTSTmBz39T9rgTw@mail.gmail.com>
-References: <20101216190323.49351495@keeper.home.local>
+Subject: Re: [PATCH] small improvement for recv.2
+Date: Thu, 8 Sep 2011 16:04:25 +0200
+Message-ID: <CAKgNAkgo-KHJnuF97xpF9Y=hiam-1U9ZCtyXKPCOPfp8BV-LdA@mail.gmail.com>
+References: <20110313092029.1e80cef8@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20101216190323.49351495-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <20110313092029.1e80cef8-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Dec 16, 2010 at 5:03 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+On Sun, Mar 13, 2011 at 7:20 AM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
 :
 > Hello.
 >
-> --- man-pages-git/man2/poll.2 =9A 2010-11-02 13:41:53.000000000 +0300
-> +++ /tmp/poll.2 2010-12-16 19:00:47.000000000 +0300
-> @@ -228,7 +229,9 @@
-> =9A.BR ppoll ()
-> =9Adiffers from
-> =9A.BR poll ()
-> -only in the precision of the timeout argument).
-> +only in the precision of the
-> +.I timeout
-> +argument).
->
+> --- recv.2 =9A =9A =9A2010-12-26 12:01:43.851106424 +0300
+> +++ /tmp/recv.2 2011-03-13 09:18:14.432032807 +0300
+> @@ -360,7 +360,9 @@
+> =9A.PP
 > =9AThe
-> =9A.I timeout_ts
+> =9A.I msg_flags
+> -field in the msghdr is set on return of
+> +field in the
+> +.IR msghdr
+> +is set on return of
+> =9A.BR recvmsg ().
+> =9AIt can contain several flags:
+> =9A.TP
 
 Applied for 3.33.
 
