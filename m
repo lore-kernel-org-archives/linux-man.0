@@ -1,43 +1,57 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] small improvement for ptrace.2
-Date: Thu, 8 Sep 2011 16:05:54 +0200
-Message-ID: <CAKgNAkg_AT16FZvFnuoPttH0O4twT2HAZ_nACLHN6RAFnoC3xw@mail.gmail.com>
-References: <20110223105355.1ae142f1@keeper.home.local>
+Subject: Re: [patch] posix_fadvise.2, tee.2: adjust code indentation
+Date: Thu, 8 Sep 2011 16:14:25 +0200
+Message-ID: <CAKgNAkjDEj2Hw5_VcxPkrU+85ouAFAJLK7H6pw+1j5asy8jEzQ@mail.gmail.com>
+References: <4E5E4EE0.7070504@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110223105355.1ae142f1-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <4E5E4EE0.7070504-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Feb 23, 2011 at 8:53 AM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
-:
-> Hello.
+2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> man-pages version: latest git repository
 >
-> --- ptrace.2 =9A =9A2010-12-26 12:01:43.615106727 +0300
-> +++ /tmp/ptrace.2 =9A =9A =9A 2011-02-23 10:52:27.371001084 +0300
-> @@ -206,7 +206,7 @@
-> =9A.TP
-> =9A.BR PTRACE_O_TRACESYSGOOD " (since Linux 2.4.6)"
-> =9AWhen delivering syscall traps, set bit 7 in the signal number
-> -(i.e., deliver \fI(SIGTRAP | 0x80)\fP
-> +(i.e., deliver \fI(SIGTRAP | 0x80)\fP.
-> =9AThis makes it easy for the tracer to tell the difference
-> =9Abetween normal traps and those caused by a syscall.
-> =9A.RB ( PTRACE_O_TRACESYSGOOD
+>
+> diff --git a/man2/posix_fadvise.2 b/man2/posix_fadvise.2
+> --- a/man2/posix_fadvise.2
+> +++ b/man2/posix_fadvise.2
+> @@ -165,7 +165,7 @@ system call that orders the arguments suitably:
+> .in +4n
+> .nf
+> .BI "long arm_fadvise64_64(int " fd ", int " advice ,
+> -.BI " loff_t " offset ", loff_t " len );
+> +.BI " loff_t " offset ", loff_t " len );
+> .fi
+> .in
+> .PP
+> diff --git a/man2/tee.2 b/man2/tee.2
+> --- a/man2/tee.2
+> +++ b/man2/tee.2
+> @@ -149,8 +149,8 @@ main(int argc, char *argv[])
+> int len, slen;
+>
+> if (argc != 2) {
+> - fprintf(stderr, "Usage: %s <file>\\n", argv[0]);
+> - exit(EXIT_FAILURE);
+> + fprintf(stderr, "Usage: %s <file>\\n", argv[0]);
+> + exit(EXIT_FAILURE);
+> }
+>
+> fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-Applied for 3.33.
+Thanks. Applied for man-pages-3.33.
 
-Thanks,
+Cheers,
 
 Michael
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
