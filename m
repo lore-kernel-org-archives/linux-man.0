@@ -1,65 +1,40 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man getrlimit(2) not updated for Linux 3.0
-Date: Fri, 9 Sep 2011 17:34:44 +0200
-Message-ID: <CAKgNAkh38N9v=2EAGUcH_izVwKxgvaPV=jgLNut=g+Chhx2Kqw@mail.gmail.com>
-References: <CAHrWx2wMOmQmi7C-YWsQ=5oSmAeytEaZhqRah_sgx0BTuqF=Bw@mail.gmail.com>
+Subject: Re: IPv6 address format buglet
+Date: Fri, 9 Sep 2011 17:35:32 +0200
+Message-ID: <CAKgNAkjt8ejfhfv7RfU2yVULDGK=9GCb5hsZqf__BfkvBy0-hA@mail.gmail.com>
+References: <CAD5NRCE8Or2XmAwvxajShZMy2_-DL2TsXjmM7imqY0i0F1RvHg@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAHrWx2wMOmQmi7C-YWsQ=5oSmAeytEaZhqRah_sgx0BTuqF=Bw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAD5NRCE8Or2XmAwvxajShZMy2_-DL2TsXjmM7imqY0i0F1RvHg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ryan Mullen <rmmullen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Simon Cross <hodgestar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ryan,
+Hello Simon,
 
-On Sat, Jul 30, 2011 at 3:27 AM, Ryan Mullen <rmmullen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
-:
-> From man 2 getrlimit:
+On Fri, Jul 22, 2011 at 11:20 AM, Simon Cross <hodgestar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wro=
+te:
+> A sentence in the "Address Format" section of
+> http://www.kernel.org/doc/man-pages/online/pages/man7/ipv6.7.html
+> reads:
 >
-> RLIMIT_CPU
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0CPU =A0time =A0limit =A0in seconds. =A0Whe=
-n the process reaches
-> the soft limit, it is sent a SIGXCPU signal. =A0The default action fo=
-r
-> this signal is to terminate the process. =A0However, the signal can b=
-e
-> caught,
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0and the handler can return control to the =
-main program.
-> If the process continues to consume CPU time, it will be sent SIGXCPU
-> once per second until the hard limit is reached, at which time it is
-> sent
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0SIGKILL. =A0 (This =A0latter =A0point =A0d=
-escribes =A0Linux 2.2
-> through 2.6 behavior. =A0Implementations vary in how they treat
-> processes which continue to consume CPU time after reaching the soft
-> limit. =A0Portable
-> =A0 =A0 =A0 =A0 =A0 =A0 =A0applications that need to catch this signa=
-l should
-> perform an orderly termination upon first receipt of SIGXCPU.)
+> """
+> The address notation for IPv6 is a group of 16 2-digit hexadecimal nu=
+mbers,
+> separated with a ':'. =A0"::" stands for a string of 0 bits.
+> """
 >
->
-> Instead of defining a window between Linux 2.2 and 2.6, can we not sa=
-y
-> "This latter point describes behavior since Linux 2.2" to avoid the
-> versioning headaches, especially now that we're on 3.0? Note that I
-> haven't confirmed whether this behavior has changed for 3.0 - I'm
-> expecting it hasn't.
+> I believe this should read "8 4-digit hexadecimal numbers" instead.
 
-Thanks for the report. What I did was to remove all mention of
-versions, since the behavior applies since at least 2.2, but probably
-earlier also.
-
-The change will be in man-pages-3.33.
+Thanks. Fixed for man-pages-3.33.
 
 Cheers,
 
 Michael
-
 
 --=20
 Michael Kerrisk
