@@ -1,55 +1,22 @@
-From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Subject: Re: sendmmsg(2)
-Date: Fri, 09 Sep 2011 23:56:46 +0200
-Message-ID: <4E6A8B9E.4080707@atsec.com>
-References: <4E64D0F9.9050509@atsec.com> <CAKgNAkhZ2uVSMZx9ofhs-r+A2Cam06R7Hb8yQo5RS4g5G2bX6A@mail.gmail.com> <4E6A85C3.4080409@atsec.com> <CAKgNAki7oP-FLS7=J-J0Z+bgWyqNd3g=9OsDMG1GfY3AcPq4Ww@mail.gmail.com>
+From: Simon Cross <hodgestar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: IPv6 address format buglet
+Date: Sat, 10 Sep 2011 01:28:57 +0200
+Message-ID: <CAD5NRCFakjPeGyvTeMDVnh2SJ2NG=p46VaVdPc3P0O=6anUrzw@mail.gmail.com>
+References: <CAD5NRCE8Or2XmAwvxajShZMy2_-DL2TsXjmM7imqY0i0F1RvHg@mail.gmail.com>
+	<CAKgNAkjt8ejfhfv7RfU2yVULDGK=9GCb5hsZqf__BfkvBy0-hA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAki7oP-FLS7=J-J0Z+bgWyqNd3g=9OsDMG1GfY3AcPq4Ww-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkjt8ejfhfv7RfU2yVULDGK=9GCb5hsZqf__BfkvBy0-hA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09.09.2011 23:45:27, +0200, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-wrote:
+On Fri, Sep 9, 2011 at 5:35 PM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Thanks. Fixed for man-pages-3.33.
 
-Hi Michael,
-
-> Hi Stephan,
-> 
-> On Fri, Sep 9, 2011 at 11:31 PM, Stephan Mueller
-> <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
->> On 09.09.2011 23:03:07, +0200, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> wrote:
->>
->> Hi Michael,
->>
->>> Hello Stephan
->>>
->>> On Mon, Sep 5, 2011 at 3:39 PM, Stephan Mueller
->>> <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
->>>> Hi,
->>>>
->>>> please find a new man page for the sendmmsg(2) system call added with
->>>> 3.0. It is derived from the recvmmsg(2) man page.
->>>
->>> What copyright and license do you want for this page. See
->>> http://man7.org/linux/man-pages/licenses.html.
->>
->> The same as for recvmmsg as I copied some verbiage out of this man page.
->> Therefore I cannot claim that it is solely my work.
-> 
-> The problem is that that page does not have a license either...
-
-Let us take the BSD license.
-
-Thank you very much.
--- 
-Ciao
-Stephan
+Woot.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
