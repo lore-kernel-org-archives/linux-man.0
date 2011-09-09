@@ -1,36 +1,50 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: IPv6 address format buglet
-Date: Fri, 9 Sep 2011 17:35:32 +0200
-Message-ID: <CAKgNAkjt8ejfhfv7RfU2yVULDGK=9GCb5hsZqf__BfkvBy0-hA@mail.gmail.com>
-References: <CAD5NRCE8Or2XmAwvxajShZMy2_-DL2TsXjmM7imqY0i0F1RvHg@mail.gmail.com>
+Subject: Re: [PATCH] scandir(3): add ENOENT/ENOTDIR errors
+Date: Fri, 9 Sep 2011 17:36:35 +0200
+Message-ID: <CAKgNAkhvmP6u1=VNHdfGJ0yWPk61Zo3ADRAqW8u0Kwee-AxR8w@mail.gmail.com>
+References: <1314889627-26260-1-git-send-email-vapier@gentoo.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAD5NRCE8Or2XmAwvxajShZMy2_-DL2TsXjmM7imqY0i0F1RvHg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1314889627-26260-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Cross <hodgestar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Simon,
+Hi Mike,
 
-On Fri, Jul 22, 2011 at 11:20 AM, Simon Cross <hodgestar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wro=
-te:
-> A sentence in the "Address Format" section of
-> http://www.kernel.org/doc/man-pages/online/pages/man7/ipv6.7.html
-> reads:
+On Thu, Sep 1, 2011 at 5:07 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
+e:
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+> =A0man3/scandir.3 | =A0 =A06 ++++++
+> =A01 files changed, 6 insertions(+), 0 deletions(-)
 >
-> """
-> The address notation for IPv6 is a group of 16 2-digit hexadecimal nu=
-mbers,
-> separated with a ':'. =A0"::" stands for a string of 0 bits.
-> """
->
-> I believe this should read "8 4-digit hexadecimal numbers" instead.
+> diff --git a/man3/scandir.3 b/man3/scandir.3
+> index 8ea5fec..46eaa73 100644
+> --- a/man3/scandir.3
+> +++ b/man3/scandir.3
+> @@ -102,8 +102,14 @@ or greater than zero if the first argument is co=
+nsidered to be
+> =A0respectively less than, equal to, or greater than the second.
+> =A0.SH ERRORS
+> =A0.TP
+> +.B ENOENT
+> +The path in \fIdirp\fR does not exist.
+> +.TP
+> =A0.B ENOMEM
+> =A0Insufficient memory to complete the operation.
+> +.TP
+> +.B ENOTDIR
+> +The path in \fIdirp\fR is not a directory.
+> =A0.SH VERSIONS
+> =A0.BR versionsort ()
+> =A0was added to glibc in version 2.1.
 
-Thanks. Fixed for man-pages-3.33.
+Thanks. Applied for man-pages-3.33.
 
 Cheers,
 
