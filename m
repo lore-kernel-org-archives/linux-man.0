@@ -1,221 +1,87 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] proc.5: Document /proc/[pid]/ns/
-Date: Fri, 9 Sep 2011 15:47:51 +0200
-Message-ID: <CAKgNAkgP1a2zZpHBOdynUWgC_BtprceLQo-bVN2L+_siCEoLcA@mail.gmail.com>
-References: <m1r57gj2sh.fsf@fess.ebiederm.org> <m1lixoj2qq.fsf@fess.ebiederm.org>
+Subject: Re: man strnlen
+Date: Fri, 9 Sep 2011 15:54:08 +0200
+Message-ID: <CAKgNAkgWXz21qOr0S3j-YOcn_XUZARE7gsYaR5uOiBwm2EB9tg@mail.gmail.com>
+References: <AANLkTi=3H9mA+=c16qiS8TEfbxOaewvxxEJyDfELLRRG@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <m1lixoj2qq.fsf-+imSwln9KH6u2/kzUuoCbdi2O/JbrIOy@public.gmane.org>
+In-Reply-To: <AANLkTi=3H9mA+=c16qiS8TEfbxOaewvxxEJyDfELLRRG-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Eric,
+Hi Jon,
 
-On Mon, May 30, 2011 at 5:17 AM, Eric W. Biederman
-<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+On Tue, Nov 23, 2010 at 7:13 PM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
+> Hello
 >
-> Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-> ---
-> =A0man5/proc.5 | =A0 44 ++++++++++++++++++++++++++++++++++++++++++++
-> =A01 files changed, 44 insertions(+), 0 deletions(-)
+> Just looking at this page:
 >
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 7c5ca4e..7ff82c4 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -476,6 +476,50 @@ information via this field.
-> =A0.IP
-> =A0This file is only readable by the owner of the process.
-> =A0.TP
-> +.IR /proc/[pid]/ns/ " (since Linux 3.0)"
-> +This is a subdirectory containing one entry for each namespace that
-> +supports being manipulated by
-> +.BR setns(2).
-> +.TP
-> +.IR /proc/[pid]/ns/ipc " (since Linux 3.0)"
-> +Bind mounting this file to somewhere else in the filesystem keeps
-> +the ipc namespace of the process specified by
-> +.I pid
-> +alive even if all of the processes currently in that ipc namespace e=
-xit.
-> +
-> +Opening this file returnes a file handle for the ipc namespace
-> +of the process specified by
-> +.I pid,
-> +that keeps the ipc namespace alive while the file is open and that c=
-an
-> +be passed to
-> +.BR setns(2).
-> +.TP
-> +.IR /proc/[pid]/ns/net " (since Linux 3.0)"
-> +Bind mounting this file to somewhere else in the filesystem keeps
-> +the network namespace of the process specified by
-> +.I pid
-> +alive even if all of the processes currently in that network namespa=
-ce exit.
-> +
-> +Opening this file returnes a file handle for the network namespace
-> +of the process specified by
-> +.I pid,
-> +that keeps the network namespace alive while the file is open and th=
-at can
-> +be passed to
-> +.BR setns(2).
-> +.TP
-> +.IR /proc/[pid]/ns/uts " (since Linux 3.0)"
-> +Bind mounting this file to somewhere else in the filesystem keeps
-> +the uts namespace of the process specified by
-> +.I pid
-> +alive even if all of the processes currently in that uts namespace e=
-xit.
-> +
-> +Opening this file returnes a file handle for the uts namespace
-> +of the process specified by
-> +.I pid,
-> +that keeps the uts namespace alive while the file is open and that c=
-an
-> +be passed to
-> +.BR setns(2).
-> +.TP
-> =A0.IR /proc/[pid]/numa_maps " (since Linux 2.6.14)"
-> =A0See
-> =A0.BR numa (7).
+> http://www.kernel.org/doc/man-pages/online/pages/man3/strnlen.3.html
+>
+>
+> It says "This function is a GNU extension."
+>
+> Is strnlen still a GNU only extension?
 
-Thanks for that. I tweaked the text somewhat. COuld you review the
-following text (actual patch shown further down):
+Looks like it was added to POSIX.1-2008.
 
-       /proc/[pid]/ns/ (since Linux 3.0)
-              This is a subdirectory containing  one  entry  for  each
-              namespace  that  supports being manipulated by setns(2).
-              For information about namespaces, see clone(2).
+> Microsoft and also The Open Group also document this function.
+>
+> http://www.opengroup.org/onlinepubs/9699919799/functions/strlen.html
+>
+> http://msdn.microsoft.com/en-us/library/z50ty2zh%28VS.80%29.aspx
+>
+> Microsoft call it "ANSI"
+>
+>
+>
+> Could strlen page link to strnlen(3) as well please.
 
-       /proc/[pid]/ns/ipc (since Linux 3.0)
-              Bind mounting this file (see mount(2)) to somewhere else
-              in the filesystem keeps the IPC namespace of the process
-              specified by pid alive even if all  processes  currently
-              in the namespace terminate.
+Done.
 
-              Opening  this  file  returns  a  file handle for the IPC
-              namespace of the process specified by pid.  As  long  as
-              this  file  descriptor  remains  open, the IPC namespace
-              will remain alive, even if all processes in  the  names-
-              pace  terminate.   The  file descriptor can be passed to
-              setns(2).
+>
+> http://www.kernel.org/doc/man-pages/online/pages/man3/strlen.3.html
+>
+> Likewise, should all four pages refer to each other:
+>
+> wcsnlen
+> wcslen
+> strlen
+> strnlen
 
-       /proc/[pid]/ns/net (since Linux 3.0)
-              Bind mounting this file (see mount(2)) to somewhere else
-              in  the  filesystem  keeps  the network namespace of the
-              process specified by pid alive even if all processes  in
-              the namespace terminate.
+Seems like there's mostly enough xrefs in the SEE ALSO in these pages.
+Can you be more specific?
 
-              Opening  this file returns a file handle for the network
-              namespace of the process specified by pid.  As  long  as
-              this file descriptor remains open, the network namespace
-              will remain alive, even if all processes in  the  names-
-              pace  terminate.   The  file descriptor can be passed to
-              setns(2).
+> As there is a string(3) page, should there be a wchar(3) page? Even
+> just a page to collectively refer to other pages.
+>
+> http://www.kernel.org/doc/man-pages/online/pages/man3/string.3.html
+>
+> wchar(3) page could list wcstok wcspbrk(3), wcsrchr(3), wcsstr(3), wm=
+emchr(3)
 
-       /proc/[pid]/ns/uts (since Linux 3.0)
-              Bind mounting this file (see mount(2)) to somewhere else
-              in the filesystem keeps the UTS namespace of the process
-              specified by pid alive even if all  processes  currently
-              in the namespace terminate.
+Perhaps, but I suppose that it should have more pages than this. I'd
+probably add such a page if someone wrote one.
 
-              Opening  this  file  returns  a  file handle for the UTS
-              namespace of the process specified by pid.  As  long  as
-              this  file  descriptor  remains  open, the UTS namespace
-              will remain alive, even if all processes in  the  names-
-              pace  terminate.   The  file descriptor can be passed to
-              setns(2).
+> Thank you for taking a look at these.
 
+No problem. The above changes will be in 3.33.
+
+> p.s. I noticed the http://man7.org/tlpi/TLPI-front-cover.png is very
+> large and slow to load. Also it is 674px =D7 890px (scaled to 454px =D7
+> 600px). Reducing it and compressing would save a few seconds off the
+> download!
+
+I did by now compress it a little. Thanks.
 
 Cheers,
 
 Michael
-
-
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -58,7 +58,7 @@
- .\" to see what information could be imported from that file
- .\" into this file.
- .\"
--.TH PROC 5 2010-10-30 "Linux" "Linux Programmer's Manual"
-+.TH PROC 5 2011-09-08 "Linux" "Linux Programmer's Manual"
- .SH NAME
- proc \- process information pseudo-file system
- .SH DESCRIPTION
-@@ -476,6 +476,64 @@ information via this field.
- .IP
- This file is only readable by the owner of the process.
- .TP
-+.IR /proc/[pid]/ns/ " (since Linux 3.0)"
-+This is a subdirectory containing one entry for each namespace that
-+supports being manipulated by
-+.BR setns (2).
-+For information about namespaces, see
-+.BR clone (2).
-+.TP
-+.IR /proc/[pid]/ns/ipc " (since Linux 3.0)"
-+Bind mounting this file (see
-+.BR mount (2))
-+to somewhere else in the filesystem keeps
-+the IPC namespace of the process specified by
-+.I pid
-+alive even if all processes currently in the namespace terminate.
-+
-+Opening this file returns a file handle for the IPC namespace
-+of the process specified by
-+.IR pid .
-+As long as this file descriptor remains open,
-+the IPC namespace will remain alive,
-+even if all processes in the namespace terminate.
-+The file descriptor can be passed to
-+.BR setns (2).
-+.TP
-+.IR /proc/[pid]/ns/net " (since Linux 3.0)"
-+Bind mounting this file (see
-+.BR mount (2))
-+to somewhere else in the filesystem keeps
-+the network namespace of the process specified by
-+.I pid
-+alive even if all processes in the namespace terminate.
-+
-+Opening this file returns a file handle for the network namespace
-+of the process specified by
-+.IR pid .
-+As long as this file descriptor remains open,
-+the network namespace will remain alive,
-+even if all processes in the namespace terminate.
-+The file descriptor can be passed to
-+.BR setns (2).
-+.TP
-+.IR /proc/[pid]/ns/uts " (since Linux 3.0)"
-+Bind mounting this file (see
-+.BR mount (2))
-+to somewhere else in the filesystem keeps
-+the UTS namespace of the process specified by
-+.I pid
-+alive even if all processes currently in the namespace terminate.
-+
-+Opening this file returns a file handle for the UTS namespace
-+of the process specified by
-+.IR pid .
-+As long as this file descriptor remains open,
-+the UTS namespace will remain alive,
-+even if all processes in the namespace terminate.
-+The file descriptor can be passed to
-+.BR setns (2).
-+.TP
- .IR /proc/[pid]/numa_maps " (since Linux 2.6.14)"
- See
- .BR numa (7).
-
 
 
 --=20
