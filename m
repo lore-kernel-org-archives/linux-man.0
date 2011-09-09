@@ -1,31 +1,30 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Add man page for the hpsa driver
-Date: Fri, 9 Sep 2011 16:38:23 +0200
-Message-ID: <CAKgNAkixAfS_CtQvBZz0c+fD9=adw8YtoJm=q7R4wWkXNGVwVw@mail.gmail.com>
-References: <20110812142351.21226.69362.stgit@beardog.cce.hp.com>
+Subject: Re: [PATCH] Add man page for the cciss driver
+Date: Fri, 9 Sep 2011 16:38:45 +0200
+Message-ID: <CAKgNAkg9srUqE0kBHgRdSsNAfhyaOCBpn-WGZMQsPM6Wy4yq7g@mail.gmail.com>
+References: <20110812142359.21252.86908.stgit@beardog.cce.hp.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110812142351.21226.69362.stgit-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <20110812142359.21252.86908.stgit-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Stephen M. Cameron" <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mikem-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org, varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, stephenmcameron-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Stephen,
+Stephen,
 
 On Fri, Aug 12, 2011 at 4:23 PM, Stephen M. Cameron
 <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org> wrote:
 > From: Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
 >
-> This patch applies against man-pages-3.32.
+> This patch applied to man-pages-3.32.
 >
 > I obtained the information in this man page as a consequence
-> of of being the main author of the hpsa driver.
->
-> Signed-off-by: Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
+> of having worked on the cciss driver for the past several years,
+> and having written considerable portions of it.
 
 Thanks for the page. I've added it for the upcoming 3.33 release. But
 what license and copyright do you want to assign to the page? (See
@@ -36,59 +35,90 @@ Cheers,
 Michael
 
 
+> Signed-off-by: Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
 > ---
-> =A0man4/hpsa.4 | =A0144 +++++++++++++++++++++++++++++++++++++++++++++=
+> =A0man4/cciss.4 | =A0291 ++++++++++++++++++++++++++++++++++++++++++++=
 ++++++++++++++
-> =A01 files changed, 144 insertions(+), 0 deletions(-)
-> =A0create mode 100644 man4/hpsa.4
+> =A01 files changed, 291 insertions(+), 0 deletions(-)
+> =A0create mode 100644 man4/cciss.4
 >
-> diff --git a/man4/hpsa.4 b/man4/hpsa.4
+> diff --git a/man4/cciss.4 b/man4/cciss.4
 > new file mode 100644
-> index 0000000..bade987
+> index 0000000..4f61570
 > --- /dev/null
-> +++ b/man4/hpsa.4
-> @@ -0,0 +1,144 @@
+> +++ b/man4/cciss.4
+> @@ -0,0 +1,291 @@
 > +.\" shorthand for double quote that works everywhere.
 > +.ds q \N'34'
-> +.TH HPSA 4 "hpsa"
+> +.TH CCISS 4 "cciss"
 > +.SH NAME
-> +hpsa \- HP Smart Array SCSI driver
+> +cciss \- HP Smart Array block driver
 > +.SH SYNOPSIS
 > +.nf
-> +modprobe hpsa [ hpsa_allow_any=3D1 ]
+> +modprobe cciss [ cciss_allow_hpsa=3D1 ]
 > +.fi
 > +.SH DESCRIPTION
-> +.B hpsa
-> +is a SCSI driver for HP Smart Array RAID controllers.
+> +.B cciss
+> +is a block driver for older HP Smart Array RAID controllers.
 > +.SH OPTIONS
 > +.HP
-> +hpsa_allow_any=3D1
-> +This option allows the driver to attempt to operate on
-> +any HP Smart Array hardware RAID controller even if it is
-> +not explicitly known to the driver. =A0This allows newer hardware
-> +to work with older drivers. =A0Typically this is used for example
-> +to allow installation of OSes from media which predates the
-> +RAID controller though it may also be used to enable hpsa to
-> +drive older controllers that would normally be handled by the
-> +cciss driver. =A0These older boards have not been tested and are
-> +not supported with hpsa and cciss should still be used for these.
+> +cciss_allow_hpsa=3D1
+> +This option prevents the cciss driver
+> +from attempting to drive any controllers which the hpsa driver
+> +is capable of controlling, which is to say, the cciss driver
+> +is restricted by this option to the following controllers:
+> +.nf
+> +
+> + =A0 =A0 =A0 Smart Array 5300
+> + =A0 =A0 =A0 Smart Array 5i
+> + =A0 =A0 =A0 Smart Array 532
+> + =A0 =A0 =A0 Smart Array 5312
+> + =A0 =A0 =A0 Smart Array 641
+> + =A0 =A0 =A0 Smart Array 642
+> + =A0 =A0 =A0 Smart Array 6400
+> + =A0 =A0 =A0 Smart Array 6400 EM
+> + =A0 =A0 =A0 Smart Array 6i
+> + =A0 =A0 =A0 Smart Array P600
+> + =A0 =A0 =A0 Smart Array P400i
+> + =A0 =A0 =A0 Smart Array E200i
+> + =A0 =A0 =A0 Smart Array E200
+> + =A0 =A0 =A0 Smart Array E200i
+> + =A0 =A0 =A0 Smart Array E200i
+> + =A0 =A0 =A0 Smart Array E200i
+> + =A0 =A0 =A0 Smart Array E500
+> +.fi
+> +
 > +
 > +.SH SUPPORTED HARDWARE
 > +The
-> +.B hpsa
+> +.B cciss
 > +driver supports the following Smart Array boards:
 > +.nf
 > +
-> +Smart Array P700M
-> +Smart Array P212
-> +Smart Array P410
-> +Smart Array P410i
-> +Smart Array P411
-> +Smart Array P812
-> +Smart Array P712m
-> +Smart Array P711m
-> +StorageWorks P1210m
-> +
+> + =A0 =A0 =A0 Smart Array 5300
+> + =A0 =A0 =A0 Smart Array 5i
+> + =A0 =A0 =A0 Smart Array 532
+> + =A0 =A0 =A0 Smart Array 5312
+> + =A0 =A0 =A0 Smart Array 641
+> + =A0 =A0 =A0 Smart Array 642
+> + =A0 =A0 =A0 Smart Array 6400
+> + =A0 =A0 =A0 Smart Array 6400 U320 Expansion Module
+> + =A0 =A0 =A0 Smart Array 6i
+> + =A0 =A0 =A0 Smart Array P600
+> + =A0 =A0 =A0 Smart Array P800
+> + =A0 =A0 =A0 Smart Array E400
+> + =A0 =A0 =A0 Smart Array P400i
+> + =A0 =A0 =A0 Smart Array E200
+> + =A0 =A0 =A0 Smart Array E200i
+> + =A0 =A0 =A0 Smart Array E500
+> + =A0 =A0 =A0 Smart Array P700m
+> + =A0 =A0 =A0 Smart Array P212
+> + =A0 =A0 =A0 Smart Array P410
+> + =A0 =A0 =A0 Smart Array P410i
+> + =A0 =A0 =A0 Smart Array P411
+> + =A0 =A0 =A0 Smart Array P812
+> + =A0 =A0 =A0 Smart Array P712m
+> + =A0 =A0 =A0 Smart Array P711m
 > +.fi
 > +.SH CONFIGURATION DETAILS
 > +To configure HP Smart Array controllers, use the HP Array Configurat=
@@ -98,125 +128,274 @@ Utility (ORCA)
 > +run from the Smart Array's option ROM at boot time.
 > +.SH FILES
 > +.SS DEVICE NODES
-> +Logical drives are accessed via the SCSI disk driver (sd),
-> +tape drives via the SCSI tape driver (st), and
-> +the RAID controller vi the SCSI generic driver (sg), with
-> +device nodes named /dev/sd*, /dev/st*, and /dev/sg*, respectively.
-> +.SS HPSA SPECIFIC HOST ATTRIBUTE FILES IN /sys
+> +The device naming scheme is as follows:
+> +.nf
+> +Major numbers:
+> + =A0 =A0 =A0 =A0104 =A0 =A0 cciss0
+> + =A0 =A0 =A0 =A0105 =A0 =A0 cciss1
+> + =A0 =A0 =A0 =A0106 =A0 =A0 cciss2
+> + =A0 =A0 =A0 =A0105 =A0 =A0 cciss3
+> + =A0 =A0 =A0 =A0108 =A0 =A0 cciss4
+> + =A0 =A0 =A0 =A0109 =A0 =A0 cciss5
+> + =A0 =A0 =A0 =A0110 =A0 =A0 cciss6
+> + =A0 =A0 =A0 =A0111 =A0 =A0 cciss7
+> +
+> +Minor numbers:
+> + =A0 =A0 =A0 =A0b7 b6 b5 b4 b3 b2 b1 b0
+> + =A0 =A0 =A0 =A0|----+----| |----+----|
+> + =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A0 =A0 =A0 =A0 |
+> + =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A0 =A0 =A0 =A0 +-------- Partition I=
+D (0=3Dwholedev, 1-15 partition)
+> + =A0 =A0 =A0 =A0 =A0 =A0 |
+> + =A0 =A0 =A0 =A0 =A0 =A0 +-------------------- Logical Volume number
+> +
+> +The device naming scheme is:
+> +/dev/cciss/c0d0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk 0=
+, whole device
+> +/dev/cciss/c0d0p1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk 0, =
+partition 1
+> +/dev/cciss/c0d0p2 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk 0, =
+partition 2
+> +/dev/cciss/c0d0p3 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk 0, =
+partition 3
+> +
+> +/dev/cciss/c1d1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk 1=
+, whole device
+> +/dev/cciss/c1d1p1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk 1, =
+partition 1
+> +/dev/cciss/c1d1p2 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk 1, =
+partition 2
+> +/dev/cciss/c1d1p3 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk 1, =
+partition 3
+> +
+> +.fi
+> +.SS FILES IN /proc
+> +The files /proc/driver/cciss/cciss[0-9]+ contain information about
+> +the configuration of each controller. =A0For example:
+> +.nf
+> +
+> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss> ls -l
+> + =A0 =A0 =A0 total 0
+> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss0
+> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss1
+> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss2
+> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss> cat cciss2
+> + =A0 =A0 =A0 cciss2: HP Smart Array P800 Controller
+> + =A0 =A0 =A0 Board ID: 0x3223103c
+> + =A0 =A0 =A0 Firmware Version: 7.14
+> + =A0 =A0 =A0 IRQ: 16
+> + =A0 =A0 =A0 Logical drives: 1
+> + =A0 =A0 =A0 Current Q depth: 0
+> + =A0 =A0 =A0 Current # commands on controller: 0
+> + =A0 =A0 =A0 Max Q depth since init: 1
+> + =A0 =A0 =A0 Max # commands on controller since init: 2
+> + =A0 =A0 =A0 Max SG entries since init: 32
+> + =A0 =A0 =A0 Sequential access devices: 0
+> +
+> + =A0 =A0 =A0 cciss/c2d0: =A0 =A0 =A0 36.38GB =A0 =A0 =A0 RAID 0
+> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss>
+> +
+> +.fi
+> +.SS FILES IN /sys
 > +
 > +.HP
-> +/sys/class/scsi_host/host*/rescan
-> +the host "rescan" attribute is a write only attribute. =A0Writing to=
- this
-> +attribute will cause the driver to scan for new, changed, or removed=
- devices
-> +(e.g. hot-plugged tape drives, or newly configured or deleted logica=
-l drives,
-> +etc.) and notify the SCSI midlayer of any changes detected. =A0Norma=
-lly this is
-> +triggered automatically by HP's Array Configuration Utility (either =
-the GUI or
-> +command line variety) so for logical drive changes, the user should =
-not
-> +normally have to use this. =A0It may be useful when hot plugging dev=
-ices like
-> +tape drives, or entire storage boxes containing pre-configured logic=
-al drives.
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/model
+> +
+> +Displays the SCSI INQUIRY page 0 model for logical drive Y of contro=
+ller X.
 > +
 > +.HP
-> +/sys/class/scsi_host/host*/firmware_revision
-> +The "firmware_revision" attribute contains the firmware version of t=
-he Smart Array.
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/rev
+> +
+> +Displays the SCSI INQUIRY page 0 revision for logical drive Y of con=
+troller X.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/unique_id
+> +
+> +Displays the SCSI INQUIRY page 83 serial number for logical drive Y =
+of controller X.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/vendor
+> +
+> +Displays the SCSI INQUIRY page 0 vendor for logical drive Y of contr=
+oller X.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/block:cciss!cXdY
+> +
+> +A symbolic link to /sys/block/cciss!cXdY
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/rescan
+> +
+> +Kicks off a rescan of the controller to discover logical drive topol=
+ogy changes.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/resettable
+> +
+> +A value of 1 indicates the "reset_devices=3D1" kernel parameter (use=
+d by
+> +kdump) is honored by this controller. =A0A value of 0 indicates the
+> +"reset_devices=3D1" kernel parameter will not be honored. =A0Some mo=
+dels
+> +of Smart Array are not able to honor this parameter.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/lunid
+> +
+> +Displays the 8-byte LUN ID used to address logical drive Y of contro=
+ller X.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/raid_level
+> +
+> +Displays the RAID level of logical drive Y of controller X.
+> +
+> +.HP
+> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/usage_count
+> +
+> +Displays the usage count (number of opens) of logical drive Y of con=
+troller X.
+> +
+> +.SH SCSI tape drive and medium changer support
+> +
+> +SCSI sequential access devices and medium changer devices are suppor=
+ted and
+> +appropriate device nodes are automatically created. =A0(e.g.
+> +/dev/st0, /dev/st1, etc. =A0See the "st" man page for more details.)
+> +You must enable "SCSI tape drive support for Smart Array 5xxx" and
+> +"SCSI support" in your kernel configuration to be able to use SCSI
+> +tape drives with your Smart Array 5xxx controller.
+> +
+> +Additionally, note that the driver will not engage the SCSI core at =
+init
+> +time. =A0The driver must be directed to dynamically engage the SCSI =
+core via
+> +the /proc filesystem entry which the "block" side of the driver crea=
+tes as
+> +/proc/driver/cciss/cciss* at runtime. =A0This is because at driver i=
+nit time,
+> +the SCSI core may not yet be initialized (because the driver is a bl=
+ock
+> +driver) and attempting to register it with the SCSI core in such a c=
+ase
+> +would cause a hang. =A0This is best done via an initialization scrip=
+t
+> +(typically in /etc/init.d, but could vary depending on distribution)=
+=2E
 > +For example:
 > +.nf
-> + =A0 =A0 =A0 root@host:/sys/class/scsi_host/host4# cat firmware_revi=
-sion
-> + =A0 =A0 =A0 7.14
+> +
+> + =A0 =A0 =A0 =A0for x in /proc/driver/cciss/cciss[0-9]*
+> + =A0 =A0 =A0 =A0do
+> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo "engage scsi" > $x
+> + =A0 =A0 =A0 =A0done
+> +
 > +.fi
+> +Once the SCSI core is engaged by the driver, it cannot be disengaged
+> +(except by unloading the driver, if it happens to be linked as a mod=
+ule.)
 > +
-> +.SS HPSA SPECIFIC DISK ATTRIBUTE FILES IN /sys
+> +Note also that if no sequential access devices or medium changers ar=
+e
+> +detected, the SCSI core will not be engaged by the action of the abo=
+ve
+> +script.
 > +
-> +.HP
-> +/sys/class/scsi_disk/c:b:t:l/device/unique_id
-> +contains a 32 hex-digit unique ID for each logical drive
-> +.nf
+> +.SS Hot plug support for SCSI tape drives
+> +
+> +Hot plugging of SCSI tape drives is supported, with some caveats.
+> +The cciss driver must be informed that changes to the SCSI bus
+> +have been made. =A0This may be done via the /proc filesystem.
 > +For example:
 > +
-> + =A0 =A0 =A0 =A0root@host:/sys/class/scsi_disk/4:0:0:0/device# cat u=
-nique_id
-> + =A0 =A0 =A0 =A0600508B1001044395355323037570F77
-> +.fi
-> +.HP
-> +/sys/class/scsi_disk/c:b:t:l/device/raid_level
-> +contains the RAID level of each logical drive.
-> +.nf
-> +For example:
-> + =A0 =A0 =A0 =A0root@host:/sys/class/scsi_disk/4:0:0:0/device# cat r=
-aid_level
-> + =A0 =A0 =A0 =A0RAID 0
-> +.fi
-> +.HP
-> +/sys/class/scsi_disk/c:b:t:l/device/lunid
-> +(where c:b:t:l are the controller, bus, target and lun of the device=
+> + =A0 =A0 =A0 =A0echo "rescan" > /proc/scsi/cciss0/1
+> +
+> +This causes the driver to query the adapter about changes to the
+> +physical SCSI buses and/or fibre channel arbitrated loop and the
+> +driver to make note of any new or removed sequential access devices
+> +or medium changers. =A0The driver will output messages indicating wh=
+at
+> +devices have been added or removed and the controller, bus, target a=
+nd
+> +lun used to address the device. =A0It then notifies the SCSI mid lay=
+er
+> +of these changes.
+> +
+> +Note that the naming convention of the /proc filesystem entries
+> +contains a number in addition to the driver name. =A0(E.g. "cciss0"
+> +instead of just "cciss" which you might expect.)
+> +
+> +Note: ONLY sequential access devices and medium changers are present=
+ed
+> +as SCSI devices to the SCSI mid layer by the cciss driver. =A0Specif=
+ically,
+> +physical SCSI disk drives are NOT presented to the SCSI mid layer. =A0=
+The
+> +physical SCSI disk drives are controlled directly by the array contr=
+oller
+> +hardware and it is important to prevent the kernel from attempting t=
+o directly
+> +access these devices too, as if the array controller were merely a S=
+CSI
+> +controller in the same way that we are allowing it to access SCSI ta=
+pe drives.
+> +
+> +.SS SCSI error handling for tape drives and medium changers
+> +
+> +The linux SCSI mid layer provides an error handling protocol which
+> +kicks into gear whenever a SCSI command fails to complete within a
+> +certain amount of time (which can vary depending on the command).
+> +The cciss driver participates in this protocol to some extent. =A0Th=
+e
+> +normal protocol is a four step process. =A0First the device is told
+> +to abort the command. =A0If that doesn't work, the device is reset.
+> +If that doesn't work, the SCSI bus is reset. =A0If that doesn't work
+> +the host bus adapter is reset. =A0Because the cciss driver is a bloc=
+k
+> +driver as well as a SCSI driver and only the tape drives and medium
+> +changers are presented to the SCSI mid layer, and unlike more
+> +straightforward SCSI drivers, disk i/o continues through the block
+> +side during the SCSI error recovery process, the cciss driver only
+> +implements the first two of these actions, aborting the command, and
+> +resetting the device. =A0Additionally, most tape drives will not obl=
+ige
+> +in aborting commands, and sometimes it appears they will not even
+> +obey a reset command, though in most circumstances they will. =A0In
+> +the case that the command cannot be aborted and the device cannot be
+> +reset, the device will be set offline.
+> +
+> +In the event the error handling code is triggered and a tape drive i=
+s
+> +successfully reset or the tardy command is successfully aborted, the
+> +tape drive may still not allow i/o to continue until some command
+> +is issued which positions the tape to a known position. =A0Typically=
+ you
+> +must rewind the tape (by issuing "mt -f /dev/st0 rewind" for example=
 )
-> +contains 16 hex-digit (8 byte) LUN ID by which a logical drive or
-> +physical device can be addressed.
-> +.nf
-> +For example:
-> + =A0 =A0 =A0 =A0root@host:/sys/class/scsi_disk/4:0:0:0/device# cat l=
-unid
-> + =A0 =A0 =A0 =A00x0000004000000000
-> +.fi
-> +.SH SUPPORTED IOCTLS
-> +For compatibility with applications written for the cciss driver, ma=
-ny, but
-> +not all of the ioctls supported by the cciss driver are also support=
-ed by the
-> +hpsa driver. =A0The data structures used by these are described in
-> +include/linux/cciss_ioctl.h
-> +.HP
-> +CCISS_DEREGDISK
-> +CCISS_REGNEWDISK
-> +CCISS_REGNEWD
-> +
-> +The above three ioctls all do exactly the same thing, which is to ca=
-use the driver
-> +to rescan for new devices. =A0This does exactly the same thing as wr=
-iting to the
-> +hpsa specific host "rescan" attribute.
-> +
-> +.HP
-> +CCISS_GETPCIINFO
-> +Returns PCI domain, bus, device and function and "board ID" (PCI sub=
-system ID).
-> +
-> +.HP
-> +CCISS_GETDRIVVER
-> +Returns driver version in three bytes encoded as:
-> +(major_version << 16) | (minor_version << 8) | (subminor_version)
-> +
-> +.HP
-> +CCISS_PASSTHRU
-> +CCISS_BIG_PASSTHRU
-> +Allows "BMIC" and "CISS" commands to be passed through to the Smart =
-Array.
-> +These are used extensively by the HP Array Configuration Utility, SN=
-MP storage
-> +agents, etc. =A0See cciss_vol_status at http://cciss.sf.net for some=
- examples.
-> +
+> +before i/o can proceed again to a tape drive which was reset.
 > +
 > +.SH "SEE ALSO"
-> +cciss(4), hpacucli(8), sd(4), st(4),
-> +hpacuxe(8), cciss_vol_status(8), http://cciss.sf.net,
-> +and from the linux kernel source, Documentation/scsi/hpsa.txt and
+> +hpsa(4), hpacucli(8), hpacuxe(8), cciss_vol_status(8), http://cciss.=
+sf.net,
+> +and from the linux kernel source, Documentation/blockdev/cciss.txt a=
+nd
 > +Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
 > +.SH AUTHORS
-> +Don Brace, Steve Cameron, Tom Lawler, Mike Miller, Scott Teel
+> +Don Brace, Steve Cameron, Chase Maupin, Mike Miller, Michael Ni, Cha=
+rles White, Francis Wiran
 > +and probably some other people.
 > +
 > +
 >
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" =
+in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
 >
 
 
