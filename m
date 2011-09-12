@@ -1,172 +1,164 @@
-From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] close.2: Mention a need of shutdown before closing
- socket
-Date: Mon, 12 Sep 2011 12:25:09 +0200 (CEST)
-Message-ID: <alpine.LFD.2.00.1109121215310.3888@dhcp-27-109.brq.redhat.com>
-References: <1314620800-15587-1-git-send-email-lczerner@redhat.com> <CAKgNAkj_+h9njO6ffVg_1ckpBLdyHM=6iZyyU1jpL5sY6Zrs2Q@mail.gmail.com>
+From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Subject: Re: sendmmsg(2)
+Date: Mon, 12 Sep 2011 20:47:32 +0200
+Message-ID: <4E6E53C4.1010601@atsec.com>
+References: <4E64D0F9.9050509@atsec.com> <CAKgNAkhZ2uVSMZx9ofhs-r+A2Cam06R7Hb8yQo5RS4g5G2bX6A@mail.gmail.com> <4E6A85C3.4080409@atsec.com> <CAKgNAki7oP-FLS7=J-J0Z+bgWyqNd3g=9OsDMG1GfY3AcPq4Ww@mail.gmail.com> <4E6A8B9E.4080707@atsec.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: multipart/mixed;
+ boundary="------------040108000507050708080608"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkj_+h9njO6ffVg_1ckpBLdyHM=6iZyyU1jpL5sY6Zrs2Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4E6A8B9E.4080707-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, 10 Sep 2011, Michael Kerrisk wrote:
+This is a multi-part message in MIME format.
+--------------040108000507050708080608
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-> Hi Lukas,
+On 09.09.2011 23:56:46, +0200, Stephan Mueller
+<stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
+
+Hi,
+
 > 
-> On Mon, Aug 29, 2011 at 2:26 PM, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> > When dealing with sockets, we have to be sure that there is no recv
-> > still blocking on it on another thread, otherwise it might block forever,
-> > since no more messages will be send via the socket. We should advice to
-> > use shutdown before closing socket.
+> Let us take the BSD license.
 > 
-> As far as I know, in the usual case, a simple close() is sufficient.
-> Can you say some more about how you determined the above statement and
-> in what circumstances it applies?
-> 
-> Thanks,
-> 
-> Michael
+> Thank you very much.
 
-Simply calling close() is not sufficient if the recv, or read is
-blocking on another thread. That is because the recv or read will not be
-notified that the descriptor has been closed. This can only be done via
-shutdown.
+Please find the updated man page attached. Unfortunately, I am not sure
+which version you want to have these files, I now appended the unzipped
+file as the tarball you distribute contains the unzipped files as well.
 
-We actually have an customer complaining about this behaviour being
-different than on Solaris where simple close() is sufficient to kill
-recv() or read() on another thread. It is simple the way it is in Linux,
-but it should at least be documented.
+-- 
+Ciao
+Stephan
 
-I am not sure how to describe the problem more, so I have written really
-simple (and stupid) example, where shutdown should be used.
+--------------040108000507050708080608
+Content-Type: text/plain;
+ name="sendmmsg.2"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="sendmmsg.2"
 
-Thanks!
--Lukas
+.\" Copyright (c) 2011, Stephan Mueller <smueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" * Redistributions of source code must retain the above copyright
+.\"   notice, this list of conditions and the following disclaimer.
+.\" * Redistributions in binary form must reproduce the above copyright
+.\"   notice, this list of conditions and the following disclaimer in
+.\"   the documentation and/or other materials provided with the
+.\"   distribution.
+.\" * Neither the name of the atsec information security corp.
+.\"   nor the names of its contributors may be used to endorse or
+.\"   promote products derived from this software without specific prior
+.\"   written permission.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY atsec information security corp.
+.\" ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+.\" LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+.\" FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+.\" IN NO EVENT SHALL THE <copyright-holder>
+.\" BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+.\" OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+.\" OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+.\" OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+.\" LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+.\" NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+.\" SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"
+.\" Parts of this man page are derived from recvmmsg(2).
+.TH SENDMMSG 2 2010-11-23 "Linux" "Linux Programmer's Manual"
+.SH NAME
+sendmmsg \- send multiple messages on a socket
+.SH SYNOPSIS
+.BI "#include <sys/socket.h>"
+.br
+.BI "int sendmmsg(int " fd ", struct mmsghdr *" mmsghdr \
+", unsigned int " vlen ","
+.br
+.BI "             unsigned int " flags ");" 
+.SH DESCRIPTION
+The 
+.B sendmmsg 
+system call transmits multiple messages to another socket.
+It acts similar to 
+.B sendmsg(2),
+but allows to batch multiple receive operations into a single syscall.
+
+.B fd 
+is the file descriptor of the socket data is transmitted through. 
+.B mmsghdr
+is a pointer to an array with length
+.B vlen
+of  
+.I mmsghdr
+structures. 
+.I struct mmsg 
+is defined in
+.I sys/socket.h
+as:
+.in +4n
+.nf
+struct mmsghdr {
+    struct msghdr msg_hdr;  /* Message header */
+    unsigned int  msg_len;
+};
+.fi
+.in
+.PP
+.B msg_hdr 
+is a struct
+.I msghdr
+as described in
+.I sendmsg(2).
+.B msg_len
+is the number of bytes send for the message in the entry.
+This field has the same value as the return value of a single
+.I sendmsg(2)
+on the header.
+
+.B flags
+contains flags ored together. The flags are the same
+as documented for
+.I sendmsg(2).
+.SH RETURN VALUE
+.I sendmmsg
+returns the number of messages sent in
+.I mmsghdr
+or 
+-1
+when an error occurs. The 
+.I msg_len
+members of 
+.I mmsghdr
+are updated for each sent message,
+in addition to other fields in the msg_hdr for each message,
+as described in 
+.I sendmsg(2).
+.SH SEE ALSO
+.B recvmsg(2),
+.B recvmmsg(2),
+.B sendmsg(2),
+.B socket(7),
+.B socket(2),
+.B clock_gettime(2)
+.SH VERSIONS
+The
+.I sendmmsg
+syscall was added with kernel 3.0.
+On earlier glibcs the function can be called
+manually using 
+.I syscall(2).
 
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/un.h>
-#include <unistd.h>
-#include <pthread.h>
-
-#define BUFSIZE 1024
-
-void *close_socket(void *arg) {
-	int sockfd = *(int *)arg;
-
-	sleep(3);
-	printf("Thread: closing socket %d\n", sockfd);
-
-/*
- * Shutdown should be used before close, otherwise the recv() in
- * client() will block forever.
- */
-
-/*	shutdown(sockfd, SHUT_RDWR); */
-	close(sockfd);
-}
-
-int client(void) {
-	int sockfd;
-	int len;
-	struct sockaddr_un address;
-	int ret;
-	char *buffer=malloc(BUFSIZE);
-	pthread_t thread;
-
-	sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
-
-	address.sun_family = AF_UNIX;
-	strcpy(address.sun_path, "server_socket");
-	len = sizeof(address);
-
-	ret = connect(sockfd, (struct sockaddr *)&address, len);
-	if (ret == -1) {
-		perror("connect");
-		return 1;
-	}
-	printf("client connected\n");
-
-	ret = pthread_create(&thread, NULL, close_socket, (void *)&sockfd);
-	if (ret != 0) {
-		perror("Creating thread failed");
-		return 1;
-	}
-
-	while (1) {
-		ret = recv(sockfd,buffer,BUFSIZE,0);
-		if (ret < 0) {
-			perror("recv");
-			return 1;
-		}
-		printf("Data received: %s\n", buffer);
-		sleep(1);
-	}
-
-	close(sockfd);
-	return 0;
-}
-
-int server(void) {
-	char *message="This is the message I am sending to you";
-	struct sockaddr_un server_addr, client_addr;
-	int server_sockfd, client_sockfd;
-	int server_len, client_len;
-	int ret;
-
-	unlink("server_socket");
-	server_sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
-
-	server_addr.sun_family = AF_UNIX;
-	strcpy(server_addr.sun_path, "server_socket");
-	server_len = sizeof(server_addr);
-	bind(server_sockfd, (struct sockaddr *)&server_addr, server_len);
-
-	listen(server_sockfd, 5);
-
-	client_len = sizeof(client_addr);
-	client_sockfd = accept(server_sockfd,
-		(struct sockaddr *)&client_addr, &client_len);
-
-	printf("Server: sending data...\n");
-	ret = send(client_sockfd ,message,strlen(message),0);
-	if (ret < 0) {
-		perror("send");
-		return 1;
-	}
-
-	/* simulate running server by not closing the client_socket socket */
-	return 0;
-}
-
-int main() {
-	pid_t pid;
-	int n;
-	
-	pid = fork();
-	if (pid < 0) {
-		perror("fork failed");
-		exit(1);
-	}
-	if (pid > 0) {
-		printf(" - starting server\n");
-		server();
-		printf(" - exiting server\n");
-		wait();
-	} else {
-		sleep(1);
-		printf(" - starting client\n");
-		client();
-		printf(" - exiting client\n");
-	}
-}
+--------------040108000507050708080608--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
