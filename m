@@ -1,115 +1,172 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RESEND][PATCH] sendfile.2: Fix description of the out_fd
-Date: Sun, 11 Sep 2011 18:00:40 +0200
-Message-ID: <CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ@mail.gmail.com>
-References: <4D771705.1020408@rs.jp.nec.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] close.2: Mention a need of shutdown before closing
+ socket
+Date: Mon, 12 Sep 2011 12:25:09 +0200 (CEST)
+Message-ID: <alpine.LFD.2.00.1109121215310.3888@dhcp-27-109.brq.redhat.com>
+References: <1314620800-15587-1-git-send-email-lczerner@redhat.com> <CAKgNAkj_+h9njO6ffVg_1ckpBLdyHM=6iZyyU1jpL5sY6Zrs2Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4D771705.1020408-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
+In-Reply-To: <CAKgNAkj_+h9njO6ffVg_1ckpBLdyHM=6iZyyU1jpL5sY6Zrs2Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Akira,
+On Sat, 10 Sep 2011, Michael Kerrisk wrote:
 
-2011/3/9 Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>:
-> commit cc56f7de7f00d188c7c4da1e9861581853b9e92f made
-> sendfile(2) can work with any output file.
-> Therefore the out_fd of sendfile(2) can refer to any file,
-> but current manual (man-pages-3.32) has not been changed so far.
+> Hi Lukas,
+> 
+> On Mon, Aug 29, 2011 at 2:26 PM, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> > When dealing with sockets, we have to be sure that there is no recv
+> > still blocking on it on another thread, otherwise it might block forever,
+> > since no more messages will be send via the socket. We should advice to
+> > use shutdown before closing socket.
+> 
+> As far as I know, in the usual case, a simple close() is sufficient.
+> Can you say some more about how you determined the above statement and
+> in what circumstances it applies?
+> 
+> Thanks,
+> 
+> Michael
 
-Thank you for this report! Some notes below.
+Simply calling close() is not sufficient if the recv, or read is
+blocking on another thread. That is because the recv or read will not be
+notified that the descriptor has been closed. This can only be done via
+shutdown.
 
-> Signed-off-by: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
-> ---
-> =A0sendfile.2 | =A0 16 +++++++++-------
-> =A01 file changed, 9 insertions(+), 7 deletions(-)
-> --- man-pages-3.32-a/man2/sendfile.2 =A0 =A02010-12-03 16:01:59.00000=
-0000 +0900
-> +++ man-pages-3.32-b/man2/sendfile.2 =A0 =A02011-03-09 10:34:53.00000=
-0000 +0900
-> @@ -87,15 +87,17 @@ and the file offset will be updated by t
-> =A0.I count
-> =A0is the number of bytes to copy between the file descriptors.
->
-> -Presently (Linux 2.6.9):
-> -.IR in_fd ,
-> +.IR in_fd
-> =A0must correspond to a file which supports
-> =A0.BR mmap (2)-like
-> =A0operations
-> -(i.e., it cannot be a socket);
+We actually have an customer complaining about this behaviour being
+different than on Solaris where simple close() is sufficient to kill
+recv() or read() on another thread. It is simple the way it is in Linux,
+but it should at least be documented.
 
-You removed that piece, but I believe nothing changed for 'in_fd', so
-I kept that piece.
+I am not sure how to describe the problem more, so I have written really
+simple (and stupid) example, where shutdown should be used.
 
-> -and
-> -.I out_fd
-> -must refer to a socket.
-> +(i.e., it cannot be a socket).
-> +
-> +.IR out_fd
-> +was required to be a socket, but since Linux 2.6.33 it can be
-> +any file. If it is a regular file, then
-> +.BR sendfile()
-> +changes its offset appropriately.
->
-> =A0Applications may wish to fall back to
-> =A0.BR read (2)/ write (2)
-> @@ -165,7 +167,7 @@ to minimize the number of packets and to
->
-> =A0In Linux 2.4 and earlier,
-> =A0.I out_fd
-> -could refer to a regular file, and
-> +could also refer to a regular file, and
-> =A0.BR sendfile ()
-> =A0changed the current offset of that file.
-
-=46or 3.33 I applied a slightly modified version of you patch; see belo=
-w.
-
-Cheers,
-
-Michael
-
---- a/man2/sendfile.2
-+++ b/man2/sendfile.2
-@@ -92,10 +92,14 @@ The
- argument must correspond to a file which supports
- .BR mmap (2)-like
- operations
--(i.e., it cannot be a socket);
--and
-+(i.e., it cannot be a socket).
-+In Linux kernels before 2.6.33,
- .I out_fd
- must refer to a socket.
-+Since Linux 2.6.33 it can be any file.
-+If it is a regular file, then
-+.BR sendfile()
-+changes the file offset offset appropriately.
-
- Applications may wish to fall back to
- .BR read (2)/ write (2)
-@@ -165,7 +169,7 @@ to minimize the number of packets and to tune perfo=
-rmance.
-
- In Linux 2.4 and earlier,
- .I out_fd
--could refer to a regular file, and
-+could also refer to a regular file, and
- .BR sendfile ()
- changed the current offset of that file.
+Thanks!
+-Lukas
 
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/un.h>
+#include <unistd.h>
+#include <pthread.h>
+
+#define BUFSIZE 1024
+
+void *close_socket(void *arg) {
+	int sockfd = *(int *)arg;
+
+	sleep(3);
+	printf("Thread: closing socket %d\n", sockfd);
+
+/*
+ * Shutdown should be used before close, otherwise the recv() in
+ * client() will block forever.
+ */
+
+/*	shutdown(sockfd, SHUT_RDWR); */
+	close(sockfd);
+}
+
+int client(void) {
+	int sockfd;
+	int len;
+	struct sockaddr_un address;
+	int ret;
+	char *buffer=malloc(BUFSIZE);
+	pthread_t thread;
+
+	sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
+
+	address.sun_family = AF_UNIX;
+	strcpy(address.sun_path, "server_socket");
+	len = sizeof(address);
+
+	ret = connect(sockfd, (struct sockaddr *)&address, len);
+	if (ret == -1) {
+		perror("connect");
+		return 1;
+	}
+	printf("client connected\n");
+
+	ret = pthread_create(&thread, NULL, close_socket, (void *)&sockfd);
+	if (ret != 0) {
+		perror("Creating thread failed");
+		return 1;
+	}
+
+	while (1) {
+		ret = recv(sockfd,buffer,BUFSIZE,0);
+		if (ret < 0) {
+			perror("recv");
+			return 1;
+		}
+		printf("Data received: %s\n", buffer);
+		sleep(1);
+	}
+
+	close(sockfd);
+	return 0;
+}
+
+int server(void) {
+	char *message="This is the message I am sending to you";
+	struct sockaddr_un server_addr, client_addr;
+	int server_sockfd, client_sockfd;
+	int server_len, client_len;
+	int ret;
+
+	unlink("server_socket");
+	server_sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
+
+	server_addr.sun_family = AF_UNIX;
+	strcpy(server_addr.sun_path, "server_socket");
+	server_len = sizeof(server_addr);
+	bind(server_sockfd, (struct sockaddr *)&server_addr, server_len);
+
+	listen(server_sockfd, 5);
+
+	client_len = sizeof(client_addr);
+	client_sockfd = accept(server_sockfd,
+		(struct sockaddr *)&client_addr, &client_len);
+
+	printf("Server: sending data...\n");
+	ret = send(client_sockfd ,message,strlen(message),0);
+	if (ret < 0) {
+		perror("send");
+		return 1;
+	}
+
+	/* simulate running server by not closing the client_socket socket */
+	return 0;
+}
+
+int main() {
+	pid_t pid;
+	int n;
+	
+	pid = fork();
+	if (pid < 0) {
+		perror("fork failed");
+		exit(1);
+	}
+	if (pid > 0) {
+		printf(" - starting server\n");
+		server();
+		printf(" - exiting server\n");
+		wait();
+	} else {
+		sleep(1);
+		printf(" - starting client\n");
+		client();
+		printf(" - exiting client\n");
+	}
+}
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
