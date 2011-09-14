@@ -1,26 +1,28 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: get_mempolicy.2 tfix + ipv6.7 wfix
-Date: Wed, 14 Sep 2011 08:03:39 +0200
-Message-ID: <CAKgNAkjXmX1fw-xb7pFN=sa4Ads9x=qOqjS1fiJz+Htjh_C7fQ@mail.gmail.com>
-References: <20110605000453.GE28455@glenfiddich.mraw.org>
+Subject: Re: ffix: properly escape minus sign
+Date: Wed, 14 Sep 2011 08:05:01 +0200
+Message-ID: <CAKgNAkhHLecNvDPae4MXWWNcMNyyWDWroAtNDoDDn56q-+3Rrw@mail.gmail.com>
+References: <20110605003119.GF28455@glenfiddich.mraw.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110605000453.GE28455-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <20110605003119.GF28455-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Jun 5, 2011 at 2:04 AM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+On Sun, Jun 5, 2011 at 2:31 AM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
 > Hi,
 >
-> Here are two patches against current git (3.32).
+> Here is a another patch on many manpages, in order to properly escape minus
+> sign (or it's hyphen).
 >
-> Thanks for your work and best regards.
+> http://lintian.debian.org/full/joey-8fiUuRrzOP0h++r+LBE8gg@public.gmane.org#manpages
+> http://lintian.debian.org/tags/hyphen-used-as-minus-sign.html
 
-Thanks Simon. First fix already applied, and second fix applied now for 3.33.
+Thanks Simon. Applied for 3.33.
 
 Cheers,
 
