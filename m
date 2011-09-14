@@ -1,60 +1,77 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: clarification on siginterrupt(3)
-Date: Wed, 14 Sep 2011 08:08:20 +0200
-Message-ID: <CAKgNAkg1-vA-XZqB3jO9o_TVVa_p0vhcHod=1XyXVWkuKPZ=Zg@mail.gmail.com>
-References: <BANLkTikpHjPgG8yyc0gGYTuQ2AgNxU7WqQ@mail.gmail.com>
+Subject: Re: [PATCH] console_codes(4): Add ESC [ 3 J
+Date: Wed, 14 Sep 2011 08:51:51 +0200
+Message-ID: <CAKgNAkjiMtfAyTD5=5gz_Q1rpG7hikg_1o_L+FQo7GsfiSyhKw@mail.gmail.com>
+References: <1303479685-12475-1-git-send-email-ppisar@redhat.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <BANLkTikpHjPgG8yyc0gGYTuQ2AgNxU7WqQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1303479685-12475-1-git-send-email-ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Luis Javier Merino <ninjalj-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-2?Q?Petr_P=EDsa=F8?= <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Luis,
+Petr,
 
-On Sun, May 8, 2011 at 10:10 PM, Luis Javier Merino <ninjalj-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>=
- wrote:
-> Hi,
->
-> I'm not sure on the meaning of the following excerpt from
-> siginterrupt(3), in particular the last sentence:
->
-> "If the flag argument is false (0), then system
-> =A0calls will be restarted if interrupted by the specified signal sig=
-=2E =A0This is
-> =A0the default behavior in Linux. =A0However, when a new signal handl=
-er is
-> =A0specified with the signal(2) function, the system call is interrup=
-ted by
-> =A0default."
->
-> I interpret the second sentence ("This is the default behavior in
-> Linux") as meaning that signal(2) by default is equivalent to
-> sigaction(2) with SA_RESTART set. The last sentence seems to mean the
-> opposite, which is untrue in the default case. So, what was the inten=
-t
-> of that sentence?
->
-> I came across this on a question at StackOverflow:
-> http://stackoverflow.com/questions/5929309/recvfrom-timeout-with-alar=
-m/5929386#5929386
-> the "wrongness" of the manpage was first noticed by Zachary Weinberg.
+2011/4/22 Petr P=C3=ADsa=C5=99 <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>:
+> Linux is going
+> (http://git.kernel.org/?p=3Dlinux/kernel/git/next/linux-next.git;a=3D=
+commit;h=3Df8df13e0a901fe55631fed66562369b4dba40f8b)
+> to implement \E[3J to allow scrambling content of console including
+> scroll-back buffer (http://thread.gmane.org/gmane.linux.kernel/112579=
+2).
 
-I would guess that the sentence cam about because of someone's
-confusion with the signal(2) system call versus the glibc wrapper (or
-the siginterrupt(3) page was written long ago in libc[45] days; see
-the signal(2) man page).
-
-The simple solution is to remove the last sentence for man-pages-3.33,
-and that's what I have done for man-pages-3.33.
+In which kernel version was this patch applied?
 
 Cheers,
 
 Michael
+
+
+> This is useful at terminal lock to disallow attacker to scroll visibl=
+e
+> window back and to see sensitive data. Other \E[J sequences do not
+> blank history. Terminal reset (\Ec) or DECSRC are not suitable for
+> extension too beacuse they reset font, keyboard locks, unicode mode
+> etc. that are needed after unlocking session.
+>
+> \E[3J is superset of \E[2J. IOW it clears visible screen too.
+>
+> Signed-off-by: Petr P=C3=ADsa=C5=99 <ppisar-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+> =C2=A0man4/console_codes.4 | =C2=A0 =C2=A02 ++
+> =C2=A01 files changed, 2 insertions(+), 0 deletions(-)
+>
+> diff --git a/man4/console_codes.4 b/man4/console_codes.4
+> index 2a806b7..62f2247 100644
+> --- a/man4/console_codes.4
+> +++ b/man4/console_codes.4
+> @@ -188,6 +188,8 @@ H =C2=A0 CUP =C2=A0 =C2=A0 Move cursor to the ind=
+icated row, column (origin at 1,1).
+> =C2=A0J =C2=A0 =C2=A0 =C2=A0ED =C2=A0 =C2=A0 =C2=A0Erase display (def=
+ault: from cursor to end of display).
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ESC [ 1 J: era=
+se from start to cursor.
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ESC [ 2 J: era=
+se whole display.
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ESC [ 3 J: erase w=
+hole display including scroll-back
+> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buffer.
+> =C2=A0K =C2=A0 =C2=A0 =C2=A0EL =C2=A0 =C2=A0 =C2=A0Erase line (defaul=
+t: from cursor to end of line).
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ESC [ 1 K: era=
+se from start of line to cursor.
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ESC [ 2 K: era=
+se whole line.
+> --
+> 1.7.4.4
+>
+>
+
+
 
 --=20
 Michael Kerrisk
