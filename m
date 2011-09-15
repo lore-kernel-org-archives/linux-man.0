@@ -1,96 +1,42 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: error in NOTES section in time(2)
-Date: Thu, 15 Sep 2011 20:39:37 +0200
-Message-ID: <CAKgNAkj8EFER_07OJUa2-DjN-5j0wgSN7s8xsEQogBfZePHhMQ@mail.gmail.com>
-References: <20110510181713.165010@gmx.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
+Subject: Re: Wrong formulae for complex elementary functions
+Date: Thu, 15 Sep 2011 23:42:42 +0200
+Message-ID: <4E727152.2060503@ginac.de>
+References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com> <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com> <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110510181713.165010-hi6Y0CQ0nG0@public.gmane.org>
+In-Reply-To: <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexander Schuch <Alex.Schuch-Mmb7MZpHnFY@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Alexander,
+Hi!
 
-On Tue, May 10, 2011 at 8:17 PM, Alexander Schuch <Alex.Schuch-Mmb7MZpHnFY@public.gmane.org> wrote:
-> Hello,
->
-> The NOTES section of time(2) <http://www.kernel.org/doc/man->
-> pages/online/pages/man2/time.2.html> says the following:
->
-> "POSIX.1 defines seconds since the Epoch as a value to be
-> interpreted as the number of seconds between a specified time
-> and the Epoch, according to a formula for conversion from UTC
-> equivalent to conversion on the naive basis that leap seconds
-> are ignored and all years divisible by 4 are leap years."
->
-> I have neither read nor checked the POSIX specification,
-> but there is an oddity in the statement, because "Years that
-> are evenly divisible by 100 are not leap years, unless they are
-> also evenly divisible by 400, in which case they are leap years." -
-> http://en.wikipedia.org/wiki/Leap_year and cited sources.
->
-> So if POSIX really says that an average year has 365.25
-> days, a note should be added to the manual saying that
-> POSIX differs from the Gregorian calendar. If, however,
-> an average year has 365.2425 days according to POSIX,
-> the line in time(2) should be updated to reflect that.
+On 09/15/2011 08:38 PM, Michael Kerrisk wrote:
+> For man-pages-3.33, I have applied the changes below. They should be
+> consistent with what you proposed (and Andries confirmed). Could you
+> please carefully check...
 
-Thanks for your report. Your estimation that the man page is odd is of
-course correct. For man-pages-3.33, I applied the patch below.
+Yes, the patch looks correct. Thanks a lot for applying it.
 
-Cheers,
+(I would have loved to try it but couldn't find the git repository for 
+man-pages.)
 
-Michael
+> I think it's not so necessary to add a warning to the page source.
+> Nowadays we have version control and logs, so the reasoning should be
+> easy to find.
 
+Certainly. Out of curiousity: Does the version control of man-pages date 
+back enough to tell when and why the formulas got written the wrong way?
 
---- a/man2/time.2
-+++ b/man2/time.2
-@@ -26,7 +26,7 @@
- .\" Modified Sat Jul 24 14:13:40 1993 by Rik Faith <faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org>
- .\" Additions by Joseph S. Myers <jsm28-KWPb1pKIrIJaa/9Udqfwiw@public.gmane.org>, 970909
- .\"
--.TH TIME 2 2010-02-25 "Linux" "Linux Programmer's Manual"
-+.TH TIME 2 2011-09-09 "Linux" "Linux Programmer's Manual"
- .SH NAME
- time \- get time in seconds
- .SH SYNOPSIS
-@@ -61,16 +61,18 @@ POSIX does not specify any error conditions.
- .SH NOTES
- POSIX.1 defines
- .I seconds since the Epoch
--as a value to be interpreted as the number of seconds between a
--specified time and the Epoch, according to a formula for conversion
--from UTC equivalent to conversion on the naive basis that leap
--seconds are ignored and all years divisible by 4 are leap years.
-+using a formula that approximates the number of seconds between a
-+specified time and the Epoch.
-+This formula takes account of the facts that
-+all years that are evenly divisible by 4 are leap years,
-+but years that are evenly divisible by 100 are not leap years
-+unless they are also evenly divisible by 400,
-+in which case they are leap years.
- This value is not the same as the actual number of seconds between the time
--and the Epoch, because of leap seconds and because clocks are not
-+and the Epoch, because of leap seconds and because system clocks are not
- required to be synchronized to a standard reference.
--The intention is
--that the interpretation of seconds since the Epoch values be
--consistent; see POSIX.1 Annex B 2.2.2 for further rationale.
-+The intention is that the interpretation of seconds since the Epoch values be
-+consistent; see POSIX.1-2008 Rationale A.4.15 for further rationale.
- .SH "SEE ALSO"
- .BR date (1),
- .BR gettimeofday (2),
-
-
+Bye,
+   -richy.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Richard B. Kreckel
+<http://www.ginac.de/~kreckel/>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
