@@ -1,33 +1,71 @@
-From: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
-Subject: Re: Wrong formulae for complex elementary functions
-Date: Thu, 15 Sep 2011 10:34:29 +0200
-Message-ID: <4E71B895.4030000@ginac.de>
-References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com> <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] getttyent.3: Add description of the functions are not thread-safe
+Date: Thu, 15 Sep 2011 17:36:31 +0800
+Message-ID: <4E71C71F.1000400@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
 
-On 09/15/2011 06:31 AM, Michael Kerrisk wrote:
-> The above is what you meant, right?
+The function getttyent() returns a pointer to the static variable, so it is not
+thread-safe. The functions setttyent() and endttyent() use a static variable "tf", 
+so they are not thread-safe. The function getttynam() calls unsafe function 
+getttyent(), so it is not thread-safe.
 
-Yes, that is exactly what I meant.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/getttyent.3 |   19 ++++++++++++++++++-
+ 1 files changed, 18 insertions(+), 1 deletions(-)
 
-It should work just like that for the other functions, too.
-
-Let me know if there is anything else I can do.
-
-   -richy.
+diff --git a/man3/getttyent.3 b/man3/getttyent.3
+index 1cf8ebc..a4e9b17 100644
+--- a/man3/getttyent.3
++++ b/man3/getttyent.3
+@@ -1,7 +1,7 @@
+ .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+ .\"  Distributed under GPL
+ .\"
+-.TH GETTTYENT 3 2002-07-18  "GNU" "Linux Programmer's Manual"
++.TH GETTTYENT 3 2011-09-15  "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ getttyent, getttynam, setttyent, endttyent \- get ttys file entry
+ .SH SYNOPSIS
+@@ -66,6 +66,23 @@ can be:
+ #define TTY_ON     0x01  /* enable logins (start ty_getty program) */
+ #define TTY_SECURE 0x02  /* allow UID 0 to login */
+ .fi
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR getttyent ()
++returns a pointer to the static variable, so it is not thread-safe.
++.LP
++The
++.BR setttyent ()
++and
++.BR endttyent ()
++use a static variable, so they are not thread-safe.
++.LP
++The
++.BR getttynam ()
++calls thread-unsafe function
++.BR getttyent ()
++so it is not thread-safe.
+ .SH "CONFORMING TO"
+ Not in POSIX.1-2001.
+ Present on the BSDs, and perhaps other systems.
 -- 
-Richard B. Kreckel
-<http://www.ginac.de/~kreckel/>
+1.7.1
+
+-- 
+Best Regards,
+Peng Haitao
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
