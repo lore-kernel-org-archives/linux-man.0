@@ -1,80 +1,65 @@
-From: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] flock.2: describe flock on NFS filesystems
-Date: Thu, 15 Sep 2011 10:09:35 +0200
-Message-ID: <20110915080934.GA9293@foxbat.suse.cz>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] getpwnam.3: Add description of the functions are not thread-safe
+Date: Thu, 15 Sep 2011 16:34:29 +0800
+Message-ID: <4E71B895.704@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="HcAYCG3uE/tztfnV"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---HcAYCG3uE/tztfnV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The functions getpwnam() and getpwuid() return a pointer to a static area which
+is overwritten by a subsequent call to them. So they are thread-unsafe.
 
-NFSv4 need file to be opened in RW-mode to place exclusive lock:
-http://www.spinics.net/lists/linux-nfs/msg18502.html
-
-flock works on NFS since 2.6.12:
-http://nfs.sourceforge.net/#section_d ,section D10
-
-Signed-off-by: Petr Uzel <petr.uzel-AlSwsSmVLrQ@public.gmane.org>
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/flock.2 |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
+ man3/getpwnam.3 |   15 ++++++++++++++-
+ 1 files changed, 14 insertions(+), 1 deletions(-)
 
-diff --git a/man2/flock.2 b/man2/flock.2
-index f0d85af..c904f6b 100644
---- a/man2/flock.2
-+++ b/man2/flock.2
-@@ -107,7 +107,8 @@ are preserved across an
- .BR execve (2).
-=20
- A shared or exclusive lock can be placed on a file regardless of the
--mode in which the file was opened.
-+mode in which the file was opened. The exception is NFSv4, where
-+the file has to be opened for writing to place exclusive lock.
- .SH "RETURN VALUE"
- On success, zero is returned.
- On error, \-1 is returned, and
-@@ -146,7 +147,8 @@ possibly implemented in terms of
- appears on most UNIX systems.
- .SH NOTES
- .BR flock ()
--does not lock files over NFS.
-+does not lock files over NFS before kernel 2.6.12. Since
-+2.6.12, kernel emulates flock () using fcntl(2).
- Use
- .BR fcntl (2)
- instead: that does work over NFS, given a sufficiently recent version of
---=20
-1.7.3.4
+diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
+index 649da01..679477d 100644
+--- a/man3/getpwnam.3
++++ b/man3/getpwnam.3
+@@ -32,7 +32,7 @@
+ .\" Modified 2003-11-15 by aeb
+ .\" 2008-11-07, mtk, Added an example program for getpwnam_r().
+ .\"
+-.TH GETPWNAM 3  2010-10-21 "GNU" "Linux Programmer's Manual"
++.TH GETPWNAM 3  2011-09-15 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ getpwnam, getpwnam_r, getpwuid, getpwuid_r \- get password file entry
+ .SH SYNOPSIS
+@@ -206,6 +206,19 @@ Insufficient buffer space supplied.
+ .TP
+ .I /etc/passwd
+ local password database file
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The two functions
++.BR getpwnam ()
++and
++.BR getpwuid ()
++are not thread_safe.
++.LP
++The two functions
++.BR getpwnam_r ()
++and
++.BR getpwuid_r ()
++are thread-safe.
+ .SH "CONFORMING TO"
+ SVr4, 4.3BSD, POSIX.1-2001.
+ The
+-- 
+1.7.1
 
+-- 
+Best Regards,
+Peng Haitao
 
-Petr
-
---
-Petr Uzel
-IRC: ptr_uzl @ freenode
-
---HcAYCG3uE/tztfnV
-Content-Type: application/pgp-signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.16 (GNU/Linux)
-
-iEYEARECAAYFAk5xsr4ACgkQnZxG0T6qDD1GVQCfTRL9Qna+xs+07eJLNRxkNbJU
-FS4AnR+5hvgszY0FBC6G93O3Ot8QvwMr
-=VEIn
------END PGP SIGNATURE-----
-
---HcAYCG3uE/tztfnV--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
