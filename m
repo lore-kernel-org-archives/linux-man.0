@@ -1,106 +1,90 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] hsearch.3: update ERRORS section
-Date: Thu, 15 Sep 2011 20:39:21 +0200
-Message-ID: <CAKgNAkg0fDJdTiuOB-0Sx+924Bm5OapBQuORN3mfdvL4BY9uww@mail.gmail.com>
-References: <4E5E4928.7030301@gmail.com>
+Subject: Re: error in NOTES section in time(2)
+Date: Thu, 15 Sep 2011 20:39:37 +0200
+Message-ID: <CAKgNAkj8EFER_07OJUa2-DjN-5j0wgSN7s8xsEQogBfZePHhMQ@mail.gmail.com>
+References: <20110510181713.165010@gmx.net>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E5E4928.7030301-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20110510181713.165010-hi6Y0CQ0nG0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Alexander Schuch <Alex.Schuch-Mmb7MZpHnFY@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Seonghun,
+Hello Alexander,
 
-2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> man-pages version: latest git repository
-> why:
-> Remove ENOMEM and ESRCH from the list for hcreate() and hcreate_h().
-> The (e)glibc implementation of the two functions (of course!) doesn't
-> set such errors. The two error codes are garbage from commit fe80e23e.
+On Tue, May 10, 2011 at 8:17 PM, Alexander Schuch <Alex.Schuch-Mmb7MZpHnFY@public.gmane.org> wrote:
+> Hello,
 >
-> Then, hdestroy_r() was added to the list.
+> The NOTES section of time(2) <http://www.kernel.org/doc/man->
+> pages/online/pages/man2/time.2.html> says the following:
 >
+> "POSIX.1 defines seconds since the Epoch as a value to be
+> interpreted as the number of seconds between a specified time
+> and the Epoch, according to a formula for conversion from UTC
+> equivalent to conversion on the naive basis that leap seconds
+> are ignored and all years divisible by 4 are leap years."
 >
-> diff --git a/man3/hsearch.3 b/man3/hsearch.3
-> --- a/man3/hsearch.3
-> +++ b/man3/hsearch.3
-> @@ -191,22 +191,16 @@ returns nonzero on success, and 0 on error.
-> .SH ERRORS
-> .LP
-> .BR hcreate ()
-> -and
-> +,
-> .BR hcreate_r ()
-> +and
-> +.BR hdestroy_r ()
-> can fail for the following reasons:
-> .TP
-> .B EINVAL
-> .RB ( hcreate_r ())
-> .I htab
-> is NULL.
-> -.TP
-> -.B ENOMEM
-> -Table full with \fIaction\fP set to \fBENTER\fP.
-> -.TP
-> -.B ESRCH
-> -The \fIaction\fP argument is \fBFIND\fP and no corresponding element
-> -is found in the table.
-> -.\" hdestroy_r() can set errno to EINVAL if 'tab' is NULL.
-> .PP
-> .BR hsearch ()
-> and
+> I have neither read nor checked the POSIX specification,
+> but there is an oddity in the statement, because "Years that
+> are evenly divisible by 100 are not leap years, unless they are
+> also evenly divisible by 400, in which case they are leap years." -
+> http://en.wikipedia.org/wiki/Leap_year and cited sources.
+>
+> So if POSIX really says that an average year has 365.25
+> days, a note should be added to the manual saying that
+> POSIX differs from the Gregorian calendar. If, however,
+> an average year has 365.2425 days according to POSIX,
+> the line in time(2) should be updated to reflect that.
 
-Thanks. I tweaked your patch a little and applied the version below for 3.33.
+Thanks for your report. Your estimation that the man page is odd is of
+course correct. For man-pages-3.33, I applied the patch below.
 
 Cheers,
 
 Michael
 
 
---- a/man3/hsearch.3
-+++ b/man3/hsearch.3
-@@ -32,7 +32,7 @@
- .\" 2008-09-03, mtk, restructured somewhat, in part after suggestions from
- .\"     Timothy S. Nelson <wayland-r28gBBs99rhWo+R/V/U2/g@public.gmane.org>
+--- a/man2/time.2
++++ b/man2/time.2
+@@ -26,7 +26,7 @@
+ .\" Modified Sat Jul 24 14:13:40 1993 by Rik Faith <faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org>
+ .\" Additions by Joseph S. Myers <jsm28-KWPb1pKIrIJaa/9Udqfwiw@public.gmane.org>, 970909
  .\"
--.TH HSEARCH 3 2008-10-06 "GNU" "Linux Programmer's Manual"
-+.TH HSEARCH 3 2011-09-10 "GNU" "Linux Programmer's Manual"
+-.TH TIME 2 2010-02-25 "Linux" "Linux Programmer's Manual"
++.TH TIME 2 2011-09-09 "Linux" "Linux Programmer's Manual"
  .SH NAME
- hcreate, hdestroy, hsearch, hcreate_r, hdestroy_r,
- hsearch_r \- hash table management
-@@ -190,23 +190,14 @@ cannot be found in the hash table.
- returns nonzero on success, and 0 on error.
- .SH ERRORS
- .LP
--.BR hcreate ()
--and
- .BR hcreate_r ()
-+and
-+.BR hdestroy_r ()
- can fail for the following reasons:
- .TP
- .B EINVAL
--.RB ( hcreate_r ())
- .I htab
- is NULL.
--.TP
--.B ENOMEM
--Table full with \fIaction\fP set to \fBENTER\fP.
--.TP
--.B ESRCH
--The \fIaction\fP argument is \fBFIND\fP and no corresponding element
--is found in the table.
--.\" hdestroy_r() can set errno to EINVAL if 'tab' is NULL.
- .PP
- .BR hsearch ()
- and
-
-
+ time \- get time in seconds
+ .SH SYNOPSIS
+@@ -61,16 +61,18 @@ POSIX does not specify any error conditions.
+ .SH NOTES
+ POSIX.1 defines
+ .I seconds since the Epoch
+-as a value to be interpreted as the number of seconds between a
+-specified time and the Epoch, according to a formula for conversion
+-from UTC equivalent to conversion on the naive basis that leap
+-seconds are ignored and all years divisible by 4 are leap years.
++using a formula that approximates the number of seconds between a
++specified time and the Epoch.
++This formula takes account of the facts that
++all years that are evenly divisible by 4 are leap years,
++but years that are evenly divisible by 100 are not leap years
++unless they are also evenly divisible by 400,
++in which case they are leap years.
+ This value is not the same as the actual number of seconds between the time
+-and the Epoch, because of leap seconds and because clocks are not
++and the Epoch, because of leap seconds and because system clocks are not
+ required to be synchronized to a standard reference.
+-The intention is
+-that the interpretation of seconds since the Epoch values be
+-consistent; see POSIX.1 Annex B 2.2.2 for further rationale.
++The intention is that the interpretation of seconds since the Epoch values be
++consistent; see POSIX.1-2008 Rationale A.4.15 for further rationale.
+ .SH "SEE ALSO"
+ .BR date (1),
+ .BR gettimeofday (2),
 
 
 -- 
