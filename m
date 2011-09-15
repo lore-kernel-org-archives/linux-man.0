@@ -1,42 +1,114 @@
-From: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
-Subject: Re: Wrong formulae for complex elementary functions
-Date: Thu, 15 Sep 2011 23:42:42 +0200
-Message-ID: <4E727152.2060503@ginac.de>
-References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com> <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com> <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA@mail.gmail.com>
+From: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
+Subject: Re: [RESEND][PATCH] sendfile.2: Fix description of the out_fd
+Date: Fri, 16 Sep 2011 08:21:48 +0900
+Message-ID: <4E72888C.7010403@rs.jp.nec.com>
+References: <4D771705.1020408@rs.jp.nec.com> <CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=ISO-2022-JP
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+Hello Michael,
 
-On 09/15/2011 08:38 PM, Michael Kerrisk wrote:
-> For man-pages-3.33, I have applied the changes below. They should be
-> consistent with what you proposed (and Andries confirmed). Could you
-> please carefully check...
+Thank you for your work!
 
-Yes, the patch looks correct. Thanks a lot for applying it.
+Regards,
+Akira Fujita
 
-(I would have loved to try it but couldn't find the git repository for 
-man-pages.)
-
-> I think it's not so necessary to add a warning to the page source.
-> Nowadays we have version control and logs, so the reasoning should be
-> easy to find.
-
-Certainly. Out of curiousity: Does the version control of man-pages date 
-back enough to tell when and why the formulas got written the wrong way?
-
-Bye,
-   -richy.
--- 
-Richard B. Kreckel
-<http://www.ginac.de/~kreckel/>
+(2011/09/12 1:00), Michael Kerrisk wrote:
+> Hello Akira,
+> 
+> 2011/3/9 Akira Fujita<a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>:
+>> commit cc56f7de7f00d188c7c4da1e9861581853b9e92f made
+>> sendfile(2) can work with any output file.
+>> Therefore the out_fd of sendfile(2) can refer to any file,
+>> but current manual (man-pages-3.32) has not been changed so far.
+> 
+> Thank you for this report! Some notes below.
+> 
+>> Signed-off-by: Akira Fujita<a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>
+>> ---
+>>   sendfile.2 |   16 +++++++++-------
+>>   1 file changed, 9 insertions(+), 7 deletions(-)
+>> --- man-pages-3.32-a/man2/sendfile.2    2010-12-03 16:01:59.000000000 +0900
+>> +++ man-pages-3.32-b/man2/sendfile.2    2011-03-09 10:34:53.000000000 +0900
+>> @@ -87,15 +87,17 @@ and the file offset will be updated by t
+>>   .I count
+>>   is the number of bytes to copy between the file descriptors.
+>>
+>> -Presently (Linux 2.6.9):
+>> -.IR in_fd ,
+>> +.IR in_fd
+>>   must correspond to a file which supports
+>>   .BR mmap (2)-like
+>>   operations
+>> -(i.e., it cannot be a socket);
+> 
+> You removed that piece, but I believe nothing changed for 'in_fd', so
+> I kept that piece.
+> 
+>> -and
+>> -.I out_fd
+>> -must refer to a socket.
+>> +(i.e., it cannot be a socket).
+>> +
+>> +.IR out_fd
+>> +was required to be a socket, but since Linux 2.6.33 it can be
+>> +any file. If it is a regular file, then
+>> +.BR sendfile()
+>> +changes its offset appropriately.
+>>
+>>   Applications may wish to fall back to
+>>   .BR read (2)/ write (2)
+>> @@ -165,7 +167,7 @@ to minimize the number of packets and to
+>>
+>>   In Linux 2.4 and earlier,
+>>   .I out_fd
+>> -could refer to a regular file, and
+>> +could also refer to a regular file, and
+>>   .BR sendfile ()
+>>   changed the current offset of that file.
+> 
+> For 3.33 I applied a slightly modified version of you patch; see below.
+> 
+> Cheers,
+> 
+> Michael
+> 
+> --- a/man2/sendfile.2
+> +++ b/man2/sendfile.2
+> @@ -92,10 +92,14 @@ The
+>   argument must correspond to a file which supports
+>   .BR mmap (2)-like
+>   operations
+> -(i.e., it cannot be a socket);
+> -and
+> +(i.e., it cannot be a socket).
+> +In Linux kernels before 2.6.33,
+>   .I out_fd
+>   must refer to a socket.
+> +Since Linux 2.6.33 it can be any file.
+> +If it is a regular file, then
+> +.BR sendfile()
+> +changes the file offset offset appropriately.
+> 
+>   Applications may wish to fall back to
+>   .BR read (2)/ write (2)
+> @@ -165,7 +169,7 @@ to minimize the number of packets and to tune performance.
+> 
+>   In Linux 2.4 and earlier,
+>   .I out_fd
+> -could refer to a regular file, and
+> +could also refer to a regular file, and
+>   .BR sendfile ()
+>   changed the current offset of that file.
+> 
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
