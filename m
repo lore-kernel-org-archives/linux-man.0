@@ -1,113 +1,282 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Wrong formulae for complex elementary functions
-Date: Thu, 15 Sep 2011 20:36:27 +0200
-Message-ID: <CAKgNAkjaJUiu_fAUk5NL32Y4PqfqQvkWQdR=c_phw2MEob=cOg@mail.gmail.com>
+Date: Thu, 15 Sep 2011 20:38:22 +0200
+Message-ID: <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA@mail.gmail.com>
 References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com>
- <4E3C61FE.1010107@ginac.de> <20110915162410.GA17672@iq>
+ <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110915162410.GA17672@iq>
+In-Reply-To: <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Cc: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
+To: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
+Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Andries!
+Hello Richard,
 
-Nice to hear from you again!
-
-On Thu, Sep 15, 2011 at 6:24 PM, Andries E. Brouwer
-<Andries.Brouwer-rh8NL+sEX9E@public.gmane.org> wrote:
-> On Fri, Aug 05, 2011 at 11:34:54PM +0200, Richard B. Kreckel wrote:
+On Thu, Sep 15, 2011 at 6:31 AM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8@public.gmane.org=
+m> wrote:
+> Hello Richard,
+>
+> On Fri, Aug 5, 2011 at 11:34 PM, Richard B. Kreckel <kreckel-HEL5OUoDxoc@public.gmane.org=
+> wrote:
 >> Hi everybody,
 >>
 >> On 11/27/2010 08:37 AM, Michael Kerrisk wrote:
->> >Hi Andries,
->> >
->> >Since you are the mathematician, can you comment?
+>>>
+>>> Hi Andries,
+>>>
+>>> Since you are the mathematician, can you comment?
+>>>
+>>> Thanks,
+>>>
+>>> Michael
+>>>
+>>> On Fri, Nov 26, 2010 at 9:57 AM, Richard B. Kreckel<kreckel@ginac.d=
+e>
+>>> =A0wrote:
+>>>>
+>>>> Hi!
+>>>>
+>>>> The man pages for cacos, cacosf, cacosl, catan, catanf, catanl, ca=
+cosh,
+>>>> cacoshf, cacoshl, catanh, catanhf, and catanhl contain wrong maths=
+=2E
+>>>>
+>>>> cacos, cacosf, cacosl:
+>>>> =A0The formula given in the man page
+>>>> =A0 =A0cacos(z) =3D -i clog(z + csqrt(z * z - 1))
+>>>> =A0gives wrong results in second and fourth quadrant of complex pl=
+ain.
+>>>> =A0The formula
+>>>> =A0 =A0cacos(z) =3D -i clog(z + I*csqrt(1 - z * z))
+>>>> =A0gives correct results.
+>>>>
+>>>> catan, catanf, catanl:
+>>>> =A0The formula given in the man page
+>>>> =A0 =A0catan(z) =3D 1 / 2i clog((1 + iz) / (1 - iz))
+>>>> =A0gives wrong results on the negative imaginary axis beginning at=
+ -I
+>>>> =A0(along one of the two branch cuts). Besides, the formula is wri=
+tten
+>>>> =A0in an ambiguous way.
+>>>> =A0The formula
+>>>> =A0 =A0catan(z) =3D (clog(1 + iz) - clog(1 - iz)) / 2i
+>>>> =A0gives correct results.
+>>>>
+>>>> cacosh, cacoshf, cacoshl:
+>>>> =A0The formula given in the man page
+>>>> =A0 =A0cacosh(z) =3D (0.5) * clog((1 + z) / (1 - z))
+>>>> =A0gives wrong results everywhere in the complex plain. (The formu=
+la
+>>>> =A0seems to be copied from the one for catanh, where it is sometim=
+es
+>>>> =A0correct.)
+>>>> =A0The formula
+>>>> =A0 =A0cacosh(z) =3D 2 * clog(csqrt((z + 1)/2) + csqrt((z - 1)/2))
+>>>> =A0gives correct results.
+>>>>
+>>>> catanh, catanhf, catanhl:
+>>>> =A0The formula given in the man page
+>>>> =A0 =A0catanh(z) =3D 0.5 * clog((1 + z) / (1 - z))
+>>>> =A0gives wrong results on the positive real axis beginning at 1 (a=
+long
+>>>> =A0one of the two branch cuts).
+>>>> =A0The formula
+>>>> =A0 =A0catanh(z) =3D 0.5 * (clog(1 + z) - clog(1 - z))
+>>>> =A0gives correct results.
+>>>>
+>>>> I've also checked casin, casinf, casinl, casinh, casinhf, and casi=
+nhl and
+>>>> the formulae given there
+>>>> =A0 =A0casin(z) =3D -i clog(iz + csqrt(1 - z * z))
+>>>> =A0 =A0casinh(z) =3D clog(z + csqrt(z * z + 1))
+>>>> are actually correct.
+>>>>
+>>>> I suspect that some of these errors are due to somebody trying to
+>>>> "simplify"
+>>>> these formulae. Since this can ruin the behavior, I recommend to a=
+dd a
+>>>> comment to the upstream sources that warns against attempt of
+>>>> simplification.
+>>>>
+>>>> For the sake of reference, I am looking at manpages-dev 3.25-1 on
+>>>> Debian/squeeze.
+>>>>
+>>>> Bye!
+>>>> =A0-richy.
+>>>> --
+>>>> Richard B. Kreckel
+>>>> <http://www.ginac.de/~kreckel/>
+>>
+>> This doesn't have seem to have been fixed in the Linux man pages, do=
+es it?
 >
-> Hi everybody,
+> Sorry -- no, not yet.
 >
-> Now that I see this discussion again:
-> Mathematically speaking there is no unique correct definitions.
-> The function is multiple-valued and some arbitrary agreement
-> fixes one of the values.
+>> May I suggest a non-mathematical approach to moving forward?
+>>
+>> Just write a little C program and compare the complex results of
+>> a) the library implementation of catan, cacos, etc.,
+>> b) the formula written in the man page, and
+>> c) the formula I proposed above.
+>> If you include a couple of values from all four quadrants, you'll se=
+e that
+>> my formula always agrees with the implementation while the one from =
+the man
+>> page doesn't.
 >
-> Richard's point of view is that the actual behavior of the library functions
-> should be documented. Not a bad idea, but perhaps one should document what
-> the standard says, and then file a bug report in case the implementation
-> does something else.
+> Now there's a good idea ;-). It would have been even better if you'd
+> sent me a program--I don't mess round with complex numbers every day
+> of the week...
 >
-> I lost most of my old docs, but just rediscovered a copy of
-> ISO-C-FDIS.1999-04.pdf, I don't know whether that still is the
-> appropriate source to consult.
+>> Is there anything else I can do to convince you that this should be =
+fixed?
+>> If yes, pretty please, let me know! I would really appreciate gettin=
+g this
+>> fixed.
 >
-> (i)
-> It says in 7.3.1: cacos: branch cuts outside [-1,1] along the real axis
-> returns arccos z where Re arccos z lies in [0,pi].
-> So, if z = cos w then w = arccos z, but because cos (w + 2pi) = cos w
-> and cos (-w) = cos w, we can pick w with real part in [0,pi].
+> So, I eventually ironed out my complex math problems and came up with=
+ the below:
 >
-> It says in 7.3.7.2: clog: branch cut along the negative real axis
-> returns log z where Im log z lies in [-I*pi,I*pi].
+> =3D=3D=3D
+> /* Link with "-lm" */
 >
-> It says in 7.3.8.3: csqrt: branch cut along the negative real axis
-> returns sqrt z where Im sqrt z >= 0.
+> #include <complex.h>
+> #include <stdlib.h>
+> #include <unistd.h>
+> #include <stdio.h>
 >
-> We want to check whether it is true that
-> cacos(z) = -I* clog(z + I*csqrt(1 - z * z))
 >
-> Suppose w = cacos(z). Then w is defined by cos w = z and Re w in [0,pi].
-> The question is whether iw = log(cos w + i sqrt(sin^2 w)).
-> If sin w has nonnegative imaginary part, then sqrt(sin^2 w) = sin w
-> and the question is whether iw = log(e^{iw}). This logarithm is
-> chosen with imaginary part in [-pi,pi] but w has imaginary part
-> in [0,pi], so this equality holds.
-> If sin w has negative imaginary part, then sqrt(sin^2 w) = -sin w
-> and the question is whether iw = log(e^{-iw}), and again this holds.
 >
-> I agree with Richard's equation.
+> int
+> main(int argc, char *argv[])
+> {
+> =A0 =A0double complex z, c, f1, f2;
+> =A0 =A0double complex i =3D I;
 >
-> (ii)
-> Claim: catan(z) = (clog(1 + iz) - clog(1 - iz)) / 2i
+> =A0 =A0if (argc !=3D 3) {
+> =A0 =A0 =A0 =A0fprintf(stderr, "Usage: %s <real> <imag>\n");
+> =A0 =A0 =A0 =A0exit(EXIT_FAILURE);
+> =A0 =A0}
 >
-> 7.3.5.3: catan: branch cuts outside [-i,i] along the imaginary axis
-> returns atan z where Re atan z lies in [-pi/2, pi/2].
+> =A0 =A0z =3D atof(argv[1]) + atof(argv[2]) * I;
 >
-> Suppose w = catan(z). Then w is defined by tan w = z and Re w in [-pi/2, pi/2].
-> Up to a multiple of 2pi*i the RHS is
-> (1/2i)log((cos w + i sin w)/(cos w - i sin w)) = (1/2i) log e^{2iw},
-> looks good. The two multiples of 2pi*i partially cancel, so after
-> dividing by 2i this is in [-pi/2, pi/2].
+> =A0 =A0c =3D cacos(z);
 >
-> I agree with Richard's equation.
+> =A0 =A0printf("cacos() =3D %6.3f %6.3f*i\n", creal(c), cimag(c));
 >
-> (iii)
-> Claim: catanh(z) = (clog(1 + z) - clog(1 - z))/2
+> =A0 =A0f1 =3D -i * clog(z + csqrt(z * z - 1));
+> =A0 =A0f2 =3D -i * clog(z + i * csqrt(1 - z * z));
 >
-> 7.3.6.3: catanh: branch cuts outside [-1,1] along the real axis
-> returns atanh z where Im atanh z lies in [-pi/2,pi/2].
+> =A0 =A0printf("f1 =A0 =A0 =A0=3D %6.3f %6.3f*i\n", creal(f1), cimag(f=
+1));
+> =A0 =A0printf("f2 =A0 =A0 =A0=3D %6.3f %6.3f*i\n", creal(f2), cimag(f=
+2));
 >
-> Suppose w = catanh(z).
-> Then w is defined by tanh w = z and Re w in [-pi/2,pi/2].
-> Up to a multiple of 2pi*i the RHS is correct, and just like before
-> we get the right value.
+> =A0 =A0exit(EXIT_SUCCESS);
+> }
+> =3D=3D=3D
 >
-> I agree with Richard's equation.
+> Some sample runs certainly seem to prove your point for that function=
+ at least:
 >
-> So, if I make no mistake, Richard is correct on all counts.
+> $ ./cacos 1 1
+> cacos() =3D =A00.905 -1.061*i
+> f1 =A0 =A0 =A0=3D =A00.905 -1.061*i
+> f2 =A0 =A0 =A0=3D =A00.905 -1.061*i
+> $ ./cacos -1 -1
+> cacos() =3D =A02.237 =A01.061*i
+> f1 =A0 =A0 =A0=3D =A02.237 =A01.061*i
+> f2 =A0 =A0 =A0=3D =A02.237 =A01.061*i
+> $ ./cacos -1 1
+> cacos() =3D =A02.237 -1.061*i
+> f1 =A0 =A0 =A0=3D -2.237 =A01.061*i
+> f2 =A0 =A0 =A0=3D =A02.237 -1.061*i
+> $ ./cacos 1 -1
+> cacos() =3D =A00.905 =A01.061*i
+> f1 =A0 =A0 =A0=3D -0.905 -1.061*i
+> f2 =A0 =A0 =A0=3D =A00.905 =A01.061*i
+>
+> The above is what you meant, right?
+>
+> Thanks,
+>
+> Michael
 
-Thanks very much for the above analysis. I'm happy to have a second
-mathematician confirm what the first one says,
+=46or man-pages-3.33, I have applied the changes below. They should be
+consistent with what you proposed (and Andries confirmed). Could you
+please carefully check...
 
-Best regards,
+I think it's not so necessary to add a warning to the page source.
+Nowadays we have version control and logs, so the reasoning should be
+easy to find.
+
+Thanks,
 
 Michael
 
 
--- 
+diff --git a/man3/cacos.3 b/man3/cacos.3
+index b483a0c..1ae6ff5 100644
+--- a/man3/cacos.3
++++ b/man3/cacos.3
+@@ -27,7 +27,7 @@ is chosen in the interval [0,pi].
+ One has:
+ .nf
+
+-    cacos(z) =3D \-i clog(z + csqrt(z * z \- 1))
++    cacos(z) =3D \-i * clog(z + i * csqrt(1 \- z * z))
+ .fi
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
+diff --git a/man3/cacosh.3 b/man3/cacosh.3
+index 7bf60c9..bf3d99b 100644
+--- a/man3/cacosh.3
++++ b/man3/cacosh.3
+@@ -30,7 +30,7 @@ is chosen nonnegative.
+ One has:
+ .nf
+
+-    cacosh(z) =3D (0.5) * clog((1 + z) / (1 \- z))
++    cacosh(z) =3D 2 * clog(csqrt((z + 1) / 2) + csqrt((z \- 1) / 2))
+ .fi
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
+diff --git a/man3/catan.3 b/man3/catan.3
+index 30692bb..fe8c39e 100644
+--- a/man3/catan.3
++++ b/man3/catan.3
+@@ -25,7 +25,7 @@ The real part of y is chosen in the interval [\-pi/2,=
+pi/2].
+ One has:
+ .nf
+
+-    catan(z) =3D 1 / 2i clog((1 + iz) / (1 \- iz))
++    catan(z) =3D (clog(1 + i * z) \- clog(1 \- i * z)) / (2 * i)
+ .fi
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
+diff --git a/man3/catanh.3 b/man3/catanh.3
+index e396021..4f2f230 100644
+--- a/man3/catanh.3
++++ b/man3/catanh.3
+@@ -27,7 +27,7 @@ is chosen in the interval [\-pi/2,pi/2].
+ One has:
+ .nf
+
+-    catanh(z) =3D 0.5 * clog((1 + z) / (1 \- z))
++    catanh(z) =3D 0.5 * (clog(1 + z) \- clog(1 \- z))
+ .fi
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
