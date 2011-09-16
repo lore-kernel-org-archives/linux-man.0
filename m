@@ -1,60 +1,54 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Wrong formulae for complex elementary functions
-Date: Fri, 16 Sep 2011 08:05:57 +0200
-Message-ID: <CAKgNAkgHrLgk+QBs0jnWXavj5PLBPhaLO=33tgQxAwTUyFhzwg@mail.gmail.com>
-References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com>
- <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com>
- <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA@mail.gmail.com> <4E727152.2060503@ginac.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [RESEND][PATCH] sendfile.2: Fix description of the out_fd
+Date: Fri, 16 Sep 2011 09:24:17 +0300
+Message-ID: <CACKs7VDNboqj7XFSkwfzBMazzhSbGGTjt6+M642CgLk5UofXVw@mail.gmail.com>
+References: <4D771705.1020408@rs.jp.nec.com>
+	<CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E727152.2060503-HEL5OUoDxoc@public.gmane.org>
+In-Reply-To: <CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Richard B. Kreckel" <kreckel-HEL5OUoDxoc@public.gmane.org>
-Cc: Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Enge <andreas.enge-MZpvjPyXg2s@public.gmane.org>, Bill Allombert <Bill.Allombert-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>, Karim Belabas <Karim.Belabas-AE+LCD0i0auq1rftRos53FaPQRlvutdw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Richard,
+HI,
 
-On Thu, Sep 15, 2011 at 11:42 PM, Richard B. Kreckel <kreckel-HEL5OUoDxoc@public.gmane.org> wrote:
-> Hi!
+On Sun, Sep 11, 2011 at 7:00 PM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8@public.gmane.org=
+m> wrote:
+[...]
 >
-> On 09/15/2011 08:38 PM, Michael Kerrisk wrote:
->>
->> For man-pages-3.33, I have applied the changes below. They should be
->> consistent with what you proposed (and Andries confirmed). Could you
->> please carefully check...
+> For 3.33 I applied a slightly modified version of you patch; see belo=
+w.
 >
-> Yes, the patch looks correct. Thanks a lot for applying it.
+> Cheers,
 >
-> (I would have loved to try it but couldn't find the git repository for
-> man-pages.)
-
-Well, with the current state of affairs
-(http://lwn.net/Articles/457142/), no one can find it...
-
->> I think it's not so necessary to add a warning to the page source.
->> Nowadays we have version control and logs, so the reasoning should be
->> easy to find.
+> Michael
 >
-> Certainly. Out of curiousity: Does the version control of man-pages date
-> back enough to tell when and why the formulas got written the wrong way?
+> --- a/man2/sendfile.2
+> +++ b/man2/sendfile.2
+> @@ -92,10 +92,14 @@ The
+> =A0argument must correspond to a file which supports
+> =A0.BR mmap (2)-like
+> =A0operations
+> -(i.e., it cannot be a socket);
+> -and
+> +(i.e., it cannot be a socket).
+> +In Linux kernels before 2.6.33,
+> =A0.I out_fd
+> =A0must refer to a socket.
+> +Since Linux 2.6.33 it can be any file.
+> +If it is a regular file, then
+> +.BR sendfile()
+> +changes the file offset offset appropriately.
 
-Unfortunately not. Version control dates back to the start of my watch
-(Nov 2004), and those pages were added prior to that. Looking in old
-tarballs, it seems the the error was there in the initial versions of
-these pages.
+You wrote 'offset' twice here, I guess it's a typo, unless I'm missing
+something...
 
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Thanks,
+Stefan.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
