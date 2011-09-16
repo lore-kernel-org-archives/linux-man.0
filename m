@@ -1,54 +1,38 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RESEND][PATCH] sendfile.2: Fix description of the out_fd
-Date: Fri, 16 Sep 2011 09:24:17 +0300
-Message-ID: <CACKs7VDNboqj7XFSkwfzBMazzhSbGGTjt6+M642CgLk5UofXVw@mail.gmail.com>
-References: <4D771705.1020408@rs.jp.nec.com>
-	<CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ@mail.gmail.com>
+From: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Wrong formulae for complex elementary functions
+Date: Fri, 16 Sep 2011 11:45:56 +0200
+Message-ID: <CAMqf4EH=4tzRauwhxuRiusOsaky9zMcHF7pA4diYOAjbR+qZuw@mail.gmail.com>
+References: <4CEF7677.30500@ginac.de> <AANLkTinAUyVTdjxY9KVgnOerWxhXtnvmHeTQ-Gb0-TxC@mail.gmail.com>
+ <4E3C61FE.1010107@ginac.de> <CAKgNAkjamtuK95ouh6+zsCS1dHiZO0-1q72GpN0CSaFk9XxWqg@mail.gmail.com>
+ <CAKgNAkiv7-FL95p2D_80EaRTxhbwDOTun7N_uSsPr2e71Cz8EA@mail.gmail.com>
+ <4E727152.2060503@ginac.de> <CAKgNAkgHrLgk+QBs0jnWXavj5PLBPhaLO=33tgQxAwTUyFhzwg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiSkgjEKDwk6R6RPhGDfJayXZGnxrfRVFcQ9t7K_S3eZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkgHrLgk+QBs0jnWXavj5PLBPhaLO=33tgQxAwTUyFhzwg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Akira Fujita <a-fujita-cUW4a6blu5N8UrSeD/g0lQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-HI,
-
-On Sun, Sep 11, 2011 at 7:00 PM, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8@public.gmane.org=
-m> wrote:
+On 2011/9/16 Michael Kerrisk wrote:
+> On Thu, Sep 15, 2011 at 11:42 PM, Richard B. Kreckel wrote:
 [...]
+>> (I would have loved to try it but couldn't find the git repository for
+>> man-pages.)
 >
-> For 3.33 I applied a slightly modified version of you patch; see belo=
-w.
->
-> Cheers,
->
-> Michael
->
-> --- a/man2/sendfile.2
-> +++ b/man2/sendfile.2
-> @@ -92,10 +92,14 @@ The
-> =A0argument must correspond to a file which supports
-> =A0.BR mmap (2)-like
-> =A0operations
-> -(i.e., it cannot be a socket);
-> -and
-> +(i.e., it cannot be a socket).
-> +In Linux kernels before 2.6.33,
-> =A0.I out_fd
-> =A0must refer to a socket.
-> +Since Linux 2.6.33 it can be any file.
-> +If it is a regular file, then
-> +.BR sendfile()
-> +changes the file offset offset appropriately.
+> Well, with the current state of affairs
+> (http://lwn.net/Articles/457142/), no one can find it...
+[...]
 
-You wrote 'offset' twice here, I guess it's a typo, unless I'm missing
-something...
+Hello Michael,
 
-Thanks,
-Stefan.
+Could you please push your repository somewhere so that we can start
+translating your changes?  No need for a full remote repository, a
+tarball of your .git directory would be fine.
+Thanks.
+
+Denis
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
