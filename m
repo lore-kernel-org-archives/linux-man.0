@@ -1,63 +1,84 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man execve / Suggestion
-Date: Sat, 17 Sep 2011 07:13:26 +0200
-Message-ID: <CAKgNAkjSCkAY4CMw+xqzw4gtRJWMOP=z+TWG+R=jBg_x5F9g8Q@mail.gmail.com>
-References: <4E11D812.2080600@gmx.net>
+Subject: Re: [patch] realpath.3: update EINVAL description
+Date: Sat, 17 Sep 2011 07:13:48 +0200
+Message-ID: <CAKgNAkgVd+jRgDZFjyiO7Shf_JYfM_48PYzLN9f03k2O_rJaYQ@mail.gmail.com>
+References: <4E5E5153.8030101@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E11D812.2080600-hi6Y0CQ0nG0@public.gmane.org>
+In-Reply-To: <4E5E5153.8030101-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sebastian Geiger <sbastig-hi6Y0CQ0nG0@public.gmane.org>
+To: Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Sebastian,
+Hello Seonghun,
 
-On Mon, Jul 4, 2011 at 5:11 PM, Sebastian Geiger <sbastig-hi6Y0CQ0nG0@public.gmane.org> wrote:
-> I would like to suggest an improvement on the execve man-page (Page
-> Version 3.27). In the description of the execve system call I would
-> suggest to add a reminder that the argv arrays need to have put the
-> programm name as its first argument.
+2011/8/31 Seonghun Lim <wariua-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> man-pages version: latest git repository
+> why: The argument resolved_path can be NULL and it's not
+> a error condition any more. See the last paragraph of the
+> DESCRIPTION, and the last paragraph of CONFORMING TO.
+> See also the commit c49e8fc9.
 >
-> For the unexperienced it is easy to write something as such:
 >
-> char* program = "/usr/bin/ls";
-> char* file = "-lah";
-> char* argv[] = {file, NULL}; //should be {program, file, NULL}
-> char* envp[] = {NULL};
-> execve(eog, argv, envp);
->
-> For the experienced programmers this is probably obvious, yet for those
-> more unexperienced it would be a useful hint if the man-page said
-> something like:
->
-> "Remember the first argument in the argv array should be the path to the
-> programm that is about to be executed and your custom arguments should
-> start from the second position."
+> diff --git a/man3/realpath.3 b/man3/realpath.3
+> --- a/man3/realpath.3
+> +++ b/man3/realpath.3
+> @@ -104,13 +104,9 @@ is set to indicate the error.
+> Read or search permission was denied for a component of the path prefix.
+> .TP
+> .B EINVAL
+> -Either
+> .I path
+> -or
+> -.I resolved_path
+> is NULL.
+> (In libc5 this would just cause a segfault.)
+> -But, see NOTES below.
+> .TP
+> .B EIO
+> An I/O error occurred while reading from the file system.
 
-Thanks for the report. The exec(3) page already contains text along
-the lines you suggest, and of course execve(2) should also. For
-man-pages-3.33, I applied the patch below.
+Thanks for this report. I applied a different patch, below.
 
 Cheers,
 
 Michael
 
---- a/man2/execve.2
-+++ b/man2/execve.2
-@@ -58,6 +58,8 @@ starting with a line of the form:
- For details of the latter case, see "Interpreter scripts" below.
-
- \fIargv\fP is an array of argument strings passed to the new program.
-+By convention, the first of these strings should contain the filename
-+associated with the file being executed.
- \fIenvp\fP is an array of strings, conventionally of the form
- \fBkey=value\fP, which are passed as environment to the new program.
- Both \fIargv\fP and \fIenvp\fP must be terminated by a null pointer.
-
-
+diff --git a/man3/realpath.3 b/man3/realpath.3
+index 56d85d8..339ccdf 100644
+--- a/man3/realpath.3
++++ b/man3/realpath.3
+@@ -23,7 +23,7 @@
+ .\" Rewritten old page, 990824, aeb-rh8NL+sEX9E@public.gmane.org
+ .\" 2004-12-14, mtk, added discussion of resolved_path == NULL
+ .\"
+-.TH REALPATH 3  2010-09-20 "" "Linux Programmer's Manual"
++.TH REALPATH 3  2011-09-10 "" "Linux Programmer's Manual"
+ .SH NAME
+ realpath \- return the canonicalized absolute pathname
+ .SH SYNOPSIS
+@@ -104,13 +104,13 @@ is set to indicate the error.
+ Read or search permission was denied for a component of the path prefix.
+ .TP
+ .B EINVAL
+-Either
+ .I path
+-or
+-.I resolved_path
+ is NULL.
+-(In libc5 this would just cause a segfault.)
+-But, see NOTES below.
++.\" (In libc5 this would just cause a segfault.)
++(In glibc versions before 2.3,
++this error is also returned if
++.IR resolved_path
++is NULL.)
+ .TP
+ .B EIO
+ An I/O error occurred while reading from the file system.
 
 
 -- 
