@@ -1,101 +1,143 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] prctl.2: PR_SET_DUMPABLE makes process non-ptrace-attachable
-Date: Sat, 17 Sep 2011 07:17:56 +0200
-Message-ID: <CAKgNAkj4vJjAYrvPR6zqVLk9Q1=hQF6h=89xRgz1AGUmC0MB5A@mail.gmail.com>
-References: <20110506154952.1282C1909ED@elbrus2.mtv.corp.google.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Man page doc for SEEK_DATA/SEEK_HOLE
+Date: Sun, 18 Sep 2011 09:07:50 +0200
+Message-ID: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110506154952.1282C1909ED-r6u+3jvoQ04KgorLzL7FmE7CuiCeIGUxQQ4Iyu8u01E@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Paul Pluzhnikov <ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Josef Bacik <josef@redhat.com>
+Cc: linux-man@vger.kernel.org, Eric Blake <eblake@redhat.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Paul!
+Hello Josef,
 
-On Fri, May 6, 2011 at 5:49 PM, Paul Pluzhnikov <ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org=
-> wrote:
-> Michael,
->
-> We've recently discovered that GDB will fail to attach to any process=
- that
-> sets itself non-dumpable. Tested on kernel 2.6.32, with:
->
->
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <sys/prctl.h>
-> #include <unistd.h>
->
-> int main(int argc, char *argv[])
-> {
-> =A0if (prctl(PR_SET_DUMPABLE, 0, 0, 0) !=3D 0) {
-> =A0 =A0perror("prctl");
-> =A0}
-> =A0printf("Run gdb %s %d\n", argv[0], getpid());
-> =A0sleep(20);
-> =A0abort();
-> }
->
->
-> ./a.out
-> Run gdb ./a.out 30476
->
->
-> gdb -q =A0./a.out 30476
-> Reading symbols from /tmp/a.out...done.
-> Attaching to program: /tmp/a.out, process 30476
-> ptrace: Operation not permitted.
-> /tmp/30476: No such file or directory.
->
->
->
-> Attached patch (against current git trunk) documents this behavior.
+For Linux 3.1, you've added SEEK_HOLE + SEEK_DATA. I've attempted to
+document these as below for the lseek.2 man page. Could you please
+review?
 
-Thanks. Applied for man-pages-3.34.
-
-Cheers,
+Thanks,
 
 Michael
 
 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index bb455fa..b469071 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -60,7 +60,7 @@ is called with a first argument describing what to =
-do
-> =A0arguments with a significance depending on the first one.
-> =A0The first argument can be:
-> =A0.TP
-> -.BR PR_CAPBSET_READ " (since Linux 2.6.25)
-> +.BR PR_CAPBSET_READ " (since Linux 2.6.25)"
-> =A0Return (as the function result) 1 if the capability specified in
-> =A0.I arg2
-> =A0is in the calling thread's capability bounding set,
-> @@ -120,6 +120,9 @@ for security reasons, this feature has been remov=
-ed.
-> =A0.I /proc/sys/fs/suid_dumpable
-> =A0in
-> =A0.BR proc (5).)
-> +Processes that are not dumpable can not be attached via
-> +.BR ptrace(2)
-> +.BR PTRACE_ATTACH "."
-> =A0.TP
-> =A0.BR PR_GET_DUMPABLE " (since Linux 2.3.20)"
-> =A0Return (as the function result) the current state of the calling
->
+diff --git a/man2/lseek.2 b/man2/lseek.2
+index 26943e2..941ea08 100644
+--- a/man2/lseek.2
++++ b/man2/lseek.2
+@@ -85,6 +85,69 @@ of the file (but this does not change the size of the file).
+ If data is later written at this point, subsequent reads of the data
+ in the gap (a "hole") return null bytes (\(aq\\0\(aq) until
+ data is actually written into the gap.
++.SS Seeking file data and holes
++Since version 3.1, Linux supports the following additional values for
++.IR whence :
++.TP
++.B SEEK_DATA
++Adjust the file offset to the next region
++in the file greater than or equal to
++.I offset
++containing data.
++If
++.I offset
++points to data,
++then the file offset is set to
++.IR offset .
++.TP
++.B SEEK_HOLE
++Adjust the file offset to the next hole in the file
++greater than or equal to
++.IR offset .
 
++If
++.I offset
++points into the middle of a hole,
++then the file offset is set to
++.IR offset .
++If there is no hole past
++.IR offset ,
++then the file offset is adjusted to the end of the file
++(i.e., there is an implicit hole at the end of any file).
++.PP
++In both of the above cases,
++.BR lseek ()
++fails if
++.I offset
++points past the end of the file.
++
++These operations allow applications to map holes in a sparsely
++allocated file.
++This can be useful for applications such as file backup tools,
++which can save space when creating backups and preserve holes,
++if they have a mechanism for discovering holes.
++
++For the purposes of these operations, a hole is a sequence of zeroes that
++(normally) has not been allocated in the underlying file storage.
++However, a file system is not obliged to report holes,
++so these operations are not a guaranteed mechanism for
++mapping the storage space actually allocated to a file.
++(Furthermore, a sequence of zeroes that actually has been written
++to the underlying storage normally won't be reported as a hole.)
++In the simplest implementation,
++a file system can support the operations by making
++.BR SEEK_HOLE
++always return the offset of the end of the file,
++and making
++.BR SEEK_DATA
++always return
++return
++.IR offset
++(i.e., even if the location referred to by
++.I offset
++is a hole,
++it can be considered to consist of data that is a sequence of zeroes).
++.\" https://lkml.org/lkml/2011/4/22/79
++.\" http://lwn.net/Articles/440255/
++.\" http://blogs.oracle.com/bonwick/entry/seek_hole_and_seek_data
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+ .SH "RETURN VALUE"
+ Upon successful completion,
+ .BR lseek ()
+@@ -101,11 +164,14 @@ is not an open file descriptor.
+ .TP
+ .B EINVAL
+ .I whence
+-is not one of
+-.BR SEEK_SET ,
+-.BR SEEK_CUR ,
+-.BR SEEK_END ;
+-or the resulting file offset would be negative,
++is not valid (this error may be returned if
++.I whence
++is
++.BR SEEK_DATA
++or
++.BR SEEK_HOLE
++and the underlying file system does not support the operation).
++Or: the resulting file offset would be negative,
+ or beyond the end of a seekable device.
+ .\" Some systems may allow negative offsets for character devices
+ .\" and/or for remote file systems.
+@@ -118,8 +184,21 @@ The resulting file offset cannot be represented in an
+ .B ESPIPE
+ .I fd
+ is associated with a pipe, socket, or FIFO.
++.TP
++.B ENXIO
++.I whence
++is
++.B SEEK_DATA
++or
++.BR SEEK_HOLE ,
++and the current file offset is beyond the end of the file.
+ .SH "CONFORMING TO"
+ SVr4, 4.3BSD, POSIX.1-2001.
++
++.BR SEEK_DATA
++and
++.BR SEEK_HOLE
++are nonstandard extensions also present in Solaris.
+ .SH NOTES
+ Some devices are incapable of seeking and POSIX does not specify which
+ devices must support
