@@ -1,143 +1,46 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Man page doc for SEEK_DATA/SEEK_HOLE
-Date: Sun, 18 Sep 2011 09:07:50 +0200
-Message-ID: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: rt_tgsigqueueinfo man page
+Date: Sun, 18 Sep 2011 17:02:44 +0200
+Message-ID: <CAKgNAkid7DgswLZC_8griQ5cufz62KyrCT50v4YA5kwT0ATLMw@mail.gmail.com>
+References: <201102091452.48161.stephan.mueller@atsec.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Josef Bacik <josef@redhat.com>
-Cc: linux-man@vger.kernel.org, Eric Blake <eblake@redhat.com>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201102091452.48161.stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Josef,
+Hi Stephan,
 
-For Linux 3.1, you've added SEEK_HOLE + SEEK_DATA. I've attempted to
-document these as below for the lseek.2 man page. Could you please
-review?
+On Wed, Feb 9, 2011 at 2:52 PM, Stephan Mueller
+<stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org> wrote:
+> Hi,
+>
+> please see attached file for the rt_tgsigqueueinfo man page.
+>
+> This man page was derived from the discussion in
+> http://help.lockergnome.com/linux/patch-add-rt_tgsigqueueinfo-syscall-V2--
+> ftopict495666.html
 
-Thanks,
+Thanks for that. It was long on my TODO list to write some proper
+documentation for this system call. But what is really needed is a
+page that combines rt_sigqueueinfo() (which was incompletely
+documented in the "sigqueue.2" page) and rt_tgsigqueueinfo(). I've
+done that now. See my other mail on the topic.
+
+Best regards,
 
 Michael
 
 
-diff --git a/man2/lseek.2 b/man2/lseek.2
-index 26943e2..941ea08 100644
---- a/man2/lseek.2
-+++ b/man2/lseek.2
-@@ -85,6 +85,69 @@ of the file (but this does not change the size of the file).
- If data is later written at this point, subsequent reads of the data
- in the gap (a "hole") return null bytes (\(aq\\0\(aq) until
- data is actually written into the gap.
-+.SS Seeking file data and holes
-+Since version 3.1, Linux supports the following additional values for
-+.IR whence :
-+.TP
-+.B SEEK_DATA
-+Adjust the file offset to the next region
-+in the file greater than or equal to
-+.I offset
-+containing data.
-+If
-+.I offset
-+points to data,
-+then the file offset is set to
-+.IR offset .
-+.TP
-+.B SEEK_HOLE
-+Adjust the file offset to the next hole in the file
-+greater than or equal to
-+.IR offset .
-
-+If
-+.I offset
-+points into the middle of a hole,
-+then the file offset is set to
-+.IR offset .
-+If there is no hole past
-+.IR offset ,
-+then the file offset is adjusted to the end of the file
-+(i.e., there is an implicit hole at the end of any file).
-+.PP
-+In both of the above cases,
-+.BR lseek ()
-+fails if
-+.I offset
-+points past the end of the file.
-+
-+These operations allow applications to map holes in a sparsely
-+allocated file.
-+This can be useful for applications such as file backup tools,
-+which can save space when creating backups and preserve holes,
-+if they have a mechanism for discovering holes.
-+
-+For the purposes of these operations, a hole is a sequence of zeroes that
-+(normally) has not been allocated in the underlying file storage.
-+However, a file system is not obliged to report holes,
-+so these operations are not a guaranteed mechanism for
-+mapping the storage space actually allocated to a file.
-+(Furthermore, a sequence of zeroes that actually has been written
-+to the underlying storage normally won't be reported as a hole.)
-+In the simplest implementation,
-+a file system can support the operations by making
-+.BR SEEK_HOLE
-+always return the offset of the end of the file,
-+and making
-+.BR SEEK_DATA
-+always return
-+return
-+.IR offset
-+(i.e., even if the location referred to by
-+.I offset
-+is a hole,
-+it can be considered to consist of data that is a sequence of zeroes).
-+.\" https://lkml.org/lkml/2011/4/22/79
-+.\" http://lwn.net/Articles/440255/
-+.\" http://blogs.oracle.com/bonwick/entry/seek_hole_and_seek_data
-
- .SH "RETURN VALUE"
- Upon successful completion,
- .BR lseek ()
-@@ -101,11 +164,14 @@ is not an open file descriptor.
- .TP
- .B EINVAL
- .I whence
--is not one of
--.BR SEEK_SET ,
--.BR SEEK_CUR ,
--.BR SEEK_END ;
--or the resulting file offset would be negative,
-+is not valid (this error may be returned if
-+.I whence
-+is
-+.BR SEEK_DATA
-+or
-+.BR SEEK_HOLE
-+and the underlying file system does not support the operation).
-+Or: the resulting file offset would be negative,
- or beyond the end of a seekable device.
- .\" Some systems may allow negative offsets for character devices
- .\" and/or for remote file systems.
-@@ -118,8 +184,21 @@ The resulting file offset cannot be represented in an
- .B ESPIPE
- .I fd
- is associated with a pipe, socket, or FIFO.
-+.TP
-+.B ENXIO
-+.I whence
-+is
-+.B SEEK_DATA
-+or
-+.BR SEEK_HOLE ,
-+and the current file offset is beyond the end of the file.
- .SH "CONFORMING TO"
- SVr4, 4.3BSD, POSIX.1-2001.
-+
-+.BR SEEK_DATA
-+and
-+.BR SEEK_HOLE
-+are nonstandard extensions also present in Solaris.
- .SH NOTES
- Some devices are incapable of seeking and POSIX does not specify which
- devices must support
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
