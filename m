@@ -1,21 +1,25 @@
-From: Sunil Mushran <sunil.mushran@oracle.com>
-Subject: Re: Man page doc for SEEK_DATA/SEEK_HOLE
-Date: Mon, 19 Sep 2011 11:57:48 -0700
-Message-ID: <4E7790AC.6000801@oracle.com>
-References: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com> <4E77827C.3030202@redhat.com> <4E7789A1.4080501@oracle.com> <4E778D77.4070207@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <4E778D77.4070207@redhat.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Eric Blake <eblake@redhat.com>
-Cc: mtk.manpages@gmail.com, Josef Bacik <josef@redhat.com>, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+From: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: fstatat() AT_NO_AUTOMOUNT man page documentation
+Date: Mon, 19 Sep 2011 23:19:48 +0100
+Message-ID: <19937.1316470788@redhat.com>
+References: <CAKgNAkgOvrNtz+JjXTqzOsH6wQBpQ2AAAG2kBGcCVzObYK=btg@mail.gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkgOvrNtz+JjXTqzOsH6wQBpQ2AAAG2kBGcCVzObYK=btg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Ian Kent <raven-PKsaG3nR2I+sTnJN9+BGXg@public.gmane.org>, npiggin-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, autofs-CPWUtch7KCBzeIdxy0IIJw@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/19/2011 11:44 AM, Eric Blake wrote:
-> I guess it should instead read:
->
-> EINVAL whence is not valid (this error may be returned if whence is SEEK_DATA or SEEK_HOLE but the kernel does not support the operation).
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-Sure. Maybe add the kernel version. Support has been added in 3.1.
+> I've written the following patch for AT__NO_AUTOMOUNT, which you added
+> to the kernel a while back. Could you please review and ACK/NAK?
+
+It may be worth mentioning that if a mountpoint is already mounted over, then
+this flag has no effect.  It merely prevents further automounting.
+
+David
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
