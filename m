@@ -1,7 +1,7 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] mlock.2: tfix
-Date: Sun, 18 Sep 2011 18:39:18 -0400
-Message-ID: <1316385558-17461-1-git-send-email-taffit@debian.org>
+Subject: [PATCH] sendfile.2: ffix
+Date: Sun, 18 Sep 2011 22:42:00 -0400
+Message-ID: <1316400120-27669-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -14,22 +14,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: David Pr=C3=A9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 ---
- man2/mlock.2 |    2 +-
+ man2/sendfile.2 |    2 +-
  1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/man2/mlock.2 b/man2/mlock.2
-index a76690c..5db1b22 100644
---- a/man2/mlock.2
-+++ b/man2/mlock.2
-@@ -161,7 +161,7 @@ The result of the addition
- .IR start + len
- was less than
- .IR start
--(e.g., the addition may have resuled in an overflow).
-+(e.g., the addition may have resulted in an overflow).
- .TP
- .B EINVAL
- (Not on Linux)
+diff --git a/man2/sendfile.2 b/man2/sendfile.2
+index 81220fc..49ed9e5 100644
+--- a/man2/sendfile.2
++++ b/man2/sendfile.2
+@@ -163,7 +163,7 @@ In Linux 2.4 and earlier,
+ .I out_fd
+ could also refer to a regular file, and
+ .BR sendfile ()
+-    changed the current offset of that file.
++changed the current offset of that file.
+=20
+ The original Linux
+ .BR sendfile ()
 --=20
 1.7.6.3
 
