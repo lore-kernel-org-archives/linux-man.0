@@ -1,58 +1,505 @@
-From: Sunil Mushran <sunil.mushran-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Man page doc for SEEK_DATA/SEEK_HOLE
-Date: Tue, 20 Sep 2011 08:59:26 -0700
-Message-ID: <4E78B85E.3060409@oracle.com>
-References: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com> <4E778434.6040905@oracle.com> <CAKgNAkgeNBgWEx0-BbSbf83Jtk-AXd+W-YHL-4gTwA6Y_nbR0g@mail.gmail.com>
+From: Stephen Cameron <stephenmcameron-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] Add man page for the cciss driver
+Date: Tue, 20 Sep 2011 12:04:26 -0600
+Message-ID: <CADzpL0TEEaGRepL4CKvWQ-YYQmwWfW8wYhOSqj-OpFteJ5CF-w@mail.gmail.com>
+References: <20110812142359.21252.86908.stgit@beardog.cce.hp.com>
+	<CAKgNAkg9srUqE0kBHgRdSsNAfhyaOCBpn-WGZMQsPM6Wy4yq7g@mail.gmail.com>
+	<CADzpL0QvJ2s5eFJGFm-S4dD7EgQJ8FkJPQZiufKPDi=cdTPGrg@mail.gmail.com>
+	<CAKgNAkjVsJJj2wz3NgPOJ4oN7kWTGms4+pCR0vGaWH6sXH+t9w@mail.gmail.com>
+	<CAKgNAkhBhO=bez6KJkrF_MXVfCjsCK_m6HsBrjT17pHYj7gg1w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgeNBgWEx0-BbSbf83Jtk-AXd+W-YHL-4gTwA6Y_nbR0g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkhBhO=bez6KJkrF_MXVfCjsCK_m6HsBrjT17pHYj7gg1w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Josef Bacik <josef-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: "Stephen M. Cameron" <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mikem-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org, varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/19/2011 10:32 PM, Michael Kerrisk wrote:
-> Hi Sunil,
->
-> On Mon, Sep 19, 2011 at 8:04 PM, Sunil Mushran<sunil.mushran-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>  wrote:
->> On 09/18/2011 12:07 AM, Michael Kerrisk wrote:
->>> Hello Josef,
->>>
->>> For Linux 3.1, you've added SEEK_HOLE + SEEK_DATA. I've attempted to
->>> document these as below for the lseek.2 man page. Could you please
->>> review?
->>>
->>> Thanks,
->>>
->>> Michael
->>>
->>>
->>> diff --git a/man2/lseek.2 b/man2/lseek.2
->>> index 26943e2..941ea08 100644
->>> --- a/man2/lseek.2
->>> +++ b/man2/lseek.2
->>> @@ -85,6 +85,69 @@ of the file (but this does not change the size of the
->>> file).
->>>   If data is later written at this point, subsequent reads of the data
->>>   in the gap (a "hole") return null bytes (\(aq\\0\(aq) until
->>>   data is actually written into the gap.
->>> +.SS Seeking file data and holes
->>> +Since version 3.1, Linux supports the following additional values for
->>> +.IR whence :
->>> +.TP
->>> +.B SEEK_DATA
->>> +Adjust the file offset to the next region
->>> +in the file greater than or equal to
->>> +.I offset
->> I would recommend dropping the word next as it is confusing considering the
->> offset returned could be the offset passed in.
-> I changed "region" to "location", but otherwise left this unchanged. I
-> couldn't see a good alternative formulation, and also the next
-> sentence of the page makes your point clear.
+Hi,
 
-Fine by me.
+GPL v. 2 would be fine.
+
+Copyright assignment should be to:
+
+Hewlett-Packard Development Company, L.P.
+
+
+On Sun, Sep 18, 2011 at 11:09 PM, Michael Kerrisk
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Steve,
+>
+> Any progress with the license?
+>
+> Cheers,
+>
+> Michael
+>
+>
+> On Sun, Sep 11, 2011 at 4:27 PM, Michael Kerrisk <mtk.manpages@gmail.=
+com> wrote:
+>> Hello Steve,
+>>
+>> On Sat, Sep 10, 2011 at 11:22 PM, Stephen Cameron
+>> <stephenmcameron-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>> Sorry for the slow reply, I've been on vacation this past week. =A0=
+What
+>>> do you suggest? =A0Whatever most of the other man pages use is prob=
+ably
+>>> fine, though I will have to check with management at HP to see what
+>>> the lawyers insist upon, but it would be good if I had something th=
+at
+>>> is commonly used to suggest to them.
+>>
+>> The "verbatim license" at
+>> http://man7.org/linux/man-pages/licenses.html is the most common, an=
+d
+>> my preference, but any free license (other than GFDL, because that
+>> makes the page unacceptable to Debian) is acceptable.
+>>
+>> Cheers,
+>>
+>> Michael
+>>
+>>
+>>> On Fri, Sep 9, 2011 at 9:38 AM, Michael Kerrisk <mtk.manpages@gmail=
+=2Ecom> wrote:
+>>>> Stephen,
+>>>>
+>>>> On Fri, Aug 12, 2011 at 4:23 PM, Stephen M. Cameron
+>>>> <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org> wrote:
+>>>>> From: Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
+>>>>>
+>>>>> This patch applied to man-pages-3.32.
+>>>>>
+>>>>> I obtained the information in this man page as a consequence
+>>>>> of having worked on the cciss driver for the past several years,
+>>>>> and having written considerable portions of it.
+>>>>
+>>>> Thanks for the page. I've added it for the upcoming 3.33 release. =
+But
+>>>> what license and copyright do you want to assign to the page? (See
+>>>> http://man7.org/linux/man-pages/licenses.html)
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Michael
+>>>>
+>>>>
+>>>>> Signed-off-by: Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
+>>>>> ---
+>>>>> =A0man4/cciss.4 | =A0291 ++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++
+>>>>> =A01 files changed, 291 insertions(+), 0 deletions(-)
+>>>>> =A0create mode 100644 man4/cciss.4
+>>>>>
+>>>>> diff --git a/man4/cciss.4 b/man4/cciss.4
+>>>>> new file mode 100644
+>>>>> index 0000000..4f61570
+>>>>> --- /dev/null
+>>>>> +++ b/man4/cciss.4
+>>>>> @@ -0,0 +1,291 @@
+>>>>> +.\" shorthand for double quote that works everywhere.
+>>>>> +.ds q \N'34'
+>>>>> +.TH CCISS 4 "cciss"
+>>>>> +.SH NAME
+>>>>> +cciss \- HP Smart Array block driver
+>>>>> +.SH SYNOPSIS
+>>>>> +.nf
+>>>>> +modprobe cciss [ cciss_allow_hpsa=3D1 ]
+>>>>> +.fi
+>>>>> +.SH DESCRIPTION
+>>>>> +.B cciss
+>>>>> +is a block driver for older HP Smart Array RAID controllers.
+>>>>> +.SH OPTIONS
+>>>>> +.HP
+>>>>> +cciss_allow_hpsa=3D1
+>>>>> +This option prevents the cciss driver
+>>>>> +from attempting to drive any controllers which the hpsa driver
+>>>>> +is capable of controlling, which is to say, the cciss driver
+>>>>> +is restricted by this option to the following controllers:
+>>>>> +.nf
+>>>>> +
+>>>>> + =A0 =A0 =A0 Smart Array 5300
+>>>>> + =A0 =A0 =A0 Smart Array 5i
+>>>>> + =A0 =A0 =A0 Smart Array 532
+>>>>> + =A0 =A0 =A0 Smart Array 5312
+>>>>> + =A0 =A0 =A0 Smart Array 641
+>>>>> + =A0 =A0 =A0 Smart Array 642
+>>>>> + =A0 =A0 =A0 Smart Array 6400
+>>>>> + =A0 =A0 =A0 Smart Array 6400 EM
+>>>>> + =A0 =A0 =A0 Smart Array 6i
+>>>>> + =A0 =A0 =A0 Smart Array P600
+>>>>> + =A0 =A0 =A0 Smart Array P400i
+>>>>> + =A0 =A0 =A0 Smart Array E200i
+>>>>> + =A0 =A0 =A0 Smart Array E200
+>>>>> + =A0 =A0 =A0 Smart Array E200i
+>>>>> + =A0 =A0 =A0 Smart Array E200i
+>>>>> + =A0 =A0 =A0 Smart Array E200i
+>>>>> + =A0 =A0 =A0 Smart Array E500
+>>>>> +.fi
+>>>>> +
+>>>>> +
+>>>>> +.SH SUPPORTED HARDWARE
+>>>>> +The
+>>>>> +.B cciss
+>>>>> +driver supports the following Smart Array boards:
+>>>>> +.nf
+>>>>> +
+>>>>> + =A0 =A0 =A0 Smart Array 5300
+>>>>> + =A0 =A0 =A0 Smart Array 5i
+>>>>> + =A0 =A0 =A0 Smart Array 532
+>>>>> + =A0 =A0 =A0 Smart Array 5312
+>>>>> + =A0 =A0 =A0 Smart Array 641
+>>>>> + =A0 =A0 =A0 Smart Array 642
+>>>>> + =A0 =A0 =A0 Smart Array 6400
+>>>>> + =A0 =A0 =A0 Smart Array 6400 U320 Expansion Module
+>>>>> + =A0 =A0 =A0 Smart Array 6i
+>>>>> + =A0 =A0 =A0 Smart Array P600
+>>>>> + =A0 =A0 =A0 Smart Array P800
+>>>>> + =A0 =A0 =A0 Smart Array E400
+>>>>> + =A0 =A0 =A0 Smart Array P400i
+>>>>> + =A0 =A0 =A0 Smart Array E200
+>>>>> + =A0 =A0 =A0 Smart Array E200i
+>>>>> + =A0 =A0 =A0 Smart Array E500
+>>>>> + =A0 =A0 =A0 Smart Array P700m
+>>>>> + =A0 =A0 =A0 Smart Array P212
+>>>>> + =A0 =A0 =A0 Smart Array P410
+>>>>> + =A0 =A0 =A0 Smart Array P410i
+>>>>> + =A0 =A0 =A0 Smart Array P411
+>>>>> + =A0 =A0 =A0 Smart Array P812
+>>>>> + =A0 =A0 =A0 Smart Array P712m
+>>>>> + =A0 =A0 =A0 Smart Array P711m
+>>>>> +.fi
+>>>>> +.SH CONFIGURATION DETAILS
+>>>>> +To configure HP Smart Array controllers, use the HP Array Config=
+uration Utility
+>>>>> +(either hpacuxe or hpacucli) or the Offline ROM-based Configurat=
+ion Utility (ORCA)
+>>>>> +run from the Smart Array's option ROM at boot time.
+>>>>> +.SH FILES
+>>>>> +.SS DEVICE NODES
+>>>>> +The device naming scheme is as follows:
+>>>>> +.nf
+>>>>> +Major numbers:
+>>>>> + =A0 =A0 =A0 =A0104 =A0 =A0 cciss0
+>>>>> + =A0 =A0 =A0 =A0105 =A0 =A0 cciss1
+>>>>> + =A0 =A0 =A0 =A0106 =A0 =A0 cciss2
+>>>>> + =A0 =A0 =A0 =A0105 =A0 =A0 cciss3
+>>>>> + =A0 =A0 =A0 =A0108 =A0 =A0 cciss4
+>>>>> + =A0 =A0 =A0 =A0109 =A0 =A0 cciss5
+>>>>> + =A0 =A0 =A0 =A0110 =A0 =A0 cciss6
+>>>>> + =A0 =A0 =A0 =A0111 =A0 =A0 cciss7
+>>>>> +
+>>>>> +Minor numbers:
+>>>>> + =A0 =A0 =A0 =A0b7 b6 b5 b4 b3 b2 b1 b0
+>>>>> + =A0 =A0 =A0 =A0|----+----| |----+----|
+>>>>> + =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A0 =A0 =A0 =A0 |
+>>>>> + =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A0 =A0 =A0 =A0 +-------- Partiti=
+on ID (0=3Dwholedev, 1-15 partition)
+>>>>> + =A0 =A0 =A0 =A0 =A0 =A0 |
+>>>>> + =A0 =A0 =A0 =A0 =A0 =A0 +-------------------- Logical Volume nu=
+mber
+>>>>> +
+>>>>> +The device naming scheme is:
+>>>>> +/dev/cciss/c0d0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, di=
+sk 0, whole device
+>>>>> +/dev/cciss/c0d0p1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk=
+ 0, partition 1
+>>>>> +/dev/cciss/c0d0p2 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk=
+ 0, partition 2
+>>>>> +/dev/cciss/c0d0p3 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 0, disk=
+ 0, partition 3
+>>>>> +
+>>>>> +/dev/cciss/c1d1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, di=
+sk 1, whole device
+>>>>> +/dev/cciss/c1d1p1 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk=
+ 1, partition 1
+>>>>> +/dev/cciss/c1d1p2 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk=
+ 1, partition 2
+>>>>> +/dev/cciss/c1d1p3 =A0 =A0 =A0 =A0 =A0 =A0 =A0 Controller 1, disk=
+ 1, partition 3
+>>>>> +
+>>>>> +.fi
+>>>>> +.SS FILES IN /proc
+>>>>> +The files /proc/driver/cciss/cciss[0-9]+ contain information abo=
+ut
+>>>>> +the configuration of each controller. =A0For example:
+>>>>> +.nf
+>>>>> +
+>>>>> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss> ls -l
+>>>>> + =A0 =A0 =A0 total 0
+>>>>> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss0
+>>>>> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss1
+>>>>> + =A0 =A0 =A0 -rw-r--r-- 1 root root 0 2010-09-10 10:38 cciss2
+>>>>> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss> cat cciss2
+>>>>> + =A0 =A0 =A0 cciss2: HP Smart Array P800 Controller
+>>>>> + =A0 =A0 =A0 Board ID: 0x3223103c
+>>>>> + =A0 =A0 =A0 Firmware Version: 7.14
+>>>>> + =A0 =A0 =A0 IRQ: 16
+>>>>> + =A0 =A0 =A0 Logical drives: 1
+>>>>> + =A0 =A0 =A0 Current Q depth: 0
+>>>>> + =A0 =A0 =A0 Current # commands on controller: 0
+>>>>> + =A0 =A0 =A0 Max Q depth since init: 1
+>>>>> + =A0 =A0 =A0 Max # commands on controller since init: 2
+>>>>> + =A0 =A0 =A0 Max SG entries since init: 32
+>>>>> + =A0 =A0 =A0 Sequential access devices: 0
+>>>>> +
+>>>>> + =A0 =A0 =A0 cciss/c2d0: =A0 =A0 =A0 36.38GB =A0 =A0 =A0 RAID 0
+>>>>> + =A0 =A0 =A0 someone@somehost:/proc/driver/cciss>
+>>>>> +
+>>>>> +.fi
+>>>>> +.SS FILES IN /sys
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/model
+>>>>> +
+>>>>> +Displays the SCSI INQUIRY page 0 model for logical drive Y of co=
+ntroller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/rev
+>>>>> +
+>>>>> +Displays the SCSI INQUIRY page 0 revision for logical drive Y of=
+ controller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/unique_id
+>>>>> +
+>>>>> +Displays the SCSI INQUIRY page 83 serial number for logical driv=
+e Y of controller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/vendor
+>>>>> +
+>>>>> +Displays the SCSI INQUIRY page 0 vendor for logical drive Y of c=
+ontroller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/block:cciss!cXdY
+>>>>> +
+>>>>> +A symbolic link to /sys/block/cciss!cXdY
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/rescan
+>>>>> +
+>>>>> +Kicks off a rescan of the controller to discover logical drive t=
+opology changes.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/resettable
+>>>>> +
+>>>>> +A value of 1 indicates the "reset_devices=3D1" kernel parameter =
+(used by
+>>>>> +kdump) is honored by this controller. =A0A value of 0 indicates =
+the
+>>>>> +"reset_devices=3D1" kernel parameter will not be honored. =A0Som=
+e models
+>>>>> +of Smart Array are not able to honor this parameter.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/lunid
+>>>>> +
+>>>>> +Displays the 8-byte LUN ID used to address logical drive Y of co=
+ntroller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/raid_level
+>>>>> +
+>>>>> +Displays the RAID level of logical drive Y of controller X.
+>>>>> +
+>>>>> +.HP
+>>>>> +/sys/bus/pci/devices/<dev>/ccissX/cXdY/usage_count
+>>>>> +
+>>>>> +Displays the usage count (number of opens) of logical drive Y of=
+ controller X.
+>>>>> +
+>>>>> +.SH SCSI tape drive and medium changer support
+>>>>> +
+>>>>> +SCSI sequential access devices and medium changer devices are su=
+pported and
+>>>>> +appropriate device nodes are automatically created. =A0(e.g.
+>>>>> +/dev/st0, /dev/st1, etc. =A0See the "st" man page for more detai=
+ls.)
+>>>>> +You must enable "SCSI tape drive support for Smart Array 5xxx" a=
+nd
+>>>>> +"SCSI support" in your kernel configuration to be able to use SC=
+SI
+>>>>> +tape drives with your Smart Array 5xxx controller.
+>>>>> +
+>>>>> +Additionally, note that the driver will not engage the SCSI core=
+ at init
+>>>>> +time. =A0The driver must be directed to dynamically engage the S=
+CSI core via
+>>>>> +the /proc filesystem entry which the "block" side of the driver =
+creates as
+>>>>> +/proc/driver/cciss/cciss* at runtime. =A0This is because at driv=
+er init time,
+>>>>> +the SCSI core may not yet be initialized (because the driver is =
+a block
+>>>>> +driver) and attempting to register it with the SCSI core in such=
+ a case
+>>>>> +would cause a hang. =A0This is best done via an initialization s=
+cript
+>>>>> +(typically in /etc/init.d, but could vary depending on distribut=
+ion).
+>>>>> +For example:
+>>>>> +.nf
+>>>>> +
+>>>>> + =A0 =A0 =A0 =A0for x in /proc/driver/cciss/cciss[0-9]*
+>>>>> + =A0 =A0 =A0 =A0do
+>>>>> + =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0echo "engage scsi" > $x
+>>>>> + =A0 =A0 =A0 =A0done
+>>>>> +
+>>>>> +.fi
+>>>>> +Once the SCSI core is engaged by the driver, it cannot be diseng=
+aged
+>>>>> +(except by unloading the driver, if it happens to be linked as a=
+ module.)
+>>>>> +
+>>>>> +Note also that if no sequential access devices or medium changer=
+s are
+>>>>> +detected, the SCSI core will not be engaged by the action of the=
+ above
+>>>>> +script.
+>>>>> +
+>>>>> +.SS Hot plug support for SCSI tape drives
+>>>>> +
+>>>>> +Hot plugging of SCSI tape drives is supported, with some caveats=
+=2E
+>>>>> +The cciss driver must be informed that changes to the SCSI bus
+>>>>> +have been made. =A0This may be done via the /proc filesystem.
+>>>>> +For example:
+>>>>> +
+>>>>> + =A0 =A0 =A0 =A0echo "rescan" > /proc/scsi/cciss0/1
+>>>>> +
+>>>>> +This causes the driver to query the adapter about changes to the
+>>>>> +physical SCSI buses and/or fibre channel arbitrated loop and the
+>>>>> +driver to make note of any new or removed sequential access devi=
+ces
+>>>>> +or medium changers. =A0The driver will output messages indicatin=
+g what
+>>>>> +devices have been added or removed and the controller, bus, targ=
+et and
+>>>>> +lun used to address the device. =A0It then notifies the SCSI mid=
+ layer
+>>>>> +of these changes.
+>>>>> +
+>>>>> +Note that the naming convention of the /proc filesystem entries
+>>>>> +contains a number in addition to the driver name. =A0(E.g. "ccis=
+s0"
+>>>>> +instead of just "cciss" which you might expect.)
+>>>>> +
+>>>>> +Note: ONLY sequential access devices and medium changers are pre=
+sented
+>>>>> +as SCSI devices to the SCSI mid layer by the cciss driver. =A0Sp=
+ecifically,
+>>>>> +physical SCSI disk drives are NOT presented to the SCSI mid laye=
+r. =A0The
+>>>>> +physical SCSI disk drives are controlled directly by the array c=
+ontroller
+>>>>> +hardware and it is important to prevent the kernel from attempti=
+ng to directly
+>>>>> +access these devices too, as if the array controller were merely=
+ a SCSI
+>>>>> +controller in the same way that we are allowing it to access SCS=
+I tape drives.
+>>>>> +
+>>>>> +.SS SCSI error handling for tape drives and medium changers
+>>>>> +
+>>>>> +The linux SCSI mid layer provides an error handling protocol whi=
+ch
+>>>>> +kicks into gear whenever a SCSI command fails to complete within=
+ a
+>>>>> +certain amount of time (which can vary depending on the command)=
+=2E
+>>>>> +The cciss driver participates in this protocol to some extent. =A0=
+The
+>>>>> +normal protocol is a four step process. =A0First the device is t=
+old
+>>>>> +to abort the command. =A0If that doesn't work, the device is res=
+et.
+>>>>> +If that doesn't work, the SCSI bus is reset. =A0If that doesn't =
+work
+>>>>> +the host bus adapter is reset. =A0Because the cciss driver is a =
+block
+>>>>> +driver as well as a SCSI driver and only the tape drives and med=
+ium
+>>>>> +changers are presented to the SCSI mid layer, and unlike more
+>>>>> +straightforward SCSI drivers, disk i/o continues through the blo=
+ck
+>>>>> +side during the SCSI error recovery process, the cciss driver on=
+ly
+>>>>> +implements the first two of these actions, aborting the command,=
+ and
+>>>>> +resetting the device. =A0Additionally, most tape drives will not=
+ oblige
+>>>>> +in aborting commands, and sometimes it appears they will not eve=
+n
+>>>>> +obey a reset command, though in most circumstances they will. =A0=
+In
+>>>>> +the case that the command cannot be aborted and the device canno=
+t be
+>>>>> +reset, the device will be set offline.
+>>>>> +
+>>>>> +In the event the error handling code is triggered and a tape dri=
+ve is
+>>>>> +successfully reset or the tardy command is successfully aborted,=
+ the
+>>>>> +tape drive may still not allow i/o to continue until some comman=
+d
+>>>>> +is issued which positions the tape to a known position. =A0Typic=
+ally you
+>>>>> +must rewind the tape (by issuing "mt -f /dev/st0 rewind" for exa=
+mple)
+>>>>> +before i/o can proceed again to a tape drive which was reset.
+>>>>> +
+>>>>> +.SH "SEE ALSO"
+>>>>> +hpsa(4), hpacucli(8), hpacuxe(8), cciss_vol_status(8), http://cc=
+iss.sf.net,
+>>>>> +and from the linux kernel source, Documentation/blockdev/cciss.t=
+xt and
+>>>>> +Documentation/ABI/testing/sysfs-bus-pci-devices-cciss
+>>>>> +.SH AUTHORS
+>>>>> +Don Brace, Steve Cameron, Chase Maupin, Mike Miller, Michael Ni,=
+ Charles White, Francis Wiran
+>>>>> +and probably some other people.
+>>>>> +
+>>>>> +
+>>>>>
+>>>>> --
+>>>>> To unsubscribe from this list: send the line "unsubscribe linux-m=
+an" in
+>>>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>>>>> More majordomo info at =A0http://vger.kernel.org/majordomo-info.h=
+tml
+>>>>>
+>>>>
+>>>>
+>>>>
+>>>> --
+>>>> Michael Kerrisk
+>>>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+>>>> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+>>>>
+>>>
+>>
+>>
+>>
+>> --
+>> Michael Kerrisk
+>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+>> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+>>
+>
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
