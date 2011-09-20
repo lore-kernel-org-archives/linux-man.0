@@ -1,86 +1,70 @@
-From: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Subject: Re: discrepancy in ip(7) wrt. IP DF flag for UDP sockets
-Date: Tue, 20 Sep 2011 10:31:09 -0400
-Message-ID: <20110920143109.GB16323@hmsreliant.think-freely.org>
-References: <20110919121940.GA19942@synalogic.ca>
- <20110919130313.GA27819@hmsreliant.think-freely.org>
- <CAKgNAkgWRdkxgTXNnMi4PVGGsOd-8EHF1siBrk-Bj=rnYenVmQ@mail.gmail.com>
- <20110920132954.GA23041@synalogic.ca>
- <20110920133837.GA16323@hmsreliant.think-freely.org>
- <20110920141234.GA23164@synalogic.ca>
+From: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
+Subject: Re: [PATCH] errno: add numbers to the errno-names
+Date: Tue, 20 Sep 2011 16:43:38 +0200
+Message-ID: <20110920144338.GC1915@pengutronix.de>
+References: <1310591022-28752-1-git-send-email-w.sang@pengutronix.de>
+ <CAKgNAkgMoFBJKQhy_mnMuSsdm5TY2SSyoOW3iG70UaqSZeqRKQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bjuZg6miEcdLYP6q"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20110920141234.GA23164-k/PPzeaMb74v2OKnPYDugg@public.gmane.org>
+In-Reply-To: <CAKgNAkgMoFBJKQhy_mnMuSsdm5TY2SSyoOW3iG70UaqSZeqRKQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Benjamin Poirier <benjamin.poirier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Sep 20, 2011 at 10:12:34AM -0400, Benjamin Poirier wrote:
-> On 11-09-20 09:38, Neil Horman wrote:
-> > On Tue, Sep 20, 2011 at 09:29:54AM -0400, Benjamin Poirier wrote:
-> > > On 11-09-20 08:14, Michael Kerrisk wrote:
-> > > > Hello Benjamin, Neil,
-> > > > 
-> [snip]
-> > > > 
-> > > > Could you describe the required change in terms of how the man page
-> > > > text should look--i.e., rewrite the passage as you think it should
-> > > > look?
-> > > 
-> > > How about changing it to:
-> > > 	IP_MTU_DISCOVER (since Linux 2.2)
-> > > 	Set or receive the Path MTU Discovery setting for a socket. When
-> > > 	enabled, the don't-fragment flag is set on all outgoing packets.
-> > > 	Linux will perform Path MTU Discovery as defined in RFC 1191 on
-> > > 	SOCK_STREAM sockets. For non-SOCK_STREAM sockets, it is the
-> > > 	user's responsibility to packetize the data in MTU sized chunks
-> > > 	and to do the retransmits if necessary. The kernel will reject
-> > > 	(with EMSGSIZE) datagrams that are bigger than the known path
-> > > 	MTU. The system-wide default is controlled by the
-> > > 	/proc/sys/net/ipv4/ip_no_pmtu_disc file. 
-> > > 
-> > > 	Path MTU discovery flags   Meaning
-> > > 	[...]
-> > > 
-> > > There are some differences between _DO and _WANT that are glossed over
-> > > in this description, but I suppose there's only so much detail you can
-> > > put in...
-> > > 
-> > > Thanks,
-> > > -Ben
-> > > 
-> > Yeah, I think thats close, but its only the users responsibility to package
-> > datagrams in mtu sized chunks if they force the dont fragment bit on.  If they
-> > go wtih the default, the stack will fragment a datagram is it sees fit according
-> > to the mtu of the path it traverses
-> 
-> Exactly. To get into this level of detail, I think we have to mention
-> the option value, not just enabled/disabled. Let's try like this:
-> 
->  	IP_MTU_DISCOVER (since Linux 2.2)
-> 	Set or receive the Path MTU Discovery setting for a socket. When
-> 	enabled, Linux will perform Path MTU Discovery as defined in RFC
-> 	1191 on SOCK_STREAM sockets.  For non-SOCK_STREAM sockets,
-> 	IP_PMTUDISC_DO forces the don't-fragment flag to be set on all
-> 	outgoing packets.  It is the user's responsibility to packetize
-> 	the data in MTU sized chunks and to do the retransmits if
-> 	necessary.  The kernel will reject (with EMSGSIZE) datagrams
-> 	that are bigger than the known path MTU.  IP_PMTUDISC_WANT will
-> 	fragment a datagram if needed according to the path MTU or will
-> 	set the don't-fragment flag otherwise.
-> 
-> 	The system-wide default can be toggled between IP_PMTUDISC_WANT
-> 	and IP_PMTUDISC_DONT by writting to the
-> 	/proc/sys/net/ipv4/ip_no_pmtu_disc file.
-> 
-Yes, that sounds good to me.  Thanks for doing this!
-Acked-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 
-Neil
+--bjuZg6miEcdLYP6q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Sep 09, 2011 at 04:34:52PM +0200, Michael Kerrisk wrote:
+> Hello Wolfram,
+>=20
+> On Wed, Jul 13, 2011 at 11:03 PM, Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org> wr=
+ote:
+> > Kernel logs often print errnos as '%d', so having the numbers next to t=
+he
+> > defined names in the man-page is convenient to find out what went wrong.
+> > Also move the indentation from 16 to 21 to make the numbers fit.
+> >
+> > Signed-off-by: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
+> > ---
+> >
+> > The errorcodes were inserted by a little awk-script which parsed the nu=
+mbers
+> > directly out of the Kernel include-files.
+>=20
+> Which Kernel include files? As I recall there is some variation in
+> errno codes across architectures.
+
+Yes, true. Alpha has a custom one :( Pity!
+
+Thanks for the pointer,
+
+   Wolfram
+
+--=20
+Pengutronix e.K.                           | Wolfram Sang                |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+
+--bjuZg6miEcdLYP6q
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+Content-Disposition: inline
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.10 (GNU/Linux)
+
+iEYEARECAAYFAk54ppoACgkQD27XaX1/VRt/hACglN1ZHi0lB0c60htmg5WVCmMM
+UD0AnRZC+aEcW6iEoapHRjnpHb+/wmoE
+=+3Ua
+-----END PGP SIGNATURE-----
+
+--bjuZg6miEcdLYP6q--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
