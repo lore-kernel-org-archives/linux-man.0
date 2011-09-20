@@ -1,82 +1,47 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: fstatat() AT_NO_AUTOMOUNT man page documentation
-Date: Tue, 20 Sep 2011 07:06:19 +0200
-Message-ID: <CAKgNAkgeZZ-qf5rm7y+qNrjThgzhUDUMFf1nbSc3yEpEHNu=+Q@mail.gmail.com>
-References: <CAKgNAkgOvrNtz+JjXTqzOsH6wQBpQ2AAAG2kBGcCVzObYK=btg@mail.gmail.com>
- <19937.1316470788@redhat.com>
+Subject: Re: Man page doc for SEEK_DATA/SEEK_HOLE
+Date: Tue, 20 Sep 2011 07:24:24 +0200
+Message-ID: <CAKgNAki0CtE6a_JLjPUsyozP2cfy_x8MSSYfhu5gMEeRE6Zaww@mail.gmail.com>
+References: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com>
+ <4E77827C.3030202@redhat.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <19937.1316470788-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <4E77827C.3030202-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Ian Kent <raven-PKsaG3nR2I+sTnJN9+BGXg@public.gmane.org>, npiggin-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, autofs-CPWUtch7KCBzeIdxy0IIJw@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Josef Bacik <josef-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+Hello Eric
 
-On Tue, Sep 20, 2011 at 12:19 AM, David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> w=
-rote:
-> Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Mon, Sep 19, 2011 at 7:57 PM, Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 09/18/2011 01:07 AM, Michael Kerrisk wrote:
+>>
+>> +
+>> +.BR SEEK_DATA
+>> +and
+>> +.BR SEEK_HOLE
+>> +are nonstandard extensions also present in Solaris.
 >
->> I've written the following patch for AT__NO_AUTOMOUNT, which you add=
-ed
->> to the kernel a while back. Could you please review and ACK/NAK?
+> Looks good to me, but you may also want to link to the proposed wording for
+> mandating SEEK_HOLE/SEEK_DATA in the eventual POSIX Issue 8 (POSIX 2008 is
+> Issue 7):
+> http://austingroupbugs.net/view.php?id=415
 >
-> It may be worth mentioning that if a mountpoint is already mounted ov=
-er, then
-> this flag has no effect. =A0It merely prevents further automounting.
+> Also, it seems a shame that the kernel can fail with EINVAL instead of
+> properly emulating SEEK_HOLE and SEEK_DATA even on file systems with no
+> underlying support for reporting holes.
 
-Thanks. I added a sentence to say that.
-
-Otherwise the text looks okay?
+Thanks for catching that. I've added that point.
 
 Cheers,
 
 Michael
 
-diff --git a/man2/fstatat.2 b/man2/fstatat.2
-index 2868bfb..23c39dc 100644
---- a/man2/fstatat.2
-+++ b/man2/fstatat.2
-@@ -22,9 +22,7 @@
- .\" Formatted or processed versions of this manual, if unaccompanied b=
-y
- .\" the source, must acknowledge the copyright and authors of this wor=
-k.
- .\"
--.\" FIXME: Linux 2.6.38 added AT_NO_AUTOMOUNT
--.\"
--.TH FSTATAT 2 2010-11-21 "Linux" "Linux Programmer's Manual"
-+.TH FSTATAT 2 2011-09-19 "Linux" "Linux Programmer's Manual"
- .SH NAME
- fstatat \- get file status relative to a directory file descriptor
- .SH SYNOPSIS
-@@ -91,7 +89,19 @@ is absolute, then
- is ignored.
 
- .I flags
--can either be 0, or include the following flag:
-+can either be 0, or include one or more of the following flags ORed:
-+.TP
-+.BR AT_NO_AUTOMOUNT " (since Linux 2.6.38)"
-+Don't automount the terminal ("basename") component of
-+.I pathname
-+if it is a directory that is an automount point.
-+This allows the caller to gather attributes of an automount point
-+(rather than the location it would mount).
-+This flag can be used in tools that scan directories
-+to prevent mass-automounting of a directory of automount points.
-+The
-+.B AT_NO_AUTOMOUNT
-+flag has no effect if the mount point has already been mounted over.
- .TP
- .B AT_SYMLINK_NOFOLLOW
- If
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
