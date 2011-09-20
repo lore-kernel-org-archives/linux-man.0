@@ -1,225 +1,102 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: Man page doc for SEEK_DATA/SEEK_HOLE
-Date: Tue, 20 Sep 2011 07:47:26 +0200
-Message-ID: <CAKgNAkjcQDkcnineAAeCk-V5B8YD5HiNmNRpHuScbJUyXNhvkw@mail.gmail.com>
-References: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com>
- <4E77827C.3030202@redhat.com> <4E7789A1.4080501@oracle.com> <4E778D77.4070207@redhat.com>
-Reply-To: mtk.manpages@gmail.com
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: discrepancy in ip(7) wrt. IP DF flag for UDP sockets
+Date: Tue, 20 Sep 2011 08:14:24 +0200
+Message-ID: <CAKgNAkgWRdkxgTXNnMi4PVGGsOd-8EHF1siBrk-Bj=rnYenVmQ@mail.gmail.com>
+References: <20110919121940.GA19942@synalogic.ca> <20110919130313.GA27819@hmsreliant.think-freely.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <4E778D77.4070207@redhat.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Eric Blake <eblake@redhat.com>
-Cc: Sunil Mushran <sunil.mushran@oracle.com>, Josef Bacik <josef@redhat.com>, linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20110919130313.GA27819-B26myB8xz7F8NnZeBjwnZQMhkBWG/bsMQH7oEaQurus@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: Benjamin Poirier <benjamin.poirier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Eric, Sunil,
+Hello Benjamin, Neil,
 
-On Mon, Sep 19, 2011 at 8:44 PM, Eric Blake <eblake@redhat.com> wrote:
-> On 09/19/2011 12:27 PM, Sunil Mushran wrote:
+On Mon, Sep 19, 2011 at 3:03 PM, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org> wr=
+ote:
+> On Mon, Sep 19, 2011 at 08:19:40AM -0400, Benjamin Poirier wrote:
+>> Hi,
 >>
->> On 09/19/2011 10:57 AM, Eric Blake wrote:
->>>
->>> Also, it seems a shame that the kernel can fail with EINVAL instead=
- of
->>> properly emulating SEEK_HOLE and SEEK_DATA even on file systems wit=
-h
->>> no underlying support for reporting holes.
->>>
+>> I noticed what appears to be a discrepancy between the ip(7) man pag=
+e
+>> and the kernel code with regards to the IP DF flag for UDP sockets.
 >>
->> Why do you say that? If I am reading generic_file_llseek_unlocked()
->> correctly, the default behavior is treat offset < i_size as data.
->
-> The proposed wording states:
->
->> =A0.B EINVAL
->> =A0.I whence
->> -is not one of
->> -.BR SEEK_SET ,
->> -.BR SEEK_CUR ,
->> -.BR SEEK_END ;
->> -or the resulting file offset would be negative,
->> +is not valid (this error may be returned if
->> +.I whence
->> +is
->> +.BR SEEK_DATA
->> +or
->> +.BR SEEK_HOLE
->> +and the underlying file system does not support the operation).
->
-> I guess it should instead read:
->
-> EINVAL whence is not valid (this error may be returned if whence is
-> SEEK_DATA or SEEK_HOLE but the kernel does not support the operation)=
-=2E
->
-> Given your argument that new enough kernels understand SEEK_DATA and
-> SEEK_HOLE for all file systems.
+>> The man page says that "The don't-fragment flag is set on all outgoi=
+ng
+>> datagrams" and that the ip_no_pmtu_disc sysctl affects only SOCK_STR=
+EAM
+>> sockets. This is quickly disproved by doing:
+>> echo 1 > /proc/sys/net/ipv4/ip_no_pmtu_disc
+>> firing up netcat and looking at a few outgoing udp packets in wiresh=
+ark
+>> (they don't have the DF flag set).
 
-I think I added this because of the following, which is current (or at
-least was 3 days ago when I last pulled and wrote the page). From
-fs/hpfs/dir.c:
+Could you describe the required change in terms of how the man page
+text should look--i.e., rewrite the passage as you think it should
+look?
 
-=3D=3D=3D=3D
-static loff_t hpfs_dir_lseek(struct file *filp, loff_t off, int whence)
-{
-        loff_t new_off =3D off + (whence =3D=3D 1 ? filp->f_pos : 0);
-        loff_t pos;
-        struct quad_buffer_head qbh;
-        struct inode *i =3D filp->f_path.dentry->d_inode;
-        struct hpfs_inode_info *hpfs_inode =3D hpfs_i(i);
-        struct super_block *s =3D i->i_sb;
-
-        /* Somebody else will have to figure out what to do here */
-        if (whence =3D=3D SEEK_DATA || whence =3D=3D SEEK_HOLE)
-                return -EINVAL;
-=3D=3D=3D=3D
-
-In other words, there's at least one file system that does produce
-EINVAL. Perhaps that file system needs to be fixed so that it falls
-back to the generic implementation?
-
-That said, I take the point that this probably doesn't need to be
-documented in the man page, and I removed that text.
-
-> I agree that EINVAL will occur if you compile against new enough glib=
-c that
-> exposes the constants, but then run against an older kernel that does=
- not
-> yet understand them. =A0But I want the text to be clarified to be bul=
-let-proof
-> that if I am running against kernel 3.1 or newer, the only way I will=
- ever
-> get EINVAL for these two constants is if I do something else invalid,=
- like a
-> negative offset.
-
-Revised patch below.
-
-Cheers,
+Thanks,
 
 Michael
 
 
-diff --git a/man2/lseek.2 b/man2/lseek.2
-index 26943e2..9e62bc6 100644
---- a/man2/lseek.2
-+++ b/man2/lseek.2
-@@ -85,6 +85,70 @@ of the file (but this does not change the size of th=
-e file).
- If data is later written at this point, subsequent reads of the data
- in the gap (a "hole") return null bytes (\(aq\\0\(aq) until
- data is actually written into the gap.
-+.SS Seeking file data and holes
-+Since version 3.1, Linux supports the following additional values for
-+.IR whence :
-+.TP
-+.B SEEK_DATA
-+Adjust the file offset to the next location
-+in the file greater than or equal to
-+.I offset
-+containing data.
-+If
-+.I offset
-+points to data,
-+then the file offset is set to
-+.IR offset .
-+.TP
-+.B SEEK_HOLE
-+Adjust the file offset to the next hole in the file
-+greater than or equal to
-+.IR offset .
-+If
-+.I offset
-+points into the middle of a hole,
-+then the file offset is set to
-+.IR offset .
-+If there is no hole past
-+.IR offset ,
-+then the file offset is adjusted to the end of the file
-+(i.e., there is an implicit hole at the end of any file).
-+.PP
-+In both of the above cases,
-+.BR lseek ()
-+fails if
-+.I offset
-+points past the end of the file.
-+
-+These operations allow applications to map holes in a sparsely
-+allocated file.
-+This can be useful for applications such as file backup tools,
-+which can save space when creating backups and preserve holes,
-+if they have a mechanism for discovering holes.
-+
-+For the purposes of these operations, a hole is a sequence of zeroes t=
-hat
-+(normally) has not been allocated in the underlying file storage.
-+However, a file system is not obliged to report holes,
-+so these operations are not a guaranteed mechanism for
-+mapping the storage space actually allocated to a file.
-+(Furthermore, a sequence of zeroes that actually has been written
-+to the underlying storage may not be reported as a hole.)
-+In the simplest implementation,
-+a file system can support the operations by making
-+.BR SEEK_HOLE
-+always return the offset of the end of the file,
-+and making
-+.BR SEEK_DATA
-+always return
-+return
-+.IR offset
-+(i.e., even if the location referred to by
-+.I offset
-+is a hole,
-+it can be considered to consist of data that is a sequence of zeroes).
-+.\" https://lkml.org/lkml/2011/4/22/79
-+.\" http://lwn.net/Articles/440255/
-+.\" http://blogs.oracle.com/bonwick/entry/seek_hole_and_seek_data
- .SH "RETURN VALUE"
- Upon successful completion,
- .BR lseek ()
-@@ -101,11 +165,8 @@ is not an open file descriptor.
- .TP
- .B EINVAL
- .I whence
--is not one of
--.BR SEEK_SET ,
--.BR SEEK_CUR ,
--.BR SEEK_END ;
--or the resulting file offset would be negative,
-+is not valid.
-+Or: the resulting file offset would be negative,
- or beyond the end of a seekable device.
- .\" Some systems may allow negative offsets for character devices
- .\" and/or for remote file systems.
-@@ -118,8 +179,23 @@ The resulting file offset cannot be represented in=
- an
- .B ESPIPE
- .I fd
- is associated with a pipe, socket, or FIFO.
-+.TP
-+.B ENXIO
-+.I whence
-+is
-+.B SEEK_DATA
-+or
-+.BR SEEK_HOLE ,
-+and the current file offset is beyond the end of the file.
- .SH "CONFORMING TO"
- SVr4, 4.3BSD, POSIX.1-2001.
-+
-+.BR SEEK_DATA
-+and
-+.BR SEEK_HOLE
-+are nonstandard extensions also present in Solaris;
-+they are proposed for inclusion in the next POSIX revision (Issue 8).
-+.\" FIXME . Review http://austingroupbugs.net/view.php?id=3D415 in the=
- future
- .SH NOTES
- Some devices are incapable of seeking and POSIX does not specify which
- devices must support
+>> 1) in the words of `man 7 ip`:
+>> IP_MTU_DISCOVER (since Linux 2.2)
+>> =A0 =A0 =A0 Set or receive the Path MTU Discovery =A0setting =A0for =
+=A0a =A0socket.
+>> =A0 =A0 =A0 When =A0enabled, Linux will perform Path MTU Discovery a=
+s defined
+>> =A0 =A0 =A0 in RFC 1191 on this socket. =A0The don't-fragment flag i=
+s set =A0on
+>> =A0 =A0 =A0 all =A0outgoing datagrams. =A0The system-wide default is=
+ controlled
+>> =A0 =A0 =A0 by the /proc/sys/net/ipv4/ip_no_pmtu_disc file for =A0SO=
+CK_STREAM
+>> =A0 =A0 =A0 sockets, and disabled on all others.
+>>
+>> This is the text present in the latest version of the online manpage=
+s,
+>> http://webcache.googleusercontent.com/search?q=3Dcache:http://www.ke=
+rnel.org/doc/man-pages/reporting_bugs.html&ie=3DUTF-8
+>>
+>> 2) in net/ipv4/af_inet.c:inet_create():
+>> =A0 =A0 =A0 if (ipv4_config.no_pmtu_disc)
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 inet->pmtudisc =3D IP_PMTUDISC_DONT;
+>> =A0 =A0 =A0 else
+>> =A0 =A0 =A0 =A0 =A0 =A0 =A0 inet->pmtudisc =3D IP_PMTUDISC_WANT;
+>>
+>> and pmtudisc is left alone from there on for UDP sockets.
+>>
+>> What should be adjusted, the man page or the code?
+>>
+> The man page is wrong I think
+>
+> By my read, the code:
+> 1) Affects UDP and TCP the same way (which makes sense to me)
+>
+> 2) Is doing exactly what you asked it to, since you set no_pmtu_disc,=
+ which
+> means the stack should be free to fragment a frame as it sees fit acc=
+ording to
+> the MTU metric of the route its traversing, hence the cleared DF bit =
+in the
+> fraem.
+>
+> RFC 1191 can apply equally well to udp, as tcp, and is evident in tha=
+t you can
+> set the per-socket option IP_MTU_DISCOVER to any of the 4 acceptible =
+values
+> offered (DONT/WANT/DO/PROBE), so theres no reason the sysctl governin=
+g the
+> default value at creation shouldn't apply as well.
+> Neil
+>
+>
+
 
 
 --=20
@@ -227,7 +104,6 @@ Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
-" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
