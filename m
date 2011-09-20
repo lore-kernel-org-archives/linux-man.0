@@ -1,70 +1,58 @@
-From: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-Subject: Re: [PATCH] errno: add numbers to the errno-names
-Date: Tue, 20 Sep 2011 16:43:38 +0200
-Message-ID: <20110920144338.GC1915@pengutronix.de>
-References: <1310591022-28752-1-git-send-email-w.sang@pengutronix.de>
- <CAKgNAkgMoFBJKQhy_mnMuSsdm5TY2SSyoOW3iG70UaqSZeqRKQ@mail.gmail.com>
+From: Sunil Mushran <sunil.mushran-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Man page doc for SEEK_DATA/SEEK_HOLE
+Date: Tue, 20 Sep 2011 08:59:26 -0700
+Message-ID: <4E78B85E.3060409@oracle.com>
+References: <CAKgNAkhZSb0UfZz7N+gKRQD0r7gnC_3-VCB_ORio8ojczbCDvQ@mail.gmail.com> <4E778434.6040905@oracle.com> <CAKgNAkgeNBgWEx0-BbSbf83Jtk-AXd+W-YHL-4gTwA6Y_nbR0g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bjuZg6miEcdLYP6q"
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkgMoFBJKQhy_mnMuSsdm5TY2SSyoOW3iG70UaqSZeqRKQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkgeNBgWEx0-BbSbf83Jtk-AXd+W-YHL-4gTwA6Y_nbR0g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Josef Bacik <josef-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 09/19/2011 10:32 PM, Michael Kerrisk wrote:
+> Hi Sunil,
+>
+> On Mon, Sep 19, 2011 at 8:04 PM, Sunil Mushran<sunil.mushran-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>  wrote:
+>> On 09/18/2011 12:07 AM, Michael Kerrisk wrote:
+>>> Hello Josef,
+>>>
+>>> For Linux 3.1, you've added SEEK_HOLE + SEEK_DATA. I've attempted to
+>>> document these as below for the lseek.2 man page. Could you please
+>>> review?
+>>>
+>>> Thanks,
+>>>
+>>> Michael
+>>>
+>>>
+>>> diff --git a/man2/lseek.2 b/man2/lseek.2
+>>> index 26943e2..941ea08 100644
+>>> --- a/man2/lseek.2
+>>> +++ b/man2/lseek.2
+>>> @@ -85,6 +85,69 @@ of the file (but this does not change the size of the
+>>> file).
+>>>   If data is later written at this point, subsequent reads of the data
+>>>   in the gap (a "hole") return null bytes (\(aq\\0\(aq) until
+>>>   data is actually written into the gap.
+>>> +.SS Seeking file data and holes
+>>> +Since version 3.1, Linux supports the following additional values for
+>>> +.IR whence :
+>>> +.TP
+>>> +.B SEEK_DATA
+>>> +Adjust the file offset to the next region
+>>> +in the file greater than or equal to
+>>> +.I offset
+>> I would recommend dropping the word next as it is confusing considering the
+>> offset returned could be the offset passed in.
+> I changed "region" to "location", but otherwise left this unchanged. I
+> couldn't see a good alternative formulation, and also the next
+> sentence of the page makes your point clear.
 
---bjuZg6miEcdLYP6q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Sep 09, 2011 at 04:34:52PM +0200, Michael Kerrisk wrote:
-> Hello Wolfram,
->=20
-> On Wed, Jul 13, 2011 at 11:03 PM, Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org> wr=
-ote:
-> > Kernel logs often print errnos as '%d', so having the numbers next to t=
-he
-> > defined names in the man-page is convenient to find out what went wrong.
-> > Also move the indentation from 16 to 21 to make the numbers fit.
-> >
-> > Signed-off-by: Wolfram Sang <w.sang-bIcnvbaLZ9MEGnE8C9+IrQ@public.gmane.org>
-> > ---
-> >
-> > The errorcodes were inserted by a little awk-script which parsed the nu=
-mbers
-> > directly out of the Kernel include-files.
->=20
-> Which Kernel include files? As I recall there is some variation in
-> errno codes across architectures.
-
-Yes, true. Alpha has a custom one :( Pity!
-
-Thanks for the pointer,
-
-   Wolfram
-
---=20
-Pengutronix e.K.                           | Wolfram Sang                |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-
---bjuZg6miEcdLYP6q
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-Content-Disposition: inline
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.10 (GNU/Linux)
-
-iEYEARECAAYFAk54ppoACgkQD27XaX1/VRt/hACglN1ZHi0lB0c60htmg5WVCmMM
-UD0AnRZC+aEcW6iEoapHRjnpHb+/wmoE
-=+3Ua
------END PGP SIGNATURE-----
-
---bjuZg6miEcdLYP6q--
+Fine by me.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
