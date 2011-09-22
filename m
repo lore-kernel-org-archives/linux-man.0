@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] Add man page for the cciss driver
-Date: Thu, 22 Sep 2011 05:31:56 +0200
-Message-ID: <CAKgNAkh+0qeaZ-UEGt+fCuVguXz62x0dw23uFBSU8f7tK5hO6g@mail.gmail.com>
+Date: Thu, 22 Sep 2011 05:32:26 +0200
+Message-ID: <CAKgNAkhneNJienanvpZnO1YYds0z3iUq_6E=RMnQ7cknN=TX=g@mail.gmail.com>
 References: <20110812142359.21252.86908.stgit@beardog.cce.hp.com>
  <CAKgNAkg9srUqE0kBHgRdSsNAfhyaOCBpn-WGZMQsPM6Wy4yq7g@mail.gmail.com>
  <CADzpL0QvJ2s5eFJGFm-S4dD7EgQJ8FkJPQZiufKPDi=cdTPGrg@mail.gmail.com>
@@ -20,7 +20,7 @@ To: scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org
 Cc: Stephen Cameron <stephenmcameron-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mikem-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org, varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Steve
+Hi Steve,
 
 On Wed, Sep 21, 2011 at 4:46 PM,  <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org> wrote:
 > On Wed, Sep 21, 2011 at 06:46:24AM +0200, Michael Kerrisk wrote:
@@ -57,12 +57,11 @@ for you.
 >
 > Enclosed are my attempts at fixing the parts you noted.
 
-Thanks! I've put the page into the upcoming 3.34 release.
+Thanks Steve. I've added the page into the upcoming 3.34 release.
 
 Cheers,
 
 Michael
-
 
 >> .\" Copyright (C) 2011, Hewlett-Packard Development Company, L.P.
 >> .\" Written by Stephen M. Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
