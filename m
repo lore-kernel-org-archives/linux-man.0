@@ -1,7 +1,7 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] posix_fadvise.2: ffix
-Date: Fri, 23 Sep 2011 07:08:37 +0200
-Message-ID: <CAKgNAkiNsY+gt4-Ci6w4Atx_ZEn5j9C-agwGq4iyo1Ude7O9sw@mail.gmail.com>
+Date: Fri, 23 Sep 2011 07:11:07 +0200
+Message-ID: <CAKgNAkjvqPOvafpLQiGZbD4p81KtRLC7NK3CTpRux=mrN_=7Lw@mail.gmail.com>
 References: <1316723402-9367-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
@@ -14,14 +14,12 @@ To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
-
 On Thu, Sep 22, 2011 at 10:30 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wr=
 ote:
 >
 > Signed-off-by: David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 
-Thanks. Applied for 3.34.
+I also made a global fix to catch a few other instances of the same.
 
 Cheers,
 
