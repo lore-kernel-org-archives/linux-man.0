@@ -1,194 +1,268 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: discrepancy in ip(7) wrt. IP DF flag for UDP sockets
-Date: Fri, 23 Sep 2011 07:27:29 +0200
-Message-ID: <CAKgNAkh-rAAU+Y4wdLNr1JOk3SWrRH8=MNqdWO6Pmcf=Mz4KxQ@mail.gmail.com>
-References: <20110919121940.GA19942@synalogic.ca> <20110919130313.GA27819@hmsreliant.think-freely.org>
- <CAKgNAkgWRdkxgTXNnMi4PVGGsOd-8EHF1siBrk-Bj=rnYenVmQ@mail.gmail.com>
- <20110920132954.GA23041@synalogic.ca> <20110920133837.GA16323@hmsreliant.think-freely.org>
- <20110920141234.GA23164@synalogic.ca> <20110920143109.GB16323@hmsreliant.think-freely.org>
- <CAKgNAkiSrGdXd2e1dpcC0fPmARRwkMrUvB8vCJ7eQ8SYsCuuUw@mail.gmail.com> <20110922124448.GA19801@synalogic.ca>
-Reply-To: mtk.manpages@gmail.com
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.34 released
+Date: Fri, 23 Sep 2011 10:14:51 +0200
+Message-ID: <CAKgNAkh=Gh-CBYrG=CidZSQSvSj67RB6dS_cgWX726RQf+Aybg@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <20110922124448.GA19801@synalogic.ca>
-Sender: netdev-owner@vger.kernel.org
-To: Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc: Neil Horman <nhorman@tuxdriver.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-HI Ben, Neil,
+Gidday,
 
-On Thu, Sep 22, 2011 at 2:44 PM, Benjamin Poirier
-<benjamin.poirier@gmail.com> wrote:
-> On 11-09-22 06:15, Michael Kerrisk wrote:
->> Ben, Neil,
->>
-> [snip]
->>
->> Ben, thanks for writing this, and Neil, thanks for reviewing it. I'v=
-e
->> applied that change for man-pages-3.34.
->>
->> Ben, I added one small piece ti the description of
->> /proc/sys/net/ipv4/ip_no_pmtu_disc. For completeness, I've reproduce=
-d
->> the entire text below. Perhaps you could take a quick scan, to make
->> sure that the changed text is consistent with the whole piece.
->>
->> Thanks,
->>
->> Michael
->>
->> =A0 =A0 =A0 =A0IP_MTU_DISCOVER (since Linux 2.2)
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 Set or receive the Path =A0MTU =A0Discov=
-ery =A0setting =A0for =A0a
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 socket. =A0 When enabled, Linux will per=
-form Path MTU Dis-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 covery as defined in RFC 1191 =A0on =A0S=
-OCK_STREAM =A0sockets.
->
-> Oops, seems like there's a repetition that crept in here. I'd keep on=
-ly
-> the first of those two sentences:
+The Linux man-pages maintainer proudly announces:
 
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 For =A0non-SOCK_STREAM =A0sockets, IP_PM=
-TUDISC_DO forces the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 don't-fragment flag to be set on all =A0=
-outgoing =A0packets.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 The =A0don't-fragment =A0flag =A0is =A0s=
-et on all outgoing data-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 grams.
+    man-pages-3.34.tar.gz - man pages for Linux
 
-Thanks for catching that! The second of the above sentences is now gone=
-=2E
+Because of the kernel.org problems, the release artifacts are in
+different locations than usual (and some of these changes may become
+permanent):
 
->>                It is the user's responsibility to packetize the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 data =A0in =A0MTU-sized =A0chunks and to=
- do the retransmits if
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 necessary. =A0The kernel will reject (wi=
-th EMSGSIZE) data-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 grams =A0 that =A0 are =A0bigger =A0than=
- =A0the =A0known =A0path =A0MTU.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_WANT will =A0fragment =A0a =A0=
-datagram =A0if =A0needed
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 according =A0to =A0the path MTU, or will=
- set the don't-frag-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 ment flag otherwise.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 The system-wide default can be toggled b=
-etween IP_PMTUD-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 ISC_WANT =A0and IP_PMTUDISC_DONT by writ=
-ing (respectively,
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 zero =A0 =A0 =A0and =A0 =A0 =A0nonzero =A0=
- =A0 =A0values) =A0 =A0 =A0to =A0 =A0 =A0the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 /proc/sys/net/ipv4/ip_no_pmtu_disc file.
->
-> I think it's a welcome clarification. Is is normal that IP_PMTUDISC_W=
-ANT
-> gets hyphenated?
+This release tarball is available for download at:
 
-That's just an artifact of groff formatting. One can prevent it, but
-then the text justification of some lines starts to look very weird.
+    http://man7.org/linux/man-pages/download/
 
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 Path MTU discovery flags =A0 Meaning
->
-> I agree with what Neil said about "flags" here. setsockopt(2) calls
-> these "option values".
+The online changelog is available at
+http://man7.org/linux/man-pages/changelog.html#release_3.34 (blogged at
+http://linux-man-pages.blogspot.com/2011/09/man-pages-334-is-released.h=
+tml
+) and the current version of the pages is browsable at
+http://man7.org/linux/man-pages/
 
-Changed this to just "value".
+A git repository for man-pages can be found on github. You can clone
+the repository with the command:
 
-> Other than that, LGTM
-> Acked-by: Benjamin Poirier <benjamin.poirier@gmail.com>
->
-> Thanks Michael,
-> -Ben
+   git clone https://github.com/mkerrisk/man-pages.git
 
-You're welcome. Thanks for taking the time to write the text and check =
-my work.
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org (*).
+
+c) I have information (possibly inaccurate) that you are the
+maintainer of a translation of the manual pages, or are the maintainer
+of the manual pages set in a particular distribution, or have
+expressed interest in helping with man-pages maintenance, or have
+otherwise expressed interest in being notified about man-pages
+releases.  If you don't want to receive such messages from me, or you
+know of some other translator or maintainer who may want to receive
+such notifications, send me a message.
 
 Cheers,
 
 Michael
 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.34 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_WANT =A0 =A0 =A0 =A0 =A0 Use=
- per-route settings.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_DONT =A0 =A0 =A0 =A0 =A0 Nev=
-er do Path MTU Discovery.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_DO =A0 =A0 =A0 =A0 =A0 =A0 A=
-lways do Path MTU Discovery.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_PROBE =A0 =A0 =A0 =A0 =A0Set=
- DF but ignore Path MTU.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 When PMTU discovery is enabled, the kern=
-el automatically
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 keeps track of the path MTU per destinat=
-ion host. =A0 When
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 it =A0is connected to a specific peer wi=
-th connect(2), the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 currently known path MTU can be =A0retri=
-eved =A0conveniently
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 using =A0the IP_MTU socket option (e.g.,=
- after an EMSGSIZE
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 error occurred). =A0The path MTU =A0may =
-=A0change =A0over =A0time.
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 For =A0connectionless =A0sockets with ma=
-ny destinations, the
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 new MTU for a given destination =A0can =A0=
-also =A0be =A0accessed
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 using =A0the =A0error =A0queue =A0(see I=
-P_RECVERR). =A0A new error
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 will be queued for every incoming MTU up=
-date.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 While MTU discovery is in progress, init=
-ial packets from
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 datagram sockets may be dropped. =A0Appl=
-ications using UDP
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 should be aware of this and not take it =
-into account for
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 their packet retransmit strategy.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 To =A0bootstrap =A0the =A0path MTU disco=
-very process on uncon-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 nected sockets, it is possible to start =
-with a big data-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 gram =A0size =A0(up =A0to =A064K-headers=
- =A0bytes long) and let it
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 shrink by updates of the path MTU.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 To get an initial estimate of the path =A0=
-MTU, =A0connect =A0a
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 datagram =A0socket =A0to =A0the destinat=
-ion address using con-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 nect(2) and retrieve the MTU =A0by =A0ca=
-lling =A0getsockopt(2)
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 with the IP_MTU option.
->>
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 It =A0is =A0possible =A0to implement RFC=
- 4821 MTU probing with
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 SOCK_DGRAM or SOCK_RAW sockets by =A0set=
-ting =A0a =A0value =A0of
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 IP_PMTUDISC_PROBE =A0(available since Li=
-nux 2.6.22). =A0This
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 is also particularly useful for diagnost=
-ic tools such as
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 tracepath(8) =A0that wish to deliberatel=
-y send probe pack-
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 ets larger than the observed Path MTU.
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
->
+Released: 2011-09-23, Munich
 
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes and ideas that have been
+incorporated in changes in this release:
+
+Alan Curry <pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org>
+Benjamin Poirier <benjamin.poirier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Brian M. Carlson <sandals-spVehEqlxw627WubY2PhZeTW4wlIGRCZ@public.gmane.org>
+David Howells <dhowells-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Doug Goldstein <cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
+Eric Blake <eblake-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
+Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Paul Pluzhnikov <ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
+Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Stephen Cameron <scameron-3C9H9nn4BS4HL6m8NFMY+dBPR1lH4CV8@public.gmane.org>
+Sunil Mushran <sunil.mushran-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+rt_sigqueueinfo.2
+    Michael Kerrisk  [Stephan Mueller]
+        New page for rt_sigqueueinfo(2) and rt_tgsigqueueinfo(2)
+            This replaces the previous '.so' man page link file for
+            rt_sigqueueinfo.2, which linked to this sigqueue() man page=
+=2E
+
+cciss.4
+    Stephen M. Cameron
+        New man page for cciss driver
+            I obtained the information in this man page as a consequenc=
+e
+            of having worked on the cciss driver for the past several y=
+ears,
+            and having written considerable portions of it.
+    Michael Kerrisk
+        Copyedit by mtk
+
+hpsa.4
+    Stephen M. Cameron
+        New man page for the hpsa driver
+            I obtained the information in this man page as a consequenc=
+e
+            of being the main author of the hpsa driver.
+    Michael Kerrisk
+        Copyedits my mtk
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+fstatat.2
+    Michael Kerrisk  [David Howells]
+        Document AT_NO_AUTOMOUNT
+	    This flag was added in Linux 2.6.38.
+
+lseek.2
+    Michael Kerrisk  [Eric Blake, Sunil Mushran]
+        Document SEEK_HOLE and SEEK_DATA
+            These flags, designed for discovering holes in a file,
+            were added in Linux 3.1. Included comments from Eric
+            Blake and Sunil Mushran.
+
+madvise.2
+    Doug Goldstein
+        Add MADV_HUGEPAGE and MADV_NOHUGEPAGE
+            Document the MADV_HUGEPAGE and MADV_NOHUGEPAGE flags added =
+to
+            madvise() in Linux 2.6.38.
+
+
+New and changed links
+---------------------
+
+rt_tgsigqueueinfo.2
+    Michael Kerrisk
+        New link to new rt_sigqueueinfo.2 page
+
+sigqueue.2
+    Michael Kerrisk
+        Create link to page that was relocated to section 3
+
+
+Global changes
+--------------
+
+Various pages
+    Michael Kerrisk
+        Change reference to "sigqueue(2)" to "sigqueue(3)"
+
+
+Changes to individual pages
+---------------------------
+
+fallocate.2
+    Michael Kerrisk
+        ERRORS: Add EPERM and ESPIPE errors
+
+lseek.2
+    Michael Kerrisk  [Alan Curry, Reuben Thomas]
+        Remove suspect note about 'whence' being incorrect English
+
+prctl.2
+    Paul Pluzhnikov
+        PR_SET_DUMPABLE makes process non-ptrace-attachable
+
+readlink.2
+    Guillem Jover
+        Document using st_size to allocate the buffer
+    Michael Kerrisk
+        Added copyright text + changelog note for Guillem Jover's patch
+
+sched_setscheduler.2
+    Michael Kerrisk
+        Document 2.6.39 changes to rules governing changes from
+SCHED_IDLE policy
+            Since Linux 2.6.39, unprivileged processes under the
+            SCHED_IDLE policy can switch to another nonrealtime
+            policy if their nice value falls within the range
+            permitted by their RLIMIT_NICE limit.
+
+tkill.2
+    Michael Kerrisk
+        SEE ALSO: Add rt_sigqueueinfo (2)
+
+btowc.3, wctob.3
+    Michael Kerrisk  [Brian M. Carlson]
+        Add pointers to better, thread-safe alternative functions
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D6068=
+99
+
+fwide.3
+    Michael Kerrisk
+        Add _ISOC95_SOURCE to feature test macro requirements
+            Since glibc 2.12, _ISOC95_SOURCE can also be used to expose
+            prototype of this function.
+
+index.3
+    Michael Kerrisk  [Jon Grant]
+        Fix text mentioning terminating null
+
+pthread_sigqueue.3
+    Michael Kerrisk
+        Replace explicit mention of rt_tgsigqueueinfo() with SEE ALSO r=
+eference
+
+sigqueue.3
+    Michael Kerrisk
+        Move this page to section 3
+            Now that the underlying system call rt_sigqueueinfo(2) is
+            properly documented, move sigqueue() to Section 3, since
+            it is really a library function.
+    Michael Kerrisk
+        Update text in line with existence of new rt_sigqueueinfo.2 pag=
+e
+
+wcsnlen.3
+    Jon Grant
+        Improve description of 'maxlen' argument
+            It's worth clarifying 'maxlen' is in wide-char units, not b=
+ytes.
+
+wprintf.3
+    Michael Kerrisk
+        Add _ISOC95_SOURCE to feature test macro requirements
+            Since glibc 2.12, _ISOC95_SOURCE can also be used to expose
+            prototype of these functions.
+
+feature_test_macros.7
+    Michael Kerrisk
+        Document _ISOC95_SOURCE
+            _ISOC95_SOURCE was added in glibc 2.12 as a means
+            to expose C90 Amendment 1 definitions.
+
+ip.7
+    Benjamin Poirier  [Neil Horman]
+        Improve description of IP_MTU_DISCOVER
+
+signal.7
+    Michael Kerrisk
+        SEE ALSO: Add rt_sigqueueinfo(2)
 
 
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
