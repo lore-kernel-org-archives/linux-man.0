@@ -1,60 +1,103 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] lseek.2: Document SEEK_HOLE/SEEK_DATA on FreeBSD and DragonFlyBSD
-Date: Sun, 25 Sep 2011 07:11:14 +0200
-Message-ID: <CAKgNAkhB_AocQ0totU9WozHURV8gwvoqdZhF-swbJfhxbLMV6g@mail.gmail.com>
-References: <20110925041533.GA10286@gaara.hadrons.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] man ptrace: add extended description of various ptrace quirks
+Date: Sun, 25 Sep 2011 08:10:58 +0200
+Message-ID: <CAKgNAkipqzQRt1AGDvgMZ7mRiMjqASP6+z-GuHUPEhdS4Jh_KQ@mail.gmail.com>
+References: <CAK1hOcPFXMoYsP6N6Hx5Qz3J4xj31TmSj7xo6SRVPegNCbhx7g@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110925041533.GA10286-v62vTE6/wQGgM1MOaoewpti2O/JbrIOy@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <CAK1hOcPFXMoYsP6N6Hx5Qz3J4xj31TmSj7xo6SRVPegNCbhx7g@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Denys Vlasenko <vda.linux@googlemail.com>
+Cc: Oleg Nesterov <oleg@redhat.com>, Jan Kratochvil <jan.kratochvil@redhat.com>, linux-kernel@vger.kernel.org, Tejun Heo <tj@kernel.org>, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Sep 25, 2011 at 6:15 AM, Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org> wr=
-ote:
-> Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-> ---
-> =A0man2/lseek.2 | =A0 =A02 +-
-> =A01 files changed, 1 insertions(+), 1 deletions(-)
+Hello Denys,
 
-Thanks Guillem. Applied for 3.35.
+On Thu, Jul 21, 2011 at 1:09 PM, Denys Vlasenko
+<vda.linux@googlemail.com> wrote:
+> Hi Michael,
+>
+> Please apply attached patch which updates ptrace manpage.
+> (I'm not sending it inline, google web mail might mangle it. Sorry).
+
+Thanks. This is a fantastic piece of work! I'm working on the patch
+now; it'll probably take me a few days before I have done with it.
+I'll send you the new version for review when I'm done.
+
+> Changes include:
+>
+> s/parent/tracer/g, s/child/tracee/g - ptrace interface now
+> is sufficiently cleaned up to not treat tracing process as parent.
+>
+> Deleted several outright false statements:
+> - pid 1 can be traced
+
+=46or changes like this, it's useful to record when the change occurred=
+,
+rather than just deleting the old text. I'm taking it that the change
+occurred in 2.6.26, with commit
+00cd5c37afd5f431ac186dd131705048c0a11fdb. Right?
+
+> - tracer is not shown as parent in ps output
+
+Was this a change triggered by a kernel revision? If so, which kernel v=
+ersion?
+
+> - PTRACE_ATTACH is not "the same behavior as if tracee had done
+> =A0a PTRACE_TRACEME": PTRACE_ATTACH delivers a SIGSTOP.
+
+Again, was this a change triggered by a kernel revision? If so, which
+kernel version?
+
+> - SIGSTOP _can_ be injected.
+
+Again, was this a change triggered by a kernel revision? If so, which
+kernel version?
+
+> - Removed mentions of SunOS and Solaris as irrelevant.
+
+Yes, seems fair enough to me.
+
+> - Added a few more known bugs.
+
+Thanks.
+
+> Added a large block of text in DESCRIPTION which doesn't focus
+> on mechanical description of each flag and operation, but rather
+> tries to describe a bigger picture. The targeted audience is
+> a person which is reasonably knowledgeable in Unix but did not
+> spend years working with ptrace, and thus may be unaware of its quirk=
+s.
+> This text went through several iterations of review by Oleg Nesterov
+> and Tejun Heo.
+
+Really, really good that you added that. Thank you.
+
+> This block of text intentionally uses as little markup as possible,
+> otherwise future modifications to it will be very hard to make.
+
+Sorry, here I have to disagree ;-). Maintaining consistency across the
+almost 1000 pages in man-pages is important for many reasons:
+* Reader comfort; all man pages should look fairly consistent.
+* Some scripts rely on consistent formatting to produce nicely rendered=
+ output
+* Some global edits and replaces, and checking scripts, are more
+likely to work well when formatting is consistent
+* Consistent formatting probably also is helpful for downstream transla=
+tions.
+
+So, for these reasons, mark-up really should be applied. I'll do that
+now, and if you need assistance with mark-up for future revisions, I'm
+very happy to help out.
 
 Cheers,
 
 Michael
 
-> diff --git a/man2/lseek.2 b/man2/lseek.2
-> index 9a59fa6..2f9cd8f 100644
-> --- a/man2/lseek.2
-> +++ b/man2/lseek.2
-> @@ -193,7 +193,7 @@ SVr4, 4.3BSD, POSIX.1-2001.
-> =A0.BR SEEK_DATA
-> =A0and
-> =A0.BR SEEK_HOLE
-> -are nonstandard extensions also present in Solaris;
-> +are nonstandard extensions also present in Solaris, FreeBSD and Drag=
-onFlyBSD;
-> =A0they are proposed for inclusion in the next POSIX revision (Issue =
-8).
-> =A0.\" FIXME . Review http://austingroupbugs.net/view.php?id=3D415 in=
- the future
-> =A0.SH NOTES
-> --
-> 1.7.6.3
->
->
-
-
-
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
