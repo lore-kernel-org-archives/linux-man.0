@@ -1,70 +1,55 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] readlink.2: Document using st_size to allocate the buffer
-Date: Sun, 25 Sep 2011 06:55:38 +0200
-Message-ID: <CAKgNAkjAPaHpAK5GarukDqoR68cDrU_LQx9eM9fEixL+t3Zg6g@mail.gmail.com>
-References: <20110421031957.GA12346@gaara.hadrons.org> <CAKgNAkj0FjVtJrJgaifSQ-xy+4GQm3GNmjoOndxMfGeXa+titQ@mail.gmail.com>
- <20110925040535.GA10073@gaara.hadrons.org>
+Subject: Re: [PATCH] lseek.2: Document SEEK_HOLE/SEEK_DATA on FreeBSD and DragonFlyBSD
+Date: Sun, 25 Sep 2011 07:11:14 +0200
+Message-ID: <CAKgNAkhB_AocQ0totU9WozHURV8gwvoqdZhF-swbJfhxbLMV6g@mail.gmail.com>
+References: <20110925041533.GA10286@gaara.hadrons.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110925040535.GA10073-v62vTE6/wQGgM1MOaoewpti2O/JbrIOy@public.gmane.org>
+In-Reply-To: <20110925041533.GA10286-v62vTE6/wQGgM1MOaoewpti2O/JbrIOy@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Guillem
-
-On Sun, Sep 25, 2011 at 6:05 AM, Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org> wr=
+On Sun, Sep 25, 2011 at 6:15 AM, Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org> wr=
 ote:
-> Hi!
->
-> On Tue, 2011-09-20 at 08:51:41 +0200, Michael Kerrisk wrote:
->> I made some edits to your patch, and placed the added explanatory te=
-xt
->> in NOTES, rather than DESCRIPTION. Modified patch below.
->>
->> The change will be in 3.34.
->
-> Thanks! Looks good.
->
->> diff --git a/man2/readlink.2 b/man2/readlink.2
->> index c9f6d92..051a870 100644
->> --- a/man2/readlink.2
->> +++ b/man2/readlink.2
->> @@ -1,4 +1,5 @@
->> =C2=A0.\" Copyright (c) 1983, 1991 The Regents of the University of =
-California.
->> +.\" Adn Copyright (C) 2011 Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
->
-> Small typo: Adn =E2=86=92 And.
->
->> + =C2=A0 =C2=A0r =3D readlink(argv[1], linkname, sb.st_size + 1);
->> +
->> + =C2=A0 =C2=A0if (r < 0) {
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0perror("lstat");
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_FAILURE);
->> + =C2=A0 =C2=A0}
->> +
->> + =C2=A0 =C2=A0if (r !=3D sb.st_size) {
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0fprintf(stderr, "symlink increased in s=
-ize "
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0"between lstat() and readlink()\\n");
->> + =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_FAILURE);
->> + =C2=A0 =C2=A0}
->
-> You might want to change the check condition to =E2=80=9Cr > sb.st_si=
-ze=E2=80=9D to
-> match the new error string.
+> Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
+> ---
+> =A0man2/lseek.2 | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
 
-Thanks for checking that. Fixed now in git.
+Thanks Guillem. Applied for 3.35.
 
 Cheers,
 
 Michael
+
+> diff --git a/man2/lseek.2 b/man2/lseek.2
+> index 9a59fa6..2f9cd8f 100644
+> --- a/man2/lseek.2
+> +++ b/man2/lseek.2
+> @@ -193,7 +193,7 @@ SVr4, 4.3BSD, POSIX.1-2001.
+> =A0.BR SEEK_DATA
+> =A0and
+> =A0.BR SEEK_HOLE
+> -are nonstandard extensions also present in Solaris;
+> +are nonstandard extensions also present in Solaris, FreeBSD and Drag=
+onFlyBSD;
+> =A0they are proposed for inclusion in the next POSIX revision (Issue =
+8).
+> =A0.\" FIXME . Review http://austingroupbugs.net/view.php?id=3D415 in=
+ the future
+> =A0.SH NOTES
+> --
+> 1.7.6.3
+>
+>
+
+
+
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
