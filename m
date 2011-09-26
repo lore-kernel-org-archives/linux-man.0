@@ -1,49 +1,56 @@
-From: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Typo in hsearch.3
-Date: Sun, 25 Sep 2011 22:23:31 +0200
-Message-ID: <CAMqf4EHJgM7Usuirj3P86TLgFVXKv8QMRf9CHf5coTT182b3mQ@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Typo in hsearch.3
+Date: Mon, 26 Sep 2011 19:30:53 +0200
+Message-ID: <CAKgNAki6CtmmhQsZHoj-t=Tf6UHTLMR+UBhzhWBj7adN2q3LNA@mail.gmail.com>
+References: <CAMqf4EHJgM7Usuirj3P86TLgFVXKv8QMRf9CHf5coTT182b3mQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=bcaec520f4151efc2a04adc9d2da
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAMqf4EHJgM7Usuirj3P86TLgFVXKv8QMRf9CHf5coTT182b3mQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---bcaec520f4151efc2a04adc9d2da
-Content-Type: text/plain; charset=UTF-8
+Hi Denis,
 
-Hello Michael,
+On Sun, Sep 25, 2011 at 10:23 PM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Michael,
+>
+> Here is a patch against current master.
 
-Here is a patch against current master.
+Thanks.
 
-Denis
+Applied for 3.35.
 
-diff --git a/man3/hsearch.3 b/man3/hsearch.3
-index 2fef68d..a939b46 100644
---- a/man3/hsearch.3
-+++ b/man3/hsearch.3
-@@ -247,7 +247,7 @@
- The
- .BR hdestroy ()
- and
--.BR hdestroy _r ()
-+.BR hdestroy_r ()
- functions do not free the buffers pointed to by the
- .I key
- and
+Cheers,
 
---bcaec520f4151efc2a04adc9d2da
-Content-Type: text/x-patch; charset=US-ASCII; name="hsearch.patch"
-Content-Disposition: attachment; filename="hsearch.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_gt0h7vbs0
+Michael
 
-ZGlmZiAtLWdpdCBhL21hbjMvaHNlYXJjaC4zIGIvbWFuMy9oc2VhcmNoLjMKaW5kZXggMmZlZjY4
-ZC4uYTkzOWI0NiAxMDA2NDQKLS0tIGEvbWFuMy9oc2VhcmNoLjMKKysrIGIvbWFuMy9oc2VhcmNo
-LjMKQEAgLTI0Nyw3ICsyNDcsNyBAQAogVGhlCiAuQlIgaGRlc3Ryb3kgKCkKIGFuZAotLkJSIGhk
-ZXN0cm95IF9yICgpCisuQlIgaGRlc3Ryb3lfciAoKQogZnVuY3Rpb25zIGRvIG5vdCBmcmVlIHRo
-ZSBidWZmZXJzIHBvaW50ZWQgdG8gYnkgdGhlCiAuSSBrZXkKIGFuZAo=
---bcaec520f4151efc2a04adc9d2da--
+
+> diff --git a/man3/hsearch.3 b/man3/hsearch.3
+> index 2fef68d..a939b46 100644
+> --- a/man3/hsearch.3
+> +++ b/man3/hsearch.3
+> @@ -247,7 +247,7 @@
+> =A0The
+> =A0.BR hdestroy ()
+> =A0and
+> -.BR hdestroy _r ()
+> +.BR hdestroy_r ()
+> =A0functions do not free the buffers pointed to by the
+> =A0.I key
+> =A0and
+>
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
