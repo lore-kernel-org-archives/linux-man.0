@@ -1,292 +1,327 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] setns.2: Initial man page [RESEND]
-Date: Wed, 28 Sep 2011 19:24:58 +0200
-Message-ID: <CAKgNAkhX-SnESaVoux2zUtTEVSY5umw=gPqCtfDEOO+xigtTdg@mail.gmail.com>
+Subject: Re: Draft manpage for recvmmsg [RESEND]
+Date: Wed, 28 Sep 2011 19:29:00 +0200
+Message-ID: <CAKgNAki0bw4ezSNAYMcg92Gyan049Pg7PyXkcEwJLSiAXOZ_Rg@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Serge E. Hallyn" <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Eric,
+Hi Andi, Arnaldo,
 
-I'm still wanting your input on the edited setns.2 draft below. Please
-don't make me chase you round Prague ;-).
+Could you please review the revised recvmmsg.2 man page below.
 
-Cheers,
+Andi: I need to know what copyright and license to attach to the page
+before I can release it.
+
+Thanks,
 
 Michael
 
+---------- Forwarded message ----------
 =46rom: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Thu, Sep 15, 2011 at 6:13 AM
-Subject: Re: [PATCH 1/2] setns.2: Initial man page
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Serge E. Hallyn" <serge.hallyn@canonica=
-l.com>
+Date: Thu, Sep 15, 2011 at 6:15 AM
+Subject: Re: Draft manpage for recvmmsg
+To: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
+acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Anton
+Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 
 
-Hello Eric,
+[CC list expanded]
 
-See below.
+Hi Andi, (and Arnaldo)
 
-On Mon, May 30, 2011 at 5:16 AM, Eric W. Biederman
-<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+As noted in an earlier mail, I still need to know what copyright and
+license to attach to the page before I can release it.
+
+See below for further comments.
+
+On Tue, Nov 23, 2010 at 11:15 AM, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org> wrot=
+e:
 >
-> Signed-off-by: Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-> ---
-> =A0man2/setns.2 | =A0 88 ++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++++++
-> =A01 files changed, 88 insertions(+), 0 deletions(-)
-> =A0create mode 100644 man2/setns.2
+> Here's a draft manpage for recvmmsg(2), which is one
+> of the last undocumented syscalls currently.
+> Please review and comment.
 >
-> diff --git a/man2/setns.2 b/man2/setns.2
-> new file mode 100644
-> index 0000000..8b48e14
-> --- /dev/null
-> +++ b/man2/setns.2
-> @@ -0,0 +1,88 @@
-> +.\" Copyright (C) 2011, Eric Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-> +.\" Licensed under the GPLv2
-> +.\"
-> +.TH SETNS 2 2011-05-28 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +setns \- reassociate parts of the process execution context
-> +.SH SYNOPSIS
-> +.nf
-> +.BR "#define _GNU_SOURCE" " =A0 =A0 =A0 =A0 =A0 =A0 /* See feature_t=
-est_macros(7) */"
-> +.B #include <sched.h>
-> +.sp
-> +.BI "int setns(int " fd ", int " nstype );
-> +.fi
-> +.SH DESCRIPTION
-> +Given a file descriptor referring to a namespace reassociate the
-> +current process with that namespace.
-> +
-> +The
-> +.I nstype
-> +argument is an enumeration that specifies which type of namespace
-> +the current process may be reassociated with. =A0This argument can
-> +have one of the following values:
-> +
-> +.TP
-> +.BR 0
-> +Allow any namespace to be joined.
-> +.TP
-> +.BR CLONE_NEWIPC
-> +Only allow joining an ipc namespace.
-> +.TP
-> +.BR CLONE_NEWNET
-> +Only allow joining a network namespace.
-> +.TP
-> +.BR CLONE_NEWUTS
-> +Only allow joining a uts namespace.
-> +.PP
-> +If
-> +.I flags
-> +is specified as zero, then
-> +.BR setns ()
-> +is a no-op;
-> +no changes are made to the calling process's execution context.
-> +.SH RETURN VALUE
-> +On success, zero returned.
-> +On failure, \-1 is returned and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.TP
-> +.B EBADF
-> +A bad file descriptor was passed to setns.
-> +
-> +.TP
-> +.B EINVAL
-> +A file descriptor that does not match the specified nstype.
-> +
-> +Attempting to change the mount namespace and the filesystem
-> +is shared between multiple tasks.
-> +
-> +.TP
-> +.B ENOMEM
-> +Cannot allocate sufficient memory to change the specified namespace.
-> +
-> +.TP
-> +.B EPERM
-> +The calling process did not have the required privileges for this op=
-eration.
-> +.SH VERSIONS
-> +The
-> +.BR setns ()
-> +system call first appeared in Linux in kernel 3.0
-> +.SH CONFORMING TO
-> +The
-> +.BR setns ()
-> +system call is Linux-specific.
-> +.SH NOTES
-> +Not all of the process attributes that can be shared when
-> +a new process is created using
-> +.BR clone (2)
-> +can be changed using
-> +.BR setns ().
-> +.SH BUGS
-> +The pid namespace and the mount namespace are not currently supporte=
-d.
-> +.SH SEE ALSO
-> +.BR clone (2),
-> +.BR fork (2),
-> +.BR vfork (2),
-> +.BR setns(2)
-> --
-> 1.7.5.1.217.g4e3aa
+> -Andi
+>
+>
+> .TH RECVMMSG 2 2010-11-23 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> recvmmsg \- receive multiple messages on a socket
+> .SH SYNOPSIS
+> .BI "#include <sys/socket.h>"
+> .br
+> .BI "int recvmmsg(int " fd ", struct mmsghdr *" mmsghdr \
+> ", unsigned int " vlen ","
+> .br
+> .BI " =A0 =A0 =A0 =A0 =A0 =A0 unsigned int " flags ", struct timespec=
+ *" timeout ");"
+> .SH DESCRIPTION
+> The
+> .B recvmmsg
+> system call receives multiple messages in a socket.
+> It acts similar to
+> .B recvmsg(2),
+> but allows to batch multiple receive operations into a single syscall=
+=2E
+> In addition it support an explicit timeout.
+>
+> .B fd
+> is the file descriptor of the socket to receive data from.
+> .B mmsghdr
+> is a pointer to an array with length
+> .B vlen
+> of
+> .I mmsghdr
+> structures.
+> .I struct mmsg
+> is defined in
+> .I sys/socket.h
+> as:
+> .in +4n
+> .nf
+> struct mmsghdr {
+> =A0 =A0struct msghdr msg_hdr; =A0/* Message header */
+> =A0 =A0unsigned int =A0msg_len; =A0/* Number of received bytes for he=
+ader */
+> };
+> .fi
+> .in
+> .PP
+> .B msg_hdr
+> is a struct
+> .I msghdr
+> as described in
+> .I recvmsg(2).
+> .B msg_len
+> is the number of bytes returned for the message in the entry.
+> This field has the same value as the return value of a single
+> .I recvmsg(2)
+> on the header.
+>
+> .B flags
+> contains flags ored together. The flags are the same
+> as documented for
+> .I recvmsg(2).
+> The additional
+> .B MSG_WAITFORONE
+> turns one
+> .I MSG_DONTWAIT
+> after the first message has been received.
+>
+> .B timeout
+> points to a
+> .I struct timespec
+> (see
+> .I clock_gettime(2)
+> )
+> defining a timeout for receiving, or
+> .I NULL
+> for no timeout. When the timeout expires
+> .I recvmmsg
+> returns.
+> .SH RETURN VALUE
+> .I recvmmsg
+> returns the number of messages received in
+> .I mmsghdr
+> or
+> -1
+> when an error occurs. The
+> .I msg_len
+> members of
+> .I mmsghdr
+> are updated for each received message,
+> in addition to other fields in the msg_hdr for each message,
+> as described in
+> .I recvmsg(2).
+> .SH SEE ALSO
+> .B recvmsg(2),
+> .B sendmsg(2),
+> .B socket(7),
+> .B socket(2),
+> .B clock_gettime(2)
+> .SH VERSIONS
+> The
+> .I recvmmsg
+> syscall was added with kernel 2.6.32.
+> Support in glibc was added with 2.6.12.
+> On earlier glibcs the function can be called
+> manually using
+> .I syscall(2).
 
-I made various edits to the page, some after out F2F conversations.
-Could you please comment on the new version below?
+I reworked a number of pieces of text, and added several other pieces.
+Could you please take a look (for others interested: "man -l <file>")
+at the version below and let me know of inaccuracies
 
-Note: we talked a couple of times about this piece of text under the
-EINVAL error.
-
-=A0 =A0 =A0 Attempted =A0to =A0change =A0the =A0mount =A0namespace, but=
- the filesystem
-=A0 =A0 =A0 is shared between multiple tasks.
-
-As I understand it, this refers to interactions between the mount
-namespace and file system namespace. However, as noted in the man
-page, setns() does not support CLONE_NEWNS. Furthermore, I can see no
-path in the setns() that generates EINVAL and =A0involves CLONE_NEWNS.
-So,I removed that text. Please let me know if that's wrong.
-
-Cheers,
+Thanks,
 
 Michael
 
-
-=2E\" Copyright (C) 2011, Eric Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-=2E\" Licensed under the GPLv2
-=2E\"
-=2ETH SETNS 2 2011-09-15 "Linux" "Linux Programmer's Manual"
+=2ETH RECVMMSG 2 2011-09-09 "Linux" "Linux Programmer's Manual"
 =2ESH NAME
-setns \- reassociate process with a namespace
+recvmmsg \- receive multiple messages on a socket
 =2ESH SYNOPSIS
 =2Enf
-=2EBR "#define _GNU_SOURCE" " =A0 =A0 =A0 =A0 =A0 =A0 /* See feature_te=
-st_macros(7) */"
-=2EB #include <sched.h>
-=2Esp
-=2EBI "int setns(int " fd ", int " nstype );
+=2EB "#define _GNU_SOURCE"
+=2EBI "#include <sys/socket.h>"
+
+=2EBI "int recvmmsg(int " sockfd ", struct mmsghdr *" msgvec \
+", unsigned int " vlen ","
+=2Ebr
+=2EBI " =A0 =A0 =A0 =A0 =A0 =A0 unsigned int " flags ", struct timespec=
+ *" timeout ");"
 =2Efi
 =2ESH DESCRIPTION
-Given a file descriptor referring to a namespace,
-reassociate the calling process with that namespace.
+The
+=2EBR recvmmsg ()
+system call is an extension of
+=2EBR recvmsg (2)
+that allows the caller to receive multiple messages from a socket
+using a single system call.
+(This has performance benefits for some applications.)
+A further extension over
+=2EBR recvmsg (2)
+is support for a timeout on the receive operation.
 
 The
-=2EI fd
-argument is a file descriptor referring to one of the namespace entries=
- in a
-=2EI /proc/[pid]/ns/
-directory; see
-=2EBR proc (5)
-for further information on
-=2EIR /proc/[pid]/ns/ .
-The calling process will be reassociated with the corresponding namespa=
-ce,
-subject to any constraints imposed by the
-=2EI nstype
-argument.
+=2EI sockfd
+argument is the file descriptor of the socket to receive data from.
 
 The
-=2EI nstype
-argument specifies which type of namespace
-the calling process may be reassociated with.
-This argument can have one of the following values:
-=2ETP
-=2EBR 0
-Allow any type of namespace to be joined.
-=2ETP
-=2EBR CLONE_NEWIPC
-=2EI fd
-must refer to an IPC namespace.
-=2ETP
-=2EBR CLONE_NEWNET
-=2EI fd
-must refer to a network namespace.
-=2ETP
-=2EBR CLONE_NEWUTS
-=2EI fd
-must refer to a UTS namespace.
+=2EI msgvec
+argument is a pointer to an array of
+=2EI mmsghdr
+structures.
+The size of this array is specified in
+=2EIR vlen .
+
+The
+=2EI mmsghdr
+structure is defined in
+=2EI <sys/socket.h>
+as:
+
+=2Ein +4n
+=2Enf
+struct mmsghdr {
+=A0 =A0struct msghdr msg_hdr; =A0/* Message header */
+=A0 =A0unsigned int =A0msg_len; =A0/* Number of received bytes for head=
+er */
+};
+=2Efi
+=2Ein
 =2EPP
-Specifying
-=2EI nstype
-as 0 suffices if the caller knows (or does not care)
-what type of namespace is referred to by
-=2EIR fd .
-Specifying a nonzero value for
-=2EI nstype
-is useful if the caller does not know what type of namespace is referre=
-d to by
-=2EIR fd
-and wants to ensure that the namespace is of a particular type.
-(The caller might not know the type of the namespace referred to by
-=2EIR fd
-if the file descriptor was opened by another process and, for example,
-passed to the caller via a UNIX domain socket.)
+The
+=2EI msg_hdr
+field is a
+=2EI msghdr
+structure, as described in
+=2EBR recvmsg (2).
+The
+=2EI msg_len
+field is the number of bytes returned for the message in the entry.
+This field has the same value as the return value of a single
+=2EBR recvmsg (2)
+on the header.
+
+The
+=2EI flags
+argument contains flags ORed together.
+The flags are the same as documented for
+=2EBR recvmsg (2),
+with the following addition:
+=2ETP
+=2EB MSG_WAITFORONE
+Turns on
+=2EB MSG_DONTWAIT
+after the first message has been received.
+=2EPP
+The
+=2EI timeout
+argument points to a
+=2EI struct timespec
+(see
+=2EBR clock_gettime (2))
+defining a timeout (seconds plus nanoseconds) for the receive operation=
+=2E
+If
+=2EI timeout
+is
+=2EI NULL
+then the operation blocks indefinitely.
+
+A blocking
+=2EBR recvmmsg ()
+call blocks until
+=2EI vlen
+messages have been received
+or until the timeout expires.
+A nonblocking call reads as many messages as are available
+(up to the limit specified by
+=2EIR vlen )
+and returns immediately.
+
+On return from
+=2EBR recvmmsg (),
+successive elements of
+=2EIR msgvec
+are updated to contain information about each received message:
+=2EI msg_len
+contains the size of the received message;
+the subfields of
+=2EI msg_hdr
+are updated as described in
+=2EBR recvmsg (2).
+The return value of the call indicates the number of elements of
+=2EI msgvec
+that have been updated.
 =2ESH RETURN VALUE
 On success,
-=2EIR setns ()
-returns 0.
-On failure, \-1 is returned and
+=2EBR recvmmsg ()
+returns the number of messages received in
+=2EIR msgvec ;
+on error, \-1 is returned, and
 =2EI errno
 is set to indicate the error.
 =2ESH ERRORS
-=2ETP
-=2EB EBADF
-=2EI fd
-is not a valid file descriptor.
+Errors are as for
+=2EBR recvmsg (2).
+In addition, the following error can occur:
 =2ETP
 =2EB EINVAL
-=2EI fd
-refers to a namespace whose type does not match that specified in
-=2EIR nstype .
-=2ETP
-=2EB ENOMEM
-Cannot allocate sufficient memory to change the specified namespace.
-=2ETP
-=2EB EPERM
-The calling process did not have the required privilege
-=2ERB ( CAP_SYS_ADMIN )
-for this operation.
+=2EI timeout
+is invalid.
 =2ESH VERSIONS
 The
-=2EBR setns ()
-system call first appeared in Linux in kernel 3.0
+=2EBR recvmmsg ()
+system call was added in Linux 2.6.32.
+Support in glibc was added in version 2.12.
 =2ESH CONFORMING TO
-The
-=2EBR setns ()
-system call is Linux-specific.
-=2ESH NOTES
-Not all of the process attributes that can be shared when
-a new process is created using
-=2EBR clone (2)
-can be changed using
-=2EBR setns ().
-=2ESH BUGS
-The PID namespace and the mount namespace are not currently supported.
-(See the descriptions of
-=2EBR CLONE_NEWPID
-and
-=2EBR CLONE_NEWNS
-in
-=2EBR clone (2).)
+=2EBR recvmmsg ()
+is Linux-specific.
 =2ESH SEE ALSO
-=2EBR clone (2),
-=2EBR fork (2),
-=2EBR vfork (2),
-=2EBR proc (5),
-=2EBR unix (7)
+=2EBR clock_gettime (2),
+=2EBR recvmsg (2),
+=2EBR sendmmsg (2),
+=2EBR sendmsg (2),
+=2EBR socket (2),
+=2EBR socket (7)
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
