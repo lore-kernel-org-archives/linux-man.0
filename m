@@ -1,66 +1,57 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: github repo questions...
-Date: Sun, 2 Oct 2011 15:31:01 -0400
-Message-ID: <201110021531.02138.vapier@gentoo.org>
+Date: Sun, 2 Oct 2011 22:34:31 +0200
+Message-ID: <CAKgNAkio2oYn4TQZe8stu+BgS-N3zm30_s4=kPYAeNxzGGxG9A@mail.gmail.com>
 References: <CADJ56BQm2zw=+LB=ZbXRBzrFYMAdrDa=v2izUqgR2ywwDRUZiw@mail.gmail.com>
+ <201110021531.02138.vapier@gentoo.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart3132985.Ms8RR17hhW";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CADJ56BQm2zw=+LB=ZbXRBzrFYMAdrDa=v2izUqgR2ywwDRUZiw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <201110021531.02138.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kevin Lyda <kevin-lVvlXWpnww44d9/VWYMlNA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: Kevin Lyda <kevin-lVvlXWpnww44d9/VWYMlNA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart3132985.Ms8RR17hhW
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+On Sun, Oct 2, 2011 at 9:31 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
+e:
+> On Sunday, October 02, 2011 07:40:47 Kevin Lyda wrote:
+>> Over the years I've noticed issues in Linux man pages and have been
+>> bad in sending in fixes (ie, never). =A0So I'm trying to be better b=
+ut I
+>> have some questions.
+>>
+>> Is there a reason why there are no tags or branches on the github re=
+po?
 
-On Sunday, October 02, 2011 07:40:47 Kevin Lyda wrote:
-> Over the years I've noticed issues in Linux man pages and have been
-> bad in sending in fixes (ie, never).  So I'm trying to be better but I
-> have some questions.
->=20
-> Is there a reason why there are no tags or branches on the github repo?
->=20
-> Also, if this project is using github will it be using github features
-> (issue tracking, pull requests)?
+As Mike notes below, it was an oversight. I'll fix soon.
 
-github usage is temporary.  normally it's on kernel.org.  and all the tags=
-=20
-seem to be on kernel.org, so maybe Michael simply forgot to push the tags u=
-p=20
-to github.
-=2Dmike
+>> Also, if this project is using github will it be using github featur=
+es
+>> (issue tracking, pull requests)?
+>
+> github usage is temporary. =A0normally it's on kernel.org. =A0and all=
+ the tags
+> seem to be on kernel.org, so maybe Michael simply forgot to push the =
+tags up
+> to github.
 
---nextPart3132985.Ms8RR17hhW
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+It's temporary, but it might become permanent. I've yet to look into
+all that github can offer, and and I'm waiting to see what life on
+kernel.org is like once everything is reinstated reinstated, it may
+end up being more comfortable to just stick with github.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+Cheers,
 
-iQIcBAABAgAGBQJOiLv2AAoJEEFjO5/oN/WBiEkQAJpvumY3mufqd8346zU/ZHMf
-GFGNIEnfNlHNe6El17f84WQTf77N6naVwvh6LIZKYf/uI/2IKOaA0tX8LX3S+s0O
-iEklt0SxRaA+i2S+OOOQaemyQQTuvqSgLNJE4iN9kkljZdQg4YKkWk3a8jTb8gAu
-RPhYLorW3lhrroAn8hw1Edql8GtKslsP86ZL6qZUemx9qWfIqGMnCbSclbDJJCGO
-xPIP+jXYnGwCb3hakQbTW9ak3v4B6hOo8SKDOK7kJpmGuo/h2rRZpEVf6S0pBvlf
-PffCum9SiLcQCmd4+67au0SnJwjbXLADDCXRsbwO6OQTfCL2H77hFCU7s1UeaT4c
-nmOs1ASo3W4fl9VDImYH4OG9PTONkUy+a3ghehWVYH0INMTUlXq1WqSfsNn26rqU
-ZhMP7oRRtaXLqj6pv3JcnwgNhbk195jel66G+7LO8WjubaeRe3gXekan0ZLnaFGP
-2Zvq3jDWuK5IPfRD1Nlrp5ifXLGQK3jaRbkUpbR+RuwAuxZ2x2xr5v1V9vNsVLCJ
-/tbpKviCMghMkjZbWhr3AQ2Pmx7xhDZRu8nNVgp407T70iCacvLot1BvvYDaYAQN
-TDljYAo7EQ7Jfe57iNnFQ5If5NTpEUmIQd7UizqsAVVrcvoN1mFjhAI4wlQEFLXF
-RuUZLVHWHM7EuaVthHd9
-=OxAn
------END PGP SIGNATURE-----
+Michael
 
---nextPart3132985.Ms8RR17hhW--
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
