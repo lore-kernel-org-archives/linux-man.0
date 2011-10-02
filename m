@@ -1,62 +1,66 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] Fix a few misspellings.
-Date: Sun, 2 Oct 2011 15:29:47 -0400
-Message-ID: <201110021529.48182.vapier@gentoo.org>
-References: <20111002151639.159AA274128@banshee.ie.suberic.net>
+Subject: Re: github repo questions...
+Date: Sun, 2 Oct 2011 15:31:01 -0400
+Message-ID: <201110021531.02138.vapier@gentoo.org>
+References: <CADJ56BQm2zw=+LB=ZbXRBzrFYMAdrDa=v2izUqgR2ywwDRUZiw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
-  boundary="nextPart2090654.FWOyk4OxpJ";
+  boundary="nextPart3132985.Ms8RR17hhW";
   protocol="application/pgp-signature";
   micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20111002151639.159AA274128-iOc7mn8MfmCVW+VdamfDDjh339VZgyU0@public.gmane.org>
+In-Reply-To: <CADJ56BQm2zw=+LB=ZbXRBzrFYMAdrDa=v2izUqgR2ywwDRUZiw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Kevin Lyda <kevin-lVvlXWpnww44d9/VWYMlNA@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart2090654.FWOyk4OxpJ
+--nextPart3132985.Ms8RR17hhW
 Content-Type: Text/Plain;
   charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sunday, October 02, 2011 10:31:51 Kevin Lyda wrote:
-> Some typo fixes.  The one I'm not sure of is the fix for man2/mknodat.2.
-> The resulting sentence doesn't seem sensible.  If anyone has a better
-> suggestion I can change it, but I'm really not sure what the original
-> author was trying to say.
+On Sunday, October 02, 2011 07:40:47 Kevin Lyda wrote:
+> Over the years I've noticed issues in Linux man pages and have been
+> bad in sending in fixes (ie, never).  So I'm trying to be better but I
+> have some questions.
+>=20
+> Is there a reason why there are no tags or branches on the github repo?
+>=20
+> Also, if this project is using github will it be using github features
+> (issue tracking, pull requests)?
 
-it is supposed to be "marked".  as in the function was in the standard, but=
+github usage is temporary.  normally it's on kernel.org.  and all the tags=
 =20
-marked with a flag.
-
-also, it seemed you bcc-ed the man-pages lists.  please don't do that.
+seem to be on kernel.org, so maybe Michael simply forgot to push the tags u=
+p=20
+to github.
 =2Dmike
 
---nextPart2090654.FWOyk4OxpJ
+--nextPart3132985.Ms8RR17hhW
 Content-Type: application/pgp-signature; name=signature.asc 
 Content-Description: This is a digitally signed message part.
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iQIcBAABAgAGBQJOiLusAAoJEEFjO5/oN/WBfEAQAKtfo60pbcGRHv6ZhShff6vz
-Ga4eWpPQxExRMEJ6V5Sm/WBbNdYS11U3Wj3wqlOGtQ3jlDbG3XVe0rNu8sely2GE
-GfKwXEvcH0Lvb75xq5/dm/jYP9o4xSpjrz0rzpv7R112/UJv8Mz4IGfiPx3GosBa
-JEUT9GQZ5QM6mOcMnXkRzQMPz6gG56hTRrygr3CiUu2LHtOnCMhkFWRogS5EL1HA
-5hbcDA+9isRyl8LEk19VQpJeiCsLrBJ3HhjMqI5e2G8POst64csrqwdP4jjA3qqN
-Zob6oqb8/Ck9eIHR40kOCRMT+fanl4cH1BOzT2tEEfG3LCWHR8A87GvMorSjtz6J
-M9beTce3Lh3w06xz+gtWkMY47YO8QHt4rk0X8ChbC7sv7/duJwq8AY9KdBc14sUa
-ulVXEaU0opiJ7gg+B5hyh4m/MYT8z2jHk7U7+ONBeGEq6MSAPpaELUmpsqF+j9Zo
-2IPinZWInr85I7Ixrh9NH2/6GOkAYCLPP0ijJrVuj6+jQ1uwrECs9dh4MdQdp9rG
-IKV0qolc/X0vMkXqVaL9Q696CiSb1UF0L8MUfWu/+y60MbjBsSqVnrkitJsnQfH7
-49fp/k5xruZYI1I94v6qEmsXzt1tpfHgu/asidxWDfJ7hKdlGKPnC0Yv0YmVXCh9
-37O3xrWMHhc9RJAc4Zvm
-=EpjW
+iQIcBAABAgAGBQJOiLv2AAoJEEFjO5/oN/WBiEkQAJpvumY3mufqd8346zU/ZHMf
+GFGNIEnfNlHNe6El17f84WQTf77N6naVwvh6LIZKYf/uI/2IKOaA0tX8LX3S+s0O
+iEklt0SxRaA+i2S+OOOQaemyQQTuvqSgLNJE4iN9kkljZdQg4YKkWk3a8jTb8gAu
+RPhYLorW3lhrroAn8hw1Edql8GtKslsP86ZL6qZUemx9qWfIqGMnCbSclbDJJCGO
+xPIP+jXYnGwCb3hakQbTW9ak3v4B6hOo8SKDOK7kJpmGuo/h2rRZpEVf6S0pBvlf
+PffCum9SiLcQCmd4+67au0SnJwjbXLADDCXRsbwO6OQTfCL2H77hFCU7s1UeaT4c
+nmOs1ASo3W4fl9VDImYH4OG9PTONkUy+a3ghehWVYH0INMTUlXq1WqSfsNn26rqU
+ZhMP7oRRtaXLqj6pv3JcnwgNhbk195jel66G+7LO8WjubaeRe3gXekan0ZLnaFGP
+2Zvq3jDWuK5IPfRD1Nlrp5ifXLGQK3jaRbkUpbR+RuwAuxZ2x2xr5v1V9vNsVLCJ
+/tbpKviCMghMkjZbWhr3AQ2Pmx7xhDZRu8nNVgp407T70iCacvLot1BvvYDaYAQN
+TDljYAo7EQ7Jfe57iNnFQ5If5NTpEUmIQd7UizqsAVVrcvoN1mFjhAI4wlQEFLXF
+RuUZLVHWHM7EuaVthHd9
+=OxAn
 -----END PGP SIGNATURE-----
 
---nextPart2090654.FWOyk4OxpJ--
+--nextPart3132985.Ms8RR17hhW--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
