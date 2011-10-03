@@ -1,9 +1,10 @@
 From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: aio_cancel
-Date: Mon, 3 Oct 2011 23:03:49 +0100
-Message-ID: <CAGc9Evf=94fyfYM67q0BRJCN=vu14aYV91pE+Hw=uhgkVS5p5g@mail.gmail.com>
+Subject: printf 3
+Date: Tue, 04 Oct 2011 00:58:42 +0100
+Message-ID: <4E8A4C32.9000607@jguk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -12,24 +13,18 @@ List-Id: linux-man@vger.kernel.org
 
 Hello
 
-I have a query about the ask about the aio_cancel description please.
+Looking at this page:
+http://man7.org/linux/man-pages/online/pages/man3/printf.3.html
 
-http://man7.org/linux/man-pages/online/pages/man3/aio_cancel.3.html
+"If an output error is encountered, a negative value is returned."
 
-"Normal asynchronous notification occurs for canceled requests.  The request
-       return status is set to -1, and the request error status is set
-to ECANCELED."
+I am thinking if this could be clarified. If I call printf(NULL), errno 
+is set to EINVAL, and -1 is returned.
 
-I would like to ask about this description. Could the detail of
-"request return status" and "request error status" be described
-please.
+Perhaps could be expanded to add:
 
-My assumption
-
-"request return status" -- perhaps the value returned by aio_return()?
-"request error status" -- not sure. maybe aio_error() ?
-
-Thank you for taking a look into this.
+"If a parameter error is encountered, errno set to EINVAL, and -1 is 
+returned. If an output error is encountered, errno set EIO and -1 returned.
 
 Best regards, Jon
 --
