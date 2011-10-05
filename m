@@ -1,126 +1,69 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man(7): NAME sample incomplete?
-Date: Wed, 5 Oct 2011 08:11:46 +0200
-Message-ID: <CAKgNAkh6=ncZv57q5=HiLcVUQZLLThdsn3DQdAWO9w5T3rvXDw@mail.gmail.com>
-References: <201106242210.32411.giecrilj@stegny.2a.pl>
+Subject: Re: Updates to information about man pages from other Debian packages
+Date: Wed, 5 Oct 2011 08:23:39 +0200
+Message-ID: <CAKgNAkjM_JaxmJvaYL-sV43COU==xkOAtjJmPP4+7iUp4c6K8A@mail.gmail.com>
+References: <20111005054109.GA25122@gaara.hadrons.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201106242210.32411.giecrilj-n4IAqcmFnHAX1+iMCFCb4w@public.gmane.org>
+In-Reply-To: <20111005054109.GA25122-v62vTE6/wQGgM1MOaoewpti2O/JbrIOy@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?S8WZacWhdG9mIMW9ZWxlY2hvdnNraQ==?= <giecrilj-n4IAqcmFnHAX1+iMCFCb4w@public.gmane.org>
+To: Guillem Jover <guillem-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Chris,
+Hello Guillem,
 
-On Fri, Jun 24, 2011 at 10:10 PM, K=C5=99i=C5=A1tof =C5=BDelechovski
-<giecrilj-n4IAqcmFnHAX1+iMCFCb4w@public.gmane.org> wrote:
-> * The code sample given for the NAME section is incomplete because th=
-e actual content sample is not given.
-> * Additionally, the description assumes that the item described is a =
-command, which need not be the case.
-> * The command makewhatis is not present on my system; the documented =
-tool to create the whatis database is called mandb.
-> * The reference to man(7) in man-pages(7) with respect to the NAME se=
-ction should be replaced by lexgrog(1), since it is the authoritative p=
-age for whatis.
-> * The description on .SH NAME in man(7) should either copy the releva=
-nt paragraph of lexgrog(1) or refer to it.
+On Wed, Oct 5, 2011 at 7:41 AM, Guillem Jover <guillem-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
+e:
+> Hi!
 >
-> Please fix,
-> Chris
+> The information about man pages from other packages on Debian-based
+> systems on [0] could see some updates:
 >
-> Is:
+> =A0* Instead of using the available db (dpkg -p), recommend using the
+> =A0 status db (the installed packages) with something like this inste=
+ad:
 >
-> =C2=A0 =C2=A0 =C2=A0 The only mandatory heading is NAME, which should=
- be the first section and be fol=E2=80=90
-> =C2=A0 =C2=A0 =C2=A0 lowed on the next line by a one line description=
- of the program:
+> =A0 $ dpkg-query -f '${Maintainer}\n' -W mount
 >
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.SH NAME
+> =A0* The upstream maintainer is usually found in the copyright file:
 >
-> =C2=A0 =C2=A0 =C2=A0 It is extremely important that this format is fo=
-llowed, and that there is a back=E2=80=90
-> =C2=A0 =C2=A0 =C2=A0slash before the single dash which follows the co=
-mmand name. =C2=A0This syntax is used
-> =C2=A0 =C2=A0 =C2=A0by =C2=A0the =C2=A0makewhatis(8) program to creat=
-e a database of short command descriptions
-> =C2=A0 =C2=A0 =C2=A0 for the whatis(1) and apropos(1) commands.
+> =A0 /usr/share/doc/<pkgname>/copyright
 >
-> Let:
+> =A0 although some times only the copyright holders are found there,
+> =A0 otherwise the second best candidate might be the upstream
+> =A0 changelog, found at:
 >
-> =C2=A0 =C2=A0 =C2=A0 The only mandatory heading is NAME, which should=
- be the first section and be fol=E2=80=90
-> =C2=A0 =C2=A0 =C2=A0 lowed on the next line by a one line description=
- of the program:
+> =A0 /usr/share/doc/<pkgname>/changelog.gz
 >
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0.SH NAME
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0item \- description
+> regards,
+> guillem
 >
-> =C2=A0 =C2=A0 =C2=A0 It is extremely important that this format is fo=
-llowed, and that there is a back=E2=80=90
-> =C2=A0 =C2=A0 =C2=A0slash before the single dash which follows the it=
-em name. =C2=A0This syntax is used
-> =C2=A0 =C2=A0 =C2=A0by =C2=A0the mandb(8) program to create a databas=
-e of short command descriptions
-> =C2=A0 =C2=A0 =C2=A0 for the whatis(1) and apropos(1) commands.
+> [0] <http://man7.org/linux/man-pages/man_pages_other.html>
 
-Thanks for the detailed report. One thing that would have made it even
-better is a patch, since trying to scan for diffs in the above text is
-error-prone. I applied the patch below for man-pages-3.36.
+So, looking on an Ubuntu system, I see
 
-Cheers,
+$ dpkg-query -f '${Maintainer}\n' -W mount
+Ubuntu Core Developers <ubuntu-devel-discuss-nLRlyDuq1AZFpShjVBNYrg@public.gmane.org>
+
+Which is a little less informative than:
+
+$ dpkg -p mount | grep Maintainer
+Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss-nLRlyDuq1AZJPExlwSBNcg@public.gmane.org=
+om>
+Original-Maintainer: LaMont Jones <lamont-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+
+I don't have a Debian system handy. Looking at
+http://man7.org/linux/man-pages/man_pages_other.html, could you show
+the complete commands plus output as you would expect to do it on your
+system.
+
+Thanks,
 
 Michael
-
---- a/man7/man.7
-+++ b/man7/man.7
-@@ -102,22 +102,26 @@ followed by the heading name.
- .\" then place the heading in double quotes.
-
- The only mandatory heading is NAME, which should be the first section =
-and
--be followed on the next line by a one line description of the program:
-+be followed on the next line by a one-line description of the program:
- .RS
- .sp
- \&.SH NAME
- .br
-+item \\- description
- .sp
- .RE
- It is extremely important that this format is followed, and that there=
- is a
--backslash before the single dash which follows the command name.
-+backslash before the single dash which follows the item name.
- This syntax is used by the
--.BR makewhatis (8)
--program to create a database of short command descriptions for the
-+.BR mandb (8)
-+program to create a database of short descriptions for the
- .BR whatis (1)
- and
- .BR apropos (1)
- commands.
-+(See
-+.BR lexgrog (1)
-+for further details on the syntax of the NAME section.)
- .PP
- For a list of other sections that might appear in a manual page, see
- .BR man-pages (7).
-@@ -551,6 +555,7 @@ is not implemented.
- .SH "SEE ALSO"
- .BR apropos (1),
- .BR groff (1),
-+.BR lexgrog (1),
- .BR man (1),
- .BR man2html (1),
- .BR whatis (1),
-
-
 
 --=20
 Michael Kerrisk
