@@ -1,72 +1,35 @@
-From: Guillem Jover <guillem-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: Updates to information about man pages from other Debian packages
-Date: Wed, 5 Oct 2011 09:48:41 +0200
-Message-ID: <20111005074841.GA3065@gaara.hadrons.org>
-References: <20111005054109.GA25122@gaara.hadrons.org>
- <CAKgNAkjM_JaxmJvaYL-sV43COU==xkOAtjJmPP4+7iUp4c6K8A@mail.gmail.com>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: Re: man-pages-3.35 released
+Date: Thu, 06 Oct 2011 23:21:17 +0100
+Message-ID: <4E8E29DD.7080104@jguk.org>
+References: <CAKgNAkg+ns+PjLJajsp_Zq58ynJwkRarZ980Cv2xfUt9ZHBzfg@mail.gmail.com> <4E8B8013.40203@jguk.org> <CAKgNAkh1pj1TBv+mhm2fb0Q4vbO5hSUwk8NXYxfziRhWyeSSZw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjM_JaxmJvaYL-sV43COU==xkOAtjJmPP4+7iUp4c6K8A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkh1pj1TBv+mhm2fb0Q4vbO5hSUwk8NXYxfziRhWyeSSZw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, 2011-10-05 at 08:23:39 +0200, Michael Kerrisk wrote:
-> So, looking on an Ubuntu system, I see
-> 
-> $ dpkg-query -f '${Maintainer}\n' -W mount
-> Ubuntu Core Developers <ubuntu-devel-discuss-nLRlyDuq1AZFpShjVBNYrg@public.gmane.org>
-> 
-> Which is a little less informative than:
-> 
-> $ dpkg -p mount | grep Maintainer
-> Maintainer: Ubuntu Core Developers <ubuntu-devel-discuss-nLRlyDuq1AZFpShjVBNYrg@public.gmane.org>
-> Original-Maintainer: LaMont Jones <lamont-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Michael Kerrisk wrote, On 05/10/11 05:39:
+> On Tue, Oct 4, 2011 at 11:52 PM, Jon Grant<jg-hus3n9K41k0@public.gmane.org>  wrote:
+[..]
+>>> The online changelog is available at
+>>> http://man7.org/linux/man-pages/changelog.html#release_3.35 (blogged at
+>>
+>> ^ I couldn't spot the change log on that page. #release_3.35 not visible in
+>> HMTL.
+>
+> It works for me. Try again? (A browser caching issue?)
 
-Ah, right. Well the same consideration as with other
-downstream/upstream applies here, for each distribution the patches
-should be going to their respective bug tracking systems, for Ubuntu to
-Launchpad, and for Debian to its debbugs instance. Barring a BTS (for
-other derivatives) the next option should be directly to the maintainer.
+Perhaps. It does work for me now.
 
-So, for Debian the preferred interface rather than mailing directly the
-maintainer is to use the reportbug program (from the same package
-name). I'd link to <http://www.debian.org/Bugs/Reporting> to avoid
-having to duplicate (even if partially) that information, though.
+BTW, the page is being served in "ISO-8859-1" by the webserver, however 
+the text is UTF-8. e.g. See "David Pr??vot" text.
 
-In any case to retrieve the maintainer information (including
-information from derivatives), I'd recommend using something like:
-
-,---
-  $ dpkg-query -s mount | grep Maintainer
-  Maintainer: LaMont Jones <lamont-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-`---
-
-which is certainly easier to deal with than something like this:
-
-,---
-  $ dpkg-query -f '${Maintainer}\n' -W mount
-  LaMont Jones <lamont-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-  $ dpkg-query -f '${Original-Maintainer}\n' -W mount
-
-  $
-`---
-
-(The second command would return a name on Ubuntu for example, but not
-on Debian.)
-
-> I don't have a Debian system handy. Looking at
-> http://man7.org/linux/man-pages/man_pages_other.html, could you show
-> the complete commands plus output as you would expect to do it on your
-> system.
-
-HTH, if not, let me know and I'll try to provide more information.
-
-thanks,
-guillem
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
