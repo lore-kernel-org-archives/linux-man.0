@@ -1,52 +1,45 @@
-From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: alphabetic index feedback
-Date: Sun, 09 Oct 2011 23:59:05 +0100
-Message-ID: <4E922739.8050900@jguk.org>
+From: Pat Pannuto <pat.pannuto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages: pthread_sigmask comment / code inconsistency
+Date: Mon, 10 Oct 2011 03:53:40 -0400
+Message-ID: <CA+Yp1NV_=VxcRvxUJYhKoGfafwqPpfS3m-hfHcQ0SzUeM1zpjQ@mail.gmail.com>
+Reply-To: pat.pannuto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi
+This is found on both my installed 3.27 and the html 3.32 release
+http://kernel.org/doc/man-pages/online/pages/man3/pthread_sigmask.3.html
 
-Just looking at this page:
+In the sample code, the comment indicates blocking SIGINT, while the code
+appears to be blocking SIGQUIT and SIGURS1.  This is confusing.  I believe
+removing the words "Block SIGINT; " would clarify the example.
 
-http://www.man7.org/linux/man-pages/online/dir_all_alphabetic.html
+Sorry for not sending a patch, the git repo seems to still be down.
+(from here: git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git)
 
+Please CC on any replies, I am not on these mailing lists.
 
-I propose to clarify a few entries:
-"accept4(2) - accept a connection on a socket"
+-pat
 
-Changed to:
-"accept4(2) - accept a connection on a socket with flags"
+relevant bits:
 
+ /* Block SIGINT; other threads created by main() will inherit
+              a copy of the signal mask. */
 
-current:
-     acos(3) - arc cosine function
-     acosf(3) - arc cosine function
+           sigemptyset(&set);
+           sigaddset(&set, SIGQUIT);
+           sigaddset(&set, SIGUSR1);
+           s = pthread_sigmask(SIG_BLOCK, &set, NULL);
 
-Propose to change to:
-     acos(3) - double precision arc cosine function
-     acosf(3) - float precision arc cosine function
-     acosl(3) - long double precision arc cosine function
-
-^ Note, the last one is missing from current alphabetic index currently.
-
-There are other similar variations in function returns, float, double, 
-so could be good to update those as well.
-
-
-" aio_init(3) - POSIX asynchronous I/O initialization"
-
-All the other aio functions don't mention "POSIX", so thinking of 
-consistency, could be removed from this one. Or perhaps added to all the 
-others.
-
-Best regards, Jon
+--
+Pat Pannuto
+Computer Engineering
+University of Michigan
+248.990.4548
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
