@@ -1,45 +1,47 @@
-From: Pat Pannuto <pat.pannuto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: man-pages: pthread_sigmask comment / code inconsistency
-Date: Mon, 10 Oct 2011 03:53:40 -0400
-Message-ID: <CA+Yp1NV_=VxcRvxUJYhKoGfafwqPpfS3m-hfHcQ0SzUeM1zpjQ@mail.gmail.com>
-Reply-To: pat.pannuto-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Clemens Ladisch <clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
+Subject: [PATCH] sched_rr_get_interval.2: update Linux notes
+Date: Tue, 11 Oct 2011 13:40:20 +0200
+Message-ID: <4E942B24.2080608@ladisch.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is found on both my installed 3.27 and the html 3.32 release
-http://kernel.org/doc/man-pages/online/pages/man3/pthread_sigmask.3.html
+Signed-off-by: Clemens Ladisch <clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
 
-In the sample code, the comment indicates blocking SIGINT, while the code
-appears to be blocking SIGQUIT and SIGURS1.  This is confusing.  I believe
-removing the words "Block SIGINT; " would clarify the example.
-
-Sorry for not sending a patch, the git repo seems to still be down.
-(from here: git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git)
-
-Please CC on any replies, I am not on these mailing lists.
-
--pat
-
-relevant bits:
-
- /* Block SIGINT; other threads created by main() will inherit
-              a copy of the signal mask. */
-
-           sigemptyset(&set);
-           sigaddset(&set, SIGQUIT);
-           sigaddset(&set, SIGUSR1);
-           s = pthread_sigmask(SIG_BLOCK, &set, NULL);
-
---
-Pat Pannuto
-Computer Engineering
-University of Michigan
-248.990.4548
+--- a/man2/sched_rr_get_interval.2
++++ b/man2/sched_rr_get_interval.2
+@@ -98,18 +98,24 @@
+ .\" for SCHED_RR processes.  For RR processes the timeslice is always
+ .\" DEF_TIMESLICE, or 0.1 secs.
+ .\" Was the following really true for older kernels?
+-.\" Must build a 2.6.8 kernel and retest, and rewrite the following text
+-.\" appropriately.
++.\" It is again true for at least Linux 2.6.12, but stopped in 2.6.24.
+ POSIX does not specify any mechanism for controlling the size of the
+ round-robin time quantum.
+ However, Linux provides a (nonportable) method of doing this.
+-The quantum can be controlled by adjusting the process's nice value (see
++The quantum of both
++.B SCHED_RR
++and
++.B SCHED_OTHER
++processes can be controlled by adjusting the process's nice value (see
+ .BR setpriority (2)).
+ Assigning a negative (i.e., high) nice value results in a longer quantum;
+ assigning a positive (i.e., low) nice value results in a shorter quantum.
+ The default quantum is 0.1 seconds;
+ the degree to which changing the nice value affects the
+ quantum has varied somewhat across kernel versions.
++Since Linux 2.6.24, the
++.B SCHED_RR
++quantum cannot be modified.
+ .\" .SH BUGS
+ .\" As of Linux 1.3.81
+ .\" .BR sched_rr_get_interval ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
