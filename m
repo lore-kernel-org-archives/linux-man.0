@@ -1,75 +1,59 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sched_rr_get_interval.2: update Linux notes
-Date: Tue, 11 Oct 2011 16:52:51 +0200
-Message-ID: <CAKgNAkgq42JVZ0whV-13Qq=3QJNgbuApxJuLHeg4sUtkbexDMA@mail.gmail.com>
-References: <4E942B24.2080608@ladisch.de>
+Subject: Re: man scp
+Date: Tue, 11 Oct 2011 16:54:41 +0200
+Message-ID: <CAKgNAkhAetT2qXGM4y0zeMqdQD1HCOS2LZx6jpiMKT82qbBizA@mail.gmail.com>
+References: <21495CC4-CE78-4174-8DD7-34EFEEF0BDF2@cap-lore.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E942B24.2080608-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
+In-Reply-To: <21495CC4-CE78-4174-8DD7-34EFEEF0BDF2-vN3M59HtaNxWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Clemens Ladisch <clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
+To: Norman Hardy <norm-vN3M59HtaNxWk0Htik3J/w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Clemens,
+Hello Norman,
 
-On Tue, Oct 11, 2011 at 1:40 PM, Clemens Ladisch <clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org> w=
-rote:
-> Signed-off-by: Clemens Ladisch <clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
+On Fri, Oct 7, 2011 at 9:56 PM, Norman Hardy <norm-vN3M59HtaNxWk0Htik3J/w@public.gmane.org> wrote:
+> I discovered this problem on Apple's version of Linux.
+> Two other systems had the same problem however.
+> Google recommended you for man page bugs.
 
-Thanks for this. Do you have a pointer to the relevant kernel commit?
+Sorry--only for some man pages. scp(1) isn't one of them, but take a look here:
+http://man7.org/linux/man-pages/man_pages_other.html
 
 Cheers,
 
 Michael
 
-
-> --- a/man2/sched_rr_get_interval.2
-> +++ b/man2/sched_rr_get_interval.2
-> @@ -98,18 +98,24 @@
-> =A0.\" for SCHED_RR processes. =A0For RR processes the timeslice is a=
-lways
-> =A0.\" DEF_TIMESLICE, or 0.1 secs.
-> =A0.\" Was the following really true for older kernels?
-> -.\" Must build a 2.6.8 kernel and retest, and rewrite the following =
-text
-> -.\" appropriately.
-> +.\" It is again true for at least Linux 2.6.12, but stopped in 2.6.2=
-4.
-> =A0POSIX does not specify any mechanism for controlling the size of t=
-he
-> =A0round-robin time quantum.
-> =A0However, Linux provides a (nonportable) method of doing this.
-> -The quantum can be controlled by adjusting the process's nice value =
-(see
-> +The quantum of both
-> +.B SCHED_RR
-> +and
-> +.B SCHED_OTHER
-> +processes can be controlled by adjusting the process's nice value (s=
-ee
-> =A0.BR setpriority (2)).
-> =A0Assigning a negative (i.e., high) nice value results in a longer q=
-uantum;
-> =A0assigning a positive (i.e., low) nice value results in a shorter q=
-uantum.
-> =A0The default quantum is 0.1 seconds;
-> =A0the degree to which changing the nice value affects the
-> =A0quantum has varied somewhat across kernel versions.
-> +Since Linux 2.6.24, the
-> +.B SCHED_RR
-> +quantum cannot be modified.
-> =A0.\" .SH BUGS
-> =A0.\" As of Linux 1.3.81
-> =A0.\" .BR sched_rr_get_interval ()
+> I may try to find out how to submit this to Apple too.
 >
+> The man page for scp is misleading.
+> The last of the sequence of file operands is the destination directory name and not a file name.
+> I conclude this from the claimed ancestry of the "rcp" command and also a few tests.
+> The man page for rcp is clearer in this regard.
+> It also seems to work if the last entry is indeed a file name at least if that name matches the source name.
+> I have not tested other possibilities.
+> I do not rule out the possibility that there is a bug in destination computer's scpd deamon, but it seems unlikely to me.
+> I have done the test on two distinct destination systems.
+>
+> To be clear the tests that I have done carefully follow:
+>
+> I performed the following two shell commands:
+>
+> scp t1 ootbcomp.com:scpTest
+> scp t2 t3 ootbcomp.com:scpTest
+>
+> I then verified that files t1, t2 and t3 had been correctly transmitted to the machine ootbcomp.com, into directory ~/scpTest where tilda evaluates to the same string on both machines.
+>
+> This is useful behavior which I use and which cannot be explained by the scp man page on any of several *nix systems that I tried.
+>
+> I suspect that I do not understand scp's behavior and thus decline to suggest how the man page should be fixed.
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
