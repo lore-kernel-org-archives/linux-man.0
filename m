@@ -1,37 +1,49 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] wcrtomb.3: ffix
-Date: Fri, 14 Oct 2011 21:24:51 -0400
-Message-ID: <1318641891-6313-1-git-send-email-taffit@debian.org>
+From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] mbsrtowcs, mbsnrtowcs: wfix
+Date: Fri, 14 Oct 2011 21:23:27 -0400
+Message-ID: <j7anaf$8pd$1@dough.gmane.org>
+References: <1318641386-24095-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1318641386-24095-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
-Signed-off-by: David Pr=C3=A9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
----
- man3/wcrtomb.3 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Hi Michael,
 
-diff --git a/man3/wcrtomb.3 b/man3/wcrtomb.3
-index 4a80705..0727fbc 100644
---- a/man3/wcrtomb.3
-+++ b/man3/wcrtomb.3
-@@ -36,7 +36,7 @@ that is, the number of bytes
- written at \fIs\fP.
- .PP
- A different case is when \fIs\fP is not NULL,
-- but \fIwc\fP is a null wide character (L\(aq\\0\(aq).
-+but \fIwc\fP is a null wide character (L\(aq\\0\(aq).
- In this
- case the
- .BR wcrtomb ()
---=20
-1.7.7
+The title of the previous patch should have been:
+
+	mbsrtowcs.3, mbsnrtowcs.3: wfix
+
+sorry about that.
+
+Cheers
+
+David
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iQIcBAEBCAAGBQJOmOCCAAoJELgqIXr9/gnyfK8P/1zbpzpHYcdAAYLrrRvvgAXx
+V5d2Vg6AWzZscwT2kUZ37rGZ41lNgs0n8mlSdcmJYvExBMEozAuZOSMxCSQLCeEp
+dDQZj7WYS1XU+JnTV88h9ZhAtQ1rooH7atwYCaFu3tXR0AxUV3PtBuQWdI+1SACD
+c6PCyoiInH7IVm3dLxk6q1t2Jd0Jx//+UxzvQjb9OiT/KPt0Y2Tv2+QPirSVKUfW
+RPsL+U7OZwGcgPg2Dqu4J/NnP+s+7Ytka1gG8DCojFRbuDFLUbq1ezWnJCQ0m991
+69epUembQ91A31O1maInfRKV6DFiEt5b6uEBZBjQgSmLDxFMgXTPUnOJGVCBSrZS
+tuKkopEbITfK4pTYVArxcTLbwNZt8oVXjYR9JnREPT8grccQSZZzdXMhrLjD9o4s
+TiFL0IghhO2tXj3R/0Y48k4/387uvevrUZl2nfEbJx8kVUeC8eM8ru2M0fEjIlqZ
+U6uJVT24TkUzPt8SWnjyi69+f5eqjtYiHUL2UQNWs/AltkFz1X6HS8yA8YVScB7k
+kZBe7ANatVnMpVD9NrG2iAd6EphYIjhq2jOd9Xrv6vDtSxsc5uGeEAkjAp4Q44Wu
+PZYKyQ9mOpZ2X9ZAMZ9XD4QJxd6e+acJondozt6DGL85UJkB7uoWbJQcmjxEiLYD
+D2CS18xv9jC5gxwiJ16R
+=yjpG
+-----END PGP SIGNATURE-----
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
