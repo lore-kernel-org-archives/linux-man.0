@@ -1,108 +1,85 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH] mbsrtowcs, mbsnrtowcs: wfix
-Date: Sun, 16 Oct 2011 08:09:03 +0200
-Message-ID: <CAKgNAkhee9nOi0p5B+XHRrd6hW6W4CxogO-dYLh3KhNA-7hDGA@mail.gmail.com>
-References: <1318641386-24095-1-git-send-email-taffit@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Date: Sun, 16 Oct 2011 09:15:46 -0400
+Message-ID: <j7ele2$mvr$1@dough.gmane.org>
+References: <1318641386-24095-1-git-send-email-taffit@debian.org> <CAKgNAkhee9nOi0p5B+XHRrd6hW6W4CxogO-dYLh3KhNA-7hDGA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1318641386-24095-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAKgNAkhee9nOi0p5B+XHRrd6hW6W4CxogO-dYLh3KhNA-7hDGA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
-On Sat, Oct 15, 2011 at 3:16 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
-te:
->
-> Signed-off-by: David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-> ---
-> =A0man3/mbsnrtowcs.3 | =A0 =A02 +-
-> =A0man3/mbsrtowcs.3 =A0| =A0 =A02 +-
-> =A02 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man3/mbsnrtowcs.3 b/man3/mbsnrtowcs.3
-> index bbd1d71..9a7a5bf 100644
-> --- a/man3/mbsnrtowcs.3
-> +++ b/man3/mbsnrtowcs.3
-> @@ -80,7 +80,7 @@ next multibyte sequence to be converted, and the nu=
-mber of wide characters
-> =A0written to \fIdest\fP is returned.
-> =A0.IP 3.
-> =A0The multibyte string has been completely converted, including the
-> -terminating null wide character (\(aq\\0\(aq)
-> +terminating wide character (\(aq\\0\(aq)
-> =A0(which has the side effect of bringing back \fI*ps\fP to the
-> =A0initial state).
-> =A0In this case \fI*src\fP is set to NULL, and the number of wide
-> diff --git a/man3/mbsrtowcs.3 b/man3/mbsrtowcs.3
-> index fcf47ca..fc8c802 100644
-> --- a/man3/mbsrtowcs.3
-> +++ b/man3/mbsrtowcs.3
-> @@ -51,7 +51,7 @@ multibyte sequence to be converted,
-> =A0and the number of wide characters written to \fIdest\fP is returne=
-d.
-> =A0.IP 3.
-> =A0The multibyte string has been completely converted, including the
-> -terminating null wide character (\(aq\\0\(aq), which has the side
-> +terminating null character (\(aq\\0\(aq), which has the side
-> =A0effect of bringing back \fI*ps\fP to the
-> =A0initial state.
-> =A0In this case \fI*src\fP is set to NULL, and the number of wide
+Hi Michael,
 
-This is one patch where I need some helpful explanation ;-).
+Le 16/10/2011 02:09, Michael Kerrisk a =C3=A9crit :
 
-Your changes above seem inconsistent. In the first case, you remove
-"null", and in the second, you remove "wide". I suspect the first case
-is a mistake, and you meant in both cases to change "null wide" to
-"null", right?
+> and you meant in both cases to change "null wide" to
+> "null", right?
 
-But, more generally, I think you are saying that there were some
-pieces of my older e9c23bc636426366d659809bc99cd84661e86464 that
-incorrectly changed "[terminating] null character" to "[terminating]
-null wide character", right?
+Sure, sorry about that.
 
-If that's the case, I suspect that there more than just those two
-errors. I suspect that the first of my changes to mbstowcs.3 below was
-also incorrect. Can you confirm?
+> But, more generally, I think you are saying that there were some
+> pieces of my older e9c23bc636426366d659809bc99cd84661e86464 that
+> incorrectly changed "[terminating] null character" to "[terminating]
+> null wide character", right?
 
-Cheers,
+I didn't checked them all (yet), but your example bellow seems to concu=
+r
+with that assumption.
 
-Michael
+> I suspect that the first of my changes to mbstowcs.3 below was
+> also incorrect. Can you confirm?
 
-PS See also 3c81e148a228550b4ce3d20a9c68ce0eb91cef07, which I just
-pushed (to github). Do you agree with that change?
+>  The multibyte string has been completely converted, including the
+> -terminating \(aq\\0\(aq.
+> +terminating null wide character (\(aq\\0\(aq).
 
+The change is indeed wrong, since \(aq\\0\(aq (i.e. '\0') is the
+terminating null byte (or character, but I think you tried to
+consistently use =E2=80=9Cbyte=E2=80=9D in your last changes), which is=
+ different from
+L\(aq\\0\(aq (i.e. L'\0'), the terminating null wide character.
 
---- a/man3/mbstowcs.3
-+++ b/man3/mbstowcs.3
-@@ -42,9 +42,9 @@ case the number of wide characters written to \fIdest=
-\fP is re
-turned, but the
- shift state at this point is lost.
- .IP 3.
- The multibyte string has been completely converted, including the
--terminating \(aq\\0\(aq.
-+terminating null wide character (\(aq\\0\(aq).
- In this case the number of wide characters written to
--\fIdest\fP, excluding the terminating L\(aq\\0\(aq character, is retur=
-ned.
-+\fIdest\fP, excluding the terminating null wide character, is returned=
-=2E
- .PP
- The programmer must ensure that there is room for at least \fIn\fP wid=
-e
- characters at \fIdest\fP.
+> PS See also 3c81e148a228550b4ce3d20a9c68ce0eb91cef07, which I just
+> pushed (to github). Do you agree with that change?
 
+Given the context (wide =E2=86=92 multibyte), I agree that the =E2=80=9C=
+terminating
+null=E2=80=9D in the destination string should be the terminating null =
+byte
+('\0'), but I didn't check the source code, or didn't test it either
+(just came across the previous inconsistencies while updating the Frenc=
+h
+translations of these pages).
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Regards
+
+David
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.11 (GNU/Linux)
+
+iQIcBAEBCAAGBQJOmtj+AAoJELgqIXr9/gny9P4QAKWp9R22ZaSzHEPycEgcsqSw
+/H+BwFGpCgEX+Z0AWm2NSX4gc+5XPiX/gJQpOkFzMlRJ17no6KfLEaxSxV8cHKzJ
+8NnYa6eK5KMbCg4QBicNi6BKiiLj35QY1h3h70HX/pmcbr0gmbEexuqj/dwnwBPB
+1WPwpZ3fcNzCYRDZzEkzXOfXhoFlGC+XfOOC5Uwn56TEXx03gGFeJsCTRW9V7lzX
+0VL9n8E3FLGJSW8Am/EQ8hGzwGbiuzXaJntkwNj3b5kaof/wc7iwo82xwgX3Nc+K
+l6+d+NuK1hbY8Cvu81B0jOtv6MTdPR14x5lo0YtM/onLHKs5a4Rt149/sH0zlGQO
+uAEh+FEv59D0qvJkkeZsXpWjehqs1YJDv82bRcfz5H4ZIVUzJTnKhBQnI4MjX2m9
+gTNg1eiC7+Jt0qge5L7PRwVGuxiCI1MG5tGeogiGdv/GCEIqJ6OFwQjeFjk3Iz1m
+pTvm0AcLyNz/w70rGQ8vfIsPscuIy1tY0t00vioIDaHv6kAdCuYVytU33OHK5jWQ
+xdXMwWGdwWH1nYjhYU5gwoFsQUQpgmHugwTgXsEIgvgvopGp9OhHLd+kcDUw7Uyn
+3HVBdDG522B4TwstBTdpyMMhlOgRAGvBHsfYVrvtIecHm/JgxLwoPr2KLyC1n9MD
+/iuRZR2+K6YdTAfen3vi
+=3DB/Qv
+-----END PGP SIGNATURE-----
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
