@@ -1,7 +1,7 @@
 From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 1/6] ld.so.8: clarify synopsis
-Date: Thu, 20 Oct 2011 02:04:12 -0500
-Message-ID: <20111020070412.GA11485@elie.hsd1.il.comcast.net>
+Subject: [PATCH 2/6] ld.so.8: move important information toward the top
+Date: Thu, 20 Oct 2011 02:06:12 -0500
+Message-ID: <20111020070612.GB11485@elie.hsd1.il.comcast.net>
 References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -13,76 +13,86 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The <program> argument to ld-linux.so is not optional.
+The novice might wonder why programs need linking at run-time at all,
+so point out early on that the purpose of this exercise is linking
+against shared libraries that can be upgraded independently of the
+applications that use them (as contrasted with static linking).
+Wording taken from the Debian glibc package, 2003.
 
-While clarifying that, list supported options in the synopsis, improve
-the typography a little, and move information about how the dynamic
-linker is usually used from the SYNOPSIS to the DESCRIPTION section.
+Most readers today won't care about /lib/ld.so and a.out binaries, so
+move the passage describing that to the end of the description
+section.  This way, it is more likely that the juicy bits (the
+overview and the library search path) will fit on the first page.
 
 Signed-off-by: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
-Not from Debian --- this is just me nitpicking to make the page look a
-little more conventional.
-
-The most iffy aspects of this patch are probably the use of \*(lq (is
-it portable enough?) and the inclusion of the --audit option without
-a detailed description in the OPTIONS section.  Naturally I like it
-anyway. ;-)
-
- man8/ld.so.8 |   31 ++++++++++++++++++++++---------
- 1 files changed, 22 insertions(+), 9 deletions(-)
+ man8/ld.so.8 |   39 +++++++++++++++++++--------------------
+ 1 files changed, 19 insertions(+), 20 deletions(-)
 
 diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 84278d0..f0718dd 100644
+index f0718dd..9fc96c9 100644
 --- a/man8/ld.so.8
 +++ b/man8/ld.so.8
-@@ -3,22 +3,35 @@
- .SH NAME
- ld.so, ld-linux.so* \- dynamic linker/loader
- .SH SYNOPSIS
-+.B /lib/ld-linux.so.*
-+.RB [ \-\-list ]
-+.RB [ \-\-verify ]
-+.RB [ \-\-library-path
-+.IR paths ]
-+.RB [ \-\-inhibit-rpath
-+.IR objects ]
-+.RB [ \-\-audit
-+.IR auditors ]
-+.I program
-+.RI [ arg ...]
-+.SH DESCRIPTION
-+The programs
-+.B ld.so
-+and
-+.B ld-linux.so*
-+find and load the shared libraries needed by a program, prepare
-+the program to run, and then run it.
-+.LP
+@@ -21,6 +21,12 @@ and
+ .B ld-linux.so*
+ find and load the shared libraries needed by a program, prepare
+ the program to run, and then run it.
++Unless the
++.B \-static
++option was given to
++.BR ld (1)
++during compilation, all Linux programs are incomplete and require
++further linking at run time.
+ .LP
  The dynamic linker can be run either indirectly by running some
  dynamically linked program or library (in which case no command-line options
- to the dynamic linker can be passed and, in the ELF case, the dynamic linker
- which is stored in the
- .B .interp
--section of the program is executed) or directly by running:
--.P
--.I /lib/ld-linux.so.*
--[OPTIONS] [PROGRAM [ARGUMENTS]]
--.SH DESCRIPTION
--The programs
--.B ld.so
--and
--.B ld-linux.so*
--find and load the shared libraries needed by a program, prepare
--the program to run, and then run it.
-+section of the program is executed) or directly by running
-+.RB \*(lq /lib/ld-linux.so.*
-+.RI [ options ]
-+.I program
-+.RI [ arguments ]\*(rq.
+@@ -33,26 +39,6 @@ section of the program is executed) or directly by running
+ .I program
+ .RI [ arguments ]\*(rq.
  .LP
- Linux binaries require dynamic linking (linking at run time)
- unless the
+-Linux binaries require dynamic linking (linking at run time)
+-unless the
+-.B \-static
+-option was given to
+-.BR ld (1)
+-during compilation.
+-.LP
+-The program
+-.B ld.so
+-handles a.out binaries, a format used long ago;
+-.B ld-linux.so*
+-handles ELF (\fI/lib/ld-linux.so.1\fP for libc5, \fI/lib/ld-linux.so.2\fP
+-for glibc2), which everybody has been using for years now.
+-Otherwise both have the same behavior, and use the same
+-support files and programs
+-.BR ldd (1),
+-.BR ldconfig (8)
+-and
+-.IR /etc/ld.so.conf .
+-.LP
+ The shared libraries needed by the program are searched for
+ in the following order:
+ .IP o 3
+@@ -85,6 +71,19 @@ and then
+ If the binary was linked with the
+ .B \-z nodeflib
+ linker option, this step is skipped.
++.LP
++The program
++.B ld.so
++handles a.out binaries, a format used long ago;
++.B ld-linux.so*
++handles ELF (\fI/lib/ld-linux.so.1\fP for libc5, \fI/lib/ld-linux.so.2\fP
++for glibc2), which everybody has been using for years now.
++Otherwise both have the same behavior, and use the same
++support files and programs
++.BR ldd (1),
++.BR ldconfig (8)
++and
++.IR /etc/ld.so.conf .
+ .SS $ORIGIN and rpath
+ .PP
+ .B ld.so
 -- 
 1.7.7
 
