@@ -1,86 +1,60 @@
-From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 6/6] ld.so.8: document how hwcaps affect search path
-Date: Thu, 20 Oct 2011 02:16:35 -0500
-Message-ID: <20111020071635.GF11485@elie.hsd1.il.comcast.net>
-References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH 1/6] ld.so.8: clarify synopsis
+Date: Thu, 20 Oct 2011 14:08:33 -0400
+Message-ID: <201110201408.34778.vapier@gentoo.org>
+References: <20111020070037.GA11392@elie.hsd1.il.comcast.net> <20111020070412.GA11485@elie.hsd1.il.comcast.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed;
+  boundary="nextPart1807490.vkGU7kutTe";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20111020070037.GA11392-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
+In-Reply-To: <20111020070412.GA11485-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
+To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Wording by Aurelien Jarno, from Debian glibc's r4701 (2011-06-04).
+--nextPart1807490.vkGU7kutTe
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Fixes http://bugs.debian.org/622385
+On Thursday 20 October 2011 03:04:12 Jonathan Nieder wrote:
+> +.RB \*(lq /lib/ld-linux.so.*
+> +.RI [ options ]
+> +.I program
+> +.RI [ arguments ]\*(rq.
 
-Requested-by: Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
-Signed-off-by: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
-I think this information belongs in the ldconfig(8) page, not
-ld.so(8), but either one is better than nowhere. ;-)
+can we avoid lq/rq ?  it's pretty uncommon and imo, just useless noise.
 
-That's the end of the series.  Thanks for reading.
+the rest looks fine to me.
+-mike
 
- man8/ld.so.8 |   32 ++++++++++++++++++++++++++++++++
- 1 files changed, 32 insertions(+), 0 deletions(-)
+--nextPart1807490.vkGU7kutTe
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 409876d..13b5508 100644
---- a/man8/ld.so.8
-+++ b/man8/ld.so.8
-@@ -63,6 +63,8 @@ in the augmented library path.
- If, however, the binary was linked with the
- .B \-z nodeflib
- linker option, libraries in the default library paths are skipped.
-+Libraries installed in hardware capabilities directories (see below)
-+are preferred to other libraries.
- .IP o
- In the default path
- .IR /lib ,
-@@ -152,6 +154,36 @@ the system libraries directory, which is /lib for the native architecture
- on FHS compliant GNU/Linux systems.
- .\" ld.so lets names be abbreviated, so $O will work for $ORIGIN;
- .\" Don't do this!!
-+.SH HARDWARE CAPABILITIES
-+Libraries might be compiled using hardware-specific instructions which do not
-+exist on every CPU. Such libraries should be installed in directories whose name
-+defines the hardware capabilities such as \fB/usr/lib/sse2/\fR. The dynamic
-+linker checks these directories against the hardware of the machine and selects
-+the best suitable version of a given library. Hardware capabilities directories
-+could be cascaded to combine CPU features. Hardware capabilities depends on
-+the CPU. The following names are currently recognized:
-+.B Alpha
-+ev4, ev5, ev56, ev6, ev67
-+.TP
-+.B MIPS
-+loongson2e, loongson2f, octeon, octeon2
-+.TP
-+.B PowerPC
-+4xxmac, altivec, arch_2_05, arch_2_06, booke, cellbe, dfp, efpdouble, efpsingle,
-+fpu, ic_snoop, mmu, notb, pa6t, power4, power5, power5+, power6x, ppc32, ppc601,
-+ppc64, smt, spe, ucache, vsx
-+.TP
-+.B SPARC
-+flush, muldiv, stbar, swap, ultra3, v9, v9v, v9v2
-+.TP
-+.B s390
-+dfp, eimm, esan3, etf3enh, g5, highgprs, hpage, ldisp, msa, stfle,
-+z900, z990, z9-109, z10, zarch
-+.TP
-+.TP
-+.B x86 (32-bit only)
-+acpi, apic, clflush, cmov, cx8, dts, fxsr, ht, i386, i486, i586, i686, mca, mmx,
-+mtrr, pat, pbe, pge, pn, pse36, sep, ss, sse, sse2, tm
- .SH ENVIRONMENT
- There are four important environment variables.
- .TP
--- 
-1.7.7
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
 
+iQIcBAABAgAGBQJOoGOiAAoJEEFjO5/oN/WBRjIP/3hbsyKZY44RHxi7eAUpNC9o
+/XY6G2ROp7OEZVzR6k88CeEY95CqKMzgViAyuBHT3JmcLKK5oostQM+X1E1jPcd1
+/ZKdd2m3vmnclRTeqH9mZlX9TOAIbJcIy8JpJR/kuMeHeOeEGBeH1/vAZRYdgpMW
+gSb+VuoP+HwTx6brH7UfM1ZDdVhfWLW/wqhA5FpzJhY6byjIB7A3kVzcOvHPzcu2
+LmtkDUbp3n74Zebe6HOPzhJyLwJ2B0yjF3cCcKgeFDbDOFVMvUsc3PfsoDa0w4vR
+1fiPvcDdY1lCDCFjrsuLjGXZ5KmiozXThAO9KEmB2AQY287WTTKaU8Pz2GZjX4F5
+aJIR9AtzVGo1KH10YvVfADuo4odHpnMoBs7CTcRynQY5ndTcdSvCRjbn+p4z0r6j
+p2c3eTrUkPZzB3Dac5K/tgTrUAXUrszqlaMYStC/4rKFX1p9OQTSFiuepTNTisqX
+ndYw/5Ong8dHNuxk+RjKh6nlgY8Sn2pK0nuk/xfCqiMrkoPQmNy8WilA6GUUDNUk
+v4okHhPbsveih+TVyCxGA5xWRFjUyxjw9ubrFvOyCrTKEtN98BF0EkrCT5W4mdJ3
+84BiAhh3KdhERnd7ftiO3aC/xrOzU2Pmxn7ze0Lndt2J5A5BK3M5ny4Uo3DGpNy2
+DlBp99HVNemQNpdnD6uK
+=N3Eb
+-----END PGP SIGNATURE-----
+
+--nextPart1807490.vkGU7kutTe--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
