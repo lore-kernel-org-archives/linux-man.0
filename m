@@ -1,60 +1,66 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH 1/6] ld.so.8: clarify synopsis
-Date: Thu, 20 Oct 2011 14:08:33 -0400
-Message-ID: <201110201408.34778.vapier@gentoo.org>
-References: <20111020070037.GA11392@elie.hsd1.il.comcast.net> <20111020070412.GA11485@elie.hsd1.il.comcast.net>
+Subject: Re: [PATCH 4/6] ld.so.8: document Debian's /etc/ld.so.nohwcap extension
+Date: Thu, 20 Oct 2011 14:11:02 -0400
+Message-ID: <201110201411.03656.vapier@gentoo.org>
+References: <20111020070037.GA11392@elie.hsd1.il.comcast.net> <20111020071424.GD11485@elie.hsd1.il.comcast.net>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
-  boundary="nextPart1807490.vkGU7kutTe";
+  boundary="nextPart16315290.g1BrEuImIf";
   protocol="application/pgp-signature";
   micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20111020070412.GA11485-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
+In-Reply-To: <20111020071424.GD11485-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---nextPart1807490.vkGU7kutTe
+--nextPart16315290.g1BrEuImIf
 Content-Type: Text/Plain;
   charset="iso-8859-1"
 Content-Transfer-Encoding: 7bit
 
-On Thursday 20 October 2011 03:04:12 Jonathan Nieder wrote:
-> +.RB \*(lq /lib/ld-linux.so.*
-> +.RI [ options ]
-> +.I program
-> +.RI [ arguments ]\*(rq.
+On Thursday 20 October 2011 03:14:24 Jonathan Nieder wrote:
+> Incidentally, is there some upstream-supported way to do this
+> (override LD_HWCAP_MASK using a file on the filesystem)?  How do other
+> distros address this problem (e.g., ABI mismatches between out-of-date
+> hwcap libs and the updated libnss) during upgrades?
 
-can we avoid lq/rq ?  it's pretty uncommon and imo, just useless noise.
+use IFUNC and then there's usually no need for hwcap alternatives
 
-the rest looks fine to me.
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+>
+> +.I /etc/ld.so.nohwcap
+> +(Debian only, since glibc 2.2.93-1)
+
+i think this belongs in Debian's man-page patchset
 -mike
 
---nextPart1807490.vkGU7kutTe
+--nextPart16315290.g1BrEuImIf
 Content-Type: application/pgp-signature; name=signature.asc 
 Content-Description: This is a digitally signed message part.
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iQIcBAABAgAGBQJOoGOiAAoJEEFjO5/oN/WBRjIP/3hbsyKZY44RHxi7eAUpNC9o
-/XY6G2ROp7OEZVzR6k88CeEY95CqKMzgViAyuBHT3JmcLKK5oostQM+X1E1jPcd1
-/ZKdd2m3vmnclRTeqH9mZlX9TOAIbJcIy8JpJR/kuMeHeOeEGBeH1/vAZRYdgpMW
-gSb+VuoP+HwTx6brH7UfM1ZDdVhfWLW/wqhA5FpzJhY6byjIB7A3kVzcOvHPzcu2
-LmtkDUbp3n74Zebe6HOPzhJyLwJ2B0yjF3cCcKgeFDbDOFVMvUsc3PfsoDa0w4vR
-1fiPvcDdY1lCDCFjrsuLjGXZ5KmiozXThAO9KEmB2AQY287WTTKaU8Pz2GZjX4F5
-aJIR9AtzVGo1KH10YvVfADuo4odHpnMoBs7CTcRynQY5ndTcdSvCRjbn+p4z0r6j
-p2c3eTrUkPZzB3Dac5K/tgTrUAXUrszqlaMYStC/4rKFX1p9OQTSFiuepTNTisqX
-ndYw/5Ong8dHNuxk+RjKh6nlgY8Sn2pK0nuk/xfCqiMrkoPQmNy8WilA6GUUDNUk
-v4okHhPbsveih+TVyCxGA5xWRFjUyxjw9ubrFvOyCrTKEtN98BF0EkrCT5W4mdJ3
-84BiAhh3KdhERnd7ftiO3aC/xrOzU2Pmxn7ze0Lndt2J5A5BK3M5ny4Uo3DGpNy2
-DlBp99HVNemQNpdnD6uK
-=N3Eb
+iQIcBAABAgAGBQJOoGQ3AAoJEEFjO5/oN/WB/WkP/jweBgnjfn9Mh1NNBk1seEYU
+VYl5X58tBcuh6Swt3a+mf8zsxnvl16tjNUybuFI+6OC4WibcNeUN4aiXsxHyZGE2
+ORZZd7C2wfsSnscJNQ+1GjiWQ2BSoTrUsCMGpt7ofSrm/QDNUK5iPeBNAuRqREWV
+WdC9MMv0S3X0zB2FkKENhUgd/WhZZ2rUlBg1w0U0MxOMoIEfM2slXsQlS9CFUhR+
+ihIUbXRLRI4lzg0cQmgtpq3bGEjZT20HGNIn5KI51seZb+hoLFvO7rQp+j4/Vdh2
+zbqlEGuFLg8gQ/iKB5H7mPNObFmXA8I36XdWmAZe0LkQfPSKxK29gU93G5F0iiUU
+Avpxblkz2X0FdsiYpVo/Gz1BZ4n9Bfxo1mjhS4v5GV6phGOXXRlaajuT/miXF7Po
+y0o34aRV0IUxQ21HAAMeFHY9HmuXWqeADcp/I4uzal+YC8rGfy8UKcxGjsOYy4qZ
+qtTvkCPj6fGSW54oja1Na/QlykfHgo96/vdw1WdQE2pIA+WT4XyW/gtRAoQHOc9h
+FYEPBmbsIHfpL8KAv4dr1wlwUqf4SJQggpcSDEROa/8FKG//H3Aczhaqw1tLw1yV
+cnjY55jT3wbXwOq9Jg95vUk0Bdn5vRZ4bcoIO7G9kjkPcemv5Q0Iwl8YQjGUcKNb
+LZTw2dz+tMHjLa/16ztf
+=KdSi
 -----END PGP SIGNATURE-----
 
---nextPart1807490.vkGU7kutTe--
+--nextPart16315290.g1BrEuImIf--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
