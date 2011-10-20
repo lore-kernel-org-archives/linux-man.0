@@ -1,51 +1,41 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: aio manuals
-Date: Mon, 17 Oct 2011 15:53:41 -0400
-Message-ID: <x49botfl7i2.fsf@segfault.boston.devel.redhat.com>
-References: <20110309180600.GA14533@saboteur.suse.cz>
-	<x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
-	<20110316104356.GB32095@saboteur.suse.cz>
-	<x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
-	<20110316152018.GG2096@saboteur.suse.cz>
-	<20111013082918.GA17800@saboteur.suse.cz>
+From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH/RFC 0/6] ld.so.8: some improvements from Debian
+Date: Thu, 20 Oct 2011 02:01:01 -0500
+Message-ID: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20111013082918.GA17800-n1fJoQsqRnsVI8jrpt9EEQ@public.gmane.org> (Cyril Hrubis's message
-	of "Thu, 13 Oct 2011 10:29:18 +0200")
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> writes:
+Hi,
 
-> Hi!
->> > > So should we settle for memset()? I could update send updated patch
->> > > then.
->> > 
->> > Yeah, memset is what I typically have done.
->> > 
->> 
->> Here comes updated patch.
->
-> I've checked the latest man pages git and these changes aren't there
-> yet. Any comments?
->> @@ -42,8 +42,12 @@ Link with \fI\-laio\fP.
->>  .BR io_setup ()
->>  creates an asynchronous I/O context capable of receiving
->>  at least \fInr_events\fP.
->> -\fIctxp\fP must not point to an AIO context that already exists, and must
->> +The \fIctxp\fP must not point to an AIO context that already exists, and must
->>  be initialized to 0 prior to the call.
->> +
->> +Note that io_context_t is opaque type and thuss \fIctxp\fP should be zeroed
+I would like to see Debian using the ld.so(8) page from the man-pages
+project instead of its own custom copy, so people making improvements
+to that documentation would not need to choose which to contribute to.
+Here are some changes that might make it easier to use the upstream
+ld.so.8 as a drop-in replacement.
 
-One extra 's' in thus.
+I have tried to be very conservative, when in doubt matching what is
+in Debian's libc-bin package.  Some comments on this in the mails with
+each patch.
 
-other than that, looks good to me.
+Anyway, some of these seem to me like good improvements to the page
+regardless.  What do you think?
 
--Jeff
+Jonathan Nieder (6):
+  ld.so.8: clarify synopsis
+  ld.so.8: move important information toward the top
+  ld.so.8: document LD_ASSUME_KERNEL
+  ld.so.8: document Debian's /etc/ld.so.nohwcap extension
+  ld.so.8: document $PLATFORM and $LIB expansion
+  ld.so.8: document how hwcaps affect search path
+
+ man8/ld.so.8 |  181 +++++++++++++++++++++++++++++++++++++++++-----------------
+ 1 files changed, 128 insertions(+), 53 deletions(-)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
