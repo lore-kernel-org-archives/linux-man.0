@@ -1,54 +1,41 @@
 From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/6] ld.so.8: document $PLATFORM and $LIB expansion
-Date: Fri, 21 Oct 2011 00:25:28 -0500
-Message-ID: <20111021052528.GF23372@elie.hsd1.il.comcast.net>
+Subject: Re: [PATCH 4/6] ld.so.8: document Debian's /etc/ld.so.nohwcap
+ extension
+Date: Fri, 21 Oct 2011 00:30:47 -0500
+Message-ID: <20111021053047.GG23372@elie.hsd1.il.comcast.net>
 References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
- <20111020071538.GE11485@elie.hsd1.il.comcast.net>
- <201110201416.30351.vapier@gentoo.org>
+ <20111020071424.GD11485@elie.hsd1.il.comcast.net>
+ <201110201411.03656.vapier@gentoo.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <201110201416.30351.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <201110201411.03656.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>, Reinhard Tartler <siretart-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-(-cc: pasky, since I had his address wrong.  Goodbye, suse addresses.)
 Mike Frysinger wrote:
-> On Thursday 20 October 2011 03:15:38 Jonathan Nieder wrote:
 
->> +.B LIB
->> +The string \fB$LIB\fR (or equivalently \fB${LIB}\fR) represents
->> +the system libraries directory, which is /lib for the native architecture
->> +on FHS compliant GNU/Linux systems.
+> use IFUNC and then there's usually no need for hwcap alternatives
+
+I see.  (I'm not sure that's always true yet for optimizations GCC
+knows about, but it's certainly a good direction to go in.)
+
+> On Thursday 20 October 2011 03:14:24 Jonathan Nieder wrote:
+
+>> --- a/man8/ld.so.8
+>> +++ b/man8/ld.so.8
+>>
+>> +.I /etc/ld.so.nohwcap
+>> +(Debian only, since glibc 2.2.93-1)
 >
-> a better description might be something like "$LIB expands to the short libdir 
-> name that glibc was configured to install into". and then refer to it usually 
-> being "/lib" for the native ABI (not architecture) on FHS compliant Linux 
-> systems.  man-pages does not use the "GNU/" noise qualification.
+> i think this belongs in Debian's man-page patchset
 
-Right, it's $(slibdir), which goes in configparms since autoconf is
-not wired to handle the /usr/lib vs /lib distinction.  The FHS
-describes the contents of /lib as "Essential shared libraries and
-kernel modules".
-
-I guess it should say:
-
-	$LIB expands to the path to the "essential shared libraries"
-	directory, which is /lib for the native ABI on FHS compliant
-	systems.
-
-The FHS is supposed to apply to non-Linux Unix systems too, anyway.
-
-But that leaves me with questions:
-
- - what is $LIB for a non-native ABI?
-
- - does anyone customize this to point somewhere else and make their
-   machine non-FHS-compliant?  Maybe NixOS and Gentoo Prefix do.
-   What would a person typically use ${LIB} in an rpath for?
+Fair enough.  Let's drop it from this series, and I can ask joey
+whether he thinks it's worth documenting when proposing installing
+these pages in Debian manpages.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
