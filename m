@@ -1,16 +1,32 @@
-From: lisa hedstrand <lisa_hedstrand-DVMQ0Vekzmh0ubjbjo6WXg@public.gmane.org>
-Subject: Hi
-Date: Fri, 28 Oct 2011 16:46:03 +0530 (IST)
-Message-ID: <721332888.934971319800563793.JavaMail.root@tilmb17.indiatimes.com>
-Reply-To: lisa hedstrand <lisahedstrand-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: Any way to get shorter
+Date: Fri, 28 Oct 2011 23:12:52 +0100
+Message-ID: <CAGc9EvfYpQ+eJ3JfGYJ=y5eg7f+2MsZONMbaYnd9gk0SDHxHDw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-My name is Miss Lisa Please accept my apology if my mode of contacting you will in any way offend you. I am compelled to contact you via this medium because i needed a friend from that part of the world. We will get to know each other in details if my proposition accepted. l am a student in UK but originally from USA.
+Hello
+
+
+http://kernel.org/doc/man-pages/online/pages/man3/aio_read.3.html
+
+Could I ask, is there anyway to get shorter urls? man2html that
+generated like this
+would be clearer:
+http://kernel.org/doc/man/aio_read.3.html
+
+That means merging the man1, man2, man3 folders etc though.
+
+another idea is just to add a symbolic link to a shorter location on webserver.
+
+ln -s public_html/doc/man-pages/online/pages public_html/man
+
+Regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
