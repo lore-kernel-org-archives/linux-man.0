@@ -1,7 +1,7 @@
 From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Any way to get shorter
-Date: Fri, 28 Oct 2011 23:12:52 +0100
-Message-ID: <CAGc9EvfYpQ+eJ3JfGYJ=y5eg7f+2MsZONMbaYnd9gk0SDHxHDw@mail.gmail.com>
+Subject: read 2
+Date: Fri, 28 Oct 2011 23:41:50 +0100
+Message-ID: <CAGc9EveAKHV4--YZZWX6XMWuMDRh3C346eBBZwuKYQ1MBDBmcQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,21 +12,13 @@ List-Id: linux-man@vger.kernel.org
 
 Hello
 
+I saw fread is on section 3, but should read really be 3? It's not a
+kernel function directly I think. Perhaps the numbering is just
+historical?
 
-http://kernel.org/doc/man-pages/online/pages/man3/aio_read.3.html
+http://man7.org/linux/man-pages/online/pages/man2/read.2.html
 
-Could I ask, is there anyway to get shorter urls? man2html that
-generated like this
-would be clearer:
-http://kernel.org/doc/man/aio_read.3.html
-
-That means merging the man1, man2, man3 folders etc though.
-
-another idea is just to add a symbolic link to a shorter location on webserver.
-
-ln -s public_html/doc/man-pages/online/pages public_html/man
-
-Regards, Jon
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
