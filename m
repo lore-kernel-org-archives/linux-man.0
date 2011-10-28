@@ -1,7 +1,7 @@
 From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: read 2
-Date: Fri, 28 Oct 2011 23:41:50 +0100
-Message-ID: <CAGc9EveAKHV4--YZZWX6XMWuMDRh3C346eBBZwuKYQ1MBDBmcQ@mail.gmail.com>
+Subject: errno "SEE ALSO" link on each page which returns errno values
+Date: Fri, 28 Oct 2011 23:49:37 +0100
+Message-ID: <CAGc9EvdiKU=YC_ff6OGQk2Lz5J4oduotXB2f7yWZSGWbpQEcYw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,11 +12,15 @@ List-Id: linux-man@vger.kernel.org
 
 Hello
 
-I saw fread is on section 3, but should read really be 3? It's not a
-kernel function directly I think. Perhaps the numbering is just
-historical?
+I saw quite a lot of pages have this text:
 
-http://man7.org/linux/man-pages/online/pages/man2/read.2.html
+"in which case errno is set appropriately".
+
+e.g.
+http://kernel.org/doc/man-pages/online/pages/man2/close.2.html
+
+Could I ask, it would be useful to have a SEE ALSO link for errno
+page, would that be possible?
 
 Best regards, Jon
 --
