@@ -1,16 +1,24 @@
 From: akpm@linux-foundation.org
-Subject: [patch 005/127] Cross Memory Attach
-Date: Mon, 31 Oct 2011 17:06:39 -0700
-Message-ID: <201111010006.pA106d2F018284@hpaq11.eem.corp.google.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ASCII
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-arch-owner@vger.kernel.org>
-Sender: linux-arch-owner@vger.kernel.org
-To: torvalds@linux-foundation.org
-Cc: akpm@linux-foundation.org, cyeoh@au1.ibm.com, arnd@arndb.de, benh@kernel.crashing.org, dhowells@redhat.com, hpa@zytor.com, jmorris@namei.org, linux-arch@vger.kernel.org, linux-man@vger.kernel.org, mingo@elte.hu, paulus@samba.org, tglx@linutronix.de, yeohc@au1.ibm.com
+Subject: [merged] cross-memory-attach-v3.patch removed from -mm tree
+Date: Tue, 01 Nov 2011 14:07:26 -0700
+Message-ID: <201111012107.pA1L7Q3j011543@wpaz37.hot.corp.google.com>
+Reply-To: linux-kernel@vger.kernel.org
+Return-path: <mm-commits-owner@vger.kernel.org>
+Sender: mm-commits-owner@vger.kernel.org
+To: cyeoh@au1.ibm.com, arnd@arndb.de, benh@kernel.crashing.org, dhowells@redhat.com, hpa@zytor.com, jmorris@namei.org, linux-arch@vger.kernel.org, linux-man@vger.kernel.org, mingo@elte.hu
 List-Id: linux-man@vger.kernel.org
 
+
+The patch titled
+     Subject: Cross Memory Attach
+has been removed from the -mm tree.  Its filename was
+     cross-memory-attach-v3.patch
+
+This patch was dropped because it was merged into mainline or a subsystem tree
+
+The current -mm tree may be found at http://userweb.kernel.org/~akpm/mmotm/
+
+------------------------------------------------------
 From: Christopher Yeoh <cyeoh@au1.ibm.com>
 Subject: Cross Memory Attach
 
@@ -883,3 +891,8 @@ diff -puN security/keys/keyctl.c~cross-memory-attach-v3 security/keys/keyctl.c
  		return ret;
  	if (ret == 0)
 _
+
+Patches currently in -mm which might be from cyeoh@au1.ibm.com are
+
+origin.patch
+
