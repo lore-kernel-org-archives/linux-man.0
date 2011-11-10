@@ -1,52 +1,71 @@
-From: Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
-Subject: Re: [PATCH/RFC 0/6] ld.so.8: some improvements from Debian
-Date: Mon, 7 Nov 2011 08:41:38 +0000
-Message-ID: <CAOnWdoiomYnHN5z9PRpCSjpzmQy3yo-56JSOD3_E_PDnWgKs=w@mail.gmail.com>
-References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
+From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] tzset.3: fix description of "n" format
+Date: Thu, 10 Nov 2011 19:24:44 +0100
+Message-ID: <4EBC16EC.30905@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/mixed;
+ boundary="------------090401050609070508050301"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20111020070037.GA11392-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Sorry I took so long to get around to reviewing this. Some comments:
+This is a multi-part message in MIME format.
+--------------090401050609070508050301
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
--       /lib/ld-linux.so.*  [OPTIONS] [PROGRAM [ARGUMENTS]]
-+       /lib/ld-linux.so.*  [--list] [--verify] [--library-path
-+       paths] [--inhibit-rpath objects] [--audit auditors] program
-+       [arg...]
+Hello,
 
-Unless the options to a program are very short, I don't like to see
-them all listed in a synopsis, as it's too long-winded.
+according to [1], description of start/end format of TZ variable says:
+...
+Jn
+This specifies the Julian day, with n between 1 and 365. February 29 is 
+never counted, even in leap years.
+n
+This specifies the Julian day, with n between 0 and 365. February 29 is 
+counted in leap years.
+...
 
-Also, I prefer upper-case for metasyntactic variables in man pages. So
-in fact, the original is fine, though I do like ellipsis to indicate
-multiple arguments, so:
+This is correct and works. However, man page tzset(3) says:
+...
+Jn This specifies the Julian day with n between 1 and 365. Febru‐
+ary 29 is never counted even in leap years.
 
--       /lib/ld-linux.so.*  [OPTIONS] [PROGRAM [ARGUMENTS]]
-+       /lib/ld-linux.so.*  [OPTION...] [PROGRAM [ARGUMENT...]]
+n This specifies the Julian day with n between 1 and 365. Febru‐
+ary 29 is counted in leap years.
+...
 
-I don't think the phrase '"turn-key"' is helpful here; I'd remove it.
+For "n" format, interval should be "between 0 and 365". Attached patch 
+is solving this issue.
 
-+       hardware capabilities such as /usr/lib/sse2/. The dynamic
+Version of man pages: 3.35
 
-Insert comma after "hardware capabilities".
 
-+       CPU. The following names are currently recognized: Alpha ev4,
-+       ev5, ev56, ev6, ev67
+peter
 
-Insert para break before "Alpha".
 
-+              multiple version of the same library is
+[1] http://www.gnu.org/s/hello/manual/libc/TZ-Variable.html
 
-version =E2=86=92 versions
+--------------090401050609070508050301
+Content-Type: text/plain;
+ name="tzset.patch"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="tzset.patch"
 
---=20
-http://rrt.sc3d.org
+ZGlmZiAtdXAgbWFuLXBhZ2VzLTMuMzUvbWFuMy90enNldC4zLnRtcCBtYW4tcGFnZXMtMy4z
+NS9tYW4zL3R6c2V0LjMKLS0tIG1hbi1wYWdlcy0zLjM1L21hbjMvdHpzZXQuMy50bXAJMjAx
+MS0xMC0wNCAwODozNDo0NS4wMDAwMDAwMDAgKzAyMDAKKysrIG1hbi1wYWdlcy0zLjM1L21h
+bjMvdHpzZXQuMwkyMDExLTExLTEwIDE4OjQ3OjA3Ljg2ODk2OTA0NSArMDEwMApAQCAtMTM0
+LDcgKzEzNCw3IEBAIFRoaXMgc3BlY2lmaWVzIHRoZSBKdWxpYW4gZGF5IHdpdGggXGZJblwK
+IEZlYnJ1YXJ5IDI5IGlzIG5ldmVyIGNvdW50ZWQgZXZlbiBpbiBsZWFwIHllYXJzLgogLlRQ
+CiAuSSBuCi1UaGlzIHNwZWNpZmllcyB0aGUgSnVsaWFuIGRheSB3aXRoIFxmSW5cZlAgYmV0
+d2VlbiAxIGFuZCAzNjUuCitUaGlzIHNwZWNpZmllcyB0aGUgSnVsaWFuIGRheSB3aXRoIFxm
+SW5cZlAgYmV0d2VlbiAwIGFuZCAzNjUuCiBGZWJydWFyeSAyOSBpcyBjb3VudGVkIGluIGxl
+YXAgeWVhcnMuCiAuVFAKIE1cZkltXGZQLlxmSXdcZlAuXGZJZFxmUAo=
+--------------090401050609070508050301--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
