@@ -1,20 +1,44 @@
-From: "=?gbk?B?MzM5MDU0MTA=?=" <33905410-9uewiaClKEY@public.gmane.org>
-Subject: SCANF(3)  Linux Programmer's Manual
-Date: Thu, 17 Nov 2011 11:57:18 +0800
-Message-ID: <tencent_5E666E8545AB1BEE6E183292@qq.com>
+From: Alain <alainb06-GANU6spQydw@public.gmane.org>
+Subject: Typo in scanf
+Date: Fri, 18 Nov 2011 08:43:22 +0100
+Message-ID: <4EC60C9A.2030201@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="gbk"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?gbk?B?bXRrLm1hbnBhZ2Vz?= <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: =?gbk?B?bGludXgtbWFu?= <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-aHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvb25saW5lL3BhZ2VzL21hbjMv
-c2NhbmYuMy5odG1sDQpmcHJpbnRmKHN0ZGVyciwgIk5vIG1hdGNoaW5nIGNoYXJhY3RlcnNc
-biIpOiAgIGV4cGVjdGVkIKGuO6GvIHRva2Vu
+/** Sorry, sent again as mimetype plain text (1st mail rejected) **/
+
+There is a typo in the example given under "Note" section.
+
+Sorry I saw just now that there is a very easy way to report that by
+mail... I already files the report (and details such as version used =
+Ubuntu 10.04.3) here :
+
+https://bugs.launchpad.net/ubuntu/+source/man-db/+bug/891854
+
+Typo is:
+
+fprintf(stderr, "No matching characters\n"):
+
+Should be instead
+
+fprintf(stderr, "No matching characters\n");
+
+
+( ';' semicolon terminates an C instruction, and not ':' colon )
+
+I also made a suggestion (see bug report), to change the example using
+the 'm' modifier as 'a' seems rather dangerous and obsolete.
+This second part is just a suggestion (subject to discussion) whereas
+the typo is really there and makes compiling without errors impossible.
+
+Best regards.
+Alain BENEDETTI
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
