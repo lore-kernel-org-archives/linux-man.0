@@ -1,46 +1,75 @@
-From: Alain <alainb06-GANU6spQydw@public.gmane.org>
-Subject: Typo in scanf
-Date: Fri, 18 Nov 2011 08:43:22 +0100
-Message-ID: <4EC60C9A.2030201@free.fr>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: Cross Memory Attach v3
+Date: Sun, 20 Nov 2011 11:16:17 +0100
+Message-ID: <CAMuHMdWAhn7M8o0qY4pz3W1tyyKEcNY_YQL_6JuAPCcjL5vS1A@mail.gmail.com>
+References: <20110719003537.16b189ae@lilo>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-arch-owner@vger.kernel.org>
+In-Reply-To: <20110719003537.16b189ae@lilo>
+Sender: linux-arch-owner@vger.kernel.org
+To: Christopher Yeoh <cyeoh@au1.ibm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org, Linux/m68k <linux-m68k@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-/** Sorry, sent again as mimetype plain text (1st mail rejected) **/
+Hi Christopher,
 
-There is a typo in the example given under "Note" section.
+On Mon, Jul 18, 2011 at 17:05, Christopher Yeoh <cyeoh@au1.ibm.com> wro=
+te:
+> For arch maintainers there are some simple tests to be able to quickl=
+y
+> verify that the syscalls are working correctly here:
 
-Sorry I saw just now that there is a very easy way to report that by
-mail... I already files the report (and details such as version used =
-Ubuntu 10.04.3) here :
+I'm wiring up these new syscalls on m68k.
 
-https://bugs.launchpad.net/ubuntu/+source/man-db/+bug/891854
+> http://ozlabs.org/~cyeoh/cma/cma-test-20110718.tgz
 
-Typo is:
+The included README talks about:
 
-fprintf(stderr, "No matching characters\n"):
+    setup_process_readv_simple
+    setup_process_readv_iovec
+   setup_process_writev
 
-Should be instead
+while the actual test executables are called:
 
-fprintf(stderr, "No matching characters\n");
+    setup_process_vm_readv_simple
+    setup_process_vm_readv_iovec
+    setup_process_vm_writev
 
+On m68k (ARAnyM), the first and third test succeed. The second one
+fails, though:
 
-( ';' semicolon terminates an C instruction, and not ':' colon )
+# Setting up target with num iovecs 10, test buffer size 100000
+Target process is setup
+Run the following to test:
+=2E/t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
+0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
+0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
 
-I also made a suggestion (see bug report), to change the example using
-the 'm' modifier as 'a' seems rather dangerous and obsolete.
-This second part is just a suggestion (subject to discussion) whereas
-the typo is really there and makes compiling without errors impossible.
+and in the other window:
 
-Best regards.
-Alain BENEDETTI
+# ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
+0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
+0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
+copy_from_process failed: Invalid argument
+error code: 29
+#
+
+Any suggestions?
+
+Gr{oetje,eeting}s,
+
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 Geert
 
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-=
+m68k.org
+
+In personal conversations with technical people, I call myself a hacker=
+=2E But
+when I'm talking to journalists I just say "programmer" or something li=
+ke that.
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0=C2=A0 -- Linus Torvalds
