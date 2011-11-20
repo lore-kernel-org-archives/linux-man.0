@@ -1,75 +1,91 @@
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: Cross Memory Attach v3
-Date: Sun, 20 Nov 2011 11:16:17 +0100
-Message-ID: <CAMuHMdWAhn7M8o0qY4pz3W1tyyKEcNY_YQL_6JuAPCcjL5vS1A@mail.gmail.com>
-References: <20110719003537.16b189ae@lilo>
+From: Alexey Moiseytsev <himeraster@gmail.com>
+Subject: [bug] af_unix: Reading from a stream socket may lock the concurrent
+ poll() call
+Date: Mon, 21 Nov 2011 00:19:02 +0400
+Message-ID: <CAHjqzy7dhqi22yPJX=DP4x916hVXDY2WaDbdmnTEQ54n6qpMXw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-arch-owner@vger.kernel.org>
-In-Reply-To: <20110719003537.16b189ae@lilo>
-Sender: linux-arch-owner@vger.kernel.org
-To: Christopher Yeoh <cyeoh@au1.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org, Linux/m68k <linux-m68k@vger.kernel.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: netdev@vger.kernel.org, mtk.manpages@gmail.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Christopher,
+Hello,
 
-On Mon, Jul 18, 2011 at 17:05, Christopher Yeoh <cyeoh@au1.ibm.com> wro=
-te:
-> For arch maintainers there are some simple tests to be able to quickl=
-y
-> verify that the syscalls are working correctly here:
+The following program shows how the poll() call hangs on a non-empty
+stream socket.
 
-I'm wiring up these new syscalls on m68k.
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <pthread.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <poll.h>
 
-> http://ozlabs.org/~cyeoh/cma/cma-test-20110718.tgz
+int sockets[2];
 
-The included README talks about:
+int poll_socket(void) {
+    struct pollfd pfd = {
+        .fd = sockets[1],
+        .events = POLLIN
+    };
+    return poll(&pfd, 1, -1);
+}
 
-    setup_process_readv_simple
-    setup_process_readv_iovec
-   setup_process_writev
 
-while the actual test executables are called:
+/* observer routine doesn't modify amount of data available in the
+socket buffer */
+void* observer(void* arg) {
+    char buffer;
+    for (int j = 0; j < 2000; j++) {
+        recv(sockets[1], &buffer, sizeof(buffer), MSG_PEEK);
+        sched_yield();
+    }
+    return NULL;
+}
 
-    setup_process_vm_readv_simple
-    setup_process_vm_readv_iovec
-    setup_process_vm_writev
+int main(void) {
+    if (socketpair(PF_UNIX, SOCK_STREAM, 0, sockets) == -1)
+        return 1;
+    int rc, data[250] = {0};
+    if ((rc = send(sockets[0], &data, sizeof(data), MSG_DONTWAIT)) <= 0)
+        return 2;
+    poll_socket();
+/* If the first poll_socket() call didn't hang then the following
+message will be printed */
+    fprintf(stderr, "%d bytes available in input buffer\n", rc);
+    pthread_t observer_thread;
+    pthread_create(&observer_thread, NULL, observer, NULL);
+    for (int j = 0; j < 20000; j++) {
+/* If the first poll_socket() call didn't hang then all the following
+calls should do the same */
+        poll_socket();
+    }
+    fprintf(stderr, "Well done\n");
+    pthread_join(observer_thread, NULL);
+    close(sockets[0]);
+    close(sockets[1]);
+    return 0;
+}
 
-On m68k (ARAnyM), the first and third test succeed. The second one
-fails, though:
 
-# Setting up target with num iovecs 10, test buffer size 100000
-Target process is setup
-Run the following to test:
-=2E/t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
-0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
-0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
+Expected output: two lines or nothing (in case of error).
+Observed output: only the first line (and the process never exits).
 
-and in the other window:
+So the first poll() said that there is some data available in the
+socket. And one of the following poll() said that there is no data
+available in the socket. But this is false because the observer thread
+didn't actually consume any data from then socket.
 
-# ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
-0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
-0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
-copy_from_process failed: Invalid argument
-error code: 29
-#
+I assume that this bug can be eliminated by adding
+sk->sk_data_ready(...) call right after each call to
+skb_queue_head(..) in the unix_stream_recvmsg(...) routine
+(net/unix/af_unix.c)
 
-Any suggestions?
+Other info:
+$ uname -srmo
+Linux 2.6.32-5-amd64 x86_64 GNU/Linux
 
-Gr{oetje,eeting}s,
-
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-=
-m68k.org
-
-In personal conversations with technical people, I call myself a hacker=
-=2E But
-when I'm talking to journalists I just say "programmer" or something li=
-ke that.
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0=C2=A0 -- Linus Torvalds
+-- 
+Alexey
