@@ -1,99 +1,113 @@
-From: Christopher Yeoh <cyeoh@au1.ibm.com>
-Subject: Re: Cross Memory Attach v3
-Date: Mon, 21 Nov 2011 10:43:13 +1030
-Message-ID: <20111121104313.63c7f796@cyeoh-System-Product-Name>
-References: <20110719003537.16b189ae@lilo>
-	<CAMuHMdWAhn7M8o0qY4pz3W1tyyKEcNY_YQL_6JuAPCcjL5vS1A@mail.gmail.com>
+From: Eric Dumazet <eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [bug] af_unix: Reading from a stream socket may lock the
+ concurrent poll() call
+Date: Mon, 21 Nov 2011 15:38:06 +0100
+Message-ID: <1321886286.10470.7.camel@edumazet-HP-Compaq-6005-Pro-SFF-PC>
+References: <CAHjqzy7dhqi22yPJX=DP4x916hVXDY2WaDbdmnTEQ54n6qpMXw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAMuHMdWAhn7M8o0qY4pz3W1tyyKEcNY_YQL_6JuAPCcjL5vS1A@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org, Linux/m68k <linux-m68k@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAHjqzy7dhqi22yPJX=DP4x916hVXDY2WaDbdmnTEQ54n6qpMXw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alexey Moiseytsev <himeraster-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Geert,
+Le lundi 21 novembre 2011 =C3=A0 00:19 +0400, Alexey Moiseytsev a =C3=A9=
+crit :
+> Hello,
+>=20
+> The following program shows how the poll() call hangs on a non-empty
+> stream socket.
+>=20
+> #include <sys/types.h>
+> #include <sys/socket.h>
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <unistd.h>
+> #include <poll.h>
+>=20
+> int sockets[2];
+>=20
+> int poll_socket(void) {
+>     struct pollfd pfd =3D {
+>         .fd =3D sockets[1],
+>         .events =3D POLLIN
+>     };
+>     return poll(&pfd, 1, -1);
+> }
+>=20
+>=20
+> /* observer routine doesn't modify amount of data available in the
+> socket buffer */
+> void* observer(void* arg) {
+>     char buffer;
+>     for (int j =3D 0; j < 2000; j++) {
+>         recv(sockets[1], &buffer, sizeof(buffer), MSG_PEEK);
+>         sched_yield();
+>     }
+>     return NULL;
+> }
+>=20
+> int main(void) {
+>     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sockets) =3D=3D -1)
+>         return 1;
+>     int rc, data[250] =3D {0};
+>     if ((rc =3D send(sockets[0], &data, sizeof(data), MSG_DONTWAIT)) =
+<=3D 0)
+>         return 2;
+>     poll_socket();
+> /* If the first poll_socket() call didn't hang then the following
+> message will be printed */
+>     fprintf(stderr, "%d bytes available in input buffer\n", rc);
+>     pthread_t observer_thread;
+>     pthread_create(&observer_thread, NULL, observer, NULL);
+>     for (int j =3D 0; j < 20000; j++) {
+> /* If the first poll_socket() call didn't hang then all the following
+> calls should do the same */
+>         poll_socket();
+>     }
+>     fprintf(stderr, "Well done\n");
+>     pthread_join(observer_thread, NULL);
+>     close(sockets[0]);
+>     close(sockets[1]);
+>     return 0;
+> }
+>=20
+>=20
+> Expected output: two lines or nothing (in case of error).
+> Observed output: only the first line (and the process never exits).
+>=20
+> So the first poll() said that there is some data available in the
+> socket. And one of the following poll() said that there is no data
+> available in the socket. But this is false because the observer threa=
+d
+> didn't actually consume any data from then socket.
+>=20
+> I assume that this bug can be eliminated by adding
+> sk->sk_data_ready(...) call right after each call to
+> skb_queue_head(..) in the unix_stream_recvmsg(...) routine
+> (net/unix/af_unix.c)
+>=20
+> Other info:
+> $ uname -srmo
+> Linux 2.6.32-5-amd64 x86_64 GNU/Linux
+>=20
 
-On Sun, 20 Nov 2011 11:16:17 +0100
-Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Mon, Jul 18, 2011 at 17:05, Christopher Yeoh <cyeoh@au1.ibm.com>
-> wrote:
-> > For arch maintainers there are some simple tests to be able to
-> > quickly verify that the syscalls are working correctly here:
-> 
-> I'm wiring up these new syscalls on m68k.
-> 
-> > http://ozlabs.org/~cyeoh/cma/cma-test-20110718.tgz
-> 
-> The included README talks about:
-> 
->     setup_process_readv_simple
->     setup_process_readv_iovec
->    setup_process_writev
-> 
-> while the actual test executables are called:
-> 
->     setup_process_vm_readv_simple
->     setup_process_vm_readv_iovec
->     setup_process_vm_writev
+Hi Alexy
 
-Oops. Have fixed this and uploaded a new version
+I believe you found a bug and your suggested fix should be just fine.
 
- http://ozlabs.org/~cyeoh/cma/cma-test-20111121.tgz
+(Or maybe testing in unix_poll() that at least one thread is currently
+handling one skb from sk->receive_queue)
 
-It also includes another minor change (see below)
+Could you submit an official patch on top of current Linus tree or do
+you prefer us to take care of this ?
 
-> On m68k (ARAnyM), the first and third test succeed. The second one
-> fails, though:
-> 
-> # Setting up target with num iovecs 10, test buffer size 100000
-> Target process is setup
-> Run the following to test:
-> ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
-> 0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
-> 0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
-> 
-> and in the other window:
-> 
-> # ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
-> 0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
-> 0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
-> copy_from_process failed: Invalid argument
 
-That should say process_vm_readv instead of copy_from_process. The
-error message is fixed in the just updated test.
-
-> error code: 29
-> #
-> 
-> Any suggestions?
-> 
-
-Given that the first and third tests succeed, I think the problem is
-with the iovec parameters. The -EINVAL is most likely coming from
-rw_copy_check_uvector. Any chance that something bad is
-happening to lvec/liovcnt or rvec/riovcnt in the wireup? 
-
-The iovecs are checked in process_vm_rw before the core of the
-process_vm_readv/writev code is called so should be easy to confirm if
-this is the problem.
-
-The other couple of places where it could possibly come from is that
-for some reason the flags parameter ends up being non zero or when
-looking up the task the mm is NULL. But given that the first and second
-tests succeed I think its unlikely that either of these is the cause.
-
-Regards,
-
-Chris
--- 
-cyeoh@au.ibm.com
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
