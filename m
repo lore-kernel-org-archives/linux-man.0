@@ -1,98 +1,95 @@
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: Cross Memory Attach v3
-Date: Sun, 4 Dec 2011 15:19:44 +0100
-Message-ID: <CAMuHMdXfWoHx4GA3L8T6-6PFw9fdCVbooayR3La2Woe-0V2koA@mail.gmail.com>
-References: <20110719003537.16b189ae@lilo>
-	<CAMuHMdWAhn7M8o0qY4pz3W1tyyKEcNY_YQL_6JuAPCcjL5vS1A@mail.gmail.com>
-	<20111121104313.63c7f796@cyeoh-System-Product-Name>
+From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] Explain how to read a single inotify event.
+Date: Tue, 06 Dec 2011 09:40:53 +0000
+Message-ID: <4EDDE325.2080203@ubuntu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-arch-owner@vger.kernel.org>
-In-Reply-To: <20111121104313.63c7f796@cyeoh-System-Product-Name>
-Sender: linux-arch-owner@vger.kernel.org
-To: Christopher Yeoh <cyeoh@au1.ibm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, linux-arch@vger.kernel.org, Linux/m68k <linux-m68k@vger.kernel.org>, Debian m68k <debian-68k@lists.debian.org>
+Content-Type: multipart/mixed;
+ boundary="------------040107070309050605050809"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Christopher,
+This is a multi-part message in MIME format.
+--------------040107070309050605050809
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 21, 2011 at 01:13, Christopher Yeoh <cyeoh@au1.ibm.com> wro=
-te:
-> On Sun, 20 Nov 2011 11:16:17 +0100
-> Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->> On Mon, Jul 18, 2011 at 17:05, Christopher Yeoh <cyeoh@au1.ibm.com>
->> wrote:
->> > For arch maintainers there are some simple tests to be able to
->> > quickly verify that the syscalls are working correctly here:
->>
->> I'm wiring up these new syscalls on m68k.
->>
->> On m68k (ARAnyM), the first and third test succeed. The second one
->> fails, though:
->>
->> # Setting up target with num iovecs 10, test buffer size 100000
->> Target process is setup
->> Run the following to test:
->> ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
->> 0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
->> 0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
->>
->> and in the other window:
->>
->> # ./t_process_vm_readv_iovec 1574 10 0x800030b0 89 0x80003110 38302
->> 0x8000c6b8 22423 0x80011e58 18864 0x80016810 583 0x80016a60 8054
->> 0x800189e0 3417 0x80019740 368 0x800198b8 897 0x80019c40 7003
->> copy_from_process failed: Invalid argument
->
-> That should say process_vm_readv instead of copy_from_process. The
-> error message is fixed in the just updated test.
->
->> error code: 29
->> #
->>
->> Any suggestions?
->
-> Given that the first and third tests succeed, I think the problem is
-> with the iovec parameters. The -EINVAL is most likely coming from
-> rw_copy_check_uvector. Any chance that something bad is
-> happening to lvec/liovcnt or rvec/riovcnt in the wireup?
->
-> The iovecs are checked in process_vm_rw before the core of the
-> process_vm_readv/writev code is called so should be easy to confirm i=
-f
-> this is the problem.
->
-> The other couple of places where it could possibly come from is that
-> for some reason the flags parameter ends up being non zero or when
-> looking up the task the mm is NULL. But given that the first and seco=
-nd
-> tests succeed I think its unlikely that either of these is the cause.
+man7/inotify.7:
 
-It turned out the flags parameter was non-zero, due to syscall() only s=
-upporting
-up to 5 parameters in the glibc I was using for testing.
+- Explain how to read a single inotify event.
+- Add missing "struct" in explanation of event size.
 
-I checked the eglibc sources (2.11.1-0ubuntu7.8), and it's still not
-fixed there,
-although I could find a fix for a similar issue in klibc
-(http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D334917).
+Kind regards,
+-- 
+James Hunt
 
-When forcing flags to zero, it works ;-)
-So sorry for bothering you.
 
-Gr{oetje,eeting}s,
+--------------040107070309050605050809
+Content-Type: text/x-diff;
+ name="0001-Explain-how-to-read-a-single-inotify-event.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename*0="0001-Explain-how-to-read-a-single-inotify-event.patch"
 
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 Geert
+>From 2c2e9150661fc12142725f97e3cebf8ff64e1264 Mon Sep 17 00:00:00 2001
+From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Date: Tue, 6 Dec 2011 09:33:51 +0000
+Subject: Explain how to read a single inotify event.
 
+Also added missing "struct" to sizeof().
+---
+ man7/inotify.7 |   24 +++++++++++++++++++++++-
+ 1 files changed, 23 insertions(+), 1 deletions(-)
+
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index ddeb5e5..742dec2 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -144,7 +144,7 @@ including the null bytes;
+ the length of each
+ .I inotify_event
+ structure is thus
+-.IR "sizeof(inotify_event)+len" .
++.IR "sizeof(struct inotify_event)+len" .
+ 
+ The behavior when the buffer given to
+ .BR read (2)
+@@ -417,6 +417,28 @@ be aware that by the time you create a watch for the new subdirectory,
+ new files may already have been created in the subdirectory.
+ Therefore, you may want to scan the contents of the subdirectory
+ immediately after adding the watch.
++
++To read a
++.B single
++event requires the buffer provided to
++.BR read (2)
++be large enough to hold the event. However, since inotify employs
++variable-length events for files in a watched directory (via the
++.I name
++field), it is not possible to know exactly how big such a
++buffer should be since the event itself has not yet been read. One
++method to overcome this limitation is to start with a buffer of size
++.I sizeof(struct inotify_event)
++and attempt to read the event. If this fails with
++.BR EINVAL ","
++continue to increase the buffer size by one byte up to
++.I "sizeof(struct inotify_event)+NAME_MAX"
++until
++.BR read (2)
++does not return
++.BR EINVAL "."
++Note that this technique is not particularly efficient.
++
+ .SH "BUGS"
+ In kernels before 2.6.16, the
+ .B IN_ONESHOT
+-- 
+1.7.5.4
+
+
+--------------040107070309050605050809--
 --
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-=
-m68k.org
-
-In personal conversations with technical people, I call myself a hacker=
-=2E But
-when I'm talking to journalists I just say "programmer" or something li=
-ke that.
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =C2=A0=C2=A0 -- Linus Torvalds
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
