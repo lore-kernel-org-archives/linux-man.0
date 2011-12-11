@@ -1,94 +1,90 @@
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] Explain how to read a single inotify event.
-Date: Tue, 06 Dec 2011 09:40:53 +0000
-Message-ID: <4EDDE325.2080203@ubuntu.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH 5/6] ld.so.8: document $PLATFORM and $LIB expansion
+Date: Sat, 10 Dec 2011 22:16:32 -0500
+Message-ID: <201112102216.34565.vapier@gentoo.org>
+References: <20111020070037.GA11392@elie.hsd1.il.comcast.net> <201110201416.30351.vapier@gentoo.org> <20111021052528.GF23372@elie.hsd1.il.comcast.net>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------040107070309050605050809"
+Content-Type: multipart/signed;
+  boundary="nextPart11320131.tqExAJSaZ1";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20111021052528.GF23372-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>, Reinhard Tartler <siretart-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------040107070309050605050809
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+--nextPart11320131.tqExAJSaZ1
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-man7/inotify.7:
+On Friday 21 October 2011 01:25:28 Jonathan Nieder wrote:
+>  - what is $LIB for a non-native ABI?
 
-- Explain how to read a single inotify event.
-- Add missing "struct" in explanation of event size.
+whatever it's been configured for.  it isn't an env var that is the same ac=
+ross=20
+all ABIs.  you could configure every ABI to use /lib, but that'd be dumb.
 
-Kind regards,
--- 
-James Hunt
+if we look at the 3 ABI's we have on the x86 system and their standard inst=
+all=20
+paths:
+	- 32bit: lives in /lib and has ldso at /lib/ld-linux.so.2
+	- 64bit: lives in /lib64 and has ldso at /lib64/ld-linux-x86-64.so.2
+	- x32: lives in /libx32 and has ldso at /libx32/ld-linux-x32.so.2
 
+you don't `./configure && make` once to get multiple ABIs.  you have to=20
+manually run that per ABI.  so the 32bit ABI gets configured so $LIB is set=
+ to=20
+/lib, then the 64bit ABI gets configured for /lib64, etc...
 
---------------040107070309050605050809
-Content-Type: text/x-diff;
- name="0001-Explain-how-to-read-a-single-inotify-event.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-Explain-how-to-read-a-single-inotify-event.patch"
+the ldso at runtime will replace $LIB with whatever it was configured for
 
->From 2c2e9150661fc12142725f97e3cebf8ff64e1264 Mon Sep 17 00:00:00 2001
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Date: Tue, 6 Dec 2011 09:33:51 +0000
-Subject: Explain how to read a single inotify event.
+>  - does anyone customize this to point somewhere else and make their
+>    machine non-FHS-compliant?  Maybe NixOS and Gentoo Prefix do.
 
-Also added missing "struct" to sizeof().
----
- man7/inotify.7 |   24 +++++++++++++++++++++++-
- 1 files changed, 23 insertions(+), 1 deletions(-)
+you can't really consider Gentoo Prefix as a being the domain of FHS rule. =
+ it=20
+is not a distro you boot ... it's a set of packages you build/install into=
+=20
+your $HOME because your host system is old/broken/whatever.
 
-diff --git a/man7/inotify.7 b/man7/inotify.7
-index ddeb5e5..742dec2 100644
---- a/man7/inotify.7
-+++ b/man7/inotify.7
-@@ -144,7 +144,7 @@ including the null bytes;
- the length of each
- .I inotify_event
- structure is thus
--.IR "sizeof(inotify_event)+len" .
-+.IR "sizeof(struct inotify_event)+len" .
- 
- The behavior when the buffer given to
- .BR read (2)
-@@ -417,6 +417,28 @@ be aware that by the time you create a watch for the new subdirectory,
- new files may already have been created in the subdirectory.
- Therefore, you may want to scan the contents of the subdirectory
- immediately after adding the watch.
-+
-+To read a
-+.B single
-+event requires the buffer provided to
-+.BR read (2)
-+be large enough to hold the event. However, since inotify employs
-+variable-length events for files in a watched directory (via the
-+.I name
-+field), it is not possible to know exactly how big such a
-+buffer should be since the event itself has not yet been read. One
-+method to overcome this limitation is to start with a buffer of size
-+.I sizeof(struct inotify_event)
-+and attempt to read the event. If this fails with
-+.BR EINVAL ","
-+continue to increase the buffer size by one byte up to
-+.I "sizeof(struct inotify_event)+NAME_MAX"
-+until
-+.BR read (2)
-+does not return
-+.BR EINVAL "."
-+Note that this technique is not particularly efficient.
-+
- .SH "BUGS"
- In kernels before 2.6.16, the
- .B IN_ONESHOT
--- 
-1.7.5.4
+>    What would a person typically use ${LIB} in an rpath for?
 
+it's useful when you want to preload a library for multiple process types. =
+=20
+why this would get used in an RPATH tag, i can't really guess since the ELF=
+=20
+itself is already configured for a specific ABI.  maybe someone more invent=
+ive=20
+can come up with something ;).
+=2Dmike
 
---------------040107070309050605050809--
+--nextPart11320131.tqExAJSaZ1
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iQIcBAABAgAGBQJO5CCSAAoJEEFjO5/oN/WBLTUP/Rqy8N1/joBFJWDIPozsphFJ
+rR87b3+XDEXRJ345SYoOwh3e2lHeluS8+mQN474HIAawLAq6F6R+Of4ohz3SO7Wk
+qXz021thNsCNXgItwBmHMTSDkvwIvHgvZV6pedMATsnZIsqoAh+MOSplSm9a+WhD
+ZnPQzDJTDFnqe+mh7O5xrYEuTaNaOCvbEjCYdHIlmUgOpXU6hXBUBVrEMnoiqCot
+tL8gGVysxVL7cTZ22cMN2F75ZfH1jNmb7xwFsYmFXWm+r9tqVYsfQ9wZXu/NE35W
+XNdOfW3QEopHxQNrcSmkLAFHbfOr/wk3x2EEmX3epCzHHJPhMbbYMtpMkMJXy7YD
+ySROxw0N8RoqZsvSh86NRFLBfPIm1iuslN1cwfWVJaZ/mzmITpKuAkv4W2jYoXJ6
+dJLi0KX0Bi7LLSa3ZlyZbMOIipUmHmsr+I3PEC2CXb5bggsgi1lZrcKkO2VE5By6
+Q1u2iDL0X0V2v/F1tBP5vOttzls7WKFtGZ0DF8yIGWMDPtvp2ry/p/gscfe5sox0
+oT9BbWtGd2zqzB0Aeb+mFrjh+wK0AQSi9keKSXEk+WvEGJWBxlPfgVidztmM49gf
+sIJz5Gyfns7vkxJIXlFWt1tAUSqaVjN9NA4MWO4RGx32DucjKXCORXUV5Rzy2HgI
+pIAfLuo69EgnCmIEyBCY
+=Ot54
+-----END PGP SIGNATURE-----
+
+--nextPart11320131.tqExAJSaZ1--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
