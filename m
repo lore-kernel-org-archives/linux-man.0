@@ -1,46 +1,30 @@
-From: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-Subject: [PATCH] proc.5: Document /proc/PID/exe behaviour on unlinked
- pathnames
-Date: Sun, 1 Jan 2012 07:40:56 +0100
-Message-ID: <20120101064056.GA23360@gaara.hadrons.org>
+From: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+Subject: Re: [patch] qsort.3: document qsort_r
+Date: Tue, 3 Jan 2012 12:11:52 +0000
+Message-ID: <55128.1325592712@proseconsulting.co.uk>
+Reply-To: mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: software-QW8DL1zPdzBaa/9Udqfwiw@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
----
- man5/proc.5 |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+Ben <software-QW8DL1zPdzBaa/9Udqfwiw@public.gmane.org> wrote on 2011-12-29 20:50:25 GMT:
+> Following a discussion on comp.lang.c, I noticed that glibc's qsort_r is
+> not documented in the man pages.
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 5aca38a..8aa8798 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -58,7 +58,7 @@
- .\" to see what information could be imported from that file
- .\" into this file.
- .\"
--.TH PROC 5 2011-10-04 "Linux" "Linux Programmer's Manual"
-+.TH PROC 5 2011-12-29 "Linux" "Linux Programmer's Manual"
- .SH NAME
- proc \- process information pseudo-file system
- .SH DESCRIPTION
-@@ -174,6 +174,8 @@ You can even type
- .I /proc/[pid]/exe
- to run another copy of the same executable as is being run by
- process [pid].
-+If the pathname has been unlinked, the symbolic link will contain the
-+string \(aq (deleted)\(aq appended to the original pathname.
- .\" The following was still true as at kernel 2.6.13
- In a multithreaded process, the contents of this symbolic link
- are not available if the main thread has already terminated
--- 
-1.7.7.3
+Hi Ben,
+
+I addressed this omission in a patch dated 24th October:
+http://article.gmane.org/gmane.linux.man/2397
+
+Best regards,
+Mark.
+
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
