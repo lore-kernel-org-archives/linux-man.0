@@ -1,55 +1,66 @@
-From: starlight-Utvwg/EOxnhfq8cQ1yknNg@public.gmane.org
-Subject: suggestion for improvement to vfork() man page
-Date: Wed, 18 Jan 2012 22:04:08 -0500
-Message-ID: <6.2.5.6.2.20120118214935.03aac8c8@flumedata.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: suggestion for improvement to vfork() man page
+Date: Thu, 19 Jan 2012 13:36:53 -0500
+Message-ID: <201201191336.54114.vapier@gentoo.org>
+References: <6.2.5.6.2.20120118221253.03aad598@binnacle.cx>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed;
+  boundary="nextPart3315192.OePprX9DYQ";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <6.2.5.6.2.20120118221253.03aad598-Utvwg/EOxnhfq8cQ1yknNg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: starlight-Utvwg/EOxnhfq8cQ1yknNg@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+--nextPart3315192.OePprX9DYQ
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Please consider the following two suggestions for
-adjusting the vfork() man page.
+On Wednesday 18 January 2012 22:16:28 starlight-Utvwg/EOxnhfq8cQ1yknNg@public.gmane.org wrote:
+> Also I don't think it is unfortunate (or a bug)
+> that vfork() continues to exist in Linux aside
+> from the fact that the semantics differ from
+> other *nixes in subtle and potentially
+> confusing ways.
+>=20
+> As implemented in Linux vfork() is quite useful
+> and with the aforementioned clarifications to
+> the documentation, worth retaining.
 
-In the "Linux Description" section it should be
-mentioned that vfork() does not suspend all the
-threads in the parent process and only suspends
-the thread issuing the call to vfork().  The
-wording is misleading and I misunderstood the
-semantics for a long time, thinking that all
-threads would be suspended.  Had to test it to
-determine the actual effect for certain.  In our
-case suspending all threads for even a few
-microseconds is unacceptable.
+it also most likely won't ever be going away.  a few reasons:
+	- vfork() is really just a clone() with certain flags
+	- clone() is never going away as it is used to create threads
+	- vfork() is required for no-mmu systems (can't implement fork())
+=2Dmike
 
-Also, it is important to note that the
-clone(CLONE_VFORK|CLONE_VM) call invoked by
-vfork() makes a separate copy of all process
-resources except the address space.  While this is
-implied by the statement "the vfork() function has
-the same effect as fork(2)," this is easily
-overlooked by someone who works with various UNIXs
-where this is most definitely not the case.
+--nextPart3315192.OePprX9DYQ
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-This matters for situations like ours where a
-process with a huge address space, real-time
-priority and root privileges must occasionally
-spawn scripts that should run at user priority
-with user privileges.  Using fork() is expensive
-due to the cost of replicating very large page
-tables and vfork() is an excellent alternative.
-But the subtle difference between Solaris/AIX and
-Linux caused us to unnecessarily disable the code
-that lowers priority and surrenders root
-permission before issuing the exec() call to run
-scripts.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
 
-Regards
+iQIcBAABAgAGBQJPGGLGAAoJEEFjO5/oN/WB5bkP/jEPQiGW7UnkM8zE9dDHD7Zg
+Yhx22wJE8bz8oAhA7rTH8BsmkTv9UHmT79l2ONvwbfYRRffzYhqQ8oPgQ3I3QuVm
+m+Z88x822GIB7Q6yn2H6sYhMN/Z827XhWRTkWa/pbzxXOk0qxTX7n3fvwkUdvif+
+1AAVVZqlMnrzwcLCOp45+Pl9vcZjU3wBAqqo+juIVH8YrI3044ljKnhsjMLulwAn
+AvFH8f1ByV6NEdAA3xhMxuNjt9CQtB9lrVKkyRCh+Kc+aLeWLtjub9fzBaO41iY0
+AakuDdYcRcGywhR6ng+E5nfuTYmSPeEBZ/QBBMphVX/LeOJT1dkiNiHTGtNaGaDJ
+WN7kbjBCBU338WqGRnYUUGLRCLFZSt15PJwZHHE5qPqqS4u4Y5tU2VaP87LMDTBe
+vhf5I2DZUINN1oSnlv9PrHVAjWNm0/wDovcQytzrJ0patslg/hs9Tlk757wV3oDk
+L3NFlFMkaAY4hlfjeQSPfpTUKRiByvTnqU0M8w/8/sX4by3r5wtEZSMkoBCg3bQT
+VRwAFQIUk5BuEVvjVpet6JYvzxfa2R6Dl+CrqhemnRvXnHqPAzf9Nz/l5pGpeQb8
+dkfGugugbESsnsNMXBGNW/si2wZ5znZsT8QVvXBLPE/cMSrkamvlBeWyqanERtsp
+WHQRnJwM8oeBAc5qFWEH
+=T3NH
+-----END PGP SIGNATURE-----
 
+--nextPart3315192.OePprX9DYQ--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
