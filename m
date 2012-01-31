@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 42704] New: execve may return EAGAIN on v3.1 or later
-Date: Tue, 31 Jan 2012 18:00:15 GMT
-Message-ID: <bug-42704-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 42705] New: ioctl prototype is incorrect
+Date: Tue, 31 Jan 2012 18:17:19 GMT
+Message-ID: <bug-42705-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,9 +9,9 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=42704
+https://bugzilla.kernel.org/show_bug.cgi?id=42705
 
-           Summary: execve may return EAGAIN on v3.1 or later
+           Summary: ioctl prototype is incorrect
            Product: Documentation
            Version: unspecified
           Platform: All
@@ -26,19 +26,21 @@ https://bugzilla.kernel.org/show_bug.cgi?id=42704
         Regression: No
 
 
-Following commit changed RLIMIT_NPROC rule. now set*uid() never return EAGAIN.
-And instead,
-execve() may return EAGAIN.
+Now, the ioctl man page (*) says ioctl declaration is
 
-If man pages respect this change, it would be better.
+    int ioctl(int d, int request, ...);
+
+(*) http://www.kernel.org/doc/man-pages/online/pages/man2/ioctl.2.html
 
 
+But, actual glibc implementtion has a different type.
 
-commit 72fa59970f8698023045ab0713d66f3f4f96945c
-Author: Vasiliy Kulikov 
-Date:   Mon Aug 8 19:02:04 2011 +0400
+/usr/include/sys/ioctl.h:
+  extern int ioctl (int __fd, unsigned long int __request, ...) __THROW;
 
-    move RLIMIT_NPROC check from set_user() to do_execve_common()
+
+Look, __request parameter actually has unsigned long type. it's not int.
+It would be better if the man respect an implemtation.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
