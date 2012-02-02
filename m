@@ -1,58 +1,38 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typo in scanf
-Date: Fri, 3 Feb 2012 08:04:28 +1300
-Message-ID: <CAKgNAkiXjb-Q9mysbHKqGpxAhGPAYyJfe3JtP6AACLU7ARw06A@mail.gmail.com>
-References: <4EC609E9.80707@free.fr>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
+Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
+Date: Thu, 02 Feb 2012 16:40:12 -0500
+Message-ID: <4F2B02BC.8010308@gmail.com>
+References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk> <1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com> <CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EC609E9.80707-GANU6spQydw@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alain <alainb06-GANU6spQydw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
+Sender: owner-linux-mm@kvack.org
+To: Siddhesh Poyarekar <siddhesh.poyarekar@gmail.com>
+Cc: Jamie Lokier <jamie@shareable.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Nov 18, 2011 at 8:31 PM, Alain <alainb06-GANU6spQydw@public.gmane.org> wrote:
-> There is a typo in the example given under "Note" section.
+>   extern unsigned long move_page_tables(struct vm_area_struct *vma,
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 3f758c7..2f9f540 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -992,6 +992,9 @@ unsigned long do_mmap_pgoff(struct file *file,
+> unsigned long addr,
+>         vm_flags = calc_vm_prot_bits(prot) | calc_vm_flag_bits(flags) |
+>                         mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
 >
-> Sorry I saw just now that there is a very easy way to report that by mail...
-> I already files the report (and details such as version used = Ubuntu
-> 10.04.3) here :
->
-> https://bugs.launchpad.net/ubuntu/+source/man-db/+bug/891854
->
-> Typo is:
->
-> fprintf(stderr, "No matching characters\n"):
->
-> Should be instead
->
-> fprintf(stderr, "No matching characters\n");
->
->
-> ( ';' semicolon terminates an C instruction, and not ':' colon )
->
-> I also made a suggestion (see bug report), to change the example using the
-> 'm' modifier as 'a' seems rather dangerous and obsolete.
-> This second part is just a suggestion (subject to discussion) whereas the
-> typo is really there and makes compiling without errors impossible.
->
-> Best regards.
-> Alain BENEDETTI
+> +       if (flags&  MAP_STACK)
+> +               vm_flags |= VM_STACK_FLAGS;
 
-Thanks Alain. Fixed!
+??
+MAP_STACK doesn't mean auto stack expansion. Why do you turn on VM_GROWSDOWN?
+Seems incorrect.
 
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
