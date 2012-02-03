@@ -1,38 +1,40 @@
-From: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
-Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
-Date: Fri, 3 Feb 2012 03:01:35 -0500
-Message-ID: <CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw@mail.gmail.com>
-References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk>
- <1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com>
- <CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
- <4F2B02BC.8010308@gmail.com> <CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 13608] Invalid default in bridge-nf-filter-vlan-tagged
+ description
+Date: Fri, 3 Feb 2012 08:13:31 GMT
+Message-ID: <201202030813.q138DVIM003313@bugzilla.kernel.org>
+References: <bug-13608-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: Siddhesh Poyarekar <siddhesh.poyarekar@gmail.com>
-Cc: Jamie Lokier <jamie@shareable.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-13608-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-> Right now MAP_STACK does not mean anything since it is ignored. The
-> intention of this behaviour change is to make MAP_STACK mean that the
-> map is going to be used as a stack and hence, set it up like a stack
-> ought to be. I could not really think of a valid case for fixed size
-> stacks; it looks like a limitation in the pthread implementation in
-> glibc rather than a feature. So this patch will actually result in
-> uniform behaviour across threads when it comes to stacks.
->
-> This does change vm accounting since thread stacks were earlier
-> accounted as anon memory.
+https://bugzilla.kernel.org/show_bug.cgi?id=13608
 
-The fact is, now process stack and pthread stack clearly behave
-different dance. libc don't expect pthread stack grow automatically.
-So, your patch will break userland. Just only change display thing.
 
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|                            |WILL_NOT_FIX
+
+
+
+
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-02-03 08:13:30 ---
+Closing, as this doesn't appear to be a bug in a man page. If I've missed
+something, please reopen, or reopen and assign to the appropriate maintainer.
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
