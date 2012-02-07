@@ -1,49 +1,101 @@
-From: Siddhesh Poyarekar <siddhesh.poyarekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
-Date: Sat, 4 Feb 2012 00:04:11 +0530
-Message-ID: <CAAHN_R0+ExGcdpLM7KwC_KsPOemVOiRrmyWcowiu5_cWW3BPLQ@mail.gmail.com>
-References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk>
-	<1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com>
-	<CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
-	<4F2B02BC.8010308@gmail.com>
-	<CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com>
-	<CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw@mail.gmail.com>
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: proc(5) and definition of loadavg
+Date: Tue, 7 Feb 2012 08:48:39 +0100
+Message-ID: <CAGWqfiiE01fhAYbVVyATu5=GkgekgV7-WCyZ6ZZwwrSv3XbDvA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: multipart/mixed; boundary=14dae934038bda7c2b04b85b018d
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jamie Lokier <jamie-yetKDKU6eevNLxjTenLetw@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 3, 2012 at 1:31 PM, KOSAKI Motohiro
-<kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> The fact is, now process stack and pthread stack clearly behave
-> different dance. libc don't expect pthread stack grow automatically.
-> So, your patch will break userland. Just only change display thing.
+--14dae934038bda7c2b04b85b018d
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The change should not make thread stacks (as implemented by glibc)
-grow automatically in the general case since it has to implement guard
-page(s) at the beginning of the mapped memory for stack using
-mprotect(top, size, PROT_NONE). Due to this, the program will crash
-before it ever has a chance to cause a page fault to make the stack
-grow. This is of course assuming that the program doesn't purposely
-jump over the guard page(s) by setting %sp beyond them and then
-causing a page fault. So the only case in which a thread stack will
-grow automatically is if the stackguard is set to 0:
+Hello all,
 
-http://pubs.opengroup.org/onlinepubs/007904975/functions/pthread_attr_setguardsize.html
+I've got a small suggestion related to man 5 proc (
+http://www.kernel.org/doc/man-pages/online/pages/man5/proc.5.html ).
+If you go to /proc/loadavg it states
 
-I have also dropped an email on the libc-alpha list here to solicit
-comments from libc maintainers on this:
+<quote>
+=A0The fourth field consists of two numbers separated by a slash (/).
+The first of these is the number of currently executing kernel
+scheduling entities (processes, threads); this will be less than or
+equal to the number of CPUs. =A0The value after the slash is the number
+of kernel scheduling entities that currently exist on the system.
+</quote>
 
-http://sourceware.org/ml/libc-alpha/2012-02/msg00036.html
+When I take a look at /proc/loadavg this seems to make sense:
+
+edb@lapedb:~$ cat /proc/loadavg
+0.04 0.65 0.59 1/284 8102
+
+However, suppose I run 4 background jobs of 'yes bla > /dev/null &'
+
+edb@lapedb:~$ yes bla > /dev/null &
+[1] 8111
+edb@lapedb:~$ yes bla > /dev/null &
+[2] 8112
+edb@lapedb:~$ yes bla > /dev/null &
+[3] 8113
+edb@lapedb:~$ yes bla > /dev/null &
+[4] 8114
+edb@lapedb:~$ cat /proc/loadavg
+0.18 0.59 0.57 5/289 8115
+edb@lapedb:~$ cat /proc/cpuinfo | grep processor
+processor =A0 =A0 =A0 : 0
+processor =A0 =A0 =A0 : 1
+
+Then I see that the 'fourth field' before the slash is five, whereas
+the number of cpu's (dual core laptop) is only two. Hence the 'this
+will be less than or equal to the number of CPUs' in the manpage is
+not correct. Now if we take a deeper look at how this /proc/loadavg
+gets created (in fs/proc/loadavg.c):
+http://lxr.linux.no/#linux+v3.0.4/fs/proc/loadavg.c#L23
+
+We can see that the fourth value before the fraction is the result of
+'nr_running()' which is turn lives in kern/sched.c (ref:
+http://lxr.linux.no/#linux+v3.0.4/kernel/sched.c#L3197 ) and this
+function just counts the number of runnable threads for each of the
+online cpu's. I have attached a path which rephrases this, the patch
+is rather trivial.
 
 
--- 
-Siddhesh Poyarekar
-http://siddhesh.in
+
+--
+Elie De Brauwer
+
+--14dae934038bda7c2b04b85b018d
+Content-Type: text/x-patch; charset=US-ASCII;
+	name="0019-Correct-definition-of-fourth-field-of-proc-loadavg.patch"
+Content-Disposition: attachment;
+	filename="0019-Correct-definition-of-fourth-field-of-proc-loadavg.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_gycmm3l10
+
+RnJvbSA0N2QxOGYyYzI5NGI2ZWI1ODgwNjQyMTE5OTcyY2IzYWNjNTJkNDhhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBFbGllIERlIEJyYXV3ZXIgPGVsaWVkZWJyYXV3ZXJAZ21haWwu
+Y29tPgpEYXRlOiBUdWUsIDcgRmViIDIwMTIgMDg6NDE6MzUgKzAxMDAKU3ViamVjdDogW1BBVENI
+IDE5LzE5XSBDb3JyZWN0IGRlZmluaXRpb24gb2YgZm91cnRoIGZpZWxkIG9mIC9wcm9jL2xvYWRh
+dmcKCi0tLQogbWFuNS9wcm9jLjUgfCAgICA1ICsrLS0tCiAxIGZpbGVzIGNoYW5nZWQsIDIgaW5z
+ZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tYW41L3Byb2MuNSBiL21h
+bjUvcHJvYy41CmluZGV4IDVhY2EzOGEuLjk4ODZjZTUgMTAwNjQ0Ci0tLSBhL21hbjUvcHJvYy41
+CisrKyBiL21hbjUvcHJvYy41CkBAIC0xMzUxLDkgKzEzNTEsOCBAQCBUaGV5IGFyZSB0aGUgc2Ft
+ZSBhcyB0aGUgbG9hZCBhdmVyYWdlIG51bWJlcnMgZ2l2ZW4gYnkKIC5CUiB1cHRpbWUgKDEpCiBh
+bmQgb3RoZXIgcHJvZ3JhbXMuCiBUaGUgZm91cnRoIGZpZWxkIGNvbnNpc3RzIG9mIHR3byBudW1i
+ZXJzIHNlcGFyYXRlZCBieSBhIHNsYXNoICgvKS4KLVRoZSBmaXJzdCBvZiB0aGVzZSBpcyB0aGUg
+bnVtYmVyIG9mIGN1cnJlbnRseSBleGVjdXRpbmcga2VybmVsCi1zY2hlZHVsaW5nIGVudGl0aWVz
+IChwcm9jZXNzZXMsIHRocmVhZHMpOwotdGhpcyB3aWxsIGJlIGxlc3MgdGhhbiBvciBlcXVhbCB0
+byB0aGUgbnVtYmVyIG9mIENQVXMuCitUaGUgZmlyc3Qgb2YgdGhlc2UgaXMgdGhlIG51bWJlciBv
+ZiBjdXJyZW50bHkgcnVubmFibGUga2VybmVsIAorc2NoZWR1bGluZyBlbnRpdGllcyAocHJvY2Vz
+c2VzLCB0aHJlYWRzKS4KIFRoZSB2YWx1ZSBhZnRlciB0aGUgc2xhc2ggaXMgdGhlIG51bWJlciBv
+ZiBrZXJuZWwgc2NoZWR1bGluZyBlbnRpdGllcwogdGhhdCBjdXJyZW50bHkgZXhpc3Qgb24gdGhl
+IHN5c3RlbS4KIFRoZSBmaWZ0aCBmaWVsZCBpcyB0aGUgUElEIG9mIHRoZSBwcm9jZXNzIHRoYXQg
+d2FzIG1vc3QKLS0gCjEuNy44LjMKCg==
+--14dae934038bda7c2b04b85b018d--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
