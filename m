@@ -1,32 +1,36 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: errno(3) link on pages which set errno
-Date: Wed, 8 Feb 2012 07:27:20 +1300
-Message-ID: <CAKgNAkjAGHqyXWHc0Ym5KzMrvKnYp8=AWjFHu6zAv+Vbxh-=PQ@mail.gmail.com>
-References: <4F1B30C9.70301@jguk.org>
+Subject: Re: Missing ioctl descriptions: TIOCMIWAIT, TIOCGICOUNT
+Date: Wed, 8 Feb 2012 07:28:33 +1300
+Message-ID: <CAKgNAkhnZfZXB5xr1U7UcU6d8DyumgaUTa2_c6TfxU1opU=uZA@mail.gmail.com>
+References: <CAFhHFBwabFu9obCPVWJYZVJ4d1qAcQvwR1JhhEJgZgpSGVTLQg@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F1B30C9.70301-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <CAFhHFBwabFu9obCPVWJYZVJ4d1qAcQvwR1JhhEJgZgpSGVTLQg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+To: Andreas Heiduk <asheiduk-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Jon,
-
-On Sun, Jan 22, 2012 at 10:40 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> Hello
+On Sat, Jan 21, 2012 at 11:28 PM, Andreas Heiduk
+<asheiduk-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hello,
 >
-> Could pages like aio_read and others which may set errno, have a link=
- in the
-> SEE ALSO section to errno(3) please. =A0There are quite a lot of page=
-s that
-> could have this SEE ALSO link.
+> my Ubuntu 10.04 (lucid) distribution uses manpages-3.23-1. But neither
+> there nor in the browsable manpages here
+>
+> http://www.kernel.org/doc/man-pages/online/pages/man4/tty_ioctl.4.html
+> http://www.kernel.org/doc/man-pages/online/pages/man2/ioctl_list.2.html
+>
+> there is a description for the ioctls TIOCMIWAIT and TIOCGICOUNT
+>
+> Could you please add them to the pages ioctl_list and tty_ioctl ?
 
-Well, in theory, probably 90% of section2 and 3 pages could have that
-link. I think it's not useful to do that.
+Andreas,
+
+Sorry -- I don't know the purpose of these two ioctl()s. If you have
+some text to propose, I could take it.
 
 Cheers,
 
@@ -34,7 +38,8 @@ Michael
 
 
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
