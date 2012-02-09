@@ -1,83 +1,63 @@
-From: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
-Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
-Date: Wed, 08 Feb 2012 12:57:10 -0500
-Message-ID: <4F32B776.6070007@gmail.com>
-References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk> <1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com> <CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com> <4F2B02BC.8010308@gmail.com> <CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com> <CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw@mail.gmail.com> <CAAHN_R0+ExGcdpLM7KwC_KsPOemVOiRrmyWcowiu5_cWW3BPLQ@mail.gmail.com> <CAAHN_R0N=3J4=VqvDsGB=_2Ln9yKBjOevW2=_UAMBK1pGepqvA@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 42705] ioctl prototype is incorrect
+Date: Thu, 9 Feb 2012 05:46:43 GMT
+Message-ID: <201202090546.q195khGV024688@bugzilla.kernel.org>
+References: <bug-42705-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAAHN_R0N=3J4=VqvDsGB=_2Ln9yKBjOevW2=_UAMBK1pGepqvA@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: Siddhesh Poyarekar <siddhesh.poyarekar@gmail.com>
-Cc: Jamie Lokier <jamie@shareable.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, Mike Frysinger <vapier@gentoo.org>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-42705-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-(2/7/12 11:00 PM), Siddhesh Poyarekar wrote:
-> On Sat, Feb 4, 2012 at 12:04 AM, Siddhesh Poyarekar
-> <siddhesh.poyarekar@gmail.com>  wrote:
->> On Fri, Feb 3, 2012 at 1:31 PM, KOSAKI Motohiro
->> <kosaki.motohiro@gmail.com>  wrote:
->>> The fact is, now process stack and pthread stack clearly behave
->>> different dance. libc don't expect pthread stack grow automatically.
->>> So, your patch will break userland. Just only change display thing.
-> <snip>
->> I have also dropped an email on the libc-alpha list here to solicit
->> comments from libc maintainers on this:
->>
->> http://sourceware.org/ml/libc-alpha/2012-02/msg00036.html
->>
->
-> Kosaki-san, your suggestion of adding an extra flag seems like the
-> right way to go about this based on the discussion on libc-alpha,
-> specifically, your point about pthread_getattr_np() -- it may not be a
-> standard, but it's a breakage anyway. However, looking at the vm_flags
-> options in mm.h, it looks like the entire 32-bit space has been
-> exhausted for the flag value. The vm_flags is an unsigned long, so it
-> ought to take 8 bytes on a 64-bit system, but 32-bit systems will be
-> left behind.
->
-> So there are two options for this:
->
-> 1) make vm_flags 64-bit for all arches. This will cause ABI breakage
-> on 32-bit systems, so any external drivers will have to be rebuilt
-
-Several month ago, Linus NAKed this way.
+https://bugzilla.kernel.org/show_bug.cgi?id=42705
 
 
-> 2) Implement this patch for 64-bit only by defining the new flag only
-> for 64-bit. 32-bit systems behave as is
+David Gibson <david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org> changed:
 
-No. That's bad than status quo. Enduser may get inconsistent and bad user
-experience.
-
-Now, we are using some bit saving hack. example,
-
-1) use ifdef
-
-#ifndef CONFIG_TRANSPARENT_HUGEPAGE
-#define VM_MAPPED_COPY 0x01000000      /* T if mapped copy of data (nommu mmap) */
-#else
-#define VM_HUGEPAGE    0x01000000      /* MADV_HUGEPAGE marked this vma */
-#endif
-
-2) use bit combination
-
-#define VM_STACK_INCOMPLETE_SETUP      (VM_RAND_READ | VM_SEQ_READ)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org
 
 
-Maybe you can take a similar way. And of course, you can ban some useless flag
-bits.
 
-thanks.
 
-> Which of these would be better? I prefer the latter because it looks
-> like the path of least breakage.
->
+--- Comment #1 from David Gibson <david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org>  2012-02-09 05:46:42 ---
+I just discovered this one too.  Some more information:
 
+As the submitter pointed out glibc uses unsigned long, the kernel's sys_ioctl()
+prototype uses unsigned int.  In addition the kernel _IOC_ macros which are
+used to construct ioctl numbers result in unsigned expressions, and these
+macros are exposed to userland via the headers.  There _are_ a number of
+already used ioctls numbers which have bit 31 set, and so are negative as an
+'int'.  Specifically IOC_READ ioctls will have bit 31 set on x86, and IOC_WRITE
+ones will have bit 31 set on powerpc, I haven't checked other archs.
+
+This discepancy can cause real userspace bugs or compile failures: because the
+ioctl number macros are unsigned, if IOCTL is one of the standard ioctl number
+#defines based on these macros then the following code fragment:
+        int x = IOCTL;
+        if (x == IOCTL)
+                /* ... */
+Will generate a "comparison always false due to limited range of data type"
+warning from gcc, and presumably will indeed compare false, which is clearly
+not the expected result.
+
+POSIX states that the ioctl number should be 'int', but clearly the kernel and
+libc treat it as unsigned.  Apparently most existing user code must treat it
+that way too, since we haven't noticed this problem before.  *BSD also appear
+to have it as unsigned long.  Changing the kernel prototype could result in
+similar bugs but the other way around for existing code, which would be bad.
+
+Therefore, we should update the man pages to reflect reality, rather than
+POSIX.
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
