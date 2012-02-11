@@ -1,79 +1,41 @@
-From: Siddhesh Poyarekar <siddhesh.poyarekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
-Date: Sat, 11 Feb 2012 15:49:01 +0530
-Message-ID: <CAAHN_R1=87w+NFXPA5MGER8wLR4LwOv-2_eG-d+Fe=+j08FKYQ@mail.gmail.com>
-References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk>
-	<1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com>
-	<CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
-	<4F2B02BC.8010308@gmail.com>
-	<CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com>
-	<CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw@mail.gmail.com>
-	<CAAHN_R0+ExGcdpLM7KwC_KsPOemVOiRrmyWcowiu5_cWW3BPLQ@mail.gmail.com>
-	<CAAHN_R0N=3J4=VqvDsGB=_2Ln9yKBjOevW2=_UAMBK1pGepqvA@mail.gmail.com>
-	<4F32B776.6070007@gmail.com>
+From: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+Subject: syncfs returns int (or long?)
+Date: Sat, 11 Feb 2012 16:49:07 +0100
+Message-ID: <4F368DF3.10605@truelite.it>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F32B776.6070007-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jamie Lokier <jamie-yetKDKU6eevNLxjTenLetw@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Feb 8, 2012 at 11:27 PM, KOSAKI Motohiro
-<kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Now, we are using some bit saving hack. example,
->
-> 1) use ifdef
->
-> #ifndef CONFIG_TRANSPARENT_HUGEPAGE
-> #define VM_MAPPED_COPY 0x01000000 =A0 =A0 =A0/* T if mapped copy of d=
-ata (nommu
-> mmap) */
-> #else
-> #define VM_HUGEPAGE =A0 =A00x01000000 =A0 =A0 =A0/* MADV_HUGEPAGE mar=
-ked this vma */
-> #endif
->
-> 2) use bit combination
->
-> #define VM_STACK_INCOMPLETE_SETUP =A0 =A0 =A0(VM_RAND_READ | VM_SEQ_R=
-EAD)
->
->
-> Maybe you can take a similar way. And of course, you can ban some use=
-less
-> flag
-> bits.
+In man 2 syncfs (version 2011-09-07, also in the website) it is declared as:
 
-I found the thread in which Linus rejected the idea of expanding vm_fla=
-gs:
+void syncfs(int fd);
 
-https://lkml.org/lkml/2011/11/10/522
+but then is said:
 
-and based on that, I don't think I can justify the need for a new flag
-for this patch since it is purely for display purposes and has nothing
-to do with the actual treatment of the vma. So I figured out another
-way to identify a thread stack without changing the way the vma
-properties (I should have done this in the first place I think) which
-is by checking if the vma contains the stack pointer of the task.
+RETURN VALUE
+       syncfs() returns 0 on success; on error, it returns -1 and
+       sets  errno to indicate the error.
 
-With this change:
+so it cannot be void. I get
 
-/proc/pid/task/tid/maps: will only mark the stack that the task uses
+piccardi@monk:/usr/src/linux-source-3.1$ grep -r syncfs include/*
+include/asm-generic/unistd.h:#define __NR_syncfs 267
+include/asm-generic/unistd.h:__SYSCALL(__NR_syncfs, sys_syncfs)
+include/linux/syscalls.h:asmlinkage long sys_syncfs(int fd);
 
-/proc/pid/maps: will mark all stacks. This path will be slower since
-it will iterate through the entire thread group for each vma.
+So it seems to be at least long.
 
-I'll test this and attach a new version of the patch.
-
-Regards,
-Siddhesh
-
---=20
-Siddhesh Poyarekar
-http://siddhesh.in
+Simone
+-- 
+Simone Piccardi - KeyID:2A972F9D - JabberID:piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org
+http://piccardi.gnulinux.it - http://www.fountainpen.it
+Prima ti ignorano, poi ti deridono, poi ti combattono.  Poi vinci.
+                                                 M. K. Ghandi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
