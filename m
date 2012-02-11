@@ -1,62 +1,79 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 42705] ioctl prototype is incorrect
-Date: Thu, 9 Feb 2012 05:46:43 GMT
-Message-ID: <201202090546.q195khGV024688@bugzilla.kernel.org>
-References: <bug-42705-11311@https.bugzilla.kernel.org/>
+From: Siddhesh Poyarekar <siddhesh.poyarekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [RESEND][PATCH] Mark thread stack correctly in proc/<pid>/maps
+Date: Sat, 11 Feb 2012 15:49:01 +0530
+Message-ID: <CAAHN_R1=87w+NFXPA5MGER8wLR4LwOv-2_eG-d+Fe=+j08FKYQ@mail.gmail.com>
+References: <20120116163106.GC7180@jl-vm1.vm.bytemark.co.uk>
+	<1326776095-2629-1-git-send-email-siddhesh.poyarekar@gmail.com>
+	<CAAHN_R2g9zaujw30+zLf91AGDHNqE6HDc8Z4yJbrzgJcJYFkXg@mail.gmail.com>
+	<4F2B02BC.8010308@gmail.com>
+	<CAAHN_R0O7a+RX7BDfas3+vC+mnQpp0h3y4bBa1u4T-Jt=S9J_w@mail.gmail.com>
+	<CAHGf_=qA6EFue2-mNUg9udWV4xSx86XQsnyGV07hfZOUx6_egw@mail.gmail.com>
+	<CAAHN_R0+ExGcdpLM7KwC_KsPOemVOiRrmyWcowiu5_cWW3BPLQ@mail.gmail.com>
+	<CAAHN_R0N=3J4=VqvDsGB=_2Ln9yKBjOevW2=_UAMBK1pGepqvA@mail.gmail.com>
+	<4F32B776.6070007@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-42705-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <4F32B776.6070007-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jamie Lokier <jamie-yetKDKU6eevNLxjTenLetw@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=42705
+On Wed, Feb 8, 2012 at 11:27 PM, KOSAKI Motohiro
+<kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Now, we are using some bit saving hack. example,
+>
+> 1) use ifdef
+>
+> #ifndef CONFIG_TRANSPARENT_HUGEPAGE
+> #define VM_MAPPED_COPY 0x01000000 =A0 =A0 =A0/* T if mapped copy of d=
+ata (nommu
+> mmap) */
+> #else
+> #define VM_HUGEPAGE =A0 =A00x01000000 =A0 =A0 =A0/* MADV_HUGEPAGE mar=
+ked this vma */
+> #endif
+>
+> 2) use bit combination
+>
+> #define VM_STACK_INCOMPLETE_SETUP =A0 =A0 =A0(VM_RAND_READ | VM_SEQ_R=
+EAD)
+>
+>
+> Maybe you can take a similar way. And of course, you can ban some use=
+less
+> flag
+> bits.
 
+I found the thread in which Linus rejected the idea of expanding vm_fla=
+gs:
 
-David Gibson <david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org> changed:
+https://lkml.org/lkml/2011/11/10/522
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org
+and based on that, I don't think I can justify the need for a new flag
+for this patch since it is purely for display purposes and has nothing
+to do with the actual treatment of the vma. So I figured out another
+way to identify a thread stack without changing the way the vma
+properties (I should have done this in the first place I think) which
+is by checking if the vma contains the stack pointer of the task.
 
+With this change:
 
+/proc/pid/task/tid/maps: will only mark the stack that the task uses
 
+/proc/pid/maps: will mark all stacks. This path will be slower since
+it will iterate through the entire thread group for each vma.
 
---- Comment #1 from David Gibson <david-xT8FGy+AXnRB3Ne2BGzF6laj5H9X9Tb+@public.gmane.org>  2012-02-09 05:46:42 ---
-I just discovered this one too.  Some more information:
+I'll test this and attach a new version of the patch.
 
-As the submitter pointed out glibc uses unsigned long, the kernel's sys_ioctl()
-prototype uses unsigned int.  In addition the kernel _IOC_ macros which are
-used to construct ioctl numbers result in unsigned expressions, and these
-macros are exposed to userland via the headers.  There _are_ a number of
-already used ioctls numbers which have bit 31 set, and so are negative as an
-'int'.  Specifically IOC_READ ioctls will have bit 31 set on x86, and IOC_WRITE
-ones will have bit 31 set on powerpc, I haven't checked other archs.
+Regards,
+Siddhesh
 
-This discepancy can cause real userspace bugs or compile failures: because the
-ioctl number macros are unsigned, if IOCTL is one of the standard ioctl number
-#defines based on these macros then the following code fragment:
-        int x = IOCTL;
-        if (x == IOCTL)
-                /* ... */
-Will generate a "comparison always false due to limited range of data type"
-warning from gcc, and presumably will indeed compare false, which is clearly
-not the expected result.
-
-POSIX states that the ioctl number should be 'int', but clearly the kernel and
-libc treat it as unsigned.  Apparently most existing user code must treat it
-that way too, since we haven't noticed this problem before.  *BSD also appear
-to have it as unsigned long.  Changing the kernel prototype could result in
-similar bugs but the other way around for existing code, which would be bad.
-
-Therefore, we should update the man pages to reflect reality, rather than
-POSIX.
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+--=20
+Siddhesh Poyarekar
+http://siddhesh.in
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
