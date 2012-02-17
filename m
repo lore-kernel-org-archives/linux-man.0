@@ -1,27 +1,46 @@
-From: Matthew Gregan <kinetik-QufbIeIr5AY@public.gmane.org>
-Subject: fcntl(2) error: pipe-size-max vs pipe-max-size
-Date: Tue, 14 Feb 2012 13:04:41 +1300
-Message-ID: <20120214000441.GF15858@flim.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 42793] New: [down_trylock() in semaphore.c] The word "mutex"
+ was used instead of "semaphore"
+Date: Fri, 17 Feb 2012 20:12:34 GMT
+Message-ID: <bug-42793-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=42793
 
-In the man page for fcntl(2), within the paragraph discussing F_SETPIPE_SZ,
-it is claimed that the maximum size for a pipe is determined by the value of
-/proc/sys/fs/pipe-size-max.  The proc path is incorrect--on my current
-machine (2.6.35.14-106.fc14.x86_64) and in the latest kernel source
-(http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=kernel/sysctl.c;h=f487f257e05e4f1dc8836ded96ca36556b048706;hb=HEAD#l1523),
-the proc path is /proc/sys/fs/pipe-max-size.
+           Summary: [down_trylock() in semaphore.c] The word "mutex" was
+                    used instead of "semaphore"
+           Product: Documentation
+           Version: unspecified
+    Kernel Version: 3.2.6
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: ramsja.n-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                CC: ramsja.n-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-Cheers,
--mjg
+
+At line# 121, the word "mutex" was used by mistake.
+
+The correct description should be as below.
+
+Returns 0 if the semaphore has been acquired successfully or 1 if it it cannot
+be acquired.
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
