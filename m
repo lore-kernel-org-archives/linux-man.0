@@ -1,70 +1,50 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] open.2: fix grammar in O_DIRECT description
-Date: Sat, 18 Feb 2012 14:36:04 +1300
-Message-ID: <CAKgNAkg8co4hpw_Nw9wpDnXn+p70NZLzC73WhS407mKQTcNdnQ@mail.gmail.com>
-References: <CAKDZRciFBUuznH5hhySfNwVxBD_oJCmtBPxBEht2pHbUKmTFqg@mail.gmail.com>
+Subject: Re: syncfs returns int (or long?)
+Date: Sat, 18 Feb 2012 14:36:35 +1300
+Message-ID: <CAKgNAkjJsffjEk=FpksTrKbsEuitvB6KNAx6xKNsD7vZzMsR6A@mail.gmail.com>
+References: <4F368DF3.10605@truelite.it>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKDZRciFBUuznH5hhySfNwVxBD_oJCmtBPxBEht2pHbUKmTFqg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4F368DF3.10605-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jessica McKellar <jesstess-3s7WtUTddSA@public.gmane.org>
+To: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Jessica,
+Hello SImone,
 
-On Mon, Feb 13, 2012 at 9:27 AM, Jessica McKellar <jesstess-3s7WtUTddSA@public.gmane.org> wr=
-ote:
-> Hi,
+On Sun, Feb 12, 2012 at 4:49 AM, Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>=
+ wrote:
+> In man 2 syncfs (version 2011-09-07, also in the website) it is decla=
+red as:
 >
-> The following patch (also attached) makes some small grammar fixes to
-> the O_DIRECT description in man2/open.2. The patch is against master
-> in git:
+> void syncfs(int fd);
+>
+> but then is said:
+>
+> RETURN VALUE
+> =A0 =A0 =A0 syncfs() returns 0 on success; on error, it returns -1 an=
+d
+> =A0 =A0 =A0 sets =A0errno to indicate the error.
+>
+> so it cannot be void. I get
+>
+> piccardi@monk:/usr/src/linux-source-3.1$ grep -r syncfs include/*
+> include/asm-generic/unistd.h:#define __NR_syncfs 267
+> include/asm-generic/unistd.h:__SYSCALL(__NR_syncfs, sys_syncfs)
+> include/linux/syscalls.h:asmlinkage long sys_syncfs(int fd);
+>
+> So it seems to be at least long.
 
+Thanks for the report! In glibc, the prototype is "int", so for
+man-pages-3.36 I've changed it to "int".
 
-Thanks. Applied for man-pages-3.36.
-
-Cheers,
+Thanks,
 
 Michael
-
-
-> =3D=3D=3D
->
-> diff --git a/man2/open.2 b/man2/open.2
-> index 69324dd..a97158a 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -281,11 +281,11 @@ special situations, such as when applications d=
-o
-> their own caching.
-> =A0File I/O is done directly to/from user space buffers.
-> =A0The
-> =A0.B O_DIRECT
-> -flag on its own makes at an effort to transfer data synchronously,
-> +flag on its own makes an effort to transfer data synchronously,
-> =A0but does not give the guarantees of the
-> =A0.B O_SYNC
-> -that data and necessary metadata are transferred.
-> -To guarantee synchronous I/O the
-> +flag that data and necessary metadata are transferred.
-> +To guarantee synchronous I/O,
-> =A0.B O_SYNC
-> =A0must be used in addition to
-> =A0.BR O_DIRECT .
->
-> =3D=3D=3D
->
-> Regards,
-> -Jessica
->
-> --
-> Jessica McKellar
-> http://jesstess.com
-
 
 
 --=20
