@@ -1,56 +1,44 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: syncfs returns int (or long?)
-Date: Sat, 18 Feb 2012 14:36:35 +1300
-Message-ID: <CAKgNAkjJsffjEk=FpksTrKbsEuitvB6KNAx6xKNsD7vZzMsR6A@mail.gmail.com>
-References: <4F368DF3.10605@truelite.it>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Matwey V. Kornilov" <matwey.kornilov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: possible bug: open(2) ebusy
+Date: Sat, 18 Feb 2012 09:12:22 +0300
+Message-ID: <CAJs94EaN5fzE7Q7gJoW8hcOaMcKRM3nBV_rzQKRZVgRV-Dm24A@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F368DF3.10605-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello SImone,
-
-On Sun, Feb 12, 2012 at 4:49 AM, Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>=
- wrote:
-> In man 2 syncfs (version 2011-09-07, also in the website) it is decla=
-red as:
->
-> void syncfs(int fd);
->
-> but then is said:
->
-> RETURN VALUE
-> =A0 =A0 =A0 syncfs() returns 0 on success; on error, it returns -1 an=
-d
-> =A0 =A0 =A0 sets =A0errno to indicate the error.
->
-> so it cannot be void. I get
->
-> piccardi@monk:/usr/src/linux-source-3.1$ grep -r syncfs include/*
-> include/asm-generic/unistd.h:#define __NR_syncfs 267
-> include/asm-generic/unistd.h:__SYSCALL(__NR_syncfs, sys_syncfs)
-> include/linux/syscalls.h:asmlinkage long sys_syncfs(int fd);
->
-> So it seems to be at least long.
-
-Thanks for the report! In glibc, the prototype is "int", so for
-man-pages-3.36 I've changed it to "int".
-
-Thanks,
-
-Michael
+Dear man-pages maintainers,
 
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+I am not sure that this is really bug, but look at this:
+
+http://man7.org/linux/man-pages/man2/open.2.html
+open(2) version 2011-09-08
+
+and also look at that:
+
+http://man7.org/linux/man-pages/man4/tty_ioctl.4.html
+tty_ioctl(4) version 2008-10-29
+
+
+As it stated in tty_ioctl(4), if a terminal is set into exclusive mode
+by TIOCEXCL then open fails with EBUSY. It is how it really works on
+my linux-system. But open(2) says nothing about returning EBUSY,
+except statement about block devices in O_EXCL section. I was really
+confused by this situation when I got EBUSY at open() and tried to
+understand what was happening from open(2) man-page. Is it possible to
+add a brief note about EBUSY and TIOCEXCL into open(2)? I think it
+would be helpful for other people.
+
+
+-- 
+With best regards,
+Matwey V. Kornilov
+http://0x2207.blogspot.com
+xmpp:0x2207-962d5TIgE1qHXe+LvDLADg@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
