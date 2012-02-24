@@ -1,87 +1,38 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: aio_error query
-Date: Mon, 20 Feb 2012 14:32:04 +1300
-Message-ID: <CAKgNAkhzgGiJHfJbzZGoKjJzY8ioy=GSPjdZ2uzNR1m-0bicjA@mail.gmail.com>
-References: <4F1B32A4.1010809@jguk.org> <CAKgNAkgjOss__FerDwEqMW2MY2Bs0pwyVuNURuvoKAw7si4u_w@mail.gmail.com>
- <4F3FA267.4000208@jguk.org> <CAKgNAkg2KYca3mA-Nd6_uRDDQpZmb+SFmLbZOFug9jVvHnB8NA@mail.gmail.com>
- <4F400BFB.5050409@jguk.org> <CAKgNAkg9ELf7WHxsB=PuGTj2KifW2pZqT6i5VBAfRX_ajqvcEw@mail.gmail.com>
- <4F40D9DB.2070203@jguk.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Celelibi <celelibi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: getline and signals
+Date: Fri, 24 Feb 2012 01:24:50 +0100
+Message-ID: <CAJR2zJ-hhMyCts77VStD3T-Q=N-J+cD=7q0MdF=AeqFr2iDvng@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F40D9DB.2070203-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Jon,
+Hello,
 
-On Mon, Feb 20, 2012 at 12:15 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
->
->
-> Michael Kerrisk wrote, On 19/02/12 02:40:
->
->> Hi Jon
->>
->> On Sun, Feb 19, 2012 at 9:37 AM, Jon Grant<jg-hus3n9K41k0@public.gmane.org> =A0wrote:
->>>
->>> Hi Michael
->>>
->>> Michael Kerrisk wrote, On 18/02/12 18:18:
->>> [...]
->>>
->>>>>
->>>>>
->>>>> http://pubs.opengroup.org/onlinepubs/009604599/functions/xsh_chap=
-02_03.html
->>>>> http://www.cl.cam.ac.uk/cgi-bin/manpage?3+errno
->>>>>
->>>>>>> errno is an int, and the values I think are not
->>>>>>> guaranteed to be positive (like with glibc). I work on a system=
- where
->>>>>>> they
->>>>>>> are all negative.
->>>>
->>>>
->>>>
->>>> What is the system?
->>>
->>>
->>>
->>> http://www.mpcdata.com/mediasdk/
->>
->>
->> Is this actually a UNIX system?
->
-> No.
+My manpage version is 3.32 on debian system, but I believe this is
+version independant.
 
-(This would have been useful info early in the thread ;-).)
+I would just like to point out that the man getline does not specify
+the behavior when it is interrupted by a signal.
+What actually happen is that it returns -1 and set errno to EINTR (as
+we could expect even if not stated in the manpage). Additionnally it
+sets the error flag of the input stream, thus preventing further call
+to getline to succeed unless a clearerr() call is performed.
 
-So, I checked with someone close to POSIX who pointed out to me that
-there is this text in the POSIX.1-2001 specification of the <errno.h>
-header file:
+AFAIK the manpage strictly describe the POSIX behavior, thus I think
+this kind of information may be added in a linux/glibc specific
+section.
 
-[[
-The <errno.h> header shall provide a declaration for errno and give
-positive values for the following symbolic constants. Their values
-shall be unique except as noted below.
-]]
+More generally, it seems that no stdio function has a description of
+what happen when they are interrupted by a signal. That's quite
+annoying since a lot of them are blocking and thus are subject to
+signal interruption.
 
-So, I think the man page is fine (but you could file a bug with
-Renesas about their implementation).
-
-Cheers,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Best regards,
+Celelibi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
