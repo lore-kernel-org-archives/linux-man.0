@@ -1,65 +1,79 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] fsync.2 updates
-Date: Sun, 26 Feb 2012 14:52:02 -0500
-Message-ID: <20120226195202.GA11676@infradead.org>
+Date: Mon, 27 Feb 2012 13:14:42 +1300
+Message-ID: <CAKgNAkiDHVZG2LGtHFb0Ego9VgA-30JkyY+966ykCBOpFT9qnQ@mail.gmail.com>
 References: <20111104061203.GA1300@infradead.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 In-Reply-To: <20111104061203.GA1300-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-ping?
+Hi Christoph,
 
-On Fri, Nov 04, 2011 at 02:12:03AM -0400, Christoph Hellwig wrote:
->  - explain the situation with disk caches better
->  - remove the duplicate fdatasync explanation in the NOTE section
->  - remove an incorrect note about fsync generally requiring two writes
->  - remove an obsolete ext2 example note
->  - fsync works on any fd and does not require a writeable one,
->    correct the EBADF error code explanation.
-> 
+I've applied this patch for man-pages-3.36.
+
+Cheers,
+
+Michael
+
+
+On Fri, Nov 4, 2011 at 7:12 PM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> w=
+rote:
+> =A0- explain the situation with disk caches better
+> =A0- remove the duplicate fdatasync explanation in the NOTE section
+> =A0- remove an incorrect note about fsync generally requiring two wri=
+tes
+> =A0- remove an obsolete ext2 example note
+> =A0- fsync works on any fd and does not require a writeable one,
+> =A0 correct the EBADF error code explanation.
+>
 > Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-> 
+>
 > diff --git a/man2/fsync.2 b/man2/fsync.2
 > index 58d325a..9b74774 100644
 > --- a/man2/fsync.2
 > +++ b/man2/fsync.2
-> @@ -63,12 +63,15 @@ transfers ("flushes") all modified in-core data of
->  (i.e., modified buffer cache pages for) the
->  file referred to by the file descriptor
->  .I fd
+> @@ -63,12 +63,15 @@ transfers ("flushes") all modified in-core data o=
+f
+> =A0(i.e., modified buffer cache pages for) the
+> =A0file referred to by the file descriptor
+> =A0.I fd
 > -to the disk device (or other permanent storage device)
 > -where that file resides.
 > +to the disk device (or other permanent storage device) so that all
-> +changed information can be retrieved even after the system crashed or
-> +was rebooted.  This includes writing through or flushing a disk cache
+> +changed information can be retrieved even after the system crashed o=
+r
+> +was rebooted. =A0This includes writing through or flushing a disk ca=
+che
 > +if present.
->  The call blocks until the device reports that the transfer has completed.
->  It also flushes metadata information associated with the file (see
->  .BR stat (2)).
->  
+> =A0The call blocks until the device reports that the transfer has com=
+pleted.
+> =A0It also flushes metadata information associated with the file (see
+> =A0.BR stat (2)).
+>
 > +
->  Calling
->  .BR fsync ()
->  does not necessarily ensure
+> =A0Calling
+> =A0.BR fsync ()
+> =A0does not necessarily ensure
 > @@ -111,7 +114,7 @@ is set appropriately.
->  .TP
->  .B EBADF
->  .I fd
+> =A0.TP
+> =A0.B EBADF
+> =A0.I fd
 > -is not a valid file descriptor open for writing.
 > +is not a valid open file descriptor.
->  .TP
->  .B EIO
->  An error occurred during synchronization.
+> =A0.TP
+> =A0.B EIO
+> =A0An error occurred during synchronization.
 > @@ -135,49 +138,21 @@ to a value greater than 0.
->  .\" -1: unavailable, 0: ask using sysconf().
->  .\" glibc defines them to 1.
->  .SH NOTES
+> =A0.\" -1: unavailable, 0: ask using sysconf().
+> =A0.\" glibc defines them to 1.
+> =A0.SH NOTES
 > -Applications that access databases or log files often write a tiny
 > -data fragment (e.g., one line in a log file) and then call
 > -.BR fsync ()
@@ -98,25 +112,37 @@ On Fri, Nov 04, 2011 at 02:12:03AM -0400, Christoph Hellwig wrote:
 > -flag to
 > -.BR open (2).
 > -
->  In Linux 2.2 and earlier,
->  .BR fdatasync ()
->  is equivalent to
->  .BR fsync (),
->  and so has no performance advantage.
+> =A0In Linux 2.2 and earlier,
+> =A0.BR fdatasync ()
+> =A0is equivalent to
+> =A0.BR fsync (),
+> =A0and so has no performance advantage.
 > +
 > +The
 > +.BR fsync ()
 > +implementations in older kernels and lesser used filesystems
-> +does not know how to flush disk caches.  In these cases disk caches need to
+> +does not know how to flush disk caches. =A0In these cases disk cache=
+s need to
 > +be disabled using
 > +.BR hdparm (8)
 > +or
 > +.BR sdparm (8)
 > +to guarantee safe operation.
->  .SH "SEE ALSO"
->  .BR bdflush (2),
->  .BR open (2),
----end quoted text---
+> =A0.SH "SEE ALSO"
+> =A0.BR bdflush (2),
+> =A0.BR open (2),
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" =
+in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
