@@ -1,136 +1,35 @@
-From: Cyrill Gorcunov <gorcunov@openvz.org>
-Subject: [PATCH 1/2] prctl: Add PR_SET_MM option description
-Date: Wed, 29 Feb 2012 16:23:16 +0400
-Message-ID: <1330518197-12825-2-git-send-email-gorcunov@openvz.org>
+From: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH 2/2] Add kcmp.2 manpage
+Date: Wed, 29 Feb 2012 16:34:08 +0400
+Message-ID: <20120229123408.GC11326@moon>
 References: <1330518197-12825-1-git-send-email-gorcunov@openvz.org>
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1330518197-12825-1-git-send-email-gorcunov@openvz.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Pavel Emelyanov <xemul@parallels.com>, linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Cyrill Gorcunov <gorcunov@openvz.org>, Tejun Heo <tj@kernel.org>
+ <1330518197-12825-3-git-send-email-gorcunov@openvz.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1330518197-12825-3-git-send-email-gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Cyrill Gorcunov <gorcunov@openvz.org>
-CC: Tejun Heo <tj@kernel.org>
-CC: Pavel Emelyanov <xemul@parallels.com>
----
- man2/prctl.2 |  104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 104 insertions(+), 0 deletions(-)
+On Wed, Feb 29, 2012 at 04:23:17PM +0400, Cyrill Gorcunov wrote:
+> 
+>        The  easiest way to explain is to consider an example.  Lets say v1 and v2
+>        are the addresses of appropriate resources, then the return value is one
+>        of the following
+> 
+>        0 - v1 is equal to v2 , in other words we have a shared resource here
+> 
+>        1 - v1 is greater than v2
+> 
+>        2 - v1 is less than v2
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index effad2a..4d6244f 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -378,6 +378,110 @@ Return the current per-process machine check kill policy.
- All unused
- .BR prctl ()
- arguments must be zero.
-+.TP
-+.BR PR_SET_MM " (since Linux 3.3)"
-+Allows a user to modify certain kernel memory map descriptor fields
-+of the calling process.
-+Usually these fields are set by the kernel and dynamic loader (see
-+.BR ld.so (8)
-+for more information) and a regular application should not use this feature.
-+Still there are cases such as self-modifying programs, where a program might
-+find it useful to change its own memory map.
-+The kernel must be built with
-+.BR CONFIG_CHECKPOINT_RESTORE
-+option turned on, otherwise this feature will not be accessible
-+from a user space level.
-+The calling process must have
-+.BR CAP_SYS_ADMIN
-+(see
-+.BR capabilities (7)
-+for details) capability granted.
-+The value in
-+.I arg2
-+is one of the options below, while
-+.I arg3
-+provides a new value for this option.
-+
-+.BR PR_SET_MM_START_CODE
-+to set the address above which program text can run.
-+The corresponding memory area must be readable and executable,
-+but not writable or shareable (see
-+.BR mprotect (2)
-+and
-+.BR mmap (2)
-+for more information).
-+
-+.BR PR_SET_MM_END_CODE
-+to set the address below which program text can run.
-+The corresponding memory area must be readable and executable,
-+but not writable or shareable.
-+
-+.BR PR_SET_MM_START_DATA
-+to set the address above which program data+bss is placed.
-+The corresponding memory area must be readable and writable,
-+but not executable or shareable.
-+
-+.B PR_SET_MM_END_DATA
-+to set the address below which program data+bss is placed.
-+The corresponding memory area must be readable and writable,
-+but not executable or shareable.
-+
-+.BR PR_SET_MM_START_STACK
-+to set the start address of the stack.
-+The corresponding memory area must be readable and writable.
-+
-+.BR PR_SET_MM_START_BRK
-+to set the address above which program heap can be expanded with
-+.BR brk (2)
-+call.
-+The address must not be greater than ending address of
-+the current program data segment, neither it may exceed
-+resource limit for data (see
-+.BR setrlimit (2)
-+for more information).
-+
-+.BR PR_SET_MM_BRK
-+to set the current
-+.BR brk (2)
-+value.
-+The requirements for address are the same as for
-+.BR PR_SET_MM_START_BRK
-+option.
-+
-+.BR PR_SET_MM_ARG_START
-+to set the address above which program command line is placed.
-+
-+.BR PR_SET_MM_ARG_END
-+to set the address below which program command line is placed.
-+
-+.BR PR_SET_MM_ENV_START
-+to set the address above which program environment is placed.
-+
-+.BR PR_SET_MM_ENV_END
-+to set the address below which program environment is placed.
-+
-+The address passed with
-+.BR PR_SET_MM_ARG_START ,
-+.BR PR_SET_MM_ARG_END ,
-+.BR PR_SET_MM_ENV_START ,
-+.BR PR_SET_MM_ENV_END ,
-+should belong to a process stack area, thus corresponding memory area
-+must be readable, writable and (depending on the kernel
-+configuration) has
-+.BR MAP_GROWSDOWN
-+attribute set (see
-+.BR mmap (2)
-+for details).
-+
-+.BR PR_SET_MM_AUXV
-+to set a new auxiliary vector.
-+The
-+.I arg3
-+argument should provide the address of the vector.
-+The
-+.I arg4
-+is the size of the vector.
-+.\"
- .SH "RETURN VALUE"
- On success,
- .BR PR_GET_DUMPABLE ,
--- 
-1.7.7.6
+1 and 2 should be swapped here, I'll update (this nit grow from text tossing,
+so don't pay attention on it).
+
+	Cyrill
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
