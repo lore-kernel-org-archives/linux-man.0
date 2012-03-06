@@ -1,96 +1,178 @@
-From: Ben <software-QW8DL1zPdzBaa/9Udqfwiw@public.gmane.org>
-Subject: Re: [patch] qsort.3: document qsort_r
-Date: Mon, 05 Mar 2012 21:55:28 +0000
-Message-ID: <1330984528.3439.13.camel@tinky.local>
-References: <55128.1325592712@proseconsulting.co.uk>
-	 <CAKgNAkhgUnrHnxhOhjL8+tH=Msq_+ASgqvzWAwHc5+TpqOzx7w@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] prctl: Add PR_SET_MM option description
+Date: Wed, 7 Mar 2012 07:00:14 +1300
+Message-ID: <CAKgNAkiOY-p7duD_wfed_Tk8T8SR5r1JCTa=0ne3-VQ30mQE-g@mail.gmail.com>
+References: <1330518197-12825-1-git-send-email-gorcunov@openvz.org> <1330518197-12825-2-git-send-email-gorcunov@openvz.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-L5f3JFAnx4iZwUtviD5z"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhgUnrHnxhOhjL8+tH=Msq_+ASgqvzWAwHc5+TpqOzx7w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1330518197-12825-2-git-send-email-gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org, software-QW8DL1zPdzBaa/9Udqfwiw@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi Cyrill,
 
---=-L5f3JFAnx4iZwUtviD5z
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Just a couple of comments for the moment.
 
-On Tue, 2012-03-06 at 08:00 +1300, Michael Kerrisk (man-pages) wrote:=20
-> Mark, Ben,
->=20
-> Mark submitted an initial patch that I have been slow to respond to.
-> Mark, is there anything in Ben's patch that could be included in your
-> patch?
+On Thu, Mar 1, 2012 at 1:23 AM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> w=
+rote:
+> Signed-off-by: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+> CC: Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> CC: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+> ---
+> =A0man2/prctl.2 | =A0104 ++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++
+> =A01 files changed, 104 insertions(+), 0 deletions(-)
+>
+> diff --git a/man2/prctl.2 b/man2/prctl.2
+> index effad2a..4d6244f 100644
+> --- a/man2/prctl.2
+> +++ b/man2/prctl.2
+> @@ -378,6 +378,110 @@ Return the current per-process machine check ki=
+ll policy.
+> =A0All unused
+> =A0.BR prctl ()
+> =A0arguments must be zero.
+> +.TP
+> +.BR PR_SET_MM " (since Linux 3.3)"
+> +Allows a user to modify certain kernel memory map descriptor fields
+> +of the calling process.
+> +Usually these fields are set by the kernel and dynamic loader (see
+> +.BR ld.so (8)
+> +for more information) and a regular application should not use this =
+feature.
+> +Still there are cases such as self-modifying programs, where a progr=
+am might
+> +find it useful to change its own memory map.
 
-I included a reference to the feature test macros used to enable
-qsort_r.  That's pretty much the only significant difference.  The other
-changes were to alter the spacing in the SYNOPSIS section to reflect the
-more usual style for function pointers.
+By the way, do you have a *simple* program that demonstrates some
+usage of R_SET_MM?
 
-I've attached a new patch that (a) has all of Mark's patch, (b) a
-reference to the feature test macros, (c) the two spacing changes in the
-type of the function pointers, and (d) replacing "sorts an array" with
-"sort and array" which, I think, is better when two functions are being
-described.  I hope that helps.  If it doesn't please feel free to ignore
-it.
+> +The kernel must be built with
+> +.BR CONFIG_CHECKPOINT_RESTORE
+> +option turned on, otherwise this feature will not be accessible
+> +from a user space level.
+> +The calling process must have
+> +.BR CAP_SYS_ADMIN
+> +(see
+> +.BR capabilities (7)
+> +for details) capability granted.
+
+As we discussed earlier (offlist), there are probably better choices
+than the hugely overloaded CAP_SYS_ADMIN (see
+http://man7.org/linux/man-pages/man7/capabilities.7.html). And if the
+capability governing PR_SET_MM is to change, then it would be good to
+do so before 3.3 is released. What are the plans on this point?
+
+Cheers,
+
+Michael
+
+
+> +The value in
+> +.I arg2
+> +is one of the options below, while
+> +.I arg3
+> +provides a new value for this option.
+> +
+> +.BR PR_SET_MM_START_CODE
+> +to set the address above which program text can run.
+> +The corresponding memory area must be readable and executable,
+> +but not writable or shareable (see
+> +.BR mprotect (2)
+> +and
+> +.BR mmap (2)
+> +for more information).
+> +
+> +.BR PR_SET_MM_END_CODE
+> +to set the address below which program text can run.
+> +The corresponding memory area must be readable and executable,
+> +but not writable or shareable.
+> +
+> +.BR PR_SET_MM_START_DATA
+> +to set the address above which program data+bss is placed.
+> +The corresponding memory area must be readable and writable,
+> +but not executable or shareable.
+> +
+> +.B PR_SET_MM_END_DATA
+> +to set the address below which program data+bss is placed.
+> +The corresponding memory area must be readable and writable,
+> +but not executable or shareable.
+> +
+> +.BR PR_SET_MM_START_STACK
+> +to set the start address of the stack.
+> +The corresponding memory area must be readable and writable.
+> +
+> +.BR PR_SET_MM_START_BRK
+> +to set the address above which program heap can be expanded with
+> +.BR brk (2)
+> +call.
+> +The address must not be greater than ending address of
+> +the current program data segment, neither it may exceed
+> +resource limit for data (see
+> +.BR setrlimit (2)
+> +for more information).
+> +
+> +.BR PR_SET_MM_BRK
+> +to set the current
+> +.BR brk (2)
+> +value.
+> +The requirements for address are the same as for
+> +.BR PR_SET_MM_START_BRK
+> +option.
+> +
+> +.BR PR_SET_MM_ARG_START
+> +to set the address above which program command line is placed.
+> +
+> +.BR PR_SET_MM_ARG_END
+> +to set the address below which program command line is placed.
+> +
+> +.BR PR_SET_MM_ENV_START
+> +to set the address above which program environment is placed.
+> +
+> +.BR PR_SET_MM_ENV_END
+> +to set the address below which program environment is placed.
+> +
+> +The address passed with
+> +.BR PR_SET_MM_ARG_START ,
+> +.BR PR_SET_MM_ARG_END ,
+> +.BR PR_SET_MM_ENV_START ,
+> +.BR PR_SET_MM_ENV_END ,
+> +should belong to a process stack area, thus corresponding memory are=
+a
+> +must be readable, writable and (depending on the kernel
+> +configuration) has
+> +.BR MAP_GROWSDOWN
+> +attribute set (see
+> +.BR mmap (2)
+> +for details).
+> +
+> +.BR PR_SET_MM_AUXV
+> +to set a new auxiliary vector.
+> +The
+> +.I arg3
+> +argument should provide the address of the vector.
+> +The
+> +.I arg4
+> +is the size of the vector.
+> +.\"
+> =A0.SH "RETURN VALUE"
+> =A0On success,
+> =A0.BR PR_GET_DUMPABLE ,
+> --
+> 1.7.7.6
+>
+
+
 
 --=20
-Ben.
-
-
---=-L5f3JFAnx4iZwUtviD5z
-Content-Disposition: attachment; filename="qsort_r.combined_patch"
-Content-Type: text/x-patch; name="qsort_r.combined_patch"; charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-LS0tIHFzb3J0LjMub3JpZwkyMDEyLTAzLTA1IDIxOjM4OjA5LjAwMDAwMDAwMCArMDAwMA0KKysr
-IHFzb3J0LjMJMjAxMi0wMy0wNSAyMTo0ODo0MC4wMDAwMDAwMDAgKzAwMDANCkBAIC0yOCwxOSAr
-MjgsMzUgQEANCiAuXCIgTW9kaWZpZWQgMTk5My0wMy0yOSwgRGF2aWQgTWV0Y2FsZmUNCiAuXCIg
-TW9kaWZpZWQgMTk5My0wNy0yNCwgUmlrIEZhaXRoIChmYWl0aEBjcy51bmMuZWR1KQ0KIC5cIiAy
-MDA2LTAxLTE1LCBtdGssIEFkZGVkIGV4YW1wbGUgcHJvZ3JhbS4NCisuXCIgTW9kaWZpZWQgMjAx
-MS0xMC0yNCwgTWFyayBSLiBCYW5uaXN0ZXIgKGNhbWJyaWRnZUB1c2Vycy5zb3VyY2Vmb3JnZS5u
-ZXQpDQorLlwiCQkJCXRvIGFkZCBxc29ydF9yKCkNCisuXCIgTW9kaWZpZWQgMjAxMi0wMy0wNSwg
-QmVuIEJhY2FyaXNzZSAoc29mdHdhcmVAYnNiLm1lLnVrKSBhZGRlZA0KKy5cIiAgICAgICAgICAg
-ICAgICAgICAgICByZWZlcmVuY2UgdG8gZmVhdHVyZSB0ZXN0IG1hY3JvIGZvciBxc29ydF9yLg0K
-IC5cIg0KLS5cIiBGSVhNRSBnbGliYyAyLjggYWRkZWQgcXNvcnRfcigpLCB3aGljaCBuZWVkcyB0
-byBiZSBkb2N1bWVudGVkLg0KLS5cIg0KLS5USCBRU09SVCAzIDIwMDktMDktMTUgIiIgIkxpbnV4
-IFByb2dyYW1tZXIncyBNYW51YWwiDQorLlRIIFFTT1JUIDMgMjAxMi0wMy0wNSAiIiAiTGludXgg
-UHJvZ3JhbW1lcidzIE1hbnVhbCINCiAuU0ggTkFNRQ0KLXFzb3J0IFwtIHNvcnRzIGFuIGFycmF5
-DQorcXNvcnQsIHFzb3J0X3IgXC0gc29ydCBhbiBhcnJheQ0KIC5TSCBTWU5PUFNJUw0KIC5uZg0K
-IC5CICNpbmNsdWRlIDxzdGRsaWIuaD4NCiAuc3ANCiAuQkkgInZvaWQgcXNvcnQodm9pZCAqIiBi
-YXNlICIsIHNpemVfdCAiIG5tZW1iICIsIHNpemVfdCAiIHNpemUgLA0KLS5CSSAiICAgICAgICAg
-ICBpbnQoKiIgY29tcGFyICIpKGNvbnN0IHZvaWQgKiwgY29uc3Qgdm9pZCAqKSk7Ig0KKy5CSSAi
-ICAgICAgICAgICBpbnQgKCoiIGNvbXBhciAiKShjb25zdCB2b2lkICosIGNvbnN0IHZvaWQgKikp
-OyINCisuc3ANCisuQkkgInZvaWQgcXNvcnRfcih2b2lkICoiIGJhc2UgIiwgc2l6ZV90ICIgbm1l
-bWIgIiwgc2l6ZV90ICIgc2l6ZSAsDQorLkJJICIgICAgICAgICAgIGludCAoKiIgY29tcGFyICIp
-KGNvbnN0IHZvaWQgKiwgY29uc3Qgdm9pZCAqLCB2b2lkICopLCINCisuQkkgIiAgICAgICAgICAg
-dm9pZCAqIiBhcmcgIik7Ig0KIC5maQ0KKy5zcA0KKy5pbiAtNG4NCitGZWF0dXJlIFRlc3QgTWFj
-cm8gUmVxdWlyZW1lbnRzIGZvciBnbGliYyAoc2VlDQorLkJSIGZlYXR1cmVfdGVzdF9tYWNyb3Mg
-KDcpKToNCisuaW4NCisuc3ANCisuYWQgbA0KKy5CUiBxc29ydF9yICgpOg0KK19HTlVfU09VUkNF
-DQorLmFkIGINCiAuU0ggREVTQ1JJUFRJT04NCiBUaGUNCiAuQlIgcXNvcnQgKCkNCkBAIC01OCwx
-NiArNzQsMzQgQEANCiBsZXNzIHRoYW4sIGVxdWFsIHRvLCBvciBncmVhdGVyIHRoYW4gdGhlIHNl
-Y29uZC4NCiBJZiB0d28gbWVtYmVycyBjb21wYXJlDQogYXMgZXF1YWwsIHRoZWlyIG9yZGVyIGlu
-IHRoZSBzb3J0ZWQgYXJyYXkgaXMgdW5kZWZpbmVkLg0KKy5QUA0KK1RoZQ0KKy5CUiBxc29ydF9y
-ICgpDQorZnVuY3Rpb24gaXMgaWRlbnRpY2FsIHRvDQorLkJSIHFzb3J0ICgpDQorZXhjZXB0IHRo
-YXQgdGhlIGNvbXBhcmlzb24gZnVuY3Rpb24NCisuSSBjb21wYXINCit0YWtlcyBhIHRoaXJkIGFy
-Z3VtZW50LiAgQSBwb2ludGVyIGlzIHBhc3NlZCB0byB0aGUgY29tcGFyaXNvbiBmdW5jdGlvbiB2
-aWENCisuSVIgYXJnIC4NCitJbiB0aGlzIHdheSwgdGhlIGNvbXBhcmlzb24gZnVuY3Rpb24gZG9l
-cyBub3QgbmVlZCB0byB1c2UgZ2xvYmFsIHZhcmlhYmxlcyB0bw0KK3Bhc3MgdGhyb3VnaCBhcmJp
-dHJhcnkgYXJndW1lbnRzLCBhbmQgaXMgdGhlcmVmb3JlIHJlLWVudHJhbnQgYW5kIHNhZmUgdG8N
-Cit1c2UgaW4gdGhyZWFkcy4NCiAuU0ggIlJFVFVSTiBWQUxVRSINCiBUaGUNCiAuQlIgcXNvcnQg
-KCkNCi1mdW5jdGlvbiByZXR1cm5zIG5vIHZhbHVlLg0KK2FuZA0KKy5CUiBxc29ydF9yICgpDQor
-ZnVuY3Rpb25zIHJldHVybiBubyB2YWx1ZS4NCiAuU0ggIkNPTkZPUk1JTkcgVE8iDQotU1ZyNCwg
-NC4zQlNELCBDODksIEM5OS4NCitUaGUNCisuQlIgcXNvcnQgKCkNCitmdW5jdGlvbiBjb25mb3Jt
-cyB0byBTVnI0LCA0LjNCU0QsIEM4OSwgQzk5Lg0KIC5TSCBOT1RFUw0KIExpYnJhcnkgcm91dGlu
-ZXMgc3VpdGFibGUgZm9yIHVzZSBhcyB0aGUNCiAuSSBjb21wYXINCi1hcmd1bWVudCBpbmNsdWRl
-DQorYXJndW1lbnQgdG8NCisuQlIgcXNvcnQgKCkNCitpbmNsdWRlDQogLkJSIGFscGhhc29ydCAo
-MykNCiBhbmQNCiAuQlIgdmVyc2lvbnNvcnQgKDMpLg0K
-
-
---=-L5f3JFAnx4iZwUtviD5z--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
