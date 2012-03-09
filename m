@@ -1,40 +1,33 @@
-From: "jesus.otero " <jesus.otero-zg5kjA6Mr10@public.gmane.org>
-Subject: A bug? in the perror man page
-Date: Fri, 9 Mar 2012 11:36:14 +0100 (CET)
-Message-ID: <27915272.87611331289374219.JavaMail.defaultUser@defaultHost>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 42892] Man page bug for mmap2(2)
+Date: Fri, 9 Mar 2012 15:14:06 GMT
+Message-ID: <201203091514.q29FE6pH019669@bugzilla.kernel.org>
+References: <bug-42892-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain;charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-42892-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+https://bugzilla.kernel.org/show_bug.cgi?id=42892
 
-Not sure if this is a bug, but, just in case...
 
-When searching how to print error messages without using perror, the man page 
-of perror says 
 
-"The  global error list sys_errlist[] indexed by errno can be used to obtain 
-the error message without the newline. The largest message number provided in 
-the table is sys_nerr -1.  Be careful when  directly  accessing  this  list 
-because new error values may not have been added to sys_errlist[]."
 
-Searching for sys_errlist on the kernel includes pointed me to the file 
-<bits/sys_errlist.h> where it says that sys_errlist[] is deprecated, 
-recommending you to use strerror. Doing a google search confirm me this.
 
-Shouldn't this be reflected on perror's man page?
+--- Comment #1 from Kevin <kevinogorman4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-03-09 15:14:06 ---
+It occurs to me that perhaps glue code is intentionally missing, and this
+system call is to be used internally for library authors.  If this is the case,
+then it seems to me the man page should look more like getdents(2) and a few
+others, with the description beginning "This  is  not  the  function  you  are
+interested in."
 
-I'm running an Ubuntu 10.04.4 LTS
-My kernel version 2.6.32-39-generic-pae
-I've installed the man page for perror version 3.23-1
-
-Thanks
-
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
