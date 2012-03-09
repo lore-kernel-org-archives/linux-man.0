@@ -1,48 +1,38 @@
-From: "H. Peter Anvin" <hpa@zytor.com>
+From: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH 2/2] Add kcmp.2 manpage
-Date: Fri, 09 Mar 2012 13:15:21 -0800
-Message-ID: <4F5A72E9.5030802@zytor.com>
-References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org> <1331326042-32558-3-git-send-email-gorcunov@openvz.org> <4F5A6D09.3050704@zytor.com> <20120309210342.GN13346@moon>
+Date: Sat, 10 Mar 2012 01:18:13 +0400
+Message-ID: <20120309211813.GO13346@moon>
+References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org>
+ <1331326042-32558-3-git-send-email-gorcunov@openvz.org>
+ <4F5A6D09.3050704@zytor.com>
+ <20120309210342.GN13346@moon>
+ <4F5A72E9.5030802@zytor.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20120309210342.GN13346@moon>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Cyrill Gorcunov <gorcunov@openvz.org>
-Cc: mtk.manpages@gmail.com, akpm@linux-foundation.org, xemul@parallels.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <4F5A72E9.5030802-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/09/2012 01:03 PM, Cyrill Gorcunov wrote:
-> On Fri, Mar 09, 2012 at 12:50:17PM -0800, H. Peter Anvin wrote:
->> On 03/09/2012 12:47 PM, Cyrill Gorcunov wrote:
->>> +.I v2
->>> +, but ordering information is unavailble.
->>
->> Needs to be:
->>
->> .IR v2 ,
->>
->> ... and fix the typo in "unavailable".
->>
+On Fri, Mar 09, 2012 at 01:15:21PM -0800, H. Peter Anvin wrote:
+> No, you missed the point, which is that the comma moved to the .IR line.
 > 
-> here we go
+> .BR and .IR mean "alternate between bold/italic and regular", so
 > 
-> 	Cyrill
+> .IR foo bar
+> 
+> gives you "foobar" where only "foo" is italiziced.  It is equivalent to:
+> 
+> \fIfoo\fPbar
+> 
 
-No, you missed the point, which is that the comma moved to the .IR line.
+Ouch, sorry. Will update shortly.
 
-.BR and .IR mean "alternate between bold/italic and regular", so
-
-.IR foo bar
-
-gives you "foobar" where only "foo" is italiziced.  It is equivalent to:
-
-\fIfoo\fPbar
-
-	-hpa
-
-
--- 
-H. Peter Anvin, Intel Open Source Technology Center
-I work for Intel.  I don't speak on their behalf.
+	Cyrill
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
