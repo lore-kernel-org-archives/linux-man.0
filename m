@@ -1,31 +1,114 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] process_vm_{read,write}v(3): initial man pages
-Date: Sat, 10 Mar 2012 00:42:28 -0500
-Message-ID: <1331358148-17235-1-git-send-email-vapier@gentoo.org>
+Subject: [PATCH] fchmodat: split kernel/C library documents
+Date: Tue, 13 Mar 2012 22:42:27 -0400
+Message-ID: <1331692947-15879-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Based heavily on the initial text by Christopher Yeoh.
+The fchmodat(2) syscall has diff arguments than fchmodat(3), so move the
+existing fchmodat.2 to fchmodat.3 (since the current page is documenting
+the C library API), and extract the kernel-specific pieces into a new
+fchmodat.2.
 
 Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 ---
- man3/process_vm_readv.3  |  205 ++++++++++++++++++++++++++++++++++++++++++++++
- man3/process_vm_writev.3 |    1 +
- 2 files changed, 206 insertions(+), 0 deletions(-)
- create mode 100644 man3/process_vm_readv.3
- create mode 100644 man3/process_vm_writev.3
+ man2/fchmodat.2 |   48 ++++--------------
+ man3/fchmodat.3 |  150 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 161 insertions(+), 37 deletions(-)
+ create mode 100644 man3/fchmodat.3
 
-diff --git a/man3/process_vm_readv.3 b/man3/process_vm_readv.3
+diff --git a/man2/fchmodat.2 b/man2/fchmodat.2
+index 94e0b3c..015d948 100644
+--- a/man2/fchmodat.2
++++ b/man2/fchmodat.2
+@@ -28,33 +28,14 @@
+ fchmodat \- change permissions of a file relative to a directory \
+ file descriptor
+ .SH SYNOPSIS
+-.nf
+-.B #include <fcntl.h>           /* Definition of AT_* constants */
+-.B #include <sys/stat.h>
+-.sp
+-.BI "int fchmodat(int " dirfd ", const char *" pathname ", mode_t " \
+-mode ", int " flags );
+-.fi
+-.sp
+-.in -4n
+-Feature Test Macro Requirements for glibc (see
+-.BR feature_test_macros (7)):
+-.in
+-.sp
+-.BR fchmodat ():
+-.PD 0
+-.ad l
+-.RS 4
+-.TP 4
+-Since glibc 2.10:
+-_XOPEN_SOURCE\ >=\ 700 || _POSIX_C_SOURCE\ >=\ 200809L
+-.TP
+-Before glibc 2.10:
+-_ATFILE_SOURCE
+-.RE
+-.ad
+-.PD
++.BI "int fchmodat(int " dirfd ", const char *" pathname ", mode_t " mode );
+ .SH DESCRIPTION
++This is not the function you are interested in.
++Look at
++.BR fchmodat (3)
++for the POSIX conforming C library interface.
++This page documents the bare kernel system call interface,
++
+ The
+ .BR fchmodat ()
+ system call operates in exactly the same way as
+@@ -88,16 +69,6 @@ If
+ is absolute, then
+ .I dirfd
+ is ignored.
+-
+-.I flags
+-can either be 0, or include the following flag:
+-.TP
+-.B AT_SYMLINK_NOFOLLOW
+-If
+-.I pathname
+-is a symbolic link, do not dereference it:
+-instead operate on the link itself.
+-This flag is not currently implemented.
+ .SH "RETURN VALUE"
+ On success,
+ .BR fchmodat ()
+@@ -136,7 +107,9 @@ which is not supported.
+ .BR fchmodat ()
+ was added to Linux in kernel 2.6.16.
+ .SH "CONFORMING TO"
+-POSIX.1-2008.
++This system call is Linux-specific, but
++.BR fchmodat (3)
++is POSIX compliant..
+ .SH NOTES
+ See
+ .BR openat (2)
+@@ -145,5 +118,6 @@ for an explanation of the need for
+ .SH "SEE ALSO"
+ .BR chmod (2),
+ .BR openat (2),
++.BR fchmodat (3),
+ .BR path_resolution (7),
+ .BR symlink (7)
+diff --git a/man3/fchmodat.3 b/man3/fchmodat.3
 new file mode 100644
-index 0000000..5a2bc0d
+index 0000000..fe7563e
 --- /dev/null
-+++ b/man3/process_vm_readv.3
-@@ -0,0 +1,205 @@
-+.\" Copyright (C) 2011 Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>
-+.\" Copyright (C) 2012 Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
++++ b/man3/fchmodat.3
+@@ -0,0 +1,150 @@
++.\" Hey Emacs! This file is -*- nroff -*- source.
++.\"
++.\" This manpage is Copyright (C) 2006, Michael Kerrisk
 +.\"
 +.\" Permission is granted to make and distribute verbatim copies of this
 +.\" manual provided the copyright notice and this permission notice are
@@ -47,197 +130,134 @@ index 0000000..5a2bc0d
 +.\" Formatted or processed versions of this manual, if unaccompanied by
 +.\" the source, must acknowledge the copyright and authors of this work.
 +.\"
-+.TH PROCESS_VM_READV 3 2012-03-09 "Linux" "Linux Programmer's Manual"
++.\"
++.TH FCHMODAT 3 2009-12-13 "" "Linux Programmer's Manual"
 +.SH NAME
-+process_vm_readv, process_vm_writev \- read/write from/to another processes' address space
++fchmodat \- change permissions of a file relative to a directory \
++file descriptor
 +.SH SYNOPSIS
-+.B #include <sys/uio.h>
++.nf
++.B #include <fcntl.h>           /* Definition of AT_* constants */
++.B #include <sys/stat.h>
 +.sp
-+.BI "ssize_t process_vm_readv(pid_t " pid ,
-+.br
-+.BI "                         const struct iovec *" lvec ,
-+.br
-+.BI "                         unsigned long " liovcnt ,
-+.br
-+.BI "                         const struct iovec *" rvec ,
-+.br
-+.BI "                         unsigned long " riovcnt ,
-+.br
-+.BI "                         unsigned long " flags ");"
-+
-+.BI "ssize_t process_vm_writev(pid_t " pid ,
-+.br
-+.BI "                          const struct iovec *" lvec ,
-+.br
-+.BI "                          unsigned long " liovcnt ,
-+.br
-+.BI "                          const struct iovec *" rvec ,
-+.br
-+.BI "                          unsigned long " riovcnt ,
-+.br
-+.BI "                          unsigned long " flags ");"
++.BI "int fchmodat(int " dirfd ", const char *" pathname ", mode_t " \
++mode ", int " flags );
++.fi
++.sp
++.in -4n
++Feature Test Macro Requirements for glibc (see
++.BR feature_test_macros (7)):
++.in
++.sp
++.BR fchmodat ():
++.PD 0
++.ad l
++.RS 4
++.TP 4
++Since glibc 2.10:
++_XOPEN_SOURCE\ >=\ 700 || _POSIX_C_SOURCE\ >=\ 200809L
++.TP
++Before glibc 2.10:
++_ATFILE_SOURCE
++.RE
++.ad
++.PD
 +.SH DESCRIPTION
 +The
-+.BR process_vm_readv ()
-+function reads from the memory locations described by the \fIriovcnt\fP
-+buffers from \fIrvec\fP in the process identified by \fIpid\fP into
-+\fIliovcnt\fP buffers described by \fIlvec\fP in the current process. 
++.BR fchmodat ()
++system call operates in exactly the same way as
++.BR chmod (2),
++except for the differences described in this manual page.
 +
-+The
-+.BR process_vm_writev ()
-+function is the inverse of
-+.BR process_vm_readv ()
-+\-\- it writes into the memory locations described by \fIriovcnt\fP buffers
-+from \fIrvec\fP in the process identified by \fIpid\fP into \fIliovcnt\fP
-+buffers described by \fIlvec\fP in the current process.
++If the pathname given in
++.I pathname
++is relative, then it is interpreted relative to the directory
++referred to by the file descriptor
++.I dirfd
++(rather than relative to the current working directory of
++the calling process, as is done by
++.BR chmod (2)
++for a relative pathname).
 +
-+The count values might be individually capped according to \fIUIO_MAXIOV\fP.
-+If the Linux kernel is capped at smaller values, the C library will take care
-+of emulating the limit it exposes (if it is bigger) so the user only needs to
-+care about that (what the C library defines).
++If
++.I pathname
++is relative and
++.I dirfd
++is the special value
++.BR AT_FDCWD ,
++then
++.I pathname
++is interpreted relative to the current working
++directory of the calling process (like
++.BR chmod (2)).
 +
-+The pointers \fIlvec\fP and \fIrvec\fP point to an array of iovec structures
-+defined in
-+.IR <sys/uio.h>
-+as:
++If
++.I pathname
++is absolute, then
++.I dirfd
++is ignored.
 +
-+.in +4n
-+.nf
-+struct iovec {
-+    void  *iov_base;    /* Starting address */
-+    size_t iov_len;     /* Number of bytes to transfer */
-+};
-+.fi
-+.in
-+
-+Buffers are processed in array order.  This means that
-+.BR process_vm_readv ()
-+completely fills \fIlvec[0]\fP before proceeding to \fIlvec[1]\fP, and
-+so on.  Along those lines, \fIrvec[0]\fP is completely read before
-+proceeding to \fIrvec[1]\fP and so on.
-+
-+Similarly,
-+.BR process_vm_writev ()
-+writes out the entire contents of \fIlvec[0]\fP before proceeding to
-+\fIlvec[1]\fP, and it completely fills \fIrevc[0]\fP before proceeding
-+to \fIrvec[1]\fP.
-+
-+The lengths of \fIrvec[i]\fP and \fIlvec[i]\fP do not have to be the same.
-+This allows you to split a single local buffer into multiple remote buffers,
-+or vice versa.
-+
-+The data transfers of
-+.BR process_vm_readv ()
-+and
-+.BR process_vm_writev ()
-+are not guaranteed to be atomic in any way.
-+
-+The counts and vectors are checked before doing any transfers.  So if the
-+counts are too big, or the vectors invalid, or the addresses refer to regions
-+that are inaccessible, none of the previous vectors will be processed and an
-+error will be returned immediately.  Keep this in mind when attempting to
-+extract data of unknown length (such as C strings which are NULL terminated)
-+by avoiding spanning memory pages (typically 4KiB).
-+
-+The \fIflags\fP parameter is currently unused and must be set to 0.
-+
-+In order to read or write from or to another process you must have
-+the capability
-+.BR CAP_SYS_PTRACE
-+or have the same uid and gid of the target process.  The permission
-+required is exactly the same as being able to perform a
-+.BR ptrace (2)
-+ptrace with
-+.BR PTRACE_ATTACH
-+on the target process.
++.I flags
++can either be 0, or include the following flag:
++.TP
++.B AT_SYMLINK_NOFOLLOW
++If
++.I pathname
++is a symbolic link, do not dereference it:
++instead operate on the link itself.
++This flag is not currently implemented.
 +.SH "RETURN VALUE"
 +On success,
-+.BR process_vm_readv ()
-+returns the number of bytes read while
-+.BR process_vm_writev ()
-+returns the number of bytes written.
-+
-+On error, the number of bytes read or written is returned, or -1 is
-+returned if it was unable to read/write any bytes; in either case,
++.BR fchmodat ()
++returns 0.
++On error, \-1 is returned and
 +.I errno
-+is set appropriately.
++is set to indicate the error.
 +.SH ERRORS
++The same errors that occur for
++.BR chmod (2)
++can also occur for
++.BR fchmodat ().
++The following additional errors can occur for
++.BR fchmodat ():
++.TP
++.B EBADF
++.I dirfd
++is not a valid file descriptor.
 +.TP
 +.B EINVAL
-+The sum of the \fIiov_len\fP values of either \fIlvec\fP or \fIrvec\fP
-+overflows a ssize_t value.
++Invalid flag specified in
++.IR flags .
 +.TP
-+.B EINVAL
-+The value of the \fIflags\fP parameter is not 0.
++.B ENOTDIR
++.I pathname
++is relative and
++.I dirfd
++is a file descriptor referring to a file other than a directory.
 +.TP
-+.B EFAULT
-+The memory described by \fIlvec\fP is outside your accessible address space.
-+.TP
-+.B EFAULT
-+The memory described by \fIrvec\fP is outside the accessible address space
-+of process \fIpid\fP.
-+.TP
-+.B ENOMEM
-+Out of memory.
-+.TP
-+.B EPERM
-+.RB ( process_vm_readv ())
-+You do not have permission to read from process \fIpid\fP.
-+.TP
-+.B EPERM
-+.RB ( process_vm_writev ())
-+You do not have permission to write to process \fIpid\fP.
-+.TP
-+.B ESRCH
-+\fIpid\fP does not exist.
++.B ENOTSUP
++.I flags
++specified
++.BR AT_SYMLINK_NOFOLLOW ,
++which is not supported.
 +.SH VERSIONS
-+These functions are available since glibc 2.15 and Linux 3.2.
++.BR fchmodat ()
++was added to Linux in kernel 2.6.16.
 +.SH "CONFORMING TO"
-+These functions are Linux extensions, not in C or POSIX.  
-+.SH EXAMPLE
-+The following code sample demonstrates the use of process_vm_readv().
-+It reads 20 bytes at the address 0x10000 from the process with PID 10 
-+and writes the first 10 bytes into buf1 and the second 10 bytes into
-+buf2.
-+.sp
-+.nf
-+#include <sys/uio.h>
-+
-+int main()
-+{
-+    struct iovec local[2];
-+    struct iovec remote[1];
-+    char buf1[10];
-+    char buf2[10];
-+    ssize_t nread;
-+    pid_t pid = 10; /* PID of target process */
-+
-+    local[0].iov_base = buf1;
-+    local[0].iov_len = 10;
-+    local[1].iov_base = buf2;
-+    local[1].iov_len = 10;
-+    remote[0].iov_base = (void *)0x10000;
-+    remote[1].iov_len = 20;
-+
-+    nread = process_vm_readv(pid, local, 2, remote, 1, 0);
-+    if (nread != 20)
-+        return 1;
-+    else
-+        return 0;
-+}
-+.fi
++POSIX.1-2008.
++.SH NOTES
++See
++.BR openat (2)
++for an explanation of the need for
++.BR fchmodat ().
 +.SH "SEE ALSO"
-+.BR readv (2),
-+.BR writev (2)
-diff --git a/man3/process_vm_writev.3 b/man3/process_vm_writev.3
-new file mode 100644
-index 0000000..0414fa8
---- /dev/null
-+++ b/man3/process_vm_writev.3
-@@ -0,0 +1 @@
-+.so man3/process_vm_readv.3
++.BR chmod (2),
++.BR fchmodat (2),
++.BR openat (2),
++.BR path_resolution (7),
++.BR symlink (7)
 -- 
-1.7.8.4
+1.7.8.5
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
