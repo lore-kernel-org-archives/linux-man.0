@@ -1,67 +1,21 @@
-From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] tzset.3: fix description of "n" format
-Date: Wed, 14 Mar 2012 15:29:53 +0100
-Message-ID: <4F60AB61.8060003@redhat.com>
-References: <4EBC16EC.30905@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Artyom Pervukhin <artyom-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org>
+Subject: typo in tcp(7) manpage
+Date: Sat, 17 Mar 2012 22:45:57 +0600
+Message-ID: <38649606-06B7-4338-9404-0780828ECAF6@evasive.ru>
+Mime-Version: 1.0 (Apple Message framework v1257)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EBC16EC.30905-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hi,
 
-could somebody look at this? Patch was attached in previous email, only=
-=20
-review is needed.
+tcp(7) manpage, `SEE ALSO` section erroneously states RFC 1644 as a source for a description of TIME_WAIT assassination hazards. The correct RFC number is 1337.
 
-Thanks,
-
-peter
-
-On 11/10/2011 07:24 PM, Peter Schiffer wrote:
-> Hello,
->
-> according to [1], description of start/end format of TZ variable says=
-:
-> ...
-> Jn
-> This specifies the Julian day, with n between 1 and 365. February 29=20
-> is never counted, even in leap years.
-> n
-> This specifies the Julian day, with n between 0 and 365. February 29=20
-> is counted in leap years.
-> ...
->
-> This is correct and works. However, man page tzset(3) says:
-> ...
-> Jn This specifies the Julian day with n between 1 and 365. Febru=E2=80=
-=90
-> ary 29 is never counted even in leap years.
->
-> n This specifies the Julian day with n between 1 and 365. Febru=E2=80=
-=90
-> ary 29 is counted in leap years.
-> ...
->
-> For "n" format, interval should be "between 0 and 365". Attached patc=
-h=20
-> is solving this issue.
->
-> Version of man pages: 3.35
->
->
-> peter
->
->
-> [1] http://www.gnu.org/s/hello/manual/libc/TZ-Variable.html
-
---
+Found on Debian, manpages 3.35-0.1 (sid).--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
