@@ -1,53 +1,53 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getent.1: ffix
-Date: Tue, 20 Mar 2012 07:37:55 +1300
-Message-ID: <CAKgNAkiyNbeUE-7Y=LfB6dY_AobVJxoTSXgxOoYzvvwdvsjWnA@mail.gmail.com>
-References: <1331330821-25895-1-git-send-email-taffit@debian.org> <4F5AC682.5080708@tilapin.org>
+Subject: Re: [PATCH] fallocate.2: ffix
+Date: Tue, 20 Mar 2012 07:42:09 +1300
+Message-ID: <CAKgNAkg2CL1JKrnPArTfr=vO0K4VebE01JVsn7e-MgUc_Fjhiw@mail.gmail.com>
+References: <1330398866-16965-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F5AC682.5080708-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org>
+In-Reply-To: <1330398866-16965-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <david-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+Thanks David. Applied for 3.38.
 
-On Sat, Mar 10, 2012 at 4:12 PM, David Pr=E9vot <david-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org> wro=
+On Tue, Feb 28, 2012 at 4:14 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
 te:
-> Hi Michael,
+> ---
+> =A0man2/fallocate.2 | =A0 =A04 ++--
+> =A01 files changed, 2 insertions(+), 2 deletions(-)
 >
-> Just spotted this one too while reviewing the translation: as the
-> previous one, the purpose is to comply with man(1) conventions.
-
-I've applied both patches for man-pages-3.38.
-
-Cheers,
-
-Michael
-
-
-> Regards
+> diff --git a/man2/fallocate.2 b/man2/fallocate.2
+> index 9fe0620..2f84c91 100644
+> --- a/man2/fallocate.2
+> +++ b/man2/fallocate.2
+> @@ -49,7 +49,7 @@ and
+> =A0The file size (as reported by
+> =A0.BR stat (2))
+> =A0will be changed if
+> -.I "offset + len"
+> +.IR offset + len
+> =A0is greater than the file size.
+> =A0This default behavior closely resembles the behavior of the
+> =A0.BR posix_fallocate (3)
+> @@ -68,7 +68,7 @@ flag is specified in
+> =A0.IR mode ,
+> =A0the behavior of the call is similar,
+> =A0but the file size will not be changed even if
+> -.I "offset + len"
+> +.IR offset + len
+> =A0is greater than the file size.
+> =A0Preallocating zeroed blocks beyond the end of the file in this man=
+ner
+> =A0is useful for optimizing append workloads.
+> --
+> 1.7.9.1
 >
-> David
->
-> diff --git a/man1/getent.1 b/man1/getent.1
-> index 8caf8aa..1b3f3de 100644
-> --- a/man1/getent.1
-> +++ b/man1/getent.1
-> @@ -28,7 +28,7 @@ getent \- get entries from Name Service Switch libr=
-aries
-> =A0.IR database " [" key " ...]"
-> =A0.SH DESCRIPTION
-> =A0The
-> -.I getent
-> +.B getent
-> =A0command displays entries from databases supported by the
-> =A0Name Service Switch libraries,
-> =A0which are configured in
 
 
 
