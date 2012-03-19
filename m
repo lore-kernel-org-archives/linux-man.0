@@ -1,53 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: man-pages-3.37 released
-Date: Tue, 20 Mar 2012 07:31:54 +1300
-Message-ID: <CAKgNAkip9J3w+eu99uy-puK_qK3S1EfRUKVcXOPTa3WF_8-piQ@mail.gmail.com>
+Date: Tue, 20 Mar 2012 07:33:10 +1300
+Message-ID: <CAKgNAkiVd65xzksTXrXtrQR7YbP-x8=Qi2yieRA1=NYoc-zNSQ@mail.gmail.com>
 References: <CAKgNAkjJSkf68TG2A5Ls9H8XoaaOuh44H4M7xJCWH_yRUgBpEQ@mail.gmail.com>
- <CAMqf4EHcasSC=UXmUxsu9F1_jzPcgx8K0XFYU2tXn=FBMmfVng@mail.gmail.com>
+ <4F64FB6F.2040505@proseconsulting.co.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMqf4EHcasSC=UXmUxsu9F1_jzPcgx8K0XFYU2tXn=FBMmfVng-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4F64FB6F.2040505-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Mar 10, 2012 at 8:03 AM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Le 9 mars 2012 18:28, Michael Kerrisk (man-pages) a =E9crit :
+On Sun, Mar 18, 2012 at 10:00 AM, Mark R Bannister
+<mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org> wrote:
+> Hi Michael,
+>
+> Thanks for incorporating my getent(1) man page into 3.37.
+>
+> Thanks also for picking up my qsort_r(1) changes and for feeding back
+> regarding scandirat(3) for which I'll get a new revision out to you s=
+hortly.
+>
+> However, there are still some man pages that I have contributed that =
+are
+> still MIA. =A0Namely:
+>
+> =A0 =A0nsswitch.conf(5) rewrite: contributed 13th Oct 2011.
+> =A0 =A0scandir(3) minor update: contributed 15th Nov 2011.
+> =A0 =A0umask(2) minor update: contributed 2nd Dec 2011.
+>
+> Do you know what is happening with these?
+
+Hi Mark,
+
+They're in my queue. Ping me if no action by the end of the month.
+
+Thanks,
+
+Michael
+
+
+> On 09/03/2012 17:28, Michael Kerrisk (man-pages) wrote:
+>>
 >> Gidday,
 >>
 >> The Linux man-pages maintainer proudly announces:
 >>
->> =A0 man-pages-3.37.tar.gz - man pages for Linux
-> [...]
+>> =A0 =A0man-pages-3.37.tar.gz - man pages for Linux
+>>
 >
-> Hello Michael,
->
-> There is an nroff syntax error in man2/ptrace.2:
->
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index 37c4dff..775a26d 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -726,7 +726,7 @@ group-stop, PTRACE_EVENT stops, syscall-stops
-> =A0.BR PTRACE_SINGLESTEP ,
-> =A0.BR PTRACE_SYSEMU ,
-> =A0and
-> -.BE PTRACE_SYSEMU_SINGLESTEP .
-> +.BR PTRACE_SYSEMU_SINGLESTEP .
-> =A0They all are reported by
-> =A0.BR waitpid (2)
-> =A0with
 
-Thanks Denis. This piece was fixed in a separate patch by Denys Vlasenk=
-o.
-
-Cheers,
-
-Michael
 
 
 --=20
