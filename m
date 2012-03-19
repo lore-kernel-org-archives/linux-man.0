@@ -1,58 +1,53 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man-pages-3.37 released
-Date: Tue, 20 Mar 2012 07:33:10 +1300
-Message-ID: <CAKgNAkiVd65xzksTXrXtrQR7YbP-x8=Qi2yieRA1=NYoc-zNSQ@mail.gmail.com>
-References: <CAKgNAkjJSkf68TG2A5Ls9H8XoaaOuh44H4M7xJCWH_yRUgBpEQ@mail.gmail.com>
- <4F64FB6F.2040505@proseconsulting.co.uk>
+Subject: Re: [PATCH] getent.1: ffix
+Date: Tue, 20 Mar 2012 07:37:55 +1300
+Message-ID: <CAKgNAkiyNbeUE-7Y=LfB6dY_AobVJxoTSXgxOoYzvvwdvsjWnA@mail.gmail.com>
+References: <1331330821-25895-1-git-send-email-taffit@debian.org> <4F5AC682.5080708@tilapin.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F64FB6F.2040505-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+In-Reply-To: <4F5AC682.5080708-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <david-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Mar 18, 2012 at 10:00 AM, Mark R Bannister
-<mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org> wrote:
+Hi David,
+
+On Sat, Mar 10, 2012 at 4:12 PM, David Pr=E9vot <david-EYFo4vFR6XNAfugRpC6u6w@public.gmane.org> wro=
+te:
 > Hi Michael,
 >
-> Thanks for incorporating my getent(1) man page into 3.37.
->
-> Thanks also for picking up my qsort_r(1) changes and for feeding back
-> regarding scandirat(3) for which I'll get a new revision out to you s=
-hortly.
->
-> However, there are still some man pages that I have contributed that =
-are
-> still MIA. =A0Namely:
->
-> =A0 =A0nsswitch.conf(5) rewrite: contributed 13th Oct 2011.
-> =A0 =A0scandir(3) minor update: contributed 15th Nov 2011.
-> =A0 =A0umask(2) minor update: contributed 2nd Dec 2011.
->
-> Do you know what is happening with these?
+> Just spotted this one too while reviewing the translation: as the
+> previous one, the purpose is to comply with man(1) conventions.
 
-Hi Mark,
+I've applied both patches for man-pages-3.38.
 
-They're in my queue. Ping me if no action by the end of the month.
-
-Thanks,
+Cheers,
 
 Michael
 
 
-> On 09/03/2012 17:28, Michael Kerrisk (man-pages) wrote:
->>
->> Gidday,
->>
->> The Linux man-pages maintainer proudly announces:
->>
->> =A0 =A0man-pages-3.37.tar.gz - man pages for Linux
->>
+> Regards
 >
+> David
+>
+> diff --git a/man1/getent.1 b/man1/getent.1
+> index 8caf8aa..1b3f3de 100644
+> --- a/man1/getent.1
+> +++ b/man1/getent.1
+> @@ -28,7 +28,7 @@ getent \- get entries from Name Service Switch libr=
+aries
+> =A0.IR database " [" key " ...]"
+> =A0.SH DESCRIPTION
+> =A0The
+> -.I getent
+> +.B getent
+> =A0command displays entries from databases supported by the
+> =A0Name Service Switch libraries,
+> =A0which are configured in
 
 
 
