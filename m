@@ -1,45 +1,35 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ld.so.8: formatting fix
-Date: Tue, 20 Mar 2012 23:09:21 +1300
-Message-ID: <CAKgNAkgSh-V0ZjNnwK2+cnCg5Qx-k+4RwQqwzZ60BoG_TgxJnQ@mail.gmail.com>
-References: <CAMqf4EHbGwsucygbk4cw+cjjH=1Uh0tktai9mi7zcfrJJRhnpw@mail.gmail.com>
+Subject: Re: typo in tcp(7) manpage
+Date: Tue, 20 Mar 2012 23:09:42 +1300
+Message-ID: <CAKgNAkg5Bpq3hV1=PpWh1C45RA+=KoEAJvpLLvD7sUQNYh9fNA@mail.gmail.com>
+References: <38649606-06B7-4338-9404-0780828ECAF6@evasive.ru>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=KOI8-R
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMqf4EHbGwsucygbk4cw+cjjH=1Uh0tktai9mi7zcfrJJRhnpw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <38649606-06B7-4338-9404-0780828ECAF6-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Artyom Pervukhin <artyom-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Denis,
+Hello Anyon,
 
-On Sat, Mar 10, 2012 at 8:47 AM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello,
+On Sun, Mar 18, 2012 at 5:45 AM, Artyom Pervukhin <artyom-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org> wrote:
+> Hi,
 >
-> diff --git a/man8/ld.so.8 b/man8/ld.so.8
-> index 5c02204..2fbacae 100644
-> --- a/man8/ld.so.8
-> +++ b/man8/ld.so.8
-> @@ -126,6 +126,7 @@ Ignore RPATH and RUNPATH information in object
-> names in LIST.
-> =A0This option is ignored if
-> =A0.B ld.so
-> =A0is set-user-ID or set-group-ID.
-> +.TP
-> =A0.B \-\-audit LIST
-> =A0Use objects named in LIST as auditors.
-> =A0.SH ENVIRONMENT
+> tcp(7) manpage, `SEE ALSO` section erroneously states RFC 1644 as a source for a description of TIME_WAIT assassination hazards. The correct RFC number is 1337.
+>
+> Found on Debian, manpages 3.35-0.1 (sid).
 
-Applied for 3.38.
+Thanks! Corrected for man-pages-3.38.
 
-Thanks,
+Cheers,
 
 Michael
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
