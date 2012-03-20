@@ -1,40 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
-Date: Tue, 20 Mar 2012 19:30:29 +1300
-Message-ID: <CAKgNAkj-bss8Tuq3jcPMRpsKCfKgHGSemq5emS48eBXi2JXA_w@mail.gmail.com>
-References: <1331358148-17235-1-git-send-email-vapier@gentoo.org>
+Subject: Re: ld.so.8: formatting fix
+Date: Tue, 20 Mar 2012 23:09:21 +1300
+Message-ID: <CAKgNAkgSh-V0ZjNnwK2+cnCg5Qx-k+4RwQqwzZ60BoG_TgxJnQ@mail.gmail.com>
+References: <CAMqf4EHbGwsucygbk4cw+cjjH=1Uh0tktai9mi7zcfrJJRhnpw@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1331358148-17235-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAMqf4EHbGwsucygbk4cw+cjjH=1Uh0tktai9mi7zcfrJJRhnpw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-And another question about a different part of the page:
+Hi Denis,
 
-> +.SH "RETURN VALUE"
-> +On success,
-> +.BR process_vm_readv ()
-> +returns the number of bytes read while
-> +.BR process_vm_writev ()
-> +returns the number of bytes written.
-> +
-> +On error, the number of bytes read or written is returned, or -1 is
-> +returned if it was unable to read/write any bytes; in either case,
-> +.I errno
-> +is set appropriately.
+On Sat, Mar 10, 2012 at 8:47 AM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello,
+>
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index 5c02204..2fbacae 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -126,6 +126,7 @@ Ignore RPATH and RUNPATH information in object
+> names in LIST.
+> =A0This option is ignored if
+> =A0.B ld.so
+> =A0is set-user-ID or set-group-ID.
+> +.TP
+> =A0.B \-\-audit LIST
+> =A0Use objects named in LIST as auditors.
+> =A0.SH ENVIRONMENT
 
-Is that last piece really true? On error, how does the syscall return
-number of bytes read or written *and* set errno?
+Applied for 3.38.
 
-Cheers,
+Thanks,
 
 Michael
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
