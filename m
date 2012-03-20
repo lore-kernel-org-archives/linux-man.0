@@ -1,35 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: typo in tcp(7) manpage
-Date: Tue, 20 Mar 2012 23:09:42 +1300
-Message-ID: <CAKgNAkg5Bpq3hV1=PpWh1C45RA+=KoEAJvpLLvD7sUQNYh9fNA@mail.gmail.com>
-References: <38649606-06B7-4338-9404-0780828ECAF6@evasive.ru>
+Subject: Re: [patch] ld.so.8: missing .TP tag before description of --audit LIST
+Date: Tue, 20 Mar 2012 23:11:35 +1300
+Message-ID: <CAKgNAkjJFDbfr1Q1TmJa_s52TyuSQJhNzeiFBZ+XzVP+v1tBTQ@mail.gmail.com>
+References: <20120309223930.GA8520@spin>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <38649606-06B7-4338-9404-0780828ECAF6-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org>
+In-Reply-To: <20120309223930.GA8520@spin>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Artyom Pervukhin <artyom-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org>
+To: =?ISO-8859-1?Q?C=E9dric_Boutillier?= <cedric.boutillier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Anyon,
+Thanks C=E9dric. This was also reported by someone else!
 
-On Sun, Mar 18, 2012 at 5:45 AM, Artyom Pervukhin <artyom-mKnqvlXXQCMvJsYlp49lxw@public.gmane.org> wrote:
-> Hi,
+On Sat, Mar 10, 2012 at 11:39 AM, C=E9dric Boutillier
+<cedric.boutillier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi!
 >
-> tcp(7) manpage, `SEE ALSO` section erroneously states RFC 1644 as a source for a description of TIME_WAIT assassination hazards. The correct RFC number is 1337.
+> During the translation of 3.37 into French, I noticed the following
+> problem: in man8/ld.so.8, there is a missing .TP tag. Patch againt
+> master (man-pages-3.37-8-g2bfe665) below.
 >
-> Found on Debian, manpages 3.35-0.1 (sid).
+> Best regards,
+>
+> =A0 =A0 =A0 =A0C=E9dric
+>
+>
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index 5c02204..2fbacae 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -126,6 +126,7 @@ Ignore RPATH and RUNPATH information in object na=
+mes in LIST.
+> =A0This option is ignored if
+> =A0.B ld.so
+> =A0is set-user-ID or set-group-ID.
+> +.TP
+> =A0.B \-\-audit LIST
+> =A0Use objects named in LIST as auditors.
+> =A0.SH ENVIRONMENT
 
-Thanks! Corrected for man-pages-3.38.
-
-Cheers,
-
-Michael
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
