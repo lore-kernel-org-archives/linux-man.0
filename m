@@ -1,144 +1,73 @@
-From: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH 1/2] prctl.2: Add PR_SET_MM option description
-Date: Wed, 21 Mar 2012 02:24:24 +0400
-Message-ID: <20120320222424.GL14269@moon>
-References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org>
- <1331326042-32558-2-git-send-email-gorcunov@openvz.org>
- <CAKgNAkgJm01K9+GhnouxUwOUW3gk+YiuHLfofrs7adWzEqqO8Q@mail.gmail.com>
+From: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>
+Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
+Date: Wed, 21 Mar 2012 13:55:10 +1030
+Message-ID: <20120321135510.29380c06@Gantu>
+References: <1331358148-17235-1-git-send-email-vapier@gentoo.org>
+	<CAKgNAkjhzh+zZ+GhOcbKsZpkeAgn6ua5K=zS=0_AUsUQ3GsQ_A@mail.gmail.com>
+	<201203192050.48882.vapier@gentoo.org>
+	<CAKgNAkg=3KokH5zFwThOsHt4gaM4fqcauFdmtihCgcFEV8_z1A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkgJm01K9+GhnouxUwOUW3gk+YiuHLfofrs7adWzEqqO8Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkg=3KokH5zFwThOsHt4gaM4fqcauFdmtihCgcFEV8_z1A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Mar 21, 2012 at 06:21:19AM +1300, Michael Kerrisk (man-pages) wrote:
-> Hello Cyrill,
-> 
-> The PR_SET_MM operation adds a number of new error cases to prctl(2).
-> Could you extend you patch to add these under ERRORS?
-> 
+On Tue, 20 Mar 2012 19:27:31 +1300
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-Hi Michael,
+> On Tue, Mar 20, 2012 at 1:50 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> wrote:
+> > On Monday 19 March 2012 16:45:41 Michael Kerrisk (man-pages) wrote:
+> >> A quick question about one piece:
+> >> > +The count values might be individually capped according to
+> >> > \fIUIO_MAXIOV\fP. +If the Linux kernel is capped at smaller
+> >> > values, the C library will take care +of emulating the limit it
+> >> > exposes (if it is bigger) so the user only needs to +care about
+> >> > that (what the C library defines).
+> >>
+> >> I don't see anything in glibc that does this. Have I missed
+> >> something?
+> >
+> > i think you're correct. =C2=A0the code in glibc atm is merely a
+> > syscall(). =C2=A0i think the idea was to have the C library guarant=
+ee
+> > that and if moving forward the kernel changes, the C library would
+> > update by adding a wrapper. =C2=A0maybe just drop this sentence unt=
+il
+> > that day comes ?
+>=20
+> So, does the kernel currently impose a limit on the size of the iovec=
+?
+> It wasn't immediately clear to me from a quick scan of the source.
+>=20
+>=20
 
-here is an update on previous patch. Please take a look and
-tell me what you think when you get time. Complains are welcome!
+The code calls rw_copy_check_uvector which does check that the iovecs
+are smaller than UIO_MAXIOV.
 
-	Cyrill
----
->From 10dbf8dc2e40426c56a6d2a2414bcb9d3a0f5ff3 Mon Sep 17 00:00:00 2001
-From: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Date: Wed, 21 Mar 2012 02:20:11 +0400
-Subject: [PATCH] prctl.2: Update description for PR_SET_MM option
+Note that the following bit is not strictly true:
+  "So if the counts are too big, or the vectors invalid, or the
+  addresses refer to regions that are inaccessible, none of the
+  previous vectors will be processed and an +error will be returned
+  immediately."
 
-New feature PR_SET_MM_EXE_FILE added, also
-error codes updated.
+Whilst the code does check that memory regions in the process calling
+the system calls are accessible before any work is done, it does not
+check the memory regions in the remote process until just before doing
+the read/write. So in that case you can end up with a partial
+read/write if one of the iovec elements for the remote process points
+to an invalid memory region. No further read/writes will be attempted
+after this point though.
 
-Signed-off-by: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
----
- man2/prctl.2 |   70 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 files changed, 69 insertions(+), 1 deletions(-)
+Regards,
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index 7a50ac1..de15426 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -481,6 +481,30 @@ argument should provide the address of the vector.
- The
- .I arg4
- is the size of the vector.
-+
-+.BR PR_SET_MM_EXE_FILE
-+to supersede
-+.IR /proc/pid/exe
-+symbolic link with a new one pointing to a new executable file
-+which descriptor is provided provided in the
-+.I arg3
-+argument.
-+The file descriptor should be obtaned with a regular
-+.BR open (2)
-+call.
-+
-+To change the symlink, one needs to unmap all existing
-+executable memory areas being created by the kernel itself
-+(for example the kernel usually creates at least one executable
-+memory area for Elf file
-+.IR \.text
-+section).
-+
-+The second limitation is that such transition can be done once
-+in a process life time.
-+Any furter attempts will be rejected.
-+This should help system administrators to monitor the unusual
-+symlinks transitions over all process running in a system.
- .\"
- .SH "RETURN VALUE"
- On success,
-@@ -515,7 +539,9 @@ is not recognized.
- is
- .BR PR_MCE_KILL
- or
--.BR PR_MCE_KILL_GET ,
-+.BR PR_MCE_KILL_GET
-+or
-+.BR PR_SET_MM ,
- and unused
- .BR prctl ()
- arguments were not specified as zero.
-@@ -563,6 +589,48 @@ is
- and the caller does not have the
- .B CAP_SETPCAP
- capability.
-+.TP
-+.B EPERM
-+.I option
-+is
-+.BR PR_SET_MM ,
-+and the caller does not have the
-+.B CAP_SYS_RESOURCE
-+capability.
-+.TP
-+.B EACCES
-+.I option
-+is
-+.BR PR_SET_MM ,
-+and the
-+.I arg3
-+is
-+.BR PR_SET_MM_EXE_FILE ,
-+the file is not executable one.
-+.TP
-+.B EBUSY
-+.I option
-+is
-+.BR PR_SET_MM ,
-+and the
-+.I arg3
-+is
-+.BR PR_SET_MM_EXE_FILE ,
-+the second attempt to change
-+.I /proc/pid/exe
-+symlink is prohibited.
-+.TP
-+.B EBADF
-+.I option
-+is
-+.BR PR_SET_MM ,
-+and the
-+.I arg3
-+is
-+.BR PR_SET_MM_EXE_FILE ,
-+the file descriptor passed in
-+.I arg4
-+is not found.
- .\" The following can't actually happen, because prctl() in
- .\" seccomp mode will cause SIGKILL.
- .\" .TP
--- 
-1.7.7.6
+Chris
+--=20
+cyeoh-hXjcm30GF6XQT0dZR+AlfA@public.gmane.org
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
