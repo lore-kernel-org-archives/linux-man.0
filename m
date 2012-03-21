@@ -1,67 +1,69 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
-Date: Wed, 21 Mar 2012 00:05:27 -0400
-Message-ID: <201203210005.29137.vapier@gentoo.org>
-References: <1331358148-17235-1-git-send-email-vapier@gentoo.org> <CAKgNAkg=3KokH5zFwThOsHt4gaM4fqcauFdmtihCgcFEV8_z1A@mail.gmail.com> <20120321135510.29380c06@Gantu>
+Date: Wed, 21 Mar 2012 00:09:25 -0400
+Message-ID: <201203210009.27190.vapier@gentoo.org>
+References: <1331358148-17235-1-git-send-email-vapier@gentoo.org> <CAKgNAkj-bss8Tuq3jcPMRpsKCfKgHGSemq5emS48eBXi2JXA_w@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
-  boundary="nextPart2596362.qtFhq8mSMj";
+  boundary="nextPart3946058.UST7ibAXz0";
   protocol="application/pgp-signature";
   micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120321135510.29380c06@Gantu>
+In-Reply-To: <CAKgNAkj-bss8Tuq3jcPMRpsKCfKgHGSemq5emS48eBXi2JXA_w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart2596362.qtFhq8mSMj
+--nextPart3946058.UST7ibAXz0
 Content-Type: Text/Plain;
-  charset="utf-8"
+  charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 20 March 2012 23:25:10 Christopher Yeoh wrote:
-> Note that the following bit is not strictly true:
->   "So if the counts are too big, or the vectors invalid, or the
->   addresses refer to regions that are inaccessible, none of the
->   previous vectors will be processed and an error will be returned
->   immediately."
+On Tuesday 20 March 2012 02:30:29 Michael Kerrisk (man-pages) wrote:
+> And another question about a different part of the page:
+> > +.SH "RETURN VALUE"
+> > +On success,
+> > +.BR process_vm_readv ()
+> > +returns the number of bytes read while
+> > +.BR process_vm_writev ()
+> > +returns the number of bytes written.
+> > +
+> > +On error, the number of bytes read or written is returned, or -1 is
+> > +returned if it was unable to read/write any bytes; in either case,
+> > +.I errno
+> > +is set appropriately.
 >=20
-> Whilst the code does check that memory regions in the process calling
-> the system calls are accessible before any work is done, it does not
-> check the memory regions in the remote process until just before doing
-> the read/write. So in that case you can end up with a partial
-> read/write if one of the iovec elements for the remote process points
-> to an invalid memory region. No further read/writes will be attempted
-> after this point though.
+> Is that last piece really true? On error, how does the syscall return
+> number of bytes read or written *and* set errno?
 
-yes, i missed the "check_access" logic in rw_copy_check_uvector()
+yeah, this was a mistranslation by me from the .txt to the man page
 =2Dmike
 
---nextPart2596362.qtFhq8mSMj
+--nextPart3946058.UST7ibAXz0
 Content-Type: application/pgp-signature; name=signature.asc 
 Content-Description: This is a digitally signed message part.
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iQIcBAABAgAGBQJPaVOJAAoJEEFjO5/oN/WBggsP/jYAfP2+xtgDyZxp7y1nq30s
-EXjoZWljBW8pnDMGpMttI+6c4xY6zjlYicK8Cevizn0NYnPfkZmKEQjH2MmilOC1
-qYFxgF5D6D2MkKPVzSCZgr8ML7BMJm12O+uO8rIQmt+CjdEnZ4BVJDQe54Kju5C/
-Xsx8YaOARisRjxRihl4OGUe8e1Ua0S8/4g9GIw9G5yPog/7tE+GMXYWhIrTzYnru
-TtNOoyCkkkqob/wkBjOLoX0gYXZIqps/52AUM6o6uPCNlVV+ZPhkKX7V8FO5WHR0
-C/2ABdnbo7w+A3rU8Xz9I+YyDD1s3yHTnIyN8vn5PT1v1ASbChP1hBAvkJLUCBEg
-Yfh3wHpt/yS7ph2FBMWc4NDEOnzBYe1SLdFu08pAU+Jgepmj3bkYojPNAQy2a1da
-LGyi1oPR598P+KTjZBOqWlyrgZ8uHQhqs2mnQRxs9SOFxavOQf/7YlArBrmM4nng
-f0yWM434h5Q432ktPUOzo8R+h7FERCltzlAAMfBXFnE3N3AvnpjJIn4APKdPqgpj
-mLWDtno13O1v0lk2w7kRwe33zpjDojM/uEtaAZAXADWV58gnrqJAMsr158dYprJu
-TUlY0zJmtFSAGVkfAb7ln2fmzXu9yx49WxMaBVpFdJQ7u99quuC4pvjYPK39e5YP
-rrRmWpGtrgGrdk4o37Ab
-=s6cV
+iQIcBAABAgAGBQJPaVR2AAoJEEFjO5/oN/WB6zgP/0Cd400WLF3hvXjbzTpDzNjR
+c4RSMjgv4umL9WaXvmrgy69NlgnMD02SsPEJwdyUzJ1orgcDUulYCskU/3R/R9r/
+uyZAvbqbfq5ZN+fwsQItGzA4evF8vJLHNBX950CTE3MG1vR/zqbh0oM5cogtES0H
+LdWm5EA8BLBkSvj0e6Z6qHD0N8sAjVuJ3zPI21l7xAzzl9NsNfc5gLug05XOd4Bt
+exhEVlKWJhZXNkwVJ+nHHSwmMUm5p5ZQyrFGLWPCh+rIIxyXlBe//TeoUE3RkeQo
+TPfomsnK7Brdm2LL/8NrnTvtIdvSWGkQfno3PFas2uSCBKAkVuX3p0Lufgg5Gem3
+S0tIFJcF8Aazxb+Y2XOi8xixPafySD3ILEoCHay4VUDVcv2MseGgRz2CrUrzRPMp
+bjqBoL32Fq6W5xiXl31mWgK9eODr908D+ec4nrpmCF11fDVTgdtpB9GerXtB2qep
+IF0accdZM5GGA2CSy4X4ZaGi3B+45vBhuT6IkKoia0aH+f40zb7+uKQL67XvRbzc
+9nL5FXy6BrdBDKh59H/RBEyn1CFLxFMmDsTXT42ESfHnxu9kWhrB7kvzjpMWadZd
+2lcHJzk20SZ90vQdAH47nLl5A1cWg1y6/QKTU99XchXDDbCzeDiuNZ0bwBcSf2mf
+P/Oxg1vgc9oJZydTzaNF
+=NMGh
 -----END PGP SIGNATURE-----
 
---nextPart2596362.qtFhq8mSMj--
+--nextPart3946058.UST7ibAXz0--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
