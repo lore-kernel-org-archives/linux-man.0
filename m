@@ -1,10 +1,10 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH 2/2] ptrace.2: more ffix and tfix
-Date: Thu, 22 Mar 2012 23:12:09 -0400
-Message-ID: <1332472329-31499-1-git-send-email-taffit@debian.org>
-References: <1332444186-16345-1-git-send-email-taffit@debian.org>
+Subject: [PATCH 2/3] ptrace.2: more ffix and tfix
+Date: Fri, 23 Mar 2012 11:31:51 -0400
+Message-ID: <1332516711-8633-1-git-send-email-taffit@debian.org>
+References: <1332472329-31499-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1332444186-16345-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1332472329-31499-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
