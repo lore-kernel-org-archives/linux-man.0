@@ -1,67 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] tzset.3: fix description of "n" format
-Date: Sat, 24 Mar 2012 16:11:17 +1300
-Message-ID: <CAKgNAkiTtKVi-_uVLHjS2GOpFr0c7cZUgXyJXqoxk5dDc6XHhQ@mail.gmail.com>
-References: <4EBC16EC.30905@redhat.com>
+Subject: Re: fcntl(2) error: pipe-size-max vs pipe-max-size
+Date: Sat, 24 Mar 2012 16:24:47 +1300
+Message-ID: <CAKgNAkg1-0N3Za_VLJdpOG-QXw9z2tOW+ytYtCaRqSh6ka-7mg@mail.gmail.com>
+References: <20120214000441.GF15858@flim.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EBC16EC.30905-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20120214000441.GF15858-QufbIeIr5AY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Matthew Gregan <kinetik-QufbIeIr5AY@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Peter,
+Hello Matthew,
 
-On Fri, Nov 11, 2011 at 7:24 AM, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> w=
-rote:
-> Hello,
+On Tue, Feb 14, 2012 at 1:04 PM, Matthew Gregan <kinetik-QufbIeIr5AY@public.gmane.org> wrot=
+e:
+> Hi,
 >
-> according to [1], description of start/end format of TZ variable says=
-:
-> ...
-> Jn
-> This specifies the Julian day, with n between 1 and 365. February 29 =
-is
-> never counted, even in leap years.
-> n
-> This specifies the Julian day, with n between 0 and 365. February 29 =
-is
-> counted in leap years.
-> ...
->
-> This is correct and works. However, man page tzset(3) says:
-> ...
-> Jn This specifies the Julian day with n between 1 and 365. Febru=E2=80=
-=90
-> ary 29 is never counted even in leap years.
->
-> n This specifies the Julian day with n between 1 and 365. Febru=E2=80=
-=90
-> ary 29 is counted in leap years.
-> ...
->
-> For "n" format, interval should be "between 0 and 365". Attached patc=
-h is
-> solving this issue.
->
-> Version of man pages: 3.35
->
->
-> peter
->
->
-> [1] http://www.gnu.org/s/hello/manual/libc/TZ-Variable.html
+> In the man page for fcntl(2), within the paragraph discussing F_SETPI=
+PE_SZ,
+> it is claimed that the maximum size for a pipe is determined by the v=
+alue of
+> /proc/sys/fs/pipe-size-max. =A0The proc path is incorrect--on my curr=
+ent
+> machine (2.6.35.14-106.fc14.x86_64) and in the latest kernel source
+> (http://git.kernel.org/?p=3Dlinux/kernel/git/torvalds/linux-2.6.git;a=
+=3Dblob;f=3Dkernel/sysctl.c;h=3Df487f257e05e4f1dc8836ded96ca36556b04870=
+6;hb=3DHEAD#l1523),
+> the proc path is /proc/sys/fs/pipe-max-size.
 
-Thanks. I applied your patch for man-pages-3.38.
+Thanks for the report. Of course you are right, and this is fixed for
+man-pages-3.38.
 
 Cheers,
 
 Michael
-
 
 
 --=20
