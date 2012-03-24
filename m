@@ -1,162 +1,66 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 1/2] prctl.2: Add PR_SET_MM option description
-Date: Sat, 24 Mar 2012 15:59:49 +1300
-Message-ID: <CAKgNAkghWdju=o1prxw8dXEVjf95a+jLpe+3oKeHRWN1UK_cKg@mail.gmail.com>
-References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org>
- <1331326042-32558-2-git-send-email-gorcunov@openvz.org> <CAKgNAkgJm01K9+GhnouxUwOUW3gk+YiuHLfofrs7adWzEqqO8Q@mail.gmail.com>
- <20120320222424.GL14269@moon>
-Reply-To: mtk.manpages@gmail.com
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] tzset.3: fix description of "n" format
+Date: Sat, 24 Mar 2012 16:11:17 +1300
+Message-ID: <CAKgNAkiTtKVi-_uVLHjS2GOpFr0c7cZUgXyJXqoxk5dDc6XHhQ@mail.gmail.com>
+References: <4EBC16EC.30905@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20120320222424.GL14269@moon>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Cyrill Gorcunov <gorcunov@openvz.org>
-Cc: akpm@linux-foundation.org, xemul@parallels.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4EBC16EC.30905-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Mar 21, 2012 at 11:24 AM, Cyrill Gorcunov <gorcunov@openvz.org>=
- wrote:
-> On Wed, Mar 21, 2012 at 06:21:19AM +1300, Michael Kerrisk (man-pages)=
- wrote:
->> Hello Cyrill,
->>
->> The PR_SET_MM operation adds a number of new error cases to prctl(2)=
-=2E
->> Could you extend you patch to add these under ERRORS?
->>
+Hello Peter,
+
+On Fri, Nov 11, 2011 at 7:24 AM, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> w=
+rote:
+> Hello,
 >
-> Hi Michael,
+> according to [1], description of start/end format of TZ variable says=
+:
+> ...
+> Jn
+> This specifies the Julian day, with n between 1 and 365. February 29 =
+is
+> never counted, even in leap years.
+> n
+> This specifies the Julian day, with n between 0 and 365. February 29 =
+is
+> counted in leap years.
+> ...
 >
-> here is an update on previous patch. Please take a look and
-> tell me what you think when you get time. Complains are welcome!
+> This is correct and works. However, man page tzset(3) says:
+> ...
+> Jn This specifies the Julian day with n between 1 and 365. Febru=E2=80=
+=90
+> ary 29 is never counted even in leap years.
+>
+> n This specifies the Julian day with n between 1 and 365. Febru=E2=80=
+=90
+> ary 29 is counted in leap years.
+> ...
+>
+> For "n" format, interval should be "between 0 and 365". Attached patc=
+h is
+> solving this issue.
+>
+> Version of man pages: 3.35
+>
+>
+> peter
+>
+>
+> [1] http://www.gnu.org/s/hello/manual/libc/TZ-Variable.html
 
-Hi Cyrill,
+Thanks. I applied your patch for man-pages-3.38.
 
-I only just had a chance to look at this now and realize that this is
-a patch on a patch. Could you just send me a complete  patch with all
-the changes?
-
-Thanks,
+Cheers,
 
 Michael
-
-> ---
-> From 10dbf8dc2e40426c56a6d2a2414bcb9d3a0f5ff3 Mon Sep 17 00:00:00 200=
-1
-> From: Cyrill Gorcunov <gorcunov@openvz.org>
-> Date: Wed, 21 Mar 2012 02:20:11 +0400
-> Subject: [PATCH] prctl.2: Update description for PR_SET_MM option
->
-> New feature PR_SET_MM_EXE_FILE added, also
-> error codes updated.
->
-> Signed-off-by: Cyrill Gorcunov <gorcunov@openvz.org>
-> ---
-> =A0man2/prctl.2 | =A0 70 ++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++-
-> =A01 files changed, 69 insertions(+), 1 deletions(-)
->
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 7a50ac1..de15426 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -481,6 +481,30 @@ argument should provide the address of the vecto=
-r.
-> =A0The
-> =A0.I arg4
-> =A0is the size of the vector.
-> +
-> +.BR PR_SET_MM_EXE_FILE
-> +to supersede
-> +.IR /proc/pid/exe
-> +symbolic link with a new one pointing to a new executable file
-> +which descriptor is provided provided in the
-> +.I arg3
-> +argument.
-> +The file descriptor should be obtaned with a regular
-> +.BR open (2)
-> +call.
-> +
-> +To change the symlink, one needs to unmap all existing
-> +executable memory areas being created by the kernel itself
-> +(for example the kernel usually creates at least one executable
-> +memory area for Elf file
-> +.IR \.text
-> +section).
-> +
-> +The second limitation is that such transition can be done once
-> +in a process life time.
-> +Any furter attempts will be rejected.
-> +This should help system administrators to monitor the unusual
-> +symlinks transitions over all process running in a system.
-> =A0.\"
-> =A0.SH "RETURN VALUE"
-> =A0On success,
-> @@ -515,7 +539,9 @@ is not recognized.
-> =A0is
-> =A0.BR PR_MCE_KILL
-> =A0or
-> -.BR PR_MCE_KILL_GET ,
-> +.BR PR_MCE_KILL_GET
-> +or
-> +.BR PR_SET_MM ,
-> =A0and unused
-> =A0.BR prctl ()
-> =A0arguments were not specified as zero.
-> @@ -563,6 +589,48 @@ is
-> =A0and the caller does not have the
-> =A0.B CAP_SETPCAP
-> =A0capability.
-> +.TP
-> +.B EPERM
-> +.I option
-> +is
-> +.BR PR_SET_MM ,
-> +and the caller does not have the
-> +.B CAP_SYS_RESOURCE
-> +capability.
-> +.TP
-> +.B EACCES
-> +.I option
-> +is
-> +.BR PR_SET_MM ,
-> +and the
-> +.I arg3
-> +is
-> +.BR PR_SET_MM_EXE_FILE ,
-> +the file is not executable one.
-> +.TP
-> +.B EBUSY
-> +.I option
-> +is
-> +.BR PR_SET_MM ,
-> +and the
-> +.I arg3
-> +is
-> +.BR PR_SET_MM_EXE_FILE ,
-> +the second attempt to change
-> +.I /proc/pid/exe
-> +symlink is prohibited.
-> +.TP
-> +.B EBADF
-> +.I option
-> +is
-> +.BR PR_SET_MM ,
-> +and the
-> +.I arg3
-> +is
-> +.BR PR_SET_MM_EXE_FILE ,
-> +the file descriptor passed in
-> +.I arg4
-> +is not found.
-> =A0.\" The following can't actually happen, because prctl() in
-> =A0.\" seccomp mode will cause SIGKILL.
-> =A0.\" .TP
-> --
-> 1.7.7.6
->
 
 
 
@@ -164,3 +68,7 @@ r.
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
