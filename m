@@ -1,40 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: symlinkat, unlinkat man page problem
-Date: Sat, 24 Mar 2012 23:48:09 +1300
-Message-ID: <CAKgNAkhqBd_Or7y=pRuC9rtoRNx9PCMH-2Eu3Qn0Fs9XRuYj5g@mail.gmail.com>
-References: <4B1E574F.20805@byu.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 31752] pipe(2) #include <fcntl.h> is missing for the pipe2()
+ function
+Date: Sat, 24 Mar 2012 10:51:16 GMT
+Message-ID: <201203241051.q2OApGoL019869@bugzilla.kernel.org>
+References: <bug-31752-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4B1E574F.20805-PGZyUNKar/Q@public.gmane.org>
+In-Reply-To: <bug-31752-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Eric
+https://bugzilla.kernel.org/show_bug.cgi?id=31752
 
-On Wed, Dec 9, 2009 at 2:40 AM, Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org> wrote:
-> Per POSIX and the system headers, symlinkat and unlinkat both live in
-> <unistd.h>, but:
->
-> http://www.kernel.org/doc/man-pages/online/pages/man2/symlinkat.2.html
-> claims <stdio.h>
->
-> http://www.kernel.org/doc/man-pages/online/pages/man2/unlinkat.2.html
-> claims <fcntl.h>
 
-Thanks. Corrected for man-pages 3.38.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Cheers,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |ASSIGNED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Michael
+
+
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
