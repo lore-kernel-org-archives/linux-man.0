@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 31752] pipe(2) #include <fcntl.h> is missing for the pipe2()
  function
-Date: Sat, 24 Mar 2012 10:51:16 GMT
-Message-ID: <201203241051.q2OApGoL019869@bugzilla.kernel.org>
+Date: Sat, 24 Mar 2012 10:52:26 GMT
+Message-ID: <201203241052.q2OAqQO7019880@bugzilla.kernel.org>
 References: <bug-31752-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -19,11 +19,15 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-03-24 10:52:26 ---
+This was fixed a while back (actually from a more recent report than
+this--sorry!)
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
