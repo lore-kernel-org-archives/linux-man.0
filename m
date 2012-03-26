@@ -1,38 +1,25 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 31752] pipe(2) #include <fcntl.h> is missing for the pipe2()
- function
-Date: Sat, 24 Mar 2012 10:52:26 GMT
-Message-ID: <201203241052.q2OAqQO7019880@bugzilla.kernel.org>
-References: <bug-31752-11311@https.bugzilla.kernel.org/>
+From: Ricardo Catalinas =?iso-8859-1?Q?Jim=E9nez?=
+	<jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Missing macro _SC_SYMLOOP_MAX in sysconf(3)
+Date: Mon, 26 Mar 2012 11:11:29 +0200
+Message-ID: <20120326091129.GA4683@viper.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-31752-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=31752
+  In the man-page of sysconf(3), the macro SYMLOOP_MAX is listed but not
+its symmetric _SC_SYMLOOP_MAX. At least in my Linux, in /usr/include
+_SC_SYMLOOP_MAX is defined, so I think this could be a bug.
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|ASSIGNED                    |RESOLVED
-         Resolution|                            |CODE_FIX
-
-
-
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-03-24 10:52:26 ---
-This was fixed a while back (actually from a more recent report than
-this--sorry!)
-
+Best regards
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Ricardo (http://r.untroubled.be/)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
