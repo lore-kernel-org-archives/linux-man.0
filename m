@@ -1,147 +1,64 @@
-From: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [patch] nsswitch.conf.5: clarify the "notfound" status
-Date: Wed, 28 Mar 2012 21:09:40 +0100
-Message-ID: <4F737004.9060500@proseconsulting.co.uk>
-References: <4F735800.6040807@redhat.com>
+Date: Thu, 29 Mar 2012 11:32:52 +1300
+Message-ID: <CAKgNAkjyBoB+u8mnnE_6cyzLWaFQM1AvQQ_ZtAFaryCOpsNOYQ@mail.gmail.com>
+References: <4F735800.6040807@redhat.com> <4F737004.9060500@proseconsulting.co.uk>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha1; boundary="------------ms050005030305030408030909"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F735800.6040807-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <4F737004.9060500-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+Cc: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a cryptographically signed message in MIME format.
-
---------------ms050005030305030408030909
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
-
-On 28/03/2012 19:27, Peter Schiffer wrote:
-> Hello,
+On Thu, Mar 29, 2012 at 9:09 AM, Mark R Bannister
+<mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org> wrote:
+> On 28/03/2012 19:27, Peter Schiffer wrote:
+>>
+>> Hello,
+>>
+>> I am suggesting the following update of the =A0"notfound" status on =
+the
+>> nsswitch.conf.5 man page. I am not 100% sure that this is the correc=
+t place
+>> where this information on the man page should be placed. Any comment=
+s are
+>> welcome.
+>>
 >
-> I am suggesting the following update of the  "notfound" status on the=20
-> nsswitch.conf.5 man page. I am not 100% sure that this is the correct=20
-> place where this information on the man page should be placed. Any=20
-> comments are welcome.
+> Hi Peter,
 >
+> I did a rewrite of the nsswitch.conf man page in October last year:
+>
+> http://article.gmane.org/gmane.linux.man/2366/match=3Dnsswitch+conf
+>
+> I'm still waiting for Michael to incorporate these changes. =A0May I =
+suggest
+> you send in a patch that is applied against this? =A0I would also sug=
+gest that
+> if you're going to make reference to "initgroups" you'll need to add =
+some
+> further description somewhere that explains what this is and when you=
+ would
+> use it.
 
-Hi Peter,
+I'll incorporate Mark's changes soon.
 
-I did a rewrite of the nsswitch.conf man page in October last year:
+@Peter: you don't need to rebase your patch--I'll do the work needed.
+(@Mark: it's a risky path to rebase a patch off another patch that
+isn't yet upstreamed; I wouldn't generally advise it.)
 
-http://article.gmane.org/gmane.linux.man/2366/match=3Dnsswitch+conf
+Thanks,
 
-I'm still waiting for Michael to incorporate these changes.  May I=20
-suggest you send in a patch that is applied against this?  I would also=20
-suggest that if you're going to make reference to "initgroups" you'll=20
-need to add some further description somewhere that explains what this=20
-is and when you would use it.
+Michael
 
-Best regards,
-Mark Bannister.
-
-
---------------ms050005030305030408030909
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIO+DCC
-BJ0wggOFoAMCAQICEDQ96SusJzT/j8s0lPvMcFQwDQYJKoZIhvcNAQEFBQAwbzELMAkGA1UE
-BhMCU0UxFDASBgNVBAoTC0FkZFRydXN0IEFCMSYwJAYDVQQLEx1BZGRUcnVzdCBFeHRlcm5h
-bCBUVFAgTmV0d29yazEiMCAGA1UEAxMZQWRkVHJ1c3QgRXh0ZXJuYWwgQ0EgUm9vdDAeFw0w
-NTA2MDcwODA5MTBaFw0yMDA1MzAxMDQ4MzhaMIGuMQswCQYDVQQGEwJVUzELMAkGA1UECBMC
-VVQxFzAVBgNVBAcTDlNhbHQgTGFrZSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5l
-dHdvcmsxITAfBgNVBAsTGGh0dHA6Ly93d3cudXNlcnRydXN0LmNvbTE2MDQGA1UEAxMtVVRO
-LVVTRVJGaXJzdC1DbGllbnQgQXV0aGVudGljYXRpb24gYW5kIEVtYWlsMIIBIjANBgkqhkiG
-9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsjmFpPJ9q0E7YkY3rs3BYHW8OWX5ShpHornMSMxqmNVN
-NRm5pELlzkniii8efNIxB8dOtINknS4p1aJkxIW9hVE1eaROaJB7HHqkkqgX8pgV8pPMyaQy
-lbsMTzC9mKALi+VuG6JG+ni8om+rWV6lL8/K2m2qL+usobNqqrcuZzWLeeEeaYji5kbNoKXq
-vgvOdjp6Dpvq/NonWz1zHyLmSGHGTPNpsaguG7bUMSAsvIKKjqQOpdeJQ/wWWq8dcdcRWdq6
-hw2v+vPhwvCkxWeM1tZUOt4KpLoDd7NlyP0e03RiqhjKaJMeoYV+9Udly/hNVyh00jT/MLbu
-9mIwFIws6wIDAQABo4H0MIHxMB8GA1UdIwQYMBaAFK29mHo0tCb3+sQmVO8DveAky1QaMB0G
-A1UdDgQWBBSJgmd9xJ0mcABLtFBIfN49rgRufTAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/
-BAUwAwEB/zARBgNVHSAECjAIMAYGBFUdIAAwRAYDVR0fBD0wOzA5oDegNYYzaHR0cDovL2Ny
-bC51c2VydHJ1c3QuY29tL0FkZFRydXN0RXh0ZXJuYWxDQVJvb3QuY3JsMDUGCCsGAQUFBwEB
-BCkwJzAlBggrBgEFBQcwAYYZaHR0cDovL29jc3AudXNlcnRydXN0LmNvbTANBgkqhkiG9w0B
-AQUFAAOCAQEAAbyc42MosPMxAcLfe91ioAGdIzEPnJJzU1HqH0z61p/Eyi9nfngzD3QWuZGH
-kfWKJvpkcADYHvkLBGJQh5OB1Nr1I9s0u4VWtHA0bniDNx6FHMURFZJfhxe9rGr98cLRzIlf
-sXzwPlHyNfN87GCYazor4O/fs32G67Ub9VvsonyYE9cAULnRLXPeA3h04QWFMV7LmrmdlMa5
-lDd1ctxE+2fo8PolHlKn2iXpR+CgxzygTrEKNvt3SJ/vl4r7tP7jlBSog7xcLT/SYHFg7sJx
-ggzpiDbj2iC0o6BsqpZLuICOdcpJB/Y7FLrf3AXZn9vgsuZNoHgm5+ctbn9fxh6IFTCCBRow
-ggQCoAMCAQICEG0Z6qcZT2ozIuYiMnqqcd4wDQYJKoZIhvcNAQEFBQAwga4xCzAJBgNVBAYT
-AlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtlIENpdHkxHjAcBgNVBAoTFVRo
-ZSBVU0VSVFJVU1QgTmV0d29yazEhMB8GA1UECxMYaHR0cDovL3d3dy51c2VydHJ1c3QuY29t
-MTYwNAYDVQQDEy1VVE4tVVNFUkZpcnN0LUNsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgRW1h
-aWwwHhcNMTEwNDI4MDAwMDAwWhcNMjAwNTMwMTA0ODM4WjCBkzELMAkGA1UEBhMCR0IxGzAZ
-BgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMR
-Q09NT0RPIENBIExpbWl0ZWQxOTA3BgNVBAMTMENPTU9ETyBDbGllbnQgQXV0aGVudGljYXRp
-b24gYW5kIFNlY3VyZSBFbWFpbCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
-AJKEhFtLV5jUXi+LpOFAyKNTWF9mZfEyTvefMn1V0HhMVbdClOD5J3EHxcZppLkyxPFAGpDM
-J1Zifxe1cWmu5SAb5MtjXmDKokH2auGj/7jfH0htZUOMKi4rYzh337EXrMLaggLW1DJq1Gdv
-IBOPXDX65VSAr9hxCh03CgJQU2yVHakQFLSZlVkSMf8JotJM3FLb3uJAAVtIaN3FSrTg7SQf
-Oq9xXwfjrL8UO7AlcWg99A/WF1hGFYE8aIuLgw9teiFX5jSw2zJ+40rhpVJyZCaRTqWSD//g
-sWD9Gm9oUZljjRqLpcxCm5t9ImPTqaD8zp6Q30QZ9FxbNboW86eb/8ECAwEAAaOCAUswggFH
-MB8GA1UdIwQYMBaAFImCZ33EnSZwAEu0UEh83j2uBG59MB0GA1UdDgQWBBR6E04AdFvGeGNk
-J8Ev4qBbvHnFezAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBADARBgNVHSAE
-CjAIMAYGBFUdIAAwWAYDVR0fBFEwTzBNoEugSYZHaHR0cDovL2NybC51c2VydHJ1c3QuY29t
-L1VUTi1VU0VSRmlyc3QtQ2xpZW50QXV0aGVudGljYXRpb25hbmRFbWFpbC5jcmwwdAYIKwYB
-BQUHAQEEaDBmMD0GCCsGAQUFBzAChjFodHRwOi8vY3J0LnVzZXJ0cnVzdC5jb20vVVROQWRk
-VHJ1c3RDbGllbnRfQ0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3Qu
-Y29tMA0GCSqGSIb3DQEBBQUAA4IBAQCF1r54V1VtM39EUv5C1QaoAQOAivsNsv1Kv/avQUn1
-G1rF0q0bc24+6SZ85kyYwTAo38v7QjyhJT4KddbQPTmGZtGhm7VNm2+vKGwdr+XqdFqo2rHA
-8XV6L566k3nK/uKRHlZ0sviN0+BDchvtj/1gOSBH+4uvOmVIPJg9pSW/ve9g4EnlFsjrP0OD
-8ODuDcHTzTNfm9C9YGqzO/761Mk6PB/tm/+bSTO+Qik5g+4zaS6CnUVNqGnagBsePdIaXXxH
-maWbCG0SmYbWXVcHG6cwvktJRLiQfsrReTjrtDP6oDpdJlieYVUYtCHVmdXgQ0BCML7qpeeU
-0rD+83X5f27nMIIFNTCCBB2gAwIBAgIQE6YmehXzDOtGYIeQovP29jANBgkqhkiG9w0BAQUF
-ADCBkzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UE
-BxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxOTA3BgNVBAMTMENPTU9E
-TyBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTAeFw0xMjAzMDEw
-MDAwMDBaFw0xMzAzMDEyMzU5NTlaMCsxKTAnBgkqhkiG9w0BCQEWGm1hcmtAcHJvc2Vjb25z
-dWx0aW5nLmNvLnVrMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4PC2MFSgE7/t
-CLORLXixQutI1pE1QNISd7zzvDIIFFsbygoKshK4uF3z/SHQI2NyucYbMxFZuCAhQileM43M
-Np8H7ZNonN2K7x4RUtg/aFZtPiW4jqMYh8oJ/lHxGa4Oh6N2hewkjH4wBeA8Yl5Eu9Pa4rfv
-r5jzBjjSY5cwCAjt+FSyUXWnq2AeGWkSoau0ue8dhgvaramA/ZK5Ezz5nampSBLOKq4kg7ia
-zP074/sVrLElsEJI8Fv7AudZmLMVj4RuT2EnHxoUWZbB5LGta+SRz7Q2pjssjRNhfJuzqClJ
-VQjsSgNwGr2NLNhFylebBUIxSfKHQTXxfsH7PFpQ/wIDAQABo4IB6jCCAeYwHwYDVR0jBBgw
-FoAUehNOAHRbxnhjZCfBL+KgW7x5xXswHQYDVR0OBBYEFBUuPgeb70CAg4D04WwZSwD44Q7u
-MA4GA1UdDwEB/wQEAwIFoDAMBgNVHRMBAf8EAjAAMCAGA1UdJQQZMBcGCCsGAQUFBwMEBgsr
-BgEEAbIxAQMFAjARBglghkgBhvhCAQEEBAMCBSAwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIB
-AQEwKzApBggrBgEFBQcCARYdaHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwVwYDVR0f
-BFAwTjBMoEqgSIZGaHR0cDovL2NybC5jb21vZG9jYS5jb20vQ09NT0RPQ2xpZW50QXV0aGVu
-dGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNybDCBiAYIKwYBBQUHAQEEfDB6MFIGCCsGAQUF
-BzAChkZodHRwOi8vY3J0LmNvbW9kb2NhLmNvbS9DT01PRE9DbGllbnRBdXRoZW50aWNhdGlv
-bmFuZFNlY3VyZUVtYWlsQ0EuY3J0MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5jb21vZG9j
-YS5jb20wJQYDVR0RBB4wHIEabWFya0Bwcm9zZWNvbnN1bHRpbmcuY28udWswDQYJKoZIhvcN
-AQEFBQADggEBABvcLnzvJlSXShcIm1AEn26bcBClCJI3dkDpqykkTrQR2kWPjdk+RXa8lLt3
-OxhGNNpNgEQL1N5RbszYvqIkmTjcqUsAuobfm17aQuyaBU4qQMS9gJjhgTGr6ze6/HhKx7p6
-Kz9Y1XOOpm6GwGFPKu3AyGw6F3X8ZKXrfFC7whXE1jhCNkZ5pjr4P2TgVVL3ZYmE209XUPUy
-pSEhfeUScZe7ykumAD7Gmr+sS+m1TmjJ7Wr6O6zftI120oQ1aQOtKY5Si6i1EpBCpehI9uQk
-nkwZgXG8kdu3hNwykTtf95nS/X9/E+FQ0nBOOVq102E4fAHHBiW+pWB0LoDSlpjafQYxggQM
-MIIECAIBATCBqDCBkzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3Rl
-cjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxOTA3BgNV
-BAMTMENPTU9ETyBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIQ
-E6YmehXzDOtGYIeQovP29jAJBgUrDgMCGgUAoIICODAYBgkqhkiG9w0BCQMxCwYJKoZIhvcN
-AQcBMBwGCSqGSIb3DQEJBTEPFw0xMjAzMjgyMDA5NDBaMCMGCSqGSIb3DQEJBDEWBBRg4zRs
-jlLv9wJ4LnKzDBkn6hZGdTBfBgkqhkiG9w0BCQ8xUjBQMAsGCWCGSAFlAwQBAjAKBggqhkiG
-9w0DBzAOBggqhkiG9w0DAgICAIAwDQYIKoZIhvcNAwICAUAwBwYFKw4DAgcwDQYIKoZIhvcN
-AwICASgwgbkGCSsGAQQBgjcQBDGBqzCBqDCBkzELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdy
-ZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENB
-IExpbWl0ZWQxOTA3BgNVBAMTMENPTU9ETyBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNl
-Y3VyZSBFbWFpbCBDQQIQE6YmehXzDOtGYIeQovP29jCBuwYLKoZIhvcNAQkQAgsxgauggagw
-gZMxCzAJBgNVBAYTAkdCMRswGQYDVQQIExJHcmVhdGVyIE1hbmNoZXN0ZXIxEDAOBgNVBAcT
-B1NhbGZvcmQxGjAYBgNVBAoTEUNPTU9ETyBDQSBMaW1pdGVkMTkwNwYDVQQDEzBDT01PRE8g
-Q2xpZW50IEF1dGhlbnRpY2F0aW9uIGFuZCBTZWN1cmUgRW1haWwgQ0ECEBOmJnoV8wzrRmCH
-kKLz9vYwDQYJKoZIhvcNAQEBBQAEggEAho6Noxxhx2Sxawr6x+sg2AilmPJAdYoX+XlzBwhS
-+l4DxWqJE8uUilD7JMY9/9ek39WTqBzihJ4raOd3IGyYHAxPdc1J/7+aiKTRspFidJnEmA7v
-ez00CtVy7FqEOZ8cPybRRmJLKIFALc9xjP7zgIVtR3L5JvFw/CBg9oODlawhKWrk5NgZL4z0
-GBcFIpJvfgYMikHVSpgXEUaQoVC2me2QCITxk6SB1t/vXdQ+BnuSvUE1OoWMvjy/ZtWvyeEs
-hKIZMiCkWdBS5fc+rEmFBdKJVuRM6zRKazmF+kVgpjyhX/jswFkRQPWKNGdeOGzJB0KjyABd
-vcWau0R/X3oh2wAAAAAAAA==
---------------ms050005030305030408030909--
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
