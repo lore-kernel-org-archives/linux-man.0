@@ -1,60 +1,34 @@
-From: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
-Date: Mon, 2 Apr 2012 11:33:16 +0930
-Message-ID: <20120402113316.7a2c6a20@Gantu>
-References: <1331358148-17235-1-git-send-email-vapier@gentoo.org>
-	<201203211143.37042.vapier@gentoo.org>
-	<CAKgNAkiNiG42ZtjYszYWBQWsvsk+c-mHhucER6Umt3esUvRCKg@mail.gmail.com>
-	<CAKgNAkiEF6yTN-S-7-7L3Bu+QQyBepgocQM5S=CAOZ+npBQmEQ@mail.gmail.com>
+From: Jak <jak-Cyn6bMzNSQ8@public.gmane.org>
+Subject: Changed type of ai_addrlen in struct addrinfo
+Date: Tue, 03 Apr 2012 19:37:39 +0100
+Message-ID: <4F7B4373.1060504@gmx.ca>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiEF6yTN-S-7-7L3Bu+QQyBepgocQM5S=CAOZ+npBQmEQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 30 Mar 2012 07:42:49 +1300
-"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+Hi,
 
-> On Thu, Mar 22, 2012 at 7:29 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > On Thu, Mar 22, 2012 at 4:43 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> > wrote:
-> >> Michael: should i fold in the updates that came from this thread
-> >> and send a v2, or are you going to tackle it ?
-> >
-> > I'll work on a draft, and have it out for review in a few days.
-> 
-> Mike, Chris,
-> 
-> Here's a heavily edited version of the page that Mike sent in. Since I
-> might have messed something up, could I ask you two to take a good
-> look at this page?
-> 
+<http://man7.org/linux/man-pages/man3/getaddrinfo.3.html> says that 
+struct addrinfo contains:
 
-....
+         size_t    ai_addrlen;
 
-> 
-> The
-> .BR process_vm_readv ()
-> system call transfers data from the process
-> .I pid
-> to the calling process.
-> The data to be transferred is identified by
-> .IR remote_vec
+However, in the GNU C Library, the type was changed on 2000-04-01 from 
+size_t to socklen_t, as ChangeLog.11 in the glibc source shows:
 
-Just a typo, but I think you mean remote_iov here instead of remote_vec
-(it occurs in a few places below as well). There's some cases of
-local_vec instead of local_iov too.
+         * resolv/netdb.h
+         [...]
+         (struct addrinfo): Use socklen_t for ai_addrlen element.
 
-Regards,
+Please could the manpage be updated?
 
-Chris
--- 
-cyeoh-hXjcm30GF6XQT0dZR+AlfA@public.gmane.org
-
+Thanks,
+Jak.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
