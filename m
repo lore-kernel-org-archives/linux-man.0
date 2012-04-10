@@ -1,47 +1,58 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 43072] New: epoll & threads
-Date: Sun, 8 Apr 2012 11:49:59 GMT
-Message-ID: <bug-43072-11311@https.bugzilla.kernel.org/>
+From: Will Drewry <wad@chromium.org>
+Subject: Re: [PATCH v17 01/15] Add PR_{GET,SET}_NO_NEW_PRIVS to prevent execve
+ from granting privs
+Date: Tue, 10 Apr 2012 14:03:49 -0500
+Message-ID: <CABqD9hbTWQ6uBn_jZ7WdbaAMtAcTHz3hWSer_tnAFU9iV-4GSQ@mail.gmail.com>
+References: <1333051320-30872-1-git-send-email-wad@chromium.org>
+	<1333051320-30872-2-git-send-email-wad@chromium.org>
+	<20120406125517.77133b4e.akpm@linux-foundation.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20120406125517.77133b4e.akpm@linux-foundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Andrew Morton <akpm@linux-foundation.org>, Andrew Lutomirski <luto@mit.edu>
+Cc: linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, netdev@vger.kernel.org, x86@kernel.org, arnd@arndb.de, davem@davemloft.net, hpa@zytor.com, mingo@redhat.com, oleg@redhat.com, peterz@infradead.org, rdunlap@xenotime.net, mcgrathr@chromium.org, tglx@linutronix.de, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, corbet@lwn.net, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, keescook@chromium.org, jmorris@namei.org, Andy Lutomirski <luto@amacapital.net>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=43072
+On Fri, Apr 6, 2012 at 2:55 PM, Andrew Morton <akpm@linux-foundation.or=
+g> wrote:
+> On Thu, 29 Mar 2012 15:01:46 -0500
+> Will Drewry <wad@chromium.org> wrote:
+>
+>> From: Andy Lutomirski <luto@amacapital.net>
+>>
+>> With this set, a lot of dangerous operations (chroot, unshare, etc)
+>> become a lot less dangerous because there is no possibility of
+>> subverting privileged binaries.
+>
+> The changelog doesn't explain the semantics of the new syscall.
+> There's a comment way-down-there which I guess suffices, if you hunt
+> for it.
 
-           Summary: epoll & threads
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: n/a
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: arigo-SAGZdM4SFkLYtjvyW6yDsg@public.gmane.org
-        Regression: No
+I'll bubble up luto's comment into the changelog when I resend the
+grand-unified-patchset.
 
+> And the changelog doesn't explain why this is being added. =A0Presuma=
+bly
+> seccomp_filter wants/needs this feature but whowhatwherewhenwhy? =A0S=
+pell
+> it all out, please.
 
-The manpages of epoll do not mention the behavior in the presence of multiple
-threads.  By trying it out, I found out that the following works: if one thread
-does epoll_wait() on an epoll in which some fd was not registered at all, and
-blocks; and later another thread does epoll_ctl() to add the fd; then the fd
-will be reported by the original thread's epoll_wait() as soon as it meets the
-condition.  This behavior is something that may be very useful in some
-situations.  As far as I see, it cannot be achieved easily with select().  I
-think that it should be officially mentioned in the manpages (provided it is
-not an accident but works this way by design).
+I'll try my hand at that and luto@ can yell at me if I misrepresent.
+Seem reasonable?
 
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> The new syscall mode will be documented in the prctl manpage. =A0Plea=
+se
+> cc linux-man@vger.kernel.org and work with Michael on getting this
+> done?
+
+I'll add linux-man to the patch series since this applies to both
+no_new_privs and seccomp filter.
+
+Thanks!
+
+>>
+>> ...
+>>
