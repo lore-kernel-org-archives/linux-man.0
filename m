@@ -1,71 +1,75 @@
-From: Andrew Lutomirski <luto@mit.edu>
-Subject: Re: [PATCH v17 01/15] Add PR_{GET,SET}_NO_NEW_PRIVS to prevent execve
- from granting privs
-Date: Wed, 11 Apr 2012 17:50:04 -0700
-Message-ID: <CAObL_7HdaNwttY4Tqz_iysGnaB8rKrA07te-P5Mkq3kSayt0qg@mail.gmail.com>
-References: <1333051320-30872-1-git-send-email-wad@chromium.org>
- <1333051320-30872-2-git-send-email-wad@chromium.org> <20120406125517.77133b4e.akpm@linux-foundation.org>
- <CAObL_7EYb62o=a0ekzcDx=0TuN55A7aTYhLJbMNu2r8F0V77EA@mail.gmail.com>
- <20120406142824.61d8ca3b@lwn.net> <CAKgNAkhhnC1+vdh7vTYKkngzxHccDwHH_aKF5wCNhga33BGhyQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-arch-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkhhnC1+vdh7vTYKkngzxHccDwHH_aKF5wCNhga33BGhyQ@mail.gmail.com>
-Sender: linux-arch-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, Will Drewry <wad@chromium.org>, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, netdev@vger.kernel.org, x86@kernel.org, arnd@arndb.de, davem@davemloft.net, hpa@zytor.com, mingo@redhat.com, oleg@redhat.com, peterz@infradead.org, rdunlap@xenotime.net, mcgrathr@chromium.org, tglx@linutronix.de, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, keescook@chromium.org, jmorris@namei.org, Andy Lutomirski <luto@amacapital.net>, linux-man@vger.kernel.org
+From: Will Drewry <wad@chromium.org>
+Subject: [PATCH v18 03/15] sk_run_filter: add BPF_S_ANC_SECCOMP_LD_W
+Date: Thu, 12 Apr 2012 16:47:52 -0500
+Message-ID: <1334267284-19166-3-git-send-email-wad@chromium.org>
+References: <1334267284-19166-1-git-send-email-wad@chromium.org>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1334267284-19166-1-git-send-email-wad@chromium.org>
+Sender: netdev-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: linux-man@vger.kernel.org, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, netdev@vger.kernel.org, x86@kernel.org, arnd@arndb.de, davem@davemloft.net, hpa@zytor.com, mingo@redhat.com, oleg@redhat.com, peterz@infradead.org, rdunlap@xenotime.net, mcgrathr@chromium.org, tglx@linutronix.de, luto@mit.edu, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, akpm@linux-foundation.org, corbet@lwn.net, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, keescook@chromium.org, jmorris@namei.org, Will Drewry <wad@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Apr 11, 2012 at 12:31 PM, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
-> On Sat, Apr 7, 2012 at 8:28 AM, Jonathan Corbet <corbet@lwn.net> wrot=
-e:
->> On Fri, 6 Apr 2012 13:01:17 -0700
->> Andrew Lutomirski <luto@mit.edu> wrote:
->>
->>> This has been bugging me for awhile. =A0Is there any interest in mo=
-ving
->>> the manpages into the kernel source tree? =A0Then there could be a
->>> general requirement that new APIs get documented when they're writt=
-en.
->>
->> Man page (or other documentation) requirements for patch acceptance =
-are a
->> regular kernel summit feature. =A0People seem to think it's a good i=
-dea, but
->> actual enforcement of such requirements always seems to be lacking. =
-=A0Lots
->> of people have kind of given up trying. =A0I don't really see that a=
-dding
->> the man pages to the tree would help, but I could be wrong...
->
-> I largely consider this (moving man pages to kernel.org) a technical
-> solution to what is fundamentally a social problem (developers
-> reluctant to write documentation), and doubt that the technical
-> solution would make much difference. I'd love to be proved wrong, but
-> the experiment would require significant start-up effort. (My
-> collected thoughts on this can be found here:
-> http://www.kernel.org/doc/man-pages/todo.html#migrate_to_kernel_sourc=
-e.
-> Note the alternative idea of patch tags mentioned at the end of that
-> text.)
->
-> Unless, or until there's a paid maintainer, I don't expect things to
-> get significantly better than what they currently are. The quite
-> significant improvements in man-pages since 2004, when I became
-> maintainer were in small part due to the fact that I was for a short
-> period paid to do the work, but in much larger part due to a huge
-> private effort over those years which over the last couple of years i=
-s
-> no longer unsustainable for me (man-pages is in competition with
-> requirements for my attention from family, working life, and
-> (seriously!) seismic events),
+Introduces a new BPF ancillary instruction that all LD calls will be
+mapped through when skb_run_filter() is being used for seccomp BPF.  The
+rewriting will be done using a secondary chk_filter function that is run
+after skb_chk_filter.
 
-Hrm.  Maybe someone could convince Andrew and Linus not to pull new
-syscalls or major ABI features unless the patchset includes full docs.
+The code change is guarded by CONFIG_SECCOMP_FILTER which is added,
+along with the seccomp_bpf_load() function later in this series.
 
-Anyway, I'll write up a detailed description of PR_SET_NO_NEW_PRIVS,
-stick it in the changelog, and cc linux-doc.
+This is based on http://lkml.org/lkml/2012/3/2/141
 
---Andy
+Suggested-by: Indan Zupancic <indan@nul.nu>
+Signed-off-by: Will Drewry <wad@chromium.org>
+Acked-by: Eric Dumazet <eric.dumazet@gmail.com>
+Acked-by: Eric Paris <eparis@redhat.com>
+
+v18: rebase
+...
+v15: include seccomp.h explicitly for when seccomp_bpf_load exists.
+v14: First cut using a single additional instruction
+... v13: made bpf functions generic.
+---
+ include/linux/filter.h |    1 +
+ net/core/filter.c      |    6 ++++++
+ 2 files changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/include/linux/filter.h b/include/linux/filter.h
+index 8eeb205..aaa2e80 100644
+--- a/include/linux/filter.h
++++ b/include/linux/filter.h
+@@ -228,6 +228,7 @@ enum {
+ 	BPF_S_ANC_HATYPE,
+ 	BPF_S_ANC_RXHASH,
+ 	BPF_S_ANC_CPU,
++	BPF_S_ANC_SECCOMP_LD_W,
+ };
+ 
+ #endif /* __KERNEL__ */
+diff --git a/net/core/filter.c b/net/core/filter.c
+index 6f755cc..491e2e1 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -38,6 +38,7 @@
+ #include <linux/filter.h>
+ #include <linux/reciprocal_div.h>
+ #include <linux/ratelimit.h>
++#include <linux/seccomp.h>
+ 
+ /* No hurry in this branch
+  *
+@@ -352,6 +353,11 @@ load_b:
+ 				A = 0;
+ 			continue;
+ 		}
++#ifdef CONFIG_SECCOMP_FILTER
++		case BPF_S_ANC_SECCOMP_LD_W:
++			A = seccomp_bpf_load(fentry->k);
++			continue;
++#endif
+ 		default:
+ 			WARN_RATELIMIT(1, "Unknown code:%u jt:%u tf:%u k:%u\n",
+ 				       fentry->code, fentry->jt,
+-- 
+1.7.5.4
