@@ -1,29 +1,156 @@
-From: Will Drewry <wad-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: Re: [PATCH v18 01/15] Add PR_{GET,SET}_NO_NEW_PRIVS to prevent execve
- from granting privs
-Date: Fri, 13 Apr 2012 22:06:31 -0500
-Message-ID: <CABqD9hahg_KJHTFnRCDpUFaa4TZjy_2EvVOqtd89NvTnr8UkSw@mail.gmail.com>
-References: <1334267284-19166-1-git-send-email-wad@chromium.org>
-	<alpine.LRH.2.02.1204141143001.29389@tundra.namei.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
+Date: Sat, 14 Apr 2012 00:36:23 -0400
+Message-ID: <201204140036.28834.vapier@gentoo.org>
+References: <1331358148-17235-1-git-send-email-vapier@gentoo.org> <201203291517.46815.vapier@gentoo.org> <CAKgNAkiKL64_H2QT6v0hsP-=cM3w=wGJbjaph+JMq6R+Knhysg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: multipart/signed;
+  boundary="nextPart3383482.ShAoErfC3N";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LRH.2.02.1204141143001.29389-CK9fWmtY32x9JUWOpEiw7w@public.gmane.org>
+In-Reply-To: <CAKgNAkiKL64_H2QT6v0hsP-=cM3w=wGJbjaph+JMq6R+Knhysg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-arch-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, kernel-hardening-ZwoEplunGu1jrUoiu81ncdBPR1lH4CV8@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, x86-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, arnd-r2nGTMty4D4@public.gmane.org, davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org, hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org, mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org, rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org, mcgrathr-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org, tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org, luto-3s7WtUTddSA@public.gmane.org, eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org, djm-ilwOsaqNJrtAfugRpC6u6w@public.gmane.org, scarybeasts-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, indan-1J6HnF7K7zE@public.gmane.org, pmoore-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, corbet-T1hC0tSOHrs@public.gmane.org, eric.dumazet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, markus-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org, coreyb-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Apr 13, 2012 at 8:45 PM, James Morris <jmorris-gx6/JNMH7DfYtjvyW6yDsg@public.gmane.org> wrote:
-> I applied the patchset to:
-> git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git next
->
-> Please test, and make any further updates against that branch.
+--nextPart3383482.ShAoErfC3N
+Content-Type: Text/Plain;
+  charset="windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Great! I will most certainly do that.
+On Friday 13 April 2012 21:07:28 Michael Kerrisk wrote:
+> On Fri, Mar 30, 2012 at 8:17 AM, Mike Frysinger wrote:
+> > On Thursday 29 March 2012 14:42:49 Michael Kerrisk wrote:
+> >> .\" FIXME: What does the following sentence mean?
+> >=20
+> > heh, i was just about to suggest a clarification.  consider the case
+> > where you want to read a C string from a remote process.  you don't know
+> > its length, so it is probably cheaper to read too much data and then
+> > discard the rest than it is to read it byte by byte in a single syscall.
+> >=20
+> > further consider the string lies in the last page of a valid mapping.
+> >  you don't want to always say "read 500 bytes" because if the first 200
+> > bytes are the last 200 bytes of the last page, the remaining 300 bytes
+> > cover invalid memory, and so no data will be read.
+> >=20
+> > instead, you'd split the remote read array into two elements and have
+> > them merge back into a single write array entry.  the first read entry
+> > goes up to the page boundary while the second starts on the next page
+> > boundary.
+> >=20
+> >> Keep this in mind when attempting to
+> >> extract data of unknown length (such as C strings which are
+> >> null-terminated) by avoiding spanning memory pages (typically 4KiB).
+> >=20
+> > ... by avoiding spanning memory pages (typically 4KiB) in a single iovec
+> > element.
+>=20
+> Thanks for the clear explanation, and the crisp addition to the
+> man-page text. I also adapted a piece of your explanation to add into
+> the page after the above sentence:
+>=20
+> =3D=3D
+> (Instead, split the remote read array into two
+> .I iovec
+> elements and have them merge back into a single write array entry.
+> The first read entry goes up to the page boundary,
+> while the second starts on the next page boundary.)
+> =3D=3D
+>=20
+> However, as I look at the text, there is still a nagging doubt. The
+> paragraph starts
+> =3D=3D
+> The count arguments and
+> .IR local_iov
+> are checked before doing any transfers.
+> If the counts are too big, or
+> .I local_iov
+> is invalid,
+> or the addresses refer to regions that are inaccessible to the local
+> process, none of the vectors will be processed and an
+> error will be returned immediately.
+> =3D=3D
+>=20
+> That seems to contradict the advice "Instead, split the remote read
+> array", because surely if the second of the iovec elements refers to
+> an inaccessible region, then as stated in the early part of the
+> paragraph, "none of the vectors will be processed". And the advice
+> refers to the "remote read array".
+>=20
+> What am I missing? I suspect the advice should instead apply to the
+> *remote_iov*, and perhaps be placed in the following paragraph.
 
-Thanks!
-will
+the new text you added describes the remote args (the stuff that needs=20
+splitting).  the existing text you refer to describes the local args.  i do=
+n't=20
+see any contradiction here -- the kernel first checks the local memory regi=
+ons=20
+to make sure the local process has full access to its own regions before=20
+processing anything, and then it processes the remote memory regions one=20
+element at a time while doing the actual transfers.
+
+> >> Note, however, that these system calls do not check the memory regions
+> >> in the remote process until just before doing the read/write.
+> >> Consequently, a partial read/write may result if one of the
+> >> .I remote_vec
+> >> elements points to an invalid memory region in the remote process.
+> >> No further reads/writes will be attempted beyond that point.
+> >=20
+> > should clarify that the partial read/write applies to iovec elements
+> > granularity and not byte granularity.  i.e. the syscall won't return a
+> > partial read that splits a single iovect element.
+>=20
+> I added this text under RETURN VALUE:
+>=20
+> =3D=3D
+> (Partial transfers apply at the granularity of
+> .I iovec
+> elements.
+> These system calls won't perform a partial
+> transfer that splits a single
+> .I iovec
+> element.)
+> =3D=3D
+>=20
+> And again a question does "a single iovec element" here apply to the
+> remove iovec elements, the local iovec elements, or both?
+
+if any local iovec element is invalid, then it returns immediately without =
+any=20
+transferring of data.  this is because the local process should know what=20
+is/isn't valid about itself before making any requests.  however, it's hard=
+=20
+for it to know about the remote process, so the remote elements are "looser=
+"=20
+in checking (which is a good thing).
+=2Dmike
+
+--nextPart3383482.ShAoErfC3N
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iQIcBAABAgAGBQJPiP7MAAoJEEFjO5/oN/WBGrsP/0DN3RIBHi2/vRSE24CghELB
+/8HKRE3Cp+0y16zFmCK9DzPs14EkzlaDUKCLCMVsBM4uDGEd3vcyGGHf3urjsngz
+SH6HFvigfR9aXokTmEIJC0B2WdyAgHCHeqn0mULXojE1aIByHwJZ/4VIDG5oPVac
+qVXpo0wGLr6Dzh8Ab0gInE0sQlTJ7PVSuELloCYIubDAFtYHg3ruNgAF10ZzljOi
+nweuBhRM5i+Dq+Om4UJTsOk1n+3hxpDh65DeiRlg4zJNiPOVo1Z9AlrggilCAjr9
+xUSDBKvdxbQJ6pCsqrT+4t0Dw9fkqjkAq8EXu+3EW7TDs6Trg1qbTAeGHtkuiyQ+
+Oxu+6Z3BFsk05U4tOygkFT2rydF1C/Z45h213VbPslW/Tw1LsPpDojszCn3F542i
+lRg4NUC2eJ2HMKmHuCnHEoGBb2jHbFnBARcNolJrC8zrlPCpjyzBCcYdVoKfrjwJ
+K+dBpvdXi/V2nLPsZCc6BiA0WK1rf3sDA6S+yi0NIC4WRYiYCY69LhG72H6pDM80
+ZWQMG/b1cr/b2meNF/K1zIzjoqTPyObEuNuF1JNdYW3cOZDHg8NMvFI6tMwhV2I2
+VIRZzvhptTbUZ2TiDuHS2mZqKa71BahvjYx8Di6sVyfstmpGuxJGEg2QuQJ1CsJL
+XOEDzwRJyAKFz6TOcrj3
+=1UZZ
+-----END PGP SIGNATURE-----
+
+--nextPart3383482.ShAoErfC3N--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
