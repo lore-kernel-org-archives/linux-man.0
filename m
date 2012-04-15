@@ -1,31 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Missing macro _SC_SYMLOOP_MAX in sysconf(3)
-Date: Sun, 15 Apr 2012 22:18:08 +1200
-Message-ID: <CAKgNAkhx8CM5wsXx4XHtCFSKR99xZk-=fi9Kx2qfTLxpakq1+Q@mail.gmail.com>
-References: <20120326091129.GA4683@viper.local>
+Subject: Re: A bug? in the perror man page
+Date: Sun, 15 Apr 2012 22:37:13 +1200
+Message-ID: <CAKgNAki9hJEaxptFq5BBaE6Jky2_S0A6ObhPfM11qoNwnadYxA@mail.gmail.com>
+References: <27915272.87611331289374219.JavaMail.defaultUser@defaultHost>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120326091129.GA4683-rZQYlw8LueDDOqzlkpFKJg@public.gmane.org>
+In-Reply-To: <27915272.87611331289374219.JavaMail.defaultUser@defaultHost>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Ricardo_Catalinas_Jim=E9nez?= <jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "jesus.otero" <jesus.otero-zg5kjA6Mr10@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 26, 2012 at 10:11 PM, Ricardo Catalinas Jim=E9nez
-<jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> =A0In the man-page of sysconf(3), the macro SYMLOOP_MAX is listed but=
- not
-> its symmetric _SC_SYMLOOP_MAX. At least in my Linux, in /usr/include
-> _SC_SYMLOOP_MAX is defined, so I think this could be a bug.
+Hello Jesus,
 
-Thanks Ricardo,
+On Fri, Mar 9, 2012 at 11:36 PM, jesus.otero <jesus.otero-zg5kjA6Mr10@public.gmane.org> wrot=
+e:
+> Hi!
+>
+> Not sure if this is a bug, but, just in case...
+>
+> When searching how to print error messages without using perror, the =
+man page
+> of perror says
+>
+> "The =A0global error list sys_errlist[] indexed by errno can be used =
+to obtain
+> the error message without the newline. The largest message number pro=
+vided in
+> the table is sys_nerr -1. =A0Be careful when =A0directly =A0accessing=
+ =A0this =A0list
+> because new error values may not have been added to sys_errlist[]."
+>
+> Searching for sys_errlist on the kernel includes pointed me to the fi=
+le
+> <bits/sys_errlist.h> where it says that sys_errlist[] is deprecated,
+> recommending you to use strerror. Doing a google search confirm me th=
+is.
+>
+> Shouldn't this be reflected on perror's man page?
 
-I added this for man-pages-3.39.
+Yes, I think you're right. I added the sentence "The use of
+sys_errlist[] is nowadays deprecated." to the man page.
 
-Cheers,
+Thanks,
 
 Michael
 
