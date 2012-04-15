@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: times (2) man page
-Date: Mon, 16 Apr 2012 08:30:38 +1200
-Message-ID: <CAKgNAkjaZEQMutvhrmgDrkqphaCosRPoPbum58em7whoDuNp1w@mail.gmail.com>
-References: <4F8AF9BF.3010007@truelite.it>
+Subject: Re: still on times (2) man page
+Date: Mon, 16 Apr 2012 08:35:22 +1200
+Message-ID: <CAKgNAkj_nN=URRbQGoQ+1VpBeZDYNmPes6b9MV6TZeAmhnN6aA@mail.gmail.com>
+References: <4F8AFD27.2000004@truelite.it>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F8AF9BF.3010007-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+In-Reply-To: <4F8AFD27.2000004-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,27 +16,35 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Simone,
 
-On Mon, Apr 16, 2012 at 4:39 AM, Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org> wrote:
-> Hi, as found here:
+On Mon, Apr 16, 2012 at 4:53 AM, Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>=
+ wrote:
+> I have another little issue about errors. In the RETURN VALUE section=
+ is
+> written:
 >
-> http://www.kernel.org/doc/man-pages/online/pages/man2/times.2.html
+> On error, (clock_t) -1 is returned, and errno is set appropriately.
 >
-> at the end of the page, at the end of the BUGS section, there is:
->
-> The same problem can occur when the return value wraps
-> passed the maximum value that can be stored in clockid_t.
->
-> But the return value is defined ad clock_t. I believe is a typo, but I'd
-> like to be sure.
+> but no value for errno is specified. =A0From what I found digging ker=
+nel
+> sources the only error value returned seems to be EFAULT, if tms addr=
+ess
+> make fail copy_to_user. Should be specified?
 
-Thanks! Fixed for the next release (3.39).
+Yes, probably better. For 3.39, I added the following:
 
-Cheers,
+=3D=3D
+=2ESH ERRORS
+=2ETP
+=2EB EFAULT
+=2EI tms
+points outside the process's address space.
+=3D=3D
+
+Thank you!
 
 Michael
 
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
