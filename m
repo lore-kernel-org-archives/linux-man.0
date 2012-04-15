@@ -1,7 +1,7 @@
 From: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
-Subject: times (2) man page
-Date: Sun, 15 Apr 2012 18:39:27 +0200
-Message-ID: <4F8AF9BF.3010007@truelite.it>
+Subject: still on times (2) man page
+Date: Sun, 15 Apr 2012 18:53:59 +0200
+Message-ID: <4F8AFD27.2000004@truelite.it>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-15
 Content-Transfer-Encoding: 7bit
@@ -11,17 +11,15 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi, as found here:
+I have another little issue about errors. In the RETURN VALUE section is
+written:
 
-http://www.kernel.org/doc/man-pages/online/pages/man2/times.2.html
+On error, (clock_t) -1 is returned, and errno is set appropriately.
 
-at the end of the page, at the end of the BUGS section, there is:
+but no value for errno is specified.  From what I found digging kernel
+sources the only error value returned seems to be EFAULT, if tms address
+make fail copy_to_user. Should be specified?
 
-The same problem can occur when the return value wraps
-passed the maximum value that can be stored in clockid_t.
-
-But the return value is defined ad clock_t. I believe is a typo, but I'd
-like to be sure.
 
 Regards
 Simone
