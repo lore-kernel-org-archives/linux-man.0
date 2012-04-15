@@ -1,49 +1,29 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] prctl: Add PR_SET_MM option description
-Date: Sun, 15 Apr 2012 22:13:51 +1200
-Message-ID: <CAKgNAkjMpjmKCD3oQa7qTeH5gXydDgMj5TjmKKtyXYzV9f--fA@mail.gmail.com>
-References: <1330518197-12825-1-git-send-email-gorcunov@openvz.org>
- <1330518197-12825-2-git-send-email-gorcunov@openvz.org> <CAKgNAkgwapZXw5gR_sSGyfufybY52S4qD1MjPDKs+6tBcgFJUg@mail.gmail.com>
- <20120415065401.GA25380@moon>
+Subject: Re: Missing macro _SC_SYMLOOP_MAX in sysconf(3)
+Date: Sun, 15 Apr 2012 22:18:08 +1200
+Message-ID: <CAKgNAkhx8CM5wsXx4XHtCFSKR99xZk-=fi9Kx2qfTLxpakq1+Q@mail.gmail.com>
+References: <20120326091129.GA4683@viper.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120415065401.GA25380@moon>
+In-Reply-To: <20120326091129.GA4683-rZQYlw8LueDDOqzlkpFKJg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Cc: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: =?ISO-8859-1?Q?Ricardo_Catalinas_Jim=E9nez?= <jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Apr 15, 2012 at 6:54 PM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> =
-wrote:
-> On Sun, Apr 15, 2012 at 03:48:18PM +1200, Michael Kerrisk (man-pages)=
- wrote:
->> Cyrill,
->>
->> While reviewing your patch to the prctl() manual page, I noticed the
->> following code inkernel/sys.c::prctl_set_mm():
->>
->> =A0 =A0 =A0 =A0 if (opt !=3D PR_SET_MM_START_BRK && opt !=3D PR_SET_=
-MM_BRK) {
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 /* It must be existing VMA */
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 if (!vma || vma->vm_start > addr)
->> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 goto out;
->> =A0 =A0 =A0 =A0 }
->>
->> At this point, the code causes an exit with error set to zero (i.e.,
->> success). This looks unintended to me. Is the code correct? I suspec=
-t
->> a return of -EFAULT or -ENOMEM is warranted.
->
-> Hi Michael, yup, -EINVAL escaped (I think EFAULT or ENOMEM is not rea=
-lly
-> good here). I'll fix and send update. Thanks!
+On Mon, Mar 26, 2012 at 10:11 PM, Ricardo Catalinas Jim=E9nez
+<jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> =A0In the man-page of sysconf(3), the macro SYMLOOP_MAX is listed but=
+ not
+> its symmetric _SC_SYMLOOP_MAX. At least in my Linux, in /usr/include
+> _SC_SYMLOOP_MAX is defined, so I think this could be a bug.
 
-=46or what it's worth (I am no expert), it looks to me as though EFAULT
-or ENOMEM is more usual after a failed find_vma(). Furthermore, EINVAL
-is already heavily used, so not very informative as an error.
+Thanks Ricardo,
+
+I added this for man-pages-3.39.
 
 Cheers,
 
