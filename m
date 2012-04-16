@@ -1,99 +1,129 @@
-From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH v2] ld.so.8: Document effect of hwcaps on search path
-Date: Mon, 16 Apr 2012 14:03:46 -0500
-Message-ID: <20120416190346.GX5813@burratino>
-References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
- <CAKgNAkgbcL3deJ4x0DEV==vtiAmYie7+Gw+c=K_dAJhWE4va1Q@mail.gmail.com>
- <20120416165806.GR5813@burratino>
- <CAKgNAkj0BAKbP6SrohCEG+eeEAZAYkJ6NA9Jvi0hS2j3e19mmg@mail.gmail.com>
- <20120416172408.GT5813@burratino>
- <CAKgNAkggZ1EZyBkkkd4xmJnjt-_kw=F_xb81+--gpQztvyD8oA@mail.gmail.com>
+From: Rob Landley <rob@landley.net>
+Subject: Re: [PATCH v17 01/15] Add PR_{GET,SET}_NO_NEW_PRIVS to prevent execve
+ from granting privs
+Date: Mon, 16 Apr 2012 14:11:07 -0500
+Message-ID: <4F8C6ECB.8000206@landley.net>
+References: <1333051320-30872-1-git-send-email-wad@chromium.org> <1333051320-30872-2-git-send-email-wad@chromium.org> <20120406125517.77133b4e.akpm@linux-foundation.org> <CAObL_7EYb62o=a0ekzcDx=0TuN55A7aTYhLJbMNu2r8F0V77EA@mail.gmail.com> <20120406142824.61d8ca3b@lwn.net> <CAKgNAkhhnC1+vdh7vTYKkngzxHccDwHH_aKF5wCNhga33BGhyQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkggZ1EZyBkkkd4xmJnjt-_kw=F_xb81+--gpQztvyD8oA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-+ZI9xUNit7I@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-security-module-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAkhhnC1+vdh7vTYKkngzxHccDwHH_aKF5wCNhga33BGhyQ@mail.gmail.com>
+Sender: linux-security-module-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: Jonathan Corbet <corbet@lwn.net>, Andrew Lutomirski <luto@mit.edu>, Andrew Morton <akpm@linux-foundation.org>, Will Drewry <wad@chromium.org>, linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, netdev@vger.kernel.org, x86@kernel.org, arnd@arndb.de, davem@davemloft.net, hpa@zytor.com, mingo@redhat.com, oleg@redhat.com, peterz@infradead.org, rdunlap@xenotime.net, mcgrathr@chromium.org, tglx@linutronix.de, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, keescook@chromium.org, jmorris@namei.org, Andy Lutomirski <luto@amacapital.net>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Wording by Aurelien Jarno from Debian glibc's r4701 (2011-06-04).
+On 04/11/2012 02:31 PM, Michael Kerrisk (man-pages) wrote:
+> On Sat, Apr 7, 2012 at 8:28 AM, Jonathan Corbet <corbet@lwn.net> wrote:
+>> On Fri, 6 Apr 2012 13:01:17 -0700
+>> Andrew Lutomirski <luto@mit.edu> wrote:
+>>
+>>> This has been bugging me for awhile.  Is there any interest in moving
+>>> the manpages into the kernel source tree?  Then there could be a
+>>> general requirement that new APIs get documented when they're written.
+>>
+>> Man page (or other documentation) requirements for patch acceptance are a
+>> regular kernel summit feature.  People seem to think it's a good idea, but
+>> actual enforcement of such requirements always seems to be lacking.  Lots
+>> of people have kind of given up trying.  I don't really see that adding
+>> the man pages to the tree would help, but I could be wrong...
+> 
+> I largely consider this (moving man pages to kernel.org) a technical
+> solution to what is fundamentally a social problem (developers
+> reluctant to write documentation), and doubt that the technical
+> solution would make much difference.
 
-Addresses http://bugs.debian.org/622385
+*nod* *nod*
 
-Requested-by: Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
-Signed-off-by: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
-Michael Kerrisk (man-pages) wrote:
+> I'd love to be proved wrong, but
+> the experiment would require significant start-up effort. (My
+> collected thoughts on this can be found here:
+> http://www.kernel.org/doc/man-pages/todo.html#migrate_to_kernel_source.
+> Note the alternative idea of patch tags mentioned at the end of that
+> text.)
+> 
+> Unless, or until there's a paid maintainer, I don't expect things to
+> get significantly better than what they currently are.
 
-> IIUC, your purpose is to allow Debian to drop downstream ld.so.8, by
-> ensuring that upstream ld.so.8 has everything that useful from the
-> downstream (purpose 1).
+Maintainer of which, the man pages or the kernel Documentation directory?
 
-Let's just handle them as isolated patches.  This one comes from
-Debian and the text matches what I get with "man ld.so" on a Debian
-system.  Since v1, I have rebased it against "master" and rewrapped to
-use 76-character instead of 80-character lines.
+I just got handed the Documentation ball (right as relatives were
+visiting and a couple days before buying a new house, so I've just put
+_tons_ of time into it so far). I have grandiose plans for cleaning it
+up, but first I need to get my kernel.org account working again.
 
- man8/ld.so.8 |   33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+That said, I think having man-pages in the kernel directory is a bad
+idea, for reasons I already posted to this thread.
 
-diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 2fbacae0..c0084376 100644
---- a/man8/ld.so.8
-+++ b/man8/ld.so.8
-@@ -64,6 +64,8 @@ in the augmented library path.
- If, however, the binary was linked with the
- .B \-z nodeflib
- linker option, libraries in the default library paths are skipped.
-+Libraries installed in hardware capabilities directories (see below)
-+are preferred to other libraries.
- .IP o
- In the default path
- .IR /lib ,
-@@ -129,6 +131,37 @@ is set-user-ID or set-group-ID.
- .TP
- .B \-\-audit LIST
- Use objects named in LIST as auditors.
-+.SH HARDWARE CAPABILITIES
-+Libraries might be compiled using hardware-specific instructions which do
-+not exist on every CPU. Such libraries should be installed in directories
-+whose name defines the hardware capabilities such as \fB/usr/lib/sse2/\fR.
-+The dynamic linker checks these directories against the hardware of the
-+machine and selects the best suitable version of a given library. Hardware
-+capabilities directories could be cascaded to combine CPU features. Hardware
-+capabilities depends on the CPU. The following names are currently
-+recognized:
-+.B Alpha
-+ev4, ev5, ev56, ev6, ev67
-+.TP
-+.B MIPS
-+loongson2e, loongson2f, octeon, octeon2
-+.TP
-+.B PowerPC
-+4xxmac, altivec, arch_2_05, arch_2_06, booke, cellbe, dfp, efpdouble, efpsingle,
-+fpu, ic_snoop, mmu, notb, pa6t, power4, power5, power5+, power6x, ppc32, ppc601,
-+ppc64, smt, spe, ucache, vsx
-+.TP
-+.B SPARC
-+flush, muldiv, stbar, swap, ultra3, v9, v9v, v9v2
-+.TP
-+.B s390
-+dfp, eimm, esan3, etf3enh, g5, highgprs, hpage, ldisp, msa, stfle,
-+z900, z990, z9-109, z10, zarch
-+.TP
-+.TP
-+.B x86 (32-bit only)
-+acpi, apic, clflush, cmov, cx8, dts, fxsr, ht, i386, i486, i586, i686, mca, mmx,
-+mtrr, pat, pbe, pge, pn, pse36, sep, ss, sse, sse2, tm
- .SH ENVIRONMENT
- There are four important environment variables.
- .TP
+> The quite
+> significant improvements in man-pages since 2004, when I became
+> maintainer were in small part due to the fact that I was for a short
+> period paid to do the work, but in much larger part due to a huge
+> private effort over those years which over the last couple of years is
+> no longer unsustainable for me (man-pages is in competition with
+> requirements for my attention from family, working life, and
+> (seriously!) seismic events),
+
+Heh, I know the feeling. :)
+
+Circa 2007 I was paid to work on documentation for half a year (hence
+the http://kernel.org/doc directory I stopped being able to update when
+kernel.org got hacked). These days it competes with my toybox and
+aboriginal linux projects, and with my day job.
+
+The way I'm looking at it is I'm _curating_ documentation.  I'm acting
+as some kind of of librarian, and my first goal is reshuffling the files
+in Documentation into some semblance of order so you can see what's
+there.  (I've posted about that before here, moving
+architecture-specific stuff under an arch subdirectory and so on.)
+
+I do sometimes write new documentation, but no human being knows
+everything there is to know about the kernel. Building expertise is
+enormously time consuming,
+
+That said, if anything was going to move into the kernel moving the
+syscall info into javadoc might make sense.
+
+Something that might help you is the syscall mining script snippet I
+posted last time:
+
+find . -name "*.c" -print0 | \
+xargs -n1 -0 sed -n -e 's/.*\(SYSCALL_DEFINE[0-9](\)/\1/' \
+  -e 't got;d;:got;s/).*/)/p;t;N;b got'
+
+I might be able to build a script around that which would look up the
+system call number, figure out which architectures implement this call,
+find any javadoc at the call site, and so on. That way we could automate
+this a bit.  For example, kernel/fork.c has two syscalls:
+
+SYSCALL_DEFINE1(set_tid_address, int __user *, tidptr)
+
+/*
+ * unshare allows a process to 'unshare' part of the process
+ * context which was originally shared using clone.  copy_*
+ * functions used by do_fork() cannot be used here directly
+ * because they modify an inactive task_struct that is being
+ * constructed. Here we are modifying the current, active,
+ * task_struct.
+ */
+SYSCALL_DEFINE1(unshare, unsigned long, unshare_flags)
+
+Both of these have man pages which provide way more info than the
+comments (if any). Is there any sort of javadoc comment before the
+syscall that might provide useful information you could automatically
+harvest?  Some sort of standard header briefly defining the syscall?
+
+(P.S. Speaking of man 2 unshare, what's with the #define _GNU_SOURCE for
+a new linux kernel syscall? What the heck does the FSF have to do with
+anything? This didn't used to be needed in ubuntu 10.04 but then the
+headers changed to match the man page, which I found sad...)
+
+> Cheers,
+> 
+> Michael
+
+Rob
 -- 
-1.7.10
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+GNU/Linux isn't: Linux=GPLv2, GNU=GPLv3+, they can't share code.
+Either it's "mere aggregation", or a license violation.  Pick one.
