@@ -1,68 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH/RFC 0/6] ld.so.8: some improvements from Debian
-Date: Mon, 16 Apr 2012 19:26:58 +1200
-Message-ID: <CAKgNAkgbcL3deJ4x0DEV==vtiAmYie7+Gw+c=K_dAJhWE4va1Q@mail.gmail.com>
-References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
+Subject: Re: [PATCH 1/2] prctl.2: Add PR_SET_MM option description
+Date: Mon, 16 Apr 2012 19:33:30 +1200
+Message-ID: <CAKgNAkh1Qd-CwWFcxYu-gf1-h-Zu6Mwt2EE6hAv-QjcquURbxw@mail.gmail.com>
+References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org>
+ <1331326042-32558-2-git-send-email-gorcunov@openvz.org> <CAKgNAkgJm01K9+GhnouxUwOUW3gk+YiuHLfofrs7adWzEqqO8Q@mail.gmail.com>
+ <20120320222424.GL14269@moon> <CAKgNAkghWdju=o1prxw8dXEVjf95a+jLpe+3oKeHRWN1UK_cKg@mail.gmail.com>
+ <20120324061704.GA4324@moon> <CAKgNAkiqWe4ygWpAr4yEx09=SdS8qvXTwsuefQT1zq1w8t_qqw@mail.gmail.com>
+ <20120415215531.GA2229@moon> <CAKgNAkie6d8vn76x+Aa03Ciw=R-8PSWFfbeyrr4deeS8_8k3gQ@mail.gmail.com>
+ <CAKgNAkhdjTitkiVcNbxFz=q9_hR3Lkt26Gh5icQyhi-t_=9uhg@mail.gmail.com> <20120416061324.GC4115@moon>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20111020070037.GA11392-E4JsH6yu/ca99If2fRKg35Ea+QML8DWm@public.gmane.org>
+In-Reply-To: <20120416061324.GC4115@moon>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
+To: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Cc: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Jonathan,
+On Mon, Apr 16, 2012 at 6:13 PM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> wrote:
+> On Mon, Apr 16, 2012 at 10:34:53AM +1200, Michael Kerrisk (man-pages) wrote:
+>> Hi Cyrill,
+>>
+>> Below (and also attached) is the current draft of the prctl.2 page
+>> with your PR_SET_MM materials.
+>>
+>
+> Hi Michael, looks good to me, thanks!
 
-This patch series fell on the floor. Are you interested in having
-another go? If yes, let's discuss some details first.
+Okay -- merged for man-pages-3.39.
+
+Thanks for your contribution!
 
 Cheers,
 
 Michael
 
 
-On Thu, Oct 20, 2011 at 8:01 PM, Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
-rote:
-> Hi,
->
-> I would like to see Debian using the ld.so(8) page from the man-pages
-> project instead of its own custom copy, so people making improvements
-> to that documentation would not need to choose which to contribute to=
-=2E
-> Here are some changes that might make it easier to use the upstream
-> ld.so.8 as a drop-in replacement.
->
-> I have tried to be very conservative, when in doubt matching what is
-> in Debian's libc-bin package. =A0Some comments on this in the mails w=
-ith
-> each patch.
->
-> Anyway, some of these seem to me like good improvements to the page
-> regardless. =A0What do you think?
->
-> Jonathan Nieder (6):
-> =A0ld.so.8: clarify synopsis
-> =A0ld.so.8: move important information toward the top
-> =A0ld.so.8: document LD_ASSUME_KERNEL
-> =A0ld.so.8: document Debian's /etc/ld.so.nohwcap extension
-> =A0ld.so.8: document $PLATFORM and $LIB expansion
-> =A0ld.so.8: document how hwcaps affect search path
->
-> =A0man8/ld.so.8 | =A0181 +++++++++++++++++++++++++++++++++++++++++---=
---------------
-> =A01 files changed, 128 insertions(+), 53 deletions(-)
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" =
-in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
-
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
