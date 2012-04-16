@@ -1,47 +1,30 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] prctl.2: Add PR_SET_MM option description
-Date: Mon, 16 Apr 2012 19:33:30 +1200
-Message-ID: <CAKgNAkh1Qd-CwWFcxYu-gf1-h-Zu6Mwt2EE6hAv-QjcquURbxw@mail.gmail.com>
-References: <1331326042-32558-1-git-send-email-gorcunov@openvz.org>
- <1331326042-32558-2-git-send-email-gorcunov@openvz.org> <CAKgNAkgJm01K9+GhnouxUwOUW3gk+YiuHLfofrs7adWzEqqO8Q@mail.gmail.com>
- <20120320222424.GL14269@moon> <CAKgNAkghWdju=o1prxw8dXEVjf95a+jLpe+3oKeHRWN1UK_cKg@mail.gmail.com>
- <20120324061704.GA4324@moon> <CAKgNAkiqWe4ygWpAr4yEx09=SdS8qvXTwsuefQT1zq1w8t_qqw@mail.gmail.com>
- <20120415215531.GA2229@moon> <CAKgNAkie6d8vn76x+Aa03Ciw=R-8PSWFfbeyrr4deeS8_8k3gQ@mail.gmail.com>
- <CAKgNAkhdjTitkiVcNbxFz=q9_hR3Lkt26Gh5icQyhi-t_=9uhg@mail.gmail.com> <20120416061324.GC4115@moon>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: Re: Patch for man unix(7)
+Date: Mon, 16 Apr 2012 20:08:41 +0900
+Message-ID: <201204162008.GGI81741.VHFtOLFJSMOQFO@I-love.SAKURA.ne.jp>
+References: <201010171428.DDC17187.FFFJSLtOOHOMQV@I-love.SAKURA.ne.jp>
+	<201010262115.FEH09326.OMFJHSVOFLQFOt@I-love.SAKURA.ne.jp>
+	<201011232159.DFE78143.tSHMFQOLFVFJOO@I-love.SAKURA.ne.jp>
+	<CAKgNAkgNRbdcWwo0nhsbCxtnagEucxm6d76ugGAAUAd+ukBLCQ@mail.gmail.com>
+	<CAKgNAki82=5=SkYkfXuF08YMMZ4dpYvORmWQ5OSkQx6Uhahqdw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120416061324.GC4115@moon>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Cc: akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org, xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAki82=5=SkYkfXuF08YMMZ4dpYvORmWQ5OSkQx6Uhahqdw@mail.gmail.com>
+Sender: netdev-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, netdev@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 16, 2012 at 6:13 PM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> wrote:
-> On Mon, Apr 16, 2012 at 10:34:53AM +1200, Michael Kerrisk (man-pages) wrote:
->> Hi Cyrill,
->>
->> Below (and also attached) is the current draft of the prctl.2 page
->> with your PR_SET_MM materials.
->>
->
-> Hi Michael, looks good to me, thanks!
+Michael Kerrisk (man-pages) wrote:
+> >> Therefore, the caller of getsockname(), getpeername(), accept() must not assume
+> >> that sunaddr->sun_path contains a null-terminated pathname even if the returned
+> >> addrlen is greater than sizeof(sa_family_t) and sun_path[0] != '\0'.
+> >
+> > Thanks. I see what you mean. However, I'm wondering, is the kernel
+> > behavior simply a bug that should be fixed, so that a null terminator
+> > is always placed in sun_path?
 
-Okay -- merged for man-pages-3.39.
-
-Thanks for your contribution!
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+I thought it is a bug, but according to thread starting from
+http://lkml.indiana.edu/hypermail/linux/kernel/0503.3/0954.html ,
+sun_path seems to be designed to accept pathname without null terminator.
