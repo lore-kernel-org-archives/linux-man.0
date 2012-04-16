@@ -1,31 +1,48 @@
-From: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/6] ld.so.8: document $PLATFORM and $LIB expansion
-Date: Mon, 16 Apr 2012 11:59:45 -0500
-Message-ID: <20120416165945.GS5813@burratino>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH/RFC 0/6] ld.so.8: some improvements from Debian
+Date: Tue, 17 Apr 2012 05:19:39 +1200
+Message-ID: <CAKgNAkj0BAKbP6SrohCEG+eeEAZAYkJ6NA9Jvi0hS2j3e19mmg@mail.gmail.com>
 References: <20111020070037.GA11392@elie.hsd1.il.comcast.net>
- <201110201416.30351.vapier@gentoo.org>
- <20111021052528.GF23372@elie.hsd1.il.comcast.net>
- <201112102216.34565.vapier@gentoo.org>
+ <CAKgNAkgbcL3deJ4x0DEV==vtiAmYie7+Gw+c=K_dAJhWE4va1Q@mail.gmail.com> <20120416165806.GR5813@burratino>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <201112102216.34565.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20120416165806.GR5813@burratino>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>, Reinhard Tartler <siretart-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Petr Baudis <pasky-WSSlzXzs9B4@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>, Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Mike Frysinger wrote:
-> On Friday 21 October 2011 01:25:28 Jonathan Nieder wrote:
-
->>    What would a person typically use ${LIB} in an rpath for?
+On Tue, Apr 17, 2012 at 4:58 AM, Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
+rote:
+> Michael Kerrisk (man-pages) wrote:
 >
-> it's useful when you want to preload a library for multiple process types.  
-> why this would get used in an RPATH tag, i can't really guess
+>> This patch series fell on the floor. Are you interested in having
+>> another go? If yes, let's discuss some details first.
+>
+> Yeah, I'd be happy to revisit this and get it done. =A0Sorry for lett=
+ing
+> it stall.
 
-Ah, that makes sense.  So it's for consistency with LD_LIBRARY_PATH
-and LD_PRELOAD.
+Could you possibly also rearchitect the patch series please, in the
+light of the following:
+* There have been a (very) few changes to upstream ld.so.8, so you'll
+need to rebase.
+* Please clearly separate out those pieces that simply bridge the gap
+between upstream ld.so.8 and Debian ld.so.8 and those pieces that are
+your own enhancements. (I did correctly understand that there are some
+of those, right?).
+
+Thanks,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
