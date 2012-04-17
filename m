@@ -1,43 +1,51 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 42704] execve may return EAGAIN on v3.1 or later
-Date: Tue, 17 Apr 2012 19:03:47 GMT
-Message-ID: <201204171903.q3HJ3l34011784@bugzilla.kernel.org>
-References: <bug-42704-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Any way to get shorter
+Date: Wed, 18 Apr 2012 07:10:32 +1200
+Message-ID: <CAKgNAkijpVz01CMbRWn5=sdj3wHLR3gNqhKOessjh1F=fvAOHA@mail.gmail.com>
+References: <CAGc9EvfYpQ+eJ3JfGYJ=y5eg7f+2MsZONMbaYnd9gk0SDHxHDw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-42704-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <CAGc9EvfYpQ+eJ3JfGYJ=y5eg7f+2MsZONMbaYnd9gk0SDHxHDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=42704
+On Sat, Oct 29, 2011 at 11:12 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
+> Hello
+>
+>
+> http://kernel.org/doc/man-pages/online/pages/man3/aio_read.3.html
+>
+> Could I ask, is there anyway to get shorter urls? man2html that
+> generated like this
+> would be clearer:
+> http://kernel.org/doc/man/aio_read.3.html
+>
+> That means merging the man1, man2, man3 folders etc though.
+>
+> another idea is just to add a symbolic link to a shorter location on webserver.
+>
+> ln -s public_html/doc/man-pages/online/pages public_html/man
 
+Nowadays, the latest HTML pages are kept at man7.org, and the URLs are
+a bit shorter:
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+http://man7.org/linux/man-pages/man3/aio_read.3.html
+vs
+http://kernel.org/doc/man-pages/online/pages/man3/aio_read.3.html
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cheers,
 
+Micahel
 
-
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-17 19:03:47 ---
-Vasiliy,
-
-Thanks for raising this bug. I think the best approach would be to leave the
-existing EAGAIN text in the set*uid pages (possibly with a note about v3.1
-changes), and add some text to the execve.2 page.
-
-However, I have a question: I can understand adding the check to execve(), but
-why was it removed from set*uid()? Surely it was still useful to applications
-that actually do check the return status from set*uid()?
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
