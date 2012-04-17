@@ -1,41 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: aio_cancel
-Date: Wed, 18 Apr 2012 08:16:42 +1200
-Message-ID: <CAKgNAkj30OzoQXAx00ep9P=Zetx1W+pg-y9+Cd4GFXRJygftMw@mail.gmail.com>
-References: <CAGc9Evf=94fyfYM67q0BRJCN=vu14aYV91pE+Hw=uhgkVS5p5g@mail.gmail.com>
- <CAKgNAkgcKRrdepNS9jQw=MzNY+sRpP+-idDEfpT0ALBJOJ3w1w@mail.gmail.com>
- <4E8BA018.5070707@jguk.org> <CAKgNAkhdZwP7hVH2GdmMV9CH4LTXURbO=TrAg0QgiG7_XXdQFg@mail.gmail.com>
- <4E90D1C4.3090104@jguk.org>
+Subject: Re: online man pages text size
+Date: Wed, 18 Apr 2012 08:18:23 +1200
+Message-ID: <CAKgNAkj5hannN-TYaDZy7=XvTdw+xFnDn9RWWv4RMSMX+YEQ6g@mail.gmail.com>
+References: <4E90DAF2.8000004@jguk.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E90D1C4.3090104-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <4E90DAF2.8000004-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[...]
-> BTW, could this aio_cancel text be updated to clarify if aio_error or
-> aio_cancel is returning AIO_ALLDONE.
->
-> " This function returns AIO_ALLDONE if
-> =A0 =A0 =A0 all requests had already been completed before this call.=
- =A0When some
-> error
-> =A0 =A0 =A0 occurs, -1 is returned, and errno is set appropriately."
->
-> My assumption would be that it refers to aio_Cancel, but as it follow=
-s
-> aio_error description.. could be unclear. Maybe the function name can=
- be
-> added to the description.
+Hi Jon,
 
-Yes, I've made that change for man-pages-3.40.
+On Sun, Oct 9, 2011 at 12:21 PM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
+> Hi
+>
+> Just looked at the man pages from a mobile device (HTC desire) notice=
+d that
+> the text sizes are quite small and hard to read. Would it be possible=
+ to
+> increase the text-size to 12pt?
+>
+> It's also pretty small on Firefox on my ubuntu netbook (default insta=
+ll,
+> Firefox 7.01)
+>
+> I was looking at these two pages:
+>
+> http://man7.org/linux/man-pages/online/dir_all_alphabetic.html
+>
+> http://man7.org/linux/man-pages/online/pages/man3/realpath.3.html
+>
+> The heading particularly small:
+>
+> "NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS |
+> CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON =A0The Linux Progr=
+amming
+> Interface"
 
-Cheers,
+I've made a few tweaks that should improve things a little. The
+changes should appear with the next website update. Check back at the
+end of the week.
+
+Thanks,
 
 Michael
 
