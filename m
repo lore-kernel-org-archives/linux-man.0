@@ -1,74 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: alphabetic index feedback
-Date: Wed, 18 Apr 2012 07:55:36 +1200
-Message-ID: <CAKgNAkgwE-ih9eCOeECfATbSbOCBy_3n9PprjiYpVL5peqcjBA@mail.gmail.com>
-References: <4E922739.8050900@jguk.org>
+Subject: Re: aio_cancel
+Date: Wed, 18 Apr 2012 08:16:42 +1200
+Message-ID: <CAKgNAkj30OzoQXAx00ep9P=Zetx1W+pg-y9+Cd4GFXRJygftMw@mail.gmail.com>
+References: <CAGc9Evf=94fyfYM67q0BRJCN=vu14aYV91pE+Hw=uhgkVS5p5g@mail.gmail.com>
+ <CAKgNAkgcKRrdepNS9jQw=MzNY+sRpP+-idDEfpT0ALBJOJ3w1w@mail.gmail.com>
+ <4E8BA018.5070707@jguk.org> <CAKgNAkhdZwP7hVH2GdmMV9CH4LTXURbO=TrAg0QgiG7_XXdQFg@mail.gmail.com>
+ <4E90D1C4.3090104@jguk.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E922739.8050900-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <4E90D1C4.3090104-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Oct 10, 2011 at 11:59 AM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> Hi
+[...]
+> BTW, could this aio_cancel text be updated to clarify if aio_error or
+> aio_cancel is returning AIO_ALLDONE.
 >
-> Just looking at this page:
+> " This function returns AIO_ALLDONE if
+> =A0 =A0 =A0 all requests had already been completed before this call.=
+ =A0When some
+> error
+> =A0 =A0 =A0 occurs, -1 is returned, and errno is set appropriately."
 >
-> http://www.man7.org/linux/man-pages/online/dir_all_alphabetic.html
->
->
-> I propose to clarify a few entries:
-> "accept4(2) - accept a connection on a socket"
->
-> Changed to:
-> "accept4(2) - accept a connection on a socket with flags"
+> My assumption would be that it refers to aio_Cancel, but as it follow=
+s
+> aio_error description.. could be unclear. Maybe the function name can=
+ be
+> added to the description.
 
-The reason that the title is what it is is that "accept4" and "accept"
-are on a single man page.
-
-> current:
-> =A0 =A0acos(3) - arc cosine function
-> =A0 =A0acosf(3) - arc cosine function
->
-> Propose to change to:
-> =A0 =A0acos(3) - double precision arc cosine function
-> =A0 =A0acosf(3) - float precision arc cosine function
-> =A0 =A0acosl(3) - long double precision arc cosine function
-
-See above.
-
-> ^ Note, the last one is missing from current alphabetic index current=
-ly.
-
-At least now, that no longer appears to be a problem:
-http://man7.org/linux/man-pages/dir_all_alphabetic.html
-
-> There are other similar variations in function returns, float, double=
-, so
-> could be good to update those as well.
->
->
-> " aio_init(3) - POSIX asynchronous I/O initialization"
-
-I've just fixed that now.
+Yes, I've made that change for man-pages-3.40.
 
 Cheers,
 
 Michael
-
-
-> All the other aio functions don't mention "POSIX", so thinking of
-> consistency, could be removed from this one. Or perhaps added to all =
-the
-> others.
->
-> Best regards, Jon
-
 
 
 --=20
