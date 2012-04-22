@@ -1,43 +1,42 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Trivial fix for iso_8859-1.7 man page
-Date: Sun, 22 Apr 2012 19:13:51 +1200
-Message-ID: <CAKgNAkhsxpt0urz5fhDN3D3XrKTXzAaT3QhPdiN7UR_-3ei4vw@mail.gmail.com>
-References: <4DDBD7E3.5020608@pu-pm.univ-fcomte.fr>
+Subject: Re: Error in the example of getaddrinfo
+Date: Sun, 22 Apr 2012 19:18:43 +1200
+Message-ID: <CAKgNAkjzid0Z-itUOsaqUa=H5J5VHnzstSetuFbSZd1fLB8U7Q@mail.gmail.com>
+References: <AANLkTinnWoSuV-oYxDMF-9yK22hpncerkEfD7R0h2YJk@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4DDBD7E3.5020608-C66Sk7uXGWIalAAbUx3MVP3zm4ADWneb@public.gmane.org>
+In-Reply-To: <AANLkTinnWoSuV-oYxDMF-9yK22hpncerkEfD7R0h2YJk-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eugen Dedu <Eugen.Dedu-C66Sk7uXGWIalAAbUx3MVP3zm4ADWneb@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, joey-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org
+To: wimpunk <wimpunk-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, May 25, 2011 at 4:08 AM, Eugen Dedu
-<Eugen.Dedu-C66Sk7uXGWIalAAbUx3MVP3zm4ADWneb@public.gmane.org> wrote:
+On Thu, Feb 3, 2011 at 10:39 PM, wimpunk <wimpunk-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org=
+> wrote:
 > Hi,
 >
-> http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D156154 is about a =
-minor
-> issue in iso_8859-1.7 man page.
->
-> I added a 1-line patch to fix it
-> (http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D156154#19), pleas=
-e apply
-> it so that it can be closed.
->
-> snoopy:~$ dpkg -l manpages
-> [...]
-> ii =A0manpages =A0 =A0 =A0 =A0 =A0 =A03.27-1 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0Manual pages about using a
-> GNU/Linux system
+> I believe there is a bug in de client example code of getaddrinfo. =A0=
+It
+> is in the ubuntu 10.10 man pages (Version: 3.24-1ubuntu1) and also on
+> http://www.kernel.org/doc/man-pages/online/pages/man3/getaddrinfo.3.h=
+tml.
+> The 'close(sfd);' will never happen and using the code in a loop, it
+> will cause your system running out of filedescriptors (at least,
+> that's what happened to me). =A0To use the code cleanly, you should c=
+ode
+> the sfd after the last printf.
 
-Applied for upstream 3.40.
+Am I missing something? The close() will happen whenever bind() fails,
+which is what is desired.
 
-Thanks,
+Cheers,
 
 Michael
+
+
 
 
 --=20
