@@ -1,69 +1,105 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
-Date: Mon, 23 Apr 2012 06:56:43 +1200
-Message-ID: <CAKgNAkhtu8d0NKcTwWyCA8qWgz8Lag+GcpEE1=YMVe_Nh8XJ9Q@mail.gmail.com>
-References: <20091216004533.22261.qmail@kosh.dhis.org>
+Subject: Re: sendto() on UDP can return EACCES
+Date: Mon, 23 Apr 2012 08:17:37 +1200
+Message-ID: <CAKgNAkjvew8Nj3ezRZVPjcAzJoafpNT1=UYG2h7Q5mpUrS1uxQ@mail.gmail.com>
+References: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20091216004533.22261.qmail-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org>
+In-Reply-To: <AANLkTikmut_ro+FEiqgazjYz_hsJ3+wDK3xaDRUJj9+Y-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[widening CC]
+Stefan,
 
-Denys, (Oleg, Tejun,)
+On Mon, Mar 21, 2011 at 11:49 PM, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> w=
+rote:
+> Hi,
+>
+> It seems sendto() can return EACCES for UDP as well; the current man
+> page in git only says it can return EACCES for Unix sockets:
+>
+> EACCES
+> (For =A0UNIX =A0domain =A0sockets, which are identified by pathname) =
+Write
+> permission is denied on the destination socket file, or
+> =A0 =A0 =A0 =A0 =A0 =A0 =A0search permission is denied for one of the=
+ directories
+> the path prefix. =A0(See path_resolution(7).)
+>
+> I was able to make sendto() return EACCES if I try to send from
+> 192.168.1.1/24 to 192.168.1.0. I think the relevant code (in kernel
+> 2.6.38, but also present in 2.6.7 and 2.6.32, the 2 kernels we use) i=
+s
+> this (net/ipv4/udp.c, udp_sendmsg()):
+>
+> =A0910 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0err =3D -EACCES;
+> =A0911 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0if ((rt->rt_flags & RTCF_BROADC=
+AST) &&
+> =A0912 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0!sock_flag(sk, SOCK_BRO=
+ADCAST))
+> =A0913 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0goto out;
+>
+> So I guess if the kernel finds a route to the destination and it's a
+> broadcast route (and the socket doesn't have the broadcast flag), the=
+n
+> it returns EACCES.
+>
+> I can verify the behavior with a very simple program (attached). I've
+> run it on my Ubuntu 10.10 (2.6.35 kernel) and got this:
+>
+> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
+> 10.205.20.1
+> sendto() returned 4
+> stefan@spuiu-vml2:~/src/test/broadcast$ ./broadcast_test 10.205.20.94
+> 10.205.20.0
+> sendto() returned negative, errno: 13/Permission denied
+>
+> (10.205.20.94 is my local IP, of course).
+>
+> How about updating the send.2 page like this?
+>
+> diff --git a/man2/send.2 b/man2/send.2
+> index 69287fb..4d2faed 100644
+> --- a/man2/send.2
+> +++ b/man2/send.2
+> @@ -288,6 +288,8 @@ or search permission is denied for one of the dir=
+ectories
+> =A0the path prefix.
+> =A0(See
+> =A0.BR path_resolution (7).)
+> +(For UDP sockets) An attempt was made to sendto() to a
+> +network/broadcast address like it was a unicast address.
+> =A0.TP
+> =A0.BR EAGAIN " or " EWOULDBLOCK
+> =A0.\" Actually EAGAIN on Linux
 
-Would you be able to take a look at this report that is now already a
-long time in my inbox. Is there something here that still needs to be
-fixed after your recent changes to ptrace.2, Denys?
+I applied a slightly reworded (but essentially the same) patch:
 
-Thanks,
+=3D=3D=3D=3D=3D
+@@ -288,6 +288,9 @@ or search permission is denied for one of the direc=
+tories
+ the path prefix.
+ (See
+ .BR path_resolution (7).)
++.sp
++(For UDP sockets) An attempt was made to send to a
++network/broadcast address as though it was a unicast address.
+ .TP
+ .BR EAGAIN " or " EWOULDBLOCK
+ .\" Actually EAGAIN on Linux
+=3D=3D=3D=3D=3D
+
+Will be in 3.40.
+
+thanks!
 
 Michael
 
-
-
----------- Forwarded message ----------
-=46rom:  <pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org>
-Date: Wed, Dec 16, 2009 at 1:45 PM
-Subject: ptrace.2: PTRACE_KILL needs a stopped process too
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
-
-The man page says "For requests other than PTRACE_KILL, the child proce=
-ss
-must be stopped."
-
-But experience[1] shows that PTRACE_KILL also requires the child proces=
-s to
-be stopped. gdb older than 7.0 doesn't always make sure its child proce=
-ss is
-stopped before attempting a PTRACE_KILL (try SIGTERMing gdb while the c=
-hild
-process is running).
-
-That was fixed in gdb 7.0 by the addition of a SIGSTOP and wait before =
-the
-PTRACE_KILL, so the kernel and latest gdb get along well now, which lea=
-ves
-the man page as the only thing that's out of sync.
-
-If the man page is describing actual intended kernel behavior, then it'=
-s a
-fairly long-standing kernel bug. But I get the feeling this was just an
-assumption by the original man page author that never got checked.
-
-[1] http://lists.gnu.org/archive/html/bug-coreutils/2009-11/msg00267.ht=
-ml
-=A0 =A0http://lists.gnu.org/archive/html/bug-coreutils/2009-12/msg00025=
-=2Ehtml
-=A0 =A0http://lists.gnu.org/archive/html/bug-coreutils/2009-12/msg00094=
-=2Ehtml
 
 
 --=20
