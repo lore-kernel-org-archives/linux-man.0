@@ -1,48 +1,36 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Error in the example of getaddrinfo
-Date: Sun, 22 Apr 2012 19:18:43 +1200
-Message-ID: <CAKgNAkjzid0Z-itUOsaqUa=H5J5VHnzstSetuFbSZd1fLB8U7Q@mail.gmail.com>
-References: <AANLkTinnWoSuV-oYxDMF-9yK22hpncerkEfD7R0h2YJk@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: Is there a way to get "EINVAL" style string
+Date: Sun, 22 Apr 2012 12:14:04 +0100
+Message-ID: <4F93E7FC.1020904@jguk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <AANLkTinnWoSuV-oYxDMF-9yK22hpncerkEfD7R0h2YJk-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wimpunk <wimpunk-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Feb 3, 2011 at 10:39 PM, wimpunk <wimpunk-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org=
-> wrote:
-> Hi,
->
-> I believe there is a bug in de client example code of getaddrinfo. =A0=
-It
-> is in the ubuntu 10.10 man pages (Version: 3.24-1ubuntu1) and also on
-> http://www.kernel.org/doc/man-pages/online/pages/man3/getaddrinfo.3.h=
-tml.
-> The 'close(sfd);' will never happen and using the code in a loop, it
-> will cause your system running out of filedescriptors (at least,
-> that's what happened to me). =A0To use the code cleanly, you should c=
-ode
-> the sfd after the last printf.
+Hello
 
-Am I missing something? The close() will happen whenever bind() fails,
-which is what is desired.
+I was looking at the man pages looking for a way to get a string of the 
+errno value meaning. This is kind of a user question.
 
-Cheers,
+This API returns "returns a pointer to a string that describes the error 
+code":
 
-Michael
+http://man7.org/linux/man-pages/man3/strerror.3.html
 
+However, this is a description, e.g. "Invalid argument".  Is there a 
+function that would return "EINVAL" or "ENOENT" as the string?
 
+Could I suggest that the text on the man page be updated to clarify what 
+would be returned:
 
+"returns a pointer to a string that describes the error code. e.g. 
+"Invalid argument" if EINVAL was the errnum."
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
