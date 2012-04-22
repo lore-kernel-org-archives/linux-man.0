@@ -1,7 +1,7 @@
 From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Is there a way to get "EINVAL" style string
-Date: Sun, 22 Apr 2012 12:14:04 +0100
-Message-ID: <4F93E7FC.1020904@jguk.org>
+Subject: errno man page query
+Date: Sun, 22 Apr 2012 12:17:22 +0100
+Message-ID: <4F93E8C2.5000903@jguk.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -13,22 +13,24 @@ List-Id: linux-man@vger.kernel.org
 
 Hello
 
-I was looking at the man pages looking for a way to get a string of the 
-errno value meaning. This is kind of a user question.
+Quoting from this page:
 
-This API returns "returns a pointer to a string that describes the error 
-code":
+http://man7.org/linux/man-pages/man3/errno.3.html
 
-http://man7.org/linux/man-pages/man3/strerror.3.html
+"a function that succeeds is allowed to change errno."
 
-However, this is a description, e.g. "Invalid argument".  Is there a 
-function that would return "EINVAL" or "ENOENT" as the string?
+^ This sounds clear, e.g. open() can change errno to 0, when it returns 
+a valid fd handle.
 
-Could I suggest that the text on the man page be updated to clarify what 
-would be returned:
 
-"returns a pointer to a string that describes the error code. e.g. 
-"Invalid argument" if EINVAL was the errnum."
+"Valid error numbers are all nonzero; errno is never set to zero by any 
+system
+        call or library function."
+
+^ This seems to be counter what the earlier line said. Therefore, open() 
+wouldn't be allowed to change errno to 0.
+
+Have I missed something?
 
 Best regards, Jon
 --
