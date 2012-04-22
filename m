@@ -1,81 +1,98 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] fchmodat: split kernel/C library documents
-Date: Sun, 22 Apr 2012 11:20:36 -0400
-Message-ID: <201204221120.37685.vapier@gentoo.org>
-References: <1331692947-15879-1-git-send-email-vapier@gentoo.org> <201204211401.02304.vapier@gentoo.org> <CAKgNAkiUxv7_xFv3FzbYNeHagUrC3LZXbZTz-k5sWip_NO2hsw@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] ptrace(2): note SPARC deviation wrt get/set regs
+Date: Mon, 23 Apr 2012 06:56:14 +1200
+Message-ID: <CAKgNAkgntJqu4UkeusJV-oak6ksM6_Y4z3GeYTfg0JD2tQ4jww@mail.gmail.com>
+References: <1256454909-22861-1-git-send-email-vapier@gentoo.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart7827583.Z1MYkZZIa2";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiUxv7_xFv3FzbYNeHagUrC3LZXbZTz-k5sWip_NO2hsw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1256454909-22861-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---nextPart7827583.Z1MYkZZIa2
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+[Adding some ptrace-knowledgeable people to CC]
 
-On Saturday 21 April 2012 15:09:13 Michael Kerrisk wrote:
-> On Sun, Apr 22, 2012 at 6:01 AM, Mike Frysinger wrote:
-> > On Sunday 15 April 2012 07:15:27 Michael Kerrisk wrote:
-> >> --- a/man2/fchmodat.2
-> >> +++ b/man2/fchmodat.2
-> >>=20
-> >> +This page documents the interface provided by the
-> >> +glibc wrapper function for the
-> >=20
-> > not to be pedantic, but this isn't glibc specific.  fchmodat() is a POS=
-IX
-> > interface, so every C library will have this difference.
->=20
-> Yes, it's worth being clearer on that. I applied the patch below.
->=20
-> --- a/man2/fchmodat.2
-> +++ b/man2/fchmodat.2
-> @@ -143,11 +143,9 @@ See
->  for an explanation of the need for
->  .BR fchmodat ().
->=20
-> -This page documents the interface provided by the
-> -glibc wrapper function for the
-> -.BR fchmodat ()
-> -system call.
-> -The underlying system call does
-> +The GNU C library wrapper function implements the POSIX-specified
+Mike,
 
-"glibc" and "GNU C library" are the same thing :).  i'd just drop "GNU" her=
-e.
-=2Dmike
+You long ago sent the patch below, but I didn't respond. I'm just
+pulling up a few old ptrace pieces now for review.
 
---nextPart7827583.Z1MYkZZIa2
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+Your patch below relates to PTRACE_GETREGS, PTRACE_GETFPREGS,
+PTRACE_SETREGS, PTRACE_SETFPREGS. (The patch below no longer is
+current, but is easy to fix)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+Looking at arch/sparc/kernel/ptrace_32.c, I think I see what the point
+of the patch is. However, the text is a bit cryptic. Would it not be
+better to say something like
 
-iQIcBAABAgAGBQJPlCHFAAoJEEFjO5/oN/WBKc0P/0fIbqMccvtOMC+7h8Hl2liq
-0cpkv6uV2II75j3RpVgKX6bWyjakrB4XZT4QPRmXXIrZw3nZ9SIKpgPRvSKMyjn+
-L1nMxwyQ/If1iXs1zlNv5SZVdixtmETX/Ww5ooKyw4wPweMoKwgYdAiBjK0lVy75
-ODyrA4xVfafb3CvkuxYh/ZrjDmzwCkLjGdlg4wLq/VfhTlHMuRmNag94qdenuwKh
-h2wBHKJbFGap9qUJK89XkE3FzfRhWbWFXoqjr3bU3+hdHMvlQxvTAhTO71PxsoQc
-3e7zLcomI2zV23BFOarT4FpSal1CNLer6n8RlorhnDwmCey8GlBLFrFJTWmBcfad
-lNg1SZ5ar+f/0/nd8jILIlnTCvLAA9XPNJSUuwB+ST3sbgIlbivQdFcRvEUf+Ay+
-RTZmtFPr34DpwAROcc4A0s3nYU5weYbi0mfJJCjdx7GXI+dVXYgLVBti8HR8jN2p
-IR3IFhHvCAT2hCty7npcevuWOdA01omOB6Rc1MUR/LcYFDwiLF0aFT5BwWI5r1fm
-ago9Fjwl6N8IPoAwHnRI2Zsix6F3UKAujKQzYN1ocULv9AvA8hNj8Awe4h9sk0V2
-OjEFuoj+WMkGqXPyCTVGK3+5NpRLkCUrAU3MjRxiA3vFbcMXbRUEwMfYdJSRAUN0
-DDzh+ibTd13skOWIibgz
-=QKcb
------END PGP SIGNATURE-----
+[[
+Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP r=
+eversed;
+that is, \fIdata\fP is ignored and the registers are copied to [from]
+\fIaddr\fP.
+]]
 
---nextPart7827583.Z1MYkZZIa2--
+Cheers,
+
+Michael
+
+
+---------- Forwarded message ----------
+=46rom: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Date: Sun, Oct 25, 2009 at 8:15 PM
+Subject: [PATCH] ptrace(2): note SPARC deviation wrt get/set regs
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+
+
+Unfortunately the SPARC ptrace port handles the addr/data args the oppo=
+site
+of every other arch. =A0It expects the struct to be in addr and the dat=
+a is
+ignored.
+
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+=A0man2/ptrace.2 | =A0 =A04 ++++
+=A01 files changed, 4 insertions(+), 0 deletions(-)
+
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index 68601df..7cce955 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -168,6 +168,8 @@ respectively, to location \fIdata\fP in the parent.
+=A0See \fI<sys/user.h>\fP for information on
+=A0the format of this data.
+=A0(\fIaddr\fP is ignored.)
++
++Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP =
+reversed.
+=A0.TP
+=A0.BR PTRACE_GETSIGINFO " (since Linux 2.3.99-pre6)"
+=A0Retrieve information about the signal that caused the stop.
+@@ -184,6 +186,8 @@ As for
+=A0some general
+=A0purpose register modifications may be disallowed.
+=A0(\fIaddr\fP is ignored.)
++
++Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP =
+reversed.
+=A0.TP
+=A0.BR PTRACE_SETSIGINFO " (since Linux 2.3.99-pre6)"
+=A0Set signal information.
+--
+1.6.5.1
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
