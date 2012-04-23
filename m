@@ -1,63 +1,64 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Is there a way to get "EINVAL" style string
-Date: Mon, 23 Apr 2012 09:25:27 +1200
-Message-ID: <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g@mail.gmail.com>
-References: <4F93E7FC.1020904@jguk.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] termios.3: 'ECHO' not 'IECHO'
+Date: Mon, 23 Apr 2012 11:40:34 +0100
+Message-ID: <4F9531A2.3060300@ubuntu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/mixed;
+ boundary="------------080108050800020404020406"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4F93E7FC.1020904-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Jon,
+This is a multi-part message in MIME format.
+--------------080108050800020404020406
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Sun, Apr 22, 2012 at 11:14 PM, Jon Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> Hello
->
-> I was looking at the man pages looking for a way to get a string of t=
-he
-> errno value meaning. This is kind of a user question.
->
-> This API returns "returns a pointer to a string that describes the er=
-ror
-> code":
->
-> http://man7.org/linux/man-pages/man3/strerror.3.html
->
-> However, this is a description, e.g. "Invalid argument". =A0Is there =
-a
-> function that would return "EINVAL" or "ENOENT" as the string?
+Kind regards,
 
-None that I know of. (In passing, I dealt with exactly this problem
-for my book with a script that generated the string names; see
-http://man7.org/tlpi/code/online/dist/lib/ename.c.inc.html and
-http://man7.org/tlpi/code/online/dist/lib/error_functions.c.html)
+James
+--
+James Hunt
+____________________________________
+http://upstart.ubuntu.com/cookbook
+http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf
 
-> Could I suggest that the text on the man page be updated to clarify w=
-hat
-> would be returned:
->
-> "returns a pointer to a string that describes the error code. e.g. "I=
-nvalid
-> argument" if EINVAL was the errnum."
+--------------080108050800020404020406
+Content-Type: text/x-diff;
+ name="0001-Typo-IECHO-should-be-ECHO.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-Typo-IECHO-should-be-ECHO.patch"
 
-Done for 3.40.
+>From 057ceb437f1600ceb4afcadf9c186291f268d274 Mon Sep 17 00:00:00 2001
+From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Date: Mon, 23 Apr 2012 11:37:18 +0100
+Subject: [PATCH] Typo: 'IECHO' should be 'ECHO'.
 
-Cheers,
+Signed-off-by: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+---
+ man3/termios.3 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Michael
+diff --git a/man3/termios.3 b/man3/termios.3
+index dd16721..f768d1e 100644
+--- a/man3/termios.3
++++ b/man3/termios.3
+@@ -409,7 +409,7 @@ or
+ .BR _SVID_SOURCE ]
+ .TP
+ .B ECHOPRT
+-(not in POSIX) If \fBICANON\fP and \fBIECHO\fP are also set, characters
++(not in POSIX) If \fBICANON\fP and \fBECHO\fP are also set, characters
+ are printed as they are being erased.
+ [requires
+ .B _BSD_SOURCE
+-- 
+1.7.9.5
 
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--------------080108050800020404020406--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
