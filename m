@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 42042] strchr(3) and memchr(3) should explain behaviour when
  character 'c' is '\0'.
-Date: Mon, 23 Apr 2012 20:32:32 GMT
-Message-ID: <201204232032.q3NKWWW5000542@bugzilla.kernel.org>
+Date: Mon, 23 Apr 2012 20:36:57 GMT
+Message-ID: <201204232036.q3NKavrf000617@bugzilla.kernel.org>
 References: <bug-42042-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,45 +15,26 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
 
-
---- Comment #6 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-23 20:32:31 ---
+--- Comment #7 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-23 20:36:56 ---
 James,
 
-Thanks for the detailed report, and sorry I've been slow to respond.
+Regarding memchr(), I'm not sure a change is warranted. memchr() is defined in
+terms of 'bytes' and 'memory areas', rather than strings, so I'd have said it
+would take an obtuse reading to consider that '\0' is interpreted specially
+(whereas, as you say, one could be left doubtful about what strchr() does when
+c is '\0'). 
 
-For strchr(3), I applied a variation of what you proposed:
+I'd guess that this is also why POSIX and the FreeBSD man page make no
+statement on this pont.
 
---- a/man3/strchr.3
-+++ b/man3/strchr.3
-@@ -28,7 +28,7 @@
- .\" 2006-05-19, Justin Pryzby <pryzbyj-4haIdLZGnXT/8jPEf8fH3w@public.gmane.org>
- .\"    Document strchrnul(3).
- .\"
--.TH STRCHR 3  2010-09-20 "GNU" "Linux Programmer's Manual"
-+.TH STRCHR 3  2012-04-24 "GNU" "Linux Programmer's Manual"
- .SH NAME
- strchr, strrchr, strchrnul \- locate character in string
- .SH SYNOPSIS
-@@ -72,6 +72,11 @@ and
- .BR strrchr ()
- functions return a pointer to
- the matched character or NULL if the character is not found.
-+The terminating null byte is considered part of the string,
-+so that if
-+.I c
-+is specified as \(aq\\0\(aq,
-+these functions return a pointer to the terminator.
+So, I'm inclined not to make a change.
 
- The
- .BR strchrnul ()
+Thanks,
+
+Michael
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
