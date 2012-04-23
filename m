@@ -1,282 +1,317 @@
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] strchr(3) and memchr(3) should explain behaviour when character
- 'c' is '\0'.
-Date: Mon, 23 Apr 2012 14:47:49 +0100
-Message-ID: <4F955D85.60001@ubuntu.com>
-References: <4ED4A955.8020507@ubuntu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.39 released
+Date: Tue, 24 Apr 2012 07:39:13 +1200
+Message-ID: <CAKgNAkga_Prw3X-9e8mxwRGFV3uH_TkOzR=oPKiXo1GjR3eHwg@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------050404060607000104010106"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4ED4A955.8020507-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------050404060607000104010106
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Gidday,
 
-Hi,
+The Linux man-pages maintainer proudly announces:
 
-Repost as I think the original (2011-11-29) may have fallen through the cracks....
+  man-pages-3.39.tar.gz - man pages for Linux
 
-Originally reported as:
+Tarball download:
+  http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+  http://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+Online changelog:
+  http://man7.org/linux/man-pages/changelog.html#release_3.39
 
-	https://bugzilla.kernel.org/show_bug.cgi?id=42042
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2012/04/man-pages-339-is-released.h=
+tml
 
-PROBLEM
--------
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
 
-strchr(3) and memchr(3) do not explain the behaviour if the character to search
-for is specified as a null byte ('\0'). According to my copy of Harbison
-and Steele, since the terminator is considered part of the string, a call such
-as:
+You are receiving this message either because:
 
-  strchr("hello", '\0')
+a) You contributed to the content of this release.
 
-... will return the address of the terminating null in the specified string.
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
 
-RATIONALE
----------
+c) I have information (possibly inaccurate) that you are the
+maintainer of a translation of the manual pages, or are the maintainer
+of the manual pages set in a particular distribution, or have
+expressed interest in helping with man-pages maintenance, or have
+otherwise expressed interest in being notified about man-pages
+releases.  If you don't want to receive such messages from me, or you
+know of some other translator or maintainer who may want to receive
+such notifications, send me a message.
 
-strchr(3) and memchr(3) are inconsistent with index(3) which states:
+Cheers,
 
-  "The terminating NULL character is considered to be a part of the strings."
-
-Adding such a note to strchr(3) and memchr(3) is also important since it is not
-unreasonable to assume that strchr() will return NULL in this scenario. This
-leads to code like the following which is guaranteed to fail should
-get_a_char() return '\0':
-
-  char string[] = "hello, world";
-  int c = get_a_char();
-
-  if (! strchr(string, c))
-    fprintf(stderr, "failed to find character in string\n");
+Michael
 
 
-TEST PROGRAM
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.39 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+
+Released: 2012-04-17, Christchurch
+
+
+Contributors
 ------------
 
-The attached test program demonstrates the behaviour of strchr, strrchr, memchr, strchrnul, and
-strstr. Test program has run successfully on:
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
 
-- Ubuntu Natty (11.04) system with libc6 version 2.13-0ubuntu13 (egcs).
-- Fedora 15 system with glibc version 2.13.90-9.
+Abhijith Das <adas-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Alexander Kruppa <akruppa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Andreas Jaeger <aj-IBi9RG/b67k@public.gmane.org>
+Armin Rigo <arigo-SAGZdM4SFkLYtjvyW6yDsg@public.gmane.org>
+Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Eric Blake <ebb9-PGZyUNKar/Q@public.gmane.org>
+=46elix <fkater-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Jak <jak-Cyn6bMzNSQ8@public.gmane.org>
+Jeff Mahoney <jeffm-IBi9RG/b67k@public.gmane.org>
+Jesus Otero <jesus.otero-zg5kjA6Mr10@public.gmane.org>
+Jonathan Nieder <jrnieder-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Kevin O'Gorman <kevinogorman4-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Michael Welsh Duggan <mwd-etTNj8cnB6w@public.gmane.org>
+Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>
+Regid Ichira <regid23-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>
+Reuben Thomas <rrt-0NV8xZLkR+A@public.gmane.org>
+Ricardo Catalinas Jim=E9nez <jimenezrick-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+Tetsuo Handa <penguin-kernel-1yMVhJb1mP/7nzcFbJAaVXf5DAMn2ifp@public.gmane.org>
+<who-t+iU6Fs6Cel2agKppZcdFSwD8/FfD2ys@public.gmane.org>
 
-Note further that the The BSD folk already have this behaviour documented in their man pages:
+Apologies if I missed anyone!
 
-http://www.freebsd.org/cgi/man.cgi?query=strchr&apropos=0&sektion=0&manpath=FreeBSD+8.2-RELEASE&arch=default&format=html
 
-PATCH
------
+New and rewritten pages
+-----------------------
 
-Patch applies against latest version of man-pages git repository.
+malloc_trim.3
+    Michael Kerrisk
+        New man page for malloc_trim(3)
 
-An alternative to the provided patch for strchr.3 only would be to simply add the following to
-strchr.3 (taken from the FreeBSD man page):
+malloc_usable_size.3
+    Michael Kerrisk
+        New man page for malloc_usable_size(3)
 
-	The terminating null character is considered part of the string;
-	therefore if c is `\0', the functions locate the terminating `\0'.
 
-However, note that the FreeBSD man page for memchr.3 also omits to explain the behaviour should c be
-'\0'. This appears to be because the FreeBSD man pages are based upon the POSIX specification
-document which is similarly vague upon this point.
+Newly documented interfaces in existing pages
+---------------------------------------------
 
-Kind regards,
+prctl.2
+    Cyrill Gorcunov
+        Document PR_SET_MM (new in Linux 3.3)
+    Michael Kerrisk
+        Various edits and improvements to Cyrill's patch
 
-James
+
+Changes to individual pages
+---------------------------
+
+epoll_create.2
+    Michael Kerrisk
+        Rework discussion of 'size' argument
+    Michael Kerrisk
+        Add .SS for description of epoll_create1()
+
+epoll_wait.2
+    Michael Kerrisk  [Armin Rigo]
+        Another thread can add to epoll instance while epoll_wait is bl=
+ocked
+            See https://bugzilla.kernel.org/show_bug.cgi?id=3D43072
+    Michael Kerrisk
+        Clarify that epoll_pwait() blocks calling *thread*
+        A few wording improvements
+
+fchmodat.2
+    Michael Kerrisk  [Mike Frysinger]
+        Note difference between glibc wrapper and underlying system cal=
+l
+            The wrapper function has a 'flags' argument (which currentl=
+y
+            serves no purpose), while the underlying system call does n=
+ot.
+
+fcntl.2
+    Abhijith Das
+        Explain behaviour of F_GETLEASE during lease break
+    Michael Kerrisk  [Eric Blake]
+        Change type of arg from "long" to "int"
+            Various fcntl(2) commands require an integral 'arg'.
+            The man page said it must be "long" in all such cases.
+            However, for the cases covered by POSIX, there is an
+            explicit requirement that these arguments be "int".
+            Update the man page to reflect. Probably, all of the
+            other "long" cases (not specified in POSIX) should
+            be "int", and this patch makes them so. Based on a
+            note fromEric Blake, relating to F_DUPFD_CLOEXEC.
+
+gettimeofday.2
+    Michael Kerrisk
+        Reorganize content
+            The main change is to move the historical information about
+            the 'tz_dsttime' to NOTES.
+    Michael Kerrisk  [Felix]
+        Note that compiler issues warnings if 'tv' is NULL
+
+mmap.2
+    Michael Kerrisk  [Kevin O'Gorman]
+        Clarify that this system call should not be invoked directly
+            See https://bugzilla.kernel.org/show_bug.cgi?id=3D42892
+    Michael Kerrisk
+        Clarify NOTES discussion of mmap() versus mmap2()
+
+poll.2
+    Michael Kerrisk  [Michael Welsh Duggan]
+        Document negative value in 'fd' field
+    Michael Kerrisk
+        Document semantics of passing zero in 'events' field
+
+ptrace.2
+    Denys Vlasenko
+        Various fixes
+            For some reason, the PTRACE_TRACEME paragraph talks about s=
+ome
+            general aspects of ptraced process behavior. It repeats the
+            "tracee stops on every signal" information even though that=
+ was
+            already explained just a few paragraphs before. Then it des=
+cribes
+            legacy SIGTRAP on execve().
+
+            This patch deletes the first part, and moves the second par=
+t up,
+            into the general ptrace description. It also adds
+            "If PTRACE_O_TRACEEXEC option is not in effect" to the desc=
+ription
+            of the legacy SIGTRAP on execve().
+
+            The patch also amends the part which says "For requests oth=
+er
+            than PTRACE_KILL, the tracee must be stopped." - PTRACE_ATT=
+ACH
+            also doesn't require that.
+
+sigaction.2
+    Michael Kerrisk  [Andreas Jaeger, ]
+        Clarify that the use of SI_SIGIO is for Linux 2.2 only
+            See also http://sourceware.org/bugzilla/show_bug.cgi?id=3D6=
+745
+
+sigprocmask.2
+    Mike Frysinger
+        ERRORS: add EFAULT
+
+times.2
+    Michael Kerrisk  [Simone Piccardi]
+        ERRORS: Add EFAULT
+
+div.3
+    Michael Kerrisk  [Reuben Thomas]
+        CONFORMING TO: Add C99
+
+fread.3
+    Regid Ichira
+        Clarify further that return value is number of items, not bytes
+            See also http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D=
+665780
+
+getaddrinfo.3
+    Michael Kerrisk  [Jak]
+        Correct type of ai_addrlen field
+
+malloc.3
+    Michael Kerrisk
+        SEE ALSO: add malloc_usable_size(3)
+        SEE ALSO: Add malloc_trim(3)
+
+mallopt.3
+    Michael Kerrisk
+        Fix text describing M_PERTURB and free()
+        SEE ALSO: Add malloc_trim(3)
+
+memchr.3
+    Michael Kerrisk  [Reuben Thomas]
+        Remove mention of terminating null in description of rawmemchr(=
+)
+
+perror.3
+    Michael Kerrisk  [Jesus Otero]
+        Note that use of 'sys_errlist' is deprecated
+
+rcmd.3
+    Michael Kerrisk
+        glibc eventually added a declaration of iruserok() in version 2=
+=2E12
+
+sysconf.3
+    Michael Kerrisk  [Ricardo Catalinas Jim=E9nez]
+        Add mention of _SC_SYMLOOP_MAX
+
+nologin.5
+    Michael Kerrisk  [Tetsuo Handa]
+        nologin must not only exist, but *be readable* to be effective
+
+nsswitch.conf.5
+    Mark R Bannister
+        Significant rewrites and improvements
+            This patch applies to nsswitch.conf.5 in man-pages-3.36.
+
+            My changes almost completely rewrite large sections of the
+            man page. They are needed to add clarity, correct grammar,
+            reduce confusion, and bring up-to-date with the latest glib=
+c.
+            I have checked the man page against the nss source code in
+            glibc 2.14.90.
+
+            Historical notes are demoted to the footer.
+
+            The rewrite makes the man page much clearer to
+            understand, more authoratitive, and easier to read.
+    Michael Kerrisk
+        Light edits to Mark Bannister's changes
+
+capabilities.7
+    Michael Kerrisk
+        Add prctl(PR_SET_MM) to CAP_SYS_RESOURCE
+
+epoll.7
+    Michael Kerrisk
+        Some minor clarifications at start of DESCRIPTION
+
+netlink.7
+    Jeff Mahoney  [Petr Gajdos]
+        Note cases where nonprivileged users can use netlink multicast =
+groups
+            See also https://bugzilla.novell.com/show_bug.cgi?id=3D7546=
+11
+
+unix.7
+    Michael Kerrisk  [Tetsuo Handa]
+        Add a detail on autobind feature
+
+ld.so.8
+    Jonathan Nieder  [Reuben Thomas]
+        Document effect of hwcaps on search path
+            Wording by Aurelien Jarno from Debian glibc's r4701 (2011-0=
+6-04).
+
+            Addresses http://bugs.debian.org/622385
+
 --
-James Hunt
-____________________________________
-http://upstart.ubuntu.com/cookbook
-http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf
-
-
---------------050404060607000104010106
-Content-Type: text/x-csrc;
- name="test_strchr.c"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="test_strchr.c"
-
-/*
- * Program to show how various string handling calls behave when given a nul ('\0') to find in a
- * string.
- *
- * Author: James Hunt (james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org)
- */
-
-/* for strchrnul() */
-#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdarg.h>
-#include <assert.h>
-
-int
-main(int argc, char *argv[])
-{
-  size_t len;
-  char c;
-  char *sp;
-  char string[] = "foo bar. Hello, world!";
-
-  len = strlen(string);
-  fprintf(stderr, "string='%s' (len=%d, start=%p, end=%p ['%c'], nul=%p ['%c'])\n\n",
-      string, (int)len,
-      string,
-      string+len-1,
-      *(string+len-1),
-      string+len,
-      *(string+len));
-
-  c  = 'f';
-  sp = "f";
-  fprintf(stderr, "strchr     ('%s', '%c')              returned %p\n", string, c, strchr(string, c));
-  fprintf(stderr, "memchr     ('%s', '%c', strlen(s))   returned %p\n", string, c, memchr(string, c, strlen(string)));
-  fprintf(stderr, "memchr     ('%s', '%c', 1+strlen(s)) returned %p\n", string, c, memchr(string, c, 1+strlen(string)));
-  fprintf(stderr, "strrchr    ('%s', '%c')              returned %p\n", string, c, strrchr(string, c));
-  fprintf(stderr, "strchrnul  ('%s', '%c')              returned %p\n", string, c, strchrnul(string, c));
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-
-  fputc ('\n', stderr);
-
-  c  = 'o';
-  sp = "o";
-  fprintf(stderr, "strchr     ('%s', '%c')              returned %p\n", string, c, strchr(string, c));
-  fprintf(stderr, "memchr     ('%s', '%c', strlen(s))   returned %p\n", string, c, memchr(string, c, strlen(string)));
-  fprintf(stderr, "memchr     ('%s', '%c', 1+strlen(s)) returned %p\n", string, c, memchr(string, c, 1+strlen(string)));
-  fprintf(stderr, "strrchr    ('%s', '%c')              returned %p\n", string, c, strrchr(string, c));
-  fprintf(stderr, "strchrnul  ('%s', '%c')              returned %p\n", string, c, strchrnul(string, c));
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-
-  fputc ('\n', stderr);
-
-  c  = '!';
-  sp = "!";
-  fprintf(stderr, "strchr     ('%s', '%c')              returned %p\n", string, c, strchr(string, c));
-  fprintf(stderr, "memchr     ('%s', '%c', strlen(s))   returned %p\n", string, c, memchr(string, c, strlen(string)));
-  fprintf(stderr, "memchr     ('%s', '%c', 1+strlen(s)) returned %p\n", string, c, memchr(string, c, 1+strlen(string)));
-  fprintf(stderr, "strrchr    ('%s', '%c')              returned %p\n", string, c, strrchr(string, c));
-  fprintf(stderr, "strchrnul  ('%s', '%c')              returned %p\n", string, c, strchrnul(string, c));
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-
-  fputc ('\n', stderr);
-
-  c  = '\0';
-  sp = "";
-  fprintf(stderr, "strchr     ('%s', '%c')              returned %p\n", string, c, strchr(string, c));
-  fprintf(stderr, "memchr     ('%s', '%c', strlen(s))   returned %p\n", string, c, memchr(string, c, strlen(string)));
-  fprintf(stderr, "memchr     ('%s', '%c', 1+strlen(s)) returned %p\n", string, c, memchr(string, c, 1+strlen(string)));
-  fprintf(stderr, "strrchr    ('%s', '%c')              returned %p\n", string, c, strrchr(string, c));
-  fprintf(stderr, "strchrnul  ('%s', '%c')              returned %p\n", string, c, strchrnul(string, c));
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-  sp = "\0";
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-
-  /* XXX: not valid calls */
-#if 0
-  fprintf(stderr, "strstr     (NULL, '%s') returned %p\n", "X", strstr(NULL, "X"));
-  fprintf(stderr, "strstr     (NULL, '%s') returned %p\n", "\0", strstr(NULL, "\0"));
-  fprintf(stderr, "strstr     ('%s', NULL) returned %p\n", string, strstr(string, NULL));
-  /* XXX: core dumps */
-#endif
-
-  fputc ('\n', stderr);
-
-  c  = 'Z';
-  sp = "Z";
-  fprintf(stderr, "strchr     ('%s', '%c')              returned %p\n", string, c, strchr(string, c));
-  fprintf(stderr, "memchr     ('%s', '%c', strlen(s))   returned %p\n", string, c, memchr(string, c, strlen(string)));
-  fprintf(stderr, "memchr     ('%s', '%c', 1+strlen(s)) returned %p\n", string, c, memchr(string, c, 1+strlen(string)));
-  fprintf(stderr, "strrchr    ('%s', '%c')              returned %p\n", string, c, strrchr(string, c));
-  fprintf(stderr, "strchrnul  ('%s', '%c')              returned %p\n", string, c, strchrnul(string, c));
-  fprintf(stderr, "strstr     ('%s', '%s')              returned %p\n", string, sp, strstr(string, sp));
-
-  exit(EXIT_SUCCESS);
-}
-
-
---------------050404060607000104010106
-Content-Type: text/x-diff;
- name="0001-Explain-behaviour-of-memchr-strchr-when-searching-fo.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename*0="0001-Explain-behaviour-of-memchr-strchr-when-searching-fo.pa";
- filename*1="tch"
-
->From 7f4c2265f6ca97b0d11cfb8eb242ffd0a6ec03bb Mon Sep 17 00:00:00 2001
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Date: Tue, 29 Nov 2011 09:32:38 +0000
-Subject: Explain behaviour of memchr+strchr when searching for null byte.
-
----
- man3/memchr.3 |   21 +++++++++++++++++++++
- man3/strchr.3 |    7 +++++++
- 2 files changed, 28 insertions(+), 0 deletions(-)
-
-diff --git a/man3/memchr.3 b/man3/memchr.3
-index af8f314..873ea48 100644
---- a/man3/memchr.3
-+++ b/man3/memchr.3
-@@ -109,6 +109,27 @@ The
- .BR rawmemchr ()
- function returns a pointer to the matching byte, if one is found.
- If no matching byte is found, the result is unspecified.
-+.SH NOTES
-+If \fIn\fP is large enough to include the null byte (\(aq\\0\(aq) at the
-+end of \fIs\fP and the character \fIc\fP is specified as the null byte,
-+.BR memchr ()
-+behaves like 
-+.BR strchr (3) "" ","
-+returning a pointer to the null byte at the end of \fIs\fP rather than
-+NULL.
-+.in +4n
-+.nf
-+
-+char str[] = "abc";
-+char *p;
-+
-+/* will set \(aqp\(aq to NULL */
-+p = memchr(str, \(aq\\0\(aq, strlen(str));
-+
-+/* will set \(aqp\(aq to address of terminating null of \(aqstr\(aq */
-+p = memchr(str, \(aq\\0\(aq, strlen(str) + 1);
-+.fi
-+.in
- .SH VERSIONS
- .BR rawmemchr ()
- first appeared in glibc in version 2.1.
-diff --git a/man3/strchr.3 b/man3/strchr.3
-index b2ecfef..8ff2906 100644
---- a/man3/strchr.3
-+++ b/man3/strchr.3
-@@ -72,6 +72,13 @@ and
- .BR strrchr ()
- functions return a pointer to
- the matched character or NULL if the character is not found.
-+.PP
-+If the character \fIc\fP is specified as the null byte (\(aq\\0\(aq),
-+.BR strchr ()
-+and
-+.BR strrchr ()
-+return a pointer to address of the null byte at the end of \fIs\fP,
-+rather than NULL.
- 
- The
- .BR strchrnul ()
--- 
-1.7.5.4
-
-
-
---------------050404060607000104010106--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
