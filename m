@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 42042] strchr(3) and memchr(3) should explain behaviour when
  character 'c' is '\0'.
-Date: Mon, 23 Apr 2012 20:36:57 GMT
-Message-ID: <201204232036.q3NKavrf000617@bugzilla.kernel.org>
+Date: Mon, 23 Apr 2012 20:46:34 GMT
+Message-ID: <201204232046.q3NKkYIa000758@bugzilla.kernel.org>
 References: <bug-42042-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,23 +18,11 @@ https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
 
 
---- Comment #7 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-23 20:36:56 ---
-James,
-
-Regarding memchr(), I'm not sure a change is warranted. memchr() is defined in
-terms of 'bytes' and 'memory areas', rather than strings, so I'd have said it
-would take an obtuse reading to consider that '\0' is interpreted specially
-(whereas, as you say, one could be left doubtful about what strchr() does when
-c is '\0'). 
-
-I'd guess that this is also why POSIX and the FreeBSD man page make no
-statement on this pont.
-
-So, I'm inclined not to make a change.
-
-Thanks,
-
-Michael
+--- Comment #8 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-23 20:46:33 ---
+One further note about memchr(3) though. It does talk about the argument c as a
+*character*, and rawmemchr() also talks about strings, which clouds the issue
+somewhat. I'll do some rewrites there to refer rather to "bytes" and "memory
+areas".
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
