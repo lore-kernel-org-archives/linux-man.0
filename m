@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 42042] strchr(3) and memchr(3) should explain behaviour when
  character 'c' is '\0'.
-Date: Mon, 23 Apr 2012 21:19:03 GMT
-Message-ID: <201204232119.q3NLJ3CG001506@bugzilla.kernel.org>
+Date: Mon, 23 Apr 2012 21:19:13 GMT
+Message-ID: <201204232119.q3NLJDvK001541@bugzilla.kernel.org>
 References: <bug-42042-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,14 +15,15 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=42042
 
 
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
---- Comment #9 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-04-23 21:19:03 ---
-James, all changes are pushed to kernel.org git now.
-
-I'll close this now. Please reopen if you thing there's more to be said about
-memchr().
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
