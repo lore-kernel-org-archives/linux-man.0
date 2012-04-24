@@ -1,85 +1,72 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Explain how to read a single inotify event.
-Date: Tue, 24 Apr 2012 09:43:11 +1200
-Message-ID: <CAKgNAkgB3_SUsnH0-c8X6Lute8amtEkw0VtrsCqFGWn+c4yfQA@mail.gmail.com>
-References: <4EDDE325.2080203@ubuntu.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] ptrace(2): note SPARC deviation wrt get/set regs
+Date: Mon, 23 Apr 2012 23:55:38 -0400
+Message-ID: <201204232355.39879.vapier@gentoo.org>
+References: <1256454909-22861-1-git-send-email-vapier@gentoo.org> <CAKgNAkgntJqu4UkeusJV-oak6ksM6_Y4z3GeYTfg0JD2tQ4jww@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: multipart/signed;
+  boundary="nextPart4090786.6kh8LK3X5y";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EDDE325.2080203-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAKgNAkgntJqu4UkeusJV-oak6ksM6_Y4z3GeYTfg0JD2tQ4jww-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi James,
+--nextPart4090786.6kh8LK3X5y
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 6, 2011 at 10:40 PM, James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
-> man7/inotify.7:
->
-> - Explain how to read a single inotify event.
-> - Add missing "struct" in explanation of event size.
+On Sunday 22 April 2012 14:56:14 Michael Kerrisk (man-pages) wrote:
+> You long ago sent the patch below, but I didn't respond. I'm just
+> pulling up a few old ptrace pieces now for review.
+>=20
+> Your patch below relates to PTRACE_GETREGS, PTRACE_GETFPREGS,
+> PTRACE_SETREGS, PTRACE_SETFPREGS. (The patch below no longer is
+> current, but is easy to fix)
+>=20
+> Looking at arch/sparc/kernel/ptrace_32.c, I think I see what the point
+> of the patch is. However, the text is a bit cryptic. Would it not be
+> better to say something like
 
-Re your patch:
+seemed clear to me, but i wrote it ;)
 
-> --- a/man7/inotify.7
-> +++ b/man7/inotify.7
-> @@ -144,7 +144,7 @@ including the null bytes;
->  the length of each
->  .I inotify_event
->  structure is thus
-> -.IR "sizeof(inotify_event)+len" .
-> +.IR "sizeof(struct inotify_event)+len" .
+> [[
+> Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP
+> reversed; that is, \fIdata\fP is ignored and the registers are copied to
+> [from] \fIaddr\fP.
+> ]]
 
-Applied.
+i'd suggest "via" rather than "to [from]"
+=2Dmike
 
->  The behavior when the buffer given to
->  .BR read (2)
-> @@ -417,6 +417,28 @@ be aware that by the time you create a watch for the new subdirectory,
->  new files may already have been created in the subdirectory.
->  Therefore, you may want to scan the contents of the subdirectory
->  immediately after adding the watch.
-> +
-> +To read a
-> +.B single
-> +event requires the buffer provided to
-> +.BR read (2)
-> +be large enough to hold the event. However, since inotify employs
-> +variable-length events for files in a watched directory (via the
-> +.I name
-> +field), it is not possible to know exactly how big such a
-> +buffer should be since the event itself has not yet been read. One
-> +method to overcome this limitation is to start with a buffer of size
-> +.I sizeof(struct inotify_event)
-> +and attempt to read the event. If this fails with
-> +.BR EINVAL ","
-> +continue to increase the buffer size by one byte up to
-> +.I "sizeof(struct inotify_event)+NAME_MAX"
-> +until
-> +.BR read (2)
-> +does not returnvi
-> +.BR EINVAL "."
-> +Note that this technique is not particularly efficient.
-> +
->  .SH "BUGS"
->  In kernels before 2.6.16, the
->  .B IN_ONESHOT
+--nextPart4090786.6kh8LK3X5y
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
 
-I've just now added a note to the page that specifying a buffer size
-of at least "sizeof(struct inotify_event) + NAME_MAX + 1"  is
-sufficient to read *at least* one event. My question is, why do you
-want to propose this technique for reading a *single* event.?
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
 
-Cheers,
+iQIcBAABAgAGBQJPliQ7AAoJEEFjO5/oN/WBz5wP/j7kEXP9K6eh2kHHojv2v4i/
+PBC3SrxGykHRKH5Ccj1ZiND1ftOsdRJt66tb5dxczExIQNSFXIRVSx+9wlVjqf0e
+Aic1M2kXTQ22hH6TS8erbvjj1mbz0wiZLCpqZNuhO1AfKcI2sU9Tzx5vzvxhduMk
+63/48Q3ZhPnV5Idc8v2hrdga1O26dSpcme9CrTWBFVWoRa1bwzZer+Am/L+K29bh
+Ey3qrzoI/0nhtl3Y42b6AbglTtY5UyG39hMLf3WTBGYPkJQ3B9cSzuH/x3Ks3dYQ
+DPNJQ9AZV/HI+gVBSj3Qn59aYi9yUshYroXGYEh07JFNFge76wtCKYxK6Tr/hdxY
+KpE2iink0+Mo/nN3pdZxoXj5mMiFbG1aFhHkcnQh9H7OVRqXlNAXGa5iNTEkLC6x
+aPPdqCbo47Z6mCwUGjgfnbmo2TpTLJt+604y6PaDJY3OedE4VCDLs58Z2yiCypVQ
+GxV/Tk7Y9wBV4n1lZA+EX9xXACJfRw1W1EjmepDiG/rLxo19QG6li+Z5XUQjQURh
+jUI3CH2bQxDH0VpklmK9t/f4MzkFkwTik6Rj7G6vkSNTveNbNeyYm1CpSlAXIflQ
+5Rnqk4ukCy7oTPN64KvAPzpTG7sG1jRizhAmjlgKl3GxZqI7fsLldbL8sBeGugxV
+HdPKfvdmEbs9CcDcOXSl
+=e1d7
+-----END PGP SIGNATURE-----
 
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--nextPart4090786.6kh8LK3X5y--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
