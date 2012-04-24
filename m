@@ -1,96 +1,123 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
-Date: Tue, 24 Apr 2012 00:24:55 -0400
-Message-ID: <201204240024.56967.vapier@gentoo.org>
-References: <1331358148-17235-1-git-send-email-vapier@gentoo.org> <201204140036.28834.vapier@gentoo.org> <CAKgNAkjh46Bpar7qkJBn_r4D1qtFkbK_QLVfE3ESgEuaYMGp5g@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] ptrace(2): note SPARC deviation wrt get/set regs
+Date: Tue, 24 Apr 2012 18:05:52 +1200
+Message-ID: <CAKgNAkg7i0MBzanheV+rgFaQzyztEGjh=OqAed_uavscyAtfKg@mail.gmail.com>
+References: <1256454909-22861-1-git-send-email-vapier@gentoo.org>
+ <CAKgNAkgntJqu4UkeusJV-oak6ksM6_Y4z3GeYTfg0JD2tQ4jww@mail.gmail.com> <201204232355.39879.vapier@gentoo.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart1443432.p8WSdIumsd";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjh46Bpar7qkJBn_r4D1qtFkbK_QLVfE3ESgEuaYMGp5g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <201204232355.39879.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---nextPart1443432.p8WSdIumsd
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 24, 2012 at 3:55 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> On Sunday 22 April 2012 14:56:14 Michael Kerrisk (man-pages) wrote:
+>> You long ago sent the patch below, but I didn't respond. I'm just
+>> pulling up a few old ptrace pieces now for review.
+>>
+>> Your patch below relates to PTRACE_GETREGS, PTRACE_GETFPREGS,
+>> PTRACE_SETREGS, PTRACE_SETFPREGS. (The patch below no longer is
+>> current, but is easy to fix)
+>>
+>> Looking at arch/sparc/kernel/ptrace_32.c, I think I see what the point
+>> of the patch is. However, the text is a bit cryptic. Would it not be
+>> better to say something like
+>
+> seemed clear to me, but i wrote it ;)
+>
+>> [[
+>> Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP
+>> reversed; that is, \fIdata\fP is ignored and the registers are copied to
+>> [from] \fIaddr\fP.
+>> ]]
+>
+> i'd suggest "via" rather than "to [from]"
 
-On Saturday 14 April 2012 17:22:06 Michael Kerrisk (man-pages) wrote:
-> The count arguments and
-> .IR local_iov
-> are checked before doing any transfers.
-> If the counts are too big, or
-> .I local_iov
-> is invalid,
-> or the addresses refer to regions that are inaccessible to the local
-> process, none of the vectors will be processed
-> and an error will be returned immediately.
+Thanks Mike. I've applied the patch below for 3.40.
 
-to be clear, the arrays themselves are checked to see if they point to vali=
-d=20
-memory, as are the count values, before the transfer takes place.  so if=20
-local_iov/remote_iov are NULL or similarly invalid, nothing happens.  in=20
-practice, this generally equates to the same thing, but there is a slight e=
-dge=20
-case -- if the remote_iov array is mostly valid, but the remote count value=
-=20
-causes it to spill into invalid memory, nothing will be processed.  note th=
-at=20
-i'm talking about the storage of the elements themselves and not the memory=
-=20
-they point to.  but maybe being super pedantic here isn't necessary ...
+Cheers,
 
-> Note, however, that these system calls do not check the memory regions
-> in the remote process until just before doing the read/write.
-> Consequently, a partial read/write may result if one of the
+Michael
 
-any mention of a partial read/write should point to the text clarifying wha=
-t=20
-that means (perhaps something as simple as "see RETURN VALUE for more info".
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -213,24 +213,32 @@ some modifications to the USER area are disallowed.
+ .\" and when they are disallowed, how does userspace discover that fact?
+ .TP
+ .BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
+ Copy the tracee's general-purpose or floating-point registers,
+ respectively, to the address
+ .I data
+ in the tracer.
+ See
+ .I <sys/user.h>
+ for information on the format of this data.
+ .RI ( addr
+ is ignored.)
++Note that SPARC systems have the meaning of
++.I data
++and
++.I addr
++reversed; that is,
++.I data
++is ignored and the registers are copied to the address
++.IR addr .
+ .TP
+ .BR PTRACE_GETSIGINFO " (since Linux 2.3.99-pre6)"
+ Retrieve information about the signal that caused the stop.
+ Copy a
+ .I siginfo_t
+ structure (see
+ .BR sigaction (2))
+ from the tracee to the address
+ .I data
+ in the tracer.
+ .RI ( addr
+ is ignored.)
+@@ -238,24 +246,32 @@ is ignored.)
+ .BR PTRACE_SETREGS ", " PTRACE_SETFPREGS
+ Copy the tracee's general-purpose or floating-point registers,
+ respectively, from the address
+ .I data
+ in the tracer.
+ As for
+ .BR PTRACE_POKEUSER ,
+ some general-purpose register modifications may be disallowed.
+ .\" FIXME In the preceding sentence, which modifications are disallowed,
+ .\" and when they are disallowed, how does userspace discover that fact?
+ .RI ( addr
+ is ignored.)
++Note that SPARC systems have the meaning of
++.I data
++and
++.I addr
++reversed; that is,
++.I data
++is ignored and the registers are copied from the address
++.IR addr .
+ .TP
+ .BR PTRACE_SETSIGINFO " (since Linux 2.3.99-pre6)"
+ Set signal information:
+ copy a
+ .I siginfo_t
+ structure from the address
+ .I data
+ in the tracer to the tracee.
+ This will affect only signals that would normally be delivered to
+ the tracee and were caught by the tracer.
+ It may be difficult to tell
+ these normal signals from synthetic signals generated by
 
-> Does that not make better sense?
 
-it does
 
-> Perhaps I'm too clogged up with a cold, but I couldn't draw an answer
-> to the question " does "a single iovec element" here apply to the
-> remote iovec elements, the local iovec elements, or both?" from your
-> reply.
-
-wrt partial transfers, remote only afaict.  this is by virtue of nothing be=
-ing=20
-transferred at all if any of the local elements are invalid.
-=2Dmike
-
---nextPart1443432.p8WSdIumsd
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iQIcBAABAgAGBQJPlisYAAoJEEFjO5/oN/WBHBgQANdFbAddKVA4Ix6v3Z0qdhX4
-wGG2xjOsiW3ND34FU9uDwkLk131Hkmy8se6ZRveujSCbwaOhGZIdY9N8JJbiRaSJ
-4QoUJTwuZI+8PwwtsycJKgnz7kPgRCFd8V8F3XutLLKL0omROHMgWs3RKiXR8H9k
-KMPqnlFUNXFnfioZIfGQ6ae3a+v5rtH0KdqJACjfq1tV5SyjOCHkfMbC6ogoPXdz
-CQn+fOs0XFyblWgMSIRGeYDSVAb2zuRt/PZ63iHe3JrvO4N7LXQw6BkOVTVbQQAW
-NQXq6SFzEhfa2jxCau5qKTsznb91Y1nyBjNXSq7ipkcKQHYK+9ffA1izUjEREQCB
-uymhQRJVfs/JQ8NK7SU31MjL3/AtW9CAp4VavojAGgq3FL3XrWLpsUKikqFztxH6
-JSqtSBWvFTl6FDlMe1nwyASc3FDOER8FUfSqtFUU1tky/0zSFojXD2UEaXLDtifH
-c+8NRHhd0ZaLP3X5VYJRkWlWUMucQMyt8ye6s8edYu/U2w4+C7dzJMwbNZM5H5iU
-CjDD3e3N8syK+ZDIIQrtGlTqBrVn0rq/kz9JXj2l4dfzaMgl/xYRpZSaiqMTLUwa
-BIeFiU7CfBi16HCFrO+WNSTHvgHXrpiPxyO8AwWoznB1ng5sybE8io2HnrTzffha
-KY3umPn464eDsSfZIjtF
-=nyf0
------END PGP SIGNATURE-----
-
---nextPart1443432.p8WSdIumsd--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
