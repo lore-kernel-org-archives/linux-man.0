@@ -1,120 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ptrace(2): note SPARC deviation wrt get/set regs
-Date: Tue, 24 Apr 2012 18:05:52 +1200
-Message-ID: <CAKgNAkg7i0MBzanheV+rgFaQzyztEGjh=OqAed_uavscyAtfKg@mail.gmail.com>
-References: <1256454909-22861-1-git-send-email-vapier@gentoo.org>
- <CAKgNAkgntJqu4UkeusJV-oak6ksM6_Y4z3GeYTfg0JD2tQ4jww@mail.gmail.com> <201204232355.39879.vapier@gentoo.org>
+Subject: Re: [PATCH] process_vm_{read,write}v(3): initial man pages
+Date: Tue, 24 Apr 2012 21:07:52 +1200
+Message-ID: <CAKgNAki+hiCAdGe9ExFsY2MwsLE=yvHib+nb5WQbXqtBXCqHMw@mail.gmail.com>
+References: <1331358148-17235-1-git-send-email-vapier@gentoo.org>
+ <201204140036.28834.vapier@gentoo.org> <CAKgNAkjh46Bpar7qkJBn_r4D1qtFkbK_QLVfE3ESgEuaYMGp5g@mail.gmail.com>
+ <201204240024.56967.vapier@gentoo.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201204232355.39879.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <201204240024.56967.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Christopher Yeoh <cyeoh-8fk3Idey6ehBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Apr 24, 2012 at 3:55 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> On Sunday 22 April 2012 14:56:14 Michael Kerrisk (man-pages) wrote:
->> You long ago sent the patch below, but I didn't respond. I'm just
->> pulling up a few old ptrace pieces now for review.
->>
->> Your patch below relates to PTRACE_GETREGS, PTRACE_GETFPREGS,
->> PTRACE_SETREGS, PTRACE_SETFPREGS. (The patch below no longer is
->> current, but is easy to fix)
->>
->> Looking at arch/sparc/kernel/ptrace_32.c, I think I see what the point
->> of the patch is. However, the text is a bit cryptic. Would it not be
->> better to say something like
->
-> seemed clear to me, but i wrote it ;)
->
->> [[
->> Note that SPARC systems have the meaning of \fIdata\fP and \fIaddr\fP
->> reversed; that is, \fIdata\fP is ignored and the registers are copied to
->> [from] \fIaddr\fP.
->> ]]
->
-> i'd suggest "via" rather than "to [from]"
+Hi Mike,
 
-Thanks Mike. I've applied the patch below for 3.40.
+On Tue, Apr 24, 2012 at 4:24 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
+te:
+> On Saturday 14 April 2012 17:22:06 Michael Kerrisk (man-pages) wrote:
+>> The count arguments and
+>> .IR local_iov
+>> are checked before doing any transfers.
+>> If the counts are too big, or
+>> .I local_iov
+>> is invalid,
+>> or the addresses refer to regions that are inaccessible to the local
+>> process, none of the vectors will be processed
+>> and an error will be returned immediately.
+>
+> to be clear, the arrays themselves are checked to see if they point t=
+o valid
+> memory, as are the count values, before the transfer takes place. =A0=
+so if
+> local_iov/remote_iov are NULL or similarly invalid, nothing happens. =
+=A0in
+> practice, this generally equates to the same thing, but there is a sl=
+ight edge
+> case -- if the remote_iov array is mostly valid, but the remote count=
+ value
+> causes it to spill into invalid memory, nothing will be processed. =A0=
+note that
+> i'm talking about the storage of the elements themselves and not the =
+memory
+> they point to. =A0but maybe being super pedantic here isn't necessary=
+ ...
+>
+>> Note, however, that these system calls do not check the memory regio=
+ns
+>> in the remote process until just before doing the read/write.
+>> Consequently, a partial read/write may result if one of the
+>
+> any mention of a partial read/write should point to the text clarifyi=
+ng what
+> that means (perhaps something as simple as "see RETURN VALUE for more=
+ info".
+
+I added a reference to RETURN VALUE there.
+
+>> Does that not make better sense?
+>
+> it does
+
+Good.
+
+>> Perhaps I'm too clogged up with a cold, but I couldn't draw an answe=
+r
+>> to the question " does "a single iovec element" here apply to the
+>> remote iovec elements, the local iovec elements, or both?" from your
+>> reply.
+>
+> wrt partial transfers, remote only afaict. =A0this is by virtue of no=
+thing being
+> transferred at all if any of the local elements are invalid.
+
+Okay -- I added the word "remote".
 
 Cheers,
 
 Michael
 
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -213,24 +213,32 @@ some modifications to the USER area are disallowed.
- .\" and when they are disallowed, how does userspace discover that fact?
- .TP
- .BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
- Copy the tracee's general-purpose or floating-point registers,
- respectively, to the address
- .I data
- in the tracer.
- See
- .I <sys/user.h>
- for information on the format of this data.
- .RI ( addr
- is ignored.)
-+Note that SPARC systems have the meaning of
-+.I data
-+and
-+.I addr
-+reversed; that is,
-+.I data
-+is ignored and the registers are copied to the address
-+.IR addr .
- .TP
- .BR PTRACE_GETSIGINFO " (since Linux 2.3.99-pre6)"
- Retrieve information about the signal that caused the stop.
- Copy a
- .I siginfo_t
- structure (see
- .BR sigaction (2))
- from the tracee to the address
- .I data
- in the tracer.
- .RI ( addr
- is ignored.)
-@@ -238,24 +246,32 @@ is ignored.)
- .BR PTRACE_SETREGS ", " PTRACE_SETFPREGS
- Copy the tracee's general-purpose or floating-point registers,
- respectively, from the address
- .I data
- in the tracer.
- As for
- .BR PTRACE_POKEUSER ,
- some general-purpose register modifications may be disallowed.
- .\" FIXME In the preceding sentence, which modifications are disallowed,
- .\" and when they are disallowed, how does userspace discover that fact?
- .RI ( addr
- is ignored.)
-+Note that SPARC systems have the meaning of
-+.I data
-+and
-+.I addr
-+reversed; that is,
-+.I data
-+is ignored and the registers are copied from the address
-+.IR addr .
- .TP
- .BR PTRACE_SETSIGINFO " (since Linux 2.3.99-pre6)"
- Set signal information:
- copy a
- .I siginfo_t
- structure from the address
- .I data
- in the tracer to the tracee.
- This will affect only signals that would normally be delivered to
- the tracee and were caught by the tracer.
- It may be difficult to tell
- these normal signals from synthetic signals generated by
-
-
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
