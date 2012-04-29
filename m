@@ -1,54 +1,34 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] open(2): document O_PATH
-Date: Sat, 28 Apr 2012 23:25:17 -0400
-Message-ID: <1335669917-23970-1-git-send-email-vapier@gentoo.org>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] wcsncmp.3
+Date: Sun, 29 Apr 2012 08:46:46 +0400
+Message-ID: <20120429084646.25f0dc12@keeper.home.local>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
----
- man2/open.2 |   16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+Hello.
 
-diff --git a/man2/open.2 b/man2/open.2
-index a655fae..61689cf 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -47,7 +47,6 @@
- .\" FIXME . Apr 08: The next POSIX revision has O_EXEC, O_SEARCH, and
- .\" O_TTYINIT.  Eventually these may need to be documented.  --mtk
- .\" FIXME Linux 2.6.33 has O_DSYNC, and a hidden __O_SYNC.
--.\" FIXME: Linux 2.6.39 added O_PATH
- .\"
- .TH OPEN 2 2012-02-27 "Linux" "Linux Programmer's Manual"
- .SH NAME
-@@ -428,6 +427,21 @@ For a discussion of the effect of
- in conjunction with mandatory file locks and with file leases, see
- .BR fcntl (2).
- .TP
-+.B O_PATH
-+The path is opened for accessing its file attributes only.  Since the file
-+itself is not opened, most operations (such as
-+.BR read (2)
-+or
-+.BR write (2))
-+will return
-+.BR EBADF .
-+You may however use functions that operate on the file descriptor itself
-+such as
-+.BR close (2),
-+functions that duplicate file descriptors, and as the dirfd argument with
-+all the *at style of functions (e.g.
-+.BR openat (2)).
-+.TP
- .B O_SYNC
- The file is opened for synchronous I/O.
- Any
+--- man3/wcsncmp.3      2011-10-11 21:53:58.862937897 +0400
++++ /tmp/wcsncmp.3      2012-04-29 08:45:26.406282573 +0400
+@@ -30,7 +30,7 @@
+ wide-character string pointed to by \fIs2\fP, but at most \fIn\fP wide
+ characters from each string.
+ In each string, the comparison extends only up
+-to the first occurrence of a nulll wide character (L\(aq\\0\(aq), if any.
++to the first occurrence of a null wide character (L\(aq\\0\(aq), if any.
+ .SH "RETURN VALUE"
+ The
+ .BR wcsncmp ()
+
+
 -- 
-1.7.9.7
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
