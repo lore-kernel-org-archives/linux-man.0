@@ -1,47 +1,171 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: missing git tag 3.39 d2f920ab4
-Date: Mon, 30 Apr 2012 08:07:37 +1200
-Message-ID: <CAKgNAkjH-fS7GgS-+-huO-Yb4Q81+4B=-JjoK8ewgYhAJm=jnA@mail.gmail.com>
-References: <20120429002044.GF31953@glenfiddich.mraw.org> <CAKgNAkjhBtSqynxHvKqSuHObK7YOh+LuREphYrdZBCz5p_eV_A@mail.gmail.com>
- <20120429190314.GH31953@glenfiddich.mraw.org>
+Subject: Re: [PATCH] open(2): document O_PATH
+Date: Mon, 30 Apr 2012 09:39:11 +1200
+Message-ID: <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>
+References: <1335669917-23970-1-git-send-email-vapier@gentoo.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120429190314.GH31953-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <1335669917-23970-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 30, 2012 at 7:03 AM, Simon Paillard
-<simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org> wrote:
-> On Mon, Apr 30, 2012 at 06:57:32AM +1200, Michael Kerrisk (man-pages) wrote:
->> On Sun, Apr 29, 2012 at 12:20 PM, Simon Paillard wrote:
->> > Minor but it seems 3.39 tag is missing in git, for commit:
->> > d2f920ab461da9d8 Ready for 3.39
->>
->> There's a tag on d2f920ab461da9d836bfc2d63b52108339efa3ba
->> Is that not what you're looking for? (I did mess up the tagging on
->> 3.39, but I think things are fixed now.)
->
-> Here:
-> $ git describe d2f920ab461da9d836bfc2d63b52108339efa3ba
-> man-pages-3.38-67-gd2f920a
->
-> http://git.kernel.org/?p=docs/man-pages/man-pages.git;a=shortlog doesn't show
-> the tag either, and "git tag -l" doesn't show me the tag.
->
-> http://git.kernel.org/?p=docs/man-pages/man-pages.git;a=tags show the tab
-> object exists however..
+Hi Mike,
 
-Fixed now, I believe.
+[Al, Aneesh, there is a question for you below]
 
-Cheers,
+On Sun, Apr 29, 2012 at 3:25 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
+te:
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+> =A0man2/open.2 | =A0 16 +++++++++++++++-
+> =A01 file changed, 15 insertions(+), 1 deletion(-)
+>
+> diff --git a/man2/open.2 b/man2/open.2
+> index a655fae..61689cf 100644
+> --- a/man2/open.2
+> +++ b/man2/open.2
+> @@ -47,7 +47,6 @@
+> =A0.\" FIXME . Apr 08: The next POSIX revision has O_EXEC, O_SEARCH, =
+and
+> =A0.\" O_TTYINIT. =A0Eventually these may need to be documented. =A0-=
+-mtk
+> =A0.\" FIXME Linux 2.6.33 has O_DSYNC, and a hidden __O_SYNC.
+> -.\" FIXME: Linux 2.6.39 added O_PATH
+> =A0.\"
+> =A0.TH OPEN 2 2012-02-27 "Linux" "Linux Programmer's Manual"
+> =A0.SH NAME
+> @@ -428,6 +427,21 @@ For a discussion of the effect of
+> =A0in conjunction with mandatory file locks and with file leases, see
+> =A0.BR fcntl (2).
+> =A0.TP
+> +.B O_PATH
+> +The path is opened for accessing its file attributes only. =A0Since =
+the file
+> +itself is not opened, most operations (such as
+> +.BR read (2)
+> +or
+> +.BR write (2))
+> +will return
+> +.BR EBADF .
+> +You may however use functions that operate on the file descriptor it=
+self
+> +such as
+> +.BR close (2),
+> +functions that duplicate file descriptors, and as the dirfd argument=
+ with
+> +all the *at style of functions (e.g.
+> +.BR openat (2)).
+> +.TP
+> =A0.B O_SYNC
+> =A0The file is opened for synchronous I/O.
+> =A0Any
+
+Thanks for the prod. Adding this has been on my list for a while.
+There's actually quite a lot more to say, and I've written the patch
+below. Could you check it over.
+
+Al, Aneesh, there is one question for you in a FIXME below. Could you
+take a look please?
+
+Thanks,
 
 Michael
 
--- 
+
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -428,6 +427,66 @@ For a discussion of the effect of
+ in conjunction with mandatory file locks and with file leases, see
+ .BR fcntl (2).
+ .TP
++.BR O_PATH " (since Linux 2.6.39)"
++.\" commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bd
++Obtain a file descriptor that is used only for fetching file attribute=
+s.
++The file itself is not opened, and most file operations (e.g.,
++.BR read (2),
++.BR write (2))
++fail with the error
++.BR EBADF .
++The following operations
++.I can
++be performed on the resulting file descriptor:
++.RS
++.IP * 3
++Closing the file descriptor
++.RB ( close (2)).
++.\" FIXME Commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bdcw
++.\" message says that closing the file descriptor does not affect
++.\" POSIX locks or dnotify.
++.\" However, my testing shows that it DOES affect dnotify (and inotify=
+).
++.\" Does close() affect POSIX locks?
++.IP *
++Duplicating the file descriptor
++.RB ( dup (2),
++.BR fcntl (2)
++.BR F_DUPFD ,
++etc.).
++.IP *
++Getting and setting file descriptor flags
++.RB ( fcntl (2)
++.BR F_GETFD
++and
++.BR F_SETFD ).
++.IP *
++Passing the file descriptor as the
++.IR dirfd
++argument of
++.BR openat (2)
++and the other "*at()" system calls.
++.IP *
++Passing the file descriptor to another process via a UNIX domain socke=
+t
++(see
++.BR SCM_RIGHTS
++in
++.BR unix (7)).
++.RE
++.IP
++When
++.B O_PATH
++is specified in
++.IR flags ,
++flag bits other than
++.BR O_DIRECTORY
++and
++.BR O_NOFOLLOW
++are ignored.
++If the
++.BR O_NOFOLLOW
++flag is specified,
++then the call returns a file descriptor referring to the symbolic link=
+=2E
++.TP
+ .B O_SYNC
+ The file is opened for synchronous I/O.
+ Any
+@@ -612,8 +671,9 @@ SVr4, 4.3BSD, POSIX.1-2001.
+ The
+ .BR O_DIRECTORY ,
+ .BR O_NOATIME ,
++.BR O_NOFOLLOW ,
+ and
+-.B O_NOFOLLOW
++.BR O_PATH
+ flags are Linux-specific, and one may need to define
+ .B _GNU_SOURCE
+ (before including
+
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
