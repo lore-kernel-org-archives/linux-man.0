@@ -1,35 +1,24 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] prctl.2
-Date: Mon, 30 Apr 2012 14:14:25 +0400
-Message-ID: <20120430141425.08ed0175@keeper.home.local>
+From: Ted Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH] open(2): document O_PATH
+Date: Mon, 30 Apr 2012 07:44:10 -0400
+Message-ID: <20120430114410.GB28308@thunk.org>
+References: <1335669917-23970-1-git-send-email-vapier@gentoo.org>
+ <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>
+ <877gwxacti.fsf@skywalker.in.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <877gwxacti.fsf@skywalker.in.ibm.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Mike Frysinger <vapier@gentoo.org>, linux-man@vger.kernel.org, viro@zeniv.linux.org.uk, Richard Weinberger <richard@nod.at>, lkml <linux-kernel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+It might also be a good idea to document explicitly whether or not
+things like fstat() and the syscalls to manipulate extended attributes
+are expected to work.
 
---- man-pages-git/man2/prctl.2  2012-04-29 11:15:54.881831526 +0400
-+++ /tmp/prctl.2        2012-04-30 14:12:59.192008396 +0400
-@@ -224,7 +224,7 @@
- This value is cleared for the child of a
- .BR fork (2)
- and (since Linux 2.5.36 / 2.6.23)
--when execing a set-user_ID or set-group-ID binary.
-+when executing a set-user_ID or set-group-ID binary.
- .TP
- .BR PR_GET_PDEATHSIG " (since Linux 2.3.15)"
- Return the current value of the parent process death signal,
+Thanks,
 
--- 
-Best Regards,
-Yuri Kozlov
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+					- Ted
