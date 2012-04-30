@@ -1,175 +1,160 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>
 Subject: Re: [PATCH] open(2): document O_PATH
-Date: Mon, 30 Apr 2012 09:39:11 +1200
-Message-ID: <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>
-References: <1335669917-23970-1-git-send-email-vapier@gentoo.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Date: Mon, 30 Apr 2012 13:09:05 +0530
+Message-ID: <877gwxacti.fsf@skywalker.in.ibm.com>
+References: <1335669917-23970-1-git-send-email-vapier@gentoo.org> <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>User-Agent: Notmuch/0.11.1+346~g13d19c3 (http://notmuchmail.org) Emacs/23.3.1 (x86_64-pc-linux-gnu)
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1335669917-23970-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Mike Frysinger <vapier@gentoo.org>
+Cc: linux-man@vger.kernel.org, viro@zeniv.linux.org.uk, Richard Weinberger <richard@nod.at>, lkml <linux-kernel@vger.kernel.org>, Michael Kerrisk <mtk.manpages@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
 
-[Al, Aneesh, there is a question for you below]
-
-On Sun, Apr 29, 2012 at 3:25 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
-te:
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
-> =A0man2/open.2 | =A0 16 +++++++++++++++-
-> =A01 file changed, 15 insertions(+), 1 deletion(-)
+> Hi Mike,
 >
-> diff --git a/man2/open.2 b/man2/open.2
-> index a655fae..61689cf 100644
+> [Al, Aneesh, there is a question for you below]
+>
+> On Sun, Apr 29, 2012 at 3:25 PM, Mike Frysinger <vapier@gentoo.org> w=
+rote:
+>> Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+>> ---
+>> =C2=A0man2/open.2 | =C2=A0 16 +++++++++++++++-
+>> =C2=A01 file changed, 15 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/man2/open.2 b/man2/open.2
+>> index a655fae..61689cf 100644
+>> --- a/man2/open.2
+>> +++ b/man2/open.2
+>> @@ -47,7 +47,6 @@
+>> =C2=A0.\" FIXME . Apr 08: The next POSIX revision has O_EXEC, O_SEAR=
+CH, and
+>> =C2=A0.\" O_TTYINIT. =C2=A0Eventually these may need to be documente=
+d. =C2=A0--mtk
+>> =C2=A0.\" FIXME Linux 2.6.33 has O_DSYNC, and a hidden __O_SYNC.
+>> -.\" FIXME: Linux 2.6.39 added O_PATH
+>> =C2=A0.\"
+>> =C2=A0.TH OPEN 2 2012-02-27 "Linux" "Linux Programmer's Manual"
+>> =C2=A0.SH NAME
+>> @@ -428,6 +427,21 @@ For a discussion of the effect of
+>> =C2=A0in conjunction with mandatory file locks and with file leases,=
+ see
+>> =C2=A0.BR fcntl (2).
+>> =C2=A0.TP
+>> +.B O_PATH
+>> +The path is opened for accessing its file attributes only. =C2=A0Si=
+nce the file
+>> +itself is not opened, most operations (such as
+>> +.BR read (2)
+>> +or
+>> +.BR write (2))
+>> +will return
+>> +.BR EBADF .
+>> +You may however use functions that operate on the file descriptor i=
+tself
+>> +such as
+>> +.BR close (2),
+>> +functions that duplicate file descriptors, and as the dirfd argumen=
+t with
+>> +all the *at style of functions (e.g.
+>> +.BR openat (2)).
+>> +.TP
+>> =C2=A0.B O_SYNC
+>> =C2=A0The file is opened for synchronous I/O.
+>> =C2=A0Any
+>
+> Thanks for the prod. Adding this has been on my list for a while.
+> There's actually quite a lot more to say, and I've written the patch
+> below. Could you check it over.
+>
+> Al, Aneesh, there is one question for you in a FIXME below. Could you
+> take a look please?
+>
+> Thanks,
+>
+> Michael
+>
+>
 > --- a/man2/open.2
 > +++ b/man2/open.2
-> @@ -47,7 +47,6 @@
-> =A0.\" FIXME . Apr 08: The next POSIX revision has O_EXEC, O_SEARCH, =
-and
-> =A0.\" O_TTYINIT. =A0Eventually these may need to be documented. =A0-=
--mtk
-> =A0.\" FIXME Linux 2.6.33 has O_DSYNC, and a hidden __O_SYNC.
-> -.\" FIXME: Linux 2.6.39 added O_PATH
-> =A0.\"
-> =A0.TH OPEN 2 2012-02-27 "Linux" "Linux Programmer's Manual"
-> =A0.SH NAME
-> @@ -428,6 +427,21 @@ For a discussion of the effect of
-> =A0in conjunction with mandatory file locks and with file leases, see
-> =A0.BR fcntl (2).
-> =A0.TP
-> +.B O_PATH
-> +The path is opened for accessing its file attributes only. =A0Since =
-the file
-> +itself is not opened, most operations (such as
-> +.BR read (2)
-> +or
+> @@ -428,6 +427,66 @@ For a discussion of the effect of
+>  in conjunction with mandatory file locks and with file leases, see
+>  .BR fcntl (2).
+>  .TP
+> +.BR O_PATH " (since Linux 2.6.39)"
+> +.\" commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bd
+> +Obtain a file descriptor that is used only for fetching file attribu=
+tes.
+> +The file itself is not opened, and most file operations (e.g.,
+> +.BR read (2),
 > +.BR write (2))
-> +will return
+> +fail with the error
 > +.BR EBADF .
-> +You may however use functions that operate on the file descriptor it=
-self
-> +such as
-> +.BR close (2),
-> +functions that duplicate file descriptors, and as the dirfd argument=
- with
-> +all the *at style of functions (e.g.
-> +.BR openat (2)).
-> +.TP
-> =A0.B O_SYNC
-> =A0The file is opened for synchronous I/O.
-> =A0Any
-
-Thanks for the prod. Adding this has been on my list for a while.
-There's actually quite a lot more to say, and I've written the patch
-below. Could you check it over.
-
-Al, Aneesh, there is one question for you in a FIXME below. Could you
-take a look please?
-
-Thanks,
-
-Michael
+> +The following operations
+> +.I can
+> +be performed on the resulting file descriptor:
+> +.RS
+> +.IP * 3
+> +Closing the file descriptor
+> +.RB ( close (2)).
+> +.\" FIXME Commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bdcw
+> +.\" message says that closing the file descriptor does not affect
+> +.\" POSIX locks or dnotify.
+> +.\" However, my testing shows that it DOES affect dnotify (and inoti=
+fy).
+> +.\" Does close() affect POSIX locks?
+> +.IP *
 
 
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -428,6 +427,66 @@ For a discussion of the effect of
- in conjunction with mandatory file locks and with file leases, see
- .BR fcntl (2).
- .TP
-+.BR O_PATH " (since Linux 2.6.39)"
-+.\" commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bd
-+Obtain a file descriptor that is used only for fetching file attribute=
-s.
-+The file itself is not opened, and most file operations (e.g.,
-+.BR read (2),
-+.BR write (2))
-+fail with the error
-+.BR EBADF .
-+The following operations
-+.I can
-+be performed on the resulting file descriptor:
-+.RS
-+.IP * 3
-+Closing the file descriptor
-+.RB ( close (2)).
-+.\" FIXME Commit 1abf0c718f15a56a0a435588d1b104c7a37dc9bdcw
-+.\" message says that closing the file descriptor does not affect
-+.\" POSIX locks or dnotify.
-+.\" However, my testing shows that it DOES affect dnotify (and inotify=
-).
-+.\" Does close() affect POSIX locks?
-+.IP *
-+Duplicating the file descriptor
-+.RB ( dup (2),
-+.BR fcntl (2)
-+.BR F_DUPFD ,
-+etc.).
-+.IP *
-+Getting and setting file descriptor flags
-+.RB ( fcntl (2)
-+.BR F_GETFD
-+and
-+.BR F_SETFD ).
-+.IP *
-+Passing the file descriptor as the
-+.IR dirfd
-+argument of
-+.BR openat (2)
-+and the other "*at()" system calls.
-+.IP *
-+Passing the file descriptor to another process via a UNIX domain socke=
-t
-+(see
-+.BR SCM_RIGHTS
-+in
-+.BR unix (7)).
-+.RE
-+.IP
-+When
-+.B O_PATH
-+is specified in
-+.IR flags ,
-+flag bits other than
-+.BR O_DIRECTORY
-+and
-+.BR O_NOFOLLOW
-+are ignored.
-+If the
-+.BR O_NOFOLLOW
-+flag is specified,
-+then the call returns a file descriptor referring to the symbolic link=
-=2E
-+.TP
- .B O_SYNC
- The file is opened for synchronous I/O.
- Any
-@@ -612,8 +671,9 @@ SVr4, 4.3BSD, POSIX.1-2001.
- The
- .BR O_DIRECTORY ,
- .BR O_NOATIME ,
-+.BR O_NOFOLLOW ,
- and
--.B O_NOFOLLOW
-+.BR O_PATH
- flags are Linux-specific, and one may need to define
- .B _GNU_SOURCE
- (before including
+IIUC what an O_PATH descritor doesn't do is to flush dnotify markers
 
+	if (likely(!(filp->f_mode & FMODE_PATH))) {
+		dnotify_flush(filp, id);
+		locks_remove_posix(filp, id);
+	}
 
+I don't know much about markers, but as per fsnotify_backend.h
 
+/*
+ * a mark is simply an object attached to an in core inode which allows=
+ an
+ * fsnotify listener to indicate they are either no longer interested i=
+n events
+ * of a type matching mask or only interested in those events.
+ *
+ * these are flushed when an inode is evicted from core and may be flus=
+hed
+ * when the inode is modified (as seen by fsnotify_access).  Some fsnot=
+ify users
+ * (such as dnotify) will flush these when the open fd is closed and no=
+t at
+ * inode eviction or modification.
+ */
+struct fsnotify_mark {
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+It also doesn't remove posix locks. I tested this with a test prg
+
+    struct flock flock;
+    flock.l_type =3D F_WRLCK;
+    flock.l_whence =3D SEEK_SET;
+    flock.l_start =3D 0;
+    flock.l_len =3D 0;
+    fd =3D open(argv[1], O_RDWR);
+    fcntl(fd, F_SETLKW, &flock);
+    fd =3D open(argv[1], O_PATH);
+    close(fd);
+
+The close doesn't result in lock release.
+
+> +Duplicating the file descriptor
+> +.RB ( dup (2),
+> +.BR fcntl (2)
+> +.BR F_DUPFD ,
+> +etc.).
+> +.IP *
+
+-aneesh
