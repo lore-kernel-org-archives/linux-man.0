@@ -1,53 +1,101 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2
-Date: Tue, 1 May 2012 17:42:48 +1200
-Message-ID: <CAKgNAkjTQCPo4GcM-jPv8r8gNbhJWTWV4sf9qJPOt-59vAgE_g@mail.gmail.com>
-References: <20120430141425.08ed0175@keeper.home.local>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] Describe race of direct read and fork for unaligned buffers
+Date: Tue, 1 May 2012 17:50:44 +1200
+Message-ID: <CAKgNAkixtqfppFdJAC9mnD5xCEFK1JZEHno1GhwmMHfoz6mGOQ@mail.gmail.com>
+References: <1335778207-6511-1-git-send-email-jack@suse.cz>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120430141425.08ed0175-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <1335778207-6511-1-git-send-email-jack@suse.cz>
+Sender: owner-linux-mm@kvack.org
+To: Jan Kara <jack@suse.cz>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de, Jeff Moyer <jmoyer@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 30, 2012 at 10:14 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrot=
-e:
-> Hello.
+Jan,
 
-Thanks. Applied!
+On Mon, Apr 30, 2012 at 9:30 PM, Jan Kara <jack@suse.cz> wrote:
+> This is a long standing problem (or a surprising feature) in our implemen=
+tation
+> of get_user_pages() (used by direct IO). Since several attempts to fix it
+> failed (e.g.
+> http://linux.derkeiler.com/Mailing-Lists/Kernel/2009-04/msg06542.html, or
+> http://lkml.indiana.edu/hypermail/linux/kernel/0903.1/01498.html refused =
+in
+> http://comments.gmane.org/gmane.linux.kernel.mm/31569) and it's not compl=
+etely
+> clear whether we really want to fix it given the costs, let's at least do=
+cument
+> it.
+>
+> CC: mgorman@suse.de
+> CC: Jeff Moyer <jmoyer@redhat.com>
+> Signed-off-by: Jan Kara <jack@suse.cz>
+> ---
+>
+> --- a/man2/open.2 =A0 =A0 =A0 2012-04-27 00:07:51.736883092 +0200
+> +++ b/man2/open.2 =A0 =A0 =A0 2012-04-27 00:29:59.489892980 +0200
+> @@ -769,7 +769,12 @@
+> =A0and the file offset must all be multiples of the logical block size
+> =A0of the file system.
+> =A0Under Linux 2.6, alignment to 512-byte boundaries
+> -suffices.
+> +suffices. However, if the user buffer is not page aligned and direct rea=
+d
+> +runs in parallel with a
+> +.BR fork (2)
+> +of the reader process, it may happen that the read data is split between
+> +pages owned by the original process and its child. Thus effectively read
+> +data is corrupted.
+> =A0.LP
+> =A0The
+> =A0.B O_DIRECT
+
+Thanks. I tweaked the patch slightly, and applied as below.
 
 Cheers,
 
 Michael
 
-> --- man-pages-git/man2/prctl.2 =9A2012-04-29 11:15:54.881831526 +0400
-> +++ /tmp/prctl.2 =9A =9A =9A =9A2012-04-30 14:12:59.192008396 +0400
-> @@ -224,7 +224,7 @@
-> =9AThis value is cleared for the child of a
-> =9A.BR fork (2)
-> =9Aand (since Linux 2.5.36 / 2.6.23)
-> -when execing a set-user_ID or set-group-ID binary.
-> +when executing a set-user_ID or set-group-ID binary.
-> =9A.TP
-> =9A.BR PR_GET_PDEATHSIG " (since Linux 2.3.15)"
-> =9AReturn the current value of the parent process death signal,
->
-> --
-> Best Regards,
-> Yuri Kozlov
->
-
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -49,7 +49,7 @@
+ .\" FIXME Linux 2.6.33 has O_DSYNC, and a hidden __O_SYNC.
+ .\" FIXME: Linux 2.6.39 added O_PATH
+ .\"
+-.TH OPEN 2 2012-02-27 "Linux" "Linux Programmer's Manual"
++.TH OPEN 2 2012-05-01 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ open, creat \- open and possibly create a file or device
+ .SH SYNOPSIS
+@@ -768,8 +768,13 @@ operation in
+ Under Linux 2.4, transfer sizes, and the alignment of the user buffer
+ and the file offset must all be multiples of the logical block size
+ of the file system.
+-Under Linux 2.6, alignment to 512-byte boundaries
+-suffices.
++Under Linux 2.6, alignment to 512-byte boundaries suffices.
++However, if the user buffer is not page-aligned and the direct read
++runs in parallel with a
++.BR fork (2)
++of the reader process, it may happen that the read data is split between
++pages owned by the original process and its child.
++Thus the read data is effectively corrupted.
+ .LP
+ The
+ .B O_DIRECT
 
 
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
