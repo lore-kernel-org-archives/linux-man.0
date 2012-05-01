@@ -1,69 +1,59 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] Describe race of direct read and fork for unaligned buffers
-Date: Wed, 2 May 2012 05:56:50 +1200
-Message-ID: <CAKgNAkjAOGM+mZLkXGiDFYsnMCpJsxx=Nd5pZfx-_f4B1jvh+A@mail.gmail.com>
-References: <1335778207-6511-1-git-send-email-jack@suse.cz> <CAHGf_=qqiast+6XzGnq+LRdFXoWG9h2MkofmjS1h5OeNPRyWfw@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fork(2): add ENOSYS
+Date: Wed, 2 May 2012 06:21:36 +1200
+Message-ID: <CAKgNAkiHQX4o0EiVW53W=PQbgp+RW6-LMqY7NpOb+4bGPdHFQw@mail.gmail.com>
+References: <1335847802-15646-1-git-send-email-vapier@gentoo.org>
+ <CAKgNAkjx1a002xLYEYtgJr8Luy8mKSiWo8J8ZT+aYbzhVrRz5g@mail.gmail.com> <201205011149.34086.vapier@gentoo.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAHGf_=qqiast+6XzGnq+LRdFXoWG9h2MkofmjS1h5OeNPRyWfw@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
-Cc: Jan Kara <jack@suse.cz>, LKML <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de, Jeff Moyer <jmoyer@redhat.com>
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <201205011149.34086.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, May 2, 2012 at 4:15 AM, KOSAKI Motohiro
-<kosaki.motohiro@gmail.com> wrote:
->> +suffices. However, if the user buffer is not page aligned and direct re=
-ad
+On Wed, May 2, 2012 at 3:49 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
+e:
+> On Tuesday 01 May 2012 01:38:35 Michael Kerrisk (man-pages) wrote:
+>> On Tue, May 1, 2012 at 4:50 PM, Mike Frysinger wrote:
+>> > --- a/man2/fork.2
+>> > +++ b/man2/fork.2
+>> > @@ -184,6 +184,10 @@ capability.
+>> > =A0.B ENOMEM
+>> > =A0.BR fork ()
+>> > =A0failed to allocate the necessary kernel structures because memo=
+ry is
+>> > tight. +.TP
+>> > +.B ENOSYS
+>> > +.BR fork ()
+>> > +is not supported on this platform (e.g. a no-mmu setup).
+>> > =A0.SH "CONFORMING TO"
+>> > =A0SVr4, 4.3BSD, POSIX.1-2001.
+>> > =A0.SH NOTES
+>>
+>> I'm curious. Which architectures currently do this, do you know?
 >
-> One more thing. direct write also makes data corruption. Think
-> following scenario,
+> ones w/out an mmu ;)
+>
+> looking at 'config MMU', arch/*/Kconfig, i see it could happen to:
+> =A0 =A0 =A0 =A0arm blackfin c6x frv h8300 microblaze mips xtensa
 
-In the light of all of the comments, can someone revise the man-pages
-patch that Jan sent?
+Thanks Mike. Patch applied. (But I couldn't see how one deduces that
+mips is on that list.)
 
-Thanks,
+Cheers,
 
 Michael
-
-
-> 1) P1-T1 uses DIO write (and starting dma)
-> 2) P1-T2 call fork() and makes P2
-> 3) P1-T3 write to the dio target page. and then, cow break occur and
-> original dio target
-> =A0 =A0pages is now owned by P2.
-> 4) P2 write the dio target page. It now does NOT make cow break. and
-> now we break
-> =A0 =A0dio target page data.
-> 5) DMA transfer write invalid data to disk.
->
-> The detail is described in your refer URLs.
->
->
->> +runs in parallel with a
->> +.BR fork (2)
->> +of the reader process, it may happen that the read data is split betwee=
-n
->> +pages owned by the original process and its child. Thus effectively rea=
-d
->> +data is corrupted.
->> =A0.LP
->> =A0The
->> =A0.B O_DIRECT
-
 
 
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
-
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
