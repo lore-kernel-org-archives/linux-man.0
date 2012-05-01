@@ -1,38 +1,36 @@
-From: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: [PATCH] Describe race of direct read and fork for unaligned
- buffers
-Date: Mon, 30 Apr 2012 15:30:04 +0100
-Message-ID: <20120430143004.GP9226@suse.de>
-References: <1335778207-6511-1-git-send-email-jack@suse.cz>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] fork(2): add ENOSYS
+Date: Tue,  1 May 2012 00:50:02 -0400
+Message-ID: <1335847802-15646-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1335778207-6511-1-git-send-email-jack-AlSwsSmVLrQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 30, 2012 at 11:30:07AM +0200, Jan Kara wrote:
-> This is a long standing problem (or a surprising feature) in our implementation
-> of get_user_pages() (used by direct IO). Since several attempts to fix it
-> failed (e.g.
-> http://linux.derkeiler.com/Mailing-Lists/Kernel/2009-04/msg06542.html, or
-> http://lkml.indiana.edu/hypermail/linux/kernel/0903.1/01498.html refused in
-> http://comments.gmane.org/gmane.linux.kernel.mm/31569) and it's not completely
-> clear whether we really want to fix it given the costs, let's at least document
-> it.
-> 
-> CC: mgorman-l3A5Bk7waGM@public.gmane.org
-> CC: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Signed-off-by: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/fork.2 |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-Acked-by: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
-
+diff --git a/man2/fork.2 b/man2/fork.2
+index 4089fb9..fb604ac 100644
+--- a/man2/fork.2
++++ b/man2/fork.2
+@@ -184,6 +184,10 @@ capability.
+ .B ENOMEM
+ .BR fork ()
+ failed to allocate the necessary kernel structures because memory is tight.
++.TP
++.B ENOSYS
++.BR fork ()
++is not supported on this platform (e.g. a no-mmu setup).
+ .SH "CONFORMING TO"
+ SVr4, 4.3BSD, POSIX.1-2001.
+ .SH NOTES
 -- 
-Mel Gorman
-SUSE Labs
+1.7.9.7
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
