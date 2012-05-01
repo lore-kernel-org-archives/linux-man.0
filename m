@@ -1,50 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fork(2): add ENOSYS
-Date: Tue, 1 May 2012 17:38:35 +1200
-Message-ID: <CAKgNAkjx1a002xLYEYtgJr8Luy8mKSiWo8J8ZT+aYbzhVrRz5g@mail.gmail.com>
-References: <1335847802-15646-1-git-send-email-vapier@gentoo.org>
+Subject: Re: [PATCH] nsswitch.conf.5
+Date: Tue, 1 May 2012 17:41:51 +1200
+Message-ID: <CAKgNAkikq_Fw2+yL3xzXV0joQW8xoDYMBsTyFNVymtFBK7UORw@mail.gmail.com>
+References: <20120430131208.52d91e7d@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=KOI8-R
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1335847802-15646-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20120430131208.52d91e7d-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+On Mon, Apr 30, 2012 at 9:12 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote=
+:
+> Hello.
 
-On Tue, May 1, 2012 at 4:50 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrot=
-e:
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
-> =A0man2/fork.2 | =A0 =A04 ++++
-> =A01 file changed, 4 insertions(+)
+Thanks Yuri. Applied.
+
+> --- man-pages-git/man5/nsswitch.conf.5 =9A2012-04-29 11:15:54.9938315=
+19 +0400
+> +++ /tmp/nsswitch.conf.5 =9A =9A =9A =9A2012-04-30 13:10:03.360197030=
+ +0400
+> @@ -31,7 +31,6 @@
+> =9Athe sources from which to obtain name-service information in
+> =9Aa range of categories,
+> =9Aand in what order.
+> -(The "
+> =9AEach category of information is identified by a database name.
+> =9A.LP
+> =9AThe file is plain ASCII text, with columns separated by spaces or =
+tab
 >
-> diff --git a/man2/fork.2 b/man2/fork.2
-> index 4089fb9..fb604ac 100644
-> --- a/man2/fork.2
-> +++ b/man2/fork.2
-> @@ -184,6 +184,10 @@ capability.
-> =A0.B ENOMEM
-> =A0.BR fork ()
-> =A0failed to allocate the necessary kernel structures because memory =
-is tight.
-> +.TP
-> +.B ENOSYS
-> +.BR fork ()
-> +is not supported on this platform (e.g. a no-mmu setup).
-> =A0.SH "CONFORMING TO"
-> =A0SVr4, 4.3BSD, POSIX.1-2001.
-> =A0.SH NOTES
+>
+>
+> --
+> Best Regards,
+> Yuri Kozlov
+>
 
-I'm curious. Which architectures currently do this, do you know?
-
-Thanks,
-
-Michael
 
 
 --=20
