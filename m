@@ -1,50 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] memchr.3: tfix
-Date: Wed, 2 May 2012 15:46:55 +1200
-Message-ID: <CAKgNAkgt2wbz4H32x426obX8+Gd7FLdQhVwBzE9o0-US7LwRvg@mail.gmail.com>
-References: <1335927051-17321-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] fchmodat.2: ffix
+Date: Wed, 2 May 2012 15:49:45 +1200
+Message-ID: <CAKgNAkgbs2y80of4WZ6cdYVaOs7ZNbp8pqTPSH8OtBS9Po8z4w@mail.gmail.com>
+References: <1335924400-6720-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1335927051-17321-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1335924400-6720-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied!
+Thanks David. Applied!
 
-On Wed, May 2, 2012 at 2:50 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
+On Wed, May 2, 2012 at 2:06 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
 e:
+> The intended d660ffd fix was not correct.
 > ---
-> =A0man3/memchr.3 | =A0 =A02 +-
+> =A0man2/fchmodat.2 | =A0 =A02 +-
 > =A01 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/man3/memchr.3 b/man3/memchr.3
-> index 246815d..82fd5b4 100644
-> --- a/man3/memchr.3
-> +++ b/man3/memchr.3
-> @@ -88,7 +88,7 @@ lies somewhere in the memory area starting at the l=
-ocation pointed to by
-> =A0.IR s ,
-> =A0and so performs an optimized search for
-> =A0.IR c
-> -(i.e., no use of a count argument argument to limit the range of the=
- search).
-> +(i.e., no use of a count argument to limit the range of the search).
-> =A0If an instance of
-> =A0.I c
-> =A0is not found, the results are unpredictable.
+> diff --git a/man2/fchmodat.2 b/man2/fchmodat.2
+> index 2086bf4..db9512f 100644
+> --- a/man2/fchmodat.2
+> +++ b/man2/fchmodat.2
+> @@ -29,7 +29,7 @@ fchmodat \- change permissions of a file relative t=
+o a directory \
+> =A0file descriptor
+> =A0.SH SYNOPSIS
+> =A0.nf
+> -.BR #include <fcntl.h> " =A0 =A0 =A0 =A0 =A0 /* Definition of AT_* c=
+onstants */"
+> +.BR "#include <fcntl.h>" " =A0 =A0 =A0 =A0 =A0 /* Definition of AT_*=
+ constants */"
+> =A0.B #include <sys/stat.h>
+> =A0.sp
+> =A0.BI "int fchmodat(int " dirfd ", const char *" pathname ", mode_t =
+" \
 > --
 > 1.7.10
 >
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" =
-in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
 
 
 
