@@ -1,54 +1,100 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH] Describe race of direct read and fork for unaligned
- buffers
-Date: Wed, 2 May 2012 11:20:29 +0200
-Message-ID: <20120502092029.GD16976@quack.suse.cz>
-References: <1335778207-6511-1-git-send-email-jack@suse.cz>
- <CAHGf_=qqiast+6XzGnq+LRdFXoWG9h2MkofmjS1h5OeNPRyWfw@mail.gmail.com>
- <CAKgNAkjAOGM+mZLkXGiDFYsnMCpJsxx=Nd5pZfx-_f4B1jvh+A@mail.gmail.com>
- <CAPa8GCC7tHm_8Ks_=tM4x544+SEtkVk6TMAF3KPsVqzNOi-naA@mail.gmail.com>
- <alpine.LSU.2.00.1205011952040.1293@eggly.anvils>
+From: Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
+Date: Wed, 02 May 2012 13:06:28 +0100
+Message-ID: <4FA12344.4090608@redhat.com>
+References: <20091216004533.22261.qmail@kosh.dhis.org> <CAKgNAkhtu8d0NKcTwWyCA8qWgz8Lag+GcpEE1=YMVe_Nh8XJ9Q@mail.gmail.com> <20120422200459.GA7519@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.LSU.2.00.1205011952040.1293-fupSdm12i1nKWymIFiNcPA@public.gmane.org>
+In-Reply-To: <20120422200459.GA7519-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Nick Piggin <npiggin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, mgorman-l3A5Bk7waGM@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue 01-05-12 20:04:15, Hugh Dickins wrote:
-> On Wed, 2 May 2012, Nick Piggin wrote:
-> > On 2 May 2012 03:56, Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> > >
-> > > In the light of all of the comments, can someone revise the man-pages
-> > > patch that Jan sent?
-> > 
-> > This does not quite describe the entire situation, but something understandable
-> > to developers:
-> > 
-> > O_DIRECT IOs should never be run concurrently with fork(2) system call,
-> > when the memory buffer is anonymous memory, or comes from mmap(2)
-> > with MAP_PRIVATE.
-> > 
-> > Any such IOs, whether submitted with asynchronous IO interface or from
-> > another thread in the process, should be quiesced before fork(2) is called.
-> > Failure to do so can result in data corruption and undefined behavior in
-> > parent and child processes.
-> > 
-> > This restriction does not apply when the memory buffer for the O_DIRECT
-> > IOs comes from mmap(2) with MAP_SHARED or from shmat(2).
-> 
-> Nor does this restriction apply when the memory buffer has been advised
-> as MADV_DONTFORK with madvise(2), ensuring that it will not be available
-> to the child after fork(2).
-  Yes, I think with this addition the text is fine.
+On 04/22/2012 09:04 PM, Oleg Nesterov wrote:
 
-								Honza
+> On 04/23, Michael Kerrisk (man-pages) wrote:
+>>
+>> [widening CC]
+> 
+> add more CC's
+> 
+>> The man page says "For requests other than PTRACE_KILL,
+> 
+> Argh, PTRACE_KILL again.
+> 
+> You know, I simply do not know what it was supposed to do. I can only
+> see what the code actually does.
+> 
+>> the child process
+>> must be stopped."
+> 
+> Yes and no.
+> 
+> Yes, ptrace(PTRACE_KILL) "succeeds" even if the tracee is not stopped.
+> 
+> No, it has no effect if the tracee is not stopped.
+> 
+> All I can say is: PTRACE_KILL should never exist. If you want to kill
+> the tracee, you can do kill(SIGKILL).
+> 
+> Roughly, ptrace(PTRACE_KILL) is equal to ptrace(PTRACE_CONT, SIGKILL)
+> except it always returns 0.
+> 
+>> If the man page is describing actual intended kernel behavior, then it's a
+>> fairly long-standing kernel bug.
+> 
+> Perhaps. May be it should simply do kill(SIGKILL), but then it is not
+> clear why do we have PTRACE_KILL. And once again, I was never able to
+> understand the supposed behaviour.
+> 
+> Personally, I think we should fix the documentation. And imho the only
+> possible fix is to add this note: do not ever use PTRACE_KILL.
+
+
+Yeah.  Here's what gdb's gdbserver does nowadays (gdb does the exact same,
+though only gdbserver's version has this comment):
+
+static void
+linux_kill_one_lwp (struct lwp_info *lwp)
+{
+  int pid = lwpid_of (lwp);
+
+  /* PTRACE_KILL is unreliable.  After stepping into a signal handler,
+     there is no signal context, and ptrace(PTRACE_KILL) (or
+     ptrace(PTRACE_CONT, SIGKILL), pretty much the same) acts like
+     ptrace(CONT, pid, 0,0) and just resumes the tracee.  A better
+     alternative is to kill with SIGKILL.  We only need one SIGKILL
+     per process, not one for each thread.  But since we still support
+     linuxthreads, and we also support debugging programs using raw
+     clone without CLONE_THREAD, we send one for each thread.  For
+     years, we used PTRACE_KILL only, so we're being a bit paranoid
+     about some old kernels where PTRACE_KILL might work better
+     (dubious if there are any such, but that's why it's paranoia), so
+     we try SIGKILL first, PTRACE_KILL second, and so we're fine
+     everywhere.  */
+
+  errno = 0;
+  kill (pid, SIGKILL);
+  if (debug_threads)
+    fprintf (stderr,
+	     "LKL:  kill (SIGKILL) %s, 0, 0 (%s)\n",
+	     target_pid_to_str (ptid_of (lwp)),
+	     errno ? strerror (errno) : "OK");
+
+  errno = 0;
+  ptrace (PTRACE_KILL, pid, 0, 0);
+  if (debug_threads)
+    fprintf (stderr,
+	     "LKL:  PTRACE_KILL %s, 0, 0 (%s)\n",
+	     target_pid_to_str (ptid_of (lwp)),
+	     errno ? strerror (errno) : "OK");
+}
+
 -- 
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+Pedro Alves
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
