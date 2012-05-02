@@ -1,49 +1,64 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fchmodat.2: ffix
-Date: Wed, 2 May 2012 15:49:45 +1200
-Message-ID: <CAKgNAkgbs2y80of4WZ6cdYVaOs7ZNbp8pqTPSH8OtBS9Po8z4w@mail.gmail.com>
-References: <1335924400-6720-1-git-send-email-taffit@debian.org>
+Subject: Re: missing git tag 3.39 d2f920ab4
+Date: Wed, 2 May 2012 16:14:58 +1200
+Message-ID: <CAKgNAki5orkRwR+tNSxP2wQ6-dec=hT+-JgGb9JFbDR00ct7MQ@mail.gmail.com>
+References: <20120429002044.GF31953@glenfiddich.mraw.org> <CAKgNAkjhBtSqynxHvKqSuHObK7YOh+LuREphYrdZBCz5p_eV_A@mail.gmail.com>
+ <20120429190314.GH31953@glenfiddich.mraw.org> <CAKgNAkjH-fS7GgS-+-huO-Yb4Q81+4B=-JjoK8ewgYhAJm=jnA@mail.gmail.com>
+ <CAMqf4EHfQ9s3cqG6NmW0LBe7e0+FVQ399Qd3JTfS7nU2KuLjGg@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1335924400-6720-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAMqf4EHfQ9s3cqG6NmW0LBe7e0+FVQ399Qd3JTfS7nU2KuLjGg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks David. Applied!
-
-On Wed, May 2, 2012 at 2:06 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
-e:
-> The intended d660ffd fix was not correct.
-> ---
-> =A0man2/fchmodat.2 | =A0 =A02 +-
-> =A01 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, May 2, 2012 at 10:34 AM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On 2012/4/29 Michael Kerrisk (man-pages) wrote:
+>> On Mon, Apr 30, 2012 at 7:03 AM, Simon Paillard
+>> <simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org> wrote:
+>>> On Mon, Apr 30, 2012 at 06:57:32AM +1200, Michael Kerrisk (man-page=
+s) wrote:
+>>>> On Sun, Apr 29, 2012 at 12:20 PM, Simon Paillard wrote:
+>>>> > Minor but it seems 3.39 tag is missing in git, for commit:
+>>>> > d2f920ab461da9d8 Ready for 3.39
+>>>>
+>>>> There's a tag on d2f920ab461da9d836bfc2d63b52108339efa3ba
+>>>> Is that not what you're looking for? (I did mess up the tagging on
+>>>> 3.39, but I think things are fixed now.)
+>>>
+>>> Here:
+>>> $ git describe d2f920ab461da9d836bfc2d63b52108339efa3ba
+>>> man-pages-3.38-67-gd2f920a
+>>>
+>>> http://git.kernel.org/?p=3Ddocs/man-pages/man-pages.git;a=3Dshortlo=
+g doesn't show
+>>> the tag either, and "git tag -l" doesn't show me the tag.
+>>>
+>>> http://git.kernel.org/?p=3Ddocs/man-pages/man-pages.git;a=3Dtags sh=
+ow the tab
+>>> object exists however..
+>>
+>> Fixed now, I believe.
 >
-> diff --git a/man2/fchmodat.2 b/man2/fchmodat.2
-> index 2086bf4..db9512f 100644
-> --- a/man2/fchmodat.2
-> +++ b/man2/fchmodat.2
-> @@ -29,7 +29,7 @@ fchmodat \- change permissions of a file relative t=
-o a directory \
-> =A0file descriptor
-> =A0.SH SYNOPSIS
-> =A0.nf
-> -.BR #include <fcntl.h> " =A0 =A0 =A0 =A0 =A0 /* Definition of AT_* c=
-onstants */"
-> +.BR "#include <fcntl.h>" " =A0 =A0 =A0 =A0 =A0 /* Definition of AT_*=
- constants */"
-> =A0.B #include <sys/stat.h>
-> =A0.sp
-> =A0.BI "int fchmodat(int " dirfd ", const char *" pathname ", mode_t =
-" \
-> --
-> 1.7.10
+> Hello,
 >
+> Not sure if it is related, but manual pages in current 3.39 tarballs
+> have no colophon. =A0This is strange, I downloaded a 3.39 tarball som=
+e
+> days ago, and this one was fine.
 
+Yes, related. (I created that problem while fixing the earlier
+problem.) Fixed now.
+
+Thanks, Denis.
+
+Cheers,
+
+Michael
 
 
 --=20
