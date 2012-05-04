@@ -1,64 +1,32 @@
-From: Lauri Kasanen <curaga-Z02xGKUfPWYS+FvcfC7Uqw@public.gmane.org>
-Subject: [PATCH] splice.2: Document the required glibc version
-Date: Thu, 03 May 2012 20:34:11 +0300
-Message-ID: <1336066451.24214.140661070796637.0EA80E5D@webmail.messagingengine.com>
-Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="_----------=_1336066451242140";
- charset="utf-8"
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] nsswitch.conf.5: tfix
+Date: Thu,  3 May 2012 23:23:39 -0400
+Message-ID: <1336101819-29364-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
+Remove extra line committed by mistake in 7534ec
+---
+ man5/nsswitch.conf.5 |    1 -
+ 1 file changed, 1 deletion(-)
 
---_----------=_1336066451242140
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-
-Hi
-
-A small patch to document the minimum glibc version for splice. Applies
-against man-pages git master / 3.40.
-
-The info comes from glibc 2.5 changelog, link:
-http://opensuse.14.n6.nabble.com/glibc-2-5-for-10-2-FACTORY-td3361554.html
-
-- Lauri
-
+diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
+index 5f9d310..9b6f266 100644
+--- a/man5/nsswitch.conf.5
++++ b/man5/nsswitch.conf.5
+@@ -31,7 +31,6 @@ is used by the GNU C Library to determine
+ the sources from which to obtain name-service information in
+ a range of categories,
+ and in what order.
+-(The "
+ Each category of information is identified by a database name.
+ .LP
+ The file is plain ASCII text, with columns separated by spaces or tab
 -- 
-http://www.fastmail.fm - A no graphics, no pop-ups email service
-
-
---_----------=_1336066451242140
-Content-Disposition: attachment; filename="0001-splice.2-Document-the-required-glibc-version.patch"
-Content-Id: <1336066304.23895.5c4e76f5515d526c469aa4553105ff84f2042ab6-jdSDcPZFiz+hgt7VJ92R1EEOCMrvLtNR@public.gmane.org>
-Content-Transfer-Encoding: base64
-Content-Type: text/x-diff; name="0001-splice.2-Document-the-required-glibc-version.patch"
-
-RnJvbSBkN2YxYWYwNjQ2MGI4ZGEyMzNmNGI0MjRkZGIyYmUyOWYwOTI5OGJk
-IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBMYXVyaSBLYXNhbmVu
-IDxjdXJhZ2FAb3BlcmFtYWlsLmNvbT4KRGF0ZTogVGh1LCAzIE1heSAyMDEy
-IDIwOjI2OjQwICswMzAwClN1YmplY3Q6IFtQQVRDSF0gc3BsaWNlLjI6IERv
-Y3VtZW50IHRoZSByZXF1aXJlZCBnbGliYyB2ZXJzaW9uCgoKU2lnbmVkLW9m
-Zi1ieTogTGF1cmkgS2FzYW5lbiA8Y3VyYWdhQG9wZXJhbWFpbC5jb20+Ci0t
-LQogbWFuMi9zcGxpY2UuMiB8ICAgIDMgKystCiAxIGZpbGVzIGNoYW5nZWQs
-IDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQg
-YS9tYW4yL3NwbGljZS4yIGIvbWFuMi9zcGxpY2UuMgppbmRleCA1YWUzNTU0
-Li44ZmE2MDFjIDEwMDY0NAotLS0gYS9tYW4yL3NwbGljZS4yCisrKyBiL21h
-bjIvc3BsaWNlLjIKQEAgLTE2NSw3ICsxNjUsOCBAQCB3YXMgbm90IE5VTEws
-IGJ1dCB0aGUgY29ycmVzcG9uZGluZyBmaWxlIGRlc2NyaXB0b3IgcmVmZXJz
-IHRvIGEgcGlwZS4KIC5TSCBWRVJTSU9OUwogVGhlCiAuQlIgc3BsaWNlICgp
-Ci1zeXN0ZW0gY2FsbCBmaXJzdCBhcHBlYXJlZCBpbiBMaW51eCAyLjYuMTcu
-CitzeXN0ZW0gY2FsbCBmaXJzdCBhcHBlYXJlZCBpbiBMaW51eCAyLjYuMTc7
-IHN1cHBvcnQgaW4gZ2xpYmMgaXMKK2F2YWlsYWJsZSBzdGFydGluZyB3aXRo
-IHZlcnNpb24gMi41LgogLlNIICJDT05GT1JNSU5HIFRPIgogVGhpcyBzeXN0
-ZW0gY2FsbCBpcyBMaW51eC1zcGVjaWZpYy4KIC5TSCBOT1RFUwotLSAKMS43
-LjIuMQoK
-
---_----------=_1336066451242140--
+1.7.10
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
