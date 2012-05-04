@@ -1,40 +1,37 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] splice.2: Document the required glibc version
-Date: Fri, 4 May 2012 16:10:36 +1200
-Message-ID: <CAKgNAkhhwSta+_sezAk5Lqs6w9WhHrtomLE06t=FSH1WuSArFA@mail.gmail.com>
-References: <1336066451.24214.140661070796637.0EA80E5D@webmail.messagingengine.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jiri Pirko <jpirko-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: IP_MULTICAST_IF getsockopt man part
+Date: Fri, 4 May 2012 11:00:14 +0200
+Message-ID: <20120504090013.GA2362@minipsycho>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1336066451.24214.140661070796637.0EA80E5D-2RFepEojUI2N1INw9kWLP6GC3tUn3ZHUQQ4Iyu8u01E@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Lauri Kasanen <curaga-Z02xGKUfPWYS+FvcfC7Uqw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Lauri,
+Hi.
 
-On Fri, May 4, 2012 at 5:34 AM, Lauri Kasanen <curaga-Z02xGKUfPWYS+FvcfC7Uqw@public.gmane.org> wrote:
-> Hi
->
-> A small patch to document the minimum glibc version for splice. Applies
-> against man-pages git master / 3.40.
->
-> The info comes from glibc 2.5 changelog, link:
-> http://opensuse.14.n6.nabble.com/glibc-2-5-for-10-2-FACTORY-td3361554.html
+<quote>
+IP_MULTICAST_IF (since Linux 1.2)
+	              Set the local device for a multicast socket.
+		      Argument is an ip_mreqn or ip_mreq structure
+		      similar to IP_ADD_MEMBERSHIP.
+</quote>
 
-Thanks. What I did was apply a similar fix to a much larger group of
-pages for recently added system calls. Thanks for the report!
+That is not true. Setsockopt recognizes only ip_mreqn and in_addr. I
+made patch which makes it recognize ip_mreq as well. So that would be
+probably ok.
+http://patchwork.ozlabs.org/patch/156815/
 
-Cheers,
+On the other hand, getsockopt works only with in_addr. That I think is
+good behaviour but manpages here needs to be corrected in this way (read
+part needs to be added here)
 
-Michael
+Thanks!
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Jirka
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
