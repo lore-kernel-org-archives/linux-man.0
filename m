@@ -1,51 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] unix.7: tfix
-Date: Sun, 6 May 2012 09:35:09 +1200
-Message-ID: <CAKgNAkjFicm+HUGmDEvqUG1FCKZ_ug=JuZu8y2kyDKVpgcAf+Q@mail.gmail.com>
-References: <1336248062-19460-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] clock_getres.2: ffix
+Date: Sun, 6 May 2012 09:37:47 +1200
+Message-ID: <CAKgNAkhdoLk0CyNebg13_gGynvucO1USoi27RC_oKZwKxcdaQw@mail.gmail.com>
+References: <1336250035-15232-1-git-send-email-spaillard@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1336248062-19460-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1336250035-15232-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, May 6, 2012 at 8:01 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
-e:
-> Introduced in 1e4e3b.
+On Sun, May 6, 2012 at 8:33 AM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> w=
+rote:
+> Formating issue introduced in 63f0f3d9b864
 
-Applied!
-
-Thanks,
+Thanks. Applied
 
 Michael
 
 
 > ---
-> =A0man7/unix.7 | =A0 =A02 +-
-> =A01 file changed, 1 insertion(+), 1 deletion(-)
+> =A0man2/clock_getres.2 | =A0 =A02 +-
+> =A01 files changed, 1 insertions(+), 1 deletions(-)
 >
-> diff --git a/man7/unix.7 b/man7/unix.7
-> index adbfd79..44369e6 100644
-> --- a/man7/unix.7
-> +++ b/man7/unix.7
-> @@ -12,7 +12,7 @@
-> =A0.\" =A0 =A0 address that can appear in the sockaddr_un structure: =
-pathname,
-> =A0.\" =A0 =A0 unnamed, and abstract.
-> =A0.\"
-> -.TH UNIX =A07 2102-04-16 "Linux" "Linux Programmer's Manual"
-> +.TH UNIX =A07 2012-04-16 "Linux" "Linux Programmer's Manual"
-> =A0.SH NAME
-> =A0unix, AF_UNIX, AF_LOCAL \- Sockets for local
-> =A0interprocess communication
+> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+> index ed6fed9..e710d0b 100644
+> --- a/man2/clock_getres.2
+> +++ b/man2/clock_getres.2
+> @@ -243,4 +243,4 @@ On Linux, these clocks are not settable
+> =A0.BR ftime (3),
+> =A0.BR pthread_getcpuclockid (3),
+> =A0.BR sysconf (3),
+> - time (7)
+> +.BR time (7)
 > --
-> 1.7.10
+> 1.7.2.5
 >
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" =
+in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
 
 
 
