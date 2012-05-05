@@ -1,33 +1,30 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] unix.7: tfix
-Date: Sat,  5 May 2012 16:01:02 -0400
-Message-ID: <1336248062-19460-1-git-send-email-taffit@debian.org>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] clock_getres.2: ffix
+Date: Sat,  5 May 2012 22:33:55 +0200
+Message-ID: <1336250035-15232-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Introduced in 1e4e3b.
+Formating issue introduced in 63f0f3d9b864
 ---
- man7/unix.7 |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/clock_getres.2 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/man7/unix.7 b/man7/unix.7
-index adbfd79..44369e6 100644
---- a/man7/unix.7
-+++ b/man7/unix.7
-@@ -12,7 +12,7 @@
- .\"     address that can appear in the sockaddr_un structure: pathname,
- .\"     unnamed, and abstract.
- .\"
--.TH UNIX  7 2102-04-16 "Linux" "Linux Programmer's Manual"
-+.TH UNIX  7 2012-04-16 "Linux" "Linux Programmer's Manual"
- .SH NAME
- unix, AF_UNIX, AF_LOCAL \- Sockets for local
- interprocess communication
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index ed6fed9..e710d0b 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -243,4 +243,4 @@ On Linux, these clocks are not settable
+ .BR ftime (3),
+ .BR pthread_getcpuclockid (3),
+ .BR sysconf (3),
+- time (7)
++.BR time (7)
 -- 
-1.7.10
+1.7.2.5
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
