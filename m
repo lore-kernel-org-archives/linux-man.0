@@ -1,56 +1,57 @@
-From: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
-Subject: Re: [PATCH] Describe race of direct read and fork for unaligned buffers
-Date: Sat, 5 May 2012 11:29:03 -0400
-Message-ID: <CAHGf_=p4py5m1Pe1xon=9FcEEyf6AxW+Pc9Yy9gCvNtbXM_40A@mail.gmail.com>
-References: <CAHGf_=qdE3yNw=htuRssfav2pECO1Q0+gWMRTuNROd_3tVrd6Q@mail.gmail.com>
- <CAHGf_=ojhwPUWJR0r+jVgjNd5h_sRrppzJntSpHzxyv+OuBueg@mail.gmail.com>
- <x49ehr4lyw1.fsf@segfault.boston.devel.redhat.com> <CAHGf_=rzcfo3OnwT-YsW2iZLchHs3eBKncobvbhTm7B5PE=L-w@mail.gmail.com>
- <x491un3nc7a.fsf@segfault.boston.devel.redhat.com> <CAPa8GCCgLUt1EDAy7-O-mo0qir6Bf5Pi3Va1EsQ3ZW5UU=+37g@mail.gmail.com>
- <20120502081705.GB16976@quack.suse.cz> <CAPa8GCCnvvaj0Do7sdrdfsvbcAf0zBe3ssXn45gMfDKCcvJWxA@mail.gmail.com>
- <20120502091837.GC16976@quack.suse.cz> <CAHGf_=qfuRZzb91ELEcArNaNHsfO4BBMPO8a-QRBzFNaT2ev_w@mail.gmail.com>
- <20120502192325.GA18339@quack.suse.cz> <CAHGf_=oOx1qPFEboQeuaeMKtveM2==BSDG=xdfRHz+gFx1GAfw@mail.gmail.com>
- <CAKgNAkjybL_hmVfONUHtCbBe_VxQHNHOrmWQErGWDUqHiczkFg@mail.gmail.com>
+From: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
+Subject: Re: realpath(3) bugs
+Date: Sat, 5 May 2012 17:50:55 +0200
+Message-ID: <20120505155054.GA11316@iq>
+References: <201205041122.q44BMDEO002270@ucsinet22.oracle.com>
+ <CAKgNAkgjjKXx_Aw5iF_Phe7c7ixpqtfLSiV6fkTttN5ge4CGww@mail.gmail.com>
+ <20120505000619.GA8038@iq>
+ <201205050734.q457Y2AC002399@ucsinet22.oracle.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAKgNAkjybL_hmVfONUHtCbBe_VxQHNHOrmWQErGWDUqHiczkFg@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: mtk.manpages@gmail.com
-Cc: Nick Piggin <npiggin@gmail.com>, Jan Kara <jack@suse.cz>, Jeff Moyer <jmoyer@redhat.com>, LKML <linux-kernel@vger.kernel.org>, linux-man@vger.kernel.org, linux-mm@kvack.org, mgorman@suse.de, Andrea Arcangeli <aarcange@redhat.com>, Woodman <lwoodman@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <201205050734.q457Y2AC002399-Og0DlWfCjE/25RUcvsgne1aTQe2KTcn/@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Casper.Dik-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
+Cc: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-> So, am I correct to assume that right text to add to the page is as below?
->
-> Nick, can you clarify what you mean by "quiesced"?
+On Sat, May 05, 2012 at 09:34:01AM +0200, Casper.Dik-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org wrote:
 
-finished?
+> >The note about Solaris came from the 4.4BSD-Lite man page realpath.3
+> >(dated 1994-02-16) which says:
+> 
+> Yes, it noticed that it exists in both BSD and Linux manual pages;
+> I asssumed it was copied by one or the other.  Yours address was the
+> first I could find to get it remoed.
 
->
-> [[
-> O_DIRECT IOs should never be run concurrently with fork(2) system call,
-> when the memory buffer is anonymous memory, or comes from mmap(2)
-> with MAP_PRIVATE.
->
-> Any such IOs, whether submitted with asynchronous IO interface or from
-> another thread in the process, should be quiesced before fork(2) is called.
-> Failure to do so can result in data corruption and undefined behavior in
-> parent and child processes.
->
-> This restriction does not apply when the memory buffer for the O_DIRECT
-> IOs comes from mmap(2) with MAP_SHARED or from shmat(2).
-> Nor does this restriction apply when the memory buffer has been advised
-> as MADV_DONTFORK with madvise(2), ensuring that it will not be available
-> to the child after fork(2).
-> ]]
+I am not sure something needs to be removed. One might write
+"early versions of" when something is no longer true in recent versions.
 
-I don't have good English and I can't make editorial check. But at least,
-I don't find any technical incorrect explanation here.
+Andries
 
- Acked-by: KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
 
+[In case you wonder whether this variation ever existed:
+I have no old sources, at least not easily accessible,
+but where some man pages straightforwardly state
+
+"The realpath() function derives, from the pathname pointed to
+by file_name, an absolute pathname that names the same file,
+whose resolution does not involve ".", "..", or symbolic links."
+
+, there are older SunOS man pages that say
+
+"realpath() resolves all links, symbolic links, and references to ``.''
+and ``..'' in file_name and stores the path in resolved_name.
+It can handle both relative and absolute path names:
+  * For absolute path names and the relative names whose resolved name
+cannot be expressed relatively (for example, ../../reldir), it returns
+the resolved absolute name.
+  * For the other relative path names, it returns the resolved relative name."
+
+Such descriptions strongly suggest that the documented version
+of realpath need not return an absolute pathname in all cases.]
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Fight unfair telecom internet charges in Canada: sign http://stopthemeter.ca/
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
