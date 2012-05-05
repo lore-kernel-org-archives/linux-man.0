@@ -1,58 +1,58 @@
-From: KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mallinfo(3) man page for review
-Date: Sat, 5 May 2012 17:25:38 -0400
-Message-ID: <CAHGf_=r-TdDutTEvmmVRGyzKA_0Txh5gMRLJ6nNu1GZnjsiOxg@mail.gmail.com>
-References: <CAKgNAkg2CKaEsOERkLyhsJ9N9nEpCm7oe_XzMBE1XBB_KkDoiQ@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] unix.7: tfix
+Date: Sun, 6 May 2012 09:35:09 +1200
+Message-ID: <CAKgNAkjFicm+HUGmDEvqUG1FCKZ_ug=JuZu8y2kyDKVpgcAf+Q@mail.gmail.com>
+References: <1336248062-19460-1-git-send-email-taffit@debian.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkg2CKaEsOERkLyhsJ9N9nEpCm7oe_XzMBE1XBB_KkDoiQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1336248062-19460-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi
+On Sun, May 6, 2012 at 8:01 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
+e:
+> Introduced in 1e4e3b.
 
-On Fri, May 4, 2012 at 8:08 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> I've written the man page page below to document glibc's mallinfo(3).
-> Review comments welcome!
+Applied!
+
+Thanks,
+
+Michael
+
+
+> ---
+> =A0man7/unix.7 | =A0 =A02 +-
+> =A01 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Cheers,
+> diff --git a/man7/unix.7 b/man7/unix.7
+> index adbfd79..44369e6 100644
+> --- a/man7/unix.7
+> +++ b/man7/unix.7
+> @@ -12,7 +12,7 @@
+> =A0.\" =A0 =A0 address that can appear in the sockaddr_un structure: =
+pathname,
+> =A0.\" =A0 =A0 unnamed, and abstract.
+> =A0.\"
+> -.TH UNIX =A07 2102-04-16 "Linux" "Linux Programmer's Manual"
+> +.TH UNIX =A07 2012-04-16 "Linux" "Linux Programmer's Manual"
+> =A0.SH NAME
+> =A0unix, AF_UNIX, AF_LOCAL \- Sockets for local
+> =A0interprocess communication
+> --
+> 1.7.10
 >
-> Michael
-
-I don't find any issue. a few nit are below.
 
 
-> .TP 10
-> .I arena
-> The total amount of memory allocated by means other than
-> .BR mmap (2)
-> (i.e., memory allocated on the heap).
-> This figure includes both in-use blocks and blocks on the free list.
-> .TP
-> .I ordblks
-> The number of ordinary (i.e., non-fastbin) free blocks.
-> .TP
-> .I smblks
-> The number of fastbin free blocks (see
-> .BR mallopt (3)).
 
-It would be nice if a meaning of fastbin was described here.
-It is allocation cache (for increasing cpu cache hit ratio) from
-point of bird view.
-
-> .TP
-> .I hblks
-> The number of blocks currently allocated using
-> .BR mmap (2).
-
-It would be nice if glibc malloc try to allocate memory by using mmap directly
-if size is greater than MMAP_THRESHOLD.
-
-Also nice if refer mallopt and MMAP_THRESHOLD.
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
