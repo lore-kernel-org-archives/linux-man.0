@@ -1,41 +1,34 @@
-From: Casper.Dik-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
-Subject: Re: realpath(3) bugs
-Date: Sat, 05 May 2012 20:34:50 +0200
-Message-ID: <201205051834.q45IYont018249@ucsinet22.oracle.com>
-References: <201205041122.q44BMDEO002270@ucsinet22.oracle.com> <CAKgNAkgjjKXx_Aw5iF_Phe7c7ixpqtfLSiV6fkTttN5ge4CGww@mail.gmail.com> <20120505000619.GA8038@iq> <201205050734.q457Y2AC002399@ucsinet22.oracle.com> <20120505155054.GA11316@iq>
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] unix.7: tfix
+Date: Sat,  5 May 2012 16:01:02 -0400
+Message-ID: <1336248062-19460-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120505155054.GA11316@iq> 
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Introduced in 1e4e3b.
+---
+ man7/unix.7 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->I am not sure something needs to be removed. One might write
->"early versions of" when something is no longer true in recent versions.
+diff --git a/man7/unix.7 b/man7/unix.7
+index adbfd79..44369e6 100644
+--- a/man7/unix.7
++++ b/man7/unix.7
+@@ -12,7 +12,7 @@
+ .\"     address that can appear in the sockaddr_un structure: pathname,
+ .\"     unnamed, and abstract.
+ .\"
+-.TH UNIX  7 2102-04-16 "Linux" "Linux Programmer's Manual"
++.TH UNIX  7 2012-04-16 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ unix, AF_UNIX, AF_LOCAL \- Sockets for local
+ interprocess communication
+-- 
+1.7.10
 
-I've looked through earlier SunOS versions and I didn't find
-it n SunOS 3.5 but I did find it in SunOS 4.1.1.  The code
-simply starts with:
-
-	if pathname doesn't start with '/' prepend the current
-	working directory.
-
-That code looks very much like the earlier SvR4 code; so I think
-that if the SunOS manual page says that, it was incorrect as
-the code will either fail or it will return an absolute pathname.
-(Any error cass the code to return NULL)
-Just like the current Solaris realpath(3c) manpage incorrectly
-says that realpath() can change your cwd on error; this
-cannot happen since Solaris 9 but was not removed)
-
-So if i ever happened in SunOS it may happened in SunOS 4.0,
-so I think it is still not correct to claim that "Solaris"
-ever didn't return an absolute pathname; the first of
-Solaris was SunOS 4.1.2 (Solaris 1.0) and that already
-only returned an absolute pathname.
-
-Casper
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
