@@ -1,48 +1,54 @@
-From: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>
-Subject: Re: realpath(3) bugs
-Date: Sun, 6 May 2012 00:14:41 +0200
-Message-ID: <20120505221441.GA13219@iq>
-References: <201205041122.q44BMDEO002270@ucsinet22.oracle.com>
- <CAKgNAkgjjKXx_Aw5iF_Phe7c7ixpqtfLSiV6fkTttN5ge4CGww@mail.gmail.com>
- <20120505000619.GA8038@iq>
- <201205050734.q457Y2AC002399@ucsinet22.oracle.com>
- <20120505155054.GA11316@iq>
- <201205051810.q45IAU9K000837@ucsinet21.oracle.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: malloc_stats(3) man page for review
+Date: Sun, 6 May 2012 10:16:04 +1200
+Message-ID: <CAKgNAkiF07_7Mp9T15NYngB-=-ph=f451JPf=hpfuh0H55C+uQ@mail.gmail.com>
+References: <CAKgNAkiC4Qb-yBoEf1mmSBcUFuH3yB0OT6Vvni5z_Lci5=6eSA@mail.gmail.com>
+ <CAHGf_=r=po=XEyxPn6fBUFpHkVdttsKPVZDZRW5vieY8z2fC8w@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <201205051810.q45IAU9K000837-Og0DlWfCjE/86v54HqmmKFaTQe2KTcn/@public.gmane.org>
+In-Reply-To: <CAHGf_=r=po=XEyxPn6fBUFpHkVdttsKPVZDZRW5vieY8z2fC8w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Casper.Dik-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org
-Cc: "Andries E. Brouwer" <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, May 05, 2012 at 08:34:50PM +0200, Casper.Dik-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org wrote:
+On Sun, May 6, 2012 at 9:13 AM, KOSAKI Motohiro
+<kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi
+>
+>> .B void malloc_stats(void);
+>> .SH DESCRIPTION
+>> The
+>> .BR malloc_stats ()
+>> function prints (on standard error) statistics about memory allocated by
+>> .BR malloc (3)
+>> and related functions.
+>> For each arena (allocation area), this function prints
+>> the total amount of memory allocated by means other than
+>> .BR mmap (2)
+>
+> If I understand correctly, A chunk that allocated by mmap (i.e.
+> IS_MMAPD marked one)
+> doesn't belong to arena. iow, chunk_for_arena() don't work for mmaped
+> chunk. then,
+>
+> For each arena (allocation area), this function prints
+> the total amount of memory.
+>
+> is enough.
 
-> I've looked through earlier SunOS versions and I didn't find
-> it n SunOS 3.5 but I did find it in SunOS 4.1.1.
-> So if i ever happened in SunOS it may happened in SunOS 4.0.
+Thanks Motohiro. As far as I can see you are correct. I'll make that change.
 
-Guy Harris wrote (1992-01-17):
+Cheers,
 
-: Unfortunately, "realpath()" is *not* present in BSD, as of 4.3-reno;
-: I think it first showed up in SunOS 4.0, and was then picked up by other
-: systems, such as System V Release 4.
+Michael
 
-That seems to define the history. SunOS 4.0 -> SVr4 -> Solaris 2.0.
-
-Concerning man pages: old man pages (for a derived version, cf.
-http://osr600doc.sco.com/en/man/html.S-osr5/realpath.S-osr5.html
-) document realpath as sometimes returning a relative path.
-Later man pages leave the old text but prefix it by a new
-paragraph stating that an absolute path is returned.
-This yields confusing versions like the SunOS 5.9 one given in
-http://www.s-gms.ms.edus.si/cgi-bin/man-cgi?realpath+3C .
-Still later man pages remove all mention of relative paths
-(or comment it out, as Apple did).
-
-Andries
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
