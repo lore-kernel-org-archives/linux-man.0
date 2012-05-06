@@ -1,8 +1,8 @@
 From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: [patch], stat(2): One table too wide for line length; use text
+Subject: [patch], syscalls(2): Table too wide for line length, use text
  blocks
-Date: Sun, 6 May 2012 20:06:19 +0000
-Message-ID: <20120506200619.GA1037@rhi.hi.is>
+Date: Sun, 6 May 2012 20:10:24 +0000
+Message-ID: <20120506201024.GA1067@rhi.hi.is>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -17,107 +17,118 @@ Version: 3.40
 Severity: minor
 Tags: patch
 
-  From "groff -ww" (or "man --warnings=w ..."):
+  From "groff -ww ..." (or "man --warnings=w ..."):
 
-warning: around line 442: table wider than line width
+warning: around line 157: table wider than line width
 
-  GNU man uses line length of 78.
-
-  Use text blocks.  Two spaces between sentences or better: start
-each sentence in a new line.
+  Have to use text blocks.  Move some text to its correct column.
+  Split text to two columns to avoid hyphenation.
 
   Patch:
 
---- stat.2	2012-04-26 22:58:36.000000000 +0000
-+++ stat.2.new	2012-05-06 02:10:05.000000000 +0000
-@@ -239,10 +239,10 @@
- FIFO (named pipe)?
- .TP
- .BR S_ISLNK (m)
--symbolic link? (Not in POSIX.1-1996.)
-+symbolic link?  (Not in POSIX.1-1996.)
- .TP
- .BR S_ISSOCK (m)
--socket? (Not in POSIX.1-1996.)
-+socket?  (Not in POSIX.1-1996.)
- .RE
- .PP
- The following flags are defined for the
-@@ -438,16 +438,18 @@
- l l l l l.
- hex	name	ls	octal	description
- f000	S_IFMT		170000	mask for file type
--0000			000000	SCO out-of-service inode; BSD unknown
--				type; SVID-v2 and XPG2 have both
--				0 and 0100000 for ordinary file
-+0000			000000	T{
-+SCO out-of-service inode; BSD unknown type; SVID-v2 and XPG2
-+have both 0 and 0100000 for ordinary file
+--- syscalls.2	2012-04-26 22:58:36.000000000 +0000
++++ syscalls.2.new	2012-05-06 03:51:43.000000000 +0000
+@@ -164,8 +164,9 @@
+ \fBadjtimex\fP(2)
+ \fBalarm\fP(2)
+ \fBalloc_hugepages\fP(2)	2.5.36	Removed in 2.5.44
+-\fBbdflush\fP(2)		Deprecated (does nothing)
+-		since 2.6
++\fBbdflush\fP(2)		T{
++Deprecated (does nothing) since 2.6
 +T}
- 1000	S_IFIFO	p|	010000	FIFO (named pipe)
- 2000	S_IFCHR	c	020000	character special (V7)
- 3000	S_IFMPC		030000	multiplexed character special (V7)
- 4000	S_IFDIR	d/	040000	directory (V7)
--5000	S_IFNAM		050000	XENIX named special file
--				with two subtypes, distinguished by
--				\fIst_rdev\fP values 1, 2
-+5000	S_IFNAM		050000	T{
-+XENIX named special file with two subtypes, distinguished by
-+\fIst_rdev\fP values 1, 2
+ \fBbind\fP(2)
+ \fBbrk\fP(2)
+ \fBcacheflush\fP(2)	1.2	Not on i386
+@@ -185,7 +186,7 @@
+ \fBclose\fP(2)
+ \fBconnect\fP(2)
+ \fBcreat\fP(2)
+-\fBcreate_module\fP(2)	Removed in 2.6
++\fBcreate_module\fP(2)		Removed in 2.6
+ \fBdelete_module\fP(2)
+ \fBdup\fP(2)
+ \fBdup2\fP(2)
+@@ -235,7 +236,7 @@
+ \fBftruncate64\fP(2)	2.4
+ \fBfutex\fP(2)	2.6
+ \fBfutimesat\fP(2)	2.6.16
+-\fBget_kernel_syms\fP(2)	Removed in 2.6
++\fBget_kernel_syms\fP(2)		Removed in 2.6
+ \fBget_mempolicy\fP(2)	2.6.6
+ \fBget_robust_list\fP(2)	2.6.17
+ \fBget_thread_area\fP(2)	2.6
+@@ -365,8 +366,9 @@
+ .\" , PowerPC, ARM; not i386
+ \fBpciconfig_write\fP(2)	2.0.26; 2.2	Not on i386
+ .\" , PowerPC, ARM; not i386
+-\fBperf_event_open\fP(2)	2.6.31	Was called perf_counter_open()
+-		in 2.6.31; renamed in 2.6.32
++\fBperf_event_open\fP(2)	2.6.31	T{
++Was called perf_counter_open() in 2.6.31; renamed in 2.6.32
 +T}
- 0001	S_INSEM	s	000001	XENIX semaphore subtype of IFNAM
- 0002	S_INSHD	m	000002	XENIX shared data subtype of IFNAM
- 6000	S_IFBLK	b	060000	block special (V7)
-@@ -456,26 +458,33 @@
- 9000	S_IFCMP		110000	VxFS compressed
- 9000	S_IFNWK	n	110000	network special (HP-UX)
- a000	S_IFLNK	l@	120000	symbolic link (BSD)
--b000	S_IFSHAD		130000	Solaris shadow inode for ACL
--				(not seen by userspace)
-+b000	S_IFSHAD		130000	T{
-+Solaris shadow inode for ACL (not seen by userspace)
+ \fBpersonality\fP(2)	1.2
+ .\" \fBperfctr\fP(2)	???	Sparc32, Sparc64
+ .\" \fBperfmonctl\fP(2)	???	ia64
+@@ -376,8 +378,9 @@
+ \fBpoll\fP(2)	2.2
+ \fBppoll\fP(2)	2.6.16
+ \fBprctl\fP(2)	2.2
+-\fBpread64\fP(2)		Added as "pread" in 2.2;
+-		renamed "pread64" in 2.6
++\fBpread64\fP(2)		T{
++Added as "pread" in 2.2; renamed "pread64" in 2.6
 +T}
- c000	S_IFSOCK	s=	140000	socket (BSD; also "S_IFSOC" on VxFS)
- d000	S_IFDOOR	D>	150000	Solaris door
- e000	S_IFWHT	w%	160000	BSD whiteout (not used for inode)
--0200	S_ISVTX		001000	sticky bit: save swapped text even
--				after use (V7)
--				reserved (SVID-v2)
--				On nondirectories: don't cache this
--				file (SunOS)
--				On directories: restricted deletion
--				flag (SVID-v4.2)
--0400	S_ISGID		002000	set-group-ID on execution (V7)
--				for directories: use BSD semantics for
--				propagation of GID
--0400	S_ENFMT		002000	System V file locking enforcement (shared
--				with S_ISGID)
-+0200	S_ISVTX		001000	T{
-+sticky bit: save swapped text even after use (V7)
-+.br
-+reserved (SVID-v2)
-+.br
-+On nondirectories: don't cache this file (SunOS)
-+.br
-+On directories: restricted deletion flag (SVID-v4.2)
+ \fBpreadv\fP(2)	2.6.30
+ \fBprlimit\fP(2)	2.6.36
+ \fBprocess_vm_readv(2)\fP	3.2
+@@ -385,8 +388,9 @@
+ \fBpselect6\fP(2)	2.6.16
+ .\" Implements \fBpselect\fP(2)
+ \fBptrace\fP(2)
+-\fBpwrite64\fP(2)		Added as "pwrite" in 2.2;
+-		renamed "pwrite64" in 2.6
++\fBpwrite64\fP(2)		T{
++Added as "pwrite" in 2.2; renamed "pwrite64" in 2.6
 +T}
-+0400	S_ISGID		002000	T{
-+set-group-ID on execution (V7)
-+.br
-+for directories: use BSD semantics for propagation of GID
+ \fBpwritev\fP(2)	2.6.30
+ \fBquery_module\fP(2)	2.2	Removed in 2.6
+ \fBquotactl\fP(2)
+@@ -442,8 +446,9 @@
+ \fBset_robust_list\fP(2)	2.6.17
+ \fBset_thread_area\fP(2)	2.6
+ \fBset_tid_address\fP(2)	2.6
+-\fBset_zone_reclaim\fP(2)	2.6.13	Removed in 2.6.16 (was never
+-		available to userspace)
++\fBset_zone_reclaim\fP(2)	2.6.13	T{
++Removed in 2.6.16 (was never available to userspace)
 +T}
-+0400	S_ENFMT		002000	T{
-+System V file locking enforcement (shared with S_ISGID)
+ .\" See http://lkml.org/lkml/2005/8/1/83
+ .\" "[PATCH] remove sys_set_zone_reclaim()"
+ \fBsetdomainname\fP(2)
+@@ -504,17 +509,19 @@
+ \fBstatfs\fP(2)
+ \fBstatfs64\fP(2)	2.6
+ \fBstime\fP(2)
+-\fBsubpage_prot\fP(2)	2.6.25	PowerPC if CONFIG_PPC_64K_PAGES
++\fBsubpage_prot\fP(2)	2.6.25	PowerPC if
++		CONFIG_PPC_64K_PAGES
+ \fBswapoff\fP(2)
+ \fBswapon\fP(2)
+ \fBsymlink\fP(2)
+ \fBsymlinkat\fP(2)	2.6.16
+ \fBsync\fP(2)
+ \fBsync_file_range\fP(2)	2.6.17
+-\fBsync_file_range2\fP(2)	2.6.22	Architecture-specific variant
++\fBsync_file_range2\fP(2)	2.6.22	T{
++Architecture-specific variant of \fBsync_file_range\fP(2)
 +T}
- 0800	S_ISUID		004000	set-user-ID on execution (V7)
--0800	S_CDF		004000	directory is a context dependent
--				file (HP-UX)
-+0800	S_CDF		004000	T{
-+directory is a context dependent file (HP-UX)
-+T}
- .TE
- 
- A sticky command appeared in Version 32V AT&T UNIX.
+ .\" PowerPC, ARM, tile
+ .\" First appeared on ARM, as arm_sync_file_range(), but later renamed
+-		of \fBsync_file_range\fP(2)
+ .\" \fBsys_debug_setcontext\fP(2)	???	PowerPC if CONFIG_PPC32
+ \fBsyncfs\fP(2)	2.6.39
+ \fBsysfs\fP(2)	1.2
 
 -- 
 Bjarni I. Gislason
