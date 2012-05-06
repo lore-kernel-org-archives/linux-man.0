@@ -1,7 +1,7 @@
 From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: [patch], ptrace(2): Unnecessary escape before ">"
-Date: Sun, 6 May 2012 20:02:17 +0000
-Message-ID: <20120506200217.GA1004@rhi.hi.is>
+Subject: [patch], console_codes(4): One table too wide for the line length
+Date: Sun, 6 May 2012 19:57:51 +0000
+Message-ID: <20120506195751.GA968@rhi.hi.is>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -16,52 +16,38 @@ Version: 3.40
 Severity: minor
 Tags: patch
 
-  From "groff -ww ..." (or "man --warnings=w ...":
+  From "groff -ww ..." (or "man --warnings=w ..."):
 
-<standard input>:758: warning: escape character ignored before `>'
+warning: around line 182: table wider than line width
 
-  Also periods (full stop) in ellipises "protected" with "\&".
+  Default length of line in GNU man is 78.
+
+  Split longest (last) line into two (or use text block).  Reduce
+four "l" to three.
 
   Patch:
 
---- ptrace.2	2012-04-26 22:58:36.000000000 +0000
-+++ ptrace.2.new	2012-05-06 01:13:38.000000000 +0000
-@@ -76,7 +76,7 @@
- Ptrace commands are always sent to
- a specific tracee using a call of the form
- 
--    ptrace(PTRACE_foo, pid, ...)
-+    ptrace(PTRACE_foo, pid, \&...\&)
- 
- where
- .I pid
-@@ -752,7 +752,7 @@
- .I WSTOPSIG(status)
- macro can't be used to perform this examination,
- because it returns the value
--.IR "(status\>>8)\ &\ 0xff" .)
-+.IR "(status>>8)\ &\ 0xff" .)
- .SS Signal-delivery-stop
- When a (possibly multithreaded) process receives any signal except
- .BR SIGKILL ,
-@@ -1507,14 +1507,14 @@
- .LP
- .nf
- *** we get syscall-enter-stop in thread 1: **
--PID1 execve("/bin/foo", "foo" <unfinished ...>
-+PID1 execve("/bin/foo", "foo" <unfinished \&...\&>
- *** we issue PTRACE_SYSCALL for thread 1 **
- *** we get syscall-enter-stop in thread 2: **
--PID2 execve("/bin/bar", "bar" <unfinished ...>
-+PID2 execve("/bin/bar", "bar" <unfinished \&...\&>
- *** we issue PTRACE_SYSCALL for thread 2 **
- *** we get PTRACE_EVENT_EXEC for PID0, we issue PTRACE_SYSCALL **
- *** we get syscall-exit-stop for PID0: **
--PID0 <... execve resumed> )             = 0
-+PID0 <...\& execve resumed> )             = 0
- .fi
- .LP
- If the
+--- console_codes.4	2012-04-26 22:58:39.000000000 +0000
++++ console_codes.4.new	2012-05-06 00:54:29.000000000 +0000
+@@ -175,7 +175,7 @@
+ .PP
+ The action of a CSI sequence is determined by its final character.
+ .TS
+-l l l l.
++l l l.
+ @	ICH	Insert the indicated # of blank characters.
+ A	CUU	Move cursor up the indicated # of rows.
+ B	CUD	Move cursor down the indicated # of rows.
+@@ -203,7 +203,8 @@
+ d	VPA	Move cursor to the indicated row, current column.
+ e	VPR	Move cursor down the indicated # of rows.
+ f	HVP	Move cursor to the indicated row, column.
+-g	TBC	Without parameter: clear tab stop at the current position.
++g	TBC	Without parameter: clear tab stop at the current
++		position.
+ 		ESC [ 3 g: delete all tab stops.
+ h	SM	Set Mode (see below).
+ l	RM	Reset Mode (see below).
 
 -- 
 Bjarni I. Gislason
