@@ -1,84 +1,47 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch], tty_ioctl(4): One warning from "groff", orthography
-Date: Mon, 7 May 2012 09:46:13 +1200
-Message-ID: <CAKgNAkgADR3R-ajeS8db2eVFdWru-7FEu-epZP4L7L=8nZfYWA@mail.gmail.com>
-References: <20120506205744.GA1681@rhi.hi.is>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] fopen.3: tfix
+Date: Sun,  6 May 2012 19:10:29 -0400
+Message-ID: <1336345829-22237-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120506205744.GA1681-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Bjarni,
+Introduced in 4d9edb6 and afd6f6.
+---
+ man3/fopen.3 |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-On Mon, May 7, 2012 at 8:57 AM, Bjarni Ingi Gislason <bjarniig-2945IVfuVpc@public.gmane.org=
-s> wrote:
-> Package: man-pages
-> Version: 3.40
-> Severity: minor
-> Tags: patch
->
-> =A0Warning from "groff -ww ..." (or "man --warnings=3Dw ..."):
->
-> <standard input>:252: warning: tab character in unquoted macro argume=
-nt
->
-> =A0One misspelling corrected, period (full stop) in an ellipis
-> "protected" with "\&".
->
-> =A0Patch:
->
-> --- tty_ioctl.4 2012-04-26 22:58:39.000000000 +0000
-> +++ tty_ioctl.4.new =A0 =A0 2012-05-06 20:29:46.307796209 +0000
-> @@ -8,7 +8,7 @@
-> =A0.SH SYNOPSIS
-> =A0.B "#include <termios.h>"
-> =A0.sp
-> -.BI "int ioctl(int " fd ", int " cmd ", ...);"
-> +.BI "int ioctl(int " fd ", int " cmd ", \&...);"
+diff --git a/man3/fopen.3 b/man3/fopen.3
+index 820b4ff..b84fe9c 100644
+--- a/man3/fopen.3
++++ b/man3/fopen.3
+@@ -327,11 +327,9 @@ If that operation is a wide-character operation,
+ the stream is marked wide-oriented,
+ and functions to convert to the coded character set are loaded.
+ .SH BUGS
+-In versions of glibc before
+-.SH BUGS
+ When parsing for individual flag characters in
+ .IR mode
+-(i.e., the characters preceding the "ccs" specification"),
++(i.e., the characters preceding the "ccs" specification),
+ the glibc implementation of
+ .\" FIXME http://sourceware.org/bugzilla/show_bug.cgi?id=12685
+ .BR fopen ()
+@@ -343,7 +341,7 @@ to 7 (or, in glibc versions before 2.14, to 6,
+ which was not enough to include possible specifications such as "rb+cmxe").
+ The current implementation of
+ .BR fdopen ()
+-parses at most 5 characters in in
++parses at most 5 characters in
+ .IR mode .
+ .SH "SEE ALSO"
+ .BR open (2),
+-- 
+1.7.10
 
-I left this.
-
-> =A0.SH DESCRIPTION
-> =A0The
-> =A0.BR ioctl (2)
-> @@ -246,7 +246,7 @@
-> =A0equals 1, in which case the terminal is stolen, and all processes =
-that had
-> =A0it as controlling terminal lose it.
-> =A0.TP
-> -.B TIOCNOTTY =A0 void
-> +.B "TIOCNOTTY =A0void"
-
-Applied.
-
-> =A0If the given terminal was the controlling terminal of the calling =
-process,
-> =A0give up this controlling terminal.
-> =A0If the process was session leader,
-> @@ -299,7 +299,7 @@
-> =A0.TP
-> =A0.BI "TIOCSETD =A0const int *" argp
-> =A0Set the line discipline of the terminal.
-> -.SS "Psuedoterminal ioctls"
-> +.SS "Pseudoterminal ioctls"
-
-Applied.
-
-thanks,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
