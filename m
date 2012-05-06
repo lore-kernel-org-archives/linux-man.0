@@ -1,53 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch], syscalls(2): Table too wide for line length, use text blocks
-Date: Mon, 7 May 2012 09:24:23 +1200
-Message-ID: <CAKgNAkgh15WpOCjaM5D03jcPh1WyvaCsbDCoyD6R7AUWLv_OHw@mail.gmail.com>
-References: <20120506201024.GA1067@rhi.hi.is> <CAKgNAkhKm7-WvYnAG9XQDpvf1AX0MchFAUhgXBO++2Hor93AJQ@mail.gmail.com>
+Subject: Re: [PATCH] rexec.3: tfix
+Date: Mon, 7 May 2012 09:26:47 +1200
+Message-ID: <CAKgNAki3GTCye0wBNtzUtKWHo98ffV10SuGeiscw6GqV=XOW0w@mail.gmail.com>
+References: <1336330876-17248-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhKm7-WvYnAG9XQDpvf1AX0MchFAUhgXBO++2Hor93AJQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1336330876-17248-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, May 7, 2012 at 9:09 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Bjarni,
->
-> On Mon, May 7, 2012 at 8:10 AM, Bjarni Ingi Gislason <bjarniig-5zMUtr2BsJg@public.gmane.org=
-=2Eis> wrote:
->> Package: man-pages
->> Version: 3.40
->> Severity: minor
->> Tags: patch
->>
->> =A0From "groff -ww ..." (or "man --warnings=3Dw ..."):
->>
->> warning: around line 157: table wider than line width
->>
->> =A0Have to use text blocks. =A0Move some text to its correct column.
->> =A0Split text to two columns to avoid hyphenation.
->>
->> =A0Patch:
->
-> I thought further about your patch. What it needed as
-> .ad l
-> .ad j
+Hi David,
 
-I got that slightly wrong. Should be
+On Mon, May 7, 2012 at 7:01 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
+e:
+> Introduced in 4cd4a6. Maybe =93thus=94 would suit better than =93and=94=
+=2E
 
-=2Ead l
-=2Ead
-
-around the table.
+Applied. "and" is okay.
 
 Thanks,
 
 Michael
+
+
+> ---
+> =A0man3/rexec.3 | =A0 =A02 +-
+> =A01 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/man3/rexec.3 b/man3/rexec.3
+> index 145b789..b7d0738 100644
+> --- a/man3/rexec.3
+> +++ b/man3/rexec.3
+> @@ -145,7 +145,7 @@ function first appeared in
+> =A04.2BSD, and is present on the BSDs, Solaris, and many other system=
+s.
+> =A0The
+> =A0.BR rexec_af ()
+> -function is more recent, nad less widespread.
+> +function is more recent, and less widespread.
+> =A0.SH BUGS
+> =A0The
+> =A0.BR rexec ()
+> --
+> 1.7.10
+>
+
+
+
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
