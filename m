@@ -1,71 +1,81 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: typo fixes in
-Date: Tue, 8 May 2012 09:17:19 +1200
-Message-ID: <CAKgNAkjg7mW6ZQMSjG755+gkqTZ8QeFUdM0FETtaejyFxNZB-w@mail.gmail.com>
-References: <CALhU9tnz7QAnqfCz-Td95wW9kVYFG=Rwgk76ChYcjBcOmKHQFQ@mail.gmail.com>
+Subject: Re: [PATCH] clock_getres.2: tfix
+Date: Tue, 8 May 2012 09:20:38 +1200
+Message-ID: <CAKgNAki72VuX5TPhQTC3WrTuL62usFSGO7CoSO3cPTVS2LO9Jw@mail.gmail.com>
+References: <1336419296-4823-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9tnz7QAnqfCz-Td95wW9kVYFG=Rwgk76ChYcjBcOmKHQFQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1336419296-4823-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 8, 2012 at 6:01 AM, Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrot=
+On Tue, May 8, 2012 at 7:34 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
 e:
-> Hello,
->
-> Here are minor typo fixes (against man-pages 3.40 release).
->
-> Thanks in advance,
+> Introduced in 63f0f3d and 22594a3.
 
-Hello Akihiro.
+Applied!
 
-Thanks. I applied the patches.
+Thanks David.
 
 Cheers,
 
 Michael
 
 
-> --
-> Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> ---
+> =A0man2/clock_getres.2 | =A0 =A08 ++++----
+> =A01 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/man3/posix_memalign.3 b/man3/posix_memalign.3
-> index 5d33cba..012860f 100644
-> --- a/man3/posix_memalign.3
-> +++ b/man3/posix_memalign.3
-> @@ -259,7 +259,7 @@ and then align the obtained value).
-> =A0.\" but not to
-> =A0.\" .IR realloc (3).
-> =A0The glibc implementation
-> -allows memory obtained from any of these these functions to be
-> +allows memory obtained from any of these functions to be
-> =A0reclaimed with
-> =A0.BR free (3).
->
-> diff --git a/man7/capabilities.7 b/man7/capabilities.7
-> index 8d69ba4..09dc018 100644
-> --- a/man7/capabilities.7
-> +++ b/man7/capabilities.7
-> @@ -363,7 +363,7 @@ to insert characters into the input queue of a
-> terminal other than
-> =A0the caller's controlling terminal.
-> =A0.IP *
-> =A0employ the obsolete
-> -.BR nfsservctl (2);
-> +.BR nfsservctl (2)
-> =A0system call;
-> =A0.IP *
-> =A0employ the obsolete
+> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+> index 40c44a2..a1e27ad 100644
+> --- a/man2/clock_getres.2
+> +++ b/man2/clock_getres.2
+> @@ -127,7 +127,7 @@ Setting this clock requires appropriate privilege=
+s.
+> =A0This clock is affected by discontinuous jumps in the system time
+> =A0(e.g., if the system administrator manually changes the clock),
+> =A0and by the incremental adjustments performed by
+> -.BR adjtime (2)
+> +.BR adjtime (3)
+> =A0and NTP.
+> =A0.TP
+> =A0.B CLOCK_MONOTONIC
+> @@ -136,7 +136,7 @@ some unspecified starting point.
+> =A0This clock is not affected by discontinuous jumps in the system ti=
+me
+> =A0(e.g., if the system administrator manually changes the clock),
+> =A0but is affected by the incremental adjustments performed by
+> -.BR adjtime (2)
+> +.BR adjtime (3)
+> =A0and NTP.
+> =A0.TP
+> =A0.BR CLOCK_MONOTONIC_RAW " (since Linux 2.6.28; Linux-specific)"
+> @@ -146,7 +146,7 @@ Similar to
+> =A0but provides access to a raw hardware-based time
+> =A0that is not subject to NTP adjustments or
+> =A0the incremental adjustments performed by
+> -.BR adjtime (2).
+> +.BR adjtime (3).
+> =A0.TP
+> =A0.B CLOCK_PROCESS_CPUTIME_ID
+> =A0High-resolution per-process timer from the CPU.
+> @@ -239,7 +239,7 @@ On Linux, these clocks are not settable
+> =A0.\" See http://bugzilla.kernel.org/show_bug.cgi?id=3D11972
+> =A0.SH "SEE ALSO"
+> =A0.BR date (1),
+> -.BR adjtime (2),
+> +.BR adjtime (3),
+> =A0.BR gettimeofday (2),
+> =A0.BR settimeofday (2),
+> =A0.BR time (2),
 > --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" =
-in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at =A0http://vger.kernel.org/majordomo-info.html
+> 1.7.10
+>
 
 
 
