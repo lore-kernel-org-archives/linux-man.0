@@ -1,71 +1,76 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: aio manuals
-Date: Tue, 8 May 2012 08:40:46 +1200
-Message-ID: <CAKgNAkh9jnybota9W_-iD6Uc6c2pJuMiTus2GLk53ysvCVhhRQ@mail.gmail.com>
-References: <20110309180600.GA14533@saboteur.suse.cz> <x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
- <20110316104356.GB32095@saboteur.suse.cz> <x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
- <20110316152018.GG2096@saboteur.suse.cz> <20111013082918.GA17800@saboteur.suse.cz>
- <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com> <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Date: Mon, 07 May 2012 16:52:19 -0400
+Message-ID: <x49lil3soho.fsf@segfault.boston.devel.redhat.com>
+References: <20110309180600.GA14533@saboteur.suse.cz>
+	<x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
+	<20110316104356.GB32095@saboteur.suse.cz>
+	<x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
+	<20110316152018.GG2096@saboteur.suse.cz>
+	<20111013082918.GA17800@saboteur.suse.cz>
+	<CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
+	<x4962c8t8b8.fsf@segfault.boston.devel.redhat.com>
+	<CAKgNAkh9jnybota9W_-iD6Uc6c2pJuMiTus2GLk53ysvCVhhRQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <x4962c8t8b8.fsf-RRHT56Q3PSP4kTEheFKJxxDDeQx5vsVwAInAS/Ez/D0@public.gmane.org>
+In-Reply-To: <CAKgNAkh9jnybota9W_-iD6Uc6c2pJuMiTus2GLk53ysvCVhhRQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(Michael Kerrisk's message of "Tue, 8 May 2012 08:40:46 +1200")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 8, 2012 at 1:44 AM, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->
->> On Thu, Oct 13, 2011 at 9:29 PM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrot=
-e:
->>> Hi!
->>>> > > So should we settle for memset()? I could update send updated =
-patch
->>>> > > then.
->>>> >
->>>> > Yeah, memset is what I typically have done.
->>>> >
->>>>
->>>> Here comes updated patch.
->>>
->>> I've checked the latest man pages git and these changes aren't ther=
-e
->>> yet. Any comments?
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+
+> On Tue, May 8, 2012 at 1:44 AM, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 >>
->> So, I'm struggling. What is the relationship between the io_*()
->> functions in libaio and the io_*() syscalls?
+>>> On Thu, Oct 13, 2011 at 9:29 PM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wro=
+te:
+>>>> Hi!
+>>>>> > > So should we settle for memset()? I could update send updated=
+ patch
+>>>>> > > then.
+>>>>> >
+>>>>> > Yeah, memset is what I typically have done.
+>>>>> >
+>>>>>
+>>>>> Here comes updated patch.
+>>>>
+>>>> I've checked the latest man pages git and these changes aren't the=
+re
+>>>> yet. Any comments?
+>>>
+>>> So, I'm struggling. What is the relationship between the io_*()
+>>> functions in libaio and the io_*() syscalls?
+>>
+>> The io_* library calls are wrappers around the system calls. =C2=A0I=
+n some
+>> cases, the wrappers simply pass the arguments on to the system call.=
+ =C2=A0In
+>> other cases, there is some work performed by the library.
+>>
+>>> The page was attempting to document the system calls, which use
+>>> aio_context_t structures,
+>>
+>> Well, aio_context_t is not a structure, it's just an unsigned long.
+>>
+>> I guess that we'll ultimately need the io_* syscalls documented in
+>> chapter 2, and the library function documented in chapter 3, right?
 >
-> The io_* library calls are wrappers around the system calls. =A0In so=
-me
-> cases, the wrappers simply pass the arguments on to the system call. =
-=A0In
-> other cases, there is some work performed by the library.
+> Jeff,
 >
->> The page was attempting to document the system calls, which use
->> aio_context_t structures,
->
-> Well, aio_context_t is not a structure, it's just an unsigned long.
->
-> I guess that we'll ultimately need the io_* syscalls documented in
-> chapter 2, and the library function documented in chapter 3, right?
+> Quick question: where is the canonical home of libaio? It's not easy
+> to find. I'd like to ensure I'l looking at the latest sources, ideall=
+y
+> by pulling from a VCS.
 
-Jeff,
-
-Quick question: where is the canonical home of libaio? It's not easy
-to find. I'd like to ensure I'l looking at the latest sources, ideally
-by pulling from a VCS.
+http://git.fedorahosted.org/git/?p=3Dlibaio.git
 
 Cheers,
-
-Michael
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Jeff
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
