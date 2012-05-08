@@ -1,83 +1,41 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: online man pages text size
-Date: Wed, 9 May 2012 10:32:44 +1200
-Message-ID: <CAKgNAkhN5424Ed-7PE4HE+pUyewXN=U2FeYxhnSRYs0Hsr1P9w@mail.gmail.com>
-References: <4E90DAF2.8000004@jguk.org> <CAKgNAkj5hannN-TYaDZy7=XvTdw+xFnDn9RWWv4RMSMX+YEQ6g@mail.gmail.com>
- <4FA99203.6040002@jguk.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] getcpu(2): document return/error values
+Date: Tue,  8 May 2012 18:36:07 -0400
+Message-ID: <1336516567-21737-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FA99203.6040002-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Jon,
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/getcpu.2 |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/man2/getcpu.2 b/man2/getcpu.2
+index 03e724a..a9d0793 100644
+--- a/man2/getcpu.2
++++ b/man2/getcpu.2
+@@ -48,6 +48,15 @@ The caller must be prepared to handle the situation when
+ and
+ .I node
+ are no longer the current CPU and node.
++.SH "RETURN VALUE"
++On success, 0 is returned.
++On error, \-1 is returned, and
++.I errno
++is set appropriately.
++.SH ERRORS
++.TP
++.B EFAULT
++Arguments point outside the calling process's address space.
+ .SH VERSIONS
+ .BR getcpu ()
+ was added in kernel 2.6.19 for x86_64 and i386.
+-- 
+1.7.9.7
 
->>> Just looked at the man pages from a mobile device (HTC desire) noti=
-ced
->>> that
->>> the text sizes are quite small and hard to read. Would it be possib=
-le to
->>> increase the text-size to 12pt?
->>>
->>> It's also pretty small on Firefox on my ubuntu netbook (default ins=
-tall,
->>> Firefox 7.01)
->>>
->>> I was looking at these two pages:
->>>
->>> http://man7.org/linux/man-pages/online/dir_all_alphabetic.html
->>>
->>> http://man7.org/linux/man-pages/online/pages/man3/realpath.3.html
->>>
->>> The heading particularly small:
->>>
->>> "NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS |
->>> CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON =A0The Linux Pro=
-gramming
->>> Interface"
->>
->>
->> I've made a few tweaks that should improve things a little. The
->> changes should appear with the next website update. Check back at th=
-e
->> end of the week.
->
->
-> That overall looks =A0much better. There is one last element that is =
-repeated
-> small, the "top" links at font size -2.
->
-> <font size=3D"-2">top</font>
->
-> Could that -2 =A0be removed?
-
-I'm inclined to leave as is. I want those top links to be small and uni=
-ntrusive?
-
-> BTW, could I ask, do you publish your scripts which generate these on=
-line
-> man pages? It looks very good.
-
-No, I haven't published them.
-
-Thanks,
-
-Cheers,
-
-Michael
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
