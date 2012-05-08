@@ -1,13 +1,13 @@
 From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Re: Is there a way to get "EINVAL" style string
-Date: Tue, 08 May 2012 22:33:45 +0100
-Message-ID: <4FA99139.90102@jguk.org>
-References: <4F93E7FC.1020904@jguk.org> <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g@mail.gmail.com>
+Subject: Re: online man pages text size
+Date: Tue, 08 May 2012 22:37:07 +0100
+Message-ID: <4FA99203.6040002@jguk.org>
+References: <4E90DAF2.8000004@jguk.org> <CAKgNAkj5hannN-TYaDZy7=XvTdw+xFnDn9RWWv4RMSMX+YEQ6g@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkj5hannN-TYaDZy7=XvTdw+xFnDn9RWWv4RMSMX+YEQ6g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,42 +15,46 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael
 
-On 22/04/12 22:25, Michael Kerrisk (man-pages) wrote:
+On 17/04/12 21:18, Michael Kerrisk (man-pages) wrote:
 > Hi Jon,
 >
-> On Sun, Apr 22, 2012 at 11:14 PM, Jon Grant<jg-hus3n9K41k0@public.gmane.org>  wrote:
->> Hello
+> On Sun, Oct 9, 2011 at 12:21 PM, Jon Grant<jg-hus3n9K41k0@public.gmane.org>  wrote:
+>> Hi
 >>
->> I was looking at the man pages looking for a way to get a string of the
->> errno value meaning. This is kind of a user question.
+>> Just looked at the man pages from a mobile device (HTC desire) noticed that
+>> the text sizes are quite small and hard to read. Would it be possible to
+>> increase the text-size to 12pt?
 >>
->> This API returns "returns a pointer to a string that describes the error
->> code":
+>> It's also pretty small on Firefox on my ubuntu netbook (default install,
+>> Firefox 7.01)
 >>
->> http://man7.org/linux/man-pages/man3/strerror.3.html
+>> I was looking at these two pages:
 >>
->> However, this is a description, e.g. "Invalid argument".  Is there a
->> function that would return "EINVAL" or "ENOENT" as the string?
+>> http://man7.org/linux/man-pages/online/dir_all_alphabetic.html
+>>
+>> http://man7.org/linux/man-pages/online/pages/man3/realpath.3.html
+>>
+>> The heading particularly small:
+>>
+>> "NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS |
+>> CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON  The Linux Programming
+>> Interface"
 >
-> None that I know of. (In passing, I dealt with exactly this problem
-> for my book with a script that generated the string names; see
-> http://man7.org/tlpi/code/online/dist/lib/ename.c.inc.html and
-> http://man7.org/tlpi/code/online/dist/lib/error_functions.c.html)
+> I've made a few tweaks that should improve things a little. The
+> changes should appear with the next website update. Check back at the
+> end of the week.
 
-Interesting. I saw on the ename.c page that the numbers were in the 
-table hard coded -- is it guaranteed that 90 will always correspond to 
-EPROTOTYPE on a unixy system?
+That overall looks  much better. There is one last element that is 
+repeated small, the "top" links at font size -2.
 
->> Could I suggest that the text on the man page be updated to clarify what
->> would be returned:
->>
->> "returns a pointer to a string that describes the error code. e.g. "Invalid
->> argument" if EINVAL was the errnum."
->
-> Done for 3.40.
+<font size="-2">top</font>
 
-Great, thank you!
-Jon
+Could that -2  be removed?
+
+BTW, could I ask, do you publish your scripts which generate these 
+online man pages? It looks very good.
+
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
