@@ -1,53 +1,56 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] symlinkat.2: tfix
-Date: Tue, 8 May 2012 22:38:09 +1200
-Message-ID: <CAKgNAkhgugGUrV73rXXf8uH+KqL6wnq_3MQk3mB4=HX+RJ4g=g@mail.gmail.com>
-References: <CAMqf4EEmGDZF-NKxKvBmujjFXD7xPQCZ1rmSV3MsMOCRM+gSzQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: Re: Is there a way to get "EINVAL" style string
+Date: Tue, 08 May 2012 22:33:45 +0100
+Message-ID: <4FA99139.90102@jguk.org>
+References: <4F93E7FC.1020904@jguk.org> <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMqf4EEmGDZF-NKxKvBmujjFXD7xPQCZ1rmSV3MsMOCRM+gSzQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 8, 2012 at 8:09 PM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello,
+Hi Michael
+
+On 22/04/12 22:25, Michael Kerrisk (man-pages) wrote:
+> Hi Jon,
 >
-> =A0man2/symlinkat.2 | =A0 =A02 +-
-> =A01 file changed, 1 insertion(+), 1 deletion(-)
+> On Sun, Apr 22, 2012 at 11:14 PM, Jon Grant<jg-hus3n9K41k0@public.gmane.org>  wrote:
+>> Hello
+>>
+>> I was looking at the man pages looking for a way to get a string of the
+>> errno value meaning. This is kind of a user question.
+>>
+>> This API returns "returns a pointer to a string that describes the error
+>> code":
+>>
+>> http://man7.org/linux/man-pages/man3/strerror.3.html
+>>
+>> However, this is a description, e.g. "Invalid argument".  Is there a
+>> function that would return "EINVAL" or "ENOENT" as the string?
+>
+> None that I know of. (In passing, I dealt with exactly this problem
+> for my book with a script that generated the string names; see
+> http://man7.org/tlpi/code/online/dist/lib/ename.c.inc.html and
+> http://man7.org/tlpi/code/online/dist/lib/error_functions.c.html)
 
-Thank Denis. Applied
+Interesting. I saw on the ename.c page that the numbers were in the 
+table hard coded -- is it guaranteed that 90 will always correspond to 
+EPROTOTYPE on a unixy system?
 
-Cheers,
+>> Could I suggest that the text on the man page be updated to clarify what
+>> would be returned:
+>>
+>> "returns a pointer to a string that describes the error code. e.g. "Invalid
+>> argument" if EINVAL was the errnum."
+>
+> Done for 3.40.
 
-Michael
-
-
-> diff --git a/man2/symlinkat.2 b/man2/symlinkat.2
-> index ac5981b..5eed360 100644
-> --- a/man2/symlinkat.2
-> +++ b/man2/symlinkat.2
-> @@ -114,7 +114,7 @@ is a file descriptor referring to a file other
-> than a directory.
-> =A0.SH VERSIONS
-> =A0.BR symlinkat ()
-> =A0was added to Linux in kernel 2.6.16;
-> -library support was added to glibc in version 2.4..
-> +library support was added to glibc in version 2.4.
-> =A0.SH "CONFORMING TO"
-> =A0POSIX.1-2008.
-> =A0.SH NOTES
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Great, thank you!
+Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
