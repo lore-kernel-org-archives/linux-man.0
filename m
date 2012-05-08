@@ -1,51 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] inotify_init.2: tfix
-Date: Tue, 8 May 2012 22:36:58 +1200
-Message-ID: <CAKgNAkht0rra08kygV0cf2d125edg+FyNAO8m8746yfrS0OdWQ@mail.gmail.com>
-References: <CAMqf4EGTNsUGGWS6QGApr=P7_GG0BUAMXTXK3CrALB2act0UOw@mail.gmail.com>
+Subject: Re: [PATCH] symlinkat.2: tfix
+Date: Tue, 8 May 2012 22:38:09 +1200
+Message-ID: <CAKgNAkhgugGUrV73rXXf8uH+KqL6wnq_3MQk3mB4=HX+RJ4g=g@mail.gmail.com>
+References: <CAMqf4EEmGDZF-NKxKvBmujjFXD7xPQCZ1rmSV3MsMOCRM+gSzQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMqf4EGTNsUGGWS6QGApr=P7_GG0BUAMXTXK3CrALB2act0UOw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAMqf4EEmGDZF-NKxKvBmujjFXD7xPQCZ1rmSV3MsMOCRM+gSzQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 8, 2012 at 7:18 PM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Tue, May 8, 2012 at 8:09 PM, D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 > Hello,
 >
-> Here is a trivial patch.
+> =A0man2/symlinkat.2 | =A0 =A02 +-
+> =A01 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks. Applied.
+Thank Denis. Applied
 
 Cheers,
 
 Michael
 
 
-> =A0man2/inotify_init.2 | =A0 =A04 ++--
-> =A01 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/inotify_init.2 b/man2/inotify_init.2
-> index 3772543..41fccb7 100644
-> --- a/man2/inotify_init.2
-> +++ b/man2/inotify_init.2
-> @@ -91,10 +91,10 @@ Insufficient kernel memory is available.
+> diff --git a/man2/symlinkat.2 b/man2/symlinkat.2
+> index ac5981b..5eed360 100644
+> --- a/man2/symlinkat.2
+> +++ b/man2/symlinkat.2
+> @@ -114,7 +114,7 @@ is a file descriptor referring to a file other
+> than a directory.
 > =A0.SH VERSIONS
-> =A0.BR inotify_init ()
-> =A0first appeared in Linux 2.6.1;
-> -lbrary support was added to glibc in version 2.4.
+> =A0.BR symlinkat ()
+> =A0was added to Linux in kernel 2.6.16;
+> -library support was added to glibc in version 2.4..
 > +library support was added to glibc in version 2.4.
-> =A0.BR inotify_init1 ()
-> =A0was added in Linux 2.6.27;
-> -lbrary support was added to glibc in version 2.9.
-> +library support was added to glibc in version 2.9.
 > =A0.SH "CONFORMING TO"
-> =A0These system calls are Linux-specific.
-> =A0.SH "SEE ALSO"
+> =A0POSIX.1-2008.
+> =A0.SH NOTES
 
 
 
