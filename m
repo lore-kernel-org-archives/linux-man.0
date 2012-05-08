@@ -1,15 +1,15 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Is there a way to get "EINVAL" style string
-Date: Wed, 9 May 2012 10:30:54 +1200
-Message-ID: <CAKgNAkjiv=mb4A6tSFxJx8iTD91-idu2WcqnXP-AZABgM8Jj3w@mail.gmail.com>
-References: <4F93E7FC.1020904@jguk.org> <CAKgNAkjP-SZXceGDaBeuNE9onk_w9-8rX1uk-XE2dRu5x8uz_g@mail.gmail.com>
- <4FA99139.90102@jguk.org>
+Subject: Re: online man pages text size
+Date: Wed, 9 May 2012 10:32:44 +1200
+Message-ID: <CAKgNAkhN5424Ed-7PE4HE+pUyewXN=U2FeYxhnSRYs0Hsr1P9w@mail.gmail.com>
+References: <4E90DAF2.8000004@jguk.org> <CAKgNAkj5hannN-TYaDZy7=XvTdw+xFnDn9RWWv4RMSMX+YEQ6g@mail.gmail.com>
+ <4FA99203.6040002@jguk.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FA99139.90102-hus3n9K41k0@public.gmane.org>
+In-Reply-To: <4FA99203.6040002-hus3n9K41k0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -17,39 +17,61 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Jon,
 
->>> I was looking at the man pages looking for a way to get a string of=
- the
->>> errno value meaning. This is kind of a user question.
->>>
->>> This API returns "returns a pointer to a string that describes the =
-error
->>> code":
->>>
->>> http://man7.org/linux/man-pages/man3/strerror.3.html
->>>
->>> However, this is a description, e.g. "Invalid argument". =A0Is ther=
-e a
->>> function that would return "EINVAL" or "ENOENT" as the string?
->>
->>
->> None that I know of. (In passing, I dealt with exactly this problem
->> for my book with a script that generated the string names; see
->> http://man7.org/tlpi/code/online/dist/lib/ename.c.inc.html and
->> http://man7.org/tlpi/code/online/dist/lib/error_functions.c.html)
->
->
-> Interesting. I saw on the ename.c page that the numbers were in the t=
-able
-> hard coded -- is it guaranteed that 90 will always correspond to EPRO=
-TOTYPE
-> on a unixy system?
 
-No. So, my build code deals with this by using a script to build a
-platform-specific ename.c.inc file (have a look at the tarball.)
+>>> Just looked at the man pages from a mobile device (HTC desire) noti=
+ced
+>>> that
+>>> the text sizes are quite small and hard to read. Would it be possib=
+le to
+>>> increase the text-size to 12pt?
+>>>
+>>> It's also pretty small on Firefox on my ubuntu netbook (default ins=
+tall,
+>>> Firefox 7.01)
+>>>
+>>> I was looking at these two pages:
+>>>
+>>> http://man7.org/linux/man-pages/online/dir_all_alphabetic.html
+>>>
+>>> http://man7.org/linux/man-pages/online/pages/man3/realpath.3.html
+>>>
+>>> The heading particularly small:
+>>>
+>>> "NAME | SYNOPSIS | DESCRIPTION | RETURN VALUE | ERRORS | VERSIONS |
+>>> CONFORMING TO | NOTES | BUGS | SEE ALSO | COLOPHON =A0The Linux Pro=
+gramming
+>>> Interface"
+>>
+>>
+>> I've made a few tweaks that should improve things a little. The
+>> changes should appear with the next website update. Check back at th=
+e
+>> end of the week.
+>
+>
+> That overall looks =A0much better. There is one last element that is =
+repeated
+> small, the "top" links at font size -2.
+>
+> <font size=3D"-2">top</font>
+>
+> Could that -2 =A0be removed?
+
+I'm inclined to leave as is. I want those top links to be small and uni=
+ntrusive?
+
+> BTW, could I ask, do you publish your scripts which generate these on=
+line
+> man pages? It looks very good.
+
+No, I haven't published them.
 
 Thanks,
 
+Cheers,
+
 Michael
+
 
 
 --=20
