@@ -1,35 +1,62 @@
-From: Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
-Date: Wed, 09 May 2012 23:16:05 +0100
-Message-ID: <4FAAECA5.8050606@redhat.com>
-References: <20091216004533.22261.qmail@kosh.dhis.org> <4FAAC706.6000808@redhat.com> <20120509201219.GA32051@redhat.com> <201205091241.59060.vapier@gentoo.org> <20120509211429.GA2455@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch], ascii(7): Indent for "troff" makes table to wide
+Date: Thu, 10 May 2012 11:52:30 +1200
+Message-ID: <CAKgNAkgcbQFWLrHZeoeeO-9TJKmV1KH20HPwPkGzuXH=pry24A@mail.gmail.com>
+References: <20120509194214.GA23489@rhi.hi.is>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120509211429.GA2455-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20120509194214.GA23489-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/09/2012 10:14 PM, Oleg Nesterov wrote:
+On Thu, May 10, 2012 at 7:42 AM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> Package: man-pages
+> Version: 3.40
+> Severity: minor
+> Tags: patch
+>
+> =A0From "groff -t -ww ...":
+>
+> warning: around line 53: table wider than line width
+>
+> =A0Extra indent for "troff" makes the table look misplaced
+> (default "ps" output).
 
->> i like to assume that my code isn't going to be bug free, so the more
->> mechanisms i have in place to protect innocent bystanders the better :)
->> -mike
-> 
-> From this pov PTRACE_KILL is safer, I agree ;)
+Thanks Bjarni. Applied!
+
+Cheers,
+
+Michael
 
 
-Yeah, until you trip on that case where it resumes the process
-instead of killing it...  At that point, it's useless.
+> =A0Patch:
+>
+> --- ascii.7 =A0 =A0 2012-04-26 22:58:39.000000000 +0000
+> +++ ascii.7.new 2012-05-09 00:46:03.000000000 +0000
+> @@ -45,7 +45,6 @@
+> =A0.LP
+> =A0C program \f(CW\(aq\eX\(aq\fP escapes are noted.
+> =A0.if t \{\
+> -.in 1i
+> =A0.ft CW
+> =A0\}
+> =A0.TS
+>
+> --
+> Bjarni I. Gislason
 
-Since I know Mike likes hacking on GDB so much ;-), FYI, this is
-exercised by the gdb.base/kill-after-signal.exp test.
 
--- 
-Pedro Alves
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
