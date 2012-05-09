@@ -1,44 +1,39 @@
-From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: [patch], cp1251(7): table too wide
-Date: Wed, 9 May 2012 19:46:51 +0000
-Message-ID: <20120509194651.GA23531@rhi.hi.is>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
+Date: Wed, 9 May 2012 22:12:19 +0200
+Message-ID: <20120509201219.GA32051@redhat.com>
+References: <20091216004533.22261.qmail@kosh.dhis.org> <CAKgNAkhtu8d0NKcTwWyCA8qWgz8Lag+GcpEE1=YMVe_Nh8XJ9Q@mail.gmail.com> <20120422200459.GA7519@redhat.com> <201205091109.35637.vapier@gentoo.org> <4FAAC706.6000808@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
+In-Reply-To: <4FAAC706.6000808-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Package: man-pages
-Version: 3.40
-Severity: minor
-Tags: patch
+On 05/09, Pedro Alves wrote:
+>
+> On 05/09/2012 04:09 PM, Mike Frysinger wrote:
+>
+> > probably not that big of a deal, but the reason i like using
+> > ptrace(PTRACE_KILL) over a raw kill() is that you are less likely to kill the
+> > wrong process by accident.  maybe not that big of a deal in practice though.
+>
+>
+> And you can do tgkill instead.  It was specifically invented to handle the
+> reuse case.
 
-  From "nroff -ww -t ...":
+tgkill() can kill the wrong process/thread too, although it lessens the risk.
 
-warning: around line 44: table wider than line width
+But I don't really understand the problem. The traced thread can't go away
+until the tracer does wait/detach, and thus its pid can't be reused?
 
-  Columns are made narrower (column gutter decreased).
+May be, "by accident" above means something else, not pid reuse...
 
-  Patch:
+Oleg.
 
---- cp1251.7	2012-04-26 22:58:39.000000000 +0000
-+++ cp1251.7.new	2012-05-09 02:05:59.000000000 +0000
-@@ -37,7 +37,7 @@
- The fourth column will only show the proper glyphs
- in an environment configured for CP\ 1251.
- .TS
--l l l c lp-1.
-+l2 l2 l2 c2 lp-1.
- Oct	Dec	Hex	Char	Description
- _
- 200	128	80	=80	CYRILLIC CAPITAL LETTER DJE
-
---=20
-Bjarni I. Gislason
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
