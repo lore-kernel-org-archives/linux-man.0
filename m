@@ -1,37 +1,36 @@
-From: Pedro Alves <palves@redhat.com>
+From: Pedro Alves <palves-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
-Date: Wed, 09 May 2012 23:08:15 +0100
-Message-ID: <4FAAEACF.3070405@redhat.com>
-References: <20091216004533.22261.qmail@kosh.dhis.org> <CAKgNAkhtu8d0NKcTwWyCA8qWgz8Lag+GcpEE1=YMVe_Nh8XJ9Q@mail.gmail.com> <20120422200459.GA7519@redhat.com> <201205091109.35637.vapier@gentoo.org> <4FAAC706.6000808@redhat.com> <20120509201219.GA32051@redhat.com>
+Date: Wed, 09 May 2012 23:16:05 +0100
+Message-ID: <4FAAECA5.8050606@redhat.com>
+References: <20091216004533.22261.qmail@kosh.dhis.org> <4FAAC706.6000808@redhat.com> <20120509201219.GA32051@redhat.com> <201205091241.59060.vapier@gentoo.org> <20120509211429.GA2455@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20120509201219.GA32051@redhat.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Oleg Nesterov <oleg@redhat.com>
-Cc: Mike Frysinger <vapier@gentoo.org>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, pacman@kosh.dhis.org, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Denys Vlasenko <dvlasenk@redhat.com>, Tejun Heo <tj@kernel.org>, Jan Kratochvil <jan.kratochvil@redhat.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20120509211429.GA2455-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/09/2012 09:12 PM, Oleg Nesterov wrote:
+On 05/09/2012 10:14 PM, Oleg Nesterov wrote:
 
-> tgkill() can kill the wrong process/thread too, although it lessens the risk.
-
+>> i like to assume that my code isn't going to be bug free, so the more
+>> mechanisms i have in place to protect innocent bystanders the better :)
+>> -mike
 > 
-> But I don't really understand the problem. The traced thread can't go away
-
-> until the tracer does wait/detach, and thus its pid can't be reused?
+> From this pov PTRACE_KILL is safer, I agree ;)
 
 
-There's the non-leader thread execs and tracer didn't enable
-PTRACE_O_TRACEEXEC case at least, while you try to kill the thread that just
-execed, I think.  Though that's quite pedantic.  The tracer could prevent this
-in other ways.
+Yeah, until you trip on that case where it resumes the process
+instead of killing it...  At that point, it's useless.
 
-> May be, "by accident" above means something else, not pid reuse...
-
-
-Pffft, who writes buggy code anyway?  ;-)
+Since I know Mike likes hacking on GDB so much ;-), FYI, this is
+exercised by the gdb.base/kill-after-signal.exp test.
 
 -- 
 Pedro Alves
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
