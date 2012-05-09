@@ -1,9 +1,10 @@
 From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: [patch], ascii(7): Indent for "troff" makes table to wide
-Date: Wed, 9 May 2012 19:42:14 +0000
-Message-ID: <20120509194214.GA23489@rhi.hi.is>
+Subject: [patch], cp1251(7): table too wide
+Date: Wed, 9 May 2012 19:46:51 +0000
+Message-ID: <20120509194651.GA23531@rhi.hi.is>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,27 +17,27 @@ Version: 3.40
 Severity: minor
 Tags: patch
 
-  From "groff -t -ww ...":
+  From "nroff -ww -t ...":
 
-warning: around line 53: table wider than line width
+warning: around line 44: table wider than line width
 
-  Extra indent for "troff" makes the table look misplaced
-(default "ps" output).
+  Columns are made narrower (column gutter decreased).
 
   Patch:
 
---- ascii.7	2012-04-26 22:58:39.000000000 +0000
-+++ ascii.7.new	2012-05-09 00:46:03.000000000 +0000
-@@ -45,7 +45,6 @@
- .LP
- C program \f(CW\(aq\eX\(aq\fP escapes are noted.
- .if t \{\
--.in 1i
- .ft CW
- \}
+--- cp1251.7	2012-04-26 22:58:39.000000000 +0000
++++ cp1251.7.new	2012-05-09 02:05:59.000000000 +0000
+@@ -37,7 +37,7 @@
+ The fourth column will only show the proper glyphs
+ in an environment configured for CP\ 1251.
  .TS
+-l l l c lp-1.
++l2 l2 l2 c2 lp-1.
+ Oct	Dec	Hex	Char	Description
+ _
+ 200	128	80	=80	CYRILLIC CAPITAL LETTER DJE
 
--- 
+--=20
 Bjarni I. Gislason
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
