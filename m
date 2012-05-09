@@ -1,50 +1,37 @@
-From: Oleg Nesterov <oleg@redhat.com>
+From: Pedro Alves <palves@redhat.com>
 Subject: Re: ptrace.2: PTRACE_KILL needs a stopped process too
-Date: Wed, 9 May 2012 23:14:29 +0200
-Message-ID: <20120509211429.GA2455@redhat.com>
-References: <20091216004533.22261.qmail@kosh.dhis.org> <4FAAC706.6000808@redhat.com> <20120509201219.GA32051@redhat.com> <201205091241.59060.vapier@gentoo.org>
+Date: Wed, 09 May 2012 23:08:15 +0100
+Message-ID: <4FAAEACF.3070405@redhat.com>
+References: <20091216004533.22261.qmail@kosh.dhis.org> <CAKgNAkhtu8d0NKcTwWyCA8qWgz8Lag+GcpEE1=YMVe_Nh8XJ9Q@mail.gmail.com> <20120422200459.GA7519@redhat.com> <201205091109.35637.vapier@gentoo.org> <4FAAC706.6000808@redhat.com> <20120509201219.GA32051@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <201205091241.59060.vapier@gentoo.org>
+In-Reply-To: <20120509201219.GA32051@redhat.com>
 Sender: linux-kernel-owner@vger.kernel.org
-To: Mike Frysinger <vapier@gentoo.org>
-Cc: Pedro Alves <palves@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, pacman@kosh.dhis.org, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Denys Vlasenko <dvlasenk@redhat.com>, Tejun Heo <tj@kernel.org>, Jan Kratochvil <jan.kratochvil@redhat.com>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: Mike Frysinger <vapier@gentoo.org>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, pacman@kosh.dhis.org, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Denys Vlasenko <dvlasenk@redhat.com>, Tejun Heo <tj@kernel.org>, Jan Kratochvil <jan.kratochvil@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-On 05/09, Mike Frysinger wrote:
->
-> On Wednesday 09 May 2012 16:12:19 Oleg Nesterov wrote:
-> > On 05/09, Pedro Alves wrote:
-> > > On 05/09/2012 04:09 PM, Mike Frysinger wrote:
-> > > > probably not that big of a deal, but the reason i like using
-> > > > ptrace(PTRACE_KILL) over a raw kill() is that you are less likely to
-> > > > kill the wrong process by accident.  maybe not that big of a deal in
-> > > > practice though.
-> > >
-> > > And you can do tgkill instead.  It was specifically invented to handle
-> > > the reuse case.
-> >
-> > tgkill() can kill the wrong process/thread too, although it lessens the
-> > risk.
-> >
-> > But I don't really understand the problem. The traced thread can't go away
-> > until the tracer does wait/detach, and thus its pid can't be reused?
->
-> or the process has received a SIGKILL for some reason
+On 05/09/2012 09:12 PM, Oleg Nesterov wrote:
 
-And? In this case it will be killed, yes. But this zombie can't go away
-until the tracer does do_wait().
+> tgkill() can kill the wrong process/thread too, although it lessens the risk.
 
-OK, the multi-threaded exec adds more fun.
+> 
+> But I don't really understand the problem. The traced thread can't go away
 
-> > May be, "by accident" above means something else, not pid reuse...
->
-> i like to assume that my code isn't going to be bug free, so the more
-> mechanisms i have in place to protect innocent bystanders the better :)
-> -mike
+> until the tracer does wait/detach, and thus its pid can't be reused?
 
->From this pov PTRACE_KILL is safer, I agree ;)
 
-Oleg.
+There's the non-leader thread execs and tracer didn't enable
+PTRACE_O_TRACEEXEC case at least, while you try to kill the thread that just
+execed, I think.  Though that's quite pedantic.  The tracer could prevent this
+in other ways.
+
+> May be, "by accident" above means something else, not pid reuse...
+
+
+Pffft, who writes buggy code anyway?  ;-)
+
+-- 
+Pedro Alves
