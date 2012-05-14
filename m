@@ -1,87 +1,52 @@
-From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Subject: Re: [patch], mdoc(7): Fixing a warning and a table
-Date: Mon, 14 May 2012 19:08:30 +0000
-Message-ID: <20120514190830.GA22277@rhi.hi.is>
-References: <20120511195430.GA28822@rhi.hi.is>
+From: Jim Hill <gjthill-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH]  Psuedo->Pseudo
+Date: Mon, 14 May 2012 13:21:59 -0700
+Message-ID: <4FB16967.1060606@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20120511195430.GA28822-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, May 11, 2012 at 07:54:30PM +0000, Bjarni Ingi Gislason wrote:
-> Package: man-pages
-> Version: 3.40
-> Severity: minor
-> Tags: patch
-> 
->   From "groff -ww ..." (or "man --warnings=w ..."):
-> 
-> <groff: mdoc.7>:294: warning: tab character in unquoted macro argument
-> 
->   In one table the distance between columns is too small in the
-> "ps" output.  (Bug in the groff "doc.tmac" macro?)
-> 
 
-  My earlier patch for the ".Bl -column" line is wrong
+---
+  man4/pts.4 | 2 +-
+  man7/pty.7 | 2 +-
+  2 files changed, 2 insertions(+), 2 deletions(-)
 
---- mdoc.7	2012-04-26 22:58:40.000000000 +0000
-+++ mdoc.7.new	2012-05-14 01:28:45.000000000 +0000
-@@ -201,7 +201,7 @@
- Options:
- .Bl -tag -width flag -compact
- .It Ar List-types
--.Bl -column xbullet -compact
-+.Bl -column ".Fl bullet" -compact
- .It Fl bullet Ta "Bullet Item List"
- .It Fl item Ta "Unlabeled List"
- .It Fl enum Ta "Enumerated List"
-@@ -291,7 +291,7 @@
- .ne 1i
- .Ss Manual Domain Macros
- .Bl -column "Name" "Parsed" Callable" -compact
--.It Em Name	Parsed	Callable	Description
-+.It Em "Name	Parsed	Callable	Description"
- .It Li \&Ad Ta Yes Ta Yes Ta "Address. (This macro may be deprecated.)"
- .It Li \&An Ta Yes Ta Yes Ta "Author name."
- .It Li \&Ar Ta Yes Ta Yes Ta "Command-line argument."
-
-
->   Patch:
-> 
-> --- mdoc.7	2012-04-26 22:58:40.000000000 +0000
-> +++ mdoc.7.new	2012-05-11 13:57:40.000000000 +0000
-> @@ -201,7 +201,10 @@
->  Options:
->  .Bl -tag -width flag -compact
->  .It Ar List-types
-> -.Bl -column xbullet -compact
-> +.\" The width "xbullet" is too small in the "ps" output.
-> +.\" Spaces to increase the width result in too little space in
-> +.\" the "ps" output (bug in the groff <= 1.21 "doc.tmac" macro?)
-> +.Bl -column xbulletM -compact
->  .It Fl bullet Ta "Bullet Item List"
->  .It Fl item Ta "Unlabeled List"
->  .It Fl enum Ta "Enumerated List"
-> @@ -291,7 +294,7 @@
->  .ne 1i
->  .Ss Manual Domain Macros
->  .Bl -column "Name" "Parsed" Callable" -compact
-> -.It Em Name	Parsed	Callable	Description
-> +.It Em "Name	Parsed	Callable	Description"
->  .It Li \&Ad Ta Yes Ta Yes Ta "Address. (This macro may be deprecated.)"
->  .It Li \&An Ta Yes Ta Yes Ta "Author name."
->  .It Li \&Ar Ta Yes Ta Yes Ta "Command-line argument."
-> 
-> -- 
-> Bjarni I. Gislason
-
+diff --git a/man4/pts.4 b/man4/pts.4
+index 7164e10..ff81c63 100644
+--- a/man4/pts.4
++++ b/man4/pts.4
+@@ -44,7 +44,7 @@ programs such as
+  in which data read from the pseudoterminal master is sent across the 
+network
+  to a client program that is connected to a terminal or terminal emulator.
+  .PP
+-Psuedoterminals can also be used to send input to programs that normally
++Pseudoterminals can also be used to send input to programs that normally
+  refuse to read input from pipes (such as
+  .BR su (1),
+  and
+diff --git a/man7/pty.7 b/man7/pty.7
+index c6d8c35..2860b30 100644
+--- a/man7/pty.7
++++ b/man7/pty.7
+@@ -48,7 +48,7 @@ that is connected to the slave.
+  Conversely, anything that is written to the slave end of the
+  pseudoterminal can be read by the process that is connected to
+  the master end.
+-Psuedoterminals are used by applications such as network login services
++Pseudoterminals are used by applications such as network login services
+  .RB ( ssh "(1), " rlogin "(1), " telnet (1)),
+  terminal emulators,
+  .BR script (1),
 -- 
-Bjarni I. Gislason
+1.7.10.1.456.g16798d0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
