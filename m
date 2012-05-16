@@ -1,47 +1,45 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] aio_cancel.3, aio_suspend.3: ffix
-Date: Tue, 15 May 2012 23:10:44 -0400
-Message-ID: <1337137844-26841-1-git-send-email-taffit@debian.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 43252] New: bdflush(2) is obsolete
+Date: Wed, 16 May 2012 06:37:23 +0000 (UTC)
+Message-ID: <bug-43252-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man3/aio_cancel.3  |    2 +-
- man3/aio_suspend.3 |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=43252
 
-diff --git a/man3/aio_cancel.3 b/man3/aio_cancel.3
-index 8b80275..c800075 100644
---- a/man3/aio_cancel.3
-+++ b/man3/aio_cancel.3
-@@ -104,7 +104,7 @@ The cause of the error can be found by inspecting
- is not a valid file descriptor.
- .TP
- .B ENOSYS
--.BR aio_cancel()
-+.BR aio_cancel ()
- is not implemented.
- .SH VERSIONS
- The
-diff --git a/man3/aio_suspend.3 b/man3/aio_suspend.3
-index 1215ff7..05d045d 100644
---- a/man3/aio_suspend.3
-+++ b/man3/aio_suspend.3
-@@ -97,7 +97,7 @@ waiting for); see
- .BR signal (7).
- .TP
- .B ENOSYS
--.BR aio_suspend()
-+.BR aio_suspend ()
- is not implemented.
- .SH VERSIONS
- The
+           Summary: bdflush(2) is obsolete
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: kmoriwak-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+        Regression: No
+
+
+In recent kernel, bdflush(2) syscall is deprecated and not effective to
+anything.
+
+Adding some statement about this situation to DESCRIPTION or NOTES section will
+be helpful for readers.
+
+I think affected pages are: bdflush(2) and syscalls(2)
+
+Best Regards,
+
 -- 
-1.7.10
-
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
