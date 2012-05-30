@@ -1,277 +1,637 @@
-From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] nscd.conf.5: add missing information, clarification
-Date: Tue, 29 May 2012 14:16:35 +0200
-Message-ID: <4FC4BE23.50200@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: man-pages-3.41 released
+Date: Wed, 30 May 2012 13:21:46 +1200
+Message-ID: <CAKgNAkg2V5BqR3J59pyG8fFkD0Ks+4hQQN5M0zA3OT=2RBTsCw@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Return-path: <libc-alpha-return-30115-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+To: linux-man <linux-man@vger.kernel.org>
+Cc: libc-alpha@sourceware.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Gidday,
 
-the following patch adds description of max-db-size and auto-propagate 
-options,
-adds most default values for options and other minor modifications.
+The Linux man-pages maintainer proudly announces:
 
-The changes in general are based on [1].
-Default values are taken from [2] and [3].
-Ordering and format of options are based on [4].
+    man-pages-3.41.tar.gz - man pages for Linux
 
-Patch is against man-pages 3.41.
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    http://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.41
+
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2012/05/man-pages-341-is-released.html
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man@vger.kernel.org.
+
+c) I have information (possibly inaccurate) that you are the
+maintainer of a translation of the manual pages, or are the maintainer
+of the manual pages set in a particular distribution, or have
+expressed interest in helping with man-pages maintenance, or have
+otherwise expressed interest in being notified about man-pages
+releases.  If you don't want to receive such messages from me, or you
+know of some other translator or maintainer who may want to receive
+such notifications, send me a message.
+
+Cheers,
+
+Michael
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in man=
+-pages-3.41 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+Released: 2011-05-11, Christchurch
 
 
-peter
+Contributors
+------------
 
-[1] http://sourceware.org/git/?p=glibc.git;a=tree;f=nscd;hb=HEAD
-[2] http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/nscd.h;hb=HEAD
-[3] 
-http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/connections.c;hb=HEAD
-[4] http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/nscd.conf;hb=HEAD
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Akihiro MOTOKI <amotoki@gmail.com>
+Andries E. Brouwer <Andries.Brouwer@cwi.nl>
+Angelo Borsotti <angelo.borsotti@gmail.com >
+Bjarni Ingi Gislason <bjarniig@rhi.hi.is>
+Brian M. Carlson <sandals@crustytoothpaste.ath.cx>
+Casper.Dik@oracle.com
+David Pr=E9vot <taffit@debian.org>
+D. Barbier <bouzim@gmail.com>
+Eric Blake <eblake@redhat.com>
+Hugh Dickins <hughd@google.com>
+Ivana Varekova <varekova@redhat.com>
+Jakub Jelinek <jakub@redhat.com>
+Jan Kara <jack@suse.cz>
+Jason Baron <jbaron@redhat.com>
+Jean-Michel Vourg=E8re <jmv_deb@nirgal.com>
+Jeff Moyer <jmoyer@redhat.com>
+Josh Triplett <josh@joshtriplett.org>
+Kasper Dupont <kasperd@gmail.com>
+KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
+Lauri Kasanen <curaga@operamail.com>
+Mel Gorman <mgorman@suse.de>
+Michael Kerrisk <mtk.manpages@gmail.com>
+Mike Frysinger <vapier@gentoo.org>
+Nick Piggin <npiggin@gmail.com>
+Paul Pluzhnikov <ppluzhnikov@google.com>
+Petr Baudis <pasky@ucw.cz>
+Ralph Corderoy <ralph@inputplus.co.uk >
+Rich Felker <bugdal@aerifal.cx>
+Simone Piccardi <piccardi@truelite.it>
+Simon Paillard <spaillard@debian.org>
+Stefan Puiu <stefan.puiu@gmail.com>
+Stephen Hemminger <shemminger@vyatta.com>
+Vincent Lefevre <vincent@vinc17.net>
+Yuri Kozlov <yuray@komyakino.ru>
+
+Apologies if I missed anyone!
 
 
+New and rewritten pages
+-----------------------
 
---- nscd.conf.5.org-upstream    2012-05-10 22:13:23.000000000 +0200
-+++ nscd.conf.5    2012-05-29 13:46:56.684793432 +0200
-@@ -34,48 +34,91 @@
-  comment; following characters, up to the end of the line,
-  are not interpreted by nscd.
+get_robust_list.2
+    Ivana Varekova  [Michael Kerrisk]
+        New page documenting get_robust_list(2) and set_robust_list(2)
 
--Valid services are \fIpasswd\fP, \fIgroup\fP, or \fIhosts\fP.
-+Valid services are \fIpasswd\fP, \fIgroup\fP, \fIhosts\fP, \fIservices\fP
-+or \fInetgroup\fP.
+mallinfo.3
+    Michael Kerrisk [KOSAKI Motohiro, Paul Pluzhnikov]
+        New page for mallinfo(3)
 
-  .B logfile
--.I debug-file-name
-+.I <file>
-  .RS
-  Specifies name of the file to which debug info should be written.
-  .RE
+malloc_info.3
+    Michael Kerrisk  [Jakub Jelinek]
+        New page for malloc_info(3)
 
-  .B debug-level
--.I value
-+.I <level>
-  .RS
-  Sets the desired debug level.
-+The default is 0.
-  .RE
+malloc_stats.3
+    Michael Kerrisk  [KOSAKI Motohiro]
+        New man page for malloc_stats(3)
 
-  .B threads
--.I number
-+.I <number>
-  .RS
-  This is the number of threads that are started to wait for
-  requests.
-  At least five threads will always be created.
-  .RE
 
-+.B max-threads
-+.I <number>
-+.RS
-+Specifies the maximum number of threads. The default is 32.
-+.RE
-+
-  .B server-user
--.I user
-+.I <user>
-  .RS
-  If this option is set, nscd will run as this user and not as root.
-  If a separate cache for every user is used (\-S parameter), this
-  option is ignored.
-  .RE
+Newly documented interfaces in existing pages
+---------------------------------------------
 
-+.B stat-user
-+.I <user>
-+.RS
-+Specifies the user who is allowed to request statistics.
-+.RE
-+
-+.B reload-count
-+unlimited |
-+.I <number>
-+.RS
-+Limit on the number of times a cached entry gets reloaded without being 
-used
-+before it gets removed.
-+The default is 5.
-+.RE
-+
-+.B paranoia
-+.I <yes|no>
-+.RS
-+Enabling paranoia mode causes nscd to restart itself periodically.
-+The default is no.
-+.RE
-+
-+.B restart-interval
-+.I <time>
-+.RS
-+Sets the restart interval to
-+.I time
-+seconds
-+if periodic restart is enabled by enabling
-+.B paranoia
-+mode.
-+The default is 3600.
-+.RE
-+
-  .B enable-cache
--.I service
-+.I <service>
-  .I <yes|no>
-  .RS
-  Enables or disables the specified
-  .I service
-  cache.
-+The default is no.
-  .RE
+madvise.2
+    Jason Baron
+        Document MADV_DONTDUMP and MADV_DODUMP
 
-  .B positive-time-to-live
--.I service
--.I value
-+.I <service>
-+.I <value>
-  .RS
-  Sets the TTL (time-to-live) for positive entries (successful queries)
-  in the specified cache for
-@@ -87,8 +130,8 @@
-  .RE
 
-  .B negative-time-to-live
--.I service
--.I value
-+.I <service>
-+.I <value>
-  .RS
-  Sets the TTL (time-to-live) for negative entries (unsuccessful queries)
-  in the specified cache for
-@@ -102,16 +145,17 @@
-  .RE
+New and changed links
+---------------------
 
-  .B suggested-size
--.I service
--.I value
-+.I <service>
-+.I <value>
-  .RS
-  This is the internal hash table size,
-  .I value
-  should remain a prime number for optimum efficiency.
-+The default is 211.
-  .RE
+set_robust_list.2
+    Michael Kerrisk
+        New link to new get_robust_list.2 page
 
-  .B check-files
--.I service
-+.I <service>
-  .I <yes|no>
-  .RS
-  Enables or disables checking the file belonging to the specified
-@@ -120,50 +164,14 @@
-  The files are
-  .IR /etc/passwd ,
-  .IR /etc/group ,
-+.IR /etc/hosts
-  and
--.IR /etc/hosts .
--.RE
--
--.B max-threads
--.I threads
--.RS
--Specifies the maximum number of threads to be started.
--.RE
--
--.B stat-user
--.I username
--.RS
--Specifies the user who is allowed to request statistics.
--.RE
--
--.B reload-count
--unlimited |
--.I number
--.RS
--Limit on the number of times a cached entry gets reloaded without being 
-used
--before it gets removed.
--The default is 5.
--.RE
--
--.B paranoia
--.I <yes|no>
--.RS
--Enabling paranoia mode causes nscd to restart itself periodically.
--.RE
--
--.B restart-interval
--.I time
--.RS
--Sets the restart interval to
--.I time
--seconds
--if periodic restart is enabled by enabling
--.B paranoia
--mode.
-+.IR /etc/services .
-+The default is yes.
-  .RE
+LIST_ENTRY.3
+LIST_HEAD.3
+LIST_INIT.3
+LIST_INSERT_AFTER.3
+LIST_INSERT_HEAD.3
+LIST_REMOVE.3
+TAILQ_ENTRY.3
+TAILQ_HEAD.3
+TAILQ_INIT.3
+TAILQ_INSERT_AFTER.3
+TAILQ_INSERT_HEAD.3
+TAILQ_INSERT_TAIL.3
+TAILQ_REMOVE.3
+CIRCLEQ_ENTRY.3
+CIRCLEQ_HEAD.3
+CIRCLEQ_INIT.3
+CIRCLEQ_INSERT_AFTER.3
+CIRCLEQ_INSERT_BEFORE.3
+CIRCLEQ_INSERT_HEAD.3
+CIRCLEQ_INSERT_TAIL.3
+CIRCLEQ_REMOVE.3
+    Michael Kerrisk
+        New link to queue.3
+            The queue(3) page documents these macros, so it makes sense to
+            have links for the names.
 
-  .B persistent
--.I service
-+.I <service>
-  .I <yes|no>
-  .RS
-  Keep the content of the cache for
-@@ -171,10 +179,11 @@
-  over server restarts; useful when
-  .B paranoia
-  mode is set.
-+The default is no.
-  .RE
+DES_FAILED.3
+    Michael Kerrisk
+        New link to des_crypt.3
+            The des_crypt(3) page documents this macro, so it makes sense
+            to have a link for the name.
 
-  .B shared
--.I service
-+.I <service>
-  .I <yes|no>
-  .RS
-  The memory mapping of the nscd databases for
-@@ -182,7 +191,32 @@
-  is shared with the clients so
-  that they can directly search in them instead of having to ask the
-  daemon over the socket each time a lookup is performed.
-+The default is no.
-+.RE
-+
-+.B max-db-size
-+.I <service>
-+.I <bytes>
-+.RS
-+The maximum allowable size of the database files in bytes for the
-+.IR service .
-+The default is 33554432.
-  .RE
-+
-+.B auto-propagate
-+.I <service>
-+.I <yes|no>
-+.RS
-+When set to
-+.IR no " for " passwd " or " group " service, then the " .byname
-+requests are not added to
-+.IR passwd.byuid " or " group.bygid
-+cache.
-+This can help with tables containing multiple records for the same id.
-+The default is yes. This option is valid only for services
-+.IR passwd " and " group ".
-+.RE
-+
-  .SH "SEE ALSO"
-  .BR nscd (8)
-  .\" .SH AUTHOR
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+qsort_r.3
+    Michael Kerrisk
+        New link to qsort.3
+            Overlooked to add this link in 3.38, when documentation of
+            qsort_r() was added to the qsort.3 page.
+
+
+Global changes
+--------------
+
+faccessat.2
+fchmodat.2
+fchownat.2
+fstatat.2
+futimesat.2
+inotify_init.2
+linkat.2
+mkdirat.2
+mknodat.2
+openat.2
+readlinkat.2
+renameat.2
+setns.2
+splice.2
+symlinkat.2
+sync.2
+tee.2
+unlinkat.2
+vmsplice.2
+    Michael Kerrisk  [Lauri Kasanen]
+        Global fix: note glibc version that added library support
+
+confstr.3
+strcasecmp.3
+strcat.3
+strcmp.3
+strcpy.3
+strdup.3
+strftime.3
+strlen.3
+strnlen.3
+strpbrk.3
+strspn.3
+strtok.3
+strxfrm.3
+    Michael Kerrisk  [Andries E. Brouwer]
+        Clarify that these functions operate on bytes, not (wide) character=
+s
+            Change 'character(s)' to 'byte(s)' to make clear that these
+            functions operate on bytes, not wide / UTF8 characters.
+            (POSIX uses 'byte(s)' similarly, to make this point.)
+
+icmp.7
+ipv6.7
+packet.7
+raw.7
+rtnetlink.7
+unix.7
+x25.7
+    Michael Kerrisk
+        Remove names of constants from NAME line
+            Some of the sockets/network protocol pages included names of
+            the corresponding address family constants in the NAME line,
+            but this wasn't done consistently across all pages, and probabl=
+y
+            it adds little value in those pages that did do this. So, remov=
+e
+            these constants from those pages that have them in the NAME
+            section.
+
+
+Changes to individual pages
+---------------------------
+
+clock_getres.2
+    Michael Kerrisk  [Josh Triplett]
+        Expand description of CLOCK_REALTIME
+            Make it clear that this clock may be discontinuous, and is
+            affected my incremental NTP and clock-adjtime(2) adjustments.
+
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D540872
+
+epoll_wait.2
+    Michael Kerrisk
+        Clarify that 'timeout' is a *minimum* interval
+            Make it clear that 'timeout' is a minimum interval; the actual
+            interval will be rounded up to the system clock granularity,
+            and may overrun because of kernel scheduling delays.
+
+execve.2
+    Michael Kerrisk
+        Rewording to deemphasize libc5 details
+
+fork.2
+    Mike Frysinger
+        ERRORS: add ENOSYS
+            Can occur on, for example, non-MMU hardware.
+
+getcpu.2
+    Mike Frysinger
+        Add RETURN VALUE and ERRORS sections
+    Michael Kerrisk
+        Refer reader to NOTES for more info about 'tcache'
+    Michael Kerrisk
+        DESCRIPTION: reword a sentence to be clearer
+
+io_cancel.2
+io_destroy.2
+io_getevents.2
+io_setup.2
+io_submit.2
+    Michael Kerrisk
+        Rewrite to focus on system call API
+            Rewrite to focus on the system call interface, adding
+            some notes on the libaio wrapper differences.
+            See the following mail:
+            2012-05-07 "aio manuals", linux-man@vger.kernel.org
+            http://thread.gmane.org/gmane.linux.man/1935/focus=3D2910
+
+            Other minor rewrites.
+
+mount.2
+    Michael Kerrisk
+        Comment out an old Linux libc detail
+
+open.2
+    Nick Piggin  [KOSAKI Motohiro, Jan Kara, Hugh Dickins]
+        Describe race of direct I/O and fork()
+            Rework 04cd7f64, which didn't capture the details correctly.
+            See the April/May 2012 linux-man@ mail thread "[PATCH]
+            Describe race of direct read and fork for unaligned buffers"
+            http://thread.gmane.org/gmane.linux.kernel.mm/77571
+
+poll.2
+    Michael Kerrisk
+        Clarify that 'timeout' is a *minimum* interval
+            Make it clear that 'timeout' is a minimum interval; the actual
+            interval will be rounded up to the system clock granularity,
+            and may overrun because of kernel scheduling delays.
+    Michael Kerrisk
+        Clarify discussion of wrapper function emulation
+            Clarify that glibc (as well as old libc) provides emulation
+            using select(2) on older kernels that don't have a poll()
+            system call.
+    Michael Kerrisk
+        Make the meaning of a zero timeout explicit
+            Clarify that timeout=3D=3D0 causes an immediate return, even if
+            no file descriptors are ready.
+
+pread.2
+    Michael Kerrisk  [Kasper Dupont]
+        BUGS: Note O_APPEND + pwrite() does the wrong thing
+            See https://bugzilla.kernel.org/show_bug.cgi?id=3D43178
+
+recvmmsg.2
+    Michael Kerrisk
+        Clarify that 'timeout' is a *minimum* interval
+            Make it clear that 'timeout' interval will be rounded up to the
+            system clock granularity, and may overrun because of kernel
+            scheduling delays.
+
+select.2
+    Michael Kerrisk
+        Clarify that 'timeout' is a *minimum* interval
+            Make it clear that 'timeout' is a minimum interval; the actual
+            interval will be rounded up to the system clock granularity,
+            and may overrun because of kernel scheduling delays.
+    Michael Kerrisk
+        Expand description of the self-pipe trick
+    Michael Kerrisk
+        Add further details on pselect6() system call that underlies pselec=
+t()
+
+semop.2
+    Michael Kerrisk
+        Clarify that 'timeout' of semtimedop() is a *minimum* interval
+            Make it clear that 'timeout' interval will be rounded up to the
+            system clock granularity, and may overrun because of kernel
+            scheduling delays.
+
+signal.2
+    Michael Kerrisk
+        Note that 'sig_t' requires _BSD_SOURCE
+            Also remove some old Linux libc details
+
+sigwaitinfo.2
+    Michael Kerrisk
+        Clarify that 'timeout' of sigtimedwait() is a *minimum* interval
+            Make it clear that 'timeout' is a minimum interval; the actual
+            interval will be rounded up to the system clock granularity,
+            and may overrun because of kernel scheduling delays.
+
+stat.2
+    Bjarni Ingi Gislason
+        Formatting fixes
+            From "groff -ww" (or "man --warnings=3Dw ..."):
+
+                warning: around line 442: table wider than line width
+
+            GNU man uses line length of 78.
+
+            Use text blocks.  Two spaces between sentences or better: start
+            each sentence in a new line.
+
+syscalls.2
+    Bjarni Ingi Gislason
+        Formatting fixes
+            From "groff -ww ..." (or "man --warnings=3Dw ..."):
+
+                warning: around line 157: table wider than line width
+
+            Have to use text blocks.  Move some text to its correct column.
+            Split text to two columns to avoid hyphenation.
+
+sysinfo.2
+    Michael Kerrisk
+        Remove reference to obsolete libc5
+
+syslog.2
+    Michael Kerrisk
+        Remove some details about obsolete Linux libc
+
+aio_cancel.3
+aio_error.3
+aio_fsync.3
+aio_read.3
+aio_return.3
+aio_suspend.3
+aio_write.3
+    Michael Kerrisk
+        ERRORS: Add/update ENOSYS error
+
+aio_cancel.3
+    Michael Kerrisk
+        Clarify what happens when a request isn't successfully canceled
+    Michael Kerrisk
+        Add pointers to aio(7) and sigevent(7)
+
+dbopen.3
+    Michael Kerrisk
+        SYNOPSIS: Add header file <fcntl.h>
+            Upstreamed from Debian, and consistent with FreeBSD
+            dbopen(3) man page.
+
+fmemopen.3
+    Michael Kerrisk
+        Note details of POSIX.1-2008 specification of 'b' in 'mode'
+    Michael Kerrisk  [Rich Felker]
+        BUGS: fmemopen() doesn't correctly set file position in some cases
+            If 'mode' is append, but 'size' does not cover a null byte
+            in 'buf', then fmemopen() incorrectly sets the initial file
+            position to -1, rather than the next byte after the end of
+            the buffer.
+
+            See http://sourceware.org/bugzilla/show_bug.cgi?id=3D13151
+    Michael Kerrisk
+        BUGS: fmemopen() incorrectly handles size=3D=3D0 case
+            If size is zero, fmemopen() fails, This is surprising behavior,
+            and not specified in POSIX.1-2008.
+
+            See http://sourceware.org/bugzilla/show_bug.cgi?id=3D11216
+
+            Reported-by; Alex Shinn <alexshinn@gmail.com>
+    Michael Kerrisk
+        BUGS: Note silent ABI change for fmemopen() in glibc 2.9
+    Michael Kerrisk  [Rich Felker]
+        BUGS: Append mode does not force writes to append
+            Append mode correctly sets the initial offset but does
+            not force subsequent writes to append at end of stream.
+
+            See http://sourceware.org/bugzilla/show_bug.cgi?id=3D13152
+    Michael Kerrisk  [Eric Blake]
+        BUGS: Note inconsistent treatment of 'b' in 'mode'
+            fopen() permits, for example, both "w+b" and "wb+",
+            but only the latter is meaningful to fmemopen().
+
+            See http://sourceware.org/bugzilla/show_bug.cgi?id=3D12836
+
+fopencookie.3
+    Michael Kerrisk  [Petr Baudis]
+        Correct description of return for user-supplied 'write' function
+            See http://sourceware.org/bugzilla/show_bug.cgi?id=3D2074
+
+getaddrinfo.3
+    Jean-Michel Vourg=E8re
+        Note that AI_ADDRCONFIG is not affected by loopback addresses
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D660479
+
+iconv.3
+    Michael Kerrisk
+        Upstream useful NOTE from Debian
+            Warn the reader that the pointer arguments can't be
+            interpreted as C style strings. Also, note possible
+            alignment requirements for the referenced bytes sequences,
+    Michael Kerrisk
+        Write a better paragraph introducing iconv() and its arguments
+
+isgreater.3
+    Michael Kerrisk  [Vincent Lefevre]
+        Clarify that the arguments to these macros must be real-floating
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D609033
+
+lio_listio.3
+    Michael Kerrisk
+        Clarify that async notification occurs when *all* I/Os complete
+
+makedev.3
+    Michael Kerrisk
+        SYNOPSIS: Correct return types of major() and minor()
+            See https://bugzilla.redhat.com/show_bug.cgi?id=3D754188
+
+            Reported-by; Zdenek Kabelac <zkabelac@redhat.com>
+
+malloc.3
+    Michael Kerrisk
+        SEE ALSO: Add malloc_info(3)
+
+malloc_get_state.3
+    Michael Kerrisk
+        Fix wordos in function names in NAME line
+
+mallopt.3
+    Michael Kerrisk
+        Fix example program
+            The example code was a version that was not consistent with
+            the shell output shown on the page.
+
+            Reported-bY: Simon Paillard <spaillard@debian.org>
+    Michael Kerrisk
+        Restore accidentally omitted line in shell session
+    Michael Kerrisk
+        SEE ALSO: Add malloc_stats(3)
+
+mmap64.3
+    Michael Kerrisk
+        Change target of link to mmap.2 (was mmap2.2)
+            Upstreamed from Red Hat / Fedora
+
+realpath.3
+    Michael Kerrisk  [Casper.Dik@oracle.com]
+        Remove note about Solaris possibly returning a relative path
+
+syslog.3
+    Michael Kerrisk  [Ralph Corderoy]
+        Document behavior when 'ident' argument to openlog() is NULL
+            See https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/382=
+096
+    Michael Kerrisk
+        Update CONFORMING TO for POSIX.1-2008
+            POSIX.1-2008 doesn't change any details, but make
+            that more explicit.
+
+undocumented.3
+    Michael Kerrisk
+        Remove some functions that have been documented
+
+sd.4
+    Michael Kerrisk
+        Remove reference to nonexistent scsi(4) page
+            Upstreamed from RedHat / Fedora
+
+sk98lin.4
+    Michael Kerrisk  [Stephen Hemminger]
+        Note that this driver was removed in 2.6.28
+            See https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/528=
+020
+
+passwd.5
+    Michael Kerrisk
+        Upstream pieces from Red Hat/Fedora
+            Note mention of empty password field.
+            Add description of "*NP*" in password field.
+    Michael Kerrisk
+        Various minor fixes and improvements
+
+proc.5
+    Michael Kerrisk
+        Note that CAP_SYS_ADMIN processes can override file-max
+            Upstreamed from red Hat / Fedora
+    Michael Kerrisk
+        Document  /proc/[pid]/cgroup
+            Upstreamed from Red Hat / Fedora
+
+resolv.conf.5
+    Michael Kerrisk
+        Take a Debian improvement into upstream
+
+tzfile.5
+    Michael Kerrisk
+        Mention timezone directories in DESCRIPTION
+            Note that timezone files are usually in /usr/lib/zoneinfo
+            or /usr/share/zoneinfo.
+    Michael Kerrisk
+        Drop SYNOPSIS
+            The SYNOPSIS doesn't correspond to a user-visible file.
+    Michael Kerrisk
+        SEE ALSO: Add pointer to glibc source file timezone/tzfile.h
+    Michael Kerrisk
+        SEE ALSO: add tzset(3) and tzselect(8)
+
+ascii.7
+    Bjarni Ingi Gislason
+        Indent for "troff" makes table too wide
+            Fix following from "groff -t -ww ...":
+
+                warning: around line 53: table wider than line width
+
+            Extra indent for "troff" makes the table look misplaced
+            (default "ps" output).
+
+cp1251.7
+    Bjarni Ingi Gislason
+        table too wide
+            From "nroff -ww -t ...":
+
+                warning: around line 44: table wider than line width
+
+            Columns are made narrower (column gutter decreased).
+
+ipv6.7
+    Stefan Puiu
+        Add ENODEV error for bind() to link-local IPv6 address
+
+signal.7
+    Michael Kerrisk  [Simone Piccardi]
+        Clarify that SIGLOST is unused
+    Michael Kerrisk
+        Comment out crufty BUGS text on SIGLOST
+            It must be a very long time since the statement there
+            about SIGLOST was true. (The text seems to date back to
+            1996.)
+    Michael Kerrisk
+        Update architectures for tables of signal numbers
+
+utf-8.7
+    Brian M. Carlson
+        Two clarifications
+            This patch clarifies that 0xc0 and 0xc1 are not valid in any UT=
+F-8
+            encoding[0], and it also references RFC 3629 instead of RFC 227=
+9.
+
+            [0] In order to have 0xc0, you'd have to have a two-byte encodi=
+ng
+            with all the data bits zero in the first byte (and thus only si=
+x
+            bits of data), which would be an ASCII character encoded in the
+            non-shortest form.  Similarly with 0xc1.
+
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D538641
+
+ldconfig.8
+nscd.8
+    Michael Kerrisk
+        Remove path prefix from NAME line
+            Command names shown in NAME are normally just the basename,
+            not the full pathname of the command.
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
