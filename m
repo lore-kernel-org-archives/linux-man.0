@@ -1,39 +1,43 @@
-From: Carlos O'Donell <carlos_odonell-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org>
-Subject: Re: man-pages-3.41 released
-Date: Wed, 30 May 2012 14:30:29 -0400
-Message-ID: <4FC66745.30204@mentor.com>
-References: <CAKgNAkg2V5BqR3J59pyG8fFkD0Ks+4hQQN5M0zA3OT=2RBTsCw@mail.gmail.com>
+From: Andy Isaacson <adi-psgPW5cihnJWk0Htik3J/w@public.gmane.org>
+Subject: [patch] document CLOCK_MONOTONIC_COARSE
+Date: Thu, 31 May 2012 16:59:55 -0700
+Message-ID: <20120531235955.GA18876@cloudera.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkg2V5BqR3J59pyG8fFkD0Ks+4hQQN5M0zA3OT=2RBTsCw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 5/29/2012 9:21 PM, Michael Kerrisk (man-pages) wrote:
-> Gidday,
-> 
-> The Linux man-pages maintainer proudly announces:
-> 
->     man-pages-3.41.tar.gz - man pages for Linux
+Let's try that again without using gmail.
 
-Michael,
+-andy
 
-Of note is that we need a manpage for getauxval comping out in 2.16 (if there isn't already one).
+commit 782f8fd7a4ecd601d46e13e6a55a04662bae2f27
+Author: Andy Isaacson <adi-psgPW5cihnJWk0Htik3J/w@public.gmane.org>
+Date:   Thu May 31 16:36:30 2012 -0700
 
-http://sourceware.org/git/?p=glibc.git&a=search&h=HEAD&st=commit&s=getauxval
+    clock_getres.2: document CLOCK_MONOTONIC_COARSE
 
-Cheers,
-Carlos.
--- 
-Carlos O'Donell
-Mentor Graphics / CodeSourcery
-carlos_odonell-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org
-carlos-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org
-+1 (613) 963 1026
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 67713c7..01289d6 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -136,6 +136,13 @@ Similar to
+ but provides access to a raw hardware-based time
+ that is not subject to NTP adjustments.
+ .TP
++.BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
++.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3, John Stultz, Aug 19 2009
++Similar to
++.BR CLOCK_MONOTONIC ,
++but provides only the time at the most recent clock tick.  This can be
++faster to access.
++.TP
+ .B CLOCK_PROCESS_CPUTIME_ID
+ High-resolution per-process timer from the CPU.
+ .TP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
