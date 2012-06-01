@@ -1,64 +1,57 @@
 From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] typo and formating fixes
-Date: Sat, 2 Jun 2012 01:19:14 +0900
-Message-ID: <CALhU9t=Wyy7EaMAHSFJ7BATu4UdO=PsZgnsKYDa1sN-8+e4t+Q@mail.gmail.com>
+Subject: Fixes for inotify_init.2 and socket.2
+Date: Sat, 2 Jun 2012 01:24:39 +0900
+Message-ID: <CALhU9t=OHx2D_5wL1oH2xGdFZ17AYHXkqiAOOawB2Xz4y1aVuw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=20cf30667c0d9edb3104c16b8b0b
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---20cf30667c0d9edb3104c16b8b0b
-Content-Type: text/plain; charset=ISO-8859-1
-
 Hello,
 
-Here is a typo and formating fixes against man-pages 3.41.
--- 
+Here is a another patch against man-pages 3.41.
+
+inotify_init.2
+ Linux 2.6.1 does not have inotify_init().
+ The previous version of inotify_init.2 said that inofity_init()
+first appeared in Linux 2.6.13.
+ It seems to be a editing mistake.
+
+socket.2
+ PF_INET is duplicated. i think the latter one should be AF_INET.
+
+Regards,
 Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
---20cf30667c0d9edb3104c16b8b0b
-Content-Type: application/octet-stream; name="typo-and-format-fixes.patch"
-Content-Disposition: attachment; filename="typo-and-format-fixes.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_h2xghpil0
-
-ZGlmZiAtLWdpdCBhL21hbjIvb3Blbi4yIGIvbWFuMi9vcGVuLjIKaW5kZXggN2ZlNjYwMi4uYWQz
-MThiMSAxMDA2NDQKLS0tIGEvbWFuMi9vcGVuLjIKKysrIGIvbWFuMi9vcGVuLjIKQEAgLTc3Niw3
-ICs3NzYsNyBAQCBJL09zIHNob3VsZCBuZXZlciBiZSBydW4gY29uY3VycmVudGx5IHdpdGggdGhl
-CiBzeXN0ZW0gY2FsbCwKIGlmIHRoZSBtZW1vcnkgYnVmZmVyIGlzIGEgcHJpdmF0ZSBtYXBwaW5n
-CiAoaS5lLiwgYW55IG1hcHBpbmcgY3JlYXRlZCB3aXRoIHRoZQotLkJSIG1tYXAoMikKKy5CUiBt
-bWFwICgyKQogLkJSIE1BUF9QUklWQVRFCiBmbGFnOwogdGhpcyBpbmNsdWRlcyBtZW1vcnkgYWxs
-b2NhdGVkIG9uIHRoZSBoZWFwIGFuZCBzdGF0aWNhbGx5IGFsbG9jYXRlZCBidWZmZXJzKS4KQEAg
-LTc5OSw3ICs3OTksNyBAQCBmbGFnLgogTm9yIGRvZXMgdGhpcyByZXN0cmljdGlvbiBhcHBseSB3
-aGVuIHRoZSBtZW1vcnkgYnVmZmVyIGhhcyBiZWVuIGFkdmlzZWQgYXMKIC5CIE1BRFZfRE9OVEZP
-UksKIHdpdGgKLS5CUiBtYWR2aXNlKDIpLAorLkJSIG1hZHZpc2UgKDIpLAogZW5zdXJpbmcgdGhh
-dCBpdCB3aWxsIG5vdCBiZSBhdmFpbGFibGUKIHRvIHRoZSBjaGlsZCBhZnRlcgogLkJSIGZvcmsg
-KDIpLgpkaWZmIC0tZ2l0IGEvbWFuMi9zZWxlY3QuMiBiL21hbjIvc2VsZWN0LjIKaW5kZXggZmY3
-ODAwOC4uMzk0YTlmNiAxMDA2NDQKLS0tIGEvbWFuMi9zZWxlY3QuMgorKysgYi9tYW4yL3NlbGVj
-dC4yCkBAIC00MTcsNyArNDE3LDcgQEAgVGhlCiBpbnRlcmZhY2UgZGVzY3JpYmVkIGluIHRoaXMg
-cGFnZSBpcyBpbXBsZW1lbnRlZCBieSBnbGliYy4KIFRoZSB1bmRlcmx5aW5nIExpbnV4IHN5c3Rl
-bSBjYWxsIGlzIG5hbWVkCiAuQlIgcHNlbGVjdDYgKCkuCi1UaGlzIHN5c3RlbSBjYWxsIGhhcyBz
-b21ld2hhdCBkaWZmZXJlbnQgYmVoYXZpb3IgZnJvbSB0aGUgZ2liYworVGhpcyBzeXN0ZW0gY2Fs
-bCBoYXMgc29tZXdoYXQgZGlmZmVyZW50IGJlaGF2aW9yIGZyb20gdGhlIGdsaWJjCiB3cmFwcGVy
-IGZ1bmN0aW9uLgogCiBUaGUgTGludXgKQEAgLTQzNiw3ICs0MzYsNyBAQCBhcmd1bWVudDsKIHRo
-aXMgaXMgdGhlIGJlaGF2aW9yIHJlcXVpcmVkIGJ5IFBPU0lYLjEtMjAwMS4KIAogVGhlIGZpbmFs
-IGFyZ3VtZW50IG9mIHRoZQotLkJSIHBzZWxlY3Q2KCkKKy5CUiBwc2VsZWN0NiAoKQogc3lzdGVt
-IGNhbGwgaXMgbm90IGEKIC5JICJzaWdzZXRfdFwgKiIKIHBvaW50ZXIsIGJ1dCBpcyBpbnN0ZWFk
-IGEgc3RydWN0dXJlIG9mIHRoZSBmb3JtOgpkaWZmIC0tZ2l0IGEvbWFuMy9haW9fY2FuY2VsLjMg
-Yi9tYW4zL2Fpb19jYW5jZWwuMwppbmRleCA4YjgwMjc1Li5jODAwMDc1IDEwMDY0NAotLS0gYS9t
-YW4zL2Fpb19jYW5jZWwuMworKysgYi9tYW4zL2Fpb19jYW5jZWwuMwpAQCAtMTA0LDcgKzEwNCw3
-IEBAIFRoZSBjYXVzZSBvZiB0aGUgZXJyb3IgY2FuIGJlIGZvdW5kIGJ5IGluc3BlY3RpbmcKIGlz
-IG5vdCBhIHZhbGlkIGZpbGUgZGVzY3JpcHRvci4KIC5UUAogLkIgRU5PU1lTCi0uQlIgYWlvX2Nh
-bmNlbCgpCisuQlIgYWlvX2NhbmNlbCAoKQogaXMgbm90IGltcGxlbWVudGVkLgogLlNIIFZFUlNJ
-T05TCiBUaGUKZGlmZiAtLWdpdCBhL21hbjMvYWlvX3N1c3BlbmQuMyBiL21hbjMvYWlvX3N1c3Bl
-bmQuMwppbmRleCAxMjE1ZmY3Li4wNWQwNDVkIDEwMDY0NAotLS0gYS9tYW4zL2Fpb19zdXNwZW5k
-LjMKKysrIGIvbWFuMy9haW9fc3VzcGVuZC4zCkBAIC05Nyw3ICs5Nyw3IEBAIHdhaXRpbmcgZm9y
-KTsgc2VlCiAuQlIgc2lnbmFsICg3KS4KIC5UUAogLkIgRU5PU1lTCi0uQlIgYWlvX3N1c3BlbmQo
-KQorLkJSIGFpb19zdXNwZW5kICgpCiBpcyBub3QgaW1wbGVtZW50ZWQuCiAuU0ggVkVSU0lPTlMK
-IFRoZQo=
---20cf30667c0d9edb3104c16b8b0b--
+diff --git a/man2/inotify_init.2 b/man2/inotify_init.2
+index 41fccb7..97c808d 100644
+--- a/man2/inotify_init.2
++++ b/man2/inotify_init.2
+@@ -90,7 +90,7 @@ The system limit on the total number of file
+descriptors has been reached.
+ Insufficient kernel memory is available.
+ .SH VERSIONS
+ .BR inotify_init ()
+-first appeared in Linux 2.6.1;
++first appeared in Linux 2.6.13;
+ library support was added to glibc in version 2.4.
+ .BR inotify_init1 ()
+ was added in Linux 2.6.27;
+diff --git a/man2/socket.2 b/man2/socket.2
+index 2ee6f61..1bc002a 100644
+--- a/man2/socket.2
++++ b/man2/socket.2
+@@ -374,7 +374,7 @@ are
+ .BR PF_INET ,
+ and so on, while
+ .BR AF_UNIX ,
+-.BR PF_INET ,
++.BR AF_INET ,
+ and so on are used for address
+ families.
+ However, already the BSD man page promises: "The protocol
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
