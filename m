@@ -1,43 +1,64 @@
-From: Andy Isaacson <adi-psgPW5cihnJWk0Htik3J/w@public.gmane.org>
-Subject: [patch] document CLOCK_MONOTONIC_COARSE
-Date: Thu, 31 May 2012 16:59:55 -0700
-Message-ID: <20120531235955.GA18876@cloudera.com>
+From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] typo and formating fixes
+Date: Sat, 2 Jun 2012 01:19:14 +0900
+Message-ID: <CALhU9t=Wyy7EaMAHSFJ7BATu4UdO=PsZgnsKYDa1sN-8+e4t+Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary=20cf30667c0d9edb3104c16b8b0b
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Let's try that again without using gmail.
+--20cf30667c0d9edb3104c16b8b0b
+Content-Type: text/plain; charset=ISO-8859-1
 
--andy
+Hello,
 
-commit 782f8fd7a4ecd601d46e13e6a55a04662bae2f27
-Author: Andy Isaacson <adi-psgPW5cihnJWk0Htik3J/w@public.gmane.org>
-Date:   Thu May 31 16:36:30 2012 -0700
+Here is a typo and formating fixes against man-pages 3.41.
+-- 
+Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-    clock_getres.2: document CLOCK_MONOTONIC_COARSE
+--20cf30667c0d9edb3104c16b8b0b
+Content-Type: application/octet-stream; name="typo-and-format-fixes.patch"
+Content-Disposition: attachment; filename="typo-and-format-fixes.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_h2xghpil0
 
-diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-index 67713c7..01289d6 100644
---- a/man2/clock_getres.2
-+++ b/man2/clock_getres.2
-@@ -136,6 +136,13 @@ Similar to
- but provides access to a raw hardware-based time
- that is not subject to NTP adjustments.
- .TP
-+.BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
-+.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3, John Stultz, Aug 19 2009
-+Similar to
-+.BR CLOCK_MONOTONIC ,
-+but provides only the time at the most recent clock tick.  This can be
-+faster to access.
-+.TP
- .B CLOCK_PROCESS_CPUTIME_ID
- High-resolution per-process timer from the CPU.
- .TP
+ZGlmZiAtLWdpdCBhL21hbjIvb3Blbi4yIGIvbWFuMi9vcGVuLjIKaW5kZXggN2ZlNjYwMi4uYWQz
+MThiMSAxMDA2NDQKLS0tIGEvbWFuMi9vcGVuLjIKKysrIGIvbWFuMi9vcGVuLjIKQEAgLTc3Niw3
+ICs3NzYsNyBAQCBJL09zIHNob3VsZCBuZXZlciBiZSBydW4gY29uY3VycmVudGx5IHdpdGggdGhl
+CiBzeXN0ZW0gY2FsbCwKIGlmIHRoZSBtZW1vcnkgYnVmZmVyIGlzIGEgcHJpdmF0ZSBtYXBwaW5n
+CiAoaS5lLiwgYW55IG1hcHBpbmcgY3JlYXRlZCB3aXRoIHRoZQotLkJSIG1tYXAoMikKKy5CUiBt
+bWFwICgyKQogLkJSIE1BUF9QUklWQVRFCiBmbGFnOwogdGhpcyBpbmNsdWRlcyBtZW1vcnkgYWxs
+b2NhdGVkIG9uIHRoZSBoZWFwIGFuZCBzdGF0aWNhbGx5IGFsbG9jYXRlZCBidWZmZXJzKS4KQEAg
+LTc5OSw3ICs3OTksNyBAQCBmbGFnLgogTm9yIGRvZXMgdGhpcyByZXN0cmljdGlvbiBhcHBseSB3
+aGVuIHRoZSBtZW1vcnkgYnVmZmVyIGhhcyBiZWVuIGFkdmlzZWQgYXMKIC5CIE1BRFZfRE9OVEZP
+UksKIHdpdGgKLS5CUiBtYWR2aXNlKDIpLAorLkJSIG1hZHZpc2UgKDIpLAogZW5zdXJpbmcgdGhh
+dCBpdCB3aWxsIG5vdCBiZSBhdmFpbGFibGUKIHRvIHRoZSBjaGlsZCBhZnRlcgogLkJSIGZvcmsg
+KDIpLgpkaWZmIC0tZ2l0IGEvbWFuMi9zZWxlY3QuMiBiL21hbjIvc2VsZWN0LjIKaW5kZXggZmY3
+ODAwOC4uMzk0YTlmNiAxMDA2NDQKLS0tIGEvbWFuMi9zZWxlY3QuMgorKysgYi9tYW4yL3NlbGVj
+dC4yCkBAIC00MTcsNyArNDE3LDcgQEAgVGhlCiBpbnRlcmZhY2UgZGVzY3JpYmVkIGluIHRoaXMg
+cGFnZSBpcyBpbXBsZW1lbnRlZCBieSBnbGliYy4KIFRoZSB1bmRlcmx5aW5nIExpbnV4IHN5c3Rl
+bSBjYWxsIGlzIG5hbWVkCiAuQlIgcHNlbGVjdDYgKCkuCi1UaGlzIHN5c3RlbSBjYWxsIGhhcyBz
+b21ld2hhdCBkaWZmZXJlbnQgYmVoYXZpb3IgZnJvbSB0aGUgZ2liYworVGhpcyBzeXN0ZW0gY2Fs
+bCBoYXMgc29tZXdoYXQgZGlmZmVyZW50IGJlaGF2aW9yIGZyb20gdGhlIGdsaWJjCiB3cmFwcGVy
+IGZ1bmN0aW9uLgogCiBUaGUgTGludXgKQEAgLTQzNiw3ICs0MzYsNyBAQCBhcmd1bWVudDsKIHRo
+aXMgaXMgdGhlIGJlaGF2aW9yIHJlcXVpcmVkIGJ5IFBPU0lYLjEtMjAwMS4KIAogVGhlIGZpbmFs
+IGFyZ3VtZW50IG9mIHRoZQotLkJSIHBzZWxlY3Q2KCkKKy5CUiBwc2VsZWN0NiAoKQogc3lzdGVt
+IGNhbGwgaXMgbm90IGEKIC5JICJzaWdzZXRfdFwgKiIKIHBvaW50ZXIsIGJ1dCBpcyBpbnN0ZWFk
+IGEgc3RydWN0dXJlIG9mIHRoZSBmb3JtOgpkaWZmIC0tZ2l0IGEvbWFuMy9haW9fY2FuY2VsLjMg
+Yi9tYW4zL2Fpb19jYW5jZWwuMwppbmRleCA4YjgwMjc1Li5jODAwMDc1IDEwMDY0NAotLS0gYS9t
+YW4zL2Fpb19jYW5jZWwuMworKysgYi9tYW4zL2Fpb19jYW5jZWwuMwpAQCAtMTA0LDcgKzEwNCw3
+IEBAIFRoZSBjYXVzZSBvZiB0aGUgZXJyb3IgY2FuIGJlIGZvdW5kIGJ5IGluc3BlY3RpbmcKIGlz
+IG5vdCBhIHZhbGlkIGZpbGUgZGVzY3JpcHRvci4KIC5UUAogLkIgRU5PU1lTCi0uQlIgYWlvX2Nh
+bmNlbCgpCisuQlIgYWlvX2NhbmNlbCAoKQogaXMgbm90IGltcGxlbWVudGVkLgogLlNIIFZFUlNJ
+T05TCiBUaGUKZGlmZiAtLWdpdCBhL21hbjMvYWlvX3N1c3BlbmQuMyBiL21hbjMvYWlvX3N1c3Bl
+bmQuMwppbmRleCAxMjE1ZmY3Li4wNWQwNDVkIDEwMDY0NAotLS0gYS9tYW4zL2Fpb19zdXNwZW5k
+LjMKKysrIGIvbWFuMy9haW9fc3VzcGVuZC4zCkBAIC05Nyw3ICs5Nyw3IEBAIHdhaXRpbmcgZm9y
+KTsgc2VlCiAuQlIgc2lnbmFsICg3KS4KIC5UUAogLkIgRU5PU1lTCi0uQlIgYWlvX3N1c3BlbmQo
+KQorLkJSIGFpb19zdXNwZW5kICgpCiBpcyBub3QgaW1wbGVtZW50ZWQuCiAuU0ggVkVSU0lPTlMK
+IFRoZQo=
+--20cf30667c0d9edb3104c16b8b0b--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
