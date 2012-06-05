@@ -1,79 +1,75 @@
-From: "Colin McCabe" <cmccabe-VL1tVIhH15PQjUSlxSEPGw@public.gmane.org>
-Subject: [PATCH] clarify the multithreaded behavior of ioprio_set
-Date: Mon,  4 Jun 2012 15:43:50 -0700
-Message-ID: <1338849830-30588-1-git-send-email-cmccabe@alumni.cmu.edu>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Colin Patrick McCabe <cmccabe-VL1tVIhH15PQjUSlxSEPGw@public.gmane.org>
+From: Andy Lutomirski <luto@amacapital.net>
+Subject: Docs for PR_SET_NO_NEW_PRIVS
+Date: Tue, 05 Jun 2012 10:04:24 -0700
+Message-ID: <4FCE3C18.4080302@amacapital.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-arch-owner@vger.kernel.org>
+Sender: linux-arch-owner@vger.kernel.org
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Will Drewry <wad@chromium.org>, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, hpa@zytor.com, mingo@redhat.com, peterz@infradead.org, tglx@linutronix.de, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, corbet@lwn.net, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, keescook@chromium.org, jmorris@namei.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-From: Colin Patrick McCabe <cmccabe-VL1tVIhH15PQjUSlxSEPGw@public.gmane.org>
+Hi all-
 
-Signed-off-by: Colin McCabe <cmccabe-VL1tVIhH15PQjUSlxSEPGw@public.gmane.org>
----
- man2/ioprio_set.2 |   25 ++++++++++++++++++++++---
- 1 files changed, 22 insertions(+), 3 deletions(-)
+As promised (although belatedly), I wrote up some proposed documentation
+for the no_new_privs feature.  What should I do with it?  I don't speak
+groff/troff/whatever man pages are written in.
 
-diff --git a/man2/ioprio_set.2 b/man2/ioprio_set.2
-index 37b4dc1..807c655 100644
---- a/man2/ioprio_set.2
-+++ b/man2/ioprio_set.2
-@@ -36,13 +36,13 @@ The
- and
- .BR ioprio_set ()
- system calls respectively get and set the I/O scheduling class and
--priority of one or more processes.
-+priority of one or more threads.
- 
- The
- .I which
- and
- .I who
--arguments identify the process(es) on which the system
-+arguments identify the thead(s) on which the system
- calls operate.
- The
- .I which
-@@ -52,7 +52,7 @@ is interpreted, and has one of the following values:
- .TP
- .B IOPRIO_WHO_PROCESS
- .I who
--is a process ID identifying a single process.
-+is a process ID or thread ID identifying a single process or thread.
- .TP
- .B IOPRIO_WHO_PGRP
- .I who
-@@ -186,6 +186,25 @@ kernel 2.6.13.
- .SH "CONFORMING TO"
- These system calls are Linux-specific.
- .SH NOTES
-+Two or more processes or threads can share an I/O context.  This will be the
-+case when
-+.BR clone (2)
-+was called with the
-+.B CLONE_IO
-+flag.
-+
-+However, by default, the distinct threads of a process will
-+.B not
-+share the same I/O context.  This means that if you want to change the I/O
-+priority of all threads in a process, you may need to call
-+.BR ioprio_set()
-+on all of the threads.  The thread ID you would need for this operation is that
-+which is returned by
-+.BR gettid(),
-+not
-+.BR pthread_self()
-+or another userspace API.
-+
- Glibc does not provide wrapper for these system calls; call them using
- .BR syscall (2).
- 
--- 
-1.7.7
+I would be happy to license this text appropriately for whatever tree
+it might end up in.  In the mean time, it's GPLv2+.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--- cut here ---
+
+The execve system call can grant a newly-started program privileges
+that its parent did not have.  The most obvious examples are
+setuid/setgid programs and file capabilities.  To prevent the parent
+program from gaining these privileges as well, the kernel and user
+code must be careful to prevent the parent from doing anything that
+could subvert the child.  For example:
+
+ - The dynamic loader handles LD_* environment variables differently
+if a program is setuid.
+ - chroot is disallowed to unprivileged processes, since it would
+allow /etc/passwd to be replaced from the point of view of a process
+that inherited chroot.
+ - The exec code has special handling for ptrace.
+
+These are all ad-hoc fixes.  The no_new_privs bit (since Linux 3.5) is
+a new, generic mechanism to make it safe for a process to modify its
+execution environment in a manner that persists across execve.  Any
+task can set no_new_privs.  Once the bit is set, it is inherited
+across fork, clone, and execve and cannot be unset.  With no_new_privs
+set, execve promises not to grant the privilege to do anything that
+could not have been done without the execve call.  For example, the
+setuid and setgid bits will no longer change the uid or gid; file
+capabilities will not add to the permitted set, and LSMs will not
+relax constraints after execve.
+
+Note that no_new_privs does not prevent privilege changes that do not
+involve execve.  An appropriately privileged task can still call
+setuid(2) and receive SCM_RIGHTS datagrams.
+
+There are two main use cases for no_new_privs so far:
+
+ - Filters installed for the seccomp mode 2 sandbox persist across
+execve and can change the behavior of newly-executed programs.
+Unprivileged users are therefore only allowed to install such filters
+if no_new_privs is set.
+
+ - By itself, no_new_privs can be used to reduce the attack surface
+available to an unprivileged user.  If everything running with a given
+uid has no_new_privs set, then that uid will be unable to escalate its
+privileges by directly attacking setuid, setgid, and fcap-using
+binaries; it will need to compromise something without the
+no_new_privs bit set first.
+
+In the future, other potentially dangerous kernel features could
+become available to unprivileged tasks if no_new_privs is set.  In
+principle, several options to unshare(2) and clone(2) would be safe
+when no_new_privs is set, and no_new_privs + chroot is considerable
+less dangerous than chroot by itself.
+
+--- cut here ---
+
+--Andy
