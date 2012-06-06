@@ -1,82 +1,85 @@
-From: Flavio Leitner <fbl-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] ip.7: Improve explanation about calling listen or
- connect
-Date: Wed, 6 Jun 2012 11:44:26 -0300
-Message-ID: <20120606114426.0595fbac@asterix.rh>
-References: <1336566636-14713-1-git-send-email-fbl@redhat.com>
-	<4FBF66D8.7060007@redhat.com>
+From: Graham Shaw <gdshaw-1YjpMCWsJptAfugRpC6u6w@public.gmane.org>
+Subject: packet(7) omits sll_protocol from required field list for outbound
+ packets
+Date: Wed, 06 Jun 2012 22:27:37 +0100
+Message-ID: <4FCFCB49.20504@riscpkg.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FBF66D8.7060007-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The manpage packet(7) currently states that:
 
-Hi,
+"When you send packets it is enough to specify sll_family, sll_addr, 
+sll_halen, sll_ifindex."
 
-Could someone tell me what's the patch current state?
-It has been a month already with no feedback.
-thanks,
-fbl
+This is incorrect: you also need to specify sll_protocol.
 
-On Fri, 25 May 2012 13:02:48 +0200
-Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+(The protocol specified when the socket is created is used for filtering 
+inbound packets, but not for constructing outbound packets.)
 
-> Hi Michael,
-> 
-> do you have any comments for this update? Or do you need some supporting 
-> info?
-> 
-> peter
-> 
-> On 05/09/2012 02:30 PM, Flavio Leitner wrote:
-> > Signed-off-by: Flavio Leitner<fbl-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > ---
-> >   man7/ip.7 |   15 +++++++++------
-> >   1 files changed, 9 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/man7/ip.7 b/man7/ip.7
-> > index 9f560df..84fe32d 100644
-> > --- a/man7/ip.7
-> > +++ b/man7/ip.7
-> > @@ -69,12 +69,11 @@ For
-> >   you may specify a valid IANA IP protocol defined in
-> >   RFC\ 1700 assigned numbers.
-> >   .PP
-> > -.\" FIXME ip current does an autobind in listen, but I'm not sure
-> > -.\" if that should be documented.
-> >   When a process wants to receive new incoming packets or connections, it
-> >   should bind a socket to a local interface address using
-> >   .BR bind (2).
-> > -Only one IP socket may be bound to any given local (address, port) pair.
-> > +In this case, only one IP socket may be bound to any given local
-> > +(address, port) pair.
-> >   When
-> >   .B INADDR_ANY
-> >   is specified in the bind call, the socket will be bound to
-> > @@ -82,10 +81,14 @@ is specified in the bind call, the socket will be bound to
-> >   local interfaces.
-> >   When
-> >   .BR listen (2)
-> > -or
-> > +is called on an unbound socket, the socket is automatically bound
-> > +to a random free port with the local address set to
-> > +.BR INADDR_ANY .
-> > +When
-> >   .BR connect (2)
-> > -are called on an unbound socket, it is automatically bound to a
-> > -random free port with the local address set to
-> > +is called on an unbound socket, the socket is automatically bound
-> > +to a random free port or an usable shared port with the local address
-> > +set to
-> >   .BR INADDR_ANY .
-> >
-> >   A TCP local socket address that has been bound is unavailable for
+I encountered this while researching a page for my website:
 
+http://www.microhowto.info/howto/send_an_arbitrary_ethernet_frame_using_an_af_packet_socket_in_c.html
+
+To empirically verify the behaviour I took my test code from the above 
+page then changed it to use different values for the third argument to 
+socket() and the sll_protocol field:
+
+- socket created with ETH_P_ARP, packet sent with ETH_P_ARP:
+     packet sent with EtherType of ETH_P_ARP
+- socket created with ETH_P_ARP, sll_protocol==0:
+     packet sent with EtherType of 0
+- socket created with 0x88b5, sll_protocol==htons(ETH_P_ARP):
+     packet sent with EtherType of ETH_P_ARP
+- socket created with ETH_P_ARP, sll_protocol==htons(0x88b5):
+     packet sent with EtherType of 0x88b5
+
+This shows that leaving sll_protocol set to zero does not have the 
+desired effect and that it needs to be set to the desired link-layer 
+protocol.
+
+There is code in the relevant kernel source file 
+(net/packet/af_packet.c) which appears to inspect the value of the 
+sll_protocol field and use it as the link-layer protocol number, however 
+I am not sufficiently familiar with this subsystem to be fully confident 
+of what is happening. The line in question is:
+
+     proto   = saddr->sll_protocol;
+
+In version 3.4 of the kernel this can be found in the functions 
+packet_snd and tpacket_snd. In version 2.6.26 it is in packet_sendmsg.
+
+Below is a patch that adds sll_protocol to the list of required fields. 
+This may not be the whole truth, since it is not clear what role if any 
+sll_protocol, sll_halen or sll_addr would play when the socket type is 
+SOCK_RAW, however I'm confident it is more accurate than the page as it 
+stands at present:
+
+diff --git a/man7/packet.7 b/man7/packet.7
+index 374f6da..fb09f15 100644
+--- a/man7/packet.7
++++ b/man7/packet.7
+@@ -160,7 +160,9 @@ When you send packets it is enough to specify
+  .IR sll_family ,
+  .IR sll_addr ,
+  .IR sll_halen ,
+-.IR sll_ifindex .
++.IR sll_ifindex
++and
++.IR sll_protocol .
+  The other fields should be 0.
+  .I sll_hatype
+  and
+
+Yours,
+
+Graham Shaw
+http://gdshaw.net/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
