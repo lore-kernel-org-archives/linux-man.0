@@ -1,129 +1,83 @@
-From: Will Drewry <wad@chromium.org>
-Subject: Re: Docs for PR_SET_NO_NEW_PRIVS
-Date: Tue, 5 Jun 2012 13:13:05 -0500
-Message-ID: <CABqD9hYXKhX1=064DpbaBTAVd8-g43jKAPvtsbxEUTbgC1MPxg@mail.gmail.com>
-References: <4FCE3C18.4080302@amacapital.net>
-	<CAGXu5jLc6UW85TxA7ccA4e1u78hkTbSrWeBJE+oTXXQECPvtjg@mail.gmail.com>
+From: Flavio Leitner <fbl-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] ip.7: Improve explanation about calling listen or
+ connect
+Date: Wed, 6 Jun 2012 11:44:26 -0300
+Message-ID: <20120606114426.0595fbac@asterix.rh>
+References: <1336566636-14713-1-git-send-email-fbl@redhat.com>
+	<4FBF66D8.7060007@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-security-module-owner@vger.kernel.org>
-In-Reply-To: <CAGXu5jLc6UW85TxA7ccA4e1u78hkTbSrWeBJE+oTXXQECPvtjg@mail.gmail.com>
-Sender: linux-security-module-owner@vger.kernel.org
-To: Kees Cook <keescook@chromium.org>
-Cc: Andy Lutomirski <luto@amacapital.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, hpa@zytor.com, mingo@redhat.com, peterz@infradead.org, tglx@linutronix.de, eparis@redhat.com, serge.hallyn@canonical.com, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, corbet@lwn.net, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, jmorris@namei.org, linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <4FBF66D8.7060007-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Jun 5, 2012 at 12:33 PM, Kees Cook <keescook@chromium.org> wrot=
-e:
-> Hi,
->
-> As-is, this could probably live in
-> Documentation/security/no-new-privs.txt (maybe with some examples
-> added).
 
-Or Documentation/prctl/no-new-privs.txt
+Hi,
 
-Just a decision between what it does and how you get to it, but I'd
-think either would make sense!
+Could someone tell me what's the patch current state?
+It has been a month already with no feedback.
+thanks,
+fbl
 
-> As for a manpage section, I think Michael Kerrisk would happily add a
-> section for PR_[SG]ET_NO_NEW_PRIVS to prctl if this could be
-> summarized into a paragraph or two.
->
-> (And this reminds me I should send an update for the seccomp section
-> in the prctl manpage too.)
+On Fri, 25 May 2012 13:02:48 +0200
+Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 
-=46aster on the draw than me - thanks!
+> Hi Michael,
+> 
+> do you have any comments for this update? Or do you need some supporting 
+> info?
+> 
+> peter
+> 
+> On 05/09/2012 02:30 PM, Flavio Leitner wrote:
+> > Signed-off-by: Flavio Leitner<fbl-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > ---
+> >   man7/ip.7 |   15 +++++++++------
+> >   1 files changed, 9 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/man7/ip.7 b/man7/ip.7
+> > index 9f560df..84fe32d 100644
+> > --- a/man7/ip.7
+> > +++ b/man7/ip.7
+> > @@ -69,12 +69,11 @@ For
+> >   you may specify a valid IANA IP protocol defined in
+> >   RFC\ 1700 assigned numbers.
+> >   .PP
+> > -.\" FIXME ip current does an autobind in listen, but I'm not sure
+> > -.\" if that should be documented.
+> >   When a process wants to receive new incoming packets or connections, it
+> >   should bind a socket to a local interface address using
+> >   .BR bind (2).
+> > -Only one IP socket may be bound to any given local (address, port) pair.
+> > +In this case, only one IP socket may be bound to any given local
+> > +(address, port) pair.
+> >   When
+> >   .B INADDR_ANY
+> >   is specified in the bind call, the socket will be bound to
+> > @@ -82,10 +81,14 @@ is specified in the bind call, the socket will be bound to
+> >   local interfaces.
+> >   When
+> >   .BR listen (2)
+> > -or
+> > +is called on an unbound socket, the socket is automatically bound
+> > +to a random free port with the local address set to
+> > +.BR INADDR_ANY .
+> > +When
+> >   .BR connect (2)
+> > -are called on an unbound socket, it is automatically bound to a
+> > -random free port with the local address set to
+> > +is called on an unbound socket, the socket is automatically bound
+> > +to a random free port or an usable shared port with the local address
+> > +set to
+> >   .BR INADDR_ANY .
+> >
+> >   A TCP local socket address that has been bound is unavailable for
 
->
-> On Tue, Jun 5, 2012 at 10:04 AM, Andy Lutomirski <luto@amacapital.net=
-> wrote:
->> Hi all-
->>
->> As promised (although belatedly), I wrote up some proposed documenta=
-tion
->> for the no_new_privs feature. =A0What should I do with it? =A0I don'=
-t speak
->> groff/troff/whatever man pages are written in.
->>
->> I would be happy to license this text appropriately for whatever tre=
-e
->> it might end up in. =A0In the mean time, it's GPLv2+.
->>
->> --- cut here ---
->>
->> The execve system call can grant a newly-started program privileges
->> that its parent did not have. =A0The most obvious examples are
->> setuid/setgid programs and file capabilities. =A0To prevent the pare=
-nt
->> program from gaining these privileges as well, the kernel and user
->> code must be careful to prevent the parent from doing anything that
->> could subvert the child. =A0For example:
->>
->> =A0- The dynamic loader handles LD_* environment variables different=
-ly
->> if a program is setuid.
->> =A0- chroot is disallowed to unprivileged processes, since it would
->> allow /etc/passwd to be replaced from the point of view of a process
->> that inherited chroot.
->> =A0- The exec code has special handling for ptrace.
->>
->> These are all ad-hoc fixes. =A0The no_new_privs bit (since Linux 3.5=
-) is
->> a new, generic mechanism to make it safe for a process to modify its
->> execution environment in a manner that persists across execve. =A0An=
-y
->> task can set no_new_privs. =A0Once the bit is set, it is inherited
->> across fork, clone, and execve and cannot be unset. =A0With no_new_p=
-rivs
->> set, execve promises not to grant the privilege to do anything that
->> could not have been done without the execve call. =A0For example, th=
-e
->> setuid and setgid bits will no longer change the uid or gid; file
->> capabilities will not add to the permitted set, and LSMs will not
->> relax constraints after execve.
->>
->> Note that no_new_privs does not prevent privilege changes that do no=
-t
->> involve execve. =A0An appropriately privileged task can still call
->> setuid(2) and receive SCM_RIGHTS datagrams.
->>
->> There are two main use cases for no_new_privs so far:
->>
->> =A0- Filters installed for the seccomp mode 2 sandbox persist across
->> execve and can change the behavior of newly-executed programs.
->> Unprivileged users are therefore only allowed to install such filter=
-s
->> if no_new_privs is set.
->>
->> =A0- By itself, no_new_privs can be used to reduce the attack surfac=
-e
->> available to an unprivileged user. =A0If everything running with a g=
-iven
->> uid has no_new_privs set, then that uid will be unable to escalate i=
-ts
->> privileges by directly attacking setuid, setgid, and fcap-using
->> binaries; it will need to compromise something without the
->> no_new_privs bit set first.
->>
->> In the future, other potentially dangerous kernel features could
->> become available to unprivileged tasks if no_new_privs is set. =A0In
->> principle, several options to unshare(2) and clone(2) would be safe
->> when no_new_privs is set, and no_new_privs + chroot is considerable
->> less dangerous than chroot by itself.
->>
->> --- cut here ---
->>
->> --Andy
->
->
->
-> --
-> Kees Cook
-> Chrome OS Security
 --
-To unsubscribe from this list: send the line "unsubscribe linux-securit=
-y-module" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
