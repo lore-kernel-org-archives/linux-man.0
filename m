@@ -1,103 +1,110 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch], iso_8859-*.7: Explanation of SOFT HYPHEN and the code
- for it
-Date: Fri, 8 Jun 2012 00:08:26 +1200
-Message-ID: <CAKgNAkiw4yhNMM2vHdQ4yd2u_T0tLd34wpmUbuH9_ndPpEsg6Q@mail.gmail.com>
-References: <20120510194231.GA13127@rhi.hi.is>
+Subject: Re: [PATCH] typo and formating fixes
+Date: Fri, 8 Jun 2012 00:25:05 +1200
+Message-ID: <CAKgNAkii+cWHiQVQAx4LqMEWd3XGHrFyddk86q=sRKqWBWCD0Q@mail.gmail.com>
+References: <CALhU9t=Wyy7EaMAHSFJ7BATu4UdO=PsZgnsKYDa1sN-8+e4t+Q@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120510194231.GA13127-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+In-Reply-To: <CALhU9t=Wyy7EaMAHSFJ7BATu4UdO=PsZgnsKYDa1sN-8+e4t+Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+To: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Bjarni,
+Hello Akihiro,
 
-On Fri, May 11, 2012 at 7:42 AM, Bjarni Ingi Gislason
-<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
-> Package: man-pages
-> Version: 3.40
-> Severity: minor
-> Tags: patch
+On Sat, Jun 2, 2012 at 4:19 AM, Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello,
 >
-> =A0From "groff -ww ...":
->
-> <groff: iso_8859-2.7>:89: warning: can't find special character `shc'
->
-> =A0This is the only "iso_8859-*.7" file that has this (now)
-> undefined character. =A0The code in column four in "iso_8859-1.7" is
-> "0x2D" ("HYPHEN, MINUS SIGN" or "HYPHEN-MINUS") instead of "0xAD".
-> See Debian bug 156154 (or package "manpages").
->
-> =A0There should be an explanation for this graphic character and the
-> code should be 0xAD in iso_8859-1.7 (as in all others), even though
-> "[gn]roff" does not display a "HYPHEN" in that position of the table.
->
-> =A0The line with "SOFT HYPHEN" gets a footnote and a short
-> explanation. =A0The footnote is from the official ISO standard.
->
-> =A0Suggested patch for one of the files:
+> Here is a typo and formating fixes against man-pages 3.41.
+> --
+> Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Is there any reason that the explanation should be added to only one
-of the files? I'm somewhat inclined just to change the character, and
-not add the explanation (so that this page is similar to the others).
+It's a little easier for me for review purposes if you put the patch
+inline. (By all means *also* attach it, if you think your mailer will
+break things.) Also, I'd prefer to split out the formatting fixes and
+the spelling fixes into two separate matches.
+
+Anyway, thanks for spotting all of these, and for your patch (which
+I've quoted below). I applied all of the changes for 3.42.
 
 Cheers,
 
 Michael
 
+diff --git a/man2/open.2 b/man2/open.2
+index 7fe6602..ad318b1 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -776,7 +776,7 @@ I/Os should never be run concurrently with the
+ system call,
+ if the memory buffer is a private mapping
+ (i.e., any mapping created with the
+-.BR mmap(2)
++.BR mmap (2)
+ .BR MAP_PRIVATE
+ flag;
+ this includes memory allocated on the heap and statically allocated buffers).
+@@ -799,7 +799,7 @@ flag.
+ Nor does this restriction apply when the memory buffer has been advised as
+ .B MADV_DONTFORK
+ with
+-.BR madvise(2),
++.BR madvise (2),
+ ensuring that it will not be available
+ to the child after
+ .BR fork (2).
+diff --git a/man2/select.2 b/man2/select.2
+index ff78008..394a9f6 100644
+--- a/man2/select.2
++++ b/man2/select.2
+@@ -417,7 +417,7 @@ The
+ interface described in this page is implemented by glibc.
+ The underlying Linux system call is named
+ .BR pselect6 ().
+-This system call has somewhat different behavior from the gibc
++This system call has somewhat different behavior from the glibc
+ wrapper function.
 
+ The Linux
+@@ -436,7 +436,7 @@ argument;
+ this is the behavior required by POSIX.1-2001.
 
-> --- iso_8859-1.7 =A0 =A0 =A0 =A02012-04-26 22:58:39.000000000 +0000
-> +++ iso_8859-1.7.new =A0 =A02012-05-10 16:01:39.000000000 +0000
-> @@ -71,7 +71,7 @@
-> =A0The fourth column will only show the proper glyphs
-> =A0in an environment configured for ISO 8859-1.
-> =A0.TS
-> -l l l c lp-1.
-> +l2 l2 l2 c2 lp-1.
-> =A0Oct =A0 =A0Dec =A0 =A0 Hex =A0 =A0 Char =A0 =A0Description
-> =A0_
-> =A0240 =A0 =A0160 =A0 =A0 A0 =A0 =A0 =A0=A0 =A0 =A0 =A0 NO-BREAK SPAC=
-E
-> @@ -87,7 +87,7 @@
-> =A0252 =A0 =A0170 =A0 =A0 AA =A0 =A0 =A0=AA =A0 =A0 =A0 FEMININE ORDI=
-NAL INDICATOR
-> =A0253 =A0 =A0171 =A0 =A0 AB =A0 =A0 =A0=AB =A0 =A0 =A0 LEFT-POINTING=
- DOUBLE ANGLE QUOTATION MARK
-> =A0254 =A0 =A0172 =A0 =A0 AC =A0 =A0 =A0=AC =A0 =A0 =A0 NOT SIGN
-> -255 =A0 =A0173 =A0 =A0 AD =A0 =A0 =A0- =A0 =A0 =A0 SOFT HYPHEN
-> +255 =A0 =A0173 =A0 =A0 AD =A0 =A0 =A0=AD =A0 =A0 =A0 SOFT HYPHEN (sh=
-own as a hyphen at line breaks)=B9
-> =A0256 =A0 =A0174 =A0 =A0 AE =A0 =A0 =A0=AE =A0 =A0 =A0 REGISTERED SI=
-GN
-> =A0257 =A0 =A0175 =A0 =A0 AF =A0 =A0 =A0=AF =A0 =A0 =A0 MACRON
-> =A0260 =A0 =A0176 =A0 =A0 B0 =A0 =A0 =A0=B0 =A0 =A0 =A0 DEGREE SIGN
-> @@ -171,6 +171,11 @@
-> =A0376 =A0 =A0254 =A0 =A0 FE =A0 =A0 =A0=FE =A0 =A0 =A0 LATIN SMALL L=
-ETTER THORN
-> =A0377 =A0 =A0255 =A0 =A0 FF =A0 =A0 =A0=FF =A0 =A0 =A0 LATIN SMALL L=
-ETTER Y WITH DIAERESIS
-> =A0.TE
-> + =A0=B9 A graphic character that is imaged by a graphic symbol
-> +identical with, or similar to, that representing HYPHEN, for use
-> +when a line break has been established wihin a word.
-> +.BR "ISO 8859-1:1987" ,
-> +paragraph 6.3.3.
-> =A0.SH "SEE ALSO"
-> =A0.BR ascii (7),
-> =A0.BR iso_8859-15 (7)
->
-> --
-> Bjarni I. Gislason
-
-
-
---=20
+ The final argument of the
+-.BR pselect6()
++.BR pselect6 ()
+ system call is not a
+ .I "sigset_t\ *"
+ pointer, but is instead a structure of the form:
+diff --git a/man3/aio_cancel.3 b/man3/aio_cancel.3
+index 8b80275..c800075 100644
+--- a/man3/aio_cancel.3
++++ b/man3/aio_cancel.3
+@@ -104,7 +104,7 @@ The cause of the error can be found by inspecting
+ is not a valid file descriptor.
+ .TP
+ .B ENOSYS
+-.BR aio_cancel()
++.BR aio_cancel ()
+ is not implemented.
+ .SH VERSIONS
+ The
+diff --git a/man3/aio_suspend.3 b/man3/aio_suspend.3
+index 1215ff7..05d045d 100644
+--- a/man3/aio_suspend.3
++++ b/man3/aio_suspend.3
+@@ -97,7 +97,7 @@ waiting for); see
+ .BR signal (7).
+ .TP
+ .B ENOSYS
+-.BR aio_suspend()
++.BR aio_suspend ()
+ is not implemented.
+ .SH VERSIONS
+ The
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
