@@ -1,70 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Psuedo->Pseudo
-Date: Thu, 7 Jun 2012 21:45:56 +1200
-Message-ID: <CAKgNAkiYD4y3NY_jEzfa6isXfHa3q+_FcS3QDVjUwFGGZpz4Ug@mail.gmail.com>
-References: <4FB16967.1060606@gmail.com>
+Subject: Re: [patch], suffixes(7): Warnings from "grotty"
+Date: Thu, 7 Jun 2012 23:48:45 +1200
+Message-ID: <CAKgNAkhEd8fo4sej8iyV2f5JrKxuq9+zXdiRnmEcro3YEK6Gmg@mail.gmail.com>
+References: <20120518174722.GA22613@rhi.hi.is>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FB16967.1060606-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20120518174722.GA22613-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jim Hill <gjthill-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks Jim,
+Okay -- already dealt with in
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D673436
 
-Applied for 3.42.
-
-Cheers,
+Thanks,
 
 Michael
 
-On Tue, May 15, 2012 at 8:21 AM, Jim Hill <gjthill-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On Sat, May 19, 2012 at 5:47 AM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> Package: manpages
+> Version: 3.40
+> Severity: minor
+> Tags: patch
 >
-> ---
-> =A0man4/pts.4 | 2 +-
-> =A0man7/pty.7 | 2 +-
-> =A02 files changed, 2 insertions(+), 2 deletions(-)
+> =A0From "man ..." ("nroff ..."):
 >
-> diff --git a/man4/pts.4 b/man4/pts.4
-> index 7164e10..ff81c63 100644
-> --- a/man4/pts.4
-> +++ b/man4/pts.4
-> @@ -44,7 +44,7 @@ programs such as
-> =A0in which data read from the pseudoterminal master is sent across t=
-he
-> network
-> =A0to a client program that is connected to a terminal or terminal em=
-ulator.
-> =A0.PP
-> -Psuedoterminals can also be used to send input to programs that norm=
-ally
-> +Pseudoterminals can also be used to send input to programs that norm=
-ally
-> =A0refuse to read input from pipes (such as
-> =A0.BR su (1),
-> =A0and
-> diff --git a/man7/pty.7 b/man7/pty.7
-> index c6d8c35..2860b30 100644
-> --- a/man7/pty.7
-> +++ b/man7/pty.7
-> @@ -48,7 +48,7 @@ that is connected to the slave.
-> =A0Conversely, anything that is written to the slave end of the
-> =A0pseudoterminal can be read by the process that is connected to
-> =A0the master end.
-> -Psuedoterminals are used by applications such as network login servi=
-ces
-> +Pseudoterminals are used by applications such as network login servi=
-ces
-> =A0.RB ( ssh "(1), " rlogin "(1), " telnet (1)),
-> =A0terminal emulators,
-> =A0.BR script (1),
+> grotty:<standard input> (<standard input>):1763: character above firs=
+t line discarded
+> grotty:<standard input> (<standard input>):2688: character above firs=
+t line discarded
+> grotty:<standard input> (<standard input>):3286: character above firs=
+t line discarded
+>
+> =A0"man" ("nroff") needs a long page to avoid (imaginary) page
+> breaks for the long tables.
+>
+> =A0The culprit is "Dl 0 -xxxx" (vertical line) where "xxxx" is
+> one line (40 nroff units) too long. =A0Or there is a bug in
+> "grotty". =A0"nroff" or "tbl" makes an empty line where a page
+> break is.
+>
+> =A0Patch:
+>
+> --- suffixes.7 =A02012-04-26 22:58:40.000000000 +0000
+> +++ suffixes.7.new =A0 =A0 =A02012-05-18 01:22:54.000000000 +0000
+> @@ -35,6 +35,9 @@
+> =A0.\" FIXME, mtk, May 2007: rendering this page yields the error:
+> =A0.\" grotty:suffixes.7:1725: character above first line discarded
+> =A0.\"
+> +.\" "nroff" ("man") (or "tbl") needs a long page to avoid warnings
+> +.\" from "grotty" (at imagined page breaks). =A0Bug in grotty?
+> +.if n .pl 1000v
+> =A0.TH SUFFIXES 7 =A02000-11-16 "Linux" "Linux Programmer's Manual"
+> =A0.SH NAME
+> =A0suffixes \- list of file suffixes
+>
 > --
-> 1.7.10.1.456.g16798d0
->
+> Bjarni I. Gislason
 
 
 
