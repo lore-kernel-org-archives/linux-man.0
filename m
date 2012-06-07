@@ -1,86 +1,32 @@
-From: Graham Shaw <gdshaw-1YjpMCWsJptAfugRpC6u6w@public.gmane.org>
-Subject: packet(7) omits sll_protocol from required field list for outbound
- packets
-Date: Wed, 06 Jun 2012 22:27:37 +0100
-Message-ID: <4FCFCB49.20504@riscpkg.org>
+From: James Morris <jmorris@namei.org>
+Subject: Re: Docs for PR_SET_NO_NEW_PRIVS
+Date: Thu, 7 Jun 2012 11:29:48 +1000 (EST)
+Message-ID: <alpine.LRH.2.02.1206071127340.12194@tundra.namei.org>
+References: <4FCE3C18.4080302@amacapital.net> <CAGXu5jLc6UW85TxA7ccA4e1u78hkTbSrWeBJE+oTXXQECPvtjg@mail.gmail.com> <CABqD9hYXKhX1=064DpbaBTAVd8-g43jKAPvtsbxEUTbgC1MPxg@mail.gmail.com>
+Reply-To: kernel-hardening@lists.openwall.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Return-path: <kernel-hardening-return-1321-glkh-kernel-hardening=m.gmane.org@lists.openwall.com>
+List-Post: <mailto:kernel-hardening@lists.openwall.com>
+List-Help: <mailto:kernel-hardening-help@lists.openwall.com>
+List-Unsubscribe: <mailto:kernel-hardening-unsubscribe@lists.openwall.com>
+List-Subscribe: <mailto:kernel-hardening-subscribe@lists.openwall.com>
+In-Reply-To: <CABqD9hYXKhX1=064DpbaBTAVd8-g43jKAPvtsbxEUTbgC1MPxg@mail.gmail.com>
+To: Will Drewry <wad@chromium.org>
+Cc: Kees Cook <keescook@chromium.org>, Andy Lutomirski <luto@amacapital.net>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Andrew Morton <akpm@linux-foundation.org>, linux-security-module@vger.kernel.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, kernel-hardening@lists.openwall.com, hpa@zytor.com, mingo@redhat.com, peterz@infradead.org, tglx@linutronix.de, Eric Paris <eparis@redhat.com>, Serge Hallyn <serge.hallyn@canonical.com>, djm@mindrot.org, scarybeasts@gmail.com, indan@nul.nu, pmoore@redhat.com, Jonathan Corbet <corbet@lwn.net>, eric.dumazet@gmail.com, markus@chromium.org, coreyb@linux.vnet.ibm.com, linux-man@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-The manpage packet(7) currently states that:
+On Tue, 5 Jun 2012, Will Drewry wrote:
 
-"When you send packets it is enough to specify sll_family, sll_addr, 
-sll_halen, sll_ifindex."
+> Or Documentation/prctl/no-new-privs.txt
+> 
+> Just a decision between what it does and how you get to it, but I'd
+> think either would make sense!
 
-This is incorrect: you also need to specify sll_protocol.
+This makes sense as it's where the seccomp documentation is.
 
-(The protocol specified when the socket is created is used for filtering 
-inbound packets, but not for constructing outbound packets.)
 
-I encountered this while researching a page for my website:
-
-http://www.microhowto.info/howto/send_an_arbitrary_ethernet_frame_using_an_af_packet_socket_in_c.html
-
-To empirically verify the behaviour I took my test code from the above 
-page then changed it to use different values for the third argument to 
-socket() and the sll_protocol field:
-
-- socket created with ETH_P_ARP, packet sent with ETH_P_ARP:
-     packet sent with EtherType of ETH_P_ARP
-- socket created with ETH_P_ARP, sll_protocol==0:
-     packet sent with EtherType of 0
-- socket created with 0x88b5, sll_protocol==htons(ETH_P_ARP):
-     packet sent with EtherType of ETH_P_ARP
-- socket created with ETH_P_ARP, sll_protocol==htons(0x88b5):
-     packet sent with EtherType of 0x88b5
-
-This shows that leaving sll_protocol set to zero does not have the 
-desired effect and that it needs to be set to the desired link-layer 
-protocol.
-
-There is code in the relevant kernel source file 
-(net/packet/af_packet.c) which appears to inspect the value of the 
-sll_protocol field and use it as the link-layer protocol number, however 
-I am not sufficiently familiar with this subsystem to be fully confident 
-of what is happening. The line in question is:
-
-     proto   = saddr->sll_protocol;
-
-In version 3.4 of the kernel this can be found in the functions 
-packet_snd and tpacket_snd. In version 2.6.26 it is in packet_sendmsg.
-
-Below is a patch that adds sll_protocol to the list of required fields. 
-This may not be the whole truth, since it is not clear what role if any 
-sll_protocol, sll_halen or sll_addr would play when the socket type is 
-SOCK_RAW, however I'm confident it is more accurate than the page as it 
-stands at present:
-
-diff --git a/man7/packet.7 b/man7/packet.7
-index 374f6da..fb09f15 100644
---- a/man7/packet.7
-+++ b/man7/packet.7
-@@ -160,7 +160,9 @@ When you send packets it is enough to specify
-  .IR sll_family ,
-  .IR sll_addr ,
-  .IR sll_halen ,
--.IR sll_ifindex .
-+.IR sll_ifindex
-+and
-+.IR sll_protocol .
-  The other fields should be 0.
-  .I sll_hatype
-  and
-
-Yours,
-
-Graham Shaw
-http://gdshaw.net/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+- James
+-- 
+James Morris
+<jmorris@namei.org>
