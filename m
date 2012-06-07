@@ -1,69 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] aio_cancel.3, aio_suspend.3: ffix
-Date: Fri, 8 Jun 2012 03:02:17 +1200
-Message-ID: <CAKgNAkiJzNr4r4fsAYjSd3pnbiQ9jyYeOJP+p=k59wdxdDMpqQ@mail.gmail.com>
-References: <1337137844-26841-1-git-send-email-taffit@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+Subject: Re: [patch], mdoc(7): Fixing a warning and a table
+Date: Thu, 7 Jun 2012 20:31:22 +0000
+Message-ID: <20120607203122.GA2595@rhi.hi.is>
+References: <20120511195430.GA28822@rhi.hi.is>
+ <CAKgNAkjiK4=cDo712__HrS5M4U8AFiyXFYc1vk2c5e7vc=YNmA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1337137844-26841-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkjiK4=cDo712__HrS5M4U8AFiyXFYc1vk2c5e7vc=YNmA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks David. Likewise fixed independently before reading your mail.
+On Thu, Jun 07, 2012 at 11:58:15PM +1200, Michael Kerrisk (man-pages) w=
+rote:
+> Bjarni,
+>=20
+> On Sat, May 12, 2012 at 7:54 AM, Bjarni Ingi Gislason
+> <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> > Package: man-pages
+> > Version: 3.40
+> > Severity: minor
+> > Tags: patch
+> >
+> > =A0From "groff -ww ..." (or "man --warnings=3Dw ..."):
+> >
+> > <groff: mdoc.7>:294: warning: tab character in unquoted macro argum=
+ent
+> >
+> > =A0In one table the distance between columns is too small in the
+> > "ps" output. =A0(Bug in the groff "doc.tmac" macro?)
+>=20
+> Thanks. Applied for 3.42.
+>=20
 
-Cheers,
+  My patch from that day is a crude one, as I did not know enough.=20
+The third one (from 14th May) is the correct (best) one.
 
-Michael
-
-
-On Wed, May 16, 2012 at 3:10 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
-te:
-> ---
-> =A0man3/aio_cancel.3 =A0| =A0 =A02 +-
-> =A0man3/aio_suspend.3 | =A0 =A02 +-
-> =A02 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man3/aio_cancel.3 b/man3/aio_cancel.3
-> index 8b80275..c800075 100644
-> --- a/man3/aio_cancel.3
-> +++ b/man3/aio_cancel.3
-> @@ -104,7 +104,7 @@ The cause of the error can be found by inspecting
-> =A0is not a valid file descriptor.
-> =A0.TP
-> =A0.B ENOSYS
-> -.BR aio_cancel()
-> +.BR aio_cancel ()
-> =A0is not implemented.
-> =A0.SH VERSIONS
-> =A0The
-> diff --git a/man3/aio_suspend.3 b/man3/aio_suspend.3
-> index 1215ff7..05d045d 100644
-> --- a/man3/aio_suspend.3
-> +++ b/man3/aio_suspend.3
-> @@ -97,7 +97,7 @@ waiting for); see
-> =A0.BR signal (7).
-> =A0.TP
-> =A0.B ENOSYS
-> -.BR aio_suspend()
-> +.BR aio_suspend ()
-> =A0is not implemented.
-> =A0.SH VERSIONS
-> =A0The
-> --
-> 1.7.10
->
-
-
+=2EBl -column ".Fl bullet" -compact
+  etc.
 
 --=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Bjarni I. Gislason
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
