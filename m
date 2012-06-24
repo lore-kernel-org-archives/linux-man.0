@@ -1,21 +1,26 @@
-From: Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Typo in rtld-audit
-Date: Thu, 21 Jun 2012 11:36:45 -0400
-Message-ID: <CAOPLpQeK4VQKqDiURG8UkhF=1dEbmOGyXezMB0c=dPSomeDegw@mail.gmail.com>
+From: "Michael S. Tsirkin" <mst-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: kexec_load: minor man page bug
+Date: Sun, 24 Jun 2012 16:52:13 +0300
+Message-ID: <20120624135213.GA2714@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The description for la_symbind* says:
+I found this, looks like a minor bug:
 
-If the auditing library is simply monitoring symbol bindings, then  it
- should return  sym->st_name.
+http://www.kernel.org/doc/man-pages/online/pages/man2/kexec_load.2.html
+says:
+	KEXEC_PRESERVE_CONTEXT (since Linux 2.7.27)
 
-This should be "sym->st_value".  The example in the end gets it right.
+was there ever such a kernel version: 2.7.27?
+
+- 
+MST
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
