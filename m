@@ -1,82 +1,131 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] Adding SO_MARK for socket(7)
-Date: Sat, 30 Jun 2012 09:19:37 +0200
-Message-ID: <4FEEA889.1080602@gmail.com>
+From: Thibault MEYER <thibault.meyer-r+tYf39mQ+Fulxpn9UvDqw@public.gmane.org>
+Subject: [manpage] man 3 register_printf_specifier
+Date: Sun, 1 Jul 2012 10:08:12 +0200
+Message-ID: <CAMQiJFxKcscEXN7G8+05-DWNkUM22EUuMRQS1YS0fD2tDFAd7g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------050809040906030600020106"
+Content-Type: text/plain; charset="ISO-8859-1"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------050809040906030600020106
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+.\" Copyright (c) 2012 Thibault Meyer (thibault.meyer-r+tYf39mQ+Fulxpn9UvDqw@public.gmane.org)
+.\"
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, write to the Free
+.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
+.\" USA.
+.\"
+.TH REGISTER_PRINTF_SPECIFIER 3 2011-12-08 "GNU" "Linux Programmer's Manual"
+.SH NAME
+register_printf_specifier \- Add new format specifier to printf function
+.SH SYNOPSIS
+.B #include <printf.h>
+.sp
+.BI "typedef int printf_function (FILE *"stream ",struct printf_info
+*" info ", void **"args ");"
+.br
+.BI "typedef int printf_arginfo_size_function (struct printf_info *"
+info ", size_t "n ", int *"argtype ");"
+.sp
+.sp
+.BI "int register_printf_specifier (int "spec ", printf_function "fct
+", printf_arginfo_size_function "arginfo ");"
+.sp
+.SH DESCRIPTION
+The function
+.BR register_printf_specifier ()
+allow developer to extend functionalities of
+.BR printf ()
+by registering new conversion format
+.IR specifier .
+Also you can redefine the standard output conversions specifier, but
+this is not a good idea.
+.SS Parameters
+-
+.IR spec
+is the specifier that you like to implement on printf-family function.
+If the specifier is 'B', it defines the conversion '%B'.
+.br
+-
+.IR fct
+represent the handler-function called by printf-family functions when
+your defined
+.IR spec
+was found in format string.
+.br
+-
+.IR arginfo
+is the function called by
+.BR parse_printf_format ()
+when your defined
+.IR spec
+was found in format string.
+.SS Return value
+The function
+.BR register_printf_specifier ()
+return
+.BR 0
+on success and
+.BR -1
+if an error is encountered.
+.sp
+.SH BASIC EXAMPLE
+Below you can found an basic example how to use
+register_printf_specifier() function to implement the 'b' specifier to
+allow binary output conversion.
+.SS Code
+#include <printf.h>
 
-Hello,
+int	my_binary_info(const struct printf_info* info __attribute__
+((unused)), size_t n, int* argtype, int* size __attribute__
+((unused)))
+.br
+{}
 
-In attachment a patch which adds a section on SO_MARK in man 7 socket, 
-this was already marked in the todo of the page and has a bugzilla entry 
-( https://bugzilla.kernel.org/show_bug.cgi?id=16461 ) which can be 
-closed as well.
+int	my_binary(FILE *stream, const struct printf_info *info, const void
+*const *args)
+.br
+{}
 
-my 2 cents
-E.
--- 
-Elie De Brauwer
+int	main(void)
+.br
+{
+.br
+   register_printf_specifier('b', my_binary, my_binary_info);
+.br
+   printf("binary: %ld -> %b\n", 65536, 65536);
+.br
+   printf("binary: %ld -> %b\n", 42, 42);
+.br
+   printf("binary: %ld -> %b\n", 2, 2);
+.br
+   return (0);
+.br
+}
+.sp
+.SH COLOPHON
+This  page  is  part  of  release 3.27 of the Linux
+.IR man-pages
+project.  A description of the project, and information about
+reporting bugs, can be found at http://www.kernel.org/doc/man-pages/.
 
-
---------------050809040906030600020106
-Content-Type: text/x-patch;
- name="0001-Added-entry-for-SO_MARK-fixes-bug-16461.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-Added-entry-for-SO_MARK-fixes-bug-16461.patch"
-
->From b350b4f4e368c001f98604f346eb8685eb180649 Mon Sep 17 00:00:00 2001
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Sat, 30 Jun 2012 09:15:00 +0200
-Subject: [PATCH] Added entry for SO_MARK, fixes bug 16461
-
-
-Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man7/socket.7 |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/man7/socket.7 b/man7/socket.7
-index a0e186a..ee282f3 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -19,7 +19,6 @@
- .\" The following are not yet documented:
- .\"	SO_PEERNAME
- .\"	SO_TIMESTAMPNS
--.\"	SO_MARK (see https://bugzilla.kernel.org/show_bug.cgi?id=16461)
- .\"	SO_TIMESTAMPING (2.6.30)
- .\"	SO_RXQ_OVFL (2.6.33)
- .\"
-@@ -320,6 +319,12 @@ When the socket is closed as part of
- .BR exit (2),
- it always lingers in the background.
- .TP
-+.B SO_MARK " (since Linux 2.6.25)"
-+Allows the specification of a mark which gets set on all outgoing
-+messages (similar as the netfilter MARK target. This requires the
-+.B CAP_NET_ADMIN
-+capability.
-+.TP
- .B SO_OOBINLINE
- If this option is enabled,
- out-of-band data is directly placed into the receive data stream.
--- 
-1.7.10
-
-
---------------050809040906030600020106--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
