@@ -1,131 +1,49 @@
-From: Thibault MEYER <thibault.meyer-r+tYf39mQ+Fulxpn9UvDqw@public.gmane.org>
-Subject: [manpage] man 3 register_printf_specifier
-Date: Sun, 1 Jul 2012 10:08:12 +0200
-Message-ID: <CAMQiJFxKcscEXN7G8+05-DWNkUM22EUuMRQS1YS0fD2tDFAd7g@mail.gmail.com>
+From: Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org>
+Subject: Missing info in atoi(3)
+Date: Mon, 2 Jul 2012 21:52:59 +0300
+Message-ID: <20120702185259.GA7753@fermat.math.technion.ac.il>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-.\" Copyright (c) 2012 Thibault Meyer (thibault.meyer-r+tYf39mQ+Fulxpn9UvDqw@public.gmane.org)
-.\"
-.\" This is free documentation; you can redistribute it and/or
-.\" modify it under the terms of the GNU General Public License as
-.\" published by the Free Software Foundation; either version 2 of
-.\" the License, or (at your option) any later version.
-.\"
-.\" The GNU General Public License's references to "object code"
-.\" and "executables" are to be interpreted as the output of any
-.\" document formatting or typesetting system, including
-.\" intermediate and printed output.
-.\"
-.\" This manual is distributed in the hope that it will be useful,
-.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-.\" GNU General Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public
-.\" License along with this manual; if not, write to the Free
-.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
-.\" USA.
-.\"
-.TH REGISTER_PRINTF_SPECIFIER 3 2011-12-08 "GNU" "Linux Programmer's Manual"
-.SH NAME
-register_printf_specifier \- Add new format specifier to printf function
-.SH SYNOPSIS
-.B #include <printf.h>
-.sp
-.BI "typedef int printf_function (FILE *"stream ",struct printf_info
-*" info ", void **"args ");"
-.br
-.BI "typedef int printf_arginfo_size_function (struct printf_info *"
-info ", size_t "n ", int *"argtype ");"
-.sp
-.sp
-.BI "int register_printf_specifier (int "spec ", printf_function "fct
-", printf_arginfo_size_function "arginfo ");"
-.sp
-.SH DESCRIPTION
-The function
-.BR register_printf_specifier ()
-allow developer to extend functionalities of
-.BR printf ()
-by registering new conversion format
-.IR specifier .
-Also you can redefine the standard output conversions specifier, but
-this is not a good idea.
-.SS Parameters
--
-.IR spec
-is the specifier that you like to implement on printf-family function.
-If the specifier is 'B', it defines the conversion '%B'.
-.br
--
-.IR fct
-represent the handler-function called by printf-family functions when
-your defined
-.IR spec
-was found in format string.
-.br
--
-.IR arginfo
-is the function called by
-.BR parse_printf_format ()
-when your defined
-.IR spec
-was found in format string.
-.SS Return value
-The function
-.BR register_printf_specifier ()
-return
-.BR 0
-on success and
-.BR -1
-if an error is encountered.
-.sp
-.SH BASIC EXAMPLE
-Below you can found an basic example how to use
-register_printf_specifier() function to implement the 'b' specifier to
-allow binary output conversion.
-.SS Code
-#include <printf.h>
+Hi, I found a peculiar behavior in atoi() which isn't explained in
+atoi(3) - at least not in release 3.35 of the manual I have in Fedora 17.
 
-int	my_binary_info(const struct printf_info* info __attribute__
-((unused)), size_t n, int* argtype, int* size __attribute__
-((unused)))
-.br
-{}
+atoi() returns an int, but I expected that I can do
 
-int	my_binary(FILE *stream, const struct printf_info *info, const void
-*const *args)
-.br
-{}
+	unsigned int i = atoi(...);
 
-int	main(void)
-.br
-{
-.br
-   register_printf_specifier('b', my_binary, my_binary_info);
-.br
-   printf("binary: %ld -> %b\n", 65536, 65536);
-.br
-   printf("binary: %ld -> %b\n", 42, 42);
-.br
-   printf("binary: %ld -> %b\n", 2, 2);
-.br
-   return (0);
-.br
-}
-.sp
-.SH COLOPHON
-This  page  is  part  of  release 3.27 of the Linux
-.IR man-pages
-project.  A description of the project, and information about
-reporting bugs, can be found at http://www.kernel.org/doc/man-pages/.
+and it will just work fine, for any number - including numbers between
+2^31 and 2^32. Any naive implementation of atoi(), repeatedly multiplying by
+10 and adding the next digit, would have worked in this case just fine.
+But unfortunately, glibc's atoi() actually does something different in
+this case - for numbers >=2^31, it returns 2^31-1! The line above actually
+returned the wrong result on half the unsigned integer range :( I tested this
+on a 32-bit installation on Linux, by the way - I don't know if this makes
+a difference.
 
+I think it should be clearly state in atoi(3) what it does for numbers
+larger than 2^31 (or however this limit is actually defined in the
+code), and perhaps even explain why. I think it it should also be noted
+that atoi() is therefore unsuitable for reading unsigned ints - and
+for this purpose strtoul() should be preferred.
+
+Finally, atoi(3) states that "[its] The behavior is the same as 
+strtol(nptr, (char **) NULL, 10); except that atoi() does not detect errors."
+In my test, this is NOT true - for numbers between 2^31 and 2^32 return
+different things in both functions (the correct number in strtoul, or
+2^31-1 for atoi), and neither returns an error.
+	
+-- 
+Nadav Har'El                        |       Monday, Jul 2 2012, 13 Tammuz 5772
+nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org             |-----------------------------------------
+Phone +972-523-790466, ICQ 13349191 |Why aren't fishmongers generous? Their
+http://nadav.harel.org.il           |business makes them selfish.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
