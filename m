@@ -1,34 +1,31 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15568] O_NONBLOCK is NOOP on block devices
-Date: Thu,  5 Jul 2012 16:15:15 +0000 (UTC)
-Message-ID: <20120705161515.9970811FA38@bugzilla.kernel.org>
-References: <bug-15568-11311@https.bugzilla.kernel.org/>
+From: Henry Hu <henry.hu.sh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Spelling error in getutent(3)
+Date: Thu, 5 Jul 2012 15:10:00 -0400
+Message-ID: <CAEJt7hYcqy=c1g_H3Neg6+xuvFSo4_XDJfK2me7bWAtVJN6S8A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15568-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15568
+Hi,
 
+I've just spotted an error in man page getutent(3).
 
-Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+In the last paragraph of the section "CONFORMING TO", it says
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
-         Resolution|                            |OBSOLETE
+Linux glibc on the other hand does not use a parallel utmpx file since its
+utmp structure is already large enough.  The "x" functions listed above are
+just aliases for their counterparts without the "x" (e.g., getutxent() is
+an alias for gettutent()).
 
-
-
+It seems like that the last "gettutent" should be "getutent".
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Cheers,
+Henry
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
