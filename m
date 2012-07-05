@@ -1,26 +1,34 @@
-From: pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org
-Subject: fixes for lockf.3
-Date: Wed, 4 Jul 2012 19:50:09 -0500 (GMT+5)
-Message-ID: <20120705005009.23975.qmail@kosh.dhis.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15568] O_NONBLOCK is NOOP on block devices
+Date: Thu,  5 Jul 2012 16:15:15 +0000 (UTC)
+Message-ID: <20120705161515.9970811FA38@bugzilla.kernel.org>
+References: <bug-15568-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-15568-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In lockf(3), the description of EDEADLK says that it can occur with the
-T_LOCK operation. That should be F_LOCK. The presence of the T makes it look
-like maybe F_TLOCK was intended, but that would be wrong. Only the blocking
-F_LOCK operation can cause EDEADLK.
+https://bugzilla.kernel.org/show_bug.cgi?id=15568
 
-Also, I was looking through Changes.old for the last few versions, and
-noticed that fcntl.h was misspelled fntl.h a couple of times.
+
+Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
+         Resolution|                            |OBSOLETE
+
+
+
 
 -- 
-Alan Curry
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
