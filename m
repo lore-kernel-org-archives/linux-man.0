@@ -1,35 +1,40 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] regex.3: detailed reference to GNU libc regex manual
-Date: Thu,  5 Jul 2012 22:34:19 +0200
-Message-ID: <1341520459-30794-1-git-send-email-spaillard@debian.org>
+From: Adrian Dabrowski <atrox-qE3U7d0pukyEhLc4KmoMIOTv7YV0F9Eg@public.gmane.org>
+Subject: getifaddrs()
+Date: Thu, 05 Jul 2012 23:33:06 +0200
+Message-ID: <4FF60812.70408@seclab.tuwien.ac.at>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-http://www.gnu.org/software/libc/manual/html_node/Regular-Expressions.html
+Version: manpages-dev 3.27-1ubuntu2
 
-Following review of Debian patches
-<CAKgNAkjG47WTi7CYtM20k-uNEDRcSncTaMxhfU6_DU1hsoYQSg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
----
- man3/regex.3 |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/man3/regex.3 b/man3/regex.3
-index 7cd8f6b..6500576 100644
---- a/man3/regex.3
-+++ b/man3/regex.3
-@@ -296,4 +296,5 @@ POSIX.1-2001.
- .SH "SEE ALSO"
- .BR grep (1),
- .BR regex (7),
--GNU regex manual
-+the glibc manual section
-+.I "Regular Expression Matching"
--- 
-1.7.10
+The example program source produces a Seg-Fault, when a device does not 
+have an ifa->ifa_addr. (e.g. openvpn-tunnels, probably others (dialup?))
 
+
+ORIGINAL:
+            for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+                family = ifa->ifa_addr->sa_family;
+
+
+POSSIBLE FIX:
+            for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+		if (ifa->ifa_addr != NULL)
+                		family = ifa->ifa_addr->sa_family;
+		else
+			family = -1;
+
+
+Also it is not documented, that  struct sockaddr *ifa_addr  might be NULL.
+
+
+best wishes and keep up the good work,
+Adrian Dabrowski
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
