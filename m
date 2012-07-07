@@ -1,65 +1,36 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch]: Wrong year in "Changes" and "man-pages-3.41.lsm"
-Date: Sat, 7 Jul 2012 07:51:15 +0200
-Message-ID: <CAKgNAkhaS+_H8CZ+mYt-i5gCKd6gLet-nDdCPV4x-XNEM7+P2Q@mail.gmail.com>
-References: <20120619193752.GA809@rhi.hi.is>
+Subject: Re: Manual of "path_resolution" is in two sections
+Date: Sat, 7 Jul 2012 07:59:01 +0200
+Message-ID: <CAKgNAkhiDdqoQEDuCVmhG+XGnZizKG2zxGhSEpv4KRdZRyp4fA@mail.gmail.com>
+References: <20120618190500.GA18797@rhi.hi.is>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120619193752.GA809-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+In-Reply-To: <20120618190500.GA18797-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Bjarni,
+Bjarni,
 
-I've applied your patch to Changes.old, but I won't worry about the lsm.
+On Mon, Jun 18, 2012 at 9:05 PM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+>   The manual for "path_resolution" is both in section 2 and 7.  I
+> think that is unnecessary.
+>
+>   Content of "path_resolution.2" is:
+>
+> .so man7/path_resolution.7
+> .\" FIXME . this link will eventually be removed (created June 2007)
 
-Thanks,
+Done (and also for the old links epoll.4, fifo.4, futex.4, complex.5,
+and environ.5).
+
+Cheers,
 
 Michael
-
-On Tue, Jun 19, 2012 at 9:37 PM, Bjarni Ingi Gislason
-<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
-> Package: manpages
-> Version: 3.41
-> Severity: minor
-> Tags: patch
->
->   1. patch:
->
-> --- Changes     2012-05-10 20:13:19.000000000 +0000
-> +++ Changes.new 2012-06-19 01:43:35.000000000 +0000
-> @@ -1,6 +1,6 @@
->  ==================== Changes in man-pages-3.41 ====================
->
-> -Released: 2011-05-11, Christchurch
-> +Released: 2012-05-11, Christchurch
->
->
->  Contributors
->
->
->   2. patch:
->
-> --- man-pages-3.41.lsm  2012-05-10 20:13:19.000000000 +0000
-> +++ man-pages-3.41.lsm.new      2012-06-19 01:44:57.000000000 +0000
-> @@ -1,7 +1,7 @@
->  Begin3
->  Title:          Section 2, 3, 4, 5 and 7 man pages for Linux
->  Version:        3.41
-> -Entered-date:   2011-05-11
-> +Entered-date:   2012-05-11
->  Description:    Linux manual pages
->  Keywords:       man pages
->  Author:         several
->
-> --
-> Bjarni I. Gislason
-
-
 
 -- 
 Michael Kerrisk
