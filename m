@@ -1,33 +1,64 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typo in rtld-audit
-Date: Sat, 7 Jul 2012 07:49:10 +0200
-Message-ID: <CAKgNAkiK+VEYEkKQUhO9=W7y_EM4oJ0qHsCxSy8ofFgVztYnng@mail.gmail.com>
-References: <CAOPLpQeK4VQKqDiURG8UkhF=1dEbmOGyXezMB0c=dPSomeDegw@mail.gmail.com>
+Subject: Re: [patch]: Wrong year in "Changes" and "man-pages-3.41.lsm"
+Date: Sat, 7 Jul 2012 07:51:15 +0200
+Message-ID: <CAKgNAkhaS+_H8CZ+mYt-i5gCKd6gLet-nDdCPV4x-XNEM7+P2Q@mail.gmail.com>
+References: <20120619193752.GA809@rhi.hi.is>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAOPLpQeK4VQKqDiURG8UkhF=1dEbmOGyXezMB0c=dPSomeDegw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20120619193752.GA809-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ulrich,
+Hello Bjarni,
 
-On Thu, Jun 21, 2012 at 5:36 PM, Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> The description for la_symbind* says:
->
-> If the auditing library is simply monitoring symbol bindings, then  it
->  should return  sym->st_name.
->
-> This should be "sym->st_value".  The example in the end gets it right.
+I've applied your patch to Changes.old, but I won't worry about the lsm.
 
-Thanks -- fixed for 3.42.
-
-Cheers,
+Thanks,
 
 Michael
+
+On Tue, Jun 19, 2012 at 9:37 PM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> Package: manpages
+> Version: 3.41
+> Severity: minor
+> Tags: patch
+>
+>   1. patch:
+>
+> --- Changes     2012-05-10 20:13:19.000000000 +0000
+> +++ Changes.new 2012-06-19 01:43:35.000000000 +0000
+> @@ -1,6 +1,6 @@
+>  ==================== Changes in man-pages-3.41 ====================
+>
+> -Released: 2011-05-11, Christchurch
+> +Released: 2012-05-11, Christchurch
+>
+>
+>  Contributors
+>
+>
+>   2. patch:
+>
+> --- man-pages-3.41.lsm  2012-05-10 20:13:19.000000000 +0000
+> +++ man-pages-3.41.lsm.new      2012-06-19 01:44:57.000000000 +0000
+> @@ -1,7 +1,7 @@
+>  Begin3
+>  Title:          Section 2, 3, 4, 5 and 7 man pages for Linux
+>  Version:        3.41
+> -Entered-date:   2011-05-11
+> +Entered-date:   2012-05-11
+>  Description:    Linux manual pages
+>  Keywords:       man pages
+>  Author:         several
+>
+> --
+> Bjarni I. Gislason
+
 
 
 -- 
