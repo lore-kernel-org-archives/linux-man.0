@@ -1,36 +1,36 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Adding SO_MARK for socket(7)
-Date: Sat, 7 Jul 2012 07:14:40 +0200
-Message-ID: <CAKgNAkj3MfyOAeq_SnsLSzukq+=Q95Y879ehDc8TzizrZR1oHw@mail.gmail.com>
-References: <4FEEA889.1080602@gmail.com>
+Subject: Re: fixes for lockf.3
+Date: Sat, 7 Jul 2012 07:17:53 +0200
+Message-ID: <CAKgNAkga6ugA9wBGFzRw17MXu55qa30_cSKNa5Sz1x-R02pKxA@mail.gmail.com>
+References: <20120705005009.23975.qmail@kosh.dhis.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FEEA889.1080602-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20120705005009.23975.qmail-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jun 30, 2012 at 9:19 AM, Elie De Brauwer
-<eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello,
->
-> In attachment a patch which adds a section on SO_MARK in man 7 socket, this
-> was already marked in the todo of the page and has a bugzilla entry (
-> https://bugzilla.kernel.org/show_bug.cgi?id=16461 ) which can be closed as
-> well.
+Alan,
 
-Elie,
+On Thu, Jul 5, 2012 at 2:50 AM,  <pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org> wrote:
+> In lockf(3), the description of EDEADLK says that it can occur with the
+> T_LOCK operation. That should be F_LOCK. The presence of the T makes it look
+> like maybe F_TLOCK was intended, but that would be wrong. Only the blocking
+> F_LOCK operation can cause EDEADLK.
 
-Thanks -- I've applied a patch that is close to the SO_MARK text in
-https://bugzilla.kernel.org/show_bug.cgi?id=16461.
+Thanks. Fixed for 3.42.
+
+> Also, I was looking through Changes.old for the last few versions, and
+> noticed that fcntl.h was misspelled fntl.h a couple of times.
+
+Also fixed now.
 
 Cheers,
 
 Michael
-
 
 -- 
 Michael Kerrisk
