@@ -1,38 +1,86 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: fixes for lockf.3
-Date: Sat, 7 Jul 2012 07:17:53 +0200
-Message-ID: <CAKgNAkga6ugA9wBGFzRw17MXu55qa30_cSKNa5Sz1x-R02pKxA@mail.gmail.com>
-References: <20120705005009.23975.qmail@kosh.dhis.org>
+Subject: Re: readdir.3: don't just use pathconf in arithmetic!
+Date: Sat, 7 Jul 2012 07:44:54 +0200
+Message-ID: <CAKgNAkhxWWPaj329ysLSXzryWWTJ9yTJ37uMe6-ennpcdLU6Og@mail.gmail.com>
+References: <alpine.LNX.2.01.1207030322480.31708@frira.zrqbmnf.qr>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120705005009.23975.qmail-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org>
+In-Reply-To: <alpine.LNX.2.01.1207030322480.31708-T6FZdRNfRAYJBwGkWA2XUA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jan Engelhardt <jengelh-9+2X+4sQBs8@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Alan,
+Hello Jan,
 
-On Thu, Jul 5, 2012 at 2:50 AM,  <pacman-ptgZXYu0fikgsBAKwltoeQ@public.gmane.org> wrote:
-> In lockf(3), the description of EDEADLK says that it can occur with the
-> T_LOCK operation. That should be F_LOCK. The presence of the T makes it look
-> like maybe F_TLOCK was intended, but that would be wrong. Only the blocking
-> F_LOCK operation can cause EDEADLK.
+(Please CC linux-man with notes such as this.)
 
-Thanks. Fixed for 3.42.
+On Tue, Jul 3, 2012 at 3:27 AM, Jan Engelhardt <jengelh-9+2X+4sQBs8@public.gmane.org> wrote:
+>
+> In man-pages-3.35's readdir_r(3), this example code is provided:
+>
+> """
+>  Since POSIX.1 does not specify the size of the d_name field, and  ot=
+her
+>  nonstandard  fields may precede that field within the dirent structu=
+re,
+>  portable applications that use readdir_r() should allocate  the  buf=
+fer
+>  whose address is passed in entry as follows:
+>
+>      len =3D offsetof(struct dirent, d_name) +
+>                pathconf(dirpath, _PC_NAME_MAX) + 1
+>      entryp =3D malloc(len);
+> """
+>
+> I have come to regard this as bad(ly implemented) advice. A project
+> na=EFvely copied this snippet and then ran into memory corruption.
+> I propose:
+>
+>     long ret =3D pathconf(dirpath, _PC_NAME_MAX);
+>     if (ret < 0)
+>         abort();
+>     entryp =3D malloc(offsetof(struct dirent, d_name) +
+>                  ret + 1);
+>
+> Because it so happened that the particular project (bindfs) used
+> a non-existing path and got -1 (with errno=3D=3DENOENT), thus
+> allocating way too few space.
 
-> Also, I was looking through Changes.old for the last few versions, and
-> noticed that fcntl.h was misspelled fntl.h a couple of times.
+Yes, the page could be better. I applied a somewhat different patch:
 
-Also fixed now.
+[[
+--- a/man3/readdir.3
++++ b/man3/readdir.3
+@@ -226,8 +226,10 @@ as follows:
+ .in +4n
+ .nf
 
-Cheers,
+-len =3D offsetof(struct dirent, d_name) +
+-          pathconf(dirpath, _PC_NAME_MAX) + 1
++name_max =3D pathconf(dirpath, _PC_NAME_MAX);
++if (name_max =3D=3D \-1)        /* Limit not defined, or error */
++    name_max =3D 255;         /* Take a guess */
++len =3D offsetof(struct dirent, d_name) + name_max + 1;
+ entryp =3D malloc(len);
+
+ .fi
+]]
+
+Okay?
+
+> NB: pathconf(3) could document some possible errors.
+
+That's true. Want to send in a patch?
+
+Thanks,
 
 Michael
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
