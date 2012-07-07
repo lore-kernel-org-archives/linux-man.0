@@ -1,57 +1,101 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch], glob(7): Changing 8 bit characters to 7 bit representation
-Date: Sat, 7 Jul 2012 08:07:08 +0200
-Message-ID: <CAKgNAkhQ72FH2z-X80VxVw+0Tpw90O0fRksnKHdyHkay6SPjcQ@mail.gmail.com>
-References: <20120619193915.GA823@rhi.hi.is>
+Subject: Re: getifaddrs()
+Date: Sat, 7 Jul 2012 08:20:18 +0200
+Message-ID: <CAKgNAkjV87dXkLHTtEaYO_gyCcAjTHeLBesfz79q=uKCUumMcA@mail.gmail.com>
+References: <4FF60812.70408@seclab.tuwien.ac.at> <20120706192945.GA15283@glenfiddich.mraw.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=KOI8-R
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120619193915.GA823-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
+In-Reply-To: <20120706192945.GA15283-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org>
+Cc: Adrian Dabrowski <atrox-qE3U7d0pukyEhLc4KmoMIOTv7YV0F9Eg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Bjarni,
-
-On Tue, Jun 19, 2012 at 9:39 PM, Bjarni Ingi Gislason
-<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
-> Package: manpages
-> Version: 3.41
-> Severity: minor
-> Tags: patch
+On Fri, Jul 6, 2012 at 9:29 PM, Simon Paillard
+<simon.paillard-RGJHTEmuthQGuQl/6FzYuenJ6Cvpl5oe@public.gmane.org> wrote:
+> Hi,
 >
->   Patch:
+> On Thu, Jul 05, 2012 at 11:33:06PM +0200, Adrian Dabrowski wrote:
+>> Version: manpages-dev 3.27-1ubuntu2
+>
+> You should upgrade your manpages-dev version:
+> http://packages.ubuntu.com/search?keywords=manpages-dev
+>
+>> The example program source produces a Seg-Fault, when a device does
+>> not have an ifa->ifa_addr. (e.g. openvpn-tunnels, probably others
+>> (dialup?))
+>
+> Thanks for reporting the issue, don't hesitate to report similar reports *that
+> still apply in current version*.
+>
+>> ORIGINAL:
+>>            for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+>>                family = ifa->ifa_addr->sa_family;
+>
+> http://man7.org/linux/man-pages/man3/getifaddrs.3.html
+>
+>            for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+>                if (ifa->ifa_addr == NULL)
+>                    continue;
+>
+>                family = ifa->ifa_addr->sa_family;
+>
+> It has been fixed by
+> http://git.kernel.org/?p=docs/man-pages/man-pages.git;a=commitdiff;h=ebd05fecfe
+>
+>> POSSIBLE FIX:
+>>            for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+>>               if (ifa->ifa_addr != NULL)
+>>                               family = ifa->ifa_addr->sa_family;
+>>               else
+>>                       family = -1;
+>>
 
-Thanks -- applied for 3.42.
+Adrian, thanks for the note.
 
-Cheers,
+Simon, thanks for the review. From the above, I think nothing needs to
+be applied, but:
+
+>> Also it is not documented, that  struct sockaddr *ifa_addr  might be NULL.
+
+I applied the following patch for 3.42:
+
+[[
+--- a/man3/getifaddrs.3
++++ b/man3/getifaddrs.3
+@@ -98,20 +98,22 @@ for a list of these flags).
+ The
+ .I ifa_addr
+ field points to a structure containing the interface address.
+ (The
+ .I sa_family
+ subfield should be consulted to determine the format of the
+ address structure.)
++This field may contain a NULL pointer.
+ .PP
+ The
+ .I ifa_netmask
+ field points to a structure containing the netmask associated with
+ .IR ifa_addr ,
+ if applicable for the address family.
++This field may contain a NULL pointer.
+ .PP
+ Depending on whether the bit
+ .B IFF_BROADCAST
+ or
+ .B IFF_POINTOPOINT
+ is set in
+ .I ifa_flags
+]]
+
+Thanks,
 
 Michael
 
 
-> --- glob.7      2012-06-19 00:47:16.000000000 +0000
-> +++ glob.7.new  2012-06-19 01:07:04.000000000 +0000
-> @@ -197,9 +197,7 @@
->  element from its equivalence class, as defined for the
->  current locale.
->  For example, "\fI[[=3Da=3D]]\fP" might be equivalent
-> -.\" FIXME . the accented 'a' characters are not rendering properly
-> -.\" mtk May 2007
-> -to "\fI[a=C2=C1=C4=D7]\fP" (warning: Latin-1 here), that is,
-> +to "\fI[a\('a\(`a\(:a\(^a]\fP", that is,
->  to "\fI[a[.a-acute.][.a-grave.][.a-umlaut.][.a-circumflex.]]\fP".
->  .SH "SEE ALSO"
->  .BR sh (1),
->
-> --
-> Bjarni I. Gislason
-
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
