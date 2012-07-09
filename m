@@ -1,154 +1,283 @@
 From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] nsswitch.conf.5: clarify the "notfound" status
-Date: Mon, 09 Jul 2012 14:59:58 +0200
-Message-ID: <4FFAD5CE.5000903@redhat.com>
-References: <4F735800.6040807@redhat.com> <4F737004.9060500@proseconsulting.co.uk> <CAKgNAkispRXUer73r_HW2Oh+gjoHuj3e4t7dHFtSNDDorjBeHQ@mail.gmail.com> <4F74D4B6.7040701@proseconsulting.co.uk> <CAKgNAkjpoc53+hqghx3nOnKPxp+O=R7M4uwxtEXsH0cseLtvbA@mail.gmail.com> <4F755DF2.3090906@redhat.com> <4FC5E6E2.9070008@redhat.com>
+Subject: Re: [patch] nscd.conf.5: add missing information, clarification
+Date: Mon, 09 Jul 2012 16:06:43 +0200
+Message-ID: <4FFAE573.2000607@redhat.com>
+References: <4FC4BE23.50200@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4FC5E6E2.9070008-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <4FC4BE23.50200-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 ping
 
-On 05/30/2012 11:22 AM, Peter Schiffer wrote:
+On 05/29/2012 02:16 PM, Peter Schiffer wrote:
 > Hello,
 >
-> I've updated the patch against the latest man-pages 3.41.
-> Also, I've added description of the initgroups database,
-> reformulated the note and moved it to the return action.
+> the following patch adds description of max-db-size and auto-propagate 
+> options,
+> adds most default values for options and other minor modifications.
 >
-> What do you think?
+> The changes in general are based on [1].
+> Default values are taken from [2] and [3].
+> Ordering and format of options are based on [4].
 >
-> Thanks,
+> Patch is against man-pages 3.41.
+>
 >
 > peter
 >
->
-> --- nsswitch.conf.5.org    2012-05-10 22:13:23.000000000 +0200
-> +++ nsswitch.conf.5    2012-05-30 11:16:26.881542800 +0200
-> @@ -59,6 +59,11 @@
->  .BR gethostbyname (3)
->  and related functions.
->  .TP
-> +.B initgroups
-> +Supplementary group access list, used by
-> +.BR getgrouplist (3)
-> +function.
-> +.TP
->  .B netgroup
->  Network-wide list of hosts and users, used for access rules.
->  C libraries before glibc 2.1 supported netgroups only over NIS.
-> @@ -241,6 +246,10 @@
->  .B return
->  Return a result now.
->  Do not call any further lookup functions.
-> +However, for compatibility reasons, if this is the selected action
-> +for the `group' database and the `notfound' status,
-> +and the configuration file does not contain the `initgroups' line,
-> +the next lookup function is always called, without affecting the 
-> search result.
->  .TP
->  .B continue
->  Call the next lookup function.
+> [1] http://sourceware.org/git/?p=glibc.git;a=tree;f=nscd;hb=HEAD
+> [2] http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/nscd.h;hb=HEAD
+> [3] 
+> http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/connections.c;hb=HEAD
+> [4] 
+> http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/nscd.conf;hb=HEAD
 >
 >
-> On 03/30/2012 09:17 AM, Peter Schiffer wrote:
->> Hello guys,
->>
->> thanks for looking into this. I am adding some notes below:
->>
->> On 03/30/2012 01:27 AM, Michael Kerrisk (man-pages) wrote:
->>> On Fri, Mar 30, 2012 at 10:31 AM, Mark R Bannister
->>> <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>  wrote:
->>>> On 29/03/2012 19:34, Michael Kerrisk (man-pages) wrote:
->>>>> On Thu, Mar 29, 2012 at 9:09 AM, Mark R Bannister
->>>>> <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>    wrote:
->>>>>> On 28/03/2012 19:27, Peter Schiffer wrote:
->>>>>>> Hello,
->>>>>>>
->>>>>>> I am suggesting the following update of the "notfound" status on 
->>>>>>> the
->>>>>>> nsswitch.conf.5 man page. I am not 100% sure that this is the 
->>>>>>> correct
->>>>>>> place
->>>>>>> where this information on the man page should be placed. Any 
->>>>>>> comments
->>>>>>> are
->>>>>>> welcome.
->>>>>>>
->>>>>> Hi Peter,
->>>>>>
->>>>>> I did a rewrite of the nsswitch.conf man page in October last year:
->>>>>>
->>>>>> http://article.gmane.org/gmane.linux.man/2366/match=nsswitch+conf
->>>>>>
->>>>>> I'm still waiting for Michael to incorporate these changes.  May I
->>>>>> suggest
->>>>>> you send in a patch that is applied against this?  I would also 
->>>>>> suggest
->>>>>> that
->>>>>> if you're going to make reference to "initgroups" you'll need to 
->>>>>> add some
->>>>>> further description somewhere that explains what this is and when 
->>>>>> you
->>>>>> would
->>>>>> use it.
->>>>> Looking a little deeper at this, I'd like another set of eyes. Mark,
->>>>> would you be able to review Peter's patch?
->>>>>
->>>>> Thanks,
->>>>>
->>>>> Michael
->>>>>
->>>> I can't find this comment in glibc myself, there's nothing to this 
->>>> effect in
->>>> grp/initgroups.c ?
->>> Follow Peter's URL.
->>>
->>>> I've tested on a build with glibc 2.5 - admittedly not the latest 
->>>> version
->>>> but it does feature the initgroups functionality - and I am not 
->>>> witnessing
->>>> this behaviour.  My configuration file has no initgroups line, and 
->>>> this
->>>> entry:
->>>>
->>>>     group: db [NOTFOUND=return] files
->>>>
->>>> ...always returns as expected if my /var/db/group.db file does not 
->>>> contain
->>>> the group entry that I am searching for.
->>>>
->>>> So I don't concur with the suggested change ...
->> The result is always as expected, the added note should clarify how
->> the search is done. Important example would be like this:
->>
->> group:      files [!NOTFOUND=return] XXXXXX
->>
->> what means, according to the current text in the man page, that if the
->> result from "files" is either SUCCESS, UNAVAIL or TRYAGAIN, then,
->> it should be returned. Well, it is, but the XXXXXX is also _always_ 
->> searched.
->> Without the suggested note, it can be confusing while testing or 
->> setting up,
->> also, if the XXXXXX is some remote service, this can create some hard 
->> to find
->> delays.
->>
->> Thanks,
->>
->> peter
->>> It looks like the change only arrived in glibc 2.14. Would you be able
->>> to take a look there?
->>>
->>> Thanks,
->>>
->>> Michael
+>
+> --- nscd.conf.5.org-upstream    2012-05-10 22:13:23.000000000 +0200
+> +++ nscd.conf.5    2012-05-29 13:46:56.684793432 +0200
+> @@ -34,48 +34,91 @@
+>  comment; following characters, up to the end of the line,
+>  are not interpreted by nscd.
+>
+> -Valid services are \fIpasswd\fP, \fIgroup\fP, or \fIhosts\fP.
+> +Valid services are \fIpasswd\fP, \fIgroup\fP, \fIhosts\fP, 
+> \fIservices\fP
+> +or \fInetgroup\fP.
+>
+>  .B logfile
+> -.I debug-file-name
+> +.I <file>
+>  .RS
+>  Specifies name of the file to which debug info should be written.
+>  .RE
+>
+>  .B debug-level
+> -.I value
+> +.I <level>
+>  .RS
+>  Sets the desired debug level.
+> +The default is 0.
+>  .RE
+>
+>  .B threads
+> -.I number
+> +.I <number>
+>  .RS
+>  This is the number of threads that are started to wait for
+>  requests.
+>  At least five threads will always be created.
+>  .RE
+>
+> +.B max-threads
+> +.I <number>
+> +.RS
+> +Specifies the maximum number of threads. The default is 32.
+> +.RE
+> +
+>  .B server-user
+> -.I user
+> +.I <user>
+>  .RS
+>  If this option is set, nscd will run as this user and not as root.
+>  If a separate cache for every user is used (\-S parameter), this
+>  option is ignored.
+>  .RE
+>
+> +.B stat-user
+> +.I <user>
+> +.RS
+> +Specifies the user who is allowed to request statistics.
+> +.RE
+> +
+> +.B reload-count
+> +unlimited |
+> +.I <number>
+> +.RS
+> +Limit on the number of times a cached entry gets reloaded without 
+> being used
+> +before it gets removed.
+> +The default is 5.
+> +.RE
+> +
+> +.B paranoia
+> +.I <yes|no>
+> +.RS
+> +Enabling paranoia mode causes nscd to restart itself periodically.
+> +The default is no.
+> +.RE
+> +
+> +.B restart-interval
+> +.I <time>
+> +.RS
+> +Sets the restart interval to
+> +.I time
+> +seconds
+> +if periodic restart is enabled by enabling
+> +.B paranoia
+> +mode.
+> +The default is 3600.
+> +.RE
+> +
+>  .B enable-cache
+> -.I service
+> +.I <service>
+>  .I <yes|no>
+>  .RS
+>  Enables or disables the specified
+>  .I service
+>  cache.
+> +The default is no.
+>  .RE
+>
+>  .B positive-time-to-live
+> -.I service
+> -.I value
+> +.I <service>
+> +.I <value>
+>  .RS
+>  Sets the TTL (time-to-live) for positive entries (successful queries)
+>  in the specified cache for
+> @@ -87,8 +130,8 @@
+>  .RE
+>
+>  .B negative-time-to-live
+> -.I service
+> -.I value
+> +.I <service>
+> +.I <value>
+>  .RS
+>  Sets the TTL (time-to-live) for negative entries (unsuccessful queries)
+>  in the specified cache for
+> @@ -102,16 +145,17 @@
+>  .RE
+>
+>  .B suggested-size
+> -.I service
+> -.I value
+> +.I <service>
+> +.I <value>
+>  .RS
+>  This is the internal hash table size,
+>  .I value
+>  should remain a prime number for optimum efficiency.
+> +The default is 211.
+>  .RE
+>
+>  .B check-files
+> -.I service
+> +.I <service>
+>  .I <yes|no>
+>  .RS
+>  Enables or disables checking the file belonging to the specified
+> @@ -120,50 +164,14 @@
+>  The files are
+>  .IR /etc/passwd ,
+>  .IR /etc/group ,
+> +.IR /etc/hosts
+>  and
+> -.IR /etc/hosts .
+> -.RE
+> -
+> -.B max-threads
+> -.I threads
+> -.RS
+> -Specifies the maximum number of threads to be started.
+> -.RE
+> -
+> -.B stat-user
+> -.I username
+> -.RS
+> -Specifies the user who is allowed to request statistics.
+> -.RE
+> -
+> -.B reload-count
+> -unlimited |
+> -.I number
+> -.RS
+> -Limit on the number of times a cached entry gets reloaded without 
+> being used
+> -before it gets removed.
+> -The default is 5.
+> -.RE
+> -
+> -.B paranoia
+> -.I <yes|no>
+> -.RS
+> -Enabling paranoia mode causes nscd to restart itself periodically.
+> -.RE
+> -
+> -.B restart-interval
+> -.I time
+> -.RS
+> -Sets the restart interval to
+> -.I time
+> -seconds
+> -if periodic restart is enabled by enabling
+> -.B paranoia
+> -mode.
+> +.IR /etc/services .
+> +The default is yes.
+>  .RE
+>
+>  .B persistent
+> -.I service
+> +.I <service>
+>  .I <yes|no>
+>  .RS
+>  Keep the content of the cache for
+> @@ -171,10 +179,11 @@
+>  over server restarts; useful when
+>  .B paranoia
+>  mode is set.
+> +The default is no.
+>  .RE
+>
+>  .B shared
+> -.I service
+> +.I <service>
+>  .I <yes|no>
+>  .RS
+>  The memory mapping of the nscd databases for
+> @@ -182,7 +191,32 @@
+>  is shared with the clients so
+>  that they can directly search in them instead of having to ask the
+>  daemon over the socket each time a lookup is performed.
+> +The default is no.
+> +.RE
+> +
+> +.B max-db-size
+> +.I <service>
+> +.I <bytes>
+> +.RS
+> +The maximum allowable size of the database files in bytes for the
+> +.IR service .
+> +The default is 33554432.
+>  .RE
+> +
+> +.B auto-propagate
+> +.I <service>
+> +.I <yes|no>
+> +.RS
+> +When set to
+> +.IR no " for " passwd " or " group " service, then the " .byname
+> +requests are not added to
+> +.IR passwd.byuid " or " group.bygid
+> +cache.
+> +This can help with tables containing multiple records for the same id.
+> +The default is yes. This option is valid only for services
+> +.IR passwd " and " group ".
+> +.RE
+> +
+>  .SH "SEE ALSO"
+>  .BR nscd (8)
+>  .\" .SH AUTHOR
 > -- 
 > To unsubscribe from this list: send the line "unsubscribe linux-man" in
 > the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
