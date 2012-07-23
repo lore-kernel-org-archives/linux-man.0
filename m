@@ -1,86 +1,60 @@
-From: Jesper Juhl <jj-IYz4IdjRLj0sV2N9l4h3zg@public.gmane.org>
-Subject: Re: st_size of a symlink
-Date: Mon, 23 Jul 2012 20:09:14 +0200 (CEST)
-Message-ID: <alpine.LNX.2.00.1207231959410.1922@swampdragon.chaosbits.net>
-References: <500D73FF.1070504@nod.at>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] getifaddrs.3, rtnetlink.7: stats interface is struct rtnl_link_stats, not net_device_stats
+Date: Mon, 23 Jul 2012 22:12:53 +0200
+Message-ID: <1343074373-25922-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <500D73FF.1070504-/L3Ra7n9ekc@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>
-Cc: "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, 23 Jul 2012, Richard Weinberger wrote:
+Bug-Debian: http://bugs.debian.org/526778
+Author: Julien Cristau <jcristau-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+---
+ man3/getifaddrs.3 |    4 ++--
+ man7/rtnetlink.7  |    4 +++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-> Hi!
-> 
-> lstat(2) on /proc/$pid/exe gives me a stat object where st_size is 0.
-> 
-> Or:
-> rw@mantary:~> ls -l /proc/$$/exe
-> lrwxrwxrwx 1 rw users 0 23. Jul 17:02 /proc/16902/exe -> /bin/bash
-> 
-> The lstat(2) manpage says:
-> "The st_size field gives the size of the file (if it is a regular file or a
-> symbolic link) in bytes.  The size of a symbolic link is the length of the
-> pathname it contains, without a terminating null byte."
-> 
-> This property is also used in the example in the readlink(2) manpage.
-> 
-> Is this a procfs issue or is the manpage wrong?
-> 
-I have relied on that behaviour (size of symlink being lengh of pathname 
-it contains) in the past, so I know it used to work and I'd expect it to 
-keep working.
-I honestly never really thought about procfs, but checking now, it does 
-seem that procfs doesn't quite do things right...
-
-Just so we all know what kernel I'm running:
-  [root@arch tmp]# uname -a
-  Linux arch 3.4.6-1-ARCH #1 SMP PREEMPT Fri Jul 20 08:21:26 CEST 2012 x86_64 GNU/Linux
-
-Let's see what procfs reports:
-  [root@arch ~]# ls -l /proc/$$/exe
-  lrwxrwxrwx 1 root root 0 Jul 23 19:58 /proc/884/exe -> /bin/bash
-Doesn't seem quite right....
-
-Now let's see what tmpfs reports:
-  [root@arch tmp]# mount | grep /tmp
-  tmpfs on /tmp type tmpfs (rw,nosuid,nodev,relatime)
-  [root@arch ~]# cd /tmp
-  [root@arch tmp]# ln -s /tmp foo
-  [root@arch tmp]# ls -l foo
-  lrwxrwxrwx 1 root root 4 Jul 23 19:59 foo -> /tmp
-Seems OK.
-
-Let's check ext4:
-  [root@arch tmp]# mount | grep /home
-  /dev/sda4 on /home type ext4 (rw,relatime,data=ordered)
-  [root@arch tmp]# cd /home/jj
-  [root@arch jj]# touch foo
-  [root@arch jj]# ln -s foo bar
-  [root@arch jj]# ls -l bar
-  lrwxrwxrwx 1 root root 3 Jul 23 20:03 bar -> foo
-Seems OK as well..
-
-So how about devtmpfs?
-  [root@arch jj]# mount | grep devtmpfs
-  dev on /dev type devtmpfs (rw,nosuid,relatime,size=779400k,nr_inodes=194850,mode=755)
-  [root@arch jj]# ls -l /dev/stderr 
-  lrwxrwxrwx 1 root root 15 Jul 23 19:46 /dev/stderr -> /proc/self/fd/2
-Also looks OK...
-
-So, from my point of view it looks like procfs is the one who has got it 
-wrong.
-We should probably fix that (IMVHO).
-
-
+diff --git a/man3/getifaddrs.3 b/man3/getifaddrs.3
+index d2cf120..996593c 100644
+--- a/man3/getifaddrs.3
++++ b/man3/getifaddrs.3
+@@ -191,9 +191,9 @@ and its physical layer.
+ In this case, the
+ .I ifa_data
+ field may contain a pointer to a
+-.IR "struct net_device_stats" ,
++.IR "struct rtnl_link_stats" ,
+ defined in
+-.IR <linux/netdevice.h> ,
++.IR <linux/if_link.h> ,
+ which contains various interface attributes and statistics.
+ .SH EXAMPLE
+ The program below demonstrates the use of
+diff --git a/man7/rtnetlink.7 b/man7/rtnetlink.7
+index 3037737..a8e9e83 100644
+--- a/man7/rtnetlink.7
++++ b/man7/rtnetlink.7
+@@ -14,6 +14,8 @@ rtnetlink \- Linux IPv4 routing socket
+ .SH SYNOPSIS
+ .B #include <asm/types.h>
+ .br
++.B #include <linux/if_link.h>
++.br
+ .B #include <linux/netlink.h>
+ .br
+ .B #include <linux/rtnetlink.h>
+@@ -102,7 +104,7 @@ T}:Interface Statistics.
+ .TE
+ .ad
+ .sp
+-The value type for IFLA_STATS is \fIstruct net_device_stats\fP.
++The value type for IFLA_STATS is \fIstruct rtnl_link_stats\fP.
+ .TP
+ .BR RTM_NEWADDR ", " RTM_DELADDR ", " RTM_GETADDR
+ Add, remove or receive information about an IP address associated with
 -- 
-Jesper Juhl <jj-IYz4IdjRLj0sV2N9l4h3zg@public.gmane.org>       http://www.chaosbits.net/
-Don't top-post http://www.catb.org/jargon/html/T/top-post.html
-Plain text mails only, please.
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
