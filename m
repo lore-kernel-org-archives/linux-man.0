@@ -1,31 +1,45 @@
-From: Jan Engelhardt <jengelh-9+2X+4sQBs8@public.gmane.org>
-Subject: Re: raw.7 missing ETH_P_ALL hack
-Date: Sun, 29 Jul 2012 16:14:51 +0200 (CEST)
-Message-ID: <alpine.LNX.2.01.1207291614330.13011@frira.zrqbmnf.qr>
-References: <alpine.LSU.2.00.0910221353080.21589@obet.zrqbmnf.qr> <CAKgNAki70auDaFRkk430FNNz3icNEMzr+JOOq=trGigvX_7V0A@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: mount(2): MS_SLAVE et al missing
+Date: Sun, 29 Jul 2012 17:22:55 +0200
+Message-ID: <CAKgNAkhQ_Xdpu_ZjjztbAcj1zDPBmMYYNUvvTBkNACoPN33-6Q@mail.gmail.com>
+References: <CAHnXoamKU2ds7kv7Ffn8fQ_XHxS4u_ub_nPW=UJZ=GXvq8xAtQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAki70auDaFRkk430FNNz3icNEMzr+JOOq=trGigvX_7V0A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAHnXoamKU2ds7kv7Ffn8fQ_XHxS4u_ub_nPW=UJZ=GXvq8xAtQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Sean Silva <silvas-olO2ZdjDehc3uPMLIKxrzw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sunday 2012-07-29 06:32, Michael Kerrisk (man-pages) wrote:
-
->On Thu, Oct 22, 2009 at 1:56 PM, Jan Engelhardt <jengelh-nopoi9nDyk+ELgA04lAiVw@public.gmane.org> wrote:
->> Hi,
->>
->>
->> some codes use a raw socket with ETH_P_ALL, such as
->> http://code.google.com/p/libdnet/source/browse/trunk/src/eth-linux.c
->> However this is not documented yet in raw(7).
+On Mon, Jul 23, 2012 at 12:01 AM, Sean Silva <silvas-olO2ZdjDehc3uPMLIKxrzw@public.gmane.org> wrote:
+> Hi, I saw MS_SLAVE used in the source code of systemd, but I couldn't
+> find information about it in the manpage for mount(2).
 >
->Does packet(7) not give you what you are looking for?
+> The mount(1) manpage does point to
+> `Documentation/filesystems/sharedsubtree.txt` which describes it
+> (although doesn't explicitly mention MS_SLAVE).
+>
+> After a bit of digging, it seems that MS_SLAVE is one of four related
+> flags which also include MS_SLAVE, MS_PRIVATE, and MS_UNBINDABLE which
+> are also missing.
+>
+> Manpage version is 3.35 according to the colophon. On Ubuntu Precise.
+> Online versions seem to be missing a description for this flag as
+> well.
 
-Right.. eth-linux.c happens to use AF_PACKET (at least now, two years 
-later ;-)
+Yup. Unfortunately no one has documented these 4 flags so far.
+
+Thanks,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
