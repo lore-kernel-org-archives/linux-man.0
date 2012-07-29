@@ -1,39 +1,76 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mount(2): MS_SLAVE et al missing
-Date: Sun, 29 Jul 2012 17:22:55 +0200
-Message-ID: <CAKgNAkhQ_Xdpu_ZjjztbAcj1zDPBmMYYNUvvTBkNACoPN33-6Q@mail.gmail.com>
-References: <CAHnXoamKU2ds7kv7Ffn8fQ_XHxS4u_ub_nPW=UJZ=GXvq8xAtQ@mail.gmail.com>
+Subject: Re: Fixes for inotify_init.2 and socket.2
+Date: Sun, 29 Jul 2012 17:27:05 +0200
+Message-ID: <CAKgNAkhSzxp+tc_MSPJdaScWztMNas41gVS8X1ZqXSQOvEpoKw@mail.gmail.com>
+References: <CALhU9t=OHx2D_5wL1oH2xGdFZ17AYHXkqiAOOawB2Xz4y1aVuw@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAHnXoamKU2ds7kv7Ffn8fQ_XHxS4u_ub_nPW=UJZ=GXvq8xAtQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALhU9t=OHx2D_5wL1oH2xGdFZ17AYHXkqiAOOawB2Xz4y1aVuw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Sean Silva <silvas-olO2ZdjDehc3uPMLIKxrzw@public.gmane.org>
+To: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jul 23, 2012 at 12:01 AM, Sean Silva <silvas-olO2ZdjDehc3uPMLIKxrzw@public.gmane.org> wrote:
-> Hi, I saw MS_SLAVE used in the source code of systemd, but I couldn't
-> find information about it in the manpage for mount(2).
->
-> The mount(1) manpage does point to
-> `Documentation/filesystems/sharedsubtree.txt` which describes it
-> (although doesn't explicitly mention MS_SLAVE).
->
-> After a bit of digging, it seems that MS_SLAVE is one of four related
-> flags which also include MS_SLAVE, MS_PRIVATE, and MS_UNBINDABLE which
-> are also missing.
->
-> Manpage version is 3.35 according to the colophon. On Ubuntu Precise.
-> Online versions seem to be missing a description for this flag as
-> well.
+Hello Akihiro,
 
-Yup. Unfortunately no one has documented these 4 flags so far.
+On Fri, Jun 1, 2012 at 6:24 PM, Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello,
+>
+> Here is a another patch against man-pages 3.41.
+>
+> inotify_init.2
+>  Linux 2.6.1 does not have inotify_init().
+>  The previous version of inotify_init.2 said that inofity_init()
+> first appeared in Linux 2.6.13.
+>  It seems to be a editing mistake.
 
-Thanks,
+Thanks. Both patches applied for man-pages-3.42.
+
+Cheers,
 
 Michael
+
+
+> socket.2
+>  PF_INET is duplicated. i think the latter one should be AF_INET.
+>
+> Regards,
+> Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>
+> diff --git a/man2/inotify_init.2 b/man2/inotify_init.2
+> index 41fccb7..97c808d 100644
+> --- a/man2/inotify_init.2
+> +++ b/man2/inotify_init.2
+> @@ -90,7 +90,7 @@ The system limit on the total number of file
+> descriptors has been reached.
+>  Insufficient kernel memory is available.
+>  .SH VERSIONS
+>  .BR inotify_init ()
+> -first appeared in Linux 2.6.1;
+> +first appeared in Linux 2.6.13;
+>  library support was added to glibc in version 2.4.
+>  .BR inotify_init1 ()
+>  was added in Linux 2.6.27;
+> diff --git a/man2/socket.2 b/man2/socket.2
+> index 2ee6f61..1bc002a 100644
+> --- a/man2/socket.2
+> +++ b/man2/socket.2
+> @@ -374,7 +374,7 @@ are
+>  .BR PF_INET ,
+>  and so on, while
+>  .BR AF_UNIX ,
+> -.BR PF_INET ,
+> +.BR AF_INET ,
+>  and so on are used for address
+>  families.
+>  However, already the BSD man page promises: "The protocol
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
 
 
 -- 
