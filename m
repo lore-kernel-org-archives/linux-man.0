@@ -1,59 +1,140 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] futex.7: ffix
-Date: Fri, 3 Aug 2012 10:30:22 +0200
-Message-ID: <CAKgNAki=W16mTWtCqzNjQ=-itFB5gHi3fn7utC6HsrgmjroSUA@mail.gmail.com>
-References: <1343773440-24968-1-git-send-email-taffit@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] prctl: document new seccomp options
+Date: Fri,  3 Aug 2012 20:28:46 -0700
+Message-ID: <1344050926-2810-1-git-send-email-shawnlandden@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1343773440-24968-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Aug 1, 2012 at 12:24 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
-te:
-> uri(7) documents that =93Older documents suggested inserting the pref=
-ix
-> "URL:" just before the URI, but this form has never caught on.=94 and
-> advise to =93enclosed in angle brackets=94 (and a few other alternati=
-ves).
+---
+ man2/prctl.2 |   71 +++++++++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 55 insertions(+), 16 deletions(-)
 
-Thanks David. Applied.
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index eb53aa8..383e2a8 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -45,7 +45,7 @@
+ .\" FIXME: Document PR_SET_TIMERSLACK and PR_GET_TIMERSLACK (new in 2.6.28)
+ .\"		commit 6976675d94042fbd446231d1bd8b7de71a980ada
+ .\"
+-.TH PRCTL 2 2012-04-23 "Linux" "Linux Programmer's Manual"
++.TH PRCTL 2 2012-08-03 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ prctl \- operations on a process
+ .SH SYNOPSIS
+@@ -231,16 +231,44 @@ Return the current value of the parent process death signal,
+ in the location pointed to by
+ .IR "(int\ *) arg2" .
+ .TP
+-.BR PR_SET_SECCOMP " (since Linux 2.6.23)"
++.BR PR_SET_NO_NEW_PRIVS " (since Linux 3.4)"
++After being set, operations that grant new privileges (i.e. execve)
++will either fail or not grant them.  This affects suid/sgid,
++file capabilities, and LSMs.
++
++Operations that merely manipulate or drop existing privileges (setresuid,
++capset, etc.) will still work.  Drop those privileges if you want them gone.
++
++Changing LSM security domain is considered a new privilege.  So, for example,
++asking selinux for a specific new context (e.g. with runcon) will result
++in execve returning -EPERM. See
++.IR Documentation/prctl/no_new_privs.txt
++for more details.
++.TP
++.BR PR_GET_NO_NEW_PRIVS " (since Linux 3.4)"
++Return the no_new_privs status of the calling thread. Returns 1 if set and 0
++if not set.
++.TP
++.BR PR_SET_SECCOMP
+ .\" See http://thread.gmane.org/gmane.linux.kernel/542632
+ .\" [PATCH 0 of 2] seccomp updates
+ .\" andrea-Vyt77T80VFVWk0Htik3J/w@public.gmane.org
+-Set the secure computing mode for the calling thread.
+-In the current implementation,
+-.IR arg2
+-must be 1.
+-After the secure computing mode has been set to 1,
+-the only system calls that the thread is permitted to make are
++Set the secure computing mode for the calling thread. Secure computing mode is
++useful for number-crunching applications
++that may need to execute untrusted byte code,
++perhaps obtained by reading from a pipe or socket.
++These operations are only available
++if the kernel is configured with 
++.BR CONFIG_SECCOMP
++or 
++.BR SECCOMP_FILTER
++enabled, respectively. The value in
++.I arg2
++is one of the options below.
++.RS
++.TP
++.BR SECCOMP_MODE_STRICT " (since Linux 2.6.23)"
++The only system calls that the thread is permitted to make are
+ .BR read (2),
+ .BR write (2),
+ .BR _exit (2),
+@@ -249,11 +277,20 @@ and
+ Other system calls result in the delivery of a
+ .BR SIGKILL
+ signal.
+-Secure computing mode is useful for number-crunching applications
+-that may need to execute untrusted byte code,
+-perhaps obtained by reading from a pipe or socket.
+-This operation is only available
+-if the kernel is configured with CONFIG_SECCOMP enabled.
++.TP
++.BR SECCOMP_MODE_FILTER " (since Linux 3.5 on x86)"
++Filter syscalls based on a user supplied program of type
++.BR "struct seccomp_data"
++in
++.IR arg3 .
++In order to use
++.BR SECCOMP_MODE_FILTER
++as a non-root user, you must
++first set
++.BR PR_SET_NO_NEW_PRIVS
++to 1.
++
++.RE
+ .TP
+ .BR PR_GET_SECCOMP " (since Linux 2.6.23)"
+ Return the secure computing mode of the calling thread.
+@@ -265,8 +302,6 @@ if the caller is in secure computing mode, then the
+ call will cause a
+ .B SIGKILL
+ signal to be sent to the process.
+-This operation is only available
+-if the kernel is configured with CONFIG_SECCOMP enabled.
+ .TP
+ .BR PR_SET_SECUREBITS " (since Linux 2.6.26)"
+ Set the "securebits" flags of the calling thread to the value supplied in
+@@ -579,6 +614,10 @@ or
+ .BR PR_MCE_KILL_GET
+ or
+ .BR PR_SET_MM ,
++or
++.BR PR_SET_NO_NEW_PRIVS ,
++or
++.BR PR_GET_NO_NEW_PRIVS ,
+ and unused
+ .BR prctl ()
+ arguments were not specified as zero.
+@@ -593,7 +632,7 @@ is not valid value for this
+ is
+ .BR PR_SET_SECCOMP
+ or
+-.BR PR_SET_SECCOMP ,
++.BR PR_GET_SECCOMP ,
+ and the kernel was not configured with
+ .BR CONFIG_SECCOMP .
+ .TP
+-- 
+1.7.9.5
 
-Cheers,
-
-Michael
-
-
-> Reported-By: Denis Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man7/futex.7 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man7/futex.7 b/man7/futex.7
-> index 95a0ea1..241fee2 100644
-> --- a/man7/futex.7
-> +++ b/man7/futex.7
-> @@ -115,4 +115,4 @@ primitives: it is by no means the only one.
->  .IR "Fuss, Futexes and Furwocks: Fast Userlevel Locking in Linux"
->  (proceedings of the Ottawa Linux Symposium 2002),
->  futex example library, futex-*.tar.bz2
-> -<URL:ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/>.
-> +<ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/>.
-> --
-> 1.7.10.4
->
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
