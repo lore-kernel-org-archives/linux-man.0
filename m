@@ -1,10 +1,10 @@
 From: shawn <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] prctl: document new seccomp options
-Date: Sat, 04 Aug 2012 11:39:44 -0700
-Message-ID: <1344105584.24952.227.camel@shawn-ssd>
+Date: Sat, 04 Aug 2012 12:20:58 -0700
+Message-ID: <1344108058.24952.228.camel@shawn-ssd>
 References: <1344050926-2810-1-git-send-email-shawnlandden@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-MOF2dbh8FxNbYxHLUCZi"
+Content-Type: multipart/mixed; boundary="=-2Bm5njFl2BrlxeAs2l48"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1344050926-2810-1-git-send-email-shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -13,16 +13,11 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
---=-MOF2dbh8FxNbYxHLUCZi
+--=-2Bm5njFl2BrlxeAs2l48
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-more thorough --
-
-where should
-#include <linux/seccomp.h>
-
-be specified as needed for some constants?
+even more documentation
 
 On Fri, 2012-08-03 at 20:28 -0700, Shawn Landden wrote: 
 > ---
@@ -154,25 +149,26 @@ On Fri, 2012-08-03 at 20:28 -0700, Shawn Landden wrote:
 -- 
 -Shawn Landden
 
---=-MOF2dbh8FxNbYxHLUCZi
+--=-2Bm5njFl2BrlxeAs2l48
 Content-Disposition: attachment; filename="0001-prctl.2-document-new-seccomp-options.patch"
 Content-Type: text/x-patch; name="0001-prctl.2-document-new-seccomp-options.patch";
 	charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
->From 038f59ce3c372cac1d7a9dc56ef30831ef58fc0b Mon Sep 17 00:00:00 2001
+>From 72638832226da22d787344d97155005ceb521ee5 Mon Sep 17 00:00:00 2001
 From: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Date: Fri, 3 Aug 2012 20:28:00 -0700
 Subject: [PATCH] prctl.2: document new seccomp options
 
 the seccomp stuff requires
+ #include <linux/seccomp.h>
 But I am not sure where/how to specify that.
 ---
- man2/prctl.2 |   98 +++++++++++++++++++++++++++++++++++++++++++---------------
- 1 file changed, 73 insertions(+), 25 deletions(-)
+ man2/prctl.2 |  125 ++++++++++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 100 insertions(+), 25 deletions(-)
 
 diff --git a/man2/prctl.2 b/man2/prctl.2
-index eb53aa8..cf0272e 100644
+index eb53aa8..0b65fbb 100644
 --- a/man2/prctl.2
 +++ b/man2/prctl.2
 @@ -41,11 +41,14 @@
@@ -231,7 +227,7 @@ index eb53aa8..cf0272e 100644
 +if the kernel is configured with
 +.BR CONFIG_SECCOMP
 +or
-+.BR SECCOMP_FILTER
++.BR CONFIG_SECCOMP_FILTER
 +enabled, respectively. The value in
 +.I arg2
 +is one of the options below.
@@ -242,7 +238,7 @@ index eb53aa8..cf0272e 100644
  .BR read (2),
  .BR write (2),
  .BR _exit (2),
-@@ -249,24 +280,35 @@ and
+@@ -249,24 +280,38 @@ and
  Other system calls result in the delivery of a
  .BR SIGKILL
  signal.
@@ -252,14 +248,17 @@ index eb53aa8..cf0272e 100644
 -This operation is only available
 -if the kernel is configured with CONFIG_SECCOMP enabled.
 +.TP
++.\" See https://lwn.net/Articles/475043/
 +.BR SECCOMP_MODE_FILTER " (since Linux 3.5 on x86)"
-+Filter syscalls based on a user supplied program of type
++Filter syscalls based on a user supplied program in the format of
 +.BR "struct seccomp_data"
 +in
 +.IR arg3 .
 +In order to use
 +.BR SECCOMP_MODE_FILTER
-+as a non-root user, you must
++without the
++.BR CAP_SYS_ADMIN
++capability, you must
 +first set
 +.BR PR_SET_NO_NEW_PRIVS
 +to 1.
@@ -290,7 +289,7 @@ index eb53aa8..cf0272e 100644
  .TP
  .BR PR_SET_SECUREBITS " (since Linux 2.6.26)"
  Set the "securebits" flags of the calling thread to the value supplied in
-@@ -551,6 +593,7 @@ On success,
+@@ -551,6 +596,7 @@ On success,
  .BR PR_GET_TIMING ,
  .BR PR_GET_SECUREBITS ,
  .BR PR_MCE_KILL_GET ,
@@ -298,7 +297,27 @@ index eb53aa8..cf0272e 100644
  and (if it returns)
  .BR PR_GET_SECCOMP
  return the nonnegative values described above.
-@@ -579,6 +622,10 @@ or
+@@ -562,6 +608,19 @@ On error, \-1 is returned, and
+ is set appropriately.
+ .SH ERRORS
+ .TP
++.B EACCES
++.I option
++is
++.BR PR_SET_SECCOMP ,
++.I arg2
++is
++.BR SECCOMP_MODE_FILTER ,
++the caller does not have the
++.BR CAP_SYS_ADMIN
++capability, and
++.BR PR_SET_NO_NEW_PRIVS
++has not been set as documented above.
++.TP
+ .B EFAULT
+ .I arg2
+ is an invalid address.
+@@ -579,6 +638,10 @@ or
  .BR PR_MCE_KILL_GET
  or
  .BR PR_SET_MM ,
@@ -309,7 +328,7 @@ index eb53aa8..cf0272e 100644
  and unused
  .BR prctl ()
  arguments were not specified as zero.
-@@ -593,9 +640,15 @@ is not valid value for this
+@@ -593,9 +656,15 @@ is not valid value for this
  is
  .BR PR_SET_SECCOMP
  or
@@ -326,7 +345,7 @@ index eb53aa8..cf0272e 100644
  .TP
  .B EINVAL
  .I option
-@@ -603,11 +656,6 @@ is
+@@ -603,11 +672,6 @@ is
  .BR PR_SET_MM ,
  and one of the following is true
  .RS
@@ -338,11 +357,29 @@ index eb53aa8..cf0272e 100644
  .IP *
  .I arg3
  is greater than
+@@ -637,6 +701,17 @@ or specifies a value that would cause the
+ resource limit to be exceeded.
+ .RE
+ .TP
++.B EINVAL
++.I option
++is
++.BR PR_SET_SECCOMP ,
++.I arg2
++is
++.BR SECCOMP_MODE_FILTER ,
++and
++.I arg3
++is not a valid filter program.
++.TP
+ .B EPERM
+ .I option
+ is
 -- 
 1.7.9.5
 
 
---=-MOF2dbh8FxNbYxHLUCZi--
+--=-2Bm5njFl2BrlxeAs2l48--
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
