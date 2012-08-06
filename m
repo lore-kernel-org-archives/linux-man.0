@@ -1,7 +1,7 @@
 From: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 3/4] prctl.2, proc.5: document arm alignment trap via /proc/apu/alignment
-Date: Sun,  5 Aug 2012 23:18:59 -0700
-Message-ID: <1344233940-2680-3-git-send-email-shawnlandden@gmail.com>
+Subject: [PATCH 2/4] prctl.2: document PR_GET_TIMESLACK and PR_SET_TIMESLACK
+Date: Sun,  5 Aug 2012 23:18:58 -0700
+Message-ID: <1344233940-2680-2-git-send-email-shawnlandden@gmail.com>
 References: <1344113204-4294-3-git-send-email-shawnlandden@gmail.com>
  <1344233940-2680-1-git-send-email-shawnlandden@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,74 +12,50 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Shawn Landden <shawnlandd
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/prctl.2 |    7 +++++--
- man5/proc.5  |   21 ++++++++++++++++++++-
- 2 files changed, 25 insertions(+), 3 deletions(-)
+ man2/prctl.2 |   23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
 diff --git a/man2/prctl.2 b/man2/prctl.2
-index e3b701e..7f0ac46 100644
+index 5c829e7..e3b701e 100644
 --- a/man2/prctl.2
 +++ b/man2/prctl.2
-@@ -44,7 +44,7 @@
+@@ -44,9 +44,7 @@
  .\" 2012-08-03 Shawn Landden, Document PR_SET_NO_NEW_PRIVS, PR_GET_NO_NEW_PRIVS,
  .\"       SECCOMP_MODE_STRICT, SECCOMP_MODE_FILTER
  .\"       (thx Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org> 259e5e6c)
--.\"       PR_SET_TIMERSLACK, PR_GET_TIMESLACK
-+.\"       PR_SET_TIMERSLACK, PR_GET_TIMESLACK, ARM alignment trap handler
+-.\"
+-.\" FIXME: Document PR_SET_TIMERSLACK and PR_GET_TIMERSLACK (new in 2.6.28)
+-.\"		commit 6976675d94042fbd446231d1bd8b7de71a980ada
++.\"       PR_SET_TIMERSLACK, PR_GET_TIMESLACK
  .\"
  .TH PRCTL 2 2012-08-03 "Linux" "Linux Programmer's Manual"
  .SH NAME
-@@ -408,7 +408,10 @@ Pass
- \fBPR_UNALIGN_NOPRINT\fP to silently fix up unaligned user accesses,
- or \fBPR_UNALIGN_SIGBUS\fP to generate
- .B SIGBUS
--on unaligned user access.
-+on unaligned user access. ARM is set system-wide via /proc/cpu/alignment (see
-+.IR Documentation/arm/mem_alignment
-+or
-+.BR proc (5)).
+@@ -419,6 +417,25 @@ for information on versions and architectures)
+ Return unaligned access control bits, in the location pointed to by
+ .IR "(int\ *) arg2" .
  .TP
- .B PR_GET_UNALIGN
- (see
-diff --git a/man5/proc.5 b/man5/proc.5
-index 2ba1daa..e7ca611 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -58,7 +58,7 @@
- .\" to see what information could be imported from that file
- .\" into this file.
- .\"
--.TH PROC 5 2012-05-03 "Linux" "Linux Programmer's Manual"
-+.TH PROC 5 2012-08-04 "Linux" "Linux Programmer's Manual"
- .SH NAME
- proc \- process information pseudo-file system
- .SH DESCRIPTION
-@@ -1229,6 +1229,25 @@ cat /lib/modules/$(uname \-r)/build/.config
- is only provided if the kernel is configured with
- .BR CONFIG_IKCONFIG_PROC .
- .TP
-+.IR /proc/cpu/alignment " (ARM only)"
-+Set the behavior of the user-mode alignment trap handler. When writing, takes a
-+number that is the sum of the fallowing: 1, print message to syslog; (signal) 2,
-+fix up the user process performing the unaligned access; (fixup) 4, send a
-+.BR SIGBUS
-+signal (
-+.BR SIGILL
-+before 2.6.35) to the user process performing the unaligned access. (signal)
-+Signal and fixup cannot be used together. On armv6+ either fixup or signal must
-+be used, to prevent possible deadlock.
-+
-+Reading will provide statistics on fixups performed since boot in user and
-+system mode, as well as the current user-mode trap behavior.
-+
-+Other architectures set this behavior on a per-process level, via
-+.B prctl(PR_SET_UNALIGN).
-+See
-+.BR prctl (2).
++.BR PR_SET_TIMERSLACK " (since Linux 2.6.27)"
++.\" see commit 6976675d94042fbd446231d1bd8b7de71a980ada
++Controls the "rounding" that is used by
++.BR select (2)
++and
++.BR poll (2)
++and friends.
++If
++.I arg2
++is a positive integer, set timer slack to
++.IR arg2 .
++(in nanoseconds) Otherwise reset to timer stack to its value when the process
++was created. (default 50 usec) This setting inherits on
++.BR fork (2) .
++Setting this higher may reduce power consumption.
 +.TP
- .I /proc/cpuinfo
- This is a collection of CPU and system architecture dependent items,
- for each supported architecture a different list.
++.BR PR_GET_TIMESLACK " (since Linux 2.6.27)"
++Returns the current timer slack.
++.TP
+ .BR PR_MCE_KILL " (since Linux 2.6.32)"
+ Set the machine check memory corruption kill policy for the current thread.
+ If
 -- 
 1.7.9.5
 
