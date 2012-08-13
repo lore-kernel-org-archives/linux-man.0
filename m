@@ -1,42 +1,42 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mprotect(2)'s first argument is not const
-Date: Mon, 13 Aug 2012 14:02:58 +0200
-Message-ID: <CAKgNAkhbzonQzgcGE6imyQRzrZkpm=1vvSNM3VPqEARRQe5eFg@mail.gmail.com>
-References: <0896F8203AB51141A0B652531431CACB8F8D33@smbx.decode.is>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: proc(5): minor text updates
+Date: Mon, 13 Aug 2012 19:13:37 +0200
+Message-ID: <502935C1.60901@googlemail.com>
+References: <50202153.6030808@googlemail.com> <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <0896F8203AB51141A0B652531431CACB8F8D33-JVeYhverVm8nSszU+QDW7Q@public.gmane.org>
+In-Reply-To: <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rasmus Villemoes <Rasmus.Villemoes-RUss/tIHhir1P9xLtpHBDw@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Rasmus,
+Hi Michael,
 
-On Mon, Jul 9, 2012 at 4:05 PM, Rasmus Villemoes
-<Rasmus.Villemoes-RUss/tIHhir1P9xLtpHBDw@public.gmane.org> wrote:
-> Both my system's man-pages (3.22) and the latest online (3.41) shows
->
->   int mprotect(const void *addr, size_t len, int prot);
->
-> as the prototype for mprotect(2). However, POSIX [1] and the actual sys/mman.h (on all the systems I checked) do not have the const qualifier on the first argument.
->
-> [1] http://pubs.opengroup.org/onlinepubs/009604499/functions/mprotect.html
+On 08/13/12 09:35, Michael Kerrisk (man-pages) wrote:
+>> while reading the /proc/[pid]/stat part in proc(5), I noticed two minor
+>> issues that should be fixed:
+>> 
+>> 1. The text reads: "flags %u (%lu before Linux 2.6.22) kernel flags word
+>> of the process. For bit meanings, see  the  PF_*  defines  in
+>> <linux/sched.h>."
+>> 
+>> PF_* is obvisously wrong. It should be CLONE_*.
+> 
+> I haven't looked closely, but I think PF_* is correct. Why do you think
+> it's wrong?
 
-Thanks. That error has been there for *many* years. Fixed now,
+To my understanding, flags contains process flags (i.e., CLONE_*), which
+are defined in <linux/sched.h>. PF_* flags, on the other hand, specify
+protocol flags. Those are not related to <linux/sched.h> at all, but defined
+in <bits/socket.h>
 
-Cheers,
-
-Michael
-
+Best regards
+Tolga Dalman
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
