@@ -1,51 +1,86 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: proc(5): minor text updates
-Date: Mon, 13 Aug 2012 22:41:38 +0200
-Message-ID: <CAKgNAkh_PxqPy+jK0t6WG54KQXOkm2JBTDw69qEtqOsaeTVGAg@mail.gmail.com>
-References: <50202153.6030808@googlemail.com> <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw@mail.gmail.com>
- <502935C1.60901@googlemail.com>
+Subject: Re: [patch], iso_8859-*.7: Explanation of SOFT HYPHEN and the code
+ for it
+Date: Tue, 14 Aug 2012 00:07:50 +0200
+Message-ID: <CAKgNAkip2ddHEmE8wMcA98O7hy5_esTB4_mxidkuMKLYYJ8N=w@mail.gmail.com>
+References: <20120510194231.GA13127@rhi.hi.is> <CAKgNAkiw4yhNMM2vHdQ4yd2u_T0tLd34wpmUbuH9_ndPpEsg6Q@mail.gmail.com>
+ <20120608211539.GA14325@rhi.hi.is> <CAKgNAkhWmVyJnsNTdOnascHOEQKY9Gesutyxn2kHeeRo2kx6_A@mail.gmail.com>
+ <20120619193019.GA710@rhi.hi.is> <CAKgNAkjKkHSKf1C5p5yts8Uuv9LoYFRQFr2JATNxf5fSh+8A_w@mail.gmail.com>
+ <20120710234614.GA9921@rhi.hi.is>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <502935C1.60901-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20120710234614.GA9921-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Tolga,
+Hello Bjarni,
 
-On Mon, Aug 13, 2012 at 7:13 PM, Tolga Dalman
-<tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi Michael,
->
-> On 08/13/12 09:35, Michael Kerrisk (man-pages) wrote:
->>> while reading the /proc/[pid]/stat part in proc(5), I noticed two minor
->>> issues that should be fixed:
->>>
->>> 1. The text reads: "flags %u (%lu before Linux 2.6.22) kernel flags word
->>> of the process. For bit meanings, see  the  PF_*  defines  in
->>> <linux/sched.h>."
->>>
->>> PF_* is obvisously wrong. It should be CLONE_*.
+Late follow-up...
+
+On Wed, Jul 11, 2012 at 1:46 AM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> On Sat, Jul 07, 2012 at 08:01:04AM +0200, Michael Kerrisk (man-pages) wrote:
+>> On Tue, Jun 19, 2012 at 9:30 PM, Bjarni Ingi Gislason
+>> <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> [removed text]
 >>
->> I haven't looked closely, but I think PF_* is correct. Why do you think
->> it's wrong?
+>> Any further update to that last sentence of yours? Is man-pages able
+>> to use that patch you sent?
+>>
+>   I have done nothing in this case, and I suppose that will wait
+> until autumn or winter.
 >
-> To my understanding, flags contains process flags (i.e., CLONE_*), which
-> are defined in <linux/sched.h>. PF_* flags, on the other hand, specify
-> protocol flags. Those are not related to <linux/sched.h> at all, but defined
-> in <bits/socket.h>
+>   A better solution is to simplify the footnote:
+>
+>   See groff_char(7) (soft hyphen) and the standard ISO 8859-1 (shy)
+> or the equivalent version from your national standardization body.
 
-Ahh -- yes, an easy mistake to make I think. The thing is there are
-two unrelated sets of constants in the PF_* namespace. Take a look in
-linux/sched.h to see the other set, which is (AFAICS) the set that is
-used in this /proc file.
+So, I applied the patch below. Okay?
 
 Cheers,
 
 Michael
+
+--- a/man7/iso_8859-1.7
++++ b/man7/iso_8859-1.7
+@@ -71,7 +71,7 @@ manual page.
+ The fourth column will only show the proper glyphs
+ in an environment configured for ISO 8859-1.
+ .TS
+-l l l c lp-1.
++l2 l2 l2 c2 lp-1.
+ Oct    Dec     Hex     Char    Description
+ _
+ 240    160     A0      <A0>    NO-BREAK SPACE
+@@ -87,7 +87,7 @@ _
+ 252    170     AA      <AA>    FEMININE ORDINAL INDICATOR
+ 253    171     AB      <AB>    LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+ 254    172     AC      <AC>    NOT SIGN
+-255    173     AD      -       SOFT HYPHEN
++255    173     AD      <AD>    SOFT HYPHEN (shown as a hyphen at line
+breaks) [1]
+ 256    174     AE      <AE>    REGISTERED SIGN
+ 257    175     AF      <AF>    MACRON
+ 260    176     B0      <B0>    DEGREE SIGN
+@@ -171,6 +171,14 @@ _
+ 376    254     FE      <FE>    LATIN SMALL LETTER THORN
+ 377    255     FF      <FF>    LATIN SMALL LETTER Y WITH DIAERESIS
+ .TE
++.IP [1] 4
++See
++.BR groff_char (7)
++(soft hyphen) and the standard ISO 8859-1 ("shy",
++paragraph 6.3.3)
++or the equivalent version from your national standardization body.
++.BR "ISO 8859-1:1987" ,
++paragraph 6.3.3.
+ .SH "SEE ALSO"
+ .BR ascii (7),
+ .BR iso_8859-15 (7)
 
 
 -- 
