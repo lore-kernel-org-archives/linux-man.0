@@ -1,57 +1,55 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: Some typo and formatting fix
-Date: Sun, 12 Aug 2012 21:55:38 -0400
-Message-ID: <201208122155.39478.vapier@gentoo.org>
-References: <1344821668-11324-1-git-send-email-taffit@debian.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/5] ptrace.2: tfix
+Date: Mon, 13 Aug 2012 09:22:58 +0200
+Message-ID: <CAKgNAkhEyRAx0n=2sDv7Oy7U55S6gg5p34sbND3qJpQuaSX7TA@mail.gmail.com>
+References: <1344821668-11324-1-git-send-email-taffit@debian.org> <1344821668-11324-2-git-send-email-taffit@debian.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart2298885.uaZdY4B7eT";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1344821668-11324-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1344821668-11324-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David =?iso-8859-1?q?Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart2298885.uaZdY4B7eT
-Content-Type: Text/Plain;
-  charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks David. Applied!
 
-On Sunday 12 August 2012 21:34:23 David Pr=C3=A9vot wrote:
-> Here are some small issue spotted during the ongoing translation
-> update. I'm not totally sure for the 4th one, but it seems there
-> is something to fix anyway.
+On Mon, Aug 13, 2012 at 3:34 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
+te:
+> ---
+>  man2/ptrace.2 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index efaf597..3f82d64 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -1785,7 +1785,7 @@ to return to userspace with the error
+>  .BR EINTR .
+>  In this particular case, the program reacted to
+>  .B EINTR
+> -by checking ithe current time, and then executing
+> +by checking the current time, and then executing
+>  .BR epoll_wait (2)
+>  again.
+>  (Programs which do not expect such "stray"
+> --
+> 1.7.10.4
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" =
+in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
-4th one looks correct to me
-=2Dmike
 
---nextPart2298885.uaZdY4B7eT
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iQIcBAABAgAGBQJQKF6bAAoJEEFjO5/oN/WBtxcQAOP+9oyaqJCzzx8ROvN4uL9Q
-Cgnf4XM024tXKvw0gJlz9hzG44zjrz/WRpy+zyQiVPeIv7n0BjJNeCohqBCqc48o
-EmrE6WTulfrFw40IVJvSBCUHgBO+b9dXaiGp64Qo62nVHiVwNoZvbhisVLaQko8e
-XizBFUsEVrUfamEqGDj/sC2hldMgIHUw7LHflCkYdbNvBusNEbFw/YkwpqH2c9jP
-V8aPZFO4StpZJ08pUWwGfJA2PyeRNb4SMxskzcoJ3rWI5yne4BX7oivG4bZUIGH0
-8nOLKv2NEwALdU/Gntrn8gi1MSBGWtrnppSTa+O8gmi87vnRouAKjMTDN9HNjDvZ
-YQOSgImN7lVukNfJrAskbZAl8joU1OxJ528n6Mo1n4WE2AM6C9YClGkTUYJ4AVsl
-Tmk0RTX2HQ7yOMgGeCXY3ZRiwlecm6vmlc/ku71YJQfHq4Vho0PcrJCMtP6u3Ddb
-jTgi0c6SdTW4FtI4uY8Ip04DgAK+guSZCg6WLXSSm6GGa999zEhmI1X36vlKfrPH
-2HNBL9zBeE/zl+gvgWCHDXlUfHfyFRerpVaiVMlhTzNso3WAJWceqRaXTVRtxqIy
-EKZNH7qYbtJYNTqfzsZX1NlvAkl/9h3vKNfyUMQ0JaeXemcTRIeeRgWgBMoEQviM
-snjQ2BBID1RRXHYQMl4E
-=S1qy
------END PGP SIGNATURE-----
-
---nextPart2298885.uaZdY4B7eT--
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
