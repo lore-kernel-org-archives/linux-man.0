@@ -1,7 +1,7 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH 2/5] readdir.3: ffix
-Date: Sun, 12 Aug 2012 21:34:25 -0400
-Message-ID: <1344821668-11324-3-git-send-email-taffit@debian.org>
+Subject: [PATCH 1/5] ptrace.2: tfix
+Date: Sun, 12 Aug 2012 21:34:24 -0400
+Message-ID: <1344821668-11324-2-git-send-email-taffit@debian.org>
 References: <1344821668-11324-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1344821668-11324-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
@@ -11,22 +11,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A
 List-Id: linux-man@vger.kernel.org
 
 ---
- man3/readdir.3 |    2 +-
+ man2/ptrace.2 |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/readdir.3 b/man3/readdir.3
-index 0660efd..90f2ff1 100644
---- a/man3/readdir.3
-+++ b/man3/readdir.3
-@@ -227,7 +227,7 @@ as follows:
- .nf
- 
- name_max = pathconf(dirpath, _PC_NAME_MAX);
--if (name_max == \-1)        /* Limit not defined, or error */
-+if (name_max == \-1)         /* Limit not defined, or error */
-     name_max = 255;         /* Take a guess */
- len = offsetof(struct dirent, d_name) + name_max + 1;
- entryp = malloc(len);
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index efaf597..3f82d64 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -1785,7 +1785,7 @@ to return to userspace with the error
+ .BR EINTR .
+ In this particular case, the program reacted to
+ .B EINTR
+-by checking ithe current time, and then executing
++by checking the current time, and then executing
+ .BR epoll_wait (2)
+ again.
+ (Programs which do not expect such "stray"
 -- 
 1.7.10.4
 
