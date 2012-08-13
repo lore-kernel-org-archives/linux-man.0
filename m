@@ -1,36 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Some typo and formatting fix
-Date: Mon, 13 Aug 2012 09:27:17 +0200
-Message-ID: <CAKgNAkiHLbxtrH2uR7r1PRzKc-yEWwb1hafW8KvyqB2b8w5VMw@mail.gmail.com>
-References: <1344821668-11324-1-git-send-email-taffit@debian.org> <201208122155.39478.vapier@gentoo.org>
+Subject: Re: proc(5): minor text updates
+Date: Mon, 13 Aug 2012 09:35:04 +0200
+Message-ID: <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw@mail.gmail.com>
+References: <50202153.6030808@googlemail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201208122155.39478.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <50202153.6030808-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Aug 13, 2012 at 3:55 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
-te:
-> On Sunday 12 August 2012 21:34:23 David Pr=E9vot wrote:
->> Here are some small issue spotted during the ongoing translation
->> update. I'm not totally sure for the 4th one, but it seems there
->> is something to fix anyway.
+Hello Tolga,
+
+On Mon, Aug 6, 2012 at 9:56 PM, Tolga Dalman
+<tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> Hi,
 >
-> 4th one looks correct to me
+> while reading the /proc/[pid]/stat part in proc(5),
+> I noticed two minor issues that should be fixed:
+>
+> 1. The text reads:
+>      "flags %u (%lu before Linux 2.6.22) kernel flags word of the process.
+>       For bit meanings, see  the  PF_*  defines  in  <linux/sched.h>."
+>
+>    PF_* is obvisously wrong. It should be CLONE_*.
 
-Yes, it's correct.
+I haven't looked closely, but I think PF_* is correct. Why do you
+think it's wrong?
 
-Thanks for all the patches, David.
+> 2. There is a wrong reference further below:
+>     "rsslim %lu  Current  soft  limit  in  bytes  on  the  rss of the
+>      process; see the description of RLIMIT_RSS in getpriority(2)."
+>
+>    The correct page is getrlimit(2).
+
+Yes. Thanks for that. Fixed now.
 
 Cheers,
 
 Michael
---=20
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
