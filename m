@@ -1,47 +1,53 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: proc(5): minor text updates
-Date: Mon, 13 Aug 2012 09:35:04 +0200
-Message-ID: <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw@mail.gmail.com>
-References: <50202153.6030808@googlemail.com>
+Subject: Re: [PATCH] realpath.3: use past tense with ancient history
+Date: Mon, 13 Aug 2012 09:36:51 +0200
+Message-ID: <CAKgNAkiT1UyAA62OsMipbcN3Rw5YyzoHdv5D366FCQMyRuF8nQ@mail.gmail.com>
+References: <1344283133-29884-1-git-send-email-shawnlandden@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <50202153.6030808-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1344283133-29884-1-git-send-email-shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Tolga,
+Hello Shawn,
 
-On Mon, Aug 6, 2012 at 9:56 PM, Tolga Dalman
-<tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hi,
->
-> while reading the /proc/[pid]/stat part in proc(5),
-> I noticed two minor issues that should be fixed:
->
-> 1. The text reads:
->      "flags %u (%lu before Linux 2.6.22) kernel flags word of the process.
->       For bit meanings, see  the  PF_*  defines  in  <linux/sched.h>."
->
->    PF_* is obvisously wrong. It should be CLONE_*.
+Yes, that seems a reasobale change. Applied.
 
-I haven't looked closely, but I think PF_* is correct. Why do you
-think it's wrong?
-
-> 2. There is a wrong reference further below:
->     "rsslim %lu  Current  soft  limit  in  bytes  on  the  rss of the
->      process; see the description of RLIMIT_RSS in getpriority(2)."
->
->    The correct page is getrlimit(2).
-
-Yes. Thanks for that. Fixed now.
-
-Cheers,
+Thanks,
 
 Michael
+
+On Mon, Aug 6, 2012 at 9:58 PM, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> ---
+>  man3/realpath.3 |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/man3/realpath.3 b/man3/realpath.3
+> index 1b90a34..615548c 100644
+> --- a/man3/realpath.3
+> +++ b/man3/realpath.3
+> @@ -205,11 +205,11 @@ The
+>  feature, not standardized in POSIX.1-2001,
+>  but standardized in POSIX.1-2008, allows this design problem to be avoided.
+>  .LP
+> -The libc4 and libc5 implementation contains a buffer overflow
+> +The libc4 and libc5 implementation contained a buffer overflow
+>  (fixed in libc-5.4.13).
+>  Thus, set-user-ID programs like
+>  .BR mount (8)
+> -need a private version.
+> +needed a private version.
+>  .SH "SEE ALSO"
+>  .BR readlink (2),
+>  .BR canonicalize_file_name (3),
+> --
+> 1.7.9.5
+>
+
 
 
 -- 
