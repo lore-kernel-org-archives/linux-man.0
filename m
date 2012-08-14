@@ -1,97 +1,119 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: proc(5): minor text updates
-Date: Tue, 14 Aug 2012 20:59:45 +0200
-Message-ID: <CAKgNAkhaWVFHx8-wAL+SpGjvdWiWKVY9r=mVx4BtWVd7g1q6WQ@mail.gmail.com>
-References: <50202153.6030808@googlemail.com> <CAKgNAkhrmpZuF45iOA52akABSm4hUy4ygR=vEg4XQ_4Ri7DjRw@mail.gmail.com>
- <502935C1.60901@googlemail.com> <CAKgNAkh_PxqPy+jK0t6WG54KQXOkm2JBTDw69qEtqOsaeTVGAg@mail.gmail.com>
- <502A90A9.1030100@googlemail.com>
+Subject: Re: [patch], iso_8859-*.7: Explanation of SOFT HYPHEN and the code
+ for it
+Date: Tue, 14 Aug 2012 21:16:26 +0200
+Message-ID: <CAKgNAkgOeRVmFTVMRgxzBYAwuuWEkPbR+6XoQ76ADZ7uhePkhA@mail.gmail.com>
+References: <20120510194231.GA13127@rhi.hi.is> <CAKgNAkiw4yhNMM2vHdQ4yd2u_T0tLd34wpmUbuH9_ndPpEsg6Q@mail.gmail.com>
+ <20120608211539.GA14325@rhi.hi.is> <CAKgNAkhWmVyJnsNTdOnascHOEQKY9Gesutyxn2kHeeRo2kx6_A@mail.gmail.com>
+ <20120619193019.GA710@rhi.hi.is> <CAKgNAkjKkHSKf1C5p5yts8Uuv9LoYFRQFr2JATNxf5fSh+8A_w@mail.gmail.com>
+ <20120710234614.GA9921@rhi.hi.is> <CAKgNAkip2ddHEmE8wMcA98O7hy5_esTB4_mxidkuMKLYYJ8N=w@mail.gmail.com>
+ <20120814153210.GA12221@rhi.hi.is>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <502A90A9.1030100-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20120814153210.GA12221-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Bjarni Ingi Gislason <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Tolga,
-On Tue, Aug 14, 2012 at 7:53 PM, Tolga Dalman
-<tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
-> Hello Michael,
+Hello Bjarni,
+
+On Tue, Aug 14, 2012 at 5:32 PM, Bjarni Ingi Gislason
+<bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+> Tue, Aug 14, 2012 at 12:07:50AM +0200, Michael Kerrisk (man-pages) wrote:
+>> Hello Bjarni,
+>>
+>> Late follow-up...
+>>
+>> On Wed, Jul 11, 2012 at 1:46 AM, Bjarni Ingi Gislason
+>> <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+>> > On Sat, Jul 07, 2012 at 08:01:04AM +0200, Michael Kerrisk (man-pages) wrote:
+>> >> On Tue, Jun 19, 2012 at 9:30 PM, Bjarni Ingi Gislason
+>> >> <bjarniig-2945IVfuVpf1P9xLtpHBDw@public.gmane.org> wrote:
+>> > [removed text]
+>> >>
+>> >> Any further update to that last sentence of yours? Is man-pages able
+>> >> to use that patch you sent?
+>> >>
+>> >   I have done nothing in this case, and I suppose that will wait
+>> > until autumn or winter.
+>> >
+>> >   A better solution is to simplify the footnote:
+>> >
+>> >   See groff_char(7) (soft hyphen) and the standard ISO 8859-1 (shy)
+>> > or the equivalent version from your national standardization body.
+>>
+>> So, I applied the patch below. Okay?
+>>
+>> Cheers,
+>>
+>> Michael
+>>
+>> --- a/man7/iso_8859-1.7
+>> +++ b/man7/iso_8859-1.7
+>> @@ -71,7 +71,7 @@ manual page.
+>>  The fourth column will only show the proper glyphs
+>>  in an environment configured for ISO 8859-1.
+>>  .TS
+>> -l l l c lp-1.
+>> +l2 l2 l2 c2 lp-1.
+>>  Oct    Dec     Hex     Char    Description
+>>  _
+>>  240    160     A0      <A0>    NO-BREAK SPACE
+>> @@ -87,7 +87,7 @@ _
+>>  252    170     AA      <AA>    FEMININE ORDINAL INDICATOR
+>>  253    171     AB      <AB>    LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
+>>  254    172     AC      <AC>    NOT SIGN
+>> -255    173     AD      -       SOFT HYPHEN
+>> +255    173     AD      <AD>    SOFT HYPHEN (shown as a hyphen at line
+>> breaks) [1]
+>>  256    174     AE      <AE>    REGISTERED SIGN
+>>  257    175     AF      <AF>    MACRON
+>>  260    176     B0      <B0>    DEGREE SIGN
+>> @@ -171,6 +171,14 @@ _
+>>  376    254     FE      <FE>    LATIN SMALL LETTER THORN
+>>  377    255     FF      <FF>    LATIN SMALL LETTER Y WITH DIAERESIS
+>>  .TE
+>> +.IP [1] 4
+>> +See
+>> +.BR groff_char (7)
+>> +(soft hyphen) and the standard ISO 8859-1 ("shy",
+>> +paragraph 6.3.3)
+>> +or the equivalent version from your national standardization body.
+>> +.BR "ISO 8859-1:1987" ,
+>> +paragraph 6.3.3.
+>>  .SH "SEE ALSO"
+>>  .BR ascii (7),
+>>  .BR iso_8859-15 (7)
+>>
+>    O.K., but
+> 1) drop
 >
-> On 08/13/12 22:41, Michael Kerrisk (man-pages) wrote:
->> Ahh -- yes, an easy mistake to make I think. The thing is there are two
->> unrelated sets of constants in the PF_* namespace. Take a look in
->> linux/sched.h to see the other set, which is (AFAICS) the set that is used
->> in this /proc file.
+> +.BR "ISO 8859-1:1987" ,
+> +paragraph 6.3.3.
+
+Thanks, done.
+
+>   The year (1987) is for an older version; paragraph is repeated
+> from a previous line.  If you want the name of the standard
+> boldfaced, do it with the first mention of it in the change.
 >
-> Which other set of PF_ constants in <linux/sched.h> ? I only see SCHED_* and
-> CLONE_* defined in that file. Aside from protocol family PF_* flags, there is
-> only <linux/elf.h> defining permission flags (PF_R/W/X), which seems unlikely
-> to me.
+> 2) The column for "Char" should show the graphic character (glyph)
+> for the code, and not repeap column 3 (with extra < >)
 
-Ahhh -- sorry, I should have been a little clearer: what the page is
-referring to is the kernel source file include/linux/sched.h. In that
-file there are the definitions below. I'll amend the wording of the
-page a little to make this clearer:
+I don't understand this comment. Could you say some more.
 
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -702,8 +702,8 @@ terminal of the process.
- \fIflags\fP %u (%lu before Linux 2.6.22)
- The kernel flags word of the process.
- For bit meanings,
--see the PF_* defines in
--.IR <linux/sched.h> .
-+see the PF_* defines in the kernel source file
-+.IR include/linux/sched.h .
- Details depend on the kernel version.
- .TP
- \fIminflt\fP %lu
+> 3) There are no tabs in the table!  Have been changed to spaces!
 
-Hopefully that helps.
+Ahh -- sorry, that was because I did a GUI cut+paste into my mail. The
+tabs still exist in the source file.
 
-Cheers
+Cheers,
 
 Michael
 
-
-/*
- * Per process flags
- */
-#define PF_EXITING      0x00000004      /* getting shut down */
-#define PF_EXITPIDONE   0x00000008      /* pi exit done on shut down */
-#define PF_VCPU         0x00000010      /* I'm a virtual CPU */
-#define PF_WQ_WORKER    0x00000020      /* I'm a workqueue worker */
-#define PF_FORKNOEXEC   0x00000040      /* forked but didn't exec */
-#define PF_MCE_PROCESS  0x00000080      /* process policy on mce errors */
-#define PF_SUPERPRIV    0x00000100      /* used super-user privileges */
-#define PF_DUMPCORE     0x00000200      /* dumped core */
-#define PF_SIGNALED     0x00000400      /* killed by a signal */
-#define PF_MEMALLOC     0x00000800      /* Allocating memory */
-#define PF_NPROC_EXCEEDED 0x00001000    /* set_user noticed that
-RLIMIT_NPROC was exceeded */
-#define PF_USED_MATH    0x00002000      /* if unset the fpu must be
-initialized before use */
-#define PF_NOFREEZE     0x00008000      /* this thread should not be frozen */
-#define PF_FROZEN       0x00010000      /* frozen for system suspend */
-#define PF_FSTRANS      0x00020000      /* inside a filesystem transaction */
-#define PF_KSWAPD       0x00040000      /* I am kswapd */
-#define PF_LESS_THROTTLE 0x00100000     /* Throttle me less: I clean memory */
-#define PF_KTHREAD      0x00200000      /* I am a kernel thread */
-#define PF_RANDOMIZE    0x00400000      /* randomize virtual address space */
-#define PF_SWAPWRITE    0x00800000      /* Allowed to write to swap */
-#define PF_SPREAD_PAGE  0x01000000      /* Spread page cache over cpuset */
-#define PF_SPREAD_SLAB  0x02000000      /* Spread some slab caches
-over cpuset */
-#define PF_THREAD_BOUND 0x04000000      /* Thread bound to specific cpu */
-#define PF_MCE_EARLY    0x08000000      /* Early kill for mce process policy */
-#define PF_MEMPOLICY    0x10000000      /* Non-default NUMA mempolicy */
-#define PF_MUTEX_TESTER 0x20000000      /* Thread belongs to the rt
-mutex tester */
-#define PF_FREEZER_SKIP 0x40000000      /* Freezer should not count it
-as freezable */
 
 -- 
 Michael Kerrisk
