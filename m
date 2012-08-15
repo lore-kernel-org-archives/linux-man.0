@@ -1,36 +1,49 @@
-From: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] strdup: doesn't make sense to document errno codes, when NULL means error
-Date: Tue, 14 Aug 2012 19:05:21 -0700
-Message-ID: <1344996321-14959-1-git-send-email-shawnlandden@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 28692] New: no man page for dlmopen
+Date: Wed, 15 Aug 2012 22:09:39 +0000 (UTC)
+Message-ID: <bug-28692-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-man 3 malloc doesn't do this, and its kinda confusing
----
- man3/strdup.3 |    4 ----
- 1 file changed, 4 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=28692
 
-diff --git a/man3/strdup.3 b/man3/strdup.3
-index 3b5c543..45ea2be 100644
---- a/man3/strdup.3
-+++ b/man3/strdup.3
-@@ -104,10 +104,6 @@ The
- .BR strdup ()
- function returns a pointer to the duplicated
- string, or NULL if insufficient memory was available.
--.SH ERRORS
--.TP
--.B ENOMEM
--Insufficient memory available to allocate duplicate string.
- .SH "CONFORMING TO"
- .\" 4.3BSD-Reno, not (first) 4.3BSD.
- .BR strdup ()
+           Summary: no man page for dlmopen
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: RESOLVED
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: tromey-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+                CC: alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
+        Regression: No
+
+
+
+Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
+         Resolution|                            |INVALID
+
+
+glibc added `dlmopen' a while back, but there is no man page for it.
+I'm using the git repository for man-pages.
+
 -- 
-1.7.9.5
-
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
