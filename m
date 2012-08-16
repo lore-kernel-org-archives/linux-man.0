@@ -1,18 +1,17 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 26762] io_cancel manpage documented required headers are
- incomplete/wrong
-Date: Thu, 16 Aug 2012 06:25:45 +0000 (UTC)
-Message-ID: <20120816062545.14BB611FC6B@bugzilla.kernel.org>
-References: <bug-26762-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 29362] flock: can return EAGAIN contrary to manpage
+Date: Thu, 16 Aug 2012 06:40:49 +0000 (UTC)
+Message-ID: <20120816064049.A684911FC6B@bugzilla.kernel.org>
+References: <bug-29362-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-26762-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-29362-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=26762
+https://bugzilla.kernel.org/show_bug.cgi?id=29362
 
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
@@ -21,15 +20,20 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 ----------------------------------------------------------------------------
              Status|NEW                         |RESOLVED
                  CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|                            |OBSOLETE
+         Resolution|                            |INVALID
 
 
 
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-08-16 06:25:44 ---
-There have been various recent changes to the io_* man pages which I think
-probably address this report. If, after checking the latest version of the
-pages, you believe otherwise, please re-open. Closing for now.
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-08-16 06:40:49 ---
+EAGAIN has the same value as EWOULDBLOCK, which is documented in the man page.
+flock() comes from BSD, where the EWOULDBLOCK error is documented.
+
+strace() can't tell the difference between the symbolic names EAGAIN and
+EWOULDBLOCK because it only knows about error numbers.
+
+The errno(3) man page mentions that EGAIN and EWOULDBLOCK may have the same
+value.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
