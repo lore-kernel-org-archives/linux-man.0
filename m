@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 46091] syslog.3 says LOG_AUTH is deprecated
-Date: Fri, 17 Aug 2012 12:56:04 +0000 (UTC)
-Message-ID: <20120817125604.AE49411FB3D@bugzilla.kernel.org>
+Date: Fri, 17 Aug 2012 13:07:31 +0000 (UTC)
+Message-ID: <20120817130731.8BC4711FB3D@bugzilla.kernel.org>
 References: <bug-46091-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,15 +18,19 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |ASSIGNED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+             Status|ASSIGNED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-08-17 12:56:04 ---
-It's puzzling to me also why LOG_AUTH is marked DEPRECATED in the man page.
-That text goes back to the original version of the page, written in 1994.
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-08-17 13:07:31 ---
+I've applied your patch, less the changelog text (nowadays,
+the project generally just relies on the Git log, except in
+the case of major changes, which also get a note in the changelog
+in the page source.
+
+Thanks for reporting this, Simon.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
