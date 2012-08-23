@@ -1,84 +1,83 @@
-From: "Tulio Magno Quites Machado Filho" <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCHv2] __ppc_get_timebase.3: Document a new glibc function
-Date: Wed, 22 Aug 2012 15:53:12 -0300
-Message-ID: <1345661592-17375-1-git-send-email-tuliom@linux.vnet.ibm.com>
-References: <877gsqdb5v.fsf@tuliom.br.ibm.com>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <877gsqdb5v.fsf-0ZV3XhuHxrR18tzPNXRHmgC/G2K4zDHf@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rsa-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
+From: Simon Paillard <spaillard@debian.org>
+Subject: Bug#633505: manpages-dev: fts(3) has inaccurate description of
+	physical vs. logical
+Date: Thu, 23 Aug 2012 22:28:55 +0200
+Message-ID: <20120823202855.GA11044@glenfiddich.mraw.org>
+References: <20110710213043.7675.10278.reportbug@orbital.spiral-arm.org>
+Reply-To: 633505@bugs.debian.org, 633505@bugs.debian.org
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary="OgqxwSJOaUobr8KG"
+Return-path: <bounce-debian-bugs-dist=glddb-debian-bugs-dist=m.gmane.org@lists.debian.org>
+Resent-To: debian-bugs-dist@lists.debian.org
+Resent-Message-ID: <handler.633505.B633505.13457538383712@bugs.debian.org>
+Content-Disposition: inline
+In-Reply-To: <20110710213043.7675.10278.reportbug@orbital.spiral-arm.org>
+List-Post: <mailto:debian-bugs-dist@lists.debian.org>
+List-Help: <mailto:debian-bugs-dist-request@lists.debian.org?subject=help>
+List-Subscribe: <mailto:debian-bugs-dist-request@lists.debian.org?subject=subscribe>
+List-Unsubscribe: <mailto:debian-bugs-dist-request@lists.debian.org?subject=unsubscribe>
+To: James Youngman <jay@gnu.org>, 633505@bugs.debian.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Glibc 2.16 was released with a new function for the Power architecture
-that can read its Time Base Register.
-It was included by commit d9dc34cd.
 
-Signed-off-by: Tulio Magno Quites Machado Filho <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man3/__ppc_get_timebase.3 |   49 +++++++++++++++++++++++++++++++++++++++++++++
- 1 files changed, 49 insertions(+), 0 deletions(-)
- create mode 100644 man3/__ppc_get_timebase.3
+--OgqxwSJOaUobr8KG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/man3/__ppc_get_timebase.3 b/man3/__ppc_get_timebase.3
-new file mode 100644
-index 0000000..f8e5854
---- /dev/null
-+++ b/man3/__ppc_get_timebase.3
-@@ -0,0 +1,49 @@
-+.\" Copyright (c) 2012, IBM Corporation.
-+.\"
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of
-+.\" this manual under the conditions for verbatim copying, provided that
-+.\" the entire resulting derived work is distributed under the terms of
-+.\" a permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-+.\" no responsibility for errors or omissions, or for damages resulting.
-+.\" from the use of the information contained herein.  The author(s) may.
-+.\" not have taken the same level of care in the production of this.
-+.\" manual, which is licensed free of charge, as they might when working.
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+
-+.TH __PPC_GET_TIMEBASE 3 2012-08-13 "GNU C Library" "Linux Programmer's\
-+Manual"
-+.SH NAME
-+__ppc_get_timebase \- Get the current value of the Time Base Register on
-+Power architecture
-+.SH SYNOPSIS
-+.B #include <sys/platform/ppc.h>
-+.sp
-+.BI "uint64_t __ppc_get_timebase(void)"
-+.SH DESCRIPTION
-+.BR __ppc_get_timebase()
-+reads the current value of the Time Base Register and returns its value.
-+The Time Base Register is a 64-bit register presented in Power Architecture
-+processors that stores a monotonically incremented value updated at a
-+system-dependent frequency that may be different from the processor
-+frequency.
-+.SH RETURN VALUE
-+Returns a 64-bit unsigned integer that represents the current value of the
-+Time Base Register.
-+.SH VERSIONS
-+The GNU C Library support for __ppc_get_timebase has been provided since
-+version 2.16.
-+.SH CONFORMING TO
-+This function is a nonstandard GNU extension.
-+.SH SEE ALSO
-+.BR time (2),
-+.BR usleep (3)
+forwarded 633505 linux-man@vger.kernel.org
+thanks
+
+Hi,
+
+On Sun, Jul 10, 2011 at 10:30:43PM +0100, James Youngman wrote:
+> Package: manpages-dev
+> Version: 3.27-1
+> Severity: minor
+> 
+> 
+> The descriptions of the effects of FTS_LOGICAL and FTS_PHISICAL in the
+> subsection entitled fts_open() are correct.  But the DESCRIPTION
+> section is incorrect.  It says:
+> 
+>   It is possible to walk the hierarchy "logically" (ignoring symbolic
+>   links) or physically (visiting symbolic links), order the walk of
+>   the hierarchy or prune and/or revisit portions of the hierarchy.
+> 
+> This is not accurate.  Symbolic links are never ignored.  Here is a
+> clearer description:
+> 
+>   It is possible to walk the hierarchy "logically" (visiting the files
+>   that symbolic links point to, like "find -L") or "physically"
+>   (visiting the symbolic links themselves instead, like "find -P") ,
+>   order the walk of the hierarchy or prune and/or revisit portions of
+>   the hierarchy.
+ 
+Thanks for the report James, confirmed by test, patch a bit modified and
+forwarded upstream.
+
 -- 
-1.7.7.6
+Simon Paillard
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--OgqxwSJOaUobr8KG
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="fts_open.3.bug633505.patch"
+
+diff --git a/man3/fts.3 b/man3/fts.3
+index 1c49155..6eedd4e 100644
+--- a/man3/fts.3
++++ b/man3/fts.3
+@@ -77,8 +77,10 @@ In general, directories are visited two distinguishable times; in preorder
+ (before any of their descendants are visited) and in postorder (after all
+ of their descendants have been visited).
+ Files are visited once.
+-It is possible to walk the hierarchy "logically" (ignoring symbolic links)
+-or physically (visiting symbolic links), order the walk of the hierarchy or
++It is possible to walk the hierarchy "logically" (visiting the files that
++symbolic links point to)
++or physically (visiting the symbolic links themselves), order the walk of the
++hierarchy or
+ prune and/or revisit portions of the hierarchy.
+ .PP
+ Two structures are defined (and typedef'd) in the include file
+
+--OgqxwSJOaUobr8KG--
