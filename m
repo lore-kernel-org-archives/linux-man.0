@@ -1,40 +1,41 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] Makefile: provide check-groff-warnings target
-Date: Sun, 26 Aug 2012 21:15:41 +0200
-Message-ID: <1346008541-25624-1-git-send-email-spaillard@debian.org>
+From: =?UTF-8?q?J=C3=A9r=C3=B4me=20Pouiller?= <jezz-kPcTzGkeZgAdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] pthread_timedjoin_np.3: Document case where it return EINVAL
+Date: Tue, 28 Aug 2012 14:37:00 +0200
+Message-ID: <1346157420-22571-1-git-send-email-jezz@sysmic.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jerome Pouiller <jezz-kPcTzGkeZgAdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- Makefile |   11 +++++++++++
- 1 file changed, 11 insertions(+)
+=46rom: Jerome Pouiller <jezz-kPcTzGkeZgAdnm+yROfE0A@public.gmane.org>
 
-diff --git a/Makefile b/Makefile
-index f5229c5..a4713ee 100644
---- a/Makefile
-+++ b/Makefile
-@@ -55,5 +55,16 @@ install:
- 		install -m 644 "$$i"/* $(DESTDIR)$(MANDIR)/"$$i" || exit $$?; \
- 	done; \
- 
-+# Check if groff reports warnings (may be words of sentances not displayed)
-+# from http://lintian.debian.org/tags/manpage-has-errors-from-man.html 
-+GROFF_LOG := $(shell mktemp /tmp/manpages-checksXXXX)
-+check-groff-warnings:
-+	for i in man?/*.*; \
-+	do \
-+	   LC_ALL=en_US.UTF-8 MANWIDTH=80 man --warnings -E UTF-8 -l $$i > /dev/null 2>$(GROFF_LOG); \
-+	   [ -s $(GROFF_LOG) ] && ( echo "$$i: " ; cat $(GROFF_LOG) ; echo "" ); \
-+	   rm $(GROFF_LOG) 2>/dev/null; \
-+	done
-+
- # someone might also want to look at /var/catman/cat2 or so ...
- # a problem is that the location of cat pages varies a lot
--- 
-1.7.10.4
+
+Signed-off-by: J=C3=A9r=C3=B4me Pouiller <jezz-kPcTzGkeZgAdnm+yROfE0A@public.gmane.org>
+---
+ man3/pthread_tryjoin_np.3 |    4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/man3/pthread_tryjoin_np.3 b/man3/pthread_tryjoin_np.3
+index ba1cd41..03de5dd 100644
+--- a/man3/pthread_tryjoin_np.3
++++ b/man3/pthread_tryjoin_np.3
+@@ -101,6 +101,10 @@ can in addition fail with the following error:
+ The call timed out before
+ .I thread
+ terminated.
++.TP
++.BR EINVAL
++.I abstime
++value is invalid.
+ .PP
+ .BR pthread_timedjoin_np ()
+ never returns the error
+--=20
+J=C3=A9r=C3=B4me Pouiller <jezz-kPcTzGkeZgAdnm+yROfE0A@public.gmane.org>
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
