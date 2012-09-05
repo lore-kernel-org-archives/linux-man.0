@@ -1,32 +1,29 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 46091] syslog.3 says LOG_AUTH is deprecated
-Date: Tue,  4 Sep 2012 09:45:10 +0000 (UTC)
-Message-ID: <20120904094510.693E111FB08@bugzilla.kernel.org>
-References: <bug-46091-11311@https.bugzilla.kernel.org/>
+From: "DR.NED OKOH" <infomail-Ygx4hZn+vFQ@public.gmane.org>
+Subject: REPLY NEEDED
+Date: Wed, 05 Sep 2012 10:10:31 -0700
+Message-ID: <SERVERm0fwYdka0fIQT00004992__37377.6838685901$1346866032$gmane$org@offline.co.il>
+Reply-To: mail.info187-Ygx4hZn+vFQ@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; CHARSET=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-46091-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=46091
+Good day my dear,
+I am writing to acknowledged you that this is the second time we are notifying you about your payment worth of US$16.5m USD,with foreign Remittance payment department office which is due to be released into your Account As we begin the first fiscal payment of the year 2012.Please send the information below as needed for your fund release to you OK.
 
+1)Your Full Name__________________________ _____________
+2)Your Address_______________________ ______________________________
+3)Your Age___________________________ _______________________
+4)Your Direct Telephone Number________________________ ________________
+5)Fax Number________________________ _________________
+6)Occupation____________________ __________________________
 
+We sincerely apologies for our late contact with you, We are committed to serve you better OK and you have been advice to get back to me immediately for more details OK.
 
-
-
---- Comment #3 from Simon Josefsson <simon-RTwAkxXyIg6Ei8DpZVb4nw@public.gmane.org>  2012-09-04 09:45:10 ---
-Thank you for fixing my patch and applying it.  I don't see this in the git
-repository though, has it been pushed?
-
-/Simon
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Yours in service
+Dr.Ned Okoh
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
