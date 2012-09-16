@@ -1,71 +1,106 @@
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] ptrace.2: Explain behaviour should ptrace tracer call execve
-Date: Thu, 13 Sep 2012 22:03:47 +0100
-Message-ID: <50524A33.2030600@ubuntu.com>
-Reply-To: james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: new: bswap_32.1
+Date: Sun, 16 Sep 2012 17:55:35 +0200
+Message-ID: <5055F677.4010708@bfs.de>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="------------020703030604090805010700"
+ boundary="------------010907060503080606050201"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 This is a multi-part message in MIME format.
---------------020703030604090805010700
-Content-Type: text/plain; charset=ISO-8859-1
+--------------010907060503080606050201
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-This behaviour was verified by reading the kernel source and confirming
-the behaviour using a test program.
+hi,
+attached you will find a new man-page describing the swap_x macros.
+These are part of libc. In contrast to htonl() etc they swap bytes
+unconditionaly. (handy if you need it.)
 
-Applies to latest git repo.
+re,
+ wh
 
-Kind regards,
+.\"Copyright 2012 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+.\"  Distributed under GPL
+.TH BSWAP 3  2012-09-16 "GNU" "Linux Programmer's Manual"
+.SH NAME
+bswap_16, bswap_32, bswap_64 \-  swap bytes
+.SH  SYNOPSIS
+.nf
+.B #include <byteswap.h>
+.sp
+.BI bswap_16 (x);
+.sp
+.BI bswap_32 (x);
+.sp
+.BI bswap_64 (x);
+.fi
+.sp
+.in -4n
+Feature Test Macro Requirements for glibc (see
+.BR feature_test_macros (7)):
+.in
+.ad l
+.sp
+.BR bswap_64 ()
+.RS
+__GNUC__ && __GNUC__ >= 2
+.RE
+.ad
+.SH DESCRIPTION
+These is a series off macros that swap all bytes unconditionaly.
+.sp
+.SH EXAMPLE
+This example will swap 01020304 into 04030201.
+.nf
+#include <stdio.h>
+#include <stdint.h>
+#include <byteswap.h>
 
-James.
---
-James Hunt
-____________________________________
-http://upstart.ubuntu.com/cookbook
-http://upstart.ubuntu.com/cookbook/upstart_cookbook.pdf
+int main()
+{
+        uint32_t x=0x01020304;
+        printf("%08x bswap:%08x\\n",x,bswap_32(x));
+        return 0;
+}
+.fi
+.SH "CONFORMING TO"
+This is a glibc extension.
+.SH SEE ALSO
+.BR swap (3),
+.BR byteorder (3)
 
---------------020703030604090805010700
-Content-Type: text/x-patch;
- name="0001-Explain-behaviour-should-ptrace-tracer-call-execve.patch"
-Content-Transfer-Encoding: 7bit
+
+--------------010907060503080606050201
+Content-Type: text/plain;
+ name="bswap_32.3"
+Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename*0="0001-Explain-behaviour-should-ptrace-tracer-call-execve.patc";
- filename*1="h"
+ filename="bswap_32.3"
 
->From 44d1bffe6dfbaeaae3e0bafb7ec626eb362f97e2 Mon Sep 17 00:00:00 2001
-From: James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
-Date: Thu, 13 Sep 2012 21:53:18 +0100
-Subject: Explain behaviour should ptrace tracer call execve.
-
----
- man2/ptrace.2 |    3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index c45e569..d051358 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -1660,6 +1660,9 @@ In Linux kernels before 2.6.26,
- .BR init (8),
- the process with PID 1, may not be traced.
- .LP
-+A tracees parent continues to be the tracer even if that tracer calls
-+.BR execve (2).
-+.LP
- The layout of the contents of memory and the USER area are
- quite operating-system- and architecture-specific.
- The offset supplied, and the data returned,
--- 
-1.7.9.5
-
-
---------------020703030604090805010700--
+LlwiQ29weXJpZ2h0IDIwMDIgd2FsdGVyIGhhcm1zICh3YWx0ZXIuaGFybXNAaW5mb3JtYXRp
+ay51bmktb2xkZW5idXJnLmRlKQouXCIgIERpc3RyaWJ1dGVkIHVuZGVyIEdQTAouVEggQlNX
+QVAgMyAgMjAxMi0wOS0xNiAiR05VIiAiTGludXggUHJvZ3JhbW1lcidzIE1hbnVhbCIKLlNI
+IE5BTUUKYnN3YXBfMTYsIGJzd2FwXzMyLCBic3dhcF82NCBcLSAgc3dhcCBieXRlcwouU0gg
+IFNZTk9QU0lTCi5uZgouQiAjaW5jbHVkZSA8Ynl0ZXN3YXAuaD4KLnNwCi5CSSBic3dhcF8x
+NiAoeCk7Ci5zcAouQkkgYnN3YXBfMzIgKHgpOwouc3AKLkJJIGJzd2FwXzY0ICh4KTsKLmZp
+Ci5zcAouaW4gLTRuCkZlYXR1cmUgVGVzdCBNYWNybyBSZXF1aXJlbWVudHMgZm9yIGdsaWJj
+IChzZWUKLkJSIGZlYXR1cmVfdGVzdF9tYWNyb3MgKDcpKToKLmluCi5hZCBsCi5zcAouQlIg
+YnN3YXBfNjQgKCkKLlJTCl9fR05VQ19fICYmIF9fR05VQ19fID49IDIKLlJFCi5hZAouU0gg
+REVTQ1JJUFRJT04KVGhlc2UgaXMgYSBzZXJpZXMgb2ZmIG1hY3JvcyB0aGF0IHN3YXAgYWxs
+IGJ5dGVzIHVuY29uZGl0aW9uYWx5Lgouc3AKLlNIIEVYQU1QTEUKVGhpcyBleGFtcGxlIHdp
+bGwgc3dhcCAwMTAyMDMwNCBpbnRvIDA0MDMwMjAxLgoubmYKI2luY2x1ZGUgPHN0ZGlvLmg+
+CiNpbmNsdWRlIDxzdGRpbnQuaD4KI2luY2x1ZGUgPGJ5dGVzd2FwLmg+CgppbnQgbWFpbigp
+CnsKICAgICAgICB1aW50MzJfdCB4PTB4MDEwMjAzMDQ7CiAgICAgICAgcHJpbnRmKCIlMDh4
+IGJzd2FwOiUwOHhcXG4iLHgsYnN3YXBfMzIoeCkpOwogICAgICAgIHJldHVybiAwOwp9Ci5m
+aQouU0ggIkNPTkZPUk1JTkcgVE8iClRoaXMgaXMgYSBnbGliYyBleHRlbnNpb24uCi5TSCBT
+RUUgQUxTTwouQlIgc3dhcCAoMyksCi5CUiBieXRlb3JkZXIgKDMpCgo=
+--------------010907060503080606050201--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
