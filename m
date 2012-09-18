@@ -1,31 +1,51 @@
-From: "Anatoli Klassen" <anatoli-onJMq2Hob96sTnJN9+BGXg@public.gmane.org>
-Subject: Typos in inotify(7)
-Date: Mon, 17 Sep 2012 15:19:03 +0200
-Message-ID: <7ad784199184e8c7ace3a5a50bd16a6c.squirrel@control.26th.net>
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: [patch] wait4.2: Add a note that these functions are deprecated
+Date: Wed, 19 Sep 2012 00:01:16 +0300
+Message-ID: <20120918210116.GA22808@bunk.dyndns.info>
 Mime-Version: 1.0
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+---
+ man2/wait4.2 |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-there are two typos in actual (online) version of inotify(7):
-
-cookie is a unique integer that connects related events.  Currently this
-is only used for rename events, and allows the resulting pair of
-IN_MOVE_FROM
-and IN_MOVE_TO events to be connected by the application.  For all other
-event types, cookie is set to 0.
-
-It should be IN_MOVED_FROM and IN_MOVED_TO.
-
-Regards,
-Anatoli Klassen
-
+diff --git a/man2/wait4.2 b/man2/wait4.2
+index 68e49ad..3548396 100644
+--- a/man2/wait4.2
++++ b/man2/wait4.2
+@@ -31,7 +31,7 @@
+ .\"	Rewrote much of this page, and removed much duplicated text,
+ .\"		replacing with pointers to wait.2
+ .\"
+-.TH WAIT4 2  2010-09-20 "Linux" "Linux Programmer's Manual"
++.TH WAIT4 2  2012-09-18 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ wait3, wait4 \- wait for process to change state, BSD style
+ .SH SYNOPSIS
+@@ -150,10 +150,15 @@ On Linux,
+ is a library function implemented on top of the
+ .BR wait4 ()
+ system call.
++
++These functions are deprecated (not in POSIX.1-2001), use
++.BR waitpid (2)
++in new programs.
+ .SH "SEE ALSO"
+ .BR fork (2),
+ .BR getrusage (2),
+ .BR sigaction (2),
+ .BR signal (2),
+ .BR wait (2),
++.BR waitpid (2),
+ .BR signal (7)
+-- 
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
