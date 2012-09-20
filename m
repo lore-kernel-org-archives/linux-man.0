@@ -1,112 +1,68 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: [RESEND][PATCH] prctl: update seccomp sections for mode 2 (BPF)
-Date: Thu, 20 Sep 2012 16:37:00 -0700
-Message-ID: <20120920233700.GA3363@www.outflux.net>
+From: Kees Cook <keescook@chromium.org>
+Subject: [PATCH] prctl: document PR_SET_NO_NEW_PRIVS, PR_GET_NO_NEW_PRIVS
+Date: Thu, 20 Sep 2012 16:54:07 -0700
+Message-ID: <20120920235407.GA3769@www.outflux.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-doc-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, wad-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org
+Sender: linux-doc-owner@vger.kernel.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wad@chromium.org, Andy Lutomirski <luto@amacapital.net>
 List-Id: linux-man@vger.kernel.org
 
-This adds a short summary of the arguments used for "mode 2" (BPF)
-seccomp.
+This adds a short description of the no_new_privs bit, as described in
+Documentation/prctl/no_new_privs.txt.
 
-Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Signed-off-by: Kees Cook <keescook@chromium.org>
 ---
- man2/prctl.2 |   40 ++++++++++++++++++++++++++++++----------
- 1 files changed, 30 insertions(+), 10 deletions(-)
+ man2/prctl.2 |   15 +++++++++++++++
+ 1 files changed, 15 insertions(+), 0 deletions(-)
 
 diff --git a/man2/prctl.2 b/man2/prctl.2
-index eb53aa8..a44aa32 100644
+index a44aa32..220c031 100644
 --- a/man2/prctl.2
 +++ b/man2/prctl.2
-@@ -41,11 +41,12 @@
- .\" 2012-04 Cyrill Gorcunov, Document PR_SET_MM
+@@ -42,6 +42,7 @@
  .\" 2012-04-25 Michael Kerrisk, Document PR_TASK_PERF_EVENTS_DISABLE and
  .\"				PR_TASK_PERF_EVENTS_ENABLE
-+.\" 2012-09-20 Kees Cook, update PR_SET_SECCOMP for mode 2
+ .\" 2012-09-20 Kees Cook, update PR_SET_SECCOMP for mode 2
++.\" 2012-09-20 Kees Cook, document PR_SET_NO_NEW_PRIVS, PR_GET_NO_NEW_PRIVS
  .\"
  .\" FIXME: Document PR_SET_TIMERSLACK and PR_GET_TIMERSLACK (new in 2.6.28)
  .\"		commit 6976675d94042fbd446231d1bd8b7de71a980ada
- .\"
--.TH PRCTL 2 2012-04-23 "Linux" "Linux Programmer's Manual"
-+.TH PRCTL 2 2012-09-20 "Linux" "Linux Programmer's Manual"
- .SH NAME
- prctl \- operations on a process
- .SH SYNOPSIS
-@@ -235,11 +236,17 @@ in the location pointed to by
- .\" See http://thread.gmane.org/gmane.linux.kernel/542632
- .\" [PATCH 0 of 2] seccomp updates
- .\" andrea-Vyt77T80VFVWk0Htik3J/w@public.gmane.org
--Set the secure computing mode for the calling thread.
--In the current implementation,
-+Set the secure computing mode for the calling thread, to limit
-+the available syscalls.
-+The seccomp mode is selected via
-+.IR arg2 .
-+(The seccomp constants are defined in
-+.IR <linux/seccomp.h> .)
-+
-+With
- .IR arg2
--must be 1.
--After the secure computing mode has been set to 1,
-+set to
-+.BR SECCOMP_MODE_STRICT
- the only system calls that the thread is permitted to make are
- .BR read (2),
- .BR write (2),
-@@ -249,22 +256,35 @@ and
- Other system calls result in the delivery of a
- .BR SIGKILL
- signal.
--Secure computing mode is useful for number-crunching applications
-+Strict secure computing mode is useful for number-crunching applications
- that may need to execute untrusted byte code,
- perhaps obtained by reading from a pipe or socket.
- This operation is only available
- if the kernel is configured with CONFIG_SECCOMP enabled.
-+
-+With
-+.IR arg2
-+set to
-+.BR SECCOMP_MODE_FILTER " (since Linux 3.5)"
-+the system calls allowed are
-+defined by a pointer passed in
-+.IR arg3
-+to a Berkeley Packet Filter, which can be designed to filter
-+arbitrary syscalls and syscall arguments.
-+This mode is only available if the kernel is configured with
-+CONFIG_SECCOMP_FILTER enabled.
-+
+@@ -216,6 +217,19 @@ in the buffer pointed to by
+ The buffer should allow space for up to 16 bytes;
+ the returned string will be null-terminated if it is shorter than that.
  .TP
- .BR PR_GET_SECCOMP " (since Linux 2.6.23)"
- Return the secure computing mode of the calling thread.
--Not very useful for the current implementation (mode equals 1),
--but may be useful for other possible future modes:
--if the caller is not in secure computing mode, this operation returns 0;
--if the caller is in secure computing mode, then the
-+If the caller is not in secure computing mode, this operation returns 0;
-+if the caller is in strict secure computing mode, then the
- .BR prctl ()
- call will cause a
- .B SIGKILL
- signal to be sent to the process.
-+If the caller is in filter mode, and this syscall is allowed by the
-+seccomp filters, it returns 2.
- This operation is only available
- if the kernel is configured with CONFIG_SECCOMP enabled.
- .TP
++.BR PR_SET_NO_NEW_PRIVS " (since Linux 3.5)"
++Set the current process's \fIno_new_privs\fP bit to the value in
++\fIarg2\fP.  With \fIno_new_privs\fP set to 1, execve promises not
++to grant the privilege to do anything that could not have been done
++without the execve call (for example, rendering setuid, setgid, and file
++capabilities non-functional).  When enabled, this value is inherited
++across fork, clone, and execve and cannot be unset.
++.TP
++.BR PR_GET_NO_NEW_PRIVS " (since Linux 3.5)"
++Return the value of the \fIno_new_privs\fP bit for the current process. A
++value of 0 indicates the regular execve behavior. A value of 1 indicates
++execve will operate in the privilege restricting mode described above.
++.TP
+ .BR PR_SET_PDEATHSIG " (since Linux 2.1.57)"
+ Set the parent process death signal
+ of the calling process to \fIarg2\fP (either a signal value
+@@ -567,6 +581,7 @@ option.
+ On success,
+ .BR PR_GET_DUMPABLE ,
+ .BR PR_GET_KEEPCAPS ,
++.BR PR_GET_NO_NEW_PRIVS ,
+ .BR PR_CAPBSET_READ ,
+ .BR PR_GET_TIMING ,
+ .BR PR_GET_SECUREBITS ,
 -- 
 1.7.0.4
+
 
 -- 
 Kees Cook
 Chrome OS Security
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
