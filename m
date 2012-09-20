@@ -1,52 +1,111 @@
-From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: [patch] wait4.2: Add a note that these functions are deprecated
-Date: Wed, 19 Sep 2012 00:01:16 +0300
-Message-ID: <20120918210116.GA22808@bunk.dyndns.info>
+From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Subject: [RESEND][PATCH] prctl: update seccomp sections for mode 2 (BPF)
+Date: Thu, 20 Sep 2012 16:37:00 -0700
+Message-ID: <20120920233700.GA3363@www.outflux.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, wad-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+This adds a short summary of the arguments used for "mode 2" (BPF)
+seccomp.
+
+Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 ---
- man2/wait4.2 |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man2/prctl.2 |   40 ++++++++++++++++++++++++++++++----------
+ 1 files changed, 30 insertions(+), 10 deletions(-)
 
-diff --git a/man2/wait4.2 b/man2/wait4.2
-index 68e49ad..3548396 100644
---- a/man2/wait4.2
-+++ b/man2/wait4.2
-@@ -31,7 +31,7 @@
- .\"	Rewrote much of this page, and removed much duplicated text,
- .\"		replacing with pointers to wait.2
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index eb53aa8..a44aa32 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -41,11 +41,12 @@
+ .\" 2012-04 Cyrill Gorcunov, Document PR_SET_MM
+ .\" 2012-04-25 Michael Kerrisk, Document PR_TASK_PERF_EVENTS_DISABLE and
+ .\"				PR_TASK_PERF_EVENTS_ENABLE
++.\" 2012-09-20 Kees Cook, update PR_SET_SECCOMP for mode 2
  .\"
--.TH WAIT4 2  2010-09-20 "Linux" "Linux Programmer's Manual"
-+.TH WAIT4 2  2012-09-18 "Linux" "Linux Programmer's Manual"
+ .\" FIXME: Document PR_SET_TIMERSLACK and PR_GET_TIMERSLACK (new in 2.6.28)
+ .\"		commit 6976675d94042fbd446231d1bd8b7de71a980ada
+ .\"
+-.TH PRCTL 2 2012-04-23 "Linux" "Linux Programmer's Manual"
++.TH PRCTL 2 2012-09-20 "Linux" "Linux Programmer's Manual"
  .SH NAME
- wait3, wait4 \- wait for process to change state, BSD style
+ prctl \- operations on a process
  .SH SYNOPSIS
-@@ -150,10 +150,15 @@ On Linux,
- is a library function implemented on top of the
- .BR wait4 ()
- system call.
+@@ -235,11 +236,17 @@ in the location pointed to by
+ .\" See http://thread.gmane.org/gmane.linux.kernel/542632
+ .\" [PATCH 0 of 2] seccomp updates
+ .\" andrea-Vyt77T80VFVWk0Htik3J/w@public.gmane.org
+-Set the secure computing mode for the calling thread.
+-In the current implementation,
++Set the secure computing mode for the calling thread, to limit
++the available syscalls.
++The seccomp mode is selected via
++.IR arg2 .
++(The seccomp constants are defined in
++.IR <linux/seccomp.h> .)
 +
-+These functions are deprecated (not in POSIX.1-2001), use
-+.BR waitpid (2)
-+in new programs.
- .SH "SEE ALSO"
- .BR fork (2),
- .BR getrusage (2),
- .BR sigaction (2),
- .BR signal (2),
- .BR wait (2),
-+.BR waitpid (2),
- .BR signal (7)
++With
+ .IR arg2
+-must be 1.
+-After the secure computing mode has been set to 1,
++set to
++.BR SECCOMP_MODE_STRICT
+ the only system calls that the thread is permitted to make are
+ .BR read (2),
+ .BR write (2),
+@@ -249,22 +256,35 @@ and
+ Other system calls result in the delivery of a
+ .BR SIGKILL
+ signal.
+-Secure computing mode is useful for number-crunching applications
++Strict secure computing mode is useful for number-crunching applications
+ that may need to execute untrusted byte code,
+ perhaps obtained by reading from a pipe or socket.
+ This operation is only available
+ if the kernel is configured with CONFIG_SECCOMP enabled.
++
++With
++.IR arg2
++set to
++.BR SECCOMP_MODE_FILTER " (since Linux 3.5)"
++the system calls allowed are
++defined by a pointer passed in
++.IR arg3
++to a Berkeley Packet Filter, which can be designed to filter
++arbitrary syscalls and syscall arguments.
++This mode is only available if the kernel is configured with
++CONFIG_SECCOMP_FILTER enabled.
++
+ .TP
+ .BR PR_GET_SECCOMP " (since Linux 2.6.23)"
+ Return the secure computing mode of the calling thread.
+-Not very useful for the current implementation (mode equals 1),
+-but may be useful for other possible future modes:
+-if the caller is not in secure computing mode, this operation returns 0;
+-if the caller is in secure computing mode, then the
++If the caller is not in secure computing mode, this operation returns 0;
++if the caller is in strict secure computing mode, then the
+ .BR prctl ()
+ call will cause a
+ .B SIGKILL
+ signal to be sent to the process.
++If the caller is in filter mode, and this syscall is allowed by the
++seccomp filters, it returns 2.
+ This operation is only available
+ if the kernel is configured with CONFIG_SECCOMP enabled.
+ .TP
 -- 
-1.7.10.4
+1.7.0.4
 
+-- 
+Kees Cook
+Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
