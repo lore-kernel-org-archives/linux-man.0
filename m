@@ -1,76 +1,86 @@
-From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [patch] wait4.2: Add a note that these functions are deprecated
-Date: Sun, 23 Sep 2012 18:25:12 +0300
-Message-ID: <20120923152512.GD13319@bunk.dyndns.info>
-References: <20120918210116.GA22808@bunk.dyndns.info>
- <CAKgNAkiiNGhVRi-ddBA2t8tdZMRq_rrJWEAumVyXikZCzCW1UA@mail.gmail.com>
- <20120923142425.GC13319@bunk.dyndns.info>
- <CAKgNAkiHYrerfCDab8UFrFZbqd=jEBXScLjM2j7LHAJHLnNhmg@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 2/5] keyctl.2: reorder SEE ALSO, without .br
+Date: Sun, 23 Sep 2012 16:34:59 -0400
+Message-ID: <1348432502-26050-2-git-send-email-taffit@debian.org>
+References: <CAKgNAkgKVXfzKqe8qy+ZWSy-ZvhPrM0_sooKM4HG+UTfhbX6BQ@mail.gmail.com>
+ <1348432502-26050-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkiHYrerfCDab8UFrFZbqd=jEBXScLjM2j7LHAJHLnNhmg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1348432502-26050-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Sep 23, 2012 at 04:34:36PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hi Adrian,
-> 
-> On Sun, Sep 23, 2012 at 4:24 PM, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
-> > On Sun, Sep 23, 2012 at 04:02:27PM +0200, Michael Kerrisk (man-pages) wrote:
-> >> Adrian,
-> >
-> > Hi Michael,
-> >
-> >> I think the idea of your patch is good, but I prefer to use a word
-> >> other than "deprecated". The problem is that "deprecated" implies a
-> >> standards body or a vendor made a formal statement about this. It's
-> >> true that LSB 2.1 says that wait3() is deprecated
-> >> (http://refspecs.linuxbase.org/LSB_2.1.0/LSB-generic/LSB-generic/baselib-wait3-3.html),
-> >> but wait4() is currently still part of LSB. So, I applied a slightly
-> >>
-> >> modified version of your test:
-> >>
-> >> [[
-> >> These functions are nonstandard; use
-> >>
-> >> .BR waitpid (2)
-> >> or
-> >> .BR waitid (2)
-> >> in new programs.
-> >> ]]
-> >>
-> >> Seem okay?
-> >
-> > the wait3() function is not "nonstandard, since as the URL you gave
-> > correctly states it is part of SuSv2 (and also of SuSv1).
-> 
-> Yep, but marked LEGACY in SUSv2, and removed altogether in SUSv3. So,
-> not part of contemporary standard. (BTW, I did also add text under
-> CONFORMING TO to note those details.) So, I think I'll leave the text
-> as I gave already, unless you have a better alternative to propose.
+---
+ man2/keyctl.2 |   46 ++++++++++++----------------------------------
+ 1 file changed, 12 insertions(+), 34 deletions(-)
 
-My problem is with the word "nonstandard" for wait3(), that was 
-specified in older standards.
-
-What about "obsolete" instead?
-
-> Cheers,
-> 
-> Michael
-
-cu
-Adrian
-
+diff --git a/man2/keyctl.2 b/man2/keyctl.2
+index fcb30ab..f0dd607 100644
+--- a/man2/keyctl.2
++++ b/man2/keyctl.2
+@@ -124,47 +124,25 @@ When linking,
+ should be specified to the linker.
+ .SH SEE ALSO
+ .BR keyctl (1),
+-.br
+ .BR add_key (2),
+-.br
+ .BR request_key (2),
+-.br
+-.BR keyctl_get_keyring_ID (3),
+-.br
+-.BR keyctl_join_session_keyring (3),
+-.br
+-.BR keyctl_update (3),
+-.br
+-.BR keyctl_revoke (3),
+-.br
++.BR keyctl_set_timeout (3),
+ .BR keyctl_chown (3),
+-.br
+-.BR keyctl_setperm (3),
+-.br
+-.BR keyctl_describe (3),
+-.br
+ .BR keyctl_clear (3),
+-.br
+-.BR keyctl_link (3),
+-.br
+-.BR keyctl_unlink (3),
+-.br
+-.BR keyctl_search (3),
+-.br
+-.BR keyctl_read (3),
+-.br
++.BR keyctl_describe (3),
++.BR keyctl_describe_alloc (3),
++.BR keyctl_get_keyring_ID (3),
+ .BR keyctl_instantiate (3),
+-.br
++.BR keyctl_join_session_keyring (3),
++.BR keyctl_link (3),
+ .BR keyctl_negate (3),
+-.br
++.BR keyctl_revoke (3),
++.BR keyctl_search (3),
++.BR keyctl_setperm (3),
+ .BR keyctl_set_reqkey_keyring (3),
+-.br
+ .BR keyctl_set_timeout (3),
+-.br
+-.BR keyctl_assume_authority (3),
+-.br
+-.BR keyctl_describe_alloc (3),
+-.br
++.BR keyctl_read (3),
+ .BR keyctl_read_alloc (3),
+-.br
++.BR keyctl_unlink (3),
++.BR keyctl_update (3),
+ .BR request-key (8)
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
