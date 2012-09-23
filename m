@@ -1,49 +1,77 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stat.2: tfix
-Date: Sun, 23 Sep 2012 17:01:56 +0200
-Message-ID: <CAKgNAkiWmh+8tRH8ZeDk4JuFqjEqTq8Qi7zXmT8RRbO04cQXng@mail.gmail.com>
-References: <1347227196-9772-1-git-send-email-guillem@hadrons.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [patch] wait4.2: Add a note that these functions are deprecated
+Date: Sun, 23 Sep 2012 18:25:12 +0300
+Message-ID: <20120923152512.GD13319@bunk.dyndns.info>
+References: <20120918210116.GA22808@bunk.dyndns.info>
+ <CAKgNAkiiNGhVRi-ddBA2t8tdZMRq_rrJWEAumVyXikZCzCW1UA@mail.gmail.com>
+ <20120923142425.GC13319@bunk.dyndns.info>
+ <CAKgNAkiHYrerfCDab8UFrFZbqd=jEBXScLjM2j7LHAJHLnNhmg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1347227196-9772-1-git-send-email-guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkiHYrerfCDab8UFrFZbqd=jEBXScLjM2j7LHAJHLnNhmg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks. Applied.
+On Sun, Sep 23, 2012 at 04:34:36PM +0200, Michael Kerrisk (man-pages) wrote:
+> Hi Adrian,
+> 
+> On Sun, Sep 23, 2012 at 4:24 PM, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
+> > On Sun, Sep 23, 2012 at 04:02:27PM +0200, Michael Kerrisk (man-pages) wrote:
+> >> Adrian,
+> >
+> > Hi Michael,
+> >
+> >> I think the idea of your patch is good, but I prefer to use a word
+> >> other than "deprecated". The problem is that "deprecated" implies a
+> >> standards body or a vendor made a formal statement about this. It's
+> >> true that LSB 2.1 says that wait3() is deprecated
+> >> (http://refspecs.linuxbase.org/LSB_2.1.0/LSB-generic/LSB-generic/baselib-wait3-3.html),
+> >> but wait4() is currently still part of LSB. So, I applied a slightly
+> >>
+> >> modified version of your test:
+> >>
+> >> [[
+> >> These functions are nonstandard; use
+> >>
+> >> .BR waitpid (2)
+> >> or
+> >> .BR waitid (2)
+> >> in new programs.
+> >> ]]
+> >>
+> >> Seem okay?
+> >
+> > the wait3() function is not "nonstandard, since as the URL you gave
+> > correctly states it is part of SuSv2 (and also of SuSv1).
+> 
+> Yep, but marked LEGACY in SUSv2, and removed altogether in SUSv3. So,
+> not part of contemporary standard. (BTW, I did also add text under
+> CONFORMING TO to note those details.) So, I think I'll leave the text
+> as I gave already, unless you have a better alternative to propose.
 
-On Sun, Sep 9, 2012 at 11:46 PM, Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org> wrote:
-> Signed-off-by: Guillem Jover <guillem-+FW4gsLVM0RAfugRpC6u6w@public.gmane.org>
-> ---
->  man2/stat.2 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man2/stat.2 b/man2/stat.2
-> index 791bfb8..0b82e1d 100644
-> --- a/man2/stat.2
-> +++ b/man2/stat.2
-> @@ -413,7 +413,7 @@ the macros
->  etc.
->  The
->  .BR S_IF*
-> -constants are present in POSIX.1-2011 and later.
-> +constants are present in POSIX.1-2001 and later.
->
->  The
->  .BR S_ISLNK ()
-> --
-> 1.7.10.4
->
+My problem is with the word "nonstandard" for wait3(), that was 
+specified in older standards.
 
+What about "obsolete" instead?
 
+> Cheers,
+> 
+> Michael
+
+cu
+Adrian
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
