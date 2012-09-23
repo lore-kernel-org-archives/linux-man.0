@@ -1,100 +1,95 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] wait4.2: Add a note that these functions are deprecated
-Date: Sun, 23 Sep 2012 16:34:36 +0200
-Message-ID: <CAKgNAkiHYrerfCDab8UFrFZbqd=jEBXScLjM2j7LHAJHLnNhmg@mail.gmail.com>
-References: <20120918210116.GA22808@bunk.dyndns.info> <CAKgNAkiiNGhVRi-ddBA2t8tdZMRq_rrJWEAumVyXikZCzCW1UA@mail.gmail.com>
- <20120923142425.GC13319@bunk.dyndns.info>
+Subject: Re: [PATCH 1/3] ldd.1, syscalls.2, getutent.3, cpuid.4: ffix
+Date: Sun, 23 Sep 2012 16:38:45 +0200
+Message-ID: <CAKgNAkjiz6dF7FfYNouiAQGnXY+KegvJdaG_jWuQsXHC_e=xaw@mail.gmail.com>
+References: <1345086590-11949-1-git-send-email-taffit@debian.org> <1345086590-11949-2-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20120923142425.GC13319-c9qLp6CXzmZPEsXTsnYjsA@public.gmane.org>
+In-Reply-To: <1345086590-11949-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Adrian,
+Thanks. Applied.
 
-On Sun, Sep 23, 2012 at 4:24 PM, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
-> On Sun, Sep 23, 2012 at 04:02:27PM +0200, Michael Kerrisk (man-pages) wrote:
->> Adrian,
+On Thu, Aug 16, 2012 at 5:09 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
+te:
+> ---
+>  man1/ldd.1      |    2 +-
+>  man2/syscalls.2 |    4 ++--
+>  man3/getutent.3 |    2 +-
+>  man4/cpuid.4    |    4 ++--
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 >
-> Hi Michael,
+> diff --git a/man1/ldd.1 b/man1/ldd.1
+> index cd34402..db1b5f4 100644
+> --- a/man1/ldd.1
+> +++ b/man1/ldd.1
+> @@ -20,7 +20,7 @@ specified on the command line.
+>  In the usual case,
+>  .B ldd
+>  invokes the standard dynamic linker (see
+> -.BR ld.so(8))
+> +.BR ld.so (8))
+>  with the
+>  .B LD_TRACE_LOADED_OBJECTS
+>  environment variable set to 1,
+> diff --git a/man2/syscalls.2 b/man2/syscalls.2
+> index 0f979dd..a6f5ac7 100644
+> --- a/man2/syscalls.2
+> +++ b/man2/syscalls.2
+> @@ -385,8 +385,8 @@ Added as "pread" in 2.2; renamed "pread64" in 2.6
+>  T}
+>  \fBpreadv\fP(2)        2.6.30
+>  \fBprlimit\fP(2)       2.6.36
+> -\fBprocess_vm_readv(2)\fP      3.2
+> -\fBprocess_vm_writev(2)\fP     3.2
+> +\fBprocess_vm_readv\fP(2)      3.2
+> +\fBprocess_vm_writev\fP(2)     3.2
+>  \fBpselect6\fP(2)      2.6.16
+>  .\" Implements \fBpselect\fP(2)
+>  \fBptrace\fP(2)
+> diff --git a/man3/getutent.3 b/man3/getutent.3
+> index 21bb823..e006095 100644
+> --- a/man3/getutent.3
+> +++ b/man3/getutent.3
+> @@ -212,7 +212,7 @@ Glibc adds reentrant versions
+>  .sp
+>  .nf
+>  .BR "#define _GNU_SOURCE" "    /* or _SVID_SOURCE or _BSD_SOURCE;
+> -.RB "\&                          see " feature_test_macros(7) " */"
+> +.RB "\&                          see " feature_test_macros "(7) */"
+>  .B #include <utmp.h>
+>  .sp
+>  .BI "int getutent_r(struct utmp *" ubuf ", struct utmp **" ubufp );
+> diff --git a/man4/cpuid.4 b/man4/cpuid.4
+> index 4cdc3e5..8168837 100644
+> --- a/man4/cpuid.4
+> +++ b/man4/cpuid.4
+> @@ -28,9 +28,9 @@ cpuid \- x86 CPUID access device
+>  CPUID provides an interface for querying information about the x86 C=
+PU.
 >
->> I think the idea of your patch is good, but I prefer to use a word
->> other than "deprecated". The problem is that "deprecated" implies a
->> standards body or a vendor made a formal statement about this. It's
->> true that LSB 2.1 says that wait3() is deprecated
->> (http://refspecs.linuxbase.org/LSB_2.1.0/LSB-generic/LSB-generic/baselib-wait3-3.html),
->> but wait4() is currently still part of LSB. So, I applied a slightly
->>
->> modified version of your test:
->>
->> [[
->> These functions are nonstandard; use
->>
->> .BR waitpid (2)
->> or
->> .BR waitid (2)
->> in new programs.
->> ]]
->>
->> Seem okay?
+>  This device is accessed by
+> -.B lseek (2)
+> +.BR lseek (2)
+>  or
+> -.B pread (2)
+> +.BR pread (2)
+>  to the appropriate CPUID level and reading in chunks of 16 bytes.
+>  A larger read size means multiple reads of consecutive levels.
 >
-> the wait3() function is not "nonstandard, since as the URL you gave
-> correctly states it is part of SuSv2 (and also of SuSv1).
-
-Yep, but marked LEGACY in SUSv2, and removed altogether in SUSv3. So,
-not part of contemporary standard. (BTW, I did also add text under
-CONFORMING TO to note those details.) So, I think I'll leave the text
-as I gave already, unless you have a better alternative to propose.
-
-Cheers,
-
-Michael
-
-
->> On Tue, Sep 18, 2012 at 11:01 PM, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
->> > ---
->> >  man2/wait4.2 |    7 ++++++-
->> >  1 file changed, 6 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/man2/wait4.2 b/man2/wait4.2
->> > index 68e49ad..3548396 100644
->> > --- a/man2/wait4.2
->> > +++ b/man2/wait4.2
->> > @@ -31,7 +31,7 @@
->> >  .\"    Rewrote much of this page, and removed much duplicated text,
->> >  .\"            replacing with pointers to wait.2
->> >  .\"
->> > -.TH WAIT4 2  2010-09-20 "Linux" "Linux Programmer's Manual"
->> > +.TH WAIT4 2  2012-09-18 "Linux" "Linux Programmer's Manual"
->> >  .SH NAME
->> >  wait3, wait4 \- wait for process to change state, BSD style
->> >  .SH SYNOPSIS
->> > @@ -150,10 +150,15 @@ On Linux,
->> >  is a library function implemented on top of the
->> >  .BR wait4 ()
->> >  system call.
->> > +
->> > +These functions are deprecated (not in POSIX.1-2001), use
->> > +.BR waitpid (2)
->> > +in new programs.
->> >  .SH "SEE ALSO"
->> >  .BR fork (2),
->> >  .BR getrusage (2),
->> >  .BR sigaction (2),
->> >  .BR signal (2),
->> >  .BR wait (2),
->> > +.BR waitpid (2),
->> >  .BR signal (7)
->> > --
->> > 1.7.10.4
+> --
+> 1.7.10.4
+>
 
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
