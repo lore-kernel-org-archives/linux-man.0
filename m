@@ -1,69 +1,91 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Man page typo/omission
-Date: Sun, 23 Sep 2012 16:11:08 +0200
-Message-ID: <CAKgNAkirNRLv=h8dqhJ4Uvh5-YywUNJk4hCNXZthjsLuh70YSA@mail.gmail.com>
-References: <50412197.4090908@comcast.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [patch] wait4.2: Add a note that these functions are deprecated
+Date: Sun, 23 Sep 2012 17:24:25 +0300
+Message-ID: <20120923142425.GC13319@bunk.dyndns.info>
+References: <20120918210116.GA22808@bunk.dyndns.info>
+ <CAKgNAkiiNGhVRi-ddBA2t8tdZMRq_rrJWEAumVyXikZCzCW1UA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <50412197.4090908-Wuw85uim5zDR7s880joybQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkiiNGhVRi-ddBA2t8tdZMRq_rrJWEAumVyXikZCzCW1UA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rick Giles <lord_beavis-Wuw85uim5zDR7s880joybQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Rick
+On Sun, Sep 23, 2012 at 04:02:27PM +0200, Michael Kerrisk (man-pages) wrote:
+> Adrian,
 
-The groupadd(8) package is not in the man-pages set. See
-http://www.kernel.org/doc/man-pages/man_pages_other.html
+Hi Michael,
 
-Cheers,
+> I think the idea of your patch is good, but I prefer to use a word
+> other than "deprecated". The problem is that "deprecated" implies a
+> standards body or a vendor made a formal statement about this. It's
+> true that LSB 2.1 says that wait3() is deprecated
+> (http://refspecs.linuxbase.org/LSB_2.1.0/LSB-generic/LSB-generic/baselib-wait3-3.html),
+> but wait4() is currently still part of LSB. So, I applied a slightly
+> 
+> modified version of your test:
+> 
+> [[
+> These functions are nonstandard; use
+> 
+> .BR waitpid (2)
+> or
+> .BR waitid (2)
+> in new programs.
+> ]]
+> 
+> Seem okay?
 
-Michael
+the wait3() function is not "nonstandard, since as the URL you gave 
+correctly states it is part of SuSv2 (and also of SuSv1).
 
-On Fri, Aug 31, 2012 at 10:41 PM, Rick Giles <lord_beavis-Wuw85uim5zDR7s880joybQ@public.gmane.org> wrote:
->
-> Hello,
->
-> Whilst looking through the man page GROUPADD(8), there is information missing from the 'Caveats' section in the sentence "Groupnames may only be up to characters long."  I believe the 32 is missing.
->
-> I could not find the man pages version using the instructions at http://www.kernel.org/doc/man-pages/what_version.html resulted in:
->
-> # rpm -qf $(man -w 8 groupadd)
-> file /usr/man/cat8/groupadd.8.xz is not owned by any package
-> error: file /home/rick/(<--: No such file or directory
-> error: file /usr/man/man8/groupadd.8.gz): No such file or directory
->
-> A quick Google search wasn't very helpful either.
->
->
-> The system is Slackware 13.37.0 and has recently been updated using 'slackpkg'.
->
-> Linux flexo 2.6.37.6-smp #2 SMP Sat Apr 9 23:39:07 CDT 2011 i686 Intel(R) Pentium(R) 4 CPU 2.80GHz GenuineIntel GNU/Linux
->
-> Please let me know if there is anything you would like me to test or try.
->
-> --
->
-> Lord Beavis
-> aka Rick Giles
-> Web: Planet Express
-> E-mail: lord_beavis-Wuw85uim5zDR7s880joybQ@public.gmane.org
-> Twitter: Lord Beavis on Twitter
-> MySpace: Lord Beavis on MySpace
->
-> No Antivirus detection was used
-> on this message by me.  I don't need it.
-> You on the other hand, I'm not so sure about.
+> Cheers,
+> 
+> Michael
+
+cu
+Adrian
 
 
-
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+> On Tue, Sep 18, 2012 at 11:01 PM, Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> wrote:
+> > ---
+> >  man2/wait4.2 |    7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/man2/wait4.2 b/man2/wait4.2
+> > index 68e49ad..3548396 100644
+> > --- a/man2/wait4.2
+> > +++ b/man2/wait4.2
+> > @@ -31,7 +31,7 @@
+> >  .\"    Rewrote much of this page, and removed much duplicated text,
+> >  .\"            replacing with pointers to wait.2
+> >  .\"
+> > -.TH WAIT4 2  2010-09-20 "Linux" "Linux Programmer's Manual"
+> > +.TH WAIT4 2  2012-09-18 "Linux" "Linux Programmer's Manual"
+> >  .SH NAME
+> >  wait3, wait4 \- wait for process to change state, BSD style
+> >  .SH SYNOPSIS
+> > @@ -150,10 +150,15 @@ On Linux,
+> >  is a library function implemented on top of the
+> >  .BR wait4 ()
+> >  system call.
+> > +
+> > +These functions are deprecated (not in POSIX.1-2001), use
+> > +.BR waitpid (2)
+> > +in new programs.
+> >  .SH "SEE ALSO"
+> >  .BR fork (2),
+> >  .BR getrusage (2),
+> >  .BR sigaction (2),
+> >  .BR signal (2),
+> >  .BR wait (2),
+> > +.BR waitpid (2),
+> >  .BR signal (7)
+> > --
+> > 1.7.10.4
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
