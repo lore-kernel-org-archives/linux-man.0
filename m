@@ -1,46 +1,42 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 47951] New: Add a README documenting the stable-rt process
-Date: Tue, 25 Sep 2012 18:13:50 +0000 (UTC)
-Message-ID: <bug-47951-11311@https.bugzilla.kernel.org/>
+From: "Tulio Magno Quites Machado Filho" <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: Ping: [PATCHv2] __ppc_get_timebase.3: Document a new glibc function
+Date: Wed, 26 Sep 2012 11:28:43 -0300
+Message-ID: <87d318svs4.fsf@tuliom.br.ibm.com>
+References: <1345661592-17375-1-git-send-email-tuliom@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; format=flowed
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1345661592-17375-1-git-send-email-tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rsa-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=47951
 
-           Summary: Add a README documenting the stable-rt process
-           Product: Documentation
-           Version: unspecified
-    Kernel Version: 3.4.x-rty
-          Platform: All
-        OS/Version: Linux
-              Tree: PREEMPT_RT
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
-                CC: rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org
-        Regression: No
+"Tulio Magno Quites Machado Filho" <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org> 
+writes:
 
+> Glibc 2.16 was released with a new function for the Power 
+> architecture
+> that can read its Time Base Register.
+> It was included by commit d9dc34cd.
+> 
+> Signed-off-by: Tulio Magno Quites Machado Filho 
+> <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> ---
+>  man3/__ppc_get_timebase.3 |   49 
+>  +++++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 49 insertions(+), 0 deletions(-)
+>  create mode 100644 man3/__ppc_get_timebase.3
 
-Per the 2012 LPC RT Microconference discussions, add a README (not necessarily
-of that name) similar to Documentation/stable_kernel_rules.txt describing the
-process of getting patches into the stable kernel trees, including which lists
-to use, any tagging picked up by scripts, etc.
+Hi,
 
-(Notes: This doesn't belong under man-pages, but there aren't any other
-components under Documentation... This is also a test of the newly created
-PREEMPT_RT Bugzilla Tree, Group, and Whine.)
+This patch is pending review:
+http://marc.info/?l=linux-man&m=134566160308600&w=2
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Tulio Magno
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
