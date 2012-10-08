@@ -1,42 +1,36 @@
-From: Thomas Habets <thomas-NmolrwyTDqqzQB+pC5nmwQ@public.gmane.org>
-Subject: PATCH: Change manpage of times(2) to recommend clock_gettime(2), not gettimeofday(2)
-Date: Sun, 7 Oct 2012 22:37:32 +0100
-Message-ID: <CA+kHd+d7WzVzCUbs2NA+9uVMGCeD9wgUMJ=h2WR1-8sb+e4DYQ@mail.gmail.com>
+From: =?ISO-8859-1?Q?Martin_P=E4rtel?= <martin.partel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] posix_fallocate.3: EBADF possible when lacking read access
+Date: Tue, 09 Oct 2012 01:43:20 +0300
+Message-ID: <50735708.7090900@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Change manpage of times(2) to recommend clock_gettime(2), not gettimeofday(2)
-
->From times(2):
-  "To measure changes in elapsed time, use gettimeofday(2) instead."
-
->From gettimeofday(2):
-  "POSIX.1-2008 marks gettimeofday() as obsolete, recomending  the
-  use of clock_gettime(2) instead."
-
-Some context, showing how use of gettimeofday() causes actual bugs
-(also read comments):
-http://blog.habets.pp.se/2010/09/gettimeofday-should-never-be-used-to-measure-time
+posix_fallocate on a write-only FD may fail with a EBADF when fallocate(2) is unsupported by the filesystem and glibc must emulate it.
+The emulation requires read-write access to the file. The source code is in glibc's sysdeps/posix/posix_fallocate.c
 
 
-diff --git a/man2/times.2 b/man2/times.2
-index a37874e..020103a 100644
---- a/man2/times.2
-+++ b/man2/times.2
-@@ -174,7 +174,7 @@ combined with the fact that the returned value may overflow
- .IR clock_t ,
- means that a portable application would be wise to avoid using this value.
- To measure changes in elapsed time, use
--.BR gettimeofday (2)
-+.BR clock_gettime (2)
- instead.
- .\" .PP
- .\" On older systems the number of clock ticks per second is given
+Applies to git master.
+
+diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
+index 6fae367..b92c140 100644
+--- a/man3/posix_fallocate.3
++++ b/man3/posix_fallocate.3
+@@ -71,7 +71,8 @@ is not set.
+ .TP
+ .B EBADF
+ .I fd
+-is not a valid file descriptor, or is not opened for writing.
++is not a valid file descriptor, or is not opened for
++both reading and writing.
+ .TP
+ .B EFBIG
+ .I offset+len
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
