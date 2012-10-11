@@ -1,199 +1,134 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [Request for review] Revised delete_module(2) manual page
-Date: Tue, 9 Oct 2012 23:35:08 +0200
-Message-ID: <CAKgNAkgp1er3-3nvge9_aVObuuxBatGRur8DtiTzyWK4w+4hrA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Rusty Russell <rusty@rustcorp.com.au>
+Subject: Re: [PATCH] init_module: update to modern interfaces
+Date: Thu, 11 Oct 2012 13:20:08 +1030
+Message-ID: <87wqyx7me7.fsf@rustcorp.com.au>
+References: <20120920232737.GA2953@www.outflux.net> <CAKgNAkheF8=ssrE=_JP-ApDP5zXeHSYVG+0x6Wfd6U28TcPSHQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAkheF8=ssrE=_JP-ApDP5zXeHSYVG+0x6Wfd6U28TcPSHQ@mail.gmail.com>
+Sender: linux-doc-owner@vger.kernel.org
+To: mtk.manpages@gmail.com, Kees Cook <keescook@chromium.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Kees, Rusty,
+"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+> [CC widened, so that some more review might come in. Rusty?]
 
-The current delete_module(2) page is severely out of date (basically,
-its content corresponds to 2.4 days, and was even pretty thin in
-covering that). So, I took a shot at revising the page to Linux 2.6+
-reality. Would it be possible that you could review it?
+Sure.
 
-Thanks,
+Looks good. but:
 
-Michael
+> .B EBUSY
+> The module's initialization routine failed.
 
+Possibly.  You should mention that the individual module's
+initialization routine can return other errors as appropriate.
 
+> .BR EINVAL " (Linux 2.4 and earlier)"
+> Some
+> .I image
+> slot is filled in incorrectly,
+> .I image\->name
+> does not correspond to the original module name, some
+> .I image\->deps
+> entry does not correspond to a loaded module,
+> or some other similar inconsistency.
+> .TP
 
-.\" Copyright (C) 1996 Free Software Foundation, Inc.
-.\" and Copyright (C) 2012 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\" This file is distributed according to the GNU General Public License.
-.\" See the file COPYING in the top level source directory for details.
-.\"
-.\" 2006-02-09, some reformatting by Luc Van Oostenryck; some
-.\" reformatting and rewordings by mtk
-.\"
-.TH DELETE_MODULE 2 2012-10-09 "Linux" "Linux Programmer's Manual"
-.SH NAME
-delete_module \- unload a kernel module
-.SH SYNOPSIS
-.nf
-.BI "int delete_module(const char *" name ", int " flags );
-.fi
+Why document this?
 
-.IR Note :
-There is no glibc wrapper for this system call; see NOTES.
-.SH DESCRIPTION
-.BR delete_module ()
-attempts to remove the unused loadable module entry
-identified by
-.IR name .
-This system call requires privilege.
+> .B ENOEXEC
+> The ELF image in
+> .I module_image
+> is too small or has corrupted segments.
 
-If there are other loaded modules that depend on
-(i.e., refer to symbols defined in) this module,
-then the call fails.
-Otherwise, by default,
-.BR delete_module ()
-marks a module so that no new references are permitted.
-If the module's reference count
-(i.e., the number of processes currently using the module) is nonzero,
-it then places the caller in an uninterruptible sleep
-state until all reference count is zero,
-at which point the call unblocks.
-When the reference count reaches zero, the module is unloaded.
-When the module is unloaded, the kernel executes its
-.I exit
-function.
+Or is not an ELF image, or wrong arch...
 
-The
-.IR flags
-argument can be used to modify the behavior of the system call.
-The following values can be ORed in this argument:
-.TP
-.B O_TRUNC
-.\"  	KMOD_REMOVE_FORCE in kmod library
-Force unloading of the module, even if the following conditions are true:
-.RS
-.IP * 3
-The module has no
-.I exit
-function.
-By default, attempting to unload a module that has no
-.I exit
-function fails.
-.IP *
-The reference count for (i.e., the number of processes currently using)
-this module is nonzero.
-See the description of
-.BR O_NONBLOCK .
-.RE
-.IP
-Using this flag taints the kernel (TAINT_FORCED_RMMOD).
-.IP
-.IR "Using this flag is dangerous!"
-If the kernel was not built with
-.BR CONFIG_MODULE_FORCE_UNLOAD ,
-this flag is silently ignored.
-.TP
-.B O_NONBLOCK
-.\"  	KMOD_REMOVE_NOWAIT in kmod library
-If both
-.B O_NONBLOCK
-and
-.B O_TRUNC
-are specified in
-.IR flags
-(and the kernel was built with
-.BR CONFIG_MODULE_FORCE_UNLOAD ),
-then the module is unloaded immediately,
-regardless of whether it has a nonzero reference count.
-If
-.B O_NONBLOCK
-was specified, but
-.B O_TRUNC
-was not, then an error is returned
-if the module has a nonzero reference count.
-.SH "RETURN VALUE"
-On success, zero is returned.
-On error, \-1 is returned and
-.I errno
-is set appropriately.
-.SH ERRORS
-.TP
-.B EBUSY
-The module is not "live"
-(i.e., it is still being initialized or is already marked for removal);
-or, the module has no
-.I exit
-function and
-.B O_TRUNC
-was not specified in
-.IR flags .
+> .TP
+> .B EPERM
+> The caller was not privileged
+> (did not have the
+> .B CAP_SYS_MODULE
+> capability),
+> or module loading is disabled
+> (see
+> .IR /proc/sys/kernel/modules_disabled
+> in
+> .BR proc (5)).
+> .SH "CONFORMING TO"
+> .BR init_module ()
+> is Linux-specific.
+> .SH NOTES
+> Glibc does not provide a wrapper for this system call; call it using
+> .BR syscall (2).
+>
+> Information about currently loaded modules can be found in
+> .IR /proc/modules
+> and in the file trees under the per-module subdirectories under
+> .IR /sys/module .
+>
+> See the Linux kernel source file
+> .I include/linux/module.h
+> for some useful background information.
+> .SS Linux 2.4 and earlier
+> .PP
+> In Linux 2.4 and earlier, this system call was rather different:
+>
+> .B "    #include <linux/module.h>"
+>
+> .BI "    int init_module(const char *" name ", struct module *" image );
+>
+> This version of the system call
+> loads the relocated module image pointed to by
+> .I image
+> into kernel space and runs the module's
+> .I init
+> function.
+> The caller is responsible for providing the relocated image (since
+> Linux 2.6, the
+> .BR init_module ()
+> system call does the relocation).
+> .PP
+> The module image begins with a module structure and is followed by
+> code and data as appropriate.
+> The module structure is defined as follows:
+> .PP
+> .in +4n
+> .nf
+> struct module {
+>     unsigned long         size_of_struct;
+>     struct module        *next;
+>     const char           *name;
+>     unsigned long         size;
+>     long                  usecount;
+>     unsigned long         flags;
+>     unsigned int          nsyms;
+>     unsigned int          ndeps;
+>     struct module_symbol *syms;
+>     struct module_ref    *deps;
+>     struct module_ref    *refs;
+>     int                 (*init)(void);
+>     void                (*cleanup)(void);
+>     const struct exception_table_entry *ex_table_start;
+>     const struct exception_table_entry *ex_table_end;
+> #ifdef __alpha__
+>     unsigned long gp;
+> #endif
+> };
+> .fi
+> .in
+> .PP
+> All of the pointer fields, with the exception of
+> .I next
+> and
+> .IR refs ,
+> are expected to point within the module body and be
+> initialized as appropriate for kernel space, that is, relocated with
+> the rest of the module.
 
-.TP
-.B EFAULT
-.I name
-is outside the program's accessible address space.
-.TP
-.B EINVAL
-.I name
-was an empty string.
-.TP
-.B ENOENT
-No module by that name exists.
-.TP
-.B EPERM
-The caller was not privileged
-(did not have the
-.B CAP_SYS_MODULE
-capability),
-or module unloading is disabled
-(see
-.IR /proc/sys/kernel/modules_disabled
-in
-.BR proc (5)).
-.TP
-.B EWOULDBLOCK
-Other modules depend on this module;
-or,
-.BR O_NONBLOCK
-was specified in
-.IR flags ,
-but the reference count of this module is nonzero and
-.B O_TRUNC
-was not specified in
-.IR flags .
-.SH "CONFORMING TO"
-.BR delete_module ()
-is Linux-specific.
-.SH NOTES
-Glibc does not provide a wrapper for this system call; call it using
-.BR syscall (2).
+You might want to note that the 2.4 syscall can be detected by calling
+query_module(): 2.6 and above give ENOSYS.
 
-See the Linux kernel source file
-.I include/linux/module.h
-for some useful background information.
-
-.SS Linux 2.4 and earlier
-In Linux 2.4 and earlier, the system call took only one argument:
-
-.BI "   int delete_module(const char *" name );
-
-If
-.I name
-is NULL, all unused modules marked auto-clean are removed.
-
-Some further details of differences in the behavior of
-.BR delete_module ()
-in Linux 2.4 and earlier are
-.I not
-currently explained in this manual page.
-.SH "SEE ALSO"
-.BR create_module (2),
-.BR init_module (2),
-.BR query_module (2),
-.BR rmmod (8)
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Cheers,
+Rusty.
