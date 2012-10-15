@@ -1,399 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Request for review] Revised delete_module(2) manual page
-Date: Fri, 12 Oct 2012 10:47:04 +0200
-Message-ID: <CAKgNAkib2RZaHWP9bM0hC62=Nm5sBisQf_D9BAKNomjEPvCWbA@mail.gmail.com>
-References: <CAKgNAkgp1er3-3nvge9_aVObuuxBatGRur8DtiTzyWK4w+4hrA@mail.gmail.com>
- <87txu17lss.fsf@rustcorp.com.au>
+Subject: Re: [PATCH] small improvement for ddp.7
+Date: Mon, 15 Oct 2012 10:21:57 +0200
+Message-ID: <CAKgNAkiyF4KN4JWHb_o_8BAxRFi0JYpfW232YA650K_i08uiLA@mail.gmail.com>
+References: <20121007113957.6c52aed1@keeper.home.local>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=e89a8f502ff8a7bde004cbd8bc3b
+Content-Type: text/plain; charset=KOI8-R
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87txu17lss.fsf-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+In-Reply-To: <20121007113957.6c52aed1-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
-Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lucas De Marchi <lucas.demarchi-Y3ZbgMPKUGA34EUeqzHoZw@public.gmane.org>, Jon Masters <jonathan-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---e89a8f502ff8a7bde004cbd8bc3b
-Content-Type: text/plain; charset=ISO-8859-1
+Thanks Yuri. Applied.
 
-Hi Rusty,
-
-Thanks for taking a look at this page. In the light of your comments,
-I've substantially reworked the page, and further review would not go
-amiss, in case I made a misstep along the way.
-
-On Thu, Oct 11, 2012 at 5:02 AM, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org> wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+On Sun, Oct 7, 2012 at 9:39 AM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
+> Hello.
 >
->> Hello Kees, Rusty,
->>
->> The current delete_module(2) page is severely out of date (basically,
->> its content corresponds to 2.4 days, and was even pretty thin in
->> covering that). So, I took a shot at revising the page to Linux 2.6+
->> reality. Would it be possible that you could review it?
+> --- man-pages-git/man7/ddp.7    2012-04-29 11:15:54.997831519 +0400
+> +++ /tmp/ddp.7  2012-10-07 11:38:42.653267088 +0400
+> @@ -206,7 +206,7 @@
+>  .B EPERM
+>  User doesn't have permission to set high priority,
+>  make a configuration change,
+> -or send signals to the requested process or group,
+> +or send signals to the requested process or group.
+>  .TP
+>  .B EPIPE
+>  The connection was unexpectedly closed or shut down by the other end.
 >
-> OK.  Main suggestion is that I discussed with Lucas removing the
-> !O_NONBLOCK case.  It's not supported by modprobe -r, and almost
-> unheard-of for rmmod (it's --wait).
+> --
+> Best Regards,
+> Yuri Kozlov
 >
-> In practice, people want the unload-or-fail semantics, or the
-> force-unload semantics.
-
-Okay -- I've substantially reworked the page to reflect these idea.
-
->> Otherwise, by default,
->> .BR delete_module ()
->> marks a module so that no new references are permitted.
->> If the module's reference count
->> (i.e., the number of processes currently using the module) is nonzero,
->> it then places the caller in an uninterruptible sleep
->> state until all reference count is zero,
->> at which point the call unblocks.
->> When the reference count reaches zero, the module is unloaded.
->
-> So this should be inverted:
->
->         Otherwise (assuming O_NONBLOCK, see flags below), if the
->         module's reference count (i.e., the number of processes
->         currently using the module) is nonzero, the call fails.
-
-Got it. See my reworked text.
-
-[...]
-
-> NOTES:
->
-> If O_NONBLOCK is not set, then the kernel may enter uninterruptible
-> sleep until the module reference count reaches zero.  This is not
-> generally desirable, so this flag may be compulsory in future kernel
-> configurations.
-
-I've added some text under NOTES.
-
-Okay, below (and attached) is the new version of the page. Let me know
-of any concerns.
-
-Cheers,
-
-Michael
 
 
-.\" Copyright (C) 2012 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH DELETE_MODULE 2 2012-10-12 "Linux" "Linux Programmer's Manual"
-.SH NAME
-delete_module \- unload a kernel module
-.SH SYNOPSIS
-.nf
-.BI "int delete_module(const char *" name ", int " flags );
-.fi
-
-.IR Note :
-There is no glibc wrapper for this system call; see NOTES.
-.SH DESCRIPTION
-The
-.BR delete_module ()
-system call attempts to remove the unused loadable module entry
-identified by
-.IR name .
-If the module has an
-.I exit
-function, then that function is executed before unloading the module.
-The
-.IR flags
-argument is used to modify the behavior of the system call,
-as described below.
-This system call requires privilege.
-
-Module removal is attempted according to the following rules:
-.IP 1. 4
-If there are other loaded modules that depend on
-(i.e., refer to symbols defined in) this module,
-then the call fails.
-.IP 2.
-Otherwise, if the reference count for the module
-(i.e., the  number  of processes currently using the module)
-is zero, then the module is immediately unloaded.
-.IP 3.
-If a module has a nonzero reference count,
-then the behavior depends on the bits set in
-.IR flags .
-In normal usage (see NOTES), the
-.BR O_NONBLOCK
-flag is always specified, and the
-.BR O_TRUNC
-flag may additionally be specified.
-.\"  	O_TRUNC == KMOD_REMOVE_FORCE in kmod library
-.\"  	O_NONBLOCK == KMOD_REMOVE_NOWAIT in kmod library
-The various combinations for
-.I flags
-have the following effect:
-.RS 4
-.TP
-.B flags == O_NONBLOCK
-The call returns immediately, with an error.
-.TP
-.B flags == (O_NONBLOCK | O_TRUNC)
-The module is unloaded immediately,
-regardless of whether it has a nonzero reference count.
-.TP
-.B flags == 0
-If
-.I flags
-does not specify
-.BR O_NONBLOCK ,
-the following steps occur:
-.RS
-.IP * 3
-The module is marked so that no new references are permitted.
-.IP *
-If the module's reference count is nonzero,
-the caller is placed in an uninterruptible sleep state
-.RB ( TASK_UNINTERRUPTIBLE )
-until the reference count is zero, at which point the call unblocks.
-.IP *
-The module is unloaded in the usual way.
-.RE
-.RE
-.PP
-The
-.B O_TRUNC
-flag has one further effect on the rules described above.
-By default,
-attempting to remove a module that has an
-.I init
-function but no
-.I exit
-function fails.
-However, if
-.BR O_TRUNC
-was specified, this requirement is bypassed.
-.PP
-Using the
-.B O_TRUNC
-flag is dangerous!
-If the kernel was not built with
-.BR CONFIG_MODULE_FORCE_UNLOAD ,
-this flag is silently ignored.
-(Normally ,
-.BR CONFIG_MODULE_FORCE_UNLOAD
-is enabled.)
-Using this flag taints the kernel (TAINT_FORCED_RMMOD).
-.SH "RETURN VALUE"
-On success, zero is returned.
-On error, \-1 is returned and
-.I errno
-is set appropriately.
-.SH ERRORS
-.TP
-.B EBUSY
-The module is not "live"
-(i.e., it is still being initialized or is already marked for removal);
-or, the module has
-an
-.I init
-function but has no
-.I exit
-function, and
-.B O_TRUNC
-was not specified in
-.IR flags .
-
-.TP
-.B EFAULT
-.I name
-refers to a location outside the process's accessible address space.
-.TP
-.B ENOENT
-No module by that name exists.
-.TP
-.B EPERM
-The caller was not privileged
-(did not have the
-.B CAP_SYS_MODULE
-capability),
-or module unloading is disabled
-(see
-.IR /proc/sys/kernel/modules_disabled
-in
-.BR proc (5)).
-.TP
-.B EWOULDBLOCK
-Other modules depend on this module;
-or,
-.BR O_NONBLOCK
-was specified in
-.IR flags ,
-but the reference count of this module is nonzero and
-.B O_TRUNC
-was not specified in
-.IR flags .
-.SH "CONFORMING TO"
-.BR delete_module ()
-is Linux-specific.
-.SH NOTES
-Glibc does not provide a wrapper for this system call; call it using
-.BR syscall (2).
-
-The unininterruptible sleep that may occur if
-.BR O_NONBLOCK
-is omitted from
-.IR flags
-is considered undesirable, because the sleeping process is left
-in an unkillable state.
-As at Linux 3.7, specifying
-.BR O_NONBLOCK
-is optional, but in future kernels it is likely to become mandatory.
-.SS Linux 2.4 and earlier
-In Linux 2.4 and earlier, the system call took only one argument:
-
-.BI "   int delete_module(const char *" name );
-
-If
-.I name
-is NULL, all unused modules marked auto-clean are removed.
-
-Some further details of differences in the behavior of
-.BR delete_module ()
-in Linux 2.4 and earlier are
-.I not
-currently explained in this manual page.
-.SH "SEE ALSO"
-.BR create_module (2),
-.BR init_module (2),
-.BR query_module (2),
-.BR lsmod (8),
-.BR rmmod (8)
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
-
---e89a8f502ff8a7bde004cbd8bc3b
-Content-Type: application/octet-stream; name="delete_module.2"
-Content-Disposition: attachment; filename="delete_module.2"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_h871ykcf0
-
-LlwiIENvcHlyaWdodCAoQykgMjAxMiBNaWNoYWVsIEtlcnJpc2sgPG10ay5tYW5wYWdlc0BnbWFp
-bC5jb20+Ci5cIgouXCIgUGVybWlzc2lvbiBpcyBncmFudGVkIHRvIG1ha2UgYW5kIGRpc3RyaWJ1
-dGUgdmVyYmF0aW0gY29waWVzIG9mIHRoaXMKLlwiIG1hbnVhbCBwcm92aWRlZCB0aGUgY29weXJp
-Z2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBhcmUKLlwiIHByZXNlcnZlZCBv
-biBhbGwgY29waWVzLgouXCIKLlwiIFBlcm1pc3Npb24gaXMgZ3JhbnRlZCB0byBjb3B5IGFuZCBk
-aXN0cmlidXRlIG1vZGlmaWVkIHZlcnNpb25zIG9mIHRoaXMKLlwiIG1hbnVhbCB1bmRlciB0aGUg
-Y29uZGl0aW9ucyBmb3IgdmVyYmF0aW0gY29weWluZywgcHJvdmlkZWQgdGhhdCB0aGUKLlwiIGVu
-dGlyZSByZXN1bHRpbmcgZGVyaXZlZCB3b3JrIGlzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJt
-cyBvZiBhCi5cIiBwZXJtaXNzaW9uIG5vdGljZSBpZGVudGljYWwgdG8gdGhpcyBvbmUuCi5cIgou
-XCIgU2luY2UgdGhlIExpbnV4IGtlcm5lbCBhbmQgbGlicmFyaWVzIGFyZSBjb25zdGFudGx5IGNo
-YW5naW5nLCB0aGlzCi5cIiBtYW51YWwgcGFnZSBtYXkgYmUgaW5jb3JyZWN0IG9yIG91dC1vZi1k
-YXRlLiAgVGhlIGF1dGhvcihzKSBhc3N1bWUgbm8KLlwiIHJlc3BvbnNpYmlsaXR5IGZvciBlcnJv
-cnMgb3Igb21pc3Npb25zLCBvciBmb3IgZGFtYWdlcyByZXN1bHRpbmcgZnJvbQouXCIgdGhlIHVz
-ZSBvZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbi4gIFRoZSBhdXRob3IocykgbWF5
-IG5vdAouXCIgaGF2ZSB0YWtlbiB0aGUgc2FtZSBsZXZlbCBvZiBjYXJlIGluIHRoZSBwcm9kdWN0
-aW9uIG9mIHRoaXMgbWFudWFsLAouXCIgd2hpY2ggaXMgbGljZW5zZWQgZnJlZSBvZiBjaGFyZ2Us
-IGFzIHRoZXkgbWlnaHQgd2hlbiB3b3JraW5nCi5cIiBwcm9mZXNzaW9uYWxseS4KLlwiCi5cIiBG
-b3JtYXR0ZWQgb3IgcHJvY2Vzc2VkIHZlcnNpb25zIG9mIHRoaXMgbWFudWFsLCBpZiB1bmFjY29t
-cGFuaWVkIGJ5Ci5cIiB0aGUgc291cmNlLCBtdXN0IGFja25vd2xlZGdlIHRoZSBjb3B5cmlnaHQg
-YW5kIGF1dGhvcnMgb2YgdGhpcyB3b3JrLgouXCIKLlRIIERFTEVURV9NT0RVTEUgMiAyMDEyLTEw
-LTEyICJMaW51eCIgIkxpbnV4IFByb2dyYW1tZXIncyBNYW51YWwiCi5TSCBOQU1FCmRlbGV0ZV9t
-b2R1bGUgXC0gdW5sb2FkIGEga2VybmVsIG1vZHVsZQouU0ggU1lOT1BTSVMKLm5mCi5CSSAiaW50
-IGRlbGV0ZV9tb2R1bGUoY29uc3QgY2hhciAqIiBuYW1lICIsIGludCAiIGZsYWdzICk7Ci5maQoK
-LklSIE5vdGUgOgpUaGVyZSBpcyBubyBnbGliYyB3cmFwcGVyIGZvciB0aGlzIHN5c3RlbSBjYWxs
-OyBzZWUgTk9URVMuCi5TSCBERVNDUklQVElPTgpUaGUKLkJSIGRlbGV0ZV9tb2R1bGUgKCkKc3lz
-dGVtIGNhbGwgYXR0ZW1wdHMgdG8gcmVtb3ZlIHRoZSB1bnVzZWQgbG9hZGFibGUgbW9kdWxlIGVu
-dHJ5CmlkZW50aWZpZWQgYnkKLklSIG5hbWUgLgpJZiB0aGUgbW9kdWxlIGhhcyBhbgouSSBleGl0
-CmZ1bmN0aW9uLCB0aGVuIHRoYXQgZnVuY3Rpb24gaXMgZXhlY3V0ZWQgYmVmb3JlIHVubG9hZGlu
-ZyB0aGUgbW9kdWxlLgpUaGUKLklSIGZsYWdzCmFyZ3VtZW50IGlzIHVzZWQgdG8gbW9kaWZ5IHRo
-ZSBiZWhhdmlvciBvZiB0aGUgc3lzdGVtIGNhbGwsCmFzIGRlc2NyaWJlZCBiZWxvdy4KVGhpcyBz
-eXN0ZW0gY2FsbCByZXF1aXJlcyBwcml2aWxlZ2UuCgpNb2R1bGUgcmVtb3ZhbCBpcyBhdHRlbXB0
-ZWQgYWNjb3JkaW5nIHRvIHRoZSBmb2xsb3dpbmcgcnVsZXM6Ci5JUCAxLiA0CklmIHRoZXJlIGFy
-ZSBvdGhlciBsb2FkZWQgbW9kdWxlcyB0aGF0IGRlcGVuZCBvbgooaS5lLiwgcmVmZXIgdG8gc3lt
-Ym9scyBkZWZpbmVkIGluKSB0aGlzIG1vZHVsZSwKdGhlbiB0aGUgY2FsbCBmYWlscy4KLklQIDIu
-Ck90aGVyd2lzZSwgaWYgdGhlIHJlZmVyZW5jZSBjb3VudCBmb3IgdGhlIG1vZHVsZQooaS5lLiwg
-dGhlICBudW1iZXIgIG9mIHByb2Nlc3NlcyBjdXJyZW50bHkgdXNpbmcgdGhlIG1vZHVsZSkKaXMg
-emVybywgdGhlbiB0aGUgbW9kdWxlIGlzIGltbWVkaWF0ZWx5IHVubG9hZGVkLgouSVAgMy4KSWYg
-YSBtb2R1bGUgaGFzIGEgbm9uemVybyByZWZlcmVuY2UgY291bnQsCnRoZW4gdGhlIGJlaGF2aW9y
-IGRlcGVuZHMgb24gdGhlIGJpdHMgc2V0IGluCi5JUiBmbGFncyAuCkluIG5vcm1hbCB1c2FnZSAo
-c2VlIE5PVEVTKSwgdGhlCi5CUiBPX05PTkJMT0NLCmZsYWcgaXMgYWx3YXlzIHNwZWNpZmllZCwg
-YW5kIHRoZQouQlIgT19UUlVOQwpmbGFnIG1heSBhZGRpdGlvbmFsbHkgYmUgc3BlY2lmaWVkLgou
-XCIgIAlPX1RSVU5DID09IEtNT0RfUkVNT1ZFX0ZPUkNFIGluIGttb2QgbGlicmFyeQouXCIgIAlP
-X05PTkJMT0NLID09IEtNT0RfUkVNT1ZFX05PV0FJVCBpbiBrbW9kIGxpYnJhcnkKVGhlIHZhcmlv
-dXMgY29tYmluYXRpb25zIGZvcgouSSBmbGFncwpoYXZlIHRoZSBmb2xsb3dpbmcgZWZmZWN0Ogou
-UlMgNAouVFAKLkIgZmxhZ3MgPT0gT19OT05CTE9DSwpUaGUgY2FsbCByZXR1cm5zIGltbWVkaWF0
-ZWx5LCB3aXRoIGFuIGVycm9yLgouVFAKLkIgZmxhZ3MgPT0gKE9fTk9OQkxPQ0sgfCBPX1RSVU5D
-KQpUaGUgbW9kdWxlIGlzIHVubG9hZGVkIGltbWVkaWF0ZWx5LApyZWdhcmRsZXNzIG9mIHdoZXRo
-ZXIgaXQgaGFzIGEgbm9uemVybyByZWZlcmVuY2UgY291bnQuCi5UUAouQiBmbGFncyA9PSAwCklm
-Ci5JIGZsYWdzCmRvZXMgbm90IHNwZWNpZnkKLkJSIE9fTk9OQkxPQ0sgLAp0aGUgZm9sbG93aW5n
-IHN0ZXBzIG9jY3VyOgouUlMKLklQICogMwpUaGUgbW9kdWxlIGlzIG1hcmtlZCBzbyB0aGF0IG5v
-IG5ldyByZWZlcmVuY2VzIGFyZSBwZXJtaXR0ZWQuCi5JUCAqCklmIHRoZSBtb2R1bGUncyByZWZl
-cmVuY2UgY291bnQgaXMgbm9uemVybywKdGhlIGNhbGxlciBpcyBwbGFjZWQgaW4gYW4gdW5pbnRl
-cnJ1cHRpYmxlIHNsZWVwIHN0YXRlCi5SQiAoIFRBU0tfVU5JTlRFUlJVUFRJQkxFICkKdW50aWwg
-dGhlIHJlZmVyZW5jZSBjb3VudCBpcyB6ZXJvLCBhdCB3aGljaCBwb2ludCB0aGUgY2FsbCB1bmJs
-b2Nrcy4KLklQICoKVGhlIG1vZHVsZSBpcyB1bmxvYWRlZCBpbiB0aGUgdXN1YWwgd2F5LgouUkUK
-LlJFCi5QUApUaGUKLkIgT19UUlVOQwpmbGFnIGhhcyBvbmUgZnVydGhlciBlZmZlY3Qgb24gdGhl
-IHJ1bGVzIGRlc2NyaWJlZCBhYm92ZS4KQnkgZGVmYXVsdCwKYXR0ZW1wdGluZyB0byByZW1vdmUg
-YSBtb2R1bGUgdGhhdCBoYXMgYW4KLkkgaW5pdApmdW5jdGlvbiBidXQgbm8KLkkgZXhpdCAKZnVu
-Y3Rpb24gZmFpbHMuCkhvd2V2ZXIsIGlmCi5CUiBPX1RSVU5DCndhcyBzcGVjaWZpZWQsIHRoaXMg
-cmVxdWlyZW1lbnQgaXMgYnlwYXNzZWQuCi5QUApVc2luZyB0aGUgCi5CIE9fVFJVTkMKZmxhZyBp
-cyBkYW5nZXJvdXMhCklmIHRoZSBrZXJuZWwgd2FzIG5vdCBidWlsdCB3aXRoCi5CUiBDT05GSUdf
-TU9EVUxFX0ZPUkNFX1VOTE9BRCAsCnRoaXMgZmxhZyBpcyBzaWxlbnRseSBpZ25vcmVkLgooTm9y
-bWFsbHkgLAouQlIgQ09ORklHX01PRFVMRV9GT1JDRV9VTkxPQUQKaXMgZW5hYmxlZC4pClVzaW5n
-IHRoaXMgZmxhZyB0YWludHMgdGhlIGtlcm5lbCAoVEFJTlRfRk9SQ0VEX1JNTU9EKS4KLlNIICJS
-RVRVUk4gVkFMVUUiCk9uIHN1Y2Nlc3MsIHplcm8gaXMgcmV0dXJuZWQuCk9uIGVycm9yLCBcLTEg
-aXMgcmV0dXJuZWQgYW5kCi5JIGVycm5vCmlzIHNldCBhcHByb3ByaWF0ZWx5LgouU0ggRVJST1JT
-Ci5UUAouQiBFQlVTWQpUaGUgbW9kdWxlIGlzIG5vdCAibGl2ZSIKKGkuZS4sIGl0IGlzIHN0aWxs
-IGJlaW5nIGluaXRpYWxpemVkIG9yIGlzIGFscmVhZHkgbWFya2VkIGZvciByZW1vdmFsKTsKb3Is
-IHRoZSBtb2R1bGUgaGFzCmFuCi5JIGluaXQKZnVuY3Rpb24gYnV0IGhhcyBubwouSSBleGl0CmZ1
-bmN0aW9uLCBhbmQKLkIgT19UUlVOQwp3YXMgbm90IHNwZWNpZmllZCBpbgouSVIgZmxhZ3MgLgoK
-LlRQCi5CIEVGQVVMVAouSSBuYW1lCnJlZmVycyB0byBhIGxvY2F0aW9uIG91dHNpZGUgdGhlIHBy
-b2Nlc3MncyBhY2Nlc3NpYmxlIGFkZHJlc3Mgc3BhY2UuCi5UUAouQiBFTk9FTlQKTm8gbW9kdWxl
-IGJ5IHRoYXQgbmFtZSBleGlzdHMuCi5UUAouQiBFUEVSTQpUaGUgY2FsbGVyIHdhcyBub3QgcHJp
-dmlsZWdlZAooZGlkIG5vdCBoYXZlIHRoZQouQiBDQVBfU1lTX01PRFVMRQpjYXBhYmlsaXR5KSwK
-b3IgbW9kdWxlIHVubG9hZGluZyBpcyBkaXNhYmxlZAooc2VlCi5JUiAvcHJvYy9zeXMva2VybmVs
-L21vZHVsZXNfZGlzYWJsZWQKaW4KLkJSIHByb2MgKDUpKS4KLlRQCi5CIEVXT1VMREJMT0NLCk90
-aGVyIG1vZHVsZXMgZGVwZW5kIG9uIHRoaXMgbW9kdWxlOwpvciwKLkJSIE9fTk9OQkxPQ0sKd2Fz
-IHNwZWNpZmllZCBpbgouSVIgZmxhZ3MgLApidXQgdGhlIHJlZmVyZW5jZSBjb3VudCBvZiB0aGlz
-IG1vZHVsZSBpcyBub256ZXJvIGFuZCAKLkIgT19UUlVOQwp3YXMgbm90IHNwZWNpZmllZCBpbgou
-SVIgZmxhZ3MgLgouU0ggIkNPTkZPUk1JTkcgVE8iCi5CUiBkZWxldGVfbW9kdWxlICgpCmlzIExp
-bnV4LXNwZWNpZmljLgouU0ggTk9URVMKR2xpYmMgZG9lcyBub3QgcHJvdmlkZSBhIHdyYXBwZXIg
-Zm9yIHRoaXMgc3lzdGVtIGNhbGw7IGNhbGwgaXQgdXNpbmcKLkJSIHN5c2NhbGwgKDIpLgoKVGhl
-IHVuaW5pbnRlcnJ1cHRpYmxlIHNsZWVwIHRoYXQgbWF5IG9jY3VyIGlmCi5CUiBPX05PTkJMT0NL
-CmlzIG9taXR0ZWQgZnJvbQouSVIgZmxhZ3MKaXMgY29uc2lkZXJlZCB1bmRlc2lyYWJsZSwgYmVj
-YXVzZSB0aGUgc2xlZXBpbmcgcHJvY2VzcyBpcyBsZWZ0CmluIGFuIHVua2lsbGFibGUgc3RhdGUu
-CkFzIGF0IExpbnV4IDMuNywgc3BlY2lmeWluZwouQlIgT19OT05CTE9DSwppcyBvcHRpb25hbCwg
-YnV0IGluIGZ1dHVyZSBrZXJuZWxzIGl0IGlzIGxpa2VseSB0byBiZWNvbWUgbWFuZGF0b3J5Lgou
-U1MgTGludXggMi40IGFuZCBlYXJsaWVyCkluIExpbnV4IDIuNCBhbmQgZWFybGllciwgdGhlIHN5
-c3RlbSBjYWxsIHRvb2sgb25seSBvbmUgYXJndW1lbnQ6CgouQkkgIiAgIGludCBkZWxldGVfbW9k
-dWxlKGNvbnN0IGNoYXIgKiIgbmFtZSApOwoKSWYKLkkgbmFtZQppcyBOVUxMLCBhbGwgdW51c2Vk
-IG1vZHVsZXMgbWFya2VkIGF1dG8tY2xlYW4gYXJlIHJlbW92ZWQuCgpTb21lIGZ1cnRoZXIgZGV0
-YWlscyBvZiBkaWZmZXJlbmNlcyBpbiB0aGUgYmVoYXZpb3Igb2YKLkJSIGRlbGV0ZV9tb2R1bGUg
-KCkKaW4gTGludXggMi40IGFuZCBlYXJsaWVyIGFyZQouSSBub3QKY3VycmVudGx5IGV4cGxhaW5l
-ZCBpbiB0aGlzIG1hbnVhbCBwYWdlLgouU0ggIlNFRSBBTFNPIgouQlIgY3JlYXRlX21vZHVsZSAo
-MiksCi5CUiBpbml0X21vZHVsZSAoMiksCi5CUiBxdWVyeV9tb2R1bGUgKDIpLAouQlIgbHNtb2Qg
-KDgpLAouQlIgcm1tb2QgKDgpCg==
---e89a8f502ff8a7bde004cbd8bc3b--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
