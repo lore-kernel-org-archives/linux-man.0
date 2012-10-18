@@ -1,63 +1,36 @@
-From: Rusty Russell <rusty@rustcorp.com.au>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] init_module: update to modern interfaces
-Date: Thu, 18 Oct 2012 14:44:36 +1030
-Message-ID: <87fw5co1qr.fsf@rustcorp.com.au>
-References: <20120920232737.GA2953@www.outflux.net> <CAKgNAkheF8=ssrE=_JP-ApDP5zXeHSYVG+0x6Wfd6U28TcPSHQ@mail.gmail.com> <87wqyx7me7.fsf@rustcorp.com.au> <CAKgNAkiKajiFxjfBEadXBtD67ApyGEvCa+uoWm7iFBBm0gnshA@mail.gmail.com>
+Date: Thu, 18 Oct 2012 14:54:11 +0200
+Message-ID: <CAKgNAkiv6wNcaTHZJfQChym8oPBhykjCZ6das53rvGSPOMdn0g@mail.gmail.com>
+References: <20120920232737.GA2953@www.outflux.net> <CAKgNAkheF8=ssrE=_JP-ApDP5zXeHSYVG+0x6Wfd6U28TcPSHQ@mail.gmail.com>
+ <87wqyx7me7.fsf@rustcorp.com.au> <CAKgNAkiKajiFxjfBEadXBtD67ApyGEvCa+uoWm7iFBBm0gnshA@mail.gmail.com>
+ <87fw5co1qr.fsf@rustcorp.com.au>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkiKajiFxjfBEadXBtD67ApyGEvCa+uoWm7iFBBm0gnshA@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: Kees Cook <keescook@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-man <linux-man@vger.kernel.org>, Lucas De Marchi <lucas.demarchi@profusion.mobi>, Jon Masters <jonathan@jonmasters.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <87fw5co1qr.fsf-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lucas De Marchi <lucas.demarchi-Y3ZbgMPKUGA34EUeqzHoZw@public.gmane.org>, Jon Masters <jonathan-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
-> Hi Rusty,
+On Thu, Oct 18, 2012 at 6:14 AM, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+[...]
+>> In fact, the existing EBUSY text seems completely bogus. Should it not
+>> read something like
+>> "Timeout while trying to resolve a symbol reference by this module."?
 >
-> Thanks for the review! One open question below.
->
-> On Thu, Oct 11, 2012 at 4:50 AM, Rusty Russell <rusty@rustcorp.com.au> wrote:
->> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
->>> [CC widened, so that some more review might come in. Rusty?]
->>
->> Sure.
->>
->> Looks good. but:
->>
->>> .B EBUSY
->>> The module's initialization routine failed.
->>
->> Possibly.  You should mention that the individual module's
->> initialization routine can return other errors as appropriate.
->
-> Done!
->
-> In fact, the existing EBUSY text seems completely bogus. Should it not
-> read something like
-> "Timeout while trying to resolve a symbol reference by this module."?
+> Yes, indeed.
 
-Yes, indeed.
+Thanks for the confirmation, Rusty.
 
->>> .BR EINVAL " (Linux 2.4 and earlier)"
->>> Some
->>> .I image
->>> slot is filled in incorrectly,
->>> .I image\->name
->>> does not correspond to the original module name, some
->>> .I image\->deps
->>> entry does not correspond to a loaded module,
->>> or some other similar inconsistency.
->>> .TP
->>
->> Why document this?
->
-> Because the general approach in man-pages is to document past as well
-> as current behavior. Since there are few user-space customers of
-> init_module(), perhaps you are right that this is unnecessary. I
-> dropped it.
-
-It was just that you didn't refer to the old structure anywhere else...
-
-Thanks,
-Rusty.
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
