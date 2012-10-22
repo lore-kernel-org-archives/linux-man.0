@@ -1,39 +1,46 @@
-From: Kees Cook <keescook@chromium.org>
-Subject: Re: [RESEND][PATCH] prctl: update seccomp sections for mode 2 (BPF)
-Date: Mon, 22 Oct 2012 08:15:33 -0700
-Message-ID: <CAGXu5j+4e_NgSeUjSkFmewSzZLeiSVXcY0oCRxngmc83WWVKRg@mail.gmail.com>
-References: <20120920233700.GA3363@www.outflux.net>
-	<CAKgNAkiYpct9iHwVC38oOF4dRizCRu0v7gwbfv5sVV1gxomuKA@mail.gmail.com>
-	<CAKgNAkiS3KXB943RngX119Wwb8RTN_6i1uKRcDrr5+hn20J1qg@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: perf_event_open() manpage
+Date: Mon, 22 Oct 2012 23:18:40 +0200
+Message-ID: <CAKgNAkjKFiu2CPxq_eT5C_a2H0WKT_u_jX940=2xS9Smfkmgqg@mail.gmail.com>
+References: <alpine.DEB.2.02.1210221623340.19390@pianoman.cluster.toy> <alpine.DEB.2.02.1210221629560.29528@vincent-weaver-1.um.maine.edu>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-doc-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkiS3KXB943RngX119Wwb8RTN_6i1uKRcDrr5+hn20J1qg@mail.gmail.com>
-Sender: linux-doc-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wad@chromium.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.02.1210221629560.29528-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephane Eranian <eranian-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Oct 22, 2012 at 12:34 AM, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
-> Kees,
+Hi Vince.
+
+>> After you've done a (quick?) pass through, we can send any revised
+>> version you have out for wider comment. Sound okay?
 >
-> A couple of questions about SECCOMP_MODE_FILTER.
+> I've made a quick pass through and fixed some of the FIXME's.  In the
+> process I merged in some changes I had been working on since the last time
+> I submitted, but they were minor.
 >
-> I added some words that the arg3 is a pointer to 'struct fprog'. Can
-> you confirmn that's correct?
+> One of your FIXMEs was to add the PR_ASK_PERF_EVENT_* prctl() calls
+> to the prctl() manpage, but as far as I can tell this was already done.
 
-Correct. Good idea to add this detail.
+True. The thing was you had a couple of hanging mentions of these
+flags. I'll fix that.
 
-> If the CONFIG_SECCOMP_FILTER permits fork(), is the seccomp setting
-> inherited across fork()? Similar question for execve().
+> I'm ready to send things out for further comment if you are.
 
-Yes for both. Additionally, the filters are cumulative. (If the
-filters allows prctl, additional filters can be appended; they are run
-in order until the first non-allow result is seen.)
+Who do you propose as individuals and lists?. Ingo Molnar and Peter
+Zijlstra seem the obvious people to ask. I'm nor sure if there others
+who should be explicitly CCed (Stephane Eranian?). ANy other lists
+than linux-kernel?
 
--Kees
+I'll do some tweaking of the page and have a new version soon.
 
--- 
-Kees Cook
-Chrome OS Security
+Thanks,
+
+Michael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
