@@ -1,67 +1,39 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: PATCH: Change manpage of times(2) to recommend clock_gettime(2),
- not gettimeofday(2)
-Date: Mon, 22 Oct 2012 15:02:41 +0200
-Message-ID: <CAKgNAkhBdRrz92wZm-ETX7vTZoM5xeKgGVvKJ4SkG+a-3X-MQg@mail.gmail.com>
-References: <CA+kHd+d7WzVzCUbs2NA+9uVMGCeD9wgUMJ=h2WR1-8sb+e4DYQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Kees Cook <keescook@chromium.org>
+Subject: Re: [RESEND][PATCH] prctl: update seccomp sections for mode 2 (BPF)
+Date: Mon, 22 Oct 2012 08:15:33 -0700
+Message-ID: <CAGXu5j+4e_NgSeUjSkFmewSzZLeiSVXcY0oCRxngmc83WWVKRg@mail.gmail.com>
+References: <20120920233700.GA3363@www.outflux.net>
+	<CAKgNAkiYpct9iHwVC38oOF4dRizCRu0v7gwbfv5sVV1gxomuKA@mail.gmail.com>
+	<CAKgNAkiS3KXB943RngX119Wwb8RTN_6i1uKRcDrr5+hn20J1qg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+kHd+d7WzVzCUbs2NA+9uVMGCeD9wgUMJ=h2WR1-8sb+e4DYQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Habets <thomas-NmolrwyTDqqzQB+pC5nmwQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-doc-owner@vger.kernel.org>
+In-Reply-To: <CAKgNAkiS3KXB943RngX119Wwb8RTN_6i1uKRcDrr5+hn20J1qg@mail.gmail.com>
+Sender: linux-doc-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wad@chromium.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Thomas,
-
-On Sun, Oct 7, 2012 at 11:37 PM, Thomas Habets <thomas-NmolrwyTDqqzQB+pC5nmwQ@public.gmane.org> wrote:
-> Change manpage of times(2) to recommend clock_gettime(2), not gettimeofday(2)
+On Mon, Oct 22, 2012 at 12:34 AM, Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+> Kees,
 >
-> From times(2):
->   "To measure changes in elapsed time, use gettimeofday(2) instead."
+> A couple of questions about SECCOMP_MODE_FILTER.
 >
-> From gettimeofday(2):
->   "POSIX.1-2008 marks gettimeofday() as obsolete, recomending  the
->   use of clock_gettime(2) instead."
->
-> Some context, showing how use of gettimeofday() causes actual bugs
-> (also read comments):
-> http://blog.habets.pp.se/2010/09/gettimeofday-should-never-be-used-to-measure-time
+> I added some words that the arg3 is a pointer to 'struct fprog'. Can
+> you confirmn that's correct?
 
-Thanks! Applied.
+Correct. Good idea to add this detail.
 
-Cheers,
+> If the CONFIG_SECCOMP_FILTER permits fork(), is the seccomp setting
+> inherited across fork()? Similar question for execve().
 
-Michael
+Yes for both. Additionally, the filters are cumulative. (If the
+filters allows prctl, additional filters can be appended; they are run
+in order until the first non-allow result is seen.)
 
-
-> diff --git a/man2/times.2 b/man2/times.2
-> index a37874e..020103a 100644
-> --- a/man2/times.2
-> +++ b/man2/times.2
-> @@ -174,7 +174,7 @@ combined with the fact that the returned value may overflow
->  .IR clock_t ,
->  means that a portable application would be wise to avoid using this value.
->  To measure changes in elapsed time, use
-> -.BR gettimeofday (2)
-> +.BR clock_gettime (2)
->  instead.
->  .\" .PP
->  .\" On older systems the number of clock ticks per second is given
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-
+-Kees
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Kees Cook
+Chrome OS Security
