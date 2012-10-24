@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 47951] Add a README documenting the stable-rt process
-Date: Wed, 24 Oct 2012 21:51:00 +0000 (UTC)
-Message-ID: <20121024215100.2D80711FA37@bugzilla.kernel.org>
+Date: Wed, 24 Oct 2012 21:58:39 +0000 (UTC)
+Message-ID: <20121024215839.6C30C11FB3C@bugzilla.kernel.org>
 References: <bug-47951-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,24 +14,18 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=47951
 
 
-Frank Rowand <frank.rowand-mEdOJwZ7QcZBDgjK7y7TUQ@public.gmane.org> changed:
+Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |frank.rowand-mEdOJwZ7QcZBDgjK7y7TUQ@public.gmane.org
+             Status|NEW                         |RESOLVED
+         Resolution|                            |DOCUMENTED
 
 
 
 
---- Comment #1 from Frank Rowand <frank.rowand-mEdOJwZ7QcZBDgjK7y7TUQ@public.gmane.org>  2012-10-24 21:50:59 ---
-This information has been added to the README file at the root of each stable
-RT tree:
-
-  http://kernel.org/pub/linux/kernel/projects/rt/3.0/README
-
-  http://kernel.org/pub/linux/kernel/projects/rt/3.2/README
-
-  http://kernel.org/pub/linux/kernel/projects/rt/3.4/README
+--- Comment #2 from Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>  2012-10-24 21:58:39 ---
+Thanks, marking as RESOLVED.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
