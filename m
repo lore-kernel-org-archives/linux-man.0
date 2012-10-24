@@ -1,44 +1,47 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] getdomainname.2: point out it is related to NIS and not DNS
-Date: Tue, 23 Oct 2012 23:45:52 +0200
-Message-ID: <1351028752-10662-1-git-send-email-spaillard@debian.org>
+From: Lucas De Marchi <lucas.de.marchi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [Request for review] Revised delete_module(2) manual page
+Date: Wed, 24 Oct 2012 03:27:11 -0200
+Message-ID: <CAKi4VA+tW30=8c18kNXVrw+v2x9=kQEYoF7Yjck6C98wHpNs0A@mail.gmail.com>
+References: <CAKgNAkgp1er3-3nvge9_aVObuuxBatGRur8DtiTzyWK4w+4hrA@mail.gmail.com>
+ <87txu17lss.fsf@rustcorp.com.au> <CAKgNAkib2RZaHWP9bM0hC62=Nm5sBisQf_D9BAKNomjEPvCWbA@mail.gmail.com>
+ <CAKgNAkghLrh61FvxcuQ3xKfX7=o-PhV390RN+9Ni+3fgJzMFJA@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkghLrh61FvxcuQ3xKfX7=o-PhV390RN+9Ni+3fgJzMFJA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lucas De Marchi <lucas.demarchi-Y3ZbgMPKUGA34EUeqzHoZw@public.gmane.org>, Jon Masters <jonathan-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Reported-by: Lars Wirzenius <liw-X3B1VOXEql0@public.gmane.org>
-See http://bugs.debian.org/295635
----
- man2/getdomainname.2 |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hi Michael,
 
-diff --git a/man2/getdomainname.2 b/man2/getdomainname.2
-index 0e24b18..b0ee32c 100644
---- a/man2/getdomainname.2
-+++ b/man2/getdomainname.2
-@@ -28,7 +28,7 @@
- .\"
- .TH GETDOMAINNAME 2 2009-09-27 "Linux" "Linux Programmer's Manual"
- .SH NAME
--getdomainname, setdomainname \- get/set domain name
-+getdomainname, setdomainname \- get/set NIS domain name
- .SH SYNOPSIS
- .B #include <unistd.h>
- .sp
-@@ -49,7 +49,7 @@ _BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE\ <\ 500)
- .RE
- .ad
- .SH DESCRIPTION
--These functions are used to access or to change the domain name of the
-+These functions are used to access or to change the NIS domain name of the
- host system.
- 
- .BR setdomainname ()
--- 
-1.7.10.4
 
+On Sun, Oct 21, 2012 at 5:36 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Ping!
+>
+> Rusty (et al.) I'm pretty sure the new page text is okay, but I would
+> like someone knowledgeable to confirm.
+
+One more thing:
+
+> .SH "SEE ALSO"
+> .BR create_module (2),
+> .BR init_module (2),
+> .BR query_module (2),
+> .BR lsmod (8),
+> .BR rmmod (8)
+
+Shouldn't we remove the reference to query_module(2) and
+create_module(2)? They don't exist anymore (and I miss a bigger
+warning on their man pages).
+
+Last, I think there should be a ref here to modprobe (because of -r
+flag), not lsmod. The rest looks good.
+
+
+Lucas De Marchi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
