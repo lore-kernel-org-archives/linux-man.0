@@ -1,91 +1,95 @@
-From: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
-Subject: Re: [RFC 1/2] vmevent: Implement pressure attribute
-Date: Wed, 24 Oct 2012 19:23:21 -0700
-Message-ID: <20121025022321.GA8892@lizard>
+From: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [RFC v2 0/2] vmevent: A bit reworked pressure attribute + docs +
+ man page
+Date: Thu, 25 Oct 2012 15:40:09 +0900
+Message-ID: <20121025064009.GA15767@bbox>
 References: <20121022111928.GA12396@lizard>
- <20121022112149.GA29325@lizard>
- <alpine.LFD.2.02.1210241159590.13035@tux.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <alpine.LFD.2.02.1210241159590.13035-XMdqyYT0w3YmYvmMESoHnA@public.gmane.org>
+In-Reply-To: <20121022111928.GA12396@lizard>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Pekka,
+Hi Anton,
 
-Thanks for taking a look into this!
-
-On Wed, Oct 24, 2012 at 12:03:10PM +0300, Pekka Enberg wrote:
-> On Mon, 22 Oct 2012, Anton Vorontsov wrote:
-> > This patch introduces VMEVENT_ATTR_PRESSURE, the attribute reports Linux
-> > virtual memory management pressure. There are three discrete levels:
-> > 
-> > VMEVENT_PRESSURE_LOW: Notifies that the system is reclaiming memory for
-> > new allocations. Monitoring reclaiming activity might be useful for
-> > maintaining overall system's cache level.
-> > 
-> > VMEVENT_PRESSURE_MED: The system is experiencing medium memory pressure,
-> > there is some mild swapping activity. Upon this event applications may
-> > decide to free any resources that can be easily reconstructed or re-read
-> > from a disk.
+On Mon, Oct 22, 2012 at 04:19:28AM -0700, Anton Vorontsov wrote:
+> Hi all,
 > 
-> Nit:
+> So this is the second RFC. The main change is that I decided to go with
+> discrete levels of the pressure.
+
+I am very happy with that because I already have yelled it several time.
+
 > 
-> s/VMEVENT_PRESSURE_MED/VMEVENT_PRESSUDE_MEDIUM/
-
-Sure thing, will change.
-
-> Other than that, I'm OK with this. Mel and others, what are your thoughts 
-> on this?
+> When I started writing the man page, I had to describe the 'reclaimer
+> inefficiency index', and while doing this I realized that I'm describing
+> how the kernel is doing the memory management, which we try to avoid in
+> the vmevent. And applications don't really care about these details:
+> reclaimers, its inefficiency indexes, scanning window sizes, priority
+> levels, etc. -- it's all "not interesting", and purely kernel's stuff. So
+> I guess Mel Gorman was right, we need some sort of levels.
 > 
-> Anton, have you tested this with real world scenarios?
+> What applications (well, activity managers) are really interested in is
+> this:
+> 
+> 1. Do we we sacrifice resources for new memory allocations (e.g. files
+>    cache)?
+> 2. Does the new memory allocations' cost becomes too high, and the system
+>    hurts because of this?
+> 3. Are we about to OOM soon?
 
-Yup, I was mostly testing it on a desktop. I.e. in a KVM instance I was
-running a full fedora17 desktop w/ a lot of apps opened. The pressure
-index was pretty good in the sense that it was indeed reflecting the
-sluggishness in the system during swap activity. It's not ideal, i.e. the
-index might drop slightly for some time, but we usually interested in
-"above some value" threshold, so it should be fine.
+Good but I think 3 is never easy.
+But early notification would be better than late notification which can kill
+someone.
 
-The _LOW level is defined very strictly, and cannot be tuned anyhow. So
-it's very solid, and that's what we mostly use for Android.
+> 
+> And here are the answers:
+> 
+> 1. VMEVENT_PRESSURE_LOW
+> 2. VMEVENT_PRESSURE_MED
+> 3. VMEVENT_PRESSURE_OOM
+> 
+> There is no "high" pressure, since I really don't see any definition of
+> it, but it's possible to introduce new levels without breaking ABI. The
+> levels described in more details in the patches, and the stuff is still
+> tunable, but now via sysctls, not the vmevent_fd() call itself (i.e. we
+> don't need to rebuild applications to adjust window size or other mm
+> "details").
+> 
+> What I couldn't fix in this RFC is making vmevent_{scanned,reclaimed}
+> stuff per-CPU (there's a comment describing the problem with this). But I
+> made it lockless and tried to make it very lightweight (plus I moved the
+> vmevent_pressure() call to a more "cold" path).
 
-The _OOM level is also defined quite strict, so from the API point of
-view, it's also solid, and should not be a problem.
+Your description doesn't include why we need new vmevent_fd(2).
+Of course, it's very flexible and potential to add new VM knob easily but
+the thing we is about to use now is only VMEVENT_ATTR_PRESSURE.
+Is there any other use cases for swap or free? or potential user?
+Adding vmevent_fd without them is rather overkill.
 
-Although the problem with _OOM is delivering the event in time (i.e. we
-must be quick in predicting it, before OOMK triggers). Today the patch has
-a shortcut for _OOM level: we send _OOM notification when reclaimer's
-priority is below empirically found value '3' (we might make it tunable
-via sysctl too, but that would expose another mm detail -- although sysctl
-sounds not that bad as exposing something in the C API; we have plenty of
-mm knobs in /proc/sys/vm/ already).
+And I want to avoid timer-base polling of vmevent if possbile.
+mem_notify of KOSAKI doesn't use such timer.
 
-The real tunable is _MED level, and this should be tuned based on the
-desired system's behaviour that I described in more detail in this long
-post: http://lkml.org/lkml/2012/10/7/29.
+I don't object but we need rationale for adding new system call which should
+be maintained forever once we add it.
 
-Based on my observations, I wouldn't say that we have plenty of room to
-tune the value, though. Usual swapping activity causes index to rise to
-say to 30%, and when the system can't keep up, it raises to 50..90 (but we
-still have plenty of swap space, so the system is far away from OOM,
-although it is thrashing. Ideally I'd prefer to not have any sysctl, but I
-believe _MED level is really based on user's definition of "medium".
+> 
+> Thanks,
+> Anton.
+> 
+> --
+> To unsubscribe, send a message with 'unsubscribe linux-mm' in
+> the body to majordomo-Bw31MaZKKs0EbZ0PF+XxCw@public.gmane.org  For more info on Linux MM,
+> see: http://www.linux-mm.org/ .
+> Don't email: <a href=mailto:"dont-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org"> email-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org </a>
 
-> How does it stack up against Android's low memory killer, for example?
-
-The LMK driver is effectively using what we call _LOW pressure
-notifications here, so by definition it is enough to build a full
-replacement for the in-kernel LMK using just the _LOW level. But in the
-future, we might want to use _MED as well, e.g. kill unneeded services
-based not on the cache level, but based on the pressure.
-
-Thanks,
-Anton.
+-- 
+Kind regards,
+Minchan Kim
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
