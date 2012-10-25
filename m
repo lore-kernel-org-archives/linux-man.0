@@ -1,44 +1,91 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] resolv.conf.5: document IPv6 format for nameserver
-Date: Thu, 25 Oct 2012 02:15:51 +0200
-Message-ID: <1351124151-26798-1-git-send-email-spaillard@debian.org>
-References: <20121025001411.GF7609@glenfiddich.mraw.org>
+From: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+Subject: Re: [RFC 1/2] vmevent: Implement pressure attribute
+Date: Wed, 24 Oct 2012 19:23:21 -0700
+Message-ID: <20121025022321.GA8892@lizard>
+References: <20121022111928.GA12396@lizard>
+ <20121022112149.GA29325@lizard>
+ <alpine.LFD.2.02.1210241159590.13035@tux.localdomain>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20121025001411.GF7609-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LFD.2.02.1210241159590.13035-XMdqyYT0w3YmYvmMESoHnA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: 610036-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Note this format is specified by RFC2373 and implemented in inet_pton().
+Hello Pekka,
 
-See http://bugs.debian.org/610036
-Reported-by: Witold Baryluk <baryluk-W6Hso+/wx31C2Nf1M/Lcnw@public.gmane.org>
----
- man5/resolv.conf.5 |    7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Thanks for taking a look into this!
 
-diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-index e82ea72..fad39b5 100644
---- a/man5/resolv.conf.5
-+++ b/man5/resolv.conf.5
-@@ -41,9 +41,10 @@ and the domain search path is constructed from the domain name.
- .LP
- The different configuration options are:
- .TP
--\fBnameserver\fP Name server IP address
--Internet address (in dot notation) of a name server
--that the resolver should query.
-+\fBnameserver\fP Name server address
-+that the resolver should query, either
-+an IPv4 address (in dot notation),
-+or an IPv6 address in colon (and possibly dot) notation as per RFC2373.
- Up to
- .B MAXNS
- (currently 3, see \fI<resolv.h>\fP) name servers may be listed,
--- 
-1.7.10.4
+On Wed, Oct 24, 2012 at 12:03:10PM +0300, Pekka Enberg wrote:
+> On Mon, 22 Oct 2012, Anton Vorontsov wrote:
+> > This patch introduces VMEVENT_ATTR_PRESSURE, the attribute reports Linux
+> > virtual memory management pressure. There are three discrete levels:
+> > 
+> > VMEVENT_PRESSURE_LOW: Notifies that the system is reclaiming memory for
+> > new allocations. Monitoring reclaiming activity might be useful for
+> > maintaining overall system's cache level.
+> > 
+> > VMEVENT_PRESSURE_MED: The system is experiencing medium memory pressure,
+> > there is some mild swapping activity. Upon this event applications may
+> > decide to free any resources that can be easily reconstructed or re-read
+> > from a disk.
+> 
+> Nit:
+> 
+> s/VMEVENT_PRESSURE_MED/VMEVENT_PRESSUDE_MEDIUM/
 
+Sure thing, will change.
+
+> Other than that, I'm OK with this. Mel and others, what are your thoughts 
+> on this?
+> 
+> Anton, have you tested this with real world scenarios?
+
+Yup, I was mostly testing it on a desktop. I.e. in a KVM instance I was
+running a full fedora17 desktop w/ a lot of apps opened. The pressure
+index was pretty good in the sense that it was indeed reflecting the
+sluggishness in the system during swap activity. It's not ideal, i.e. the
+index might drop slightly for some time, but we usually interested in
+"above some value" threshold, so it should be fine.
+
+The _LOW level is defined very strictly, and cannot be tuned anyhow. So
+it's very solid, and that's what we mostly use for Android.
+
+The _OOM level is also defined quite strict, so from the API point of
+view, it's also solid, and should not be a problem.
+
+Although the problem with _OOM is delivering the event in time (i.e. we
+must be quick in predicting it, before OOMK triggers). Today the patch has
+a shortcut for _OOM level: we send _OOM notification when reclaimer's
+priority is below empirically found value '3' (we might make it tunable
+via sysctl too, but that would expose another mm detail -- although sysctl
+sounds not that bad as exposing something in the C API; we have plenty of
+mm knobs in /proc/sys/vm/ already).
+
+The real tunable is _MED level, and this should be tuned based on the
+desired system's behaviour that I described in more detail in this long
+post: http://lkml.org/lkml/2012/10/7/29.
+
+Based on my observations, I wouldn't say that we have plenty of room to
+tune the value, though. Usual swapping activity causes index to rise to
+say to 30%, and when the system can't keep up, it raises to 50..90 (but we
+still have plenty of swap space, so the system is far away from OOM,
+although it is thrashing. Ideally I'd prefer to not have any sysctl, but I
+believe _MED level is really based on user's definition of "medium".
+
+> How does it stack up against Android's low memory killer, for example?
+
+The LMK driver is effectively using what we call _LOW pressure
+notifications here, so by definition it is enough to build a full
+replacement for the in-kernel LMK using just the _LOW level. But in the
+future, we might want to use _MED as well, e.g. kill unneeded services
+based not on the cache level, but based on the pressure.
+
+Thanks,
+Anton.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
