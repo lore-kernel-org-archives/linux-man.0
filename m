@@ -1,177 +1,185 @@
-From: Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Bug#28702: pthread_setname_np(3) missing man page
-Date: Thu, 25 Oct 2012 13:54:41 -0400
-Message-ID: <CAMNJgjLgNe61yEuQzah3s2znd3nLyB_k71OpU=ntx+oq30RfHQ@mail.gmail.com>
+From: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [RFC v2 0/2] vmevent: A bit reworked pressure attribute + docs +
+ man page
+Date: Fri, 26 Oct 2012 11:37:20 +0900
+Message-ID: <20121026023720.GE15767@bbox>
+References: <20121022111928.GA12396@lizard>
+ <20121025064009.GA15767@bbox>
+ <20121025090813.GA16078@lizard>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20121025090813.GA16078@lizard>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+On Thu, Oct 25, 2012 at 02:08:14AM -0700, Anton Vorontsov wrote:
+> Hello Minchan,
+> 
+> Thanks a lot for the email!
+> 
+> On Thu, Oct 25, 2012 at 03:40:09PM +0900, Minchan Kim wrote:
+> [...]
+> > > What applications (well, activity managers) are really interested in is
+> > > this:
+> > > 
+> > > 1. Do we we sacrifice resources for new memory allocations (e.g. files
+> > >    cache)?
+> > > 2. Does the new memory allocations' cost becomes too high, and the system
+> > >    hurts because of this?
+> > > 3. Are we about to OOM soon?
+> > 
+> > Good but I think 3 is never easy.
+> > But early notification would be better than late notification which can kill
+> > someone.
+> 
+> Well, basically these are two fixed (strictly defined) levels (low and
+> oom) + one flexible level (med), which meaning can be slightly tuned (but
+> we still have a meaningful definition for it).
+> 
 
-I have been working on the man pages (version 3.43) for the following APIs:
+I mean detection of "3) Are we about to OOM soon" isn't easy.
 
-pthread_setname_np
-pthread_getname_np
+> So, I guess it's a good start. :)
 
-Currently I'm sending the man page document for pthread_setname_np().
-Will submit pthread_getname_np() as soon as I get some review comments
-for this one.
+Absolutely!
 
-I looked at the following sources on the Internet, plus the
-glibc-2.16.0 source code, to gather information about these APIs.
+> 
+> > > And here are the answers:
+> > > 
+> > > 1. VMEVENT_PRESSURE_LOW
+> > > 2. VMEVENT_PRESSURE_MED
+> > > 3. VMEVENT_PRESSURE_OOM
+> > > 
+> > > There is no "high" pressure, since I really don't see any definition of
+> > > it, but it's possible to introduce new levels without breaking ABI. The
+> > > levels described in more details in the patches, and the stuff is still
+> > > tunable, but now via sysctls, not the vmevent_fd() call itself (i.e. we
+> > > don't need to rebuild applications to adjust window size or other mm
+> > > "details").
+> > > 
+> > > What I couldn't fix in this RFC is making vmevent_{scanned,reclaimed}
+> > > stuff per-CPU (there's a comment describing the problem with this). But I
+> > > made it lockless and tried to make it very lightweight (plus I moved the
+> > > vmevent_pressure() call to a more "cold" path).
+> > 
+> > Your description doesn't include why we need new vmevent_fd(2).
+> > Of course, it's very flexible and potential to add new VM knob easily but
+> > the thing we is about to use now is only VMEVENT_ATTR_PRESSURE.
+> > Is there any other use cases for swap or free? or potential user?
+> 
+> Number of idle pages by itself might be not that interesting, but
+> cache+idle level is quite interesting.
+> 
+> By definition, _MED happens when performance already degraded, slightly,
+> but still -- we can be swapping.
+> 
+> But _LOW notifications are coming when kernel is just reclaiming, so by
+> using _LOW notifications + watching for cache level we can very easily
+> predict the swapping activity long before we have even _MED pressure.
 
-http://publib.boulder.ibm.com/infocenter/iseries/v7r1m0/index.jsp?topic=%2Fapis%2Fpthread_setname_np.htm
-http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/V51B_HTML/MAN/MAN3/2477____.HTM
-http://www.qnx.com/developers/docs/6.3.2/neutrino/lib_ref/p/pthread_setname_np.html
-http://sourceware.org/ml/libc-help/2010-03/msg00018.html
-http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=4614a696bd1c3a9af3a08f0e5874830a85b889d4
+So, for seeing cache level, we need new vmevent_attr?
 
-Following is the source of the man page. Please review the same, and
-let me know your comments.
+> 
+> E.g. if idle+cache drops below amount of memory that userland can free,
+> we'd indeed like to start freeing stuff (this somewhat resembles current
+> logic that we have in the in-kernel LMK).
+> 
+> Sure, we can read and parse /proc/vmstat upon _LOW events (and that was my
+> backup plan), but reporting stuff together would make things much nicer.
 
-
-
-
-.\" Copyright (c) 2008 Linux Foundation, written by Chandan Apsangi
-.\"     <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\"
-.TH PTHREAD_SETNAME_NP 3 2012-10-24 "Linux" "Linux Programmer's Manual"
-.SH NAME
-pthread_setname_np \- Name a thread
-.SH SYNOPSIS
-.nf
-.B #include <pthread.h>
-
-.BI "int pthread_setname_np(pthread_t *" thread ", const char *" name ");
-.fi
-.sp
-Compile and link with \fI\-pthread\fP.
-.SH DESCRIPTION
-By default, all the threads created using
-.BR pthread_create (3)
-are unnamed. Using this API, users can specify a unique name for a
-thread, which can be particularly useful for debugging complicated
-multi-threaded applications. The thread name is a meaningful C
-language string, whose length is restricted to 16 characters. Anything
-greater than this would lead to an error.
-.SH RETURN VALUE
-On success,
-.BR pthread_setname_np ()
-returns 0;
-on error, it returns an error number.
-.SH ERRORS
-.\" FIXME . Find out and add other errors
-.TP
-.B ERANGE
-The length of the string specified as second argument exceeds the allowed limit.
-.TP
-.B EIO
-The name could not be written to the thread specific file due to some I/O error.
-
-.SH CONFORMING TO
-POSIX.1-2001.
-.SH NOTES
-This API internally writes to the thread specific comm file under
-.IR /proc
-filesystem:
-.IR /proc/self/task/<tid>/comm.
-.SH BUGS
-NO BUGS YET.
-.SH EXAMPLE
-The program below demonstrates the use of
-.BR pthread_setname_np (),
-as well as
-.BR pthread_getname_np ().
-
-.SS Program source
-\&
-.nf
-#include <pthread.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-void *threadfunc(void *parm)
-{
-	printf("In the thread.\n");
-	sleep(20); // allow main program to set the thread name
-	return NULL;
-}
-
-int main(int argc, char **argv)
-{
-	pthread_t thread;
-	int rc=0;
-	char theName[16];
-
-	memset(theName, 0, sizeof(theName));
-	printf("Creating an unnamed thread\n");
-	rc = pthread_create(&thread, NULL, threadfunc, NULL);
-	if(0 == rc)
-	{
-		rc = pthread_setname_np(thread, "THREADFOO");
-		if(0 == rc)
-		{
-			sleep(2);
-			rc = pthread_getname_np(thread, theName, 16);
-			if(0 == rc)
-			{
-				printf("The thread name is %s.", theName);
-			}
-			else
-			{
-				perror("pthread_getname_np");
-			}
-		}
-		else
-		{
-			perror("pthread_setname_np");
-		}
-		rc = pthread_join(thread, NULL);
-	}
-	if(0 != rc)
-	{
-		perror("pthread_create");
-	}
-	printf("Done");
-	return(rc);
-}
-.fi
-.SH SEE ALSO
-.ad l
-.nh
-.BR pthread_getname_np (3),
-.BR pthread_create (3),
-.BR pthreads (7)
+My concern is that user can imagine various scenario with vmstat and they might start to
+require new vmevent_attr in future and vmevent_fd will be bloated and mm guys should
+care of vmevent_vd whenever they add new vmstat. I don't like it. User can do it by
+just reading /proc/vmstat. So I support your backup plan.
 
 
+> 
+> Although, I somewhat doubt that it is OK to report raw numbers, so this
+> needs some thinking to develop more elegant solution.
 
-Thanks,
-Chandan
+Indeed.
+
+> 
+> Maybe it makes sense to implement something like PRESSURE_MILD with an
+> additional nr_pages threshold, which basically hits the kernel about how
+> many easily reclaimable pages userland has (that would be a part of our
+> definition for the mild pressure level). So, essentially it will be
+> 
+> 	if (pressure_index >= oom_level)
+> 		return PRESSURE_OOM;
+> 	else if (pressure_index >= med_level)
+> 		return PRESSURE_MEDIUM;
+> 	else if (userland_reclaimable_pages >= nr_reclaimable_pages)
+> 		return PRESSURE_MILD;
+> 	return PRESSURE_LOW;
+> 
+> I must admit I like the idea more than exposing NR_FREE and stuff, but the
+> scheme reminds me the blended attributes, which we abandoned. Although,
+> the definition sounds better now, and we seem to be doing it in the right
+> place.
+> 
+> And if we go this way, then sure, we won't need any other attributes, and
+> so we could make the API much simpler.
+
+That's what I want! If there isn't any user who really are willing to use it,
+let's drop it. Do not persuade with imaginary scenario because we should be 
+careful to introduce new ABI.
+
+> 
+> > Adding vmevent_fd without them is rather overkill.
+> > 
+> > And I want to avoid timer-base polling of vmevent if possbile.
+> > mem_notify of KOSAKI doesn't use such timer.
+> 
+> For pressure notifications we don't use the timers. We also read the
+
+Hmm, when I see the code, timer still works and can notify to user. No?
+
+> vmstat counters together with the pressure, so "pressure + counters"
+> effectively turns it into non-timer based polling. :)
+> 
+> But yes, hopefully we can get rid of the raw counters and timers, I don't
+> them it too.
+
+You and i are reaching on a conclusion, at least.
+
+> 
+> > I don't object but we need rationale for adding new system call which should
+> > be maintained forever once we add it.
+> 
+> We can do it via eventfd, or /dev/chardev (which has been discussed and
+> people didn't like it, IIRC), or signals (which also has been discussed
+> and there are problems with this approach as well).
+> 
+> I'm not sure why having a syscall is a big issue. If we're making eventfd
+> interface, then we'd need to maintain /sys/.../ ABI the same way as we
+> maintain the syscall. What's the difference? A dedicated syscall is just a
+
+No difference. What I want is just to remove unnecessary stuff in vmevent_fd
+and keep it as simple. If we do via /dev/chardev, I expect we can do necessary
+things for VM pressure. But if we can diet with vmevent_fd, It would be better.
+If so, maybe we have to change vmevent_fd to lowmem_fd or vmpressure_fd.
+
+> simpler interface, we don't need to mess with opening and passing things
+> through /sys/.../.
+> 
+> Personally I don't have any preference (except that I distaste chardev and
+> ioctls :), I just want to see pros and cons of all the solutions, and so
+> far the syscall seems like an easiest way? Anyway, I'm totally open to
+> changing it into whatever fits best.
+
+Yeb. Interface stuff isn't a big concern for low memory notification so I'm not
+against it stronlgy, too.
+
+Thanks, Anton.
+
+-- 
+Kind regards,
+Minchan Kim
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
