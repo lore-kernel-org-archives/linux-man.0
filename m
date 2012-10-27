@@ -1,113 +1,306 @@
-From: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
-Subject: Re: [RFC v2 0/2] vmevent: A bit reworked pressure attribute + docs +
- man page
-Date: Fri, 26 Oct 2012 18:02:15 -0700
-Message-ID: <20121027010215.GA9152@lizard>
-References: <20121022111928.GA12396@lizard>
- <20121025064009.GA15767@bbox>
- <20121025090813.GA16078@lizard>
- <20121026023720.GE15767@bbox>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Bug#28702: pthread_setname_np(3) missing man page
+Date: Sat, 27 Oct 2012 07:20:46 +0200
+Message-ID: <CAKgNAkjwOZPCDMQYAh_H8e7jpD1kwJz0mc1cnZttXt_7N9EyHQ@mail.gmail.com>
+References: <CAMNJgjLgNe61yEuQzah3s2znd3nLyB_k71OpU=ntx+oq30RfHQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20121026023720.GE15767@bbox>
+In-Reply-To: <CAMNJgjLgNe61yEuQzah3s2znd3nLyB_k71OpU=ntx+oq30RfHQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Oct 26, 2012 at 11:37:20AM +0900, Minchan Kim wrote:
-[...]
-> > > Of course, it's very flexible and potential to add new VM knob easily but
-> > > the thing we is about to use now is only VMEVENT_ATTR_PRESSURE.
-> > > Is there any other use cases for swap or free? or potential user?
-> > 
-> > Number of idle pages by itself might be not that interesting, but
-> > cache+idle level is quite interesting.
-> > 
-> > By definition, _MED happens when performance already degraded, slightly,
-> > but still -- we can be swapping.
-> > 
-> > But _LOW notifications are coming when kernel is just reclaiming, so by
-> > using _LOW notifications + watching for cache level we can very easily
-> > predict the swapping activity long before we have even _MED pressure.
-> 
-> So, for seeing cache level, we need new vmevent_attr?
+Hello Chandan,
 
-Hopefully, not. We're not interested in the raw values of the cache level,
-but what we want is to to tell the kernel how much "easily reclaimable
-pages" userland has, and get notified when kernel believes that it's good
-time for the userland is to help. I.e. this new _MILD level:
+Thanks for the proposed page. Comments below.
 
-> > Maybe it makes sense to implement something like PRESSURE_MILD with an
-> > additional nr_pages threshold, which basically hits the kernel about how
-> > many easily reclaimable pages userland has (that would be a part of our
-> > definition for the mild pressure level). So, essentially it will be
-> > 
-> > 	if (pressure_index >= oom_level)
-> > 		return PRESSURE_OOM;
-> > 	else if (pressure_index >= med_level)
-> > 		return PRESSURE_MEDIUM;
-> > 	else if (userland_reclaimable_pages >= nr_reclaimable_pages)
-> > 		return PRESSURE_MILD;
-> > 	return PRESSURE_LOW;
-> > 
-> > I must admit I like the idea more than exposing NR_FREE and stuff, but the
-> > scheme reminds me the blended attributes, which we abandoned. Although,
-> > the definition sounds better now, and we seem to be doing it in the right
-> > place.
-> > 
-> > And if we go this way, then sure, we won't need any other attributes, and
-> > so we could make the API much simpler.
-> 
-> That's what I want! If there isn't any user who really are willing to use it,
-> let's drop it. Do not persuade with imaginary scenario because we should be 
-> careful to introduce new ABI.
+On Thu, Oct 25, 2012 at 7:54 PM, Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi,
+>
+> I have been working on the man pages (version 3.43) for the following APIs:
+>
+> pthread_setname_np
+> pthread_getname_np
 
-Yeah, I think you're right. Let's make the vmevent_fd slim first. I won't
-even focus on the _MILD/_BALANCE level for now, we can do it later, and we
-always have the /proc/vmstat even if the _MILD turns out to be a bad idea.
+It would be best to integrate these into a single page please.
 
-Reading /proc/vmstat is a bit more overhead, but it's not that much at all
-(especially when we don't have to timer-poll the vmstat).
+> Currently I'm sending the man page document for pthread_setname_np().
+> Will submit pthread_getname_np() as soon as I get some review comments
+> for this one.
 
-> > > Adding vmevent_fd without them is rather overkill.
-> > > 
-> > > And I want to avoid timer-base polling of vmevent if possbile.
-> > > mem_notify of KOSAKI doesn't use such timer.
-> > 
-> > For pressure notifications we don't use the timers. We also read the
-> 
-> Hmm, when I see the code, timer still works and can notify to user. No?
+See above.
 
-Yes, I was mostly saying that it is technically not required anymore, but
-you're right, the code still fires the timer (it just runs needlessly for
-the pressure attr).
+> I looked at the following sources on the Internet, plus the
+> glibc-2.16.0 source code, to gather information about these APIs.
+>
+> http://publib.boulder.ibm.com/infocenter/iseries/v7r1m0/index.jsp?topic=%2Fapis%2Fpthread_setname_np.htm
+> http://h30097.www3.hp.com/docs/base_doc/DOCUMENTATION/V51B_HTML/MAN/MAN3/2477____.HTM
+> http://www.qnx.com/developers/docs/6.3.2/neutrino/lib_ref/p/pthread_setname_np.html
+> http://sourceware.org/ml/libc-help/2010-03/msg00018.html
+> http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=4614a696bd1c3a9af3a08f0e5874830a85b889d4
+>
+> Following is the source of the man page. Please review the same, and
+> let me know your comments.
+>
+> .\" Copyright (c) 2008 Linux Foundation, written by Chandan Apsangi
+> .\"     <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Bad wording on my side.
+Why the copyright assignment to LF?
 
-[..]
-> > We can do it via eventfd, or /dev/chardev (which has been discussed and
-> > people didn't like it, IIRC), or signals (which also has been discussed
-> > and there are problems with this approach as well).
-> > 
-> > I'm not sure why having a syscall is a big issue. If we're making eventfd
-> > interface, then we'd need to maintain /sys/.../ ABI the same way as we
-> > maintain the syscall. What's the difference? A dedicated syscall is just a
-> 
-> No difference. What I want is just to remove unnecessary stuff in vmevent_fd
-> and keep it as simple. If we do via /dev/chardev, I expect we can do necessary
-> things for VM pressure. But if we can diet with vmevent_fd, It would be better.
-> If so, maybe we have to change vmevent_fd to lowmem_fd or
-> vmpressure_fd.
+> .\"
+> .\" Permission is granted to make and distribute verbatim copies of this
+> .\" manual provided the copyright notice and this permission notice are
+> .\" preserved on all copies.
+> .\"
+> .\" Permission is granted to copy and distribute modified versions of this
+> .\" manual under the conditions for verbatim copying, provided that the
+> .\" entire resulting derived work is distributed under the terms of a
+> .\" permission notice identical to this one.
+> .\"
+> .\" Since the Linux kernel and libraries are constantly changing, this
+> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
+> .\" responsibility for errors or omissions, or for damages resulting from
+> .\" the use of the information contained herein.  The author(s) may not
+> .\" have taken the same level of care in the production of this manual,
+> .\" which is licensed free of charge, as they might when working
+> .\" professionally.
+> .\"
+> .\" Formatted or processed versions of this manual, if unaccompanied by
+> .\" the source, must acknowledge the copyright and authors of this work.
+> .\"
+> .TH PTHREAD_SETNAME_NP 3 2012-10-24 "Linux" "Linux Programmer's Manual"
+> .SH NAME
+> pthread_setname_np \- Name a thread
+> .SH SYNOPSIS
+> .nf
 
-Sure, then I'm starting the work to slim the API down, and we'll see how
-things are going to look after that.
+I think you need to add
 
-Thanks a lot!
+.B #define _GNU_SOURCE
 
-Anton.
+> .B #include <pthread.h>
+>
+> .BI "int pthread_setname_np(pthread_t *" thread ", const char *" name ");
+> .fi
+> .sp
+> Compile and link with \fI\-pthread\fP.
+> .SH DESCRIPTION
+> By default, all the threads created using
+> .BR pthread_create (3)
+> are unnamed.
+
+The preceding is not true. They all have the name of the program, initially.
+
+> Using this API,
+
+Using pthread_setname_np()
+
+> users can specify a unique name for a
+> thread, which can be particularly useful for debugging complicated
+> multi-threaded applications. The thread name is a meaningful C
+
+Have a read of man-pages(7). It has many useful tips. One of them is,
+start new sentences on new source lines please.
+
+> language string, whose length is restricted to 16 characters. Anything
+> greater than this would lead to an error.
+> .SH RETURN VALUE
+> On success,
+> .BR pthread_setname_np ()
+> returns 0;
+> on error, it returns an error number.
+> .SH ERRORS
+
+In the ERRORS section, it may be be best to use separate lists for the
+set and get functions.
+
+> .\" FIXME . Find out and add other errors
+
+I think it would be sufficient to say that if the function fails to
+open /proc/self/task/<TID>/comm, then the call may fail with one of
+the errors described in open(2).
+
+> .TP
+> .B ERANGE
+> The length of the string specified as second argument exceeds the allowed limit.
+> .TP
+> .B EIO
+> The name could not be written to the thread specific file due to some I/O error.
+>
+> .SH CONFORMING TO
+> POSIX.1-2001.
+
+The above is untrue. Hence the "_np" in the name. Rather, this is a
+nonstandard function, present in glibc and and a few other systems.
+
+> .SH NOTES
+> This API
+
+The pthread_setname_np() function.
+
+> internally writes to the thread specific comm file under
+> .IR /proc
+> filesystem:
+> .IR /proc/self/task/<tid>/comm.
+> .SH BUGS
+> NO BUGS YET.
+
+So, you can omit the BUGS section.
+
+> .SH EXAMPLE
+> The program below demonstrates the use of
+> .BR pthread_setname_np (),
+> as well as
+> .BR pthread_getname_np ().
+
+Please insert a sample run of the program here. See for example the
+eventfd(2) page.
+
+> .SS Program source
+
+In general, man-pages formats all code as per K&R style. You can use:
+
+indent -kr prog-name.c
+
+to make the job easy.
+
+> \&
+> .nf
+
+#define _GNU_SOURCE
+
+> #include <pthread.h>
+> #include <stdio.h>
+> #include <string.h>
+> #include <unistd.h>
+>
+> void *threadfunc(void *parm)
+
+Add "static" to this function declaration.
+
+> {
+>         printf("In the thread.\n");
+>         sleep(20); // allow main program to set the thread name
+>         return NULL;
+> }
+>
+> int main(int argc, char **argv)
+> {
+>         pthread_t thread;
+>         int rc=0;
+
+No need to initialize 'rc'
+
+#define NAMELEN 16
+
+and then use NAMELEN (or whatever you think is a decent name) instead
+of 16 in the rest of the code.
+
+>         char theName[16];
+>
+>         memset(theName, 0, sizeof(theName));
+
+Why the memset()?
+
+>         printf("Creating an unnamed thread\n");
+
+The above text is not quite right. See comments above.
+
+The "\n" should be "\\n". Try viewing the page to see why.
+
+>         rc = pthread_create(&thread, NULL, threadfunc, NULL);
+>         if(0 == rc)
+
+Better to please make this
+
+if (rc == 0)
+
+and so on in the rest of the code. I know why people do what you've
+done above, but it's less readable and gcc is smart enough that we
+don't need to do it.
+
+But there's a more general comment: the logic for handling errors is
+overly complicated. See below.
+
+>         {
+>                 rc = pthread_setname_np(thread, "THREADFOO");
+>                 if(0 == rc)
+
+Add space after "if" please
+
+>                 {
+>                         sleep(2);
+>                         rc = pthread_getname_np(thread, theName, 16);
+>                         if(0 == rc)
+>                         {
+>                                 printf("The thread name is %s.", theName);
+
+The '.' should be "\\n"
+
+>                         }
+>                         else
+>                         {
+>                                 perror("pthread_getname_np");
+
+On each error after these pthread calls:
+* The errno number is NOT in errno, so perror() will not do the right thing.
+* Terminate the program, rather than carry on.
+
+You may find defining a macro like this useful
+
+#define errExitEN(en, msg) \
+    			do { errno = en; perror(msg); \
+    			     exit(EXIT_FAILURE); } while (0)
+
+When you employ this, then you can eliminate your deeply nested 'if' statements.
+
+>                         }
+>                 }
+>                 else
+>                 {
+>                         perror("pthread_setname_np");
+>                 }
+>                 rc = pthread_join(thread, NULL);
+>         }
+>         if(0 != rc)
+>         {
+>                 perror("pthread_create");
+>         }
+>         printf("Done");
+
+Missing "\\n"
+
+>         return(rc);
+
+Better: exit(EXIT_SUCCESS)
+
+> }
+
+Please ensure that the code compiles with "cc -Wall"
+
+> .fi
+> .SH SEE ALSO
+> .ad l
+> .nh
+
+.BR prctl (2),
+
+> .BR pthread_getname_np (3),
+> .BR pthread_create (3),
+> .BR pthreads (7)
+
+Thanks,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
