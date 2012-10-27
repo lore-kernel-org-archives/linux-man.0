@@ -1,185 +1,113 @@
-From: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+From: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
 Subject: Re: [RFC v2 0/2] vmevent: A bit reworked pressure attribute + docs +
  man page
-Date: Fri, 26 Oct 2012 11:37:20 +0900
-Message-ID: <20121026023720.GE15767@bbox>
+Date: Fri, 26 Oct 2012 18:02:15 -0700
+Message-ID: <20121027010215.GA9152@lizard>
 References: <20121022111928.GA12396@lizard>
  <20121025064009.GA15767@bbox>
  <20121025090813.GA16078@lizard>
+ <20121026023720.GE15767@bbox>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20121025090813.GA16078@lizard>
+In-Reply-To: <20121026023720.GE15767@bbox>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+To: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Oct 25, 2012 at 02:08:14AM -0700, Anton Vorontsov wrote:
-> Hello Minchan,
-> 
-> Thanks a lot for the email!
-> 
-> On Thu, Oct 25, 2012 at 03:40:09PM +0900, Minchan Kim wrote:
-> [...]
-> > > What applications (well, activity managers) are really interested in is
-> > > this:
-> > > 
-> > > 1. Do we we sacrifice resources for new memory allocations (e.g. files
-> > >    cache)?
-> > > 2. Does the new memory allocations' cost becomes too high, and the system
-> > >    hurts because of this?
-> > > 3. Are we about to OOM soon?
+On Fri, Oct 26, 2012 at 11:37:20AM +0900, Minchan Kim wrote:
+[...]
+> > > Of course, it's very flexible and potential to add new VM knob easily but
+> > > the thing we is about to use now is only VMEVENT_ATTR_PRESSURE.
+> > > Is there any other use cases for swap or free? or potential user?
 > > 
-> > Good but I think 3 is never easy.
-> > But early notification would be better than late notification which can kill
-> > someone.
-> 
-> Well, basically these are two fixed (strictly defined) levels (low and
-> oom) + one flexible level (med), which meaning can be slightly tuned (but
-> we still have a meaningful definition for it).
-> 
-
-I mean detection of "3) Are we about to OOM soon" isn't easy.
-
-> So, I guess it's a good start. :)
-
-Absolutely!
-
-> 
-> > > And here are the answers:
-> > > 
-> > > 1. VMEVENT_PRESSURE_LOW
-> > > 2. VMEVENT_PRESSURE_MED
-> > > 3. VMEVENT_PRESSURE_OOM
-> > > 
-> > > There is no "high" pressure, since I really don't see any definition of
-> > > it, but it's possible to introduce new levels without breaking ABI. The
-> > > levels described in more details in the patches, and the stuff is still
-> > > tunable, but now via sysctls, not the vmevent_fd() call itself (i.e. we
-> > > don't need to rebuild applications to adjust window size or other mm
-> > > "details").
-> > > 
-> > > What I couldn't fix in this RFC is making vmevent_{scanned,reclaimed}
-> > > stuff per-CPU (there's a comment describing the problem with this). But I
-> > > made it lockless and tried to make it very lightweight (plus I moved the
-> > > vmevent_pressure() call to a more "cold" path).
+> > Number of idle pages by itself might be not that interesting, but
+> > cache+idle level is quite interesting.
 > > 
-> > Your description doesn't include why we need new vmevent_fd(2).
-> > Of course, it's very flexible and potential to add new VM knob easily but
-> > the thing we is about to use now is only VMEVENT_ATTR_PRESSURE.
-> > Is there any other use cases for swap or free? or potential user?
-> 
-> Number of idle pages by itself might be not that interesting, but
-> cache+idle level is quite interesting.
-> 
-> By definition, _MED happens when performance already degraded, slightly,
-> but still -- we can be swapping.
-> 
-> But _LOW notifications are coming when kernel is just reclaiming, so by
-> using _LOW notifications + watching for cache level we can very easily
-> predict the swapping activity long before we have even _MED pressure.
-
-So, for seeing cache level, we need new vmevent_attr?
-
-> 
-> E.g. if idle+cache drops below amount of memory that userland can free,
-> we'd indeed like to start freeing stuff (this somewhat resembles current
-> logic that we have in the in-kernel LMK).
-> 
-> Sure, we can read and parse /proc/vmstat upon _LOW events (and that was my
-> backup plan), but reporting stuff together would make things much nicer.
-
-My concern is that user can imagine various scenario with vmstat and they might start to
-require new vmevent_attr in future and vmevent_fd will be bloated and mm guys should
-care of vmevent_vd whenever they add new vmstat. I don't like it. User can do it by
-just reading /proc/vmstat. So I support your backup plan.
-
-
-> 
-> Although, I somewhat doubt that it is OK to report raw numbers, so this
-> needs some thinking to develop more elegant solution.
-
-Indeed.
-
-> 
-> Maybe it makes sense to implement something like PRESSURE_MILD with an
-> additional nr_pages threshold, which basically hits the kernel about how
-> many easily reclaimable pages userland has (that would be a part of our
-> definition for the mild pressure level). So, essentially it will be
-> 
-> 	if (pressure_index >= oom_level)
-> 		return PRESSURE_OOM;
-> 	else if (pressure_index >= med_level)
-> 		return PRESSURE_MEDIUM;
-> 	else if (userland_reclaimable_pages >= nr_reclaimable_pages)
-> 		return PRESSURE_MILD;
-> 	return PRESSURE_LOW;
-> 
-> I must admit I like the idea more than exposing NR_FREE and stuff, but the
-> scheme reminds me the blended attributes, which we abandoned. Although,
-> the definition sounds better now, and we seem to be doing it in the right
-> place.
-> 
-> And if we go this way, then sure, we won't need any other attributes, and
-> so we could make the API much simpler.
-
-That's what I want! If there isn't any user who really are willing to use it,
-let's drop it. Do not persuade with imaginary scenario because we should be 
-careful to introduce new ABI.
-
-> 
-> > Adding vmevent_fd without them is rather overkill.
+> > By definition, _MED happens when performance already degraded, slightly,
+> > but still -- we can be swapping.
 > > 
-> > And I want to avoid timer-base polling of vmevent if possbile.
-> > mem_notify of KOSAKI doesn't use such timer.
+> > But _LOW notifications are coming when kernel is just reclaiming, so by
+> > using _LOW notifications + watching for cache level we can very easily
+> > predict the swapping activity long before we have even _MED pressure.
 > 
-> For pressure notifications we don't use the timers. We also read the
+> So, for seeing cache level, we need new vmevent_attr?
 
-Hmm, when I see the code, timer still works and can notify to user. No?
+Hopefully, not. We're not interested in the raw values of the cache level,
+but what we want is to to tell the kernel how much "easily reclaimable
+pages" userland has, and get notified when kernel believes that it's good
+time for the userland is to help. I.e. this new _MILD level:
 
-> vmstat counters together with the pressure, so "pressure + counters"
-> effectively turns it into non-timer based polling. :)
+> > Maybe it makes sense to implement something like PRESSURE_MILD with an
+> > additional nr_pages threshold, which basically hits the kernel about how
+> > many easily reclaimable pages userland has (that would be a part of our
+> > definition for the mild pressure level). So, essentially it will be
+> > 
+> > 	if (pressure_index >= oom_level)
+> > 		return PRESSURE_OOM;
+> > 	else if (pressure_index >= med_level)
+> > 		return PRESSURE_MEDIUM;
+> > 	else if (userland_reclaimable_pages >= nr_reclaimable_pages)
+> > 		return PRESSURE_MILD;
+> > 	return PRESSURE_LOW;
+> > 
+> > I must admit I like the idea more than exposing NR_FREE and stuff, but the
+> > scheme reminds me the blended attributes, which we abandoned. Although,
+> > the definition sounds better now, and we seem to be doing it in the right
+> > place.
+> > 
+> > And if we go this way, then sure, we won't need any other attributes, and
+> > so we could make the API much simpler.
 > 
-> But yes, hopefully we can get rid of the raw counters and timers, I don't
-> them it too.
+> That's what I want! If there isn't any user who really are willing to use it,
+> let's drop it. Do not persuade with imaginary scenario because we should be 
+> careful to introduce new ABI.
 
-You and i are reaching on a conclusion, at least.
+Yeah, I think you're right. Let's make the vmevent_fd slim first. I won't
+even focus on the _MILD/_BALANCE level for now, we can do it later, and we
+always have the /proc/vmstat even if the _MILD turns out to be a bad idea.
 
+Reading /proc/vmstat is a bit more overhead, but it's not that much at all
+(especially when we don't have to timer-poll the vmstat).
+
+> > > Adding vmevent_fd without them is rather overkill.
+> > > 
+> > > And I want to avoid timer-base polling of vmevent if possbile.
+> > > mem_notify of KOSAKI doesn't use such timer.
+> > 
+> > For pressure notifications we don't use the timers. We also read the
 > 
-> > I don't object but we need rationale for adding new system call which should
-> > be maintained forever once we add it.
+> Hmm, when I see the code, timer still works and can notify to user. No?
+
+Yes, I was mostly saying that it is technically not required anymore, but
+you're right, the code still fires the timer (it just runs needlessly for
+the pressure attr).
+
+Bad wording on my side.
+
+[..]
+> > We can do it via eventfd, or /dev/chardev (which has been discussed and
+> > people didn't like it, IIRC), or signals (which also has been discussed
+> > and there are problems with this approach as well).
+> > 
+> > I'm not sure why having a syscall is a big issue. If we're making eventfd
+> > interface, then we'd need to maintain /sys/.../ ABI the same way as we
+> > maintain the syscall. What's the difference? A dedicated syscall is just a
 > 
-> We can do it via eventfd, or /dev/chardev (which has been discussed and
-> people didn't like it, IIRC), or signals (which also has been discussed
-> and there are problems with this approach as well).
-> 
-> I'm not sure why having a syscall is a big issue. If we're making eventfd
-> interface, then we'd need to maintain /sys/.../ ABI the same way as we
-> maintain the syscall. What's the difference? A dedicated syscall is just a
+> No difference. What I want is just to remove unnecessary stuff in vmevent_fd
+> and keep it as simple. If we do via /dev/chardev, I expect we can do necessary
+> things for VM pressure. But if we can diet with vmevent_fd, It would be better.
+> If so, maybe we have to change vmevent_fd to lowmem_fd or
+> vmpressure_fd.
 
-No difference. What I want is just to remove unnecessary stuff in vmevent_fd
-and keep it as simple. If we do via /dev/chardev, I expect we can do necessary
-things for VM pressure. But if we can diet with vmevent_fd, It would be better.
-If so, maybe we have to change vmevent_fd to lowmem_fd or vmpressure_fd.
+Sure, then I'm starting the work to slim the API down, and we'll see how
+things are going to look after that.
 
-> simpler interface, we don't need to mess with opening and passing things
-> through /sys/.../.
-> 
-> Personally I don't have any preference (except that I distaste chardev and
-> ioctls :), I just want to see pros and cons of all the solutions, and so
-> far the syscall seems like an easiest way? Anyway, I'm totally open to
-> changing it into whatever fits best.
+Thanks a lot!
 
-Yeb. Interface stuff isn't a big concern for low memory notification so I'm not
-against it stronlgy, too.
-
-Thanks, Anton.
-
--- 
-Kind regards,
-Minchan Kim
+Anton.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
