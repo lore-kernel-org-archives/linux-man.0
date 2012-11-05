@@ -1,101 +1,101 @@
-From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Subject: Re: veth.4
-Date: Sun, 04 Nov 2012 05:43:36 +0400
-Message-ID: <5095C848.9000501@parallels.com>
-References: <alpine.DEB.2.02.1211021413490.9880@localhost> <CAKgNAkjF-tO4X=REyfA=XG25s-SHfNwkCTmi4vXFbvQPWZZQyQ@mail.gmail.com> <alpine.DEB.2.02.1211032207190.3081@localhost> <87zk2ytdbu.fsf@xmission.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] proc.5: various fixes
+Date: Sun,  4 Nov 2012 22:57:55 -0400
+Message-ID: <1352084275-1568-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87zk2ytdbu.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: Tomas Pospisek <tpo-UQchlGytWBLoPl2ZpcX+cw@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/04/2012 04:35 AM, Eric W. Biederman wrote:
-> Tomas Pospisek <tpo-UQchlGytWBLoPl2ZpcX+cw@public.gmane.org> writes:
->=20
->> Hi again Michael, Pavel, Eric and mailing list
->>
->> (Cc: to Eric, Pavel and Linux Netdev List on behalf of Michael askin=
-g
->> for comment)
->>
->> Here's the revised veth(4) man page (the inline replies to Michael's
->> critique are following the man page):
->>
->> ********************************************************************
->> .\" Copyright (c) 2012 Tom=C3=A1=C5=A1 Posp=C3=AD=C5=A1ek (tpo_deb@s=
-ourcepole.ch),
->> .\"     Fri, 03 Nov 2012 22:35:33 +0100
->> .\"
->> .\" This is free documentation; you can redistribute it and/or
->> .\" modify it under the terms of the GNU General Public License as
->> .\" published by the Free Software Foundation; either version 2 of
->> .\" the License, or (at your option) any later version.
->> .\"
->> .\" The GNU General Public License's references to "object code"
->> .\" and "executables" are to be interpreted as the output of any
->> .\" document formatting or typesetting system, including
->> .\" intermediate and printed output.
->> .\"
->> .\" This manual is distributed in the hope that it will be useful,
->> .\" but WITHOUT ANY WARRANTY; without even the implied warranty of
->> .\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->> .\" GNU General Public License for more details.
->> .\"
->> .\" You should have received a copy of the GNU General Public
->> .\" License along with this manual; if not, write to the Free
->> .\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, M=
-A 02111,
->> .\" USA.
->> .\"
->> .\"
->> .TH veth 4 2012-11-02 "Linux" "Linux Programmer's Manual"
->> .SH NAME
->> veth \- Virtual Ethernet Device
->> .SH DESCRIPTION
->> The
->> .B veth
->> devices are virtual Ethernet devices.
->>
->> They can act as tunnels between network namespaces to create
->> a bridge to a physical network device in another namespace, but
->> can also be used as standalone network devices.
->=20
-> As far as understanding and using them I think this text is a bit wea=
-k.
-> Perhaps something like:
->=20
-> ip link add type veth creates a pair of directly connected ethernet
-> devices.   What is transmited on one device is immediately received o=
-n
-> the other device.  When either devices is down the link state of the
-> pair is down.  veth device pairs are useful for combining the network
-> facilities of the kernel together in interesting ways.  A particularl=
-y
-> interesting use case is to place one end of a veth pair in one networ=
-k
-> namespace and another end of the veth pair in another network namespa=
-ce
-> allowing communication between network namespaces.
+---
+ man5/proc.5 |   21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-Ack
+diff --git a/man5/proc.5 b/man5/proc.5
+index 88af7c5..0164ba6 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1414,13 +1414,13 @@ with various options; those dependencies are noted in the list.
+ .TP
+ .IR MemTotal " %lu"
+ Total usable RAM (i.e. physical RAM minus a few reserved
+-bits and the kernel binary code)
++bits and the kernel binary code).
+ .TP
+ .IR MemFree " %lu"
+ The sum of LowFree+HighFree.
+ .TP
+ .IR Buffers " %lu"
+-Relatively temporary storage for raw disk blocks
++Relatively temporary storage for raw disk blocks that
+ shouldn't get tremendously large (20MB or so).
+ .TP
+ .IR Cached " %lu"
+@@ -1431,9 +1431,9 @@ Doesn't include
+ .IR SwapCached " %lu"
+ Memory that once was swapped out, is swapped back in but
+ still also is in the swap file.
+-(Iy memory pressure memory is high, these pages 
++(If memory pressure is high, these pages 
+ don't need to be swapped out again because they are already
+-in the swapfile.
++in the swap file.
+ This saves I/O.)
+ .TP
+ .IR Active " %lu"
+@@ -1469,7 +1469,7 @@ It is more eligible to be reclaimed for other purposes.
+ .IR HighTotal " %lu"
+ (Starting with Linux 2.6.19, \fBCONFIG_HIGHMEM\fP is required.)
+ Total amount of highmem.
+-Highmem is all memory above ~860MB of physical memory
++Highmem is all memory above ~860MB of physical memory.
+ Highmem areas are for use by user-space programs,
+ or for the page cache.
+ The kernel must use tricks to access
+@@ -1486,7 +1486,7 @@ Lowmem is memory which can be used for everything that
+ highmem can be used for, but it is also available for the
+ kernel's use for its own data structures.
+ Among many other things,
+-it is where everything from the Slab is allocated.
++it is where everything from Slab is allocated.
+ Bad things happen when you're out of lowmem.
+ .TP
+ .IR LowFree " %lu
+@@ -1494,7 +1494,8 @@ Bad things happen when you're out of lowmem.
+ Amount of free lowmem.
+ .TP
+ .IR MmapCopy " %lu (since Linux 2.6.29)"
+-(\fBCONFIG_MMU is required.)
++.RB ( CONFIG_MMU
++is required.)
+ [To be documented.]
+ .TP
+ .IR SwapTotal " %lu"
+@@ -1564,9 +1565,9 @@ of swap with a
+ .I overcommit_ratio
+ of 30, this formula yields a
+ .I CommitLimit
+-of 7.3G.
++of 7.3GB.
+ For more details, see the memory overcommit documentation
+-in the kerenl source file
++in the kernel source file
+ .IR Documentation/vm/overcommit-accounting .
+ .TP
+ .IR Committed_AS " %lu"
+@@ -1582,7 +1583,7 @@ allocated for the entire 1GB.
+ This 1GB is memory which has been "committed" to by the VM
+ and can be used at any time by the allocating application.
+ With strict overcommit enabled on the system (mode 2
+-.IR /proc/sys/vm/overcommit__memory ),
++.IR /proc/sys/vm/overcommit_memory ),
+ allocations which would exceed the
+ .I CommitLimit
+ (detailed above) will not be permitted.
+-- 
+1.7.10.4
 
-> ethtool can be used to test if a networking device is a veth device,
-> and to find the peer network interface.
-
-This one requires clarification, I think. The ethtool will report you=20
-just and ifindex of the peer, and the caller can do something useful=20
-with it if the peer is still in the same net namespace as the original=20
-device. But how would you find the peer device in case it already sits=20
-in some other network namespace?
-
-> Eric
-
-Thanks,
-Pavel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
