@@ -1,46 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 50151] New: glibc 2.16 included a new function
- __ppc_get_timebase
-Date: Tue,  6 Nov 2012 12:33:46 +0000 (UTC)
-Message-ID: <bug-50151-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] init_module.2: ffix
+Date: Tue,  6 Nov 2012 10:15:48 -0400
+Message-ID: <1352211348-13619-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=50151
+---
+ man2/init_module.2 |   13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-           Summary: glibc 2.16 included a new function __ppc_get_timebase
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: tuliom-Igl6534fJ5VwFqzsTH5u/w@public.gmane.org
-        Regression: No
-
-
-Created an attachment (id=85661)
- --> (https://bugzilla.kernel.org/attachment.cgi?id=85661)
-Patch that adds the man-page for __ppc_get_timebase
-
-glibc 2.16 included a new function to read the Time Base Register on Power
-processors on the following commit:
-http://sourceware.org/git/?p=glibc.git;a=commit;h=d9dc34cd569bcfe714fe8c708e58c028106e8b2e
-
-The attached patch adds the new man-page and applies to the master branch.
-
+diff --git a/man2/init_module.2 b/man2/init_module.2
+index a924ec4..eab48ec 100644
+--- a/man2/init_module.2
++++ b/man2/init_module.2
+@@ -62,13 +62,20 @@ The kernel parses this string and initializes the specified
+ parameters.
+ Each of the parameter specifications has the form:
+ 
+-.RI "        " name [ =value [ ,value ...]]
++.RI "        " name [\c
++.BI = value\c
++.RB [ ,\c
++.IR value ...]]
+ 
+-The parameter name is one of those defined within the module using
++The parameter
++.I name
++is one of those defined within the module using
+ .IR module_param ()
+ (see the Linux kernel source file
+ .IR include/linux/moduleparam.h ).
+-The parameter value is optional in the case of
++The parameter
++.I value
++is optional in the case of
+ .I bool
+ and
+ .I invbool
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
