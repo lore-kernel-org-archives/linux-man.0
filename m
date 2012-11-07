@@ -1,67 +1,37 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] init_module.2: ffix
-Date: Wed, 7 Nov 2012 13:58:37 +0100
-Message-ID: <CAKgNAkj0=LpGAnJ9ZZi=959G3UVfry4HmJh4y7WNJss0eAsB1Q@mail.gmail.com>
-References: <1352211348-13619-1-git-send-email-taffit@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Rik van Riel <riel@redhat.com>
+Subject: Re: [RFC 3/3] man-pages: Add man page for vmpressure_fd(2)
+Date: Wed, 07 Nov 2012 09:19:06 -0500
+Message-ID: <509A6DDA.9090109@redhat.com>
+References: <20121107105348.GA25549@lizard> <20121107110152.GC30462@lizard>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1352211348-13619-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20121107110152.GC30462@lizard>
+Sender: owner-linux-mm@kvack.org
+To: Anton Vorontsov <anton.vorontsov@linaro.org>
+Cc: Mel Gorman <mgorman@suse.de>, Pekka Enberg <penberg@kernel.org>, Leonid Moiseichuk <leonid.moiseichuk@nokia.com>, KOSAKI Motohiro <kosaki.motohiro@gmail.com>, Minchan Kim <minchan@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, John Stultz <john.stultz@linaro.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linaro-kernel@lists.linaro.org, patches@linaro.org, kernel-team@android.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks. Applied.
+On 11/07/2012 06:01 AM, Anton Vorontsov wrote:
 
-On Tue, Nov 6, 2012 at 3:15 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrot=
-e:
-> ---
->  man2/init_module.2 |   13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>     Configuration
+>         vmpressure_fd(2) accepts vmpressure_config structure to configure
+>         the notifications:
 >
-> diff --git a/man2/init_module.2 b/man2/init_module.2
-> index a924ec4..eab48ec 100644
-> --- a/man2/init_module.2
-> +++ b/man2/init_module.2
-> @@ -62,13 +62,20 @@ The kernel parses this string and initializes the=
- specified
->  parameters.
->  Each of the parameter specifications has the form:
+>         struct vmpressure_config {
+>              __u32 size;
+>              __u32 threshold;
+>         };
 >
-> -.RI "        " name [ =3Dvalue [ ,value ...]]
-> +.RI "        " name [\c
-> +.BI =3D value\c
-> +.RB [ ,\c
-> +.IR value ...]]
->
-> -The parameter name is one of those defined within the module using
-> +The parameter
-> +.I name
-> +is one of those defined within the module using
->  .IR module_param ()
->  (see the Linux kernel source file
->  .IR include/linux/moduleparam.h ).
-> -The parameter value is optional in the case of
-> +The parameter
-> +.I value
-> +is optional in the case of
->  .I bool
->  and
->  .I invbool
-> --
-> 1.7.10.4
->
+>         size is a part of ABI  versioning  and  must  be  initialized  to
+>         sizeof(struct vmpressure_config).
 
+If you want to use a versioned ABI, why not pass in an
+actual version number?
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
