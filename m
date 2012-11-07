@@ -1,55 +1,29 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] stat.2: EOVERFLOW not only for st_size, not in bits
-Date: Wed,  7 Nov 2012 20:13:25 +0100
-Message-ID: <1352315606-28494-1-git-send-email-spaillard@debian.org>
-References: <20121022235500.GA16004@glenfiddich.mraw.org>
+From: Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
+Date: Wed, 07 Nov 2012 22:52:56 +0200
+Message-ID: <509ACA28.307@kernel.org>
+References: <20121107105348.GA25549@lizard> <20121107112136.GA31715@shutemov.name> <xr93liedfhy4.fsf@gthelen.mtv.corp.google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20121022235500.GA16004-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
+In-Reply-To: <xr93liedfhy4.fsf-aSPv4SP+Du0KgorLzL7FmE7CuiCeIGUxQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Greg Thelen <gthelen-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>, Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-egblic: sysdeps/unix/sysv/linux/xstatconv.c it can be st_ino, st_size or
-st_blocks
+Hi Greg,
 
-See http://bugs.debian.org/604928
+On 11/7/12 7:20 PM, Greg Thelen wrote:
+ > Related question: are there plans to extend this system call to
+ > provide per-cgroup vm pressure notification?
 
-Reported-by: Lionel Elie Mamane <lionel-vlyxx04YXHqHXe+LvDLADg@public.gmane.org>
----
- man2/stat.2 |   11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Yes, that's something that needs to be addressed before we can ever
+consider merging something like this to mainline.  We probably need help
+with that, though. Preferably from someone who knows cgroups. :-)
 
-diff --git a/man2/stat.2 b/man2/stat.2
-index d4838a2..c7886b0 100644
---- a/man2/stat.2
-+++ b/man2/stat.2
-@@ -343,15 +343,18 @@ is not a directory.
- .B EOVERFLOW
- .RB ( stat ())
- .I path
--refers to a file whose size cannot be represented in the type
--.IR off_t .
--This can occur when an application compiled on a 32-bit platform without
-+refers to a file whose size, inode number, or number of blocks cannot be represented in their respective type
-+.IR off_t ,
-+.IR ino_t ,
-+or
-+.IR blkcnt_t .
-+This usually occurs when an application compiled on a 32-bit platform without
- .I -D_FILE_OFFSET_BITS=64
- calls
- .BR stat ()
- on a file whose size exceeds
- .I (1<<31)-1
--bits.
-+bytes.
- .SH "CONFORMING TO"
- These system calls conform to SVr4, 4.3BSD, POSIX.1-2001.
- .\" SVr4 documents additional
--- 
-1.7.10.4
-
+                         Pekka
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
