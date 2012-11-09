@@ -1,42 +1,34 @@
-From: Anton Vorontsov <anton.vorontsov@linaro.org>
-Subject: Re: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
-Date: Fri, 9 Nov 2012 01:04:40 -0800
-Message-ID: <20121109090440.GA20998@lizard>
-References: <20121107105348.GA25549@lizard>
- <20121109093203.4358eaf2@doriath>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Return-path: <owner-linux-mm@kvack.org>
-Content-Disposition: inline
-In-Reply-To: <20121109093203.4358eaf2@doriath>
-Sender: owner-linux-mm@kvack.org
-To: Luiz Capitulino <lcapitulino@redhat.com>
-Cc: Mel Gorman <mgorman@suse.de>, Pekka Enberg <penberg@kernel.org>, Leonid Moiseichuk <leonid.moiseichuk@nokia.com>, KOSAKI Motohiro <kosaki.motohiro@gmail.com>, Minchan Kim <minchan@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, John Stultz <john.stultz@linaro.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linaro-kernel@lists.linaro.org, patches@linaro.org, kernel-team@android.com, linux-man@vger.kernel.org
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] getauxval.3: ffix
+Date: Fri,  9 Nov 2012 19:17:58 -0400
+Message-ID: <1352503078-32586-1-git-send-email-taffit@debian.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Nov 09, 2012 at 09:32:03AM +0100, Luiz Capitulino wrote:
-> Anton Vorontsov <anton.vorontsov@linaro.org> wrote:
-> > This is the third RFC. As suggested by Minchan Kim, the API is much
-> > simplified now (comparing to vmevent_fd):
-> 
-> Which tree is this against? I'd like to try this series, but it doesn't
-> apply to Linus tree.
+---
+ man3/getauxval.3 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for trying!
-
-The tree is a mix of Pekka's linux-vmevent tree and Linus' tree. You can
-just clone my tree to get the whole thing:
-
-	git://git.infradead.org/users/cbou/linux-vmevent.git
-
-Note that the tree is rebasable. Also be sure to select CONFIG_VMPRESSURE,
-not CONFIG_VMEVENT.
-
-Thanks!
-Anton.
+diff --git a/man3/getauxval.3 b/man3/getauxval.3
+index 825b224..3b456ed 100755
+--- a/man3/getauxval.3
++++ b/man3/getauxval.3
+@@ -119,7 +119,7 @@ The instruction cache block size.
+ .TP
+ .BR AT_PAGESZ
+ The system page size (the same value returned by
+-.IR sysconf(_SC_PAGESIZE) .
++.IR sysconf(_SC_PAGESIZE) ).
+ .TP
+ .BR AT_PHDR
+ The address of the program headers of the executable.
+-- 
+1.7.10.4
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
