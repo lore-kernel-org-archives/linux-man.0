@@ -1,48 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getauxval.3: ffix
-Date: Sun, 11 Nov 2012 08:58:06 +0100
-Message-ID: <CAKgNAkj3edY5aNFOHPX77+wmDw_3buHZN82W74+Ny8BQpsKq-A@mail.gmail.com>
-References: <1352503078-32586-1-git-send-email-taffit@debian.org>
+Subject: Re: add io_getevents() BUGS
+Date: Sun, 11 Nov 2012 09:07:56 +0100
+Message-ID: <CAKgNAkio1MMi0V_GwZ=jnnK9gRPt2J8Pd-QEDnSj_ht4eO=0mA@mail.gmail.com>
+References: <20110323191425.GA15819@saboteur.suse.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1352503078-32586-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20110323191425.GA15819-n1fJoQsqRnsVI8jrpt9EEQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, David. Applied
+Cyril,
 
-
-On Sat, Nov 10, 2012 at 12:17 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wr=
-ote:
-> ---
->  man3/getauxval.3 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Mar 23, 2011 at 8:14 PM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Hi!
+> The io_getevents() may cause segfault when called with invalid ctx_id.
 >
-> diff --git a/man3/getauxval.3 b/man3/getauxval.3
-> index 825b224..3b456ed 100755
-> --- a/man3/getauxval.3
-> +++ b/man3/getauxval.3
-> @@ -119,7 +119,7 @@ The instruction cache block size.
->  .TP
->  .BR AT_PAGESZ
->  The system page size (the same value returned by
-> -.IR sysconf(_SC_PAGESIZE) .
-> +.IR sysconf(_SC_PAGESIZE) ).
->  .TP
->  .BR AT_PHDR
->  The address of the program headers of the executable.
-> --
-> 1.7.10.4
+> For reference see: http://marc.info/?l=linux-aio&m=130089887002435&w=2
 >
+> The attached patch adds BUGS paragraph into corresponding manpage.
+
+I've applied a slightly different version of this patch, as below. Thanks
+
+Cheers,
+
+Michael
+
+PS In general, inline patches are easier tor me to process.
+
+--- a/man2/io_getevents.2
++++ b/man2/io_getevents.2
+@@ -92,6 +92,11 @@ then the return value follows the usual conventions for
+ indicating an error: \-1, with
+ .I errno
+ set to a (positive) value that indicates the error.
++.SH BUGS
++An invalid
++.IR ctx_id
++may cause a segmentation fault instead of genenerating the error
++.BR EINVAL .
+ .SH "SEE ALSO"
+ .PP
+ .BR io_cancel (2),
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
