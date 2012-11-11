@@ -1,51 +1,80 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: add io_getevents() BUGS
-Date: Sun, 11 Nov 2012 09:07:56 +0100
-Message-ID: <CAKgNAkio1MMi0V_GwZ=jnnK9gRPt2J8Pd-QEDnSj_ht4eO=0mA@mail.gmail.com>
-References: <20110323191425.GA15819@saboteur.suse.cz>
+Subject: Re: aio manuals
+Date: Sun, 11 Nov 2012 09:12:36 +0100
+Message-ID: <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
+References: <20110309180600.GA14533@saboteur.suse.cz> <x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
+ <20110316104356.GB32095@saboteur.suse.cz> <x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
+ <20110316152018.GG2096@saboteur.suse.cz> <20111013082918.GA17800@saboteur.suse.cz>
+ <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
+ <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com> <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
+ <20120509142713.GA7912@saboteur.suse.cz> <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20110323191425.GA15819-n1fJoQsqRnsVI8jrpt9EEQ@public.gmane.org>
+In-Reply-To: <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Cyril,
-
-On Wed, Mar 23, 2011 at 8:14 PM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Hi!
-> The io_getevents() may cause segfault when called with invalid ctx_id.
+On Thu, May 10, 2012 at 1:59 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On Thu, May 10, 2012 at 2:27 AM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
+>> Hi!
+>>> Here's what I think should be done:
+>>>
+>>> 1) For io_submit, io_cancel, io_getevents, io_destroy, io_setup:
+>>>
+>>> a) There should be .2 pages provided by man-pages that document the
+>>> raw system calls. These pages need a bit of cleaning up. These pages
+>>> should be updated to focus on the system calls, and note the existence
+>>> of libaio and the existence of the wrappers it provides.
+>>>
+>>> b) There should be .3 pages provided by libaio. (The pages should be
+>>> provided by libaio, because that's the library that implements them.
+>>> If those wrappers were in glibc, then I'd have said that man-pages
+>>> should provide them.) Since the wrappers are mostly very thin, I think
+>>> it would be sufficient to have very short man pages that:
+>>> - note the need to link with "-laio"
+>>> - document io_context_t versus aio_context_t
+>>> - refer the reader to the corresponding .2 page for details of behavior.
+>>>
+>>> 2) For the other io_* functions provided by libaio:
+>>>
+>>> a) libaio should provide man pages. (And this seems already to be the case.)
+>>>
+>>> 3) For the aio_* and lio_listio functions:
+>>>
+>>> a) The right place to document these is man-pages, since they are
+>>> glibc interfaces, not libaio interfaces. man-pages already has such
+>>> pages.
+>>>
+>>> b) The versions of these man pages in libaio should be dropped. The
+>>> pages seem to be unmaintained, and they describe interfaces that are
+>>> not even part of libaio. Along the way, we should check if there are
+>>> pieces in the libaio pages that could usefully be added to the
+>>> corresponding man-pages pages.
+>>>
+>>> How does the above sound?
+>>
+>> Agree with these changes. And I could lend a hand with some of the work
+>> if needed.
 >
-> For reference see: http://marc.info/?l=linux-aio&m=130089887002435&w=2
+> Cyril, perhaps you could tackle some of the tasks in the libaio pages?
+> I've done most of what I can do on the man-pages side, and the results
+> are pushed out to git.
 >
-> The attached patch adds BUGS paragraph into corresponding manpage.
+> Thanks,
+>
+> Michael
 
-I've applied a slightly different version of this patch, as below. Thanks
+As noted earlier in the thread, I've done everything that I think is
+required on the *.2 pages. What is the status of the libaio pages now?
 
-Cheers,
+Thanks,
 
 Michael
-
-PS In general, inline patches are easier tor me to process.
-
---- a/man2/io_getevents.2
-+++ b/man2/io_getevents.2
-@@ -92,6 +92,11 @@ then the return value follows the usual conventions for
- indicating an error: \-1, with
- .I errno
- set to a (positive) value that indicates the error.
-+.SH BUGS
-+An invalid
-+.IR ctx_id
-+may cause a segmentation fault instead of genenerating the error
-+.BR EINVAL .
- .SH "SEE ALSO"
- .PP
- .BR io_cancel (2),
-
 
 
 -- 
