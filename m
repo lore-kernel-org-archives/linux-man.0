@@ -1,81 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: aio manuals
-Date: Sun, 11 Nov 2012 09:12:36 +0100
-Message-ID: <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
-References: <20110309180600.GA14533@saboteur.suse.cz> <x49ei6gnpsx.fsf@segfault.boston.devel.redhat.com>
- <20110316104356.GB32095@saboteur.suse.cz> <x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
- <20110316152018.GG2096@saboteur.suse.cz> <20111013082918.GA17800@saboteur.suse.cz>
- <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
- <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com> <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
- <20120509142713.GA7912@saboteur.suse.cz> <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
+Subject: Re: Additions to mmap manpage
+Date: Sun, 11 Nov 2012 09:18:53 +0100
+Message-ID: <CAKgNAkiktMm=jYw03PvWy-RX5S==FUb9wBu=BV_X=qsfQeHpfg@mail.gmail.com>
+References: <20121107113003.GA17161@rei.suse.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20121107113003.GA17161-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: chrubis-AlSwsSmVLrQ@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, May 10, 2012 at 1:59 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On Thu, May 10, 2012 at 2:27 AM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
->> Hi!
->>> Here's what I think should be done:
->>>
->>> 1) For io_submit, io_cancel, io_getevents, io_destroy, io_setup:
->>>
->>> a) There should be .2 pages provided by man-pages that document the
->>> raw system calls. These pages need a bit of cleaning up. These pages
->>> should be updated to focus on the system calls, and note the existence
->>> of libaio and the existence of the wrappers it provides.
->>>
->>> b) There should be .3 pages provided by libaio. (The pages should be
->>> provided by libaio, because that's the library that implements them.
->>> If those wrappers were in glibc, then I'd have said that man-pages
->>> should provide them.) Since the wrappers are mostly very thin, I think
->>> it would be sufficient to have very short man pages that:
->>> - note the need to link with "-laio"
->>> - document io_context_t versus aio_context_t
->>> - refer the reader to the corresponding .2 page for details of behavior.
->>>
->>> 2) For the other io_* functions provided by libaio:
->>>
->>> a) libaio should provide man pages. (And this seems already to be the case.)
->>>
->>> 3) For the aio_* and lio_listio functions:
->>>
->>> a) The right place to document these is man-pages, since they are
->>> glibc interfaces, not libaio interfaces. man-pages already has such
->>> pages.
->>>
->>> b) The versions of these man pages in libaio should be dropped. The
->>> pages seem to be unmaintained, and they describe interfaces that are
->>> not even part of libaio. Along the way, we should check if there are
->>> pieces in the libaio pages that could usefully be added to the
->>> corresponding man-pages pages.
->>>
->>> How does the above sound?
->>
->> Agree with these changes. And I could lend a hand with some of the work
->> if needed.
->
-> Cyril, perhaps you could tackle some of the tasks in the libaio pages?
-> I've done most of what I can do on the man-pages side, and the results
-> are pushed out to git.
->
-> Thanks,
->
-> Michael
+Hi Cyril,
 
-As noted earlier in the thread, I've done everything that I think is
-required on the *.2 pages. What is the status of the libaio pages now?
+On Wed, Nov 7, 2012 at 12:30 PM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Hi!
+> I've spend some time working on LTP mmap testcases. Here are updates for
+> mmap manual page that adds some missing information. Feel free to reword
+> the texts if needed.
+
+Since these two patches are more or less unrelated, could you please
+resubmit as separate mails, with suitable changelog text and
+references / explanation. Splitting the patches makes it easier for me
+to deal with them.
+
+Also, I greatly prefer inline patches, as it's simpler to scan and
+read the patch then. (You can attach a copy of the patch as well, if
+you are worried about a mailer breaking something.)
 
 Thanks,
 
 Michael
-
 
 -- 
 Michael Kerrisk
