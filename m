@@ -1,38 +1,102 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Additions to mmap manpage
-Date: Sun, 11 Nov 2012 09:18:53 +0100
-Message-ID: <CAKgNAkiktMm=jYw03PvWy-RX5S==FUb9wBu=BV_X=qsfQeHpfg@mail.gmail.com>
-References: <20121107113003.GA17161@rei.suse.cz>
+Subject: Re: Bug#604928: stat.2: EOVERFLOW not only for st_size; bit/byte confusion
+Date: Sun, 11 Nov 2012 11:41:50 +0100
+Message-ID: <CAKgNAkgFeRNG1JKgL8+5vYRN7MycFN=nc+JvrK9RG8EYadGmqw@mail.gmail.com>
+References: <20101125140830.GA14353@capsaicin.mamane.lu> <20121022235500.GA16004@glenfiddich.mraw.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20121107113003.GA17161-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
+In-Reply-To: <20121022235500.GA16004-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: chrubis-AlSwsSmVLrQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: Lionel Elie Mamane <lionel-vlyxx04YXHqHXe+LvDLADg@public.gmane.org>, 604928-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, control-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Cyril,
+tags 604928 fixed-upstream
+thanks
 
-On Wed, Nov 7, 2012 at 12:30 PM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Hi!
-> I've spend some time working on LTP mmap testcases. Here are updates for
-> mmap manual page that adds some missing information. Feel free to reword
-> the texts if needed.
+On Tue, Oct 23, 2012 at 1:55 AM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> Control: -1 found 3.42-1
+>
+> On Thu, Nov 25, 2010 at 03:08:30PM +0100, Lionel Elie Mamane wrote:
+>> stat(2) says:
+>>
+>> ERRORS
+>>  (...)
+>>    EOVERFLOW
+>>      (stat())  path  refers to a file whose size cannot be represented in the
+>>      type off_t.  This can occur when an application compiled on a 32-bit
+>>      platform without -D_FILE_OFFSET_BITS=64 calls stat() on a file whose
+>>      size exceeds (2<<31)-1 bits.
+>>
+>> 1) It would seem to me that the condition for this to occur would be a
+>>    file whose size exceeds (2<<31)-1 *bytes*, not "bits".
+>
+> Still applicable to manpages 3.43.
+>
+>> 2) I got this for an overflow on st_ino (64 bit kernel, 32 bit
+>>    userland, CIFS mount of a Windows-served share).
+>
+> Confirmed with
+> OpenGroup:  http://pubs.opengroup.org/onlinepubs/009695399/functions/stat.html
+>    [EOVERFLOW]
+>       The file size in bytes or the number of blocks allocated to the file or
+>       the file serial number cannot be represented correctly in the structure
+>       pointed to by buf.
+>
+> egblic: sysdeps/unix/sysv/linux/xstatconv.c it can be st_ino, st_size or st_blocks
+>
+>> So I'd suggest this text become something along the lines of:
+>>
+>>    path or fd refers to a file for which the value of a field of the
+>>    stat structure cannot be represented in its type. This usually
+>>    occurs with applications compiled on a 32-bit platform without
+>>    -D_FILE_OFFSET_BITS=64. The most common occurrence is when such an
+>>    application calls stat() on a file whose size exceeds
+>>    (2<<31)-1 bytes; but it can also occur e.g. for the st_ino field,
+>>    e.g. when such an application is run on a 64 bit kernel.
+>
+> An other proposal attached.
 
-Since these two patches are more or less unrelated, could you please
-resubmit as separate mails, with suitable changelog text and
-references / explanation. Splitting the patches makes it easier for me
-to deal with them.
+Thanks Simon. I applied a modified version of your patch, as below.
 
-Also, I greatly prefer inline patches, as it's simpler to scan and
-read the patch then. (You can attach a copy of the patch as well, if
-you are worried about a mailer breaking something.)
-
-Thanks,
+Cheers,
 
 Michael
+
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -341,17 +341,23 @@ A component of the path prefix of
+ is not a directory.
+ .TP
+ .B EOVERFLOW
+-.RB ( stat ())
+ .I path
+-refers to a file whose size cannot be represented in the type
+-.IR off_t .
+-This can occur when an application compiled on a 32-bit platform without
++or
++.I fd
++refers to a file whose size, inode number,
++or number of blocks cannot be represented in, respectively, the types
++.IR off_t ,
++.IR ino_t ,
++or
++.IR blkcnt_t .
++This error can occur when, for example,
++an application compiled on a 32-bit platform without
+ .I -D_FILE_OFFSET_BITS=64
+ calls
+ .BR stat ()
+ on a file whose size exceeds
+ .I (1<<31)-1
+-bits.
++bytes.
+ .SH "CONFORMING TO"
+ These system calls conform to SVr4, 4.3BSD, POSIX.1-2001.
+ .\" SVr4 documents additional
+
 
 -- 
 Michael Kerrisk
