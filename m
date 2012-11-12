@@ -1,43 +1,48 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: Re: aio manuals
-Date: Mon, 12 Nov 2012 17:09:38 +0100
-Message-ID: <20121112160937.GA23439@rei.suse.cz>
-References: <20110316152018.GG2096@saboteur.suse.cz>
- <20111013082918.GA17800@saboteur.suse.cz>
- <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
- <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com>
- <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
- <20120509142713.GA7912@saboteur.suse.cz>
- <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
- <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
- <20121112100446.GA6764@rei.suse.cz>
- <x49vcdakid2.fsf@segfault.boston.devel.redhat.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 50421] New: proc.5: Information on oom_adj is outdated
+Date: Mon, 12 Nov 2012 18:11:14 +0000 (UTC)
+Message-ID: <bug-50421-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <x49vcdakid2.fsf-RRHT56Q3PSP4kTEheFKJxxDDeQx5vsVwAInAS/Ez/D0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> >> As noted earlier in the thread, I've done everything that I think is
-> >> required on the *.2 pages. What is the status of the libaio pages now?
-> >
-> > This basically ended up burried in my mailbox (as I've had higher
-> > priority work at the time).
-> >
-> > Jeff what is the status, do you need some help?
-> 
-> Yeah, if you want to tackle this, that would be great!
+https://bugzilla.kernel.org/show_bug.cgi?id=50421
 
-Added to my TODO with sligtly lower priority.
+           Summary: proc.5: Information on oom_adj is outdated
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: lekensteyn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
+
+
+oom_adj has been deprecated in Linux 2.6.35 (commit
+51b1bd2ace1595b72956224deda349efa880b693) and removed in Linux 3.7
+(01dc52ebdf472f77cca623ca693ca24cfc0f1bbe) because it was replaced with
+oom_score_adj.
+
+The reasoning can be found on
+http://www.kernel.org/doc/Documentation/ABI/obsolete/proc-pid-oom_adj
+
+Now, including this whole document is a bit too much for proc(5), but what
+should be included instead?
+
+man-pages version: 3.44
 
 -- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
