@@ -1,39 +1,143 @@
 From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: Re: aio manuals
-Date: Mon, 12 Nov 2012 11:04:47 +0100
-Message-ID: <20121112100446.GA6764@rei.suse.cz>
-References: <20110316104356.GB32095@saboteur.suse.cz>
- <x49pqpr9m5l.fsf@segfault.boston.devel.redhat.com>
- <20110316152018.GG2096@saboteur.suse.cz>
- <20111013082918.GA17800@saboteur.suse.cz>
- <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
- <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com>
- <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
- <20120509142713.GA7912@saboteur.suse.cz>
- <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
- <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
+Subject: [PATCH] mmap.2: Add EOVERFLOW
+Date: Mon, 12 Nov 2012 11:56:32 +0100
+Message-ID: <20121112105632.GB6764@rei.suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="+QahgC5+KEYLbs62"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> As noted earlier in the thread, I've done everything that I think is
-> required on the *.2 pages. What is the status of the libaio pages now?
 
-This basically ended up burried in my mailbox (as I've had higher
-priority work at the time).
+--+QahgC5+KEYLbs62
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Jeff what is the status, do you need some help?
+This patch adds EOVERFLOW and conditions needed to
+trigger it into mmap.2 man page.
 
 -- 
 Cyril Hrubis
 chrubis-AlSwsSmVLrQ@public.gmane.org
+
+--+QahgC5+KEYLbs62
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline; filename="0001-mmap.2-Add-EOVERFLOW-to-ERRORS.patch"
+
+>From e656978560e317b95a8315b9556690e8c03917f2 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Date: Wed, 7 Nov 2012 11:52:55 +0100
+Subject: [PATCH 1/2] mmap.2: Add EOVERFLOW to ERRORS.
+
+The overflow could be triggered on 32 bit arch
+with large file extension (i.e. 64 bit off_t)
+if number of pages used for len plus number of
+pages used for offset would overflow 32 bit
+unsigned long.
+
+In this case we would hit this line from do_mmap_pgoff:
+
+...
+	/* offset overflow? */
+	if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
+		return -EOVERFLOW;
+...
+
+Note that if the offset is too big (would overflow
+unsigned long in number of pages itself) you would hit
+EINVAL first.
+
+The code to trigger this condition could be
+seen in LTP git repo in:
+
+open_posix_testsuite/conformance/interfaces/mmap/31-1.c
+
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+---
+ man2/mmap.2 |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 042b833..29fcc3d 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -470,6 +470,11 @@ was mounted no-exec.
+ was set but the object specified by
+ .I fd
+ is open for writing.
++.TP
++.B EOVERFLOW
++happens on 32 bit architecture together with large file extension (i.e. using
++64 bit off_t) when number of pages used for length plus number of pages used
++for offset would overflow unsigned long (32 bits)
+ .LP
+ Use of a mapped region can result in these signals:
+ .TP
+-- 
+1.7.8.6
+
+
+--+QahgC5+KEYLbs62
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="0001-mmap.2-Add-EOVERFLOW-to-ERRORS.patch"
+
+>From e656978560e317b95a8315b9556690e8c03917f2 Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Date: Wed, 7 Nov 2012 11:52:55 +0100
+Subject: [PATCH 1/2] mmap.2: Add EOVERFLOW to ERRORS.
+
+The overflow could be triggered on 32 bit arch
+with large file extension (i.e. 64 bit off_t)
+if number of pages used for len plus number of
+pages used for offset would overflow 32 bit
+unsigned long.
+
+In this case we would hit this line from do_mmap_pgoff:
+
+...
+	/* offset overflow? */
+	if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
+		return -EOVERFLOW;
+...
+
+Note that if the offset is too big (would overflow
+unsigned long in number of pages itself) you would hit
+EINVAL first.
+
+The code to trigger this condition could be
+seen in LTP git repo in:
+
+open_posix_testsuite/conformance/interfaces/mmap/31-1.c
+
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+---
+ man2/mmap.2 |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
+
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 042b833..29fcc3d 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -470,6 +470,11 @@ was mounted no-exec.
+ was set but the object specified by
+ .I fd
+ is open for writing.
++.TP
++.B EOVERFLOW
++happens on 32 bit architecture together with large file extension (i.e. using
++64 bit off_t) when number of pages used for length plus number of pages used
++for offset would overflow unsigned long (32 bits)
+ .LP
+ Use of a mapped region can result in these signals:
+ .TP
+-- 
+1.7.8.6
+
+
+--+QahgC5+KEYLbs62--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
