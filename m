@@ -1,143 +1,27 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: [PATCH] mmap.2: Add EOVERFLOW
-Date: Mon, 12 Nov 2012 11:56:32 +0100
-Message-ID: <20121112105632.GB6764@rei.suse.cz>
+From: Alexandre Bique <bique.alexandre-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: /proc/[pid]/oom_adj and /proc/[pid]/oom_score_adj
+Date: Mon, 12 Nov 2012 12:09:45 +0100
+Message-ID: <CAP737oKmr2msE0SvFh4kiCf+psg25hobVEDGvZ5-sg=TmL1OQQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="+QahgC5+KEYLbs62"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hi,
 
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Recent Linux kernels says:
 
-This patch adds EOVERFLOW and conditions needed to
-trigger it into mmap.2 man page.
+/proc/2978/oom_adj is deprecated, please use /proc/2978/oom_score_adj instead.
 
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+But man proc(5) doesn't explain how to use oom_score_adj. Can someone
+update man proc(5)?
 
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline; filename="0001-mmap.2-Add-EOVERFLOW-to-ERRORS.patch"
+Thanks a lot!
 
->From e656978560e317b95a8315b9556690e8c03917f2 Mon Sep 17 00:00:00 2001
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Date: Wed, 7 Nov 2012 11:52:55 +0100
-Subject: [PATCH 1/2] mmap.2: Add EOVERFLOW to ERRORS.
-
-The overflow could be triggered on 32 bit arch
-with large file extension (i.e. 64 bit off_t)
-if number of pages used for len plus number of
-pages used for offset would overflow 32 bit
-unsigned long.
-
-In this case we would hit this line from do_mmap_pgoff:
-
-...
-	/* offset overflow? */
-	if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
-		return -EOVERFLOW;
-...
-
-Note that if the offset is too big (would overflow
-unsigned long in number of pages itself) you would hit
-EINVAL first.
-
-The code to trigger this condition could be
-seen in LTP git repo in:
-
-open_posix_testsuite/conformance/interfaces/mmap/31-1.c
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man2/mmap.2 |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
-
-diff --git a/man2/mmap.2 b/man2/mmap.2
-index 042b833..29fcc3d 100644
---- a/man2/mmap.2
-+++ b/man2/mmap.2
-@@ -470,6 +470,11 @@ was mounted no-exec.
- was set but the object specified by
- .I fd
- is open for writing.
-+.TP
-+.B EOVERFLOW
-+happens on 32 bit architecture together with large file extension (i.e. using
-+64 bit off_t) when number of pages used for length plus number of pages used
-+for offset would overflow unsigned long (32 bits)
- .LP
- Use of a mapped region can result in these signals:
- .TP
--- 
-1.7.8.6
-
-
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="0001-mmap.2-Add-EOVERFLOW-to-ERRORS.patch"
-
->From e656978560e317b95a8315b9556690e8c03917f2 Mon Sep 17 00:00:00 2001
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Date: Wed, 7 Nov 2012 11:52:55 +0100
-Subject: [PATCH 1/2] mmap.2: Add EOVERFLOW to ERRORS.
-
-The overflow could be triggered on 32 bit arch
-with large file extension (i.e. 64 bit off_t)
-if number of pages used for len plus number of
-pages used for offset would overflow 32 bit
-unsigned long.
-
-In this case we would hit this line from do_mmap_pgoff:
-
-...
-	/* offset overflow? */
-	if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
-		return -EOVERFLOW;
-...
-
-Note that if the offset is too big (would overflow
-unsigned long in number of pages itself) you would hit
-EINVAL first.
-
-The code to trigger this condition could be
-seen in LTP git repo in:
-
-open_posix_testsuite/conformance/interfaces/mmap/31-1.c
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man2/mmap.2 |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
-
-diff --git a/man2/mmap.2 b/man2/mmap.2
-index 042b833..29fcc3d 100644
---- a/man2/mmap.2
-+++ b/man2/mmap.2
-@@ -470,6 +470,11 @@ was mounted no-exec.
- was set but the object specified by
- .I fd
- is open for writing.
-+.TP
-+.B EOVERFLOW
-+happens on 32 bit architecture together with large file extension (i.e. using
-+64 bit off_t) when number of pages used for length plus number of pages used
-+for offset would overflow unsigned long (32 bits)
- .LP
- Use of a mapped region can result in these signals:
- .TP
--- 
-1.7.8.6
-
-
---+QahgC5+KEYLbs62--
+--
+Alexandre Bique
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
