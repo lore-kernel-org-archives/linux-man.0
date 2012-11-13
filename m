@@ -1,49 +1,60 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 50421] New: proc.5: Information on oom_adj is outdated
-Date: Mon, 12 Nov 2012 18:11:14 +0000 (UTC)
-Message-ID: <bug-50421-11311@https.bugzilla.kernel.org/>
+From: Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [RFC 1/3] mm: Add VM pressure notifications
+Date: Tue, 13 Nov 2012 11:38:53 -0700
+Message-ID: <20121113113853.56d71f27@lwn.net>
+References: <20121107105348.GA25549@lizard>
+	<20121107110128.GA30462@lizard>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20121107110128.GA30462@lizard>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Anton Vorontsov <anton.vorontsov@linaro.org>
+Cc: Mel Gorman <mgorman@suse.de>, Pekka Enberg <penberg@kernel.org>, Leonid Moiseichuk <leonid.moiseichuk@nokia.com>, KOSAKI Motohiro <kosaki.motohiro@gmail.com>, Minchan Kim <minchan@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, John Stultz <john.stultz@linaro.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linaro-kernel@lists.linaro.org, patches@linaro.org, kernel-team@android.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=50421
+On Wed, 7 Nov 2012 03:01:28 -0800
+Anton Vorontsov <anton.vorontsov@linaro.org> wrote:
 
-           Summary: proc.5: Information on oom_adj is outdated
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: lekensteyn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+> This patch introduces vmpressure_fd() system call. The system call creates
+> a new file descriptor that can be used to monitor Linux' virtual memory
+> management pressure.
 
+I noticed a couple of quick things as I was looking this over...
 
-oom_adj has been deprecated in Linux 2.6.35 (commit
-51b1bd2ace1595b72956224deda349efa880b693) and removed in Linux 3.7
-(01dc52ebdf472f77cca623ca693ca24cfc0f1bbe) because it was replaced with
-oom_score_adj.
+> +static ssize_t vmpressure_read(struct file *file, char __user *buf,
+> +			       size_t count, loff_t *ppos)
+> +{
+> +	struct vmpressure_watch *watch = file->private_data;
+> +	struct vmpressure_event event;
+> +	int ret;
+> +
+> +	if (count < sizeof(event))
+> +		return -EINVAL;
+> +
+> +	ret = wait_event_interruptible(watch->waitq,
+> +				       atomic_read(&watch->pending));
 
-The reasoning can be found on
-http://www.kernel.org/doc/Documentation/ABI/obsolete/proc-pid-oom_adj
+Would it make sense to support non-blocking reads?  Perhaps a process would
+like to simply know that current pressure level?
 
-Now, including this whole document is a bit too much for proc(5), but what
-should be included instead?
+> +SYSCALL_DEFINE1(vmpressure_fd, struct vmpressure_config __user *, config)
+> +{
+> +	struct vmpressure_watch *watch;
+> +	struct file *file;
+> +	int ret;
+> +	int fd;
+> +
+> +	watch = kzalloc(sizeof(*watch), GFP_KERNEL);
+> +	if (!watch)
+> +		return -ENOMEM;
+> +
+> +	ret = copy_from_user(&watch->config, config, sizeof(*config));
+> +	if (ret)
+> +		goto err_free;
 
-man-pages version: 3.44
+This is wrong - you'll return the number of uncopied bytes to user space.
+You'll need a "ret = -EFAULT;" in there somewhere.
 
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+jon
