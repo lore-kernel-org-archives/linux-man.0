@@ -1,64 +1,25 @@
-From: Anton Vorontsov <anton.vorontsov@linaro.org>
-Subject: Re: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
-Date: Thu, 15 Nov 2012 00:52:24 -0800
-Message-ID: <20121115085224.GA4635@lizard>
-References: <20121107105348.GA25549@lizard>
- <20121107112136.GA31715@shutemov.name>
- <CAOJsxLHY+3ZzGuGX=4o1pLfhRqjkKaEMyhX0ejB5nVrDvOWXNA@mail.gmail.com>
- <20121107114321.GA32265@shutemov.name>
- <alpine.DEB.2.00.1211141910050.14414@chino.kir.corp.google.com>
- <20121115033932.GA15546@lizard.sbx05977.paloaca.wayport.net>
- <alpine.DEB.2.00.1211141946370.14414@chino.kir.corp.google.com>
- <20121115073420.GA19036@lizard.sbx05977.paloaca.wayport.net>
- <alpine.DEB.2.00.1211142351420.4410@chino.kir.corp.google.com>
+From: Jim Paris <jim-XrPbb/hENzg@public.gmane.org>
+Subject: proc.5: meminfo fixes
+Date: Thu, 15 Nov 2012 10:39:56 -0500
+Message-ID: <20121115153955.GA18779@psychosis.jim.sh>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Return-path: <owner-linux-mm@kvack.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.1211142351420.4410@chino.kir.corp.google.com>
-Sender: owner-linux-mm@kvack.org
-To: David Rientjes <rientjes@google.com>
-Cc: "Kirill A. Shutemov" <kirill@shutemov.name>, Pekka Enberg <penberg@kernel.org>, Mel Gorman <mgorman@suse.de>, Leonid Moiseichuk <leonid.moiseichuk@nokia.com>, KOSAKI Motohiro <kosaki.motohiro@gmail.com>, Minchan Kim <minchan@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, John Stultz <john.stultz@linaro.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linaro-kernel@lists.linaro.org, patches@linaro.org, kernel-team@android.com, linux-man@vger.kernel.org
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Nov 15, 2012 at 12:11:47AM -0800, David Rientjes wrote:
-[...]
-> Might not be too difficult if you implement your own cgroup to aggregate 
-> these tasks for which you want to know memory pressure events; it would 
-> have to be triggered for the task trying to allocate memory at any given 
-> time and how hard it was to allocate that memory in the slowpath, tie it 
-> back to that tasks' memory pressure cgroup, and then report the trigger if 
-> it's over a user-defined threshold normalized to the 0-100 scale.  Then 
-> you could co-mount this cgroup with memcg, cpusets, or just do it for the 
-> root cgroup for users who want to monitor the entire system
+In the /proc/meminfo section of proc.5:
 
-This seems doable. But
+- "Mlock" should be "Mlocked".
 
-> (CONFIG_CGROUPS is enabled by default).
+- "SwapFree" reports free swap space, but the manpage seems to be
+  describing used swap space.
 
-Hehe, you're saying that we have to have cgroups=y. :) But some folks were
-deliberately asking us to make the cgroups optional.
-
-OK, here is what I can try to do:
-
-- Implement memory pressure cgroup as you described, by doing so we'd make
-  the thing play well with cpusets and memcg;
-
-- This will be eventfd()-based;
-
-- Once done, we will have a solution for pretty much every major use-case
-  (i.e. servers, desktops and Android, they all have cgroups enabled);
-
-(- Optionally, if there will be a demand, for CGROUPS=n we can implement a
-separate sysfs file with the exactly same eventfd interface, it will only
-report global pressure. This will be for folks that don't want the cgroups
-for some reason. The interface can be discussed separately.)
-
-Thanks,
-Anton.
-
+-jim
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
