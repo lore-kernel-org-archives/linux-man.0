@@ -1,161 +1,135 @@
-From: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
-Date: Wed, 14 Nov 2012 23:34:20 -0800
-Message-ID: <20121115073420.GA19036@lizard.sbx05977.paloaca.wayport.net>
-References: <20121107105348.GA25549@lizard>
- <20121107112136.GA31715@shutemov.name>
- <CAOJsxLHY+3ZzGuGX=4o1pLfhRqjkKaEMyhX0ejB5nVrDvOWXNA@mail.gmail.com>
- <20121107114321.GA32265@shutemov.name>
- <alpine.DEB.2.00.1211141910050.14414@chino.kir.corp.google.com>
- <20121115033932.GA15546@lizard.sbx05977.paloaca.wayport.net>
- <alpine.DEB.2.00.1211141946370.14414@chino.kir.corp.google.com>
+Date: Thu, 15 Nov 2012 00:11:47 -0800 (PST)
+Message-ID: <alpine.DEB.2.00.1211142351420.4410@chino.kir.corp.google.com>
+References: <20121107105348.GA25549@lizard> <20121107112136.GA31715@shutemov.name> <CAOJsxLHY+3ZzGuGX=4o1pLfhRqjkKaEMyhX0ejB5nVrDvOWXNA@mail.gmail.com> <20121107114321.GA32265@shutemov.name> <alpine.DEB.2.00.1211141910050.14414@chino.kir.corp.google.com>
+ <20121115033932.GA15546@lizard.sbx05977.paloaca.wayport.net> <alpine.DEB.2.00.1211141946370.14414@chino.kir.corp.google.com> <20121115073420.GA19036@lizard.sbx05977.paloaca.wayport.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.1211141946370.14414-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <20121115073420.GA19036-SAfYLu58TvsAzdhXFe8piDcLetGT9WKNKwcig+XE9tjR7s880joybQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
 Cc: "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi David,
+On Wed, 14 Nov 2012, Anton Vorontsov wrote:
 
-Thanks again for your inspirational comments!
-
-On Wed, Nov 14, 2012 at 07:59:52PM -0800, David Rientjes wrote:
-> > > I agree that eventfd is the way to go, but I'll also add that this feature 
-> > > seems to be implemented at a far too coarse of level.  Memory, and hence 
-> > > memory pressure, is constrained by several factors other than just the 
-> > > amount of physical RAM which vmpressure_fd is addressing.  What about 
-> > > memory pressure caused by cpusets or mempolicies?  (Memcg has its own 
-> > > reclaim logic
-> > 
-> > Yes, sure, and my plan for per-cgroups vmpressure was to just add the same
-> > hooks into cgroups reclaim logic (as far as I understand, we can use the
-> > same scanned/reclaimed ratio + reclaimer priority to determine the
-> > pressure).
-
-[Answers reordered]
-
-> Rather, I think it's much better to be notified when an individual process 
-> invokes various levels of reclaim up to and including the oom killer so 
-> that we know the context that memory freeing needs to happen (or, 
-> optionally, the set of processes that could be sacrificed so that this 
-> higher priority process may allocate memory).
-
-I think I understand what you're saying, and surely it makes sense, but I
-don't know how you see this implemented on the API level.
-
-Getting struct {pid, pressure} pairs that cause the pressure at the
-moment? And the monitor only gets <pids> that are in the same cpuset? How
-about memcg limits?..
-
-[...]
-> > But we still want the "global vmpressure" thing, so that we could use it
-> > without cgroups too. How to do it -- syscall or sysfs+eventfd doesn't
-> > matter much (in the sense that I can do eventfd thing if you folks like it
-> > :).
-> > 
+> Thanks again for your inspirational comments!
 > 
-> Most processes aren't going to care if they are running into memory 
-> pressure and have no implementation to free memory back to the kernel or 
-> start ratelimiting themselves.  They will just continue happily along 
-> until they get the memory they want or they get oom killed.  The ones that 
-> do, however, or a job scheduler or monitor that is watching over the 
-> memory usage of a set of tasks, will be able to do something when 
-> notified.
 
-Yup, this is exactly how we want to use this. In Android we have "Activity
-Manager" thing, which acts exactly how you describe: it's a tasks monitor.
+Heh, not sure I've been too inspirational (probably more annoying than 
+anything else).  I really do want generic memory pressure notifications in 
+the kernel and already have some ideas on how I can tie it into our malloc 
+arenas, so please do keep working on it.
 
-> In the hopes of a single API that can do all this and not a 
-> reimplementation for various types of memory limitations (it seems like 
-> what you're suggesting is at least three different APIs: system-wide via 
-> vmpressure_fd, memcg via memcg thresholds, and cpusets through an eventual 
-> cpuset threshold), I'm hoping that we can have a single interface that can 
-> be polled on to determine when individual processes are encountering 
-> memory pressure.  And if I'm not running in your oom cpuset, I don't care 
-> about your memory pressure.
+> I think I understand what you're saying, and surely it makes sense, but I
+> don't know how you see this implemented on the API level.
+> 
+> Getting struct {pid, pressure} pairs that cause the pressure at the
+> moment? And the monitor only gets <pids> that are in the same cpuset? How
+> about memcg limits?..
+> 
 
-I'm not sure to what exactly you are opposing. :) You don't want to have
-three "kinds" pressures, or you don't what to have three different
-interfaces to each of them, or both?
+Depends on whether you want to support mempolicies or not and the argument 
+could go either way:
 
-> I don't understand, how would this work with cpusets, for example, with 
-> vmpressure_fd as defined?  The cpuset policy is embedded in the page 
-> allocator and skips over zones that are not allowed when trying to find a 
-> page of the specified order.  Imagine a cpuset bound to a single node that 
-> is under severe memory pressure.  The reclaim logic will get triggered and 
-> cause a notification on your fd when the rest of the system's nodes may 
-> have tons of memory available.
+ - FOR supporting mempolicies: memory that you're mbind() too can become 
+   depleted and since there is no fallback then you have no way to prevent 
+   lots of reclaim and/or invoking the oom killer, it would be 
+   disappointing to not be able to get notifications of such a condition.
 
-Yes, I see your point: we have many ways to limit resources, so it makes
-it hard to identify the cause of the "pressure" and thus how to deal with
-it, since the pressure might be caused by different kinds of limits, and
-freeing memory from one bucket doesn't mean that the memory will be
-available to the process that is requesting the memory.
+ - AGAINST supporting mempolicies: you only need to support memory 
+   isolation for cgroups (memcg and cpusets) and thus can implement your 
+   own memory pressure cgroup that you can use to aggregate tasks and 
+   then replace memcg memory thresholds with co-mounting this new cgroup 
+   that would notify on an eventfd anytime one of the attached processes 
+   experiences memory pressure.
 
-So we do want to know whether a specific cpuset is under pressure, whether
-a specific memcg is under pressure, or whether the system (and kernel
-itself) lacks memory.
+> > Most processes aren't going to care if they are running into memory 
+> > pressure and have no implementation to free memory back to the kernel or 
+> > start ratelimiting themselves.  They will just continue happily along 
+> > until they get the memory they want or they get oom killed.  The ones that 
+> > do, however, or a job scheduler or monitor that is watching over the 
+> > memory usage of a set of tasks, will be able to do something when 
+> > notified.
+> 
+> Yup, this is exactly how we want to use this. In Android we have "Activity
+> Manager" thing, which acts exactly how you describe: it's a tasks monitor.
+> 
 
-And we want to have a single API for this? Heh. :)
+In addition to that, I think I can hook into our implementation of malloc 
+which frees memory back to the kernel with MADV_DONTNEED and zaps 
+individual ptes to poke holes in the memory it allocates to actually cache 
+the memory that we free() and then re-use it under normal circumstances to 
+return cache-hot memory on the next allocation but under memory pressure, 
+as triggered by your interface (but for threads attached to a memcg facing 
+memcg limits), drain the memory back to the kernel immediately.
 
-The other idea might be this (I'm describing it in detail so that you
-could actually comment on what exactly you don't like in this):
+> > In the hopes of a single API that can do all this and not a 
+> > reimplementation for various types of memory limitations (it seems like 
+> > what you're suggesting is at least three different APIs: system-wide via 
+> > vmpressure_fd, memcg via memcg thresholds, and cpusets through an eventual 
+> > cpuset threshold), I'm hoping that we can have a single interface that can 
+> > be polled on to determine when individual processes are encountering 
+> > memory pressure.  And if I'm not running in your oom cpuset, I don't care 
+> > about your memory pressure.
+> 
+> I'm not sure to what exactly you are opposing. :) You don't want to have
+> three "kinds" pressures, or you don't what to have three different
+> interfaces to each of them, or both?
+> 
 
-1. Obtain the fd via eventfd();
+The three pressures are a separate topic (I think it would be better to 
+have some measure of memory pressure similar to your reclaim scale and 
+allow users to get notifications at levels they define).  I really dislike 
+having multiple interfaces that are all different from one another 
+depending on the context.
 
-2. The fd can be passed to these files:
+Given what we have right now with memory thresholds in memcg, if we were 
+to merge vmpressure_fd, then we're significantly limiting the usecase 
+since applications need not know if they are attached to a memcg or not: 
+it's a type of virtualization that the admin may setup but another admin 
+may be running unconstrained on a system with much more memory.  So for 
+your usecase of a job monitor, that would work fine for global oom 
+conditions but the application no longer has an API to use if it wants to 
+know when it itself is feeling memory pressure.
 
-   I) Say /sys/kernel/mm/memory_pressure
+I think others have voiced their opinion on trying to create a single API 
+for memory pressure notifications as well, it's just a hard problem and 
+takes a lot of work to determine how we can make it easy to use and 
+understand and extendable at the same time.
 
-      If we don't use cpusets/memcg or even have CGROUPS=n, this will be
-      system's/global memory pressure. Pass the fd to this file and start
-      polling.
+> > I don't understand, how would this work with cpusets, for example, with 
+> > vmpressure_fd as defined?  The cpuset policy is embedded in the page 
+> > allocator and skips over zones that are not allowed when trying to find a 
+> > page of the specified order.  Imagine a cpuset bound to a single node that 
+> > is under severe memory pressure.  The reclaim logic will get triggered and 
+> > cause a notification on your fd when the rest of the system's nodes may 
+> > have tons of memory available.
+> 
+> Yes, I see your point: we have many ways to limit resources, so it makes
+> it hard to identify the cause of the "pressure" and thus how to deal with
+> it, since the pressure might be caused by different kinds of limits, and
+> freeing memory from one bucket doesn't mean that the memory will be
+> available to the process that is requesting the memory.
+> 
+> So we do want to know whether a specific cpuset is under pressure, whether
+> a specific memcg is under pressure, or whether the system (and kernel
+> itself) lacks memory.
+> 
+> And we want to have a single API for this? Heh. :)
+> 
 
-      If we do use cpusets or memcg, the API will still work, but we have
-      two options for its behaviour:
-
-      a) This will only report the pressure when we're reclaiming with
-         say (global_reclaim() && node_isset(zone_to_nid(zone),
-         current->mems_allowed)) == 1. (Basically, we want to see pressure
-         of kernel slabs allocations or any non-soft limits).
-
-      or
-
-      b) If 'filtering' cpusets/memcg seems too hard, we can say that
-         these notifications are the "sum" of global+memcg+cpuset. It
-         doesn't make sense to actually monitor these, though, so if the
-         monitor is aware of cgroups, just 'goto II) and/or III)'.
-
-   II) /sys/fs/cgroup/cpuset/.../cpuset.memory_pressure (yeah, we have
-       it already)
-
-      Pass the fd to this file to monitor per-cpuset pressure. So, if you
-      get the pressure from here, it makes sense to free resources from
-      this cpuset.
-
-   III) /sys/fs/cgroup/memory/.../memory.pressure
-
-      Pass the fd to this file to monitor per-memcg pressure. If you get
-      the pressure from here, it only makes sense to free resources from
-      this memcg.
-
-3. The pressure level values (and their meaning) and the format of the
-   files are the same, and this what defines the "API".
-
-   So, if "memory monitor/supervisor app" is aware of cpusets, it manages
-   memory at this level. If both cpuset and memcg is used, then it has to
-   monitor both files, and act accordingly. And if we don't use
-   cpusets/memcg (or even have cgroups=n), we can just watch the global
-   reclaimer's pressure.
-
-Do I understand correctly that you don't like this? Just to make sure. :)
-
-Thanks,
-Anton.
+Might not be too difficult if you implement your own cgroup to aggregate 
+these tasks for which you want to know memory pressure events; it would 
+have to be triggered for the task trying to allocate memory at any given 
+time and how hard it was to allocate that memory in the slowpath, tie it 
+back to that tasks' memory pressure cgroup, and then report the trigger if 
+it's over a user-defined threshold normalized to the 0-100 scale.  Then 
+you could co-mount this cgroup with memcg, cpusets, or just do it for the 
+root cgroup for users who want to monitor the entire system 
+(CONFIG_CGROUPS is enabled by default).
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
