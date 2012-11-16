@@ -1,43 +1,81 @@
-From: willims gebrel <willims.gebrel-ZDRrIK9Sz5o@public.gmane.org>
-Subject: Williams
-Date: Fri, 16 Nov 2012 12:56:27 +0000 (GMT)
-Message-ID: <1353070587.80759.YahooMailClassic@web171702.mail.ir2.yahoo.com>
-Reply-To: williamsgebrel786-/E1597aS9LQAvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+From: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
+Subject: [RFC] socket.7: Describe sockaddr and sockaddr_storage
+ structures.
+Date: Sat, 17 Nov 2012 02:29:02 +0900
+Message-ID: <201211161729.qAGHT2t5015672@94.43.138.210.xn.2iij.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Please review.
 
-My Dear,
+sockaddr_storage{}, which is useful for protocol independent
+programming, is not documented at all.
 
- 
+Reference:
 
-I'm happy to inform you about my success in getting those funds transferred under the cooperation of my new partner from Canada based business man; presently I'm in Bahamas for investment projects with my own share of the total sum. Meanwhile, I didn't forget your past efforts and attempts to assist me in transferring those funds despite that it failed us somehow.
+	RFC 3542
 
- 
+Signed-off-by: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
+---
+ man7/socket.7 |   39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-Now contact my patina personal adviser in Togo, his name is HON REV.PETER SMITH of church embassy ministry Togo, E-mail: fortbendlawlegal-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+diff --git a/man7/socket.7 b/man7/socket.7
+index ec1054a..50a59bb 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -198,6 +198,45 @@ must be installed via
+ See the
+ .I Signals
+ discussion below.
++.SS Socket Address Structures
++.BR connect (2),
++.BR bind (2),
++.BR accept (2),
++.BR getsockname (2),
++.BR getpeername (2)
++and other functions take an opaque pointer to struct
++.IR sockaddr ,
++which contains at least the following element:
++.sp
++.in +4n
++.nf
++    sa_family_t sa_family;
++.fi
++.in
++.PP
++Some socket functions take socket address structure
++to be filled.  To define unified socket address
++buffer for multiple protocols, struct
++.I sockaddr_storage
++is provided, which contains at least the following element:
++.sp
++.in +4n
++.nf
++    sa_family_t ss_family;
++.fi
++.in
++.PP
++.I sockaddr_storage
++is suitable to accomodate all supported protocol specific socket
++address structures; it is large enough and is aligned properly.
++.PP
++Each socket address structure,
++.IR sockaddr ,
++.I sockaddr_storage
++and others has common initial element of
++.I sa_family_t
++type and can be used to determine protocol specific socket
++address structure.
+ .SS Socket Options
+ These socket options can be set by using
+ .BR setsockopt (2)
+-- 
+1.7.9.5
 
- 
-
-Ask him to send you the official Draft check of $500.000.00 or by cash which I gave him as order to kept for your compensation for all the past efforts and attempts to assist me in this matter before. I appreciated your collective efforts at that time, so feel free and get in touch with my patina adviser HON.REV. PETER SMITH and instruct him where to send the amount to you. Please do let me know immediately you receive it so that we can share the joy after all the sufferings at that time.
-
- 
-
-in the moment, I am very busy here In Bahamas because of the investment projects which myself and the new partner are having at hand without confrontations, finally, remember that I had forwarded instruction to the REV.PETER SMITH on your behalf to send you the check or by cash as my patina deposited to him on your name before he left to Canada where he based.
-
- 
-
-So feel free to get in touch with HON REV.PETER SMITH he will send the amount to you without any delay.
-
- 
-
-With best regards,
-
-Williams
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
