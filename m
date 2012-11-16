@@ -1,8 +1,8 @@
 From: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
-Subject: [RFC] socket.7: Describe sockaddr and sockaddr_storage
- structures.
-Date: Sat, 17 Nov 2012 02:29:02 +0900
-Message-ID: <201211161729.qAGHT2t5015672@94.43.138.210.xn.2iij.net>
+Subject: [RFC] if_nametoindex.3: New page documenting if_nametoindex(3)
+ and if_indextoname(3)
+Date: Sat, 17 Nov 2012 02:28:33 +0900
+Message-ID: <201211161728.qAGHSXoW015568@94.43.138.210.xn.2iij.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -10,69 +10,125 @@ Cc: yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Please review.
+TODO: Check VERSIONS and HISTORY sections.
 
-sockaddr_storage{}, which is useful for protocol independent
-programming, is not documented at all.
-
-Reference:
-
+References:
 	RFC 3542
+
+	POSIX Man Page Set
+		http://www.unix.com/man-page/POSIX/3posix/if_indextoname
+		http://www.unix.com/man-page/POSIX/3posix/if_nametoindex
+
+	OS X Deverloper Tools Manual Page
+		http://developer.apple.com/library/mac/#documentation/Darwin/Reference/Manpages/man3/if_nameindex.3.html
+
+	Source: sysdeps/unix/sysv/linux/{if_index.c,ifaddrs.c}
 
 Signed-off-by: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
 ---
- man7/socket.7 |   39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ man3/if_nametoindex.3 |   93 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 93 insertions(+)
+ create mode 100644 man3/if_nametoindex.3
 
-diff --git a/man7/socket.7 b/man7/socket.7
-index ec1054a..50a59bb 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -198,6 +198,45 @@ must be installed via
- See the
- .I Signals
- discussion below.
-+.SS Socket Address Structures
-+.BR connect (2),
-+.BR bind (2),
-+.BR accept (2),
-+.BR getsockname (2),
-+.BR getpeername (2)
-+and other functions take an opaque pointer to struct
-+.IR sockaddr ,
-+which contains at least the following element:
-+.sp
-+.in +4n
+diff --git a/man3/if_nametoindex.3 b/man3/if_nametoindex.3
+new file mode 100644
+index 0000000..de458b1
+--- /dev/null
++++ b/man3/if_nametoindex.3
+@@ -0,0 +1,93 @@
++.\" Copyright (c) 2012 YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
++.\" 
++.\" Permission is granted to make and distribute verbatim copies of this
++.\" manual provided the copyright notice and this permission notice are
++.\" preserved on all copies.
++.\"
++.\" Permission is granted to copy and distribute modified versions of
++.\" this manual under the conditions for verbatim copying, provided that
++.\" the entire resulting derived work is distributed under the terms of
++.\" a permission notice identical to this one.
++.\"
++.\" Since the Linux kernel and libraries are constantly changing, this
++.\" manual page may be incorrect or out-of-date.  The author(s) assume.
++.\" no responsibility for errors or omissions, or for damages resulting.
++.\" from the use of the information contained herein.  The author(s) may.
++.\" not have taken the same level of care in the production of this.
++.\" manual, which is licensed free of charge, as they might when working.
++.\" professionally.
++.\"
++.\" Formatted or processed versions of this manual, if unaccompanied by
++.\" the source, must acknowledge the copyright and authors of this work.
++.\"
++.TH IF_NAMETOINDEX 3 2012-11-16 "GNU" "Linux Programmer's Manual"
++.SH NAME
++if_nametoindex, if_indextoname \- mappings between network interface names and indexes
++.SH SYNOPSIS
 +.nf
-+    sa_family_t sa_family;
-+.fi
-+.in
-+.PP
-+Some socket functions take socket address structure
-+to be filled.  To define unified socket address
-+buffer for multiple protocols, struct
-+.I sockaddr_storage
-+is provided, which contains at least the following element:
++.B #include <net/if.h>
 +.sp
-+.in +4n
-+.nf
-+    sa_family_t ss_family;
++.BI "unsigned int if_nametoindex(const char *" "ifname" );
++.BI "char *if_indextoname(unsigned int ifindex, char *" "ifname);
 +.fi
-+.in
++.SH DESCRIPTION
++The
++.BR if_nametoindex ()
++function returns the interface index corresponding to the name
++.IR ifname .
++
++The
++.BR if_indextoname ()
++function returns a pointer to the network interface name
++corresponding to the interface index
++.IR ifindex .
++The buffer
++.I ifname
++must be of at least IFNAMSIZ bytes.
++
++.SH RETURN VALUE
++On success,
++.BR if_nametoindex ()
++returns the index number of the network interface;
++On error, 0 is returned and
++.I errno
++is set appropriately.
++
++On success,
++.BR if_indextoname ()
++returns
++.IR ifname ;
++On error, NULL pointer is retuned and
++.I errno
++is set approptiately.
++.SH ERRORS
++.BR if_nameindex ()
++and
++.BR if_nameindex ()
++may fail and set
++.I errno
++if:
++.TP
++.B ENXIO
++Interface not found.
 +.PP
-+.I sockaddr_storage
-+is suitable to accomodate all supported protocol specific socket
-+address structures; it is large enough and is aligned properly.
++.BR if_nametoindex ()
++may also fail for any of the errors specified for
++.BR socket (2),
++.BR ioctl (2).
 +.PP
-+Each socket address structure,
-+.IR sockaddr ,
-+.I sockaddr_storage
-+and others has common initial element of
-+.I sa_family_t
-+type and can be used to determine protocol specific socket
-+address structure.
- .SS Socket Options
- These socket options can be set by using
- .BR setsockopt (2)
++.BR if_indextoname ()
++may also fail for any of the error specified for
++.BR if_nameindex (3).
++.SH CONFORMING TO
++RFC\ 3493, POSIX.1-2001.
++.SH HISTORY
++This function first appeared in BSDi.
++.SH SEE ALSO
++.BR getsockopt (2),
++.BR setsockopt (2),
++.BR getifaddrs (3),
++.BR if_indextoname (3),
++.BR if_nameindex (3),
++.BR if_nametoindex (3),
++.BR ifconfig (8)
 -- 
 1.7.9.5
 
