@@ -1,8 +1,8 @@
 From: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
-Subject: [RFC] if_nametoindex.3: New page documenting if_nametoindex(3)
- and if_indextoname(3)
-Date: Sat, 17 Nov 2012 02:28:33 +0900
-Message-ID: <201211161728.qAGHSXoW015568@94.43.138.210.xn.2iij.net>
+Subject: [RFC] if_nameindex.3: New page documenting if_nameindex(3) and
+ if_freenameindex(3)
+Date: Sat, 17 Nov 2012 02:28:22 +0900
+Message-ID: <201211161728.qAGHSMj0015535@94.43.138.210.xn.2iij.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -16,26 +16,26 @@ References:
 	RFC 3542
 
 	POSIX Man Page Set
-		http://www.unix.com/man-page/POSIX/3posix/if_indextoname
-		http://www.unix.com/man-page/POSIX/3posix/if_nametoindex
+		http://www.unix.com/man-page/POSIX/3posix/if_indexname
+		http://www.unix.com/man-page/POSIX/3posix/if_freeindexname
 
 	OS X Deverloper Tools Manual Page
 		http://developer.apple.com/library/mac/#documentation/Darwin/Reference/Manpages/man3/if_nameindex.3.html
 
 	Source: sysdeps/unix/sysv/linux/{if_index.c,ifaddrs.c}
 
-Signed-off-by: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
+YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
 ---
- man3/if_nametoindex.3 |   93 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 93 insertions(+)
- create mode 100644 man3/if_nametoindex.3
+ man3/if_nameindex.3 |  110 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
+ create mode 100644 man3/if_nameindex.3
 
-diff --git a/man3/if_nametoindex.3 b/man3/if_nametoindex.3
+diff --git a/man3/if_nameindex.3 b/man3/if_nameindex.3
 new file mode 100644
-index 0000000..de458b1
+index 0000000..60bfd39
 --- /dev/null
-+++ b/man3/if_nametoindex.3
-@@ -0,0 +1,93 @@
++++ b/man3/if_nameindex.3
+@@ -0,0 +1,110 @@
 +.\" Copyright (c) 2012 YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
 +.\" 
 +.\" Permission is granted to make and distribute verbatim copies of this
@@ -58,65 +58,82 @@ index 0000000..de458b1
 +.\" Formatted or processed versions of this manual, if unaccompanied by
 +.\" the source, must acknowledge the copyright and authors of this work.
 +.\"
-+.TH IF_NAMETOINDEX 3 2012-11-16 "GNU" "Linux Programmer's Manual"
++.TH IF_NAMEINDEX 3 2012-11-16 "GNU" "Linux Programmer's Manual"
 +.SH NAME
-+if_nametoindex, if_indextoname \- mappings between network interface names and indexes
++if_nameindex, if_freenameindex \- get network interface names and indexes
 +.SH SYNOPSIS
 +.nf
 +.B #include <net/if.h>
 +.sp
-+.BI "unsigned int if_nametoindex(const char *" "ifname" );
-+.BI "char *if_indextoname(unsigned int ifindex, char *" "ifname);
++.BI "struct if_nameindex *if_nameindex(void);
++.BI "void if_freenameindex(struct if_nameindex *" "ptr" );
 +.fi
 +.SH DESCRIPTION
 +The
-+.BR if_nametoindex ()
-+function returns the interface index corresponding to the name
-+.IR ifname .
++.BR if_nameindex ()
++function creates an array of structures, one structure per
++interface, each describing network interface name and
++corresponding network index of the local system.
 +
 +The
-+.BR if_indextoname ()
-+function returns a pointer to the network interface name
-+corresponding to the interface index
-+.IR ifindex .
-+The buffer
-+.I ifname
-+must be of at least IFNAMSIZ bytes.
-+
++.I if_nameindex
++structure contains at least the following entries:
++.sp
++.in +4n
++.nf
++    unsigned int if_index;  /* 1, 2, ... */
++    char *if_name;          /* null terminated name: "eth0", ... */
++.fi
++.in
++.PP
++The
++.I if_index
++field contains the interface index,
++or zero if this is the last item of the array.
++.PP
++The
++.I ifa_name
++field points to the null-terminated interface name,
++or NULL pointer if this is the last item of the array.
++.PP
++The data returned by
++.BR if_nameindex ()
++is dynamically allocated and should be freed using
++.BR if_freenameindex ()
++when no longer needed.
 +.SH RETURN VALUE
 +On success,
-+.BR if_nametoindex ()
-+returns the index number of the network interface;
-+On error, 0 is returned and
++.BR if_nameindex ()
++returns pointer to the array;
++on error, A NULL pointer is returned, and
 +.I errno
 +is set appropriately.
-+
-+On success,
-+.BR if_indextoname ()
-+returns
-+.IR ifname ;
-+On error, NULL pointer is retuned and
-+.I errno
-+is set approptiately.
 +.SH ERRORS
-+.BR if_nameindex ()
-+and
 +.BR if_nameindex ()
 +may fail and set
 +.I errno
 +if:
 +.TP
-+.B ENXIO
-+Interface not found.
++.B ENOBUFS
++Sufficient resources unavailable.
 +.PP
-+.BR if_nametoindex ()
++.BR if_nameindex ()
 +may also fail for any of the errors specified for
 +.BR socket (2),
-+.BR ioctl (2).
-+.PP
-+.BR if_indextoname ()
-+may also fail for any of the error specified for
-+.BR if_nameindex (3).
++.BR bind (2),
++.BR ioctl (2),
++.BR getsockname (2),
++.BR recvmsg (2),
++.BR sendto (2),
++or
++.BR malloc (3).
++.SH VERSIONS
++The
++.BR if_nameindex ()
++function first appeared in glibc 2.3, but before glibc 2.3.3,
++the implementation only supported interfaces with IPv4 addresses.
++Support of interfaces without IPv4 addresses is only available
++on kernels that support netlink.
 +.SH CONFORMING TO
 +RFC\ 3493, POSIX.1-2001.
 +.SH HISTORY
