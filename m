@@ -1,7 +1,7 @@
-From: "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>
-Subject: Re: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
-Date: Wed, 21 Nov 2012 11:30:56 +0200
-Message-ID: <20121121093056.GA31882@shutemov.name>
+From: <leonid.moiseichuk@nokia.com>
+Subject: RE: [RFC v3 0/3] vmpressure_fd: Linux VM pressure notifications
+Date: Wed, 21 Nov 2012 11:32:43 +0000
+Message-ID: <84FF21A720B0874AA94B46D76DB982690469CC00@008-AM1MPN1-002.mgdnok.nokia.com>
 References: <20121115073420.GA19036@lizard.sbx05977.paloaca.wayport.net>
  <alpine.DEB.2.00.1211142351420.4410@chino.kir.corp.google.com>
  <20121115085224.GA4635@lizard>
@@ -12,42 +12,94 @@ References: <20121115073420.GA19036@lizard.sbx05977.paloaca.wayport.net>
  <alpine.DEB.2.00.1211161349420.17853@chino.kir.corp.google.com>
  <50AA3ABF.4090803@parallels.com>
  <alpine.DEB.2.00.1211200950120.4200@chino.kir.corp.google.com>
+ <20121121093056.GA31882@shutemov.name>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.00.1211200950120.4200-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Glauber Costa <glommer-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, Anton Vorontsov <anton.vorontsov-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Pekka Enberg <penberg-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Leonid Moiseichuk <leonid.moiseichuk-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linaro-kernel-cunTk1MwBs8s++Sfvej+rw@public.gmane.org, patches-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, kernel-team-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, KAMEZAWA Hiroyuki <kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>, Tejun Heo <tj-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <20121121093056.GA31882@shutemov.name>
+Content-Language: en-US
+Sender: owner-linux-mm@kvack.org
+To: kirill@shutemov.name, rientjes@google.com
+Cc: glommer@parallels.com, anton.vorontsov@linaro.org, penberg@kernel.org, mgorman@suse.de, kosaki.motohiro@gmail.com, minchan@kernel.org, b.zolnierkie@samsung.com, john.stultz@linaro.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linaro-kernel@lists.linaro.org, patches@linaro.org, kernel-team@android.com, linux-man@vger.kernel.org, kamezawa.hiroyu@jp.fujitsu.com, mhocko@suse.cz, hannes@cmpxchg.org, tj@kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Nov 20, 2012 at 10:02:45AM -0800, David Rientjes wrote:
-> On Mon, 19 Nov 2012, Glauber Costa wrote:
-> 
-> > >> In the case I outlined below, for backwards compatibility. What I
-> > >> actually mean is that memcg *currently* allows arbitrary notifications.
-> > >> One way to merge those, while moving to a saner 3-point notification, is
-> > >> to still allow the old writes and fit them in the closest bucket.
-> > >>
-> > > 
-> > > Yeah, but I'm wondering why three is the right answer.
-> > > 
-> > 
-> > This is unrelated to what I am talking about.
-> > I am talking about pre-defined values with a specific event meaning (in
-> > his patchset, 3) vs arbitrary numbers valued in bytes.
-> > 
-> 
-> Right, and I don't see how you can map the memcg thresholds onto Anton's 
-> scheme
+-----Original Message-----
+From: ext Kirill A. Shutemov [mailto:kirill@shutemov.name]=20
+Sent: 21 November, 2012 11:31
+...
 
 BTW, there's interface for OOM notification in memcg. See oom_control.
 I guess other pressure levels can also fit to the interface.
 
--- 
- Kirill A. Shutemov
+---
+Hi,
+
+I have tracking this conversation very little, but as person somehow relate=
+d to this round of development and requestor of memcg notification mechanis=
+m in past (Kirill implemented that) I have to point there are reasons not t=
+o use memcg. The situation in latest kernels could be different but practic=
+ally in past the following troubles were observed with memcg:
+1. by default memcg is turned off on Android (at least on 4.1 I see it)
+2. you need to produce memory partitioning, and that maybe non-trivial task=
+ in general case when apps/use cases are not so limited
+3. memcg takes into account cached memory. Yes, you can play with MADV_DONT=
+NEED  as it was mentioned  but in generic case that is insane
+4. memcg need be extended in a way you need to track some other kinds of me=
+mory
+5. in case of situation in some partition changed fast (e.g. process moved =
+to another partition) it may cause pages trashing and device lock. The in-k=
+ernel lock was fixed in May 2012, but even pages trashing knock out device =
+number of seconds (even minutes).
+
+Thus, I would prefer to avoid memcg even it is powerful feature.
+
+Memory notifications are quite irrelevant to partitioning and cgroups. The =
+use-case is related to user-space handling low memory. Meaning the function=
+ality should be accurate with specific granularity (e.g. 1 MB) and time (0.=
+25s is OK) but better to have it as simple and battery-friendly. I prefer t=
+o have pseudo-device-based  text API because it is easy to debug and invest=
+igate. It would be nice if it will be possible to use simple scripting to p=
+oint what kind of memory on which levels need to be tracked but private/sha=
+red dirty is #1 and memcg cannot handle it.
+
+There are two use-cases related to this notification feature:
+
+1. direct usage -> reaction to coming low memory situation and do something=
+ ahead of time. E.g. system calibrated to 80% dirty memory border, and if w=
+e crossed it we can compensate device slowness by flushing application cach=
+es, closing background images even notify user but without killing apps by =
+any OOM killer and corruption unsaved data.
+
+2. permission to do some heavy actions. If memory level is low enough for s=
+ome application use case (e.g. 50 MB available) application can start heavy=
+ use-case, otherwise - do something to prevent potential problems.=20
+
+So, seems to me, the levels depends from application memory usage e.g. calc=
+ulator does not need memory information but browser and image gallery needs=
+. Thus, tracking daemons in user-space looks as overhead, and such construc=
+tion we used in n900 (ke-recv -> dbus -> apps) is quite fragile and slow.
+=20
+These bits [1] was developed initially for n9 to replace memcg notification=
+s with great support of kernel community about a year ago. Unfortunately fo=
+r n9 I was a bit late and code was integrated to another product's kernel (=
+say M), but at last Summer project M was forced to die due to moving produc=
+t line to W. Practically arm device produced signals ON/OFF which fit well =
+into space/time requirements, so I have what I need. Even it is quite primi=
+tive code but I prefer do not over-engineering complexity without necessity=
+.
+
+Best Wishes,
+Leonid
+
+PS: but seems code related to vmpressure_fd solves some other problem so yo=
+u can ignore my speech.=20
+
+[1] http://maemo.gitorious.org/maemo-tools/libmemnotify/blobs/master/src/ke=
+rnel/memnotify.c
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
