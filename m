@@ -1,7 +1,7 @@
 From: Xypron <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Subject: Re: [PATCH 1/1] Documentation of the fanotify interface.
-Date: Sun, 25 Nov 2012 21:27:21 +0100
-Message-ID: <50B27F29.9000208@gmx.de>
+Date: Sun, 25 Nov 2012 21:41:33 +0100
+Message-ID: <50B2827D.7070004@gmx.de>
 References: <1353790354-14452-1-git-send-email-xypron.glpk@gmx.de> <CAKgNAkjmj5kOvkfWGTGH-GE=fak+C2_3PComW3im-tW3i5w6Xw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -35,11 +35,13 @@ Could you, please, indicate if the scope of the page is right. Is there
 any information that you would prefer to be in section 2 man pages. Or
 is there information in the section 2 man pages that should be moved to 7?
 
-I am just wondering why Stephan wrote in his draft man pages
-".\" THIS SOFTWARE IS PROVIDED BY atsec information security corp"
-whereas Eric who developed fanotify seems to work for a different company.
+An example would make sense. But what length of example is allowable in
+a man page? I guess a complete example will have 100 or more lines.
 
-My understanding is that you would prefer the verbatime license as in
+Should alternative APIs like inotify and dnotify be mentioned in
+SEE ALSO?
+
+My understanding is that you would prefer the verbatim license as in
 man3/get_nprocs_conf.3 to any other license.
 
 Best regards
@@ -48,31 +50,30 @@ Heinrich Schuchardt
 
 
 --- /dev/null	2012-11-25 19:56:52.352390081 +0100
-+++ fanotify.7	2012-11-25 20:25:00.591514931 +0100
++++ man7/fanotify.7	2012-11-25 21:28:49.191649737 +0100
 @@ -0,0 +1,217 @@
 +.\" Copyright (C) 2012 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 +.\"
-+.\" This is free documentation; you can redistribute it and/or
-+.\" modify it under the terms of the GNU General Public License as
-+.\" published by the Free Software Foundation; either version 2 of
-+.\" the License, or (at your option) any later version.
++.\" Permission is granted to make and distribute verbatim copies of this
++.\" manual provided the copyright notice and this permission notice are
++.\" preserved on all copies.
 +.\"
-+.\" The GNU General Public License's references to "object code"
-+.\" and "executables" are to be interpreted as the output of any
-+.\" document formatting or typesetting system, including
-+.\" intermediate and printed output.
++.\" Permission is granted to copy and distribute modified versions of
++.\" this manual under the conditions for verbatim copying, provided that
++.\" the entire resulting derived work is distributed under the terms of
++.\" a permission notice identical to this one.
 +.\"
-+.\" This manual is distributed in the hope that it will be useful,
-+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+.\" GNU General Public License for more details.
++.\" Since the Linux kernel and libraries are constantly changing, this
++.\" manual page may be incorrect or out-of-date.  The author(s) assume.
++.\" no responsibility for errors or omissions, or for damages resulting.
++.\" from the use of the information contained herein.  The author(s) may.
++.\" not have taken the same level of care in the production of this.
++.\" manual, which is licensed free of charge, as they might when working.
++.\" professionally.
 +.\"
-+.\" You should have received a copy of the GNU General Public
-+.\" License along with this manual; if not, write to the Free
-+.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111,
-+.\" USA.
-+
++.\" Formatted or processed versions of this manual, if unaccompanied by
++.\" the source, must acknowledge the copyright and authors of this work.
++.\"
 +.TH FANOTIFY 7 2012-11-23 "Linux" "Linux Programmer's Manual"
 +.SH NAME
 +fanotify \- monitoring file system events
