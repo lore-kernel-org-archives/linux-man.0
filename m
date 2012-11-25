@@ -1,211 +1,276 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: fanotify_init(2) and fanotify_mark(2) man pages
-Date: Sun, 25 Nov 2012 17:59:09 +0100
-Message-ID: <CAKgNAkgFHiGz662OhcxtYqwyTYuWzFdS+Dz7Lt2w+j7xk3HrLQ@mail.gmail.com>
-References: <4E9BFAA4.3010907@atsec.com> <1319640412.3280.33.camel@localhost> <4EA90CB9.3010405@atsec.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Xypron <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH 1/1] Documentation of the fanotify interface.
+Date: Sun, 25 Nov 2012 21:27:21 +0100
+Message-ID: <50B27F29.9000208@gmx.de>
+References: <1353790354-14452-1-git-send-email-xypron.glpk@gmx.de> <CAKgNAkjmj5kOvkfWGTGH-GE=fak+C2_3PComW3im-tW3i5w6Xw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=e89a8f3b9de972f82604cf54bd0b
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4EA90CB9.3010405-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAKgNAkjmj5kOvkfWGTGH-GE=fak+C2_3PComW3im-tW3i5w6Xw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---e89a8f3b9de972f82604cf54bd0b
-Content-Type: text/plain; charset=ISO-8859-1
+Michael,
 
-Stephan revised fanotify_init(2) after some comments from Eric.
+thank you for reviewing my patch.
 
+The most versatile test program for the fanotify API I have seen so far
+is by Eric:
+http://git.infradead.org/users/eparis/fanotify-example.git
 
----------- Forwarded message ----------
-From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Date: Thu, Oct 27, 2011 at 9:48 AM
-Subject: Re: fanotify_init(2) and fanotify_mark(2) man pages
-To: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+For polling the following example exists:
+http://www.lanedo.com/~aleksander/fanotify/fanotify-example.c
 
+Another program is
+https://launchpad.net/fatrace
 
-On 26.10.2011 16:46:52, -0400, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+I have corrected some obvious misspells and formatting issues in
+fanotify (7) and uploaded my suggestion for the fanotify manpages to
+http://git.xypron.de/?p=fanotify-manpages.git
 
-Hi Eric,
+Could you, please, indicate if the scope of the page is right. Is there
+any information that you would prefer to be in section 2 man pages. Or
+is there information in the section 2 man pages that should be moved to 7?
 
-> On Mon, 2011-10-17 at 11:51 +0200, Stephan Mueller wrote:
->> Hi,
->>
->> Though, there is one area which should warrant another review: the
->> struct fanotify_response discussion, in particular I am not sure about
->> the explanation of the fd member variable.
->
-> File Descriptor Usage:
+I am just wondering why Stephan wrote in his draft man pages
+".\" THIS SOFTWARE IS PROVIDED BY atsec information security corp"
+whereas Eric who developed fanotify seems to work for a different company.
 
-[...]
+My understanding is that you would prefer the verbatime license as in
+man3/get_nprocs_conf.3 to any other license.
 
-I tried to incorporate all of your suggestions. See man page attached.
+Best regards
 
->
-> If I were to write an example program (or more likely trim my example
-> program, would that be appreciated here?)
-
-That would be a great inclusion to the man page. I think that the system
-call is quite complex and the description is still not obvious.
-Therefore, an example would be highly appreciated.
->
-> -Eric
->
->
+Heinrich Schuchardt
 
 
---
-Ciao
-Stephan
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
-
---e89a8f3b9de972f82604cf54bd0b
-Content-Type: text/plain; charset=US-ASCII; name="fanotify_init.2"
-Content-Disposition: attachment; filename="fanotify_init.2"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: 68f42a6a5091dc38_0.1
-
-LlwiIENvcHlyaWdodCAoYykgMjAxMSwgU3RlcGhhbiBNdWVsbGVyIDxzbXVlbGxlckBhdHNlYy5j
-b20+Ci5cIiBzdXBwb3J0ZWQgYnkgRXJpYyBQYXJpcyA8ZXBhcmlzQHJlZGhhdC5jb20+IHdobyBw
-cm92aWRlZCB0aGUKLlwiIGluaXRpYWwgaW5mb3JtYXRpb24gYXQKLlwiIGh0dHA6Ly9tYXJjLmlu
-Zm8vP2w9bGludXgta2VybmVsJm09MTI1NzAxNDkyNTAzOTM4Ci5cIgouXCIgQWxsIHJpZ2h0cyBy
-ZXNlcnZlZC4KLlwiCi5cIiBSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNvdXJjZSBhbmQgYmlu
-YXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKLlwiIG1vZGlmaWNhdGlvbiwgYXJlIHBlcm1pdHRl
-ZCBwcm92aWRlZCB0aGF0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9ucwouXCIgYXJlIG1ldDoKLlwi
-ICogUmVkaXN0cmlidXRpb25zIG9mIHNvdXJjZSBjb2RlIG11c3QgcmV0YWluIHRoZSBhYm92ZSBj
-b3B5cmlnaHQKLlwiICAgbm90aWNlLCB0aGlzIGxpc3Qgb2YgY29uZGl0aW9ucyBhbmQgdGhlIGZv
-bGxvd2luZyBkaXNjbGFpbWVyLgouXCIgKiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZvcm0g
-bXVzdCByZXByb2R1Y2UgdGhlIGFib3ZlIGNvcHlyaWdodAouXCIgICBub3RpY2UsIHRoaXMgbGlz
-dCBvZiBjb25kaXRpb25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIgaW4KLlwiICAgdGhl
-IGRvY3VtZW50YXRpb24gYW5kL29yIG90aGVyIG1hdGVyaWFscyBwcm92aWRlZCB3aXRoIHRoZQou
-XCIgICBkaXN0cmlidXRpb24uCi5cIiAqIE5laXRoZXIgdGhlIG5hbWUgb2YgdGhlIGF0c2VjIGlu
-Zm9ybWF0aW9uIHNlY3VyaXR5IGNvcnAuCi5cIiAgIG5vciB0aGUgbmFtZXMgb2YgaXRzIGNvbnRy
-aWJ1dG9ycyBtYXkgYmUgdXNlZCB0byBlbmRvcnNlIG9yCi5cIiAgIHByb21vdGUgcHJvZHVjdHMg
-ZGVyaXZlZCBmcm9tIHRoaXMgc29mdHdhcmUgd2l0aG91dCBzcGVjaWZpYyBwcmlvcgouXCIgICB3
-cml0dGVuIHBlcm1pc3Npb24uCi5cIgouXCIgVEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURFRCBCWSBh
-dHNlYyBpbmZvcm1hdGlvbiBzZWN1cml0eSBjb3JwLgouXCIgYGBBUyBJUycnIEFORCBBTlkgRVhQ
-UkVTUyBPUiBJTVBMSUVEIFdBUlJBTlRJRVMsIElOQ0xVRElORywgQlVUIE5PVAouXCIgTElNSVRF
-RCBUTywgVEhFIElNUExJRUQgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFkgQU5EIEZJVE5F
-U1MKLlwiIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBUkUgRElTQ0xBSU1FRC4KLlwiIElOIE5P
-IEVWRU5UIFNIQUxMIFRIRSA8Y29weXJpZ2h0LWhvbGRlcj4KLlwiIEJFIExJQUJMRSBGT1IgQU5Z
-IERJUkVDVCwgSU5ESVJFQ1QsIElOQ0lERU5UQUwsIFNQRUNJQUwsIEVYRU1QTEFSWSwKLlwiIE9S
-IENPTlNFUVVFTlRJQUwgREFNQUdFUyAoSU5DTFVESU5HLCBCVVQgTk9UIExJTUlURUQgVE8sIFBS
-T0NVUkVNRU5UCi5cIiBPRiBTVUJTVElUVVRFIEdPT0RTIE9SIFNFUlZJQ0VTOyBMT1NTIE9GIFVT
-RSwgREFUQSwgT1IgUFJPRklUUzsKLlwiIE9SIEJVU0lORVNTIElOVEVSUlVQVElPTikgSE9XRVZF
-UiBDQVVTRUQgQU5EIE9OIEFOWSBUSEVPUlkgT0YKLlwiIExJQUJJTElUWSwgV0hFVEhFUiBJTiBD
-T05UUkFDVCwgU1RSSUNUIExJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HCi5cIiBORUdMSUdF
-TkNFIE9SIE9USEVSV0lTRSkgQVJJU0lORyBJTiBBTlkgV0FZIE9VVCBPRiBUSEUgVVNFIE9GIFRI
-SVMKLlwiIFNPRlRXQVJFLCBFVkVOIElGIEFEVklTRUQgT0YgVEhFIFBPU1NJQklMSVRZIE9GIFNV
-Q0ggREFNQUdFLgouXCIKLlRIIEZBTk9USUZZX0lOSVQgMiAyMDExLTA5LTE1ICJMaW51eCIgIkxp
-bnV4IFByb2dyYW1tZXIncyBNYW51YWwiCi5TSCBOQU1FCmZhbm90aWZ5X2luaXQgXC0gaW5pdGlh
-bGl6ZSBhIGZhbm90aWZ5IGdyb3VwCi5TSCBTWU5PUFNJUwouQkkgImludCBmYW5vdGlmeV9pbml0
-KHVuc2lnbmVkIGludCAiIGZsYWdzICIsIHVuc2lnbmVkIGludCAiIGV2ZW50X2ZfZmxhZ3MgIik7
-IgouU0ggREVTQ1JJUFRJT04KLkJSIGZhbm90aWZ5X2luaXQgKCkKaW5pdGlhbGl6ZXMgYSBuZXcg
-ZmFub3RpZnkgaW5zdGFuY2UgYW5kIHJldHVybnMgYSBmaWxlCmRlc2NyaXB0b3IgYXNzb2NpYXRl
-ZCB3aXRoIHRoZSBuZXcgZmFub3RpZnkgZXZlbnQgcXVldWUuClRoZSBjYWxsaW5nIHByb2Nlc3Mg
-bXVzdCBwb3NzZXNzIHRoZQouSSBDQVBfU1lTX0FETUlOCmNhcGFiaWxpdHkgdG8gaW52b2tlIHRo
-aXMgc3lzdGVtIGNhbGwuIEhvd2V2ZXIsIGl0IGlzIGxpa2VseSB0aGF0IHRoaXMKY2FwYWJpbGl0
-eSByZXF1aXJlbWVudCB3aWxsIGNoYW5nZSBpbiB0aGUgZnV0dXJlLiBUaGVyZWZvcmUsIHRoaXMg
-c3lzdGVtIGNhbGwKaW1wbGVtZW50cyBhZGRpdGlvbmFsIGNhcGFiaWxpdHkgY2hlY2tzIGFzIG91
-dGxpbmVkIGJlbG93IHdoaWNoIHdpbGwgcmVtYWluCnVuY2hhbmdlZC4KLlNIICJGSUxFIERFU0NS
-SVBUT1IgVVNBR0UiClRoZQouQlIgZmFub3RpZnlfaW5pdCAoKQpzeXN0ZW0gY2FsbCByZXR1cm5z
-IGEgZmlsZSBkZXNjcmlwdG9yIHRoYXQgcHJvdmlkZXMgYWNjZXNzIHRvIGEKLkIgZmFub3RpZnkK
-Z3JvdXAuCldoZW4gcmVhZGluZyBmcm9tIHRoYXQgZmlsZSBkZXNjcmlwdG9yCnRoZSBjYWxsZXIg
-aXMgcmV0dXJuZWQgYWxsIGV2ZW50cyB0aGUga2VybmVsIGNvbGxlY3RlZCBmb3IgdGhlCi5CIGZh
-bm90aWZ5Cmdyb3VwLiBXaGVuIHRoZSBmaWxlIGRlc2NyaXB0b3IgcG9zc2Vzc2VzIHRoZSBmbGFn
-Ci5JIE9fTk9OQkxPQ0sKdGhlIGtlcm5lbCB3aWxsIHN0aWxsIHJldHVybiBtdWx0aXBsZSBldmVu
-dHMgaWYgdGhleSBleGlzdCwgYnV0IGl0CndpbGwgcmV0dXJuCi5CIEVBR0FJTgppZiBubyBldmVu
-dHMgZXhpc3QuCi5QUApBCi5CIGZhbm90aWZ5Cmdyb3VwIGlzIGEgInRoaW5nIiB0aGF0IHdhbnRz
-IHRvIHJlY2VpdmUgbm90aWZpY2F0aW9uIGFib3V0IGZpbGVzeXN0ZW0KZXZlbnRzLgouUFAKT25l
-Ci5CIGZhbm90aWZ5CmV2ZW50cyBpcyBkZWZpbmVkIGJ5IHN0cnVjdAouSVIgZnNub3RpZnlfZXZl
-bnQgLgpUaGlzIGRhdGEgc3RydWN0dXJlIHNwZWNpZmllcyB0aGUgcHJlY2lzZSBpbmZvcm1hdGlv
-biBvZiB0aGUgZmlsZSBzeXN0ZW0Kb2JqZWN0IGZvciB3aGljaCB0aGUgZXZlbnQgb2NjdXJlZC4K
-LlBQCkluIGFkZGl0aW9uIHRvIHJlYWRpbmcgZnJvbSB0aGUKLkIgZmFub3RpZnkKZmlsZSBkZXNj
-cmlwdG9yLCB0aGUgY2FsbGluZyBwcm9jZXNzIG1heSBhbHNvIHdyaXRlIHRvIHRoZSBmaWxlIGRl
-c2NyaXB0b3IuClVzZXIgc3BhY2UgbXVzdCB3cml0ZSBkYXRhIHVzaW5nIHRoZSBmb2xsb3dpbmcg
-ZGF0YSBzdHJ1Y3R1cmU6CgouaW4gKzRuCi5uZgpzdHJ1Y3QgZmFub3RpZnlfcmVzcG9uc2Ugewog
-ICAgICAgIF9fczMyIGZkOyAgICAgICAgIC8qIGZpbGUgZGVzY3JpcHRvciAqLwogICAgICAgIF9f
-dTMyIHJlc3BvbnNlOyAgIC8qIHJlc3BvbnNlIGZsYWdzICovCn07Ci5maQouaW4KLlBQCldyaXRp
-bmcgdG8gdGhlIGZpbGUgZGVzY3JpcHRvciBvbmx5IG1ha2VzIHNlbnNlIGluCi5JIEZBTl9DTEFT
-U19DT05URU5UCm9yCi5JUiBGQU5fQ0xBU1NfUFJFX0NPTlRFTlQgLgpJbiBvbmUgb2YgdGhvc2Ug
-Y2xhc3NlcyBhIG1hcmsgY2FuIGJlIGFkZGVkIHdoaWNoCnJlcXVpcmVzIHBlcm1pc3Npb25zIGhh
-bmRsaW5nLiBJZiB1cG9uIHJlYWRpbmcgdGhlIGZhbm90aWZ5IGZpbGUKZGVzY3JpcHRvciBhbiBl
-dmVudCBmb3IKLkkgRkFOXypfUEVSTQppcyByZXR1cm5lZCB1c2Vyc3BhY2Ugc2hvdWxkIHdyaXRl
-IGJhY2sgdG8gdGhlIGZhbm90aWZ5CmZpbGUgZGVzY3JpcHRvciB1c2luZyB0aGUgZGF0YSBzdHJ1
-Y3R1cmUKLkIgZmFub3RpZnlfcmVzcG9uc2UKc2hvd24gYWJvdmUuIFRoZQouSSBmZApmaWxlIGRl
-c2NyaXB0b3IgaW4gdGhlIGRhdGEgc3RydWN0dXJlIHNob3VsZCBiZSB0aGUgZmlsZSBkZXNjcmlw
-dG9yIHN1cHBsaWVkCmluIHRoZSBvcmlnaW5hbCBldmVudC4gVGhlcmVmb3JlLCB0aGUKLkkgZmQK
-ZmlsZSBkZXNjcmlwdG9yIGlkZW50aWZpZXMgYSBwYXJ0aWN1bGFyIHJlc3BvbnNlIHN0b3JlZCBm
-b3IgdGhlCi5CIGZhbm90aWZ5Cmdyb3VwLiBUaGUKLkkgcmVzcG9uc2UKZmxhZyBhbGxvd3MgdXNl
-ciBzcGFjZSB0byBzcGVjaWZ5IG9uZSBvZiB0aGUgZm9sbG93aW5nIHJlc3BvbnNlczoKLlRQCi5C
-IEZBTl9BTExPVwpBbGxvdyB0aGUgb3BlcmF0aW9uLgouVFAKLkIgRkFOX0RFTlkKRGVueSB0aGUg
-b3BlcmF0aW9uLgouUFAKSW4gYWRkaXRpb24sIHRoZSBmb2xsb3dpbmcgSU9DVEwgY2FuIGJlIGlu
-dm9rZWQgd2l0aCB0aGUgZmlsZSBkZXNjcmlwdG9yOgouVFAKLkIgRklPTlJFQUQKVGhpcyBJT0NU
-TCByZXR1cm5zIG51bWJlciBvZiBldmVudHMgcHJlc2VudCBpbiB0aGUgZXZlbnQgcXVldWUgZm9y
-IHRoZQouQiBmYW5vdGlmeQpncm91cC4KLlNIICJTWVNURU0gQ0FMTCBBUkdVTUVOVFMiCi5QUApU
-aGUgZm9sbG93aW5nIHZhbHVlcyBjYW4gYmUgT1InZCBpbnRvIHRoZQouSSBmbGFncwpmaWVsZDoK
-LlBQCi5UUAouQiBGQU5fTk9OQkxPQ0sKU2V0IHRoZQouSSBPX05PTkJMT0NLCmZpbGUgc3RhdHVz
-IGZsYWcgb24gdGhlIG5ldyBvcGVuIGZpbGUgZGVzY3JpcHRpb24uClVzaW5nIHRoaXMgZmxhZyBz
-YXZlcyBleHRyYSBjYWxscyB0bwouQlIgZmNudGwgKDIpCnRvIGFjaGlldmUgdGhlIHNhbWUgcmVz
-dWx0LgouVFAKLkIgRkFOX0NMT0VYRUMKU2V0IHRoZSBjbG9zZS1vbi1leGVjICgKLkkgRkRfQ0xP
-RVhFQyApIGZsYWcgb24gdGhlIG5ldyBmaWxlIGRlc2NyaXB0b3IuClNlZSB0aGUgZGVzY3JpcHRp
-b24gb2YgdGhlCi5JIE9fQ0xPRVhFQwpmbGFnIGluCi5CUiBvcGVuICgyKQpmb3IgcmVhc29ucyB3
-aHkgdGhpcyBtYXkgYmUgdXNlZnVsLgouVFAKLkIgRkFOX0NMQVNTX05PVElGClVzaW5nIHRoaXMg
-cHJpb3JpdHkgbGV2ZWwsCi5CIGZhbm90aWZ5Cmdyb3VwcyBtYXkgbm90IHVzZSBzeW5jaHJvbm91
-cyBub3RpZmljYXRpb24gbWFya3Mgd2hpY2ggbWVhbnMgdGhhdAp0aGV5IGNhbm5vdCBtYWtlIGFj
-Y2VzcyBkZWNpc2lvbnMgZm9yIHVzZXJzLgouVFAKLkIgRkFOX0NMQVNTX0NPTlRFTlQKVGhpcyBw
-cmlvcml0eSBsZXZlbCBpcyBpbnRlbmRlZCBmb3IgZ3JvdXBzIHdoaWNoIHdoaWNoIG5lZWQgYWNj
-ZXNzIHRvIHRoZQpmaWxlIGNvbnRlbnRzIHRvIG1ha2UgYWNjZXNzIGRlY2lzaW9ucy4gVGhlc2Ug
-Y291bGQgYmUgdGhpbmdzIGxpa2UKYW50aSB2aXJ1cyBzY2FubmVycyBvciBpbnRlZ3JpdHkgbW9u
-aXRvcnMuCi5UUAouQiBGQU5fQ0xBU1NfUFJFX0NPTlRFTlQKVGhpcyBwcmlvcml0eSBsZXZlbCBp
-cyBpbnRlbmRlZCBmb3IgZ3JvdXBzIHdoaWNoIHdpbGwgcGxhY2UKY29udGVudCBpbnRvIHRoZSBn
-aXZlbiBmaWxlIGJlZm9yZSBpdCBpcyB1c2VkLiBUaGlzIHByaW9yaXR5IGxldmVsIGlzCmluZGVu
-ZGVkIGZvciBzb21ldGhpbmcgbGlrZSBhIGhpZXJhcmNoaWNhbCBzdG9yYWdlIG1hbmFnZXIgd2hp
-Y2ggbmVlZHMKdG8gcmV0cmlldmUgZGF0YSBmcm9tIHRhcGUuCi5UUAouQiBGQU5fUkVBRE9OTFlf
-RkFMTEJBQ0sKU2V0dGluZyB0aGlzIGZsYWcgd2lsbCBjYXVzZSB0aGUga2VybmVsIHRvIHRyeSB0
-bwpvcGVuIGEgZmlsZSBhdHRhY2hlZCB0byBhbiBldmVudCByZWFkIG9ubHkgaWYgdGhlCi5JIGV2
-ZW50X2ZfZmxhZ3MKaW5kaWNhdGVkIGl0IHNob3VsZCBiZSBvcGVuZWQgcmVhZC93cml0ZSBhbmQg
-dGhhdCBvcGVuIGZhaWxlZC4KLlRQCi5CIEZBTl9VTkxJTUlURURfUVVFVUUKU2V0IHRoZSBzaXpl
-IG9mIHRoZSBmYW5vdGlmeSBldmVudCBxdWV1ZSB0byB1bmxpbWl0ZWQuIFRoaXMgZmxhZyByZXF1
-aXJlcwp0aGUgY2FsbGVyIHRvIHBvc3Nlc3MgdGhlCi5JIENBUF9TWVNfQURNSU4KY2FwYWJpbGl0
-eS4KLlRQCi5CIEZBTl9VTkxJTUlURURfTUFSS1MKU2V0IHRoZSBudW1iZXIgb2YgdGhlIGZhbm90
-aWZ5IGRhdGEgbWFyayBtYWludGFpbmVkIGJ5IHRoZSBmYW5vdGlmeSBncm91cAp0byB1bmxpbWl0
-ZWQuIFRoaXMgZmxhZyByZXF1aXJlcyB0aGUgY2FsbGVyIHRvIHBvc3Nlc3MgdGhlCi5CIENBUF9T
-WVNfQURNSU4KY2FwYWJpbGl0eS4KLlBQCk5vdGUgdGhhdCBvbmx5IG9uZSBvZiB0aGUKLkIgRkFO
-X0NMQVNTXyoKcHJpb3JpdHkgbGV2ZWxzIHNoYWxsIGJlIHNlbGVjdGVkIHBlciBncm91cC4gSWYg
-bm9uZSBpcyBjaG9zZW4sCi5CIEZBTl9DTEFTU19OT1RJRgppcyB1c2VkIGFzIGRlZmF1bHQuCi5Q
-UApUaGUKLkkgZXZlbnRfZl9mbGFncwp0YWtlcyBhbnkgb2YgdGhlIHNhbWUgb3B0aW9ucyBhcyB0
-aGUKLkkgZmxhZ3MKYXJndW1lbnQgb2YgdGhlCi5CUiBvcGVuICgyKQpzeXN0ZW0gY2FsbC4gVGhv
-c2UgZmxhZ3MgYXJlIHVzZWQgd2hlbiBvcGVuaW5nIGEgZmlsZSBkZXNjcmlwdG9yIHdoaWNoIGlz
-CnN1cHBsaWVkIHdpdGggdGhlIGV2ZW50LgouU0ggIlJFVFVSTiBWQUxVRSIKT24gc3VjY2Vzcywg
-dGhpcyBzeXN0ZW0gY2FsbCByZXR1cm4gYSBuZXcgZmlsZSBkZXNjcmlwdG9yLiBPbiBlcnJvciwg
-LTEgaXMKcmV0dXJuZWQsIGFuZCBlcnJubyBpcyBzZXQgdG8gaW5kaWNhdGUgdGhlIGVycm9yLgou
-U0ggRVJST1JTCi5UUAouQiBFSU5WQUwKQW4gaW52YWxpZCB2YWx1ZSB3YXMgc3BlY2lmaWVkIGlu
-IHRoZQouSSBmbGFncwphcmd1bWVudC4KLlRCCi5CIEVJTlZBTApBbiBpbnZhbGlkIGludmFsaWQK
-LkIgRkFOX0NMQVNTXyoKdmFsdWUgd2FzIHNlbGVjdGVkLgouVFAKLkIgRUlOVkFMCi5CIEZBTl9S
-RUFET05MWV9GQUxMQkFDSwp3YXMgc2V0IGJ1dCB0aGUgYWNjZXNzIG1vZGUgdG8gdGhlIGZpbGUg
-ZGVzY3JpcHRvciBzdXBwbGllZCBpbgouSSBldmVudF9mX2ZsYWdzCmlzIG5vdAouSVIgT19SRFdS
-IC4KLlRQCi5CIEVJTlZBTApBIG5vbi16ZXJvIHZhbGlkIHdhcyBwYXNzZWQgaW4gdGhlCi5JIGV2
-ZW50X2ZfZmxhZ3MKYXJndW1lbnQuCi5UUAouQiBFTUZJTEUKVGhlIHN5c3RlbSBsaW1pdCBvbiB0
-aGUgdG90YWwgbnVtYmVyIG9mIGZpbGUgZGVzY3JpcHRvcnMgaGFzIGJlZW4gcmVhY2hlZC4KLlRQ
-Ci5CIEVOT01FTQpJbnN1ZmZpY2llbnQga2VybmVsIG1lbW9yeSBpcyBhdmFpbGFibGUuCi5UUAou
-QiBFUEVSTQpUaGUgY2FsbGluZyBwcm9jZXNzIGRvZXMgbm90IHBvc3Nlc3MgdGhlCi5JIENBUF9T
-WVNfQURNSU4KY2FwYWJpbGl0eS4KLlNIICJDT05GT1JNSU5HIFRPIgpUaGVzZSBzeXN0ZW0gY2Fs
-bHMgYXJlIExpbnV4LXNwZWNpZmljLgouU0ggTk9URVMKVGhlIHN5c3RlbSBjYWxscywgdGhlIGZp
-bGUgaGFuZGxlIGRhdGEgc3RydWN0dXJlLCBhcyB3ZWxsIGFzIHRoZSBmaWxlIGhhbmRsZSB0eXBl
-cwphcmUgbm90IHlldCBleHBvcnRlZCB2aWEgZ2xpYmMgb3IgYW5vdGhlciBsaWJyYXJ5LiBUaGUg
-c3lzdGVtIGNhbGxzIG11c3QgYmUKaW52b2tlZCB1c2luZyB0aGUKLkJSIHN5c2NhbGwgKCkKZnVu
-Y3Rpb24uCi5TSCAiU0VFIEFMU08iCi5CUiBmYW5vdGlmeV9tYXJrICgyKSwKLkJSIG9wZW4gKDIp
-LAouQlIgc3lzY2FsbCAoMikK
---e89a8f3b9de972f82604cf54bd0b--
+--- /dev/null	2012-11-25 19:56:52.352390081 +0100
++++ fanotify.7	2012-11-25 20:25:00.591514931 +0100
+@@ -0,0 +1,217 @@
++.\" Copyright (C) 2012 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
++.\"
++.\" This is free documentation; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public License as
++.\" published by the Free Software Foundation; either version 2 of
++.\" the License, or (at your option) any later version.
++.\"
++.\" The GNU General Public License's references to "object code"
++.\" and "executables" are to be interpreted as the output of any
++.\" document formatting or typesetting system, including
++.\" intermediate and printed output.
++.\"
++.\" This manual is distributed in the hope that it will be useful,
++.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
++.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++.\" GNU General Public License for more details.
++.\"
++.\" You should have received a copy of the GNU General Public
++.\" License along with this manual; if not, write to the Free
++.\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+02111,
++.\" USA.
++
++.TH FANOTIFY 7 2012-11-23 "Linux" "Linux Programmer's Manual"
++.SH NAME
++fanotify \- monitoring file system events
++.SH DESCRIPTION
++The
++.I fanotify
++API provides notification, and interception of file system events. Use
+cases
++are virus scanning and hierarchical storage management.
++
++The following system calls are used with this API:
++.BR fanotify_init (2)
++.BR fanotify_mark (2),
++.BR poll (2),
++.BR ppoll (2),
++.BR read (2),
++.BR write (2),
++and
++.BR close (2).
++.PP
++.BR fanotify_init (2)
++creates and initializes a
++.B fanotify
++group and returns a file descriptor referring to it.
++.br
++.BR fanotify_mark (2)
++adds or removes a file, a directory, or a mount from the notification
+group.
++.PP
++When all file descriptors referring to the fanotify group are close the
++notification group is released and the resources are freed for reuse by the
++kernel.
++.PP
++An application first calls
++.BR fanotify_init (2)
++to receive a file descriptor. It uses
++.BR fanotify_mark (2)
++to define for which files, directories, or mounts events shall be created.
++.PP
++Calling
++.BR poll (2)
++or
++.BR ppoll (2)
++will lock until either a file event occurs or it is interrupted by a signal
++(see
++.BR signal (7)).
++If events are able to be read this will be advertised in the returned
+events
++mask as
++.B POLLIN
++and if compiled with
++.B _XOPEN_SOURCE
++as
++.B POLLRDNORM.
++.PP
++Calling
++.BR read (2)
++for the file descriptor returned by fanotify will block until either a file
++event occurs or it is interrupted by a signal (see
++.BR signal (7)).
++.BR read (2)
++will return the length of the filled buffer or -1 in case of an error. The
++following errors may occur:
++.TP
++.B EINTR
++a signal has occured.
++.TP
++.B EFAULT
++the read buffer is outside your accessible address space.
++.TP
++.B EAGAIN
++a nonblocking call did not return any data.
++.HP 0
++Each successful call to
++.BR read (2)
++returns a buffer containing one or more of the following structures:
++
++.in +4n
++.nf
++struct fanotify_event_metadata {
++    __u32 event_len;
++    __u8 vers;
++    __u8 reserved;
++    __u16 metadata_len;
++    __aligned_u64 mask;
++    __s32 fd;
++    __s32 pid;
++};
++.fi
++.in
++
++.TP 15
++.I event_len
++is the length of the structure in as returned by sizeof.
++.TP
++.I vers
++holds the version of the fanotify API generated the structure
++.TP
++.I reserved
++is not used
++.TP
++.I metadata_len
++is the length of the structure. The field was introduced to facilitate the
++implementation of optional headers per event type.
++.TP
++.I mask
++is a bitmask describing the event.
++.TP
++.I fd
++is an open file descriptor for the object being accessed or
++.B FAN_NOFD
++if an queue overflow occured.
++.TP
++.I pid
++is the ID of the process that caused the event.
++.PP
++The bitmask in
++.I mask
++is composed of thefollowing values:
++.TP
++.B FAN_ACCESS
++file was accessed.
++.TP
++.B FAN_OPEN
++file was opened.
++.TP
++.B FAN_MODIFY
++file was modified.
++.TP
++.B FAN_CLOSE
++a file was closed (FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE).
++.TP
++.B FAN_CLOSE_WRITE
++writtable file closed.
++.TP
++.B FAN_CLOSE_NOWRITE
++unwrittable file closed.
++.TP
++.B FAN_Q_OVERFLOW
++event queued overflowed.
++.TP
++.B FAN_ACCESS_PERM
++file accessed in perm check.
++.TP
++.B FAN_OPEN_PERM
++File open in perm check.
++.TP
++.B FAN_ONDIR
++event occurred against directory.
++.TP
++.B FAN_EVENT_ON_CHILD
++an event for child of a directory occured.
++.PP
++For permission events the application must write to the fanotify file
++descriptor a structure
++.in +4n
++.nf
++struct fanotify_response {
++        __s32 fd;
++        __u32 response;
++};
++.fi
++.in
++.TP 15
++.I fd
++is the file descriptor from structure
++.I fanotify_event_metadata.
++.TP
++.I response
++must be either of
++.br
++.B FAN_ALLOW
++to allow the file operation or
++.br
++.B FAN_DENY
++to deny the file operation.
++.PP
++To end listening it is sufficient to
++.B close (2)
++the fanotify file descriptor. The open permission events will be set to
++allowed, and all resources will be returned to the kernel.
++.SH VERSIONS
++The
++.B fanotify
++API was introduced in version 2.6.36 of the Linux kernel and
++enabled in version 2.6.37.
++.SH "CONFORMING TO"
++This system call is Linux-specific.
++.SH NOTES
++The notification is based on the kernel filesystem notification system
++.B fsnotify.
++.SH "SEE ALSO"
++.ad l
++.nh
++.BR fanotify_init (2),
++.BR fanotify_mark (2)
++.BR dnotify (7),
++.BR inotify (7),
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
