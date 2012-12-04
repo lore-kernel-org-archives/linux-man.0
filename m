@@ -1,39 +1,64 @@
-From: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
-Subject: Re: [RFC] if_nameindex.3: New page documenting if_nameindex(3) and
- if_freenameindex(3)
-Date: Thu, 29 Nov 2012 20:07:07 +0900
-Message-ID: <50B741DB.3060808@linux-ipv6.org>
-References: <201211161728.qAGHSMj0015535@94.43.138.210.xn.2iij.net> <CAKgNAkgJ28rsi4fLb_afX=mdfhsYvAm3H_k0qHpihoTfNFF0og@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH 1/2] man-pages.7: Add description of "ATTRIBUTES"
+Date: Tue, 4 Dec 2012 15:49:02 +0800
+Message-ID: <1354607342-5199-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgJ28rsi4fLb_afX=mdfhsYvAm3H_k0qHpihoTfNFF0og-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: YOSHIFUJI Hideaki <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi, Michael.
+"ATTRIBUTES" section gives the information of thread-safety.
 
-Michael Kerrisk (man-pages) wrote:
-> On Fri, Nov 16, 2012 at 6:28 PM, YOSHIFUJI Hideaki
-> <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org> wrote:
->> Please review.
-> 
-> Thanks Hideaki.
-> 
-> I've merged this into a branch, made a number of fixes, and added an
-> example program. Could you check my changes in the diff below. (The
-> complete page is attached.)
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man7/man-pages.7 | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-> +    for (i = if_ni; ! (i\->if_index == 0 && i\->if_name == NULL); i++)
-> +        printf("%d: %s\\n", i\->if_index, i\->if_name);
-
-Since type of if_index is unsigned int, please use %u here.
-Thanks.
-
---yoshfuji
+diff --git a/man7/man-pages.7 b/man7/man-pages.7
+index b21de1d..8533cfb 100644
+--- a/man7/man-pages.7
++++ b/man7/man-pages.7
+@@ -25,7 +25,7 @@
+ .\" 2007-05-30 created by mtk, using text from old man.7 plus
+ .\" rewrites and additional text.
+ .\"
+-.TH MAN-PAGES 7 2012-10-21 "Linux" "Linux Programmer's Manual"
++.TH MAN-PAGES 7 2012-12-04 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ man-pages \- conventions for writing Linux man pages
+ .SH SYNOPSIS
+@@ -181,6 +181,7 @@ ERRORS             [Typically only in Sections 2, 3]
+ ENVIRONMENT
+ FILES
+ VERSIONS           [Normally only in Sections 2, 3]
++ATTRIBUTES         [Normally only in Sections 2, 3]
+ CONFORMING TO
+ NOTES
+ BUGS
+@@ -342,6 +343,21 @@ The
+ manual page also provides information about kernel versions
+ in which various system calls first appeared.
+ .TP
++.B ATTRIBUTES
++For Section 2 and 3 manual pages, this section gives a
++number of attributes, e.g.,
++.RS
++.TS
++allbox;
++c.
++thread-safety
++reentrant/non-reentrant
++async-signal-safety
++cancelation safety
++.TE
++.RE
++.TP
++.sp
+ .B CONFORMING TO
+ describes any standards or conventions that relate to the function
+ or command described by the manual page.
+-- 
+1.8.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
