@@ -1,62 +1,49 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH 1/2] man-pages.7: Add description of "ATTRIBUTES"
-Date: Tue, 4 Dec 2012 15:49:02 +0800
-Message-ID: <1354607342-5199-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH 2/2] bindresvport.3: Add description of the function is thread-safe
+Date: Tue, 4 Dec 2012 15:55:30 +0800
+Message-ID: <1354607730-5326-1-git-send-email-penght@cn.fujitsu.com>
+References: <1354607342-5199-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1354607342-5199-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-"ATTRIBUTES" section gives the information of thread-safety.
+The function bindresvport() uses lock to protect static variable,
+so it is thread-safe. The patch can refer to URL:
+http://sourceware.org/git/?p=glibc.git;a=commit;h=f6da27e53695ad1cc0e2a9490358decbbfdff5e5
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man7/man-pages.7 | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ man3/bindresvport.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man7/man-pages.7 b/man7/man-pages.7
-index b21de1d..8533cfb 100644
---- a/man7/man-pages.7
-+++ b/man7/man-pages.7
-@@ -25,7 +25,7 @@
- .\" 2007-05-30 created by mtk, using text from old man.7 plus
- .\" rewrites and additional text.
+diff --git a/man3/bindresvport.3 b/man3/bindresvport.3
+index d58c33d..facc297 100644
+--- a/man3/bindresvport.3
++++ b/man3/bindresvport.3
+@@ -24,7 +24,7 @@
+ .\" 2007-05-31, mtk: Rewrite and substantial additional text.
+ .\" 2008-12-03, mtk: Rewrote some pieces and fixed some errors
  .\"
--.TH MAN-PAGES 7 2012-10-21 "Linux" "Linux Programmer's Manual"
-+.TH MAN-PAGES 7 2012-12-04 "Linux" "Linux Programmer's Manual"
+-.TH BINDRESVPORT 3  2008-12-03 "" "Linux Programmer's Manual"
++.TH BINDRESVPORT 3  2012-12-04 "" "Linux Programmer's Manual"
  .SH NAME
- man-pages \- conventions for writing Linux man pages
+ bindresvport \- bind a socket to a privileged IP port
  .SH SYNOPSIS
-@@ -181,6 +181,7 @@ ERRORS             [Typically only in Sections 2, 3]
- ENVIRONMENT
- FILES
- VERSIONS           [Normally only in Sections 2, 3]
-+ATTRIBUTES         [Normally only in Sections 2, 3]
- CONFORMING TO
- NOTES
- BUGS
-@@ -342,6 +343,21 @@ The
- manual page also provides information about kernel versions
- in which various system calls first appeared.
- .TP
-+.B ATTRIBUTES
-+For Section 2 and 3 manual pages, this section gives a
-+number of attributes, e.g.,
-+.RS
-+.TS
-+allbox;
-+c.
-+thread-safety
-+reentrant/non-reentrant
-+async-signal-safety
-+cancelation safety
-+.TE
-+.RE
-+.TP
-+.sp
- .B CONFORMING TO
- describes any standards or conventions that relate to the function
- or command described by the manual page.
+@@ -86,6 +86,11 @@ is not NULL and
+ .I sin->sin_family
+ is not
+ .BR AF_INET .
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR bindresvport ()
++function is thread-safe.
+ .SH "CONFORMING TO"
+ Not in POSIX.1-2001.
+ Present on the BSDs, Solaris, and many other systems.
 -- 
 1.8.0
 
