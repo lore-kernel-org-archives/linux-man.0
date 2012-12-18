@@ -1,79 +1,218 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] fallocate.2: Reference header linux/falloc.h
-Date: Mon, 17 Dec 2012 02:11:38 +0100
-Message-ID: <CAKgNAkirB+iHEAr7+R6Avzg6GbZbdevWAxLJOBmmXrc5EzsZPQ@mail.gmail.com>
-References: <CAL3q7H6SXux13tVdjaUwXOA4Zu7kTtFJcyOKAmyyYCZvjgFzWw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 1/2] Add kcmp.2 manpage
+Date: Tue, 18 Dec 2012 17:54:49 +0100
+Message-ID: <CAKgNAkj-=wLEM+SjA_S8GUp0+0o5R4NuDH4fL-8H-pKCKdLryA@mail.gmail.com>
+References: <1342995307-884-1-git-send-email-gorcunov@openvz.org> <1342995307-884-2-git-send-email-gorcunov@openvz.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAL3q7H6SXux13tVdjaUwXOA4Zu7kTtFJcyOKAmyyYCZvjgFzWw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: fdmanana-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1342995307-884-2-git-send-email-gorcunov@openvz.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Cyrill Gorcunov <gorcunov@openvz.org>
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Pavel Emelyanov <xemul@parallels.com>, Al Viro <viro@zeniv.linux.org.uk>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Dec 16, 2012 at 4:08 PM, Filipe David Manana <fdmanana-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> This affects all versions of the man pages that include fallocate.2
-> (to my knowledge).
->
-> Attempting to compile a program that calls fallocate() and references
-> the modes FALLOC_FL_KEEP_SIZE or FALLOC_FL_PUNCH_HOLE fails, because
-> these constants are not defined in fcntl.h (the only header referenced
-> in the man page for fallocate.2).
->
-> Patch follows inline below, and as an attachment as well.
-> Thank you.
->
-> From 50b3cac563f6646fc75ffb8658064b25529cadea Mon Sep 17 00:00:00 2001
-> From: Filipe David Borba Manana <fdmanana-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Date: Sun, 16 Dec 2012 14:56:47 +0000
-> Subject: [PATCH] fallocate.2: Reference header linux/falloc.h
->
-> This header file is where the constants used for the
-> mode parameter are defined (FALLOC_FL_KEEP_SIZE and
-> FALLOC_FL_PUNCH_HOLE at the moment).
+Hello Cyrill,
 
-Hello Filipe,
+On Mon, Jul 23, 2012 at 12:15 AM, Cyrill Gorcunov <gorcunov@openvz.org> wrote:
+> NAME
+>        kcmp - compare if two processes do share a particular kernel resource
 
-Thanks for the report. I've not decided yet what to do with the man
-page, because the real problem is with glibc, which should define
-those constants in <bits/fcntl.h>. In the meantime, I have filed this:
-
-http://www.sourceware.org/bugzilla/show_bug.cgi?id=14964
+Very late follow up on this page, sorry. You didn't provide a
+copyright or license for this page. Could you please supply that
+information. See http://www.kernel.org/doc/man-pages/licenses.html .
 
 Cheers,
 
 Michael
 
-
+> SYNOPSIS
+>        #define _GNU_SOURCE         /* See feature_test_macros(7) */
+>        #include <unistd.h>
+>        #include <linux/kcmp.h>
+>        #include <sys/syscall.h>   /* For SYS_xxx definitions */
+>
+>        int syscall(__NR_kcmp, pid1, pid2, type, idx1, idx2);
+>
+> DESCRIPTION
+>        kcmp() allows to find out if two processes identified by pid1 and pid2
+>        share kernel resources such as virtual memory, file descriptors, file system etc.
+>
+>        The comparison type is one of the following
+>
+>        KCMP_FILE determines whether a file descriptor idx1 in the first process
+>        is the same as another descriptor idx2 in the second process
+>
+>        KCMP_VM compares whether processes share address space
+>
+>        KCMP_FILES compares the file descriptor arrays to see whether the processes
+>        share all files
+>
+>        KCMP_FS compares whether processes share the file system information (the current
+>        umask, working directory, namespace root, etc)
+>
+>        KCMP_SIGHAND compares whether processes share a signal handlers table
+>
+>        KCMP_IO compares whether processes do share I/O context, used mainly for
+>        block I/O scheduling
+>
+>        KCMP_SYSVSEM compares the list of undo operations associated with SYSV semaphores
+>
+>        Note  the  kcmp() is not protected against false positives which may have
+>        place if tasks are running.  Which means one should stop tasks being inspected
+>        with this syscall to obtain meaningful results.
+>
+> RETURN VALUE
+>        kcmp was designed to return values suitable for sorting.  This is particularly handy
+>        when one have to compare a large number of file descriptors.
+>
+>        The return value is merely a result of simple arithmetic comparison of kernel pointers
+>        (when kernel compares resources, it uses their memory addresses).
+>
+>        The  easiest way to explain is to consider an example.  Lets say v1 and v2 are the
+>        addresses of appropriate resources, then the return value is one of the following
+>
+>        0 - v1 is equal to v2 , in other words we have a shared resource here
+>        1 - v1 is less than v2
+>        2 - v1 is greater than v2
+>        3 - v1 is not equal to but ordering information is unavailble.
+>
+>        On error, -1 is returned, and errno is set appropriately.
+>
+> Signed-off-by: Cyrill Gorcunov <gorcunov@openvz.org>
+> CC: "Eric W. Biederman" <ebiederm@xmission.com>
+> CC: "H. Peter Anvin" <hpa@zytor.com>
+> CC: Pavel Emelyanov <xemul@parallels.com>
+> CC: Al Viro <viro@ZenIV.linux.org.uk>
+> Signed-off-by: Cyrill Gorcunov <gorcunov@openvz.org>
 > ---
->  man2/fallocate.2 |    1 +
->  1 file changed, 1 insertion(+)
+>  man2/kcmp.2 |  113 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 113 insertions(+), 0 deletions(-)
+>  create mode 100644 man2/kcmp.2
 >
-> diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> index 363e50f..4aea591 100644
-> --- a/man2/fallocate.2
-> +++ b/man2/fallocate.2
-> @@ -12,6 +12,7 @@ fallocate \- manipulate file space
->  .nf
->  .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
->  .B #include <fcntl.h>
-> +.B #include <linux/falloc.h>
->
->  .BI "int fallocate(int " fd ", int " mode ", off_t " offset \
->  ", off_t " len ");
+> diff --git a/man2/kcmp.2 b/man2/kcmp.2
+> new file mode 100644
+> index 0000000..5d2e9a3
+> --- /dev/null
+> +++ b/man2/kcmp.2
+> @@ -0,0 +1,113 @@
+> +.TH KCMP 2 2012-02-01 "Linux" "Linux Programmer's Manual"
+> +
+> +.SH NAME
+> +kcmp \- compare if two processes do share a particular kernel resource
+> +
+> +.SH SYNOPSIS
+> +.nf
+> +.BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+> +.B #include <unistd.h>
+> +.B #include <linux/kcmp.h>
+> +.BR "#include <sys/syscall.h>   "  "/* For SYS_xxx definitions */"
+> +
+> +.BI "int syscall(__NR_kcmp, pid1, pid2, type, idx1, idx2);"
+> +.fi
+> +
+> +.SH DESCRIPTION
+> +
+> +.BR kcmp ()
+> +allows to find out if two processes identified by
+> +.I pid1
+> +and
+> +.I pid2
+> +share kernel resources such as virtual memory, file descriptors, file system etc.
+> +
+> +The comparison
+> +.I type
+> +is one of the following
+> +
+> +.BR KCMP_FILE
+> +determines whether a file descriptor
+> +.I idx1
+> +in the first process is the same as another descriptor
+> +.I idx2
+> +in the second process
+> +
+> +.BR KCMP_VM
+> +compares whether processes share address space
+> +
+> +.BR KCMP_FILES
+> +compares the file descriptor arrays to see whether the processes share all files
+> +
+> +.BR KCMP_FS
+> +compares whether processes share the file system information (the current umask,
+> +working directory, namespace root, etc)
+> +
+> +.BR KCMP_SIGHAND
+> +compares whether processes share a signal handlers table
+> +
+> +.BR KCMP_IO
+> +compares whether processes do share I/O context,
+> +used mainly for block I/O scheduling
+> +
+> +.BR KCMP_SYSVSEM
+> +compares the list of undo operations associated with SYSV semaphores
+> +
+> +Note the
+> +.BR kcmp ()
+> +is not protected against false positives which may have place if tasks are
+> +running.
+> +Which means one should stop tasks being inspected with this syscall to obtain
+> +meaningful results.
+> +
+> +.SH "RETURN VALUE"
+> +.B kcmp
+> +was designed to return values suitable for sorting.
+> +This is particularly handy when one have to compare
+> +a large number of file descriptors.
+> +
+> +The return value is merely a result of simple arithmetic comparison
+> +of kernel pointers (when kernel compares resources, it uses their
+> +memory addresses).
+> +
+> +The easiest way to explain is to consider an example.
+> +Lets say
+> +.I v1
+> +and
+> +.I v2
+> +are the addresses of appropriate resources, then the return value
+> +is one of the following
+> +
+> +.B 0
+> +\-
+> +.I v1
+> +is equal to
+> +.IR v2 ,
+> +in other words we have a shared resource here
+> +
+> +.B 1
+> +\-
+> +.I v1
+> +is less than
+> +.I v2
+> +
+> +.B 2
+> +\-
+> +.I v1
+> +is greater than
+> +.I v2
+> +
+> +.B 3
+> +\-
+> +.I v1
+> +is not equal to
+> +.IR v2 ,
+> +but ordering information is unavailable.
+> +
+> +On error, \-1 is returned, and errno is set appropriately.
+> +
+> +.SH "CONFORMING TO"
+> +.BR kcmp ()
+> +is Linux specific and should not be used in programs intended to be portable.
+> +.SH "SEE ALSO"
+> +.BR clone (2)
 > --
-> 1.7.9.5
+> 1.7.7.6
 >
->
->
-> --
-> Filipe David Manana,
->
-> "Reasonable men adapt themselves to the world.
->  Unreasonable men adapt the world to themselves.
->  That's why all progress depends on unreasonable men."
 
 
 
@@ -81,7 +220,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
