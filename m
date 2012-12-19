@@ -1,41 +1,45 @@
-From: Felipe Pena <felipensp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: elf.5: Typo on macro name
-Date: Tue, 18 Dec 2012 20:26:27 -0200
-Message-ID: <CA+5g0S+mZXXiyF=_iiywZLHqH04g=KaTaiKo6Lqac31gNrkxtw@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 51811] New: POSIX now guarantees proper permissions for mkstemp
+Date: Wed, 19 Dec 2012 09:47:01 +0000 (UTC)
+Message-ID: <bug-51811-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi all,
-I just noticed a typo in the ELF[32|64]_R_TYPE macro name in the
-current ELF(5) man page. The patch follows below:
+https://bugzilla.kernel.org/show_bug.cgi?id=51811
+
+           Summary: POSIX now guarantees proper permissions for mkstemp
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+        Regression: No
 
 
-diff --git a/man5/elf.5 b/man5/elf.5
-index 5ead1bb..8b63c2e 100644
- --- a/man5/elf.5
-+++ b/man5/elf.5
-@@ -1756,7 +1756,7 @@ types are processor specific.
- When the text refers to a relocation
- entry's relocation type or symbol table index, it means the result of
- applying
- -.BR ELF_[32|64]_R_TYPE
-+.BR ELF[32|64]_R_TYPE
- or
- .BR ELF[32|64]_R_SYM ,
- respectively, to the entry's
+POSIX 2008 says this:
 
+| The mkstemp() function shall create the file, and obtain a file descriptor
+for 
+| it, as if by a call to:
+|
+|   open(filename, O_RDWR|O_CREAT|O_EXCL, S_IRUSR|S_IWUSR)
 
-
-Thanks!
+So the warning about permissions is probably obsolete by now.
 
 -- 
-Regards,
-Felipe Pena
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
