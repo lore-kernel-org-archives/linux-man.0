@@ -1,140 +1,40 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] recvmmsg.2: Updated fixme, added example
-Date: Wed, 19 Dec 2012 22:28:24 +0100
-Message-ID: <1355952504-4728-1-git-send-email-eliedebrauwer@gmail.com>
-References: <1355944722-21572-1-git-send-email-eliedebrauwer@gmail.com>
+From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Subject: [PATCH] remap_file_pages.2: Not actually useful on real files.
+Date: Wed, 19 Dec 2012 14:12:33 -0800
+Message-ID: <5de30c3a21531919712fc7df213c18b46e521225.1355955125.git.luto@amacapital.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1355944722-21572-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi all,
+Linux commit 3ee6dafc677a68e461a7ddafc94a580ebab80735 caused
+remap_file_pages to be emulated when used on real file.
 
-Same patch as before but I spotted a typo I made applicatoin -> application.
-
-my 2 cents
-E.
-
+Signed-off-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 ---
- man2/recvmmsg.2 |   94 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 92 insertions(+), 2 deletions(-)
+ man2/remap_file_pages.2 | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-index a7b00d4..3252be7 100644
---- a/man2/recvmmsg.2
-+++ b/man2/recvmmsg.2
-@@ -21,8 +21,6 @@
- .\" Formatted or processed versions of this manual, if unaccompanied by
- .\" the source, must acknowledge the copyright and authors of this work.
- .\"
--.\" FIXME: This page could be improved with an example program.
--.\"
- .TH RECVMMSG 2 2012-05-02 "Linux" "Linux Programmer's Manual"
- .SH NAME
- recvmmsg \- receive multiple messages on a socket
-@@ -165,6 +163,98 @@ Support in glibc was added in version 2.12.
- .SH CONFORMING TO
- .BR recvmmsg ()
- is Linux-specific.
-+.SH EXAMPLE
-+.PP
-+The following program uses 
-+.BR recvmmsg () 
-+to receive multiple messages on a socket and stores
-+them in multiple buffers. The call returns of all buffers
-+are filled or if the timeout specified is expired.
+diff --git a/man2/remap_file_pages.2 b/man2/remap_file_pages.2
+index f96f594..f6dee99 100644
+--- a/man2/remap_file_pages.2
++++ b/man2/remap_file_pages.2
+@@ -148,6 +148,12 @@ The
+ .BR remap_file_pages ()
+ system call appeared in Linux 2.5.46;
+ glibc support was added in version 2.3.3.
 +
-+The following 
-+.BR bash (1)
-+snippet periodically generates UDP datagrams containing a 
-+a random number:
-+.in +4n
-+.nf
-+.RB "$" " while true; do echo $RANDOM > /dev/udp/127.0.0.1/1234; sleep 0.25; done"
-+.fi
-+.in
-+
-+These datagrams are read by the example application which 
-+can give the following output:
-+.in +4n
-+.nf
-+.RB "$" " ./a.out"
-+5 messages received
-+1 11782
-+2 11345
-+3 304
-+4 13514
-+5 28421
-+.fi
-+.in
-+.SS Program source
-+\&
-+.nf
-+#define _GNU_SOURCE
-+#include <netinet/ip.h> 
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/socket.h>
-+
-+int 
-+main()
-+{
-+#define VLEN 10
-+#define BUFSIZE 200 
-+#define TIMEOUT 1
-+    int sockfd, retval, i;
-+    struct sockaddr_in sa;
-+    struct mmsghdr msgs[VLEN];
-+    struct iovec iovecs[VLEN];
-+    char bufs[VLEN][BUFSIZE+1];
-+    struct timespec timeout;
-+
-+    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-+    if (sockfd == \-1) {
-+        perror("socket()");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    sa.sin_family = AF_INET;             
-+    sa.sin_addr.s_addr = htonl(INADDR_LOOPBACK);  
-+    sa.sin_port = htons(1234);  
-+    if (bind(sockfd, (struct sockaddr *) &sa, sizeof(sa))) {
-+        perror("bind()");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    memset(msgs, 0, sizeof(msgs));
-+    for (i = 0; i < VLEN; i++) {
-+        iovecs[i].iov_base         = bufs[i];
-+        iovecs[i].iov_len          = BUFSIZE;
-+        msgs[i].msg_hdr.msg_iov    = &iovecs[i];
-+        msgs[i].msg_hdr.msg_iovlen = 1;
-+    }
-+
-+    timeout.tv_sec = TIMEOUT;
-+    timeout.tv_nsec = 0;
-+
-+    retval = recvmmsg(sockfd, msgs, VLEN, 0, &timeout);
-+    if (retval == -1)
-+        perror("recvmmsg()");
-+    else {
-+        printf("%d messages received\n", retval);
-+        for (i = 0; i < retval; i++) {
-+            bufs[i][msgs[i].msg_len] = 0;
-+            printf("%d %s", i+1, bufs[i]);
-+        }
-+    }
-+    exit(EXIT_SUCCESS);
-+}
-+.fi 
- .SH SEE ALSO
- .BR clock_gettime (2),
- .BR recvmsg (2),
++.BR remap_file_pages ()
++has no performance advantage over
++.BR mmap (2)
++when used on real (as opposed to purely in-memory) files as of Linux 2.6.23:
++on real files it creates a separate vma for each range.
+ .SH "CONFORMING TO"
+ The
+ .BR remap_file_pages ()
 -- 
-1.7.10.4
+1.7.11.7
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
