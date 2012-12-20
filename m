@@ -1,29 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 51811] POSIX now guarantees proper permissions for mkstemp
-Date: Thu, 20 Dec 2012 15:37:05 +0000 (UTC)
-Message-ID: <20121220153705.3583B11FE9A@bugzilla.kernel.org>
-References: <bug-51811-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] elf.5: Typo on macro name
+Date: Thu, 20 Dec 2012 17:49:52 +0100
+Message-ID: <CAKgNAkigv5jwOo8kFry419NjcVi-0L9peqYQF0CjsA-EozUWJg@mail.gmail.com>
+References: <CA+5g0SKXRS-qeVzwR9sudVar0kbyZVoXbs_gZ2wn57cDbfnj-Q@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-51811-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <CA+5g0SKXRS-qeVzwR9sudVar0kbyZVoXbs_gZ2wn57cDbfnj-Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Felipe Pena <felipensp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=51811
+Hello Felipe,
+
+On Tue, Dec 18, 2012 at 10:55 PM, Felipe Pena <felipensp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi all,
+> I just noticed a typo in the ELF[32|64]_R_TYPE macro name in the current
+> ELF(5) man page. The patch follows below:
 
 
+Thanks. Applied.
+
+Cheers,
+
+Michael
 
 
+> diff --git a/man5/elf.5 b/man5/elf.5
+> index 5ead1bb..8b63c2e 100644
+> --- a/man5/elf.5
+> +++ b/man5/elf.5
+> @@ -1756,7 +1756,7 @@ types are processor specific.
+> When the text refers to a relocation
+> entry's relocation type or symbol table index, it means the result of
+> applying
+> -.BR ELF_[32|64]_R_TYPE
+> +.BR ELF[32|64]_R_TYPE
+> or
+> .BR ELF[32|64]_R_SYM ,
+> respectively, to the entry's
+>
+>
+>
+> Thanks!
+>
+> --
+> Regards,
+> Felipe Pena
 
---- Comment #3 from Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>  2012-12-20 15:37:04 ---
-This looks good to me, thanks.
+
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
