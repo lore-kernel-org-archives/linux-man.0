@@ -1,48 +1,31 @@
-From: Cyrill Gorcunov <gorcunov@openvz.org>
-Subject: Re: [PATCH 1/2] Add kcmp.2 manpage
-Date: Fri, 21 Dec 2012 22:34:00 +0400
-Message-ID: <20121221183400.GL32442@moon>
-References: <1342995307-884-1-git-send-email-gorcunov@openvz.org>
- <1342995307-884-2-git-send-email-gorcunov@openvz.org>
- <CAKgNAkj-=wLEM+SjA_S8GUp0+0o5R4NuDH4fL-8H-pKCKdLryA@mail.gmail.com>
- <20121218170624.GA7148@moon>
- <20121218171217.GD7155@moon>
- <CAKgNAkg536wfJy6WjjLANamchZg0XQ3sAHtCtvPtgCkTu_hHMw@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 15446] sysctl(2) can return EACCES without sufficient
+ permissions
+Date: Fri, 21 Dec 2012 20:31:19 +0000 (UTC)
+Message-ID: <20121221203119.53A7A11FBAA@bugzilla.kernel.org>
+References: <bug-15446-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkg536wfJy6WjjLANamchZg0XQ3sAHtCtvPtgCkTu_hHMw@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, "Eric W. Biederman" <ebiederm@xmission.com>, "H. Peter Anvin" <hpa@zytor.com>, Pavel Emelyanov <xemul@parallels.com>, Al Viro <viro@zeniv.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-15446-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Dec 21, 2012 at 07:24:27PM +0100, Michael Kerrisk (man-pages) wrote:
-> On Tue, Dec 18, 2012 at 6:12 PM, Cyrill Gorcunov <gorcunov@openvz.org> wrote:
-> > On Tue, Dec 18, 2012 at 09:06:24PM +0400, Cyrill Gorcunov wrote:
-> >> On Tue, Dec 18, 2012 at 05:54:49PM +0100, Michael Kerrisk (man-pages) wrote:
-> >> > Hello Cyrill,
-> >> >
-> >> > On Mon, Jul 23, 2012 at 12:15 AM, Cyrill Gorcunov <gorcunov@openvz.org> wrote:
-> >> > > NAME
-> >> > >        kcmp - compare if two processes do share a particular kernel resource
-> >> >
-> >> > Very late follow up on this page, sorry. You didn't provide a
-> >> > copyright or license for this page. Could you please supply that
-> >> > information. See http://www.kernel.org/doc/man-pages/licenses.html .
-> >>
-> >> Sure, gimme some time to update it...
-> >
-> > Something like below?
-> 
-> Yep, that's fine. I've done some substantial editing and added several
-> pieces to the page.  Could you take a careful look at the version to
-> see that I have not injected any inaccuracies?
+https://bugzilla.kernel.org/show_bug.cgi?id=15446
 
-Looks good to me, thanks! (There is some work initiated to make this
-syscall available for all archs so this page will need to be updated
-more-less soon, but it's my problems, i'll send you update once transition
-complete).
 
-	Cyrill
+
+
+
+--- Comment #5 from Garrett Cooper <yanegomi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-12-21 20:31:19 ---
+LGTM. Thanks!
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
