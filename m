@@ -1,60 +1,289 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15446] sysctl(2) can return EACCES without sufficient
- permissions
-Date: Fri, 21 Dec 2012 18:23:21 +0000 (UTC)
-Message-ID: <20121221182321.8909211FBAA@bugzilla.kernel.org>
-References: <bug-15446-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/2] Add kcmp.2 manpage
+Date: Fri, 21 Dec 2012 19:24:27 +0100
+Message-ID: <CAKgNAkg536wfJy6WjjLANamchZg0XQ3sAHtCtvPtgCkTu_hHMw@mail.gmail.com>
+References: <1342995307-884-1-git-send-email-gorcunov@openvz.org>
+ <1342995307-884-2-git-send-email-gorcunov@openvz.org> <CAKgNAkj-=wLEM+SjA_S8GUp0+0o5R4NuDH4fL-8H-pKCKdLryA@mail.gmail.com>
+ <20121218170624.GA7148@moon> <20121218171217.GD7155@moon>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15446-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <20121218171217.GD7155@moon>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15446
+On Tue, Dec 18, 2012 at 6:12 PM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> wrote:
+> On Tue, Dec 18, 2012 at 09:06:24PM +0400, Cyrill Gorcunov wrote:
+>> On Tue, Dec 18, 2012 at 05:54:49PM +0100, Michael Kerrisk (man-pages) wrote:
+>> > Hello Cyrill,
+>> >
+>> > On Mon, Jul 23, 2012 at 12:15 AM, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> wrote:
+>> > > NAME
+>> > >        kcmp - compare if two processes do share a particular kernel resource
+>> >
+>> > Very late follow up on this page, sorry. You didn't provide a
+>> > copyright or license for this page. Could you please supply that
+>> > information. See http://www.kernel.org/doc/man-pages/licenses.html .
+>>
+>> Sure, gimme some time to update it...
+>
+> Something like below?
+
+Yep, that's fine. I've done some substantial editing and added several
+pieces to the page.  Could you take a careful look at the version to
+see that I have not injected any inaccuracies?
+
+Thanks,
+
+Michael
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+.\" Copyright (C) 2012, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+.\" and Copyright (C) 2012, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of
+.\" this manual under the conditions for verbatim copying, provided that
+.\" the entire resulting derived work is distributed under the terms of
+.\" a permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+.\" no responsibility for errors or omissions, or for damages resulting.
+.\" from the use of the information contained herein.  The author(s) may.
+.\" not have taken the same level of care in the production of this.
+.\" manual, which is licensed free of charge, as they might when working.
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.\" Kernel commit d97b46a64674a267bc41c9e16132ee2a98c3347d
+.\"
+.TH KCMP 2 2012-12-19 "Linux" "Linux Programmer's Manual"
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|ASSIGNED                    |RESOLVED
-         Resolution|                            |CODE_FIX
+.SH NAME
+kcmp \- compare two processes to determine if they share a kernel resource
 
+.SH SYNOPSIS
+.nf
+.B #include <linux/kcmp.h>
 
+.BI "int kcmp(pid_t " pid1 ", pid_t " pid2 ", int " type ,
+.BI "         unsigned long " idx1 ", unsigned long "  idx2 );
 
+.fi
 
---- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2012-12-21 18:23:21 ---
-Garrett, I've applied a different patch from what you suggest, essentially just
-making EACCES a synonym of EPERM.
+.IR Note :
+There is no glibc wrapper for this system call; see NOTES.
 
-index bb2d9a5..b1772d5 100644
---- a/man2/sysctl.2
-+++ b/man2/sysctl.2
-@@ -78,6 +78,7 @@ Otherwise, a value of \-1 is returned and
- is set to indicate the error.
- .SH ERRORS
- .TP
-+.TP
- .B EFAULT
- The invocation asked for the previous value by setting
- .I oldval
-@@ -88,7 +89,7 @@ non-NULL, but allowed zero room in
- .I name
- was not found.
- .TP
--.B EPERM
-+.BR EACCES ", " EPERM
- No search permission for one of the encountered "directories",
- or no read permission where
- .I oldval
-lines 1-21/21 (END)
+.SH DESCRIPTION
+The
+.BR kcmp ()
+system call can be used to check whether the two processes identified by
+.I pid1
+and
+.I pid2
+share a kernel resource such as virtual memory, file descriptors,
+and so on.
 
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+The
+.I type
+argument specifies which resource is to be compared in the two processes.
+It has one of the following values:
+
+.TP
+.BR KCMP_FILE
+Check whether a file descriptor
+.I idx1
+in the process
+.I pid1
+refers to the same open file description (see
+.BR open (2))
+as file descriptor
+.I idx2
+in the process
+.IR pid2 .
+
+.TP
+.BR KCMP_FILES
+Check whether the process share the same set of open file descriptors.
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.TP
+.BR KCMP_FS
+Check whether the processes share the same file system information
+(i.e., file mode creation mask, working directory, and file system root).
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.TP
+.BR KCMP_IO
+Check whether the processes share I/O context.
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.TP
+.BR KCMP_SIGHAND
+Check whether the processes share the same table of signal dispositions.
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.TP
+.BR KCMP_SYSVSEM
+Check whether the processes share the same
+list of System V semaphore undo operations.
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.TP
+.BR KCMP_VM
+Check whether the processes share the same address space.
+The arguments
+.I idx1
+and
+.I idx2
+are ignored.
+
+.PP
+Note the
+.BR kcmp ()
+is not protected against false positives which may have place if tasks are
+running.
+Which means one should stop tasks being inspected with this syscall to obtain
+meaningful results.
+
+.SH "RETURN VALUE"
+The return value of a successful call to
+.BR kcmp ()
+is simply the result of arithmetic comparison
+of kernel pointers (when the kernel compares resources, it uses their
+memory addresses).
+
+The easiest way to explain is to consider an example.
+Suppose that
+.I v1
+and
+.I v2
+are the addresses of appropriate resources, then the return value
+is one of the following:
+
+.RS 4
+.IP 0 4
+.I v1
+is equal to
+.IR v2 ;
+in other words, the two processes share the resource.
+
+.IP 1
+.I v1
+is less than
+.IR v2 .
+
+.IP 2
+.I v1
+is greater than
+.IR v2 .
+
+.IP 3
+.I v1
+is not equal to
+.IR v2 ,
+but ordering information is unavailable.
+.RE
+
+.PP
+On error, \-1 is returned, and
+.I errno
+is set appropriately.
+
+.B kcmp ()
+was designed to return values suitable for sorting.
+This is particularly handy if one needs to compare
+a large number of file descriptors.
+
+.SH ERRORS
+
+.TP
+.B EBADF
+.I type
+is
+.B KCMP_FILE
+and
+.I fd1
+or
+.I fd2
+is not an open file descriptor.
+.TP
+.B EINVAL
+.I type
+is invalid.
+.TP
+.B EPERM
+Insufficient permission to inspect process resources.
+The
+.B CAP_SYS_PTRACE
+capability is required to inspect processes that you do not own.
+.TP
+.B ESRCH
+Process
+.I pid1
+or
+.I pid2
+does not exist.
+
+.SH VERSIONS
+The
+.BR kcmp ()
+system call first appeared in Linux 3.5.
+
+.SH "CONFORMING TO"
+.BR kcmp ()
+is Linux specific and should not be used in programs intended to be portable.
+
+.SH NOTES
+Glibc does not provide a wrapper for this system call; call it using
+.BR syscall (2).
+
+This system call is available only if the kernel was configured with
+.BR CONFIG_CHECKPOINT_RESTORE .
+The main use of the system call is for the
+checkpoint/restore in user space (CRIU) feature.
+The alternative to this system call would have been to expose suitable
+process information via the
+.BR proc (5)
+file system; this was deemed to be unsuitable for security reasons.
+
+See
+.BR clone (2)
+for some background information on the shared resources
+referred to on this page.
+
+.SH "SEE ALSO"
+.BR clone (2),
+.BR unshare (2)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
