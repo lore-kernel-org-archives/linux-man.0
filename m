@@ -1,144 +1,241 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] recvmmsg.2  Updated fixme, added example
-Date: Thu, 20 Dec 2012 19:47:26 +0100
-Message-ID: <1356029246-6212-1-git-send-email-eliedebrauwer@gmail.com>
-References: <CAKgNAkgDE3yyLOjdaAjWgpS2iPMmcr3njAWik20nMiX=ZQYUHg@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/4] module: add syscall to load module from fd
+Date: Fri, 21 Dec 2012 01:01:32 +0100
+Message-ID: <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
+References: <1348179300-11653-1-git-send-email-keescook@chromium.org>
+ <CAHO5Pa2fysDRS3sFSy785XBKApxydN0ONW5kAfVJNkrB+wOaBw@mail.gmail.com>
+ <50749DE8.7010703@zytor.com> <CAKgNAkgLW+0aHwzoY6vxmeeK_K5w2RyhxW+jOaJDn274NVbajw@mail.gmail.com>
+ <5074A0AB.8040207@zytor.com> <87d30o7iy6.fsf@rustcorp.com.au>
+ <CAKgNAkh=99=x1=8Y=3odem-fXc9zEEbLvCc0WQku5Kyso4qHuQ@mail.gmail.com>
+ <87ipa8o4mn.fsf@rustcorp.com.au> <CAKgNAkiVxUiqJ1pYNq3wW_yQxcyhqntUzcEWscFOhJ3GaVn1aQ@mail.gmail.com>
+ <87sj97hs5e.fsf@rustcorp.com.au>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgDE3yyLOjdaAjWgpS2iPMmcr3njAWik20nMiX=ZQYUHg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <87sj97hs5e.fsf-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Cc: "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Lucas De Marchi <lucas.demarchi-Y3ZbgMPKUGA34EUeqzHoZw@public.gmane.org>, jonathon-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi all,
+Hi Rusty,
 
-Please find below a patch with the comments in below (including two 
-other typo's I seem to have missed yesterday). 
+On Mon, Oct 22, 2012 at 9:39 AM, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>> FIX: add flags arg to sys_finit_module()
+>>>
+>>> Thanks to Michael Kerrisk for keeping us honest.
+>>
+>> w00t! Thanks, Rusty ;-).
+>>
+>> Acked-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>
+> Here's the version I ended up with when I added two flags.
+>
+> Lucas, is this useful to you?
+>
+> BTW Michael: why aren't the syscall man pages in the kernel source?
+>
+> Thanks,
+> Rusty.
+>
+> module: add flags arg to sys_finit_module()
+>
+> Thanks to Michael Kerrisk for keeping us honest.  These flags are actually
+> useful for eliminating the only case where kmod has to mangle a module's
+> internals: for overriding module versioning.
 
-Thanks for the comments.
+The description here is rather thin. Could you supply a sentence or
+two for each of MODULE_INIT_IGNORE_MODVERSIONS and
+MODULE_INIT_IGNORE_VERMAGIC that would be suitable for the manual
+page?
 
-E.
+Thanks,
+
+Michael
 
 
----
- man2/recvmmsg.2 |   94 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 92 insertions(+), 2 deletions(-)
+>
+> Signed-off-by: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+>
+> diff --git a/include/linux/syscalls.h b/include/linux/syscalls.h
+> index 32bc035..8cf7b50 100644
+> --- a/include/linux/syscalls.h
+> +++ b/include/linux/syscalls.h
+> @@ -868,5 +868,5 @@ asmlinkage long sys_process_vm_writev(pid_t pid,
+>
+>  asmlinkage long sys_kcmp(pid_t pid1, pid_t pid2, int type,
+>                          unsigned long idx1, unsigned long idx2);
+> -asmlinkage long sys_finit_module(int fd, const char __user *uargs);
+> +asmlinkage long sys_finit_module(int fd, const char __user *uargs, int flags);
+>  #endif
+> diff --git a/include/uapi/linux/module.h b/include/uapi/linux/module.h
+> new file mode 100644
+> index 0000000..38da425
+> --- /dev/null
+> +++ b/include/uapi/linux/module.h
+> @@ -0,0 +1,8 @@
+> +#ifndef _UAPI_LINUX_MODULE_H
+> +#define _UAPI_LINUX_MODULE_H
+> +
+> +/* Flags for sys_finit_module: */
+> +#define MODULE_INIT_IGNORE_MODVERSIONS 1
+> +#define MODULE_INIT_IGNORE_VERMAGIC    2
+> +
+> +#endif /* _UAPI_LINUX_MODULE_H */
+> diff --git a/kernel/module.c b/kernel/module.c
+> index 261bf82..55b49cd 100644
+> --- a/kernel/module.c
+> +++ b/kernel/module.c
+> @@ -61,6 +61,7 @@
+>  #include <linux/pfn.h>
+>  #include <linux/bsearch.h>
+>  #include <linux/fips.h>
+> +#include <uapi/linux/module.h>
+>  #include "module-internal.h"
+>
+>  #define CREATE_TRACE_POINTS
+> @@ -2569,7 +2570,7 @@ static void free_copy(struct load_info *info)
+>         vfree(info->hdr);
+>  }
+>
+> -static int rewrite_section_headers(struct load_info *info)
+> +static int rewrite_section_headers(struct load_info *info, int flags)
+>  {
+>         unsigned int i;
+>
+> @@ -2597,7 +2598,10 @@ static int rewrite_section_headers(struct load_info *info)
+>         }
+>
+>         /* Track but don't keep modinfo and version sections. */
+> -       info->index.vers = find_sec(info, "__versions");
+> +       if (flags & MODULE_INIT_IGNORE_MODVERSIONS)
+> +               info->index.vers = 0; /* Pretend no __versions section! */
+> +       else
+> +               info->index.vers = find_sec(info, "__versions");
+>         info->index.info = find_sec(info, ".modinfo");
+>         info->sechdrs[info->index.info].sh_flags &= ~(unsigned long)SHF_ALLOC;
+>         info->sechdrs[info->index.vers].sh_flags &= ~(unsigned long)SHF_ALLOC;
+> @@ -2612,7 +2617,7 @@ static int rewrite_section_headers(struct load_info *info)
+>   * Return the temporary module pointer (we'll replace it with the final
+>   * one when we move the module sections around).
+>   */
+> -static struct module *setup_load_info(struct load_info *info)
+> +static struct module *setup_load_info(struct load_info *info, int flags)
+>  {
+>         unsigned int i;
+>         int err;
+> @@ -2623,7 +2628,7 @@ static struct module *setup_load_info(struct load_info *info)
+>         info->secstrings = (void *)info->hdr
+>                 + info->sechdrs[info->hdr->e_shstrndx].sh_offset;
+>
+> -       err = rewrite_section_headers(info);
+> +       err = rewrite_section_headers(info, flags);
+>         if (err)
+>                 return ERR_PTR(err);
+>
+> @@ -2661,11 +2666,14 @@ static struct module *setup_load_info(struct load_info *info)
+>         return mod;
+>  }
+>
+> -static int check_modinfo(struct module *mod, struct load_info *info)
+> +static int check_modinfo(struct module *mod, struct load_info *info, int flags)
+>  {
+>         const char *modmagic = get_modinfo(info, "vermagic");
+>         int err;
+>
+> +       if (flags & MODULE_INIT_IGNORE_VERMAGIC)
+> +               modmagic = NULL;
+> +
+>         /* This is allowed: modprobe --force will invalidate it. */
+>         if (!modmagic) {
+>                 err = try_to_force_load(mod, "bad vermagic");
+> @@ -2901,18 +2909,18 @@ int __weak module_frob_arch_sections(Elf_Ehdr *hdr,
+>         return 0;
+>  }
+>
+> -static struct module *layout_and_allocate(struct load_info *info)
+> +static struct module *layout_and_allocate(struct load_info *info, int flags)
+>  {
+>         /* Module within temporary copy. */
+>         struct module *mod;
+>         Elf_Shdr *pcpusec;
+>         int err;
+>
+> -       mod = setup_load_info(info);
+> +       mod = setup_load_info(info, flags);
+>         if (IS_ERR(mod))
+>                 return mod;
+>
+> -       err = check_modinfo(mod, info);
+> +       err = check_modinfo(mod, info, flags);
+>         if (err)
+>                 return ERR_PTR(err);
+>
+> @@ -3094,7 +3102,8 @@ static int may_init_module(void)
+>
+>  /* Allocate and load the module: note that size of section 0 is always
+>     zero, and we rely on this for optional sections. */
+> -static int load_module(struct load_info *info, const char __user *uargs)
+> +static int load_module(struct load_info *info, const char __user *uargs,
+> +                      int flags)
+>  {
+>         struct module *mod, *old;
+>         long err;
+> @@ -3108,7 +3117,7 @@ static int load_module(struct load_info *info, const char __user *uargs)
+>                 goto free_copy;
+>
+>         /* Figure out module layout, and allocate all the memory. */
+> -       mod = layout_and_allocate(info);
+> +       mod = layout_and_allocate(info, flags);
+>         if (IS_ERR(mod)) {
+>                 err = PTR_ERR(mod);
+>                 goto free_copy;
+> @@ -3257,10 +3269,10 @@ SYSCALL_DEFINE3(init_module, void __user *, umod,
+>         if (err)
+>                 return err;
+>
+> -       return load_module(&info, uargs);
+> +       return load_module(&info, uargs, 0);
+>  }
+>
+> -SYSCALL_DEFINE2(finit_module, int, fd, const char __user *, uargs)
+> +SYSCALL_DEFINE3(finit_module, int, fd, const char __user *, uargs, int, flags)
+>  {
+>         int err;
+>         struct load_info info = { };
+> @@ -3269,13 +3281,17 @@ SYSCALL_DEFINE2(finit_module, int, fd, const char __user *, uargs)
+>         if (err)
+>                 return err;
+>
+> -       pr_debug("finit_module: fd=%d, uargs=%p\n", fd, uargs);
+> +       pr_debug("finit_module: fd=%d, uargs=%p, flags=%i\n", fd, uargs, flags);
+> +
+> +       if (flags & ~(MODULE_INIT_IGNORE_MODVERSIONS
+> +                     |MODULE_INIT_IGNORE_VERMAGIC))
+> +               return -EINVAL;
+>
+>         err = copy_module_from_fd(fd, &info);
+>         if (err)
+>                 return err;
+>
+> -       return load_module(&info, uargs);
+> +       return load_module(&info, uargs, flags);
+>  }
+>
+>  static inline int within(unsigned long addr, void *start, unsigned long size)
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
 
-diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-index a7b00d4..0c6db49 100644
---- a/man2/recvmmsg.2
-+++ b/man2/recvmmsg.2
-@@ -21,8 +21,6 @@
- .\" Formatted or processed versions of this manual, if unaccompanied by
- .\" the source, must acknowledge the copyright and authors of this work.
- .\"
--.\" FIXME: This page could be improved with an example program.
--.\"
- .TH RECVMMSG 2 2012-05-02 "Linux" "Linux Programmer's Manual"
- .SH NAME
- recvmmsg \- receive multiple messages on a socket
-@@ -165,6 +163,98 @@ Support in glibc was added in version 2.12.
- .SH CONFORMING TO
- .BR recvmmsg ()
- is Linux-specific.
-+.SH EXAMPLE
-+.PP
-+The following program uses 
-+.BR recvmmsg () 
-+to receive multiple messages on a socket and stores
-+them in multiple buffers. 
-+The call returns if all buffers are filled or if the 
-+timeout specified is expired.
-+
-+The following snippet periodically generates UDP datagrams 
-+containing a random number:
-+.in +4n
-+.nf
-+.RB "$" " while true; do echo $RANDOM > /dev/udp/127.0.0.1/1234; sleep 0.25; done"
-+.fi
-+.in
-+
-+These datagrams are read by the example application which 
-+can give the following output:
-+.in +4n
-+.nf
-+.RB "$" " ./a.out"
-+5 messages received
-+1 11782
-+2 11345
-+3 304
-+4 13514
-+5 28421
-+.fi
-+.in
-+.SS Program source
-+\&
-+.nf
-+#define _GNU_SOURCE
-+#include <netinet/ip.h> 
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/socket.h>
-+
-+int 
-+main()
-+{
-+#define VLEN 10
-+#define BUFSIZE 200 
-+#define TIMEOUT 1
-+    int sockfd, retval, i;
-+    struct sockaddr_in sa;
-+    struct mmsghdr msgs[VLEN];
-+    struct iovec iovecs[VLEN];
-+    char bufs[VLEN][BUFSIZE+1];
-+    struct timespec timeout;
-+
-+    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-+    if (sockfd == \-1) {
-+        perror("socket()");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    sa.sin_family = AF_INET;             
-+    sa.sin_addr.s_addr = htonl(INADDR_LOOPBACK);  
-+    sa.sin_port = htons(1234);  
-+    if (bind(sockfd, (struct sockaddr *) &sa, sizeof(sa)) == \-1) {
-+        perror("bind()");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    memset(msgs, 0, sizeof(msgs));
-+    for (i = 0; i < VLEN; i++) {
-+        iovecs[i].iov_base         = bufs[i];
-+        iovecs[i].iov_len          = BUFSIZE;
-+        msgs[i].msg_hdr.msg_iov    = &iovecs[i];
-+        msgs[i].msg_hdr.msg_iovlen = 1;
-+    }
-+
-+    timeout.tv_sec = TIMEOUT;
-+    timeout.tv_nsec = 0;
-+
-+    retval = recvmmsg(sockfd, msgs, VLEN, 0, &timeout);
-+    if (retval == \-1) {
-+        perror("recvmmsg()");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    printf("%d messages received\\n", retval);
-+    for (i = 0; i < retval; i++) {
-+        bufs[i][msgs[i].msg_len] = 0;
-+        printf("%d %s", i+1, bufs[i]);
-+    }
-+    exit(EXIT_SUCCESS);
-+}
-+.fi 
- .SH SEE ALSO
- .BR clock_gettime (2),
- .BR recvmsg (2),
+
+
 -- 
-1.7.10.4
-
+Michael Kerrisk Linux man-pages maintainer;
+http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface", http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
