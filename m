@@ -1,43 +1,184 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 51871] getxattr() man page wrongly refers to ENOATTR
-Date: Sat, 22 Dec 2012 08:19:28 +0000 (UTC)
-Message-ID: <20121222081928.C6D8211FBAA@bugzilla.kernel.org>
-References: <bug-51871-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] Document return of EDQUOT where applicable
+Date: Sat, 22 Dec 2012 19:00:37 +0100
+Message-ID: <CAKgNAkjLSYDhOGF2FjCxxrgSYEAaPtJKXPQHF5f9CU7EOR8c=A@mail.gmail.com>
+References: <1356102113-2236-1-git-send-email-mark@pogo.org.uk>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-51871-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1356102113-2236-1-git-send-email-mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=51871
+Hello Mark,
+
+On Fri, Dec 21, 2012 at 4:01 PM, Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org> wrote:
+> The return error EDQUOT is not documented in open(2), write(2),
+> symlink(2) etc..
+>
+> Whether inodes or disk blocks are required for each function is something
+> I based on received wisdom and BSD documentation, rather than tracing the
+> code to the kernel. For symlink(2) this certainly depends on the file
+> system type.
+>
+> This patch was previously sent to the linux-man mailing list as an RFC in
+> September 2010.
+
+Thanks. The patch looks pretty thorough to me, in terms of
+distinguishing the -node vs blocks cases. I've applied it for 3.46.
+
+Cheers,
+
+Michael
+
+> Signed-off-by: Mark Hills <mark-UrrBsZIrrsb10XsdtD+oqA@public.gmane.org>
+> ---
+>  man2/link.2    | 3 +++
+>  man2/mkdir.2   | 4 ++++
+>  man2/mknod.2   | 4 ++++
+>  man2/open.2    | 6 ++++++
+>  man2/rename.2  | 3 +++
+>  man2/symlink.2 | 5 +++++
+>  man2/write.2   | 6 ++++++
+>  man3/mkfifo.3  | 4 ++++
+>  8 files changed, 35 insertions(+)
+>
+> diff --git a/man2/link.2 b/man2/link.2
+> index 4de8fb5..70ed9df 100644
+> --- a/man2/link.2
+> +++ b/man2/link.2
+> @@ -67,6 +67,9 @@ or
+>  (See also
+>  .BR path_resolution (7).)
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks on the file system has been exhausted.
+> +.TP
+>  .B EEXIST
+>  .I newpath
+>  already exists.
+> diff --git a/man2/mkdir.2 b/man2/mkdir.2
+> index 371f06b..9a1f505 100644
+> --- a/man2/mkdir.2
+> +++ b/man2/mkdir.2
+> @@ -59,6 +59,10 @@ did not allow search permission.
+>  (See also
+>  .BR path_resolution (7).)
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks or inodes on the file system has been
+> +exhausted.
+> +.TP
+>  .B EEXIST
+>  .I pathname
+>  already exists (not necessarily as a directory).
+> diff --git a/man2/mknod.2 b/man2/mknod.2
+> index ff55813..98d00ab 100644
+> --- a/man2/mknod.2
+> +++ b/man2/mknod.2
+> @@ -112,6 +112,10 @@ did not allow search permission.
+>  (See also
+>  .BR path_resolution (7).)
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks or inodes on the file system has been
+> +exhausted.
+> +.TP
+>  .B EEXIST
+>  .I pathname
+>  already exists.
+> diff --git a/man2/open.2 b/man2/open.2
+> index f9a63e9..ae87566 100644
+> --- a/man2/open.2
+> +++ b/man2/open.2
+> @@ -480,6 +480,12 @@ is not allowed.
+>  (See also
+>  .BR path_resolution (7).)
+>  .TP
+> +.B EDQUOT
+> +Where
+> +.B O_CREAT
+> +is specified, the file does not exist, and the user's quota of disk
+> +blocks or inodes on the file system has been exhausted.
+> +.TP
+>  .B EEXIST
+>  .I pathname
+>  already exists and
+> diff --git a/man2/rename.2 b/man2/rename.2
+> index 917050d..2c7a251 100644
+> --- a/man2/rename.2
+> +++ b/man2/rename.2
+> @@ -131,6 +131,9 @@ it is allowed to return
+>  if the system cannot otherwise
+>  handle such situations.)
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks on the file system has been exhausted.
+> +.TP
+>  .B EFAULT
+>  .IR oldpath " or " newpath " points outside your accessible address space."
+>  .TP
+> diff --git a/man2/symlink.2 b/man2/symlink.2
+> index 93f2871..ac4e646 100644
+> --- a/man2/symlink.2
+> +++ b/man2/symlink.2
+> @@ -97,6 +97,11 @@ did not allow search permission.
+>  (See also
+>  .BR path_resolution (7).)
+>  .TP
+> +.B EDQUOT
+> +The user's quota of resources on the file system has been exhausted.
+> +The resources could be inodes or disk blocks, dependending on the file
+> +system implementation.
+> +.TP
+>  .B EEXIST
+>  .I newpath
+>  already exists.
+> diff --git a/man2/write.2 b/man2/write.2
+> index 8abcc57..bde6c4b 100644
+> --- a/man2/write.2
+> +++ b/man2/write.2
+> @@ -133,6 +133,12 @@ is not a valid file descriptor or is not open for writing.
+>  refers to a datagram socket for which a peer address has not been set using
+>  .BR connect (2).
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks on the file system containing the file
+> +referred to by
+> +.I fd
+> +has been exhausted.
+> +.TP
+>  .B EFAULT
+>  .I buf
+>  is outside your accessible address space.
+> diff --git a/man3/mkfifo.3 b/man3/mkfifo.3
+> index 35b46b5..5584ab5 100644
+> --- a/man3/mkfifo.3
+> +++ b/man3/mkfifo.3
+> @@ -70,6 +70,10 @@ is set appropriately).
+>  One of the directories in \fIpathname\fP did not allow search
+>  (execute) permission.
+>  .TP
+> +.B EDQUOT
+> +The user's quota of disk blocks or inodes on the file system has been
+> +exhausted.
+> +.TP
+>  .B EEXIST
+>  \fIpathname\fP already exists.
+>  This includes the case where
+> --
+> 1.7.12.1
+>
 
 
-
-
-
---- Comment #2 from Anonymous Emailer <anonymous-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org>  2012-12-22 08:19:28 ---
-Reply-To: hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
-
-On Thu, Dec 20, 2012 at 06:13:54PM +0000, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-wrote:
-> --- Comment #1 from Andrew Perepechko <andrew_perepechko-qCPWdT176rRBDgjK7y7TUQ@public.gmane.org>  2012-12-20 18:13:53 ---
-> Hm, actually ENODATA is an alias of ENOATTR defined in libattr header.
-
-But that's:
-
- a) not how normal Posix errno values are supposed to work.  I
- b) limited to using xattr, whichle getxattr is also exposed by glibc
- directly.
-
-This really needs an explanation in the NOTES section, I'll see if I can
-come up with someting useful.
 
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
