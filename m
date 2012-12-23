@@ -1,75 +1,64 @@
-From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] ipv6.7: tfix
-Date: Sun, 23 Dec 2012 14:58:30 -0400
-Message-ID: <50D75456.7060406@debian.org>
-References: <1356269632-19913-1-git-send-email-taffit@debian.org> <CAKgNAkg_QGc_T_Kjw34ExgHnDnZ0Df4nkFR6zisvT0=ZTQBYsg@mail.gmail.com>
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] recvmmsg.2 Updated timeout documentation
+Date: Sun, 23 Dec 2012 21:42:20 +0100
+Message-ID: <50D76CAC.7070403@gmail.com>
+References: <CAKgNAkhz1E8c2jpECcYrKJyMv1RB36qC_HjW9s=i=+bYLfii4w@mail.gmail.com> <1356264415-5108-1-git-send-email-eliedebrauwer@gmail.com> <CAKgNAkhFS_n4BrTvqV12VcLSPXGjkBE6MOFS-sUCnCT8y7Pjfw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkg_QGc_T_Kjw34ExgHnDnZ0Df4nkFR6zisvT0=ZTQBYsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkhFS_n4BrTvqV12VcLSPXGjkBE6MOFS-sUCnCT8y7Pjfw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+On 12/23/2012 07:30 PM, Michael Kerrisk (man-pages) wrote:
+> Elie,
+>
+>> In any case, when operating in non-blocking mode, the timeout is taken into
+>> account, which could mean that recvmmsg() returns while data is still
+>> available (which was not clearly stated). (Combination of much data to
+>> copy and a very sharp timeout).
+>
+> Can you say more about what you see/understand with nonblocking mode.
+> I don't understand what you mean here (and it doesn't fit with what I
+> am seeing on testing). Nonblocking mode should, I believe, always mean
+> an immediate return, regardless of any timeout.
 
-Hi Michael,
+It's just cosmetics really, now they state that:
+"
+A nonblocking call reads as many messages as are available (up to the 
+limit specified by vlen) and returns immediately.
+"
 
-Le 23/12/2012 13:55, Michael Kerrisk (man-pages) a =C3=A9crit :
+Suppose that you are operating in non-blocking mode, the timeout is set 
+to one nanosecond (yeah, living on the edge), and vlen is an insane 
+large number (say a thousand) whilst assuming that data is available to 
+be received. The text from the manpage says that you will return if the 
+available data is depleted or if you have read 'vlen' buffers. So it 
+means there's a 'faster than timeout' possible.
 
-> I applied the first change, but the second is unneeded.
+What the kernel implementation actually does (simplified, and ignoring 
+WAITFORONE) is:
 
-Please note that the =E2=80=9Cstructure.=E2=80=9D moved up as part of c=
-6a7484a (with the
-=46IXMEs), and the current paragraph doesn't currently end with a perio=
-d
-as it used to.
+while(datagrams < vlen) {
+   err = recvmsg()
+   if (err) break;
+   if (timeout) break;
+   datagrams++
+}
 
-Regards
+Both in non-blocking/blocking mode, and I think the manpage should make 
+the three possible exit scenario (vlen, timeout, err) clear in both 
+blocking and non-blocking mode.
 
-David
+gr
+E.
 
->> diff --git a/man7/ipv6.7 b/man7/ipv6.7
->> index 506218a..bf0e991 100644
->> --- a/man7/ipv6.7
->> +++ b/man7/ipv6.7
->> @@ -4,7 +4,6 @@
->>  .\" and in case of nontrivial modification author and date
->>  .\" of the modification is added to the header.
->>  .\" $Id: ipv6.7,v 1.3 2000/12/20 18:10:31 ak Exp $
->> -structure.
->>  .\"
->>  .\" The following socket options are undocumented
->>  .\"    All of the folloing are from:
->> @@ -213,6 +212,7 @@ programs that don't know how to deal with the IP=
-v6 API.
->>  Control membership in multicast groups.
->>  Argument is a pointer to a
->>  .I struct ipv6_mreq
->> +structure.
->>  .TP
->>  .B IPV6_MTU
->>  .BR getsockopt ():
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+-- 
+Elie De Brauwer
 
-iQIcBAEBCAAGBQJQ11RTAAoJELgqIXr9/gnyfEoP/2fwAJMZZYCU+f0YJIxdqAJg
-iNf6A6YWu8Bm72lp4smxZgs/MzNdUeFQG0q2t+eNTqCOoVucbLvfbs/hLNYI/nNV
-Q3bs/KkcHO2yJzCWLkfo5N2gGbwYCO2iR+XPWv5M3TltHw1+EwJjX9KTVxgmd6NZ
-AgbSrMuG1lgt/pMLT1PypfXJ8VZ5QsK9Kiyl7G5AJbzKePKGPvE/Z0bXu0wSv1dR
-L/gfJ4G5YTHX8GWD01/EgqU7khdg+d+oyjehkYeVkV8LvDv8bEcjftzOi5BdaMUv
-vMI9c6yf5vQzjwJqAqv1LOoXvMl2aPAMHxTEUSSf4EeV0Za4ip/72KWQWaRi5SBN
-yq1wdGKP46UwWPipbvyj3S4KNrbkTuoyDQrVg+JD8KFogEM8hIkWuFY61NekDJqp
-b1WVEJ9Ti+dISBU2ljfIbhG4Oy7r+ihw5ISdbhpDGzGWyTlVGUKVWQOo3PhmshdN
-p/ql3zzZB7bKsv9JEW5wdKjxklJsVupVOVnG1o67+nElvcYDwe6KNczRCUx4TuQj
-YyGXH1pMGi1NuQLrHrjDflG41vWSVA8FZgR+/v3YMxY3rjJL9uz1hPKEXt+aZSfF
-sgKwCpjyInlmfrb6saSJkjJv9VaxSA23s2QlY+yBD5K/eNEBbJpZoodu5tW0N3dv
-Mxua//gnphEiZLUZThWg
-=3DzWWa
------END PGP SIGNATURE-----
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
