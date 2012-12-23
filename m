@@ -1,163 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] recvmmsg.2 Updated fixme, added example
-Date: Sat, 22 Dec 2012 19:55:45 +0100
-Message-ID: <CAKgNAkhGnBvn2CQHvG2E3padn+fW3rz0OBjERcSR5Go+JTbCGg@mail.gmail.com>
-References: <CAKgNAkgDE3yyLOjdaAjWgpS2iPMmcr3njAWik20nMiX=ZQYUHg@mail.gmail.com>
- <1356029246-6212-1-git-send-email-eliedebrauwer@gmail.com>
+Subject: Re: [PATCH] recvmmsg.2: correct since fields and correct
+ specification of the timeout parameter
+Date: Sun, 23 Dec 2012 10:23:31 +0100
+Message-ID: <CAKgNAkhz1E8c2jpECcYrKJyMv1RB36qC_HjW9s=i=+bYLfii4w@mail.gmail.com>
+References: <1355956627-5676-1-git-send-email-eliedebrauwer@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1356029246-6212-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1355956627-5676-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Elie,
+Hello Elie
 
-On Thu, Dec 20, 2012 at 7:47 PM, Elie De Brauwer
+On Wed, Dec 19, 2012 at 11:37 PM, Elie De Brauwer
 <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi all,
+> Hello all,
 >
-> Please find below a patch with the comments in below (including two
-> other typo's I seem to have missed yesterday).
+> After playing with and coming up with the example I bumped into some issues
+> with the current page.
 >
-> Thanks for the comments.
+> The trivial ones:
+>  * The page states it was added in 2.6.32 but it is only added in 2.6.33
+>    (ref: http://kernelnewbies.org/Linux_2_6_33)
+>  * The MSG_WAITFORONE flag was in turn only added in 2.6.34
+>    (ref: http://kernelnewbies.org/Linux_2_6_34)
+>
+> The less trivial one, if you read the current manpage it seems like the
+> timeout option is like a 'free' select/poll call. When reading the page
+> my impression is you call recvmmsg with a timeout set, that it will not
+> be able to block indefinitely. However this is not the case. You can
+> already see this in my example in my previous patch, bash transmits a UDP
+> packet every 250 msecs, but my demo app seems to recieve 5 packets while
+> the timeout is only 1 second.
+>
+> If you look in the code ( http://lxr.linux.no/linux+v3.2/net/socket.c#L2201 )
+> of __sys_recvmmsg() you can clearly see that in pseudocode it does something
+> like:
+> poll_select_set_timeout();
+> while(datagrams < vlen) {
+>    err = __sys_recvmsg();
+>    if (err < 0 ) break
+>    datagrams++;
+>    if (timeout) {
+>      // Update time
+>      if (timeout->tv_sec < 0) {
+>         break;
+>      }
+>    }
+> }
+>
+> Hence three conditions result in recvmmsg() to return:
+>  - error in recvmmsg()
+>  - vlen datagrams received
+>  - timeout expiration.
+>
+> But the timeout is only checked *after* __sys_recvmsg(), which may be
+> blocking has returned, hence when working in blocking mode and the flow of
+> incoming data stops all of a sudden, recvmmsg() will also block, even if
+> a timeout is set. And this is not what I understood from the original
+> page.
+>
+> A second case, in nonblocking mode, you can also specify a timeout,
+> if a large amount of data is available, and the timeout is extremely sharp
+> it might be that the timeout can also cause an exit from this function
+> even if data is available in the socket.
+>
+> The patch belows tries to reword the existing paragraphs to make it reflect
+> the information stated above.
+>
+> btw, this patch is isolated from the example patch because they deal with
+> two separate things actually.
 
-Thanks for the update. I've applied this for 3.46.
+It was god that you split the patch this way, but it would be even
+better to split it further. The version stuff should be it's a
+separate patch. The timeout stuff is complex, and it looks to me like
+a kernel bug. Could you resubmit as two patches please.
 
-Cheers,
+Thanks
 
 Michael
-
-
-> ---
->  man2/recvmmsg.2 |   94 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 92 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-> index a7b00d4..0c6db49 100644
-> --- a/man2/recvmmsg.2
-> +++ b/man2/recvmmsg.2
-> @@ -21,8 +21,6 @@
->  .\" Formatted or processed versions of this manual, if unaccompanied by
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\"
-> -.\" FIXME: This page could be improved with an example program.
-> -.\"
->  .TH RECVMMSG 2 2012-05-02 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  recvmmsg \- receive multiple messages on a socket
-> @@ -165,6 +163,98 @@ Support in glibc was added in version 2.12.
->  .SH CONFORMING TO
->  .BR recvmmsg ()
->  is Linux-specific.
-> +.SH EXAMPLE
-> +.PP
-> +The following program uses
-> +.BR recvmmsg ()
-> +to receive multiple messages on a socket and stores
-> +them in multiple buffers.
-> +The call returns if all buffers are filled or if the
-> +timeout specified is expired.
-> +
-> +The following snippet periodically generates UDP datagrams
-> +containing a random number:
-> +.in +4n
-> +.nf
-> +.RB "$" " while true; do echo $RANDOM > /dev/udp/127.0.0.1/1234; sleep 0.25; done"
-> +.fi
-> +.in
-> +
-> +These datagrams are read by the example application which
-> +can give the following output:
-> +.in +4n
-> +.nf
-> +.RB "$" " ./a.out"
-> +5 messages received
-> +1 11782
-> +2 11345
-> +3 304
-> +4 13514
-> +5 28421
-> +.fi
-> +.in
-> +.SS Program source
-> +\&
-> +.nf
-> +#define _GNU_SOURCE
-> +#include <netinet/ip.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <sys/socket.h>
-> +
-> +int
-> +main()
-> +{
-> +#define VLEN 10
-> +#define BUFSIZE 200
-> +#define TIMEOUT 1
-> +    int sockfd, retval, i;
-> +    struct sockaddr_in sa;
-> +    struct mmsghdr msgs[VLEN];
-> +    struct iovec iovecs[VLEN];
-> +    char bufs[VLEN][BUFSIZE+1];
-> +    struct timespec timeout;
-> +
-> +    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-> +    if (sockfd == \-1) {
-> +        perror("socket()");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    sa.sin_family = AF_INET;
-> +    sa.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-> +    sa.sin_port = htons(1234);
-> +    if (bind(sockfd, (struct sockaddr *) &sa, sizeof(sa)) == \-1) {
-> +        perror("bind()");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    memset(msgs, 0, sizeof(msgs));
-> +    for (i = 0; i < VLEN; i++) {
-> +        iovecs[i].iov_base         = bufs[i];
-> +        iovecs[i].iov_len          = BUFSIZE;
-> +        msgs[i].msg_hdr.msg_iov    = &iovecs[i];
-> +        msgs[i].msg_hdr.msg_iovlen = 1;
-> +    }
-> +
-> +    timeout.tv_sec = TIMEOUT;
-> +    timeout.tv_nsec = 0;
-> +
-> +    retval = recvmmsg(sockfd, msgs, VLEN, 0, &timeout);
-> +    if (retval == \-1) {
-> +        perror("recvmmsg()");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    printf("%d messages received\\n", retval);
-> +    for (i = 0; i < retval; i++) {
-> +        bufs[i][msgs[i].msg_len] = 0;
-> +        printf("%d %s", i+1, bufs[i]);
-> +    }
-> +    exit(EXIT_SUCCESS);
-> +}
-> +.fi
->  .SH SEE ALSO
->  .BR clock_gettime (2),
->  .BR recvmsg (2),
-> --
-> 1.7.10.4
->
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
