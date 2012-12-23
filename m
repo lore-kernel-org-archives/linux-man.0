@@ -1,72 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] recvmmsg.2 Updated since fields for recvmmsg and MSG_WAITFORNONE
-Date: Sun, 23 Dec 2012 18:50:28 +0100
-Message-ID: <CAKgNAkiJ6whWdnKiF6FFLab+=haQCouYs9_DKLO6Qyu4GC7gOg@mail.gmail.com>
-References: <CAKgNAkhz1E8c2jpECcYrKJyMv1RB36qC_HjW9s=i=+bYLfii4w@mail.gmail.com>
- <1356263235-4803-1-git-send-email-eliedebrauwer@gmail.com>
+Subject: Re: [PATCH] proc.5: tfix
+Date: Sun, 23 Dec 2012 18:52:20 +0100
+Message-ID: <CAKgNAkjxqCNm6mupc_33+GRgF6m6wo-5zvnOf4TQy4tAu+nubQ@mail.gmail.com>
+References: <1356268602-15896-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1356263235-4803-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1356268602-15896-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Elie,
+Thanks David. Applied.
 
-On Sun, Dec 23, 2012 at 12:47 PM, Elie De Brauwer
-<eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> All,
->
-> This patch isolates the since/version related fixes as requested.
-> This change introduces the following delta:
->  * The page states it was added in 2.6.32 but it is only added in 2.6.33
->    (ref: http://kernelnewbies.org/Linux_2_6_33)
->  * The MSG_WAITFORONE flag was in turn only added in 2.6.34
->    (ref: http://kernelnewbies.org/Linux_2_6_34)
-
-Thanks. Applied.
-
-Cheers,
-
-Michael
-
-
+On Sun, Dec 23, 2012 at 2:16 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
+te:
 > ---
->  man2/recvmmsg.2 |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man5/proc.5 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/man2/recvmmsg.2 b/man2/recvmmsg.2
-> index a7b00d4..85e4080 100644
-> --- a/man2/recvmmsg.2
-> +++ b/man2/recvmmsg.2
-> @@ -95,7 +95,7 @@ The flags are the same as documented for
->  .BR recvmsg (2),
->  with the following addition:
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 78119cb..0a184d2 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -325,7 +325,7 @@ Up to and including Linux 2.6.35,
+>  this file is protected to only allow reading by the real UID of the =
+process.
+>  Since Linux 2.6.36,
+>  .\" commit 3036e7b490bf7878c6dae952eec5fb87b1106589
+> -this file is readable file is readable
+> +this file is readable
+>  by all users on the system.
 >  .TP
-> -.B MSG_WAITFORONE
-> +.BR MSG_WAITFORONE " (since Linux 2.6.34)"
->  Turns on
->  .B MSG_DONTWAIT
->  after the first message has been received.
-> @@ -160,7 +160,7 @@ is invalid.
->  .SH VERSIONS
->  The
->  .BR recvmmsg ()
-> -system call was added in Linux 2.6.32.
-> +system call was added in Linux 2.6.33.
->  Support in glibc was added in version 2.12.
->  .SH CONFORMING TO
->  .BR recvmmsg ()
+>  .I /proc/[pid]/maps
 > --
 > 1.7.10.4
 >
 
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
