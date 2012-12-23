@@ -1,64 +1,56 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] recvmmsg.2 Updated timeout documentation
-Date: Sun, 23 Dec 2012 21:42:20 +0100
-Message-ID: <50D76CAC.7070403@gmail.com>
-References: <CAKgNAkhz1E8c2jpECcYrKJyMv1RB36qC_HjW9s=i=+bYLfii4w@mail.gmail.com> <1356264415-5108-1-git-send-email-eliedebrauwer@gmail.com> <CAKgNAkhFS_n4BrTvqV12VcLSPXGjkBE6MOFS-sUCnCT8y7Pjfw@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: recvmmsg() timeout behavior strangeness
+Date: Sun, 23 Dec 2012 21:50:11 +0100
+Message-ID: <CAHO5Pa2goUtiBU8ye2beTBExL4it2-aDCPBhDOGyO3NX_PV_pQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhFS_n4BrTvqV12VcLSPXGjkBE6MOFS-sUCnCT8y7Pjfw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>
+Cc: Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Chris Van Hoof <vanhoof-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Clark Williams <williams-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andrew Grover <andy.grover-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>, =?ISO-8859-1?Q?R=E9mi_Denis=2DCourmont?= <remi.denis-courmont-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/23/2012 07:30 PM, Michael Kerrisk (man-pages) wrote:
-> Elie,
->
->> In any case, when operating in non-blocking mode, the timeout is taken into
->> account, which could mean that recvmmsg() returns while data is still
->> available (which was not clearly stated). (Combination of much data to
->> copy and a very sharp timeout).
->
-> Can you say more about what you see/understand with nonblocking mode.
-> I don't understand what you mean here (and it doesn't fit with what I
-> am seeing on testing). Nonblocking mode should, I believe, always mean
-> an immediate return, regardless of any timeout.
+Hello Arnaldo,
 
-It's just cosmetics really, now they state that:
-"
-A nonblocking call reads as many messages as are available (up to the 
-limit specified by vlen) and returns immediately.
-"
+As part of his attempt to better document the recvmmsg() syscall that
+you added in commit a2e2725541fad72416326798c2d7fa4dafb7d337, Elie de
+Brauwer alerted to me to some strangeness in the timeout behavior of
+the syscall. I suspect there's a bug that needs fixing, as detailed
+below.
 
-Suppose that you are operating in non-blocking mode, the timeout is set 
-to one nanosecond (yeah, living on the edge), and vlen is an insane 
-large number (say a thousand) whilst assuming that data is available to 
-be received. The text from the manpage says that you will return if the 
-available data is depleted or if you have read 'vlen' buffers. So it 
-means there's a 'faster than timeout' possible.
+AFAICT, the timeout argument was added to this syscall as a result of
+the discussion here:
+http://thread.gmane.org/gmane.linux.network/128582 .
 
-What the kernel implementation actually does (simplified, and ignoring 
-WAITFORONE) is:
+If I understand correctly, the *intended* purpose of the timeout
+argument is to set a limit on how long to wait for additional
+datagrams after the arrival of an initial datagram. However, the
+syscall behaves in quite a different way. Instead, it potentially
+blocks forever, regardless of the timeout. The way the timeout seems
+to work is as follows:
 
-while(datagrams < vlen) {
-   err = recvmsg()
-   if (err) break;
-   if (timeout) break;
-   datagrams++
-}
+1. The timeout, T, is armed on receipt of first diagram, starting at time X.
+2. After each further datagram is received, a check is made if we have
+reached time X+T. If we have reached that time, then the syscall
+returns.
 
-Both in non-blocking/blocking mode, and I think the manpage should make 
-the three possible exit scenario (vlen, timeout, err) clear in both 
-blocking and non-blocking mode.
+Since the timeout is only checked after the arrival of each datagram,
+we can have scenarios like the following:
 
-gr
-E.
+0. Assume a timeout of 10 seconds, and that vlen is 5.
+1. First datagram arrives at time X.
+2. Second datagram arrives at time X+2 secs
+3. No more datagrams arrive.
 
--- 
-Elie De Brauwer
+In this case, the call blocks forever. Is that intended behavior?
+(Basically, if vlen-1 datagrams arrive before X+T, but then no more
+datagrams arrive, the call will remain blocked forever.) If it's
+intended behavior, could you elaborate the use case, since it would be
+good to add that to the man page.
 
+Thanks,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
