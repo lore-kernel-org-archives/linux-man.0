@@ -1,41 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: tfix
-Date: Sun, 23 Dec 2012 18:52:20 +0100
-Message-ID: <CAKgNAkjxqCNm6mupc_33+GRgF6m6wo-5zvnOf4TQy4tAu+nubQ@mail.gmail.com>
-References: <1356268602-15896-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] ipv6.7: tfix
+Date: Sun, 23 Dec 2012 18:55:15 +0100
+Message-ID: <CAKgNAkg_QGc_T_Kjw34ExgHnDnZ0Df4nkFR6zisvT0=ZTQBYsg@mail.gmail.com>
+References: <1356269632-19913-1-git-send-email-taffit@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1356268602-15896-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1356269632-19913-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks David. Applied.
+Hi David,
 
-On Sun, Dec 23, 2012 at 2:16 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
+I applied the first change, but the second is unneeded.
+
+Thanks,
+
+Michael
+
+On Sun, Dec 23, 2012 at 2:33 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
 te:
 > ---
->  man5/proc.5 |    2 +-
+>  man7/ipv6.7 |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 78119cb..0a184d2 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -325,7 +325,7 @@ Up to and including Linux 2.6.35,
->  this file is protected to only allow reading by the real UID of the =
-process.
->  Since Linux 2.6.36,
->  .\" commit 3036e7b490bf7878c6dae952eec5fb87b1106589
-> -this file is readable file is readable
-> +this file is readable
->  by all users on the system.
+> diff --git a/man7/ipv6.7 b/man7/ipv6.7
+> index 506218a..bf0e991 100644
+> --- a/man7/ipv6.7
+> +++ b/man7/ipv6.7
+> @@ -4,7 +4,6 @@
+>  .\" and in case of nontrivial modification author and date
+>  .\" of the modification is added to the header.
+>  .\" $Id: ipv6.7,v 1.3 2000/12/20 18:10:31 ak Exp $
+> -structure.
+>  .\"
+>  .\" The following socket options are undocumented
+>  .\"    All of the folloing are from:
+> @@ -213,6 +212,7 @@ programs that don't know how to deal with the IPv=
+6 API.
+>  Control membership in multicast groups.
+>  Argument is a pointer to a
+>  .I struct ipv6_mreq
+> +structure.
 >  .TP
->  .I /proc/[pid]/maps
+>  .B IPV6_MTU
+>  .BR getsockopt ():
 > --
 > 1.7.10.4
 >
