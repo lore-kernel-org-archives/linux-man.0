@@ -1,155 +1,34 @@
-From: Xypron <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH 1/1] Documentation of the fanotify interface.
-Date: Fri, 28 Dec 2012 13:24:58 +0100
-Message-ID: <50DD8F9A.30409@gmx.de>
-References: <1353790354-14452-1-git-send-email-xypron.glpk@gmx.de> <CAKgNAkjmj5kOvkfWGTGH-GE=fak+C2_3PComW3im-tW3i5w6Xw@mail.gmail.com> <50B27F29.9000208@gmx.de>
+From: Daan Spitz <daan.f.spitz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Typo in stdio manpage
+Date: Wed, 2 Jan 2013 13:22:15 +0100
+Message-ID: <CAHZfL_W_RBYdHVNp+1KAhY46r+ztrDh3Xbe+foiE_frog9uvgg@mail.gmail.com>
+References: <CAHZfL_V6_XEOZNCxkEZHc0KgZhJzow1WR580Cn_wzXO9cTTfmA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------080708000106070308050302"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <50B27F29.9000208-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <CAHZfL_V6_XEOZNCxkEZHc0KgZhJzow1WR580Cn_wzXO9cTTfmA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, James Hunt <james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------080708000106070308050302
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+I forgot to mention that I am using manpages version 3.45-1 on my Arch
+linux system.
 
-Hello Michael,
-
-I have reworked my proposed fanotify manapages a lot, hoping to fulfill 
-the quality requirements for integration into the manpage distribution.
-
-The current version can be found on
-http://git.xypron.de/?p=fanotify-manpages.git
-and in the appendix.
-
-I would be happy to receive your feedback.
-
-The fanotify interface served me for developing an access virus scanning 
-addon for ClamAV.
-
-Best regards
-
-Heinrich Schuchardt
-
-
---------------080708000106070308050302
-Content-Type: application/x-gzip;
- name="fanotify-manpages.tar.gz"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="fanotify-manpages.tar.gz"
-
-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
---------------080708000106070308050302--
+On 1/2/13, Daan Spitz <daan.f.spitz-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> L.S,
+>
+> I would like to inform you of a small error in the manpage for stdio.
+> The error is in the following sentence at the end of the 5th paragraph
+> of the description:
+>
+> "if and only if the streams do not to refer to an interactive device"
+>
+> The first occurance of the word "to" seems to be out of place here.
+>
+> Kind regards,
+> Daan Spitz
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
