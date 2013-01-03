@@ -1,127 +1,45 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] host.conf(5): order option deprecated, replaced by
- nsswitch.conf(5)
-Date: Wed, 2 Jan 2013 22:43:13 +0100
-Message-ID: <20130102214313.GB32025@glenfiddich.mraw.org>
-References: <1355073222-13020-1-git-send-email-spaillard@debian.org>
+From: Rusty Russell <rusty@rustcorp.com.au>
+Subject: Re: [PATCH 1/4] module: add syscall to load module from fd
+Date: Thu, 03 Jan 2013 10:42:24 +1030
+Message-ID: <87fw2j5dlj.fsf@rustcorp.com.au>
+References: <1348179300-11653-1-git-send-email-keescook@chromium.org> <CAHO5Pa2fysDRS3sFSy785XBKApxydN0ONW5kAfVJNkrB+wOaBw@mail.gmail.com> <50749DE8.7010703@zytor.com> <CAKgNAkgLW+0aHwzoY6vxmeeK_K5w2RyhxW+jOaJDn274NVbajw@mail.gmail.com> <5074A0AB.8040207@zytor.com> <87d30o7iy6.fsf@rustcorp.com.au> <CAKgNAkh=99=x1=8Y=3odem-fXc9zEEbLvCc0WQku5Kyso4qHuQ@mail.gmail.com> <87ipa8o4mn.fsf@rustcorp.com.au> <CAKgNAkiVxUiqJ1pYNq3wW_yQxcyhqntUzcEWscFOhJ3GaVn1aQ@mail.gmail.com> <87sj97hs5e.fsf@rustcorp.com.au> <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1355073222-13020-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@profusion.mobi>, jonathon@jonmasters.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Michael Kerrisk <mtk.manpages@gmail.com> writes:
+> Hi Rusty,
 
-Do you think this patch can be applied ?
+Hi Michael,
 
-The "order" keyword in /etc/host.conf is not supported anymore for quite
-some time.
+> The description here is rather thin. Could you supply a sentence or
+> two for each of MODULE_INIT_IGNORE_MODVERSIONS and
+> MODULE_INIT_IGNORE_VERMAGIC that would be suitable for the manual
+> page?
+>
+> Thanks,
 
-I cannot find which glibc versions uses order line in host.conf before
-nsswitch.conf is used.
+There are one or two safety checks built into a module, which are
+checked to match the kernel on module load.  The first is a "vermagic"
+string containing the kernel version number and prominent features (such
+as CPU type).  If the module was built with CONFIG_MODVERSIONS set, a
+version hash is recorded for each symbol the module uses based on the
+types it refers to: in this case, the kernel version number within the
+"vermagic" string is ignored, as the symbol version hashes are assumed
+to be sufficiently reliable.
 
-Together with the fact this change happened ~7 years ago, here is a patch
-*removing* the 'order line', and adding nsswitch.conf(5) in references.
+Using the MODULE_INIT_IGNORE_VERMAGIC flag indicates that the vermagic
+is to be ignored, and the MODULE_INIT_IGNORE_MODVERSIONS flag indicates
+that the version hashes are to be ignored.  If the kernel is built to
+permit such forced loading (ie. CONFIG_MODULE_FORCE_LOAD is set) then
+loading will continue, otherwise it will fail with ENOEXEC as expected
+for malformed modules.
 
-On Sun, Dec 09, 2012 at 06:13:42PM +0100, Simon Paillard wrote:
-> http://www.sourceware.org/bugzilla/show_bug.cgi?id=2389
-> http://repo.or.cz/w/glibc.git/commit/b9c65d0902e5890c4f025b574725154032f8120a
-> 
-> Reported at http://bugs.debian.org/270368 http://bugs.debian.org/396633
-> ---
->  man3/resolver.3    |    2 +-
->  man5/host.conf.5   |   14 ++------------
->  man5/resolv.conf.5 |    4 +++-
->  3 files changed, 6 insertions(+), 14 deletions(-)
-> 
-> diff --git a/man3/resolver.3 b/man3/resolver.3
-> index 991b263..2cd4ec7 100644
-> --- a/man3/resolver.3
-> +++ b/man3/resolver.3
-> @@ -87,7 +87,7 @@ domain name servers.
->  The
->  .BR res_init ()
->  function reads the configuration files (see
-> -resolv.conf(5)) to get the default domain name, search order and name
-> +resolv.conf(5)) to get the default domain name and name
->  server address(es).
->  If no server is given, the local host is tried.
->  If no domain is given, that associated with the local host is used.
-> diff --git a/man5/host.conf.5 b/man5/host.conf.5
-> index 189e2e9..ed1403d 100644
-> --- a/man5/host.conf.5
-> +++ b/man5/host.conf.5
-> @@ -33,15 +33,9 @@ contains configuration information specific to the resolver library.
->  It should contain one configuration keyword per line, followed by
->  appropriate configuration information.
->  The keywords recognized are
-> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
-> +.IR trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->  These keywords are described below.
->  .TP
-> -.I order
-> -This keyword specifies how host lookups are to be performed.
-> -It should be followed by one or more lookup methods, separated by commas.
-> -Valid methods are
-> -.IR bind ", " hosts ", and " nis .
-> -.TP
->  .I trim
->  This keyword may be listed more than once.
->  Each time it should be
-> @@ -141,11 +135,6 @@ override the behavior which is configured in
->  If set this variable points to a file that should be read instead of
->  .IR /etc/host.conf .
->  .TP
-> -.B RESOLV_SERV_ORDER
-> -Overrides the
-> -.I order
-> -command.
-> -.TP
->  .B RESOLV_SPOOF_CHECK
->  Overrides the
->  .IR nospoof ", " spoofalert " and " spoof
-> @@ -200,4 +189,5 @@ Line comments can appear anywhere and not only at the beginning of a line.
->  .BR gethostbyname (3),
->  .BR hostname (7),
->  .BR named (8),
-> +.BR nsswitch.conf (5),
->  .BR resolv+ (8)
-> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-> index 9a3ca54..282f748 100644
-> --- a/man5/resolv.conf.5
-> +++ b/man5/resolv.conf.5
-> @@ -134,6 +134,7 @@ sets
->  .BR RES_DEBUG
->  in
->  .IR _res.options .
-> +This option needs glibc to be build with debugging enabled.
->  .TP
->  .BI ndots: n
->  .\" Since glibc 2.2
-> @@ -275,6 +276,7 @@ in the first column are treated as comments.
->  .BR gethostbyname (3),
->  .BR resolver (3),
->  .BR hostname (7),
-> -.BR named (8)
-> +.BR named (8),
-> +.BR nsswitch.conf (5)
->  .br
->  Name Server Operations Guide for BIND
-> -- 
-> 1.7.10.4
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Hope that is more usable?
 
--- 
-Simon Paillard
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Thanks,
+Rusty,
