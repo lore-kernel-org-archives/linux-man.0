@@ -1,45 +1,178 @@
-From: Rusty Russell <rusty@rustcorp.com.au>
-Subject: Re: [PATCH 1/4] module: add syscall to load module from fd
-Date: Thu, 03 Jan 2013 10:42:24 +1030
-Message-ID: <87fw2j5dlj.fsf@rustcorp.com.au>
-References: <1348179300-11653-1-git-send-email-keescook@chromium.org> <CAHO5Pa2fysDRS3sFSy785XBKApxydN0ONW5kAfVJNkrB+wOaBw@mail.gmail.com> <50749DE8.7010703@zytor.com> <CAKgNAkgLW+0aHwzoY6vxmeeK_K5w2RyhxW+jOaJDn274NVbajw@mail.gmail.com> <5074A0AB.8040207@zytor.com> <87d30o7iy6.fsf@rustcorp.com.au> <CAKgNAkh=99=x1=8Y=3odem-fXc9zEEbLvCc0WQku5Kyso4qHuQ@mail.gmail.com> <87ipa8o4mn.fsf@rustcorp.com.au> <CAKgNAkiVxUiqJ1pYNq3wW_yQxcyhqntUzcEWscFOhJ3GaVn1aQ@mail.gmail.com> <87sj97hs5e.fsf@rustcorp.com.au> <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
+From: Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Bug#28702: pthread_setname_np(3) missing man page
+Date: Thu, 3 Jan 2013 14:57:02 +0530
+Message-ID: <CAMNJgj+UfS0OM-R1mcwiLMC-C2NkRv7Wwhr4bZz2uoyEOsYX9w@mail.gmail.com>
+References: <CAMNJgjLgNe61yEuQzah3s2znd3nLyB_k71OpU=ntx+oq30RfHQ@mail.gmail.com>
+	<CAKgNAkjwOZPCDMQYAh_H8e7jpD1kwJz0mc1cnZttXt_7N9EyHQ@mail.gmail.com>
+	<CAMNJgjJ1C6mtxEa8f2K1SeDprEpi79L3KLagyJfnDLQdPVHzPw@mail.gmail.com>
+	<CAMNJgjJyGTmicnxLq8LGQ_+PPO9jn5gb7e_Wqb58VhZRmxgxeA@mail.gmail.com>
+	<CAMNJgjJfF6Osp1G26bm7SrwknoBzRpF2yWu0R_avJjbgkqoPkw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-Cc: "H. Peter Anvin" <hpa@zytor.com>, Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org, Lucas De Marchi <lucas.demarchi@profusion.mobi>, jonathon@jonmasters.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAMNJgjJfF6Osp1G26bm7SrwknoBzRpF2yWu0R_avJjbgkqoPkw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-Michael Kerrisk <mtk.manpages@gmail.com> writes:
-> Hi Rusty,
 
 Hi Michael,
 
-> The description here is rather thin. Could you supply a sentence or
-> two for each of MODULE_INIT_IGNORE_MODVERSIONS and
-> MODULE_INIT_IGNORE_VERMAGIC that would be suitable for the manual
-> page?
->
-> Thanks,
+I have modified the man page for pthread_setname/getname according to
+the comments you gave the last time. Sending the updated copy again.
+Please review and let me know if it's fine.
 
-There are one or two safety checks built into a module, which are
-checked to match the kernel on module load.  The first is a "vermagic"
-string containing the kernel version number and prominent features (such
-as CPU type).  If the module was built with CONFIG_MODVERSIONS set, a
-version hash is recorded for each symbol the module uses based on the
-types it refers to: in this case, the kernel version number within the
-"vermagic" string is ignored, as the symbol version hashes are assumed
-to be sufficiently reliable.
 
-Using the MODULE_INIT_IGNORE_VERMAGIC flag indicates that the vermagic
-is to be ignored, and the MODULE_INIT_IGNORE_MODVERSIONS flag indicates
-that the version hashes are to be ignored.  If the kernel is built to
-permit such forced loading (ie. CONFIG_MODULE_FORCE_LOAD is set) then
-loading will continue, otherwise it will fail with ENOEXEC as expected
-for malformed modules.
+.\" Copyright (C) 2012 Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\"
+.TH PTHREAD_SETNAME_NP 3 2012-10-24 "Linux" "Linux Programmer's Manual"
+.SH NAME
+pthread_setname_np, pthread_getname_np \- set/get the name of a thread
+.SH SYNOPSIS
+.nf
+.BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+.B #include <pthread.h>
+.BI "int pthread_setname_np(pthread_t *" thread ", const char *" name ");
+.BI "int pthread_getname_np(pthread_t *" thread ", const char *" name
+", size_t" len);
+.fi
+.sp
+Compile and link with \fI\-pthread\fP.
+.SH DESCRIPTION
+By default, all the threads created using
+.BR pthread_create (3)
+inherit the program name.
+Using
+.BR pthread_setname_np (3),
+users can specify a unique name for a thread,
+which can be particularly useful for debugging complicated
+multi-threaded applications.
+The thread name is a meaningful C language string, whose length is
+restricted to 16 characters.
+Anything greater than this would lead to an error.
 
-Hope that is more usable?
+The
+.BR pthread_getname_np (3)
+can be used to retrieve the name of the thread.
+The buffer specified by name must be at least 16 characters in length.
+The returned thread name in the output buffer will be null terminated.
+.SH RETURN VALUE
+On success, these functions return 0;
+on error, they return a nonzero error number.
+.SH ERRORS
+If the functions fail to open /proc/self/task/<TID>/comm, then the
+call may fail with one of
+the errors described in
+.BR open (2).
+.TP
+.B ERANGE
+The length of the string specified as second argument exceeds the allowed limit.
+
+.SH NOTES
+.BR pthread_setname_np (3)
+internally writes to the thread specific comm file under
+.IR /proc
+filesystem:
+.IR /proc/self/task/<tid>/comm.
+.BR pthread_getname_np (3)
+retreives it from the same location.
+
+.SH EXAMPLE
+.PP
+The program below demonstrates the use of
+.BR pthread_setname_np (),
+as well as
+.BR pthread_getname_np ().
+
+The following shell session shows a sample run of the program:
+.in +4n
+.nf
+
+.RB "$" " ./a.out 1 2 4 7 14"
+Created a thread. Default name is: a.out
+The thread name after setting it is THREADFOO.
+Done
+.fi
+.in
+
+.SS Program source
+\&
+.nf
+#define _GNU_SOURCE
+
+#include <pthread.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <errno.h>
+#include <stdlib.h>
+
+#define NAMELEN 16
+
+#define errExitEN(en, msg) \\
+        do { if(en) { errno = en; perror(msg); \\
+                exit(EXIT_FAILURE);} \\
+        } while (0)
+
+static void *threadfunc(void *parm)
+{
+    sleep(5);                   // allow main program to set the thread name
+    return NULL;
+}
+
+int main(int argc, char **argv)
+{
+    pthread_t thread;
+    int rc;
+    char thread_name[NAMELEN];
+
+    rc = pthread_create(&thread, NULL, threadfunc, NULL);
+    errExitEN(rc, "pthread_create");
+    rc = pthread_getname_np(thread, thread_name, NAMELEN);
+    errExitEN(rc, "pthread_getname_np");
+    printf("Created a thread. Default name is: %s\\n", thread_name);
+    rc = pthread_setname_np(thread, "THREADFOO");
+    errExitEN(rc, "pthread_setname_np");
+    sleep(2);
+    rc = pthread_getname_np(thread, thread_name, NAMELEN);
+    errExitEN(rc, "pthread_getname_np");
+    printf("The thread name after setting it is %s.\\n", thread_name);
+    rc = pthread_join(thread, NULL);
+    errExitEN(rc, "pthread_join");
+    printf("Done\\n");
+    exit(EXIT_SUCCESS);
+}
+.fi
+.SH SEE ALSO
+.ad l
+.nh
+.BR prctl (2),
+.BR pthread_create (3),
+.BR pthreads (7)
 
 Thanks,
-Rusty,
+Chandan
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
