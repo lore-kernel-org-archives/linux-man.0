@@ -1,65 +1,169 @@
-From: Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-Subject: Re: [PATCH] open(2): document O_PATH
-Date: Tue, 8 Jan 2013 18:52:02 +0000
-Message-ID: <20130108185202.GA22857@ZenIV.linux.org.uk>
-References: <1335669917-23970-1-git-send-email-vapier@gentoo.org>
- <CAKgNAkgykZJV59WJXW9c9gVwXhn=WNYKxo_W1GM7ocHEEFqEXg@mail.gmail.com>
- <877gwxacti.fsf@skywalker.in.ibm.com>
- <CAKgNAkiRH8p=Dp1tqkb3D9oRVCOSnj2bofgFN5x2svntN7vtPg@mail.gmail.com>
- <87bom5xswc.fsf@skywalker.in.ibm.com>
- <20120503141156.GP6871@ZenIV.linux.org.uk>
+From: Lucas De Marchi <lucas.demarchi-Y3ZbgMPKUGA34EUeqzHoZw@public.gmane.org>
+Subject: Re: [PATCH 1/4] module: add syscall to load module from fd
+Date: Wed, 9 Jan 2013 15:29:37 -0200
+Message-ID: <CAMOw1v6Jk7adSeppunBe0GaW3w3MREU0_hW68_Fbh2599jctkg@mail.gmail.com>
+References: <1348179300-11653-1-git-send-email-keescook@chromium.org>
+ <CAHO5Pa2fysDRS3sFSy785XBKApxydN0ONW5kAfVJNkrB+wOaBw@mail.gmail.com>
+ <50749DE8.7010703@zytor.com> <CAKgNAkgLW+0aHwzoY6vxmeeK_K5w2RyhxW+jOaJDn274NVbajw@mail.gmail.com>
+ <5074A0AB.8040207@zytor.com> <87d30o7iy6.fsf@rustcorp.com.au>
+ <CAKgNAkh=99=x1=8Y=3odem-fXc9zEEbLvCc0WQku5Kyso4qHuQ@mail.gmail.com>
+ <87ipa8o4mn.fsf@rustcorp.com.au> <CAKgNAkiVxUiqJ1pYNq3wW_yQxcyhqntUzcEWscFOhJ3GaVn1aQ@mail.gmail.com>
+ <87sj97hs5e.fsf@rustcorp.com.au> <CAHO5Pa29_=3HNLG-qtULZ2fmkgPJ6JCZ0LTv9m=UowfvFufhMw@mail.gmail.com>
+ <87fw2j5dlj.fsf@rustcorp.com.au> <CAKgNAkggu9+AuMRqTFeNy9sJVCMcZVRZx43t=svF=gm+P4DnuQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20120503141156.GP6871-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+In-Reply-To: <CAKgNAkggu9+AuMRqTFeNy9sJVCMcZVRZx43t=svF=gm+P4DnuQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jonathon-Zp4isUonpHBD60Wz+7aTrA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, May 03, 2012 at 03:11:56PM +0100, Al Viro wrote:
-> On Thu, May 03, 2012 at 07:34:35PM +0530, Aneesh Kumar K.V wrote:
-> 
-> > I looked at dnotify_flush, they remove markers on an inode.
-> > But then it also checks for filp to match. So I am not sure
-> > whether skipping dnotify_flush for O_PATH descriptor have any impact. We
-> > can't use O_PATH descriptor for dnotify fcntl any way. So in
-> > dnotify_flush we will not match the filp.
-> > 
-> > Viro,
-> > 
-> > Any reason why we skip dnotify_flush  ?
-> 
-> See your last sentence above - why bother finding the mark, scanning the
-> list, etc. when we know that there won't be any matches?
+On Sun, Jan 6, 2013 at 4:59 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Rusty, (and Lucas, and Kees)
+>
+> On Thu, Jan 3, 2013 at 1:12 AM, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>=
+ wrote:
+>> Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>> Hi Rusty,
+>>
+>> Hi Michael,
+>>
+>>> The description here is rather thin. Could you supply a sentence or
+>>> two for each of MODULE_INIT_IGNORE_MODVERSIONS and
+>>> MODULE_INIT_IGNORE_VERMAGIC that would be suitable for the manual
+>>> page?
+>>>
+>>> Thanks,
+>>
+>> There are one or two safety checks built into a module, which are
+>> checked to match the kernel on module load.  The first is a "vermagi=
+c"
+>> string containing the kernel version number and prominent features (=
+such
+>> as CPU type).  If the module was built with CONFIG_MODVERSIONS set, =
+a
+>> version hash is recorded for each symbol the module uses based on th=
+e
+>> types it refers to: in this case, the kernel version number within t=
+he
+>> "vermagic" string is ignored, as the symbol version hashes are assum=
+ed
+>> to be sufficiently reliable.
+>>
+>> Using the MODULE_INIT_IGNORE_VERMAGIC flag indicates that the vermag=
+ic
+>> is to be ignored, and the MODULE_INIT_IGNORE_MODVERSIONS flag indica=
+tes
+>> that the version hashes are to be ignored.  If the kernel is built t=
+o
+>> permit such forced loading (ie. CONFIG_MODULE_FORCE_LOAD is set) the=
+n
+>> loading will continue, otherwise it will fail with ENOEXEC as expect=
+ed
+>> for malformed modules.
+>>
+>> Hope that is more usable?
+>
+> Yes, that helps. I did some reworking of that text. Hopefully, I did
+> not introduce any errors.
+>
+> Below is the text that is proposed to document finit_module() in the
+> man pages. I'd appreciate any review (Kees, Lucas, Rusty?)
+>
+> Thanks,
+>
+> Michael
+>
+>    finit_module()
+>        The finit_module() system call is like init_module(), but read=
+s
+>        the module to be loaded from the file  descriptor  fd.   It  i=
+s
+>        useful  when  the authenticity of a kernel module can be deter=
+=E2=80=90
+>        mined from its location in the file system; in cases where tha=
+t
+>        is  possible,  the  overhead  of using cryptographically signe=
+d
+>        modules to determine  the  authenticity  of  a  module  can  b=
+e
+>        avoided.  The param_values argument is as for init_module().
+>
+>        The  flags  argument  modifies the operation of finit_module()=
+=2E
+>        It is a bit mask value created by ORing together zero  or  mor=
+e
+>        of the following flags:
+>
+>        MODULE_INIT_IGNORE_MODVERSIONS
+>               Ignore symbol version hashes.
+>
+>        MODULE_INIT_IGNORE_VERMAGIC
+>               Ignore kernel version magic.
+>
+>        There are some safety checks built into a module to ensure tha=
+t
+>        it matches the kernel against which it is loaded.  These check=
+s
+>        are  recorded  when  the  module is built and verified when th=
+e
+>        module is loaded.   First,  the  module  records  a  "vermagic=
+"
+>        string  containing the kernel version number and prominent fea=
+=E2=80=90
+>        tures (such as the CPU type).  Second, if the module was  buil=
+t
+>        with  the  CONFIG_MODVERSIONS  configuration  option enabled, =
+a
+>        version hash is recorded for each symbol the module uses.  Thi=
+s
+>        hash  is  based  on the types of the arguments and return valu=
+e
+>        for the function named by the symbol.  In this case, the kerne=
+l
+>        version  number within the "vermagic" string is ignored, as th=
+e
+>        symbol version hashes are assumed to be sufficiently reliable.
+>
+>        Using the MODULE_INIT_IGNORE_VERMAGIC flag indicates  that  th=
+e
+>        "vermagic"   string   is   to   be   ignored,   and   the  MOD=
+=E2=80=90
+>        ULE_INIT_IGNORE_MODVERSIONS flag indicates that the symbol ver=
+=E2=80=90
+>        sion  hashes are to be ignored.  If the kernel is built to per=
+=E2=80=90
+>        mit  forced  loading   (i.e.,   configured   with   CONFIG_MOD=
+=E2=80=90
+>        ULE_FORCE_LOAD),  then loading will continue, otherwise it wil=
+l
+>        fail with ENOEXEC as expected for malformed modules.
+> ...
+>    ERRORS
+> ...
+>        The following errors may additionally occur for finit_module()=
+:
+>
+>        EBADF  The file referred to by fd is not opened for reading.
+>
+>        EFBIG  The file referred to by fd is too large.
+>
+>        EINVAL flags is invalid.
+>
+>        ENOEXEC
+>               fd does not refer to an open file.
+>
+>
 
-[Apologies for replying to the wrong posting, but this is the closest thing
-thread-wise to what I wanted to reply to that I've got sitting in my mailbox]
 
-The rules are:
-	* syscalls acting purely on descriptor level are allowed - close(),
-dup(), dup2(), dup3(), fcntl(F_DUPFD{,_CLOEXEC}), fcntl(F_[SG]ETFD),
-fcntl(F_GETFL), passing descriptors in SCM_RIGHTS datagrams)
-	* syscalls using the descriptor just to indicate a location in
-the tree - *at() family, fchdir(), fstat()
-The list might get expanded - for example, fstatfs() arguably belongs to the
-second group.  The approach had been conservative - the second group gets
-expanded on per-case basis.  E.g. anything requiring the file to have
-been opened for write is *not* a candidate, so it really has to be reviewed
-separately for each syscall of that sort.
+Looks good to me.
 
-As far as dnotify and POSIX locks go, close() (and replacing dup2(), etc.)
-are irrelevant - the rules are exactly as usual.  All dnotify watches or
-POSIX locks associated with that opened file get evicted; it's just that
-there is no way to *set* them on O_PATH descriptors in the first place.
-We might eventually allow fcntl(F_NOTIFY) on them, but I'm not sure there's
-any good reason to do so; allowing to use them for setting POSIX locks is
-almost certainly a bad idea wrt security.
 
-The test in filp_close() is just an optimization - if/when we allow F_NOTIFY
-on O_PATH descriptors, the same commit will need to make the call of
-dnotify_flush() in filp_open() unconditional.  All there is to it...
+regards,
+Lucas De Marchi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
