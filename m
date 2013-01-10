@@ -1,54 +1,38 @@
-From: Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>
+From: Chris Friesen <chris.friesen@genband.com>
 Subject: Re: recvmmsg() timeout behavior strangeness
-Date: Thu, 10 Jan 2013 10:04:09 +0000
-Message-ID: <1357812249.2760.6.camel@menhir>
-References: <CAHO5Pa2goUtiBU8ye2beTBExL4it2-aDCPBhDOGyO3NX_PV_pQ@mail.gmail.com>
-	 <50EDF01E.10709@genband.com>
+Date: Thu, 10 Jan 2013 09:24:47 -0600
+Message-ID: <50EEDD3F.9080203@genband.com>
+References: <CAHO5Pa2goUtiBU8ye2beTBExL4it2-aDCPBhDOGyO3NX_PV_pQ@mail.gmail.com>	 <50EDF01E.10709@genband.com> <1357812249.2760.6.camel@menhir>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <50EDF01E.10709-b7o/lNNmKxtBDgjK7y7TUQ@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Chris Friesen <chris.friesen-b7o/lNNmKxtBDgjK7y7TUQ@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>, Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Chris Van Hoof <vanhoof-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Clark Williams <williams-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andrew Grover <andy.grover-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis-courmont-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1357812249.2760.6.camel@menhir>
+Sender: netdev-owner@vger.kernel.org
+To: Steven Whitehouse <steve@chygwyn.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Arnaldo Carvalho de Melo <acme@ghostprotocols.net>, Caitlin Bestler <caitlin.bestler@gmail.com>, David Miller <davem@davemloft.net>, netdev@vger.kernel.org, Chris Van Hoof <vanhoof@redhat.com>, Clark Williams <williams@redhat.com>, Neil Horman <nhorman@tuxdriver.com>, Arnaldo Carvalho de Melo <acme@redhat.com>, Andrew Grover <andy.grover@gmail.com>, Elie De Brauwer <eliedebrauwer@gmail.com>, linux-man@vger.kernel.org, =?ISO-8859-1?Q?R=E9mi_Denis-Courmont?= <remi.denis-courmont@nokia.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+On 01/10/2013 04:04 AM, Steven Whitehouse wrote:
 
-On Wed, 2013-01-09 at 16:33 -0600, Chris Friesen wrote:
-> On 12/23/2012 02:50 PM, Michael Kerrisk wrote:
-> 
-> > If I understand correctly, the *intended* purpose of the timeout
-> > argument is to set a limit on how long to wait for additional
-> > datagrams after the arrival of an initial datagram. However, the
-> > syscall behaves in quite a different way. Instead, it potentially
-> > blocks forever, regardless of the timeout.
-> 
-> Looking at the code, I think you're correct.
-> 
-> The comments for a2e2725 say the timeout works like for ppoll(), where 
-> it is "an upper limit on the time for which poll() will block, in 
-> milliseconds."
-> 
-> I wonder if we could play some games with sk->sk_rcvtimeo to accomplish 
-> this?
-> 
-> Chris
+> Which timeout are we talking about? I've been copied into the thread
+> without seeing the start of it.
 
-Which timeout are we talking about? I've been copied into the thread
-without seeing the start of it.
+The discussion is about the timeout parameter for the recvmmsg() call. 
+Currently in the recvmmsg() code it only checks the timeout after 
+__sys_recvmsg() returns, so if __sys_recvmsg() blocks forever we could 
+end up essentially ignoring the timeout.
 
-If this is the rcvtimeo then afaik this is supposed to be the max time
-that the call waits for data, but is overridden by MSG_DONTWAIT, for
-example, on a per call basis. I'd assume that recvmmsg should work
-exactly like recvmsg in this case unless there is a good reason for it
-to differ,
+> If this is the rcvtimeo then afaik this is supposed to be the max time
+> that the call waits for data, but is overridden by MSG_DONTWAIT, for
+> example, on a per call basis. I'd assume that recvmmsg should work
+> exactly like recvmsg in this case unless there is a good reason for it
+> to differ,
 
-Steve.
+recvmsg() doesn't have a timeout parameter, so it uses SO_RCVTIMEO.
 
+recvmmsg() has an explicit timeout parameter but it doesn't look like it 
+works properly and the documentation doesn't mention how it is supposed 
+to interact with SO_RCVTIMEO.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Chris
