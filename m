@@ -1,59 +1,54 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
 Subject: Re: [PATCH] prctl.2: document PR_SET_PTRACER
-Date: Thu, 10 Jan 2013 16:43:20 -0800
-Message-ID: <CAGXu5j+=85KdRHP-955HNrdcDKyarPMq4a0L4jrSxuqc0-+29Q@mail.gmail.com>
-References: <20130110212855.GA29003@www.outflux.net>
-	<CAKgNAkhDC2TP9majP=POZJYXvcft3Jvthb8wxaBbT6TLsZ4vtg@mail.gmail.com>
+Date: Fri, 11 Jan 2013 08:15:33 +0400
+Message-ID: <50EF91E5.405@parallels.com>
+References: <20130110212855.GA29003@www.outflux.net> <CAKgNAkhDC2TP9majP=POZJYXvcft3Jvthb8wxaBbT6TLsZ4vtg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <CAKgNAkhDC2TP9majP=POZJYXvcft3Jvthb8wxaBbT6TLsZ4vtg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jan 10, 2013 at 3:24 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+On 01/11/2013 03:24 AM, Michael Kerrisk (man-pages) wrote:
 > [CC+=Pavel]
->
+> 
 > Hi Kees,
->
+> 
 > On Thu, Jan 10, 2013 at 10:28 PM, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org> wrote:
 >> This documents the Yama LSM's prctl handler that allows processes to
 >> declare ptrace restriction exception relationships via PR_SET_PTRACER.
->
+> 
 > This is synchronicity! I was just looking  at what was undocumented in
 > prctl() after a conversation with Pavel and wondering about pinging
 > you about PR_SET_PTRACER.
-
-Ah-ha! Great. :)
-
+> 
 > Some questions/observations:
->
+> 
 > 1. From the look of it, each tracee can have only one tracer, so that
 > PR_SET_PTRACER overwrites any previous PID, right. The text implies
 > that, but I'll add a few more words to make it explicit.
-
-Yes, that's correct. There is only one at a time.
-
+> 
 > 2. There is no PR_GET_PTRACER operation. I suppose it's not needed for
 > your purposes. I wonder however if it might matter for CRIU to have
 > PR_GET_PTRACER, hence I CC Pavel.
 
-No one has wanted it, but it should be trivial to add it.
+Since CRIU does PTRACE_SEIZE on task it wants to dump, it will fail to
+do it with any task that's already being traced by someone else. Thus the
+getter for this prctl is not required for C/R.
+
+Thanks,
+Pavel
 
 > Your patch is applied.
-
-Thanks!
-
--Kees
-
->
+> 
 > Cheers,
->
+> 
 > Michael
->
+> 
 >> Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 >> ---
 >>  man2/prctl.2 |   18 +++++++++++++++++-
@@ -103,19 +98,11 @@ Thanks!
 >> --
 >> Kees Cook
 >> Chrome OS Security
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+> 
+> 
+> 
 
 
-
---
-Kees Cook
-Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
