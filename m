@@ -1,7 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 52681] New: getspnam errno values
-Date: Mon, 14 Jan 2013 01:48:41 +0000 (UTC)
-Message-ID: <bug-52681-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 52721] New: Oudated kernel documentation in
+ http://kernel.org/doc/
+Date: Mon, 14 Jan 2013 13:04:03 +0000 (UTC)
+Message-ID: <bug-52721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,30 +10,28 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=52681
+https://bugzilla.kernel.org/show_bug.cgi?id=52721
 
-           Summary: getspnam errno values
+               URL: http://www.kernel.org/doc/
+           Summary: Oudated kernel documentation in http://kernel.org/doc/
            Product: Documentation
            Version: unspecified
           Platform: All
         OS/Version: Linux
               Tree: Mainline
             Status: NEW
-          Severity: low
+          Severity: normal
           Priority: P1
          Component: man-pages
         AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: wolfgang-zdKOYOBJ9IsPyMaTEpOvjQ@public.gmane.org
+        ReportedBy: khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org
+                CC: rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org
         Regression: No
 
 
-man getspnam, section ERRORS only mentions ERANGE.
-
-If I cannot access /etc/shadow, EACCESS is returned.
-
-Shouldn't EACCESS be mentioned on the man page?
-
-kubuntu 12.10, kernel 3.5.0-21
+Seems like http://www.kernel.org/doc/Documentation and
+http://www.kernel.org/doc/htmldocs are came from v3.0.0-rc7. It would be nice
+to update them.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
