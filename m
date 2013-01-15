@@ -1,44 +1,43 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 52721] Oudated kernel documentation in http://kernel.org/doc/
-Date: Tue, 15 Jan 2013 14:49:35 +0000 (UTC)
-Message-ID: <20130115144935.465B811FF01@bugzilla.kernel.org>
-References: <bug-52721-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 52741] New: getnameinfo man page has inappropriate text copied
+ from getaddrinfo
+Date: Tue, 15 Jan 2013 14:50:30 +0000 (UTC)
+Message-ID: <bug-52741-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-52721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=52721
+https://bugzilla.kernel.org/show_bug.cgi?id=52741
+
+           Summary: getnameinfo man page has inappropriate text copied
+                    from getaddrinfo
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: bigpeteb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
 
+As of release 3.43 on 2012-08-05, the man page for getnameinfo(3) contains the
+following in its first paragraph:
 
+"It combines the functionality of gethostbyaddr(3) and getservbyport(3),  but 
+unlike those functions, getaddrinfo(3) is reentrant and allows programs to
+eliminate IPv4-versus-IPv6 dependencies."
 
-
---- Comment #6 from Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>  2013-01-15 14:49:35 ---
-On 01/15/2013 07:25:45 AM, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=52721
-> 
-> --- Comment #5 from Konstantin Khlebnikov <khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>   
-> 2013-01-15 13:25:45 ---
-> This is sad. I think the best solution is to move this page to  
-> wiki.kernel.org
-> and put links to external/uptodate resources.
-
-Anyone who wants to do this has been free to do so for about 10 years  
-now. Personally I'll never touch such a wiki: they're a decent way of  
-piling together a random slush pile of unconnected tidbits, and a  
-horrible way of organizing anything.
-
-The mad hatter's advice ("start at the beginning, and when you get to  
-the end stop") simply doesn't apply to wikis. Wikis provide no help  
-keeping data complete, up to date, and nonduplicative. They're a nice  
-communal scratch pad for brainstorming, but the best way to find  
-anything in one is google.
-
-Rob
+This text is identical to what's in getaddrinfo(3).  It seems someone copied it
+but didn't rewrite it to describe the functions that getnameinfo(3) is intended
+to replace.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
