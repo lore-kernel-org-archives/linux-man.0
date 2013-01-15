@@ -1,43 +1,70 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 52741] New: getnameinfo man page has inappropriate text copied
- from getaddrinfo
-Date: Tue, 15 Jan 2013 14:50:30 +0000 (UTC)
-Message-ID: <bug-52741-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 52741] getnameinfo man page has inappropriate text copied from
+ getaddrinfo
+Date: Tue, 15 Jan 2013 19:46:01 +0000 (UTC)
+Message-ID: <20130115194601.9BFD311FB6C@bugzilla.kernel.org>
+References: <bug-52741-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-52741-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=52741
 
-           Summary: getnameinfo man page has inappropriate text copied
-                    from getaddrinfo
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: bigpeteb-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|                            |CODE_FIX
 
 
-As of release 3.43 on 2012-08-05, the man page for getnameinfo(3) contains the
-following in its first paragraph:
 
-"It combines the functionality of gethostbyaddr(3) and getservbyport(3),  but 
-unlike those functions, getaddrinfo(3) is reentrant and allows programs to
-eliminate IPv4-versus-IPv6 dependencies."
 
-This text is identical to what's in getaddrinfo(3).  It seems someone copied it
-but didn't rewrite it to describe the functions that getnameinfo(3) is intended
-to replace.
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-01-15 19:46:01 ---
+Thkanks for the report Peter.
+
+So, it seems here were a confused references in both getnameinfo() and
+getaddrinfo(). I applied the following patch.
+
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -91,7 +91,7 @@ function combines the functionality provided by the
+ .\" .BR getipnodebyaddr (3),
+ .BR getservbyname (3)
+ and
+-.BR getservbyport (3)
++.BR getservbyname (3)
+ functions into a single interface, but unlike the latter functions,
+ .BR getaddrinfo ()
+ is reentrant and allows programs to eliminate IPv4-versus-IPv6 dependencies.
+diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
+index f1001cd..5bafd76 100644
+--- a/man3/getnameinfo.3
++++ b/man3/getnameinfo.3
+@@ -38,7 +38,7 @@ It combines the functionality of
+ and
+ .BR getservbyport (3),
+ but unlike those functions,
+-.BR getaddrinfo (3)
++.BR getnameinfo (3)
+ is reentrant and allows programs to eliminate
+ IPv4-versus-IPv6 dependencies.
+
+@@ -111,7 +111,7 @@ cannot be determined.)
+ If set, then the numeric form of the service address is returned.
+ (When not set, this will still happen in case the service's name
+ cannot be determined.)
+-.SS "Extensions to getaddrinfo() for Internationalized Domain Names"
++.SS "Extensions to getnameinfo() for Internationalized Domain Names"
+ .PP
+ Starting with glibc 2.3.4,
+ .BR getnameinfo ()
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
