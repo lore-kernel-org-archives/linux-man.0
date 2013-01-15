@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 52721] Oudated kernel documentation in http://kernel.org/doc/
-Date: Tue, 15 Jan 2013 09:53:05 +0000 (UTC)
-Message-ID: <20130115095305.E134811FBAA@bugzilla.kernel.org>
+Date: Tue, 15 Jan 2013 10:15:29 +0000 (UTC)
+Message-ID: <20130115101529.47AD211FBAA@bugzilla.kernel.org>
 References: <bug-52721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,24 +14,22 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=52721
 
 
-Konstantin Khlebnikov <khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-          Component|man-pages                   |Other
-            Version|unspecified                 |2.5
-         Resolution|INVALID                     |
-            Product|Documentation               |Other
 
 
 
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-01-15 10:15:28 ---
+Konstantin,
 
---- Comment #2 from Konstantin Khlebnikov <khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>  2013-01-15 09:53:05 ---
-Agree, but there is only one component in 'documentation' product. Could you
-please be less bureaucratic and tell the proper way to submit such kind of
-problems. I added Rob Landley into CC (he's mentioned as maintainer of /doc/),
-so I think he'll handle this.
+Sorry, my intention is not to be bureaucratic. But, I just don't have the time
+to triage bugs in other areas, and in this case, I do not know where you should
+submit the problem. Therefore, my response was to close the bug. I'll leave it
+alone for now, and see if Rob can help. But, failing that, I'm likely to close
+it again sometime in the future if it sits around for a long time assigned to
+me.
+
+Best,
+
+Michael
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
