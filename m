@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 52721] Oudated kernel documentation in http://kernel.org/doc/
-Date: Tue, 15 Jan 2013 13:25:45 +0000 (UTC)
-Message-ID: <20130115132545.DA96511FBAA@bugzilla.kernel.org>
+Date: Tue, 15 Jan 2013 14:49:35 +0000 (UTC)
+Message-ID: <20130115144935.465B811FF01@bugzilla.kernel.org>
 References: <bug-52721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,9 +17,28 @@ https://bugzilla.kernel.org/show_bug.cgi?id=52721
 
 
 
---- Comment #5 from Konstantin Khlebnikov <khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>  2013-01-15 13:25:45 ---
-This is sad. I think the best solution is to move this page to wiki.kernel.org
-and put links to external/uptodate resources.
+--- Comment #6 from Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>  2013-01-15 14:49:35 ---
+On 01/15/2013 07:25:45 AM, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=52721
+> 
+> --- Comment #5 from Konstantin Khlebnikov <khlebnikov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>   
+> 2013-01-15 13:25:45 ---
+> This is sad. I think the best solution is to move this page to  
+> wiki.kernel.org
+> and put links to external/uptodate resources.
+
+Anyone who wants to do this has been free to do so for about 10 years  
+now. Personally I'll never touch such a wiki: they're a decent way of  
+piling together a random slush pile of unconnected tidbits, and a  
+horrible way of organizing anything.
+
+The mad hatter's advice ("start at the beginning, and when you get to  
+the end stop") simply doesn't apply to wikis. Wikis provide no help  
+keeping data complete, up to date, and nonduplicative. They're a nice  
+communal scratch pad for brainstorming, but the best way to find  
+anything in one is google.
+
+Rob
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
