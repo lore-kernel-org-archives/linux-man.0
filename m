@@ -1,32 +1,40 @@
-From: starlight.2013q1-Utvwg/EOxnhfq8cQ1yknNg@public.gmane.org
-Subject: getxattr() errata
-Date: Thu, 17 Jan 2013 23:16:34 -0500
-Message-ID: <6.2.5.6.2.20130117231255.05e4dc38@binnacle.cx>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 51871] getxattr() man page wrongly refers to ENOATTR
+Date: Fri, 18 Jan 2013 23:00:47 +0000 (UTC)
+Message-ID: <20130118230047.88A3911F9D7@bugzilla.kernel.org>
+References: <bug-51871-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-51871-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+https://bugzilla.kernel.org/show_bug.cgi?id=51871
 
-Just noticed that the getxattr() man page
-says that ENOATTR is returned when an
-extended attribute is not present.
 
-http://man7.org/linux/man-pages/man2/getxattr.2.html
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-I believe the correct code for this
-situation is ENODATA or 61.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|INVALID                     |CODE_FIX
 
-   strace getcap /bin/bash
 
-should confirm that.
 
-Regards
 
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-01-18 23:00:47 ---
+Andrew, (and Christoph),
+
+Others have also noted this point. For each of the relevant pages, I've simply
+added the text: "(ENOATTR is defined to be a synonym for ENODATA in
+<attr/xattr.h>.)"
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
