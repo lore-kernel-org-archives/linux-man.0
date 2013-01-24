@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 50151] glibc 2.16 included a new function __ppc_get_timebase
-Date: Thu, 24 Jan 2013 03:05:00 +0000 (UTC)
-Message-ID: <20130124030500.67CC711FC76@bugzilla.kernel.org>
+Date: Thu, 24 Jan 2013 10:56:51 +0000 (UTC)
+Message-ID: <20130124105651.6036411FC70@bugzilla.kernel.org>
 References: <bug-50151-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,9 +17,12 @@ https://bugzilla.kernel.org/show_bug.cgi?id=50151
 
 
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-01-24 03:05:00 ---
-Would it make sense to document both functions on one page (since they seem
-closely related)?
+--- Comment #4 from Tulio Magno Quites Machado Filho <tuliom-Igl6534fJ5VwFqzsTH5u/w@public.gmane.org>  2013-01-24 10:56:51 ---
+Yes.
+I also think this test [1] is good candidate for an example on how to use them.
+
+[1] -
+http://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/powerpc/test-gettimebasefreq.c;hb=HEAD
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
