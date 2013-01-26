@@ -1,62 +1,66 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug 52741] getnameinfo man page has inappropriate text copied
- from getaddrinfo
-Date: Fri, 25 Jan 2013 21:46:56 +0100
-Message-ID: <CAKgNAkjHx3JNQ+P7S6+PsN52nnG1WuAm39csvU983B0HgJYSXQ@mail.gmail.com>
-References: <bug-52741-11311@https.bugzilla.kernel.org/> <20130115194601.9BFD311FB6C@bugzilla.kernel.org>
- <kdup11$jhp$1@ger.gmane.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 53061] New: pthread_kill() should describe it may cause SEGV
+ when target thread doesn't exist
+Date: Sat, 26 Jan 2013 01:38:55 +0000 (UTC)
+Message-ID: <bug-53061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <kdup11$jhp$1@ger.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Jan 25, 2013 at 9:13 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
-te:
-> Le 15/01/2013 15:46,
-> bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org a =E9crit :
->> https://bugzilla.kernel.org/show_bug.cgi?id=3D52741
+https://bugzilla.kernel.org/show_bug.cgi?id=53061
+
+           Summary: pthread_kill() should describe it may cause SEGV when
+                    target thread doesn't exist
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org
+        Regression: No
+
+
+Now, pthrad_kill() man page have following explanation.
+
+http://man7.org/linux/man-pages/man3/pthread_kill.3.html
+
+>ERRORS         
 >
->> --- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuM=
-wx3w-XMD5yJDbdMReXY1tMh2IBg@public.gmane.org>  2013-01-15 19:46:01 ---
->> Thkanks for the report Peter.
->>
->> So, it seems here were a confused references in both getnameinfo() a=
-nd
->> getaddrinfo(). I applied the following patch.
->>
->> --- a/man3/getaddrinfo.3
->> +++ b/man3/getaddrinfo.3
->> @@ -91,7 +91,7 @@ function combines the functionality provided by th=
-e
->>  .\" .BR getipnodebyaddr (3),
->>  .BR getservbyname (3)
->>  and
->> -.BR getservbyport (3)
->> +.BR getservbyname (3)
+>       EINVAL An invalid signal was specified.
 >
-> That change doesn't seem right (duplicating the getservbyname(3) refe=
-rence).
-
-Thanks, David.
-
-It should of course have been "gethostbyname(3) and getservbyname(3)".
-=46ixed now.
-
-Cheers,
-
-Michael
+>       ESRCH  No thread with the ID thread could be found.
 
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+But it is misleading. Current implementation cause SEGV when no thread ID exist
+highly likely.
+
+As suggested Rich on libc-alpha
+(http://permalink.gmane.org/gmane.comp.lib.glibc.alpha/28919). 
+it would be nice if the man page point to following POSIX sentence.
+
+
+POSIX XSH 2.9.2:
+
+"The lifetime of a thread ID ends after the thread terminates if it
+was created with the detachstate attribute set to
+PTHREAD_CREATE_DETACHED or if pthread_detach() or pthread_join() has
+been called for that thread. A conforming implementation is free to
+reuse a thread ID after its lifetime has ended. If an application
+attempts to use a thread ID whose lifetime has ended, the behavior is
+undefined."
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
