@@ -1,66 +1,35 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 53061] New: pthread_kill() should describe it may cause SEGV
- when target thread doesn't exist
-Date: Sat, 26 Jan 2013 01:38:55 +0000 (UTC)
-Message-ID: <bug-53061-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] idle.2: wfix
+Date: Mon, 28 Jan 2013 00:31:13 +0100
+Message-ID: <1359329473-686-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=53061
+Typo introduced by 1330fa295944be7f86f41c5af9cdbb1173418a16
+    idle.2: Minor wording fixes
+---
+ man2/idle.2 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-           Summary: pthread_kill() should describe it may cause SEGV when
-                    target thread doesn't exist
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org
-        Regression: No
-
-
-Now, pthrad_kill() man page have following explanation.
-
-http://man7.org/linux/man-pages/man3/pthread_kill.3.html
-
->ERRORS         
->
->       EINVAL An invalid signal was specified.
->
->       ESRCH  No thread with the ID thread could be found.
-
-
-But it is misleading. Current implementation cause SEGV when no thread ID exist
-highly likely.
-
-As suggested Rich on libc-alpha
-(http://permalink.gmane.org/gmane.comp.lib.glibc.alpha/28919). 
-it would be nice if the man page point to following POSIX sentence.
-
-
-POSIX XSH 2.9.2:
-
-"The lifetime of a thread ID ends after the thread terminates if it
-was created with the detachstate attribute set to
-PTHREAD_CREATE_DETACHED or if pthread_detach() or pthread_join() has
-been called for that thread. A conforming implementation is free to
-reuse a thread ID after its lifetime has ended. If an application
-attempts to use a thread ID whose lifetime has ended, the behavior is
-undefined."
-
+diff --git a/man2/idle.2 b/man2/idle.2
+index e12a1a5..00c9599 100644
+--- a/man2/idle.2
++++ b/man2/idle.2
+@@ -57,7 +57,7 @@ never returns for process 0, and always returns \-1 for a user process.
+ .B EPERM
+ Always, for a user process.
+ .SH VERSIONS
+-linux Since 2.3.13, this system call does not exist anymore.
++Since Linux 2.3.13, this system call does not exist anymore.
+ .SH "CONFORMING TO"
+ This function is Linux-specific, and should not be used in programs
+ intended to be portable.
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
