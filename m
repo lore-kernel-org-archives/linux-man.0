@@ -1,47 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] init_module.2: ffix
-Date: Thu, 31 Jan 2013 00:55:49 +0100
-Message-ID: <CAKgNAkjkBoUdxwyWWqL1mBP92tgNswwQ1eEP276urhUFnAqT4w@mail.gmail.com>
-References: <1359581485-3062-1-git-send-email-taffit@debian.org>
+Subject: Re: [man-pages PATCH] Add note about calling fclose(NULL)
+Date: Thu, 31 Jan 2013 01:50:49 +0100
+Message-ID: <CAKgNAkiQsWWWTfLWeixN5+GcwkfP6UX+AYdL4HY6beq7rdpUxw@mail.gmail.com>
+References: <1695270.M7m4ekngnN@storm>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1359581485-3062-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1695270.M7m4ekngnN@storm>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Thomas Jarosch <thomas.jarosch-XXsH3GEs1jrby3iVrkZq2A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks David. Applied.
+Thomas,
 
-On Wed, Jan 30, 2013 at 10:31 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wr=
-ote:
+Could you supply some explanation of why you think this patch is required?
+
+Thanks,
+
+Michael
+
+On Tue, Jan 29, 2013 at 5:24 PM, Thomas Jarosch
+<thomas.jarosch-XXsH3GEs1jrby3iVrkZq2A@public.gmane.org> wrote:
+>
+> Signed-off-by: Thomas Jarosch <thomas.jarosch-XXsH3GEs1jrby3iVrkZq2A@public.gmane.org>
 > ---
->  man2/init_module.2 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man3/fclose.3 | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/man2/init_module.2 b/man2/init_module.2
-> index 5b884b3..2215aac 100644
-> --- a/man2/init_module.2
-> +++ b/man2/init_module.2
-> @@ -31,7 +31,7 @@ init_module, finit_module \- load a kernel module
->  .BI "                const char *" param_values );
->
->  .BI "int finit_module(int " fd ", const char *" param_values ,
-> -.BI "                 int flags );
-> +.BI "                 int " flags );
->  .fi
->
->  .IR Note :
+> diff --git a/man3/fclose.3 b/man3/fclose.3
+> index 1bdf0a5..6945e89 100644
+> --- a/man3/fclose.3
+> +++ b/man3/fclose.3
+> @@ -97,6 +97,10 @@ on disk the kernel buffers must be flushed too, for example, with
+>  .BR sync (2)
+>  or
+>  .BR fsync (2).
+> +Also it's undefined behavior to call
+> +.BR fclose ()
+> +with a NULL pointer.
+> +
+>  .SH "SEE ALSO"
+>  .BR close (2),
+>  .BR fcloseall (3),
 > --
-> 1.7.10.4
+> 1.7.11.7
 >
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
