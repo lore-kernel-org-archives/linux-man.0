@@ -1,199 +1,39 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug#28702: pthread_setname_np(3) missing man page
-Date: Sat, 2 Feb 2013 23:25:17 +0100
-Message-ID: <CAKgNAkhfhdKPMhNn=LmBebdwt1C_wcRPfKJA7gADveVijtT9Eg@mail.gmail.com>
-References: <CAMNJgjLgNe61yEuQzah3s2znd3nLyB_k71OpU=ntx+oq30RfHQ@mail.gmail.com>
- <CAKgNAkjwOZPCDMQYAh_H8e7jpD1kwJz0mc1cnZttXt_7N9EyHQ@mail.gmail.com>
- <CAMNJgjJ1C6mtxEa8f2K1SeDprEpi79L3KLagyJfnDLQdPVHzPw@mail.gmail.com>
- <CAMNJgjJyGTmicnxLq8LGQ_+PPO9jn5gb7e_Wqb58VhZRmxgxeA@mail.gmail.com>
- <CAMNJgjJfF6Osp1G26bm7SrwknoBzRpF2yWu0R_avJjbgkqoPkw@mail.gmail.com> <CAMNJgj+UfS0OM-R1mcwiLMC-C2NkRv7Wwhr4bZz2uoyEOsYX9w@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 28702] no man pages for pthread_setname_np and
+ pthread_getname_np
+Date: Sun,  3 Feb 2013 00:05:01 +0000 (UTC)
+Message-ID: <20130203000501.11BB711FBB1@bugzilla.kernel.org>
+References: <bug-28702-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMNJgj+UfS0OM-R1mcwiLMC-C2NkRv7Wwhr4bZz2uoyEOsYX9w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <bug-28702-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Chandan,
-
-On Thu, Jan 3, 2013 at 10:27 AM, Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Michael,
->
-> I have modified the man page for pthread_setname/getname according to
-> the comments you gave the last time. Sending the updated copy again.
-> Please review and let me know if it's fine.
-
-I've merged your pages, made a few small fixes, added a few extra
-details. The results can be seen in git.
-
-Thanks for submitting this page!
-
-Cheers,
-
-Michael
+https://bugzilla.kernel.org/show_bug.cgi?id=28702
 
 
->
->
-> .\" Copyright (C) 2012 Chandan Apsangi <chandan.jc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> .\"
-> .\" Permission is granted to make and distribute verbatim copies of this
-> .\" manual provided the copyright notice and this permission notice are
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of this
-> .\" manual under the conditions for verbatim copying, provided that the
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, this
-> .\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> .\" responsibility for errors or omissions, or for damages resulting from
-> .\" the use of the information contained herein.  The author(s) may not
-> .\" have taken the same level of care in the production of this manual,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied by
-> .\" the source, must acknowledge the copyright and authors of this work.
-> .\"
-> .TH PTHREAD_SETNAME_NP 3 2012-10-24 "Linux" "Linux Programmer's Manual"
-> .SH NAME
-> pthread_setname_np, pthread_getname_np \- set/get the name of a thread
-> .SH SYNOPSIS
-> .nf
-> .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
-> .B #include <pthread.h>
-> .BI "int pthread_setname_np(pthread_t *" thread ", const char *" name ");
-> .BI "int pthread_getname_np(pthread_t *" thread ", const char *" name
-> ", size_t" len);
-> .fi
-> .sp
-> Compile and link with \fI\-pthread\fP.
-> .SH DESCRIPTION
-> By default, all the threads created using
-> .BR pthread_create (3)
-> inherit the program name.
-> Using
-> .BR pthread_setname_np (3),
-> users can specify a unique name for a thread,
-> which can be particularly useful for debugging complicated
-> multi-threaded applications.
-> The thread name is a meaningful C language string, whose length is
-> restricted to 16 characters.
-> Anything greater than this would lead to an error.
->
-> The
-> .BR pthread_getname_np (3)
-> can be used to retrieve the name of the thread.
-> The buffer specified by name must be at least 16 characters in length.
-> The returned thread name in the output buffer will be null terminated.
-> .SH RETURN VALUE
-> On success, these functions return 0;
-> on error, they return a nonzero error number.
-> .SH ERRORS
-> If the functions fail to open /proc/self/task/<TID>/comm, then the
-> call may fail with one of
-> the errors described in
-> .BR open (2).
-> .TP
-> .B ERANGE
-> The length of the string specified as second argument exceeds the allowed limit.
->
-> .SH NOTES
-> .BR pthread_setname_np (3)
-> internally writes to the thread specific comm file under
-> .IR /proc
-> filesystem:
-> .IR /proc/self/task/<tid>/comm.
-> .BR pthread_getname_np (3)
-> retreives it from the same location.
->
-> .SH EXAMPLE
-> .PP
-> The program below demonstrates the use of
-> .BR pthread_setname_np (),
-> as well as
-> .BR pthread_getname_np ().
->
-> The following shell session shows a sample run of the program:
-> .in +4n
-> .nf
->
-> .RB "$" " ./a.out 1 2 4 7 14"
-> Created a thread. Default name is: a.out
-> The thread name after setting it is THREADFOO.
-> Done
-> .fi
-> .in
->
-> .SS Program source
-> \&
-> .nf
-> #define _GNU_SOURCE
->
-> #include <pthread.h>
-> #include <stdio.h>
-> #include <string.h>
-> #include <unistd.h>
-> #include <errno.h>
-> #include <stdlib.h>
->
-> #define NAMELEN 16
->
-> #define errExitEN(en, msg) \\
->         do { if(en) { errno = en; perror(msg); \\
->                 exit(EXIT_FAILURE);} \\
->         } while (0)
->
-> static void *threadfunc(void *parm)
-> {
->     sleep(5);                   // allow main program to set the thread name
->     return NULL;
-> }
->
-> int main(int argc, char **argv)
-> {
->     pthread_t thread;
->     int rc;
->     char thread_name[NAMELEN];
->
->     rc = pthread_create(&thread, NULL, threadfunc, NULL);
->     errExitEN(rc, "pthread_create");
->     rc = pthread_getname_np(thread, thread_name, NAMELEN);
->     errExitEN(rc, "pthread_getname_np");
->     printf("Created a thread. Default name is: %s\\n", thread_name);
->     rc = pthread_setname_np(thread, "THREADFOO");
->     errExitEN(rc, "pthread_setname_np");
->     sleep(2);
->     rc = pthread_getname_np(thread, thread_name, NAMELEN);
->     errExitEN(rc, "pthread_getname_np");
->     printf("The thread name after setting it is %s.\\n", thread_name);
->     rc = pthread_join(thread, NULL);
->     errExitEN(rc, "pthread_join");
->     printf("Done\\n");
->     exit(EXIT_SUCCESS);
-> }
-> .fi
-> .SH SEE ALSO
-> .ad l
-> .nh
-> .BR prctl (2),
-> .BR pthread_create (3),
-> .BR pthreads (7)
->
-> Thanks,
-> Chandan
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
+
+
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-03 00:05:00 ---
+These pages have been added for the next man-pages release You can find the
+pages already now in the Git repo, see
+http://www.kernel.org/doc/man-pages/download.html
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
