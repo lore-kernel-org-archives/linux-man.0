@@ -1,34 +1,31 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 53411] Typo in PTY(7)
-Date: Mon,  4 Feb 2013 15:16:16 +0000 (UTC)
-Message-ID: <20130204151616.0B95411FE9C@bugzilla.kernel.org>
-References: <bug-53411-11311@https.bugzilla.kernel.org/>
+From: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] prctl.2: ffix
+Date: Mon, 4 Feb 2013 22:06:47 +0100
+Message-ID: <CAMqf4EEhOoOOd+G++xpB1h-eALmtOEmfrO_gWZQCwA-h3Ms-zQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-53411-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D53411
+---
+ man2/prctl.2 |    1 -
+ 1 file changed, 1 deletion(-)
 
-
-
-
-
---- Comment #1 from Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org>  2013=
--02-04 15:16:15 ---
-(In reply to comment #0)
-> [=E2=80=A6] In the description section, last sentence [=E2=80=A6]
-of the first paragraph.
-
---=20
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=3Demai=
-l
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.--
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 36fdc14..f139c5f 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -833,7 +833,6 @@ is not 0,
+ .BR PR_SET_PTRACER_ANY ,
+ or the PID of an existing process.
+ .TP
+-TP
+ .B EPERM
+ .I option
+ is
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
