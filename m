@@ -1,35 +1,30 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH] cpuset: add missing 'cpuset.' prefix some flags
-Date: Mon, 4 Feb 2013 23:13:21 +0100
-Message-ID: <20130204221321.GM17324@glenfiddich.mraw.org>
+Date: Mon, 4 Feb 2013 23:17:22 +0100
+Message-ID: <20130204221722.GN17324@glenfiddich.mraw.org>
 References: <1360015082-1322-1-git-send-email-spaillard@debian.org>
+ <CAKgNAkh_3wdezRJqapvgiaK8_YGfFAdMJWLF379QZa+Omq9AKg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1360015082-1322-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAKgNAkh_3wdezRJqapvgiaK8_YGfFAdMJWLF379QZa+Omq9AKg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Feb 04, 2013 at 10:58:02PM +0100, Simon Paillard wrote:
-> See fix 4160df82b3 for Documentation/cgroups/cpusets.txt in kernel
-> ---
+On Mon, Feb 04, 2013 at 11:09:15PM +0100, Michael Kerrisk (man-pages) wrote:
+> On Mon, Feb 4, 2013 at 10:58 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> > See fix 4160df82b3 for Documentation/cgroups/cpusets.txt in kernel
+> 
+> I can't find that commit, and I'd need a bit more explanation of what
+> this patch is about.
 
-Notes:
-* To avoid too heavy phrasing, only direct references like file have been
-fixed, not all references. Michael, if you think all reference to flags shall
-be prefixed, tell me.
+e21a05cb408bb9f244f11a0813d4b355dad0822e doc: cpuset: Update the cpuset flag file
+http://git.kernel.org/?p=linux/kernel/git/stable/linux-stable.git;a=commitdiff;h=e21a05cb408bb9f244f11a0813d4b355dad0822e 
 
-* I cannot find a kernel version without 'cpuset.' prefix commit in
-cpuset.c, but I may miss something.
-http://git.kernel.org/?p=linux/kernel/git/stable/linux-stable.git;a=history;f=kernel/cpuset.c 
-
-* We can find sources of improvements from the changelog of cpuset doc in
-kernel, that's not a surprise :)
-http://git.kernel.org/?p=linux/kernel/git/stable/linux-stable.git;a=history;f=Documentation/cgroups/cpusets.txt
---> IMO the manpage should reference the libraries like libcgroup or python
-cpuset, but I wonder about the formatting
+This prefix can be observed from the cpuset sysfs entries.
 
 -- 
 Simon Paillard
