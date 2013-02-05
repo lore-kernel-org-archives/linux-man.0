@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 53411] Typo in PTY(7)
-Date: Tue,  5 Feb 2013 02:37:35 +0000 (UTC)
-Message-ID: <20130205023735.46F9A11FE8D@bugzilla.kernel.org>
+Date: Tue,  5 Feb 2013 08:22:40 +0000 (UTC)
+Message-ID: <20130205082240.76C4611FE9A@bugzilla.kernel.org>
 References: <bug-53411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,20 +14,13 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=53411
 
 
-invent <inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
 
+--- Comment #3 from Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org>  2013-02-05 08:22:40 ---
+Thank you :-).
 
---- Comment #2 from invent <inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-05 02:37:35 ---
-On 3.35, i do see this typo and i had been trying to fix this.
-But on 3.46 this has been resolved.
-You can check this here:
-http://man7.org/linux/man-pages/man7/pty.7.html
+Do I close this bug?
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
