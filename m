@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 53411] Typo in PTY(7)
-Date: Tue,  5 Feb 2013 13:39:20 +0000 (UTC)
-Message-ID: <20130205133920.7325911FE9A@bugzilla.kernel.org>
+Date: Tue,  5 Feb 2013 13:52:26 +0000 (UTC)
+Message-ID: <20130205135226.3085411FE9A@bugzilla.kernel.org>
 References: <bug-53411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,13 +14,17 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=53411
 
 
+Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+     Kernel Version|                            |3.35
 
 
 
---- Comment #4 from invent <inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-05 13:39:20 ---
-yes yes, that is great. i was trying to update more info on this bug(the kernel
-version, etc) but it didnt allow me. i think bug owner only can edit the bug.
-if needed you can assign this to me and cancel or close this bug.
+
+--- Comment #5 from Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org>  2013-02-05 13:52:25 ---
+Done.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
