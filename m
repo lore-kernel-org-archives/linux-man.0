@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 53411] Typo in PTY(7)
-Date: Tue,  5 Feb 2013 13:52:26 +0000 (UTC)
-Message-ID: <20130205135226.3085411FE9A@bugzilla.kernel.org>
+Date: Tue,  5 Feb 2013 13:52:45 +0000 (UTC)
+Message-ID: <20130205135245.10F3511FE9A@bugzilla.kernel.org>
 References: <bug-53411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,13 +18,11 @@ Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-     Kernel Version|                            |3.35
+             Status|NEW                         |RESOLVED
+         Resolution|                            |CODE_FIX
 
 
 
-
---- Comment #5 from Ivan Enderlin <ivan.enderlin-CSmdYetgb7Hz5DEbnHgG3A@public.gmane.org>  2013-02-05 13:52:25 ---
-Done.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
