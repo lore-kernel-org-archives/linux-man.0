@@ -1,33 +1,38 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] cpuset: add missing 'cpuset.' prefix some flags
-Date: Mon, 4 Feb 2013 23:17:22 +0100
-Message-ID: <20130204221722.GN17324@glenfiddich.mraw.org>
-References: <1360015082-1322-1-git-send-email-spaillard@debian.org>
- <CAKgNAkh_3wdezRJqapvgiaK8_YGfFAdMJWLF379QZa+Omq9AKg@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 53411] Typo in PTY(7)
+Date: Tue,  5 Feb 2013 02:37:35 +0000 (UTC)
+Message-ID: <20130205023735.46F9A11FE8D@bugzilla.kernel.org>
+References: <bug-53411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkh_3wdezRJqapvgiaK8_YGfFAdMJWLF379QZa+Omq9AKg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <bug-53411-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Feb 04, 2013 at 11:09:15PM +0100, Michael Kerrisk (man-pages) wrote:
-> On Mon, Feb 4, 2013 at 10:58 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
-> > See fix 4160df82b3 for Documentation/cgroups/cpusets.txt in kernel
-> 
-> I can't find that commit, and I'd need a bit more explanation of what
-> this patch is about.
+https://bugzilla.kernel.org/show_bug.cgi?id=53411
 
-e21a05cb408bb9f244f11a0813d4b355dad0822e doc: cpuset: Update the cpuset flag file
-http://git.kernel.org/?p=linux/kernel/git/stable/linux-stable.git;a=commitdiff;h=e21a05cb408bb9f244f11a0813d4b355dad0822e 
 
-This prefix can be observed from the cpuset sysfs entries.
+invent <inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+
+
+
+--- Comment #2 from invent <inventsekar-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-05 02:37:35 ---
+On 3.35, i do see this typo and i had been trying to fix this.
+But on 3.46 this has been resolved.
+You can check this here:
+http://man7.org/linux/man-pages/man7/pty.7.html
 
 -- 
-Simon Paillard
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
