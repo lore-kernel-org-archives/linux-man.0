@@ -1,49 +1,56 @@
-From: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] prctl.2: EINAL when no CONFIG_SECCOMP_FILTER, also excess "TP" typo
-Date: Wed,  6 Feb 2013 11:16:09 -0800
-Message-ID: <1360178170-9381-1-git-send-email-shawnlandden@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] prctl.2: typo
+Date: Thu, 7 Feb 2013 00:57:40 +0100
+Message-ID: <CAKgNAkiFD_noYKvPrzUoVn8Cn57ghTvqf262f7zJnj2LySLVYw@mail.gmail.com>
+References: <1360175663-3742-1-git-send-email-shawnlandden@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1360175663-3742-1-git-send-email-shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/prctl.2 |   11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+On Wed, Feb 6, 2013 at 7:34 PM, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> ---
+>  man2/prctl.2 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/man2/prctl.2 b/man2/prctl.2
+> index 36fdc14..e4a1030 100644
+> --- a/man2/prctl.2
+> +++ b/man2/prctl.2
+> @@ -357,7 +357,7 @@ if
+>  is permitted, then the seccomp mode is preserved across
+>  .BR execve (2).
+>  If the filters permit
+> -.BR prctl (0
+> +.BR prctl (2)
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index fd78f48..e9ad0a5 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -803,6 +803,16 @@ and the kernel was not configured with
- .B EINVAL
- .I option
- is
-+.BR PR_SET_SECCOMP ,
-+.I arg2
-+is
-+.BR SECCOMP_MODE_FILTER ,
-+and the kernel was not configured with
-+.BR CONFIG_SECCOMP_FILTER .
-+.TP
-+.B EINVAL
-+.I option
-+is
- .BR PR_SET_MM ,
- and one of the following is true
- .RS
-@@ -850,7 +860,6 @@ is not 0,
- .BR PR_SET_PTRACER_ANY ,
- or the PID of an existing process.
- .TP
--TP
- .B EPERM
- .I option
- is
+Fixed, but should be
+
+.BR prctl()
+
+Thanks!
+
+Michael
+
+
+>  calls, then additional filters can be added;
+>  they are run in order until the first non-allow result is seen.
+>
+> --
+> 1.7.9.5
+>
+
+
+
 -- 
-1.7.9.5
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
