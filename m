@@ -1,87 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: EINAL when no CONFIG_SECCOMP_FILTER, also excess
- "TP" typo
-Date: Fri, 8 Feb 2013 01:29:27 +0100
-Message-ID: <CAKgNAkh+5TVoA__m+uMex+4GcSww4Dn+BkfHnHOZ_5MMOs7U3g@mail.gmail.com>
-References: <1360178170-9381-1-git-send-email-shawnlandden@gmail.com>
+Subject: Re: [PATCH] cpuset: add missing 'cpuset.' prefix some flags
+Date: Fri, 8 Feb 2013 10:09:03 +0100
+Message-ID: <CAKgNAkjrY0JO=sqUEbLD078i7BdAo4e4jOpb0zkAAk-pAwuN0A@mail.gmail.com>
+References: <1360015082-1322-1-git-send-email-spaillard@debian.org>
+ <CAKgNAkh_3wdezRJqapvgiaK8_YGfFAdMJWLF379QZa+Omq9AKg@mail.gmail.com> <20130204221722.GN17324@glenfiddich.mraw.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1360178170-9381-1-git-send-email-shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20130204221722.GN17324-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Shawn
+On Mon, Feb 4, 2013 at 11:17 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> On Mon, Feb 04, 2013 at 11:09:15PM +0100, Michael Kerrisk (man-pages) wrote:
+>> On Mon, Feb 4, 2013 at 10:58 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+>> > See fix 4160df82b3 for Documentation/cgroups/cpusets.txt in kernel
+>>
+>> I can't find that commit, and I'd need a bit more explanation of what
+>> this patch is about.
+>
+> e21a05cb408bb9f244f11a0813d4b355dad0822e doc: cpuset: Update the cpuset flag file
+> http://git.kernel.org/?p=linux/kernel/git/stable/linux-stable.git;a=commitdiff;h=e21a05cb408bb9f244f11a0813d4b355dad0822e
+>
+> This prefix can be observed from the cpuset sysfs entries.
 
-Thanks for the patch. A few comments.
+Okay -- I've applied this patch. Thanks Simon.
 
-* When you send a patch like this please provide an explanation. In
-particular, explain how you obtained the info. This helps me verify
-it.
-
-* Write separate patches for separate pieces. The typo patch should be
-separate. That said, someone else sent in a patch to fix this a couple
-of days ago (but only just pushed to kernel.org) so that this piece is
-fixed.
-
-* The patch for the SECCOMP stuff is not quite correct, AFAICS. But
-more to the point, this seems to be  documented by similar text that
-is already in the page; am I missing something?
-
-       EINVAL option is PR_SET_SECCOMP or PR_GET_SECCOMP, and the ker=E2=
-=80=90
-              nel was not configured with CONFIG_SECCOMP.
-
-Thanks,
+Cheers,
 
 Michael
 
-On Wed, Feb 6, 2013 at 8:16 PM, Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> =
-wrote:
-> ---
->  man2/prctl.2 |   11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index fd78f48..e9ad0a5 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -803,6 +803,16 @@ and the kernel was not configured with
->  .B EINVAL
->  .I option
->  is
-> +.BR PR_SET_SECCOMP ,
-> +.I arg2
-> +is
-> +.BR SECCOMP_MODE_FILTER ,
-> +and the kernel was not configured with
-> +.BR CONFIG_SECCOMP_FILTER .
-> +.TP
-> +.B EINVAL
-> +.I option
-> +is
->  .BR PR_SET_MM ,
->  and one of the following is true
->  .RS
-> @@ -850,7 +860,6 @@ is not 0,
->  .BR PR_SET_PTRACER_ANY ,
->  or the PID of an existing process.
->  .TP
-> -TP
->  .B EPERM
->  .I option
->  is
-> --
-> 1.7.9.5
->
 
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
