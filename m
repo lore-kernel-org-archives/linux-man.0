@@ -1,7 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 53661] New: [PATCH] Update nscd.conf(5) man page
-Date: Mon, 11 Feb 2013 17:41:44 +0000 (UTC)
-Message-ID: <bug-53661-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 53671] New: [PATCH] Mention initgroups db in the
+ nsswitch.conf(5) man page
+Date: Mon, 11 Feb 2013 18:12:46 +0000 (UTC)
+Message-ID: <bug-53671-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,9 +10,10 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=53661
+https://bugzilla.kernel.org/show_bug.cgi?id=53671
 
-           Summary: [PATCH] Update nscd.conf(5) man page
+           Summary: [PATCH] Mention initgroups db in the nsswitch.conf(5)
+                    man page
            Product: Documentation
            Version: unspecified
           Platform: All
@@ -26,27 +28,23 @@ https://bugzilla.kernel.org/show_bug.cgi?id=53661
         Regression: No
 
 
-Created an attachment (id=93131)
- --> (https://bugzilla.kernel.org/attachment.cgi?id=93131)
-man-pages-nscd-conf.patch
+Created an attachment (id=93141)
+ --> (https://bugzilla.kernel.org/attachment.cgi?id=93141)
+man-pages-nsswitch-conf.patch
 
-This patch updates the nscd.conf(5) man page with following changes:
-
- * added missing valid services (services and netgroup)
- * added many default values for options
- * reordered options according to the nscd.conf file (logical order)
- * added 2 missing options: max-db-size and auto-propagate
-
-All changes are based on nscd.conf file [1] and source code for nscd [2] (e.g.
-nscd.h for default vaules, etc.)
-
-Original email for this update can be found here [3], however patch attached to
-this bugzilla is newer.
+Attached patch mentions initgroups db, which was added to the glibc in commit
+[1] and describes unexpected behaviour for group database with notfound status
+and return action, based on comment on line 135 in initgroups.c file [2]. More
+detailed explanation of this behaviour can be found in email [4] of email
+thread [3].
 
 
-[1] http://sourceware.org/git/?p=glibc.git;a=blob;f=nscd/nscd.conf;hb=HEAD
-[2] http://sourceware.org/git/?p=glibc.git;a=tree;f=nscd;hb=HEAD
-[3] http://thread.gmane.org/gmane.linux.man/2970
+[1]
+http://sourceware.org/git/?p=glibc.git;a=commit;h=9f2da732e7b03825027462dd1c46f8b4d18fc1f5
+[2]
+http://sourceware.org/git/?p=glibc.git;a=blob;f=grp/initgroups.c;h=62fd1fc6de5f9ea08f31134c5ab9a36ae2d5af9e;hb=HEAD
+[3] http://thread.gmane.org/gmane.linux.man/2609
+[4] http://article.gmane.org/gmane.linux.man/2620
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
