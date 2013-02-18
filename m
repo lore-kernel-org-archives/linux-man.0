@@ -1,140 +1,51 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] random.4: Document write and document the ioctl interface of /dev/random
-Date: Sun, 17 Feb 2013 19:21:19 +0100
-Message-ID: <1361125279-9359-1-git-send-email-eliedebrauwer@gmail.com>
+From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+Subject: [PATCH] proc.5: Add info about /proc/[pid]/map_files directory
+Date: Mon, 18 Feb 2013 20:50:59 +0400
+Message-ID: <51225BF3.7080602@parallels.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Michael, all,
+It was added into Linux v3.3 and provides info about files being mmap-ed in
+a way _very_ similar to how /proc/[pid]/fd works. Thus I thought that the
+best place for the map_files' doc is where where the fd's doc is.
 
-Below you can find an update to random.4. The update consists out of 
-two parts:
- - a minor thing which just documents what happens if a write to 
-   /dev/(u)random is performed, which is used in the example script
-   but not explicitely mentioned.
- - the other (biggest) part is the documentation of the ioctl() 
-   interface which /dev/(u)random exposes. This ioctl() lives in 
-   drivers/char/random.c and the primitives can be found in 
-   include/linux/random.h 
+Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
 
-One comment remains, there used to be an RNDGETPOOL ioctl() which 
-disappeared in v2.6.9. I found two patches on the net:
-- http://www.kernel.org/pub/linux/kernel/people/akpm/patches/2.6/2.6.8.1/2.6.8.1-mm4/broken-out/dev-random-remove-rndgetpool-ioctl.patch
-- https://lkml.org/lkml/2004/3/25/168
-
-But as far as I can tell the first one got applied but the 2nd one 
-seems more correct. The result is that even today one can still find
-traces of the RNDGETPOOL ioctl() in the header files. Is this there for
-historical reasons or because it might break userspace, even though using
-it will just give an EINVAL.
-
-Anyhow, feedback welcome.
-
-my 2 cent
-E.
-
-
-Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man4/random.4 |   63 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
 
-diff --git a/man4/random.4 b/man4/random.4
-index ed35fd9..d9be11e 100644
---- a/man4/random.4
-+++ b/man4/random.4
-@@ -14,9 +14,13 @@
- .\"     Add a Usage subsection that recommends most users to use
- .\"     /dev/urandom, and emphasizes parsimonious usage of /dev/random.
- .\"
--.TH RANDOM 4 2010-08-29 "Linux" "Linux Programmer's Manual"
-+.TH RANDOM 4 2013-02-17 "Linux" "Linux Programmer's Manual"
- .SH NAME
- random, urandom \- kernel random number source devices
-+.SH SYNOPSIS
-+#include <linux/random.h>
-+.sp
-+.BI "int ioctl(" fd ", RND" request ", " param ");"
- .SH DESCRIPTION
- The character special files \fI/dev/random\fP and
- \fI/dev/urandom\fP (present since Linux 1.3.30)
-@@ -49,6 +53,12 @@ literature, but it is theoretically possible that such an attack may
- exist.
- If this is a concern in your application, use \fI/dev/random\fP
- instead.
-+.LP
-+Writing to \fI/dev/random\fP or \fI/dev/urandom\fP will update the
-+entropy pool with the data written, but this will not result in a
-+higher entropy count. This means that it will impact the contents
-+read from both files but it will not make reads from
-+\fI/dev/random\fP faster.
- .SS Usage
- If you are unsure about whether you should use
- .IR /dev/random
-@@ -206,6 +216,57 @@ and
- contain random strings like 6fd5a44b-35f4-4ad4-a9b9-6b9be13e1fe9.
- The former is generated afresh for each read, the latter was
- generated once.
-+.SS ioctl(2) interface
-+The following
-+.BR ioctl (2)
-+requests are defined on file descriptors connected to either \fI/dev/random\fP
-+or \fI/dev/urandom\fP. All requests performed will interact with the input
-+entropy pool impacting both \fI/dev/random\fP and \fI/dev/urandom\fP.
-+The
-+.B CAP_SYS_ADMIN
-+capability is required for all requests except
-+.B RNDGETENTCNT.
+diff --git a/man5/proc.5 b/man5/proc.5
+index 30ca3a9..1226747 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -285,6 +285,23 @@ Thus the example command above could be written as:
+ .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
+ .fi
+ .in
 +.TP
-+.BR RNDGETENTCNT
-+Retrieve the entropy count of the input pool, the contents will be the same
-+as the
-+.I entropy_avail
-+file under proc.
-+The result will be stored in the int pointed to by the argument.
-+.TP
-+.BR RNDADDTOENTCNT
-+Increment or decrement the entropy count of the input pool by the value pointed
-+to by the argument.
-+.TP
-+.BR RNDGETPOOL
-+Removed in Linux 2.6.9.
-+.TP
-+.BR RNDADDENTROPY
-+Add some additional entropy to the input pool, incrementing the entropy count.
-+Unlike writing to \fI/dev/random\fP or \fI/dev/urandom\fP which only adds some
-+data but does not increment the entropy count. The following structure is used:
-+.IP
-+.IN +4n
-+.NF
-+struct rand_pool_info {
-+    int    entropy_count;
-+    int    buf_size;
-+    __u32  buf[0];
-+};
-+.FI
-+.IN
-+.IP
-+Here
-+.I entropy_count
-+is the value added to (or subtracted from) from the entropy count. And
-+.I buf
-+is the buffer of size
-+.I buf_size
-+which gets added to the entropy pool.
-+.TP
-+.BR RNDZAPENTCNT ", " RNDCLEARPOOL
-+Zero the entropy count of all pools and add some system data (such as
-+wall clock) to the pools.
- .SH FILES
- /dev/random
- .br
--- 
-1.7.10.4
-
++.IR /proc/[pid]/map_files/ " (since kernel 3.3)
++This subdirectory contains entries corresponding to memory mapped
++files (see
++.BR mmap (2)).
++Entries are named by memory region start and end pair,
++and are symbolic links to the corresponding files.
++
++Although these entries are present for memory regions that were
++mapped with 
++.BR MAP_FILE
++flag, the way anonymous shared memory (regions created with
++.B MAP_ANON | MAP_SHARED
++flags)
++is implemented in Linux
++makes such regions also appear on this directory. In that case
++the target file would be the /dev/zero one.
+ .\" FIXME Describe /proc/[pid]/loginuid
+ .\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
+ .\"       CONFIG_AUDITSYSCALL
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
