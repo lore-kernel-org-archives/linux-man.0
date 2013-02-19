@@ -1,7 +1,7 @@
 From: "Daniel Anderberg" <daniel.anderberg-Qf6tv6/zH35g9hUCZPvPmw@public.gmane.org>
 Subject: Error in return values section of page for random_r
-Date: Tue, 19 Feb 2013 02:40:19 +0100
-Message-ID: <20130219024019.174959n0f0si4lj7@www.fagotten.org>
+Date: Tue, 19 Feb 2013 02:40:14 +0100
+Message-ID: <20130219024014.39703fbfpzt9u67y@www.fagotten.org>
 Mime-Version: 1.0
 Content-Type: text/plain;
 	charset=ISO-8859-1;
