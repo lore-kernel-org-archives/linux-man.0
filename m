@@ -1,52 +1,31 @@
-From: "Daniel Anderberg" <daniel.anderberg-Qf6tv6/zH35g9hUCZPvPmw@public.gmane.org>
-Subject: Re: Error in return values section of page for random_r
-Date: Tue, 19 Feb 2013 04:05:34 +0100
-Message-ID: <20130219040534.15407biyh14yqtxa@www.fagotten.org>
-References: <20130219024019.174959n0f0si4lj7@www.fagotten.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 23282] vsnprintf(3) example promotes code which ignores error
+ return code
+Date: Tue, 19 Feb 2013 07:08:07 +0000 (UTC)
+Message-ID: <20130219070807.C625311FF1B@bugzilla.kernel.org>
+References: <bug-23282-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain;
-	charset=ISO-8859-1;
-	DelSp="Yes";
-	format="flowed"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130219024019.174959n0f0si4lj7-wEvzQ7BQ6NBWDoOWyqc8uw@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <bug-23282-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Please forget my original email. The man-page is correct.
-I apparently need to insert a coffebreak and one aditional readthrough  
-before convincing myself that I have spotted an error.... I am very  
-sorry that I have wasted your time.
-
-Best Wishes
-Daniel Anderberg
-
-Quoting "Daniel Anderberg" <daniel.anderberg-Qf6tv6/zH35g9hUCZPvPmw@public.gmane.org>:
-
-> Hello,
->
-> In the man-page for random_r and friends the return values section says:
->
->    All of these functions return 0 on success, or -1 on error.
->
-> Since this includes the function random_r i must assume that this is  
-> incorrect.
->
-> My version of manpages:
->
-> $ dpkg -p manpages-dev | grep Version
-> Version: 3.35-0.1ubuntu1
->
-> Best wishes
-> Daniel Anderberg
->
+https://bugzilla.kernel.org/show_bug.cgi?id=23282
 
 
 
+
+
+--- Comment #8 from Marshel Abraham <Marshel.Abraham-Mykyq1cwIDpWk0Htik3J/w@public.gmane.org>  2013-02-19 07:08:07 ---
+Just to remind you that the patch have not been reviewed. Are you back to Good
+Internet...?
+
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
