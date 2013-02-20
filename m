@@ -1,62 +1,103 @@
-From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Subject: [PATCH] socket.7: Add info about SO_PEEK_OFF option
-Date: Tue, 19 Feb 2013 23:10:09 +0400
-Message-ID: <5123CE11.5060900@parallels.com>
+From: chrubis-AlSwsSmVLrQ@public.gmane.org
+Subject: [PATCH] clock_getres.2: Add linux specific clock ids
+Date: Wed, 20 Feb 2013 18:01:23 +0100
+Message-ID: <20130220170123.GA4969@rei>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="3V7upXqbjpZ4EhLz"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Bohac <jbohac-AlSwsSmVLrQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Since Linux 3.4 there appeared an ability to specify the
-offset in bytes from which the data will be MSG_PEEK-ed.
-Describe this socket option in the socket(7) page, where
-all the other socket options are described.
 
-Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+--3V7upXqbjpZ4EhLz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi!
+Attached patch adds following clock ids:
+
+CLOCK_REALTIME_COARSE
+CLOCK_MONOTONIC_COARSE
+CLOCK_BOOTTIME
+
+-- 
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
+
+--3V7upXqbjpZ4EhLz
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="0001-clock_getres.2-Add-linux-specific-clocks.patch"
+
+>From 2cf31b0e19c15f093e060ef1b5f2f9ca0f42888d Mon Sep 17 00:00:00 2001
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Date: Wed, 20 Feb 2013 17:52:52 +0100
+Subject: [PATCH] clock_getres.2: Add linux specific clocks.
+
+Add following linux specific clocks:
+
+CLOCK_REALTIME_COARSE
+CLOCK_MONOTONIC_COARSE
+CLOCK_BOOTTIME
+
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
 ---
+ man2/clock_getres.2 |   21 +++++++++++++++++++--
+ 1 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/man7/socket.7 b/man7/socket.7
-index 2f915da..6177ab1 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -618,6 +618,33 @@ for details on control messages.
- Gets the socket type as an integer (e.g.,
- .BR SOCK_STREAM ).
- This socket option is read-only.
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 794dd65..d82e883 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -27,8 +27,6 @@
+ .\" 2003-08-24 aeb, large parts rewritten
+ .\" 2004-08-06 Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, SMP note
+ .\"
+-.\" FIXME: Linux 2.6.39 adds CLOCK_BOOTTIME
+-.\"
+ .TH CLOCK_GETRES 2 2012-11-07 "" "Linux Programmer's Manual"
+ .SH NAME
+ clock_getres, clock_gettime, clock_settime \- clock and time functions
+@@ -130,6 +128,12 @@ and by the incremental adjustments performed by
+ .BR adjtime (3)
+ and NTP.
+ .TP
++.BR CLOCK_REALTIME_COARSE " (since Linux 2.6.32; Linux-specific)"
++.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
++Faster but less precise version of
++.BR CLOCK_REALTIME.
++Use when you need very fast, but not fine-grained timestamps.
 +.TP
-+.BR SO_PEEK_OFF " (since Linux 3.4)"
-+This option controls the behavior of
-+.BR recv(2)
-+system call when used with
-+.BR MSG_PEEK
-+flag.
-+
-+When this value is negative (kernel sets -1 to all new sockets by default)
-+the behavior of the
-+.BR recv(2)
-+is not affected at all.
-+When it's set to zero or positive value, peeking the data would occur from
-+the respective position in bytes. At the same time this offset will be
-+incremented on the amount of bytes peeked from queue, so that the
-+subsequent attempt to peek the data would result in next data in queue
-+(similarly, receiving the data from queue without the
-+.BR MSG_PEEK
-+flag will result in respectively decreased offset value).
-+For datagram sockets, if the offset points to the middle of a packet,
-+the data returned will be marked with the
-+.BR MSG_TRUNC
-+flag.
-+
-+Since Linux 3.4 this option is supported for
-+.BR unix(7)
-+sockets only.
- .SS Signals
- When writing onto a connection-oriented socket that has been shut down
- (by the local or the remote end)
+ .B CLOCK_MONOTONIC
+ Clock that cannot be set and represents monotonic time since
+ some unspecified starting point.
+@@ -148,6 +152,19 @@ that is not subject to NTP adjustments or
+ the incremental adjustments performed by
+ .BR adjtime (3).
+ .TP
++.BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
++.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
++Faster but less precise version of
++.BR CLOCK_MONOTONIC.
++Use when you need very fast, but not fine-grained timestamps.
++.TP
++.BR CLOCK_BOOTTIME " (since Linux 2.6.39; Linux-specific)"
++.\" Added in commit 7fdd7f89006dd5a4c702fa0ce0c272345fa44ae0
++Identical to
++.BR CLOCK_MONOTONIC ,
++except it also includes any time spent in suspend. This allows applications to
++get a suspend aware monotonic clock.
++.TP
+ .B CLOCK_PROCESS_CPUTIME_ID
+ High-resolution per-process timer from the CPU.
+ .TP
+-- 
+1.7.8.6
+
+
+--3V7upXqbjpZ4EhLz--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
