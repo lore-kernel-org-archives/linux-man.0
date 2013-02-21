@@ -1,103 +1,86 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: [PATCH] clock_getres.2: Add linux specific clock ids
-Date: Wed, 20 Feb 2013 18:01:23 +0100
-Message-ID: <20130220170123.GA4969@rei>
+From: Regid Ichira <regid23-9epcXJ+zteU@public.gmane.org>
+Subject: [PATCH] bootparam.7: rdev was removed as of 2012
+Date: Thu, 21 Feb 2013 02:57:04 +0200
+Message-ID: <20130221005704.GE19381@nt1.in>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="3V7upXqbjpZ4EhLz"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Bohac <jbohac-AlSwsSmVLrQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-
---3V7upXqbjpZ4EhLz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi!
-Attached patch adds following clock ids:
-
-CLOCK_REALTIME_COARSE
-CLOCK_MONOTONIC_COARSE
-CLOCK_BOOTTIME
-
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
-
---3V7upXqbjpZ4EhLz
-Content-Type: text/x-diff; charset=us-ascii
-Content-Disposition: attachment; filename="0001-clock_getres.2-Add-linux-specific-clocks.patch"
-
->From 2cf31b0e19c15f093e060ef1b5f2f9ca0f42888d Mon Sep 17 00:00:00 2001
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Date: Wed, 20 Feb 2013 17:52:52 +0100
-Subject: [PATCH] clock_getres.2: Add linux specific clocks.
-
-Add following linux specific clocks:
-
-CLOCK_REALTIME_COARSE
-CLOCK_MONOTONIC_COARSE
-CLOCK_BOOTTIME
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Reference: https://git.kernel.org/?p=utils/util-linux/util-linux.git;a=commit;h=a3e40c14651fccf18e7954f081e601389baefe3f
 ---
- man2/clock_getres.2 |   21 +++++++++++++++++++--
- 1 files changed, 19 insertions(+), 2 deletions(-)
+Applied to 3.47, on top of
+191a77d - Michael Kerrisk, 2013-02-18 : accept.2: NAME: Add "accept4"
+---
+ man7/bootparam.7 |   20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
-diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-index 794dd65..d82e883 100644
---- a/man2/clock_getres.2
-+++ b/man2/clock_getres.2
-@@ -27,8 +27,6 @@
- .\" 2003-08-24 aeb, large parts rewritten
- .\" 2004-08-06 Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, SMP note
- .\"
--.\" FIXME: Linux 2.6.39 adds CLOCK_BOOTTIME
--.\"
- .TH CLOCK_GETRES 2 2012-11-07 "" "Linux Programmer's Manual"
- .SH NAME
- clock_getres, clock_gettime, clock_settime \- clock and time functions
-@@ -130,6 +128,12 @@ and by the incremental adjustments performed by
- .BR adjtime (3)
- and NTP.
+diff --git a/man7/bootparam.7 b/man7/bootparam.7
+index 1ca4ea8..934eb66 100644
+--- a/man7/bootparam.7
++++ b/man7/bootparam.7
+@@ -42,10 +42,6 @@ which you copied a kernel using 'cp zImage /dev/fd0'),
+ you have no opportunity to specify any parameters.
+ So, in order to take advantage of this possibility you have to
+ use software that is able to pass parameters, like LILO or loadlin.
+-For a few parameters one can also modify the kernel image itself,
+-using rdev, see
+-.BR rdev (8)
+-for further details.
+ 
+ The LILO program (LInux LOader) written by Werner Almesberger is the
+ most commonly used.
+@@ -177,8 +173,6 @@ system that the kernel was built on.
+ To override this value, and
+ select the second floppy drive as the root device, one would
+ use 'root=/dev/fd1'.
+-(The root device can also be set using
+-.BR rdev (8).)
+ 
+ The root device can be specified symbolically or numerically.
+ A symbolic specification has the form /dev/XXYN, where XX designates
+@@ -218,8 +212,6 @@ as read/write capable, for example, by 'mount \-w \-n \-o remount /'.
+ The 'rw' option tells the kernel to mount the root file system read/write.
+ This is the default.
+ 
+-The choice between read-only and read/write can also be set using
+-.BR rdev (8).
  .TP
-+.BR CLOCK_REALTIME_COARSE " (since Linux 2.6.32; Linux-specific)"
-+.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
-+Faster but less precise version of
-+.BR CLOCK_REALTIME.
-+Use when you need very fast, but not fine-grained timestamps.
-+.TP
- .B CLOCK_MONOTONIC
- Clock that cannot be set and represents monotonic time since
- some unspecified starting point.
-@@ -148,6 +152,19 @@ that is not subject to NTP adjustments or
- the incremental adjustments performed by
- .BR adjtime (3).
- .TP
-+.BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
-+.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
-+Faster but less precise version of
-+.BR CLOCK_MONOTONIC.
-+Use when you need very fast, but not fine-grained timestamps.
-+.TP
-+.BR CLOCK_BOOTTIME " (since Linux 2.6.39; Linux-specific)"
-+.\" Added in commit 7fdd7f89006dd5a4c702fa0ce0c272345fa44ae0
-+Identical to
-+.BR CLOCK_MONOTONIC ,
-+except it also includes any time spent in suspend. This allows applications to
-+get a suspend aware monotonic clock.
-+.TP
- .B CLOCK_PROCESS_CPUTIME_ID
- High-resolution per-process timer from the CPU.
- .TP
+ .B "'reserve=...'"
+ This is used to protect I/O port regions from probes.
+@@ -379,13 +371,10 @@ before the main disk can be accessed.
+ In Linux 1.3.48, ramdisk handling was changed drastically.
+ Earlier, the memory was allocated statically, and there was
+ a 'ramdisk=N' parameter to tell its size.
+-(This could also
+-be set in the kernel image at compile time, or by use of
+-.BR rdev (8).)
++(This could also be set in the kernel image at compile time.)
+ These days ram disks use the buffer cache, and grow dynamically.
+-For a lot of information (e.g., how to use
+-.BR rdev (8)
+-in conjunction with the new ramdisk setup), see
++For a lot of information in conjunction with the new ramdisk
++setup), see
+ .IR /usr/src/linux/Documentation/ramdisk.txt .
+ 
+ There are four parameters, two boolean and two integral.
+@@ -1297,8 +1286,7 @@ Braille machines.
+ .BR lilo.conf (5),
+ .BR klogd (8),
+ .BR lilo (8),
+-.BR mount (8),
+-.BR rdev (8)
++.BR mount (8)
+ 
+ Large parts of this man page have been derived from the
+ Boot Parameter HOWTO (version 1.0.1) written by Paul Gortmaker.
 -- 
-1.7.8.6
-
-
---3V7upXqbjpZ4EhLz--
+1.7.10.4
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
