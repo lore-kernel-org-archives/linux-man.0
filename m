@@ -1,67 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mmap.2: Add note about partial page in BUGS section
-Date: Mon, 25 Feb 2013 09:05:57 +0100
-Message-ID: <CAKgNAkjjtKkhrwqw4n-0C1oJOzSrF=3ducpb3K0ouo8BFVbEzQ@mail.gmail.com>
-References: <20121112112544.GC6764@rei.suse.cz> <CAKgNAkiK9FOSBsTuuC=kdkdg60z9WEAr67VEzubsJ065BCVCCQ@mail.gmail.com>
+Subject: Re: aio manuals
+Date: Mon, 25 Feb 2013 09:07:13 +0100
+Message-ID: <CAKgNAkiG3psL_7A74UV2sLKkCYfMZjts+wCFWdkKbaAO_W2Wuw@mail.gmail.com>
+References: <20110316152018.GG2096@saboteur.suse.cz> <20111013082918.GA17800@saboteur.suse.cz>
+ <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
+ <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com> <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
+ <20120509142713.GA7912@saboteur.suse.cz> <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
+ <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
+ <20121112100446.GA6764@rei.suse.cz> <x49vcdakid2.fsf@segfault.boston.devel.redhat.com>
+ <20121112160937.GA23439@rei.suse.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiK9FOSBsTuuC=kdkdg60z9WEAr67VEzubsJ065BCVCCQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20121112160937.GA23439-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: chrubis-AlSwsSmVLrQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Feb 25, 2013 at 9:00 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Cyril,
->
-> On Mon, Nov 12, 2012 at 12:25 PM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
->> Hi!
->> This adds note about Linux behavior with partial page at the end of =
-the
->> object. The problem here is that pages that contains only part of a
->> file (because the file size is not multiple of PAGE_SIZE) stays in p=
-age
->> cache even after the mapping is unmapped and the file closed. So if =
-some
->> proces dirties such page other mappings will see the the changes rat=
-her
->> than zeroes.
+On Mon, Nov 12, 2012 at 5:09 PM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Hi!
+>> >> As noted earlier in the thread, I've done everything that I think is
+>> >> required on the *.2 pages. What is the status of the libaio pages now?
+>> >
+>> > This basically ended up burried in my mailbox (as I've had higher
+>> > priority work at the time).
+>> >
+>> > Jeff what is the status, do you need some help?
 >>
->> I've also attached reproducer which is a stripped down version of LT=
-P
->> test. The child creates file of the size of PAGE_SIZE/2, maps it,
->> changes content after the PAGE_SIZE/2. The parent waits for child to
->> exit, maps the same file and checks the content after the PAGE_SIZE/=
-2.
->> Uncommenting the msync() makes the test succeed.
+>> Yeah, if you want to tackle this, that would be great!
 >
-> Thanks. And thanks also for the test program. I've applied this patch=
-=2E
+> Added to my TODO with sligtly lower priority.
 
-I also tweaked the patch a little. The most notable change is that I
-changed your reference to "shm ipc" to "POSIX shared memory". Please
-let me know if that was incorrect.
+Any progress here?
 
-       POSIX specifies that the system shall always zero fill any par=E2=
-=80=90
-       tial  page  at the end of the object and that system will never
-       write any modification of the object beyond its end.  On Linux,
-       when  you  write data to such partial page after the end of the
-       object, the data stays in the page cache even after the file is
-       closed  and  unmapped and even though the data is never written
-       to the file itself, subsequent mappings may  see  the  modified
-       content.   In  some  cases,  this  could  be  fixed  by calling
-       msync(2) before the unmap takes place;  however,  this  doesn't
-       work  on  tmpfs  (for  example,  when using POSIX shared memory
-       interface documented in shm_overview(7)).
-
-Cheers,
+Cheers,,
 
 Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
