@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 54271] readahead() docs incorrectly say it blocks
-Date: Mon, 25 Feb 2013 09:36:57 +0000 (UTC)
-Message-ID: <20130225093657.91E0611FC6E@bugzilla.kernel.org>
+Date: Mon, 25 Feb 2013 15:47:12 +0000 (UTC)
+Message-ID: <20130225154712.3C90011FB5A@bugzilla.kernel.org>
 References: <bug-54271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,23 +14,15 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=54271
 
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 
 
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-25 09:36:57 ---
-(In reply to comment #0)
-> The readahead(2) man page says that it blocks until the requested data has been
-> read.  The whole point of this call is that it does NOT block but initiates
-> background reads of data that will be required soon, so that when it is read,
-> hopefully it can be done without blocking.
-
-How did you verify or test this assertion?
+--- Comment #2 from Phillip Susi <psusi-3tLf1voIkJTQT0dZR+AlfA@public.gmane.org>  2013-02-25 15:47:11 ---
+Common usage of the call ( see the ureadahead, sreadahead packages ),
+inspection of blktrace data while using these packages, discussion on linux-mm,
+inspection of the kernel sources.  The call *can* block, for instance, if it
+must read ext2/3 indirect blocks to map the data blocks so their reads can be
+queued, but the whole point of the call is to *avoid* blocking.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
