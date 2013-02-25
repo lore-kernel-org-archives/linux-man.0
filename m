@@ -1,89 +1,41 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clock_getres.2: Add linux specific clock ids
-Date: Mon, 25 Feb 2013 10:06:52 +0100
-Message-ID: <CAKgNAki91M-Nor=uGpLj-CdmQ0dmXQC7__MHcg6jhn8brkq3pQ@mail.gmail.com>
-References: <20130220170123.GA4969@rei>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 54271] readahead() docs incorrectly say it blocks
+Date: Mon, 25 Feb 2013 09:36:57 +0000 (UTC)
+Message-ID: <20130225093657.91E0611FC6E@bugzilla.kernel.org>
+References: <bug-54271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130220170123.GA4969@rei>
+In-Reply-To: <bug-54271-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: chrubis-AlSwsSmVLrQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Bohac <jbohac-AlSwsSmVLrQ@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Cyril,
-
-On Wed, Feb 20, 2013 at 6:01 PM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
-> Hi!
-> Attached patch adds following clock ids:
->
-> CLOCK_REALTIME_COARSE
-> CLOCK_MONOTONIC_COARSE
-> CLOCK_BOOTTIME
-
-Thanks for these patches. I've applied. Note that I do like to get
-patches inline, for review purposes (and you can attach them also, if
-you are worried about mailers breaking something).
-
-Thanks also for including the commit hashes. I think the CLOCK_BOOTIME
-has should however be 70a08cca1227dc31c784ec930099a4417a06e7d0 and I
-amended accordingly.
-
-Cheers,
-
-Michael
+https://bugzilla.kernel.org/show_bug.cgi?id=54271
 
 
-diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-index 794dd65..d82e883 100644
---- a/man2/clock_getres.2
-+++ b/man2/clock_getres.2
-@@ -27,8 +27,6 @@
- .\" 2003-08-24 aeb, large parts rewritten
- .\" 2004-08-06 Christoph Lameter <clameter-sJ/iWh9BUns@public.gmane.org>, SMP note
- .\"
--.\" FIXME: Linux 2.6.39 adds CLOCK_BOOTTIME
--.\"
- .TH CLOCK_GETRES 2 2012-11-07 "" "Linux Programmer's Manual"
- .SH NAME
- clock_getres, clock_gettime, clock_settime \- clock and time functions
-@@ -130,6 +128,12 @@ and by the incremental adjustments performed by
- .BR adjtime (3)
- and NTP.
- .TP
-+.BR CLOCK_REALTIME_COARSE " (since Linux 2.6.32; Linux-specific)"
-+.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
-+Faster but less precise version of
-+.BR CLOCK_REALTIME.
-+Use when you need very fast, but not fine-grained timestamps.
-+.TP
- .B CLOCK_MONOTONIC
- Clock that cannot be set and represents monotonic time since
- some unspecified starting point.
-@@ -148,6 +152,19 @@ that is not subject to NTP adjustments or
- the incremental adjustments performed by
- .BR adjtime (3).
- .TP
-+.BR CLOCK_MONOTONIC_COARSE " (since Linux 2.6.32; Linux-specific)"
-+.\" Added in commit da15cfdae03351c689736f8d142618592e3cebc3
-+Faster but less precise version of
-+.BR CLOCK_MONOTONIC.
-+Use when you need very fast, but not fine-grained timestamps.
-+.TP
-+.BR CLOCK_BOOTTIME " (since Linux 2.6.39; Linux-specific)"
-+.\" Added in commit 7fdd7f89006dd5a4c702fa0ce0c272345fa44ae0
-+Identical to
-+.BR CLOCK_MONOTONIC ,
-+except it also includes any time spent in suspend. This allows applications to
-+get a suspend aware monotonic clock.
-+.TP
- .B CLOCK_PROCESS_CPUTIME_ID
- High-resolution per-process timer from the CPU.
- .TP
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+
+
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-25 09:36:57 ---
+(In reply to comment #0)
+> The readahead(2) man page says that it blocks until the requested data has been
+> read.  The whole point of this call is that it does NOT block but initiates
+> background reads of data that will be required soon, so that when it is read,
+> hopefully it can be done without blocking.
+
+How did you verify or test this assertion?
+
 -- 
-1.7.8.6
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
