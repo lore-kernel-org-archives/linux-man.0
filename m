@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 54271] readahead() docs incorrectly say it blocks
-Date: Tue, 26 Feb 2013 03:15:45 +0000 (UTC)
-Message-ID: <20130226031545.11FE811FB07@bugzilla.kernel.org>
+Date: Tue, 26 Feb 2013 14:37:12 +0000 (UTC)
+Message-ID: <20130226143712.EEB3911FC6E@bugzilla.kernel.org>
 References: <bug-54271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,22 +17,14 @@ https://bugzilla.kernel.org/show_bug.cgi?id=54271
 
 
 
---- Comment #5 from Phillip Susi <psusi-3tLf1voIkJTQT0dZR+AlfA@public.gmane.org>  2013-02-26 03:15:44 ---
-After closer inspection, it turned out to be the same issue as before.  I was
-testing on an iso file I had downloaded with bittorrent, and looking at it with
-debugfs showed that while the data blocks were contiguous, the extent tree was
-fragmented, causing ext4 to have to block the readahead to read extent tree
-blocks, the last of which was fairly close to the end of the file.  After
-creating a new file with dd from /dev/zero, and verifying it did not have the
-extent tree problem, readahead() does not block on the file.
+--- Comment #6 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>  2013-02-26 14:37:12 ---
+I'd be interested to see a (simple) script or log file so I can follow your
+steps.
 
-Specifically running readahead ; iotop -d 2 ( after drop_caches ) immediately
-completes the readahead, then iotop shows lots of read throughput for several
-seconds.
-
-So it seems that there are still some ext4 issues that cause readahead to block
-more than you would want to, but as I said before, the call is not supposed to
-block if possible.
+I tried repeating the same measurements (read() an entire file, readahead() the
+entire file) for a variety of other file systems: XFS, JFS, Reiserfs. In each
+case, the time taken for the read loop to complete and the readahead() system
+call to complete were similar (10 to 15 seconds for a 1GB file).
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
