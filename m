@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 54271] readahead() docs incorrectly say it blocks
-Date: Tue, 26 Feb 2013 00:56:26 +0000 (UTC)
-Message-ID: <20130226005626.3566411FB07@bugzilla.kernel.org>
+Date: Tue, 26 Feb 2013 03:15:45 +0000 (UTC)
+Message-ID: <20130226031545.11FE811FB07@bugzilla.kernel.org>
 References: <bug-54271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -17,13 +17,22 @@ https://bugzilla.kernel.org/show_bug.cgi?id=54271
 
 
 
---- Comment #4 from Phillip Susi <psusi-3tLf1voIkJTQT0dZR+AlfA@public.gmane.org>  2013-02-26 00:56:25 ---
-Around two years back I dug into why readahead() was blocking when it wasn't
-supposed to and after discussion on linux-mm, it turned out to be due to ext3
-using indirect blocks which had to be read first to learn the location of the
-data blocks before they could be queued.  Switching to ext4 extents fixed that
-and readahead() stopped blocking.  It seems there has been a regression
-recently so I started a thread on linux-mm to try and figure it out.
+--- Comment #5 from Phillip Susi <psusi-3tLf1voIkJTQT0dZR+AlfA@public.gmane.org>  2013-02-26 03:15:44 ---
+After closer inspection, it turned out to be the same issue as before.  I was
+testing on an iso file I had downloaded with bittorrent, and looking at it with
+debugfs showed that while the data blocks were contiguous, the extent tree was
+fragmented, causing ext4 to have to block the readahead to read extent tree
+blocks, the last of which was fairly close to the end of the file.  After
+creating a new file with dd from /dev/zero, and verifying it did not have the
+extent tree problem, readahead() does not block on the file.
+
+Specifically running readahead ; iotop -d 2 ( after drop_caches ) immediately
+completes the readahead, then iotop shows lots of read throughput for several
+seconds.
+
+So it seems that there are still some ext4 issues that cause readahead to block
+more than you would want to, but as I said before, the call is not supposed to
+block if possible.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
