@@ -1,34 +1,37 @@
 From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: Re: aio manuals
-Date: Wed, 27 Feb 2013 12:48:32 +0100
-Message-ID: <20130227114832.GA1445@rei>
-References: <CAKgNAkj68CwJFkqYNvz5X5Jt+6xTwVb1eR+vSkXmFYorQvHJ5A@mail.gmail.com>
- <x4962c8t8b8.fsf@segfault.boston.devel.redhat.com>
- <CAKgNAkjZS0VyV4y6P-NyrLv8_a8G2K6=yFPijef3d3wfQuPwXw@mail.gmail.com>
- <20120509142713.GA7912@saboteur.suse.cz>
- <CAKgNAkjki3nY8awPZ7tSd6D=xErF9J7D_S_QaeKpXHVq4YL+_Q@mail.gmail.com>
- <CAKgNAkg5ukEk_jzH3fouT9pe=HJnV+OhjOL1BzRzxviz67pAgA@mail.gmail.com>
- <20121112100446.GA6764@rei.suse.cz>
- <x49vcdakid2.fsf@segfault.boston.devel.redhat.com>
- <20121112160937.GA23439@rei.suse.cz>
- <CAKgNAkiG3psL_7A74UV2sLKkCYfMZjts+wCFWdkKbaAO_W2Wuw@mail.gmail.com>
+Subject: Re: [PATCH] clock_getres.2: Add linux specific clock ids
+Date: Wed, 27 Feb 2013 12:58:40 +0100
+Message-ID: <20130227115840.GB1445@rei>
+References: <20130220170123.GA4969@rei>
+ <CAKgNAki91M-Nor=uGpLj-CdmQ0dmXQC7__MHcg6jhn8brkq3pQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkiG3psL_7A74UV2sLKkCYfMZjts+wCFWdkKbaAO_W2Wuw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAki91M-Nor=uGpLj-CdmQ0dmXQC7__MHcg6jhn8brkq3pQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jiri Bohac <jbohac-AlSwsSmVLrQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Hi!
-> > Added to my TODO with sligtly lower priority.
-> 
-> Any progress here?
-> 
+> Thanks for these patches. I've applied. Note that I do like to get
+> patches inline, for review purposes (and you can attach them also, if
+> you are worried about mailers breaking something).
 
-Not yet, thanks for reminding. I'll try to get to this soon.
+Ah, sorry, I've forgotten again.
+
+> Thanks also for including the commit hashes. I think the CLOCK_BOOTIME
+> has should however be 70a08cca1227dc31c784ec930099a4417a06e7d0 and I
+> amended accordingly.
+
+That depends, if I'm not misreading the code, the commit hash I've added
+(7fdd7f) made the clock available via the POSIX clock interface. Which
+is in my opinion the time where it became available to the userspace.
+
+On the other hand both of the commits are from the same rc so this does
+not make any difference for the availability of the clock id and either
+of them is fine.
 
 -- 
 Cyril Hrubis
