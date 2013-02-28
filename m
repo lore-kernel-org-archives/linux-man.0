@@ -1,72 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: Add info about /proc/[pid]/map_files directory
-Date: Thu, 28 Feb 2013 15:20:53 +0100
-Message-ID: <CAKgNAki5SQu8UffqN_s6-1=nATPJaf+KSAPNkGzCPDyyRSupNw@mail.gmail.com>
-References: <51225BF3.7080602@parallels.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
+Subject: Re: For review: pid_namespaces(7) man page
+Date: Thu, 28 Feb 2013 18:24:40 +0400
+Message-ID: <20130228142440.GA6328@cachalot>
+References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <51225BF3.7080602-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Pavel,
+Hi Michael,
 
-On Mon, Feb 18, 2013 at 5:50 PM, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org> wrote:
-> It was added into Linux v3.3 and provides info about files being mmap-ed in
-> a way _very_ similar to how /proc/[pid]/fd works. Thus I thought that the
-> best place for the map_files' doc is where where the fd's doc is.
->
-> Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+On Thu, Feb 28, 2013 at 12:24 +0100, Michael Kerrisk (man-pages) wrote:
+>    The namespace init process
+>        The first process created in a new namespace (i.e., the process
+>        created using clone(2) with the CLONE_NEWPID flag, or the first
+>        child created by a process after a call to unshare(2) using the
+>        CLONE_NEWPID flag) has the PID 1, and is the "init" process for
+>        the namespace (see init(1)).  Children that are orphaned within
+>        the namespace will be reparented to this  process  rather  than
+>        init(1).
 
-Could you please resubmit with some added text that shows an example
-of what you see in this file (including a /dev/zero case)? Also, the
-patch should mention that CONFIG_CHECKPOINT_RESTORE is required.
+Probably it worth noting here that this is true unless
+prctl() with PR_SET_CHILD_SUBREAPER option is called.
 
 Thanks,
 
-Michael
-
-> ---
->
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 30ca3a9..1226747 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -285,6 +285,23 @@ Thus the example command above could be written as:
->  .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
->  .fi
->  .in
-> +.TP
-> +.IR /proc/[pid]/map_files/ " (since kernel 3.3)
-> +This subdirectory contains entries corresponding to memory mapped
-> +files (see
-> +.BR mmap (2)).
-> +Entries are named by memory region start and end pair,
-> +and are symbolic links to the corresponding files.
-> +
-> +Although these entries are present for memory regions that were
-> +mapped with
-> +.BR MAP_FILE
-> +flag, the way anonymous shared memory (regions created with
-> +.B MAP_ANON | MAP_SHARED
-> +flags)
-> +is implemented in Linux
-> +makes such regions also appear on this directory. In that case
-> +the target file would be the /dev/zero one.
->  .\" FIXME Describe /proc/[pid]/loginuid
->  .\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
->  .\"       CONFIG_AUDITSYSCALL
-
-
-
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Vasily Kulikov
+http://www.openwall.com - bringing security into open computing environments
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
