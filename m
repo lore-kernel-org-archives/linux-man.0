@@ -1,140 +1,105 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: For review: pid_namespaces(7) man page
-Date: Fri, 1 Mar 2013 10:57:40 +0100
-Message-ID: <CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
+Date: Fri, 1 Mar 2013 11:20:40 +0100
+Message-ID: <CAKgNAkiBrVP71Q67ORMZm93-5=aBL+KTyCo0KVeTpDju-z05ZA@mail.gmail.com>
 References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
-	<1362110504.15531.4@driftwood>
+ <87txowa2cm.fsf@xmission.com> <CAKgNAkjxrbcpONCU4UdD0-cjXwbHr+YwkOR0H_aXp3CGB283Uw@mail.gmail.com>
+ <877glr5vuo.fsf@xmission.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <1362110504.15531.4@driftwood>
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <877glr5vuo.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-SGkgUm9iLAoKT24gRnJpLCBNYXIgMSwgMjAxMyBhdCA1OjAxIEFNLCBSb2IgTGFuZGxleSA8cm9i
-QGxhbmRsZXkubmV0PiB3cm90ZToKPiBPbiAwMi8yOC8yMDEzIDA1OjI0OjA3IEFNLCBNaWNoYWVs
-IEtlcnJpc2sgKG1hbi1wYWdlcykgd3JvdGU6ClsuLi5dCgo+PiBERVNDUklQVElPTgo+PiAgICAg
-ICAgRm9yIGFuIG92ZXJ2aWV3IG9mIG5hbWVzcGFjZXMsIHNlZSBuYW1lc3BhY2VzKDcpLgo+Pgo+
-PiAgICAgICAgUElEICBuYW1lc3BhY2VzICBpc29sYXRlICB0aGUgIHByb2Nlc3MgSUQgbnVtYmVy
-IHNwYWNlLCBtZWFuaW5nCj4+ICAgICAgICB0aGF0IHByb2Nlc3NlcyBpbiBkaWZmZXJlbnQgUElE
-IG5hbWVzcGFjZXMgY2FuICBoYXZlICB0aGUgIHNhbWUKPj4gICAgICAgIFBJRC4KPgo+Cj4gVW0s
-IHBlcmhhcHMgImRpZmZlcmVudCBwcm9jZXNzZXMiPyBTbGlnaHRseSByZXBldGl0aXZlLCBidXQg
-dHJ5aW5nIHRvIGF2b2lkCj4gdGhlIHBvdGVudGlhbCBtaXNyZWFkaW5nIHRoYXQgImEgcHJvY2Vz
-c2VzIGNhbiBoYXZlIHRoZSBzYW1lIFBJRCBpbgo+IGRpZmZlcmVudCBuYW1lc3BhY2VzIi4gKEEg
-c2luZ2xlIHByb2Nlc3MgY2FuJ3QgYmUgYSBtZW1iZXIgb2YgbW9yZSB0aGFuIG9uZQo+IG5hbWVz
-cGFjZS4gVGhpcyBpcyBub3QgYWJvdXQgc2VsZWN0aXZlIHZpc2liaWxpdHkuKQoKSSdtIG5vdCBz
-dXJlIHRoaXMgY2xhcmlmaWVzIHRoaW5ncy4uLgoKPj4gUElEIG5hbWVzcGFjZXMgYWxsb3cgY29u
-dGFpbmVycyB0byBtaWdyYXRlIHRvIGEgbmV3IGhvc3QKPj4gICAgICAgIHdoaWxlIHRoZSBwcm9j
-ZXNzZXMgaW5zaWRlICB0aGUgIGNvbnRhaW5lciAgbWFpbnRhaW4gIHRoZSAgc2FtZQo+PiAgICAg
-ICAgUElEcy4KPgo+Cj4gSSB0aG91Z2h0IHN1c3BlbmQvcmVzdW1lIGEgY29udGFpbmVyIHdhcyB0
-aGUgc2ltcGxlIGNhc2UuIE1pZ3JhdGlvbiB0byBhIG5ldwo+IGhvc3QgaXMgYnVpbHQgb24gdG9w
-IG9mIHRoYXQuIChPbiByZXN1bWUgaW4gYSBuZXcgY29udGFpbmVyIG9uIHRoZSBzYW1lCj4gc3lz
-dGVtLCBpZiBvdGhlciBzdHVmZiBpcyBnb2luZyBvbiBpbiB0aGUgc3lzdGVtIHNvIHRoZSBhdmFp
-bGFibGUgUElEcyBoYXZlCj4gc2hpZnRlZC4pCgpJJ2xsIGFkZCBzb21lIHdvcmRzIGhlcmUgb24g
-c3VzcGVuZC9yZXN1bWUuCgo+PiAgICAgICAgTGlrZXdpc2UsIGEgcHJvY2VzcyBpbiBhbiBhbmNl
-c3RvciBuYW1lc3BhY2UgY2Fu4oCUc3ViamVjdCB0byB0aGUKPj4gICAgICAgIHVzdWFsIHBlcm1p
-c3Npb24gY2hlY2tzIGRlc2NyaWJlZCBpbiAga2lsbCgyKeKAlHNlbmQgIHNpZ25hbHMgIHRvCj4+
-ICAgICAgICB0aGUgICJpbml0IiBwcm9jZXNzIG9mIGEgY2hpbGQgUElEIG5hbWVzcGFjZSBvbmx5
-IGlmIHRoZSAiaW5pdCIKPj4gICAgICAgIHByb2Nlc3MgaGFzIGVzdGFibGlzaGVkIGEgaGFuZGxl
-ciBmb3IgdGhhdCBzaWduYWwuICAoV2l0aGluIHRoZQo+PiAgICAgICAgaGFuZGxlciwgIHRoZSAg
-c2lnaW5mb190IHNpX3BpZCBmaWVsZCBkZXNjcmliZWQgaW4gc2lnYWN0aW9uKDIpCj4+ICAgICAg
-ICB3aWxsIGJlIHplcm8uKSAgU0lHS0lMTCBvciBTSUdTVE9QIGFyZSAgdHJlYXRlZCAgZXhjZXB0
-aW9uYWxseToKPj4gICAgICAgIHRoZXNlIHNpZ25hbHMgYXJlIGZvcmNpYmx5IGRlbGl2ZXJlZCB3
-aGVuIHNlbnQgZnJvbSBhbiBhbmNlc3Rvcgo+PiAgICAgICAgUElEIG5hbWVzcGFjZS4gIE5laXRo
-ZXIgb2YgdGhlc2Ugc2lnbmFscyBjYW4gYmUgY2F1Z2h0ICBieSAgdGhlCj4+ICAgICAgICAiaW5p
-dCIgcHJvY2VzcywgYW5kIHNvIHdpbGwgcmVzdWx0IGluIHRoZSB1c3VhbCBhY3Rpb25zIGFzc29j
-aeKAkAo+PiAgICAgICAgYXRlZCB3aXRoIHRob3NlIHNpZ25hbHMgKHJlc3BlY3RpdmVseSwgdGVy
-bWluYXRpbmcgYW5kIHN0b3BwaW5nCj4+ICAgICAgICB0aGUgcHJvY2VzcykuCj4KPgo+IElmIFNJ
-R0tJTEwgdG8gaW5pdCBpcyBwcm9wb2dhdGVkIHRvIGFsbCB0aGUgY2hpbGRyZW4gb2YgaW5pdCwg
-aXMgU0lHU1RPUAo+IGFsc28gcHJvcG9nYXRlZCB0byBhbGwgdGhlIGNoaWxkcmVuPyAoSS5FLiB3
-aWxsIFNJR1NUT1AgdG8gY29udGFpbmVyJ3MgaW5pdAo+IHN1c3BlbmQgdGhlIHdob2xlIGNvbnRh
-aW5lciwgYW5kIHdpbGwgU0lHQ09OVCByZXN1bWUgdGhlIHdob2xlIGNvbnRhaW5lcj8gSWYKPiB0
-aGUgbGF0dGVyLCB3aWxsIGl0IG9ubHkgcmVzdW1lIHByb2Nlc3NlcyB0aGF0IHdlcmVuJ3QgcHJl
-dmlvdXNseSBzdG9wcGVkPwo+IDopCgpDb3ZlcmVkIGJ5IEVyaWMuCgo+PiAgICAgICAgVG8gcHV0
-IHRoaW5ncyBhbm90aGVyIHdheTogYSBwcm9jZXNzJ3MgUElEIG5hbWVzcGFjZSBtZW1iZXJzaGlw
-Cj4+ICAgICAgICBpcyBkZXRlcm1pbmVkIHdoZW4gdGhlIHByb2Nlc3MgaXMgY3JlYXRlZCBhbmQg
-Y2Fubm90IGJlIGNoYW5nZWQKPj4gICAgICAgIHRoZXJlYWZ0ZXIuICBBbW9uZyBvdGhlciB0aGlu
-Z3MsIHRoaXMgbWVhbnMgdGhhdCAgdGhlICBwYXJlbnRhbAo+PiAgICAgICAgcmVsYXRpb25zaGlw
-IGJldHdlZW4gcHJvY2Vzc2VzIG1pcnJvcnMgdGhlIHBhcmVudGFsIGJldHdlZW4gUElECj4KPgo+
-IG1pcnJvcnMgdGhlIHJlbGF0aW9uc2hpcAoKVGhhbmtzLgoKPj4gICAgICAgIG5hbWVzcGFjZXM6
-IHRoZSBwYXJlbnQgb2YgYSAgcHJvY2VzcyAgaXMgIGVpdGhlciAgaW4gIHRoZSAgc2FtZQo+PiAg
-ICAgICAgbmFtZXNwYWNlIG9yIHJlc2lkZXMgaW4gdGhlIGltbWVkaWF0ZSBwYXJlbnQgUElEIG5h
-bWVzcGFjZS4KPj4KPj4gICAgICAgIEV2ZXJ5ICB0aHJlYWQgIGluICBhIHByb2Nlc3MgbXVzdCBi
-ZSBpbiB0aGUgc2FtZSBQSUQgbmFtZXNwYWNlLgo+PiAgICAgICAgRm9yIHRoaXMgcmVhc29uLCB0
-aGUgdHdvIGZvbGxvd2luZyBjYWxsIHNlcXVlbmNlcyB3aWxsIGZhaWw6Cj4+Cj4+ICAgICAgICAg
-ICAgdW5zaGFyZShDTE9ORV9ORVdQSUQpOwo+PiAgICAgICAgICAgIGNsb25lKC4uLiwgQ0xPTkVf
-Vk0sIC4uLik7ICAgIC8qIEZhaWxzICovCj4+Cj4+ICAgICAgICAgICAgc2V0bnMoZmQsIENMT05F
-X05FV1BJRCk7Cj4+ICAgICAgICAgICAgY2xvbmUoLi4uLCBDTE9ORV9WTSwgLi4uKTsgICAgLyog
-RmFpbHMgKi8KPgo+Cj4gVGhleSBmYWlsIHdpdGggLUVVTkRPQ1VNRU5URUQKCkFkZGVkIEVJTlZB
-TCwgYXMgcGVyIEVyaWMncyByZXBseS4gKEVyaWMgZG9lcyB0aGF0IGVycm9yIGFsc28gYXBwbHkK
-Zm9yIHRoZSB0d28gbmV3IGNhc2VzIHlvdSBhZGRlZD8pLgoKPj4gICAgICAgIEJlY2F1c2UgdGhl
-IGFib3ZlIHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNhbGxzIG9ubHkgY2hhbmdlIHRoZQo+PiAg
-ICAgICAgUElEICBuYW1lc3BhY2UgIGZvciBjcmVhdGVkIGNoaWxkcmVuLCB0aGUgY2xvbmUoMikg
-Y2FsbHMgbmVjZXPigJAKPj4gICAgICAgIHNhcmlseSBwdXQgdGhlIG5ldyB0aHJlYWQgaW4gYSBk
-aWZmZXJlbnQgUElEIG5hbWVzcGFjZSBmcm9tIHRoZQo+PiAgICAgICAgY2FsbGluZyB0aHJlYWQu
-Cj4KPgo+IFVtLCBubyB0aGV5IGRvbid0LiBUaGV5IGZhaWwuIFRoYXQncyB0aGUgcG9pbnQuCgoo
-R29vZCBjYXRjaC4pCgo+IFRoZXkgX3dvdWxkXyBwdXQgdGhlIG5ldwo+IHRocmVhZCBpbiBhIGRp
-ZmZlcmVudCBQSUQgbmFtZXNwYWNlLCB3aGljaCBicmVha3MgdGhlIGRlZmluaXRpb24gb2YgdGhy
-ZWFkcy4KPgo+IEhvdyBhYm91dDoKPgo+IFRoZSBhYm92ZSB1bnNoYXJlKDIpIGFuZCBzZXRucygy
-KSBjYWxscyBjaGFuZ2UgdGhlIFBJRCBuYW1lc3BhY2Ugb2YKPiBjaGlsZHJlbiBjcmVhdGVkIGJ5
-IHN1YnNlcXVlbnQgY2xvbmUoMikgY2FsbHMsIHdoaWNoIGlzIGluY29tcGF0aWJsZQo+IHdpdGgg
-Q0xPTkVfVk0uCgpJIGRlY2lkZWQgb246CgogICAgICAgVGhlICBwb2ludCAgaGVyZSBpcyB0aGF0
-IHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNoYW5nZSB0aGUgUElECiAgICAgICBuYW1lc3BhY2Ug
-Zm9yIGNyZWF0ZWQgY2hpbGRyZW4gYnV0IG5vdCBmb3IgdGhlIGNhbGxpbmcgcHJvY2VzcywKICAg
-ICAgIHdoaWxlICBjbG9uZSgyKSBDTE9ORV9WTSBzcGVjaWZpZXMgdGhlIGNyZWF0aW9uIG9mIGEg
-bmV3IHRocmVhZAogICAgICAgaW4gdGhlIHNhbWUgcHJvY2Vzcy4KCj4+ICAgIE1pc2NlbGxhbmVv
-dXMKPj4gICAgICAgIEFmdGVyICBjcmVhdGluZyBhIG5ldyBQSUQgbmFtZXNwYWNlLCBpdCBpcyB1
-c2VmdWwgZm9yIHRoZSBjaGlsZAo+PiAgICAgICAgdG8gY2hhbmdlIGl0cyByb290IGRpcmVjdG9y
-eSBhbmQgbW91bnQgYSBuZXcgcHJvY2ZzIGluc3RhbmNlIGF0Cj4+ICAgICAgICAvcHJvYyAgc28g
-IHRoYXQgIHRvb2xzIHN1Y2ggYXMgcHMoMSkgd29yayBjb3JyZWN0bHkuICAoSWYgYSBuZXcKPj4g
-ICAgICAgIG1vdW50ICBuYW1lc3BhY2UgIGlzICBzaW11bHRhbmVvdXNseSAgIGNyZWF0ZWQgICBi
-eSAgIGluY2x1ZGluZwo+PiAgICAgICAgQ0xPTkVfTkVXTlMgIGluICB0aGUgZmxhZ3MgYXJndW1l
-bnQgb2YgY2xvbmUoMikgb3IgdW5zaGFyZSgyKSksCj4+ICAgICAgICB0aGVuIGl0IGlzbid0IG5l
-Y2Vzc2FyeSB0byBjaGFuZ2UgdGhlICByb290ICBkaXJlY3Rvcnk6ICBhICBuZXcKPj4gICAgICAg
-IHByb2NmcyBpbnN0YW5jZSBjYW4gYmUgbW91bnRlZCBkaXJlY3RseSBvdmVyIC9wcm9jLikKPgo+
-Cj4gV2h5IGlzIHRoZSAoSWYpIGNsYXVzZSBpbiBwYXJlbnRoZXNlcz8gQW5kIHVuc2hhcmUoMikp
-IGhhcyBhIEJydWNlLgo+IChJLkUuIHVuYmFsYW5jZWQgcGFyZW5zLikuCgpJJ2xsIG1ha2Ugc29t
-ZSBmaXhlcyBoZXJlLgoKPj4gICAgICAgIENhbGxpbmcgIHJlYWRsaW5rKDIpICBvbiB0aGUgcGF0
-aCAvcHJvYy9zZWxmIHlpZWxkcyB0aGUgcHJvY2Vzcwo+PiAgICAgICAgSUQgb2YgdGhlIGNhbGxl
-ciBpbiB0aGUgIFBJRCAgbmFtZXNwYWNlICBvZiAgdGhlICBwcm9jZnMgIG1vdW50Cj4+ICAgICAg
-ICAoaS5lLiwgIHRoZSAgUElEICBuYW1lc3BhY2UgIG9mICB0aGUgIHByb2Nlc3MgIHRoYXQgbW91
-bnRlZCB0aGUKPj4gICAgICAgIHByb2NmcykuCj4KPgo+IFRoaXMgaXMgcGVyLWZpbGVzeXN0ZW0g
-cmF0aGVyIHRoYW4gdXNpbmcgdGhlIHByb2Nlc3MncyBuYW1lc3BhY2UgYmVjYXVzZS4uLj8KPiAo
-V2hlcmUgL3Byb2Mvc2VsZiBwb2ludHMgaXMgYWxyZWFkeSBwcm9jZXNzLWxvY2FsIGRhdGEsIHNv
-IHRoZSByYWNlcyBoZXJlCj4gY2FuJ3QgYmUgdG9vIGhvcnJpYmxlLi4uKQoKRXhwbGFpbmVkIGJ5
-IEVyaWMuCgpJJ2xsIGFkZDoKCltbClRoaXMgY2FuIGJlIHVzZWZ1bCBmb3IgaW50cm9zcGVjdGlv
-biBwdXJwb3NlcywKd2hlbiBhIHByb2Nlc3Mgd2FudHMgdG8gZGlzY292ZXIgaXRzIFBJRCBpbiBv
-dGhlciBuYW1lc3BhY2VzLgpdXQoKWy4uLl0KCj4+IENPTkZPUk1JTkcgVE8KPj4gICAgICAgIE5h
-bWVzcGFjZXMgYXJlIGEgTGludXgtc3BlY2lmaWMgZmVhdHVyZS4KPgo+Cj4gQW5kIHlldCB0aGUg
-Z2xpYmMgZ3V5cyBpbnNpc3Qgb24gI2RlZmluZSBHTlVfR05VX0dOVV9BTExfSEFJTF9TVEFMTE1B
-TiBpbgo+IG9yZGVyIHRvIGFjY2VzcyB0aGlzIExpbnV4LXNwZWNpZmljIGZlYXR1cmUgd2hpY2gg
-aGFzIG5vdGhpbmcgd2hhdHNvZXZlciB0bwo+IGRvIHdpdGggdGhlIEZTRi4KClRoaXMgaXMgYSBt
-aXN1bmRlcnN0YW5kaW5nLiBfR05VX1NPVVJDRSBpcyB0aGUgc3RhbmRhcmQgd2F5IHRvIGV4cG9z
-ZQpMaW51eC1zcGVjaWZpYyBmdW5jdGlvbmFsaXR5IGZyb20gUE9TSVggaGVhZGVyIGZpbGVzLgoK
-PiBUaGUgdW5zaGFyZSgpIGNhbGwgb3JpZ2luYWxseSBfZGlkbid0XyByZXF1aXJlIHRoaXMgZGVm
-aW5lLCBidXQgdGhleQo+IHJldHJvYWN0aXZlbHkgYWRkZWQgdGhlIHJlcXVpcmVtZW50IGluIGEg
-dmVyc2lvbiAidXBncmFkZSIgdG8gbWF0Y2ggeW91ciBtYW4KPiBwYWdlLiBUaGlzIG1hZGUgbWUg
-c2FkLiBJdCBhbHNvIG1hZGUgbWUgcHJvdG90eXBlIGl0IG15c2VsZiByYXRoZXIgdGhhbgo+IGV4
-cGVjdGluZyB0aGUgaGVhZGVyIHRvIHByb3ZpZGUgaXQuCgpIbW1tLiBJIGRpZCBub3Qgbm90aWNl
-IHRoYXQgY2hhbmdlLiBVbHJpY2ggcmVqZWN0ZWQgbXkgZWFybHkgKDIwMDcpCnJlcXVlc3QgZm9y
-IGEgY2hhbmdlCihodHRwOi8vd3d3LnNvdXJjZXdhcmUub3JnL2J1Z3ppbGxhL3Nob3dfYnVnLmNn
-aT9pZD00NzQ5KSBhbmQgdGhlbgpxdWlldGx5IG1hZGUgaXQgbGF0ZXIgKGdsaWJjIDIuMTQsIDIw
-MTEpLgoKVGhhbmtzIGZvciB0aGUgcmV2aWV3LCBSb2IuCgpDaGVlcnMsCgpNaWNoYWVsCgotLSAK
-TWljaGFlbCBLZXJyaXNrCkxpbnV4IG1hbi1wYWdlcyBtYWludGFpbmVyOyBodHRwOi8vd3d3Lmtl
-cm5lbC5vcmcvZG9jL21hbi1wYWdlcy8KQXV0aG9yIG9mICJUaGUgTGludXggUHJvZ3JhbW1pbmcg
-SW50ZXJmYWNlIjsgaHR0cDovL21hbjcub3JnL3RscGkvCl9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMgbWFpbGluZyBsaXN0CkNvbnRhaW5l
-cnNAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRp
-b24ub3JnL21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
+On Fri, Mar 1, 2013 at 10:10 AM, Eric W. Biederman
+<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>
+>> Hi Eric,
+>>
+>> On Thu, Feb 28, 2013 at 4:24 PM, Eric W. Biederman
+>> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>
+>> [...]
+>>
+>>>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>> PID_NAMESPACES(7)      Linux Programmer's Manual     PID_NAMESPACE=
+S(7)
+>>>>
+>>>> NAME
+>>>>        pid_namespaces - overview of Linux PID namespaces
+>>>>
+>>>> DESCRIPTION
+>> [...]
+>>
+>>>>    The namespace init process
+>>>>        The first process created in a new namespace (i.e., the pro=
+cess
+>>>>        created using clone(2) with the CLONE_NEWPID flag, or the f=
+irst
+>>>>        child created by a process after a call to unshare(2) using=
+ the
+>>>>        CLONE_NEWPID flag) has the PID 1, and is the "init" process=
+ for
+>>>>        the namespace (see init(1)).  Children that are orphaned wi=
+thin
+>>>>        the namespace will be reparented to this  process  rather  =
+than
+>>>>        init(1).
+>>>>
+>>>>        If the "init" process of a PID namespace terminates, the ke=
+rnel
+>>>>        terminates all of the processes in the namespace via a  SIG=
+KILL
+>>>>        signal.   This  behavior  reflects  the  fact  that  the "i=
+nit"
+>>>>        process is essential for the correct operation of a PID  na=
+mes=E2=80=90
+>>>>        pace.   In this case, a subsequent fork(2) into this PID na=
+mes=E2=80=90
+>>>>        pace (e.g., from a process that has done a  setns(2)  into =
+ the
+>>>>        namespace    using    an    open    file   descriptor   for=
+   a
+>>>>        /proc/[pid]/ns/pid file corresponding to a process that was=
+  in
+>>>>        the  namespace) will fail with the error ENOMEM; it is not =
+pos=E2=80=90
+>>>>        sible to create a new processes in a PID namespace whose "i=
+nit"
+>>>>        process has terminated.
+>>>
+>>> It may be useful to mention unshare in the case of fork(2) failing =
+just
+>>> because that is such an easy mistake to make.
+>>>
+>>> unshare(CLONE_NEWPID);
+>>> pid =3D fork();
+>>> waitpid(pid,...);
+>>> fork() -> ENOMEM
+>>
+>> I'm lost. Why does that sequence fail? The child of fork() becomes P=
+ID
+>> 1 in the new PID namespace.
+>
+> Correct.
+> Then we wait for the child of the fork to exit();
+> Then we fork again into the new pid namespace.
+> The second fork fails because init has exited.
+
+Ahhh -- I misapprehended the scenario you were describing. Got it now.
+I'll add that case.
+
+Thanks,
+
+Michael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
