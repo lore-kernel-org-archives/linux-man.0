@@ -1,127 +1,236 @@
-From: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 Subject: Re: For review: pid_namespaces(7) man page
-Date: Thu, 28 Feb 2013 22:01:44 -0600
-Message-ID: <1362110504.15531.4@driftwood>
+Date: Thu, 28 Feb 2013 22:58:11 -0800
+Message-ID: <878v677gjg.fsf@xmission.com>
 References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
+	<1362110504.15531.4@driftwood>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"; Format="Flowed"; DelSp="Yes"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(from mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org on Thu Feb 28 05:24:07 2013)
-Content-Disposition: inline
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1362110504.15531.4@driftwood> (Rob Landley's message of "Thu, 28
+	Feb 2013 22:01:44 -0600")
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-T24gMDIvMjgvMjAxMyAwNToyNDowNyBBTSwgTWljaGFlbCBLZXJyaXNrIChtYW4tcGFnZXMpIHdy
-b3RlOgo+IEVyaWMgZXQgYWwsCj4gCj4gRXZlbnR1YWxseSwgdGhlcmUgd2lsbCBiZSBtb3JlIG5h
-bWVzcGFjZSBtYW4gcGFnZXMsIGJ1dCBsZXQgdXMgc3RhcnQKPiBub3cgd2l0aCBvbmUgZm9yIFBJ
-RCBuYW1lc3BhY2VzLiBUaGUgYXR0YWNoZWQgcGFnZSBhaW1zIHRvIHByb3ZpZGUgYQo+IGZhaXJs
-eSBjb21wbGV0ZSBvdmVydmlldyBvZiBQSUQgbmFtZXNwYWNlcy4KCk9ud2FyZCEKCj4gUElEX05B
-TUVTUEFDRVMoNykgICAgICBMaW51eCBQcm9ncmFtbWVyJ3MgTWFudWFsICAgICBQSURfTkFNRVNQ
-QUNFUyg3KQo+IAo+IE5BTUUKPiAgICAgICAgcGlkX25hbWVzcGFjZXMgLSBvdmVydmlldyBvZiBM
-aW51eCBQSUQgbmFtZXNwYWNlcwo+IAo+IERFU0NSSVBUSU9OCj4gICAgICAgIEZvciBhbiBvdmVy
-dmlldyBvZiBuYW1lc3BhY2VzLCBzZWUgbmFtZXNwYWNlcyg3KS4KPiAKPiAgICAgICAgUElEICBu
-YW1lc3BhY2VzICBpc29sYXRlICB0aGUgIHByb2Nlc3MgSUQgbnVtYmVyIHNwYWNlLCBtZWFuaW5n
-Cj4gICAgICAgIHRoYXQgcHJvY2Vzc2VzIGluIGRpZmZlcmVudCBQSUQgbmFtZXNwYWNlcyBjYW4g
-IGhhdmUgIHRoZSAgc2FtZQo+ICAgICAgICBQSUQuCgpVbSwgcGVyaGFwcyAiZGlmZmVyZW50IHBy
-b2Nlc3NlcyI/IFNsaWdodGx5IHJlcGV0aXRpdmUsIGJ1dCB0cnlpbmcgdG8gIAphdm9pZCB0aGUg
-cG90ZW50aWFsIG1pc3JlYWRpbmcgdGhhdCAiYSBwcm9jZXNzZXMgY2FuIGhhdmUgdGhlIHNhbWUg
-UElEICAKaW4gZGlmZmVyZW50IG5hbWVzcGFjZXMiLiAoQSBzaW5nbGUgcHJvY2VzcyBjYW4ndCBi
-ZSBhIG1lbWJlciBvZiBtb3JlICAKdGhhbiBvbmUgbmFtZXNwYWNlLiBUaGlzIGlzIG5vdCBhYm91
-dCBzZWxlY3RpdmUgdmlzaWJpbGl0eS4pCgo+IFBJRCBuYW1lc3BhY2VzIGFsbG93IGNvbnRhaW5l
-cnMgdG8gbWlncmF0ZSB0byBhIG5ldyBob3N0Cj4gICAgICAgIHdoaWxlIHRoZSBwcm9jZXNzZXMg
-aW5zaWRlICB0aGUgIGNvbnRhaW5lciAgbWFpbnRhaW4gIHRoZSAgc2FtZQo+ICAgICAgICBQSURz
-LgoKSSB0aG91Z2h0IHN1c3BlbmQvcmVzdW1lIGEgY29udGFpbmVyIHdhcyB0aGUgc2ltcGxlIGNh
-c2UuIE1pZ3JhdGlvbiB0byAgCmEgbmV3IGhvc3QgaXMgYnVpbHQgb24gdG9wIG9mIHRoYXQuIChP
-biByZXN1bWUgaW4gYSBuZXcgY29udGFpbmVyIG9uICAKdGhlIHNhbWUgc3lzdGVtLCBpZiBvdGhl
-ciBzdHVmZiBpcyBnb2luZyBvbiBpbiB0aGUgc3lzdGVtIHNvIHRoZSAgCmF2YWlsYWJsZSBQSURz
-IGhhdmUgc2hpZnRlZC4pCgo+ICAgICAgICBMaWtld2lzZSwgYSBwcm9jZXNzIGluIGFuIGFuY2Vz
-dG9yIG5hbWVzcGFjZSBjYW7igJRzdWJqZWN0IHRvIHRoZQo+ICAgICAgICB1c3VhbCBwZXJtaXNz
-aW9uIGNoZWNrcyBkZXNjcmliZWQgaW4gIGtpbGwoMinigJRzZW5kICBzaWduYWxzICB0bwo+ICAg
-ICAgICB0aGUgICJpbml0IiBwcm9jZXNzIG9mIGEgY2hpbGQgUElEIG5hbWVzcGFjZSBvbmx5IGlm
-IHRoZSAiaW5pdCIKPiAgICAgICAgcHJvY2VzcyBoYXMgZXN0YWJsaXNoZWQgYSBoYW5kbGVyIGZv
-ciB0aGF0IHNpZ25hbC4gIChXaXRoaW4gdGhlCj4gICAgICAgIGhhbmRsZXIsICB0aGUgIHNpZ2lu
-Zm9fdCBzaV9waWQgZmllbGQgZGVzY3JpYmVkIGluIHNpZ2FjdGlvbigyKQo+ICAgICAgICB3aWxs
-IGJlIHplcm8uKSAgU0lHS0lMTCBvciBTSUdTVE9QIGFyZSAgdHJlYXRlZCAgZXhjZXB0aW9uYWxs
-eToKPiAgICAgICAgdGhlc2Ugc2lnbmFscyBhcmUgZm9yY2libHkgZGVsaXZlcmVkIHdoZW4gc2Vu
-dCBmcm9tIGFuIGFuY2VzdG9yCj4gICAgICAgIFBJRCBuYW1lc3BhY2UuICBOZWl0aGVyIG9mIHRo
-ZXNlIHNpZ25hbHMgY2FuIGJlIGNhdWdodCAgYnkgIHRoZQo+ICAgICAgICAiaW5pdCIgcHJvY2Vz
-cywgYW5kIHNvIHdpbGwgcmVzdWx0IGluIHRoZSB1c3VhbCBhY3Rpb25zIGFzc29jaeKAkAo+ICAg
-ICAgICBhdGVkIHdpdGggdGhvc2Ugc2lnbmFscyAocmVzcGVjdGl2ZWx5LCB0ZXJtaW5hdGluZyBh
-bmQgc3RvcHBpbmcKPiAgICAgICAgdGhlIHByb2Nlc3MpLgoKSWYgU0lHS0lMTCB0byBpbml0IGlz
-IHByb3BvZ2F0ZWQgdG8gYWxsIHRoZSBjaGlsZHJlbiBvZiBpbml0LCBpcyAgClNJR1NUT1AgYWxz
-byBwcm9wb2dhdGVkIHRvIGFsbCB0aGUgY2hpbGRyZW4/IChJLkUuIHdpbGwgU0lHU1RPUCB0byAg
-CmNvbnRhaW5lcidzIGluaXQgc3VzcGVuZCB0aGUgd2hvbGUgY29udGFpbmVyLCBhbmQgd2lsbCBT
-SUdDT05UIHJlc3VtZSAgCnRoZSB3aG9sZSBjb250YWluZXI/IElmIHRoZSBsYXR0ZXIsIHdpbGwg
-aXQgb25seSByZXN1bWUgcHJvY2Vzc2VzIHRoYXQgIAp3ZXJlbid0IHByZXZpb3VzbHkgc3RvcHBl
-ZD8gOikKCj4gICAgICAgIFRvIHB1dCB0aGluZ3MgYW5vdGhlciB3YXk6IGEgcHJvY2VzcydzIFBJ
-RCBuYW1lc3BhY2UgbWVtYmVyc2hpcAo+ICAgICAgICBpcyBkZXRlcm1pbmVkIHdoZW4gdGhlIHBy
-b2Nlc3MgaXMgY3JlYXRlZCBhbmQgY2Fubm90IGJlIGNoYW5nZWQKPiAgICAgICAgdGhlcmVhZnRl
-ci4gIEFtb25nIG90aGVyIHRoaW5ncywgdGhpcyBtZWFucyB0aGF0ICB0aGUgIHBhcmVudGFsCj4g
-ICAgICAgIHJlbGF0aW9uc2hpcCBiZXR3ZWVuIHByb2Nlc3NlcyBtaXJyb3JzIHRoZSBwYXJlbnRh
-bCBiZXR3ZWVuIFBJRAoKbWlycm9ycyB0aGUgcmVsYXRpb25zaGlwCgo+ICAgICAgICBuYW1lc3Bh
-Y2VzOiB0aGUgcGFyZW50IG9mIGEgIHByb2Nlc3MgIGlzICBlaXRoZXIgIGluICB0aGUgIHNhbWUK
-PiAgICAgICAgbmFtZXNwYWNlIG9yIHJlc2lkZXMgaW4gdGhlIGltbWVkaWF0ZSBwYXJlbnQgUElE
-IG5hbWVzcGFjZS4KPiAKPiAgICAgICAgRXZlcnkgIHRocmVhZCAgaW4gIGEgcHJvY2VzcyBtdXN0
-IGJlIGluIHRoZSBzYW1lIFBJRCBuYW1lc3BhY2UuCj4gICAgICAgIEZvciB0aGlzIHJlYXNvbiwg
-dGhlIHR3byBmb2xsb3dpbmcgY2FsbCBzZXF1ZW5jZXMgd2lsbCBmYWlsOgo+IAo+ICAgICAgICAg
-ICAgdW5zaGFyZShDTE9ORV9ORVdQSUQpOwo+ICAgICAgICAgICAgY2xvbmUoLi4uLCBDTE9ORV9W
-TSwgLi4uKTsgICAgLyogRmFpbHMgKi8KPiAKPiAgICAgICAgICAgIHNldG5zKGZkLCBDTE9ORV9O
-RVdQSUQpOwo+ICAgICAgICAgICAgY2xvbmUoLi4uLCBDTE9ORV9WTSwgLi4uKTsgICAgLyogRmFp
-bHMgKi8KClRoZXkgZmFpbCB3aXRoIC1FVU5ET0NVTUVOVEVECgo+ICAgICAgICBCZWNhdXNlIHRo
-ZSBhYm92ZSB1bnNoYXJlKDIpIGFuZCBzZXRucygyKSBjYWxscyBvbmx5IGNoYW5nZSB0aGUKPiAg
-ICAgICAgUElEICBuYW1lc3BhY2UgIGZvciBjcmVhdGVkIGNoaWxkcmVuLCB0aGUgY2xvbmUoMikg
-Y2FsbHMgbmVjZXPigJAKPiAgICAgICAgc2FyaWx5IHB1dCB0aGUgbmV3IHRocmVhZCBpbiBhIGRp
-ZmZlcmVudCBQSUQgbmFtZXNwYWNlIGZyb20gdGhlCj4gICAgICAgIGNhbGxpbmcgdGhyZWFkLgoK
-VW0sIG5vIHRoZXkgZG9uJ3QuIFRoZXkgZmFpbC4gVGhhdCdzIHRoZSBwb2ludC4gVGhleSBfd291
-bGRfIHB1dCB0aGUgIApuZXcgdGhyZWFkIGluIGEgZGlmZmVyZW50IFBJRCBuYW1lc3BhY2UsIHdo
-aWNoIGJyZWFrcyB0aGUgZGVmaW5pdGlvbiBvZiAgCnRocmVhZHMuCgpIb3cgYWJvdXQ6CgpUaGUg
-YWJvdmUgdW5zaGFyZSgyKSBhbmQgc2V0bnMoMikgY2FsbHMgY2hhbmdlIHRoZSBQSUQgbmFtZXNw
-YWNlIG9mCmNoaWxkcmVuIGNyZWF0ZWQgYnkgc3Vic2VxdWVudCBjbG9uZSgyKSBjYWxscywgd2hp
-Y2ggaXMgaW5jb21wYXRpYmxlCndpdGggQ0xPTkVfVk0uCgo+ICAgIE1pc2NlbGxhbmVvdXMKPiAg
-ICAgICAgQWZ0ZXIgIGNyZWF0aW5nIGEgbmV3IFBJRCBuYW1lc3BhY2UsIGl0IGlzIHVzZWZ1bCBm
-b3IgdGhlIGNoaWxkCj4gICAgICAgIHRvIGNoYW5nZSBpdHMgcm9vdCBkaXJlY3RvcnkgYW5kIG1v
-dW50IGEgbmV3IHByb2NmcyBpbnN0YW5jZSBhdAo+ICAgICAgICAvcHJvYyAgc28gIHRoYXQgIHRv
-b2xzIHN1Y2ggYXMgcHMoMSkgd29yayBjb3JyZWN0bHkuICAoSWYgYSBuZXcKPiAgICAgICAgbW91
-bnQgIG5hbWVzcGFjZSAgaXMgIHNpbXVsdGFuZW91c2x5ICAgY3JlYXRlZCAgIGJ5ICAgaW5jbHVk
-aW5nCj4gICAgICAgIENMT05FX05FV05TICBpbiAgdGhlIGZsYWdzIGFyZ3VtZW50IG9mIGNsb25l
-KDIpIG9yIHVuc2hhcmUoMikpLAo+ICAgICAgICB0aGVuIGl0IGlzbid0IG5lY2Vzc2FyeSB0byBj
-aGFuZ2UgdGhlICByb290ICBkaXJlY3Rvcnk6ICBhICBuZXcKPiAgICAgICAgcHJvY2ZzIGluc3Rh
-bmNlIGNhbiBiZSBtb3VudGVkIGRpcmVjdGx5IG92ZXIgL3Byb2MuKQoKV2h5IGlzIHRoZSAoSWYp
-IGNsYXVzZSBpbiBwYXJlbnRoZXNlcz8gQW5kIHVuc2hhcmUoMikpIGhhcyBhIEJydWNlLgooSS5F
-LiB1bmJhbGFuY2VkIHBhcmVucy4pLgoKPiAgICAgICAgQ2FsbGluZyAgcmVhZGxpbmsoMikgIG9u
-IHRoZSBwYXRoIC9wcm9jL3NlbGYgeWllbGRzIHRoZSBwcm9jZXNzCj4gICAgICAgIElEIG9mIHRo
-ZSBjYWxsZXIgaW4gdGhlICBQSUQgIG5hbWVzcGFjZSAgb2YgIHRoZSAgcHJvY2ZzICBtb3VudAo+
-ICAgICAgICAoaS5lLiwgIHRoZSAgUElEICBuYW1lc3BhY2UgIG9mICB0aGUgIHByb2Nlc3MgIHRo
-YXQgbW91bnRlZCB0aGUKPiAgICAgICAgcHJvY2ZzKS4KClRoaXMgaXMgcGVyLWZpbGVzeXN0ZW0g
-cmF0aGVyIHRoYW4gdXNpbmcgdGhlIHByb2Nlc3MncyBuYW1lc3BhY2UgIApiZWNhdXNlLi4uPwoo
-V2hlcmUgL3Byb2Mvc2VsZiBwb2ludHMgaXMgYWxyZWFkeSBwcm9jZXNzLWxvY2FsIGRhdGEsIHNv
-IHRoZSByYWNlcyAgCmhlcmUgY2FuJ3QgYmUgdG9vIGhvcnJpYmxlLi4uKQoKPiAgICAgICAgV2hl
-biBhIHByb2Nlc3MgSUQgaXMgcGFzc2VkIG92ZXIgYSAgVU5JWCAgZG9tYWluICBzb2NrZXQgIHRv
-ICBhCj4gICAgICAgIHByb2Nlc3MgIGluICBhICBkaWZmZXJlbnQgUElEIG5hbWVzcGFjZSAoc2Vl
-IHRoZSBkZXNjcmlwdGlvbiBvZgo+ICAgICAgICBTQ01fQ1JFREVOVElBTFMgaW4gdW5peCg3KSks
-IGl0IGlzIHRyYW5zbGF0ZWQgaW50byAgdGhlICBjb3JyZeKAkAo+ICAgICAgICBzcG9uZGluZyBQ
-SUQgdmFsdWUgaW4gdGhlIHJlY2VpdmluZyBwcm9jZXNzJ3MgUElEIG5hbWVzcGFjZS4KCkhlaC4g
-OikKCj4gQ09ORk9STUlORyBUTwo+ICAgICAgICBOYW1lc3BhY2VzIGFyZSBhIExpbnV4LXNwZWNp
-ZmljIGZlYXR1cmUuCgpBbmQgeWV0IHRoZSBnbGliYyBndXlzIGluc2lzdCBvbiAjZGVmaW5lIEdO
-VV9HTlVfR05VX0FMTF9IQUlMX1NUQUxMTUFOICAKaW4gb3JkZXIgdG8gYWNjZXNzIHRoaXMgTGlu
-dXgtc3BlY2lmaWMgZmVhdHVyZSB3aGljaCBoYXMgbm90aGluZyAgCndoYXRzb2V2ZXIgdG8gZG8g
-d2l0aCB0aGUgRlNGLgoKVGhlIHVuc2hhcmUoKSBjYWxsIG9yaWdpbmFsbHkgX2RpZG4ndF8gcmVx
-dWlyZSB0aGlzIGRlZmluZSwgYnV0IHRoZXkgIApyZXRyb2FjdGl2ZWx5IGFkZGVkIHRoZSByZXF1
-aXJlbWVudCBpbiBhIHZlcnNpb24gInVwZ3JhZGUiIHRvIG1hdGNoICAKeW91ciBtYW4gcGFnZS4g
-VGhpcyBtYWRlIG1lIHNhZC4gSXQgYWxzbyBtYWRlIG1lIHByb3RvdHlwZSBpdCBteXNlbGYgIApy
-YXRoZXIgdGhhbiBleHBlY3RpbmcgdGhlIGhlYWRlciB0byBwcm92aWRlIGl0LgoKUm9iCl9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMgbWFp
-bGluZyBsaXN0CkNvbnRhaW5lcnNAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9s
-aXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
+Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> writes:
+
+> On 02/28/2013 05:24:07 AM, Michael Kerrisk (man-pages) wrote:
+>> Eric et al,
+>>=20
+>> Eventually, there will be more namespace man pages, but let us start
+>> now with one for PID namespaces. The attached page aims to provide a
+>> fairly complete overview of PID namespaces.
+>
+> Onward!
+>
+>> PID_NAMESPACES(7)      Linux Programmer's Manual     PID_NAMESPACES(=
+7)
+>>=20
+>> NAME
+>>        pid_namespaces - overview of Linux PID namespaces
+>>=20
+>> DESCRIPTION
+>>        For an overview of namespaces, see namespaces(7).
+>>=20
+>>        PID  namespaces  isolate  the  process ID number space, meani=
+ng
+>>        that processes in different PID namespaces can  have  the  sa=
+me
+>>        PID.
+>
+> Um, perhaps "different processes"? Slightly repetitive, but trying to=
+ =20
+> avoid the potential misreading that "a processes can have the same PI=
+D =20
+> in different namespaces". (A single process can't be a member of more=
+ =20
+> than one namespace. This is not about selective visibility.)
+
+Well actually a process is visible and arguably a member of all parent
+pid namespaces, and a process certainly had a pid value in each pid
+namespace up to the root of the pid namespace tree.
+
+>> PID namespaces allow containers to migrate to a new host
+>>        while the processes inside  the  container  maintain  the  sa=
+me
+>>        PIDs.
+>
+> I thought suspend/resume a container was the simple case. Migration t=
+o =20
+> a new host is built on top of that. (On resume in a new container on =
+=20
+> the same system, if other stuff is going on in the system so the =20
+> available PIDs have shifted.)
+
+I don't know if there is a difference at the implementation level.
+
+>>        Likewise, a process in an ancestor namespace can=E2=80=94subj=
+ect to the
+>>        usual permission checks described in  kill(2)=E2=80=94send  s=
+ignals  to
+>>        the  "init" process of a child PID namespace only if the "ini=
+t"
+>>        process has established a handler for that signal.  (Within t=
+he
+>>        handler,  the  siginfo_t si_pid field described in sigaction(=
+2)
+>>        will be zero.)  SIGKILL or SIGSTOP are  treated  exceptionall=
+y:
+>>        these signals are forcibly delivered when sent from an ancest=
+or
+>>        PID namespace.  Neither of these signals can be caught  by  t=
+he
+>>        "init" process, and so will result in the usual actions assoc=
+i=E2=80=90
+>>        ated with those signals (respectively, terminating and stoppi=
+ng
+>>        the process).
+>
+> If SIGKILL to init is propogated to all the children of init, is =20
+> SIGSTOP also propogated to all the children? (I.E. will SIGSTOP to =20
+> container's init suspend the whole container, and will SIGCONT resume=
+ =20
+> the whole container? If the latter, will it only resume processes tha=
+t =20
+> weren't previously stopped? :)
+
+No.  SIGSTOP stops sent to init stops just init.
+
+It isn't SIGKILL that is propogated it is the exiting of init that is
+propogated by way of SIGKILL.  If your init process calls _exit() or
+hits a SIGSEGV and dies all of the other processes in the pid namespace
+will be sent a SIGKILL and be forced down.
+
+This is similar to a the system panic if the global init exits.
+
+>>        To put things another way: a process's PID namespace membersh=
+ip
+>>        is determined when the process is created and cannot be chang=
+ed
+>>        thereafter.  Among other things, this means that  the  parent=
+al
+>>        relationship between processes mirrors the parental between P=
+ID
+>
+> mirrors the relationship
+>
+>>        namespaces: the parent of a  process  is  either  in  the  sa=
+me
+>>        namespace or resides in the immediate parent PID namespace.
+>>=20
+>>        Every  thread  in  a process must be in the same PID namespac=
+e.
+>>        For this reason, the two following call sequences will fail:
+>>=20
+>>            unshare(CLONE_NEWPID);
+>>            clone(..., CLONE_VM, ...);    /* Fails */
+>>=20
+>>            setns(fd, CLONE_NEWPID);
+>>            clone(..., CLONE_VM, ...);    /* Fails */
+>
+> They fail with -EUNDOCUMENTED
+Make that -EINVAL.
+
+>>        Because the above unshare(2) and setns(2) calls only change t=
+he
+>>        PID  namespace  for created children, the clone(2) calls nece=
+s=E2=80=90
+>>        sarily put the new thread in a different PID namespace from t=
+he
+>>        calling thread.
+>
+> Um, no they don't. They fail. That's the point. They _would_ put the =
+=20
+> new thread in a different PID namespace, which breaks the definition =
+of =20
+> threads.
+>
+> How about:
+>
+> The above unshare(2) and setns(2) calls change the PID namespace of
+> children created by subsequent clone(2) calls, which is incompatible
+> with CLONE_VM.
+>
+>>    Miscellaneous
+>>        After  creating a new PID namespace, it is useful for the chi=
+ld
+>>        to change its root directory and mount a new procfs instance =
+at
+>>        /proc  so  that  tools such as ps(1) work correctly.  (If a n=
+ew
+>>        mount  namespace  is  simultaneously   created   by   includi=
+ng
+>>        CLONE_NEWNS  in  the flags argument of clone(2) or unshare(2)=
+),
+>>        then it isn't necessary to change the  root  directory:  a  n=
+ew
+>>        procfs instance can be mounted directly over /proc.)
+>
+> Why is the (If) clause in parentheses? And unshare(2)) has a Bruce.
+> (I.E. unbalanced parens.).
+>
+>>        Calling  readlink(2)  on the path /proc/self yields the proce=
+ss
+>>        ID of the caller in the  PID  namespace  of  the  procfs  mou=
+nt
+>>        (i.e.,  the  PID  namespace  of  the  process  that mounted t=
+he
+>>        procfs).
+>
+> This is per-filesystem rather than using the process's namespace =20
+> because...?=20
+
+The entire proc filesystem mount is in the pid namespace of the mountin=
+g
+process.  Every pid that proc reports.  /proc/self is not a special
+case, but /proc/self can be interesting if you want to find your pid
+in that other guys pid namespace.
+
+> (Where /proc/self points is already process-local data, so the races =
+=20
+> here can't be too horrible...)
+
+It actually is moderately important for /proc/self to do the right thin=
+g
+here.  It means you can run against a /proc that is not for your pid
+namespace and all of the /proc/self things that glibc and various other
+programs and libraries due continue to work.
+
+>>        When a process ID is passed over a  UNIX  domain  socket  to =
+ a
+>>        process  in  a  different PID namespace (see the description =
+of
+>>        SCM_CREDENTIALS in unix(7)), it is translated into  the  corr=
+e=E2=80=90
+>>        sponding PID value in the receiving process's PID namespace.
+>
+> Heh. :)
+>
+>> CONFORMING TO
+>>        Namespaces are a Linux-specific feature.
+>
+> And yet the glibc guys insist on #define GNU_GNU_GNU_ALL_HAIL_STALLMA=
+N =20
+> in order to access this Linux-specific feature which has nothing =20
+> whatsoever to do with the FSF.
+
+I read it _GNU_SOURCE just implies a libc extensions specific to glibc.
+Of course now that you mention it _GNU_SOURCE implies that we can
+reasonably file a bug against glibc on the HURD or BSD for not
+implementing this feature can't we?
+
+> The unshare() call originally _didn't_ require this define, but they =
+=20
+> retroactively added the requirement in a version "upgrade" to match =20
+> your man page. This made me sad. It also made me prototype it myself =
+=20
+> rather than expecting the header to provide it.
+
+Eric
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
