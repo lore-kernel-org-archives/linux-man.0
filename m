@@ -1,104 +1,173 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 Subject: Re: For review: pid_namespaces(7) man page
-Date: Fri, 1 Mar 2013 11:20:40 +0100
-Message-ID: <CAKgNAkiBrVP71Q67ORMZm93-5=aBL+KTyCo0KVeTpDju-z05ZA@mail.gmail.com>
+Date: Fri, 01 Mar 2013 07:35:38 -0800
+Message-ID: <87wqtr3zg5.fsf@xmission.com>
 References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
- <87txowa2cm.fsf@xmission.com> <CAKgNAkjxrbcpONCU4UdD0-cjXwbHr+YwkOR0H_aXp3CGB283Uw@mail.gmail.com>
- <877glr5vuo.fsf@xmission.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+	<1362110504.15531.4@driftwood>
+	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <877glr5vuo.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+In-Reply-To: <CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(Michael Kerrisk's message of "Fri, 1 Mar 2013 10:57:40 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Mar 1, 2013 at 10:10 AM, Eric W. Biederman
-<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+
+> Hi Rob,
 >
->> Hi Eric,
->>
->> On Thu, Feb 28, 2013 at 4:24 PM, Eric W. Biederman
->> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
->>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->>
->> [...]
->>
->>>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>> PID_NAMESPACES(7)      Linux Programmer's Manual     PID_NAMESPACE=
-S(7)
->>>>
->>>> NAME
->>>>        pid_namespaces - overview of Linux PID namespaces
->>>>
->>>> DESCRIPTION
->> [...]
->>
->>>>    The namespace init process
->>>>        The first process created in a new namespace (i.e., the pro=
-cess
->>>>        created using clone(2) with the CLONE_NEWPID flag, or the f=
-irst
->>>>        child created by a process after a call to unshare(2) using=
- the
->>>>        CLONE_NEWPID flag) has the PID 1, and is the "init" process=
- for
->>>>        the namespace (see init(1)).  Children that are orphaned wi=
-thin
->>>>        the namespace will be reparented to this  process  rather  =
-than
->>>>        init(1).
->>>>
->>>>        If the "init" process of a PID namespace terminates, the ke=
-rnel
->>>>        terminates all of the processes in the namespace via a  SIG=
-KILL
->>>>        signal.   This  behavior  reflects  the  fact  that  the "i=
-nit"
->>>>        process is essential for the correct operation of a PID  na=
-mes=E2=80=90
->>>>        pace.   In this case, a subsequent fork(2) into this PID na=
-mes=E2=80=90
->>>>        pace (e.g., from a process that has done a  setns(2)  into =
- the
->>>>        namespace    using    an    open    file   descriptor   for=
-   a
->>>>        /proc/[pid]/ns/pid file corresponding to a process that was=
-  in
->>>>        the  namespace) will fail with the error ENOMEM; it is not =
-pos=E2=80=90
->>>>        sible to create a new processes in a PID namespace whose "i=
-nit"
->>>>        process has terminated.
->>>
->>> It may be useful to mention unshare in the case of fork(2) failing =
-just
->>> because that is such an easy mistake to make.
->>>
->>> unshare(CLONE_NEWPID);
->>> pid =3D fork();
->>> waitpid(pid,...);
->>> fork() -> ENOMEM
->>
->> I'm lost. Why does that sequence fail? The child of fork() becomes P=
-ID
->> 1 in the new PID namespace.
+> On Fri, Mar 1, 2013 at 5:01 AM, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> wrote:
+>> On 02/28/2013 05:24:07 AM, Michael Kerrisk (man-pages) wrote:
+> [...]
 >
-> Correct.
-> Then we wait for the child of the fork to exit();
-> Then we fork again into the new pid namespace.
-> The second fork fails because init has exited.
+>>> DESCRIPTION
+>>>        For an overview of namespaces, see namespaces(7).
+>>>
+>>>        PID  namespaces  isolate  the  process ID number space, mean=
+ing
+>>>        that processes in different PID namespaces can  have  the  s=
+ame
+>>>        PID.
+>>
+>>
+>> Um, perhaps "different processes"? Slightly repetitive, but trying t=
+o avoid
+>> the potential misreading that "a processes can have the same PID in
+>> different namespaces". (A single process can't be a member of more t=
+han one
+>> namespace. This is not about selective visibility.)
+>
+> I'm not sure this clarifies things...
+>
+>>> PID namespaces allow containers to migrate to a new host
+>>>        while the processes inside  the  container  maintain  the  s=
+ame
+>>>        PIDs.
+>>
+>>
+>> I thought suspend/resume a container was the simple case. Migration =
+to a new
+>> host is built on top of that. (On resume in a new container on the s=
+ame
+>> system, if other stuff is going on in the system so the available PI=
+Ds have
+>> shifted.)
+>
+> I'll add some words here on suspend/resume.
+>
+>>>        Likewise, a process in an ancestor namespace can=E2=80=94sub=
+ject to the
+>>>        usual permission checks described in  kill(2)=E2=80=94send  =
+signals  to
+>>>        the  "init" process of a child PID namespace only if the "in=
+it"
+>>>        process has established a handler for that signal.  (Within =
+the
+>>>        handler,  the  siginfo_t si_pid field described in sigaction=
+(2)
+>>>        will be zero.)  SIGKILL or SIGSTOP are  treated  exceptional=
+ly:
+>>>        these signals are forcibly delivered when sent from an ances=
+tor
+>>>        PID namespace.  Neither of these signals can be caught  by  =
+the
+>>>        "init" process, and so will result in the usual actions asso=
+ci=E2=80=90
+>>>        ated with those signals (respectively, terminating and stopp=
+ing
+>>>        the process).
+>>
+>>
+>> If SIGKILL to init is propogated to all the children of init, is SIG=
+STOP
+>> also propogated to all the children? (I.E. will SIGSTOP to container=
+'s init
+>> suspend the whole container, and will SIGCONT resume the whole conta=
+iner? If
+>> the latter, will it only resume processes that weren't previously st=
+opped?
+>> :)
+>
+> Covered by Eric.
+>
+>>>        To put things another way: a process's PID namespace members=
+hip
+>>>        is determined when the process is created and cannot be chan=
+ged
+>>>        thereafter.  Among other things, this means that  the  paren=
+tal
+>>>        relationship between processes mirrors the parental between =
+PID
+>>
+>>
+>> mirrors the relationship
+>
+> Thanks.
+>
+>>>        namespaces: the parent of a  process  is  either  in  the  s=
+ame
+>>>        namespace or resides in the immediate parent PID namespace.
+>>>
+>>>        Every  thread  in  a process must be in the same PID namespa=
+ce.
+>>>        For this reason, the two following call sequences will fail:
+>>>
+>>>            unshare(CLONE_NEWPID);
+>>>            clone(..., CLONE_VM, ...);    /* Fails */
+>>>
+>>>            setns(fd, CLONE_NEWPID);
+>>>            clone(..., CLONE_VM, ...);    /* Fails */
+>>
+>>
+>> They fail with -EUNDOCUMENTED
+>
+> Added EINVAL, as per Eric's reply. (Eric does that error also apply
+> for the two new cases you added?).
+>
+>>>        Because the above unshare(2) and setns(2) calls only change =
+the
+>>>        PID  namespace  for created children, the clone(2) calls nec=
+es=E2=80=90
+>>>        sarily put the new thread in a different PID namespace from =
+the
+>>>        calling thread.
+>>
+>>
+>> Um, no they don't. They fail. That's the point.
+>
+> (Good catch.)
+>
+>> They _would_ put the new
+>> thread in a different PID namespace, which breaks the definition of =
+threads.
+>>
+>> How about:
+>>
+>> The above unshare(2) and setns(2) calls change the PID namespace of
+>> children created by subsequent clone(2) calls, which is incompatible
+>> with CLONE_VM.
+>
+> I decided on:
+>
+>        The  point  here is that unshare(2) and setns(2) change the PI=
+D
+>        namespace for created children but not for the calling process=
+,
+>        while  clone(2) CLONE_VM specifies the creation of a new threa=
+d
+>        in the same process.
 
-Ahhh -- I misapprehended the scenario you were describing. Got it now.
-I'll add that case.
+Can we make that "for all new tasks created" instead of "created
+children"
 
-Thanks,
+Othewise someone might expect CLONE_THREAD would work as you
+CLONE_THREAD creates a thread and not a child...
 
-Michael
+Eric
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
