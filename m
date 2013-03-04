@@ -1,7 +1,7 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] resolver.3: ffix
-Date: Sun,  3 Mar 2013 20:10:39 -0400
-Message-ID: <1362355839-11975-1-git-send-email-taffit@debian.org>
+Subject: [PATCH] nss.5: tfix
+Date: Sun,  3 Mar 2013 20:12:30 -0400
+Message-ID: <1362355950-12047-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -9,23 +9,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A
 List-Id: linux-man@vger.kernel.org
 
 ---
- man3/resolver.3 |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man5/nss.5 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/resolver.3 b/man3/resolver.3
-index af532f7..d64f61c 100644
---- a/man3/resolver.3
-+++ b/man3/resolver.3
-@@ -87,7 +87,8 @@ domain name servers.
- The
- .BR res_init ()
- function reads the configuration files (see
--resolv.conf(5)) to get the default domain name, search order and name
-+.BR resolv.conf (5))
-+to get the default domain name, search order and name
- server address(es).
- If no server is given, the local host is tried.
- If no domain is given, that associated with the local host is used.
+diff --git a/man5/nss.5 b/man5/nss.5
+index 9486a7e..45c91e1 100644
+--- a/man5/nss.5
++++ b/man5/nss.5
+@@ -71,7 +71,7 @@ If set to TRUE, the NIS backend for the
+ .BR getservbyname (3)
+ and
+ .BR getservbyname_r (3)
+-function will assume that the
++functions will assume that the
+ .I services.byservicename
+ NIS map exists and is authoritative, particularly
+ that it contains both keys with /proto and without /proto for both
 -- 
 1.7.10.4
 
