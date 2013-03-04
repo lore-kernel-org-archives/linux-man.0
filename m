@@ -1,18 +1,15 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+From: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
 Subject: Re: For review: pid_namespaces(7) man page
-Date: Mon, 04 Mar 2013 09:52:19 -0800
-Message-ID: <87k3pnhx2k.fsf@xmission.com>
-References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
-	<1362110504.15531.4@driftwood>
-	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
-	<87wqtr3zg5.fsf@xmission.com>
-	<CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng@mail.gmail.com>
+Date: Mon, 04 Mar 2013 13:27:47 -0600
+Message-ID: <1362425267.7276.1@driftwood>
+References: <876217olp0.fsf@xmission.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"; Format="Flowed"; DelSp="Yes"
+Content-Transfer-Encoding: 7bit
 Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(Michael Kerrisk's message of "Mon, 4 Mar 2013 13:46:57 +0100")
+In-Reply-To: <876217olp0.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> (from ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org on
+	Sun Mar  3 22:03:55 2013)
+Content-Disposition: inline
 List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
 	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
 List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
@@ -22,114 +19,89 @@ List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
 	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
 Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
 Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Ik1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdy
-aXRlczoKCj4gT24gRnJpLCBNYXIgMSwgMjAxMyBhdCA0OjM1IFBNLCBFcmljIFcuIEJpZWRlcm1h
-biA8ZWJpZWRlcm1AeG1pc3Npb24uY29tPiB3cm90ZToKPj4gIk1pY2hhZWwgS2VycmlzayAobWFu
-LXBhZ2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdyaXRlczoKPj4KPj4+IEhpIFJvYiwK
-Pj4+Cj4+PiBPbiBGcmksIE1hciAxLCAyMDEzIGF0IDU6MDEgQU0sIFJvYiBMYW5kbGV5IDxyb2JA
-bGFuZGxleS5uZXQ+IHdyb3RlOgo+Pj4+IE9uIDAyLzI4LzIwMTMgMDU6MjQ6MDcgQU0sIE1pY2hh
-ZWwgS2VycmlzayAobWFuLXBhZ2VzKSB3cm90ZToKPj4+IFsuLi5dCj4+Pgo+Pj4+PiBERVNDUklQ
-VElPTgo+Pj4+PiAgICAgICAgRm9yIGFuIG92ZXJ2aWV3IG9mIG5hbWVzcGFjZXMsIHNlZSBuYW1l
-c3BhY2VzKDcpLgo+Pj4+Pgo+Pj4+PiAgICAgICAgUElEICBuYW1lc3BhY2VzICBpc29sYXRlICB0
-aGUgIHByb2Nlc3MgSUQgbnVtYmVyIHNwYWNlLCBtZWFuaW5nCj4+Pj4+ICAgICAgICB0aGF0IHBy
-b2Nlc3NlcyBpbiBkaWZmZXJlbnQgUElEIG5hbWVzcGFjZXMgY2FuICBoYXZlICB0aGUgIHNhbWUK
-Pj4+Pj4gICAgICAgIFBJRC4KPj4+Pgo+Pj4+Cj4+Pj4gVW0sIHBlcmhhcHMgImRpZmZlcmVudCBw
-cm9jZXNzZXMiPyBTbGlnaHRseSByZXBldGl0aXZlLCBidXQgdHJ5aW5nIHRvIGF2b2lkCj4+Pj4g
-dGhlIHBvdGVudGlhbCBtaXNyZWFkaW5nIHRoYXQgImEgcHJvY2Vzc2VzIGNhbiBoYXZlIHRoZSBz
-YW1lIFBJRCBpbgo+Pj4+IGRpZmZlcmVudCBuYW1lc3BhY2VzIi4gKEEgc2luZ2xlIHByb2Nlc3Mg
-Y2FuJ3QgYmUgYSBtZW1iZXIgb2YgbW9yZSB0aGFuIG9uZQo+Pj4+IG5hbWVzcGFjZS4gVGhpcyBp
-cyBub3QgYWJvdXQgc2VsZWN0aXZlIHZpc2liaWxpdHkuKQo+Pj4KPj4+IEknbSBub3Qgc3VyZSB0
-aGlzIGNsYXJpZmllcyB0aGluZ3MuLi4KPj4+Cj4+Pj4+IFBJRCBuYW1lc3BhY2VzIGFsbG93IGNv
-bnRhaW5lcnMgdG8gbWlncmF0ZSB0byBhIG5ldyBob3N0Cj4+Pj4+ICAgICAgICB3aGlsZSB0aGUg
-cHJvY2Vzc2VzIGluc2lkZSAgdGhlICBjb250YWluZXIgIG1haW50YWluICB0aGUgIHNhbWUKPj4+
-Pj4gICAgICAgIFBJRHMuCj4+Pj4KPj4+Pgo+Pj4+IEkgdGhvdWdodCBzdXNwZW5kL3Jlc3VtZSBh
-IGNvbnRhaW5lciB3YXMgdGhlIHNpbXBsZSBjYXNlLiBNaWdyYXRpb24gdG8gYSBuZXcKPj4+PiBo
-b3N0IGlzIGJ1aWx0IG9uIHRvcCBvZiB0aGF0LiAoT24gcmVzdW1lIGluIGEgbmV3IGNvbnRhaW5l
-ciBvbiB0aGUgc2FtZQo+Pj4+IHN5c3RlbSwgaWYgb3RoZXIgc3R1ZmYgaXMgZ29pbmcgb24gaW4g
-dGhlIHN5c3RlbSBzbyB0aGUgYXZhaWxhYmxlIFBJRHMgaGF2ZQo+Pj4+IHNoaWZ0ZWQuKQo+Pj4K
-Pj4+IEknbGwgYWRkIHNvbWUgd29yZHMgaGVyZSBvbiBzdXNwZW5kL3Jlc3VtZS4KPj4+Cj4+Pj4+
-ICAgICAgICBMaWtld2lzZSwgYSBwcm9jZXNzIGluIGFuIGFuY2VzdG9yIG5hbWVzcGFjZSBjYW7i
-gJRzdWJqZWN0IHRvIHRoZQo+Pj4+PiAgICAgICAgdXN1YWwgcGVybWlzc2lvbiBjaGVja3MgZGVz
-Y3JpYmVkIGluICBraWxsKDIp4oCUc2VuZCAgc2lnbmFscyAgdG8KPj4+Pj4gICAgICAgIHRoZSAg
-ImluaXQiIHByb2Nlc3Mgb2YgYSBjaGlsZCBQSUQgbmFtZXNwYWNlIG9ubHkgaWYgdGhlICJpbml0
-Igo+Pj4+PiAgICAgICAgcHJvY2VzcyBoYXMgZXN0YWJsaXNoZWQgYSBoYW5kbGVyIGZvciB0aGF0
-IHNpZ25hbC4gIChXaXRoaW4gdGhlCj4+Pj4+ICAgICAgICBoYW5kbGVyLCAgdGhlICBzaWdpbmZv
-X3Qgc2lfcGlkIGZpZWxkIGRlc2NyaWJlZCBpbiBzaWdhY3Rpb24oMikKPj4+Pj4gICAgICAgIHdp
-bGwgYmUgemVyby4pICBTSUdLSUxMIG9yIFNJR1NUT1AgYXJlICB0cmVhdGVkICBleGNlcHRpb25h
-bGx5Ogo+Pj4+PiAgICAgICAgdGhlc2Ugc2lnbmFscyBhcmUgZm9yY2libHkgZGVsaXZlcmVkIHdo
-ZW4gc2VudCBmcm9tIGFuIGFuY2VzdG9yCj4+Pj4+ICAgICAgICBQSUQgbmFtZXNwYWNlLiAgTmVp
-dGhlciBvZiB0aGVzZSBzaWduYWxzIGNhbiBiZSBjYXVnaHQgIGJ5ICB0aGUKPj4+Pj4gICAgICAg
-ICJpbml0IiBwcm9jZXNzLCBhbmQgc28gd2lsbCByZXN1bHQgaW4gdGhlIHVzdWFsIGFjdGlvbnMg
-YXNzb2Np4oCQCj4+Pj4+ICAgICAgICBhdGVkIHdpdGggdGhvc2Ugc2lnbmFscyAocmVzcGVjdGl2
-ZWx5LCB0ZXJtaW5hdGluZyBhbmQgc3RvcHBpbmcKPj4+Pj4gICAgICAgIHRoZSBwcm9jZXNzKS4K
-Pj4+Pgo+Pj4+Cj4+Pj4gSWYgU0lHS0lMTCB0byBpbml0IGlzIHByb3BvZ2F0ZWQgdG8gYWxsIHRo
-ZSBjaGlsZHJlbiBvZiBpbml0LCBpcyBTSUdTVE9QCj4+Pj4gYWxzbyBwcm9wb2dhdGVkIHRvIGFs
-bCB0aGUgY2hpbGRyZW4/IChJLkUuIHdpbGwgU0lHU1RPUCB0byBjb250YWluZXIncyBpbml0Cj4+
-Pj4gc3VzcGVuZCB0aGUgd2hvbGUgY29udGFpbmVyLCBhbmQgd2lsbCBTSUdDT05UIHJlc3VtZSB0
-aGUgd2hvbGUgY29udGFpbmVyPyBJZgo+Pj4+IHRoZSBsYXR0ZXIsIHdpbGwgaXQgb25seSByZXN1
-bWUgcHJvY2Vzc2VzIHRoYXQgd2VyZW4ndCBwcmV2aW91c2x5IHN0b3BwZWQ/Cj4+Pj4gOikKPj4+
-Cj4+PiBDb3ZlcmVkIGJ5IEVyaWMuCj4+Pgo+Pj4+PiAgICAgICAgVG8gcHV0IHRoaW5ncyBhbm90
-aGVyIHdheTogYSBwcm9jZXNzJ3MgUElEIG5hbWVzcGFjZSBtZW1iZXJzaGlwCj4+Pj4+ICAgICAg
-ICBpcyBkZXRlcm1pbmVkIHdoZW4gdGhlIHByb2Nlc3MgaXMgY3JlYXRlZCBhbmQgY2Fubm90IGJl
-IGNoYW5nZWQKPj4+Pj4gICAgICAgIHRoZXJlYWZ0ZXIuICBBbW9uZyBvdGhlciB0aGluZ3MsIHRo
-aXMgbWVhbnMgdGhhdCAgdGhlICBwYXJlbnRhbAo+Pj4+PiAgICAgICAgcmVsYXRpb25zaGlwIGJl
-dHdlZW4gcHJvY2Vzc2VzIG1pcnJvcnMgdGhlIHBhcmVudGFsIGJldHdlZW4gUElECj4+Pj4KPj4+
-Pgo+Pj4+IG1pcnJvcnMgdGhlIHJlbGF0aW9uc2hpcAo+Pj4KPj4+IFRoYW5rcy4KPj4+Cj4+Pj4+
-ICAgICAgICBuYW1lc3BhY2VzOiB0aGUgcGFyZW50IG9mIGEgIHByb2Nlc3MgIGlzICBlaXRoZXIg
-IGluICB0aGUgIHNhbWUKPj4+Pj4gICAgICAgIG5hbWVzcGFjZSBvciByZXNpZGVzIGluIHRoZSBp
-bW1lZGlhdGUgcGFyZW50IFBJRCBuYW1lc3BhY2UuCj4+Pj4+Cj4+Pj4+ICAgICAgICBFdmVyeSAg
-dGhyZWFkICBpbiAgYSBwcm9jZXNzIG11c3QgYmUgaW4gdGhlIHNhbWUgUElEIG5hbWVzcGFjZS4K
-Pj4+Pj4gICAgICAgIEZvciB0aGlzIHJlYXNvbiwgdGhlIHR3byBmb2xsb3dpbmcgY2FsbCBzZXF1
-ZW5jZXMgd2lsbCBmYWlsOgo+Pj4+Pgo+Pj4+PiAgICAgICAgICAgIHVuc2hhcmUoQ0xPTkVfTkVX
-UElEKTsKPj4+Pj4gICAgICAgICAgICBjbG9uZSguLi4sIENMT05FX1ZNLCAuLi4pOyAgICAvKiBG
-YWlscyAqLwo+Pj4+Pgo+Pj4+PiAgICAgICAgICAgIHNldG5zKGZkLCBDTE9ORV9ORVdQSUQpOwo+
-Pj4+PiAgICAgICAgICAgIGNsb25lKC4uLiwgQ0xPTkVfVk0sIC4uLik7ICAgIC8qIEZhaWxzICov
-Cj4+Pj4KPj4+Pgo+Pj4+IFRoZXkgZmFpbCB3aXRoIC1FVU5ET0NVTUVOVEVECj4+Pgo+Pj4gQWRk
-ZWQgRUlOVkFMLCBhcyBwZXIgRXJpYydzIHJlcGx5LiAoRXJpYyBkb2VzIHRoYXQgZXJyb3IgYWxz
-byBhcHBseQo+Pj4gZm9yIHRoZSB0d28gbmV3IGNhc2VzIHlvdSBhZGRlZD8pLgo+Pj4KPj4+Pj4g
-ICAgICAgIEJlY2F1c2UgdGhlIGFib3ZlIHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNhbGxzIG9u
-bHkgY2hhbmdlIHRoZQo+Pj4+PiAgICAgICAgUElEICBuYW1lc3BhY2UgIGZvciBjcmVhdGVkIGNo
-aWxkcmVuLCB0aGUgY2xvbmUoMikgY2FsbHMgbmVjZXPigJAKPj4+Pj4gICAgICAgIHNhcmlseSBw
-dXQgdGhlIG5ldyB0aHJlYWQgaW4gYSBkaWZmZXJlbnQgUElEIG5hbWVzcGFjZSBmcm9tIHRoZQo+
-Pj4+PiAgICAgICAgY2FsbGluZyB0aHJlYWQuCj4+Pj4KPj4+Pgo+Pj4+IFVtLCBubyB0aGV5IGRv
-bid0LiBUaGV5IGZhaWwuIFRoYXQncyB0aGUgcG9pbnQuCj4+Pgo+Pj4gKEdvb2QgY2F0Y2guKQo+
-Pj4KPj4+PiBUaGV5IF93b3VsZF8gcHV0IHRoZSBuZXcKPj4+PiB0aHJlYWQgaW4gYSBkaWZmZXJl
-bnQgUElEIG5hbWVzcGFjZSwgd2hpY2ggYnJlYWtzIHRoZSBkZWZpbml0aW9uIG9mIHRocmVhZHMu
-Cj4+Pj4KPj4+PiBIb3cgYWJvdXQ6Cj4+Pj4KPj4+PiBUaGUgYWJvdmUgdW5zaGFyZSgyKSBhbmQg
-c2V0bnMoMikgY2FsbHMgY2hhbmdlIHRoZSBQSUQgbmFtZXNwYWNlIG9mCj4+Pj4gY2hpbGRyZW4g
-Y3JlYXRlZCBieSBzdWJzZXF1ZW50IGNsb25lKDIpIGNhbGxzLCB3aGljaCBpcyBpbmNvbXBhdGli
-bGUKPj4+PiB3aXRoIENMT05FX1ZNLgo+Pj4KPj4+IEkgZGVjaWRlZCBvbjoKPj4+Cj4+PiAgICAg
-ICAgVGhlICBwb2ludCAgaGVyZSBpcyB0aGF0IHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNoYW5n
-ZSB0aGUgUElECj4+PiAgICAgICAgbmFtZXNwYWNlIGZvciBjcmVhdGVkIGNoaWxkcmVuIGJ1dCBu
-b3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsCj4+PiAgICAgICAgd2hpbGUgIGNsb25lKDIpIENM
-T05FX1ZNIHNwZWNpZmllcyB0aGUgY3JlYXRpb24gb2YgYSBuZXcgdGhyZWFkCj4+PiAgICAgICAg
-aW4gdGhlIHNhbWUgcHJvY2Vzcy4KPj4KPj4gQ2FuIHdlIG1ha2UgdGhhdCAiZm9yIGFsbCBuZXcg
-dGFza3MgY3JlYXRlZCIgaW5zdGVhZCBvZiAiY3JlYXRlZAo+PiBjaGlsZHJlbiIKPj4KPj4gT3Ro
-ZXdpc2Ugc29tZW9uZSBtaWdodCBleHBlY3QgQ0xPTkVfVEhSRUFEIHdvdWxkIHdvcmsgYXMgeW91
-Cj4+IENMT05FX1RIUkVBRCBjcmVhdGVzIGEgdGhyZWFkIGFuZCBub3QgYSBjaGlsZC4uLgo+Cj4g
-VGhlIHRlcm0gInRhc2siIGlzIGtlcm5lbC1zcGFjZSB0YWxrIHRoYXQgcmFyZWx5IGFwcGVhcnMg
-aW4gbWFuIHBhZ2VzLAo+IHNvIEkgYW0gcmVsdWN0YW50IHRvIHVzZSBpdC4KCldpdGggcmVzcGVj
-dCB0byBjbG9uZSBhbmQgaW4gdGhpcyBjYXNlIEkgYW0gbm90IGNlcnRhaW4gd2UgY2FuIHByb3Bl
-cmx5CmRlc2NyaWJlIHdoYXQgaGFwcGVucyB3aXRob3V0IHRhbGtpbmcgYWJvdXQgdGFza3MuICBC
-dXQgaXQgaXMgd29ydGgKYSB0cnkuCgoKPiBIb3cgYWJvdXQgdGhpczoKPgo+ICAgICAgICBUaGUg
-IHBvaW50ICBoZXJlIGlzIHRoYXQgdW5zaGFyZSgyKSBhbmQgc2V0bnMoMikgY2hhbmdlIHRoZSBQ
-SUQKPiAgICAgICAgbmFtZXNwYWNlIGZvciBwcm9jZXNzZXMgc3Vic2VxdWVudGx5IGNyZWF0ZWQg
-YnkgdGhlIGNhbGxlciwgYnV0Cj4gICAgICAgIG5vdCAgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3Ms
-IHdoaWxlIGNsb25lKDIpIENMT05FX1ZNIHNwZWNpZmllcwo+ICAgICAgICB0aGUgY3JlYXRpb24g
-b2YgYSBuZXcgdGhyZWFkIGluIHRoZSBzYW1lIHByb2Nlc3MuCgpIbW0uICBIb3cgYWJvdXQgdGhp
-cy4KCiAgICAgICAgIFRoZSBwb2ludCBoZXJlIGlzIHRoYXQgdW5zaGFyZSgyKSBhbmQgc2V0bnMo
-MikgY2hhbmdlIHRoZSBQSUQKICAgICAgICAgbmFtZXNwYWNlIHRoYXQgd2lsbCBiZSB1c2VkIGJ5
-IGluIGFsbCBzdWJzZXF1ZW50IGNhbGxzIHRvIGNsb25lCiAgICAgICAgIGFuZCBmb3JrIGJ5IHRo
-ZSBjYWxsZXIsIGJ1dCBub3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsIGFuZAogICAgICAgICB0
-aGF0IGFsbCB0aHJlYWRzIGluIGEgcHJvY2VzcyBtdXN0IHNoYXJlIHRoZSBzYW1lIFBJRAogICAg
-ICAgICBuYW1lc3BhY2UuICBXaGljaCBtYWtlcyBhIHN1YnNlcXVlbnQgY2xvbmUoMikgQ0xPTkVf
-Vk0KICAgICAgICAgc3BlY2lmeSB0aGUgY3JlYXRpb24gb2YgYSBuZXcgdGhyZWFkIGluIHRoZSBh
-IGRpZmZlcmVudCBQSUQKICAgICAgICAgbmFtZXNwYWNlIGJ1dCBpbiB0aGUgc2FtZSBwcm9jZXNz
-IHdoaWNoIGlzIGltcG9zc2libGUuCgpFcmljCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMgbWFpbGluZyBsaXN0CkNvbnRhaW5lcnNAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
+On 03/03/2013 10:03:55 PM, Eric W. Biederman wrote:
+> Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> writes:
+> 
+> > On 03/01/2013 03:57:40 AM, Michael Kerrisk (man-pages) wrote:
+> >> > And yet the glibc guys insist on #define
+> >> GNU_GNU_GNU_ALL_HAIL_STALLMAN in
+> >> > order to access this Linux-specific feature which has nothing
+> >> whatsoever to
+> >> > do with the FSF.
+> >>
+> >> This is a misunderstanding. _GNU_SOURCE is the standard way to  
+> expose
+> >> Linux-specific functionality from POSIX header files.
+> >
+> > What standard? The Linux kernel is not, and never was, part of the  
+> GNU
+> > project.
+> 
+> Is the argument that there should be a _LINUX_SOURCE directive in  
+> glibc
+> for this?
+
+If you don't #define any feature test macros at all, you get a bunch of  
+macros (_BSD_SOURCE, _SVID_SOURCE, _POSIX_SOURCE,  
+_POSIX_C_SOURCE=200809L, and so on) defined by default in features.h.  
+If you start defining macros, several of the default ones _go_away_,  
+and you start missing things that are defined by posix-2008. Yes,  
+defining feature test macros makes definitions _vanish_ out of the  
+headers, which means feature test macros can actually reduce code  
+portability.
+
+The _GNU_SOURCE is glibc's way of saying "switch on everything glibc  
+offers". (Except it isn't _quite_, but that seems to be what they  
+intended.) So there are various things that test _specifically_ for  
+that macro, but the macro also switches on (from features.h):
+
+/* If _GNU_SOURCE was defined by the user, turn on all the other  
+features.  */
+#ifdef _GNU_SOURCE
+# undef  _ISOC95_SOURCE
+# define _ISOC95_SOURCE 1
+# undef  _ISOC99_SOURCE
+# define _ISOC99_SOURCE 1
+# undef  _POSIX_SOURCE
+# define _POSIX_SOURCE  1
+# undef  _POSIX_C_SOURCE
+# define _POSIX_C_SOURCE        200809L
+# undef  _XOPEN_SOURCE
+# define _XOPEN_SOURCE  700
+# undef  _XOPEN_SOURCE_EXTENDED
+# define _XOPEN_SOURCE_EXTENDED 1
+# undef  _LARGEFILE64_SOURCE
+# define _LARGEFILE64_SOURCE    1
+# undef  _BSD_SOURCE
+# define _BSD_SOURCE    1
+# undef  _SVID_SOURCE
+# define _SVID_SOURCE   1
+# undef  _ATFILE_SOURCE
+# define _ATFILE_SOURCE 1
+#endif
+
+This is not fine-grained control of what libc exports. This is "if you  
+want to use unshare() then everything we ever implemented gets  
+simultaneously exported into your namespace". (Which it _mostly_ is if  
+you never use any feature test macros, but not the Linux-specific  
+system calls.)
+
+The new musl-libc.org did an _ALL_SOURCE macro that just enables every  
+feature test macro they implemented. (That's its definition, it's the  
+feature test macro that says feature test macros area bad idea.)
+
+> Although come to think of it I can't imagine how <sched.h> is a POSIX
+> header.  Last I looked it only had linux specific bits in it.  Which
+> makes needing any kind of #define strange.
+
+My objection is that Linux system calls are not part of the GNU  
+project. Requiring that macro to get Linux system calls out of bionic,  
+uClibc, klibc, musl, olibc, dietlibc, or newlib is _silly_. It's the  
+"GNU/Linux" prefix imposed on the source level, and it's a fairly  
+recent development (I've only noticed it since 2008 or so).
+
+Rob
