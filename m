@@ -1,34 +1,41 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] nss.5: tfix
-Date: Sun,  3 Mar 2013 20:12:30 -0400
-Message-ID: <1362355950-12047-1-git-send-email-taffit@debian.org>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Subject: Re: For review: pid_namespaces(7) man page
+Date: Sun, 03 Mar 2013 21:50:10 -0600
+Message-ID: <1362369010.29250.3@driftwood>
+References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
+	<1362110504.15531.4@driftwood>
+	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"; Format="Flowed"; DelSp="Yes"
+Content-Transfer-Encoding: 7bit
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(from mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org on Fri Mar  1 03:57:40 2013)
+Content-Disposition: inline
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man5/nss.5 |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/01/2013 03:57:40 AM, Michael Kerrisk (man-pages) wrote:
+> > And yet the glibc guys insist on #define  
+> GNU_GNU_GNU_ALL_HAIL_STALLMAN in
+> > order to access this Linux-specific feature which has nothing  
+> whatsoever to
+> > do with the FSF.
+> 
+> This is a misunderstanding. _GNU_SOURCE is the standard way to expose
+> Linux-specific functionality from POSIX header files.
 
-diff --git a/man5/nss.5 b/man5/nss.5
-index 9486a7e..45c91e1 100644
---- a/man5/nss.5
-+++ b/man5/nss.5
-@@ -71,7 +71,7 @@ If set to TRUE, the NIS backend for the
- .BR getservbyname (3)
- and
- .BR getservbyname_r (3)
--function will assume that the
-+functions will assume that the
- .I services.byservicename
- NIS map exists and is authoritative, particularly
- that it contains both keys with /proto and without /proto for both
--- 
-1.7.10.4
+What standard? The Linux kernel is not, and never was, part of the GNU  
+project.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Rob
