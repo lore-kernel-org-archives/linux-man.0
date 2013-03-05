@@ -1,42 +1,90 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] resolver.3: RES_DEBUG not accessible with default build
-Date: Mon,  4 Mar 2013 23:45:19 +0100
-Message-ID: <1362437119-28677-1-git-send-email-spaillard@debian.org>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: For review: pid_namespaces(7) man page
+Date: Tue, 5 Mar 2013 06:30:15 +0100
+Message-ID: <CAKgNAkjYmvjMzC+nYqsjHf4bQn2ZwdE5wawoP2p32ZSo+0dfcQ@mail.gmail.com>
+References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
+	<1362110504.15531.4@driftwood>
+	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
+	<87wqtr3zg5.fsf@xmission.com>
+	<CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng@mail.gmail.com>
+	<87k3pnhx2k.fsf@xmission.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <87k3pnhx2k.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-See http://bugs.debian.org/692136
-
-For the record, it seems this has been the case in glibc since a while
-committer	Roland McGrath <roland-mXXj517/zsQ@public.gmane.org>
-Sat, 18 Feb 1995 01:27:10 +0000 (01:27 +0000)
-commit	28f540f45bbacd939bfd07f213bcad2bf730b1bf
-http://repo.or.cz/w/glibc.git/blob/28f540f45bbacd939bfd07f213bcad2bf730b1bf:/resolv/res_init.c
----
- man3/resolver.3 |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/man3/resolver.3 b/man3/resolver.3
-index af532f7..390d51b 100644
---- a/man3/resolver.3
-+++ b/man3/resolver.3
-@@ -184,7 +184,8 @@ True if
- has been called.
- .TP
- .B RES_DEBUG
--Print debugging messages.
-+Print debugging messages.  This option needs glibc to be build with debugging 
-+enabled, which is not the default.
- .TP
- .B RES_AAONLY
- Accept authoritative answers only.
--- 
-1.7.10.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+RXJpYywKCk9uIE1vbiwgTWFyIDQsIDIwMTMgYXQgNjo1MiBQTSwgRXJpYyBXLiBCaWVkZXJtYW4g
+PGViaWVkZXJtQHhtaXNzaW9uLmNvbT4Kd3JvdGU6Cj4gIk1pY2hhZWwgS2VycmlzayAobWFuLXBh
+Z2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdyaXRlczoKPgo+PiBPbiBGcmksIE1hciAx
+LCAyMDEzIGF0IDQ6MzUgUE0sIEVyaWMgVy4gQmllZGVybWFuIDxlYmllZGVybUB4bWlzc2lvbi5j
+b20+Cndyb3RlOgo+Pj4gIk1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdl
+c0BnbWFpbC5jb20+IHdyaXRlczoKPj4+Cj4+Pj4gSGkgUm9iLAo+Pj4+Cj4+Pj4gT24gRnJpLCBN
+YXIgMSwgMjAxMyBhdCA1OjAxIEFNLCBSb2IgTGFuZGxleSA8cm9iQGxhbmRsZXkubmV0PiB3cm90
+ZToKPj4+Pj4gT24gMDIvMjgvMjAxMyAwNToyNDowNyBBTSwgTWljaGFlbCBLZXJyaXNrIChtYW4t
+cGFnZXMpIHdyb3RlOgpbLi4uXQo+Pj4+Pj4gQmVjYXVzZSB0aGUgYWJvdmUgdW5zaGFyZSgyKSBh
+bmQgc2V0bnMoMikgY2FsbHMgb25seSBjaGFuZ2UgdGhlCj4+Pj4+PiBQSUQgbmFtZXNwYWNlIGZv
+ciBjcmVhdGVkIGNoaWxkcmVuLCB0aGUgY2xvbmUoMikgY2FsbHMgbmVjZXPigJAKPj4+Pj4+IHNh
+cmlseSBwdXQgdGhlIG5ldyB0aHJlYWQgaW4gYSBkaWZmZXJlbnQgUElEIG5hbWVzcGFjZSBmcm9t
+IHRoZQo+Pj4+Pj4gY2FsbGluZyB0aHJlYWQuCj4+Pj4+Cj4+Pj4+Cj4+Pj4+IFVtLCBubyB0aGV5
+IGRvbid0LiBUaGV5IGZhaWwuIFRoYXQncyB0aGUgcG9pbnQuCj4+Pj4KPj4+PiAoR29vZCBjYXRj
+aC4pCj4+Pj4KPj4+Pj4gVGhleSBfd291bGRfIHB1dCB0aGUgbmV3Cj4+Pj4+IHRocmVhZCBpbiBh
+IGRpZmZlcmVudCBQSUQgbmFtZXNwYWNlLCB3aGljaCBicmVha3MgdGhlIGRlZmluaXRpb24gb2YK
+dGhyZWFkcy4KPj4+Pj4KPj4+Pj4gSG93IGFib3V0Ogo+Pj4+Pgo+Pj4+PiBUaGUgYWJvdmUgdW5z
+aGFyZSgyKSBhbmQgc2V0bnMoMikgY2FsbHMgY2hhbmdlIHRoZSBQSUQgbmFtZXNwYWNlIG9mCj4+
+Pj4+IGNoaWxkcmVuIGNyZWF0ZWQgYnkgc3Vic2VxdWVudCBjbG9uZSgyKSBjYWxscywgd2hpY2gg
+aXMgaW5jb21wYXRpYmxlCj4+Pj4+IHdpdGggQ0xPTkVfVk0uCj4+Pj4KPj4+PiBJIGRlY2lkZWQg
+b246Cj4+Pj4KPj4+PiBUaGUgcG9pbnQgaGVyZSBpcyB0aGF0IHVuc2hhcmUoMikgYW5kIHNldG5z
+KDIpIGNoYW5nZSB0aGUgUElECj4+Pj4gbmFtZXNwYWNlIGZvciBjcmVhdGVkIGNoaWxkcmVuIGJ1
+dCBub3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsCj4+Pj4gd2hpbGUgY2xvbmUoMikgQ0xPTkVf
+Vk0gc3BlY2lmaWVzIHRoZSBjcmVhdGlvbiBvZiBhIG5ldyB0aHJlYWQKPj4+PiBpbiB0aGUgc2Ft
+ZSBwcm9jZXNzLgo+Pj4KPj4+IENhbiB3ZSBtYWtlIHRoYXQgImZvciBhbGwgbmV3IHRhc2tzIGNy
+ZWF0ZWQiIGluc3RlYWQgb2YgImNyZWF0ZWQKPj4+IGNoaWxkcmVuIgo+Pj4KPj4+IE90aGV3aXNl
+IHNvbWVvbmUgbWlnaHQgZXhwZWN0IENMT05FX1RIUkVBRCB3b3VsZCB3b3JrIGFzIHlvdQo+Pj4g
+Q0xPTkVfVEhSRUFEIGNyZWF0ZXMgYSB0aHJlYWQgYW5kIG5vdCBhIGNoaWxkLi4uCj4+Cj4+IFRo
+ZSB0ZXJtICJ0YXNrIiBpcyBrZXJuZWwtc3BhY2UgdGFsayB0aGF0IHJhcmVseSBhcHBlYXJzIGlu
+IG1hbiBwYWdlcywKPj4gc28gSSBhbSByZWx1Y3RhbnQgdG8gdXNlIGl0Lgo+Cj4gV2l0aCByZXNw
+ZWN0IHRvIGNsb25lIGFuZCBpbiB0aGlzIGNhc2UgSSBhbSBub3QgY2VydGFpbiB3ZSBjYW4gcHJv
+cGVybHkKPiBkZXNjcmliZSB3aGF0IGhhcHBlbnMgd2l0aG91dCB0YWxraW5nIGFib3V0IHRhc2tz
+LiBCdXQgaXQgaXMgd29ydGgKPiBhIHRyeS4KPgo+Cj4+IEhvdyBhYm91dCB0aGlzOgo+Pgo+PiBU
+aGUgcG9pbnQgaGVyZSBpcyB0aGF0IHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNoYW5nZSB0aGUg
+UElECj4+IG5hbWVzcGFjZSBmb3IgcHJvY2Vzc2VzIHN1YnNlcXVlbnRseSBjcmVhdGVkIGJ5IHRo
+ZSBjYWxsZXIsIGJ1dAo+PiBub3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsIHdoaWxlIGNsb25l
+KDIpIENMT05FX1ZNIHNwZWNpZmllcwo+PiB0aGUgY3JlYXRpb24gb2YgYSBuZXcgdGhyZWFkIGlu
+IHRoZSBzYW1lIHByb2Nlc3MuCj4KPiBIbW0uIEhvdyBhYm91dCB0aGlzLgo+Cj4gVGhlIHBvaW50
+IGhlcmUgaXMgdGhhdCB1bnNoYXJlKDIpIGFuZCBzZXRucygyKSBjaGFuZ2UgdGhlIFBJRAo+IG5h
+bWVzcGFjZSB0aGF0IHdpbGwgYmUgdXNlZCBieSBpbiBhbGwgc3Vic2VxdWVudCBjYWxscyB0byBj
+bG9uZQo+IGFuZCBmb3JrIGJ5IHRoZSBjYWxsZXIsIGJ1dCBub3QgZm9yIHRoZSBjYWxsaW5nIHBy
+b2Nlc3MsIGFuZAo+IHRoYXQgYWxsIHRocmVhZHMgaW4gYSBwcm9jZXNzIG11c3Qgc2hhcmUgdGhl
+IHNhbWUgUElECj4gbmFtZXNwYWNlLiBXaGljaCBtYWtlcyBhIHN1YnNlcXVlbnQgY2xvbmUoMikg
+Q0xPTkVfVk0KPiBzcGVjaWZ5IHRoZSBjcmVhdGlvbiBvZiBhIG5ldyB0aHJlYWQgaW4gdGhlIGEg
+ZGlmZmVyZW50IFBJRAo+IG5hbWVzcGFjZSBidXQgaW4gdGhlIHNhbWUgcHJvY2VzcyB3aGljaCBp
+cyBpbXBvc3NpYmxlLgoKSSBkaWQgYSBsaXR0bGUgdGlkeWluZzoKClRoZSBwb2ludCBoZXJlIGlz
+IHRoYXQgdW5zaGFyZSgyKSBhbmQgc2V0bnMoMikgY2hhbmdlIHRoZQpQSUQgbmFtZXNwYWNlIHRo
+YXQgd2lsbCBiZSB1c2VkIGluIGFsbCBzdWJzZXF1ZW50IGNhbGxzCnRvIGNsb25lKDIpIGFuZCBm
+b3JrKDIpLCBidXQgZG8gbm90IGNoYW5nZSB0aGUgUElEIG5hbWVz4oCQCnBhY2Ugb2YgdGhlIGNh
+bGxpbmcgcHJvY2Vzcy4gQmVjYXVzZSBhIHN1YnNlcXVlbnQKY2xvbmUoMikgQ0xPTkVfVk0gd291
+bGQgaW1wbHkgdGhlIGNyZWF0aW9uIG9mIGEgbmV3CnRocmVhZCBpbiBhIGRpZmZlcmVudCBQSUQg
+bmFtZXNwYWNlLCB0aGUgb3BlcmF0aW9uIGlzIG5vdApwZXJtaXR0ZWQuCgpPa2F5PwoKSGF2aW5n
+IGFza2VkIHRoYXQsIEkgcmVhbGl6ZSB0aGF0IEknbSBzdGlsbCBub3QgcXVpdGUgY29tZm9ydGFi
+bGUgd2l0aCB0aGlzCnRleHQuIEkgdGhpbmsgdGhlIHByb2JsZW0gaXMgcmVhbGx5IG9uZSBvZiB0
+ZXJtaW5vbG9neS4gQXQgdGhlIHN0YXJ0IG9mCnRoaXMgcGFzc2FnZSBpbiB0aGUgcGFnZSwgdGhl
+cmUgaXMgdGhlIHNlbnRlbmNlOgoKRXZlcnkgdGhyZWFkIGluIGEgcHJvY2VzcyBtdXN0IGJlIGlu
+IHRoZQpzYW1lIFBJRCBuYW1lc3BhY2UuCgpDYW4geW91IGRlZmluZSAidGhyZWFkIiBpbiB0aGlz
+IGNvbnRleHQ/CgpUaGFua3MsCgpNaWNoYWVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMgbWFpbGluZyBsaXN0CkNvbnRhaW5lcnNAbGlz
+dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
+L21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
