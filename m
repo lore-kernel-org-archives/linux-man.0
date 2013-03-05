@@ -1,90 +1,128 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: For review: pid_namespaces(7) man page
-Date: Tue, 5 Mar 2013 06:30:15 +0100
-Message-ID: <CAKgNAkjYmvjMzC+nYqsjHf4bQn2ZwdE5wawoP2p32ZSo+0dfcQ@mail.gmail.com>
+Date: Tue, 5 Mar 2013 07:23:41 +0100
+Message-ID: <CAKgNAkgQ2g+6OwExdJ8imsbi5yXJwbpnOVta_YR6DsuVmmr-UA@mail.gmail.com>
 References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
-	<1362110504.15531.4@driftwood>
-	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
-	<87wqtr3zg5.fsf@xmission.com>
-	<CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng@mail.gmail.com>
-	<87k3pnhx2k.fsf@xmission.com>
+ <1362110504.15531.4@driftwood> <CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
+ <87wqtr3zg5.fsf@xmission.com> <CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng@mail.gmail.com>
+ <87k3pnhx2k.fsf@xmission.com> <CAKgNAkjYmvjMzC+nYqsjHf4bQn2ZwdE5wawoP2p32ZSo+0dfcQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <87k3pnhx2k.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkjYmvjMzC+nYqsjHf4bQn2ZwdE5wawoP2p32ZSo+0dfcQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-RXJpYywKCk9uIE1vbiwgTWFyIDQsIDIwMTMgYXQgNjo1MiBQTSwgRXJpYyBXLiBCaWVkZXJtYW4g
-PGViaWVkZXJtQHhtaXNzaW9uLmNvbT4Kd3JvdGU6Cj4gIk1pY2hhZWwgS2VycmlzayAobWFuLXBh
-Z2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdyaXRlczoKPgo+PiBPbiBGcmksIE1hciAx
-LCAyMDEzIGF0IDQ6MzUgUE0sIEVyaWMgVy4gQmllZGVybWFuIDxlYmllZGVybUB4bWlzc2lvbi5j
-b20+Cndyb3RlOgo+Pj4gIk1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdl
-c0BnbWFpbC5jb20+IHdyaXRlczoKPj4+Cj4+Pj4gSGkgUm9iLAo+Pj4+Cj4+Pj4gT24gRnJpLCBN
-YXIgMSwgMjAxMyBhdCA1OjAxIEFNLCBSb2IgTGFuZGxleSA8cm9iQGxhbmRsZXkubmV0PiB3cm90
-ZToKPj4+Pj4gT24gMDIvMjgvMjAxMyAwNToyNDowNyBBTSwgTWljaGFlbCBLZXJyaXNrIChtYW4t
-cGFnZXMpIHdyb3RlOgpbLi4uXQo+Pj4+Pj4gQmVjYXVzZSB0aGUgYWJvdmUgdW5zaGFyZSgyKSBh
-bmQgc2V0bnMoMikgY2FsbHMgb25seSBjaGFuZ2UgdGhlCj4+Pj4+PiBQSUQgbmFtZXNwYWNlIGZv
-ciBjcmVhdGVkIGNoaWxkcmVuLCB0aGUgY2xvbmUoMikgY2FsbHMgbmVjZXPigJAKPj4+Pj4+IHNh
-cmlseSBwdXQgdGhlIG5ldyB0aHJlYWQgaW4gYSBkaWZmZXJlbnQgUElEIG5hbWVzcGFjZSBmcm9t
-IHRoZQo+Pj4+Pj4gY2FsbGluZyB0aHJlYWQuCj4+Pj4+Cj4+Pj4+Cj4+Pj4+IFVtLCBubyB0aGV5
-IGRvbid0LiBUaGV5IGZhaWwuIFRoYXQncyB0aGUgcG9pbnQuCj4+Pj4KPj4+PiAoR29vZCBjYXRj
-aC4pCj4+Pj4KPj4+Pj4gVGhleSBfd291bGRfIHB1dCB0aGUgbmV3Cj4+Pj4+IHRocmVhZCBpbiBh
-IGRpZmZlcmVudCBQSUQgbmFtZXNwYWNlLCB3aGljaCBicmVha3MgdGhlIGRlZmluaXRpb24gb2YK
-dGhyZWFkcy4KPj4+Pj4KPj4+Pj4gSG93IGFib3V0Ogo+Pj4+Pgo+Pj4+PiBUaGUgYWJvdmUgdW5z
-aGFyZSgyKSBhbmQgc2V0bnMoMikgY2FsbHMgY2hhbmdlIHRoZSBQSUQgbmFtZXNwYWNlIG9mCj4+
-Pj4+IGNoaWxkcmVuIGNyZWF0ZWQgYnkgc3Vic2VxdWVudCBjbG9uZSgyKSBjYWxscywgd2hpY2gg
-aXMgaW5jb21wYXRpYmxlCj4+Pj4+IHdpdGggQ0xPTkVfVk0uCj4+Pj4KPj4+PiBJIGRlY2lkZWQg
-b246Cj4+Pj4KPj4+PiBUaGUgcG9pbnQgaGVyZSBpcyB0aGF0IHVuc2hhcmUoMikgYW5kIHNldG5z
-KDIpIGNoYW5nZSB0aGUgUElECj4+Pj4gbmFtZXNwYWNlIGZvciBjcmVhdGVkIGNoaWxkcmVuIGJ1
-dCBub3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsCj4+Pj4gd2hpbGUgY2xvbmUoMikgQ0xPTkVf
-Vk0gc3BlY2lmaWVzIHRoZSBjcmVhdGlvbiBvZiBhIG5ldyB0aHJlYWQKPj4+PiBpbiB0aGUgc2Ft
-ZSBwcm9jZXNzLgo+Pj4KPj4+IENhbiB3ZSBtYWtlIHRoYXQgImZvciBhbGwgbmV3IHRhc2tzIGNy
-ZWF0ZWQiIGluc3RlYWQgb2YgImNyZWF0ZWQKPj4+IGNoaWxkcmVuIgo+Pj4KPj4+IE90aGV3aXNl
-IHNvbWVvbmUgbWlnaHQgZXhwZWN0IENMT05FX1RIUkVBRCB3b3VsZCB3b3JrIGFzIHlvdQo+Pj4g
-Q0xPTkVfVEhSRUFEIGNyZWF0ZXMgYSB0aHJlYWQgYW5kIG5vdCBhIGNoaWxkLi4uCj4+Cj4+IFRo
-ZSB0ZXJtICJ0YXNrIiBpcyBrZXJuZWwtc3BhY2UgdGFsayB0aGF0IHJhcmVseSBhcHBlYXJzIGlu
-IG1hbiBwYWdlcywKPj4gc28gSSBhbSByZWx1Y3RhbnQgdG8gdXNlIGl0Lgo+Cj4gV2l0aCByZXNw
-ZWN0IHRvIGNsb25lIGFuZCBpbiB0aGlzIGNhc2UgSSBhbSBub3QgY2VydGFpbiB3ZSBjYW4gcHJv
-cGVybHkKPiBkZXNjcmliZSB3aGF0IGhhcHBlbnMgd2l0aG91dCB0YWxraW5nIGFib3V0IHRhc2tz
-LiBCdXQgaXQgaXMgd29ydGgKPiBhIHRyeS4KPgo+Cj4+IEhvdyBhYm91dCB0aGlzOgo+Pgo+PiBU
-aGUgcG9pbnQgaGVyZSBpcyB0aGF0IHVuc2hhcmUoMikgYW5kIHNldG5zKDIpIGNoYW5nZSB0aGUg
-UElECj4+IG5hbWVzcGFjZSBmb3IgcHJvY2Vzc2VzIHN1YnNlcXVlbnRseSBjcmVhdGVkIGJ5IHRo
-ZSBjYWxsZXIsIGJ1dAo+PiBub3QgZm9yIHRoZSBjYWxsaW5nIHByb2Nlc3MsIHdoaWxlIGNsb25l
-KDIpIENMT05FX1ZNIHNwZWNpZmllcwo+PiB0aGUgY3JlYXRpb24gb2YgYSBuZXcgdGhyZWFkIGlu
-IHRoZSBzYW1lIHByb2Nlc3MuCj4KPiBIbW0uIEhvdyBhYm91dCB0aGlzLgo+Cj4gVGhlIHBvaW50
-IGhlcmUgaXMgdGhhdCB1bnNoYXJlKDIpIGFuZCBzZXRucygyKSBjaGFuZ2UgdGhlIFBJRAo+IG5h
-bWVzcGFjZSB0aGF0IHdpbGwgYmUgdXNlZCBieSBpbiBhbGwgc3Vic2VxdWVudCBjYWxscyB0byBj
-bG9uZQo+IGFuZCBmb3JrIGJ5IHRoZSBjYWxsZXIsIGJ1dCBub3QgZm9yIHRoZSBjYWxsaW5nIHBy
-b2Nlc3MsIGFuZAo+IHRoYXQgYWxsIHRocmVhZHMgaW4gYSBwcm9jZXNzIG11c3Qgc2hhcmUgdGhl
-IHNhbWUgUElECj4gbmFtZXNwYWNlLiBXaGljaCBtYWtlcyBhIHN1YnNlcXVlbnQgY2xvbmUoMikg
-Q0xPTkVfVk0KPiBzcGVjaWZ5IHRoZSBjcmVhdGlvbiBvZiBhIG5ldyB0aHJlYWQgaW4gdGhlIGEg
-ZGlmZmVyZW50IFBJRAo+IG5hbWVzcGFjZSBidXQgaW4gdGhlIHNhbWUgcHJvY2VzcyB3aGljaCBp
-cyBpbXBvc3NpYmxlLgoKSSBkaWQgYSBsaXR0bGUgdGlkeWluZzoKClRoZSBwb2ludCBoZXJlIGlz
-IHRoYXQgdW5zaGFyZSgyKSBhbmQgc2V0bnMoMikgY2hhbmdlIHRoZQpQSUQgbmFtZXNwYWNlIHRo
-YXQgd2lsbCBiZSB1c2VkIGluIGFsbCBzdWJzZXF1ZW50IGNhbGxzCnRvIGNsb25lKDIpIGFuZCBm
-b3JrKDIpLCBidXQgZG8gbm90IGNoYW5nZSB0aGUgUElEIG5hbWVz4oCQCnBhY2Ugb2YgdGhlIGNh
-bGxpbmcgcHJvY2Vzcy4gQmVjYXVzZSBhIHN1YnNlcXVlbnQKY2xvbmUoMikgQ0xPTkVfVk0gd291
-bGQgaW1wbHkgdGhlIGNyZWF0aW9uIG9mIGEgbmV3CnRocmVhZCBpbiBhIGRpZmZlcmVudCBQSUQg
-bmFtZXNwYWNlLCB0aGUgb3BlcmF0aW9uIGlzIG5vdApwZXJtaXR0ZWQuCgpPa2F5PwoKSGF2aW5n
-IGFza2VkIHRoYXQsIEkgcmVhbGl6ZSB0aGF0IEknbSBzdGlsbCBub3QgcXVpdGUgY29tZm9ydGFi
-bGUgd2l0aCB0aGlzCnRleHQuIEkgdGhpbmsgdGhlIHByb2JsZW0gaXMgcmVhbGx5IG9uZSBvZiB0
-ZXJtaW5vbG9neS4gQXQgdGhlIHN0YXJ0IG9mCnRoaXMgcGFzc2FnZSBpbiB0aGUgcGFnZSwgdGhl
-cmUgaXMgdGhlIHNlbnRlbmNlOgoKRXZlcnkgdGhyZWFkIGluIGEgcHJvY2VzcyBtdXN0IGJlIGlu
-IHRoZQpzYW1lIFBJRCBuYW1lc3BhY2UuCgpDYW4geW91IGRlZmluZSAidGhyZWFkIiBpbiB0aGlz
-IGNvbnRleHQ/CgpUaGFua3MsCgpNaWNoYWVsCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMgbWFpbGluZyBsaXN0CkNvbnRhaW5lcnNAbGlz
-dHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3Jn
-L21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
+[Resending, since my mobile device turned things into HTML]
+
+Eric,
+
+On Mon, Mar 4, 2013 at 6:52 PM, Eric W. Biederman <ebiederm-aS9lmoZGLiXQFizaE/u3fw@public.gmane.org=
+m> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>
+>> On Fri, Mar 1, 2013 at 4:35 PM, Eric W. Biederman <ebiederm@xmission=
+=2Ecom> wrote:
+>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>>
+>>>> Hi Rob,
+>>>>
+>>>> On Fri, Mar 1, 2013 at 5:01 AM, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> wrot=
+e:
+>>>>> On 02/28/2013 05:24:07 AM, Michael Kerrisk (man-pages) wrote:
+[...]
+>>>>>> Because the above unshare(2) and setns(2) calls only change the
+>>>>>> PID namespace for created children, the clone(2) calls neces=E2=80=
+=90
+>>>>>> sarily put the new thread in a different PID namespace from the
+>>>>>> calling thread.
+>>>>>
+>>>>>
+>>>>> Um, no they don't. They fail. That's the point.
+>>>>
+>>>> (Good catch.)
+>>>>
+>>>>> They _would_ put the new
+>>>>> thread in a different PID namespace, which breaks the definition =
+of threads.
+>>>>>
+>>>>> How about:
+>>>>>
+>>>>> The above unshare(2) and setns(2) calls change the PID namespace =
+of
+>>>>> children created by subsequent clone(2) calls, which is incompati=
+ble
+>>>>> with CLONE_VM.
+>>>>
+>>>> I decided on:
+>>>>
+>>>> The point here is that unshare(2) and setns(2) change the PID
+>>>> namespace for created children but not for the calling process,
+>>>> while clone(2) CLONE_VM specifies the creation of a new thread
+>>>> in the same process.
+>>>
+>>> Can we make that "for all new tasks created" instead of "created
+>>> children"
+>>>
+>>> Othewise someone might expect CLONE_THREAD would work as you
+>>> CLONE_THREAD creates a thread and not a child...
+>>
+>> The term "task" is kernel-space talk that rarely appears in man page=
+s,
+>> so I am reluctant to use it.
+>
+> With respect to clone and in this case I am not certain we can proper=
+ly
+> describe what happens without talking about tasks. But it is worth
+> a try.
+>
+>
+>> How about this:
+>>
+>> The point here is that unshare(2) and setns(2) change the PID
+>> namespace for processes subsequently created by the caller, but
+>> not for the calling process, while clone(2) CLONE_VM specifies
+>> the creation of a new thread in the same process.
+>
+> Hmm. How about this.
+>
+> The point here is that unshare(2) and setns(2) change the PID
+> namespace that will be used by in all subsequent calls to clone
+> and fork by the caller, but not for the calling process, and
+> that all threads in a process must share the same PID
+> namespace. Which makes a subsequent clone(2) CLONE_VM
+> specify the creation of a new thread in the a different PID
+> namespace but in the same process which is impossible.
+
+I did a little tidying:
+
+The point here is that unshare(2) and setns(2) change the
+PID namespace that will be used in all subsequent calls
+to clone(2) and fork(2), but do not change the PID names=E2=80=90
+pace of the calling process. Because a subsequent
+clone(2) CLONE_VM would imply the creation of a new
+thread in a different PID namespace, the operation is not
+permitted.
+
+Okay?
+
+Having asked that, I realize that I'm still not quite comfortable with
+this text. I think the problem is really one of terminology. At the
+start of this passage in the page, there is the sentence:
+
+Every thread in a process must be in the
+same PID namespace.
+
+Can you define "thread" in this context?
+
+Thanks,
+
+Michael
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
