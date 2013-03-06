@@ -1,32 +1,31 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] access.2: tfix
-Date: Wed,  6 Mar 2013 22:02:53 +0100
-Message-ID: <1362603773-11484-1-git-send-email-spaillard@debian.org>
+Subject: [PATCH] mount.2: fix: use consistent capitalization in .SS headings
+Date: Wed,  6 Mar 2013 22:22:19 +0100
+Message-ID: <1362604939-16250-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Introduced by commit e0a699c1
+First fixed by c634028ab5768, then accidentaly reverted by 2835e6c500298
 ---
- man2/access.2 |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ man2/mount.2 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/access.2 b/man2/access.2
-index 35ee641..b14185d 100644
---- a/man2/access.2
-+++ b/man2/access.2
-@@ -40,8 +40,7 @@
- .\" Modified 2004-06-23 by Michael Kerrisk
- .\" 2007-06-10, mtk, various parts rewritten, and added BUGS section.
- .\"
--.TH ACCESS 2 2013-02-28
--inux" "Linux Programmer's Manual"
-+.TH ACCESS 2 2013-02-28 "Linux" "Linux Programmer's Manual"
- .SH NAME
- access \- check real user's permissions for a file
- .SH SYNOPSIS
+diff --git a/man2/mount.2 b/man2/mount.2
+index e979d40..45f18e7 100644
+--- a/man2/mount.2
++++ b/man2/mount.2
+@@ -435,7 +435,7 @@ would fail with
+ Since Linux 2.4 the set-user-ID and set-group-ID bits are
+ just silently ignored in this case.
+ .\" The change is in patch-2.4.0-prerelease.
+-.SS Per-process Namespaces
++.SS Per-process namespaces
+ Starting with kernel 2.4.19, Linux provides
+ per-process mount namespaces.
+ A mount namespace is the set of file system mounts that
 -- 
 1.7.10.4
 
