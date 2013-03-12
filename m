@@ -1,86 +1,74 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: Documenting reboot(2) changes for PID namespace in 3.9
-Date: Tue, 12 Mar 2013 00:20:52 -0700
-Message-ID: <87620xccdn.fsf@xmission.com>
-References: <CAKgNAkg8+gx8K6W=g1LStESRO=vgtvQtt2Q-+LG5R6Tk3ncYZQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <CAKgNAkg8+gx8K6W=g1LStESRO=vgtvQtt2Q-+LG5R6Tk3ncYZQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(Michael Kerrisk's message of "Tue, 12 Mar 2013 08:07:44 +0100")
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] man-pages.7: Add description of "ATTRIBUTES"
+Date: Tue, 12 Mar 2013 18:41:35 +0800
+Message-ID: <1363084895-6690-1-git-send-email-penght@cn.fujitsu.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+"ATTRIBUTES" section can mention thread safety, cancellation safety and async-cancel-safety.
 
-> Li,
->
-> Regarding your commit 923c7538236564c46ee80c253a416705321f13e3 , I
-> plan to apply the following patch to the reboot(2) manual page. Does
-> it look okay to you?
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man7/man-pages.7 | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-You have documented the behavior as of 3.4.
+diff --git a/man7/man-pages.7 b/man7/man-pages.7
+index fd1ae37..ae87525 100644
+--- a/man7/man-pages.7
++++ b/man7/man-pages.7
+@@ -25,7 +25,7 @@
+ .\" 2007-05-30 created by mtk, using text from old man.7 plus
+ .\" rewrites and additional text.
+ .\"
+-.TH MAN-PAGES 7 2013-02-24 "Linux" "Linux Programmer's Manual"
++.TH MAN-PAGES 7 2013-03-12 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ man-pages \- conventions for writing Linux man pages
+ .SH SYNOPSIS
+@@ -184,6 +184,7 @@ ERRORS             [Typically only in Sections 2, 3]
+ .\" SECURITY,
+ ENVIRONMENT
+ FILES
++ATTRIBUTES         [Normally only in Sections 2, 3]
+ VERSIONS           [Normally only in Sections 2, 3]
+ CONFORMING TO
+ NOTES
+@@ -324,6 +325,28 @@ as the base.
+ .\" section).
+ .\" However, please include security information somewhere!
+ .TP
++.B ATTRIBUTES
++A summary of various attributes of the function(s) documented on this page,
++broken into subsections.
++The following subsections are defined:
++.sp
++.RS
++.TP
++.B "Multithreading (see pthreads(7))"
++This subsection notes attributes relating to multithreaded applications:
++.RS
++.IP * 3
++Whether the function is thread-safe.
++.IP *
++Whether the function is a cancellation point.
++.IP *
++Whether the function is async-cancel-safe.
++.RE
++.IP
++Details of these attributes can be found in
++.BR pthreads (7).
++.RE
++.TP
+ .B VERSIONS
+ A brief summary of the Linux kernel or glibc versions where a
+ system call or library function appeared,
+-- 
+1.8.1.4
 
-The change in 3.9 is to allow that same behavior in a pid_namespace
-created with a user namespace.  Aka in 3.9 the permission
-check changed from capable(CAP_SYS_BOOT)  to ns_capable(pid_ns->user_ns, CAP_SYS_BOOT);
-
-Eric
-
-> Thanks,
->
-> Michael
->
-> diff --git a/man2/reboot.2 b/man2/reboot.2
-> index 8347870..1c17b85 100644
-> --- a/man2/reboot.2
-> +++ b/man2/reboot.2
-> @@ -24,7 +24,7 @@
->  .\" Modified, 27 May 2004, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\"     Added notes on capability requirements
->  .\"
-> -.TH REBOOT 2 2010-10-31 "Linux" "Linux Programmer's Manual"
-> +.TH REBOOT 2 2013-03-12 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  reboot \- reboot or enable/disable Ctrl-Alt-Del
->  .SH SYNOPSIS
-> @@ -147,6 +147,26 @@ For the i386 architecture, the additional
-> argument does not do
->  anything at present (2.1.122), but the type of reboot can be
->  determined by kernel command-line arguments ("reboot=...") to be
->  either warm or cold, and either hard or through the BIOS.
-> +.SS Behavior inside PID namespaces
-> +.\" commit commit 923c7538236564c46ee80c253a416705321f13e3
-> +Since Linux 3.9, when
-               ^^^ 3.4
-> +.BR reboot ()
-> +is called from a PID namespace (see
-> +.BR pid_namespaces (7))
-> +other than the initial PID namespace,
-> +the effect of the call is to send a signal to the namespace "init" process.
-> +.BR LINUX_REBOOT_CMD_RESTART
-> +and
-> +.BR LINUX_REBOOT_CMD_RESTART2
-> +cause a
-> +.BR SIGHUP
-> +signal to be sent.
-> +.BR LINUX_REBOOT_CMD_POWER_OFF
-> +and
-> +.BR LINUX_REBOOT_CMD_HALT
-> +cause a
-> +.B SIGINT
-> +signal to be sent.
->  .SH RETURN VALUE
->  For the values of
->  .I cmd
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
