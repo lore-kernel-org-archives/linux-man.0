@@ -1,39 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Canonical location for HTML man-pages renderings is now man7.org
-Date: Tue, 12 Mar 2013 07:31:38 +0100
-Message-ID: <CAKgNAkjdSD2aLXOjZD7tB7a_6sgNH3w80abzz84N9RE_G5HnAw@mail.gmail.com>
+Subject: Re: [PATCH] capabilities.7: ffix
+Date: Tue, 12 Mar 2013 07:32:30 +0100
+Message-ID: <CAKgNAki1jTaoGFNJyBZBVUqAsV1dUg-YZUydRr88ab52qZSWoA@mail.gmail.com>
+References: <1362608746-29066-1-git-send-email-spaillard@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1362608746-29066-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+Thanks Simon. Applied.
 
-While things were repaired following the 2011 kernel.org break in, it
-ceased to be possible to update the HTML man pages renderings that I
-have for a few years maintained there. So I started placing updated
-renderings on my own domain, man7.org. Even after the kernel.org
-infrastructure was fully restored, it was still somewhat cumbersome to
-update 2000+ HTML pages at that location, so I subsequently continued
-to update the renderings at only man7.org.
+On Wed, Mar 6, 2013 at 11:25 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> ---
+>  man7/capabilities.7 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/man7/capabilities.7 b/man7/capabilities.7
+> index 64b642e..1b5fcc4 100644
+> --- a/man7/capabilities.7
+> +++ b/man7/capabilities.7
+> @@ -1040,7 +1040,7 @@ enabled (1) in these sets.
+>  Since Linux 3.8,
+>  .\" 7b9a7ec565505699f503b4fcf61500dceb36e744
+>  all non-existent capabilities (above
+> -.B CAP_LAST_CAP)
+> +.BR CAP_LAST_CAP )
+>  are shown as disabled (0).
+>
+>  The
+> --
+> 1.7.10.4
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
-Notwithstanding the fact that they are now significantly out of date,
-the kernel.org renderings have continued to see a lot of traffic. For
-that reason, I've asked the kernel.org admins to set redirects from
-the URLs on kernel.org to equivalent URLs on man7.org. All old links
-should just work; please let me know if there are any breakages.
 
-Thanks,
-
-Michael
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Author of "The Linux Programming Interface" http://blog.man7.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
