@@ -1,239 +1,364 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: For review: pid_namespaces(7) man page
-Date: Thu, 07 Mar 2013 00:31:29 -0800
-Message-ID: <878v5zy5jy.fsf@xmission.com>
-References: <CAKgNAki=mUYuu_Ewhe7sjCmo+Dq2Vr+FZCixqNRaadcvAxtpFw@mail.gmail.com>
-	<1362110504.15531.4@driftwood>
-	<CAKgNAkgVKnhRT1Lpq4a_UdBKB+tn6XmWSDF2QJXG0aSLtNH6dg@mail.gmail.com>
-	<87wqtr3zg5.fsf@xmission.com>
-	<CAKgNAkjGD0FdQqpA+rYR=+Yc5uVPB8mE5JjCqy-5WS85cPsvng@mail.gmail.com>
-	<87k3pnhx2k.fsf@xmission.com>
-	<CAKgNAkjYmvjMzC+nYqsjHf4bQn2ZwdE5wawoP2p32ZSo+0dfcQ@mail.gmail.com>
-	<87r4jucprp.fsf@xmission.com>
-	<CAKgNAkgqE7owqsmD+9-9fZtzMQ76H53a+Aat0CH670jNTUfbFA@mail.gmail.com>
-	<87boax4axy.fsf@xmission.com>
-	<CAKgNAkgRs7kg5PsMrBDNO8_z=5L5zM7DmLgU8pNwT_ck4Hmvhw@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.48 released
+Date: Tue, 12 Mar 2013 07:31:21 +0100
+Message-ID: <CAKgNAkiFpHUW3KHem87Od+BY5XV9caUOnA68UJPO5jF_erNCpw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgRs7kg5PsMrBDNO8_z=5L5zM7DmLgU8pNwT_ck4Hmvhw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-	(Michael Kerrisk's message of "Thu, 7 Mar 2013 09:20:13 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+Gidday,
 
-> On Wed, Mar 6, 2013 at 1:40 AM, Eric W. Biederman <ebiederm@xmission.=
-com> wrote:
->> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->>
->>> On Tue, Mar 5, 2013 at 7:41 AM, Eric W. Biederman <ebiederm@xmissio=
-n.com> wrote:
->>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->>>>
->>>>> Eric,
->>>>>
->>>>> On Mon, Mar 4, 2013 at 6:52 PM, Eric W. Biederman
->>>>> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
->>>>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->>>>>>
->>>>>>> On Fri, Mar 1, 2013 at 4:35 PM, Eric W. Biederman
->>>>> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
->>>>>>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->>>>>>>>
->>>>>>>>> Hi Rob,
->>>>>>>>>
->>>>>>>>> On Fri, Mar 1, 2013 at 5:01 AM, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
->>>>> wrote:
->>>>>>>>>> On 02/28/2013 05:24:07 AM, Michael Kerrisk (man-pages) wrote=
-:
->>>>> [...]
->>>>>>>>>>> Because the above unshare(2) and setns(2) calls only change=
- the
->>>>>>>>>>> PID namespace for created children, the clone(2) calls nece=
-s=E2=80=90
->>>>>>>>>>> sarily put the new thread in a different PID namespace from=
- the
->>>>>>>>>>> calling thread.
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> Um, no they don't. They fail. That's the point.
->>>>>>>>>
->>>>>>>>> (Good catch.)
->>>>>>>>>
->>>>>>>>>> They _would_ put the new
->>>>>>>>>> thread in a different PID namespace, which breaks the defini=
-tion
->>>>> of threads.
->>>>>>>>>>
->>>>>>>>>> How about:
->>>>>>>>>>
->>>>>>>>>> The above unshare(2) and setns(2) calls change the PID names=
-pace
->>>>> of
->>>>>>>>>> children created by subsequent clone(2) calls, which is
->>>>> incompatible
->>>>>>>>>> with CLONE_VM.
->>>>>>>>>
->>>>>>>>> I decided on:
->>>>>>>>>
->>>>>>>>> The point here is that unshare(2) and setns(2) change the PID
->>>>>>>>> namespace for created children but not for the calling proces=
-s,
->>>>>>>>> while clone(2) CLONE_VM specifies the creation of a new threa=
-d
->>>>>>>>> in the same process.
->>>>>>>>
->>>>>>>> Can we make that "for all new tasks created" instead of "creat=
-ed
->>>>>>>> children"
->>>>>>>>
->>>>>>>> Othewise someone might expect CLONE_THREAD would work as you
->>>>>>>> CLONE_THREAD creates a thread and not a child...
->>>>>>>
->>>>>>> The term "task" is kernel-space talk that rarely appears in man
->>>>> pages,
->>>>>>> so I am reluctant to use it.
->>>>>>
->>>>>> With respect to clone and in this case I am not certain we can
->>>>> properly
->>>>>> describe what happens without talking about tasks. But it is wor=
-th
->>>>>> a try.
->>>>>>
->>>>>>
->>>>>>> How about this:
->>>>>>>
->>>>>>> The point here is that unshare(2) and setns(2) change the PID
->>>>>>> namespace for processes subsequently created by the caller, but
->>>>>>> not for the calling process, while clone(2) CLONE_VM specifies
->>>>>>> the creation of a new thread in the same process.
->>>>>>
->>>>>> Hmm. How about this.
->>>>>>
->>>>>> The point here is that unshare(2) and setns(2) change the PID
->>>>>> namespace that will be used by in all subsequent calls to clone
->>>>>> and fork by the caller, but not for the calling process, and
->>>>>> that all threads in a process must share the same PID
->>>>>> namespace. Which makes a subsequent clone(2) CLONE_VM
->>>>>> specify the creation of a new thread in the a different PID
->>>>>> namespace but in the same process which is impossible.
->>>>>
->>>>> I did a little tidying:
->>>>>
->>>>> The point here is that unshare(2) and setns(2) change the
->>>>> PID namespace that will be used in all subsequent calls
->>>>> to clone(2) and fork(2), but do not change the PID names=E2=80=90
->>>>> pace of the calling process. Because a subsequent
->>>>> clone(2) CLONE_VM would imply the creation of a new
->>>>> thread in a different PID namespace, the operation is not
->>>>> permitted.
->>>>>
->>>>> Okay?
->>>>
->>>> That seems reasonable.
->>>>
->>>> CLONE_THREAD might be better to talk about.  The check is CLONE_VM
->>>> because it is easier and CLONE_THREAD implies CLONE_THREAD.
->>>>
->>>>> Having asked that, I realize that I'm still not quite comfortable=
- with
->>>>> this text. I think the problem is really one of terminology. At t=
-he
->>>>> start of this passage in the page, there is the sentence:
->>>>>
->>>>> Every thread in a process must be in the
->>>>> same PID namespace.
->>>>>
->>>>> Can you define "thread" in this context?
->>>>
->>>> Most definitely a thread group created with CLONE_THREAD.  It is p=
-retty
->>>> ugly in just the old fashioned CLONE_VM case too, but that might b=
-e
->>>> legal.
->>>>
->>>> In a few cases I think the implementation overshoots and test for =
-VM
->>>> sharing instead of thread group membership because VM sharing is e=
-asier
->>>> to test for, and we already have tests for that.
->>>
->>> So, in summary, the point is that CLONE_VM is being used as a proxy
->>> for CLONE_THREAD because the former is easier to test for, and
->>> CLONE_THREAD requires CLONE_VM, right?
->>
->> I am totally lost about what we are problem we are trying to resolve=
- in
->> the text at this point.  So I am taking this opportunity to review
->> what is actually happening and hopefully give a clear and useful
->> explanation.
->
-> The problem is that the existing text talks about multithreaded
-> processes needing to be in the same PID namespace and then jumps to
-> talking about restrictions with CLONE_VM (not CLONE_THREAD). The
-> reader may not realize know that CLONE_VM is a near synonym for
-> "multithreaded process".
->
-> However, the text you provide here is wonderful detail:
->
->> The clone flags have some dependencies.
->> CLONE_SIGHAND requires CLONE_VM.
->> CLONE_THREAD requires CLONE_SIGHAND.
->>
->> Ultimately there are cases in here that are too strange to think abo=
-ut,
->> and that no one cares (except so far to document what is going on). =
- The
->> fundamental goal of these checks it to just not allow the cases that
->> are too strange to think about.
->>
->> From a technical point of view CLONE_THREAD requires being in the sa=
-me
->> PID namespace so you can send signals to other threads in your proce=
-ss,
->> and you need to see in proc all of the threads of your process.
->>
->> From a technical point of view CLONE_SIGHAND requries being in the s=
-ame
->> PID namespace because we need to know how to encode the PID of the
->> sending process at the time a signal is enqueued in the destination
->> queue.  A signal queue shared by processes in multiple PID namespace=
-s
->> will defeat that.
->>
->> From a technical point of view CLONE_VM requires all of the threads =
-to
->> be in a PID namespace, because from the point of view of coredump co=
-de
->> if two processes share the same address space they are threads and w=
-ill
->> be core dumped together.  When a coredump is written the pid of each
->> thread is written into the coredump.  Writing the pids could not
->> meaningfully succeed if some of the pids were in a parent PID namesp=
-ace.
->>
->> Therefore there is a technical requirement for each of CLONE_THREAD,
->> CLONE_SIGHAND, CLONE_VM to share a PID namespace.
->>
->> In the code in the kernel testing only for CLONE_VM is a shorthand f=
-or
->> testing for any of CLONE_THREAD, CLONE_SIGHAND, or CLONE_VM.
->
-> I will incorporate most of the above into the page.
->
->> On the flip side the addition by unshare(CLONE_NEWPID) of
->> unshare(CLONE_THREAD) actually appears to be bogus
->
-> I agree that it seems strange.
+The Linux man-pages maintainer proudly announces:
 
-Having looked at it a little more I will be removing the unnecessary
-CLONE_THREAD check in 3.10.
+    man-pages-3.48 - man pages for Linux
 
-Eric
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    http://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.48
+
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.de/2013/03/man-pages-348-is-released_12=
+=2Ehtml
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+   of a translation of the manual pages, or are the maintainer of the
+   manual pages set in a particular distribution, or have expressed
+   interest in helping with man-pages maintenance, or have otherwise
+   expressed interest in being notified about man-pages releases.
+   If you don't want to receive such messages from me, or you know of
+   some other translator or maintainer who may want to receive such
+   notifications, send me a message.
+
+Cheers,
+
+Michael
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.48 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+
+Released: 2013-03-05, Munich
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Aristeu Rozanski <aris-moeOTchvdi7YtjvyW6yDsg@public.gmane.org>
+Colin Walters <walters-gPq2gbYjIk8dnm+yROfE0A@public.gmane.org>
+Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Daniel P. Berrange <berrange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+D. Barbier <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+=46lavio Leitner <fbl-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Graham Gower <graham.gower-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Kai Kunschke <kai-Qc2A93eMNZEdnm+yROfE0A@public.gmane.org>
+Marcela Maslanova <mmaslano-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Marc Lehmann <debian-reportbug-zsXavz5zCAg@public.gmane.org>
+Marshel Abraham <Marshel.Abraham-Mykyq1cwIDpWk0Htik3J/w@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Nathan Stratton Treadway <kernelbugs-a6y0ucgZPWpWk0Htik3J/w@public.gmane.org>
+Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Simon Heimberg <simohe-y/QulLNSqklyDzI6CaY1VQ@public.gmane.org>
+Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+T=F6r=F6k Edwin <edwintorok-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Zack Weinberg <zackw-VmQCmMdMyN0AvxtiuMwx3w@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+getunwind.2
+    Marcela Maslanova
+        New page documenting getunwind(2)
+            Taken from Red Hat downstream man pages set
+    Michael Kerrisk
+        Much rewriting
+            Some text taken from arch/ia64/kernel/unwind.c.
+
+perfmonctl.2
+    Ivana Varekova
+        New page documenting IA-64-specific perfmonctl(2)
+            Taken from Red Hat downstream man pages
+    Michael Kerrisk
+        Rework discussion of PFM_CREATE_CONTEXT
+        Add VERSIONS and CONFORMING TO
+        Note that there is no glibc wrapper
+        Remove PFM_CREATE_EVTSETS, PFM_DELETE_EVTSETS, PFM_GETINFO_EVTS=
+ETS
+            These don't exist, and it appears they never have.
+        Fix argument types for PFM_WRITE_PMCS, PFM_WRITE_PMDS, PFM_READ=
+_PMDS
+            The types that were being used don't exist!
+        Briefly document PFM_GET_FEATURES, PFM_DEBUG, PFM_GET_PMC_RESET=
+_VAL
+
+gai.conf.5
+    Ulrich Drepper
+        New page documenting gai.conf
+            Taken from Red Hat downstream pages
+
+nss.conf.5
+    Ulrich Drepper
+        New page describing nss.conf
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+clock_getres.2
+    Cyril Hrubis
+        Document CLOCK_REALTIME_COARSE and CLOCK_MONOTONIC_COARSE
+    Cyril Hrubis
+        Document CLOCK_BOOTTIME
+    Michael Kerrisk
+        Some improvements to CLOCK_BOOTTIME description
+
+ptrace.2
+    Denys Vlasenko
+        Document PTRACE_GETREGSET, PTRACE_SETREGSET, PTRACE_SEIZE, and =
+friends
+            Document PTRACE_GETREGSET, PTRACE_SETREGSET,
+            PTRACE_SEIZE, PTRACE_INTERRUPT, and PTRACE_LISTEN.
+
+
+New and changed links
+---------------------
+
+fattach.2
+fdetach.2
+getmsg.2
+isastream.2
+putmsg.2
+    Michael Kerrisk  [Peter Schiffer]
+        New link to unimplemented.2
+            Taken from Red Hat downstream.
+
+            See https://bugzilla.redhat.com/show_bug.cgi?id=3D436407
+
+
+Global changes
+--------------
+
+Many pages
+    Michael Kerrisk
+        Global fix: remove unneeded double quotes in .SH headings
+
+Many pages
+    Michael Kerrisk
+        Global fix: remove unneeded double quotes in .SS headings
+
+Many pages
+    Michael Kerrisk
+        Global fix: use consistent capitalization in .SS headings
+            Capitalization in .SS sections across pages (and sometimes =
+even
+            within a single page) is wildly inconsistent. Make it consi=
+stent.
+            Capitalize first word in heading, but otherwise use lower c=
+ase,
+            except where English usage (e.g., proper nouns) or programm=
+ing
+            language requirements (e.g., identifier names) dictate othe=
+rwise.
+Many pages
+    Michael Kerrisk  [Denys Vlasenko]
+        Remove double blank lines in output
+
+Various pages
+    Michael Kerrisk
+        Fix order of SH sections
+
+
+Changes to individual pages
+---------------------------
+
+accept.2
+    Michael Kerrisk
+        NAME: Add "accept4"
+
+access.2
+    Colin Walters
+        Note that access() may also fail for FUSE
+            Since in some cases (e.g. libguestfs's guestmount) it also =
+has the
+            semantics where files can appear owned by root, but are act=
+ually
+            mutable by the user, despite what one might infer from the =
+Unix
+            permissions.
+
+getpeername.2
+    Michael Kerrisk  [Kai Kunschke]
+        Clarify semantics of getpeername() for datagram sockets
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D6740=
+34
+
+getuid.2
+    Michael Kerrisk
+        Remove duplicate section heading
+
+mmap.2
+    Cyril Hrubis
+        Add note about partial page in BUGS section
+            This adds a note about Linux behavior with partial page at =
+the end
+            of the object. The problem here is that a page that contain=
+s only
+            part of a file (because the file size is not multiple of PA=
+GE_SIZE)
+            stays in page cache even after the mapping is unmapped and =
+the file
+            is closed. So if some process dirties such page, other mapp=
+ings
+            will see the changes rather than zeroes.
+    Michael Kerrisk  [T=F6r=F6k Edwin]
+        Some 'flags' values require a feature test macro to be defined
+            Add text to NOTES noting that some MAP_* constants are
+            defined only if a suitable feature test macro is defined.
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D5426=
+01
+    Cyril Hrubis
+        Document EOVERFLOW error
+
+open.2
+    Michael Kerrisk
+        Clarify list of file creation flags
+            POSIX.1-2008 TC1 clarified this, so that O_CLOEXEC,
+            O_DIRECTORY, and O_NOFOLLOW are also in this list.
+
+prctl.2
+    Cyrill Gorcunov
+        Add some details for PR_GET_TID_ADDRESS
+
+read.2
+    Michael Kerrisk  [Zack Weinberg]
+        Clarify interaction of count=3D=3D0 and error checking
+            POSIX deliberately leaves this case open, so the man
+            page should be less specific about what happens.
+
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D5332=
+32
+    Michael Kerrisk  [Marc Lehmann]
+        Remove crufty text about O_NONBLOCK on files
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D7005=
+29
+    Michael Kerrisk
+        Clarify details for seekable files
+
+unimplemented.2
+    Michael Kerrisk  [Peter Schiffer]
+        Add various STREAMS interfaces to NAME
+            Taken from Red Hat downstream.
+
+            See https://bugzilla.redhat.com/show_bug.cgi?id=3D436407
+
+cexp2.3
+    Michael Kerrisk
+        Still does not exist in glibc 2.17
+
+exit.3
+    Michael Kerrisk
+        Note that a call to execve() clears exit handler registrations
+
+getaddrinfo.3
+    Michael Kerrisk
+        SEE ALSO: Add gai.conf(5)
+
+malloc_trim.3
+    Michael Kerrisk
+        Remove duplicate section title
+
+printf.3
+    Marshel Abraham  [Graham Gower, Graham Gower]
+        Fix error handling in example code
+            See https://bugzilla.kernel.org/show_bug.cgi?id=3D23282
+
+pthread_yield.3
+    Michael Kerrisk  [Aristeu Rozanski]
+        Add _GNU_SOURCE feature test macro to SYNOPSIS
+
+resolver.3
+resolv.conf.5
+    Michael Kerrisk  [Nathan Stratton Treadway, Simon Heimberg]
+        RES_DEBUG is only available if glibc is compiled with debug sup=
+port
+            See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D6921=
+36
+            and https://bugzilla.kernel.org/show_bug.cgi?id=3D43061
+
+strtol.3
+    Michael Kerrisk  [Peter Schiffer]
+        Remove crufty text from previous fix
+
+core.5
+    Michael Kerrisk
+        Document CONFIG_COREDUMP
+
+capabilities.7
+    Andrey Vagin
+        Nonexistent bits are no longer shown as set in /proc/PID/status=
+ Cap*
+
+inotify.7
+    Michael Kerrisk
+        A monitoring process can't easily distinguish events triggered =
+by itself
+
+ip.7
+    Flavio Leitner  [Peter Schiffer]
+        Improve explanation about calling listen() or connect()
+
+man-pages.7
+    Michael Kerrisk
+        Describe rules for capitalization in .SS headings
+
+rtnetlink.7
+    Pavel Emelyanov
+        Add info about ability to create links with given index
+            Since kernel v3.7 the RTM_NEWLINK message now accepts nonze=
+ro
+            values in ifi_index field. Mention this fact in the respect=
+ive
+            rtnetlink.7 section.
+
+socket.7
+    Pavel Emelyanov
+        SO_BINDTODEVICE is now readable
+            SO_BINDTODEVICE is readable since since kernel 3.8.
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
