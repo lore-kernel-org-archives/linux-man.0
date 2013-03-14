@@ -1,54 +1,94 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] getent.1: netgroup description incorrectly refers to initgroups
-Date: Thu, 14 Mar 2013 10:45:25 +0100
-Message-ID: <CAKgNAkhoRSH-J7w29RAp4wrQBokXnxpXJ2U2QAs-Kmyh8iSh0g@mail.gmail.com>
-References: <779520949.761574.1363083991689.JavaMail.open-xchange@mail.proseconsulting.co.uk>
+Subject: Re: Documenting reboot(2) changes for PID namespace in 3.9
+Date: Thu, 14 Mar 2013 11:14:47 +0100
+Message-ID: <CAKgNAkhi2qQgNfNGW8u83d7Sw_dj2F8z9CXXSOQdb4+hveZCFw@mail.gmail.com>
+References: <CAKgNAkg8+gx8K6W=g1LStESRO=vgtvQtt2Q-+LG5R6Tk3ncYZQ@mail.gmail.com>
+ <87620xccdn.fsf@xmission.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <779520949.761574.1363083991689.JavaMail.open-xchange-RQPCmHpfmte0awjZ7YbxSY5Lr7LD32fptUK59QYPAWc@public.gmane.org>
+In-Reply-To: <87620xccdn.fsf-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Li Zefan <lizefan-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Mark,
-
-On Tue, Mar 12, 2013 at 11:26 AM, Mark R Bannister
-<mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org> wrote:
-> Hi Michael,
+On Tue, Mar 12, 2013 at 8:20 AM, Eric W. Biederman
+<ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 >
-> Here is a patch for man-pages-3.48 to correct an error in the description for
-> the netgroup database in getent(1).
+>> Li,
+>>
+>> Regarding your commit 923c7538236564c46ee80c253a416705321f13e3 , I
+>> plan to apply the following patch to the reboot(2) manual page. Does
+>> it look okay to you?
+>
+> You have documented the behavior as of 3.4.
 
-Thanks. Applied.
+Thanks Eric. I tweaked the version number.
 
-Cheers,
+> The change in 3.9 is to allow that same behavior in a pid_namespace
+> created with a user namespace.  Aka in 3.9 the permission
+> check changed from capable(CAP_SYS_BOOT)  to ns_capable(pid_ns->user_ns, CAP_SYS_BOOT);
+
+Does anything need to be detailed about this in the man page then?
+
+Thanks,
 
 Michael
 
 
-> --- getent.1    2013-03-05 17:22:14.000000000 +0000
-> +++ getent.1.new        2013-03-12 10:14:07.524858000 +0000
-> @@ -20,7 +20,7 @@
->  .\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
->  .\" USA.
->  .\"
-> -.TH GETENT 1 2011-10-31 "Linux" "User Commands"
-> +.TH GETENT 1 2013-03-12 "Linux" "User Commands"
->  .SH NAME
->  getent \- get entries from Name Service Switch libraries
->  .SH SYNOPSIS
-> @@ -214,7 +214,7 @@
->  to match to a netgroup name via
->  .BR innetgr (3).
->  Enumeration is not supported on
-> -.BR initgroups ,
-> +.BR netgroup ,
->  so either one or three
->  .I keys
->  must be provided.
+
+>
+> Eric
+>
+>> Thanks,
+>>
+>> Michael
+>>
+>> diff --git a/man2/reboot.2 b/man2/reboot.2
+>> index 8347870..1c17b85 100644
+>> --- a/man2/reboot.2
+>> +++ b/man2/reboot.2
+>> @@ -24,7 +24,7 @@
+>>  .\" Modified, 27 May 2004, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>>  .\"     Added notes on capability requirements
+>>  .\"
+>> -.TH REBOOT 2 2010-10-31 "Linux" "Linux Programmer's Manual"
+>> +.TH REBOOT 2 2013-03-12 "Linux" "Linux Programmer's Manual"
+>>  .SH NAME
+>>  reboot \- reboot or enable/disable Ctrl-Alt-Del
+>>  .SH SYNOPSIS
+>> @@ -147,6 +147,26 @@ For the i386 architecture, the additional
+>> argument does not do
+>>  anything at present (2.1.122), but the type of reboot can be
+>>  determined by kernel command-line arguments ("reboot=...") to be
+>>  either warm or cold, and either hard or through the BIOS.
+>> +.SS Behavior inside PID namespaces
+>> +.\" commit commit 923c7538236564c46ee80c253a416705321f13e3
+>> +Since Linux 3.9, when
+>                ^^^ 3.4
+>> +.BR reboot ()
+>> +is called from a PID namespace (see
+>> +.BR pid_namespaces (7))
+>> +other than the initial PID namespace,
+>> +the effect of the call is to send a signal to the namespace "init" process.
+>> +.BR LINUX_REBOOT_CMD_RESTART
+>> +and
+>> +.BR LINUX_REBOOT_CMD_RESTART2
+>> +cause a
+>> +.BR SIGHUP
+>> +signal to be sent.
+>> +.BR LINUX_REBOOT_CMD_POWER_OFF
+>> +and
+>> +.BR LINUX_REBOOT_CMD_HALT
+>> +cause a
+>> +.B SIGINT
+>> +signal to be sent.
+>>  .SH RETURN VALUE
+>>  For the values of
+>>  .I cmd
 
 
 
