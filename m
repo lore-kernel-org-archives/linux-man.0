@@ -1,44 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] netlink.7: add a note about broadcast messages to
- multiple groups
-Date: Thu, 14 Mar 2013 10:41:27 +0100
-Message-ID: <CAKgNAkhpzfq2A+-0QcYZr26Mx_A+pQ6yMcTT3Mc7z-Q8fJpEGw@mail.gmail.com>
-References: <1363169621-3929-1-git-send-email-avagin@openvz.org>
+Subject: Re: [patch] getent.1: netgroup description incorrectly refers to initgroups
+Date: Thu, 14 Mar 2013 10:45:25 +0100
+Message-ID: <CAKgNAkhoRSH-J7w29RAp4wrQBokXnxpXJ2U2QAs-Kmyh8iSh0g@mail.gmail.com>
+References: <779520949.761574.1363083991689.JavaMail.open-xchange@mail.proseconsulting.co.uk>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1363169621-3929-1-git-send-email-avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <779520949.761574.1363083991689.JavaMail.open-xchange-RQPCmHpfmte0awjZ7YbxSY5Lr7LD32fptUK59QYPAWc@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mark R Bannister <mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks Andrey. Applied.
+Hello Mark,
 
-On Wed, Mar 13, 2013 at 11:13 AM, Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org> wrote:
+On Tue, Mar 12, 2013 at 11:26 AM, Mark R Bannister
+<mark-/K+B3afwL8Jt0JrxVvvTASp2UmYkHbXO@public.gmane.org> wrote:
+> Hi Michael,
 >
-> Signed-off-by: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-> ---
->  man7/netlink.7 | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/man7/netlink.7 b/man7/netlink.7
-> index de955e4..7c235d8 100644
-> --- a/man7/netlink.7
-> +++ b/man7/netlink.7
-> @@ -346,6 +346,8 @@ or does a
->  Only processes with an effective UID of 0 or the
->  .B CAP_NET_ADMIN
->  capability may send or listen to a netlink multicast group.
-> +.\" d629b836d151d43332492651dd841d32e57ebe3b
-> +Since Linux 2.6.13 messages can't be broadcasted to multiple groups.
->  Any replies to a message received for a multicast group should be
->  sent back to the sending PID and the multicast group.
->  Some Linux kernel subsystems may additionally allow other users
-> --
-> 1.7.11.7
->
+> Here is a patch for man-pages-3.48 to correct an error in the description for
+> the netgroup database in getent(1).
+
+Thanks. Applied.
+
+Cheers,
+
+Michael
+
+
+> --- getent.1    2013-03-05 17:22:14.000000000 +0000
+> +++ getent.1.new        2013-03-12 10:14:07.524858000 +0000
+> @@ -20,7 +20,7 @@
+>  .\" Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111,
+>  .\" USA.
+>  .\"
+> -.TH GETENT 1 2011-10-31 "Linux" "User Commands"
+> +.TH GETENT 1 2013-03-12 "Linux" "User Commands"
+>  .SH NAME
+>  getent \- get entries from Name Service Switch libraries
+>  .SH SYNOPSIS
+> @@ -214,7 +214,7 @@
+>  to match to a netgroup name via
+>  .BR innetgr (3).
+>  Enumeration is not supported on
+> -.BR initgroups ,
+> +.BR netgroup ,
+>  so either one or three
+>  .I keys
+>  must be provided.
 
 
 
