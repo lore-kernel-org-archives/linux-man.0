@@ -1,53 +1,56 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: dlopen(3) and RTLD_NODELETE
-Date: Thu, 14 Mar 2013 12:44:35 +0200
-Message-ID: <CACKs7VDM8w7U1g0pQZjTK=_uLFq22kwoPG8WA-Hd4X=jhXTXgg@mail.gmail.com>
+From: Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Subject: Re: [PATCH] ptrace.2: wfix
+Date: Fri, 15 Mar 2013 01:29:00 +0100
+Message-ID: <201303150129.00866.vda.linux@googlemail.com>
+References: <1362191753-6287-1-git-send-email-taffit@debian.org> <1362192041-7538-1-git-send-email-taffit@debian.org> <CAKgNAkicPqZdj0UR1UuXo1+X-Ddw3yzZZmorF+W3SYQA4G1H9A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkicPqZdj0UR1UuXo1+X-Ddw3yzZZmorF+W3SYQA4G1H9A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: David =?iso-8859-1?q?Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael (and list!),
+On Tuesday 05 March 2013 17:39, Michael Kerrisk (man-pages) wrote:
+> [CC+=3DDenys]
+>=20
+> On Sat, Mar 2, 2013 at 3:40 AM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wr=
+ote:
+> > ---
+> >  man2/ptrace.2 |    2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> > index 9d1133c..a685049 100644
+> > --- a/man2/ptrace.2
+> > +++ b/man2/ptrace.2
+> > @@ -214,7 +214,7 @@ some modifications to the USER area are disallo=
+wed.
+> >  .TP
+> >  .BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
+> >  Read the tracee's general-purpose or floating-point registers,
+> > -respectively, to the address
+> > +respectively, at the address
+> >  .I data
+> >  in the tracer.
+> >  See
+>=20
+> David, I think you are right that there is a wording problem in this
+> sentence -- "Read ... to" is not the right preposition .  But I think
+> the fix is to change "Read" to "Copy". Thus:
+>=20
+> .TP
+> .BR PTRACE_GETREGS ", " PTRACE_GETFPREGS
+> - Read the tracee's general-purpose or floating-point registers,
+> + Copy the tracee's general-purpose or floating-point registers,
+> respectively, to the address
+> .I data
+> in the tracer.
 
-I was trying to detect some memory leaks in some shared libraries
-(plugins) that are loaded and unloaded during a normal run in our
-application, and needed a way to ensure that valgrind could find the
-symbols from libraries after they were unloaded. The best bet for that
-was the RTLD_NODELETE flag to dlopen(), which results in the shared
-library not getting unloaded. There's a small caveat, though:
-destructors (functions marked with "__attribute__((destructor))") are
-not called when calling dlclose() - that's the behavior I'm seeing on
-the ancient glibc we use (2.3.3).
-
-As far as I read the current manpage, this information is not clearly
-stated - the fact that static variables are not reinitialized when
-reloading the library is at most a hint that constructors/destructors
-won't follow the normal workflow either. I think adding some
-clarifications about this makes sense. What do you think?
-
-diff --git a/man3/dlopen.3 b/man3/dlopen.3
-index b1f21be..92950fa 100644
---- a/man3/dlopen.3
-+++ b/man3/dlopen.3
-@@ -159,9 +159,10 @@ references in subsequently loaded libraries.
- Do not unload the library during
- .BR dlclose ().
- Consequently, the library's static variables are not reinitialized
--if the library is reloaded with
-+(and constructor routines are not called) if the library is reloaded
-+with
- .BR dlopen ()
--at a later time.
-+at a later time. Also, destructor routines are not called.
- This flag is not specified in POSIX.1-2001.
- .\" (But it is present on Solaris.)
- .TP
-
-Thanks,
-Stefan.
+Sounds ok.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
