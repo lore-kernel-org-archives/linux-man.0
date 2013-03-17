@@ -1,67 +1,54 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] proc(5): maps: document the "pathname" field
-Date: Sun, 17 Mar 2013 11:18:05 -0400
-Message-ID: <201303171118.06195.vapier@gentoo.org>
-References: <1363384034-11106-1-git-send-email-vapier@gentoo.org> <CAKgNAkhr2msKaPOJVZq2Pe2vaWGQQTSmQTLdPQ5wRVTcbYVxkw@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 55371] New: printf: a conversion specifier doesn't necessarily
+ ask for an argument
+Date: Sun, 17 Mar 2013 16:48:57 +0000 (UTC)
+Message-ID: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart56826860.zKJdGP14pO";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhr2msKaPOJVZq2Pe2vaWGQQTSmQTLdPQ5wRVTcbYVxkw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart56826860.zKJdGP14pO
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+https://bugzilla.kernel.org/show_bug.cgi?id=55371
 
-On Sunday 17 March 2013 04:57:48 Michael Kerrisk (man-pages) wrote:
-> On Fri, Mar 15, 2013 at 10:47 PM, Mike Frysinger wrote:
-> > +[stack:#] =3D A thread's stack (where the # is the thread's TID)
-> > +[vdso]    =3D The virtual dynamically linked shared object
-> > +[heap]    =3D The process's heap (no joke!)
->=20
-> Why "no joke"? I don't get it.
+           Summary: printf: a conversion specifier doesn't necessarily ask
+                    for an argument
+           Product: Documentation
+           Version: unspecified
+          Platform: All
+        OS/Version: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+        ReportedBy: chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-because it's obvious that is the meaning behind it
 
-> > +function.  There is no easy way to coordinate this back to a process's
-> > +source short of running it through gdb/strace/etc...  Sorry!
->=20
-> I removed "Sorry!" -- it's kind or redundant.
+The format string of printf is quite complicated, and while its documentation
+is extensive, it has a bit too many errors and needs some cleanup for
+comprehensibility.
 
-np ... the idea was to commiserate
-=2Dmike
+In particular, man 3 printf contains:
 
---nextPart56826860.zKJdGP14pO
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+By default, the arguments are used in the order given, where each '*' and each
+conversion specifier asks for the next argument (and it is an error if
+insufficiently many arguments are given).
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+This is inexact, as "%" is defined as a conversion specifier and doesn't
+consume any argument.
 
-iQIcBAABAgAGBQJRRd6uAAoJEEFjO5/oN/WBapMP/2kJJXsTkP/6XA5ryWD4+LNY
-rHq6Ym/bNq6EK97xJ92F33HCBO8eSg1/4sk1gbIZolo1kpD6Xsb4RSzZUvMiWGig
-zuxsKkLCVl0ARIaQNkw4QIZnYqwkNOU0L8vr6dn4ZF9BNZN8hBEHMrfU1Xj9j1x2
-W+I+maMz7HtHEqc+aYwn0EjEV5PbtuaUs+uviA7OJvjBfUOLOEMjVsDorkwWO4yQ
-IVyhwLrMOOUA1JHxellNX06cr59P6O8fuRRHMCDu5ePuP2gw0N0tzciunfnapN8A
-T8vIP6AhkQKZyVjmesqPPIPNW0t9oKKCAWxMlnsQ7Bd2JMZWUL0aWsiCTEFrP2eo
-k+aanrRenhUSGyAbB2nYsTgMSg/KasXA6ZFMlx3giSiMR1AiPfnDW0QI2f8uBtnf
-b/3bPr2iWSDFhbIwomwo79+G0tDIaqVq7OJ53sZZjJIwjs0KVJVTEIfTLIKVkcSo
-WEmb26XVSLcgNlAjnbXZcHsyMmrajaGWQlsMrHMyhuSiM9Xk8ZUN/JyxTqVpcv4B
-uEKJ8uIPNE9T1n51oQgAw71CXpP9sAbUgGy7a+cHGDcjYL6wubPD4w6sSa9VMQOQ
-Gxnq7g6QYgEZtSflwYLXX+lGQpS4YYjZPjsIDi2+jRHHZ8kl1cEUZO4xOJENfXw3
-u4Ia3nIxI94Gw5L8A7w1
-=A7CD
------END PGP SIGNATURE-----
+It's also unclear in that sentence what "next argument" refers to. And "*"
+hasn't been introduced at that point, so that part is hard to follow ("*" is
+defined in section The precision).
 
---nextPart56826860.zKJdGP14pO--
+-- 
+Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
+------- You are receiving this mail because: -------
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
