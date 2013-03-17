@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ecvt.3: Add description of the functions are not thread-safe
-Date: Sun, 17 Mar 2013 11:05:52 +0100
-Message-ID: <CAKgNAkinFVjnM3AC-xRx4kBtpZxCpoTKH0E=dudBJPpSqKOmpg@mail.gmail.com>
-References: <1363084918-6781-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] localeconv.3: Add description of the function is not thread-safe
+Date: Sun, 17 Mar 2013 11:07:58 +0100
+Message-ID: <CAKgNAkhzs0vxsbTYkAEV3x493RZedTek0Sm5s3++OFOi1VK=HA@mail.gmail.com>
+References: <1363085000-6967-1-git-send-email-penght@cn.fujitsu.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1363084918-6781-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1363085000-6967-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,77 +15,55 @@ List-Id: linux-man@vger.kernel.org
 
 Hello Peng,
 
-Some general comments for all future patches:
-
-For the future, I'd prefer patches with titles such as:
-
-     ATTRIBUTES: Note functions that are not thread-safe
-
-Also, please don't patch the date in the TH line. Normally, I would be
-happy for patches to do this, but the way I'll deal with this patch
-series, modifying the date is likely to cause some merge conflicts, so
-I prefer that you leave fixing the date to me.
-
-On Tue, Mar 12, 2013 at 11:41 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
-> The functions ecvt() and fcvt() return a string located in a static buffer which
-> is overwritten by the next call to the functions, so they are not thread-safe.
-
-I prefer to have the text of the patch description wrapping at column
-65. When my scripts produce the changelog, then everything is a
-maximum of 80 columns wide.
-
-Also, in the changelog entry, it's probably not necessary to repeat
-the text of the patch itself. The above text could be simplified to:
-
-    The functions ecvt() and fcvt() are not thread safe.
+On Tue, Mar 12, 2013 at 11:43 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+> The function localeconv() returns a pointer to a structure which might be
+> overwritten by subsequent calls to localeconv() or by calls to setlocale(),
+> so it is not thread-safe.
 
 I've applied this patch in my local branch for the ATTRIBUTES work.
+
+See also my general comments in the reply to the ecvt.3 patch.
+
+Here we have a page that could do with other improvements also, and it
+is probably worth making such improvements as we go. What I mean is:
+the page make no other mention that the returned pointer may (okay, in
+glibc *does*) point to a statically allocated object that is
+overwritten by subsequent calls. If you notice cases such as this, you
+might like to add an extra piece to your patch, such as I have doe in
+the patch below (I added some other details as well that I wouldn't
+expect you to add), or you could alert me, and maybe I will add a
+suitable patch.
+
+Thanks for the patch.
 
 Cheers,
 
 Michael
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/ecvt.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/man3/ecvt.3 b/man3/ecvt.3
-> index c35879f..0506d1f 100644
-> --- a/man3/ecvt.3
-> +++ b/man3/ecvt.3
-> @@ -27,7 +27,7 @@
->  .\" Modified Sat Jul 24 19:40:39 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified Fri Jun 25 12:10:47 1999 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
->  .\"
-> -.TH ECVT 3 2010-09-20 "" "Linux Programmer's Manual"
-> +.TH ECVT 3 2013-03-12 "" "Linux Programmer's Manual"
->  .SH NAME
->  ecvt, fcvt \- convert a floating-point number to a string
->  .SH SYNOPSIS
-> @@ -105,6 +105,13 @@ The static string is overwritten by each call to
->  .BR ecvt ()
->  or
->  .BR fcvt ().
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR ecvt ()
-> +and
-> +.BR fcvt ()
-> +functions are not thread-safe.
->  .SH CONFORMING TO
->  SVr2;
->  marked as LEGACY in POSIX.1-2001.
-> --
-> 1.8.1.4
->
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+diff --git a/man3/localeconv.3 b/man3/localeconv.3
+index 80a2a21..b449211 100644
+--- a/man3/localeconv.3
++++ b/man3/localeconv.3
+@@ -49,6 +49,19 @@ Programs may also use the functions
+ and
+ .BR strfmon (3),
+ which behave according to the actual locale in use.
++.SH RETURN VALUE
++The
++.BR localeconv ()
++function returns a pointer to a filled in
++.IR "struct lconv" .
++This structure may be (in glibc,
++.IR is )
++statically allocated, and may be overwritten by subsequent calls.
++According to POSIX,
++the caller should not modify the contents of this structure.
++The
++.BR localeconv ()
++function always succeeds.
+ .SH ATTRIBUTES
+ .SS Multithreading (see pthreads(7))
+ The
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
