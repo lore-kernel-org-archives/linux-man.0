@@ -1,21 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ttyname.3: Add description of the function is not thread-safe
-Date: Sun, 17 Mar 2013 11:50:26 +0100
-Message-ID: <CAKgNAki_ge5T=dqtD24fM304aw+M9fmmqvZ97BLNvOFC7UZFUg@mail.gmail.com>
-References: <4E65EEA7.5060804@cn.fujitsu.com>
+Subject: Re: [PATCH] getgrnam.3: Add description of the functions are not thread-safe.
+Date: Sun, 17 Mar 2013 11:50:35 +0100
+Message-ID: <CAKgNAkgkeNiBb9WchWixj219j2gD8Dka5DuakpOTthTKjBncow@mail.gmail.com>
+References: <4E66C54C.1070303@cn.fujitsu.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4E65EEA7.5060804-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <4E66C54C.1070303-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Sep 6, 2011 at 11:57 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+On Wed, Sep 7, 2011 at 3:13 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
 >
-> The function ttyname() uses a static variable "ttyname_buf", so it is not thread-safe.
+> The functions getgrnam() and getgrgid() return a pointer to a static area which
+> is overwritten by a subsequent call to them. So they are thread-unsafe.
 
 I've applied this patch.
 
@@ -26,38 +27,42 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ttyname.3 |   11 ++++++++++-
->  1 files changed, 10 insertions(+), 1 deletions(-)
+>  man3/getgrnam.3 |   15 ++++++++++++++-
+>  1 files changed, 14 insertions(+), 1 deletions(-)
 >
-> diff --git a/man3/ttyname.3 b/man3/ttyname.3
-> index 08fb2b7..5047e94 100644
-> --- a/man3/ttyname.3
-> +++ b/man3/ttyname.3
-> @@ -23,7 +23,7 @@
->  .\" Modified 2001-12-13, Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
->  .\" Added ttyname_r, aeb, 2002-07-20
+> diff --git a/man3/getgrnam.3 b/man3/getgrnam.3
+> index e4afa3e..cbbdc74 100644
+> --- a/man3/getgrnam.3
+> +++ b/man3/getgrnam.3
+> @@ -28,7 +28,7 @@
+>  .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+>  .\" Modified 2003-11-15 by aeb
 >  .\"
-> -.TH TTYNAME 3 2008-07-14 "Linux" "Linux Programmer's Manual"
-> +.TH TTYNAME 3 20011-09-06 "Linux" "Linux Programmer's Manual"
+> -.TH GETGRNAM 3 2010-10-21 "" "Linux Programmer's Manual"
+> +.TH GETGRNAM 3 2011-09-07 "" "Linux Programmer's Manual"
 >  .SH NAME
->  ttyname, ttyname_r \- return name of a terminal
+>  getgrnam, getgrnam_r, getgrgid, getgrgid_r \- get group file entry
 >  .SH SYNOPSIS
-> @@ -70,6 +70,15 @@ File descriptor does not refer to a terminal device.
->  .B ERANGE
->  .I buflen
->  was too small to allow storing the pathname.
+> @@ -199,6 +199,19 @@ Insufficient buffer space supplied.
+>  .TP
+>  .I /etc/group
+>  local group database file
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR ttyname ()
-> +function is not thread-safe.
+> +The two functions
+> +.BR getgrnam ()
+> +and
+> +.BR getgrgid ()
+> +are not thread-safe.
 > +.LP
-> +The
-> +.BR ttyname_r ()
-> +function is thread-safe.
+> +The two functions
+> +.BR getgrnam_r ()
+> +and
+> +.BR getgrgid_r ()
+> +are thread-safe.
 >  .SH "CONFORMING TO"
->  4.2BSD, POSIX.1-2001.
->  .SH "SEE ALSO"
+>  SVr4, 4.3BSD, POSIX.1-2001.
+>  .SH NOTES
 > --
 > 1.7.1
 >
