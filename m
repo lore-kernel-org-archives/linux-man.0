@@ -1,54 +1,39 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 55371] New: printf: a conversion specifier doesn't necessarily
- ask for an argument
-Date: Sun, 17 Mar 2013 16:48:57 +0000 (UTC)
-Message-ID: <bug-55371-11311@https.bugzilla.kernel.org/>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: aio_return (3) feedback.
+Date: Mon, 18 Mar 2013 12:26:04 +0000
+Message-ID: <CAGc9EvcKtZE54EQDSN6n73WaMfjqK-2ejSBxqFodBVstbbZcEg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=55371
+Hello Michael
 
-           Summary: printf: a conversion specifier doesn't necessarily ask
-                    for an argument
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+Some feedback about this page:
+
+http://www.kernel.org/doc/man-pages/online/pages/man3/aio_return.3.html
+
+Quoting:
+=========
+ERRORS
+       EINVAL aiocbp does not point at a control block for an asynchronous I/O
+              request of which the return status has not been retrieved yet.
+=========
+
+This text would be clearer if not using negatives!
+
+How about changing to this?
+
+       "EINVAL aiocbp points at a control block for an asynchronous I/O
+              request of which the return status has already been retrieved."
 
 
-The format string of printf is quite complicated, and while its documentation
-is extensive, it has a bit too many errors and needs some cleanup for
-comprehensibility.
+This text could also be updated on aio_error (3) if you agree with this change.
 
-In particular, man 3 printf contains:
-
-By default, the arguments are used in the order given, where each '*' and each
-conversion specifier asks for the next argument (and it is an error if
-insufficiently many arguments are given).
-
-This is inexact, as "%" is defined as a conversion specifier and doesn't
-consume any argument.
-
-It's also unclear in that sentence what "next argument" refers to. And "*"
-hasn't been introduced at that point, so that part is hard to follow ("*" is
-defined in section The precision).
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
