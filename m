@@ -1,71 +1,76 @@
-From: Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] ip.7: Adding IP_MULTICAST_ALL Option
-Date: Wed, 20 Mar 2013 17:40:11 +0100
-Message-ID: <1363797611-20016-1-git-send-email-rpazdera@redhat.com>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Fernando Luis Vazquez Cao <fernando_b1@lab.ntt.co.jp>
+Subject: Re: [PATCH 2/2] man/send(2): document a long standing bug that can
+ cause spurious EPERM errors
+Date: Thu, 21 Mar 2013 14:07:02 +0900
+Message-ID: <514A9576.4060902@lab.ntt.co.jp>
+References: <1363675513.4767.6.camel@nexus> <1363675960.4767.10.camel@nexus> <20130319101223.GA3672@localhost>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <netfilter-devel-owner@vger.kernel.org>
+In-Reply-To: <20130319101223.GA3672@localhost>
+Sender: netfilter-devel-owner@vger.kernel.org
+To: Pablo Neira Ayuso <pablo@netfilter.org>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, Patrick McHardy <kaber@trash.net>, Hirotaka Sasaki <sasaki.hirotaka@lab.ntt.co.jp>
 List-Id: linux-man@vger.kernel.org
 
-This commit adds documentation for the IP_MULTICAST_ALL socket option.
+On 2013/03/19 19:12, Pablo Neira Ayuso wrote:
+> On Tue, Mar 19, 2013 at 03:52:40PM +0900, Fernando Luis V=E1zquez Cao=
+ wrote:
+>> Subject: [PATCH 2/2] man/send(2): document a long standing bug that =
+can cause spurious EPERM errors
+>>
+>> This bug has been known since early 2009 (the latest) and  discussed=
+ in
+>> netdev before:
+>>
+>> http://marc.info/?l=3Dlinux-netdev&w=3D2&r=3D1&s=3DPossible+race+con=
+dition+in+conntracking+&q=3Db
+>>
+>> It seems that a proper fix would be non trivial, so document the bug
+>> in the meantime.
+>>
+>> Reported-by: Hirotaka Sasaki <sasaki.hirotaka@lab.ntt.co.jp>
+>> Signed-off-by: Fernando Luis Vazquez Cao <fernando@oss.ntt.co.jp>
+>> ---
+>>
+>> diff -urNp man-pages-3.50-orig/man2/send.2 man-pages-3.50/man2/send.=
+2
+>> --- man-pages-3.50-orig/man2/send.2	2013-03-19 15:18:03.784306647 +0=
+900
+>> +++ man-pages-3.50/man2/send.2	2013-03-19 15:30:40.788060426 +0900
+>> @@ -420,6 +420,11 @@ Linux may return
+>>   .B EPIPE
+>>   instead of
+>>   .BR ENOTCONN .
+>> +
+>> +Linux may return spurious
+>> +.B EPERM
+>> +errors when netfilter's conntrack module is loaded and two or more
+>> +UDP packets belonging to the same connection are processed in paral=
+lel.
+> The Connection tracking system may drop packets for different reasons
+> under rare circunstances, not only in this case.
+> I'd prefer if you only apply patch 1/2.
 
-The option was added to the Linux kernel in 2.6.31:
+I'd agree with you if we *silently* dropped packets in such
+situations, but unfortunately that's not the case.
 
-    Author Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
-    Commit f771bef98004d9d141b085d987a77d06669d4f4f
+The problem is that sometimes we end up returning spurious EPERM
+errors to user space. Applications may (and many actually do)
+interpret EPERM as "an attempt was made to perform an operation
+limited to processes with appropriate privileges or to the owner of a
+file or other resource" and just bail out after seeing the first
+EPERM; after all, if its cause is system policy-related there is no
+point in retrying. Spurious EPERM errors would break such (perfectly
+compliant) applications, so the least we can do is document them
+properly.
 
-The description is based on a previous one [3] posted by the original
-author of the code -- Nivedita, but it is slightly re-worded.
-
-I tested it myself and it works as described.
-
-References:
-    [1] http://lxr.free-electrons.com/source/net/ipv4/ip_sockglue.c#L972
-    [2] http://lxr.free-electrons.com/source/net/ipv4/igmp.c#L2267
-    [3] http://patchwork.ozlabs.org/patch/28902/
-
-Signed-off-by: Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man7/ip.7 |   14 +++++++++++---
- 1 files changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/man7/ip.7 b/man7/ip.7
-index 9bef3bf..cc8eea6 100644
---- a/man7/ip.7
-+++ b/man7/ip.7
-@@ -29,9 +29,6 @@
- .\"	MCAST_JOIN_SOURCE_GROUP (2.4.22 / 2.6)
- .\"	MCAST_LEAVE_SOURCE_GROUP (2.4.22 / 2.6)
- .\"	MCAST_MSFILTER (2.4.22 / 2.6)
--.\"	IP_MULTICAST_ALL (2.6.31)
--.\"	    commit f771bef98004d9d141b085d987a77d06669d4f4f
--.\"	    Author: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
- .\"	IP_UNICAST_IF (3.4)
- .\"	    commit 76e21053b5bf33a07c76f99d27a74238310e3c71
- .\"	    Author: Erich E. Hoover <ehoover-/qOHPfZA4H6HXe+LvDLADg@public.gmane.org>
-@@ -525,6 +522,17 @@ This is also particularly useful for diagnostic tools such as
- that wish to deliberately send probe packets larger than
- the observed Path MTU.
- .TP
-+.BR IP_MULTICAST_ALL " (since Linux 2.6.31)"
-+This option can be used to modify the delivery policy of multicast messages
-+to sockets bound to the wildcard
-+.B INADDR_ANY
-+address. The argument is a boolean integer (defaults to 1). If set to 1,
-+the socket will receive messages from all the groups that have been joined
-+globally on the whole system. Otherwise, it will deliver only messages from
-+the groups that have been explicitly joined (for example via the
-+.B IP_ADD_MEMBERSHIP
-+option) on this particular socket.
-+.TP
- .BR IP_MULTICAST_IF " (since Linux 1.2)"
- Set the local device for a multicast socket.
- Argument is an
--- 
-1.7.7.6
-
+Thanks,
+=46ernando
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To unsubscribe from this list: send the line "unsubscribe netfilter-dev=
+el" in
+the body of a message to majordomo@vger.kernel.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
