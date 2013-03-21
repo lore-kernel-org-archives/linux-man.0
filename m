@@ -1,76 +1,53 @@
-From: Fernando Luis Vazquez Cao <fernando_b1@lab.ntt.co.jp>
-Subject: Re: [PATCH 2/2] man/send(2): document a long standing bug that can
- cause spurious EPERM errors
-Date: Thu, 21 Mar 2013 14:07:02 +0900
-Message-ID: <514A9576.4060902@lab.ntt.co.jp>
-References: <1363675513.4767.6.camel@nexus> <1363675960.4767.10.camel@nexus> <20130319101223.GA3672@localhost>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: For review: user_namespaces(7) man page
+Date: Thu, 21 Mar 2013 16:52:58 +0100
+Message-ID: <CAKgNAkiMOGtuCyvhSpku65p1ZJ5SfdYcOxxAU+H-mk-76wqOPw@mail.gmail.com>
+References: <CAKgNAkh1TEkQiQ2g2jhbNzVTwpDYOreJt3rAukZCP9H1wh0mLQ@mail.gmail.com>
+ <20130315153811.GD24305@sergelap>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <netfilter-devel-owner@vger.kernel.org>
-In-Reply-To: <20130319101223.GA3672@localhost>
-Sender: netfilter-devel-owner@vger.kernel.org
-To: Pablo Neira Ayuso <pablo@netfilter.org>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, Patrick McHardy <kaber@trash.net>, Hirotaka Sasaki <sasaki.hirotaka@lab.ntt.co.jp>
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20130315153811.GD24305@sergelap>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 2013/03/19 19:12, Pablo Neira Ayuso wrote:
-> On Tue, Mar 19, 2013 at 03:52:40PM +0900, Fernando Luis V=E1zquez Cao=
- wrote:
->> Subject: [PATCH 2/2] man/send(2): document a long standing bug that =
-can cause spurious EPERM errors
->>
->> This bug has been known since early 2009 (the latest) and  discussed=
- in
->> netdev before:
->>
->> http://marc.info/?l=3Dlinux-netdev&w=3D2&r=3D1&s=3DPossible+race+con=
-dition+in+conntracking+&q=3Db
->>
->> It seems that a proper fix would be non trivial, so document the bug
->> in the meantime.
->>
->> Reported-by: Hirotaka Sasaki <sasaki.hirotaka@lab.ntt.co.jp>
->> Signed-off-by: Fernando Luis Vazquez Cao <fernando@oss.ntt.co.jp>
->> ---
->>
->> diff -urNp man-pages-3.50-orig/man2/send.2 man-pages-3.50/man2/send.=
-2
->> --- man-pages-3.50-orig/man2/send.2	2013-03-19 15:18:03.784306647 +0=
-900
->> +++ man-pages-3.50/man2/send.2	2013-03-19 15:30:40.788060426 +0900
->> @@ -420,6 +420,11 @@ Linux may return
->>   .B EPIPE
->>   instead of
->>   .BR ENOTCONN .
->> +
->> +Linux may return spurious
->> +.B EPERM
->> +errors when netfilter's conntrack module is loaded and two or more
->> +UDP packets belonging to the same connection are processed in paral=
-lel.
-> The Connection tracking system may drop packets for different reasons
-> under rare circunstances, not only in this case.
-> I'd prefer if you only apply patch 1/2.
+Hi Serge,
 
-I'd agree with you if we *silently* dropped packets in such
-situations, but unfortunately that's not the case.
+On Fri, Mar 15, 2013 at 4:38 PM, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
+> Hi,
+>
+> you mention that after creating a new user namespace you at first have
+> all capabilities in the new ns.  You don't explicitly mention (or I
+> missed it - I did see the mention of securebits) that if you want to
+> keep those capabilities after doing an exec, you need to first have
+> something mapped to uid 0 in the userns, and do setuid(0).
 
-The problem is that sometimes we end up returning spurious EPERM
-errors to user space. Applications may (and many actually do)
-interpret EPERM as "an attempt was made to perform an operation
-limited to processes with appropriate privileges or to the owner of a
-file or other resource" and just bail out after seeing the first
-EPERM; after all, if its cause is system policy-related there is no
-point in retrying. Spurious EPERM errors would break such (perfectly
-compliant) applications, so the least we can do is document them
-properly.
+Good point. I'll add something on that.
 
-Thanks,
-=46ernando
+> You might not want to list manpages from other projects,
+
+Actually, not a problem. Many of the pages in my set already do this.
+
+> but Eric's
+> shadow patches introduce some good new manpages as well.  Those aren't yet
+> accepted upstream, but if/when they are then mention at least of
+> subuid(5), subgid(5), and newuidmap(1) and newgidmap(1) might be good.
+
+I'll add those.
+
+Cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
-To unsubscribe from this list: send the line "unsubscribe netfilter-dev=
-el" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
