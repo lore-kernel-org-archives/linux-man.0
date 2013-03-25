@@ -1,73 +1,2094 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] scalb.3: fix prototypes for scalbf and scalbl
-Date: Mon, 25 Mar 2013 12:04:08 +0100
-Message-ID: <CAKgNAkiRLJLTDDFM2sjWMfHT6s+ZZWaZWMcD68OCmvQeN7n5VQ@mail.gmail.com>
-References: <87k3oykbec.fsf@tines.lan>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Subject: [PATCH] libaio: man: Remove POSIX aio interface description.
+Date: Mon, 25 Mar 2013 16:25:58 +0100
+Message-ID: <20130325152557.GA3809@rei.suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87k3oykbec.fsf-oEj8245dElT/PtFMR13I2A@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark H Weaver <mhw-StlzRsPvAncdnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Mar 23, 2013 at 5:06 AM, Mark H Weaver <mhw-StlzRsPvAncdnm+yROfE0A@public.gmane.org> wrote:
-> The prototypes for scalbf and scalbl given in scalb.3 are incorrect.
-> If you have doubts, try compiling the following code:
->
->   #include <math.h>
->   double scalb(double x, double exp);
->   float scalbf(float x, double exp);
->   long double scalbl(long double x, double exp);
->
-> To gain confidence that the prototypes below are correct, compile the
-> following:
->
->   #include <math.h>
->   double scalb(double x, double exp);
->   float scalbf(float x, float exp);
->   long double scalbl(long double x, long double exp);
->
-> Or search for man pages from other sources, e.g.:
->
->   http://www.unix.com/man-page/OpenSolaris/3m/scalbf/
->   http://docs.oracle.com/cd/E26505_01/html/816-5172/scalb-3m.html
->
-> The patch below fixes these mistakes.
+These pages appears to be copied from libc manual
+and describe interface that is implemented elsewhere:
 
-Thanks Mark. Applied.
+http://www.gnu.org/software/libc/manual/html_node/Asynchronous-I_002fO.html
 
-Cheers,
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+---
+ man/aio.3           |  315 ---------------------------------------------------
+ man/aio_cancel.3    |  137 ----------------------
+ man/aio_cancel64.3  |   50 --------
+ man/aio_error.3     |   81 -------------
+ man/aio_error64.3   |   64 -----------
+ man/aio_fsync.3     |  139 ----------------------
+ man/aio_fsync64.3   |   51 --------
+ man/aio_init.3      |   96 ----------------
+ man/aio_read.3      |  146 ------------------------
+ man/aio_read64.3    |   60 ----------
+ man/aio_return.3    |   71 ------------
+ man/aio_return64.3  |   51 --------
+ man/aio_suspend.3   |  123 --------------------
+ man/aio_suspend64.3 |   51 --------
+ man/aio_write.3     |  176 ----------------------------
+ man/aio_write64.3   |   61 ----------
+ man/lio_listio.3    |  229 -------------------------------------
+ man/lio_listio64.3  |   39 -------
+ 18 files changed, 0 insertions(+), 1940 deletions(-)
+ delete mode 100644 man/aio.3
+ delete mode 100644 man/aio_cancel.3
+ delete mode 100644 man/aio_cancel64.3
+ delete mode 100644 man/aio_error.3
+ delete mode 100644 man/aio_error64.3
+ delete mode 100644 man/aio_fsync.3
+ delete mode 100644 man/aio_fsync64.3
+ delete mode 100644 man/aio_init.3
+ delete mode 100644 man/aio_read.3
+ delete mode 100644 man/aio_read64.3
+ delete mode 100644 man/aio_return.3
+ delete mode 100644 man/aio_return64.3
+ delete mode 100644 man/aio_suspend.3
+ delete mode 100644 man/aio_suspend64.3
+ delete mode 100644 man/aio_write.3
+ delete mode 100644 man/aio_write64.3
+ delete mode 100644 man/lio_listio.3
+ delete mode 100644 man/lio_listio64.3
 
-Michael
-
-
-> diff --git a/man3/scalb.3 b/man3/scalb.3
-> index 990c0bf..a5b2e5b 100644
-> --- a/man3/scalb.3
-> +++ b/man3/scalb.3
-> @@ -33,9 +33,9 @@ by integral power of radix (OBSOLETE)
->  .sp
->  .BI "double scalb(double " x ", double " exp );
->  .br
-> -.BI "float scalbf(float " x ", double " exp );
-> +.BI "float scalbf(float " x ", float " exp );
->  .br
-> -.BI "long double scalbl(long double " x ", double " exp );
-> +.BI "long double scalbl(long double " x ", long double " exp );
->  .sp
->  Link with \fI\-lm\fP.
->  .sp
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man/aio.3 b/man/aio.3
+deleted file mode 100644
+index 6dc3c63..0000000
+--- a/man/aio.3
++++ /dev/null
+@@ -1,315 +0,0 @@
+-.TH aio 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio \- Asynchronous IO
+-.SH SYNOPSIS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.fi
+-.SH DESCRIPTION
+-The POSIX.1b standard defines a new set of I/O operations which can
+-significantly reduce the time an application spends waiting at I/O.  The
+-new functions allow a program to initiate one or more I/O operations and
+-then immediately resume normal work while the I/O operations are
+-executed in parallel.  This functionality is available if the
+-.IR "unistd.h"
+-file defines the symbol 
+-.B "_POSIX_ASYNCHRONOUS_IO"
+-.
+-
+-These functions are part of the library with realtime functions named
+-.IR "librt"
+-.  They are not actually part of the 
+-.IR "libc" 
+-binary.
+-The implementation of these functions can be done using support in the
+-kernel (if available) or using an implementation based on threads at
+-userlevel.  In the latter case it might be necessary to link applications
+-with the thread library 
+-.IR "libpthread"
+-in addition to 
+-.IR "librt"
+-and
+-.IR "libaio"
+-.
+-
+-All AIO operations operate on files which were opened previously.  There
+-might be arbitrarily many operations running for one file.  The
+-asynchronous I/O operations are controlled using a data structure named
+-.IR "struct aiocb"
+-It is defined in
+-.IR "aio.h"
+- as follows.
+-
+-.nf
+-struct aiocb
+-{
+-  int aio_fildes;               /* File desriptor.  */
+-  int aio_lio_opcode;           /* Operation to be performed.  */
+-  int aio_reqprio;              /* Request priority offset.  */
+-  volatile void *aio_buf;       /* Location of buffer.  */
+-  size_t aio_nbytes;            /* Length of transfer.  */
+-  struct sigevent aio_sigevent; /* Signal number and value.  */
+-
+-  /* Internal members.  */
+-  struct aiocb *__next_prio;
+-  int __abs_prio;
+-  int __policy;
+-  int __error_code;
+-  __ssize_t __return_value;
+-
+-#ifndef __USE_FILE_OFFSET64
+-  __off_t aio_offset;           /* File offset.  */
+-  char __pad[sizeof (__off64_t) - sizeof (__off_t)];
+-#else
+-  __off64_t aio_offset;         /* File offset.  */
+-#endif
+-  char __unused[32];
+-};
+-
+-.fi
+-The POSIX.1b standard mandates that the 
+-.IR "struct aiocb" 
+-structure
+-contains at least the members described in the following table.  There
+-might be more elements which are used by the implementation, but
+-depending upon these elements is not portable and is highly deprecated.
+-
+-.TP
+-.IR "int aio_fildes"
+-This element specifies the file descriptor to be used for the
+-operation.  It must be a legal descriptor, otherwise the operation will
+-fail.
+-
+-The device on which the file is opened must allow the seek operation.
+-I.e., it is not possible to use any of the AIO operations on devices
+-like terminals where an 
+-.IR "lseek"
+- call would lead to an error.
+-.TP
+-.IR "off_t aio_offset"
+-This element specifies the offset in the file at which the operation (input
+-or output) is performed.  Since the operations are carried out in arbitrary
+-order and more than one operation for one file descriptor can be
+-started, one cannot expect a current read/write position of the file
+-descriptor.
+-.TP
+-.IR "volatile void *aio_buf"
+-This is a pointer to the buffer with the data to be written or the place
+-where the read data is stored.
+-.TP
+-.IR "size_t aio_nbytes"
+-This element specifies the length of the buffer pointed to by 
+-.IR "aio_buf"
+-.
+-.TP
+-.IR "int aio_reqprio"
+-If the platform has defined 
+-.B "_POSIX_PRIORITIZED_IO"
+-and
+-.B "_POSIX_PRIORITY_SCHEDULING"
+-, the AIO requests are
+-processed based on the current scheduling priority.  The
+-.IR "aio_reqprio"
+-element can then be used to lower the priority of the
+-AIO operation.
+-.TP
+-.IR "struct sigevent aio_sigevent"
+-This element specifies how the calling process is notified once the
+-operation terminates.  If the 
+-.IR "sigev_notify"
+-element is
+-.B "SIGEV_NONE"
+-, no notification is sent.  If it is 
+-.B "SIGEV_SIGNAL"
+-,
+-the signal determined by 
+-.IR "sigev_signo"
+-is sent.  Otherwise,
+-.IR "sigev_notify"
+-must be 
+-.B "SIGEV_THREAD"
+-.  In this case, a thread
+-is created which starts executing the function pointed to by
+-.IR "sigev_notify_function"
+-.
+-.TP
+-.IR "int aio_lio_opcode"
+-This element is only used by the 
+-.IR "lio_listio"
+- and
+-.IR "lio_listio64"
+- functions.  Since these functions allow an
+-arbitrary number of operations to start at once, and each operation can be
+-input or output (or nothing), the information must be stored in the
+-control block.  The possible values are:
+-.TP
+-.B "LIO_READ"
+-Start a read operation.  Read from the file at position
+-.IR "aio_offset"
+- and store the next 
+-.IR "aio_nbytes"
+- bytes in the
+-buffer pointed to by 
+-.IR "aio_buf"
+-.
+-.TP
+-.B "LIO_WRITE"
+-Start a write operation.  Write 
+-.IR "aio_nbytes" 
+-bytes starting at
+-.IR "aio_buf"
+-into the file starting at position 
+-.IR "aio_offset"
+-.
+-.TP
+-.B "LIO_NOP"
+-Do nothing for this control block.  This value is useful sometimes when
+-an array of 
+-.IR "struct aiocb"
+-values contains holes, i.e., some of the
+-values must not be handled although the whole array is presented to the
+-.IR "lio_listio"
+-function.
+-
+-When the sources are compiled using 
+-.B "_FILE_OFFSET_BITS == 64"
+-on a
+-32 bit machine, this type is in fact 
+-.IR "struct aiocb64"
+-, since the LFS
+-interface transparently replaces the 
+-.IR "struct aiocb"
+-definition.
+-.PP
+-For use with the AIO functions defined in the LFS, there is a similar type
+-defined which replaces the types of the appropriate members with larger
+-types but otherwise is equivalent to 
+-.IR "struct aiocb"
+-.  Particularly,
+-all member names are the same.
+-
+-.nf
+-/* The same for the 64bit offsets.  Please note that the members aio_fildes
+-   to __return_value have to be the same in aiocb and aiocb64.  */
+-#ifdef __USE_LARGEFILE64
+-struct aiocb64
+-{
+-  int aio_fildes;               /* File desriptor.  */
+-  int aio_lio_opcode;           /* Operation to be performed.  */
+-  int aio_reqprio;              /* Request priority offset.  */
+-  volatile void *aio_buf;       /* Location of buffer.  */
+-  size_t aio_nbytes;            /* Length of transfer.  */
+-  struct sigevent aio_sigevent; /* Signal number and value.  */
+-
+-  /* Internal members.  */
+-  struct aiocb *__next_prio;
+-  int __abs_prio;
+-  int __policy;
+-  int __error_code;
+-  __ssize_t __return_value;
+-
+-  __off64_t aio_offset;         /* File offset.  */
+-  char __unused[32];
+-};
+-
+-.fi
+-.TP
+-.IR "int aio_fildes"
+-This element specifies the file descriptor which is used for the
+-operation.  It must be a legal descriptor since otherwise the operation
+-fails for obvious reasons.
+-The device on which the file is opened must allow the seek operation.
+-I.e., it is not possible to use any of the AIO operations on devices
+-like terminals where an 
+-.IR "lseek"
+- call would lead to an error.
+-.TP
+-.IR "off64_t aio_offset"
+-This element specifies at which offset in the file the operation (input
+-or output) is performed.  Since the operation are carried in arbitrary
+-order and more than one operation for one file descriptor can be
+-started, one cannot expect a current read/write position of the file
+-descriptor.
+-.TP
+-.IR "volatile void *aio_buf"
+-This is a pointer to the buffer with the data to be written or the place
+-where the read data is stored.
+-.TP
+-.IR "size_t aio_nbytes"
+-This element specifies the length of the buffer pointed to by 
+-.IR "aio_buf"
+-.
+-.TP
+-.IR "int aio_reqprio"
+-If for the platform 
+-.B "_POSIX_PRIORITIZED_IO"
+-and
+-.B "_POSIX_PRIORITY_SCHEDULING"
+-are defined the AIO requests are
+-processed based on the current scheduling priority.  The
+-.IR "aio_reqprio"
+-element can then be used to lower the priority of the
+-AIO operation.
+-.TP
+-.IR "struct sigevent aio_sigevent"
+-This element specifies how the calling process is notified once the
+-operation terminates.  If the 
+-.IR "sigev_notify"
+-, element is
+-.B "SIGEV_NONE"
+-no notification is sent.  If it is 
+-.B "SIGEV_SIGNAL"
+-,
+-the signal determined by 
+-.IR "sigev_signo"
+-is sent.  Otherwise,
+-.IR "sigev_notify"
+- must be 
+-.B "SIGEV_THREAD"
+-in which case a thread
+-which starts executing the function pointed to by
+-.IR "sigev_notify_function"
+-.
+-.TP
+-.IR "int aio_lio_opcode"
+-This element is only used by the 
+-.IR "lio_listio"
+-and
+-.IR "lio_listio64"
+-functions.  Since these functions allow an
+-arbitrary number of operations to start at once, and since each operation can be
+-input or output (or nothing), the information must be stored in the
+-control block.  See the description of 
+-.IR "struct aiocb"
+-for a description
+-of the possible values.
+-.PP
+-When the sources are compiled using 
+-.B "_FILE_OFFSET_BITS == 64"
+-on a
+-32 bit machine, this type is available under the name 
+-.IR "struct aiocb64"
+-, since the LFS transparently replaces the old interface.
+-.SH "RETURN VALUES"
+-.SH ERRORS
+-.SH "SEE ALSO"
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_cancel.3 b/man/aio_cancel.3
+deleted file mode 100644
+index 502c83c..0000000
+--- a/man/aio_cancel.3
++++ /dev/null
+@@ -1,137 +0,0 @@
+-.TH aio_cancel 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_cancel - Cancel asynchronous I/O requests
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_cancel (int fildes " , struct aiocb *aiocbp " )"
+-.fi
+-.SH DESCRIPTION
+-When one or more requests are asynchronously processed, it might be
+-useful in some situations to cancel a selected operation, e.g., if it
+-becomes obvious that the written data is no longer accurate and would
+-have to be overwritten soon.  As an example, assume an application, which
+-writes data in files in a situation where new incoming data would have
+-to be written in a file which will be updated by an enqueued request.
+-The POSIX AIO implementation provides such a function, but this function
+-is not capable of forcing the cancellation of the request.  It is up to the
+-implementation to decide whether it is possible to cancel the operation
+-or not.  Therefore using this function is merely a hint.
+-.B "The libaio implementation does not implement the cancel operation in the"
+-.B "POSIX libraries".
+-.PP
+-The 
+-.IR aio_cancel
+-function can be used to cancel one or more
+-outstanding requests.  If the 
+-.IR aiocbp 
+-parameter is 
+-.IR NULL
+-, the
+-function tries to cancel all of the outstanding requests which would process
+-the file descriptor 
+-.IR fildes 
+-(i.e., whose 
+-.IR aio_fildes 
+-member
+-is 
+-.IR fildes
+-).  If 
+-.IR aiocbp is not 
+-.IR  NULL
+-,
+-.IR aio_cancel
+-attempts to cancel the specific request pointed to by 
+-.IR aiocbp.
+-
+-For requests which were successfully canceled, the normal notification
+-about the termination of the request should take place.  I.e., depending
+-on the 
+-.IR "struct sigevent" 
+-object which controls this, nothing
+-happens, a signal is sent or a thread is started.  If the request cannot
+-be canceled, it terminates the usual way after performing the operation.
+-After a request is successfully canceled, a call to 
+-.IR aio_error
+-with
+-a reference to this request as the parameter will return
+-.B ECANCELED
+-and a call to 
+-.IR aio_return
+-will return 
+-.IR -1.
+-If the request wasn't canceled and is still running the error status is
+-still 
+-.B EINPROGRESS.
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-, this
+-function is in fact 
+-.IR aio_cancel64
+-since the LFS interface
+-transparently replaces the normal implementation.
+-
+-.SH "RETURN VALUES"
+-.TP
+-.B AIO_CANCELED
+-If there were
+-requests which haven't terminated and which were successfully canceled.
+-.TP
+-.B AIO_NOTCANCELED
+-If there is one or more requests left which couldn't be canceled,
+-.  In this case
+-.IR aio_error
+-must be used to find out which of the, perhaps multiple, requests (in
+-.IR aiocbp
+-is 
+-.IR NULL
+-) weren't successfully canceled.  
+-.TP
+-.B AIO_ALLDONE
+-If all
+-requests already terminated at the time 
+-.IR aio_cancel 
+-is called the
+-return value is 
+-.
+-.SH ERRORS
+-If an error occurred during the execution of 
+-.IR aio_cancel 
+-the
+-function returns 
+-.IR -1
+-and sets 
+-.IR errno
+-to one of the following
+-values.
+-.TP
+-.B EBADF
+-The file descriptor 
+-.IR fildes
+-is not valid.
+-.TP
+-.B ENOSYS
+-.IR aio_cancel
+-is not implemented.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_cancel64.3 b/man/aio_cancel64.3
+deleted file mode 100644
+index ede775b..0000000
+--- a/man/aio_cancel64.3
++++ /dev/null
+@@ -1,50 +0,0 @@
+-.TH aio_cancel64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_cancel64 \- Cancel asynchronous I/O requests
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_cancel64 (int fildes, struct aiocb64 *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to 
+-.IR aio_cancel
+-with the only difference
+-that the argument is a reference to a variable of type 
+-.IR struct aiocb64
+-.
+-
+-When the sources are compiled with 
+-.IR _FILE_OFFSET_BITS == 64
+-, this
+-function is available under the name 
+-.IR aio_cancel
+-and so
+-transparently replaces the interface for small files on 32 bit
+-machines.
+-.SH "RETURN VALUES"
+-See aio_cancel(3).
+-.SH ERRORS
+-See aio_cancel(3).
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_error.3 b/man/aio_error.3
+deleted file mode 100644
+index 12b82cf..0000000
+--- a/man/aio_error.3
++++ /dev/null
+@@ -1,81 +0,0 @@
+-.TH aio_error 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_error \- Getting the Status of AIO Operations
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_error (const struct aiocb *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-The function
+-.IR aio_error
+-determines the error state of the request described by the
+-.IR "struct aiocb"
+-variable pointed to by 
+-.I aiocbp
+-. 
+-
+-When the operation is performed truly asynchronously (as with
+-.IR "aio_read"
+-and 
+-.IR "aio_write"
+-and with 
+-.IR "lio_listio"
+-when the mode is 
+-.IR "LIO_NOWAIT"
+-), one sometimes needs to know whether a
+-specific request already terminated and if so, what the result was.
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this function is in fact 
+-.IR "aio_error64"
+-since the LFS interface transparently replaces the normal implementation.
+-.SH "RETURN VALUES"
+-If the request has not yet terminated the value returned is always
+-.IR "EINPROGRESS"
+-.  Once the request has terminated the value
+-.IR "aio_error"
+-returns is either 
+-.I 0
+-if the request completed successfully or it returns the value which would be stored in the
+-.IR "errno"
+-variable if the request would have been done using
+-.IR "read"
+-, 
+-.IR "write"
+-, or 
+-.IR "fsync"
+-.
+-.SH ERRORS
+-.TP
+-.IR "ENOSYS"
+-if it is not implemented.  It
+-could also return 
+-.TP
+-.IR "EINVAL"
+-if the 
+-.I aiocbp
+-parameter does not
+-refer to an asynchronous operation whose return status is not yet known.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_error64.3 b/man/aio_error64.3
+deleted file mode 100644
+index 3333161..0000000
+--- a/man/aio_error64.3
++++ /dev/null
+@@ -1,64 +0,0 @@
+-.TH aio_error64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_error64 \- Return errors
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_error64 (const struct aiocb64 *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to 
+-.IR aio_error
+-with the only difference
+-that the argument is a reference to a variable of type 
+-.IR "struct aiocb64".
+-.PP
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is available under the name 
+-.IR aio_error
+-and so
+-transparently replaces the interface for small files on 32 bit
+-machines.
+-.SH "RETURN VALUES"
+-If the request has not yet terminated the value returned is always
+-.IR "EINPROGRESS"
+-.  Once the request has terminated the value
+-.IR "aio_error"
+-returns is either 
+-.I 0
+-if the request completed successfully or it returns the value which would be stored in the
+-.IR "errno"
+-variable if the request would have been done using
+-.IR "read"
+-, 
+-.IR "write"
+-, or 
+-.IR "fsync"
+-.
+-.SH ERRORS
+-See 
+-.IR aio_error(3).
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_fsync.3 b/man/aio_fsync.3
+deleted file mode 100644
+index 637f0f6..0000000
+--- a/man/aio_fsync.3
++++ /dev/null
+@@ -1,139 +0,0 @@
+-.TH aio_fsync 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_fsync \- Synchronize a file's complete in-core state with that on disk
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_fsync (int op, struct aiocb aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-.PP
+-When dealing with asynchronous operations it is sometimes necessary to
+-get into a consistent state.  This would mean for AIO that one wants to
+-know whether a certain request or a group of request were processed.
+-This could be done by waiting for the notification sent by the system
+-after the operation terminated, but this sometimes would mean wasting
+-resources (mainly computation time).  Instead POSIX.1b defines two
+-functions which will help with most kinds of consistency.
+-.PP
+-The
+-.IR aio_fsync
+-and 
+-.IR "aio_fsync64"
+-functions are only available
+-if the symbol 
+-.IR "_POSIX_SYNCHRONIZED_IO"
+-is defined in 
+-.I unistd.h
+-.
+-
+-Calling this function forces all I/O operations operating queued at the
+-time of the function call operating on the file descriptor
+-.IR "aiocbp->aio_fildes"
+-into the synchronized I/O completion state .  The 
+-.IR "aio_fsync"
+-function returns
+-immediately but the notification through the method described in
+-.IR "aiocbp->aio_sigevent"
+-will happen only after all requests for this
+-file descriptor have terminated and the file is synchronized.  This also
+-means that requests for this very same file descriptor which are queued
+-after the synchronization request are not affected.
+-
+-If 
+-.IR "op"
+-is 
+-.IR "O_DSYNC"
+-the synchronization happens as with a call
+-to 
+-.IR "fdatasync"
+-.  Otherwise 
+-.IR "op"
+-should be 
+-.IR "O_SYNC"
+-and
+-the synchronization happens as with 
+-.IR "fsync"
+-.
+-
+-As long as the synchronization has not happened, a call to
+-.IR "aio_error"
+-with the reference to the object pointed to by
+-.IR "aiocbp"
+-returns 
+-.IR "EINPROGRESS"
+-.  Once the synchronization is
+-done 
+-.IR "aio_error"
+-return 
+-.IR 0
+-if the synchronization was not
+-successful.  Otherwise the value returned is the value to which the
+-.IR "fsync"
+-or 
+-.IR "fdatasync"
+-function would have set the
+-.IR "errno"
+-variable.  In this case nothing can be assumed about the
+-consistency for the data written to this file descriptor.
+-
+-.SH "RETURN VALUES"
+-The return value of this function is 
+-.IR 0
+-if the request was
+-successfully enqueued.  Otherwise the return value is 
+-.IR -1
+-and
+-.IR "errno".
+-.SH ERRORS
+-.TP
+-.B EAGAIN
+-The request could not be enqueued due to temporary lack of resources.
+-.TP
+-.B EBADF
+-The file descriptor 
+-.IR "aiocbp->aio_fildes"
+-is not valid or not open
+-for writing.
+-.TP
+-.B EINVAL
+-The implementation does not support I/O synchronization or the 
+-.IR "op"
+-parameter is other than 
+-.IR "O_DSYNC"
+-and 
+-.IR "O_SYNC"
+-.
+-.TP
+-.B ENOSYS
+-This function is not implemented.
+-.PP
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+- this
+-function is in fact 
+-.IR "aio_return64"
+-since the LFS interface
+-transparently replaces the normal implementation.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_fsync64.3 b/man/aio_fsync64.3
+deleted file mode 100644
+index 5dce22d..0000000
+--- a/man/aio_fsync64.3
++++ /dev/null
+@@ -1,51 +0,0 @@
+-.TH aio_fsync64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_fsync64 \- Synchronize a file's complete in-core state with that on disk
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_fsync64 (int op, struct aiocb64 *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to 
+-.IR aio_fsync
+-with the only difference
+-that the argument is a reference to a variable of type 
+-.IR "struct aiocb64".
+-
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is available under the name 
+-.IR aio_fsync
+-and so
+-transparently replaces the interface for small files on 32 bit
+-machines.
+-.SH "RETURN VALUES"
+-See 
+-.IR aio_fsync.
+-.SH ERRORS
+-See 
+-.IR aio_fsync.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_init.3 b/man/aio_init.3
+deleted file mode 100644
+index 3b0ec95..0000000
+--- a/man/aio_init.3
++++ /dev/null
+@@ -1,96 +0,0 @@
+-.TH  aio_init 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_init \-  How to optimize the AIO implementation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "void aio_init (const struct aioinit *init)"
+-.fi
+-.SH DESCRIPTION
+-
+-The POSIX standard does not specify how the AIO functions are
+-implemented.  They could be system calls, but it is also possible to
+-emulate them at userlevel.
+-
+-At the point of this writing, the available implementation is a userlevel
+-implementation which uses threads for handling the enqueued requests.
+-While this implementation requires making some decisions about
+-limitations, hard limitations are something which is best avoided
+-in the GNU C library.  Therefore, the GNU C library provides a means
+-for tuning the AIO implementation according to the individual use.
+-
+-.BI "struct aioinit"
+-.PP
+-This data type is used to pass the configuration or tunable parameters
+-to the implementation.  The program has to initialize the members of
+-this struct and pass it to the implementation using the 
+-.IR aio_init
+-function.
+-.TP
+-.B "int aio_threads"
+-This member specifies the maximal number of threads which may be used
+-at any one time.
+-.TP
+-.B "int aio_num"
+-This number provides an estimate on the maximal number of simultaneously
+-enqueued requests.
+-.TP
+-.B "int aio_locks"
+-Unused.
+-.TP
+-.B "int aio_usedba"
+-Unused.
+-.TP
+-.B "int aio_debug"
+-Unused.
+-.TP
+-.B "int aio_numusers"
+-Unused.
+-.TP
+-.B "int aio_reserved[2]"
+-Unused.
+-.PP
+-This function must be called before any other AIO function.  Calling it
+-is completely voluntary, as it is only meant to help the AIO
+-implementation perform better.
+-
+-Before calling the 
+-.IR aio_init
+-, function the members of a variable of
+-type 
+-.IR "struct aioinit"
+-must be initialized.  Then a reference to
+-this variable is passed as the parameter to 
+-.IR aio_init
+-which itself
+-may or may not pay attention to the hints.
+-
+-It is a extension which follows a proposal from the SGI implementation in
+-.IR Irix 6
+-.  It is not covered by POSIX.1b or Unix98.
+-.SH "RETURN VALUES"
+-The function has no return value.
+-.SH ERRORS
+-The function has no error cases defined.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_read.3 b/man/aio_read.3
+deleted file mode 100644
+index 5bcb6c8..0000000
+--- a/man/aio_read.3
++++ /dev/null
+@@ -1,146 +0,0 @@
+-.TH aio_read 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_read \- Initiate an asynchronous read operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_read (struct aiocb *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function initiates an asynchronous read operation.  It
+-immediately returns after the operation was enqueued or when an
+-error was encountered.
+-
+-The first 
+-.IR "aiocbp->aio_nbytes"
+-bytes of the file for which
+-.IR "aiocbp->aio_fildes"
+-is a descriptor are written to the buffer
+-starting at 
+-.IR "aiocbp->aio_buf"
+-.  Reading starts at the absolute
+-position 
+-.IR "aiocbp->aio_offset"
+-in the file.
+-
+-If prioritized I/O is supported by the platform the
+-.IR "aiocbp->aio_reqprio"
+-value is used to adjust the priority before
+-the request is actually enqueued.
+-
+-The calling process is notified about the termination of the read
+-request according to the 
+-.IR "aiocbp->aio_sigevent"
+-value.
+-
+-.SH "RETURN VALUES"
+-When 
+-.IR "aio_read"
+-returns, the return value is zero if no error
+-occurred that can be found before the process is enqueued.  If such an
+-early error is found, the function returns 
+-.IR -1
+-and sets
+-.IR "errno".
+-
+-.PP
+-If 
+-.IR "aio_read"
+-returns zero, the current status of the request
+-can be queried using 
+-.IR "aio_error"
+-and 
+-.IR "aio_return"
+-functions.
+-As long as the value returned by 
+-.IR "aio_error"
+-is 
+-.IR "EINPROGRESS"
+-the operation has not yet completed.  If 
+-.IR "aio_error"
+-returns zero,
+-the operation successfully terminated, otherwise the value is to be
+-interpreted as an error code.  If the function terminated, the result of
+-the operation can be obtained using a call to 
+-.IR "aio_return"
+-.  The
+-returned value is the same as an equivalent call to 
+-.IR "read"
+-would
+-have returned.  
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is in fact 
+-.IR "aio_read64"
+-since the LFS interface transparently
+-replaces the normal implementation.
+-
+-.SH ERRORS
+-In the case of an early error:
+-.TP
+-.B  EAGAIN
+-The request was not enqueued due to (temporarily) exceeded resource
+-limitations.
+-.TP
+-.B  ENOSYS
+-The 
+-.IR "aio_read"
+-function is not implemented.
+-.TP
+-.B  EBADF
+-The 
+-.IR "aiocbp->aio_fildes"
+-descriptor is not valid.  This condition
+-need not be recognized before enqueueing the request and so this error
+-might also be signaled asynchronously.
+-.TP
+-.B  EINVAL
+-The 
+-.IR "aiocbp->aio_offset"
+-or 
+-.IR "aiocbp->aio_reqpiro"
+-value is
+-invalid.  This condition need not be recognized before enqueueing the
+-request and so this error might also be signaled asynchronously.
+-
+-.PP
+-In the case of a normal return, possible error codes returned by 
+-.IR "aio_error"
+-are:
+-.TP
+-.B  EBADF
+-The 
+-.IR "aiocbp->aio_fildes"
+-descriptor is not valid.
+-.TP
+-.B  ECANCELED
+-The operation was canceled before the operation was finished
+-.TP
+-.B  EINVAL
+-The 
+-.IR "aiocbp->aio_offset"
+-value is invalid.
+-.PP
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_read64.3 b/man/aio_read64.3
+deleted file mode 100644
+index 8e407a5..0000000
+--- a/man/aio_read64.3
++++ /dev/null
+@@ -1,60 +0,0 @@
+-.TH aio_read64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_read64 \- Initiate an asynchronous read operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_read64 (struct aiocb *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to the 
+-.IR "aio_read"
+-function.  The only
+-difference is that on 
+-.IR "32 bit"
+-machines, the file descriptor should
+-be opened in the large file mode.  Internally, 
+-.IR "aio_read64"
+-uses
+-functionality equivalent to 
+-.IR "lseek64"
+-to position the file descriptor correctly for the reading,
+-as opposed to 
+-.IR "lseek"
+-functionality used in 
+-.IR "aio_read".
+-
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-, this
+-function is available under the name 
+-.IR "aio_read"
+-and so transparently
+-replaces the interface for small files on 32 bit machines.
+-.SH "RETURN VALUES"
+-See
+-.IR aio_read.
+-.SH ERRORS
+-See
+-.IR aio_read.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_return.3 b/man/aio_return.3
+deleted file mode 100644
+index 1e3335f..0000000
+--- a/man/aio_return.3
++++ /dev/null
+@@ -1,71 +0,0 @@
+-.TH aio_return 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_return \- Retrieve status of asynchronous I/O operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "ssize_t aio_return (const struct aiocb *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function can be used to retrieve the return status of the operation
+-carried out by the request described in the variable pointed to by
+-.IR aiocbp
+-.  As long as the error status of this request as returned
+-by 
+-.IR aio_error
+-is 
+-.IR EINPROGRESS
+-the return of this function is
+-undefined.
+-
+-Once the request is finished this function can be used exactly once to
+-retrieve the return value.  Following calls might lead to undefined
+-behavior.  
+-When the sources are compiled with 
+-.B "_FILE_OFFSET_BITS == 64"
+-this function is in fact 
+-.IR aio_return64
+-since the LFS interface
+-transparently replaces the normal implementation.
+-.SH "RETURN VALUES"
+-The return value itself is the value which would have been
+-returned by the 
+-.IR read
+-,
+-.IR write
+-, or 
+-.IR fsync
+-call.
+-.SH ERRORS
+-The function can return 
+-.TP
+-.B ENOSYS
+-if it is not implemented.
+-.TP
+-.B EINVAL 
+-if the 
+-.IR aiocbp 
+-parameter does not
+-refer to an asynchronous operation whose return status is not yet known.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_return64.3 b/man/aio_return64.3
+deleted file mode 100644
+index 7e78362..0000000
+--- a/man/aio_return64.3
++++ /dev/null
+@@ -1,51 +0,0 @@
+-.TH aio_read64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_read64 \- Retrieve status of asynchronous I/O operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_return64 (const struct aiocb64 *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to 
+-.IR "aio_return"
+-with the only difference
+-that the argument is a reference to a variable of type 
+-.IR "struct aiocb64".
+-
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is available under the name 
+-.IR "aio_return"
+-and so
+-transparently replaces the interface for small files on 32 bit
+-machines.
+-.SH "RETURN VALUES"
+-See 
+-.IR aio_return.
+-.SH ERRORS
+-See
+-.IR aio_return.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_suspend.3 b/man/aio_suspend.3
+deleted file mode 100644
+index cae1b65..0000000
+--- a/man/aio_suspend.3
++++ /dev/null
+@@ -1,123 +0,0 @@
+-.TH aio_suspend 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_suspend \- Wait until one or more requests of a specific set terminates.
+-.SH SYNOPSYS
+-.nf
+-.B "#include <errno.h>"
+-.sp
+-.br 
+-.B "#include <aio.h>"
+-.sp
+-.br
+-.BI "int aio_suspend (const struct aiocb *const list[], int nent, const struct timespec *timeout)"
+-.fi
+-.SH DESCRIPTION
+-Another method of synchronization is to wait until one or more requests of a
+-specific set terminated.  This could be achieved by the 
+-.IR "aio_*"
+-functions to notify the initiating process about the termination but in
+-some situations this is not the ideal solution.  In a program which
+-constantly updates clients somehow connected to the server it is not
+-always the best solution to go round robin since some connections might
+-be slow.  On the other hand letting the 
+-.IR "aio_*"
+-function notify the
+-caller might also be not the best solution since whenever the process
+-works on preparing data for on client it makes no sense to be
+-interrupted by a notification since the new client will not be handled
+-before the current client is served.  For situations like this
+-.IR "aio_suspend"
+-should be used.
+-.PP
+-When calling this function, the calling thread is suspended until at
+-least one of the requests pointed to by the 
+-.IR "nent"
+-elements of the
+-array 
+-.IR "list"
+-has completed.  If any of the requests has already
+-completed at the time 
+-.IR "aio_suspend"
+-is called, the function returns
+-immediately.  Whether a request has terminated or not is determined by
+-comparing the error status of the request with 
+-.IR "EINPROGRESS"
+-.  If
+-an element of 
+-.IR "list"
+-is 
+-.IR "NULL"
+-, the entry is simply ignored.
+-
+-If no request has finished, the calling process is suspended.  If
+-.IR "timeout"
+-is 
+-.IR "NULL"
+-, the process is not woken until a request
+-has finished.  If 
+-.IR "timeout"
+-is not 
+-.IR "NULL"
+-, the process remains
+-suspended at least as long as specified in 
+-.IR "timeout"
+-.  In this case,
+-.IR "aio_suspend"
+-returns with an error.
+-.PP
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is in fact 
+-.IR "aio_suspend64"
+-since the LFS interface
+-transparently replaces the normal implementation.
+-.SH "RETURN VALUES"
+-The return value of the function is 
+-.IR 0
+-if one or more requests
+-from the 
+-.IR "list"
+-have terminated.  Otherwise the function returns
+-.IR -1
+-and 
+-.IR "errno"
+-is set.
+-.SH ERRORS
+-.TP
+-.B EAGAIN
+-None of the requests from the 
+-.IR "list"
+-completed in the time specified
+-by 
+-.IR "timeout"
+-.
+-.TP
+-.B EINTR
+-A signal interrupted the 
+-.IR "aio_suspend"
+-function.  This signal might
+-also be sent by the AIO implementation while signalling the termination
+-of one of the requests.
+-.TP
+-.B ENOSYS
+-The 
+-.IR "aio_suspend"
+-function is not implemented.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_suspend64.3 b/man/aio_suspend64.3
+deleted file mode 100644
+index 2f289ec..0000000
+--- a/man/aio_suspend64.3
++++ /dev/null
+@@ -1,51 +0,0 @@
+-.TH aio_suspend64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_suspend64 \- Wait until one or more requests of a specific set terminates
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_suspend64 (const struct aiocb64 *const list[], int nent, const struct timespec *timeout)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to 
+-.IR "aio_suspend"
+-with the only difference
+-that the argument is a reference to a variable of type 
+-.IR "struct aiocb64".
+-
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-this
+-function is available under the name 
+-.IR "aio_suspend"
+-and so
+-transparently replaces the interface for small files on 32 bit
+-machines.
+-.SH "RETURN VALUES"
+-See
+-.IR aio_suspend.
+-.SH ERRORS
+-See
+-.IR aio_suspend.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_write(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_write.3 b/man/aio_write.3
+deleted file mode 100644
+index 7c0cfd0..0000000
+--- a/man/aio_write.3
++++ /dev/null
+@@ -1,176 +0,0 @@
+-.TH aio_write 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_write  \-  Initiate an asynchronous write operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI "int aio_write (struct aiocb * aiocbp);"
+-.fi
+-.SH DESCRIPTION
+-This function initiates an asynchronous write operation.  The function
+-call immediately returns after the operation was enqueued or if before
+-this happens an error was encountered.
+-
+-The first 
+-.IR "aiocbp->aio_nbytes"
+-bytes from the buffer starting at
+-.IR "aiocbp->aio_buf"
+-are written to the file for which
+-.IR "aiocbp->aio_fildes"
+-is an descriptor, starting at the absolute
+-position 
+-.IR "aiocbp->aio_offset"
+-in the file.
+-
+-If prioritized I/O is supported by the platform, the
+-.IR "aiocbp->aio_reqprio "
+-value is used to adjust the priority before
+-the request is actually enqueued.
+-
+-The calling process is notified about the termination of the read
+-request according to the 
+-.IR "aiocbp->aio_sigevent"
+-value.
+-
+-When 
+-.IR "aio_write"
+-returns, the return value is zero if no error
+-occurred that can be found before the process is enqueued.  If such an
+-early error is found the function returns 
+-.IR -1
+-and sets
+-.IR "errno"
+-to one of the following values.
+-
+-.TP
+-.B EAGAIN
+-The request was not enqueued due to (temporarily) exceeded resource
+-limitations.
+-.TP
+-.B ENOSYS
+-The 
+-.IR "aio_write"
+-function is not implemented.
+-.TP
+-.B EBADF
+-The 
+-.IR "aiocbp->aio_fildes"
+-descriptor is not valid.  This condition
+-may not be recognized before enqueueing the request, and so this error
+-might also be signaled asynchronously.
+-.TP
+-.B EINVAL
+-The 
+-.IR "aiocbp->aio_offset"
+-or
+-.IR "aiocbp->aio_reqprio"
+-value is
+-invalid.  This condition may not be recognized before enqueueing the
+-request and so this error might also be signaled asynchronously.
+-.PP
+-
+-In the case 
+-.IR "aio_write"
+-returns zero, the current status of the
+-request can be queried using 
+-.IR "aio_error"
+-and 
+-.IR "aio_return"
+-functions.  As long as the value returned by 
+-.IR "aio_error"
+-is
+-.IR "EINPROGRESS"
+-the operation has not yet completed.  If
+-.IR "aio_error"
+-returns zero, the operation successfully terminated,
+-otherwise the value is to be interpreted as an error code.  If the
+-function terminated, the result of the operation can be get using a call
+-to 
+-.IR "aio_return"
+-.  The returned value is the same as an equivalent
+-call to 
+-.IR "read"
+-would have returned.  Possible error codes returned
+-by 
+-.IR "aio_error"
+-are:
+-
+-.TP
+-.B EBADF
+-The 
+-.IR "aiocbp->aio_fildes"
+-descriptor is not valid.
+-.TP
+-.B ECANCELED
+-The operation was canceled before the operation was finished.
+-.TP
+-.B EINVAL
+-The 
+-.IR "aiocbp->aio_offset"
+-value is invalid.
+-.PP
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-, this
+-function is in fact 
+-.IR "aio_write64"
+-since the LFS interface transparently
+-replaces the normal implementation.
+-.SH "RETURN VALUES"
+-When 
+-.IR "aio_write"
+-returns, the return value is zero if no error
+-occurred that can be found before the process is enqueued.  If such an
+-early error is found the function returns 
+-.IR -1
+-and sets
+-.IR "errno"
+-to one of the following values.
+-.SH ERRORS
+-.TP
+-.B EAGAIN
+-The request was not enqueued due to (temporarily) exceeded resource
+-limitations.
+-.TP
+-.B ENOSYS
+-The 
+-.IR "aio_write"
+-function is not implemented.
+-.TP
+-.B EBADF
+-The 
+-.IR "aiocbp->aio_fildes"
+-descriptor is not valid.  This condition
+-may not be recognized before enqueueing the request, and so this error
+-might also be signaled asynchronously.
+-.TP
+-.B EINVAL
+-The 
+-.IR "aiocbp->aio_offset"
+-or
+-.IR "aiocbp->aio_reqprio"
+-value is
+-invalid.  This condition may not be recognized before enqueueing the
+-request and so this error might also be signaled asynchronously.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write64(3),
+-.BR errno(3),
+diff --git a/man/aio_write64.3 b/man/aio_write64.3
+deleted file mode 100644
+index 1080903..0000000
+--- a/man/aio_write64.3
++++ /dev/null
+@@ -1,61 +0,0 @@
+-.TH aio_write64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-aio_write64 \- Initiate an asynchronous write operation
+-.SH SYNOPSYS
+-.nf
+-.B #include <errno.h>
+-.sp
+-.br 
+-.B #include <aio.h>
+-.sp
+-.br
+-.BI  "int aio_write64 (struct aiocb *aiocbp)"
+-.fi
+-.SH DESCRIPTION
+-This function is similar to the 
+-.IR "aio_write"
+-function.  The only
+-difference is that on 
+-.IR "32 bit"
+-machines the file descriptor should
+-be opened in the large file mode.  Internally 
+-.IR "aio_write64"
+-uses
+-functionality equivalent to 
+-.IR "lseek64"
+-to position the file descriptor correctly for the writing,
+-as opposed to 
+-.IR "lseek"
+-functionality used in 
+-.IR "aio_write".
+-
+-When the sources are compiled with 
+-.IR "_FILE_OFFSET_BITS == 64"
+-, this
+-function is available under the name 
+-.IR "aio_write"
+-and so transparently
+-replaces the interface for small files on 32 bit machines.
+-.SH "RETURN VALUES"
+-See
+-.IR aio_write.
+-.SH ERRORS
+-See
+-.IR aio_write.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR errno(3),
+diff --git a/man/lio_listio.3 b/man/lio_listio.3
+deleted file mode 100644
+index 9b5b5e4..0000000
+--- a/man/lio_listio.3
++++ /dev/null
+@@ -1,229 +0,0 @@
+-.TH  lio_listio 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-lio_listio - List directed I/O
+-.SH SYNOPSYS
+-.B #include <errno.h>
+-.br
+-.B #include <libaio.h>
+-.LP
+-.BI "int lio_listio (int mode, struct aiocb *const list[], int nent, struct sigevent *sig)"
+-.nf
+-.SH DESCRIPTION
+-
+-Besides these functions with the more or less traditional interface,
+-POSIX.1b also defines a function which can initiate more than one
+-operation at a time, and which can handle freely mixed read and write
+-operations.  It is therefore similar to a combination of 
+-.IR readv
+-and
+-.IR "writev"
+-.
+-
+-The 
+-.IR "lio_listio"
+-function can be used to enqueue an arbitrary
+-number of read and write requests at one time.  The requests can all be
+-meant for the same file, all for different files or every solution in
+-between.
+-
+-.IR "lio_listio"
+-gets the 
+-.IR "nent"
+-requests from the array pointed to
+-by 
+-.IR "list"
+-.  The operation to be performed is determined by the
+-.IR "aio_lio_opcode"
+-member in each element of 
+-.IR "list"
+-.  If this
+-field is 
+-.B "LIO_READ"
+-a read operation is enqueued, similar to a call
+-of 
+-.IR "aio_read"
+-for this element of the array (except that the way
+-the termination is signalled is different, as we will see below).  If
+-the 
+-.IR "aio_lio_opcode"
+-member is 
+-.B "LIO_WRITE"
+-a write operation
+-is enqueued.  Otherwise the 
+-.IR "aio_lio_opcode"
+-must be 
+-.B "LIO_NOP"
+-in which case this element of 
+-.IR "list"
+-is simply ignored.  This
+-``operation'' is useful in situations where one has a fixed array of
+-.IR "struct aiocb"
+-elements from which only a few need to be handled at
+-a time.  Another situation is where the 
+-.IR "lio_listio"
+-call was
+-canceled before all requests are processed  and the remaining requests have to be reissued.
+-
+-The other members of each element of the array pointed to by
+-.IR "list"
+-must have values suitable for the operation as described in
+-the documentation for 
+-.IR "aio_read"
+-and 
+-.IR "aio_write"
+-above.
+-
+-The 
+-.IR "mode"
+-argument determines how 
+-.IR "lio_listio"
+-behaves after
+-having enqueued all the requests.  If 
+-.IR "mode"
+-is 
+-.B "LIO_WAIT"
+-it
+-waits until all requests terminated.  Otherwise 
+-.IR "mode"
+-must be
+-.B "LIO_NOWAIT"
+-and in this case the function returns immediately after
+-having enqueued all the requests.  In this case the caller gets a
+-notification of the termination of all requests according to the
+-.IR "sig"
+-parameter.  If 
+-.IR "sig"
+-is 
+-.B "NULL"
+-no notification is
+-send.  Otherwise a signal is sent or a thread is started, just as
+-described in the description for 
+-.IR "aio_read"
+-or 
+-.IR "aio_write"
+-.
+-
+-When the sources are compiled with 
+-.B "_FILE_OFFSET_BITS == 64"
+-, this
+-function is in fact 
+-.IR "lio_listio64"
+-since the LFS interface
+-transparently replaces the normal implementation.
+-.SH "RETURN VALUES"
+-If 
+-.IR "mode"
+-is 
+-.B "LIO_WAIT"
+-, the return value of 
+-.IR "lio_listio"
+-is 
+-.IR 0
+-when all requests completed successfully.  Otherwise the
+-function return 
+-.IR 1
+-and 
+-.IR "errno"
+-is set accordingly.  To find
+-out which request or requests failed one has to use the 
+-.IR "aio_error"
+-function on all the elements of the array 
+-.IR "list"
+-.
+-
+-In case 
+-.IR "mode"
+-is 
+-.B "LIO_NOWAIT"
+-, the function returns 
+-.IR 0
+-if
+-all requests were enqueued correctly.  The current state of the requests
+-can be found using 
+-.IR "aio_error"
+-and 
+-.IR "aio_return"
+-as described
+-above.  If 
+-.IR "lio_listio"
+-returns 
+-.IR -1
+-in this mode, the
+-global variable 
+-.IR "errno"
+-is set accordingly.  If a request did not
+-yet terminate, a call to 
+-.IR "aio_error"
+-returns 
+-.B "EINPROGRESS"
+-.  If
+-the value is different, the request is finished and the error value (or
+-
+-.IR 0
+-) is returned and the result of the operation can be retrieved
+-using 
+-.IR "aio_return"
+-.
+-.SH ERRORS
+-Possible values for 
+-.IR "errno"
+-are:
+-
+-.TP
+-.B EAGAIN
+-The resources necessary to queue all the requests are not available at
+-the moment.  The error status for each element of 
+-.IR "list"
+-must be
+-checked to determine which request failed.
+-
+-Another reason could be that the system wide limit of AIO requests is
+-exceeded.  This cannot be the case for the implementation on GNU systems
+-since no arbitrary limits exist.
+-.TP
+-.B EINVAL
+-The 
+-.IR "mode"
+-parameter is invalid or 
+-.IR "nent"
+-is larger than
+-.B "AIO_LISTIO_MAX"
+-.
+-.TP
+-.B EIO
+-One or more of the request's I/O operations failed.  The error status of
+-each request should be checked to determine which one failed.
+-.TP
+-.B ENOSYS
+-The 
+-.IR "lio_listio"
+-function is not supported.
+-.PP
+-
+-If the 
+-.IR "mode"
+-parameter is 
+-.B "LIO_NOWAIT"
+-and the caller cancels
+-a request, the error status for this request returned by
+-.IR "aio_error"
+-is 
+-.B "ECANCELED"
+-.
+-.SH "SEE ALSO"
+-.BR aio(3),
+-.BR aio_cancel(3),
+-.BR aio_cancel64(3),
+-.BR aio_error(3),
+-.BR aio_error64(3),
+-.BR aio_fsync(3),
+-.BR aio_fsync64(3),
+-.BR aio_init(3),
+-.BR aio_read(3),
+-.BR aio_read64(3),
+-.BR aio_return(3),
+-.BR aio_return64(3),
+-.BR aio_suspend(3),
+-.BR aio_suspend64(3),
+-.BR aio_write(3),
+-.BR aio_write64(3)
+diff --git a/man/lio_listio64.3 b/man/lio_listio64.3
+deleted file mode 100644
+index 97f6955..0000000
+--- a/man/lio_listio64.3
++++ /dev/null
+@@ -1,39 +0,0 @@
+-.TH lio_listio64 3 2002-09-12 "Linux 2.4" Linux AIO"
+-.SH NAME
+-lio_listio64 \- List directed I/O
+-.SH SYNOPSYS
+-.B #include <errno.h>
+-.br
+-.B #include <libaio.h>
+-.LP
+-.BI "int lio_listio64 (int mode, struct aiocb *const list[], int nent, struct sigevent *sig)"
+-.nf
+-.SH DESCRIPTION
+-This function is similar to the 
+-.IR "code{lio_listio"
+-function.  The only
+-difference is that on 
+-.IR "32 bit"
+-machines, the file descriptor should
+-be opened in the large file mode.  Internally, 
+-.IR "lio_listio64"
+-uses
+-functionality equivalent to 
+-.IR lseek64"
+-to position the file descriptor correctly for the reading or
+-writing, as opposed to 
+-.IR "lseek"
+-functionality used in
+-.IR "lio_listio".
