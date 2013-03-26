@@ -1,56 +1,25 @@
-From: Fernando Luis Vazquez Cao <fernando_b1-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+From: Pablo Neira Ayuso <pablo@netfilter.org>
 Subject: Re: [PATCH 1/2] man/send(2): add EPERM to the list of possible errors
-Date: Tue, 26 Mar 2013 17:37:50 +0900
-Message-ID: <51515E5E.7020309@lab.ntt.co.jp>
+Date: Tue, 26 Mar 2013 11:48:33 +0100
+Message-ID: <20130326104833.GA5331@localhost>
 References: <1363675513.4767.6.camel@nexus>
+ <51515E5E.7020309@lab.ntt.co.jp>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1363675513.4767.6.camel@nexus>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netfilter-devel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Pablo Neira Ayuso <pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, Hirotaka Sasaki <sasaki.hirotaka-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <netfilter-devel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <51515E5E.7020309@lab.ntt.co.jp>
+Sender: netfilter-devel-owner@vger.kernel.org
+To: Fernando Luis Vazquez Cao <fernando_b1@lab.ntt.co.jp>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, Patrick McHardy <kaber@trash.net>, Hirotaka Sasaki <sasaki.hirotaka@lab.ntt.co.jp>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+On Tue, Mar 26, 2013 at 05:37:50PM +0900, Fernando Luis Vazquez Cao wrote:
+> Hi Michael,
+> 
+> Do you see any problem with these two patches?
 
-Do you see any problem with these two patches?
+Please, hold on with the second patch.
 
-Thanks,
-=46ernando
-
-
-On 2013/03/19 15:45, Fernando Luis V=C3=A1zquez Cao wrote:
-> Subject: [PATCH 1/2] man/send(2): add EPERM to the list of possible e=
-rrors
->
-> System policy (for example netfilter rule) can cause a send* operatio=
-n
-> to fail with EPERM.
->
-> Reported-by: Hirotaka Sasaki <sasaki.hirotaka-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
-> Signed-off-by: Fernando Luis Vazquez Cao <fernando-gVGce1chcLdL9jVzuh4AOg@public.gmane.org>
-> ---
->
-> diff -urNp man-pages-3.50-orig/man2/send.2 man-pages-3.50/man2/send.2
-> --- man-pages-3.50-orig/man2/send.2	2013-03-15 16:17:32.000000000 +09=
-00
-> +++ man-pages-3.50/man2/send.2	2013-03-19 15:17:03.616008275 +0900
-> @@ -357,6 +357,10 @@ Some bit in the
->   .I flags
->   argument is inappropriate for the socket type.
->   .TP
-> +.B EPERM
-> +System policy (for example a netfilter rule) does not permit the req=
-uested
-> +operation.
-> +.TP
->   .B EPIPE
->   The local end has been shut down on a connection oriented socket.
->   In this case the process
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+I'd like to find a possible solution for the EPERM problem that we've
+been discussing. It requires some rework and performance evaluation.
