@@ -1,47 +1,55 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] proc.5: ffix
-Date: Mon, 25 Mar 2013 23:58:58 +0100
-Message-ID: <1364252338-14762-1-git-send-email-spaillard@debian.org>
+From: Fernando Luis Vazquez Cao <fernando_b1-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+Subject: Re: [PATCH 1/2] man/send(2): add EPERM to the list of possible errors
+Date: Tue, 26 Mar 2013 17:37:50 +0900
+Message-ID: <51515E5E.7020309@lab.ntt.co.jp>
+References: <1363675513.4767.6.camel@nexus>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1363675513.4767.6.camel@nexus>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netfilter-devel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Pablo Neira Ayuso <pablo-Cap9r6Oaw4JrovVCs/uTlw@public.gmane.org>, Patrick McHardy <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, Hirotaka Sasaki <sasaki.hirotaka-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Fix a groff warning:
-<standard input>:350: warning: macro `..' not defined
----
- man5/proc.5 |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Michael,
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 22b7cd0..b7cda37 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -347,7 +347,7 @@ The format of the file is:
- 00652000-00655000 rw-p 00052000 08:02 173521      /usr/bin/dbus-daemon
- 00e03000-00e24000 rw-p 00000000 00:00 0           [heap]
- 00e24000-011f7000 rw-p 00000000 00:00 0           [heap]
--...
-+\&...
- 35b1800000-35b1820000 r-xp 00000000 08:02 135522  /usr/lib64/ld-2.15.so
- 35b1a1f000-35b1a20000 r--p 0001f000 08:02 135522  /usr/lib64/ld-2.15.so
- 35b1a20000-35b1a21000 rw-p 00020000 08:02 135522  /usr/lib64/ld-2.15.so
-@@ -356,9 +356,9 @@ The format of the file is:
- 35b1dac000-35b1fac000 ---p 001ac000 08:02 135870  /usr/lib64/libc-2.15.so
- 35b1fac000-35b1fb0000 r--p 001ac000 08:02 135870  /usr/lib64/libc-2.15.so
- 35b1fb0000-35b1fb2000 rw-p 001b0000 08:02 135870  /usr/lib64/libc-2.15.so
--...
-+\&...
- f2c6ff8c000-7f2c7078c000 rw-p 00000000 00:00 0    [stack:986]
--...
-+\&...
- 7fffb2c0d000-7fffb2c2e000 rw-p 00000000 00:00 0   [stack]
- 7fffb2d48000-7fffb2d49000 r-xp 00000000 00:00 0   [vdso]
- .fi
--- 
-1.7.10.4
+Do you see any problem with these two patches?
 
+Thanks,
+=46ernando
+
+
+On 2013/03/19 15:45, Fernando Luis V=C3=A1zquez Cao wrote:
+> Subject: [PATCH 1/2] man/send(2): add EPERM to the list of possible e=
+rrors
+>
+> System policy (for example netfilter rule) can cause a send* operatio=
+n
+> to fail with EPERM.
+>
+> Reported-by: Hirotaka Sasaki <sasaki.hirotaka-Zyj7fXuS5i5L9jVzuh4AOg@public.gmane.org>
+> Signed-off-by: Fernando Luis Vazquez Cao <fernando-gVGce1chcLdL9jVzuh4AOg@public.gmane.org>
+> ---
+>
+> diff -urNp man-pages-3.50-orig/man2/send.2 man-pages-3.50/man2/send.2
+> --- man-pages-3.50-orig/man2/send.2	2013-03-15 16:17:32.000000000 +09=
+00
+> +++ man-pages-3.50/man2/send.2	2013-03-19 15:17:03.616008275 +0900
+> @@ -357,6 +357,10 @@ Some bit in the
+>   .I flags
+>   argument is inappropriate for the socket type.
+>   .TP
+> +.B EPERM
+> +System policy (for example a netfilter rule) does not permit the req=
+uested
+> +operation.
+> +.TP
+>   .B EPIPE
+>   The local end has been shut down on a connection oriented socket.
+>   In this case the process
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
