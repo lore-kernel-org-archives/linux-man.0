@@ -1,157 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] man: Add io_setup.3 and io_destroy.3
-Date: Thu, 28 Mar 2013 10:15:35 +0100
-Message-ID: <CAKgNAkgUN7y8j2Gp8sG6hvHMJ=YBV3FGWg=EYj5X1Fg+njNysA@mail.gmail.com>
-References: <20130326170626.GA11360@rei.suse.cz>
+Subject: Re: [PATCH] proc.5: ffix
+Date: Thu, 28 Mar 2013 10:15:51 +0100
+Message-ID: <CAKgNAkjzKJPwevf9mhqUJ_M-e0oz+pAq-V7iYZSWs2hxYkzvFA@mail.gmail.com>
+References: <1364252338-14762-1-git-send-email-spaillard@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130326170626.GA11360-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
+In-Reply-To: <1364252338-14762-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Cyril,
+Thanks Simon. Applied.
 
-On Tue, Mar 26, 2013 at 6:06 PM, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
-> This patch adds two missing manual pages.
->
-> I've tried to format them in accordance with
-> Linux man-pages project. If these are acked
-> I'll reformat the rest of the io_* system call
-> wrappers man pages to match.
-
-So, here's what I'm not clear on. AFAIK, the io_setup() wrapper (and
-the other io_*() wrappers) is provided in libaio, right? And libaio is
-a completely separate package from glibc, right?
-
-The man-pages project documents the Linux syscall and glibc APIs, so
-if my understanding above is correct, then these io_*(3) pages belong
-in the libaio package, not in in man-pages. Could you or Jeff clarify?
-
-Thanks,
-
-Michael
-
-> Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+On Mon, Mar 25, 2013 at 11:58 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> Fix a groff warning:
+> <standard input>:350: warning: macro `..' not defined
 > ---
->  man/io_destroy.3 |   45 +++++++++++++++++++++++++++++++++++++++++++++
->  man/io_setup.3   |   45 +++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 90 insertions(+), 0 deletions(-)
->  create mode 100644 man/io_destroy.3
->  create mode 100644 man/io_setup.3
+>  man5/proc.5 |    6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/man/io_destroy.3 b/man/io_destroy.3
-> new file mode 100644
-> index 0000000..6d84213
-> --- /dev/null
-> +++ b/man/io_destroy.3
-> @@ -0,0 +1,45 @@
-> +.\" Copyright (C) 2013 Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> +.\" This file is distributed according to the GNU General Public License.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH IO_DESTROY 3 2013-03-26 "Linux" "Linux AIO"
-> +.SH NAME
-> +io_destroy \- destroy an asynchronous I/O context
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <libaio.h>
-> +
-> +.BI "int io_destroy(io_context_t ctx)"
-> +.sp
-> +Link with \fI\-laio\fP.
-> +.fi
-> +.SH DESCRIPTION
-> +This is a wrapper for the
-> +.BR io_destroy
-> +system call, see
-> +.BR io_destroy (2)
-> +for more information.
-> +.PP
-> +See
-> +.BR io_queue_release (3)
-> +for
-> +.I libaio
-> +highlevel interface.
-> +.SH "RETURN VALUES"
-> +On success
-> +.BR io_setup ()
-> +returns 0. On failure negative error number is returned.
-> +.SH NOTES
-> +Note that Linux system call uses different type
-> +.RI ( "aio_context_t\ *" )
-> +for the
-> +.I ctx
-> +argument.
-> +.SH "SEE ALSO"
-> +.BR io_queue_release (3)
-> +.BR io_setup (3)
-> +.BR io_submit (3)
-> +.BR io_cancel (3)
-> +.BR io_getevents (3)
-> diff --git a/man/io_setup.3 b/man/io_setup.3
-> new file mode 100644
-> index 0000000..626e954
-> --- /dev/null
-> +++ b/man/io_setup.3
-> @@ -0,0 +1,45 @@
-> +.\" Copyright (C) 2013 Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> +.\" This file is distributed according to the GNU General Public License.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH IO_SETUP 3 2013-03-26 "Linux" "Linux AIO"
-> +.SH NAME
-> +io_setup \- create an asynchronous I/O context
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <libaio.h>
-> +
-> +.BI "int io_setup(int maxevents, io_context_t *ctx)"
-> +.sp
-> +Link with \fI\-laio\fP.
-> +.fi
-> +.SH DESCRIPTION
-> +This is a wrapper for the
-> +.BR io_setup
-> +system call, see
-> +.BR io_setup (2)
-> +for more information.
-> +.PP
-> +See
-> +.BR io_queue_init (3)
-> +for
-> +.I libaio
-> +highlevel interface.
-> +.SH "RETURN VALUES"
-> +On success
-> +.BR io_setup ()
-> +returns 0. On failure negative error number is returned.
-> +.SH NOTES
-> +Note that Linux system call uses different type
-> +.RI ( "aio_context_t\ *" )
-> +for the
-> +.I ctx
-> +argument.
-> +.SH "SEE ALSO"
-> +.BR io_queue_init (3)
-> +.BR io_destroy (3)
-> +.BR io_submit (3)
-> +.BR io_cancel (3)
-> +.BR io_getevents (3)
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 22b7cd0..b7cda37 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -347,7 +347,7 @@ The format of the file is:
+>  00652000-00655000 rw-p 00052000 08:02 173521      /usr/bin/dbus-daemon
+>  00e03000-00e24000 rw-p 00000000 00:00 0           [heap]
+>  00e24000-011f7000 rw-p 00000000 00:00 0           [heap]
+> -...
+> +\&...
+>  35b1800000-35b1820000 r-xp 00000000 08:02 135522  /usr/lib64/ld-2.15.so
+>  35b1a1f000-35b1a20000 r--p 0001f000 08:02 135522  /usr/lib64/ld-2.15.so
+>  35b1a20000-35b1a21000 rw-p 00020000 08:02 135522  /usr/lib64/ld-2.15.so
+> @@ -356,9 +356,9 @@ The format of the file is:
+>  35b1dac000-35b1fac000 ---p 001ac000 08:02 135870  /usr/lib64/libc-2.15.so
+>  35b1fac000-35b1fb0000 r--p 001ac000 08:02 135870  /usr/lib64/libc-2.15.so
+>  35b1fb0000-35b1fb2000 rw-p 001b0000 08:02 135870  /usr/lib64/libc-2.15.so
+> -...
+> +\&...
+>  f2c6ff8c000-7f2c7078c000 rw-p 00000000 00:00 0    [stack:986]
+> -...
+> +\&...
+>  7fffb2c0d000-7fffb2c2e000 rw-p 00000000 00:00 0   [stack]
+>  7fffb2d48000-7fffb2d49000 r-xp 00000000 00:00 0   [vdso]
+>  .fi
 > --
-> 1.7.8.6
->
+> 1.7.10.4
 >
 > --
-> Cyril Hrubis
-> chrubis-AlSwsSmVLrQ@public.gmane.org
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 
 
