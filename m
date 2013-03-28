@@ -1,75 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] man2 : syscall.2 : add notes
-Date: Thu, 28 Mar 2013 10:37:15 +0100
-Message-ID: <CAKgNAkjWaPbwRqYKP+2h+ex9QnxBhbebLAHOh=4N5qk6-ci0Hw@mail.gmail.com>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com>
+Subject: Re: [PATCH] man: Add io_setup.3 and io_destroy.3
+Date: Thu, 28 Mar 2013 10:39:27 +0100
+Message-ID: <CAKgNAki00AnF6zuQD7wwwbGEAH_A1M2iQ4irvCXnd36=ikfmYw@mail.gmail.com>
+References: <20130326170626.GA11360@rei.suse.cz> <CAKgNAkgUN7y8j2Gp8sG6hvHMJ=YBV3FGWg=EYj5X1Fg+njNysA@mail.gmail.com>
+ <20130328093501.GA5788@rei.suse.cz>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364361092-5948-1-git-send-email-ch0.han-Hm3cg6mZ9cc@public.gmane.org>
+In-Reply-To: <20130328093501.GA5788-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: ch0.han-Hm3cg6mZ9cc@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, gunho.lee-Hm3cg6mZ9cc@public.gmane.org, Changhee Han <gyulkkajo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: chrubis-AlSwsSmVLrQ@public.gmane.org
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Mar 27, 2013 at 6:11 AM,  <ch0.han-Hm3cg6mZ9cc@public.gmane.org> wrote:
-> From: Changhee Han <gyulkkajo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+On Thu, Mar 28, 2013 at 10:35 AM,  <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
+> Hi!
+>> > This patch adds two missing manual pages.
+>> >
+>> > I've tried to format them in accordance with
+>> > Linux man-pages project. If these are acked
+>> > I'll reformat the rest of the io_* system call
+>> > wrappers man pages to match.
+>>
+>> So, here's what I'm not clear on. AFAIK, the io_setup() wrapper (and
+>> the other io_*() wrappers) is provided in libaio, right? And libaio is
+>> a completely separate package from glibc, right?
+>>
+>> The man-pages project documents the Linux syscall and glibc APIs, so
+>> if my understanding above is correct, then these io_*(3) pages belong
+>> in the libaio package, not in in man-pages. Could you or Jeff clarify?
 >
-> Add notes that caution users when passing arguments to syscall.2.
->
-> Signed-off-by: Changhee Han <gyulkkajo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man2/syscall.2 |    9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/man2/syscall.2 b/man2/syscall.2
-> index 0675943..2c823b6 100644
-> --- a/man2/syscall.2
-> +++ b/man2/syscall.2
-> @@ -79,6 +79,15 @@ and an error code is stored in
->  .BR syscall ()
->  first appeared in
->  4BSD.
-> +
-> +On some architecture arguments should be passed with an appropriate way.
-> +The glibc wrapper function, described in
-> +.BR syscalls (2),
-> +copies arguments to the right registers denpend on the architecture but
-> +.BR syscall (2)
-> +needs arguments following ABI, which its architecture describes, to be passed manually by a user.
-> +For example, on ARM architecture, a long long type of argument is considered to be 8-byte aligned and to be split into two 4-byte arguments.
+> You are 100% right and we both got it the first time you said this. I've
+> simply CCed you so that you can have a quick look at the pages and say
+> if they have all the information they should have before they got
+> included into libaio.
 
-Changhee,
+Ahh -- sorry, I misunderstood. I thought you were proposing to include
+them into man-pages.
 
-I think this is a very worthwhile patch, but needs a bit of
-clarification. How would text such as this be:
-
-[[
-Each architecture ABI has its own requirements on how system call
-arguments are passed to the kernel.
-For system calls that have a glibc wrapper (i.e., most system calls)
-glibc handles the details of copy arguments to the right registers
-in a manner suitable for the architecture.
-However, when using
-.BR syscall ()
-to make a system call,
-the caller may need to handle architecture-dependent details.
-For example, on the ARM architecture, a
-.I "long long"
-argument is considered to be 8-byte aligned
-and to be split into two 4-byte arguments.
-]]
-
-Would that text be okay?
-
-And then, in addition to that it would be good to have an example of
-how one uses syscall() on ARM to invoke a system call with an 8-byte
-aligned argument. Could you provide an example?
+I'll go back and look at the pages and make a few comments.
 
 Cheers,
 
 Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
