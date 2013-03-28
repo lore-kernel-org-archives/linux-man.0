@@ -1,129 +1,94 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] man: Add io_setup.3 and io_destroy.3
-Date: Thu, 28 Mar 2013 11:52:43 +0100
-Message-ID: <20130328105243.GA6202@rei.suse.cz>
+From: Kevin Easton <kevin@guarana.org>
+Subject: [patch] clone.2, execve.2: Describe interaction of execve(2) and
+ CLONE_FILES
+Date: Thu, 28 Mar 2013 22:25:04 +1100
+Message-ID: <20130328112504.GA16163@chicago.guarana.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: multipart/mixed; boundary="nFreZHaLTZJo0R7j"
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-This is a second version that includes
-fixes proposed by Michael Kerrisk.
 
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man/io_destroy.3 |   41 +++++++++++++++++++++++++++++++++++++++++
- man/io_setup.3   |   41 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 82 insertions(+), 0 deletions(-)
- create mode 100644 man/io_destroy.3
- create mode 100644 man/io_setup.3
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/man/io_destroy.3 b/man/io_destroy.3
-new file mode 100644
-index 0000000..dc662bd
---- /dev/null
-+++ b/man/io_destroy.3
-@@ -0,0 +1,41 @@
-+.\" Copyright (C) 2013 Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-+.\"
-+.\" This file is distributed according to the GNU General Public License.
-+.\"
-+.TH IO_DESTROY 3 2013-03-26 "Linux" "Linux AIO"
-+.SH NAME
-+io_destroy \- destroy an asynchronous I/O context
-+.SH SYNOPSIS
-+.nf
-+.B #include <libaio.h>
-+
-+.BI "int io_destroy(io_context_t ctx)"
-+.sp
-+Link with \fI\-laio\fP.
-+.fi
-+.SH DESCRIPTION
-+This is a wrapper for the
-+.BR io_destroy (2)
-+system call.
-+.PP
-+See
-+.BR io_queue_release (3)
-+for the
-+.I libaio
-+high-level interface.
-+.SH RETURN VALUE
-+On success,
-+.BR io_setup ()
-+returns 0. On failure, a negative error number is returned.
-+.SH NOTES
-+Note that the Linux system call uses a different type
-+.RI ( "aio_context_t\ *" )
-+for the
-+.I ctx
-+argument.
-+.SH SEE ALSO
-+.BR io_cancel (3)
-+.BR io_getevents (3)
-+.BR io_queue_release (3)
-+.BR io_setup (3)
-+.BR io_submit (3)
-diff --git a/man/io_setup.3 b/man/io_setup.3
-new file mode 100644
-index 0000000..2427204
---- /dev/null
-+++ b/man/io_setup.3
-@@ -0,0 +1,41 @@
-+.\" Copyright (C) 2013 Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-+.\"
-+.\" This file is distributed according to the GNU General Public License.
-+.\"
-+.TH IO_SETUP 3 2013-03-26 "Linux" "Linux AIO"
-+.SH NAME
-+io_setup \- create an asynchronous I/O context
-+.SH SYNOPSIS
-+.nf
-+.B #include <libaio.h>
-+
-+.BI "int io_setup(int maxevents, io_context_t *ctx)"
-+.sp
-+Link with \fI\-laio\fP.
-+.fi
-+.SH DESCRIPTION
-+This is a wrapper for the
-+.BR io_setup (2)
-+system call.
-+.PP
-+See
-+.BR io_queue_init (3)
-+for the
-+.I libaio
-+high-level interface.
-+.SH RETURN VALUE
-+On success,
-+.BR io_setup ()
-+returns 0. On failure, a negative error number is returned.
-+.SH NOTES
-+Note that the Linux system call uses a different type
-+.RI ( "aio_context_t\ *" )
-+for the
-+.I ctx
-+argument.
-+.SH SEE ALSO
-+.BR io_cancel (3)
-+.BR io_destroy (3)
-+.BR io_getevents (3)
-+.BR io_queue_init (3)
-+.BR io_submit (3)
--- 
-1.7.8.6
+Hi Michael,
+
+This very small patch against man-pages-3.50 adds a description of the
+way in which a shared file descriptor table, as created by the
+CLONE_FILES flag of clone(2), is unshared when a process calls execve(2).
+
+It's easy to see this from the source - there's an unshare_files()
+call early in do_execve_common().
+
+    - Kevin
+
+diff -urN man-pages-3.50.orig/man2/clone.2 man-pages-3.50/man2/clone.2
+--- man-pages-3.50.orig/man2/clone.2    2013-03-15 18:17:35.000000000 +1100
++++ man-pages-3.50/man2/clone.2 2013-03-28 21:50:04.745932956 +1100
+@@ -180,6 +180,9 @@
+ .BR fcntl (2)
+ .B F_SETFD
+ operation), the other process is also affected.
++If a process sharing a file descriptor table calls
++.BR execve (2),
++its file descriptor table is duplicated (unshared).
+
+ If
+ .B CLONE_FILES
+diff -urN man-pages-3.50.orig/man2/execve.2 man-pages-3.50/man2/execve.2
+--- man-pages-3.50.orig/man2/execve.2   2013-03-15 18:17:35.000000000 +1100
++++ man-pages-3.50/man2/execve.2    2013-03-28 22:02:56.793844616 +1100
+@@ -204,6 +204,11 @@
+ .B SIGCHLD
+ (see
+ .BR clone (2)).
++.IP *
++The file descriptor table is unshared, undoing the effect of the
++.B CLONE_FILES
++flag of
++.BR clone (2).
+ .PP
+ Note the following further points:
+ .IP * 3
 
 
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--nFreZHaLTZJo0R7j
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment; filename="clone-files.diff"
+
+diff -urN man-pages-3.50.orig/man2/clone.2 man-pages-3.50/man2/clone.2
+--- man-pages-3.50.orig/man2/clone.2	2013-03-15 18:17:35.000000000 +1100
++++ man-pages-3.50/man2/clone.2	2013-03-28 21:50:04.745932956 +1100
+@@ -180,6 +180,9 @@
+ .BR fcntl (2)
+ .B F_SETFD
+ operation), the other process is also affected.
++If a process sharing a file descriptor table calls
++.BR execve (2),
++its file descriptor table is duplicated (unshared).
+ 
+ If
+ .B CLONE_FILES
+diff -urN man-pages-3.50.orig/man2/execve.2 man-pages-3.50/man2/execve.2
+--- man-pages-3.50.orig/man2/execve.2	2013-03-15 18:17:35.000000000 +1100
++++ man-pages-3.50/man2/execve.2	2013-03-28 22:02:56.793844616 +1100
+@@ -204,6 +204,11 @@
+ .B SIGCHLD
+ (see
+ .BR clone (2)).
++.IP *
++The file descriptor table is unshared, undoing the effect of the
++.B CLONE_FILES
++flag of
++.BR clone (2).
+ .PP
+ Note the following further points:
+ .IP * 3
+
+--nFreZHaLTZJo0R7j--
