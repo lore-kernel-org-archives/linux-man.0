@@ -1,62 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: Simplify the example of printing out environ
-Date: Thu, 28 Mar 2013 10:20:43 +0100
-Message-ID: <CAKgNAkig04HXDF=n8CFP6M0Xw-sbGCXLxV97xf35rHGw3=wOrg@mail.gmail.com>
-References: <1364292699-10259-1-git-send-email-krzysztof.konopko@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: chrubis-AlSwsSmVLrQ@public.gmane.org
+Subject: Re: [PATCH] man: Add io_setup.3 and io_destroy.3
+Date: Thu, 28 Mar 2013 10:35:01 +0100
+Message-ID: <20130328093501.GA5788@rei.suse.cz>
+References: <20130326170626.GA11360@rei.suse.cz>
+ <CAKgNAkgUN7y8j2Gp8sG6hvHMJ=YBV3FGWg=EYj5X1Fg+njNysA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364292699-10259-1-git-send-email-krzysztof.konopko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkgUN7y8j2Gp8sG6hvHMJ=YBV3FGWg=EYj5X1Fg+njNysA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Krzysztof Konopko <krzysztof.konopko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Kris,
+Hi!
+> > This patch adds two missing manual pages.
+> >
+> > I've tried to format them in accordance with
+> > Linux man-pages project. If these are acked
+> > I'll reformat the rest of the io_* system call
+> > wrappers man pages to match.
+> 
+> So, here's what I'm not clear on. AFAIK, the io_setup() wrapper (and
+> the other io_*() wrappers) is provided in libaio, right? And libaio is
+> a completely separate package from glibc, right?
+> 
+> The man-pages project documents the Linux syscall and glibc APIs, so
+> if my understanding above is correct, then these io_*(3) pages belong
+> in the libaio package, not in in man-pages. Could you or Jeff clarify?
 
-On Tue, Mar 26, 2013 at 11:11 AM, Krzysztof Konopko
-<krzysztof.konopko-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> The `binutils' package contains a very handy utility to
-> print out null-byte delimited strings from a file.  This
-> can replace a rather complex expression with `cat'
-> provided as an example for printing out
-> `/proc/[pid]/environ'.
-
-Thanks. Applied.
-
-Cheers,
-
-Michael
-
-
-> ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 22b7cd0..8688a40 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -182,7 +182,7 @@ Thus, to print out the environment of process 1, you would do:
->  .nf
->
->  .ft CW
-> -.RB "$" " (cat /proc/1/environ; echo) | tr \(aq\e000\(aq \(aq\en\(aq"
-> +.RB "$" " strings /proc/1/environ"
->  .fi
->  .ft P
->  .in
-> --
-> 1.8.1.4
->
-
-
+You are 100% right and we both got it the first time you said this. I've
+simply CCed you so that you can have a quick look at the pages and say
+if they have all the information they should have before they got
+included into libaio.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
