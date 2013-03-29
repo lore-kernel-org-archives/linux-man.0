@@ -1,34 +1,41 @@
-From: "McMillan, Scott A" <scott.a.mcmillan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: RE: [PATCH] man: packet.7: document fanout, ring and auxiliary
- options
-Date: Fri, 29 Mar 2013 15:02:24 +0000
-Message-ID: <3E1EA20FF626AF48A6AB8DB7754BB3E524350980@FMSMSX104.amr.corp.intel.com>
-References: <CA+FuTScjf2nkPykOkscuWXMuUSfAhDtQGCBhByxcyJ_cSsOPcQ@mail.gmail.com>
- <1364563798-20221-1-git-send-email-willemb@google.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] proc.5: tfix
+Date: Fri, 29 Mar 2013 17:55:42 -0400
+Message-ID: <1364594142-24998-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364563798-20221-1-git-send-email-willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, "kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org" <kaber-dcUjhNyLwpNeoWH0uzbU5w@public.gmane.org>, "johann.baudy-1YmjpbiIw0bR7s880joybQ@public.gmane.org" <johann.baudy-1YmjpbiIw0bR7s880joybQ@public.gmane.org>, "herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org" <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
->If you are on the CC: list, then you are the author of one of the commits referred to in this manpage. If you can, please check whether my description of your change is correct. Thanks.
+---
+ man5/proc.5 |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->+.BR PACKET_TIMESTAMP " (with PACKET_RX_RING)"
->+.\" commit 614f60fa9d73a9e8fdff3df83381907fea7c5649
->+The packet receive ring always stores a timestamp in the metadata header.
->+By default, this is a software generated timestamp generated when the 
->+packet is copied into the ring.
->+This integer option selects the type of timestamp.
->+Besides the default, it support the two hardware formats described in 
->+.IR Documentation/networking/timestamping.txt
->+in the Linux kernel source tree.
-
-Acked-by: Scott McMillan <scott.a.mcmillan-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+diff --git a/man5/proc.5 b/man5/proc.5
+index 22b7cd0..adbf978 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -390,7 +390,7 @@ is the device
+ .I inode
+ is the inode on that device.
+ 0 indicates that no inode is associated with the memory region,
+-as would be ithe case with BSS (uninitialized data).
++as would be the case with BSS (uninitialized data).
+ 
+ The
+ .I pathname
+@@ -406,7 +406,7 @@ There are additional helpful pseudo-paths:
+ .RS 12
+ .TP
+ .IR [stack]
+-The initial process's (also known as the main thread's) stack
++The initial process's (also known as the main thread's) stack.
+ .TP
+ .IR [stack:<tid>] " (since Linux 3.4)"
+ .\" commit b76437579d1344b612cf1851ae610c636cec7db0
+-- 
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
