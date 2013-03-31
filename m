@@ -1,39 +1,149 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] proc.5: tfix
-Date: Fri, 29 Mar 2013 17:55:42 -0400
-Message-ID: <1364594142-24998-1-git-send-email-taffit@debian.org>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] license headers: tfix
+Date: Sun, 31 Mar 2013 01:45:13 +0100
+Message-ID: <1364690713-9933-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+There are some extra dots in the license text compared to original one.
 ---
- man5/proc.5 |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/kcmp.2            |   10 +++++-----
+ man2/quotactl.2        |   10 +++++-----
+ man2/subpage_prot.2    |   10 +++++-----
+ man3/get_nprocs_conf.3 |   10 +++++-----
+ man3/if_nameindex.3    |   10 +++++-----
+ man3/if_nametoindex.3  |   10 +++++-----
+ 6 files changed, 30 insertions(+), 30 deletions(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 22b7cd0..adbf978 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -390,7 +390,7 @@ is the device
- .I inode
- is the inode on that device.
- 0 indicates that no inode is associated with the memory region,
--as would be ithe case with BSS (uninitialized data).
-+as would be the case with BSS (uninitialized data).
- 
- The
- .I pathname
-@@ -406,7 +406,7 @@ There are additional helpful pseudo-paths:
- .RS 12
- .TP
- .IR [stack]
--The initial process's (also known as the main thread's) stack
-+The initial process's (also known as the main thread's) stack.
- .TP
- .IR [stack:<tid>] " (since Linux 3.4)"
- .\" commit b76437579d1344b612cf1851ae610c636cec7db0
+diff --git a/man2/kcmp.2 b/man2/kcmp.2
+index b89bf0f..8f15d7b 100644
+--- a/man2/kcmp.2
++++ b/man2/kcmp.2
+@@ -12,11 +12,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
+diff --git a/man2/quotactl.2 b/man2/quotactl.2
+index c32f18d..b112f02 100644
+--- a/man2/quotactl.2
++++ b/man2/quotactl.2
+@@ -13,11 +13,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
+diff --git a/man2/subpage_prot.2 b/man2/subpage_prot.2
+index f9ce56b..69c32f1 100644
+--- a/man2/subpage_prot.2
++++ b/man2/subpage_prot.2
+@@ -12,11 +12,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
+diff --git a/man3/get_nprocs_conf.3 b/man3/get_nprocs_conf.3
+index 1189098..85dfdcf 100644
+--- a/man3/get_nprocs_conf.3
++++ b/man3/get_nprocs_conf.3
+@@ -12,11 +12,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
+diff --git a/man3/if_nameindex.3 b/man3/if_nameindex.3
+index 8fa9d7a..e4e2081 100644
+--- a/man3/if_nameindex.3
++++ b/man3/if_nameindex.3
+@@ -12,11 +12,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
+diff --git a/man3/if_nametoindex.3 b/man3/if_nametoindex.3
+index ec469b5..4bce79d 100644
+--- a/man3/if_nametoindex.3
++++ b/man3/if_nametoindex.3
+@@ -11,11 +11,11 @@
+ .\" a permission notice identical to this one.
+ .\"
+ .\" Since the Linux kernel and libraries are constantly changing, this
+-.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+-.\" no responsibility for errors or omissions, or for damages resulting.
+-.\" from the use of the information contained herein.  The author(s) may.
+-.\" not have taken the same level of care in the production of this.
+-.\" manual, which is licensed free of charge, as they might when working.
++.\" manual page may be incorrect or out-of-date.  The author(s) assume
++.\" no responsibility for errors or omissions, or for damages resulting
++.\" from the use of the information contained herein.  The author(s) may
++.\" not have taken the same level of care in the production of this
++.\" manual, which is licensed free of charge, as they might when working
+ .\" professionally.
+ .\"
+ .\" Formatted or processed versions of this manual, if unaccompanied by
 -- 
 1.7.10.4
 
