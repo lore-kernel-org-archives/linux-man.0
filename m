@@ -1,126 +1,72 @@
 From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH] man2 : syscall.2 : add notes
-Date: Mon, 1 Apr 2013 04:29:44 -0400
-Message-ID: <201304010429.45737.vapier@gentoo.org>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <201304010319.45019.vapier@gentoo.org> <CAKgNAkhBASGvXGfdBSjpGaMuxoJofcQvZQrX3a=uxbcKQnXOAQ@mail.gmail.com>
+Date: Mon, 1 Apr 2013 04:37:51 -0400
+Message-ID: <201304010437.52901.vapier@gentoo.org>
+References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <CAKgNAki_8bOsuKTJLx3iMLeSvVXHo0bZf8zSUQ08RR7+D33xgQ@mail.gmail.com> <201304010319.45019.vapier@gentoo.org>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
-  boundary="nextPart2637687.fKkRpY2ZvS";
+  boundary="nextPart3443684.6k45cG3eM0";
   protocol="application/pgp-signature";
   micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhBASGvXGfdBSjpGaMuxoJofcQvZQrX3a=uxbcKQnXOAQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <201304010319.45019.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: Changhee Han <ch0.han-Hm3cg6mZ9cc@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gunho.lee-Hm3cg6mZ9cc@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart2637687.fKkRpY2ZvS
+--nextPart3443684.6k45cG3eM0
 Content-Type: Text/Plain;
-  charset="iso-8859-1"
+  charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Monday 01 April 2013 03:36:40 Michael Kerrisk (man-pages) wrote:
-> +glibc handles the details of copyiing arguments to the right registers
+On Monday 01 April 2013 03:19:43 Mike Frysinger wrote:
+> for ARM OABI, there is no such padding, and the proposed example is wrong
+> and will not work.
+>=20
+> for ARM EABI, the ABI requires that 64bit values be passed in register
+> pairs. since the kernel people wanted to avoid an assembly trampoline to
+> unpack the 64bit value with EABI, you have to call it as proposed:
+> 	syscall(readahead, fd, _pad, high32, low32)
+>=20
+> for MIPS, only the O32 ABI has this behavior.
+>=20
+> for PPC, only the 32bit ABI has this behavior.
+>=20
+> otherwise, i don't believe anyone else does this -- they just pass things
+> along in registers w/out padding.
 
-copying
-
-> +the caller may need to handle architecture-dependent details.
-
-may->might
-
-> +For example, on the ARM architecture Embbeded ABI (EABI), a
-
-Embedded
-
-> +.I "long long"
-> +argument is considered to be 8-byte aligned and to be split
-> +into two 4-byte arguments.
-
-i would rewrite to:
-64 bit value (e.g. "long long") must be aligned to an even register pair.
-
-> +.I offset
-> +is 64 bit and should be 8-byte aligned.
-> +Thus, a padding is inserted before
-> +.I offset
-> +and
-> +.I offset
-> +is split into two 32-bit arguments.
-
-i would rewrite to:
-Since the offset argument is 64 bits, and the first argument (fd) is passed=
- in=20
-r0, we need to manually split & align the 64 bit value ourselves so that it=
- is=20
-passed in the r2/r3 register pair.  That means inserting a dummy value into=
- r1=20
-(the 2nd argument of 0).
-
-> +Similar issues can occur on MIPS with the O32 ABI and
-> +on PowerPC with the 32-bit ABI.
-> +.BR fadvise64_64 (2)
-> +.BR ftruncate64 (2)
-> +.BR pread64 (2)
-> +.BR pwrite64 (2)
-> +.BR readahead (2)
-> +and
-> +.BR truncate64 (2).
-
-the style here is messed up.  i'm guessing you meant to make a new paragrap=
-h=20
-starting at "Similar", and you meant to add some text before the function=20
-list.  also add to the list: sync_file_range and posix_fadvise.
-
-not sure if it's worth mentioning, but this issue ends up forcing MIPS' O32=
- to=20
-take 7 arguments to syscall() :).  on ARM/PPC, they avoid this by reorderin=
-g=20
-the arguments.
-
-i see that the existing sync_file_range and posix_fadvise pages explicitly =
-call=20
-out this issue.  i'd suggest updating those (as well as the other funcs tha=
-t=20
-are affected) to point back to syscall(2) for more details rather than gett=
-ing=20
-into too much detail.
-
-on a related topic, would it be useful to document the exact calling=20
-convention for architecture system calls ?  from time to time, i need to=20
-reference this, and i inevitably turn to a variety of sources to dig up the=
-=20
-answer (the kernel itself, or strace, or qemu, or glibc, or uClibc, or lss,=
- or=20
-other random places).  i would find it handy to have all of these in a sing=
-le=20
-location.
+in random grepping of code bases (uClibc), i believe the xtensa arch also d=
+oes=20
+64bit register pair aligning.  a cursory scan of the kernel seems to back t=
+his=20
+up.
 =2Dmike
 
---nextPart2637687.fKkRpY2ZvS
+--nextPart3443684.6k45cG3eM0
 Content-Type: application/pgp-signature; name=signature.asc 
 Content-Description: This is a digitally signed message part.
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iQIcBAABAgAGBQJRWUV5AAoJEEFjO5/oN/WBNLIP/AxltUF3fwZM2GCC880Iex2Q
-l8IQdXqvXVT/ge5rrfFNH/NBzQLNugNDQkVbrTQ2GPRhEBmIkCwhpMMw6tgn4938
-qv/WtQRjdL63N3wOc1jVGV8iDoeEptXBSR1FzAMEgk1y7X2kDQj0TUB3y7e5iKXJ
-yJxNYKzMTaHZQjdGoQvNG550uxY+xKdG+5JPDNjKg8ntzhJE/NZKzRuRjCHermzd
-cQ6osBU7O6q6mJ3xbZ/jvc5i3OzWP56e+nc0u5jDwUo61wj2RlYYUdGqKSqiqXoW
-DlyDcuffQS9lxxXRNPoFRQ1U8syKaeCDeChHr+IW70PCEPt8wTLLB4VTW6+Mpsd1
-Md5aHCf4zvDIscPqSnJ3GEQml1VGfHUtla7CBKyCDlX9Fhcp0ZzyeaOJOMD7+bsH
-rgAm4Ly9rgx4DMwZqVPmhDrsRMgT7HZW6m71LWxD14xkuW1SbvaupL/Zk1Bywuof
-V7dWck6LQX59mXmjooQsF285AsOgtLNAfYZAUAkvHexQeZi32kY/HkwDP/5l48hk
-orZKyFSLPOUUT6o8T5WSgjujxbB8Dtis850egFKXDYlexdhV6+nxMcje3A1LFKRz
-76NKXM3FjdsTI9CvsPilhw87/eNaVJ6xIZNJy6mXRpFPJIE14KG+nchHeU3xNAcF
-sdYOW8C3banKG2qSJVj8
-=wBW9
+iQIcBAABAgAGBQJRWUdgAAoJEEFjO5/oN/WBab0P+gPxUNTcdiKbhdLugQKfLmUO
+W4IYgEiRQ6kYqq5EAusWW9CJfqv38EKX+PpfQtUGUt+p/ozuKRsW+hPYwovI53IG
+J/1YbvUws7odZ8A6AQOFVOVFoGCOc8u67SnsCDmekdftT8cFJbVlIxzialJH+zh2
+jOY81bZMEKLaKy+eisCxnS9F/linVKJ6S5f7VId8XI3jYh0X87JXmX+u8shWjvFd
+OCCYwcgEekz9U8DiaifLK2N3tUTumuoVi77k3qop05y/Nxuf+AceXQ022PY2ypcV
+OKseEyWMhPO/9gDUTswc9LPkHn0NNTopdBUacnJaIlH7etWddME8l3qBM2aDJ9PK
+mYl/zWywDLJqCiEMMMxe42RGPMQxkFCznTixnAexWzUi/XYsXh8oodilx4ig/YLO
+WCo5Xa1a2kRopuEoNQJS95Wd4SVvkfVVmhoCYs2z0wWegdjqxXJB1LShnIV0j5xF
+peqqSmlgDpettJyV0uvqUNOitKktb9J8uptvefoW8aDWPndPQZcXwFGfRcBsZCkY
+ay7u3aovyaCYA6fD/JIVVrnnHsJEdwJep597r1BfgGFuc1IzO/hcdJ6rLzkwgJPb
+3PfuwfomSrF5XDa7VJzYUnX2x0uwIdMWw5XHyZcXqJGjD08VRvXl7urprxZ3ncAI
+fGoAjVJ/ZnTG9qPgoIxG
+=06Sv
 -----END PGP SIGNATURE-----
 
---nextPart2637687.fKkRpY2ZvS--
+--nextPart3443684.6k45cG3eM0--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
