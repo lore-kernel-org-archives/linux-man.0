@@ -1,158 +1,136 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] license headers: tfix
-Date: Mon, 1 Apr 2013 08:28:19 +0200
-Message-ID: <CAKgNAkgz803cpcTTec1kDCdGB3VzVX530rDs0wBWi52wEmq-8g@mail.gmail.com>
-References: <1364690713-9933-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] license headers: consistent format
+Date: Mon, 1 Apr 2013 08:31:15 +0200
+Message-ID: <CAKgNAkjaYoRw1SEe38VVtMpMwD_xP5fdB6mvYQte7kwytCU1hA@mail.gmail.com>
+References: <1364738731-28081-1-git-send-email-spaillard@debian.org>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364690713-9933-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1364738731-28081-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Mar 31, 2013 at 1:45 AM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
-> There are some extra dots in the license text compared to original one.
-
 Thanks Simon. Applied.
 
+On Sun, Mar 31, 2013 at 4:05 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
 > ---
->  man2/kcmp.2            |   10 +++++-----
->  man2/quotactl.2        |   10 +++++-----
->  man2/subpage_prot.2    |   10 +++++-----
->  man3/get_nprocs_conf.3 |   10 +++++-----
->  man3/if_nameindex.3    |   10 +++++-----
->  man3/if_nametoindex.3  |   10 +++++-----
->  6 files changed, 30 insertions(+), 30 deletions(-)
+>  man1/time.1          |    2 +-
+>  man3/addseverity.3   |    2 +-
+>  man3/fdim.3          |    2 +-
+>  man3/fmtmsg.3        |    2 +-
+>  man3/getttyent.3     |    2 +-
+>  man3/key_setsecret.3 |    2 +-
+>  man3/setnetgrent.3   |    2 +-
+>  man4/tty_ioctl.4     |    2 +-
+>  8 files changed, 8 insertions(+), 8 deletions(-)
 >
-> diff --git a/man2/kcmp.2 b/man2/kcmp.2
-> index b89bf0f..8f15d7b 100644
-> --- a/man2/kcmp.2
-> +++ b/man2/kcmp.2
-> @@ -12,11 +12,11 @@
->  .\" a permission notice identical to this one.
+> diff --git a/man1/time.1 b/man1/time.1
+> index db3f4d4..e6d5699 100644
+> --- a/man1/time.1
+> +++ b/man1/time.1
+> @@ -3,7 +3,7 @@
+>  .\" Inspired by kromJx-Dvipu+2PAdhvOAoTsqBe5g@public.gmane.org
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\" This page is distributed under GPL.
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
-> diff --git a/man2/quotactl.2 b/man2/quotactl.2
-> index c32f18d..b112f02 100644
-> --- a/man2/quotactl.2
-> +++ b/man2/quotactl.2
-> @@ -13,11 +13,11 @@
->  .\" a permission notice identical to this one.
+>  .TH TIME 1 2008-11-14 "" "Linux User's Manual"
+> diff --git a/man3/addseverity.3 b/man3/addseverity.3
+> index c1d7e71..5e8cc06 100644
+> --- a/man3/addseverity.3
+> +++ b/man3/addseverity.3
+> @@ -1,7 +1,7 @@
+>  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\"  Distributed under GPL
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
+>  .\"  adapted glibc info page
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
-> diff --git a/man2/subpage_prot.2 b/man2/subpage_prot.2
-> index f9ce56b..69c32f1 100644
-> --- a/man2/subpage_prot.2
-> +++ b/man2/subpage_prot.2
-> @@ -12,11 +12,11 @@
->  .\" a permission notice identical to this one.
+> diff --git a/man3/fdim.3 b/man3/fdim.3
+> index 6694f5c..62dac84 100644
+> --- a/man3/fdim.3
+> +++ b/man3/fdim.3
+> @@ -3,7 +3,7 @@
+>  .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\" Distributed under GPL.
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
-> diff --git a/man3/get_nprocs_conf.3 b/man3/get_nprocs_conf.3
-> index 1189098..85dfdcf 100644
-> --- a/man3/get_nprocs_conf.3
-> +++ b/man3/get_nprocs_conf.3
-> @@ -12,11 +12,11 @@
->  .\" a permission notice identical to this one.
+>  .TH FDIM 3 2010-09-20 "" "Linux Programmer's Manual"
+> diff --git a/man3/fmtmsg.3 b/man3/fmtmsg.3
+> index e046fbe..f4b3d6f 100644
+> --- a/man3/fmtmsg.3
+> +++ b/man3/fmtmsg.3
+> @@ -1,7 +1,7 @@
+>  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\"  Distributed under GPL
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
-> diff --git a/man3/if_nameindex.3 b/man3/if_nameindex.3
-> index 8fa9d7a..e4e2081 100644
-> --- a/man3/if_nameindex.3
-> +++ b/man3/if_nameindex.3
-> @@ -12,11 +12,11 @@
->  .\" a permission notice identical to this one.
+>  .\"  adapted glibc info page
+> diff --git a/man3/getttyent.3 b/man3/getttyent.3
+> index c15d73d..60504c0 100644
+> --- a/man3/getttyent.3
+> +++ b/man3/getttyent.3
+> @@ -1,7 +1,7 @@
+>  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\"  Distributed under GPL
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
-> diff --git a/man3/if_nametoindex.3 b/man3/if_nametoindex.3
-> index ec469b5..4bce79d 100644
-> --- a/man3/if_nametoindex.3
-> +++ b/man3/if_nametoindex.3
-> @@ -11,11 +11,11 @@
->  .\" a permission notice identical to this one.
+>  .TH GETTTYENT 3 2002-07-18  "GNU" "Linux Programmer's Manual"
+> diff --git a/man3/key_setsecret.3 b/man3/key_setsecret.3
+> index 20c357c..f75896e 100644
+> --- a/man3/key_setsecret.3
+> +++ b/man3/key_setsecret.3
+> @@ -1,7 +1,7 @@
+>  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
 >  .\"
->  .\" Since the Linux kernel and libraries are constantly changing, this
-> -.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> -.\" no responsibility for errors or omissions, or for damages resulting.
-> -.\" from the use of the information contained herein.  The author(s) may.
-> -.\" not have taken the same level of care in the production of this.
-> -.\" manual, which is licensed free of charge, as they might when working.
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume
-> +.\" no responsibility for errors or omissions, or for damages resulting
-> +.\" from the use of the information contained herein.  The author(s) may
-> +.\" not have taken the same level of care in the production of this
-> +.\" manual, which is licensed free of charge, as they might when working
->  .\" professionally.
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\"  Distributed under GPL
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Formatted or processed versions of this manual, if unaccompanied by
+>  .\"  I had no way the check the functions out
+> diff --git a/man3/setnetgrent.3 b/man3/setnetgrent.3
+> index 9745867..40811c2 100644
+> --- a/man3/setnetgrent.3
+> +++ b/man3/setnetgrent.3
+> @@ -1,7 +1,7 @@
+>  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+>  .\"
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\"  Distributed under GPL
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
+>  .\"
+>  .\"  based on glibc infopages
+> diff --git a/man4/tty_ioctl.4 b/man4/tty_ioctl.4
+> index bddba96..a33bc5b 100644
+> --- a/man4/tty_ioctl.4
+> +++ b/man4/tty_ioctl.4
+> @@ -2,7 +2,7 @@
+>  .\" and Andries Brouwer <aeb-rh8NL+sEX9E@public.gmane.org>.
+>  .\"
+>  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\" Distributed under GPL.
+> +.\" Distributed under GPL
+>  .\" %%%LICENSE_END
+>  .\"
+>  .TH TTY_IOCTL 4 2008-10-29 "Linux" "Linux Programmer's Manual"
 > --
 > 1.7.10.4
 >
