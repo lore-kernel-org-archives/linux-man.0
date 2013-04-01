@@ -1,62 +1,104 @@
-From: "=?EUC-KR?B?x9HDosjx?=" <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
-Subject: Fw : Re : Re: [PATCH] man2 : syscall.2 : add notes
-Date: Mon, 1 Apr 2013 16:05:47 +0900
-Message-ID: <OFB528C47F.2CBB4CD4-ON49257B40.0026FBAD-49257B40.0026FBAF@lge.com>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com>
- <1364794429-20477-1-git-send-email-ch0.han@lge.com> <201304010213.06056.vapier@gentoo.org>
-Reply-To: "=?EUC-KR?B?x9HDosjx?=" <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] man2 : syscall.2 : add notes
+Date: Mon, 1 Apr 2013 03:19:43 -0400
+Message-ID: <201304010319.45019.vapier@gentoo.org>
+References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <201304010213.06056.vapier@gentoo.org> <CAKgNAki_8bOsuKTJLx3iMLeSvVXHo0bZf8zSUQ08RR7+D33xgQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=EUC-KR
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed;
+  boundary="nextPart1669440.TPon2Q5Lq6";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201304010213.06056.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAKgNAki_8bOsuKTJLx3iMLeSvVXHo0bZf8zSUQ08RR7+D33xgQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?EUC-KR?B?wMywx8ij?= <gunho.lee-Hm3cg6mZ9cc@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Changhee Han <ch0.han-Hm3cg6mZ9cc@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gunho.lee-Hm3cg6mZ9cc@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-DQpLZXJyaXNrLA0KDQpBcmd1bWVudHMgcGFzc2VzIHZpYSByZWdpc3RlcnMgd2hlbiBzeXNjYWxs
-KCkgY2FsbHMuDQpidXQgZWFjaCByZWdpc3RlciBzaXplIGlzIDMyIGJpdCB3aWRlLg0KU28sIHdo
-ZW4gNjRiaXQgYXJndW1lbnQgcGFzc2VzLCBpdCBzcGxpdCBpbnRvIHR3byByZWdpc3RlcnMuDQoN
-CkJ1dCBhY2NvcmRpbmcgdG8gQUJJIGJ5IEFSTSwgNjQgYml0IGFyZ3VtZW50cyBzaG91bGQgYmUg
-c3RhcnQgd2l0aCBhbiBldmVuIG51bWJlciBvZiByZWdpc3RlciAoZS5nLiByMCwgcjIpDQpzbywg
-aW4gdGhlIGV4YW1wbGUsICdvZmZzZXQnIHNob3VsZCBiZSBzdGFydGVkIG9uIGFuIGV2ZW4gbnVt
-YmVyIG9mIHJlZ2lzdGVyIGxpa2UgYmVsb3cNCg0KcjAgOiBmZA0KcjEgOiAwIChkdW1teSB2YWx1
-ZSkNCnIyIDogb2Zmc2V0IGhpZ2gNCnIzIDogb2Zmc2V0IGxvdw0KDQppZiAnMCcgaXMgb21pdHRl
-ZCwgc3lzdGVtIGNhbGwgaGFuZGxlciBtaXMtaW50ZXJwcmV0ZWQgdGhlIHZhbHVlIGFuZCBhIGdh
-cmJhZ2UgdmFsdWUgaXMgaW4gJ29mZnNldCcNCg0KDQpJIHdpbGwgY29ycmVjdCB0aGUgbm90ZXMg
-YW5kIHN1Ym1pdCBpdCBhZ2FpbiBzb29uLi4uDQoNCk1pa2UsIGRvIHlvdSBoYXZlIGFueSBzdWdn
-ZXN0aW9uIHRvIGNvcnJlY3QgbXkgZXhwcmVzc2lvbj8gKCBpbmNsdWRlIGFsaWdubWVudC4uLi4/
-ICkNCg0KDQoNCi0tLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLS0tDQoNCkZyb20g
-OiAiTWljaGFlbCBLZXJyaXNrIChtYW4tcGFnZXMpIiA8bXRrLm1hbnBhZ2VzQGdtYWlsLmNvbT4N
-ClRvIDogTWlrZSBGcnlzaW5nZXIgPHZhcGllckBnZW50b28ub3JnPg0KQ2MgOiDH0cOiyPEgv6yx
-uL/4KGNoMC5oYW4pLCBsaW51eC1tYW4gPGxpbnV4LW1hbkB2Z2VyLmtlcm5lbC5vcmc+LCDAzLDH
-yKMgw6XA07+ssbi/+ChndW5oby5sZWUpDQpEYXRlIDogMTMvNC8xIDE1OjIzOjA4DQpTdWJqZWN0
-IDogUmU6IFtQQVRDSF0gbWFuMiA6IHN5c2NhbGwuMiA6IGFkZCBub3Rlcw0KDQoNCg0KTWlrZSwN
-Cg0KT24gTW9uLCBBcHIgMSwgMjAxMyBhdCA4OjEzIEFNLCBNaWtlIEZyeXNpbmdlciB3cm90ZToN
-Cj4gT24gTW9uZGF5IDAxIEFwcmlsIDIwMTMgMDE6MzM6NDkgQ2hhbmdoZWUgSGFuIHdyb3RlOg0K
-Pj4gK0VhY2ggYXJjaGl0ZWN0dXJlIEFCSSBoYXMgaXRzIG93biByZXF1aXJlbWVudHMgb24gaG93
-IHN5c3RlbSBjYWxsDQo+PiBhcmd1bWVudHMgYXJlIHBhc3NlZCB0byB0aGUga2VybmVsLiArRm9y
-IHN5c3RlbSBjYWxscyB0aGF0IGhhdmUgYSBnbGliYw0KPj4gd3JhcHBlciAoaS5nLiwgbW9zdCBz
-eXN0ZW0gY2FsbHMpIGdsaWJjIGhhbmRsZXMgdGhlIGRldGFpbHMgb2YgY29weQ0KPj4gYXJndW1l
-bnRzIHRvIHRoZSByaWdodCByZWdpc3RlcnMgaW4gYSBtYW5uZXIgc3VpdGFibGUgZm9yIHRoZQ0K
-Pj4gYXJjaGl0ZWN0dXJlLg0KPg0KPiB0aGVzZSBsaW5lcyBuZWVkIHRvIGJlIHdyYXBwZWQNCj4N
-Cj4gImkuZy4iIGlzIGluY29ycmVjdCAuLi4geW91IG1lYW4gImkuZS4iDQo+DQo+PiArSG93ZXZl
-ciwgd2hlbiB1c2luZw0KPj4gKy5CUiBzeXNjYWxsICgpDQo+PiArdG8gbWFrZSBhIHN5c3RlbSBj
-YWxsLA0KPj4gK3RoZSBjYWxsZXIgbWF5IG5lZWQgdG8gaGFuZGxlIGFyY2hpdGVjdHVyZS1kZXBl
-bmRlbnQgZGV0YWlscy4NCj4+ICtGb3IgZXhhbXBsZSwgb24gQVJNIGFyY2hpdGVjdHVyZSwgYQ0K
-Pj4gKy5JICJsb25nIGxvbmciDQo+PiArYXJndW1lbnQgaXMgY29uc2lkZXJlZCB0byBiZSA4LWJ5
-dGUgYWxpZ25lZCBhbmQgdG8gYmUgc3BsaXQgaW50byB0d28NCj4+IDQtYnl0ZSBhcmd1bWVudHMu
-ICsNCj4+ICsuQlIgcmVhZGFoZWFkICgpDQo+PiArc3lzdGVtIGNhbGwgY291bGQgYmUgY2FsbGVk
-IGxpa2UgYmVsb3cgaW4gQVJNIGFyY2hpdGVjdHVyZS4NCj4NCj4gdGhpcyBoYXMgbm90aGluZyB0
-byBkbyB3aXRoIGFsaWdubWVudC4gIHN5c2NhbGxzIHBhc3MgYXJncyB2aWEgcmVnaXN0ZXJzLCBh
-bmQNCj4gaW4gdGhlIDMyYml0IEFSTSBwb3J0LCByZWdpc3RlcnMgYXJlIDMyYml0cyB3aWRlLiAg
-c28gaW4gb3JkZXIgdG8gcGFzcyBhIDY0Yml0DQo+IHZhbHVlLCB5b3UgaGF2ZSB0byBtYW51YWxs
-eSBzcGxpdCBpdCB1cC4NCg0KU28sIEknbSBub3QgZmFtaWxpYXIgd2l0aCBhbGwgdGhlIGRldGFp
-bHMgaGVyZS4gV2hhdCBpcyB0aGUgcHVycG9zZSBvZg0KdGhlICcwJyBhcmd1bWVudCB0aGF0IHBy
-ZWNlZGVzICdvZmZzZXQnIHRoZW4/DQoNCkNoZWVycywNCg0KTWljaGFlbA==
+--nextPart1669440.TPon2Q5Lq6
+Content-Type: Text/Plain;
+  charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
+On Monday 01 April 2013 02:22:45 Michael Kerrisk (man-pages) wrote:
+> On Mon, Apr 1, 2013 at 8:13 AM, Mike Frysinger wrote:
+> > On Monday 01 April 2013 01:33:49 Changhee Han wrote:
+> >> +However, when using
+> >> +.BR syscall ()
+> >> +to make a system call,
+> >> +the caller may need to handle architecture-dependent details.
+> >> +For example, on ARM architecture, a
+> >> +.I "long long"
+> >> +argument is considered to be 8-byte aligned and to be split into two
+> >> 4-byte arguments. +
+> >> +.BR readahead ()
+> >> +system call could be called like below in ARM architecture.
+> >=20
+> > this has nothing to do with alignment.  syscalls pass args via register=
+s,
+> > and in the 32bit ARM port, registers are 32bits wide.  so in order to
+> > pass a 64bit value, you have to manually split it up.
+>=20
+> So, I'm not familiar with all the details here. What is the purpose of
+> the '0' argument that precedes 'offset' then?
 
+ok, so the answer is more nuanced, and the reasoning above is incorrect (or=
+ at=20
+the very least, poorly phrased).
+
+for ARM OABI, there is no such padding, and the proposed example is wrong a=
+nd=20
+will not work.
+
+for ARM EABI, the ABI requires that 64bit values be passed in register pair=
+s. =20
+since the kernel people wanted to avoid an assembly trampoline to unpack th=
+e=20
+64bit value with EABI, you have to call it as proposed:
+	syscall(readahead, fd, _pad, high32, low32)
+
+for MIPS, only the O32 ABI has this behavior.
+
+for PPC, only the 32bit ABI has this behavior.
+
+otherwise, i don't believe anyone else does this -- they just pass things=20
+along in registers w/out padding.
+
+since the current list of syscalls which are impacted is small, it might be=
+=20
+useful to explicitly enumerate them.  they are:
+	fadvise64_64
+	ftruncate64
+	pread64
+	pwrite64
+	readahead
+	truncate64
+=2Dmike
+
+--nextPart1669440.TPon2Q5Lq6
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iQIcBAABAgAGBQJRWTUQAAoJEEFjO5/oN/WBQ2oQALhw4jB/dV5SI4wIY7UhSsR2
+a769bx68eNDKu3TFBAUAtXfzV7TJzrjLMgTqk2/nhJ7zyZBF0axus3BInN0oLBHf
+ePbq+yl0IGjW3ytwcmOCp86ipjxsTYliginPrvfHJZZB9TBmn9mBEEe+8IkX18Dj
+prv2XozPBrB3IDrm2QkXkNba+qMoGHJWuEAKCP5PI7IobTgcSSY3+9FtoCLz9sLO
+Ad/0QUWmOb6Cou6ybsi1jAgcHNFu8h8FErCsR0bNigWd+YyuNQ0/KBIaBOtgHPOG
+LPFGsH3AmHcBDKmtAk5jJ0x+lPMOhK8u9bNXo2WBf8Jv3BMo64Bf8+WrIM62OFTh
+IKbIJtVEd+2zJP0sKmjjWikMeo41MdJIpO5oszw1uJsNXEAqmI43OY/0UbTea9oX
+tEvgYwFklURxt//8kT86CT3L9OW7WJZZjLqZcnOg6t7Hd0mqVHYSzLG+R9ISOsIa
+teL1fwYJLR4v90j/JCni62kwNe4N1aDRBUT5RFZ+vBu3aiwmmoxcv0qz9ucmiCEN
+UZ7MCUxnTVLXmHl9Rv/R7azycdTyc+89mjitRZeRf0oY0g6KU9bQ+aVq3qTITTSC
+IR2Vu/okYJm9ZX7B3EuwKI5R82Y27uDAFT9rfsW0tgir8hjtmNNEwAkz6pcP46e1
+ZsxDY33SrOnLWK7mAxZF
+=s8QA
+-----END PGP SIGNATURE-----
+
+--nextPart1669440.TPon2Q5Lq6--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
