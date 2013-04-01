@@ -1,150 +1,62 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] license headers: consistent format
-Date: Mon, 1 Apr 2013 08:31:15 +0200
-Message-ID: <CAKgNAkjaYoRw1SEe38VVtMpMwD_xP5fdB6mvYQte7kwytCU1hA@mail.gmail.com>
-References: <1364738731-28081-1-git-send-email-spaillard@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "=?EUC-KR?B?x9HDosjx?=" <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
+Subject: Fw : Re : Re: [PATCH] man2 : syscall.2 : add notes
+Date: Mon, 1 Apr 2013 16:05:47 +0900
+Message-ID: <OFB528C47F.2CBB4CD4-ON49257B40.0026FBAD-49257B40.0026FBAF@lge.com>
+References: <1364361092-5948-1-git-send-email-ch0.han@lge.com>
+ <1364794429-20477-1-git-send-email-ch0.han@lge.com> <201304010213.06056.vapier@gentoo.org>
+Reply-To: "=?EUC-KR?B?x9HDosjx?=" <ch0.han-Hm3cg6mZ9cc@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=EUC-KR
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364738731-28081-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <201304010213.06056.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?EUC-KR?B?wMywx8ij?= <gunho.lee-Hm3cg6mZ9cc@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks Simon. Applied.
-
-On Sun, Mar 31, 2013 at 4:05 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
-> ---
->  man1/time.1          |    2 +-
->  man3/addseverity.3   |    2 +-
->  man3/fdim.3          |    2 +-
->  man3/fmtmsg.3        |    2 +-
->  man3/getttyent.3     |    2 +-
->  man3/key_setsecret.3 |    2 +-
->  man3/setnetgrent.3   |    2 +-
->  man4/tty_ioctl.4     |    2 +-
->  8 files changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/man1/time.1 b/man1/time.1
-> index db3f4d4..e6d5699 100644
-> --- a/man1/time.1
-> +++ b/man1/time.1
-> @@ -3,7 +3,7 @@
->  .\" Inspired by kromJx-Dvipu+2PAdhvOAoTsqBe5g@public.gmane.org
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\" This page is distributed under GPL.
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .TH TIME 1 2008-11-14 "" "Linux User's Manual"
-> diff --git a/man3/addseverity.3 b/man3/addseverity.3
-> index c1d7e71..5e8cc06 100644
-> --- a/man3/addseverity.3
-> +++ b/man3/addseverity.3
-> @@ -1,7 +1,7 @@
->  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\"  Distributed under GPL
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"  adapted glibc info page
->  .\"
-> diff --git a/man3/fdim.3 b/man3/fdim.3
-> index 6694f5c..62dac84 100644
-> --- a/man3/fdim.3
-> +++ b/man3/fdim.3
-> @@ -3,7 +3,7 @@
->  .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\" Distributed under GPL.
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .TH FDIM 3 2010-09-20 "" "Linux Programmer's Manual"
-> diff --git a/man3/fmtmsg.3 b/man3/fmtmsg.3
-> index e046fbe..f4b3d6f 100644
-> --- a/man3/fmtmsg.3
-> +++ b/man3/fmtmsg.3
-> @@ -1,7 +1,7 @@
->  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\"  Distributed under GPL
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .\"  adapted glibc info page
-> diff --git a/man3/getttyent.3 b/man3/getttyent.3
-> index c15d73d..60504c0 100644
-> --- a/man3/getttyent.3
-> +++ b/man3/getttyent.3
-> @@ -1,7 +1,7 @@
->  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\"  Distributed under GPL
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .TH GETTTYENT 3 2002-07-18  "GNU" "Linux Programmer's Manual"
-> diff --git a/man3/key_setsecret.3 b/man3/key_setsecret.3
-> index 20c357c..f75896e 100644
-> --- a/man3/key_setsecret.3
-> +++ b/man3/key_setsecret.3
-> @@ -1,7 +1,7 @@
->  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\"  Distributed under GPL
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .\"  I had no way the check the functions out
-> diff --git a/man3/setnetgrent.3 b/man3/setnetgrent.3
-> index 9745867..40811c2 100644
-> --- a/man3/setnetgrent.3
-> +++ b/man3/setnetgrent.3
-> @@ -1,7 +1,7 @@
->  .\"  Copyright 2002 walter harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\"  Distributed under GPL
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .\"  based on glibc infopages
-> diff --git a/man4/tty_ioctl.4 b/man4/tty_ioctl.4
-> index bddba96..a33bc5b 100644
-> --- a/man4/tty_ioctl.4
-> +++ b/man4/tty_ioctl.4
-> @@ -2,7 +2,7 @@
->  .\" and Andries Brouwer <aeb-rh8NL+sEX9E@public.gmane.org>.
->  .\"
->  .\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
-> -.\" Distributed under GPL.
-> +.\" Distributed under GPL
->  .\" %%%LICENSE_END
->  .\"
->  .TH TTY_IOCTL 4 2008-10-29 "Linux" "Linux Programmer's Manual"
-> --
-> 1.7.10.4
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+DQpLZXJyaXNrLA0KDQpBcmd1bWVudHMgcGFzc2VzIHZpYSByZWdpc3RlcnMgd2hlbiBzeXNjYWxs
+KCkgY2FsbHMuDQpidXQgZWFjaCByZWdpc3RlciBzaXplIGlzIDMyIGJpdCB3aWRlLg0KU28sIHdo
+ZW4gNjRiaXQgYXJndW1lbnQgcGFzc2VzLCBpdCBzcGxpdCBpbnRvIHR3byByZWdpc3RlcnMuDQoN
+CkJ1dCBhY2NvcmRpbmcgdG8gQUJJIGJ5IEFSTSwgNjQgYml0IGFyZ3VtZW50cyBzaG91bGQgYmUg
+c3RhcnQgd2l0aCBhbiBldmVuIG51bWJlciBvZiByZWdpc3RlciAoZS5nLiByMCwgcjIpDQpzbywg
+aW4gdGhlIGV4YW1wbGUsICdvZmZzZXQnIHNob3VsZCBiZSBzdGFydGVkIG9uIGFuIGV2ZW4gbnVt
+YmVyIG9mIHJlZ2lzdGVyIGxpa2UgYmVsb3cNCg0KcjAgOiBmZA0KcjEgOiAwIChkdW1teSB2YWx1
+ZSkNCnIyIDogb2Zmc2V0IGhpZ2gNCnIzIDogb2Zmc2V0IGxvdw0KDQppZiAnMCcgaXMgb21pdHRl
+ZCwgc3lzdGVtIGNhbGwgaGFuZGxlciBtaXMtaW50ZXJwcmV0ZWQgdGhlIHZhbHVlIGFuZCBhIGdh
+cmJhZ2UgdmFsdWUgaXMgaW4gJ29mZnNldCcNCg0KDQpJIHdpbGwgY29ycmVjdCB0aGUgbm90ZXMg
+YW5kIHN1Ym1pdCBpdCBhZ2FpbiBzb29uLi4uDQoNCk1pa2UsIGRvIHlvdSBoYXZlIGFueSBzdWdn
+ZXN0aW9uIHRvIGNvcnJlY3QgbXkgZXhwcmVzc2lvbj8gKCBpbmNsdWRlIGFsaWdubWVudC4uLi4/
+ICkNCg0KDQoNCi0tLS0tLS0tLS0gT3JpZ2luYWwgTWVzc2FnZSAtLS0tLS0tLS0tDQoNCkZyb20g
+OiAiTWljaGFlbCBLZXJyaXNrIChtYW4tcGFnZXMpIiA8bXRrLm1hbnBhZ2VzQGdtYWlsLmNvbT4N
+ClRvIDogTWlrZSBGcnlzaW5nZXIgPHZhcGllckBnZW50b28ub3JnPg0KQ2MgOiDH0cOiyPEgv6yx
+uL/4KGNoMC5oYW4pLCBsaW51eC1tYW4gPGxpbnV4LW1hbkB2Z2VyLmtlcm5lbC5vcmc+LCDAzLDH
+yKMgw6XA07+ssbi/+ChndW5oby5sZWUpDQpEYXRlIDogMTMvNC8xIDE1OjIzOjA4DQpTdWJqZWN0
+IDogUmU6IFtQQVRDSF0gbWFuMiA6IHN5c2NhbGwuMiA6IGFkZCBub3Rlcw0KDQoNCg0KTWlrZSwN
+Cg0KT24gTW9uLCBBcHIgMSwgMjAxMyBhdCA4OjEzIEFNLCBNaWtlIEZyeXNpbmdlciB3cm90ZToN
+Cj4gT24gTW9uZGF5IDAxIEFwcmlsIDIwMTMgMDE6MzM6NDkgQ2hhbmdoZWUgSGFuIHdyb3RlOg0K
+Pj4gK0VhY2ggYXJjaGl0ZWN0dXJlIEFCSSBoYXMgaXRzIG93biByZXF1aXJlbWVudHMgb24gaG93
+IHN5c3RlbSBjYWxsDQo+PiBhcmd1bWVudHMgYXJlIHBhc3NlZCB0byB0aGUga2VybmVsLiArRm9y
+IHN5c3RlbSBjYWxscyB0aGF0IGhhdmUgYSBnbGliYw0KPj4gd3JhcHBlciAoaS5nLiwgbW9zdCBz
+eXN0ZW0gY2FsbHMpIGdsaWJjIGhhbmRsZXMgdGhlIGRldGFpbHMgb2YgY29weQ0KPj4gYXJndW1l
+bnRzIHRvIHRoZSByaWdodCByZWdpc3RlcnMgaW4gYSBtYW5uZXIgc3VpdGFibGUgZm9yIHRoZQ0K
+Pj4gYXJjaGl0ZWN0dXJlLg0KPg0KPiB0aGVzZSBsaW5lcyBuZWVkIHRvIGJlIHdyYXBwZWQNCj4N
+Cj4gImkuZy4iIGlzIGluY29ycmVjdCAuLi4geW91IG1lYW4gImkuZS4iDQo+DQo+PiArSG93ZXZl
+ciwgd2hlbiB1c2luZw0KPj4gKy5CUiBzeXNjYWxsICgpDQo+PiArdG8gbWFrZSBhIHN5c3RlbSBj
+YWxsLA0KPj4gK3RoZSBjYWxsZXIgbWF5IG5lZWQgdG8gaGFuZGxlIGFyY2hpdGVjdHVyZS1kZXBl
+bmRlbnQgZGV0YWlscy4NCj4+ICtGb3IgZXhhbXBsZSwgb24gQVJNIGFyY2hpdGVjdHVyZSwgYQ0K
+Pj4gKy5JICJsb25nIGxvbmciDQo+PiArYXJndW1lbnQgaXMgY29uc2lkZXJlZCB0byBiZSA4LWJ5
+dGUgYWxpZ25lZCBhbmQgdG8gYmUgc3BsaXQgaW50byB0d28NCj4+IDQtYnl0ZSBhcmd1bWVudHMu
+ICsNCj4+ICsuQlIgcmVhZGFoZWFkICgpDQo+PiArc3lzdGVtIGNhbGwgY291bGQgYmUgY2FsbGVk
+IGxpa2UgYmVsb3cgaW4gQVJNIGFyY2hpdGVjdHVyZS4NCj4NCj4gdGhpcyBoYXMgbm90aGluZyB0
+byBkbyB3aXRoIGFsaWdubWVudC4gIHN5c2NhbGxzIHBhc3MgYXJncyB2aWEgcmVnaXN0ZXJzLCBh
+bmQNCj4gaW4gdGhlIDMyYml0IEFSTSBwb3J0LCByZWdpc3RlcnMgYXJlIDMyYml0cyB3aWRlLiAg
+c28gaW4gb3JkZXIgdG8gcGFzcyBhIDY0Yml0DQo+IHZhbHVlLCB5b3UgaGF2ZSB0byBtYW51YWxs
+eSBzcGxpdCBpdCB1cC4NCg0KU28sIEknbSBub3QgZmFtaWxpYXIgd2l0aCBhbGwgdGhlIGRldGFp
+bHMgaGVyZS4gV2hhdCBpcyB0aGUgcHVycG9zZSBvZg0KdGhlICcwJyBhcmd1bWVudCB0aGF0IHBy
+ZWNlZGVzICdvZmZzZXQnIHRoZW4/DQoNCkNoZWVycywNCg0KTWljaGFlbA==
 
 
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
