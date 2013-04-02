@@ -1,29 +1,36 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] man: Add io_setup.3 and io_destroy.3
-Date: Tue, 02 Apr 2013 14:46:53 -0400
-Message-ID: <x49li9022jm.fsf@segfault.boston.devel.redhat.com>
-References: <20130328105243.GA6202@rei.suse.cz>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] quotactl(2): rename RETURN VALUE section
+Date: Tue,  2 Apr 2013 17:57:34 -0400
+Message-ID: <1364939854-12086-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130328105243.GA6202-J5syqNJeCN7twjQa/ONI9g@public.gmane.org> (Cyril Hrubis's message of
-	"Thu, 28 Mar 2013 11:52:43 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> writes:
+Everywhere else we use the singular form.
 
-> This is a second version that includes
-> fixes proposed by Michael Kerrisk.
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/quotactl.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Now that I see what this looks like, I think it's rather confusing to
-have the user reference both the .2 and .3 pages to write code for
-libaio.  I'd prefer to keep all of the text for how to use the library
-inside the .3 man pages.
+diff --git a/man2/quotactl.2 b/man2/quotactl.2
+index b112f02..74578c6 100644
+--- a/man2/quotactl.2
++++ b/man2/quotactl.2
+@@ -416,7 +416,7 @@ for XFS since
+ .BR sync (1)
+ writes quota information to disk (in addition to the other file system
+ metadata that it writes out).
+-.SH RETURN VALUES
++.SH RETURN VALUE
+ .LP
+ On success,
+ .BR quotactl ()
+-- 
+1.8.1.2
 
--Jeff
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
