@@ -1,68 +1,29 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_setname_np.3: The thread variable is passed in by value
-Date: Tue, 2 Apr 2013 09:13:55 +0200
-Message-ID: <CAKgNAkgu7EaKKBRiRV8VXpuD3hLkSvcstOLKzfhXrMc4X1GA-g@mail.gmail.com>
-References: <1364844797-19846-1-git-send-email-andrew@digital-domain.net>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] man: Add io_setup.3 and io_destroy.3
+Date: Tue, 02 Apr 2013 14:46:53 -0400
+Message-ID: <x49li9022jm.fsf@segfault.boston.devel.redhat.com>
+References: <20130328105243.GA6202@rei.suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364844797-19846-1-git-send-email-andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
+In-Reply-To: <20130328105243.GA6202-J5syqNJeCN7twjQa/ONI9g@public.gmane.org> (Cyril Hrubis's message of
+	"Thu, 28 Mar 2013 11:52:43 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrew Clayton <andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Apr 1, 2013 at 9:33 PM, Andrew Clayton
-<andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org> wrote:
-> i.e
->
->     pthread_t thread;
->
->     pthread_setname_np(thread, ...);
->
-> and not
->
->    pthread_setname_np(&thread, ...);
->
-> Signed-off-by: Andrew Clayton <andrew-gyMb1R/nBgN3uBD2Ct+Y/qxOck334EZe@public.gmane.org>
+Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org> writes:
 
-Thanks Andrew. Applied.
+> This is a second version that includes
+> fixes proposed by Michael Kerrisk.
 
-Cheers,
+Now that I see what this looks like, I think it's rather confusing to
+have the user reference both the .2 and .3 pages to write code for
+libaio.  I'd prefer to keep all of the text for how to use the library
+inside the .3 man pages.
 
-Michael
-
-
-> ---
->  man3/pthread_setname_np.3 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man3/pthread_setname_np.3 b/man3/pthread_setname_np.3
-> index b6b4563..3dca000 100644
-> --- a/man3/pthread_setname_np.3
-> +++ b/man3/pthread_setname_np.3
-> @@ -30,8 +30,8 @@ pthread_setname_np, pthread_getname_np \- set/get the name of a thread
->  .nf
->  .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
->  .B #include <pthread.h>
-> -.BI "int pthread_setname_np(pthread_t *" thread ", const char *" name ");
-> -.BI "int pthread_getname_np(pthread_t *" thread ,
-> +.BI "int pthread_setname_np(pthread_t " thread ", const char *" name ");
-> +.BI "int pthread_getname_np(pthread_t " thread ,
->  .BI "                       const char *" name ", size_t " len );
->  .fi
->  .sp
-> --
-> 1.8.1.4
->
-
-
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+-Jeff
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
