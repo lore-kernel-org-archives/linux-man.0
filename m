@@ -1,25 +1,41 @@
 From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH 0/4] updates for the io_*.2 man pages
-Date: Wed,  3 Apr 2013 17:03:16 -0400
-Message-ID: <1365023000-6363-1-git-send-email-jmoyer@redhat.com>
+Subject: [PATCH 3/4] io_getevents.2: timeout will not be updated
+Date: Thu,  4 Apr 2013 15:36:57 -0400
+Message-ID: <1365104218-26042-4-git-send-email-jmoyer@redhat.com>
+References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1365104218-26042-1-git-send-email-jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kerrisk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Cyril-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Hrubis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, chrubis-AlSwsSmVLrQ@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: chrubis-AlSwsSmVLrQ@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+I looked back through the kernel code, and the timeout was never updated
+in any case.  I've submitted a patch upstream to change the comment
+above io_getevents.
 
-I've made the following changes after reviewing the io*.2 man pages.
-I am 100% open to discussion on the changes.
+Signed-off-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man2/io_getevents.2 |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-Cheers,
-Jeff
+diff --git a/man2/io_getevents.2 b/man2/io_getevents.2
+index 34ecd4a..72317c3 100644
+--- a/man2/io_getevents.2
++++ b/man2/io_getevents.2
+@@ -30,8 +30,7 @@ specified by \fIctx_id\fP.
+ The \fItimeout\fP argument specifies the amount of time to wait for events,
+ where a NULL timeout waits until at least \fImin_nr\fP events
+ have been seen.
+-Note that \fItimeout\fP is relative and will be updated if not NULL
+-and the operation blocks.
++Note that \fItimeout\fP is relative.
+ .SH RETURN VALUE
+ On success,
+ .BR io_getevents ()
+-- 
+1.7.1
 
-[PATCH 1/4] io_cancel.2: fix up the description
-[PATCH 2/4] io_destroy.2: fix up the description
-[PATCH 3/4] io_getevents.2: timeout will not be updated
-[PATCH 4/4] io_setup.2: clarify nr_events
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
