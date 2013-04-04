@@ -1,26 +1,56 @@
 From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH 0/4] updates for the io_*.2 man pages
-Date: Thu,  4 Apr 2013 15:36:54 -0400
-Message-ID: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
+Subject: [PATCH 4/4] io_setup.2: clarify nr_events
+Date: Thu,  4 Apr 2013 15:36:58 -0400
+Message-ID: <1365104218-26042-5-git-send-email-jmoyer@redhat.com>
+References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1365104218-26042-1-git-send-email-jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: chrubis-AlSwsSmVLrQ@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: chrubis-AlSwsSmVLrQ@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+nr_events is technically the number of completion events that can
+be stored in the completion ring.  The wording of the man page:
+  "capable of receiving at least nr_events"
+seems dubious to me, only because I worry that folks might interpret
+that to mean nr_events total, instead of nr_events concurrently.
 
-Sorry about the botched send yesterday.  I've made the following changes
-after reviewing the io*.2 man pages.  I am 100% open to discussion on
-the changes.
+Further, I've added information on where to find the per-user limit
+on nr_events, /proc/sys/fs/aio-max-nr.  Let me know if you think that
+is not relevent.
 
-Cheers,
-Jeff
+Signed-off-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man2/io_setup.2 |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-[PATCH 1/4] io_cancel.2: fix up the description
-[PATCH 2/4] io_destroy.2: fix up the description
-[PATCH 3/4] io_getevents.2: timeout will not be updated
-[PATCH 4/4] io_setup.2: clarify nr_events
+diff --git a/man2/io_setup.2 b/man2/io_setup.2
+index 2a541bf..8527b80 100644
+--- a/man2/io_setup.2
++++ b/man2/io_setup.2
+@@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see NOTES.
+ The
+ .BR io_setup ()
+ system call
+-creates an asynchronous I/O context capable of receiving
++creates an asynchronous I/O context capable of concurrently processing
+ at least \fInr_events\fP.
+ The
+ .I ctx_idp
+@@ -37,7 +37,8 @@ For the failure return, see NOTES.
+ .SH ERRORS
+ .TP
+ .B EAGAIN
+-The specified \fInr_events\fP exceeds the user's limit of available events.
++The specified \fInr_events\fP exceeds the user's limit of available events,
++as defined in /proc/sys/fs/aio-max-nr.
+ .TP
+ .B EFAULT
+ An invalid pointer is passed for \fIctx_idp\fP.
+-- 
+1.7.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
