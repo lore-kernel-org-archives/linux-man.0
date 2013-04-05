@@ -1,22 +1,33 @@
-From: Eric Wong <normalperson@yhbt.net>
-Subject: net_dropmon usage documentation/examples?
-Date: Fri, 5 Apr 2013 19:38:55 +0000
-Message-ID: <20130405193855.GA27775@dcvr.yhbt.net>
+From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: clone(2) should be clone(3)
+Date: Fri, 05 Apr 2013 18:01:06 +0200
+Message-ID: <515EF542.8090200@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <netdev-owner@vger.kernel.org>
-Content-Disposition: inline
-Sender: netdev-owner@vger.kernel.org
-To: Neil Horman <nhorman@tuxdriver.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Neil, I'm wondering if you have or know of any public
-documentation/examples for using net_dropmon.
+Hi Michael,
 
-If not, I'll figure it out on my own at some point.
+it looks like the clone(2) man page is describing glibc implementation
+and not the system call. So I guess it should be moved to the section 3
+and a new man page for clone(2) syscall should be created in section 2.
 
-Thanks in advance!
+The clone(2) syscall is defined like this:
 
-(Not a very high priority project for me, my network connectivity
- problems are sadly _very_ obvious at the moment :x)
+SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
+                  int __user *, parent_tidptr,
+                  int __user *, child_tidptr,
+                  int, tls_val)
+
+(I'm sorry, but I don't have a patch this time.)
+
+peter
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
