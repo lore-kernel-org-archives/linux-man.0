@@ -1,50 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: clone(2) should be clone(3)
-Date: Sun, 7 Apr 2013 12:15:18 +0200
-Message-ID: <CAKgNAkiRHNZsnWj0J3hizbMRtnq6yAbJpFSr0x_-77bu_9eFXA@mail.gmail.com>
-References: <515EF542.8090200@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Eric Wong <normalperson-rMlxZR9MS24@public.gmane.org>
+Subject: Re: net_dropmon usage documentation/examples?
+Date: Sun, 7 Apr 2013 11:28:55 +0000
+Message-ID: <20130407112855.GA2544@dcvr.yhbt.net>
+References: <20130405193855.GA27775@dcvr.yhbt.net>
+ <20130406123856.GA11355@hmsreliant.think-freely.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <515EF542.8090200-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20130406123856.GA11355-B26myB8xz7F8NnZeBjwnZQMhkBWG/bsMQH7oEaQurus@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Peter,
+Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org> wrote:
+> On Fri, Apr 05, 2013 at 07:38:55PM +0000, Eric Wong wrote:
+> > Hi Neil, I'm wondering if you have or know of any public
+> > documentation/examples for using net_dropmon.
+> > 
+> > If not, I'll figure it out on my own at some point.
+> > 
+> > Thanks in advance!
+> 
+> I don't think there are any particular examples at the moment, but if you
+> download the dropwatch utility, it uses the dropmon protocol to detect frame
+> loss in the stack, and its use is pretty self explanitory, as is the perf script
+> that uses the same tracepoints as the dropmon protocol.
+> 
+> 
+> https://fedorahosted.org/dropwatch/
 
-
-On Fri, Apr 5, 2013 at 6:01 PM, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> Hi Michael,
->
-> it looks like the clone(2) man page is describing glibc implementation
-> and not the system call. So I guess it should be moved to the section 3
-> and a new man page for clone(2) syscall should be created in section 2.
->
-> The clone(2) syscall is defined like this:
->
-> SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
->                  int __user *, parent_tidptr,
->                  int __user *, child_tidptr,
->                  int, tls_val)
->
-> (I'm sorry, but I don't have a patch this time.)
-
-The general tendency is to document all system calls in section 2, and
-if there are some differences caused by wrapper functions, then they
-are noted on the page.
-
-I admint that clone(2) is an unusual case. The signature given at the
-top of the page is for the wrapper (and later the difference to the
-syscall raw interface are described). However, the details are
-primarily about the underlying kernel interface, so I'm inclined to
-leave the page where it is.
-
-Thanks,
-
-Michael
+Thanks Neil!  I think I'll just use dropwatch directly instead of
+writing my own code, now :)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
