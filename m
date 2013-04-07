@@ -1,113 +1,51 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] man2 : syscall.2 : document syscall calling conventions
-Date: Sun, 7 Apr 2013 12:00:50 +0200
-Message-ID: <CAKgNAkgODPSWSeA8ZymiAjFBqSAZQMtQe9GW84Y6QHdFEc9S-w@mail.gmail.com>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com>
- <201304010632.41520.vapier@gentoo.org> <CAKgNAkgG2kdCC1tyZQkYU7O_nP7RB8VoCmx6eb8FcudU1s6RgA@mail.gmail.com>
- <201304021917.17659.vapier@gentoo.org>
-Reply-To: mtk.manpages@gmail.com
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: clone(2) should be clone(3)
+Date: Sun, 7 Apr 2013 12:15:18 +0200
+Message-ID: <CAKgNAkiRHNZsnWj0J3hizbMRtnq6yAbJpFSr0x_-77bu_9eFXA@mail.gmail.com>
+References: <515EF542.8090200@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-parisc-owner@vger.kernel.org>
-In-Reply-To: <201304021917.17659.vapier@gentoo.org>
-Sender: linux-parisc-owner@vger.kernel.org
-To: Mike Frysinger <vapier@gentoo.org>
-Cc: linux-man <linux-man@vger.kernel.org>, Kyle McMartin <kyle@infradead.org>, Helge Deller <deller@gmx.de>, "James E.J. Bottomley" <jejb@parisc-linux.org>, linux-parisc@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <515EF542.8090200-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[Adding a few people to CC who may be able to help with Mike's doubts
-on PA-RISC; folks, if any of you could have a quick look at the parisc
-piece below, that would be helpful]
+Hi Peter,
 
-Mike,
 
-On Wed, Apr 3, 2013 at 1:17 AM, Mike Frysinger <vapier@gentoo.org> wrote:
-> On Tuesday 02 April 2013 02:54:39 Michael Kerrisk (man-pages) wrote:
->> On Mon, Apr 1, 2013 at 12:32 PM, Mike Frysinger wrote:
->> > On Monday 01 April 2013 05:29:11 Michael Kerrisk (man-pages) wrote:
->> >> On Mon, Apr 1, 2013 at 10:29 AM, Mike Frysinger wrote:
->> >> > on a related topic, would it be useful to document the exact calling
->> >> > convention for architecture system calls ?  from time to time, i need
->> >> > to reference this, and i inevitably turn to a variety of sources to
->> >> > dig up the answer (the kernel itself, or strace, or qemu, or glibc,
->> >> > or uClibc, or lss, or other random places).  i would find it handy to
->> >> > have all of these in a single location.
->> >>
->> >> Sounds like it would be useful to have that documented. Would you have
->> >> a chance to write patches for that?
->> >
->> > should we do it in syscall(2) ?  or a dedicated man page ?
->>
->> It's a little hard to say until I see the shape of what comes. Can you
->> provide a rough per-syscall example or two of what you expect to
->> document? (Don't write too concrete a patch yet, until I can get a
->> handle on what you intend.)
+On Fri, Apr 5, 2013 at 6:01 PM, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> Hi Michael,
 >
-> this renders nicely i think.  it shows most of the stuff i'm interested in.
-> might be useful to add a dedicated section covering the clobbers in the
-> future.
+> it looks like the clone(2) man page is describing glibc implementation
+> and not the system call. So I guess it should be moved to the section 3
+> and a new man page for clone(2) syscall should be created in section 2.
+>
+> The clone(2) syscall is defined like this:
+>
+> SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
+>                  int __user *, parent_tidptr,
+>                  int __user *, child_tidptr,
+>                  int, tls_val)
+>
+> (I'm sorry, but I don't have a patch this time.)
 
-Thanks for that. It looks good to me, and I have applied. But it
-renders too wide (wherever possible, I try to ensure that everything
-renders inside 80 columns), so I have split into tables, one with
-"instruction, NR, ret" and another with the arguments (arg1 to arg7).
+The general tendency is to document all system calls in section 2, and
+if there are some differences caused by wrapper functions, then they
+are noted on the page.
 
-Now, just to make 100% sure of your intention, the NR column would be
-better named "syscall #" (or similar), right? (I've made that change.)
+I admint that clone(2) is an unusual case. The signature given at the
+top of the page is for the wrapper (and later the difference to the
+syscall raw interface are described). However, the details are
+primarily about the underlying kernel interface, so I'm inclined to
+leave the page where it is.
 
-> --- a/man2/syscall.2
-> +++ b/man2/syscall.2
-> @@ -79,6 +79,35 @@ and an error code is stored in
->  .BR syscall ()
->  first appeared in
->  4BSD.
-> +.SS Architecture calling conventions
-> +Every architecture has its own way of invoking & passing arguments to the
-> +kernel.
-> +Note that the instruction listed below might not be the fastest or best way to
-> +transition to the kernel, so you might have to refer to the VDSO.
-
-Mike, any chance that I could interest you in writing a vdso(7) man
-page? I've felt the lack of such a page for a while (it need not be
-too long), but am not deep enough into the details to write it easily
-(I am not sure if you are).
-
-> +Also note that this doesn't cover the entire calling convention -- some
-> +architectures may indiscriminately clobber other registers not listed here.
-> +.if t \{\
-> +.ft CW
-> +\}
-> +.TS
-> +l l l l l l l l l l l.
-> +arch/ABI       insn    NR      ret     arg1    arg2    arg3    arg4    arg5    arg6    arg7
-> +_
-> +arm/OABI       swi NR; -       a1      a1      a2      a3      a4      v1      v2      v3
-> +arm/EABI       swi 0x0;        r7      r1      r1      r2      r3      r4      r5      r6      r7
-> +bfin   excpt 0x0;      P0      R0      R0      R1      R2      R3      R4      R5      -
-> +i386   int $0x80;      eax     eax     ebx     ecx     edx     esi     edi     ebp     -
-> +ia64   break 0x100000; r15     r10/r8  r11     r9      r10     r14     r15     r13     -
-> +.\" not sure about insn or NR
-> +.\" parisc     ble 0x100(%%sr2, %%r0); -       r28     r26     r25     r24     r23     r22     r21     -
-
-PA-RISC folks, are you able to confirm/correct the above?
-
-> +sparc/32       t 0x10; g1      o0      o0      o1      o2      o3      o4      o5      -
-> +sparc/64       t 0x6d; g1      o0      o0      o1      o2      o3      o4      o5      -
-> +x86_64 syscall;        rax     rax     rdi     rsi     rdx     r10     r8      r9      -
-> +.TE
-> +.if t \{\
-> +.in
-> +.ft P
-> +\}
->  .SS Architecture-specific requirements
->  Each architecture ABI has its own requirements on how
->  system call arguments are passed to the kernel.
-
-Cheers,
+Thanks,
 
 Michael
-
 --
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
