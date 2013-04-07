@@ -1,60 +1,113 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] quotactl(2): rename RETURN VALUE section
-Date: Sun, 7 Apr 2013 10:42:23 +0200
-Message-ID: <CAKgNAki=u7OjGK9Unx-MR-u_gTN8pHNFL9Dc+qiv=Dp3=vysZg@mail.gmail.com>
-References: <1364939854-12086-1-git-send-email-vapier@gentoo.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] man2 : syscall.2 : document syscall calling conventions
+Date: Sun, 7 Apr 2013 12:00:50 +0200
+Message-ID: <CAKgNAkgODPSWSeA8ZymiAjFBqSAZQMtQe9GW84Y6QHdFEc9S-w@mail.gmail.com>
+References: <1364361092-5948-1-git-send-email-ch0.han@lge.com>
+ <201304010632.41520.vapier@gentoo.org> <CAKgNAkgG2kdCC1tyZQkYU7O_nP7RB8VoCmx6eb8FcudU1s6RgA@mail.gmail.com>
+ <201304021917.17659.vapier@gentoo.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1364939854-12086-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-parisc-owner@vger.kernel.org>
+In-Reply-To: <201304021917.17659.vapier@gentoo.org>
+Sender: linux-parisc-owner@vger.kernel.org
+To: Mike Frysinger <vapier@gentoo.org>
+Cc: linux-man <linux-man@vger.kernel.org>, Kyle McMartin <kyle@infradead.org>, Helge Deller <deller@gmx.de>, "James E.J. Bottomley" <jejb@parisc-linux.org>, linux-parisc@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+[Adding a few people to CC who may be able to help with Mike's doubts
+on PA-RISC; folks, if any of you could have a quick look at the parisc
+piece below, that would be helpful]
 
-On Tue, Apr 2, 2013 at 11:57 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> Everywhere else we use the singular form.
+Mike,
 
-Thanks, applied.
+On Wed, Apr 3, 2013 at 1:17 AM, Mike Frysinger <vapier@gentoo.org> wrote:
+> On Tuesday 02 April 2013 02:54:39 Michael Kerrisk (man-pages) wrote:
+>> On Mon, Apr 1, 2013 at 12:32 PM, Mike Frysinger wrote:
+>> > On Monday 01 April 2013 05:29:11 Michael Kerrisk (man-pages) wrote:
+>> >> On Mon, Apr 1, 2013 at 10:29 AM, Mike Frysinger wrote:
+>> >> > on a related topic, would it be useful to document the exact calling
+>> >> > convention for architecture system calls ?  from time to time, i need
+>> >> > to reference this, and i inevitably turn to a variety of sources to
+>> >> > dig up the answer (the kernel itself, or strace, or qemu, or glibc,
+>> >> > or uClibc, or lss, or other random places).  i would find it handy to
+>> >> > have all of these in a single location.
+>> >>
+>> >> Sounds like it would be useful to have that documented. Would you have
+>> >> a chance to write patches for that?
+>> >
+>> > should we do it in syscall(2) ?  or a dedicated man page ?
+>>
+>> It's a little hard to say until I see the shape of what comes. Can you
+>> provide a rough per-syscall example or two of what you expect to
+>> document? (Don't write too concrete a patch yet, until I can get a
+>> handle on what you intend.)
+>
+> this renders nicely i think.  it shows most of the stuff i'm interested in.
+> might be useful to add a dedicated section covering the clobbers in the
+> future.
+
+Thanks for that. It looks good to me, and I have applied. But it
+renders too wide (wherever possible, I try to ensure that everything
+renders inside 80 columns), so I have split into tables, one with
+"instruction, NR, ret" and another with the arguments (arg1 to arg7).
+
+Now, just to make 100% sure of your intention, the NR column would be
+better named "syscall #" (or similar), right? (I've made that change.)
+
+> --- a/man2/syscall.2
+> +++ b/man2/syscall.2
+> @@ -79,6 +79,35 @@ and an error code is stored in
+>  .BR syscall ()
+>  first appeared in
+>  4BSD.
+> +.SS Architecture calling conventions
+> +Every architecture has its own way of invoking & passing arguments to the
+> +kernel.
+> +Note that the instruction listed below might not be the fastest or best way to
+> +transition to the kernel, so you might have to refer to the VDSO.
+
+Mike, any chance that I could interest you in writing a vdso(7) man
+page? I've felt the lack of such a page for a while (it need not be
+too long), but am not deep enough into the details to write it easily
+(I am not sure if you are).
+
+> +Also note that this doesn't cover the entire calling convention -- some
+> +architectures may indiscriminately clobber other registers not listed here.
+> +.if t \{\
+> +.ft CW
+> +\}
+> +.TS
+> +l l l l l l l l l l l.
+> +arch/ABI       insn    NR      ret     arg1    arg2    arg3    arg4    arg5    arg6    arg7
+> +_
+> +arm/OABI       swi NR; -       a1      a1      a2      a3      a4      v1      v2      v3
+> +arm/EABI       swi 0x0;        r7      r1      r1      r2      r3      r4      r5      r6      r7
+> +bfin   excpt 0x0;      P0      R0      R0      R1      R2      R3      R4      R5      -
+> +i386   int $0x80;      eax     eax     ebx     ecx     edx     esi     edi     ebp     -
+> +ia64   break 0x100000; r15     r10/r8  r11     r9      r10     r14     r15     r13     -
+> +.\" not sure about insn or NR
+> +.\" parisc     ble 0x100(%%sr2, %%r0); -       r28     r26     r25     r24     r23     r22     r21     -
+
+PA-RISC folks, are you able to confirm/correct the above?
+
+> +sparc/32       t 0x10; g1      o0      o0      o1      o2      o3      o4      o5      -
+> +sparc/64       t 0x6d; g1      o0      o0      o1      o2      o3      o4      o5      -
+> +x86_64 syscall;        rax     rax     rdi     rsi     rdx     r10     r8      r9      -
+> +.TE
+> +.if t \{\
+> +.in
+> +.ft P
+> +\}
+>  .SS Architecture-specific requirements
+>  Each architecture ABI has its own requirements on how
+>  system call arguments are passed to the kernel.
 
 Cheers,
 
 Michael
 
-
->
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man2/quotactl.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man2/quotactl.2 b/man2/quotactl.2
-> index b112f02..74578c6 100644
-> --- a/man2/quotactl.2
-> +++ b/man2/quotactl.2
-> @@ -416,7 +416,7 @@ for XFS since
->  .BR sync (1)
->  writes quota information to disk (in addition to the other file system
->  metadata that it writes out).
-> -.SH RETURN VALUES
-> +.SH RETURN VALUE
->  .LP
->  On success,
->  .BR quotactl ()
-> --
-> 1.8.1.2
->
-
-
-
 --
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Author of "The Linux Programming Interface"; http://man7.org/tlpi/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
