@@ -1,64 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 4/4] io_setup.2: clarify nr_events
-Date: Mon, 8 Apr 2013 11:58:27 +0200
-Message-ID: <CAKgNAkhGAiDETDcQSFhYNCqJgbRH20SVHfV4=osW9=xAr1Zk4Q@mail.gmail.com>
-References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com> <1365104218-26042-5-git-send-email-jmoyer@redhat.com>
+Subject: Re: [PATCH 1/4] io_cancel.2: fix up the description
+Date: Mon, 8 Apr 2013 12:04:22 +0200
+Message-ID: <CAKgNAki66jwQvKGLDWRomG0-s29EP34MZCoU=eUjHnQsn3x8wA@mail.gmail.com>
+References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com> <1365104218-26042-2-git-send-email-jmoyer@redhat.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1365104218-26042-5-git-send-email-jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1365104218-26042-2-git-send-email-jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 On Thu, Apr 4, 2013 at 9:36 PM, Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> nr_events is technically the number of completion events that can
-> be stored in the completion ring.  The wording of the man page:
->   "capable of receiving at least nr_events"
-> seems dubious to me, only because I worry that folks might interpret
-> that to mean nr_events total, instead of nr_events concurrently.
->
-> Further, I've added information on where to find the per-user limit
-> on nr_events, /proc/sys/fs/aio-max-nr.  Let me know if you think that
-> is not relevent.
+> The description for this sytem call was a bit inaccurate.  Cyril
+> still takes issue with my wording, so this is up for further
+> word-smithing, I think.  I'm open to suggestions.
 
-All looks good to me. Applied.
+Cyril, do you have any comment?
 
-Cheers,
+Thanks,
 
 Michael
 
 
 > Signed-off-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
->  man2/io_setup.2 |    5 +++--
->  1 files changed, 3 insertions(+), 2 deletions(-)
+>  man2/io_cancel.2 |    8 ++++----
+>  1 files changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/man2/io_setup.2 b/man2/io_setup.2
-> index 2a541bf..8527b80 100644
-> --- a/man2/io_setup.2
-> +++ b/man2/io_setup.2
-> @@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see NOTES.
+> diff --git a/man2/io_cancel.2 b/man2/io_cancel.2
+> index 0f974ed..6adddf3 100644
+> --- a/man2/io_cancel.2
+> +++ b/man2/io_cancel.2
+> @@ -26,10 +26,10 @@ attempts to cancel an asynchronous I/O operation previously submitted with
+>  .BR io_submit (2).
 >  The
->  .BR io_setup ()
->  system call
-> -creates an asynchronous I/O context capable of receiving
-> +creates an asynchronous I/O context capable of concurrently processing
->  at least \fInr_events\fP.
->  The
->  .I ctx_idp
-> @@ -37,7 +37,8 @@ For the failure return, see NOTES.
->  .SH ERRORS
->  .TP
->  .B EAGAIN
-> -The specified \fInr_events\fP exceeds the user's limit of available events.
-> +The specified \fInr_events\fP exceeds the user's limit of available events,
-> +as defined in /proc/sys/fs/aio-max-nr.
->  .TP
->  .B EFAULT
->  An invalid pointer is passed for \fIctx_idp\fP.
+>  .I ctx_id
+> -argument is the AIO context ID of the operation to be canceled.
+> -If the AIO context is found, the event will be canceled and then copied
+> -into the memory pointed to by \fIresult\fP without being placed
+> -into the completion queue.
+> +argument is the AIO context ID into which the operation was submitted.
+> +If the operation is successfully canceled, the event will be copied into
+> +the memory pointed to by \fIresult\fP without being placed into the
+> +completion queue.
+>  .SH RETURN VALUE
+>  On success,
+>  .BR io_cancel ()
 > --
 > 1.7.1
 >
