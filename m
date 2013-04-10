@@ -1,75 +1,43 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
+From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [PATCH 1/4] io_cancel.2: fix up the description
-Date: Wed, 10 Apr 2013 13:14:22 +0200
-Message-ID: <20130410111422.GB1376@rei.scz.novell.com>
+Date: Wed, 10 Apr 2013 09:59:37 -0400
+Message-ID: <x49ppy2jxkm.fsf@segfault.boston.devel.redhat.com>
 References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
- <1365104218-26042-2-git-send-email-jmoyer@redhat.com>
- <CAKgNAki66jwQvKGLDWRomG0-s29EP34MZCoU=eUjHnQsn3x8wA@mail.gmail.com>
+	<1365104218-26042-2-git-send-email-jmoyer@redhat.com>
+	<CAKgNAki66jwQvKGLDWRomG0-s29EP34MZCoU=eUjHnQsn3x8wA@mail.gmail.com>
+	<20130410111422.GB1376@rei.scz.novell.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAki66jwQvKGLDWRomG0-s29EP34MZCoU=eUjHnQsn3x8wA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20130410111422.GB1376-WQn62CkN1y0S3W1tAdPHOtBPR1lH4CV8@public.gmane.org> (chrubis-AlSwsSmVLrQ@public.gmane.org's
+	message of "Wed, 10 Apr 2013 13:14:22 +0200")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: chrubis-AlSwsSmVLrQ@public.gmane.org
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> > The description for this sytem call was a bit inaccurate.  Cyril
-> > still takes issue with my wording, so this is up for further
-> > word-smithing, I think.  I'm open to suggestions.
-> 
-> Cyril, do you have any comment?
+chrubis-AlSwsSmVLrQ@public.gmane.org writes:
 
-It is no big deal but I think that the sentence could be a little clearer
-with explicitly stating that the ctx_id is aio context and the iocb
-describes the operation to be canceled. Something like:
+> Hi!
+>> > The description for this sytem call was a bit inaccurate.  Cyril
+>> > still takes issue with my wording, so this is up for further
+>> > word-smithing, I think.  I'm open to suggestions.
+>> 
+>> Cyril, do you have any comment?
+>
+> It is no big deal but I think that the sentence could be a little clearer
+> with explicitly stating that the ctx_id is aio context and the iocb
+> describes the operation to be canceled. Something like:
+>
+> The
+> .I iocb
+> describes the operation to be canceled and the
+> .I ctx_id
+> is aio context the operation was submitted to.
 
-The
-.I iocb
-describes the operation to be canceled and the
-.I ctx_id
-is aio context the operation was submitted to.
+I agree that this is better.  Thanks Cyril!
 
-> > Signed-off-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > ---
-> >  man2/io_cancel.2 |    8 ++++----
-> >  1 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/man2/io_cancel.2 b/man2/io_cancel.2
-> > index 0f974ed..6adddf3 100644
-> > --- a/man2/io_cancel.2
-> > +++ b/man2/io_cancel.2
-> > @@ -26,10 +26,10 @@ attempts to cancel an asynchronous I/O operation previously submitted with
-> >  .BR io_submit (2).
-> >  The
-> >  .I ctx_id
-> > -argument is the AIO context ID of the operation to be canceled.
-> > -If the AIO context is found, the event will be canceled and then copied
-> > -into the memory pointed to by \fIresult\fP without being placed
-> > -into the completion queue.
-> > +argument is the AIO context ID into which the operation was submitted.
-> > +If the operation is successfully canceled, the event will be copied into
-> > +the memory pointed to by \fIresult\fP without being placed into the
-> > +completion queue.
-> >  .SH RETURN VALUE
-> >  On success,
-> >  .BR io_cancel ()
-> > --
-> > 1.7.1
-> >
-> 
-> 
-> 
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
-
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+-Jeff
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
