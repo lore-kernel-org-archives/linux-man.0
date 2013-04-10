@@ -1,50 +1,442 @@
-From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: clone(2) should be clone(3)
-Date: Tue, 09 Apr 2013 20:57:12 +0200
-Message-ID: <51646488.9080708@redhat.com>
-References: <515EF542.8090200@redhat.com> <CAKgNAkiRHNZsnWj0J3hizbMRtnq6yAbJpFSr0x_-77bu_9eFXA@mail.gmail.com> <51645912.5080602@redhat.com> <201304091411.12265.vapier@gentoo.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: vdso(7): new man page
+Date: Tue, 9 Apr 2013 23:17:00 -0400
+Message-ID: <201304092317.01590.vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: multipart/signed;
+  boundary="nextPart1938445.1trVjdf49V";
+  protocol="application/pgp-signature";
+  micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <201304091411.12265.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/09/2013 08:11 PM, Mike Frysinger wrote:
-> On Tuesday 09 April 2013 14:08:18 Peter Schiffer wrote:
->> My aim here is, that when I'm opening man page in section 2, the first
->> thing I'm expecting to see is syscall signature. In clone(2), it's not
->> even clear that this is a library call.
->
-> err, the very first sentence of the first paragraph says it's exactly this:
-> 	clone() creates a new process, in a manner similar to fork(2).  It is
-> 	actually a library function layered on top of the underlying clone()
-> 	system call, hereinafter referred to as sys_clone.  A description of
-> 	sys_clone is given toward the end of this page.
-> -mike
->
+--nextPart1938445.1trVjdf49V
+Content-Type: text/plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Yeah, I know. But you have to read the description to know that.
-Problem is, that if you are familiar with the call, you won't read the
-description (for example, if you just forgot the signature).
+so i've slapped this together.  i think the HISTORY section could use more
+filling out, but that'd probably be more for funsies rather than usefulness.
 
-Another real world example: we work with many experienced developers
-used to other Unices, so, you can try to imagine how unfortunate for
-them this can be.
+might also be helpful if someone could do fact checking on what i've written
+for the HISTORY.  this predates my involvement in the linux world, so i'm just
+making educated guesses.
+-mike
 
-Also, we are afraid that this doesn't have to complain with the Common
-Criteria. Every syscall has to be documented, so when I'm looking for
-the documentation of clone(2) syscall in the clone(2) man page, I'm
-expecting that it will be the main topic in the page, and in the
-synopsis.
+.\" Written by Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+.\"
+.\" %%%LICENSE_START(PUBLIC_DOMAIN)
+.\" This page is in the public domain.  Suck it.
+.\" %%%LICENSE_END
+.\"
+.TH VDSO 7 2013-04-09 "Linux" "Linux Programmer's Manual"
+.SH NAME
+vDSO \- overview of the virtual ELF dynamic shared object
+.SH SYNOPSIS
+.B #include <sys/auxv.h>
 
-I'm just trying to prevent possible misunderstandings, and if possible,
-make the page little bit more clearer..
+.B void *vdso = (uintptr_t)getauxval(AT_SYSINFO_EHDR);
+.SH DESCRIPTION
+The "vDSO" is a small shared library that the kernel automatically maps into the
+address space of all userspace applications.
+Applications themselves usually need not concern themselves with this as it is
+most commonly called by the C library.
+This way you can write using standard functions and the C library will take care
+of using any available functionality.
 
-peter
+Why does this object exist at all?
+There are some facilities the kernel provides that userspace ends up using
+frequently to the point that such calls can dominate overall performance.
+This is due both to the frequency of the call as well as the context overhead
+from exiting userspace and entering the kernel.
+
+The rest of this documentation is geared towards the curious and/or C library
+writers rather than general developers.
+If you're trying to call the vDSO in your own application rather than using
+the C library, you're most likely doing it wrong.
+.SS Example Background
+Making syscalls themselves can incur significant penalty.
+In x86 systems, you can trigger a software interrupt (int $0x80) to tell the
+kernel you wish to make a syscall.
+Internally, this means the call has to go through the normal interrupt layers
+to save/restore context before it even gets a chance to start processing the
+system call.
+Wouldn't it be nicer if you could start processing the system call immediately?
+With newer revisions of the x86 architecture, there is now a syscall/sysenter
+instruction that does exactly that (jumps directly to the system call entry).
+However, rather than require the C library to figure out if this functionality
+is available itself, the vDSO includes symbols that can be used.
+This is typically referred to using the term "vsyscall".
+
+Another frequent system call is gettimeofday().
+This is called both directly by userspace applications as well as indirectly by
+the C library.
+Think timestamps or timing loops or polling -- all of these frequently need to
+know what time it is right now.
+This information is also not secret -- any application in any privilege mode
+(root or any user) will get the same answer.
+Thus the kernel arranges for the information required to answer this question
+to be placed in memory the process can access.
+Now a call to gettimeofday() changes from a syscall to a normal function call
+and a few memory accesses.
+.SS Finding The vDSO
+The base address of the vDSO (if one exists) is passed by the kernel to each
+program in the initial auxiliary vector.
+Specifically, via the
+.B AT_SYSINFO_EHDR
+tag.
+
+For some architectures, there is also a
+.B AT_SYSINFO
+tag.
+This is used only for locating the vsyscall entry point and is frequently
+disabled or set to 0 (meaning it's not available).
+It is a throw back to the initial vDSO work (see
+.IR HISTORY
+below for more details) and should be avoided.
+
+See
+.BR getauxval (3)
+for more details on accessing these fields.
+.SS File Format
+Since the vDSO is a fully formed ELF, you can do symbol lookups on it.
+This allows new symbols to be added with newer kernel releases, and for the
+C library to detect available functionality at runtime when running under
+different kernel versions.
+Often times the C library will do detection with the first call and then
+cache the result for subsequent calls.
+
+All symbols are also versioned (using the GNU version format).
+This allows the kernel (in the very unlikely situation) to update the function
+signature without breaking backwards compatibility.
+This means changing the arguments that it accepts as well as the return value.
+When looking up a symbol in the vDSO, you must always include the version you
+are writing against.
+
+Typically the vDSO follows the naming convention of prefixing all symbols with
+"__vdso_" or "__kernel_" so as to distinguish from other standard symbols.
+e.g. The "gettimeofday" function is named "__vdso_gettimeofday".
+.SH NOTES
+.SS Source
+When you compile the kernel, it will automatically compile and link the vDSO
+code for you.
+You will frequently find it under the arch specific dir:
+find arch/$ARCH/ -name '*vdso*.so'
+
+Note that the vDSO that is used is based on the ABI of your userspace code
+and not the ABI of the kernel.
+i.e. If you run an i386 32bit ELF under an i386 32bit kernel or under an
+x86_64 64bit kernel, you'll get the same vDSO.
+So when referring to sections below, use the userspace ABI.
+.SS vDSO Names
+The name of this shared object varies across architectures.
+It will often show up in things like glibc's `ldd` output.
+The exact name should not matter to any code, so please do not hardcode it.
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+arch	vdso name
+_
+aarch64	linux-vdso.so.1
+ia64	linux-gate.so.1
+ppc/32	linux-vdso32.so.1
+ppc/64	linux-vdso64.so.1
+s390	linux-vdso32.so.1
+s390x	linux-vdso64.so.1
+sh	linux-gate.so.1
+i386	linux-gate.so.1
+x86_64	linux-vdso.so.1
+x86/x32	linux-vdso.so.1
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS aarch64 functions
+.\" See linux/arch/arm64/kernel/vdso/vdso.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_rt_sigreturn	LINUX_2.6.39
+__kernel_gettimeofday	LINUX_2.6.39
+__kernel_clock_gettime	LINUX_2.6.39
+__kernel_clock_getres	LINUX_2.6.39
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS bfin (Blackfin) functions
+.\" See linux/arch/blackfin/kernel/fixed_code.S
+.\" See http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code
+As this cpu lacks a MMU, it doesn't setup a vDSO in the normal sense.
+Instead, it maps at boot time a few raw functions into a fixed location in
+memory.
+Userspace apps then call directly into that.
+There is no provision for backwards compatibility beyond sniffing raw opcodes,
+but as this is an embedded CPU, it can get away with things -- some of the
+object formats it runs aren't even ELF based (they're bFLT/FLAT).
+
+For documentation on this format, it's better you refer to the public docs:
+.br
+http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code
+.SS ia64 (Itanium) functions
+.\" See linux/arch/ia64/kernel/gate.lds.S
+.\" Also linux/arch/ia64/kernel/fsys.S and linux/Documentation/ia64/fsys.txt
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_sigtramp	LINUX_2.5
+__kernel_syscall_via_break	LINUX_2.5
+__kernel_syscall_via_epc	LINUX_2.5
+.TE
+.if t \{\
+.in
+.ft P
+\}
+
+The Itanium port actually likes to get tricky.
+In addition to the vDSO above, it also has "light-weight system calls" aka
+"fast syscalls" aka "fsys".
+You can invoke these via the __kernel_syscall_via_epc vDSO helper.
+The system calls listed here have the same semantics as if you called them
+directly via
+.BR syscall (3),
+so refer to the relevant
+documentation for each.
+The table below lists the functions available via this mechanism.
+.if t \{\
+.ft CW
+\}
+.TS
+l.
+function
+_
+clock_gettime
+getcpu
+getpid
+getppid
+gettimeofday
+set_tid_address
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS ppc/32 functions
+.\" See linux/arch/powerpc/kernel/vdso32/vdso32.lds.S
+The functions marked with a
+.I *
+below are only available when the kernel is
+a powerpc64 (64bit) kernel.
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_clock_getres	LINUX_2.6.15
+__kernel_clock_gettime	LINUX_2.6.15
+__kernel_datapage_offset	LINUX_2.6.15
+__kernel_get_syscall_map	LINUX_2.6.15
+__kernel_get_tbfreq	LINUX_2.6.15
+__kernel_getcpu \fI*\fR	LINUX_2.6.15
+__kernel_gettimeofday	LINUX_2.6.15
+__kernel_sigtramp_rt32	LINUX_2.6.15
+__kernel_sigtramp32	LINUX_2.6.15
+__kernel_sync_dicache	LINUX_2.6.15
+__kernel_sync_dicache_p5	LINUX_2.6.15
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS ppc/64 functions
+.\" See linux/arch/powerpc/kernel/vdso64/vdso64.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_clock_getres	LINUX_2.6.15
+__kernel_clock_gettime	LINUX_2.6.15
+__kernel_datapage_offset	LINUX_2.6.15
+__kernel_get_syscall_map	LINUX_2.6.15
+__kernel_get_tbfreq	LINUX_2.6.15
+__kernel_getcpu	LINUX_2.6.15
+__kernel_gettimeofday	LINUX_2.6.15
+__kernel_sigtramp_rt64	LINUX_2.6.15
+__kernel_sync_dicache	LINUX_2.6.15
+__kernel_sync_dicache_p5	LINUX_2.6.15
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS s390 functions
+.\" See linux/arch/s390/kernel/vdso32/vdso32.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_clock_getres	LINUX_2.6.29
+__kernel_clock_gettime	LINUX_2.6.29
+__kernel_gettimeofday	LINUX_2.6.29
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS s390x functions
+.\" See linux/arch/s390/kernel/vdso64/vdso64.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_clock_getres	LINUX_2.6.29
+__kernel_clock_gettime	LINUX_2.6.29
+__kernel_gettimeofday	LINUX_2.6.29
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS sh (SuperH) functions
+.\" See linux/arch/sh/kernel/vsyscall/vsyscall.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_rt_sigreturn	LINUX_2.6
+__kernel_sigreturn	LINUX_2.6
+__kernel_vsyscall	LINUX_2.6
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS i386 functions
+.\" See linux/arch/x86/vdso/vdso32/vdso32.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__kernel_sigreturn	LINUX_2.5
+__kernel_rt_sigreturn	LINUX_2.5
+__kernel_vsyscall	LINUX_2.5
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS x86_64 functions
+.\" See linux/arch/x86/vdso/vdso.lds.S
+Each of these symbols are also available without the "__vdso_" prefix, but
+you should ignore those and stick to the names below.
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__vdso_clock_gettime	LINUX_2.6
+__vdso_getcpu	LINUX_2.6
+__vdso_gettimeofday	LINUX_2.6
+__vdso_time	LINUX_2.6
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SS x86/x32 functions
+.\" See linux/arch/x86/vdso/vdso32.lds.S
+.if t \{\
+.ft CW
+\}
+.TS
+l l.
+symbol	version
+_
+__vdso_clock_gettime	LINUX_2.6
+__vdso_getcpu	LINUX_2.6
+__vdso_gettimeofday	LINUX_2.6
+__vdso_time	LINUX_2.6
+.TE
+.if t \{\
+.in
+.ft P
+\}
+.SH HISTORY
+The vDSO was originally just a single function -- the vsyscall.
+In older kernels, you might see that in a process's memory map rather than vdso.
+Overtime, people realized that this was a great way to pass more functionality
+to userspace, so it was reconceived as a vDSO in the current format.
+.SH SEE ALSO
+.BR syscalls (2),
+.BR getauxval (3),
+.BR proc (5)
+
+The docs/examples/sources in the Linux sources:
+.nf
+Documentation/ABI/stable/vdso
+linux/Documentation/ia64/fsys.txt
+Documentation/vDSO/*
+find arch/ -iname '*vdso*' -o -iname '*gate*'
+.fi
+
+--nextPart1938445.1trVjdf49V
+Content-Type: application/pgp-signature; name=signature.asc 
+Content-Description: This is a digitally signed message part.
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.17 (GNU/Linux)
+
+iQIcBAABAgAGBQJRZNmtAAoJEEFjO5/oN/WBeG0P/37yJN2KdBJCPIzMkGVkAdvN
+nw9b7fHVb5QgECI1+0FFDkWXHjrJeuGLx9HsxxeattUzj2DaJeBRdjkccf9jD+Ne
+U9FFLxx7x/iottZS0td9HU9X5QMOTB1w1PT+Ox1a15aTQyCVlTg8QaF+9UeTJ8xb
+j7T75PJywyDVq7PKl1s+VV5lDQo2NNuzajo5DSPss0LepBgs0DMlfmC1hhfK4GKU
+3NE07/NLV8NSQJ/vlXiCOK0z5zcXH0YDUZX9GDRzkwqWFMFa3IGUw4itXwMsnXo5
+ZWwVofJACmbIj3w+7mau4ZRX1QOUQzhmeccvPwD7V7NZhvS2EysnjCqGHNkZwk/O
+Gnxet5MPKIG96gIKPcEII0hZ1BECKZd9kjcVzaiOAxGh4clUd3vZbX1Xz0JpYG5U
+O5Q3gKQ5RgBPHpRTOQsPMpf3ItyuVcapWFCcS1vGBRa4GFPBNdU1kPmotsx4l1Bi
+wNRfmDYjSK86+7peVOappbUrEe0zWYveKHSkuaREt+/BxjNrugQkIh1dBOqP6C6O
++Y5GB33Y1gNSMmKuFCkmuHrGUe6vWSZKDoT+SRRUHCyZaCOsuADaSg1OprzthDbZ
+4zq83UMApB1+BXeaSScCcuQgZ/utgG0uiQcIaCxDGqKmGuvNvlyXkM6Yg0wfgBqf
+samylANzBukay6ttbcpv
+=S/2E
+-----END PGP SIGNATURE-----
+
+--nextPart1938445.1trVjdf49V--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
