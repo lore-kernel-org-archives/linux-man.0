@@ -1,54 +1,59 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 1/4] io_cancel.2: fix up the description
-Date: Thu, 11 Apr 2013 09:52:18 -0400
-Message-ID: <x49hajdp431.fsf@segfault.boston.devel.redhat.com>
-References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
-	<1365104218-26042-2-git-send-email-jmoyer@redhat.com>
-	<CAKgNAki66jwQvKGLDWRomG0-s29EP34MZCoU=eUjHnQsn3x8wA@mail.gmail.com>
-	<20130410111422.GB1376@rei.scz.novell.com>
-	<x49ppy2jxkm.fsf@segfault.boston.devel.redhat.com>
-	<CAKgNAkg0wv=XO7UwpnafE98HNMZrA=jZh4fN+m7UmijwUaroJg@mail.gmail.com>
-	<20130411101430.GA1325@rei.scz.novell.com>
+From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Subject: Re: vdso(7): new man page
+Date: Thu, 11 Apr 2013 14:31:55 -0400
+Message-ID: <CALCETrXwfpH=dRZ82MqjWWL0oFohigcUHgLPnRPpnisOHYxKQQ@mail.gmail.com>
+References: <201304092317.01590.vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130411101430.GA1325-WQn62CkN1y0S3W1tAdPHOtBPR1lH4CV8@public.gmane.org> (chrubis-AlSwsSmVLrQ@public.gmane.org's
-	message of "Thu, 11 Apr 2013 12:14:30 +0200")
+In-Reply-To: <201304092317.01590.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: chrubis-AlSwsSmVLrQ@public.gmane.org
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-chrubis-AlSwsSmVLrQ@public.gmane.org writes:
-
-> Hi!
->> >> It is no big deal but I think that the sentence could be a little clearer
->> >> with explicitly stating that the ctx_id is aio context and the iocb
->> >> describes the operation to be canceled. Something like:
->> >>
->> >> The
->> >> .I iocb
->> >> describes the operation to be canceled and the
->> >> .I ctx_id
->> >> is aio context the operation was submitted to.
->> >
->> > I agree that this is better.  Thanks Cyril!
->> 
->> 
->> So, in the end, I have
->> 
->>        The  iocb  argument  describes the operation to be canceled
->>        and the ctx_id argument is the AIO  context  to  which  the
->>        operation  was submitted.
->> 
->> Okay?
+On Tue, Apr 9, 2013 at 8:17 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
+> so i've slapped this together.  i think the HISTORY section could use more
+> filling out, but that'd probably be more for funsies rather than usefulness.
 >
-> Okay with me.
 
-Okay with me, too.
+This looks good to me.  It may be worth mentioning that programs must
+not assume anything about where the vDSO is mapped -- that may change
+from kernel to kernel or exec to exec, unless the particular
+architecture makes some guarantee.
 
-Cheers,
-Jeff
+
+> .SS Example Background
+> Making syscalls themselves can incur significant penalty.
+> In x86 systems, you can trigger a software interrupt (int $0x80) to tell the
+> kernel you wish to make a syscall.
+> Internally, this means the call has to go through the normal interrupt layers
+> to save/restore context before it even gets a chance to start processing the
+> system call.
+> Wouldn't it be nicer if you could start processing the system call immediately?
+> With newer revisions of the x86 architecture, there is now a syscall/sysenter
+> instruction that does exactly that (jumps directly to the system call entry).
+> However, rather than require the C library to figure out if this functionality
+> is available itself, the vDSO includes symbols that can be used.
+> This is typically referred to using the term "vsyscall".
+
+I find this a bit confusing.  The term "vsyscall" means something
+different on x86_64, and syscall and sysenter are different
+instructions.  How about this:
+
+Making syscalls can be slow.
+In x86 32-bit systems, you can trigger a software interrupt (int
+$0x80) to tell the
+kernel you wish to make a syscall.  This instruction is expensive: it
+goes through the full interrupt handling paths in microcode and in the
+kernel.  Newer processors have faster, incompatible ways to issue
+system calls, and the kernel abstracts these through an entry point in
+the vdso.  (The terminology can be confusing.  On x86_32, this
+function is called __kernel_vsyscall, but on x86_64, the term
+"vsyscall" refers to an obsolete way to ask the kernel what time it is
+or what cpu the caller is on.)
+
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
