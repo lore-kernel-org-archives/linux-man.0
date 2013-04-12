@@ -1,61 +1,65 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+From: Mike Frysinger <vapier@gentoo.org>
 Subject: Re: [PATCH] man2 : syscall.2 : document syscall calling conventions
-Date: Thu, 11 Apr 2013 21:40:17 -0400
-Message-ID: <201304112140.18506.vapier@gentoo.org>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <BLU0-SMTP986B123D17DB8B88214F797C40@phx.gbl> <CAKgNAkhv6tovvnucoofDR-eOe4H7xeFZDam9+iaVVndEqbuoXg@mail.gmail.com>
+Date: Thu, 11 Apr 2013 21:55:43 -0400
+Message-ID: <201304112155.46349.vapier@gentoo.org>
+References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <201304071439.15297.vapier@gentoo.org> <BLU0-SMTP986B123D17DB8B88214F797C40@phx.gbl>
 Mime-Version: 1.0
 Content-Type: multipart/signed;
-  boundary="nextPart17524485.mrj3Pp0g2F";
+  boundary="nextPart3463933.kiKxh8oLbK";
   protocol="application/pgp-signature";
   micalg=pgp-sha1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhv6tovvnucoofDR-eOe4H7xeFZDam9+iaVVndEqbuoXg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-parisc-owner@vger.kernel.org>
+In-Reply-To: <BLU0-SMTP986B123D17DB8B88214F797C40@phx.gbl>
+Sender: linux-parisc-owner@vger.kernel.org
+To: John David Anglin <dave.anglin@bell.net>
+Cc: Kyle McMartin <kyle@mcmartin.ca>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>, Kyle McMartin <kyle@infradead.org>, Helge Deller <deller@gmx.de>, "James E.J. Bottomley" <jejb@parisc-linux.org>, linux-parisc@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
---nextPart17524485.mrj3Pp0g2F
+--nextPart3463933.kiKxh8oLbK
 Content-Type: Text/Plain;
-  charset="utf-8"
+  charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-On Monday 08 April 2013 05:20:07 Michael Kerrisk (man-pages) wrote:
->        arch/ABI   instruction          syscall #   retval  Notes
+On Sunday 07 April 2013 14:48:42 John David Anglin wrote:
+> On 7-Apr-13, at 2:39 PM, Mike Frysinger wrote:
+> > just to be clear, the only insn you need is:
+> > 	ble 0x100(%sr2, %r0);
+> >=20
+> > the kernel docs say sr2 holds the kernel gateway page (so i guess
+> > 0x100 is a
+> > known offset into that).  the docs don't mention r0 that i can see,
+> > so i'm
+> > guessing it's one of those "always 0" registers ?
+>=20
+> Yes.  There is also an entry at offset 0xb0 for light-weight-
+> syscalls.  Currently,
+> this implements an atomic CAS operation used for pthread support.
 
-i was thinking it also might be useful to mention the register where the=20
-syscall # is kept for syscall_restart, but we can do that in a follow up
-
->        ia64       break 0x100000       r15         r10/r8C
-
-looks like you added a typo :).  it's "r8", not "r8C".
+interesting.  sounds like a poor man's vDSO.  i'll document this the new=20
+vdso(7) man page.
 =2Dmike
 
---nextPart17524485.mrj3Pp0g2F
+--nextPart3463933.kiKxh8oLbK
 Content-Type: application/pgp-signature; name=signature.asc 
 Content-Description: This is a digitally signed message part.
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.17 (GNU/Linux)
 
-iQIcBAABAgAGBQJRZ2YCAAoJEEFjO5/oN/WBDoYP/34KGVoaBExMPkoCq5B9wrRd
-vnk0PLP8oWfTU5FIig1xUDSuC/XSrKWptgbt6MR0iYDDZGCKRJjoVA7ISPCdCmaY
-ZfeF1xWUabe4+iqBXVpiQ5lfVgz7gjNqAoBi14MWZ0ONeUu8ZKpdvkly2QV2mImH
-Vyo3hk4Ker73mOdyZRGJQ3XCbkFOSUcGF96DrNt42BhuQZcOKFVIVPQtNIErRTv1
-HIEJm9vlXT4WkjHBSMMS8mNxxZWqbwoxldLj14DcmaVieLmWTryFkCte2vLE2IYM
-mwQeb1bI6+XAne/nhobUgQU5Z2J5S+3g1MGxHhm7zyGjojs/BqYO3tWYs4SaJEXh
-dKxMrv8QNppBIJLglPz0wrV7O56xSpJaeowfMldcnywD/HQ/vHWN7nlx9HrALaqc
-C7sRcemfLT8FiYBHtYsG5z3u2kSOSFBIBU0qub8/EuYX6q3JMHPwxU22MSBHlPoe
-dd06exnGl0IMJ+2WifqdviEZ4iHCw3t/Hx8yYKmX5DoIo8jWGj0ZG0wAiols3tqy
-+77R5XQqAy8rVddQaWnvy8zsiezmp6EI3AhhVS3rb0ADJaGXHFGes52P8HffrzNO
-G6J4o0fyw9edWy1tQgVHLB0CMZIbg9759BnElS+DMUHeMdUsBNooUqpo09F24Ucr
-CtCChr30Ux3J/p0EHq4a
-=Ur9l
+iQIcBAABAgAGBQJRZ2miAAoJEEFjO5/oN/WBqCYP/jUXIPu+yVqoSenYutuvGiW7
+eHyiE8eXxjgiLSmy6IgLYxIHQuUNoWpuku+4mLmEEAjU+dLIR2J2cHwSPuKm0I00
+QObDtRDPAekHM3hv1wlNyfE33Kc32LyRtMHhsQZJnfDp5+n+LN7RtxnjTRiq807L
+5+qMxUPIjwrPnHkbR3lPr4BW8F8RO/Tdpi6YWiXn+FyjFAYs7fCFHh/lbciifNBw
+1BBz7L+8wuE06DBsmd2i2xfsHeDuchegcXY0VWyQ8X4sUQY9LQMjQ6nzqCqVrnfv
+ctHj1H8pWIjDRRD1BbDyLuiG06DSXOYUx2JOCwqUjXVdt6hnxqJmyB06hXC0QB3f
+xkooKeLNotlt5PqXwJKd3vZ74HAWT67FdeE9rI9GvvtKYVoyXDJ2e9LH0O3M6ujI
+ZrQCl1TXLAt5FCCGdVke1TEWFLa9W5aZZ9nyBRbHDLwairkvYXT2y3hnu62VHeft
+YHnLxP67qCd/nwd53gH9m5SOYF8otFzK9pNU+f7SDt6pENLTLRriLMn7+E798OhG
+Zomt46Cdsi6mbYY0lIxa+x0tFQj9DoUKFqhe4e582svjWR6VueEg3/5uafxvueNr
+QbcPeOUss5Njq5sELZVUN1Xqfrm3gNeG++u9s3vlGOKAO6/4yk/Cefa48WNrkcV7
+kkneFt/OMHaVEUML46GM
+=MVHR
 -----END PGP SIGNATURE-----
 
---nextPart17524485.mrj3Pp0g2F--
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--nextPart3463933.kiKxh8oLbK--
