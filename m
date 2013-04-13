@@ -1,145 +1,34 @@
-From: John David Anglin <dave.anglin@bell.net>
-Subject: Re: [PATCH] man2 : syscall.2 : document syscall calling conventions
-Date: Fri, 12 Apr 2013 08:17:38 -0400
-Message-ID: <BLU0-SMTP7FE3CEF5EAAC8C6456FEB97C10@phx.gbl>
-References: <1364361092-5948-1-git-send-email-ch0.han@lge.com> <201304112155.46349.vapier@gentoo.org> <BLU0-SMTP62F4273B01E0328ADCD7BE97C10@phx.gbl> <201304112338.56618.vapier@gentoo.org> <1365741912.6982.8.camel@dabdike>
-Mime-Version: 1.0 (Apple Message framework v936)
-Content-Type: text/plain; charset="US-ASCII"; format=flowed; delsp=yes
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-parisc-owner@vger.kernel.org>
-In-Reply-To: <1365741912.6982.8.camel@dabdike>
-Sender: linux-parisc-owner@vger.kernel.org
-To: James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Mike Frysinger <vapier@gentoo.org>, Kyle McMartin <kyle@mcmartin.ca>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>, Kyle McMartin <kyle@infradead.org>, Helge Deller <deller@gmx.de>, "James E.J. Bottomley" <jejb@parisc-linux.org>, linux-parisc@vger.kernel.org
+From: Geoffrey Thomas <gthomas-uwc4OXh3ksdWk0Htik3J/w@public.gmane.org>
+Subject: Re: [PATCH] open(2): document O_PATH
+Date: Fri, 12 Apr 2013 19:17:47 -0700
+Message-ID: <alpine.DEB.2.02.1304121917230.29639@salmon-of-wisdom.skyblue-technologies.com>
+References: <CAKgNAkgWiANFA1Z7o2EQmKmsMzzpa1ga2ggLeX3Bo58QmjDx6g@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed; charset="US-ASCII"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkgWiANFA1Z7o2EQmKmsMzzpa1ga2ggLeX3Bo58QmjDx6g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12-Apr-13, at 12:45 AM, James Bottomley wrote:
+On Thu, 14 Mar 2013, Michael Kerrisk (man-pages) wrote:
 
-> On Thu, 2013-04-11 at 23:38 -0400, Mike Frysinger wrote:
->> On Thursday 11 April 2013 22:34:43 John David Anglin wrote:
->>> On 11-Apr-13, at 9:55 PM, Mike Frysinger wrote:
->>>> On Sunday 07 April 2013 14:48:42 John David Anglin wrote:
->>>>> On 7-Apr-13, at 2:39 PM, Mike Frysinger wrote:
->>>>>> just to be clear, the only insn you need is:
->>>>>>  ble 0x100(%sr2, %r0);
->>>>>>
->>>>>> the kernel docs say sr2 holds the kernel gateway page (so i guess
->>>>>> 0x100 is a
->>>>>> known offset into that).  the docs don't mention r0 that i can  
->>>>>> see,
->>>>>> so i'm
->>>>>> guessing it's one of those "always 0" registers ?
->>>>>
->>>>> Yes.  There is also an entry at offset 0xb0 for light-weight-
->>>>> syscalls.  Currently,
->>>>> this implements an atomic CAS operation used for pthread support.
->>>>
->>>> interesting.  sounds like a poor man's vDSO.  i'll document this  
->>>> the
->>>> new
->>>> vdso(7) man page.
->>>
->>> Not exactly, the code runs on the gateway page which is in kernel  
->>> space.
->>> The main reason for doing the operation in kernel space is to  
->>> prevent
->>> processes from being preempted while executing in the lock  
->>> region.  In
->>> general,
->>> parisc processes are not preempted on the gateway page.  There are
->>> some subtleties regarding fault handling.
->>
->> sure ... the Blackfin arch does a similar thing for providing fast  
->> atomic
->> primitives to userspace since the ISA can't.
->>
->> what do you think of this section for vdso(7) ?  i might have to  
->> split the
->> "real" vdso arches from these others since there's a couple now  
->> (arm, bfin,
->> parisc), and i think there might be more down the line (microblaze).
->
-> I've got to say, I really don't think this can be classified as a  
-> vdso.
-> For a vdso, the kernel exports an ELF object that can be linked
-> dynamically into any elf binary requiring it.  The ELF section
-> information provides full details and so vdso entries can be called by
-> symbol.
->
-> In the parisc gateway page implementation, we have a set of "hidden"
-> primitives which the executable must know how to call (no self
-> description like a vdso).  This mechanism is identical to the original
-> intent of the x86 int <n> instruction (an instruction that traps into
-> the kernel and performs some primitive action but to use it, you  
-> have to
-> know which function corresponds to which value of <n>).
+>              When O_PATH is specified in flags, flag bits other  than
+>              O_DIRECTORY and O_NOFOLLOW are ignored.
 
-I agree with James.  There is no ELF object exported to userspace.  The
-content of the gateway page is hidden.  The data structures used for
-the locks are in the kernel itself.  Access is via a special branch  
-instruction
-rather than a break/trap instruction.
+We are told elsewhere in this man page that O_DIRECTORY "should not be 
+used outside of the implementation of opendir(3)". Is O_PATH an exception 
+to this? It seems like the implementation makes special accomodation for 
+O_DIRECTORY, but opendir(3) is not going to use O_PATH.
 
->
-> James
->
->
->> .SS parisc (hppa) functions
->> .\" See linux/arch/parisc/kernel/syscall.S
->> .\" See linux/Documentation/parisc/registers
->> The parisc port has a code page full of utility functions.
->> Rather than use the normal ELF aux vector approach, it passes the  
->> address of
->> the page to the process via the SR2 register.
->> This is done to match the way HP-UX works.
->>
->> Since it's just a raw page of code, there is no ELF information for  
->> doing
->> symbol lookups or versioning.
->> Simply call into the appropriate offset via the branch instruction,  
->> e.g.:
->> .br
->> ble <offset>(%sr2, %r0)
->> .if t \{\
->> .ft CW
->> \}
->> .TS
->> l l.
->> offset  function
->> _
->> 00b0    lws_entry
->> 00e0    set_thread_pointer
->> 0100    linux_gateway_entry (syscall)
->> 0268    syscall_nosys
->> 0274    tracesys
->> 0324    tracesys_next
->> 0368    tracesys_exit
->> 03a0    tracesys_sigexit
->> 03b8    lws_start
->> 03dc    lws_exit_nosys
->> 03e0    lws_exit
->> 03e4    lws_compare_and_swap64
->> 03e8    lws_compare_and_swap
->> 0404    cas_wouldblock
->> 0410    cas_action
->> .TE
->> .if t \{\
->> .in
->> .ft P
->> \}
->>
->>> There is support in glibc and libgcc for these calls.  The libgcc
->>> implementation
->>> in linux-atomic.c is very similar to that on arm.
->>
->> interesting.  another arch to add :).
->> -mike
->
->
->
+(What's the reasoning behind the rule against O_DIRECTORY in the general 
+case, anyway?)
 
+-- 
+Geoffrey Thomas
+gthomas-uwc4OXh3ksdWk0Htik3J/w@public.gmane.org
 --
-John David Anglin	dave.anglin@bell.net
-
-
-
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
