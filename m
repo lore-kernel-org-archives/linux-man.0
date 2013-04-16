@@ -1,90 +1,80 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ip.7: Adding IP_MULTICAST_ALL Option
-Date: Tue, 16 Apr 2013 08:01:52 +0200
-Message-ID: <CAKgNAkhKUOBYG3eev=Oqy+vfA=gjnf7Z=Yk6GBHixmnk+oeUeg@mail.gmail.com>
-References: <1363797611-20016-1-git-send-email-rpazdera@redhat.com>
+Subject: Re: [PATCH] proc.5: Add info about /proc/[pid]/map_files directory
+Date: Tue, 16 Apr 2013 08:02:08 +0200
+Message-ID: <CAKgNAkigq6FW2oTG+JQBbpzEiK63K7WNZTyY2XN-huV4C78TOw@mail.gmail.com>
+References: <51225BF3.7080602@parallels.com> <CAKgNAki5SQu8UffqN_s6-1=nATPJaf+KSAPNkGzCPDyyRSupNw@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1363797611-20016-1-git-send-email-rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAKgNAki5SQu8UffqN_s6-1=nATPJaf+KSAPNkGzCPDyyRSupNw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Radek,
-
-On Wed, Mar 20, 2013 at 5:40 PM, Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> This commit adds documentation for the IP_MULTICAST_ALL socket option.
->
-> The option was added to the Linux kernel in 2.6.31:
->
->     Author Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
->     Commit f771bef98004d9d141b085d987a77d06669d4f4f
->
-> The description is based on a previous one [3] posted by the original
-> author of the code -- Nivedita, but it is slightly re-worded.
->
-> I tested it myself and it works as described.
->
-> References:
->     [1] http://lxr.free-electrons.com/source/net/ipv4/ip_sockglue.c#L972
->     [2] http://lxr.free-electrons.com/source/net/ipv4/igmp.c#L2267
->     [3] http://patchwork.ozlabs.org/patch/28902/
->
-> Signed-off-by: Radek Pazdera <rpazdera-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-
-Thanks for the detailed commit message! Applied.
+Hi Pavel... Ping!
 
 Cheers,
 
 Michael
 
-
-> ---
->  man7/ip.7 |   14 +++++++++++---
->  1 files changed, 11 insertions(+), 3 deletions(-)
+On Thu, Feb 28, 2013 at 3:20 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Pavel,
 >
-> diff --git a/man7/ip.7 b/man7/ip.7
-> index 9bef3bf..cc8eea6 100644
-> --- a/man7/ip.7
-> +++ b/man7/ip.7
-> @@ -29,9 +29,6 @@
->  .\"    MCAST_JOIN_SOURCE_GROUP (2.4.22 / 2.6)
->  .\"    MCAST_LEAVE_SOURCE_GROUP (2.4.22 / 2.6)
->  .\"    MCAST_MSFILTER (2.4.22 / 2.6)
-> -.\"    IP_MULTICAST_ALL (2.6.31)
-> -.\"        commit f771bef98004d9d141b085d987a77d06669d4f4f
-> -.\"        Author: Nivedita Singhvi <niv-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
->  .\"    IP_UNICAST_IF (3.4)
->  .\"        commit 76e21053b5bf33a07c76f99d27a74238310e3c71
->  .\"        Author: Erich E. Hoover <ehoover-/qOHPfZA4H6HXe+LvDLADg@public.gmane.org>
-> @@ -525,6 +522,17 @@ This is also particularly useful for diagnostic tools such as
->  that wish to deliberately send probe packets larger than
->  the observed Path MTU.
->  .TP
-> +.BR IP_MULTICAST_ALL " (since Linux 2.6.31)"
-> +This option can be used to modify the delivery policy of multicast messages
-> +to sockets bound to the wildcard
-> +.B INADDR_ANY
-> +address. The argument is a boolean integer (defaults to 1). If set to 1,
-> +the socket will receive messages from all the groups that have been joined
-> +globally on the whole system. Otherwise, it will deliver only messages from
-> +the groups that have been explicitly joined (for example via the
-> +.B IP_ADD_MEMBERSHIP
-> +option) on this particular socket.
-> +.TP
->  .BR IP_MULTICAST_IF " (since Linux 1.2)"
->  Set the local device for a multicast socket.
->  Argument is an
-> --
-> 1.7.7.6
+> On Mon, Feb 18, 2013 at 5:50 PM, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org> wrote:
+>> It was added into Linux v3.3 and provides info about files being mmap-ed in
+>> a way _very_ similar to how /proc/[pid]/fd works. Thus I thought that the
+>> best place for the map_files' doc is where where the fd's doc is.
+>>
+>> Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+>
+> Could you please resubmit with some added text that shows an example
+> of what you see in this file (including a /dev/zero case)? Also, the
+> patch should mention that CONFIG_CHECKPOINT_RESTORE is required.
+>
+> Thanks,
+>
+> Michael
+>
+>> ---
+>>
+>> diff --git a/man5/proc.5 b/man5/proc.5
+>> index 30ca3a9..1226747 100644
+>> --- a/man5/proc.5
+>> +++ b/man5/proc.5
+>> @@ -285,6 +285,23 @@ Thus the example command above could be written as:
+>>  .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
+>>  .fi
+>>  .in
+>> +.TP
+>> +.IR /proc/[pid]/map_files/ " (since kernel 3.3)
+>> +This subdirectory contains entries corresponding to memory mapped
+>> +files (see
+>> +.BR mmap (2)).
+>> +Entries are named by memory region start and end pair,
+>> +and are symbolic links to the corresponding files.
+>> +
+>> +Although these entries are present for memory regions that were
+>> +mapped with
+>> +.BR MAP_FILE
+>> +flag, the way anonymous shared memory (regions created with
+>> +.B MAP_ANON | MAP_SHARED
+>> +flags)
+>> +is implemented in Linux
+>> +makes such regions also appear on this directory. In that case
+>> +the target file would be the /dev/zero one.
+>>  .\" FIXME Describe /proc/[pid]/loginuid
+>>  .\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
+>>  .\"       CONFIG_AUDITSYSCALL
+>
+>
 >
 > --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 
 
 
