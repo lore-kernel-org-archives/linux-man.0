@@ -1,86 +1,96 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: clone(2) should be clone(3)
-Date: Tue, 16 Apr 2013 11:37:47 -0400
-Message-ID: <201304161137.49482.vapier@gentoo.org>
-References: <515EF542.8090200@redhat.com> <201304071503.07751.vapier@gentoo.org> <CAKgNAkjQ1PfvrVgJ_UXUerG9MzLAoUt9ixgS07L9LAroCW7_Jw@mail.gmail.com>
+From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+Subject: Re: [PATCH] proc.5: Add info about /proc/[pid]/map_files directory
+Date: Tue, 16 Apr 2013 21:19:27 +0400
+Message-ID: <516D881F.9060201@parallels.com>
+References: <51225BF3.7080602@parallels.com> <CAKgNAki5SQu8UffqN_s6-1=nATPJaf+KSAPNkGzCPDyyRSupNw@mail.gmail.com> <CAKgNAkigq6FW2oTG+JQBbpzEiK63K7WNZTyY2XN-huV4C78TOw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart9635726.OXXaN7yDDZ";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjQ1PfvrVgJ_UXUerG9MzLAoUt9ixgS07L9LAroCW7_Jw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkigq6FW2oTG+JQBbpzEiK63K7WNZTyY2XN-huV4C78TOw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---nextPart9635726.OXXaN7yDDZ
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+On 04/16/2013 10:02 AM, Michael Kerrisk (man-pages) wrote:
+> Hi Pavel... Ping!
 
-On Tuesday 16 April 2013 01:42:56 Michael Kerrisk (man-pages) wrote:
-> On Sun, Apr 7, 2013 at 9:03 PM, Mike Frysinger wrote:
-> > also, the quoted syscall signature isn't the whole story.  there's
-> > actually more variants:
-> > #ifdef __ARCH_WANT_SYS_CLONE
-> > #ifdef CONFIG_CLONE_BACKWARDS
-> > SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
-> >          int __user *, parent_tidptr,
-> >          int, tls_val,
-> >          int __user *, child_tidptr)
-> > #elif defined(CONFIG_CLONE_BACKWARDS2)
-> > SYSCALL_DEFINE5(clone, unsigned long, newsp, unsigned long, clone_flags,
-> >          int __user *, parent_tidptr,
-> >          int __user *, child_tidptr,
-> >          int, tls_val)
-> > #else
-> > SYSCALL_DEFINE5(clone, unsigned long, clone_flags, unsigned long, newsp,
-> >          int __user *, parent_tidptr,
-> >          int __user *, child_tidptr,
-> >          int, tls_val)
-> > ...
->=20
-> I've worked in some of the above detail; see the Git copy of the page.
->=20
-> > these arches don't define __ARCH_WANT_SYS_CLONE:
-> >         blackfin ia64 m68k sparc
->=20
-> I'm not sure of the significance of the above; can you explain?
+Sorry, Michael...
+This patch is in my man git tree for several weeks already,
+I will re-send one soon.
 
-the three clone variants i posted above are bracketed by the define=20
-__ARCH_WANT_SYS_CLONE.  so if the arch doesn't define that, it means it has=
- its=20
-own implementation of clone() in its arch/$ARCH/ tree, so the exact prototy=
-pe=20
-has to be tracked down from there.
-=2Dmike
+> Cheers,
+> 
+> Michael
+> 
+> On Thu, Feb 28, 2013 at 3:20 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hi Pavel,
+>>
+>> On Mon, Feb 18, 2013 at 5:50 PM, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org> wrote:
+>>> It was added into Linux v3.3 and provides info about files being mmap-ed in
+>>> a way _very_ similar to how /proc/[pid]/fd works. Thus I thought that the
+>>> best place for the map_files' doc is where where the fd's doc is.
+>>>
+>>> Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+>>
+>> Could you please resubmit with some added text that shows an example
+>> of what you see in this file (including a /dev/zero case)? Also, the
+>> patch should mention that CONFIG_CHECKPOINT_RESTORE is required.
+>>
+>> Thanks,
+>>
+>> Michael
+>>
+>>> ---
+>>>
+>>> diff --git a/man5/proc.5 b/man5/proc.5
+>>> index 30ca3a9..1226747 100644
+>>> --- a/man5/proc.5
+>>> +++ b/man5/proc.5
+>>> @@ -285,6 +285,23 @@ Thus the example command above could be written as:
+>>>  .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
+>>>  .fi
+>>>  .in
+>>> +.TP
+>>> +.IR /proc/[pid]/map_files/ " (since kernel 3.3)
+>>> +This subdirectory contains entries corresponding to memory mapped
+>>> +files (see
+>>> +.BR mmap (2)).
+>>> +Entries are named by memory region start and end pair,
+>>> +and are symbolic links to the corresponding files.
+>>> +
+>>> +Although these entries are present for memory regions that were
+>>> +mapped with
+>>> +.BR MAP_FILE
+>>> +flag, the way anonymous shared memory (regions created with
+>>> +.B MAP_ANON | MAP_SHARED
+>>> +flags)
+>>> +is implemented in Linux
+>>> +makes such regions also appear on this directory. In that case
+>>> +the target file would be the /dev/zero one.
+>>>  .\" FIXME Describe /proc/[pid]/loginuid
+>>>  .\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
+>>>  .\"       CONFIG_AUDITSYSCALL
+>>
+>>
+>>
+>> --
+>> Michael Kerrisk
+>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+>> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+> 
+> 
+> 
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+> .
+> 
 
---nextPart9635726.OXXaN7yDDZ
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
-
-iQIcBAABAgAGBQJRbXBNAAoJEEFjO5/oN/WBUUYQANFaCJeyyn4e25sd4nkAfcCq
-hcW17KZsnTQcFG9zJLQuGypXfQa/GXGjyFL22YUjNasm7pWhjYY75FGMf2VAbMFr
-GIK0zMxFf5ImQCsc7v31+gACtG0fERqB6jaYq2qyx4VrYav8mkAKUogDAXWarOXI
-y7zesl7lkoKDYM8oDr02v8QOisre3DsPUZp5s/aPT/CjTpIUIa4yS2bWQ0mrh/jr
-qHrezcHoB5vhoGCCkciJEBq1dAXaUTIn/K2fu4Fil0B+AzmjK21dFMma+qWg8anp
-2U95u96ojvSJpkEbfRPSJJDfoYEsrUJE7PZJWvJ3LI7oCgDurbO6H58kHHFlibqp
-NBvjDo+XjIjAoCLFsyxuI3/zS6p1pwZzA7aBHvhA9Rdc5O5Ada1ht9fCG3c5XRvp
-ob8SE36MnkzI7ewn0SmIIn41fQ1vztFTVI/0SQWCIYjhT5SDqlAURp0rSKg/XLFL
-+CTr/3yxqjvjs3C0WgZgu1atExHs3cSnnkWVhllxnljhS9fWTy9kwlFkcMFdGY6C
-wYa08tGJDSgt16yLZeWi4SdrEgvodw+5Wtqdmx79AfQX1zBTTjlmRcsSNGuEp9mg
-yc3oZ/FTmyPe3g6qsa6iU/c8s4FyQam4w2UADCWRzgOQrDmp+0Y1OBfVi5jFTWwL
-q7cqp/YYBoSdhdZqzfat
-=86r/
------END PGP SIGNATURE-----
-
---nextPart9635726.OXXaN7yDDZ--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
