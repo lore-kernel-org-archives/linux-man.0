@@ -1,84 +1,86 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: Add info about /proc/[pid]/map_files directory (v2)
-Date: Wed, 17 Apr 2013 08:33:35 +0200
-Message-ID: <CAKgNAkhAREE9y5QgiFJsjt8CsHGCbdv4oAnf8eccr-fh-hRTBg@mail.gmail.com>
-References: <516D8C61.5090004@parallels.com>
+Subject: Re: [PATCH] socket.7: Add info about SO_PEEK_OFF option
+Date: Wed, 17 Apr 2013 08:45:39 +0200
+Message-ID: <CAKgNAkhoStgFnweOABOx3GQnq4Y9NaOambo2UKHcA_7DZiA7SA@mail.gmail.com>
+References: <5123CE11.5060900@parallels.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <516D8C61.5090004-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
+In-Reply-To: <5123CE11.5060900-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
 Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Apr 16, 2013 at 7:37 PM, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org> wrote:
-> It was added into Linux v3.3 and provides info about files being mmap-ed in
-> a way _very_ similar to how /proc/[pid]/fd works. Thus I thought that the
-> best place for the map_files' doc is where where the fd's doc is.
->
-> v2: Added examples of how links look like and dependency on kernel config
-> option CONFIG_CHECKPOINT_RESTORE.
+On Tue, Feb 19, 2013 at 8:10 PM, Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org> wrote:
+> Since Linux 3.4 there appeared an ability to specify the
+> offset in bytes from which the data will be MSG_PEEK-ed.
+> Describe this socket option in the socket(7) page, where
+> all the other socket options are described.
 >
 > Signed-off-by: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
 
-Thanks Pavel. Applied.
-
-Cheers,
-
-Michael
-
+Pavel, I have applied this patch, but would like to clarify some
+details. See below.
 
 > ---
 >
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 520c5fc..1bfc63c 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -286,6 +286,42 @@ Thus the example command above could be written as:
->  .RB "$" " foobar \-i /dev/stdin \-o /dev/stdout ..."
->  .fi
->  .in
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index 2f915da..6177ab1 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -618,6 +618,33 @@ for details on control messages.
+>  Gets the socket type as an integer (e.g.,
+>  .BR SOCK_STREAM ).
+>  This socket option is read-only.
 > +.TP
-> +.IR /proc/[pid]/map_files/ " (since kernel 3.3)
-> +This subdirectory contains entries corresponding to memory mapped
-> +files (see
-> +.BR mmap (2)).
-> +Entries are named by memory region start and end pair,
-> +and are symbolic links to the files themselves. Like this
-> +.in +4n
-> +.nf
+> +.BR SO_PEEK_OFF " (since Linux 3.4)"
+> +This option controls the behavior of
+> +.BR recv(2)
+> +system call when used with
+> +.BR MSG_PEEK
+> +flag.
 > +
-> +.RB "$" " ls -l /proc/self/map_files/"
-> +lr--------. 1 root root 64 Apr 16 21:31 3252e00000-3252e20000 -> /usr/lib64/ld-2.15.so
-> +\&...
-> +.fi
-> +.in
-> +
-> +Although these entries are present for memory regions that were
-> +mapped with
-> +.BR MAP_FILE
-> +flag, the way anonymous shared memory (regions created with
-> +.B MAP_ANON | MAP_SHARED
-> +flags)
-> +is implemented in Linux
-> +makes such regions also appear on this directory. In that case
-> +the target file would be the deleted /dev/zero one:
-> +.in +4n
-> +.nf
-> +
-> +.RB
-> +lrw-------. 1 root root 64 Apr 16 21:33 7fc075d2f000-7fc075e6f000 -> /dev/zero (deleted)
-> +.fi
-> +.in
-> +
-> +This directory appears only if the
-> +.B CONFIG_CHECKPOINT_RESTORE
-> +kernel configuration option is enabled.
->  .\" FIXME Describe /proc/[pid]/loginuid
->  .\"       Added in 2.6.11; updating requires CAP_AUDIT_CONTROL
->  .\"       CONFIG_AUDITSYSCALL
+> +When this value is negative (kernel sets -1 to all new sockets by default)
+> +the behavior of the
+> +.BR recv(2)
+> +is not affected at all.
+> +When it's set to zero or positive value, peeking the data would occur from
+> +the respective position in bytes. At the same time this offset will be
+> +incremented on the amount of bytes peeked from queue, so that the
+> +subsequent attempt to peek the data would result in next data in queue
+
+So, if I set SO_PEEK_OFF to 5 and do a recv(fs, buf, 10, MSG_PEEK),
+then the offset will end up at 15, and the next MSG_PEEK would
+retrieve at offset 15, right?
+
+> +(similarly, receiving the data from queue without the
+> +.BR MSG_PEEK
+> +flag will result in respectively decreased offset value).
+
+What does this mean? Is it correct that if I set SO_PEEK_OFF to 5 and
+do a recv(fs, buf, 10, 0), then the offset will end up at 0, and the
+next MSG_PEEK would retrieve at offset 0? Or, rather, does a recv()
+without MSG_PEEK leave the offset unchanged, so that the next MSG_PEEK
+would retrieve at offset 5?
+
+Thanks,
+
+Michael
+
+> +For datagram sockets, if the offset points to the middle of a packet,
+> +the data returned will be marked with the
+> +.BR MSG_TRUNC
+> +flag.
+
+That looks strange. So, if dealing
+> +Since Linux 3.4 this option is supported for
+> +.BR unix(7)
+> +sockets only.
+>  .SS Signals
+>  When writing onto a connection-oriented socket that has been shut down
+>  (by the local or the remote end)
 
 
 
