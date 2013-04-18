@@ -1,51 +1,48 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace(2) man page
-Date: Thu, 18 Apr 2013 11:25:16 +0200
-Message-ID: <CAKgNAkgNWcgO=0hkn2pytk6MZ40vE=vN1T6JJ6rEvt53kW9-tw@mail.gmail.com>
-References: <20130417113933.GA11499@osiris>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Brian Norris <computersforpeace-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: sigaction(2): return value and errno
+Date: Thu, 18 Apr 2013 11:50:00 -0700
+Message-ID: <CAN8TOE84SyH8UTamQoyffv5iSknRbQK4g4GABpW7htfbx1gffg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130417113933.GA11499@osiris>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Andreas Arnez <arnez-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Heiko,
+Hi,
 
-On Wed, Apr 17, 2013 at 1:39 PM, Heiko Carstens
-<heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org> wrote:
-> Hi Michael,
->
-> we are just wondering where we should document the s390 specific ptrace
-> interface.
-> The natural answer seems to be "in the man page", however when reading the
-> ptrace(2) man page it hardly mentions any architecture dependent details.
->
-> Especially the _exact_ semantics of each ptrace command including all data
-> structures etc. are missing.
->
-> In the kernel at least powerpc has Documentation/powerpc/ptrace.txt which
-> seems to go into detail.
->
-> So, what do you think? Should these architecture specific details go
-> into the ptrace(2) man page?
-> Or somewhere else? Like e.g. Documentation/<arch>/ptrace.txt in the kernel?
-> Or maybe an arch specific "sub" man page like e.g. ptrace.<arch>?
+The following text doesn't seem complete to me, in the Linux
+sigaction(2) man-page (from release 3.35, 2011-09-08; but it's similar
+in the most recent release):
 
-I am not sure, mainly because I am not familiar with the extent of the
-architecture-specific variation in ptrace(2). I do see that there is
-just a very little arch-specific detail in the man page (x86, SPARC).
-I am not (yet) sure of the way forward. I have CCed Denys Vlasenko,
-since in recent times he has done a lot of work on this page, and I
-assume has a lot of familiarity with the various arch-specific
-details. Perhaps he has an opinion.
+<quote>
+RETURN VALUE
+       sigaction() returns 0 on success and -1 on error.
 
-Cheers,
+ERRORS
+       EFAULT act or oldact points to memory which is not a valid part
+of the process address space.
 
-Michael
+       EINVAL An invalid signal was specified.  This will also be
+generated if an attempt is made to change the action for SIGKILL or
+SIGSTOP, which cannot be caught or ignored.
+</quote>
+
+The RETURN VALUE section doesn't specify how the errors (EFAULT and
+EINVAL) can be observed by the programmer, which seems to leave the
+ERRORS section incomplete. Typically the error-checking is done with
+errno (see the wording of, for example, of read(2): "On error, -1 is
+returned, and errno is set appropriately.") Should the man page be
+updated to include this boilerplate wording, that errno will be set
+appropriately? Assuming this is the actual behavior of sigaction(), I
+would recommend:
+
+"On success, 0 is returned. On error, -1 is returned, and errno is set
+appropriately."
+
+Thanks,
+Brian
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
