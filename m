@@ -1,7 +1,7 @@
 From: chrubis-AlSwsSmVLrQ@public.gmane.org
 Subject: Re: [PATCH 4/4] io_setup.2: clarify nr_events
-Date: Mon, 22 Apr 2013 16:21:33 +0200
-Message-ID: <20130422142132.GB4845@rei>
+Date: Mon, 22 Apr 2013 16:54:07 +0200
+Message-ID: <20130422145406.GC4845@rei>
 References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
  <1365104218-26042-5-git-send-email-jmoyer@redhat.com>
  <20130422133039.GB3975@rei>
@@ -19,6 +19,23 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8A
 List-Id: linux-man@vger.kernel.org
 
 Hi!
+> >> > Looking carefully at the io_setup.2 man page it says:
+> >> >
+> >> > ...
+> >> > The  io_setup() system call creates an asynchronous I/O context capable
+> >> > of concurrently processing at least nr_events.
+> >> > ...
+> >> >                             ^
+> >> > 			    The 'at least' caught my eye, as it is it
+> >> > 			    may suggest that the nr_events is low limit
+> >> > 			    on the number of events.
+> >> >
+> >> >
+> >> > Wouldn't be 'at most' more appropriate here? Quick look in the kernel
+> >> > sources suggest that it allocates buffers for nr_events elements.
+> >> >
+> >> > Or am I missing something?
+> >> 
 > >> When the kernel ring buffer is setup, it is created in page size
 > >> chunks, and nr_events is rounded up:
 > >> 
@@ -41,8 +58,10 @@ Hi!
 > I don't think so, since it's an implementation detail and subject to
 > change.
 
-That is for sure, but I would like to advice the user of the interface
-that nr_events is the maximum that could be expected to portably work.
+What about this wording:
+
+The io_setup() system call creates an asynchronous I/O context suitable
+for concurrently processing nr_events operations.
 
 -- 
 Cyril Hrubis
