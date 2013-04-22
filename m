@@ -1,36 +1,22 @@
-From: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH 4/4] io_setup.2: clarify nr_events
-Date: Mon, 22 Apr 2013 11:49:27 -0400
-Message-ID: <x49txmymupk.fsf@segfault.boston.devel.redhat.com>
-References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
-	<1365104218-26042-5-git-send-email-jmoyer@redhat.com>
-	<20130422133039.GB3975@rei>
-	<x497gjuoeal.fsf@segfault.boston.devel.redhat.com>
-	<20130422140703.GA4845@rei>
-	<x4938uiodvg.fsf@segfault.boston.devel.redhat.com>
-	<20130422145406.GC4845@rei>
+From: Andi Kleen <andi@firstfloor.org>
+Subject: Re: [PATCH 12/14] netlink: add documentation for memory mapped I/O
+Date: Mon, 22 Apr 2013 11:28:08 -0700
+Message-ID: <m2r4i2whc7.fsf@firstfloor.org>
+References: <1366217229-22705-1-git-send-email-kaber@trash.net>
+	<1366217229-22705-13-git-send-email-kaber@trash.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130422145406.GC4845@rei> (chrubis-AlSwsSmVLrQ@public.gmane.org's message of "Mon,
-	22 Apr 2013 16:54:07 +0200")
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: chrubis-AlSwsSmVLrQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <1366217229-22705-13-git-send-email-kaber@trash.net> (Patrick
+	McHardy's message of "Wed, 17 Apr 2013 18:47:07 +0200")
+Sender: netdev-owner@vger.kernel.org
+To: Patrick McHardy <kaber@trash.net>
+Cc: davem@davemloft.net, netfilter-devel@vger.kernel.org, netdev@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-chrubis-AlSwsSmVLrQ@public.gmane.org writes:
+Patrick McHardy <kaber@trash.net> writes:
 
-> What about this wording:
->
-> The io_setup() system call creates an asynchronous I/O context suitable
-> for concurrently processing nr_events operations.
+Could you extend the netlink manpage too please? 
 
-That is fine with me.
-
-Cheers,
-Jeff
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+ak@linux.intel.com -- Speaking for myself only
