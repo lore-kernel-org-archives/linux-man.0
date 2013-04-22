@@ -1,81 +1,71 @@
-From: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Subject: Re: [PATCH] socket.7: Add info about SO_PEEK_OFF option
-Date: Mon, 22 Apr 2013 15:43:09 +0400
-Message-ID: <5175224D.2070906@parallels.com>
-References: <5123CE11.5060900@parallels.com> <CAKgNAkhoStgFnweOABOx3GQnq4Y9NaOambo2UKHcA_7DZiA7SA@mail.gmail.com> <516E5197.3030708@parallels.com> <CAKgNAkiT7sCgB=o0c7BUcPw_dUxQVt4DrsQHKCiRcYrDmUUTvA@mail.gmail.com>
+From: chrubis-AlSwsSmVLrQ@public.gmane.org
+Subject: Re: [PATCH 4/4] io_setup.2: clarify nr_events
+Date: Mon, 22 Apr 2013 15:08:28 +0200
+Message-ID: <20130422130827.GA3975@rei>
+References: <1365104218-26042-1-git-send-email-jmoyer@redhat.com>
+ <1365104218-26042-5-git-send-email-jmoyer@redhat.com>
+ <CAKgNAkhGAiDETDcQSFhYNCqJgbRH20SVHfV4=osW9=xAr1Zk4Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiT7sCgB=o0c7BUcPw_dUxQVt4DrsQHKCiRcYrDmUUTvA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkhGAiDETDcQSFhYNCqJgbRH20SVHfV4=osW9=xAr1Zk4Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
->> Hope this makes things more clear.
-> 
-> Yep, that helps considerably. I've extensively reworked your text,
-> adding quite a bit more detail. Could you check the text below please?
+Hi!
+> > Signed-off-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > ---
+> >  man2/io_setup.2 |    5 +++--
+> >  1 files changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/man2/io_setup.2 b/man2/io_setup.2
+> > index 2a541bf..8527b80 100644
+> > --- a/man2/io_setup.2
+> > +++ b/man2/io_setup.2
+> > @@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see NOTES.
+> >  The
+> >  .BR io_setup ()
+> >  system call
+> > -creates an asynchronous I/O context capable of receiving
+> > +creates an asynchronous I/O context capable of concurrently processing
+> >  at least \fInr_events\fP.
+> >  The
+> >  .I ctx_idp
+> > @@ -37,7 +37,8 @@ For the failure return, see NOTES.
+> >  .SH ERRORS
+> >  .TP
+> >  .B EAGAIN
+> > -The specified \fInr_events\fP exceeds the user's limit of available events.
+> > +The specified \fInr_events\fP exceeds the user's limit of available events,
+> > +as defined in /proc/sys/fs/aio-max-nr.
+> >  .TP
+> >  .B EFAULT
+> >  An invalid pointer is passed for \fIctx_idp\fP.
 
-Yup, this is exactly what I was trying to say! Thanks!
+I've pulled the man pages git and started to work on the aio manpages
+and noticed that there is (for some strange reason) double 'of' added by
+this patch, see trivial patch to fix that bellow.
 
-> Cheers,
-> 
-> Michael
-> 
->   SO_PEEK_OFF (since Linux 3.4)
->          This option, which is currently supported only for unix(7)
->          sockets,  sets  the  value  of  the  "peek offset" for the
->          recv(2) system call when used with MSG_PEEK flag.
-> 
->          When this option is set to a negative value (it is set  to
->          -1 for all new sockets), traditional behavior is provided:
->          recv(2) with the MSG_PEEK flag will  peek  data  from  the
->          front of the queue.
-> 
->          When the option is set to a value greater than or equal to
->          zero, then the next peek at data queued in the socket will
->          occur  at  the  byte offset specified by the option value.
->          At the same time, the "peek offset" will be incremented by
->          the  number  of  bytes that were peeked from the queue, so
->          that a subsequent peek will return the next  data  in  the
->          queue.i
-> 
->          If  data is removed from the front of the queue via a call
->          to recv(2) (or similar) without  the  MSG_PEEK  flag,  the
->          "peek  offset"  will  be  decreased by the number of bytes
->          removed.  In  other  words,  receiving  data  without  the
->          MSG_PEEK  flag will cause the "peek offset" to be adjusted
->          to maintain the correct relative position  in  the  queued
->          data,  so  that  a  subsequent peek will retrieve the data
->          that would have been  retrieved  had  the  data  not  been
->          removed.
-> 
->          For  datagram  sockets, if the "peek offset" points to the
->          middle of a packet, the data returned will be marked  with
->          the MSG_TRUNC flag.
-> 
->          The  following  example  serves  to  illustrate the use of
->          SO_PEEK_OFF.  Suppose a stream socket  has  the  following
->          queued input data:
-> 
->              aabbccddeeff
-> 
->          The  following  sequence  of  recv(2) calls would have the
->          effect noted in the comments:
-> 
->              int ov = 4;                  // Set peek offset to 4
->              setsockopt(fd, SOL_SOCKET, SO_PEEK_OFF, &ov, sizeof(ov));
-> 
->              recv(fd, buf, 2, MSG_PEEK);  // Peeks "cc"; offset set to 6
->              recv(fd, buf, 2, MSG_PEEK);  // Peeks "dd"; offset set to 8
->              recv(fd, buf, 2, 0);         // Reads "aa"; offset set to 6
->              recv(fd, buf, 2, MSG_PEEK);  // Peeks "ee"; offset set to 8
-> .
-> 
+diff --git a/man2/io_setup.2 b/man2/io_setup.2
+index 81b9a8b..549495a 100644
+--- a/man2/io_setup.2
++++ b/man2/io_setup.2
+@@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see NOTES.
+ The
+ .BR io_setup ()
+ system call
+-creates an asynchronous I/O context capable of of concurrently processing
++creates an asynchronous I/O context capable of concurrently processing
+ at least \fInr_events\fP.
+ The
+ .I ctx_idp
 
-
+-- 
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
