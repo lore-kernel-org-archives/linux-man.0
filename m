@@ -1,47 +1,58 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fmtmsg.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 25 Apr 2013 11:49:04 +0800
-Message-ID: <1366861744-16118-1-git-send-email-penght@cn.fujitsu.com>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: For review (v2): user_namespaces(7) man page
+Date: Thu, 25 Apr 2013 09:48:00 +0200
+Message-ID: <CAFLxGvy33QyJEMu_z47oyEEMY_awpT5rkoP4DYVjBQjsZysaGA@mail.gmail.com>
+References: <CAKgNAkjgmTJ1BiHVbqVtz-g-=yfewMiYaroDJELJpa1aRrFAvQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <CAKgNAkjgmTJ1BiHVbqVtz-g-=yfewMiYaroDJELJpa1aRrFAvQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Before glibc 2.16, fmtmsg() is not thread-safe.
-Since glibc 2.16, it is thread-safe, the patch can refer to URL:
-http://sourceware.org/git/?p=glibc.git;a=commit;h=7724defcf8873116fe4efab256596861eef21a94
+On Wed, Mar 27, 2013 at 10:26 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>        Inside the user namespace, the shell has user and group  ID  0,
+>        and a full set of permitted and effective capabilities:
+>
+>            bash$ cat /proc/$$/status | egrep '^[UG]id'
+>            Uid: 0    0    0    0
+>            Gid: 0    0    0    0
+>            bash$ cat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'
+>            CapInh:   0000000000000000
+>            CapPrm:   0000001fffffffff
+>            CapEff:   0000001fffffffff
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/fmtmsg.3 | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I've tried your demo program, but inside the new ns I'm automatically nobody.
+As Eric said, setuid(0)/setgid(0) are missing.
 
-diff --git a/man3/fmtmsg.3 b/man3/fmtmsg.3
-index f4b3d6f..3e3d3f9 100644
---- a/man3/fmtmsg.3
-+++ b/man3/fmtmsg.3
-@@ -222,6 +222,16 @@ is the string printed when a message of this class is processed by
- .SH VERSIONS
- .BR fmtmsg ()
- is provided in glibc since version 2.1.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+Before glibc 2.16, the
-+.BR fmtmsg ()
-+uses a static variable that is not protected, so it is not thread-safe.
-+
-+Since glibc 2.16, the
-+.BR fmtmsg ()
-+uses a lock to protect static variable, so it is thread-safe.
-+.\" Modified in commit 7724defcf8873116fe4efab256596861eef21a94
- .SH CONFORMING TO
- The functions
- .BR fmtmsg ()
--- 
-1.8.1.4
+Eric, maybe you can help me. How can I drop capabilities within a user
+namespace?
+In childFunc() I did add prctl(PR_CAPBSET_DROP, CAP_NET_ADMIN) but it always
+returns ENOPERM.
+What that? I thought I get a completely fresh set of cap which I can modify.
+I don't want that uid 0 inside the container has all caps.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+And why does /proc/*/loginuid always contain 4294967295 in a new user namespace?
+Writing to it also fails. (Noticed that because pam_loginuid.so does not work).
+
+Final question, is it by design that uid 0 within a namespace in not
+allowed to write to
+/proc/*/oom_score_adj?
+
+
+Thanks,
+//richard
+
+P.s: I've used 3.9-rc8 for my tests...
