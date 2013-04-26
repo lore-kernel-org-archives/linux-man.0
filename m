@@ -1,102 +1,83 @@
-From: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: ptrace(2) man page
-Date: Thu, 25 Apr 2013 17:36:48 +0200
-Message-ID: <51794D90.9010308@redhat.com>
-References: <20130417113933.GA11499@osiris> <CAKgNAkgNWcgO=0hkn2pytk6MZ40vE=vN1T6JJ6rEvt53kW9-tw@mail.gmail.com> <878v48htoh.fsf@br87z6lw.de.ibm.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: Re: For review (v2): user_namespaces(7) man page
+Date: Thu, 25 Apr 2013 17:54:29 -0700
+Message-ID: <87mwsmqfga.fsf@xmission.com>
+References: <CAKgNAkjgmTJ1BiHVbqVtz-g-=yfewMiYaroDJELJpa1aRrFAvQ@mail.gmail.com>
+	<CAFLxGvy33QyJEMu_z47oyEEMY_awpT5rkoP4DYVjBQjsZysaGA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <878v48htoh.fsf-MJW0/vCo2v25SqV9CvDRx0EOCMrvLtNR@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Arnez <arnez-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <CAFLxGvy33QyJEMu_z47oyEEMY_awpT5rkoP4DYVjBQjsZysaGA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(richard's message of "Thu, 25 Apr 2013 09:48:00 +0200")
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/24/2013 04:47 PM, Andreas Arnez wrote:
->> On Wed, Apr 17, 2013 at 1:39 PM, Heiko Carstens
->>> So, what do you think? Should these architecture specific details go
->>> into the ptrace(2) man page?
->>> Or somewhere else? Like e.g. Documentation/<arch>/ptrace.txt in the kernel?
->>> Or maybe an arch specific "sub" man page like e.g. ptrace.<arch>?
+richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+
+> On Wed, Mar 27, 2013 at 10:26 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>        Inside the user namespace, the shell has user and group  ID  0,
+>>        and a full set of permitted and effective capabilities:
 >>
->> I am not sure, mainly because I am not familiar with the extent of the
->> architecture-specific variation in ptrace(2). I do see that there is
->> just a very little arch-specific detail in the man page (x86, SPARC).
->> I am not (yet) sure of the way forward.
-> 
-> Per architecture there would potentially be a few hundred lines of
-> additional documentation.  For example, the various register sets could
-> be enumerated and their layout summarized.
+>>            bash$ cat /proc/$$/status | egrep '^[UG]id'
+>>            Uid: 0    0    0    0
+>>            Gid: 0    0    0    0
+>>            bash$ cat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'
+>>            CapInh:   0000000000000000
+>>            CapPrm:   0000001fffffffff
+>>            CapEff:   0000001fffffffff
+>
+> I've tried your demo program, but inside the new ns I'm automatically nobody.
+> As Eric said, setuid(0)/setgid(0) are missing.
 
-I would add this information only after someone asks for it.
-That is, if there is a demonstrated interest in having it documented.
+Is it the setuid/setgid or not setting up the uid/gid map?
 
-> And all the
-> architecture-specific ptrace requests could be explained.
-> 
->> I have CCed Denys Vlasenko, since in recent times he has done a lot of
->> work on this page, and I assume has a lot of familiarity with the
->> various arch-specific details. Perhaps he has an opinion.
-> 
-> Denys, do you have an opinion?
+> Eric, maybe you can help me. How can I drop capabilities within a user
+> namespace?
 
-> On Wed, Apr 17, 2013 at 1:39 PM, Heiko Carstens wrote:
->> we are just wondering where we should document the s390 specific ptrace
->> interface.
->> The natural answer seems to be "in the man page", however when reading the
->> ptrace(2) man page it hardly mentions any architecture dependent details.
+> In childFunc() I did add prctl(PR_CAPBSET_DROP, CAP_NET_ADMIN) but it always
+> returns ENOPERM.
+> What that? I thought I get a completely fresh set of cap which I can modify.
+> I don't want that uid 0 inside the container has all caps.
 
-I think that creating a S390 subsection in ptrace manpage and putting
-information there is not a bad idea. This way all the info stays in one,
-easily accessible place. (The downside is that modifying it is a PITA.)
+There are weird things that happen with exec and the user namespace.  If
+you have exec'd as an unmapped user all of your capabilities have
+already been droped.
 
-I just think you should be reasonably terse while doing so.
-Don't painstakingly describe those parts which are obvious.
-For example, documenting PTRACE_POKEUSER / PTRACE_PEEKUSER's structure
-can be done this way:
+> And why does /proc/*/loginuid always contain 4294967295 in a new user namespace?
+> Writing to it also fails. (Noticed that because pam_loginuid.so does not work).
 
-"""
-struct user_offsets {
-	uint64_t psw_mask;
-	uint64_t psw_addr;
-	uint64_t gpr0;	/* General purpose register #0 */
-	uint64_t gpr1;	/* General purpose register #1 */
-	uint64_t gpr2;	/* General purpose register #2 */
-	uint64_t gpr3;	/* General purpose register #3 */
-	uint64_t gpr4;	/* General purpose register #4 */
-	uint64_t gpr5;	/* General purpose register #5 */
-	uint64_t gpr6;	/* General purpose register #6 */
-	uint64_t gpr7;	/* General purpose register #7 */
-	uint64_t gpr8;	/* General purpose register #8 */
-	uint64_t gpr9;	/* General purpose register #9 */
-	uint64_t gpr10;	/* General purpose register #10 */
-	uint64_t gpr11;	/* General purpose register #11 */
-	uint64_t gpr12;	/* General purpose register #12 */
-	uint64_t gpr13;	/* General purpose register #13 */
-	uint64_t gpr14;	/* General purpose register #14 */
-	uint64_t gpr15;	/* General purpose register #15 */
-...
-}
-"""
+Almost certainly because the loginuid has already been set.  Yes. It
+looks like I am simply using from_kuid instead of from_kuid_munged on
+the read.  So an unmapped loginuid will be reported as 4294967295.
 
-but it's probably not a good idea. Use common sense. Compress
-the explanation to a more manageable size.
+For some circumstances 65534 (nobody) is definitely better in some it is
+a toss up, and most of the time no one really cares.  So I have tried to
+do something but in this case I don't know which was the best policy.
 
-Maybe even ask yourself "did anyone ask for PTRACE_PEEKUSER layout yet?
-Do we really need to document it? Maybe people find this info
-in headers / strace source / etc, and are fine as-is?"
+> Final question, is it by design that uid 0 within a namespace in not
+> allowed to write to
+> /proc/*/oom_score_adj?
 
+Essentially.  It is by design that uid 0 within a namespace be mapped to
+some other uid outside the namespace, and that the permissions on writes
+should use the permission needed outside of the user namespace.
 
->> Especially the _exact_ semantics of each ptrace command including all data
->> structures etc. are missing.
+Which means there are all kinds of things only uid 0 can write to, that
+you can't touch in a user namespace.  Some of those things the policy
+may need to be reconsidered.  A lot of those things the default policy
+is good.  Regardless we are now defaulting to not letting root in a
+container do risky things which is a good thing.
 
-Can you be more specific?
-
--- 
-vda
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Eric
