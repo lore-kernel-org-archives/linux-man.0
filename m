@@ -1,43 +1,57 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 57181] New: man pages for C structs
-Date: Sat, 27 Apr 2013 11:19:49 +0000 (UTC)
-Message-ID: <bug-57181-11311@https.bugzilla.kernel.org/>
+From: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: For review: user_namespaces(7) man page
+Date: Mon, 29 Apr 2013 09:45:45 +0200
+Message-ID: <CAFLxGvzXkGcR=Wyx8YZKKRACEnNLMA0xQoDfruq7CT1D-FNLnA@mail.gmail.com>
+References: <CAKgNAkh1TEkQiQ2g2jhbNzVTwpDYOreJt3rAukZCP9H1wh0mLQ@mail.gmail.com>
+	<20130315153811.GD24305@sergelap>
+	<CAKgNAkiMOGtuCyvhSpku65p1ZJ5SfdYcOxxAU+H-mk-76wqOPw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkiMOGtuCyvhSpku65p1ZJ5SfdYcOxxAU+H-mk-76wqOPw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=57181
+On Thu, Mar 21, 2013 at 4:52 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Serge,
+>
+> On Fri, Mar 15, 2013 at 4:38 PM, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
+>> Hi,
+>>
+>> you mention that after creating a new user namespace you at first have
+>> all capabilities in the new ns.  You don't explicitly mention (or I
+>> missed it - I did see the mention of securebits) that if you want to
+>> keep those capabilities after doing an exec, you need to first have
+>> something mapped to uid 0 in the userns, and do setuid(0).
+>
+> Good point. I'll add something on that.
+>
+>> You might not want to list manpages from other projects,
+>
+> Actually, not a problem. Many of the pages in my set already do this.
+>
+>> but Eric's
+>> shadow patches introduce some good new manpages as well.  Those aren't yet
+>> accepted upstream, but if/when they are then mention at least of
+>> subuid(5), subgid(5), and newuidmap(1) and newgidmap(1) might be good.
+>
+> I'll add those.
+>
+> Cheers,
+>
+> Michael
 
-           Summary: man pages for C structs
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: enhancement
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: serge+bugzilla.kernel.org-mibDF1kqFMcdnm+yROfE0A@public.gmane.org
-        Regression: No
+Can we please also document which capabilities are useless within an
+user namespace?
+E.g. CAP_MKNOD.
+You get this capability but the kernel always checks it against the
+initial userns.
 
-
-It would be useful to be able to search for the name of a C struct to get its
-definition with an explanation of its fields.
-
-If having separate pages for each struct is undesirable, these could simply be
-troff includes ('.so') of a page which actually describes the struct.
-i.e. "man timeval" (or maybe "man 'struct timeval'") could bring up the page
-for 'gettimeofday'.
-
--- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+Thanks,
+//richard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
