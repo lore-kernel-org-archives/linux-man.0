@@ -1,57 +1,72 @@
-From: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: For review: user_namespaces(7) man page
-Date: Mon, 29 Apr 2013 09:45:45 +0200
-Message-ID: <CAFLxGvzXkGcR=Wyx8YZKKRACEnNLMA0xQoDfruq7CT1D-FNLnA@mail.gmail.com>
-References: <CAKgNAkh1TEkQiQ2g2jhbNzVTwpDYOreJt3rAukZCP9H1wh0mLQ@mail.gmail.com>
-	<20130315153811.GD24305@sergelap>
-	<CAKgNAkiMOGtuCyvhSpku65p1ZJ5SfdYcOxxAU+H-mk-76wqOPw@mail.gmail.com>
+From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Subject: Re: For review (v2): user_namespaces(7) man page
+Date: Mon, 29 Apr 2013 13:21:18 -0700
+Message-ID: <CALCETrV=9Rebc3NNyQD3bLee_EL_222-oww45JXUasK=mq3dgA@mail.gmail.com>
+References: <CAKgNAkjgmTJ1BiHVbqVtz-g-=yfewMiYaroDJELJpa1aRrFAvQ@mail.gmail.com>
+ <CAFLxGvy33QyJEMu_z47oyEEMY_awpT5rkoP4DYVjBQjsZysaGA@mail.gmail.com>
+ <87mwsmqfga.fsf@xmission.com> <CAFLxGvw-d4jZniV=KHSDVCQtJEzhZB0bJAW-VyUKdAqDJi+_nA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiMOGtuCyvhSpku65p1ZJ5SfdYcOxxAU+H-mk-76wqOPw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAFLxGvw-d4jZniV=KHSDVCQtJEzhZB0bJAW-VyUKdAqDJi+_nA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
+To: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Mar 21, 2013 at 4:52 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Serge,
->
-> On Fri, Mar 15, 2013 at 4:38 PM, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
->> Hi,
+On Thu, Apr 25, 2013 at 10:48 PM, richard -rw- weinberger
+<richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On Fri, Apr 26, 2013 at 2:54 AM, Eric W. Biederman
+> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+>> richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
 >>
->> you mention that after creating a new user namespace you at first have
->> all capabilities in the new ns.  You don't explicitly mention (or I
->> missed it - I did see the mention of securebits) that if you want to
->> keep those capabilities after doing an exec, you need to first have
->> something mapped to uid 0 in the userns, and do setuid(0).
+>>> On Wed, Mar 27, 2013 at 10:26 PM, Michael Kerrisk (man-pages)
+>>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>>>        Inside the user namespace, the shell has user and group  ID  0,
+>>>>        and a full set of permitted and effective capabilities:
+>>>>
+>>>>            bash$ cat /proc/$$/status | egrep '^[UG]id'
+>>>>            Uid: 0    0    0    0
+>>>>            Gid: 0    0    0    0
+>>>>            bash$ cat /proc/$$/status | egrep '^Cap(Prm|Inh|Eff)'
+>>>>            CapInh:   0000000000000000
+>>>>            CapPrm:   0000001fffffffff
+>>>>            CapEff:   0000001fffffffff
+>>>
+>>> I've tried your demo program, but inside the new ns I'm automatically nobody.
+>>> As Eric said, setuid(0)/setgid(0) are missing.
+>>
+>> Is it the setuid/setgid or not setting up the uid/gid map?
 >
-> Good point. I'll add something on that.
+> uid/git mapping are set up.
 >
->> You might not want to list manpages from other projects,
+>>> Eric, maybe you can help me. How can I drop capabilities within a user
+>>> namespace?
+>>
+>>> In childFunc() I did add prctl(PR_CAPBSET_DROP, CAP_NET_ADMIN) but it always
+>>> returns ENOPERM.
+>>> What that? I thought I get a completely fresh set of cap which I can modify.
+>>> I don't want that uid 0 inside the container has all caps.
+>>
+>> There are weird things that happen with exec and the user namespace.  If
+>> you have exec'd as an unmapped user all of your capabilities have
+>> already been droped.
 >
-> Actually, not a problem. Many of the pages in my set already do this.
->
->> but Eric's
->> shadow patches introduce some good new manpages as well.  Those aren't yet
->> accepted upstream, but if/when they are then mention at least of
->> subuid(5), subgid(5), and newuidmap(1) and newgidmap(1) might be good.
->
-> I'll add those.
->
-> Cheers,
->
-> Michael
+> I've setup the mappings. If I look into /proc/*/status I see that my process has
+> all caps.
+> So, in general it is possible to drop cap within a user namespace?
+> I really want to drop CAP_NET_ADMIN and some others.
+> root within my container must not change any networking settings.
 
-Can we please also document which capabilities are useless within an
-user namespace?
-E.g. CAP_MKNOD.
-You get this capability but the kernel always checks it against the
-initial userns.
+You may have the common issue that uid 0 tends to regain capabilities
+on exec due to "legacy" capability emulation.  Try playing with
+securebits and/or the bounding set.  (The setpriv command in very new
+util-linux-ng makes this easy to play with.)
 
-Thanks,
-//richard
+Note that you almost certainly want to set no_new_privs if anything
+other than uid 0 is running with non-default securebits.
+
+--Andy
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
