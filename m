@@ -1,34 +1,34 @@
-From: Ezio Melotti <ezio.melotti-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Typo in tzfile man page
-Date: Tue, 30 Apr 2013 11:03:03 +0300
-Message-ID: <CACBhJdEY5E28iTmSdbuofZV98d4TOw1iX68X7J0JsvrM4w7rrQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] sk98lin.4: ffix
+Date: Wed,  1 May 2013 18:56:31 +0200
+Message-ID: <1367427391-26029-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The second line of the "Description" of the tzfile man page contains a typo:
-"The time zone information files used by tzset(3) begin with the magic
-characters "TZif" to identify then as time zone information files"
+Format issue introduced in 2297bf0ef55bcc5f1322e695cedeaa4066fcc373
+---
+ man4/sk98lin.4 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-s/then/them/
+diff --git a/man4/sk98lin.4 b/man4/sk98lin.4
+index d818bcc..856199d 100644
+--- a/man4/sk98lin.4
++++ b/man4/sk98lin.4
+@@ -100,7 +100,7 @@ If loading is finished, any desired IP address can be
+ assigned to the respective
+ .I eth[x]
+ interface using the
+-.BR only ifconfig (8)
++.BR ifconfig (8)
+ command.
+ This causes the adapter to connect to the Ethernet and to display a status
+ message on the console saying "ethx: network connection up using port y"
+-- 
+1.7.10.4
 
-$ man -w 5 tzfile
-/usr/share/man/man5/tzfile.5.gz
-$ dpkg -p manpages-dev | grep Version
-Version: 3.40-0.1ubuntu3
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 12.10
-Release:        12.10
-Codename:       quantal
-
-Best Regards,
-Ezio Melotti
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
