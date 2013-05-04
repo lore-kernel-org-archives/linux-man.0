@@ -1,45 +1,45 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getpwent.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Fri, 3 May 2013 17:19:51 +0800
-Message-ID: <1367572791-22023-1-git-send-email-penght@cn.fujitsu.com>
+From: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+Subject: semctl: wrong type on semid_ds
+Date: Sat, 04 May 2013 20:27:50 +0200
+Message-ID: <51855326.2070406@truelite.it>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function getpwent() is not thread safe.
+Hi,
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/getpwent.3 | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+in the semctl(2) man page (2012-05-31 version) I found a definitions of
+semid_ds with:
 
-diff --git a/man3/getpwent.3 b/man3/getpwent.3
-index bccc064..cd83936 100644
---- a/man3/getpwent.3
-+++ b/man3/getpwent.3
-@@ -151,6 +151,17 @@ Insufficient buffer space supplied.
- .TP
- .I /etc/passwd
- local password database file
-+.SH ATTRIBUTES
-+.SS Multithreading(see pthreads(7))
-+The
-+.BR getpwent()
-+is not thread-safe.
-+.LP
-+The
-+.BR setpwent()
-+and
-+.BR endpwent()
-+functions are thread-safe.
- .SH CONFORMING TO
- SVr4, 4.3BSD, POSIX.1-2001.
- The
+...
+unsigned short  sem_nsems; /* No. of semaphores in set */
+...
+
+but that's defined as:
+
+  unsigned long int sem_nsems;          /* number of semaphores in set */
+
+in /usr/include/bits/sem.h (at least in my debian)
+
+I also found it defined as:
+
+int                     sem_nsems;      /* no. of semaphores in array */
+
+
+in /usr/src/linux-3.7.6/include/linux/sem.h
+
+Regards
+Simone
 -- 
-1.8.1.4
-
+Simone Piccardi - KeyID:2A972F9D - JabberID:piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org
+http://piccardi.gnulinux.it - http://www.fountainpen.it
+Prima ti ignorano, poi ti deridono, poi ti combattono.  Poi vinci.
+                                                 M. K. Ghandi
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
