@@ -1,40 +1,44 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] crypt.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Mon, 6 May 2013 16:03:11 +0800
-Message-ID: <1367827391-3564-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] encrypt.3: ATTRIBUTES: Note functions that are not thread-safe
+Date: Mon, 6 May 2013 16:03:25 +0800
+Message-ID: <1367827405-3608-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function crypt() is not thread safe.
+The functions encrypt() and setkey() are not thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/crypt.3 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ man3/encrypt.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/crypt.3 b/man3/crypt.3
-index ca52b92..ed02440 100644
---- a/man3/crypt.3
-+++ b/man3/crypt.3
-@@ -160,6 +160,15 @@ function was not implemented, probably because of U.S.A. export restrictions.
- .\" .PP
- .\" Making encrypted data computed using crypt() publicly available has
- .\" to be considered insecure for the given reasons.
+diff --git a/man3/encrypt.3 b/man3/encrypt.3
+index 411cb22..50b0f15 100644
+--- a/man3/encrypt.3
++++ b/man3/encrypt.3
+@@ -121,6 +121,19 @@ On success, it is unchanged.
+ .B ENOSYS
+ The function is not provided.
+ (For example because of former USA export restrictions.)
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
-+The
-+.BR crypt ()
-+function is not thread-safe.
++The functions
++.BR encrypt ()
++and
++.BR setkey ()
++are not thread-safe.
 +.LP
-+The
-+.BR crypt_r ()
-+function is thread-safe.
++The functions
++.BR encrypt_r ()
++and
++.BR setkey_r ()
++are thread-safe.
  .SH CONFORMING TO
- .BR crypt ():
- SVr4, 4.3BSD, POSIX.1-2001.
+ The functions
+ .BR encrypt ()
 -- 
 1.8.1.4
 
