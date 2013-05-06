@@ -1,45 +1,57 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] syscall(2): document s390/s390x calling convention
-Date: Sun,  5 May 2013 17:01:50 -0400
-Message-ID: <1367787710-15455-1-git-send-email-vapier@gentoo.org>
+From: Kevin Easton <kevin-RFfraI6bZkdAfugRpC6u6w@public.gmane.org>
+Subject: [PATCH] clone.2, execve.2: Document interaction of execve(2) with
+ CLONE_FILES
+Date: Mon, 6 May 2013 16:14:41 +1000
+Message-ID: <20130506061441.GA9249@chicago.guarana.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
----
- man2/syscall.2 | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Hi Michael,
 
-diff --git a/man2/syscall.2 b/man2/syscall.2
-index 69faf3e..219dd09 100644
---- a/man2/syscall.2
-+++ b/man2/syscall.2
-@@ -161,8 +161,10 @@ blackfin	excpt 0x0	P0	R0
- i386	int $0x80	eax	eax
- ia64	break 0x100000	r15	r10/r8
- parisc	ble 0x100(%sr2, %r0)	r20	r28
-+s390	svc 0	r1	r2	NR may be passed directly with
-+s390x	svc 0	r1	r2	"svc NR" if NR is less than 256
- sparc/32	t 0x10	g1	o0
--sparc/64	t 0x6d	g1	o0	
-+sparc/64	t 0x6d	g1	o0
- x86_64	syscall	rax	rax
- .TE
- .if t \{\
-@@ -184,6 +186,8 @@ blackfin	R0	R1	R2	R3	R4	R5	-
- i386	ebx	ecx	edx	esi	edi	ebp	-
- ia64	r11	r9	r10	r14	r15	r13	-
- parisc	r26	r25	r24	r23	r22	r21	-
-+s390	r2	r3	r4	r5	r6	r7	-
-+s390x	r2	r3	r4	r5	r6	r7	-
- sparc/32	o0	o1	o2	o3	o4	o5	-
- sparc/64	o0	o1	o2	o3	o4	o5	-
- x86_64	rdi	rsi	rdx	r10	r8	r9	-
--- 
-1.8.2.1
+This patch is against man-pages-3.51.  It documents the fact that a
+successful execve(2) in a process that is sharing a file descriptor table
+results in unsharing the table.
+
+I discovered this through testing and verified it by source inspection - 
+there is a call to unshare_files() early in do_execve_common().
+
+    - Kevin
+
+diff -ur man-pages-3.51.orig/man2/clone.2 man-pages-3.51/man2/clone.2
+--- man-pages-3.51.orig/man2/clone.2    2013-04-19 21:57:19.000000000 +1000
++++ man-pages-3.51/man2/clone.2 2013-05-06 15:42:06.841539649 +1000
+@@ -206,6 +206,9 @@
+ .BR fcntl (2)
+ .B F_SETFD
+ operation), the other process is also affected.
++If a process sharing a file descriptor table calls
++.BR execve (2),
++its file descriptor table is duplicated (unshared).
+
+ If
+ .B CLONE_FILES
+Only in man-pages-3.51/man2: clone.2.orig
+diff -ur man-pages-3.51.orig/man2/execve.2 man-pages-3.51/man2/execve.2
+--- man-pages-3.51.orig/man2/execve.2   2013-04-19 21:57:19.000000000 +1000
++++ man-pages-3.51/man2/execve.2        2013-05-06 15:42:06.841539649 +1000
+@@ -204,6 +204,11 @@
+ .B SIGCHLD
+ (see
+ .BR clone (2)).
++.IP *
++The file descriptor table is unshared, undoing the effect of the
++.B CLONE_FILES
++flag of
++.BR clone (2).
+ .PP
+ Note the following further points:
+ .IP * 3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
