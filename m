@@ -1,57 +1,42 @@
-From: Kevin Easton <kevin-RFfraI6bZkdAfugRpC6u6w@public.gmane.org>
-Subject: [PATCH] clone.2, execve.2: Document interaction of execve(2) with
- CLONE_FILES
-Date: Mon, 6 May 2013 16:14:41 +1000
-Message-ID: <20130506061441.GA9249@chicago.guarana.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] crypt.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Mon, 6 May 2013 16:03:11 +0800
+Message-ID: <1367827391-3564-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+The function crypt() is not thread safe.
 
-This patch is against man-pages-3.51.  It documents the fact that a
-successful execve(2) in a process that is sharing a file descriptor table
-results in unsharing the table.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/crypt.3 | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-I discovered this through testing and verified it by source inspection - 
-there is a call to unshare_files() early in do_execve_common().
-
-    - Kevin
-
-diff -ur man-pages-3.51.orig/man2/clone.2 man-pages-3.51/man2/clone.2
---- man-pages-3.51.orig/man2/clone.2    2013-04-19 21:57:19.000000000 +1000
-+++ man-pages-3.51/man2/clone.2 2013-05-06 15:42:06.841539649 +1000
-@@ -206,6 +206,9 @@
- .BR fcntl (2)
- .B F_SETFD
- operation), the other process is also affected.
-+If a process sharing a file descriptor table calls
-+.BR execve (2),
-+its file descriptor table is duplicated (unshared).
-
- If
- .B CLONE_FILES
-Only in man-pages-3.51/man2: clone.2.orig
-diff -ur man-pages-3.51.orig/man2/execve.2 man-pages-3.51/man2/execve.2
---- man-pages-3.51.orig/man2/execve.2   2013-04-19 21:57:19.000000000 +1000
-+++ man-pages-3.51/man2/execve.2        2013-05-06 15:42:06.841539649 +1000
-@@ -204,6 +204,11 @@
- .B SIGCHLD
- (see
- .BR clone (2)).
-+.IP *
-+The file descriptor table is unshared, undoing the effect of the
-+.B CLONE_FILES
-+flag of
-+.BR clone (2).
- .PP
- Note the following further points:
- .IP * 3
+diff --git a/man3/crypt.3 b/man3/crypt.3
+index ca52b92..ed02440 100644
+--- a/man3/crypt.3
++++ b/man3/crypt.3
+@@ -160,6 +160,15 @@ function was not implemented, probably because of U.S.A. export restrictions.
+ .\" .PP
+ .\" Making encrypted data computed using crypt() publicly available has
+ .\" to be considered insecure for the given reasons.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR crypt ()
++function is not thread-safe.
++.LP
++The
++.BR crypt_r ()
++function is thread-safe.
+ .SH CONFORMING TO
+ .BR crypt ():
+ SVr4, 4.3BSD, POSIX.1-2001.
+-- 
+1.8.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
