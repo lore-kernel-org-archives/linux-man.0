@@ -1,42 +1,67 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ptsname.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Mon, 6 May 2013 16:03:37 +0800
-Message-ID: <1367827417-3650-1-git-send-email-penght@cn.fujitsu.com>
+From: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] alloca.3: correct information on getting non-inlined version with gcc+glibc
+Date: Sun, 12 May 2013 14:26:07 +0300
+Message-ID: <1368357967-8813-1-git-send-email-bunk@kernel.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function ptsname() is not thread safe.
+- remove the incorrect information that -fno-builtin would help
+- add -std=c11 to the list of strict options
+- emphasize more that both the gcc option and not including
+  alloca.h are needed
+- add the #ifdef from the glibc alloca.h to make the situation clearer
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 ---
- man3/ptsname.3 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ man3/alloca.3 |   16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/man3/ptsname.3 b/man3/ptsname.3
-index 9ebafc3..c4d0fa1 100644
---- a/man3/ptsname.3
-+++ b/man3/ptsname.3
-@@ -76,6 +76,15 @@ is too small.
- .SH VERSIONS
- .BR ptsname ()
- is provided in glibc since version 2.1.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR ptsname ()
-+function is not thread-safe.
-+.LP
-+The
-+.BR ptsname_r ()
-+function is thread-safe.
- .SH CONFORMING TO
- .BR ptsname ()
- is part of the UNIX 98 pseudoterminal support (see
+diff --git a/man3/alloca.3 b/man3/alloca.3
+index 73b88f5..0d593ed 100644
+--- a/man3/alloca.3
++++ b/man3/alloca.3
+@@ -40,7 +40,7 @@
+ .\"     Various rewrites and additions (notes on longjmp() and SIGSEGV).
+ .\"     Weaken warning against use of alloca() (as per Debian bug 461100).
+ .\"
+-.TH ALLOCA 3 2008-01-24 "GNU" "Linux Programmer's Manual"
++.TH ALLOCA 3 2013-05-12 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ alloca \- allocate memory that is automatically freed
+ .SH SYNOPSIS
+@@ -110,20 +110,22 @@ This is not done when either the
+ .IR "\-std=c89" ,
+ .IR "\-std=c99" ,
+ or the
+-.IR "\-fno\-builtin"
++.IR "\-std=c11"
+ option is given
+-(and the header
++.BR and
++the header
+ .I <alloca.h>
+-is not included).
+-But beware!
+-By default the glibc version of
++is not included.
++Otherwise (without an \-ansi or \-std=c* option) the glibc version of
+ .I <stdlib.h>
+ includes
+ .I <alloca.h>
+-and that contains the line:
++and that contains the lines:
+ .nf
+ 
++    #ifdef  __GNUC__
+     #define alloca(size)   __builtin_alloca (size)
++    #endif
+ 
+ .fi
+ with messy consequences if one has a private version of this function.
 -- 
-1.8.1.4
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
