@@ -1,35 +1,76 @@
-From: Georg Sauthoff <mail-vzQcyvifq/Y@public.gmane.org>
-Subject: strtok - strings without delimiters
-Date: Sun, 12 May 2013 22:22:12 +0200
-Message-ID: <20130512202212.GL21458@x220.fritz.box>
+From: Gao feng <gaofeng-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: For review: user_namespaces(7) man page
+Date: Tue, 14 May 2013 15:54:06 +0800
+Message-ID: <5191ED9E.4000100@cn.fujitsu.com>
+References: <1367264746.18069.186@driftwood>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <1367264746.18069.186@driftwood>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
+Cc: richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Vasily Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+On 04/30/2013 03:45 AM, Rob Landley wrote:
+> On 04/29/2013 02:45:45 AM, richard -rw- weinberger wrote:
+>> On Thu, Mar 21, 2013 at 4:52 PM, Michael Kerrisk (man-pages)
+>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> > Hi Serge,
+>> >
+>> > On Fri, Mar 15, 2013 at 4:38 PM, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org> wrote:
+>> >> Hi,
+>> >>
+>> >> you mention that after creating a new user namespace you at first have
+>> >> all capabilities in the new ns.  You don't explicitly mention (or I
+>> >> missed it - I did see the mention of securebits) that if you want to
+>> >> keep those capabilities after doing an exec, you need to first have
+>> >> something mapped to uid 0 in the userns, and do setuid(0).
+>> >
+>> > Good point. I'll add something on that.
+>> >
+>> >> You might not want to list manpages from other projects,
+>> >
+>> > Actually, not a problem. Many of the pages in my set already do this.
+>> >
+>> >> but Eric's
+>> >> shadow patches introduce some good new manpages as well.  Those aren't yet
+>> >> accepted upstream, but if/when they are then mention at least of
+>> >> subuid(5), subgid(5), and newuidmap(1) and newgidmap(1) might be good.
+>> >
+>> > I'll add those.
+>> >
+>> > Cheers,
+>> >
+>> > Michael
+>>
+>> Can we please also document which capabilities are useless within an
+>> user namespace?
+>> E.g. CAP_MKNOD.
+>> You get this capability but the kernel always checks it against the
+>> initial userns.
+> 
+> Is there a device namespace?
+> 
 
-the strtok man-page does not specify what happens if `str` does not
-contain any `delim`iters.
+No,and I don't think we need device namespace now.
 
-If you don't already know strtok one might assume then either:
+> I vaguely recall OpenVZ implemented moving individual PCI devices into containers so some large movie company could put one video card in each container for render farms. There are lots of devices
+> that aren't _really_ privileged (/dev/zero, /dev/null, /dev/full, /dev/ram) and more that could be emulated...
 
-- the delimiter-less string is considered the next token and thus
-  returned upon the first call to strtok
-- on the first call NULL is returned because there are not any tokens
+You can create these devices on host for container, and use device cgroup to limit which container can use these devices.
 
-Related issue: is the non-empty `str`-suffix after the last `delim`
-returned as a token or not?
-
-I know how strtok works - but perhaps it makes sense to explicitly
-address these issues in the Linux man page.
-
-Best regards
-Georg
+> 
+> (Really this seems like a situation where devtmpfs needs -o newinstance and a corresponding filtered event netlink feed to pass to udev/mdev. And that might even have been feasible before Greg decided
+> that devtmpfs needed to have opinions about uids. Oh well.)
+> 
+> Rob--
+> To unsubscribe from this list: send the line "unsubscribe linux-kernel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> Please read the FAQ at  http://www.tux.org/lkml/
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
