@@ -1,72 +1,63 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] alarm.2, io_destroy.2: tfix
-Date: Sat, 18 May 2013 16:16:43 +0200
-Message-ID: <CAKgNAkg4WeqjtGPZ5_awBq7qVoPrJr0OsU_Ev8Gv6j_jgNFt+Q@mail.gmail.com>
-References: <1368386889-31178-1-git-send-email-taffit@debian.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] hsearch.3: ATTRIBUTES: Note functions that are not thread-safe
+Date: Sat, 18 May 2013 20:16:04 +0200
+Message-ID: <5197C564.8040503@gmail.com>
+References: <1368584933-8428-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1368386889-31178-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1368584933-8428-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, May 12, 2013 at 9:28 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
-te:
-> Actually a consistency fix.
+On 05/15/13 04:28, Peng Haitao wrote:
+> The functions hsearch(), hcreate() and hdestroy() are not thread safe.
 
-Thanks, David. Appkied.
+Applied to my local branch for this work.
+
+Thank you, Peng.
 
 Cheers,
 
 Michael
 
 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man2/alarm.2      |    2 +-
->  man2/io_destroy.2 |    2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/alarm.2 b/man2/alarm.2
-> index 736cd90..7252880 100644
-> --- a/man2/alarm.2
-> +++ b/man2/alarm.2
-> @@ -46,7 +46,7 @@ seconds.
->
->  If
->  .I seconds
-> -is zero, any pending alarm is cancelled.
-> +is zero, any pending alarm is canceled.
->
->  In any event any previously set
->  .BR alarm ()
-> diff --git a/man2/io_destroy.2 b/man2/io_destroy.2
-> index 4a8cf28..e4d78a5 100644
-> --- a/man2/io_destroy.2
-> +++ b/man2/io_destroy.2
-> @@ -24,7 +24,7 @@ system call
->  will attempt to cancel all outstanding asynchronous I/O operations a=
-gainst
->  .IR ctx_id ,
->  will block on the completion of all operations
-> -that could not be cancelled, and will destroy the
-> +that could not be canceled, and will destroy the
->  .IR ctx_id .
->  .SH RETURN VALUE
->  On success,
-> --
-> 1.7.10.4
->
+>  man3/hsearch.3 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/man3/hsearch.3 b/man3/hsearch.3
+> index e66c840..3d6ae2e 100644
+> --- a/man3/hsearch.3
+> +++ b/man3/hsearch.3
+> @@ -223,6 +223,21 @@ was not found in the table.
+>  POSIX.1-2001 specifies only the
+>  .B ENOMEM
+>  error.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The functions
+> +.BR hcreate (),
+> +.BR hsearch (),
+> +and
+> +.BR hdestroy ()
+> +use a global space for storing the table, so they are not thread-safe.
+> +.LP
+> +The functions
+> +.BR hcreate_r (),
+> +.BR hsearch_r (),
+> +and
+> +.BR hdestroy_r ()
+> +are thread-safe.
+>  .SH CONFORMING TO
+>  The functions
+>  .BR hcreate (),
+> 
 
-
-
---
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
