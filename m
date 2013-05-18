@@ -1,36 +1,51 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] ip.7: IP_MULTICAST_IF setsockopt recognizes struct mreq (compatibility)
-Date: Sat, 18 May 2013 00:58:52 +0200
-Message-ID: <1368831532-8327-1-git-send-email-spaillard@debian.org>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fcloseall.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Sat, 18 May 2013 20:03:42 +0200
+Message-ID: <5197C27E.7050809@gmail.com>
+References: <1368584804-8358-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1368584804-8358-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Kernel added compatibility only recently in
-3a084ddb4bf299a6e898a9a07c89f3917f0713f7
-See: http://bugs.debian.org/607979
----
- man7/ip.7 |    3 +++
- 1 file changed, 3 insertions(+)
+On 05/15/13 04:26, Peng Haitao wrote:
+> The function fcloseall() is not thread safe.
 
-diff --git a/man7/ip.7 b/man7/ip.7
-index d5036ea..39715a3 100644
---- a/man7/ip.7
-+++ b/man7/ip.7
-@@ -542,6 +542,9 @@ Argument is an
- .I ip_mreqn
- or
- .I ip_mreq
-+.\" net: IP_MULTICAST_IF setsockopt now recognizes struct mreq
-+.\" Commit: 3a084ddb4bf299a6e898a9a07c89f3917f0713f7
-+(since Linux 3.5)
- structure similar to
- .BR IP_ADD_MEMBERSHIP .
- .IP
--- 
-1.7.10.4
+Applied to my local branch for this work.
+
+Thank you, Peng.
+
+Cheers,
+
+Michael
+
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/fcloseall.3 | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/man3/fcloseall.3 b/man3/fcloseall.3
+> index 001bd99..6c41ceb 100644
+> --- a/man3/fcloseall.3
+> +++ b/man3/fcloseall.3
+> @@ -52,6 +52,11 @@ This function returns 0 if all files were successfully closed;
+>  on error,
+>  .B EOF
+>  is returned.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR fcloseall ()
+> +does not lock the streams, so it is not thread-safe.
+>  .SH CONFORMING TO
+>  This function is a GNU extension.
+>  .SH SEE ALSO
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
