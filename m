@@ -1,28 +1,57 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: strnlen 3 typo
-Date: Sat, 18 May 2013 20:57:17 +0200
-Message-ID: <5197CF0D.2040108@gmail.com>
-References: <CAGc9Evcpdq7Wzo=4_N6ueRYP_=pVASDC0ffuQ_oGN42jfCRYcQ@mail.gmail.com>
+Subject: Re: [PATCH] qecvt.3: ATTRIBUTES: Note functions that are not thread-safe
+Date: Sat, 18 May 2013 20:06:14 +0200
+Message-ID: <5197C316.9020503@gmail.com>
+References: <1368585802-8689-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGc9Evcpdq7Wzo=4_N6ueRYP_=pVASDC0ffuQ_oGN42jfCRYcQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1368585802-8689-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/25/13 15:05, Jon Grant wrote:
-> http://man7.org/linux/man-pages/man3/strnlen.3.html
-> 
-> typo:
-> 
-> "terminating null bye"
+On 05/15/13 04:43, Peng Haitao wrote:
+> The functions qecvt() and qfcvt() are not thread safe.
 
-Thanks, Jon. Fixed.
+Applied to my local branch for this work.
+
+Thank you, Peng.
+
+Cheers,
 
 Michael
+
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/qecvt.3 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/man3/qecvt.3 b/man3/qecvt.3
+> index 9cfa68d..07cbe59 100644
+> --- a/man3/qecvt.3
+> +++ b/man3/qecvt.3
+> @@ -69,6 +69,17 @@ See
+>  .BR ecvt (3)
+>  and
+>  .BR gcvt (3).
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The functions
+> +.BR qecvt ()
+> +and
+> +.BR qfcvt ()
+> +are not thread-safe.
+> +.LP
+> +The function
+> +.BR qgcvt ()
+> +is thread-safe.
+>  .SH CONFORMING TO
+>  SVr4.
+>  Not seen in most common UNIX implementations,
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
