@@ -1,59 +1,61 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] io_setup.2: Clarify the nr_events parameter.
-Date: Sat, 18 May 2013 21:21:18 +0200
-Message-ID: <5197D4AE.9060806@gmail.com>
-References: <20130514161955.GA15213@rei.suse.cz>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 2/2] io_setup.2: tfix
+Date: Sat, 18 May 2013 16:15:25 +0200
+Message-ID: <CAKgNAki-b9cpRu=4Bgy9o+Pp-G4hxN3DSpombX60wEzs9ac2aw@mail.gmail.com>
+References: <1368386889-31178-1-git-send-email-taffit@debian.org> <1368386889-31178-2-git-send-email-taffit@debian.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130514161955.GA15213-J5syqNJeCN7twjQa/ONI9g@public.gmane.org>
+In-Reply-To: <1368386889-31178-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/14/13 18:19, Cyril Hrubis wrote:
-> Currently the io_setup.2 man page describes what the kernel really does,
-> i.e. that the resulting context may be able to hold more than the
-> nr_events operations because the memory allocated in kernel is rounded
-> to be multiple of page size.
-> 
-> It is be better not to expose this implementation detail and simply
-> state that the resulting context is suitable for nr_events operations.
-> 
-> Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-> Acked-by: Jeff Moyer <jmoyer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Hello David,
 
-Tanks, Cyril. Applied.
+Thanks for the patch, but the problem was resolved as a result of
+other rewordings.
 
 Cheers,
 
 Michael
 
 
-
+On Sun, May 12, 2013 at 9:28 PM, David Pr=E9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wro=
+te:
 > ---
->  man2/io_setup.2 |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
-> 
+>  man2/io_setup.2 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 > diff --git a/man2/io_setup.2 b/man2/io_setup.2
-> index 81b9a8b..ffa3972 100644
+> index 81b9a8b..549495a 100644
 > --- a/man2/io_setup.2
 > +++ b/man2/io_setup.2
-> @@ -21,8 +21,8 @@ There is no glibc wrapper for this system call; see NOTES.
+> @@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see=
+ NOTES.
 >  The
 >  .BR io_setup ()
 >  system call
-> -creates an asynchronous I/O context capable of of concurrently processing
-> -at least \fInr_events\fP.
-> +creates an asynchronous I/O context suitable for concurrently processing
-> +\fInr_events\fP operations.
+> -creates an asynchronous I/O context capable of of concurrently proce=
+ssing
+> +creates an asynchronous I/O context capable of concurrently processi=
+ng
+>  at least \fInr_events\fP.
 >  The
 >  .I ctx_idp
->  argument must not point to an AIO context that already exists, and must
-> 
+> --
+> 1.7.10.4
+>
 
+
+
+--
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
