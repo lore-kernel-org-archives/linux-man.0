@@ -1,82 +1,55 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] alloca.3: correct information on getting non-inlined
- version with gcc+glibc
-Date: Sun, 19 May 2013 20:01:04 +0200
-Message-ID: <51991360.3050206@gmail.com>
-References: <1368357967-8813-1-git-send-email-bunk@kernel.org>
+Subject: Re: [PATCH] syscall(2): document s390/s390x calling convention
+Date: Sun, 19 May 2013 20:07:00 +0200
+Message-ID: <519914C4.8010408@gmail.com>
+References: <1367787710-15455-1-git-send-email-vapier@gentoo.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1368357967-8813-1-git-send-email-bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1367787710-15455-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/12/13 13:26, Adrian Bunk wrote:
-> - remove the incorrect information that -fno-builtin would help
-> - add -std=c11 to the list of strict options
-> - emphasize more that both the gcc option and not including
->   alloca.h are needed
-> - add the #ifdef from the glibc alloca.h to make the situation clearer
+On 05/05/13 23:01, Mike Frysinger wrote:
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+>  man2/syscall.2 | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> Signed-off-by: Adrian Bunk <bunk-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> diff --git a/man2/syscall.2 b/man2/syscall.2
+> index 69faf3e..219dd09 100644
+> --- a/man2/syscall.2
+> +++ b/man2/syscall.2
+> @@ -161,8 +161,10 @@ blackfin	excpt 0x0	P0	R0
+>  i386	int $0x80	eax	eax
+>  ia64	break 0x100000	r15	r10/r8
+>  parisc	ble 0x100(%sr2, %r0)	r20	r28
+> +s390	svc 0	r1	r2	NR may be passed directly with
+> +s390x	svc 0	r1	r2	"svc NR" if NR is less than 256
+>  sparc/32	t 0x10	g1	o0
+> -sparc/64	t 0x6d	g1	o0	
+> +sparc/64	t 0x6d	g1	o0
+>  x86_64	syscall	rax	rax
+>  .TE
+>  .if t \{\
+> @@ -184,6 +186,8 @@ blackfin	R0	R1	R2	R3	R4	R5	-
+>  i386	ebx	ecx	edx	esi	edi	ebp	-
+>  ia64	r11	r9	r10	r14	r15	r13	-
+>  parisc	r26	r25	r24	r23	r22	r21	-
+> +s390	r2	r3	r4	r5	r6	r7	-
+> +s390x	r2	r3	r4	r5	r6	r7	-
+>  sparc/32	o0	o1	o2	o3	o4	o5	-
+>  sparc/64	o0	o1	o2	o3	o4	o5	-
+>  x86_64	rdi	rsi	rdx	r10	r8	r9	-
 
-Thanks, Adrian. Applied.
+Thanks, Mike. Applied.
 
 Cheers,
 
 Michael
-
-
-> ---
->  man3/alloca.3 |   16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/man3/alloca.3 b/man3/alloca.3
-> index 73b88f5..0d593ed 100644
-> --- a/man3/alloca.3
-> +++ b/man3/alloca.3
-> @@ -40,7 +40,7 @@
->  .\"     Various rewrites and additions (notes on longjmp() and SIGSEGV).
->  .\"     Weaken warning against use of alloca() (as per Debian bug 461100).
->  .\"
-> -.TH ALLOCA 3 2008-01-24 "GNU" "Linux Programmer's Manual"
-> +.TH ALLOCA 3 2013-05-12 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  alloca \- allocate memory that is automatically freed
->  .SH SYNOPSIS
-> @@ -110,20 +110,22 @@ This is not done when either the
->  .IR "\-std=c89" ,
->  .IR "\-std=c99" ,
->  or the
-> -.IR "\-fno\-builtin"
-> +.IR "\-std=c11"
->  option is given
-> -(and the header
-> +.BR and
-> +the header
->  .I <alloca.h>
-> -is not included).
-> -But beware!
-> -By default the glibc version of
-> +is not included.
-> +Otherwise (without an \-ansi or \-std=c* option) the glibc version of
->  .I <stdlib.h>
->  includes
->  .I <alloca.h>
-> -and that contains the line:
-> +and that contains the lines:
->  .nf
->  
-> +    #ifdef  __GNUC__
->      #define alloca(size)   __builtin_alloca (size)
-> +    #endif
->  
->  .fi
->  with messy consequences if one has a private version of this function.
-> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
