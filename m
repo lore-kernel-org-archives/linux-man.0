@@ -1,54 +1,36 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] stdio_ext.3: ATTRIBUTES: Note functions that are not thread-safe
-Date: Mon, 20 May 2013 13:42:10 +0800
-Message-ID: <1369028530-12542-1-git-send-email-penght@cn.fujitsu.com>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] small flags clarficiation in perf_event_open()
+Date: Mon, 20 May 2013 13:11:02 -0400 (EDT)
+Message-ID: <alpine.DEB.2.02.1305201309150.29892@vincent-weaver-1.um.maine.edu>
+Mime-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions __fbufsize(), __fpending(), __fpurge() and
-__fsetlocking() are not thread safe.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/stdio_ext.3 | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+While using the perf_event_open() manpage to enhance the trinity fuzzer
+I noticed the statement about the "flags" argument was misleading.
 
-diff --git a/man3/stdio_ext.3 b/man3/stdio_ext.3
-index fb5767a..d2578fe 100644
---- a/man3/stdio_ext.3
-+++ b/man3/stdio_ext.3
-@@ -129,6 +129,25 @@ output to a terminal is forced out, say before reading keyboard input.)
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index f3850f0..14fb854 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -148,7 +148,9 @@ instructions.
+ .P
  The
- .BR __fpurge ()
- function discards the contents of the stream's buffer.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR __fbufsize (),
-+.BR __fpending (),
-+.BR __fpurge ()
-+and
-+.BR __fsetlocking ()
-+functions do not lock the stream, so they are not thread-safe.
-+.LP
-+The
-+.BR __flbf (),
-+.BR __freadable (),
-+.BR __freading (),
-+.BR __fwritable (),
-+.BR __fwriting ()
-+and
-+.BR _flushlbf ()
-+functions are thread-safe.
- .SH SEE ALSO
- .BR flockfile (3),
- .BR fpurge (3)
--- 
-1.8.1.4
-
+ .I flags
+-argument takes one of the following values:
++argument takes a 
++.RI bitwise- or 'd
++combination of zero or more of the following values:
+ .TP
+ .BR PERF_FLAG_FD_NO_GROUP
+ .\" FIXME The following sentence is unclear
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
