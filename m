@@ -1,54 +1,31 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] re_comp.3: ATTRIBUTES: Note functions that are not thread-safe
-Date: Tue, 21 May 2013 13:16:21 +0200
-Message-ID: <519B5785.8020405@gmail.com>
-References: <1369028212-12123-1-git-send-email-penght@cn.fujitsu.com>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: iso_8859-2.7.gz 90: warning: can't find special character `shc'
+Date: Tue, 21 May 2013 22:59:58 +0200
+Message-ID: <20130521205958.GB4614@glenfiddich.mraw.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369028212-12123-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/20/13 07:36, Peng Haitao wrote:
-> The functions re_comp() and re_exec() are not thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Hi,
 
-Thanks, Peng. Applied in my local branch for this work.
+Oct    Dec     Hex     Char            Description
+[..]
+255    173     AD      <AD>\[shc]      SOFT HYPHEN
 
-Cheers,
+On top of groff warning:
+usr/share/man/man7/iso_8859-2.7.gz 90: warning: can't find special character `shc'
 
-Michael
+While other char are ok, <AD> doesn't display anything on my computer,
+\(hy may be used instead, but I understand it's not really the point of that
+manpage.
 
 
-> ---
->  man3/re_comp.3 | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/man3/re_comp.3 b/man3/re_comp.3
-> index b1c3295..ca4ef64 100644
-> --- a/man3/re_comp.3
-> +++ b/man3/re_comp.3
-> @@ -63,6 +63,13 @@ otherwise it returns a pointer to an appropriate error message.
->  
->  .BR re_exec ()
->  returns 1 for a successful match, zero for failure.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR re_comp ()
-> +and
-> +.BR re_exec ()
-> +functions are not thread-safe.
->  .SH CONFORMING TO
->  4.3BSD.
->  .SH NOTES
-> 
-
+-- 
+Simon Paillard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
