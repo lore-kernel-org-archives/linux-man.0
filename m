@@ -1,53 +1,56 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] small flags clarficiation in perf_event_open()
-Date: Tue, 21 May 2013 13:03:06 +0200
-Message-ID: <519B546A.60208@gmail.com>
-References: <alpine.DEB.2.02.1305201309150.29892@vincent-weaver-1.um.maine.edu>
+Subject: Re: [PATCH] a64l.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Tue, 21 May 2013 13:11:13 +0200
+Message-ID: <519B5651.1000108@gmail.com>
+References: <1369026746-9831-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.02.1305201309150.29892-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+In-Reply-To: <1369026746-9831-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/20/13 19:11, Vince Weaver wrote:
+On 05/20/13 07:12, Peng Haitao wrote:
+> The function l64a() is not thread safe.
 > 
-> While using the perf_event_open() manpage to enhance the trinity fuzzer
-> I noticed the statement about the "flags" argument was misleading.
-> 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index f3850f0..14fb854 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -148,7 +148,9 @@ instructions.
->  .P
->  The
->  .I flags
-> -argument takes one of the following values:
-> +argument takes a 
-> +.RI bitwise- or 'd
-> +combination of zero or more of the following values:
->  .TP
->  .BR PERF_FLAG_FD_NO_GROUP
->  .\" FIXME The following sentence is unclear
-> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
-Thanks, Vince. I made it
-
-====
-The
-.I flags
-argument is formed by ORing together zero or more of the following values:
-====
+Thanks, Peng. Applied in my local branch for this work.
 
 Cheers,
 
 Michael
+
+
+> ---
+>  man3/a64l.3 | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/man3/a64l.3 b/man3/a64l.3
+> index 1f14b68..762ec79 100644
+> --- a/man3/a64l.3
+> +++ b/man3/a64l.3
+> @@ -59,6 +59,15 @@ a-z	represent 38-63
+>  .fi
+>  .RE
+>  So 123 = 59*64^0 + 1*64^1 = "v/".
+> +.SH ATTRIBUTES
+> +.SS Multithreading(see pthreads(7))
+> +The
+> +.BR l64a ()
+> +function is not thread-safe.
+> +.LP
+> +The
+> +.BR a64l ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
