@@ -1,54 +1,30 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] rexec.3: ATTRIBUTES: Note functions that are not thread-safe
-Date: Thu, 23 May 2013 13:13:19 +0200
-Message-ID: <519DF9CF.3060000@gmail.com>
-References: <1369296387-29722-1-git-send-email-penght@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: "root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org" <root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org>
+Subject: Find girls for chat and hookup now.
+Date: Tue, 21 May 2013 20:01:36 +0700
+Message-ID: <519BD29B.5DCA2AD8@192.227.135.198>
+Reply-To: root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369296387-29722-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-ext4-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ha-dev-cunTk1MwBs9DHfOqEeIffh2eb7JE58TQ@public.gmane.org, linux-help-mtg-iCYJNvnsbHs8qNwGfFDJ/Q@public.gmane.org, linux-india-cunTk1MwBs9qd80yoKVOQ4aCUm+kVXi4@public.gmane.org, linux-informix-qTB+/3op4OQ@public.gmane.org, linux-kbuild-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-pFTr4yDReMQpLY+iQtz4oH4Z0sVMXfX4hC4ANOJQIlc@public.gmane.org, linux-leds-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mips-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/23/13 10:06, Peng Haitao wrote:
-> The functions rexec() and rexec_af() are not thread safe.
+Chat with lonely women in your area and hook up.
 
-Applied in my local branch for this work.
-
-Thanks, Peng.
-
-Cheers,
-
-Michael
+http://dir.orangefronthost.info
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/rexec.3 | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/man3/rexec.3 b/man3/rexec.3
-> index 6de7b5d..e39d41f 100644
-> --- a/man3/rexec.3
-> +++ b/man3/rexec.3
-> @@ -139,6 +139,13 @@ or
->  The
->  .BR rexec_af ()
->  function was added to glibc in version 2.2.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR rexec ()
-> +and
-> +.BR rexec_af ()
-> +functions are not thread-safe.
->  .SH CONFORMING TO
->  These functions are not in POSIX.1-2001.
->  The
-> 
+
+
+
+
+
+
+
+
+
+xrfhlofrtsj
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
