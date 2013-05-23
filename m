@@ -1,61 +1,53 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getlogin.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Thu, 23 May 2013 13:12:13 +0200
-Message-ID: <519DF98D.2@gmail.com>
-References: <1369298684-892-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] rexec.3: ATTRIBUTES: Note functions that are not thread-safe
+Date: Thu, 23 May 2013 13:13:19 +0200
+Message-ID: <519DF9CF.3060000@gmail.com>
+References: <1369296387-29722-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369298684-892-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1369296387-29722-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/23/13 10:44, Peng Haitao wrote:
-> The function getlogin() is not thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/getlogin.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/man3/getlogin.3 b/man3/getlogin.3
-> index be7cc87..4a2a3e9 100644
-> --- a/man3/getlogin.3
-> +++ b/man3/getlogin.3
-> @@ -135,6 +135,19 @@ password database file
->  \fI/var/run/utmp\fP
->  (traditionally \fI/etc/utmp\fP;
->  some libc versions used \fI/var/adm/utmp\fP)
-> +.SH ATTRIBUTES
-> +.SS Multithreading(see pthreads(7))
-> +The
-> +.BR getlogin ()
-> +function is not thread-safe.
-> +.LP
-> +The
-> +.BR getlogin_r ()
-> +function is thread-safe.
-> +.LP
-> +The
-> +.BR cuserid ()
-> +function is thread-safe with exceptions.
+On 05/23/13 10:06, Peng Haitao wrote:
+> The functions rexec() and rexec_af() are not thread safe.
 
-Peng,
+Applied in my local branch for this work.
 
-I think it would be good to describe the exceptions here. Okay?
-Could you adjust and resent.
+Thanks, Peng.
 
-Thanks,
+Cheers,
 
 Michael
 
 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/rexec.3 | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/man3/rexec.3 b/man3/rexec.3
+> index 6de7b5d..e39d41f 100644
+> --- a/man3/rexec.3
+> +++ b/man3/rexec.3
+> @@ -139,6 +139,13 @@ or
+>  The
+>  .BR rexec_af ()
+>  function was added to glibc in version 2.2.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR rexec ()
+> +and
+> +.BR rexec_af ()
+> +functions are not thread-safe.
 >  .SH CONFORMING TO
->  .BR getlogin ()
->  and
+>  These functions are not in POSIX.1-2001.
+>  The
 > 
 
 --
