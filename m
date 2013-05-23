@@ -1,55 +1,46 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] readdir.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Thu, 23 May 2013 16:26:13 +0800
-Message-ID: <519DD2A5.2070606@cn.fujitsu.com>
-References: <1369296896-30609-1-git-send-email-penght@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH] getlogin.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Thu, 23 May 2013 16:44:44 +0800
+Message-ID: <1369298684-892-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369296896-30609-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The function getlogin() is not thread safe.
 
-Sorry:(
-The patch is redundant, please ignore it.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/getlogin.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
+diff --git a/man3/getlogin.3 b/man3/getlogin.3
+index be7cc87..4a2a3e9 100644
+--- a/man3/getlogin.3
++++ b/man3/getlogin.3
+@@ -135,6 +135,19 @@ password database file
+ \fI/var/run/utmp\fP
+ (traditionally \fI/etc/utmp\fP;
+ some libc versions used \fI/var/adm/utmp\fP)
++.SH ATTRIBUTES
++.SS Multithreading(see pthreads(7))
++The
++.BR getlogin ()
++function is not thread-safe.
++.LP
++The
++.BR getlogin_r ()
++function is thread-safe.
++.LP
++The
++.BR cuserid ()
++function is thread-safe with exceptions.
+ .SH CONFORMING TO
+ .BR getlogin ()
+ and
 -- 
-Best Regards,
-Peng
-
-On 05/23/2013 04:14 PM, Peng Haitao wrote:
-> The function readdir() is not thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/readdir.3 | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/man3/readdir.3 b/man3/readdir.3
-> index 140b5e4..ed6c816 100644
-> --- a/man3/readdir.3
-> +++ b/man3/readdir.3
-> @@ -144,6 +144,15 @@ returns 0, and returns NULL in
->  .TP
->  .B EBADF
->  Invalid directory stream descriptor \fIdirp\fP.
-> +.SH ATTRIBUTES
-> +.SS Multithreading(see pthreads(7))
-> +The
-> +.BR readdir ()
-> +function is not thread-safe.
-> +.LP
-> +The
-> +.BR readdir_r ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  SVr4, 4.3BSD, POSIX.1-2001.
->  .SH NOTES
-> 
+1.8.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
