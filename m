@@ -1,30 +1,42 @@
-From: "root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org" <root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org>
-Subject: Find girls for chat and hookup now.
-Date: Tue, 21 May 2013 20:01:36 +0700
-Message-ID: <519BD29B.5DCA2AD8@192.227.135.198>
-Reply-To: root-EJmk3qV+8lNilWJHXcCzVg@public.gmane.org
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] readdir.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Fri, 24 May 2013 08:24:04 +0800
+Message-ID: <519EB324.80905@cn.fujitsu.com>
+References: <1369296896-30609-1-git-send-email-penght@cn.fujitsu.com> <519DD2A5.2070606@cn.fujitsu.com> <519DF930.2020502@gmail.com>
+Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <519DF930.2020502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-ext4-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ha-dev-cunTk1MwBs9DHfOqEeIffh2eb7JE58TQ@public.gmane.org, linux-help-mtg-iCYJNvnsbHs8qNwGfFDJ/Q@public.gmane.org, linux-india-cunTk1MwBs9qd80yoKVOQ4aCUm+kVXi4@public.gmane.org, linux-informix-qTB+/3op4OQ@public.gmane.org, linux-kbuild-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-pFTr4yDReMQpLY+iQtz4oH4Z0sVMXfX4hC4ANOJQIlc@public.gmane.org, linux-leds-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mips-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Chat with lonely women in your area and hook up.
 
-http://dir.orangefronthost.info
+On 05/23/2013 07:10 PM, Michael Kerrisk wrote:
+> On 05/23/13 10:26, Peng Haitao wrote:
+>>
+>> Sorry:(
+>> The patch is redundant, please ignore it.
+>>
+> 
+> Peng, Why do you consider it redundant?
+
+The patch has been applied in your local branch:)
+
+http://article.gmane.org/gmane.linux.man/3770
 
 
+-- 
+Best Regards,
+Peng
 
-
-
-
-
-
-
-
-
-xrfhlofrtsj
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
