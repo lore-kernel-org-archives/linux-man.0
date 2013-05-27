@@ -1,61 +1,45 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] getlogin.3: ATTRIBUTES: Note function that is not
- thread-safe
-Date: Mon, 27 May 2013 04:55:21 +0200
-Message-ID: <51A2CB19.9000802@gmail.com>
-References: <1369357689-9069-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: linux man pages: pthread_create(3): oddball comment
+Date: Mon, 27 May 2013 04:49:05 +0200
+Message-ID: <51A2C9A1.8010609@gmail.com>
+References: <CAOhNY-8fhrBTvvZdegz2oXxJ8J-6gc6vQVe3nXWtNnizQ4yRuQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369357689-9069-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <CAOhNY-8fhrBTvvZdegz2oXxJ8J-6gc6vQVe3nXWtNnizQ4yRuQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Anthony Foiani <anthony.foiani-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/24/13 03:08, Peng Haitao wrote:
-> The function getlogin() is not thread safe.
-> The function cuserid() is thread-safe with exceptions.
+On 05/24/13 06:58, Anthony Foiani wrote:
+> Greetings.
+> 
+> The man page for pthread_create:
+> 
+> http://man7.org/linux/man-pages/man3/pthread_create.3.html
+> 
+> Has some example code at the bottom; one of the invocations includes
+> this bit of commentary:
+> 
+>            8192            # The stack size limit is 8 MB (0x80000 bytes)
+> 
+> I had to stare at that a bit; I believe it should actually be 0x800000
+> (note 5 zeros, not 4).
 
-Thanks Peng. Applied in my local branch.
+Yes, of course you are right! I'll fix. Thanks for reporting the problem.
+
+> (I do wish that we -- the computing community -- had managed to come
+> up with a sane digits separator for hex, but oh well.  0x80_0000
+> maybe?  0x80'0000?  just 0x80,0000?)
+
+Actually, D get's this right -- it allows free use of underscores 
+in numeric literals.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/getlogin.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/man3/getlogin.3 b/man3/getlogin.3
-> index be7cc87..7050d5d 100644
-> --- a/man3/getlogin.3
-> +++ b/man3/getlogin.3
-> @@ -135,6 +135,20 @@ password database file
->  \fI/var/run/utmp\fP
->  (traditionally \fI/etc/utmp\fP;
->  some libc versions used \fI/var/adm/utmp\fP)
-> +.SH ATTRIBUTES
-> +.SS Multithreading(see pthreads(7))
-> +The
-> +.BR getlogin ()
-> +function is not thread-safe.
-> +.LP
-> +The
-> +.BR getlogin_r ()
-> +function is thread-safe.
-> +.LP
-> +The
-> +.BR cuserid ()
-> +function is thread-safe with exceptions.
-> +It is not thread-safe if called with a NULL parameter.
->  .SH CONFORMING TO
->  .BR getlogin ()
->  and
-> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
