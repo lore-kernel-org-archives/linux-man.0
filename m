@@ -1,51 +1,55 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Typo fix
-Date: Thu, 30 May 2013 12:57:24 +0200
-Message-ID: <51A73094.6010202@gmail.com>
-References: <1369776506-13902-1-git-send-email-benoit.bourbie@gmail.com>
+Subject: Re: [PATCH] getusershell.3: ATTRIBUTES: Note functions that are not
+ thread-safe
+Date: Tue, 28 May 2013 16:06:51 +0200
+Message-ID: <51A4B9FB.1050006@gmail.com>
+References: <1369734610-12284-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369776506-13902-1-git-send-email-benoit.bourbie-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1369734610-12284-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Beno=EEt_Bourbi=E9?= <benoit.bourbie-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/28/13 23:28, Beno=EEt Bourbi=E9 wrote:
-> "of" is duplicated
+On 05/28/13 11:50, Peng Haitao wrote:
+> The functions getusershell(), setusershell() and endusershell()
+> are not thread safe.
 
-Hello Beno=EEt,
-
-Thanks, but this has already been fixed with another patch.
+Thanks, Peng. Applied in my local branch.
 
 Cheers,
 
 Michael
 
 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man2/io_setup.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man2/io_setup.2 b/man2/io_setup.2
-> index 81b9a8b..549495a 100644
-> --- a/man2/io_setup.2
-> +++ b/man2/io_setup.2
-> @@ -21,7 +21,7 @@ There is no glibc wrapper for this system call; see=
- NOTES.
->  The
->  .BR io_setup ()
->  system call
-> -creates an asynchronous I/O context capable of of concurrently proce=
-ssing
-> +creates an asynchronous I/O context capable of concurrently processi=
-ng
->  at least \fInr_events\fP.
->  The
->  .I ctx_idp
->=20
+>  man3/getusershell.3 | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/man3/getusershell.3 b/man3/getusershell.3
+> index a6c8ab1..b9e7e58 100644
+> --- a/man3/getusershell.3
+> +++ b/man3/getusershell.3
+> @@ -82,6 +82,14 @@ function returns a NULL pointer on end-of-file.
+>  .nf
+>  /etc/shells
+>  .fi
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR getusershell (),
+> +.BR setusershell ()
+> +and
+> +.BR endusershell ()
+> +functions are not thread-safe.
+>  .SH CONFORMING TO
+>  4.3BSD.
+>  .SH SEE ALSO
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
