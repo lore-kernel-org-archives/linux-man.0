@@ -1,43 +1,55 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [bug] Error in mprotect man page description of return value
-Date: Thu, 30 May 2013 12:58:56 +0200
-Message-ID: <51A730F0.3050508@gmail.com>
-References: <CAMJx9yDV3ez0UzqsNn_ub9tOGGVJsN11LkDz_r_VQqC0NW3CGQ@mail.gmail.com>
+Subject: Re: [PATCH] getusershell.3: ATTRIBUTES: Note functions that are not
+ thread-safe
+Date: Thu, 30 May 2013 13:03:28 +0200
+Message-ID: <51A73200.5060706@gmail.com>
+References: <1369734610-12284-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMJx9yDV3ez0UzqsNn_ub9tOGGVJsN11LkDz_r_VQqC0NW3CGQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1369734610-12284-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kennon Bittick <kennonlbc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/29/13 00:30, Kennon Bittick wrote:
-> Hello,
-> 
-> I would like to report what I believe is an error in the man page of
-> mprotect. The description of the return value says:
-> 
-> "Upon successful completion, mprotect() shall return 0; otherwise, it
-> shall return -1 and set errno to indicate the error."
-> 
-> However, in my use the behavior does not match this. I reviewed the
-> source code, and it appeared to match my experience rather than the
-> man pages' description. Instead, the function returns (error_code *
-> -1) and does not change errno.
-> 
-> I am new to bug reporting, so I apologize if I have made a mistake in
-> the format or content of the report. Thank you.
+On 05/28/13 11:50, Peng Haitao wrote:
+> The functions getusershell(), setusershell() and endusershell()
+> are not thread safe.
 
-Kennon,
-
-How are you calling mprotect()? The wrapper function does the 
-manipulation of errno. See syscalls(2).
+Thanks, Peng. Applied in my local branch.
 
 Cheers,
 
 Michael
+
+
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/getusershell.3 | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/man3/getusershell.3 b/man3/getusershell.3
+> index a6c8ab1..b9e7e58 100644
+> --- a/man3/getusershell.3
+> +++ b/man3/getusershell.3
+> @@ -82,6 +82,14 @@ function returns a NULL pointer on end-of-file.
+>  .nf
+>  /etc/shells
+>  .fi
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR getusershell (),
+> +.BR setusershell ()
+> +and
+> +.BR endusershell ()
+> +functions are not thread-safe.
+>  .SH CONFORMING TO
+>  4.3BSD.
+>  .SH SEE ALSO
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
