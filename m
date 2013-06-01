@@ -1,57 +1,53 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mbrlen.3: ATTRIBUTES: Note function that is thread safe
- with exceptions
-Date: Thu, 30 May 2013 13:06:01 +0200
-Message-ID: <51A73299.7020709@gmail.com>
-References: <1369820111-7081-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: minor perf_event_open() clarification
+Date: Sat, 01 Jun 2013 22:53:47 +0200
+Message-ID: <51AA5F5B.8080407@gmail.com>
+References: <alpine.DEB.2.10.1305301720060.13646@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1369820111-7081-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1305301720060.13646-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/29/13 11:35, Peng Haitao wrote:
-> The function mbrlen() is thread safe with exceptions.
-
-Hi Peng,
-
-Applied to my local branch. See comment below.
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/mbrlen.3 | 6 ++++++
->  1 file changed, 6 insertions(+)
+On 05/30/13 23:22, Vince Weaver wrote:
 > 
-> diff --git a/man3/mbrlen.3 b/man3/mbrlen.3
-> index da50230..882ffdb 100644
-> --- a/man3/mbrlen.3
-> +++ b/man3/mbrlen.3
-> @@ -66,6 +66,12 @@ and sets \fIerrno\fP to \fBEILSEQ\fP, if an invalid multibyte sequence was
->  encountered.
->  It returns \fI(size_t)\ \-2\fP if it couldn't parse a complete multibyte
->  character, meaning that \fIn\fP should be increased.
-> +.SH ATTRIBUTES
-> +.SS Multithreading(see pthreads(7))
+> Clarify the perf_event_open() wakeup_events/wakeup_watermark fields a bit,
+> based on info from kernel commit cfeb1d90a1b1.
 
-Space added before "(see)" (and also in a number of other patches
-you already sent.
+Thanks Vince. Applied.
 
-Thanks,
+Cheers,
 
 Michael
 
 
-> +The
-> +.BR mbrlen ()
-> +function is thread-safe with exceptions.
-> +It is not thread-safe if called with a NULL \fIps\fP parameter.
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index f3850f0..14b89ae 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -870,6 +870,16 @@ happen before an overflow signal happens.
+>  Which one is used is selected by the
+>  .I watermark
+>  bitflag.
+> +
+> +.I wakeup_events
+> +only counts
+> +.B PERF_RECORD_SAMPLE
+> +record types.  
+> +To  receive a signal for every incoming
+> +.B PERF_RECORD
+> +type set
+> +.I wakeup_watermark
+> +to 1.
+>  .TP
+>  .IR "bp_type" " (Since Linux 2.6.33)"
+>  This chooses the breakpoint type.
 > 
 
 --
