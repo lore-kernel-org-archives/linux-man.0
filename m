@@ -1,39 +1,79 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mbrtowc.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Tue, 4 Jun 2013 17:58:50 +0800
-Message-ID: <1370339930-23741-1-git-send-email-penght@cn.fujitsu.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: semctl: wrong type on semid_ds
+Date: Mon, 03 Jun 2013 18:47:30 +0200
+Message-ID: <51ACC8A2.6070706@gmail.com>
+References: <51855326.2070406@truelite.it>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <51855326.2070406-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function mbrtowc() is thread safe with exceptions.
+On 05/04/13 20:27, Simone Piccardi wrote:
+> Hi,
+> 
+> in the semctl(2) man page (2012-05-31 version) I found a definitions of
+> semid_ds with:
+> 
+> ...
+> unsigned short  sem_nsems; /* No. of semaphores in set */
+> ...
+> 
+> but that's defined as:
+> 
+>   unsigned long int sem_nsems;          /* number of semaphores in set */
+> 
+> in /usr/include/bits/sem.h (at least in my debian)
+> 
+> I also found it defined as:
+> 
+> int                     sem_nsems;      /* no. of semaphores in array */
+> 
+> 
+> in /usr/src/linux-3.7.6/include/linux/sem.h
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/mbrtowc.3 | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thanks Simone. You're right. I applied the patch below.
 
-diff --git a/man3/mbrtowc.3 b/man3/mbrtowc.3
-index ce3e3aa..aaf5e91 100644
---- a/man3/mbrtowc.3
-+++ b/man3/mbrtowc.3
-@@ -102,6 +102,12 @@ and sets \fIerrno\fP to \fBEILSEQ\fP, if an invalid multibyte sequence was
- encountered.
- It returns \fI(size_t)\ \-2\fP if it couldn't parse a complete multibyte
- character, meaning that \fIn\fP should be increased.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR mbrtowc ()
-+function is thread-safe with exceptions.
-+It is not thread-safe if called with a NULL \fIps\fP parameter.
+Cheers,
+
+Michael
+
+diff --git a/man2/semctl.2 b/man2/semctl.2
+index d1bc542..c9124d7 100644
+--- a/man2/semctl.2
++++ b/man2/semctl.2
+@@ -88,7 +88,7 @@ struct semid_ds {
+     struct ipc_perm sem_perm;  /* Ownership and permissions */
+     time_t          sem_otime; /* Last semop time */
+     time_t          sem_ctime; /* Last change time */
+-    unsigned short  sem_nsems; /* No. of semaphores in set */
++    unsigned long   sem_nsems; /* No. of semaphores in set */
+ };
+ .in
+ .fi
+@@ -462,6 +462,17 @@ or greater than the implementation limit
  .SH CONFORMING TO
- C99.
+ SVr4, POSIX.1-2001.
+ .\" SVr4 documents more error conditions EINVAL and EOVERFLOW.
++
++POSIX.1-2001 specifies the
++.I sem_nsems
++field of the
++.I semid_ds
++structure as having the type
++.IR "unsigned\ short" ,
++and the field is so defined on most other systems.
++It was also so defined on Linux 2.2 and earlier,
++but, since Linux 2.4, the field has the type
++.IR "unsigned\ long" .
  .SH NOTES
--- 
-1.8.1.4
+ The inclusion of
+ .I <sys/types.h>
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
