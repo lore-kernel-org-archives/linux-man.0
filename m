@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 15952] man page cmsg(3) inconsistency
-Date: Tue,  4 Jun 2013 22:36:17 +0000 (UTC)
-Message-ID: <20130604223617.0759C11FB0C@bugzilla.kernel.org>
+Date: Tue,  4 Jun 2013 22:58:00 +0000 (UTC)
+Message-ID: <20130604225800.3564011FB0C@bugzilla.kernel.org>
 References: <bug-15952-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,19 +14,22 @@ List-Id: linux-man@vger.kernel.org
 https://bugzilla.kernel.org/show_bug.cgi?id=15952
 
 
-Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org
 
 
 
+--- Comment #2 from Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org>  2013-06-04 22:57:59 ---
+(Sorry, that's section 4.2 of rfc 2292.)  
 
---- Comment #1 from Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org>  2013-06-04 22:36:16 ---
-I believe the prose section is correct and the sample code is incorrect. 
+It looks like there's more detail in Appendix A of rfc 3542 (section 20.2):
+"While sending an application may or may not include padding at the end of last
+ancillary data in msg_controllen and implementations must accept both as
+valid."
 
-There's a nice chart of the data structure in rfc 2292, section 4.3.
+This seems to indicate that the sample code could be correct either way, but
+only because there's only one control message in the buffer. I think it's still
+confusing, and should be changed to show msg.msg_controllen initialized with a
+value coming from CMSG_SPACE. (Or at least to make clear why we can get away
+with using cmsg_len in this case.)
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
