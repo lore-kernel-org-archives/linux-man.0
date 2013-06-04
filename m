@@ -1,34 +1,32 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 59281] New: unshare(2) applies to threads, not processes
-Date: Tue,  4 Jun 2013 14:44:24 +0000 (UTC)
-Message-ID: <bug-59281-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 15952] man page cmsg(3) inconsistency
+Date: Tue,  4 Jun 2013 22:36:17 +0000 (UTC)
+Message-ID: <20130604223617.0759C11FB0C@bugzilla.kernel.org>
+References: <bug-15952-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-15952-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=59281
-
-           Summary: unshare(2) applies to threads, not processes
-           Product: Documentation
-           Version: unspecified
-          Platform: All
-        OS/Version: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-        AssignedTo: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-        ReportedBy: fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-        Regression: No
+https://bugzilla.kernel.org/show_bug.cgi?id=15952
 
 
-My version starts with "unshare() allows a process to disassociate parts of its
-execution context", but I've been told that this incorrect because it applies
-to the calling thread only, not the entire process.
+Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org
+
+
+
+
+--- Comment #1 from Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org>  2013-06-04 22:36:16 ---
+I believe the prose section is correct and the sample code is incorrect. 
+
+There's a nice chart of the data structure in rfc 2292, section 4.3.
 
 -- 
 Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
