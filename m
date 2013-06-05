@@ -1,40 +1,44 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 15952] man page cmsg(3) inconsistency
-Date: Tue,  4 Jun 2013 22:58:00 +0000 (UTC)
-Message-ID: <20130604225800.3564011FB0C@bugzilla.kernel.org>
-References: <bug-15952-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] tmpnam.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Wed, 5 Jun 2013 10:12:50 +0800
+Message-ID: <1370398370-4574-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-15952-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=15952
+The function tmpnam() is thread safe with exceptions.
 
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/tmpnam.3 | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-
-
-
---- Comment #2 from Josh Bowman <jbowman-2iQDLUlslvR8UrSeD/g0lQ@public.gmane.org>  2013-06-04 22:57:59 ---
-(Sorry, that's section 4.2 of rfc 2292.)  
-
-It looks like there's more detail in Appendix A of rfc 3542 (section 20.2):
-"While sending an application may or may not include padding at the end of last
-ancillary data in msg_controllen and implementations must accept both as
-valid."
-
-This seems to indicate that the sample code could be correct either way, but
-only because there's only one control message in the buffer. I think it's still
-confusing, and should be changed to show msg.msg_controllen initialized with a
-value coming from CMSG_SPACE. (Or at least to make clear why we can get away
-with using cmsg_len in this case.)
-
+diff --git a/man3/tmpnam.3 b/man3/tmpnam.3
+index b2bc3b2..0b92970 100644
+--- a/man3/tmpnam.3
++++ b/man3/tmpnam.3
+@@ -74,6 +74,16 @@ function returns a pointer to a unique temporary
+ filename, or NULL if a unique name cannot be generated.
+ .SH ERRORS
+ No errors are defined.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR tmpnam ()
++function is thread-safe with exceptions.
++It is not thread-safe if called with a NULL parameter.
++.LP
++The
++.BR tmpnam_r ()
++function is thread-safe.
+ .SH CONFORMING TO
+ SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
+ POSIX.1-2008 marks
 -- 
-Configure bugmail: https://bugzilla.kernel.org/userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
-You are watching the assignee of the bug.
+1.8.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
