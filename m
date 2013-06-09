@@ -1,44 +1,33 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: git repo: more updates before each final tag ?
-Date: Sat, 08 Jun 2013 05:47:27 +0200
-Message-ID: <51B2A94F.5050601@gmail.com>
-References: <20130603195635.GN3511@glenfiddich.mraw.org>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] small fix for fallocate.2
+Date: Sun, 9 Jun 2013 12:13:52 +0400
+Message-ID: <20130609121352.18a390a7@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130603195635.GN3511-8MNqHwMchPhGJ/Ie3qa20WD2FQJk+8+b@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Simon,
+Hello.
 
-On 06/03/13 21:56, Simon Paillard wrote:
-> Hi Michael,
-> 
-> Would it be possible for you to push commits gradually, i.e. not to soon before
-> the final release / tag, but soon after your local commit ?
+--- fallocate.2 2013-06-06 21:38:12.037409549 +0400
++++ /tmp/fallocate.2    2013-06-09 12:12:52.935899273 +0400
+@@ -110,7 +110,7 @@
+ .BR FALLOC_FL_PUNCH_HOLE ;
+ if a file system doesn't support the operation, an error is returned.
+ .SH RETURN VALUE
+-On error,
++On success,
+ .BR fallocate ()
+ returns zero.
+ On error, \-1 is returned and
 
-Yep, sorry -- it's been a while since the last push (but it will still be
-a while before a release). I've now done a push a couple of days back.
-
-> It would allow us:
-> * to spot any typos or groff issues, that are far easier to fix upstream
->   than patch in the manpages package or in translations (like we do in
->   perkamon-fr).
-> * to have more time to prepare translations, in order to reach timely
->   synchronized releases between the english and the translated (here french)
->   version.
-> 
-> Thanks a lot :)
-
-No problem. Bug me any time when you see I'm slow to do a push.
-
-Cheers,
-
-Michael
+-- 
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
