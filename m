@@ -1,7 +1,7 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] fallocate.2: 0 is returned on *success*
-Date: Tue, 11 Jun 2013 21:50:10 +0200
-Message-ID: <1370980210-23421-1-git-send-email-spaillard@debian.org>
+Subject: [PATCH 1/2] fallocate.2: 0 is returned on *success*
+Date: Tue, 11 Jun 2013 21:59:29 +0200
+Message-ID: <1370980770-25405-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
