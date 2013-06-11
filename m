@@ -1,41 +1,33 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] round.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 11 Jun 2013 18:19:42 +0800
-Message-ID: <1370945982-12941-1-git-send-email-penght@cn.fujitsu.com>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] fallocate.2: 0 is returned on *success*
+Date: Tue, 11 Jun 2013 21:50:10 +0200
+Message-ID: <1370980210-23421-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions round(), roundf() and roundl() are thread safe.
-
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Introduced by 47a979088fcd7f
 ---
- man3/round.3 | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ man2/fallocate.2 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/round.3 b/man3/round.3
-index ee2dfeb..9bea807 100644
---- a/man3/round.3
-+++ b/man3/round.3
-@@ -80,6 +80,14 @@ No errors occur.
- POSIX.1-2001 documents a range error for overflows, but see NOTES.
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR round (),
-+.BR roundf ()
-+and
-+.BR roundl ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH NOTES
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index a61c513..58a19c2 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -110,7 +110,7 @@ Not all file systems support
+ .BR FALLOC_FL_PUNCH_HOLE ;
+ if a file system doesn't support the operation, an error is returned.
+ .SH RETURN VALUE
+-On error,
++On success,
+ .BR fallocate ()
+ returns zero.
+ On error, \-1 is returned and
 -- 
-1.8.1.4
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
