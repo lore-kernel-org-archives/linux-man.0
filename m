@@ -1,54 +1,39 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] round.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 11 Jun 2013 14:51:47 +0200
-Message-ID: <51B71D63.7060908@gmail.com>
-References: <1370945982-12941-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH 2/2] siginterrupt.3: tfix missing dot
+Date: Wed, 12 Jun 2013 15:10:41 +0200
+Message-ID: <51B87351.901@gmail.com>
+References: <1370980770-25405-1-git-send-email-spaillard@debian.org> <1370980770-25405-2-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1370945982-12941-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1370980770-25405-2-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/11/13 12:19, Peng Haitao wrote:
-> The functions round(), roundf() and roundl() are thread safe.
-
-Thanks, Peng. Applied in my local branch.
-
-Cheers,
-
-Michael
+Thanks, Simon. Applied.
 
 
-
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 06/11/13 21:59, Simon Paillard wrote:
 > ---
->  man3/round.3 | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  man3/siginterrupt.3 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/round.3 b/man3/round.3
-> index ee2dfeb..9bea807 100644
-> --- a/man3/round.3
-> +++ b/man3/round.3
-> @@ -80,6 +80,14 @@ No errors occur.
->  POSIX.1-2001 documents a range error for overflows, but see NOTES.
->  .SH VERSIONS
->  These functions first appeared in glibc in version 2.1.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR round (),
-> +.BR roundf ()
-> +and
-> +.BR roundl ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  .SH NOTES
+> diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
+> index 56a8b91..bdf8b21 100644
+> --- a/man3/siginterrupt.3
+> +++ b/man3/siginterrupt.3
+> @@ -73,7 +73,7 @@ amount of data transferred.
+>  .SH RETURN VALUE
+>  The
+>  .BR siginterrupt ()
+> -function returns 0 on success
+> +function returns 0 on success.
+>  It returns \-1 if the
+>  signal number
+>  .I sig
 > 
 
 --
