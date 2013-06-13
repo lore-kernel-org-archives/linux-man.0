@@ -1,46 +1,65 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] fallocate.2: 0 is returned on *success*
-Date: Wed, 12 Jun 2013 15:10:05 +0200
-Message-ID: <51B8732D.3020703@gmail.com>
-References: <1370980770-25405-1-git-send-email-spaillard@debian.org>
+From: Peter LaDow <petela-OhJBICGVGq3cUClb0tpMAg@public.gmane.org>
+Subject: [PATCH] execve: Add envp to the Linux notes about NULL pointers
+Date: Thu, 13 Jun 2013 11:37:28 -0700
+Message-ID: <CAN8Q1EdfNEyYMoMwu95ROZOCLg6t7ncQudqpV5c02n7H-073mA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1370980770-25405-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/11/13 21:59, Simon Paillard wrote:
-> Introduced by 47a979088fcd7f
-> ---
->  man2/fallocate.2 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> index a61c513..58a19c2 100644
-> --- a/man2/fallocate.2
-> +++ b/man2/fallocate.2
-> @@ -110,7 +110,7 @@ Not all file systems support
->  .BR FALLOC_FL_PUNCH_HOLE ;
->  if a file system doesn't support the operation, an error is returned.
->  .SH RETURN VALUE
-> -On error,
-> +On success,
->  .BR fallocate ()
->  returns zero.
->  On error, \-1 is returned and
+This is my first patch submission.  I've tried to follow the
+directions found at https://www.kernel.org/doc/man-pages/patches.html,
+but if I've screwed things up, please let me know.
 
-Hi Simon,
+During the review of static analysis results, we discovered a
+functional, but non-portable, use of execve().  For example:
 
-I recently fixed this after a report from Yuri Kozlov.
+  char *cmd[] = { "/path/to/some/file", NULL };
+  execve(cmd[0], cmd, NULL);
 
-Cheers,
+The call succeeds.  Yet, the static analysis tool (rightly) pointed
+out that envp could be dereferenced.  But digging into glibc and the
+kernel, it appears that like argv, envp when NULL is treated as if it
+were an empty list.
 
-Michael
+So, to clear things up, I'm submitting this patch to update the man
+page to indicate that envp is treated like argv.
 
+I generated the below patch from git after pulling the latest.  I hope
+there is sufficient information in the patch.
+
+Thanks,
+Pete
+
+>From c2822b3ba5ef8769eed683e4856247274e016ea5 Mon Sep 17 00:00:00 2001
+---
+ man2/execve.2 | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/man2/execve.2 b/man2/execve.2
+index cc91bff..a0b48fc 100644
+--- a/man2/execve.2
++++ b/man2/execve.2
+@@ -494,10 +494,12 @@ and white spaces in
+ .I optional-arg
+ are used to delimit the arguments.
+
+-On Linux,
++On Linux, either
+ .I argv
++or
++.I envp
+ can be specified as NULL,
+-which has the same effect as specifying this argument
++which has the same effect as specifying these arguments
+ as a pointer to a list containing a single NULL pointer.
+ .B "Do not take advantage of this misfeature!"
+ It is nonstandard and nonportable:
+--
+1.8.3.1
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
