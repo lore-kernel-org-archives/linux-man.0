@@ -1,41 +1,53 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] modf.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Fri, 14 Jun 2013 17:27:19 +0800
-Message-ID: <1371202039-28986-1-git-send-email-penght@cn.fujitsu.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] proc(5): document /proc/[pid]/fd/ symlinks a bit more
+Date: Fri, 14 Jun 2013 13:19:12 -0400
+Message-ID: <1371230352-15529-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions modf(), modff() and modfl() are thread safe.
+This covers the type:[inode] syntax used in this dir.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 ---
- man3/modf.3 | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ man5/proc.5 | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/man3/modf.3 b/man3/modf.3
-index 7b30002..1532ac6 100644
---- a/man3/modf.3
-+++ b/man3/modf.3
-@@ -87,6 +87,14 @@ is positive infinity (negative infinity), +0 (\-0) is returned, and
- is set to positive infinity (negative infinity).
- .SH ERRORS
- No errors occur.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR modf (),
-+.BR modff (),
-+and
-+.BR modfl ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
+diff --git a/man5/proc.5 b/man5/proc.5
+index 5ecdd87..05675b2 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -220,13 +220,24 @@ with the
+ .I \-inum
+ option can be used to locate the file.
+ .TP
+-.I /proc/[pid]/fd
++.I /proc/[pid]/fd/
+ This is a subdirectory containing one entry for each file which the
+ process has open, named by its file descriptor, and which is a
+ symbolic link to the actual file.
+ Thus, 0 is standard input, 1 standard output, 2 standard error, etc.
+ 
+-.\" The following was still true as at kernel 2.6.13
++For fds open to non-files, they will be symlinks to the type with the inode.
++A
++.BR readlink (2)
++call on this file returns a string in the format:
++.br
++    type:[inode]
++.br
++For example, socket:[2248868] will be a socket and its inode is 2248868.
++For sockets, that inode can be used to find more info in one of the files under
++.IR /proc/net/ .
++
++.\"The following was still true as at kernel 2.6.13
+ In a multithreaded process, the contents of this directory
+ are not available if the main thread has already terminated
+ (typically by calling
 -- 
-1.8.1.4
+1.8.2.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
