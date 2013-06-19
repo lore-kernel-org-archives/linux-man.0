@@ -1,26 +1,58 @@
-From: =?UTF-8?B?0JzQsNGA0Log0JrQvtGA0LXQvdCx0LXRgNCz?=
-	<socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: pread/pwrite manpage
-Date: Fri, 21 Jun 2013 01:59:37 +0600
-Message-ID: <CAEmTpZEcKpzWMreouKeALi_2hPKJF8w14aSNF6uTw7z5y778bA@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] scalbln.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 19 Jun 2013 12:34:17 +0200
+Message-ID: <51C18929.1000503@gmail.com>
+References: <1371621503-16580-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1371621503-16580-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Man page does not say that not only file offset is not changed, but
-that file offset is not ever used. So, race condition impossible when
-one process/thread changes offset, and other is calling pread/pwrite.
-I mean that we must say that pread/pwrite is not just combination of
-seek+read/write.
+On 06/19/13 07:58, Peng Haitao wrote:
+> The functions scalbn(), scalbnf(), scalbnl(), scalbln(),
+> scalblnf() and scalblnl() are thread safe.
 
-The same is described in pselect manpage, saying that pselect is not
-just combination of setprocmask+select.
+Thanks. Applied.
 
---
-Segmentation fault
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/scalbln.3 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/man3/scalbln.3 b/man3/scalbln.3
+> index 5235684..06128e0 100644
+> --- a/man3/scalbln.3
+> +++ b/man3/scalbln.3
+> @@ -152,6 +152,17 @@ These functions do not set
+>  .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6803
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR scalbn (),
+> +.BR scalbnf (),
+> +.BR scalbnl (),
+> +.BR scalbln (),
+> +.BR scalblnf (),
+> +and
+> +.BR scalblnl ()
+> +functions are thread-safe.
+>  .SH CONFORMING TO
+>  C99, POSIX.1-2001.
+>  .SH NOTES
+> 
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
