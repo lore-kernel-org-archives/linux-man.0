@@ -1,148 +1,62 @@
-From: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] ptrace.2: Clarify PTRACE_INTERRUPT, PTRACE_LISTEN and group-stop behavior
-Date: Thu, 20 Jun 2013 13:11:44 +0200
-Message-ID: <1371726704-23409-1-git-send-email-dvlasenk@redhat.com>
+From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] ptrace.2: Clarify PTRACE_INTERRUPT, PTRACE_LISTEN and
+	group-stop behavior
+Date: Thu, 20 Jun 2013 16:24:52 +0200
+Message-ID: <20130620142452.GA846@redhat.com>
+References: <1371726704-23409-1-git-send-email-dvlasenk@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1371726704-23409-1-git-send-email-dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: root <root-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-From: root <root-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
+On 06/20, Denys Vlasenko wrote:
+>
+> From: root <root-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 
-For easier review, here are the changes as plain text:
+I'll remove this guy from cc list before I reply ;)
 
+> For easier review, here are the changes as plain text:
 
-PTRACE_INTERRUPT (since Linux 3.4)
-Stop a tracee.
-[*MODIFIED TEXT->**] If the tracee is running in kernel space
-and PTRACE_SYSCALL is in effect, it will stop with syscall-exit-stop.
-If the tracee was already stopped by a signal and PTRACE_LISTEN was sent
-to it, it will stop with PTRACE_EVENT_STOP with WSTOPSIG(status) ==
-stop_sig. If any other ptrace-stop is generated at the same time
-(for example, if a signal is sent to the tracee), this ptrace-stop
-happens.  If none of the above applies (for example, if the tracee
-is running in userspace), it will stop with PTRACE_EVENT_STOP with
-WSTOPSIG(status) == SIGTRAP.
+And thanks for the plain text.
 
+Looks good to me. A couple of nits.
 
-Stopped states
-A tracee can be in two states: running or stopped.
-[**ADDED TEXT->**] For the purposes of ptrace, tracee which is blocked in a syscall
-(such as read(2), pause(2) etc) is nevertheless considered to be running,
-even if tracee is blocked for a long time.  The state of the tracee after
-PTRACE_LISTEN is somewhat of a gray area: it is not in any ptrace-stop
-(ptrace commands won't work on it, and it will deliver waitpid
-notifications), but it also may be considered "stopped" because it is
-not executing instructions (is not scheduled), and if it was in
-group-stop before PTRACE_LISTEN, it will not respond to signals until
-SIGCONT is received.
+> PTRACE_INTERRUPT (since Linux 3.4)
+> Stop a tracee.
+> [*MODIFIED TEXT->**] If the tracee is running in kernel space
+> and PTRACE_SYSCALL is in effect, it will stop with syscall-exit-stop.
 
+Yes, but this looks a bit confusing. Or perhaps it is just me.
 
-Group-stop
-...
-[**NEW PARAGRAPH ADDED->**]
-If tracee was attached using PTRACE_SEIZE, group-stop is indicated
-by PTRACE_EVENT_STOP: status>>16 == PTRACE_EVENT_STOP. This allows detection
-of group-stops without extra PTRACE_GETSIGINFO call.
+IOW, it looks as if PTRACE_INTERRUPT has no effect in this case, the
+tracee should report syscall-exit anyway. I do not know how to explain
+this better...
 
+Perhaps. PTRACE_INTERRUPT sends the "fake" signal to the tracee (iow,
+it sets TIF_SIGPENDING and wakes it up). The tracee will report
+PTRACE_EVENT_STOP unless it is going to report something else
+(syscall, signal).
 
-PTRACE_EVENT_STOP
-Stop induced by PTRACE_INTERRUPT command [**ADDED TEXT->**], or group-stop (only
-if attached using PTRACE_SEIZE).
+I think it makes sense to mention that a) PTRACE_INTERRUPT is only
+valid if PTRACE_SEIZE was used, and b) this is the only request which
+doesn't need the stopped tracee. (PTRACE_KILL should die)
 
+> If any other ptrace-stop is generated at the same time
+> (for example, if a signal is sent to the tracee), this ptrace-stop
+> happens.
 
-Signed-off-by: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-CC: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-CC: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Yes. Strictly speaking, do_jobctl_trap() is called before
+ptrace_signal(), so this depends on the timing. So I think this
+falls into "unless it is going to report something else" above.
 
----
- man2/ptrace.2 | 46 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 37 insertions(+), 9 deletions(-)
+Denys, thanks a lot for this work!
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 0d77e3f..472ae72 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -598,14 +598,18 @@ directly has no such limitation.
- .TP
- .BR PTRACE_INTERRUPT " (since Linux 3.4)"
- Stop a tracee.
--If the tracee is running, it will stop with
--.BR PTRACE_EVENT_STOP .
--If the tracee is already stopped by a signal, or receives a signal
--in parallel with
--.BR PTRACE_INTERRUPT ,
--it may report a group-stop
--or a signal-delivery-stop instead of
--.BR PTRACE_EVENT_STOP .
-+If the tracee is running in kernel space and PTRACE_SYSCALL is in effect,
-+it will stop with syscall-exit-stop.
-+If the tracee was already stopped by a signal and PTRACE_LISTEN was sent to it,
-+it will stop with
-+.B PTRACE_EVENT_STOP
-+with WSTOPSIG(status) == stop_sig.
-+If any other ptrace-stop is generated at the same time (for example,
-+if a signal is sent to the tracee), this ptrace-stop happens.
-+If none of the above applies (for example, if the tracee is running in userspace),
-+it will stop with
-+.B PTRACE_EVENT_STOP
-+with WSTOPSIG(status) == SIGTRAP.
- .B PTRACE_INTERRUPT
- only works on tracees attached by
- .BR PTRACE_SEIZE .
-@@ -760,6 +764,22 @@ and any subsequent ptrace stops will be reported under
- the thread group leader's PID.
- .SS Stopped states
- A tracee can be in two states: running or stopped.
-+For the purposes of ptrace, tracee which is blocked in a syscall
-+(such as
-+.BR read (2),
-+.BR pause (2)
-+etc)
-+is nevertheless considered to be running, even if tracee is blocked
-+for a long time.
-+The state of the tracee after
-+.BR PTRACE_LISTEN
-+is somewhat of a gray area: it is not in any ptrace-stop (ptrace commands
-+won't work on it, and it will deliver waitpid notifications),
-+but it also may be considered "stopped" because
-+it is not executing instructions (is not scheduled), and if it was
-+in group-stop before
-+.BR PTRACE_LISTEN ,
-+it will not respond to signals until SIGCONT is received.
- .LP
- There are many kinds of states when the tracee is stopped, and in ptrace
- discussions they are often conflated.
-@@ -1045,6 +1065,14 @@ then it is definitely a group-stop.
- .B SIGKILL
- killed the tracee.)
- .LP
-+If tracee was attached using PTRACE_SEIZE, group-stop
-+is indicated by
-+.BR PTRACE_EVENT_STOP :
-+status>>16 == PTRACE_EVENT_STOP. This allows detection of group-stops
-+without extra
-+.B PTRACE_GETSIGINFO
-+call.
-+.LP
- As of Linux 2.6.38,
- after the tracer sees the tracee ptrace-stop and until it
- restarts or kills it, the tracee will not run,
-@@ -1170,7 +1198,7 @@ to finish exiting.
- .B PTRACE_EVENT_STOP
- Stop induced by
- .B PTRACE_INTERRUPT
--command.
-+command, or group-stop (only if attached using PTRACE_SEIZE).
- .LP
- .B PTRACE_GETSIGINFO
- on
--- 
-1.8.1.4
+Oleg.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
