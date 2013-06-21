@@ -1,58 +1,73 @@
-From: =?UTF-8?q?J=C3=A9r=C3=A9mie=20Galarneau?=
-	<jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
-Subject: [patch] timegm.3: copy the string returned by getenv()
-Date: Wed, 26 Jun 2013 11:08:49 -0400
-Message-ID: <1372259329-26397-1-git-send-email-jeremie.galarneau@efficios.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] execve: Add envp to the Linux notes about NULL pointers
+Date: Fri, 21 Jun 2013 14:25:48 +0200
+Message-ID: <51C4464C.5010605@gmail.com>
+References: <CAN8Q1EdfNEyYMoMwu95ROZOCLg6t7ncQudqpV5c02n7H-073mA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAN8Q1EdfNEyYMoMwu95ROZOCLg6t7ncQudqpV5c02n7H-073mA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?J=C3=A9r=C3=A9mie=20Galarneau?= <jeremie.galarneau-vg+e7yoeK/dWk0Htik3J/w@public.gmane.org>
+To: Peter LaDow <petela-OhJBICGVGq3cUClb0tpMAg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The example of a portable version of timegm() uses the string returned =
-by
-getenv() after calling setenv() on the same environment variale. The tz
-string may be invalid as per getenv.3:
+On 06/13/13 20:37, Peter LaDow wrote:
+> This is my first patch submission.  I've tried to follow the
+> directions found at https://www.kernel.org/doc/man-pages/patches.html,
+> but if I've screwed things up, please let me know.
+> 
+> During the review of static analysis results, we discovered a
+> functional, but non-portable, use of execve().  For example:
+> 
+>   char *cmd[] = { "/path/to/some/file", NULL };
+>   execve(cmd[0], cmd, NULL);
+> 
+> The call succeeds.  Yet, the static analysis tool (rightly) pointed
+> out that envp could be dereferenced.  But digging into glibc and the
+> kernel, it appears that like argv, envp when NULL is treated as if it
+> were an empty list.
+> 
+> So, to clear things up, I'm submitting this patch to update the man
+> page to indicate that envp is treated like argv.
+> 
+> I generated the below patch from git after pulling the latest.  I hope
+> there is sufficient information in the patch.
 
-"The string pointed to by the return value of getenv() may be staticall=
-y
-allocated, and can be modified by a subsequent call to getenv(), putenv=
-(3),
-setenv(3), or unsetenv(3)."
+Thanks, Peter. I've applied this patch.
 
-Signed-off-by: J=C3=A9r=C3=A9mie Galarneau <jeremie.galarneau@efficios.=
-com>
----
- man3/timegm.3 | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/man3/timegm.3 b/man3/timegm.3
-index 3ab194b..0e71be5 100644
---- a/man3/timegm.3
-+++ b/man3/timegm.3
-@@ -84,12 +84,15 @@ my_timegm(struct tm *tm)
-     char *tz;
-=20
-     tz =3D getenv("TZ");
-+    if (tz)
-+        tz =3D strdup(tz);
-     setenv("TZ", "", 1);
-     tzset();
-     ret =3D mktime(tm);
--    if (tz)
-+    if (tz) {
-         setenv("TZ", tz, 1);
--    else
-+        free(tz);
-+    } else
-         unsetenv("TZ");
-     tzset();
-     return ret;
---=20
-1.8.3.1
+Michael
+
+
+> ---
+>  man2/execve.2 | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/execve.2 b/man2/execve.2
+> index cc91bff..a0b48fc 100644
+> --- a/man2/execve.2
+> +++ b/man2/execve.2
+> @@ -494,10 +494,12 @@ and white spaces in
+>  .I optional-arg
+>  are used to delimit the arguments.
+> 
+> -On Linux,
+> +On Linux, either
+>  .I argv
+> +or
+> +.I envp
+>  can be specified as NULL,
+> -which has the same effect as specifying this argument
+> +which has the same effect as specifying these arguments
+>  as a pointer to a list containing a single NULL pointer.
+>  .B "Do not take advantage of this misfeature!"
+>  It is nonstandard and nonportable:
+> --
+> 1.8.3.1
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
