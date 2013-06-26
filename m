@@ -1,37 +1,36 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ctermid.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Wed, 26 Jun 2013 16:19:30 +0800
-Message-ID: <1372234770-12994-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] aio_error.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 26 Jun 2013 16:47:10 +0800
+Message-ID: <1372236430-13836-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function ctermid() is thread safe with exceptions.
+The function aio_error() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ctermid.3 | 6 ++++++
- 1 file changed, 6 insertions(+)
+ man3/aio_error.3 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/man3/ctermid.3 b/man3/ctermid.3
-index 39acbec..f09c072 100644
---- a/man3/ctermid.3
-+++ b/man3/ctermid.3
-@@ -58,6 +58,12 @@ The symbolic constant
- is the maximum number of characters in the returned pathname.
- .SH RETURN VALUE
- The pointer to the pathname.
+diff --git a/man3/aio_error.3 b/man3/aio_error.3
+index 8ec04e2..cd4ccce 100644
+--- a/man3/aio_error.3
++++ b/man3/aio_error.3
+@@ -79,6 +79,11 @@ is not implemented.
+ The
+ .BR aio_error ()
+ function is available since glibc 2.1.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR ctermid ()
-+function is thread-safe with exceptions.
-+It is not thread-safe if called with a NULL parameter.
++.BR aio_error ()
++function is thread-safe.
  .SH CONFORMING TO
- Svr4, POSIX.1-2001.
- .SH BUGS
+ POSIX.1-2001, POSIX.1-2008.
+ .SH EXAMPLE
 -- 
 1.8.1.4
 
