@@ -1,115 +1,242 @@
-From: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH v2] ptrace.2: Clarify PTRACE_INTERRUPT, PTRACE_LISTEN and group-stop behavior
-Date: Sun, 30 Jun 2013 23:27:11 +0200
-Message-ID: <1372627631-3702-1-git-send-email-dvlasenk@redhat.com>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: perf_event_open() -- update to match 3.10 release
+Date: Mon, 1 Jul 2013 13:56:17 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1307011353500.5315@vincent-weaver-1.um.maine.edu>
+Mime-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-v2: Improved wording in PTRACE_INTERRUPT explanation.
 
-Signed-off-by: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-CC: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-CC: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
----
- man2/ptrace.2 | 56 +++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 47 insertions(+), 9 deletions(-)
+This patch updates the perf_event_open() documentation to include
+new interfaces added in the 3.10 kernel.
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 0d77e3f..79d14cc 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -598,14 +598,28 @@ directly has no such limitation.
+It also documents a few [To be documented] instances left over
+from the 3.7 kernel.
+
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+--- man2/perf_event_open.2.orig	2013-07-01 12:31:46.602701124 -0400
++++ man2/perf_event_open.2	2013-07-01 13:53:03.410449052 -0400
+@@ -139,7 +139,7 @@
+ .IR group_fd " = \-1"
+ and is considered to be a group with only 1 member.)
+ An event group is scheduled onto the CPU as a unit: it will
+-be put onto the CPU ionly if all of the events in the group can be put onto
++be put onto the CPU only if all of the events in the group can be put onto
+ the CPU.
+ This means that the values of the member events can be
+ meaningfully compared, added, divided (to get ratios), etc., with each
+@@ -658,10 +658,23 @@
+ See branch_sample_type.
  .TP
- .BR PTRACE_INTERRUPT " (since Linux 3.4)"
- Stop a tracee.
--If the tracee is running, it will stop with
--.BR PTRACE_EVENT_STOP .
--If the tracee is already stopped by a signal, or receives a signal
--in parallel with
--.BR PTRACE_INTERRUPT ,
--it may report a group-stop
--or a signal-delivery-stop instead of
--.BR PTRACE_EVENT_STOP .
-+If the tracee is running or sleeping in kernel space and
-+.B PTRACE_SYSCALL
-+is in effect,
-+the system call is interrupted and syscall-exit-stop is reported.
-+(The interrupted system call is restarted when the tracee is restarted.)
-+If the tracee was already stopped by a signal and
-+.B PTRACE_LISTEN
-+was sent to it,
-+the tracee stops with
-+.B PTRACE_EVENT_STOP
-+with
-+.I WSTOPSIG(status)
-+== stop_sig.
-+If any other ptrace-stop is generated at the same time (for example,
-+if a signal is sent to the tracee), this ptrace-stop happens.
-+If none of the above applies (for example, if the tracee is running in userspace),
-+it stops with
-+.B PTRACE_EVENT_STOP
-+with
-+.I WSTOPSIG(status)
-+==
-+.BR SIGTRAP .
- .B PTRACE_INTERRUPT
- only works on tracees attached by
- .BR PTRACE_SEIZE .
-@@ -760,6 +774,22 @@ and any subsequent ptrace stops will be reported under
- the thread group leader's PID.
- .SS Stopped states
- A tracee can be in two states: running or stopped.
-+For the purposes of ptrace, tracee which is blocked in a syscall
-+(such as
-+.BR read (2),
-+.BR pause (2)
-+etc)
-+is nevertheless considered to be running, even if tracee is blocked
-+for a long time.
-+The state of the tracee after
-+.BR PTRACE_LISTEN
-+is somewhat of a gray area: it is not in any ptrace-stop (ptrace commands
-+won't work on it, and it will deliver waitpid notifications),
-+but it also may be considered "stopped" because
-+it is not executing instructions (is not scheduled), and if it was
-+in group-stop before
-+.BR PTRACE_LISTEN ,
-+it will not respond to signals until SIGCONT is received.
- .LP
- There are many kinds of states when the tracee is stopped, and in ptrace
- discussions they are often conflated.
-@@ -1045,6 +1075,14 @@ then it is definitely a group-stop.
- .B SIGKILL
- killed the tracee.)
- .LP
-+If tracee was attached using PTRACE_SEIZE, group-stop
-+is indicated by
-+.BR PTRACE_EVENT_STOP :
-+status>>16 == PTRACE_EVENT_STOP. This allows detection of group-stops
-+without extra
-+.B PTRACE_GETSIGINFO
-+call.
-+.LP
- As of Linux 2.6.38,
- after the tracer sees the tracee ptrace-stop and until it
- restarts or kills it, the tracee will not run,
-@@ -1170,7 +1208,7 @@ to finish exiting.
- .B PTRACE_EVENT_STOP
- Stop induced by
- .B PTRACE_INTERRUPT
--command.
-+command, or group-stop (only if attached using PTRACE_SEIZE).
- .LP
- .B PTRACE_GETSIGINFO
- on
--- 
-1.8.1.4
-
+ .BR PERF_SAMPLE_REGS_USER " (Since Linux 3.7)"
+-Records the current register state.
++Records the current user-level CPU register state
++(the values in the process before the kernel was called).
+ .TP
+ .BR PERF_SAMPLE_STACK_USER " (Since Linux 3.7)"
+-[To be documented]
++Records the user level stack, allowing stack unwinding.
++.TP
++.BR PERF_SAMPLE_WEIGHT " (Since Linux 3.10)"
++Records a hardware provided weight value that expresses how
++costly the sampled event was.  
++This allows the hardware to highlight expensive events in
++a profile.
++.TP
++.BR PERF_SAMPLE_DATA_SRC " (Since Linux 3.10)"
++Records the data source: where in the memory hierarchy
++the data associated with the sampled instruction came from.
++This is only available if the underlying hardware
++supports this feature.
+ .RE
+ .TP
+ .IR "read_format"
+@@ -977,13 +990,15 @@
+ .RE
+ .TP
+ .IR "sample_regs_user" " (Since Linux 3.7)"
+-This defines the set of user registers to dump on samples.
+-See
+-.\" FIXME: The following reference seems to be not quite right:
+-.IR asm/perf_regs.h .
++This bitmask defines the set of user CPU registers to dump on samples.
++The layout of the register mask is architecture specific and
++described in the kernel header
++.IR arch/ARCH/include/uapi/asm/perf_regs.h .
+ .TP
+ .IR "sample_stack_user" " (Since Linux 3.7)"
+-This defines the size of the user stack to dump on samples.
++This defines the size of the user stack to dump if
++.B PERF_SAMPLE_STACK_USER
++is specified.
+ .SS Reading results
+ Once a
+ .BR perf_event_open ()
+@@ -1428,6 +1443,8 @@
+     u64   size;       /* if PERF_SAMPLE_STACK_USER */
+     char  data[size]; /* if PERF_SAMPLE_STACK_USER */
+     u64   dyn_size;   /* if PERF_SAMPLE_STACK_USER */
++    u64   weight;     /* if PERF_SAMPLE_WEIGHT */
++    u64   data_src;   /* if PERF_SAMPLE_DATA_SRC */
+ };
+ .fi
+ .RS
+@@ -1535,20 +1552,135 @@
+ .IR abi ", " regs[weight(mask)]
+ If
+ .B PERF_SAMPLE_REGS_USER
+-is enabled, then
+-[to be documented].
++is enabled, then the user CPU registers are recorded.
+ 
+ The
+ .I abi
+ field is one of
+ .BR PERF_SAMPLE_REGS_ABI_NONE ", " PERF_SAMPLE_REGS_ABI_32 " or "
+ .BR PERF_SAMPLE_REGS_ABI_64 .
++
++The
++.I regs
++field is an array of the CPU registers that were specified by
++the
++.I sample_regs_user
++attr field.
++The number of values is the number of bits set in the
++.I sample_regs_user 
++bitmask.
+ .TP
+ .IR size ", " data[size] ", " dyn_size
+ If
+ .B PERF_SAMPLE_STACK_USER
+-is enabled, then
+-[to be documented].
++is enabled, then record the user stack to enable backtracing.
++.I size
++is the size requested by the user in
++.I stack_user_size
++or else the maximum record size.
++.I data
++is the stack data.
++.I dyn_size
++is the amount of data actually dumped (can be less than
++.I size
++).
++.TP
++.I weight 
++If
++.B PERF_SAMPLE_WEIGHT
++is enabled, then a 64 bit value provided by the hardwre
++is recorded that indicates how costly the event was.
++This allows expensive events to stand out more clearly
++in profiles.
++.TP
++.I data_src
++If 
++.B PERF_SAMPLE_DATA_SRC
++is enabled, then a 64 bit value is recorded that is made up of
++the following fields:
++.RS
++.TP
++.I mem_op
++type of opcode, a bitwise combination of
++.B PERF_MEM_OP_NA
++(not available),
++.B PERF_MEM_OP_LOAD
++(load instruction),
++.B PERF_MEM_OP_STORE
++(store instruction),
++.B PERF_MEM_OP_PFETCH
++(prefetch), and
++.B PERF_MEM_OP_EXEC
++(executable code).
++.TP
++.I mem_lvl
++memory hierarchy level hit or miss, a bitwise combination of
++.B PERF_MEM_LVL_NA
++(not available),
++.B PERF_MEM_LVL_HIT
++(hit),
++.B PERF_MEM_LVL_MISS
++(miss),
++.B PERF_MEM_LVL_L1
++(level 1 cache),
++.B PERF_MEM_LVL_LFB
++(line fill buffer),
++.B PERF_MEM_LVL_L2
++(level 2 cache),
++.B PERF_MEM_LVL_L3
++(level 3 cache),
++.B PERF_MEM_LVL_LOC_RAM
++(local DRAM),
++.B PERF_MEM_LVL_REM_RAM1
++(remote DRAM 1 hop),
++.B PERF_MEM_LVL_REM_RAM2
++(remote DRAM 2 hops),
++.B PERF_MEM_LVL_REM_CCE1
++(remote cache 1 hop),
++.B PERF_MEM_LVL_REM_CCE2
++(remote Cache 2 hops),
++.B PERF_MEM_LVL_IO
++(I/O memory), and
++.B PERF_MEM_LVL_UNC
++(uncached memory).
++.TP
++.I mem_snoop
++snoop mode, a bitwise combination of
++.B PERF_MEM_SNOOP_NA
++(not available),
++.B PERF_MEM_SNOOP_NONE
++(no snoop),
++.B PERF_MEM_SNOOP_HIT
++(snoop hit),
++.B PERF_MEM_SNOOP_MISS
++(snoop miss), and
++.B PERF_MEM_SNOOP_HITM
++(snoop hit modified).
++.TP
++.I mem_lock
++lock instruction, a bitwise combination of
++.B PERF_MEM_LOCK_NA
++(not available) and
++.B PERF_MEM_LOCK_LOCKED
++(locked transaction).
++.TP
++.I mem_dtlb
++tlb access hit or miss, a bitwise combination of
++.B PERF_MEM_TLB_NA
++(not available),
++.B PERF_MEM_TLB_HIT
++(hit),
++.B PERF_MEM_TLB_MISS
++(miss),
++.B PERF_MEM_TLB_L1
++(level 1 TLB),
++.B PERF_MEM_TLB_L2
++(level 2 TLB),
++.B PERF_MEM_TLB_WK
++(hardware walker), and
++.B PERF_MEM_TLB_OS
++(OS fault handler).
++.RE
+ .RE
+ .RE
+ .TP
+@@ -1585,6 +1717,10 @@
+ In addition, one of the following bits can be set:
+ .RS
+ .TP
++.B PERF_RECORD_MISC_MMAP_DATA
++This is set when the mapping is not executable;
++otherwise the mapping is executable.
++.TP
+ .B PERF_RECORD_MISC_EXACT_IP
+ This indicates that the content of
+ .B PERF_SAMPLE_IP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
