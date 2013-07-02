@@ -1,43 +1,32 @@
-From: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] ptrace.2: Mention that PTRACE_PEEK* libc API and
-	kernel API are different
-Date: Tue, 2 Jul 2013 21:50:33 +0200
-Message-ID: <20130702195033.GB9359@redhat.com>
-References: <1372764004-1791-1-git-send-email-dvlasenk@redhat.com>
+From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+Subject: Re: [PATCH v2] ptrace.2: Clarify PTRACE_INTERRUPT, PTRACE_LISTEN and group-stop behavior
+Date: Wed, 3 Jul 2013 00:10:06 +0400
+Message-ID: <20130702201006.GA13821@altlinux.org>
+References: <1372627631-3702-1-git-send-email-dvlasenk@redhat.com> <51D25436.2070305@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1372764004-1791-1-git-send-email-dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <51D25436.2070305-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 07/02, Denys Vlasenko wrote:
->
-> By Oleg's request.
+On Tue, Jul 02, 2013 at 06:16:54AM +0200, Michael Kerrisk wrote:
+> On 06/30/13 23:27, Denys Vlasenko wrote:
+> > v2: Improved wording in PTRACE_INTERRUPT explanation.
+> 
+> Oleg (or any other interested parties):
+> 
+> An Acked-by or objections before I apply this?
 
-I spent several hours trying to understand why my test-case
-doesn't work ;)
+Acked-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
+for this and two other ptrace patches from Denys.
 
->  .B PTRACE_PEEK*
-> -requests return the requested data,
-> -while other requests return zero.
-> +requests return the requested data, while other requests return zero.
-> +(On Linux, this is done in the libc wrapper around ptrace system call.
-> +On the system call level,
-> +.B PTRACE_PEEK*
-> +requests have a different API: they store the result
-> +at the address specified by
-> +.I data
-> +parameter, and return value is the error flag.)
-> +.LP
 
-Thanks!
-
-Oleg.
-
+-- 
+ldv
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
