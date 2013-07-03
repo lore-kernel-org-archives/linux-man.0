@@ -1,32 +1,39 @@
-From: "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-Subject: Re: [PATCH v2] ptrace.2: Clarify PTRACE_INTERRUPT, PTRACE_LISTEN and group-stop behavior
-Date: Wed, 3 Jul 2013 00:10:06 +0400
-Message-ID: <20130702201006.GA13821@altlinux.org>
-References: <1372627631-3702-1-git-send-email-dvlasenk@redhat.com> <51D25436.2070305@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] clock_getcpuclockid.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 3 Jul 2013 09:27:26 +0800
+Message-ID: <1372814846-2418-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <51D25436.2070305-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Jul 02, 2013 at 06:16:54AM +0200, Michael Kerrisk wrote:
-> On 06/30/13 23:27, Denys Vlasenko wrote:
-> > v2: Improved wording in PTRACE_INTERRUPT explanation.
-> 
-> Oleg (or any other interested parties):
-> 
-> An Acked-by or objections before I apply this?
+The function clock_getcpuclockid() is thread safe.
 
-Acked-by: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
-for this and two other ptrace patches from Denys.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/clock_getcpuclockid.3 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-
+diff --git a/man3/clock_getcpuclockid.3 b/man3/clock_getcpuclockid.3
+index 42d0775..747dc76 100644
+--- a/man3/clock_getcpuclockid.3
++++ b/man3/clock_getcpuclockid.3
+@@ -85,6 +85,11 @@ There is no process with the ID
+ The
+ .BR clock_getcpuclockid ()
+ function is available in glibc since version 2.2.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR clock_getcpuclockid ()
++function is thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
-ldv
+1.8.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
