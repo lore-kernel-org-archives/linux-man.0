@@ -1,53 +1,41 @@
-From: Sebastian Huber <sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org>
-Subject: PTHREAD_CLEANUP_PUSH_DEFER_NP(3)
-Date: Thu, 04 Jul 2013 16:38:52 +0200
-Message-ID: <51D588FC.6070701@embedded-brains.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 60504] New: setpgid(2): mention of SIGTSTP instead of SIGTTIN
+Date: Thu, 04 Jul 2013 16:02:11 +0000
+Message-ID: <bug-60504-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+https://bugzilla.kernel.org/show_bug.cgi?id=60504
 
-I think there is an error in the description
+            Bug ID: 60504
+           Summary: setpgid(2): mention of SIGTSTP instead of SIGTTIN
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: graud-KK0ffGbhmjU@public.gmane.org
+        Regression: No
 
-        is equivalent to (but shorter and more efficient than):
+>From the manpage:
 
-            int oldtype;
+" if a background process group tries to read(2) from the terminal, then the
+  group is sent a SIGTSTP signal, which suspends it. "
 
-            pthread_cleanup_push(routine, arg);
-            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
-            ...
-            pthread_setcanceltype(oldtype, NULL);
-            pthread_cleanup_pop(execute);
+I believe SIGTTIN is sent to suspend the job in that case.
 
-this should be instead
-
-        is equivalent to (but shorter and more efficient than):
-
-            int oldtype;
-
-            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
-            pthread_cleanup_push(routine, arg);
-            ...
-            pthread_cleanup_pop(execute);
-            pthread_setcanceltype(oldtype, NULL);
-
---=20
-Sebastian Huber, embedded brains GmbH
-
-Address : Dornierstr. 4, D-82178 Puchheim, Germany
-Phone   : +49 89 189 47 41-16
-=46ax     : +49 89 189 47 41-09
-E-Mail  : sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org
-PGP     : Public key available on request.
-
-Diese Nachricht ist keine gesch=E4ftliche Mitteilung im Sinne des EHUG.
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
