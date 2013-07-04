@@ -1,67 +1,53 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] clock_getcpuclockid.3: ATTRIBUTES: Note function that
- is thread-safe
-Date: Thu, 04 Jul 2013 08:07:52 +0800
-Message-ID: <51D4BCD8.7000703@cn.fujitsu.com>
-References: <1372814846-2418-1-git-send-email-penght@cn.fujitsu.com> <51D3F738.4000309@gmail.com>
+From: Sebastian Huber <sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org>
+Subject: PTHREAD_CLEANUP_PUSH_DEFER_NP(3)
+Date: Thu, 04 Jul 2013 16:38:52 +0200
+Message-ID: <51D588FC.6070701@embedded-brains.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <51D3F738.4000309-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello,
 
-On 07/03/2013 06:04 PM, Michael Kerrisk wrote:
-> On 07/03/13 03:27, Peng Haitao wrote:
->> The function clock_getcpuclockid() is thread safe.
->>
->> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> 
-> Thanks. Applied.
-> 
->>From now on (because I have now started incorporating your patches 
-> in mainline), please update the date in the .TH line in patches.
-> 
+I think there is an error in the description
 
-I see, thanks.
+        is equivalent to (but shorter and more efficient than):
 
--- 
-Best Regards,
-Peng
+            int oldtype;
 
-> Thanks,
-> 
-> Michael
-> 
-> 
->> ---
->>  man3/clock_getcpuclockid.3 | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/man3/clock_getcpuclockid.3 b/man3/clock_getcpuclockid.3
->> index 42d0775..747dc76 100644
->> --- a/man3/clock_getcpuclockid.3
->> +++ b/man3/clock_getcpuclockid.3
->> @@ -85,6 +85,11 @@ There is no process with the ID
->>  The
->>  .BR clock_getcpuclockid ()
->>  function is available in glibc since version 2.2.
->> +.SH ATTRIBUTES
->> +.SS Multithreading (see pthreads(7))
->> +The
->> +.BR clock_getcpuclockid ()
->> +function is thread-safe.
->>  .SH CONFORMING TO
->>  POSIX.1-2001.
->>  .SH NOTES
->>
-> 
-> 
+            pthread_cleanup_push(routine, arg);
+            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+            ...
+            pthread_setcanceltype(oldtype, NULL);
+            pthread_cleanup_pop(execute);
 
+this should be instead
+
+        is equivalent to (but shorter and more efficient than):
+
+            int oldtype;
+
+            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+            pthread_cleanup_push(routine, arg);
+            ...
+            pthread_cleanup_pop(execute);
+            pthread_setcanceltype(oldtype, NULL);
+
+--=20
+Sebastian Huber, embedded brains GmbH
+
+Address : Dornierstr. 4, D-82178 Puchheim, Germany
+Phone   : +49 89 189 47 41-16
+=46ax     : +49 89 189 47 41-09
+E-Mail  : sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org
+PGP     : Public key available on request.
+
+Diese Nachricht ist keine gesch=E4ftliche Mitteilung im Sinne des EHUG.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
