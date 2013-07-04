@@ -1,51 +1,65 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] signbit.3: ATTRIBUTES: Note macro that is thread-safe
-Date: Wed, 03 Jul 2013 12:04:55 +0200
-Message-ID: <51D3F747.5090305@gmail.com>
-References: <1372817711-3709-1-git-send-email-penght@cn.fujitsu.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] clock_getcpuclockid.3: ATTRIBUTES: Note function that
+ is thread-safe
+Date: Thu, 04 Jul 2013 08:07:52 +0800
+Message-ID: <51D4BCD8.7000703@cn.fujitsu.com>
+References: <1372814846-2418-1-git-send-email-penght@cn.fujitsu.com> <51D3F738.4000309@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1372817711-3709-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <51D3F738.4000309-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/03/13 04:15, Peng Haitao wrote:
-> The macro signbit() is thread safe.
+
+On 07/03/2013 06:04 PM, Michael Kerrisk wrote:
+> On 07/03/13 03:27, Peng Haitao wrote:
+>> The function clock_getcpuclockid() is thread safe.
+>>
+>> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-
-Thanks. Applied!
-
-Cheers,
-
-Michael
-
-
-
-> ---
->  man3/signbit.3 | 5 +++++
->  1 file changed, 5 insertions(+)
+> Thanks. Applied.
 > 
-> diff --git a/man3/signbit.3 b/man3/signbit.3
-> index 2f412ad..5615b9c 100644
-> --- a/man3/signbit.3
-> +++ b/man3/signbit.3
-> @@ -58,6 +58,11 @@ macro returns nonzero if the sign of
->  is negative; otherwise it returns zero.
->  .SH ERRORS
->  No errors occur.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR signbit ()
-> +macro is thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  This function is defined in IEC 559 (and the appendix with
+>>From now on (because I have now started incorporating your patches 
+> in mainline), please update the date in the .TH line in patches.
+> 
+
+I see, thanks.
+
+-- 
+Best Regards,
+Peng
+
+> Thanks,
+> 
+> Michael
+> 
+> 
+>> ---
+>>  man3/clock_getcpuclockid.3 | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/man3/clock_getcpuclockid.3 b/man3/clock_getcpuclockid.3
+>> index 42d0775..747dc76 100644
+>> --- a/man3/clock_getcpuclockid.3
+>> +++ b/man3/clock_getcpuclockid.3
+>> @@ -85,6 +85,11 @@ There is no process with the ID
+>>  The
+>>  .BR clock_getcpuclockid ()
+>>  function is available in glibc since version 2.2.
+>> +.SH ATTRIBUTES
+>> +.SS Multithreading (see pthreads(7))
+>> +The
+>> +.BR clock_getcpuclockid ()
+>> +function is thread-safe.
+>>  .SH CONFORMING TO
+>>  POSIX.1-2001.
+>>  .SH NOTES
+>>
+> 
 > 
 
 --
