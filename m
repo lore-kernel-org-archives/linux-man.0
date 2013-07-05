@@ -1,45 +1,50 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] dirfd.3: ATTRIBUTES: Note function that is thread-safe
-Date: Fri, 5 Jul 2013 16:53:51 +0800
-Message-ID: <1373014431-8337-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] div.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Fri, 5 Jul 2013 17:23:24 +0800
+Message-ID: <1373016204-8807-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function dirfd() is thread safe.
+The functions div(), ldiv(), lldiv() and imaxdiv() are thread
+safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/dirfd.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man3/div.3 | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/man3/dirfd.3 b/man3/dirfd.3
-index ddc0aef..d090506 100644
---- a/man3/dirfd.3
-+++ b/man3/dirfd.3
-@@ -22,7 +22,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
+diff --git a/man3/div.3 b/man3/div.3
+index 10ba296..c9ee23d 100644
+--- a/man3/div.3
++++ b/man3/div.3
+@@ -31,7 +31,7 @@
+ .\" Modified 1993-07-24, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified 2002-08-10, 2003-11-01 Walter Harms, aeb
  .\"
--.TH DIRFD 3 2013-04-19 "Linux" "Linux Programmer's Manual"
-+.TH DIRFD 3 2013-07-05 "Linux" "Linux Programmer's Manual"
+-.TH DIV 3 2012-04-17 "" "Linux Programmer's Manual"
++.TH DIV 3 2013-07-05 "" "Linux Programmer's Manual"
  .SH NAME
- dirfd \- get directory stream file descriptor
- .SH SYNOPSIS
-@@ -84,6 +84,11 @@ does not refer to a valid directory stream.
- .B ENOTSUP
- The implementation does not support the association of a file
- descriptor with a directory.
+ div, ldiv, lldiv, imaxdiv \- compute quotient and remainder of
+ an integer division
+@@ -88,6 +88,15 @@ of the indicated name, in all cases with fields \fIquot\fP and \fIrem\fP
+ of the same type as the function arguments.
+ .SH RETURN VALUE
+ The \fIdiv_t\fP (etc.) structure.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR dirfd ()
-+function is thread-safe.
++.BR div (),
++.BR ldiv (),
++.BR lldiv (),
++and
++.BR imaxdiv ()
++functions are thread-safe.
  .SH CONFORMING TO
- POSIX.1-2008.
- This function was a BSD extension, present in 4.3BSD-Reno, not in 4.2BSD.
+ SVr4, 4.3BSD, C89. C99.
+ The functions
 -- 
 1.8.3.1
 
