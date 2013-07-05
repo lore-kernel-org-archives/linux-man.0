@@ -1,41 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60504] New: setpgid(2): mention of SIGTSTP instead of SIGTTIN
-Date: Thu, 04 Jul 2013 16:02:11 +0000
-Message-ID: <bug-60504-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] dirfd.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 5 Jul 2013 16:53:51 +0800
+Message-ID: <1373014431-8337-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60504
+The function dirfd() is thread safe.
 
-            Bug ID: 60504
-           Summary: setpgid(2): mention of SIGTSTP instead of SIGTTIN
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: graud-KK0ffGbhmjU@public.gmane.org
-        Regression: No
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/dirfd.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
->From the manpage:
-
-" if a background process group tries to read(2) from the terminal, then the
-  group is sent a SIGTSTP signal, which suspends it. "
-
-I believe SIGTTIN is sent to suspend the job in that case.
-
+diff --git a/man3/dirfd.3 b/man3/dirfd.3
+index ddc0aef..d090506 100644
+--- a/man3/dirfd.3
++++ b/man3/dirfd.3
+@@ -22,7 +22,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH DIRFD 3 2013-04-19 "Linux" "Linux Programmer's Manual"
++.TH DIRFD 3 2013-07-05 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ dirfd \- get directory stream file descriptor
+ .SH SYNOPSIS
+@@ -84,6 +84,11 @@ does not refer to a valid directory stream.
+ .B ENOTSUP
+ The implementation does not support the association of a file
+ descriptor with a directory.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR dirfd ()
++function is thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2008.
+ This function was a BSD extension, present in 4.3BSD-Reno, not in 4.2BSD.
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
