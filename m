@@ -1,21 +1,21 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] div.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 09 Jul 2013 02:24:37 +0200
-Message-ID: <51DB5845.6000205@gmail.com>
-References: <1373016204-8807-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: perf_event_open() -- improve PERF_SAMPLE_BRANCH_STACK documentation
+Date: Tue, 09 Jul 2013 02:27:39 +0200
+Message-ID: <51DB58FB.6090608@gmail.com>
+References: <alpine.DEB.2.10.1307081544020.10386@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1373016204-8807-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1307081544020.10386-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/05/13 11:23, Peng Haitao wrote:
-> The functions div(), ldiv(), lldiv() and imaxdiv() are thread
-> safe.
+On 07/08/13 21:47, Vince Weaver wrote:
+> 
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 
 Thanks. Applied!
@@ -25,40 +25,81 @@ Cheers,
 Michael
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/div.3 | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/div.3 b/man3/div.3
-> index 10ba296..c9ee23d 100644
-> --- a/man3/div.3
-> +++ b/man3/div.3
-> @@ -31,7 +31,7 @@
->  .\" Modified 1993-07-24, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified 2002-08-10, 2003-11-01 Walter Harms, aeb
->  .\"
-> -.TH DIV 3 2012-04-17 "" "Linux Programmer's Manual"
-> +.TH DIV 3 2013-07-05 "" "Linux Programmer's Manual"
->  .SH NAME
->  div, ldiv, lldiv, imaxdiv \- compute quotient and remainder of
->  an integer division
-> @@ -88,6 +88,15 @@ of the indicated name, in all cases with fields \fIquot\fP and \fIrem\fP
->  of the same type as the function arguments.
->  .SH RETURN VALUE
->  The \fIdiv_t\fP (etc.) structure.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR div (),
-> +.BR ldiv (),
-> +.BR lldiv (),
-> +and
-> +.BR imaxdiv ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89. C99.
->  The functions
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index 504e801..1fc4e27 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -654,8 +654,13 @@ Records additional data, if applicable.
+>  Usually returned by tracepoint events.
+>  .TP
+>  .BR PERF_SAMPLE_BRANCH_STACK " (Since Linux 3.4)"
+> -Records the branch stack.
+> -See branch_sample_type.
+> +This provides a record of recent branches, as provided
+> +by CPU branch sampling hardware (such as Intel Last Branch Record).
+> +Not all hardware supports this feature.
+> +
+> +See the
+> +.I branch_sample_type
+> +field for how to filter which branches are reported.
+>  .TP
+>  .BR PERF_SAMPLE_REGS_USER " (Since Linux 3.7)"
+>  Records the current user-level CPU register state
+> @@ -960,8 +965,17 @@ is a further extension of the
+>  field.
+>  .TP
+>  .IR "branch_sample_type" " (Since Linux 3.4)"
+> -This is used with the CPUs hardware branch sampling, if available.
+> -It can have one of the following values:
+> +If 
+> +.B PERF_SAMPLE_BRANCH_STACK
+> +is enabled, then this specifies what branches to include
+> +in the branch record.
+> +If the user does not set privilege level explicitly, the kernel
+> +will use the event's privilege level.
+> +Event and branch privilege levels do not have to match.
+> +The value is formed by ORing together zero or more of the following values,
+> +although 
+> +.B PERF_SAMPLE_BRANCH_ANY
+> +covers all branch types.
+>  .RS
+>  .TP
+>  .B PERF_SAMPLE_BRANCH_USER
+> @@ -1545,9 +1559,31 @@ is enabled, then a 64-bit value indicating
+>  the number of records is included, followed by
+>  .I bnr
+>  .I perf_branch_entry
+> -structures.
+> -These structures have from, to, and flags values indicating
+> -the from and to addresses from the branches on the callstack.
+> +structures which each include the fields:
+> +.RS
+> +.TP
+> +.I from
+> +indicating the source instruction (may not be a branch)
+> +.TP
+> +.I to
+> +the branch target
+> +.TP
+> +.I mispred
+> +the branch target was mispredicted
+> +.TP
+> +.I predicted
+> +the branch target was predicted.
+> +.RE
+> +The entries are from most to least recent, so the first entry
+> +has the most recent branch.
+> +
+> +Support for 
+> +.I mispred 
+> +and 
+> +.I predicted 
+> +is optional; if not supported both
+> +values will be 0.
+> +
+>  .TP
+>  .IR abi ", " regs[weight(mask)]
+>  If
 > 
 
 --
