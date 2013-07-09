@@ -1,33 +1,54 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60504] setpgid(2): mention of SIGTSTP instead of SIGTTIN
-Date: Tue, 09 Jul 2013 00:22:18 +0000
-Message-ID: <bug-60504-11311-4O5zHmZPAW@https.bugzilla.kernel.org/>
-References: <bug-60504-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: PTHREAD_CLEANUP_PUSH_DEFER_NP(3)
+Date: Tue, 9 Jul 2013 04:34:08 +0200
+Message-ID: <CAKgNAkimJbCdJ6W_+1qaM1KpCxFAN5EfzbMF_PDBC7vcXcb6dA@mail.gmail.com>
+References: <51D588FC.6070701@embedded-brains.de>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-60504-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <51D588FC.6070701-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Sebastian Huber <sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60504
+Sebastian,
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+On Thu, Jul 4, 2013 at 4:38 PM, Sebastian Huber
+<sebastian.huber-L1vi/lXTdtsBbLBgBO8hYIQuADTiUCJX@public.gmane.org> wrote:
+> Hello,
+>
+> I think there is an error in the description
+>
+>        is equivalent to (but shorter and more efficient than):
+>
+>            int oldtype;
+>
+>            pthread_cleanup_push(routine, arg);
+>            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+>            ...
+>            pthread_setcanceltype(oldtype, NULL);
+>            pthread_cleanup_pop(execute);
+>
+> this should be instead
+>
+>        is equivalent to (but shorter and more efficient than):
+>
+>            int oldtype;
+>
+>            pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &oldtype);
+>            pthread_cleanup_push(routine, arg);
+>            ...
+>            pthread_cleanup_pop(execute);
+>            pthread_setcanceltype(oldtype, NULL);
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |CODE_FIX
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Agreed. I changed the page.
+I am doubtful of this, but, can you provide some evidence to support your claim?
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Thanks,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
