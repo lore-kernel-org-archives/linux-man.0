@@ -1,33 +1,33 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] console_ioctl.4: tfix
-Date: Tue,  9 Jul 2013 00:27:46 +0200
-Message-ID: <1373322466-14811-1-git-send-email-spaillard@debian.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 60504] setpgid(2): mention of SIGTSTP instead of SIGTTIN
+Date: Tue, 09 Jul 2013 00:22:18 +0000
+Message-ID: <bug-60504-11311-4O5zHmZPAW@https.bugzilla.kernel.org/>
+References: <bug-60504-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-60504-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man4/console_ioctl.4 |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=60504
 
-diff --git a/man4/console_ioctl.4 b/man4/console_ioctl.4
-index 5cb3e2f..7f5a444 100644
---- a/man4/console_ioctl.4
-+++ b/man4/console_ioctl.4
-@@ -213,7 +213,7 @@ and
- .I charheight
- are filled with
- the respective data for the currently loaded font, and the
--.I hardata
-+.I chardata
- array contains the font data if the initial value of
- .I charcount
- indicated enough space was available; otherwise the
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Agreed. I changed the page.
+
 -- 
-1.7.10.4
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
