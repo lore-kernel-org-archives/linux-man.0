@@ -1,28 +1,33 @@
-From: Eliezer Tamir <eliezer.tamir-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Documenting Low Latency (busy poll) sockets.
-Date: Tue, 09 Jul 2013 11:36:56 +0300
-Message-ID: <51DBCBA8.1060808@linux.intel.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] strcoll.3: ffix
+Date: Tue,  9 Jul 2013 21:15:39 +0200
+Message-ID: <1373397339-14872-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+---
+ man3/strcoll.3 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm working on adding busy poll support to the networking stack.
-We added two sysctl variables and a socket option.
-My patches added information about the sysctl values in
-Documentation/sysctl/net.txt
+diff --git a/man3/strcoll.3 b/man3/strcoll.3
+index 54e6667..fc66fe2 100644
+--- a/man3/strcoll.3
++++ b/man3/strcoll.3
+@@ -72,7 +72,7 @@ SVr4, 4.3BSD, C89, C99.
+ In the
+ .I "POSIX"
+ or
+-.I ""C"
++.I "C"
+ locales
+ .BR strcoll ()
+ is equivalent to
+-- 
+1.7.10.4
 
-Andrew Morton pointed out that the man pages also need to be updated.
-Please provide directions on what needs to be done.
-
-Thank you,
-Eliezer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
