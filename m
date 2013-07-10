@@ -1,76 +1,110 @@
-From: Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: Re: [PATCH v2] socket.7: add description for SO_BUSY_POLL
-Date: Wed, 10 Jul 2013 20:03:08 +0200
-Message-ID: <51DDA1DC.2020306@gmail.com>
-References: <20130710141835.15799.61657.stgit@ladj378.jer.intel.com>
+From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] ptrace.2: if SEIZE was used, initial auto-attach stop
+ is EVENT_STOP
+Date: Wed, 10 Jul 2013 20:50:44 +0200
+Message-ID: <51DDAD04.1000907@gmail.com>
+References: <1372762277-31981-1-git-send-email-dvlasenk@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20130710141835.15799.61657.stgit@ladj378.jer.intel.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Eliezer Tamir <eliezer.tamir@linux.intel.com>
-Cc: Micahel Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, David Miller <davem@davemloft.net>, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, Eliezer Tamir <eliezer@tamir.org.il>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1372762277-31981-1-git-send-email-dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Dmitry V. Levin" <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 07/10/13 16:18, Eliezer Tamir wrote:
-> Add description for the SO_BUSY_POLL socket option to the socket(7) manpage.
-> 
-> v2
-> fixed typos reported by Rasmus Villemoes
+On 07/02/13 12:51, Denys Vlasenko wrote:
+> For every PTRACE_O_TRACEfoo option, mention that old-style SIGSTOP
+> is replaced by PTRACE_EVENT_STOP if PTRACE_SEIZE attach was used.
+>
+> Mention the same thing again in the description of PTRACE_EVENT_STOP.
 
-Eliezer,
+Thanks, Denys. Applied. And thanks again for your consistent work
+updating this page.
 
-What's the status of this feature. A quick grep seems to show
-that the feature is not yet in mainline. What is the plan?
-
-Thanks,
+Cheers,
 
 Michael
 
 
-
-> Signed-off-by: Eliezer Tamir <eliezer.tamir@linux.intel.com>
+ 
+> Signed-off-by: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> CC: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> CC: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> CC: Jan Kratochvil <jan.kratochvil-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> CC: Dmitry V. Levin <ldv-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 > ---
+>  man2/ptrace.2 | 32 ++++++++++++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 4 deletions(-)
 > 
->  man7/socket.7 |   25 +++++++++++++++++++++++++
->  1 files changed, 25 insertions(+), 0 deletions(-)
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index 79d14cc..55c4fe2 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -340,7 +340,12 @@ Stop the tracee at the next
+>  .BR clone (2)
+>  and automatically start tracing the newly cloned process,
+>  which will start with a
+> -.BR SIGSTOP .
+> +.BR SIGSTOP ,
+> +or
+> +.B PTRACE_EVENT_STOP
+> +if
+> +.B PTRACE_SEIZE
+> +was used.
+>  A
+>  .BR waitpid (2)
+>  by the tracer will return a
+> @@ -421,7 +426,12 @@ Stop the tracee at the next
+>  .BR fork (2)
+>  and automatically start tracing the newly forked process,
+>  which will start with a
+> -.BR SIGSTOP .
+> +.BR SIGSTOP ,
+> +or
+> +.B PTRACE_EVENT_STOP
+> +if
+> +.B PTRACE_SEIZE
+> +was used.
+>  A
+>  .BR waitpid (2)
+>  by the tracer will return a
+> @@ -449,7 +459,12 @@ Stop the tracee at the next
+>  .BR vfork (2)
+>  and automatically start tracing the newly vforked process,
+>  which will start with a
+> -.BR SIGSTOP .
+> +.BR SIGSTOP ,
+> +or
+> +.B PTRACE_EVENT_STOP
+> +if
+> +.B PTRACE_SEIZE
+> +was used.
+>  A
+>  .BR waitpid (2)
+>  by the tracer will return a
+> @@ -1208,7 +1223,16 @@ to finish exiting.
+>  .B PTRACE_EVENT_STOP
+>  Stop induced by
+>  .B PTRACE_INTERRUPT
+> -command, or group-stop (only if attached using PTRACE_SEIZE).
+> +command, group-stop, or initial ptrace-stop when a new child is attached
+> +(only if attached using
+> +.BR PTRACE_SEIZE ).
+> +Note that unlike other
+> +.B PTRACE_EVENT
+> +stops, this stop has
+> +.I WSTOPSIG(status)
+> +other than
+> +.B SIGTRAP
+> +if it reports a group-stop.
+>  .LP
+>  .B PTRACE_GETSIGINFO
+>  on
 > 
-> diff --git a/man7/socket.7 b/man7/socket.7
-> index f2213eb..5edcb09 100644
-> --- a/man7/socket.7
-> +++ b/man7/socket.7
-> @@ -694,6 +694,31 @@ for details on control messages.
->  Gets the socket type as an integer (e.g.,
->  .BR SOCK_STREAM ).
->  This socket option is read-only.
-> +.TP
-> +.B SO_BUSY_POLL
-> +Sets the approximate time in microseconds to busy poll on a blocking receive
-> +when there is no data. Increasing this value requires
-> +.BR CAP_NET_ADMIN . 
-> +The default for this option is controlled by the
-> +.I /proc/sys/net/core/busy_read
-> +file. 
-> +
-> +The value in the  
-> +.I /proc/sys/net/core/busy_poll
-> +file determines how long 
-> +.BR select (2)
-> +and 
-> +.BR poll (2)
-> +will busy poll when they operate on sockets with 
-> +.BR SO_BUSY_POLL
-> +set and no events to report are found.
-> +
-> +In both cases busy polling will only be done when the socket last received data
-> +from a network device that supports this option.
-> +
-> +While busy polling may improve latency of some applications, care must be
-> +taken when using it since this will increase both CPU utilization and power usage.
-> +
->  .SS Signals
->  When writing onto a connection-oriented socket that has been shut down
->  (by the local or the remote end)
-> 
-> 
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
