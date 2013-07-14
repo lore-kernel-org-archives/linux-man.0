@@ -1,79 +1,44 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: perf_event_open() -- update PERF_IOC_FLAG_GROUP info
-Date: Fri, 12 Jul 2013 17:22:50 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1307121718200.28192@vincent-weaver-1.um.maine.edu>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] resolv.conf.5: explain how to set empty domain
+Date: Sun, 14 Jul 2013 21:51:50 +0200
+Message-ID: <20130714195150.GL19665@mraw.org>
+References: <1368974323-2764-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1368974323-2764-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hi Michael,
 
-It turns out PERF_IOC_FLAG_GROUP was broken from
-75f937f24bd9 (in Linux 2.6.31, the initial perf_event release) 
-until 724b6daa1 (Linux 3.4).
+Do you have a comment on this ?
 
-I've done some extensive kernel source code digging plus running tests of 
-various kernels and I hope the info presented is accurate now.
+On Sun, May 19, 2013 at 04:38:43PM +0200, Simon Paillard wrote:
+> See http://bugs.debian.org/463575
+> ---
+>  man5/resolv.conf.5 |    1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+> index 716b345..9f2f3f9 100644
+> --- a/man5/resolv.conf.5
+> +++ b/man5/resolv.conf.5
+> @@ -63,6 +63,7 @@ until a maximum number of retries are made.)
+>  \fBdomain\fP Local domain name.
+>  Most queries for names within this domain can use short names
+>  relative to the local domain.
+> +If set to \(aq.\(aq, the root domain is considered.
+>  If no \fBdomain\fP entry is present, the domain is determined
+>  from the local hostname returned by
+>  .BR gethostname (2);
+> -- 
+> 1.7.10.4
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 504e801..ff7e4af 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1803,7 +1803,8 @@ file descriptor argument.
- If the
- .B PERF_IOC_FLAG_GROUP
- bit is set in the ioctl argument, then all events in a group are
--enabled, even if the event specified is not the group leader.
-+enabled, even if the event specified is not the group leader
-+(note this flag was broken until Linux 3.4).
- .TP
- .B PERF_EVENT_IOC_DISABLE
- Disables the individual counter or event group specified by the
-@@ -1819,7 +1820,8 @@ stops that counter from counting but doesn't affect any other counter.
- If the
- .B PERF_IOC_FLAG_GROUP
- bit is set in the ioctl argument, then all events in a group are
--disabled, even if the event specified is not the group leader.
-+disabled, even if the event specified is not the group leader
-+(note this flag was broken until Linux 3.4).
- .TP
- .B PERF_EVENT_IOC_REFRESH
- Non-inherited overflow counters can use this
-@@ -1848,14 +1850,9 @@ values.
- If the
- .B PERF_IOC_FLAG_GROUP
- bit is set in the ioctl argument, then all events in a group are
--reset, even if the event specified is not the group leader.
-+reset, even if the event specified is not the group leader
-+(note this flag was broken until Linux 3.4).
- 
--If the
--.B PERF_IOC_FLAG_GROUP
--bit is not set, then the behavior is somwhat unexpected:
--when sent to a group leader only the leader is reset
--(children are left alone);
--when sent to a child all events in a group are reset.
- .TP
- .B PERF_EVENT_IOC_PERIOD
- IOC_PERIOD is the command to update the period; it
-@@ -2042,6 +2039,12 @@ Linux 2.6.36 and Linux 3.0 that ignores the
- was chosen if the union has a
- non-zero value in it.
- 
-+From Linux 2.6.31 to Linux 3.4 the 
-+.B PERF_IOC_FLAG_GROUP
-+ioctl argument was broken and would repeatedly operate
-+on the event specified rather than iterating across
-+all sibling events in a group.
-+
- Always double-check your results!
- Various generalized events have had wrong values.
- For example, retired branches measured
+-- 
+Simon Paillard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
