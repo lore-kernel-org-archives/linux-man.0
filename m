@@ -1,44 +1,51 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] resolv.conf.5: explain how to set empty domain
-Date: Sun, 14 Jul 2013 21:51:50 +0200
-Message-ID: <20130714195150.GL19665@mraw.org>
-References: <1368974323-2764-1-git-send-email-spaillard@debian.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fdim.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 15 Jul 2013 15:03:15 +0800
+Message-ID: <1373871795-14782-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1368974323-2764-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+The functions fdim(), fdimf() and fdiml() are thread safe.
 
-Do you have a comment on this ?
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fdim.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-On Sun, May 19, 2013 at 04:38:43PM +0200, Simon Paillard wrote:
-> See http://bugs.debian.org/463575
-> ---
->  man5/resolv.conf.5 |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-> index 716b345..9f2f3f9 100644
-> --- a/man5/resolv.conf.5
-> +++ b/man5/resolv.conf.5
-> @@ -63,6 +63,7 @@ until a maximum number of retries are made.)
->  \fBdomain\fP Local domain name.
->  Most queries for names within this domain can use short names
->  relative to the local domain.
-> +If set to \(aq.\(aq, the root domain is considered.
->  If no \fBdomain\fP entry is present, the domain is determined
->  from the local hostname returned by
->  .BR gethostname (2);
-> -- 
-> 1.7.10.4
-
+diff --git a/man3/fdim.3 b/man3/fdim.3
+index 62dac84..0f7c619 100644
+--- a/man3/fdim.3
++++ b/man3/fdim.3
+@@ -6,7 +6,7 @@
+ .\" Distributed under GPL
+ .\" %%%LICENSE_END
+ .\"
+-.TH FDIM 3 2010-09-20 "" "Linux Programmer's Manual"
++.TH FDIM 3 2013-07-15 "" "Linux Programmer's Manual"
+ .SH NAME
+ fdim, fdimf, fdiml \- positive difference
+ .SH SYNOPSIS
+@@ -78,6 +78,14 @@ These functions do not set
+ .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6796
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR fdim (),
++.BR fdimf (),
++and
++.BR fdiml ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ .SH SEE ALSO
 -- 
-Simon Paillard
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
