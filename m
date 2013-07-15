@@ -1,53 +1,32 @@
-From: Chuck Coffing <clc-FrUbXkNCsVf2fBVCVOL8/A@public.gmane.org>
-Subject: [PATCH] Fix possible race condition in readlink.2 example
-Date: Mon, 15 Jul 2013 10:19:29 -0600
-Message-ID: <20130715161929.GA22636@server.mountain-tech.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] getpwnam.3: tfix
+Date: Mon, 15 Jul 2013 20:43:00 +0200
+Message-ID: <1373913780-25846-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
-
-I noticed that the example in the readlink.2 man pages does error
-checking for a race condition that would cause the value of the symbolic
-link to get larger.  However, it doesn't handle the opposite case, in
-which the value gets shorter.  (The NULL terminator is always set at the
-old, longer offset.)  This could cause a program to operate on
-uninitialized data.
-
-Here's a patch against 3.52:
-
-
-
->From 3db3021cc137937c79f95d2aa1c2820b20732c22 Mon Sep 17 00:00:00 2001
-From: Chuck Coffing <clc-FrUbXkNCsVf2fBVCVOL8/A@public.gmane.org>
-Date: Mon, 15 Jul 2013 10:11:15 -0600
-Subject: [PATCH] Fix possible race condition in readlink.2 example
-
 ---
- man2/readlink.2 | 2 +-
+ man3/getpwnam.3 |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/readlink.2 b/man2/readlink.2
-index f4ee2cb..9633149 100644
---- a/man2/readlink.2
-+++ b/man2/readlink.2
-@@ -204,7 +204,7 @@ main(int argc, char *argv[])
-         exit(EXIT_FAILURE);
-     }
- 
--    linkname[sb.st_size] = \(aq\\0\(aq;
-+    linkname[r] = \(aq\\0\(aq;
- 
-     printf("\(aq%s\(aq points to \(aq%s\(aq\\n", argv[1], linkname);
- 
+diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
+index 9ee31d6..ae986a8 100644
+--- a/man3/getpwnam.3
++++ b/man3/getpwnam.3
+@@ -220,7 +220,7 @@ The functions
+ .BR getpwnam ()
+ and
+ .BR getpwuid ()
+-are not thread_safe.
++are not thread-safe.
+ .LP
+ The functions
+ .BR getpwnam_r ()
 -- 
-1.8.3.2
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
