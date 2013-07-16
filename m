@@ -1,49 +1,23 @@
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] gets: note that glibc 2.16 has removed the definition
- of gets()
-Date: Tue, 16 Jul 2013 08:22:19 +0200
-Message-ID: <51E4E69B.7070208@gmail.com>
-References: <1373647368-12099-1-git-send-email-shawnlandden@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 0/3] ptrace.2: explain new commands to work with signals
+Date: Tue, 16 Jul 2013 12:19:30 +0400
+Message-ID: <1373962773-2041-1-git-send-email-avagin@openvz.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1373647368-12099-1-git-send-email-shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Shawn Landden <shawnlandden-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, criu-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org, Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Shawn
+Andrey Vagin (3):
+  ptrace.2: place GETSIGINFO and SETSIGINFO near each other
+  ptrace.2: add description for PTRACE_PEEKSIGINFO
+  ptrace.2: add description for PTRACE_{GET,SET}SIGMASK
 
-This isn't really correct. See the CONFORMING TO section in the man-page.
+ man2/ptrace.2 | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 66 insertions(+), 12 deletions(-)
 
-Cheers,
-
-Michael
-
-
-On 07/12/13 18:42, Shawn Landden wrote:
-> ---
->  man3/gets.3 | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/gets.3 b/man3/gets.3
-> index 85747ef..bd65b9c 100644
-> --- a/man3/gets.3
-> +++ b/man3/gets.3
-> @@ -162,7 +162,9 @@ it is extremely dangerous to use.
->  It has been used to break computer security.
->  Use
->  .BR fgets ()
-> -instead.
-> +instead. glibc 2.16 does not define
-> +.BR gets ()
-> +.
->  .PP
->  It is not advisable to mix calls to input functions from the
->  .I stdio
-> 
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
