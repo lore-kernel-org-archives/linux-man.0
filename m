@@ -1,77 +1,103 @@
-From: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Subject: [RFC 2/2] proc.5: Start describing /proc/fdinfo format
-Date: Tue, 16 Jul 2013 01:00:29 +0400
-Message-ID: <1373922029-1923-3-git-send-email-gorcunov@openvz.org>
-References: <1373922029-1923-1-git-send-email-gorcunov@openvz.org>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: perf_event_open() -- improve sysfs files documentation
+Date: Tue, 16 Jul 2013 01:36:43 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1307160134570.31834@vincent-weaver-1.um.maine.edu>
+Mime-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1373922029-1923-1-git-send-email-gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
----
- man5/proc.5 | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index c1e01db..b177bab 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -349,6 +349,49 @@ field is an octal number that displays the
- file access mode and file status flags (see
- .BR open (2)).
+This improves the documentation of the various perf_event_open()
+related sysfs files.
+
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 504e801..e7ddcb2 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -1926,6 +1926,7 @@ The default value is
  
-+The files such as
-+.BR eventfd (2),
-+.BR signalfd (2),
-+.BR epoll (2)
-+among regular
-+.I pos
-+and
-+.I flags
-+fields pair provide additional information specific to the objects
-+they represent (only additional fields are posted here):
-+.in +4n
-+.nf
+ Maximum number of pages an unprivileged user can mlock (2) .
+ The default is 516 (kB).
 +
-+.RB "" "eventfd files"
-+eventfd-count:	5a
+ .RE
+ Files in
+ .I /sys/bus/event_source/devices/
+@@ -1936,30 +1937,59 @@ Information on how to program these PMUs can be found under
+ .IR /sys/bus/event_source/devices/ .
+ Each subdirectory corresponds to a different PMU.
+ .TP
+-.I /sys/bus/event_source/devices/*/type
++.IR /sys/bus/event_source/devices/*/type " (Since Linux 2.6.38)"
+ This contains an integer that can be used in the
+ .I type
+ field of perf_event_attr to indicate you wish to use this PMU.
+ .TP
+-.I /sys/bus/event_source/devices/*/rdpmc
+-[To be documented]
++.IR /sys/bus/event_source/devices/*/rdpmc " (Since Linux 3.4)"
++If this file is 1, then direct user-space access to the 
++performance counter registers is allowed via the rdpmc instruction.
++This can be disabled by echoing 0 to the file.
+ .TP
+-.I /sys/bus/event_source/devices/*/format/
+-This sub-directory contains information on what bits in the
++.IR /sys/bus/event_source/devices/*/format/ " (Since Linux 3.4)"
++This sub-directory contains information on the architecture-specific
++sub-fields available for programming the various
+ .I config
+-field of perf_event_attr correspond to.
+-.TP
+-.I /sys/bus/event_source/devices/*/events/
++fields in the perf_event_attr struct.
 +
-+.RB "" "signalfd files"
-+sigmask:	0000000000000200
++The content of each file is the name of the config field, followed
++by a colon, followed by a series of integer bit ranges separated by
++commas.
++For example, the file 
++.I event
++may contain the value
++.I config1:1,6-10,44
++which indicates that event is an attribute that occupies bits 1,6-10, and 44
++of perf_event_attr::config1.
++.TP
++.IR /sys/bus/event_source/devices/*/events/ " (Since Linux 3.4)"
+ This sub-directory contains files with pre-defined events.
+ The contents are strings describing the event settings
+-expressed in terms of the fields found in the
++expressed in terms of the fields found in the previously mentioned
+ .I ./format/
+ directory.
+ These are not necessarily complete lists of all events supported by
+ a PMU, but usually a subset of events deemed useful or interesting.
 +
-+.RB "" "epoll files"
-+tfd:        5 events:       1d data: ffffffffffffffff
-+
-+.fi
-+.in
-+
-+All fields except
-+.IR tfd
-+are provided in hex format.
-+
-+Former idea of providing additional data was to give user space applications
-+enough information to recreate (or, more precisely, to restore) these objects
-+using appropriate library or system calls.
-+
-+.IR eventfd-count
-+and
-+.IR sigmask
-+represent values of counter and signal mask associated with appropriate files.
-+
-+.IR tfd,
-+.IR events,
-+.IR data
-+represent file descriptor number, event mask and data associated with epoll file.
-+
- The files in this directory are readable only by the owner of the process.
- .\" FIXME document /proc/[pid]/io
- .\" .TP
--- 
-1.8.1.4
-
++The content of each file is a list of attribute names
++separated by commas.  
++Each entry has an optional value (either hex or decimal).  
++If no value is specified than it is assumed to be a single-bit
++field with a value of 1.
++An example entry may look like this:
++.I event=0x2,inv,ldlat=3
+ .TP
+ .I /sys/bus/event_source/devices/*/uevent
+-[To be documented]
++This file is the standard kernel device interface
++for injecting hotplug events.
++.TP
++.IR /sys/bus/event_source/devices/*/cpumask " (Since Linux 3.7)"
++The cpumask file contains a comma-separated list of integers that 
++indicate a representative cpu number for each socket (package)
++on the motherboard.
++This is needed when setting up uncore or northbridge events, as
++those PMUs present socket-wide events.
+ .RE
+ .SH RETURN VALUE
+ .BR perf_event_open ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
