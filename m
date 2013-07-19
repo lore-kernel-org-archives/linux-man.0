@@ -1,35 +1,37 @@
-From: <Felix_Schulte-dDVk9ABzqyjQT0dZR+AlfA@public.gmane.org>
-Subject: Bug in documentation
-Date: Fri, 19 Jul 2013 11:37:51 +0000
-Message-ID: <94A07449C751564EBBCDD7481A3E829E104E60@MIVEXEMEA1N2.corp.nai.org>
+From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] futex.7: broken sentence
+Date: Fri, 19 Jul 2013 14:29:49 +0200
+Message-ID: <51E9313D.1070501@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
-Content-ID: <1E221170D394BF41886E0BF83F2A0304-dDVk9ABzqyjQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+Hello,
 
-The documentation for inotify is a bit misleading
-(http://man7.org/linux/man-pages/man7/inotify.7.html)
+futex(7) man page contains broken sentence. Attached patch proposes one 
+possible fix for this problem.
 
-It says when describing the "mask" field:
-IN_MOVED_FROM     File moved out of watched directory (*).
+peter
 
-The description is not correct, since this event is also fired (on
-read()) when a file is moved *within* the same directory (to a new name)
-and is explicitly *not* *moved out* of the directory.
-
-It's not a big deal, of course, I just was confused about it recently.
-
-Ciao
-Felix
-Firmensitz: Muenchen Amtsgericht: AG Muenchen Handelsregister: HRB 144340 Geschaeftsfuehrer: Timothy James Daly, Jonathan Park, Martin Stecher Bankverbindung: ABN-Amro Bank N.V. Konto 671 211 9006 UST-ID: DE168122444
+diff --git a/man7/futex.7 b/man7/futex.7
+index 31d91a1..2c5b56c 100644
+--- a/man7/futex.7
++++ b/man7/futex.7
+@@ -51,7 +51,7 @@ in which case the application is commonly called 
+multithreaded.
+  .SS Semantics
+  .PP
+  Any futex operation starts in user space,
+-but it may necessary to communicate with the kernel using the
++but it may be necessary to communicate with the kernel using the
+  .BR futex (2)
+  system call.
+  .PP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
