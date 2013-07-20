@@ -1,49 +1,42 @@
 From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] futex.7: broken sentence
-Date: Sat, 20 Jul 2013 22:06:28 +0200
-Message-ID: <51EAEDC4.8050200@gmail.com>
-References: <51E9313D.1070501@redhat.com>
+Subject: Re: [PATCH 2/2] bootparam.7: tfix
+Date: Sat, 20 Jul 2013 22:07:34 +0200
+Message-ID: <51EAEE06.8010304@gmail.com>
+References: <1374113157-4915-1-git-send-email-taffit@debian.org> <1374113157-4915-2-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <51E9313D.1070501-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1374113157-4915-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/19/13 14:29, Peter Schiffer wrote:
-> Hello,
-> 
-> futex(7) man page contains broken sentence. Attached patch proposes one 
-> possible fix for this problem.
-> 
-> peter
-
-Applied. Thanks Peter,
-
-Cheers,
+Applied. Thanks,
 
 Michael
 
 
-> 
-> diff --git a/man7/futex.7 b/man7/futex.7
-> index 31d91a1..2c5b56c 100644
-> --- a/man7/futex.7
-> +++ b/man7/futex.7
-> @@ -51,7 +51,7 @@ in which case the application is commonly called 
-> multithreaded.
->   .SS Semantics
->   .PP
->   Any futex operation starts in user space,
-> -but it may necessary to communicate with the kernel using the
-> +but it may be necessary to communicate with the kernel using the
->   .BR futex (2)
->   system call.
->   .PP
-> 
+On 07/18/13 04:05, David Pr=E9vot wrote:
+> ---
+>  man7/bootparam.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man7/bootparam.7 b/man7/bootparam.7
+> index 89d8f72..b255e01 100644
+> --- a/man7/bootparam.7
+> +++ b/man7/bootparam.7
+> @@ -427,7 +427,7 @@ a 'ramdisk=3DN' parameter to tell its size.
+>  (This could also be set in the kernel image at compile time.)
+>  These days ram disks use the buffer cache, and grow dynamically.
+>  For a lot of information in conjunction with the new ramdisk
+> -setup), see the kernel source file
+> +setup, see the kernel source file
+>  .IR Documentation/blockdev/ramdisk.txt
+>  .RI ( Documentation/ramdisk.txt
+>  in older kernels).
+>=20
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
