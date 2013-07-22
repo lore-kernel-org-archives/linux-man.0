@@ -1,71 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] finite.3: ffix
-Date: Mon, 22 Jul 2013 19:14:05 +0200
-Message-ID: <51ED685D.2020804@gmail.com>
-References: <1374478032-7985-1-git-send-email-penght@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 2/2] perf_event_open.2: cfix
+Date: Mon, 22 Jul 2013 15:01:19 -0400
+Message-ID: <1374519679-1390-2-git-send-email-taffit@debian.org>
+References: <1374519679-1390-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1374478032-7985-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1374519679-1390-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 07/22/13 09:27, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man2/perf_event_open.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks. Applied.
-
-Cheers,
-
-Michael
-
-
-> ---
->  man3/finite.3 | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/finite.3 b/man3/finite.3
-> index 72b8646..81c7146 100644
-> --- a/man3/finite.3
-> +++ b/man3/finite.3
-> @@ -89,21 +89,30 @@ _BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE\ >=\ 600
->  .ad b
->  .SH DESCRIPTION
->  The
-> -.BR finite ()
-> +.BR finite (),
-> +.BR finitef (),
-> +and
-> +.BR finitel ()
->  functions return a nonzero value if
->  .I x
->  is neither infinite
->  nor a "not-a-number" (NaN) value, and 0 otherwise.
->  
->  The
-> -.BR isnan ()
-> +.BR isnan (),
-> +.BR isnanf (),
-> +and
-> +.BR isnanl ()
->  functions return a nonzero value if
->  .I x
->  is a NaN value,
->  and 0 otherwise.
->  
->  The
-> -.BR isinf ()
-> +.BR isinf (),
-> +.BR isinff (),
-> +and
-> +.BR isinfl ()
->  functions return 1 if
->  .I x
->  is positive infinity, \-1 if
-> 
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index b1a7114..ef89b05 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -1673,7 +1673,7 @@ memory hierarchy level hit or miss, a bitwise combination of
+ .B PERF_MEM_LVL_REM_CCE1
+ (remote cache 1 hop),
+ .B PERF_MEM_LVL_REM_CCE2
+-(remote Cache 2 hops),
++(remote cache 2 hops),
+ .B PERF_MEM_LVL_IO
+ (I/O memory), and
+ .B PERF_MEM_LVL_UNC
+-- 
+1.8.3.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
