@@ -1,51 +1,60 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] floor.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 23 Jul 2013 10:52:20 +0800
-Message-ID: <1374547940-18079-1-git-send-email-penght@cn.fujitsu.com>
+From: <Felix_Schulte-dDVk9ABzqyjQT0dZR+AlfA@public.gmane.org>
+Subject: Re: Bug in documentation
+Date: Tue, 23 Jul 2013 09:30:11 +0000
+Message-ID: <94A07449C751564EBBCDD7481A3E829E105AB2@MIVEXEMEA1N2.corp.nai.org>
+References: <94A07449C751564EBBCDD7481A3E829E104E60@MIVEXEMEA1N2.corp.nai.org>
+ <51EB0EFD.40706@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <51EB0EFD.40706-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Language: en-US
+Content-ID: <163F9412FDA8C54EAB2E247117AB24C2-dDVk9ABzqyjQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions floor(), floorf() and floorl() are thread safe.
+Hi Michael,
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/floor.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+your suggestion sounds good to me :)
 
-diff --git a/man3/floor.3 b/man3/floor.3
-index 9bfba32..2dba54a 100644
---- a/man3/floor.3
-+++ b/man3/floor.3
-@@ -24,7 +24,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH FLOOR 3  2010-09-20 "" "Linux Programmer's Manual"
-+.TH FLOOR 3  2013-07-23 "" "Linux Programmer's Manual"
- .SH NAME
- floor, floorf, floorl \- largest integral value not greater than argument
- .SH SYNOPSIS
-@@ -77,6 +77,14 @@ itself is returned.
- .SH ERRORS
- No errors occur.
- POSIX.1-2001 documents a range error for overflows, but see NOTES.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR floor (),
-+.BR floorf (),
-+and
-+.BR floorl ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
--- 
-1.8.3.1
+Ciao
+Felix
 
+On 21.07.2013 00:28, Michael Kerrisk wrote:
+> On 07/19/13 13:37, Felix_Schulte-dDVk9ABzqyjQT0dZR+AlfA@public.gmane.org wrote:
+>> Hi!
+>>
+>> The documentation for inotify is a bit misleading
+>> (http://man7.org/linux/man-pages/man7/inotify.7.html)
+>>
+>> It says when describing the "mask" field:
+>> IN_MOVED_FROM     File moved out of watched directory (*).
+>>
+>> The description is not correct, since this event is also fired (on
+>> read()) when a file is moved *within* the same directory (to a new name)
+>> and is explicitly *not* *moved out* of the directory.
+>>
+>> It's not a big deal, of course, I just was confused about it recently.
+>
+> Hello Felix,
+>
+> I agree, it could be clearer. I revised the text to read:
+>
+>            IN_MOVED_FROM     Generated  for  the  directory containing the
+>                              old filename when a file is renamed (*).
+>            IN_MOVED_TO       Generated for the  directory  containing  the
+>                              new filename when a file is renamed (*).
+>
+> Okay?
+>
+> Cheers,
+>
+> Michael
+>
+Firmensitz: Muenchen Amtsgericht: AG Muenchen Handelsregister: HRB 144340 Geschaeftsfuehrer: Timothy James Daly, Jonathan Park, Martin Stecher Bankverbindung: ABN-Amro Bank N.V. Konto 671 211 9006 UST-ID: DE168122444
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
