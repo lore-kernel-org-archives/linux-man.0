@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 60602] clock_gettime(): Note on SMP systems outdated ?
-Date: Tue, 23 Jul 2013 13:24:12 +0000
-Message-ID: <bug-60602-11311-tzx3GBVuo6@https.bugzilla.kernel.org/>
+Date: Tue, 23 Jul 2013 13:25:29 +0000
+Message-ID: <bug-60602-11311-kIM28eiMBD@https.bugzilla.kernel.org/>
 References: <bug-60602-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,10 +14,15 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=60602
 
---- Comment #1 from Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> ---
-Created attachment 106998
-  --> https://bugzilla.kernel.org/attachment.cgi?id=106998&action=edit
-clock_getres.2: Remove obsolete note on SMP systems
+--- Comment #2 from Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> ---
+As confirmed by peterz on IRC, the note is obsolete. The attached patch fixes
+it by just removing the note.
+
+
+
+
+Thanks a lot,
+Rodrigo
 
 -- 
 You are receiving this mail because:
