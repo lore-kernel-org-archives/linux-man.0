@@ -1,63 +1,27 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] floor.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 23 Jul 2013 13:27:53 +0200
-Message-ID: <51EE68B9.9020900@gmail.com>
-References: <1374547940-18079-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 60602] clock_gettime(): Note on SMP systems outdated ?
+Date: Tue, 23 Jul 2013 13:24:12 +0000
+Message-ID: <bug-60602-11311-tzx3GBVuo6@https.bugzilla.kernel.org/>
+References: <bug-60602-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1374547940-18079-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-60602-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/23/13 04:52, Peng Haitao wrote:
-> The functions floor(), floorf() and floorl() are thread safe.
+https://bugzilla.kernel.org/show_bug.cgi?id=60602
 
-Thanks. Applied.
+--- Comment #1 from Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> ---
+Created attachment 106998
+  --> https://bugzilla.kernel.org/attachment.cgi?id=106998&action=edit
+clock_getres.2: Remove obsolete note on SMP systems
 
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/floor.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/floor.3 b/man3/floor.3
-> index 9bfba32..2dba54a 100644
-> --- a/man3/floor.3
-> +++ b/man3/floor.3
-> @@ -24,7 +24,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH FLOOR 3  2010-09-20 "" "Linux Programmer's Manual"
-> +.TH FLOOR 3  2013-07-23 "" "Linux Programmer's Manual"
->  .SH NAME
->  floor, floorf, floorl \- largest integral value not greater than argument
->  .SH SYNOPSIS
-> @@ -77,6 +77,14 @@ itself is returned.
->  .SH ERRORS
->  No errors occur.
->  POSIX.1-2001 documents a range error for overflows, but see NOTES.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR floor (),
-> +.BR floorf (),
-> +and
-> +.BR floorl ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
-> 
-
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
