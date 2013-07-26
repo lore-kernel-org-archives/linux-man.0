@@ -1,44 +1,60 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: perf_event_open.2 : fix indentation of the MMAP layout section
-Date: Thu, 25 Jul 2013 22:38:35 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1307252238220.27580@vincent-weaver-1.um.maine.edu>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
+Subject: [PATCH] udp.7: Add missing #include directive.
+Date: Fri, 26 Jul 2013 10:58:45 -0400
+Message-ID: <1374850725-11310-1-git-send-email-bpoirier@suse.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Using the UDP_CORK socket option documented in udp.7 requires including
+<netinet/udp.h>.
 
-The indentation of the MMAP layout section wasn't quite right.
-I think this improves things but I admit I'm not an expert at the
-low-level indentation directives.
+Signed-off-by: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
+---
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Here's a small test program:
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index b1a7114..20e2d71 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1749,8 +1749,8 @@ Sample happened in the guest kernel.
- Sample happened in guest user code.
- .RE
- 
--In addition, one of the following bits can be set:
- .RS
-+In addition, one of the following bits can be set:
- .TP
- .B PERF_RECORD_MISC_MMAP_DATA
- This is set when the mapping is not executable;
-@@ -1766,6 +1766,7 @@ See also
- .TP
- .B PERF_RECORD_MISC_EXT_RESERVED
- This indicates there is extended data available (currently not used).
-+.RE
- .TP
- .I size
- This indicates the size of the record.
+<<<<<<<< minicork.c
+#include <netinet/in.h>
+#include <netinet/ip.h>
+//#include <netinet/udp.h>
+
+
+int main()
+{
+	int fd, option;
+
+	fd = socket(AF_INET, SOCK_DGRAM, 0);
+
+	option = 1;
+	setsockopt(fd, IPPROTO_UDP, UDP_CORK, &option, sizeof(option));
+
+	return 0;
+}
+>>>>>>>>
+
+---
+ man7/udp.7 |    2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/man7/udp.7 b/man7/udp.7
+index 313c78d..e2e723a 100644
+--- a/man7/udp.7
++++ b/man7/udp.7
+@@ -16,6 +16,8 @@ udp \- User Datagram Protocol for IPv4
+ .B #include <sys/socket.h>
+ .br
+ .B #include <netinet/in.h>
++.br
++.B #include <netinet/udp.h>
+ .sp
+ .B udp_socket = socket(AF_INET, SOCK_DGRAM, 0);
+ .SH DESCRIPTION
+-- 
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
