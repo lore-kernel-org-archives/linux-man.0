@@ -1,55 +1,70 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: perf_event_open.2 : fix indentation of the MMAP layout section
-Date: Sat, 27 Jul 2013 12:17:08 +0200
-Message-ID: <51F39E24.1040206@gmail.com>
-References: <alpine.DEB.2.10.1307252238220.27580@vincent-weaver-1.um.maine.edu>
+Subject: Re: [PATCH] udp.7: Add missing #include directive.
+Date: Sat, 27 Jul 2013 12:18:13 +0200
+Message-ID: <51F39E65.6080807@gmail.com>
+References: <1374850725-11310-1-git-send-email-bpoirier@suse.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.10.1307252238220.27580-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+In-Reply-To: <1374850725-11310-1-git-send-email-bpoirier-l3A5Bk7waGM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/26/13 04:38, Vince Weaver wrote:
-> 
-> The indentation of the MMAP layout section wasn't quite right.
-> I think this improves things but I admit I'm not an expert at the
-> low-level indentation directives.
+On 07/26/13 16:58, Benjamin Poirier wrote:
+> Using the UDP_CORK socket option documented in udp.7 requires including
+> <netinet/udp.h>.
 
-Thanks, Vince. Applied.
+Thanks, Benjamin. Applied.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> Signed-off-by: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
+> ---
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index b1a7114..20e2d71 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -1749,8 +1749,8 @@ Sample happened in the guest kernel.
->  Sample happened in guest user code.
->  .RE
->  
-> -In addition, one of the following bits can be set:
->  .RS
-> +In addition, one of the following bits can be set:
->  .TP
->  .B PERF_RECORD_MISC_MMAP_DATA
->  This is set when the mapping is not executable;
-> @@ -1766,6 +1766,7 @@ See also
->  .TP
->  .B PERF_RECORD_MISC_EXT_RESERVED
->  This indicates there is extended data available (currently not used).
-> +.RE
->  .TP
->  .I size
->  This indicates the size of the record.
+> Here's a small test program:
+> 
+> <<<<<<<< minicork.c
+> #include <netinet/in.h>
+> #include <netinet/ip.h>
+> //#include <netinet/udp.h>
+> 
+> 
+> int main()
+> {
+> 	int fd, option;
+> 
+> 	fd = socket(AF_INET, SOCK_DGRAM, 0);
+> 
+> 	option = 1;
+> 	setsockopt(fd, IPPROTO_UDP, UDP_CORK, &option, sizeof(option));
+> 
+> 	return 0;
+> }
+>>>>>>>>>
+> 
+> ---
+>  man7/udp.7 |    2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/man7/udp.7 b/man7/udp.7
+> index 313c78d..e2e723a 100644
+> --- a/man7/udp.7
+> +++ b/man7/udp.7
+> @@ -16,6 +16,8 @@ udp \- User Datagram Protocol for IPv4
+>  .B #include <sys/socket.h>
+>  .br
+>  .B #include <netinet/in.h>
+> +.br
+> +.B #include <netinet/udp.h>
+>  .sp
+>  .B udp_socket = socket(AF_INET, SOCK_DGRAM, 0);
+>  .SH DESCRIPTION
 > 
 
 --
