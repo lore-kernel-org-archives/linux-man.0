@@ -1,71 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] udp.7: Add missing #include directive.
-Date: Sat, 27 Jul 2013 12:18:13 +0200
-Message-ID: <51F39E65.6080807@gmail.com>
-References: <1374850725-11310-1-git-send-email-bpoirier@suse.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fma.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 30 Jul 2013 09:54:34 +0800
+Message-ID: <1375149274-23768-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1374850725-11310-1-git-send-email-bpoirier-l3A5Bk7waGM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/26/13 16:58, Benjamin Poirier wrote:
-> Using the UDP_CORK socket option documented in udp.7 requires including
-> <netinet/udp.h>.
+The functions fma(), fmaf() and fmal() are thread safe.
 
-Thanks, Benjamin. Applied.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fma.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Benjamin Poirier <bpoirier-l3A5Bk7waGM@public.gmane.org>
-> ---
-> 
-> Here's a small test program:
-> 
-> <<<<<<<< minicork.c
-> #include <netinet/in.h>
-> #include <netinet/ip.h>
-> //#include <netinet/udp.h>
-> 
-> 
-> int main()
-> {
-> 	int fd, option;
-> 
-> 	fd = socket(AF_INET, SOCK_DGRAM, 0);
-> 
-> 	option = 1;
-> 	setsockopt(fd, IPPROTO_UDP, UDP_CORK, &option, sizeof(option));
-> 
-> 	return 0;
-> }
->>>>>>>>>
-> 
-> ---
->  man7/udp.7 |    2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/man7/udp.7 b/man7/udp.7
-> index 313c78d..e2e723a 100644
-> --- a/man7/udp.7
-> +++ b/man7/udp.7
-> @@ -16,6 +16,8 @@ udp \- User Datagram Protocol for IPv4
->  .B #include <sys/socket.h>
->  .br
->  .B #include <netinet/in.h>
-> +.br
-> +.B #include <netinet/udp.h>
->  .sp
->  .B udp_socket = socket(AF_INET, SOCK_DGRAM, 0);
->  .SH DESCRIPTION
-> 
+diff --git a/man3/fma.3 b/man3/fma.3
+index 29bb670..e7c065f 100644
+--- a/man3/fma.3
++++ b/man3/fma.3
+@@ -9,7 +9,7 @@
+ .\" Modified 2004-11-15, Added further text on FLT_ROUNDS
+ .\" 	as suggested by AEB and Fabian Kreutz
+ .\"
+-.TH FMA 3  2010-09-20 "" "Linux Programmer's Manual"
++.TH FMA 3  2013-07-30 "" "Linux Programmer's Manual"
+ .SH NAME
+ fma, fmaf, fmal \- floating-point multiply and add
+ .SH SYNOPSIS
+@@ -153,6 +153,14 @@ These functions do not set
+ .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6801
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR fma (),
++.BR fmaf (),
++and
++.BR fmal ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ .SH SEE ALSO
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
