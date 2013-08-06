@@ -1,48 +1,51 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] frexp.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 6 Aug 2013 13:43:23 +0800
-Message-ID: <1375767803-3761-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] fpclassify.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 6 Aug 2013 16:37:44 +0800
+Message-ID: <1375778264-9177-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions frexp(), frexpf() and frexpl() are thread safe.
+The functions fpclassify(), isfinite(), isnormal(), isnan(), and
+isinf() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/frexp.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ man3/fpclassify.3 | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/man3/frexp.3 b/man3/frexp.3
-index fdd8430..c75d545 100644
---- a/man3/frexp.3
-+++ b/man3/frexp.3
-@@ -30,7 +30,7 @@
- .\" Modified 2002-07-27 by Walter Harms
- .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+diff --git a/man3/fpclassify.3 b/man3/fpclassify.3
+index d4414d3..86d3c3c 100644
+--- a/man3/fpclassify.3
++++ b/man3/fpclassify.3
+@@ -7,7 +7,7 @@
+ .\" This was done with the help of the glibc manual.
  .\"
--.TH FREXP 3 2010-09-20 "" "Linux Programmer's Manual"
-+.TH FREXP 3 2013-08-06 "" "Linux Programmer's Manual"
+ .\" 2004-10-31, aeb, corrected
+-.TH FPCLASSIFY 3  2010-09-20 "" "Linux Programmer's Manual"
++.TH FPCLASSIFY 3  2013-08-06 "" "Linux Programmer's Manual"
  .SH NAME
- frexp, frexpf, frexpl \- convert floating-point number to fractional
- and integral components
-@@ -105,6 +105,14 @@ positive infinity (negative infinity) is returned, and the value of
- is unspecified.
- .SH ERRORS
- No errors occur.
+ fpclassify, isfinite, isnormal, isnan, isinf \- floating-point
+ classification macros
+@@ -115,6 +115,16 @@ returns 1 if
+ is positive infinity, and \-1 if
+ .I x
+ is negative infinity.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR frexp (),
-+.BR frexpf (),
++.BR fpclassify (),
++.BR isfinite (),
++.BR isnormal (),
++.BR isnan (),
 +and
-+.BR frexpl ()
-+functions are thread-safe.
++.BR isinf ()
++macros are thread-safe.
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
+ C99, POSIX.1.
+ 
 -- 
 1.8.3.1
 
