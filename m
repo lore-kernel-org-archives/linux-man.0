@@ -1,49 +1,48 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] ip.7: IP_MULTICAST_IF setsockopt recognizes struct mreq
- (compatibility)
-Date: Mon, 5 Aug 2013 23:11:38 +0200
-Message-ID: <20130805211138.GI20063@mraw.org>
-References: <1368831532-8327-1-git-send-email-spaillard@debian.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Subject: [PATCH] dir_colors.5: keywords SUID, SGID, STICKY, STICKY_OTHER_WRITABLE, OTHER_WRITABLE
+Date: Tue,  6 Aug 2013 02:14:42 +0200
+Message-ID: <1375748082-21280-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1368831532-8327-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+See http://bugs.debian.org/553477
+See ls.c and dircolors.c in coreutils
+---
+ man5/dir_colors.5 |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-What is your feedback regarding the patch below ?
-
-On Sat, May 18, 2013 at 12:58:52AM +0200, Simon Paillard wrote:
-> Kernel added compatibility only recently in
-> 3a084ddb4bf299a6e898a9a07c89f3917f0713f7
-> See: http://bugs.debian.org/607979
-> ---
->  man7/ip.7 |    3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/man7/ip.7 b/man7/ip.7
-> index d5036ea..39715a3 100644
-> --- a/man7/ip.7
-> +++ b/man7/ip.7
-> @@ -542,6 +542,9 @@ Argument is an
->  .I ip_mreqn
->  or
->  .I ip_mreq
-> +.\" net: IP_MULTICAST_IF setsockopt now recognizes struct mreq
-> +.\" Commit: 3a084ddb4bf299a6e898a9a07c89f3917f0713f7
-> +(since Linux 3.5)
->  structure similar to
->  .BR IP_ADD_MEMBERSHIP .
->  .IP
-> -- 
-> 1.7.10.4
-
+diff --git a/man5/dir_colors.5 b/man5/dir_colors.5
+index b81dc4f..162c739 100644
+--- a/man5/dir_colors.5
++++ b/man5/dir_colors.5
+@@ -149,6 +149,21 @@ Specifies the color used for a character device special file.
+ .B EXEC \fIcolor-sequence\fR
+ Specifies the color used for a file with the executable attribute set.
+ .TP
++.B SUID \fIcolor-sequence\fR
++Specifies the color used for a file with the set-user-ID attribute set.
++.TP
++.B SGID \fIcolor-sequence\fR
++Specifies the color used for a file with the set-group-ID attribute set.
++.TP
++.B STICKY \fIcolor-sequence\fR
++Specifies the color used for a directory with the sticky attribute set.
++.TP
++.B STICKY_OTHER_WRITABLE \fIcolor-sequence\fR
++Specifies the color used for a other-writable directory with the executable attribute set.
++.TP
++.B OTHER_WRITABLE \fIcolor-sequence\fR
++Specifies the color used for a other-writable directory without the executable attribute set.
++.TP
+ .B LEFTCODE \fIcolor-sequence\fR
+ Specifies the
+ .I "left code"
 -- 
-Simon Paillard
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
