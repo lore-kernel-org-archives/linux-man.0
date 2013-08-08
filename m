@@ -1,112 +1,65 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] open: Document O_TMPFILE
-Date: Thu, 8 Aug 2013 14:00:18 +0200
-Message-ID: <CAKgNAkjE5tmeRJMMXpEc1mGz0pyPrt5PL5pkUjViunhtcC2W3A@mail.gmail.com>
-References: <3bec865ec3205e23c997ddc2c9bbacf0e53b0d18.1375896634.git.luto@amacapital.net>
-Reply-To: mtk.manpages@gmail.com
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] frexp.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 08 Aug 2013 10:20:13 +0200
+Message-ID: <520354BD.4020009@gmail.com>
+References: <1375767803-3761-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <3bec865ec3205e23c997ddc2c9bbacf0e53b0d18.1375896634.git.luto@amacapital.net>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: linux-man <linux-man@vger.kernel.org>, Christoph Hellwig <hch@infradead.org>, Al Viro <viro@zeniv.linux.org.uk>, Jeff Layton <jlayton@redhat.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1375767803-3761-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[CC list expanded a littlle]
+On 08/06/13 07:43, Peng Haitao wrote:
+> The functions frexp(), frexpf() and frexpl() are thread safe.
 
-Andy (et al.)
+Applied.
 
-See comments below.
-
-On Wed, Aug 7, 2013 at 7:31 PM, Andy Lutomirski <luto@amacapital.net> wrote:
-> O_TMPFILE is new in Linux 3.11
->
-> Signed-off-by: Andy Lutomirski <luto@amacapital.net>
-> ---
->
-> This may have formatting issues -- I'm terrible at groff.
->
-> If the corresponding linkat patch makes it in, it would probably be
-> worth documenting as well:
->
-> https://git.kernel.org/cgit/linux/kernel/git/viro/vfs.git/commit/?h=for-linus&id=bb2314b47996491bbc5add73633905c3120b6268
->
->  man2/open.2 | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/open.2 b/man2/open.2
-> index ef0f664..8bf56a0 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -126,6 +126,7 @@ are
->  .BR O_EXCL ,
->  .BR O_NOCTTY ,
->  .BR O_NOFOLLOW ,
-> +.BR O_TMPFILE ,
->  .BR O_TRUNC ,
->  and
->  .BR O_TTY_INIT .
-> @@ -226,11 +227,15 @@ described in
->  specifies the permissions to use in case a new file is created.
->  This argument must be supplied when
->  .B O_CREAT
-> +or
-> +.B O_TMPFILE
->  is specified in
->  .IR flags ;
-> -if
-> +if neither
->  .B O_CREAT
-> -is not specified, then
-> +nor
-> +.B O_TMPFILE
-> +is specified, then
->  .I mode
->  is ignored.
->  The effective permissions are modified by
-> @@ -284,6 +289,29 @@ The following symbolic constants are provided for
->  00001 others have execute permission
->  .RE
->  .TP
-> +.BR O_TMPFILE " (Since Linux 3.11)"
-> +Create an unnamed temporary file.  The pathname parameter specifies a
-> +directory; an unnamed inode will be created in that directory's
-> +filesystem.  Anything written to the resulting file will be lost when
-> +the last fd is closed, unless the file is given a name.
-> +.RS
-> +.PP
-> +.B O_TMPFILE
-> +must be specified with one of
-> +.B O_RDWR
-> +or
-> +.B O_WRONLY
-> +and, optionally,
-> +.B O_EXCL.
-> +If O_EXCL is not specified, then
-> +.BR linkat (2)
-> +can be used to link the temporary file into the filesystem, making it
-> +permanent.
-> +.PP
-> +The mode parameter determines the inode's mode, as with
-> +.B O_CREAT.
-> +.RE
-> +.TP
->  .BR O_DIRECT " (Since Linux 2.4.10)"
->  Try to minimize cache effects of the I/O to and from this file.
->  In general this will degrade performance, but it is useful in
-
-See my reply to the thread started by Christoph Hellwig
-(https://lwn.net/Articles/562297/). I've taken your man-pages patch,
-and applied it in a branch. I tweaked the language and formatting a
-bit, and also added documentation of the EINVAL and EISDIR (ick!)
-error cases.
-
-As noted in the other thread, the API is questionable in the opinion
-of a few people. Maybe it will change, and this man-pages patch will
-need some further tweaking. If that doesn't happen, I'll merge it as
-is, at the time of the 3.11 stable release.
-
-Cheers,
+Thanks,
 
 Michael
+
+
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/frexp.3 | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/frexp.3 b/man3/frexp.3
+> index fdd8430..c75d545 100644
+> --- a/man3/frexp.3
+> +++ b/man3/frexp.3
+> @@ -30,7 +30,7 @@
+>  .\" Modified 2002-07-27 by Walter Harms
+>  .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+>  .\"
+> -.TH FREXP 3 2010-09-20 "" "Linux Programmer's Manual"
+> +.TH FREXP 3 2013-08-06 "" "Linux Programmer's Manual"
+>  .SH NAME
+>  frexp, frexpf, frexpl \- convert floating-point number to fractional
+>  and integral components
+> @@ -105,6 +105,14 @@ positive infinity (negative infinity) is returned, and the value of
+>  is unspecified.
+>  .SH ERRORS
+>  No errors occur.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR frexp (),
+> +.BR frexpf (),
+> +and
+> +.BR frexpl ()
+> +functions are thread-safe.
+>  .SH CONFORMING TO
+>  C99, POSIX.1-2001.
+>  The variant returning
+> 
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
