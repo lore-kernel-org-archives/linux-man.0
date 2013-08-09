@@ -1,57 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] syscall.2: clarify example, add missing parameter
-Date: Fri, 09 Aug 2013 09:34:59 +0200
-Message-ID: <52049BA3.4080109@gmail.com>
-References: <CALiXj0BkB-0bSw6gcDnCFDkqO0_7836=a0kCOQF0gAzaG6cUQQ@mail.gmail.com>
+Subject: Re: [PATCH] syscall.2: correct registers for arm/EABI
+Date: Fri, 9 Aug 2013 09:41:16 +0200
+Message-ID: <CAKgNAkiMpPwFR=CFGvF+-bCAwvscUFdG8HFsLZPnb50ZOdQASA@mail.gmail.com>
+References: <CALiXj0DSRYwxa07h3uOgk7FB8BssaWmwWmnzLYwUvtaNqSgpsg@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALiXj0BkB-0bSw6gcDnCFDkqO0_7836=a0kCOQF0gAzaG6cUQQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALiXj0DSRYwxa07h3uOgk7FB8BssaWmwWmnzLYwUvtaNqSgpsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Johan Erlandsson <jeoerl-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Johan Erlandsson <jeoerl-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/09/13 01:53, Johan Erlandsson wrote:
-> An attempt to clarify example by adding a missing parameter.
+[CC += Mike F]
 
-Thanks. for the note. I've applied the patch, but it looks like your
-mailer mangled it, so I had to do that manually.
+On Fri, Aug 9, 2013 at 1:59 AM, Johan Erlandsson <jeoerl-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Registers was off by one.
+
+I'd like some more eyes on this. Mike, does this look good to you?
 
 Cheers,
 
 Michael
 
-> 
+
+> Reference:
+> http://www.arm.linux.org.uk/developer/patches/viewpatch.php?id=3105/4
 > ---
->  man2/syscall.2 |    3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
+>  man2/syscall.2 |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 > diff --git a/man2/syscall.2 b/man2/syscall.2
-> index 0560634..1cca9ce 100644
+> index 1cca9ce..a4a243d 100644
 > --- a/man2/syscall.2
 > +++ b/man2/syscall.2
-> @@ -205,6 +205,7 @@ architectures may indiscriminately clobber other
-> registers not listed here.
->  #include <unistd.h>
->  #include <sys/syscall.h>
->  #include <sys/types.h>
-> +#include <signal.h>
-> 
->  int
->  main(int argc, char *argv[])
-> @@ -212,7 +213,7 @@ main(int argc, char *argv[])
->      pid_t tid;
-> 
->      tid = syscall(SYS_gettid);
-> -    tid = syscall(SYS_tgkill, getpid(), tid);
-> +    tid = syscall(SYS_tgkill, getpid(), tid, SIGHUP);
->  }
->  .fi
->  .SH SEE ALSO
-> 
+> @@ -156,7 +156,7 @@ l l1 l l1 l.
+>  arch/ABI       instruction     syscall #       retval  Notes
+>  _
+>  arm/OABI       swi NR  -       a1      NR is syscall #
+> -arm/EABI       swi 0x0 r7      r1
+> +arm/EABI       swi 0x0 r7      r0
+>  blackfin       excpt 0x0       P0      R0
+>  i386   int $0x80       eax     eax
+>  ia64   break 0x100000  r15     r10/r8
+> @@ -181,7 +181,7 @@ l l l l l l l l.
+>  arch/ABI       arg1    arg2    arg3    arg4    arg5    arg6    arg7
+>  _
+>  arm/OABI       a1      a2      a3      a4      v1      v2      v3
+> -arm/EABI       r1      r2      r3      r4      r5      r6      r7
+> +arm/EABI       r0      r1      r2      r3      r4      r5      r6
+>  blackfin       R0      R1      R2      R3      R4      R5      -
+>  i386   ebx     ecx     edx     esi     edi     ebp     -
+>  ia64   r11     r9      r10     r14     r15     r13     -
+> --
+> 1.7.9.5
 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
