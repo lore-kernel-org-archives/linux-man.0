@@ -1,60 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] syscall.2: correct registers for arm/EABI
-Date: Fri, 9 Aug 2013 09:41:16 +0200
-Message-ID: <CAKgNAkiMpPwFR=CFGvF+-bCAwvscUFdG8HFsLZPnb50ZOdQASA@mail.gmail.com>
-References: <CALiXj0DSRYwxa07h3uOgk7FB8BssaWmwWmnzLYwUvtaNqSgpsg@mail.gmail.com>
+Subject: Re: open(2) man-page in version 3.53
+Date: Fri, 9 Aug 2013 09:49:54 +0200
+Message-ID: <CAKgNAki+hxsqaxjndHJr1cUyJOb8ABhjnbUXqeo7DbtNBfo51g@mail.gmail.com>
+References: <52024BFF.6000200@fixnetix.com> <52024C90.8030104@fixnetix.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALiXj0DSRYwxa07h3uOgk7FB8BssaWmwWmnzLYwUvtaNqSgpsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <52024C90.8030104-uV1bammHdgpWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Johan Erlandsson <jeoerl-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: Robert Harris <robert.harris-uV1bammHdgpWk0Htik3J/w@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC += Mike F]
+On Wed, Aug 7, 2013 at 3:33 PM, Robert Harris
+<robert.harris-uV1bammHdgpWk0Htik3J/w@public.gmane.org> wrote:
+>
+>
+> Sorry, a slip of the programming finger: correct patch is attached here.
 
-On Fri, Aug 9, 2013 at 1:59 AM, Johan Erlandsson <jeoerl-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Registers was off by one.
+Actually, the second patch also seems to be wrong. But I take the
+point: mmap(2) should be in the list of calls that fail when given an
+O_PATH descriptor. I've manually applied the change.
 
-I'd like some more eyes on this. Mike, does this look good to you?
-
-Cheers,
+Thanks!
 
 Michael
 
-
-> Reference:
-> http://www.arm.linux.org.uk/developer/patches/viewpatch.php?id=3105/4
-> ---
->  man2/syscall.2 |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> -------- Original Message --------
+> Subject: open(2) man-page in version 3.53
+> Date: Wed, 07 Aug 2013 14:30:39 +0100
+> From: Robert Harris <robert.harris-uV1bammHdgpWk0Htik3J/w@public.gmane.org>
+> To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+> CC: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 >
-> diff --git a/man2/syscall.2 b/man2/syscall.2
-> index 1cca9ce..a4a243d 100644
-> --- a/man2/syscall.2
-> +++ b/man2/syscall.2
-> @@ -156,7 +156,7 @@ l l1 l l1 l.
->  arch/ABI       instruction     syscall #       retval  Notes
->  _
->  arm/OABI       swi NR  -       a1      NR is syscall #
-> -arm/EABI       swi 0x0 r7      r1
-> +arm/EABI       swi 0x0 r7      r0
->  blackfin       excpt 0x0       P0      R0
->  i386   int $0x80       eax     eax
->  ia64   break 0x100000  r15     r10/r8
-> @@ -181,7 +181,7 @@ l l l l l l l l.
->  arch/ABI       arg1    arg2    arg3    arg4    arg5    arg6    arg7
->  _
->  arm/OABI       a1      a2      a3      a4      v1      v2      v3
-> -arm/EABI       r1      r2      r3      r4      r5      r6      r7
-> +arm/EABI       r0      r1      r2      r3      r4      r5      r6
->  blackfin       R0      R1      R2      R3      R4      R5      -
->  i386   ebx     ecx     edx     esi     edi     ebp     -
->  ia64   r11     r9      r10     r14     r15     r13     -
+>
+> The list of system calls that fail with a file descriptor opened with the O_PATH flag set should include mmap(2). Patch is attached.
+>
+> With best wishes,
+>
+> Robert
 > --
-> 1.7.9.5
+> Robert Harris
+> Software Development
+> Fixnetix Ltd
+> 33 King William Street
+> London EC4R 9AS
+> DDI: +44 (0) 20 3008 5032
+> email: robert.harris-uV1bammHdgpWk0Htik3J/w@public.gmane.org
+> web: www.fixnetix.com
+>
+>
 
 
 
