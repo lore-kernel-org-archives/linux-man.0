@@ -1,63 +1,96 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug#553477: [PATCH] dir_colors.5: keywords SUID, SGID, STICKY,
- STICKY_OTHER_WRITABLE, OTHER_WRITABLE
-Date: Fri, 09 Aug 2013 12:08:01 +0200
-Message-ID: <5204BF81.6040400@gmail.com>
-References: <1375748082-21280-1-git-send-email-spaillard@debian.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Subject: [PATCH] open,linkat: Update AT_EMPTY_PATH and O_PATH documentation
+Date: Fri,  9 Aug 2013 11:58:13 -0700
+Message-ID: <818bf4803d4c8d20fa78a485bc57f8240a4f89b8.1376074657.git.luto@amacapital.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1375748082-21280-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, 553477-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, debc <control-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-tags 553477 fixed-upstream
-thanks
+The current text reflects the general worry in the kernel about
+recipients of O_PATH fds being able to hardlink the referenced files.
+It turns out that it was possible to link these files regardless of
+any possible security concerns.
 
-Simon, I have applied this patch, and also added the various synonyms that
-the reporter, Stas, pointed out.
+Linux 3.11 removes the capability chech in AT_EMPTY_PATH.  I expect
+that this functionality will be generally useful, so let's document it
+better.
 
-Cheers,
+Signed-off-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+---
+ man2/linkat.2 | 28 ++++++++++++++++++----------
+ man2/open.2   |  8 +++++++-
+ 2 files changed, 25 insertions(+), 11 deletions(-)
 
-Michael
-
-On 08/06/13 02:14, Simon Paillard wrote:
-> See http://bugs.debian.org/553477
-> See ls.c and dircolors.c in coreutils
-> ---
->  man5/dir_colors.5 |   15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/man5/dir_colors.5 b/man5/dir_colors.5
-> index b81dc4f..162c739 100644
-> --- a/man5/dir_colors.5
-> +++ b/man5/dir_colors.5
-> @@ -149,6 +149,21 @@ Specifies the color used for a character device special file.
->  .B EXEC \fIcolor-sequence\fR
->  Specifies the color used for a file with the executable attribute set.
->  .TP
-> +.B SUID \fIcolor-sequence\fR
-> +Specifies the color used for a file with the set-user-ID attribute set.
-> +.TP
-> +.B SGID \fIcolor-sequence\fR
-> +Specifies the color used for a file with the set-group-ID attribute set.
-> +.TP
-> +.B STICKY \fIcolor-sequence\fR
-> +Specifies the color used for a directory with the sticky attribute set.
-> +.TP
-> +.B STICKY_OTHER_WRITABLE \fIcolor-sequence\fR
-> +Specifies the color used for a other-writable directory with the executable attribute set.
-> +.TP
-> +.B OTHER_WRITABLE \fIcolor-sequence\fR
-> +Specifies the color used for a other-writable directory without the executable attribute set.
-> +.TP
->  .B LEFTCODE \fIcolor-sequence\fR
->  Specifies the
->  .I "left code"
-> 
+diff --git a/man2/linkat.2 b/man2/linkat.2
+index 701d341..003204d 100644
+--- a/man2/linkat.2
++++ b/man2/linkat.2
+@@ -110,16 +110,16 @@ is an empty string, create a link to the file referenced by
+ flag).
+ In this case,
+ .I olddirfd
+-can refer to any type of file, not just a directory.
+-The caller must have the
++can refer to any type of file, not just a directory.  This will
++generally not work if the file has a link count of zero (files
++created with
++.BR O_TMPFILE
++and without
++.BR O_EXCL
++are an exception).  Prior to
++Linux 3.11, the caller must have the
+ .BR CAP_DAC_READ_SEARCH
+-capability in order to use this flag;
+-this prevents arbitrary users from creating hard links
+-using file descriptors received via a UNIX domain socket
+-(see the discussion of
+-.BR SCM_RIGHTS
+-in
+-.BR unix (7)).
++capability in order to use this flag.
+ .TP
+ .BR AT_SYMLINK_FOLLOW " (since Linux 2.6.18)"
+ By default,
+@@ -134,7 +134,15 @@ can be specified in
+ .I flags
+ to cause
+ .I oldpath
+-to be dereferenced if it is a symbolic link.
++to be dereferenced if it is a symbolic link.  If procfs is mounted,
++this can be used as an alternative to AT_EMPTY_PATH, even by
++unprivileged processes on Linux versions before 3.11, like this:
++.RS
++.PP
++.EX
++linkat(AT_FDCWD, "/proc/self/fd/<fd>", newdirfd, newname, AT_SYMLINK_FOLLOW);
++.EE
++.RE
+ .PP
+ Before kernel 2.6.18, the
+ .I flags
+diff --git a/man2/open.2 b/man2/open.2
+index 9ebc0a0..cb5d489 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -499,7 +499,13 @@ Passing the file descriptor as the
+ .IR dirfd
+ argument of
+ .BR openat (2)
+-and the other "*at()" system calls.
++and the other "*at()" system calls.  This includes
++.BR linkat (2)
++with
++.BR AT_EMPTY_PATH
++(or via procfs using
++.BR AT_SYMLINK_FOLLOW )
++even if the file is not a directory.
+ .IP *
+ Passing the file descriptor to another process via a UNIX domain socket
+ (see
+-- 
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
