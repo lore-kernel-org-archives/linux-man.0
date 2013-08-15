@@ -1,8 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60744] New: waitid man page does not document the 5th argument
- "struct rusage*"
-Date: Wed, 14 Aug 2013 16:15:51 +0000
-Message-ID: <bug-60744-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 60749] New: Do not need to link against -lm for fabs*()
+Date: Thu, 15 Aug 2013 20:36:52 +0000
+Message-ID: <bug-60749-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -11,37 +10,66 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60744
+https://bugzilla.kernel.org/show_bug.cgi?id=60749
 
-            Bug ID: 60744
-           Summary: waitid man page does not document the 5th argument
-                    "struct rusage*"
+            Bug ID: 60749
+           Summary: Do not need to link against -lm for fabs*()
            Product: Documentation
            Version: unspecified
           Hardware: All
                 OS: Linux
             Status: NEW
-          Severity: normal
+          Severity: low
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: hannes-AXwPPc4i43WoxJ3sLSulrA@public.gmane.org
+          Reporter: orion-CVdf0l11yl+B+jHODAdFcQ@public.gmane.org
         Regression: No
 
-I just spent 5 hours debugging my program and trying to figure out why the
-kernel overwrote my stack. I had to read the source code to realize that the
-real syscall took an additional 5th argument.
+>From the fabs(3) man page:
 
-Wrong signature:
-int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+SYNOPSIS
+       #include <math.h>
 
-Correct signature:
-int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options, struct
-rusage* rusage);
+       double fabs(double x);
+       float fabsf(float x);
+       long double fabsl(long double x);
 
-The kernel man pages should not assume that the user is using glibc, or at
-least give enough information for developers to write their own, correct
-wrappers.
+       Link with -lm.
+
+
+At least on RHEL5+ one does not appear to need to link with -lm.
+
+# cat fabs.c
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(int argc, char **argv)
+{
+   printf("%f\n",fabs(atof(argv[1])));
+   printf("%f\n",fabsf((float)atof(argv[1])));
+   printf("%Lf\n",fabsl((long double)atof(argv[1])));
+   return 0;
+}
+# gcc -g -Wall fabs.c
+# ./a.out -2.5
+2.500000
+2.500000
+2.500000
+# gcc -v
+Using built-in specs.
+Target: x86_64-redhat-linux
+Configured with: ../configure --prefix=/usr --mandir=/usr/share/man
+--infodir=/usr/share/info --enable-shared --enable-threads=posix
+--enable-checking=release --with-system-zlib --enable-__cxa_atexit
+--disable-libunwind-exceptions --enable-libgcj-multifile
+--enable-languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk
+--disable-dssi --disable-plugin
+--with-java-home=/usr/lib/jvm/java-1.4.2-gcj-1.4.2.0/jre --with-cpu=generic
+--host=x86_64-redhat-linux
+Thread model: posix
+gcc version 4.1.2 20080704 (Red Hat 4.1.2-54)
 
 -- 
 You are receiving this mail because:
