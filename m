@@ -1,79 +1,44 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60749] New: Do not need to link against -lm for fabs*()
-Date: Thu, 15 Aug 2013 20:36:52 +0000
-Message-ID: <bug-60749-11311@https.bugzilla.kernel.org/>
+From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] open.2: Fix reference fix
+Date: Fri, 16 Aug 2013 12:46:50 +0900
+Message-ID: <CALhU9tkXWaG_ti-TTjioo5mm4kx+resyYRDWOhG-FCebWzkr6A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60749
+>From a58267b142cdc16ed43f7b3dff06155abd5f6f9a Mon Sep 17 00:00:00 2001
+From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: Fri, 16 Aug 2013 12:34:54 +0900
+Subject: [PATCH] open.2: Fix reference fix
 
-            Bug ID: 60749
-           Summary: Do not need to link against -lm for fabs*()
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: orion-CVdf0l11yl+B+jHODAdFcQ@public.gmane.org
-        Regression: No
+The flag O_NOPATH does not exist. It should be O_PATH.
+---
+ man2/open.2 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->From the fabs(3) man page:
+diff --git a/man2/open.2 b/man2/open.2
+index 9ebc0a0..ab8157b 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -422,7 +422,7 @@ This is a FreeBSD extension, which was added to
+Linux in version 2.1.126.
+ Symbolic links in earlier components of the pathname will still be
+ followed.
+ See also
+-.BR O_NOPATH
++.BR O_PATH
+ below.
+ .\" The headers from glibc 2.0.100 and later include a
+ .\" definition of this flag; \fIkernels before 2.1.126 will ignore it if
+-- 
+1.7.9.5
 
-SYNOPSIS
-       #include <math.h>
-
-       double fabs(double x);
-       float fabsf(float x);
-       long double fabsl(long double x);
-
-       Link with -lm.
-
-
-At least on RHEL5+ one does not appear to need to link with -lm.
-
-# cat fabs.c
-#include <math.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-int main(int argc, char **argv)
-{
-   printf("%f\n",fabs(atof(argv[1])));
-   printf("%f\n",fabsf((float)atof(argv[1])));
-   printf("%Lf\n",fabsl((long double)atof(argv[1])));
-   return 0;
-}
-# gcc -g -Wall fabs.c
-# ./a.out -2.5
-2.500000
-2.500000
-2.500000
-# gcc -v
-Using built-in specs.
-Target: x86_64-redhat-linux
-Configured with: ../configure --prefix=/usr --mandir=/usr/share/man
---infodir=/usr/share/info --enable-shared --enable-threads=posix
---enable-checking=release --with-system-zlib --enable-__cxa_atexit
---disable-libunwind-exceptions --enable-libgcj-multifile
---enable-languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk
---disable-dssi --disable-plugin
---with-java-home=/usr/lib/jvm/java-1.4.2-gcj-1.4.2.0/jre --with-cpu=generic
---host=x86_64-redhat-linux
-Thread model: posix
-gcc version 4.1.2 20080704 (Red Hat 4.1.2-54)
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
