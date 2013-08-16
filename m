@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] open.2: Fix reference fix
-Date: Fri, 16 Aug 2013 12:46:50 +0900
-Message-ID: <CALhU9tkXWaG_ti-TTjioo5mm4kx+resyYRDWOhG-FCebWzkr6A@mail.gmail.com>
+Subject: Add mdoc-style section (.Sh) support in remove_COLOPHON.sh
+Date: Fri, 16 Aug 2013 17:24:16 +0900
+Message-ID: <CALhU9tnSRTajjannjgp82RykQontVKpeWDW=01xyVWa7fSp3GA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,36 +9,36 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
->From a58267b142cdc16ed43f7b3dff06155abd5f6f9a Mon Sep 17 00:00:00 2001
-From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Fri, 16 Aug 2013 12:34:54 +0900
-Subject: [PATCH] open.2: Fix reference fix
+mdoc.7 and mdoc.samples.7 are written in mdoc format,
+but remove_COLOPHON.sh does not support mdoc format
+and we need to remove the COLOPHON sections in these files manually.
+A tiny fix can address this.
 
-The flag O_NOPATH does not exist. It should be O_PATH.
+Thanks,
+Akihiro
+
+>From c0951b4a82d4849213f6495ac472a21367dc3a24 Mon Sep 17 00:00:00 2001
+From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Date: Fri, 16 Aug 2013 16:54:24 +0900
+Subject: [PATCH] Add mdoc-style section (.Sh) support in remove_COLOPHON.sh
+
 ---
- man2/open.2 |    2 +-
+ scripts/remove_COLOPHON.sh |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/open.2 b/man2/open.2
-index 9ebc0a0..ab8157b 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -422,7 +422,7 @@ This is a FreeBSD extension, which was added to
-Linux in version 2.1.126.
- Symbolic links in earlier components of the pathname will still be
- followed.
- See also
--.BR O_NOPATH
-+.BR O_PATH
- below.
- .\" The headers from glibc 2.0.100 and later include a
- .\" definition of this flag; \fIkernels before 2.1.126 will ignore it if
+diff --git a/scripts/remove_COLOPHON.sh b/scripts/remove_COLOPHON.sh
+index 0f56d20..02f7118 100644
+--- a/scripts/remove_COLOPHON.sh
++++ b/scripts/remove_COLOPHON.sh
+@@ -9,5 +9,5 @@
+ # the trees.)
+ #
+ for f in "$@"; do
+-    sed -i '/^\.SH COLOPHON/,$d' "$f"
++    sed -i '/^\.S[Hh] COLOPHON/,$d' "$f"
+ done
 -- 
 1.7.9.5
-
-
--- 
-Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
