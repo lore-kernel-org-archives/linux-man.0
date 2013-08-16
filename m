@@ -1,44 +1,41 @@
-From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Add mdoc-style section (.Sh) support in remove_COLOPHON.sh
-Date: Fri, 16 Aug 2013 17:24:16 +0900
-Message-ID: <CALhU9tnSRTajjannjgp82RykQontVKpeWDW=01xyVWa7fSp3GA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Doug Goldstein <cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] Add EINVAL to errors list of open(2)
+Date: Fri, 16 Aug 2013 15:57:47 -0500
+Message-ID: <1376686667-6686-1-git-send-email-cardoe@cardoe.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Doug Goldstein <cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-mdoc.7 and mdoc.samples.7 are written in mdoc format,
-but remove_COLOPHON.sh does not support mdoc format
-and we need to remove the COLOPHON sections in these files manually.
-A tiny fix can address this.
-
-Thanks,
-Akihiro
-
->From c0951b4a82d4849213f6495ac472a21367dc3a24 Mon Sep 17 00:00:00 2001
-From: Akihiro MOTOKI <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Date: Fri, 16 Aug 2013 16:54:24 +0900
-Subject: [PATCH] Add mdoc-style section (.Sh) support in remove_COLOPHON.sh
-
+EINVAL can be returned by open(2) when the underlying filesystem doesn't
+support O_DIRECT. It is documented in the NOTES section but this patch
+adds it to the list of possible errors.
 ---
- scripts/remove_COLOPHON.sh |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/open.2 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/scripts/remove_COLOPHON.sh b/scripts/remove_COLOPHON.sh
-index 0f56d20..02f7118 100644
---- a/scripts/remove_COLOPHON.sh
-+++ b/scripts/remove_COLOPHON.sh
-@@ -9,5 +9,5 @@
- # the trees.)
- #
- for f in "$@"; do
--    sed -i '/^\.SH COLOPHON/,$d' "$f"
-+    sed -i '/^\.S[Hh] COLOPHON/,$d' "$f"
- done
+diff --git a/man2/open.2 b/man2/open.2
+index 9ebc0a0..93a9e7d 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -611,6 +611,13 @@ While blocked waiting to complete an open of a slow device
+ the call was interrupted by a signal handler; see
+ .BR signal (7).
+ .TP
++.B EINVAL
++The filesystem does not support the
++.BR O_DIRECT
++flag. See
++.BR NOTES
++for more information.
++.TP
+ .B EISDIR
+ .I pathname
+ refers to a directory and the access requested involved writing
 -- 
-1.7.9.5
+1.8.1.5
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
