@@ -1,67 +1,53 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] lrint.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 22 Aug 2013 09:28:15 +0200
-Message-ID: <5215BD8F.1060105@gmail.com>
-References: <1376905627-25802-1-git-send-email-penght@cn.fujitsu.com>
+From: "G.raud" <graud-KK0ffGbhmjU@public.gmane.org>
+Subject: Re: select.2: s/minimum/maximum/
+Date: Thu, 22 Aug 2013 17:38:49 +0200
+Message-ID: <20130822153850.29990@gmx.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1376905627-25802-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/19/13 11:47, Peng Haitao wrote:
-> The functions lrint(), lrintf(), lrintl(), llrint(), llrintf(),
-> and llrintl() are thread safe.
+> Date: Thu, 22 Aug 2013 09:22:32 +0200
+> From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Subject: Re: select.2: s/minimum/maximum/
+>=20
+> On 08/20/13 01:00, G.raud wrote:
+> > In this part of the manpage:
+> >=20
+> > " The timeout argument specifies the minimum interval that select()
+> > =C2=A0 should block waiting for a file descriptor to become ready. =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>=20
+> This isn't correct (though maybe there is room for a better wording).
+>=20
+> The 'timeout' places a ceiling on how long the call will block,
+> but that ceiling has the *minimum* value provided by the argument.
+> See what I mean?
 
-Applied. Thanks.
+The text that you cite and that is not correct is extracted from the
+present manpage. =C2=A0The corrected text should be:
 
-Cheers,
+ " The timeout argument specifies the maximum interval that select()
+ =C2=A0 should block waiting for a file descriptor to become ready. =C2=
+=A0"
 
-Michael
+which is close to the POSIX description and is correct in that "specify=
+"
+does not mean "is equal to" but can be understood as "is close to",
+which is all most of the programmers need to know.
 
+I suggest prepending the following before the complete description bewt=
+ween
+parentheses if a better (i.e. more explicit) wording is desired:
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/lrint.3 | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/lrint.3 b/man3/lrint.3
-> index a2e2805..b698977 100644
-> --- a/man3/lrint.3
-> +++ b/man3/lrint.3
-> @@ -24,7 +24,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH LRINT 3  2010-09-20 "" "Linux Programmer's Manual"
-> +.TH LRINT 3  2013-08-19 "" "Linux Programmer's Manual"
->  .SH NAME
->  lrint, lrintf, lrintl, llrint, llrintf, llrintl \- round to nearest integer
->  .SH SYNOPSIS
-> @@ -106,6 +106,17 @@ These functions do not set
->  .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6798
->  .SH VERSIONS
->  These functions first appeared in glibc in version 2.1.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR lrint (),
-> +.BR lrintf (),
-> +.BR lrintl (),
-> +.BR llrint (),
-> +.BR llrintf (),
-> +and
-> +.BR llrintl ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  .SH SEE ALSO
-> 
+ =C2=A0" timeout is a lower bound on the actual maximum waiting time."
 
+--=20
+G.raud Meyer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
