@@ -1,73 +1,45 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60807] New: not all the pages are encoded using utf-8
-Date: Wed, 28 Aug 2013 13:38:03 +0000
-Message-ID: <bug-60807-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 60749] Do not need to link against -lm for fabs*()
+Date: Thu, 29 Aug 2013 10:09:26 +0000
+Message-ID: <bug-60749-11311-pGBJHlF72Q@https.bugzilla.kernel.org/>
+References: <bug-60749-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-60749-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60807
+https://bugzilla.kernel.org/show_bug.cgi?id=60749
 
-            Bug ID: 60807
-           Summary: not all the pages are encoded using utf-8
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: cs.wzpan-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+--- Comment #1 from Jeyaram <rjayavrp2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Following code also works fine without linking with -lm
 
-I found that not all the pages are encoded using utf-8. It may cause problems
-once we try to parse them.
+#include <math.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-These files are:
+int main(int argc, char **argv)
+{
+   printf("%lf\n", pow(5,3));
+   return 0;
+}
 
-* man3/fflush.3
-* man3/toupper.3
-* man3/updwtmp.3
-* man3/encrypt.3
-* man3/lockf.3
-* man3/rand.3
-* man3/fclose.3
-* man3/strtok.3
-* man2/close.2
-* man2/getdomainname.2
-* man2/madvise.2
-* man2/umask.2
-* man2/sysinfo.2
-* man2/getrlimit.2
-* man5/utmp.5
-* man7/cp1251.7
-* man7/iso_8859-2.7
-* man7/armscii-8.7
-* man7/suffixes.7
-* man7/iso_8859-4.7
-* man7/iso_8859-8.7
-* man7/iso_8859-16.7
-* man7/hier.7
-* man7/iso_8859-13.7
-* man7/koi8-u.7
-* man7/environ.7
-* man7/iso_8859-15.7
-* man7/iso_8859-9.7
-* man7/iso_8859-11.7
-* man7/iso_8859-14.7
-* man7/iso_8859-10.7
-* man7/iso_8859-6.7
-* man7/iso_8859-1.7
-* man7/iso_8859-7.7
-* man7/koi8-r.7
-* man7/iso_8859-5.7
-* man7/iso_8859-3.7
+Actually, libc some how includes the math library
+"/lib/i386-linux-gnu/libm.so.6".
+
+If this file is not available, then following error message is displayed.
+
+/usr/lib/gcc/i686-linux-gnu/4.7/cc1: error while loading shared libraries:
+libm.so.6: cannot open shared object file: No such file or directory
+
+I tried it by renaming libm.so.6. 
+
+Solution:
+
+I request not to remove the line "Link with -lm". This is mandatory.
 
 -- 
 You are receiving this mail because:
