@@ -1,30 +1,187 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60749] Do not need to link against -lm for fabs*()
-Date: Thu, 29 Aug 2013 10:10:48 +0000
-Message-ID: <bug-60749-11311-j1flqk4iVK@https.bugzilla.kernel.org/>
-References: <bug-60749-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] wavelan.4: Remove manpage for no longer available driver
+Date: Sat, 31 Aug 2013 08:13:03 +0200
+Message-ID: <1377929583-5438-1-git-send-email-eliedebrauwer@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-60749-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60749
+Hello Michael, list,
 
---- Comment #2 from Jeyaram <rjayavrp2-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Forgot to mention:
+The current release of the manpages contains wavelan(4), but support for 
+this module/driver is gone since several years. Starting from 2.6.32 
+(2009 )the driver was put in a staging mode ready for deprecation:
 
-uname -a
+The announcement e-mail is here: http://lwn.net/Articles/367876/
+Then it lived in staging for two more releases with the following cry
+for help: http://lxr.linux.no/linux+v2.6.34.14/drivers/staging/wavelan/TODO
+and disappeared since 2.6.35 and then all other traces (documentation, etc)
+were also removed. 
 
-Linux jeyaram-VirtualBox 3.8.0-25-generic #37-Ubuntu SMP Thu Jun 6 20:47:30 UTC
-2013 i686 i686 i686 GNU/Linux
+Hence I think it's pointless to continue dragging this information around,
+if the driver doesn't have much use to people anymore, I doubt the manpage
+has.
 
+my 2 cents
+E. 
+
+---
+ man4/wavelan.4 |  141 --------------------------------------------------------
+ 1 file changed, 141 deletions(-)
+ delete mode 100644 man4/wavelan.4
+
+diff --git a/man4/wavelan.4 b/man4/wavelan.4
+deleted file mode 100644
+index 2fd7513..0000000
+--- a/man4/wavelan.4
++++ /dev/null
+@@ -1,141 +0,0 @@
+-.\" From jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org Thu Dec 19 18:31:49 1996
+-.\" From: Jean Tourrilhes <jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org>
+-.\" Address: HP Labs, Filton Road, Stoke Gifford, Bristol BS12 6QZ, U.K.
+-.\" Jean II - HPLB - '96
+-.\" wavelan.c.4
+-.\"
+-.\" Provenance of this page is unclear.
+-.\"
+-.\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+-.\" Licensed under the GPL,
+-.\" after inquiries with Jean Tourrilhes and Bruce Janson
+-.\" (mtk, July 2006)
+-.\" %%%LICENSE_END
+-.\"
+-.TH WAVELAN 4 1996-10-22 "Linux" "Linux Programmer's Manual"
+-.SH NAME
+-wavelan \- AT&T GIS WaveLAN ISA device driver
+-.SH SYNOPSIS
+-.BI "insmod wavelan_cs.o [io=" B,B.. "] [ irq=" I,I.. "] [name=" N,N.. ]
+-.SH DESCRIPTION
+-.I wavelan
+-is the low-level device driver for the NCR / AT&T / Lucent
+-.B WaveLAN ISA
+-and Digital (DEC)
+-.B RoamAbout DS
+-wireless ethernet adapter.
+-This driver is available as a module or
+-might be compiled in the kernel.
+-This driver supports multiple cards
+-in both forms (up to 4) and allocates the next available ethernet
+-device (eth0..eth#) for each card found, unless a device name is
+-explicitly specified (see below).
+-This device name will be reported
+-in the kernel log file with the MAC address, NWID and frequency used
+-by the card.
+-.SS Parameters
+-This section apply to the module form (parameters passed on the
+-.BR insmod (8)
+-command line).
+-If the driver is included in the kernel, use the
+-.I ether=IRQ,IO,NAME
+-syntax on the kernel command line.
+-.TP
+-.B io
+-Specify the list of base address where to search for wavelan cards
+-(setting by dip switch on the card).
+-If you don't specify any io
+-address, the driver will scan 0x390 and 0x3E0 addresses, which might
+-conflict with other hardware...
+-.TP
+-.B irq
+-Set the list of irq that each wavelan card should use (the value is
+-saved in permanent storage for future use).
+-.TP
+-.B name
+-Set the list of name to be used for each wavelan cards device (name
+-used by
+-.BR ifconfig (8)).
+-.SS Wireless extensions
+-Use
+-.BR iwconfig (8)
+-to manipulate wireless extensions.
+-.SS NWID (or domain)
+-Set the network ID
+-.RI [ 0
+-to
+-.IR FFFF ]
+-or disable it
+-.RI [ off ].
+-As the NWID is stored in the card Permanent Storage Area, it will be
+-reuse at any further invocation of the driver.
+-.SS Frequency & channels
+-For the 2.4GHz 2.00 Hardware, you are able to set the frequency by
+-specifying one of the 10 defined channels
+-.RI ( 2.412,
+-.I 2.422, 2.425, 2.4305, 2.432, 2.442, 2.452, 2.460, 2.462
+-or
+-.IR 2.484 )
+-or directly by its value.
+-The frequency is changed immediately and
+-permanently.
+-Frequency availability depends on the regulations...
+-.SS Statistics spy
+-Set a list of MAC addresses in the driver (up to 8) and get the last
+-quality of link for each of those (see
+-.BR iwspy (8)).
+-.SS /proc/net/wireless
+-.I status
+-is the status reported by the modem.
+-.I Link quality
+-reports the quality of the modulation on the air (direct sequence
+-spread spectrum) [max = 16].
+-.I Level
+-and
+-.I Noise
+-refer to the signal level and noise level [max = 64].
+-The
+-.I crypt discarded packet
+-and
+-.I misc discarded packet
+-counters are not implemented.
+-.SS Private ioctl
+-You may use
+-.BR iwpriv (8)
+-to manipulate private ioctls.
+-.SS Quality and level threshold
+-Enable you the define the quality and level threshold used by the
+-modem (packet below that level are discarded).
+-.SS Histogram
+-This functionality makes it possible to set a number of
+-signal level intervals and
+-to count the number of packets received in each of those defined
+-intervals.
+-This distribution might be used to calculate the mean value
+-and standard deviation of the signal level.
+-.SS Specific notes
+-This driver will fail to detect some
+-.B non-NCR/ATT&T/Lucent
+-Wavelan cards.
+-If this happens for you, you must look in the source code on
+-how to add your card to the detection routine.
+-.PP
+-Some of the mentioned features are optional.
+-You may enable to disable
+-them by changing flags in the driver header and recompile.
+-.\" .SH AUTHOR
+-.\" Bruce Janson \(em bruce-+t8FkpRSqxe7NGdpmJTKYQ@public.gmane.org
+-.\" .br
+-.\" Jean Tourrilhes \(em jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org
+-.\" .br
+-.\" (and others; see source code for details)
+-.\"
+-.\" SEE ALSO part
+-.\"
+-.SH SEE ALSO
+-.BR wavelan_cs (4),
+-.BR ifconfig (8),
+-.BR insmod (8),
+-.BR iwconfig (8),
+-.BR iwpriv (8),
+-.BR iwspy (8)
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
