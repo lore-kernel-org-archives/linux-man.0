@@ -1,20 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] telldir.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 02 Sep 2013 07:47:46 +0200
-Message-ID: <52242682.3060709@gmail.com>
-References: <1378099851-7755-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] Add EINVAL to errors list of open(2)
+Date: Mon, 02 Sep 2013 07:50:20 +0200
+Message-ID: <5224271C.5030709@gmail.com>
+References: <1376686667-6686-1-git-send-email-cardoe@cardoe.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1378099851-7755-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1376686667-6686-1-git-send-email-cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Doug Goldstein <cardoe-VPKZcK2rSRzQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/02/13 07:30, Peng Haitao wrote:
-> The function telldir() is thread safe.
+On 08/16/13 22:57, Doug Goldstein wrote:
+> EINVAL can be returned by open(2) when the underlying filesystem doesn't
+> support O_DIRECT. It is documented in the NOTES section but this patch
+> adds it to the list of possible errors.
 
 Applied. Thanks.
 
@@ -23,36 +25,28 @@ Cheers,
 Michael
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/telldir.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man2/open.2 | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/man3/telldir.3 b/man3/telldir.3
-> index 1b241b6..c61f1f2 100644
-> --- a/man3/telldir.3
-> +++ b/man3/telldir.3
-> @@ -27,7 +27,7 @@
->  .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
->  .\"     386BSD man pages
->  .\" Modified Sat Jul 24 17:48:42 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
-> -.TH TELLDIR 3  2013-03-24 "" "Linux Programmer's Manual"
-> +.TH TELLDIR 3  2013-09-02 "" "Linux Programmer's Manual"
->  .SH NAME
->  telldir \- return current location in directory stream
->  .SH SYNOPSIS
-> @@ -61,6 +61,11 @@ is set appropriately.
+> diff --git a/man2/open.2 b/man2/open.2
+> index 9ebc0a0..93a9e7d 100644
+> --- a/man2/open.2
+> +++ b/man2/open.2
+> @@ -611,6 +611,13 @@ While blocked waiting to complete an open of a slow device
+>  the call was interrupted by a signal handler; see
+>  .BR signal (7).
 >  .TP
->  .B EBADF
->  Invalid directory stream descriptor \fIdirp\fP.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR telldir ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  4.3BSD, POSIX.1-2001.
->  .SH NOTES
+> +.B EINVAL
+> +The filesystem does not support the
+> +.BR O_DIRECT
+> +flag. See
+> +.BR NOTES
+> +for more information.
+> +.TP
+>  .B EISDIR
+>  .I pathname
+>  refers to a directory and the access requested involved writing
 > 
 
 --
