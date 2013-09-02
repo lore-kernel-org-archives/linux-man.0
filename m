@@ -1,47 +1,62 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] telldir.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 2 Sep 2013 13:30:51 +0800
-Message-ID: <1378099851-7755-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] rint.3: tfix
+Date: Mon, 02 Sep 2013 07:37:52 +0200
+Message-ID: <52242430.2090806@gmail.com>
+References: <1377508383-15065-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1377508383-15065-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function telldir() is thread safe.
+On 08/26/13 11:13, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/telldir.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Applied. Thanks.
 
-diff --git a/man3/telldir.3 b/man3/telldir.3
-index 1b241b6..c61f1f2 100644
---- a/man3/telldir.3
-+++ b/man3/telldir.3
-@@ -27,7 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 17:48:42 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH TELLDIR 3  2013-03-24 "" "Linux Programmer's Manual"
-+.TH TELLDIR 3  2013-09-02 "" "Linux Programmer's Manual"
- .SH NAME
- telldir \- return current location in directory stream
- .SH SYNOPSIS
-@@ -61,6 +61,11 @@ is set appropriately.
- .TP
- .B EBADF
- Invalid directory stream descriptor \fIdirp\fP.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR telldir ()
-+function is thread-safe.
- .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH NOTES
--- 
-1.8.3.1
+Cheers,
+
+Michael
+
+
+
+> ---
+>  man3/rint.3 | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man3/rint.3 b/man3/rint.3
+> index 8bb9ba8..f79e990 100644
+> --- a/man3/rint.3
+> +++ b/man3/rint.3
+> @@ -85,7 +85,10 @@ or
+>  .ad b
+>  .SH DESCRIPTION
+>  The
+> -.BR nearbyint ()
+> +.BR nearbyint (),
+> +.BR nearbyintf (),
+> +and
+> +.BR nearbyintl ()
+>  functions round their argument to an integer value in floating-point
+>  format, using the current rounding direction (see
+>  .BR fesetround (3))
+> @@ -94,7 +97,10 @@ and without raising the
+>  exception.
+>  .LP
+>  The
+> -.BR rint ()
+> +.BR rint (),
+> +.BR rintf (),
+> +and
+> +.BR rintl ()
+>  functions do the same, but will raise the
+>  .I inexact
+>  exception
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
