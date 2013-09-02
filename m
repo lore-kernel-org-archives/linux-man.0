@@ -1,41 +1,49 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: linkat.2: tfix
-Date: Mon, 02 Sep 2013 07:50:54 +0200
-Message-ID: <5224273E.7070808@gmail.com>
-References: <CAMqf4EGseGsv4agiYjY1Ski96i60FHyAhpaUXeuUsiQErQNc=A@mail.gmail.com>
+From: Christopher Hall <chall0-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] printf.3: correctly describe the meaning of a negative precision
+Date: Mon, 2 Sep 2013 15:41:56 +0100
+Message-ID: <CAB4OWr2UVqnv5hyrY5RkjWHYwMVGFFyByTy3uNZyrHVBdE8wxQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMqf4EGseGsv4agiYjY1Ski96i60FHyAhpaUXeuUsiQErQNc=A@mail.gmail.com>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "D. Barbier" <bouzim-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks.
+The printf(3) manpage says that a negative precision is taken to be
+zero, whereas printf(3p) says that a negative precision is taken as if
+the precision were omitted.  glibc agrees with the latter (posix)
+specification.
 
-Cheers,
+Test code:
 
-Michael
+    printf("%f\n",42.0);      // "42.000000"
+    printf("%.*f\n",0,42.0);  // "42"
+    printf("%.*f\n",-1,42.0); // "42.000000"
+
+This patch corrects the explanation to match what actually happens.
+
+diff --git i/man3/printf.3 w/man3/printf.3
+index f5e96d3..2c86bf1 100644
+--- i/man3/printf.3
++++ w/man3/printf.3
+@@ -409,8 +409,9 @@ Instead of a decimal digit string one may write
+"*" or "*mquot;
+ is given in the next argument, or in the m-th argument, respectively,
+ which must be of type
+ .IR int .
+-If the precision is given as just \(aq.\(aq, or the precision is negative,
+-the precision is taken to be zero.
++If the precision is given as just \(aq.\(aq, the precision is taken to
++be zero.  A negative precision is taken as if the precision were
++omitted.
+ This gives the minimum number of digits to appear for
+ .BR d ,
+ .BR i ,
 
 
-On 08/13/13 22:34, D. Barbier wrote:
-> diff --git a/man2/linkat.2 b/man2/linkat.2
-> index 701d341..fd2a91b 100644
-> --- a/man2/linkat.2
-> +++ b/man2/linkat.2
-> @@ -95,7 +95,7 @@ except that a relative pathname is interpreted relative
->  to the directory referred to by the file descriptor
->  .IR newdirfd .
->  
-> -The following values can be biwise ORed in
-> +The following values can be bitwise ORed in
->  .IR flags :
->  .TP
->  .BR AT_EMPTY_PATH " (since Linux 2.6.39)"
-> 
-
+--
+Chris Hall
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
