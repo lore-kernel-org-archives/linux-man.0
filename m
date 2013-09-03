@@ -1,50 +1,70 @@
 From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Subject: clock_getres.2: Remove obsolete note on SMP systems
-Date: Tue,  3 Sep 2013 11:05:30 +0100
-Message-ID: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar>
+Subject: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
+Date: Tue,  3 Sep 2013 11:05:31 +0100
+Message-ID: <1378202731-29738-2-git-send-email-rodrigo@sdfg.com.ar>
+References: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1378202731-29738-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+As confirmed by peterz on IRC, this note is obsolete:
 
-About a month and some weeks ago I opened a bug asking if the note on SMP
-systems on clock_gettime() manpage was outdated. I explained why I think it
-might be outdated and then continue playing with it, until I was even more sure
-that it was outdated. Then I found Peter Ziljstra on IRC and he confirmed it is
-in fact outdated (no doubts now :-))
+	<peterz> rata: that section is obsolete; CLOCK_THREAD_CPUTIME_ID is good
+	<peterz> rata: CLOCK_PROCESS_CPUTIME_ID is also correct
 
-The bugzilla entry is here: https://bugzilla.kernel.org/show_bug.cgi?id=60602
+So this patch just removes it.
+---
+ man2/clock_getres.2 |   32 --------------------------------
+ 1 file changed, 32 deletions(-)
 
-So on the next day I uploaded a patch to the bug saying this (the same I'm
-sending now) and got no answer. I did ping a couple of times (like 3) but no
-answer.
-
-I initially opened the bug on the bugzilla because I didn't have a patch, it was
-just a question (I understand that this is the preferred way, from
-https://www.kernel.org/doc/man-pages/reporting_bugs.html but I'm not sure if I'm
-missunderstanding something). And then, when I had a patch for it, just uploaded
-there... seemed natural to me.
-
-So, now I'm sending the patch here because: a) now I have a patch :-D, b) maybe it
-has more attention than bugzilla auto-emails ?. But sorry in advance if I should
-not send it here if it's already on the bugzilla.
-
-Any comments are, of course, welcome. And if there is something else I should
-try/fix, please let me know. I've checked that the page looks fine after the
-removal locally, but I might be missing something else :-)
-
-
-Also, please keep me in Cc: since I'm not subscribed
-
-
-
-
-
-Thanks a lot,
-Rodrigo
+diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
+index 10ecd18..eac97cd 100644
+--- a/man2/clock_getres.2
++++ b/man2/clock_getres.2
+@@ -218,38 +218,6 @@ indicate that
+ are available.
+ (See also
+ .BR sysconf (3).)
+-.SH NOTES
+-.SS Note for SMP systems
+-The
+-.B CLOCK_PROCESS_CPUTIME_ID
+-and
+-.B CLOCK_THREAD_CPUTIME_ID
+-clocks are realized on many platforms using timers from the CPUs
+-(TSC on i386, AR.ITC on Itanium).
+-These registers may differ between CPUs and as a consequence
+-these clocks may return
+-.B bogus results
+-if a process is migrated to another CPU.
+-.PP
+-If the CPUs in an SMP system have different clock sources then
+-there is no way to maintain a correlation between the timer registers since
+-each CPU will run at a slightly different frequency.
+-If that is the case then
+-.I clock_getcpuclockid(0)
+-will return
+-.B ENOENT
+-to signify this condition.
+-The two clocks will then be useful only if it
+-can be ensured that a process stays on a certain CPU.
+-.PP
+-The processors in an SMP system do not start all at exactly the same
+-time and therefore the timer registers are typically running at an offset.
+-Some architectures include code that attempts to limit these offsets on bootup.
+-However, the code cannot guarantee to accurately tune the offsets.
+-Glibc contains no provisions to deal with these offsets (unlike the Linux
+-Kernel).
+-Typically these offsets are small and therefore the effects may be
+-negligible in most cases.
+ .SH BUGS
+ According to POSIX.1-2001, a process with "appropriate privileges" may set the
+ .B CLOCK_PROCESS_CPUTIME_ID
+-- 
+1.7.10.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
