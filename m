@@ -1,44 +1,51 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60836] New: Non-existing inode-max documented
-Date: Tue, 03 Sep 2013 09:36:19 +0000
-Message-ID: <bug-60836-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: clock_getres.2: Remove obsolete note on SMP systems
+Date: Tue,  3 Sep 2013 11:05:30 +0100
+Message-ID: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60836
+Hi,
 
-            Bug ID: 60836
-           Summary: Non-existing inode-max documented
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-        Regression: No
+About a month and some weeks ago I opened a bug asking if the note on SMP
+systems on clock_gettime() manpage was outdated. I explained why I think it
+might be outdated and then continue playing with it, until I was even more sure
+that it was outdated. Then I found Peter Ziljstra on IRC and he confirmed it is
+in fact outdated (no doubts now :-))
 
-Created attachment 107391
-  --> https://bugzilla.kernel.org/attachment.cgi?id=107391&action=edit
-Drop references to prehistoric /proc/sys/fs/inode-max
+The bugzilla entry is here: https://bugzilla.kernel.org/show_bug.cgi?id=60602
 
-Both Linux man pages and kernel's Documentation/sysctl/fs.txt document
-/proc/sys/fs/inode-max which was gone in early 2.3 (~14 years ago).
+So on the next day I uploaded a patch to the bug saying this (the same I'm
+sending now) and got no answer. I did ping a couple of times (like 3) but no
+answer.
 
-My patch proposal for man pages attached, however I'm uncertain how preshrink
-works these days so please double check before applying.
+I initially opened the bug on the bugzilla because I didn't have a patch, it was
+just a question (I understand that this is the preferred way, from
+https://www.kernel.org/doc/man-pages/reporting_bugs.html but I'm not sure if I'm
+missunderstanding something). And then, when I had a patch for it, just uploaded
+there... seemed natural to me.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+So, now I'm sending the patch here because: a) now I have a patch :-D, b) maybe it
+has more attention than bugzilla auto-emails ?. But sorry in advance if I should
+not send it here if it's already on the bugzilla.
+
+Any comments are, of course, welcome. And if there is something else I should
+try/fix, please let me know. I've checked that the page looks fine after the
+removal locally, but I might be missing something else :-)
+
+
+Also, please keep me in Cc: since I'm not subscribed
+
+
+
+
+
+Thanks a lot,
+Rodrigo
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
