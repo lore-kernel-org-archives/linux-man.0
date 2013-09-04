@@ -1,45 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ptrace.2: pfix
-Date: Wed, 04 Sep 2013 08:18:23 +0200
-Message-ID: <5226D0AF.8010501@gmail.com>
-References: <1378259828-12785-1-git-send-email-taffit@debian.org>
+Subject: Re: gethostbyname
+Date: Wed, 04 Sep 2013 09:20:28 +0200
+Message-ID: <5226DF3C.8040607@gmail.com>
+References: <CAGc9EveL=F15GLtZYi22KHVf8Obai5Fx1kuC8ppDVx_LaJWkJA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1378259828-12785-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAGc9EveL=F15GLtZYi22KHVf8Obai5Fx1kuC8ppDVx_LaJWkJA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks, David.
+On 08/12/13 00:04, Jon Grant wrote:
+> Hello
+> 
+> Where on this page it talks about obsolete herror() and hstrerror(),
+> could it highlight the functions that should be used instead. I am not
+> sure what is the replacement, but pehaps it would return
+> HOST_NOT_FOUND as a string?
+> 
+> http://man7.org/linux/man-pages/man3/gethostbyname.3.html
+
+Hi Jon,
+
+I applied the patch below.
 
 Cheers,
 
 Michael
 
 
-On 09/04/13 03:57, David Pr=E9vot wrote:
-> ---
->  man2/ptrace.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index 60d5345..7ad5ce8 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -1231,7 +1231,7 @@ Stop induced by
->  .B PTRACE_INTERRUPT
->  command, or group-stop, or initial ptrace-stop when a new child is a=
-ttached
->  (only if attached using
-> -.BR PTRACE_SEIZE ).
-> +.BR PTRACE_SEIZE ),
->  or
->  .B PTRACE_EVENT_STOP
->  if
->=20
+diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+index 23a11bf..9be2c28 100644
+--- a/man3/gethostbyname.3
++++ b/man3/gethostbyname.3
+@@ -131,14 +131,17 @@ none
+ .PD
+ .SH DESCRIPTION
+ The
+-.BR gethostbyname* ()
++.BR gethostbyname* (),
++.BR gethostbyaddr* (),
++.BR herror (),
+ and
+-.BR gethostbyaddr* ()
++.BR hstrerror ()
+ functions are obsolete.
+ Applications should use
+-.BR getaddrinfo (3)
++.BR getaddrinfo (3),
++.BR getnameinfo (3),
+ and
+-.BR getnameinfo (3)
++.BR gai_strerror (3)
+ instead.
+ 
+ The
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
