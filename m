@@ -1,8 +1,10 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] ptrace.2: pfix
-Date: Tue,  3 Sep 2013 21:57:08 -0400
-Message-ID: <1378259828-12785-1-git-send-email-taffit@debian.org>
+Subject: [PATCH] ptrace.2: ffix
+Date: Tue,  3 Sep 2013 22:21:47 -0400
+Message-ID: <1378261307-19248-1-git-send-email-taffit@debian.org>
+References: <1378259828-12785-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1378259828-12785-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
@@ -13,18 +15,18 @@ List-Id: linux-man@vger.kernel.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 60d5345..7ad5ce8 100644
+index 7ad5ce8..f9118bf 100644
 --- a/man2/ptrace.2
 +++ b/man2/ptrace.2
-@@ -1231,7 +1231,7 @@ Stop induced by
- .B PTRACE_INTERRUPT
- command, or group-stop, or initial ptrace-stop when a new child is attached
- (only if attached using
--.BR PTRACE_SEIZE ).
-+.BR PTRACE_SEIZE ),
- or
- .B PTRACE_EVENT_STOP
- if
+@@ -1095,7 +1095,7 @@ then it is definitely a group-stop.
+ killed the tracee.)
+ .LP
+ If tracee was attached using
+-.IR PTRACE_SEIZE ,
++.BR PTRACE_SEIZE ,
+ group-stop is indicated by
+ .BR PTRACE_EVENT_STOP :
+ .IR "status>>16 == PTRACE_EVENT_STOP" .
 -- 
 1.8.4.rc3
 
