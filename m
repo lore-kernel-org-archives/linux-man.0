@@ -1,62 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] printf.3: correctly describe the meaning of a negative
- precision
-Date: Wed, 04 Sep 2013 09:26:56 +0200
-Message-ID: <5226E0C0.7060005@gmail.com>
-References: <CAB4OWr2UVqnv5hyrY5RkjWHYwMVGFFyByTy3uNZyrHVBdE8wxQ@mail.gmail.com>
+Subject: Re: [PATCH] ptrace.2: ffix
+Date: Wed, 04 Sep 2013 08:18:31 +0200
+Message-ID: <5226D0B7.10007@gmail.com>
+References: <1378259828-12785-1-git-send-email-taffit@debian.org> <1378261307-19248-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAB4OWr2UVqnv5hyrY5RkjWHYwMVGFFyByTy3uNZyrHVBdE8wxQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1378261307-19248-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christopher Hall <chall0-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/02/13 16:41, Christopher Hall wrote:
-> The printf(3) manpage says that a negative precision is taken to be
-> zero, whereas printf(3p) says that a negative precision is taken as if
-> the precision were omitted.  glibc agrees with the latter (posix)
-> specification.
-> 
-> Test code:
-> 
->     printf("%f\n",42.0);      // "42.000000"
->     printf("%.*f\n",0,42.0);  // "42"
->     printf("%.*f\n",-1,42.0); // "42.000000"
-> 
-> This patch corrects the explanation to match what actually happens.
-
-Thanks for the thorough and clear report, Chris. Patch applied.
+Applied. Thanks, David.
 
 Cheers,
 
 Michael
 
 
-> diff --git i/man3/printf.3 w/man3/printf.3
-> index f5e96d3..2c86bf1 100644
-> --- i/man3/printf.3
-> +++ w/man3/printf.3
-> @@ -409,8 +409,9 @@ Instead of a decimal digit string one may write
-> "*" or "*mquot;
->  is given in the next argument, or in the m-th argument, respectively,
->  which must be of type
->  .IR int .
-> -If the precision is given as just \(aq.\(aq, or the precision is negative,
-> -the precision is taken to be zero.
-> +If the precision is given as just \(aq.\(aq, the precision is taken to
-> +be zero.  A negative precision is taken as if the precision were
-> +omitted.
->  This gives the minimum number of digits to appear for
->  .BR d ,
->  .BR i ,
-> 
-> 
-> --
-> Chris Hall
-> 
+On 09/04/13 04:21, David Pr=E9vot wrote:
+> ---
+>  man2/ptrace.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index 7ad5ce8..f9118bf 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -1095,7 +1095,7 @@ then it is definitely a group-stop.
+>  killed the tracee.)
+>  .LP
+>  If tracee was attached using
+> -.IR PTRACE_SEIZE ,
+> +.BR PTRACE_SEIZE ,
+>  group-stop is indicated by
+>  .BR PTRACE_EVENT_STOP :
+>  .IR "status>>16 =3D=3D PTRACE_EVENT_STOP" .
+>=20
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
