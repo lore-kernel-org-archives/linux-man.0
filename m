@@ -1,84 +1,202 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
-Date: Wed, 4 Sep 2013 14:32:49 +0200
-Message-ID: <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com>
-References: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar> <1378202731-29738-2-git-send-email-rodrigo@sdfg.com.ar>
+Subject: Re: [PATCH] wavelan.4: Remove manpage for no longer available driver
+Date: Wed, 4 Sep 2013 14:38:23 +0200
+Message-ID: <CAKgNAkj9bFt8PAp_tDCdG870XvR5CM9R=33+yV96AoWMMg3aVA@mail.gmail.com>
+References: <1377929583-5438-1-git-send-email-eliedebrauwer@gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1378202731-29738-2-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+In-Reply-To: <1377929583-5438-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Rodrigo,
+Hello Elie,
 
-On Tue, Sep 3, 2013 at 12:05 PM, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> wrote:
-> As confirmed by peterz on IRC, this note is obsolete:
+On Sat, Aug 31, 2013 at 8:13 AM, Elie De Brauwer
+<eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Michael, list,
 >
->         <peterz> rata: that section is obsolete; CLOCK_THREAD_CPUTIME_ID is good
->         <peterz> rata: CLOCK_PROCESS_CPUTIME_ID is also correct
+> The current release of the manpages contains wavelan(4), but support for
+> this module/driver is gone since several years. Starting from 2.6.32
+> (2009 )the driver was put in a staging mode ready for deprecation:
 >
-> So this patch just removes it.
+> The announcement e-mail is here: http://lwn.net/Articles/367876/
+> Then it lived in staging for two more releases with the following cry
+> for help: http://lxr.linux.no/linux+v2.6.34.14/drivers/staging/wavelan/TODO
+> and disappeared since 2.6.35 and then all other traces (documentation, etc)
+> were also removed.
+>
+> Hence I think it's pointless to continue dragging this information around,
+> if the driver doesn't have much use to people anymore, I doubt the manpage
+> has.
 
-Clearly, the page needs amending. However, ideal would be to describe
-*when* the section became obsolete (which kernel version). Do you or
-Peter know, or have an idea how we can determine that information?
+I'm reluctant to discard the page outright (occasionally, people do
+want to see even obsolete information), so I've simply added a note to
+the top of the page to say that the driver was removed in 2.6.35.
 
 Cheers,
 
 Michael
 
 
-> ---
->  man2/clock_getres.2 |   32 --------------------------------
->  1 file changed, 32 deletions(-)
+> my 2 cents
+> E.
 >
-> diff --git a/man2/clock_getres.2 b/man2/clock_getres.2
-> index 10ecd18..eac97cd 100644
-> --- a/man2/clock_getres.2
-> +++ b/man2/clock_getres.2
-> @@ -218,38 +218,6 @@ indicate that
->  are available.
->  (See also
->  .BR sysconf (3).)
-> -.SH NOTES
-> -.SS Note for SMP systems
-> -The
-> -.B CLOCK_PROCESS_CPUTIME_ID
+> ---
+>  man4/wavelan.4 |  141 --------------------------------------------------------
+>  1 file changed, 141 deletions(-)
+>  delete mode 100644 man4/wavelan.4
+>
+> diff --git a/man4/wavelan.4 b/man4/wavelan.4
+> deleted file mode 100644
+> index 2fd7513..0000000
+> --- a/man4/wavelan.4
+> +++ /dev/null
+> @@ -1,141 +0,0 @@
+> -.\" From jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org Thu Dec 19 18:31:49 1996
+> -.\" From: Jean Tourrilhes <jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org>
+> -.\" Address: HP Labs, Filton Road, Stoke Gifford, Bristol BS12 6QZ, U.K.
+> -.\" Jean II - HPLB - '96
+> -.\" wavelan.c.4
+> -.\"
+> -.\" Provenance of this page is unclear.
+> -.\"
+> -.\" %%%LICENSE_START(GPL_NOVERSION_ONELINE)
+> -.\" Licensed under the GPL,
+> -.\" after inquiries with Jean Tourrilhes and Bruce Janson
+> -.\" (mtk, July 2006)
+> -.\" %%%LICENSE_END
+> -.\"
+> -.TH WAVELAN 4 1996-10-22 "Linux" "Linux Programmer's Manual"
+> -.SH NAME
+> -wavelan \- AT&T GIS WaveLAN ISA device driver
+> -.SH SYNOPSIS
+> -.BI "insmod wavelan_cs.o [io=" B,B.. "] [ irq=" I,I.. "] [name=" N,N.. ]
+> -.SH DESCRIPTION
+> -.I wavelan
+> -is the low-level device driver for the NCR / AT&T / Lucent
+> -.B WaveLAN ISA
+> -and Digital (DEC)
+> -.B RoamAbout DS
+> -wireless ethernet adapter.
+> -This driver is available as a module or
+> -might be compiled in the kernel.
+> -This driver supports multiple cards
+> -in both forms (up to 4) and allocates the next available ethernet
+> -device (eth0..eth#) for each card found, unless a device name is
+> -explicitly specified (see below).
+> -This device name will be reported
+> -in the kernel log file with the MAC address, NWID and frequency used
+> -by the card.
+> -.SS Parameters
+> -This section apply to the module form (parameters passed on the
+> -.BR insmod (8)
+> -command line).
+> -If the driver is included in the kernel, use the
+> -.I ether=IRQ,IO,NAME
+> -syntax on the kernel command line.
+> -.TP
+> -.B io
+> -Specify the list of base address where to search for wavelan cards
+> -(setting by dip switch on the card).
+> -If you don't specify any io
+> -address, the driver will scan 0x390 and 0x3E0 addresses, which might
+> -conflict with other hardware...
+> -.TP
+> -.B irq
+> -Set the list of irq that each wavelan card should use (the value is
+> -saved in permanent storage for future use).
+> -.TP
+> -.B name
+> -Set the list of name to be used for each wavelan cards device (name
+> -used by
+> -.BR ifconfig (8)).
+> -.SS Wireless extensions
+> -Use
+> -.BR iwconfig (8)
+> -to manipulate wireless extensions.
+> -.SS NWID (or domain)
+> -Set the network ID
+> -.RI [ 0
+> -to
+> -.IR FFFF ]
+> -or disable it
+> -.RI [ off ].
+> -As the NWID is stored in the card Permanent Storage Area, it will be
+> -reuse at any further invocation of the driver.
+> -.SS Frequency & channels
+> -For the 2.4GHz 2.00 Hardware, you are able to set the frequency by
+> -specifying one of the 10 defined channels
+> -.RI ( 2.412,
+> -.I 2.422, 2.425, 2.4305, 2.432, 2.442, 2.452, 2.460, 2.462
+> -or
+> -.IR 2.484 )
+> -or directly by its value.
+> -The frequency is changed immediately and
+> -permanently.
+> -Frequency availability depends on the regulations...
+> -.SS Statistics spy
+> -Set a list of MAC addresses in the driver (up to 8) and get the last
+> -quality of link for each of those (see
+> -.BR iwspy (8)).
+> -.SS /proc/net/wireless
+> -.I status
+> -is the status reported by the modem.
+> -.I Link quality
+> -reports the quality of the modulation on the air (direct sequence
+> -spread spectrum) [max = 16].
+> -.I Level
 > -and
-> -.B CLOCK_THREAD_CPUTIME_ID
-> -clocks are realized on many platforms using timers from the CPUs
-> -(TSC on i386, AR.ITC on Itanium).
-> -These registers may differ between CPUs and as a consequence
-> -these clocks may return
-> -.B bogus results
-> -if a process is migrated to another CPU.
+> -.I Noise
+> -refer to the signal level and noise level [max = 64].
+> -The
+> -.I crypt discarded packet
+> -and
+> -.I misc discarded packet
+> -counters are not implemented.
+> -.SS Private ioctl
+> -You may use
+> -.BR iwpriv (8)
+> -to manipulate private ioctls.
+> -.SS Quality and level threshold
+> -Enable you the define the quality and level threshold used by the
+> -modem (packet below that level are discarded).
+> -.SS Histogram
+> -This functionality makes it possible to set a number of
+> -signal level intervals and
+> -to count the number of packets received in each of those defined
+> -intervals.
+> -This distribution might be used to calculate the mean value
+> -and standard deviation of the signal level.
+> -.SS Specific notes
+> -This driver will fail to detect some
+> -.B non-NCR/ATT&T/Lucent
+> -Wavelan cards.
+> -If this happens for you, you must look in the source code on
+> -how to add your card to the detection routine.
 > -.PP
-> -If the CPUs in an SMP system have different clock sources then
-> -there is no way to maintain a correlation between the timer registers since
-> -each CPU will run at a slightly different frequency.
-> -If that is the case then
-> -.I clock_getcpuclockid(0)
-> -will return
-> -.B ENOENT
-> -to signify this condition.
-> -The two clocks will then be useful only if it
-> -can be ensured that a process stays on a certain CPU.
-> -.PP
-> -The processors in an SMP system do not start all at exactly the same
-> -time and therefore the timer registers are typically running at an offset.
-> -Some architectures include code that attempts to limit these offsets on bootup.
-> -However, the code cannot guarantee to accurately tune the offsets.
-> -Glibc contains no provisions to deal with these offsets (unlike the Linux
-> -Kernel).
-> -Typically these offsets are small and therefore the effects may be
-> -negligible in most cases.
->  .SH BUGS
->  According to POSIX.1-2001, a process with "appropriate privileges" may set the
->  .B CLOCK_PROCESS_CPUTIME_ID
+> -Some of the mentioned features are optional.
+> -You may enable to disable
+> -them by changing flags in the driver header and recompile.
+> -.\" .SH AUTHOR
+> -.\" Bruce Janson \(em bruce-+t8FkpRSqxe7NGdpmJTKYQ@public.gmane.org
+> -.\" .br
+> -.\" Jean Tourrilhes \(em jt-zcmx7qE4x4dxnVILBQAtiA@public.gmane.org
+> -.\" .br
+> -.\" (and others; see source code for details)
+> -.\"
+> -.\" SEE ALSO part
+> -.\"
+> -.SH SEE ALSO
+> -.BR wavelan_cs (4),
+> -.BR ifconfig (8),
+> -.BR insmod (8),
+> -.BR iwconfig (8),
+> -.BR iwpriv (8),
+> -.BR iwspy (8)
 > --
 > 1.7.10.4
 >
