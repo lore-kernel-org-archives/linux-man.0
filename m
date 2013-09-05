@@ -1,126 +1,98 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
-Date: Thu, 5 Sep 2013 13:03:48 +0200
-Message-ID: <CAKgNAki9BLKHmwJfJ6mhLtNjHf7cVEdE3bhpWXEKnhTCRt+FpA@mail.gmail.com>
-References: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar>
- <1378202731-29738-2-git-send-email-rodrigo@sdfg.com.ar> <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com>
- <20130904133217.GC12620@sdfg.com.ar> <CAKgNAkjwVc3HLOL0n5upE5rOgqCN3TYGacrWMOzJ=uyv1mbHUg@mail.gmail.com>
- <00000140e9b4ede6-8b9dfd6f-7ca2-4d35-9454-389f6453031a-000000@email.amazonses.com>
- <20130904160815.GA15601@sdfg.com.ar> <00000140e9df10cd-71ca0078-fe11-4a8d-b588-93c2dfff098f-000000@email.amazonses.com>
- <20130905081018.GA25617@sdfg.com.ar>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] ffix: hyphen-used-as-minus-sign
+Date: Thu, 05 Sep 2013 13:09:58 +0200
+Message-ID: <52286686.1080706@gmail.com>
+References: <1378337755-8807-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130905081018.GA25617-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+In-Reply-To: <1378337755-8807-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Cc: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Rodrigo, (and Christoph and Peter, you may want to look at the
-man-page patch below)
+On 05.09.2013 01:35, Simon Paillard wrote:
+> See http://lintian.debian.org/tags/hyphen-used-as-minus-sign.html
 
-On Thu, Sep 5, 2013 at 10:10 AM, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> wrote:
-> On Wed, Sep 04, 2013 at 04:47:25PM +0000, Christoph Lameter wrote:
->> On Wed, 4 Sep 2013, Rodrigo Campos wrote:
->>
->> > On Wed, Sep 04, 2013 at 04:01:27PM +0000, Christoph Lameter wrote:
->> > > On Wed, 4 Sep 2013, Michael Kerrisk (man-pages) wrote:
->> > >
->> > > > > I don't know. But looking at the git repo, it seems in the first git commit
->> > > > > (1da177e4c3f41524e886b7f1b8a0c1fc7321cac2) it was already safe,
->> > >
->> > > What do you mean by "safe"? Note that the manpage was written mainly based
->> >
->> > That you don't get bogus results on SMP systems. Now, it I think the note is
->> > obsolete (Peter confirmed that in fact it is), but we want to know when the note
->> > become obsolete.
->>
->> Well as soon as you have a kernel implementation of these clocks the issue
->> should be moot.
->
-> Ohh, so my "theory" was right. Thanks a lot for the insight :-)
->
-> So, Michael, IIUC what Christoph says, the note on SMP systems was relevant when
-> glibc provide simple wrappers (like to retrieve TSC/ITC register contents) and
-> didn't use the kernel support for it (or kernel support was not there).
-
-Yup, that's my take on it too.
-
-> Checking the glibc repo, I *think* the commit that starts using the kernel for
-> these clocks might be this one: 2f4f3bd4a9ad805383b278e5b975971ca15c7a77
-> ("Handle CLOCK_PROCESS_CPUTIME_ID and CLOCK_PROCESS_THREAD_ID specially,
-> translating to the kernel clockid_t for our own process/thread clock.")
->
-> That commit, doing a simple:
->         git tag --contains 2f4f3bd | sort -V
->
-> seems to be included in glibc-2.4 for the first time, released on 6/Mar/2006.
-> But, of course, I'm not sure this is the right commit :-)
-
-I'm not sure if it's the right commit, but looking at source trees,
-your estimate of glibc-2.4 looks right to me.
-
-> If that is the case, should we change the note to say since which glibc (do we
-> care about any other libc?) and kernel version these are safe on SMP and keep
-> the note for people using olders version ?
-
-Exactly. See below.
-
-> Also, I didn't check if kernel support was backported to Linux 2.4...
-
-2.4.x doesn't have the two CPUTIME clocks.
-
-How does the patch below look to you?
+Thanks, Simon. Applied.
 
 Cheers,
 
 Michael
 
---- a/man2/clock_getres.2
-+++ b/man2/clock_getres.2
-@@ -221,12 +221,13 @@ are available.
- (See also
- .BR sysconf (3).)
- .SH NOTES
--.SS Note for SMP systems
--The
-+.SS Historical note for SMP systems
-+Before Linux added kernel support for
- .B CLOCK_PROCESS_CPUTIME_ID
- and
--.B CLOCK_THREAD_CPUTIME_ID
--clocks are realized on many platforms using timers from the CPUs
-+.BR CLOCK_THREAD_CPUTIME_ID ,
-+glibc implemented these clocks on many platforms using timer
-+registers from the CPUs
- (TSC on i386, AR.ITC on Itanium).
- These registers may differ between CPUs and as a consequence
- these clocks may return
-@@ -252,6 +253,15 @@ Glibc contains no provisions to deal with these
-offsets (unlike the Linux
- Kernel).
- Typically these offsets are small and therefore the effects may be
- negligible in most cases.
-+
-+Since glibc 2.4,
-+the wrapper functions for the system calls described in this page avoid
-+the abovementioned problems by employing the kernel implementation of
-+.B CLOCK_PROCESS_CPUTIME_ID
-+and
-+.BR CLOCK_THREAD_CPUTIME_ID ,
-+on systems that provide such an implementation
-+(i.e., Linux 2.6.12 and later).
- .SH BUGS
- According to POSIX.1-2001, a process with "appropriate privileges" may set the
- .B CLOCK_PROCESS_CPUTIME_ID
 
+> ---
+>  man2/ptrace.2 |    2 +-
+>  man2/setns.2  |    4 ++--
+>  man7/glob.7   |    2 +-
+>  man8/ld.so.8  |    2 +-
+>  4 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index 60d5345..f52b43c 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -1955,7 +1955,7 @@ file descriptor.
+>  The usual symptom of this bug is that when you attach to
+>  a quiescent process with the command
+>  
+> -    strace -p <process-ID>
+> +    strace \-p <process-ID>
+>  
+>  then, instead of the usual
+>  and expected one-line output such as
+> diff --git a/man2/setns.2 b/man2/setns.2
+> index 780cd80..614cc9c 100644
+> --- a/man2/setns.2
+> +++ b/man2/setns.2
+> @@ -146,7 +146,7 @@ Password:
+>  clone() returned 3550
+>  uts.nodename in child:  bizarro
+>  uts.nodename in parent: antero
+> -# \fBuname -n\fP             # Verify hostname in the shell
+> +# \fBuname \-n\fP             # Verify hostname in the shell
+>  antero
+>  .in
+>  .fi
+> @@ -159,7 +159,7 @@ set by the child created by the first program:
+>  .nf
+>  .in +4n
+>  # \fB./ns_exec /proc/3550/ns/uts /bin/bash\fP
+> -# \fBuname -n\fP             # Executed in shell started by ns_exec
+> +# \fBuname \-n\fP             # Executed in shell started by ns_exec
+>  bizarro
+>  .in
+>  .fi
+> diff --git a/man7/glob.7 b/man7/glob.7
+> index d6b52ce..98e6fc8 100644
+> --- a/man7/glob.7
+> +++ b/man7/glob.7
+> @@ -120,7 +120,7 @@ With
+>  .I bash
+>  one can force the classical behavior using this command:
+>  
+> -    shopt -s nullglob
+> +    shopt \-s nullglob
+>  .\" In Bash v1, by setting allow_null_glob_expansion=true
+>  
+>  (Similar problems occur elsewhere.
+> diff --git a/man8/ld.so.8 b/man8/ld.so.8
+> index 76f31b0..eb358ad 100644
+> --- a/man8/ld.so.8
+> +++ b/man8/ld.so.8
+> @@ -97,7 +97,7 @@ Thus, an application located in
+>  .I somedir/app
+>  could be compiled with
+>  
+> -    gcc -Wl,-rpath,\(aq$ORIGIN/../lib\(aq
+> +    gcc \-Wl,\-rpath,\(aq$ORIGIN/../lib\(aq
+>  
+>  so that it finds an associated shared library in
+>  .I somedir/lib
+> 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
