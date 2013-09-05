@@ -1,85 +1,60 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] ffix: hyphen-used-as-minus-sign
-Date: Thu,  5 Sep 2013 01:35:55 +0200
-Message-ID: <1378337755-8807-1-git-send-email-spaillard@debian.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] wavelan.4: Remove manpage for no longer available driver
+Date: Thu, 05 Sep 2013 10:04:57 +0200
+Message-ID: <52283B29.4030102@gmail.com>
+References: <1377929583-5438-1-git-send-email-eliedebrauwer@gmail.com> <CAKgNAkj9bFt8PAp_tDCdG870XvR5CM9R=33+yV96AoWMMg3aVA@mail.gmail.com> <CAGWqfihQ6mjrygiy0Ytopx5yYfU4C7Cj6=byBH09PMXCfivAAQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAGWqfihQ6mjrygiy0Ytopx5yYfU4C7Cj6=byBH09PMXCfivAAQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-See http://lintian.debian.org/tags/hyphen-used-as-minus-sign.html
----
- man2/ptrace.2 |    2 +-
- man2/setns.2  |    4 ++--
- man7/glob.7   |    2 +-
- man8/ld.so.8  |    2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+On 04.09.2013 21:13, Elie De Brauwer wrote:
+> On Wed, Sep 4, 2013 at 2:38 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hello Elie,
+>>
+>> On Sat, Aug 31, 2013 at 8:13 AM, Elie De Brauwer
+>> <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>> Hello Michael, list,
+>>>
+>>> The current release of the manpages contains wavelan(4), but support for
+>>> this module/driver is gone since several years. Starting from 2.6.32
+>>> (2009 )the driver was put in a staging mode ready for deprecation:
+>>>
+>>> The announcement e-mail is here: http://lwn.net/Articles/367876/
+>>> Then it lived in staging for two more releases with the following cry
+>>> for help: http://lxr.linux.no/linux+v2.6.34.14/drivers/staging/wavelan/TODO
+>>> and disappeared since 2.6.35 and then all other traces (documentation, etc)
+>>> were also removed.
+>>>
+>>> Hence I think it's pointless to continue dragging this information around,
+>>> if the driver doesn't have much use to people anymore, I doubt the manpage
+>>> has.
+>>
+>> I'm reluctant to discard the page outright (occasionally, people do
+>> want to see even obsolete information), so I've simply added a note to
+>> the top of the page to say that the driver was removed in 2.6.35.
+> 
+> No problem, I only saw after my patch that has also happened for the
+> sk98lin(4) page.
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index 60d5345..f52b43c 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -1955,7 +1955,7 @@ file descriptor.
- The usual symptom of this bug is that when you attach to
- a quiescent process with the command
- 
--    strace -p <process-ID>
-+    strace \-p <process-ID>
- 
- then, instead of the usual
- and expected one-line output such as
-diff --git a/man2/setns.2 b/man2/setns.2
-index 780cd80..614cc9c 100644
---- a/man2/setns.2
-+++ b/man2/setns.2
-@@ -146,7 +146,7 @@ Password:
- clone() returned 3550
- uts.nodename in child:  bizarro
- uts.nodename in parent: antero
--# \fBuname -n\fP             # Verify hostname in the shell
-+# \fBuname \-n\fP             # Verify hostname in the shell
- antero
- .in
- .fi
-@@ -159,7 +159,7 @@ set by the child created by the first program:
- .nf
- .in +4n
- # \fB./ns_exec /proc/3550/ns/uts /bin/bash\fP
--# \fBuname -n\fP             # Executed in shell started by ns_exec
-+# \fBuname \-n\fP             # Executed in shell started by ns_exec
- bizarro
- .in
- .fi
-diff --git a/man7/glob.7 b/man7/glob.7
-index d6b52ce..98e6fc8 100644
---- a/man7/glob.7
-+++ b/man7/glob.7
-@@ -120,7 +120,7 @@ With
- .I bash
- one can force the classical behavior using this command:
- 
--    shopt -s nullglob
-+    shopt \-s nullglob
- .\" In Bash v1, by setting allow_null_glob_expansion=true
- 
- (Similar problems occur elsewhere.
-diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 76f31b0..eb358ad 100644
---- a/man8/ld.so.8
-+++ b/man8/ld.so.8
-@@ -97,7 +97,7 @@ Thus, an application located in
- .I somedir/app
- could be compiled with
- 
--    gcc -Wl,-rpath,\(aq$ORIGIN/../lib\(aq
-+    gcc \-Wl,\-rpath,\(aq$ORIGIN/../lib\(aq
- 
- so that it finds an associated shared library in
- .I somedir/lib
--- 
-1.7.10.4
+Do you have further details for the sk98lin driver? That page then also needs
+a similar note.
 
+> My initial reflex would be that anybody interested in older stuff
+> already has a habit
+> with working with version control history.
+
+As said, I prefer to hold onto the pages, at least for a while.
+
+Cheers,
+
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
