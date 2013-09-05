@@ -1,152 +1,29 @@
-From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+From: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
-Date: Thu, 5 Sep 2013 12:41:37 +0100
-Message-ID: <20130905114136.GB27528@sdfg.com.ar>
-References: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar>
- <1378202731-29738-2-git-send-email-rodrigo@sdfg.com.ar>
- <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com>
- <20130904133217.GC12620@sdfg.com.ar>
- <CAKgNAkjwVc3HLOL0n5upE5rOgqCN3TYGacrWMOzJ=uyv1mbHUg@mail.gmail.com>
- <00000140e9b4ede6-8b9dfd6f-7ca2-4d35-9454-389f6453031a-000000@email.amazonses.com>
- <20130904160815.GA15601@sdfg.com.ar>
- <00000140e9df10cd-71ca0078-fe11-4a8d-b588-93c2dfff098f-000000@email.amazonses.com>
+Date: Thu, 5 Sep 2013 14:22:09 +0000
+Message-ID: <00000140ee806e2a-6ac74d68-f5d8-4330-ab1c-fd8dd3a8ada3-000000@email.amazonses.com>
+References: <1378202731-29738-1-git-send-email-rodrigo@sdfg.com.ar> <1378202731-29738-2-git-send-email-rodrigo@sdfg.com.ar> <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com> <20130904133217.GC12620@sdfg.com.ar>
+ <CAKgNAkjwVc3HLOL0n5upE5rOgqCN3TYGacrWMOzJ=uyv1mbHUg@mail.gmail.com> <00000140e9b4ede6-8b9dfd6f-7ca2-4d35-9454-389f6453031a-000000@email.amazonses.com> <20130904160815.GA15601@sdfg.com.ar> <00000140e9df10cd-71ca0078-fe11-4a8d-b588-93c2dfff098f-000000@email.amazonses.com>
  <20130905081018.GA25617@sdfg.com.ar>
- <CAKgNAki9BLKHmwJfJ6mhLtNjHf7cVEdE3bhpWXEKnhTCRt+FpA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAki9BLKHmwJfJ6mhLtNjHf7cVEdE3bhpWXEKnhTCRt+FpA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20130905081018.GA25617-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Sep 05, 2013 at 01:03:48PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hi Rodrigo, (and Christoph and Peter, you may want to look at the
-> man-page patch below)
-> 
-> On Thu, Sep 5, 2013 at 10:10 AM, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> wrote:
-> > On Wed, Sep 04, 2013 at 04:47:25PM +0000, Christoph Lameter wrote:
-> >> On Wed, 4 Sep 2013, Rodrigo Campos wrote:
-> >>
-> >> > On Wed, Sep 04, 2013 at 04:01:27PM +0000, Christoph Lameter wrote:
-> >> > > On Wed, 4 Sep 2013, Michael Kerrisk (man-pages) wrote:
-> >> > >
-> >> > > > > I don't know. But looking at the git repo, it seems in the first git commit
-> >> > > > > (1da177e4c3f41524e886b7f1b8a0c1fc7321cac2) it was already safe,
-> >> > >
-> >> > > What do you mean by "safe"? Note that the manpage was written mainly based
-> >> >
-> >> > That you don't get bogus results on SMP systems. Now, it I think the note is
-> >> > obsolete (Peter confirmed that in fact it is), but we want to know when the note
-> >> > become obsolete.
-> >>
-> >> Well as soon as you have a kernel implementation of these clocks the issue
-> >> should be moot.
-> >
-> > Ohh, so my "theory" was right. Thanks a lot for the insight :-)
-> >
-> > So, Michael, IIUC what Christoph says, the note on SMP systems was relevant when
-> > glibc provide simple wrappers (like to retrieve TSC/ITC register contents) and
-> > didn't use the kernel support for it (or kernel support was not there).
-> 
-> Yup, that's my take on it too.
+On Thu, 5 Sep 2013, Rodrigo Campos wrote:
 
-:-)
+> If that is the case, should we change the note to say since which glibc (do we
+> care about any other libc?) and kernel version these are safe on SMP and keep
+> the note for people using olders version ?
 
+Right. Some older glibc versions will always handle these clock request in
+user space. Old RH4 and certain old SUSE versions were some of the main
+issues.
 
-> > Checking the glibc repo, I *think* the commit that starts using the kernel for
-> > these clocks might be this one: 2f4f3bd4a9ad805383b278e5b975971ca15c7a77
-> > ("Handle CLOCK_PROCESS_CPUTIME_ID and CLOCK_PROCESS_THREAD_ID specially,
-> > translating to the kernel clockid_t for our own process/thread clock.")
-> >
-> > That commit, doing a simple:
-> >         git tag --contains 2f4f3bd | sort -V
-> >
-> > seems to be included in glibc-2.4 for the first time, released on 6/Mar/2006.
-> > But, of course, I'm not sure this is the right commit :-)
-> 
-> I'm not sure if it's the right commit, but looking at source trees,
-> your estimate of glibc-2.4 looks right to me.
-
-Great
-
-
-
-> > If that is the case, should we change the note to say since which glibc (do we
-> > care about any other libc?) and kernel version these are safe on SMP and keep
-> > the note for people using olders version ?
-> 
-> Exactly. See below.
-> 
-> > Also, I didn't check if kernel support was backported to Linux 2.4...
-> 
-> 2.4.x doesn't have the two CPUTIME clocks.
-
-Thanks, I didn't know that :-)
-
-> 
-> How does the patch below look to you?
-
-Looks good, thanks! But I it failed to apply here as it is. And a minor question
-below
-
-> 
-> Cheers,
-> 
-> Michael
-> 
-> --- a/man2/clock_getres.2
-> +++ b/man2/clock_getres.2
-> @@ -221,12 +221,13 @@ are available.
->  (See also
->  .BR sysconf (3).)
->  .SH NOTES
-> -.SS Note for SMP systems
-> -The
-> +.SS Historical note for SMP systems
-> +Before Linux added kernel support for
->  .B CLOCK_PROCESS_CPUTIME_ID
->  and
-> -.B CLOCK_THREAD_CPUTIME_ID
-> -clocks are realized on many platforms using timers from the CPUs
-> +.BR CLOCK_THREAD_CPUTIME_ID ,
-> +glibc implemented these clocks on many platforms using timer
-> +registers from the CPUs
->  (TSC on i386, AR.ITC on Itanium).
->  These registers may differ between CPUs and as a consequence
->  these clocks may return
-> @@ -252,6 +253,15 @@ Glibc contains no provisions to deal with these
-> offsets (unlike the Linux
->  Kernel).
->  Typically these offsets are small and therefore the effects may be
->  negligible in most cases.
-> +
-> +Since glibc 2.4,
-
-Is the new line here on purpose ?
-
-> +the wrapper functions for the system calls described in this page avoid
-> +the abovementioned problems by employing the kernel implementation of
-> +.B CLOCK_PROCESS_CPUTIME_ID
-> +and
-> +.BR CLOCK_THREAD_CPUTIME_ID ,
-> +on systems that provide such an implementation
-
-And here too ?
-
-> +(i.e., Linux 2.6.12 and later).
->  .SH BUGS
->  According to POSIX.1-2001, a process with "appropriate privileges" may set the
->  .B CLOCK_PROCESS_CPUTIME_ID
-
-
-
-
-
-Thanks a lot,
-Rodrigo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
