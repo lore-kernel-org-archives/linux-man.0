@@ -1,33 +1,44 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60602] clock_gettime(): Note on SMP systems outdated ?
-Date: Fri, 06 Sep 2013 07:53:29 +0000
-Message-ID: <bug-60602-11311-G78iSro82o@https.bugzilla.kernel.org/>
-References: <bug-60602-11311@https.bugzilla.kernel.org/>
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: Re: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
+Date: Fri, 6 Sep 2013 08:55:36 +0100
+Message-ID: <20130906075535.GC28964@sdfg.com.ar>
+References: <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com>
+ <20130904133217.GC12620@sdfg.com.ar>
+ <CAKgNAkjwVc3HLOL0n5upE5rOgqCN3TYGacrWMOzJ=uyv1mbHUg@mail.gmail.com>
+ <00000140e9b4ede6-8b9dfd6f-7ca2-4d35-9454-389f6453031a-000000@email.amazonses.com>
+ <20130904160815.GA15601@sdfg.com.ar>
+ <00000140e9df10cd-71ca0078-fe11-4a8d-b588-93c2dfff098f-000000@email.amazonses.com>
+ <20130905081018.GA25617@sdfg.com.ar>
+ <CAKgNAki9BLKHmwJfJ6mhLtNjHf7cVEdE3bhpWXEKnhTCRt+FpA@mail.gmail.com>
+ <20130905114136.GB27528@sdfg.com.ar>
+ <CAKgNAkiVoZXntTnmPXhEywLvAo08cZJNVWdvBSpCjEFN2tbWSw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-60602-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkiVoZXntTnmPXhEywLvAo08cZJNVWdvBSpCjEFN2tbWSw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60602
+On Fri, Sep 06, 2013 at 06:11:03AM +0200, Michael Kerrisk (man-pages) wrote:
+> >>  Typically these offsets are small and therefore the effects may be
+> >>  negligible in most cases.
+> >> +
+> >> +Since glibc 2.4,
+> >
+> > Is the new line here on purpose ?
+> 
+> It makes no difference to the output; I often break long source lines
+> at punctuation points.
 
-Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> changed:
+Ohh, okay. Wanted to make sure it was on purpose :-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+> 
+> Thanks for all your help getting to the final result, Rodrigo.
 
---- Comment #5 from Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org> ---
-The issue moved to the list: http://article.gmane.org/gmane.linux.man/4374
-and was resolved there (see commit 78638aa on the manpages repo)
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Thank you :-)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
