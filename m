@@ -1,79 +1,74 @@
-From: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
-Subject: Wrong coding tags for 8859 pages
-Date: Sat, 07 Sep 2013 09:00:39 -0400
-Message-ID: <m3k3is3hwv.fsf@carbon.jhcloos.org>
+From: =?UTF-8?Q?Zsb=C3=A1n_Ambrus?= <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org>
+Subject: Fwd: [PATCH] linux man-pages ioctl_list(2) FAT_IOCTL_GET_ATTRIBUTES
+Date: Sun, 8 Sep 2013 01:23:19 +0200
+Message-ID: <CAHku1CHPnGMze526X0KUVUxtixRr8qxPg+-Q75ZqjB03HWKkKw@mail.gmail.com>
+References: <j2n25d4951c1004030936ia8b558e9w8951691fb29a6693@mail.gmail.com>
+Reply-To: ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary="=-=-="
+Content-Type: multipart/mixed; boundary=001a11c23c88c7842e04e5d370ca
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <j2n25d4951c1004030936ia8b558e9w8951691fb29a6693-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-
-iso_8859-13.7 claims to be:
-
-    '\" t -*- coding: ISO-8859-7 -*-
-
-Obviously that should be ISO-8859-13.
-
-Fixing it enables groff -k to guess the coding system and accurately
-typeset the document.
-
-A signed commit can be pulled from:
-
-   git://people.freedesktop.org/~cloos/man-pages.git
-
-or it is inlined below:
-
-
---=-=-=
-Content-Type: text/diff; charset=utf-8
-Content-Disposition: inline;
- filename=0001-iso_8859-13.7-Fix-coding-system-tag.patch
-Content-Transfer-Encoding: 8bit
-
->From 40c3f24fe3f1850ee90f3c32dc77ada33b09fa62 Mon Sep 17 00:00:00 2001
-From: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
-Date: Sat, 7 Sep 2013 08:51:21 -0400
-Subject: [PATCH] iso_8859-13.7: Fix coding system tag.
-MIME-Version: 1.0
+--001a11c23c88c7842e04e5d370ca
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Groff’s preconv(1) uses the coding tag to guess the file’s encoding.
-Otherwise, groff(1) generates bogus output from this file.
+Dear Linux man-pages.
 
-Signed-off-by: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
----
- man7/iso_8859-13.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'd like to ask about the status of this patch I'd sent years ago,
+which doesn't seem to be applied as of man-pages 3.53.  Should I
+modify the patch somehow or supply more information?
 
-diff --git a/man7/iso_8859-13.7 b/man7/iso_8859-13.7
-index 87797bb..82a6263 100644
---- a/man7/iso_8859-13.7
-+++ b/man7/iso_8859-13.7
-@@ -1,4 +1,4 @@
--'\" t -*- coding: ISO-8859-7 -*-
-+'\" t -*- coding: ISO-8859-13 -*-
- .\" Copyright 2009   Lefteris Dimitroulakis (edimitro-6VGm6rrshF0@public.gmane.org)
- .\"
- .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
--- 
-1.8.3.2
+Thanks in advance,
 
+Ambrus
 
---=-=-=
-Content-Type: text/plain
+---------- Forwarded message ----------
+From: Zsb=C3=A1n Ambrus <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org>
+Date: Sat, 3 Apr 2010 18:36:32 +0200
+Subject: [PATCH] linux man-pages ioctl_list(2) FAT_IOCTL_GET_ATTRIBUTES
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
+Dear linux man-pages,
 
--JimC
--- 
-James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>         OpenPGP: 1024D/ED7DAEA6
+The attached patch adds four ioctls from linux/msdos_fs.h to the
+ioctl_list(2) manpage.
 
---=-=-=--
+The ioctl FAT_IOCTL_GET_ATTRIBUTES reads FAT attributes of a file a
+mounted vfat file system.  I tested this on Linux 2.6.33, an example
+script can be found at "http://www.perlmonks.com/?node_id=3D832623".
+
+The constants are a bit difficult to access, you may need to include
+the following headers to get them defined correctly (and the order
+matters; and even then they are defined the have the wrong type,
+unsigned long instead of int): <sys/types.h> <sys/ioctl.h>
+<linux/types.h> <linux/dirent.h> <linux/msdos_fs.h>.  Do you suppose
+this should be mentioned in the manpage?
+
+Ambrus
+
+--001a11c23c88c7842e04e5d370ca
+Content-Type: text/x-diff; charset=US-ASCII; name="fatioc.diff"
+Content-Disposition: attachment; filename="fatioc.diff"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: file0
+
+LS0tIC4vaW9jdGxfbGlzdC4yCTIwMTAtMDQtMDMgMTc6NTI6MzkuMDAwMDAwMDAwICswMjAwCisr
+KyAuL2lvY3RsX2xpc3QuMgkyMDEwLTA0LTAzIDE4OjIzOjMxLjAwMDAwMDAwMCArMDIwMApAQCAt
+NDMwLDggKzQzMCwxNyBAQAogMHgwMDAwODlFMAlTSU9DR0VUVklGQ05UCXN0cnVjdCBzaW9jX3Zp
+Zl9yZXEgKgkvLyBJLU8KIDB4MDAwMDg5RTEJU0lPQ0dFVFNHQ05UCXN0cnVjdCBzaW9jX3NnX3Jl
+cSAqCS8vIEktTwogLlRFCiAKKy8vIDxpbmNsdWRlL2xpbnV4L21zZG9zX2ZzLmg+CisuVFMKK2wg
+bCBsIGwuCisweDgyMzA3MjAxCVZGQVRfSU9DVExfUkVBRERJUl9CT1RICXN0cnVjdCBkaXJlbnQg
+WzJdCisweDgyMzA3MjAyCVZGQVRfSU9DVExfUkVBRERJUl9TSE9SVAlzdHJ1Y3QgZGlyZW50IFsy
+XQorMHg4MDA0NzIxMAlGQVRfSU9DVExfR0VUX0FUVFJJQlVURVMJX191MzIgKgorMHg0MDA0NzIx
+MQlGQVRfSU9DVExfU0VUX0FUVFJJQlVURVMJY29uc3QgX191MzIgKgorLlRFCisKIC8vIDxpbmNs
+dWRlL2xpbnV4L210aW8uaD4KIC5UUwogbCBsIGwgbC4KIDB4NDAwODZEMDEJTVRJT0NUT1AJY29u
+c3Qgc3RydWN0IG10b3AgKgo=
+--001a11c23c88c7842e04e5d370ca--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
