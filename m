@@ -1,44 +1,79 @@
-From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Subject: Re: [PATCH] clock_getres.2: Remove obsolete note on SMP systems
-Date: Fri, 6 Sep 2013 08:55:36 +0100
-Message-ID: <20130906075535.GC28964@sdfg.com.ar>
-References: <CAKgNAkj_SumnwDQ=rxSBubybzOSTS9u0RjDBSR-1=KrTK7=L_A@mail.gmail.com>
- <20130904133217.GC12620@sdfg.com.ar>
- <CAKgNAkjwVc3HLOL0n5upE5rOgqCN3TYGacrWMOzJ=uyv1mbHUg@mail.gmail.com>
- <00000140e9b4ede6-8b9dfd6f-7ca2-4d35-9454-389f6453031a-000000@email.amazonses.com>
- <20130904160815.GA15601@sdfg.com.ar>
- <00000140e9df10cd-71ca0078-fe11-4a8d-b588-93c2dfff098f-000000@email.amazonses.com>
- <20130905081018.GA25617@sdfg.com.ar>
- <CAKgNAki9BLKHmwJfJ6mhLtNjHf7cVEdE3bhpWXEKnhTCRt+FpA@mail.gmail.com>
- <20130905114136.GB27528@sdfg.com.ar>
- <CAKgNAkiVoZXntTnmPXhEywLvAo08cZJNVWdvBSpCjEFN2tbWSw@mail.gmail.com>
+From: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
+Subject: Wrong coding tags for 8859 pages
+Date: Sat, 07 Sep 2013 09:00:39 -0400
+Message-ID: <m3k3is3hwv.fsf@carbon.jhcloos.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="=-=-="
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkiVoZXntTnmPXhEywLvAo08cZJNVWdvBSpCjEFN2tbWSw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Sep 06, 2013 at 06:11:03AM +0200, Michael Kerrisk (man-pages) wrote:
-> >>  Typically these offsets are small and therefore the effects may be
-> >>  negligible in most cases.
-> >> +
-> >> +Since glibc 2.4,
-> >
-> > Is the new line here on purpose ?
-> 
-> It makes no difference to the output; I often break long source lines
-> at punctuation points.
+--=-=-=
+Content-Type: text/plain
 
-Ohh, okay. Wanted to make sure it was on purpose :-)
+iso_8859-13.7 claims to be:
 
-> 
-> Thanks for all your help getting to the final result, Rodrigo.
+    '\" t -*- coding: ISO-8859-7 -*-
 
-Thank you :-)
+Obviously that should be ISO-8859-13.
+
+Fixing it enables groff -k to guess the coding system and accurately
+typeset the document.
+
+A signed commit can be pulled from:
+
+   git://people.freedesktop.org/~cloos/man-pages.git
+
+or it is inlined below:
+
+
+--=-=-=
+Content-Type: text/diff; charset=utf-8
+Content-Disposition: inline;
+ filename=0001-iso_8859-13.7-Fix-coding-system-tag.patch
+Content-Transfer-Encoding: 8bit
+
+>From 40c3f24fe3f1850ee90f3c32dc77ada33b09fa62 Mon Sep 17 00:00:00 2001
+From: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
+Date: Sat, 7 Sep 2013 08:51:21 -0400
+Subject: [PATCH] iso_8859-13.7: Fix coding system tag.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Groff’s preconv(1) uses the coding tag to guess the file’s encoding.
+Otherwise, groff(1) generates bogus output from this file.
+
+Signed-off-by: James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>
+---
+ man7/iso_8859-13.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/man7/iso_8859-13.7 b/man7/iso_8859-13.7
+index 87797bb..82a6263 100644
+--- a/man7/iso_8859-13.7
++++ b/man7/iso_8859-13.7
+@@ -1,4 +1,4 @@
+-'\" t -*- coding: ISO-8859-7 -*-
++'\" t -*- coding: ISO-8859-13 -*-
+ .\" Copyright 2009   Lefteris Dimitroulakis (edimitro-6VGm6rrshF0@public.gmane.org)
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+-- 
+1.8.3.2
+
+
+--=-=-=
+Content-Type: text/plain
+
+
+-JimC
+-- 
+James Cloos <cloos-GRsvFm/Gh/pBDgjK7y7TUQ@public.gmane.org>         OpenPGP: 1024D/ED7DAEA6
+
+--=-=-=--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
