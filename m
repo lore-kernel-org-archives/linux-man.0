@@ -1,68 +1,57 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] linux man-pages ioctl_list(2) FAT_IOCTL_GET_ATTRIBUTES
-Date: Sun, 8 Sep 2013 07:59:52 +0200
-Message-ID: <CAKgNAkgi_ELZ1Cy=Lu9A27Wj0BGemUXi+mieiuB5X8cN-U5cSg@mail.gmail.com>
-References: <j2n25d4951c1004030936ia8b558e9w8951691fb29a6693@mail.gmail.com> <CAHku1CHPnGMze526X0KUVUxtixRr8qxPg+-Q75ZqjB03HWKkKw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 60991] New: Formula of CommitLimit is wrong
+Date: Sun, 08 Sep 2013 16:37:51 +0000
+Message-ID: <bug-60991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAHku1CHPnGMze526X0KUVUxtixRr8qxPg+-Q75ZqjB03HWKkKw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?Zsb=E1n_Ambrus?= <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Ambrus,
+https://bugzilla.kernel.org/show_bug.cgi?id=60991
 
-On Sun, Sep 8, 2013 at 1:23 AM, Zsb=E1n Ambrus <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org> wro=
-te:
-> Dear Linux man-pages.
->
-> I'd like to ask about the status of this patch I'd sent years ago,
-> which doesn't seem to be applied as of man-pages 3.53.  Should I
-> modify the patch somehow or supply more information?
->
-> Thanks in advance,
+            Bug ID: 60991
+           Summary: Formula of CommitLimit is wrong
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: sworddragon2-YDxpq3io04c@public.gmane.org
+        Regression: No
 
-> ---------- Forwarded message ----------
-> From: Zsb=E1n Ambrus <ambrus-4iFmikrsyIeT9ig0jae3mg@public.gmane.org>
-> Date: Sat, 3 Apr 2010 18:36:32 +0200
-> Subject: [PATCH] linux man-pages ioctl_list(2) FAT_IOCTL_GET_ATTRIBUT=
-ES
-> To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
->
-> Dear linux man-pages,
->
-> The attached patch adds four ioctls from linux/msdos_fs.h to the
-> ioctl_list(2) manpage.
->
-> The ioctl FAT_IOCTL_GET_ATTRIBUTES reads FAT attributes of a file a
-> mounted vfat file system.  I tested this on Linux 2.6.33, an example
-> script can be found at "http://www.perlmonks.com/?node_id=3D832623".
->
-> The constants are a bit difficult to access, you may need to include
-> the following headers to get them defined correctly (and the order
-> matters; and even then they are defined the have the wrong type,
-> unsigned long instead of int): <sys/types.h> <sys/ioctl.h>
-> <linux/types.h> <linux/dirent.h> <linux/msdos_fs.h>.  Do you suppose
-> this should be mentioned in the manpage?
->
-> Ambrus
+The documentation on
+https://www.kernel.org/doc/Documentation/filesystems/proc.txt says: "The
+CommitLimit is calculated with the following formula:
+              CommitLimit = ('vm.overcommit_ratio' * Physical RAM) + Swap"
 
-I've applied the patch now.
+Variables on my system:
+vm.overcommit_ratio = 50
+Physical RAM = 16 GiB
+SwapTotal = 16776188 KiB
 
-Thanks,
+/proc/meminfo says "CommitLimit:    24993316 kB". Now lets see if this is
+correct: CommitLimit = (50 * 16777216 KiB) + 16776188 KiB; CommitLimit =
+855636988 KiB. The result from the formula does not match with the value
+reported by the kernel.
 
-Michael
+It is more likely that 'vm.overcommit_ratio' must be devided by 100 and
+"Physical RAM" must be replaced by the available memory (reported on my system
+as "MemTotal:       16434260 kB"). The new formula looks this: CommitLimit =
+('vm.overcommit_ratio' / 100 * 'MemTotal') + 'SwapTotal'. The result will be:
+CommitLimit = (50 / 100 * 16434260 KiB) + 16776188 KiB; CommitLimit = 24993318
+KiB. There is a difference of 2 KiB to the reported value but maybe this comes
+from internal rounding.
 
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
