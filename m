@@ -1,57 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60991] New: Formula of CommitLimit is wrong
-Date: Sun, 08 Sep 2013 16:37:51 +0000
-Message-ID: <bug-60991-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] seekdir.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 9 Sep 2013 11:48:48 +0800
+Message-ID: <1378698528-14408-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60991
+The function seekdir() is thread safe.
 
-            Bug ID: 60991
-           Summary: Formula of CommitLimit is wrong
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: sworddragon2-YDxpq3io04c@public.gmane.org
-        Regression: No
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/seekdir.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-The documentation on
-https://www.kernel.org/doc/Documentation/filesystems/proc.txt says: "The
-CommitLimit is calculated with the following formula:
-              CommitLimit = ('vm.overcommit_ratio' * Physical RAM) + Swap"
-
-Variables on my system:
-vm.overcommit_ratio = 50
-Physical RAM = 16 GiB
-SwapTotal = 16776188 KiB
-
-/proc/meminfo says "CommitLimit:    24993316 kB". Now lets see if this is
-correct: CommitLimit = (50 * 16777216 KiB) + 16776188 KiB; CommitLimit =
-855636988 KiB. The result from the formula does not match with the value
-reported by the kernel.
-
-It is more likely that 'vm.overcommit_ratio' must be devided by 100 and
-"Physical RAM" must be replaced by the available memory (reported on my system
-as "MemTotal:       16434260 kB"). The new formula looks this: CommitLimit =
-('vm.overcommit_ratio' / 100 * 'MemTotal') + 'SwapTotal'. The result will be:
-CommitLimit = (50 / 100 * 16434260 KiB) + 16776188 KiB; CommitLimit = 24993318
-KiB. There is a difference of 2 KiB to the reported value but maybe this comes
-from internal rounding.
-
+diff --git a/man3/seekdir.3 b/man3/seekdir.3
+index 768dcbd..7eeb822 100644
+--- a/man3/seekdir.3
++++ b/man3/seekdir.3
+@@ -28,7 +28,7 @@
+ .\"     386BSD man pages
+ .\" Modified Sat Jul 24 18:25:21 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\"
+-.TH SEEKDIR 3  2013-03-24 "" "Linux Programmer's Manual"
++.TH SEEKDIR 3  2013-09-09 "" "Linux Programmer's Manual"
+ .SH NAME
+ seekdir \- set the position of the next readdir() call in the directory
+ stream.
+@@ -61,6 +61,11 @@ argument should be a value returned by a previous call to
+ The
+ .BR seekdir ()
+ function returns no value.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR seekdir ()
++function is thread-safe.
+ .SH CONFORMING TO
+ 4.3BSD, POSIX.1-2001.
+ .SH NOTES
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
