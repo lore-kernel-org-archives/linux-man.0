@@ -1,45 +1,56 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] seekdir.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 9 Sep 2013 11:48:48 +0800
-Message-ID: <1378698528-14408-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] drand48_r.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 9 Sep 2013 14:15:28 +0800
+Message-ID: <1378707328-19625-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function seekdir() is thread safe.
+The functions drand48_r(), erand48_r(), lrand48_r(),
+nrand48_r(), mrand48_r(), jrand48_r(), srand48_r(), seed48_r(),
+and lcong48_r() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/seekdir.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man3/drand48_r.3 | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/man3/seekdir.3 b/man3/seekdir.3
-index 768dcbd..7eeb822 100644
---- a/man3/seekdir.3
-+++ b/man3/seekdir.3
-@@ -28,7 +28,7 @@
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:25:21 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+diff --git a/man3/drand48_r.3 b/man3/drand48_r.3
+index 118a98d..30b85f3 100644
+--- a/man3/drand48_r.3
++++ b/man3/drand48_r.3
+@@ -24,7 +24,7 @@
  .\"
--.TH SEEKDIR 3  2013-03-24 "" "Linux Programmer's Manual"
-+.TH SEEKDIR 3  2013-09-09 "" "Linux Programmer's Manual"
+ .\" Created 2004-10-31. Text taken from a page by Walter Harms, 2003-09-08
+ .\"
+-.TH DRAND48_R 3 2007-07-26 "GNU" "Linux Programmer's Manual"
++.TH DRAND48_R 3 2013-09-09 "GNU" "Linux Programmer's Manual"
  .SH NAME
- seekdir \- set the position of the next readdir() call in the directory
- stream.
-@@ -61,6 +61,11 @@ argument should be a value returned by a previous call to
- The
- .BR seekdir ()
- function returns no value.
+ drand48_r, erand48_r, lrand48_r, nrand48_r, mrand48_r, jrand48_r,
+ srand48_r, seed48_r, lcong48_r
+@@ -95,6 +95,20 @@ or
+ .BR lcong48_r ().
+ .SH RETURN VALUE
+ The return value is 0.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR seekdir ()
-+function is thread-safe.
++.BR drand48_r (),
++.BR erand48_r (),
++.BR lrand48_r (),
++.BR nrand48_r (),
++.BR mrand48_r (),
++.BR jrand48_r (),
++.BR srand48_r (),
++.BR seed48_r (),
++and
++.BR lcong48_r ()
++functions are thread-safe.
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH NOTES
+ These functions are GNU extensions and are not portable.
+ .SH SEE ALSO
 -- 
 1.8.3.1
 
