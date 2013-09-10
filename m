@@ -1,18 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 16031] slabinfo description inaccurate (out of date?)
-Date: Tue, 10 Sep 2013 16:50:14 +0000
-Message-ID: <bug-16031-11311-Kdvp0CwFBs@https.bugzilla.kernel.org/>
-References: <bug-16031-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 29972] Possibly bad EBADF error description in fsync(2)
+Date: Tue, 10 Sep 2013 16:55:12 +0000
+Message-ID: <bug-29972-11311-FV7aS4IEk6@https.bugzilla.kernel.org/>
+References: <bug-29972-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-16031-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-29972-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D16031
+https://bugzilla.kernel.org/show_bug.cgi?id=3D29972
 
 Jorge Ner=C3=ADn <jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
@@ -22,12 +22,11 @@ Jorge Ner=C3=ADn <jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
                  CC|                            |jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 --- Comment #1 from Jorge Ner=C3=ADn <jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-As of man-pages 3.51 this is still the case, but perhaps the correct th=
-ing to
-do being it a kernel file should be to add a note directing users to re=
-ad
-current /usr/src/linux/Documentation/vm/slub.txt and/or play with
-/usr/src/linux/tools/vm/slabinfo.c
+man-pages 3.51 fsync(2):
+
+       EBADF  fd is not a valid open file descriptor.
+
+I think this bug should be closed.
 
 --=20
 You are receiving this mail because:
