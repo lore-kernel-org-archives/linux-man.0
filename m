@@ -1,36 +1,57 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 29972] Possibly bad EBADF error description in fsync(2)
-Date: Tue, 10 Sep 2013 16:55:12 +0000
-Message-ID: <bug-29972-11311-FV7aS4IEk6@https.bugzilla.kernel.org/>
-References: <bug-29972-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 61171] New: adjtimex(2): incomplete description of the struct
+ timex
+Date: Wed, 11 Sep 2013 17:56:57 +0000
+Message-ID: <bug-61171-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-29972-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D29972
+https://bugzilla.kernel.org/show_bug.cgi?id=61171
 
-Jorge Ner=C3=ADn <jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+            Bug ID: 61171
+           Summary: adjtimex(2): incomplete description of the struct
+                    timex
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: matwey.kornilov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-           What    |Removed                     |Added
------------------------------------------------------------------------=
------
-                 CC|                            |jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Hi,
 
---- Comment #1 from Jorge Ner=C3=ADn <jnerin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-man-pages 3.51 fsync(2):
+I am using 3.46 release of man-pages under openSUSE 12.3.
 
-       EBADF  fd is not a valid open file descriptor.
+man adjtimex(2) says that struct timex has a member:
 
-I think this bug should be closed.
+struct timeval time; /* current time (read-only) */
 
---=20
+implying that timeval has two fields: seconds and microseconds (as it described
+in many places, for instance GLIBC documentation). This misinforms people, and
+explicit behavior must be reported.
+
+Inspection of kernel/time/ntp.c (as for linux 3.7) demonstrates that the second
+field timex.time.tv_usec may contain nanoseconds instead of microseconds. When
+timex.status STA_NANO flag is not set, this field contains microseconds, as one
+expects.
+
+The previous is still also true for timex.offset which is stated to be in units
+of usec. Units of offset also depend on STA_NANO flag.
+
+-- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
