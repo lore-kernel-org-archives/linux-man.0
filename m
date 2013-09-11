@@ -1,56 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 61171] New: adjtimex(2): incomplete description of the struct
- timex
-Date: Wed, 11 Sep 2013 17:56:57 +0000
-Message-ID: <bug-61171-11311@https.bugzilla.kernel.org/>
+From: "J. Bruce Fields" <bfields-uC3wQj2KruNg9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH] access: fix outdated NFS information
+Date: Wed, 11 Sep 2013 16:22:11 -0400
+Message-ID: <20130911202210.GB1462@fieldses.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-nfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=61171
+From: "J. Bruce Fields" <bfields-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-            Bug ID: 61171
-           Summary: adjtimex(2): incomplete description of the struct
-                    timex
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: matwey.kornilov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+Note that NFS versions since version 3 support an "access" call so that
+the client doesn't have to guess permissions or id mapping on its own.
 
-Hi,
+(See rfc 1813 sections 1.7 and 3.3.4.)
 
-I am using 3.46 release of man-pages under openSUSE 12.3.
+Signed-off-by: J. Bruce Fields <bfields-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man2/access.2 |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-man adjtimex(2) says that struct timex has a member:
-
-struct timeval time; /* current time (read-only) */
-
-implying that timeval has two fields: seconds and microseconds (as it described
-in many places, for instance GLIBC documentation). This misinforms people, and
-explicit behavior must be reported.
-
-Inspection of kernel/time/ntp.c (as for linux 3.7) demonstrates that the second
-field timex.time.tv_usec may contain nanoseconds instead of microseconds. When
-timex.status STA_NANO flag is not set, this field contains microseconds, as one
-expects.
-
-The previous is still also true for timex.offset which is stated to be in units
-of usec. Units of offset also depend on STA_NANO flag.
-
+diff --git a/man2/access.2 b/man2/access.2
+index 6df68de..3bacab1 100644
+--- a/man2/access.2
++++ b/man2/access.2
+@@ -209,9 +209,10 @@ Similarly, a DOS file may be found to be "executable," but the
+ call will still fail.
+ .PP
+ .BR access ()
+-may not work correctly on NFS filesystems with UID mapping enabled,
++may not work correctly on NFSv2 filesystems with UID mapping enabled,
+ because UID mapping is done on the server and hidden from the client,
+-which checks permissions.
++which checks permissions.  (NFS versions 3 and higher perform the check on
++the server.)
+ Similar problems can occur to FUSE mounts.
+ .SH BUGS
+ In kernel 2.4 (and earlier) there is some strangeness in the handling of
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.7.9.5
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
