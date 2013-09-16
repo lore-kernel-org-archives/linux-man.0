@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 61511] scanf man page is misleading re out-of-range integer
  conversions
-Date: Mon, 16 Sep 2013 21:27:34 +0000
-Message-ID: <bug-61511-11311-kQtejsKX8D@https.bugzilla.kernel.org/>
+Date: Mon, 16 Sep 2013 21:48:49 +0000
+Message-ID: <bug-61511-11311-Zq6OV8HahT@https.bugzilla.kernel.org/>
 References: <bug-61511-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,26 +15,29 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=61511
 
---- Comment #1 from walter <wharms-fPG8STNUNVg@public.gmane.org> ---
-Am 16.09.2013 22:04, schrieb bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org:
-> sscanf("9999999999999999999999999999999", "%d", &i).
+--- Comment #2 from Ian Pilcher <arequipeno-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to walter from comment #1)
+> please try this code:
+> 
+> #include <stdio.h>
+> #include <errno.h>
+> int main()
+> {
+>         int ret,i;
+>         ret=sscanf("9999999999999999999999999999999", "%d", &i);
+>         perror("scanf");
+>         printf("ret=%d i=%d\n",ret,i);
+>         return 0;
+> }
 
+scanf: Numerical result out of range
+ret=1 i=-1
 
-please try this code:
+So it is setting errno, but it's still returning 1.  That's just weird.  (But
+allowed, since the behavior is undefined in this case.)
 
-#include <stdio.h>
-#include <errno.h>
-int main()
-{
-        int ret,i;
-        ret=sscanf("9999999999999999999999999999999", "%d", &i);
-        perror("scanf");
-        printf("ret=%d i=%d\n",ret,i);
-        return 0;
-}
-
-re,
- wh
+Perhaps the ERANGE section could note that it can occur even when the function
+does not return EOF.
 
 -- 
 You are receiving this mail because:
