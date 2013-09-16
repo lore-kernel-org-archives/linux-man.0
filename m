@@ -1,56 +1,48 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: RFC: Bug 60749 - Do not need to link against -lm for fabs*()
-Date: Mon, 16 Sep 2013 16:57:12 +0200
-Message-ID: <52371C48.7040404@bfs.de>
-References: <5233415A.90506@bfs.de> <CAKgNAkiy54SbGEt6KQ2a87SQejoyuzcTvDbVK8aAQXd==yNNvg@mail.gmail.com> <5234511C.7030500@bfs.de>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 61511] New: scanf man page is misleading re out-of-range
+ integer conversions
+Date: Mon, 16 Sep 2013 20:04:25 +0000
+Message-ID: <bug-61511-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5234511C.7030500-fPG8STNUNVg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=61511
 
+            Bug ID: 61511
+           Summary: scanf man page is misleading re out-of-range integer
+                    conversions
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: arequipeno-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-Am 14.09.2013 14:05, schrieb walter harms:
-> 
-> 
-> Am 13.09.2013 20:20, schrieb Michael Kerrisk (man-pages):
->> Walter,
->>
->> On Fri, Sep 13, 2013 at 6:46 PM, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
->>> hi list,
->>> i was investigating this and the good news it that you still need a libm.
->>> On the other side the reporter is right he does not need to specify that.
->>> Obviously this depends on the linker script used.
->>>
->>> The math man pages say: "Link with -lm".
->>> Perhaps it is better to say 'You may need to Link with -lm".
->>>
->>> any comments on that ?
->>
->>
->> Thanks for looking at this bug. Could you elaborate a little more on
->> what it/sin't in the linker script that makes the difference?
->>
-> 
-> I have no clue what linker magic is needed.
-> 
-I know what it going on. the is no linker magic required.
-The point is gcc build-ins. Some functions are replaced with
-build-ins. That happens e.g. with fabs() what the original poster noted.
-Disabling the build-ins with gcc -fno-builtin shows that the -lm is still
-a requirement.
+Unless I'm missing it, the scanf man page doesn't really specifically address
+the result of an out-of-range integer conversion -- e.g.
+sscanf("9999999999999999999999999999999", "%d", &i).
 
-next problem, who will do the bugzilla-entry ?
+The ERRORS section, however, says this:
 
-re,
- wh
+ ERANGE The result of an integer conversion would exceed the size that
+              can be stored in the corresponding integer type.
 
+This is definitely *not* the behavior that I'm seeing.  Instead, sscanf is
+returning 1 and -1 is assigned to i.
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
