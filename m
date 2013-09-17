@@ -1,31 +1,23 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 61511] scanf man page is incomplete re out-of-range integer
- conversions
-Date: Mon, 16 Sep 2013 21:49:08 +0000
-Message-ID: <bug-61511-11311-ky2qELyo4n@https.bugzilla.kernel.org/>
-References: <bug-61511-11311@https.bugzilla.kernel.org/>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Bug 49091 - fanotify
+Date: Tue, 17 Sep 2013 19:14:03 +0200
+Message-ID: <52388DDB.7030708@bfs.de>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-61511-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=61511
+hi Michael Kerrisk,
+there is a man-page with that bug report, any reason why this was
+noch incorporated into the mainstream ?
 
-Ian Pilcher <arequipeno-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|scanf man page is           |scanf man page is
-                   |misleading re out-of-range  |incomplete re out-of-range
-                   |integer conversions         |integer conversions
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+re,
+ wh
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
