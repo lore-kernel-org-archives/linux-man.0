@@ -1,37 +1,32 @@
-From: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>
-Subject: Re: man-pages-3.54 released
-Date: Tue, 24 Sep 2013 16:05:56 +0200
-Message-ID: <20130924140556.GY19794@mraw.org>
-References: <524056B8.20707@gmail.com>
- <20130923182216.GW19794@mraw.org>
- <CAKgNAkjV1MPOVt5eZG8oyR0LjnuJ0ZCVnzgS5s84r8cSuUWB5w@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: [PATCH] futex.2: Fix link to Rusty's futex example library
+Date: Tue, 24 Sep 2013 22:04:19 +0100
+Message-ID: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjV1MPOVt5eZG8oyR0LjnuJ0ZCVnzgS5s84r8cSuUWB5w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Sep 24, 2013 at 11:11:43AM +0200, Michael Kerrisk (man-pages) wrote:
-> On Mon, Sep 23, 2013 at 8:22 PM, Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org> wrote:
-[..]
-> >> Git repository:
-> >>     https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
-> >
-> > Tag 3.54 is missing ?
-> 
-> Thanks, Simon. Fixed now.
+Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+---
+ man2/futex.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Tag 3.54 is not linked to any commit in master:
-https://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/
-
-Can you push master too ? 
-
+diff --git a/man2/futex.2 b/man2/futex.2
+index 78e3de0..a59b0a4 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -326,5 +326,5 @@ read the sources of the futex user-space library referenced below.
+ .PP
+ Futex example library, futex-*.tar.bz2 at
+ .br
+-.UR ftp://ftp.nl.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
++.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+ .UE
 -- 
-Simon Paillard
+1.8.4.rc3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
