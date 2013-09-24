@@ -1,44 +1,24 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man-pages-3.54 released
-Date: Tue, 24 Sep 2013 11:11:43 +0200
-Message-ID: <CAKgNAkjV1MPOVt5eZG8oyR0LjnuJ0ZCVnzgS5s84r8cSuUWB5w@mail.gmail.com>
-References: <524056B8.20707@gmail.com> <20130923182216.GW19794@mraw.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: John Spencer <maillist-musl-Am5OCHYCrcUb1SvskN2V4Q@public.gmane.org>
+Subject: Re: POSIX.1-2013 man pages for review
+Date: Tue, 24 Sep 2013 15:30:04 +0200
+Message-ID: <524193DC.3030505@barfooze.de>
+References: <523AAEEE.5090602@gmail.com> <523AB978.2080607@barfooze.de> <CAKgNAki+jTS9rkORvcPNxWcStNjnNTnt_jqBYcfoaYm7d4GxqQ@mail.gmail.com> <523C48EF.5080309@barfooze.de> <20130920175410.GA1092@gauss> <523D8F06.9060801@barfooze.de> <20130922192521.GA14208@gauss>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130923182216.GW19794-xazfMhTT2R0@public.gmane.org>
+In-Reply-To: <20130922192521.GA14208@gauss>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Felix Janda <felix.janda-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+Cc: John Spencer <maillist-musl-Am5OCHYCrcUb1SvskN2V4Q@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Josey <ajosey-7882/jkIBncuagvECLh61g@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Matthew Dempsky <matthew-bfSpyvURsAhAfugRpC6u6w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Sep 23, 2013 at 8:22 PM, Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org> wrote:
-> Hi Michael,
+On 09/22/2013 09:25 PM, Felix Janda wrote:
 >
-> On Mon, Sep 23, 2013 at 04:56:56PM +0200, Michael Kerrisk (man-pages) wrote:
->> The Linux man-pages maintainer proudly announces:
->>     man-pages-3.54 - man pages for Linux
->>
->> Tarball download:
->>     http://www.kernel.org/doc/man-pages/download.html
->> Git repository:
->>     https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+> How about escape sequences?
 >
-> Tag 3.54 is missing ?
 
-Thanks, Simon. Fixed now.
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-My next Linux/UNIX system programming course:
-http://blog.man7.org/2013/09/linuxunix-system-programming-course.html
+they're supported, yes.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
