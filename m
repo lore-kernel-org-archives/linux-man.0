@@ -1,58 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] euidaccess.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 26 Sep 2013 15:14:14 +0200
-Message-ID: <52443326.3040308@gmail.com>
-References: <1380080205-31571-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] cbrt.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 26 Sep 2013 15:15:17 +0200
+Message-ID: <52443365.5070403@gmail.com>
+References: <1379495536-7221-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1380080205-31571-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1379495536-7221-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 25.09.2013 05:36, Peng Haitao wrote:
-> The functions euidaccess() and eaccess() are thread safe.
+On 18.09.2013 11:12, Peng Haitao wrote:
+> The functions cbrt(), cbrtf() and cbrtl() are thread safe.
 
-Applied. Thanks,
+Applied.
+
+Thanks,
 
 Michael
 
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/euidaccess.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  man3/cbrt.3 | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/euidaccess.3 b/man3/euidaccess.3
-> index e86d798..ca25ed1 100644
-> --- a/man3/euidaccess.3
-> +++ b/man3/euidaccess.3
-> @@ -22,7 +22,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
+> diff --git a/man3/cbrt.3 b/man3/cbrt.3
+> index 91e0891..466e5d3 100644
+> --- a/man3/cbrt.3
+> +++ b/man3/cbrt.3
+> @@ -27,7 +27,7 @@
+>  .\" Modified 2002-07-27 Walter Harms
+>  .\" (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
 >  .\"
-> -.TH EUIDACCESS 3 2010-11-01 "" "Linux Programmer's Manual"
-> +.TH EUIDACCESS 3 2013-09-25 "" "Linux Programmer's Manual"
+> -.TH CBRT 3  2010-09-20 "GNU"  "Linux Programmer's Manual"
+> +.TH CBRT 3  2013-09-18 "GNU"  "Linux Programmer's Manual"
 >  .SH NAME
->  euidaccess, eaccess \- check effective user's permissions for a file
+>  cbrt, cbrtf, cbrtl \- cube root function
 >  .SH SYNOPSIS
-> @@ -70,6 +70,13 @@ As for
->  The
->  .BR eaccess ()
->  function was added to glibc in version 2.4.
+> @@ -87,6 +87,14 @@ is +0, \-0, positive infinity, negative infinity, or NaN,
+>  is returned.
+>  .SH ERRORS
+>  No errors occur.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR euidaccess ()
+> +.BR cbrt (),
+> +.BR cbrtf (),
 > +and
-> +.BR eaccess ()
+> +.BR cbrtl ()
 > +functions are thread-safe.
 >  .SH CONFORMING TO
->  These functions are nonstandard.
->  Some other systems have an
+>  C99, POSIX.1-2001.
+>  .\" .BR cbrt ()
 > 
 
 
