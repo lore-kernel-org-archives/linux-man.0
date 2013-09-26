@@ -1,57 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] statvfs.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 26 Sep 2013 15:12:51 +0200
-Message-ID: <524432D3.2000006@gmail.com>
-References: <1380173612-13856-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] dysize.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Sep 2013 15:14:35 +0200
+Message-ID: <5244333B.90109@gmail.com>
+References: <1380075576-28213-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1380173612-13856-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1380075576-28213-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 26.09.2013 07:33, Peng Haitao wrote:
-> The functions statvfs() and fstatvfs() are thread safe.
+On 25.09.2013 04:19, Peng Haitao wrote:
+> The function dysize() is thread safe.
 
-Applied. Thanks,
+Applied.
+
+Thanks,
 
 Michael
 
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/statvfs.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  man3/dysize.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/statvfs.3 b/man3/statvfs.3
-> index 24d10d6..e36630f 100644
-> --- a/man3/statvfs.3
-> +++ b/man3/statvfs.3
-> @@ -27,7 +27,7 @@
+> diff --git a/man3/dysize.3 b/man3/dysize.3
+> index c9d1e1c..882e1c2 100644
+> --- a/man3/dysize.3
+> +++ b/man3/dysize.3
+> @@ -23,7 +23,7 @@
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Modified 2004-06-23 by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\"
-> -.TH STATVFS 3 2003-08-22 "Linux" "Linux Programmer's Manual"
-> +.TH STATVFS 3 2013-09-26 "Linux" "Linux Programmer's Manual"
+>  .\" aeb: some corrections
+> -.TH DYSIZE 3 2010-09-22 "GNU" "Linux Programmer's Manual"
+> +.TH DYSIZE 3 2013-09-25 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  statvfs, fstatvfs \- get filesystem statistics
+>  dysize \- get number of days for a given year
 >  .SH SYNOPSIS
-> @@ -154,6 +154,13 @@ is not a directory.
->  .TP
->  .B EOVERFLOW
->  Some values were too large to be represented in the returned struct.
+> @@ -48,6 +48,11 @@ The formula is defined in the macro
+>  .I __isleap(year)
+>  also found in
+>  .IR <time.h> .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR statvfs ()
-> +and
-> +.BR fstatvfs ()
-> +functions are thread-safe.
+> +.BR dysize ()
+> +function is thread-safe.
 >  .SH CONFORMING TO
->  POSIX.1-2001.
+>  This function occurs in SunOS 4.x.
 >  .SH NOTES
 > 
 
