@@ -1,47 +1,40 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man-pages-3.54 released
-Date: Fri, 27 Sep 2013 05:10:48 +0200
-Message-ID: <CAKgNAkhmnbEwsEoDPmpK4tyFqV0NSKU8W9r7waqNNzGEQxZUuA@mail.gmail.com>
-References: <524056B8.20707@gmail.com> <20130923182216.GW19794@mraw.org>
- <CAKgNAkjV1MPOVt5eZG8oyR0LjnuJ0ZCVnzgS5s84r8cSuUWB5w@mail.gmail.com> <20130924140556.GY19794@mraw.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: Re: assert
+Date: Fri, 27 Sep 2013 23:42:11 +0100
+Message-ID: <524609C3.2090909@jguk.org>
+References: <CAGc9EvdE4Fd5QaJ_Rj+CsZkwvktTCPcnupJmSwNfM5SJRefAJA@mail.gmail.com> <5244617E.3000306@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20130924140556.GY19794-xazfMhTT2R0@public.gmane.org>
+In-Reply-To: <5244617E.3000306-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Sep 24, 2013 at 4:05 PM, Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org> wrote:
-> On Tue, Sep 24, 2013 at 11:11:43AM +0200, Michael Kerrisk (man-pages) wrote:
->> On Mon, Sep 23, 2013 at 8:22 PM, Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org> wrote:
-> [..]
->> >> Git repository:
->> >>     https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
->> >
->> > Tag 3.54 is missing ?
+
+
+On 26/09/13 17:31, Michael Kerrisk (man-pages) wrote:
+> On 25.09.2013 15:18, Jon Grant wrote:
+>> Hello mtk
 >>
->> Thanks, Simon. Fixed now.
+>> Would it be better to replace "his" with "their", in the interests of equality?
+>>
+>> http://man7.org/linux/man-pages/man3/assert.3.html
+>>
+>>         "The purpose of this macro is to help the programmer find bugs in his
+>>         program.  The message "assertion failed in file foo.c, function
+>>         do_bar(), line 1287" is of no help at all to a user."
+>>
+>>
+>> NB. This may apply to other man pages.
 >
-> Tag 3.54 is not linked to any commit in master:
-> https://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/
+> Hi Jon,
 >
-> Can you push master too ?
+> I fixed four pages along the lines you suggest.
 
-Done. Sorry about the confusion.
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-My next Linux/UNIX system programming course:
-http://blog.man7.org/2013/09/linuxunix-system-programming-course.html
+Great!
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
