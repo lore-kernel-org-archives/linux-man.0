@@ -1,40 +1,40 @@
-From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Re: assert
-Date: Fri, 27 Sep 2013 23:42:11 +0100
-Message-ID: <524609C3.2090909@jguk.org>
-References: <CAGc9EvdE4Fd5QaJ_Rj+CsZkwvktTCPcnupJmSwNfM5SJRefAJA@mail.gmail.com> <5244617E.3000306@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH 1/2] reboot.2: Mention RB_POWER_OFF
+Date: Mon, 30 Sep 2013 20:41:43 +0200
+Message-ID: <1380566504-9669-1-git-send-email-eliedebrauwer@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5244617E.3000306-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+The manpage did not mention RB_POWER_OFF which is the glibc symbolic name
+for LINUX_REBOOT_CMD_POWER_OFF.
 
+edb@lapedb:/usr/include$ cat x86_64-linux-gnu/sys/reboot.h  | grep POWER_OFF
+ define RB_POWER_OFF	0x4321fedc
 
-On 26/09/13 17:31, Michael Kerrisk (man-pages) wrote:
-> On 25.09.2013 15:18, Jon Grant wrote:
->> Hello mtk
->>
->> Would it be better to replace "his" with "their", in the interests of equality?
->>
->> http://man7.org/linux/man-pages/man3/assert.3.html
->>
->>         "The purpose of this macro is to help the programmer find bugs in his
->>         program.  The message "assertion failed in file foo.c, function
->>         do_bar(), line 1287" is of no help at all to a user."
->>
->>
->> NB. This may apply to other man pages.
->
-> Hi Jon,
->
-> I fixed four pages along the lines you suggest.
+Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man2/reboot.2 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Great!
+diff --git a/man2/reboot.2 b/man2/reboot.2
+index b25d62c..0ed6355 100644
+--- a/man2/reboot.2
++++ b/man2/reboot.2
+@@ -115,7 +115,7 @@ This option is available only if the kernel was configured with
+ .BR CONFIG_KEXEC .
+ .TP
+ .B LINUX_REBOOT_CMD_POWER_OFF
+-(0x4321fedc; since 2.1.30).
++(RB_POWER_OFF, 0x4321fedc; since 2.1.30).
+ The message "Power down." is printed, the system is stopped,
+ and all power is removed from the system, if possible.
+ If not preceded by a
+-- 
+1.7.10.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
