@@ -1,40 +1,46 @@
-From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Subject: [PATCH v2] futex.2: Fix link to Rusty's futex example library
-Date: Mon, 30 Sep 2013 19:50:43 +0100
-Message-ID: <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
-References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
+From: Andreas Johansson <andjo-5UnqSh4Icw/LoDKTGw+V6w@public.gmane.org>
+Subject: [PATCH] crypt.3: Describe additional errno values
+Date: Mon, 30 Sep 2013 22:36:40 +0200
+Message-ID: <5249E0D8.20207@nsc.liu.se>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1380056659-24306-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
-".nl." is "an obsolete scheme and really should be changed to just
-ftp.kernel.org". So this patch does just this change.
+Glibc 2.17 introduced two additional errno values that can be set by
+crypt() and crypt_r(), EINVAL and EPERM.
 
-I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
-Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
-domains used in the example also don't work. I'm not sure we want to fix this,
-but if we want, we should probably do it in a separate patch.
-
-Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Signed-off-by: Andreas Johansson <andjo-5UnqSh4Icw/LoDKTGw+V6w@public.gmane.org>
 ---
- man2/futex.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/crypt.3 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/man2/futex.2 b/man2/futex.2
-index 78e3de0..a59b0a4 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -326,5 +326,5 @@ read the sources of the futex user-space library referenced below.
- .PP
- Futex example library, futex-*.tar.bz2 at
- .br
--.UR ftp://ftp.nl.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
-+.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
- .UE
+diff --git a/man3/crypt.3 b/man3/crypt.3
+index c3bad3e..8035d7c 100644
+--- a/man3/crypt.3
++++ b/man3/crypt.3
+@@ -122,10 +122,17 @@ On success, a pointer to the encrypted password is returned.
+ On error, NULL is returned.
+ .SH ERRORS
+ .TP
++.B EINVAL
++The string used for the salt is not valid for the encryption method.
++.TP
+ .B ENOSYS
+ The
+ .BR crypt ()
+ function was not implemented, probably because of U.S.A. export restrictions.
++.TP
++.B EPERM
++The encryption algorithm specified is not allowed by the FIPS
++standard.
+ .\" This level of detail is not necessary in this man page. . .
+ .\" .PP
+ .\" When encrypting a plain text P using DES with the key K results in the
 -- 
 1.8.4.rc3
 
