@@ -1,94 +1,42 @@
-From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 2/2] reboot.2: Add documentation of LINUX_REBOOT_SW_SUSPEND
-Date: Mon, 30 Sep 2013 20:41:44 +0200
-Message-ID: <1380566504-9669-2-git-send-email-eliedebrauwer@gmail.com>
-References: <1380566504-9669-1-git-send-email-eliedebrauwer@gmail.com>
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: [PATCH v2] futex.2: Fix link to Rusty's futex example library
+Date: Mon, 30 Sep 2013 19:50:43 +0100
+Message-ID: <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
+References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1380566504-9669-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1380056659-24306-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-When reboot() is called with LINUX_REBOOT_SW_SUSPEND and CONFIG_HIBERNATION
-is set, the hibernation process will be called.
+When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
+".nl." is "an obsolete scheme and really should be changed to just
+ftp.kernel.org". So this patch does just this change.
 
-E.g kernel/reboot.c contains:
+I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
+Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
+domains used in the example also don't work. I'm not sure we want to fix this,
+but if we want, we should probably do it in a separate patch.
 
- 267#ifdef CONFIG_HIBERNATION
- 268        case LINUX_REBOOT_CMD_SW_SUSPEND:
- 269                ret = hibernate();
- 270                break;
- 271#endif
-
-Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 ---
- man2/reboot.2 |   17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ man2/futex.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/reboot.2 b/man2/reboot.2
-index 0ed6355..d4a5a0e 100644
---- a/man2/reboot.2
-+++ b/man2/reboot.2
-@@ -25,7 +25,7 @@
- .\" Modified, 27 May 2004, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
- .\"     Added notes on capability requirements
- .\"
--.TH REBOOT 2 2010-10-31 "Linux" "Linux Programmer's Manual"
-+.TH REBOOT 2 2013-09-30 "Linux" "Linux Programmer's Manual"
- .SH NAME
- reboot \- reboot or enable/disable Ctrl-Alt-Del
- .SH SYNOPSIS
-@@ -101,21 +101,22 @@ the action associated with
- .BR LINUX_REBOOT_CMD_RESTART .
- .TP
- .B LINUX_REBOOT_CMD_HALT
--(RB_HALT_SYSTEM, 0xcdef0123; since 1.1.76).
-+(RB_HALT_SYSTEM, 0xcdef0123; since Linux 1.1.76).
- The message "System halted." is printed, and the system is halted.
- Control is given to the ROM monitor, if there is one.
- If not preceded by a
- .BR sync (2),
- data will be lost.
- .TP
--.BR LINUX_REBOOT_CMD_KEXEC " (since Linux 2.6.13)"
-+.BR LINUX_REBOOT_CMD_KEXEC 
-+(0x45584543; since Linux 2.6.13).
- Execute a kernel that has been loaded earlier with
- .BR kexec_load (2).
- This option is available only if the kernel was configured with
- .BR CONFIG_KEXEC .
- .TP
- .B LINUX_REBOOT_CMD_POWER_OFF
--(RB_POWER_OFF, 0x4321fedc; since 2.1.30).
-+(RB_POWER_OFF, 0x4321fedc; since Linux 2.1.30).
- The message "Power down." is printed, the system is stopped,
- and all power is removed from the system, if possible.
- If not preceded by a
-@@ -131,7 +132,7 @@ If not preceded by a
- data will be lost.
- .TP
- .B LINUX_REBOOT_CMD_RESTART2
--(0xa1b2c3d4; since 2.1.30).
-+(0xa1b2c3d4; since Linux 2.1.30).
- The message "Restarting system with command \(aq%s\(aq" is printed,
- and a restart (using the command string given in
- .IR arg )
-@@ -139,6 +140,12 @@ is performed immediately.
- If not preceded by a
- .BR sync (2),
- data will be lost.
-+.TP
-+.BR LINUX_REBOOT_CMD_SW_SUSPEND 
-+(0xd000fce2; since Linux 2.5.18).
-+The system is suspended (hibernated) to disk.
-+This option is available only if the kernel was configured with
-+.BR CONFIG_HIBERNATION .
- .LP
- Only the superuser may call
- .BR reboot ().
+diff --git a/man2/futex.2 b/man2/futex.2
+index 78e3de0..a59b0a4 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -326,5 +326,5 @@ read the sources of the futex user-space library referenced below.
+ .PP
+ Futex example library, futex-*.tar.bz2 at
+ .br
+-.UR ftp://ftp.nl.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
++.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+ .UE
 -- 
-1.7.10.4
+1.8.4.rc3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
