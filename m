@@ -1,43 +1,31 @@
-From: Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>
-Subject: Re: POSIX.1-2013 man pages for review
-Date: Tue, 01 Oct 2013 18:16:16 -0500
-Message-ID: <1380669376.1974.124@driftwood>
-References: <523AAEEE.5090602@gmail.com> <523AB978.2080607@barfooze.de>
-	<CAKgNAki+jTS9rkORvcPNxWcStNjnNTnt_jqBYcfoaYm7d4GxqQ@mail.gmail.com>
-	<523C48EF.5080309@barfooze.de> <20130920175410.GA1092@gauss>
-	<523D8F06.9060801@barfooze.de>
+From: Roland McGrath <roland@hack.frob.com>
+Subject: Re: Race and segmentation fault in pthread_kill() vs thread
+ teardown
+Date: Wed,  2 Oct 2013 11:05:13 -0700 (PDT)
+Message-ID: <20131002180513.78F4A2C078@topped-with-meat.com>
+References: <305581948.26980.1380684877897.JavaMail.zimbra@efficios.com>
+	<675415986.27031.1380686764309.JavaMail.zimbra@efficios.com>
+	<mvm8uyc2itw.fsf@hawking.suse.de>
+	<1497173819.27140.1380715480773.JavaMail.zimbra@efficios.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; DelSp=Yes; Format=Flowed
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <523D8F06.9060801-Am5OCHYCrcUb1SvskN2V4Q@public.gmane.org> (from maillist-musl-Am5OCHYCrcUb1SvskN2V4Q@public.gmane.org
-	on Sat Sep 21 07:20:22 2013)
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Felix Janda <felix.janda-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>, John Spencer <maillist-musl-Am5OCHYCrcUb1SvskN2V4Q@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andrew Josey <ajosey-7882/jkIBncuagvECLh61g@public.gmane.org>, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, Matthew Dempsky <matthew-bfSpyvURsAhAfugRpC6u6w@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-43303-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-##L=##H@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: Mathieu Desnoyers's message of  Wednesday, 2 October 2013 12:04:40 +0000 <1497173819.27140.1380715480773.JavaMail.zimbra@efficios.com>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Andreas Schwab <schwab@suse.de>, Michael Kerrisk <mtk.manpages@gmail.com>, David Miller <davem@davemloft.net>, libc-alpha@sourceware.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/21/2013 07:20:22 AM, John Spencer wrote:
-> On 09/20/2013 07:54 PM, Felix Janda wrote:
->> John Spencer wrote:
-...
->> much more likely to me that one can produce output
->> which makes your man implementation happy. The equations are already
->> hacked to make them better suitable for nroff.
-> 
-> i agree that the output of tbl is even worse...
-> 
-> btw my research on http://www.troff.org/papers.html revealed that tbl  
-> and eqn preprocessors existed back in the troff days, so this seems  
-> to be a historical mistake rather than groff's fault ;)
-
-Eric Raymond's doclifter project was a python script that parsed man  
-pages to produce docbook output. There's more horrible domain-specific  
-knowledge encoded into that than you can possibly imagine, you might  
-want to poke esr-4uCgticg2UFBDgjK7y7TUQ@public.gmane.org to see if he wants to comment on your  
-thing.
-
-Rob--
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Yes, the man page is wrong.  It was an error in the earlier version of the
+spec that it indicated it's ever possible to do any operation with a
+pthread_t that is not known to be an unjoined or live (if detached) thread.
+It's never been possible to use a possibly-stale pthread_t for anything in
+NPTL.  There is no way to interrogate the system for whether a pthread_t
+value is valid--just like a pointer (which, in fact pthread_t is in our
+implementation), either it's valid or using it is undefined behavior.
