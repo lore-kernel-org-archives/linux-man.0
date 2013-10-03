@@ -1,31 +1,50 @@
-From: Roland McGrath <roland@hack.frob.com>
-Subject: Re: Race and segmentation fault in pthread_kill() vs thread
- teardown
-Date: Wed,  2 Oct 2013 11:05:13 -0700 (PDT)
-Message-ID: <20131002180513.78F4A2C078@topped-with-meat.com>
-References: <305581948.26980.1380684877897.JavaMail.zimbra@efficios.com>
-	<675415986.27031.1380686764309.JavaMail.zimbra@efficios.com>
-	<mvm8uyc2itw.fsf@hawking.suse.de>
-	<1497173819.27140.1380715480773.JavaMail.zimbra@efficios.com>
+From: Stephane Fillod <fillods-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
+Subject: Re: Missing ioctl descriptions: TIOCMIWAIT, TIOCGICOUNT
+Date: Thu, 3 Oct 2013 14:37:19 +0000 (UTC)
+Message-ID: <loom.20131003T162604-48@post.gmane.org>
+References: <CAFhHFBwabFu9obCPVWJYZVJ4d1qAcQvwR1JhhEJgZgpSGVTLQg@mail.gmail.com> <CAKgNAkhnZfZXB5xr1U7UcU6d8DyumgaUTa2_c6TfxU1opU=uZA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-43303-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-##L=##H@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: Mathieu Desnoyers's message of  Wednesday, 2 October 2013 12:04:40 +0000 <1497173819.27140.1380715480773.JavaMail.zimbra@efficios.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: Andreas Schwab <schwab@suse.de>, Michael Kerrisk <mtk.manpages@gmail.com>, David Miller <davem@davemloft.net>, libc-alpha@sourceware.org, "Paul E. McKenney" <paulmck@linux.vnet.ibm.com>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Yes, the man page is wrong.  It was an error in the earlier version of the
-spec that it indicated it's ever possible to do any operation with a
-pthread_t that is not known to be an unjoined or live (if detached) thread.
-It's never been possible to use a possibly-stale pthread_t for anything in
-NPTL.  There is no way to interrogate the system for whether a pthread_t
-value is valid--just like a pointer (which, in fact pthread_t is in our
-implementation), either it's valid or using it is undefined behavior.
+Michael Kerrisk <mtk.manpages@...> writes:
+> On Sat, Jan 21, 2012 at 11:28 PM, Andreas Heiduk
+> <asheiduk@...> wrote:
+> > my Ubuntu 10.04 (lucid) distribution uses manpages-3.23-1. But neit=
+her
+> > there nor in the browsable manpages here
+> >
+> > http://www.kernel.org/doc/man-pages/online/pages/man4/tty_ioctl.4.h=
+tml
+> > http://www.kernel.org/doc/man-pages/online/pages/man2/ioctl_list.2.=
+html
+> >
+> > there is a description for the ioctls TIOCMIWAIT and TIOCGICOUNT
+> >
+> > Could you please add them to the pages ioctl_list and tty_ioctl ?
+>=20
+> Andreas,
+>=20
+> Sorry -- I don't know the purpose of these two ioctl()s. If you have
+> some text to propose, I could take it.
+
+A patch[1] for these descriptions has been submitted by Fr=C3=A9d=C3=A9=
+ric Maria back
+in '09, but left unhandled. The patch looks good to me. Do you think yo=
+u can
+apply it?
+
+[1] http://article.gmane.org/gmane.linux.man/770
+
+Cheers,
+--=20
+Stephane
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
