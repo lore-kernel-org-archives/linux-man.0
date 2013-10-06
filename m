@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 62581] Make pdfdocs fails on xubuntu 13.04 with linux kernel
  12.3. r3
-Date: Sun, 06 Oct 2013 03:09:01 +0000
-Message-ID: <bug-62581-11311-75I4kRtllN@https.bugzilla.kernel.org/>
+Date: Sun, 06 Oct 2013 04:17:17 +0000
+Message-ID: <bug-62581-11311-EGa1keKrnJ@https.bugzilla.kernel.org/>
 References: <bug-62581-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,8 +15,8 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=62581
 
---- Comment #1 from nickkrause-rieW9WUcm8FFJ04o6PK0Fg@public.gmane.org ---
-I did put the output in a text file for you to look at if that is easier.
+--- Comment #2 from nickkrause-rieW9WUcm8FFJ04o6PK0Fg@public.gmane.org ---
+Never mind it's no big deal
 
 -- 
 You are receiving this mail because:
