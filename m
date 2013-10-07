@@ -1,26 +1,27 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 62581] Make pdfdocs fails on xubuntu 13.04 with linux kernel
- 12.3. r3
-Date: Sun, 06 Oct 2013 04:17:17 +0000
-Message-ID: <bug-62581-11311-EGa1keKrnJ@https.bugzilla.kernel.org/>
-References: <bug-62581-11311@https.bugzilla.kernel.org/>
+From: "Dr. Mack Nellie" <notiffication-14/PbEeleRQlWEKMJZPGZE7Sfu5ARAybgJmBf7UdkjU@public.gmane.org>
+Subject: I am expecting your urgent response
+Date: Mon, 7 Oct 2013 10:57:49 +0530
+Message-ID: <0ec8eeb7-a5bb-4d42-82bd-6b63ba0438b2@SINPR04MB059.apcprd04.prod.outlook.com>
+Reply-To: <dr_macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-62581-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients <notiffication-14/PbEeleRQlWEKMJZPGZE7Sfu5ARAybgJmBf7UdkjU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=62581
+Compliment of the day.
+ 
+I am Dr. Mack Nellie. I am looking for a reliable Indian partner that understands the India local language and English as well; I have a business proposal that will benefit both of us outside our individual professions.
+Kindly contact me for the supply details on my personal email address;  dr.macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org  I will furnish you with more details as soon as I receive your mail.
+I am expecting your urgent response   
 
---- Comment #2 from nickkrause-rieW9WUcm8FFJ04o6PK0Fg@public.gmane.org ---
-Never mind it's no big deal
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Regards 
+Dr. Mack Nellie
+Tel: +447014245023 
+E-Mail(dr_macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
