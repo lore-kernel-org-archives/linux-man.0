@@ -1,48 +1,42 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] adjtime.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 7 Oct 2013 15:42:09 +0800
-Message-ID: <1381131729-6098-1-git-send-email-penght@cn.fujitsu.com>
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
+Date: Mon, 7 Oct 2013 09:46:46 +0100
+Message-ID: <20131007084646.GC19103@sdfg.com.ar>
+References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
+ <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1380567043-10102-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function adjtime() is thread safe.
+On Mon, Sep 30, 2013 at 07:50:43PM +0100, Rodrigo Campos wrote:
+> When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
+> ".nl." is "an obsolete scheme and really should be changed to just
+> ftp.kernel.org". So this patch does just this change.
+> 
+> I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
+> Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
+> domains used in the example also don't work. I'm not sure we want to fix this,
+> but if we want, we should probably do it in a separate patch.
+> 
+> Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+> ---
+>  man2/futex.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/adjtime.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/adjtime.3 b/man3/adjtime.3
-index df3a178..b327c13 100644
---- a/man3/adjtime.3
-+++ b/man3/adjtime.3
-@@ -22,7 +22,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH ADJTIME 3 2008-06-22 "Linux" "Linux Programmer's Manual"
-+.TH ADJTIME 3 2013-10-07 "Linux" "Linux Programmer's Manual"
- .SH NAME
- adjtime \- correct the time to synchronize the system clock
- .SH SYNOPSIS
-@@ -99,6 +99,11 @@ The caller does not have sufficient privilege to adjust the time.
- Under Linux the
- .B CAP_SYS_TIME
- capability is required.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR adjtime ()
-+function is thread-safe.
- .SH CONFORMING TO
- 4.3BSD, System V.
- .SH NOTES
--- 
-1.8.3.1
+Ping ?
 
+
+
+
+Thanks,
+Rodrigo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
