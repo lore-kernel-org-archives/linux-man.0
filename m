@@ -1,27 +1,48 @@
-From: "Dr. Mack Nellie" <notiffication-14/PbEeleRQlWEKMJZPGZE7Sfu5ARAybgJmBf7UdkjU@public.gmane.org>
-Subject: I am expecting your urgent response
-Date: Mon, 7 Oct 2013 10:57:49 +0530
-Message-ID: <0ec8eeb7-a5bb-4d42-82bd-6b63ba0438b2@SINPR04MB059.apcprd04.prod.outlook.com>
-Reply-To: <dr_macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] ftok.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 7 Oct 2013 14:21:00 +0800
+Message-ID: <1381126860-14943-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <notiffication-14/PbEeleRQlWEKMJZPGZE7Sfu5ARAybgJmBf7UdkjU@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Compliment of the day.
- 
-I am Dr. Mack Nellie. I am looking for a reliable Indian partner that understands the India local language and English as well; I have a business proposal that will benefit both of us outside our individual professions.
-Kindly contact me for the supply details on my personal email address;  dr.macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org  I will furnish you with more details as soon as I receive your mail.
-I am expecting your urgent response   
+The function ftok() is thread safe.
 
-Regards 
-Dr. Mack Nellie
-Tel: +447014245023 
-E-Mail(dr_macknellie-/E1597aS9LSlP80pJB477g@public.gmane.org)
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/ftok.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/man3/ftok.3 b/man3/ftok.3
+index 925c301..6a48109 100644
+--- a/man3/ftok.3
++++ b/man3/ftok.3
+@@ -26,7 +26,7 @@
+ .\"	Changed data type of proj_id; minor fixes
+ .\"	aeb: further fixes; added notes.
+ .\"
+-.TH FTOK 3 2001-11-28 "GNU" "Linux Programmer's Manual"
++.TH FTOK 3 2013-10-07 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ ftok \- convert a pathname and a project identifier to a System V IPC key
+ .SH SYNOPSIS
+@@ -67,6 +67,11 @@ On failure \-1 is returned, with
+ indicating the error as for the
+ .BR stat (2)
+ system call.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR ftok ()
++function is thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .SH NOTES
+-- 
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
