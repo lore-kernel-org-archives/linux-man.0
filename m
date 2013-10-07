@@ -1,42 +1,48 @@
-From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
-Date: Mon, 7 Oct 2013 09:46:46 +0100
-Message-ID: <20131007084646.GC19103@sdfg.com.ar>
-References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
- <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] alloca.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 7 Oct 2013 16:58:15 +0800
+Message-ID: <1381136295-9622-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <1380567043-10102-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Sep 30, 2013 at 07:50:43PM +0100, Rodrigo Campos wrote:
-> When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
-> ".nl." is "an obsolete scheme and really should be changed to just
-> ftp.kernel.org". So this patch does just this change.
-> 
-> I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
-> Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
-> domains used in the example also don't work. I'm not sure we want to fix this,
-> but if we want, we should probably do it in a separate patch.
-> 
-> Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-> ---
->  man2/futex.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+The function alloca() is thread safe.
 
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/alloca.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Ping ?
+diff --git a/man3/alloca.3 b/man3/alloca.3
+index 0d593ed..7d11c63 100644
+--- a/man3/alloca.3
++++ b/man3/alloca.3
+@@ -40,7 +40,7 @@
+ .\"     Various rewrites and additions (notes on longjmp() and SIGSEGV).
+ .\"     Weaken warning against use of alloca() (as per Debian bug 461100).
+ .\"
+-.TH ALLOCA 3 2013-05-12 "GNU" "Linux Programmer's Manual"
++.TH ALLOCA 3 2013-10-07 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ alloca \- allocate memory that is automatically freed
+ .SH SYNOPSIS
+@@ -62,6 +62,11 @@ The
+ .BR alloca ()
+ function returns a pointer to the beginning of the allocated space.
+ If the allocation causes stack overflow, program behavior is undefined.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR alloca ()
++function is thread-safe.
+ .SH CONFORMING TO
+ This function is not in POSIX.1-2001.
+ 
+-- 
+1.8.3.1
 
-
-
-
-Thanks,
-Rodrigo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
