@@ -1,154 +1,111 @@
 From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: new: isalpha_l.3 (and friends)
-Date: Tue, 08 Oct 2013 19:00:29 +0200
-Message-ID: <52543A2D.10005@bfs.de>
+Subject: patch:strerror_l
+Date: Tue, 08 Oct 2013 19:02:03 +0200
+Message-ID: <52543A8B.5050107@bfs.de>
 Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
 Content-Type: multipart/mixed;
- boundary="------------010804000307030703090208"
+ boundary="------------090307030405050204010501"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 This is a multi-part message in MIME format.
---------------010804000307030703090208
+--------------090307030405050204010501
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-note: This is a resend, the first version vanished somewhere.
-
 hi list,
-i noticed that some locale(7) functions missing am propper man page.
-that page describes several functions like:
-isalnum_l,  isalpha_l,  isblank_l,  iscntrl_l, isdigit_l, isgraph_l,
-islower_l, isprint_l, ispunct_l, isspace_l, isupper_l, isxdigit_l
-
-while writing this page i had an accidental mix up with iswalpha_l.3
-please be aware while reviewing.
+while testing i notice that strerror is missing the desciption of the locale variant.
+that patch fixes the problem.
 
 re,
  wh
 
---------------010804000307030703090208
-Content-Type: text/plain;
- name="isalpha_l.3"
-Content-Transfer-Encoding: base64
+--------------090307030405050204010501
+Content-Type: text/x-patch;
+ name="strerror.diff"
+Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="isalpha_l.3"
+ filename="strerror.diff"
 
-LlwiIENvcHlyaWdodCAoYykgMjAxMyBieSBXYWx0ZXIgSGFybXMKLlwiCi5cIiAlJSVMSUNF
-TlNFX1NUQVJUKFZFUkJBVElNKQouXCIgUGVybWlzc2lvbiBpcyBncmFudGVkIHRvIG1ha2Ug
-YW5kIGRpc3RyaWJ1dGUgdmVyYmF0aW0gY29waWVzIG9mIHRoaXMKLlwiIG1hbnVhbCBwcm92
-aWRlZCB0aGUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBh
-cmUKLlwiIHByZXNlcnZlZCBvbiBhbGwgY29waWVzLgouXCIKLlwiIFBlcm1pc3Npb24gaXMg
-Z3JhbnRlZCB0byBjb3B5IGFuZCBkaXN0cmlidXRlIG1vZGlmaWVkIHZlcnNpb25zIG9mIHRo
-aXMKLlwiIG1hbnVhbCB1bmRlciB0aGUgY29uZGl0aW9ucyBmb3IgdmVyYmF0aW0gY29weWlu
-ZywgcHJvdmlkZWQgdGhhdCB0aGUKLlwiIGVudGlyZSByZXN1bHRpbmcgZGVyaXZlZCB3b3Jr
-IGlzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiBhCi5cIiBwZXJtaXNzaW9uIG5v
-dGljZSBpZGVudGljYWwgdG8gdGhpcyBvbmUuCi5cIgouXCIgU2luY2UgdGhlIExpbnV4IGtl
-cm5lbCBhbmQgbGlicmFyaWVzIGFyZSBjb25zdGFudGx5IGNoYW5naW5nLCB0aGlzCi5cIiBt
-YW51YWwgcGFnZSBtYXkgYmUgaW5jb3JyZWN0IG9yIG91dC1vZi1kYXRlLiAgVGhlIGF1dGhv
-cihzKSBhc3N1bWUgbm8KLlwiIHJlc3BvbnNpYmlsaXR5IGZvciBlcnJvcnMgb3Igb21pc3Np
-b25zLCBvciBmb3IgZGFtYWdlcyByZXN1bHRpbmcgZnJvbQouXCIgdGhlIHVzZSBvZiB0aGUg
-aW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbi4gIFRoZSBhdXRob3IocykgbWF5IG5vdAou
-XCIgaGF2ZSB0YWtlbiB0aGUgc2FtZSBsZXZlbCBvZiBjYXJlIGluIHRoZSBwcm9kdWN0aW9u
-IG9mIHRoaXMgbWFudWFsLAouXCIgd2hpY2ggaXMgbGljZW5zZWQgZnJlZSBvZiBjaGFyZ2Us
-IGFzIHRoZXkgbWlnaHQgd2hlbiB3b3JraW5nCi5cIiBwcm9mZXNzaW9uYWxseS4KLlwiCi5c
-IiBGb3JtYXR0ZWQgb3IgcHJvY2Vzc2VkIHZlcnNpb25zIG9mIHRoaXMgbWFudWFsLCBpZiB1
-bmFjY29tcGFuaWVkIGJ5Ci5cIiB0aGUgc291cmNlLCBtdXN0IGFja25vd2xlZGdlIHRoZSBj
-b3B5cmlnaHQgYW5kIGF1dGhvcnMgb2YgdGhpcyB3b3JrLgouXCIgJSUlTElDRU5TRV9FTkQK
-LlwiCi5cIgouVEggSVNBTFBIQV9MIDMgMjAxMy0wOS0yMCAiR05VIiAiTGludXggUHJvZ3Jh
-bW1lcidzIE1hbnVhbCIKLlNIIE5BTUUKaXNhbG51bV9sLCBpc2FscGhhX2wsIGlzYmxhbmtf
-bCwgaXNjbnRybF9sLCBpc2RpZ2l0X2wsIGlzZ3JhcGhfbCwgaXNsb3dlcl9sLAppc3ByaW50
-X2wsIGlzcHVuY3RfbCwgaXNzcGFjZV9sLCBpc3VwcGVyX2wsIGlzeGRpZ2l0X2wgXC0gY2hh
-cmFjdGVyCmNsYXNzaWZpY2F0aW9uIHJvdXRpbmVzCi5TSCBTWU5PUFNJUwoubmYKLkIgI2lu
-Y2x1ZGUgPGN0eXBlLmg+Ci5zcAouQkkgImludCBpc2FsbnVtX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2FscGhhX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2FzY2lpX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2JsYW5rX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2NudHJsX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2RpZ2l0X2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2dyYXBoX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc2xvd2VyX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc3ByaW50X2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc3B1bmN0X2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc3NwYWNlX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc3VwcGVyX2woaW50ICIgImMiICIsIGxv
-Y2FsZV90ICIgbG9jICk7Ci5icgouQkkgImludCBpc3hkaWdpdF9sKGludCAiICJjIiAiLCBs
-b2NhbGVfdCAiIGxvYyApOwouZmkKLnNwCi5TSCBERVNDUklQVElPTgpUaGVzZSBmdW5jdGlv
-bnMgY2hlY2sgd2hldGhlcgouSVIgYyAsCndoaWNoIG11c3QgaGF2ZSB0aGUgdmFsdWUgb2Yg
-YW4KLkkgdW5zaWduZWQgY2hhcgpvcgouQlIgRU9GICwKZmFsbHMgaW50byBhIGNlcnRhaW4g
-Y2hhcmFjdGVyIGNsYXNzIGFjY29yZGluZyB0byB0aGUgY3VycmVudCBsb2NhbGUuCi5UUAou
-QlIgaXNhbG51bV9sICgpCmNoZWNrcyBmb3IgYW4gYWxwaGFudW1lcmljIGNoYXJhY3Rlcjsg
-aXQgaXMgZXF1aXZhbGVudCB0bwouQkkgIihpc2FscGhhKCIgYyAiKSB8fCBpc2RpZ2l0KCIg
-YyAiKSkiIFxmUi4KLlRQCi5CUiBpc2FscGhhX2wgKCkKY2hlY2tzIGZvciBhbiBhbHBoYWJl
-dGljIGNoYXJhY3RlcjsgaW4gdGhlIHN0YW5kYXJkIFxmQiJDIlxmUApsb2NhbGUsIGl0IGlz
-IGVxdWl2YWxlbnQgdG8KLkJJICIoaXN1cHBlcl9sKCIgYyAiKSB8fCBpc2xvd2VyX2woIiBj
-ICIpKSIgXGZSLgpJbiBzb21lIGxvY2FsZXMsIHRoZXJlIG1heSBiZSBhZGRpdGlvbmFsIGNo
-YXJhY3RlcnMgZm9yIHdoaWNoCi5CUiBpc2FscGhhICgpCmlzIHRydWVcKGVtbGV0dGVycyB3
-aGljaCBhcmUgbmVpdGhlciB1cHBlciBjYXNlIG5vciBsb3dlcgpjYXNlLgouVFAKLkJSIGlz
-YXNjaWlfbCAoKQpjaGVja3Mgd2hldGhlciBcZkljXGZQIGlzIGEgNy1iaXQKLkkgdW5zaWdu
-ZWQgY2hhcgp2YWx1ZSB0aGF0IGZpdHMgaW50bwp0aGUgQVNDSUkgY2hhcmFjdGVyIHNldC4K
-LlRQCi5CUiBpc2JsYW5rX2wgKCkKY2hlY2tzIGZvciBhIGJsYW5rIGNoYXJhY3RlcjsgdGhh
-dCBpcywgYSBzcGFjZSBvciBhIHRhYi4KLlRQCi5CUiBpc2NudHJsX2wgKCkKY2hlY2tzIGZv
-ciBhIGNvbnRyb2wgY2hhcmFjdGVyLgouVFAKLkJSIGlzZGlnaXRfbCAoKQpjaGVja3MgZm9y
-IGEgZGlnaXQgKDAgdGhyb3VnaCA5KS4KLlRQCi5CUiBpc2dyYXBoX2wgKCkKY2hlY2tzIGZv
-ciBhbnkgcHJpbnRhYmxlIGNoYXJhY3RlciBleGNlcHQgc3BhY2UuCi5UUAouQlIgaXNsb3dl
-cl9sICgpCmNoZWNrcyBmb3IgYSBsb3dlci1jYXNlIGNoYXJhY3Rlci4KLlRQCi5CUiBpc3By
-aW50X2wgKCkKY2hlY2tzIGZvciBhbnkgcHJpbnRhYmxlIGNoYXJhY3RlciBpbmNsdWRpbmcg
-c3BhY2UuCi5UUAouQlIgaXNwdW5jdF9sICgpCmNoZWNrcyBmb3IgYW55IHByaW50YWJsZSBj
-aGFyYWN0ZXIgd2hpY2ggaXMgbm90IGEgc3BhY2Ugb3IgYW4KYWxwaGFudW1lcmljIGNoYXJh
-Y3Rlci4KLlRQCi5CUiBpc3NwYWNlX2wgKCkKY2hlY2tzIGZvciB3aGl0ZS1zcGFjZSBjaGFy
-YWN0ZXJzLgpJbiB0aGUKLkIgIiIiQyIiIgphbmQKLkIgIiIiUE9TSVgiIiIKbG9jYWxlcywg
-dGhlc2UgYXJlOiBzcGFjZSwgZm9ybS1mZWVkCi5SQiAoIFwoYXFcZWZcKGFxICksCm5ld2xp
-bmUKLlJCICggXChhcVxlblwoYXEgKSwKY2FycmlhZ2UgcmV0dXJuCi5SQiAoIFwoYXFcZXJc
-KGFxICksCmhvcml6b250YWwgdGFiCi5SQiAoIFwoYXFcZXRcKGFxICksCmFuZCB2ZXJ0aWNh
-bCB0YWIKLlJCICggXChhcVxldlwoYXEgKS4KLlRQCi5CUiBpc3VwcGVyX2wgKCkKY2hlY2tz
-IGZvciBhbiB1cHBlcmNhc2UgbGV0dGVyLgouVFAKLkJSIGlzeGRpZ2l0X2wgKCkKY2hlY2tz
-IGZvciBhIGhleGFkZWNpbWFsIGRpZ2l0cywgdGhhdCBpcywgb25lIG9mCi5icgouQlIgIjAg
-MSAyIDMgNCA1IDYgNyA4IDkgYSBiIGMgZCBlIGYgQSBCIEMgRCBFIEYiIC4KLlNIIFJFVFVS
-TiBWQUxVRQpUaGUgdmFsdWVzIHJldHVybmVkIGFyZSBub256ZXJvIGlmIHRoZSBjaGFyYWN0
-ZXIKLkkgYwpmYWxscyBpbnRvIHRoZSB0ZXN0ZWQgY2xhc3MsIGFuZCBhIHplcm8gdmFsdWUK
-aWYgbm90LgouU0ggQ09ORk9STUlORyBUTwpQT1NJWC4xLTIwMDggc3BlY2lmaWVzIGFsbCBv
-ZiB0aGVzZSBmdW5jdGlvbnMuCi5TSCBOT1RFUwpUaGUgZGV0YWlscyBvZiB3aGF0IGNoYXJh
-Y3RlcnMgYmVsb25nIGludG8gd2hpY2ggY2xhc3MgZGVwZW5kIG9uIHRoZSBjdXJyZW50Cmxv
-Y2FsZS4KLnNwCmZyb20gCi5JUiBsb2NhbGUuaCA6ClRoZSBjb25jZXB0IG9mIG9uZSBzdGF0
-aWMgbG9jYWxlIHBlciBjYXRlZ29yeSBpcyBub3QgdmVyeSB3ZWxsCnRob3VnaHQgb3V0LiAg
-TWFueSBhcHBsaWNhdGlvbnMgd2lsbCBuZWVkIHRvIHByb2Nlc3MgaXRzIGRhdGEgdXNpbmcK
-aW5mb3JtYXRpb24gZnJvbSBzZXZlcmFsIGRpZmZlcmVudCBsb2NhbGVzLiAgQW5vdGhlciBh
-cHBsaWNhdGlvbiBpcwp0aGUgaW1wbGVtZW50YXRpb24gb2YgdGhlIGludGVybmF0aW9uYWxp
-emF0aW9uIGhhbmRsaW5nIGluIHRoZQp1cGNvbWluZyBJU08gQysrIHN0YW5kYXJkIGxpYnJh
-cnkuICBUbyBzdXBwb3J0IHRoaXMgYW5vdGhlciBzZXQgb2YKdGhlIGZ1bmN0aW9ucyB1c2lu
-ZyBsb2NhbGUgZGF0YSBleGlzdCB3aGljaCBoYXZlIGFuIGFkZGl0aW9uYWwKYXJndW1lbnQu
-CgpGb3IgZXhhbXBsZSwKLkJSIGlzdXBwZXIgKCkKd2lsbCBub3QgcmVjb2duaXplIGFuIEEt
-dW1sYXV0IChcKDpBKSBhcyBhbiB1cHBlcmNhc2UgbGV0dGVyIGluIHRoZSBkZWZhdWx0Ci5C
-ICJDIgpsb2NhbGUuCi5TSCBFWEFNUExFClRoZSBmb2xsb3dpbmcgZXhhbXBsZSB0YWtlcyBh
-IGxvY2FsZSBhYnJldmF0aW9uIGxpa2UgImRlX0RFIiBhcyBhcmd1bWVudC4KSXMgbm8gYXJn
-dW1lbnQgaXMgc3VwcGxpZWQgaXQgd2lsbCB1c2UgIkMiLiBXaXRoICJkZV9ERSIgdGhlIGNv
-ZGUgd2lsbAppZGVudGlmeSB0aGUgTy1VbWxhdXQgY29ycmVjbHkgYXMgYWxwaGFudW1lcmlj
-IGNoYXJhY3RlciBidXQgbm90IHdpdGggIkMiLgpJbiBjb250cmFzdCB0aGUgcHVuY3R1YXRp
-b24gd2lsbCBwZXJmb3JtIGFzIGJlZm9yZS4KLm5mCgojaW5jbHVkZSA8c3RkaW8uaD4KI2lu
-Y2x1ZGUgPGxvY2FsZS5oPgoKaW50IG1haW4oaW50IGFyZ2MsY2hhciAqYXJndltdKQp7CiAg
-Y2hhciAqc3RyPSJjMnBcKDpPLiwiOwogIGludCBpOwogIGxvY2FsZV90IGxvYzsKICAgIGlm
-IChhcmdjID4gMSApICAgICAgCiAgICAgIGxvYyA9IG5ld2xvY2FsZSAoTENfQUxMX01BU0ss
-IGFyZ3ZbMV0sIE5VTEwpOwogICAgZWxzZQogICAgICBsb2MgPSBuZXdsb2NhbGUgKExDX0FM
-TF9NQVNLLCAiQyIsIE5VTEwpOwoKICBmb3IoaT0wO3N0cltpXSE9MDtpKyspIHsKICAgIGlm
-IChpc2FsbnVtX2woc3RyW2ldLGxvYykpCglwcmludGYoIlRoZSBjaGFyYWN0ZXIgJWMgaXMg
-YWxwaGFudW1lcmljLlxcbiIsc3RyW2ldKTsKICAgIGlmICggaXNwdW5jdF9sKHN0cltpXSxs
-b2MpICkKCXByaW50ZiAoIlRoZSBjaGFyYWN0ZXIgJWMgaXMgcHVuY3R1YXRpb24uXFxuIixz
-dHJbaV0pOyAgICAgICAgICAgICAgIAogIH0KICByZXR1cm4gMDsKfQoKLmZpCi5TSCBTRUUg
-QUxTTwouQlIgaXN3YWxudW0gKDMpLAouQlIgaXN3YWxwaGEgKDMpLAouQlIgaXN3Ymxhbmsg
-KDMpLAouQlIgaXN3Y250cmwgKDMpLAouQlIgaXN3ZGlnaXQgKDMpLAouQlIgaXN3Z3JhcGgg
-KDMpLAouQlIgaXN3bG93ZXIgKDMpLAouQlIgaXN3cHJpbnQgKDMpLAouQlIgaXN3cHVuY3Qg
-KDMpLAouQlIgaXN3c3BhY2UgKDMpLAouQlIgaXN3dXBwZXIgKDMpLAouQlIgaXN3eGRpZ2l0
-ICgzKSwKLkJSIHNldGxvY2FsZSAoMyksCi5CUiB0b2FzY2lpICgzKSwKLkJSIHRvbG93ZXIg
-KDMpLAouQlIgdG91cHBlciAoMyksCi5CUiBhc2NpaSAoNyksCi5CUiBsb2NhbGUgKDcpCi5T
-SCBDT0xPUEhPTgpUaGlzIHBhZ2UgaXMgcGFydCBvZiByZWxlYXNlIDMuNTQgb2YgdGhlIExp
-bnV4Ci5JIG1hbi1wYWdlcwpwcm9qZWN0LgpBIGRlc2NyaXB0aW9uIG9mIHRoZSBwcm9qZWN0
-LAphbmQgaW5mb3JtYXRpb24gYWJvdXQgcmVwb3J0aW5nIGJ1Z3MsCmNhbiBiZSBmb3VuZCBh
-dApcJWh0dHA6Ly93d3cua2VybmVsLm9yZy9kb2MvbWFuXC1wYWdlcy8uCg==
---------------010804000307030703090208--
+--- strerror.3.org	2013-09-19 13:50:48.000000000 +0200
++++ strerror.3	2013-09-19 15:00:10.000000000 +0200
+@@ -50,6 +50,10 @@
+ .sp
+ .BI "char *strerror_r(int " errnum ", char *" buf ", size_t " buflen );
+             /* GNU-specific */
++.sp
++.B #include <locale.h>
++.sp
++.BI "char *strerror_l(int " errnum, " locale_t " loc );
+ .fi
+ .sp
+ .in -4n
+@@ -133,6 +137,11 @@
+ .I errnum
+ is unknown).
+ The string always includes a terminating null byte (\(aq\\0\(aq).
++
++To get an error message in a given locale you need
++.BR strerror_l ()
++it takes an additional arument that defines to locale in what the message is returned.
++The function is thread-safe.
+ .SH RETURN VALUE
+ The
+ .BR strerror ()
+@@ -180,6 +189,8 @@
+ .LP
+ The
+ .BR strerror_r ()
++and
++.BR strerror_r ()
+ function is thread-safe.
+ .SH CONFORMING TO
+ .BR strerror ()
+@@ -210,6 +221,39 @@
+ .B EINVAL
+ if the error number is unknown.
+ C99 and POSIX.1-2008 require the return value to be non-NULL.
++.sp
++.BR strerror_l ()
++is a POSIX.1-2008 requirement, but available as GNU-specific function
++atleast since glibc 2.6.1.
++.SH EXAMPLE
++The program below demonstrates the use of the 
++.BR strerror* ()
++functions. The first line should be 
++.I sterror_l(13)=Permission denied
++the others should print this in a locale specific version.
++.nf
++
++#include <stdio.h>
++#include <string.h>
++#include <locale.h>
++
++int main()
++{
++  int e=13;    // errornumber
++  char buf[255];
++  locale_t loc;
++
++  setlocale(LC_ALL, "");
++  loc = newlocale (LC_MESSAGES_MASK, "C", NULL);
++  printf("sterror_l(13)=%s\\n",strerror_l(e,loc));
++  freelocale (loc);
++  // this will be translated automaticly  
++  printf("sterror(13)=%s\\n",strerror(e));
++  strerror_r(e,buf,sizeof(buf)-1);
++  printf("sterror(13)=%s\\n",buf); 
++  return 0;
++}
++.fi
+ .SH SEE ALSO
+ .BR err (3),
+ .BR errno (3),
+
+--------------090307030405050204010501--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
