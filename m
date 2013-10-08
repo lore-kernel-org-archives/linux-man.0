@@ -1,51 +1,120 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] atof.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Tue, 8 Oct 2013 11:41:58 +0800
-Message-ID: <1381203718-26118-1-git-send-email-penght@cn.fujitsu.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: new: newlocale.3
+Date: Tue, 08 Oct 2013 18:55:00 +0200
+Message-ID: <525438E4.209@bfs.de>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+Mime-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary="------------090901010901030501070004"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function atof() is thread safe with exceptions.
+This is a multi-part message in MIME format.
+--------------090901010901030501070004
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/atof.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+note: This is a resend, the first version vanished somewhere.
 
-diff --git a/man3/atof.3 b/man3/atof.3
-index 1b19026..d900a27 100644
---- a/man3/atof.3
-+++ b/man3/atof.3
-@@ -28,7 +28,7 @@
- .\"     386BSD man pages
- .\" Modified Mon Mar 29 22:39:24 1993, David Metcalfe
- .\" Modified Sat Jul 24 21:39:22 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH ATOF 3  2012-08-03 "GNU" "Linux Programmer's Manual"
-+.TH ATOF 3  2013-10-08 "GNU" "Linux Programmer's Manual"
- .SH NAME
- atof \- convert a string to a double
- .SH SYNOPSIS
-@@ -54,6 +54,14 @@ except that
- does not detect errors.
- .SH RETURN VALUE
- The converted value.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR atof ()
-+function is thread-safe with exceptions.
-+It can be safely used in multithreaded applications, as long as
-+.BR setlocale (3)
-+is not called to change the locale.
- .SH CONFORMING TO
- SVr4, POSIX.1-2001, 4.3BSD, C89, C99.
- .SH SEE ALSO
--- 
-1.8.3.1
+hi list,
+i noticed that some locale(7) functions missing am propper man page.
+that page describes the functions:
+newlocale, duplocale, freelocale
 
+re,
+ wh
+
+--------------090901010901030501070004
+Content-Type: text/plain;
+ name="newlocale.3"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="newlocale.3"
+
+LlwiIENvcHlyaWdodCAoQykgMjAxMyBXYWx0ZXIgSGFybXMgKGRhdmlkQHByaXNtLmRlbW9u
+LmNvLnVrKQouXCIKLlwiICUlJUxJQ0VOU0VfU1RBUlQoVkVSQkFUSU0pCi5cIiBQZXJtaXNz
+aW9uIGlzIGdyYW50ZWQgdG8gbWFrZSBhbmQgZGlzdHJpYnV0ZSB2ZXJiYXRpbSBjb3BpZXMg
+b2YgdGhpcwouXCIgbWFudWFsIHByb3ZpZGVkIHRoZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0
+aGlzIHBlcm1pc3Npb24gbm90aWNlIGFyZQouXCIgcHJlc2VydmVkIG9uIGFsbCBjb3BpZXMu
+Ci5cIgouXCIgUGVybWlzc2lvbiBpcyBncmFudGVkIHRvIGNvcHkgYW5kIGRpc3RyaWJ1dGUg
+bW9kaWZpZWQgdmVyc2lvbnMgb2YgdGhpcwouXCIgbWFudWFsIHVuZGVyIHRoZSBjb25kaXRp
+b25zIGZvciB2ZXJiYXRpbSBjb3B5aW5nLCBwcm92aWRlZCB0aGF0IHRoZQouXCIgZW50aXJl
+IHJlc3VsdGluZyBkZXJpdmVkIHdvcmsgaXMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1z
+IG9mIGEKLlwiIHBlcm1pc3Npb24gbm90aWNlIGlkZW50aWNhbCB0byB0aGlzIG9uZS4KLlwi
+Ci5cIiBTaW5jZSB0aGUgTGludXgga2VybmVsIGFuZCBsaWJyYXJpZXMgYXJlIGNvbnN0YW50
+bHkgY2hhbmdpbmcsIHRoaXMKLlwiIG1hbnVhbCBwYWdlIG1heSBiZSBpbmNvcnJlY3Qgb3Ig
+b3V0LW9mLWRhdGUuICBUaGUgYXV0aG9yKHMpIGFzc3VtZSBubwouXCIgcmVzcG9uc2liaWxp
+dHkgZm9yIGVycm9ycyBvciBvbWlzc2lvbnMsIG9yIGZvciBkYW1hZ2VzIHJlc3VsdGluZyBm
+cm9tCi5cIiB0aGUgdXNlIG9mIHRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaGVyZWluLiAg
+VGhlIGF1dGhvcihzKSBtYXkgbm90Ci5cIiBoYXZlIHRha2VuIHRoZSBzYW1lIGxldmVsIG9m
+IGNhcmUgaW4gdGhlIHByb2R1Y3Rpb24gb2YgdGhpcyBtYW51YWwsCi5cIiB3aGljaCBpcyBs
+aWNlbnNlZCBmcmVlIG9mIGNoYXJnZSwgYXMgdGhleSBtaWdodCB3aGVuIHdvcmtpbmcKLlwi
+IHByb2Zlc3Npb25hbGx5LgouXCIKLlwiIEZvcm1hdHRlZCBvciBwcm9jZXNzZWQgdmVyc2lv
+bnMgb2YgdGhpcyBtYW51YWwsIGlmIHVuYWNjb21wYW5pZWQgYnkKLlwiIHRoZSBzb3VyY2Us
+IG11c3QgYWNrbm93bGVkZ2UgdGhlIGNvcHlyaWdodCBhbmQgYXV0aG9ycyBvZiB0aGlzIHdv
+cmsuCi5cIiAlJSVMSUNFTlNFX0VORAouXCIKLlwiIFJlZmVyZW5jZXMgY29uc3VsdGVkOgou
+XCIgICAgIExpbnV4IGxpYmMgc291cmNlIGNvZGUKLlwiIFBPU0lYLVBhZ2UgaHR0cDovL3B1
+YnMub3Blbmdyb3VwLm9yZy9vbmxpbmVwdWJzLzk2OTk5MTk3OTkvZnVuY3Rpb25zL25ld2xv
+Y2FsZS5odG1sCi5cIgoKLlRIIE5FV0xPQ0FMRSAgMyAyMDEzLTA5LTE5ICIiICJMaW51eCBQ
+cm9ncmFtbWVyJ3MgTWFudWFsIgouU0ggTkFNRQpuZXdsb2NhbGUsIGR1cGxvY2FsZSwgZnJl
+ZWxvY2FsZSBcLSBtb2RpZnksIGNyZWF0ZSBhbmQgZnJlZSBhIGxvY2FsZSBvYmplY3QKCi5T
+SCBTWU5PUFNJUwoubmYKLkIgI2luY2x1ZGUgPGxvY2FsZS5oPgouc3AKLkJJICJsb2NhbGVf
+dCBuZXdsb2NhbGUoaW50ICIgbWFzayAiLCBjb25zdCBjaGFyICogIiBsb2NhbGUgIiwgbG9j
+YWxlX3QgIiBiYXNlICk7Ci5zcAouQkkgImxvY2FsZV90IGR1cGxvY2FsZShsb2NhbGVfdCAi
+IGxvYyApOwouc3AKLkJJICJ2b2lkIGZyZWVsb2NhbGUobG9jYWxlX3QgIiBsb2MgKTsgCi5m
+aQoKLlNIIERFU0NSSVBUSU9OClRoZXNlIGZ1bmN0aW9uIGFsbG93IGEgbW9yZSBmaW5lIGdy
+YWluZWQgaGFuZGxpbmcgb2Ygc2V2ZXJhbCBmdW5jdGlvbnMuIEFuIGFscmVhZHkKc3BlY2lm
+aWVkIGdsb2JhbCBsb2NhbGUgZW52aXJvbm1lbnQgaXMgbm90IG1vZGlmaWVkLgoKLlNTIG5l
+d2xvY2FsZQpUaGUgZmlyc3QgYXJndW1lbnQgCi5JIG1hc2sgCndpbGwgc2VsZWN0IHdoYXQg
+cGFydCBvZiB0aGUgbG9jYWxlIG9iamVjdGUgaSB3aWxsIGNyZWF0ZS4KVGhlIGZ1bmN0aW9u
+cyBjb3JyZXNwb25kZW5zIHRvIHRoZSBjYXRlZ29yeSBlbGVtZW50IG9mIHRoZQouQlIgc2V0
+bG9jYWxlICgzKQpmdW5jdGlvbi4gQW55IGNvbWJpbmF0aW9uIG9mIHRoZSBmb2xsb3dpbmcg
+dmFsdWVzIGlzIHBvc3NpYmxlOgouVFAgCi5CUiBMQ19BTExfTUFTSyAgICAgICAgICAgIApm
+b3IgYWxsIG9mIHRoZSBsb2NhbGUKLlRQIAouQiBMQ19DVFlQRV9NQVNLICAKZm9yIHJlZ3Vs
+YXIgZXhwcmVzc2lvbiBtYXRjaGluZywgY2hhcmFjdGVyIGNsYXNzaWZpY2F0aW9uLCAgY29u
+LQp2ZXJzaW9uLCAgY2FzZS1zZW5zaXRpdmUgIGNvbXBhcmlzb24sICBhbmQgIHdpZGUgY2hh
+cmFjdGVyIGZ1bmMtCnRpb25zLgouVFAgCi5CIExDX05VTUVSSUNfTUFTSwpmb3IgbnVtYmVy
+IGZvcm1hdHRpbmcgKHN1Y2ggYXMgdGhlIGRlY2ltYWwgcG9pbnQgYW5kICB0aGUgIHRob3Vz
+YW5kcyBzZXBhcmF0b3IpLgouVFAgCi5CIExDX1RJTUVfTUFTSwpmb3IgdGltZSBhbmQgZGF0
+ZSBmb3JtYXR0aW5nCi5UUCAKLkIgTENfQ09MTEFURV9NQVNLCmZvciByZWd1bGFyIGV4cHJl
+c3Npb24gbWF0Y2hpbmcgKGl0IGRldGVybWluZXMgIHRoZSAgbWVhbmluZyAgb2YKcmFuZ2Ug
+ZXhwcmVzc2lvbnMgYW5kIGVxdWl2YWxlbmNlIGNsYXNzZXMpIGFuZCBzdHJpbmcgY29sbGF0
+aW9uLgouVFAgCi5CIExDX01PTkVUQVJZX01BU0sgCmZvciBtb25ldGFyeSBmb3JtYXR0aW5n
+ICAgICAgCi5UUCAKLkIgTENfTUVTU0FHRVNfTUFTSwpmb3IgbG9jYWxpemFibGUgbmF0dXJh
+bC1sYW5ndWFnZSBtZXNzYWdlcwouYnIKLnAKVGhlc2UgYXJlIEdOVS1FeHRlbnNpb25zOgou
+VFAgCi5CIExDX1BBUEVSX01BU0sKdG8gc3BlY2lmeSB0aGUgcGFwZXIgZm9ybWF0Ci5UUCAK
+LkIgTENfTkFNRV9NQVNLCnRvIHNwZWNpZnkgdGhlIG5hbWUgZm9ybWF0Ci5UUCAKLkIgTENf
+QUREUkVTU19NQVNLCmZvciBzcGVjaWZpY2F0aW9uIG9mIGFkcmVzc2Zvcm1hdCAgICAgCi5U
+UCAKLkIgTENfVEVMRVBIT05FX01BU0sKZm9yIHRlbGVwaG9uZSBudW1iZXJzICAKLlRQIAou
+QiBMQ19NRUFTVVJFTUVOVF9NQVNLICAgIApmb3IgbWVhc3VyZW1lbnQgdW5pdCAobWV0cmlj
+IG9yIG5vdCkKLlRQIAouQiBMQ19JREVOVElGSUNBVElPTl9NQVNLIApmb3IgbWV0YWRhdGEg
+CgouUApUaGUgc2Vjb25kZSBhcmd1bWVudCAKLkkgbG9jYWxlCmRlZmluZSB0aGUgc2V0IG9m
+IHByZWRlZmluZWQgdmFsdWUuCi5UUCAKLkJSIFBPU0lYICIgb3IgIiBDClNwZWNpZmllcyB0
+aGUgbWluaW1hbCBlbnZpcm9ubWVudCBmb3IgQy1sYW5ndWFnZSB0cmFuc2xhdGlvbiBjYWxs
+ZWQgdGhlIFBPU0lYIGxvY2FsZQouVFAgCi5CIFwoZHFcKGRxIApVc2UgdGhlIG5hdGl2ZSBl
+bnZpcm9ubWVudAoKLlAKVGhlIHRoaXJkIGFydW1lbnQKLkkgYmFzZQpkaWN0YXRlcyB0aGUg
+YmVoYXZpZXIgb2YgdGhlIGZ1bmN0aW9uLgpJZiB0aGlzIGFyZ3VtZW50IGlzIE5VTEwgYSBu
+ZXcgbG9jYWxlIHdpbGwgYmUgY3JlYXRlZC4KT3RoZXJ3aXNlIHRoZSBzcGVjaWZpZWQgbG9j
+YWxlIHdpbGwgYmUgbW9kaWZpZWQuCi5zcAouU1MgZHVwbG9jYWxlClRoZSBmdW5jdGlvbgou
+SSBkdXBsb2NhbGUgKCkKaXMgdXNlZCB0byBkdXBsaWNhdGUgdGhlIHNwZWNpZmllZCBsb2Nh
+bGUuIFRvIGdldCBhIGNvcHkgb2YgdGhlIGN1cnJlbnQgbG9jYWxlCnNwZWNpZnkgTENfR0xP
+QkFMX0xPQ0FMRS4KLnNwCi5TUyBmcmVlbG9jYWxlCkFmdGVyIHVzZSB0aGUgdXNlciBtdXN0
+IGZyZWUgdGhlIGFsbG9jYXRlZCBtZW1vcnkgYnkgdXNpbmcgCi5CUiBmcmVlbG9jYWxlKCku
+Ci5TSCAiUmV0dXJuIFZhbHVlIgpUaGUgbmV3bG9jYWxlKCkgYW5kIGR1cGxvY2FsZSgpIGZ1
+bmN0aW9uIHNoYWxsIHJldHVybiAwIG9uIGVycm9yIGFuZCBzZXQgCi5CIGVycm5vIAp0byBp
+bmRpY2F0ZSB0aGUgZXJyb3IuCi5TSCBFWEFNUExFClRoZSBleGFtcGxlIHdpbGwgdXNlIHRo
+ZSAiQyIgbG9jYWxlIHRvIGRldGVybWluYXRlIHRoZSBsb2NhbGUgc3BlY2lmaWMgZXJyb3Ig
+MTMuCi5zcAoubmYKI2luY2x1ZGUgPHN0ZGlvLmg+CiNpbmNsdWRlIDxzdHJpbmcuaD4KI2lu
+Y2x1ZGUgPGxvY2FsZS5oPgoKaW50IG1haW4oKQp7CiAgbG9jYWxlX3QgbG9jLGxvYzI7IAog
+IGxvYyA9IG5ld2xvY2FsZSAoTENfQUxMX01BU0ssICJDIiwgTlVMTCk7CiAgcHV0cyhzdHJl
+cnJvcl9sKDEzLGxvYykpOwogIGxvYzI9ZHVwbG9jYWxlKGxvYyk7CiAgcHV0cyhzdHJlcnJv
+cl9sKDEzLGxvYzIpKTsKICBmcmVlbG9jYWxlIChsb2MpOwogIGZyZWVsb2NhbGUgKGxvYzIp
+OwogIHJldHVybiAwOyAKfQoubmYKLlNIICJTRUUgQUxTTyIKLkJSIHNldGxvY2FsZSAoMyks
+Ci5CUiB4bG9jYWxlICg1KSwKLkJSIHVzZWxvY2FsZSAoMykK
+--------------090901010901030501070004--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
