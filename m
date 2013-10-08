@@ -1,111 +1,38 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: patch:strerror_l
-Date: Tue, 08 Oct 2013 19:02:03 +0200
-Message-ID: <52543A8B.5050107@bfs.de>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
-Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------090307030405050204010501"
+From: maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: [PATCH] flock.2: update documentation path
+Date: Tue,  8 Oct 2013 23:47:54 +0300
+Message-ID: <1381265274-5450-1-git-send-email-maxin.john@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Maxin B. John" <maxin.john-AM1FMPraTHU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------090307030405050204010501
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: "Maxin B. John" <maxin.john-AM1FMPraTHU@public.gmane.org>
 
-hi list,
-while testing i notice that strerror is missing the desciption of the locale variant.
-that patch fixes the problem.
+Update the Kernel Documentation path for flock
 
-re,
- wh
+Signed-off-by: Maxin B. John <maxin.john-AM1FMPraTHU@public.gmane.org>
+---
+ man2/flock.2 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
---------------090307030405050204010501
-Content-Type: text/x-patch;
- name="strerror.diff"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="strerror.diff"
+diff --git a/man2/flock.2 b/man2/flock.2
+index ee3e1c1..838cc7e 100644
+--- a/man2/flock.2
++++ b/man2/flock.2
+@@ -208,7 +208,7 @@ and occurs on many other implementations.)
+ .BR open (2),
+ .BR lockf (3)
+ 
+-.I Documentation/filesystem/locks.txt
++.I Documentation/filesystems/locks.txt
+ in the Linux kernel source tree
+ .RI ( Documentation/locks.txt
+ in older kernels)
+-- 
+1.7.7
 
---- strerror.3.org	2013-09-19 13:50:48.000000000 +0200
-+++ strerror.3	2013-09-19 15:00:10.000000000 +0200
-@@ -50,6 +50,10 @@
- .sp
- .BI "char *strerror_r(int " errnum ", char *" buf ", size_t " buflen );
-             /* GNU-specific */
-+.sp
-+.B #include <locale.h>
-+.sp
-+.BI "char *strerror_l(int " errnum, " locale_t " loc );
- .fi
- .sp
- .in -4n
-@@ -133,6 +137,11 @@
- .I errnum
- is unknown).
- The string always includes a terminating null byte (\(aq\\0\(aq).
-+
-+To get an error message in a given locale you need
-+.BR strerror_l ()
-+it takes an additional arument that defines to locale in what the message is returned.
-+The function is thread-safe.
- .SH RETURN VALUE
- The
- .BR strerror ()
-@@ -180,6 +189,8 @@
- .LP
- The
- .BR strerror_r ()
-+and
-+.BR strerror_r ()
- function is thread-safe.
- .SH CONFORMING TO
- .BR strerror ()
-@@ -210,6 +221,39 @@
- .B EINVAL
- if the error number is unknown.
- C99 and POSIX.1-2008 require the return value to be non-NULL.
-+.sp
-+.BR strerror_l ()
-+is a POSIX.1-2008 requirement, but available as GNU-specific function
-+atleast since glibc 2.6.1.
-+.SH EXAMPLE
-+The program below demonstrates the use of the 
-+.BR strerror* ()
-+functions. The first line should be 
-+.I sterror_l(13)=Permission denied
-+the others should print this in a locale specific version.
-+.nf
-+
-+#include <stdio.h>
-+#include <string.h>
-+#include <locale.h>
-+
-+int main()
-+{
-+  int e=13;    // errornumber
-+  char buf[255];
-+  locale_t loc;
-+
-+  setlocale(LC_ALL, "");
-+  loc = newlocale (LC_MESSAGES_MASK, "C", NULL);
-+  printf("sterror_l(13)=%s\\n",strerror_l(e,loc));
-+  freelocale (loc);
-+  // this will be translated automaticly  
-+  printf("sterror(13)=%s\\n",strerror(e));
-+  strerror_r(e,buf,sizeof(buf)-1);
-+  printf("sterror(13)=%s\\n",buf); 
-+  return 0;
-+}
-+.fi
- .SH SEE ALSO
- .BR err (3),
- .BR errno (3),
-
---------------090307030405050204010501--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
