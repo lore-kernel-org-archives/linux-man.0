@@ -1,46 +1,49 @@
-From: Andrew Daviel <advax-K9O0zq5Arhf3fQ9qLvQP4Q@public.gmane.org>
-Subject: flock(2) and NFS
-Date: Tue, 8 Oct 2013 17:56:17 -0700 (PDT)
-Message-ID: <alpine.LRH.2.02.1310081747490.23014@andrew.triumf.ca>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] perf_event_open.2 E2BIG documentation
+Date: Thu, 10 Oct 2013 17:20:25 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1310101718250.4689@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
-I'm not sure whether this is me being stupid, or a real issue.
-On my CentOS 6 system the manpage for flock()2 states that it does not 
-work on NFS. When I check for the latest version online, it is the same.
+The following documents the E2BIG error return for perf_event_open().
 
-Experimentally, the flock shell command does work on an NFS3 mounted 
-volume in (at least) CentOS 5 with 2.6.18.
+I actually ran into this error the hard way and it took me half a day
+to figure out why my ->size value was changing.
 
-In http://nfs.sourceforge.net/ I find
-"The NFS client in 2.6.12 provides support for flock()/BSD locks on NFS 
-files by emulating the BSD-style locks in terms of POSIX byte range 
-locks."
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
-In fs/nfs/file.c I find "We're simulating flock() locks using posix locks 
-on the server"
-
-That seems to imply to me that flock() does in fact work on Linux since 
-2.6.12, at least as far as a programmer is concerned.
-
-
-
-http://man7.org/linux/man-pages/man2/flock.2.html
-
-NOTES
-        flock() does not lock files over NFS.  Use fcntl(2) instead: that
-        does work over NFS, given a sufficiently recent version of Linux and
-        a server which supports locking.
-
--- 
-Andrew Daviel, TRIUMF, Canada
-Tel. +1 (604) 222-7376  (Pacific Time)
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 71a09d5..f4cb5bd 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2121,6 +2121,21 @@ returns the new file descriptor, or \-1 if an error occurred
+ is set appropriately).
+ .SH ERRORS
+ .TP
++.B E2BIG
++Returned if the perf_event_attr
++.I size
++value is too small
++(smaller than
++.BR PERF_ATTR_SIZE_VER0 ),
++too big (larger than the page size),
++or larger than the kernel supports and the extra bytes are not zero.
++When
++.B E2BIG
++is returned, the perf_event_attr
++.I size 
++field is over-written by the kernel to be the size of the structure
++it was expecting.
++.TP
+ .B EINVAL
+ Returned if the specified event is not available.
+ .TP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
