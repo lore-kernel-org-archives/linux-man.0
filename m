@@ -1,44 +1,48 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] copysign.3: wfix
-Date: Mon, 14 Oct 2013 11:27:56 +0800
-Message-ID: <1381721276-17604-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] asinh.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 14 Oct 2013 13:45:20 +0800
+Message-ID: <1381729520-21622-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+The functions asinh(), asinhf() and asinhl() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/copysign.3 | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ man3/asinh.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/man3/copysign.3 b/man3/copysign.3
-index 2e35b68..65f6c79 100644
---- a/man3/copysign.3
-+++ b/man3/copysign.3
-@@ -63,7 +63,10 @@ or
- .ad b
- .SH DESCRIPTION
- The
--.BR copysign ()
-+.BR copysign (),
-+.BR copysignf (),
+diff --git a/man3/asinh.3 b/man3/asinh.3
+index 3b847e0..3d4bc0b 100644
+--- a/man3/asinh.3
++++ b/man3/asinh.3
+@@ -32,7 +32,7 @@
+ .\" Modified 2002-07-27 by Walter Harms
+ .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+ .\"
+-.TH ASINH 3  2010-09-20 "GNU"  "Linux Programmer's Manual"
++.TH ASINH 3  2013-10-14 "GNU"  "Linux Programmer's Manual"
+ .SH NAME
+ asinh, asinhf, asinhl \- inverse hyperbolic sine function
+ .SH SYNOPSIS
+@@ -102,6 +102,14 @@ positive infinity (negative infinity) is returned.
+ .\" glibc 2.8 does not do this.
+ .SH ERRORS
+ No errors occur.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR asinh (),
++.BR asinhf (),
 +and
-+.BR copysignl ()
- functions return a value whose absolute value matches
- that of
- .IR x ,
-@@ -104,8 +107,7 @@ This function is defined in IEC 559 (and the appendix with
- recommended functions in IEEE 754/IEEE 854).
- .SH NOTES
- On architectures where the floating-point formats are not IEEE 754 compliant,
--the
--.BR copysign ()
-+these
- functions may treat a negative zero as positive.
- .SH SEE ALSO
- .BR signbit (3)
++.BR asinhl ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ The variant returning
 -- 
 1.8.3.1
 
