@@ -1,49 +1,56 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 E2BIG documentation
-Date: Thu, 10 Oct 2013 17:20:25 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1310101718250.4689@vincent-weaver-1.um.maine.edu>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] atoi.3: ATTRIBUTES: Note functions that are thread safe with exceptions
+Date: Mon, 14 Oct 2013 10:19:14 +0800
+Message-ID: <1381717154-15132-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The functions atoi(), atol() and atoll() are thread safe with
+exceptions.
 
-The following documents the E2BIG error return for perf_event_open().
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/atoi.3 | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-I actually ran into this error the hard way and it took me half a day
-to figure out why my ->size value was changing.
+diff --git a/man3/atoi.3 b/man3/atoi.3
+index ad830fd..598650a 100644
+--- a/man3/atoi.3
++++ b/man3/atoi.3
+@@ -30,7 +30,7 @@
+ .\" Modified Sat Jul 24 21:38:42 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified Sun Dec 17 18:35:06 2000, Joseph S. Myers
+ .\"
+-.TH ATOI 3  2012-08-03 "GNU" "Linux Programmer's Manual"
++.TH ATOI 3  2013-10-14 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ atoi, atol, atoll, atoq \- convert a string to an integer
+ .SH SYNOPSIS
+@@ -90,6 +90,18 @@ is an obsolete name for
+ .BR atoll ().
+ .SH RETURN VALUE
+ The converted value.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR atoi (),
++.BR atol (),
++and
++.BR atoll ()
++functions are thread-safe with exceptions.
++These functions can be safely used in multithreaded applications,
++as long as
++.BR setlocale (3)
++is not called to change the locale.
+ .SH CONFORMING TO
+ SVr4, POSIX.1-2001, 4.3BSD, C99.
+ C89 and
+-- 
+1.8.3.1
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 71a09d5..f4cb5bd 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -2121,6 +2121,21 @@ returns the new file descriptor, or \-1 if an error occurred
- is set appropriately).
- .SH ERRORS
- .TP
-+.B E2BIG
-+Returned if the perf_event_attr
-+.I size
-+value is too small
-+(smaller than
-+.BR PERF_ATTR_SIZE_VER0 ),
-+too big (larger than the page size),
-+or larger than the kernel supports and the extra bytes are not zero.
-+When
-+.B E2BIG
-+is returned, the perf_event_attr
-+.I size 
-+field is over-written by the kernel to be the size of the structure
-+it was expecting.
-+.TP
- .B EINVAL
- Returned if the specified event is not available.
- .TP
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
