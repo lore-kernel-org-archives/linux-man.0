@@ -1,48 +1,48 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cos.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 14 Oct 2013 15:10:57 +0800
-Message-ID: <1381734657-24334-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] expm1.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 14 Oct 2013 17:04:02 +0800
+Message-ID: <1381741442-31159-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions cos(), cosf() and cosl() are thread safe.
+The functions expm1(), expm1f() and expm1l() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cos.3 | 10 +++++++++-
+ man3/expm1.3 | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/man3/cos.3 b/man3/cos.3
-index c68c204..6e7fb76 100644
---- a/man3/cos.3
-+++ b/man3/cos.3
-@@ -31,7 +31,7 @@
- .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
- .\" Modified 2002-07-27 by Walter Harms
+diff --git a/man3/expm1.3 b/man3/expm1.3
+index d80e05c..bcf471e 100644
+--- a/man3/expm1.3
++++ b/man3/expm1.3
+@@ -27,7 +27,7 @@
+ .\" Modified 2002-07-27 Walter Harms
  .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
--.TH COS 3 2010-09-11 ""   "Linux Programmer's Manual"
-+.TH COS 3 2013-10-14 ""   "Linux Programmer's Manual"
+ .\"
+-.TH EXPM1 3  2010-09-12 "" "Linux Programmer's Manual"
++.TH EXPM1 3  2013-10-14 "" "Linux Programmer's Manual"
  .SH NAME
- cos, cosf, cosl \- cosine function
+ expm1, expm1f, expm1l \- exponential minus 1
  .SH SYNOPSIS
-@@ -101,6 +101,14 @@ is set to
- An invalid floating-point exception
- .RB ( FE_INVALID )
- is raised.
+@@ -133,6 +133,14 @@ is raised.
+ .\"
+ .\" POSIX.1 specifies an optional range error (underflow) if
+ .\" x is subnormal.  Glibc does not implement this.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR cos (),
-+.BR cosf (),
++.BR expm1 (),
++.BR expm1f (),
 +and
-+.BR cosl ()
++.BR expm1l ()
 +functions are thread-safe.
  .SH CONFORMING TO
  C99, POSIX.1-2001.
- The variant returning
+ .\" BSD.
 -- 
 1.8.3.1
 
