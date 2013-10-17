@@ -1,160 +1,38 @@
-From: "Moore, Carl G Jr CIV (US)" <carl.g.moore10.civ-Iv6EBiGM078@public.gmane.org>
-Subject: FW: where would I send request for man-page fixes?
-Date: Thu, 17 Oct 2013 14:36:44 +0000
-Message-ID: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54@umechpgd.easf.csd.disa.mil>
+From: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>
+Subject: Re: FW: where would I send request for man-page fixes?
+Date: Thu, 17 Oct 2013 17:13:31 +0200
+Message-ID: <20131017151331.GE26283@mraw.org>
+References: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54@umechpgd.easf.csd.disa.mil>
 Mime-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
-	micalg=SHA1; boundary="----=_NextPart_000_0042_01CECB24.C13C2A90"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54-0zrmi14SSD6bdKgixfyNHRTKac9p0Avw+oGz7xIJsNs@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Moore, Carl G Jr CIV (US)" <carl.g.moore10.civ-Iv6EBiGM078@public.gmane.org>
+Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-------=_NextPart_000_0042_01CECB24.C13C2A90
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Hello,
 
------Original Message-----
-From: Moore, Carl G Jr CIV (US) 
-Sent: Wednesday, October 16, 2013 5:08 PM
-To: 'zteam-lsG0qkMFHpv5oiiGuJUvLw@public.gmane.org'
-Subject: where would I send request for man-page fixes?
+On Thu, Oct 17, 2013 at 02:36:44PM +0000, Moore, Carl G Jr CIV (US) wro=
+te:
+> In "man cal", I have found:
 
-In "man cal", I have found:
+There is no cal manpages in manpages-linux project.
 
-     The Gregorian Reformation is assumed to have occurred in 1752 on the
-3rd
-     of September.  By this time, most countries had recognized the reforma-
-     tion (although a few did not recognize it until the early 1900's.)  Ten
-     days following that date were eliminated by the reformation, so the
-cal-
-     endar for that month is a bit unusual.
+On my (Debian) system, cal is provided by package bsdmainutils (and not=
+ manpages).
 
-I am making a couple of changes (noticing that the 1-time change in 1752 was
-to eliminate ELEVEN, not ten, days):
-
-     The Gregorian Reformation is assumed to have occurred in 1752 on the
-3rd
-     of September.  By this time, most countries had recognized the reforma-
-     tion (although a few did not recognize it until the early 1900's).
-Eleven
-     days following that date were eliminated by the reformation, so the
-cal-
-     endar for that month is a bit unusual.
-
-(I also interchanged right parenthesis and period.)
+You may contact the author of the cal manpage:
+AUTHORS
+     The ncal command and manual were written by Wolfgang Helbig =E2=9F=
+=A8helbig-HZy0K5TPuP5AfugRpC6u6w@public.gmane.org=E2=9F=A9.
 
 
-------=_NextPart_000_0042_01CECB24.C13C2A90
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-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
-
-------=_NextPart_000_0042_01CECB24.C13C2A90--
+--=20
+Simon Paillard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
