@@ -1,38 +1,27 @@
-From: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>
-Subject: Re: FW: where would I send request for man-page fixes?
-Date: Thu, 17 Oct 2013 17:13:31 +0200
-Message-ID: <20131017151331.GE26283@mraw.org>
-References: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54@umechpgd.easf.csd.disa.mil>
+From: Jon Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: ioctl man page feedback
+Date: Fri, 18 Oct 2013 10:30:52 +0100
+Message-ID: <CAGc9Evdwv+DZQEdYMiH3kQvd0LfGNbU9h9ppAzC0tbp8MsT6gQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54-0zrmi14SSD6bdKgixfyNHRTKac9p0Avw+oGz7xIJsNs@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Moore, Carl G Jr CIV (US)" <carl.g.moore10.civ-Iv6EBiGM078@public.gmane.org>
-Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hello mtk
 
-On Thu, Oct 17, 2013 at 02:36:44PM +0000, Moore, Carl G Jr CIV (US) wro=
-te:
-> In "man cal", I have found:
+http://man7.org/linux/man-pages/man2/ioctl.2.html
 
-There is no cal manpages in manpages-linux project.
+In ERRORS section
 
-On my (Debian) system, cal is provided by package bsdmainutils (and not=
- manpages).
+"EINVAL Request or argp is not valid."
 
-You may contact the author of the cal manpage:
-AUTHORS
-     The ncal command and manual were written by Wolfgang Helbig =E2=9F=
-=A8helbig-HZy0K5TPuP5AfugRpC6u6w@public.gmane.org=E2=9F=A9.
+I think "R" of Request should be in lower case as it is a param. Does
+that sound right?
 
-
---=20
-Simon Paillard
+Best regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
