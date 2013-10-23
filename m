@@ -1,48 +1,47 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] bzero.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 22 Oct 2013 17:24:40 +0800
-Message-ID: <1382433880-30187-1-git-send-email-penght@cn.fujitsu.com>
+From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
+Date: Wed, 23 Oct 2013 08:54:50 +0100
+Message-ID: <20131023075450.GA8203@sdfg.com.ar>
+References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
+ <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
+ <20131007084646.GC19103@sdfg.com.ar>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20131007084646.GC19103-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function bzero() is thread safe.
+On Mon, Oct 07, 2013 at 09:46:46AM +0100, Rodrigo Campos wrote:
+> On Mon, Sep 30, 2013 at 07:50:43PM +0100, Rodrigo Campos wrote:
+> > When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
+> > ".nl." is "an obsolete scheme and really should be changed to just
+> > ftp.kernel.org". So this patch does just this change.
+> > 
+> > I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
+> > Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
+> > domains used in the example also don't work. I'm not sure we want to fix this,
+> > but if we want, we should probably do it in a separate patch.
+> > 
+> > Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+> > ---
+> >  man2/futex.2 | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> Ping ?
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/bzero.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Sorry to bother again Michael, but the first version of this patch was sent
+almost a month ago and never received any comments. Did you forget about it ?
 
-diff --git a/man3/bzero.3 b/man3/bzero.3
-index c89a3e1..71fd124 100644
---- a/man3/bzero.3
-+++ b/man3/bzero.3
-@@ -28,7 +28,7 @@
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 21:28:17 1993 by Rik Faith <faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org>
- .\" Modified Tue Oct 22 23:49:37 1996 by Eric S. Raymond <esr-4uCgticg2UFBDgjK7y7TUQ@public.gmane.org>
--.TH BZERO 3  2008-08-06 "Linux" "Linux Programmer's Manual"
-+.TH BZERO 3  2013-10-22 "Linux" "Linux Programmer's Manual"
- .SH NAME
- bzero \- write zero-valued bytes
- .SH SYNOPSIS
-@@ -47,6 +47,11 @@ bytes of the area starting at
- to zero (bytes containing \(aq\\0\(aq).
- .SH RETURN VALUE
- None.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR bzero ()
-+function is thread-safe.
- .SH CONFORMING TO
- 4.3BSD.
- This function is deprecated (marked as LEGACY in POSIX.1-2001): use
--- 
-1.8.3.1
 
+
+
+
+Thanks,
+Rodrigo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
