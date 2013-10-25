@@ -1,49 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
-Date: Sat, 26 Oct 2013 10:54:44 +1300
-Message-ID: <526AE8A4.6000204@gmail.com>
-References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar> <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar> <20131007084646.GC19103@sdfg.com.ar> <20131023075450.GA8203@sdfg.com.ar>
+Subject: Re: FW: where would I send request for man-page fixes?
+Date: Sat, 26 Oct 2013 10:56:35 +1300
+Message-ID: <526AE913.1090509@gmail.com>
+References: <9FC9E507180A484C8C3D8BFC0B3D729C3B21AD54@umechpgd.easf.csd.disa.mil> <20131017151331.GE26283@mraw.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20131023075450.GA8203-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+In-Reply-To: <20131017151331.GE26283-xazfMhTT2R0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <simon.paillard-w8Qkl7EtMQc@public.gmane.org>, "Moore, Carl G Jr CIV (US)" <carl.g.moore10.civ-Iv6EBiGM078@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 23.10.2013 20:54, Rodrigo Campos wrote:
-> On Mon, Oct 07, 2013 at 09:46:46AM +0100, Rodrigo Campos wrote:
->> On Mon, Sep 30, 2013 at 07:50:43PM +0100, Rodrigo Campos wrote:
->>> When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
->>> ".nl." is "an obsolete scheme and really should be changed to just
->>> ftp.kernel.org". So this patch does just this change.
->>>
->>> I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
->>> Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
->>> domains used in the example also don't work. I'm not sure we want to fix this,
->>> but if we want, we should probably do it in a separate patch.
->>>
->>> Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
->>> ---
->>>  man2/futex.2 | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> Ping ?
-> 
-> Sorry to bother again Michael, but the first version of this patch was sent
-> almost a month ago and never received any comments. Did you forget about it ?
+On 18.10.2013 04:13, Simon Paillard wrote:
+> Hello,
+>=20
+> On Thu, Oct 17, 2013 at 02:36:44PM +0000, Moore, Carl G Jr CIV (US) w=
+rote:
+>> In "man cal", I have found:
+>=20
+> There is no cal manpages in manpages-linux project.
+>=20
+> On my (Debian) system, cal is provided by package bsdmainutils (and n=
+ot manpages).
+>=20
+> You may contact the author of the cal manpage:
+> AUTHORS
+>      The ncal command and manual were written by Wolfgang Helbig =E2=9F=
+=A8helbig-HZy0K5TPuP5AfugRpC6u6w@public.gmane.org=E2=9F=A9.
 
-Sorry -- there were some events that took me out of action for a few weeks.
-I've applied your v2 patch now.
-Cheers,
+An even more general answer to this question can be found here:
+https://www.kernel.org/doc/man-pages/man_pages_other.html
+
+Cheers
 
 Michael
 
 
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 My next Linux/UNIX system programming course:
