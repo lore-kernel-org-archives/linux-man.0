@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] copysign.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 26 Oct 2013 11:23:10 +1300
-Message-ID: <526AEF4E.8080502@gmail.com>
-References: <1381720746-17089-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] copysign.3: wfix
+Date: Sat, 26 Oct 2013 11:23:32 +1300
+Message-ID: <526AEF64.1060604@gmail.com>
+References: <1381721276-17604-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1381720746-17089-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1381721276-17604-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 14.10.2013 16:19, Peng Haitao wrote:
-> The functions copysign(), copysignf() and copysignl() are thread
-> safe.
+On 14.10.2013 16:27, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
 
 Applied.
@@ -26,39 +25,36 @@ Michael
 
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/copysign.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  man3/copysign.3 | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
 > diff --git a/man3/copysign.3 b/man3/copysign.3
-> index 2ac104a..2e35b68 100644
+> index 2e35b68..65f6c79 100644
 > --- a/man3/copysign.3
 > +++ b/man3/copysign.3
-> @@ -28,7 +28,7 @@
->  .\"     386BSD man pages
->  .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified 2002-08-10 by Walter Harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
-> -.TH COPYSIGN 3  2012-03-25 "GNU" "Linux Programmer's Manual"
-> +.TH COPYSIGN 3  2013-10-14 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  copysign, copysignf, copysignl \- copy sign of a number
->  .SH SYNOPSIS
-> @@ -89,6 +89,14 @@ a NaN with the sign bit of
->  is returned.
->  .SH ERRORS
->  No errors occur.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
+> @@ -63,7 +63,10 @@ or
+>  .ad b
+>  .SH DESCRIPTION
+>  The
+> -.BR copysign ()
 > +.BR copysign (),
 > +.BR copysignf (),
 > +and
 > +.BR copysignl ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  .\" 4.3BSD.
+>  functions return a value whose absolute value matches
+>  that of
+>  .IR x ,
+> @@ -104,8 +107,7 @@ This function is defined in IEC 559 (and the appendix with
+>  recommended functions in IEEE 754/IEEE 854).
+>  .SH NOTES
+>  On architectures where the floating-point formats are not IEEE 754 compliant,
+> -the
+> -.BR copysign ()
+> +these
+>  functions may treat a negative zero as positive.
+>  .SH SEE ALSO
+>  .BR signbit (3)
 > 
 
 
