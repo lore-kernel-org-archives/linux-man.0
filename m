@@ -1,70 +1,58 @@
-From: Greg Price <price-DPNOqEs/LNQ@public.gmane.org>
-Subject: [PATCH] malloc.3: Scale back promises of alignment
-Date: Thu, 24 Oct 2013 15:42:48 -0400
-Message-ID: <20131024194248.GC16996@ringworld.MIT.EDU>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
+Date: Sat, 26 Oct 2013 10:54:38 +1300
+Message-ID: <526AE89E.9080604@gmail.com>
+References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar> <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <1380567043-10102-1-git-send-email-rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-It's not true that the return value is suitably aligned for "any
-variable"; for example, it's unsuitable for a variable like
-  float *x __attribute__ ((__vector_size__ (32)));
-which requires 32-byte alignment.  Types like this are defined in
-<avxintrin.h>, and with 16-byte alignment in <emmintrin.h> and
-<xmmintrin.h>, so the application programmer need not even know
-that a vector_size attribute has been applied.
+On 01.10.2013 07:50, Rodrigo Campos wrote:
+> When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
+> ".nl." is "an obsolete scheme and really should be changed to just
+> ftp.kernel.org". So this patch does just this change.
+> 
+> I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
+> Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
+> domains used in the example also don't work. I'm not sure we want to fix this,
+> but if we want, we should probably do it in a separate patch.
 
-On an x86 architecture, a program that loads from or stores to a
-pointer with this type derived from malloc can crash because GCC
-generates an aligned load/store, like MOVDQA.
+Applied. Thanks & sorry for the delay.
 
-The C99 standard (TC3, as of N1256) does say the return value is
-suitably aligned for "any type of object".  The C11 standard (as
-of N1570) revises this to any type with "fundamental alignment",
-which means an alignment "supported by the implementation in all
-contexts", which I suppose tautologically includes aligning
-malloc/realloc return values.
+Cheers,
 
-The actual behavior of current glibc malloc is to align to the
-greater of 2 * sizeof(size_t) and __alignof__ (long double),
-which may be one bit greater than this commit promises.
+Michael
 
-Signed-off-by: Greg Price <price-3s7WtUTddSA@public.gmane.org>
----
- man3/malloc.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man3/malloc.3 b/man3/malloc.3
-index 372b503..84d9852 100644
---- a/man3/malloc.3
-+++ b/man3/malloc.3
-@@ -131,8 +131,8 @@ The
- .BR malloc ()
- and
- .BR calloc ()
--functions return a pointer to the allocated memory
--that is suitably aligned for any kind of variable.
-+functions return a pointer to the allocated memory,
-+which is suitably aligned for any built-in type.
- On error, these functions return NULL.
- NULL may also be returned by a successful call to
- .BR malloc ()
-@@ -154,7 +154,7 @@ function returns no value.
- The
- .BR realloc ()
- function returns a pointer to the newly allocated memory, which is suitably
--aligned for any kind of variable and may be different from
-+aligned for any built-in type and may be different from
- .IR ptr ,
- or NULL if the request fails.
- If
+> Signed-off-by: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
+> ---
+>  man2/futex.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/futex.2 b/man2/futex.2
+> index 78e3de0..a59b0a4 100644
+> --- a/man2/futex.2
+> +++ b/man2/futex.2
+> @@ -326,5 +326,5 @@ read the sources of the futex user-space library referenced below.
+>  .PP
+>  Futex example library, futex-*.tar.bz2 at
+>  .br
+> -.UR ftp://ftp.nl.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+> +.UR ftp://ftp.kernel.org\:/pub\:/linux\:/kernel\:/people\:/rusty/
+>  .UE
+> 
+
+
 -- 
-1.8.3.2
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+My next Linux/UNIX system programming course:
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
