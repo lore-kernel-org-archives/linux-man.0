@@ -1,63 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] atan.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 26 Oct 2013 11:19:49 +1300
-Message-ID: <526AEE85.6060308@gmail.com>
-References: <1381139308-10987-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [patch] perf_event_open.2 E2BIG documentation
+Date: Sat, 26 Oct 2013 11:22:19 +1300
+Message-ID: <526AEF1B.9050607@gmail.com>
+References: <alpine.DEB.2.10.1310101718250.4689@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1381139308-10987-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1310101718250.4689-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07.10.2013 22:48, Peng Haitao wrote:
-> The functions atan(), atanf() and atanl() are thread safe.
+On 11.10.2013 10:20, Vince Weaver wrote:
+> 
+> The following documents the E2BIG error return for perf_event_open().
+> 
+> I actually ran into this error the hard way and it took me half a day
+> to figure out why my ->size value was changing.
+> 
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
+Thanks, Vince. Applied.
 
-Applied.
-
-Thanks,
+Cheers,
 
 Michael
 
 
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/atan.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/atan.3 b/man3/atan.3
-> index 7eb8218..9f5a173 100644
-> --- a/man3/atan.3
-> +++ b/man3/atan.3
-> @@ -32,7 +32,7 @@
->  .\" Modified 2002-07-27 by Walter Harms
->  .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
-> -.TH ATAN 3  2010-09-20 "" "Linux Programmer's Manual"
-> +.TH ATAN 3  2013-10-07 "" "Linux Programmer's Manual"
->  .SH NAME
->  atan, atanf, atanl \- arc tangent function
->  .SH SYNOPSIS
-> @@ -93,6 +93,14 @@ is positive infinity (negative infinity), +pi/2 (\-pi/2) is returned.
->  .\" glibc 2.8 does not do this.
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index 71a09d5..f4cb5bd 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -2121,6 +2121,21 @@ returns the new file descriptor, or \-1 if an error occurred
+>  is set appropriately).
 >  .SH ERRORS
->  No errors occur.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR atan (),
-> +.BR atanf (),
-> +and
-> +.BR atanl ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  .TP
+> +.B E2BIG
+> +Returned if the perf_event_attr
+> +.I size
+> +value is too small
+> +(smaller than
+> +.BR PERF_ATTR_SIZE_VER0 ),
+> +too big (larger than the page size),
+> +or larger than the kernel supports and the extra bytes are not zero.
+> +When
+> +.B E2BIG
+> +is returned, the perf_event_attr
+> +.I size 
+> +field is over-written by the kernel to be the size of the structure
+> +it was expecting.
+> +.TP
+>  .B EINVAL
+>  Returned if the specified event is not available.
+>  .TP
 > 
 
 
