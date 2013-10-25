@@ -1,24 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 26 Oct 2013 11:26:47 +1300
-Message-ID: <526AF027.1030902@gmail.com>
-References: <1382428983-24396-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] bzero.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 26 Oct 2013 11:27:00 +1300
+Message-ID: <526AF034.1000607@gmail.com>
+References: <1382433880-30187-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1382428983-24396-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1382433880-30187-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 22.10.2013 21:03, Peng Haitao wrote:
-> The functions tcgetattr(), tcsetattr(), tcsendbreak(),
-> tcdrain(), tcflush(), tcflow(), cfmakeraw(), cfgetispeed(),
-> cfgetospeed(), cfsetispeed(), cfsetospeed() and cfsetspeed()
-> are thread safe.
-
+On 22.10.2013 22:24, Peng Haitao wrote:
+> The function bzero() is thread safe.
 
 Applied.
 
@@ -29,46 +25,34 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/termios.3 | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
+>  man3/bzero.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index 4f5f304..feecad0 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -37,7 +37,7 @@
->  .\"     Enhanced the discussion of "raw" mode for cfmakeraw().
->  .\"     Document CMSPAR.
->  .\"
-> -.TH TERMIOS 3 2013-03-15 "Linux" "Linux Programmer's Manual"
-> +.TH TERMIOS 3 2013-10-22 "Linux" "Linux Programmer's Manual"
+> diff --git a/man3/bzero.3 b/man3/bzero.3
+> index c89a3e1..71fd124 100644
+> --- a/man3/bzero.3
+> +++ b/man3/bzero.3
+> @@ -28,7 +28,7 @@
+>  .\"     386BSD man pages
+>  .\" Modified Sat Jul 24 21:28:17 1993 by Rik Faith <faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org>
+>  .\" Modified Tue Oct 22 23:49:37 1996 by Eric S. Raymond <esr-4uCgticg2UFBDgjK7y7TUQ@public.gmane.org>
+> -.TH BZERO 3  2008-08-06 "Linux" "Linux Programmer's Manual"
+> +.TH BZERO 3  2013-10-22 "Linux" "Linux Programmer's Manual"
 >  .SH NAME
->  termios, tcgetattr, tcsetattr, tcsendbreak, tcdrain, tcflush, tcflow,
->  cfmakeraw, cfgetospeed, cfgetispeed, cfsetispeed, cfsetospeed, cfsetspeed \-
-> @@ -929,6 +929,23 @@ Therefore, when making multiple changes
->  it may be necessary to follow this call with a further call to
->  .BR tcgetattr ()
->  to check that all changes have been performed successfully.
+>  bzero \- write zero-valued bytes
+>  .SH SYNOPSIS
+> @@ -47,6 +47,11 @@ bytes of the area starting at
+>  to zero (bytes containing \(aq\\0\(aq).
+>  .SH RETURN VALUE
+>  None.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR tcgetattr (),
-> +.BR tcsetattr (),
-> +.BR tcsendbreak (),
-> +.BR tcdrain (),
-> +.BR tcflush (),
-> +.BR tcflow (),
-> +.BR cfmakeraw (),
-> +.BR cfgetispeed (),
-> +.BR cfgetospeed (),
-> +.BR cfsetispeed (),
-> +.BR cfsetospeed (),
-> +and
-> +.BR cfsetspeed ()
-> +functions are thread-safe.
+> +.BR bzero ()
+> +function is thread-safe.
 >  .SH CONFORMING TO
->  .BR tcgetattr (),
->  .BR tcsetattr (),
+>  4.3BSD.
+>  This function is deprecated (marked as LEGACY in POSIX.1-2001): use
 > 
 
 
