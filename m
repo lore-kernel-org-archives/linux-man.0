@@ -1,39 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Typo] Man page 2 "readlink" example's code.
-Date: Sat, 26 Oct 2013 11:01:08 +1300
-Message-ID: <526AEA24.7020107@gmail.com>
-References: <CAGMNOR8oQRKk-OXARtOuafcKiVPerDOXsF_ZhB_0sUN-=GTo_g@mail.gmail.com>
+Subject: Re: [PATCH] flock.2: update documentation path
+Date: Sat, 26 Oct 2013 11:05:23 +1300
+Message-ID: <526AEB23.1000109@gmail.com>
+References: <1381265274-5450-1-git-send-email-maxin.john@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGMNOR8oQRKk-OXARtOuafcKiVPerDOXsF_ZhB_0sUN-=GTo_g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1381265274-5450-1-git-send-email-maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: yuanhang zheng <zhengyhn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Maxin B. John" <maxin.john-AM1FMPraTHU@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 14.10.2013 20:25, yuanhang zheng wrote:
-> Hi,
->     I have found a typo in the `man 2 readlink` man page. In the "Example" section,
+On 09.10.2013 09:47, maxin.john-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org wrote:
+> From: "Maxin B. John" <maxin.john-AM1FMPraTHU@public.gmane.org>
 > 
->     if (r < 0) {
->         perror("lstat");
->         exit(EXIT_FAILURE);
->     }
+> Update the Kernel Documentation path for flock
 > 
-> here ``perror("lstat");`` should be ``perror("readlink");``.
+> Signed-off-by: Maxin B. John <maxin.john-AM1FMPraTHU@public.gmane.org>
+> ---
+>  man2/flock.2 |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 > 
-> Although this is just a small mistake, I think it will confuse the reader. Please fix it. Thanks.
-> 
-> Best wish,
-> Yuanhang Zheng.
+> diff --git a/man2/flock.2 b/man2/flock.2
+> index ee3e1c1..838cc7e 100644
+> --- a/man2/flock.2
+> +++ b/man2/flock.2
+> @@ -208,7 +208,7 @@ and occurs on many other implementations.)
+>  .BR open (2),
+>  .BR lockf (3)
+>  
+> -.I Documentation/filesystem/locks.txt
+> +.I Documentation/filesystems/locks.txt
+>  in the Linux kernel source tree
+>  .RI ( Documentation/locks.txt
+>  in older kernels)
 
-Thank you. Fixed now.
+Applied. 
 
-Cheers,
+Thanks,
 
 Michael
+
+
 
 
 -- 
