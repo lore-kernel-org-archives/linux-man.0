@@ -1,34 +1,48 @@
-From: Rodrigo Campos <rodrigo-aOqSs0FX/Gu4Tu3zPC53fQ@public.gmane.org>
-Subject: Re: [PATCH v2] futex.2: Fix link to Rusty's futex example library
-Date: Sat, 26 Oct 2013 22:34:10 +0100
-Message-ID: <20131026213410.GB9456@sdfg.com.ar>
-References: <1380056659-24306-1-git-send-email-rodrigo@sdfg.com.ar>
- <1380567043-10102-1-git-send-email-rodrigo@sdfg.com.ar>
- <526AE89E.9080604@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] daemon.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 28 Oct 2013 10:47:14 +0800
+Message-ID: <1382928434-8812-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <526AE89E.9080604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Oct 26, 2013 at 10:54:38AM +1300, Michael Kerrisk (man-pages) wrote:
-> On 01.10.2013 07:50, Rodrigo Campos wrote:
-> > When I asked to webmaster-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, Konstantin Ryabitsev answered that the
-> > ".nl." is "an obsolete scheme and really should be changed to just
-> > ftp.kernel.org". So this patch does just this change.
-> > 
-> > I also did a git grep for "\..*\.kernel.org" and didn't find anything wierd.
-> > Just an example using ftp.us.kernel.org in man3/getaddrinfo_a.3 where other
-> > domains used in the example also don't work. I'm not sure we want to fix this,
-> > but if we want, we should probably do it in a separate patch.
-> 
-> Applied. Thanks & sorry for the delay.
+The function daemon() is thread safe.
 
-Np, thanks a lot! :-)
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/daemon.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/man3/daemon.3 b/man3/daemon.3
+index 9c8215b..91b73e7 100644
+--- a/man3/daemon.3
++++ b/man3/daemon.3
+@@ -33,7 +33,7 @@
+ .\"
+ .\"	@(#)daemon.3	8.1 (Berkeley) 6/9/93
+ .\" Added mentioning of glibc weirdness wrt unistd.h. 5/11/98, Al Viro
+-.TH DAEMON 3 2009-12-05 "GNU" "Linux Programmer's Manual"
++.TH DAEMON 3 2013-10-28 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ daemon \- run in the background
+ .SH SYNOPSIS
+@@ -88,6 +88,11 @@ to any of the errors specified for the
+ .BR fork (2)
+ and
+ .BR setsid (2).
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR daemon ()
++function is thread-safe.
+ .SH CONFORMING TO
+ Not in POSIX.1-2001.
+ A similar function appears on the BSDs.
+-- 
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
