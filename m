@@ -1,41 +1,50 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] perf_event_open.2: tfix
-Date: Mon, 28 Oct 2013 20:39:57 -0400
-Message-ID: <1383007197-1518-1-git-send-email-taffit@debian.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] erf.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 29 Oct 2013 10:38:02 +0800
+Message-ID: <1383014282-10627-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/perf_event_open.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The functions erf(), erff() and erfl() are thread safe.
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index f4cb5bd..9fc774c 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1289,7 +1289,7 @@ When the mapping is
- the
- .I data_tail
- value should be written by user space to reflect the last read data.
--In this case the kernel will not over-write unread data.
-+In this case the kernel will not overwrite unread data.
- .PP
- The following 2^n ring-buffer pages have the layout described below.
- 
-@@ -2133,7 +2133,7 @@ When
- .B E2BIG
- is returned, the perf_event_attr
- .I size 
--field is over-written by the kernel to be the size of the structure
-+field is overwritten by the kernel to be the size of the structure
- it was expecting.
- .TP
- .B EINVAL
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/erf.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/man3/erf.3 b/man3/erf.3
+index 2f903b0..560b78c 100644
+--- a/man3/erf.3
++++ b/man3/erf.3
+@@ -32,7 +32,7 @@
+ .\" Modified 2002-07-27 by Walter Harms
+ .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
+ .\"
+-.TH ERF 3  2010-09-20 "GNU" "Linux Programmer's Manual"
++.TH ERF 3  2013-10-29 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ erf, erff, erfl, \- error function
+ .SH SYNOPSIS
+@@ -123,6 +123,14 @@ These functions do not set
+ .IR errno .
+ .\" FIXME . Is it intentional that these functions do not set errno?
+ .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6785
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR erf (),
++.BR erff (),
++and
++.BR erfl ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ The variant returning
 -- 
-1.8.4.rc3
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
