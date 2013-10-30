@@ -1,22 +1,17 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2 PERF_EVENT_IOC_PERIOD update
-Date: Wed, 30 Oct 2013 14:46:01 +1300
-Message-ID: <527064D9.4000907@gmail.com>
-References: <alpine.DEB.2.10.1310280927280.22634@vincent-weaver-1.um.maine.edu>
+Subject: Re: [PATCH] perf_event_open.2: tfix
+Date: Wed, 30 Oct 2013 14:46:38 +1300
+Message-ID: <527064FE.5070806@gmail.com>
+References: <1383007197-1518-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.10.1310280927280.22634-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+In-Reply-To: <1383007197-1518-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-On 29.10.2013 02:33, Vince Weaver wrote:
-> 
-> The PERF_EVENT_IOC_PERIOD ioctl was broken until 2.6.36, and it turns out 
-> that the ARM architecture has some differing behavior too.
 
 Applied.
 
@@ -24,38 +19,37 @@ Thanks,
 
 Michael
 
-
-> Reported-by: Andreas Sandberg <andreas.sandberg-1zs4UD6AkMk@public.gmane.org>
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-> 
+On 29.10.2013 13:39, David Pr=E9vot wrote:
+> ---
+>  man2/perf_event_open.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
 > diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index f4cb5bd..f337a27 100644
+> index f4cb5bd..9fc774c 100644
 > --- a/man2/perf_event_open.2
 > +++ b/man2/perf_event_open.2
-> @@ -1976,11 +1976,17 @@ reset, even if the event specified is not the group leader
->  (but see BUGS).
+> @@ -1289,7 +1289,7 @@ When the mapping is
+>  the
+>  .I data_tail
+>  value should be written by user space to reflect the last read data.
+> -In this case the kernel will not over-write unread data.
+> +In this case the kernel will not overwrite unread data.
+>  .PP
+>  The following 2^n ring-buffer pages have the layout described below.
+> =20
+> @@ -2133,7 +2133,7 @@ When
+>  .B E2BIG
+>  is returned, the perf_event_attr
+>  .I size=20
+> -field is over-written by the kernel to be the size of the structure
+> +field is overwritten by the kernel to be the size of the structure
+>  it was expecting.
 >  .TP
->  .B PERF_EVENT_IOC_PERIOD
-> -IOC_PERIOD is the command to update the period; it
-> -does not update the current period but instead defers until next.
-> +This updates the overflow period for the event.
-> +On most architectures the new period does not take effect until 
-> +after the next overflow happens;
-> +on ARM since Linux 3.7 the period is updated immediately.
->  
->  The argument is a pointer to a 64-bit value containing the
->  desired new period.
-> +
-> +Prior to Linux 2.6.36 this ioctl always failed due to a bug
-> +in the kernel.
-> +
->  .TP
->  .B PERF_EVENT_IOC_SET_OUTPUT
->  This tells the kernel to report event notifications to the specified
-> 
+>  .B EINVAL
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 My next Linux/UNIX system programming course:
