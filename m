@@ -1,58 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] daemon.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 30 Oct 2013 14:42:47 +1300
-Message-ID: <52706417.9040900@gmail.com>
-References: <1382928434-8812-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] difftime.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 30 Oct 2013 14:43:17 +1300
+Message-ID: <52706435.1000600@gmail.com>
+References: <1382950645-9759-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1382928434-8812-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1382950645-9759-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 28.10.2013 15:47, Peng Haitao wrote:
-> The function daemon() is thread safe.
+On 28.10.2013 21:57, Peng Haitao wrote:
+> The function difftime() is thread safe.
 
 Applied.
 
-thanks,
+Thanks,
 
 Michael
 
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/daemon.3 | 7 ++++++-
+>  man3/difftime.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/daemon.3 b/man3/daemon.3
-> index 9c8215b..91b73e7 100644
-> --- a/man3/daemon.3
-> +++ b/man3/daemon.3
-> @@ -33,7 +33,7 @@
->  .\"
->  .\"	@(#)daemon.3	8.1 (Berkeley) 6/9/93
->  .\" Added mentioning of glibc weirdness wrt unistd.h. 5/11/98, Al Viro
-> -.TH DAEMON 3 2009-12-05 "GNU" "Linux Programmer's Manual"
-> +.TH DAEMON 3 2013-10-28 "GNU" "Linux Programmer's Manual"
+> diff --git a/man3/difftime.3 b/man3/difftime.3
+> index 16280e4..189469a 100644
+> --- a/man3/difftime.3
+> +++ b/man3/difftime.3
+> @@ -27,7 +27,7 @@
+>  .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+>  .\"     386BSD man pages
+>  .\" Modified Sat Jul 24 19:48:17 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+> -.TH DIFFTIME 3  2012-12-22 "GNU" "Linux Programmer's Manual"
+> +.TH DIFFTIME 3  2013-10-28 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  daemon \- run in the background
+>  difftime \- calculate time difference
 >  .SH SYNOPSIS
-> @@ -88,6 +88,11 @@ to any of the errors specified for the
->  .BR fork (2)
->  and
->  .BR setsid (2).
+> @@ -45,6 +45,11 @@ between time \fItime1\fP and time \fItime0\fP, represented as a
+>  Each of the times is specified in calendar time, which means its
+>  value is a measurement (in seconds) relative to the
+>  Epoch, 1970-01-01 00:00:00 +0000 (UTC).
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR daemon ()
+> +.BR difftime ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
->  Not in POSIX.1-2001.
->  A similar function appears on the BSDs.
+>  SVr4, 4.3BSD, C89, C99.
+>  .SH NOTES
 > 
 
 
