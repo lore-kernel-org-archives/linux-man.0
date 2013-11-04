@@ -1,41 +1,41 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctrans.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Mon, 4 Nov 2013 10:21:11 +0800
-Message-ID: <1383531671-13902-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wctype.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Mon, 4 Nov 2013 11:01:19 +0800
+Message-ID: <1383534079-15697-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function wctrans() is thread safe with exceptions.
+The function wctype() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctrans.3 | 10 +++++++++-
+ man3/wctype.3 | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wctrans.3 b/man3/wctrans.3
-index 4cc354d..4d0a5c2 100644
---- a/man3/wctrans.3
-+++ b/man3/wctrans.3
+diff --git a/man3/wctype.3 b/man3/wctype.3
+index 45ab1be..61ed00a 100644
+--- a/man3/wctype.3
++++ b/man3/wctype.3
 @@ -13,7 +13,7 @@
  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
  .\"   ISO/IEC 9899:1999
  .\"
--.TH WCTRANS 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-+.TH WCTRANS 3  2013-11-04 "GNU" "Linux Programmer's Manual"
+-.TH WCTYPE 3  1999-07-25 "GNU" "Linux Programmer's Manual"
++.TH WCTYPE 3  2013-11-04 "GNU" "Linux Programmer's Manual"
  .SH NAME
- wctrans \- wide-character translation mapping
+ wctype \- wide-character classification
  .SH SYNOPSIS
-@@ -59,6 +59,14 @@ function returns a mapping descriptor if the
+@@ -71,6 +71,14 @@ if the
  is valid.
  Otherwise it returns
- .IR "(wctrans_t)\ 0" .
+ .IR "(wctype_t) 0" .
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR wctrans ()
++.BR wctype ()
 +function is thread-safe with exceptions.
 +It can be safely used in multithreaded applications, as long as
 +.BR setlocale (3)
