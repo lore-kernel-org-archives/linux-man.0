@@ -1,48 +1,48 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctype.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Mon, 4 Nov 2013 11:01:19 +0800
-Message-ID: <1383534079-15697-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcwidth.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Mon, 4 Nov 2013 13:15:35 +0800
+Message-ID: <1383542135-19058-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function wctype() is thread safe with exceptions.
+The function wcwidth() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctype.3 | 10 +++++++++-
+ man3/wcwidth.3 | 10 +++++++++-
  1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wctype.3 b/man3/wctype.3
-index 45ab1be..61ed00a 100644
---- a/man3/wctype.3
-+++ b/man3/wctype.3
-@@ -13,7 +13,7 @@
+diff --git a/man3/wcwidth.3 b/man3/wcwidth.3
+index 87bfca9..b689eed 100644
+--- a/man3/wcwidth.3
++++ b/man3/wcwidth.3
+@@ -12,7 +12,7 @@
+ .\"   Dinkumware C library reference http://www.dinkumware.com/
  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
- .\"   ISO/IEC 9899:1999
  .\"
--.TH WCTYPE 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-+.TH WCTYPE 3  2013-11-04 "GNU" "Linux Programmer's Manual"
+-.TH WCWIDTH 3  2011-09-28 "GNU" "Linux Programmer's Manual"
++.TH WCWIDTH 3  2013-11-04 "GNU" "Linux Programmer's Manual"
  .SH NAME
- wctype \- wide-character classification
+ wcwidth \- determine columns needed for a wide character
  .SH SYNOPSIS
-@@ -71,6 +71,14 @@ if the
- is valid.
- Otherwise it returns
- .IR "(wctype_t) 0" .
+@@ -42,6 +42,14 @@ The
+ function returns the number of
+ column positions for
+ .IR c .
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR wctype ()
++.BR wcwidth ()
 +function is thread-safe with exceptions.
 +It can be safely used in multithreaded applications, as long as
 +.BR setlocale (3)
 +is not called to change the locale.
  .SH CONFORMING TO
- C99.
- .SH NOTES
+ POSIX.1-2001.
+ 
 -- 
 1.8.3.1
 
