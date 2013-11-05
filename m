@@ -1,48 +1,45 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcwidth.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Mon, 4 Nov 2013 13:15:35 +0800
-Message-ID: <1383542135-19058-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wmemchr.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 5 Nov 2013 09:21:05 +0800
+Message-ID: <1383614465-16478-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function wcwidth() is thread safe with exceptions.
+The function wmemchr() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcwidth.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ man3/wmemchr.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wcwidth.3 b/man3/wcwidth.3
-index 87bfca9..b689eed 100644
---- a/man3/wcwidth.3
-+++ b/man3/wcwidth.3
-@@ -12,7 +12,7 @@
- .\"   Dinkumware C library reference http://www.dinkumware.com/
+diff --git a/man3/wmemchr.3 b/man3/wmemchr.3
+index 4ac3579..e038f74 100644
+--- a/man3/wmemchr.3
++++ b/man3/wmemchr.3
+@@ -13,7 +13,7 @@
  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+ .\"   ISO/IEC 9899:1999
  .\"
--.TH WCWIDTH 3  2011-09-28 "GNU" "Linux Programmer's Manual"
-+.TH WCWIDTH 3  2013-11-04 "GNU" "Linux Programmer's Manual"
+-.TH WMEMCHR 3  1999-07-25 "GNU" "Linux Programmer's Manual"
++.TH WMEMCHR 3  2013-11-05 "GNU" "Linux Programmer's Manual"
  .SH NAME
- wcwidth \- determine columns needed for a wide character
+ wmemchr \- search a wide character in a wide-character array
  .SH SYNOPSIS
-@@ -42,6 +42,14 @@ The
- function returns the number of
- column positions for
- .IR c .
+@@ -48,6 +48,11 @@ or NULL if
+ .I c
+ does
+ not occur among these.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR wcwidth ()
-+function is thread-safe with exceptions.
-+It can be safely used in multithreaded applications, as long as
-+.BR setlocale (3)
-+is not called to change the locale.
++.BR wmemchr ()
++function is thread-safe.
  .SH CONFORMING TO
- POSIX.1-2001.
- 
+ C99.
+ .SH SEE ALSO
 -- 
 1.8.3.1
 
