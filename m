@@ -1,52 +1,43 @@
-From: Basile Starynkevitch <basile-VdE74OAlGqnvXjIo7pOF+l6hYfS7NtTn@public.gmane.org>
-Subject: signal(7) should mention sig_atomic_t
-Date: Wed, 06 Nov 2013 11:32:55 +0100
-Message-ID: <1383733975.31297.16.camel@glinka.lesours>
+From: Christoph Hellwig <hch@infradead.org>
+Subject: [PATCH] fallocate.2: clarify the zeroing behavior
+Date: Wed, 6 Nov 2013 05:52:31 -0800
+Message-ID: <20131106135231.GA3882@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: linux-man@vger.kernel.org, linux-fsdevel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Fallocate only zeroes space that did not previously contain data,
+but leaves existing data untouched.
 
-Thanks for your man pages project!
+Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-I believe that the following paragraphs could be added to signal(7),
-perhaps at the end of the  Async-signal-safe functions subsection:
-
-####
-    A common way to code a signal handler respecting the
-async-signal-safe requirements is to declare some global or static
-volatile variable of sig_atomic_t type, e.g:
-
-    volatile sig_atomic_t got_signal;
-
-The sig_atomic_t type (defined in <signal.h>) is some integral type
-which can be atomically tested and set w.r.t. signals. Then the handler
-is just setting that variable, and the program can test (outside of the
-handler), at suitable places in the code, if that variable is set.
-####
-
-I am not a native English speaker, so feel free to improve or shorten
-the above. But I believe that volatile sig_atomic_t should be mentioned
-somewhere in signal(7)
-
-Regards.
-
-
-
--- 
-Basile STARYNKEVITCH         http://starynkevitch.net/Basile/
-email: basile<at>starynkevitch<dot>net mobile: +33 6 8501 2359
-8, rue de la Faiencerie, 92340 Bourg La Reine, France
-*** opinions {are only mine, sont seulement les miennes} ***
-
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index f5c395d..f577ba8 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -44,8 +44,7 @@ The default operation (i.e.,
+ .I mode
+ is zero) of
+ .BR fallocate ()
+-allocates and initializes to zero the disk space
+-within the range specified by
++allocates the disk space within the range specified by
+ .I offset
+ and
+ .IR len .
+@@ -54,6 +53,11 @@ The file size (as reported by
+ will be changed if
+ .IR offset + len
+ is greater than the file size.
++Any subregion withing the range specified by
++.I offset
++and
++.IR len .
++that did not contain data before the call will be initialized to zero.
+ This default behavior closely resembles the behavior of the
+ .BR posix_fallocate (3)
+ library function,
