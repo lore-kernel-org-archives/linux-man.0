@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 42705] ioctl prototype is incorrect
-Date: Thu, 07 Nov 2013 17:39:05 +0000
-Message-ID: <bug-42705-11311-ZwQ7GNwyVe@https.bugzilla.kernel.org/>
+Date: Thu, 07 Nov 2013 17:39:14 +0000
+Message-ID: <bug-42705-11311-Pi8UUwXiOj@https.bugzilla.kernel.org/>
 References: <bug-42705-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,12 +18,8 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Thanks for the report, Motohiro, and the confirmation, David. I changed it to
-
-int ioctl(int d, unsigned long request, ...);
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
 -- 
 You are receiving this mail because:
