@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcwidth.3: ATTRIBUTES: Note function that is thread safe
- with exceptions
-Date: Fri, 08 Nov 2013 05:59:30 +1300
-Message-ID: <527BC6F2.5050100@gmail.com>
-References: <1383542135-19058-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wmemchr.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 08 Nov 2013 05:59:52 +1300
+Message-ID: <527BC708.6060002@gmail.com>
+References: <1383614465-16478-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1383542135-19058-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1383614465-16478-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/04/13 18:15, Peng Haitao wrote:
-> The function wcwidth() is thread safe with exceptions.
+On 11/05/13 14:21, Peng Haitao wrote:
+> The function wmemchr() is thread safe.
 
 Thanks, Peng Haitao. Applied.
 
@@ -26,37 +25,34 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcwidth.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  man3/wmemchr.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/wcwidth.3 b/man3/wcwidth.3
-> index 87bfca9..b689eed 100644
-> --- a/man3/wcwidth.3
-> +++ b/man3/wcwidth.3
-> @@ -12,7 +12,7 @@
->  .\"   Dinkumware C library reference http://www.dinkumware.com/
+> diff --git a/man3/wmemchr.3 b/man3/wmemchr.3
+> index 4ac3579..e038f74 100644
+> --- a/man3/wmemchr.3
+> +++ b/man3/wmemchr.3
+> @@ -13,7 +13,7 @@
 >  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+>  .\"   ISO/IEC 9899:1999
 >  .\"
-> -.TH WCWIDTH 3  2011-09-28 "GNU" "Linux Programmer's Manual"
-> +.TH WCWIDTH 3  2013-11-04 "GNU" "Linux Programmer's Manual"
+> -.TH WMEMCHR 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH WMEMCHR 3  2013-11-05 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  wcwidth \- determine columns needed for a wide character
+>  wmemchr \- search a wide character in a wide-character array
 >  .SH SYNOPSIS
-> @@ -42,6 +42,14 @@ The
->  function returns the number of
->  column positions for
->  .IR c .
+> @@ -48,6 +48,11 @@ or NULL if
+>  .I c
+>  does
+>  not occur among these.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR wcwidth ()
-> +function is thread-safe with exceptions.
-> +It can be safely used in multithreaded applications, as long as
-> +.BR setlocale (3)
-> +is not called to change the locale.
+> +.BR wmemchr ()
+> +function is thread-safe.
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  
+>  C99.
+>  .SH SEE ALSO
 > 
 
 
