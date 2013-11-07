@@ -1,21 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wctrans.3: ATTRIBUTES: Note function that is thread safe
+Subject: Re: [PATCH] wctype.3: ATTRIBUTES: Note function that is thread safe
  with exceptions
-Date: Fri, 08 Nov 2013 05:58:50 +1300
-Message-ID: <527BC6CA.9090003@gmail.com>
-References: <1383531671-13902-1-git-send-email-penght@cn.fujitsu.com>
+Date: Fri, 08 Nov 2013 05:59:06 +1300
+Message-ID: <527BC6DA.2040100@gmail.com>
+References: <1383534079-15697-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1383531671-13902-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1383534079-15697-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/04/13 15:21, Peng Haitao wrote:
-> The function wctrans() is thread safe with exceptions.
+On 11/04/13 16:01, Peng Haitao wrote:
+> The function wctype() is thread safe with exceptions.
 
 Thanks, Peng Haitao. Applied.
 
@@ -26,30 +26,30 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wctrans.3 | 10 +++++++++-
+>  man3/wctype.3 | 10 +++++++++-
 >  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/wctrans.3 b/man3/wctrans.3
-> index 4cc354d..4d0a5c2 100644
-> --- a/man3/wctrans.3
-> +++ b/man3/wctrans.3
+> diff --git a/man3/wctype.3 b/man3/wctype.3
+> index 45ab1be..61ed00a 100644
+> --- a/man3/wctype.3
+> +++ b/man3/wctype.3
 > @@ -13,7 +13,7 @@
 >  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
 >  .\"   ISO/IEC 9899:1999
 >  .\"
-> -.TH WCTRANS 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-> +.TH WCTRANS 3  2013-11-04 "GNU" "Linux Programmer's Manual"
+> -.TH WCTYPE 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH WCTYPE 3  2013-11-04 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  wctrans \- wide-character translation mapping
+>  wctype \- wide-character classification
 >  .SH SYNOPSIS
-> @@ -59,6 +59,14 @@ function returns a mapping descriptor if the
+> @@ -71,6 +71,14 @@ if the
 >  is valid.
 >  Otherwise it returns
->  .IR "(wctrans_t)\ 0" .
+>  .IR "(wctype_t) 0" .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR wctrans ()
+> +.BR wctype ()
 > +function is thread-safe with exceptions.
 > +It can be safely used in multithreaded applications, as long as
 > +.BR setlocale (3)
