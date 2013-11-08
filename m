@@ -1,61 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 61911] incorrect sentence in the description of struct pollfd's
- events field
-Date: Thu, 07 Nov 2013 18:19:24 +0000
-Message-ID: <bug-61911-11311-xH5yLpLcyk@https.bugzilla.kernel.org/>
-References: <bug-61911-11311@https.bugzilla.kernel.org/>
+From: Trevor Bramwell <trevor-wfkQdcsGPFLk1uMJSBkQmQ@public.gmane.org>
+Subject: PIPE(2) Example Does Not Compile
+Date: Thu, 7 Nov 2013 20:32:14 -0800
+Message-ID: <CADeGDptxvibs5GBdHszA9cQxxoyAkJw7uN9qSjNGT0PKe_+xgQ@mail.gmail.com>
+Reply-To: trevor-wfkQdcsGPFLk1uMJSBkQmQ@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary=047d7b6221eae23e5504eaa2dd70
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-61911-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=61911
+--047d7b6221eae23e5504eaa2dd70
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Dear man-page maintainers,
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |CODE_FIX
+I believe I found a bug in the PIPE(2) example code.
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Thanks, Paolo. I'm not sure what I was thinking of when I wrote that text. I
-applied the patch below.
+When trying to compile the example code, the following error was thrown:
 
-diff --git a/man2/poll.2 b/man2/poll.2
-index b0159d2..0a70065 100644
---- a/man2/poll.2
-+++ b/man2/poll.2
-@@ -89,12 +89,15 @@ The field
- is an input parameter, a bit mask specifying the events the application
- is interested in for the file descriptor
- .IR fd .
--If this field is specified as zero,
--then all events are ignored for
--.IR fd
--and
-+This field may be specified as zero,
-+in which case the only events that can be returned in
- .I revents
--returns zero.
-+are
-+.BR POLLHUP ,
-+.BR POLLERR ,
-+and
-+.B POLLNVAL
-+(see below).
+    pipes.c: In function =91main=92:
+    pipes.c:10:5: error: unknown type name =91pid_t=92
+         pid_t cpid;
+         ^
+After adding the line:
 
- The field
- .I revents
+    #include <sys/types.h>
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+The example compiled fine.
+
+I compiled with:
+
+    gcc -Wall -std=3Dc99
+
+Attached is a patch that append the line to include sys/types.h.
+---
+manpage-version: 3.54-1
+gcc-version: gcc (Debian 4.8.2-1) 4.8.2
+
+Let me know if you need any more info, or if this is not truly a bug.
+
+Thank you,
+-- Trevor Bramwell
+
+--047d7b6221eae23e5504eaa2dd70
+Content-Type: text/x-patch; charset=US-ASCII; name="pipe2.2.patch"
+Content-Disposition: attachment; filename="pipe2.2.patch"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_hnqxgsxf0
+
+LS0tIHBpcGUyLjIub2xkCTIwMTMtMTEtMDcgMTk6NTc6MTAuMjM0ODM3MTk2IC0wODAwCisrKyBw
+aXBlMi4yCTIwMTMtMTEtMDcgMTk6NTc6MTAuMjM0ODM3MTk2IC0wODAwCkBAIC0xMzksNiArMTM5
+LDcgQEAKIGFuZCBlY2hvZXMgaXQgb24gc3RhbmRhcmQgb3V0cHV0LgogLm5mCiAKKyNpbmNsdWRl
+IDxzeXMvdHlwZXMuaD4KICNpbmNsdWRlIDxzeXMvd2FpdC5oPgogI2luY2x1ZGUgPHN0ZGlvLmg+
+CiAjaW5jbHVkZSA8c3RkbGliLmg+Cg==
+--047d7b6221eae23e5504eaa2dd70--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
