@@ -1,24 +1,35 @@
-From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: strverscmp
-Date: Fri, 8 Nov 2013 17:49:46 +0000
-Message-ID: <CAGc9EveXnOO+Y+HT_MZMgDNHn3jzdzaa8kX3q=7VjsZfsFbnEA@mail.gmail.com>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] small improvement for confstr.3
+Date: Sat, 9 Nov 2013 12:43:43 +0400
+Message-ID: <20131109124343.1dfb7e9b@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello
+Hello.
 
-Looking at this page:
-http://man7.org/linux/man-pages/man3/strverscmp.3.html
+--- man-pages-git/man3/confstr.3        2013-03-23 18:21:19.545674858 +0400
++++ /tmp/confstr.3      2013-11-09 12:37:12.972060495 +0400
+@@ -121,7 +121,7 @@
+ .SH ERRORS
+ .TP
+ .B EINVAL
+-If the value of
++The value of
+ .I name
+ is invalid.
+ .SH CONFORMING TO
 
-I think rename(1) probably shouldn't be in the SEE ALSO section.
-Doesn't appear to be related.
 
-Regards, Jon
+-- 
+Best Regards,
+Yuri Kozlov
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
