@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
  for an argument
-Date: Wed, 13 Nov 2013 21:45:51 +0000
-Message-ID: <bug-55371-11311-EMkw538rNH@https.bugzilla.kernel.org/>
+Date: Wed, 13 Nov 2013 21:45:55 +0000
+Message-ID: <bug-55371-11311-FGijmR07Ym@https.bugzilla.kernel.org/>
 References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -19,12 +19,7 @@ Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
-         Resolution|---                         |INVALID
-
---- Comment #1 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
-That would be from glibc not the kernel I think ?
+             Status|RESOLVED                    |CLOSED
 
 -- 
 You are receiving this mail because:
