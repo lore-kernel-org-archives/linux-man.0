@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 60749] Do not need to link against -lm for fabs*()
-Date: Wed, 13 Nov 2013 16:08:31 +0000
-Message-ID: <bug-60749-11311-xw3bw084k6@https.bugzilla.kernel.org/>
+Date: Wed, 13 Nov 2013 16:08:37 +0000
+Message-ID: <bug-60749-11311-AgJoy2rFEH@https.bugzilla.kernel.org/>
 References: <bug-60749-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,12 +18,7 @@ Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
-         Resolution|---                         |INVALID
-
---- Comment #3 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
-Use of -lm is correct even if it happens not to be needed
+             Status|RESOLVED                    |CLOSED
 
 -- 
 You are receiving this mail because:
