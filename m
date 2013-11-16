@@ -1,33 +1,37 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] small improvement for catopen.3
-Date: Sat, 16 Nov 2013 09:02:05 +0400
-Message-ID: <20131116090205.4f68c6b5@keeper.home.local>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
+ for an argument
+Date: Sat, 16 Nov 2013 22:53:51 +0000
+Message-ID: <bug-55371-11311-YRdDsxlb1Q@https.bugzilla.kernel.org/>
+References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-55371-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
---- man-pages/man3/catopen.3    2013-10-12 09:15:00.453223138 +0400
-+++ /tmp/catopen.3      2013-11-16 09:00:57.569348344 +0400
-@@ -52,7 +52,7 @@
- specifies the name of the message catalog to be opened.
- If
- .I name
--specifies and absolute path (i.e., contains a \(aq/\(aq),
-+specifies an absolute path (i.e., contains a \(aq/\(aq),
- then
- .I name
- specifies a pathname for the message catalog.
+https://bugzilla.kernel.org/show_bug.cgi?id=55371
+
+Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|CLOSED                      |REOPENED
+         Resolution|INVALID                     |---
+
+--- Comment #2 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+printf() is provided by the C library. This report is about printf's manual
+page, shipped in man-pages. man-pages is hosted on kernel.org (
+https://www.kernel.org/doc/man-pages/reporting_bugs.html ).
+
+This persists in man-pages 3.54.
 
 -- 
-Best Regards,
-Yuri Kozlov
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
