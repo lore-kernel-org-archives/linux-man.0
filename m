@@ -1,7 +1,7 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH 3/3] perf_event_open.2: pfix
-Date: Sun, 17 Nov 2013 12:16:16 -0400
-Message-ID: <1384704976-3877-3-git-send-email-taffit@debian.org>
+Subject: [PATCH 2/3] perf_event_open.2: ffix
+Date: Sun, 17 Nov 2013 12:16:15 -0400
+Message-ID: <1384704976-3877-2-git-send-email-taffit@debian.org>
 References: <1384704976-3877-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1384704976-3877-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
@@ -11,22 +11,61 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/perf_event_open.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/perf_event_open.2 | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 9d37b44..d2237e2 100644
+index 584d9d5..9d37b44 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -2374,7 +2374,7 @@ ioctl argument was broken and would repeatedly operate
- on the event specified rather than iterating across
- all sibling events in a group.
+@@ -654,7 +654,8 @@ Records a unique ID for the opened event.
+ Unlike
+ .B PERF_SAMPLE_ID
+ the actual ID is returned, not the group leader.
+-This ID is the same as the one returned by PERF_FORMAT_ID.
++This ID is the same as the one returned by
++.BR PERF_FORMAT_ID .
+ .TP
+ .B PERF_SAMPLE_RAW
+ Records additional data, if applicable.
+@@ -689,7 +690,9 @@ This is only available if the underlying hardware
+ supports this feature.
+ .TP
+ .BR PERF_SAMPLE_IDENTIFIER " (Since Linux 3.12)"
+-Places the SAMPLE_ID value in a fixed position in the record,
++Places the
++.B SAMPLE_ID
++value in a fixed position in the record,
+ either at the beginning (for sample events) or at the end
+ (if a non-sample event).
  
--From Linux 3.4 to Linux 3.11 the mmap
-+From Linux 3.4 to Linux 3.11, the mmap
- .I cap_usr_rdpmc
- and
- .I cap_usr_time
+@@ -698,8 +701,9 @@ records from various different event sources with different
+ .I sample_type
+ settings.
+ Parsing the event stream properly was not possible because the
+-format of the record was needed to find SAMPLE_ID, but
+-the the format could not be found without knowing what
++format of the record was needed to find
++.BR SAMPLE_ID ,
++but
+ the format could not be found without knowing what
+ event the sample belonged to (causing a circular
+ dependency).
+@@ -707,8 +711,12 @@ dependency).
+ This new
+ .B PERF_SAMPLE_IDENTIFIER
+ setting makes the event stream always parsable
+-by putting SAMPLE_ID in a fixed location, even though
+-it means having duplicate SAMPLE_ID values in records.
++by putting
++.B SAMPLE_ID
++in a fixed location, even though
++it means having duplicate
++.B SAMPLE_ID
++values in records.
+ .RE
+ .TP
+ .IR "read_format"
 -- 
 1.8.4.3
 
