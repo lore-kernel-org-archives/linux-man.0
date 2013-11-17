@@ -1,37 +1,35 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
- for an argument
-Date: Sat, 16 Nov 2013 22:53:51 +0000
-Message-ID: <bug-55371-11311-YRdDsxlb1Q@https.bugzilla.kernel.org/>
-References: <bug-55371-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 3/3] perf_event_open.2: pfix
+Date: Sun, 17 Nov 2013 12:16:16 -0400
+Message-ID: <1384704976-3877-3-git-send-email-taffit@debian.org>
+References: <1384704976-3877-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-55371-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1384704976-3877-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=55371
+---
+ man2/perf_event_open.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|CLOSED                      |REOPENED
-         Resolution|INVALID                     |---
-
---- Comment #2 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-printf() is provided by the C library. This report is about printf's manual
-page, shipped in man-pages. man-pages is hosted on kernel.org (
-https://www.kernel.org/doc/man-pages/reporting_bugs.html ).
-
-This persists in man-pages 3.54.
-
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 9d37b44..d2237e2 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2374,7 +2374,7 @@ ioctl argument was broken and would repeatedly operate
+ on the event specified rather than iterating across
+ all sibling events in a group.
+ 
+-From Linux 3.4 to Linux 3.11 the mmap
++From Linux 3.4 to Linux 3.11, the mmap
+ .I cap_usr_rdpmc
+ and
+ .I cap_usr_time
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.4.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
