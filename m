@@ -1,48 +1,29 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcspbrk.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 18 Nov 2013 17:47:14 +0800
-Message-ID: <1384768034-4503-1-git-send-email-penght@cn.fujitsu.com>
+From: GLOBALINFORMATION DESCK <winningnotification2013-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: CONGRATULATIONS ON YOUR WINNING.
+Date: Mon, 18 Nov 2013 13:41:17 +0000
+Message-ID: <CAG2rt=Rdu+76cJTg=-zP=0Kck-FZLW2rrgpSQ9gFZtGnQ9BXwQ@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function wcspbrk() is thread safe.
+Ticket number(GUI45856CS89)
+Ballot number(BN:6220914657/HBZ-T)
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/wcspbrk.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Hello, You emerged lucky winner in this year's Shell 2013 draws.
+your e-mail address  has won 1,000,000 Euros(1,000,000 Million Euros).
+Kindly confirm that this email is valid by sending the ticket and ballot
+number as written above to your paying bank,which is ACCESS BANK at
+(acessbankonline-KlkfkVrUKlylVyrhU4qvOw@public.gmane.org) or call
++2347032363868 for verification and further winning details. If you do not send
+your confirmation email to Mr.Oliva shaman of ACCESS BANK, your
+winning will not be processed.
+Congratulations.
 
-diff --git a/man3/wcspbrk.3 b/man3/wcspbrk.3
-index 7a62ae2..8e628eb 100644
---- a/man3/wcspbrk.3
-+++ b/man3/wcspbrk.3
-@@ -13,7 +13,7 @@
- .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
- .\"   ISO/IEC 9899:1999
- .\"
--.TH WCSPBRK 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-+.TH WCSPBRK 3  2013-11-18 "GNU" "Linux Programmer's Manual"
- .SH NAME
- wcspbrk \- search a wide-character string for any of a set of wide characters
- .SH SYNOPSIS
-@@ -46,6 +46,11 @@ of any of the characters listed in
- If
- .I wcs
- contains none of these characters, NULL is returned.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR wcspbrk ()
-+function is thread-safe.
- .SH CONFORMING TO
- C99.
- .SH SEE ALSO
--- 
-1.8.3.1
-
+Mrs. Diana Newman
+Information's Desk,Shell Company.
+SHELL.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
