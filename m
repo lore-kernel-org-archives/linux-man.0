@@ -1,29 +1,48 @@
-From: GLOBALINFORMATION DESCK <winningnotification2013-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: CONGRATULATIONS ON YOUR WINNING.
-Date: Mon, 18 Nov 2013 13:41:17 +0000
-Message-ID: <CAG2rt=Rdu+76cJTg=-zP=0Kck-FZLW2rrgpSQ9gFZtGnQ9BXwQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] wcsrchr.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 19 Nov 2013 09:38:17 +0800
+Message-ID: <1384825097-6957-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Ticket number(GUI45856CS89)
-Ballot number(BN:6220914657/HBZ-T)
+The function wcsrchr() is thread safe.
 
-Hello, You emerged lucky winner in this year's Shell 2013 draws.
-your e-mail address  has won 1,000,000 Euros(1,000,000 Million Euros).
-Kindly confirm that this email is valid by sending the ticket and ballot
-number as written above to your paying bank,which is ACCESS BANK at
-(acessbankonline-KlkfkVrUKlylVyrhU4qvOw@public.gmane.org) or call
-+2347032363868 for verification and further winning details. If you do not send
-your confirmation email to Mr.Oliva shaman of ACCESS BANK, your
-winning will not be processed.
-Congratulations.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/wcsrchr.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Mrs. Diana Newman
-Information's Desk,Shell Company.
-SHELL.
+diff --git a/man3/wcsrchr.3 b/man3/wcsrchr.3
+index 5931c7b..246cd8d 100644
+--- a/man3/wcsrchr.3
++++ b/man3/wcsrchr.3
+@@ -13,7 +13,7 @@
+ .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+ .\"   ISO/IEC 9899:1999
+ .\"
+-.TH WCSRCHR 3  1999-07-25 "GNU" "Linux Programmer's Manual"
++.TH WCSRCHR 3  2013-11-19 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ wcsrchr \- search a wide character in a wide-character string
+ .SH SYNOPSIS
+@@ -44,6 +44,11 @@ in the wide-character string pointed to by
+ or NULL if
+ .I wc
+ does not occur in the string.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR wcsrchr ()
++function is thread-safe.
+ .SH CONFORMING TO
+ C99.
+ .SH SEE ALSO
+-- 
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
