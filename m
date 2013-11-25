@@ -1,44 +1,44 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsncpy.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 25 Nov 2013 13:12:21 +0800
-Message-ID: <1385356341-31101-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcsnlen.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 25 Nov 2013 14:23:47 +0800
+Message-ID: <1385360627-1726-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function wcsncpy() is thread safe.
+The function wcsnlen() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcsncpy.3 | 7 ++++++-
+ man3/wcsnlen.3 | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/wcsncpy.3 b/man3/wcsncpy.3
-index fd3ef7e..6bb152e 100644
---- a/man3/wcsncpy.3
-+++ b/man3/wcsncpy.3
-@@ -13,7 +13,7 @@
+diff --git a/man3/wcsnlen.3 b/man3/wcsnlen.3
+index fe96479..a8967ed 100644
+--- a/man3/wcsnlen.3
++++ b/man3/wcsnlen.3
+@@ -12,7 +12,7 @@
+ .\"   Dinkumware C library reference http://www.dinkumware.com/
  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
- .\"   ISO/IEC 9899:1999
  .\"
--.TH WCSNCPY 3  2011-09-28 "GNU" "Linux Programmer's Manual"
-+.TH WCSNCPY 3  2013-11-25 "GNU" "Linux Programmer's Manual"
+-.TH WCSNLEN 3  2011-10-01 "GNU" "Linux Programmer's Manual"
++.TH WCSNLEN 3  2013-11-25 "GNU" "Linux Programmer's Manual"
  .SH NAME
- wcsncpy \- copy a fixed-size string of wide characters
+ wcsnlen \- determine the length of a fixed-size wide-character string
  .SH SYNOPSIS
-@@ -66,6 +66,11 @@ characters at
- .BR wcsncpy ()
- returns
- .IR dest .
+@@ -79,6 +79,11 @@ wide characters pointed to by
+ The
+ .BR wcsnlen ()
+ function is provided in glibc since version 2.1.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR wcsncpy ()
++.BR wcsnlen ()
 +function is thread-safe.
  .SH CONFORMING TO
- C99.
+ POSIX.1-2008.
  .SH SEE ALSO
 -- 
 1.8.3.1
