@@ -1,22 +1,38 @@
-From: Alfred Agrell <alfred-q+Fw1ITNTbbiB9QmIjCX8w@public.gmane.org>
-Subject: Miscount in ld.so(8)
-Date: Thu, 28 Nov 2013 12:22:52 +0100
-Message-ID: <CAMmAXYx_hckjpmm38Jsv+Qq=Jzay8kEikhbT5Yd8kEiON6TkXA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+Subject: [PATCH] kcmp.2: note about SECURITY_YAMA
+Date: Thu, 28 Nov 2013 13:42:13 -0800
+Message-ID: <1385674933-9388-1-git-send-email-shawn@churchofgit.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The ENVIRONMENT section of ld.so(8) says "There are four important
-environment variables", then lists six environment variables.
+---
+ man2/kcmp.2 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Version and distribution used:
-<http://man7.org/linux/man-pages/man8/ld.so.8.html>, version 3.54,
-dated 2013-07-15. I believe that is the latest version and the highest
-upstream.
+diff --git a/man2/kcmp.2 b/man2/kcmp.2
+index 5cde64e..fcfe711 100644
+--- a/man2/kcmp.2
++++ b/man2/kcmp.2
+@@ -187,7 +187,12 @@ is invalid.
+ Insufficient permission to inspect process resources.
+ The
+ .B CAP_SYS_PTRACE
+-capability is required to inspect processes that you do not own.
++capability is required to inspect processes that you do not own. Other
++limitations on ptrace apply, such as
++.BR CONFIG_SECURITY_YAMA ,
++which when /proc/sys/kernel/yama/ptrace_scope is 2 (the default) limits
++.BR kcmp()
++to child processes.
+ .TP
+ .B ESRCH
+ Process
+-- 
+1.8.4.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
