@@ -1,37 +1,47 @@
-From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH] kcmp.2: note about SECURITY_YAMA
-Date: Thu, 28 Nov 2013 13:42:13 -0800
-Message-ID: <1385674933-9388-1-git-send-email-shawn@churchofgit.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] wcscat.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 2 Dec 2013 10:42:32 +0800
+Message-ID: <1385952152-18911-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The function wcscat() is thread safe.
+
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/kcmp.2 | 7 ++++++-
+ man3/wcscat.3 | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man2/kcmp.2 b/man2/kcmp.2
-index 5cde64e..fcfe711 100644
---- a/man2/kcmp.2
-+++ b/man2/kcmp.2
-@@ -187,7 +187,12 @@ is invalid.
- Insufficient permission to inspect process resources.
- The
- .B CAP_SYS_PTRACE
--capability is required to inspect processes that you do not own.
-+capability is required to inspect processes that you do not own. Other
-+limitations on ptrace apply, such as
-+.BR CONFIG_SECURITY_YAMA ,
-+which when /proc/sys/kernel/yama/ptrace_scope is 2 (the default) limits
-+.BR kcmp()
-+to child processes.
- .TP
- .B ESRCH
- Process
+diff --git a/man3/wcscat.3 b/man3/wcscat.3
+index 8e67dc9..fba96c1 100644
+--- a/man3/wcscat.3
++++ b/man3/wcscat.3
+@@ -13,7 +13,7 @@
+ .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+ .\"   ISO/IEC 9899:1999
+ .\"
+-.TH WCSCAT 3  2011-09-28 "GNU" "Linux Programmer's Manual"
++.TH WCSCAT 3  2013-12-02 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ wcscat \- concatenate two wide-character strings
+ .SH SYNOPSIS
+@@ -45,6 +45,11 @@ wide characters at
+ .BR wcscat ()
+ returns
+ .IR dest .
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR wcscat ()
++function is thread-safe.
+ .SH CONFORMING TO
+ C99.
+ .SH SEE ALSO
 -- 
-1.8.4.4
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
