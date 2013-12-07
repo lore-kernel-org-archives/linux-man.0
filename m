@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcscspn.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sat, 07 Dec 2013 14:55:09 -0800
-Message-ID: <52A3A74D.60807@gmail.com>
-References: <1385970564-965-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcscmp.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 07 Dec 2013 14:53:57 -0800
+Message-ID: <52A3A705.2050609@gmail.com>
+References: <1385961883-24228-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1385970564-965-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1385961883-24228-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/01/13 23:49, Peng Haitao wrote:
-> The function wcscspn() is thread safe.
+On 12/01/13 21:24, Peng Haitao wrote:
+> The function wcscmp() is thread safe.
 
 Applied. Thanks, Peng Haitao.
 
@@ -25,30 +25,30 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcscspn.3 | 7 ++++++-
+>  man3/wcscmp.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/wcscspn.3 b/man3/wcscspn.3
-> index 009a42c..9848608 100644
-> --- a/man3/wcscspn.3
-> +++ b/man3/wcscspn.3
+> diff --git a/man3/wcscmp.3 b/man3/wcscmp.3
+> index 9f8ae1f..4ddd5a7 100644
+> --- a/man3/wcscmp.3
+> +++ b/man3/wcscmp.3
 > @@ -13,7 +13,7 @@
 >  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
 >  .\"   ISO/IEC 9899:1999
 >  .\"
-> -.TH WCSCSPN 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-> +.TH WCSCSPN 3  2013-12-02 "GNU" "Linux Programmer's Manual"
+> -.TH WCSCMP 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH WCSCMP 3  2013-12-02 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  wcscspn \- search a wide-character string for any of a set of wide characters
+>  wcscmp \- compare two wide-character strings
 >  .SH SYNOPSIS
-> @@ -58,6 +58,11 @@ the wide-character string
->  or
->  .IR wcslen(wcs)
->  if there is none.
+> @@ -56,6 +56,11 @@ the corresponding wide-character
+>  .I s1[i]
+>  is less than
+>  .IR s2[i] .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR wcscspn ()
+> +.BR wcscmp ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
 >  C99.
