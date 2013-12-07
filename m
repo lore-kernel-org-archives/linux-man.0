@@ -1,57 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsnlen.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sat, 07 Dec 2013 14:52:16 -0800
-Message-ID: <52A3A6A0.9090905@gmail.com>
-References: <1385360627-1726-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcsncmp.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 07 Dec 2013 14:51:30 -0800
+Message-ID: <52A3A672.2020509@gmail.com>
+References: <1385350250-27738-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1385360627-1726-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1385350250-27738-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/24/13 22:23, Peng Haitao wrote:
-> The function wcsnlen() is thread safe.
-
-Applied. Thanks, Peng Haitao.
-
-Cheers,
-
-Michael
+On 11/24/13 19:30, Peng Haitao wrote:
+> The function wcsncmp() is thread safe.
 
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsnlen.3 | 7 ++++++-
+>  man3/wcsncmp.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/wcsnlen.3 b/man3/wcsnlen.3
-> index fe96479..a8967ed 100644
-> --- a/man3/wcsnlen.3
-> +++ b/man3/wcsnlen.3
-> @@ -12,7 +12,7 @@
->  .\"   Dinkumware C library reference http://www.dinkumware.com/
+> diff --git a/man3/wcsncmp.3 b/man3/wcsncmp.3
+> index 311462d..dc82409 100644
+> --- a/man3/wcsncmp.3
+> +++ b/man3/wcsncmp.3
+> @@ -13,7 +13,7 @@
 >  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+>  .\"   ISO/IEC 9899:1999
 >  .\"
-> -.TH WCSNLEN 3  2011-10-01 "GNU" "Linux Programmer's Manual"
-> +.TH WCSNLEN 3  2013-11-25 "GNU" "Linux Programmer's Manual"
+> -.TH WCSNCMP 3  2011-09-28 "GNU" "Linux Programmer's Manual"
+> +.TH WCSNCMP 3  2013-11-25 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  wcsnlen \- determine the length of a fixed-size wide-character string
+>  wcsncmp \- compare two fixed-size wide-character strings
 >  .SH SYNOPSIS
-> @@ -79,6 +79,11 @@ wide characters pointed to by
->  The
->  .BR wcsnlen ()
->  function is provided in glibc since version 2.1.
+> @@ -70,6 +70,11 @@ wide-character
+>  .I s1[i]
+>  is less than
+>  .IR s2[i] .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR wcsnlen ()
+> +.BR wcsncmp ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
->  POSIX.1-2008.
+>  C99.
 >  .SH SEE ALSO
 > 
 
