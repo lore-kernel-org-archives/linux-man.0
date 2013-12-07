@@ -1,51 +1,56 @@
-From: Daniel Borkmann <dborkman@redhat.com>
-Subject: Re: [PATCH man-pages] man: packet.7: document fanout, ring and auxiliary
- options
-Date: Fri, 06 Dec 2013 20:54:32 +0100
-Message-ID: <52A22B78.8070109@redhat.com>
-References: <52A1F7D7.6040305@redhat.com> <1386350329-32723-1-git-send-email-willemb@google.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 52721] [TRIVIAL]Oudated kernel documentation in
+ http://kernel.org/doc/
+Date: Sat, 07 Dec 2013 22:26:18 +0000
+Message-ID: <bug-52721-11311-VARUfsZBjk@https.bugzilla.kernel.org/>
+References: <bug-52721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <1386350329-32723-1-git-send-email-willemb@google.com>
-Sender: netdev-owner@vger.kernel.org
-To: Willem de Bruijn <willemb@google.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, netdev@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-52721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/06/2013 06:18 PM, Willem de Bruijn wrote:
-> The packet socket manual page does not list all socket options.
->
-> This patch adds descriptions of the common packet socket options
->    PACKET_AUXDATA, PACKET_FANOUT, PACKET_RX_RING, PACKET_STATISTICS,
->    PACKET_TX_RING
->
-> and the ring-specific options
->    PACKET_LOSS, PACKET_RESERVE, PACKET_TIMESTAMP, PACKET_VERSION
->
-> It does not yet add descriptions for
->    PACKET_COPY_THRESH, PACKET_HDRLEN, PACKET_ORIGDEV,
->    PACKET_TX_HAS_OFF, PACKET_TX_TIMESTAMP, PACKET_VNET_HDR
->
-> It tries to balance being informative with exposing kernel detail
-> that is unlikely to be used by most readers or that may change
-> frequently. For implementation details, the manpage points to the
-> documentation in kernel Documentation/networking. Let me know if
-> options should be added or removed.
->
-> Source: PACKET_FANOUT, PACKET_RX_RING and PACKET_VERSION are in
-> /tools/testing/net/psock_fanout.c in the latest Linux kernel source
-> tree. PACKET_STATISTICS was in the first version of that test.
-> PACKET_TX_RING I have used elsewhere. The other options are based
-> on reading kernel code.
->
->   [Very minor fixups. -dborkman]
->
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=52721
 
-Acked-by: Daniel Borkmann <dborkman@redhat.com>
+--- Comment #7 from Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> ---
+On 11/19/2013 08:02:46 AM, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=52721
+> 
+> Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+...
 
-I went over the man page again, and it looks good to me.
+I posted the following to the kernel-users list back in September, but  
+never got a reply:
 
-Great work and thanks for following up Willem!
+On 09/24/2013 10:05:26 AM, Konstantin Ryabitsev wrote:
+> Hi, all:
+> 
+> We already use 2-factor authentication for all admin-level access to
+> infrastructure, so I wanted to ask whether it's something you would  
+> like
+> to see extended to non-admin access, such as for git repositories.
+
+No, but could I raise the possibility of getting a dedicated ssh key  
+with a forced rsync receive command line for a specific directory, ala  
+page 61 of the slides from this?
+
+http://x47industries.com/presentations/ssh-tips-tricks.html
+
+I'd really, really, really like to be able to update  
+http://kernel.org/doc again, and writing a wrapper around kup to  
+reimplement a really sad version of rsync has been a combination of  
+"painful" and "busy work" that's kept off the first page of my todo  
+list for 6 months now...
+
+Rob
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
