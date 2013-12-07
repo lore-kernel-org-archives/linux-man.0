@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsspn.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sat, 07 Dec 2013 14:42:08 -0800
-Message-ID: <52A3A440.4060009@gmail.com>
-References: <1384157701-18806-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wmemmove.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 07 Dec 2013 14:38:34 -0800
+Message-ID: <52A3A36A.8070908@gmail.com>
+References: <1384138329-19416-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1384157701-18806-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1384138329-19416-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/11/13 00:15, Peng Haitao wrote:
-> The function wcsspn() is thread safe.
-
+On 11/10/13 18:52, Peng Haitao wrote:
+> The function wmemmove() is thread safe.
 
 Applied. Thanks, Peng Haitao.
 
@@ -26,30 +25,30 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsspn.3 | 7 ++++++-
+>  man3/wmemmove.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/wcsspn.3 b/man3/wcsspn.3
-> index 2cdc2ec..3f0eb67 100644
-> --- a/man3/wcsspn.3
-> +++ b/man3/wcsspn.3
+> diff --git a/man3/wmemmove.3 b/man3/wmemmove.3
+> index e98bc97..5af7b94 100644
+> --- a/man3/wmemmove.3
+> +++ b/man3/wmemmove.3
 > @@ -13,7 +13,7 @@
 >  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
 >  .\"   ISO/IEC 9899:1999
 >  .\"
-> -.TH WCSSPN 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-> +.TH WCSSPN 3  2013-11-11 "GNU" "Linux Programmer's Manual"
+> -.TH WMEMMOVE 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH WMEMMOVE 3  2013-11-11 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  wcsspn \- advance in a wide-character string, skipping
->  any of a set of wide characters
-> @@ -57,6 +57,11 @@ contained in the wide-character string
->  or
->  .I wcslen(wcs)
->  if there is none.
+>  wmemmove \- copy an array of wide-characters
+>  .SH SYNOPSIS
+> @@ -47,6 +47,11 @@ characters at
+>  .BR wmemmove ()
+>  returns
+>  .IR dest .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR wcsspn ()
+> +.BR wmemmove ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
 >  C99.
