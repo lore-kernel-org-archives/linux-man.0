@@ -1,42 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Miscount in ld.so(8)
-Date: Sat, 07 Dec 2013 14:34:18 -0800
-Message-ID: <52A3A26A.6040104@gmail.com>
-References: <CAMmAXYx_hckjpmm38Jsv+Qq=Jzay8kEikhbT5Yd8kEiON6TkXA@mail.gmail.com>
+Subject: Re: [PATCH] wmemcpy.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 07 Dec 2013 14:37:59 -0800
+Message-ID: <52A3A347.10507@gmail.com>
+References: <1384136316-18422-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMmAXYx_hckjpmm38Jsv+Qq=Jzay8kEikhbT5Yd8kEiON6TkXA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1384136316-18422-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alfred Agrell <alfred-q+Fw1ITNTbbiB9QmIjCX8w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/28/13 03:22, Alfred Agrell wrote:
-> The ENVIRONMENT section of ld.so(8) says "There are four important
-> environment variables", then lists six environment variables.
-> 
-> Version and distribution used:
-> <http://man7.org/linux/man-pages/man8/ld.so.8.html>, version 3.54,
-> dated 2013-07-15. I believe that is the latest version and the highest
-> upstream.
-> 
+On 11/10/13 18:18, Peng Haitao wrote:
+> The function wmemcpy() is thread safe.
 
-Thanks. I've applied the patch below.
+Applied. Thanks, Peng Haitao.
 
 Cheers,
 
 Michael
 
 
--- a/man8/ld.so.8
-+++ b/man8/ld.so.8
--There are four important environment variables.
-+Among the more important environment variables are the following:
- .TP
- .B LD_ASSUME_KERNEL
- (glibc since 2.2.3)
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/wmemcpy.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/wmemcpy.3 b/man3/wmemcpy.3
+> index 6c4756d..49f3ce4 100644
+> --- a/man3/wmemcpy.3
+> +++ b/man3/wmemcpy.3
+> @@ -13,7 +13,7 @@
+>  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+>  .\"   ISO/IEC 9899:1999
+>  .\"
+> -.TH WMEMCPY 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH WMEMCPY 3  2013-11-11 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+>  wmemcpy \- copy an array of wide-characters
+>  .SH SYNOPSIS
+> @@ -49,6 +49,11 @@ characters at
+>  .BR wmemcpy ()
+>  returns
+>  .IR dest .
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR wmemcpy ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  C99.
+>  .SH SEE ALSO
+> 
+
 
 -- 
 Michael Kerrisk
