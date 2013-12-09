@@ -1,55 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 52721] [TRIVIAL]Oudated kernel documentation in
- http://kernel.org/doc/
-Date: Sat, 07 Dec 2013 22:26:18 +0000
-Message-ID: <bug-52721-11311-VARUfsZBjk@https.bugzilla.kernel.org/>
-References: <bug-52721-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] ungetwc.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 9 Dec 2013 10:08:59 +0800
+Message-ID: <1386554939-21540-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-52721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=52721
+The function ungetwc() is thread safe.
 
---- Comment #7 from Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org> ---
-On 11/19/2013 08:02:46 AM, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=52721
-> 
-> Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
-...
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/ungetwc.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-I posted the following to the kernel-users list back in September, but  
-never got a reply:
-
-On 09/24/2013 10:05:26 AM, Konstantin Ryabitsev wrote:
-> Hi, all:
-> 
-> We already use 2-factor authentication for all admin-level access to
-> infrastructure, so I wanted to ask whether it's something you would  
-> like
-> to see extended to non-admin access, such as for git repositories.
-
-No, but could I raise the possibility of getting a dedicated ssh key  
-with a forced rsync receive command line for a specific directory, ala  
-page 61 of the slides from this?
-
-http://x47industries.com/presentations/ssh-tips-tricks.html
-
-I'd really, really, really like to be able to update  
-http://kernel.org/doc again, and writing a wrapper around kup to  
-reimplement a really sad version of rsync has been a combination of  
-"painful" and "busy work" that's kept off the first page of my todo  
-list for 6 months now...
-
-Rob
-
+diff --git a/man3/ungetwc.3 b/man3/ungetwc.3
+index 64c386e..e0bdd91 100644
+--- a/man3/ungetwc.3
++++ b/man3/ungetwc.3
+@@ -13,7 +13,7 @@
+ .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+ .\"   ISO/IEC 9899:1999
+ .\"
+-.TH UNGETWC 3  1999-09-19 "GNU" "Linux Programmer's Manual"
++.TH UNGETWC 3  2013-12-09 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ ungetwc \- push back a wide character onto a FILE stream
+ .SH SYNOPSIS
+@@ -74,6 +74,11 @@ when successful, or
+ .B WEOF
+ upon
+ failure.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR ungetwc ()
++function is thread-safe.
+ .SH CONFORMING TO
+ C99.
+ .SH NOTES
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
