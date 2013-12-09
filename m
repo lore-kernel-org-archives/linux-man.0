@@ -1,58 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ungetwc.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sun, 08 Dec 2013 22:00:46 -0800
-Message-ID: <52A55C8E.8070107@gmail.com>
-References: <1386554939-21540-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] unlockpt.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sun, 08 Dec 2013 22:01:19 -0800
+Message-ID: <52A55CAF.8040506@gmail.com>
+References: <1386558899-28069-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1386554939-21540-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1386558899-28069-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/08/13 18:08, Peng Haitao wrote:
-> The function ungetwc() is thread safe.
+On 12/08/13 19:14, Peng Haitao wrote:
+> The function unlockpt() is thread safe.
 
-Thanks, Applied.
+Thanks. Applied.
 
 Cheers,
 
 Michael
 
 
+> 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ungetwc.3 | 7 ++++++-
+>  man3/unlockpt.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/ungetwc.3 b/man3/ungetwc.3
-> index 64c386e..e0bdd91 100644
-> --- a/man3/ungetwc.3
-> +++ b/man3/ungetwc.3
-> @@ -13,7 +13,7 @@
->  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
->  .\"   ISO/IEC 9899:1999
+> diff --git a/man3/unlockpt.3 b/man3/unlockpt.3
+> index c6759b4..b43bc0e 100644
+> --- a/man3/unlockpt.3
+> +++ b/man3/unlockpt.3
+> @@ -2,7 +2,7 @@
+>  .\" This page is in the public domain. - aeb
+>  .\" %%%LICENSE_END
 >  .\"
-> -.TH UNGETWC 3  1999-09-19 "GNU" "Linux Programmer's Manual"
-> +.TH UNGETWC 3  2013-12-09 "GNU" "Linux Programmer's Manual"
+> -.TH UNLOCKPT 3 2008-06-14 "" "Linux Programmer's Manual"
+> +.TH UNLOCKPT 3 2013-12-09 "" "Linux Programmer's Manual"
 >  .SH NAME
->  ungetwc \- push back a wide character onto a FILE stream
+>  unlockpt \- unlock a pseudoterminal master/slave pair
 >  .SH SYNOPSIS
-> @@ -74,6 +74,11 @@ when successful, or
->  .B WEOF
->  upon
->  failure.
+> @@ -43,6 +43,11 @@ argument is not associated with a master pseudoterminal.
+>  .SH VERSIONS
+>  .BR unlockpt ()
+>  is provided in glibc since version 2.1.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR ungetwc ()
+> +.BR unlockpt ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
->  C99.
->  .SH NOTES
+>  POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
