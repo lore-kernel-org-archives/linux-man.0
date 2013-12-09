@@ -1,51 +1,40 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] kcmp: reword slightly awkward section
-Date: Sun, 08 Dec 2013 15:13:04 -0800
-Message-ID: <52A4FD00.4080508@gmail.com>
-References: <1385570608-2824-1-git-send-email-shawn@churchofgit.com>
+Subject: Re: [PATCH] small improvement for confstr.3
+Date: Sun, 08 Dec 2013 21:31:28 -0800
+Message-ID: <52A555B0.4070902@gmail.com>
+References: <20131109124343.1dfb7e9b@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1385570608-2824-1-git-send-email-shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+In-Reply-To: <20131109124343.1dfb7e9b-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Shawn. Applied.
+On 11/09/13 00:43, Yuri Kozlov wrote:
+> Hello.
+
+Thanks. Applied.
 
 Cheers,
 
 Michael
 
 
-On 11/27/13 08:43, Shawn Landden wrote:
-> ---
->  man2/kcmp.2 | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> --- man-pages-git/man3/confstr.3        2013-03-23 18:21:19.545674858 +0400
+> +++ /tmp/confstr.3      2013-11-09 12:37:12.972060495 +0400
+> @@ -121,7 +121,7 @@
+>  .SH ERRORS
+>  .TP
+>  .B EINVAL
+> -If the value of
+> +The value of
+>  .I name
+>  is invalid.
+>  .SH CONFORMING TO
 > 
-> diff --git a/man2/kcmp.2 b/man2/kcmp.2
-> index c4fa3f4..5cde64e 100644
-> --- a/man2/kcmp.2
-> +++ b/man2/kcmp.2
-> @@ -117,10 +117,13 @@ are ignored.
->  .PP
->  Note the
->  .BR kcmp ()
-> -is not protected against false positives which may have place if tasks are
-> +is not protected against false positives which may occur if tasks are
->  running.
-> -Which means one should stop tasks being inspected with this syscall to obtain
-> -meaningful results.
-> +One should stop tasks by sending
-> +.BR SIGSTOP
-> +(see
-> +.BR signal (7))
-> +prior to inspection with this syscall to obtain meaningful results.
->  .SH RETURN VALUE
->  The return value of a successful call to
->  .BR kcmp ()
 > 
 
 
