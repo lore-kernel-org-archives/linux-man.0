@@ -1,20 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] usleep.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 12 Dec 2013 16:13:22 +1300
-Message-ID: <52A929D2.3000804@gmail.com>
-References: <1386666469-30753-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] stdarg.3: ATTRIBUTES: Note macros that are thread-safe
+Date: Thu, 12 Dec 2013 16:13:34 +1300
+Message-ID: <52A929DE.5010602@gmail.com>
+References: <1386668840-2571-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1386666469-30753-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1386668840-2571-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/10/13 22:07, Peng Haitao wrote:
-> The function usleep() is thread safe.
+On 12/10/13 22:47, Peng Haitao wrote:
+> The macros va_start(), va_arg(), va_end() and va_copy() are
+> thread safe.
+
 
 Thanks! Applied.
 
@@ -25,34 +27,38 @@ Michael
 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/usleep.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man3/stdarg.3 | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/usleep.3 b/man3/usleep.3
-> index 81aa6a9..3229fe8 100644
-> --- a/man3/usleep.3
-> +++ b/man3/usleep.3
-> @@ -30,7 +30,7 @@
->  .\" Modified 2001-04-01 by aeb
->  .\" Modified 2003-07-23 by aeb
+> diff --git a/man3/stdarg.3 b/man3/stdarg.3
+> index fb81772..cc170b5 100644
+> --- a/man3/stdarg.3
+> +++ b/man3/stdarg.3
+> @@ -40,7 +40,7 @@
+>  .\" Converted for Linux, Mon Nov 29 15:11:11 1993, faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org
+>  .\" Additions, 2001-10-14, aeb
 >  .\"
-> -.TH USLEEP 3  2013-04-19 "" "Linux Programmer's Manual"
-> +.TH USLEEP 3  2013-12-10 "" "Linux Programmer's Manual"
+> -.TH STDARG 3  2013-03-15 "" "Linux Programmer's Manual"
+> +.TH STDARG 3  2013-12-10 "" "Linux Programmer's Manual"
 >  .SH NAME
->  usleep \- suspend execution for microsecond intervals
+>  stdarg, va_start, va_arg, va_end, va_copy \- variable argument lists
 >  .SH SYNOPSIS
-> @@ -88,6 +88,11 @@ Interrupted by a signal; see
->  .B EINVAL
->  \fIusec\fP is not smaller than 1000000.
->  (On systems where that is considered an error.)
+> @@ -226,6 +226,15 @@ Some systems that do not supply
+>  have
+>  .B __va_copy
+>  instead, since that was the name used in the draft proposal.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR usleep ()
-> +function is thread-safe.
+> +.BR va_start (),
+> +.BR va_arg (),
+> +.BR va_end (),
+> +and
+> +.BR va_copy ()
+> +macros are thread-safe.
 >  .SH CONFORMING TO
->  4.3BSD, POSIX.1-2001.
->  POSIX.1-2001 declares this function obsolete; use
+>  The
+>  .BR va_start (),
 > 
 
 
