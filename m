@@ -1,22 +1,39 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcpcpy.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 12 Dec 2013 16:14:02 +1300
-Message-ID: <52A929FA.2050801@gmail.com>
-References: <1386670503-5704-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [patch] perf_event_open.2 cpu/pid argument cleanup
+Date: Thu, 12 Dec 2013 16:33:51 +1300
+Message-ID: <52A92E9F.5060203@gmail.com>
+References: <alpine.DEB.2.10.1311141702550.10341@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1386670503-5704-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1311141702550.10341-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/10/13 23:15, Peng Haitao wrote:
-> The function wcpcpy() is thread safe.
+On 11/15/13 11:08, Vince Weaver wrote:
+> 
+> This patch attempts to clarify the pid and cpu options to
+> perf_event_open.
+> 
+> It does two things:
+>   1.  Tries to make clear that the "pid" argument can mean
+> 	process *or* thread.  This is made confusing by
+> 	how Linux uses the terms mostly interchangably.
+>   2.  The cpu/pid documentation was confusing because of
+> 	how the parameters are interdependent.  Since there
+> 	are only 6 possible combinations I broke out the
+> 	possibilities into a table.
+> 
+> I'm open to comments, especially on how the pid/cpu stuff was broken
+> out, I'm not sure if I got the style right for that part.
 
-Thanks! Applied.
+I think the structure is okay. I've applied the patch and will tweak
+the formatting very slightly.
+
+Thanks for the patch.
 
 Cheers,
 
@@ -24,36 +41,94 @@ Michael
 
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/wcpcpy.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> Reported-by: Manuel Selva <selva.manuel-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 > 
-> diff --git a/man3/wcpcpy.3 b/man3/wcpcpy.3
-> index e0eba54..3d437e9 100644
-> --- a/man3/wcpcpy.3
-> +++ b/man3/wcpcpy.3
-> @@ -12,7 +12,7 @@
->  .\"   Dinkumware C library reference http://www.dinkumware.com/
->  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
->  .\"
-> -.TH WCPCPY 3  2011-10-01 "GNU" "Linux Programmer's Manual"
-> +.TH WCPCPY 3  2013-12-10 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  wcpcpy \- copy a wide-character string, returning a pointer to its end
->  .SH SYNOPSIS
-> @@ -64,6 +64,11 @@ wide characters at
->  returns a pointer to the end of the wide-character string
->  .IR dest ,
->  that is, a pointer to the terminating null wide character.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR wcpcpy ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2008.
->  .SH SEE ALSO
+> 
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index 1889689..7d84389 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -75,54 +75,36 @@ be accessed via
+>  .BR  mmap (2) .
+>  .SS Arguments
+>  .P
+> -The argument
+> -.I pid
+> -allows events to be attached to processes in various ways.
+> -If
+> -.I pid
+> -is 0, measurements happen on the current thread, if
+> -.I pid
+> -is greater than 0, the process indicated by
+> -.I pid
+> -is measured, and if
+> -.I pid
+> -is \-1, all processes are counted.
+> -
+>  The
+> -.I cpu
+> -argument allows measurements to be specific to a CPU.
+> -If
+> -.I cpu
+> -is greater than or equal to 0,
+> -measurements are restricted to the specified CPU;
+> -if
+> -.I cpu
+> -is \-1, the events are measured on all CPUs.
+> -.P
+> -Note that the combination of
+> -.IR pid " == \-1"
+> -and
+> -.IR cpu " == \-1"
+> -is not valid.
+> -.P
+> -A
+> -.IR pid " > 0"
+> -and
+> -.IR cpu " == \-1"
+> -setting measures per-process and follows that process to whatever CPU the
+> -process gets scheduled to.
+> -Per-process events can be created by any user.
+> -.P
+> -A
+> -.IR pid " == \-1"
+> +.I pid
+>  and
+> -.IR cpu " >= 0"
+> -setting is per-CPU and measures all processes on the specified CPU.
+> -Per-CPU events need the
+> +.I cpu
+> +arguments allow specifying which process and CPU to monitor:
+> +.TP
+> +.BR pid==0 " and " cpu==\-1
+> +This measures the current process/thread on any CPU.
+> +.TP
+> +.BR pid==0 " and " cpu>=0
+> +This measures the current process/thread only 
+> +when running on the specified CPU.
+> +.TP
+> +.BR pid>0 " and " cpu==\-1
+> +This measures the specified process/thread on any CPU.
+> +.TP
+> +.BR pid>0 " and " cpu>=0
+> +This measures the specified process/thread only
+> +when running on the specified CPU.
+> +.TP
+> +.BR pid==\-1 " and " cpu>=0
+> +This measures all processes/threads on the specified CPU.
+> +Measurements such as this require the
+>  .B CAP_SYS_ADMIN
+>  capability or a
+>  .I /proc/sys/kernel/perf_event_paranoid
+>  value of less than 1.
+> +.TP
+> +.BR pid==\-1 " and " cpu==\-1
+> +This setting is invalid and will return an error.
+>  .P
+>  The
+>  .I group_fd
 > 
 
 
