@@ -1,30 +1,64 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 29972] Possibly bad EBADF error description in fsync(2)
-Date: Wed, 11 Dec 2013 12:32:27 +0000
-Message-ID: <bug-29972-11311-VbDX5x9kqk@https.bugzilla.kernel.org/>
-References: <bug-29972-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] usleep.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 12 Dec 2013 16:13:22 +1300
+Message-ID: <52A929D2.3000804@gmail.com>
+References: <1386666469-30753-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-29972-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1386666469-30753-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=29972
+On 12/10/13 22:07, Peng Haitao wrote:
+> The function usleep() is thread safe.
 
-Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+Thanks! Applied.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
-         Resolution|---                         |CODE_FIX
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/usleep.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/usleep.3 b/man3/usleep.3
+> index 81aa6a9..3229fe8 100644
+> --- a/man3/usleep.3
+> +++ b/man3/usleep.3
+> @@ -30,7 +30,7 @@
+>  .\" Modified 2001-04-01 by aeb
+>  .\" Modified 2003-07-23 by aeb
+>  .\"
+> -.TH USLEEP 3  2013-04-19 "" "Linux Programmer's Manual"
+> +.TH USLEEP 3  2013-12-10 "" "Linux Programmer's Manual"
+>  .SH NAME
+>  usleep \- suspend execution for microsecond intervals
+>  .SH SYNOPSIS
+> @@ -88,6 +88,11 @@ Interrupted by a signal; see
+>  .B EINVAL
+>  \fIusec\fP is not smaller than 1000000.
+>  (On systems where that is considered an error.)
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR usleep ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  4.3BSD, POSIX.1-2001.
+>  POSIX.1-2001 declares this function obsolete; use
+> 
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
