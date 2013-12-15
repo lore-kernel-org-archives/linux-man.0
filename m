@@ -1,57 +1,33 @@
-From: James Smith <james-rDlnuv1X39s@public.gmane.org>
-Subject: [patch] man7/boot.7 fix typo, do -> to
-Date: Thu, 12 Dec 2013 12:02:02 -0600
-Message-ID: <52A9FA1A.10201@theta.pw>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature";
- boundary="Cd8CXa9wq2IBrBIm8cdVBBrPRdDD0Ir5F"
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] ftw.3: tfix
+Date: Sun, 15 Dec 2013 16:45:13 -0400
+Message-ID: <1387140313-28199-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Cd8CXa9wq2IBrBIm8cdVBBrPRdDD0Ir5F
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+---
+ man3/ftw.3 |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- boot.7	2013-12-12 11:58:38.313526985 -0600
-+++ boot.7.new	2013-12-12 11:59:21.840196174 -0600
-@@ -143,7 +143,7 @@
- \&"stop" \-\- causing it to stop the service.
- The script may optionally
- accept other "convenience" parameters (e.g: "restart", to stop and then
--start, "status" do display the service status).
-+start, "status" to display the service status).
- Running the script
- without parameters displays the possible arguments.
- .SS Sequencing directories
+diff --git a/man3/ftw.3 b/man3/ftw.3
+index aaf1639..ba88100 100644
+--- a/man3/ftw.3
++++ b/man3/ftw.3
+@@ -267,7 +267,7 @@ is a directory, and \fBFTW_DEPTH\fP was specified in \fIflags\fP.
+ .B FTW_DEPTH
+ was not specified in
+ .IR flags ,
+-then directories will always be visitied with
++then directories will always be visited with
+ .I typeflag
+ set to
+ .BR FTW_D .)
+-- 
+1.7.10.4
 
---=20
-James Smith
-
-
---Cd8CXa9wq2IBrBIm8cdVBBrPRdDD0Ir5F
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
-
-iQEcBAEBAgAGBQJSqfoqAAoJEGzq3Mwj0kIqNXkH/3Kt7tDIy285yzKi3VJJQccY
-Oe9CkRAO26uicC04z2Gp6Nx7/s0la90FGaKtbf7DphboVGPJ7gTM51JW33JE22xX
-SoHAHEW3bUe4xNOLEmpxGwx7liAPEk3bRckN9rXiPy1HuJ6TmkZ/MdFkFINByqpy
-aKUZqwLAGx+ZpAM3CbAAC9Xiw9ncwEajGIG6xio3A1EMs7q3gXOe7Gd8voV7NidG
-keVVGhNaXyPgLqxH0oQNrHsr97P2RP8LrD6tYliLCUj5G/ZFMkokx/mNx2Mb2eS/
-QsaNkfhgjtTzXc2RwAiDyGcaRN63xk4Wk4c2cJDWDYjlhlQN+tsoy1gJjiJYA1s=
-=+wxq
------END PGP SIGNATURE-----
-
---Cd8CXa9wq2IBrBIm8cdVBBrPRdDD0Ir5F--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
