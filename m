@@ -1,51 +1,62 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sin.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 16 Dec 2013 16:41:43 +0800
-Message-ID: <1387183303-10403-1-git-send-email-penght@cn.fujitsu.com>
+From: Janne Blomqvist <blomqvist.janne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Clarification for mkostemp/mkostemps man page
+Date: Tue, 17 Dec 2013 09:56:35 +0200
+Message-ID: <CAO9iq9FDnF+VmDq-vtrSC-kYXf+t12EmOrJDEWdGTOqN2vX-xg@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions sin(), sinf() and sinl() are thread safe.
+Hello,
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/sin.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+currently the man page for mkostemp/mkostemps says
 
-diff --git a/man3/sin.3 b/man3/sin.3
-index 83f9b31..b110df0 100644
---- a/man3/sin.3
-+++ b/man3/sin.3
-@@ -32,7 +32,7 @@
- .\" Modified 2002-07-27 by Walter Harms
- .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
- .\"
--.TH SIN 3  2010-09-11 "" "Linux Programmer's Manual"
-+.TH SIN 3  2013-12-16 "" "Linux Programmer's Manual"
- .SH NAME
- sin, sinf, sinl \- sine function
- .SH SYNOPSIS
-@@ -105,6 +105,14 @@ is set to
- An invalid floating-point exception
- .RB ( FE_INVALID )
- is raised.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR sin (),
-+.BR sinf (),
-+and
-+.BR sinl ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
+"""The mkostemp() function is like mkstemp(), with the difference that
+flags as for open(2) may be specified in flags (e.g., O_APPEND,
+O_SYNC)."""
+
+To be more precise, the implementation massages the flags argument as follows:
+
+(flags & ~O_ACCMODE) | O_RDWR | O_CREAT | O_EXCL
+
+That is, there is no need to explicitly include O_RDWR | O_CREAT |
+O_EXCL in flags, as it's added implicitly.
+
+So I suggest that the manpage should instead state that *additional*
+flags may be specified in the flags argument.
+
+This issue is a potential portability problem. FreeBSD 10+ also has
+mkostemp{s}, but generates an error if O_RDWR | O_CREAT | O_EXCL is
+present instead of silently accepting it. While annoying, this
+difference in behavior seems Ok by the proposed addition of mkostemp
+to some future POSIX standard, see
+
+http://austingroupbugs.net/view.php?id=411
+
+"""
+The mkostemp( ) function shall be equivalent to the mkstemp( )
+function, except that the flag argument may contain additional flags
+(from <fcntl.h>) to be used as if by open( ). Behavior is unspecified
+if the flag argument contains more than the following flags:
+
+O_APPEND Set append mode.
+
+O_CLOEXEC Set the FD_CLOEXEC file descriptor flag.
+
+<SIO>O_DSYNC Write according to the synchronized I/O data integrity
+completion.</SIO>
+
+<SIO>O_RSYNC Synchronized read I/O operations.</SIO>
+
+<XSI|SIO>O_SYNC Write according to synchronized I/O file integrity
+completion.</XSI|SIO>
+"""
+
 -- 
-1.8.3.1
-
+Janne Blomqvist
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
