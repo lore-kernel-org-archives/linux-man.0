@@ -1,57 +1,100 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 67291] New: Confusing/wrong description of CLOCK_*_CPUTIME_ID
-Date: Wed, 18 Dec 2013 15:53:35 +0000
-Message-ID: <bug-67291-11311@https.bugzilla.kernel.org/>
+From: "Matthew De Mars" <demarsm-YYhoBthLFQ5BDgjK7y7TUQ@public.gmane.org>
+Subject: setrlimit(3) man page formula not accurate for newer kernel versions
+Date: Wed, 18 Dec 2013 13:16:06 -0600
+Message-ID: <193ECE4F1ACA5746B704099DCF7619B5037D0ACC@mars.orbitec.int>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-class: urn:content-classes:message
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=67291
+Hello
 
-            Bug ID: 67291
-           Summary: Confusing/wrong description of CLOCK_*_CPUTIME_ID
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
-        Regression: No
+The page being referred to in this e-mail is part of release 3.55 of the
+Linux man-pages project.
 
-clock_gettime(2) mention CLOCK_PROCESS_CPUTIME_ID and CLOCK_THREAD_CPUTIME_ID,
-but fail to mention the most important thing: That they measure "CPU time" as
-defined by Posix (see
-http://pubs.opengroup.org/onlinepubs/009696899/basedefs/xbd_chap03.html#tag_03
-), i.e., they measure not wall-clock time but rather the amount of time the
-thread or process actually ran on the CPU.
+Name and release of the distribution: RedHawk Embedded Linux version 6.3
+(based on kernel.org 3.5.7)
 
-Worse, clock_gettime(2) contains several confusing, or perhaps even wrong,
-statements about these clocks:
 
-1. At one point it says "CLOCK_PROCESS_CPUTIME_ID:            High-resolution
-per-process timer from the CPU.". The phrase "from the CPU" seems to imply some
-CPU feature (e.g., TSC) is used, rather than to correctly suggest that CPU time
-(i.e., execution time) is being measured.
+The setrlimit(3) man page provides an equation for calculating the
+memory consumed
+by a POSIX message queue, but this equation is inaccurate for kernel
+version 3.5.7
+(and maybe slightly earlier releases, I'm not sure). Here is the text
+from the man
+page:
 
-2. Another paragraph says "The CLOCK_PROCESS_CPUTIME_ID and
-CLOCK_THREAD_CPUTIME_ID clocks are realized on many platforms using timers from
-the  CPUs  (TSC on i386, AR.ITC on Itanium).  These registers may differ
-between CPUs and as a consequence these clocks may return bogus  results if a
-process is migrated to another CPU.". Is this really correct? Why would Linux
-have any trouble accounting the processes's runtime (using the current cpu's
-TSC) before migrating?
+  Each message queue that the user creates counts (until it is removed)
+against this
+  limit according to the formula:
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+  bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) + attr.mq_maxmsg *
+attr.mq_msgsize
+
+
+This calculation doesn't include new "overhead" which got introduced at
+some point
+during kernel development. Here is the comment found in the 3.5.7 kernel
+source
+code:
+
+                /*
+
+                 * We used to allocate a static array of pointers and
+account
+
+                 * the size of that array as well as one msg_msg struct
+per
+
+                 * possible message into the queue size. That's no
+longer
+
+                 * accurate as the queue is now an rbtree and will grow
+and
+
+                 * shrink depending on usage patterns.  We can, however,
+still
+
+                 * account one msg_msg struct per message, but the nodes
+are
+
+                 * allocated depending on priority usage, and most
+programs
+
+                 * only use one, or a handful, of priorities.  However,
+since
+
+                 * this is pinned memory, we need to assume worst case,
+so
+
+                 * that means the min(mq_maxmsg, max_priorities) *
+struct
+
+                 * posix_msg_tree_node.
+
+                 */
+
+Could you please update the setrlimit(3) man page so that it also
+includes
+the new formula for calculating queue size (whatever that formula is)
+and so that
+it also states with which kernel revision the new formula went into
+effect?
+
+Thanks very much!
+
+- Matt DeMars
+
+
+
+This message may contain confidential information and is intended only for the individual named. If you are not the named addressee you should not disseminate, distribute or copy this e-mail. Please notify the sender immediately by e-mail if you have received this message by mistake and delete this e-mail from your system. E-mail transmission cannot be guaranteed to be secure or error-free as information could be intercepted, corrupted, lost, destroyed, arrive late or incomplete, or contain viruses. The sender therefore does not accept liability for any errors, omissions or malware in the contents of this message, which arise as a result of e-mail transmission. 
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
