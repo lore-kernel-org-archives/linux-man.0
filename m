@@ -1,62 +1,57 @@
-From: Janne Blomqvist <blomqvist.janne-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Clarification for mkostemp/mkostemps man page
-Date: Tue, 17 Dec 2013 09:56:35 +0200
-Message-ID: <CAO9iq9FDnF+VmDq-vtrSC-kYXf+t12EmOrJDEWdGTOqN2vX-xg@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 67291] New: Confusing/wrong description of CLOCK_*_CPUTIME_ID
+Date: Wed, 18 Dec 2013 15:53:35 +0000
+Message-ID: <bug-67291-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+https://bugzilla.kernel.org/show_bug.cgi?id=67291
 
-currently the man page for mkostemp/mkostemps says
+            Bug ID: 67291
+           Summary: Confusing/wrong description of CLOCK_*_CPUTIME_ID
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
+        Regression: No
 
-"""The mkostemp() function is like mkstemp(), with the difference that
-flags as for open(2) may be specified in flags (e.g., O_APPEND,
-O_SYNC)."""
+clock_gettime(2) mention CLOCK_PROCESS_CPUTIME_ID and CLOCK_THREAD_CPUTIME_ID,
+but fail to mention the most important thing: That they measure "CPU time" as
+defined by Posix (see
+http://pubs.opengroup.org/onlinepubs/009696899/basedefs/xbd_chap03.html#tag_03
+), i.e., they measure not wall-clock time but rather the amount of time the
+thread or process actually ran on the CPU.
 
-To be more precise, the implementation massages the flags argument as follows:
+Worse, clock_gettime(2) contains several confusing, or perhaps even wrong,
+statements about these clocks:
 
-(flags & ~O_ACCMODE) | O_RDWR | O_CREAT | O_EXCL
+1. At one point it says "CLOCK_PROCESS_CPUTIME_ID:            High-resolution
+per-process timer from the CPU.". The phrase "from the CPU" seems to imply some
+CPU feature (e.g., TSC) is used, rather than to correctly suggest that CPU time
+(i.e., execution time) is being measured.
 
-That is, there is no need to explicitly include O_RDWR | O_CREAT |
-O_EXCL in flags, as it's added implicitly.
-
-So I suggest that the manpage should instead state that *additional*
-flags may be specified in the flags argument.
-
-This issue is a potential portability problem. FreeBSD 10+ also has
-mkostemp{s}, but generates an error if O_RDWR | O_CREAT | O_EXCL is
-present instead of silently accepting it. While annoying, this
-difference in behavior seems Ok by the proposed addition of mkostemp
-to some future POSIX standard, see
-
-http://austingroupbugs.net/view.php?id=411
-
-"""
-The mkostemp( ) function shall be equivalent to the mkstemp( )
-function, except that the flag argument may contain additional flags
-(from <fcntl.h>) to be used as if by open( ). Behavior is unspecified
-if the flag argument contains more than the following flags:
-
-O_APPEND Set append mode.
-
-O_CLOEXEC Set the FD_CLOEXEC file descriptor flag.
-
-<SIO>O_DSYNC Write according to the synchronized I/O data integrity
-completion.</SIO>
-
-<SIO>O_RSYNC Synchronized read I/O operations.</SIO>
-
-<XSI|SIO>O_SYNC Write according to synchronized I/O file integrity
-completion.</XSI|SIO>
-"""
+2. Another paragraph says "The CLOCK_PROCESS_CPUTIME_ID and
+CLOCK_THREAD_CPUTIME_ID clocks are realized on many platforms using timers from
+the  CPUs  (TSC on i386, AR.ITC on Itanium).  These registers may differ
+between CPUs and as a consequence these clocks may return bogus  results if a
+process is migrated to another CPU.". Is this really correct? Why would Linux
+have any trouble accounting the processes's runtime (using the current cpu's
+TSC) before migrating?
 
 -- 
-Janne Blomqvist
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
