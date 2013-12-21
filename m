@@ -1,7 +1,7 @@
 From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH 2/5] cmsg: be not --> not be
-Date: Fri, 20 Dec 2013 16:37:40 -0800
-Message-ID: <1387586263-9002-2-git-send-email-shawn@churchofgit.com>
+Subject: [PATCH 3/5] timerfd_create: add timerfd(2) alias
+Date: Fri, 20 Dec 2013 16:37:41 -0800
+Message-ID: <1387586263-9002-3-git-send-email-shawn@churchofgit.com>
 References: <1387586263-9002-1-git-send-email-shawn@churchofgit.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1387586263-9002-1-git-send-email-shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
@@ -12,31 +12,18 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 ---
- man3/cmsg.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/timerfd.2 | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 man2/timerfd.2
 
-diff --git a/man3/cmsg.3 b/man3/cmsg.3
-index 22057c0..9677233 100644
---- a/man3/cmsg.3
-+++ b/man3/cmsg.3
-@@ -147,7 +147,7 @@ is a Linux extension.
- For portability, ancillary data should be accessed using only the macros
- described here.
- .BR CMSG_ALIGN ()
--is a Linux extension and should be not used in portable programs.
-+is a Linux extension and should not be used in portable programs.
- .PP
- In Linux,
- .BR CMSG_LEN (),
-@@ -157,7 +157,7 @@ and
- are constant expressions (assuming their argument is constant);
- this could be used to declare the size of global
- variables.
--This may be not portable, however.
-+This may not be portable, however.
- .SH EXAMPLE
- This code looks for the
- .B IP_TTL
+diff --git a/man2/timerfd.2 b/man2/timerfd.2
+new file mode 100644
+index 0000000..de0bf03
+--- /dev/null
++++ b/man2/timerfd.2
+@@ -0,0 +1,2 @@
++.so man2/timerfd_create.2
++
 -- 
 1.8.5.2
 
