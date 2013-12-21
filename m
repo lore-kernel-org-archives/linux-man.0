@@ -1,8 +1,10 @@
 From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH 1/5] kcmp.2: note about SECURITY_YAMA
-Date: Fri, 20 Dec 2013 16:37:39 -0800
-Message-ID: <1387586263-9002-1-git-send-email-shawn@churchofgit.com>
+Subject: [PATCH 2/5] cmsg: be not --> not be
+Date: Fri, 20 Dec 2013 16:37:40 -0800
+Message-ID: <1387586263-9002-2-git-send-email-shawn@churchofgit.com>
+References: <1387586263-9002-1-git-send-email-shawn@churchofgit.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1387586263-9002-1-git-send-email-shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
@@ -10,27 +12,31 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 ---
- man2/kcmp.2 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man3/cmsg.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/kcmp.2 b/man2/kcmp.2
-index 59dd4d1..c910ac2 100644
---- a/man2/kcmp.2
-+++ b/man2/kcmp.2
-@@ -187,7 +187,12 @@ is invalid.
- Insufficient permission to inspect process resources.
- The
- .B CAP_SYS_PTRACE
--capability is required to inspect processes that you do not own.
-+capability is required to inspect processes that you do not own. Other
-+limitations on ptrace apply, such as
-+.BR CONFIG_SECURITY_YAMA ,
-+which when /proc/sys/kernel/yama/ptrace_scope is 2 (the default) limits
-+.BR kcmp()
-+to child processes.
- .TP
- .B ESRCH
- Process
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+index 22057c0..9677233 100644
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -147,7 +147,7 @@ is a Linux extension.
+ For portability, ancillary data should be accessed using only the macros
+ described here.
+ .BR CMSG_ALIGN ()
+-is a Linux extension and should be not used in portable programs.
++is a Linux extension and should not be used in portable programs.
+ .PP
+ In Linux,
+ .BR CMSG_LEN (),
+@@ -157,7 +157,7 @@ and
+ are constant expressions (assuming their argument is constant);
+ this could be used to declare the size of global
+ variables.
+-This may be not portable, however.
++This may not be portable, however.
+ .SH EXAMPLE
+ This code looks for the
+ .B IP_TTL
 -- 
 1.8.5.2
 
