@@ -1,25 +1,40 @@
-From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH] timerfd_create: add timerfd(7) alias
-Date: Fri, 20 Dec 2013 16:41:31 -0800
-Message-ID: <1387586491-9579-1-git-send-email-shawn@churchofgit.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 67511] New: tcp(7) does not include information about the
+ TCP_MD5SIG socket option
+Date: Sun, 22 Dec 2013 15:03:12 +0000
+Message-ID: <bug-67511-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
----
- man2/timerfd.2 | 2 --
- man7/timerfd.7 | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
- delete mode 100644 man2/timerfd.2
- create mode 100644 man7/timerfd.7
+https://bugzilla.kernel.org/show_bug.cgi?id=67511
 
-diff --git a/man2/timerfd.2 b/man2/timerfd.2
-deleted file mode 100644
-index de0bf03..0000000
---- a/man2/timerfd.2
-+++ /dev/null
-@@ -1,2 +0,0 @@
--.so man2/timerfd_create.2
+            Bug ID: 67511
+           Summary: tcp(7) does not include information about the
+                    TCP_MD5SIG socket option
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: code+kernel-HCN/1dtRrGXQT0dZR+AlfA@public.gmane.org
+        Regression: No
+
+As used for example here:
+https://github.com/jkjuopperi/bird/blob/master/sysdep/linux/sysio.h#L204
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
