@@ -1,40 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] man7/boot.7 fix typo, do -> to
-Date: Fri, 27 Dec 2013 07:41:22 +1300
-Message-ID: <52BC7852.6050204@gmail.com>
-References: <52A9FA1A.10201@theta.pw>
+Subject: Re: [PATCH] ftw.3: tfix
+Date: Fri, 27 Dec 2013 07:42:13 +1300
+Message-ID: <52BC7885.6040705@gmail.com>
+References: <1387140313-28199-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <52A9FA1A.10201-rDlnuv1X39s@public.gmane.org>
+In-Reply-To: <1387140313-28199-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: James Smith <james-rDlnuv1X39s@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/13/13 07:02, James Smith wrote:
-> --- boot.7	2013-12-12 11:58:38.313526985 -0600
-> +++ boot.7.new	2013-12-12 11:59:21.840196174 -0600
-> @@ -143,7 +143,7 @@
->  \&"stop" \-\- causing it to stop the service.
->  The script may optionally
->  accept other "convenience" parameters (e.g: "restart", to stop and then
-> -start, "status" do display the service status).
-> +start, "status" to display the service status).
->  Running the script
->  without parameters displays the possible arguments.
->  .SS Sequencing directories
+On 12/16/13 09:45, David Pr=E9vot wrote:
 
-Thanks, James. Applied.
+Thanks, David. Applied.
 
 Cheers,
 
 Michael
 
 
+> ---
+>  man3/ftw.3 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man3/ftw.3 b/man3/ftw.3
+> index aaf1639..ba88100 100644
+> --- a/man3/ftw.3
+> +++ b/man3/ftw.3
+> @@ -267,7 +267,7 @@ is a directory, and \fBFTW_DEPTH\fP was specified=
+ in \fIflags\fP.
+>  .B FTW_DEPTH
+>  was not specified in
+>  .IR flags ,
+> -then directories will always be visitied with
+> +then directories will always be visited with
+>  .I typeflag
+>  set to
+>  .BR FTW_D .)
+>=20
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 --
