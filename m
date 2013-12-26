@@ -1,58 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] towctrans.3: ATTRIBUTES: Note function that is thread-safe
-Date: Fri, 27 Dec 2013 07:26:42 +1300
-Message-ID: <52BC74E2.5070403@gmail.com>
-References: <1387855941-32458-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] mcheck.3: typo in compiler flag
+Date: Fri, 27 Dec 2013 07:28:18 +1300
+Message-ID: <52BC7542.1000905@gmail.com>
+References: <1387394893-7789-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1387855941-32458-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1387394893-7789-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/24/13 16:32, Peng Haitao wrote:
-> The function towctrans() is thread safe.
+On 12/19/13 08:28, Simon Paillard wrote:
+> See http://bugs.debian.org/732464
 
-Thanks! Applied.
+Thanks. Applied.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+
+> Reported-by: Raphael Geissert <geissert-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 > ---
->  man3/towctrans.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man3/mcheck.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/towctrans.3 b/man3/towctrans.3
-> index a0613cc..d584713 100644
-> --- a/man3/towctrans.3
-> +++ b/man3/towctrans.3
-> @@ -13,7 +13,7 @@
->  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
->  .\"   ISO/IEC 9899:1999
->  .\"
-> -.TH TOWCTRANS 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-> +.TH TOWCTRANS 3  2013-12-24 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  towctrans \- wide-character transliteration
->  .SH SYNOPSIS
-> @@ -52,6 +52,11 @@ if
->  .I wc
->  is
->  .BR WEOF .
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR towctrans ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
+> diff --git a/man3/mcheck.3 b/man3/mcheck.3
+> index 17b38cb..9c52a8e 100644
+> --- a/man3/mcheck.3
+> +++ b/man3/mcheck.3
+> @@ -55,7 +55,7 @@ function must be called before the first call to
+>  .BR malloc (3)
+>  or a related function.
+>  In cases where this is difficult to ensure, linking the program with
+> -.IR \-mcheck
+> +.IR \-lmcheck
+>  inserts an implicit call to
+>  .BR mcheck ()
+>  (with a NULL argument)
 > 
 
 
