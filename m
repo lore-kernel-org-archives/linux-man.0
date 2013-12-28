@@ -1,40 +1,53 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 67291] Confusing/wrong description of CLOCK_*_CPUTIME_ID
-Date: Fri, 27 Dec 2013 20:49:53 +0000
-Message-ID: <bug-67291-11311-pbnKH9S0FV@https.bugzilla.kernel.org/>
-References: <bug-67291-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] proc(5): fix indentation for net examples
+Date: Sat, 28 Dec 2013 08:26:44 -0500
+Message-ID: <1388237204-12791-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-67291-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=67291
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man5/proc.5 | 4 ----
+ 1 file changed, 4 deletions(-)
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Regarding point 1, I applied the following patch:
-
-@@ -172,7 +172,8 @@ which may have discontinuities if the time is changed using
- .BR settimeofday (2).
+diff --git a/man5/proc.5 b/man5/proc.5
+index 942b833..60829b2 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -2023,14 +2023,12 @@ The format is:
+ 
+ .nf
+ .ft CW
+-.in 1n
+ Inter-|   Receive                                                |  Transmit
+  face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+     lo: 2776770   11307    0    0    0     0          0         0  2776770   11307    0    0    0     0       0          0
+   eth0: 1215645    2751    0    0    0     0          0         0  1782404    4324    0    0    0   427       0          0
+   ppp0: 1622270    5552    1    0    0     0          0         0   354130    5669    0    0    0     0       0          0
+   tap0:    7714      81    0    0    0     0          0         0     7714      81    0    0    0     0       0          0
+-.in
+ .ft
+ .fi
+ .\" .TP
+@@ -2126,12 +2124,10 @@ The format is:
+ 
+ .nf
+ .ft CW
+-.in 1n
+ sl  local_address rem_address   st tx_queue rx_queue tr rexmits  tm\->when uid
+  1: 01642C89:0201 0C642C89:03FF 01 00000000:00000001 01:000071BA 00000000 0
+  1: 00000000:0801 00000000:0000 0A 00000000:00000000 00:00000000 6F000100 0
+  1: 00000000:0201 00000000:0000 0A 00000000:00000000 00:00000000 00000000 0
+-.in
+ .ft
+ .fi
  .TP
- .BR CLOCK_PROCESS_CPUTIME_ID " (since Linux 2.6.12)"
--High-resolution per-process timer from the CPU.
-+Per-process CPU-time clock
-+(measures CPU time consumed by all threads in the process).
- .TP
- .BR CLOCK_THREAD_CPUTIME_ID " (since Linux 2.6.12)"
- Thread-specific CPU-time clock.
-
-Regarding point 2, I think the problem you are concerned about was addressed in
-an earlier commit; see 
-http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/?id=78638aae3035d85ca027c003f480ff5d7921fac0
-
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.4.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
