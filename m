@@ -1,41 +1,81 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ptrace(2): userspace->user space
-Date: Wed, 01 Jan 2014 23:49:30 +1300
-Message-ID: <52C3F2BA.6070309@gmail.com>
-References: <1388473153-17590-1-git-send-email-vapier@gentoo.org>
+Subject: Re: [PATCH] Quarantine "gets.3" into its own "do not use" manpage
+Date: Tue, 31 Dec 2013 22:35:27 +1300
+Message-ID: <52C28FDF.3060307@gmail.com>
+References: <1384370434.15325.33.camel@surprise> <20131115185455.GA20757@aym.net2.nerim.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1388473153-17590-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20131115185455.GA20757-956IwFboN44acnK+F/IuxqxOck334EZe@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/31/13 19:59, Mike Frysinger wrote:
-> ---
->  man2/ptrace.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index fa5d63f..f70471a 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -628,8 +628,8 @@ and
->  returns the stop signal.
->  If any other ptrace-stop is generated at the same time (for example,
->  if a signal is sent to the tracee), this ptrace-stop happens.
-> -If none of the above applies (for example, if the tracee is running in userspace),
-> -it stops with
-> +If none of the above applies (for example, if the tracee is running in user
-> +space), it stops with
->  .B PTRACE_EVENT_STOP
->  with
->  .I WSTOPSIG(status)
-> 
+Andre,
 
-Thanks. Applied.
+Thanks for reviewing this patch.
+
+On 11/16/13 07:54, Andre Majorel wrote:
+> On 2013-11-13 14:20 -0500, David Malcolm wrote:
+> 
+>> Currently man3/gets.3 documents various safe I/O functions, along with
+>> the toxic "gets" function.
+>>
+>> At the risk of being melodramatic, this strikes me as akin to storing
+>> rat poison in a food cabinet, in the same style of packaging as the
+>> food, but with a post-it note on it saying "see warnings below".
+>>
+>> I think such "never use this" functions should be quarantined into their
+>> own manpages, rather than listing them alongside sane functions.
+>>
+>> The attached patch does this for "gets", moving the documentation of the
+>> good functions from man3/gets.3 into man3/fgetc.3, updating the SO links
+>> in the relevant functions to point at the latter.
+>>
+>> It then rewrites man3/gets.3 to spell out that "gets" is toxic and
+>> should never be used (with a link to CWE-242 for good measure).
+>>
+>> Thoughts?
+> 
+> For what my opinion's worth, I like this patch. it makes it
+> harder to miss the warnings.
+> 
+> Two objections :
+> 
+> 1. Seems C89, C99 and POSIX.1-2001 have been dropped from the
+>    CONFORMING TO section. If that is deliberate, I would like to
+>    know the rationale behind this change.
+
+Good catch. It should not have been, and I've restored it.
+
+> 2. Rather than
+> 
+>      gets() is supposed to return s on success, and NULL on
+>      error or when end of file occurs while no characters have
+>      been read. However, given the lack of buffer overrun
+>      checking, there can be no guarantees that the function will
+>      even return.
+> 
+>    how about
+> 
+>      gets() returns s on success and NULL on error or when end
+>      of file occurs while no characters have been read. Unless
+>      the buffer is overrun, in which case there is no guarantee
+>      that the function will even return.
+> 
+>    The idea is to avoid "is supposed to", which feels out of
+>    place in a reference document. Refreshingly sarcastic as it
+>    may be. :->
+
+Agreed. I made the first of your suggested changes, but left the 
+second sentence unchanged.
+
+> The "For more information, see CWE-242" bit is in the BUGS
+> section, right ? Can't tell from the diff alone.
+
+Yes, it's in BUGS.
 
 Cheers,
 
