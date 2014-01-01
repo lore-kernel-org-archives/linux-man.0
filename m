@@ -1,70 +1,107 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: "Writing" instead of "Warning" in dlopen(3) manpage
-Date: Tue, 31 Dec 2013 11:19:54 -0500
-Message-ID: <201312311119.55754.vapier@gentoo.org>
-References: <20131231124209.GA4814@darkstar>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: vdso(7): new man page
+Date: Wed, 01 Jan 2014 23:36:22 +1300
+Message-ID: <52C3EFA6.7080507@gmail.com>
+References: <201304092317.01590.vapier@gentoo.org> <201304112128.47633.vapier@gentoo.org> <519CC681.6080502@gmail.com> <201312310232.23392.vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: multipart/signed;
-  boundary="nextPart1569038.sZ6tTpHMFC";
-  protocol="application/pgp-signature";
-  micalg=pgp-sha1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20131231124209.GA4814@darkstar>
+In-Reply-To: <201312310232.23392.vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: noname-CuI0ZDT4mYnsrOwW+9ziJQ@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---nextPart1569038.sZ6tTpHMFC
-Content-Type: Text/Plain;
-  charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Hi Mike,
 
-On Tuesday 31 December 2013 07:42:09 noname-CuI0ZDT4mYnsrOwW+9ziJQ@public.gmane.org wrote:
-> dlopen C code example contains following comment:
->=20
-> /* Writing: cosine =3D (double (*)(double)) dlsym(handle, "cos");
->    ... */
->=20
-> "Writing:" should be replaced with "Warning:".
+Thanks for following up on this.
 
-both are correct
+On 12/31/13 20:32, Mike Frysinger wrote:
+> On Wednesday 22 May 2013 09:22:09 Michael Kerrisk wrote:
+>> On 04/12/13 03:28, Mike Frysinger wrote:
+>>> here's v2 w/Andy's feedback
+>>
+>> Thanks for this--it's a nice piece of work. Could you take a
+>> look at my comments below and send a v3, please.
+> 
+> anything i didn't explicitly respond to below i merged with my version
+> 
+>>> the kernel you wish to make a syscall.
+>>> However, this instruction is expensive: it goes through the full
+>>> interrupt handling paths in the processor's microcode as well as in the
+>>> kernel. Newer processors have faster (but backwards incompatible)
+>>> instructions to initiate system calls.
+>>> Rather than require the C library to figure out if this functionality is
+>>> available at runtime itself, it can use functions provided by the kernel
+>>> in the vDSO.
+>>
+>> That last point (after the comma) is the most interesting (IMO) of the use
+>> cases of the vDSO. If you cared to expand on the details (i.e., are what
+>> are mechanics of the operation of those functions provided by the kernel),
+>> I think that would be interesting for the reader.
+> 
+> i think the paragraph after this explains things somewhat as you'd like (where 
+> it talks about gettimeofday) ?
 
-however, i wonder if the comment should be inverted.  the latest POSIX spec=
-=20
-requires that the natural cast work.
-http://pubs.opengroup.org/onlinepubs/9699919799/functions/dlsym.html#tag_16=
-_96_07
+Yes, thanks.
 
-Linux man pages document the normal Linux environment, and that means POSIX=
-,=20
-not strict ISO C.
-=2Dmike
+>>> All symbols are also versioned (using the GNU version format).
+>>> This allows the kernel (in the very unlikely situation) to update the
+>>> function
+>>
+>> s/situation/case that it is necessary/
+> 
+> hmm, i see what you mean, but i think your version isn't really better ... 
+> just different.  i'll just delete the (...) text.
 
---nextPart1569038.sZ6tTpHMFC
-Content-Type: application/pgp-signature; name=signature.asc 
-Content-Description: This is a digitally signed message part.
+Okay.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.17 (GNU/Linux)
+>>> You use the standard C calling conventions when calling any of these
+>>> functions. No need to worry about weird register or stack behavior.
+>>
+>> That last sentence is a little incomplete. Could you expand/reword a little
+>> please.
+> 
+> it's meant as a follow up to the previous sentence.  so the implication is 
+> that there are no functions which violate the C ABI for your particular 
+> target.  arguments get passed in the standard way (registers/stack), and all 
+> the registers have corresponding behavior: scratch are scratch, caller-
+> preserved are caller-preserved, callee-preserved are callee-preserved, etc...
 
-iQIcBAABAgAGBQJSwu6rAAoJEEFjO5/oN/WBytIP/2TZVvvv1pLDR2As1lvDeFOT
-yLtGVV5xsdlT5OGUaP41CHKrRvrA3tluoaGhSHb1qodKWAnADZfrzTAJ2/Jjjp5D
-JcP1ih2vsK6y1yCcJ3Rq0mOgCLvC9pDZpqn/NhfoChZvb9D84XRqEVpTygS3hmM+
-yDei0EO5UwQO4MW78FEw7OZDug4+1fYuc1aWRKfeb/GzM1RQOlawX7zY3Q1ryy3c
-jyaf2h0/s0iFVHNDkujxGa8FkujJvtN+yxk3ZigRK6MRsO+9oV++1N3w8XveJhQM
-UWOcIuqSJYmsXqXa9TFCH8uEI+0CeOYH/JcPCsh4W1HFKn3owBMMBT9yyf9Kyx9+
-lTVzdbR2rlKJlC3LYzjvMVXDbZE68fyg7jvLk6Urk0bLncLEwW+fzZoxaJCJMYUS
-BfjSdHIae1oOgFAkykxpspBHaMcPX03aB48m6KmXXwBM8dBkxrP1BkAq0FV4T4QF
-3pDlYGG/NW9U+ztjlLOt45WTCm/WY+hOis3ceSd+GYfLcl0jaiBLQ30x6A7b5d6R
-gVBD6eCW4TLhAm2hL32eFH3r1wr3244he9Wh2TblsXMUXGjA7DD3JRG/rfjG5D1r
-mIMPC3ftmViSrTfAb++fNvT0lLvY152M0kdlZtv9YklucW+bFOtxitGpKeP90oST
-q2x8xpCH0cJwVfQUJq4Y
-=4R1x
------END PGP SIGNATURE-----
+>>> Note that the vDSO that is used is based on the ABI of your userspace
+>>> code and not the ABI of the kernel.
+>>> i.e. If you run an i386 32bit ELF under an i386 32bit kernel or under an
+>>
+>> s/i.e. If/In other words, if/
+> 
+> i.e. shows up a lot in man pages as does e.g. (and both show up in this new 
+> vdso(7) page) ...
 
---nextPart1569038.sZ6tTpHMFC--
+I should have been clearer. I disfavor the use of "e.g." and "i.e.", except
+in parenthetical asides. There were a very few exceptions to that guideline,
+and I just now went through and stamped out most of them. And I edited your
+page to be consistent with the guideline.
+
+
+>>> So when referring to sections below, use the userspace ABI.
+>>
+>> It's not clear what you mean here when you say "use the userspace ABI."
+>> Could you clarify?
+> 
+> the two sentences that preceded this one explained things ...
+
+Sorry -- I still don't get it... (See my other reply.)
+
+Cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
