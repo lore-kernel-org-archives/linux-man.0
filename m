@@ -1,45 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Quarantine "gets.3" into its own "do not use" manpage
-Date: Tue, 31 Dec 2013 22:31:19 +1300
-Message-ID: <52C28EE7.9020807@gmail.com>
-References: <1384370434.15325.33.camel@surprise>
+Subject: Re: [PATCH] ptrace(2): userspace->user space
+Date: Wed, 01 Jan 2014 23:49:30 +1300
+Message-ID: <52C3F2BA.6070309@gmail.com>
+References: <1388473153-17590-1-git-send-email-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1384370434.15325.33.camel@surprise>
+In-Reply-To: <1388473153-17590-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Malcolm <dmalcolm-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello David,
+On 12/31/13 19:59, Mike Frysinger wrote:
+> ---
+>  man2/ptrace.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index fa5d63f..f70471a 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -628,8 +628,8 @@ and
+>  returns the stop signal.
+>  If any other ptrace-stop is generated at the same time (for example,
+>  if a signal is sent to the tracee), this ptrace-stop happens.
+> -If none of the above applies (for example, if the tracee is running in userspace),
+> -it stops with
+> +If none of the above applies (for example, if the tracee is running in user
+> +space), it stops with
+>  .B PTRACE_EVENT_STOP
+>  with
+>  .I WSTOPSIG(status)
+> 
 
-On 11/14/13 08:20, David Malcolm wrote:
-> Currently man3/gets.3 documents various safe I/O functions, along with
-> the toxic "gets" function.
-> 
-> At the risk of being melodramatic, this strikes me as akin to storing
-> rat poison in a food cabinet, in the same style of packaging as the
-> food, but with a post-it note on it saying "see warnings below".
-> 
-> I think such "never use this" functions should be quarantined into their
-> own manpages, rather than listing them alongside sane functions.
-> 
-> The attached patch does this for "gets", moving the documentation of the
-> good functions from man3/gets.3 into man3/fgetc.3, updating the SO links
-> in the relevant functions to point at the latter.
-> 
-> It then rewrites man3/gets.3 to spell out that "gets" is toxic and
-> should never be used (with a link to CWE-242 for good measure).
-> 
-> Thoughts?
-> Dave
-> 
-> [Note to self: I filed this downstream as:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1030030 ]
-
-Seems reasonable to me. Applied, with a few tweaks.
+Thanks. Applied.
 
 Cheers,
 
