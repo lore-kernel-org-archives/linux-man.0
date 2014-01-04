@@ -1,45 +1,61 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Beginnings of a style guide
-Date: Fri, 03 Jan 2014 23:39:01 +1300
-Message-ID: <52C69345.7050009@gmail.com>
-References: <52C626BC.8040206@gmail.com> <CAKPyHN08sSXBeoO4qW8=bU8Md9nPNneE4ZSO=k+aqxjj0peOxw@mail.gmail.com>
+From: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH man-pages] man: packet.7: document fanout, ring and auxiliary
+ options
+Date: Sat, 04 Jan 2014 15:47:20 +0100
+Message-ID: <52C81EF8.6090908@redhat.com>
+References: <52A1F7D7.6040305@redhat.com> <1386350329-32723-1-git-send-email-willemb@google.com> <52A22B78.8070109@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKPyHN08sSXBeoO4qW8=bU8Md9nPNneE4ZSO=k+aqxjj0peOxw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <52A22B78.8070109-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/03/14 22:41, Bert Wesarg wrote:
-> [ Resending as text/pain. Sorry for this. ]
-> 
-> Hi,
-> 
-> really nice. Especially for non-native speakers. One typo below:
-> 
-> On Fri, Jan 3, 2014 at 3:55 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> .SS Hyphenation of attributive compounds
->> Counpound terms should by hyphenated when used attributively
-> 
-> Compounds terms
+On 12/06/2013 08:54 PM, Daniel Borkmann wrote:
+> On 12/06/2013 06:18 PM, Willem de Bruijn wrote:
+>> The packet socket manual page does not list all socket options.
+>>
+>> This patch adds descriptions of the common packet socket options
+>>    PACKET_AUXDATA, PACKET_FANOUT, PACKET_RX_RING, PACKET_STATISTICS,
+>>    PACKET_TX_RING
+>>
+>> and the ring-specific options
+>>    PACKET_LOSS, PACKET_RESERVE, PACKET_TIMESTAMP, PACKET_VERSION
+>>
+>> It does not yet add descriptions for
+>>    PACKET_COPY_THRESH, PACKET_HDRLEN, PACKET_ORIGDEV,
+>>    PACKET_TX_HAS_OFF, PACKET_TX_TIMESTAMP, PACKET_VNET_HDR
+>>
+>> It tries to balance being informative with exposing kernel detail
+>> that is unlikely to be used by most readers or that may change
+>> frequently. For implementation details, the manpage points to the
+>> documentation in kernel Documentation/networking. Let me know if
+>> options should be added or removed.
+>>
+>> Source: PACKET_FANOUT, PACKET_RX_RING and PACKET_VERSION are in
+>> /tools/testing/net/psock_fanout.c in the latest Linux kernel source
+>> tree. PACKET_STATISTICS was in the first version of that test.
+>> PACKET_TX_RING I have used elsewhere. The other options are based
+>> on reading kernel code.
+>>
+>>   [Very minor fixups. -dborkman]
+>>
+>> Signed-off-by: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+>
+> Acked-by: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>
+> I went over the man page again, and it looks good to me.
+>
+> Great work and thanks for following up Willem!
 
-Thanks. (Just "Compound terms though.)
+Ping, Michael, any progress on this one? Lets not get this work
+lost somewhere as it happened in March last year ...
 
-Actually, two typos in that line! s/by/be/
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks,
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
