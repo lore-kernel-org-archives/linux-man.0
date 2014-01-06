@@ -1,50 +1,33 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] tan.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 6 Jan 2014 15:47:09 +0800
-Message-ID: <1388994429-23224-1-git-send-email-penght@cn.fujitsu.com>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] small improvement for regex.3
+Date: Mon, 6 Jan 2014 13:24:35 +0400
+Message-ID: <20140106132435.31301ebf@keeper.home.local>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions tan(), tanf() and tanl() are thread safe.
+Hello.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/tan.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+--- man-pages-git/man3/regex.3  2013-10-12 09:11:41.585233073 +0400
++++ /tmp/regex.3        2014-01-06 13:22:08.015053318 +0400
+@@ -146,7 +146,7 @@
+ The match-beginning-of-line operator always fails to match (but see the
+ compilation flag
+ .B REG_NEWLINE
+-above)
++above).
+ This flag may be used when different portions of a string are passed to
+ .BR regexec ()
+ and the beginning of the string should not be interpreted as the
 
-diff --git a/man3/tan.3 b/man3/tan.3
-index 21318d2..f89bed1 100644
---- a/man3/tan.3
-+++ b/man3/tan.3
-@@ -32,7 +32,7 @@
- .\" Modified 2002-07-27 by Walter Harms
- .\" 	(walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
- .\"
--.TH TAN 3 2010-09-11 ""  "Linux Programmer's Manual"
-+.TH TAN 3 2014-01-06 ""  "Linux Programmer's Manual"
- .SH NAME
- tan, tanf, tanl \- tangent function
- .SH SYNOPSIS
-@@ -130,6 +130,14 @@ Range error: result overflow
- An overflow floating-point exception
- .RB ( FE_OVERFLOW )
- is raised.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR tan (),
-+.BR tanf (),
-+and
-+.BR tanl ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
 -- 
-1.8.4.2
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
