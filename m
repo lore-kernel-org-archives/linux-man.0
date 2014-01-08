@@ -1,73 +1,48 @@
-From: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH man-page] packet.7: document PACKET_QDISC_BYPASS
-Date: Wed, 08 Jan 2014 00:37:46 +0100
-Message-ID: <52CC8FCA.3040803@redhat.com>
-References: <1386689485-18833-1-git-send-email-dborkman@redhat.com> <CAKgNAkiW5hnYZqUYQv_mWeGyVNgN+Edu5uViX2PxVwhrrGnOQg@mail.gmail.com>
+From: "Dr. Musa Hamed" <drmusahamed01-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: I have a very lucrative Business
+Date: Wed, 8 Jan 2014 21:47:31 +0100
+Message-ID: <CALS90i9nMs6jMoH2O5S68sPF=juYOV2sfMAwaBekL8ccz3eSOQ__25867.3297627412$1389215816$gmane$org@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkiW5hnYZqUYQv_mWeGyVNgN+Edu5uViX2PxVwhrrGnOQg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, brouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/08/2014 12:34 AM, Michael Kerrisk (man-pages) wrote:
-> On Wed, Dec 11, 2013 at 4:31 AM, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> Add a comment about PACKET_QDISC_BYPASS' socket option to the kernel.
->
-> Daniel, could you ping me again when this goes into the mainline kernel?
+ATTN: Dear,
 
-Sure, will do. It's sitting in net-next and will be pulled in with the
-upcoming merge window in ~ 1 week or so.
+I am Dr. Musa Hamed Executive Director of the Bank of Africa
+Plc B.O.A,Cotonou Benin Rep. I have a very lucrative Business proposal
+worth of 21,500,000.00 USD.
 
-I can ping you again for the PACKET_QDISC_BYPASS sockopt.
+An Iraqi named Hamadi Hashem a business man made a fixed deposit of
+21,500,000.00 USD . Upon maturity several notices was sent to him,
+even during the war,eleven years ago (2003) up till this date. Again
+after the war another notification was sent and still no response came
+from him. it has been found out that Hamadi Hashem and his family had
+been killed during the war in bomb blast that hit their home at
+Mukaradeeb where his personal oil well was. I am prepared to split the
+funds with you 50%:50%.By placing you as the NEXT OF KIN to his
+deposit.
 
-Thanks,
+Should you be interested in doing this deal with me, please send me
+the following information:
 
-Daniel
+(1) Your Name
+(2) Resident Address
+(3) Your Occupation
+(4) Your Phone Number
+(5) Date of Birth
+(6) Resident Country
 
-> Cheers,
->
-> Michael
->
->
->> Signed-off-by: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> ---
->>   Michael, this patch is on top of Willem's resend for packet.7:
->>   http://www.spinics.net/lists/linux-man/msg04576.html
->>
->>   Kernel part of this man page update:
->>   https://git.kernel.org/cgit/linux/kernel/git/davem/net-next.git/commit/?id=d346a3fae3ff1d99f5d0c819bf86edf9094a26a1
->>
->>   Thanks!
->>
->>   man7/packet.7 | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/man7/packet.7 b/man7/packet.7
->> index e0993d2..100f876 100644
->> --- a/man7/packet.7
->> +++ b/man7/packet.7
->> @@ -426,6 +426,11 @@ creates a packet receive ring of variant
->>   .BR TPACKET_V1 .
->>   To create another variant, configure the desired variant by setting this
->>   integer option before creating the ring.
->> +.TP
->> +.BR PACKET_QDISC_BYPASS " (since Linux 3.14)"
->> +By default, packets sent through packet sockets pass through the kernel's
->> +qdisc (traffic control) layer. This can be bypassed by setting this integer
->> +option to one for usage scenarios similar to pktgen.
->>
->>   .SS Ioctls
->>   .B SIOCGSTAMP
->> --
->> 1.8.3.1
->>
->
->
->
+And I will prefer you to reach me privately and securely on my personal
+email address: dr.musahamed30-Qt13gs6zZMY@public.gmane.org
+Tel: +229-988-400-97
+
+I will provide you with further information as soon as I hear
+positively from you.
+
+Regards,
+Dr. Musa Hamed
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
