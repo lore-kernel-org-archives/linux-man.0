@@ -1,45 +1,45 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] tcgetsid.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 13 Jan 2014 11:39:13 +0800
-Message-ID: <1389584353-9768-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] stpcpy.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 13 Jan 2014 14:01:08 +0800
+Message-ID: <1389592868-11320-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function tcgetsid() is thread safe.
+The function stpcpy() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/tcgetsid.3 | 7 ++++++-
+ man3/stpcpy.3 | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/tcgetsid.3 b/man3/tcgetsid.3
-index 5a3cecd..8dbc04b 100644
---- a/man3/tcgetsid.3
-+++ b/man3/tcgetsid.3
+diff --git a/man3/stpcpy.3 b/man3/stpcpy.3
+index 09d74b7..4718a96 100644
+--- a/man3/stpcpy.3
++++ b/man3/stpcpy.3
 @@ -22,7 +22,7 @@
  .\" the source, must acknowledge the copyright and authors of this work.
  .\" %%%LICENSE_END
  .\"
--.TH TCGETSID 3 2010-09-10 "GNU" "Linux Programmer's Manual"
-+.TH TCGETSID 3 2014-01-13 "GNU" "Linux Programmer's Manual"
+-.TH STPCPY 3  2012-03-15 "GNU" "Linux Programmer's Manual"
++.TH STPCPY 3  2014-01-13 "GNU" "Linux Programmer's Manual"
  .SH NAME
- tcgetsid \- get session ID
+ stpcpy \- copy a string returning a pointer to its end
  .SH SYNOPSIS
-@@ -62,6 +62,11 @@ it has one but it is not described by
- .SH VERSIONS
- .BR tcgetsid ()
- is provided in glibc since version 2.1.
+@@ -68,6 +68,11 @@ of the string
+ .I dest
+ (that is, the address of the terminating null byte)
+ rather than the beginning.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR tcgetsid ()
++.BR stpcpy ()
 +function is thread-safe.
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ This function was added to POSIX.1-2008.
+ Before that, it was not part of
 -- 
 1.8.4.2
 
