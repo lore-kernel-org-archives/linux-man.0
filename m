@@ -1,43 +1,30 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mq_receive.3: wfix
-Date: Mon, 13 Jan 2014 15:36:46 +0800
-Message-ID: <1389598606-13221-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 68601] noyau principal
+Date: Mon, 13 Jan 2014 15:29:41 +0000
+Message-ID: <bug-68601-11311-xCty4doRwq@https.bugzilla.kernel.org/>
+References: <bug-68601-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-68601-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/mq_receive.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=68601
 
-diff --git a/man3/mq_receive.3 b/man3/mq_receive.3
-index a644212..3ed7efe 100644
---- a/man3/mq_receive.3
-+++ b/man3/mq_receive.3
-@@ -23,7 +23,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH MQ_RECEIVE 3 2013-11-08 "Linux" "Linux Programmer's Manual"
-+.TH MQ_RECEIVE 3 2014-01-13 "Linux" "Linux Programmer's Manual"
- .SH NAME
- mq_receive, mq_timedreceive \- receive a message from a message queue
- .SH SYNOPSIS
-@@ -65,7 +65,7 @@ The
- .I msg_len
- argument specifies the size of the buffer pointed to by
- .IR msg_ptr ;
--this must be greater than or equalt to the
-+this must be greater than or equal to the
- .I mq_msgsize
- attribute of the queue (see
- .BR mq_getattr (3)).
+Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org
+         Resolution|---                         |INVALID
+
 -- 
-1.8.4.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
