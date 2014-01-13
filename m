@@ -1,75 +1,49 @@
-From: Ruben Kerkhof <ruben-pkfekA+zf0jEimEGZCN+oA@public.gmane.org>
-Subject: [PATCH] Fix a few double words
-Date: Sun, 12 Jan 2014 21:55:16 +0100
-Message-ID: <1389560116-7676-1-git-send-email-ruben@rubenkerkhof.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] tcgetpgrp.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 13 Jan 2014 09:58:26 +0800
+Message-ID: <1389578306-7050-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ruben Kerkhof <ruben-pkfekA+zf0jEimEGZCN+oA@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Ruben Kerkhof <ruben-pkfekA+zf0jEimEGZCN+oA@public.gmane.org>
----
- man2/setpgid.2   | 2 +-
- man2/sigaction.2 | 2 +-
- man3/mcheck.3    | 2 +-
- man5/proc.5      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+The functions tcgetpgrp() and tcsetpgrp() are thread safe.
 
-diff --git a/man2/setpgid.2 b/man2/setpgid.2
-index 492d32a88955..317b4079c206 100644
---- a/man2/setpgid.2
-+++ b/man2/setpgid.2
-@@ -159,7 +159,7 @@ call, which takes arguments
- .I pid
- and
- .IR pgid ,
--is is a wrapper function that calls
-+is a wrapper function that calls
- 
-     setpgid(pid, pgid)
- 
-diff --git a/man2/sigaction.2 b/man2/sigaction.2
-index 4142f3337d2e..c132b1f206ad 100644
---- a/man2/sigaction.2
-+++ b/man2/sigaction.2
-@@ -379,7 +379,7 @@ of the (configurable) system jiffy (see
- .\" measurement unit was HZ, which was the same as clock ticks
- .\" (sysconf(_SC_CLK_TCK)).  In 2.6, HZ became configurable, and
- .\" was *still* used as the unit to return the info these fields,
--.\" with the result that the field values depended on the the
-+.\" with the result that the field values depended on the
- .\" configured HZ.  Of course, the should have been measured in
- .\" USER_HZ instead, so that sysconf(_SC_CLK_TCK) could be used to
- .\" convert to seconds.  I have a queued patch to fix this:
-diff --git a/man3/mcheck.3 b/man3/mcheck.3
-index e59da317f7be..c2ef9527089c 100644
---- a/man3/mcheck.3
-+++ b/man3/mcheck.3
-@@ -79,7 +79,7 @@ is called beforehand.
- If the system detects an inconsistency in the heap,
- the caller-supplied function pointed to by
- .I abortfunc
--is invoked with a single argument argument,
-+is invoked with a single argument,
- .IR mstatus ,
- that indicates what type of inconsistency was detected.
- If
-diff --git a/man5/proc.5 b/man5/proc.5
-index 2024c75004db..62771bec79ec 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -2689,7 +2689,7 @@ a process's filesystem UID is normally the same as its effective UID);
- .IP *
- the link is not in a sticky world-writable directory; or
- .IP *
--the symbolic link and and its parent directory have the same owner (UID)
-+the symbolic link and its parent directory have the same owner (UID)
- .RE
- .IP
- A system call that fails to follow a symbolic link
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/tcgetpgrp.3 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/man3/tcgetpgrp.3 b/man3/tcgetpgrp.3
+index 2bea0cf..da039e2 100644
+--- a/man3/tcgetpgrp.3
++++ b/man3/tcgetpgrp.3
+@@ -22,7 +22,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH TCGETPGRP 3 2003-01-28 "GNU" "Linux Programmer's Manual"
++.TH TCGETPGRP 3 2014-01-13 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ tcgetpgrp, tcsetpgrp \- get and set terminal foreground process group
+ .SH SYNOPSIS
+@@ -106,6 +106,13 @@ of the calling process.
+ .I pgrp
+ has a supported value, but is not the process group ID of a
+ process in the same session as the calling process.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR tcgetpgrp ()
++and
++.BR tcsetpgrp ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
-1.8.5.2
+1.8.4.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
