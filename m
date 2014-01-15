@@ -1,58 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stpcpy.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 15 Jan 2014 17:12:04 +1300
-Message-ID: <52D60A94.3050309@gmail.com>
-References: <1389592868-11320-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] gets.3: see also fgets(3)
+Date: Wed, 15 Jan 2014 17:13:42 +1300
+Message-ID: <52D60AF6.4030201@gmail.com>
+References: <1389721030-15533-1-git-send-email-abbotti@mev.co.uk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1389592868-11320-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1389721030-15533-1-git-send-email-abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/13/2014 07:01 PM, Peng Haitao wrote:
-> The function stpcpy() is thread safe.
+Thanks, Ian. Applied.
 
-Applied.
-
-Thanks,
+Cheers,
 
 Michael
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 01/15/2014 06:37 AM, Ian Abbott wrote:
+> Signed-off-by: Ian Abbott <abbotti-GUHe90Wt2aFaa/9Udqfwiw@public.gmane.org>
 > ---
->  man3/stpcpy.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man3/gets.3 | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/man3/stpcpy.3 b/man3/stpcpy.3
-> index 09d74b7..4718a96 100644
-> --- a/man3/stpcpy.3
-> +++ b/man3/stpcpy.3
-> @@ -22,7 +22,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH STPCPY 3  2012-03-15 "GNU" "Linux Programmer's Manual"
-> +.TH STPCPY 3  2014-01-13 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  stpcpy \- copy a string returning a pointer to its end
->  .SH SYNOPSIS
-> @@ -68,6 +68,11 @@ of the string
->  .I dest
->  (that is, the address of the terminating null byte)
->  rather than the beginning.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR stpcpy ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  This function was added to POSIX.1-2008.
->  Before that, it was not part of
+> diff --git a/man3/gets.3 b/man3/gets.3
+> index 7017b68..4c10ae7 100644
+> --- a/man3/gets.3
+> +++ b/man3/gets.3
+> @@ -92,6 +92,7 @@ http://cwe.mitre.org/data/definitions/242.html
+>  .BR write (2),
+>  .BR ferror (3),
+>  .BR fgetc (3),
+> +.BR fgets (3),
+>  .BR fgetwc (3),
+>  .BR fgetws (3),
+>  .BR fopen (3),
 > 
 
 
