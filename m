@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] stpcpy.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 13 Jan 2014 21:42:33 +1300
-Message-ID: <52D3A6F9.5080404@gmail.com>
+Date: Wed, 15 Jan 2014 17:12:04 +1300
+Message-ID: <52D60A94.3050309@gmail.com>
 References: <1389592868-11320-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -16,9 +16,9 @@ List-Id: linux-man@vger.kernel.org
 On 01/13/2014 07:01 PM, Peng Haitao wrote:
 > The function stpcpy() is thread safe.
 
-Applied. Thanks, Haitao.
+Applied.
 
-Cheers,
+Thanks,
 
 Michael
 
