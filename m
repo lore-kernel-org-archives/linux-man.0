@@ -1,39 +1,24 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 68861] New: Man page strftime Confusingly Refers to Weekday
- Rather than Day of Week
-Date: Thu, 16 Jan 2014 23:09:09 +0000
-Message-ID: <bug-68861-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 68861] Man page strftime Confusingly Refers to Weekday Rather
+ than Day of Week
+Date: Thu, 16 Jan 2014 23:10:08 +0000
+Message-ID: <bug-68861-11311-y1orvuv0U6@https.bugzilla.kernel.org/>
+References: <bug-68861-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-68861-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=68861
 
-            Bug ID: 68861
-           Summary: Man page strftime Confusingly Refers to Weekday Rather
-                    than Day of Week
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: bedens-lndS8KVcD7rQT0dZR+AlfA@public.gmane.org
-        Regression: No
-
-In several parts of the strftime page there are references to weekday which in
-several human cultures / locales specifies the set of the days of the week that
-are distinct from the set that represent the weekend.
-
-To mitigate confusion, we propose that the man page text be modified so that
-the "weekday" text is changed to "day of week".
+--- Comment #1 from Brandon Edens <bedens-lndS8KVcD7rQT0dZR+AlfA@public.gmane.org> ---
+Created attachment 122331
+  --> https://bugzilla.kernel.org/attachment.cgi?id=122331&action=edit
+Patch to man-pages archive.
 
 -- 
 You are receiving this mail because:
