@@ -1,75 +1,58 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strstr.3: ATTRIBUTES: Note function that is thread safe
- with exceptions
-Date: Thu, 16 Jan 2014 12:16:35 +1300
-Message-ID: <52D716D3.2040008@gmail.com>
-References: <1389770622-19332-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] netdevice.7: document SIOCGIFCONF case ifc_req==NULL
+Date: Thu, 16 Jan 2014 17:23:58 +1300
+Message-ID: <52D75EDE.4020404@gmail.com>
+References: <20140109233018.886FA140064@xenon.ts.pxnet.com> <52D03351.20501@gmail.com> <52D04B8B.3040306@imap.cc>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1389770622-19332-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <52D04B8B.3040306@imap.cc>
+Sender: netdev-owner@vger.kernel.org
+To: Tilman Schmidt <tilman@imap.cc>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, netdev@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/15/2014 08:23 PM, Peng Haitao wrote:
-> The function strstr() is thread safe.
-> The function strcasestr() is thread safe with exceptions.
+On 01/11/2014 08:35 AM, Tilman Schmidt wrote:
+> Hello Michael,
+> 
+> Am 10.01.2014 18:52, schrieb Michael Kerrisk (man-pages):
+>> On 01/10/2014 12:30 PM, Tilman Schmidt wrote:
+>>> Add the missing description of the possibility to call SIOCGIFCONF
+>>> with ifc_req==NULL to determine the needed buffer size, as described
+>>> in http://lkml.indiana.edu/hypermail/linux/kernel/0110.1/0506.html
+>>> and verified against source files net/core/dev_ioctl.c and
+>>> net/ipv4/devinet.c in the current kernel git tree.
+> [...]>
+>> Thanks for the patch. I'm trying to verify this from the code, but 
+>> am having some trouble finding the relevant pieces. Could you point
+>> me more specifically at the points in the kernel source where this
+>> case is handled?
+> 
+> Gladly.
+> 
+> Function dev_ifconf() [net/core/dev_ioctl.c line 67ff.] is the main
+> handler for SIOCGIFCONF. It calls the registered protocol specific
+> handlers via the table gifconf_list[]. The current kernel has only
+> one such handler, inet_gifconf() [net/ipv4/devinet.c line 1115ff.]
+> 
+> If ifc.ifc_buf is NULL, dev_ifconf() calls the protocol specific
+> handlers with NULL as second argument. [net/core/dev_ioctl.c line 96]
+> 
+> If inet_gifconf() is called with NULL as second argument it just
+> adds up the data sizes, skipping the size check and data transfer.
+> [net/ipv4/devinet.c line 1127f.]
 
-Thanks. Applied.
+Thanks. Patch applied.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/strstr.3 | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/strstr.3 b/man3/strstr.3
-> index ba03f19..c667da5 100644
-> --- a/man3/strstr.3
-> +++ b/man3/strstr.3
-> @@ -30,7 +30,7 @@
->  .\" Added history, aeb, 980113.
->  .\" 2005-05-05 mtk: added strcasestr()
->  .\"
-> -.TH STRSTR 3  2014-01-04 "GNU" "Linux Programmer's Manual"
-> +.TH STRSTR 3  2014-01-15 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  strstr, strcasestr \- locate a substring
->  .SH SYNOPSIS
-> @@ -62,6 +62,18 @@ but ignores the case of both arguments.
->  .SH RETURN VALUE
->  These functions return a pointer to the beginning of the
->  located substring, or NULL if the substring is not found.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR strstr ()
-> +function is thread-safe.
-> +.LP
-> +The
-> +.BR strcasestr ()
-> +function is thread-safe with exceptions.
-> +It can be safely used in multithreaded applications, as long as
-> +.BR setlocale (3)
-> +is not called to change the locale.
->  .SH CONFORMING TO
->  The
->  .BR strstr ()
-> 
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
