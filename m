@@ -1,37 +1,43 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] small improvement for ipv6.7
-Date: Thu, 16 Jan 2014 20:22:39 +0400
-Message-ID: <20140116202239.2c4fba19@keeper.home.local>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 68861] New: Man page strftime Confusingly Refers to Weekday
+ Rather than Day of Week
+Date: Thu, 16 Jan 2014 23:09:09 +0000
+Message-ID: <bug-68861-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello.
+https://bugzilla.kernel.org/show_bug.cgi?id=68861
 
---- man-pages-git/man7/ipv6.7   2013-06-06 21:38:12.077409548 +0400
-+++ /tmp/ipv6.7 2014-01-16 20:20:04.276184187 +0400
-@@ -313,7 +313,9 @@
- .B IPV6_ROUTER_ALERT
- Pass forwarded packets containing a router alert hop-by-hop option to
- this socket.
--Only allowed for SOCK_RAW sockets.
-+Only allowed for
-+.B SOCK_RAW
-+sockets.
- The tapped packets are not forwarded by the kernel, it is the
- user's responsibility to send them out again.
- Argument is a pointer to an integer.
+            Bug ID: 68861
+           Summary: Man page strftime Confusingly Refers to Weekday Rather
+                    than Day of Week
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: bedens-lndS8KVcD7rQT0dZR+AlfA@public.gmane.org
+        Regression: No
 
+In several parts of the strftime page there are references to weekday which in
+several human cultures / locales specifies the set of the days of the week that
+are distinct from the set that represent the weekend.
+
+To mitigate confusion, we propose that the man page text be modified so that
+the "weekday" text is changed to "day of week".
 
 -- 
-Best Regards,
-Yuri Kozlov
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
