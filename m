@@ -1,34 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Missing "int" in mq_timedreceive and mq_timedsend prototypes?
-Date: Sat, 18 Jan 2014 23:28:43 +1300
-Message-ID: <CAKgNAkirGaps5vndXE9QLfHqJfAvkZBdH9aS9fBAz4EOcF+K-A@mail.gmail.com>
-References: <52DA5024.5070905@truelite.it>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] small improvement for ipv6.7
+Date: Fri, 17 Jan 2014 21:45:05 +1300
+Message-ID: <52D8ED91.7080302@gmail.com>
+References: <20140116202239.2c4fba19@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <52DA5024.5070905-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
+In-Reply-To: <20140116202239.2c4fba19-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jan 18, 2014 at 10:57 PM, Simone Piccardi <piccardi-TuvemuYfxVQ1GQ1Ptb7lUw@public.gmane.org> wrote:
-> Hi,
->
-> both prototypes (I'l looking in the web pages, like
-> http://man7.org/linux/man-pages/man2/mq_timedsend.2.html) reports
-> "unsigned msg_prio" as  msg_prio parameter type, but definition inside
-> /usr/include/mqueue.h use (for esample for  mq_timedreceive) unsigned
-> int __msg_prio
+On 01/17/2014 05:22 AM, Yuri Kozlov wrote:
+> Hello.
 
-Hello Simone,
+Applied. Thanks, Yuri.
 
-Fixed!
-
-Thanks,
+Cheers,
 
 Michael
+
+
+> --- man-pages-git/man7/ipv6.7   2013-06-06 21:38:12.077409548 +0400
+> +++ /tmp/ipv6.7 2014-01-16 20:20:04.276184187 +0400
+> @@ -313,7 +313,9 @@
+>  .B IPV6_ROUTER_ALERT
+>  Pass forwarded packets containing a router alert hop-by-hop option to
+>  this socket.
+> -Only allowed for SOCK_RAW sockets.
+> +Only allowed for
+> +.B SOCK_RAW
+> +sockets.
+>  The tapped packets are not forwarded by the kernel, it is the
+>  user's responsibility to send them out again.
+>  Argument is a pointer to an integer.
+> 
+> 
+
 
 -- 
 Michael Kerrisk
