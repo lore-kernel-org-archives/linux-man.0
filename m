@@ -1,54 +1,39 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 68861] Man page strftime Confusingly Refers to Weekday Rather
- than Day of Week
-Date: Fri, 17 Jan 2014 08:10:52 +0000
-Message-ID: <bug-68861-11311-79GoSxPCAF@https.bugzilla.kernel.org/>
-References: <bug-68861-11311@https.bugzilla.kernel.org/>
+From: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>
+Subject: BLKGETSIZE64 not documented
+Date: Fri, 17 Jan 2014 10:30:29 +0100
+Message-ID: <20140117093029.GA29966@aym.net2.nerim.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-68861-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=68861
+[Re-sending this as it seems to have fallen through the cracks.]
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+No trace of BLKGETSIZE64 in
+www.kernel.org/pub/linux/docs/man-pages/man-pages-3.54.tar.xz
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |CODE_FIX
+I think it should be listed along BLKGETSIZE in sd(4).
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Brandon,
+Probably applies to fd(4) and hd(4) too.
 
-Note that we can't patch the POSIX pages. they are supplied to us by the
-standards committee. You could try raising an issue with the Austin group; not
-sure how far it would get though, since POSIX has been using this term for a
-long time now.
+And of course ioctl_list(2) but completing _that_ one sounds
+like a major project in itself. <g>
 
-However, I do agree with the point that there is ambiguity here, and I've
-applied a slightly modified version of your patch.
+Note that /usr/include/linux/fs.h quotes the argument as being
+"*u64" but I believe that it would be better written as
+"*uint64_t", which is standard.
 
-I've also made a similar change in the following pages:
+There may be other related ioctl()s missing, like those used in
+blockdev(8), I'm reporting the one I'm sure about.
 
-getdate.3
-strptime.3
-locale.5
+Thanks in advance.
 
-Thanks for the report.
-
-Cheers,
-
-Michael
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--=20
+Andr=E9 Majorel http://www.teaser.fr/~amajorel/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
