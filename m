@@ -1,58 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH] netdevice.7: document SIOCGIFCONF case ifc_req==NULL
-Date: Thu, 16 Jan 2014 17:23:58 +1300
-Message-ID: <52D75EDE.4020404@gmail.com>
-References: <20140109233018.886FA140064@xenon.ts.pxnet.com> <52D03351.20501@gmail.com> <52D04B8B.3040306@imap.cc>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 68861] Man page strftime Confusingly Refers to Weekday Rather
+ than Day of Week
+Date: Fri, 17 Jan 2014 08:10:52 +0000
+Message-ID: <bug-68861-11311-79GoSxPCAF@https.bugzilla.kernel.org/>
+References: <bug-68861-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Return-path: <netdev-owner@vger.kernel.org>
-In-Reply-To: <52D04B8B.3040306@imap.cc>
-Sender: netdev-owner@vger.kernel.org
-To: Tilman Schmidt <tilman@imap.cc>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, netdev@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-68861-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/11/2014 08:35 AM, Tilman Schmidt wrote:
-> Hello Michael,
-> 
-> Am 10.01.2014 18:52, schrieb Michael Kerrisk (man-pages):
->> On 01/10/2014 12:30 PM, Tilman Schmidt wrote:
->>> Add the missing description of the possibility to call SIOCGIFCONF
->>> with ifc_req==NULL to determine the needed buffer size, as described
->>> in http://lkml.indiana.edu/hypermail/linux/kernel/0110.1/0506.html
->>> and verified against source files net/core/dev_ioctl.c and
->>> net/ipv4/devinet.c in the current kernel git tree.
-> [...]>
->> Thanks for the patch. I'm trying to verify this from the code, but 
->> am having some trouble finding the relevant pieces. Could you point
->> me more specifically at the points in the kernel source where this
->> case is handled?
-> 
-> Gladly.
-> 
-> Function dev_ifconf() [net/core/dev_ioctl.c line 67ff.] is the main
-> handler for SIOCGIFCONF. It calls the registered protocol specific
-> handlers via the table gifconf_list[]. The current kernel has only
-> one such handler, inet_gifconf() [net/ipv4/devinet.c line 1115ff.]
-> 
-> If ifc.ifc_buf is NULL, dev_ifconf() calls the protocol specific
-> handlers with NULL as second argument. [net/core/dev_ioctl.c line 96]
-> 
-> If inet_gifconf() is called with NULL as second argument it just
-> adds up the data sizes, skipping the size check and data transfer.
-> [net/ipv4/devinet.c line 1127f.]
+https://bugzilla.kernel.org/show_bug.cgi?id=68861
 
-Thanks. Patch applied.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
+
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Brandon,
+
+Note that we can't patch the POSIX pages. they are supplied to us by the
+standards committee. You could try raising an issue with the Austin group; not
+sure how far it would get though, since POSIX has been using this term for a
+long time now.
+
+However, I do agree with the point that there is ambiguity here, and I've
+applied a slightly modified version of your patch.
+
+I've also made a similar change in the following pages:
+
+getdate.3
+strptime.3
+locale.5
+
+Thanks for the report.
 
 Cheers,
 
 Michael
 
-
-
-
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
