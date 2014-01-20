@@ -1,109 +1,77 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] open: Document O_TMPFILE
-Date: Mon, 20 Jan 2014 13:52:05 +0100
-Message-ID: <52DD1BF5.6080502@gmail.com>
-References: <3bec865ec3205e23c997ddc2c9bbacf0e53b0d18.1375896634.git.luto@amacapital.net>
+Subject: Re: [PATCH v2] socket.7: add description for SO_BUSY_POLL
+Date: Mon, 20 Jan 2014 17:28:54 +0100
+Message-ID: <52DD4EC6.7080208@gmail.com>
+References: <20130710141835.15799.61657.stgit@ladj378.jer.intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <3bec865ec3205e23c997ddc2c9bbacf0e53b0d18.1375896634.git.luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+In-Reply-To: <20130710141835.15799.61657.stgit-vd+Q285fAQQAP1VksDEriRL4W9x8LtSr@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eliezer Tamir <eliezer.tamir-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Eliezer Tamir <eliezer-rsSRdLmRgNEQhDRD3CWCHA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/07/2013 07:31 PM, Andy Lutomirski wrote:
-> O_TMPFILE is new in Linux 3.11
+On 07/10/2013 04:18 PM, Eliezer Tamir wrote:
+> Add description for the SO_BUSY_POLL socket option to the socket(7) manpage.
 
-Thanks, Andy. I've applied your patch. I also added the following
-errors under ERRORS. Do they look okay to you?
+Long after the fact, I've applied this. Thanks, Eliezer.
 
-       EINVAL O_TMPFILE  was  specified in flags, but neither O_WRONLY
-              nor O_RDWR was specified.
-
-       EISDIR O_TMPFILE  and  one of O_WRONLY or O_RDWR were specified
-              in flags, but this kernel version does not  provide  the
-              O_TMPFILE functionality.
+Would you be willing also to write a patch for the POLL_BUSY_LOOP flag of 
+poll()?
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+> v2
+> fixed typos reported by Rasmus Villemoes
+> 
+> Signed-off-by: Eliezer Tamir <eliezer.tamir-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 > ---
 > 
-> This may have formatting issues -- I'm terrible at groff.
+>  man7/socket.7 |   25 +++++++++++++++++++++++++
+>  1 files changed, 25 insertions(+), 0 deletions(-)
 > 
-> If the corresponding linkat patch makes it in, it would probably be
-> worth documenting as well:
-> 
-> https://git.kernel.org/cgit/linux/kernel/git/viro/vfs.git/commit/?h=for-linus&id=bb2314b47996491bbc5add73633905c3120b6268
-> 
->  man2/open.2 | 32 ++++++++++++++++++++++++++++++--
->  1 file changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/open.2 b/man2/open.2
-> index ef0f664..8bf56a0 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -126,6 +126,7 @@ are
->  .BR O_EXCL ,
->  .BR O_NOCTTY ,
->  .BR O_NOFOLLOW ,
-> +.BR O_TMPFILE ,
->  .BR O_TRUNC ,
->  and
->  .BR O_TTY_INIT .
-> @@ -226,11 +227,15 @@ described in
->  specifies the permissions to use in case a new file is created.
->  This argument must be supplied when
->  .B O_CREAT
-> +or
-> +.B O_TMPFILE
->  is specified in
->  .IR flags ;
-> -if
-> +if neither
->  .B O_CREAT
-> -is not specified, then
-> +nor
-> +.B O_TMPFILE
-> +is specified, then
->  .I mode
->  is ignored.
->  The effective permissions are modified by
-> @@ -284,6 +289,29 @@ The following symbolic constants are provided for
->  00001 others have execute permission
->  .RE
->  .TP
-> +.BR O_TMPFILE " (Since Linux 3.11)"
-> +Create an unnamed temporary file.  The pathname parameter specifies a
-> +directory; an unnamed inode will be created in that directory's
-> +filesystem.  Anything written to the resulting file will be lost when
-> +the last fd is closed, unless the file is given a name.
-> +.RS
-> +.PP
-> +.B O_TMPFILE
-> +must be specified with one of
-> +.B O_RDWR
-> +or
-> +.B O_WRONLY
-> +and, optionally,
-> +.B O_EXCL.
-> +If O_EXCL is not specified, then
-> +.BR linkat (2)
-> +can be used to link the temporary file into the filesystem, making it
-> +permanent.
-> +.PP
-> +The mode parameter determines the inode's mode, as with
-> +.B O_CREAT.
-> +.RE
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index f2213eb..5edcb09 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -694,6 +694,31 @@ for details on control messages.
+>  Gets the socket type as an integer (e.g.,
+>  .BR SOCK_STREAM ).
+>  This socket option is read-only.
 > +.TP
->  .BR O_DIRECT " (Since Linux 2.4.10)"
->  Try to minimize cache effects of the I/O to and from this file.
->  In general this will degrade performance, but it is useful in
+> +.B SO_BUSY_POLL
+> +Sets the approximate time in microseconds to busy poll on a blocking receive
+> +when there is no data. Increasing this value requires
+> +.BR CAP_NET_ADMIN . 
+> +The default for this option is controlled by the
+> +.I /proc/sys/net/core/busy_read
+> +file. 
+> +
+> +The value in the  
+> +.I /proc/sys/net/core/busy_poll
+> +file determines how long 
+> +.BR select (2)
+> +and 
+> +.BR poll (2)
+> +will busy poll when they operate on sockets with 
+> +.BR SO_BUSY_POLL
+> +set and no events to report are found.
+> +
+> +In both cases busy polling will only be done when the socket last received data
+> +from a network device that supports this option.
+> +
+> +While busy polling may improve latency of some applications, care must be
+> +taken when using it since this will increase both CPU utilization and power usage.
+> +
+>  .SS Signals
+>  When writing onto a connection-oriented socket that has been shut down
+>  (by the local or the remote end)
+> 
 > 
 
 
