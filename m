@@ -1,36 +1,22 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 69101] New: EFAULT is missing from the man-page for open system
- call [open(2)]
-Date: Mon, 20 Jan 2014 19:21:37 +0000
-Message-ID: <bug-69101-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 68861] Man page strftime Confusingly Refers to Weekday Rather
+ than Day of Week
+Date: Mon, 20 Jan 2014 19:49:56 +0000
+Message-ID: <bug-68861-11311-05begjYCAi@https.bugzilla.kernel.org/>
+References: <bug-68861-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-68861-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=69101
+https://bugzilla.kernel.org/show_bug.cgi?id=68861
 
-            Bug ID: 69101
-           Summary: EFAULT is missing from the man-page for open system
-                    call [open(2)]
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: mrrosen-OM76b2Iv3yLQjUSlxSEPGw@public.gmane.org
-        Regression: No
-
-Open can generate an EFAULT (errno = 14) if the const char* path is an invalid
-pointer (ie one that is not accessible). However, while the man-page lists
-numerous possible error codes open might generate, this one is missing.
+--- Comment #4 from Brandon Edens <bedens-lndS8KVcD7rQT0dZR+AlfA@public.gmane.org> ---
+That's great. Thanks Michael.
 
 -- 
 You are receiving this mail because:
