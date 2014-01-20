@@ -1,68 +1,48 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] ptrace.2: add description for PTRACE_{GET,SET}SIGMASK
-Date: Mon, 20 Jan 2014 11:03:40 +0100
-Message-ID: <52DCF47C.6040200@gmail.com>
-References: <1373962773-2041-1-git-send-email-avagin@openvz.org> <1373962773-2041-4-git-send-email-avagin@openvz.org>
+From: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>
+Subject: Re: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread
+ safe with exceptions
+Date: Mon, 20 Jan 2014 13:28:41 +0100
+Message-ID: <20140120122841.GC29966@aym.net2.nerim.net>
+References: <1390205712-10266-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1373962773-2041-4-git-send-email-avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1390205712-10266-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, criu-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/16/2013 10:19 AM, Andrey Vagin wrote:
-> These two commands allow to examine and change mask of blocked signals.
+On 2014-01-20 16:15 +0800, Peng Haitao wrote:
 
-Thanks, Andrey.
+> The functions strtod(), strtof() and strtold() are thread safe
+> with exceptions.
 
-Applied.
-
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-> ---
->  man2/ptrace.2 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/man2/ptrace.2 b/man2/ptrace.2
-> index e74535e..08697ff 100644
-> --- a/man2/ptrace.2
-> +++ b/man2/ptrace.2
-> @@ -356,6 +356,21 @@ If this flag is not set, signals are read from a per-thread queue.
->  .in
->  .PP
->  .TP
-> +.BR PTRACE_GETSIGMASK " (since Linux 3.11)"
-> +.\" commit 29000caecbe87b6b66f144f72111f0d02fbbf0c1
-> +Retrieve mask of blocked signals to the address
-> +.I data.
 > +The
-> +.I addr
-> +argument contains the size of mask.
-> +.TP
-> +.BR PTRACE_SETSIGMASK " (since Linux 3.11)"
-> +Change mask of blocked signals from the address
-> +.I data.
-> +The
-> +.I addr
-> +argument contains the size of mask.
-> +.TP
->  .BR PTRACE_SETOPTIONS " (since Linux 2.4.6; see BUGS for caveats)"
->  Set ptrace options from
->  .IR data .
-> 
+> +.BR strtod (),
+> +.BR strtof (),
+> +and
+> +.BR strtold ()
+> +functions are thread-safe with exceptions.
+> +These functions can be safely used in multithreaded applications,
+> +as long as
+> +.BR setlocale (3)
+> +is not called to change the locale.
 
+Is the requirement that all threads be in the same locale ? Or
+that the thread that calls strtod() not use setlocale() at all ?
+Or maybe that setlocale() not be called by anyone after threads
+are created ? Or even that setlocale() not be used AT ALL by the
+process ?
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+It's not obvious to me which it is !
+
+I think that a more specific wording would be useful.
+
+--=20
+Andr=E9 Majorel http://www.teaser.fr/~amajorel/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
