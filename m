@@ -1,34 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typo in mkfs man-page
-Date: Sun, 19 Jan 2014 19:24:56 +1300
-Message-ID: <CAKgNAkgzmwVTVNWJUkqiAqh-KSOw_SEg5oUE9mnaS92C3K2kpg@mail.gmail.com>
-References: <CAFeW3TSpOfn7kG4T9TXigrqbE=QXEctrszQJNYtr_zda6aPjDA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] strcat.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 20 Jan 2014 11:22:48 +0800
+Message-ID: <1390188168-27926-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAFeW3TSpOfn7kG4T9TXigrqbE=QXEctrszQJNYtr_zda6aPjDA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kenny Rachuonyo <krmboya-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Kenny,
+The functions strcat() and strncat() are thread safe.
 
-On Sun, Jan 19, 2014 at 2:51 AM, Kenny Rachuonyo <krmboya-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> The short form of the --verbose option should probably be -v instead of -V
->
-> This occurs both on the online man-page
-> (http://man7.org/linux/man-pages/man8/mkfs.8.html) and my local system
-> (Ubuntu 12.04) man-page.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/strcat.3 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-That page is part of the util-linux project. Try reporting here:
+diff --git a/man3/strcat.3 b/man3/strcat.3
+index 87ee4a4..813ce03 100644
+--- a/man3/strcat.3
++++ b/man3/strcat.3
+@@ -29,7 +29,7 @@
+ .\" Modified Sat Jul 24 18:11:47 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" 2007-06-15, Marc Boyer <marc.boyer-oUYRw6/Rnm9Wj0EZb7rXcA@public.gmane.org> + mtk
+ .\"     Improve discussion of strncat().
+-.TH STRCAT 3  2012-07-19 "GNU" "Linux Programmer's Manual"
++.TH STRCAT 3  2014-01-20 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ strcat, strncat \- concatenate two strings
+ .SH SYNOPSIS
+@@ -127,6 +127,13 @@ and
+ .BR strncat ()
+ functions return a pointer to the resulting string
+ .IR dest .
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR strcat ()
++and
++.BR strncat ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ SVr4, 4.3BSD, C89, C99.
+ .SH NOTES
+-- 
+1.8.4.2
 
-util-linux-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-
-Thanks,
-
-Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
