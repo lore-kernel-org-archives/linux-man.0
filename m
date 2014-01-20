@@ -1,56 +1,57 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread safe with exceptions
-Date: Mon, 20 Jan 2014 16:15:12 +0800
-Message-ID: <1390205712-10266-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael S. Tsirkin" <mst-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH net] tun: handle copy failure in tun_put_user()
+Date: Mon, 20 Jan 2014 10:43:49 +0200
+Message-ID: <20140120084349.GA7677@redhat.com>
+References: <1390187808-5462-1-git-send-email-jasowang@redhat.com>
+ <20140119.194856.491294439635992592.davem@davemloft.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20140119.194856.491294439635992592.davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>
+Cc: jasowang-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions strtod(), strtof() and strtold() are thread safe
-with exceptions.
+On Sun, Jan 19, 2014 at 07:48:56PM -0800, David Miller wrote:
+> From: Jason Wang <jasowang-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date: Mon, 20 Jan 2014 11:16:48 +0800
+> 
+> > This patch return the error code of copy helpers in tun_put_user() instead of
+> > ignoring them.
+> > 
+> > Cc: Michael S. Tsirkin <mst-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > Signed-off-by: Jason Wang <jasowang-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/strtod.3 | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+I'm not sure we need to worry about this too much.
+But if yes, a bunch of places besides tun should be
+changed. Consider for example udp_recvmsg: it
+never seems to return any error except -EAGAIN.
 
-diff --git a/man3/strtod.3 b/man3/strtod.3
-index 8498a06..43efb50 100644
---- a/man3/strtod.3
-+++ b/man3/strtod.3
-@@ -42,7 +42,7 @@
- .\"   (michael-dcCOIfDdh9paP0f+8Gpiu5H8eBQqjErGxu+e+x4sQ7A@public.gmane.org)
- .\" Added strof, strtold, aeb, 2001-06-07
- .\"
--.TH STRTOD 3 2010-09-20 "Linux" "Linux Programmer's Manual"
-+.TH STRTOD 3 2014-01-20 "Linux" "Linux Programmer's Manual"
- .SH NAME
- strtod, strtof, strtold \- convert ASCII string to floating-point number
- .SH SYNOPSIS
-@@ -157,6 +157,18 @@ is stored in
- .TP
- .B ERANGE
- Overflow or underflow occurred.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR strtod (),
-+.BR strtof (),
-+and
-+.BR strtold ()
-+functions are thread-safe with exceptions.
-+These functions can be safely used in multithreaded applications,
-+as long as
-+.BR setlocale (3)
-+is not called to change the locale.
- .SH CONFORMING TO
- C89 describes
- .BR strtod (),
--- 
-1.8.4.2
+Is this a bug? Man page for recvmsg says:
+     EFAULT The receive buffer pointer(s)  point  outside  the process's  address
+              space.
 
+this isn't very clear: does this mean "all pointers are invalid"
+or "some pointers are invalid"?
+Also, what if pointers themselves are valid but length
+makes us go outside the address space?
+
+I'm guessing the simplest way is to clarify in the man page that
+passing invalid pointers / lengths is not guaranteed
+to result in EFAULT and that Linux makes no guarantees
+about the returned length in this case.
+
+Cc linux-man in case they can suggest some insights on this.
+
+> If you perform some of the copy successfully, you have to report that
+> length rather than just an error.
+> 
+> Otherwise userland has no way to determine how much of the data was
+> successfully sourced.
+>
+> I'm not applying this, sorry.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
