@@ -1,32 +1,36 @@
-From: Thomas Posch <man-pages-rFD0ZvQNamoRTZDQkHJ3v7NAH6kLmebB@public.gmane.org>
-Subject: symlink(7) missing {to|of} in 'pathname another file' (3.56, man7.org)
-Date: Tue, 21 Jan 2014 13:43:12 +0100
-Message-ID: <1401161.fNpqManq3C@lt>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 69101] EFAULT is missing from the man-page for open system call
+ [open(2)]
+Date: Tue, 21 Jan 2014 13:48:42 +0000
+Message-ID: <bug-69101-11311-Nnml8iczd2@https.bugzilla.kernel.org/>
+References: <bug-69101-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-69101-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+https://bugzilla.kernel.org/show_bug.cgi?id=69101
 
-in section 'SYMBOLIC LINK HANDLING' of symlink(7) the first sentence of the 
-third paragraph reads:
-    A symbolic link is a special type of file whose contents are a string
-    that is the pathname another file, the file to which the link refers.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Is there a {to|of} missing in '... pathname another file, ...'?
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |INVALID
 
-Found in man-pages version 3.56 at man7.org.
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I think you've missed something. EFAULT is listed in open(1):
 
+http://man7.org/linux/man-pages/man2/open.2.html#ERRORS
 
-Thank you for your effort.
-
-
-Thomas Posch
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
