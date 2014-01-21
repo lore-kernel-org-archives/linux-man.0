@@ -1,40 +1,51 @@
-From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Subject: Re: [PATCH] open: Document O_TMPFILE
-Date: Mon, 20 Jan 2014 16:14:36 -0800
-Message-ID: <CALCETrUXKCZi0rPW7jLdH9fZ-cv3L1AaejGB=FmA3TFK3Y+NGA@mail.gmail.com>
-References: <3bec865ec3205e23c997ddc2c9bbacf0e53b0d18.1375896634.git.luto@amacapital.net>
- <52DD1BF5.6080502@gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread
+ safe with exceptions
+Date: Tue, 21 Jan 2014 11:08:22 +0800
+Message-ID: <52DDE4A6.5070405@cn.fujitsu.com>
+References: <1390205712-10266-1-git-send-email-penght@cn.fujitsu.com> <20140120122841.GC29966@aym.net2.nerim.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <52DD1BF5.6080502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20140120122841.GC29966-956IwFboN44acnK+F/IuxqxOck334EZe@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Jan 20, 2014 at 4:52 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 08/07/2013 07:31 PM, Andy Lutomirski wrote:
->> O_TMPFILE is new in Linux 3.11
->
-> Thanks, Andy. I've applied your patch. I also added the following
-> errors under ERRORS. Do they look okay to you?
->
->        EINVAL O_TMPFILE  was  specified in flags, but neither O_WRONLY
->               nor O_RDWR was specified.
->
->        EISDIR O_TMPFILE  and  one of O_WRONLY or O_RDWR were specified
->               in flags, but this kernel version does not  provide  the
->               O_TMPFILE functionality.
 
-I suspect that EISDIR only happens if the directory exists and is
-accessible (matching the flags).  Otherwise EACCES and ENOENT sound
-plausible.
+On 01/20/2014 08:28 PM, Andre Majorel wrote:
+>> +.BR strtold ()
+>> +functions are thread-safe with exceptions.
+>> +These functions can be safely used in multithreaded applications,
+>> +as long as
+>> +.BR setlocale (3)
+>> +is not called to change the locale.
+> 
 
-Sigh.  Why wasn't this implemented as a brand new syscall?
+The sentence is from the Oracle Solaris's manpages.
 
---Andy
+> Is the requirement that all threads be in the same locale ? Or
+> that the thread that calls strtod() not use setlocale() at all ?
+> Or maybe that setlocale() not be called by anyone after threads
+> are created ? Or even that setlocale() not be used AT ALL by the
+> process ?
+> 
+> It's not obvious to me which it is !
+> 
+> I think that a more specific wording would be useful.
+> 
+
+In a locale other than the standard "C" or "POSIX" locales, these function may
+recognize additional locale-dependent syntax.
+When these functions and setlocale() are simultaneously called in multithreaded applications,
+these functions will not be thread safe.
+
+
+-- 
+Best Regards,
+Peng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
