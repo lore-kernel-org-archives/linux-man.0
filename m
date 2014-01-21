@@ -1,65 +1,32 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread
- safe with exceptions
-Date: Tue, 21 Jan 2014 14:38:26 +0800
-Message-ID: <52DE15E2.2080607@cn.fujitsu.com>
-References: <1390205712-10266-1-git-send-email-penght@cn.fujitsu.com> <20140120122841.GC29966@aym.net2.nerim.net> <52DDE4A6.5070405@cn.fujitsu.com> <52DE1182.2030704@gmail.com>
+From: Thomas Posch <man-pages-rFD0ZvQNamoRTZDQkHJ3v7NAH6kLmebB@public.gmane.org>
+Subject: symlink(7) missing {to|of} in 'pathname another file' (3.56, man7.org)
+Date: Tue, 21 Jan 2014 13:43:12 +0100
+Message-ID: <1401161.fNpqManq3C@lt>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7Bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <52DE1182.2030704-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello,
 
-On 01/21/2014 02:19 PM, Michael Kerrisk (man-pages) wrote:
->>> Is the requirement that all threads be in the same locale ? Or
->>> that the thread that calls strtod() not use setlocale() at all ?
->>> Or maybe that setlocale() not be called by anyone after threads
->>> are created ? Or even that setlocale() not be used AT ALL by the
->>> process ?
->>>
->>> It's not obvious to me which it is !
->>>
->>> I think that a more specific wording would be useful.
->>>
->>
->> In a locale other than the standard "C" or "POSIX" locales, these function may
->> recognize additional locale-dependent syntax.
->> When these functions and setlocale() are simultaneously called in multithreaded applications,
->> these functions will not be thread safe.
-> 
-> Hello Haitao,
-> 
-> So, do you think maybe a more precise wording would be better in 
-> the man page?
-> 
+in section 'SYMBOLIC LINK HANDLING' of symlink(7) the first sentence of the 
+third paragraph reads:
+    A symbolic link is a special type of file whose contents are a string
+    that is the pathname another file, the file to which the link refers.
 
-Maybe added simultaneously is better?
+Is there a {to|of} missing in '... pathname another file, ...'?
 
-These functions can be safely used in multithreaded applications,
-as long as setlocale(3) is not called to change the locale.
-
-->
-
-These functions can be safely used in multithreaded applications,
-as long as setlocale(3) is not simultaneously called to change the locale.
+Found in man-pages version 3.56 at man7.org.
 
 
--- 
-Best Regards,
-Peng
+Thank you for your effort.
 
-> Thanks,
-> 
-> Michael
-> 
-> 
-> 
 
+Thomas Posch
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
