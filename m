@@ -1,73 +1,33 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread safe
- with exceptions
-Date: Wed, 22 Jan 2014 11:41:08 +0100
-Message-ID: <CAKgNAkhCPtc4edgFhmc+3m+j_8AxucNzG4TY79sSuK2Cq8kreA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 55141] need documentation for O_PATH
+Date: Wed, 22 Jan 2014 12:18:04 +0000
+Message-ID: <bug-55141-11311-3nxbRzgKjM@https.bugzilla.kernel.org/>
+References: <bug-55141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-55141-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao,
+https://bugzilla.kernel.org/show_bug.cgi?id=55141
 
-On Wed, Jan 22, 2014 at 9:57 AM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
->
-> On 01/22/2014 04:29 PM, Andre Majorel wrote:
->>>> If that is the case, how about :
->>>>
->>>>   These functions can be safely used in multithreaded
->>>>   applications, as long as the locale is not changed during
->>>>   their execution.
->>>
->>> The above sentence is OK, but I think added setlocale(3) is
->>> better, thanks.
->>>
->>> These functions can be safely used in multithreaded
->>> applications, as long as setlocale(3) is not called
->>> to change the locale during their execution.
->>
->> This wording can be interpreted to mean that calling setlocale()
->> *is* permitted as long as the locale doesn't change. If that is
->> really what you mean, then no further objections from me.
->
-> That is what I mean.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Can I just confirm what I understand from this conversation:
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
 
-* A call to strtod() is thread-safe so long as no other thread uses
-setlocale() to change the locale *during* the execution of strtod().
-* If a call to setlocale() changes the locale *before* a call to
-strtod(), then the call to strtod() is still thread safe.
-
-Correct?
-
-Thanks,
-
-Michael
-
-
-> --
-> Best Regards,
-> Peng
->
->> Otherwise, my recommendation would be
->>
->>   These functions can be safely used in multithreaded
->>   applications, as long as setlocale() is not called during
->>   their execution.
->>
->
-
-
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Documented since 3.53.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
