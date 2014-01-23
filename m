@@ -1,24 +1,26 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] core.5: Mention that %E exists since Linux 3.0
-Date: Thu, 23 Jan 2014 13:49:25 +0100
-Message-ID: <52E10FD5.6040606@gmail.com>
-References: <1390422790-5482-1-git-send-email-bernhard@bwalle.de>
+Subject: Re: [PATCH] strtoimax.3: ATTRIBUTES: Note functions that are thread
+ safe with exceptions
+Date: Thu, 23 Jan 2014 15:09:29 +0100
+Message-ID: <52E12299.5010706@gmail.com>
+References: <1390274614-5599-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1390422790-5482-1-git-send-email-bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <1390274614-5599-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/22/2014 09:33 PM, Bernhard Walle wrote:
-> '%E' in the 'core_pattern' has been introduced in kernel commit
-> 57cc083ad9e1bfeeb4a0ee831e7bb008c8865bf0 which was included in
-> version 3.0. Add that information to the manual page.
+On 01/21/2014 04:23 AM, Peng Haitao wrote:
+> The functions strtoimax() and strtoumax() are thread safe with
+> exceptions.
 
-Thanks, Bernhard. Applied.
+Thanks, Haitao.
+
+Applied.
 
 Cheers,
 
@@ -26,25 +28,42 @@ Michael
 
 
 
-> Signed-off-by: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man5/core.5 | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  man3/strtoimax.3 | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man5/core.5 b/man5/core.5
-> index 551f4a3..4855829 100644
-> --- a/man5/core.5
-> +++ b/man5/core.5
-> @@ -150,7 +150,8 @@ executable filename (without path prefix)
->  .TP
->  %E
->  pathname of executable,
-> -with slashes (\(aq/\(aq) replaced by exclamation marks (\(aq!\(aq).
-> +with slashes (\(aq/\(aq) replaced by exclamation marks (\(aq!\(aq)
-> +(since Linux 3.0).
->  .TP
->  %c
->  core file size soft resource limit of crashing process (since Linux 2.6.24)
+> diff --git a/man3/strtoimax.3 b/man3/strtoimax.3
+> index af71002..9706754 100644
+> --- a/man3/strtoimax.3
+> +++ b/man3/strtoimax.3
+> @@ -21,7 +21,7 @@
+>  .\" <http://www.gnu.org/licenses/>.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH STRTOIMAX 3 2003-11-28 "" "Linux Programmer's Manual"
+> +.TH STRTOIMAX 3 2014-01-21 "" "Linux Programmer's Manual"
+>  .SH NAME
+>  strtoimax, strtoumax \- convert string to integer
+>  .SH SYNOPSIS
+> @@ -55,6 +55,17 @@ is returned, and
+>  .I errno
+>  is set to
+>  .BR ERANGE .
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR strtoimax ()
+> +and
+> +.BR strtoumax ()
+> +functions are thread-safe with exceptions.
+> +These functions can be safely used in multithreaded applications,
+> +as long as
+> +.BR setlocale (3)
+> +is not called to change the locale.
+>  .SH CONFORMING TO
+>  C99, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
