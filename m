@@ -1,64 +1,57 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] strtod.3: ATTRIBUTES: Note functions that are thread
- safe with exceptions
-Date: Thu, 23 Jan 2014 08:07:56 +0800
-Message-ID: <52E05D5C.2090101@cn.fujitsu.com>
-References: <CAKgNAkhCPtc4edgFhmc+3m+j_8AxucNzG4TY79sSuK2Cq8kreA@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] core.5: Mention that %E exists since Linux 3.0
+Date: Thu, 23 Jan 2014 13:49:25 +0100
+Message-ID: <52E10FD5.6040606@gmail.com>
+References: <1390422790-5482-1-git-send-email-bernhard@bwalle.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhCPtc4edgFhmc+3m+j_8AxucNzG4TY79sSuK2Cq8kreA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1390422790-5482-1-git-send-email-bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Andre Majorel <aym-xunil-Bi/FLWfhfolQFI55V6+gNQ@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 01/22/2014 09:33 PM, Bernhard Walle wrote:
+> '%E' in the 'core_pattern' has been introduced in kernel commit
+> 57cc083ad9e1bfeeb4a0ee831e7bb008c8865bf0 which was included in
+> version 3.0. Add that information to the manual page.
 
-On 01/22/2014 06:41 PM, Michael Kerrisk (man-pages) wrote:
->>> This wording can be interpreted to mean that calling setlocale()
->>> *is* permitted as long as the locale doesn't change. If that is
->>> really what you mean, then no further objections from me.
->>
->> That is what I mean.
-> 
-> Can I just confirm what I understand from this conversation:
-> 
-> * A call to strtod() is thread-safe so long as no other thread uses
-> setlocale() to change the locale *during* the execution of strtod().
-> * If a call to setlocale() changes the locale *before* a call to
-> strtod(), then the call to strtod() is still thread safe.
-> 
-> Correct?
-> 
+Thanks, Bernhard. Applied.
 
-Yes, it is correct.
+Cheers,
+
+Michael
+
+
+
+> Signed-off-by: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
+> ---
+>  man5/core.5 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man5/core.5 b/man5/core.5
+> index 551f4a3..4855829 100644
+> --- a/man5/core.5
+> +++ b/man5/core.5
+> @@ -150,7 +150,8 @@ executable filename (without path prefix)
+>  .TP
+>  %E
+>  pathname of executable,
+> -with slashes (\(aq/\(aq) replaced by exclamation marks (\(aq!\(aq).
+> +with slashes (\(aq/\(aq) replaced by exclamation marks (\(aq!\(aq)
+> +(since Linux 3.0).
+>  .TP
+>  %c
+>  core file size soft resource limit of crashing process (since Linux 2.6.24)
+> 
 
 
 -- 
-Best Regards,
-Peng
-
-> Thanks,
-> 
-> Michael
-> 
-> 
->> --
->> Best Regards,
->> Peng
->>
->>> Otherwise, my recommendation would be
->>>
->>>   These functions can be safely used in multithreaded
->>>   applications, as long as setlocale() is not called during
->>>   their execution.
->>>
->>
-> 
-> 
-> 
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
