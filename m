@@ -1,74 +1,66 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strtol.3: ATTRIBUTES: Note functions that are thread
- safe with exceptions
-Date: Fri, 24 Jan 2014 10:30:04 +0100
-Message-ID: <52E2329C.1080804@gmail.com>
-References: <1390554955-27025-1-git-send-email-penght@cn.fujitsu.com>
+From: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH man-page] packet.7: document PACKET_QDISC_BYPASS
+Date: Sun, 26 Jan 2014 14:30:28 +0100
+Message-ID: <52E50DF4.2090907@redhat.com>
+References: <1386689485-18833-1-git-send-email-dborkman@redhat.com> <CAKgNAkiW5hnYZqUYQv_mWeGyVNgN+Edu5uViX2PxVwhrrGnOQg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1390554955-27025-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <CAKgNAkiW5hnYZqUYQv_mWeGyVNgN+Edu5uViX2PxVwhrrGnOQg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, brouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/24/2014 10:15 AM, Peng Haitao wrote:
-> The functions strtol(), strtoll() and strtoq() are thread safe
-> with exceptions.
+On 01/08/2014 12:34 AM, Michael Kerrisk (man-pages) wrote:
+> On Wed, Dec 11, 2013 at 4:31 AM, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>> Add a comment about PACKET_QDISC_BYPASS' socket option to the kernel.
+>
+> Daniel, could you ping me again when this goes into the mainline kernel?
 
-Thanks. Applied.
+Ping. ;)
 
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/strtol.3 | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/strtol.3 b/man3/strtol.3
-> index d314658..f6f0039 100644
-> --- a/man3/strtol.3
-> +++ b/man3/strtol.3
-> @@ -28,7 +28,7 @@
->  .\"     386BSD man pages
->  .\" Modified Sun Jul 25 10:53:39 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Added correction due to nsd-f+vT++N9z3k@public.gmane.org (Nick Duffek) - aeb, 950610
-> -.TH STRTOL 3  2013-02-10 "GNU" "Linux Programmer's Manual"
-> +.TH STRTOL 3  2014-01-24 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  strtol, strtoll, strtoq \- convert a string to a long integer
->  .SH SYNOPSIS
-> @@ -158,6 +158,18 @@ to
->  .B EINVAL
->  in case
->  no conversion was performed (no digits seen, and 0 returned).
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR strtol (),
-> +.BR strtoll (),
-> +and
-> +.BR strtoq ()
-> +functions are thread-safe with exceptions.
-> +These functions can be safely used in multithreaded applications,
-> +as long as
-> +.BR setlocale (3)
-> +is not called to change the locale during their execution.
->  .SH CONFORMING TO
->  .BR strtol ()
->  conforms to SVr4, 4.3BSD, C89, C99 and POSIX.1-2001, and
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> Cheers,
+>
+> Michael
+>
+>
+>> Signed-off-by: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>> ---
+>>   Michael, this patch is on top of Willem's resend for packet.7:
+>>   http://www.spinics.net/lists/linux-man/msg04576.html
+>>
+>>   Kernel part of this man page update:
+>>   https://git.kernel.org/cgit/linux/kernel/git/davem/net-next.git/commit/?id=d346a3fae3ff1d99f5d0c819bf86edf9094a26a1
+>>
+>>   Thanks!
+>>
+>>   man7/packet.7 | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/man7/packet.7 b/man7/packet.7
+>> index e0993d2..100f876 100644
+>> --- a/man7/packet.7
+>> +++ b/man7/packet.7
+>> @@ -426,6 +426,11 @@ creates a packet receive ring of variant
+>>   .BR TPACKET_V1 .
+>>   To create another variant, configure the desired variant by setting this
+>>   integer option before creating the ring.
+>> +.TP
+>> +.BR PACKET_QDISC_BYPASS " (since Linux 3.14)"
+>> +By default, packets sent through packet sockets pass through the kernel's
+>> +qdisc (traffic control) layer. This can be bypassed by setting this integer
+>> +option to one for usage scenarios similar to pktgen.
+>>
+>>   .SS Ioctls
+>>   .B SIOCGSTAMP
+>> --
+>> 1.8.3.1
+>>
+>
+>
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
