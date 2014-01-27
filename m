@@ -1,54 +1,39 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] isgreater.3: ATTRIBUTES: Note macros that are thread-safe
-Date: Mon, 27 Jan 2014 14:56:03 +0800
-Message-ID: <1390805763-28013-1-git-send-email-penght@cn.fujitsu.com>
+From: "Network Nut" <sillystack-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: FW: WaitForMultipleObjects/etc. In Kernel
+Date: Mon, 27 Jan 2014 15:21:08 -0600
+Message-ID: <00f001cf1ba5$b22f45b0$168dd110$@gmail.com>
+References: <00d901cf1a19$0ea62db0$2bf28910$@gmail.com> <52E554EC.3090900@ladisch.de> <012d01cf1ae3$6543e340$2fcba9c0$@gmail.com> <52E6219A.3020405@ladisch.de>
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <52E6219A.3020405-P6GI/4k7KOmELgA04lAiVw@public.gmane.org>
+Content-Language: en-us
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The macros isgreater(), isgreaterequal(), isless(),
-islessequal(), islessgreater() and isunordered() are thread safe.
+See below.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/isgreater.3 | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+-----Original Message-----
+From: Clemens Ladisch [mailto:clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org] 
+Sent: Monday, January 27, 2014 3:07 AM
+To: Network Nut
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Subject: Re: WaitForMultipleObjects/etc. In Kernel
 
-diff --git a/man3/isgreater.3 b/man3/isgreater.3
-index d241fde..fc761c1 100644
---- a/man3/isgreater.3
-+++ b/man3/isgreater.3
-@@ -7,7 +7,7 @@
- .\" 2002-07-27 Walter Harms
- .\" this was done with the help of the glibc manual
- .\"
--.TH ISGREATER 3  2012-05-06 "" "Linux Programmer's Manual"
-+.TH ISGREATER 3  2014-01-27 "" "Linux Programmer's Manual"
- .SH NAME
- isgreater, isgreaterequal, isless, islessequal, islessgreater,
- isunordered \- floating-point relational tests without exception for NaN
-@@ -122,6 +122,17 @@ or
- is NaN and 0 otherwise.
- .SH ERRORS
- No errors occur.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR isgreater (),
-+.BR isgreaterequal (),
-+.BR isless (),
-+.BR islessequal (),
-+.BR islessgreater (),
-+and
-+.BR isunordered ()
-+macros are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH NOTES
--- 
-1.8.4.2
+> BTW, the man page for epoll_wait seems to be incorrect.
+
+<https://www.kernel.org/doc/man-pages/reporting_bugs.html>
+
+> "The timeout argument specifies the minimum number of milliseconds
+>        that epoll_wait() will block."
+>
+> I think the word "minimum" should be "maximum".
+
+-Nut
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
