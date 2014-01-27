@@ -1,52 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Request review of CHOWN man page synopsis
-Date: Mon, 27 Jan 2014 07:34:22 +0100
-Message-ID: <CAKgNAkh4pok5XXVbZ4w59OwSUHS2DspqqZi+L8gfo-a5jek4-w@mail.gmail.com>
-References: <CABiEpeqJFEV6JEEMijViiW22NQtT=+V-wQ6hVVyxUG=D=3tpDw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] isgreater.3: ATTRIBUTES: Note macros that are thread-safe
+Date: Mon, 27 Jan 2014 14:56:03 +0800
+Message-ID: <1390805763-28013-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABiEpeqJFEV6JEEMijViiW22NQtT=+V-wQ6hVVyxUG=D=3tpDw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Anubhav Chaturvedi <mailforanubhav-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jan 25, 2014 at 2:33 PM, Anubhav Chaturvedi
-<mailforanubhav-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->
-> Hi
->
-> I was going through the man page ( on my Ubuntu 12.04 ) and noticed that in the synopsis, owner has been marked as optional ( i.e, it is enclosed in  [ ] ).
->
-> chown [OPTION]... [OWNER][:[GROUP]] FILE...
->
-> On browsing the man pages on web i noticed this was only the case with UNIX man page. Man pages at freeBSD and oracle showed the command usage as expected.
->
-> I believe the correct usage would be
->
-> chown [OPTION]... OWNER[:GROUP] FILE...
->
-> Please do the corrections necessary and inform me if i am making a mistake in interpreting this.
+The macros isgreater(), isgreaterequal(), isless(),
+islessequal(), islessgreater() and isunordered() are thread safe.
 
-Anubhav,
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/isgreater.3 | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-This page is not part of the man-pages project. See
-http://man7.org/linux/man-pages/man1/chown.1.html#COLOPHON
-
-But, I doubt that your report is correct. Read the text of the man page.
-
-Cheers,
-
-Michael
-
-
-
+diff --git a/man3/isgreater.3 b/man3/isgreater.3
+index d241fde..fc761c1 100644
+--- a/man3/isgreater.3
++++ b/man3/isgreater.3
+@@ -7,7 +7,7 @@
+ .\" 2002-07-27 Walter Harms
+ .\" this was done with the help of the glibc manual
+ .\"
+-.TH ISGREATER 3  2012-05-06 "" "Linux Programmer's Manual"
++.TH ISGREATER 3  2014-01-27 "" "Linux Programmer's Manual"
+ .SH NAME
+ isgreater, isgreaterequal, isless, islessequal, islessgreater,
+ isunordered \- floating-point relational tests without exception for NaN
+@@ -122,6 +122,17 @@ or
+ is NaN and 0 otherwise.
+ .SH ERRORS
+ No errors occur.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR isgreater (),
++.BR isgreaterequal (),
++.BR isless (),
++.BR islessequal (),
++.BR islessgreater (),
++and
++.BR isunordered ()
++macros are thread-safe.
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ .SH NOTES
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.8.4.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
