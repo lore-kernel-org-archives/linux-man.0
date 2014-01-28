@@ -1,38 +1,76 @@
-From: Neil Horman <nhorman@tuxdriver.com>
-Subject: [PATCH] socket: Add SO_RXQ_OVFL documentation
-Date: Tue, 28 Jan 2014 07:24:37 -0500
-Message-ID: <1390911877-5984-1-git-send-email-nhorman@tuxdriver.com>
-Return-path: <netdev-owner@vger.kernel.org>
-Sender: netdev-owner@vger.kernel.org
-To: linux-man@vger.kernel.org
-Cc: Neil Horman <nhorman@tuxdriver.com>, mtk.manpages@gmail.com, andi@firstfloor.org, netdev@vger.kernel.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH man-page] packet.7: document PACKET_QDISC_BYPASS
+Date: Tue, 28 Jan 2014 15:24:45 +0100
+Message-ID: <52E7BDAD.7010005@gmail.com>
+References: <1386689485-18833-1-git-send-email-dborkman@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1386689485-18833-1-git-send-email-dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, brouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Add documentation for the SO_RXQ_OVFL socket option
+Daniel,
 
-Signed-off-by: Neil Horman <nhorman@tuxdriver.com>
-CC: mtk.manpages@gmail.com
-CC: andi@firstfloor.org
-CC: netdev@vger.kernel.org
----
- man7/socket.7 | 5 +++++
- 1 file changed, 5 insertions(+)
+I've applied this patch. I have a question below.
 
-diff --git a/man7/socket.7 b/man7/socket.7
-index 6b229dd..aa0aad9 100644
---- a/man7/socket.7
-+++ b/man7/socket.7
-@@ -663,6 +663,11 @@ with a specific port then it is not possible
- to bind to this port for any local address.
- Argument is an integer boolean flag.
- .TP
-+.B SO_RXQ_OVFL
-+Indicates that an unsigned 32 bit value ancilliary msg (cmsg) should be attached
-+to recieved skbs indicating the number of packets dropped by the socket between
-+the last recieved packet and this received packet
-+.TP
- .B SO_SNDBUF
- Sets or gets the maximum socket send buffer in bytes.
- The kernel doubles this value (to allow space for bookkeeping overhead)
+On 12/10/2013 04:31 PM, Daniel Borkmann wrote:
+> Add a comment about PACKET_QDISC_BYPASS' socket option to the kernel.
+> 
+> Signed-off-by: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  Michael, this patch is on top of Willem's resend for packet.7:
+>  http://www.spinics.net/lists/linux-man/msg04576.html
+> 
+>  Kernel part of this man page update:
+>  https://git.kernel.org/cgit/linux/kernel/git/davem/net-next.git/commit/?id=d346a3fae3ff1d99f5d0c819bf86edf9094a26a1
+> 
+>  Thanks!
+> 
+>  man7/packet.7 | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index e0993d2..100f876 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -426,6 +426,11 @@ creates a packet receive ring of variant
+>  .BR TPACKET_V1 .
+>  To create another variant, configure the desired variant by setting this
+>  integer option before creating the ring.
+> +.TP
+> +.BR PACKET_QDISC_BYPASS " (since Linux 3.14)"
+> +By default, packets sent through packet sockets pass through the kernel's
+> +qdisc (traffic control) layer. This can be bypassed by setting this integer
+> +option to one for usage scenarios similar to pktgen.
+
+This last sentence is a little unclear. Would it be better as:
+
+This can be bypassed by setting this integer
+option to one; this is useful for usage scenarios similar to pktgen.
+
+Or something like that. Also, can you elaborate a little on what 
+pktgen is please.
+
+Thanks,
+
+Michael
+
+
+  
+>  .SS Ioctls
+>  .B SIOCGSTAMP
+> 
+
+
 -- 
-1.8.3.1
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
