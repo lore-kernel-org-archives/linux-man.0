@@ -1,69 +1,50 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH 1/2] man-pages.7: pfix
-Date: Mon, 27 Jan 2014 18:53:07 -0400
-Message-ID: <1390863188-8704-1-git-send-email-taffit@debian.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] iswalnum.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Tue, 28 Jan 2014 15:19:15 +0800
+Message-ID: <1390893555-873-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man7/man-pages.7 | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+The function iswalnum() is thread safe with exceptions.
 
-diff --git a/man7/man-pages.7 b/man7/man-pages.7
-index 3fa232d..5430297 100644
---- a/man7/man-pages.7
-+++ b/man7/man-pages.7
-@@ -621,7 +621,7 @@ system port
- T}
- real-time	T{
- realtime,
--real-time
-+real time
- T}
- run time	runtime
- saved set-group-ID	T{
-@@ -646,7 +646,8 @@ username	user name
- zeros	zeroes
- .TE
- .ad
--.PP See also the discussion
-+.PP
-+See also the discussion
- .IR "Hyphenation of attributive compounds"
- below.
- .SS Terms to avoid
-@@ -744,7 +745,7 @@ Em-dashes should be written
- surrounding spaces.
- .SS Hyphenation of attributive compounds
- Compound terms should be hyphenated when used attributively
--(i.e., to qualify a following noun) Some examples:
-+(i.e., to qualify a following noun). Some examples:
- 
-     32-bit value
-     command-line argument
-@@ -795,7 +796,7 @@ and the former is probably what you want.
- Where a real minus character is required (e.g., for numbers such as \-1,
- or when writing options that have a leading dash, such as in
- .IR "ls\ \-l"),
--use the following form in the man page source
-+use the following form in the man page source:
- 
-     \\-
- 
-@@ -841,7 +842,7 @@ Example programs should be laid out according to Kernighan and
- Ritchie style, with 4-space indents.
- (Avoid the use of TAB characters in source code!)
- .IP *
--For consistency, all example programs should terminate using either of;
-+For consistency, all example programs should terminate using either of:
- 
-      exit(EXIT_SUCCESS);
-      exit(EXIT_FAILURE);
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/iswalnum.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/man3/iswalnum.3 b/man3/iswalnum.3
+index 89e98a2..aa7d069 100644
+--- a/man3/iswalnum.3
++++ b/man3/iswalnum.3
+@@ -13,7 +13,7 @@
+ .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+ .\"   ISO/IEC 9899:1999
+ .\"
+-.TH ISWALNUM 3  1999-07-25 "GNU" "Linux Programmer's Manual"
++.TH ISWALNUM 3  2014-01-28 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ iswalnum \- test for alphanumeric wide character
+ .SH SYNOPSIS
+@@ -63,6 +63,14 @@ if
+ is a wide character
+ belonging to the wide-character class "alnum".
+ Otherwise it returns zero.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR iswalnum ()
++function is thread-safe with exceptions.
++It can be safely used in multithreaded applications, as long as
++.BR setlocale (3)
++is not called to change the locale during its execution.
+ .SH CONFORMING TO
+ C99.
+ .SH NOTES
 -- 
-1.8.5.3
+1.8.4.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
