@@ -1,65 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] iswalpha.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Wed, 29 Jan 2014 11:31:08 +0100
-Message-ID: <52E8D86C.4020303@gmail.com>
-References: <1390896827-24225-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: FW: WaitForMultipleObjects/etc. In Kernel
+Date: Wed, 29 Jan 2014 11:40:00 +0100
+Message-ID: <52E8DA80.7080204@gmail.com>
+References: <00d901cf1a19$0ea62db0$2bf28910$@gmail.com> <52E554EC.3090900@ladisch.de> <012d01cf1ae3$6543e340$2fcba9c0$@gmail.com> <52E6219A.3020405@ladisch.de> <00f001cf1ba5$b22f45b0$168dd110$@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1390896827-24225-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <00f001cf1ba5$b22f45b0$168dd110$@gmail.com>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Network Nut <sillystack-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+On 01/27/2014 10:21 PM, Network Nut wrote:
+> See below.
+> 
+> -----Original Message-----
+> From: Clemens Ladisch [mailto:clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org] 
+> Sent: Monday, January 27, 2014 3:07 AM
+> To: Network Nut
+> Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> Subject: Re: WaitForMultipleObjects/etc. In Kernel
+> 
+>> BTW, the man page for epoll_wait seems to be incorrect.
+> 
+> <https://www.kernel.org/doc/man-pages/reporting_bugs.html>
+> 
+>> "The timeout argument specifies the minimum number of milliseconds
+>>        that epoll_wait() will block."
+>>
+>> I think the word "minimum" should be "maximum".
 
-Cheers
+I've removed the word "minimum" from the sentence. Note that 
+"maximum" would not be correct. See the surrounding text for an
+explanation of why.
+
+Thanks for the report.
+
+Cheers,
 
 Michael
-
-
-
-On 01/28/2014 09:13 AM, Peng Haitao wrote:
-> The function iswalpha() is thread safe with exceptions.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/iswalpha.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/iswalpha.3 b/man3/iswalpha.3
-> index fc2ef28..da16870 100644
-> --- a/man3/iswalpha.3
-> +++ b/man3/iswalpha.3
-> @@ -13,7 +13,7 @@
->  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
->  .\"   ISO/IEC 9899:1999
->  .\"
-> -.TH ISWALPHA 3  1999-07-25 "GNU" "Linux Programmer's Manual"
-> +.TH ISWALPHA 3  2014-01-28 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  iswalpha \- test for alphabetic wide character
->  .SH SYNOPSIS
-> @@ -67,6 +67,14 @@ if
->  is a wide character
->  belonging to the wide-character class "alpha".
->  Otherwise it returns zero.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR iswalpha ()
-> +function is thread-safe with exceptions.
-> +It can be safely used in multithreaded applications, as long as
-> +.BR setlocale (3)
-> +is not called to change the locale during its execution.
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
-> 
-
 
 -- 
 Michael Kerrisk
