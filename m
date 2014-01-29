@@ -1,48 +1,66 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] proc.5: American spelling
-Date: Wed, 29 Jan 2014 11:07:07 +0100
-Message-ID: <52E8D2CB.2060102@gmail.com>
-References: <1390863188-8704-1-git-send-email-taffit@debian.org> <1390863188-8704-2-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] iswalnum.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Wed, 29 Jan 2014 11:30:52 +0100
+Message-ID: <52E8D85C.3010501@gmail.com>
+References: <1390893555-873-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1390863188-8704-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1390893555-873-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Good catch!
+Thanks, Haitao. Applied.
 
-Patch applied.
-
-Cheers,
+Cheers
 
 Michael
 
-On 01/27/2014 11:53 PM, David Pr=E9vot wrote:
+
+On 01/28/2014 08:19 AM, Peng Haitao wrote:
+> The function iswalnum() is thread safe with exceptions.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 3acf867..4607a45 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -3264,7 +3264,7 @@ Possible values in this file are:
->            8 - enable debugging dumps of processes etc.
->           16 - enable sync command
->           32 - enable remount read-only
-> -         64 - enable signalling of processes (term, kill, oom-kill)
-> +         64 - enable signaling of processes (term, kill, oom-kill)
->          128 - allow reboot/poweroff
->          256 - allow nicing of all real-time tasks
-> =20
->=20
+>  man3/iswalnum.3 | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/iswalnum.3 b/man3/iswalnum.3
+> index 89e98a2..aa7d069 100644
+> --- a/man3/iswalnum.3
+> +++ b/man3/iswalnum.3
+> @@ -13,7 +13,7 @@
+>  .\"   OpenGroup's Single UNIX specification http://www.UNIX-systems.org/online.html
+>  .\"   ISO/IEC 9899:1999
+>  .\"
+> -.TH ISWALNUM 3  1999-07-25 "GNU" "Linux Programmer's Manual"
+> +.TH ISWALNUM 3  2014-01-28 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+>  iswalnum \- test for alphanumeric wide character
+>  .SH SYNOPSIS
+> @@ -63,6 +63,14 @@ if
+>  is a wide character
+>  belonging to the wide-character class "alnum".
+>  Otherwise it returns zero.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR iswalnum ()
+> +function is thread-safe with exceptions.
+> +It can be safely used in multithreaded applications, as long as
+> +.BR setlocale (3)
+> +is not called to change the locale during its execution.
+>  .SH CONFORMING TO
+>  C99.
+>  .SH NOTES
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
