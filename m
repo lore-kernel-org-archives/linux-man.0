@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] packet.7: ffix
-Date: Sat, 01 Feb 2014 07:44:33 +0100
-Message-ID: <52EC97D1.9090301@gmail.com>
-References: <1391098082-22061-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH 1/2] vdso.7: repetition fix
+Date: Sat, 01 Feb 2014 07:46:01 +0100
+Message-ID: <52EC9829.30804@gmail.com>
+References: <1391223052-20777-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1391098082-22061-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1391223052-20777-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,37 +20,35 @@ Cheers,
 Michael
 
 
-On 01/30/2014 05:08 PM, David Pr=E9vot wrote:
+On 02/01/2014 03:50 AM, David Pr=E9vot wrote:
 > ---
->  man7/packet.7 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man7/vdso.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/man7/packet.7 b/man7/packet.7
-> index 3d06fb2..ed15631 100644
-> --- a/man7/packet.7
-> +++ b/man7/packet.7
-> @@ -327,8 +327,8 @@ Create a memory-mapped ring buffer for asynchrono=
-us packet reception.
->  The packet socket reserves a contiguous region of application addres=
-s
->  space, lays it out into an array of packet slots and copies packets
->  (up to
-> -.IR tp_snaplen
-> -) into subsequent slots.
-> +.IR tp_snaplen )
-> +into subsequent slots.
->  Each packet is preceded by a metadata structure similar to
->  .IR tpacket_auxdata .
->  The protocol fields encode the offset to the data
-> @@ -409,7 +409,7 @@ fields of this call are ignored.
->  If an address is passed using
->  .BR sendto (2)
->  or
-> -.BR sendmsg (2) ,
-> +.BR sendmsg (2),
->  then that overrides the socket default.
->  On successful transmission, the socket resets the slot to
->  .BR TP_STATUS_AVAILABLE .
+> diff --git a/man7/vdso.7 b/man7/vdso.7
+> index 7251561..986cb2c 100644
+> --- a/man7/vdso.7
+> +++ b/man7/vdso.7
+> @@ -32,7 +32,7 @@ There are some system calls the kernel provides tha=
+t
+>  user-space code ends up using frequently,
+>  to the point that such calls can dominate overall performance.
+>  This is due both to the frequency of the call as well as the
+> -context-switch overhead that results from
+> +context-switch overhead that results
+>  from exiting user space and entering the kernel.
+> =20
+>  The rest of this documentation is geared toward the curious and/or
+> @@ -135,7 +135,7 @@ You will frequently find it under the architectur=
+e-specific directory:
+>      find arch/$ARCH/ -name '*vdso*.so*' -o -name '*gate*.so*'
+> =20
+>  .SS vDSO names
+> -The name of vDSO shared object varies across architectures.
+> +The name of vDSO varies across architectures.
+>  It will often show up in things like glibc's
+>  .BR ldd (1)
+>  output.
 >=20
 
 
