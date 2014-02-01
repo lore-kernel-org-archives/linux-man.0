@@ -1,7 +1,7 @@
 From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] proc.5: tfix
-Date: Sat,  1 Feb 2014 14:22:45 -0400
-Message-ID: <1391278965-26411-1-git-send-email-taffit@debian.org>
+Subject: [PATCH 1/2] perf_event_open.2: cfix
+Date: Sat,  1 Feb 2014 16:24:49 -0400
+Message-ID: <1391286290-24188-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -9,31 +9,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A
 List-Id: linux-man@vger.kernel.org
 
 ---
- man5/proc.5 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man2/perf_event_open.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index 4607a45..ca976c4 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -1496,7 +1496,7 @@ is set at kernel compilation time.
- .\" commit 5ed67f05f66c41e39880a6d61358438a25f9fee5
- .\" commit 48f6a7a511ef8823fdff39afee0320092d43a8a0
- A list of the POSIX timers for this process.
--Each timer is listed with a line that starets with the string "ID:".
-+Each timer is listed with a line that starts with the string "ID:".
- For example:
- 
- .in +4n
-@@ -1548,7 +1548,7 @@ a signal if the timer delivers notifications via a signal.
- This field identifies the clock that the timer uses for measuring time.
- For most clocks, this is a number that matches one of the user-space
- .BR CLOCK_*
--constants dexposed via
-+constants exposed via
- .IR <time.h> .
- .B CLOCK_PROCESS_CPUTIME_ID
- timers display with a value of -6
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index eaeb9c0..3f40fad 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2052,7 +2052,7 @@ Synchronous abort (related to the reported instruction).
+ Asynchronous abort (not related to the reported instruction).
+ .TP
+ .B PERF_TXN_RETRY
+-retryable abort (retrying the transaction may have succeeded).
++Retryable abort (retrying the transaction may have succeeded).
+ .TP
+ .B PERF_TXN_CONFLICT
+ Abort due to memory conflicts with other threads.
 -- 
 1.9.rc1
 
