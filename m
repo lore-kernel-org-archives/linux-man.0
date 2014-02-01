@@ -1,131 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: FW: WaitForMultipleObjects/etc. In Kernel
-Date: Fri, 31 Jan 2014 07:56:52 +0100
-Message-ID: <52EB4934.7070103@gmail.com>
-References: <00d901cf1a19$0ea62db0$2bf28910$@gmail.com> <52E554EC.3090900@ladisch.de> <012d01cf1ae3$6543e340$2fcba9c0$@gmail.com> <52E6219A.3020405@ladisch.de> <00f001cf1ba5$b22f45b0$168dd110$@gmail.com> <52E8DA80.7080204@gmail.com> <007c01cf1df6$7ccbe010$7663a030$@gmail.com>
+Subject: Re: [PATCH] packet.7: ffix
+Date: Sat, 01 Feb 2014 07:44:33 +0100
+Message-ID: <52EC97D1.9090301@gmail.com>
+References: <1391098082-22061-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <007c01cf1df6$7ccbe010$7663a030$@gmail.com>
+In-Reply-To: <1391098082-22061-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Network Nut <sillystack-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/30/2014 09:04 PM, Network Nut wrote:
->> -----Original Message-----
->> From: Michael Kerrisk (man-pages) [mailto:mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
->> Sent: Wednesday, January 29, 2014 4:40 AM
->> To: Network Nut
->> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org; linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> Subject: Re: FW: WaitForMultipleObjects/etc. In Kernel
->>
->> On 01/27/2014 10:21 PM, Network Nut wrote:
->>> See below.
->>>
->>> -----Original Message-----
->>> From: Clemens Ladisch [mailto:clemens-P6GI/4k7KOmELgA04lAiVw@public.gmane.org]
->>> Sent: Monday, January 27, 2014 3:07 AM
->>> To: Network Nut
->>> Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->>> Subject: Re: WaitForMultipleObjects/etc. In Kernel
->>>
->>>> BTW, the man page for epoll_wait seems to be incorrect.
->>>
->>> <https://www.kernel.org/doc/man-pages/reporting_bugs.html>
->>>
->>>> "The timeout argument specifies the minimum number of milliseconds
->>>>        that epoll_wait() will block."
->>>>
->>>> I think the word "minimum" should be "maximum".
->>
->> I've removed the word "minimum" from the sentence. Note that
->> "maximum" would not be correct. See the surrounding text for an
->> explanation of why.
->>
->> Thanks for the report.
->>
->> Cheers,
->>
->> Michael
-> 
-> Hi Michael,
-> 
-> I re-read the sentence with the word "minimum" being removed. It makes sense
-> now, at least for those of us who already understand how it should work
-> [WaitForMultipleObjects]. But I wonder....Imagine a programmer who is
-> relatively new to synchronization, just discovering the power of waiting for
-> multiple fd's. Reading that statement, s/he might be inclined to believe
-> that the function really will wait, say, 1000 milliseconds, without regard
-> for signaling state of any of the fd's that might transition during the call
-> to epoll_wait. The reason would be that s/he has no reason to believe
-> otherwise, as that is what the man page says. By contrast, those of us who
-> already know the nature of this function would not be confused because we
-> would think, "Ok, I know that epoll_wait will not actually wait 1000 ms in
-> all cases, but ..." 
-> 
-> Not trying to teach the teacher here. :) Just saying'. [Yes, it's a
-> nit-pick.]
-
-Fair enough. You're not the fist to comment on this. It seems that more detailed
-language would be helpful. I've reworked the text here to read:
-
-       The  timeout argument specifies the number of milliseconds that
-       epoll_wait() will block.  The call will block until either:
-
-       *  a file descriptor delivers an event;
-
-       *  the call is interrupted by a signal handler; or
-
-       *  the timout expires.
-
-       Note that the timeout interval will be rounded up to the system
-       clock  granularity,  and kernel scheduling delays mean that the
-       blocking interval may overrun by a small amount.  Specifying  a
-       timeout  of -1 causes epoll_wait() to block indefinitely, while
-       specifying a timeout equal to zero cause epoll_wait() to return
-       immediately, even if no events are available.
-
-I've also made similar changes in select(2) and poll(2).
-
-> Since we are on the subject, I also believe that the man page for epoll_wait
-> should state whether sequence of the signaled fd's is guaranteed to be
-> correlated to the order in which they were specified.
-
-There is not such a guarantee, as far as I know.
-
-> As you know, there are
-> many situations where programmer might want to wait on, say, eventfd that
-> says that thread should exit, plus four other semaphores, etc. If the four
-> other semaphores guard queues that are, in general, never empty, then on
-> each loop, the semaphores will be triggered. If then, on one of the loops,
-> the eventfd for "exit" is triggered, there is no guarantee, according to the
-> man page, that the "exit" eventfd will be returned in the triggered-set. It
-> would seem natural that, if the "exit" eventfd is added to the first
-> position with epoll_ctl, then of any trigger-set where "exit" eventfd is
-> set, that "exit" eventfd ~must~ be included as a matter of explicit
-> prioritization. Guaranteeing a correlation between specified order in
-> epoll_ctrl and yielded order in epoll_wait would allow the programmer to
-> specify maxevents=1 to epoll_wait, at which point, the "exit" eventfd, if
-> triggered, would preempt any of the semaphores.
-> 
-> Or...maybe I am missing something else?
-
-The only guarantee that I know of is that if multiple FDs a ready and 
-epoll_wait() requests fewer events than there are FDs ready, then
-successive calls will cycle though the list of ready FDs. This helps avoid
-starvation.
+Thanks, David. Applied.
 
 Cheers,
 
 Michael
-> -Nut
-> 
-> 
 
 
--- 
+On 01/30/2014 05:08 PM, David Pr=E9vot wrote:
+> ---
+>  man7/packet.7 | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index 3d06fb2..ed15631 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -327,8 +327,8 @@ Create a memory-mapped ring buffer for asynchrono=
+us packet reception.
+>  The packet socket reserves a contiguous region of application addres=
+s
+>  space, lays it out into an array of packet slots and copies packets
+>  (up to
+> -.IR tp_snaplen
+> -) into subsequent slots.
+> +.IR tp_snaplen )
+> +into subsequent slots.
+>  Each packet is preceded by a metadata structure similar to
+>  .IR tpacket_auxdata .
+>  The protocol fields encode the offset to the data
+> @@ -409,7 +409,7 @@ fields of this call are ignored.
+>  If an address is passed using
+>  .BR sendto (2)
+>  or
+> -.BR sendmsg (2) ,
+> +.BR sendmsg (2),
+>  then that overrides the socket default.
+>  On successful transmission, the socket resets the slot to
+>  .BR TP_STATUS_AVAILABLE .
+>=20
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
