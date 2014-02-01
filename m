@@ -1,47 +1,33 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] packet.7: ffix
-Date: Sat, 01 Feb 2014 07:44:51 +0100
-Message-ID: <52EC97E3.8080608@gmail.com>
-References: <1391098082-22061-1-git-send-email-taffit@debian.org> <1391121980-11427-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH 1/2] vdso.7: repetition fix
+Date: Sat, 01 Feb 2014 07:47:10 +0100
+Message-ID: <52EC986E.6060506@gmail.com>
+References: <1391223052-20777-1-git-send-email-taffit@debian.org> <7290498.qltc9ZkTOO@vapier>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1391121980-11427-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <7290498.qltc9ZkTOO@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, David. Applied.
+On 02/01/2014 04:23 AM, Mike Frysinger wrote:
+> On Friday, January 31, 2014 22:50:51 David Pr=E9vot wrote:
+>>  .SS vDSO names
+>> -The name of vDSO shared object varies across architectures.
+>> +The name of vDSO varies across architectures.
+>=20
+> probably should be "the vDSO" or "The vDSO name"
+> -mike
+>=20
+
+Yup. Fixed. Thanks, Mike.
 
 Cheers,
 
 Michael
-
-
-On 01/30/2014 11:46 PM, David Pr=E9vot wrote:
-> ---
->  man7/packet.7 | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/man7/packet.7 b/man7/packet.7
-> index ed15631..1d3f222 100644
-> --- a/man7/packet.7
-> +++ b/man7/packet.7
-> @@ -107,7 +107,9 @@ flag is passed to
->  the real length of the packet on the wire is always returned,
->  even when it is longer than the buffer.
->  .SS Address types
-> -The sockaddr_ll is a device independent physical layer address.
-> +The
-> +.I sockaddr_ll
-> +is a device independent physical layer address.
-> =20
->  .in +4n
->  .nf
->=20
-
 
 --=20
 Michael Kerrisk
