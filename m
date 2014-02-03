@@ -1,50 +1,81 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH 1/2] netdevice.7: ffix
-Date: Sat,  1 Feb 2014 18:37:36 -0400
-Message-ID: <1391294257-25320-1-git-send-email-taffit@debian.org>
+From: "Network Nut" <sillystack-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: epoll_wait() - Honor Order of Specification of fds to epoll_ctl()
+Date: Sun, 2 Feb 2014 22:52:52 -0600
+Message-ID: <000301cf209b$cbf95ad0$63ec1070$@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Language: en-us
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: "'Michael Kerrisk (man-pages)'" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+> -----Original Message-----
+> From: Michael Kerrisk (man-pages) [mailto:mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org]
+> 
+> > Since we are on the subject, I also believe that the man page for
+epoll_wait
+> > should state whether sequence of the signaled fd's is guaranteed to be
+> > correlated to the order in which they were specified.
+> 
+> There is not such a guarantee, as far as I know.
+> 
+> > As you know, there are
+> > many situations where programmer might want to wait on, say, eventfd
+> that
+> > says that thread should exit, plus four other semaphores, etc. If the
+four
+> > other semaphores guard queues that are, in general, never empty, then on
+> > each loop, the semaphores will be triggered. If then, on one of the
+loops,
+> > the eventfd for "exit" is triggered, there is no guarantee, according to
+the
+> > man page, that the "exit" eventfd will be returned in the triggered-set.
+It
+> > would seem natural that, if the "exit" eventfd is added to the first
+> > position with epoll_ctl, then of any trigger-set where "exit" eventfd is
+> > set, that "exit" eventfd ~must~ be included as a matter of explicit
+> > prioritization. Guaranteeing a correlation between specified order in
+> > epoll_ctrl and yielded order in epoll_wait would allow the programmer to
+> > specify maxevents=1 to epoll_wait, at which point, the "exit" eventfd,
+if
+> > triggered, would preempt any of the semaphores.
+> >
+> > Or...maybe I am missing something else?
+> 
+> The only guarantee that I know of is that if multiple FDs a ready and
+> epoll_wait() requests fewer events than there are FDs ready, then
+> successive calls will cycle though the list of ready FDs. This helps avoid
+> starvation.
 
-I=E2=80=99m not totally sure for this one, but it seems to fit the usua=
-l usage,
-even if man-pages(7) =E2=80=94=C2=A0Font conventions=C2=A0=E2=80=94 sug=
-gests to rather use
-something like:
+I am starting a new thread since my last question was answered sufficiently
+to get my work done.
 
-	.BI "sizeof(struct " ifreq )
+I believe that epoll_wait should guarantee that it will yield the triggered
+fd's in the order in which they were specified to epoll_ctl. 
 
-Regards
+Just yesterday, I had a situation where I needed this guarantee. I had four
+queues that are annotated with semaphores. I intended to use epoll_wait to
+wait on the semaphores, in addition to several other fd's. When my thread
+unblocks, I need two of the semaphores to take priority over the other two.
+Normally, I would specify those two fd's first in my array to epoll_ctl.
 
-David
----
- man7/netdevice.7 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+As is known, WaitForMultipleObjects, under Windows, yields  only 1 fd per
+invocation, and that fd is the first fd in the array that was specified to
+WaitForMultipleObjects that has become triggered. This gives the programmer
+a convenient to specifying arbitration (prioritizations) among
+simultaneously triggered fd's. 
 
-diff --git a/man7/netdevice.7 b/man7/netdevice.7
-index ff2ac82..c1cb8a2 100644
---- a/man7/netdevice.7
-+++ b/man7/netdevice.7
-@@ -309,8 +309,8 @@ with
- .I ifc_req
- set to NULL, or to retry the call with a bigger buffer whenever
- .I ifc_len
--upon return differs by less than sizeof(struct
--.IR ifreq )
-+upon return differs by less than
-+.I sizeof(struct ifreq)
- from its original value.
-=20
- If an error occurs accessing the
---=20
-1.9.rc1
+With epoll_wait, if say, 4 fd's are triggered, without a guarantee to honor
+order-of-specification, the programmer would effectively have to sort the
+triggered fd's in the order that makes sense for his/her application to
+determine if one or more "critical" fd's have been triggered.
+
+-Nut
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
