@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] small improvement for tcp.7
-Date: Tue, 04 Feb 2014 09:57:17 +0100
-Message-ID: <52F0AB6D.9090909@gmail.com>
+Date: Tue, 04 Feb 2014 09:26:40 +0100
+Message-ID: <52F0A440.8060500@gmail.com>
 References: <20140201182520.5c3ac952@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -13,7 +13,21 @@ To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied.
+Applied. Thanks.
+
+A request for the future: please title patches as per this form
+
+[[atch] <page-name>: description
+
+For example:
+
+[patch] shmop.2: Add "(void *)" cast to RETURN VALUE
+
+For simple patches that fix typos, just make the description "tfix".
+
+Thus, the subject line for this patch would best be:
+
+[patch] tcp.7: tfix
 
 Thanks,
 
