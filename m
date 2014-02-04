@@ -1,44 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] small improvement for fallocate.2
-Date: Tue, 04 Feb 2014 10:09:35 +0100
-Message-ID: <52F0AE4F.3020708@gmail.com>
-References: <20140201181050.1f23f443@keeper.home.local>
+Subject: Re: [Patch] pthread_kill.3: Inclusion of pthread.h instead of signal.h
+Date: Tue, 04 Feb 2014 10:11:22 +0100
+Message-ID: <52F0AEBA.6030306@gmail.com>
+References: <CABAco3C=C0E7Wzav04wAy6b0r4egGF2QXfY-ZaaVWyoMkPCWtA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140201181050.1f23f443-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <CABAco3C=C0E7Wzav04wAy6b0r4egGF2QXfY-ZaaVWyoMkPCWtA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: Ola Olsson <ola1olsson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied.
+On 02/04/2014 12:10 AM, Ola Olsson wrote:
+> *Describe how you obtained the information in your patch: *Compiled m=
+y multithreaded program with gcc 4.6.3 with information described in th=
+e man page for pthread_kill. Got following error:
+> warning: implicit declaration of function =E2=80=98pthread_kill=E2=80=
+=99 [-Wimplicit-function-declaration]
+>=20
+> *Solution:* Including pthread.h instead solved the problem
+>=20
+> Patch applies on top of a896b3533684072d09932a20a8fd0d1057feb336
 
-Thanks,
+Thanks, Ola.
+
+Patch applied.
+
+Cheers,
 
 Michael
 
-On 02/01/2014 03:10 PM, Yuri Kozlov wrote:
-> Hello.
-> 
-> diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> index 2afd0e8..39e1fcd 100644
-> --- a/man2/fallocate.2
-> +++ b/man2/fallocate.2
-> @@ -56,7 +56,7 @@ is greater than the file size.
->  Any subregion within the range specified by
->  .I offset
->  and
-> -.IR len .
-> +.IR len ,
->  that did not contain data before the call will be initialized to zero.
->  This default behavior closely resembles the behavior of the
->  .BR posix_fallocate (3)
-> 
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
