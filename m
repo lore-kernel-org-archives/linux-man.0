@@ -1,48 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] tcp.7: tfix
-Date: Tue, 04 Feb 2014 10:05:07 +0100
-Message-ID: <52F0AD43.3040001@gmail.com>
-References: <1391294257-25320-1-git-send-email-taffit@debian.org> <1391294257-25320-2-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] small improvement for proc.5
+Date: Tue, 04 Feb 2014 10:08:20 +0100
+Message-ID: <52F0AE04.30406@gmail.com>
+References: <20140201212636.2866547c@keeper.home.local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1391294257-25320-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <20140201212636.2866547c-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks, David.
+Applied.
 
-Cheers,
+On 02/01/2014 06:26 PM, Yuri Kozlov wrote:
+> Hello.
+> 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 3acf867..43b6925 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -1496,7 +1496,7 @@ is set at kernel compilation time.
+>  .\" commit 5ed67f05f66c41e39880a6d61358438a25f9fee5
+>  .\" commit 48f6a7a511ef8823fdff39afee0320092d43a8a0
+>  A list of the POSIX timers for this process.
+> -Each timer is listed with a line that starets with the string "ID:".
+> +Each timer is listed with a line that started with the string "ID:".
+>  For example:
+> 
+>  .in +4n
+> @@ -1548,7 +1548,7 @@ a signal if the timer delivers notifications via a signal.
+>  This field identifies the clock that the timer uses for measuring time.
+>  For most clocks, this is a number that matches one of the user-space
+>  .BR CLOCK_*
+> -constants dexposed via
+> +constants exposed via
+>  .IR <time.h> .
+>  .B CLOCK_PROCESS_CPUTIME_ID
+>  timers display with a value of -6
+> 
 
-Michael
 
-
-On 02/01/2014 11:37 PM, David Pr=E9vot wrote:
-> ---
->  man7/tcp.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man7/tcp.7 b/man7/tcp.7
-> index 9cd7206..4ec3894 100644
-> --- a/man7/tcp.7
-> +++ b/man7/tcp.7
-> @@ -1060,7 +1060,7 @@ This option, like many others, will be inherite=
-d by the socket returned by
->  .BR accept (2),
->  if it was set on the listening socket.
-> =20
-> -Further details on the user timeout" feature can be found in
-> +Further details on the user timeout feature can be found in
->  RFC\ 793 and RFC\ 5482 ("TCP User Timeout Option").
->  .TP
->  .BR TCP_WINDOW_CLAMP " (since Linux 2.4)"
->=20
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
