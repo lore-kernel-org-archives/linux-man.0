@@ -1,44 +1,58 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Patch] pthread_kill.3: Inclusion of pthread.h instead of signal.h
-Date: Tue, 04 Feb 2014 10:11:22 +0100
-Message-ID: <52F0AEBA.6030306@gmail.com>
-References: <CABAco3C=C0E7Wzav04wAy6b0r4egGF2QXfY-ZaaVWyoMkPCWtA@mail.gmail.com>
+From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] nscd.conf.5: add note about default values
+Date: Wed, 05 Feb 2014 10:43:26 +0100
+Message-ID: <52F207BE.5090805@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/mixed;
+ boundary="------------040503080305010502010101"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABAco3C=C0E7Wzav04wAy6b0r4egGF2QXfY-ZaaVWyoMkPCWtA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ola Olsson <ola1olsson-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 02/04/2014 12:10 AM, Ola Olsson wrote:
-> *Describe how you obtained the information in your patch: *Compiled m=
-y multithreaded program with gcc 4.6.3 with information described in th=
-e man page for pthread_kill. Got following error:
-> warning: implicit declaration of function =E2=80=98pthread_kill=E2=80=
-=99 [-Wimplicit-function-declaration]
->=20
-> *Solution:* Including pthread.h instead solved the problem
->=20
-> Patch applies on top of a896b3533684072d09932a20a8fd0d1057feb336
+This is a multi-part message in MIME format.
+--------------040503080305010502010101
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thanks, Ola.
+Hello,
 
-Patch applied.
+this patch adds note to the nscd.conf(5) man page about default values,
+stating that default values originate from nscd(8) source code and that
+default values used in the nscd.conf(5) file in distribution might
+differ.
 
-Cheers,
+Thanks,
 
-Michael
+peter
 
+--------------040503080305010502010101
+Content-Type: text/x-patch;
+ name="nscd.conf.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="nscd.conf.patch"
 
+diff --git a/man5/nscd.conf.5 b/man5/nscd.conf.5
+index 3e8cf45..2d66cd0 100644
+--- a/man5/nscd.conf.5
++++ b/man5/nscd.conf.5
+@@ -229,6 +229,12 @@ This option is valid only for services
+ and
+ .IR group .
+ .RE
++.SH NOTES
++The default values stated in this manual page originate from the source code of
++.BR nscd (8)
++and are used if not set in configuration file.
++The default values used in the configuration file of your distribution might
++differ.
+ .SH SEE ALSO
+ .BR nscd (8)
+ .\" .SH AUTHOR
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--------------040503080305010502010101--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
