@@ -1,44 +1,49 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: [PATCH] msgctl.2: Add note about ignored arg to IPC_RMID.
-Date: Thu, 6 Feb 2014 15:07:38 +0100
-Message-ID: <20140206140737.GA16304@rei.suse.cz>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 70141] getxattr(2): #include <attr/xattr.h> problem
+Date: Thu, 06 Feb 2014 14:28:59 +0000
+Message-ID: <bug-70141-11311-clCCnPNP1I@https.bugzilla.kernel.org/>
+References: <bug-70141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <bug-70141-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This bit of information is missing from the man page but can be, for
-example, found in the Linux Programming Interface book.
+https://bugzilla.kernel.org/show_bug.cgi?id=70141
 
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man2/msgctl.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-diff --git a/man2/msgctl.2 b/man2/msgctl.2
-index 9ffd75b..5f32be6 100644
---- a/man2/msgctl.2
-+++ b/man2/msgctl.2
-@@ -144,7 +144,7 @@ set to
- .BR EIDRM ).
- The calling process must have appropriate privileges
- or its effective user ID must be either that of the creator or owner
--of the message queue.
-+of the message queue. The third argument to msgctl() is ignored in this case.
- .TP
- .BR IPC_INFO " (Linux-specific)"
- Returns information about system-wide message queue limits and
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
+
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Fabrice Bauzac from comment #2)
+> On my system, /usr/include/sys/xattr.h is provided by
+> glibc-headers-2.17-20.fc19.x86_64.
+
+It looks like this has been so for a very long time now (bak to glibc 2.3?),
+but the man pages didn't get fixed. I've applied a fix (s%xattr/%sys/%) to
+
+getxattr.2
+listxattr.2
+removexattr.2
+setxattr.2
+
+Thanks for the report.
+
+Cheers,
+
+Michael
+
 -- 
-1.8.3.2
-
-
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
