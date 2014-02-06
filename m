@@ -1,58 +1,69 @@
-From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] nscd.conf.5: add note about default values
-Date: Wed, 05 Feb 2014 10:43:26 +0100
-Message-ID: <52F207BE.5090805@redhat.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 70141] New: getxattr(2): #include <attr/xattr.h> problem
+Date: Thu, 06 Feb 2014 13:21:41 +0000
+Message-ID: <bug-70141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------040503080305010502010101"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------040503080305010502010101
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+https://bugzilla.kernel.org/show_bug.cgi?id=70141
+
+            Bug ID: 70141
+           Summary: getxattr(2): #include <attr/xattr.h> problem
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: libnoon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
 Hello,
 
-this patch adds note to the nscd.conf(5) man page about default values,
-stating that default values originate from nscd(8) source code and that
-default values used in the nscd.conf(5) file in distribution might
-differ.
+On the getxattr(2) manual page [1], it is indicated that the includes should be
 
-Thanks,
+#include <sys/types.h>
+#include <attr/xattr.h>
 
-peter
+However, on my system [2], the compiler (g++) cannot find <attr/xattr.h>.
 
---------------040503080305010502010101
-Content-Type: text/x-patch;
- name="nscd.conf.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="nscd.conf.patch"
+#include <attr/xattr.h>
+fatal error: attr/xattr.h: No such file or directory
 
-diff --git a/man5/nscd.conf.5 b/man5/nscd.conf.5
-index 3e8cf45..2d66cd0 100644
---- a/man5/nscd.conf.5
-+++ b/man5/nscd.conf.5
-@@ -229,6 +229,12 @@ This option is valid only for services
- and
- .IR group .
- .RE
-+.SH NOTES
-+The default values stated in this manual page originate from the source code of
-+.BR nscd (8)
-+and are used if not set in configuration file.
-+The default values used in the configuration file of your distribution might
-+differ.
- .SH SEE ALSO
- .BR nscd (8)
- .\" .SH AUTHOR
+There are only two xattr.h files on my system (according to locate(1)):
 
---------------040503080305010502010101--
+/usr/include/linux/xattr.h
+/usr/include/sys/xattr.h
+
+It appears that replacing <attr/xattr.h> with <sys/xattr.h> fixes my
+compilation problem.
+
+I guess the manual page needs to be fixed?
+
+Thanks!
+
+Best regards
+Fabrice
+
+[1] http://man7.org/linux/man-pages/man2/fgetxattr.2.html
+
+[2]
+Fedora core 19
+Linux localhost.localdomain 3.12.9-201.fc19.x86_64 #1 SMP
+kernel-3.12.9-201.fc19.x86_64
+glibc-headers-2.17-20.fc19.x86_64
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
