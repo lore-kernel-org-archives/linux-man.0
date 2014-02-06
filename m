@@ -1,65 +1,32 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 70141] New: getxattr(2): #include <attr/xattr.h> problem
-Date: Thu, 06 Feb 2014 13:21:41 +0000
-Message-ID: <bug-70141-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 70141] getxattr(2): #include <attr/xattr.h> problem
+Date: Thu, 06 Feb 2014 13:30:20 +0000
+Message-ID: <bug-70141-11311-iLFiYWy5Z7@https.bugzilla.kernel.org/>
+References: <bug-70141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-70141-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=70141
 
-            Bug ID: 70141
-           Summary: getxattr(2): #include <attr/xattr.h> problem
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: libnoon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> changed:
 
-Hello,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org
 
-On the getxattr(2) manual page [1], it is indicated that the includes should be
+--- Comment #1 from Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> ---
+attr/xattr.h is provided by the attr package (which might be named diff
+depending on your distro).  historically it was the provider of xattr
+functionality.
 
-#include <sys/types.h>
-#include <attr/xattr.h>
-
-However, on my system [2], the compiler (g++) cannot find <attr/xattr.h>.
-
-#include <attr/xattr.h>
-fatal error: attr/xattr.h: No such file or directory
-
-There are only two xattr.h files on my system (according to locate(1)):
-
-/usr/include/linux/xattr.h
-/usr/include/sys/xattr.h
-
-It appears that replacing <attr/xattr.h> with <sys/xattr.h> fixes my
-compilation problem.
-
-I guess the manual page needs to be fixed?
-
-Thanks!
-
-Best regards
-Fabrice
-
-[1] http://man7.org/linux/man-pages/man2/fgetxattr.2.html
-
-[2]
-Fedora core 19
-Linux localhost.localdomain 3.12.9-201.fc19.x86_64 #1 SMP
-kernel-3.12.9-201.fc19.x86_64
-glibc-headers-2.17-20.fc19.x86_64
+that said, current versions of glibc provide equivalent functionality so there
+shouldn't be a need to point people to the attr package.
 
 -- 
 You are receiving this mail because:
