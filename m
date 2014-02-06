@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 70141] getxattr(2): #include <attr/xattr.h> problem
-Date: Thu, 06 Feb 2014 14:28:59 +0000
-Message-ID: <bug-70141-11311-clCCnPNP1I@https.bugzilla.kernel.org/>
+Date: Thu, 06 Feb 2014 18:40:18 +0000
+Message-ID: <bug-70141-11311-ZolZW07djA@https.bugzilla.kernel.org/>
 References: <bug-70141-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,32 +14,24 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=70141
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |CODE_FIX
-
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+--- Comment #4 from Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> ---
 (In reply to Fabrice Bauzac from comment #2)
-> On my system, /usr/include/sys/xattr.h is provided by
-> glibc-headers-2.17-20.fc19.x86_64.
 
-It looks like this has been so for a very long time now (bak to glibc 2.3?),
-but the man pages didn't get fixed. I've applied a fix (s%xattr/%sys/%) to
+ok, but i didn't say sys/xattr.h, i said attr/xattr.h
 
-getxattr.2
-listxattr.2
-removexattr.2
-setxattr.2
+(In reply to Michael Kerrisk from comment #3)
 
-Thanks for the report.
+i think these manpages were originally imported from the attr project ?
 
-Cheers,
+the "standard" funcs have been provided by glibc for a long time:
+ - {l,f,}getxattr
+ - {l,f,}listxattr
+ - {l,f,}removexattr
+ - {l,f,}setxattr
 
-Michael
+the attr package provides more funcs than those, and it provides command line
+utils for interacting with file xattrs, so it's not a completely obsolete
+package (at least for Linux)
 
 -- 
 You are receiving this mail because:
