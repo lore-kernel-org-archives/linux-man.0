@@ -1,7 +1,7 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] set_mempolicy.2: ffix
-Date: Fri,  7 Feb 2014 22:11:51 +0100
-Message-ID: <1391807511-32596-1-git-send-email-spaillard@debian.org>
+Subject: [PATCH] sk98lin.4: ffix
+Date: Fri,  7 Feb 2014 22:19:48 +0100
+Message-ID: <1391807988-1567-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -9,22 +9,22 @@ Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/set_mempolicy.2 | 2 +-
+ man4/sk98lin.4 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-index b1aabb7..f891cc4 100644
---- a/man2/set_mempolicy.2
-+++ b/man2/set_mempolicy.2
-@@ -78,7 +78,7 @@ The
- argument must specify one of
- .BR MPOL_DEFAULT ,
- .BR MPOL_BIND ,
--.BR MPOL_INTERLEAVE,
-+.BR MPOL_INTERLEAVE ,
+diff --git a/man4/sk98lin.4 b/man4/sk98lin.4
+index 4e93535..43b3be3 100644
+--- a/man4/sk98lin.4
++++ b/man4/sk98lin.4
+@@ -178,7 +178,7 @@ It is valid only for Yukon copper adapters.
+ Possible values are:
+ .IR 10 ,
+ .IR 100 ,
+-.I 1000 ,
++.IR 1000 ,
  or
- .BR MPOL_PREFERRED .
- All modes except
+ .IR Auto ;
+ .I Auto
 -- 
 1.8.5.3
 
