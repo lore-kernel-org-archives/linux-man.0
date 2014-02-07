@@ -1,7 +1,7 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] sk98lin.4: ffix
-Date: Fri,  7 Feb 2014 22:19:48 +0100
-Message-ID: <1391807988-1567-1-git-send-email-spaillard@debian.org>
+Subject: [PATCH] sk98lin.4: tfix
+Date: Fri,  7 Feb 2014 22:24:20 +0100
+Message-ID: <1391808260-2295-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -13,18 +13,18 @@ List-Id: linux-man@vger.kernel.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man4/sk98lin.4 b/man4/sk98lin.4
-index 4e93535..43b3be3 100644
+index 43b3be3..5541ed9 100644
 --- a/man4/sk98lin.4
 +++ b/man4/sk98lin.4
-@@ -178,7 +178,7 @@ It is valid only for Yukon copper adapters.
+@@ -268,7 +268,7 @@ This parameter indicates the duplex mode to be used for port B
+ of an adapter card.
  Possible values are:
- .IR 10 ,
- .IR 100 ,
--.I 1000 ,
-+.IR 1000 ,
+ .IR Half ,
+-.IR Full .
++.IR Full ,
  or
- .IR Auto ;
- .I Auto
+ .IR Both ;
+ .I Both
 -- 
 1.8.5.3
 
