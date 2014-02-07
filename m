@@ -1,46 +1,33 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 70141] getxattr(2): #include <attr/xattr.h> problem
-Date: Fri, 07 Feb 2014 12:08:44 +0000
-Message-ID: <bug-70141-11311-m29YSwHu3I@https.bugzilla.kernel.org/>
-References: <bug-70141-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] set_mempolicy.2: ffix
+Date: Fri,  7 Feb 2014 22:11:51 +0100
+Message-ID: <1391807511-32596-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-70141-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=70141
+---
+ man2/set_mempolicy.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Mike Frysinger from comment #4)
-> (In reply to Fabrice Bauzac from comment #2)
-> 
-> ok, but i didn't say sys/xattr.h, i said attr/xattr.h
-> 
-> (In reply to Michael Kerrisk from comment #3)
-> 
-> i think these manpages were originally imported from the attr project ?
-
-Yes, that's my recollection.
-
-> the "standard" funcs have been provided by glibc for a long time:
->  - {l,f,}getxattr
->  - {l,f,}listxattr
->  - {l,f,}removexattr
->  - {l,f,}setxattr
-> 
-> the attr package provides more funcs than those, and it provides command
-> line utils for interacting with file xattrs, so it's not a completely
-> obsolete package (at least for Linux)
-
-Yup.
-
+diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
+index b1aabb7..f891cc4 100644
+--- a/man2/set_mempolicy.2
++++ b/man2/set_mempolicy.2
+@@ -78,7 +78,7 @@ The
+ argument must specify one of
+ .BR MPOL_DEFAULT ,
+ .BR MPOL_BIND ,
+-.BR MPOL_INTERLEAVE,
++.BR MPOL_INTERLEAVE ,
+ or
+ .BR MPOL_PREFERRED .
+ All modes except
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.5.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
