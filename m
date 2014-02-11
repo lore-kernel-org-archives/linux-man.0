@@ -1,22 +1,36 @@
-From: Kalle Olavi Niemitalo <kon-X3B1VOXEql0@public.gmane.org>
-Subject: sigvec(3): example uses sigpause instead of sigmask
-Date: Tue, 11 Feb 2014 22:59:00 +0200
-Message-ID: <87ppmt8iy3.fsf@Niukka.kon.iki.fi>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] endian.3: ffix
+Date: Tue, 11 Feb 2014 23:34:12 +0100
+Message-ID: <1392158052-30473-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-In man-pages 3.58, sigvec(3) contains this example of sigmask:
+ffd4dec0f7eba4c12abba647a2d7e58bbcaa4cd5 and
+7a9d6ddecee80d8fecc8618e223d560bb1fa455b fix were not the appropriate
+ones.
+---
+ man3/endian.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-           vec.sv_mask = sigmask(SIGQUIT) | sigpause(SIGABRT);
-                       /* Block SIGQUIT and SIGABRT during
-                          handler execution */
+diff --git a/man3/endian.3 b/man3/endian.3
+index f751049..402cdf2 100644
+--- a/man3/endian.3
++++ b/man3/endian.3
+@@ -95,7 +95,7 @@ family of functions.
+ For example,
+ .BR be32toh ()
+ is identical to
+-.BR ntohl ()
++.BR ntohl ().
+ 
+ The advantage of the
+ .BR byteorder (3)
+-- 
+1.8.5.3
 
-The second call should be sigmask(SIGABRT).
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
