@@ -1,47 +1,34 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] endian.3: ffix
-Date: Wed, 12 Feb 2014 09:19:40 +0100
-Message-ID: <52FB2E9C.20708@gmail.com>
-References: <1392158052-30473-1-git-send-email-spaillard@debian.org>
+Subject: Re: sigvec(3): example uses sigpause instead of sigmask
+Date: Wed, 12 Feb 2014 09:17:23 +0100
+Message-ID: <52FB2E13.4000904@gmail.com>
+References: <87ppmt8iy3.fsf@Niukka.kon.iki.fi>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1392158052-30473-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <87ppmt8iy3.fsf-qL6Mw06ygtSujaP1ieU9EPUpdFzICT1y@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Kalle Olavi Niemitalo <kon-X3B1VOXEql0@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Simon. Applied.
+On 02/11/2014 09:59 PM, Kalle Olavi Niemitalo wrote:
+> In man-pages 3.58, sigvec(3) contains this example of sigmask:
+> 
+>            vec.sv_mask = sigmask(SIGQUIT) | sigpause(SIGABRT);
+>                        /* Block SIGQUIT and SIGABRT during
+>                           handler execution */
+> 
+> The second call should be sigmask(SIGABRT).
+> 
+
+Thanks, Kalle. Fixed.
 
 Cheers,
 
 Michael
 
-
-On 02/11/2014 11:34 PM, Simon Paillard wrote:
-> ffd4dec0f7eba4c12abba647a2d7e58bbcaa4cd5 and
-> 7a9d6ddecee80d8fecc8618e223d560bb1fa455b fix were not the appropriate
-> ones.
-> ---
->  man3/endian.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/endian.3 b/man3/endian.3
-> index f751049..402cdf2 100644
-> --- a/man3/endian.3
-> +++ b/man3/endian.3
-> @@ -95,7 +95,7 @@ family of functions.
->  For example,
->  .BR be32toh ()
->  is identical to
-> -.BR ntohl ()
-> +.BR ntohl ().
->  
->  The advantage of the
->  .BR byteorder (3)
-> 
 
 
 -- 
