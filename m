@@ -1,47 +1,60 @@
-From: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH man-pages] packet.7: improve PACKET_QDISC_BYPASS description
-Date: Fri, 14 Feb 2014 11:34:26 +0100
-Message-ID: <e28f3b491ae1d2e4538ef6b84871eb773185f089.1392373992.git.dborkman@redhat.com>
-References: <cover.1392373992.git.dborkman@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Converting man-pages to UTF-8
+Date: Fri, 14 Feb 2014 11:43:30 +0100
+Message-ID: <CAKgNAkh5tHmJc2DrcoAJsDWWFao6bPckd2sN1dw-CZDSFNi5kQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <cover.1392373992.git.dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Colin Watson <cjwatson-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Bruno Haible <bruno-nWNVUoHt2MvYtjvyW6yDsg@public.gmane.org>, Werner Lemberg <wl-mXXj517/zsQ@public.gmane.org>, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Improve the description resp. provide some more details.
+Hello all,
 
-Signed-off-by: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man7/packet.7 | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+At https://bugzilla.kernel.org/show_bug.cgi?id=60807 is a proposal to
+convert the pages of the the "man-pages" project to UTF 8. I thought
+it worthwhile bringing that topic to the list, and CCing a few people
+who may have some ideas about this step, since I'm not too sure of the
+implications.
 
-diff --git a/man7/packet.7 b/man7/packet.7
-index 1d3f222..7a2ce1e 100644
---- a/man7/packet.7
-+++ b/man7/packet.7
-@@ -431,9 +431,14 @@ integer option before creating the ring.
- .BR PACKET_QDISC_BYPASS " (since Linux 3.14)"
- .\" commit d346a3fae3ff1d99f5d0c819bf86edf9094a26a1
- By default, packets sent through packet sockets pass through the kernel's
--qdisc (traffic control) layer.
--This can be bypassed by setting this integer option to 1;
--this is useful for usage scenarios similar to pktgen.
-+qdisc (traffic control) layer, which is fine for the vast majority of use
-+cases.
-+For traffic generator appliances using packet socket that intend to flood
-+the network with brute force i.e., to test devices under load in a similar
-+fashion to pktgen, this layer can be bypassed by setting this integer option
-+to 1. Side-effects are that packet buffering in qdisc layer is avoided
-+which will lead to increased drops when net device transmit queues are busy;
-+therefore, use at your own risk.
- .SS Ioctls
- .B SIOCGSTAMP
- can be used to receive the timestamp of the last received packet.
+Peter Schiffer has kindly written some some scripts to do the
+conversion, which would touch about 40 files. However, as far I can
+tell, many of the pages that have non-ASCII characters have inside
+groff comments (author's names, etc.). The only pages that have
+non-ASCII characters in the rendered source are various man7 pages on
+character sets. These were the pages to which I added a groff encoding
+marker in response to Colin Watson's input on this Debian bug:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=519209
+
+Moving to UTF-8 for the pages seems like a good idea, at least at some
+point. However, I'm wondering whether there are any backward
+compatibility issues that I should need to worry about. As far as I
+know, groff added UTF-8 support back in Jan 2009, so, just over 5
+years ago. Perhaps that's long enough ago now, that any backward
+compatibility issues with old versions of groff would be minimal.
+(I.e., the number of people installing new man-pages on systems with
+old groff is likely to be very small, and anyway, only a dozen or so
+pages in Section 7 are affected. Furthermore, I'm assuming that Linux
+distros have been shipping groff v1.20+ for quite a long time now.)
+
+Bottom line question: anyone see a reason not to do this conversion now?
+
+Thanks,
+
+Michael
+
+
+
+
+
+
+
 -- 
-1.7.11.7
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
