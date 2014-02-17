@@ -1,129 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] ipc: Fix 2 bugs in msgrcv() MSG_COPY implementation
-Date: Mon, 17 Feb 2014 16:36:27 +0100
-Message-ID: <53022C7B.6080408@gmail.com>
+Subject: Re: [PATCH] Changes.old: fix encoding issues
+Date: Mon, 17 Feb 2014 16:44:19 +0100
+Message-ID: <CAKgNAkjNSGA-p0ytpWNkBK84wf8pS3U0oMeFh9aZJjKiK8sDEw@mail.gmail.com>
+References: <1392558491-19116-1-git-send-email-spaillard@debian.org>
+ <53020B87.5050408@gmail.com> <20140217153345.GU15288@mraw.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20140217153345.GU15288-xazfMhTT2R0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stanislav Kinsbursky <skinsbursky-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>, Pavel Emelianov <xemul-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Serge Hallyn <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org"Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-From: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+On Mon, Feb 17, 2014 at 4:33 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
+> On Mon, Feb 17, 2014 at 02:15:51PM +0100, Michael Kerrisk (man-pages) wrote:
+>> On 02/16/2014 02:48 PM, Simon Paillard wrote:
+>> > Introduced in 33972b0b231b9b0ee708f27fe42461dbca6e2968
+>>
+>> Bother! I still didn't get it right.
+>>
+>> Thanks for the patch! Applied.
+>
+> BTW, I check the rendering of the iso 8859 -11 and -13 manpages before/after
+> the change and I think there is something to be fixed too.
 
-While testing and documenting the msgrcv() MSG_COPY flag that Stanislav 
-Kinsbursky added in commit 4a674f34ba04a002244edaf891b5da7fc1473ae8 
-(==> kernel 3.8), I discovered a  couple of bugs in the implementation. 
-The two bugs concern MSG_COPY interactions with other msgrcv() flags, namely:
+Oh -- that was automated with some scripts by Peter Schiffer, and the
+results looked okay to me, but maybe I did not look closely enough.
+What problems do you see?
 
-(A) MSG_COPY + MSG_EXCEPT
-(B) MSG_COPY + !IPC_NOWAIT
+Cheers,
 
-The bugs are distinct (and the fix for the first one is obvious),
-however my fix for both is a single-line patch, which is why I'm
-combining them in a single mail, rather than writing two mails+patches.
-
-===== (A) MSG_COPY + MSG_EXCEPT =====
-
-With the addition of the MSG_COPY flag, there are now two msgrcv()
-flags--MSG_COPY and MSG_EXCEPT--that modify the meaning of the 'msgtyp' 
-argument in unrelated ways. Specifying both in the same call is a logical 
-error that is currently permitted, with the effect that MSG_COPY has 
-priority and MSG_EXCEPT is ignored. The call should give an error if both
-flags are specified. The patch below implements that behavior.
-
-===== (B) (B) MSG_COPY + !IPC_NOWAIT =====
-
-The test code that was submitted in commit
-3a665531a3b7c2ad2c87903b24646be6916340e4 shows MSG_COPY being used in
-conjunction with IPC_NOWAIT. In other words, if there is no message
-at the position 'msgtyp'. return immediately with the error in ENOMSG.
-
-What was not (fully) tested is the behavior if MSG_COPY is specified
-*without* IPC_NOWAIT, and there is an odd behavior. If the queue contains
-less than 'msgtyp' messages, then the call blocks until the next message
-is written to the queue. At that point, the msgrcv() call returns a copy
-of the newly added message, regardless of whether that message is at the
-ordinal position 'msgtyp'. This is clearly bogus, and problematic for
-applications that might want to make use of the MSG_COPY flag.
-
-I considered the following possible solutions to this problem:
-
-(1) Force the call to block until a message *does* appear at the position
-    'msgtyp'.
-
-(2) If the MSG_COPY flag is specified, the kernel should implicitly add
-    IPC_NOWAIT, so that the call fails with ENOMSG for this case.
-
-(3) If the MSG_COPY flag is specified, but IPC_NOWAIT is not, generate an
-    error (probably, EINVAL is the right one).
-
-I do not know if any application would really want to have the functionality
-of solution (1), especially since an application can determine in advance
-the number of messages in the queue using msgctl() IPC_STAT. Obviously, this
-solution would be the most work to implement.
-
-Solution (2) would have the effect of silently fixing any applications that
-tried to employ broken behavior. However, it would mean that if we later
-decided to implement solution (1), then user-space could not easily detect
-what the kernel supports (but, since I'm somewhat doubtful that solution (1)
-is needed, I'm not sure that this is much of a problem).
-
-Solution (3) would have the effect of informing broken applications that
-they are doing something broken. The downside is that this would cause a
-ABI breakage for any applications that are currently employing the broken
-behavior. However:
-
-a) Those applications are almost certainly not getting the results they
-   expect.
-b) Possibly, those applications don't even exist, because MSG_COPY is
-   currently hidden behind CONFIG_CHECKPOINT_RESTORE.
-
-The upside of solution (3) is that if we later decided to implement
-solution (1), user-space could determine what the kernel supports,
-via the error return.
-
-In my view, solution (3) is mildly preferable to solution (2), and
-solution (1) could still be done later if anyone really cares.
-The patch below implements solution (3).
-
-PS For anyone out there still listening, it's the usual story:
-documenting an API (and the thinking about, and the testing of the API,
-that documentation  entails) is the one of the single best ways of
-finding bugs in the API, as  I've learned from a lot of experience.
-Best to do that documentation before releasing the API.
-
-Signed-off-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Acked-by: Stanislav Kinsbursky <skinsbursky-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Cc: Stanislav Kinsbursky <skinsbursky-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Cc: stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Serge Hallyn <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
-Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: Pavel Emelyanov <xemul-bzQdu9zFT3WakBO8gow8eQ@public.gmane.org>
-Cc: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
-
----
-
-Acked by Stanislaw in 
-http://thread.gmane.org/gmane.linux.kernel/1634534/focus=1636681
-
-
-diff --git a/ipc/msg.c b/ipc/msg.c
-index 245db11..6498531 100644
---- a/ipc/msg.c
-+++ b/ipc/msg.c
-@@ -901,6 +901,8 @@ long do_msgrcv(int msqid, void __user *buf, size_t bufsz, long msgtyp, int msgfl
- 		return -EINVAL;
- 
- 	if (msgflg & MSG_COPY) {
-+		if ((msgflg & MSG_EXCEPT) || !(msgflg & IPC_NOWAIT))
-+			return -EINVAL;
- 		copy = prepare_copy(buf, min_t(size_t, bufsz, ns->msg_ctlmax));
- 		if (IS_ERR(copy))
- 			return PTR_ERR(copy);
+Michael
 
 
 -- 
