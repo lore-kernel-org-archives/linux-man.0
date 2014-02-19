@@ -1,11 +1,11 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 70801] ptrace PEEKDATA API is incorrect
-Date: Wed, 19 Feb 2014 11:33:47 +0000
-Message-ID: <bug-70801-11311-uFYQgl1coY@https.bugzilla.kernel.org/>
+Date: Wed, 19 Feb 2014 11:39:13 +0000
+Message-ID: <bug-70801-11311-5oxd7xsYde@https.bugzilla.kernel.org/>
 References: <bug-70801-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <bug-70801-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -18,85 +18,78 @@ Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Andrew Hunter from comment #0)
-> ptrace(2) manual gives us the API:
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Mike Frysinger from comment #1)
+> it depends entirely on the arch.  a bunch do as the man page describes.  the
+> generic ptrace layer is not used by a bunch.
 > 
->        PTRACE_PEEKTEXT, PTRACE_PEEKDATA
->               Read a word at the address addr in the tracee's memory,
->               returning the word as the result of the ptrace() call.  Linux
->               does not have separate text and data address spaces, so these
->               two requests are currently equivalent.  (data is ignored.)
+> for example alpha/kernel/ptrace.c:
+>     case PTRACE_PEEKTEXT: /* read word at location addr. */
+>     case PTRACE_PEEKDATA:
+>         copied = access_process_vm(child, addr, &tmp, sizeof(tmp), 0);
+>         ret = -EIO;
+>         if (copied != sizeof(tmp))
+>             break;
+>         
+>         force_successful_syscall_return();
+>         ret = tmp;
+>         break;
 > 
-> checking kernel/ptrace.c gives us:
+> or ia64/kernel/ptrace.c:
+>     case PTRACE_PEEKTEXT: 
+>     case PTRACE_PEEKDATA:
+>         /* read word at location addr */
+>         if (access_process_vm(child, addr, &data, sizeof(data), 0)
+>             != sizeof(data))
+>             return -EIO;
+>         /* ensure return value is not mistaken for error code */
+>         force_successful_syscall_return();
+>         return data;
 > 
-> int ptrace_request(struct task_struct *child, long request,
-> 		   unsigned long addr, unsigned long data)
-> {
->  ...
-> 	switch (request) {
-> 	case PTRACE_PEEKTEXT:
-> 	case PTRACE_PEEKDATA:
-> 		return generic_ptrace_peekdata(child, addr, data);
+> it's the API that strace uses:
+> strace/util.c:
+>         u.val = ptrace(PTRACE_PEEKDATA, pid, (char *) addr, 0);
 > 
+> the generic glibc ignores it too:
+> glibc/misc/ptrace.c:
+>     case PTRACE_PEEKDATA:
+>       va_start(ap, request);
+>       pid = va_arg(ap, pid_t);
+>       addr = va_arg(ap, void *);
+>       va_end(ap);
+>       break;
 > 
-> int generic_ptrace_peekdata(struct task_struct *tsk, unsigned long addr,
-> 			    unsigned long data)
-> {
-> 	unsigned long tmp;
-> 	int copied;
+> although apparently glibc's linux layer has been rewriting this silently:
+>   if (request > 0 && request < 4)
+>     data = &ret;
+> ...
+>   if (res >= 0 && request > 0 && request < 4)
+>     {
+>       __set_errno (0);
+>       return ret;
+>     }
 > 
-> 	copied = access_process_vm(tsk, addr, &tmp, sizeof(tmp), 0);
-> 	if (copied != sizeof(tmp))
-> 		return -EIO;
-> 	return put_user(tmp, (unsigned long __user *)data);
-> }
-> 
-> So clearly data is _not_ ignored and the word is _not_ returned as the
-> result of ptrace.  I also verified that various working ptrace calls in fact
-> use the API as the kernel has it, not the man page.
+> where request {1,2,3} are PTRACE_PEEK{TEXT,DATA,USER}
 
-I see that Mike Frysinger already got in with the technical details (thanks
-Mike).
+Thanks for the above, Mike.
 
-However, you caught me on one of those days when I can't let some things pass
-without comment:
+> as mentioned before, the man page is geared towards documenting the C
+> library interface rather than the syscall one.  so the current docs are
+> correct.  this could use noting in the NOTES section.
 
-> This wants a relatively simple fix itself, but it does _not_ fill me with
-> confidence as to the accuracy of the man page for the other requests; I
-> strongly suggest you audit them for accuracy (sadly I don't have time to do
-> this myself.)  Just a thought.
-
-Let me paraphrase this report. "I saw a problem in the man page. I didn't
-bother to check the latest version of the page (or at least, I did not check it
-thoroughly... see
-http://man7.org/linux/man-pages/man2/ptrace.2.html#RETURN_VALUE ). I presumed
-that glibc didn't come into play (though I should know that most applications
-use the glibc wrappers, not raw syscalls)." All of that's fine, I get reports
-like that often enough. 
-
-But then "I told the maintainer that the fix was simple, but didn't bother to
-provide a patch or even a suggested rewording. Finally, I made a somewhat snide
-comment regarding my suspicions about the quality of the man page, told the
-maintainer that I couldn't be bothered doing anything about my suspicions, but
-suggested that they should."
-
-Now, last time I looked, you were not paying me to work on man pages. (Indeed,
-it is entirely unpaid.) So, the principal difference between us with respect to
-improving the pages is purely one of willingness to actually _do_ something. I
-strongly suggest you might want to check the tone of your report. Just a
-thought.
-
-Pleasantries out of the way, I acknowledge that even if one looked at the
-latest version of the man page, the story is not obvious enough (that's the
-valuable piece of your report), and I applied a patch,
-http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/?id=051ec121f004f2bcdb8f059c56c690d680b04872
+Yes. I've noted that point in various informal contexts (such as mailing
+lists), and it's also hidden away here
+https://www.kernel.org/doc/man-pages/todo.html#migrate_to_kernel_source . But,
+like that info in the ptrace() page, it should be more obvious. I committed a
+patch, https://www.kernel.org/doc/man-pages/todo.html#migrate_to_kernel_source
 
 -- 
 You are receiving this mail because:
-You are watching the assignee of the bug.--
+You are watching the assignee of the bug.
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
