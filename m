@@ -1,59 +1,53 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] setbuf.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 22 Feb 2014 10:23:03 +0100
-Message-ID: <53086C77.7070403@gmail.com>
-References: <1392715588-9324-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] socket: Add SO_RXQ_OVFL documentation
+Date: Sat, 22 Feb 2014 10:36:08 +0100
+Message-ID: <53086F88.5040209@gmail.com>
+References: <1390911877-5984-1-git-send-email-nhorman@tuxdriver.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1392715588-9324-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1390911877-5984-1-git-send-email-nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks.
-
-On 02/18/2014 10:26 AM, Peng Haitao wrote:
-> The functions setbuf(), setbuffer(), setlinebuf() and setvbuf()
-> are thread safe.
+On 01/28/2014 01:24 PM, Neil Horman wrote:
+> Add documentation for the SO_RXQ_OVFL socket option
 > 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Signed-off-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+> CC: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+> CC: andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org
+> CC: netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 > ---
->  man3/setbuf.3 | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+>  man7/socket.7 | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/man3/setbuf.3 b/man3/setbuf.3
-> index ad9914f..242afcf 100644
-> --- a/man3/setbuf.3
-> +++ b/man3/setbuf.3
-> @@ -45,7 +45,7 @@
->  .\" Correction,  2000-03-03, Andreas Jaeger <aj-l3A5Bk7waGM@public.gmane.org>
->  .\" Added return value for setvbuf, aeb,
->  .\"
-> -.TH SETBUF 3  2012-08-03 "Linux" "Linux Programmer's Manual"
-> +.TH SETBUF 3  2014-02-18 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  setbuf, setbuffer, setlinebuf, setvbuf \- stream buffering operations
->  .SH SYNOPSIS
-> @@ -161,6 +161,15 @@ It may set
->  on failure.
->  
->  The other functions do not return a value.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR setbuf (),
-> +.BR setbuffer (),
-> +.BR setlinebuf (),
-> +and
-> +.BR setvbuf ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  The
->  .BR setbuf ()
-> 
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index 6b229dd..aa0aad9 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -663,6 +663,11 @@ with a specific port then it is not possible
+>  to bind to this port for any local address.
+>  Argument is an integer boolean flag.
+>  .TP
+> +.B SO_RXQ_OVFL
+> +Indicates that an unsigned 32 bit value ancilliary msg (cmsg) should be attached
+> +to recieved skbs indicating the number of packets dropped by the socket between
+> +the last recieved packet and this received packet
+> +.TP
+>  .B SO_SNDBUF
+>  Sets or gets the maximum socket send buffer in bytes.
+>  The kernel doubles this value (to allow space for bookkeeping overhead)
+
+Thanks, Neil. Applied.
+
+Cheers,
+
+Michael
+
+
 
 
 -- 
