@@ -1,73 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: *at.2 man pages?
-Date: Fri, 21 Feb 2014 13:40:23 +0100
-Message-ID: <CAKgNAkiptFYeop4wnXRkiPQv_PoG3OF_spwptzsJDy3gReaCNg@mail.gmail.com>
-References: <20140221014855.GA29290@infradead.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] resolv.conf.5: DESCRIPTION: Mention that the data is
+ trusted.
+Date: Sat, 22 Feb 2014 09:57:36 +0100
+Message-ID: <53086680.30900@gmail.com>
+References: <5303E845.7080003@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140221014855.GA29290-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <5303E845.7080003-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Christoph,
+On 02/19/2014 12:09 AM, Carlos O'Donell wrote:
+> In a recent discussion about DNSSEC it was brought to my
+> attention that not all system administrators may understand
+> that the information in /etc/resolv.conf is fully trusted.
+> The resolver implementation in glibc treats /etc/resolv.conf
+> as a fully trusted source of DNS information and passes on
+> the AD-bit for DNSSEC as trusted.
+> 
+> Would it be possible to add a clarifying setence to the
+> man page for resolv.conf.5 to make it absolutely clear that
+> indeed this source of information is trusted?
+> 
+> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> 
+> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+> index f398724..2dfccdf 100644
+> --- a/man5/resolv.conf.5
+> +++ b/man5/resolv.conf.5
+> @@ -35,6 +35,9 @@ The resolver configuration file contains information that is read
+>  by the resolver routines the first time they are invoked by a process.
+>  The file is designed to be human readable and contains a list of
+>  keywords with values that provide various types of resolver information.
+> +The configuration file is considered a trusted source of DNS information
+> +e.g. DNSSEC AD-bit information will be returned unmodified from these
+> +sources.
+>  .LP
+>  If this file does not exist,
+>  only the name server on the local machine will be queried;
 
-On Fri, Feb 21, 2014 at 2:48 AM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> Is there a good reason we have all these separate *at manpages?  To me
-> it would seem cleaner to have those documented as minor variant in the
-> same man page as the older version of the call.
+Carlos,
 
-Thanks for the note.
-
-I had been pondering that same point myself lately. At the time that I
-wrote those pages, the APIs were not part of POSIX and (in most cases)
-were not available on other systems. So, back in 2006, it made some
-sense to wall them off into their own separate pages. Eight years
-later, with the APIs now all in POSIX (except scandirat()), less so.
-
-So, your comment was enough to prompt me to make the change I'd been
-considering for a while. I've done the merging for the following
-pages:
-
-faccessat(2)
-fchmodat(2)
-fchownat(2)
-fstatat(2)
-linkat(2)
-mkdirat(2)
-mknodat(2)
-openat(2)
-readlinkat(2)
-renameat(2)
-symlinkat(2)
-unlinkat(2)
-mkfifoat(3)
-scandirat(3)
-
-Each of those pages has been merged into its traditional counterpart.
-
-I didn't make such a change for utimensat(2), which is different
-enough from utime(2) that it warrants a separate page, IMO. Unlike the
-other *at() pages, the utimensat(2) was also already self-contained,
-rather than defining itself in terms of differences from utime(2) as
-the other *at() pages did. I did however add a note to utime() to make
-it clearer that modern application may want to use utimensat(2).
-
-Simon, David: in most cases I've tried to break the changes to the
-pages into certain steps that *may* help you unpick what has changed
-as you come to do the translations. (There are a few minor content
-changes in addition to the merging.) I believe that nothing got lost
-in merging the pages, but I'd appreciate it if you kept an eye out to
-make sure that I didn't mess up anywhere.
-
-The changes have been published to Git.
+Thanks. I've applied this, but made one small change. You wrote plural "these
+sources", but the context seems to indicate a singular is required, so I 
+changed it to "this source". Okay?
 
 Cheers,
 
 Michael
+
 
 -- 
 Michael Kerrisk
