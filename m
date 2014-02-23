@@ -1,34 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] af_packet: Add PACKET_FANOUT_QM documentation
-Date: Sun, 23 Feb 2014 08:27:55 +0100
-Message-ID: <5309A2FB.30505@gmail.com>
-References: <1390911375-5784-1-git-send-email-nhorman@tuxdriver.com> <53087188.9080408@gmail.com> <5308998F.50907@redhat.com>
+Subject: Re: ascii(7) wrong symbol
+Date: Sun, 23 Feb 2014 08:43:26 +0100
+Message-ID: <CAKgNAkjO8HJXb+iz=CNE8iyrWU3+OWB=191O10uHZ4OqpA59AQ@mail.gmail.com>
+References: <20140220074450.A8770608AC@smtp.hushmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5308998F.50907-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20140220074450.A8770608AC-hP6SDYDcl0Dn1WiER8SD9wC/G2K4zDHf@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Sulaiman Mustafa <seininn-yx4YqRIVDag@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 02/22/2014 01:35 PM, Daniel Borkmann wrote:
-> On 02/22/2014 10:44 AM, Michael Kerrisk (man-pages) wrote:
->> On 01/28/2014 01:16 PM, Neil Horman wrote:
->>> Recently added a new fanout mode of operation to packet sockets.  Document it
->>> here
->>
->> Thanks, Neil. Applied.
->>
->> This new mode is ne win 3.14, right?
-> 
-> Yes.
+On Thu, Feb 20, 2014 at 8:44 AM, Sulaiman Mustafa <seininn-yx4YqRIVDag@public.gmane.org> wr=
+ote:
+> The man page in question lists the character (=B4) as the 39th charac=
+ter in
+> the ascii character set. This is wrong. The correct character is (').=
+ This
+> error is present in both the normal reference pages and man7.org's we=
+b
+> pages.
+>
+> I'm sending you this message as per the instructions at
+> https://www.kernel.org/doc/man-pages/reporting_bugs.html.
 
-Thanks, Daniel.
+Thanks, Sulaiman. I've fixed this now.
+
+Cheers,
+
+Michael
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
