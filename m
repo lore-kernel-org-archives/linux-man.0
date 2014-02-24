@@ -1,182 +1,84 @@
-From: Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org>
-Subject: [patch] stpcpy.3, stpncpy.3: Correct history
-Date: Mon, 24 Feb 2014 01:37:06 +0100
-Message-ID: <20140224003705.GB28413@iris.usta.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 71061] New: msgctl(2) manpage : put back a condition of EPERM
+ error code forgotten
+Date: Mon, 24 Feb 2014 08:02:17 +0000
+Message-ID: <bug-71061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D71061
 
-i just noticed that the stpcpy(3) manual contains a speculation
-that appears to be untrue on closer investigation:  That function
-did not originate in MS DOS, but in Lattice C on AmigaDOS.
+            Bug ID: 71061
+           Summary: msgctl(2) manpage : put back a condition of EPERM
+                    error code forgotten
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: fboiteux-N+jn5RlININWk0Htik3J/w@public.gmane.org
+        Regression: No
 
-Here is a patch against the git master HEAD to fix that, and add
-some more historical information.  To provide some background and
-allow you to more easily verify the correctness of the patch, i'm
-appending my mail to <misc-7YlrpqBBQ3VAfugRpC6u6w@public.gmane.org>, where i'm giving some more
-details about the history and pointing to some primary sources.
-That mail also contains the (similar, but shorter) patch i just
-committed to the OpenBSD manual page.
+Hello,
 
-Yours,
-  Ingo
+  I've noticed in the msgctl(2) manpage that a condition to get an EPER=
+M error
+code was dropped in the past :=C2=A0it's about trying to modify the siz=
+e of a
+message queue (msg_qbytes) larger than the max size set in kernel (look=
+ at
+/proc/sys/kernel/msgmnb).
 
+In a (very old) manpage of a Debian Woody 3.0 (!), we could read :
 
-diff --git a/man3/stpcpy.3 b/man3/stpcpy.3
-index 4718a96..1952df1 100644
---- a/man3/stpcpy.3
-+++ b/man3/stpcpy.3
-@@ -76,9 +76,10 @@ function is thread-safe.
- .SH CONFORMING TO
- This function was added to POSIX.1-2008.
- Before that, it was not part of
--the C or POSIX.1 standards, nor customary on UNIX systems, but was not a
--GNU invention either.
--Perhaps it came from MS-DOS.
-+the C or POSIX.1 standards, nor customary on UNIX systems.
-+It first appeared in the Lattice C AmigaDOS compiler (1986 or earlier),
-+then in the GNU fileutils and GNU textutils in 1989,
-+and in the GNU C library until 1992.
- It is also present on the BSDs.
- .SH BUGS
- This function may overrun the buffer
-diff --git a/man3/stpncpy.3 b/man3/stpncpy.3
-index 60042e6..5bc084d 100644
---- a/man3/stpncpy.3
-+++ b/man3/stpncpy.3
-@@ -96,6 +96,7 @@ function is thread-safe.
- .SH CONFORMING TO
- This function was added to POSIX.1-2008.
- Before that, it was a GNU extension.
-+It first appeared in version 1.07 of the GNU C library in 1993.
- .SH SEE ALSO
- .BR strncpy (3),
- .BR wcpncpy (3)
-
-P.S.
-I'd like to apologize that our linker is using strong language
-to express its opinion regarding these functions; back in 2012,
-the developer implementing them wasn't exactly amused that they
-finally made it into POSIX...  ;-)
-
------ Forwarded message from Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org> -----
-
-From: Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org>
-Date: Sun, 23 Feb 2014 23:29:19 +0100
-Cc: misc-7YlrpqBBQ3VAfugRpC6u6w@public.gmane.org
-Subject: Re: while trying to compile gettext 0.18.3.2 I see questionable
-	messages
-
-Hi Lorenzo,
-
-Lorenzo Beretta wrote on Sun, Feb 23, 2014 at 05:29:54PM +0100:
-> dc-tZh0T7QEfwVBDgjK7y7TUQ@public.gmane.org wrote on Sun, Feb 23, 2014 at 08:54:34AM -0500:
-
->> ../gnulib-lib/.libs/libgettextlib.so: warning:
->> stpcpy() is dangerous GNU crap; don't use it
-
-> Yet stpcpy(3) on linux says:
-> CONFORMING TO
->        This function was added to POSIX.1-2008.  Before that, it was
->        not part of the C or POSIX.1 standards, nor customary on UNIX
->        systems, but was not a GNU invention either.  Perhaps it came
->        from MS-DOS.  It is also present on the BSDs.
-
-I checked the following without finding any references to stpcpy:
- - AT&T UNIX v3 to v7 including PWB and 32v
- - System III AT&T Unix
- - all versions of CSRG BSD from 1BSD to 4.4BSD-Lite2 including SCCS
-
-The earliest occurrence of stpcpy() i was able to find was in
-the Lattice C AmigaDOS Compiler Version 3 Programmers Reference
-Guide (1986-09-12)(Lattice Inc.), which explicitly classifies the
-function as "TYPE: LATTICE", see
-https://archive.org/details/Lattice_C_AmigaDOS_Compiler_Version_3_Programmers_Reference_Guide_1986-09-12_Lattice_Inc.
-
-So the claim by Terry Lambert that it originated in Borland Turbo C
-is definitely untrue.  The first release of Borland Turbo C
-happened in May 1987.  I can confirm it was in Borland Turbo C 2.0
-in 1989, though.
-
-The 386BSD 0.1 release contains GNU textutils-1.3 and GNU fileutils-3.2
-which both contain a file lib/stpcpy.c with a 1989 FSF Copyright.
-This is confirmed by looking at the initial commits of the git
-history of the GNU coreutils package.
-
-The function stpcpy() was contained in the initial git import of
-glibc on Feb 18, 1995.  The file string.texi says "@comment Unknown
-origin" at this point in time.  The file sysdeps/generic/stpcpy.c
-says "Copyright (C) 1992 Free Software Foundation, Inc." at this
-point in time.  The ChangeLog reports a bugfix to the function on
-Jan 7, 1992 by Roland McGrath.
-
-In the BSDs, here is when it appeared:
- - FreeBSD: Oct 3, 2002 by obrien@, written himself
- - DragonFly: Apr 7, 2009 ported by pavalos@ from FreeBSD
- - NetBSD: May 1, 2009 ported by perry@ from FreeBSD
- - OpenBSD: Jan 17, 2012 by kettenis@, reluctantly written himself
-
-The function stpncpy first appears in glibc with a 1993 FSF Copyright;
-according to the ChangeLog, it was introduced on Oct 29, 1993 by
-Roland McGrath, and according to the NEWS file, it was first released
-with Version 1.07.
-
-So, to summarize, the Linux manual is rather misleading.  Even
-though stpcpy() indeed wasn't a GNU invention, it was first introduced
-into the UNIX world by extensive use in the GNU coreutils (then
-called fileutils and textutils) in 1989, only very few years after
-its original appearance.  The glibc was the first UNIX-like C library
-to include it only three years later, nearly a decade before FreeBSD,
-about 15 years before POSIX, and more than two decades before OpenBSD
-reluctantly followed, forced by POSIX.  That said,
-
-  stpcpy() is dangerous DOS crap; don't use it
-
-would be slightly more accurate, but given who pushed it during the
-early years,
-
-  stpcpy() is dangerous GNU crap; don't use it
-  
-isn't that far off the mark, either.
-
-Anyway, we should update our manual, see below.
-
-Yours,
-  Ingo
+       EPERM      The argument cmd has value IPC_SET or IPC_RMID but th=
+e
+calling process effective user-ID has insufficient privileges to
+                  execute  the  command.   Note this is also the case o=
+f a non
+super-user process trying to increase the msg_qbytes value
+                  beyond the value specified by the system parameter MS=
+GMNB.
 
 
-Index: stpcpy.3
-===================================================================
-RCS file: /cvs/src/lib/libc/string/stpcpy.3,v
-retrieving revision 1.5
-diff -u -p -r1.5 stpcpy.3
---- stpcpy.3	25 Sep 2013 21:50:18 -0000	1.5
-+++ stpcpy.3	23 Feb 2014 22:06:06 -0000
-@@ -174,9 +174,11 @@ and
- functions conform to
- .St -p1003.1-2008 .
- .Sh HISTORY
--The
-+The function
- .Fn stpcpy
--and
-+first appeared in the Lattice C AmigaDOS compiler (1986 or earlier).
-+The function
- .Fn stpncpy
--functions first appeared in
-+first appeared in the GNU C library version 1.07 (1993).
-+Both functions have been available since
- .Ox 5.1 .
+thereas on later pages (on my Debian Wheezy 7.4, but also in current ve=
+rsion of
+kernel manpages), we only have :
 
------ End forwarded message -----
---
+       EPERM  The argument cmd has the value IPC_SET or IPC_RMID, but t=
+he
+effective user ID of the calling process is not the creator  (as  found=
+  in
+              msg_perm.cuid) or the owner (as found in msg_perm.uid) of=
+ the
+message queue, and the process is not privileged (Linux: it does not ha=
+ve
+              the CAP_SYS_ADMIN capability).
+
+
+Could you put back in the man page a sentence like : 'Note this is also=
+ the
+case of a non super-user process trying to increase the msg_qbytes valu=
+e
+                  beyond the value specified by the system parameter MS=
+GMNB.'
+
+
+      Thanks,
+            Fr=C3=A9d=C3=A9ric.
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
