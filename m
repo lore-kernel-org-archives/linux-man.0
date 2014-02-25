@@ -1,105 +1,72 @@
-From: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>
-Subject: [PATCH] prctl.2: Add PR_GET/SET_THP_DISABLED information
-Date: Tue, 25 Feb 2014 15:20:33 -0600
-Message-ID: <64a0db7fc5c6250a01878c6d3b3dee4a2430e687.1393354819.git.athorlton@sgi.com>
+From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Fwd: status in PACKET_RX_RING is actually a bit mask
+Date: Tue, 25 Feb 2014 23:24:07 +0200
+Message-ID: <CACKs7VAUE89+NyuywOwpZ2GzeVQLtV_A-+4PicErmCzLNNNd6Q@mail.gmail.com>
+References: <CACKs7VD6a0hzMd_Go6yUAxJ=tbYdJ9Qbq=FXQezVvaUUE9egUw@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CACKs7VD6a0hzMd_Go6yUAxJ=tbYdJ9Qbq=FXQezVvaUUE9egUw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>, Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Paolo Bonzini <pbonzini-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This patch adds documentation for the new prctl option to disable
-transparent hugepages on a per-mm_struct basis.  The patch that
-implements this functionality can be found here:
+[re-sending since the original message was bounced back, something
+about HTML subpart]
 
-http://www.mail-archive.com/linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg595756.html
+Hi,
 
-(Note that the patch hasn't made it through into the community
- kernel, yet.  I'm submitting the documentation ahead of time
- to make sure that everything is in order if/when the patch
- makes it into the kernel.)
+I'm playing with the PACKET_RX_RING option to packet sockets and I
+noticed that the status field from the tpacket_hdr structures inside
+the mmaped buffer is actually a bit mask. I'm testing with 4Gbps
+traffic rates and sometimes I get status=5. I'm using Ubuntu 12.04
+with a 3.8.0-29 kernel, and at least from the code (I got it using
+"sudo apt-get source linux-image-$(uname -r)") it seems the 5 means
+TP_STATUS_USER | TP_STATUS_LOSING. The 3.8.0 kernel code has this line
+in tpacket_rcv():
 
-Please let me know if you notice anything that should be changed
-or added.  Thanks!
+        /*
+         * LOSING will be reported till you read the stats,
+         * because it's COR - Clear On Read.
+         * Anyways, moving it for V1/V2 only as V3 doesn't need this
+         * at packet level.
+         */
+                if (po->stats.tp_drops)
+                        status |= TP_STATUS_LOSING;
 
-Signed-off-by: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>
-Cc: Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
-Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-Cc: Paolo Bonzini <pbonzini-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
-Cc: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Also, in some source code example I found using google
+(http://www.google.ro/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&ved=0CEIQFjAE&url=http%3A%2F%2Fstuff.mit.edu%2Fafs%2Fsipb%2Fcontrib%2Flinux%2Ftools%2Ftesting%2Fselftests%2Fnet%2Fpsock_fanout.c&ei=lM8MU5yhB-iK7Aan7IGgAQ&usg=AFQjCNFtZBHSWgzHZkV3LNfLOSSTq0pV4Q&sig2=razCT0kUDv2-BIm_8gTE5g&bvm=bv.61725948,d.ZGU),
+the status is checked like this:
 
----
- man2/prctl.2 | 27 +++++++++++++++++++++++----
- 1 file changed, 23 insertions(+), 4 deletions(-)
+while (header->tp_status & TP_STATUS_USER && count < RING_NUM_FRAMES) {
+[...]
 
-diff --git a/man2/prctl.2 b/man2/prctl.2
-index 70636e5..1588064 100644
---- a/man2/prctl.2
-+++ b/man2/prctl.2
-@@ -773,6 +773,23 @@ option.
- .\" symbolic-link transitions over all process running in a system.
- .\" ========== END FIXME
- .RE
-+.TP
-+.BR PR_SET_THP_DISABLED " (since Linux 3.14)"
-+If 
-+.IR arg2
-+is nonzero, set the "disable transparent hugepages" attribute of the calling process.
-+Hugepages are disabled by manipulating the
-+.BR VM_NOHUGEPAGE
-+flag in
-+.I def_flags
-+of a process's
-+.IR mm_struct .
-+This flag is carried down from the parent's
-+.IR mm_struct
-+on fork.
-+.TP
-+.BR PR_GET_THP_DISABLED " (since Linux 3.14)"
-+Returns (as the function result) the state of the "disable transparent hugepages" attribute of the calling process.  The result will be 1 if the attribute is set and 0 otherwise.
- .\"
- .SH RETURN VALUE
- On success,
-@@ -783,6 +800,7 @@ On success,
- .BR PR_GET_TIMING ,
- .BR PR_GET_SECUREBITS ,
- .BR PR_MCE_KILL_GET ,
-+.BR PR_GET_THP_DISABLED ,
- and (if it returns)
- .BR PR_GET_SECCOMP
- return the nonnegative values described above.
-@@ -806,11 +824,12 @@ is not recognized.
- .B EINVAL
- .I option
- is
--.BR PR_MCE_KILL
--or
--.BR PR_MCE_KILL_GET
--or
-+.BR PR_MCE_KILL ,
-+.BR PR_MCE_KILL_GET ,
- .BR PR_SET_MM ,
-+.BR PR_SET_THP_DISABLE
-+or
-+.BR PR_GET_THP_DISABLE ,
- and unused
- .BR prctl ()
- arguments were not specified as zero.
--- 
-1.7.12.4
+I haven't yet figured out how TP_STATUS_LOSING works, but I think it
+would be worthwhile to at least document that the status is a bit mask
+and not a value - that's what the patch at the end does.
 
+Michael, maybe you can Cc somebody more knowledgeable on this to
+confirm? IIRC there were some message exchanges on this on the list
+recently...
+
+
+diff --git a/man7/packet.7 b/man7/packet.7
+index 1d3f222..6bac465 100644
+--- a/man7/packet.7
++++ b/man7/packet.7
+@@ -353,9 +353,9 @@ The packet socket owns all slots with status
+ .BR TP_STATUS_KERNEL .
+ After filling a slot, it changes the status of the slot to transfer
+ ownership to the application.
+-During normal operation, the new status is
+-.BR TP_STATUS_USER ,
+-to signal that a correctly received packet has been stored.
++During normal operation, the new status has the
++.BR TP_STATUS_USER
++bit set to signal that a correctly received packet has been stored.
+ When the application has finished processing a packet, it transfers
+ ownership of the slot back to the socket by setting the status to
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
