@@ -1,48 +1,53 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strpbrk.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 25 Feb 2014 17:28:50 +0800
-Message-ID: <1393320530-16052-1-git-send-email-penght@cn.fujitsu.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Tue, 25 Feb 2014 12:17:17 +0100
+Message-ID: <530C7BBD.3060305@bfs.de>
+References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>	<52FACFBB.6070607@cn.fujitsu.com> <CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com> <530C2BA9.8070604@cn.fujitsu.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <530C2BA9.8070604-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function strpbrk() is thread safe.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/strpbrk.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/strpbrk.3 b/man3/strpbrk.3
-index 7e3519d..0ae1c3a 100644
---- a/man3/strpbrk.3
-+++ b/man3/strpbrk.3
-@@ -27,7 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:01:24 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH STRPBRK 3  2012-05-10 "" "Linux Programmer's Manual"
-+.TH STRPBRK 3  2014-02-25 "" "Linux Programmer's Manual"
- .SH NAME
- strpbrk \- search a string for any of a set of bytes
- .SH SYNOPSIS
-@@ -53,6 +53,11 @@ that matches one of the bytes in
- .IR accept ,
- or NULL
- if no such byte is found.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR strpbrk ()
-+function is thread-safe.
- .SH CONFORMING TO
- SVr4, 4.3BSD, C89, C99.
- .SH SEE ALSO
--- 
-1.8.5.3
+Am 25.02.2014 06:35, schrieb Peng Haitao:
+> 
+> On 02/12/2014 11:31 PM, Carlos O'Donell wrote:
+>>> Yes, maybe it is better.
+>>> But in Oracle Solaris's manpages, iswblank is marked "MT-Safe with exceptions".
+>>> I also think "MT-Safe with exceptions" is OK.
+>>
+>> My suggestion is:
+>>
+>> "The function iswblank() is thread safe with exceptions (locale). See
+>> "Safety Concepts" for more information."
+>>
+> 
+> I think we should tell users where can look up "Safety Concepts".
+> The description may be:
+> 
+> "The function iswblank() is thread safe with exceptions (locale). See
+> "Safety Concepts" for more information in pthreads(7)."
+> 
 
+Good idea, maybe also (locale(7)) ?
+
+re,
+ wh
+
+> Maybe pthreads(7) is man-pages(7) or others.
+> 
+> Before the decision is made, I will only send the patch without exceptions.
+> Thanks.
+> 
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
