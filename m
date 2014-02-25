@@ -1,124 +1,105 @@
-From: "Carlos O'Donell" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
-Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread safe
- with exceptions
-Date: Tue, 25 Feb 2014 12:28:36 -0500
-Message-ID: <CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>
-References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>
-	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>
-	<52FACFBB.6070607@cn.fujitsu.com>
-	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>
-	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>
+Subject: [PATCH] prctl.2: Add PR_GET/SET_THP_DISABLED information
+Date: Tue, 25 Feb 2014 15:20:33 -0600
+Message-ID: <64a0db7fc5c6250a01878c6d3b3dee4a2430e687.1393354819.git.athorlton@sgi.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>, Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Paolo Bonzini <pbonzini-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Feb 23, 2014 at 5:16 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> The glibc manual is marked with them now, you can see iswblank here:
->> http://www.gnu.org/software/libc/manual/html_mono/libc.html#index-iswblank-486
->
-> I realize I could did through a lot of archived mail and answer these
-> questions, but I hope you can save me some time.
+This patch adds documentation for the new prctl option to disable
+transparent hugepages on a per-mm_struct basis.  The patch that
+implements this functionality can be found here:
 
-My pleasure.
+http://www.mail-archive.com/linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg595756.html
 
-> 1. How was the information about MT-Safety etc derived. I'm assuming a
-> lot of arduous manual inspection, right? (Or was there some automation
-> involved?)
+(Note that the patch hasn't made it through into the community
+ kernel, yet.  I'm submitting the documentation ahead of time
+ to make sure that everything is in order if/when the patch
+ makes it into the kernel.)
 
-No automation. Manual inspection. It took Alexandre roughly a year to
-get through ~1000+ functions. After a while though the previous safety
-notes help you out immensely as you don't need to recurse deeply in a
-function when you know the properties of the functions you are
-calling.
+Please let me know if you notice anything that should be changed
+or added.  Thanks!
 
-> 2. Does the glibc manual document the actual or the desired state of
-> the functions wrt to MT-Safety? Where these differ, does the manual
-> document that?
+Signed-off-by: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>
+Cc: Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: Paolo Bonzini <pbonzini-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Cc: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
+Cc: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-The noes are preliminary so we make no promises.
+---
+ man2/prctl.2 | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-We document the actual state (not perfectly true, but it's the
-statement we want to make).
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 70636e5..1588064 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -773,6 +773,23 @@ option.
+ .\" symbolic-link transitions over all process running in a system.
+ .\" ========== END FIXME
+ .RE
++.TP
++.BR PR_SET_THP_DISABLED " (since Linux 3.14)"
++If 
++.IR arg2
++is nonzero, set the "disable transparent hugepages" attribute of the calling process.
++Hugepages are disabled by manipulating the
++.BR VM_NOHUGEPAGE
++flag in
++.I def_flags
++of a process's
++.IR mm_struct .
++This flag is carried down from the parent's
++.IR mm_struct
++on fork.
++.TP
++.BR PR_GET_THP_DISABLED " (since Linux 3.14)"
++Returns (as the function result) the state of the "disable transparent hugepages" attribute of the calling process.  The result will be 1 if the attribute is set and 0 otherwise.
+ .\"
+ .SH RETURN VALUE
+ On success,
+@@ -783,6 +800,7 @@ On success,
+ .BR PR_GET_TIMING ,
+ .BR PR_GET_SECUREBITS ,
+ .BR PR_MCE_KILL_GET ,
++.BR PR_GET_THP_DISABLED ,
+ and (if it returns)
+ .BR PR_GET_SECCOMP
+ return the nonnegative values described above.
+@@ -806,11 +824,12 @@ is not recognized.
+ .B EINVAL
+ .I option
+ is
+-.BR PR_MCE_KILL
+-or
+-.BR PR_MCE_KILL_GET
+-or
++.BR PR_MCE_KILL ,
++.BR PR_MCE_KILL_GET ,
+ .BR PR_SET_MM ,
++.BR PR_SET_THP_DISABLE
++or
++.BR PR_GET_THP_DISABLE ,
+ and unused
+ .BR prctl ()
+ arguments were not specified as zero.
+-- 
+1.7.12.4
 
-We do not presently indicate what is the desired state.
-
-Some interfaces deviate from the standards, and in some cases we have
-started marking that e.g. !posix.
-
-However, we need to do a second pass to ensure that:
-
-(a) We transition from preliminary to full guarantees about the API.
-
--- When we do this transition we will look at what the desired
-guarantee is for each function.
-
-For example we may *never* guarantee setlocale is MT-safe, simply
-because the consequence of making it safe slows down every other
-function that uses locales.
-
-(b) We document the standard requirement for reference.
-
-(c) We add texinfo comments when we have notes to describe why we
-deviate from the standard.
-
-> 3. Were the glibc manual changes generated manually, or was there some
-> degree of automation involved? I.e., has some markup been added to the
-> source that allows one to generate a summary of information about
-> MT-safety? As far as I can tell, that is not the case, but I wanted to
-> check.
-
-The glibc manual changes were generated manually.
-
-However, the notes per function are not text, but instead texinfo macros.
-
-The macros are then turned into the text you see.
-
-Therefore we have a meta-language in texinfo macros to describe the
-safety notes for each function.
-
-We have a regression test to ensure these notes follow the rules we
-set out for them e.g. if you mark something unsafe you note why using
-a valid marker for that safety note.
-
-Markup has not been added to the source to generate a summary of
-information about MT-safety.
-
-This is actually a GSoC project for glibc:
-https://sourceware.org/glibc/wiki/GSoC
-
-See "Dynamic Documentation"
-
-Fundamentally we can't move source code documentation into the manual
-because of the licensing barrier between GFDL and LGPLv2, *however*
-since gcc has the same problem with C++ we do have a known process for
-doing this easily (FSF maintainer given the right to relicense the
-generated docs and check them in).
-
-I also question the validity of copyrighting some of this information.
-For example I consider that the safety note information isn't
-copyrightable because it's a property of the function. Descriptive
-text about why we don't follow the standard would be copyrightable
-though.
-
-> The motivation of the above questions is of course that I wonder what
-> degree of automation might be achievable in making changes to the
-> documentation in man-pages.
-
-We considered this initially and we want to go in that direction, but
-for this initial pass we determined it would complicate the project
-and decided to do a manual pass.
-
-If you can suggest any technology we might wish to use, we could
-refine our GSoC project?
-
-Cheers,
-Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
