@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] scandir.3: tfix
-Date: Wed, 26 Feb 2014 10:22:10 +0100
-Message-ID: <530DB242.1030202@gmail.com>
-References: <1393285264-4984-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] access.2, chmod.2, chown.2, unlink.2: ffix
+Date: Wed, 26 Feb 2014 10:22:32 +0100
+Message-ID: <530DB258.2040402@gmail.com>
+References: <1393285422-5684-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1393285264-4984-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1393285422-5684-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -15,43 +15,183 @@ List-Id: linux-man@vger.kernel.org
 
 Thanks, Simon. Applied.
 
-On 02/25/2014 12:41 AM, Simon Paillard wrote:
-> Introduced in cadd38ba
-> ---
->  man3/scandir.3 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On 02/25/2014 12:43 AM, Simon Paillard wrote:
+> Fix format issue introduced in cadd38ba
 > 
-> diff --git a/man3/scandir.3 b/man3/scandir.3
-> index a3e9159..aee2c86 100644
-> --- a/man3/scandir.3
-> +++ b/man3/scandir.3
-> @@ -146,7 +146,7 @@ on the strings \fI(*a)\->d_name\fP and \fI(*b)\->d_name\fP.
->  The
->  .BR scandirat ()
->  function operates in exactly the same way as
-> -.BR scnadir (),
-> +.BR scandir (),
->  except for the differences described here.
+> Can be detected with:
+> 	git grep -P '.BR [a-z]+\(\)'
+> ---
+>  man2/access.2 |  8 ++++----
+>  man2/chmod.2  |  6 +++---
+>  man2/chown.2  | 10 +++++-----
+>  man2/unlink.2 | 10 +++++-----
+>  4 files changed, 17 insertions(+), 17 deletions(-)
+> 
+> diff --git a/man2/access.2 b/man2/access.2
+> index 8be998a..83f48bd 100644
+> --- a/man2/access.2
+> +++ b/man2/access.2
+> @@ -125,7 +125,7 @@ referred to by the file descriptor
+>  .I dirfd
+>  (rather than relative to the current working directory of
+>  the calling process, as is done by
+> -.BR access()
+> +.BR access ()
+>  for a relative pathname).
 >  
->  If the pathname given in
+>  If
+> @@ -138,7 +138,7 @@ then
+>  .I pathname
+>  is interpreted relative to the current working
+>  directory of the calling process (like
+> -.BR access()).
+> +.BR access () ).
+>  
+>  If
+>  .I pathname
+> @@ -154,7 +154,7 @@ Perform access checks using the effective user and group IDs.
+>  By default,
+>  .BR faccessat ()
+>  uses the real IDs (like
+> -.BR access()).
+> +.BR access () ).
+>  .TP
+>  .B AT_SYMLINK_NOFOLLOW
+>  If
+> @@ -260,7 +260,7 @@ is a file descriptor referring to a file other than a directory.
+>  was added to Linux in kernel 2.6.16;
+>  library support was added to glibc in version 2.4.
+>  .SH "CONFORMING TO"
+> -.BR access():
+> +.BR access ():
+>  SVr4, 4.3BSD, POSIX.1-2001, POSIX.1-2008.
+>  
+>  .BR faccessat ():
+> diff --git a/man2/chmod.2 b/man2/chmod.2
+> index 8417100..f4636d5 100644
+> --- a/man2/chmod.2
+> +++ b/man2/chmod.2
+> @@ -193,7 +193,7 @@ referred to by the file descriptor
+>  .I dirfd
+>  (rather than relative to the current working directory of
+>  the calling process, as is done by
+> -.BR chmod()
+> +.BR chmod ()
+>  for a relative pathname).
+>  
+>  If
+> @@ -206,7 +206,7 @@ then
+>  .I pathname
+>  is interpreted relative to the current working
+>  directory of the calling process (like
+> -.BR chmod()).
+> +.BR chmod () ).
+>  
+>  If
+>  .I pathname
+> @@ -298,7 +298,7 @@ See above.
+>  See above.
+>  .PP
+>  The same errors that occur for
+> -.BR chmod()
+> +.BR chmod ()
+>  can also occur for
+>  .BR fchmodat ().
+>  The following additional errors can occur for
+> diff --git a/man2/chown.2 b/man2/chown.2
+> index a92c039..b1ef4a5 100644
+> --- a/man2/chown.2
+> +++ b/man2/chown.2
 > @@ -156,7 +156,7 @@ referred to by the file descriptor
 >  .I dirfd
 >  (rather than relative to the current working directory of
 >  the calling process, as is done by
-> -.BR scnadir ()
-> +.BR scandir ()
+> -.BR chown()
+> +.BR chown ()
 >  for a relative pathname).
 >  
 >  If
 > @@ -169,7 +169,7 @@ then
->  .I dirp
+>  .I pathname
 >  is interpreted relative to the current working
 >  directory of the calling process (like
-> -.BR scnadir ()).
-> +.BR scandir ()).
+> -.BR chown()).
+> +.BR chown () ).
 >  
 >  If
->  .I dirp
+>  .I pathname
+> @@ -206,11 +206,11 @@ If
+>  .I pathname
+>  is a symbolic link, do not dereference it:
+>  instead operate on the link itself, like
+> -.BR lchown().
+> +.BR lchown ().
+>  (By default,
+>  .BR fchownat ()
+>  dereferences symbolic links, like
+> -.BR chown().)
+> +.BR chown ().)
+>  .PP
+>  See
+>  .BR openat (2)
+> @@ -282,7 +282,7 @@ See above.
+>  See above.
+>  .PP
+>  The same errors that occur for
+> -.BR chown()
+> +.BR chown ()
+>  can also occur for
+>  .BR fchownat ().
+>  The following additional errors can occur for
+> diff --git a/man2/unlink.2 b/man2/unlink.2
+> index 29b1acd..7aafb90 100644
+> --- a/man2/unlink.2
+> +++ b/man2/unlink.2
+> @@ -83,7 +83,7 @@ it.
+>  The
+>  .BR unlinkat ()
+>  system call operates in exactly the same way as either
+> -.BR unlink()
+> +.BR unlink ()
+>  or
+>  .BR rmdir (2)
+>  (depending on whether or not
+> @@ -100,7 +100,7 @@ referred to by the file descriptor
+>  .I dirfd
+>  (rather than relative to the current working directory of
+>  the calling process, as is done by
+> -.BR unlink()
+> +.BR unlink ()
+>  and
+>  .BR rmdir (2)
+>  for a relative pathname).
+> @@ -115,7 +115,7 @@ then
+>  .I pathname
+>  is interpreted relative to the current working
+>  directory of the calling process (like
+> -.BR unlink()
+> +.BR unlink ()
+>  and
+>  .BR rmdir (2)).
+>  
+> @@ -135,7 +135,7 @@ Currently only one such flag is defined:
+>  By default,
+>  .BR unlinkat ()
+>  performs the equivalent of
+> -.BR unlink()
+> +.BR unlink ()
+>  on
+>  .IR pathname .
+>  If the
+> @@ -238,7 +238,7 @@ capability).
+>  refers to a file on a read-only filesystem.
+>  .PP
+>  The same errors that occur for
+> -.BR unlink()
+> +.BR unlink ()
+>  and
+>  .BR rmdir (2)
+>  can also occur for
 > 
 
 
