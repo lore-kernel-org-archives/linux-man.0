@@ -1,55 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strpbrk.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 26 Feb 2014 10:31:18 +0100
-Message-ID: <530DB466.30501@gmail.com>
-References: <1393320530-16052-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: man 7 ascii confusion
+Date: Wed, 26 Feb 2014 11:06:17 +0100
+Message-ID: <CAKgNAki09-i1TbG61kf6NBQ06bk4rZpRdcg8RqBR0YTeuVU5_A@mail.gmail.com>
+References: <20131122044518.GA11154@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1393320530-16052-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20131122044518.GA11154-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Duncan de Wet <duncandewet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Hello Duncan,
 
-On 02/25/2014 10:28 AM, Peng Haitao wrote:
-> The function strpbrk() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/strpbrk.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/strpbrk.3 b/man3/strpbrk.3
-> index 7e3519d..0ae1c3a 100644
-> --- a/man3/strpbrk.3
-> +++ b/man3/strpbrk.3
-> @@ -27,7 +27,7 @@
->  .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
->  .\"     386BSD man pages
->  .\" Modified Sat Jul 24 18:01:24 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
-> -.TH STRPBRK 3  2012-05-10 "" "Linux Programmer's Manual"
-> +.TH STRPBRK 3  2014-02-25 "" "Linux Programmer's Manual"
->  .SH NAME
->  strpbrk \- search a string for any of a set of bytes
->  .SH SYNOPSIS
-> @@ -53,6 +53,11 @@ that matches one of the bytes in
->  .IR accept ,
->  or NULL
->  if no such byte is found.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR strpbrk ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89, C99.
->  .SH SEE ALSO
-> 
+On Fri, Nov 22, 2013 at 5:45 AM, Duncan de Wet <duncandewet-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Manpages version 3.44-0ubuntu1 distribution Linux Mint 15.
+>
+> In man 7 ascii, there is the following sentence:
+>
+>> Many 8-bit codes (such as ISO 8859-1, the Linux default character set)
+>> contain ASCII as their lower half.
+>
+> Locales now use UTF-8 by default. This sentence should probably be
+> changed to something explaining how UTF-8 works, like:
+>
+>> Many 8-bit codes contain ASCII as their lower half. The Linux default
+>> character set, UTF-8, fits thousands of characters through non-ASCII
+>> characters using more than one upper-half byte.
+>
+> Or something like that, I'm no expert.
 
+I agree that something should be fixed, but simplest I think is to
+remove mention of 8859-1 as the default. There is already a utf-8(7)
+page that explains UTF-8 at some length.
+
+I applied the patch below, and I'll also add utf-8(7) under SEE ALSO.
+
+Cheers,
+
+Michael
+
+
+diff --git a/man7/ascii.7 b/man7/ascii.7
+index 5f064c1..88979dc 100644
+--- a/man7/ascii.7
++++ b/man7/ascii.7
+@@ -38,8 +38,7 @@ ascii \- ASCII character set encoded in octal,
+decimal, and hexadecimal
+ .SH DESCRIPTION
+ ASCII is the American Standard Code for Information Interchange.
+ It is a 7-bit code.
+-Many 8-bit codes (such as ISO 8859-1, the
+-Linux default character set) contain ASCII as their lower half.
++Many 8-bit codes (e.g., ISO 8859-1) contain ASCII as their lower half.
+ The international counterpart of ASCII is known as ISO 646.
+ .LP
+ The following table contains the 128 ASCII characters.
 
 -- 
 Michael Kerrisk
