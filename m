@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] swab.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 26 Feb 2014 10:23:37 +0100
-Message-ID: <530DB299.1020707@gmail.com>
-References: <1393308246-498-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strsep.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 26 Feb 2014 10:23:46 +0100
+Message-ID: <530DB2A2.9060600@gmail.com>
+References: <1393311599-4668-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1393308246-498-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1393311599-4668-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,40 +15,39 @@ List-Id: linux-man@vger.kernel.org
 
 Thanks, Haitao. Applied.
 
-
-On 02/25/2014 07:04 AM, Peng Haitao wrote:
-> The function swab() is thread safe.
+On 02/25/2014 07:59 AM, Peng Haitao wrote:
+> The function strsep() is thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/swab.3 | 7 ++++++-
+>  man3/strsep.3 | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/swab.3 b/man3/swab.3
-> index 9c4ef7a..007f685 100644
-> --- a/man3/swab.3
-> +++ b/man3/swab.3
-> @@ -28,7 +28,7 @@
->  .\"     386BSD man pages
->  .\" Modified Sat Jul 24 17:52:15 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified 2001-12-15, aeb
-> -.TH SWAB 3  2001-12-15 "" "Linux Programmer's Manual"
-> +.TH SWAB 3  2014-02-25 "" "Linux Programmer's Manual"
+> diff --git a/man3/strsep.3 b/man3/strsep.3
+> index d08c437..f469ebf 100644
+> --- a/man3/strsep.3
+> +++ b/man3/strsep.3
+> @@ -30,7 +30,7 @@
+>  .\" Modified Mon Jan 20 12:04:18 1997 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
+>  .\" Modified Tue Jan 23 20:23:07 2001 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
+>  .\"
+> -.TH STRSEP 3  2014-01-04 "GNU" "Linux Programmer's Manual"
+> +.TH STRSEP 3  2014-02-25 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  swab \- swap adjacent bytes
+>  strsep \- extract token from string
 >  .SH SYNOPSIS
-> @@ -69,6 +69,11 @@ should be even.)
->  The
->  .BR swab ()
->  function returns no value.
+> @@ -76,6 +76,11 @@ The
+>  function returns a pointer to the token,
+>  that is, it returns the original value of
+>  .IR *stringp .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR swab ()
+> +.BR strsep ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
->  SVr4, 4.3BSD, POSIX.1-2001.
->  .SH SEE ALSO
+>  4.4BSD.
+>  .SH NOTES
 > 
 
 
