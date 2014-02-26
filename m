@@ -1,40 +1,64 @@
-From: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: Add PR_GET/SET_THP_DISABLED information
-Date: Tue, 25 Feb 2014 18:03:58 -0500
-Message-ID: <530D215E.2060606@redhat.com>
-References: <64a0db7fc5c6250a01878c6d3b3dee4a2430e687.1393354819.git.athorlton@sgi.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] scandir.3: tfix
+Date: Wed, 26 Feb 2014 10:22:10 +0100
+Message-ID: <530DB242.1030202@gmail.com>
+References: <1393285264-4984-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <64a0db7fc5c6250a01878c6d3b3dee4a2430e687.1393354819.git.athorlton-sJ/iWh9BUns@public.gmane.org>
+In-Reply-To: <1393285264-4984-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Gerald Schaefer <gerald.schaefer-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Martin Schwidefsky <schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Heiko Carstens <heiko.carstens-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Christian Borntraeger <borntraeger-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Paolo Bonzini <pbonzini-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/25/2014 04:20 PM, Alex Thorlton wrote:
-> This patch adds documentation for the new prctl option to disable
-> transparent hugepages on a per-mm_struct basis.  The patch that
-> implements this functionality can be found here:
-> 
-> http://www.mail-archive.com/linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org/msg595756.html
-> 
-> (Note that the patch hasn't made it through into the community
->  kernel, yet.  I'm submitting the documentation ahead of time
->  to make sure that everything is in order if/when the patch
->  makes it into the kernel.)
-> 
-> Please let me know if you notice anything that should be changed
-> or added.  Thanks!
-> 
-> Signed-off-by: Alex Thorlton <athorlton-sJ/iWh9BUns@public.gmane.org>
+Thanks, Simon. Applied.
 
-Acked-by: Rik van Riel <riel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+On 02/25/2014 12:41 AM, Simon Paillard wrote:
+> Introduced in cadd38ba
+> ---
+>  man3/scandir.3 | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man3/scandir.3 b/man3/scandir.3
+> index a3e9159..aee2c86 100644
+> --- a/man3/scandir.3
+> +++ b/man3/scandir.3
+> @@ -146,7 +146,7 @@ on the strings \fI(*a)\->d_name\fP and \fI(*b)\->d_name\fP.
+>  The
+>  .BR scandirat ()
+>  function operates in exactly the same way as
+> -.BR scnadir (),
+> +.BR scandir (),
+>  except for the differences described here.
+>  
+>  If the pathname given in
+> @@ -156,7 +156,7 @@ referred to by the file descriptor
+>  .I dirfd
+>  (rather than relative to the current working directory of
+>  the calling process, as is done by
+> -.BR scnadir ()
+> +.BR scandir ()
+>  for a relative pathname).
+>  
+>  If
+> @@ -169,7 +169,7 @@ then
+>  .I dirp
+>  is interpreted relative to the current working
+>  directory of the calling process (like
+> -.BR scnadir ()).
+> +.BR scandir ()).
+>  
+>  If
+>  .I dirp
+> 
 
 
 -- 
-All rights reversed
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
