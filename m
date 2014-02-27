@@ -1,66 +1,72 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] resolv.conf.5: DESCRIPTION: Mention that the data is
- trusted.
-Date: Wed, 26 Feb 2014 16:03:22 -0500
-Message-ID: <530E569A.3030902@redhat.com>
-References: <5303E845.7080003@redhat.com> <53086680.30900@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 71211] New: Clarify /dev/urandom utility and volume
+Date: Thu, 27 Feb 2014 01:40:58 +0000
+Message-ID: <bug-71211-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53086680.30900-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/22/2014 03:57 AM, Michael Kerrisk (man-pages) wrote:
-> On 02/19/2014 12:09 AM, Carlos O'Donell wrote:
->> In a recent discussion about DNSSEC it was brought to my
->> attention that not all system administrators may understand
->> that the information in /etc/resolv.conf is fully trusted.
->> The resolver implementation in glibc treats /etc/resolv.conf
->> as a fully trusted source of DNS information and passes on
->> the AD-bit for DNSSEC as trusted.
->>
->> Would it be possible to add a clarifying setence to the
->> man page for resolv.conf.5 to make it absolutely clear that
->> indeed this source of information is trusted?
->>
->> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->>
->> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
->> index f398724..2dfccdf 100644
->> --- a/man5/resolv.conf.5
->> +++ b/man5/resolv.conf.5
->> @@ -35,6 +35,9 @@ The resolver configuration file contains information that is read
->>  by the resolver routines the first time they are invoked by a process.
->>  The file is designed to be human readable and contains a list of
->>  keywords with values that provide various types of resolver information.
->> +The configuration file is considered a trusted source of DNS information
->> +e.g. DNSSEC AD-bit information will be returned unmodified from these
->> +sources.
->>  .LP
->>  If this file does not exist,
->>  only the name server on the local machine will be queried;
-> 
-> Carlos,
-> 
-> Thanks. I've applied this, but made one small change. You wrote plural "these
-> sources", but the context seems to indicate a singular is required, so I 
-> changed it to "this source". Okay?
+https://bugzilla.kernel.org/show_bug.cgi?id=71211
 
-I wrote "sources" because the singular /etc/resolv.conf may have
-between 1 and 3 DNS servers listed as the source or sources of
-trusted DNS information. What you wrote is perfectly fine though,
-the point is to get across that this is at present a trusted source
-of information that NetworkManager and other tools should treat
-as trusted. If you don't trust the DNS server or DHCP then you need
-to take other drastic measures.
+            Bug ID: 71211
+           Summary: Clarify /dev/urandom utility and volume
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: enhancement
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: bugtrackers-w/PKm97gIPRWk0Htik3J/w@public.gmane.org
+        Regression: No
 
-Cheers,
-Carlos.
+First, an assumption: /dev/random and /dev/urandom are good CPRNGs, and the
+definition of a "good CPRNG" includes the ability to generate a theoretically
+unlimited amount of random data for daily uses.
 
+The manpage for random(4) states, in part:
+
+> The kernel random-number generator is designed to produce a small
+> amount of high-quality seed material to seed a cryptographic pseudo-
+> random number generator (CPRNG). It is designed for security, not
+> speed, and is poorly suited to generating large amounts of random
+> data. Users should be very economical in the amount of seed material
+> that they read from /dev/urandom (and /dev/random); unnecessarily
+> reading large quantities of data from this device will have a
+> negative impact on other users of the device.
+
+A lot developers take this paragraph as gospel, and I believe the way it is
+phrased "spooks" them into not trusting /dev/urandom as much as they should for
+daily tasks. The consequence is that they instead use OpenSSL or another
+user-space CPRNG instead of their kernel, or roll their own (ugh).
+
+We should clarify what "a large amount of random data" is, what being
+"economical" means, and what a "negative impact on other users of the device"
+means, and provide more specific examples of where /dev/urandom is useful. 
+
+As a sounding board, is /dev/urandom acceptable for providing random bytes to
+assist with the following tasks? Assume I'm drawing 16 bytes on average,
+multiple times per second.
+
+(1) Generating numbers/nonces, etc for secure network connections
+(2) Generating signed cookies or session keys for a web application
+(3) Generating random numbers for use in games of chance
+
+References/how I ended up here:
+http://man7.org/linux/man-pages/man4/random.4.html
+http://blog.cr.yp.to/20140205-entropy.html
+http://sockpuppet.org/blog/2014/02/25/safely-generate-random-numbers/
+https://bugs.ruby-lang.org/issues/9569
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
