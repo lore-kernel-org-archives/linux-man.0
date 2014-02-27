@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 71211] Clarify /dev/urandom utility and volume
-Date: Thu, 27 Feb 2014 01:41:32 +0000
-Message-ID: <bug-71211-11311-MJrjSejNJw@https.bugzilla.kernel.org/>
+Subject: [Bug 71211] random(4): clarify utility and volume
+Date: Thu, 27 Feb 2014 02:09:01 +0000
+Message-ID: <bug-71211-11311-OTrreEzbNW@https.bugzilla.kernel.org/>
 References: <bug-71211-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -18,9 +18,8 @@ Corey Csuhta <bugtrackers-w/PKm97gIPRWk0Htik3J/w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-                URL|                            |http://man7.org/linux/man-p
-                   |                            |ages/man4/random.4.html
-                 CC|                            |bugtrackers-w/PKm97gIPRWk0Htik3J/w@public.gmane.org
+            Summary|Clarify /dev/urandom        |random(4): clarify utility
+                   |utility and volume          |and volume
 
 -- 
 You are receiving this mail because:
