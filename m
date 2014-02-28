@@ -1,47 +1,45 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strspn.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Fri, 28 Feb 2014 10:21:10 +0800
-Message-ID: <1393554070-18450-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sockatmark.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 28 Feb 2014 11:13:43 +0800
+Message-ID: <1393557223-22476-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions strspn() and strcspn() are thread safe.
+The function sockatmark() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/strspn.3 | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ man3/sockatmark.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/strspn.3 b/man3/strspn.3
-index 80eaf30..f05b8a2 100644
---- a/man3/strspn.3
-+++ b/man3/strspn.3
-@@ -27,7 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 17:57:50 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH STRSPN 3  2013-12-30 "" "Linux Programmer's Manual"
-+.TH STRSPN 3  2014-02-28 "" "Linux Programmer's Manual"
+diff --git a/man3/sockatmark.3 b/man3/sockatmark.3
+index b7e38ca..6a90f89 100644
+--- a/man3/sockatmark.3
++++ b/man3/sockatmark.3
+@@ -22,7 +22,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH SOCKATMARK 3 2008-12-03 "Linux" "Linux Programmer's Manual"
++.TH SOCKATMARK 3 2014-02-28 "Linux" "Linux Programmer's Manual"
  .SH NAME
- strspn, strcspn \- get length of a prefix substring
+ sockatmark \- determine whether socket is at out-of-band mark
  .SH SYNOPSIS
-@@ -71,6 +71,13 @@ the initial segment of
- .I s
- which are not in the string
- .IR reject .
+@@ -70,6 +70,11 @@ can be applied.
+ .SH VERSIONS
+ .BR sockatmark ()
+ was added to glibc in version 2.2.4.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR strspn ()
-+and
-+.BR strcspn ()
-+functions are thread-safe.
++.BR sockatmark ()
++function is thread-safe.
  .SH CONFORMING TO
- SVr4, 4.3BSD, C89, C99.
- .SH SEE ALSO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
 1.8.5.3
 
