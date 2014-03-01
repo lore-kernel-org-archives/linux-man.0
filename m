@@ -1,33 +1,51 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] crypt.3: ffix
-Date: Sat,  1 Mar 2014 15:59:38 +0100
-Message-ID: <1393685978-23268-1-git-send-email-spaillard@debian.org>
+From: Rick Stanley <rstanley-PulMX1svUoYAvxtiuMwx3w@public.gmane.org>
+Subject: man 3 strncpy error
+Date: Sat, 01 Mar 2014 13:31:47 -0500
+Message-ID: <1393698707.4142.12.camel@linus.home.rsiny.com>
+Reply-To: rstanley-PulMX1svUoYAvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man3/crypt.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On the current page for `man 3 strncpy` there is an error in the sample
+for forced termination if the copy does not result in a proper
+null-terminated string. (Appears in both "Man-pages, release 3.58", and
+on http://man7.org/linux/man-pages/man3/strncpy.3.html )
 
-diff --git a/man3/crypt.3 b/man3/crypt.3
-index 0999532..9baa80a 100644
---- a/man3/crypt.3
-+++ b/man3/crypt.3
-@@ -168,7 +168,8 @@ function was not implemented, probably because of U.S.A. export restrictions.
- .\" to be considered insecure for the given reasons.
- .TP
- .B EPERM
--.I /proc/sys/crypto/fips_enabled has a nonzero value,
-+.I /proc/sys/crypto/fips_enabled
-+has a nonzero value,
- and an attempt was made to use a weak encryption type, such as DES.
- .SH ATTRIBUTES
- .SS Multithreading (see pthreads(7))
+Current:
+        
+        strncpy(buf, str, n);
+        if (n > 0)
+            buf[n - 1]= '\0';
+        
+If n == 4, then 4 bytes are copied, (buf[0] - buf[3]) but n - 1 or
+buf[3] is then overwritten with the '\0'.  Should be buf[n] instead.
+
+Corrected code:
+        
+        strncpy(buf, str, n);
+        if (n > 0)
+            buf[n]= '\0';
+        
+Question:  Even if n == 0 why shouldn't buf[n] be set to '\0'?
+
+Thank you!
+
+Rick Stanley
+
 -- 
-1.8.5.3
+RSI (Rick Stanley, Inc.)
+(917) 822-7771
+www.rsiny.com
+Computer Systems Consulting
+Linux & Open Source Specialists
+
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
