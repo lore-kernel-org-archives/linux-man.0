@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sockatmark.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sun, 02 Mar 2014 07:21:07 +0100
-Message-ID: <5312CDD3.90003@gmail.com>
-References: <1393557223-22476-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] logb.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Sun, 02 Mar 2014 07:21:20 +0100
+Message-ID: <5312CDE0.3010200@gmail.com>
+References: <1393562967-27456-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1393557223-22476-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1393562967-27456-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -19,39 +19,42 @@ Cheers,
 
 Michael
 
-On 02/28/2014 04:13 AM, Peng Haitao wrote:
-> The function sockatmark() is thread safe.
+On 02/28/2014 05:49 AM, Peng Haitao wrote:
+> The functions logb(), logbf() and logbl() are thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/sockatmark.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man3/logb.3 | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/sockatmark.3 b/man3/sockatmark.3
-> index b7e38ca..6a90f89 100644
-> --- a/man3/sockatmark.3
-> +++ b/man3/sockatmark.3
-> @@ -22,7 +22,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
+> diff --git a/man3/logb.3 b/man3/logb.3
+> index 1a92270..4943bf4 100644
+> --- a/man3/logb.3
+> +++ b/man3/logb.3
+> @@ -26,7 +26,7 @@
 >  .\"
-> -.TH SOCKATMARK 3 2008-12-03 "Linux" "Linux Programmer's Manual"
-> +.TH SOCKATMARK 3 2014-02-28 "Linux" "Linux Programmer's Manual"
+>  .\" Inspired by a page by Walter Harms created 2002-08-10
+>  .\"
+> -.TH LOGB 3 2010-09-20 "" "Linux Programmer's Manual"
+> +.TH LOGB 3 2014-02-28 "" "Linux Programmer's Manual"
 >  .SH NAME
->  sockatmark \- determine whether socket is at out-of-band mark
+>  logb, logbf, logbl \- get exponent of a floating-point value
 >  .SH SYNOPSIS
-> @@ -70,6 +70,11 @@ can be applied.
->  .SH VERSIONS
->  .BR sockatmark ()
->  was added to glibc in version 2.2.4.
+> @@ -140,6 +140,14 @@ These functions do not set
+>  .\" .BR logb ()
+>  .\" function occurs in 4.3BSD.
+>  .\" see IEEE.3 in the 4.3BSD manual
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR sockatmark ()
-> +function is thread-safe.
+> +.BR logb (),
+> +.BR logbf (),
+> +and
+> +.BR logbl ()
+> +functions are thread-safe.
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+>  C99, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
