@@ -1,51 +1,47 @@
-From: Rick Stanley <rstanley-PulMX1svUoYAvxtiuMwx3w@public.gmane.org>
-Subject: man 3 strncpy error
-Date: Sat, 01 Mar 2014 13:31:47 -0500
-Message-ID: <1393698707.4142.12.camel@linus.home.rsiny.com>
-Reply-To: rstanley-PulMX1svUoYAvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] sem_destroy.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 3 Mar 2014 09:28:17 +0800
+Message-ID: <1393810097-16926-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On the current page for `man 3 strncpy` there is an error in the sample
-for forced termination if the copy does not result in a proper
-null-terminated string. (Appears in both "Man-pages, release 3.58", and
-on http://man7.org/linux/man-pages/man3/strncpy.3.html )
+The function sem_destroy() is thread safe.
 
-Current:
-        
-        strncpy(buf, str, n);
-        if (n > 0)
-            buf[n - 1]= '\0';
-        
-If n == 4, then 4 bytes are copied, (buf[0] - buf[3]) but n - 1 or
-buf[3] is then overwritten with the '\0'.  Should be buf[n] instead.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/sem_destroy.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Corrected code:
-        
-        strncpy(buf, str, n);
-        if (n > 0)
-            buf[n]= '\0';
-        
-Question:  Even if n == 0 why shouldn't buf[n] be set to '\0'?
-
-Thank you!
-
-Rick Stanley
-
+diff --git a/man3/sem_destroy.3 b/man3/sem_destroy.3
+index 2640575..2b14dde 100644
+--- a/man3/sem_destroy.3
++++ b/man3/sem_destroy.3
+@@ -23,7 +23,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH SEM_DESTROY 3 2012-05-13 "Linux" "Linux Programmer's Manual"
++.TH SEM_DESTROY 3 2014-03-03 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ sem_destroy \- destroy an unnamed semaphore
+ .SH SYNOPSIS
+@@ -63,6 +63,11 @@ is set to indicate the error.
+ .B EINVAL
+ .I sem
+ is not a valid semaphore.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR sem_destroy ()
++function is thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
-RSI (Rick Stanley, Inc.)
-(917) 822-7771
-www.rsiny.com
-Computer Systems Consulting
-Linux & Open Source Specialists
-
-
+1.8.5.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
