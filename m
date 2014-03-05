@@ -1,47 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] link.2: Fix typo.
-Date: Wed, 05 Mar 2014 12:14:53 +0100
-Message-ID: <5317072D.6050607@gmail.com>
-References: <20140304160237.GA8347@rei.Home>
+Subject: Re: [PATCH] ptrace.2: doubled reference to NOTES
+Date: Wed, 05 Mar 2014 12:17:43 +0100
+Message-ID: <531707D7.3050503@gmail.com>
+References: <1393974318-29105-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140304160237.GA8347-HSzIOc4LzcM@public.gmane.org>
+In-Reply-To: <1393974318-29105-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/04/2014 05:02 PM, Cyril Hrubis wrote:
-> protected_hardlink -> protected_hardlinks
+On 03/05/2014 12:05 AM, Simon Paillard wrote:
+> Keep only one reference.
 
-Thanks, Cyrill.
+Hi Simon,
 
-Applied.
+The doubled reference was deliberate, since these are under two 
+different list items. (Or have I missed your point?)
 
-Cheers,
+Thanks,
 
 Michael
 
-> 
-> Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+
+
 > ---
->  man2/link.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man2/ptrace.2 | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/man2/link.2 b/man2/link.2
-> index 20c0b01..0311096 100644
-> --- a/man2/link.2
-> +++ b/man2/link.2
-> @@ -245,7 +245,7 @@ does not support the creation of hard links.
->  .BR EPERM " (since Linux 3.6)"
->  The caller does not have permission to create a hard link to this file
->  (see the description of
-> -.IR /proc/sys/fs/protected_hardlink
-> +.IR /proc/sys/fs/protected_hardlinks
->  in
->  .BR proc (5)).
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index 4fc2611..aca7d29 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -179,7 +179,6 @@ The word is returned as the result of the
+>  call.
+>  Typically, the offset must be word-aligned, though this might vary by
+>  architecture.
+> -See NOTES.
+>  .RI ( data
+>  is ignored; but see NOTES.)
 >  .TP
 > 
 
