@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 71621] Test Bug
-Date: Fri, 07 Mar 2014 02:20:21 +0000
-Message-ID: <bug-71621-11311-Wt6zFNUKWt@https.bugzilla.kernel.org/>
+Date: Fri, 07 Mar 2014 02:22:54 +0000
+Message-ID: <bug-71621-11311-xScm6n2V2e@https.bugzilla.kernel.org/>
 References: <bug-71621-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,9 +14,12 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=71621
 
---- Comment #1 from Nitin <nitin462016-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Functionality tested.(In reply to Nitin from comment #0)
-> This is a test bug to see functionality
+Nitin <nitin462016-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |INVALID
 
 -- 
 You are receiving this mail because:
