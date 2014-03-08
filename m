@@ -1,29 +1,65 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 71621] Test Bug
-Date: Fri, 07 Mar 2014 02:22:54 +0000
-Message-ID: <bug-71621-11311-xScm6n2V2e@https.bugzilla.kernel.org/>
-References: <bug-71621-11311@https.bugzilla.kernel.org/>
+From: Thomas Klausner <tk-JlXkzPh5ucKzZXS1Dc/lvw@public.gmane.org>
+Subject: bug in dlopen(3) man page
+Date: Sat, 8 Mar 2014 22:30:59 +0100
+Message-ID: <20140308213059.GA25275@danbala.tuwien.ac.at>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed; boundary="KIzF6Cje4W/osXrF"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-71621-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=71621
 
-Nitin <nitin462016-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--KIzF6Cje4W/osXrF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |INVALID
+Hi!
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+There is a bug in dlopen(3). The NOTES section claims:
+
+"The symbols RTLD_DEFAULT and RTLD_NEXT are defined by <dlfcn.h> only
+when _GNU_SOURCE was defined before including it."
+
+However, this is not correct.
+
+>From dlfcn.h on a "Gentoo Base System release 2.1":
+#ifdef __USE_GNU
+...
+# define RTLD_NEXT      ((void *) -1l)
+...
+# define RTLD_DEFAULT   ((void *) 0)
+...
+
+You can verify this by compiling the attached program. For me it gives:
+test.c: In function `main':
+test.c:8: error: `RTLD_NEXT' undeclared (first use in this function)
+test.c:8: error: (Each undeclared identifier is reported only once
+test.c:8: error: for each function it appears in.)
+
+It works if I set "__USE_GNU_" instead.
+
+Please also check the "Glibc extensions: dladdr() and dlvsym()"
+section, it also mentions _GNU_SOURCE.
+ Thomas
+--KIzF6Cje4W/osXrF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="test.c"
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define _GNU_SOURCE
+#include <dlfcn.h>
+
+int main(int argc, char *argv[]) {
+	printf ("RTLD_NEXT is %d\n", RTLD_NEXT);
+	exit(0);
+}
+
+--KIzF6Cje4W/osXrF--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
