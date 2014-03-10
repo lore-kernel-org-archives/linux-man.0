@@ -1,198 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: New locale(1) page
-Date: Mon, 10 Mar 2014 14:27:43 +0100
-Message-ID: <531DBDCF.3070202@gmail.com>
+Subject: Re: [PATCH] sem_init.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 10 Mar 2014 15:07:22 +0100
+Message-ID: <531DC71A.1030205@gmail.com>
+References: <1394416987-13564-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1394416987-13564-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+Thanks, Haitao. Applied.
 
-I've written a page for glibc's locale(1) command. Review comments welcome.
-
-Heads-up for Debian: I see Debian has a locale(1) page. However, everything
-of importance in that page is also in my page, AFAICS. The only piece
-missing is the stuff on environment variables, which is IMO out of place in
-the Debian page, and is covered in the locale(7) page that my page 
-references.
-
-Thanks,
+Cheers,
 
 Michael
 
-.\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" %%%LICENSE_START(VERBATIM)
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\" %%%LICENSE_END
-.\"
-.TH LOCALE 1 2014-03-10 "Linux" "Linux Programmer's Manual"
-.SH NAME
-locale \- get locale-specific information
-.SH SYNOPSIS
-.nf
-.BR locale " [OPTION]"
-.BR locale " [OPTION] \-a"
-.BR locale " [OPTION] \-m"
-.BR locale " [OPTION] NAME..."
-.fi
-.SH DESCRIPTION
-The
-.B locale
-command displays information about the current locale, or all locales,
-on standard output.
 
-When invoked without arguments,
-.B locale
-displays the current locale settings for each locale category (see
-.BR locale (5)),
-based on the settings of the environment variables that control the locale
-(see
-.BR locale (7)).
-
-If either the
-.B \-a
-or the
-.B \-m
-option (or one of their long-format equivalents) is specified,
-the behavior is as follows:
-.TP
-.BR \-a ", " \-\-all\-locales
-Display a list of all available locales.
-The
-.B -v
-option causes the
-.B LC_IDENTIFICATION
-metadata about each locale to be included in the output.
-.TP
-.BR \-m ", " \-\-charmaps
-Display the available charmaps (character set description files).
-.PP
-The
-.I locale
-command can also be provided with one or more arguments,
-which are the names of locale keywords (for example,
-.IR date_fmt ,
-.IR ctype-class-names ,
-.IR yesexpr ,
-or
-.IR decimal_point )
-or locale categories (for example,
-.BR LC_CTYPE
-or
-.BR LC_TIME ).
-For each argument, the following is displayed:
-.IP * 3
-For a locale keyword, the value of that keyword to be displayed.
-.IP *
-For a locale category,
-the values of all keywords in that category are displayed.
-.PP
-When arguments are supplied, the following options are meaningful:
-.TP
-.BR "\-c" ", " \-\-category\-name"
-For a category name argument,
-write the name of the locale category
-on a separate line preceding the list of keyword values for that category.
-
-For a keyword name argument,
-write the name of the locale category for this keyword
-on a separate line preceding the keyword value.
-
-This option improves readability when multiple name arguments are specified.
-It can be combined with the
-.B \-k
-option.
-.TP
-.BR "\-k" ", " "\-\-keyword\-name"
-For each keyword whose value is being displayed,
-include also the name of that keyword,
-so that the output has the format:
-
-    \fIkeyword\fP="\fIvalue\fP"
-
-.PP
-The
-.I locale
-command also knows about the following options:
-.TP
-.BR "\-v" ", " "\-\-verbose"
-Display additional information for some command-line option and argument
-combinations.
-.TP
-.BR "\-?" ", " "\-\-help"
-Display a summary of command-line options and arguments and exit.
-.TP
-.BR "\-\-usage"
-Display a short usage message and exit.
-.TP
-.BR "\-V" ", " "\-\-version"
-Display the program version and exit.
-.SH CONFORMING TO
-POSIX.1-2001, POSIX.1-2008
-.SH EXAMPLE
-.nf
-$ \fBlocale\fP
-LANG=en_US.UTF\-8
-LC_CTYPE="en_US.UTF\-8"
-LC_NUMERIC="en_US.UTF\-8"
-LC_TIME="en_US.UTF\-8"
-LC_COLLATE="en_US.UTF\-8"
-LC_MONETARY="en_US.UTF\-8"
-LC_MESSAGES="en_US.UTF\-8"
-LC_PAPER="en_US.UTF\-8"
-LC_NAME="en_US.UTF\-8"
-LC_ADDRESS="en_US.UTF\-8"
-LC_TELEPHONE="en_US.UTF\-8"
-LC_MEASUREMENT="en_US.UTF\-8"
-LC_IDENTIFICATION="en_US.UTF\-8"
-LC_ALL=en_US.UTF\-8
-$ \fBlocale date_fmt\fP
-%a %b %e %H:%M:%S %Z %Y
-$ \fBlocale \-k date_fmt\fP
-date_fmt="%a %b %e %H:%M:%S %Z %Y"
-$ \fBlocale \-ck date_fmt\fP
-LC_TIME
-date_fmt="%a %b %e %H:%M:%S %Z %Y"
-$ \fBlocale LC_MESSAGES\fP
-^[yY].*
-^[nN].*
-Yes
-No
-UTF\-8
-$ \fBlocale \-k LC_MESSAGES\fP
-yesexpr="^[yY].*"
-noexpr="^[nN].*"
-yesstr="Yes"
-nostr="No"
-messages\-codeset="UTF\-8"
-.fi
-.SH SEE ALSO
-.BR locale (5),
-.BR locale (7)
+On 03/10/2014 03:03 AM, Peng Haitao wrote:
+> The function sem_init() is thread safe.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/sem_init.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/sem_init.3 b/man3/sem_init.3
+> index d7f55cd..ec0acbf 100644
+> --- a/man3/sem_init.3
+> +++ b/man3/sem_init.3
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH SEM_INIT 3 2012-05-13 "Linux" "Linux Programmer's Manual"
+> +.TH SEM_INIT 3 2014-03-10 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  sem_init \- initialize an unnamed semaphore
+>  .SH SYNOPSIS
+> @@ -92,6 +92,11 @@ exceeds
+>  is nonzero,
+>  but the system does not support process-shared semaphores (see
+>  .BR sem_overview (7)).
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR sem_init ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
+> 
 
 
 -- 
