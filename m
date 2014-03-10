@@ -1,78 +1,128 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: sync man page in coreutils and man-pages
-Date: Mon, 10 Mar 2014 15:25:59 +0100
-Message-ID: <CAKgNAkjYYjoFqVX7g3kzshCctQ=w8MM_t732zMr81+VXsQ_sOA@mail.gmail.com>
-References: <531DAA1D.6060705@gmail.com> <20140310121010.GA31927@infradead.org>
-	<531DB150.5090301@draigBrady.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: For review: New locale(1) page
+Date: Mon, 10 Mar 2014 16:46:21 -0400
+Message-ID: <2209120.2rQ55bWOnb@vapier>
+References: <531DBDCF.3070202@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-Return-path: <coreutils-bounces+gcgcg-coreutils=m.gmane.org-mXXj517/zsQ@public.gmane.org>
-In-Reply-To: <531DB150.5090301-V8g9lnOeT5ydJdNcDFJN0w@public.gmane.org>
-List-Unsubscribe: <https://lists.gnu.org/mailman/options/coreutils>,
-	<mailto:coreutils-request-mXXj517/zsQ@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.gnu.org/archive/html/coreutils>
-List-Post: <mailto:coreutils-mXXj517/zsQ@public.gmane.org>
-List-Help: <mailto:coreutils-request-mXXj517/zsQ@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.gnu.org/mailman/listinfo/coreutils>,
-	<mailto:coreutils-request-mXXj517/zsQ@public.gmane.org?subject=subscribe>
-Errors-To: coreutils-bounces+gcgcg-coreutils=m.gmane.org-mXXj517/zsQ@public.gmane.org
-Sender: coreutils-bounces+gcgcg-coreutils=m.gmane.org-mXXj517/zsQ@public.gmane.org
-To: =?ISO-8859-1?Q?P=E1draig_Brady?= <P@draigbrady.com>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, coreutils-mXXj517/zsQ@public.gmane.org
+Content-Type: multipart/signed; boundary="nextPart1755293.UjqM2xp70P"; micalg="pgp-sha1"; protocol="application/pgp-signature"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <531DBDCF.3070202-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 10, 2014 at 1:34 PM, P=E1draig Brady <P@draigbrady.com> wrote:
-> On 03/10/2014 12:10 PM, Christoph Hellwig wrote:
->> On Mon, Mar 10, 2014 at 01:03:41PM +0100, Michael Kerrisk (man-pages) wr=
-ote:
->>>        The  kernel  keeps  data  in  memory to avoid doing (relatively
->>>        slow) disk reads and writes.  This improves performance, but if
->>>        the  computer crashes, data may be lost or the file system cor??=
-?
->>>        rupted as a result.  sync ensures that everything in memory  is
->>>        written to disk.
->>
->> This part looks correct.
->
-> Yes, and it's already in the info pages:
-> http://www.gnu.org/software/coreutils/manual/coreutils.html#sync-invocati=
-on
->
-> Generally we keep the man pages to a minimum,
-> stating the interface and brief description.
-> Users are prompted to run info coreutils 'sync invocation'
-> for further discussion, where they'll see the above text.
->
->>
->>>        sync  should  be  called  before  the processor is halted in an
->>>        unusual manner (e.g., before causing a kernel panic when debug??=
-?
->>>        ging  new  kernel  code).   In general, the processor should be
->>>        halted using the shutdown(8) or reboot(8) or halt(8)  commands,
->>>        which  will  attempt  to  put  the  system in a quiescent state
->>>        before calling sync(2).  (Various implementations of these com??=
-?
->>>        mands  exist;  consult  your documentation; on some systems one
->>>        should not call reboot(8) and halt(8) directly.)
->>
->> This kind of information does not seem useful for a user of a command
->> line utility, and the last bit seems incorrect at least for Linux.
->
-> I agree.
 
-Right then. The man-pages project just shrank by one page.
+--nextPart1755293.UjqM2xp70P
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
 
-Thanks for your input, P=E1draig.
+On Mon 10 Mar 2014 14:27:43 Michael Kerrisk wrote:
+> For each argument, the following is displayed:
+> .IP * 3
+> For a locale keyword, the value of that keyword to be displayed.
+> .IP *
+> For a locale category,
+> the values of all keywords in that category are displayed.
 
-Cheers,
+these bullet points don't seem to be indented.  should they be ?  the=20=
 
-Michael
+rendering looks not that great ... but maybe it's the standard.
 
+> .BR "\-c" ", " \-\-category\-name"
 
+that last " shouldn't be there
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> .BR "\-k" ", " "\-\-keyword\-name"
+> For each keyword whose value is being displayed,
+> include also the name of that keyword,
+> so that the output has the format:
+>=20
+>     \fIkeyword\fP=3D"\fIvalue\fP"
+>=20
+> .PP
+
+there's two blank lines after this keyword section.  is the intention f=
+or each=20
+.PP to have two blank lines precede it in the output ?  this is the onl=
+y one,=20
+so maybe the other .PP need tweaking ?
+
+> .SH EXAMPLE
+> .nf
+> $ \fBlocale\fP
+
+this this example discuss which env vars you had set ahead of time ?  s=
+eems=20
+like you just have LC_ALL=3Den_US.UTF-8 (which is kind of weird ... nor=
+mally you=20
+only set LANG).
+
+> LANG=3Den_US.UTF\-8
+> LC_CTYPE=3D"en_US.UTF\-8"
+> LC_NUMERIC=3D"en_US.UTF\-8"
+> LC_TIME=3D"en_US.UTF\-8"
+> LC_COLLATE=3D"en_US.UTF\-8"
+> LC_MONETARY=3D"en_US.UTF\-8"
+> LC_MESSAGES=3D"en_US.UTF\-8"
+> LC_PAPER=3D"en_US.UTF\-8"
+> LC_NAME=3D"en_US.UTF\-8"
+> LC_ADDRESS=3D"en_US.UTF\-8"
+> LC_TELEPHONE=3D"en_US.UTF\-8"
+> LC_MEASUREMENT=3D"en_US.UTF\-8"
+> LC_IDENTIFICATION=3D"en_US.UTF\-8"
+> LC_ALL=3Den_US.UTF\-8
+> $ \fBlocale date_fmt\fP
+> %a %b %e %H:%M:%S %Z %Y
+> $ \fBlocale \-k date_fmt\fP
+> date_fmt=3D"%a %b %e %H:%M:%S %Z %Y"
+> $ \fBlocale \-ck date_fmt\fP
+> LC_TIME
+> date_fmt=3D"%a %b %e %H:%M:%S %Z %Y"
+> $ \fBlocale LC_MESSAGES\fP
+> ^[yY].*
+> ^[nN].*
+> Yes
+> No
+> UTF\-8
+> $ \fBlocale \-k LC_MESSAGES\fP
+> yesexpr=3D"^[yY].*"
+> noexpr=3D"^[nN].*"
+> yesstr=3D"Yes"
+> nostr=3D"No"
+> messages\-codeset=3D"UTF\-8"
+
+i think this section would be a bit more readable if there was a blank =
+line=20
+before each $ prompt.  relying on the bolding alone seems insufficient.=
+
+=2Dmike
+--nextPart1755293.UjqM2xp70P
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAABAgAGBQJTHiSdAAoJEEFjO5/oN/WB+WcP/ib7RHjlWvxPX3Fp+ZfhYKdj
+XwZKoO+BkiOEv106/3aYQMEXNFAZZCpmoaecntB5kyKwT7YQg5xB++oTmv9FbtvR
+VnZSmjW3MJFbSl8rsNzmDXw7dXacHoFeqgYqxu5mJjHl7ZhS3dh93+H5R7JLvbfI
+LfR9v6EklrmxEM0FYQc2R2B9XjhLasPtgCKtFy95/0cdDxtI8EC5ePp9zM6Xf4Sy
+hcbwTgx+al304dDF/snfrt0eq4RFcYB5prLw8kVOeefj20+AfTjEvfYLwFipy/40
+5s2n1dnlquYn5fRmNgbXnldWLVZVoLomUJt9XKgElW68GQZLBeYVhIRoBqXy5wnZ
+gdQWgdxgIYswpkEm5wqg/hJ4xaRWd8EFjr7gZIhowbOZ7g16v8gYhjXXRNHgBY5n
+llvOFEG+yAgJjGIJyGRmWyT3gvBFYJwNqhvmZMaMVw/3T2lr5zHGbexRV5kjezLO
+UcgTk4OtSxpkFGk9FpzdSVKx2tCIkkMgGOiLqdvee2bFZSRfkC0uu4Gz19YPZf+7
+jM6iobk61ygjpti6l/jMh8IqsVMbVCH3GfJuOfP+hFfTJffpTfhZDTKb7Ot1r264
+Q6fbKKu6TzfrEj1DYVH6QevTL9H01zEJo89SMi6KaIoAxUtwxJzvwhH1reGYS13i
+LIB7uLi3ngl6JvhJrAH6
+=UrST
+-----END PGP SIGNATURE-----
+
+--nextPart1755293.UjqM2xp70P--
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
