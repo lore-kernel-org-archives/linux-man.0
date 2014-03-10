@@ -1,55 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man 2 stat
-Date: Mon, 10 Mar 2014 12:23:10 +0100
-Message-ID: <CAKgNAkitCsaT_sWw-jr1qN5g_dG1LPn=zCuL=TjatPNg7ckvug@mail.gmail.com>
-References: <20140309202120.GA2447@zeus.siriusdev.com> <20140309202449.GB2447@zeus.siriusdev.com>
- <CAKgNAkjcvRBqXC-Zemwap0Kt5PJLBL4SXA0ZOGYPOYSgqmvqoA@mail.gmail.com>
- <20140310100110.GA7155@zeus.siriusdev.com> <CAKgNAkiNYcL2rcmRm=PTGC76PhevQaYgZMERg9tYkmszmsx8+w@mail.gmail.com>
- <20140310111526.GC7263@zeus.siriusdev.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Thomas Klausner <tk-JlXkzPh5ucKzZXS1Dc/lvw@public.gmane.org>
+Subject: Re: bug in dlopen(3) man page
+Date: Mon, 10 Mar 2014 12:53:04 +0100
+Message-ID: <20140310115304.GS25275@danbala.tuwien.ac.at>
+References: <20140308213059.GA25275@danbala.tuwien.ac.at>
+ <sfid-H20140310-003534-+019.77-1@spamfilter.osbf.lua>
+ <15509951.scfVQB3357@vapier>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140310111526.GC7263-/zl7Sl5F5BR9OMYREy7PttBPR1lH4CV8@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <15509951.scfVQB3357@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marius Gaubas <marius-PI1xv8u4z2FbJaZ9Qiajs9BPR1lH4CV8@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
->> Now, trying to document all of the architecture-specific details in
->> the man page is difficult, and would probably be confusing to the
->> reader. But, a warning to the reader is probably in order. I've added
->> the following text below the structure definition:
->>
->>        Note: the order of fields in the stat structure varies somewhat
->>        across  architectures.   In addition, the definition above does
->>        not show the padding bytes that may  be  present  between  some
->>        fields  on  various  architectures.   Consult the the glibc and
->>        kernel source code if you need to know the details.
->>
->> Seem okay to you?
-
-> I do appreciate your point. And I agree it is very valid. Man page is
-> not and should not become an overloaded document with all the platform
-> specific caveats. But I also see it valuable to clearly explain where
-> the document is not absolutely precise and what sources should be
-> further consulted for the details.
+On Sun, Mar 09, 2014 at 07:25:20PM -0400, Mike Frysinger wrote:
+> On Sat 08 Mar 2014 22:30:59 Thomas Klausner wrote:
+> > There is a bug in dlopen(3). The NOTES section claims:
+> > 
+> > "The symbols RTLD_DEFAULT and RTLD_NEXT are defined by <dlfcn.h> only
+> > when _GNU_SOURCE was defined before including it."
+> > 
+> > However, this is not correct.
+> > 
+> > From dlfcn.h on a "Gentoo Base System release 2.1":
+> > #ifdef __USE_GNU
+> > ...
+> > # define RTLD_NEXT      ((void *) -1l)
+> > ...
+> > # define RTLD_DEFAULT   ((void *) 0)
+> > ...
+> > 
+> > You can verify this by compiling the attached program. For me it gives:
+> > test.c: In function `main':
+> > test.c:8: error: `RTLD_NEXT' undeclared (first use in this function)
+> > test.c:8: error: (Each undeclared identifier is reported only once
+> > test.c:8: error: for each function it appears in.)
+> > 
+> > It works if I set "__USE_GNU_" instead.
+> > 
+> > Please also check the "Glibc extensions: dladdr() and dlvsym()"
+> > section, it also mentions _GNU_SOURCE.
+> 
+> the man page is correct.  you must define _GNU_SOURCE before including any 
+> headers.  you must never use the __USE_XXX defines directly.
 >
-> Your proposed change looks perfect to me.
->
-> Thank you very much for you time!
+> see feature_test_macros(7) for details as the dlopen() man page references.
 
-Your welcome. Thanks for the report.
+Thanks for your reply.
 
-Cheers,
+Michael Kerrisk already pointed me to that in a private email.
 
-Michael
+However, this makes writing portable code a bit harder. When I know I need
+the define for this particular header, I can wrap the header in
+#define __FOO
+#include foo.h
+#undef __FOO
 
+but here it seems I have to live with whatever side effects __FOO
+might have on any other headers.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Well, you can't fix that, so thanks for the pointer.
+ Thomas
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
