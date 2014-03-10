@@ -1,40 +1,51 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man 2 stat
-Date: Mon, 10 Mar 2014 08:56:16 +0100
-Message-ID: <CAKgNAkjcvRBqXC-Zemwap0Kt5PJLBL4SXA0ZOGYPOYSgqmvqoA@mail.gmail.com>
-References: <20140309202120.GA2447@zeus.siriusdev.com> <20140309202449.GB2447@zeus.siriusdev.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] memchr.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 10 Mar 2014 15:55:30 +0800
+Message-ID: <1394438130-32010-1-git-send-email-penght@cn.fujitsu.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140309202449.GB2447-/zl7Sl5F5BR9OMYREy7PttBPR1lH4CV8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marius Gaubas <marius-PI1xv8u4z2FbJaZ9Qiajs9BPR1lH4CV8@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Mar 9, 2014 at 9:24 PM, Marius Gaubas <marius-PI1xv8u4z2FbJaZ9Qiajs9BPR1lH4CV8@public.gmane.org> wrote:
-> On Sun, Mar 09, 2014 at 08:21:20PM +0000, Marius Gaubas wrote:
->> 1. nlink_t st_nlink member goes after mode_t st_mode, not before @struct stat
-> Apologies, the correct statement is:
->
->   nlink_t st_nlink member is before mode_t st_mode, not after @struct stat
+The functions memchr(), memrchr() and rawmemchr() are thread safe.
 
-"I'm sorry HAL, what are are you trying to tell me?"
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/memchr.3 | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Translation: Could you _please_ communicate as though there are human
-beings on this list? What are you trying to tell us, and what is your
-evidence?
-
-Thanks,
-
-Michael
-
-
+diff --git a/man3/memchr.3 b/man3/memchr.3
+index c67689e..7e35784 100644
+--- a/man3/memchr.3
++++ b/man3/memchr.3
+@@ -29,7 +29,7 @@
+ .\" Modified Wed Feb 20 21:09:36 2002, Ian Redfern (redferni-AhJhbHGVnpvQT0dZR+AlfA@public.gmane.org)
+ .\" 2008-07-09, mtk, add rawmemchr()
+ .\"
+-.TH MEMCHR 3  2012-04-23 "" "Linux Programmer's Manual"
++.TH MEMCHR 3  2014-03-10 "" "Linux Programmer's Manual"
+ .SH NAME
+ memchr, memrchr, rawmemchr \- scan memory for a character
+ .SH SYNOPSIS
+@@ -121,6 +121,14 @@ first appeared in glibc in version 2.1.
+ 
+ .BR memrchr ()
+ first appeared in glibc in version 2.2.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR memchr (),
++.BR memrchr (),
++and
++.BR rawmemchr ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ The
+ .BR memchr ()
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.8.5.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
