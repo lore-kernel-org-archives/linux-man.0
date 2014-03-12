@@ -1,420 +1,158 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: newlocale.3
-Date: Wed, 12 Mar 2014 16:47:43 +0100
-Message-ID: <CAKgNAkhAR_LSqav=Lz_u+xJarZgBr4ft-NBeJirmCw7rd4LFSA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH] new Page: isalpha__3(3)
+Date: Wed, 12 Mar 2014 19:34:27 +0100
+Message-ID: <5320A8B3.1030101@bfs.de>
+References: <5315F2B5.2040009@bfs.de> <531DBD1F.5090400@gmail.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <531DBD1F.5090400-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
 
-I've drafted a newlocale(3) man page. Review comments welcome.
 
-Cheers,
+Am 10.03.2014 14:24, schrieb Michael Kerrisk (man-pages):
 
-Michael
+> 
+> Hello Walter,
+> 
+> You've submitted a number of pages over the past months that I have
+> not found the energy to review. I respond to this submission, with 
+> the goal of explaining why, since it shows many of the problems that
+> I see in the other submissions (and, in several cases, problems that
+> I have commented on in your past submissions).
 
-'\" t -*- coding: UTF-8 -*-
-=2E\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-=2E\"
-=2E\" %%%LICENSE_START(VERBATIM)
-=2E\" Permission is granted to make and distribute verbatim copies of t=
-his
-=2E\" manual provided the copyright notice and this permission notice a=
-re
-=2E\" preserved on all copies.
-=2E\"
-=2E\" Permission is granted to copy and distribute modified versions of=
- this
-=2E\" manual under the conditions for verbatim copying, provided that t=
-he
-=2E\" entire resulting derived work is distributed under the terms of a
-=2E\" permission notice identical to this one.
-=2E\"
-=2E\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-=2E\" manual page may be incorrect or out-of-date.  The author(s) assum=
-e no
-=2E\" responsibility for errors or omissions, or for damages resulting =
-from
-=2E\" the use of the information contained herein.  The author(s) may n=
-ot
-=2E\" have taken the same level of care in the production of this manua=
-l,
-=2E\" which is licensed free of charge, as they might when working
-=2E\" professionally.
-=2E\"
-=2E\" Formatted or processed versions of this manual, if unaccompanied =
-by
-=2E\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-=2E\" %%%LICENSE_END
-=2E\"
-=2ETH NEWLOCALE 3 2014-03-12 "Linux" "Linux Programmer's Manual"
-=2ESH NAME
-newlocale, freelocale \- create, modify, and free a locale object
-=2ESH SYNOPSIS
-=2Enf
-=2EB #include <locale.h>
-
-=2EBI "locale_t newlocale(int " category_mask ", const char *" locale "=
-,
-=2EBI "                   locale_t " base );
-
-=2EBI "void freelocale(locale_t " locobj );
-=2Efi
-=2Esp
-=2Ein -4n
-=46eature Test Macro Requirements for glibc (see
-=2EBR feature_test_macros (7)):
-=2Ein
-=2Esp
-=2EBR newlocale (),
-=2EBR freelocale ():
-=2EPD 0
-=2ERS 4
-=2ETP
-Since glibc 2.10:
-_XOPEN_SOURCE\ >=3D\ 700
-=2ETP
-Before glibc 2.10:
-_GNU_SOURCE
-=2ERE
-=2EPD
-=2ESH DESCRIPTION
-The
-=2EBR newlocale ()
-function creates a new locale object, or modifies an existing object,
-returning a reference to the new or modified object as the function res=
-ult.
-Whether the call creates a new object or modifies an existing object
-is determined by the value of
-=2EIR base :
-=2EIP * 3
-If
-=2EI base
-is
-=2EIR "(locale_t)\ 0" ,
-a new object is created.
-=2EIP *
-If
-=2EI base
-refers to valid existing locale object
-(i.e., an object returned by a previous call to
-=2EBR newlocale ()
-or
-=2EBR duplocale (3)),
-then that object is modified by the call.
-If the call is successful, the contents of
-=2EI base
-are unspecified (in particular, the object referred to by
-=2EI base
-may be freed, and a new object created).
-Therefore, the caller should ensure that it stops using
-=2EI base
-before the call to
-=2EBR newlocale (),
-and should subsequently refer to the modified object via the
-reference returned as the function result.
-If the call fails, the contents of
-=2EI base
-remain valid and unchanged.
-=2EPP
-The
-=2EI category_mask
-argument is a bit mask that specifies the locale categories
-that are to be set in a newly created locale object
-or modified in an existing object.
-The mask is constructed by a bitwise OR of the constants
-=2EBR LC_CTYPE_MASK ,
-=2EBR LC_COLLATE_MASK ,
-=2EBR LC_MESSAGES_MASK ,
-=2EBR LC_MONETARY_MASK ,
-=2EBR LC_NUMERIC_MASK ,
-and
-=2EBR LC_TIME_MASK .
-=46or each category specified in
-=2EIR category_mask ,
-the locale data from
-=2EI locale
-will be used in the object returned by
-=2EBR newlocale ().
-If a new locale object is being created,
-data for all categories not specified in
-=2EIR category_mask
-is taken from the default ("POSIX") locale.
-
-The following preset values of
-=2EI locale
-are defined for all categories that can be specified in
-=2EIR category_mask :
-=2ETP
-"POSIX"
-A minimal locale environment for C language programs.
-=2ETP
-"C"
-Equivalent to "POSIX".
-=2ETP
-""
-An implementation-defined native environment
-corresponding to the values of the
-=2EBR LC_*
-and
-=2EB LANG
-environment variables (see
-=2EBR locale (7)).
-=2EPP
-If
-=2EI base
-is the special locale object
-=2EBR LC_GLOBAL_LOCALE
-(see
-=2EBR duplocale (3)),
-or is not
-=2EIR "(locale_t)\ 0"
-and is not a valid locale object handle,
-the behavior is undefined.
-=2ESS freelocale()
-The
-=2EBR freelocale ()
-function deallocates the resources associated with
-=2EIR locobj ,
-a locale object previously returned by a call to
-=2EBR newlocale ()
-or
-=2EBR duplocale (3).
-If
-=2EI locobj
-is
-=2EBR LC_GLOBAL_LOCALE
-or is not valid locale object handle, the results are undefined.
-
-Once a locale object has been freed,
-the program should make no further use of it.
-=2ESH RETURN VALUE
-On success,
-=2EBR newlocale ()
-returns a handle that can be used in calls to
-=2EBR duplocale (3),
-=2EBR freelocale (),
-and other functions that take a
-=2EI locale_t
-argument.
-On error,
-=2EBR newlocale ()
-returns
-=2EIR "(locale_t)\ 0",
-and sets
-=2EI errno
-to indicate the cause of the error.
-=2ESH ERRORS
-=2ETP
-=2EB EINVAL
-One or more bits in
-=2EI category_mask
-does not correspond to a valid locale category.
-=2ETP
-=2EB EINVAL
-=2EI locale
-is NULL.
-=2ETP
-=2EB ENOENT
-=2EI locale
-is not a string pointer referring to a valid locale.
-=2ETP
-=2EB ENOMEM
-Insufficient memory to create a locale object.
-=2ESH VERSIONS
-The
-=2EBR newlocale ()
-and
-=2EBR freelocale ()
-functions first appeared in version 2.3 of the GNU C library.
-=2ESH CONFORMING TO
-POSIX.1-2008.
-=2ESH NOTES
-Each locale object created by
-=2EBR newlocale ()
-should be deallocated using
-=2EBR freelocale (3).
-=2ESH EXAMPLE
-The program below takes up to two command-line arguments,
-which each identify locales.
-The first argument is required, and is used to set the
-=2EB LC_NUMERIC
-category in a locale object created using
-=2EBR newlocale ().
-The second command-line argument is optional;
-if it is present, it is used to set the
-=2EB LC_TIME
-category of the locale object.
-
-Having created and initialized the locale object,
-the program then applies it using
-=2EBR uselocale (),
-and then tests the effect of the locale changes by:
-=2EIP 1. 3
-Displaying a floating-point number with a fractional part.
-This output will be affected by the
-=2EB LC_NUMERIC
-setting.
-In many European-language locales,
-the fractional part of the number is separated from the integer part
-using a comma, rather than a period.
-=2EIP 2.
-Displaying the date.
-The format and language of the output will be affected by the
-=2EB LC_TIME
-setting.
-
-=2EPP
-The following shell sessions show some example runs of this program.
-
-Set the
-=2EB LC_NUMERIC
-category to
-=2EIR fr_FR
-(French):
-=2Ein +4n
-=2Enf
-
-$ \fB./a.out fr_FR\fP
-123456,789
-=46ri Mar  7 00:25:08 2014
-=2Efi
-=2Ein
-
-Set the
-=2EB LC_NUMERIC
-category to
-=2EIR fr_FR
-(French),
-and the
-=2EB LC_TIME
-category to
-=2EIR it_IT
-(Italian):
-=2Ein +4n
-=2Enf
-
-$ \fB./a.out fr_FR it_IT\fP
-123456,789
-ven 07 mar 2014 00:26:01 CET
-=2Efi
-=2Ein
-
-Specify the
-=2EB LC_TIME
-setting as an empty string,
-which causes the value to be taken from environment variable settings
-(which, here, specify
-=2EIR mi_NZ ,
-New Zealand M=C4=81ori):
-=2Ein +4n
-=2Enf
-
-$ LC_ALL=3Dmi_NZ ./a.out fr_FR ""
-123456,789
-Te Paraire, te 07 o Pout=C5=AB-te-rangi, 2014 00:38:44 CET
-=2Efi
-=2Ein
-
-=2Ein +4n
-=2Enf
-
-=2Efi
-=2Ein
-=2ESS Program source
-=2Enf
-#define _XOPEN_SOURCE 700
-#include <stdio.h>
-#include <stdlib.h>
-#include <locale.h>
-#include <time.h>
-
-#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
-                        } while (0)
-
-int
-main(int argc, char *argv[])
-{
-    const int BUF_SIZE =3D 100;
-    char buf[BUF_SIZE];
-    time_t t;
-    size_t s;
-    struct tm *tm;
-    locale_t loc, nloc;
-
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s locale1 [locale2]\\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    /* Create a new locale object, taking the LC_NUMERIC settings
-       from the locale specified in argv[1] */
-
-    loc =3D newlocale(LC_NUMERIC_MASK, argv[1], (locale_t) 0);
-    if (loc =3D=3D (locale_t) 0)
-        errExit("newlocale");
-
-    /* If a second command\-line argument was specified, modify the
-       locale object to take the LC_TIME settings from the locale
-       specified in argv[2] */
-
-    if (argc > 2) {
-        nloc =3D newlocale(LC_TIME_MASK, argv[2], loc);
-        if (loc =3D=3D (locale_t) 0)
-            errExit("newlocale");
-        loc =3D nloc;
-    }
-
-    /* Apply the newly created locale to this thread */
-
-    uselocale(loc);
-
-    /* Test effect of LC_NUMERIC */
-
-    printf("%8.3f\\n", 123456.789);
-
-    /* Test effect of LC_TIME */
-
-    t =3D time(NULL);
-    tm =3D localtime(&t);
-    if (tm =3D=3D NULL)
-        errExit("time");
-
-    s =3D strftime(buf, BUF_SIZE, "%c", tm);
-    if (s =3D=3D 0)
-        errExit("strftime");
-
-    printf("%s\\n", buf);
-
-    /* Free the locale object */
-
-    freelocale(loc);
-
-    exit(EXIT_SUCCESS);
-}
-=2Efi
-=2ESH SEE ALSO
-=2EBR locale (1),
-=2EBR duplocale (3),
-=2EBR setlocale (3),
-=2EBR uselocale (3),
-=2EBR locale (5),
-=2EBR locale (7)
+My major problem was i got no reply at all and was wondering if the page
+arrived in the ml at all.
+I shortened the mail a bit.
+Since you made a new page, most stuff is now obsolete but i would like
+to explain a few things i did.
 
 
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+>> .SH CONFORMING TO
+>> POSIX.1-2008 specifies all of these functions.
+>> .SH NOTES
+>> The details of what characters belong into which class depend on the current
+>> locale.
+>> .sp
+>> from
+>> .IR locale.h :
+>> The concept of one static locale per category is not very well
+>> thought out.  Many applications will need to process its data using
+>> information from several different locales.  Another application is
+>> the implementation of the internationalization handling in the
+>> upcoming ISO C++ standard library.  To support this another set of
+>> the functions using locale data exist which have an additional
+>> argument.
+> 
+> Simply quoting this text from locale.h without explanation does not
+> really add much to the description. The point is that the *_l
+> pages are designed to address the limitation that the traditional
+> locale APIs do not mix well with multi-threaded applications
+> and with applications that must deal with multiple locales.
+> A general statement to that effect needs to appear somewhere, though
+> probably not on this page. (I'll add something to locale(7).)
+
+For me that was very clear at that time since i had exactly that
+problem, i needed two locale internally for parsing, no need for threads.
+For me that illustrated the intention of the original author, therefore
+it went into notes.
+
+> 
+>> For example,
+>> .BR isupper ()
+>> will not recognize an A-umlaut (\(:A) as an uppercase letter in the default
+>> .B "C"
+>> locale.
+> 
+> Problem: The sentence above relates to a function not even in the 
+> SYNOPSIS of this page.
+> 
+
+yes, bad example, the basic idea was to describe that some function
+depend on a certain locale.
+
+
+> But, more to the point, the program appears to be broken, if you are
+> operating in a UTF-8 locale, which I assume you are. I suppose 
+> the program does work if you are operating in an iso-8859-1 locale
+> (though that seems an unlikely set-up these days), but that
+> point would need some careful explanation in the man page, or some 
+> clarification in a shell session log that shows a run of the program,
+> otherwise the program would cause much confusion for people on UTF-8 
+> systems.
+
+I use 8859-1 and i guess that is the reason i did not see any problems.
+But i am really wondering why i missed the -Wall point.
+
+> 
+> Functions such as isalnum_l() can't be applied to UTF-8 characters.
+> POSIX seems clear:
+> 
+>        The  c argument is an int, the value of which the application
+>        shall ensure is representable as an unsigned char or equal to
+>        the  value  of  the  macro EOF. If the argument has any other
+>        value, the behavior is undefined.
+> 
+> (It would have been useful to see sample output from your program as 
+> part of the man page, as a help to the reader, but also as a check of
+> what you believe is happening, and what locale you are working with.) 
+> 
+> Instead, a conversion to wide characters is needed (mbstowcs(3)), and
+> then the use of the isw*_l() functions. See my example, further down.
+
+I found isw*_l() also while figuring out what to do with isalpha_l and friends.
+
+
+> ==
+> 
+> Now, to be clear: many page submissions that I receive fail on some
+> of the points mentioned above, but this page fails on multiple counts.
+> 
+> In summary... Walter, you are often good at finding things that need to 
+> be documented, and I know your work is well intended. However, the pages
+> you submit often require so much review/repair effort (in some cases, 
+> initial drafts of pages appear not to even have been run through a spell
+> checker, though this page seems okay), that it is often faster to write
+> the pages myself. And some of the same problems that I comment on in
+> earlier submissions turn up again in new submissions. Thus, it is hard 
+> for me to find the enthusiasm to review these pages myself (and I have
+> in any case very limited bandwidth) and help them get repaired (and 
+> it's rare that others step in, though I noticed that Stefan Puiu did 
+> take a shot on one of your submissions). I do not know what the solution 
+> is here, but this mail explains the problems from my side, and why 
+> I'm often unresponsive / slow to respond to your submissions (and 
+> am likely to remain so, unless something changes).
+
+I admit that i underestimated the complexity of the these locale stuff.
+I can only say i tried to document what was not documented and add an
+example basically showing how i came to that conclusion and how it works.
+
+> same problems that I comment in earlier submissions
+
+Sorry about that that i always try to get better, the wired thing is
+i can not find anything in my mailarchive. I found i send some pages
+years ago what i can not find is any reply, with one exception
+a typo in sem_wait.3.
+Serious, i can not remember what happened, did i ever send a reply ?
+
+And important, i guess the ISWALPHA_L page has the same defects as it is a direct
+derivative of ISALPHA_L.
+
+NTL it seems there are a lot more _l functions, i did not check if there
+is a page but you may like to add some of them to undocumented(3):
+see: http://www.freebsd.org/cgi/man.cgi?query=xlocale&sektion=3
+
+sorry for the trouble,
+wh
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
