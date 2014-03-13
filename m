@@ -1,125 +1,140 @@
-From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: SuSE O_DIRECT|O_NONBLOCK overload
-Date: Thu, 13 Mar 2014 11:15:55 +1100
-Message-ID: <20140313111555.2f15f19f@notabene.brown>
-References: <20140130132620.GA6031@infradead.org>
-	<20140130132630.GB6031@infradead.org>
-	<x49iorp3fhm.fsf@segfault.boston.devel.redhat.com>
-	<20140308155240.GA32297@infradead.org>
-	<CAMM=eLewbtK7LiNZCXo=hm-sjVU2+MN+xTFuxb89mDA1iS3r0w@mail.gmail.com>
-	<531B74B6.4070004@suse.de>
-	<20140312102849.GA26509@infradead.org>
-	<53203BE5.402@suse.de>
-	<20140312110015.GA29907@infradead.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: For review: newlocale.3
+Date: Thu, 13 Mar 2014 04:13:14 -0400
+Message-ID: <5663087.ED3DXCYTiR@vapier>
+References: <CAKgNAkhAR_LSqav=Lz_u+xJarZgBr4ft-NBeJirmCw7rd4LFSA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=PGP-SHA1;
- boundary="Sig_/ivbOa3Y6lmci+q5n7EsU3vm"; protocol="application/pgp-signature"
+Content-Type: multipart/signed; boundary="nextPart10196815.O4VNCWg1EX"; micalg="pgp-sha1"; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140312110015.GA29907-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <CAKgNAkhAR_LSqav=Lz_u+xJarZgBr4ft-NBeJirmCw7rd4LFSA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
---Sig_/ivbOa3Y6lmci+q5n7EsU3vm
-Content-Type: text/plain; charset=US-ASCII
+
+--nextPart10196815.O4VNCWg1EX
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, 12 Mar 2014 04:00:15 -0700 Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-wrote:
+On Wed 12 Mar 2014 16:47:43 Michael Kerrisk wrote:
+> .SH DESCRIPTION
+> The
+> .BR newlocale ()
+> function creates a new locale object, or modifies an existing object,=
 
-> The SLES12 tree has various patches to implement special
-> O_DIRECT|O_NONBLOCK semantics for block devices:
+> returning a reference to the new or modified object as the function r=
+esult.
+> Whether the call creates a new object or modifies an existing object
+> is determined by the value of
+> .IR base :
+
+you discuss the value of |base| first ...
+
+> .PP
+> The
+> .I category_mask
+
+... then the |category_mask| ...
+
+> The following preset values of
+> .I locale
+
+... then the |locale| ...
+
+(side note: shouldn't there be a .PP to start this portion ?)
+
+> .PP
+> If
+> .I base
+
+... then back to |base| ?  generally i expect the discussion of each ar=
+gument=20
+to be together rather than split across paragraphs.  if i were referrin=
+g to=20
+this for programming, i probably wouldn't have even made it this far.
+
+> .B EINVAL
+> One or more bits in
+> .I category_mask
+> does not correspond to a valid locale category.
+
+does->do
+
+> Having created and initialized the locale object,
+> the program then applies it using
+> .BR uselocale (),
+
+shouldn't that be (3) ?
+
+> Te Paraire, te 07 o Pout=C5=AB-te-rangi, 2014 00:38:44 CET
+> .fi
+> .in
 >=20
-> 	https://gitorious.org/opensuse/kernel-source/source/806eab3e4b02e798c1ae=
-942440051f81c822ca35:patches.suse/block-nonblock-causes-failfast
+> .in +4n
+> .nf
 >=20
-> this seems genuinely useful and I'd be really happy if people would do
-> this work upstream for two reasons:
+> .fi
+> .in
+> .SS Program source
+
+this ends up rendering 3 blank lines before "Program source" when reall=
+y only=20
+one is needed
+
+> .nf
+> #define _XOPEN_SOURCE 700
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <locale.h>
+> #include <time.h>
 >=20
->  a) implementing different semantics only in a vendor kernel is a
->     nightmare.  No proper way to document it in the man pages for
->     example, and silent breakage of applications that expect it to be
->     present, or even more nasty not present.
->  b) Which brings us to: we had various issues with adding O_NONBLOCK to
->     files that didn't support it before.  How well was this whole feature
->     tested?
+> #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
+>                         } while (0)
 
+not sure what standard you're aiming for, but if you include err.h, you=
+ don't=20
+need this macro.  you can just call err(1, msg).
 
-This "feature" was really just a hack because a particular customer needed
-something in a particular situation.
+>     if (argc > 2) {
+>         nloc =3D newlocale(LC_TIME_MASK, argv[2], loc);
+>         if (loc =3D=3D (locale_t) 0)
 
-At the core of this in my thinking is the 'failfast' BIO flag ... or 'flags'
-really because there are now three of them.
+shouldn't you be testing nloc ?
 
-They don't seem to be documented or uniformly supported or used much at
-all.  dm-multipath uses one, and btrfs uses another.  There could be value =
-in
-using one or more or something in md but as they aren't documented and could
-mean almost anything I have stayed away.
-I tried adding some sort of 'failfast' support to md once and I would get
-occasional failures from regular sata devices which otherwise appeared to be
-working perfectly well.  So it seemed that "fast" was altogether *too* fast.
+if you're just going to exit on error, i wonder why even bother with nl=
+oc=20
+indirection
 
-For a particular customer with some particular hardware there were issues
-where that hardware could choose not to respond for extended periods.  So we
-modified the driver to accept a 'timeout' module parameter and to cause
-REQ_FAILFAST_DEV (I think) requests to fail with -ETIMEDOUT if they could n=
-ot
-be serviced in that time.
+>     s =3D strftime(buf, BUF_SIZE, "%c", tm);
 
-We then modified md to cope with that particular well-defined semantic. And
-hacked "O_NONBLOCK" support in so that mdadm could access the device without
-the risk of hanging indefinitely.
-
-I would be happy to bring at least some of this functionality into mainline,
-but I would need a "FAILFAST" flag that actually meant something useful and
-was sufficiently well documented so that if some driver got it wrong, I wou=
-ld
-be justified in blaming the driver for not meeting the expectations that I
-encoded into md.
-
-I think that the FAILFAST flag that I need would do some error recovery but
-would be time limited.  Maybe a software TLER (Time Limited Error Recovery).
-
-I also think there should probably be just one FAILFAST flag.  Where it was
-the DEV or the TRANSPORT or the DRIVER that failed could be returned in the
-error code for any caller that cared.  But as I don't know why the one beca=
-me
-three I could well be missing something important.
-
-
-As for testing, only basic "does it function as expected" testing.
-Part of the reason for only modifying O_NONBLOCK behaviour where O_DIRECT w=
-as
-also set was to make it extremely unlikely that any code would use this
-feature except code that specifically needed it.
-
-NeilBrown
-
---Sig_/ivbOa3Y6lmci+q5n7EsU3vm
-Content-Type: application/pgp-signature; name=signature.asc
-Content-Disposition: attachment; filename=signature.asc
+why not sizeof(buf) ?  avoids needing BUF_SIZE at all.
+=2Dmike
+--nextPart10196815.O4VNCWg1EX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIVAwUBUyD4uznsnt1WYoG5AQJdow//dxpHXpgPD38pdlYFUQkFAG86v7lpOeiq
-V8/KwEI3gPcyQlWeDGhwh+H8OOYqdgsxaArhA+uGIzSNhnIH1uNYcAodrsOOvLdU
-YzafSjU4N76Rm7FsjcMqZju7308DjeNRXLczIE44TX4ABIUBa6iG5YAUbjhEAiSO
-sOjUPCT1OovAciZBnJl9cwPWJ0EupuClMARPtFwi5HPjcgRSsz7lGMNG6QBdhHlH
-sXIK3u9hqmtjBt2k7SAAZsQnsyEneBUeR8Wrs47nH++K2YcFRQiPqyD4ugoWoVP2
-ikonN+gE6vydx7SeZiNgofQG8wYZWC327ExzcoDFvdRlegJFhrF7QNMuypXigO45
-xKq0B3yM/nZ0581w/oPCW6GGT1HrmdH6cPB20U/sWq+xOjl5NzE/YhnqMF1q3IWe
-h9PpPoCQMGH6trk8qHq66CbW0I/vs7PYM9RRBkuMWUy3kc3TDjm+XHoqSXyvX306
-kUHhQRHUqRllK4nPpJxIyMfptSYkXj7iNpdqKcUmkSDtqdFUee8x7JmZ+R0PiJDL
-QSKEeuCGl87CbD2HuH2NaEYnfEJVJoThVxVJkg/wtby95M/ddhZ/vp0VHj+1yPGj
-z+mSXIAtfXWyIHAV3UmShsLuN7fAYRaqiYhXqesSlkM6hWI1so1La/HzJ57HAOwQ
-F+kWCXTer3Y=
-=5B4j
+iQIcBAABAgAGBQJTIWiaAAoJEEFjO5/oN/WBMj8QAJHdDBLM74Rhi17xifWQkgfB
+lmLuCzKIQzXlr5hSVCv/+9DZznAmdrjFW18vT3w4if3ogQzlp8sxaAK3ebw2nbON
+aLG8EyixaO0ve03JtT6n1oL1oba+G+EvDzKR+msjXo5hCKSuqbdS+2nTChkks+wR
+2b/lI9pfigqt0lR2RXWHNDCt3lnevd6vwEh4TeCgNUx8p7aPfUNgLiibohzrP62n
+IvBFazpUWM5jAZeMzazZzG0a2yxHvQsb8V2hUrq3fLcotObMa4jX5K70gvU6sOha
+xrGIWqMJPn+RllwPZrP+valuD8v7L9L7RRQOEnMk4ZuE6AGWuHYNaKQFbxwHmoLE
+oQC59OwBZa+ugb7GL3dX/FVajvCeGuOuIHSJ71WMdsEgp1Z8f0xRRRMD6dx+Ihsx
+z9jkaMN9gFWSrNBvlp/PB+RpyPjLaEPu0+0mmgiRlw3qLCrgvgY7k2u4H5OPdBTx
+QZFnIfsPf/Tz6BwBx05v1qCn37sMIMVQWhQZXMoWipEhYXaXi2v9+OtKtwnP4+mx
+F/b9XLusSXAtD7U0hdW0IK6+nfmDvMTVNBrytvN95eISGjtiwIxQs+hoIWO1P9OB
+460sNIUCkS+VpyTAqC73KQpSLqn6K1M5EDv3u8w8AXWAWqKhAdOvqEdWsBsdnNE1
+D672evRb58YWKShyzEd8
+=R1ld
 -----END PGP SIGNATURE-----
 
---Sig_/ivbOa3Y6lmci+q5n7EsU3vm--
+--nextPart10196815.O4VNCWg1EX--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
