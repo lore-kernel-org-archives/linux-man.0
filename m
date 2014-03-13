@@ -1,158 +1,125 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH] new Page: isalpha__3(3)
-Date: Wed, 12 Mar 2014 19:34:27 +0100
-Message-ID: <5320A8B3.1030101@bfs.de>
-References: <5315F2B5.2040009@bfs.de> <531DBD1F.5090400@gmail.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Subject: Re: SuSE O_DIRECT|O_NONBLOCK overload
+Date: Thu, 13 Mar 2014 11:15:55 +1100
+Message-ID: <20140313111555.2f15f19f@notabene.brown>
+References: <20140130132620.GA6031@infradead.org>
+	<20140130132630.GB6031@infradead.org>
+	<x49iorp3fhm.fsf@segfault.boston.devel.redhat.com>
+	<20140308155240.GA32297@infradead.org>
+	<CAMM=eLewbtK7LiNZCXo=hm-sjVU2+MN+xTFuxb89mDA1iS3r0w@mail.gmail.com>
+	<531B74B6.4070004@suse.de>
+	<20140312102849.GA26509@infradead.org>
+	<53203BE5.402@suse.de>
+	<20140312110015.GA29907@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=PGP-SHA1;
+ boundary="Sig_/ivbOa3Y6lmci+q5n7EsU3vm"; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <531DBD1F.5090400-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20140312110015.GA29907-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+--Sig_/ivbOa3Y6lmci+q5n7EsU3vm
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 12 Mar 2014 04:00:15 -0700 Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+wrote:
+
+> The SLES12 tree has various patches to implement special
+> O_DIRECT|O_NONBLOCK semantics for block devices:
+>=20
+> 	https://gitorious.org/opensuse/kernel-source/source/806eab3e4b02e798c1ae=
+942440051f81c822ca35:patches.suse/block-nonblock-causes-failfast
+>=20
+> this seems genuinely useful and I'd be really happy if people would do
+> this work upstream for two reasons:
+>=20
+>  a) implementing different semantics only in a vendor kernel is a
+>     nightmare.  No proper way to document it in the man pages for
+>     example, and silent breakage of applications that expect it to be
+>     present, or even more nasty not present.
+>  b) Which brings us to: we had various issues with adding O_NONBLOCK to
+>     files that didn't support it before.  How well was this whole feature
+>     tested?
 
 
-Am 10.03.2014 14:24, schrieb Michael Kerrisk (man-pages):
+This "feature" was really just a hack because a particular customer needed
+something in a particular situation.
 
-> 
-> Hello Walter,
-> 
-> You've submitted a number of pages over the past months that I have
-> not found the energy to review. I respond to this submission, with 
-> the goal of explaining why, since it shows many of the problems that
-> I see in the other submissions (and, in several cases, problems that
-> I have commented on in your past submissions).
+At the core of this in my thinking is the 'failfast' BIO flag ... or 'flags'
+really because there are now three of them.
 
-My major problem was i got no reply at all and was wondering if the page
-arrived in the ml at all.
-I shortened the mail a bit.
-Since you made a new page, most stuff is now obsolete but i would like
-to explain a few things i did.
+They don't seem to be documented or uniformly supported or used much at
+all.  dm-multipath uses one, and btrfs uses another.  There could be value =
+in
+using one or more or something in md but as they aren't documented and could
+mean almost anything I have stayed away.
+I tried adding some sort of 'failfast' support to md once and I would get
+occasional failures from regular sata devices which otherwise appeared to be
+working perfectly well.  So it seemed that "fast" was altogether *too* fast.
 
+For a particular customer with some particular hardware there were issues
+where that hardware could choose not to respond for extended periods.  So we
+modified the driver to accept a 'timeout' module parameter and to cause
+REQ_FAILFAST_DEV (I think) requests to fail with -ETIMEDOUT if they could n=
+ot
+be serviced in that time.
 
+We then modified md to cope with that particular well-defined semantic. And
+hacked "O_NONBLOCK" support in so that mdadm could access the device without
+the risk of hanging indefinitely.
 
->> .SH CONFORMING TO
->> POSIX.1-2008 specifies all of these functions.
->> .SH NOTES
->> The details of what characters belong into which class depend on the current
->> locale.
->> .sp
->> from
->> .IR locale.h :
->> The concept of one static locale per category is not very well
->> thought out.  Many applications will need to process its data using
->> information from several different locales.  Another application is
->> the implementation of the internationalization handling in the
->> upcoming ISO C++ standard library.  To support this another set of
->> the functions using locale data exist which have an additional
->> argument.
-> 
-> Simply quoting this text from locale.h without explanation does not
-> really add much to the description. The point is that the *_l
-> pages are designed to address the limitation that the traditional
-> locale APIs do not mix well with multi-threaded applications
-> and with applications that must deal with multiple locales.
-> A general statement to that effect needs to appear somewhere, though
-> probably not on this page. (I'll add something to locale(7).)
+I would be happy to bring at least some of this functionality into mainline,
+but I would need a "FAILFAST" flag that actually meant something useful and
+was sufficiently well documented so that if some driver got it wrong, I wou=
+ld
+be justified in blaming the driver for not meeting the expectations that I
+encoded into md.
 
-For me that was very clear at that time since i had exactly that
-problem, i needed two locale internally for parsing, no need for threads.
-For me that illustrated the intention of the original author, therefore
-it went into notes.
+I think that the FAILFAST flag that I need would do some error recovery but
+would be time limited.  Maybe a software TLER (Time Limited Error Recovery).
 
-> 
->> For example,
->> .BR isupper ()
->> will not recognize an A-umlaut (\(:A) as an uppercase letter in the default
->> .B "C"
->> locale.
-> 
-> Problem: The sentence above relates to a function not even in the 
-> SYNOPSIS of this page.
-> 
-
-yes, bad example, the basic idea was to describe that some function
-depend on a certain locale.
+I also think there should probably be just one FAILFAST flag.  Where it was
+the DEV or the TRANSPORT or the DRIVER that failed could be returned in the
+error code for any caller that cared.  But as I don't know why the one beca=
+me
+three I could well be missing something important.
 
 
-> But, more to the point, the program appears to be broken, if you are
-> operating in a UTF-8 locale, which I assume you are. I suppose 
-> the program does work if you are operating in an iso-8859-1 locale
-> (though that seems an unlikely set-up these days), but that
-> point would need some careful explanation in the man page, or some 
-> clarification in a shell session log that shows a run of the program,
-> otherwise the program would cause much confusion for people on UTF-8 
-> systems.
+As for testing, only basic "does it function as expected" testing.
+Part of the reason for only modifying O_NONBLOCK behaviour where O_DIRECT w=
+as
+also set was to make it extremely unlikely that any code would use this
+feature except code that specifically needed it.
 
-I use 8859-1 and i guess that is the reason i did not see any problems.
-But i am really wondering why i missed the -Wall point.
+NeilBrown
 
-> 
-> Functions such as isalnum_l() can't be applied to UTF-8 characters.
-> POSIX seems clear:
-> 
->        The  c argument is an int, the value of which the application
->        shall ensure is representable as an unsigned char or equal to
->        the  value  of  the  macro EOF. If the argument has any other
->        value, the behavior is undefined.
-> 
-> (It would have been useful to see sample output from your program as 
-> part of the man page, as a help to the reader, but also as a check of
-> what you believe is happening, and what locale you are working with.) 
-> 
-> Instead, a conversion to wide characters is needed (mbstowcs(3)), and
-> then the use of the isw*_l() functions. See my example, further down.
+--Sig_/ivbOa3Y6lmci+q5n7EsU3vm
+Content-Type: application/pgp-signature; name=signature.asc
+Content-Disposition: attachment; filename=signature.asc
 
-I found isw*_l() also while figuring out what to do with isalpha_l and friends.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iQIVAwUBUyD4uznsnt1WYoG5AQJdow//dxpHXpgPD38pdlYFUQkFAG86v7lpOeiq
+V8/KwEI3gPcyQlWeDGhwh+H8OOYqdgsxaArhA+uGIzSNhnIH1uNYcAodrsOOvLdU
+YzafSjU4N76Rm7FsjcMqZju7308DjeNRXLczIE44TX4ABIUBa6iG5YAUbjhEAiSO
+sOjUPCT1OovAciZBnJl9cwPWJ0EupuClMARPtFwi5HPjcgRSsz7lGMNG6QBdhHlH
+sXIK3u9hqmtjBt2k7SAAZsQnsyEneBUeR8Wrs47nH++K2YcFRQiPqyD4ugoWoVP2
+ikonN+gE6vydx7SeZiNgofQG8wYZWC327ExzcoDFvdRlegJFhrF7QNMuypXigO45
+xKq0B3yM/nZ0581w/oPCW6GGT1HrmdH6cPB20U/sWq+xOjl5NzE/YhnqMF1q3IWe
+h9PpPoCQMGH6trk8qHq66CbW0I/vs7PYM9RRBkuMWUy3kc3TDjm+XHoqSXyvX306
+kUHhQRHUqRllK4nPpJxIyMfptSYkXj7iNpdqKcUmkSDtqdFUee8x7JmZ+R0PiJDL
+QSKEeuCGl87CbD2HuH2NaEYnfEJVJoThVxVJkg/wtby95M/ddhZ/vp0VHj+1yPGj
+z+mSXIAtfXWyIHAV3UmShsLuN7fAYRaqiYhXqesSlkM6hWI1so1La/HzJ57HAOwQ
+F+kWCXTer3Y=
+=5B4j
+-----END PGP SIGNATURE-----
 
-> ==
-> 
-> Now, to be clear: many page submissions that I receive fail on some
-> of the points mentioned above, but this page fails on multiple counts.
-> 
-> In summary... Walter, you are often good at finding things that need to 
-> be documented, and I know your work is well intended. However, the pages
-> you submit often require so much review/repair effort (in some cases, 
-> initial drafts of pages appear not to even have been run through a spell
-> checker, though this page seems okay), that it is often faster to write
-> the pages myself. And some of the same problems that I comment on in
-> earlier submissions turn up again in new submissions. Thus, it is hard 
-> for me to find the enthusiasm to review these pages myself (and I have
-> in any case very limited bandwidth) and help them get repaired (and 
-> it's rare that others step in, though I noticed that Stefan Puiu did 
-> take a shot on one of your submissions). I do not know what the solution 
-> is here, but this mail explains the problems from my side, and why 
-> I'm often unresponsive / slow to respond to your submissions (and 
-> am likely to remain so, unless something changes).
-
-I admit that i underestimated the complexity of the these locale stuff.
-I can only say i tried to document what was not documented and add an
-example basically showing how i came to that conclusion and how it works.
-
-> same problems that I comment in earlier submissions
-
-Sorry about that that i always try to get better, the wired thing is
-i can not find anything in my mailarchive. I found i send some pages
-years ago what i can not find is any reply, with one exception
-a typo in sem_wait.3.
-Serious, i can not remember what happened, did i ever send a reply ?
-
-And important, i guess the ISWALPHA_L page has the same defects as it is a direct
-derivative of ISALPHA_L.
-
-NTL it seems there are a lot more _l functions, i did not check if there
-is a page but you may like to add some of them to undocumented(3):
-see: http://www.freebsd.org/cgi/man.cgi?query=xlocale&sektion=3
-
-sorry for the trouble,
-wh
-
-
+--Sig_/ivbOa3Y6lmci+q5n7EsU3vm--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
