@@ -1,214 +1,51 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: duplocale(3)
-Date: Fri, 14 Mar 2014 12:20:59 +0100
-Message-ID: <CAKgNAkhDfXZjkw1p+eoFoFh3KUaDsTBZrgnr3yDkCto08B23wQ@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] core.5: document new %P and %d options
+Date: Fri, 14 Mar 2014 09:12:39 -0400
+Message-ID: <1394802759-24006-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Comments on this new page welcome.
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man5/core.5 | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Thanks,
-
-Michael
-
-
-'\" t
-.\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" %%%LICENSE_START(VERBATIM)
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\" %%%LICENSE_END
-.\"
-.TH DUPLOCALE 3 2014-03-12 "Linux" "Linux Programmer's Manual"
-.SH NAME
-duplocale \- duplicate a locale object
-.SH SYNOPSIS
-.nf
-.B #include <locale.h>
-
-.BI "locale_t duplocale(locale_t " locobj );
-.fi
-.sp
-.in -4n
-Feature Test Macro Requirements for glibc (see
-.BR feature_test_macros (7)):
-.in
-.sp
-.BR duplocale ():
-.PD 0
-.RS 4
-.TP
-Since glibc 2.10:
-_XOPEN_SOURCE\ >=\ 700
-.TP
-Before glibc 2.10:
-_GNU_SOURCE
-.RE
-.PD
-.SH DESCRIPTION
-The
-.BR duplocale ()
-function creates a duplicate of the locale object referred to by
-.IR locobj .
-
-If
-.I locobj
-is
-.BR LC_GLOBAL_LOCALE ,
-.BR duplocale ()
-creates a locale object containing a copy of the global locale
-determined by
-.BR setlocale (3).
-.SH RETURN VALUE
-On success,
-.BR duplocale ()
-returns a handle for the new locale object.
-On error, it returns
-.IR "(locale_t)\ 0",
-and sets
-.I errno
-to indicate the cause of the error.
-.SH ERRORS
-.TP
-.B ENOMEM
-Insufficient memory to create the duplicate locale object.
-.SH VERSIONS
-The
-.BR duplocale ()
-function first appeared in version 2.3 of the GNU C library.
-.SH CONFORMING TO
-POSIX.1-2008.
-.SH NOTES
-Duplicating a locale can serve the following purposes:
-.IP * 3
-To create a copy of a locale object in which one of more categories
-are to be modified (using
-.BR newlocale (3)).
-.IP *
-To obtain a handle for the current locale which can used in
-other functions that employ a locale handle, such as
-.BR toupper_l (3).
-This is done by applying
-.BR duplocale ()
-to the value returned by the following call:
-
-    loc = uselocale((locale_t) 0);
-
-.IP
-This technique is necessary, because the above
-.BR uselocale (3)
-call may return the value
-.BR LC_GLOBAL_LOCALE ,
-which results in undefined behavior if passed to functions such as
-.BR toupper_l (3).
-Calling
-.BR duplocale ()
-can be used to ensure that the
-.BR LC_GLOBAL_LOCALE
-value is converted into a usable locale object.
-See EXAMPLE, below.
-.PP
-Each locale object created by
-.BR duplocale ()
-should be deallocated using
-.BR  freelocale (3).
-.SH EXAMPLE
-The program below uses
-.BR uselocale (3)
-and
-.BR duplocale ()
-to obtain a handle for the current locale which is then passed to
-.BR toupper_l (3).
-The program takes one command-liane argument,
-a string of characters that is converted to uppercase and
-displayed on standard output.
-An example of its use is the following:
-.in +4n
-.nf
-
-$ \fB./a.out abc\fP
-ABC
-.fi
-.in
-.SS Program source
-.nf
-#define _XOPEN_SOURCE 700
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <locale.h>
-
-#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
-                        } while (0)
-
-int
-main(int argc, char *argv[])
-{
-    locale_t loc, nloc;
-    char *p;
-
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s string\\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    /* This sequence is necessary, because uselocale() might return
-       the value LC_GLOBAL_LOCALE, which can\(aqt be passed as an
-       argument to toupper_l() */
-
-    loc = uselocale((locale_t) 0);
-    if (loc == (locale_t) 0)
-        errExit("uselocale");
-
-    nloc = duplocale(loc);
-    if (nloc == (locale_t) 0)
-        errExit("duplocale");
-
-    for (p = argv[1]; *p; p++)
-        putchar(toupper_l(*p, nloc));
-
-    printf("\\n");
-
-    freelocale(nloc);
-
-    exit(EXIT_SUCCESS);
-}
-.fi
-.SH SEE ALSO
-.BR freelocale (3),
-.BR newlocale (3),
-.BR setlocale (3),
-.BR uselocale (3),
-.BR locale (5),
-.BR locale (7)
-
+diff --git a/man5/core.5 b/man5/core.5
+index 86c8c57..9e328f9 100644
+--- a/man5/core.5
++++ b/man5/core.5
+@@ -127,7 +127,12 @@ by the following values when a core file is created:
+ a single % character
+ .TP
+ %p
+-PID of dumped process
++PID of dumped process (as seen in the current namespace)
++.TP
++.\" Added in git commit 65aafb1e7484b7434a0c1d4c593191ebe5776a2f
++%P
++global PID of dumped process (as seen in init's namespace)
++(since Linux 3.12)
+ .TP
+ %u
+ (numeric) real UID of dumped process
+@@ -138,6 +143,11 @@ PID of dumped process
+ %s
+ number of signal causing dump
+ .TP
++.\" Added in git commit 12a2b4b2241e318b4f6df31228e4272d2c2968a1
++%d
++dump mode; matches PR_SET_DUMPABLE and /proc/sys/fs/suid_dumpable
++(since Linux 3.7)
++.TP
+ %t
+ time of dump, expressed as seconds since the
+ Epoch, 1970-01-01 00:00:00 +0000 (UTC)
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.9.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
