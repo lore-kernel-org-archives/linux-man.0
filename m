@@ -1,77 +1,73 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] core.5: document new %P and %d options
-Date: Fri, 14 Mar 2014 15:12:59 +0100
-Message-ID: <CAKgNAkjOZstcV6K=dZCtsyMF=rFpiBZH4PUBCydPsLgjWySbrQ@mail.gmail.com>
-References: <1394802759-24006-1-git-send-email-vapier@gentoo.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1394802759-24006-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+From: Phillip Susi <psusi@ubuntu.com>
+Subject: [PATCH] readahead.2: don't claim the call blocks until all data has been read
+Date: Fri, 14 Mar 2014 11:54:31 -0400
+Message-ID: <1394812471-9693-1-git-send-email-psusi@ubuntu.com>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, linux-mm@kvack.org, linux-ext4@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Mike,
+The readahead(2) man page was claiming that the call blocks until all
+data has been read into the cache.  This is incorrect.
 
-On Fri, Mar 14, 2014 at 2:12 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man5/core.5 | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/man5/core.5 b/man5/core.5
-> index 86c8c57..9e328f9 100644
-> --- a/man5/core.5
-> +++ b/man5/core.5
-> @@ -127,7 +127,12 @@ by the following values when a core file is created:
->  a single % character
->  .TP
->  %p
-> -PID of dumped process
-> +PID of dumped process (as seen in the current namespace)
-> +.TP
-> +.\" Added in git commit 65aafb1e7484b7434a0c1d4c593191ebe5776a2f
-> +%P
-> +global PID of dumped process (as seen in init's namespace)
-> +(since Linux 3.12)
->  .TP
->  %u
->  (numeric) real UID of dumped process
-> @@ -138,6 +143,11 @@ PID of dumped process
->  %s
->  number of signal causing dump
->  .TP
-> +.\" Added in git commit 12a2b4b2241e318b4f6df31228e4272d2c2968a1
-> +%d
-> +dump mode; matches PR_SET_DUMPABLE and /proc/sys/fs/suid_dumpable
-> +(since Linux 3.7)
-> +.TP
->  %t
->  time of dump, expressed as seconds since the
->  Epoch, 1970-01-01 00:00:00 +0000 (UTC)
+Signed-off-by: Phillip Susi <psusi@ubuntu.com>
+---
+ man2/readahead.2 | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-Thanks. Applied. I then tweaked the texts a little:
-
-           %d  dump   mode--same   as   value   returned   by  prctl(2)
-               PR_GET_DUMPABLE (since Linux 3.7)
-           %p  PID  of dumped process, as seen in the PID namespace in
-               which the process resides
-           %P  PID of dumped process,  as  seen  in  the  initial  PID
-               namespace (since Linux 3.12)
-
-Okay?
-
-Cheers,
-
-Michael
-
+diff --git a/man2/readahead.2 b/man2/readahead.2
+index 605fa5e..1b0376e 100644
+--- a/man2/readahead.2
++++ b/man2/readahead.2
+@@ -27,7 +27,7 @@
+ .\"
+ .TH READAHEAD 2 2013-04-01 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+-readahead \- perform file readahead into page cache
++readahead \- initiate file readahead into page cache
+ .SH SYNOPSIS
+ .nf
+ .BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+@@ -37,8 +37,8 @@ readahead \- perform file readahead into page cache
+ .fi
+ .SH DESCRIPTION
+ .BR readahead ()
+-populates the page cache with data from a file so that subsequent
+-reads from that file will not block on disk I/O.
++initates readahead on a file so that subsequent reads from that file will
++hopefully be satisfied from the cache, and not block on disk I/O.
+ The
+ .I fd
+ argument is a file descriptor identifying the file which is
+@@ -57,8 +57,6 @@ equal to
+ .IR "(offset+count)" .
+ .BR readahead ()
+ does not read beyond the end of the file.
+-.BR readahead ()
+-blocks until the specified data has been read.
+ The current file offset of the open file referred to by
+ .I fd
+ is left unchanged.
+@@ -94,6 +92,13 @@ On some 32-bit architectures,
+ the calling signature for this system call differs,
+ for the reasons described in
+ .BR syscall (2).
++
++The call attempts to schedule the reads in the background and return
++immediately, however it may block while reading filesystem metadata
++in order to locate where the blocks requested are.  This occurs frequently
++with ext[234] on large files using indirect blocks instead of extents,
++giving the appearence that the call blocks until the requested data has
++been read.
+ .SH SEE ALSO
+ .BR lseek (2),
+ .BR madvise (2),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.8.3.2
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
