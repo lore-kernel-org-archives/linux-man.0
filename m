@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: uselocale(3)
-Date: Fri, 14 Mar 2014 12:21:00 +0100
-Message-ID: <CAKgNAkj=gL0=K4q4KwRPwiH+oQ4f-tJX7eGXwt=aaNWRzSs03w@mail.gmail.com>
+Subject: For review: duplocale(3)
+Date: Fri, 14 Mar 2014 12:20:59 +0100
+Message-ID: <CAKgNAkhDfXZjkw1p+eoFoFh3KUaDsTBZrgnr3yDkCto08B23wQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -15,6 +15,7 @@ Comments on this new page welcome.
 Thanks,
 
 Michael
+
 
 '\" t
 .\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -41,14 +42,14 @@ Michael
 .\" the source, must acknowledge the copyright and authors of this work.
 .\" %%%LICENSE_END
 .\"
-.TH USELOCALE 3 2014-03-10 "Linux" "Linux Programmer's Manual"
+.TH DUPLOCALE 3 2014-03-12 "Linux" "Linux Programmer's Manual"
 .SH NAME
-uselocale \- set/get the locale for the calling thread
+duplocale \- duplicate a locale object
 .SH SYNOPSIS
 .nf
 .B #include <locale.h>
 
-.BI "locale_t uselocale(locale_t " newloc );
+.BI "locale_t duplocale(locale_t " locobj );
 .fi
 .sp
 .in -4n
@@ -56,7 +57,7 @@ Feature Test Macro Requirements for glibc (see
 .BR feature_test_macros (7)):
 .in
 .sp
-.BR uselocale ():
+.BR duplocale ():
 .PD 0
 .RS 4
 .TP
@@ -69,37 +70,22 @@ _GNU_SOURCE
 .PD
 .SH DESCRIPTION
 The
-.BR uselocale ()
-function sets the current locale for the calling thread,
-and returns the thread's previously current locale.
-After a successful call to
-.BR uselocale (),
-any calls by this thread to functions that depend on the locale
-will operate as though the locale has been set to
-.IR newloc .
+.BR duplocale ()
+function creates a duplicate of the locale object referred to by
+.IR locobj .
 
-The
-.I newloc
-argument can have one of the following values:
-.TP
-A handle returned by a call to \fBnewlocale\fP(3) or \fBduplocale\fP(3)
-The calling thread's current locale is set to the specified locale.
-.TP
-The special locale object handle \fBLC_GLOBAL_LOCALE\fP
-The calling thread's current locale is set to the global locale determined by
+If
+.I locobj
+is
+.BR LC_GLOBAL_LOCALE ,
+.BR duplocale ()
+creates a locale object containing a copy of the global locale
+determined by
 .BR setlocale (3).
-.TP
-.I "(locale_t) 0"
-The calling thread's current locale is left unchanged
-(and the current locale is returned as the function result).
 .SH RETURN VALUE
 On success,
-.BR uselocale ()
-returns the locale handle that was set by the previous call to
-.BR uselocale ()
-in this thread, or
-.BR LC_GLOBAL_HANDLE
-if there was no such previous call.
+.BR duplocale ()
+returns a handle for the new locale object.
 On error, it returns
 .IR "(locale_t)\ 0",
 and sets
@@ -107,41 +93,117 @@ and sets
 to indicate the cause of the error.
 .SH ERRORS
 .TP
-.B EINVAL
-.I newloc
-does not refer to a valid locale object.
+.B ENOMEM
+Insufficient memory to create the duplicate locale object.
 .SH VERSIONS
 The
-.BR uselocale ()
+.BR duplocale ()
 function first appeared in version 2.3 of the GNU C library.
 .SH CONFORMING TO
 POSIX.1-2008.
 .SH NOTES
-Unlike
-.BR setlocale (3),
-.BR uselocale ()
-does not allow selective replacement of individual locale categories.
-To employ a locale that differs in only a few categories from the current
-locale, use calls to
-.BR duplocale (3)
-and
-.BR newlocale (3)
-to obtain a locale object equivalent to the current locale and
-modify the desired categories in that object.
+Duplicating a locale can serve the following purposes:
+.IP * 3
+To create a copy of a locale object in which one of more categories
+are to be modified (using
+.BR newlocale (3)).
+.IP *
+To obtain a handle for the current locale which can used in
+other functions that employ a locale handle, such as
+.BR toupper_l (3).
+This is done by applying
+.BR duplocale ()
+to the value returned by the following call:
+
+    loc = uselocale((locale_t) 0);
+
+.IP
+This technique is necessary, because the above
+.BR uselocale (3)
+call may return the value
+.BR LC_GLOBAL_LOCALE ,
+which results in undefined behavior if passed to functions such as
+.BR toupper_l (3).
+Calling
+.BR duplocale ()
+can be used to ensure that the
+.BR LC_GLOBAL_LOCALE
+value is converted into a usable locale object.
+See EXAMPLE, below.
+.PP
+Each locale object created by
+.BR duplocale ()
+should be deallocated using
+.BR  freelocale (3).
 .SH EXAMPLE
-See
-.BR newlocale (3)
+The program below uses
+.BR uselocale (3)
 and
-.BR duplocale (3).
+.BR duplocale ()
+to obtain a handle for the current locale which is then passed to
+.BR toupper_l (3).
+The program takes one command-liane argument,
+a string of characters that is converted to uppercase and
+displayed on standard output.
+An example of its use is the following:
+.in +4n
+.nf
+
+$ \fB./a.out abc\fP
+ABC
+.fi
+.in
+.SS Program source
+.nf
+#define _XOPEN_SOURCE 700
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    locale_t loc, nloc;
+    char *p;
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s string\\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* This sequence is necessary, because uselocale() might return
+       the value LC_GLOBAL_LOCALE, which can\(aqt be passed as an
+       argument to toupper_l() */
+
+    loc = uselocale((locale_t) 0);
+    if (loc == (locale_t) 0)
+        errExit("uselocale");
+
+    nloc = duplocale(loc);
+    if (nloc == (locale_t) 0)
+        errExit("duplocale");
+
+    for (p = argv[1]; *p; p++)
+        putchar(toupper_l(*p, nloc));
+
+    printf("\\n");
+
+    freelocale(nloc);
+
+    exit(EXIT_SUCCESS);
+}
+.fi
 .SH SEE ALSO
-.BR locale (1),
-.BR duplocale (3),
 .BR freelocale (3),
 .BR newlocale (3),
 .BR setlocale (3),
+.BR uselocale (3),
 .BR locale (5),
 .BR locale (7)
-
 
 -- 
 Michael Kerrisk
