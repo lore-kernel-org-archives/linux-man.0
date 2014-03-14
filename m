@@ -1,150 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: For review: newlocale.3
-Date: Fri, 14 Mar 2014 10:55:33 +0100
-Message-ID: <CAKgNAkiv7ajtPmFZQgzq=Z1gMOkmYYjAA9TY+kLR+6HmzqnhFw@mail.gmail.com>
-References: <CAKgNAkhAR_LSqav=Lz_u+xJarZgBr4ft-NBeJirmCw7rd4LFSA@mail.gmail.com>
- <5663087.ED3DXCYTiR@vapier>
+Subject: Re: [PATCH] new Page: isalpha__3(3)
+Date: Fri, 14 Mar 2014 12:05:34 +0100
+Message-ID: <CAKgNAkin692aniSVcN6ByDEyNDWHDaNx6KFtoHAeeBrhuFywQw@mail.gmail.com>
+References: <5315F2B5.2040009@bfs.de> <531DBD1F.5090400@gmail.com> <CACKs7VCcOGugkbs-=Rmu0XiBtiWEvHU8oyCKqKtdLMw2AfDJMQ@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5663087.ED3DXCYTiR@vapier>
+In-Reply-To: <CACKs7VCcOGugkbs-=Rmu0XiBtiWEvHU8oyCKqKtdLMw2AfDJMQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Bruno Haible <bruno-nWNVUoHt2MvYtjvyW6yDsg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
+[CC restored, since I think this is a point that others may have comments on]
 
-On Thu, Mar 13, 2014 at 9:13 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wro=
-te:
-> On Wed 12 Mar 2014 16:47:43 Michael Kerrisk wrote:
->> .SH DESCRIPTION
->> The
->> .BR newlocale ()
->> function creates a new locale object, or modifies an existing object=
-,
->> returning a reference to the new or modified object as the function =
-result.
->> Whether the call creates a new object or modifies an existing object
->> is determined by the value of
->> .IR base :
+Hi Stefan,
+
+On Thu, Mar 13, 2014 at 1:23 PM, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Michael,
 >
-> you discuss the value of |base| first ...
+> Small nit about your wcstombs example below:
 >
->> .PP
->> The
->> .I category_mask
+> On Mon, Mar 10, 2014 at 3:24 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> [...]
+>> ---8x------8x------8x------8x------8x------8x------8x------8x------8x---
+> [...]
+>>     printf("Length of source string (excluding terminator):\n");
+>>     printf("    %ld bytes\n", (long) strlen(argv[2]));
+>>     printf("    %ld multibyte characters\n\n", (long) mbslen);
 >
-> ... then the |category_mask| ...
->
->> The following preset values of
->> .I locale
->
-> ... then the |locale| ...
->
-> (side note: shouldn't there be a .PP to start this portion ?)
+> Why not use %zu for mbslen and strlen(argv[2])? Both are size_t as far
+> as I can tell. Then you wouldn't need the cast.
 
-Yup, better. Added.
+The 'z' specifier is a C99 invention as I recall, and it took a few
+years before it became widespread. For example, it wasn't on Sun's
+libc for Solaris 8, and reading some man pages suggests that it wasn't
+there on Solaris 9 (released in 2002), though it was there by Solaris
+10 (2005). Likewise, FreeBSD seems to have since it version 5 (2003).
 
->> .PP
->> If
->> .I base
->
-> ... then back to |base| ?  generally i expect the discussion of each =
-argument
-> to be together rather than split across paragraphs.  if i were referr=
-ing to
-> this for programming, i probably wouldn't have even made it this far.
+So although glibc has had 'z' for a long time (at least as far back as
+glibc 2.1 at the start of 1999, though I suspect a little earlier as
+well), there were even a few years ago a lot of installed non-Linux
+systems that didn't support it.
 
-Okay -- I moved that para to go with the rest of the description of 'ba=
-se'.
+So, for portable code, I've tended to almost reflexively use
+%ld+(long). Probably, the need to do that is less pressing now. There
+are many fewer of those installed legacy systems these days. I'll
+change that code for the mbstowcs() page to use %zu.
 
->> .B EINVAL
->> One or more bits in
->> .I category_mask
->> does not correspond to a valid locale category.
->
-> does->do
-
-=46ixed.
-
->> Having created and initialized the locale object,
->> the program then applies it using
->> .BR uselocale (),
->
-> shouldn't that be (3) ?
-
-Yup.
-
->> Te Paraire, te 07 o Pout=C5=AB-te-rangi, 2014 00:38:44 CET
->> .fi
->> .in
->>
->> .in +4n
->> .nf
->>
->> .fi
->> .in
->> .SS Program source
->
-> this ends up rendering 3 blank lines before "Program source" when rea=
-lly only
-> one is needed
-
-=46unny, id didn't render that way for me. However, the above piece is
-obviously cruft, and I removed it ;-).
-
->> .nf
->> #define _XOPEN_SOURCE 700
->> #include <stdio.h>
->> #include <stdlib.h>
->> #include <locale.h>
->> #include <time.h>
->>
->> #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
->>                         } while (0)
->
-> not sure what standard you're aiming for, but if you include err.h, y=
-ou don't
-> need this macro.  you can just call err(1, msg).
-
-I tend to avoid those functions because they're nonstandard (some of
-the examples in man pages do compile and sun on non-Linux systems).
-So, I just roll my own short macros.
-
->>     if (argc > 2) {
->>         nloc =3D newlocale(LC_TIME_MASK, argv[2], loc);
->>         if (loc =3D=3D (locale_t) 0)
->
-> shouldn't you be testing nloc ?
-
-Yup!
-
-> if you're just going to exit on error, i wonder why even bother with =
-nloc
-> indirection
-
-More to illustrate the point that this is how to do things generally
-(i.e., we might be doing something other than exiting on error). I've
-added a comment explaining this.
-
->>     s =3D strftime(buf, BUF_SIZE, "%c", tm);
->
-> why not sizeof(buf) ?  avoids needing BUF_SIZE at all.
-
-Yes, simpler. Done.
-
-Thanks for the comments, Mike.
-
-Cheers,
+Thanks,
 
 Michael
 
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
