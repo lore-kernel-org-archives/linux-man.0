@@ -1,51 +1,51 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] packet.7: PACKET_TX_RING packet status is a bitmap; explain TP_STATUS_LOSING
-Date: Thu, 13 Mar 2014 17:58:11 +0200
-Message-ID: <CACKs7VBh6NaNmb4nZT9E4hDSCwuiPqRBRiLebWVEDDcjHZtqVw@mail.gmail.com>
+From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] memcmp.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 14 Mar 2014 09:42:47 +0000
+Message-ID: <1394790041-2397-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+The function memcmp() is thread safe.
 
-The context for this patch can be found in this email I sent to the
-list a few weeks ago. It's the same patch with a description of
-TP_STATUS_LOSING added:
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/memcmp.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-http://article.gmane.org/gmane.linux.man/5145
-
-As far as I can tell from LXR, the code hasn't changed in the latest
-version (3.13.5) - tpacket_rcv() seems to be where the receive logic
-is for PACKET_RX_RING. The bit map behavior seems to be ancient - it
-was there in 2.6.7 as far as I can tell.
-
-diff --git a/man7/packet.7 b/man7/packet.7
-index d8257f9..187da08 100644
---- a/man7/packet.7
-+++ b/man7/packet.7
-@@ -357,9 +357,13 @@ The packet socket owns all slots with status
- .BR TP_STATUS_KERNEL .
- After filling a slot, it changes the status of the slot to transfer
- ownership to the application.
--During normal operation, the new status is
--.BR TP_STATUS_USER ,
--to signal that a correctly received packet has been stored.
-+During normal operation, the new status has the
-+.BR TP_STATUS_USER
-+bit set to signal that a correctly received packet has been stored.
-+If the status has the
-+.BR TP_STATUS_LOSING
-+bit set, it means the kernel has dropped packets due to lack of
-+space in the ring.
- When the application has finished processing a packet, it transfers
- ownership of the slot back to the socket by setting the status to
- .BR TP_STATUS_KERNEL .
-
-Thanks,
-Stefan.
+diff --git a/man3/memcmp.3 b/man3/memcmp.3
+index 89a17e8..f1331a4 100644
+--- a/man3/memcmp.3
++++ b/man3/memcmp.3
+@@ -27,7 +27,7 @@
+ .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+ .\"     386BSD man pages
+ .\" Modified Sat Jul 24 18:55:27 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+-.TH MEMCMP 3  2012-11-25 "" "Linux Programmer's Manual"
++.TH MEMCMP 3  2014-03-14 "" "Linux Programmer's Manual"
+ .SH NAME
+ memcmp \- compare memory areas
+ .SH SYNOPSIS
+@@ -57,6 +57,11 @@ that differ in
+ .I s1
+ and
+ .IR s2 .
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR memcmp ()
++function is thread-safe.
+ .SH CONFORMING TO
+ SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
+ .SH SEE ALSO
+-- 
+1.8.5.3
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
