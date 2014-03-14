@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: For review: newlocale.3
-Date: Fri, 14 Mar 2014 10:56:36 +0100
-Message-ID: <CAKgNAkh=DaEQ5HJgjRoS9oB5dSOFfM82eswoSP=tcE-UzYJy8w@mail.gmail.com>
+Date: Fri, 14 Mar 2014 10:55:33 +0100
+Message-ID: <CAKgNAkiv7ajtPmFZQgzq=Z1gMOkmYYjAA9TY+kLR+6HmzqnhFw@mail.gmail.com>
 References: <CAKgNAkhAR_LSqav=Lz_u+xJarZgBr4ft-NBeJirmCw7rd4LFSA@mail.gmail.com>
  <5663087.ED3DXCYTiR@vapier>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
