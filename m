@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 54271] readahead() docs incorrectly say it blocks
-Date: Sat, 15 Mar 2014 09:11:27 +0000
-Message-ID: <bug-54271-11311-j1sQnCMUc4@https.bugzilla.kernel.org/>
+Date: Sat, 15 Mar 2014 09:11:54 +0000
+Message-ID: <bug-54271-11311-BU6hgPTE52@https.bugzilla.kernel.org/>
 References: <bug-54271-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,12 +14,15 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=54271
 
---- Comment #9 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Created attachment 129481
-  --> https://bugzilla.kernel.org/attachment.cgi?id=129481&action=edit
-Patch from Phillip Susi
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Patch submitted to linux-man by Phillip Susi on 2014-03-14
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
+
+--- Comment #10 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Applied Phillip's patch, with some tweaks.
 
 -- 
 You are receiving this mail because:
