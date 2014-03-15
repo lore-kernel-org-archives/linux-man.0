@@ -1,64 +1,31 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fts.3 is not available in LFS builds
-Date: Sat, 15 Mar 2014 15:47:26 +0100
-Message-ID: <CAKgNAkgqXUf0yWaXyAD7yBJgivp9Jmwvz4EAnh_DpyActuoGwA@mail.gmail.com>
-References: <20140315135416.GA10430@infradead.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Phillip Susi <psusi-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] readahead.2: don't claim the call blocks until all data
+ has been read
+Date: Sat, 15 Mar 2014 12:22:09 -0400
+Message-ID: <53247E31.7060002@ubuntu.com>
+References: <1394812471-9693-1-git-send-email-psusi@ubuntu.com> <532417CA.1040300@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140315135416.GA10430-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <532417CA.1040300-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Corrado Zoccolo <czoccolo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Gregory P. Smith" <gps-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Zhu Yanhai <zhu.yanhai-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Christoph,
-
-On Sat, Mar 15, 2014 at 2:54 PM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> As pointed out during a recent discussion on libc-hacker the fts(3)
-> APIs can't be used with large file offsets:
+On 03/15/2014 05:05 AM, Michael Kerrisk (man-pages) wrote:
+> I've tweaked your text a bit to make some details clearer (I hope):
 >
->         https://sourceware.org/bugzilla/show_bug.cgi?id=15838
->
-> The manpage should mention this.  Note: the text probably needs some
-> better formatting at least, but I couldn't come up with proper markup
-> for compiler arguments.
->
-> Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
->
-> diff --git a/man3/fts.3 b/man3/fts.3
-> index 9374463..2b14c0d 100644
-> --- a/man3/fts.3
-> +++ b/man3/fts.3
-> @@ -774,6 +774,10 @@ The options were invalid.
->  These functions are available in Linux since glibc2.
->  .SH CONFORMING TO
->  4.4BSD.
-> +.SH BUGS
-> +All the APIs described in this manpage are not safe when compiling
+>         readahead()  initiates  readahead  on a file so that subsequent
+>         reads from that file will, be satisfied from the cache, and not
+>         block  on  disk I/O (assuming the readahead was initiated early
+>         enough and that other activity on the system  did  not  in  the
+>         meantime flush pages from the cache).
 
-Should this perhaps better read "not safe on 32-bit systems"?
-
-> +a program using the LFS APIs, e.g. by using
-> +-D_FILE_OFFSET_BITS=64.
->  .\" The following statement is years old, and seems no closer to
->  .\" being true -- mtk
->  .\" The
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-Cheers,
-
-Michael
+Slight grammatical error there: there's an extra comma in "file will, be".
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
