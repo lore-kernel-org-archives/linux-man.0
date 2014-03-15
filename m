@@ -1,33 +1,33 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 54271] readahead() docs incorrectly say it blocks
-Date: Sat, 15 Mar 2014 09:11:54 +0000
-Message-ID: <bug-54271-11311-BU6hgPTE52@https.bugzilla.kernel.org/>
-References: <bug-54271-11311@https.bugzilla.kernel.org/>
+From: Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH] readahead.2: don't claim the call blocks until all data
+ has been read
+Date: Sat, 15 Mar 2014 02:24:55 -0700
+Message-ID: <20140315092455.GA6018@infradead.org>
+References: <1394812471-9693-1-git-send-email-psusi@ubuntu.com>
+ <532417CA.1040300@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-54271-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <532417CA.1040300@gmail.com>
+Sender: owner-linux-mm@kvack.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Phillip Susi <psusi@ubuntu.com>, linux-man@vger.kernel.org, linux-mm@kvack.org, linux-ext4@vger.kernel.org, Corrado Zoccolo <czoccolo@gmail.com>, "Gregory P. Smith" <gps@google.com>, Zhu Yanhai <zhu.yanhai@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=54271
+On Sat, Mar 15, 2014 at 10:05:14AM +0100, Michael Kerrisk (man-pages) wrote:
+>        However, it may block while  it  reads
+>        the  filesystem metadata needed to locate the requested blocks.
+>        This occurs frequently with ext[234] on large files using indi???
+>        rect  blocks instead of extents, giving the appearence that the
+>        call blocks until the requested data has been read.
+> 
+> Okay?
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+The part above is something that should be in the BUGS section.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
-
---- Comment #10 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Applied Phillip's patch, with some tweaks.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
