@@ -1,82 +1,41 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 57181] man pages for C structs
-Date: Sat, 15 Mar 2014 13:28:12 +0000
-Message-ID: <bug-57181-11311-4EEooUkWsf@https.bugzilla.kernel.org/>
-References: <bug-57181-11311@https.bugzilla.kernel.org/>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: [PATCH] fts.3 is not available in LFS builds
+Date: Sat, 15 Mar 2014 06:54:16 -0700
+Message-ID: <20140315135416.GA10430@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-57181-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=57181
+As pointed out during a recent discussion on libc-hacker the fts(3)
+APIs can't be used with large file offsets:
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Serge van den Boom from comment #2)
-> Ok, how is this for a start:
-> 
-> timeval -> ctime(3)
-> timespec -> nanosleep(2)
+	https://sourceware.org/bugzilla/show_bug.cgi?id=15838
 
-So here's an example of ptroblem. 'struct timespec' is in 15 pages. Why point
-to this one in particular. I can see it's not a bad page to point to. But, if
-you are using one of the other APIs, then laning on nanosleep(2) would be
-confusing.
+The manpage should mention this.  Note: the text probably needs some
+better formatting at least, but I couldn't come up with proper markup
+for compiler arguments.
 
+Signed-off-by: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
 
-> sockaddr -> bind(2)
-> sockaddr_in -> ip(7)
-> in_addr -> inet(3)
-> in_addr -> ip(7)  
-> in_addr_t -> inet(3)
-> sockaddr_in6 -> ipv6(7)
-> in6_addr -> ipv6(7)
-> addrinfo -> getaddrinfo(3)
-> iovec -> recv(2)
-> msghdr -> send(2) / recv(2)
-> cmsghd -> cmsg(3)
-> dirent -> readdir(3)
-> pollfd -> poll(2)
-> epoll_event -> epoll_ctl(2)
-> rlimit -> getrlimit(2)
-> 
-> To further illustrate why this would be useful, consider the following
-> situation: you are coding in C and want to use sendmsg(). Before you write
-> that line, you would define a struct msghdr, and fill its fields. But you
-> don't recall what exactly the fields of struct msghdr should contain.
-> Right now, you'd go through the following steps:
-> 1. Where would I find the definition of msghdr? I want to use it in
-> 'sendmesg', so that's probably where it is.
-> 2. 'man sendmesg'
-> 3. search for msghdr
-> With separate pages per struct, you would be able to skip steps 1 and 2. In
-> fact, if you use Vim, you would just enter 'K' when the cursor is on
-> 'msghdr'.
-> With redirects, you'd still have step 3, but you wouldn't have the
-> (distracting) step of deciding where you'd expect to find it.
-> 
-> (Also, 'struct mesghdr' includes a field of type 'struct iovec', which is
-> not defined in send(2). This is probably a separate issue though.)
-> 
-> For structures like sockaddr_in, step 1 is even harder, as there is no clue
-> to where to find a page on its definition. You would have to know somehow
-> that it can be found in ip(7).
-
-I don't really buy this reasoning. If I'm using sendmsg(), then I'm probably on
-that page already before step 1.
-
-So, I don't think this approach (llinks as described above) is really helpful.
-
-Now, whether there should be separate pages for a few structures is something
-to think about more, but I'd need to see a good reason in each case.
-(sigevent(7) had a good reason, for example.)
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+diff --git a/man3/fts.3 b/man3/fts.3
+index 9374463..2b14c0d 100644
+--- a/man3/fts.3
++++ b/man3/fts.3
+@@ -774,6 +774,10 @@ The options were invalid.
+ These functions are available in Linux since glibc2.
+ .SH CONFORMING TO
+ 4.4BSD.
++.SH BUGS
++All the APIs described in this manpage are not safe when compiling
++a program using the LFS APIs, e.g. by using
++-D_FILE_OFFSET_BITS=64.
+ .\" The following statement is years old, and seems no closer to
+ .\" being true -- mtk
+ .\" The
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
