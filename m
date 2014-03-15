@@ -1,31 +1,43 @@
-From: Mike Christie <mchristie-5c4llco8/ftWk0Htik3J/w@public.gmane.org>
-Subject: Re: SuSE O_DIRECT|O_NONBLOCK overload
-Date: Fri, 14 Mar 2014 12:46:43 -0500
-Message-ID: <53234083.3060307@fusionio.com>
-References: <20140130132620.GA6031@infradead.org> <20140130132630.GB6031@infradead.org> <x49iorp3fhm.fsf@segfault.boston.devel.redhat.com> <20140308155240.GA32297@infradead.org> <CAMM=eLewbtK7LiNZCXo=hm-sjVU2+MN+xTFuxb89mDA1iS3r0w@mail.gmail.com> <531B74B6.4070004@suse.de>	<20140312102849.GA26509@infradead.org> <53203BE5.402@suse.de>	<20140312110015.GA29907@infradead.org> <20140313111555.2f15f19f@notabene.brown>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Linux find(1) man page error
+Date: Sat, 15 Mar 2014 06:48:22 +0100
+Message-ID: <CAKgNAkiUYvgwgKG5E+9HmmsEceG9ZGm2NN1JyxP4Mzu1usZcew@mail.gmail.com>
+References: <CAByKChfmu5oJTdV_QJYYNCrFs3t3z_-E8xvsQPLAmtfH2G0FKw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140313111555.2f15f19f-wvvUuzkyo1EYVZTmpyfIwg@public.gmane.org>
+In-Reply-To: <CAByKChfmu5oJTdV_QJYYNCrFs3t3z_-E8xvsQPLAmtfH2G0FKw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alan Karp <alan.karp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/12/2014 07:15 PM, NeilBrown wrote:
-> I also think there should probably be just one FAILFAST flag.  Where it was
-> the DEV or the TRANSPORT or the DRIVER that failed could be returned in the
-> error code for any caller that cared.  But as I don't know why the one became
-> three I could well be missing something important.
+Alan,
 
-It was for multipath. The problem was dm-multipath does not know what to
-do with low level device errors, but wanted transport errors returned
-quickly. Other drivers like the scsi_dh (formerly dm hardware handlers)
-modules, want all errors fast failed.
+On Sat, Mar 15, 2014 at 2:03 AM, Alan Karp <alan.karp-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> The latest version of the man page indicates that the -prune option returns
+> false when the -depth option is present; this was true in find in version
+> 4.2, but in version 4.4.2 this behavior has changed. I see in the change log
+> for 4.4.2 that this changed in response to fixing Savannah bug #20803.
+>
+> The paragraph in the man page describing -prune should indicate that it
+> returns true always.
 
-I can add documentation or we can just change the code to better suite
-your needs.
+Thanks for thinking to make the report, but this list is the wrong
+location for bug reports about this man page. Please see
+http://man7.org/linux/man-pages/man1/find.1.html#COLOPHON
+
+Cheers,
+
+Michael
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
