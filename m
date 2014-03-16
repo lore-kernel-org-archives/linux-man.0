@@ -1,47 +1,43 @@
-From: Phillip Susi <psusi@ubuntu.com>
-Subject: Re: [PATCH] readahead.2: don't claim the call blocks until all data
- has been read
-Date: Sat, 15 Mar 2014 19:26:18 -0400
-Message-ID: <5324E19A.4070600@ubuntu.com>
-References: <1394812471-9693-1-git-send-email-psusi@ubuntu.com> <532417CA.1040300@gmail.com> <53247E31.7060002@ubuntu.com> <CAKgNAkjyXq0JVcJr4E+yie+r+2qbuFqm3=N589YNNVUvJOz6QQ@mail.gmail.com>
+From: Michael Kerrisk <mtk.manpages@gmail.com>
+Subject: name_to_handle_at() and persistent filesystem IDs
+Date: Sun, 16 Mar 2014 08:43:58 +0100
+Message-ID: <CAHO5Pa0Y8r1DxHTc0YN-4geoLJ3JYwHT99EcuaGL6k++ek+aEQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAKgNAkjyXq0JVcJr4E+yie+r+2qbuFqm3=N589YNNVUvJOz6QQ@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: mtk.manpages@gmail.com
-Cc: linux-man <linux-man@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, linux-ext4@vger.kernel.org, Corrado Zoccolo <czoccolo@gmail.com>, "Gregory P. Smith" <gps@google.com>, Zhu Yanhai <zhu.yanhai@gmail.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>
+Cc: Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Linux Kernel <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger@dilger.ca>, NeilBrown <neilb@suse.de>, Miklos Szeredi <miklos@szeredi.hu>, Bruce Fields <bfields@fieldses.org>, linux-man@vger.kernel.org, Christoph Hellwig <hch@infradead.org>
 List-Id: linux-man@vger.kernel.org
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
+Hello Aneesh,
 
-On 03/15/2014 12:25 PM, Michael Kerrisk (man-pages) wrote:
->> Slight grammatical error there: there's an extra comma in "file
->> will, be".
-> 
-> Thanks. Fixed.
-> 
-> Otherwise okay, I assume?
+I'm currently working on a man page for name_to_handle_at() and
+open_by_handle_at(), and I have a question relating to a point that
+probably needs to be covered in the man page.
 
-Yep.
+Back in July 2010, in this thread:
+http://thread.gmane.org/gmane.linux.file-systems/41782/focus=43131
+you said:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.14 (GNU/Linux)
-Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
+[[
+mount id should not be looked at as a persistent identifier. It should
+be used to derive a persistent identifier from /proc/self/mountinfo. The
+persistent identifier could be the combination of device properties,
+file system properties or the uuid which is going to be an optional
+tag in /proc/self/mountinfo.
+]]
 
-iQEcBAEBCgAGBQJTJOGXAAoJEI5FoCIzSKrwWL0IAJR+RDiqPUUMuRQyT+ZUICnX
-5MToU3EnyEpwY37HXHIAcQv6cYwo7Z7gP7EQseChIcozzQO/xCulrH/41FyuxRt1
-ci1ow/XeydhsWQ0nKpY8ox5DWfErV0csUYO+dazrKRKGnAPXQv0+Bx2DPP9mPKuJ
-q9FBMP+FIFuVQW6o0VxOxQIW1lx/oYI+a5q+P91pd4fDcI0igKFNn6x5SvoaDbLI
-HwA6VTmySs2BVwN3w3BK6fadWXnqd6xJUMGN0OdsqiecZGW+qgB6EdyrY9xPOjgX
-ixFCpcj67OGPZY+sEAdO2T+QxNytnhhP/5Z/F7kkiu/6mKoRm/uQSdSnDZr4aPU=
-=5KCU
------END PGP SIGNATURE-----
+In the man page, I'd like to briefly describe how one derives such a
+persistent ID from mountinfo. AFAICS, the optional UUID tag in
+/proc/self/mountinfo has not come to pass. So, what then is the
+recommended practice for deriving the persistent ID?
 
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk Linux man-pages maintainer;
+http://www.kernel.org/doc/man-pages/
+Author of "The Linux Programming Interface", http://blog.man7.org/
