@@ -1,1307 +1,710 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] Man pages for the fanotify API
-Date: Mon, 17 Mar 2014 16:45:04 +0100
-Message-ID: <53271880.4090100@gmail.com>
-References: <53233160.9000106@gmail.com> <1394983959-5392-1-git-send-email-xypron.glpk@gmx.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: For review: open_by_name_at(2) man page
+Date: Mon, 17 Mar 2014 16:57:29 +0100
+Message-ID: <53271B69.3000305@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1394983959-5392-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: xypron.glpk-Mmb7MZpHnFY@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org, james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
+Cc: mtk.manpages@gmail.com, Andreas Dilger <adilger@dilger.ca>, NeilBrown <neilb@suse.de>, Christoph Hellwig <hch@infradead.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Heinrich,
-
-On 03/16/2014 04:32 PM, xypron.glpk-Mmb7MZpHnFY@public.gmane.org wrote:
-> From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> 
-> Michael,
-> 
-> thank you for all your comments. I reflected these in the appended
-> revised patch.
-
-Thanks. It's getting a lot better. More comments below.
-
-> I studied the proposal by Stephan Mueller dated 2011 but the proposed pages are
-> not a superset of his proposal due to some changes in the API
-> (e.g. FAN_READONLY_FALLBACK).
-> 
-> Include linux/fcntl.h is needed for O_LARGEFILE.
-
-See my comments on this below.
-
-I'll swap the order of your text a little, since it's most sensible to 
-comment on fanotify(7) first.
-
-> diff --git a/man7/fanotify.7 b/man7/fanotify.7
-> new file mode 100644
-> index 0000000..1174488
-> --- /dev/null
-> +++ b/man7/fanotify.7
-> @@ -0,0 +1,497 @@
-> +.\" Copyright (C) 2013, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> +.\" 
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of
-> +.\" this manual under the conditions for verbatim copying, provided that
-> +.\" the entire resulting derived work is distributed under the terms of
-> +.\" a permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> +.\" no responsibility for errors or omissions, or for damages resulting.
-> +.\" from the use of the information contained herein.  The author(s) may.
-> +.\" not have taken the same level of care in the production of this.
-> +.\" manual, which is licensed free of charge, as they might when working.
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-
-Some observations:
-* The ignore mask isn't described on this page at all. Shouldn't it
-  be described here?
-
-> +.TH FANOTIFY 7 2014-03-14 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +fanotify \- monitoring filesystem events
-> +.SH DESCRIPTION
-> +The
-> +.B fanotify
-> +API provides notification and interception of filesystem events.
-> +Use cases are virus scanning and hierarchical storage management.
-> +
-> +The following system calls are used with this API:
-> +.BR fanotify_init (2),
-> +.BR fanotify_mark (2),
-> +.BR poll (2),
-> +.BR ppoll (2),
-> +.BR read (2),
-> +.BR write (2),
-> +and
-> +.BR close (2).
-> +.PP
-> +.BR fanotify_init (2)
-> +creates and initializes a fanotify notification group and returns a file
-> +descriptor referring to it.
-> +A fanotify notification group is an internal object of the kernel which holds a
-> +list of files, directories and mounts for which events shall be created when a
-> +file is accessed, and a list of files for which a decision is pending whether
-> +access shall be granted.
-> +.PP
-> +When all file descriptors referring to the group are closed, the group is
-> +released and the resources are freed for reuse by the kernel.
-> +.PP
-> +.BR fanotify_mark (2)
-> +adds a file, a directory, or a mount from the group and specifies which events
-
-s/from/to/
-
-> +shall be reported, or removes or modifies such an entry.
-> +.PP
-> +The fanotify file descriptor signals when data becomes available when passed to
-> +either of
-> +.BR epoll (7),
-> +.BR poll (2),
-> +.BR select (2).
-
-This needs to be more precise:
-
-    When an fanotify event occurs, the fanotify file descriptor indicates 
-    as readable when passed to select(2), poll(2), and epoll(7).
-
-> +.PP
-> +Calling
-> +.BR read (2)
-> +for the file descriptor returned by
-> +.BR fanotify_init (2)
-> +blocks (if flag
-> +.B FAN_NONBLOCK
-> +is not set in the call to
-> +.BR fanotify_init (2))
-> +until either a file event occurs or it is interrupted by a signal
-> +(see
-> +.BR signal (7)).
-> +
-> +The return value of
-> +.BR read (2)
-> +is the length of the filled buffer or -1 in case of an error.
-
-s/-1/\-1/ in all instances please.
-
-> +In case of success the read buffer contains one or more of the following
-> +structures:
-> +
-> +.in +4n
-> +.nf
-> +struct fanotify_event_metadata {
-> +    __u32 event_len;
-> +    __u8 vers;
-> +    __u8 reserved;
-> +    __u16 metadata_len;
-> +    __aligned_u64 mask;
-> +    __s32 fd; 
-> +    __s32 pid;
-> +};
-> +.fi
-> +.in
-> +
-> +.TP 15
-> +.I event_len
-> +is the length of the data for the current event and the offset to the next
-
-In this entire list, please make the first sentence a complete sentence.
-
-"This is the length..."
-
-> +event in the buffer.
-> +This length might be longer than the size of structure
-> +.I fanotify_event_metadata.
-> +Therefore it is recommended to use a larger buffer size when reading,
-> +e.g. 4096 bytes.
-> +.TP
-> +.I vers
-> +holds the version of the
-
-"This field holds..."
-
-> +.B fanotify
-> +API. The value should be checked against
-> +.B FANOTIFY_METADATA_VERSION.
-
-Formatting: 
-.BR FANOTIFY_METADATA_VERSION .
-
-Please check for other similar instances
-
-> +.TP
-> +.I reserved
-> +is not used.
-
-"This field is not used."
-
-> +.TP
-> +.I metadata_len
-> +is the length of the structure.
-> +The field was introduced to facilitate the implementation of optional headers
-> +per event type.
-
-Are there any such optional headers so far? If not, then add a sentence to say so.
-If there are, mention an example.
-
-> +.TP
-> +.I mask
-> +is a bitmask describing the event.
-
-Change all instances to "bit mask"
-
-> +.TP
-> +.I fd
-> +is an open file descriptor for the object being accessed or
-> +.B FAN_NOFD
-> +if a queue overflow occurred.
-
-What happens if the application hits its file descriptor limit?
-This probably needs to be explained in this page. 
-
-> +The reading application is responsible for closing this file descriptor.
-> +.TP
-> +.I pid
-> +is the ID of the process that caused the event.
-> +A program listening to fanotify events can compare this pid to the pid returned
-
-s/pid/PID/g in the above line.
-
-> +by
-> +.BR getpid (2)
-> +to detect if the event is caused internally 
-
-"is caused internally" is unnecessarily obscure. I think you mean
-"is caused by the calling process itself", right? Better to say that.
-
-> or is due to a file access by another
-> +program.
-> +.PP
-> +The bitmask in
-> +.I mask
-> +is composed of the following values:
-> +.TP
-> +.B FAN_ACCESS
-> +file was accessed.
-
-Again, make each entry in this list a complete sentence, please.
-
-> +.TP
-> +.B FAN_OPEN
-> +file was opened.
-> +.TP
-> +.B FAN_MODIFY
-> +file was modified.
-> +.TP
-> +.B FAN_CLOSE_WRITE
-> +writable file closed.
-> +.TP
-> +.B FAN_CLOSE_NOWRITE
-> +unwritable file closed.
-> +.TP
-> +.B FAN_Q_OVERFLOW
-> +event queue overflowed.
-> +.TP
-> +.B FAN_ACCESS_PERM
-> +file accessed in perm check.
-
-"perm check" ==> please explain this normal language. At the 
-very least, "permission check", but it probably would be good
-to say a word or two about what you mean, or give an example.
-
-
-> +.TP
-> +.B FAN_OPEN_PERM
-> +file open in perm check.
-> +.TP
-> +.B FAN_ONDIR
-> +event occurred against directory.
-> +.TP
-> +.B FAN_EVENT_ON_CHILD
-> +event for a child of a directory occurred.
-> +.PP
-> +To check for any close event the following bitmask may be used
-> +.TP
-> +.B FAN_CLOSE
-> +a file was closed 
-> +(FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE).
-> +.PP
-> +The following macros are provided to iterate over a buffer of
-> +.B fanotify
-> +event metadata:
-
-add the words: "returned by a read(2) from an fanotify file descriptor:"
-
-> +.TP
-> +.B FAN_EVENT_OK(meta, len)
-> +checks the remaining length
-> +.I len
-> +of the buffer
-> +.I meta
-> +against the length of the metadata structure and the
-> +.I event_len
-> +field of the first metadata structure in the buffer.
-> +.TP
-> +.B FAN_EVENT_NEXT(meta, len)
-> +lets the pointer
-s/lets/sets/
-> +.I meta
-> +point to the next metadata structure using the length indicated in the
-> +.I event_len
-> +field of the metadata structure and reduces the remaining length of the
-> +buffer
-> +.I len.
-> +.PP
-> +For permission events the application must
-
-Add comma after "events"
-
-> +.BR write (2)
-> +to the
-> +.B fanotify
-> +file descriptor a structure
-
-==> must write(2) a structure of the following form to the fanotify
-    file descriptor:
-
-> +
-> +.in +4n
-> +.nf
-> +struct fanotify_response {
-> +        __s32 fd;
-> +        __u32 response;
-> +};
-> +.fi
-> +.in
-> +
-> +.TP 15
-> +.I fd
-> +is the file descriptor from structure
-> +.I fanotify_event_metadata.
-
-Formatting!
-
-.IR xxx .
-
-> +.TP
-> +.I response
-> +must be either
-> +.br
-> +.B FAN_ALLOW
-> +to allow the file operation or
-> +.br
-
-Remove both ".br" above.
-
-> +.B FAN_DENY
-> +to deny the file operation.
-> +.PP
-> +To end listening it is sufficient to
-
-Add comma after "listening"
-
-> +.BR close (2)
-> +the
-> +.B fanotify
-> +file descriptor.
-> +The open permission events will be set to allowed, and all resources will be
-> +returned to the kernel.
-> +.PP
-> +File /proc/<pid>/fdinfo/<fd> contains information about fanotify marks for
-
-s/File/The file/
-
-And apply .I formatting to the /proc pathname here.
-
-Note: sometimes you are formatting "fanotify" bold, and sometimes not.
-There appears to be no consistent reason. Choose one or the other, and 
-stick with it.
-
-> +file descriptor fd of process pid. See
-> +.I Documentation/filesystems/proc.txt
-> +for details.
-> +.SH ERRORS
-> +The following errors may occur when reading from the
-> +.B fanotify
-> +file descriptor:
-> +.TP
-> +.B EAGAIN
-> +a nonblocking call did not return any data.
-
-Again, complete sentrence in this list please.
-
-> +.TP
-> +.B EFAULT
-> +the read buffer is outside your accessible address space.
-> +.TP
-> +.B EINTR
-> +a signal has occurred.
-
-"The call was interrupted by a signal handler."
-
-> +.TP
-> +.B EINVAL
-> +the buffer is too short to hold the event.
-> +.PP
-> +The following errors may occur when writing to the
-> +.B fanotify
-> +file descriptor:
-> +.TP
-> +.B EFAULT
-> +the write buffer is outside your accessible address space.
-> +.TP
-> +.B EINVAL
-> +fanotify access permissions are not enabled or the value of
-> +.I response
-> +in the response structure is not valid.
-> +.TP
-> +.B ENOENT
-> +the file descriptor
-> +.I fd
-> +in the response structure is not valid.
-> +This might occur because the file was already deleted by another thread or
-> +process.
-> +.SH VERSIONS
-> +The
-> +.B fanotify
-> +API was introduced in version 2.6.36 of the Linux kernel and enabled in
-> +version 2.6.37. Fdinfo support was added in version 3.8.
-> +.SH "CONFORMING TO"
-> +The
-> +.B fanotify
-> +API is Linux-specific.
-> +.SH NOTES
-> +The notification is based on the kernel filesystem notification system
-> +.B fsnotify.
-> +.PP
-> +To enable the
-> +.B fanotify
-> +API the following setting in the Kernel configuration is needed:
-> +CONFIG_FANOTIFY=y. For permission handling
-> +CONFIG_FANOTIFY_ACCESS_PERMISSIONS=y must be set.
-> +.SH EXAMPLE
-> +The following program demonstrates the usage of the
-> +.B fanotify
-> +API. It creates a thread waiting for
-> +.B FAN_PERM_OPEN
-> +and
-> +.B FAN_CLOSE_WRITE
-> +events
-> +for mount /home.
-> +If a permission event arises a
-
-s/arises/occurs,/ 
-
-(note comma)
-
-> +.B FAN_ALLOW
-> +response is given.
-> +.PP
-> +The following output was recorded while editing file /home/user/temp/notes.
-
-Please format pathname as
-
-.IR /home/user/temp/notes .
-
-> +Before the file was opened a
-> +.B FAN_OPEN_PERM
-> +event occured.
-
-occurred
-
-> +After the file was closed a
-> +.B FAN_CLOSE_WRITE
-> +event occured.
-> +The example program ended when hitting the enter key.
-> +.SS Example output
-
-Show the command used to start the program, even it is as simple as
-
-    $ ./a.out
-
-Indent the shell session with
-
-    .in +4n
-    .in
-
-> +.nf
-> +Press enter key to terminate.
-> +Listening for events.
-> +FAN_OPEN_PERM: File /home/zfsdt/temp/notes
-> +FAN_CLOSE_WRITE: File /home/zfsdt/temp/notes
-> +
-> +Listening for events stopped.
-> +.fi
-> +.SS Program source
-
-Question: why is this program mulithreaded? I think that just adds unneeded
-complexity (don't make someone learn threads in order to learn fanotify...). 
-If there's no good reason for multithreading, please simplify.(Use poll() to
-monitor both STDIN_FILENO and the fanotify FD.)
-
-Aslo, how about making the monitored pathname a command-line argument 
-\to the program?
-
-> +.nf
-> +#include <linux/fcntl.h>
-> +#include <linux/limits.h>
-
-These includes are NOT correct.
-
-#include <limits.h>
-#include <fcntl.h>
-
-Now, if you really need O_LARGEFIL, you could define _GNU_SOURCE at the
-top of the program. However, I don't think it's needed at all.
-The accepted way of doing this is CC -D_FILE_OFFSET_NBITS=64, in 
-the cases where it is needed. So, drop O_LARGEFILE.
-
-> +#include <errno.h>
-> +#include <poll.h>
-> +#include <pthread.h>
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <sys/fanotify.h>
-> +#include <unistd.h>
-> +
-> +#define RUNNING 1
-> +#define STOPPING 2
-> +
-> +static int status;
-> +
-> +// Handle available events.
-
-The above very generic comment conveys little info.
-Should it be something like
-
-"Read all available fanotify events from the file descriptor 'fd'"
-
-?
-
-> +static void
-> +handle_events(int fd)
-> +{
-> +    const struct fanotify_event_metadata *metadata;
-> +    char buf[4096];
-> +    int len;
-> +    char path[PATH_MAX];
-> +    int path_len;
-> +    struct fanotify_response response;
-> +
-> +    // Loop while events can be read from fanotify file descriptor.
-
-Sorry, could I ask you to reformat all comments as
-
-    /* ... */
-
-It's just that that is the norm in man pages.
-
-Also, add a blank line after comments.
-
-> +    for(;;) {
-> +
-> +        // Read next events.
-
-"Read some events"
-
-> +        len = read(fd, (void *) &buf, sizeof (buf));
-> +        if (len > 0) {
-
-Change the logic here.
-
-    if (len <= 0)
-        break
-
-And then deindent all of the following code by one level.
-
-By the way, what does it mean if read() returns 0?
-Does that need to be documented in DESCRIPTION?
-
-> +
-> +            // Point to the first event in the buffer.
-> +            metadata = (struct fanotify_event_metadata *) buf;
-> +
-> +            // Loop over all events in the buffer.
-> +            while (FAN_EVENT_OK(metadata, len)) {
-> +
-> +                // Check event contains a file descriptor.
-
-"Check that event contains a file descriptor"
-
-> +                if (metadata\->fd >= 0) {
-> +
-> +                    // Handle open permission event.
-> +                    if (metadata\->mask & FAN_OPEN_PERM) {
-> +                        printf("FAN_OPEN_PERM: ");
-> +                        // Allow file to be opened.
-> +                        response.fd = metadata\->fd;
-> +                        response.response = FAN_ALLOW;
-> +                        write(fd, &response, sizeof (
-> +                                  struct fanotify_response));
-> +                    }
-> +
-> +                    // Handle closing of writable file event.
-> +                    if (metadata\->mask & FAN_CLOSE_WRITE) {
-> +                        printf("FAN_CLOSE_WRITE: ");
-> +                    }
-> +
-> +                    // Determine path of the file accessed.
-> +                    sprintf(path, "/proc/self/fd/%d", metadata\->fd);
-> +                    path_len = readlink(path, path, sizeof (path) \- 1);
-> +
-> +                    // Write path.
-
-Kill that last comment.
-
-> +                    if (path_len > 0) {
-> +                        path[path_len] = '\\0';
-> +                        printf("File %s", path);
-> +                    }
-> +
-> +                    // Close the file descriptor of the event.
-> +                    close(metadata\->fd);
-> +                    printf("\\n");
-> +                }
-> +
-> +                // Forward pointer to next event.
-> +                metadata = FAN_EVENT_NEXT(metadata, len);
-> +            }
-> +        } else {
-> +
-> +            // No more events are available.
-> +            break;
-> +        }
-> +    }
-> +}
-> +
-> +// Worker thread.
-> +static void *
-> +run(void *data)
-> +{
-> +    int fd;
-> +    nfds_t nfds;
-> +    struct pollfd fds;
-> +
-> +    // Create the file descriptor for accessing the fanotify API.
-> +    fd = fanotify_init(FAN_CLOEXEC | FAN_CLASS_CONTENT | FAN_NONBLOCK,
-> +                       O_RDONLY | O_LARGEFILE);
-> +    if (fd == \-1) {
-> +        perror("fanotify_init");
-> +        return NULL;
-> +    }
-> +
-> +    // Mark the home mount for
-> +    // \- permission events before opening files
-> +    // \- notification events after closing a write enabled file descriptor.
-> +    if (fanotify_mark(fd, FAN_MARK_ADD | FAN_MARK_MOUNT,
-> +                      FAN_OPEN_PERM | FAN_CLOSE_WRITE, FAN_NOFD,
-> +                      "/home") == \-1) {
-> +        perror("fanotify_mark");
-> +        close(fd);
-> +        return NULL;
-> +    }
-> +
-> +    // Prepare for polling.
-> +    nfds = 1;
-> +    fds.fd = fd;
-> +    fds.events = POLLIN;
-> +    fds.revents = 0;
-> +    status = RUNNING;
-> +
-> +    // This is the loop to wait for  incoming events.
-> +    printf("Listening for events.\\n");
-> +    while (status == RUNNING) {
-> +        int ret;
-> +
-> +        // Poll for 1 s.
-> +        ret = poll(&fds, nfds, 1000);
-> +        if (ret > 0) {
-> +            if (fds.revents & POLLIN) {
-> +                // Events are available.
-> +                handle_events(fd);
-> +            }
-> +            fds.revents = 0;
-> +        }
-> +        if (ret == \-1 && errno != EINTR) {
-> +            perror("poll");
-> +            break;
-> +        }
-> +    }
-> +
-> +    // Close fanotify file descriptor.
-> +    close(fd);
-> +    printf("Listening for events stopped.\\n");
-> +    return NULL;
-> +}
-> +
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +    pthread_attr_t attr;
-> +    pthread_t thread;
-> +    void *result;
-> +
-> +    printf("Press enter key to terminate.\\n");
-> +
-> +    // Create a worker thread for monitoring file events.
-> +    if (pthread_attr_init(&attr)) {
-> +        return EXIT_FAILURE;
-> +    }
-> +    if (pthread_create(&thread, &attr, run, NULL)) {
-> +        return EXIT_FAILURE;
-> +    }
-> +
-> +    // Wait for user input.
-> +    getchar();
-> +
-> +    // Terminate worker thread.
-> +    status = STOPPING;
-> +    pthread_join(thread, &result);
-> +    return EXIT_SUCCESS;
-> +}
-> +.fi
-> +.SH "SEE ALSO"
-> +.ad l
-> +.BR fanotify_init (2),
-> +.BR fanotify_mark (2),
-> +.BR inotify (7)
-
-In your next patch, could you also add fanoty(7) to the SEE ALSO of inotify(7).
-And, I don't know if you feel qualified to do so, but it might be good to 
-have a (brief) section in fanotify(7) that compares and contrasts with 
-inotify(7).
-
-> 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/fanotify_init.2 |  199 ++++++++++++++++++++
->  man2/fanotify_mark.2 |  216 ++++++++++++++++++++++
->  man7/fanotify.7      |  497 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 912 insertions(+)
->  create mode 100644 man2/fanotify_init.2
->  create mode 100644 man2/fanotify_mark.2
->  create mode 100644 man7/fanotify.7
-> 
-> diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-> new file mode 100644
-> index 0000000..2847f09
-> --- /dev/null
-> +++ b/man2/fanotify_init.2
-> @@ -0,0 +1,199 @@
-> +.\" Copyright (C) 2013, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> +.\" 
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of
-> +.\" this manual under the conditions for verbatim copying, provided that
-> +.\" the entire resulting derived work is distributed under the terms of
-> +.\" a permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> +.\" no responsibility for errors or omissions, or for damages resulting.
-> +.\" from the use of the information contained herein.  The author(s) may.
-> +.\" not have taken the same level of care in the production of this.
-> +.\" manual, which is licensed free of charge, as they might when working.
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.TH FANOTIFY_INIT 2 2014-03-14 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +fanotify_init \- create and initialize fanotify group
-> +.SH SYNOPSIS
-> +.B #include <linux/fcntl.h>
-
-This should be <fcntl.h>
-
-> +.br
-> +.B #include <sys/fanotify.h>
-> +.sp
-> +.BI "int fanotify_init(unsigned int " flags ", unsigned int " event_f_flags );
-> +.SH DESCRIPTION
-
-I think that at the start of both this page and fanotify_mark.2, it would be
-good to write:
-
-    For an overview of the fanotify API, see fanoify(7).
-
-> +.BR fanotify_init()
-> +initializes a new fanotify group and returns a file descriptor for the event
-> +queue.
-> +.PP
-> +The file decriptor is used in calls to
-
-descriptor
-
-> +.BR fanotify_mark (2)
-> +to define for which files, directories, or mounts fanotify events shall be
-> +created.
-> +These events are received by reading from the file descriptor.
-> +Some events only inform that a file has been accessed.
-> +Other events allow to decide if another application may access a file.
-
-Better ==>
-
-Other events can be used to control whether another application may access 
-a file.
-
-> +Decisions upon the permission to access files are made by writing to the file
-
-Better would be something like:
-
-Permission to access files is granted by writing to the...
-
-> +descriptor.
-> +An overview is provided in
-> +.BR fanotify (7).
-> +.PP
-> +Multiple programs may be using the fanotify interface at the same time to
-> +monitor the same files. 
-> +By indicating in
-> +.I flags
-> +which kind of operations will be executed a logical sequence can be defined
-> +in which events are forwarded to the listeners. The following bitmasks define
-> +the kind of usage.
-> +Only one of them may be used when calling
-> +.B fanotify_init()
-> +.TP
-> +.B FAN_CLASS_PRE_CONTENT
-
-Complete sentence at the start of each list item please.
-
-> +sets a priority level which allows to receive events notifying that a file has
-
-"allows to" is not quite correct English. Reword to something like:
-"allows the receipt of events"
-
-(And the same for other instances below.)
-
-> +been accessed and events for permission decisions before the file is accessed.
-> +This priority level is intended for event listeners that need to access files
-> +before they contain their final data.
-> +It is useful for hierarchical storage managers.
-> +.TP
-> +.B FAN_CLASS_CONTENT
-> +sets a priority level which allows to receive events notifying that a file has
-> +been accessed and events for permission decisions before the file is accessed.
-
-s/before/after/?
-
-> +This priority level is intended for event listeners that need to access files
-> +when they already contain their final content.
-> +This may be used by malware detection programs.
-> +.TP
-> +.B FAN_CLASS_NOTIF
-> +sets a priority level which allows only to receive events notifying that a file
-> +has been accessed.
-> +Permission decisions before the file is accessed are not possible.
-> +.PP
-> +Listeners will receive events in this order of priority levels.
-
-I have an idea what you might mean with that last sentence, but I'm
-just guessing. Can you clarify?
-
-> +The call sequence among listeners of the same priority level is undefined.
-> +.PP
-> +Calling
-> +.BR fanotify_init()
-> +requires the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +This constraint might be relaxed in future versions of the API.
-> +Hence additional local capability checks have been implemented as indicated
-> +below.
-> +.PP
-> +.IR flags
-
-Complete sentence at the start of each list item please.
-
-> +defines the behavior of the file descriptor.
-> +It is a bitmask composed of the following values:
-> +.TP
-> +.B FAN_CLOEXEC
-> +sets the close-on-exec flag
-> +.RB ( FD_CLOEXEC )
-> +on the new file descriptor.
-> +When calling
-> +.BR execve (2)
-> +the inherited file descriptor of the child process will be closed.
-> +See the description of the
-> +.B O_CLOEXEC
-> +flag in
-> +.BR open (2).
-> +.TP
-> +.B FAN_NONBLOCK
-> +enables the non-blocking flag
-> +.RB ( O_NONBLOCK )
-> +for the file descriptor.
-> +Reading from the file descriptor will not block.
-> +Instead if no data is available in a call to
-> +.BR read (2)
-> +an error
-> +.B EAGAIN
-> +will occur.
-> +.TP
-> +.B FAN_CLASS_PRE_CONTENT
-> +see above.
-> +.TP
-> +.B FAN_CLASS_CONTENT
-> +see above.
-> +.TP
-> +.B FAN_CLASS_NOTIF
-> +see above.
-> +.TP
-> +.B FAN_UNLIMITED_QUEUE
-> +removes the limit of 16384 events on the size of the event queue.
-> +This flag requires the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +.TP
-> +.B FAN_UNLIMITED_MARKS
-> +removes the limiti of 8192 marks on the number of marks.
-
-s/limiti/limit/
-
-> +This flag requires the
-> +.B CAP_SYS_ADMIN
-> +capability.
-> +.PP
-> +.IR event_f_flags
-> +defines the file flags, with which file descriptors for fanotify events shall
-> +be created.
-> +For explanations of possible values see parameter
-> +.I flags
-> +of the 
-> +.BR open (2)
-> +system call.
-> +Useful values are
-> +.TP
-> +.B O_RDONLY
-> +read only access.
-> +.TP
-> +.B O_WRONLY
-> +write only access.
-> +.TP
-> +.B O_RDWR
-> +read and write access.
-> +.TP
-> +.B O_CLOEXEC
-> +enable close-on-exec.
-> +.TP
-> +.B O_LARGEFILE
-> +support files exceeding 2 GB.
-> +Failing to set this flag will result in an
-> +.B EOVERFLOW
-> +error when trying to open a large file which is monitored by a fanotify group.
-> +.SH RETURN VALUE
-> +If the system
-> +.BR fanotify_init ()
-> +is successful a new file descriptor is returned.
-
-Better ==>
-On success,
-.BR fanotify_init ()
-returns a new file descriptor.
-
-> +In case of an error \-1 is returned, and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.B EINVAL
-> +An invalid value was passed in
-> +.IR flags .
-> +.B FAN_ALL_INIT_FLAGS
-> +defines all allowable bits.
-
-That last sentence isn't needed.
-
-> +.TP
-> +.B EMFILE
-> +indicates the number of listeners exceeds 128.
-
-Complete sentence please. Was this limit discussed in the main text of
-any of these three pages. It would be good to do so, and to clarify 
-whethr or not it can be overridden.
-
-> +.TP
-> +.B ENOMEM
-> +Out of memory, the allocation of memory for the notification group failed. 
-> +.TP
-> +.B EPERM
-> +Operation not permitted because capability
-> +.B CAP_SYS_ADMIN
-> +is missing.
-> +.SH VERSIONS
-> +.BR fanotify_init ()
-> +was introduced in version 2.6.36 of the Linux kernel and enabled in version
-> +2.6.37.
-> +.SH "CONFORMING TO"
-> +This system call is Linux-specific.
-> +.SH "SEE ALSO"
-> +.BR fanotify_mark (2),
-> +.BR fanotify (7)
-> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-> new file mode 100644
-> index 0000000..9439d18
-> --- /dev/null
-> +++ b/man2/fanotify_mark.2
-> @@ -0,0 +1,216 @@
-> +.\" Copyright (C) 2013,  Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> +.\" 
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of
-> +.\" this manual under the conditions for verbatim copying, provided that
-> +.\" the entire resulting derived work is distributed under the terms of
-> +.\" a permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> +.\" no responsibility for errors or omissions, or for damages resulting.
-> +.\" from the use of the information contained herein.  The author(s) may.
-> +.\" not have taken the same level of care in the production of this.
-> +.\" manual, which is licensed free of charge, as they might when working.
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.TH FANOTIFY_MARK 2 2014-03-14 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +fanotify_mark \- add, remove, or modify a fanotify mark on a filesystem
-> +object.
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <sys/fanotify.h>
-> +.sp
-> +.BI "int fanotify_mark (int " fanotify_fd ", unsigned int " flags ,
-> +.BI "                   uint64_t " mask ", int " dfd ,
-
-Please rename "fdf" to "dirfd" throughout the page,
-since that is the norm for this argument in other pages.
-
-> +.BI "                   const char *" pathname );
-> +.fi
-> +.SH DESCRIPTION
-> +.BR fanotify_mark (2)
-> +adds, removes, or modifies a fanotify mark on a filesystem.
-> +.PP
-> +.I fd
-> +is the file descriptor returned by
-> +.BR fanotify_init (2).
-> +.PP
-> +.I flags
-> +is a bitmask describing the modification to perform.
-> +It is composed of the following values:
-> +.TP
-> +.B FAN_MARK_ADD
-> +Add the events in
-> +.IR mask .
-> +.I mask
-> +must be nonempty or an error
-
-s/an error/the error/
-(and other instances below)
-
-> +.B EINVAL
-> +will occur.
-> +.TP
-> +.B FAN_MARK_REMOVE
-> +Remove the events in
-> +.IR mask .
-> +.I mask
-> +must be nonempty or an error
-> +.B EINVAL
-> +will occur.
-> +.TP
-> +.B FAN_MARK_DONT_FOLLOW
-> +Do not follow symbolic links.
-> +.TP
-> +.B FAN_MARK_ONLYDIR
-> +Fail if the path to be marked is not a directory.
-> +.TP
-> +.B FAN_MARK_MOUNT
-> +The path indicates a mount to be marked.
-
-Can you explain FAN_MARK_MOUNT a little more please.
-Why do we need it?
-
-> +.TP
-> +.B FAN_MARK_IGNORED_MASK
-> +Add to or remove from the ignored event mask.
-> +.TP
-> +.B FAN_MARK_IGNORED_SURV_MODIFY
-> +The ignored mask shall survive modify events.
-> +If this flag is not set the ignored mask is cleared if a modify event occurs
-> +for the fanotify group.
-> +.TP
-> +.B FAN_MARK_FLUSH
-> +Remove all events from the whole group.
-> +.PP
-> +Only one of
-> +.BR FAN_MARK_ADD , FAN_MARK_REMOVE ,
-
-Formatting above is broken
-
-.BR FAN_MARK_ADD , 
-.BR FAN_MARK_REMOVE ,
-
-> +or
-> +.B FAN_MARK_FLUSH
-> +can be used. Failure to do so results in an error
-> +.BR EINVAL .
-> +.PP
-> +.I mask
-> +defines which events shall be listened to.
-> +It is a bitmask composed of the following values:
-> +.TP
-> +.B FAN_ACCESS
-> +A file was accessed (read).
-> +.TP
-> +.B FAN_MODIFY
-> +A file was modified (write).
-> +.TP
-> +.B FAN_CLOSE_WRITE
-> +A writable file was closed.
-> +.TP
-> +.B FAN_CLOSE_NOWRITE
-> +An readonly file was closed.
-> +.TP
-> +.B FAN_OPEN
-> +A file was opened.
-> +.TP
-> +.B FAN_Q_OVERFLOW
-> +The event queue overflowed.
-> +.TP
-> +.B FAN_OPEN_PERM
-> +A file open permission was requested.
-> +.TP
-> +.B FAN_ACCESS_PERM
-> +An access permission for a file was requested.
-
-I think it would be good to explain here hte difference between 
-"open permission" and "access permission".
-
-> +.TP
-> +.B FAN_ONDIR
-> +The event occurred against a directory.
-> +.TP
-> +.B FAN_EVENT_ON_CHILD
-> +An event for a child of a monitored directory occurred.
-> +.PP
-> +The following composed value is defined
-> +.TP
-> +.B FAN_CLOSE
-> +A file was closed (FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE).
-> +.PP
-> +.I dfd
-> +is a file descriptor.
-
-Change the preceding to
-
-The pathname to be marked is determined by
-the file descriptor
-.I dirfd
-and the pathname specified in
-.IR pathname :
-
-> +.IP - 2
-
-Use
-.IP * 3
-here please, and for the rest
-.IP * will suffice.
-
-> +If 
-> +.I pathname
-> +is NULL
-
-Each of you "If" sentences here needs a commad between the predicate 
-and the governed clause.
-
-    If pathname is NULL,
-
-
-> +.I dfd
-> +defines the path to be marked.
-> +.IP - 2
-> +If
-> +.I pathname
-> +is NULL and dfd takes the special value
-
-s/takes/has/
-
-> +.B AT_FDCWD
-> +defined in <fcntl.h> the current working directory is to be marked.
-
-"defined in <fcntl.h>" is not needed.
-
-> +.IP - 2
-> +If
-> +.I pathname
-> +is absolute it defines the path to be marked.
-
-Add "and dirfd is ignored"
-
-> +.IP - 2
-> +If
-> +.I pathname
-> +is relative it defines a path relative to the path indicated by the file
-> +descriptor in
-> +.I dfd
-> +to be marked.
-> +.IP - 2
-> +If
-> +.I pathname
-> +is relative and
-> +.I dfd
-> +takes the special value
-> +.B AT_FDCWD
-> +it defines a path relative to the current working directory to be marked.
-> +.PP
-> +.I pathname
-> +is an absolute or relative path to be marked.
-
-This last sentence could now be removed.
-
-> +.SH RETURN VALUE
-> +If
-> +.BR fanotify_mark ()
-> +is successful 0 is returned.
-
-successful,
-
-> +In case of an error \-1 is returned, and
-> +.I errno
-> +is set to indicate the error.
-> +.SH ERRORS
-> +.TP
-> +.B EBADF
-> +An invalid file descriptor was passed in
-> +.IR fanotify_fd .
-> +.TP
-> +.B EINVAL
-> +An invalid value was passed in
-> +.IR flags ,
-
-Remove the preceding comma.
-
-> +or
-> +.IR mask ,
-> +or
-> +.I fd
-> +was not a fanotify file descriptor.
-> +.TP
-> +.B ENOENT
-> +The directory indicated by
-> +.IR pathname
-> +is not valid.
-
-"not valid" is vague. Please explain more clearly.
-
-> +This error also occurs when trying to remove a mark from a directory or mount
-> +which is not marked.
-> +.TP
-> +.B ENOMEM
-> +Out of memory.
-> +.TP
-> +.B ENOSPC
-> +Too many marks.
-> +.TP
-> +.B ENOTDIR
-> +.I flags
-> +contains
-> +.B FAN_MARK_ONLYDIR
-> +and
-> +.I dfd
-> +does not point to a directory.
-
-I think above you must also mention "and pathname is NULL"
-
-> +.SH VERSIONS
-> +.BR fanotify_mark ()
-> +was introduced in version 2.6.36 of the Linux kernel and enabled in version
-> +2.6.37.
-> +.SH "CONFORMING TO"
-> +This system call is Linux-specific.
-> +.SH "SEE ALSO"
-> +.BR fanotify_init (2),
-> +.BR fanotify (7)
-
+Hi Aneesh, (and others)
+
+Below is a man page I've written for name_to_handle_at(2) and
+open_by_name_at(2). Would you be willing to review it please,
+and let me know of any corrections/improvements?
 
 Thanks,
 
 Michael
 
 
+'\" t -*- coding: UTF-8 -*-
+=2E\" Copyright (c) 2014 by Michael Kerrisk <mtk.manpages@gmail.com>
+=2E\"
+=2E\" %%%LICENSE_START(VERBATIM)
+=2E\" Permission is granted to make and distribute verbatim copies of t=
+his
+=2E\" manual provided the copyright notice and this permission notice a=
+re
+=2E\" preserved on all copies.
+=2E\"
+=2E\" Permission is granted to copy and distribute modified versions of=
+ this
+=2E\" manual under the conditions for verbatim copying, provided that t=
+he
+=2E\" entire resulting derived work is distributed under the terms of a
+=2E\" permission notice identical to this one.
+=2E\"
+=2E\" Since the Linux kernel and libraries are constantly changing, thi=
+s
+=2E\" manual page may be incorrect or out-of-date.  The author(s) assum=
+e no
+=2E\" responsibility for errors or omissions, or for damages resulting =
+from
+=2E\" the use of the information contained herein.  The author(s) may n=
+ot
+=2E\" have taken the same level of care in the production of this manua=
+l,
+=2E\" which is licensed free of charge, as they might when working
+=2E\" professionally.
+=2E\"
+=2E\" Formatted or processed versions of this manual, if unaccompanied =
+by
+=2E\" the source, must acknowledge the copyright and authors of this wo=
+rk.
+=2E\" %%%LICENSE_END
+=2E\"
+=2ETH OPEN_BY_HANDLE_AT 2 2014-03-24 "Linux" "Linux Programmer's Manual=
+"
+=2ESH NAME
+name_to_handle_at, open_by_handle_at \- obtain handle
+for a pathname and open file via a handle
+=2ESH SYNOPSIS
+=2Enf
+=2EB #define _GNU_SOURCE
+=2EB #include <sys/types.h>
+=2EB #include <sys/stat.h>
+=2EB #include <fcntl.h>
 
--- 
+=2EBI "int name_to_handle_at(int " dirfd ", const char *" pathname ,
+=2EBI "                      struct file_handle *" handle ,
+=2EBI "                      int *" mnt_id ", int " flags );
+
+=2EBI "int open_by_handle_at(int " mountdirfd ", struct file_handle *" =
+handle ,
+=2EBI "                      int " flags );
+=2Efi
+=2ESH DESCRIPTION
+The
+=2EBR name_to_handle_at ()
+and
+=2EBR open_by_handle_at ()
+system calls split the functionality of
+=2EBR openat (2)
+into two parts:
+=2EBR name_to_handle_at ()
+returns an opaque handle that corresponds to a specified file;
+=2EBR open_by_handle_at ()
+opens the file corresponding to a handle returned by a previous call to
+=2EBR name_to_handle_at ()
+and returns an open file descriptor.
+=2ESS name_to_handle_at()
+The
+=2EBR name_to_handle_at ()
+system call returns a file handle and a mount ID corresponding to
+the file specified by
+=2EIR pathname ,
+which specifies the pathname of an existing file.
+The file handle is returned via the argument
+=2EIR handle ,
+which is a pointer to a structure of the following form:
+
+=2Ein +4n
+=2Enf
+struct file_handle {
+    unsigned int  handle_bytes;   /* Size of f_handle [in, out] */
+    int           handle_type;    /* Handle type [out] */
+    unsigned char f_handle[0];    /* File identifier (sized by
+                                     caller) [out] */
+};
+=2Efi
+=2Ein
+=2EPP
+It is the caller's responsibility to allocate the structure
+with a size large enough to hold the handle returned in
+=2EIR f_handle .
+Before the call, the
+=2EIR handle_bytes
+field should be initialized to contain the allocated size for
+=2EIR f_handle .
+(The constant
+=2EBR MAX_HANDLE_SZ ,
+defined in
+=2EIR <fcntl.h> ,
+specifies the maximum possible size for a file handle.)
+Upon successful return, the
+=2EIR handle_bytes
+field is updated to contain the number of bytes actually written to
+=2EIR f_handle .
+
+The caller can discover the required size for the
+=2EI file_handle
+structure by making a call in which
+=2EIR handle->handle_bytes
+is zero;
+in this case, the call fails with the error
+=2EBR EOVERFLOW
+and
+=2EIR handle->handle_bytes
+is set to indicate the required size;
+the caller can then use this information to allocate a structure
+of the correct size (see EXAMPLE below).
+
+Other than the use of the
+=2EIR handle_bytes
+field, the caller should treat the
+=2EIR file_handle
+structure as an opaque data type: the
+=2EIR handle_type
+and
+=2EIR f_handle
+fields are needed only by a subsequent call to
+=2EBR open_by_handle_at ().
+
+The treatment of a relative pathname in
+=2EI pathname
+depends on the value of
+=2EIR dirfd .
+If
+=2EI dirfd
+has the special value
+=2EBR AT_FDCWD ,
+then
+=2EI pathname
+is interpreted relative to the current working
+directory of the calling process.
+(see
+=2EBR openat (3)
+for an explanation of why this is useful.)
+Otherwise,
+=2EIR dirfd
+must be a file descriptor that refers to a directory, and
+=2EI pathname
+is interpreted relative to that directory.
+If
+=2EI pathname
+is an absolute pathname, then
+=2EI dirfd
+is ignored.
+
+The
+=2EI mnt_id
+argument returns an identifier for the filesystem
+mount that corresponds to
+=2EIR pathname .
+This corresponds to the first field in one of the records in
+=2EIR /proc/self/mountinfo .
+Opening the pathname in the fifth field of that record yields a file
+descriptor for the mount point;
+that file descriptor can be used in a subsequent call to
+=2EBR open_by_handle_at ().
+
+The
+=2EI flags
+argument is a bit mask constructed by ORing together
+zero or more of the following value:
+=2ETP
+=2EB AT_EMPTY_PATH
+If
+=2EI pathname
+is an empty string,
+then obtain a handle for the file referred to by
+=2EIR dirfd
+(which may have been obtained using the
+=2EBR open (2)
+=2EB O_PATH
+flag).
+In this case,
+=2EI dirfd
+can refer to any type of file, not just a directory.
+=2ETP
+=2EB AT_SYMLINK_FOLLOW
+By default,
+=2EBR name_to_handle_at ()
+does not dereference
+=2EI pathname
+if it is a symbolic link.
+The flag
+=2EB AT_SYMLINK_FOLLOW
+can be specified in
+=2EI flags
+to cause
+=2EI pathname
+to be dereferenced if it is a symbolic link.
+=2ESS open_by_handle_at()
+The
+=2EBR open_by_handle_at ()
+system call opens the file referred to by
+=2EIR handle ,
+a file handle returned by a previous call to
+=2EBR name_to_handle_at ().
+
+The
+=2EIR mountdirfd
+argument is a file descriptor for a directory under
+the mount point with respect to which
+=2EIR handle
+should be interpreted.
+The special value
+=2EB AT_FDCWD
+can be specified, meaning the current working directory of the caller.
+
+The
+=2EI flags
+argument
+is as for
+=2EBR open (2).
+
+The caller must have the
+=2EB CAP_DAC_READ_SEARCH
+capability to invoke
+=2EBR open_by_handle_at ().
+=2ESH RETURN VALUE
+On success,
+=2EBR name_to_handle_at ()
+returns 0,
+and
+=2EBR open_by_handle_at ()
+returns a nonnegative file descriptor.
+
+In the event of an error, both system calls return \-1 and set
+=2EI errno
+to indicate the cause of the error.
+=2ESH ERRORS
+=2EBR name_to_handle_at ()
+and
+=2EBR open_by_handle_at ()
+can fail for the same errors as
+=2EBR open (2).
+In addition, they can fail with the errors noted below.
+
+=2EBR name_to_handle_at ()
+can fail with the following errors:
+=2ETP
+=2EB EBADF
+=2EIR dirfd
+is not an open file descriptor.
+=2ETP
+=2EB EINVAL
+=2EI flags
+includes an invalid bit value.
+=2ETP
+=2EB EINVAL
+=2EIR handle_bytes\->handle_bytes
+is greater than
+=2EBR MAX_HANDLE_SZ .
+=2ETP
+=2EB ENOTDIR
+The file descriptor supplied in
+=2EI dirfd
+does not refer to a directory,
+and it it is not the case that both
+=2EI flags
+includes
+=2EBR AT_EMPTY_PATH
+and
+=2EI pathname
+is an empty string.
+=2ETP
+=2EB EOPNOTSUPP
+The filesystem does not support decoding of a pathname to a file handle=
+=2E
+=2ETP
+=2EB EOVERFLOW
+The
+=2EI handle->handle_bytes
+value passed into the call was too small.
+When this error occurs,
+=2EI handle->handle_bytes
+is updated to indicate the required size for the handle.
+=2E\"
+=2E\"
+=2EPP
+=2EBR open_by_handle_at ()
+can fail with the following errors:
+=2ETP
+=2EB EBADF
+=2EIR mountdirfd
+is not an open file descriptor.
+=2ETP
+=2EB EINVAL
+=2EI handle->handle_bytes
+is greater than
+=2EBR MAX_HANDLE_SZ
+or is equal to zero.
+=2ETP
+=2EB ENOMEM
+Insufficient memory.
+=2ETP
+=2EB ENOTDIR
+=2EIR mountdirfd
+is not
+=2EB AT_FDCWD
+and does not refer to a directory.
+=2ETP
+=2EB EPERM
+The caller does not have the
+=2EBR CAP_DAC_READ_SEARCH
+capability.
+=2ETP
+=2EB ESTALE
+The specified
+=2EI handle
+is no longer valid.
+=2ESH VERSIONS
+These system calls first appeared in Linux 2.6.39.
+=2ESH CONFORMING TO
+These system calls are nonstandard Linux extensions.
+=2ESH NOTES
+A file handle can be generated in one process using
+=2EBR name_to_handle_at ()
+and later used in a different process that calls
+=2EBR open_by_handle_at ().
+
+These system calls are designed for use by user-space file servers.
+=46or example, a user-space NFS server might generate a file handle
+and pass it to an NFS client.
+Later, when the client wants to open the file,
+it could pass the handle back to the server.
+=2E\" https://lwn.net/Articles/375888/
+=2E\"	"Open by handle" - Jonathan Corbet, 2010-02-23
+This sort of functionality allows a user-space file server to operate i=
+n
+a stateless fashion with respect to the files it serves.
+
+Specifying both
+=2EBR O_PATH
+and
+=2EBR O_NOFOLLOW
+in a call to
+=2EBR name_to_handle_at ()
+that operates on a symbolic link can be used to obtain a handle for the=
+ link.
+=2E\" commit bcda76524cd1fa32af748536f27f674a13e56700
+The process receiving the handle can later perform operations
+on the symbolic link by converting the handle to a file descriptor usin=
+g
+=2EBR open_by_handle_at ()
+and then passing the file descriptor as the
+=2EIR dirfd
+argument in system calls such as
+=2EBR readlinkat (2)
+and
+=2EBR fchownat (2).
+=2ESS Obtaining a persistent filesystem ID
+The mount IDs in
+=2EIR /proc/self/mountinfo
+can be reused as filesystems are unmounted and mounted.
+Therefore, the mount ID returned by
+=2EBR name_to_handle_at (3)
+(in
+=2EIR *mnt_id )
+should not be treated as a persistent identifier
+for the corresponding mounted filesystem.
+However, an application can use the information in the
+=2EI mountinfo
+record that corresponds to the mount ID
+to derive a persistent identifier.
+
+=46or example, one can use the device name in the fifth field of the
+=2EI mountinfo
+record to search for the corresponding device UUID via the symbolic lin=
+ks in
+=2EIR /dev/disks/by-uuid .
+(A more comfortable way of obtaining the UUID is to use the
+=2E\" e.g., http://stackoverflow.com/questions/6748429/using-libblkid-t=
+o-find-uuid-of-a-partition
+=2EBR libblkid (3)
+library, which uses the
+=2EI /sys
+filesystem to obtain the same information.)
+That process can then be reversed,
+using the UUID to look up the device name,
+and then obtaining the corresponding mount point,
+in order to produce the
+=2EIR mountdirfd
+argument used by
+=2EBR open_by_name_at ().
+=2ESH EXAMPLE
+The two programs below demonstrate the use of
+=2EBR name_to_handle_at ()
+and
+=2EBR open_by_handle_at ().
+The first program
+=2ERI ( t_name_to_handle_at.c )
+uses
+=2EBR name_to_handle_at ()
+to obtain the file handle and mount ID
+for the file specified in its command-line argument;
+the handle and ID are written to standard output.
+
+The second program
+=2ERI ( t_open_by_handle_at.c )
+reads a mount ID and file handle from standard input.
+The program then employs
+=2EBR open_by_handle_at ()
+to open the file using that handle.
+If an optional command-line argument is supplied, then the
+=2EIR mountdirfd
+argument for
+=2EBR open_by_handle_at ()
+is obtained by opening the directory named in that argument.
+Otherwise,
+=2EIR mountdirfd
+is obtained by scanning
+=2EIR /proc/self/mountinfo
+to find a record whose mount ID matches the mount ID
+read from standard input,
+and the mount directory specified in that record is opened.
+(These programs do not deal with the fact that mount IDs are not persis=
+tent.)
+
+The following shell session demonstrates the use of these two programs:
+
+=2Ein +4n
+=2Enf
+$ \fBecho 'Kannst du bitte =C3=BCberlegen?' > cecilia.txt\fP
+$ \fB./t_name_to_handle_at cecilia.txt > fh\fP
+$ \fB./t_open_by_handle_at < fh\fP
+open_by_handle_at: Operation not permitted
+$ \fBsudo ./t_open_by_handle_at < fh\fP      # Need CAP_SYS_ADMIN
+Read 28 bytes
+$ \fBrm cecilia.txt\fP
+=2Efi
+=2Ein
+
+Now delete and re-create the file with the same inode number;
+=2EBR open_by_handle_at ()
+recognizes that the file referred to by the file handle no longer exist=
+s.
+
+=2Ein +4n
+=2Enf
+$ \fBstat \-\-printf=3D"%i\\n" cecilia.txt\fP       # Display inode num=
+ber=20
+4072121
+$ \fBecho 'Warum?' > cecilia.txt\fP
+$ \fBstat \-\-printf=3D"%i\\n" cecilia.txt\fP       # Check inode numbe=
+r
+4072121
+$ \fBsudo ./t_open_by_handle_at < fh\fP
+open_by_handle_at: Stale NFS file handle
+=2Efi
+=2Ein
+=2ESS Program source: t_name_to_handle_at.c
+\&
+=2Enf
+#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    struct file_handle *fhp;
+    int mount_id, fhsize, s;
+
+    if (argc < 2 || strcmp(argv[1], "\-\-help") =3D=3D 0) {
+        fprintf(stderr, "Usage: %s pathname\\n", argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* Allocate file_handle structure */
+
+    fhsize =3D sizeof(struct file_handle *);
+    fhp =3D malloc(fhsize);
+    if (fhp =3D=3D NULL)
+        errExit("malloc");
+
+    /* Make an initial call to name_to_handle_at() to discover
+       the size required for file handle */
+
+    fhp\->handle_bytes =3D 0;
+    s =3D name_to_handle_at(AT_FDCWD, argv[1], fhp, &mount_id, 0);
+    if (s !=3D \-1 || errno !=3D EOVERFLOW) {
+        fprintf(stderr, "Unexpected result from name_to_handle_at()\\n"=
+);
+        exit(EXIT_FAILURE);
+    }
+
+    /* Reallocate file_handle structure with correct size */
+
+    fhsize =3D sizeof(struct file_handle) + fhp\->handle_bytes;
+    fhp =3D realloc(fhp, fhsize);         /* Copies fhp\->handle_bytes =
+*/
+    if (fhp =3D=3D NULL)
+        errExit("realloc");
+
+    /* Get file handle from pathname supplied on command line */
+
+    if (name_to_handle_at(AT_FDCWD, argv[1], fhp, &mount_id, 0) =3D=3D =
+\-1)
+        errExit("name_to_handle_at");
+
+    /* Write mount ID, file handle size, and file handle to stdout,
+       for later reuse by t_open_by_handle_at.c */
+
+    if (write(STDOUT_FILENO, &mount_id, sizeof(int)) !=3D sizeof(int) |=
+|
+            write(STDOUT_FILENO, &fhsize, sizeof(int)) !=3D sizeof(int)=
+ ||
+            write(STDOUT_FILENO, fhp, fhsize) !=3D fhsize) {
+        fprintf(stderr, "Write failure\\n");
+        exit(EXIT_FAILURE);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+=2Efi
+=2ESS Program source: t_open_by_handle_at.c
+\&
+=2Enf
+#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \\
+                        } while (0)
+
+/* Scan /proc/self/mountinfo to find the line whose mount ID matches
+   \(aqmount_id\(aq. (An easier way to do this is to install and use th=
+e
+   \(aqlibmount\(aq library provided by the \(aqutil\-linux\(aq project=
+=2E)
+   Open the corresponding mount path and return the resulting file
+   descriptor. */
+
+static int
+open_mount_path_by_id(int mount_id)
+{
+    char *linep;
+    size_t lsize;
+    char mount_path[PATH_MAX];
+    int fmnt_id, fnd, nread;
+    FILE *fp;
+
+    fp  =3D fopen("/proc/self/mountinfo", "r");
+    if (fp =3D=3D NULL)
+        errExit("fopen");
+
+    for (fnd =3D 0; !fnd ; ) {
+        linep =3D NULL;
+        nread =3D getline(&linep, &lsize, fp);
+        if (nread =3D=3D \-1)
+            break;
+
+	nread =3D sscanf(linep, "%d %*d %*s %*s %s", &fmnt_id, mount_path);
+        if (nread !=3D 2) {
+            fprintf(stderr, "Bad sscanf()\\n");
+            exit(EXIT_FAILURE);
+        }
+
+        free(linep);
+
+        if (fmnt_id =3D=3D mount_id)
+            fnd =3D 1;
+    }
+
+    fclose(fp);
+
+    if (!fnd) {
+        fprintf(stderr, "Could not find mount point\\n");
+        exit(EXIT_FAILURE);
+    }
+
+    return open(mount_path, O_RDONLY | O_DIRECTORY);
+}
+
+int
+main(int argc, char *argv[])
+{
+    struct file_handle *fhp;
+    int mount_id, fd, mount_fd, fhsize;
+    ssize_t nread;
+#define BSIZE 1000
+    char buf[BSIZE];
+
+    if (argc > 1 && strcmp(argv[1], "\-\-help") =3D=3D 0) {
+        fprintf(stderr, "Usage: %s [mount\-dir]]\\n",
+                argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* Read data produced by t_name_to_handle_at.c */
+
+    if (read(STDIN_FILENO, &mount_id, sizeof(int)) !=3D sizeof(int))
+        errExit("read");
+
+    if (read(STDIN_FILENO, &fhsize, sizeof(int)) !=3D sizeof(int))
+        errExit("read");
+
+    fhp =3D malloc(fhsize);
+    if (fhp =3D=3D NULL)
+        errExit("malloc");
+
+    if (read(STDIN_FILENO, fhp, fhsize) !=3D fhsize)
+        errExit("read");
+
+    /* Obtain file descriptor for mount point, either by opening
+       the pathname specified on the command line, or by scanning
+       /proc/self/mounts to find a mount that matches the \(aqmount_id\=
+(aq
+       obtained by name_to_handle_at() (in t_name_to_handle_at.c) */
+
+    if (argc > 1)
+        mount_fd =3D open(argv[1], O_RDONLY | O_DIRECTORY);
+    else
+        mount_fd =3D open_mount_path_by_id(mount_id);
+
+    if (mount_fd =3D=3D \-1)
+        errExit("opening mount fd");
+
+    /* Open name using handle and mount point */
+
+    fd =3D open_by_handle_at(mount_fd, fhp, O_RDONLY);
+    if (fd =3D=3D \-1)
+        errExit("open_by_handle_at");
+
+    /* Try reading a few bytes from the file */
+
+    nread =3D read(fd, buf, BSIZE);
+    if (nread =3D=3D \-1)
+        errExit("read");
+    printf("Read %ld bytes\\n", (long) nread);
+
+    exit(EXIT_SUCCESS);
+}
+=2Efi
+=2ESH SEE ALSO
+=2EBR blkid (1),
+=2EBR findfs (1),
+=2EBR open (2),
+=2EBR libblkid (3),
+=2EBR mount (8)
+
+The
+=2EI libblkid
+and
+=2EI libmount
+documentation under the latest
+=2EI util-linux
+release at
+=2EUR https://www.kernel.org/pub/linux/utils/util-linux/
+=2EUE
+
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
