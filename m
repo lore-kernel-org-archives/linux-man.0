@@ -1,7 +1,7 @@
 From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memfrob.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 17 Mar 2014 02:44:23 +0000
-Message-ID: <1395024125-13391-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] memmem.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 17 Mar 2014 07:03:39 +0000
+Message-ID: <1395039680-10653-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: 8BIT
@@ -12,38 +12,38 @@ To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEe
 Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function memfrob() is thread safe.
+The function memmem() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/memfrob.3 | 7 ++++++-
+ man3/memmem.3 | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/memfrob.3 b/man3/memfrob.3
-index 732d059..f8b1efe 100644
---- a/man3/memfrob.3
-+++ b/man3/memfrob.3
+diff --git a/man3/memmem.3 b/man3/memmem.3
+index 7b97d2d..5552e6e 100644
+--- a/man3/memmem.3
++++ b/man3/memmem.3
 @@ -27,7 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
  .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:54:45 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH MEMFROB 3  2010-09-10 "GNU" "Linux Programmer's Manual"
-+.TH MEMFROB 3  2014-03-17 "GNU" "Linux Programmer's Manual"
+ .\" Modified Sat Jul 24 18:50:48 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Interchanged 'needle' and 'haystack'; added history, aeb, 980113.
+-.TH MEMMEM 3  2008-12-05 "GNU" "Linux Programmer's Manual"
++.TH MEMMEM 3  2014-03-17 "GNU" "Linux Programmer's Manual"
  .SH NAME
- memfrob \- frobnicate (encrypt) a memory area
+ memmem \- locate a substring
  .SH SYNOPSIS
-@@ -55,6 +55,11 @@ The
- .BR memfrob ()
- function returns a pointer to the encrypted memory
- area.
+@@ -56,6 +56,11 @@ The
+ .BR memmem ()
+ function returns a pointer to the beginning of the
+ substring, or NULL if the substring is not found.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR memfrob ()
++.BR memmem ()
 +function is thread-safe.
  .SH CONFORMING TO
- The
- .BR memfrob ()
+ This function is a GNU extension.
+ .SH BUGS
 -- 
 1.8.5.3
 --
