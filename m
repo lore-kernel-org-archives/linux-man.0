@@ -1,32 +1,51 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 57181] man pages for C structs
-Date: Mon, 17 Mar 2014 07:39:56 +0000
-Message-ID: <bug-57181-11311-0XC8PeUr6J@https.bugzilla.kernel.org/>
-References: <bug-57181-11311@https.bugzilla.kernel.org/>
+From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] memmove.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 17 Mar 2014 08:35:05 +0000
+Message-ID: <1395045166-15973-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-57181-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=57181
+The function memmove() is thread safe.
 
---- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-So, here's an idea...
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/memmove.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-A man page, called (say) structures.7, with suitable .so links to it, that
-lists the structures, optionally explains them, and has links to the APIs that
-use the structures. Doesn't need to be done for all structures to start with,
-but could be implemented incrementally over time. Do you want to start writing
-such a page, Serge? As a proof-of-concept, I'd suggest starting with just one
-or two structures on the page.
-
+diff --git a/man3/memmove.3 b/man3/memmove.3
+index 3cea74d..c649e4e 100644
+--- a/man3/memmove.3
++++ b/man3/memmove.3
+@@ -27,7 +27,7 @@
+ .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+ .\"     386BSD man pages
+ .\" Modified Sat Jul 24 18:49:59 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+-.TH MEMMOVE 3  1993-04-10 "GNU" "Linux Programmer's Manual"
++.TH MEMMOVE 3  2014-03-17 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ memmove \- copy memory area
+ .SH SYNOPSIS
+@@ -59,6 +59,11 @@ The
+ .BR memmove ()
+ function returns a pointer to
+ .IR dest .
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR memmove ()
++function is thread-safe.
+ .SH CONFORMING TO
+ SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
+ .SH SEE ALSO
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.5.3
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
