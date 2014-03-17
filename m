@@ -1,51 +1,16 @@
-From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memmove.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 17 Mar 2014 08:35:05 +0000
-Message-ID: <1395045166-15973-1-git-send-email-penght@cn.fujitsu.com>
+From: <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Subject: =?utf-8?B?S9C70Lhl0L3RgmNrddC1INCxYdC30YsgbdC10Ls6ICs3OUnQl9CXOTHQlzjQlzc=?=
+Date: Mon, 17 Mar 2014 06:31:53 -0400
+Message-ID: <1395052004807909500@mail.santa.by>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 8BIT
+Content-Type: TEXT/PLAIN; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function memmove() is thread safe.
-
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/memmove.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/man3/memmove.3 b/man3/memmove.3
-index 3cea74d..c649e4e 100644
---- a/man3/memmove.3
-+++ b/man3/memmove.3
-@@ -27,7 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:49:59 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH MEMMOVE 3  1993-04-10 "GNU" "Linux Programmer's Manual"
-+.TH MEMMOVE 3  2014-03-17 "GNU" "Linux Programmer's Manual"
- .SH NAME
- memmove \- copy memory area
- .SH SYNOPSIS
-@@ -59,6 +59,11 @@ The
- .BR memmove ()
- function returns a pointer to
- .IR dest .
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR memmove ()
-+function is thread-safe.
- .SH CONFORMING TO
- SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
- .SH SEE ALSO
--- 
-1.8.5.3
+K=EB=E8e=ED=F2cku=E5 =E1a=E7=FB m=E5=EB: +79I=C7=C791=C78=C77
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
