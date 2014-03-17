@@ -1,60 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] memmem.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 17 Mar 2014 15:00:49 +0100
-Message-ID: <53270011.9060802@gmail.com>
-References: <1395039680-10653-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] fts.3 is not available in LFS builds
+Date: Mon, 17 Mar 2014 15:02:53 +0100
+Message-ID: <CAKgNAkh7ES18jT2coD39ZXvjUxkrZavaG=SufNS_-16SgM3kUg@mail.gmail.com>
+References: <20140315135416.GA10430@infradead.org> <CAKgNAkgqXUf0yWaXyAD7yBJgivp9Jmwvz4EAnh_DpyActuoGwA@mail.gmail.com>
+ <20140316172219.GA16900@infradead.org> <5326FF14.7010305@gmail.com> <20140317140118.GA11576@infradead.org>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1395039680-10653-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20140317140118.GA11576-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao.
+On Mon, Mar 17, 2014 at 3:01 PM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> On Mon, Mar 17, 2014 at 02:56:36PM +0100, Michael Kerrisk (man-pages) wrote:
+>> I made it
+>>
+>>     BUGS
+>>        All  of  the  APIs described in this man page are not safe when
+>>        compiling a program using the LFS APIs  (e.g.,  when  compiling
+>>        with  -D_FILE_OFFSET_BITS=64).  This means these APIs are unus???
+>>        able on current 32-bit systems, since those  systems  are  nor???
+>>        mally built with -D_FILE_OFFSET_BITS=64.
+>
+> Unfortunately that' not quite true - the default is still
+> -D_FILE_OFFSET_BITS=32 for the compiler, so you'd need manual action to
+> change it - which generally is a good idea.
 
-Applied.
+Oh! I thought most distributors built their 32-bit distros with
+-D_FILE_OFFSET_BITS=64 these days? Am I wrong? (I don't have any
+32-bit systems handy to sample from.)
 
-Cheers,
-
-Michael
-
-On 03/17/2014 08:03 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
-> The function memmem() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/memmem.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/memmem.3 b/man3/memmem.3
-> index 7b97d2d..5552e6e 100644
-> --- a/man3/memmem.3
-> +++ b/man3/memmem.3
-> @@ -27,7 +27,7 @@
->  .\"     386BSD man pages
->  .\" Modified Sat Jul 24 18:50:48 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Interchanged 'needle' and 'haystack'; added history, aeb, 980113.
-> -.TH MEMMEM 3  2008-12-05 "GNU" "Linux Programmer's Manual"
-> +.TH MEMMEM 3  2014-03-17 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  memmem \- locate a substring
->  .SH SYNOPSIS
-> @@ -56,6 +56,11 @@ The
->  .BR memmem ()
->  function returns a pointer to the beginning of the
->  substring, or NULL if the substring is not found.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR memmem ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  This function is a GNU extension.
->  .SH BUGS
-> 
 
 
 -- 
