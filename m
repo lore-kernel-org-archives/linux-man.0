@@ -1,51 +1,32 @@
-From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memmem.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 17 Mar 2014 07:03:39 +0000
-Message-ID: <1395039680-10653-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 57181] man pages for C structs
+Date: Mon, 17 Mar 2014 07:39:56 +0000
+Message-ID: <bug-57181-11311-0XC8PeUr6J@https.bugzilla.kernel.org/>
+References: <bug-57181-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
+In-Reply-To: <bug-57181-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function memmem() is thread safe.
+https://bugzilla.kernel.org/show_bug.cgi?id=57181
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/memmem.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+So, here's an idea...
 
-diff --git a/man3/memmem.3 b/man3/memmem.3
-index 7b97d2d..5552e6e 100644
---- a/man3/memmem.3
-+++ b/man3/memmem.3
-@@ -27,7 +27,7 @@
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:50:48 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
- .\" Interchanged 'needle' and 'haystack'; added history, aeb, 980113.
--.TH MEMMEM 3  2008-12-05 "GNU" "Linux Programmer's Manual"
-+.TH MEMMEM 3  2014-03-17 "GNU" "Linux Programmer's Manual"
- .SH NAME
- memmem \- locate a substring
- .SH SYNOPSIS
-@@ -56,6 +56,11 @@ The
- .BR memmem ()
- function returns a pointer to the beginning of the
- substring, or NULL if the substring is not found.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR memmem ()
-+function is thread-safe.
- .SH CONFORMING TO
- This function is a GNU extension.
- .SH BUGS
+A man page, called (say) structures.7, with suitable .so links to it, that
+lists the structures, optionally explains them, and has links to the APIs that
+use the structures. Doesn't need to be done for all structures to start with,
+but could be implemented incrementally over time. Do you want to start writing
+such a page, Serge? As a proof-of-concept, I'd suggest starting with just one
+or two structures on the page.
+
 -- 
-1.8.5.3
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
