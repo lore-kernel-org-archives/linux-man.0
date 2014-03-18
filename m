@@ -1,7 +1,7 @@
 From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mempcpy.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 18 Mar 2014 01:14:47 +0000
-Message-ID: <1395105147-3817-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] memset.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 18 Mar 2014 02:22:33 +0000
+Message-ID: <1395109214-7229-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: 8BIT
@@ -12,40 +12,38 @@ To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEe
 Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions mempcpy() and wmempcpy() are thread safe.
+The function memset() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mempcpy.3 | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ man3/memset.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/mempcpy.3 b/man3/mempcpy.3
-index 084aacb..4f18308 100644
---- a/man3/mempcpy.3
-+++ b/man3/mempcpy.3
-@@ -7,7 +7,7 @@
- .\" Heavily based on glibc infopages, copyright Free Software Foundation
- .\"
- .\" aeb, 2003, polished a little
--.TH MEMPCPY 3 2008-08-12 "GNU" "Linux Programmer's Manual"
-+.TH MEMPCPY 3 2014-03-18 "GNU" "Linux Programmer's Manual"
+diff --git a/man3/memset.3 b/man3/memset.3
+index da8c6fd..ffb5951 100644
+--- a/man3/memset.3
++++ b/man3/memset.3
+@@ -27,7 +27,7 @@
+ .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+ .\"     386BSD man pages
+ .\" Modified Sat Jul 24 18:49:23 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+-.TH MEMSET 3  1993-04-11 "GNU" "Linux Programmer's Manual"
++.TH MEMSET 3  2014-03-18 "GNU" "Linux Programmer's Manual"
  .SH NAME
- mempcpy, wmempcpy  \- copy memory area
+ memset \- fill memory with a constant byte
  .SH SYNOPSIS
-@@ -57,6 +57,13 @@ wide characters.
- .SH VERSIONS
- .BR mempcpy ()
- first appeared in glibc in version 2.1.
+@@ -51,6 +51,11 @@ The
+ .BR memset ()
+ function returns a pointer to the memory area
+ .IR s .
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR mempcpy ()
-+and
-+.BR wmempcpy ()
-+functions are thread-safe.
++.BR memset ()
++function is thread-safe.
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH EXAMPLE
+ SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
+ .SH SEE ALSO
 -- 
 1.8.5.3
 --
