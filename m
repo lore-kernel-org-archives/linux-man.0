@@ -1,33 +1,70 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: For review: open_by_name_at(2) man page
-Date: Tue, 18 Mar 2014 02:43:21 -0700
-Message-ID: <20140318094321.GA17024@infradead.org>
-References: <53271B69.3000305@gmail.com>
- <20140318090007.3adee3d0@notabene.brown>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] mempcpy.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 18 Mar 2014 03:47:46 +0100
+Message-ID: <5327B3D2.70709@gmail.com>
+References: <1395105147-3817-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20140318090007.3adee3d0@notabene.brown>
-Sender: linux-kernel-owner@vger.kernel.org
-To: NeilBrown <neilb@suse.de>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger@dilger.ca>, Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1395105147-3817-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Mar 18, 2014 at 09:00:07AM +1100, NeilBrown wrote:
-> ESTALE is also returned if the filesystem does not support file-handle ->
-> file mappings.
-> On filesystems which don't provide export_operations (/sys /proc ubifs
-> romfs cramfs nfs coda ... several others) name_to_handle_at will produce a
-> generic handle using the 32 bit inode and 32 bit i_generation.
+Hello Haitao.
 
-Do we?  Seems like the code is erroring out early if there are no
-export_ops?
+Applied.
 
-> Does it?  My understanding from "man libblkid" (it is a while since I've read
-> the code) is that it either uses info in /dev/disks/by-* or reads directly
-> from the block devices (maybe using /sys to find them?) and interprets the
-> superblock to extract a UUID.
+Thanks,
 
-It normally reads directly from disk, unless it has changed very
-recently.
+Michael
+
+
+On 03/18/2014 02:14 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
+> The functions mempcpy() and wmempcpy() are thread safe.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/mempcpy.3 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/mempcpy.3 b/man3/mempcpy.3
+> index 084aacb..4f18308 100644
+> --- a/man3/mempcpy.3
+> +++ b/man3/mempcpy.3
+> @@ -7,7 +7,7 @@
+>  .\" Heavily based on glibc infopages, copyright Free Software Foundation
+>  .\"
+>  .\" aeb, 2003, polished a little
+> -.TH MEMPCPY 3 2008-08-12 "GNU" "Linux Programmer's Manual"
+> +.TH MEMPCPY 3 2014-03-18 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+>  mempcpy, wmempcpy  \- copy memory area
+>  .SH SYNOPSIS
+> @@ -57,6 +57,13 @@ wide characters.
+>  .SH VERSIONS
+>  .BR mempcpy ()
+>  first appeared in glibc in version 2.1.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR mempcpy ()
+> +and
+> +.BR wmempcpy ()
+> +functions are thread-safe.
+>  .SH CONFORMING TO
+>  This function is a GNU extension.
+>  .SH EXAMPLE
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
