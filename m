@@ -1,29 +1,47 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: For review: open_by_name_at(2) man page
-Date: Tue, 18 Mar 2014 14:30:14 +0100
-Message-ID: <53284A66.10402@gmail.com>
-References: <53271B69.3000305@gmail.com> <20140318090007.3adee3d0@notabene.brown> <53283D7A.1020409@gmail.com> <20140318130708.GA13031@infradead.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Documenting the kernel-user-space ABI
+Date: Tue, 18 Mar 2014 16:00:21 +0100
+Message-ID: <53285F85.3000807@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20140318130708.GA13031@infradead.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Christoph Hellwig <hch@infradead.org>
-Cc: mtk.manpages@gmail.com, NeilBrown <neilb@suse.de>, "Aneesh Kumar K.V" <aneesh.kumar@linux.vnet.ibm.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Andreas Dilger <adilger@dilger.ca>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/18/2014 02:07 PM, Christoph Hellwig wrote:
-> That's why the file handles contain a generation counter that gets
-> incremented in this case.
+Hi Mike,
 
-Ahh, yes. Thanks for the reminder/clue.
+You raised a question at the bottom of a bug report
+(https://bugzilla.kernel.org/show_bug.cgi?id=70801#c4)
+that I though might better go to the list, since I 
+think it merits some wider discussion:
+
+    i'd like to have a master location to document all 
+    this stuff at the kernel ABI level.  can we do that 
+    with the man-pages project somehow without violating 
+    the C library API tenet?
+
+First though, I'd like to check: what do you mean by "all this stuff"? 
+Am I correct to understand your question as something like:
+
+    Can man-pages become a place where the kernel-user-space ABI 
+    (as distinct from the glibc wrappers on top) is consistently 
+    and thoroughly documented?
+
+?
 
 Cheers,
 
 Michael
 
+
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
