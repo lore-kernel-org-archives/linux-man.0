@@ -1,60 +1,179 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] memset.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 18 Mar 2014 03:47:58 +0100
-Message-ID: <5327B3DE.5030100@gmail.com>
-References: <1395109214-7229-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: For review: open_by_name_at(2) man page
+Date: Tue, 18 Mar 2014 13:35:06 +0100
+Message-ID: <53283D7A.1020409@gmail.com>
+References: <53271B69.3000305@gmail.com> <20140318090007.3adee3d0@notabene.brown>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1395109214-7229-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20140318090007.3adee3d0-wvvUuzkyo1EYVZTmpyfIwg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Applied.
+On 03/17/2014 11:00 PM, NeilBrown wrote:
+> On Mon, 17 Mar 2014 16:57:29 +0100 "Michael Kerrisk (man-pages)"
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> 
+>> Hi Aneesh, (and others)
+>>
+>> Below is a man page I've written for name_to_handle_at(2) and
+>> open_by_name_at(2). Would you be willing to review it please,
+>> and let me know of any corrections/improvements?
+>>
+>> Thanks,
+>>
+>> Michael
+> 
+> Thanks for writing this Michael.  The fact that I can only find very small
+> points to comment on reflects the high quality...
 
-Thanks,
+Thanks, Neil. But there was at least one good clanger below :-}.
+
+> 
+>> Otherwise,
+>> .IR dirfd
+>> must be a file descriptor that refers to a directory, and
+>   ^^^^^^^
+>> .I pathname
+>> is interpreted relative to that directory.
+> 
+> As you clarify later, "must be" is not correct.  Maybe this is just an issue
+> of style, in which case you should obviously keep a consistent style across
+> man pages, but to me it sounds wrong.  I would use "is generally" or similar.
+
+Yep, good point. In fact, what I did was rewrite that section completely, to 
+more clearly describe the distinct cases based on dirfd/pathname/AT_EMPTY_PATH.
+
+
+>> The
+>> .IR mountdirfd
+>> argument is a file descriptor for a directory under
+>> the mount point with respect to which
+>> .IR handle
+>> should be interpreted.
+> 
+> mountdirfd does not have to be for a directory.  It can be for any object in
+> the filesystem.  And I would say "in", not "under".
+> If /foo and /foo/bar are both mountpoints, and I want to look up a
+> filehandle for the filesystem mounted at /foo, then opening "/foo/bar"
+> wouldn't work even though /foo/bar is "under" /foo.  And opening "/foo" would
+> work even though "/foo" is not under "/foo/" (is it?).
+
+Good catch. I got deceived by the name of the argument, which in the kernel
+source is indeed 'mountdirfd', implying it must be a descriptor for a directory.
+I'll rename the argument in the man page to 'mount_fd' and fix the description 
+as you suggest here:
+
+>   The
+>   .IR mountfd
+>   argument is a file descriptor for any object (file, directory, etc.) in the
+>   filesystem with respect to which
+
+I did s/filesystem/mounted filesystem/
+
+>   .IR handle
+>   should be interpreted.
+> 
+> ??
+>> .B ESTALE
+>> The specified
+>> .I handle
+>> is no longer valid.
+> 
+> ESTALE is also returned if the filesystem does not support file-handle ->
+> file mappings.
+> On filesystems which don't provide export_operations (/sys /proc ubifs
+> romfs cramfs nfs coda ... several others) name_to_handle_at will produce a
+> generic handle using the 32 bit inode and 32 bit i_generation.
+
+Are you sure about this? When I try name_to_handle_at() on /proc and
+/sys, it gives an error (EOPNOTSUPP). I haven't tested the other
+FSes though, so maybe some of them do what you say.
+
+> open_by_name_at given this (or any) filehandle will fail with ESTALE.
+> I don't know how best to include this in the documentation.  Maybe a note
+> earlier noting that some filesystems do not support open_by_name_at(), and
+> you cannot programatically determine which do except by trying.
+> At the same time note that a file handle can become in valid if a file is
+> deleted or for any other reason as determined by the filesystem, and that the
+> error is the same as for when the filesystem doesn't support open_by_name_at.
+
+I've added text about invalid file handles into NOTES, and noted that not all
+FSes support the production of file handles, but haven't noted ESTALE for the
+latter, since I don't yet know if your statement above is true for some 
+filesystems.
+
+
+>> For example, one can use the device name in the fifth field of the
+>> .I mountinfo
+>> record to search for the corresponding device UUID via the symbolic links in
+>> .IR /dev/disks/by-uuid .
+>> (A more comfortable way of obtaining the UUID is to use the
+>> .\" e.g., http://stackoverflow.com/questions/6748429/using-libblkid-to-find-uuid-of-a-partition
+>> .BR libblkid (3)
+>> library, which uses the
+>> .I /sys
+>> filesystem to obtain the same information.)
+> 
+> Does it?  My understanding from "man libblkid" (it is a while since I've read
+> the code) is that it either uses info in /dev/disks/by-* or reads directly
+> from the block devices (maybe using /sys to find them?) and interprets the
+> superblock to extract a UUID.
+
+Thanks (and to Christoph) -- I'll just remove the words "which uses the /sys
+filesystem to obtain the same information"
+
+>> Now delete and re-create the file with the same inode number;
+>> .BR open_by_handle_at ()
+>> recognizes that the file referred to by the file handle no longer exists.
+>>
+>> .in +4n
+>> .nf
+>> $ \fBstat \-\-printf="%i\\n" cecilia.txt\fP       # Display inode number 
+>> 4072121
+>> $ \fBecho 'Warum?' > cecilia.txt\fP
+>> $ \fBstat \-\-printf="%i\\n" cecilia.txt\fP       # Check inode number
+>> 4072121
+>> $ \fBsudo ./t_open_by_handle_at < fh\fP
+>> open_by_handle_at: Stale NFS file handle
+> 
+> Something is very wrong here.
+>    echo foo > somefile
+> does not "delete and re-create" the file.  It opens and truncates.
+> That operation should not invalidate the filehandle on any sane filesystem.
+
+Indeed! I don't know quite what I was smoking as I reviewed that piece.
+In fact, I started writing this page a long time ago, but then other 
+events intervened, and it was a long time before I came back to it recently.
+Certainly, when I produced that shell session log, things proceeded
+(almost) as shown. I'm guessing that what happened is that I by 
+accident edited out a line
+
+    rm cecilia.txt
+
+just before
+
+    echo 'Warum?' > cecilia.txt
+
+Fixed now. (In that case of course, it is of course a matter of chance
+whether the pathname is re-created with the same i-node number, but if 
+you are quick, it often is. I'll add some explanation to the page.)
+
+>>     if (argc > 1)
+>>         mount_fd = open(argv[1], O_RDONLY | O_DIRECTORY);
+> 
+> O_DIRECTORY is not appropriate, as mentioned earlier.
+
+Fixed (in two places).
+
+Thanks for the review, Neil. That helped fix a lot of problems in the page.
+
+Cheers,
 
 Michael
-
-
-On 03/18/2014 03:22 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
-> The function memset() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/memset.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/memset.3 b/man3/memset.3
-> index da8c6fd..ffb5951 100644
-> --- a/man3/memset.3
-> +++ b/man3/memset.3
-> @@ -27,7 +27,7 @@
->  .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
->  .\"     386BSD man pages
->  .\" Modified Sat Jul 24 18:49:23 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
-> -.TH MEMSET 3  1993-04-11 "GNU" "Linux Programmer's Manual"
-> +.TH MEMSET 3  2014-03-18 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  memset \- fill memory with a constant byte
->  .SH SYNOPSIS
-> @@ -51,6 +51,11 @@ The
->  .BR memset ()
->  function returns a pointer to the memory area
->  .IR s .
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR memset ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89, C99, POSIX.1-2001.
->  .SH SEE ALSO
-> 
-
 
 -- 
 Michael Kerrisk
