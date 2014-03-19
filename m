@@ -1,81 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: is _ISOC95_SOURCE a valid feature test macro or not?
-Date: Wed, 19 Mar 2014 14:23:39 +0100
-Message-ID: <53299A5B.3060801@gmail.com>
-References: <alpine.LFD.2.11.1403190818350.5322@localhost>
+Subject: Re: [PATCH] fts.3 is not available in LFS builds
+Date: Wed, 19 Mar 2014 14:29:12 +0100
+Message-ID: <53299BA8.1070206@gmail.com>
+References: <20140315135416.GA10430@infradead.org> <20140317140616.GA15958@infradead.org> <CAKgNAkinnsvoXT_FNxaS7L5Umo6va8OCVnTv-gZ5vvVSFi2--w@mail.gmail.com> <10506751.CXtlUKOUPc@vapier>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.11.1403190818350.5322@localhost>
+In-Reply-To: <10506751.CXtlUKOUPc@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/19/2014 01:30 PM, Robert P. J. Day wrote:
+On 03/19/2014 04:12 AM, Mike Frysinger wrote:
+> On Mon 17 Mar 2014 15:11:18 Michael Kerrisk wrote:
+>> On Mon, Mar 17, 2014 at 3:06 PM, Christoph Hellwig wrote:
+>>> On Mon, Mar 17, 2014 at 03:02:53PM +0100, Michael Kerrisk wrote:
+>>>> Oh! I thought most distributors built their 32-bit distros with
+>>>> -D_FILE_OFFSET_BITS=64 these days? Am I wrong? (I don't have any
+>>>> 32-bit systems handy to sample from.)
+>>>
+>>> I think some build systems try to enforce it, but last time Eric Sandeen
+>>> checked we still had lots of packages not picking it up.
+>>
+>> Okay. I trimmed it back close to your original text:
+>>
+>>     BUGS
+>>        All  of  the  APIs described in this man page are not safe when
+>>        compiling a program using the LFS APIs on 32-bit systems (e.g.,
+>>        when compiling with -D_FILE_OFFSET_BITS=64).
+>>
+>> (Okay?)
 > 
->   another possibly silly observation -- /usr/include/features.h makes
-> no mention of _ISOC95_SOURCE in the early comment listing all(?) of
-> the possible feature test macros:
+> not to throw a wrench in there as a pedantic a$$hole, but i find the classic 
+> concept of "32-bit and 64-bit systems" to not really fit into modern world 
+> (well, it's been this way for much longer, so let's say "mainstream").
 > 
->    ... snip ...
->    __STRICT_ANSI__      ISO Standard C.
->    _ISOC99_SOURCE       Extensions to ISO C89 from ISO C99.
->    _ISOC11_SOURCE       Extensions to ISO C99 from ISO C11.
->    _POSIX_SOURCE        IEEE Std 1003.1.
->    ... snip ...
+> would you call all ILP32 ABIs 32-bit ?  e.g. mips' n32 or x86's x32.  
+> sizeof(long) == 4, but sizeof(off_t) == 8.  POSIX describes these as "ILP32 
+> OFF64" while the classic 32-bit systems are "ILP32 OFF".
 > 
-> despite its "USE" macro being mentioned further down in the same
-> comment:
-> 
->    ... snip ...
->    __USE_ISOC11         Define ISO C11 things.
->    __USE_ISOC99         Define ISO C99 things.
->    __USE_ISOC95         Define ISO C90 AMD1 (C95) things.
->    ... snip ...
-> 
-> as well as even further down:
-> 
-> #undef  __USE_ISOC95
-> ...
-> #ifdef _GNU_SOURCE
-> # undef  _ISOC95_SOURCE
-> # define _ISOC95_SOURCE 1
-> ...
-> /* This is to enable the ISO C90 Amendment 1:1995 extension.  */
-> #if (defined _ISOC99_SOURCE || defined _ISOC11_SOURCE \
->      || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199409L))
-> # define __USE_ISOC95   1
-> #endif
-> ...
-> 
->   i notice in the man pages Changes file the reference that
-> _ISOC95_SOURCE is now allegedly bogus:
-> 
-> feature_test_macros.7
->     Michael Kerrisk  [Joseph S. Myers]
->         Remove mention of bogus _ISOC95_SOURCE macro
->             The _ISOC95_SOURCE macro is defined in <features.h>, but it
->             does nothing. So remove discussion of it, and move some of
->             the discussion of C95 under the ISOC99_SOURCE subhead.
+> you can (afaik) use -D_FILE_OFFSET_BITS=64 w/x32 and fts.h and have it work.  
+> maybe we just ignore the issue since fts.h is dead anyways ?  just add a 
+> section to the fts(3) page recommending people use ftw(3) instead ?
 
-Joseph pointed out to me that defining _ISOC95_SOURCE actually does 
-nothing. So it really is bogus. There is the __USE_ISOC95 macro
-that is used internally. But, I think for most purposes
-we can consider that to be subsumed under C99.
-
-> but there appear to still be a couple checks for it:
-> 
-> man3/fwide.3:_ISOC95_SOURCE /* Since glibc 2.12 */ ||
-> man3/wprintf.3:_ISOC95_SOURCE /* Since glibc 2.12 */ ||
-
-Those to are bogus, and now I've removed them. Thanks for 
-catching that.
-
-Cheers,
-
-Michael
+Okay, already ;-). I removed the words "on 32-bit systems".
 
 
 -- 
