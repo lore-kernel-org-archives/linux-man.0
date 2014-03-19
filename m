@@ -1,93 +1,120 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Documenting the kernel-user-space ABI
-Date: Wed, 19 Mar 2014 09:40:07 +0100
-Message-ID: <532957E7.6000100@gmail.com>
-References: <53285F85.3000807@gmail.com> <2468582.tM5WcKAPFo@vapier>
+Subject: Re: For review: open_by_name_at(2) man page [v2]
+Date: Wed, 19 Mar 2014 10:09:36 +0100
+Message-ID: <53295ED0.7070304@gmail.com>
+References: <53271B69.3000305@gmail.com>	<53284233.3050800@gmail.com> <20140319151349.33a76023@notabene.brown>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <2468582.tM5WcKAPFo@vapier>
+In-Reply-To: <20140319151349.33a76023-wvvUuzkyo1EYVZTmpyfIwg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/19/2014 08:41 AM, Mike Frysinger wrote:
-> On Tue 18 Mar 2014 16:00:21 Michael Kerrisk wrote:
->> You raised a question at the bottom of a bug report
->> (https://bugzilla.kernel.org/show_bug.cgi?id=70801#c4)
->> that I though might better go to the list, since I
->> think it merits some wider discussion:
+[CC =+ Al Viro]
+
+Hi Neil,
+
+On 03/19/2014 05:13 AM, NeilBrown wrote:
+> On Tue, 18 Mar 2014 13:55:15 +0100 "Michael Kerrisk (man-pages)"
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> 
+>> Hi Aneesh, (and others)
 >>
->>     i'd like to have a master location to document all
->>     this stuff at the kernel ABI level.  can we do that
->>     with the man-pages project somehow without violating
->>     the C library API tenet?
->>
->> First though, I'd like to check: what do you mean by "all this stuff"?
->> Am I correct to understand your question as something like:
->>
->>     Can man-pages become a place where the kernel-user-space ABI
->>     (as distinct from the glibc wrappers on top) is consistently
->>     and thoroughly documented?
+>> After integrating review comments from NeilBown and Christoph Hellwig,
+>> here is draft 2 of a man page I've written for name_to_handle_at(2) and
+>> open_by_name_at(2). Especially thanks to Neil's comments, several parts
+>> of the page underwent a substantial rewrite. Would you be willing to 
+>> review it please, and let me know of any corrections/improvements?
+
+[various typos you reported fixed now.]
+
+>> .TP
+>> .B AT_EMPTY_PATH
+>> Allow
+>> .I pathname
+>> to be an empty string.
+>> See above.
+>> (which may have been obtained using the
+>> .BR open (2)
+>> .B O_PATH
+>> flag).
 > 
-> the linux-man-pages project is great at meeting the needs of the majority of 
-> developers -- those that live in userland with the C library between them and 
-> the kernel.
+> What "may have been obtained" ??
+
+Crufty text. gone now.
+
+>> The
+>> .I flags
+>> argument
+>> is as for
+>> .BR open (2).
+>> .\" FIXME: Confirm that the following is intended behavior.
+>> .\"        (It certainly seems to be the behavior, from experimenting.)
+>> If
+>> .I handle
+>> refers to a symbolic link, the caller must specify the
+>> .B O_PATH
+>> flag, and the symbolic link is not dereferenced (the
+>> .B O_NOFOLLOW
+>> flag, if specified, is ignored).
 > 
-> but i think there is not an insignificant number of developers who live at the 
-> direct kernel ABI level and do not want to see any C library details at all.  
-> like the people who write C libraries, or low level debugging utilities (i.e. 
-> anyone who touches ptrace -- gdb, qemu, strace just to name a few), or kernel 
-> developers themselves, or arch porters (who live in all the aforementioned 
-> sections), or test writers (like LTP), or researchers (academic, security, 
-> etc...), or the stubbornly curious.  i've worn most of these hats at some 
-> point in time and have been frustrated way more times than i can remember 
-> after trying to follow the man page for a function only to find out the kernel 
-> was slightly different.  doing `man foo` is a lot easier than going into the 
-> kernel and tracking down the actual function's source (and then tracing it 
-> through all the various subsystems to see how the diff args get treated).
+> It certainly sounds like reasonable behaviour.  I cannot comment on intention
+> though.
+> Are you bothered that O_PATH is needed for symlinks?  
+
+No.
+
+> An fd on a symlink is a
+> sufficiently unusual thing that it seems reasonable for a programmer to
+> explicitly say they are expecting one.
+
+I think the point is this: If you have a file handle for a symlink, then
+you can't follow the symlink, which is why you must specify O_PATH and
+O_NOFOLLOW becomes irrelevant. I'm curious about the rationale though.
+I suspect it's something like: the process receiving the handle doesn't
+have enough information for the symlink to be interpreted, I think because
+it can;t reliably determine what directory the link lives in.
+Possibly Al Viro or Aneesh can confirm.
+
+>> In the event of an error, both system calls return \-1 and set
+>> .I errno
+>> to indicate the cause of the error.
+>> .SH ERRORS
+>> .BR name_to_handle_at ()
+>> and
+>> .BR open_by_handle_at ()
+>> can fail for the same errors as
+>> .BR openat (2).
+>> In addition, they can fail with the errors noted below.
 > 
-> basically i want this:
-> 	http://thread.gmane.org/gmane.linux.kernel.cross-arch/21821
+> Should you mention EFAULT if mount_id or handle are not valid pointers?
 
-Yup, me too.
+Done.
 
-> and i want documentation :).
+>> Not all filesystem types support the translation of pathnames to
+>> file handles.
+>> .\" FIXME NeilBrown noted:
+>> .\"    ESTALE is also returned if the filesystem does not support
+>> .\"    file-handle -> file mappings.
+>> .\"    On filesystems which don't provide export_operations (/sys /proc
+>> .\"    ubifs romfs cramfs nfs coda ... several others) name_to_handle_at
+>> .\"    will produce a generic handle using the 32 bit inode and 32 bit
+>> .\"    i_generation. open_by_name_at given this (or any) filehandle
+>> .\"    will fail with ESTALE.
+>> .\" However, on /proc and /sys, at least, name_to_handle_at() fails with
+>> .\" EOPNOTSUPP. Are there really filesystems that can deliver ESTALE (the
+>> .\" same error as for an invalid file handle) in the above circumstances?
 > 
-> the linux-man-pages project is already filling the critical documentation gap 
-> and rather than bootstrap another project, i was hoping we could find some way 
-> to integrate.  i understand the perfectly reasonable desire to not have to 
-> maintain multiple man pages that cover a lot of the same content (upwards of 
-> 90%) when the functions are pretty one-to-one in flags/behavior (like the 
-> openat() syscall and the openat() C library function).  so maybe we need a 
-> technical solution to be able to split off the kernel-specific bits ?
+> This is all wrong - discard it :-)
 
-I'd be perfectly happy for man-pages to become the home of this sort 
-of information. We just need to work out the best way of doing it.
-
-So, as you're probably aware, man pages do try to document differences between
-the base kernel ABI and what is provided by (g)libc wrappers. However, this is
-not done in a consistent and rigorous fashion:
-
-* Some pages simply don't document the differences.
-
-* Various other pages document the differences, but not in a consistent way.
-  Perhaps there's a piece of text in the DESCRIPTION, or, more commonly, 
-  in the NOTES, but there's no easy way for the reader to zoom in on that 
-  information, because it's not written up in a standard way on each page.
-
-Could this just be a simple as creating a new standard .SH section 
-("KERNEL ABI") in the Section 2 pages, or a heading under NOTES called, 
-say, "Kernel ABI differences" or some such? This would allow readers to 
-find the required information in a consistent fashion.
+Yup. Gone now ;-).
 
 Cheers,
 
 Michael
-
-
 
 
 -- 
