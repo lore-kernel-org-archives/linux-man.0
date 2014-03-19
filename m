@@ -1,80 +1,101 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: should "man feature_test_macros" mention _LARGEFILE_SOURCE?
-Date: Wed, 19 Mar 2014 14:37:51 +0100
-Message-ID: <53299DAF.20201@gmail.com>
-References: <alpine.LFD.2.11.1403181544010.5574@localhost> <4257256.dYt9XWSnPY@vapier>
+From: "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+Subject: is there any effective distinction between XPG and XPG XSI?
+Date: Wed, 19 Mar 2014 09:48:06 -0400 (EDT)
+Message-ID: <alpine.LFD.2.11.1403190927130.17724@localhost>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <4257256.dYt9XWSnPY@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/19/2014 03:48 AM, Mike Frysinger wrote:
-> On Tue 18 Mar 2014 15:46:43 Robert P. J. Day wrote:
->>   just noticed under /usr/include on my fedora rawhide system the
->> following:
->>
->> /usr/include/bits/environments.h:# define __ILP32_OFFBIG_CFLAGS	"-m32
->> -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
->> /usr/include/python3.3m/pyconfig-64.h:#define _LARGEFILE_SOURCE 1
->> /usr/include/features.h:   _LARGEFILE_SOURCE	Some more functions for 
-> correct
->> standard I/O. /usr/include/features.h:#  undef _LARGEFILE_SOURCE
->> /usr/include/features.h:#  define _LARGEFILE_SOURCE	1
->> /usr/include/features.h:#ifdef _LARGEFILE_SOURCE
->> /usr/include/python2.7/pyconfig-64.h:#define _LARGEFILE_SOURCE 1
->>
->> but there's no mention of "_LARGEFILE_SOURCE" in "man
->> feature_test_macros". is that assumed to be implied by
->> _LARGEFILE64_SOURCE? it's not clear.
-> 
-> nope, none of the three LFS flags imply each other, nor should they.  they're 
-> related, but orthogonal by design.
-> 
-> i could have sworn i saw a description of them in POSIX, but i can't find it 
-> now.  the GNU C library manual covers it though:
-> https://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.html
-> 
-> here's a terse summary off the top of my head:
-> 
-> _LARGEFILE_SOURCE: expose prototypes for new funcs which POSIX got wrong 
-> originally.  e.g. fseek & ftell utilize "long", so fseeko & ftello were added 
-> which use "off_t".
 
-Thanks, Mike. I'd forgotten those details.
+  last quibble for the day ... perusing the feature test macros
+related to XPG and XPG XSI in features.h, starting with the comment:
 
-So, as far as I can see, _LARGEFILE_SOURCE is largely of (ancient) historical
-interest, so I don't think I'll bother adding it to the FTM(7) page.
+   _XOPEN_SOURCE        Includes POSIX and XPG things.  Set to 500 if
+                        Single Unix conformance is wanted, to 600 for the
+                        sixth revision, to 700 for the seventh revision.
 
-Cheers,
+ok, fair enough, and if we read further, we see the explanation of the
+associated __USE macros:
 
-Michael
+   __USE_XOPEN2K        Define XPG6 things.
+   __USE_XOPEN2KXSI     Define XPG6 XSI things.
+   __USE_XOPEN2K8       Define XPG7 things.
+   __USE_XOPEN2K8XSI    Define XPG7 XSI things.
 
+which *suggests* that those represent distinct use definitions. but
+reading further:
 
+#ifdef  _XOPEN_SOURCE
+# define __USE_XOPEN    1
+# if (_XOPEN_SOURCE - 0) >= 500
+#  define __USE_XOPEN_EXTENDED  1
+#  define __USE_UNIX98  1
+#  undef _LARGEFILE_SOURCE
+#  define _LARGEFILE_SOURCE     1
+#  if (_XOPEN_SOURCE - 0) >= 600
+#   if (_XOPEN_SOURCE - 0) >= 700
+#    define __USE_XOPEN2K8      1
+#    define __USE_XOPEN2K8XSI   1
+#   endif
+#   define __USE_XOPEN2K        1
+#   define __USE_XOPEN2KXSI     1
 
-> _LARGEFILE64_SOURCE: expose prototypes for 64-bit variant funcs w/out 
-> affecting any existing funcs.  e.g. you now have fseeko64 & ftello64 which 
-> take explicit off64_t types while fseeko and ftello are unchanged.  makes 
-> sense when sizeof(off_t) == 4 && sizeof(off64_t) == 8.
-> 
-> _FILE_OFFSET_BITS: explicitly set the off_t size.  set it to 32 if you want 
-> sizeof(off_t) == 4, or set it to 64 if you want sizeof(off_t) == 8.
-> 
-> in the ideal world, _FILE_OFFSET_BITS should default to 64 and 
-> _LARGEFILE_SOURCE should default to defined.  in our crap world, apps should 
-> be always building with these in their CPPFLAGS.
-> -mike
-> 
+it seems clear that, based on the value of _XOPEN_SOURCE, you get
+either both of the related __USE macros, or neither of them. as in,
+based on _XOPEN_SOURCE, you'll get both of these defined:
 
+#   define __USE_XOPEN2K        1
+#   define __USE_XOPEN2KXSI     1
+
+in other words, using only official feature test macros, you can't,
+for example, select XPG6 *without* selecting XPG6 XSI. is that about
+right?
+
+  i ask only because if you check the man page for posix_openpt(),
+you see the FTM requirement:
+
+  posix_openpt(): _XOPEN_SOURCE >= 600
+
+which covers all of XPG6, but if you look in <stdlib.h>, you see the
+more specific XSI-related conditional:
+
+#ifdef __USE_XOPEN2KXSI
+/* Return a master pseudo-terminal handle.  */
+extern int posix_openpt (int __oflag) __wur;
+#endif
+
+  it just seems like there's a bit of fuzziness between what the
+developer can specify, and the test being made in the header file.
+does that make sense?
+
+  it also makes tests like this in <strings.h> a bit confusing at
+first glance:
+
+#if defined __USE_MISC || !defined __USE_XOPEN2K8 || defined __USE_XOPEN2K8XSI
+
+those last two tests seem weird since, if i understand the earlier
+stuff correctly, you either get both of those, or neither, so it seems
+strange to test whether the first macro is undefined or the *second*
+is defined. again, am i making any sense?
+
+  thoughts?
+
+rday
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
