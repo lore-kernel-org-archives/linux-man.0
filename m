@@ -1,124 +1,103 @@
-From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Subject: Re: For review: open_by_name_at(2) man page
-Date: Wed, 19 Mar 2014 09:24:27 +1100
-Message-ID: <20140319092427.0812263c@notabene.brown>
-References: <53271B69.3000305@gmail.com>
-	<20140318090007.3adee3d0@notabene.brown>
-	<20140318094321.GA17024@infradead.org>
-	<53283DFB.6040105@gmail.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: should "man feature_test_macros" mention _LARGEFILE_SOURCE?
+Date: Tue, 18 Mar 2014 22:48:56 -0400
+Message-ID: <4257256.dYt9XWSnPY@vapier>
+References: <alpine.LFD.2.11.1403181544010.5574@localhost>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=PGP-SHA1;
- boundary="Sig_/x+Yk=bx9SqqacHk=CKDVHiH"; protocol="application/pgp-signature"
+Content-Type: multipart/signed; boundary="nextPart6301207.ndIlnE8PRN"; micalg="pgp-sha1"; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53283DFB.6040105-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.11.1403181544010.5574@localhost>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>
+To: "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---Sig_/x+Yk=bx9SqqacHk=CKDVHiH
-Content-Type: text/plain; charset=US-ASCII
+
+--nextPart6301207.ndIlnE8PRN
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 18 Mar 2014 13:37:15 +0100 "Michael Kerrisk (man-pages)"
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-
-> On 03/18/2014 10:43 AM, Christoph Hellwig wrote:
-> > On Tue, Mar 18, 2014 at 09:00:07AM +1100, NeilBrown wrote:
-> >> ESTALE is also returned if the filesystem does not support file-handle=
- ->
-> >> file mappings.
-> >> On filesystems which don't provide export_operations (/sys /proc ubifs
-> >> romfs cramfs nfs coda ... several others) name_to_handle_at will produ=
-ce a
-> >> generic handle using the 32 bit inode and 32 bit i_generation.
-> >=20
-> > Do we?  Seems like the code is erroring out early if there are no
-> > export_ops?
+On Tue 18 Mar 2014 15:46:43 Robert P. J. Day wrote:
+>   just noticed under /usr/include on my fedora rawhide system the
+> following:
 >=20
-> It appears to me that Neil's statement isn't correct, at least for /proc
-> and /sys (see my other mail, to Neil). I'm unsure about whether it is true
-> for some of those other FSes thought.
+> /usr/include/bits/environments.h:# define __ILP32_OFFBIG_CFLAGS=09"-m=
+32
+> -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=3D64"
+> /usr/include/python3.3m/pyconfig-64.h:#define _LARGEFILE_SOURCE 1
+> /usr/include/features.h:   _LARGEFILE_SOURCE=09Some more functions fo=
+r=20
+correct
+> standard I/O. /usr/include/features.h:#  undef _LARGEFILE_SOURCE
+> /usr/include/features.h:#  define _LARGEFILE_SOURCE=091
+> /usr/include/features.h:#ifdef _LARGEFILE_SOURCE
+> /usr/include/python2.7/pyconfig-64.h:#define _LARGEFILE_SOURCE 1
+>=20
+> but there's no mention of "_LARGEFILE_SOURCE" in "man
+> feature_test_macros". is that assumed to be implied by
+> _LARGEFILE64_SOURCE? it's not clear.
 
+nope, none of the three LFS flags imply each other, nor should they.  t=
+hey're=20
+related, but orthogonal by design.
 
-Indeed, I was wrong.
+i could have sworn i saw a description of them in POSIX, but i can't fi=
+nd it=20
+now.  the GNU C library manual covers it though:
+https://www.gnu.org/software/libc/manual/html_node/Feature-Test-Macros.=
+html
 
-I was looking at
+here's a terse summary off the top of my head:
 
-int exportfs_encode_inode_fh(struct inode *inode, struct fid *fid,
-			     int *max_len, struct inode *parent)
-{
-	const struct export_operations *nop =3D inode->i_sb->s_export_op;
+_LARGEFILE_SOURCE: expose prototypes for new funcs which POSIX got wron=
+g=20
+originally.  e.g. fseek & ftell utilize "long", so fseeko & ftello were=
+ added=20
+which use "off_t".
 
-	if (nop && nop->encode_fh)
-		return nop->encode_fh(inode, fid->raw, max_len, parent);
+_LARGEFILE64_SOURCE: expose prototypes for 64-bit variant funcs w/out=20=
 
-	return export_encode_fh(inode, fid, max_len, parent);
-}
+affecting any existing funcs.  e.g. you now have fseeko64 & ftello64 wh=
+ich=20
+take explicit off64_t types while fseeko and ftello are unchanged.  mak=
+es=20
+sense when sizeof(off_t) =3D=3D 4 && sizeof(off64_t) =3D=3D 8.
 
+_FILE_OFFSET_BITS: explicitly set the off_t size.  set it to 32 if you =
+want=20
+sizeof(off_t) =3D=3D 4, or set it to 64 if you want sizeof(off_t) =3D=3D=
+ 8.
 
-which uses a default if there is no 'nop'.
-
-However do_sys_name_to_handle() contains
-
-	if (!path->dentry->d_sb->s_export_op ||
-	    !path->dentry->d_sb->s_export_op->fh_to_dentry)
-		return -EOPNOTSUPP;
-
-long before export_encode_inode_fh() gets called.  So the default isn't use=
-d.
-
-I would have thought that exportfs_encode_inode_fh would never get called if
-there were no s_export_op pointer - certainly name_to_handle_at and nfsd
-would never call it in that case.
-However it seems that
-
-    This routine will be used to generate a file handle in fdinfo output for
-    inotify subsystem, where if no s_export_op present the general
-    export_encode_fh should be used.  Thus add a test if s_export_op present
-    inside exportfs_encode_fh itself.
-
-according to
-
-commit ab49bdecc3ebb46ab661f5f05d5c5ea9606406c6
-Author: Cyrill Gorcunov <gorcunov-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Date:   Mon Dec 17 16:05:06 2012 -0800
-
-
-I guess that means that you can extract filehandles from /proc/self/fdinfo/=
-$FD
-when $FD is an inotify fd which is watching the particular file.....  I
-wouldn't have expected that, but maybe it is a good idea.
-
-So yes: if the filesystem doesn't support filehandles you get EOPNOTSUPP.
-So if you get ESTALE from open_by_handle_at(), then it really is a stale
-handle.  Sorry for the confusion.
-
-NeilBrown
-
---Sig_/x+Yk=bx9SqqacHk=CKDVHiH
-Content-Type: application/pgp-signature; name=signature.asc
-Content-Disposition: attachment; filename=signature.asc
+in the ideal world, _FILE_OFFSET_BITS should default to 64 and=20
+_LARGEFILE_SOURCE should default to defined.  in our crap world, apps s=
+hould=20
+be always building with these in their CPPFLAGS.
+=2Dmike
+--nextPart6301207.ndIlnE8PRN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIVAwUBUyjHmznsnt1WYoG5AQLsqw/+MJfNBHPYvP1nneFQXXoYwI25LNdiA7yH
-WBB+QJdRTNc/E/Ql6A0F132J3AF/QO0itZasLD37tXJcRI1C9Q5spf4ms9Zg/MtU
-YF7Rt4IdaKDJLDUaJ0bBTGH3Nfnd2Tv2vphBOwz4Z1kYimj/4MnFFB6ljSMSWAdo
-t3CNqMIV3CKC8agtOrq7YO6ZDqSWwklH7w7BTEvv1SKa1KQO8jw/4g6pJzBj2On7
-5CezxvCCSTfJFiBz6r9sMPEYPkCgLy7eb8MM4xmKvX/DA0DMqUp1yJckYdZ5jCtT
-LeZViGL2s2+LAZKDmzYXCRWko6RXiII7AvW6GNTdjmZsRV6KxmKnzvsRaE9ORn5O
-6Sf3382wZWqPPWywftb7mok4d/P/WfgUjdwCDJvdPSHTRgrQClCz2jgtMTtzFL4B
-81J/onpXBE5/QuMYAZgiVHPb7btDa6MBvOWHY7KnmmYwc4fOSlNQ1kumdKyTaO9O
-FkjyhE5EN8dVirPCAOstm6FK/tGYDPRBDbuuzxMI8uuHAHttuIMRioWBc9Bt1q+m
-43vwfXfahx0DJnqIshcO4JJIx024WHe17qvtKUhAr7LbVsTswh5nAaipLso41Ocm
-ktMGUl6o24Hbaj2llKVsmGgfsyc6NcXZns1xd3Tw8ZSHzvx0/i4GoK+rNACLR/0P
-bikrvYKu9jA=
-=7IQb
+iQIcBAABAgAGBQJTKQWYAAoJEEFjO5/oN/WBF7AP/iGfJo8QhEv2V5VYiITmsy0x
+yz9FVjmba/Svfs3PYg6nXxIdl71RKpU9451k9n9I/qsutV1ni2BnL1PsrXH+Ibg+
+8H/RPKypmc3k37urCc+htxY3N2Fc2YwlmKQVAN1GzDhX8b1mf/3PG7XZOnzW1BKg
+kfsqN4ATHjZEXI3drKEAyHhvz3Vqe/aNUOaCLor18Y98RnaCPZdRliNbmx6Z5a7Q
+FW4kEgQehQ0MXGrjfByxgNzSvPUCvK5WFXBGPoTm2UuI/w7yb/h2YRqDGvzQm/qP
+nfUunZ7m5UCtd2jZQviESecYB3AGz0pJSjnFQt07As3ZmUDpc3+lJvtcqorwMwuf
+19hjI35dpJ2q+4zilmDwP1VnBEf2b/aUcVsmAQZ1d5ExDYcQcWyeq0g0pld4ScBi
+V+JLTpGJ8CwSSh1bdrNsFflVM2I1skdeO0mDbdLA9l5DgQx7DKM0J0JhzpPipcny
+FYrdFKIJFz9YeqJp4Lc72ANl/ZMKshdmNwVCnFlch/14p13cLNPBT5F/AIQ6vOwY
+7NMhCvTnBSqJHWeItIXtYr6eYbH9nOGHdbGZ1J+Evx8rQrhuBdm1zNrwVMi7U1ZK
+lw0kyn4rCxx6sXaasL0b0zb66OOcwxUDm+oGONyae+V7N93qROLurNdhReXx6PdQ
+xhW/XSrN1sTZABXXMK6e
+=Mp7L
 -----END PGP SIGNATURE-----
 
---Sig_/x+Yk=bx9SqqacHk=CKDVHiH--
+--nextPart6301207.ndIlnE8PRN--
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
