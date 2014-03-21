@@ -1,10 +1,8 @@
 From: Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH v2] bdflush.2, fsync.2, sync.2: rm update(8) reference
-Date: Fri, 21 Mar 2014 10:30:27 -0700
-Message-ID: <1395423027-29232-1-git-send-email-kir@openvz.org>
-References: <1395422752-28712-1-git-send-email-kir@openvz.org>
+Subject: [PATCH] bdflush.2, fsync.2, sync.2, sync.8: rm update(8)
+Date: Fri, 21 Mar 2014 10:25:52 -0700
+Message-ID: <1395422752-28712-1-git-send-email-kir@openvz.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1395422752-28712-1-git-send-email-kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
@@ -13,14 +11,13 @@ List-Id: linux-man@vger.kernel.org
 Remove reference to update(8) man page, since there is no such
 page. This is an ancient BSD leftover I believe.
 
-[v2: updated to git tip]
-
 Signed-off-by: Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
 ---
  man2/bdflush.2 | 3 +--
  man2/fsync.2   | 3 +--
  man2/sync.2    | 3 +--
- 3 files changed, 3 insertions(+), 6 deletions(-)
+ man8/sync.8    | 3 +--
+ 4 files changed, 4 insertions(+), 8 deletions(-)
 
 diff --git a/man2/bdflush.2 b/man2/bdflush.2
 index 796d8f2..b84e5bf 100644
@@ -55,6 +52,17 @@ index 11ba1e4..a597d19 100644
 -.BR sync (8),
 -.BR update (8)
 +.BR sync (8)
+diff --git a/man8/sync.8 b/man8/sync.8
+index 3760874..7c4e96e 100644
+--- a/man8/sync.8
++++ b/man8/sync.8
+@@ -89,5 +89,4 @@ other versions may differ slightly.
+ .SH SEE ALSO
+ .BR sync (2),
+ .BR halt (8),
+-.BR reboot (8),
+-.BR update (8)
++.BR reboot (8)
 -- 
 1.8.1.4
 
