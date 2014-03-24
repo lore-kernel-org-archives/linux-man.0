@@ -1,60 +1,43 @@
 From: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sigvec.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 24 Mar 2014 08:43:11 +0000
-Message-ID: <1395650439-11347-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sigvec.3: wfix phrasing
+Date: Mon, 24 Mar 2014 08:48:50 +0000
+Message-ID: <1395650777-11717-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: 8BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Language: en-US
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
-
-The functions sigvec(), sigblock(), sigsetmask() and
-siggetmask() are thread safe.
-
-The macro sigmask() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sigvec.3 | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ man3/sigvec.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/man3/sigvec.3 b/man3/sigvec.3
-index 28f580c..39b39f9 100644
+index 39b39f9..8cc380f 100644
 --- a/man3/sigvec.3
 +++ b/man3/sigvec.3
-@@ -23,7 +23,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH SIGVEC 3 2014-02-18 "Linux" "Linux Programmer's Manual"
-+.TH SIGVEC 3 2014-03-24 "Linux" "Linux Programmer's Manual"
- .SH NAME
- sigvec, sigblock, sigsetmask, siggetmask, sigmask \- BSD signal API
- .SH SYNOPSIS
-@@ -218,6 +218,19 @@ See the ERRORS under
- .BR sigaction (2)
- and
- .BR sigprocmask (2).
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR sigvec (),
-+.BR sigblock (),
-+.BR sigsetmask (),
-+and
-+.BR siggetmask ()
-+functions are thread-safe.
-+.LP
-+The
-+.BR sigmask ()
-+macro is thread-safe.
- .SH CONFORMING TO
- All of these functions were in
- 4.3BSD, except
+@@ -155,7 +155,7 @@ function; the POSIX replacement is
+ .PP
+ The
+ .BR sigmask ()
+-function constructs and returns a "signal mask" for
++macro constructs and returns a "signal mask" for
+ .IR signum .
+ For example, we can initialize the
+ .I vec.sv_mask
+@@ -211,7 +211,7 @@ functions return the previous signal mask.
+ 
+ The
+ .BR sigmask ()
+-function returns the signal mask for
++macro returns the signal mask for
+ .IR signum .
+ .SH ERRORS
+ See the ERRORS under
 -- 
 1.8.5.3
 --
