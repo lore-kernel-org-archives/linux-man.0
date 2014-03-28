@@ -1,25 +1,29 @@
-From: Alex Roper <aroper-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
-Subject: Possible typo in madvise(2)
-Date: Thu, 27 Mar 2014 19:16:27 -0400
-Message-ID: <5334B14B.7070409@umich.edu>
+From: ChasM <chasm750-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+Subject: man strftime
+Date: Fri, 28 Mar 2014 00:03:57 -0700
+Message-ID: <BLU177-W5151586F23C136CF2AEFF489660@phx.gbl>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Version: Current git repo
+$ man strftime(3)
 
-The first paragraph of DESCRIPTION states that madvise does not change
-the semantics of an application except in the case of MADV_DONTNEED,
-which I believe should read MADV_DONTFORK.
+These two descriptions are functionally reversed:
 
-Thanks,
-Alex
---
+=A0=A0=A0=A0=A0=A0 %b=A0=A0=A0=A0 The abbreviated month name according =
+to the current locale.
+
+=A0=A0=A0=A0=A0=A0 %B=A0=A0=A0=A0 The full month name according to the =
+current locale.
+
+Thank You,
+
+=A0=A0 (:-=A0 Chas.M.=A0 :-) 		 	   		  --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
