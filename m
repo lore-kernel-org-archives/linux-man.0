@@ -1,35 +1,47 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 73301] Documentation misses case of link, linkat, symlink,
- symlinkat giving ENOENT for a directory with a reference only held by a
- process
-Date: Mon, 31 Mar 2014 19:22:49 +0000
-Message-ID: <bug-73301-11311-RMtwKnf3PN@https.bugzilla.kernel.org/>
-References: <bug-73301-11311@https.bugzilla.kernel.org/>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] perf_event_open.2 : document PERF_FLAG_FD_CLOEXEC flag
+Date: Mon, 31 Mar 2014 15:40:30 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1403311536390.10206@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-73301-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=73301
 
-Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> changed:
+The Linux 3.14 release adds support for the PERF_FLAG_FD_CLOEXEC flag to
+perf_event_open.2
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-            Summary|Documentation misses case   |Documentation misses case
-                   |of symlink, symlinkat       |of link, linkat, symlink,
-                   |giving ENOENT for a         |symlinkat giving ENOENT for
-                   |directory with a reference  |a directory with a
-                   |only held by a process      |reference only held by a
-                   |                            |process
+The wording is based on the description in kernel commit
+a21b0b354d4ac39be691f51c53562e2c24443d9e 
+by Yann Droneaud <ydroneaud-RlY5vtjFyJ3QT0dZR+AlfA@public.gmane.org>
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 30a2168..46cc204 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -164,6 +164,17 @@ must be passed as the
+ parameter.
+ cgroup monitoring is available only
+ for system-wide events and may therefore require extra permissions.
++.TP
++.BR PERF_FLAG_FD_CLOEXEC " (since Linux 3.14)."
++This flag allows atomically setting close-on-exec behavior on
++a created event without needing to call
++.BR fcntl (2).
++This lets userspace remove the file descriptor from the list of
++file descriptors inherited across exec and avoid race conditions
++between the current thread and another calling
++.BR fork (2)
++then
++.BR execve (2).
+ .P
+ The
+ .I perf_event_attr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
