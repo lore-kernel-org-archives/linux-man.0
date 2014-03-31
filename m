@@ -1,7 +1,7 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 : document PERF_FLAG_FD_CLOEXEC flag
-Date: Mon, 31 Mar 2014 15:40:30 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1403311536390.10206@vincent-weaver-1.um.maine.edu>
+Subject: [patch] perf_event_open.2 : PERF_EVENT_IOC_PERIOD behavior change
+Date: Mon, 31 Mar 2014 15:51:16 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1403311548090.10482@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,37 +11,32 @@ Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 
-The Linux 3.14 release adds support for the PERF_FLAG_FD_CLOEXEC flag to
-perf_event_open.2
-
-The wording is based on the description in kernel commit
-a21b0b354d4ac39be691f51c53562e2c24443d9e 
-by Yann Droneaud <ydroneaud-RlY5vtjFyJ3QT0dZR+AlfA@public.gmane.org>
+Linux 3.14 (in commit bad7192b842c83e580747ca57104dd51fe08c223)
+changes the perf_event PERF_EVENT_IOC_PERIOD ioctl() behavior
+on all architectures to update immediately, to match the behavior
+found on ARM.
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 30a2168..46cc204 100644
+index 30a2168..fa99d25 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -164,6 +164,17 @@ must be passed as the
- parameter.
- cgroup monitoring is available only
- for system-wide events and may therefore require extra permissions.
-+.TP
-+.BR PERF_FLAG_FD_CLOEXEC " (since Linux 3.14)."
-+This flag allows atomically setting close-on-exec behavior on
-+a created event without needing to call
-+.BR fcntl (2).
-+This lets userspace remove the file descriptor from the list of
-+file descriptors inherited across exec and avoid race conditions
-+between the current thread and another calling
-+.BR fork (2)
-+then
-+.BR execve (2).
- .P
- The
- .I perf_event_attr
+@@ -2191,9 +2191,11 @@ reset, even if the event specified is not the group leader
+ .TP
+ .B PERF_EVENT_IOC_PERIOD
+ This updates the overflow period for the event.
+-On most architectures the new period does not take effect until
+-after the next overflow happens;
+-on ARM since Linux 3.7 the period is updated immediately.
++
++Since Linux 3.7 (on ARM) and Linux 3.14 (all other architectures)
++the new period takes effect immediately.
++On older kernels the new period did not take effect until
++after the next overflow.
+ 
+ The argument is a pointer to a 64-bit value containing the
+ desired new period.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
