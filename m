@@ -1,42 +1,35 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 : PERF_EVENT_IOC_PERIOD behavior change
-Date: Mon, 31 Mar 2014 15:51:16 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1403311548090.10482@vincent-weaver-1.um.maine.edu>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 59281] unshare(2) applies to threads, not processes
+Date: Mon, 31 Mar 2014 20:07:19 +0000
+Message-ID: <bug-59281-11311-n3boWq5EXZ@https.bugzilla.kernel.org/>
+References: <bug-59281-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-59281-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=59281
 
-Linux 3.14 (in commit bad7192b842c83e580747ca57104dd51fe08c223)
-changes the perf_event PERF_EVENT_IOC_PERIOD ioctl() behavior
-on all architectures to update immediately, to match the behavior
-found on ARM.
+Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> changed:
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |sstewartgallus00@mylangara.
+                   |                            |bc.ca
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 30a2168..fa99d25 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -2191,9 +2191,11 @@ reset, even if the event specified is not the group leader
- .TP
- .B PERF_EVENT_IOC_PERIOD
- This updates the overflow period for the event.
--On most architectures the new period does not take effect until
--after the next overflow happens;
--on ARM since Linux 3.7 the period is updated immediately.
-+
-+Since Linux 3.7 (on ARM) and Linux 3.14 (all other architectures)
-+the new period takes effect immediately.
-+On older kernels the new period did not take effect until
-+after the next overflow.
- 
- The argument is a pointer to a 64-bit value containing the
- desired new period.
+--- Comment #1 from Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> ---
+Well processes and threads are basically the same under Linux. That's basically
+the point of the unshare call. It should really say processes and threads
+though. Why not submit a patch correcting processes to "processes (or
+threads)"?
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
