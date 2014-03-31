@@ -1,8 +1,9 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 73301] Documentation misses case of symlink, symlinkat giving
- ENOENT for a directory with a reference only held by a process
-Date: Mon, 31 Mar 2014 19:22:39 +0000
-Message-ID: <bug-73301-11311-ygefIMP5Xp@https.bugzilla.kernel.org/>
+Subject: [Bug 73301] Documentation misses case of link, linkat, symlink,
+ symlinkat giving ENOENT for a directory with a reference only held by a
+ process
+Date: Mon, 31 Mar 2014 19:22:49 +0000
+Message-ID: <bug-73301-11311-RMtwKnf3PN@https.bugzilla.kernel.org/>
 References: <bug-73301-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,8 +16,16 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=73301
 
---- Comment #1 from Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> ---
-This problem also exists with link and linkat.
+Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+            Summary|Documentation misses case   |Documentation misses case
+                   |of symlink, symlinkat       |of link, linkat, symlink,
+                   |giving ENOENT for a         |symlinkat giving ENOENT for
+                   |directory with a reference  |a directory with a
+                   |only held by a process      |reference only held by a
+                   |                            |process
 
 -- 
 You are receiving this mail because:
