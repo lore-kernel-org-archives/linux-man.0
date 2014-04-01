@@ -1,64 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getloadavg.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 01 Apr 2014 21:49:37 +0200
-Message-ID: <533B1851.4020402@gmail.com>
-References: <1396331684-27349-1-git-send-email-penght@cn.fujitsu.com>
+From: Kevin Lyda <kevin-lVvlXWpnww44d9/VWYMlNA@public.gmane.org>
+Subject: Bugs in the strtod/strtof man pages...
+Date: Tue, 1 Apr 2014 20:55:18 +0100
+Message-ID: <CADJ56BQnF=pX01y7pSyg6wOSYEc+OY4kphRMDkoUWTO+yTDpCg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1396331684-27349-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks. Applied!
+Both claim to set errno to ERANGE in under/overflow situations.  I'm
+not seeing that - errno remains unset.
 
-Cheers,
+They also say that the functions will return HUGE_VALF or HUGE_VALL
+for overflowed float or doubles respectively (or negative values of
+same). What they fail to mention is that HUGE_VALF and HUGE_VALL are
+defined in math.h.
 
-Michael
+The SYNOPSIS should include: #include <math.h>
 
-On 04/01/2014 07:54 AM, Peng Haitao wrote:
-> The function getloadavg() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/getloadavg.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/getloadavg.3 b/man3/getloadavg.3
-> index 2510439..cad44f1 100644
-> --- a/man3/getloadavg.3
-> +++ b/man3/getloadavg.3
-> @@ -31,7 +31,7 @@
->  .\"
->  .\" 2007-12-08, mtk, Converted from mdoc to man macros
->  .\"
-> -.TH GETLOADAVG 3 2007-12-08 "Linux" "Linux Programmer's Manual"
-> +.TH GETLOADAVG 3 2014-04-01 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  getloadavg \- get system load averages
->  .SH SYNOPSIS
-> @@ -62,6 +62,11 @@ the number of samples actually retrieved is returned.
->  .\" 4.3BSD Reno .
->  .SH VERSIONS
->  This function is available in glibc since version 2.2.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR getloadavg ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  Not in POSIX.1-2001.
->  Present on the BSDs and Solaris.
-> 
+The RETURN VALUE should mention that if errno is supposed to be set
+that not all versions of glibc do so. Sadly for underflows
+(0.0000000000000000000000000000000001) strto[df] returns 0 and doesn't
+set errno so there's no real way to detect an error.
 
+Code to check all this:
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+int
+main(int argc, char *argv[])
+{
+   float n;
+   char *ns = "9999999999999999999999999999999999999999999999"
+     "9999999999999999999.9999999999999999",
+     *err_ns;
+
+   n = strtod(ns, &err_ns);
+   printf("HUGE_VALF: %f\nns: %f\n", HUGE_VALF, n);
+   perror("errno: ");
+}
+
+Kevin
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Kevin Lyda
+Galway, Ireland
+US Citizen overseas? We can vote.
+Register now: http://www.votefromabroad.org/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
