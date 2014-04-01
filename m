@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] index.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 1 Apr 2014 12:10:23 +0800
-Message-ID: <1396325423-22394-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] getloadavg.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 1 Apr 2014 13:54:44 +0800
+Message-ID: <1396331684-27349-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,40 +10,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions index() and rindex() are thread safe.
+The function getloadavg() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/index.3 | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ man3/getloadavg.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/index.3 b/man3/index.3
-index 64c95b4..8fb9d58 100644
---- a/man3/index.3
-+++ b/man3/index.3
-@@ -28,7 +28,7 @@
- .\"     386BSD man pages
- .\" Modified Mon Apr 12 12:54:34 1993, David Metcalfe
- .\" Modified Sat Jul 24 19:13:52 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
--.TH INDEX 3 2011-09-21 "GNU" "Linux Programmer's Manual"
-+.TH INDEX 3 2014-04-01 "GNU" "Linux Programmer's Manual"
+diff --git a/man3/getloadavg.3 b/man3/getloadavg.3
+index 2510439..cad44f1 100644
+--- a/man3/getloadavg.3
++++ b/man3/getloadavg.3
+@@ -31,7 +31,7 @@
+ .\"
+ .\" 2007-12-08, mtk, Converted from mdoc to man macros
+ .\"
+-.TH GETLOADAVG 3 2007-12-08 "Linux" "Linux Programmer's Manual"
++.TH GETLOADAVG 3 2014-04-01 "Linux" "Linux Programmer's Manual"
  .SH NAME
- index, rindex \- locate character in string
+ getloadavg \- get system load averages
  .SH SYNOPSIS
-@@ -59,6 +59,13 @@ and
- .BR rindex ()
- functions return a pointer to
- the matched character or NULL if the character is not found.
+@@ -62,6 +62,11 @@ the number of samples actually retrieved is returned.
+ .\" 4.3BSD Reno .
+ .SH VERSIONS
+ This function is available in glibc since version 2.2.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR index ()
-+and
-+.BR rindex ()
-+functions are thread-safe.
++.BR getloadavg ()
++function is thread-safe.
  .SH CONFORMING TO
- 4.3BSD; marked as LEGACY in POSIX.1-2001.
- POSIX.1-2008 removes the specifications of
+ Not in POSIX.1-2001.
+ Present on the BSDs and Solaris.
 -- 
 1.9.0
 
