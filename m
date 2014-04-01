@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getloadavg.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 1 Apr 2014 13:54:44 +0800
-Message-ID: <1396331684-27349-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] getpt.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 1 Apr 2014 15:25:24 +0800
+Message-ID: <1396337124-32617-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function getloadavg() is thread safe.
+The function getpt() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getloadavg.3 | 7 ++++++-
+ man3/getpt.3 | 7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/man3/getloadavg.3 b/man3/getloadavg.3
-index 2510439..cad44f1 100644
---- a/man3/getloadavg.3
-+++ b/man3/getloadavg.3
-@@ -31,7 +31,7 @@
+diff --git a/man3/getpt.3 b/man3/getpt.3
+index 7ec96b4..82be3ac 100644
+--- a/man3/getpt.3
++++ b/man3/getpt.3
+@@ -4,7 +4,7 @@
+ .\" Redistribute and modify at will.
+ .\" %%%LICENSE_END
  .\"
- .\" 2007-12-08, mtk, Converted from mdoc to man macros
- .\"
--.TH GETLOADAVG 3 2007-12-08 "Linux" "Linux Programmer's Manual"
-+.TH GETLOADAVG 3 2014-04-01 "Linux" "Linux Programmer's Manual"
+-.TH GETPT 3 2010-09-10 "GNU" "Linux Programmer's Manual"
++.TH GETPT 3 2014-04-01 "GNU" "Linux Programmer's Manual"
  .SH NAME
- getloadavg \- get system load averages
+ getpt \- open the pseudoterminal master (PTM)
  .SH SYNOPSIS
-@@ -62,6 +62,11 @@ the number of samples actually retrieved is returned.
- .\" 4.3BSD Reno .
+@@ -39,6 +39,11 @@ can fail with various errors described in
  .SH VERSIONS
- This function is available in glibc since version 2.2.
+ .BR getpt ()
+ is provided in glibc since version 2.1.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR getloadavg ()
++.BR getpt ()
 +function is thread-safe.
  .SH CONFORMING TO
- Not in POSIX.1-2001.
- Present on the BSDs and Solaris.
+ .BR getpt ()
+ is glibc-specific;
 -- 
 1.9.0
 
