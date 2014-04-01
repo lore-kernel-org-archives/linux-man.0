@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] if_nametoindex.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 1 Apr 2014 11:05:47 +0800
-Message-ID: <1396321547-18497-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] index.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 1 Apr 2014 12:10:23 +0800
+Message-ID: <1396325423-22394-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,40 +10,40 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions if_nametoindex() and if_indextoname() are thread safe.
+The functions index() and rindex() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/if_nametoindex.3 | 9 ++++++++-
+ man3/index.3 | 9 ++++++++-
  1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/man3/if_nametoindex.3 b/man3/if_nametoindex.3
-index 4bce79d..1d6de4e 100644
---- a/man3/if_nametoindex.3
-+++ b/man3/if_nametoindex.3
-@@ -22,7 +22,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH IF_NAMETOINDEX 3 2012-12-14 "GNU" "Linux Programmer's Manual"
-+.TH IF_NAMETOINDEX 3 2014-04-01 "GNU" "Linux Programmer's Manual"
+diff --git a/man3/index.3 b/man3/index.3
+index 64c95b4..8fb9d58 100644
+--- a/man3/index.3
++++ b/man3/index.3
+@@ -28,7 +28,7 @@
+ .\"     386BSD man pages
+ .\" Modified Mon Apr 12 12:54:34 1993, David Metcalfe
+ .\" Modified Sat Jul 24 19:13:52 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+-.TH INDEX 3 2011-09-21 "GNU" "Linux Programmer's Manual"
++.TH INDEX 3 2014-04-01 "GNU" "Linux Programmer's Manual"
  .SH NAME
- if_nametoindex, if_indextoname \- mappings between network interface
- names and indexes
-@@ -82,6 +82,13 @@ may also fail for any of the errors specified for
- .BR socket (2)
- or
- .BR ioctl (2).
+ index, rindex \- locate character in string
+ .SH SYNOPSIS
+@@ -59,6 +59,13 @@ and
+ .BR rindex ()
+ functions return a pointer to
+ the matched character or NULL if the character is not found.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR if_nametoindex ()
++.BR index ()
 +and
-+.BR if_indextoname ()
++.BR rindex ()
 +functions are thread-safe.
  .SH CONFORMING TO
- RFC\ 3493, POSIX.1-2001.
- 
+ 4.3BSD; marked as LEGACY in POSIX.1-2001.
+ POSIX.1-2008 removes the specifications of
 -- 
 1.9.0
 
