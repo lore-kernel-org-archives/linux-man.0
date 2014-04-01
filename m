@@ -1,68 +1,31 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fenv.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 1 Apr 2014 17:48:42 +0800
-Message-ID: <1396345722-9160-1-git-send-email-penght@cn.fujitsu.com>
+From: =?ISO-8859-1?Q?T=F6r=F6k_Edwin?= <edwin-VR+441gm9a+sTnJN9+BGXg@public.gmane.org>
+Subject: manpage should say that fwrite/fread  sets errno
+Date: Tue, 01 Apr 2014 21:05:25 +0300
+Message-ID: <533AFFE5.4040207@etorok.net>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions feclearexcept(), fegetexceptflag(), feraiseexcept(),
-fesetexceptflag(), fetestexcept(), fegetround(), fesetround(),
-fegetenv(), feholdexcept(), fesetenv(), feupdateenv(),
-feenableexcept(), fedisableexcept() and fegetexcept() are thread
-safe.
+Hi,
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/fenv.3 | 21 ++++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+'man 3 fwrite' doesn't say anything about errno, OTOH 'man 3p fwrite', and 'man 3 fclose' does.
 
-diff --git a/man3/fenv.3 b/man3/fenv.3
-index 270f754..1f55ff9 100644
---- a/man3/fenv.3
-+++ b/man3/fenv.3
-@@ -24,7 +24,7 @@
- .\" 2000-08-14 added GNU additions from Andreas Jaeger
- .\" 2000-12-05 some changes inspired by acahalan's remarks
- .\"
--.TH FENV 3  2010-10-31 "Linux" "Linux Programmer's Manual"
-+.TH FENV 3  2014-04-01 "Linux" "Linux Programmer's Manual"
- .SH NAME
- feclearexcept, fegetexceptflag, feraiseexcept, fesetexceptflag,
- fetestexcept, fegetenv, fegetround, feholdexcept, fesetround,
-@@ -262,6 +262,25 @@ These functions return zero on success and nonzero if an error occurred.
- .\" of the C99 Standard.
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR feclearexcept (),
-+.BR fegetexceptflag (),
-+.BR fegetexceptflag (),
-+.BR fesetexceptflag (),
-+.BR fetestexcept (),
-+.BR fegetround (),
-+.BR fesetround (),
-+.BR fegetenv (),
-+.BR feholdexcept (),
-+.BR fesetenv (),
-+.BR feupdateenv (),
-+.BR feenableexcept (),
-+.BR fedisableexcept (),
-+and
-+.BR fegetexcept ()
-+functions are thread-safe.
- .SH CONFORMING TO
- IEC 60559 (IEC 559:1989), ANSI/IEEE 854, C99, POSIX.1-2001.
- .SH NOTES
--- 
-1.9.0
+The comment about 'fread'  in 'man 3 fread' could make someone believe that it doesn't set errno.
 
+I don't know what C89 has to say about errno, hence I'm just reporting this to you without sending an actual patch.
+
+This is manpages 3.61-1 from Debian unstable, and bottom of the manpage says it is:
+GNU                                                       2012-03-30                                                 FREAD(3)
+
+I've checked man-pages.git, and it is the same situation there.
+
+Best regards,
+--Edwin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
