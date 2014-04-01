@@ -1,34 +1,34 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Possible typo in madvise(2)
-Date: Tue, 01 Apr 2014 20:18:43 +0200
-Message-ID: <533B0303.2000601@gmail.com>
-References: <5334B14B.7070409@umich.edu>
+Subject: Re: man strftime
+Date: Tue, 01 Apr 2014 20:50:27 +0200
+Message-ID: <533B0A73.4000509@gmail.com>
+References: <BLU177-W5151586F23C136CF2AEFF489660@phx.gbl>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5334B14B.7070409-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <BLU177-W5151586F23C136CF2AEFF489660-MsuGFMq8XAE@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alex Roper <aroper-63aXycvo3TyHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: ChasM <chasm750-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/28/2014 12:16 AM, Alex Roper wrote:
-> Version: Current git repo
+On 03/28/2014 08:03 AM, ChasM wrote:
+> $ man strftime(3)
 > 
-> The first paragraph of DESCRIPTION states that madvise does not change
-> the semantics of an application except in the case of MADV_DONTNEED,
-> which I believe should read MADV_DONTFORK.
+> These two descriptions are functionally reversed:
+> 
+>        %b     The abbreviated month name according to the current locale.
+> 
+>        %B     The full month name according to the current locale.
 
-Alex, 
+The descriptions appear to me to be correct. What makes you 
+think they are wrong?
 
-MADV_DONTNEED does change the semantics. But, could you say more
-about wht you think MADV_DONTFORK should have been written here 
-instead? (Perhaps some fix is needed to the page.)
-
-Thanks,
+Cheers,
 
 Michael
+
 
 -- 
 Michael Kerrisk
