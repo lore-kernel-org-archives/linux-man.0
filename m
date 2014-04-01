@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] random.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 01 Apr 2014 20:15:05 +0200
-Message-ID: <533B0229.2030704@gmail.com>
-References: <1395730035-1946-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH v2] exit.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Tue, 01 Apr 2014 20:14:22 +0200
+Message-ID: <533B01FE.3020505@gmail.com>
+References: <1395716530-22042-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-2022-JP
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1395730035-1946-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1395716530-22042-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org" <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -20,43 +20,39 @@ Cheers,
 Michael
 
 
-On 03/25/2014 07:49 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
-> The functions random(), srandom(), initstate() and setstate()
-> are thread safe.
+On 03/25/2014 04:04 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
+> The function exit() is not thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/random.3 | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+>  man3/exit.3 | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/random.3 b/man3/random.3
-> index e1a8e17..dc6fa9f 100644
-> --- a/man3/random.3
-> +++ b/man3/random.3
-> @@ -30,7 +30,7 @@
->  .\" Modified Sat Jul 24 18:13:39 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified Sun Aug 20 21:47:07 2000, aeb
+> diff --git a/man3/exit.3 b/man3/exit.3
+> index 51163e4..69f42bc 100644
+> --- a/man3/exit.3
+> +++ b/man3/exit.3
+> @@ -26,7 +26,7 @@
+>  .\" could be listed on this page. See, for example, the list in the
+>  .\" POSIX exit(3p) page.
 >  .\"
-> -.TH RANDOM 3  2013-04-19 "GNU" "Linux Programmer's Manual"
-> +.TH RANDOM 3  2014-03-25 "GNU" "Linux Programmer's Manual"
+> -.TH EXIT 3  2013-02-14 "Linux" "Linux Programmer's Manual"
+> +.TH EXIT 3  2014-03-25 "Linux" "Linux Programmer's Manual"
 >  .SH NAME
->  random, srandom, initstate, setstate \- random number generator
+>  exit \- cause normal process termination
 >  .SH SYNOPSIS
-> @@ -149,6 +149,15 @@ was NULL.
->  .B EINVAL
->  A state array of less than 8 bytes was specified to
->  .BR initstate ().
+> @@ -87,6 +87,12 @@ termination, respectively.
+>  The
+>  .BR exit ()
+>  function does not return.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR random (),
-> +.BR srandom (),
-> +.BR initstate (),
-> +and
-> +.BR setstate ()
-> +functions are thread-safe.
+> +.BR exit ()
+> +function uses a global variable that is not protected,
+> +so it is not thread-safe.
 >  .SH CONFORMING TO
->  4.3BSD, POSIX.1-2001.
+>  SVr4, 4.3BSD, POSIX.1-2001, C89, C99.
 >  .SH NOTES
 > 
 
