@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getpt.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 01 Apr 2014 20:42:26 +0200
-Message-ID: <533B0892.9030203@gmail.com>
-References: <1396337124-32617-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] index.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 01 Apr 2014 20:41:37 +0200
+Message-ID: <533B0861.4070204@gmail.com>
+References: <1396325423-22394-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1396337124-32617-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1396325423-22394-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -22,39 +22,43 @@ Cheers,
 Michael
 
 
-On 04/01/2014 09:25 AM, Peng Haitao wrote:
-> The function getpt() is thread safe.
+
+
+On 04/01/2014 06:10 AM, Peng Haitao wrote:
+> The functions index() and rindex() are thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getpt.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man3/index.3 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/getpt.3 b/man3/getpt.3
-> index 7ec96b4..82be3ac 100644
-> --- a/man3/getpt.3
-> +++ b/man3/getpt.3
-> @@ -4,7 +4,7 @@
->  .\" Redistribute and modify at will.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH GETPT 3 2010-09-10 "GNU" "Linux Programmer's Manual"
-> +.TH GETPT 3 2014-04-01 "GNU" "Linux Programmer's Manual"
+> diff --git a/man3/index.3 b/man3/index.3
+> index 64c95b4..8fb9d58 100644
+> --- a/man3/index.3
+> +++ b/man3/index.3
+> @@ -28,7 +28,7 @@
+>  .\"     386BSD man pages
+>  .\" Modified Mon Apr 12 12:54:34 1993, David Metcalfe
+>  .\" Modified Sat Jul 24 19:13:52 1993, Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+> -.TH INDEX 3 2011-09-21 "GNU" "Linux Programmer's Manual"
+> +.TH INDEX 3 2014-04-01 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  getpt \- open the pseudoterminal master (PTM)
+>  index, rindex \- locate character in string
 >  .SH SYNOPSIS
-> @@ -39,6 +39,11 @@ can fail with various errors described in
->  .SH VERSIONS
->  .BR getpt ()
->  is provided in glibc since version 2.1.
+> @@ -59,6 +59,13 @@ and
+>  .BR rindex ()
+>  functions return a pointer to
+>  the matched character or NULL if the character is not found.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR getpt ()
-> +function is thread-safe.
+> +.BR index ()
+> +and
+> +.BR rindex ()
+> +functions are thread-safe.
 >  .SH CONFORMING TO
->  .BR getpt ()
->  is glibc-specific;
+>  4.3BSD; marked as LEGACY in POSIX.1-2001.
+>  POSIX.1-2008 removes the specifications of
 > 
 
 
