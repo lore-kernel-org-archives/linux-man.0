@@ -1,67 +1,42 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] getline.3: Emphasiqze that user code should free the
- allocated buffer even if getline() failed.
-Date: Wed, 02 Apr 2014 12:10:23 +0200
-Message-ID: <533BE20F.7070302@gmail.com>
-References: <CAGSYnCNRKxShgzR=WCLOd4BB_4CqEScNsmk-81eytih84cx9gA@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 73371] New: sleep(): which clock ?
+Date: Wed, 02 Apr 2014 10:09:41 +0000
+Message-ID: <bug-73371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGSYnCNRKxShgzR=WCLOd4BB_4CqEScNsmk-81eytih84cx9gA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Alexey,
+https://bugzilla.kernel.org/show_bug.cgi?id=73371
 
-Good patch, good explanation. Applied. 
+            Bug ID: 73371
+           Summary: sleep(): which clock ?
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org
+        Regression: No
 
-Thanks!
+the current man page states:
+       sleep() makes the calling thread sleep until seconds seconds have
+elapsed or a signal arrives which is not ignored.
 
-Cheers,
-
-Michael
-
-
-
-On 04/02/2014 10:30 AM, Alexey Samsonov wrote:
->>From 4a09a0da31e9b98167e974e05f13f57b53dd41c3 Mon Sep 17 00:00:00 2001
-> From: Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> Date: Wed, 2 Apr 2014 12:26:44 +0400
-> Subject: [PATCH] getline.3: Emphasize that user code should free the allocated
->  buffer even if getline() failed.
-> 
-> ---
->  man3/getline.3 | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man3/getline.3 b/man3/getline.3
-> index 806e455..9f403a0 100644
-> --- a/man3/getline.3
-> +++ b/man3/getline.3
-> @@ -69,8 +69,11 @@ is set to NULL and
->  .I *n
->  is set 0 before the call, then
->  .BR getline ()
-> -will allocate a buffer for storing the line,
-> -which should be freed by the user program.
-> +will allocate a buffer for storing the line.
-> +This buffer should be freed by the user program
-> +even if
-> +.BR getline ()
-> +failed.
-> 
->  Alternatively, before calling
->  .BR getline (),
-> 
-
+unfortunately, the NOTES section does not discuss which clock is being used. 
+the nanosleep man page has a good discussion on the topic, and presumably the
+answer is the same ?
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
