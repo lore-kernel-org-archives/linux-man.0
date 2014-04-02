@@ -1,52 +1,95 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch v2] perf_event_open.2 : document PERF_FLAG_FD_CLOEXEC flag
-Date: Tue, 1 Apr 2014 17:36:23 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1404011734320.17339@vincent-weaver-1.um.maine.edu>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] mkfifo.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 2 Apr 2014 08:30:04 +0800
+Message-ID: <533B5A0C.7000808@cn.fujitsu.com>
+References: <1395626006-21719-1-git-send-email-penght@cn.fujitsu.com> <533B0191.7030703@gmail.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <533B0191.7030703-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-The Linux 3.14 release adds support for the PERF_FLAG_FD_CLOEXEC flag to
-perf_event_open.2
+On 04/02/2014 02:12 AM, Michael Kerrisk (man-pages) wrote:
+> Thanks. Applied.
+> 
+> Haitao, something in your mail client changed,
+> so that your "real" name no longer comes through as part
+> of your messages (i.e., your address shows as
+> 
+> penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org
+> 
+> rather than 
+> 
+> Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> 
 
-This version tries to clarify that the close-on-exec behavior applies to 
-the current file descriptor being created.
+Yeah, I found the problem:(
 
-The wording is based on the description in kernel commit
-a21b0b354d4ac39be691f51c53562e2c24443d9e 
-by Yann Droneaud <ydroneaud-RlY5vtjFyJ3QT0dZR+AlfA@public.gmane.org>
+> when I "git am" your patches. At the moment, I'm manually
+> fixing the patches to add you real name. Would it e possible
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Thank you very much.
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 30a2168..b4a49c4 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -164,6 +164,19 @@ must be passed as the
- parameter.
- cgroup monitoring is available only
- for system-wide events and may therefore require extra permissions.
-+.TP
-+.BR PERF_FLAG_FD_CLOEXEC " (since Linux 3.14)."
-+This flag enables close-on-exec behavior for the created
-+event file descriptor, removing it from the list of
-+file descriptors inherited across exec.
-+Setting this behavior atomically at creation time rather than
-+later with
-+.BR fctl (2)
-+avoids potential race conditions between the current thread and
-+another calling
-+.BR fork (2)
-+then
-+.BR execve(2).
- .P
- The
- .I perf_event_attr
+> for you to reconfigure your mail client?
+> 
+
+Yes, the mail server is modified to Microsoft Exchange.
+
+The mails should be OK in April?
+
+
+-- 
+Best Regards,
+Peng
+
+> Thanks,
+> 
+> Michael
+> 
+> 
+> On 03/24/2014 02:55 AM, penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org wrote:
+>> The functions mkfifo() and mkfifoat() are thread safe.
+>>
+>> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+>> ---
+>>  man3/mkfifo.3 | 9 ++++++++-
+>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/man3/mkfifo.3 b/man3/mkfifo.3
+>> index 849efca..e1c0b84 100644
+>> --- a/man3/mkfifo.3
+>> +++ b/man3/mkfifo.3
+>> @@ -25,7 +25,7 @@
+>>  .\"
+>>  .\" changed section from 2 to 3, aeb, 950919
+>>  .\"
+>> -.TH MKFIFO 3 2014-02-21 "GNU" "Linux Programmer's Manual"
+>> +.TH MKFIFO 3 2014-03-24 "GNU" "Linux Programmer's Manual"
+>>  .SH NAME
+>>  mkfifo, mkfifoat \- make a FIFO special file (a named pipe)
+>>  .SH SYNOPSIS
+>> @@ -181,6 +181,13 @@ was added to glibc in version 2.4.
+>>  It is implemented using
+>>  .BR mknodat (2),
+>>  available on Linux since kernel 2.6.16.
+>> +.SH ATTRIBUTES
+>> +.SS Multithreading (see pthreads(7))
+>> +The
+>> +.BR mkfifo ()
+>> +and
+>> +.BR mkfifoat ()
+>> +functions are thread-safe.
+>>  .SH CONFORMING TO
+>>  .BR mkfifo ():
+>>  POSIX.1-2001, POSIX.1-2008.
+>>
+> 
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
