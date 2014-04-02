@@ -1,42 +1,33 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] mkfifo.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 3 Apr 2014 09:22:43 +0800
-Message-ID: <533CB7E3.8000207@cn.fujitsu.com>
-References: <1395626006-21719-1-git-send-email-penght@cn.fujitsu.com> <533B0191.7030703@gmail.com> <533B5A0C.7000808@cn.fujitsu.com> <533B7B4D.4090709@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] stat.2: tfix
+Date: Wed,  2 Apr 2014 15:03:10 -0400
+Message-ID: <1396465390-10003-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <533B7B4D.4090709-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+---
+ man2/stat.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 04/02/2014 10:51 AM, Michael Kerrisk (man-pages) wrote:
-> On 04/02/2014 02:30 AM, Peng Haitao wrote:
->>> when I "git am" your patches. At the moment, I'm manually
->>> fixing the patches to add you real name. Would it e possible
->>
->> Thank you very much.
->>
->>> for you to reconfigure your mail client?
->>>
->>
->> Yes, the mail server is modified to Microsoft Exchange.
->>
->> The mails should be OK in April?
-> 
-> Yes, they seem to be okay now.
->  
-
-Good!
-Thank you very much.
-
+diff --git a/man2/stat.2 b/man2/stat.2
+index 9d13bb4..7cbf088 100644
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -123,7 +123,7 @@ not the file that it refers to.
+ .BR fstat ()
+ is identical to
+ .BR stat (),
+-except that the file about which informat is to be retrieved
++except that the file about which information is to be retrieved
+ is specified by the file descriptor
+ .IR fd .
+ .PP
 -- 
-Best Regards,
-Peng
+1.9.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
