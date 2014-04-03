@@ -1,145 +1,162 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: Things I wish I'd known about Inotify
-Date: Thu, 3 Apr 2014 22:52:36 +0200
-Message-ID: <20140403205236.GE14107@quack.suse.cz>
-References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] locale.5: various minor fixes
+Date: Thu,  3 Apr 2014 19:15:37 -0400
+Message-ID: <1396566937-26334-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, radu.voicilas-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, daniel-dYEgDbNUoShWk0Htik3J/w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu 03-04-14 08:34:44, Michael Kerrisk (man-pages) wrote:
->    Limitations and caveats
->        The inotify API provides no information about the user or proc=
-ess
->        that triggered the inotify event.  In  particular,  there  is =
- no
->        easy  way  for a process that is monitoring events via inotify=
- to
->        distinguish events that it triggers itself from  those  that  =
-are
->        triggered by other processes.
->=20
->        The  inotify API identifies affected files by filename.  Howev=
-er,
->        by the time an application processes an inotify event, the  fi=
-le=E2=80=90
->        name may already have been deleted or renamed.
->=20
->        The  inotify  API identifies events via watch descriptors.  It=
- is
->        the application's responsibility to cache a mapping  (if  one =
- is
->        needed)  between  watch descriptors and pathnames.  Be aware t=
-hat
->        directory renamings may affect multiple cached pathnames.
->=20
->        Inotify monitoring of directories is not  recursive:  to  moni=
-tor
->        subdirectories under a directory, additional watches must be c=
-re=E2=80=90
->        ated.  This can take a significant amount time for  large  dir=
-ec=E2=80=90
->        tory trees.
-  And also there's a problem with the limit on the number of watches a =
-user
-can have.
+Hi Michael,
 
->        If monitoring an entire directory subtree, and a new subdirect=
-ory
->        is created in that tree or an existing directory is renamed  i=
-nto
->        that  tree,  be aware that by the time you create a watch for =
-the
->        new subdirectory, new  files  (and  subdirectories)  may  alre=
-ady
->        exist  inside  the subdirectory.  Therefore, you may want to s=
-can
->        the contents of the subdirectory  immediately  after  adding  =
-the
->        watch (and, if desired, recursively add watches for any subdir=
-ec=E2=80=90
->        tories that it contains).
->=20
->        Note that the event queue can overflow.  In this case, events =
-are
->        lost.   Robust applications should handle the possibility of l=
-ost
->        events gracefully.  For example, it may be necessary  to  rebu=
-ild
->        part  or all of the application cache.  (One simple, but possi=
-bly
->        expensive, approach is to  close  the  inotify  file  descript=
-or,
->        empty  the  cache, create a new inotify file descriptor, and t=
-hen
->        re-create watches and cache entries for the objects to  be  mo=
-ni=E2=80=90
->        tored.)
->=20
->    Dealing with rename() events
->        The  IN_MOVED_FROM  and  IN_MOVED_TO events that are generated=
- by
->        rename(2) are usually available as consecutive events when  re=
-ad=E2=80=90
->        ing from the inotify file descriptor.  However, this is not gu=
-ar=E2=80=90
->        anteed.  If multiple processes are triggering  events  for  mo=
-ni=E2=80=90
->        tored  objects,  then  (on rare occasions) an arbitrary number=
- of
->        other events may appear between the IN_MOVED_FROM and IN_MOVED=
-_TO
->        events.
->=20
->        Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pair gen=
-er=E2=80=90
->        ated by rename(2) is thus inherently racy.  (Don't forget that=
- if
->        an  object is renamed outside of a monitored directory, there =
-may
->        not even be an IN_MOVED_TO event.)  Heuristic  approaches  (e.=
-g.,
->        assume the events are always consecutive) can be used to ensur=
-e a
->        match in most cases, but will inevitably miss some cases, caus=
-ing
->        the  application  to  perceive  the IN_MOVED_FROM and IN_MOVED=
-_TO
->        events as being unrelated.  If watch  descriptors  are  destro=
-yed
->        and  re-created as a result, then those watch descriptors will=
- be
->        inconsistent with the watch descriptors in  any  pending  even=
-ts.
->        (Re-creating the inotify file descriptor and rebuilding the ca=
-che
->        may be useful to deal with this scenario.)
-  Well, but there's 'cookie' value meant exactly for matching up
-IN_MOVED_FROM and IN_MOVED_TO events. And 'cookie' is guaranteed to be
-unique at least within the inotify instance (in fact currently it is un=
-ique
-within the whole system but I don't think we want to give that promise)=
-=2E
-=20
->        Applications should also  allow  for  the  possibility  that  =
-the
->        IN_MOVED_FROM event was the last event that could fit in the b=
-uf=E2=80=90
->        fer returned by the current call to read(2), and the accompany=
-ing
->        IN_MOVED_TO event might be fetched only on the next read(2).
+Please find attach various minor fixes:
+- consistency fixes;
+- punctuation fixes;
+- typo fixes;
+- format fixes;
+- usage fix;
+- American spelling convention.
 
-								Honza
---=20
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+Regards
+
+David
+---
+ man5/locale.5 | 38 +++++++++++++++++---------------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
+
+diff --git a/man5/locale.5 b/man5/locale.5
+index cb09900..e699088 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -85,10 +85,8 @@ the GNU C library supports the following nonstandard categories:
+ .IP *
+ .B LC_TELEPHONE
+ .SS LC_ADDRESS
+-The definition for the
++The definition starts with the string
+ .B LC_ADDRESS
+-category starts with the string
+-.I LC_ADDRESS
+ in the first column.
+ 
+ The following keywords are allowed:
+@@ -170,7 +168,7 @@ entity.
+ .TP
+ .I country_name
+ followed by the country name in the language of the current document
+-(e.g., "Deutschland for the
++(e.g., "Deutschland" for the
+ .IR de_DE
+ locale).
+ .TP
+@@ -203,17 +201,15 @@ followed by the three-letter abbreviation of the language (ISO 639-2).
+ .TP
+ .I lang_lib
+ followed by the three-letter abbreviation of the language for
+-library use (ISO 639-2)
++library use (ISO 639-2).
+ .PP
+ The
+ .B LC_ADDRESS
+ definition ends with the string
+ .IR "END LC_ADDRESS" .
+ .SS LC_CTYPE
+-The definition for the
++The definition starts with the string
+ .B LC_CTYPE
+-category starts with the string
+-.I LC_CTYPE
+ in the first column.
+ 
+ The following keywords are allowed:
+@@ -470,7 +466,7 @@ in the first column.
+ The following keywords are allowed:
+ .TP
+ .I title
+-followed by the title of ths locale document
++followed by the title of the locale document
+ (e.g., "Maori language locale for New Zealand").
+ .TP
+ .I source
+@@ -492,7 +488,7 @@ followed by the telephone number (in international format)
+ of the organization that maintains this document.
+ .TP
+ .I fax
+-followed by the FAX number (in international format)
++followed by the fax number (in international format)
+ of the organization that maintains this document.
+ .TP
+ .I language
+@@ -529,7 +525,7 @@ a string that identifies this locale category definition,
+ a semicolon, and
+ .IP *
+ one of the
+-.I LC_*
++.BI LC_ *
+ identifiers.
+ .PP
+ The
+@@ -569,7 +565,7 @@ in the first column.
+ The following keywords are allowed:
+ .TP
+ .I measurement
+-folowed by number identifying the standard used for measurement.
++followed by number identifying the standard used for measurement.
+ The following values are recognized:
+ .RS
+ .TP
+@@ -911,7 +907,7 @@ The following field descriptors are recognized:
+ .RS
+ .TP
+ %a
+-Area code without nationwide prefix (the prefix is often "0").
++Area code without nationwide prefix (the prefix is often "00").
+ .TP
+ %A
+ Area code including nationwide prefix.
+@@ -926,7 +922,7 @@ Extension (to local number).
+ Country code.
+ .TP
+ %C
+-Alternate carrier service code used for dialling abroad.
++Alternate carrier service code used for dialing abroad.
+ .TP
+ %t
+ If the preceding field descriptor resulted in an empty string,
+@@ -936,7 +932,7 @@ then the empty string, otherwise a space character.
+ .I tel_dom_fmt
+ followed by a string that contains field descriptors that identify
+ the format used to dial domestic numbers.
+-The recognized field descriptrs are the same as for
++The recognized field descriptors are the same as for
+ .IR tel_int_fmt .
+ .TP
+ .I int_select
+@@ -1040,14 +1036,14 @@ followed by a value that indicates the direction for the
+ display of calendar dates, as follows:
+ .RS
+ .TP
+-1
+-left-right from top
++.B 1
++Left-right from top.
+ .TP
+-2
+-top-down from left
++.B 2
++Top-down from left.
+ .TP
+-3
+-right-left from top
++.B 3
++Right-left from top.
+ .RE
+ .TP
+ .I date_fmt
+-- 
+1.9.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
