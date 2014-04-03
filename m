@@ -1,74 +1,42 @@
-From: Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] getline.3: Emphasize that user code should free the allocated
- buffer even if getline() failed.
-Date: Wed, 2 Apr 2014 12:30:48 +0400
-Message-ID: <CAGSYnCNRKxShgzR=WCLOd4BB_4CqEScNsmk-81eytih84cx9gA@mail.gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] mkfifo.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 3 Apr 2014 09:22:43 +0800
+Message-ID: <533CB7E3.8000207@cn.fujitsu.com>
+References: <1395626006-21719-1-git-send-email-penght@cn.fujitsu.com> <533B0191.7030703@gmail.com> <533B5A0C.7000808@cn.fujitsu.com> <533B7B4D.4090709@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <533B7B4D.4090709-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org" <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
->From 4a09a0da31e9b98167e974e05f13f57b53dd41c3 Mon Sep 17 00:00:00 2001
-From: Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Date: Wed, 2 Apr 2014 12:26:44 +0400
-Subject: [PATCH] getline.3: Emphasize that user code should free the allocated
- buffer even if getline() failed.
 
----
- man3/getline.3 | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On 04/02/2014 10:51 AM, Michael Kerrisk (man-pages) wrote:
+> On 04/02/2014 02:30 AM, Peng Haitao wrote:
+>>> when I "git am" your patches. At the moment, I'm manually
+>>> fixing the patches to add you real name. Would it e possible
+>>
+>> Thank you very much.
+>>
+>>> for you to reconfigure your mail client?
+>>>
+>>
+>> Yes, the mail server is modified to Microsoft Exchange.
+>>
+>> The mails should be OK in April?
+> 
+> Yes, they seem to be okay now.
+>  
 
-diff --git a/man3/getline.3 b/man3/getline.3
-index 806e455..9f403a0 100644
---- a/man3/getline.3
-+++ b/man3/getline.3
-@@ -69,8 +69,11 @@ is set to NULL and
- .I *n
- is set 0 before the call, then
- .BR getline ()
--will allocate a buffer for storing the line,
--which should be freed by the user program.
-+will allocate a buffer for storing the line.
-+This buffer should be freed by the user program
-+even if
-+.BR getline ()
-+failed.
-
- Alternatively, before calling
- .BR getline (),
--- 
-1.9.1.423.g4596e3a
-
-
-
-Relevant discussion in glibc bugzilla:
-https://sourceware.org/bugzilla/show_bug.cgi?id=5666
-test program:
-
-$ cat tmp/getline/a.cc
-#include <stdio.h>
-int main() {
-  for (int x = 0; x < 2; x++) {
-    char *lineptr = 0;
-    size_t size = 0;
-    int res = getline(&lineptr, &size, stdin);
-    printf("%d\n%p\n", res, lineptr);
-  }
-  return 0;
-}
-$ gcc tmp/getline/a.cc && echo -n "xxx" > tmp/getline/input && ./a.out
-< tmp/getline/input
-3
-0x11ae010
--1
-0x11ae090
-
+Good!
+Thank you very much.
 
 -- 
-Alexey Samsonov, MSK
+Best Regards,
+Peng
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
