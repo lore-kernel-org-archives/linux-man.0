@@ -1,7 +1,7 @@
 From: "Aneesh Kumar K.V" <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 Subject: Re: For review: open_by_handle_at(2) man page [v4]
-Date: Fri, 04 Apr 2014 16:10:01 +0530
-Message-ID: <8761mpnzsu.fsf@linux.vnet.ibm.com>
+Date: Fri, 04 Apr 2014 16:15:41 +0530
+Message-ID: <8738htnzje.fsf@linux.vnet.ibm.com>
 References: <CAKgNAkgtrc73kawRuoa-VoNx7DY2Ld+Qxwp5GNj9syxOmN_ctA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -272,12 +272,6 @@ List-Id: linux-man@vger.kernel.org
 > .B O_NOFOLLOW
 > flag, if specified, is ignored.
 >
-
-If the handler refer a symlink and if O_PATH is not specified one would
-get -ELOOP error.
-
-
-
 >
 > The caller must have the
 > .B CAP_DAC_READ_SEARCH
@@ -376,11 +370,6 @@ get -ELOOP error.
 > refers to a symbolic link, but
 > .B O_PATH
 > was not specified in
-
-
-That is correct.
-
-
 > .IR flags .
 > .TP
 > .B EPERM
@@ -448,6 +437,14 @@ That is correct.
 > .BR readlinkat (2)
 > and
 > .BR fchownat (2).
+
+
+You may want to specify that one need to pass AT_EMPTY_PATH in case of
+fchownat ? readlinkat do take null names, because there is no flags
+argument. For syscalls that take flags, to make it operate on fd, one
+need to pass "" path name and a flag value of AT_EMPTY_PATH.
+
+
 > .SS Obtaining a persistent filesystem ID
 > The mount IDs in
 > .IR /proc/self/mountinfo
