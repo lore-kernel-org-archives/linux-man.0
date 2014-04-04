@@ -1,174 +1,204 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
 Subject: Re: Things I wish I'd known about Inotify
-Date: Fri, 04 Apr 2014 09:35:50 +0200
-Message-ID: <533E60D6.2000704@gmail.com>
-References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com> <20140403205236.GE14107@quack.suse.cz>
+Date: Fri, 04 Apr 2014 09:59:47 +0200
+Message-ID: <533E6673.4020606@gmail.com>
+References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com> <871txeifsv.fsf@x220.int.ebiederm.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20140403205236.GE14107@quack.suse.cz>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Jan Kara <jack@suse.cz>
-Cc: mtk.manpages@gmail.com, John McCutchan <john@johnmccutchan.com>, Robert Love <rlove@rlove.org>, Eric Paris <eparis@redhat.com>, Lennart Poettering <lennart@poettering.net>, radu.voicilas@gmail.com, daniel@veillard.com, Christoph Hellwig <hch@infradead.org>, Vegard Nossum <vegard.nossum@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, gamin-list@gnome.org, lkml <linux-kernel@vger.kernel.org>, inotify-tools-general@lists.sourceforge.net
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+In-Reply-To: <871txeifsv.fsf@x220.int.ebiederm.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Eric W. Biederman" <ebiederm@xmission.com>, John McCutchan <john@johnmccutchan.com>, Robert Love <rlove@rlove.org>, Eric Paris <eparis@redhat.com>, Lennart Poettering <lennart@poettering.net>, radu.voicilas@gmail.com, daniel@veillard.com
+Cc: mtk.manpages@gmail.com, Christoph Hellwig <hch@infradead.org>, Vegard Nossum <vegard.nossum@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, gamin-list@gnome.org, lkml <linux-kernel@vger.kernel.org>, inotify-tools-general@lists.sourceforge.net, Al Viro <viro@zeniv.linux.org.uk>, Linus Torvalds <torvalds@linux-foundation.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/03/2014 10:52 PM, Jan Kara wrote:
-> On Thu 03-04-14 08:34:44, Michael Kerrisk (man-pages) wrote:
->>    Limitations and caveats
->>        The inotify API provides no information about the user or pro=
-cess
->>        that triggered the inotify event.  In  particular,  there  is=
-  no
->>        easy  way  for a process that is monitoring events via inotif=
-y to
->>        distinguish events that it triggers itself from  those  that =
- are
->>        triggered by other processes.
->>
->>        The  inotify API identifies affected files by filename.  Howe=
-ver,
->>        by the time an application processes an inotify event, the  f=
-ile=E2=80=90
->>        name may already have been deleted or renamed.
->>
->>        The  inotify  API identifies events via watch descriptors.  I=
-t is
->>        the application's responsibility to cache a mapping  (if  one=
-  is
->>        needed)  between  watch descriptors and pathnames.  Be aware =
-that
->>        directory renamings may affect multiple cached pathnames.
->>
->>        Inotify monitoring of directories is not  recursive:  to  mon=
-itor
->>        subdirectories under a directory, additional watches must be =
-cre=E2=80=90
->>        ated.  This can take a significant amount time for  large  di=
-rec=E2=80=90
->>        tory trees.
->   And also there's a problem with the limit on the number of watches =
-a user
-> can have.
+[CC +=3D Al Viro & Linux, since they also discussed the point about
+remote filesystems and /proc and /sys here:
+http://thread.gmane.org/gmane.linux.file-systems/83641/focus=3D83713 .]
 
-What is the problem exactly (given that the limit is configurable)?
-
->>        If monitoring an entire directory subtree, and a new subdirec=
-tory
->>        is created in that tree or an existing directory is renamed  =
-into
->>        that  tree,  be aware that by the time you create a watch for=
- the
->>        new subdirectory, new  files  (and  subdirectories)  may  alr=
-eady
->>        exist  inside  the subdirectory.  Therefore, you may want to =
-scan
->>        the contents of the subdirectory  immediately  after  adding =
- the
->>        watch (and, if desired, recursively add watches for any subdi=
-rec=E2=80=90
->>        tories that it contains).
+On 04/03/2014 05:38 PM, Eric W. Biederman wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+>=20
+>> (To: =3D=3D [the set of people I believe know a lot about inotify])
 >>
->>        Note that the event queue can overflow.  In this case, events=
- are
->>        lost.   Robust applications should handle the possibility of =
-lost
->>        events gracefully.  For example, it may be necessary  to  reb=
-uild
->>        part  or all of the application cache.  (One simple, but poss=
-ibly
->>        expensive, approach is to  close  the  inotify  file  descrip=
-tor,
->>        empty  the  cache, create a new inotify file descriptor, and =
-then
->>        re-create watches and cache entries for the objects to  be  m=
-oni=E2=80=90
->>        tored.)
+>> Hello all,
 >>
->>    Dealing with rename() events
->>        The  IN_MOVED_FROM  and  IN_MOVED_TO events that are generate=
-d by
->>        rename(2) are usually available as consecutive events when  r=
-ead=E2=80=90
->>        ing from the inotify file descriptor.  However, this is not g=
-uar=E2=80=90
->>        anteed.  If multiple processes are triggering  events  for  m=
-oni=E2=80=90
->>        tored  objects,  then  (on rare occasions) an arbitrary numbe=
-r of
->>        other events may appear between the IN_MOVED_FROM and IN_MOVE=
-D_TO
->>        events.
+>> Lately, I've been studying the inotify API fairly thoroughly and
+>> realized that there's a very big gap between knowing what the system
+>> calls do versus using them to reliably and efficiently monitor the
+>> state of a set of filesystem objects.
 >>
->>        Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pair ge=
-ner=E2=80=90
->>        ated by rename(2) is thus inherently racy.  (Don't forget tha=
-t if
->>        an  object is renamed outside of a monitored directory, there=
- may
->>        not even be an IN_MOVED_TO event.)  Heuristic  approaches  (e=
-=2Eg.,
->>        assume the events are always consecutive) can be used to ensu=
-re a
->>        match in most cases, but will inevitably miss some cases, cau=
-sing
->>        the  application  to  perceive  the IN_MOVED_FROM and IN_MOVE=
-D_TO
->>        events as being unrelated.  If watch  descriptors  are  destr=
-oyed
->>        and  re-created as a result, then those watch descriptors wil=
-l be
->>        inconsistent with the watch descriptors in  any  pending  eve=
-nts.
->>        (Re-creating the inotify file descriptor and rebuilding the c=
-ache
->>        may be useful to deal with this scenario.)
->   Well, but there's 'cookie' value meant exactly for matching up
-> IN_MOVED_FROM and IN_MOVED_TO events. And 'cookie' is guaranteed to b=
-e
-> unique at least within the inotify instance (in fact currently it is =
-unique
-> within the whole system but I don't think we want to give that promis=
-e).
-
-Yes, that's already assumed by my discussion above (its described elsew=
-here
-in the page). But your comment makes me think I should add a few words =
+>> With that in mind, I've drafted some substantial additions to the
+>> inotify(7) man page. I would be very happy if folk on the "To:" list
+>> could comment on the text below, since I believe you all have a lot =
+of
+>> practical experience with Inotify. (Of course, I also welcome commen=
+ts
+>> from anyone else.) In particular, I would like comments on the
+>> accuracy of the various technical points (especially those relating =
 to
-remind the reader of that fact. I'll do that.
+>> matching up related IN_MOVED_FROM and IN_MOVED_TO events), as well a=
+s
+>> pointers on any other pitfalls that the programmers should be wary o=
+f
+>> that should be added to the page.
+>=20
+>=20
+> Other pitfalls.
+>=20
+> Inotify only report events that a user space program triggers through
+> the filesystem API.  Which means inotify is limited for remote
+> filesystems, and filesystems like proc and sys have no monitorable
 
-But, the point is that even with the cookie, matching the events is=20
-nontrivial, since:
+Good point. I recently got CCed on that very point, but hadn't=20
+added it to the page. I've added it now.=20
 
-* There may not even be an IN_MOVED_FROM event
-* There may be an arbitrary number of other events in between the=20
-  IN_MOVED_FROM and the IN_MOVED_TO.
-
-Therefore, one has to use heuristic approaches such as "allow at least
-N millisconds" or "check the next N events" to see if there is an
-IN_MOVED_FROM that matches the IN_MOVED_TO. I can't see any way around
-that being inherently racy. (It's unfortunate that the kernel can't=20
-provide a guarantee that the two events are always consecutive, since
-that would simply user space's life considerably.)
+Revised text below, after incorporating changes from your comments and =
+those
+of Jan Kara.
 
 Cheers,
 
 Michael
 
 
->>        Applications should also  allow  for  the  possibility  that =
- the
->>        IN_MOVED_FROM event was the last event that could fit in the =
-buf=E2=80=90
->>        fer returned by the current call to read(2), and the accompan=
-ying
->>        IN_MOVED_TO event might be fetched only on the next read(2).
->=20
-> 								Honza
->=20
+   Limitations and caveats
+       The inotify API provides no information about the user or proces=
+s
+       that triggered the inotify event.  In  particular,  there  is  n=
+o
+       easy  way  for a process that is monitoring events via inotify t=
+o
+       distinguish events that it triggers itself from  those  that  ar=
+e
+       triggered by other processes.
+
+       Inotify  reports  only  events that a user-space program trigger=
+s
+       through the filesystem API.  As  a  result,  it  does  not  catc=
+h
+       remote  events  that occur on network filesystems.  (Application=
+s
+       must fall back to polling the filesystem to catch  such  events.=
+)
+       Furthermore, various virtual filesystems such as /proc, /sys, an=
+d
+       /dev/pts are not monitorable with inotify.
+
+       The inotify API identifies affected files by filename.   However=
+,
+       by  the time an application processes an inotify event, the file=
+=E2=80=90
+       name may already have been deleted or renamed.
+
+       The inotify API identifies events via watch descriptors.   It  i=
+s
+       the  application's  responsibility  to cache a mapping (if one i=
+s
+       needed) between watch descriptors and pathnames.  Be  aware  tha=
+t
+       directory renamings may affect multiple cached pathnames.
+
+       Inotify  monitoring  of  directories is not recursive: to monito=
+r
+       subdirectories under a directory, additional watches must be cre=
+=E2=80=90
+       ated.   This  can take a significant amount time for large direc=
+=E2=80=90
+       tory trees.
+
+       If monitoring an entire directory subtree, and a new subdirector=
+y
+       is  created in that tree or an existing directory is renamed int=
+o
+       that tree, be aware that by the time you create a watch  for  th=
+e
+       new  subdirectory,  new  files  (and  subdirectories) may alread=
+y
+       exist inside the subdirectory.  Therefore, you may want  to  sca=
+n
+       the  contents  of  the  subdirectory immediately after adding th=
+e
+       watch (and, if desired, recursively add watches for any subdirec=
+=E2=80=90
+       tories that it contains).
+
+       Note that the event queue can overflow.  In this case, events ar=
+e
+       lost.  Robust applications should handle the possibility of  los=
+t
+       events  gracefully.   For example, it may be necessary to rebuil=
+d
+       part or all of the application cache.  (One simple, but  possibl=
+y
+       expensive,  approach  is  to  close  the inotify file descriptor=
+,
+       empty the cache, create a new inotify file descriptor,  and  the=
+n
+       re-create  watches  and cache entries for the objects to be moni=
+=E2=80=90
+       tored.)
+
+   Dealing with rename() events
+       As noted above, the IN_MOVED_FROM and IN_MOVED_TO event pair tha=
+t
+       is  generated  by  rename(2)  can  be matched up via their share=
+d
+       cookie value.  However, the task of matching has some challenges=
+=2E
+
+       These two events are usually  consecutive  in  the  event  strea=
+m
+       available  when  reading  from the inotify file descriptor.  How=
+=E2=80=90
+       ever, this is not guaranteed.  If multiple processes are trigger=
+=E2=80=90
+       ing  events  for  monitored  objects, then (on rare occasions) a=
+n
+       arbitrary  number  of  other  events  may  appear   between   th=
+e
+       IN_MOVED_FROM and IN_MOVED_TO events.
+
+       Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pair gener=
+=E2=80=90
+       ated by rename(2) is thus inherently racy.  (Don't forget that i=
+f
+       an  object is renamed outside of a monitored directory, there ma=
+y
+       not even be an IN_MOVED_TO event.)  Heuristic  approaches  (e.g.=
+,
+       assume the events are always consecutive) can be used to ensure =
+a
+       match in most cases, but will inevitably miss some cases, causin=
+g
+       the  application  to  perceive  the IN_MOVED_FROM and IN_MOVED_T=
+O
+       events as being unrelated.  If watch  descriptors  are  destroye=
+d
+       and  re-created as a result, then those watch descriptors will b=
+e
+       inconsistent with the watch descriptors in  any  pending  events=
+=2E
+       (Re-creating the inotify file descriptor and rebuilding the cach=
+e
+       may be useful to deal with this scenario.)
+
+       Applications should also  allow  for  the  possibility  that  th=
+e
+       IN_MOVED_FROM event was the last event that could fit in the buf=
+=E2=80=90
+       fer returned by the current call to read(2), and the accompanyin=
+g
+       IN_MOVED_TO event might be fetched only on the next read(2).
 
 
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
+" in
+the body of a message to majordomo@vger.kernel.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
