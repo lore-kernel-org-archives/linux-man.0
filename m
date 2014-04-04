@@ -1,21 +1,21 @@
-From: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: Things I wish I'd known about Inotify
-Date: Fri, 4 Apr 2014 15:08:38 +0200
-Message-ID: <CANq1E4T4=uZbv4ZLvMYk9w4TBkqSQtpy966uoiswVvQYSW_kYw@mail.gmail.com>
+Date: Fri, 04 Apr 2014 10:50:29 -0400
+Message-ID: <1396623029.2608.15.camel@localhost>
 References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com>
-	<CANq1E4RzNA_ajEwf1rRbTa8xOP392_YfD0mShK6QV=FexoOpUA@mail.gmail.com>
+	 <CANq1E4RzNA_ajEwf1rRbTa8xOP392_YfD0mShK6QV=FexoOpUA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <CANq1E4RzNA_ajEwf1rRbTa8xOP392_YfD0mShK6QV=FexoOpUA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+To: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi
+On Fri, 2014-04-04 at 15:00 +0200, David Herrmann wrote:
 
-On Fri, Apr 4, 2014 at 3:00 PM, David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 > 1)
 > IN_IGNORED is async and _immediate_ in case a file got deleted. So if
 > you use watch-descriptors as keys for your objects, an _already_ used
@@ -28,32 +28,17 @@ On Fri, Apr 4, 2014 at 3:00 PM, David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx
 >    automatically (file was deleted, or filesystem was unmounted)."
 > I think we should add a note to BUGS that mentions this race (which is
 > really not obvious from the description).
->
+> 
 > This race could be fixed by requiring an explicit inotify_rm_watch()
 > if an IN_IGNORED was generated asynchronously.
->
-> 2)
-> inotify_add_watch() is based on inodes. So if you call it on
-> hardlinks, you will modify the existing watch instead of creating a
-> new one. This is often really annoying and I think an IN_FORCE_NEW
-> flag that disables this would be really nice. Imagine the following
-> code:
->
-> wd1 = inotify_add_watch(fd, A);
-> wd2 = inotify_add_watch(fd, B);
-> ...
-> inotify_rm_watch(fd, wd2);
-> wd3 = inotify_add_watch(fd, C);
-> ...
-> inotify_rm_watch(fd, wd1);
-> ...
-> inotify_rm_watch(fd, wd3);
->
-> If A and B are hardlinks to the same file, then wd1==wd2. Therefore,
-> after wd2 was removed, we _might_ end up with wd3==wd1 and thus remove
-> wd3 early (which obviously is not intended). So simple code like this
-> doesn't work. You have to verify whether returned handles are
-> duplicates or new. An IN_FORCE_NEW flag would really help here.
+
+For a brief while after the introduction of fsnotify this was a problem,
+but not before then, or on anything remotely recent (like 4-5 years?).
+We didn't re-use watch descriptors at all, so if you get a notification
+after the IGNORED, its still the old one.  Today it's possible to wrap
+around at INT_MAX and reuse, but that is a tee tiny issue...
+
+----
 
 Note that both of these races rely on watch-descriptors being reused
 after they were freed. Turns out, that was "fixed" about exactly 1
@@ -69,8 +54,11 @@ So in case that was never backported, only older kernels are affected.
 In newer kernels, wd reuse is quite unlikely. The races are still
 there, though.
 
-Thanks
-David
+----
+
+Actually that has nothing to do with it.  If anything, it reintroduces
+the reuse since now it wraps instead of fails...
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
