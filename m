@@ -1,178 +1,72 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+From: David Herrmann <dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: Things I wish I'd known about Inotify
-Date: Fri, 4 Apr 2014 14:43:38 +0200
-Message-ID: <20140404124338.GA26806@quack.suse.cz>
+Date: Fri, 4 Apr 2014 15:00:32 +0200
+Message-ID: <CANq1E4RzNA_ajEwf1rRbTa8xOP392_YfD0mShK6QV=FexoOpUA@mail.gmail.com>
 References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com>
- <20140403205236.GE14107@quack.suse.cz>
- <533E60D6.2000704@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <533E60D6.2000704-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, radu.voicilas-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, daniel-dYEgDbNUoShWk0Htik3J/w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri 04-04-14 09:35:50, Michael Kerrisk (man-pages) wrote:
-> On 04/03/2014 10:52 PM, Jan Kara wrote:
-> > On Thu 03-04-14 08:34:44, Michael Kerrisk (man-pages) wrote:
-> >>    Limitations and caveats
-> >>        The inotify API provides no information about the user or p=
-rocess
-> >>        that triggered the inotify event.  In  particular,  there  =
-is  no
-> >>        easy  way  for a process that is monitoring events via inot=
-ify to
-> >>        distinguish events that it triggers itself from  those  tha=
-t  are
-> >>        triggered by other processes.
-> >>
-> >>        The  inotify API identifies affected files by filename.  Ho=
-wever,
-> >>        by the time an application processes an inotify event, the =
- file=E2=80=90
-> >>        name may already have been deleted or renamed.
-> >>
-> >>        The  inotify  API identifies events via watch descriptors. =
- It is
-> >>        the application's responsibility to cache a mapping  (if  o=
-ne  is
-> >>        needed)  between  watch descriptors and pathnames.  Be awar=
-e that
-> >>        directory renamings may affect multiple cached pathnames.
-> >>
-> >>        Inotify monitoring of directories is not  recursive:  to  m=
-onitor
-> >>        subdirectories under a directory, additional watches must b=
-e cre=E2=80=90
-> >>        ated.  This can take a significant amount time for  large  =
-direc=E2=80=90
-> >>        tory trees.
-> >   And also there's a problem with the limit on the number of watche=
-s a user
-> > can have.
->=20
-> What is the problem exactly (given that the limit is configurable)?
-  Well, if you want to watch the whole home directory and you have a la=
-rge
-one, you may run into that limit. Sure you can ask sysadmin to raise th=
-e
-limit but it's a bit anoying.
+Hi
 
-> >>        If monitoring an entire directory subtree, and a new subdir=
-ectory
-> >>        is created in that tree or an existing directory is renamed=
-  into
-> >>        that  tree,  be aware that by the time you create a watch f=
-or the
-> >>        new subdirectory, new  files  (and  subdirectories)  may  a=
-lready
-> >>        exist  inside  the subdirectory.  Therefore, you may want t=
-o scan
-> >>        the contents of the subdirectory  immediately  after  addin=
-g  the
-> >>        watch (and, if desired, recursively add watches for any sub=
-direc=E2=80=90
-> >>        tories that it contains).
-> >>
-> >>        Note that the event queue can overflow.  In this case, even=
-ts are
-> >>        lost.   Robust applications should handle the possibility o=
-f lost
-> >>        events gracefully.  For example, it may be necessary  to  r=
-ebuild
-> >>        part  or all of the application cache.  (One simple, but po=
-ssibly
-> >>        expensive, approach is to  close  the  inotify  file  descr=
-iptor,
-> >>        empty  the  cache, create a new inotify file descriptor, an=
-d then
-> >>        re-create watches and cache entries for the objects to  be =
- moni=E2=80=90
-> >>        tored.)
-> >>
-> >>    Dealing with rename() events
-> >>        The  IN_MOVED_FROM  and  IN_MOVED_TO events that are genera=
-ted by
-> >>        rename(2) are usually available as consecutive events when =
- read=E2=80=90
-> >>        ing from the inotify file descriptor.  However, this is not=
- guar=E2=80=90
-> >>        anteed.  If multiple processes are triggering  events  for =
- moni=E2=80=90
-> >>        tored  objects,  then  (on rare occasions) an arbitrary num=
-ber of
-> >>        other events may appear between the IN_MOVED_FROM and IN_MO=
-VED_TO
-> >>        events.
-> >>
-> >>        Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pair =
-gener=E2=80=90
-> >>        ated by rename(2) is thus inherently racy.  (Don't forget t=
-hat if
-> >>        an  object is renamed outside of a monitored directory, the=
-re may
-> >>        not even be an IN_MOVED_TO event.)  Heuristic  approaches  =
-(e.g.,
-> >>        assume the events are always consecutive) can be used to en=
-sure a
-> >>        match in most cases, but will inevitably miss some cases, c=
-ausing
-> >>        the  application  to  perceive  the IN_MOVED_FROM and IN_MO=
-VED_TO
-> >>        events as being unrelated.  If watch  descriptors  are  des=
-troyed
-> >>        and  re-created as a result, then those watch descriptors w=
-ill be
-> >>        inconsistent with the watch descriptors in  any  pending  e=
-vents.
-> >>        (Re-creating the inotify file descriptor and rebuilding the=
- cache
-> >>        may be useful to deal with this scenario.)
-> >   Well, but there's 'cookie' value meant exactly for matching up
-> > IN_MOVED_FROM and IN_MOVED_TO events. And 'cookie' is guaranteed to=
- be
-> > unique at least within the inotify instance (in fact currently it i=
-s unique
-> > within the whole system but I don't think we want to give that prom=
-ise).
->=20
-> Yes, that's already assumed by my discussion above (its described els=
-ewhere
-> in the page). But your comment makes me think I should add a few word=
-s to
-> remind the reader of that fact. I'll do that.
-  Yes, that would be good.
+On Thu, Apr 3, 2014 at 8:34 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> With that in mind, I've drafted some substantial additions to the
+> inotify(7) man page. I would be very happy if folk on the "To:" list
+> could comment on the text below, since I believe you all have a lot of
+> practical experience with Inotify. (Of course, I also welcome comments
+> from anyone else.) In particular, I would like comments on the
+> accuracy of the various technical points (especially those relating to
+> matching up related IN_MOVED_FROM and IN_MOVED_TO events), as well as
+> pointers on any other pitfalls that the programmers should be wary of
+> that should be added to the page.
 
-> But, the point is that even with the cookie, matching the events is=20
-> nontrivial, since:
->=20
-> * There may not even be an IN_MOVED_FROM event
-> * There may be an arbitrary number of other events in between the=20
->   IN_MOVED_FROM and the IN_MOVED_TO.
->=20
-> Therefore, one has to use heuristic approaches such as "allow at leas=
-t
-> N millisconds" or "check the next N events" to see if there is an
-> IN_MOVED_FROM that matches the IN_MOVED_TO. I can't see any way aroun=
-d
-> that being inherently racy. (It's unfortunate that the kernel can't=20
-> provide a guarantee that the two events are always consecutive, since
-> that would simply user space's life considerably.)
-  Yeah, it's unpleasant but doing that would be quite costly/complex at=
- the
-kernel side. And the race would in the worst case lead to application
-thinking there's been file moved outside of watched area & a file moved
-somewhere else inside the watched area. So the application will have to
-possibly inspect that file. That doesn't seem too bad.
+1)
+IN_IGNORED is async and _immediate_ in case a file got deleted. So if
+you use watch-descriptors as keys for your objects, an _already_ used
+key might be returned by inotify_add_watch() if an IN_IGNORED is
+queued for the old watch (which implicitly destroys the watch). Once
+you read the IN_IGNORED from the queue, there is usually no way to
+know whether it's generated by the old watch or by the new. The
+man-page mentions this in:
+  "IN_IGNORED:  Watch was removed explicitly (inotify_rm_watch(2)) or
+   automatically (file was deleted, or filesystem was unmounted)."
+I think we should add a note to BUGS that mentions this race (which is
+really not obvious from the description).
 
-								Honza
---=20
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+This race could be fixed by requiring an explicit inotify_rm_watch()
+if an IN_IGNORED was generated asynchronously.
+
+2)
+inotify_add_watch() is based on inodes. So if you call it on
+hardlinks, you will modify the existing watch instead of creating a
+new one. This is often really annoying and I think an IN_FORCE_NEW
+flag that disables this would be really nice. Imagine the following
+code:
+
+wd1 = inotify_add_watch(fd, A);
+wd2 = inotify_add_watch(fd, B);
+...
+inotify_rm_watch(fd, wd2);
+wd3 = inotify_add_watch(fd, C);
+...
+inotify_rm_watch(fd, wd1);
+...
+inotify_rm_watch(fd, wd3);
+
+If A and B are hardlinks to the same file, then wd1==wd2. Therefore,
+after wd2 was removed, we _might_ end up with wd3==wd1 and thus remove
+wd3 early (which obviously is not intended). So simple code like this
+doesn't work. You have to verify whether returned handles are
+duplicates or new. An IN_FORCE_NEW flag would really help here.
+
+Thanks
+David
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
