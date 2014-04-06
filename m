@@ -1,132 +1,403 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: Things I wish I'd known about Inotify
-Date: Sun, 06 Apr 2014 11:00:29 +0200
-Message-ID: <534117AD.1030708@gmail.com>
-References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com> <20140403205236.GE14107@quack.suse.cz> <533E60D6.2000704@gmail.com> <20140404124338.GA26806@quack.suse.cz>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.64 released
+Date: Sun, 06 Apr 2014 12:02:05 +0200
+Message-ID: <5341261D.1080709@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-Reply-To: <20140404124338.GA26806@quack.suse.cz>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: Jan Kara <jack@suse.cz>
-Cc: mtk.manpages@gmail.com, John McCutchan <john@johnmccutchan.com>, Robert Love <rlove@rlove.org>, Eric Paris <eparis@redhat.com>, Lennart Poettering <lennart@poettering.net>, radu.voicilas@gmail.com, daniel@veillard.com, Christoph Hellwig <hch@infradead.org>, Vegard Nossum <vegard.nossum@oracle.com>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, gamin-list@gnome.org, lkml <linux-kernel@vger.kernel.org>, inotify-tools-general@lists.sourceforge.net
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/04/2014 02:43 PM, Jan Kara wrote:
-> On Fri 04-04-14 09:35:50, Michael Kerrisk (man-pages) wrote:
->> On 04/03/2014 10:52 PM, Jan Kara wrote:
->>> On Thu 03-04-14 08:34:44, Michael Kerrisk (man-pages) wrote:
+Gidday,
 
-[...]
+The Linux man-pages maintainer proudly announces:
 
->>>>    Dealing with rename() events
->>>>        The  IN_MOVED_FROM  and  IN_MOVED_TO events that are genera=
-ted by
->>>>        rename(2) are usually available as consecutive events when =
- read=E2=80=90
->>>>        ing from the inotify file descriptor.  However, this is not=
- guar=E2=80=90
->>>>        anteed.  If multiple processes are triggering  events  for =
- moni=E2=80=90
->>>>        tored  objects,  then  (on rare occasions) an arbitrary num=
-ber of
->>>>        other events may appear between the IN_MOVED_FROM and IN_MO=
-VED_TO
->>>>        events.
->>>>
->>>>        Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pair =
-gener=E2=80=90
->>>>        ated by rename(2) is thus inherently racy.  (Don't forget t=
-hat if
->>>>        an  object is renamed outside of a monitored directory, the=
-re may
->>>>        not even be an IN_MOVED_TO event.)  Heuristic  approaches  =
-(e.g.,
->>>>        assume the events are always consecutive) can be used to en=
-sure a
->>>>        match in most cases, but will inevitably miss some cases, c=
-ausing
->>>>        the  application  to  perceive  the IN_MOVED_FROM and IN_MO=
-VED_TO
->>>>        events as being unrelated.  If watch  descriptors  are  des=
-troyed
->>>>        and  re-created as a result, then those watch descriptors w=
-ill be
->>>>        inconsistent with the watch descriptors in  any  pending  e=
-vents.
->>>>        (Re-creating the inotify file descriptor and rebuilding the=
- cache
->>>>        may be useful to deal with this scenario.)
->>>   Well, but there's 'cookie' value meant exactly for matching up
->>> IN_MOVED_FROM and IN_MOVED_TO events. And 'cookie' is guaranteed to=
- be
->>> unique at least within the inotify instance (in fact currently it i=
-s unique
->>> within the whole system but I don't think we want to give that prom=
-ise).
->>
->> Yes, that's already assumed by my discussion above (its described el=
-sewhere
->> in the page). But your comment makes me think I should add a few wor=
-ds to
->> remind the reader of that fact. I'll do that.
->   Yes, that would be good.
->=20
->> But, the point is that even with the cookie, matching the events is=20
->> nontrivial, since:
->>
->> * There may not even be an IN_MOVED_FROM event
->> * There may be an arbitrary number of other events in between the=20
->>   IN_MOVED_FROM and the IN_MOVED_TO.
->>
->> Therefore, one has to use heuristic approaches such as "allow at lea=
-st
->> N millisconds" or "check the next N events" to see if there is an
->> IN_MOVED_FROM that matches the IN_MOVED_TO. I can't see any way arou=
-nd
->> that being inherently racy. (It's unfortunate that the kernel can't=20
->> provide a guarantee that the two events are always consecutive, sinc=
-e
->> that would simply user space's life considerably.)
+    man-pages-3.64 - man pages for Linux
 
->   Yeah, it's unpleasant but doing that would be quite costly/complex =
-at the
-> kernel side.=20
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.64
 
-Yep, I imagined that was probably the reason.
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2014/04/man-pages-364-is-released.h=
+tml
 
-> And the race would in the worst case lead to application
-> thinking there's been file moved outside of watched area & a file mov=
-ed
-> somewhere else inside the watched area. So the application will have =
-to
-> possibly inspect that file. That doesn't seem too bad.
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
 
-It's actually very bad. See the text above. The point is that one likel=
-y
-treatment on an IN_MOVED_FROM event that has no IN_MOVED_TO is to remov=
-e
-the watches for the moved out subtree. If it turns out that this really
-was just a rename(), then on the IN_MOVED_TO, the watches will be recre=
-ated
-*with different watch descriptors*, thus invalidating the watch descrip=
-tors
-in any queued but as yet unprocessed inotify events. See what I mean?=20
-That's quite painful for user space.
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+   of a translation of the manual pages, or are the maintainer of the
+   manual pages set in a particular distribution, or have expressed
+   interest in helping with man-pages maintenance, or have otherwise
+   expressed interest in being notified about man-pages releases.
+   If you don't want to receive such messages from me, or you know of
+   some other translator or maintainer who may want to receive such
+   notifications, send me a message.
 
 Cheers,
 
 Michael
 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
+ man-pages-3.64 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 
+Released: 2014-04-06, Munich
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Abhay Sachan <sachan.abhay-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+David Pr=C3=A9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
+Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>
+Robert P. J. Day <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
+Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+open_by_handle_at.2
+    Michael Kerrisk [Mike Frysinger, Neil Brown, Aneesh Kumar K.V,
+    Christoph Hellwig]
+        New page describing name_to_handle_at(2) and open_by_handle_at(=
+2)
+
+inotify.7
+    Michael Kerrisk
+        Rewrite introductory section
+        Reorganize "Limitations and caveats" subsection
+    Michael Kerrisk
+        Further describe the race when adding a watch to a new subtree
+    Michael Kerrisk
+        Directory renames may invalidate multiple paths cached by appli=
+cation
+    Michael Kerrisk
+        Add paragraph on cache consistency checking
+    Michael Kerrisk
+        Mention cache rebuilding to handle overflow events
+    Michael Kerrisk
+        Moving an object to another filesystem generates IN_DELETE_SELF
+    Michael Kerrisk [Jan Kara]
+        Add text on dealing with rename() events
+    Michael Kerrisk
+        Note rationale and consequences of event coalescing
+    Michael Kerrisk  [Eric W. Biederman]
+        Inotify doesn't work for remote and pseudo filesystems
+    Michael Kerrisk
+        Add some examples of events generated by various system calls
+    Michael Kerrisk
+        BUGS: IN_ONESHOT does now cause IN_IGNORED when the watch is dr=
+opped
+            A silent change as a result of the fanotify work in kernel =
+2.6.36.
+    Michael Kerrisk
+        Note that IN_DELETE_SELF will be followed by IN_IGNORED
+    Michael Kerrisk
+        Note that IN_UNMOUNT will be followed by an IN_IGNORED event
+    Michael Kerrisk
+        Inotify does not report events for mmap(2) and msync(2)
+    Michael Kerrisk
+        Add examples of syscalls that trigger IN_ATTRIB
+    Michael Kerrisk
+        Add some examples of syscalls that trigger IN_MODIFY
+    Michael Kerrisk
+        execve(2) also generates IN_ACCESS
+    Michael Kerrisk
+        Add examples of syscalls that trigger IN_CREATE
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+perf_event_open.2
+    Vince Weaver [Michael Kerrisk]
+        Document the PERF_FLAG_FD_CLOEXEC flag
+            The Linux 3.14 release adds support for the PERF_FLAG_FD_CL=
+OEXEC
+            flag.
+
+feature_test_macros.7
+    Michael Kerrisk
+        Document _LARGEFILE_SOURCE
+
+tcp.7
+    Michael Kerrisk  [Eric Dumazet]
+        Document /proc/sys/net/ipv4/tcp_autocorking
+            Text heavily based on Documentation/networking/ip-sysctl.tx=
+t
+
+
+New and changed links
+---------------------
+
+name_to_handle_at.2
+    Michael Kerrisk
+        New link to new open_by_name_at(2) page
+
+
+Global changes
+--------------
+
+fmemopen.3
+getaddrinfo.3
+mq_notify.3
+offsetof.3
+aio.7
+    Michael Kerrisk
+        Print size_t/ssize_t values using %z printf() modifier
+            There are fewer and fewer systems these days that don't
+            support the %z specifier mandated in C99.  So replace the
+            use of %ld/%lu + (long) cast with %zd/%zu.
+
+
+Changes to individual pages
+---------------------------
+
+bdflush.2
+fsync.2
+sync.2
+    Kir Kolyshkin
+        SEE ALSO: remove update(8) reference
+            Remove reference to update(8) man page, since there is no s=
+uch
+            page. This is an ancient BSD leftover I believe.
+
+chown.2
+    Michael Kerrisk
+        Note that 'dirfd' can be AT_FDCWD when AT_EMPTY_PATH is used
+
+getxattr.2
+    Abhay Sachan
+        Fix RETURN VALUE description
+            A EA can have length zero.
+
+inotify_add_watch.2
+    Michael Kerrisk
+        ERRORS: add ENAMETOOLONG
+
+inotify_init.2
+    Michael Kerrisk
+        Add pointer to inotify(7)
+
+link.2
+    Michael Kerrisk
+        When AT_EMPTY_PATH is specified, 'olddirfd' must not refer to a
+        directory
+
+mmap.2
+    Andrey Vagin
+        The file descriptor for a file mapping must be readable
+            There is no difference between MAP_SHARED and MAP_PRIVATE.
+
+open.2
+    Michael Kerrisk
+        SEE ALSO: add open_by_name_at(2)
+
+perf_event_open.2
+    Vince Weaver
+        Document PERF_EVENT_IOC_PERIOD behavior change
+            Linux 3.14 (in commit bad7192b842c83e580747ca57104dd51fe08c=
+223)
+            changes the perf_event PERF_EVENT_IOC_PERIOD ioctl() behavi=
+or
+            on all architectures to update immediately, to match the be=
+havior
+            found on ARM.
+
+stat.2
+    Michael Kerrisk
+        Note that 'dirfd' can be AT_FDCWD when AT_EMPTY_PATH is used
+
+syscalls.2
+    Michael Kerrisk
+        Add sched_getattr() and sched_setattr()
+            And update kernel version to 3.14
+
+abort.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function abort() is thread safe.
+
+confstr.3
+    Michael Kerrisk
+        SEE ALSO: add getconf(1), fpathconf(3), sysconf(3), pathconf(3)
+
+exit.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is not thread-safe
+            The function exit() is not thread safe.
+
+fenv.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions feclearexcept(), fegetexceptflag(), feraiseex=
+cept(),
+            fesetexceptflag(), fetestexcept(), fegetround(), fesetround=
+(),
+            fegetenv(), feholdexcept(), fesetenv(), feupdateenv(),
+            feenableexcept(), fedisableexcept() and fegetexcept() are t=
+hread
+            safe.
+
+fpathconf.3
+    Michael Kerrisk
+        SEE ALSO: add confstr(3)
+
+fseek.3
+    Michael Kerrisk  [Petr Gajdos]
+        Document EINVAL error for negative file offset
+
+fseeko.3
+    Michael Kerrisk
+        Add feature test macro requirements
+
+fts.3
+    Michael Kerrisk  [Mike Frysinger]
+        Remove mention of "32-bit systems" in BUGS
+
+fwide.3
+wprintf.3
+    Michael Kerrisk  [Robert P. J. Day]
+        Remove mention of bogus _ISOC95_SOURCE feature test macro
+
+getline.3
+    Alexey Samsonov
+        Caller should free the allocated buffer even if getline() faile=
+d
+            Relevant discussion in glibc bugzilla:
+            https://sourceware.org/bugzilla/show_bug.cgi?id=3D5666
+
+getloadavg.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function getloadavg() is thread safe.
+
+getpt.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function getpt() is thread safe.
+
+if_nametoindex.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions if_nametoindex() and if_indextoname() are thr=
+ead safe.
+
+index.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions index() and rindex() are thread safe.
+
+mkfifo.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions mkfifo() and mkfifoat() are thread safe.
+
+netlink.3
+    Michael Kerrisk
+        SEE ALSO: make the reference for libnetlink the libnetlink(3) m=
+an page
+
+random.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions random(), srandom(), initstate() and setstate=
+()
+            are thread safe.
+
+random_r.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions random_r(), srandom_r(), initstate_r() and
+            setstate_r() are thread safe.
+
+sigvec.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions sigvec(), sigblock(), sigsetmask() and
+            siggetmask() are thread safe.
+
+            The macro sigmask() is thread safe.
+
+sysconf.3
+    Michael Kerrisk
+        SEE ALSO: add confstr(3)
+
+termios.3
+    Michael Kerrisk  [Peter Hurley]
+        Fix error in discussion of MIN > 0, TIME =3D=3D 0 noncanonical =
+mode
+            As reported by Peter Hurley, for the MIN > 0, TIME =3D=3D 0=
+ case:
+
+                read() may unblock when MIN bytes are available but ret=
+urn
+                up to the 'count' parameter if more input arrives in be=
+tween
+                waking and copying into the user buffer.
+                ...
+                read() may also _not_ return until MIN bytes have been
+                received, even if 'count' bytes have been received.
+    Michael Kerrisk
+        Add a note on interaction of O_NONBLOCK with noncanonical MIN/T=
+IME
+            POSIX leaves the behavior open.
+    Michael Kerrisk
+        Clarify termination conditions for MIN > 0, TIME > 0
+    Michael Kerrisk
+        Clarify behavior if data is available before noncanonical read(=
+)
+    Michael Kerrisk
+        Add descriptive titles to noncanonical read() cases
+
+symlink.7
+    Michael Kerrisk
+        Add subsection on opening a symbolic link with O_PATH
+    Michael Kerrisk
+        name_to_handle_at(2) and open_by_handle_at(2) optionally follow=
+ symlinks
+    Michael Kerrisk
+        Mention use of readlink(2) to read contents of a symlink
 
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-fsdevel=
-" in
-the body of a message to majordomo@vger.kernel.org
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
