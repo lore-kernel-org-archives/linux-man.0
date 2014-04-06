@@ -1,397 +1,246 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: man-pages-3.64 released
-Date: Sun, 06 Apr 2014 12:02:05 +0200
-Message-ID: <5341261D.1080709@gmail.com>
+Subject: Re: [PATCH 0/1] Manpages for the fanotify API
+Date: Sun, 06 Apr 2014 14:18:34 +0200
+Message-ID: <5341461A.3090405@gmail.com>
+References: <5330A257.9080100@gmail.com> <1396742468-4752-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1396742468-4752-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: xypron.glpk-Mmb7MZpHnFY@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, jack-AlSwsSmVLrQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Gidday,
+Hello Heinrich,
 
-The Linux man-pages maintainer proudly announces:
+Thanks for the new drafts.
 
-    man-pages-3.64 - man pages for Linux
+I'm teaching a course over the coming week, so it may sometime before I=
+ can
+do a detailed review of the pages. I have a few comments in the meantim=
+e:
 
-Tarball download:
-    http://www.kernel.org/doc/man-pages/download.html
-Git repository:
-    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
-Online changelog:
-    http://man7.org/linux/man-pages/changelog.html#release_3.64
+On 04/06/2014 02:01 AM, xypron.glpk-Mmb7MZpHnFY@public.gmane.org wrote:
+> From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+>=20
+> Hello Michael,
+>=20
+> please, find the answer to your most prominent questions
+> in this mail.
+>=20
+> I put the patch into a separate mail.
+>=20
+> Best regards
+>=20
+> Heinrich Schuchardt
+>=20
+> =3D=3D
+>=20
+>  >> The pages say nothing about merging of events. Merging can happen
+>  >> for non-permission events, but not for permission events.
+>  >> Something needs to be said about this, probably in fanotify(7)
+>  >> If you are unsure of what I mean, just add the following in
+>  >> fanotify(7)
+>=20
+> You missed this sentence: "The bitmask in mask signals which events
+> have occured for a single file system object. More than one of the
+> following flags can be set at once in the bitmask."
+>=20
+> Jan Kara wrote, that the only guarantee given is, that no two
+> permission events will be merged.
+>=20
+> I reworked fanotify.7.
 
-A short summary of the release is blogged at:
-http://linux-man-pages.blogspot.com/2014/04/man-pages-364-is-released.h=
-tml
+I think you've misunderstood what I mean by merging.
 
-The current version of the pages is browsable at:
-http://man7.org/linux/man-pages/
+Say there is a read on a file being monitored with FAN_CLASS_NOTIFY.=20
+Suppose also that the reader of the fanotify FD does not yet
+read the event. Now suppose a second read occurs on the monitored
+file. Are there now two events in the queue, or one (because the=20
+identical events have been merged)? For "inotify", the answer=20
+is "1". I suspect it is the same for fanotify. The man page
+should say something about this (if I am correct).
 
-You are receiving this message either because:
+> =3D=3D
+>=20
+> There needs to be some explanation of the events that are generated
+> for directories. To begin with, *which* events are generated for
+> directories?
+>=20
+> * opening a directory for reading gives FAN_OPEN
+> * closing the file descriptor from the previous
+>   step gives FAN_CLOSE
+> * Changing the directory contents (adding a file)
+>   seems to give no event for the directory itself
+>   (but will give an event on the new file, if we
+>   are monitoring children of the directory)
+> * Other???
 
-a) You contributed to the content of this release.
+Did the piece of text above get overlooked?
 
-b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+> =3D=3D
+>=20
+>  >> I asked this earlier (in a different wording), but it seems not t=
+o
+>  >> have been addressed:
+>  >>
+>  >>    What happens if the application hits its file descriptor limit
+>  >>    (RLIMIT_NOFILES) when handling read()s from the FAN FD? (EMFIL=
+E).
+>  >>
+>  >> This needs to be covered under the errors for read(2).
+> When diving deeper into the code EMFILE can be found in get_unusedfd.
+> FIXED in fanotify.7
 
-c) I have information (possibly inaccurate) that you are the maintainer
-   of a translation of the manual pages, or are the maintainer of the
-   manual pages set in a particular distribution, or have expressed
-   interest in helping with man-pages maintenance, or have otherwise
-   expressed interest in being notified about man-pages releases.
-   If you don't want to receive such messages from me, or you know of
-   some other translator or maintainer who may want to receive such
-   notifications, send me a message.
+Your text needs to explicitly mention the RLIMIT_NOFILES limit.
+There are other reasons for "too many files open" (e.g., ENFILE).
+
+>  >> And now I think of a related question: what if we hit the system-=
+wide
+>  >> limit on the number of open files (/proc/sys/fs/file-max)? (I sus=
+pect
+>  >> ENFILE.)
+> I could not verify this. But I guess you can reproduce all error code=
+s
+> of open(2) in some part of the fanotify API.
+
+I'd add ENFILE to the list of errors, mentioning that its cause is hitt=
+ing
+the system-wide limit on the number of open files (/proc/sys/fs/file-ma=
+x)
+
+> =3D=3D
+>=20
+>  >> I notice that the FDs returned by read()s from the FAN FD have th=
+e
+>  >> FMODE_NONOTIFY flag (fcntl(F_GETFL)) flag set. If you know what t=
+hat's
+>  >> about, it would be good to say something about. But, if not, do n=
+ot
+>  >> worry--just place a FIXME in the page source of fanotify(7)
+>=20
+> Fixed in fanotify.7
+> If the listener accesses the file through the file descriptor provide=
+d
+> no additional events are created.
+
+Ahh -- thanks for filling in that piece. I see that you refer to=20
+fcntl(2) when discussing that flag. But fcntl(2) does not
+mention that flag. I would rather see an explanation of this flag=20
+in the fanotify pages.
+
+> =3D=3D
+>=20
+>  >> It all depends how you pronounce the name, but I assume "F-A-noti=
+fy"
+>  >> and so I'd always write it as "an fanotify" (and in multiple plac=
+es below).
+>=20
+> No indication has been given by Eric Paris that the first letters of =
+fanotify
+> are an abbreviation, so I think of fanotify as a proper name pronounc=
+ed
+> [f=C3=A6noutifai].
+> Cf. http://lkml.iu.edu/hypermail/linux/kernel/0907.3/00243.html
+
+I'm not sure what I should be noting in that URL.
+
+See Eric's usage ("an fanotify") in these places:
+
+http://lwn.net/Articles/339253/
+https://lkml.org/lkml/2010/8/22/94
+https://lkml.org/lkml/2009/8/28/258
+
+> =3D=3D
+>=20
+>  >> +    // Mark the mount for
+>  >> >+    // \- permission events before opening files
+>  >> >+    // \- notification events after closing a write enabled fil=
+e descriptor.
+>  >> >+    if (fanotify_mark(fd, FAN_MARK_ADD | FAN_MARK_MOUNT,
+>  >> >+                      FAN_OPEN_PERM | FAN_CLOSE_WRITE, FAN_NOFD=
+,
+>> Why 'FAN_NOFD' here?
+>>
+>  >> >+                      argv[1]) =3D=3D \-1) {
+>  >> >+        perror("fanotify_mark");
+>  >> >+        close(fd);
+>  >> >+        return EXIT_FAILURE;
+>  >> >+    }
+>=20
+> As described in fanotify_mark(2) the value of dfd is irrelevant if pa=
+thname is not NULL.
+>=20
+> FAN_NOFD takes the value -1, which no file descriptor ever can have.
+>=20
+> I changed this to -1 now.
+
+My point was that FAN_NOFD is a constant used by another part of the AP=
+I. It's
+confusing to have it pop up here, even if it is ignored. Thanks for mak=
+ing
+the change.
+
+> =3D=3D
+>  >>> The structures fanotify_event_metadata and fanotify_response hav=
+e been
+>  >>> changed repeatedly.
+>=20
+>  >> Have they? I don't know. But this statement is rather strong. Is =
+it correct?
+>  >> If it is true, it would be good to mention a few of the changes, =
+and when
+>  >> they occurred.
+> In the Git log you will find at least 4 different version. With field=
+s added
+> and removed, alignment changed, and fieldtype changed. The last chang=
+e was in
+>  2.6.37. I removed the sentence with repeatedly. It is sufficient to =
+indicate
+> that the value of the field should be checked.
+
+Thanks. This was my point really: there have been no version
+changes since the API was released to user space. Thanks
+for the wording change.
+
+=3D=3D
+
+I noticed some of the following that need to be fixed:
+* "file system" =3D=3D> "filesystem"
+* New sentences should be started on new source lines.
+
+=3D=3D
+
+Some other questions that I think of in the light of recent changes I m=
+ade to
+inotify(7) (see http://man7.org/linux/man-pages/man7/inotify.7.html#NOT=
+ES):
+
+       Inotify reports only events that a user-space program triggers
+       through the filesystem API.  As a result, it does not catch remo=
+te
+       events that occur on network filesystems. [...]  Furthermore,
+       various pseudo-filesystems such as /proc, /sys, and /dev/pts are=
+ not
+       monitorable with inotify.
+
+       The inotify API does not report file accesses and modifications =
+that
+       may occur because of mmap(2) and msync(2).
+
+Do there need to be analogous statements in fanotify(7)? I expect so.
+
+Could I ask you to address the comments in this mail in a new draft of
+the pages. I'd hope then to be able to review that next draft in a
+week or so.
 
 Cheers,
 
 Michael
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D Changes in=
- man-pages-3.64 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
 
-Released: 2014-04-06, Munich
-
-
-Contributors
-------------
-
-The following people contributed patches/fixes or (noted in brackets
-in the changelog below) reports, notes, and ideas that have been
-incorporated in changes in this release:
-
-Abhay Sachan <sachan.abhay-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Alexey Samsonov <samsonov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Andrey Vagin <avagin-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Aneesh Kumar K.V <aneesh.kumar-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-David Pr=C3=A9vot <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Kir Kolyshkin <kir-GEFAQzZX7r8dnm+yROfE0A@public.gmane.org>
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
-Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>
-Robert P. J. Day <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-
-Apologies if I missed anyone!
-
-
-New and rewritten pages
------------------------
-
-open_by_handle_at.2
-    Michael Kerrisk [Mike Frysinger, Neil Brown, Aneesh Kumar K.V,
-    Christoph Hellwig]
-        New page describing name_to_handle_at(2) and open_by_handle_at(=
-2)
-
-inotify.7
-    Michael Kerrisk
-        Rewrite introductory section
-        Reorganize "Limitations and caveats" subsection
-    Michael Kerrisk
-        Further describe the race when adding a watch to a new subtree
-    Michael Kerrisk
-        Directory renames may invalidate multiple paths cached by appli=
-cation
-    Michael Kerrisk
-        Add paragraph on cache consistency checking
-    Michael Kerrisk
-        Mention cache rebuilding to handle overflow events
-    Michael Kerrisk
-        Moving an object to another filesystem generates IN_DELETE_SELF
-    Michael Kerrisk [Jan Kara]
-        Add text on dealing with rename() events
-    Michael Kerrisk
-        Note rationale and consequences of event coalescing
-    Michael Kerrisk  [Eric W. Biederman]
-        Inotify doesn't work for remote and pseudo filesystems
-    Michael Kerrisk
-        Add some examples of events generated by various system calls
-    Michael Kerrisk
-        BUGS: IN_ONESHOT does now cause IN_IGNORED when the watch is dr=
-opped
-            A silent change as a result of the fanotify work in kernel =
-2.6.36.
-    Michael Kerrisk
-        Note that IN_DELETE_SELF will be followed by IN_IGNORED
-    Michael Kerrisk
-        Note that IN_UNMOUNT will be followed by an IN_IGNORED event
-    Michael Kerrisk
-        Inotify does not report events for mmap(2) and msync(2)
-    Michael Kerrisk
-        Add examples of syscalls that trigger IN_ATTRIB
-    Michael Kerrisk
-        Add some examples of syscalls that trigger IN_MODIFY
-    Michael Kerrisk
-        execve(2) also generates IN_ACCESS
-    Michael Kerrisk
-        Add examples of syscalls that trigger IN_CREATE
-
-
-Newly documented interfaces in existing pages
----------------------------------------------
-
-perf_event_open.2
-    Vince Weaver [Michael Kerrisk]
-        Document the PERF_FLAG_FD_CLOEXEC flag
-            The Linux 3.14 release adds support for the PERF_FLAG_FD_CL=
-OEXEC
-            flag.
-
-feature_test_macros.7
-    Michael Kerrisk
-        Document _LARGEFILE_SOURCE
-
-tcp.7
-    Michael Kerrisk  [Eric Dumazet]
-        Document /proc/sys/net/ipv4/tcp_autocorking
-            Text heavily based on Documentation/networking/ip-sysctl.tx=
-t
-
-
-New and changed links
----------------------
-
-name_to_handle_at.2
-    Michael Kerrisk
-        New link to new open_by_name_at(2) page
-
-
-Global changes
---------------
-
-fmemopen.3
-getaddrinfo.3
-mq_notify.3
-offsetof.3
-aio.7
-    Michael Kerrisk
-        Print size_t/ssize_t values using %z printf() modifier
-            There are fewer and fewer systems these days that don't
-            support the %z specifier mandated in C99.  So replace the
-            use of %ld/%lu + (long) cast with %zd/%zu.
-
-
-Changes to individual pages
----------------------------
-
-bdflush.2
-fsync.2
-sync.2
-    Kir Kolyshkin
-        SEE ALSO: remove update(8) reference
-            Remove reference to update(8) man page, since there is no s=
-uch
-            page. This is an ancient BSD leftover I believe.
-
-chown.2
-    Michael Kerrisk
-        Note that 'dirfd' can be AT_FDCWD when AT_EMPTY_PATH is used
-
-getxattr.2
-    Abhay Sachan
-        Fix RETURN VALUE description
-            A EA can have length zero.
-
-inotify_add_watch.2
-    Michael Kerrisk
-        ERRORS: add ENAMETOOLONG
-
-inotify_init.2
-    Michael Kerrisk
-        Add pointer to inotify(7)
-
-link.2
-    Michael Kerrisk
-        When AT_EMPTY_PATH is specified, 'olddirfd' must not refer to a
-        directory
-
-mmap.2
-    Andrey Vagin
-        The file descriptor for a file mapping must be readable
-            There is no difference between MAP_SHARED and MAP_PRIVATE.
-
-open.2
-    Michael Kerrisk
-        SEE ALSO: add open_by_name_at(2)
-
-perf_event_open.2
-    Vince Weaver
-        Document PERF_EVENT_IOC_PERIOD behavior change
-            Linux 3.14 (in commit bad7192b842c83e580747ca57104dd51fe08c=
-223)
-            changes the perf_event PERF_EVENT_IOC_PERIOD ioctl() behavi=
-or
-            on all architectures to update immediately, to match the be=
-havior
-            found on ARM.
-
-stat.2
-    Michael Kerrisk
-        Note that 'dirfd' can be AT_FDCWD when AT_EMPTY_PATH is used
-
-syscalls.2
-    Michael Kerrisk
-        Add sched_getattr() and sched_setattr()
-            And update kernel version to 3.14
-
-abort.3
-    Peng Haitao
-        ATTRIBUTES: Note function that is thread-safe
-            The function abort() is thread safe.
-
-confstr.3
-    Michael Kerrisk
-        SEE ALSO: add getconf(1), fpathconf(3), sysconf(3), pathconf(3)
-
-exit.3
-    Peng Haitao
-        ATTRIBUTES: Note function that is not thread-safe
-            The function exit() is not thread safe.
-
-fenv.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions feclearexcept(), fegetexceptflag(), feraiseex=
-cept(),
-            fesetexceptflag(), fetestexcept(), fegetround(), fesetround=
-(),
-            fegetenv(), feholdexcept(), fesetenv(), feupdateenv(),
-            feenableexcept(), fedisableexcept() and fegetexcept() are t=
-hread
-            safe.
-
-fpathconf.3
-    Michael Kerrisk
-        SEE ALSO: add confstr(3)
-
-fseek.3
-    Michael Kerrisk  [Petr Gajdos]
-        Document EINVAL error for negative file offset
-
-fseeko.3
-    Michael Kerrisk
-        Add feature test macro requirements
-
-fts.3
-    Michael Kerrisk  [Mike Frysinger]
-        Remove mention of "32-bit systems" in BUGS
-
-fwide.3
-wprintf.3
-    Michael Kerrisk  [Robert P. J. Day]
-        Remove mention of bogus _ISOC95_SOURCE feature test macro
-
-getline.3
-    Alexey Samsonov
-        Caller should free the allocated buffer even if getline() faile=
-d
-            Relevant discussion in glibc bugzilla:
-            https://sourceware.org/bugzilla/show_bug.cgi?id=3D5666
-
-getloadavg.3
-    Peng Haitao
-        ATTRIBUTES: Note function that is thread-safe
-            The function getloadavg() is thread safe.
-
-getpt.3
-    Peng Haitao
-        ATTRIBUTES: Note function that is thread-safe
-            The function getpt() is thread safe.
-
-if_nametoindex.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions if_nametoindex() and if_indextoname() are thr=
-ead safe.
-
-index.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions index() and rindex() are thread safe.
-
-mkfifo.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions mkfifo() and mkfifoat() are thread safe.
-
-netlink.3
-    Michael Kerrisk
-        SEE ALSO: make the reference for libnetlink the libnetlink(3) m=
-an page
-
-random.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions random(), srandom(), initstate() and setstate=
-()
-            are thread safe.
-
-random_r.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions random_r(), srandom_r(), initstate_r() and
-            setstate_r() are thread safe.
-
-sigvec.3
-    Peng Haitao
-        ATTRIBUTES: Note functions that are thread-safe
-            The functions sigvec(), sigblock(), sigsetmask() and
-            siggetmask() are thread safe.
-
-            The macro sigmask() is thread safe.
-
-sysconf.3
-    Michael Kerrisk
-        SEE ALSO: add confstr(3)
-
-termios.3
-    Michael Kerrisk  [Peter Hurley]
-        Fix error in discussion of MIN > 0, TIME =3D=3D 0 noncanonical =
-mode
-            As reported by Peter Hurley, for the MIN > 0, TIME =3D=3D 0=
- case:
-
-                read() may unblock when MIN bytes are available but ret=
-urn
-                up to the 'count' parameter if more input arrives in be=
-tween
-                waking and copying into the user buffer.
-                ...
-                read() may also _not_ return until MIN bytes have been
-                received, even if 'count' bytes have been received.
-    Michael Kerrisk
-        Add a note on interaction of O_NONBLOCK with noncanonical MIN/T=
-IME
-            POSIX leaves the behavior open.
-    Michael Kerrisk
-        Clarify termination conditions for MIN > 0, TIME > 0
-    Michael Kerrisk
-        Clarify behavior if data is available before noncanonical read(=
-)
-    Michael Kerrisk
-        Add descriptive titles to noncanonical read() cases
-
-symlink.7
-    Michael Kerrisk
-        Add subsection on opening a symbolic link with O_PATH
-    Michael Kerrisk
-        name_to_handle_at(2) and open_by_handle_at(2) optionally follow=
- symlinks
-    Michael Kerrisk
-        Mention use of readlink(2) to read contents of a symlink
 
 --=20
 Michael Kerrisk
