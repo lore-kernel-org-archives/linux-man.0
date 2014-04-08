@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getsubopt.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 8 Apr 2014 10:29:11 +0800
-Message-ID: <1396924151-16033-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] getutmp.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 8 Apr 2014 13:57:59 +0800
+Message-ID: <1396936679-3146-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,40 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function getsubopt() is thread safe.
+The functions getutmp() and getutmpx() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getsubopt.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man3/getutmp.3 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/man3/getsubopt.3 b/man3/getsubopt.3
-index a4ba755..e0b2a45 100644
---- a/man3/getsubopt.3
-+++ b/man3/getsubopt.3
-@@ -22,7 +22,7 @@
- .\" SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+diff --git a/man3/getutmp.3 b/man3/getutmp.3
+index 4c5e366..35f2124 100644
+--- a/man3/getutmp.3
++++ b/man3/getutmp.3
+@@ -23,7 +23,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
  .\" %%%LICENSE_END
  .\"
--.TH GETSUBOPT 3 2010-09-26 "GNU" "Linux Programmer's Manual"
-+.TH GETSUBOPT 3 2014-04-08 "GNU" "Linux Programmer's Manual"
+-.TH GETUTMP 3 2014-03-09 "Linux" "Linux Programmer's Manual"
++.TH GETUTMP 3 2014-04-08 "Linux" "Linux Programmer's Manual"
  .SH NAME
- getsubopt \- parse suboption arguments from a string
+ getutmp, getutmpx \- copy utmp structure to utmpx, and vice versa
  .SH SYNOPSIS
-@@ -126,6 +126,11 @@ is changed, the first suboption before the call to
- .BR getsubopt ()
- is not (necessarily) the same as the first suboption after
- .BR getsubopt ().
+@@ -52,6 +52,13 @@ function performs the converse operation.
+ These functions do not return a value.
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.1.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR getsubopt ()
-+function is thread-safe.
++.BR getutmp ()
++and
++.BR getutmpx ()
++functions are thread-safe.
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ These functions are nonstandard, but appear on a few other systems,
+ such as Solaris and NetBSD.
 -- 
 1.9.0
 
