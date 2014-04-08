@@ -1,153 +1,55 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH 0/1] Manpages for the fanotify API: FAN_ACCESS_PERM for
- readdir
-Date: Mon, 7 Apr 2014 22:13:41 +0200
-Message-ID: <20140407201341.GD23670@quack.suse.cz>
-References: <5330A257.9080100@gmail.com>
- <1396742468-4752-1-git-send-email-xypron.glpk@gmx.de>
- <20140407085624.GB14927@quack.suse.cz>
- <5342EB7B.4010201@gmx.de>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] byteorder.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 8 Apr 2014 09:05:39 +0800
+Message-ID: <1396919139-10710-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <5342EB7B.4010201-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon 07-04-14 20:16:27, Heinrich Schuchardt wrote:
-> Hello Jan,
-> 
-> >> FAN_ACCESS_PERM
-> >> The name is misleading. The permission check is done before executing a file
-> >> or listing a directory.
-> >  AFAIK it doesn't happen before listing a directory. But if you are
-> >convinced it does, I can check more carefully ;)
-> 
-> iterate_dir calls
-> security_file_permission(file, MAY_READ);
-> which in turn calls
-> fsnotify_perm(file, mask);
-> Which has these lines:
->  51         else if (mask & MAY_READ)
->  52                 fsnotify_mask = FS_ACCESS_PERM;
-  Ah, OK, for FAN_ACCESS_PERM. But as you note below FAN_ACCESS isn't
-generated for directories. That actually looks pretty inconsistent and I
-guess we should fix that.
+The functions htonl(), htons(), ntohl() and ntohs() are thread
+safe.
 
-> This is the result I get for
-> #include <stdlib.h>
-> #include <sys/types.h>
-> #include <dirent.h>
-> #include <libgen.h>
-> int main() {
->     DIR *dir;
->     struct dirent *dp;
->     if ((dir = opendir ("/home/test")) == NULL) {
->         exit (1);
->     }
->     while ((dp = readdir (dir)) != NULL) {
->         }
->         closedir(dir);
->         return 0;
-> }
-> 
-> FAN_OPEN: File /home/test
-> FAN_ACCESS_PERM: File /home/test
-> FAN_ACCESS_PERM: File /home/test
-> 
-> I guess it is somewhat inconsistent that
-> readdir results in FAN_ACCESS_PERM while
-> read results in FAN_ACCESS_PERM and FAN_ACCESS.
-> 
-> ===
-> 
-> This is the result I get for executing
-> /home/test/test
-> which contains the following lines
-> !#/bin/sh
-> echo Hello world
-> 
-> FAN_OPEN: File /home/test/test
-> FAN_ACCESS_PERM: File /home/test/test
-> FAN_ACCESS: File /home/test/test
-> FAN_OPEN: File /home/test/test
-> FAN_ACCESS_PERM: File /home/test/test
-> FAN_ACCESS: File /home/test/test
-> FAN_ACCESS_PERM: File /home/test/test
-> 
-> The last FAN_ACCESS_PERM probably does not relate to a read() as it
-> is not followed by FAN_ACCESS.
-> 
-> ===
-> 
-> When running
-> #include <sys/types.h>
-> #include <sys/stat.h>
-> #include <fcntl.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <unistd.h>
-> int main(int argc, char *argv[]) {
->     int fd;
->     char buf[4096];
->     ssize_t len;
->     fd = open("/home/test/test", O_RDONLY);
->     len = read(fd, buf, 4096);
->     buf[len] = '\0';
->     printf("Bytes read %d\n%s\n", len, buf);
->     close(fd);
->     return 0;
-> }
-> 
-> I get
-> 
-> FAN_OPEN: File /home/test/test
-> FAN_ACCESS_PERM: File /home/test/test
-> FAN_ACCESS: File /home/test/test
-> 
-> When running
-> #include <sys/types.h>
-> #include <sys/stat.h>
-> #include <fcntl.h>
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <unistd.h>
-> 
-> int main(int argc, char *argv[]) {
->         int fd;
->         char buf[4096];
->         ssize_t len;
->     fd = open("/home/test/test", O_WRONLY);
->     len = write(fd, "visited" , 4);
->         close(fd);
->         return 0;
-> }
-> 
-> I get
-> 
-> FAN_OPEN: File /home/test/test
-> FAN_MODIFY: File /home/test/test
-> 
-> You only receive a permission event before reading and not before writing.
-> 
-> The fanotify API was meant for use in a hierarchical storage
-> management system. Should it not be able to inhibit writing, e.g. if
-> the remote file is on a read-only medium?
-> 
-> I guess it would make sense to add a FAN_MODIFY_PERM event.
-  Well, there were different uses for fanotify() (antivirus scanners for
-file servers for windows workstations was the one I remember). Storage
-management might be one of those. If there's a real demand for
-FAN_MODIFY_PERM, I guess we can add that. But I wouldn't like to add that
-just because it sounds useful...
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/byteorder.3 | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-								Honza
+diff --git a/man3/byteorder.3 b/man3/byteorder.3
+index 0781fd5..930755a 100644
+--- a/man3/byteorder.3
++++ b/man3/byteorder.3
+@@ -29,7 +29,7 @@
+ .\" Modified Sat Jul 24 21:29:05 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified Thu Jul 26 14:06:20 2001 by Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
+ .\"
+-.TH BYTEORDER 3  2009-01-15 "GNU" "Linux Programmer's Manual"
++.TH BYTEORDER 3  2014-04-08 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ htonl, htons, ntohl, ntohs \- convert values between host and network
+ byte order
+@@ -73,6 +73,15 @@ from network byte order to host byte order.
+ On the i386 the host byte order is Least Significant Byte first,
+ whereas the network byte order, as used on the Internet, is Most
+ Significant Byte first.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR htonl (),
++.BR htons (),
++.BR ntohl (),
++and
++.BR ntohs ()
++functions are thread-safe.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ 
 -- 
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+1.9.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
