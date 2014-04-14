@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ffs.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 14 Apr 2014 12:27:12 +0200
-Message-ID: <534BB800.8040208@gmail.com>
-References: <1397446674-23615-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_attr_setdetachstate.3: ATTRIBUTES: Note functions
+ that are thread-safe
+Date: Mon, 14 Apr 2014 12:27:18 +0200
+Message-ID: <534BB806.4080005@gmail.com>
+References: <1397448282-25438-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1397446674-23615-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1397448282-25438-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,42 +21,42 @@ Cheers,
 Michael
 
 
-On 04/14/2014 05:37 AM, Peng Haitao wrote:
-> The functions ffs(), ffsl() and ffsll() are thread safe.
+On 04/14/2014 06:04 AM, Peng Haitao wrote:
+> The functions pthread_attr_setdetachstate() and
+> pthread_attr_getdetachstate() are thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ffs.3 | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  man3/pthread_attr_setdetachstate.3 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/ffs.3 b/man3/ffs.3
-> index 2cff0e1..b22c8d6 100644
-> --- a/man3/ffs.3
-> +++ b/man3/ffs.3
-> @@ -30,7 +30,7 @@
+> diff --git a/man3/pthread_attr_setdetachstate.3 b/man3/pthread_attr_setdetachstate.3
+> index 9f512d1..dd43608 100644
+> --- a/man3/pthread_attr_setdetachstate.3
+> +++ b/man3/pthread_attr_setdetachstate.3
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
 >  .\"
->  .\" Modified 2003 Walter Harms (walter.harms-jNDFPZUTrfTUvfpBxBsQfasoZZ7OtMbqG9Ur7JDdleE@public.gmane.org)
->  .\"
-> -.TH FFS 3 2010-09-20 "GNU" "Linux Programmer's Manual"
-> +.TH FFS 3 2014-04-14 "GNU" "Linux Programmer's Manual"
+> -.TH PTHREAD_ATTR_SETDETACHSTATE 3 2010-02-03 "Linux" "Linux Programmer's Manual"
+> +.TH PTHREAD_ATTR_SETDETACHSTATE 3 2014-04-14 "Linux" "Linux Programmer's Manual"
 >  .SH NAME
->  ffs, ffsl, ffsll \- find first bit set in a word
->  .SH SYNOPSIS
-> @@ -88,6 +88,14 @@ arguments of possibly different size.
->  These functions return the position of the first bit set,
->  or 0 if no bits are set in
->  .IR i .
+>  pthread_attr_setdetachstate, pthread_attr_getdetachstate \-
+>  set/get detach state attribute in thread attributes object
+> @@ -84,6 +84,13 @@ can fail with the following error:
+>  .B EINVAL
+>  An invalid value was specified in
+>  .IR detachstate .
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR ffs (),
-> +.BR ffsl (),
+> +.BR pthread_attr_setdetachstate ()
 > +and
-> +.BR ffsll ()
+> +.BR pthread_attr_getdetachstate ()
 > +functions are thread-safe.
 >  .SH CONFORMING TO
->  .BR ffs ():
->  4.3BSD, POSIX.1-2001.
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
