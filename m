@@ -1,72 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sigsetops.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 14 Apr 2014 12:27:04 +0200
-Message-ID: <534BB7F8.7090600@gmail.com>
-References: <1397442371-19537-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH 1/2] toupper.3: nfix
+Date: Mon, 14 Apr 2014 12:24:55 +0200
+Message-ID: <534BB777.3090002@gmail.com>
+References: <1397169620-10086-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1397442371-19537-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1397169620-10086-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Thanks, David. APplied.
 
 Cheers,
 
 Michael
 
 
-On 04/14/2014 04:26 AM, Peng Haitao wrote:
-> The functions sigemptyset(), sigfillset(), sigaddset(),
-> sigdelset(), sigismember(), sigisemptyset(), sigorset() and
-> sigandset() are thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 04/11/2014 12:40 AM, David Pr=E9vot wrote:
 > ---
->  man3/sigsetops.3 | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/sigsetops.3 b/man3/sigsetops.3
-> index 504c559..a2a3554 100644
-> --- a/man3/sigsetops.3
-> +++ b/man3/sigsetops.3
-> @@ -28,7 +28,7 @@
->  .\" 2007-10-26 mdw   added wording that a sigset_t must be initialized
->  .\"                  prior to use
->  .\"
-> -.TH SIGSETOPS 3 2013-09-24 "Linux" "Linux Programmer's Manual"
-> +.TH SIGSETOPS 3 2014-04-14 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  sigemptyset, sigfillset, sigaddset, sigdelset, sigismember \- POSIX
->  signal set operations
-> @@ -128,6 +128,19 @@ to indicate the cause.
->  .B EINVAL
->  .I sig
->  is not a valid signal.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR sigemptyset (),
-> +.BR sigfillset (),
-> +.BR sigaddset (),
-> +.BR sigdelset (),
-> +.BR sigismember (),
-> +.BR sigisemptyset (),
-> +.BR sigorset (),
-> +and
-> +.BR sigandset ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
-> 
+>  man3/toupper.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man3/toupper.3 b/man3/toupper.3
+> index 0b765ae..6e835b2 100644
+> --- a/man3/toupper.3
+> +++ b/man3/toupper.3
+> @@ -77,7 +77,7 @@ but uses the locale referred to by the locale handl=
+e
+>  If
+>  .I c
+>  is a uppercase letter,
+> -.BR toupper ()
+> +.BR tolower ()
+>  returns its lowercase equivalent,
+>  if a lowercase representation exists in the current locale.
+>  Otherwise, it returns
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
