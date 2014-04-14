@@ -1,72 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] locale.5: tfix
-Date: Mon, 14 Apr 2014 12:23:38 +0200
-Message-ID: <534BB72A.6070905@gmail.com>
-References: <20140412180355.0ac2aeac@keeper.home.local>
+Subject: Re: [PATCH 2/2] locale.7: tfix
+Date: Mon, 14 Apr 2014 12:25:43 +0200
+Message-ID: <534BB7A7.1000603@gmail.com>
+References: <1397169620-10086-1-git-send-email-taffit@debian.org> <1397169620-10086-2-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140412180355.0ac2aeac-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
+In-Reply-To: <1397169620-10086-2-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Yuri,
+Thanks, David.
 
-On 04/12/2014 04:03 PM, Yuri Kozlov wrote:
-> 
-> ---
->  man5/locale.5 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index e699088..1a79b17 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -405,7 +405,7 @@ toupper list is used.
->  The
->  .B LC_CTYPE
->  definition ends with the string
-> -.IR "END LC_CYTPE" .
-> +.IR "END LC_CTYPE" .
->  .SS LC_COLLATE
->  .\" FIXME: the decsription of LC_COLLATE lacks a lot of details
->  The
-> @@ -450,7 +450,7 @@ notably the examples
->  .BR POSIX ,
->  .B Example
->  and
-> -.B Example2
-> +.B Example2 .
+Applied.
 
-Thanks. (Should be: ".BR Example2 .")
-
->  .PP
->  The
->  .B LC_COLLATE
-> @@ -685,7 +685,7 @@ otherwise a space separates the sign string and the value.
->  .I n_sep_by_space
->  followed by an integer that indicates the separation of
->  .IR currency_symbol ,
-> -the sign string, and the value for a nonnegative formatted monetary quantity.
-> +the sign string, and the value for a negative formatted monetary quantity.
-
-Thanks for catching that piece especially.
-
->  The same values are recognized as for
->  .IR p_sep_by_space .
->  .TP
-Patch applied.
-
-Thanks!
+Cheers,
 
 Michael
 
 
+On 04/11/2014 12:40 AM, David Pr=E9vot wrote:
+> ---
+>  man7/locale.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man7/locale.7 b/man7/locale.7
+> index 1c7710f..0a91c3b 100644
+> --- a/man7/locale.7
+> +++ b/man7/locale.7
+> @@ -103,7 +103,7 @@ or
+>  .TP
+>  .BR LC_IDENTIFICATION " (GNU extension, since glibc 2.2)"
+>  .\" See ISO/IEC Technical Report 14652
+> -Change settings that relate to the metdata for the locale.
+> +Change settings that relate to the metadata for the locale.
+>  Applications that need this information can use
+>  .BR nl_langinfo (3)
+>  to retrieve nonstandard elements, such as
+> @@ -111,7 +111,7 @@ to retrieve nonstandard elements, such as
+>  (title of this locale document)
+>  and
+>  .B _NL_IDENTIFICATION_TERRITORY
+> -(geograpical territory to which this locale document applies),
+> +(geographical territory to which this locale document applies),
+>  which might return strings such as "English locale for the USA"
+>  and "USA".
+>  (Other element names are listed in
+>=20
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
