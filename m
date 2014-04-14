@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] makecontext.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 14 Apr 2014 08:50:40 +0800
-Message-ID: <1397436640-14157-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sigsetops.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 14 Apr 2014 10:26:11 +0800
+Message-ID: <1397442371-19537-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,40 +10,48 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions makecontext() and swapcontext() are thread safe.
+The functions sigemptyset(), sigfillset(), sigaddset(),
+sigdelset(), sigismember(), sigisemptyset(), sigorset() and
+sigandset() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/makecontext.3 | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ man3/sigsetops.3 | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/man3/makecontext.3 b/man3/makecontext.3
-index dfb1ee6..1e0e991 100644
---- a/man3/makecontext.3
-+++ b/man3/makecontext.3
-@@ -25,7 +25,7 @@
+diff --git a/man3/sigsetops.3 b/man3/sigsetops.3
+index 504c559..a2a3554 100644
+--- a/man3/sigsetops.3
++++ b/man3/sigsetops.3
+@@ -28,7 +28,7 @@
+ .\" 2007-10-26 mdw   added wording that a sigset_t must be initialized
+ .\"                  prior to use
  .\"
- .\" 2006-08-02, mtk, Added example program
- .\"
--.TH MAKECONTEXT 3 2013-02-12 "GNU" "Linux Programmer's Manual"
-+.TH MAKECONTEXT 3 2014-04-14 "GNU" "Linux Programmer's Manual"
+-.TH SIGSETOPS 3 2013-09-24 "Linux" "Linux Programmer's Manual"
++.TH SIGSETOPS 3 2014-04-14 "Linux" "Linux Programmer's Manual"
  .SH NAME
- makecontext, swapcontext \- manipulate user context
- .SH SYNOPSIS
-@@ -102,6 +102,13 @@ Insufficient stack space left.
- and
- .BR swapcontext ()
- are provided in glibc since version 2.1.
+ sigemptyset, sigfillset, sigaddset, sigdelset, sigismember \- POSIX
+ signal set operations
+@@ -128,6 +128,19 @@ to indicate the cause.
+ .B EINVAL
+ .I sig
+ is not a valid signal.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR makecontext ()
++.BR sigemptyset (),
++.BR sigfillset (),
++.BR sigaddset (),
++.BR sigdelset (),
++.BR sigismember (),
++.BR sigisemptyset (),
++.BR sigorset (),
 +and
-+.BR swapcontext ()
++.BR sigandset ()
 +functions are thread-safe.
  .SH CONFORMING TO
- SUSv2, POSIX.1-2001.
- POSIX.1-2008 removes the specifications of
+ POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.0
 
