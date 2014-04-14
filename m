@@ -1,70 +1,36 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_attr_setguardsize.3: ATTRIBUTES: Note functions
- that are thread-safe
-Date: Mon, 14 Apr 2014 12:27:23 +0200
-Message-ID: <534BB80B.2070507@gmail.com>
-References: <1397452792-28469-1-git-send-email-penght@cn.fujitsu.com>
+From: Alex Thorlton <athorlton@sgi.com>
+Subject: Re: Documenting prctl() PR_SET_THP_DISABLE and PR_GET_THP_DISABLE
+Date: Mon, 14 Apr 2014 10:49:11 -0500
+Message-ID: <20140414154911.GH3308@sgi.com>
+References: <CAHO5Pa0VCzR7oqNXkwELuAsNQnnvF8Xoo=CuCaM64-GzjDuoFA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1397452792-28469-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <CAHO5Pa0VCzR7oqNXkwELuAsNQnnvF8Xoo=CuCaM64-GzjDuoFA@mail.gmail.com>
+Sender: owner-linux-mm@kvack.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: Linux Kernel <linux-kernel@vger.kernel.org>, Gerald Schaefer <gerald.schaefer@de.ibm.com>, Martin Schwidefsky <schwidefsky@de.ibm.com>, Heiko Carstens <heiko.carstens@de.ibm.com>, Christian Borntraeger <borntraeger@de.ibm.com>, Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Mel Gorman <mgorman@suse.de>, Rik van Riel <riel@redhat.com>, Ingo Molnar <mingo@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrea Arcangeli <aarcange@redhat.com>, Oleg Nesterov <oleg@redhat.com>, "Eric W. Biederman" <ebiederm@xmission.com>, Alexander Viro <viro@zeniv.linux.org.uk>, linux-mm <linux-mm@kvack.org>, Linux API <linux-api@vger.kernel.org>, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
-
-Cheers,
-
-Michael
-
-
-On 04/14/2014 07:19 AM, Peng Haitao wrote:
-> The functions pthread_attr_setguardsize() and
-> pthread_attr_getguardsize() are thread safe.
+On Mon, Apr 14, 2014 at 12:15:01PM +0200, Michael Kerrisk wrote:
+> Alex,
 > 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/pthread_attr_setguardsize.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+> Your commit a0715cc22601e8830ace98366c0c2bd8da52af52 added the prctl()
+> PR_SET_THP_DISABLE and PR_GET_THP_DISABLE flags.
 > 
-> diff --git a/man3/pthread_attr_setguardsize.3 b/man3/pthread_attr_setguardsize.3
-> index 7c31e50..801aae9 100644
-> --- a/man3/pthread_attr_setguardsize.3
-> +++ b/man3/pthread_attr_setguardsize.3
-> @@ -23,7 +23,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH PTHREAD_ATTR_SETGUARDSIZE 3 2008-10-24 "Linux" "Linux Programmer's Manual"
-> +.TH PTHREAD_ATTR_SETGUARDSIZE 3 2014-04-14 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  pthread_attr_setguardsize, pthread_attr_getguardsize \- set/get guard size
->  attribute in thread attributes object
-> @@ -103,6 +103,13 @@ On Linux these functions always succeed
->  handle a possible error return).
->  .SH VERSIONS
->  These functions are provided by glibc since version 2.1.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR pthread_attr_setguardsize ()
-> +and
-> +.BR pthread_attr_getguardsize ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
-> 
+> The text below attempts to document these flags for the prctl(3).
+> Could you (and anyone else who is willing) please review the text
+> below (one or two p[ieces of which are drawn from your commit message)
+> to verify that it accurately reflects reality and your intent, and
+> that I have not missed any significant details.
 
+Looks fine to me!
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+- Alex
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
