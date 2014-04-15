@@ -1,66 +1,59 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 -- clarify EACCES and EPERM errors
-Date: Tue, 15 Apr 2014 14:28:26 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1404151425470.15528@vincent-weaver-1.um.maine.edu>
+From: Andreas Gruenbacher <andreas.gruenbacher@linbit.com>
+Subject: Re: [PATCH v2 1/2] xfs: fix tmpfile/selinux deadlock and initialize
+	security/acl
+Date: Tue, 15 Apr 2014 21:31:02 +0200 (CEST)
+Message-ID: <1188577823.463241.1397590262478.JavaMail.zimbra@linbit.com>
+References: <1397071311-28371-1-git-send-email-bfoster@redhat.com>
+	<1397071311-28371-2-git-send-email-bfoster@redhat.com>
+	<20140410102421.GA17641@infradead.org>
+	<20140410121947.GA14124@bfoster.bfoster>
+	<20140410122944.GA6579@infradead.org>
+	<20140415175228.GE26404@infradead.org>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <xfs-bounces@oss.sgi.com>
+In-Reply-To: <20140415175228.GE26404@infradead.org>
+List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
+List-Archive: <http://oss.sgi.com/pipermail/xfs>
+List-Post: <mailto:xfs@oss.sgi.com>
+List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
+List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
+Errors-To: xfs-bounces@oss.sgi.com
+Sender: xfs-bounces@oss.sgi.com
+To: Christoph Hellwig <hch@infradead.org>
+Cc: linux-man@vger.kernel.org, Brian Foster <bfoster@redhat.com>, xfs@oss.sgi.com, linux-security-module@vger.kernel.org, Al Viro <viro@zeniv.linux.org.uk>, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
+Christoph,
 
-Attempt to clarify the reasons for EACCES and EPERM errors.
+On Tue, Apr 15, 2014 at 10:52:28AM -0700, Christoph Hellwig wrote:
+> So any opinions from other fs / security people on how O_TMPFILE files
+> should behave for ACL inheritance / labeling?
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+from how O_TMPFILE is documented right now [*], creating such a file and
+then linking it into the namespace is one of the obvious use cases.  The
+intent seems to be to make it seem like the file was created and populated
+atomically, possibly with inherited permissions and all.  I think this
+behavior require that the O_TMPFILE file inherits from the directory it
+was "created" in.
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index e513905..00842df 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -2385,11 +2385,14 @@ field is overwritten by the kernel to be the size of the structure
- it was expecting.
- .TP
- .B EACCES
--Returned when the requested event requires root permissions
--(or a more permissive perf_event paranoid setting).
--Some common cases where an unprivileged process 
--may encounter this error: are attaching to a process owned by a different user;
--monitoring all processes on a given CPU;
-+Returned when the requested event requires
-+.B CAP_SYS_ADMIN
-+permissions (or a more permissive perf_event paranoid setting).
-+Some common cases where an unprivileged process
-+may encounter this error:
-+attaching to a process owned by a different user;
-+monitoring all processes (including those not belonging to the user)
-+on a given CPU;
- and not setting
- .I exclude_kernel
- when the paranoid setting requires it.
-@@ -2477,9 +2480,17 @@ branch tracing if it is not available, sampling if no PMU
- interrupt is available, and branch stacks for software events.
- .TP
- .B EPERM
--Returned if sufficient permissions not available to create the event.
--This includes attempting to set a breakpoint on a kernel address
--and setting a ftrace function trace tracepoint.
-+Returned on many (but not all) architectures when an unsupported
-+.IR exclude_hv ", " exclude_idle ", " exclude_user ", or " exclude_kernel
-+setting is specified.
-+
-+It can also happen, as with
-+.BR EACCES ,
-+when the requested event requires
-+.B CAP_SYS_ADMIN
-+permissions (or a more permissive perf_event paranoid setting).
-+This includes setting a breakpoint on a kernel address,
-+and (since Linux 3.13) setting a kernel function-trace tracepoint.
- .TP
- .B ESRCH
- Returned if attempting to attach to a process that does not exist.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Adding code to achieve the effect of create-time inheritance at link
+time, only for O_TMPFILE files or files without any links, doesn't seem 
+reasonable to me: it would duplicate create code in the link code path,
+and it would make it harder to override inherited permissions or labels.
+
+(Trying to fake inheritance by reimplementing it in user space seems like
+a much worse idea still.)
+
+[*] http://man7.org/linux/man-pages/man2/open.2.html
+
+Thanks,
+Andreas
+
+_______________________________________________
+xfs mailing list
+xfs@oss.sgi.com
+http://oss.sgi.com/mailman/listinfo/xfs
