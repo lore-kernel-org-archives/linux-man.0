@@ -1,74 +1,73 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: [PATCH v2 1/2] xfs: fix tmpfile/selinux deadlock and initialize
- security/acl
-Date: Tue, 15 Apr 2014 10:52:28 -0700
-Message-ID: <20140415175228.GE26404@infradead.org>
-References: <1397071311-28371-1-git-send-email-bfoster@redhat.com>
- <1397071311-28371-2-git-send-email-bfoster@redhat.com>
- <20140410102421.GA17641@infradead.org>
- <20140410121947.GA14124@bfoster.bfoster>
- <20140410122944.GA6579@infradead.org>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2 -- expand ERRORS section
+Date: Tue, 15 Apr 2014 14:25:22 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1404151342450.15528@vincent-weaver-1.um.maine.edu>
+References: <alpine.DEB.2.10.1404070052310.16856@vincent-weaver-1.um.maine.edu> <5346F5EC.6080600@gmail.com> <alpine.DEB.2.10.1404101621260.30596@vincent-weaver-1.um.maine.edu> <534BBC07.7040105@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-2102942130-1397586326=:15528"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20140410122944.GA6579-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <534BBC07.7040105-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Brian Foster <bfoster-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Gruenbacher <agruen-63ez5xqkn6DQT0dZR+AlfA@public.gmane.org>, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-So any opinions from other fs / security people on how O_TMPFILE files
-should behave for ACL inheritance / labeling?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Thu, Apr 10, 2014 at 05:29:44AM -0700, Christoph Hellwig wrote:
-> On Thu, Apr 10, 2014 at 08:19:48AM -0400, Brian Foster wrote:
-> > Are you saying it doesn't have to initialize security or the default
-> > acl, or both?
+--8323329-2102942130-1397586326=:15528
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 14 Apr 2014, Michael Kerrisk (man-pages) wrote:
+
 > 
-> The ACLs for sure.  LSM do run-time access decisions, so they will
-> probably rely on the security data being initialized.  Given that
-> O_TMPFILE files aren't publicly available I'm not sure there's a point
-> in them doing that, though.
+>        EACCES Returned when the requested event requires root  permis‐
+>               sions  (or  a  more  permissive perf_event paranoid set‐
+>               ting).  Some common cases where an unprivileged  process
+>               may  encounter  this  error:  are attaching to a process
+>               owned by a different user; monitoring all processes on a
+>               given CPU; and not setting exclude_kernel when the para‐
+>               noid setting requires it.
 > 
-> LSMs are also affected by the lack of a proper parent I'll discuss for
-> ACLs below.
+> But, now I have some more questions:
 > 
-> > The intent here was to have the case covered where the inode happens to
-> > be linked back into the namespace since we don't do this work in the
-> > link path.
+> * What are "root permissions" here? It's these days usual to express
+>   things precisely in terms of the required capability.
+
+Yes, I guess that should really be CAP_SYS_ADMIN
+
+> * I am puzzled by "monitoring all processes on a CPU"? So, monitoring 
+>   _some_ (i.e., < all) processes on a CPU won't trigger this error?
+
+I was a bit confused here.
+
+A regular user can monitor "the specified process on CPU X" or "the 
+specified process on any CPU".
+
+A user running as root can also monitor "all procceses belonging to anyone 
+on CPU X"
+
+Other combinations aren't possible.
+
+> >>> +.B EPERM
+> >>> +Returned if sufficient permissions not available to create the event.
 > 
-> That's an interesting one.  O_TMFILE files don't have a real parent
-> to inherit ACLs from, the pathname passed in just needs to point to
-> a directory to find the filesystem to create the tmpfile in.  On
-> the other hand it seem like the extN implementations do inherity the
-> ACL in this case.
+> Again, somewhere here, the text should mention the required capability.
+
+Yes, it's CAP_SYS_ADMIN again.
+
+> > This is a recent change.  
 > 
-> The link into the namespace is irrelavant here as ACL inheritance only
-> happens on initial create, not at link time.
+> So, the text should mention a kernel version number. Could you patch 
+> that please. I guess it should be something like:
 > 
-> I also think we'll absolutely need a test case for ACLs+tmpfile to
-> make sure all filesystems handle it the same way.
-> 
-> > The bulk of the refactoring was with the idea that the inode setup for
-> > the tmpfile case is generally equivalent for the traditional create
-> > case. The original version was posted here:
-> > 
-> > http://oss.sgi.com/archives/xfs/2014-04/msg00149.html
-> > 
-> > ... and it just fixes the deadlock and adds the security initialization.
-> > I suppose I could still break that out into multiple patches, but that
-> > aside, is that behavior preferred?
-> 
-> I think just fixing the deadlock and initializing the security is enough
-> for the first pass.  If you want to do the refactoring on top send it as
-> a second series on top of the actual fixes.
-> 
-> _______________________________________________
-> xfs mailing list
-> xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
-> http://oss.sgi.com/mailman/listinfo/xfs
----end quoted text---
+>     and (since Linux 3.??) setting an ftrace function-trace tracepoint
+
+Yes, I'll do that.
+
+Vince
+--8323329-2102942130-1397586326=:15528--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
