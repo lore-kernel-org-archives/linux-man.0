@@ -1,73 +1,65 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2 -- expand ERRORS section
-Date: Tue, 15 Apr 2014 14:25:22 -0400 (EDT)
-Message-ID: <alpine.DEB.2.10.1404151342450.15528@vincent-weaver-1.um.maine.edu>
-References: <alpine.DEB.2.10.1404070052310.16856@vincent-weaver-1.um.maine.edu> <5346F5EC.6080600@gmail.com> <alpine.DEB.2.10.1404101621260.30596@vincent-weaver-1.um.maine.edu> <534BBC07.7040105@gmail.com>
+Subject: [patch] perf_event_open.2 -- clarify EACCES and EPERM errors
+Date: Tue, 15 Apr 2014 14:28:26 -0400 (EDT)
+Message-ID: <alpine.DEB.2.10.1404151425470.15528@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
-Content-Type: MULTIPART/MIXED; BOUNDARY="8323329-2102942130-1397586326=:15528"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <534BBC07.7040105-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-2102942130-1397586326=:15528
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Attempt to clarify the reasons for EACCES and EPERM errors.
 
-On Mon, 14 Apr 2014, Michael Kerrisk (man-pages) wrote:
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
-> 
->        EACCES Returned when the requested event requires root  permis‐
->               sions  (or  a  more  permissive perf_event paranoid set‐
->               ting).  Some common cases where an unprivileged  process
->               may  encounter  this  error:  are attaching to a process
->               owned by a different user; monitoring all processes on a
->               given CPU; and not setting exclude_kernel when the para‐
->               noid setting requires it.
-> 
-> But, now I have some more questions:
-> 
-> * What are "root permissions" here? It's these days usual to express
->   things precisely in terms of the required capability.
-
-Yes, I guess that should really be CAP_SYS_ADMIN
-
-> * I am puzzled by "monitoring all processes on a CPU"? So, monitoring 
->   _some_ (i.e., < all) processes on a CPU won't trigger this error?
-
-I was a bit confused here.
-
-A regular user can monitor "the specified process on CPU X" or "the 
-specified process on any CPU".
-
-A user running as root can also monitor "all procceses belonging to anyone 
-on CPU X"
-
-Other combinations aren't possible.
-
-> >>> +.B EPERM
-> >>> +Returned if sufficient permissions not available to create the event.
-> 
-> Again, somewhere here, the text should mention the required capability.
-
-Yes, it's CAP_SYS_ADMIN again.
-
-> > This is a recent change.  
-> 
-> So, the text should mention a kernel version number. Could you patch 
-> that please. I guess it should be something like:
-> 
->     and (since Linux 3.??) setting an ftrace function-trace tracepoint
-
-Yes, I'll do that.
-
-Vince
---8323329-2102942130-1397586326=:15528--
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index e513905..00842df 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2385,11 +2385,14 @@ field is overwritten by the kernel to be the size of the structure
+ it was expecting.
+ .TP
+ .B EACCES
+-Returned when the requested event requires root permissions
+-(or a more permissive perf_event paranoid setting).
+-Some common cases where an unprivileged process 
+-may encounter this error: are attaching to a process owned by a different user;
+-monitoring all processes on a given CPU;
++Returned when the requested event requires
++.B CAP_SYS_ADMIN
++permissions (or a more permissive perf_event paranoid setting).
++Some common cases where an unprivileged process
++may encounter this error:
++attaching to a process owned by a different user;
++monitoring all processes (including those not belonging to the user)
++on a given CPU;
+ and not setting
+ .I exclude_kernel
+ when the paranoid setting requires it.
+@@ -2477,9 +2480,17 @@ branch tracing if it is not available, sampling if no PMU
+ interrupt is available, and branch stacks for software events.
+ .TP
+ .B EPERM
+-Returned if sufficient permissions not available to create the event.
+-This includes attempting to set a breakpoint on a kernel address
+-and setting a ftrace function trace tracepoint.
++Returned on many (but not all) architectures when an unsupported
++.IR exclude_hv ", " exclude_idle ", " exclude_user ", or " exclude_kernel
++setting is specified.
++
++It can also happen, as with
++.BR EACCES ,
++when the requested event requires
++.B CAP_SYS_ADMIN
++permissions (or a more permissive perf_event paranoid setting).
++This includes setting a breakpoint on a kernel address,
++and (since Linux 3.13) setting a kernel function-trace tracepoint.
+ .TP
+ .B ESRCH
+ Returned if attempting to attach to a process that does not exist.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
