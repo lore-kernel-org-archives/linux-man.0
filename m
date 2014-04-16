@@ -1,83 +1,86 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2 -- clarify EACCES and EPERM errors
-Date: Wed, 16 Apr 2014 07:52:30 +0200
-Message-ID: <534E1A9E.5080105@gmail.com>
-References: <alpine.DEB.2.10.1404151425470.15528@vincent-weaver-1.um.maine.edu>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH v5 10/10] manpage: update FALLOC_FL_COLLAPSE_RANGE flag
+ in fallocate
+Date: Tue, 15 Apr 2014 23:05:10 -0700
+Message-ID: <20140416060510.GA25651@infradead.org>
+References: <1392741594-20335-1-git-send-email-linkinjeon@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.10.1404151425470.15528-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1392741594-20335-1-git-send-email-linkinjeon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Namjae Jeon <linkinjeon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/15/2014 08:28 PM, Vince Weaver wrote:
+Michael, can you apply this now that we merged FALLOC_FL_COLLAPSE_RANGE
+into the kernel tree?
+
+On Wed, Feb 19, 2014 at 01:39:53AM +0900, Namjae Jeon wrote:
+> From: Namjae Jeon <namjae.jeon-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 > 
-> Attempt to clarify the reasons for EACCES and EPERM errors.
-
-Thanks, Vince. Applied.
-
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> Update FALLOC_FL_COLLAPSE_RANGE flag in fallocate.
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index e513905..00842df 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -2385,11 +2385,14 @@ field is overwritten by the kernel to be the size of the structure
->  it was expecting.
->  .TP
->  .B EACCES
-> -Returned when the requested event requires root permissions
-> -(or a more permissive perf_event paranoid setting).
-> -Some common cases where an unprivileged process 
-> -may encounter this error: are attaching to a process owned by a different user;
-> -monitoring all processes on a given CPU;
-> +Returned when the requested event requires
-> +.B CAP_SYS_ADMIN
-> +permissions (or a more permissive perf_event paranoid setting).
-> +Some common cases where an unprivileged process
-> +may encounter this error:
-> +attaching to a process owned by a different user;
-> +monitoring all processes (including those not belonging to the user)
-> +on a given CPU;
->  and not setting
->  .I exclude_kernel
->  when the paranoid setting requires it.
-> @@ -2477,9 +2480,17 @@ branch tracing if it is not available, sampling if no PMU
->  interrupt is available, and branch stacks for software events.
->  .TP
->  .B EPERM
-> -Returned if sufficient permissions not available to create the event.
-> -This includes attempting to set a breakpoint on a kernel address
-> -and setting a ftrace function trace tracepoint.
-> +Returned on many (but not all) architectures when an unsupported
-> +.IR exclude_hv ", " exclude_idle ", " exclude_user ", or " exclude_kernel
-> +setting is specified.
+> Signed-off-by: Namjae Jeon <namjae.jeon-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+> Signed-off-by: Ashish Sangwan <a.sangwan-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+> ---
+>  man2/fallocate.2 |   21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/man2/fallocate.2 b/man2/fallocate.2
+> index b31bbde..06a0b0c 100644
+> --- a/man2/fallocate.2
+> +++ b/man2/fallocate.2
+> @@ -1,5 +1,6 @@
+>  .\" Copyright (c) 2007 Silicon Graphics, Inc. All Rights Reserved
+>  .\" Written by Dave Chinner <dgc-sJ/iWh9BUns@public.gmane.org>
+> +.\" Updated by Namjae Jeon <namjae.jeon-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+>  .\"
+>  .\" %%%LICENSE_START(GPLv2_ONELINE)
+>  .\" May be distributed as per GNU General Public License version 2.
+> @@ -7,6 +8,7 @@
+>  .\"
+>  .\" 2011-09-19: Added FALLOC_FL_PUNCH_HOLE
+>  .\" 2011-09-19: Substantial restructuring of the page
+> +.\" 2014-02-19: Added FALLOC_FL_COLLAPSE_RANGE
+>  .\"
+>  .TH FALLOCATE 2 2014-01-24 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -124,6 +126,25 @@ Btrfs (since Linux 3.7)
+>  .IP *
+>  tmpfs (since Linux 3.5)
+>  .\" commit 83e4fa9c16e4af7122e31be3eca5d57881d236fe
+> +.SS Collapsing file space
+> +Specifiying the
+> +.BR FALLOC_FL_COLLAPSE_RANGE
+> +flag in
+> +.I mode
+> +collpse space in the byte range starting at
+> +.I offset
+> +and continuing for
+> +.I len
+> +bytes. Within the specified range, it first de-allocates blocks and eliminates
+> +the hole created in this process by shifting data blocks into the hole.
 > +
-> +It can also happen, as with
-> +.BR EACCES ,
-> +when the requested event requires
-> +.B CAP_SYS_ADMIN
-> +permissions (or a more permissive perf_event paranoid setting).
-> +This includes setting a breakpoint on a kernel address,
-> +and (since Linux 3.13) setting a kernel function-trace tracepoint.
->  .TP
->  .B ESRCH
->  Returned if attempting to attach to a process that does not exist.
+> +Different filesystem may implement different limitatios on the granularity of
+> +the operation. Most filesystem will limit operations to filesystem block size
+> +boundaries, but this boundary may be larger or smaller depending
+> +on the filesystem and/or the configuration of the filesystem or file.
+> +
+> +If filesystem has such limitation on granularity, It will return error(EINVAL).
+> +
+>  .SH RETURN VALUE
+>  On success,
+>  .BR fallocate ()
+> -- 
+> 1.7.9.5
 > 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-fsdevel" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+---end quoted text---
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
