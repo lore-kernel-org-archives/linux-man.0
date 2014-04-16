@@ -1,53 +1,89 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 0/6][RFC] Introduce FALLOC_FL_ZERO_RANGE flag for fallocate
-Date: Tue, 15 Apr 2014 23:36:18 -0700
-Message-ID: <20140416063618.GA12498@infradead.org>
-References: <1392649703-10772-1-git-send-email-lczerner@redhat.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2 -- expand ERRORS section
+Date: Wed, 16 Apr 2014 09:18:34 +0200
+Message-ID: <534E2ECA.5030605@bfs.de>
+References: <alpine.DEB.2.10.1404070052310.16856@vincent-weaver-1.um.maine.edu> <5346F5EC.6080600@gmail.com> <alpine.DEB.2.10.1404101621260.30596@vincent-weaver-1.um.maine.edu> <534BBC07.7040105@gmail.com> <alpine.DEB.2.10.1404151342450.15528@vincent-weaver-1.um.maine.edu>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <xfs-bounces@oss.sgi.com>
-Content-Disposition: inline
-In-Reply-To: <1392649703-10772-1-git-send-email-lczerner@redhat.com>
-List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
-List-Archive: <http://oss.sgi.com/pipermail/xfs>
-List-Post: <mailto:xfs@oss.sgi.com>
-List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
-List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
-	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
-Errors-To: xfs-bounces@oss.sgi.com
-Sender: xfs-bounces@oss.sgi.com
-To: Lukas Czerner <lczerner@redhat.com>
-Cc: linux-man@vger.kernel.org, tytso@mit.edu, xfs@oss.sgi.com, Michael Kerrisk <mtk.manpages@gmail.com>, linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1404151342450.15528-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Feb 17, 2014 at 04:08:17PM +0100, Lukas Czerner wrote:
-> Introduce new FALLOC_FL_ZERO_RANGE flag for fallocate. This has the same
-> functionality as xfs ioctl XFS_IOC_ZERO_RANGE.
 
-Lukas, can you please also send a man page update for
-FALLOC_FL_ZERO_RANGE now that is has been merged?
 
-> 
-> It can be used to convert a range of file to zeros preferably without
-> issuing data IO. Blocks should be preallocated for the regions that span
-> holes in the file, and the entire range is preferable converted to
-> unwritten extents - even though file system may choose to zero out the
-> extent or do whatever which will result in reading zeros from the range
-> while the range remains allocated for the file.
-> 
-> This can be also used to preallocate blocks past EOF in the same way as
-> with fallocate. Flag FALLOC_FL_KEEP_SIZE which should cause the inode
-> size to remain the same.
-> 
-> You can test this feature yourself using xfstests, of fallocate(1) however
-> you'll need patches for util_linux, xfsprogs and xfstests which you
-> can find here:
-> 
-> http://people.redhat.com/lczerner/zero_range/
+Am 15.04.2014 20:25, schrieb Vince Weaver:
+> On Mon, 14 Apr 2014, Michael Kerrisk (man-pages) wrote:
+>=20
+>>
+>>        EACCES Returned when the requested event requires root  permi=
+s=E2=80=90
+>>               sions  (or  a  more  permissive perf_event paranoid se=
+t=E2=80=90
+>>               ting).  Some common cases where an unprivileged  proce=
+ss
+>>               may  encounter  this  error:  are attaching to a proce=
+ss
+>>               owned by a different user; monitoring all processes on=
+ a
+>>               given CPU; and not setting exclude_kernel when the par=
+a=E2=80=90
+>>               noid setting requires it.
+>>
+>> But, now I have some more questions:
+>>
+>> * What are "root permissions" here? It's these days usual to express
+>>   things precisely in terms of the required capability.
+>=20
+> Yes, I guess that should really be CAP_SYS_ADMIN
+>=20
+>> * I am puzzled by "monitoring all processes on a CPU"? So, monitorin=
+g=20
+>>   _some_ (i.e., < all) processes on a CPU won't trigger this error?
+>=20
+> I was a bit confused here.
+>=20
+> A regular user can monitor "the specified process on CPU X" or "the=20
+> specified process on any CPU".
+>=20
+> A user running as root can also monitor "all procceses belonging to a=
+nyone=20
+> on CPU X"
+>=20
 
-_______________________________________________
-xfs mailing list
-xfs@oss.sgi.com
-http://oss.sgi.com/mailman/listinfo/xfs
+why not "can monitor any process" ?
+
+re,
+ wh
+
+> Other combinations aren't possible.
+>=20
+>>>>> +.B EPERM
+>>>>> +Returned if sufficient permissions not available to create the e=
+vent.
+>>
+>> Again, somewhere here, the text should mention the required capabili=
+ty.
+>=20
+> Yes, it's CAP_SYS_ADMIN again.
+>=20
+>>> This is a recent change. =20
+>>
+>> So, the text should mention a kernel version number. Could you patch=
+=20
+>> that please. I guess it should be something like:
+>>
+>>     and (since Linux 3.??) setting an ftrace function-trace tracepoi=
+nt
+>=20
+> Yes, I'll do that.
+>=20
+> Vince
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
