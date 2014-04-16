@@ -1,140 +1,64 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Wed, 16 Apr 2014 18:24:38 +0800
-Message-ID: <534E5A66.6080801@cn.fujitsu.com>
-References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>	<52FACFBB.6070607@cn.fujitsu.com>	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com> <CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>
+From: =?ISO-8859-15?Q?Luk=E1=A8_Czerner?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH 0/6][RFC] Introduce FALLOC_FL_ZERO_RANGE flag for
+ fallocate
+Date: Wed, 16 Apr 2014 12:43:09 +0200 (CEST)
+Message-ID: <alpine.LFD.2.00.1404161242480.2586@localhost.localdomain>
+References: <1392649703-10772-1-git-send-email-lczerner@redhat.com> <20140416063618.GA12498@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20140416063618.GA12498-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+On Tue, 15 Apr 2014, Christoph Hellwig wrote:
 
-What is the status of this thread now?
+> Date: Tue, 15 Apr 2014 23:36:18 -0700
+> From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
+>     linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tytso-3s7WtUTddSA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
+>     xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+> Subject: Re: [PATCH 0/6][RFC] Introduce FALLOC_FL_ZERO_RANGE flag for
+>     fallocate
+> 
+> On Mon, Feb 17, 2014 at 04:08:17PM +0100, Lukas Czerner wrote:
+> > Introduce new FALLOC_FL_ZERO_RANGE flag for fallocate. This has the same
+> > functionality as xfs ioctl XFS_IOC_ZERO_RANGE.
+> 
+> Lukas, can you please also send a man page update for
+> FALLOC_FL_ZERO_RANGE now that is has been merged?
 
-> If need be Alex can repost the text for the linux kenrel man pages
-> project to reuse it under an alternate license.
+Right, I'll do that.
 
-Maybe we need Alex can repost "Safety Concepts" section for the man-pages?
+Thanks!
+-Lukas
 
-Thanks.
-
-
--- 
-Best Regards,
-Peng
-
-On 02/26/2014 01:28 AM, Carlos O'Donell wrote:
-> On Sun, Feb 23, 2014 at 5:16 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> The glibc manual is marked with them now, you can see iswblank here:
->>> http://www.gnu.org/software/libc/manual/html_mono/libc.html#index-iswblank-486
->>
->> I realize I could did through a lot of archived mail and answer these
->> questions, but I hope you can save me some time.
 > 
-> My pleasure.
+> > 
+> > It can be used to convert a range of file to zeros preferably without
+> > issuing data IO. Blocks should be preallocated for the regions that span
+> > holes in the file, and the entire range is preferable converted to
+> > unwritten extents - even though file system may choose to zero out the
+> > extent or do whatever which will result in reading zeros from the range
+> > while the range remains allocated for the file.
+> > 
+> > This can be also used to preallocate blocks past EOF in the same way as
+> > with fallocate. Flag FALLOC_FL_KEEP_SIZE which should cause the inode
+> > size to remain the same.
+> > 
+> > You can test this feature yourself using xfstests, of fallocate(1) however
+> > you'll need patches for util_linux, xfsprogs and xfstests which you
+> > can find here:
+> > 
+> > http://people.redhat.com/lczerner/zero_range/
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-ext4" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 > 
->> 1. How was the information about MT-Safety etc derived. I'm assuming a
->> lot of arduous manual inspection, right? (Or was there some automation
->> involved?)
-> 
-> No automation. Manual inspection. It took Alexandre roughly a year to
-> get through ~1000+ functions. After a while though the previous safety
-> notes help you out immensely as you don't need to recurse deeply in a
-> function when you know the properties of the functions you are
-> calling.
-> 
->> 2. Does the glibc manual document the actual or the desired state of
->> the functions wrt to MT-Safety? Where these differ, does the manual
->> document that?
-> 
-> The noes are preliminary so we make no promises.
-> 
-> We document the actual state (not perfectly true, but it's the
-> statement we want to make).
-> 
-> We do not presently indicate what is the desired state.
-> 
-> Some interfaces deviate from the standards, and in some cases we have
-> started marking that e.g. !posix.
-> 
-> However, we need to do a second pass to ensure that:
-> 
-> (a) We transition from preliminary to full guarantees about the API.
-> 
-> -- When we do this transition we will look at what the desired
-> guarantee is for each function.
-> 
-> For example we may *never* guarantee setlocale is MT-safe, simply
-> because the consequence of making it safe slows down every other
-> function that uses locales.
-> 
-> (b) We document the standard requirement for reference.
-> 
-> (c) We add texinfo comments when we have notes to describe why we
-> deviate from the standard.
-> 
->> 3. Were the glibc manual changes generated manually, or was there some
->> degree of automation involved? I.e., has some markup been added to the
->> source that allows one to generate a summary of information about
->> MT-safety? As far as I can tell, that is not the case, but I wanted to
->> check.
-> 
-> The glibc manual changes were generated manually.
-> 
-> However, the notes per function are not text, but instead texinfo macros.
-> 
-> The macros are then turned into the text you see.
-> 
-> Therefore we have a meta-language in texinfo macros to describe the
-> safety notes for each function.
-> 
-> We have a regression test to ensure these notes follow the rules we
-> set out for them e.g. if you mark something unsafe you note why using
-> a valid marker for that safety note.
-> 
-> Markup has not been added to the source to generate a summary of
-> information about MT-safety.
-> 
-> This is actually a GSoC project for glibc:
-> https://sourceware.org/glibc/wiki/GSoC
-> 
-> See "Dynamic Documentation"
-> 
-> Fundamentally we can't move source code documentation into the manual
-> because of the licensing barrier between GFDL and LGPLv2, *however*
-> since gcc has the same problem with C++ we do have a known process for
-> doing this easily (FSF maintainer given the right to relicense the
-> generated docs and check them in).
-> 
-> I also question the validity of copyrighting some of this information.
-> For example I consider that the safety note information isn't
-> copyrightable because it's a property of the function. Descriptive
-> text about why we don't follow the standard would be copyrightable
-> though.
-> 
->> The motivation of the above questions is of course that I wonder what
->> degree of automation might be achievable in making changes to the
->> documentation in man-pages.
-> 
-> We considered this initially and we want to go in that direction, but
-> for this initial pass we determined it would complicate the project
-> and decided to do a manual pass.
-> 
-> If you can suggest any technology we might wish to use, we could
-> refine our GSoC project?
-> 
-> Cheers,
-> Carlos.
-> 
-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
