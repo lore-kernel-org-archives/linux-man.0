@@ -1,56 +1,83 @@
-From: isabelle <contact_claude-uSTK/MBzOD0b1SvskN2V4Q@public.gmane.org>
-Subject: spende /Donation
-Date: Tue, 15 Apr 2014 21:47:38 +0200
-Message-ID: <yx4Sef42JyeoopbQKx5pAipXLBt1prSNuXPiRcWu1Nis__32583.8242577904$1397597317$gmane$org@isabelle.de>
-Reply-To: isabelle.claude654-QFKgK+z4sOrR7s880joybQ@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2 -- clarify EACCES and EPERM errors
+Date: Wed, 16 Apr 2014 07:52:30 +0200
+Message-ID: <534E1A9E.5080105@gmail.com>
+References: <alpine.DEB.2.10.1404151425470.15528@vincent-weaver-1.um.maine.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1404151425470.15528-6xBS8L8d439fDsnSvq7Uq4Se7xf15W0s1dQoKJhdanU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hallo
-Wenn ich diese Nachricht zu senden wollte, ist dies nicht einfach Zufal=
-l. Dies ist, weil Ihre e-Mail vom elektronischen Roboter gesichert mein=
-e WX.7AR BW ausgew=E4hlt wurde.
-Zun=E4chst m=F6chte ich mich f=FCr dieses Eindringen in Ihr Leben zu en=
-tschuldigen, obwohl ich zugeben, dass es mir sehr wichtig. Ich bin Isab=
-elle Vasudev. Ich leide an Krebs im Hals seit nun mehr als 3 Jahre und =
-eine halbe und es leider, mein Arzt hat gerade informiert mich, dass ic=
-h bin voller unheilbar und, dass meine Tage, wegen meinen etwas gez=E4h=
-lt sind abgebaut Zustand. Ich bin eine Witwe und ich habe keine Kind, d=
-as ich beginne zu bedauern.
-In der Tat ist der Grund, warum ich Sie kontaktieren bin, m=F6chte ich =
-einen Teil von meinem Grundst=FCck zu spenden, weil ich niemand, wer di=
-e Erben konnte. Ich habe fast mein ganzes Zeug, darunter ein Unternehme=
-n der Export von Holz, Gummi und Stahl-Industrie in Afrika, wo ich wohn=
-e nun mehr 10 Jahren, verkauft. Ein gro=DFer Teil der Gelder gesammelt =
-wurde mit unterschiedlichen Verb=E4nden humanit=E4ren Charakter =FCbera=
-ll in der Welt, aber besonders hier in Afrika bezahlt.
-Im Hinblick auf den Rest der Summe genau in H=F6he von 750.000, 00euros=
- (sieben hundert und f=FCnfzig tausend Euro) auf eine gesperrte Mitarbe=
-iter-Account, meine letzte w=FCnschen w=FCrde Sie es spenden, so dass S=
-ie in Ihrer Branche und vor allem den humanit=E4ren investieren k=F6nne=
-n. Ich bin ganz bewusst was ich zu tun beabsichtigen, und ich denke, tr=
-otz der Tatsache, die wir nicht wissen, werdet ihr diese Summe gut nutz=
-en. Ich bitte Sie, bitte dieses Erbe zu akzeptieren, ohne jedoch Fragen=
- Sie alles, was in zur=FCckgeben wenn es nicht immer denken, gutes zu t=
-un, um dich herum, was ich nicht getan habe, in meiner Existenz.
-Das hei=DFt, wird auf einer verantwortlichen Person und besonders gutem=
- Glauben fallen zu lassen beruhigt, ich m=F6chte bitten, dass Sie bitte=
- mich bei den meisten schnell kontaktieren, um weitere Erkl=E4rung =FCb=
-er die Gr=FCnde f=FCr meine Geste und den Verlauf der Dinge zu geben. B=
-itte kontaktieren Sie mich so bald wie m=F6glich, wenn Sie mein Angebot=
- akzeptieren.
-Gott m=F6ge mit dir sein!
-Ich fordere Sie auf, mich =FCber meine pers=F6nliche e-Mail-Adresse zu =
-kontaktieren:
-Isabelle.claude654-QFKgK+z4sOrR7s880joybQ@public.gmane.org
-Der Frieden und Barmherzigkeit Gottes m=F6ge mit dir sein.
-Mrs Isabelle
+On 04/15/2014 08:28 PM, Vince Weaver wrote:
+> 
+> Attempt to clarify the reasons for EACCES and EPERM errors.
 
+Thanks, Vince. Applied.
+
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index e513905..00842df 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -2385,11 +2385,14 @@ field is overwritten by the kernel to be the size of the structure
+>  it was expecting.
+>  .TP
+>  .B EACCES
+> -Returned when the requested event requires root permissions
+> -(or a more permissive perf_event paranoid setting).
+> -Some common cases where an unprivileged process 
+> -may encounter this error: are attaching to a process owned by a different user;
+> -monitoring all processes on a given CPU;
+> +Returned when the requested event requires
+> +.B CAP_SYS_ADMIN
+> +permissions (or a more permissive perf_event paranoid setting).
+> +Some common cases where an unprivileged process
+> +may encounter this error:
+> +attaching to a process owned by a different user;
+> +monitoring all processes (including those not belonging to the user)
+> +on a given CPU;
+>  and not setting
+>  .I exclude_kernel
+>  when the paranoid setting requires it.
+> @@ -2477,9 +2480,17 @@ branch tracing if it is not available, sampling if no PMU
+>  interrupt is available, and branch stacks for software events.
+>  .TP
+>  .B EPERM
+> -Returned if sufficient permissions not available to create the event.
+> -This includes attempting to set a breakpoint on a kernel address
+> -and setting a ftrace function trace tracepoint.
+> +Returned on many (but not all) architectures when an unsupported
+> +.IR exclude_hv ", " exclude_idle ", " exclude_user ", or " exclude_kernel
+> +setting is specified.
+> +
+> +It can also happen, as with
+> +.BR EACCES ,
+> +when the requested event requires
+> +.B CAP_SYS_ADMIN
+> +permissions (or a more permissive perf_event paranoid setting).
+> +This includes setting a breakpoint on a kernel address,
+> +and (since Linux 3.13) setting a kernel function-trace tracepoint.
+>  .TP
+>  .B ESRCH
+>  Returned if attempting to attach to a process that does not exist.
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
