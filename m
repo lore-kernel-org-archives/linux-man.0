@@ -1,29 +1,63 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+From: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
 Subject: Re: [PATCH v5 10/10] manpage: update FALLOC_FL_COLLAPSE_RANGE flag
  in fallocate
-Date: Thu, 17 Apr 2014 15:23:59 -0700
-Message-ID: <20140417222359.GA21712@infradead.org>
+Date: Fri, 18 Apr 2014 08:57:01 +1000
+Message-ID: <20140417225701.GY15995@dastard>
 References: <1392741594-20335-1-git-send-email-linkinjeon@gmail.com>
  <20140416060510.GA25651@infradead.org>
  <534FD9B5.3000207@gmail.com>
- <20140417155959.GA24231@infradead.org>
- <CAKgNAkgis+LvQeiabWaRbb3=rvEV2_Z_XQ8O6d5JGR=eEFSxCg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkgis+LvQeiabWaRbb3=rvEV2_Z_XQ8O6d5JGR=eEFSxCg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <534FD9B5.3000207-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Namjae Jeon <linkinjeon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Namjae Jeon <linkinjeon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Apr 17, 2014 at 10:11:06PM +0200, Michael Kerrisk (man-pages) wrote:
-> Those are only comments in the source file, for reference (sometimes,
-> that's really helpful). They don't appear the rendered output.
+On Thu, Apr 17, 2014 at 03:40:05PM +0200, Michael Kerrisk (man-pages) wrote:
+> On 04/16/2014 08:05 AM, Christoph Hellwig wrote:
+> > Michael, can you apply this now that we merged FALLOC_FL_COLLAPSE_RANGE
+> > into the kernel tree?
+> 
+> I've applied Namjae Jeon's patch (thanks Namjae!), and done a lot of
+> tweaking to generate the patch below.
+> 
+> Along the way I noticed that there is an inconsistency between XFS
+> and JFS that should be fixed (and so have added Dave and Ted to CC,
+> as well as linux-fsdevel@). 
+> 
+> If 'fd' does not refer to a regular file, then XFS fails with the 
+> error EINVAL (fs/xfs/xfs_file.c::xfs_file_fallocate()), but ext4 
+> fails with the error EOPNOTSUP
+> (fs/ext4/extents::ext4_collapse_range()). I suspect that EINVAL
+> is the right error for this case.
 
-Ok, that makes a lot more sense.
+I think EINVAL is correct here - we support the syscall, just the
+type of file we are being asked to operate on is invalid.
 
+FWIW, the reason this check is in the filesystems is that there is
+no theoretical reason why we can't do things like preallocation for
+directories (e.g. to reduce fragmentation as they grow). It's just
+not implemented by any filesystem yet.
+
+[ Hmmmm -  I just had a great idea - removing entire directory
+contents via punching blocks. No more "remove one dirent at a time"
+for rm -rf, just punch the directory from start to end and there
+goes millions of directory entries in a single syscall and a handful
+of transactions.  FALLOC_FL_DIR_PUNCH, anyone? ]
+
+> I'd appreciate review on my revised patch, below.
+
+Looks fine to me.
+
+Cheers,
+
+Dave.
+-- 
+Dave Chinner
+david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
