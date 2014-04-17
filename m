@@ -1,69 +1,61 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: Re: [PATCH] crypt(3): use real dashes in regex
-Date: Thu, 17 Apr 2014 21:22:31 +0200
-Message-ID: <CAKgNAkh4yU=nnEVoWA0g36bQovg6csR-ik54Z0FT3Q53Hrn8-g@mail.gmail.com>
-References: <1397756918-16350-1-git-send-email-vapier@gentoo.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Date: Thu, 17 Apr 2014 15:55:20 -0400
+Message-ID: <3245891.ebzCqChYRm@vapier>
+References: <1397756918-16350-1-git-send-email-vapier@gentoo.org> <CAKgNAkh4yU=nnEVoWA0g36bQovg6csR-ik54Z0FT3Q53Hrn8-g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: multipart/signed; boundary="nextPart6386115.OoR05UdEG6"; micalg="pgp-sha1"; protocol="application/pgp-signature"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1397756918-16350-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAKgNAkh4yU=nnEVoWA0g36bQovg6csR-ik54Z0FT3Q53Hrn8-g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Mike,
 
-On Thu, Apr 17, 2014 at 7:48 PM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> I don't think rendering the dashes in the regex expression as the en
-> style makes sense.  This is a literal regex, so use literal dashes.
+--nextPart6386115.OoR05UdEG6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
 
-I agree, but it looks like your patch is inconsistent. But you use
-'\-' in one part of the patch (right), and just '-' in the other part.
-How come?
+On Thu 17 Apr 2014 21:22:31 Michael Kerrisk wrote:
+> On Thu, Apr 17, 2014 at 7:48 PM, Mike Frysinger wrote:
+> > I don't think rendering the dashes in the regex expression as the e=
+n
+> > style makes sense.  This is a literal regex, so use literal dashes.=
 
-Cheers,
+>=20
+> I agree, but it looks like your patch is inconsistent. But you use
+> '\-' in one part of the patch (right), and just '-' in the other part=
+.
+> How come?
 
-Michael
+i wrote the two hunks on different days.  iiuc, they should all be \-.
+=2Dmike
+--nextPart6386115.OoR05UdEG6
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
-> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-> ---
->  man3/crypt.3 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man3/crypt.3 b/man3/crypt.3
-> index 9baa80a..453bcec 100644
-> --- a/man3/crypt.3
-> +++ b/man3/crypt.3
-> @@ -65,7 +65,7 @@ is a user's typed password.
->  .PP
->  .I salt
->  is a two-character string chosen from the set
-> -[\fBa\fP\(en\fBzA\fP\(en\fBZ0\fP\(en\fB9./\fP].
-> +[\fBa\-zA\-Z0\-9./\fP].
->  This string is used to
->  perturb the algorithm in one of 4096 different ways.
->  .PP
-> @@ -241,7 +241,7 @@ SHA-512 | 86 characters
->  .TE
->
->  The characters in "\fIsalt\fP" and "\fIencrypted\fP" are drawn from the set
-> -[\fBa\fP\(en\fBzA\fP\(en\fBZ0\fP\(en\fB9./\fP].
-> +[\fBa-zA-Z0-9./\fP].
->  In the MD5 and SHA implementations the entire
->  .I key
->  is significant (instead of only the first
-> --
-> 1.9.2
->
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
 
+iQIcBAABAgAGBQJTUDGoAAoJEEFjO5/oN/WBslUQAICrYHf8O+TlDWc2M7o+eySR
+scfAQRMSF2OYwvzep1IXTJwNw0kSy+BKjD6Yxp3yuc2l7+fv5fW16y4/ZXLiiQ4y
+GE4x//dAciK7Kz/TZB/SpdHiHTqNngY43mWl1wWYPPQQpnoCg2Ro9bYvlCoC3qbH
+fsvnR6Wsr+xP57iC3kBSh7Az+y861mewmQ6ymTMEqgXr33JFmivlj0/eRN03bVrV
+3h+/IFhJS0Zk9ORfg8mhwXgC4cuJUbUPP/M3J3QcBvSi6k5H6zA4LIB2hG+SCSK1
+wF/xLeTWEoSd2MOKUvguJVhDTZMVS2UvUS8ENKXmqEPDNeW0Q67pUrUGkiVGRnF9
+Ixy2ddcQO3/w2wgMBXd+jQKeFHvFvtZDsNl6GmZRXy2aT3fjzssVssvJRbuWpZH/
+b7Cf3Bd2sGN16GL7jV5lCTuWOvoMt4sp4BF1Nd/8XlAeQYBogl8JZM1PlFb29Qdl
+fK81TDypKHHVx+9YIGIxeZoDXrm0OhHThQsmkrZNl/ID2jqLNWusPtjK5vunPkDG
+Rdq1qVWnfwE/fmHqcgreL6nNwY6qtnIVsPhSsVg5F2V7uFXJGV0XcqFk4zmzgsWi
+hI5wflqCj31NpsXBNecpE/dQVRq/aX/o8pFeGpEYnI/IIHCSKU2cgyPNI1ip4yWY
+DOp9DV5mcqtVyFL4M+oF
+=FExr
+-----END PGP SIGNATURE-----
 
+--nextPart6386115.OoR05UdEG6--
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
