@@ -1,127 +1,50 @@
-From: =?ISO-8859-15?Q?Luk=E1=A8_Czerner?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Fri, 18 Apr 2014 18:21:42 +0200 (CEST)
-Message-ID: <alpine.LFD.2.00.1404181819470.2128@localhost.localdomain>
-References: <1397741451-19161-1-git-send-email-lczerner@redhat.com> <5351499C.2080506@gmail.com>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH v2 1/2] xfs: fix tmpfile/selinux deadlock and initialize
+ security/acl
+Date: Fri, 18 Apr 2014 09:39:20 -0700
+Message-ID: <20140418163920.GB13808@infradead.org>
+References: <1397071311-28371-1-git-send-email-bfoster@redhat.com>
+ <1397071311-28371-2-git-send-email-bfoster@redhat.com>
+ <20140410102421.GA17641@infradead.org>
+ <20140410121947.GA14124@bfoster.bfoster>
+ <20140410122944.GA6579@infradead.org>
+ <20140415175228.GE26404@infradead.org>
+ <1188577823.463241.1397590262478.JavaMail.zimbra@linbit.com>
+ <20140416111402.GA32350@infradead.org>
+ <359356562.473582.1397669369258.JavaMail.zimbra@linbit.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5351499C.2080506-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <359356562.473582.1397669369258.JavaMail.zimbra-63ez5xqkn6DQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andreas Gruenbacher <andreas.gruenbacher-63ez5xqkn6DQT0dZR+AlfA@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Brian Foster <bfoster-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, 18 Apr 2014, Michael Kerrisk (man-pages) wrote:
+On Wed, Apr 16, 2014 at 07:29:29PM +0200, Andreas Gruenbacher wrote:
+> > Btw, I think the man page is wrong - given that the tmpfile is not
+> > visible in the namespace it is obviously not created in the directory.
+> > The directory passed in is just a handle for the filesystem it should be
+> > created in.
+> 
+> I don't agree.  If the file is created with O_TMPFILE | O_EXCL, it is clear
+> that the file will never be linked into the namespace.  Even then, there are
+> operations which are affected by the inode permissions and label of the
+> anonymous file, and those should still behave reasonably.  In this context,
+> I would expect them to behave as if the file was actually created in the
+> specified directory, not in the file system root or "nowhere" with no clearly
+> defined permissions and security label.
 
-> Date: Fri, 18 Apr 2014 17:49:48 +0200
-> From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
->     linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-> 
-> Lukas,
-> 
-> Thanks for the patch.
-> 
-> Two general comments:
-> * The text does not explain what zeroing file space is about and why one 
->   would do it. For example, I'm a little unclear after reading it whether
->   FALLOC_FL_ZERO_RANGE will create a hole in a file.
+So you want to define the files as being in a directory, but not
+actually visible?  That's defintively a new and strange state to be in.
 
-It is saying that blocks are preallocated for the regions that span
-holes in the file. And there isn't anything saying about punching a
-hole into the file. But I guess I can be more clear about it.
+> > Inheriting any ACL on creating an anonymous file seems utterly wrong.
+> 
+> Why?
 
-> * Some entries should probably be added to ERRORS.
-> 
-> Could you fix both of those and resubmit?
+Because it has no parent to inherit it from.
 
-Sure I'll do that next week.
-
-> 
-> Note that I've just pushed some changes to the page for 
-> FALLOC_FL_COLLAPSE_RANGE, so you may want to pull the latest version to
-> ensure there are no conflicts.
-> 
-> Cheers,
-> 
-> Michael
-> 
-> 
-> On 04/17/2014 03:30 PM, Lukas Czerner wrote:
-> > FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
-> > for zeroing ranges in the allocated space in a file.
-> > 
-> > Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> > ---
-> >  man2/fallocate.2 | 41 +++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> > 
-> > diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> > index b31bbde..df31782 100644
-> > --- a/man2/fallocate.2
-> > +++ b/man2/fallocate.2
-> > @@ -124,6 +124,45 @@ Btrfs (since Linux 3.7)
-> >  .IP *
-> >  tmpfs (since Linux 3.5)
-> >  .\" commit 83e4fa9c16e4af7122e31be3eca5d57881d236fe
-> > +.SS Zeroing file space
-> > +Specifying
-> > +.BR FALLOC_FL_ZERO_RANGE
-> > +flag (available since Linux 3.14) in
-> > +.I mode
-> > +zeroes space in the byte range starting at
-> > +.I offset
-> > +and continuing for
-> > +.I len
-> > +bytes.
-> > +Within the specified range, blocks are preallocated for the regions
-> > +that span the holes in the file. After a successful call,
-> > +subsequent reads from this range will return zeroes.
-> > +
-> > +Zeroing is done within the file system preferably by converting range into
-> > +unwritten extents which requires very little IO to be issued.
-> > +
-> > +If the
-> > +.B FALLOC_FL_KEEP_SIZE
-> > +flag is specified in
-> > +.IR mode ,
-> > +the behavior of the call is similar,
-> > +but the file size will not be changed even if
-> > +.IR offset + len
-> > +is greater than the file size. This behaviour is the same as when
-> > +preallocating space with
-> > +.B FALLOC_FL_KEEP_SIZE
-> > +specified.
-> > +
-> > +Not all filesystems support
-> > +.BR FALLOC_FL_ZERO_RANGE ;
-> > +if a filesystem doesn't support the operation, an error is returned.
-> > +The operation is supported on at least the following filesystems
-> > +.IP * 3
-> > +XFS (since Linux 2.14)
-> > +.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
-> > +.IP *
-> > +ext4 (since Linux 3.14)
-> > +.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
-> >  .SH RETURN VALUE
-> >  On success,
-> >  .BR fallocate ()
-> > @@ -193,6 +232,8 @@ Or:
-> >  .I mode
-> >  specifies
-> >  .BR FALLOC_FL_PUNCH_HOLE
-> > +or
-> > +.BR FALLOC_FL_ZERO_RANGE
-> >  and
-> >  the file referred to by
-> >  .I fd
-> > 
-> 
-> 
-> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
