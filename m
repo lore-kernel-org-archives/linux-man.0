@@ -1,63 +1,108 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v5 10/10] manpage: update FALLOC_FL_COLLAPSE_RANGE flag
- in fallocate
-Date: Fri, 18 Apr 2014 17:41:16 +0200
-Message-ID: <5351479C.9060101@gmail.com>
-References: <1392741594-20335-1-git-send-email-linkinjeon@gmail.com> <20140416060510.GA25651@infradead.org> <534FD9B5.3000207@gmail.com> <20140417225701.GY15995@dastard>
+Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
+Date: Fri, 18 Apr 2014 17:49:48 +0200
+Message-ID: <5351499C.2080506@gmail.com>
+References: <1397741451-19161-1-git-send-email-lczerner@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140417225701.GY15995@dastard>
+In-Reply-To: <1397741451-19161-1-git-send-email-lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Namjae Jeon <linkinjeon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?windows-1252?Q?Luk=E1=9A_Czerner?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/18/2014 12:57 AM, Dave Chinner wrote:
-> On Thu, Apr 17, 2014 at 03:40:05PM +0200, Michael Kerrisk (man-pages) wrote:
->> On 04/16/2014 08:05 AM, Christoph Hellwig wrote:
->>> Michael, can you apply this now that we merged FALLOC_FL_COLLAPSE_RANGE
->>> into the kernel tree?
->>
->> I've applied Namjae Jeon's patch (thanks Namjae!), and done a lot of
->> tweaking to generate the patch below.
->>
->> Along the way I noticed that there is an inconsistency between XFS
->> and JFS that should be fixed (and so have added Dave and Ted to CC,
->> as well as linux-fsdevel@). 
->>
->> If 'fd' does not refer to a regular file, then XFS fails with the 
->> error EINVAL (fs/xfs/xfs_file.c::xfs_file_fallocate()), but ext4 
->> fails with the error EOPNOTSUP
->> (fs/ext4/extents::ext4_collapse_range()). I suspect that EINVAL
->> is the right error for this case.
-> 
-> I think EINVAL is correct here - we support the syscall, just the
-> type of file we are being asked to operate on is invalid.
+Lukas,
 
-Hmmm -- you and Lukasz seem to differ on this point.
+Thanks for the patch.
 
-> FWIW, the reason this check is in the filesystems is that there is
-> no theoretical reason why we can't do things like preallocation for
-> directories (e.g. to reduce fragmentation as they grow). It's just
-> not implemented by any filesystem yet.
-> 
-> [ Hmmmm -  I just had a great idea - removing entire directory
-> contents via punching blocks. No more "remove one dirent at a time"
-> for rm -rf, just punch the directory from start to end and there
-> goes millions of directory entries in a single syscall and a handful
-> of transactions.  FALLOC_FL_DIR_PUNCH, anyone? ]
+Two general comments:
+* The text does not explain what zeroing file space is about and why one 
+  would do it. For example, I'm a little unclear after reading it whether
+  FALLOC_FL_ZERO_RANGE will create a hole in a file.
+* Some entries should probably be added to ERRORS.
 
-Interesting idea. CC me and linux-api on the patch, if you do one.
+Could you fix both of those and resubmit?
 
->> I'd appreciate review on my revised patch, below.
-> 
-> Looks fine to me.
+Note that I've just pushed some changes to the page for 
+FALLOC_FL_COLLAPSE_RANGE, so you may want to pull the latest version to
+ensure there are no conflicts.
 
-Thanks,
+Cheers,
 
 Michael
+
+
+On 04/17/2014 03:30 PM, Lukas Czerner wrote:
+> FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
+> for zeroing ranges in the allocated space in a file.
+> 
+> Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/fallocate.2 | 41 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/man2/fallocate.2 b/man2/fallocate.2
+> index b31bbde..df31782 100644
+> --- a/man2/fallocate.2
+> +++ b/man2/fallocate.2
+> @@ -124,6 +124,45 @@ Btrfs (since Linux 3.7)
+>  .IP *
+>  tmpfs (since Linux 3.5)
+>  .\" commit 83e4fa9c16e4af7122e31be3eca5d57881d236fe
+> +.SS Zeroing file space
+> +Specifying
+> +.BR FALLOC_FL_ZERO_RANGE
+> +flag (available since Linux 3.14) in
+> +.I mode
+> +zeroes space in the byte range starting at
+> +.I offset
+> +and continuing for
+> +.I len
+> +bytes.
+> +Within the specified range, blocks are preallocated for the regions
+> +that span the holes in the file. After a successful call,
+> +subsequent reads from this range will return zeroes.
+> +
+> +Zeroing is done within the file system preferably by converting range into
+> +unwritten extents which requires very little IO to be issued.
+> +
+> +If the
+> +.B FALLOC_FL_KEEP_SIZE
+> +flag is specified in
+> +.IR mode ,
+> +the behavior of the call is similar,
+> +but the file size will not be changed even if
+> +.IR offset + len
+> +is greater than the file size. This behaviour is the same as when
+> +preallocating space with
+> +.B FALLOC_FL_KEEP_SIZE
+> +specified.
+> +
+> +Not all filesystems support
+> +.BR FALLOC_FL_ZERO_RANGE ;
+> +if a filesystem doesn't support the operation, an error is returned.
+> +The operation is supported on at least the following filesystems
+> +.IP * 3
+> +XFS (since Linux 2.14)
+> +.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
+> +.IP *
+> +ext4 (since Linux 3.14)
+> +.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
+>  .SH RETURN VALUE
+>  On success,
+>  .BR fallocate ()
+> @@ -193,6 +232,8 @@ Or:
+>  .I mode
+>  specifies
+>  .BR FALLOC_FL_PUNCH_HOLE
+> +or
+> +.BR FALLOC_FL_ZERO_RANGE
+>  and
+>  the file referred to by
+>  .I fd
+> 
 
 
 -- 
