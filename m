@@ -1,71 +1,33 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 74481] New: It should be documented that using fexecve on a
- file opened in O_CLOEXEC that is a script cannot possibly work.
-Date: Sun, 20 Apr 2014 02:36:23 +0000
-Message-ID: <bug-74481-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] timer_getoverrun.2:tfix
+Date: Sun, 20 Apr 2014 08:41:08 +0400
+Message-ID: <1397968868-4466-1-git-send-email-yuray@komyakino.ru>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=74481
+---
+ man2/timer_getoverrun.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-            Bug ID: 74481
-           Summary: It should be documented that using fexecve on a file
-                    opened in O_CLOEXEC that is a script cannot possibly
-                    work.
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org
-        Regression: No
-
-Consider the following program:
-
-#include <errno.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-int main()
-{
-    int test = open("./test.sh", O_RDONLY | O_CLOEXEC);
-    if (-1 == test) {
-        perror("open");
-    }
-
-    char * const argv[] = {
-        (char *) "./test.sh",
-        NULL
-    };
-    char * const env[] = { NULL };
-    fexecve(test, argv, env);
-    perror("fexecve");
-
-    return 0;
-}
-
-and the following script:
-
-#! /usr/bin/env dash
-
-echo 'hello world!'
-
-When the C program is run, it cannot work because by the time the interpreter
-has the passed in file name "/proc/self/fd/${FD}" it has already been closed.
-This is a strange corner case that should be documented.
-
+diff --git a/man2/timer_getoverrun.2 b/man2/timer_getoverrun.2
+index d64255a..c14230b 100644
+--- a/man2/timer_getoverrun.2
++++ b/man2/timer_getoverrun.2
+@@ -78,7 +78,7 @@ Timer overruns can also occur when expiration notifications
+ are delivered via invocation of a thread,
+ since there may be an arbitrary delay between an expiration of the timer
+ and the invocation of the notification thread,
+-and in that delay interval, additional timer expirations may occur
++and in that delay interval, additional timer expirations may occur.
+ .SH RETURN VALUE
+ On success,
+ .BR timer_getoverrun ()
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.9.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
