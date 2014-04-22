@@ -1,17 +1,39 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
 Subject: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
-Date: Tue, 22 Apr 2014 20:55:59 +0200
-Message-ID: <5356BB3F.4030502@gmail.com>
-References: <1398182519.2926.26.camel@x201> <5356B3BA.7050401@gmail.com> <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com>
+Date: Tue, 22 Apr 2014 21:06:27 +0200
+Message-ID: <1398193587.4690.6.camel@actium.fritz.box>
+References: <1398182519.2926.26.camel@x201> <5356B3BA.7050401@gmail.com>
+	 <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com>
+	 <5356BB3F.4030502@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <5356BB3F.4030502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+Thanks for the lightning quick responses, everyone.
+
+@Michael:
+> What does "their" in "their status" refer to? 
+"their status" refers to the malformed packets' tp_status field in the
+tpacket_hdr struct. I thought my phrasing was sufficient, but feel free
+to adjust it as you see fit.
+
+Cheers,
+Carsten
+
+-------- Weitergeleitete Nachricht --------
+Von: Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+An: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Kopie: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carsten Andrich
+<carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>,
+linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Betreff: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
+Datum: Tue, 22 Apr 2014 20:55:59 +0200
 
 On 04/22/2014 08:36 PM, Willem de Bruijn wrote:
 > On Tue, Apr 22, 2014 at 2:23 PM, Michael Kerrisk (man-pages)
@@ -110,10 +132,8 @@ Michael
 > 
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
