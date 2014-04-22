@@ -1,68 +1,70 @@
-From: Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] open.2: Update note about the alignment of the user buffer
- and the file offset for O_DIRECT flag
-Date: Tue, 22 Apr 2014 19:21:19 +0200
-Message-ID: <5356A50F.4010602@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] pthread_attr_setinheritsched.3: ATTRIBUTES: Note functions
+ that are thread-safe
+Date: Tue, 22 Apr 2014 16:43:49 +0200
+Message-ID: <53568025.5070107@gmail.com>
+References: <1398043209-11075-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------030004000901040901050206"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1398043209-11075-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, esandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------030004000901040901050206
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Thanks, Haitao.
 
-Hello Michael,
+Applied.
 
-the sentence in open(2) man page in notes for O_DIRECT flag:
-"Under Linux 2.6, alignment to 512-byte boundaries suffices."
+Cheers,
 
-is not universally correct. The alignment is a property of the storage, 
-for example, 4k-sector drives with no 512 byte sector emulation will be 
-unable to perform 512-byte direct I/O.
+Michael
 
-The patch clarifies this sentence.
+On 04/21/2014 03:20 AM, Peng Haitao wrote:
+> The functions pthread_attr_setinheritsched() and
+> pthread_attr_getinheritsched() are thread safe.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/pthread_attr_setinheritsched.3 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/pthread_attr_setinheritsched.3 b/man3/pthread_attr_setinheritsched.3
+> index 5a0c9ac..c760781 100644
+> --- a/man3/pthread_attr_setinheritsched.3
+> +++ b/man3/pthread_attr_setinheritsched.3
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH PTHREAD_ATTR_SETINHERITSCHED 3 2013-04-19 "Linux" "Linux Programmer's Manual"
+> +.TH PTHREAD_ATTR_SETINHERITSCHED 3 2014-04-21 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  pthread_attr_setinheritsched, pthread_attr_getinheritsched \- set/get
+>  inherit-scheduler attribute in thread attributes object
+> @@ -107,6 +107,13 @@ error ("attempt was made to set the attribute to an unsupported value") for
+>  .BR pthread_attr_setinheritsched ().
+>  .\" .SH VERSIONS
+>  .\" Available since glibc 2.0.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR pthread_attr_setinheritsched ()
+> +and
+> +.BR pthread_attr_getinheritsched ()
+> +functions are thread-safe.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH BUGS
+> 
 
-Thanks,
 
-peter
-
---------------030004000901040901050206
-Content-Type: text/x-patch;
- name="open.2.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="open.2.patch"
-
-diff --git a/man2/open.2 b/man2/open.2
-index 389945f..c80686d 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -1322,7 +1322,16 @@ operation in
- Under Linux 2.4, transfer sizes, and the alignment of the user buffer
- and the file offset must all be multiples of the logical block size
- of the filesystem.
--Under Linux 2.6, alignment to 512-byte boundaries suffices.
-+Under Linux 2.6 and newer, alignment to the logical block size of the
-+underlying storage (typically 512 bytes) suffices.
-+Logical block size can be determined with
-+.BR ioctl (2)
-+.B BLKSSZGET
-+system call or
-+.BR blockdev (8)
-+command with
-+.B --getss
-+parameter.
- .LP
- .B O_DIRECT
- I/Os should never be run concurrently with the
-
---------------030004000901040901050206--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
