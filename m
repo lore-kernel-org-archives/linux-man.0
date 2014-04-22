@@ -1,35 +1,61 @@
-From: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
 Subject: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
-Date: Tue, 22 Apr 2014 15:14:53 -0400
-Message-ID: <CA+FuTScUexjc6bETYMVgPUgmN5CSR40=UrELT9N363Tvk1+waA@mail.gmail.com>
+Date: Tue, 22 Apr 2014 22:53:39 +0200
+Message-ID: <1398200019.5031.24.camel@actium.fritz.box>
 References: <1398182519.2926.26.camel@x201> <5356B3BA.7050401@gmail.com>
- <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com> <5356BB3F.4030502@gmail.com>
+	 <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com>
+	 <5356BB3F.4030502@gmail.com>
+	 <CA+FuTScUexjc6bETYMVgPUgmN5CSR40=UrELT9N363Tvk1+waA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5356BB3F.4030502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CA+FuTScUexjc6bETYMVgPUgmN5CSR40=UrELT9N363Tvk1+waA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+@Willem: Sorry for being a smart ass ;)
+> I interpreted this as the tp_status field of the malformed packets. To
+> make clear that it does not refer to the "following packets", it could
+> be revised to
+> 
+> "is set, transmission continues, skipping over any malformed packets. The
+> status of the malformed packets is reset to TP_STATUS_AVAILABLE."
+There's no need to emphasize that "only" malformed packets have their
+tp_status set to TP_STATUS_AVAILABLE, since the following packets will
+share that fate (by being either skipped or actually sent).
+If this were not the case the ring would be broken, due to multiple
+non-consecutive occurrences of the same TP_STATUS_xyz. This is why the
+transmission must be immediately aborted on encountering a malformed
+packet if PACKET_LOSS is not set.
+
+Aside from this purely academical know-it-all remark (sorry, again),
+your suggested change is fine, of course. As an alternative, I simply
+stripped the "theirs" from my initial suggestion:
+---
+However if
+.BR PACKET_LOSS
+is set, any malformed packet will be skipped, its status reset to
+.BR TP_STATUS_AVAILABLE
+and the transmission process continued.
+---
+
+Cheers,
+Carsten
+
+-------- Weitergeleitete Nachricht --------
+Von: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+An: Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Kopie: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Daniel Borkmann
+<dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Betreff: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
+Datum: Tue, 22 Apr 2014 15:14:53 -0400
 
 On Tue, Apr 22, 2014 at 2:55 PM, Michael Kerrisk (man-pages)
 <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 04/22/2014 08:36 PM, Willem de Bruijn wrote:
->> On Tue, Apr 22, 2014 at 2:23 PM, Michael Kerrisk (man-pages)
->> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> Hi Daniel, Willem,
->>>
->>>
->>> Daniel, your patch (dbb4f7516b) added the text on PACKET_LOSS.
->>> Could you comment on the patch below please?
->>
->> Carsten is correct. I made a mistake in that explanation, accidentally
->> inverting the branch. My apologies and thanks for following up with a
->> replacement text, Carsten. That looks good to me.
->
-> @Willem: thanks for the quick response. That helps so much.
->
+[...]
 > @Carsten: I've applied your patch, but I have a question. You wrote:
 >
 > [[
@@ -47,82 +73,7 @@ be revised to
 
 "is set, transmission continues, skipping over any malformed packets. The
 status of the malformed packets is reset to TP_STATUS_AVAILABLE."
->
-> Cheers,
->
-> Michael
->
->
->
->>> On 04/22/2014 06:01 PM, Carsten Andrich wrote:
->>>> Hey there,
->>>>
->>>> I stumbled upon an error in packet.7 regarding the meaning of the
->>>> PACKET_LOSS socket option. According to the current git version of
->>>> linux-man setting PACKET_LOSS causes malformed packets to *not* be
->>>> silently dropped.
->>>>
->>>> However it is the other way round. If PACKET_LOSS is *not* set,
->>>> malformed packets will be marked TP_STATUS_WRONG_FORMAT and the
->>>> transmission process aborted, leaving untransmitted packets in the ring.
->>>> If it *is* set, malformed packets will be silently skipped, their status
->>>> set to TP_STATUS_AVAILABLE and the transmission process continued with
->>>> the following packet.
->>>>
->>>> This behaviour can be clearly seen in net/packet/af_packet.c:
->>>> http://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/net/packet/af_packet.c#n2300
->>>>
->>>> The value accompanying TP_PACKET_LOSS translates into po->tp_loss:
->>>> http://git.kernel.org/cgit/linux/kernel/git/stable/linux-stable.git/tree/net/packet/af_packet.c#n3304
->>>>
->>>> I inverted the meaning of PACKET_LOSS and clarified the description in
->>>> the attached patch.
->>>
->>> diff --git a/man7/packet.7 b/man7/packet.7
->>> index d8257f9..5085814 100644
->>> --- a/man7/packet.7
->>> +++ b/man7/packet.7
->>> @@ -319,9 +319,15 @@ original fanout algorithm selects a backlogged socket, the packet
->>>  rolls over to the next available one.
->>>  .TP
->>>  .BR PACKET_LOSS " (with " PACKET_TX_RING )
->>> -If set, do not silently drop a packet on transmission error, but
->>> -return it with status set to
->>> -.BR TP_STATUS_WRONG_FORMAT .
->>> +When a malformed packet is encountered on a transmit ring, the default is to
->>> +set its status to
->>> +.BR TP_STATUS_WRONG_FORMAT
->>> +and abort the transmission immediately (it and following packets are left
->>> +lingering on the ring). However if
->>> +.BR PACKET_LOSS
->>> +is set, malformed packets will be skipped, their status reset to
->>> +.BR TP_STATUS_AVAILABLE
->>> +and the transmission process continued.
->>>  .TP
->>>  .BR PACKET_RESERVE " (with " PACKET_RX_RING )
->>>  By default, a packet receive ring writes packets immediately following the
->>> @@ -419,7 +425,7 @@ or
->>>  then that overrides the socket default.
->>>  On successful transmission, the socket resets the slot to
->>>  .BR TP_STATUS_AVAILABLE .
->>> -It discards packets silently on error unless
->>> +It immediately aborts the transmission on error unless
->>>  .BR PACKET_LOSS
->>>  is set.
->>>  .TP
->>>
->>>
->>> --
->>> Michael Kerrisk
->>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->>> Linux/UNIX System Programming Training: http://man7.org/training/
->>
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
