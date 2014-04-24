@@ -1,78 +1,82 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: status in PACKET_RX_RING is actually a bit mask
-Date: Thu, 24 Apr 2014 12:16:39 +0200
-Message-ID: <5358E487.40007@gmail.com>
-References: <CACKs7VD6a0hzMd_Go6yUAxJ=tbYdJ9Qbq=FXQezVvaUUE9egUw@mail.gmail.com> <CACKs7VAUE89+NyuywOwpZ2GzeVQLtV_A-+4PicErmCzLNNNd6Q@mail.gmail.com> <CAKgNAkhJO2ZMpMf6BiaW7TRUd6jvLFU7yPN7xKH9fDoVPPr=tA@mail.gmail.com> <5358C4FC.80204@redhat.com> <CAKgNAkjwHkba6NktfNK9nRUUAwcYeFK5aGBgov1tcuipy4mPdw@mail.gmail.com> <5358C7E0.9040704@redhat.com> <a8bac93e5e046516a01b2b1952c8cae5@localhost>
+Subject: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
+Date: Thu, 24 Apr 2014 12:21:18 +0200
+Message-ID: <5358E59E.2000207@gmail.com>
+References: <1398182519.2926.26.camel@x201> <5356B3BA.7050401@gmail.com> <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com> <5356BB3F.4030502@gmail.com> <CA+FuTScUexjc6bETYMVgPUgmN5CSR40=UrELT9N363Tvk1+waA@mail.gmail.com> <1398200019.5031.24.camel@actium.fritz.box> <53575872.6080403@gmail.com> <e1a7b65cad75dd1a52721826c226c352@localhost> <53579224.3060006@gmail.com> <1398280218.2416.18.camel@actium.fritz.box> <5358C957.8080402@gmail.com> <1da011719b1828d43232fd8d91b609ff@localhost>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <a8bac93e5e046516a01b2b1952c8cae5@localhost>
+In-Reply-To: <1da011719b1828d43232fd8d91b609ff@localhost>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/24/2014 11:17 AM, Carsten Andrich wrote:
-> I'd ack the patch, too.
-> However if we start clarifying the bitmask situation, we should do it
-> properly. packet.7 mentions TP_STATUS_xyz several times and never
-> actually differentiates between setting bits and setting the whole
-> tp_status variable. Actually both occurs inside the kernel:
-> http://lingrok.org/xref/linux-net-next/net/packet/af_packet.c#798
-> http://lingrok.org/xref/linux-net-next/net/packet/af_packet.c#2300
+On 04/24/2014 11:39 AM, Carsten Andrich wrote:
+> "Michael Kerrisk (man-pages)" schrieb:
+>> On 04/23/2014 09:10 PM, Carsten Andrich wrote:
+>>> [...]
+>>> Unfortunately my experience with Linux packet sockets is very limited. I
+>>> messed with them a few times, but only really started using SOCK_RAW
+>>> packet sockets (including PACKET_MMAP) a few weeks ago (as a part of my
+>>> Bachelor's thesis). I haven't looked at the linux (networking) code
+>>> before Monday, when I tried to figure out if either packet.7 or I was
+>>> wrong regarding PACKET_LOSS. And I've never even touched SOCK_DGRAM.
+>>>
+>>> All this doesn't exactly qualify me for the job :)
+>>
+>> Maybe, maybe not. On the other hand, I have the idea (may be wrong) 
+>> that Vince Weaver was a beginner with perf_event_open() when he
+>> started sending me patches. He's continued doing so with a vengeance
+>> (thanks again Vince!). That has been a great help, since 
+>> perf_event_open() is a complex, constantly evolving API surface, and
+>> I just don't have the time to track the details. The API described in 
+>> packet.7 has not changed much over time, but the man page has seen
+>> little love over the years. An inquiring mind, willing to test things
+>> and read code are the main prerequisites. ANd it sounds like some 
+>> others might chip with help and Acks.
 > 
-> I could prepare another patch for review, that clarifies the tp_status
-> usage for all references to TP_STATUS_xyz values.
-> Unless Stefan would like to do this himself, since it's actually his
-> "discovery" ;)
+> We could give it a shot. It may be of an advantage to not have a deep
+> understanding of the code driving the interface one is trying to
+> document, as to not leave out aspects which appear to be self-evident.
 
-I'd be happy to receive a patch from either of you.
+(Nod.)
+
+> It would make sense to limit our efforts to getting the PACKET_MMAP
+> documentation in good shape, at least for now.
+> I'd definitely require a reviewer (who's willing to answer some
+> questions in advance) with a good understanding of at_packet.c and since
+> I've already mentioned the need for synchronizing packet.7 and
+> packet_mmap.txt we'd also need a decent plan how to distribute/share
+> information among both.
+
+I'd leave that plan largely to you. It sounds like Willem and
+Daniel are willing to help out. 
+
+> I'll try to come up with some ideas once I've handed in my Bachelor's
+> thesis (deadline ends 3 weeks from now).
+> Is there anyone else from the kernel-side we'd need to involve besides
+> Willem and Daniel?
+
+Maybe even Neil and Andi (CCed) might chip in from time to time.
+
+>>> Maybe we should continue this discussion in private, so we don't bore
+>>> everyone to death.
+>>
+>> Drop me a private mail if you want, but there are also benefits 
+>> to public conversations ;-).
+> I just don't want to annoy anyone, since we kinda force Willem, Daniel
+> and now Vince to read this :)
+
+So it goes...
+
+Thanks, Carsten.
 
 Cheers,
 
 Michael
 
-
-> Daniel Borkmann schrieb:
->> On 04/24/2014 10:04 AM, Michael Kerrisk (man-pages) wrote:
->>>> Now to your question. It can easily be seen from the if_packet.h header
->>>> file http://lingrok.org/xref/linux-net-next/include/uapi/linux/if_packet.h#93
->>>> that TP_STATUS_* are individual bits that are set in tp_status field.
->>>
->>> So, I take it that that's an Ack-for the patch by Stefan?
->>
->> Feel free to add my Ack. One nit below:
->>
->> diff --git a/man7/packet.7 b/man7/packet.7
->> index 1d3f222..6bac465 100644
->> --- a/man7/packet.7
->> +++ b/man7/packet.7
->> @@ -353,9 +353,9 @@ The packet socket owns all slots with status
->>  .BR TP_STATUS_KERNEL .
->>  After filling a slot, it changes the status of the slot to transfer
->>  ownership to the application.
->> -During normal operation, the new status is
->> -.BR TP_STATUS_USER ,
->> -to signal that a correctly received packet has been stored.
->> +During normal operation, the new status has the
->> +.BR TP_STATUS_USER
->> +bit set to signal that a correctly received packet has been stored.
->>
->> ^--- I would drop the 'correctly' here as it rather raises questions
->>      what 'incorrectly' would mean in this context.
->>
->>  When the application has finished processing a packet, it transfers
->>  ownership of the slot back to the socket by setting the status to
->>
->>
->>>
->>> Cheers,
->>>
->>> Michael
->>>
-> 
-> 
 
 
 -- 
