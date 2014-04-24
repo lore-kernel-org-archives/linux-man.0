@@ -1,50 +1,51 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man-pages bug- syslog(3) grammar
-Date: Thu, 24 Apr 2014 19:03:37 +0200
-Message-ID: <CAKgNAkjGzM-P3Ce1TnBKn0r9xr1W4bjS+S9zCub2=gioWFVQ8w@mail.gmail.com>
-References: <5357AF43.8080102@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
+Subject: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
+Date: Thu, 24 Apr 2014 21:07:26 +0200
+Message-ID: <1398366446.2647.4.camel@actium.fritz.box>
+References: <1398182519.2926.26.camel@x201> <5356B3BA.7050401@gmail.com>
+	 <CA+FuTSc=4fwH=+jX58teeQHrRse718qLBOLzAcrZJSYug2TfSw@mail.gmail.com>
+	 <5356BB3F.4030502@gmail.com>
+	 <CA+FuTScUexjc6bETYMVgPUgmN5CSR40=UrELT9N363Tvk1+waA@mail.gmail.com>
+	 <1398200019.5031.24.camel@actium.fritz.box> <53575872.6080403@gmail.com>
+	 <e1a7b65cad75dd1a52721826c226c352@localhost> <53579224.3060006@gmail.com>
+	 <1398280218.2416.18.camel@actium.fritz.box> <5358C957.8080402@gmail.com>
+	 <1da011719b1828d43232fd8d91b609ff@localhost> <5358E59E.2000207@gmail.com>
+	 <5358EB62.4080706@redhat.com>
+	 <CA+FuTSf6_Lvs_Nht7TXPUT973rePz9hKEqv+YvPwXSq+kOoiyQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5357AF43.8080102-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CA+FuTSf6_Lvs_Nht7TXPUT973rePz9hKEqv+YvPwXSq+kOoiyQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Georgi Naydenov <gnaydenov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Georgi!
-
-On Wed, Apr 23, 2014 at 2:17 PM, Georgi Naydenov <gnaydenov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello Michael,
-> I guess that's your email here. First, thank you for your excellent book!
-> (We met at the OpenFest in Sofia, Bulgaria a few years ago and luckily you
-> had some copies with you. :)
-
-Yes, I remember.
-
-> About the pages - nothing special but what do you think about the commas
-> when describing notice message priorty here:
-> http://man7.org/linux/man-pages/man3/syslog.3.html
-> and also in syslog(3) at least on Fedora, CentOS6 and RHEL6/7beta.
->
->        LOG_NOTICE     normal, but significant, condition
->
-> Shouldn't be "significant condition"? For example, as specified in RFC5424
-> (http://tools.ietf.org/html/rfc5424):
->
->                       ....
->               5       Notice: normal but significant condition
->               6       Informational: informational messages
->               7       Debug: debug-level messages
->
->               Table 2. Syslog Message Severities
-
-Either form works, so I'll leave as is.
+Great! I'll report back to you with a "plan" as soon as I've recovered
+from handing in my thesis (3~4 weeks from now).
 
 Cheers,
+Carsten
 
-Michael
+Am Donnerstag, den 24.04.2014, 06:47 -0400 schrieb Willem de Bruijn:
+> On Apr 24, 2014 12:46 PM, "Daniel Borkmann" <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> wrote:
+> >
+> > On 04/24/2014 12:21 PM, Michael Kerrisk (man-pages) wrote:
+> > ...
+> >
+> >> I'd leave that plan largely to you. It sounds like Willem and
+> >> Daniel are willing to help out.
+> >
+> >
+> > Feel free to keep us in Cc.
+> 
+> Absolutely. I'll be happy to help review any patches.
+> 
+> 
+
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
