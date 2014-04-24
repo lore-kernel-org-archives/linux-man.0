@@ -1,72 +1,98 @@
-From: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Subject: Re: [PATCH] fsync_range, was: Re: munmap, msync: synchronization
-Date: Thu, 24 Apr 2014 11:34:35 +1000
-Message-ID: <20140424013435.GY15995@dastard>
-References: <5353A158.9050009@gmx.de>
- <5354F00E.8050609@gmail.com>
- <20140421181431.GA17125@infradead.org>
- <53557768.5070905@gmail.com>
- <20140421213418.GH30215@jl-vm1.vm.bytemark.co.uk>
- <20140422060320.GA21241@infradead.org>
- <20140422070421.GI30215@jl-vm1.vm.bytemark.co.uk>
- <20140422092837.GA6191@infradead.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: status in PACKET_RX_RING is actually a bit mask
+Date: Thu, 24 Apr 2014 09:42:38 +0200
+Message-ID: <CAKgNAkhJO2ZMpMf6BiaW7TRUd6jvLFU7yPN7xKH9fDoVPPr=tA@mail.gmail.com>
+References: <CACKs7VD6a0hzMd_Go6yUAxJ=tbYdJ9Qbq=FXQezVvaUUE9egUw@mail.gmail.com>
+ <CACKs7VAUE89+NyuywOwpZ2GzeVQLtV_A-+4PicErmCzLNNNd6Q@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20140422092837.GA6191-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <CACKs7VAUE89+NyuywOwpZ2GzeVQLtV_A-+4PicErmCzLNNNd6Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Jamie Lokier <jamie-yetKDKU6eevNLxjTenLetw@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
+To: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Apr 22, 2014 at 02:28:37AM -0700, Christoph Hellwig wrote:
-> On Tue, Apr 22, 2014 at 08:04:21AM +0100, Jamie Lokier wrote:
-> > Hi Christoph,
-> > 
-> > Hardly research, I just did a quick Google and was surprised to find
-> > some results.  AIX API differs from the BSDs; the BSDs seem to agree
-> > with each other. fsync_range(), with a flag parameter saying what type
-> > of sync, and whether it flushes the storage device write cache as well
-> > (because they couldn't agree that was good - similar to the barriers
-> > debate).
-> 
-> There is no FreeBSD implementation, I think you were confused by FreeBSD
-> also hosting NetBSD man pages on their site, just as I initially was.
-> 
-> The APIs are mostly the same, except that AIX reuses O_ flags as
-> argument and NetBSD has a separate namespace.  Following the latter
-> seems more sensible, and also allows developer to define the separate
-> name to the O_ flag for portability.
-> 
-> > As for me doing it, no, sorry, I haven't touched the kernel in a few
-> > years, life's been complicated for non-technical reasons, and I don't
-> > have time to get back into it now.
-> 
-> I've cooked up a patch, but I really need someone to test it and promote
-> it.  Find the patch attached.  There are two differences to the NetBSD
-> one:
-.....
+Willem, Daniel, Carsten, Neil,
 
-> From b63881cac84b35ce3d6a61a33e33ac795a5c583c Mon Sep 17 00:00:00 2001
-> From: Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>
-> Date: Tue, 22 Apr 2014 11:24:51 +0200
-> Subject: fs: implement fsync_range
+All of you have submitted patches in the recent past for packet.7, and
+are presumably somewhat knowledgeable. Could one or more of your Ack
+(or, if needed, improve) Stefan's proposed change?
 
-Christoph, if this is going into the kernel, can you add support for
-xfs_io and write a couple of xfstests to test it? I'm not
-comfortable with adding new data integrity primitives to the kernel
-without having robust validation infrastructure already in place for
-it. It might also be worthwhile looking to extend Josef's
-fsync-tester.c to be able to use ranged fsyncs so to test all the
-various corner cases that we need to....
+Thanks,
 
-Cheers,
+Michael
 
-Dave.
+
+On Tue, Feb 25, 2014 at 10:24 PM, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> [re-sending since the original message was bounced back, something
+> about HTML subpart]
+>
+> Hi,
+>
+> I'm playing with the PACKET_RX_RING option to packet sockets and I
+> noticed that the status field from the tpacket_hdr structures inside
+> the mmaped buffer is actually a bit mask. I'm testing with 4Gbps
+> traffic rates and sometimes I get status=5. I'm using Ubuntu 12.04
+> with a 3.8.0-29 kernel, and at least from the code (I got it using
+> "sudo apt-get source linux-image-$(uname -r)") it seems the 5 means
+> TP_STATUS_USER | TP_STATUS_LOSING. The 3.8.0 kernel code has this line
+> in tpacket_rcv():
+>
+>         /*
+>          * LOSING will be reported till you read the stats,
+>          * because it's COR - Clear On Read.
+>          * Anyways, moving it for V1/V2 only as V3 doesn't need this
+>          * at packet level.
+>          */
+>                 if (po->stats.tp_drops)
+>                         status |= TP_STATUS_LOSING;
+>
+> Also, in some source code example I found using google
+> (http://www.google.ro/url?sa=t&rct=j&q=&esrc=s&source=web&cd=5&cad=rja&ved=0CEIQFjAE&url=http%3A%2F%2Fstuff.mit.edu%2Fafs%2Fsipb%2Fcontrib%2Flinux%2Ftools%2Ftesting%2Fselftests%2Fnet%2Fpsock_fanout.c&ei=lM8MU5yhB-iK7Aan7IGgAQ&usg=AFQjCNFtZBHSWgzHZkV3LNfLOSSTq0pV4Q&sig2=razCT0kUDv2-BIm_8gTE5g&bvm=bv.61725948,d.ZGU),
+> the status is checked like this:
+>
+> while (header->tp_status & TP_STATUS_USER && count < RING_NUM_FRAMES) {
+> [...]
+>
+> I haven't yet figured out how TP_STATUS_LOSING works, but I think it
+> would be worthwhile to at least document that the status is a bit mask
+> and not a value - that's what the patch at the end does.
+>
+> Michael, maybe you can Cc somebody more knowledgeable on this to
+> confirm? IIRC there were some message exchanges on this on the list
+> recently...
+>
+>
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index 1d3f222..6bac465 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -353,9 +353,9 @@ The packet socket owns all slots with status
+>  .BR TP_STATUS_KERNEL .
+>  After filling a slot, it changes the status of the slot to transfer
+>  ownership to the application.
+> -During normal operation, the new status is
+> -.BR TP_STATUS_USER ,
+> -to signal that a correctly received packet has been stored.
+> +During normal operation, the new status has the
+> +.BR TP_STATUS_USER
+> +bit set to signal that a correctly received packet has been stored.
+>  When the application has finished processing a packet, it transfers
+>  ownership of the slot back to the socket by setting the status to
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
+
 -- 
-Dave Chinner
-david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
