@@ -1,43 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: sys_process_vm_readv, sys_process_vm_writev man pages?
-Date: Fri, 25 Apr 2014 15:27:02 +0200
-Message-ID: <CAKgNAkhc5fjL7cmxmNP3QPW5mMghO+mJJyWaJS7mGhxjY3LASQ@mail.gmail.com>
-References: <20140425085514.1023bfc2@tomh>
+Subject: Re: [PATCH 1/1] fcntl: F_GETFL: return value contains additional
+ internal flags
+Date: Fri, 25 Apr 2014 15:46:32 +0200
+Message-ID: <CAKgNAkgi3XZY4v8JBPZjP=5sOmKpQPEMbaFJ8OSRnMW-+PyxLQ@mail.gmail.com>
+References: <1398369940-13673-1-git-send-email-xypron.glpk@gmx.de>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140425085514.1023bfc2@tomh>
+In-Reply-To: <1398369940-13673-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tom Horsley <horsley1953-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Tom,
+Hi Heinrich,
 
-On Fri, Apr 25, 2014 at 2:55 PM, Tom Horsley <horsley1953-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> This bugzilla points me to the sys_process_vm_readv and
-> sys_process_vm_writev system calls as though I should
-> just obviously know what they are and how to call them :-).
+On Thu, Apr 24, 2014 at 10:05 PM, Heinrich Schuchardt
+<xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
+> flags = fcntl(fd, F_GETFL);
 >
-> https://bugzilla.redhat.com/show_bug.cgi?id=790456
+> can return more flags than those defined in the open(2) manpage, e.g.
+>   #define FMODE_NONOTIFY 0x1000000
 >
-> There doesn't appear to be any man pages for them or
-> even any notes in the kernel Documentation directory
-> talking about them.
+> The manpage should point this out.
 >
-> Any chance someone who knows what the interface is
-> could add a man page?
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 
-The man page was added about a year ago. I think you need to upgrade
-your man-pages:
+I think it might be good to mention a concrete example here. So, how
+about explicitly mentioning the FMODE_NONOTIFY and the fanotify(7) man
+page. Could you redraft?
 
-http://man7.org/linux/man-pages/changelog.html#release_3.40
-http://man7.org/linux/man-pages/man2/process_vm_readv.2.html
-
-Cheers,
+Thanks,
 
 Michael
+
+
+> ---
+>  man2/fcntl.2 | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+> index fc1d3b3..0fd2d0a 100644
+> --- a/man2/fcntl.2
+> +++ b/man2/fcntl.2
+> @@ -180,6 +180,9 @@ The file status flags and their semantics are described in
+>  Get the file access mode and the file status flags;
+>  .I arg
+>  is ignored.
+> +The return value contains the file status flags as described in
+> +.IR open (2).
+> +It may additionally contain status flags that are only used internally.
+>  .TP
+>  .BR F_SETFL " (\fIint\fP)"
+>  Set the file status flags to the value specified by
+> --
+> 1.9.2
+>
+
 
 
 -- 
