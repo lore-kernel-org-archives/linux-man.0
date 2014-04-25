@@ -1,65 +1,92 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH 1/1 v2] fanotify: create manpages
-Date: Fri, 25 Apr 2014 17:10:42 +0200
-Message-ID: <535A7AF2.3030501@gmx.de>
-References: <1398370691-13971-1-git-send-email-xypron.glpk@gmx.de> <535A3C3E.8050400@gmail.com>
+Subject: Re: [PATCH 1/1] fcntl: F_GETFL: return value contains additional
+ internal flags
+Date: Fri, 25 Apr 2014 17:30:44 +0200
+Message-ID: <535A7FA4.1000408@gmx.de>
+References: <1398369940-13673-1-git-send-email-xypron.glpk@gmx.de> <CAKgNAkgi3XZY4v8JBPZjP=5sOmKpQPEMbaFJ8OSRnMW-+PyxLQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <535A3C3E.8050400-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAKgNAkgi3XZY4v8JBPZjP=5sOmKpQPEMbaFJ8OSRnMW-+PyxLQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 25.04.2014 12:43, Michael Kerrisk (man-pages) wrote:
-> Some things I'd like you to check or fix:
-> * Please review 679a078389 (ETXTBUSY)
-ok
-
-> * Please review 3b32c70be9 (FAN_MARK_FLUSH bug)
-a period ('.') is missing at the end of the sentence.
-You received a patch.
-
-> * See the FIXME in the example code in fanotify(7).
-My understanding is, that file descriptors are always positive.
-Please, correct me if I am wrong. Comparing to FAN_NOFD would
-be a valid alternative.
-
-You are right that queue overflow is not notified to the user.
-But it is not necessary for the listener to take any action in case
-of a queue overflow.
-
-> * The readdir(2) / FAN_ACCESS bug is described in fanotify(7)
->    and fanotify_mark(7). It only needs to be in one of the pages.
->    Could you patch to remove whichever you think should be removed.
-Patch provided
-
+On 25.04.2014 15:46, Michael Kerrisk (man-pages) wrote:
+> Hi Heinrich,
 >
-> An earlier question that I believe is still not resolved:
+> On Thu, Apr 24, 2014 at 10:05 PM, Heinrich Schuchardt
+> <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
+>> flags = fcntl(fd, F_GETFL);
+>>
+>> can return more flags than those defined in the open(2) manpage, e.g.
+>>    #define FMODE_NONOTIFY 0x1000000
+>>
+>> The manpage should point this out.
+>>
+>> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 >
-> [[
->> ' Now I know that I earlier said that FAN_ONDIR and FAN_EVENT_ON_CHILD
->> ' belong in the input events for fanotify_mark(), not here in the
->> ' returned events. Or at least, as far as I can tell, they can't be
->> ' in the returned events--but can you confirm this please.
->> Where did you find FAN_ONDIR and FAN_EVENT_ON_CHILD in fanotify.7?
->
-> They were in an earlier version in fanotify.7, if I recall correctly.
-> Anyway, my point is: have you confirmed that FAN_ONDIR and
-> FAN_EVENT_ON_CHILD are only input flags, and can't be returned as output
-> event flags?
-> ]]
-Verified with test program: FAN_ONDIR and FAN_EVENT_ON_CHILD are not 
-returned as output event flags, when specified fanotify_mark.
->
-> Once we've finished those tweaks, we can pester Eric for a review.
-Let's say invite. Hopefully he is not too busy.
->
+> I think it might be good to mention a concrete example here. So, how
+> about explicitly mentioning the FMODE_NONOTIFY and the fanotify(7) man
+> page. Could you redraft?
+
+Please, read my mail
+Re: fanotify API: FMODE_NONOTIFY, FMODE_EXEC, FMODE_NOCMTIME
+13.04.2014 16:05 (CEST)
+http://www.spinics.net/lists/linux-man/msg05366.html
+
+I mentioned that some other flags can be returned by fcntl, too. These 
+are not specific to fanotify. The examples given were
+
+0x20 (FMODE_EXEC), and
+0x800 (FMODE_NOCMTIME)
+
+All relevant flags are defined in
+include/uapi/asm-generic/fcntl.h
+
+So would it not make more sense to relate to this include instead of 
+fanotify(7)?
+
+I never got a reply to the question asked in aforementioned mail, 
+whether the observed behavior should be mentioned in the BUGS section of 
+fanotify(7).
+
 Cheers
 
 Heinrich
+
+> Thanks,
+>
+> Michael
+>
+>
+>> ---
+>>   man2/fcntl.2 | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+>> index fc1d3b3..0fd2d0a 100644
+>> --- a/man2/fcntl.2
+>> +++ b/man2/fcntl.2
+>> @@ -180,6 +180,9 @@ The file status flags and their semantics are described in
+>>   Get the file access mode and the file status flags;
+>>   .I arg
+>>   is ignored.
+>> +The return value contains the file status flags as described in
+>> +.IR open (2).
+>> +It may additionally contain status flags that are only used internally.
+>>   .TP
+>>   .BR F_SETFL " (\fIint\fP)"
+>>   Set the file status flags to the value specified by
+>> --
+>> 1.9.2
+>>
+>
+>
+>
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
