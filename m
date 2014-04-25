@@ -1,28 +1,31 @@
-From: Tom Horsley <horsley1953-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: sys_process_vm_readv, sys_process_vm_writev man pages?
-Date: Fri, 25 Apr 2014 08:55:14 -0400
-Message-ID: <20140425085514.1023bfc2@tomh>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 49091] [PATCH]fanotify - missing documentation
+Date: Fri, 25 Apr 2014 13:19:29 +0000
+Message-ID: <bug-49091-11311-chUgb7r99z@https.bugzilla.kernel.org/>
+References: <bug-49091-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-49091-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This bugzilla points me to the sys_process_vm_readv and
-sys_process_vm_writev system calls as though I should
-just obviously know what they are and how to call them :-).
+https://bugzilla.kernel.org/show_bug.cgi?id=49091
 
-https://bugzilla.redhat.com/show_bug.cgi?id=790456
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-There doesn't appear to be any man pages for them or
-even any notes in the kernel Documentation directory
-talking about them.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Any chance someone who knows what the interface is
-could add a man page?
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Pages from Heinrich merged. Next step: ask Eric Paris for review.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
