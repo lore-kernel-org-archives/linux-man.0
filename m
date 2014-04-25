@@ -1,44 +1,65 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify: remove redundant mentioning of bugs
-Date: Fri, 25 Apr 2014 16:59:13 +0200
-Message-ID: <1398437953-7086-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1 v2] fanotify: create manpages
+Date: Fri, 25 Apr 2014 17:10:42 +0200
+Message-ID: <535A7AF2.3030501@gmx.de>
+References: <1398370691-13971-1-git-send-email-xypron.glpk@gmx.de> <535A3C3E.8050400@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <535A3C3E.8050400-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-A bug mentioned in fanotify_mark(2) needs not to be repeated in
-fanotify(7) again.
+On 25.04.2014 12:43, Michael Kerrisk (man-pages) wrote:
+> Some things I'd like you to check or fix:
+> * Please review 679a078389 (ETXTBUSY)
+ok
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man7/fanotify.7 | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+> * Please review 3b32c70be9 (FAN_MARK_FLUSH bug)
+a period ('.') is missing at the end of the sentence.
+You received a patch.
 
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index 1af1ebe..d529629 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -439,14 +439,8 @@ The event queue can overflow.
- In this case, events are lost.
- .SH BUGS
- As of Linux 3.15,
--the following bugs exist:
-+the following bug exists:
- .IP * 3
--.\" FIXME: Patch is in linux-next-20140424.
--.BR readdir (2)
--does not create a
--.B FAN_ACCESS
--event.
--.IP *
- .\" FIXME: A patch was proposed.
- When an event is generated, no check is made to see whether the user ID of the
- receiving process has authorization to read or write the file before passing a
--- 
-1.9.2
+> * See the FIXME in the example code in fanotify(7).
+My understanding is, that file descriptors are always positive.
+Please, correct me if I am wrong. Comparing to FAN_NOFD would
+be a valid alternative.
 
+You are right that queue overflow is not notified to the user.
+But it is not necessary for the listener to take any action in case
+of a queue overflow.
+
+> * The readdir(2) / FAN_ACCESS bug is described in fanotify(7)
+>    and fanotify_mark(7). It only needs to be in one of the pages.
+>    Could you patch to remove whichever you think should be removed.
+Patch provided
+
+>
+> An earlier question that I believe is still not resolved:
+>
+> [[
+>> ' Now I know that I earlier said that FAN_ONDIR and FAN_EVENT_ON_CHILD
+>> ' belong in the input events for fanotify_mark(), not here in the
+>> ' returned events. Or at least, as far as I can tell, they can't be
+>> ' in the returned events--but can you confirm this please.
+>> Where did you find FAN_ONDIR and FAN_EVENT_ON_CHILD in fanotify.7?
+>
+> They were in an earlier version in fanotify.7, if I recall correctly.
+> Anyway, my point is: have you confirmed that FAN_ONDIR and
+> FAN_EVENT_ON_CHILD are only input flags, and can't be returned as output
+> event flags?
+> ]]
+Verified with test program: FAN_ONDIR and FAN_EVENT_ON_CHILD are not 
+returned as output event flags, when specified fanotify_mark.
+>
+> Once we've finished those tweaks, we can pester Eric for a review.
+Let's say invite. Hopefully he is not too busy.
+>
+Cheers
+
+Heinrich
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
