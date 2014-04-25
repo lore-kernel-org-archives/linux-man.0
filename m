@@ -1,76 +1,56 @@
 From: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Subject: Re: [patch] getsockopt.2, packet.7: improve sockopt documentation
- for packet sockets
-Date: Fri, 25 Apr 2014 07:02:18 -0400
-Message-ID: <20140425110218.GA14074@hmsreliant.think-freely.org>
-References: <1398356057.1966.14.camel@x201.fritz.box>
+Subject: Re: [patch] packet.7: PACKET_LOSS has inverse meaning
+Date: Fri, 25 Apr 2014 07:20:57 -0400
+Message-ID: <20140425112057.GC14074@hmsreliant.think-freely.org>
+References: <53575872.6080403@gmail.com>
+ <e1a7b65cad75dd1a52721826c226c352@localhost>
+ <53579224.3060006@gmail.com>
+ <1398280218.2416.18.camel@actium.fritz.box>
+ <5358C957.8080402@gmail.com>
+ <1da011719b1828d43232fd8d91b609ff@localhost>
+ <5358E59E.2000207@gmail.com>
+ <5358EB62.4080706@redhat.com>
+ <CA+FuTSf6_Lvs_Nht7TXPUT973rePz9hKEqv+YvPwXSq+kOoiyQ@mail.gmail.com>
+ <1398366446.2647.4.camel@actium.fritz.box>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <1398356057.1966.14.camel-DYJrb7SVE5twFLYp8hBm2A@public.gmane.org>
+In-Reply-To: <1398366446.2647.4.camel-FQO4gtnRtnzkVFMGpb/cPg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Apr 24, 2014 at 06:14:17PM +0200, Carsten Andrich wrote:
-> Hello everyone,
+On Thu, Apr 24, 2014 at 09:07:26PM +0200, Carsten Andrich wrote:
+> Great! I'll report back to you with a "plan" as soon as I've recovered
+> from handing in my thesis (3~4 weeks from now).
 > 
-> building up on Stefan's and my patches and Daniel's useful hint
-> regarding filter.txt, I assembled this short patch.
-> 
-> It attempts to clarify the tp_status situtation, considering that zero
-> has a special meaning and most bits are actually mutually exclusive.
-> 
-> I added filter.txt and and Daniel's and Chetan's excellent
-> psock_tpacket.c (IIRC Michael has already done that, but not yet pushed
-> to the public git repo) to the "see also" section.
-> I also appended packet.7 to getsockopt.2's "see also" section.
-> 
+No rush, thanks for fixing the man pages up!
+Neil
+
 > Cheers,
 > Carsten
 > 
+> Am Donnerstag, den 24.04.2014, 06:47 -0400 schrieb Willem de Bruijn:
+> > On Apr 24, 2014 12:46 PM, "Daniel Borkmann" <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> > wrote:
+> > >
+> > > On 04/24/2014 12:21 PM, Michael Kerrisk (man-pages) wrote:
+> > > ...
+> > >
+> > >> I'd leave that plan largely to you. It sounds like Willem and
+> > >> Daniel are willing to help out.
+> > >
+> > >
+> > > Feel free to keep us in Cc.
+> > 
+> > Absolutely. I'll be happy to help review any patches.
+> > 
+> > 
 > 
-> diff --git a/man2/getsockopt.2 b/man2/getsockopt.2
-> index 925fa90..151cd31 100644
-> --- a/man2/getsockopt.2
-> +++ b/man2/getsockopt.2
-> @@ -205,6 +205,7 @@ system.
->  .BR getprotoent (3),
->  .BR protocols (5),
->  .BR ip (7),
-> +.BR packet (7),
->  .BR socket (7),
->  .BR tcp (7),
->  .BR udp (7),
-> diff --git a/man7/packet.7 b/man7/packet.7
-> index d8257f9..1ffcf32 100644
-> --- a/man7/packet.7
-> +++ b/man7/packet.7
-> @@ -319,9 +319,20 @@ original fanout algorithm selects a backlogged socket, the packet
->  rolls over to the next available one.
->  .TP
->  .BR PACKET_LOSS " (with " PACKET_TX_RING )
-> -If set, do not silently drop a packet on transmission error, but
-> -return it with status set to
-> -.BR TP_STATUS_WRONG_FORMAT .
-> +When a malformed packet is encountered on a transmit ring, the default is
-> +to reset its
-> +.I tp_status
-> +to
-> +.BR TP_STATUS_WRONG_FORMAT
-> +and abort the transmission immediately (it and following packets are left
-> +lingering on the ring).
-
-I'm not sure this is 100% clear.  Any of these error status flags leave the
-packet in memory on the ring.  WRONG_FORMAT, doesn't do anything special here.
-
-The rest of teh packet changes look good to me.
-
-Best
-Neil
-
+> 
+> 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
