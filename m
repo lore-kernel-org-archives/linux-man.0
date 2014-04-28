@@ -1,58 +1,39 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: shmget.2: SHMALL & kernel version inconsistency ?
-Date: Mon, 28 Apr 2014 09:39:50 +0200
-Message-ID: <535E05C6.10409@gmail.com>
-References: <20140427220916.GP18563@mraw.org>
+Subject: Re: [PATCH] getauxval(3): drop +x bits
+Date: Mon, 28 Apr 2014 09:40:28 +0200
+Message-ID: <535E05EC.2080209@gmail.com>
+References: <1398645858-22050-1-git-send-email-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140427220916.GP18563-xazfMhTT2R0@public.gmane.org>
+In-Reply-To: <1398645858-22050-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/28/2014 12:09 AM, Simon Paillard wrote:
-> Hi,
->=20
->>From shmget.2:
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> SHMALL System wide maximum of shared memory pages.   Since  Linux  2.=
-2,
->        the default value for this limit is
->=20
->            SHMMAX / PAGE_SIZE * (SHMMNI / 16)
->=20
->        Assuming  a 4kB page size, this formula yields (since Linux 2.=
-4)
->        the value 2^20 (2,097,152).
->=20
->        On Linux, this limit can be read and modified via /proc/sys/ke=
-r=E2=80=90
->        nel/shmall.
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> Linux 2.2 or 2.4 ?
->=20
-> I understand from lxr contant this is actually 2.4.
-> http://lxr.linux.no/#linux-old+v2.2.0/include/linux/shm.h#L53
-> http://lxr.linux.no/#linux-old+v2.4.0/include/linux/shm.h#L15
+On 04/28/2014 02:44 AM, Mike Frysinger wrote:
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+>  man3/getauxval.3 | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  mode change 100755 => 100644 man3/getauxval.3
+> 
+> diff --git a/man3/getauxval.3 b/man3/getauxval.3
+> old mode 100755
+> new mode 100644
 
-Thanks, Simon. Yes, it should have been 2.4. The fix is in Git.
+Hi Mike,
+
+Something's wrong here...
 
 Cheers,
 
 Michael
 
-=20
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
