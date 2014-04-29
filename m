@@ -1,149 +1,105 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Tue, 29 Apr 2014 15:26:37 +0200
-Message-ID: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w@mail.gmail.com>
-References: <1397741451-19161-1-git-send-email-lczerner@redhat.com>
- <5351499C.2080506@gmail.com> <alpine.LFD.2.00.1404181819470.2128@localhost.localdomain>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: fanotify API: FMODE_NONOTIFY, FMODE_EXEC, FMODE_NOCMTIME
+Date: Tue, 29 Apr 2014 15:29:12 +0200
+Message-ID: <CAKgNAkiq+yA7_tnvCVXemFy6P5F0eMccw18-GdqFthuzagvF5Q@mail.gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.1404181819470.2128-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-2?Q?Luk=E1=B9_Czerner?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: linux-man <linux-man@vger.kernel.org>, Eric Paris <eparis@redhat.com>, Jan Kara <jack@suse.cz>, lkml <linux-kernel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Ping, Luk=C3=A1=C5=A1!
+[CC += LKML]
 
+Eric, Jan, (or anyone)
 
-On Fri, Apr 18, 2014 at 6:21 PM, Luk=C3=A1=C5=A1 Czerner <lczerner@redh=
-at.com> wrote:
-> On Fri, 18 Apr 2014, Michael Kerrisk (man-pages) wrote:
+Can you offer any insight on Heinrich's question, below?
+
+Cheers,
+
+Michael
+
+On Sun, Apr 13, 2014 at 4:05 PM, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+> On 06.04.2014 14:18, Michael Kerrisk (man-pages) wrote:
+>>>
+>>> ==
+>>> >
+>>> >  >> I notice that the FDs returned by read()s from the FAN FD have the
+>>> >  >> FMODE_NONOTIFY flag (fcntl(F_GETFL)) flag set. If you know what
+>>> > that's
+>>> >  >> about, it would be good to say something about. But, if not, do not
+>>> >  >> worry--just place a FIXME in the page source of fanotify(7)
+>>> >
+>>> >Fixed in fanotify.7
+>>> >If the listener accesses the file through the file descriptor provided
+>>> >no additional events are created.
+>>
+>> Ahh -- thanks for filling in that piece. I see that you refer to
+>> fcntl(2) when discussing that flag. But fcntl(2) does not
+>> mention that flag. I would rather see an explanation of this flag
+>> in the fanotify pages.
+>>
 >
->> Date: Fri, 18 Apr 2014 17:49:48 +0200
->> From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
->>     linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
->>
->> Lukas,
->>
->> Thanks for the patch.
->>
->> Two general comments:
->> * The text does not explain what zeroing file space is about and why=
- one
->>   would do it. For example, I'm a little unclear after reading it wh=
-ether
->>   FALLOC_FL_ZERO_RANGE will create a hole in a file.
+> I wrote a small test program and found:
 >
-> It is saying that blocks are preallocated for the regions that span
-> holes in the file. And there isn't anything saying about punching a
-> hole into the file. But I guess I can be more clear about it.
+> The flag FMODE_NONOTIFY can be read by function fcntl from userspace.
+> int flag = fcntl(fd, F_GETFL)
 >
->> * Some entries should probably be added to ERRORS.
->>
->> Could you fix both of those and resubmit?
+> In include/uapi/asm-generic/fcntl.h I found the following comment:
 >
-> Sure I'll do that next week.
+> /*
+>  * FMODE_EXEC is 0x20
+>  * FMODE_NONOTIFY is 0x1000000
+>  * These cannot be used by userspace O_* until internal and external open
+>  * flags are split.
+>  * -Eric Paris
+>  */
 >
->>
->> Note that I've just pushed some changes to the page for
->> FALLOC_FL_COLLAPSE_RANGE, so you may want to pull the latest version=
- to
->> ensure there are no conflicts.
->>
->> Cheers,
->>
->> Michael
->>
->>
->> On 04/17/2014 03:30 PM, Lukas Czerner wrote:
->> > FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
->> > for zeroing ranges in the allocated space in a file.
->> >
->> > Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> > ---
->> >  man2/fallocate.2 | 41 +++++++++++++++++++++++++++++++++++++++++
->> >  1 file changed, 41 insertions(+)
->> >
->> > diff --git a/man2/fallocate.2 b/man2/fallocate.2
->> > index b31bbde..df31782 100644
->> > --- a/man2/fallocate.2
->> > +++ b/man2/fallocate.2
->> > @@ -124,6 +124,45 @@ Btrfs (since Linux 3.7)
->> >  .IP *
->> >  tmpfs (since Linux 3.5)
->> >  .\" commit 83e4fa9c16e4af7122e31be3eca5d57881d236fe
->> > +.SS Zeroing file space
->> > +Specifying
->> > +.BR FALLOC_FL_ZERO_RANGE
->> > +flag (available since Linux 3.14) in
->> > +.I mode
->> > +zeroes space in the byte range starting at
->> > +.I offset
->> > +and continuing for
->> > +.I len
->> > +bytes.
->> > +Within the specified range, blocks are preallocated for the regio=
-ns
->> > +that span the holes in the file. After a successful call,
->> > +subsequent reads from this range will return zeroes.
->> > +
->> > +Zeroing is done within the file system preferably by converting r=
-ange into
->> > +unwritten extents which requires very little IO to be issued.
->> > +
->> > +If the
->> > +.B FALLOC_FL_KEEP_SIZE
->> > +flag is specified in
->> > +.IR mode ,
->> > +the behavior of the call is similar,
->> > +but the file size will not be changed even if
->> > +.IR offset + len
->> > +is greater than the file size. This behaviour is the same as when
->> > +preallocating space with
->> > +.B FALLOC_FL_KEEP_SIZE
->> > +specified.
->> > +
->> > +Not all filesystems support
->> > +.BR FALLOC_FL_ZERO_RANGE ;
->> > +if a filesystem doesn't support the operation, an error is return=
-ed.
->> > +The operation is supported on at least the following filesystems
->> > +.IP * 3
->> > +XFS (since Linux 2.14)
->> > +.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
->> > +.IP *
->> > +ext4 (since Linux 3.14)
->> > +.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
->> >  .SH RETURN VALUE
->> >  On success,
->> >  .BR fallocate ()
->> > @@ -193,6 +232,8 @@ Or:
->> >  .I mode
->> >  specifies
->> >  .BR FALLOC_FL_PUNCH_HOLE
->> > +or
->> > +.BR FALLOC_FL_ZERO_RANGE
->> >  and
->> >  the file referred to by
->> >  .I fd
->> >
->>
->>
->>
+> The definition of FMODE_NONOTIFY is in include/linux/fs.h but this
+> include is only used to compile the Kernel and not supposed to be used by
+> userspace.
+>
+> I think it is quite annoying that fcntl can return a flag that is not
+> described in the manpage of fcntl and that is not defined in fcntl.h.
+>
+> But FMODE_NONOTIFY is not the only flag:
+>
+> I was able to pass
+> 0x20 (FMODE_EXEC), and
+> 0x800 (FMODE_NOCMTIME)
+> to fanotify_init and received them as flag in the file descriptors for the
+> fanotify events.
+> I wonder why fanotify_init does not check import parameter event_f_flags and
+> return an error if any inappropriate value is set.
+>
+> Should I put this into the BUGS section?
+>
+> Should the name of the flag FMODE_NONOTIFY be mentioned at all in the man
+> pages?
+>
+> Or should we write:
+>
+> .I fd
+> This is an open file descriptor for the object being accessed or
+> .B FAN_NOFD
+> if a queue overflow occurred.
+> The file descriptor can be used to access the contents of the monitored file
+> or
+> directory.
+> It has an internal flag set, that suppresses fanotify event generation.
+> Hence when the receiver of the fanotify event accesses the notified file or
+> directory using this file descriptor no additional events will be created.
+> The reading application is responsible for closing the file descriptor.
+>
+> Best regards
+>
+> Heinrich Schuchardt
 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
