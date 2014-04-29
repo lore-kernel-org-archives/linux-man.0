@@ -1,33 +1,48 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] libc.7: missing comma
-Date: Tue, 29 Apr 2014 00:49:44 +0200
-Message-ID: <1398725384-11703-1-git-send-email-spaillard@debian.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] libc.7: missing comma
+Date: Tue, 29 Apr 2014 07:00:36 +0200
+Message-ID: <535F31F4.9080705@gmail.com>
+References: <1398725384-11703-1-git-send-email-spaillard@debian.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1398725384-11703-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man7/libc.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 04/29/2014 12:49 AM, Simon Paillard wrote:
+> ---
+>  man7/libc.7 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man7/libc.7 b/man7/libc.7
+> index d8f8f0d..2bdf9ee 100644
+> --- a/man7/libc.7
+> +++ b/man7/libc.7
+> @@ -90,7 +90,7 @@ perhaps targeted at development for embedded Linux systems.
+>  Among such libraries are
+>  .UR http://www.uclibc.org/
+>  .I uClibc
+> -.UE
+> +.UE ,
+>  .UR http://www.fefe.de/dietlibc/
+>  .I dietlibc
+>  .UE ,
 
-diff --git a/man7/libc.7 b/man7/libc.7
-index d8f8f0d..2bdf9ee 100644
---- a/man7/libc.7
-+++ b/man7/libc.7
-@@ -90,7 +90,7 @@ perhaps targeted at development for embedded Linux systems.
- Among such libraries are
- .UR http://www.uclibc.org/
- .I uClibc
--.UE
-+.UE ,
- .UR http://www.fefe.de/dietlibc/
- .I dietlibc
- .UE ,
+Thanks, Simon. Applied.
+
+Cheers,
+
+Michael
+
+
 -- 
-1.9.2
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
