@@ -1,38 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] libc.7: missing comma
-Date: Tue, 29 Apr 2014 07:00:36 +0200
-Message-ID: <535F31F4.9080705@gmail.com>
-References: <1398725384-11703-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] timer_settime.2:tfix
+Date: Tue, 29 Apr 2014 06:59:35 +0200
+Message-ID: <535F31B7.1070709@gmail.com>
+References: <1398698854-3757-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1398725384-11703-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1398698854-3757-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/29/2014 12:49 AM, Simon Paillard wrote:
+On 04/28/2014 05:27 PM, Yuri Kozlov wrote:
 > ---
->  man7/libc.7 | 2 +-
+>  man2/timer_settime.2 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man7/libc.7 b/man7/libc.7
-> index d8f8f0d..2bdf9ee 100644
-> --- a/man7/libc.7
-> +++ b/man7/libc.7
-> @@ -90,7 +90,7 @@ perhaps targeted at development for embedded Linux systems.
->  Among such libraries are
->  .UR http://www.uclibc.org/
->  .I uClibc
-> -.UE
-> +.UE ,
->  .UR http://www.fefe.de/dietlibc/
->  .I dietlibc
->  .UE ,
+> diff --git a/man2/timer_settime.2 b/man2/timer_settime.2
+> index 5ca36cb..09e6268 100644
+> --- a/man2/timer_settime.2
+> +++ b/man2/timer_settime.2
+> @@ -83,7 +83,7 @@ structure that allows a time value to be specified
+>  in seconds and nanoseconds.
+>  These time values are measured according to the clock
+>  that was specified when the timer was created by
+> -.BR timer_create (2)
+> +.BR timer_create (2).
+>  
+>  If
+>  .I new_value->it_value
 
-Thanks, Simon. Applied.
+Yuri, thank you. Applied.
 
 Cheers,
 
