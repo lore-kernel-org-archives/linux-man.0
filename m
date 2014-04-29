@@ -1,56 +1,198 @@
-From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [patch] getsockopt.2, packet.7: improve sockopt documentation
  for packet sockets
-Date: Tue, 29 Apr 2014 13:22:24 +0200
-Message-ID: <o3okqw7ix4iaf8ukfb6ufhie.1398770460424@email.android.com>
+Date: Tue, 29 Apr 2014 14:02:29 +0200
+Message-ID: <535F94D5.8050307@gmail.com>
+References: <1398356057.1966.14.camel@x201.fritz.box>	 <20140425110218.GA14074@hmsreliant.think-freely.org>	 <1398465760.6683.33.camel@actium.fritz.box>	 <20140428133444.GD16041@hmsreliant.think-freely.org>	 <1398698632.2988.10.camel@actium.fritz.box>	 <20140428172815.GG16041@hmsreliant.think-freely.org> <1398708750.2988.18.camel@actium.fritz.box>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1398708750.2988.18.camel-FQO4gtnRtnzkVFMGpb/cPg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-QXMgZmFyIGFzIEknbSBjb25jZXJuZWQsIGl0IGlzLgpUaGFua3MsIE5laWwuCgpDaGVlcnMsCkNh
-cnN0ZW4KCiJNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykiIDxtdGsubWFucGFnZXNAZ21haWwu
-Y29tPiBzY2hyaWViOgoKPkhpIENhcnN0ZW4sCj4KPk9uIFR1ZSwgQXByIDI5LCAyMDE0IGF0IDEy
-OjUxIFBNLCBOZWlsIEhvcm1hbiA8bmhvcm1hbkB0dXhkcml2ZXIuY29tPiB3cm90ZToKPj4gT24g
-TW9uLCBBcHIgMjgsIDIwMTQgYXQgMDg6MTI6MzBQTSArMDIwMCwgQ2Fyc3RlbiBBbmRyaWNoIHdy
-b3RlOgo+Pj4gQW0gTW9udGFnLCBkZW4gMjguMDQuMjAxNCwgMTM6MjggLTA0MDAgc2NocmllYiBO
-ZWlsIEhvcm1hbjoKPj4+ID4gUmF0aGVyIHRoYW4gJ2xpbmdlcm5pZycgcGVyaGFwcyBtb3JlIGV4
-YWN0IGxhbmd1YWdlIHRvIGluZGljYXRlIHRoYXQgcG9zaXRpdmUKPj4+ID4gYWN0aW9uIGlzIHJl
-cXVpcmVkIGZyb20gdGhlIGFwcGxpY2F0aW9uLiAgUGVyaGFwczoKPj4+ID4KPj4+ID4gUGFja2V0
-cyBpbiB0aGUgV1JPTkdfRk9STUFUIHN0YXRlIGJsb2NrIHRoZSBrZXJuZWwgZnJvbSBzZW5kaW5n
-IGl0IGFuZCBzdWJzZXF1ZW50Cj4+PiA+IHBhY2tldHMgb24gdGhlIHJpbmcuICBQYWNrZXQgaW4g
-dGhlIFdST05HX0ZPUk1BVCBzdGF0ZSBtdXN0IGJlIG1vdmVkIHRvIHRoZQo+Pj4gPiBBVkFJTEFC
-TEUgb3IgU0VORF9SRVFVRVNUIHN0YXRlIChhZnRlciBjb3JyZWN0aW5nIGZvcm1hdCBlcnJvcnMp
-LCBzbyB0aGF0IHRoZQo+Pj4gPiBuZXh0IGFwcGxpY2F0aW9uIGNhbGwgdG8gc2VuZCgpIHByb3Bl
-cmx5IHRyYW5zbWl0cyB0aGUgZnJhbWUuCj4+Pgo+Pj4gVGhhbmtzIGZvciB0aGUgc3VnZ2VzdGlv
-biEgSSBpbmNvcnBvcmF0ZWQgaXQgaW50byB0aGUgZm9sbG93aW5nIHVwZGF0ZWQKPj4+IFBBQ0tF
-VF9MT1NTIGRlc2NyaXB0aW9uOgo+Pj4gV2hlbiBhIG1hbGZvcm1lZCBwYWNrZXQgaXMgZW5jb3Vu
-dGVyZWQgb24gYSB0cmFuc21pdCByaW5nLCB0aGUgZGVmYXVsdAo+Pj4gaXMgdG8gcmVzZXQgaXRz
-IHRwX3N0YXR1cyB0byBUUF9TVEFUVVNfV1JPTkdfRk9STUFUIGFuZCBhYm9ydCB0aGUKPj4+IHRy
-YW5zbWlzc2lvbiBpbW1lZGlhdGVseS4gIFRoZSBtYWxmb3JtZWQgIHBhY2tldCAgYmxvY2tzICBp
-dHNlbGYgIGFuZAo+Pj4gc3Vic2VxdWVudCBlbnF1ZXVlZCAgcGFja2V0cyBmcm9tIGJlaW5nIHNl
-bnQuICBUaGUgZm9ybWF0IGVycm9yIG11c3QgYmUKPj4+IGZpeGVkLCB0aGUgYXNzb2NpYXRlZCB0
-cF9zdGF0dXMgcmVzZXQgdG8gVFBfU1RBVFVTX1NFTkRfUkVRVUVTVCBhbmQgdGhlCj4+PiB0cmFu
-c21pc3Npb24gcHJvY2VzcyByZXN0YXJ0ZWQgdmlhIHNlbmQoMikuICBIb3dldmVyLCBpZiBQQUNL
-RVRfTE9TUyBpcwo+Pj4gc2V0LCBhbnkgbWFsZm9ybWVkIHBhY2tldCB3aWxsIGJlIHNraXBwZWQs
-IGl0cyB0cF9zdGF0dXMgcmVzZXQgdG8KPj4+IFRQX1NUQVRVU19BVkFJTEFCTEUsIGFuZCB0aGUg
-dHJhbnNtaXNzaW9uIHByb2Nlc3MgY29udGludWVkLgo+Pj4KPj4+IElNSE8gdGhpcyBzaG91bGQg
-Z28gaW50byB0aGUgUEFDS0VUX1RYX1JJTkcgZGVzY3JpcHRpb24sIGJ1dCBJJ2QgbGlrZSB0bwo+
-Pj4gZGVmZXIgdGhhdCB1bnRpbCBJIGhhdmUgYSBsaXR0bGUgbW9yZSBzcGFyZSB0aW1lIG9uIG15
-IGhhbmRzLCBzbyBJIGNhbgo+Pj4gdGFja2xlIHRoZSBlbnRpcmUgUEFDS0VUX01NQVAtcmVsYXRl
-ZCBwYXJ0IG9mIHRoZSBtYW4tcGFnZSBpbiBhIHNpbmdsZQo+Pj4gZWZmb3J0Lgo+Pj4KPj4+IFVw
-ZGF0ZWQgcGF0Y2ggZm9sbG93cy4KPj4+Cj4+PiBDaGVlcnMsCj4+PiBDYXJzdGVuCj4+Pgo+Pgo+
-PiBBY2tlZC1ieTogTmVpbCBIb3JtYW4gPG5ob3JtYW5AdHV4ZHJpdmVyLmNvbT4KPgo+U28sIHdp
-dGggTmVpbCdzIEFjaywgaXMgdGhpcyBwYXRjaCByZWFkeSB0byBhcHBseSBub3c/Cj4KPkNoZWVy
-cywKPgo+TWljaGFlbAo+Cj4KPi0tIAo+TWljaGFlbCBLZXJyaXNrCj5MaW51eCBtYW4tcGFnZXMg
-bWFpbnRhaW5lcjsgaHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvCj5MaW51eC9V
-TklYIFN5c3RlbSBQcm9ncmFtbWluZyBUcmFpbmluZzogaHR0cDovL21hbjcub3JnL3RyYWluaW5n
-Lwo=
+On 04/28/2014 08:12 PM, Carsten Andrich wrote:
+> Am Montag, den 28.04.2014, 13:28 -0400 schrieb Neil Horman:
+>> Rather than 'lingernig' perhaps more exact language to indicate that positive
+>> action is required from the application.  Perhaps:
+>>
+>> Packets in the WRONG_FORMAT state block the kernel from sending it and subsequent
+>> packets on the ring.  Packet in the WRONG_FORMAT state must be moved to the
+>> AVAILABLE or SEND_REQUEST state (after correcting format errors), so that the
+>> next application call to send() properly transmits the frame.
+> 
+> Thanks for the suggestion! I incorporated it into the following updated
+> PACKET_LOSS description:
+> When a malformed packet is encountered on a transmit ring, the default
+> is to reset its tp_status to TP_STATUS_WRONG_FORMAT and abort the
+> transmission immediately.  The malformed  packet  blocks  itself  and
+> subsequent enqueued  packets from being sent.  The format error must be
+> fixed, the associated tp_status reset to TP_STATUS_SEND_REQUEST and the
+> transmission process restarted via send(2).  However, if PACKET_LOSS is
+> set, any malformed packet will be skipped, its tp_status reset to
+> TP_STATUS_AVAILABLE, and the transmission process continued.
+> 
+> IMHO this should go into the PACKET_TX_RING description, but I'd like to
+> defer that until I have a little more spare time on my hands, so I can
+> tackle the entire PACKET_MMAP-related part of the man-page in a single
+> effort.
 
+Carsten, 
+
+Patch applied, with Neil's Ack.
+
+I added a Signed-off-by: line for you, okay?
+
+Thanks for the patch!
+
+Cheers,
+
+Michael
+
+
+
+> diff --git a/man2/getsockopt.2 b/man2/getsockopt.2
+> index 925fa90..1287efc 100644
+> --- a/man2/getsockopt.2
+> +++ b/man2/getsockopt.2
+> @@ -41,7 +41,7 @@
+>  .\" Modified 1999 by Andi Kleen <ak-h9bWGtP8wOw@public.gmane.org>.
+>  .\"     Removed most stuff because it is in socket.7 now.
+>  .\"
+> -.TH GETSOCKOPT 2 2014-01-24 "Linux" "Linux Programmer's Manual"
+> +.TH GETSOCKOPT 2 2014-04-28 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  getsockopt, setsockopt \- get and set options on sockets
+>  .SH SYNOPSIS
+> @@ -205,6 +205,7 @@ system.
+>  .BR getprotoent (3),
+>  .BR protocols (5),
+>  .BR ip (7),
+> +.BR packet (7),
+>  .BR socket (7),
+>  .BR tcp (7),
+>  .BR udp (7),
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index 11bca48..fc5fdaf 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -9,7 +9,7 @@
+>  .\"
+>  .\" $Id: packet.7,v 1.13 2000/08/14 08:03:45 ak Exp $
+>  .\"
+> -.TH PACKET  7 2014-04-24 "Linux" "Linux Programmer's Manual"
+> +.TH PACKET  7 2014-04-28 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  packet \- packet interface on device level
+>  .SH SYNOPSIS
+> @@ -319,14 +319,25 @@ original fanout algorithm selects a backlogged socket, the packet
+>  rolls over to the next available one.
+>  .TP
+>  .BR PACKET_LOSS " (with " PACKET_TX_RING )
+> -When a malformed packet is encountered on a transmit ring, the default is to
+> -set its status to
+> +When a malformed packet is encountered on a transmit ring, the default is
+> +to reset its
+> +.I tp_status
+> +to
+>  .BR TP_STATUS_WRONG_FORMAT
+> -and abort the transmission immediately (it and following packets are left
+> -lingering on the ring).
+> +and abort the transmission immediately.
+> +The malformed packet blocks itself and subsequent enqueued packets from
+> +being sent.
+> +The format error must be fixed, the associated
+> +.I tp_status
+> +reset to
+> +.BR TP_STATUS_SEND_REQUEST
+> +and the transmission process restarted via
+> +.BR send (2) .
+>  However, if
+>  .BR PACKET_LOSS
+> -is set, any malformed packet will be skipped, its status reset to
+> +is set, any malformed packet will be skipped, its
+> +.I tp_status
+> +reset to
+>  .BR TP_STATUS_AVAILABLE ,
+>  and the transmission process continued.
+>  .TP
+> @@ -360,15 +371,21 @@ Packet socket and application communicate the head and tail of the ring
+>  through the
+>  .I tp_status
+>  field.
+> -The packet socket owns all slots with status
+> +The packet socket owns all slots with
+> +.I tp_status
+> +equal to
+>  .BR TP_STATUS_KERNEL .
+>  After filling a slot, it changes the status of the slot to transfer
+>  ownership to the application.
+> -During normal operation, the new status has the
+> +During normal operation, the new
+> +.I tp_status
+> +value has at least the
+>  .BR TP_STATUS_USER
+>  bit set to signal that a received packet has been stored.
+>  When the application has finished processing a packet, it transfers
+> -ownership of the slot back to the socket by setting the status to
+> +ownership of the slot back to the socket by setting
+> +.I tp_status
+> +equal to
+>  .BR TP_STATUS_KERNEL .
+>  Packet sockets implement multiple variants of the packet ring.
+>  The implementation details are described in
+> @@ -407,9 +424,13 @@ Create a memory-mapped ring buffer for packet transmission.
+>  This option is similar to
+>  .BR PACKET_RX_RING
+>  and takes the same arguments.
+> -The application writes packets into slots with status
+> +The application writes packets into slots with
+> +.I tp_status
+> +equal to
+>  .BR TP_STATUS_AVAILABLE
+> -and schedules them for transmission by changing the status to
+> +and schedules them for transmission by changing
+> +.I tp_status
+> +to
+>  .BR TP_STATUS_SEND_REQUEST .
+>  When packets are ready to be transmitted, the application calls
+>  .BR send (2)
+> @@ -424,7 +445,9 @@ If an address is passed using
+>  or
+>  .BR sendmsg (2),
+>  then that overrides the socket default.
+> -On successful transmission, the socket resets the slot to
+> +On successful transmission, the socket resets
+> +.I tp_status
+> +to
+>  .BR TP_STATUS_AVAILABLE .
+>  It immediately aborts the transmission on error unless
+>  .BR PACKET_LOSS
+> @@ -633,6 +656,11 @@ The
+>  .I <linux/if_ether.h>
+>  include file for physical layer protocols.
+>  
+> -The example source file
+> +The Linux kernel source tree.
+> +.IR /Documentation/networking/filter.txt
+> +describes how to apply Berkeley Packet Filters to packet sockets.
+>  .IR /tools/testing/selftests/net/psock_tpacket.c
+> -in the Linux kernel source tree.
+> +contains example source code for all available versions of
+> +.BR PACKET_RX_RING
+> +and
+> +.BR PACKET_TX_RING .
+> 
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
