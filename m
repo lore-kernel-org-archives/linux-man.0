@@ -1,70 +1,56 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] getsockopt.2, packet.7: improve sockopt documentation for
- packet sockets
-Date: Tue, 29 Apr 2014 13:16:36 +0200
-Message-ID: <CAKgNAkgNZ0wvyTL+epJ1JKd2EOXuJzOw9KbXThARhGNh_opUdQ@mail.gmail.com>
-References: <1398356057.1966.14.camel@x201.fritz.box> <20140425110218.GA14074@hmsreliant.think-freely.org>
- <1398465760.6683.33.camel@actium.fritz.box> <20140428133444.GD16041@hmsreliant.think-freely.org>
- <1398698632.2988.10.camel@actium.fritz.box> <20140428172815.GG16041@hmsreliant.think-freely.org>
- <1398708750.2988.18.camel@actium.fritz.box> <20140429105118.GA11686@hmsreliant.think-freely.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
+Subject: Re: [patch] getsockopt.2, packet.7: improve sockopt documentation
+ for packet sockets
+Date: Tue, 29 Apr 2014 13:22:24 +0200
+Message-ID: <o3okqw7ix4iaf8ukfb6ufhie.1398770460424@email.android.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140429105118.GA11686-B26myB8xz7F8NnZeBjwnZQMhkBWG/bsMQH7oEaQurus@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Cc: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Carsten,
+QXMgZmFyIGFzIEknbSBjb25jZXJuZWQsIGl0IGlzLgpUaGFua3MsIE5laWwuCgpDaGVlcnMsCkNh
+cnN0ZW4KCiJNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykiIDxtdGsubWFucGFnZXNAZ21haWwu
+Y29tPiBzY2hyaWViOgoKPkhpIENhcnN0ZW4sCj4KPk9uIFR1ZSwgQXByIDI5LCAyMDE0IGF0IDEy
+OjUxIFBNLCBOZWlsIEhvcm1hbiA8bmhvcm1hbkB0dXhkcml2ZXIuY29tPiB3cm90ZToKPj4gT24g
+TW9uLCBBcHIgMjgsIDIwMTQgYXQgMDg6MTI6MzBQTSArMDIwMCwgQ2Fyc3RlbiBBbmRyaWNoIHdy
+b3RlOgo+Pj4gQW0gTW9udGFnLCBkZW4gMjguMDQuMjAxNCwgMTM6MjggLTA0MDAgc2NocmllYiBO
+ZWlsIEhvcm1hbjoKPj4+ID4gUmF0aGVyIHRoYW4gJ2xpbmdlcm5pZycgcGVyaGFwcyBtb3JlIGV4
+YWN0IGxhbmd1YWdlIHRvIGluZGljYXRlIHRoYXQgcG9zaXRpdmUKPj4+ID4gYWN0aW9uIGlzIHJl
+cXVpcmVkIGZyb20gdGhlIGFwcGxpY2F0aW9uLiAgUGVyaGFwczoKPj4+ID4KPj4+ID4gUGFja2V0
+cyBpbiB0aGUgV1JPTkdfRk9STUFUIHN0YXRlIGJsb2NrIHRoZSBrZXJuZWwgZnJvbSBzZW5kaW5n
+IGl0IGFuZCBzdWJzZXF1ZW50Cj4+PiA+IHBhY2tldHMgb24gdGhlIHJpbmcuICBQYWNrZXQgaW4g
+dGhlIFdST05HX0ZPUk1BVCBzdGF0ZSBtdXN0IGJlIG1vdmVkIHRvIHRoZQo+Pj4gPiBBVkFJTEFC
+TEUgb3IgU0VORF9SRVFVRVNUIHN0YXRlIChhZnRlciBjb3JyZWN0aW5nIGZvcm1hdCBlcnJvcnMp
+LCBzbyB0aGF0IHRoZQo+Pj4gPiBuZXh0IGFwcGxpY2F0aW9uIGNhbGwgdG8gc2VuZCgpIHByb3Bl
+cmx5IHRyYW5zbWl0cyB0aGUgZnJhbWUuCj4+Pgo+Pj4gVGhhbmtzIGZvciB0aGUgc3VnZ2VzdGlv
+biEgSSBpbmNvcnBvcmF0ZWQgaXQgaW50byB0aGUgZm9sbG93aW5nIHVwZGF0ZWQKPj4+IFBBQ0tF
+VF9MT1NTIGRlc2NyaXB0aW9uOgo+Pj4gV2hlbiBhIG1hbGZvcm1lZCBwYWNrZXQgaXMgZW5jb3Vu
+dGVyZWQgb24gYSB0cmFuc21pdCByaW5nLCB0aGUgZGVmYXVsdAo+Pj4gaXMgdG8gcmVzZXQgaXRz
+IHRwX3N0YXR1cyB0byBUUF9TVEFUVVNfV1JPTkdfRk9STUFUIGFuZCBhYm9ydCB0aGUKPj4+IHRy
+YW5zbWlzc2lvbiBpbW1lZGlhdGVseS4gIFRoZSBtYWxmb3JtZWQgIHBhY2tldCAgYmxvY2tzICBp
+dHNlbGYgIGFuZAo+Pj4gc3Vic2VxdWVudCBlbnF1ZXVlZCAgcGFja2V0cyBmcm9tIGJlaW5nIHNl
+bnQuICBUaGUgZm9ybWF0IGVycm9yIG11c3QgYmUKPj4+IGZpeGVkLCB0aGUgYXNzb2NpYXRlZCB0
+cF9zdGF0dXMgcmVzZXQgdG8gVFBfU1RBVFVTX1NFTkRfUkVRVUVTVCBhbmQgdGhlCj4+PiB0cmFu
+c21pc3Npb24gcHJvY2VzcyByZXN0YXJ0ZWQgdmlhIHNlbmQoMikuICBIb3dldmVyLCBpZiBQQUNL
+RVRfTE9TUyBpcwo+Pj4gc2V0LCBhbnkgbWFsZm9ybWVkIHBhY2tldCB3aWxsIGJlIHNraXBwZWQs
+IGl0cyB0cF9zdGF0dXMgcmVzZXQgdG8KPj4+IFRQX1NUQVRVU19BVkFJTEFCTEUsIGFuZCB0aGUg
+dHJhbnNtaXNzaW9uIHByb2Nlc3MgY29udGludWVkLgo+Pj4KPj4+IElNSE8gdGhpcyBzaG91bGQg
+Z28gaW50byB0aGUgUEFDS0VUX1RYX1JJTkcgZGVzY3JpcHRpb24sIGJ1dCBJJ2QgbGlrZSB0bwo+
+Pj4gZGVmZXIgdGhhdCB1bnRpbCBJIGhhdmUgYSBsaXR0bGUgbW9yZSBzcGFyZSB0aW1lIG9uIG15
+IGhhbmRzLCBzbyBJIGNhbgo+Pj4gdGFja2xlIHRoZSBlbnRpcmUgUEFDS0VUX01NQVAtcmVsYXRl
+ZCBwYXJ0IG9mIHRoZSBtYW4tcGFnZSBpbiBhIHNpbmdsZQo+Pj4gZWZmb3J0Lgo+Pj4KPj4+IFVw
+ZGF0ZWQgcGF0Y2ggZm9sbG93cy4KPj4+Cj4+PiBDaGVlcnMsCj4+PiBDYXJzdGVuCj4+Pgo+Pgo+
+PiBBY2tlZC1ieTogTmVpbCBIb3JtYW4gPG5ob3JtYW5AdHV4ZHJpdmVyLmNvbT4KPgo+U28sIHdp
+dGggTmVpbCdzIEFjaywgaXMgdGhpcyBwYXRjaCByZWFkeSB0byBhcHBseSBub3c/Cj4KPkNoZWVy
+cywKPgo+TWljaGFlbAo+Cj4KPi0tIAo+TWljaGFlbCBLZXJyaXNrCj5MaW51eCBtYW4tcGFnZXMg
+bWFpbnRhaW5lcjsgaHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvCj5MaW51eC9V
+TklYIFN5c3RlbSBQcm9ncmFtbWluZyBUcmFpbmluZzogaHR0cDovL21hbjcub3JnL3RyYWluaW5n
+Lwo=
 
-On Tue, Apr 29, 2014 at 12:51 PM, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org> wrote:
-> On Mon, Apr 28, 2014 at 08:12:30PM +0200, Carsten Andrich wrote:
->> Am Montag, den 28.04.2014, 13:28 -0400 schrieb Neil Horman:
->> > Rather than 'lingernig' perhaps more exact language to indicate that positive
->> > action is required from the application.  Perhaps:
->> >
->> > Packets in the WRONG_FORMAT state block the kernel from sending it and subsequent
->> > packets on the ring.  Packet in the WRONG_FORMAT state must be moved to the
->> > AVAILABLE or SEND_REQUEST state (after correcting format errors), so that the
->> > next application call to send() properly transmits the frame.
->>
->> Thanks for the suggestion! I incorporated it into the following updated
->> PACKET_LOSS description:
->> When a malformed packet is encountered on a transmit ring, the default
->> is to reset its tp_status to TP_STATUS_WRONG_FORMAT and abort the
->> transmission immediately.  The malformed  packet  blocks  itself  and
->> subsequent enqueued  packets from being sent.  The format error must be
->> fixed, the associated tp_status reset to TP_STATUS_SEND_REQUEST and the
->> transmission process restarted via send(2).  However, if PACKET_LOSS is
->> set, any malformed packet will be skipped, its tp_status reset to
->> TP_STATUS_AVAILABLE, and the transmission process continued.
->>
->> IMHO this should go into the PACKET_TX_RING description, but I'd like to
->> defer that until I have a little more spare time on my hands, so I can
->> tackle the entire PACKET_MMAP-related part of the man-page in a single
->> effort.
->>
->> Updated patch follows.
->>
->> Cheers,
->> Carsten
->>
->
-> Acked-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-
-So, with Neil's Ack, is this patch ready to apply now?
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
