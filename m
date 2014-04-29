@@ -1,79 +1,148 @@
-From: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-Subject: Re: [patch] getsockopt.2, packet.7: improve sockopt documentation
- for packet sockets
-Date: Tue, 29 Apr 2014 09:11:21 -0400
-Message-ID: <20140429131121.GA14945@hmsreliant.think-freely.org>
-References: <o3okqw7ix4iaf8ukfb6ufhie.1398770460424@email.android.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
+Date: Tue, 29 Apr 2014 15:26:37 +0200
+Message-ID: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w@mail.gmail.com>
+References: <1397741451-19161-1-git-send-email-lczerner@redhat.com>
+ <5351499C.2080506@gmail.com> <alpine.LFD.2.00.1404181819470.2128@localhost.localdomain>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <o3okqw7ix4iaf8ukfb6ufhie.1398770460424-2ueSQiBKiTY7tOexoI0I+QC/G2K4zDHf@public.gmane.org>
+In-Reply-To: <alpine.LFD.2.00.1404181819470.2128-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?ISO-8859-2?Q?Luk=E1=B9_Czerner?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Apr 29, 2014 at 01:22:24PM +0200, Carsten Andrich wrote:
-> As far as I'm concerned, it is.
-> Thanks, Neil.
-> 
-No problem.
-Neil
+Ping, Luk=C3=A1=C5=A1!
 
-> Cheers,
-> Carsten
-> 
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> schrieb:
-> 
-> >Hi Carsten,
-> >
-> >On Tue, Apr 29, 2014 at 12:51 PM, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org> wrote:
-> >> On Mon, Apr 28, 2014 at 08:12:30PM +0200, Carsten Andrich wrote:
-> >>> Am Montag, den 28.04.2014, 13:28 -0400 schrieb Neil Horman:
-> >>> > Rather than 'lingernig' perhaps more exact language to indicate that positive
-> >>> > action is required from the application.  Perhaps:
-> >>> >
-> >>> > Packets in the WRONG_FORMAT state block the kernel from sending it and subsequent
-> >>> > packets on the ring.  Packet in the WRONG_FORMAT state must be moved to the
-> >>> > AVAILABLE or SEND_REQUEST state (after correcting format errors), so that the
-> >>> > next application call to send() properly transmits the frame.
-> >>>
-> >>> Thanks for the suggestion! I incorporated it into the following updated
-> >>> PACKET_LOSS description:
-> >>> When a malformed packet is encountered on a transmit ring, the default
-> >>> is to reset its tp_status to TP_STATUS_WRONG_FORMAT and abort the
-> >>> transmission immediately.  The malformed  packet  blocks  itself  and
-> >>> subsequent enqueued  packets from being sent.  The format error must be
-> >>> fixed, the associated tp_status reset to TP_STATUS_SEND_REQUEST and the
-> >>> transmission process restarted via send(2).  However, if PACKET_LOSS is
-> >>> set, any malformed packet will be skipped, its tp_status reset to
-> >>> TP_STATUS_AVAILABLE, and the transmission process continued.
-> >>>
-> >>> IMHO this should go into the PACKET_TX_RING description, but I'd like to
-> >>> defer that until I have a little more spare time on my hands, so I can
-> >>> tackle the entire PACKET_MMAP-related part of the man-page in a single
-> >>> effort.
-> >>>
-> >>> Updated patch follows.
-> >>>
-> >>> Cheers,
-> >>> Carsten
-> >>>
-> >>
-> >> Acked-by: Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
-> >
-> >So, with Neil's Ack, is this patch ready to apply now?
-> >
-> >Cheers,
-> >
-> >Michael
-> >
-> >
-> >-- 
-> >Michael Kerrisk
-> >Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> >Linux/UNIX System Programming Training: http://man7.org/training/
+
+On Fri, Apr 18, 2014 at 6:21 PM, Luk=C3=A1=C5=A1 Czerner <lczerner@redh=
+at.com> wrote:
+> On Fri, 18 Apr 2014, Michael Kerrisk (man-pages) wrote:
+>
+>> Date: Fri, 18 Apr 2014 17:49:48 +0200
+>> From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+>> To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org,
+>>     linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> Subject: Re: [PATCH] fallocate.2: Document FALLOC_FL_ZERO_RANGE
+>>
+>> Lukas,
+>>
+>> Thanks for the patch.
+>>
+>> Two general comments:
+>> * The text does not explain what zeroing file space is about and why=
+ one
+>>   would do it. For example, I'm a little unclear after reading it wh=
+ether
+>>   FALLOC_FL_ZERO_RANGE will create a hole in a file.
+>
+> It is saying that blocks are preallocated for the regions that span
+> holes in the file. And there isn't anything saying about punching a
+> hole into the file. But I guess I can be more clear about it.
+>
+>> * Some entries should probably be added to ERRORS.
+>>
+>> Could you fix both of those and resubmit?
+>
+> Sure I'll do that next week.
+>
+>>
+>> Note that I've just pushed some changes to the page for
+>> FALLOC_FL_COLLAPSE_RANGE, so you may want to pull the latest version=
+ to
+>> ensure there are no conflicts.
+>>
+>> Cheers,
+>>
+>> Michael
+>>
+>>
+>> On 04/17/2014 03:30 PM, Lukas Czerner wrote:
+>> > FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
+>> > for zeroing ranges in the allocated space in a file.
+>> >
+>> > Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>> > ---
+>> >  man2/fallocate.2 | 41 +++++++++++++++++++++++++++++++++++++++++
+>> >  1 file changed, 41 insertions(+)
+>> >
+>> > diff --git a/man2/fallocate.2 b/man2/fallocate.2
+>> > index b31bbde..df31782 100644
+>> > --- a/man2/fallocate.2
+>> > +++ b/man2/fallocate.2
+>> > @@ -124,6 +124,45 @@ Btrfs (since Linux 3.7)
+>> >  .IP *
+>> >  tmpfs (since Linux 3.5)
+>> >  .\" commit 83e4fa9c16e4af7122e31be3eca5d57881d236fe
+>> > +.SS Zeroing file space
+>> > +Specifying
+>> > +.BR FALLOC_FL_ZERO_RANGE
+>> > +flag (available since Linux 3.14) in
+>> > +.I mode
+>> > +zeroes space in the byte range starting at
+>> > +.I offset
+>> > +and continuing for
+>> > +.I len
+>> > +bytes.
+>> > +Within the specified range, blocks are preallocated for the regio=
+ns
+>> > +that span the holes in the file. After a successful call,
+>> > +subsequent reads from this range will return zeroes.
+>> > +
+>> > +Zeroing is done within the file system preferably by converting r=
+ange into
+>> > +unwritten extents which requires very little IO to be issued.
+>> > +
+>> > +If the
+>> > +.B FALLOC_FL_KEEP_SIZE
+>> > +flag is specified in
+>> > +.IR mode ,
+>> > +the behavior of the call is similar,
+>> > +but the file size will not be changed even if
+>> > +.IR offset + len
+>> > +is greater than the file size. This behaviour is the same as when
+>> > +preallocating space with
+>> > +.B FALLOC_FL_KEEP_SIZE
+>> > +specified.
+>> > +
+>> > +Not all filesystems support
+>> > +.BR FALLOC_FL_ZERO_RANGE ;
+>> > +if a filesystem doesn't support the operation, an error is return=
+ed.
+>> > +The operation is supported on at least the following filesystems
+>> > +.IP * 3
+>> > +XFS (since Linux 2.14)
+>> > +.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
+>> > +.IP *
+>> > +ext4 (since Linux 3.14)
+>> > +.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
+>> >  .SH RETURN VALUE
+>> >  On success,
+>> >  .BR fallocate ()
+>> > @@ -193,6 +232,8 @@ Or:
+>> >  .I mode
+>> >  specifies
+>> >  .BR FALLOC_FL_PUNCH_HOLE
+>> > +or
+>> > +.BR FALLOC_FL_ZERO_RANGE
+>> >  and
+>> >  the file referred to by
+>> >  .I fd
+>> >
+>>
+>>
+>>
+
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
