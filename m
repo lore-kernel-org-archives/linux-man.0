@@ -1,60 +1,93 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH man-pages v1] fcntl.2: update manpage with verbiage about
- open file description locks
-Date: Wed, 30 Apr 2014 16:05:09 +0200
-Message-ID: <53610315.10908@gmail.com>
-References: <1398797474-744-1-git-send-email-jlayton@poochiereds.net>	<5360D56F.4070509@gmail.com> <20140430081501.3aca5cba@tlielax.poochiereds.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20140430081501.3aca5cba@tlielax.poochiereds.net>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Jeff Layton <jlayton@poochiereds.net>
-Cc: mtk.manpages@gmail.com, linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
+From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH v2] fallocate.2: Document FALLOC_FL_ZERO_RANGE
+Date: Wed, 30 Apr 2014 16:09:27 +0200
+Message-ID: <1398866967-26887-1-git-send-email-lczerner@redhat.com>
+References: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w@mail.gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jeff,
+FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
+for zeroing ranges in the allocated space in a file.
 
-I'll follow up on your reply in a moment. But, in the meantime, you missed 
-a question of mine:
+Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+v2: Rebase and update the description
 
->>> +.TP
->>> +.BR F_OFD_SETLK " (\fIstruct flock *\fP)"
->>> +Acquire an open file description lock (when
->>> +.I l_type
->>> +is
->>> +.B F_RDLCK
->>> +or
->>> +.BR F_WRLCK )
->>> +or release an open file description lock (when
->>> +.I l_type
->>> +is
->>> +.BR F_UNLCK )
->>> +on the bytes specified by the
->>> +.IR l_whence ", " l_start ", and " l_len
->>> +fields of
->>> +.IR lock .
->>> +If a conflicting lock is held by another process,
->>> +this call returns \-1 and sets
->>> +.I errno
->>> +to
->>> +.B EACCES
->>> +or
->>> +.BR EAGAIN .
->>
->> The "EACCES or EAGAIN" thing comes from POSIX, because different 
->> implementations of tradition record locks returned one of these errors. 
->> So, portable applications using traditional locks must handle either 
->> possibility. However, that argument doesn't apply for these new locks. 
->> Surely, we just want to say "set errno to EAGAIN" for this case?
+ man2/fallocate.2 | 46 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Michael
-
-
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index 73c4f12..30f27c3 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -180,6 +180,48 @@ ext4 (only for extent-based files)
+ .\" commit 9eb79482a97152930b113b51dff530aba9e28c8e
+ and XFS.
+ .\" commit e1d8fb88a64c1f8094b9f6c3b6d2d9e6719c970d
++.SS Zeroing file space
++Specifying
++.BR FALLOC_FL_ZERO_RANGE
++flag (available since Linux 3.14) in
++.I mode
++zeroes space in the byte range starting at
++.I offset
++and continuing for
++.I len
++bytes.
++Within the specified range, blocks are preallocated for the regions
++that span the holes in the file. After a successful call, subsequent
++reads from this range will return zeroes.
++
++Zeroing is done within the file system preferably by converting range into
++unwritten extents which requires very little IO to be issued mostly for
++metadata. This means that the range will not be physically zeroed out
++on the device.
++
++If the
++.B FALLOC_FL_KEEP_SIZE
++flag is specified in
++.IR mode ,
++the behavior of the call is similar,
++but the file size will not be changed even if
++.IR offset + len
++is greater than the file size. This behaviour is the same as when
++preallocating space with
++.B FALLOC_FL_KEEP_SIZE
++specified.
++
++Not all filesystems support
++.BR FALLOC_FL_ZERO_RANGE ;
++if a filesystem doesn't support the operation, an error is returned.
++The operation is supported on at least the following filesystems
++.IP * 3
++XFS (since Linux 2.14)
++.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
++.IP *
++ext4 (since Linux 3.14)
++.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
++
+ .SH RETURN VALUE
+ On success,
+ .BR fallocate ()
+@@ -243,7 +285,9 @@ no other flags are permitted with
+ .B EINVAL
+ .I mode
+ is
+-.BR FALLOC_FL_COLLAPSE_RANGE ,
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_ZERO_RANGE,
+ but the file referred to by
+ .I fd
+ is not a regular file.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.8.3.1
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
