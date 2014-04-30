@@ -1,92 +1,119 @@
-From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH v2] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Wed, 30 Apr 2014 16:09:27 +0200
-Message-ID: <1398866967-26887-1-git-send-email-lczerner@redhat.com>
-References: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH man-pages v1] fcntl.2: update manpage with verbiage about
+ open file description locks
+Date: Wed, 30 Apr 2014 16:41:22 +0200
+Message-ID: <53610B92.4000308@gmail.com>
+References: <1398797474-744-1-git-send-email-jlayton@poochiereds.net>	<5360D56F.4070509@gmail.com> <20140430081501.3aca5cba@tlielax.poochiereds.net>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkibmSZBD4ThhuGg7sJuGBVR+pfMe30b-HXQ0BhYr1Uy2w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20140430081501.3aca5cba-9yPaYZwiELC+kQycOl6kW4xkIHaj4LzF@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
-for zeroing ranges in the allocated space in a file.
+Hi Jeff,
 
-Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
-v2: Rebase and update the description
+Thanks for your reply. Comments below.
 
- man2/fallocate.2 | 46 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+On 04/30/2014 02:15 PM, Jeff Layton wrote:
+> On Wed, 30 Apr 2014 12:50:23 +0200
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-diff --git a/man2/fallocate.2 b/man2/fallocate.2
-index 73c4f12..30f27c3 100644
---- a/man2/fallocate.2
-+++ b/man2/fallocate.2
-@@ -180,6 +180,48 @@ ext4 (only for extent-based files)
- .\" commit 9eb79482a97152930b113b51dff530aba9e28c8e
- and XFS.
- .\" commit e1d8fb88a64c1f8094b9f6c3b6d2d9e6719c970d
-+.SS Zeroing file space
-+Specifying
-+.BR FALLOC_FL_ZERO_RANGE
-+flag (available since Linux 3.14) in
-+.I mode
-+zeroes space in the byte range starting at
-+.I offset
-+and continuing for
-+.I len
-+bytes.
-+Within the specified range, blocks are preallocated for the regions
-+that span the holes in the file. After a successful call, subsequent
-+reads from this range will return zeroes.
-+
-+Zeroing is done within the file system preferably by converting range into
-+unwritten extents which requires very little IO to be issued mostly for
-+metadata. This means that the range will not be physically zeroed out
-+on the device.
-+
-+If the
-+.B FALLOC_FL_KEEP_SIZE
-+flag is specified in
-+.IR mode ,
-+the behavior of the call is similar,
-+but the file size will not be changed even if
-+.IR offset + len
-+is greater than the file size. This behaviour is the same as when
-+preallocating space with
-+.B FALLOC_FL_KEEP_SIZE
-+specified.
-+
-+Not all filesystems support
-+.BR FALLOC_FL_ZERO_RANGE ;
-+if a filesystem doesn't support the operation, an error is returned.
-+The operation is supported on at least the following filesystems
-+.IP * 3
-+XFS (since Linux 2.14)
-+.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
-+.IP *
-+ext4 (since Linux 3.14)
-+.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
-+
- .SH RETURN VALUE
- On success,
- .BR fallocate ()
-@@ -243,7 +285,9 @@ no other flags are permitted with
- .B EINVAL
- .I mode
- is
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_ZERO_RANGE,
- but the file referred to by
- .I fd
- is not a regular file.
--- 
-1.8.3.1
+[...]
 
+>> #      The record locks described above are associated with the  pro=
+cess
+>> #      (unlike  the  open file description locks described below).  =
+This
+>> #      has some unfortunate consequences:
+>>
+>> #      *  If a process holding a lock on a file closes any file desc=
+rip=E2=80=90
+>> #         tor  referring to the file, then all of the process's lock=
+s on
+>> #         the file are released, no matter which  file  descriptor  =
+they
+>> #         were  obtained  via.  This is bad: it means that a process=
+ can
+>=20
+> "were obtained via" is a little awkward. How about "regardless of whi=
+ch
+> file descriptor on which they were obtained".
+
+Yeah, it is clumsy. I fixed, and also otherwise made the text more=20
+precise/concise:
+
+       *  If a process closes any file descriptor referring to a file,
+          then  all  of the process's locks on that file are released,
+          regardless of the file descriptor(s) on which the locks were
+          obtained.
+=20
+
+[...]
+
+>>   ERRORS
+>>   [...]
+>>
+>> #      EINVAL cmd is  F_OFD_SETLK,  F_OFD_SETLKW,  or  F_OFD_GETLK, =
+ and
+>> #             l_pid was not specified as zero.
+>>
+>=20
+> The kernel will also return -EINVAL if it doesn't recognize the cmd
+> value being passed in. It may be worth mentioning that as well as
+> that's the best mechanism to tell whether the kernel actually support=
+s
+> OFD locks.
+
+Good point. I added that error case under ERRORS, and added this text t=
+o
+the top of the page:
+
+       Certain  of  the operations below are supported only since a par=
+=E2=80=90
+       ticular Linux kernel version.  The preferred method  of  checkin=
+g
+       whether  the  host  kernel  supports a aprticular operation is t=
+o
+       invoke fcntl() with the desired cmd value and then  test  whethe=
+r
+       the  call failed with EINVAL, indicating that the kernel does no=
+t
+       recognize this value.
+
+=3D=3D
+
+And getting back to the missed piece:
+
+>>>> The "EACCES or EAGAIN" thing comes from POSIX, because different
+>>>> implementations of tradition record locks returned one of these er=
+rors.
+>>>> So, portable applications using traditional locks must handle eith=
+er
+>>>> possibility. However, that argument doesn't apply for these new lo=
+cks.
+>>>> Surely, we just want to say "set errno to EAGAIN" for this case?
+>
+> Ahh good catch. I fixed that in the glibc doc but I missed it here.
+> Yes, we should be clear that this OFD locks will get back EAGAIN in
+> this situation. Can you fix it, or would you prefer I respin the
+> patch?
+
+No problem. I fixed it.
+
+Thanks for checking over my revisions!
+
+Cheers,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
