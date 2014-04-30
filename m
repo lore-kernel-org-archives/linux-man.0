@@ -1,234 +1,73 @@
-From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: sched_{set,get}attr() manpage
-Date: Wed, 30 Apr 2014 15:09:37 +0200
-Message-ID: <20140430130937.GH30445@twins.programming.kicks-ass.net>
-References: <20131217123352.692059839@infradead.org>
- <CAHO5Pa3=+Zhg72tVfddSUvgirUyObir6atJVo4_16bVWB2Osgw@mail.gmail.com>
- <20140121153851.GZ31570@twins.programming.kicks-ass.net>
- <CAKgNAkgw+U44SH0wd_06ZMXaCC9nCX4NZxZHkMKUdC7E7YxBhQ@mail.gmail.com>
- <20140214161929.GL27965@twins.programming.kicks-ass.net>
- <53020C9D.1050208@gmail.com>
- <20140428081858.GX13658@twins.programming.kicks-ass.net>
- <535FA467.2070403@gmail.com>
- <20140429160441.GU11096@twins.programming.kicks-ass.net>
- <5360D9E5.9080206@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: recvmmsg() timeout behavior strangeness [RESEND]
+Date: Wed, 30 Apr 2014 15:59:37 +0200
+Message-ID: <536101C9.9090601@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <5360D9E5.9080206-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, darren-P76s1CtE8BHQT0dZR+AlfA@public.gmane.org, johan.eker-IzeFyvvaP7pWk0Htik3J/w@public.gmane.org, p.faure-et3tyl94nDNyDzI6CaY1VQ@public.gmane.org, Linux Kernel <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, claudio-YOzL5CV4y4YG1A2ADO40+w@public.gmane.org, michael-dyjBcgdgk7Pe9wHmmfpqLFaTQe2KTcn/@public.gmane.org, fchecconi-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, tommaso.cucinotta-gAmJrWFzCps@public.gmane.org, juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, nicola.manica-+cHZLFJ93xAO91npARCAeA@public.gmane.org, luca.abeni-3IIOeSMMxS4@public.gmane.org, dhaval.giani-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, hgu1972-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Paul McKenney <paulmck-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>, insop.song-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, liming.wang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org, jkacur-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Arnaldo Carvalho de Melo <acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?T25kxZllaiBCw61sa2E=?= <neleai-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>, Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>, =?UTF-8?B?UsOpbWkgRGVuaXMtQ291cm1v?= =?UTF-8?B?bnQ=?= <remi.denis-courmont-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, Paul Moore <paul-r2n+y4ga6xFZroRs9YW3xA@public.gmane.org>, Chris Friesen <chris.friesen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Apr 30, 2014 at 01:09:25PM +0200, Michael Kerrisk (man-pages) wrote:
-> Hi Peter,
-> 
-> Thanks for the revision. More comments below. Could you revise in 
-> the light of those comments, and hopefully also after feedback from 
-> Juri and Dario?
+Arnaldo,
 
-New text below; hopefully a little clearer. If not, do holler.
+I raised this issue somewhat more than a year ago, here:
+http://thread.gmane.org/gmane.linux.man/3477
+but got no reply from you. (Chris Friesen in that thread agreed 
+that there is a problem though.)
 
----
-> [1] A page describing the sched_setattr() and sched_getattr() APIs
+Here, a slightly revised version of that mail, since I've just bumper 
+into a related problem in a different context...
 
-NAME
-	sched_setattr, sched_getattr - set and get scheduling policy/attributes
+As part of his attempt to better document the recvmmsg() syscall that
+you added in commit a2e2725541fad72416326798c2d7fa4dafb7d337, Elie de
+Brauwer alerted to me to some strangeness in the timeout behavior of
+the syscall. I suspect there's a bug that needs fixing, as detailed
+below.
 
-SYNOPSIS
-	#include <sched.h>
+AFAICT, the timeout argument was added to this syscall as a result of
+the discussion here:
+http://markmail.org/message/m5l2ap4hiiimut6k#query:+page:1+mid:m5l2ap4hiiimut6k+state:results
+(20-21 May 2009, "[RFC 1/2] net: Introduce recvmmsg...")
 
-	struct sched_attr {
-		u32 size;
-		u32 sched_policy;
-		u64 sched_flags;
+If I understand correctly, the *intended* purpose of the timeout
+argument is to set a limit on how long to wait for additional
+datagrams after the arrival of an initial datagram. However, the
+syscall behaves in quite a different way. Instead, it potentially
+blocks forever, regardless of the timeout. The way the timeout seems
+to work is as follows:
 
-		/* SCHED_NORMAL, SCHED_BATCH */
-		s32 sched_nice;
+1. The timeout, T, is armed on receipt of first diagram, starting at time X.
+2. After each further datagram is received, a check is made if we have
+reached time X+T. If we have reached that time, then the syscall
+returns.
 
-		/* SCHED_FIFO, SCHED_RR */
-		u32 sched_priority;
+Since the timeout is only checked after the arrival of each datagram,
+we can have scenarios like the following:
 
-		/* SCHED_DEADLINE */
-		u64 sched_runtime;
-		u64 sched_deadline;
-		u64 sched_period;
-	};
+0. Assume a timeout of 10 seconds, and that vlen is 5.
+1. First datagram arrives at time X.
+2. Second datagram arrives at time X+2 secs
+3. No more datagrams arrive.
 
-	int sched_setattr(pid_t pid, const struct sched_attr *attr, unsigned int flags);
+In this case, the call blocks forever. Is that intended behavior?
+(Basically, if up to vlen-1 datagrams arrive before X+T, but then no 
+more datagrams arrive, the call will remain blocked forever.) If it's
+intended behavior, could you elaborate the use case, since it would be
+good to add that to the man page. If not, a fix seems to be needed,
+since otherwise, it's hard to see how the recvmmsg() timeout argument
+can sanely be used.
 
-	int sched_getattr(pid_t pid, const struct sched_attr *attr, unsigned int size, unsigned int flags);
+Thanks,
 
-DESCRIPTION
-	sched_setattr() sets both the scheduling policy and the
-	associated attributes for the process whose ID is specified in
-	pid.
+Michael
 
-	sched_setattr() replaces sched_setscheduler(), sched_setparam(),
-	nice() and some of setpriority().
-
-	If pid equals zero, the scheduling policy and attributes
-	of the calling process will be set.  The interpretation of the
-	argument attr depends on the selected policy.  Currently, Linux
-	supports the following "normal" (i.e., non-real-time) scheduling
-	policies:
-
-	SCHED_OTHER	the standard "fair" time-sharing policy;
-
-	SCHED_BATCH	for "batch" style execution of processes; and
-
-	SCHED_IDLE	for running very low priority background jobs.
-
-	The following "real-time" policies are also supported, for
-	special time-critical applications that need precise control
-	over the way in which runnable processes are selected for
-	execution:
-
-	SCHED_FIFO	a static priority first-in, first-out policy;
-
-	SCHED_RR	a static priority round-robin policy; and
-
-	SCHED_DEADLINE	a dynamic priority deadline policy.
-
-	The semantics of each of these policies are detailed in
-	sched(7).
-
-	sched_attr::size must be set to the size of the structure, as in
-	sizeof(struct sched_attr), if the provided structure is smaller
-	than the kernel structure, any additional fields are assumed
-	'0'. If the provided structure is larger than the kernel
-	structure, the kernel verifies all additional fields are '0' if
-	not the syscall will fail with -E2BIG.
-
-	sched_attr::sched_policy the desired scheduling policy.
-
-	sched_attr::sched_flags additional flags that can influence
-	scheduling behaviour. Currently as per Linux kernel 3.14:
-
-		SCHED_FLAG_RESET_ON_FORK - resets the scheduling policy
-		to: (struct sched_attr){ .sched_policy = SCHED_OTHER, }
-		on fork().
-
-	is the only supported flag.
-
-	sched_attr::sched_nice should only be set for SCHED_OTHER,
-	SCHED_BATCH, the desired nice value [-20,19], see sched(7).
-
-	sched_attr::sched_priority should only be set for SCHED_FIFO,
-	SCHED_RR, the desired static priority [1,99], see sched(7).
-
-	sched_attr::sched_runtime in nanoseconds,
-	sched_attr::sched_deadline in nanoseconds,
-	sched_attr::sched_period in nanoseconds, should only be set for
-	SCHED_DEADLINE and are the traditional sporadic task model
-	parameters, see sched(7).
-
-	The flags argument should be 0.
-
-	sched_getattr() queries the scheduling policy currently applied
-	to the process identified by pid.
-
-	Similar to sched_setattr(), sched_getattr() replaces
-	sched_getscheduler(), sched_getparam() and some of
-	getpriority().
-
-	If pid equals zero, the policy of the calling process will be
-	retrieved.
-
-	The size argument should reflect the size of struct sched_attr
-	as known to userspace. The kernel fills out sched_attr::size to
-	the size of its sched_attr structure. If the user provided
-	structure is larger, additional fields are not touched. If the
-	user provided structure is smaller, but the kernel needs to
-	return values outside the provided space, the syscall will fail
-	with -E2BIG.
-
-	The flags argument should be 0.
-
-	The other sched_attr fields are filled out as described in
-	sched_setattr().
-
-RETURN VALUE
-	On success, sched_setattr() and sched_getattr() return 0. On
-	error, -1 is returned, and errno is set appropriately.
-
-ERRORS
-       EINVAL The scheduling policy is not one  of  the  recognized  policies,
-              param is NULL, or param does not make sense for the selected
-	      policy.
-
-       EPERM  The calling process does not have appropriate privileges.
-
-       ESRCH  The process whose ID is pid could not be found.
-
-       E2BIG  The provided storage for struct sched_attr is either too
-              big, see sched_setattr(), or too small, see sched_getattr().
-
-       EBUSY  SCHED_DEADLINE admission control failure, see sched(7).
-
-NOTES
-       While the text above (and in sched_setscheduler(2)) talks about
-       processes, in actual fact these system calls are thread specific.
-
-       While the SCHED_DEADLINE parameters are in nanoseconds, current
-       kernels truncate the lower 10 bits and we get an effective
-       microsecond resolution.
-
-> [2] A piece of text describing the SCHED_DEADLINE policy, which I can
-> drop into sched(7).
-
-    SCHED_DEADLINE: Sporadic task model deadline scheduling
-       SCHED_DEADLINE is currently implemented using GEDF (Global
-       Earliest Deadline First) with additional CBS (Constant Bandwidth
-       Server).
-
-       A sporadic task is on that has a sequence of jobs, where each job
-       is activated at most once per period [ns]. Each job will have an
-       absolute deadline relative to its activation before which it must
-       finish its execution, and it shall at no time run longer
-       than runtime [ns] after its release.
-
-              activation/wakeup       absolute deadline
-              |        release        |
-              v        v              v
-       -------x--------x--------------x--------x-------
-                       |<- Runtime -->|
-              |<---------- Deadline ->|
-              |<---------- Period  ----------->|
-
-       This gives: runtime <= (rel) deadline <= period.
-
-       The CBS guarantees non-interference between tasks, by throttling
-       tasks that attempt to over-run their specified runtime.
-
-       In general the set of all SCHED_DEADLINE tasks is not
-       feasible/schedulable within the given constraints. Therefore we
-       must do an admittance test on setting/changing SCHED_DEADLINE
-       policy/attributes.
-
-       This admission test calculates that the task set is
-       feasible/schedulable, failing this, sched_setattr() will return
-       -EBUSY.
-
-       For example, it is required (but not necessarily sufficient) for
-       the total utilization to be less or equal to the total amount of
-       CPUs available, where, since each task can maximally run for
-       runtime [us] per period [us], that task's utilization is its
-       runtime/period.
-
-       Because we must be able to calculate admittance SCHED_DEADLINE
-       tasks are the highest priority (user controllable) tasks in the
-       system, if any SCHED_DEADLINE task is runnable it will preempt
-       any FIFO/RR/OTHER/BATCH/IDLE task.
-
-       SCHED_DEADLINE tasks will fail fork(2) with -EAGAIN, except when
-       the forking task has SCHED_FLAG_RESET_ON_FORK set.
-
-       A SCHED_DEADLINE task calling sched_yield() will 'yield' the
-       current job and wait for a new period to begin.
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
