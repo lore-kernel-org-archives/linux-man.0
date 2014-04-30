@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 02/10] Fix prototype for stime()
-Date: Wed, 30 Apr 2014 21:42:34 +0200
-Message-ID: <1398886962-10633-3-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 05/10] Fix prototype for sched_setaffinity()
+Date: Wed, 30 Apr 2014 21:42:37 +0200
+Message-ID: <1398886962-10633-6-git-send-email-rv@rasmusvillemoes.dk>
 References: <1398886962-10633-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1398886962-10633-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,27 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The argument is const, both according to the actual header
-files and according to <http://www.sco.com/developers/devspecs/vol1a.pdf>.
+The mask argument is const.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man2/stime.2 | 2 +-
+ man2/sched_setaffinity.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/stime.2 b/man2/stime.2
-index afecfba..fa47ecd 100644
---- a/man2/stime.2
-+++ b/man2/stime.2
-@@ -33,7 +33,7 @@ stime \- set time
- .SH SYNOPSIS
- .B #include <time.h>
+diff --git a/man2/sched_setaffinity.2 b/man2/sched_setaffinity.2
+index 4078b88..b77f5b6 100644
+--- a/man2/sched_setaffinity.2
++++ b/man2/sched_setaffinity.2
+@@ -41,7 +41,7 @@ set and get a thread's CPU affinity mask
+ .B #include <sched.h>
  .sp
--.BI "int stime(time_t *" t );
-+.BI "int stime(const time_t *" t );
+ .BI "int sched_setaffinity(pid_t " pid ", size_t " cpusetsize ,
+-.BI "                      cpu_set_t *" mask );
++.BI "                      const cpu_set_t *" mask );
  .sp
- .in -4n
- Feature Test Macro Requirements for glibc (see
+ .BI "int sched_getaffinity(pid_t " pid ", size_t " cpusetsize ,
+ .BI "                      cpu_set_t *" mask );
 -- 
 1.9.2
 
