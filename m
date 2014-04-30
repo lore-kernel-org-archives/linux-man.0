@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 07/10] Fix prototype for mbind(2)
-Date: Wed, 30 Apr 2014 21:42:39 +0200
-Message-ID: <1398886962-10633-8-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 08/10] Add <signal.h> to synopsis for ppoll()
+Date: Wed, 30 Apr 2014 21:42:40 +0200
+Message-ID: <1398886962-10633-9-git-send-email-rv@rasmusvillemoes.dk>
 References: <1398886962-10633-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1398886962-10633-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,35 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The nmask argument is const. The return type in numaif.h is long.
-
----
-Well, at least <numaif.h> says nmask is const. The current kernel does
-not define it as a const argument, but sys_mbind() only passes it to
-get_nodes(), which does treat it as const.
+One needs to #include <signal.h> to get the definition of the
+type (sigset_t) of the mask argument to ppoll().
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man2/mbind.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man2/poll.2 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/man2/mbind.2 b/man2/mbind.2
-index 2a690e6..6cff10a 100644
---- a/man2/mbind.2
-+++ b/man2/mbind.2
-@@ -49,9 +49,9 @@ mbind \- set memory policy for a memory range
- .nf
- .B "#include <numaif.h>"
+diff --git a/man2/poll.2 b/man2/poll.2
+index f034001..4967869 100644
+--- a/man2/poll.2
++++ b/man2/poll.2
+@@ -38,6 +38,7 @@ poll, ppoll \- wait for some event on a file descriptor
+ .BI "int poll(struct pollfd *" fds ", nfds_t " nfds ", int " timeout );
  .sp
--.BI "int mbind(void *" addr ", unsigned long " len  ", int " mode ,
--.BI "          unsigned long *" nodemask  ", unsigned long " maxnode ,
--.BI "          unsigned " flags );
-+.BI "long mbind(void *" addr ", unsigned long " len  ", int " mode ,
-+.BI "           const unsigned long *" nodemask  ", unsigned long " maxnode ,
-+.BI "           unsigned " flags );
+ .BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
++.B #include <signal.h>
+ .B #include <poll.h>
  .sp
- Link with \fI\-lnuma\fP.
- .fi
+ .BI "int ppoll(struct pollfd *" fds ", nfds_t " nfds ", "
 -- 
 1.9.2
 
