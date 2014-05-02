@@ -1,80 +1,101 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify_init.2, fanotify_mark.2: ENOSYS if not available
-Date: Thu, 01 May 2014 07:49:48 +0200
-Message-ID: <5361E07C.9020608@gmail.com>
-References: <1398890902-6696-1-git-send-email-xypron.glpk@gmx.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 73301] Documentation misses case of link, linkat, symlink,
+ symlinkat giving ENOENT for a directory with a reference only held by a
+ process
+Date: Fri, 02 May 2014 13:11:30 +0000
+Message-ID: <bug-73301-11311-jhQb1VYGd3@https.bugzilla.kernel.org/>
+References: <bug-73301-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1398890902-6696-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <bug-73301-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/30/2014 10:48 PM, Heinrich Schuchardt wrote:
-> Both fanotify_init and fanotify_mark return ENOSYS, if the kernel
-> was configured without setting CONFIG_FANOTIFY=y.
+https://bugzilla.kernel.org/show_bug.cgi?id=73301
+
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Steven,
+
+(In reply to Steven Stewart-Gallus from comment #0)
+> The errors printed out by the following code on symlink and symlinkat are
+> missed by the documentation.
 > 
-> I tested both functions with an appropriately configured kernel 3.14.2.
-
-Thanks, Heinrich. Applied.
-
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/fanotify_init.2 | 7 +++++++
->  man2/fanotify_mark.2 | 7 +++++++
->  2 files changed, 14 insertions(+)
+> #include <fcntl.h>
+> #include <stdio.h>
+> #include <sys/stat.h>
+> #include <sys/types.h>
+> #include <unistd.h>
 > 
-> diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-> index e54fe7e..4824378 100644
-> --- a/man2/fanotify_init.2
-> +++ b/man2/fanotify_init.2
-> @@ -191,6 +191,13 @@ The number of fanotify groups of the user exceeds 128.
->  .B ENOMEM
->  The allocation of memory for the notification group failed.
->  .TP
-> +.B ENOSYS
-> +This kernel does not implement
-> +.BR fanotify_init ().
-> +To make the fanotify API available,
-> +.B CONFIG_FANOTIFY
-> +has to be enabled in the Linux configuration.
-> +.TP
->  .B EPERM
->  The operation is not permitted because the caller lacks the
->  .B CAP_SYS_ADMIN
-> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-> index 693eff8..ad17ef8 100644
-> --- a/man2/fanotify_mark.2
-> +++ b/man2/fanotify_mark.2
-> @@ -280,6 +280,13 @@ The number of marks exceeds the limit of 8192 and
->  was not specified in the call to
->  .BR fanotify_init (2).
->  .TP
-> +.B ENOSYS
-> +This kernel does not implement
-> +.BR fanotify_mark (). 
-> +To make the fanotify API available,
-> +.B CONFIG_FANOTIFY
-> +has to be enabled in the Linux configuration.
-> +.TP
->  .B ENOTDIR
->  .I flags
->  contains
+> int main() {
+>     if (-1 == mkdir("/tmp/temporary", S_IRWXU)) {
+>         perror("mkdir");
+>     }
 > 
+>     int dir = open("/tmp/temporary", O_RDONLY | O_CLOEXEC);
+>     if (-1 == dir) {
+>         perror("open");
+>     }
+> 
+>     if (-1 == rmdir("/tmp/temporary")) {
+>         perror("rmdir");
+>     }
+> 
+>     if (-1 == symlinkat("/", dir, "root")) {
+>         perror("symlinkat");
+>     }
 
+So far, so good.
+
+>     char template_text[] = "/proc/self/fd/XXXXXXXXXXX/root";
+>     sprintf(template_text, "/proc/self/fd/%i/root", dir);
+>     if (-1 == symlink("/", template_text)) {
+>         perror("symlink");
+>     }
+
+I'm a little puzzled, why would one want to make a symlink somewhere under
+/proc?
+
+> 
+>     return 0;
+> }
+> 
+> The calls to symlink and symlinkat in this case give ENOENT errors. 
+
+For symlinkat(), I can see the logic. You're trying to create a link relative
+to a directory that does not exist. Could the call reasonably do anything other
+than fail?
+
+> This
+> might also be a small oversight which is probably impossible to change now.
+> I wonder if the code thinks this is a dangling symbolic link (a case which
+> is mentioned by the documentation)?
+> 
+> The POSIX standard issue 7 also seems to miss this corner case (although it
+> might simply be an omission of mentioning a system dependant case rather
+> than a bug for the POSIX standard).
+
+The specs in POSIX were driven from the Linux implementation effort, so I don;t
+think that your hypothesis there would fit.
+
+> I'm not sure how exactly one would explain this corner case in the
+> documentation.
+
+I'd be willing to give it a shot, but, first,I'm not sure what if anything to
+say about the symlink() case. Do you have a more realistic example of that
+case?
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
