@@ -1,48 +1,55 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify: read(2) error handling
-Date: Sat,  3 May 2014 18:57:49 +0200
-Message-ID: <1399136269-7930-1-git-send-email-xypron.glpk@gmx.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 75431] New: posix_fadvise(2): wrong param name?
+Date: Sat, 03 May 2014 19:04:16 +0000
+Message-ID: <bug-75431-11311@https.bugzilla.kernel.org/>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The last lines of fanotify_read() in fanotify_user.c are:
-	if (start != buf && ret != -EFAULT)
-		ret = buf - start;
-	return ret;
+https://bugzilla.kernel.org/show_bug.cgi?id=75431
 
-This implies that an error code is only returned, if reading the first
-event on the queue fails or if EFAULT occurs.
+            Bug ID: 75431
+           Summary: posix_fadvise(2): wrong param name?
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: pub08-knl-Hke7B/fnggLYtjvyW6yDsg@public.gmane.org
+        Regression: No
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man7/fanotify.7 | 8 ++++++++
- 1 file changed, 8 insertions(+)
+In posix_fadvise(2), under "Architecture-specific variants", it says:
+       [Due to register-alignment issues,]
+       ... the call signature of posix_fadvise() shown in
+       the SYNOPSIS would force a register to be wasted as padding between
+       the fd and len arguments.
 
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index 083244f..6936b88 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -131,6 +131,14 @@ until either a file event occurs or the call is interrupted by a signal
- The return value of
- .BR read (2)
- is the length of the filled buffer, or \-1 in case of an error.
-+If multiple events are on the fanotify queue,
-+.BR read (2)
-+will only report an error, if reading the first event fails or an error
-+.B EFAULT
-+occurs.
-+If reading the first event is successful but reading any further event fails,
-+.BR read (2)
-+returns the length of the buffer filled with all prior events.
- After a successful
- .BR read (2),
- the read buffer contains one or more of the following structures:
+Should it say "offset" instead of "len" in the last line of that quoted bit?
+
+Rationale: the SYNOPSIS shows a call signature of:
+       int posix_fadvise(int fd, off_t offset, off_t len, int advice);
+in which:
+  - fd and len aren't adjacent
+  - it's between a shorter value followed by a longer one that I'd expect
+alignment padding to be needed, and the only pair where that occurs is (fd,
+offset)
+
+CAVEAT: I'm not familiar with either the syscall or the specific alignment
+issues in question, so my guess about this is just that -- a deduced guess, NOT
+specific knowledge.  So don't make the change on my say-so; please verify it
+first!
+
 -- 
-1.9.2
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
