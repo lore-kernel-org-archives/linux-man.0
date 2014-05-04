@@ -1,78 +1,80 @@
-From: Peter Zijlstra <peterz@infradead.org>
-Subject: Re: sched_{set,get}attr() manpage
-Date: Mon, 5 May 2014 09:21:14 +0200
-Message-ID: <20140505072114.GY11096@twins.programming.kicks-ass.net>
-References: <CAKgNAkgw+U44SH0wd_06ZMXaCC9nCX4NZxZHkMKUdC7E7YxBhQ@mail.gmail.com>
- <20140214161929.GL27965@twins.programming.kicks-ass.net>
- <53020C9D.1050208@gmail.com>
- <20140428081858.GX13658@twins.programming.kicks-ass.net>
- <535FA467.2070403@gmail.com>
- <20140429160441.GU11096@twins.programming.kicks-ass.net>
- <5360D9E5.9080206@gmail.com>
- <20140430130937.GH30445@twins.programming.kicks-ass.net>
- <20140503124355.5d927080518051ca507bc381@gmail.com>
- <536735E0.7020204@gmail.com>
+From: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH 1/3] proc.5: cfix
+Date: Sun, 04 May 2014 19:04:26 -0400
+Message-ID: <5366C77A.60901@debian.org>
+References: <1399166675-16019-1-git-send-email-taffit@debian.org> <5365D327.3010002@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="8bBEDOJVaa9YlTAt"
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <536735E0.7020204@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Juri Lelli <juri.lelli@gmail.com>, Dario Faggioli <raistlin@linux.it>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, rostedt@goodmis.org, Oleg Nesterov <oleg@redhat.com>, fweisbec@gmail.com, darren@dvhart.com, johan.eker@ericsson.com, p.faure@akatech.ch, Linux Kernel <linux-kernel@vger.kernel.org>, claudio@evidence.eu.com, michael@amarulasolutions.com, fchecconi@gmail.com, tommaso.cucinotta@sssup.it, nicola.manica@disi.unitn.it, luca.abeni@unitn.it, dhaval.giani@gmail.com, hgu1972@gmail.com, Paul McKenney <paulmck@linux.vnet.ibm.com>, insop.song@gmail.com, liming.wang@windriver.com, jkacur@redhat.com, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <5365D327.3010002-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
---8bBEDOJVaa9YlTAt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Michael,
 
-On Mon, May 05, 2014 at 08:55:28AM +0200, Michael Kerrisk (man-pages) wrote:
-> Hi Peter,
+Le 04/05/2014 01:41, Michael Kerrisk (man-pages) a =C3=A9crit :
+
+> Including the ':' was intended. Why did you want to remove it?
+
+The purpose is just a consistency fix: there is another occurrence of
+"Referenced" in the same context in the /proc/[pid]/smaps paragraph,
+with a few other fields, always inside double quotes, and without a col=
+on.
+
+Regards
+
+David
+
+> On 05/04/2014 03:24 AM, David Pr=C3=A9vot wrote:
+>> ---
+>>  man5/proc.5 | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/man5/proc.5 b/man5/proc.5
+>> index be6b755..123bc8f 100644
+>> --- a/man5/proc.5
+>> +++ b/man5/proc.5
+>> @@ -155,14 +155,14 @@ bits for all file-mapped pages associated with=
+ the process.
+>>  .IP
+>>  Clearing the PG_Referenced and ACCESSED/YOUNG bits provides a metho=
+d
+>>  to measure approximately how much memory a process is using.
+>> -One first inspects the values in the "Referenced:" fields
+>> +One first inspects the values in the "Referenced" fields
+>>  for the VMAs shown in
+>>  .IR /proc/[pid]/smaps
+>>  to get an idea of the memory footprint of the
+>>  process.
+>>  One then clears the PG_Referenced and ACCESSED/YOUNG bits
+>>  and, after some measured time interval,
+>> -once again inspects the values in the "Referenced:" fields
+>> +once again inspects the values in the "Referenced" fields
+>>  to get an idea of the change in memory footprint of the
+>>  process during the measured interval.
+>>  If one is interested only in inspecting the selected mapping types,
+>>
 >=20
-> Looks like a good set of comments from Juri. Could you revise and=20
-> resubmit?
-
-Yeah, I'll try and get it done today, but there's a few icky bugs
-waiting for my attention as well, I'll do me bestest :-)
-
-> By the way, I assume you are just writing this page as raw text.
-> While I'd prefer to get proper man markup source, I'll add that
-> if you if you don't :-/.=20
-
-Well, learning *roff will likely take me more time than writing this
-text + all revisions so far :/ But yeah, I appreciate the grief.
-
-Is there a TeX variant one could use to generate the *roff muck? While
-my TeX isn't entirely fresh its at least something I've done lots of.
-
-> But, in that case, I need to know the
-> copyright and license you want to use. Please see
-> https://www.kernel.org/doc/man-pages/licenses.html
-
-GPLv2 + DOC (not v2+) sounds good.
-
---8bBEDOJVaa9YlTAt
-Content-Type: application/pgp-signature
+>=20
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+Version: GnuPG v1
 
-iQIcBAEBAgAGBQJTZzvkAAoJEHZH4aRLwOS6dioP/3vnUKo7cZ4mjrphiaN1YzqV
-a/YdxCb3LJ1XbNFr/eTW/XB1MGaXm8lWEI5CwKIM+2QnYJd2NNUa69DY3H1wAWBZ
-YDr5Tg9CH2LN7+bvPLE2UD+TS+MOOvMfS3A3bWZ3HByru99eOouarQwLYA8FXsPf
-wnql/6FcULcpuBen1xeZVusoljMoA8UbhbsrQ8InNYiFSBeoUDThDoNv9vIhSGov
-UksHZeRckZBNOFxTVJVCPf73o5/mXDYoJTZ3D+8WWO99pCeEsDfpo+VTquCxsNo4
-BXi5xCbH0YuAEyQBgkPwcwUWE1sjK35RPQpWXC303FcpM0iNJ4yKycyMEFtcaj2z
-ZMBlHnTNXTnLZFN2qPfXUEqqfeCbV04seJgeDHWUgqTiDDRZABa1e8Y2OamhFnJC
-rCA1SmE1/ejZwh+hj5CFLZlwLiLjN0sxRhMSuOgGTQmoME+SNJBlsG6iLPHDtSlM
-EC7AFKGe9PdGiCfwO3loLQXmE4MfTCp0YPCkrpT/XL+f4WRzm+6G0IQt+X4pGnyR
-s9IpSFujEdvFVVkUy1hwLSkc8dxos7EnRgTOeI/fuJknFIHQZHsdgdum591bgJ+P
-tnTppxET6rZaLwm54LhwM08ZzfhkajVbVwkgidNN3j0aRTJ1zFwYS9lPrXogeVCR
-ijKIGCvoaxkQ8SdqWwem
-=9Rws
+iQEcBAEBCAAGBQJTZsd6AAoJEAWMHPlE9r08wAAH/jD1QDxulHL8XuTQ4xfnqF/H
+o2w6mxe77XB16VHbM1aJjKGUpUJTr8F78Ynzbqom3h7rR6vyBCYSmqeXpUUndgO8
+fTD+cfmrX13ZoGtAu8+O24CLwKhPboB0WRzWUlSZfLa2Rfb7bhMYwyzF9NnI4N0m
+XkJZNzXuKRjYS9R7tHg4nDG2R+uuX21WSJtrLLpj2pcewQr4oRp/0pTIHXSR38kf
+T/Fx30eLypb900ygEWH8wZcZiaF6gPLRufJGkXzFLat5rp21YzwHfDHN0JK4Kk2G
+oG5DUHIwrtUGIUVrtSFZQ+n0yUR11S+/ViHsA6H3xzDzytrjgKCdruNwmAOJPiw=3D
+=3DDqiT
 -----END PGP SIGNATURE-----
-
---8bBEDOJVaa9YlTAt--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
