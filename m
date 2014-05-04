@@ -1,71 +1,41 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify: read(2) error handling
-Date: Sat, 03 May 2014 21:21:41 +0200
-Message-ID: <536541C5.40001@gmail.com>
-References: <1399136269-7930-1-git-send-email-xypron.glpk@gmx.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH 1/3] proc.5: cfix
+Date: Sat,  3 May 2014 21:24:33 -0400
+Message-ID: <1399166675-16019-1-git-send-email-taffit@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399136269-7930-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC += Eric]
+---
+ man5/proc.5 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hello Heinrich,
-
-On 05/03/2014 06:57 PM, Heinrich Schuchardt wrote:
-> The last lines of fanotify_read() in fanotify_user.c are:
-> 	if (start != buf && ret != -EFAULT)
-> 		ret = buf - start;
-> 	return ret;
-> 
-> This implies that an error code is only returned, if reading the first
-> event on the queue fails or if EFAULT occurs.
-
-I'm not quite sure if this text is needed. What sort of errors
-are we talking about here that are not reported?
-
-Cheers,
-
-Michael
-
-
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man7/fanotify.7 | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/man7/fanotify.7 b/man7/fanotify.7
-> index 083244f..6936b88 100644
-> --- a/man7/fanotify.7
-> +++ b/man7/fanotify.7
-> @@ -131,6 +131,14 @@ until either a file event occurs or the call is interrupted by a signal
->  The return value of
->  .BR read (2)
->  is the length of the filled buffer, or \-1 in case of an error.
-> +If multiple events are on the fanotify queue,
-> +.BR read (2)
-> +will only report an error, if reading the first event fails or an error
-> +.B EFAULT
-> +occurs.
-> +If reading the first event is successful but reading any further event fails,
-> +.BR read (2)
-> +returns the length of the buffer filled with all prior events.
->  After a successful
->  .BR read (2),
->  the read buffer contains one or more of the following structures:
-> 
-
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index be6b755..123bc8f 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -155,14 +155,14 @@ bits for all file-mapped pages associated with the process.
+ .IP
+ Clearing the PG_Referenced and ACCESSED/YOUNG bits provides a method
+ to measure approximately how much memory a process is using.
+-One first inspects the values in the "Referenced:" fields
++One first inspects the values in the "Referenced" fields
+ for the VMAs shown in
+ .IR /proc/[pid]/smaps
+ to get an idea of the memory footprint of the
+ process.
+ One then clears the PG_Referenced and ACCESSED/YOUNG bits
+ and, after some measured time interval,
+-once again inspects the values in the "Referenced:" fields
++once again inspects the values in the "Referenced" fields
+ to get an idea of the change in memory footprint of the
+ process during the measured interval.
+ If one is interested only in inspecting the selected mapping types,
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.0.0.rc0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
