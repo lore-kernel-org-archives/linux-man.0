@@ -1,103 +1,86 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify: read(2) error handling
-Date: Sun, 4 May 2014 11:19:37 +0200
-Message-ID: <CAKgNAkjfYRWfWZYUvq1RRp00dXCe5p5KJWCu4PapHdJcf6n0Fw@mail.gmail.com>
-References: <1399136269-7930-1-git-send-email-xypron.glpk@gmx.de>
- <536541C5.40001@gmail.com> <5365FAE1.7020602@gmx.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: execve is not atomic, what is the exit state of the process when
+ execve fails after throwing away the original process image?
+Date: Sun, 04 May 2014 21:27:01 +0200
+Message-ID: <53669485.3020007@gmail.com>
+References: <faa2c0e82f8a8.536300c8@langara.bc.ca> <20140503174510.GA7720@debjann.fritz.box> <faa0c9e9297ad.53656b4c@langara.bc.ca>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5365FAE1.7020602-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <faa0c9e9297ad.53656b4c-BTv7Ps/Sm75C8prJL3GQQw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org>, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rich Felker <dalias-/miJ2pyFWUyWIDz0JBNUog@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, May 4, 2014 at 10:31 AM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
-> On 03.05.2014 21:21, Michael Kerrisk (man-pages) wrote:
->>
->> [CC += Eric]
->>
->> Hello Heinrich,
->>
->> On 05/03/2014 06:57 PM, Heinrich Schuchardt wrote:
->>>
->>> The last lines of fanotify_read() in fanotify_user.c are:
->>>         if (start != buf && ret != -EFAULT)
->>>                 ret = buf - start;
->>>         return ret;
->>>
->>> This implies that an error code is only returned, if reading the first
->>> event on the queue fails or if EFAULT occurs.
->>
->>
->> I'm not quite sure if this text is needed. What sort of errors
->> are we talking about here that are not reported?
->
->
-> EMFILE The per-process limit on the number of open files has been reached.
-> See the description of RLIMIT_NOFILE in getrlimit(2).
->
-> ENFILE The system-wide limit on the number of open files has been reached.
-> See /proc/sys/fs/file-max in proc(5).
->
-> ETXTBSY This error is returned by read(2) if O_RDWR or O_WRONLY was
-> specified in the event_f_flags argument when calling fanotify_init(2) and
-> an event occurred for a monitored file that is currently being executed.
+[CC+=3DRich Felker, because the discussion started with a reference to
+http://ewontfix.com/14/ ]
 
-But, then won't we see something like this
+On 05/04/2014 12:18 AM, Steven Stewart-Gallus wrote:
+>=20
+> ----- Original Message -----
+> From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+> Date: Saturday, May 3, 2014 10:45 am
+> Subject: Re: execve is not atomic, what is the exit state of the proc=
+ess when
+> execve fails after throwing away the original process image?
+> To: Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org>
+> Cc: linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>=20
+>> On Fri, May 02, 2014 at 02:19:52AM +0000, Steven Stewart-Gallus wrot=
+e:
+>>> execve is not atomic, what is the exit state of the process when
+>>> execve fails after throwing away the original process image?
+>>
+>> See http://lxr.free-electrons.com/source/fs/binfmt_elf.c#L740 or
+>> so =96 as far as I know, the kernel sends a SIGKILL. Does that help?
+>
+> Thank you Jann
+> Horn. http://lxr.free-electrons.com/source/fs/binfmt_elf.c#L740
+> answers my question.
+>=20
+> On reflection, the kernel code makes sense. The process must either
+> exit with an error code or raise the SIGKILL signal because SIGKILL
+> and SIGSTOP are the only unblockable signals (of course, the kernel
+> has the privileges to do whatever it wants but it tries to be
+> consistent with userspace).
+>=20
+> Strangely, in other places the SIGSEGV is sent when the ELF file is
+> incorrect in some places and I don't fully understand that part of th=
+e
+> code. Still, I understand enough to look at the code in more detail
+> later.
+>=20
+> Thank you,
+> Steven Stewart-Gallus
+>=20
+> P.S.
+>=20
+> I'm CC'ing Michael because he wanted to know this case so could
+> document it.
 
-1. First read() reads the events up to the point of the error.
-2. The next read reports the event that has an error.
+=46air enough. I plan to add the following text to the execve(2) man
+page:
 
-This is just my expectation of reasonable behavior, I have not checked
-what actually does happen.
+       In most cases where execve()  fails,  control  returns  to  the
+       original  executable image, and the caller of execve() can then
+       handle the error.  However, in (rare) cases  (typically  caused
+       by resource exhaustion), failure may occur past the point of no
+       return: the original exectable image has been  torn  down,  but
+       the  new  image  could not be completely built.  In such cases,
+       the kernel kills the process with a SIGKILL signal.
 
-Or are you saying that some events will actually be lost (i.e., won't
-appear as events in read() buffers and won't be reported as errors
-from read()) in this scenario? If so, that sounds like (another) bug
-to me.
+Comments?
 
 Cheers,
 
 Michael
 
 
->>> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
->>> ---
->>>   man7/fanotify.7 | 8 ++++++++
->>>   1 file changed, 8 insertions(+)
->>>
->>> diff --git a/man7/fanotify.7 b/man7/fanotify.7
->>> index 083244f..6936b88 100644
->>> --- a/man7/fanotify.7
->>> +++ b/man7/fanotify.7
->>> @@ -131,6 +131,14 @@ until either a file event occurs or the call is
->>> interrupted by a signal
->>>   The return value of
->>>   .BR read (2)
->>>   is the length of the filled buffer, or \-1 in case of an error.
->>> +If multiple events are on the fanotify queue,
->>> +.BR read (2)
->>> +will only report an error, if reading the first event fails or an error
->>> +.B EFAULT
->>> +occurs.
->>> +If reading the first event is successful but reading any further event
->>> fails,
->>> +.BR read (2)
->>> +returns the length of the buffer filled with all prior events.
->>>   After a successful
->>>   .BR read (2),
->>>   the read buffer contains one or more of the following structures:
->>>
->>
->>
->
 
 
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
