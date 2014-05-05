@@ -1,91 +1,49 @@
-From: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH v3] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Mon,  5 May 2014 14:04:23 +0200
-Message-ID: <1399291463-13683-1-git-send-email-lczerner@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Bug in process_vm_readv manpage: no mention of need to define
+ _GNU_SOURCE
+Date: Mon, 05 May 2014 20:06:30 +0200
+Message-ID: <5367D326.3040101@gmail.com>
+References: <32aae98b8af2ee4af07f79be33514569@stijnhinterding.nl>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <32aae98b8af2ee4af07f79be33514569-Tcs81MCHamfqOYT2WTFYB/P6llvjuJOh@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Stijn Hinterding <contact-Tcs81MCHamfqOYT2WTFYB/P6llvjuJOh@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
-for zeroing ranges in the allocated space in a file.
+On 05/05/2014 07:55 PM, Stijn Hinterding wrote:
+> Dear sirs,
+> 
+> Following is a bug report for the process_vm_writev / process_vm_readv manpage.
+> 
+> Platform: Ubuntu 13.10 x86_64
+> Man-pages release: 3.54
+> Kernel version: 3.11.0-20-generic
+> glibc version: 2.17
+> 
+> 
+> Description:
+> GNU extensions need te be enabled when using these functions (ie, define _GNU_SOURCE).
+> This is not mentioned in the manpage, thus users will encounter errors upon compiling.
+> 
+> Suggestion:
+> Mention that _GNU_SOURCE needs to be declared before including <sys/uio.h>
 
-Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
-v2: Rebase and update the description
-v3: Ext4 zero range on extent based files
+Done. Thanks for the report, Stijn.
 
- man2/fallocate.2 | 46 +++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 45 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/man2/fallocate.2 b/man2/fallocate.2
-index 73c4f12..0ffce71 100644
---- a/man2/fallocate.2
-+++ b/man2/fallocate.2
-@@ -180,6 +180,48 @@ ext4 (only for extent-based files)
- .\" commit 9eb79482a97152930b113b51dff530aba9e28c8e
- and XFS.
- .\" commit e1d8fb88a64c1f8094b9f6c3b6d2d9e6719c970d
-+.SS Zeroing file space
-+Specifying
-+.BR FALLOC_FL_ZERO_RANGE
-+flag (available since Linux 3.14) in
-+.I mode
-+zeroes space in the byte range starting at
-+.I offset
-+and continuing for
-+.I len
-+bytes.
-+Within the specified range, blocks are preallocated for the regions
-+that span the holes in the file. After a successful call, subsequent
-+reads from this range will return zeroes.
-+
-+Zeroing is done within the file system preferably by converting range into
-+unwritten extents which requires very little IO to be issued mostly for
-+metadata. This means that the range will not be physically zeroed out
-+on the device.
-+
-+If the
-+.B FALLOC_FL_KEEP_SIZE
-+flag is specified in
-+.IR mode ,
-+the behavior of the call is similar,
-+but the file size will not be changed even if
-+.IR offset + len
-+is greater than the file size. This behaviour is the same as when
-+preallocating space with
-+.B FALLOC_FL_KEEP_SIZE
-+specified.
-+
-+Not all filesystems support
-+.BR FALLOC_FL_ZERO_RANGE ;
-+if a filesystem doesn't support the operation, an error is returned.
-+The operation is supported on at least the following filesystems
-+.IP * 3
-+XFS (since Linux 3.14)
-+.\" commit 376ba313147b4172f3e8cf620b9fb591f3e8cdfa
-+.IP *
-+ext4, for extent based files (since Linux 3.14)
-+.\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
-+
- .SH RETURN VALUE
- On success,
- .BR fallocate ()
-@@ -243,7 +285,9 @@ no other flags are permitted with
- .B EINVAL
- .I mode
- is
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_ZERO_RANGE,
- but the file referred to by
- .I fd
- is not a regular file.
+Michael
+
+
+
 -- 
-1.8.3.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
