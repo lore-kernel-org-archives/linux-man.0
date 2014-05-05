@@ -1,142 +1,120 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v3] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Mon, 5 May 2014 21:46:22 +0200
-Message-ID: <CAKgNAkg0-za69pesggjyEzSPEwQ60TtgEbhoUoZsg6F_9qsMbQ@mail.gmail.com>
-References: <1399291463-13683-1-git-send-email-lczerner@redhat.com>
- <536787C0.9070204@gmail.com> <alpine.LFD.2.00.1405051504210.2223@localhost.localdomain>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jan Kara <jack@suse.cz>
+Subject: Re: fanotify man pages for review
+Date: Mon, 5 May 2014 20:07:06 +0200
+Message-ID: <20140505180706.GH23927@quack.suse.cz>
+References: <535FAE78.5050404@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.1405051504210.2223-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?THVrw6HFoSBDemVybmVy?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <535FAE78.5050404@gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Eric Paris <eparis@redhat.com>, Jan Kara <jack@suse.cz>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Heinrich Schuchardt <xypron.glpk@gmx.de>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Luk=C3=A1=C5=A1,
+  Hello,
 
-On Mon, May 5, 2014 at 3:06 PM, Luk=C3=A1=C5=A1 Czerner <lczerner@redha=
-t.com> wrote:
-> On Mon, 5 May 2014, Michael Kerrisk (man-pages) wrote:
->
->> Date: Mon, 05 May 2014 14:44:48 +0200
->> From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> To: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> Subject: Re: [PATCH v3] fallocate.2: Document FALLOC_FL_ZERO_RANGE
->>
->>
->> On 05/05/2014 02:04 PM, Lukas Czerner wrote:
->> > FALLOC_FL_ZERO_RANGE was added in Linux 3.14,
->> > for zeroing ranges in the allocated space in a file.
->> >
->> > Signed-off-by: Lukas Czerner <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> > ---
->> > v2: Rebase and update the description
->> > v3: Ext4 zero range on extent based files
->>
->> Thank, Luk=C3=A1=C5=A1.
->>
->> In fact I'd already merged and tweaked your previous patch into
->> a branch, and the only new piece from this patch that I needed
->> was the piece about ext4 extent-based files.
->>
->> The text now reads:
->>
->>    Zeroing file space
->>        Specifying the FALLOC_FL_ZERO_RANGE flag (available since Lin=
-ux
->>        3.14) in mode zeroes space in the byte range starting at offs=
-et
->>        and  continuing  for  len  bytes.   Within the specified rang=
-e,
->>        blocks are preallocated for the regions that span the holes  =
-in
->>        the  file.  After a successful call, subsequent reads from th=
-is
->>        range will return zeroes.
->>
->>        Zeroing is done within the filesystem preferably by  converti=
-ng
->>        the range into unwritten extents.  This approach means that t=
-he
->>        specified range will  not  be  physically  zeroed  out  on  t=
-he
->>        device, and I/O is required only to update file metadata.
->
-> mostly for metadata as mentioned in my patch. Because we still need
-> to manually zero out partial blocks. But that's not really all that
-> important.
+  below are some minor comments regarding the manpages.
 
-Thanks for checking. Now I understand the "mostly"! How about we make t=
-he text:
+> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
+> new file mode 100644
+> index 0000000..693eff8
+> --- /dev/null
+> +++ b/man2/fanotify_mark.2
+...
+> +.B FAN_MARK_IGNORED_SURV_MODIFY
+> +The ignore mask shall survive modify events.
+> +If this flag is not set, the ignore mask is cleared when a modify event occurs
+> +for the ignored file or directory.
+  This is correct but maybe we should explicitely stress that the modify
+event doesn't have to be delivered to the fanotify group? I.e. the
+clearing happens even if the mark doesn't have FAN_MODIFY set... But maybe
+it would just unecessarily complicate the explanation. Just a suggestion.
 
-[[
-Zeroing is done within the filesystem preferably by converting the rang=
-e into
-unwritten extents.
-This approach means that the specified range will not be physically zer=
-oed
-out on the device (except for partial blocks at the either end of the r=
-ange),
-and I/O is (otherwise) required only to update file metadata.
-]]
+> diff --git a/man7/fanotify.7 b/man7/fanotify.7
+> new file mode 100644
+> index 0000000..083244f
+> --- /dev/null
+> +++ b/man7/fanotify.7
+...
+> +A possible usage of the ignore mask is for a file cache.
+> +Events of interest for a file cache are modification of a file and closing
+> +of the same.
+> +Hence, the cached directory or mount point is to be marked to receive these
+> +events.
+> +After receiving the first event informing that a file has been modified, the
+> +corresponding cache entry will be invalidated.
+> +No further modification events for this file are of interest until the file is
+> +closed.
+> +Hence, the modify event can be added to the ignore mask.
+> +Upon receiving the closed event, the modify event can be removed from the
+                      ^^^^ close
 
-?
+> +ignore mask and the file cache entry can be updated.
+> +.PP
+> +The entries in the fanotify notification groups refer to files and directories
+> +via their inode number and to mounts via their mount ID.
+> +If files or directories are renamed or moved, the respective entries survive.
+> +If files or directories are deleted or mounts are unmounted, the corresponding
+> +entries are deleted.
+> +.SS The event queue
+> +As events occur on the filesystem objects monitired by a notification group,
+                                             ^^^ monitored
 
-Cheers,
+> +the fanotify system generates events that are collected in a queue.
+> +These events can then be read (using
+> +.BR read (2)
+> +or similar)
+> +from the fanotify file descriptor
+> +returned by
+> +.BR fanotify_init (2).
+> +
+> +Two types of events are generated:
+> +notification events and permission events.
+> +Notification events are merely informative
+> +and require no action to be taken by
+> +the receiving application except for closing the file descriptor passed in the
+> +event.
+> +Permission events are requests to the receiving application to decide whether
+> +permission for a file access shall be granted.
+> +For these events, the recipient must write a response which decides whether
+> +access is granted or not.
+> +
+> +Queue entries for notification events are removed when the event has been
+> +read.
+> +Queue entries for permission events are removed when the permission
+> +decision has been taken by writing to the fanotify file descriptor.
+  This is true however it may be slightly misleading - the permission
+events are removed from the queue as soon as they are read. But they are
+destroyed only after the permission response is received. So from
+userspace POV dequeued events are invisible...
 
-Michael
+> +A program listening to fanotify events can compare this PID to the PID returned
+> +by
+> +.BR getpid (2),
+> +to determine whether the event is caused by the listener itself, or is due to a
+> +file access by another program.
+> +.PP
+> +The bit mask in
+> +.I mask
+> +signals which events have occurred for a single filesystem object.
+> +Multiple bits may be set in this mask,
+> +if more than one event occurred for the monitored filesystem obect.
+                                                                ^^ object
 
+> +.B ENOENT
+> +The file descriptor
+> +.I fd
+> +in the response structure is not valid.
+> +This might occur because the file was already deleted by another thread or
+> +process.
+  This isn't quite true. Another thread of the same process may have already
+closed the 'fd'. But it has nothing to do with a file being deleted.
+fanotify uses file descriptors exactly so that renames or deletes don't
+make the event invalid.
 
->
-> Thanks!
-> -Lukas
->
->>
->>        If  the  FALLOC_FL_KEEP_SIZE  flag is additionally specified =
-in
->>        mode, the behavior of the call is similar, but  the  file  si=
-ze
->>        will not be changed even if offset+len is greater than the fi=
-le
->>        size.  This behaviour is the same as when  preallocating  spa=
-ce
->>        with FALLOC_FL_KEEP_SIZE specified.
->>
->>        Not all filesystems support FALLOC_FL_ZERO_RANGE; if a filesy=
-s=E2=80=90
->>        tem doesn't support the operation, an error is  returned.   T=
-he
->>        operation is supported on at least the following filesystems:
->>
->>        *  XFS (since Linux 3.14)
->>
->>        *  ext4, for extent-based files (since Linux 3.14)
->>    ...
->>    ERRORS
->>        EINVAL mode     is     FALLOC_FL_COLLAPSE_RANGE     or     FA=
-L=E2=80=90
->>               LOC_FL_ZERO_RANGE, but the file referred to by fd is n=
-ot
->>               a regular file.
->>
->> Okay?
->>
->> Cheers,
->>
->> Michael
->>
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+								Honza
+-- 
+Jan Kara <jack@suse.cz>
+SUSE Labs, CR
