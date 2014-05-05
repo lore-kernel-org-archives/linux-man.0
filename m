@@ -1,61 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: ffix
-Date: Mon, 05 May 2014 08:23:36 +0200
-Message-ID: <53672E68.6080407@gmail.com>
-References: <1399235267-16903-1-git-send-email-spaillard@debian.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] termios.3: tfix
+Date: Mon,  5 May 2014 21:47:14 +0400
+Message-ID: <1399312034-4691-1-git-send-email-yuray@komyakino.ru>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399235267-16903-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Simon. Applied.
+---
+ man3/termios.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Michael
-
-
-On 05/04/2014 10:27 PM, Simon Paillard wrote:
-> ---
->  man2/prctl.2 | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index fcc8922..1199891 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -962,7 +962,8 @@ is nonzero.
->  .TP
->  .B EINVAL
->  .I option
-> -is PR_SET_THP_DISABLE
-> +is
-> +.BR PR_SET_THP_DISABLE
->  and
->  .IR arg3 ,
->  .IR arg4 ,
-> @@ -972,7 +973,8 @@ is nonzero.
->  .TP
->  .B EINVAL
->  .I option
-> -is PR_GET_THP_DISABLE
-> +is
-> +.BR PR_GET_THP_DISABLE
->  and
->  .IR arg2 ,
->  .IR arg3 ,
-> 
-
-
+diff --git a/man3/termios.3 b/man3/termios.3
+index 60413f5..71a1e6c 100644
+--- a/man3/termios.3
++++ b/man3/termios.3
+@@ -374,7 +374,12 @@ If \fBICANON\fP is also set, terminal is uppercase only.
+ Input is converted to lowercase, except for characters preceded by \\.
+ On output, uppercase characters are preceded by \\ and lowercase
+ characters are converted to uppercase.
+-[requires _BSD_SOURCE or _SVID_SOURCE or _XOPEN_SOURCE]
++[requires
++.B _BSD_SOURCE
++or
++.B _SVID_SOURCE
++or
++.BR _XOPEN_SOURCE ]
+ .\" glibc is probably now wrong to allow
+ .\" Define
+ .\" .B _XOPEN_SOURCE
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.9.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
