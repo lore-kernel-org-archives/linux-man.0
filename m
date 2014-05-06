@@ -1,43 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v3] fallocate.2: Document FALLOC_FL_ZERO_RANGE
-Date: Tue, 06 May 2014 12:45:30 +0200
-Message-ID: <5368BD4A.5080902@gmail.com>
-References: <1399291463-13683-1-git-send-email-lczerner@redhat.com> <536787C0.9070204@gmail.com> <alpine.LFD.2.00.1405051504210.2223@localhost.localdomain> <CAKgNAkg0-za69pesggjyEzSPEwQ60TtgEbhoUoZsg6F_9qsMbQ@mail.gmail.com> <alpine.LFD.2.00.1405061156290.2255@localhost.localdomain>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] rtime.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 6 May 2014 21:03:53 +0800
+Message-ID: <1399381433-16490-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.00.1405061156290.2255-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?THVrw6HFoSBDemVybmVy?= <lczerner-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
->> [[
->> Zeroing is done within the filesystem preferably by converting the r=
-ange into
->> unwritten extents.
->> This approach means that the specified range will not be physically =
-zeroed
->> out on the device (except for partial blocks at the either end of th=
-e range),
->> and I/O is (otherwise) required only to update file metadata.
->> ]]
->=20
-> Perfect. Just get rid of "file" in the "file metadata" and I think
-> it's ok. The reason is that those are also file system metadata in
-> the case you're actually allocating blocks.
+The function rtime() is thread safe.
 
-Done! Thanks for your patient help, Luk=C3=A1=C5=A1.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/rtime.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Cheers,
+diff --git a/man3/rtime.3 b/man3/rtime.3
+index ce093af..8070ee3 100644
+--- a/man3/rtime.3
++++ b/man3/rtime.3
+@@ -9,7 +9,7 @@
+ .\"
+ .\" Slightly polished, aeb, 2003-04-06
+ .\"
+-.TH RTIME 3 2014-01-05 "GNU" "Linux Programmer's Manual"
++.TH RTIME 3 2014-05-06 "GNU" "Linux Programmer's Manual"
+ .SH NAME
+ rtime \- get time from a remote machine
+ .SH SYNOPSIS
+@@ -54,6 +54,11 @@ The number of returned bytes is not 4.
+ .TP
+ .B ETIMEDOUT
+ The waiting time as defined in timeout has expired.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR rtime ()
++function is thread-safe.
+ .SH NOTES
+ Only IPv4 is supported.
+ .LP
+-- 
+1.9.0
 
-Michael
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
