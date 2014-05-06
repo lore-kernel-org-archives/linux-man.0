@@ -1,54 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: tfix
-Date: Mon, 05 May 2014 19:55:08 +0200
-Message-ID: <5367D07C.2050201@gmail.com>
-References: <1399312034-4691-1-git-send-email-yuray@komyakino.ru>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] sched_getcpu.3: ATTRIBUTES: Note function that is thread-safe
+Date: Tue, 6 May 2014 14:53:49 +0800
+Message-ID: <1399359229-27874-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399312034-4691-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Yuri. Applied.
+The function sched_getcpu() is thread safe.
 
-Cheers,
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/sched_getcpu.3 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Michael
-
-On 05/05/2014 07:47 PM, Yuri Kozlov wrote:
-> ---
->  man3/termios.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index 60413f5..71a1e6c 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -374,7 +374,12 @@ If \fBICANON\fP is also set, terminal is uppercase only.
->  Input is converted to lowercase, except for characters preceded by \\.
->  On output, uppercase characters are preceded by \\ and lowercase
->  characters are converted to uppercase.
-> -[requires _BSD_SOURCE or _SVID_SOURCE or _XOPEN_SOURCE]
-> +[requires
-> +.B _BSD_SOURCE
-> +or
-> +.B _SVID_SOURCE
-> +or
-> +.BR _XOPEN_SOURCE ]
->  .\" glibc is probably now wrong to allow
->  .\" Define
->  .\" .B _XOPEN_SOURCE
-> 
-
-
+diff --git a/man3/sched_getcpu.3 b/man3/sched_getcpu.3
+index 54b2483..7e2d395 100644
+--- a/man3/sched_getcpu.3
++++ b/man3/sched_getcpu.3
+@@ -23,7 +23,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH SCHED_GETCPU 3 2014-04-28 "Linux" "Linux Programmer's Manual"
++.TH SCHED_GETCPU 3 2014-05-06 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ sched_getcpu \- determine CPU on which the calling thread is running
+ .SH SYNOPSIS
+@@ -69,6 +69,11 @@ This kernel does not implement
+ .BR getcpu (2).
+ .SH VERSIONS
+ This function is available since glibc 2.6.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR sched_getcpu ()
++function is thread-safe.
+ .SH CONFORMING TO
+ .BR sched_getcpu ()
+ is glibc-specific.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.9.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
