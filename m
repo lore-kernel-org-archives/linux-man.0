@@ -1,52 +1,56 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] remquo.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 6 May 2014 13:02:16 +0800
-Message-ID: <1399352536-18667-1-git-send-email-penght@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] fanotify.7: adjust description of the fanotify queue
+Date: Tue,  6 May 2014 20:41:06 +0200
+Message-ID: <1399401666-24806-1-git-send-email-xypron.glpk@gmx.de>
+References: <53686BA4.6050505@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53686BA4.6050505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions remquo(), remquof() and remquol() are thread safe.
+In http://www.spinics.net/lists/linux-man/msg05624.html
+Jan Kara proposed to clarify the deletion of events from the fanotify queue
+and the occurence of ENOENT when writing to the fanotify file descriptor.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man3/remquo.3 | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ man7/fanotify.7 | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/man3/remquo.3 b/man3/remquo.3
-index b683a97..43191bb 100644
---- a/man3/remquo.3
-+++ b/man3/remquo.3
-@@ -9,7 +9,7 @@
- .\" based on glibc infopages
- .\" polished, aeb
- .\"
--.TH REMQUO 3 2010-09-20 "GNU" "Linux Programmer's Manual"
-+.TH REMQUO 3 2014-05-06 "GNU" "Linux Programmer's Manual"
- .SH NAME
- remquo, remquof, remquol \- remainder and part of quotient
- .SH SYNOPSIS
-@@ -121,6 +121,14 @@ These functions do not set
- .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6802
+diff --git a/man7/fanotify.7 b/man7/fanotify.7
+index 182d2d7..bce70ac 100644
+--- a/man7/fanotify.7
++++ b/man7/fanotify.7
+@@ -113,10 +113,11 @@ whether permission for a file access shall be granted.
+ For these events, the recipient must write a response which decides whether
+ access is granted or not.
+ 
+-Queue entries for notification events are removed when the event has been
++An event is removed from the event queue of the fanotify group when it has been
+ read.
+-Queue entries for permission events are removed when the permission
+-decision has been taken by writing to the fanotify file descriptor.
++Permission events that have been read are kept in an internal list of the
++fanotify group until either a permission decision has been taken by writing to
++the fanotify file descriptor or the fanotify file descriptor is closed.
+ .SS Reading fanotify events
+ Calling
+ .BR read (2)
+@@ -400,8 +401,8 @@ in the response structure is not valid.
+ The file descriptor
+ .I fd
+ in the response structure is not valid.
+-This might occur because the file was already deleted by another thread or
+-process.
++This may occur when a response for the permission event already has been
++written before.
  .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR remquo (),
-+.BR remquof (),
-+and
-+.BR remquol ()
-+functions are thread-safe.
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH SEE ALSO
+ The fanotify API was introduced in version 2.6.36 of the Linux kernel and
+ enabled in version 2.6.37.
 -- 
-1.9.0
+2.0.0.rc0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
