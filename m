@@ -1,69 +1,40 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: tfix
-Date: Wed, 07 May 2014 20:47:32 +0200
-Message-ID: <536A7FC4.9070403@gmail.com>
-References: <1399484554-4545-1-git-send-email-yuray@komyakino.ru>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH 1/1] fanotify.7: adjust description of the fanotify queue
+Date: Wed, 07 May 2014 21:02:28 +0200
+Message-ID: <536A8344.50804@gmx.de>
+References: <53686BA4.6050505@gmail.com> <1399401666-24806-1-git-send-email-xypron.glpk@gmx.de> <5369EC70.1040009@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399484554-4545-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+In-Reply-To: <5369EC70.1040009-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/07/2014 07:42 PM, Yuri Kozlov wrote:
-> ---
->  man3/termios.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index 65f6c791..639e845 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -181,7 +181,7 @@ this allows character-erase to be correctly performed in cooked mode.
->  Enable implementation-defined output processing.
->  .PP
->  The remaining \fIc_oflag\fP flag constants are defined in POSIX.1-2001,
-> -unless marked otherwise.
-> +unless marked otherwise:
->  .TP
->  .B OLCUC
->  (not in POSIX) Map lowercase characters to uppercase on output.
+On 07.05.2014 10:18, Michael Kerrisk (man-pages) wrote:
+>
+> I've also pushed a few other fixes to the pages. I'd be happy if you could
+> take a look at these commits in particular, to check I injected no errors:
+>
+> 3253bbc
+ > +When calling
+ > +.BR fanotify_mark (2),
+ > +the caller may specify (via the
+ > +.I event_f_flags
 
-I decided to go for a different fix, since discussion of "POSIX.1" (presumably
-meaning POSIX.1-1990) is rather crufty these days:
+This is incorrect. fanotify_mark has no argument event_f_flags. 
+event_f_flags is an argument of fanotify_init(2).
 
-[[
---- a/man3/termios.3
-+++ b/man3/termios.3
-@@ -175,13 +175,11 @@ Linux does not implement this bit, and acts as if it is always set.
- (not in POSIX) Input is UTF8;
- this allows character-erase to be correctly performed in cooked mode.
- .PP
--\fIc_oflag\fP flag constants defined in POSIX.1:
-+.I c_oflag
-+flag constants:
- .TP
- .B OPOST
- Enable implementation-defined output processing.
--.PP
--The remaining \fIc_oflag\fP flag constants are defined in POSIX.1-2001,
--unless marked otherwise.
- .TP
- .B OLCUC
- (not in POSIX) Map lowercase characters to uppercase on output.
-]]
+> a4cd12a
+The change is ok.
 
-Cheers,
+Best regards
 
-Michael
+Heinrich Schuchardt
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
