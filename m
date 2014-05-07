@@ -1,43 +1,56 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify.7: adjust description of the fanotify queue
-Date: Wed, 7 May 2014 21:59:00 +0200
-Message-ID: <CAKgNAkiat3Uu8YLyrCs-_dMO36MhdTaQsrkhbFCRF65RCT+OfA@mail.gmail.com>
-References: <53686BA4.6050505@gmail.com> <1399401666-24806-1-git-send-email-xypron.glpk@gmx.de>
- <5369EC70.1040009@gmail.com> <536A8344.50804@gmx.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org>
+Subject: Re: [patch] stpcpy.3, stpncpy.3: Correct history
+Date: Wed, 7 May 2014 22:33:00 +0200
+Message-ID: <20140507203300.GM3365@iris.usta.de>
+References: <20140224003705.GB28413@iris.usta.de>
+ <5363A48C.7060709@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <536A8344.50804-Mmb7MZpHnFY@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <5363A48C.7060709-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
+Hi Michael,
 
-On Wed, May 7, 2014 at 9:02 PM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
-> On 07.05.2014 10:18, Michael Kerrisk (man-pages) wrote:
->>
->>
->> I've also pushed a few other fixes to the pages. I'd be happy if you could
->> take a look at these commits in particular, to check I injected no errors:
->>
->> 3253bbc
->
->> +When calling
->> +.BR fanotify_mark (2),
->> +the caller may specify (via the
->> +.I event_f_flags
->
-> This is incorrect. fanotify_mark has no argument event_f_flags.
-> event_f_flags is an argument of fanotify_init(2).
+Michael Kerrisk (man-pages) wrote on Fri, May 02, 2014 at 03:58:36PM +0200:
 
-So just s/fanotify_mark/fanotify_init/, in the above patch, oder?
+> the patch seems more or less okay to me, but given that The AmigaDOS
+> compiler is the merely the oldest instance you could find, I'd prefer
+> a slightly more open wording.
+> How would this be:
+> 
+> [[
+> --- a/man3/stpcpy.3
+> +++ b/man3/stpcpy.3
+> @@ -76,9 +76,11 @@ function is thread-safe.
+>  .SH CONFORMING TO
+>  This function was added to POSIX.1-2008.
+>  Before that, it was not part of
+> -the C or POSIX.1 standards, nor customary on UNIX systems, but was not a
+> -GNU invention either.
+> -Perhaps it came from MS-DOS.
+> +the C or POSIX.1 standards, nor customary on UNIX systems.
+> +It first appeared at least as early as 1986,
+> +in the Lattice C AmigaDOS compiler,
+> +then in the GNU fileutils and GNU textutils in 1989,
+> +and in the GNU C library until 1992.
+>  It is also present on the BSDs.
+>  .SH BUGS
+>  This function may overrun the buffer
+> 
+> ]]
+> 
+> ?
 
-Cheers,
+Yes, that seems a safer claim, and it reads very well.
+I like your wording.
 
-Michael
+Thank you for looking into this,
+  Ingo
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
