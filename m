@@ -1,56 +1,70 @@
-From: Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org>
-Subject: Re: [patch] stpcpy.3, stpncpy.3: Correct history
-Date: Wed, 7 May 2014 22:33:00 +0200
-Message-ID: <20140507203300.GM3365@iris.usta.de>
-References: <20140224003705.GB28413@iris.usta.de>
- <5363A48C.7060709@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] pthread_attr_setstackaddr.3: ATTRIBUTES: Note functions
+ that are thread-safe
+Date: Thu, 08 May 2014 11:42:05 +0200
+Message-ID: <536B516D.9060901@gmail.com>
+References: <1399340943-3483-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <5363A48C.7060709-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1399340943-3483-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Thank you, Haitao. Applied.
 
-Michael Kerrisk (man-pages) wrote on Fri, May 02, 2014 at 03:58:36PM +0200:
+Cheers,
 
-> the patch seems more or less okay to me, but given that The AmigaDOS
-> compiler is the merely the oldest instance you could find, I'd prefer
-> a slightly more open wording.
-> How would this be:
+Michael
+
+
+
+On 05/06/2014 03:49 AM, Peng Haitao wrote:
+> The functions pthread_attr_setstackaddr() and
+> pthread_attr_getstackaddr() are thread safe.
 > 
-> [[
-> --- a/man3/stpcpy.3
-> +++ b/man3/stpcpy.3
-> @@ -76,9 +76,11 @@ function is thread-safe.
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/pthread_attr_setstackaddr.3 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/pthread_attr_setstackaddr.3 b/man3/pthread_attr_setstackaddr.3
+> index 3c4778d..a82d471 100644
+> --- a/man3/pthread_attr_setstackaddr.3
+> +++ b/man3/pthread_attr_setstackaddr.3
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH PTHREAD_ATTR_SETSTACKADDR 3 2008-10-24 "Linux" "Linux Programmer's Manual"
+> +.TH PTHREAD_ATTR_SETSTACKADDR 3 2014-05-06 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  pthread_attr_setstackaddr, pthread_attr_getstackaddr \-
+>  set/get stack address attribute in thread attributes object
+> @@ -80,6 +80,13 @@ No errors are defined
+>  handle a possible error return).
+>  .SH VERSIONS
+>  These functions are provided by glibc since version 2.1.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR pthread_attr_setstackaddr ()
+> +and
+> +.BR pthread_attr_getstackaddr ()
+> +functions are thread-safe.
 >  .SH CONFORMING TO
->  This function was added to POSIX.1-2008.
->  Before that, it was not part of
-> -the C or POSIX.1 standards, nor customary on UNIX systems, but was not a
-> -GNU invention either.
-> -Perhaps it came from MS-DOS.
-> +the C or POSIX.1 standards, nor customary on UNIX systems.
-> +It first appeared at least as early as 1986,
-> +in the Lattice C AmigaDOS compiler,
-> +then in the GNU fileutils and GNU textutils in 1989,
-> +and in the GNU C library until 1992.
->  It is also present on the BSDs.
->  .SH BUGS
->  This function may overrun the buffer
+>  POSIX.1-2001 specifies these functions but marks them as obsolete.
+>  POSIX.1-2008 removes the specification of these functions.
 > 
-> ]]
-> 
-> ?
 
-Yes, that seems a safer claim, and it reads very well.
-I like your wording.
 
-Thank you for looking into this,
-  Ingo
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
