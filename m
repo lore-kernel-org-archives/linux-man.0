@@ -1,62 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_attr_setstacksize.3: ATTRIBUTES: Note functions
- that are thread-safe
-Date: Thu, 08 May 2014 11:42:07 +0200
-Message-ID: <536B516F.5070404@gmail.com>
-References: <1399343589-10740-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] rtime.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 08 May 2014 11:42:12 +0200
+Message-ID: <536B5174.5010409@gmail.com>
+References: <1399381433-16490-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399343589-10740-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1399381433-16490-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thank you, Haitao. Applied.
+Thanks. Applied.
 
 Cheers,
 
 Michael
 
 
-On 05/06/2014 04:33 AM, Peng Haitao wrote:
-> The functions pthread_attr_setstacksize() and
-> pthread_attr_getstacksize() are thread safe.
+On 05/06/2014 03:03 PM, Peng Haitao wrote:
+> The function rtime() is thread safe.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_attr_setstacksize.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  man3/rtime.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man3/pthread_attr_setstacksize.3 b/man3/pthread_attr_setstacksize.3
-> index eb6b44e..2412988 100644
-> --- a/man3/pthread_attr_setstacksize.3
-> +++ b/man3/pthread_attr_setstacksize.3
-> @@ -23,7 +23,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
+> diff --git a/man3/rtime.3 b/man3/rtime.3
+> index ce093af..8070ee3 100644
+> --- a/man3/rtime.3
+> +++ b/man3/rtime.3
+> @@ -9,7 +9,7 @@
 >  .\"
-> -.TH PTHREAD_ATTR_SETSTACKSIZE 3 2012-03-15 "Linux" "Linux Programmer's Manual"
-> +.TH PTHREAD_ATTR_SETSTACKSIZE 3 2014-05-06 "Linux" "Linux Programmer's Manual"
+>  .\" Slightly polished, aeb, 2003-04-06
+>  .\"
+> -.TH RTIME 3 2014-01-05 "GNU" "Linux Programmer's Manual"
+> +.TH RTIME 3 2014-05-06 "GNU" "Linux Programmer's Manual"
 >  .SH NAME
->  pthread_attr_setstacksize, pthread_attr_getstacksize \- set/get stack size
->  attribute in thread attributes object
-> @@ -80,6 +80,13 @@ if
->  is not a multiple of the system page size.
->  .SH VERSIONS
->  These functions are provided by glibc since version 2.1.
+>  rtime \- get time from a remote machine
+>  .SH SYNOPSIS
+> @@ -54,6 +54,11 @@ The number of returned bytes is not 4.
+>  .TP
+>  .B ETIMEDOUT
+>  The waiting time as defined in timeout has expired.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR pthread_attr_setstacksize ()
-> +and
-> +.BR pthread_attr_getstacksize ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
+> +.BR rtime ()
+> +function is thread-safe.
 >  .SH NOTES
+>  Only IPv4 is supported.
+>  .LP
 > 
 
 
