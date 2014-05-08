@@ -1,65 +1,55 @@
-From: Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org>
-Subject: Re: [patch] stpcpy.3, stpncpy.3: Correct history
-Date: Thu, 8 May 2014 13:23:56 +0200
-Message-ID: <20140508112356.GA22640@iris.usta.de>
-References: <20140224003705.GB28413@iris.usta.de>
- <5363A48C.7060709@gmail.com>
- <20140507203300.GM3365@iris.usta.de>
- <CAKgNAkifRNL+1KTa1LrRgJGn7dYUYvf8N5n2Q8V5+0RFXZatvQ@mail.gmail.com>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH] remap_file_pages.2: Not actually useful on real files.
+Date: Thu, 8 May 2014 05:50:32 -0700
+Message-ID: <20140508125032.GA24087@infradead.org>
+References: <5de30c3a21531919712fc7df213c18b46e521225.1355955125.git.luto@amacapital.net>
+ <536B5221.60407@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkifRNL+1KTa1LrRgJGn7dYUYvf8N5n2Q8V5+0RFXZatvQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <536B5221.60407-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+On Thu, May 08, 2014 at 11:45:05AM +0200, Michael Kerrisk (man-pages) wrote:
+> I've applied the above. I then tweaked it a little. Is the following
+> okay:
+> 
+> [[
+> Since Linux 2.6.23,
+> .\" commit 3ee6dafc677a68e461a7ddafc94a580ebab80735
+> .BR remap_file_pages ()
+> has no performance advantage over
+> .BR mmap (2)
+> when used on real files:
+> on real files it creates a separate VMA for each range.
+> It does, however, continue to provide a performance advantage
+> for files on memory-based filesystems.
+> ]]
 
-Michael Kerrisk (man-pages) wrote on Thu, May 08, 2014 at 11:55:36AM +0200:
-> On Wed, May 7, 2014 at 10:33 PM, Ingo Schwarze <schwarze-mcycREo4Un4@public.gmane.org> wrote:
->> Michael Kerrisk (man-pages) wrote on Fri, May 02, 2014 at 03:58:36PM +0200:
+I think "real file" is a very bad term.  What is more real about one
+file vs another?  Is NFS less real than XFS, is tmpfs more real than
+ramfs?
 
->>> the patch seems more or less okay to me, but given that The AmigaDOS
->>> compiler is the merely the oldest instance you could find, I'd prefer
->>> a slightly more open wording.
->>> How would this be:
->>>
->>> [[
->>> --- a/man3/stpcpy.3
->>> +++ b/man3/stpcpy.3
->>> @@ -76,9 +76,11 @@ function is thread-safe.
->>>  .SH CONFORMING TO
->>>  This function was added to POSIX.1-2008.
->>>  Before that, it was not part of
->>> -the C or POSIX.1 standards, nor customary on UNIX systems, but was not a
->>> -GNU invention either.
->>> -Perhaps it came from MS-DOS.
->>> +the C or POSIX.1 standards, nor customary on UNIX systems.
->>> +It first appeared at least as early as 1986,
->>> +in the Lattice C AmigaDOS compiler,
->>> +then in the GNU fileutils and GNU textutils in 1989,
->>> +and in the GNU C library until 1992.
+I'd reword this more like this:
 
-> Just fixed: s/until/in/
+Since Linux 2.6.23, remap_file_pages only creates non-linear mappings
+on in-memory file systems like tmpfs, hugetlbfs or ramfs.  File systems
+with a backing store provide a less efficient emulation.
 
-Actually, what i intended to express with that "until" was:
 
-  "in the GNU C library at least as early as 1992"
+I think the whole man page for remap_file_pages is a litt confusing I
+have to say, the concept of a VMA is purely kernel internal and doesn't
+really have a meaning for applications and thus shouldn't appear in a
+man page.
 
-Glibc development started in 1987.  Clearly glibc didn't have stpcpy
-before 1989, or early textutils/fileutils wouldn't have had their
-own copy with a 1989 FSF Copyright.  The glibc ChangeLog says
-Roland McGrath fixed a bug in stpcpy in 1992, and *after that*,
-the file has a 1992 FSF Copyright.
 
-That doesn't strictly exclude stpcpy may have appeared in glibc
-in 1989, 1990, or 1991.
-
-Yours,
-  Ingo
+While we're at it:  It seems like we should get rid of the remap_pages
+vma operation - it's set by lots of filesystems that can never have
+it invoked, and always is set to generic_file_remap_pages anyway.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
