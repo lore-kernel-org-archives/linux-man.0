@@ -1,88 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] remap_file_pages.2: Not actually useful on real files.
-Date: Fri, 09 May 2014 07:31:27 +0200
-Message-ID: <536C682F.2060000@gmail.com>
-References: <5de30c3a21531919712fc7df213c18b46e521225.1355955125.git.luto@amacapital.net> <536B5221.60407@gmail.com> <20140508125032.GA24087@infradead.org> <CAKgNAkhPJ+w0Kur57bJeTOrLdgaLRebk9Yr0PsE4czqcGFudwQ@mail.gmail.com> <CALCETrWjAoK_xo1-NTn5S4u=nK2EpH7oh6_JQOgU4BBieV7o+A@mail.gmail.com>
+Subject: Re: [PATCH] termios.3: wfix
+Date: Fri, 09 May 2014 07:44:21 +0200
+Message-ID: <536C6B35.2090503@gmail.com>
+References: <1399612405-4062-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALCETrWjAoK_xo1-NTn5S4u=nK2EpH7oh6_JQOgU4BBieV7o+A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1399612405-4062-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/08/2014 10:38 PM, Andy Lutomirski wrote:
-> On Thu, May 8, 2014 at 6:29 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Hi Christoph,
->>
->> On Thu, May 8, 2014 at 2:50 PM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
->>> On Thu, May 08, 2014 at 11:45:05AM +0200, Michael Kerrisk (man-pages) wrote:
->>>> I've applied the above. I then tweaked it a little. Is the following
->>>> okay:
->>>>
->>>> [[
->>>> Since Linux 2.6.23,
->>>> .\" commit 3ee6dafc677a68e461a7ddafc94a580ebab80735
->>>> .BR remap_file_pages ()
->>>> has no performance advantage over
->>>> .BR mmap (2)
->>>> when used on real files:
->>>> on real files it creates a separate VMA for each range.
->>>> It does, however, continue to provide a performance advantage
->>>> for files on memory-based filesystems.
->>>> ]]
->>>
->>> I think "real file" is a very bad term.  What is more real about one
->>> file vs another?  Is NFS less real than XFS, is tmpfs more real than
->>> ramfs?
->>>
->>> I'd reword this more like this:
->>>
->>> Since Linux 2.6.23, remap_file_pages only creates non-linear mappings
->>> on in-memory file systems like tmpfs, hugetlbfs or ramfs.  File systems
->>> with a backing store provide a less efficient emulation.
->>
->> Yes, sounds better to me. Any tweaks you want to add to that, Andy?
->>
->>> I think the whole man page for remap_file_pages is a litt confusing I
->>> have to say, the concept of a VMA is purely kernel internal and doesn't
->>> really have a meaning for applications and thus shouldn't appear in a
->>> man page.
->>
->> I agree it could be better. Do you have a suggested text?
->>
->>> While we're at it:  It seems like we should get rid of the remap_pages
->>> vma operation - it's set by lots of filesystems that can never have
->>> it invoked, and always is set to generic_file_remap_pages anyway.
-> 
-> Something along the lines of "on filesystems with a backing store,
-> remap_file_pages is not much more efficient than using mmap(2) to
-> adjust which parts of the file are mapped to which addresses" might
-> get the idea across.
-
-So, now I have:
-
-[[
-Since Linux 2.6.23,
-.\" commit 3ee6dafc677a68e461a7ddafc94a580ebab80735
-.BR remap_file_pages ()
-creates non-linear mappings only on
-on in-memory file systems such as tmpfs, hugetlbfs or ramfs.
-On filesystems with a backing store,
-.BR remap_file_pages ()
-is not much more efficient than using
-.BR mmap (2)
-to adjust which parts of the file are mapped to which addresses.
-]]
-
-Okay?
+Thanks, Yuri. Applied.
 
 Cheers,
 
 Michael
+
+On 05/09/2014 07:13 AM, Yuri Kozlov wrote:
+> ---
+>  man3/termios.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man3/termios.3 b/man3/termios.3
+> index d847e17..fbf909b 100644
+> --- a/man3/termios.3
+> +++ b/man3/termios.3
+> @@ -672,7 +672,7 @@ the change occurs immediately.
+>  the change occurs after all output written to
+>  .I fd
+>  has been transmitted.
+> -This function should be used when changing
+> +This option should be used when changing
+>  parameters that affect output.
+>  .IP \fBTCSAFLUSH\fP
+>  the change occurs after all output written to the object referred by
+> 
 
 
 -- 
