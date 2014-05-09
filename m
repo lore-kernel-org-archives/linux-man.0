@@ -1,104 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: sched_{set,get}attr() manpage
-Date: Fri, 9 May 2014 11:26:30 +0200
-Message-ID: <CAKgNAkixNiLjJ4crqfNYFC+cWf7SiKFVUYa+3OZTWMkjZXZO4w@mail.gmail.com>
-References: <20140428081858.GX13658@twins.programming.kicks-ass.net>
- <535FA467.2070403@gmail.com> <20140429160441.GU11096@twins.programming.kicks-ass.net>
- <5360D9E5.9080206@gmail.com> <20140430130937.GH30445@twins.programming.kicks-ass.net>
- <20140503124355.5d927080518051ca507bc381@gmail.com> <536735E0.7020204@gmail.com>
- <20140505072114.GY11096@twins.programming.kicks-ass.net> <20140506081636.GA4460@twins.programming.kicks-ass.net>
- <536C907A.1040205@gmail.com> <20140509085311.GJ30445@twins.programming.kicks-ass.net>
-Reply-To: mtk.manpages@gmail.com
+Subject: [PATCH 1/3] sched: Make sched_setattr() correctly return -EFBIG
+Date: Fri, 09 May 2014 16:54:15 +0200
+Message-ID: <536CEC17.9070903@gmail.com>
+References: <536CEAEE.4010609@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20140509085311.GJ30445@twins.programming.kicks-ass.net>
+In-Reply-To: <536CEAEE.4010609@gmail.com>
 Sender: linux-kernel-owner@vger.kernel.org
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: Juri Lelli <juri.lelli@gmail.com>, Dario Faggioli <raistlin@linux.it>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Steven Rostedt <rostedt@goodmis.org>, Oleg Nesterov <oleg@redhat.com>, =?UTF-8?B?RnLDqWTDqXJpYyBXZWlzYmVja2Vy?= <fweisbec@gmail.com>, Darren Hart <darren@dvhart.com>, johan.eker@ericsson.com, p.faure@akatech.ch, Linux Kernel <linux-kernel@vger.kernel.org>, Claudio Scordino <claudio@evidence.eu.com>, Michael Trimarchi <michael@amarulasolutions.com>, Fabio Checconi <fchecconi@gmail.com>, Tommaso Cucinotta <tommaso.cucinotta@sssup.it>, nicola.manica@disi.unitn.it, luca.abeni@unitn.it, Dhaval Giani <dhaval.giani@gmail.com>, hgu1972@gmail.com, Paul McKenney <paulmck@linux.vnet.ibm.com>, Insop Song <insop.song@gmail.com>, liming.wang@windriver.com, jkacur@redhat.com, linux-man <linux-man@vger.kernel.org>
+Cc: mtk.manpages@gmail.com, lkml <linux-kernel@vger.kernel.org>, Juri Lelli <juri.lelli@gmail.com>, Dario Faggioli <raistlin@linux.it>, Ingo Molnar <mingo@kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Peter,
+From: Michael Kerrisk <mtk.manpages@gmail.com>
 
-On Fri, May 9, 2014 at 10:53 AM, Peter Zijlstra <peterz@infradead.org> wrote:
-> On Fri, May 09, 2014 at 10:23:22AM +0200, Michael Kerrisk (man-pages) wrote:
->> Hi Peter,
->>
->> I'm working on this text. I see the following in kernel/sched/core.c:
->>
->> [[
->> static int __sched_setscheduler(struct task_struct *p,
->>                                 const struct sched_attr *attr,
->>                                 bool user)
->> {
->>         ...
->>
->>         int policy = attr->sched_policy;
->>         ...
->>         if (policy < 0) {
->>                 reset_on_fork = p->sched_reset_on_fork;
->>                 policy = oldpolicy = p->policy;
->> ]]
->>
->> What's a negative policy about? Is this something that should
->> be documented?
->
-> That's for sched_setparam(), which internally passes policy = -1, it
-> wasn't meant to be user visible, lemme double check that.
->
-> sys_sched_setscheduler() -- explicit check for policy < 0
-> sys_sched_setparam() -- explicitly passes policy=-1, not user visible
+The documented[1] behavior of sched_attr() in your proposed man page text is:
 
-(Ahh -- I missed that piece in sys_sched_setparam())
+    sched_attr::size must be set to the size of the structure, as in
+    sizeof(struct sched_attr), if the provided structure is smaller
+    than the kernel structure, any additional fields are assumed
+    '0'. If the provided structure is larger than the kernel structure,
+    the kernel verifies all additional fields are '0' if not the
+    syscall will fail with -E2BIG.
 
-> sys_sched_setattr() -- hmm, it looks like fail
+As currently implemented, sched_copy_attr() returns -EFBIG for
+for this case, but the logic in sys_sched_setattr() converts that
+error to -EFAULT. This patch fixes the behavior.
 
-Yep, I was seeing that there was no check in sched_setatr().
+[1] http://thread.gmane.org/gmane.linux.kernel/1615615/focus=1697760
 
-As I recently said, when it comes to writing a man page, show me a new
-interface, and I'll show you a bug ;-).
+Signed-off-by: Michael Kerrisk <mtk.manpages@gmail.com>
+---
+ kernel/sched/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Thanks for the clarification.
-
-Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
-
-Cheers,
-
-Michael
-
-
-> ---
-> Subject: sched: Disallow sched_attr::sched_policy < 0
-> From: Peter Zijlstra <peterz@infradead.org>
-> Date: Fri May  9 10:49:03 CEST 2014
->
-> The scheduler uses policy=-1 to preserve the current policy state to
-> implement sys_sched_setparam(), this got exposed to userspace by
-> accident through sys_sched_setattr(), cure this.
->
-> Reported-by: Michael Kerrisk <mtk.manpages@gmail.com>
-> Signed-off-by: Peter Zijlstra <peterz@infradead.org>
-> Link: http://lkml.kernel.org/n/tip-b4kbwz2qh21xlngdzje00t55@git.kernel.org
-> ---
->  kernel/sched/core.c |    3 +++
->  1 file changed, 3 insertions(+)
->
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -3711,6 +3711,9 @@ SYSCALL_DEFINE3(sched_setattr, pid_t, pi
->         if (sched_copy_attr(uattr, &attr))
->                 return -EFAULT;
->
-> +       if (attr.sched_policy < 0)
-> +               return -EINVAL;
-> +
->         rcu_read_lock();
->         retval = -ESRCH;
->         p = find_process_by_pid(pid);
-
-
-
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 268a45e..6c9ce28 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -3650,8 +3650,9 @@ SYSCALL_DEFINE3(sched_setattr, pid_t, pid, struct sched_attr __user *, uattr,
+ 	if (!uattr || pid < 0 || flags)
+ 		return -EINVAL;
+ 
+-	if (sched_copy_attr(uattr, &attr))
+-		return -EFAULT;
++	retval = sched_copy_attr(uattr, &attr);
++	if (retval)
++		return retval;
+ 
+ 	rcu_read_lock();
+ 	retval = -ESRCH;
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.9.0
