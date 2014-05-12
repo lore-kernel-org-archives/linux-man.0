@@ -1,164 +1,86 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] host.conf(5): order option deprecated, replaced by nsswitch.conf(5)
-Date: Mon, 12 May 2014 09:38:27 +0200
-Message-ID: <CAKgNAkifXt0Mf7GXR+B9VEkLcGByN1U846gYY9e9ZMVNt0CKuw@mail.gmail.com>
-References: <1355073222-13020-1-git-send-email-spaillard@debian.org> <CAKgNAkixQ7=9EQdbM_1EQJsDq=3gWV6eYwuk0DDc3UUL8YmtYw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: recvmmsg() timeout behavior strangeness [RESEND]
+Date: Mon, 12 May 2014 12:15:25 +0200
+Message-ID: <CAKgNAkgA_xTfRZhpyVwuACpCY7xMK89e0bK4PuVMG9reNV6Skw@mail.gmail.com>
+References: <536101C9.9090601@gmail.com>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkixQ7=9EQdbM_1EQJsDq=3gWV6eYwuk0DDc3UUL8YmtYw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <536101C9.9090601@gmail.com>
+Sender: netdev-owner@vger.kernel.org
+To: Arnaldo Carvalho de Melo <acme@infradead.org>, lkml <linux-kernel@vger.kernel.org>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, netdev <netdev@vger.kernel.org>, =?UTF-8?B?T25kxZllaiBCw61sa2E=?= <neleai@seznam.cz>, Caitlin Bestler <caitlin.bestler@gmail.com>, Neil Horman <nhorman@tuxdriver.com>, Elie De Brauwer <eliedebrauwer@gmail.com>, David Miller <davem@davemloft.net>, Steven Whitehouse <steve@chygwyn.com>, =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi.denis-courmont@nokia.com>, Paul Moore <paul@paul-moore.com>, Chris Friesen <chris.friesen@windriver.com>
 List-Id: linux-man@vger.kernel.org
 
-Hi Simon,
+Hi Arnaldo,
 
-Marko filed https://bugzilla.kernel.org/show_bug.cgi?id=75991, which
-prompts me to ping you about the below.
+Ping!
 
 Cheers,
 
 Michael
 
 
-On Fri, Aug 9, 2013 at 10:40 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Simon,
+On Wed, Apr 30, 2014 at 3:59 PM, Michael Kerrisk (man-pages)
+<mtk.manpages@gmail.com> wrote:
+> Arnaldo,
 >
-> So, from the references you've given, and from a little bit of code
-> spelunking, it looks like the change took place in glibc 2.5. I'd much
-> prefer a patch that preserved the glibc <= 2.4 info, and noted that
-> "order" is ignored in glibc >= 2.5. See some notes below.
+> I raised this issue somewhat more than a year ago, here:
+> http://thread.gmane.org/gmane.linux.man/3477
+> but got no reply from you. (Chris Friesen in that thread agreed
+> that there is a problem though.)
 >
+> Here, a slightly revised version of that mail, since I've just bumper
+> into a related problem in a different context...
 >
-> On Sun, Dec 9, 2012 at 6:13 PM, Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org> wrote:
->> http://www.sourceware.org/bugzilla/show_bug.cgi?id=2389
->> http://repo.or.cz/w/glibc.git/commit/b9c65d0902e5890c4f025b574725154032f8120a
->>
->> Reported at http://bugs.debian.org/270368 http://bugs.debian.org/396633
->> ---
->>  man3/resolver.3    |    2 +-
->>  man5/host.conf.5   |   14 ++------------
->>  man5/resolv.conf.5 |    4 +++-
->>  3 files changed, 6 insertions(+), 14 deletions(-)
->>
->> diff --git a/man3/resolver.3 b/man3/resolver.3
->> index 991b263..2cd4ec7 100644
->> --- a/man3/resolver.3
->> +++ b/man3/resolver.3
->> @@ -87,7 +87,7 @@ domain name servers.
->>  The
->>  .BR res_init ()
->>  function reads the configuration files (see
->> -resolv.conf(5)) to get the default domain name, search order and name
+> As part of his attempt to better document the recvmmsg() syscall that
+> you added in commit a2e2725541fad72416326798c2d7fa4dafb7d337, Elie de
+> Brauwer alerted to me to some strangeness in the timeout behavior of
+> the syscall. I suspect there's a bug that needs fixing, as detailed
+> below.
 >
-> Here, s/search order/search order (in glibc 2.4 and earlier)/
-> ?
+> AFAICT, the timeout argument was added to this syscall as a result of
+> the discussion here:
+> http://markmail.org/message/m5l2ap4hiiimut6k#query:+page:1+mid:m5l2ap4hiiimut6k+state:results
+> (20-21 May 2009, "[RFC 1/2] net: Introduce recvmmsg...")
 >
->> +resolv.conf(5)) to get the default domain name and name
->>  server address(es).
->>  If no server is given, the local host is tried.
->>  If no domain is given, that associated with the local host is used.
->> diff --git a/man5/host.conf.5 b/man5/host.conf.5
->> index 189e2e9..ed1403d 100644
->> --- a/man5/host.conf.5
->> +++ b/man5/host.conf.5
->> @@ -33,15 +33,9 @@ contains configuration information specific to the resolver library.
->>  It should contain one configuration keyword per line, followed by
->>  appropriate configuration information.
->>  The keywords recognized are
->> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->> +.IR trim ", " multi ", " nospoof ", " spoof ", and " reorder .
+> If I understand correctly, the *intended* purpose of the timeout
+> argument is to set a limit on how long to wait for additional
+> datagrams after the arrival of an initial datagram. However, the
+> syscall behaves in quite a different way. Instead, it potentially
+> blocks forever, regardless of the timeout. The way the timeout seems
+> to work is as follows:
 >
-> Drop the preceding change.
+> 1. The timeout, T, is armed on receipt of first diagram, starting at time X.
+> 2. After each further datagram is received, a check is made if we have
+> reached time X+T. If we have reached that time, then the syscall
+> returns.
 >
->>  These keywords are described below.
->>  .TP
->> -.I order
->> -This keyword specifies how host lookups are to be performed.
->> -It should be followed by one or more lookup methods, separated by commas.
->> -Valid methods are
->> -.IR bind ", " hosts ", and " nis .
+> Since the timeout is only checked after the arrival of each datagram,
+> we can have scenarios like the following:
 >
-> Drop the preceding change. Instead add:
+> 0. Assume a timeout of 10 seconds, and that vlen is 5.
+> 1. First datagram arrives at time X.
+> 2. Second datagram arrives at time X+2 secs
+> 3. No more datagrams arrive.
 >
-> Since glibc 2.5, the
-> .I order
-> keyword is ignored.
+> In this case, the call blocks forever. Is that intended behavior?
+> (Basically, if up to vlen-1 datagrams arrive before X+T, but then no
+> more datagrams arrive, the call will remain blocked forever.) If it's
+> intended behavior, could you elaborate the use case, since it would be
+> good to add that to the man page. If not, a fix seems to be needed,
+> since otherwise, it's hard to see how the recvmmsg() timeout argument
+> can sanely be used.
 >
->
->> -.TP
->>  .I trim
->>  This keyword may be listed more than once.
->>  Each time it should be
->> @@ -141,11 +135,6 @@ override the behavior which is configured in
->>  If set this variable points to a file that should be read instead of
->>  .IR /etc/host.conf .
->>  .TP
->> -.B RESOLV_SERV_ORDER
->> -Overrides the
->> -.I order
->> -command.
->
-> Drop the preceding change. Possibly add:
->
-> Only useful in glibc 2.4 and earlier.
->
->> -.TP
->>  .B RESOLV_SPOOF_CHECK
->>  Overrides the
->>  .IR nospoof ", " spoofalert " and " spoof
->> @@ -200,4 +189,5 @@ Line comments can appear anywhere and not only at the beginning of a line.
->>  .BR gethostbyname (3),
->>  .BR hostname (7),
->>  .BR named (8),
->> +.BR nsswitch.conf (5),
->>  .BR resolv+ (8)
->> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
->> index 9a3ca54..282f748 100644
->> --- a/man5/resolv.conf.5
->> +++ b/man5/resolv.conf.5
->> @@ -134,6 +134,7 @@ sets
->>  .BR RES_DEBUG
->>  in
->>  .IR _res.options .
->> +This option needs glibc to be build with debugging enabled.
->
-> Where did this piece come from? It seems to be unrelated?
->
-> Cheers,
+> Thanks,
 >
 > Michael
->
->
->>  .TP
->>  .BI ndots: n
->>  .\" Since glibc 2.2
->> @@ -275,6 +276,7 @@ in the first column are treated as comments.
->>  .BR gethostbyname (3),
->>  .BR resolver (3),
->>  .BR hostname (7),
->> -.BR named (8)
->> +.BR named (8),
->> +.BR nsswitch.conf (5)
->>  .br
->>  Name Server Operations Guide for BIND
->> --
->> 1.7.10.4
->>
->> --
->> To unsubscribe from this list: send the line "unsubscribe linux-man" in
->> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->
->
 >
 > --
 > Michael Kerrisk
 > Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Author of "The Linux Programming Interface"; http://man7.org/tlpi/
+> Linux/UNIX System Programming Training: http://man7.org/training/
 
 
 
@@ -166,7 +88,3 @@ On Fri, Aug 9, 2013 at 10:40 AM, Michael Kerrisk (man-pages)
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
