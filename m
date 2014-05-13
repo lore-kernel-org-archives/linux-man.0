@@ -1,54 +1,49 @@
-From: Juri Lelli <juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [SCHED_DEADLINE man pages 0/2] Summary
-Date: Tue, 13 May 2014 17:54:16 +0200
-Message-ID: <20140513175416.765abe5b536257ab72d827bc@gmail.com>
-References: <53723235.40101@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 76101] New: [TRIVIAL] PTHREAD_CREATE(3): EAGAIN and pid_max
+Date: Tue, 13 May 2014 17:22:39 +0000
+Message-ID: <bug-76101-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53723235.40101-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+https://bugzilla.kernel.org/show_bug.cgi?id=76101
+
+            Bug ID: 76101
+           Summary: [TRIVIAL] PTHREAD_CREATE(3): EAGAIN and pid_max
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: carstengrohmann-Mmb7MZpHnFY@public.gmane.org
+        Regression: No
 
 Hi,
 
-On Tue, 13 May 2014 16:54:45 +0200
-"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+The system-wide limit on the number of threads can also reached by a small
+value in /proc/sys/kernel/pid_max. E.g. RHEL5 and RHEL6 systems uses a default
+of 32768 in pid_max probably for compatibility with 32bit applications.
 
-> Peter, at al.
-> 
-> The follow ups to this mail contain the changes to man-pages for
-> the new sched_setattr() and sched_getattr() system calls, as well
-> as the changes to the sched(7) man page to document the 
-> SCHED_DEADLINE policy, all new changes in kernel 3.14.
-> 
-> I used the text you submitted, but _heavily_ edited it, and added
-> a _lot_ of further details. Therefore, could you (and Juri, and 
-> Dario?) please carefully review the text.
-> 
-> The follow-up mails are:
-> 
-> [1/2] The sched_setattr.2 page that documents sched_setattr(2) 
->       and sched_getattr(2).
-> 
-> [2/2] The revisions to the sched(7) page.
->
+This causes an EAGAIN also if the number of threads is significant lower than
+thread-max or RLIMIT_NPROC.
 
-Apart from nitpicks in 2/2, this looks great to me.
+Please extent the EAGAIN statement to reflect pid_max too.
 
-Thanks a lot!
+Thanks,
+Carsten
 
-Best,
-
-- Juri
- 
-> In each case, I've posted the formatted output for easy reading,
-> and attached the page source to the message.
-> 
-> Thanks,
-> 
-> Michael
-> 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
