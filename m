@@ -1,50 +1,96 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_self.3: ATTRIBUTES: Note function that is thread-safe
-Date: Tue, 13 May 2014 15:41:25 +0800
-Message-ID: <1399966885-13139-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: SCHED_DEADLINE, sched_getscheduler(), and sched_getparam()
+Date: Tue, 13 May 2014 10:14:35 +0200
+Message-ID: <CAKgNAkgcuvEqz6=EWnYvQrTsKd0_ZZ1gNCQWj14Wp0_Efq8KmA@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Juri Lelli <juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function pthread_self() is thread safe.
+On Mon, May 12, 2014 at 10:50 PM, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> On Mon, May 12, 2014 at 09:42:44PM +0200, Michael Kerrisk (man-pages) wrote:
+>> > Hmm,.. maybe. Can we still change this? Again, maybe, there's not really
+>> > that much userspace that relies on this.
+>>
+>> I think the sched_getparam() change is worthwhile (and the patches
+>> could (should?) be marked for -stable). I suspect there's no user
+>> space that relies on the current SCHED_DEADLINE behavior, and it's
+>> worth avoiding the above breakage for sched_getparam(). I'd be
+>> inclined to leave sched_getscheduler() as is: there's arguments
+>> either way for how it should behave.
+>>
+>> > In any case, the way I read the little there is on getparam() it seems
+>> > to imply the only case where it does make sense to call it at all is
+>> > when sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
+>>
+>> (Yes, that's my understanding too.)
+>
+> Something like so then, it encodes that reading explicitly.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/pthread_self.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Seems reasonable to me.
 
-diff --git a/man3/pthread_self.3 b/man3/pthread_self.3
-index 4c85df7..2273bea 100644
---- a/man3/pthread_self.3
-+++ b/man3/pthread_self.3
-@@ -23,7 +23,7 @@
- .\" the source, must acknowledge the copyright and authors of this work.
- .\" %%%LICENSE_END
- .\"
--.TH PTHREAD_SELF 3 2008-10-24 "Linux" "Linux Programmer's Manual"
-+.TH PTHREAD_SELF 3 2014-05-13 "Linux" "Linux Programmer's Manual"
- .SH NAME
- pthread_self \- obtain ID of the calling thread
- .SH SYNOPSIS
-@@ -47,6 +47,11 @@ call that created this thread.
- This function always succeeds, returning the calling thread's ID.
- .SH ERRORS
- This function always succeeds.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR pthread_self ()
-+function is thread-safe.
- .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+Acked-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+Thanks,
+
+Michael
+
+
+> ---
+> Subject: sched: Change sched_getparam() behaviour vs SCHED_DEADLINE
+> From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> Date: Mon May 12 22:22:47 CEST 2014
+>
+> The way we read POSIX one should only call sched_getparam() when
+> sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
+>
+> Given that we currently return sched_param::sched_priority=0 for all
+> others, extend the same behaviour to SCHED_DEADLINE.
+>
+> Requested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> Signed-off-by: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> ---
+>  kernel/sched/core.c |    9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+>
+> Index: linux-2.6/kernel/sched/core.c
+> ===================================================================
+> --- linux-2.6.orig/kernel/sched/core.c
+> +++ linux-2.6/kernel/sched/core.c
+> @@ -3759,7 +3759,7 @@ SYSCALL_DEFINE1(sched_getscheduler, pid_
+>   */
+>  SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+>  {
+> -       struct sched_param lp;
+> +       struct sched_param lp = { .sched_priority = 0 };
+>         struct task_struct *p;
+>         int retval;
+>
+> @@ -3776,11 +3776,8 @@ SYSCALL_DEFINE2(sched_getparam, pid_t, p
+>         if (retval)
+>                 goto out_unlock;
+>
+> -       if (task_has_dl_policy(p)) {
+> -               retval = -EINVAL;
+> -               goto out_unlock;
+> -       }
+> -       lp.sched_priority = p->rt_priority;
+> +       if (task_has_rt_policy(p))
+> +               lp.sched_priority = p->rt_priority;
+>         rcu_read_unlock();
+>
+>         /*
+
+
+
 -- 
-1.9.0
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
