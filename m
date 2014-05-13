@@ -1,89 +1,107 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: SCHED_DEADLINE, sched_getscheduler(), and sched_getparam()
-Date: Tue, 13 May 2014 10:14:35 +0200
-Message-ID: <CAKgNAkgcuvEqz6=EWnYvQrTsKd0_ZZ1gNCQWj14Wp0_Efq8KmA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] mem.4, ioports.4: Document /dev/ioports
+Date: Tue, 13 May 2014 10:27:10 +0200
+Message-ID: <CAKgNAkiPRnQRE6ovEXsPOsSagMGC-3xM38G8WRRHg+4iKiQuYQ@mail.gmail.com>
+References: <20140509191914.GA7286@jtriplet-mobl1> <20140509192126.GA13050@jtriplet-mobl1>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: Juri Lelli <juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20140509192126.GA13050@jtriplet-mobl1>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Josh Triplett <josh@joshtriplett.org>
+Cc: linux-man <linux-man@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, May 12, 2014 at 10:50 PM, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> On Mon, May 12, 2014 at 09:42:44PM +0200, Michael Kerrisk (man-pages) wrote:
->> > Hmm,.. maybe. Can we still change this? Again, maybe, there's not really
->> > that much userspace that relies on this.
->>
->> I think the sched_getparam() change is worthwhile (and the patches
->> could (should?) be marked for -stable). I suspect there's no user
->> space that relies on the current SCHED_DEADLINE behavior, and it's
->> worth avoiding the above breakage for sched_getparam(). I'd be
->> inclined to leave sched_getscheduler() as is: there's arguments
->> either way for how it should behave.
->>
->> > In any case, the way I read the little there is on getparam() it seems
->> > to imply the only case where it does make sense to call it at all is
->> > when sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
->>
->> (Yes, that's my understanding too.)
+Hi Josh,
+
+On Fri, May 9, 2014 at 9:21 PM, Josh Triplett <josh@joshtriplett.org> wrote:
+> /dev/ioports works like /dev/port, but supports 16-bit and 32-bit ports.
+> Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+> ---
 >
-> Something like so then, it encodes that reading explicitly.
+> Wasn't sure whether I should update the "Modified" notice at the top;
+> ideally such things should go away in favor of git.
 
-Seems reasonable to me.
+Mostly they do go away with Git, but I do add Copyright notices when
+the changes to the page are substantial (as here).
 
-Acked-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Could you ping me again if/when this looks like heading to mainline?
 
 Thanks,
 
 Michael
 
 
-> ---
-> Subject: sched: Change sched_getparam() behaviour vs SCHED_DEADLINE
-> From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> Date: Mon May 12 22:22:47 CEST 2014
+
 >
-> The way we read POSIX one should only call sched_getparam() when
-> sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
+>  man4/ioports.4 |  1 +
+>  man4/mem.4     | 21 +++++++++++++++++++--
+>  2 files changed, 20 insertions(+), 2 deletions(-)
+>  create mode 100644 man4/ioports.4
 >
-> Given that we currently return sched_param::sched_priority=0 for all
-> others, extend the same behaviour to SCHED_DEADLINE.
+> diff --git a/man4/ioports.4 b/man4/ioports.4
+> new file mode 100644
+> index 0000000..d4c1762
+> --- /dev/null
+> +++ b/man4/ioports.4
+> @@ -0,0 +1 @@
+> +.so man4/mem.4
+> diff --git a/man4/mem.4 b/man4/mem.4
+> index 74b7b89..adfd810 100644
+> --- a/man4/mem.4
+> +++ b/man4/mem.4
+> @@ -25,7 +25,7 @@
+>  .\" Modified Sat Jul 24 16:59:10 1993 by Rik Faith (faith@cs.unc.edu)
+>  .TH MEM 4 1992-11-21 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> -mem, kmem, port \- system memory, kernel memory and system ports
+> +mem, kmem, port, ioports \- system memory, kernel memory and system ports
+>  .SH DESCRIPTION
+>  .B mem
+>  is a character device file
+> @@ -66,7 +66,8 @@ chown root:kmem /dev/kmem
+>  .B port
+>  is similar to
+>  .BR mem ,
+> -but the I/O ports are accessed.
+> +but the I/O ports are accessed.  Multi-byte reads or writes to port will
+> +operate on successive byte-sized ports.
+>  .LP
+>  It is typically created by:
+>  .RS
+> @@ -75,12 +76,28 @@ mknod \-m 660 /dev/port c 1 4
+>  .br
+>  chown root:mem /dev/port
+>  .RE
+> +.LP
+> +.B ioports
+> +is similar to
+> +.BR port ,
+> +but supports reads and writes of 16-bit or 32-bit ports.  Reads or writes to
+> +ioport with sizes other than 1, 2, or 4 will return EINVAL.
+> +.LP
+> +It is typically created by:
+> +.RS
+> +.sp
+> +mknod \-m 660 /dev/ioports c 1 12
+> +.br
+> +chown root:mem /dev/ioports
+> +.RE
+>  .SH FILES
+>  .I /dev/mem
+>  .br
+>  .I /dev/kmem
+>  .br
+>  .I /dev/port
+> +.br
+> +.I /dev/ioports
+>  .SH SEE ALSO
+>  .BR chown (1),
+>  .BR mknod (1),
+> --
+> 2.0.0.rc2
 >
-> Requested-by: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> Signed-off-by: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> ---
->  kernel/sched/core.c |    9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
->
-> Index: linux-2.6/kernel/sched/core.c
-> ===================================================================
-> --- linux-2.6.orig/kernel/sched/core.c
-> +++ linux-2.6/kernel/sched/core.c
-> @@ -3759,7 +3759,7 @@ SYSCALL_DEFINE1(sched_getscheduler, pid_
->   */
->  SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
->  {
-> -       struct sched_param lp;
-> +       struct sched_param lp = { .sched_priority = 0 };
->         struct task_struct *p;
->         int retval;
->
-> @@ -3776,11 +3776,8 @@ SYSCALL_DEFINE2(sched_getparam, pid_t, p
->         if (retval)
->                 goto out_unlock;
->
-> -       if (task_has_dl_policy(p)) {
-> -               retval = -EINVAL;
-> -               goto out_unlock;
-> -       }
-> -       lp.sched_priority = p->rt_priority;
-> +       if (task_has_rt_policy(p))
-> +               lp.sched_priority = p->rt_priority;
->         rcu_read_unlock();
->
->         /*
 
 
 
@@ -91,7 +109,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
