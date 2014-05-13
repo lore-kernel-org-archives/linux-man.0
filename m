@@ -1,70 +1,42 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_setcancelstate.3: ATTRIBUTES: Note functions
- that are thread-safe
-Date: Tue, 13 May 2014 13:04:12 +0200
-Message-ID: <5371FC2C.3090908@gmail.com>
-References: <1399971584-18368-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [SCHED_DEADLINE man pages 0/2] Summary
+Date: Tue, 13 May 2014 16:54:45 +0200
+Message-ID: <53723235.40101@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1399971584-18368-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Juri Lelli <juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks!
+Peter, at al.
 
-Cheers,
+The follow ups to this mail contain the changes to man-pages for
+the new sched_setattr() and sched_getattr() system calls, as well
+as the changes to the sched(7) man page to document the 
+SCHED_DEADLINE policy, all new changes in kernel 3.14.
+
+I used the text you submitted, but _heavily_ edited it, and added
+a _lot_ of further details. Therefore, could you (and Juri, and 
+Dario?) please carefully review the text.
+
+The follow-up mails are:
+
+[1/2] The sched_setattr.2 page that documents sched_setattr(2) 
+      and sched_getattr(2).
+
+[2/2] The revisions to the sched(7) page.
+
+In each case, I've posted the formatted output for easy reading,
+and attached the page source to the message.
+
+Thanks,
 
 Michael
-
-
-On 05/13/2014 10:59 AM, Peng Haitao wrote:
-> The functions pthread_setcancelstate() and
-> pthread_setcanceltype() are thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/pthread_setcancelstate.3 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/pthread_setcancelstate.3 b/man3/pthread_setcancelstate.3
-> index da1f634..f684b12 100644
-> --- a/man3/pthread_setcancelstate.3
-> +++ b/man3/pthread_setcancelstate.3
-> @@ -23,7 +23,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH PTHREAD_SETCANCELSTATE 3 2008-11-24 "Linux" "Linux Programmer's Manual"
-> +.TH PTHREAD_SETCANCELSTATE 3 2014-05-13 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  pthread_setcancelstate, pthread_setcanceltype \-
->  set cancelability state and type
-> @@ -110,6 +110,13 @@ Invalid value for
->  .IR type .
->  .\" .SH VERSIONS
->  .\" Available since glibc 2.0
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR pthread_setcancelstate ()
-> +and
-> +.BR pthread_setcanceltype ()
-> +functions are thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
-> 
-
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
