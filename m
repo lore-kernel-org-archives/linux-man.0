@@ -1,134 +1,70 @@
-From: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Wed, 14 May 2014 09:18:54 -0700
-Message-ID: <CF98E3EF.90564%dvhart@linux.intel.com>
-References: <537346E5.4050407@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <537346E5.4050407-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] fanotify.7: BUGS, error handling in fanotify_read
+Date: Wed, 14 May 2014 19:38:30 +0200
+Message-ID: <1400089110-16859-1-git-send-email-xypron.glpk@gmx.de>
+References: <536541C5.40001@gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <536541C5.40001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 5/14/14, 3:35, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-wrote:
+The patch in
+http://www.spinics.net/lists/linux-man/msg05589.html
+was not accepted.
 
->[So, some futex recent discussions remind me I should make this request]
->
->Hello all (especially those in the To:, namely Thomas, Darren, Ingo,
->Jakub),
->
->The futex man pages:
->http://man7.org/linux/man-pages/man2/futex.2.html
->http://man7.org/linux/man-pages/man7/futex.7.html
->are currently in a sorry state. I'm by no means convinced that all of the
->futex operations described there are explained fully and correctly. And
->probably not all error cases for each operation are properly documented.
->I'd be very happy if some folk could review those pages and send me
->corrections (Git: 
->http://git.kernel.org/pub/scm/docs/man-pages/man-pages).
->
->But worse, a number of futex operations remain undocumented in futex(2)
->(see the list below).
->
->I am aware of Documentation/pi-futex.txt and
->Documentation/futex-requeue-pi.txt. However, both of those documents
->are rather thin on details / explain what certain FUTEX_* operations are
->used for rather than what they do / focus on the implementation, rather
->than the semantics.
->
->What I would like is that the futex(2) page documenta each one of
->these operations with a focus on the semantics in a way that might be
->useful to writers of library functions or those who simply wish to
->better understand (from a user-space perspective) what futexes are
->and how they are used. However, I don't have the knowledge to do
->this well in any reasonable time.
->
->Would the folk in the To: list (or anyone else who is knowledgeable)
->be willing to write patches
->(Git: http://git.kernel.org/pub/scm/docs/man-pages/man-pages )
->or just supply me with some raw text that documents these currently
->undocumented futex operations, in the manner suggested?
+Michael Kerrisk suggested in a private mail to add a comment
+in the BUGS section.
 
-Yes, I'll be glad to help.
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man7/fanotify.7 | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-However, unless I'm sorely mistaken, the larger problem is that glibc
-removed the futex() call entirely, so these man pages don't describe
-something users even have access to anymore. I had to revert to calling
-the syscalls directly in the futextest test suite because of this:
-
-http://git.kernel.org/cgit/linux/kernel/git/dvhart/futextest.git/tree/inclu
-de/futextest.h#n67
-
-
-Which basically defines:
-
-#define futex(uaddr, op, val, timeout, uaddr2, val3, opflags) \
-        syscall(SYS_futex, uaddr, op | opflags, val, timeout, uaddr2, val3)
-
-
-Adding Carlos for his perspective.
-
-If I'm wrong, or we can restore the futex() call, great. If not... Should
-we keep the man-pages and document it as syscall(SYS_futex, ..., op, ...) ?
-
-Thanks,
-
-Darren
-
->
->The operations for which documentation is currently missing are:
->
->2.6.14 adds FUTEX_WAKE_OP
->    commit 4732efbeb997189d9f9b04708dc26bf8613ed721
->    Author: Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->    Date:   Tue Sep 6 15:16:25 2005 -0700
->    See also https://bugzilla.kernel.org/show_bug.cgi?id=14303
->
->2.6.18 adds priority inheritance support:
->FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, and FUTEX_TRYLOCK_PI.
->    commit c87e2837be82df479a6bae9f155c43516d2feebc
->    Author: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
->    Date:   Tue Jun 27 02:54:58 2006 -0700
->
->    commit e2970f2fb6950183a34e8545faa093eb49d186e1
->    Author: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
->    Date:   Tue Jun 27 02:54:47 2006 -0700
->
->    See Documentation/pi-futex.txt
->
->2.6.25 adds FUTEX_WAKE_BITSET, FUTEX_WAIT_BITSET
->    commit cd689985cf49f6ff5c8eddc48d98b9d581d9475d
->    Author: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
->    Date:   Fri Feb 1 17:45:14 2008 +0100
->
->2.6.31 adds FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI
->    commit 52400ba946759af28442dee6265c5c0180ac7122
->    Author: Darren Hart <dvhltc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
->    Date:   Fri Apr 3 13:40:49 2009 -0700
->
->    commit ba9c22f2c01cf5c88beed5a6b9e07d42e10bd358
->    Author: Darren Hart <dvhltc-r/Jw6+rmf7HQT0dZR+AlfA@public.gmane.org>
->    Date:   Mon Apr 20 22:22:22 2009 -0700
->
->    See Documentation/futex-requeue-pi.txt
->
->Thanks,
->
->Michael
->
->
->-- 
->Michael Kerrisk
->Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->Linux/UNIX System Programming Training: http://man7.org/training/
->
-
-
+diff --git a/man7/fanotify.7 b/man7/fanotify.7
+index 2a92908..98f012a 100644
+--- a/man7/fanotify.7
++++ b/man7/fanotify.7
+@@ -164,7 +164,7 @@ so that multiple events can be retrieved by a single
+ The return value of
+ .BR read (2)
+ is the number of bytes placed in the buffer,
+-or \-1 in case of an error.
++or \-1 in case of an error (but see BUGS).
+ 
+ The fields of the
+ .I fanotify_event_metadata
+@@ -468,7 +468,7 @@ The event queue can overflow.
+ In this case, events are lost.
+ .SH BUGS
+ As of Linux 3.15,
+-the following bug exists:
++the following bugs exists:
+ .IP * 3
+ .\" FIXME: A patch was proposed.
+ When an event is generated,
+@@ -478,6 +478,16 @@ before passing a file descriptor for that file.
+ This poses a security risk, when the
+ .B CAP_SYS_ADMIN
+ capability is set for programs executed by unprivileged users.
++.IP *
++If a call to
++.BR read( 2 )
++processes multiple events from the fanotify queue and an error occurs, the
++return value will be the cumulated length of the events successfully copied to
++the user space buffer before the error occured.
++The return value will not be \-1.
++.I errno
++will not be set.
++Thus, the user program has not way to detect the error.
+ .SH EXAMPLE
+ The following program demonstrates the usage of the fanotify API.
+ It marks the mount point passed as a command-line argument
 -- 
-Darren Hart					Open Source Technology Center
-darren.hart-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org				            Intel Corporation
+2.0.0.rc0
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
