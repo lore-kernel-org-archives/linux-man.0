@@ -1,10 +1,10 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify.7: BUGS, error handling in fanotify_read
-Date: Wed, 14 May 2014 19:38:30 +0200
-Message-ID: <1400089110-16859-1-git-send-email-xypron.glpk@gmx.de>
-References: <536541C5.40001@gmail.com>
+Subject: [PATCH 1/1 v2] fanotify.7: BUGS, error handling in fanotify_read
+Date: Wed, 14 May 2014 20:10:16 +0200
+Message-ID: <1400091016-17670-1-git-send-email-xypron.glpk@gmx.de>
+References: <5373ADF9.4020505@bfs.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <536541C5.40001-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <5373ADF9.4020505-fPG8STNUNVg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
@@ -23,7 +23,7 @@ Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
  1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index 2a92908..98f012a 100644
+index 2a92908..c6cec7c 100644
 --- a/man7/fanotify.7
 +++ b/man7/fanotify.7
 @@ -164,7 +164,7 @@ so that multiple events can be retrieved by a single
@@ -57,7 +57,7 @@ index 2a92908..98f012a 100644
 +The return value will not be \-1.
 +.I errno
 +will not be set.
-+Thus, the user program has not way to detect the error.
++Thus, the user program has no way to detect the error.
  .SH EXAMPLE
  The following program demonstrates the usage of the fanotify API.
  It marks the mount point passed as a command-line argument
