@@ -1,50 +1,88 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [SCHED_DEADLINE man pages 0/2] Summary
-Date: Tue, 13 May 2014 20:00:36 +0200
-Message-ID: <53725DC4.3090802@gmail.com>
-References: <53723235.40101@gmail.com> <20140513175416.765abe5b536257ab72d827bc@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: futex(2) man page update help request
+Date: Wed, 14 May 2014 12:35:17 +0200
+Message-ID: <537346E5.4050407@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140513175416.765abe5b536257ab72d827bc-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Juri Lelli <juri.lelli-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Dario Faggioli <raistlin-k2GhghHVRtY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>, Jakub Jelinek <jakub@redhat.com>, Darren Hart <dvhart@linux.intel.com>
+Cc: mtk.manpages@gmail.com, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Davidlohr Bueso <davidlohr.bueso@hp.com>, Arnd Bergmann <arnd@arndb.de>, Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/13/2014 05:54 PM, Juri Lelli wrote:
-> Hi,
-> 
-> On Tue, 13 May 2014 16:54:45 +0200
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> 
->> Peter, at al.
->>
->> The follow ups to this mail contain the changes to man-pages for
->> the new sched_setattr() and sched_getattr() system calls, as well
->> as the changes to the sched(7) man page to document the 
->> SCHED_DEADLINE policy, all new changes in kernel 3.14.
->>
->> I used the text you submitted, but _heavily_ edited it, and added
->> a _lot_ of further details. Therefore, could you (and Juri, and 
->> Dario?) please carefully review the text.
->>
->> The follow-up mails are:
->>
->> [1/2] The sched_setattr.2 page that documents sched_setattr(2) 
->>       and sched_getattr(2).
->>
->> [2/2] The revisions to the sched(7) page.
->>
-> 
-> Apart from nitpicks in 2/2, this looks great to me.
-> 
-> Thanks a lot!
+[So, some futex recent discussions remind me I should make this request]
 
-Thanks for checking the pages, Juri.
+Hello all (especially those in the To:, namely Thomas, Darren, Ingo, Jakub),
 
-Cheers,
+The futex man pages:
+http://man7.org/linux/man-pages/man2/futex.2.html
+http://man7.org/linux/man-pages/man7/futex.7.html
+are currently in a sorry state. I'm by no means convinced that all of the
+futex operations described there are explained fully and correctly. And 
+probably not all error cases for each operation are properly documented.
+I'd be very happy if some folk could review those pages and send me 
+corrections (Git: http://git.kernel.org/pub/scm/docs/man-pages/man-pages). 
+
+But worse, a number of futex operations remain undocumented in futex(2)
+(see the list below).
+
+I am aware of Documentation/pi-futex.txt and 
+Documentation/futex-requeue-pi.txt. However, both of those documents
+are rather thin on details / explain what certain FUTEX_* operations are
+used for rather than what they do / focus on the implementation, rather 
+than the semantics.
+
+What I would like is that the futex(2) page documenta each one of 
+these operations with a focus on the semantics in a way that might be
+useful to writers of library functions or those who simply wish to
+better understand (from a user-space perspective) what futexes are 
+and how they are used. However, I don't have the knowledge to do 
+this well in any reasonable time. 
+
+Would the folk in the To: list (or anyone else who is knowledgeable) 
+be willing to write patches
+(Git: http://git.kernel.org/pub/scm/docs/man-pages/man-pages )
+or just supply me with some raw text that documents these currently
+undocumented futex operations, in the manner suggested?
+
+The operations for which documentation is currently missing are:
+
+2.6.14 adds FUTEX_WAKE_OP
+    commit 4732efbeb997189d9f9b04708dc26bf8613ed721
+    Author: Jakub Jelinek <jakub@redhat.com>
+    Date:   Tue Sep 6 15:16:25 2005 -0700
+    See also https://bugzilla.kernel.org/show_bug.cgi?id=14303
+
+2.6.18 adds priority inheritance support:
+FUTEX_LOCK_PI, FUTEX_UNLOCK_PI, and FUTEX_TRYLOCK_PI.  
+    commit c87e2837be82df479a6bae9f155c43516d2feebc
+    Author: Ingo Molnar <mingo@elte.hu>
+    Date:   Tue Jun 27 02:54:58 2006 -0700
+
+    commit e2970f2fb6950183a34e8545faa093eb49d186e1
+    Author: Ingo Molnar <mingo@elte.hu>
+    Date:   Tue Jun 27 02:54:47 2006 -0700
+
+    See Documentation/pi-futex.txt
+
+2.6.25 adds FUTEX_WAKE_BITSET, FUTEX_WAIT_BITSET
+    commit cd689985cf49f6ff5c8eddc48d98b9d581d9475d
+    Author: Thomas Gleixner <tglx@linutronix.de>
+    Date:   Fri Feb 1 17:45:14 2008 +0100
+
+2.6.31 adds FUTEX_WAIT_REQUEUE_PI, FUTEX_CMP_REQUEUE_PI
+    commit 52400ba946759af28442dee6265c5c0180ac7122
+    Author: Darren Hart <dvhltc@us.ibm.com>
+    Date:   Fri Apr 3 13:40:49 2009 -0700
+
+    commit ba9c22f2c01cf5c88beed5a6b9e07d42e10bd358
+    Author: Darren Hart <dvhltc@us.ibm.com>
+    Date:   Mon Apr 20 22:22:22 2009 -0700
+
+    See Documentation/futex-requeue-pi.txt
+
+Thanks,
 
 Michael
 
@@ -53,7 +91,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
