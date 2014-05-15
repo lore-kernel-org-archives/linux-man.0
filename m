@@ -1,62 +1,151 @@
-From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Thu, 15 May 2014 15:22:35 +0200
-Message-ID: <20140515132235.GM30445@twins.programming.kicks-ass.net>
-References: <537346E5.4050407@gmail.com>
- <CF98E3EF.90564%dvhart@linux.intel.com>
- <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com>
- <5373D0CA.2050204@redhat.com>
- <20140515081444.GD11096@twins.programming.kicks-ass.net>
- <5374BE9E.8080408@redhat.com>
+From: Armin Catovic <armin.catovic-IzeFyvvaP7pWk0Htik3J/w@public.gmane.org>
+Subject: Minimum M_TRIM_THRESHOLD value for default linux glibc malloc
+ implementation is 64 KiB?
+Date: Thu, 15 May 2014 13:33:21 +0000
+Message-ID: <0BC249219DEF854CB6667A1C7F8B18D222EA00D1@ESGSCMB101.ericsson.se>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y8f0OdbJ4Wm/1jzW"
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <5374BE9E.8080408-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Language: en-US
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi,
 
---Y8f0OdbJ4Wm/1jzW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Even if I set M_TRIM_THRESHOLD to 0, the lowest contiguous free block before the program break needs to be 64 KiB before it can be "trimmed". Is this a known fact, or am I doing something wrong here? I created a quick test program that calls malloc_stats (1) before any malloc operations, (2) after malloc of buflen bytes, and (3) after freeing the previously malloc-ed block. Here are some printouts.
 
-On Thu, May 15, 2014 at 09:18:22AM -0400, Carlos O'Donell wrote:
-> On 05/15/2014 04:14 AM, Peter Zijlstra wrote:
-> > On Wed, May 14, 2014 at 04:23:38PM -0400, Carlos O'Donell wrote:
-> >> There are other syscalls like gettid() that have a:
-> >> NOTE: There is no glibc wrapper for this system call; see NOTES.
-> >=20
-> > Yes, can we finally fix that please? It gets tedious having to endlessly
-> > copy/paste that thing around.
->=20
-> What exactly would you like fixed?
+acatovic@ubuntu:~/memdev$ ./malloc-prof
+Usage: ./malloc-prof -b <N bytes> -n <NUM> [-t <X KiB>] [-p <Y KiB>]
 
-Not having gettid() in glibc.
+   -b <N bytes>            Allocate a buffer of N bytes. Mandatory.
+   -n <NUM>                Perform NUM number of malloc()/free() operations. Mandatory.
+   -t <X KiB>              Set M_TRIM_THRESHOLD to X * 1024 bytes. See mallopt(3) for more info.
+   -p <Y KiB>              Set M_TOP_PAD to Y * 1024 bytes. See mallopt(3) for more info.
 
---Y8f0OdbJ4Wm/1jzW
-Content-Type: application/pgp-signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
+acatovic@ubuntu:~/memdev$ ./malloc-prof -b 4096 -n 1 -p 0 -t 0
+malloc_stats() BEFORE malloc():
+Arena 0:
+system bytes     =          0
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =          0
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats() AFTER malloc(), buflen=4096, num=1
+Arena 0:
+system bytes     =       8192
+in use bytes     =       4104
+Total (incl. mmap):
+system bytes     =       8192
+in use bytes     =       4104
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats AFTER free():
+Arena 0:
+system bytes     =       8192
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =       8192
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
 
-iQIcBAEBAgAGBQJTdL+bAAoJEHZH4aRLwOS6xloP/2+Dg9kFtmCHAJJNl4IJQBgj
-mmpDB/VgcRYQo0D2gKtaXwFeFhUJqR0SvWJIEA/wH5PXMG8ItJ5KvJ8DgBlp+IFT
-QTrFjwM2LaW/uoDn7T34ubtqUZHJYRJycgFEXIh1m/57CYH41svEEWukUMjf0vU0
-9ov0nmp3c3imJ8EYl9a2yudoH2IIL1bY+UNyYguMusPNCG42F2+nWttKhVhKzm5i
-oBHgrJjWF49DgHvykNswNj+cB1aeuNf93G9wGNkVZ0xiuFrAbZVCOYXECJT/M01R
-nxpMKeM9jWuIvhJEYZ6tcpqjkxkTjaa64fGHoIYgU7mXuVebs1ED6ia4W5398tjm
-nUGMrRPrRhy2YgHBlqvJN4b4R25kneVMQ0z2rV7utx5RqiDl60kjcl4K7yHfdisM
-JjxRuFOWhN1EgjyEDWCzaW7Ja8ns+SWhIDYfAL4VN7fCcS4G7jY+5pdurM5IxgU+
-7+HGgLkAeYqFhRpoC3s1TA7VuxMDXvUCc+YQeP9whs1XDtcznlPlelYBrPbbf9Pt
-oJpEhA/VnYKpmiV+CXLxJo5IwDYTJQj+ZHTe5KNSfHCwYe9zF2ytf+R1v+iz2Vy1
-hWXTopePCszGVQ50Ls/8kUkFhLY9HnTDEhy9YY0vkLikRUSFWd1P4Ng3dWg9Q+nC
-Q22G1Kj7iYiw701hMj2X
-=3HGs
------END PGP SIGNATURE-----
 
---Y8f0OdbJ4Wm/1jzW--
+acatovic@ubuntu:~/memdev$ ./malloc-prof -b 32768 -n 1 -p 0 -t 0
+malloc_stats() BEFORE malloc():
+Arena 0:
+system bytes     =          0
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =          0
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats() AFTER malloc(), buflen=32768, num=1
+Arena 0:
+system bytes     =      36864
+in use bytes     =      32776
+Total (incl. mmap):
+system bytes     =      36864
+in use bytes     =      32776
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats AFTER free():
+Arena 0:
+system bytes     =      36864
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =      36864
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
+
+
+acatovic@ubuntu:~/memdev$ ./malloc-prof -b 65536 -n 1 -p 0 -t 0
+malloc_stats() BEFORE malloc():
+Arena 0:
+system bytes     =          0
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =          0
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats() AFTER malloc(), buflen=65536, num=1
+Arena 0:
+system bytes     =      69632
+in use bytes     =      65544
+Total (incl. mmap):
+system bytes     =      69632
+in use bytes     =      65544
+max mmap regions =          0
+max mmap bytes   =          0
+malloc_stats AFTER free():
+Arena 0:
+system bytes     =       4096
+in use bytes     =          0
+Total (incl. mmap):
+system bytes     =       4096
+in use bytes     =          0
+max mmap regions =          0
+max mmap bytes   =          0
+
+
+
+Not sure what info you need, but this is the libc version:
+
+acatovic@ubuntu:~/memdev$ ldd malloc-prof
+     linux-gate.so.1 =>  (0xb7712000)
+     libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0xb7555000)
+     /lib/ld-linux.so.2 (0xb7713000)
+acatovic@ubuntu:~/memdev$ /lib/i386-linux-gnu/libc.so.6
+GNU C Library (Ubuntu EGLIBC 2.15-0ubuntu10.5) stable release version 2.15, by Roland McGrath et al.
+Copyright (C) 2012 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+Compiled by GNU CC version 4.6.3.
+Compiled on a Linux 3.2.50 system on 2013-09-30.
+Available extensions:
+     crypt add-on version 2.1 by Michael Glad and others
+     GNU Libidn by Simon Josefsson
+     Native POSIX Threads Library by Ulrich Drepper et al
+     BIND-8.2.3-T5B
+libc ABIs: UNIQUE IFUNC
+For bug reporting instructions, please see:
+<http://www.debian.org/Bugs/>.
+
+
+
+Regards,
+
+Armin Catovic
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
