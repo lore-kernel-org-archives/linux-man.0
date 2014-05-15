@@ -1,151 +1,55 @@
-From: Armin Catovic <armin.catovic-IzeFyvvaP7pWk0Htik3J/w@public.gmane.org>
-Subject: Minimum M_TRIM_THRESHOLD value for default linux glibc malloc
- implementation is 64 KiB?
-Date: Thu, 15 May 2014 13:33:21 +0000
-Message-ID: <0BC249219DEF854CB6667A1C7F8B18D222EA00D1@ESGSCMB101.ericsson.se>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: futex(2) man page update help request
+Date: Thu, 15 May 2014 15:46:51 +0200
+Message-ID: <5374C54B.7040408@gmail.com>
+References: <537346E5.4050407@gmail.com> <CF98E3EF.90564%dvhart@linux.intel.com> <537407ED.8050606@zytor.com> <CF999CD6.90A93%dvhart@linux.intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Language: en-US
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CF999CD6.90A93%dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+On 05/15/2014 07:21 AM, Darren Hart wrote:
+> On 5/14/14, 17:18, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org> wrote:
+> 
+>> On 05/14/2014 09:18 AM, Darren Hart wrote:
+>>>
+>>> However, unless I'm sorely mistaken, the larger problem is that glibc
+>>> removed the futex() call entirely, so these man pages don't describe
+>>> something users even have access to anymore. I had to revert to calling
+>>> the syscalls directly in the futextest test suite because of this:
+>>>
+>>>
+>>> http://git.kernel.org/cgit/linux/kernel/git/dvhart/futextest.git/tree/inc
+>>> lu
+>>> de/futextest.h#n67
+>>>
+>>
+>> This really comes down to the fact that we should have a libinux which
+>> contains the basic system call wrapper machinery for Linux specific
+>> things and nothing else.
+>>
+>> syscall(3) is toxic and breaks randomly on some platforms.
+> 
+> Peter Z and I have had a good time discussing this in the past.... And
+> here it is again. :-)
 
-Even if I set M_TRIM_THRESHOLD to 0, the lowest contiguous free block before the program break needs to be 64 KiB before it can be "trimmed". Is this a known fact, or am I doing something wrong here? I created a quick test program that calls malloc_stats (1) before any malloc operations, (2) after malloc of buflen bytes, and (3) after freeing the previously malloc-ed block. Here are some printouts.
+People have a number of times noted that there are problems
+with syscall(), but I'm not knowledgeable on the details.
+I'd happily take a patch to the man page (which, for historical
+reasons, is actually syscall(2)) that explains the the problems 
+(and ideally notes those platforms where there are no problems).
 
-acatovic@ubuntu:~/memdev$ ./malloc-prof
-Usage: ./malloc-prof -b <N bytes> -n <NUM> [-t <X KiB>] [-p <Y KiB>]
+Thanks,
 
-   -b <N bytes>            Allocate a buffer of N bytes. Mandatory.
-   -n <NUM>                Perform NUM number of malloc()/free() operations. Mandatory.
-   -t <X KiB>              Set M_TRIM_THRESHOLD to X * 1024 bytes. See mallopt(3) for more info.
-   -p <Y KiB>              Set M_TOP_PAD to Y * 1024 bytes. See mallopt(3) for more info.
-
-
-acatovic@ubuntu:~/memdev$ ./malloc-prof -b 4096 -n 1 -p 0 -t 0
-malloc_stats() BEFORE malloc():
-Arena 0:
-system bytes     =          0
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =          0
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats() AFTER malloc(), buflen=4096, num=1
-Arena 0:
-system bytes     =       8192
-in use bytes     =       4104
-Total (incl. mmap):
-system bytes     =       8192
-in use bytes     =       4104
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats AFTER free():
-Arena 0:
-system bytes     =       8192
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =       8192
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
+Michael
 
 
-acatovic@ubuntu:~/memdev$ ./malloc-prof -b 32768 -n 1 -p 0 -t 0
-malloc_stats() BEFORE malloc():
-Arena 0:
-system bytes     =          0
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =          0
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats() AFTER malloc(), buflen=32768, num=1
-Arena 0:
-system bytes     =      36864
-in use bytes     =      32776
-Total (incl. mmap):
-system bytes     =      36864
-in use bytes     =      32776
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats AFTER free():
-Arena 0:
-system bytes     =      36864
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =      36864
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
-
-
-acatovic@ubuntu:~/memdev$ ./malloc-prof -b 65536 -n 1 -p 0 -t 0
-malloc_stats() BEFORE malloc():
-Arena 0:
-system bytes     =          0
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =          0
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats() AFTER malloc(), buflen=65536, num=1
-Arena 0:
-system bytes     =      69632
-in use bytes     =      65544
-Total (incl. mmap):
-system bytes     =      69632
-in use bytes     =      65544
-max mmap regions =          0
-max mmap bytes   =          0
-malloc_stats AFTER free():
-Arena 0:
-system bytes     =       4096
-in use bytes     =          0
-Total (incl. mmap):
-system bytes     =       4096
-in use bytes     =          0
-max mmap regions =          0
-max mmap bytes   =          0
-
-
-
-Not sure what info you need, but this is the libc version:
-
-acatovic@ubuntu:~/memdev$ ldd malloc-prof
-     linux-gate.so.1 =>  (0xb7712000)
-     libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0xb7555000)
-     /lib/ld-linux.so.2 (0xb7713000)
-acatovic@ubuntu:~/memdev$ /lib/i386-linux-gnu/libc.so.6
-GNU C Library (Ubuntu EGLIBC 2.15-0ubuntu10.5) stable release version 2.15, by Roland McGrath et al.
-Copyright (C) 2012 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.
-There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.
-Compiled by GNU CC version 4.6.3.
-Compiled on a Linux 3.2.50 system on 2013-09-30.
-Available extensions:
-     crypt add-on version 2.1 by Michael Glad and others
-     GNU Libidn by Simon Josefsson
-     Native POSIX Threads Library by Ulrich Drepper et al
-     BIND-8.2.3-T5B
-libc ABIs: UNIQUE IFUNC
-For bug reporting instructions, please see:
-<http://www.debian.org/Bugs/>.
-
-
-
-Regards,
-
-Armin Catovic
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
