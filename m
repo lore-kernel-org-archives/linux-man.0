@@ -1,97 +1,61 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify_init.2: checking event_f_flags
-Date: Thu, 15 May 2014 19:35:44 +0200
-Message-ID: <1400175344-11599-1-git-send-email-xypron.glpk@gmx.de>
+From: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Subject: Re: futex(2) man page update help request
+Date: Thu, 15 May 2014 11:17:36 -0700
+Message-ID: <CF9A3A75.90F40%dvhart@linux.intel.com>
+References: <537346E5.4050407@gmail.com>
+ <CF98E3EF.90564%dvhart@linux.intel.com>
+ <20140515152834.GA6926@rei.Home>
+ <CF9A3521.90ECC%dvhart@linux.intel.com>
+ <20140515163004.GB7959@rei.Home>
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20140515163004.GB7959-HSzIOc4LzcM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: chrubis-AlSwsSmVLrQ@public.gmane.org
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-With a new patch included in the mm tree event_f_flags is checked for
-allowable values.
+On 5/15/14, 9:30, "chrubis-AlSwsSmVLrQ@public.gmane.org" <chrubis-AlSwsSmVLrQ@public.gmane.org> wrote:
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/fanotify_init.2 | 34 +++++++++++++++++++++++++++-------
- 1 file changed, 27 insertions(+), 7 deletions(-)
+>Hi!
+>> I've used LTP in the past (quite a bit), and I felt there was some
+>> advantage to keeping futextest independent.
+>
+>What advantages did you have in mind?
 
-diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-index 2cb2887..9e0a36c 100644
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -152,7 +152,9 @@ For details of these flags, see the description of the
- .I flags
- values in
- .BR open (2).
--Useful values are:
-+.I event_f_flags
-+comprises a multi-bit field for the access mode.
-+This field can take the following values:
- .TP
- .B O_RDONLY
- This value allows only read access.
-@@ -162,9 +164,10 @@ This value allows only write access.
- .TP
- .B O_RDWR
- This value allows read and write access.
--.TP
--.B O_CLOEXEC
--Enable the close-on-exec flag for the file descriptor.
-+.PP
-+Additional bits can be set in
-+.IR event_f_flags .
-+The most useful values are:
- .TP
- .B O_LARGEFILE
- Enable support for files exceeding 2 GB.
-@@ -172,6 +175,20 @@ Failing to set this flag will result in an
- .B EOVERFLOW
- error when trying to open a large file which is monitored by
- an fanotify group on a 32-bit system.
-+.TP
-+.B O_CLOEXEC
-+Enable the close-on-exec flag for the file descriptor.
-+.PP
-+The following are also allowable:
-+.BR O_APPEND ,
-+.BR O_DSYNC ,
-+.BR O_NOATIME ,
-+.BR O_NONBLOCK ,
-+and
-+.BR O_SYNC .
-+All other values will lead to an error
-+.B EINVAL
-+(but see BUGS).
- .SH RETURN VALUE
- On success,
- .BR fanotify_init ()
-@@ -183,9 +200,12 @@ is set to indicate the error.
- .TP
- .B EINVAL
- An invalid value was passed in
--.IR flags .
-+.I flags
-+or
-+.IR event_f_flags .
- .B FAN_ALL_INIT_FLAGS
--defines all allowable bits.
-+defines all allowable bits for
-+.IR flags .
- .TP
- .B EMFILE
- The number of fanotify groups for this user exceeds 128.
-@@ -213,7 +233,7 @@ This system call is Linux-specific.
- As of Linux 3.15,
- the following bug exists:
- .IP * 3
--.\" FIXME: Patch proposed.
-+.\" FIXME: Patch accepted to mm tree.
- The
- .I event_f_flags
- argument is not checked for invalid flags.
+Not CVS was a big one at the time ;-)
+
+OK, I don't mean to be disparaging here... But since you asked, back in
+'09 LTP had some test quality issues and I felt I could maintain futextest
+to a higher bar independently.
+
+>
+>> Perhaps things have changed enough since then (~2009 era) that we
+>> should reconsider.
+>
+>I've been working on LTP for a about three years now and we happen to do
+>quite a lot in that time. The most visible changes would be more proper
+>development practices (git, proper build system, code review, LKML
+>coding style, documentation, ...) and also huge number of fixes. Now we
+>are trying to catch up in coverage too.
+>
+>> We can discuss the pros/cons there if you like.
+>
+>I would love to :).
+
+Does LTP need to own the code, or can it incorporate existing projects and
+a sort of aggregator?
+
+How much LTP harness type code needs to be used?
+
 -- 
-2.0.0.rc0
+Darren Hart					Open Source Technology Center
+darren.hart-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org				            Intel Corporation
+
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
