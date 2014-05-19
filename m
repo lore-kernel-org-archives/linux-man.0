@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 10/20] inet_net_pton.3: srcfix, cfix
-Date: Tue, 20 May 2014 01:02:16 +0200
-Message-ID: <1400540546-25578-11-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 09/20] dl_iterate_phdr.3: tfix
+Date: Tue, 20 May 2014 01:02:15 +0200
+Message-ID: <1400540546-25578-10-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,34 +10,25 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Use a consistent style throughout the man-pages.
 ---
- man3/inet_net_pton.3 | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ man3/dl_iterate_phdr.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/inet_net_pton.3 b/man3/inet_net_pton.3
-index 8276012..340a849 100644
---- a/man3/inet_net_pton.3
-+++ b/man3/inet_net_pton.3
-@@ -37,8 +37,7 @@ inet_net_pton, inet_net_ntop \- Internet network number conversion
- .BI "                    char *" pres ", size_t " psize );
- .fi
- .sp
--Link with
--.IR \-lresolv .
-+Link with \fI\-lresolv\fP.
- .sp
- .in -4n
- Feature Test Macro Requirements for glibc (see
-@@ -331,7 +330,7 @@ Raw address:              c1a80180
- .in
- .SS Program source
- .nf
--/* Link with -lresolv */
-+/* Link with "\-lresolv" */
+diff --git a/man3/dl_iterate_phdr.3 b/man3/dl_iterate_phdr.3
+index d57bf66..be06d1f 100644
+--- a/man3/dl_iterate_phdr.3
++++ b/man3/dl_iterate_phdr.3
+@@ -32,8 +32,8 @@ dl_iterate_phdr \- walk through list of shared objects
  
- #include <arpa/inet.h>
- #include <stdio.h>
+ .BI "int dl_iterate_phdr("
+ .BI "          int (*" callback ") (struct dl_phdr_info *" info ,
+-.BI "                           size_t " size ", void *" data ,
+-.BI "          void *" data ;
++.BI "                           size_t " size ", void *" data "),"
++.BI "          void *" data ");"
+ .fi
+ .SH DESCRIPTION
+ The
 -- 
 1.9.2
 
