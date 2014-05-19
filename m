@@ -1,88 +1,77 @@
-From: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Improving PACKET_{RX,TX}_RING documentation
-Date: Mon, 19 May 2014 12:14:58 +0200
-Message-ID: <5379D9A2.1070008@redhat.com>
-References: <1400332406.2395.35.camel@actium.fritz.box> <53798E97.1000505@gmail.com>
+From: tip-bot for Peter Zijlstra <tipbot@zytor.com>
+Subject: [tip:sched/core]
+  peter_zijlstra-sched-change_sched_getparam_behaviour_vs_sched_deadline
+Date: Mon, 19 May 2014 06:06:52 -0700
+Message-ID: <tip-339d8f7bbf4a54fc09650b24ce505a4c04236bb3@git.kernel.org>
+References: <20140512205034.GH13467@laptop.programming.kicks-ass.net>
+Reply-To: mingo@kernel.org, hpa@zytor.com, linux-kernel@vger.kernel.org,
+	  peterz@infradead.org, raistlin@linux.it,
+	  linux-man@vger.kernel.org, tglx@linutronix.de,
+	  juri.lelli@gmail.com, mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53798E97.1000505-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, jbrouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20140512205034.GH13467@laptop.programming.kicks-ass.net>
+Content-Disposition: inline
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-tip-commits@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, hpa@zytor.com, mingo@kernel.org, peterz@infradead.org, raistlin@linux.it, linux-man@vger.kernel.org, tglx@linutronix.de, mtk.manpages@gmail.com, juri.lelli@gmail.com
 List-Id: linux-man@vger.kernel.org
 
-Hi Carsten,
+Commit-ID:  339d8f7bbf4a54fc09650b24ce505a4c04236bb3
+Gitweb:     http://git.kernel.org/tip/339d8f7bbf4a54fc09650b24ce505a4c04236bb3
+Author:     Peter Zijlstra <peterz@infradead.org>
+AuthorDate: Mon, 12 May 2014 22:50:34 +0200
+Committer:  Thomas Gleixner <tglx@linutronix.de>
+CommitDate: Mon, 19 May 2014 21:47:33 +0900
 
-On 05/19/2014 06:54 AM, Michael Kerrisk (man-pages) wrote:
-> On 05/17/2014 03:13 PM, Carsten Andrich wrote:
->> Hello again everyone,
->>
->> roughly 3 weeks ago the aftermath of an actually minor patch to fix an
->> inaccuracy in packet.7's PACKET_TX_RING-related documentation led me to
->> offer improving the entire PACKET_{RX,TX}_RING-documentation.
->> Since I do happen to have most of my spare time back by now, I'd like to
->> tackle this effort before I change my mind :)
->
-> Thanks for following up!
->
->> On 04/24/2014 12:21 PM, Michael Kerrisk (man-pages) wrote:
->>> I'd leave that plan largely to you. It sounds like Willem and
->>> Daniel are willing to help out.
->>
->> I'd like to start with getting packet.7's documentation of
->> PACKET_{RX,TX}_RING into a shape, that should allow most readers to
->> actually use it without consulting packet_mmap.txt. The latter can be
->> quite confusing for those unfamiliar with PACKET_{RX,TX}_RING.
->>
->> I plan to do the following to packet.7:
+peter_zijlstra-sched-change_sched_getparam_behaviour_vs_sched_deadline
 
-     0. Perhaps a general writeup on how the RX/TX_RING works in Linux,
-        it's layout, constraints etc. Btw, not sure if that's also
-        included already, but the same mmap-technique exists also for
-        netlink sockets.
+The way we read POSIX one should only call sched_getparam() when
+sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
 
->>       1. Increase detail of PACKET_{RX,TX}_RING socket options, including
->>          description of struct tpacket_hdr and anything else required to
->>          operate the ring.
->>       2. Move some details from other sockopts (e.g. PACKET_LOSS) into
->>          *_RING.
->>       3. Add fully functional example source code for simple
->>          PACKET_{RX,TX}_RING operation (initialization and operation).
->>          This may be as much as 3 different example programs if I
->>          incorporate [2] and [3] in an appropriate manner. It might be a
->>          good idea to add a non-*_RING example as well.
+Given that we currently return sched_param::sched_priority=0 for all
+others, extend the same behaviour to SCHED_DEADLINE.
 
-Yes, some examples for mmap RX, mmap TX, fanout, and perhaps TPACKET_V3
-might be great.
+Cc: stable@vger.kernel.org
+Cc: Dario Faggioli <raistlin@linux.it>
+Cc: linux-man <linux-man@vger.kernel.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Juri Lelli <juri.lelli@gmail.com>
+Requested-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
+Signed-off-by: Peter Zijlstra <peterz@infradead.org>
+Link: http://lkml.kernel.org/r/20140512205034.GH13467@laptop.programming.kicks-ass.net
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+---
+ kernel/sched/core.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
->>       4. Add a warning about inferior _TX_RING performance [1] which I
->>          suffered from only recently in the measurements I made for my
->>          thesis on Linux 3.14.
-
-Can you elaborate? Jesper made recently a nice summary on using trafgen
-which uses TX_RING internally:
-
-   http://netoptimizer.blogspot.ch/2014/04/trafgen-fast-packet-generator.html
-
->>       5. Other minor changes that'll come up while taking care of 1 thru
->>          4 :)
-
-Absolutely, perhaps explaining differences from TPACKET_V1 -> V3 API and the like.
-
->> Any suggestions regarding this rough course of action?
->
-> Well, I can't speak to the fine technical details, but the plan looks
-> rational to me. Perhaps Neil, Willem, or Daniel has a comment.
->
-> Just by the way, I suggest CCing netdeve-u79uwXL29TY76Z2rM5mHXA@public.gmane.org on all patches.
-> It may be that someone else also comments.
->
-> Cheers,
->
-> Michael
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index cdefcf7..f3f08bf 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -3713,7 +3713,7 @@ SYSCALL_DEFINE1(sched_getscheduler, pid_t, pid)
+  */
+ SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+ {
+-	struct sched_param lp;
++	struct sched_param lp = { .sched_priority = 0 };
+ 	struct task_struct *p;
+ 	int retval;
+ 
+@@ -3730,11 +3730,8 @@ SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+ 	if (retval)
+ 		goto out_unlock;
+ 
+-	if (task_has_dl_policy(p)) {
+-		retval = -EINVAL;
+-		goto out_unlock;
+-	}
+-	lp.sched_priority = p->rt_priority;
++	if (task_has_rt_policy(p))
++		lp.sched_priority = p->rt_priority;
+ 	rcu_read_unlock();
+ 
+ 	/*
