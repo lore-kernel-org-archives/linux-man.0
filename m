@@ -1,68 +1,331 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Improving PACKET_{RX,TX}_RING documentation
-Date: Mon, 19 May 2014 06:54:47 +0200
-Message-ID: <53798E97.1000505@gmail.com>
-References: <1400332406.2395.35.camel@actium.fritz.box>
+Subject: Re: [PATCH 1/1] inotify.7: add example
+Date: Mon, 19 May 2014 08:15:09 +0200
+Message-ID: <5379A16D.3070609@gmail.com>
+References: <1400429918-6824-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400332406.2395.35.camel-FQO4gtnRtnzkVFMGpb/cPg@public.gmane.org>
+In-Reply-To: <1400429918-6824-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Carsten,
+Hi Heinrich,
 
-On 05/17/2014 03:13 PM, Carsten Andrich wrote:
-> Hello again everyone,
+Thank you for proposing this. A few comments below.
+Could you integrate and resubmit, please.
+
+On 05/18/2014 06:18 PM, Heinrich Schuchardt wrote:
+> An example for the usage of the inotify API is provided.
 > 
-> roughly 3 weeks ago the aftermath of an actually minor patch to fix an
-> inaccuracy in packet.7's PACKET_TX_RING-related documentation led me to
-> offer improving the entire PACKET_{RX,TX}_RING-documentation.
-> Since I do happen to have most of my spare time back by now, I'd like to
-> tackle this effort before I change my mind :)
+> It shows the usage of inotify_init1(2),inotify_add_watch(2) as well as
 
-Thanks for following up!
+s/form/from/
 
-> On 04/24/2014 12:21 PM, Michael Kerrisk (man-pages) wrote:
->> I'd leave that plan largely to you. It sounds like Willem and
->> Daniel are willing to help out.
+> polling and reading form the inotify file descriptor.
+
 > 
-> I'd like to start with getting packet.7's documentation of
-> PACKET_{RX,TX}_RING into a shape, that should allow most readers to
-> actually use it without consulting packet_mmap.txt. The latter can be
-> quite confusing for those unfamiliar with PACKET_{RX,TX}_RING.
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man7/inotify.7 | 226 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 226 insertions(+)
 > 
-> I plan to do the following to packet.7:
->      1. Increase detail of PACKET_{RX,TX}_RING socket options, including
->         description of struct tpacket_hdr and anything else required to
->         operate the ring.
->      2. Move some details from other sockopts (e.g. PACKET_LOSS) into
->         *_RING.
->      3. Add fully functional example source code for simple
->         PACKET_{RX,TX}_RING operation (initialization and operation).
->         This may be as much as 3 different example programs if I
->         incorporate [2] and [3] in an appropriate manner. It might be a
->         good idea to add a non-*_RING example as well.
->      4. Add a warning about inferior _TX_RING performance [1] which I
->         suffered from only recently in the measurements I made for my
->         thesis on Linux 3.14.
->      5. Other minor changes that'll come up while taking care of 1 thru
->         4 :)
-> 
-> Any suggestions regarding this rough course of action?
+> diff --git a/man7/inotify.7 b/man7/inotify.7
+> index 8e848b2..a422eda 100644
+> --- a/man7/inotify.7
+> +++ b/man7/inotify.7
+> @@ -752,6 +752,232 @@ if the older had not yet been read)
+>  instead checked if the most recent event could be coalesced with the
+>  .I oldest
+>  unread event.
+> +.SH EXAMPLE
+> +The following program demonstrates the usage of the inotify API.
+> +It marks the directories passed as a command-line argument
 
-Well, I can't speak to the fine technical details, but the plan looks 
-rational to me. Perhaps Neil, Willem, or Daniel has a comment.
+s/a command-line argument/command-line arguments/
 
-Just by the way, I suggest CCing netdeve-u79uwXL29TY76Z2rM5mHXA@public.gmane.org on all patches.
-It may be that someone else also comments.
+> +and waits for events of type
+> +.BR IN_OPEN ,
+> +.BR IN_CLOSE_NOWRITE 
+> +and
+> +.BR IN_CLOSE_WRITE .
+> +.PP
+> +The following output was recorded while editing the file
+> +.I /home/user/temp/foo
+> +and listing directory
+> +.IR /tmp .
+> +Before the file and the directory were opened,
+> +.B IN_OPEN
+> +events occurred.
+> +After the file was closed, an
+> +.B IN_CLOSE_WRITE
+> +event occurred.
+> +After the directory was closed, an
+> +.B IN_CLOSE_NOWRITE
+> +event occurred.
+> +Execution of the program ended when the user pressed the ENTER key.
+> +.SS Example output
+> +.in +4n
+> +.nf
+> +$ ./inotify.7.example /tmp /home/user/temp
+> +Press enter key to terminate.
+> +Listening for events.
+> +IN_OPEN: /home/user/temp/foo [file]
+> +IN_CLOSE_WRITE: /home/user/temp/foo [file]
+> +IN_OPEN: /tmp/ [directory]
+> +IN_CLOSE_NOWRITE: /tmp/ [directory]
+> +
+> +Listening for events stopped.
+> +.fi
+> +.in
+> +.SS Program source
+> +.nf
+> +#include <errno.h>
+> +#include <malloc.h>
 
-Cheers,
+<malloc.h> is not needed.
+
+> +#include <poll.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/inotify.h>
+> +#include <unistd.h>
+> +
+> +/* Macros for looping over inotify events. */
+> +
+> +#define EVENT_LEN ( sizeof (struct inotify_event) )
+> +#define EVENT_OK(event, len) \\
+> +	((long)(len) >= (long)EVENT_LEN && \\
+> +	 (long)(len) >= (long)EVENT_LEN + (long)(event)\->len)
+> +#define EVENT_NEXT(event, len) \\
+> +	((len) \-= EVENT_LEN + (event)\->len, \\
+> +	 (struct inotify_event*)(((char *)(event)) + \\
+> +	 (event)\->len))
+
+I'm not so keen on these macros, for a number of reasons:
+
+* Why the casts to 'long'?
+
+* EVENT_LEN() just obscures things. Why not just use
+  sizeof(struct inotify_event) ?
+
+* EVENT_OK() is possibly useful (but broken, see next point),
+  inasmuch as it provides a sanity check that kernel developers
+  didn't do something silly, such as returning a partial buffer.
+  On the other hand, such a breakage would I think be detected
+  fairly quickly, so I'm not too convinced about the need for
+  the checks in this macro. Perhaps Robert and John have 
+  comments, if they are listening.
+
+* EVENT_LEN() (and EVENT_OK()) are broken. 'len' in the
+  structures returned by inotify reads is not the same as
+  'event_len' in the structures returned by fanotify reads.
+  In particular, for inotify, the offset to the next event is:
+
+        sizeof(struct inotify_event) + event->len;
+
+  And that form seems much more readable to me than adding a
+  macro to do the same thing.
+
+  (I was able to fairly quickly find breakages when I tested 
+  the program, because of this problem.)
+  
+> +/* Read all available inotify events from the file descriptor 'fd'
+> +   wd is the table of watch descriptors for the directories in argv
+> +   argc is the length of wd and argv
+> +   argv is the list of watched directories
+> +   Entry 0 of wd and argv is unused. */
+> +
+> +void
+
+s/void/static void/
+
+> +handle_events(int fd, int *wd, int argc, char* argv[])
+> +{
+> +    const struct inotify_event *event;
+> +    char buf[4096];
+> +    int i;
+> +    ssize_t len;
+> +
+> +    /* Loop while events can be read from inotify file descriptor. */
+> +
+> +    for(;;) {
+> +
+> +        /* Read some events. */
+> +
+> +        len = read(fd, (void *) &buf, sizeof(buf));
+> +        if (len == \-1 && errno != EAGAIN) {
+> +            perror("read");
+> +            exit(EXIT_FAILURE);
+> +        }
+> +
+> +        /* Check if end of available data reached. */
+
+I think here it might not hurt to have a comment noting that
+this catches also the EAGAIN case.
+
+> +
+> +        if (len <= 0)
+> +            break;
+> +
+> +        /* Point to the first event in the buffer. */
+> +
+> +        event = (struct inotify_event *) buf;
+> +
+> +        /* Loop over all events in the buffer. */
+> +
+> +        while(EVENT_OK(event, len)) {
+> +
+> +            /* Print event type. */
+> +
+> +            if (event\->mask & IN_OPEN)
+> +                printf("IN_OPEN: ");
+> +            if (event\->mask & IN_CLOSE_NOWRITE)
+> +                printf("IN_CLOSE_NOWRITE: ");
+> +            if (event\->mask & IN_CLOSE_WRITE)
+> +                printf("IN_CLOSE_WRITE: ");
+> +
+> +            /* Print the name of the watched directory. */
+> +
+> +            for(i = 1; i < argc; ++i) {
+> +                if(wd[i] == event\->wd)
+> +                    printf("%s/", argv[i]);
+> +            }
+> +
+> +            /* Print the name of the file. */
+> +
+> +            if (event\->len)
+> +                printf("%s", event\->name);
+> +
+> +            /* Print type of file system object. */
+
+s/file system/filesystem/
+
+> +
+> +            if (event\->mask & IN_ISDIR)
+> +                printf(" [directory]\\n");
+> +            else
+> +                printf(" [file]\\n");
+> +
+> +            event = EVENT_NEXT(event, len);
+> +        }
+> +    }
+> +}
+> +
+> +int
+> +main(int argc, char* argv[])
+> +{
+> +    char buf;
+> +    int fd, i, poll_num;
+> +    int *wd = NULL;
+
+Initializing wd here is unneeded.
+
+> +    nfds_t nfds;
+> +    struct pollfd fds[2];
+> +
+> +    if (argc < 2) {
+> +        printf("Usage: %s DIRECTORY [DIRECTORY ...]\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    printf("Press enter key to terminate.\\n");
+> +
+> +    /* Create the file descriptor for accessing the inotify API. */
+> +
+> +    fd = inotify_init1(IN_NONBLOCK);
+> +    if (fd == \-1) {
+> +        perror("inotify_init1");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /* Allocate memory for watch descriptors. */
+> +
+> +    wd = (int *) calloc(argc, sizeof(int));
+> +    if (wd == NULL) {
+> +        perror("calloc");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /* Mark directories for events
+> +       \- file was opened
+> +       \- file was closed */
+> +
+> +    for (i = 1; i < argc; i++) {
+> +        wd[i] = inotify_add_watch(fd, argv[i],
+> +                                  IN_OPEN | IN_CLOSE);
+> +        if (wd[i] == \-1) {
+> +            perror("inotify_add_watch");
+> +            exit(EXIT_FAILURE);
+> +        }
+> +    }
+> +
+> +    /* Prepare for polling. */
+> +
+> +    nfds = 2;
+> +
+> +    /* Console input. */
+> +
+> +    fds[0].fd = STDIN_FILENO;
+> +    fds[0].events = POLLIN;
+> +
+> +    /* Inotify input. */
+> +
+> +    fds[1].fd = fd;
+> +    fds[1].events = POLLIN;
+> +
+> +    /* This is the loop to wait for incoming events. */
+> +
+> +    printf("Listening for events.\\n");
+> +    while (1) {
+> +        poll_num = poll(fds, nfds, \-1);
+> +        if (poll_num == \-1) {
+> +            if (errno == EINTR)
+> +                continue;
+> +            perror("poll");
+> +            exit(EXIT_FAILURE);
+> +        }
+> +        if (poll_num > 0) {
+> +
+> +            if (fds[0].revents & POLLIN) {
+> +
+> +                /* Console input is available. Empty stdin and quit. */
+> +
+> +                while (read(STDIN_FILENO, &buf, 1) > 0 && buf != '\\n')
+> +                    continue;
+> +                break;
+> +            }
+> +            if (fds[1].revents & POLLIN) {
+> +
+> +                /* Inotify events are available. */
+> +                handle_events(fd, wd, argc, argv);
+> +            }
+> +        }
+> +    }
+> +
+> +    /* Close inotify file descriptor. */
+> +
+> +    close(fd);
+> +    free(wd);
+> +    printf("Listening for events stopped.\\n");
+> +    return EXIT_SUCCESS;
+
+I prefer "exit(...)" (it's the idiom used in most (all?)) man-pages example
+code).
+
+> +}
+> +.fi
+>  .SH SEE ALSO
+>  .BR inotifywait (1),
+>  .BR inotifywatch (1),
+
+Thanks,
 
 Michael
+
 
 
 -- 
