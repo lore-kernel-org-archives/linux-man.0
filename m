@@ -1,69 +1,92 @@
-From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Subject: Re: [PATCH] remap_file_pages.2: Not actually useful on real files.
-Date: Mon, 19 May 2014 09:31:55 -0700
-Message-ID: <CALCETrW=rw1foEJmhdKHLO+eZ9qTan20QJQbqra+x4__OyCQVg@mail.gmail.com>
-References: <5de30c3a21531919712fc7df213c18b46e521225.1355955125.git.luto@amacapital.net>
- <536B5221.60407@gmail.com> <20140508125032.GA24087@infradead.org>
- <CAKgNAkhPJ+w0Kur57bJeTOrLdgaLRebk9Yr0PsE4czqcGFudwQ@mail.gmail.com> <20140519144856.GA23758@infradead.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: OFD locks and deadlock detection
+Date: Mon, 19 May 2014 20:36:45 +0200
+Message-ID: <537A4F3D.7000401@gmail.com>
+References: <537A0495.60107@gmail.com> <20140519102802.16dee141@tlielax.poochiereds.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140519144856.GA23758-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+In-Reply-To: <20140519102802.16dee141-9yPaYZwiELC+kQycOl6kW4xkIHaj4LzF@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, May 19, 2014 at 7:48 AM, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
-> On Thu, May 08, 2014 at 03:29:32PM +0200, Michael Kerrisk (man-pages) wrote:
->> > I think the whole man page for remap_file_pages is a litt confusing I
->> > have to say, the concept of a VMA is purely kernel internal and doesn't
->> > really have a meaning for applications and thus shouldn't appear in a
->> > man page.
+On 05/19/2014 04:28 PM, Jeff Layton wrote:
+> On Mon, 19 May 2014 15:18:13 +0200
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> 
+>> Hi Jeff,
 >>
->> I agree it could be better. Do you have a suggested text?
->
-> Does the patch below look good?  I tries to explain it in user visible
-> behavior:
->
->
-> diff --git a/man2/remap_file_pages.2 b/man2/remap_file_pages.2
-> index 67251e3..716b911 100644
-> --- a/man2/remap_file_pages.2
-> +++ b/man2/remap_file_pages.2
-> @@ -46,8 +46,7 @@ The advantage of using
->  .BR remap_file_pages ()
->  over using repeated calls to
->  .BR mmap (2)
-> -is that the former approach does not require the kernel to create
-> -additional VMA (Virtual Memory Area) data structures.
-> +is that the kernel can implement it more efficiently.
->
->  To create a nonlinear mapping we perform the following steps:
->  .TP 3
-> @@ -160,11 +159,18 @@ Since Linux 2.6.23,
->  .BR remap_file_pages ()
->  creates non-linear mappings only
->  on in-memory file systems such as tmpfs, hugetlbfs or ramfs.
-> +
->  On filesystems with a backing store,
->  .BR remap_file_pages ()
->  is not much more efficient than using
->  .BR mmap (2)
->  to adjust which parts of the file are mapped to which addresses.
-> +
-> +Non-linear mappings created by
-> +.BR remap_file_pages ()
-> +do not count against the limit of memory mappings set in
-> +.I /proc/sys/vm/max_map_count
-> +unless the above mentioned emulation is used.
->  .SH SEE ALSO
->  .BR getpagesize (2),
->  .BR mmap (2),
+>> I just happened to notice :
+>>
+>>     commit 57b65325fe34ec4c917bc4e555144b4a94d9e1f7
+>>     Author: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>>     Date:   Mon Feb 3 12:13:09 2014 -0500
+>>
+>>         locks: skip deadlock detection on FL_FILE_PVT locks
+>>
+>> And then this thread:
+>>
+>>     http://thread.gmane.org/gmane.linux.file-systems/81318/focus=81327
+>>     From: Jeff Layton <jlayton <at> redhat.com>
+>>     Subject: [PATCH v5 13/14] locks: skip deadlock detection on FL_FILE_PVT locks
+>>     Date: 2014-01-09 14:19:46 GMT
+>>
+>> I think it's pretty important to document that. All implementations
+>> of traditional process-associated (.k.a. "POSIX") locks that I've ever 
+>> come across do detect deadlocks, so it's important to note that OFD locks 
+>> do not.
+>>
+>> I plan to add the following text to the fcntl(2) page:
+>>
+>> [[
+>> In the current implementation,
+>> no deadlock detection is performed for open file description locks.
+>> (This contrasts with process-associated record locks,
+>> for which the kernel does perform deadlock detection.)
+>> ]]
+>>
+>> Okay?
+>>
+>> cheers,
+>>
+>> Michael
+>>
+>>
+> 
+> (note: I'm no longer with Red Hat, so jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org no longer works)
 
-This could be misread as saying that, on real filesystems,
-remap_file_pages isn't more efficient but still avoids max_map_count.
-I think that this is not the case.
+Ahh -- okay. Caches cleared.
+
+> Sounds fine to me.
+
+Okay.
+
+> FWIW, the deadlock detection for process-associated record locks is
+> pretty worthless except in certain narrow circumstances.
+
+Can you say some more about that, please? Maybe there's something 
+worth putting into the man page. (Are there cases where deadlocks
+are not detected?)
+
+> At some point, we probably should have a discussion as to whether
+> deadlock detection is really something we want to keep. The current
+> implementation requires a global spinlock which has obvious
+> consequences for scalability.
+
+Could be tricky. I wonder if there's code out there that depends
+on deadlock detection.
+
+Cheers,
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
