@@ -1,61 +1,69 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [patch] fanotify.7: Fix description of FAN_EVENT_NEXT()
-Date: Mon, 19 May 2014 07:20:20 +0200
-Message-ID: <53799494.2080609@gmail.com>
+Subject: Re: Improving PACKET_{RX,TX}_RING documentation
+Date: Mon, 19 May 2014 06:54:47 +0200
+Message-ID: <53798E97.1000505@gmail.com>
+References: <1400332406.2395.35.camel@actium.fritz.box>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1400332406.2395.35.camel-FQO4gtnRtnzkVFMGpb/cPg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
+Hi Carsten,
 
-I realized that the description of FAN_EVENT_NEXT() is not quite correct.
-It does not update 'meta', but instead returns a pointer to the next
-structure. I tried also to add a bit more detail to the description.
-Does the following patch look okay to you?
+On 05/17/2014 03:13 PM, Carsten Andrich wrote:
+> Hello again everyone,
+> 
+> roughly 3 weeks ago the aftermath of an actually minor patch to fix an
+> inaccuracy in packet.7's PACKET_TX_RING-related documentation led me to
+> offer improving the entire PACKET_{RX,TX}_RING-documentation.
+> Since I do happen to have most of my spare time back by now, I'd like to
+> tackle this effort before I change my mind :)
+
+Thanks for following up!
+
+> On 04/24/2014 12:21 PM, Michael Kerrisk (man-pages) wrote:
+>> I'd leave that plan largely to you. It sounds like Willem and
+>> Daniel are willing to help out.
+> 
+> I'd like to start with getting packet.7's documentation of
+> PACKET_{RX,TX}_RING into a shape, that should allow most readers to
+> actually use it without consulting packet_mmap.txt. The latter can be
+> quite confusing for those unfamiliar with PACKET_{RX,TX}_RING.
+> 
+> I plan to do the following to packet.7:
+>      1. Increase detail of PACKET_{RX,TX}_RING socket options, including
+>         description of struct tpacket_hdr and anything else required to
+>         operate the ring.
+>      2. Move some details from other sockopts (e.g. PACKET_LOSS) into
+>         *_RING.
+>      3. Add fully functional example source code for simple
+>         PACKET_{RX,TX}_RING operation (initialization and operation).
+>         This may be as much as 3 different example programs if I
+>         incorporate [2] and [3] in an appropriate manner. It might be a
+>         good idea to add a non-*_RING example as well.
+>      4. Add a warning about inferior _TX_RING performance [1] which I
+>         suffered from only recently in the measurements I made for my
+>         thesis on Linux 3.14.
+>      5. Other minor changes that'll come up while taking care of 1 thru
+>         4 :)
+> 
+> Any suggestions regarding this rough course of action?
+
+Well, I can't speak to the fine technical details, but the plan looks 
+rational to me. Perhaps Neil, Willem, or Daniel has a comment.
+
+Just by the way, I suggest CCing netdeve-u79uwXL29TY76Z2rM5mHXA@public.gmane.org on all patches.
+It may be that someone else also comments.
 
 Cheers,
 
 Michael
 
-
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -309,13 +309,24 @@ against the length of the metadata structure and the
- field of the first metadata structure in the buffer.
- .TP
- .B FAN_EVENT_NEXT(meta, len)
--This macro sets the pointer
--.I meta
--to the next metadata structure using the length indicated in the
-+This macro uses the length indicated in the
- .I event_len
--field of the metadata structure and reduces the remaining length of the
--buffer
--.IR len .
-+field of the metadata structure pointed to by
-+.IR meta
-+to calculate the address of the next metadata structure that follows
-+.IR meta .
-+.I len
-+is the number of bytes of metadata that currently remain in the buffer.
-+The macro returns a pointer to the next metadata structure that follows
-+.IR meta ,
-+and reduces
-+.I len
-+by the number of bytes in the the metadata structure that
-+has been skipped over (i.e., it subtracts
-+.IR meta\->event_len
-+from
-+.IR len ).
-+.\"
- .SS Monitoring an fanotify file descriptor for events
- When an fanotify event occurs, the fanotify file descriptor indicates as
- readable when passed to
 
 -- 
 Michael Kerrisk
