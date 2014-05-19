@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 04/20] swapon.2: remove header from synopsis
-Date: Tue, 20 May 2014 01:02:10 +0200
-Message-ID: <1400540546-25578-5-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 03/20] remap_file_pages.2: Fix prototype
+Date: Tue, 20 May 2014 01:02:09 +0200
+Message-ID: <1400540546-25578-4-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,27 +10,25 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The <asm/page.h> header is not readily available, and the comment
-seems to indicate that it is for getting PAGE_SIZE. But it is never
-mentioned why one would need to know that, and it is in any case
-better obtained using sysconf(), provided by <unistd.h>.
+The pgoff argument has type size_t, not ssize_t (and in the kernel it
+is unsigned long).
 ---
- man2/swapon.2 | 2 --
- 1 file changed, 2 deletions(-)
+ man2/remap_file_pages.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/swapon.2 b/man2/swapon.2
-index 9ab380c..18f8655 100644
---- a/man2/swapon.2
-+++ b/man2/swapon.2
-@@ -40,8 +40,6 @@ swapon, swapoff \- start/stop swapping to file/device
- .SH SYNOPSIS
- .B #include <unistd.h>
- .br
--.B #include <asm/page.h>     /* to find PAGE_SIZE */
--.br
- .B #include <sys/swap.h>
+diff --git a/man2/remap_file_pages.2 b/man2/remap_file_pages.2
+index 50c6ce2..e7879fd 100644
+--- a/man2/remap_file_pages.2
++++ b/man2/remap_file_pages.2
+@@ -34,7 +34,7 @@ remap_file_pages \- create a nonlinear file mapping
+ .B #include <sys/mman.h>
  .sp
- .BI "int swapon(const char *" path ", int " swapflags );
+ .BI "int remap_file_pages(void *" addr ", size_t " size ", int " prot ,
+-.BI "                     ssize_t " pgoff ", int " flags );
++.BI "                     size_t " pgoff ", int " flags );
+ .fi
+ .SH DESCRIPTION
+ The
 -- 
 1.9.2
 
