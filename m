@@ -1,77 +1,59 @@
-From: tip-bot for Peter Zijlstra <tipbot@zytor.com>
-Subject: [tip:sched/core]
-  peter_zijlstra-sched-change_sched_getparam_behaviour_vs_sched_deadline
-Date: Mon, 19 May 2014 06:06:52 -0700
-Message-ID: <tip-339d8f7bbf4a54fc09650b24ce505a4c04236bb3@git.kernel.org>
-References: <20140512205034.GH13467@laptop.programming.kicks-ass.net>
-Reply-To: mingo@kernel.org, hpa@zytor.com, linux-kernel@vger.kernel.org,
-	  peterz@infradead.org, raistlin@linux.it,
-	  linux-man@vger.kernel.org, tglx@linutronix.de,
-	  juri.lelli@gmail.com, mtk.manpages@gmail.com
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: OFD locks and deadlock detection
+Date: Mon, 19 May 2014 15:18:13 +0200
+Message-ID: <537A0495.60107@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <20140512205034.GH13467@laptop.programming.kicks-ass.net>
-Content-Disposition: inline
-Sender: linux-kernel-owner@vger.kernel.org
-To: linux-tip-commits@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, hpa@zytor.com, mingo@kernel.org, peterz@infradead.org, raistlin@linux.it, linux-man@vger.kernel.org, tglx@linutronix.de, mtk.manpages@gmail.com, juri.lelli@gmail.com
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Commit-ID:  339d8f7bbf4a54fc09650b24ce505a4c04236bb3
-Gitweb:     http://git.kernel.org/tip/339d8f7bbf4a54fc09650b24ce505a4c04236bb3
-Author:     Peter Zijlstra <peterz@infradead.org>
-AuthorDate: Mon, 12 May 2014 22:50:34 +0200
-Committer:  Thomas Gleixner <tglx@linutronix.de>
-CommitDate: Mon, 19 May 2014 21:47:33 +0900
+Hi Jeff,
 
-peter_zijlstra-sched-change_sched_getparam_behaviour_vs_sched_deadline
+I just happened to notice :
 
-The way we read POSIX one should only call sched_getparam() when
-sched_getscheduler() returns either SCHED_FIFO or SCHED_RR.
+    commit 57b65325fe34ec4c917bc4e555144b4a94d9e1f7
+    Author: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+    Date:   Mon Feb 3 12:13:09 2014 -0500
 
-Given that we currently return sched_param::sched_priority=0 for all
-others, extend the same behaviour to SCHED_DEADLINE.
+        locks: skip deadlock detection on FL_FILE_PVT locks
 
-Cc: stable@vger.kernel.org
-Cc: Dario Faggioli <raistlin@linux.it>
-Cc: linux-man <linux-man@vger.kernel.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Juri Lelli <juri.lelli@gmail.com>
-Requested-by: Michael Kerrisk <mtk.manpages@gmail.com>
-Acked-by: Michael Kerrisk <mtk.manpages@gmail.com>
-Signed-off-by: Peter Zijlstra <peterz@infradead.org>
-Link: http://lkml.kernel.org/r/20140512205034.GH13467@laptop.programming.kicks-ass.net
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
----
- kernel/sched/core.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+And then this thread:
 
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index cdefcf7..f3f08bf 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3713,7 +3713,7 @@ SYSCALL_DEFINE1(sched_getscheduler, pid_t, pid)
-  */
- SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
- {
--	struct sched_param lp;
-+	struct sched_param lp = { .sched_priority = 0 };
- 	struct task_struct *p;
- 	int retval;
- 
-@@ -3730,11 +3730,8 @@ SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
- 	if (retval)
- 		goto out_unlock;
- 
--	if (task_has_dl_policy(p)) {
--		retval = -EINVAL;
--		goto out_unlock;
--	}
--	lp.sched_priority = p->rt_priority;
-+	if (task_has_rt_policy(p))
-+		lp.sched_priority = p->rt_priority;
- 	rcu_read_unlock();
- 
- 	/*
+    http://thread.gmane.org/gmane.linux.file-systems/81318/focus=81327
+    From: Jeff Layton <jlayton <at> redhat.com>
+    Subject: [PATCH v5 13/14] locks: skip deadlock detection on FL_FILE_PVT locks
+    Date: 2014-01-09 14:19:46 GMT
+
+I think it's pretty important to document that. All implementations
+of traditional process-associated (.k.a. "POSIX") locks that I've ever 
+come across do detect deadlocks, so it's important to note that OFD locks 
+do not.
+
+I plan to add the following text to the fcntl(2) page:
+
+[[
+In the current implementation,
+no deadlock detection is performed for open file description locks.
+(This contrasts with process-associated record locks,
+for which the kernel does perform deadlock detection.)
+]]
+
+Okay?
+
+cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
