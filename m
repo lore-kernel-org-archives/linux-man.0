@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 02/20] set_mempolicy.2: Fix prototype for set_mempolicy(2)
-Date: Tue, 20 May 2014 01:02:08 +0200
-Message-ID: <1400540546-25578-3-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 06/20] argz_*: Fix prototypes
+Date: Tue, 20 May 2014 01:02:12 +0200
+Message-ID: <1400540546-25578-7-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,26 +10,34 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The nodemask argument is const. The return type in numaif.h is long.
+Update the prototypes of argz_{delete,extract,next} to agree with
+glibc headers and manual.
 ---
- man2/set_mempolicy.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/argz_add.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
-index 843208c..b17cf30 100644
---- a/man2/set_mempolicy.2
-+++ b/man2/set_mempolicy.2
-@@ -31,8 +31,8 @@ set_mempolicy \- set default NUMA memory policy for a process and its children
- .nf
- .B "#include <numaif.h>"
+diff --git a/man3/argz_add.3 b/man3/argz_add.3
+index 3d07fc0..a28f9e2 100644
+--- a/man3/argz_add.3
++++ b/man3/argz_add.3
+@@ -33,14 +33,14 @@ argz_next, argz_replace, argz_stringify \- functions to handle an argz list
+ .BI "error_t argz_create_sep(const char *" str ", int " sep ", char **" argz ,
+ .BI "                     size_t *" argz_len );
  .sp
--.BI "int set_mempolicy(int " mode ", unsigned long *" nodemask ,
--.BI "                  unsigned long " maxnode );
-+.BI "long set_mempolicy(int " mode ", const unsigned long *" nodemask ,
-+.BI "                   unsigned long " maxnode );
+-.BI "error_t argz_delete(char **" argz ", size_t *" argz_len ", char *" entry );
++.BI "void argz_delete(char **" argz ", size_t *" argz_len ", char *" entry );
  .sp
- Link with \fI\-lnuma\fP.
- .fi
+-.BI "void argz_extract(char *" argz ", size_t " argz_len ", char  **" argv );
++.BI "void argz_extract(const char *" argz ", size_t " argz_len ", char  **" argv );
+ .sp
+ .BI "error_t argz_insert(char **" argz ", size_t *" argz_len ", char *" before ,
+ .BI "                     const char *" entry );
+ .sp
+-.BI "char *argz_next(char *" argz ", size_t " argz_len ", const char *" entry );
++.BI "char *argz_next(const char *" argz ", size_t " argz_len ", const char *" entry );
+ .sp
+ .BI "error_t argz_replace(char **" argz ", size_t *" argz_len \
+ ", const char *" str ,
 -- 
 1.9.2
 
