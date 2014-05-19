@@ -1,43 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fallocate.2: ffix
-Date: Mon, 19 May 2014 06:51:09 +0200
-Message-ID: <53798DBD.90105@gmail.com>
-References: <1400430482-25427-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] pthread_sigmask.3: ATTRIBUTES: Note function that is
+ thread-safe
+Date: Mon, 19 May 2014 06:50:38 +0200
+Message-ID: <53798D9E.4090609@gmail.com>
+References: <1400470005-21741-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400430482-25427-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1400470005-21741-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Simon. Applied.
+Thank you, Haitao. Applied.
 
 Cheers,
 
 Michael
 
 
-On 05/18/2014 06:28 PM, Simon Paillard wrote:
-> ---
->  man2/fallocate.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 05/19/2014 05:26 AM, Peng Haitao wrote:
+> The function pthread_sigmask() is thread safe.
 > 
-> diff --git a/man2/fallocate.2 b/man2/fallocate.2
-> index a29d7df..fa2703c 100644
-> --- a/man2/fallocate.2
-> +++ b/man2/fallocate.2
-> @@ -290,7 +290,7 @@ no other flags are permitted with
->  is
->  .BR FALLOC_FL_COLLAPSE_RANGE
->  or
-> -.BR FALLOC_FL_ZERO_RANGE,
-> +.BR FALLOC_FL_ZERO_RANGE ,
->  but the file referred to by
->  .I fd
->  is not a regular file.
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/pthread_sigmask.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
+> index f608fd7..c8d73a0 100644
+> --- a/man3/pthread_sigmask.3
+> +++ b/man3/pthread_sigmask.3
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH PTHREAD_SIGMASK 3 2014-02-04 "Linux" "Linux Programmer's Manual"
+> +.TH PTHREAD_SIGMASK 3 2014-05-19 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  pthread_sigmask \- examine and change mask of blocked signals
+>  .SH SYNOPSIS
+> @@ -66,6 +66,11 @@ on error, it returns an error number.
+>  .SH ERRORS
+>  See
+>  .BR sigprocmask (2).
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR pthread_sigmask ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
