@@ -1,59 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_setschedprio.3: ATTRIBUTES: Note function that
- is thread-safe
-Date: Mon, 19 May 2014 06:50:16 +0200
-Message-ID: <53798D88.1090809@gmail.com>
-References: <1400465420-18027-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] fallocate.2: ffix
+Date: Mon, 19 May 2014 06:51:09 +0200
+Message-ID: <53798DBD.90105@gmail.com>
+References: <1400430482-25427-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400465420-18027-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1400430482-25427-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thank you, Haitao. Applied.
+Thanks, Simon. Applied.
 
 Cheers,
 
 Michael
 
 
-On 05/19/2014 04:10 AM, Peng Haitao wrote:
-> The function pthread_setschedprio() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 05/18/2014 06:28 PM, Simon Paillard wrote:
 > ---
->  man3/pthread_setschedprio.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  man2/fallocate.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/pthread_setschedprio.3 b/man3/pthread_setschedprio.3
-> index 6910f60..334c456 100644
-> --- a/man3/pthread_setschedprio.3
-> +++ b/man3/pthread_setschedprio.3
-> @@ -23,7 +23,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH PTHREAD_SETSCHEDPRIO 3 2008-11-06 "Linux" "Linux Programmer's Manual"
-> +.TH PTHREAD_SETSCHEDPRIO 3 2014-05-19 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  pthread_setschedprio \- set scheduling priority of a thread
->  .SH SYNOPSIS
-> @@ -80,6 +80,11 @@ to an unsupported value") error for
->  .BR pthread_setschedparam (3).
->  .SH VERSIONS
->  This function is available in glibc since version 2.3.4.
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR pthread_setschedprio ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+> diff --git a/man2/fallocate.2 b/man2/fallocate.2
+> index a29d7df..fa2703c 100644
+> --- a/man2/fallocate.2
+> +++ b/man2/fallocate.2
+> @@ -290,7 +290,7 @@ no other flags are permitted with
+>  is
+>  .BR FALLOC_FL_COLLAPSE_RANGE
+>  or
+> -.BR FALLOC_FL_ZERO_RANGE,
+> +.BR FALLOC_FL_ZERO_RANGE ,
+>  but the file referred to by
+>  .I fd
+>  is not a regular file.
 > 
 
 
