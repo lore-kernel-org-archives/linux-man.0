@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 13/20] fseek.3: fix prototype
-Date: Tue, 20 May 2014 01:02:19 +0200
-Message-ID: <1400540546-25578-14-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 14/20] gcvt.3: fix prototype
+Date: Tue, 20 May 2014 01:02:20 +0200
+Message-ID: <1400540546-25578-15-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,24 +10,24 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The pos argument to fsetpos() is const.
+The ndigit paramenter to gcvt() has type int.
 ---
- man3/fseek.3 | 2 +-
+ man3/gcvt.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/fseek.3 b/man3/fseek.3
-index f46ee82..c22a2c2 100644
---- a/man3/fseek.3
-+++ b/man3/fseek.3
-@@ -53,7 +53,7 @@ fgetpos, fseek, fsetpos, ftell, rewind \- reposition a stream
- 
- .BI "int fgetpos(FILE *" stream ", fpos_t *" pos );
- .br
--.BI "int fsetpos(FILE *" stream ", fpos_t *" pos );
-+.BI "int fsetpos(FILE *" stream ", const fpos_t *" pos );
- .SH DESCRIPTION
- The
- .BR fseek ()
+diff --git a/man3/gcvt.3 b/man3/gcvt.3
+index 2d7049b..77d910a 100644
+--- a/man3/gcvt.3
++++ b/man3/gcvt.3
+@@ -34,7 +34,7 @@ gcvt \- convert a floating-point number to a string
+ .nf
+ .B #include <stdlib.h>
+ .sp
+-.BI "char *gcvt(double " number ", size_t " ndigit ", char *" buf );
++.BI "char *gcvt(double " number ", int " ndigit ", char *" buf );
+ .fi
+ .sp
+ .in -4n
 -- 
 1.9.2
 
