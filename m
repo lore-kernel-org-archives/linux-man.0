@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 01/20] open.2: spfix
-Date: Tue, 20 May 2014 01:02:07 +0200
-Message-ID: <1400540546-25578-2-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 02/20] set_mempolicy.2: Fix prototype for set_mempolicy(2)
+Date: Tue, 20 May 2014 01:02:08 +0200
+Message-ID: <1400540546-25578-3-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,23 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+The nodemask argument is const. The return type in numaif.h is long.
 ---
- man2/open.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/set_mempolicy.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/open.2 b/man2/open.2
-index 35061c3..d22bb1b 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -717,7 +717,7 @@ as described above).
- requires support by the underlying filesystem;
- only a subset of Linux filesystems provide that support.
- In the initial implementation, support was provided in
--the ex2, ext3, ext4, UDF, Minix, and shmem filesystems.
-+the ext2, ext3, ext4, UDF, Minix, and shmem filesystems.
- XFS support was added
- .\" commit 99b6436bc29e4f10e4388c27a3e4810191cc4788
- .\" commit ab29743117f9f4c22ac44c13c1647fb24fb2bafe
+diff --git a/man2/set_mempolicy.2 b/man2/set_mempolicy.2
+index 843208c..b17cf30 100644
+--- a/man2/set_mempolicy.2
++++ b/man2/set_mempolicy.2
+@@ -31,8 +31,8 @@ set_mempolicy \- set default NUMA memory policy for a process and its children
+ .nf
+ .B "#include <numaif.h>"
+ .sp
+-.BI "int set_mempolicy(int " mode ", unsigned long *" nodemask ,
+-.BI "                  unsigned long " maxnode );
++.BI "long set_mempolicy(int " mode ", const unsigned long *" nodemask ,
++.BI "                   unsigned long " maxnode );
+ .sp
+ Link with \fI\-lnuma\fP.
+ .fi
 -- 
 1.9.2
 
