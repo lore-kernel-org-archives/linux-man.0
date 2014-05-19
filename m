@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 11/20] envz_add.3: fix prototypes
-Date: Tue, 20 May 2014 01:02:17 +0200
-Message-ID: <1400540546-25578-12-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 12/20] fpathconf.3: fix prototype
+Date: Tue, 20 May 2014 01:02:18 +0200
+Message-ID: <1400540546-25578-13-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,29 +10,24 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The envz_len parameters for envz_entry() and envz_get() are not passed
-by reference.
+The path argument to pathconf() is const.
 ---
- man3/envz_add.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/fpathconf.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/envz_add.3 b/man3/envz_add.3
-index cb85833..de388af 100644
---- a/man3/envz_add.3
-+++ b/man3/envz_add.3
-@@ -18,10 +18,10 @@ envz_remove, envz_strip \- environment string support
- .BI "error_t envz_add(char **" envz ", size_t *" envz_len ,
- .BI "                 const char *" name ", const char *" value );
- 
--.BI "char *envz_entry(const char *" envz ", size_t *" envz_len \
-+.BI "char *envz_entry(const char *" envz ", size_t " envz_len \
- ", const char *" name );
- 
--.BI "char *envz_get(const char *" envz ", size_t *" envz_len \
-+.BI "char *envz_get(const char *" envz ", size_t " envz_len \
- ", const char *" name );
- 
- .BI "error_t envz_merge(char **" envz ", size_t *" envz_len ,
+diff --git a/man3/fpathconf.3 b/man3/fpathconf.3
+index d8d9a1b..0e46f31 100644
+--- a/man3/fpathconf.3
++++ b/man3/fpathconf.3
+@@ -47,7 +47,7 @@ fpathconf, pathconf \- get configuration values for files
+ .sp
+ .BI "long fpathconf(int " fd ", int " name );
+ .br
+-.BI "long pathconf(char *" path ", int " name );
++.BI "long pathconf(const char *" path ", int " name );
+ .fi
+ .SH DESCRIPTION
+ .BR fpathconf ()
 -- 
 1.9.2
 
