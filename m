@@ -1,61 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_sigmask.3: ATTRIBUTES: Note function that is
- thread-safe
-Date: Mon, 19 May 2014 06:50:38 +0200
-Message-ID: <53798D9E.4090609@gmail.com>
-References: <1400470005-21741-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [patch] fanotify.7: Fix description of FAN_EVENT_NEXT()
+Date: Mon, 19 May 2014 07:20:20 +0200
+Message-ID: <53799494.2080609@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400470005-21741-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thank you, Haitao. Applied.
+Hi Heinrich,
+
+I realized that the description of FAN_EVENT_NEXT() is not quite correct.
+It does not update 'meta', but instead returns a pointer to the next
+structure. I tried also to add a bit more detail to the description.
+Does the following patch look okay to you?
 
 Cheers,
 
 Michael
 
 
-On 05/19/2014 05:26 AM, Peng Haitao wrote:
-> The function pthread_sigmask() is thread safe.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/pthread_sigmask.3 | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
-> index f608fd7..c8d73a0 100644
-> --- a/man3/pthread_sigmask.3
-> +++ b/man3/pthread_sigmask.3
-> @@ -23,7 +23,7 @@
->  .\" the source, must acknowledge the copyright and authors of this work.
->  .\" %%%LICENSE_END
->  .\"
-> -.TH PTHREAD_SIGMASK 3 2014-02-04 "Linux" "Linux Programmer's Manual"
-> +.TH PTHREAD_SIGMASK 3 2014-05-19 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  pthread_sigmask \- examine and change mask of blocked signals
->  .SH SYNOPSIS
-> @@ -66,6 +66,11 @@ on error, it returns an error number.
->  .SH ERRORS
->  See
->  .BR sigprocmask (2).
-> +.SH ATTRIBUTES
-> +.SS Multithreading (see pthreads(7))
-> +The
-> +.BR pthread_sigmask ()
-> +function is thread-safe.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
-> 
-
+--- a/man7/fanotify.7
++++ b/man7/fanotify.7
+@@ -309,13 +309,24 @@ against the length of the metadata structure and the
+ field of the first metadata structure in the buffer.
+ .TP
+ .B FAN_EVENT_NEXT(meta, len)
+-This macro sets the pointer
+-.I meta
+-to the next metadata structure using the length indicated in the
++This macro uses the length indicated in the
+ .I event_len
+-field of the metadata structure and reduces the remaining length of the
+-buffer
+-.IR len .
++field of the metadata structure pointed to by
++.IR meta
++to calculate the address of the next metadata structure that follows
++.IR meta .
++.I len
++is the number of bytes of metadata that currently remain in the buffer.
++The macro returns a pointer to the next metadata structure that follows
++.IR meta ,
++and reduces
++.I len
++by the number of bytes in the the metadata structure that
++has been skipped over (i.e., it subtracts
++.IR meta\->event_len
++from
++.IR len ).
++.\"
+ .SS Monitoring an fanotify file descriptor for events
+ When an fanotify event occurs, the fanotify file descriptor indicates as
+ readable when passed to
 
 -- 
 Michael Kerrisk
