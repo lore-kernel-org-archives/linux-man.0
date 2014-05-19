@@ -1,92 +1,83 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: OFD locks and deadlock detection
-Date: Mon, 19 May 2014 20:36:45 +0200
-Message-ID: <537A4F3D.7000401@gmail.com>
-References: <537A0495.60107@gmail.com> <20140519102802.16dee141@tlielax.poochiereds.net>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [patch] fanotify.7: Fix description of FAN_EVENT_NEXT()
+Date: Mon, 19 May 2014 20:58:28 +0200
+Message-ID: <537A5454.2040707@gmx.de>
+References: <53799494.2080609@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140519102802.16dee141-9yPaYZwiELC+kQycOl6kW4xkIHaj4LzF@public.gmane.org>
+In-Reply-To: <53799494.2080609-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/19/2014 04:28 PM, Jeff Layton wrote:
-> On Mon, 19 May 2014 15:18:13 +0200
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> 
->> Hi Jeff,
->>
->> I just happened to notice :
->>
->>     commit 57b65325fe34ec4c917bc4e555144b4a94d9e1f7
->>     Author: Jeff Layton <jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->>     Date:   Mon Feb 3 12:13:09 2014 -0500
->>
->>         locks: skip deadlock detection on FL_FILE_PVT locks
->>
->> And then this thread:
->>
->>     http://thread.gmane.org/gmane.linux.file-systems/81318/focus=81327
->>     From: Jeff Layton <jlayton <at> redhat.com>
->>     Subject: [PATCH v5 13/14] locks: skip deadlock detection on FL_FILE_PVT locks
->>     Date: 2014-01-09 14:19:46 GMT
->>
->> I think it's pretty important to document that. All implementations
->> of traditional process-associated (.k.a. "POSIX") locks that I've ever 
->> come across do detect deadlocks, so it's important to note that OFD locks 
->> do not.
->>
->> I plan to add the following text to the fcntl(2) page:
->>
->> [[
->> In the current implementation,
->> no deadlock detection is performed for open file description locks.
->> (This contrasts with process-associated record locks,
->> for which the kernel does perform deadlock detection.)
->> ]]
->>
->> Okay?
->>
->> cheers,
->>
->> Michael
->>
->>
-> 
-> (note: I'm no longer with Red Hat, so jlayton-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org no longer works)
+Hello Michael,
 
-Ahh -- okay. Caches cleared.
+the proposed new description of FAN_EVENT_NEXT is correct.
 
-> Sounds fine to me.
+Should FAN_EVENT_METADATA_LEN also be put into the section with macros?
 
-Okay.
+.B FAN_EVENT_METADATA_LEN
+This macro returns the size of structure
+.I fanotify_event_metadata
+in bytes.
+This is the minimum size (and currently the only size) of any event 
+metadata.
 
-> FWIW, the deadlock detection for process-associated record locks is
-> pretty worthless except in certain narrow circumstances.
+Best regards
 
-Can you say some more about that, please? Maybe there's something 
-worth putting into the man page. (Are there cases where deadlocks
-are not detected?)
+Heinrich
 
-> At some point, we probably should have a discussion as to whether
-> deadlock detection is really something we want to keep. The current
-> implementation requires a global spinlock which has obvious
-> consequences for scalability.
+On 19.05.2014 07:20, Michael Kerrisk (man-pages) wrote:
+> Hi Heinrich,
+>
+> I realized that the description of FAN_EVENT_NEXT() is not quite correct.
+> It does not update 'meta', but instead returns a pointer to the next
+> structure. I tried also to add a bit more detail to the description.
+> Does the following patch look okay to you?
+>
+> Cheers,
+>
+> Michael
+>
+>
+> --- a/man7/fanotify.7
+> +++ b/man7/fanotify.7
+> @@ -309,13 +309,24 @@ against the length of the metadata structure and the
+>   field of the first metadata structure in the buffer.
+>   .TP
+>   .B FAN_EVENT_NEXT(meta, len)
+> -This macro sets the pointer
+> -.I meta
+> -to the next metadata structure using the length indicated in the
+> +This macro uses the length indicated in the
+>   .I event_len
+> -field of the metadata structure and reduces the remaining length of the
+> -buffer
+> -.IR len .
+> +field of the metadata structure pointed to by
+> +.IR meta
+> +to calculate the address of the next metadata structure that follows
+> +.IR meta .
+> +.I len
+> +is the number of bytes of metadata that currently remain in the buffer.
+> +The macro returns a pointer to the next metadata structure that follows
+> +.IR meta ,
+> +and reduces
+> +.I len
+> +by the number of bytes in the the metadata structure that
+> +has been skipped over (i.e., it subtracts
+> +.IR meta\->event_len
+> +from
+> +.IR len ).
+> +.\"
+>   .SS Monitoring an fanotify file descriptor for events
+>   When an fanotify event occurs, the fanotify file descriptor indicates as
+>   readable when passed to
+>
 
-Could be tricky. I wonder if there's code out there that depends
-on deadlock detection.
-
-Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
