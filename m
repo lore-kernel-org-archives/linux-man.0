@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 16/20] getnameinfo.3: fix prototype
-Date: Tue, 20 May 2014 01:02:22 +0200
-Message-ID: <1400540546-25578-17-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 15/20] getaddrinfo_a.3: fix prototype
+Date: Tue, 20 May 2014 01:02:21 +0200
+Message-ID: <1400540546-25578-16-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,27 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The hostlen and servlen parameters to getnameinfo() have type
-socklet_t.
+The pointer arguments to gai_suspend() are const.
 ---
- man3/getnameinfo.3 | 4 ++--
+ man3/getaddrinfo_a.3 | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
-index db72bd7..16c8d4f 100644
---- a/man3/getnameinfo.3
-+++ b/man3/getnameinfo.3
-@@ -16,8 +16,8 @@ getnameinfo \- address-to-name translation in protocol-independent manner
- .B #include <netdb.h>
+diff --git a/man3/getaddrinfo_a.3 b/man3/getaddrinfo_a.3
+index 768fc97..1873307 100644
+--- a/man3/getaddrinfo_a.3
++++ b/man3/getaddrinfo_a.3
+@@ -38,8 +38,8 @@ network address and service translation
+ .BI "int getaddrinfo_a(int " "mode" ", struct gaicb *" "list[]" ,
+ .BI "                int " "nitems" ", struct sigevent *" "sevp" );
  .sp
- .BI "int getnameinfo(const struct sockaddr *" "sa" ", socklen_t " "salen" ,
--.BI "                char *" "host" ", size_t " "hostlen" ,
--.BI "                char *" "serv" ", size_t " "servlen" ", int " "flags" );
-+.BI "                char *" "host" ", socklen_t " "hostlen" ,
-+.BI "                char *" "serv" ", socklen_t " "servlen" ", int " "flags" );
- .fi
+-.BI "int gai_suspend(struct gaicb *" "list[]" ", int " "nitems" ,
+-.BI "                struct timespec *" "timeout" );
++.BI "int gai_suspend(const struct gaicb * const " "list[]" ", int " "nitems" ,
++.BI "                const struct timespec *" "timeout" );
  .sp
- .in -4n
+ .BI "int gai_error(struct gaicb *" "req" );
+ .sp
 -- 
 1.9.2
 
