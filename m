@@ -1,63 +1,32 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 00/20] More prototype fixes
-Date: Tue, 20 May 2014 01:02:06 +0200
-Message-ID: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 01/20] open.2: spfix
+Date: Tue, 20 May 2014 01:02:07 +0200
+Message-ID: <1400540546-25578-2-git-send-email-rv@rasmusvillemoes.dk>
+References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1400540546-25578-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The previously mentioned perl script can also be applied to the man3
-pages. This round of patches comes mostly from applying it to
-man3/[a-g].*, but I've also included other stuff I've stumbled across.
+---
+ man2/open.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The perl script itself follows soon.
-
-Rasmus Villemoes (20):
-  open.2: spfix
-  set_mempolicy.2: Fix prototype for set_mempolicy(2)
-  remap_file_pages.2: Fix prototype
-  swapon.2: remove header from synopsis
-  a64l.3: fix prototype for a64l()
-  argz_*: Fix prototypes
-  adjtime.3: add required header
-  bstring.3: Fix prototypes
-  dl_iterate_phdr.3: tfix
-  inet_net_pton.3: srcfix, cfix
-  envz_add.3: fix prototypes
-  fpathconf.3: fix prototype
-  fseek.3: fix prototype
-  gcvt.3: fix prototype
-  getaddrinfo_a.3: fix prototype
-  getnameinfo.3: fix prototype
-  getrpcent.3: fix prototype
-  getspnam.3: fix prototype
-  getutent.3: fix prototypes
-  getrpcport.3: add #include and fix prototype
-
- man2/open.2             | 2 +-
- man2/remap_file_pages.2 | 2 +-
- man2/set_mempolicy.2    | 4 ++--
- man2/swapon.2           | 2 --
- man3/a64l.3             | 2 +-
- man3/adjtime.3          | 2 ++
- man3/argz_add.3         | 6 +++---
- man3/bstring.3          | 6 +++---
- man3/dl_iterate_phdr.3  | 4 ++--
- man3/envz_add.3         | 4 ++--
- man3/fpathconf.3        | 2 +-
- man3/fseek.3            | 2 +-
- man3/gcvt.3             | 2 +-
- man3/getaddrinfo_a.3    | 4 ++--
- man3/getnameinfo.3      | 4 ++--
- man3/getrpcent.3        | 2 +-
- man3/getrpcport.3       | 6 ++++--
- man3/getspnam.3         | 2 +-
- man3/getutent.3         | 6 +++---
- man3/inet_net_pton.3    | 5 ++---
- 20 files changed, 35 insertions(+), 34 deletions(-)
-
+diff --git a/man2/open.2 b/man2/open.2
+index 35061c3..d22bb1b 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -717,7 +717,7 @@ as described above).
+ requires support by the underlying filesystem;
+ only a subset of Linux filesystems provide that support.
+ In the initial implementation, support was provided in
+-the ex2, ext3, ext4, UDF, Minix, and shmem filesystems.
++the ext2, ext3, ext4, UDF, Minix, and shmem filesystems.
+ XFS support was added
+ .\" commit 99b6436bc29e4f10e4388c27a3e4810191cc4788
+ .\" commit ab29743117f9f4c22ac44c13c1647fb24fb2bafe
 -- 
 1.9.2
 
