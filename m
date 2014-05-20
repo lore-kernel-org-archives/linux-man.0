@@ -1,22 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 16/20] getnameinfo.3: fix prototype
-Date: Tue, 20 May 2014 09:02:46 +0200
-Message-ID: <537AFE16.7020702@gmail.com>
-References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk> <1400540546-25578-17-git-send-email-rv@rasmusvillemoes.dk>
+Subject: Re: [PATCH 13/20] fseek.3: fix prototype
+Date: Tue, 20 May 2014 08:05:05 +0200
+Message-ID: <537AF091.5080702@gmail.com>
+References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk> <1400540546-25578-14-git-send-email-rv@rasmusvillemoes.dk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400540546-25578-17-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+In-Reply-To: <1400540546-25578-14-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Rasmus. It looks like this changed in glibc 2.2, with commit
-e10b8512ce40cfb9f706e40edc7ed0ebdd151471.
-
-Patch applied.
+Thanks. Applied!
 
 Cheers,
 
@@ -24,27 +21,24 @@ Michael
 
 
 On 05/20/2014 01:02 AM, Rasmus Villemoes wrote:
-> The hostlen and servlen parameters to getnameinfo() have type
-> socklet_t.
+> The pos argument to fsetpos() is const.
 > ---
->  man3/getnameinfo.3 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man3/fseek.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
-> index db72bd7..16c8d4f 100644
-> --- a/man3/getnameinfo.3
-> +++ b/man3/getnameinfo.3
-> @@ -16,8 +16,8 @@ getnameinfo \- address-to-name translation in protocol-independent manner
->  .B #include <netdb.h>
->  .sp
->  .BI "int getnameinfo(const struct sockaddr *" "sa" ", socklen_t " "salen" ,
-> -.BI "                char *" "host" ", size_t " "hostlen" ,
-> -.BI "                char *" "serv" ", size_t " "servlen" ", int " "flags" );
-> +.BI "                char *" "host" ", socklen_t " "hostlen" ,
-> +.BI "                char *" "serv" ", socklen_t " "servlen" ", int " "flags" );
->  .fi
->  .sp
->  .in -4n
+> diff --git a/man3/fseek.3 b/man3/fseek.3
+> index f46ee82..c22a2c2 100644
+> --- a/man3/fseek.3
+> +++ b/man3/fseek.3
+> @@ -53,7 +53,7 @@ fgetpos, fseek, fsetpos, ftell, rewind \- reposition a stream
+>  
+>  .BI "int fgetpos(FILE *" stream ", fpos_t *" pos );
+>  .br
+> -.BI "int fsetpos(FILE *" stream ", fpos_t *" pos );
+> +.BI "int fsetpos(FILE *" stream ", const fpos_t *" pos );
+>  .SH DESCRIPTION
+>  The
+>  .BR fseek ()
 > 
 
 
