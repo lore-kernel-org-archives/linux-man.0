@@ -1,52 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 04/20] swapon.2: remove header from synopsis
-Date: Tue, 20 May 2014 08:59:24 +0200
-Message-ID: <537AFD4C.10300@gmail.com>
-References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk> <1400540546-25578-5-git-send-email-rv@rasmusvillemoes.dk>
+Subject: Re: [PATCH 19/20] getutent.3: fix prototypes
+Date: Tue, 20 May 2014 08:36:54 +0200
+Message-ID: <537AF806.8070500@gmail.com>
+References: <1400540546-25578-1-git-send-email-rv@rasmusvillemoes.dk> <1400540546-25578-20-git-send-email-rv@rasmusvillemoes.dk>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1400540546-25578-5-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+In-Reply-To: <1400540546-25578-20-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 05/20/2014 01:02 AM, Rasmus Villemoes wrote:
-> The <asm/page.h> header is not readily available, and the comment
-> seems to indicate that it is for getting PAGE_SIZE. But it is never
-> mentioned why one would need to know that, and it is in any case
-> better obtained using sysconf(), provided by <unistd.h>.
-
-Hi Rasmus,
-
-Agreed. I'm not sure how that strangeness ever got into the page.
-Patch applied. Thanks!
+Thanks. Applied!
 
 Cheers,
 
 Michael
 
 
-
+On 05/20/2014 01:02 AM, Rasmus Villemoes wrote:
+> The arguments to getutid(), getutline() and pututline() are const.
 > ---
->  man2/swapon.2 | 2 --
->  1 file changed, 2 deletions(-)
+>  man3/getutent.3 | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man2/swapon.2 b/man2/swapon.2
-> index 9ab380c..18f8655 100644
-> --- a/man2/swapon.2
-> +++ b/man2/swapon.2
-> @@ -40,8 +40,6 @@ swapon, swapoff \- start/stop swapping to file/device
->  .SH SYNOPSIS
->  .B #include <unistd.h>
->  .br
-> -.B #include <asm/page.h>     /* to find PAGE_SIZE */
-> -.br
->  .B #include <sys/swap.h>
+> diff --git a/man3/getutent.3 b/man3/getutent.3
+> index 6c7ff1b..5f5ac68 100644
+> --- a/man3/getutent.3
+> +++ b/man3/getutent.3
+> @@ -37,11 +37,11 @@ utmpname \- access utmp file entries
 >  .sp
->  .BI "int swapon(const char *" path ", int " swapflags );
+>  .B struct utmp *getutent(void);
+>  .br
+> -.BI "struct utmp *getutid(struct utmp *" ut );
+> +.BI "struct utmp *getutid(const struct utmp *" ut );
+>  .br
+> -.BI "struct utmp *getutline(struct utmp *" ut );
+> +.BI "struct utmp *getutline(const struct utmp *" ut );
+>  .sp
+> -.BI "struct utmp *pututline(struct utmp *" ut );
+> +.BI "struct utmp *pututline(const struct utmp *" ut );
+>  .sp
+>  .B void setutent(void);
+>  .br
 > 
 
 
