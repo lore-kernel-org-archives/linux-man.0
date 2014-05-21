@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 03/24] makedev.3: Fix prototype
-Date: Wed, 21 May 2014 16:57:34 +0200
-Message-ID: <1400684275-20972-4-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 07/24] pthread_sigqueue.3: Include needed header
+Date: Wed, 21 May 2014 16:57:38 +0200
+Message-ID: <1400684275-20972-8-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,28 +10,45 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-gnu_dev_makedev, and hence its trivial macro wrapper makedev, takes
-two unsigned int parameters; this is consistent with it being the
-inverse of (gnu_dev_)major/minor, which return unsigned int.
+One needs to #include <signal.h> to get a declaration of
+pthread_sigqueue.
+
+Also, abbreviate the FTM needed to expose it.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man3/makedev.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/pthread_sigqueue.3 | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/man3/makedev.3 b/man3/makedev.3
-index e2038fb..bb63a4d 100644
---- a/man3/makedev.3
-+++ b/man3/makedev.3
-@@ -31,7 +31,7 @@ makedev, major, minor \- manage a device number
- .BR "#define _BSD_SOURCE" "             /* See feature_test_macros(7) */"
- .B #include <sys/types.h>
+diff --git a/man3/pthread_sigqueue.3 b/man3/pthread_sigqueue.3
+index 84611ef..8ad0b63 100644
+--- a/man3/pthread_sigqueue.3
++++ b/man3/pthread_sigqueue.3
+@@ -27,21 +27,15 @@
+ pthread_sigqueue \- queue a signal and data to a thread
+ .SH SYNOPSIS
+ .nf
++.BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+ .B #include <pthread.h>
++.B #include <signal.h>
  
--.BI "dev_t makedev(int " maj ", int " min );
-+.BI "dev_t makedev(unsigned int " maj ", unsigned int " min );
- 
- .BI "unsigned int major(dev_t " dev );
- .BI "unsigned int minor(dev_t " dev );
+ .BI "int pthread_sigqueue(pthread_t " thread ", int " sig ,
+ .BI "                     const union sigval " value );
+-.fi
+ .sp
+ Compile and link with \fI\-pthread\fP.
+-.sp
+-.in -4n
+-Feature Test Macro Requirements for glibc (see
+-.BR feature_test_macros (7)):
+-.in
+-.sp
+-.BR pthread_sigqueue ():
+-_GNU_SOURCE
++.fi
+ .SH DESCRIPTION
+ The
+ .BR pthread_sigqueue ()
 -- 
 1.9.2
 
