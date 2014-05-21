@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 14/24] re_comp.3: Fix prototypes
-Date: Wed, 21 May 2014 16:57:45 +0200
-Message-ID: <1400684275-20972-15-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 15/24] rexec.3: Fix prototypes
+Date: Wed, 21 May 2014 16:57:46 +0200
+Message-ID: <1400684275-20972-16-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,29 +10,34 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-re_comp and re_exec take const char* arguments.
+The user, passwd and cmd arguments to rexec and rexec_af are all
+const.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man3/re_comp.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/rexec.3 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/man3/re_comp.3 b/man3/re_comp.3
-index c1199a8..0e15598 100644
---- a/man3/re_comp.3
-+++ b/man3/re_comp.3
-@@ -34,9 +34,9 @@ re_comp, re_exec \- BSD regex functions
- .br
- .B #include <regex.h>
+diff --git a/man3/rexec.3 b/man3/rexec.3
+index b62897b..12ba477 100644
+--- a/man3/rexec.3
++++ b/man3/rexec.3
+@@ -46,11 +46,11 @@ rexec, rexec_af \- return stream to a remote command
+ .BR "#define _BSD_SOURCE" "             /* See feature_test_macros(7) */"
+ .B #include <netdb.h>
  .sp
--.BI "char *re_comp(char *" regex );
-+.BI "char *re_comp(const char *" regex );
+-.BI "int rexec(char **" ahost ", int " inport ", char *" user ", "
+-.BI "          char *" passwd ", char *" cmd ", int *" fd2p );
++.BI "int rexec(char **" ahost ", int " inport ", const char *" user ", "
++.BI "          const char *" passwd ", const char *" cmd ", int *" fd2p );
  .sp
--.BI "int re_exec(char *" string );
-+.BI "int re_exec(const char *" string );
+-.BI "int rexec_af(char **" ahost ", int " inport ", char *" user ", "
+-.BI "             char *" passwd ", char *" cmd ", int *" fd2p ,
++.BI "int rexec_af(char **" ahost ", int " inport ", const char *" user ", "
++.BI "             const char *" passwd ", const char *" cmd ", int *" fd2p ,
+ .BI "             sa_family_t " af  );
+ .fi
  .SH DESCRIPTION
- .BR re_comp ()
- is used to compile the null-terminated regular expression pointed to by
 -- 
 1.9.2
 
