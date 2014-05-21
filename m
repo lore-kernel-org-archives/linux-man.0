@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 04/24] malloc_trim.3: Fix prototype
-Date: Wed, 21 May 2014 16:57:35 +0200
-Message-ID: <1400684275-20972-5-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 11/24] pthread_setschedparam.3: Fix prototypes
+Date: Wed, 21 May 2014 16:57:42 +0200
+Message-ID: <1400684275-20972-12-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,26 +10,32 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-As mentioned further down, malloc_trim returns an integer.
+Add return type for pthread_{s,g}etschedparam.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man3/malloc_trim.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/pthread_setschedparam.3 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/man3/malloc_trim.3 b/man3/malloc_trim.3
-index 4c9bf48..bdcafbd 100644
---- a/man3/malloc_trim.3
-+++ b/man3/malloc_trim.3
-@@ -29,7 +29,7 @@ malloc_trim \- release free memory from the top of the heap
- .SH SYNOPSIS
- .B #include <malloc.h>
+diff --git a/man3/pthread_setschedparam.3 b/man3/pthread_setschedparam.3
+index 0930eb2..7863f04 100644
+--- a/man3/pthread_setschedparam.3
++++ b/man3/pthread_setschedparam.3
+@@ -31,10 +31,10 @@ scheduling policy and parameters of a thread
+ .nf
+ .B #include <pthread.h>
  
--.BI "void malloc_trim(size_t "  pad );
-+.BI "int malloc_trim(size_t "  pad );
- .SH DESCRIPTION
- The
- .BR malloc_trim ()
+-.BI "pthread_setschedparam(pthread_t " thread ", int " policy ,
+-.BI "                      const struct sched_param *" param );
+-.BI "pthread_getschedparam(pthread_t " thread ", int *" policy ,
+-.BI "                      struct sched_param *" param );
++.BI "int pthread_setschedparam(pthread_t " thread ", int " policy ,
++.BI "                          const struct sched_param *" param );
++.BI "int pthread_getschedparam(pthread_t " thread ", int *" policy ,
++.BI "                          struct sched_param *" param );
+ .sp
+ Compile and link with \fI\-pthread\fP.
+ .fi
 -- 
 1.9.2
 
