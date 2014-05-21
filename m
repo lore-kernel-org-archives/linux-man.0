@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 17/24] resolver.3: Fix prototypes and extern-declaration
-Date: Wed, 21 May 2014 16:57:48 +0200
-Message-ID: <1400684275-20972-18-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 16/24] rtime.3: Replace header
+Date: Wed, 21 May 2014 16:57:47 +0200
+Message-ID: <1400684275-20972-17-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,61 +10,28 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Fix const- and signedness of various char* parameters.
-
-Also, there is no "struct state", but _res is a struct
-__res_state. (Actually, _res is errno-like in that it is really a
-macro expanding to (*__res_state()).)
+The header <rpc/des_crypt.h> does not provide rtime();
+<rpc/auth_des.h> does, as is also implied in both the NOTES and
+EXAMPLE sections.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man3/resolver.3 | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ man3/rtime.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/resolver.3 b/man3/resolver.3
-index a3fd2e8..4c0b03e 100644
---- a/man3/resolver.3
-+++ b/man3/resolver.3
-@@ -38,7 +38,7 @@ dn_comp, dn_expand \- resolver routines
- .B #include <netinet/in.h>
- .B #include <arpa/nameser.h>
- .B #include <resolv.h>
--.B extern struct state _res;
-+.B extern struct __res_state _res;
+diff --git a/man3/rtime.3 b/man3/rtime.3
+index 2471db0..c6324a4 100644
+--- a/man3/rtime.3
++++ b/man3/rtime.3
+@@ -14,7 +14,7 @@
+ rtime \- get time from a remote machine
+ .SH SYNOPSIS
+ .nf
+-.B "#include <rpc/des_crypt.h>"
++.B "#include <rpc/auth_des.h>"
  .sp
- .B int res_init(void);
- .sp
-@@ -60,23 +60,23 @@ dn_comp, dn_expand \- resolver routines
- .sp
- .BI "int res_mkquery(int " op ", const char *" dname ", int " class ,
- .RS
--.BI "int " type ", char *" data ", int " datalen ", struct rrec *" newrr ,
--.BI "char *" buf ", int " buflen );
-+.BI "int " type ", const unsigned char *" data ", int " datalen ,
-+.BI "const unsigned char *" newrr ", unsigned char *" buf ", int " buflen );
- .RE
- .sp
--.BI "int res_send(const char *" msg ", int " msglen ", char *" answer ,
-+.BI "int res_send(const unsigned char *" msg ", int " msglen ,
- .RS
--.BI "int " anslen );
-+.BI "unsigned char *" answer ", int " anslen );
- .RE
- .sp
--.BI "int dn_comp(unsigned char *" exp_dn ", unsigned char *" comp_dn ,
-+.BI "int dn_comp(const char *" exp_dn ", unsigned char *" comp_dn ,
- .RS
- .BI "int " length ", unsigned char **" dnptrs ", unsigned char **" lastdnptr );
- .RE
- .sp
--.BI "int dn_expand(unsigned char *" msg ", unsigned char *" eomorig ,
-+.BI "int dn_expand(const unsigned char *" msg ", const unsigned char *" eomorig ,
- .RS
--.BI "unsigned char *" comp_dn ", char *" exp_dn ,
-+.BI "const unsigned char *" comp_dn ", char *" exp_dn ,
- .BI "int " length );
- .RE
- .fi
+ .BI "int rtime(struct sockaddr_in *" addrp ", struct rpc_timeval *" timep ,
+ .BI "          struct rpc_timeval *" timeout );
 -- 
 1.9.2
 
