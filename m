@@ -1,65 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] fanotify.7: Fix description of FAN_EVENT_NEXT()
-Date: Wed, 21 May 2014 12:47:13 +0200
-Message-ID: <CAKgNAkj_GhQDaRXSxk1GwYnmWcmjeXp6wDvEcD13KQ7CMBNp0A@mail.gmail.com>
-References: <53799494.2080609@gmail.com> <537A5454.2040707@gmx.de>
- <537B05F5.7010800@gmail.com> <537C456D.5090005@gmx.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Subject: [PATCH 01/24] inet.3: Fix prototype
+Date: Wed, 21 May 2014 16:57:32 +0200
+Message-ID: <1400684275-20972-2-git-send-email-rv@rasmusvillemoes.dk>
+References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <537C456D.5090005-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
+The parameters to inet_makeaddr have type in_addr_t.
 
-On Wed, May 21, 2014 at 8:19 AM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
-> On 20.05.2014 09:36, Michael Kerrisk (man-pages) wrote:
->>
->> Hi Heinrich,
->>
->> On 05/19/2014 08:58 PM, Heinrich Schuchardt wrote:
->>>
->>> Hello Michael,
->>>
->>> the proposed new description of FAN_EVENT_NEXT is correct.
->>
->>
->> Thanks for checking. I've added a Reviewed-by for you.
->>
->>>
->>> Should FAN_EVENT_METADATA_LEN also be put into the section with macros?
->>>
->>> .B FAN_EVENT_METADATA_LEN
->>> This macro returns the size of structure
->>> .I fanotify_event_metadata
->>> in bytes.
->>> This is the minimum size (and currently the only size) of any event
->>> metadata.
->>
->>
->> I'm inclined not to, but I might be wrong. Is there a reason that
->> user-space might use it?
->
->
-> FAN_EVENT_METADATA_LEN is the minimum size of a buffer used to read fanotify
-> events. Of cause the user may use sizeof to calculate it himself. Anyway
-> there is already some mentioning of FAN_EVENT_METADATA_LEN in fanotify.7.
+Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+---
 
-Okay - I added your text to fanotify(7).
+Notes:
+    The glibc header seems to have changed in ad483238a1ef, while the
+    implementation followed two years later in bf2cc5fb028f.
 
-> You remarked inotify read buffers should be 4 byte aligned on some CPUs.
-> Shouldn't the same hold true for fanotify?
+ man3/inet.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes. So, it looks like a fix to fanotify(7) is required. Could you do
-that, please?
+diff --git a/man3/inet.3 b/man3/inet.3
+index fff0308..0c61b49 100644
+--- a/man3/inet.3
++++ b/man3/inet.3
+@@ -57,7 +57,7 @@ inet_netof \- Internet address manipulation routines
+ .sp
+ .BI "char *inet_ntoa(struct in_addr " in );
+ .sp
+-.BI "struct in_addr inet_makeaddr(int " net ", int " host );
++.BI "struct in_addr inet_makeaddr(in_addr_t " net ", in_addr_t " host );
+ .sp
+ .BI "in_addr_t inet_lnaof(struct in_addr " in );
+ .sp
+-- 
+1.9.2
 
-Thanks,
-
-Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
