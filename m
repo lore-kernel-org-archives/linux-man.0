@@ -1,80 +1,100 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Documenting execve() and EAGAIN
-Date: Wed, 21 May 2014 20:12:32 +0200
-Message-ID: <537CEC90.7060000@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 00/24] Yet more prototype fixes
+Date: Wed, 21 May 2014 20:13:20 +0200
+Message-ID: <537CECC0.6050601@gmail.com>
+References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vasiliy Kulikov <segoon@openwall.com>, KOSAKI Motohiro <kosaki.motohiro@jp.fujitsu.com>
-Cc: mtk.manpages@gmail.com, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Vasily (and Motohiro),
+On 05/21/2014 04:57 PM, Rasmus Villemoes wrote:
+> Here's another round of prototype fixes, with various other small
+> things mixed in.
 
-Sometime ago, Motohiro raised a documentation bug
-( https://bugzilla.kernel.org/show_bug.cgi?id=3D42704 ) which=20
-relates to your commit 72fa59970f8698023045ab0713d66f3f4f96945c
-("move RLIMIT_NPROC check from set_user() to do_execve_common()")
 
-I have attempted to document this, and I would like to ask you
-(and Motohiro) if you would review the text proposed below for
-the exceve(2) man page.
+Thanks, Rasmus. I'll apply and park these in a branch for the moment.
 
-Thank you,
+Cheers,
 
 Michael
 
 
-ERRORS
-       EAGAIN (since Linux 3.1)
-              Having  changed its real UID using one of the set*uid()
-              calls,  the  caller  was=E2=80=94and  is  now  still=E2=80=
-=94above  its
-              RLIMIT_NPROC  resource limit (see setrlimit(2)).  For a
-              more detailed explanation of this error, see NOTES.
 
-NOTES
-   execve() and EAGAIN
-       A more detailed explanation of the EAGAIN error that can occur
-       (since Linux 3.1) when calling execve() is as follows.
+> Rasmus Villemoes (24):
+>   inet.3: Fix prototype
+>   makecontext.3: Fix prototype
+>   makedev.3: Fix prototype
+>   malloc_trim.3: Fix prototype
+>   mq_getattr.3: Fix prototype
+>   perror.3: Fix declaration
+>   pthread_sigqueue.3: Include needed header
+>   pthread_attr_set*.3: Constify parameters
+>   pthread_cleanup_push_defer_np.3: Mention feature test macro
+>   pthread_setname_np.3: Fix prototype
+>   pthread_setschedparam.3: Fix prototypes
+>   pthread_setschedprio.3: Fix prototype
+>   rcmd.3: Fix prototypes
+>   re_comp.3: Fix prototypes
+>   rexec.3: Fix prototypes
+>   rtime.3: Replace header
+>   resolver.3: Fix prototypes and extern-declaration
+>   scandir.3: Fix prototypes
+>   sigvec.3: Fix prototype
+>   setnetgrent.3: Fix prototype
+>   tsearch.3: Fix prototype
+>   getauxval.3: Fix permissions
+>   key_setsecret.3: Fix prototypes
+>   xdr.3: tfix
+> 
+>  man3/getauxval.3                     |  0
+>  man3/inet.3                          |  2 +-
+>  man3/key_setsecret.3                 |  6 +++---
+>  man3/makecontext.3                   |  2 +-
+>  man3/makedev.3                       |  2 +-
+>  man3/malloc_trim.3                   |  2 +-
+>  man3/mq_getattr.3                    |  2 +-
+>  man3/perror.3                        |  4 ++--
+>  man3/pthread_attr_setaffinity_np.3   |  2 +-
+>  man3/pthread_attr_setdetachstate.3   |  2 +-
+>  man3/pthread_attr_setguardsize.3     |  2 +-
+>  man3/pthread_attr_setinheritsched.3  |  2 +-
+>  man3/pthread_attr_setschedparam.3    |  2 +-
+>  man3/pthread_attr_setschedpolicy.3   |  2 +-
+>  man3/pthread_attr_setscope.3         |  2 +-
+>  man3/pthread_attr_setstack.3         |  2 +-
+>  man3/pthread_attr_setstackaddr.3     |  2 +-
+>  man3/pthread_attr_setstacksize.3     |  2 +-
+>  man3/pthread_cleanup_push_defer_np.3 |  1 +
+>  man3/pthread_setname_np.3            |  2 +-
+>  man3/pthread_setschedparam.3         |  8 ++++----
+>  man3/pthread_setschedprio.3          |  2 +-
+>  man3/pthread_sigqueue.3              | 12 +++---------
+>  man3/rcmd.3                          |  6 +++---
+>  man3/re_comp.3                       |  4 ++--
+>  man3/resolver.3                      | 16 ++++++++--------
+>  man3/rexec.3                         |  8 ++++----
+>  man3/rtime.3                         |  2 +-
+>  man3/scandir.3                       |  4 ++--
+>  man3/setnetgrent.3                   |  2 +-
+>  man3/sigvec.3                        |  2 +-
+>  man3/tsearch.3                       |  2 +-
+>  man3/xdr.3                           |  2 +-
+>  33 files changed, 54 insertions(+), 59 deletions(-)
+>  mode change 100755 => 100644 man3/getauxval.3
+> 
 
-       The EAGAIN error can occur when a preceding call to setuid(2),
-       setreuid(2), or setresuid(2) caused the real user  ID  of  the
-       process  to  change,  and  that  change  caused the process to
-       exceed its RLIMIT_NPROC resource limit (i.e.,  the  number  of
-       processes  belonging  to the new real UID exceeds the resource
-       limit).  In Linux 3.0 and earlier, this caused  the  set*uid()
-       call to fail.
 
-       Since  Linux 3.1, the scenario just described no longer causes
-       the set*uid() call to fail, because it too often led to  secu=E2=
-=80=90
-       rity  holes because buggy applications didn't check the return
-       status and assumed that=E2=80=94if the caller had root  privileg=
-es=E2=80=94the
-       call  would  always succeed.  Instead, the set*uid() calls now
-       successfully change real UID, but the kernel sets an  internal
-       flag,  named  PF_NPROC_EXCEEDED, to note that the RLIMIT_NPROC
-       resource limit has been exceeded.  If the  resource  limit  is
-       still exceeded at the time of a subsequent execve() call, that
-       call fails with the error EAGAIN.  This kernel  logic  ensures
-       that the RLIMIT_NPROC resource limit is still enforced for the
-       common privileged daemon workflow=E2=80=94namely, fork(2)+  set*=
-uid()+
-       execve(2).
-
-       If  the  resource  limit was not still exceeded at the time of
-       the execve() call (because other processes belonging  to  this
-       real  UID  terminated  between  the  set*uid()  call  and  the
-       execve() call), then the execve() call succeeds and the kernel
-       clears  the  PF_NPROC_EXCEEDED process flag.  The flag is also
-       cleared if a subsequent call to fork(2) by this  process  suc=E2=
-=80=90
-       ceeds.
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
