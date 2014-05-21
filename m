@@ -1,7 +1,7 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 13/24] rcmd.3: Fix prototypes
-Date: Wed, 21 May 2014 16:57:44 +0200
-Message-ID: <1400684275-20972-14-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 09/24] pthread_cleanup_push_defer_np.3: Mention feature test macro
+Date: Wed, 21 May 2014 16:57:40 +0200
+Message-ID: <1400684275-20972-10-git-send-email-rv@rasmusvillemoes.dk>
 References: <1400684275-20972-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1400684275-20972-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
@@ -10,45 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Unlike the BSDs, the second argument of rcmd() and rcmd_af() has
-type unsigned short.
-
-The first argument of iruserok_af() has type const void*.
+One must define _GNU_SOURCE to get pthread_cleanup_push_defer_np and
+pthread_cleanup_pop_restore_np.
 
 Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 ---
- man3/rcmd.3 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man3/pthread_cleanup_push_defer_np.3 | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/man3/rcmd.3 b/man3/rcmd.3
-index 09c6457..4086fe4 100644
---- a/man3/rcmd.3
-+++ b/man3/rcmd.3
-@@ -49,7 +49,7 @@ stream to a remote command
+diff --git a/man3/pthread_cleanup_push_defer_np.3 b/man3/pthread_cleanup_push_defer_np.3
+index 3538dc2..abc8bf8 100644
+--- a/man3/pthread_cleanup_push_defer_np.3
++++ b/man3/pthread_cleanup_push_defer_np.3
+@@ -29,6 +29,7 @@ pthread_cleanup_push_defer_np, pthread_cleanup_pop_restore_np \- push and pop
+ thread cancellation clean-up handlers while saving cancelability type
+ .SH SYNOPSIS
  .nf
- .B #include <netdb.h> \ \ \fP/* Or <unistd.h> on some systems */
- .sp
--.BI "int rcmd(char **" ahost ", int " inport ", const char *" locuser ", "
-+.BI "int rcmd(char **" ahost ", unsigned short " inport ", const char *" locuser ", "
- .BI "         const char *" remuser ", const char *" cmd ", int *" fd2p );
- .sp
- .BI "int rresvport(int *" port );
-@@ -60,13 +60,13 @@ stream to a remote command
- .BI "int ruserok(const char *" rhost ", int " superuser ", "
- .BI "            const char *" ruser ", const char *" luser );
- .sp
--.BI "int rcmd_af(char **" ahost ", int " inport ", const char *" locuser ", "
-+.BI "int rcmd_af(char **" ahost ", unsigned short " inport ", const char *" locuser ", "
- .BI "            const char *" remuser ", const char *" cmd ", int *" fd2p ,
- .BI "            sa_family_t " af );
- .sp
- .BI "int rresvport_af(int *" port ", sa_family_t " af );
- .sp
--.BI "int iruserok_af(uint32_t " raddr ", int " superuser ", "
-+.BI "int iruserok_af(const void *" raddr ", int " superuser ", "
- .BI "                const char *" ruser ", const char *" luser \
- ", sa_family_t " af );
- .sp
++.BR "#define _GNU_SOURCE" "             /* See feature_test_macros(7) */"
+ .B #include <pthread.h>
+ 
+ .BI "void pthread_cleanup_push_defer_np(void (*" routine ")(void *),"
 -- 
 1.9.2
 
