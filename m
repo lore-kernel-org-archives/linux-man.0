@@ -1,177 +1,291 @@
-From: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Improving PACKET_{RX,TX}_RING documentation
-Date: Thu, 22 May 2014 10:51:15 -0400
-Message-ID: <CA+FuTSfpORKtm_kdG+CycoPiq+Gxf58=nXqKApFEmR+xZs69_g@mail.gmail.com>
-References: <1400332406.2395.35.camel@actium.fritz.box> <53798E97.1000505@gmail.com>
- <5379D9A2.1070008@redhat.com> <CA+FuTSeWh_iQGqc-4usL7vr28OrkHTnBvHvXvVO=LcGsNRgtMA@mail.gmail.com>
- <d1afaaacb05c031517bb96211c098edf@localhost>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1 v3] inotify.7: add example
+Date: Thu, 22 May 2014 20:03:47 +0200
+Message-ID: <1400781827-22210-1-git-send-email-xypron.glpk@gmx.de>
+References: <CAKgNAkiMLf4fD_thisTNOE932GhbiSmrgqZ0qRrfo5GEpVzV1Q@mail.gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <d1afaaacb05c031517bb96211c098edf@localhost>
+In-Reply-To: <CAKgNAkiMLf4fD_thisTNOE932GhbiSmrgqZ0qRrfo5GEpVzV1Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
-Cc: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, jbrouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, May 22, 2014 at 8:22 AM, Carsten Andrich
-<carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org> wrote:
-> Thanks for the feedback, Daniel and Willem.
->
-> Executive summary: We need a good concept for distributing (preferably
-> mutually exclusive) information among packet(7) and packet_mmap.txt.
->
-> Willem de Bruijn schrieb:
->>>     0. Perhaps a general writeup on how the RX/TX_RING works in Linux,
->>>        it's layout, constraints etc. Btw, not sure if that's also
->>
->> This would duplicate the contents of
->> Documentation/networking/packet_mmap.txt? I would caution against
->> having two sources of documentation that may become inconsistent over
->> time. A detailed discussion could also become too long for a manual
->> page: packet_mmap.txt is already 1067 lines (albeit about half in
->> example code). If that document is confusing, a thorough edit of that
->> would be very helpful, though.
->>
->>>        included already, but the same mmap-technique exists also for
->>>        netlink sockets.
->>
->> See also Documentation/networking/netlink_mmap.txt . If the ring is a
->> generic netlink feature (i.e., not specific to nfnetlink), then man 7
->> netlink is the right place for user documentation (in as far as this
->> is a user-oriented feature).
->
-> Some deduplication between netlink(7), packet(7), netlink_mmap.txt and
-> packet_mmap.txt is probably a good idea. However, this is much more than
-> I initially bargained for :)
+This third version of the patch considers comments by Michael Kerrisk
+concerning
 
-Only do the bits that you enjoy. I certainly did not mean to imply that you
-should do all this :) Just be aware of the consistency problem of
-duplicating existing documentation.
+* alignment of inotify read buffer
 
-> I had a superficial look at the netlink documents, and most concepts
-> appear to be very much alike. The operational aspects make quite a large
-> exception, though, since the netlink header (usage) is a lot simpler
-> than tpacket_hdr including its different versions.
->
-> IMHO user-space API documentation should reside in the man page and not
-> Documentation/, but I'd like to heard Michael's opinion on that. Maybe
-> it's a good idea to have at least a basic description on packet(7) and
-> reserve packet_mmap.txt for the more advanced topics?
->
->>>>>       1. Increase detail of PACKET_{RX,TX}_RING socket options, including
->>>>>          description of struct tpacket_hdr and anything else required to
->>>>>          operate the ring.
->>
->> If expanding the man page, then moving mmap into a separate section
->> sounds good to me. If a man page is more user documentation than
->> kernel Documentation/ then perhaps start by discussing the pros and
->> cons of mmapped rings over recv and to help users decide whether to
->> use the mmapped ring, or for instance batch with recvmmsg().
->
-> Actually I wanted to maintain the structure of the man page and
-> describe everything inside the appropriate "Socket options" sections.
+  On some systems integer values can only be read if they are
+  correctly aligned. Other system have a lower performance when
+  reading from or writing to misaligned memory positions.
+  An array of struct inotify_event is used to have the buffer
+  properly aligned. As on ILP64 systems int is 8 byte long
+  using aligned(4) may not be sufficient.
 
-This may make the document unbalanced. Some options are only relevant
-to the rings, and the ring setup itself is a large paragraph.
+* simplification of loop over inotify event buffer
 
-> However, adding a reference to recvmmsg() is a good idea as well, which
-> would justify creating a new sections for "Advanced packet socket
-> techniques".
->
->>>>>       2. Move some details from other sockopts (e.g. PACKET_LOSS) into
->>>>>          *_RING.
->>
->> Yes, please move all ring-specific details into the new ring section.
->>
->>>>>       3. Add fully functional example source code for simple
->>>>>          PACKET_{RX,TX}_RING operation (initialization and operation).
->>>>>          This may be as much as 3 different example programs if I
->>>>>          incorporate [2] and [3] in an appropriate manner. It might be a
->>>>>          good idea to add a non-*_RING example as well.
->>>
->>>
->>> Yes, some examples for mmap RX, mmap TX, fanout, and perhaps TPACKET_V3
->>> might be great.
->>>
->>>
->>>>>       4. Add a warning about inferior _TX_RING performance [1] which I
->>>>>          suffered from only recently in the measurements I made for my
->>>>>          thesis on Linux 3.14.
->>
->> I would describe such points in a positive manner (optimization) as
->> opposed to a negative (inferior performance).
->
-> Using positive wording is always a good idea, but packet_mmap.txt
-> already tricked me into believing that PACKET_TX_RING should be faster
-> than plain sendto(). The user should be allowed to make an informed
-> decision,
+* typos
 
-Indeed. The document should not contain any simple statements about
-one option being faster than another, because this invariably depends on
-workload details (packet size, rate, threading, ...).
+***
 
-Instead, it should just explain the technical details and their implications:
-an mmapped ring reduces the number of system calls, as does
-recvmmsg/sendmmsg. It does not necessarily reduce the number of
-data copies (a common misconception). Etcetera.
+An example for the usage of the inotify API is provided.
 
-> which requires the manpage to tell the (ugly) truth that
-> sendto() currently outperforms TX_RING.
+It shows the usage of inotify_init1(2),inotify_add_watch(2) as well as
+polling and reading from the inotify file descriptor.
 
-I would not make such statements either way, then.
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man7/inotify.7 | 221 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 220 insertions(+), 1 deletion(-)
 
->
->> The optimization you refer to is to attach the tx-only packet socket
->> to a protocol family that is never observed, so that no packets are
->> looped back into the socket on receive. This is a great trick. There
->> are probably others. Again, I believe that such details belong more in
->> packet_mmap.txt than in the man page. But that is just one opinion, so
->> I'll gladly defer to Michael and others on that point.
->
-> Since the tx-only optimization socket(*, *, 0) is not TX_RING-specific,
-> this should be in the manpage (IMHO).
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index 8e848b2..2f21945 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -1,5 +1,6 @@
+ '\" t
+ .\" Copyright (C) 2006, 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
++.\" Copyright (C) 2014 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+ .\"
+ .\" %%%LICENSE_START(VERBATIM)
+ .\" Permission is granted to make and distribute verbatim copies of this
+@@ -23,7 +24,7 @@
+ .\" the source, must acknowledge the copyright and authors of this work.
+ .\" %%%LICENSE_END
+ .\"
+-.TH INOTIFY 7 2014-05-08 "Linux" "Linux Programmer's Manual"
++.TH INOTIFY 7 2014-05-23 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ inotify \- monitoring filesystem events
+ .SH DESCRIPTION
+@@ -752,6 +753,224 @@ if the older had not yet been read)
+ instead checked if the most recent event could be coalesced with the
+ .I oldest
+ unread event.
++.SH EXAMPLE
++The following program demonstrates the usage of the inotify API.
++It marks the directories passed as a command-line arguments
++and waits for events of type
++.BR IN_OPEN ,
++.BR IN_CLOSE_NOWRITE 
++and
++.BR IN_CLOSE_WRITE .
++.PP
++The following output was recorded while editing the file
++.I /home/user/temp/foo
++and listing directory
++.IR /tmp .
++Before the file and the directory were opened,
++.B IN_OPEN
++events occurred.
++After the file was closed, an
++.B IN_CLOSE_WRITE
++event occurred.
++After the directory was closed, an
++.B IN_CLOSE_NOWRITE
++event occurred.
++Execution of the program ended when the user pressed the ENTER key.
++.SS Example output
++.in +4n
++.nf
++$ ./inotify.7.example /tmp /home/user/temp
++Press enter key to terminate.
++Listening for events.
++IN_OPEN: /home/user/temp/foo [file]
++IN_CLOSE_WRITE: /home/user/temp/foo [file]
++IN_OPEN: /tmp/ [directory]
++IN_CLOSE_NOWRITE: /tmp/ [directory]
++
++Listening for events stopped.
++.fi
++.in
++.SS Program source
++.nf
++#include <errno.h>
++#include <poll.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/inotify.h>
++#include <unistd.h>
++
++/* Read all available inotify events from the file descriptor 'fd'.
++   wd is the table of watch descriptors for the directories in argv.
++   argc is the length of wd and argv.
++   argv is the list of watched directories.
++   Entry 0 of wd and argv is unused. */
++
++static void
++handle_events(int fd, int *wd, int argc, char* argv[])
++{
++    struct inotify_event buf[200];
++    const struct inotify_event *event;
++    int i;
++    ssize_t len;
++    char *ptr;
++
++    /* Loop while events can be read from inotify file descriptor. */
++
++    for (;;) {
++
++        /* Read some events. */
++
++        len = read(fd, buf, sizeof buf);
++        if (len == \-1 && errno != EAGAIN) {
++            perror("read");
++            exit(EXIT_FAILURE);
++        }
++
++        /* If the nonblocking read() found no events to read, then
++           it returns \-1 with errno set to EAGAIN. In that case,
++           we exit the loop. */
++
++        if (len <= 0)
++            break;
++
++        /* Loop over all events in the buffer */
++
++        for (ptr = (char *) buf; ptr < (char *) buf + len;
++             ptr += sizeof(struct inotify_event) + event\->len) {
++
++            event = (const struct inotify_event *) ptr;
++
++            /* Print event type */
++
++            if (event\->mask & IN_OPEN)
++                printf("IN_OPEN: ");
++            if (event\->mask & IN_CLOSE_NOWRITE)
++                printf("IN_CLOSE_NOWRITE: ");
++            if (event\->mask & IN_CLOSE_WRITE)
++                printf("IN_CLOSE_WRITE: ");
++
++            /* Print the name of the watched directory */
++
++            for (i = 1; i < argc; ++i) {
++                if (wd[i] == event\->wd) {
++                    printf("%s/", argv[i]);
++                    break;
++                }
++            }
++
++            /* Print the name of the file */
++
++            if (event\->len)
++                printf("%s", event\->name);
++
++            /* Print type of filesystem object */
++
++            if (event\->mask & IN_ISDIR)
++                printf(" [directory]\\n");
++            else
++                printf(" [file]\\n");
++
++        }
++    }
++}
++
++int
++main(int argc, char* argv[])
++{
++    char buf;
++    int fd, i, poll_num;
++    int *wd;
++    nfds_t nfds;
++    struct pollfd fds[2];
++
++    if (argc < 2) {
++        printf("Usage: %s DIRECTORY [DIRECTORY ...]\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    printf("Press ENTER key to terminate.\\n");
++
++    /* Create the file descriptor for accessing the inotify API */
++
++    fd = inotify_init1(IN_NONBLOCK);
++    if (fd == \-1) {
++        perror("inotify_init1");
++        exit(EXIT_FAILURE);
++    }
++
++    /* Allocate memory for watch descriptors */
++
++    wd = calloc(argc, sizeof(int));
++    if (wd == NULL) {
++        perror("calloc");
++        exit(EXIT_FAILURE);
++    }
++
++    /* Mark directories for events
++       \- file was opened
++       \- file was closed */
++
++    for (i = 1; i < argc; i++) {
++        wd[i] = inotify_add_watch(fd, argv[i],
++                                  IN_OPEN | IN_CLOSE);
++        if (wd[i] == \-1) {
++            fprintf(stderr, "Cannot watch '%s'\\n", argv[i]);
++            perror("inotify_add_watch");
++            exit(EXIT_FAILURE);
++        }
++    }
++
++    /* Prepare for polling */
++
++    nfds = 2;
++
++    /* Console input */
++
++    fds[0].fd = STDIN_FILENO;
++    fds[0].events = POLLIN;
++
++    /* Inotify input */
++
++    fds[1].fd = fd;
++    fds[1].events = POLLIN;
++
++    /* Wait for events and/or terminal input */
++
++    printf("Listening for events.\\n");
++    while (1) {
++        poll_num = poll(fds, nfds, \-1);
++        if (poll_num == \-1) {
++            if (errno == EINTR)
++                continue;
++            perror("poll");
++            exit(EXIT_FAILURE);
++        }
++        if (poll_num > 0) {
++
++            if (fds[0].revents & POLLIN) {
++
++                /* Console input is available. Empty stdin and quit */
++
++                while (read(STDIN_FILENO, &buf, 1) > 0 && buf != '\\n')
++                    continue;
++                break;
++            }
++            if (fds[1].revents & POLLIN) {
++
++                /* Inotify events are available */
++                handle_events(fd, wd, argc, argv);
++            }
++        }
++    }
++
++    /* Close inotify file descriptor */
++
++    close(fd);
++    free(wd);
++    printf("Listening for events stopped.\\n");
++    exit(EXIT_SUCCESS);
++}
++.fi
+ .SH SEE ALSO
+ .BR inotifywait (1),
+ .BR inotifywatch (1),
+-- 
+2.0.0.rc2
 
-Agreed. I actually was unaware that 0 is even a correct value. As I said,
-I used to use impopular protocol filters to achieve the same.
-
-> As I said above, packet_mmap.txt
-> may be a decent spot for advanced and {RX,TX}_RING-specific techniques.
->
->>> Can you elaborate? Jesper made recently a nice summary on using trafgen
->>> which uses TX_RING internally:
->>>
->>>   http://netoptimizer.blogspot.ch/2014/04/trafgen-fast-packet-generator.html
->
-> For my thesis I implemented a programmable switch in user-space (for
-> better programmability and guaranteed API compatibility). Testing with
-> 64-byte frames I reached a maximum frame rate of ~0.6 Mpps using
-> {RX,TX}_RING, but ~0.87 Mpps using plain recvfrom()/sendto(). A hybrid
-> RX_RING/sendto() approach with seperate RX/TX threads yielded the same
-> frame rate as tests with pktgen (~0.89 Mpps). Fun fact: Open vSwitch
-> reached ~1 Mpps and thus surprisingly surpassed pktgen. This might be
-> worth investigating.
->
->>> Absolutely, perhaps explaining differences from TPACKET_V1 -> V3 API and the
->>> like.
->>
->> That would be very interesting. The packet -> block batching mechanism
->> likely was tested with small packet performance, but may have little
->> benefit for larger packets. A discussion of the trade offs from a user
->> point of view would be very interesting.
->
-> Actually I intended to deal only with TPACKET_V2 for now, since it is
-> simpler than TPACKET_V3 and can be use for RX and TX. TPACKET_V3 can be
-> added later on or could remain in packet_mmap.txt.
-
-Sure, let's leave that.
-
-Your plan sounds good to me, Carsten.
->
->
-> Cheers,
-> Carsten
->
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
