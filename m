@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_exit.3: ATTRIBUTES: Note function that is thread-safe
-Date: Fri, 23 May 2014 14:24:16 +0800
-Message-ID: <1400826256-3804-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_setaffinity_np.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Fri, 23 May 2014 15:35:46 +0800
+Message-ID: <1400830546-8448-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,41 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function pthread_exit() is thread safe.
+The functions pthread_setaffinity_np() and
+pthread_getaffinity_np() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_exit.3 | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ man3/pthread_setaffinity_np.3 | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/man3/pthread_exit.3 b/man3/pthread_exit.3
-index 8ec33e0..12b23c2 100644
---- a/man3/pthread_exit.3
-+++ b/man3/pthread_exit.3
+diff --git a/man3/pthread_setaffinity_np.3 b/man3/pthread_setaffinity_np.3
+index 6ff5108..6878dfd 100644
+--- a/man3/pthread_setaffinity_np.3
++++ b/man3/pthread_setaffinity_np.3
 @@ -23,7 +23,7 @@
  .\" the source, must acknowledge the copyright and authors of this work.
  .\" %%%LICENSE_END
  .\"
--.TH PTHREAD_EXIT 3 2009-03-30 "Linux" "Linux Programmer's Manual"
-+.TH PTHREAD_EXIT 3 2014-05-23 "Linux" "Linux Programmer's Manual"
+-.TH PTHREAD_SETAFFINITY_NP 3 2014-05-21 "Linux" "Linux Programmer's Manual"
++.TH PTHREAD_SETAFFINITY_NP 3 2014-05-23 "Linux" "Linux Programmer's Manual"
  .SH NAME
- pthread_exit \- terminate calling thread
- .SH SYNOPSIS
-@@ -72,6 +72,11 @@ are called.
- This function does not return to the caller.
- .SH ERRORS
- This function always succeeds.
+ pthread_setaffinity_np, pthread_getaffinity_np \- set/get
+ CPU affinity of a thread
+@@ -118,6 +118,13 @@ No thread with the ID
+ could be found.
+ .SH VERSIONS
+ These functions are provided by glibc since version 2.3.4.
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR pthread_exit ()
-+function is thread-safe.
++.BR pthread_setaffinity_np ()
++and
++.BR pthread_getaffinity_np ()
++functions are thread-safe.
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ These functions are nonstandard GNU extensions;
+ hence the suffix "_np" (nonportable) in the names.
 -- 
 1.9.0
 
