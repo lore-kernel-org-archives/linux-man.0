@@ -1,18 +1,20 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [Bug 76101] New: [TRIVIAL] PTHREAD_CREATE(3): EAGAIN and pid_max
-Date: Fri, 23 May 2014 06:07:06 +0200
-Message-ID: <537EC96A.8050302@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 76101] [TRIVIAL] PTHREAD_CREATE(3): EAGAIN and pid_max
+Date: Sat, 24 May 2014 12:24:08 +0000
+Message-ID: <bug-76101-11311-50oLcxHpbY@https.bugzilla.kernel.org/>
 References: <bug-76101-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <bug-76101-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=76101
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
 On 05/13/2014 07:22 PM, bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org wrote:
 > https://bugzilla.kernel.org/show_bug.cgi?id=76101
 > 
@@ -51,12 +53,9 @@ Cheers,
 
 Michael
 
-
-
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
