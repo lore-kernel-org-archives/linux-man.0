@@ -1,63 +1,72 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 76851] inotify_rm_watch(2) unspecified behavior
-Date: Mon, 26 May 2014 09:10:02 +0000
-Message-ID: <bug-76851-11311-5sWoasewUf@https.bugzilla.kernel.org/>
-References: <bug-76851-11311@https.bugzilla.kernel.org/>
+From: Carsten Andrich <carsten.andrich-hs6bpBdVsEZfm0AUMx9V0g@public.gmane.org>
+Subject: Re: Improving =?UTF-8?Q?PACKET=5F=7BRX=2CTX=7D=5FRING=20documenta?=
+ =?UTF-8?Q?tion?=
+Date: Mon, 26 May 2014 12:49:30 +0200
+Message-ID: <f892062de194e1414fec56672a423eea@localhost>
+References: <1400332406.2395.35.camel@actium.fritz.box>
+ <53798E97.1000505@gmail.com> <5379D9A2.1070008@redhat.com>
+ <CA+FuTSeWh_iQGqc-4usL7vr28OrkHTnBvHvXvVO=LcGsNRgtMA@mail.gmail.com>
+ <d1afaaacb05c031517bb96211c098edf@localhost>
+ <CA+FuTSfpORKtm_kdG+CycoPiq+Gxf58=nXqKApFEmR+xZs69_g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-76851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <CA+FuTSfpORKtm_kdG+CycoPiq+Gxf58=nXqKApFEmR+xZs69_g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Willem de Bruijn <willemb-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, jbrouer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=76851
-
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Jeff from comment #0)
-> The inotify interface leaves unspecified what happens to potentially
-> "pending" watch events (i.e., caught by the kernel but not yet read()) after
-> an inotify_rm_watch() call.
+Willem de Bruijn schrieb:
+>>> I would describe such points in a positive manner (optimization) as
+>>> opposed to a negative (inferior performance).
+>>
+>> Using positive wording is always a good idea, but packet_mmap.txt
+>> already tricked me into believing that PACKET_TX_RING should be faster
+>> than plain sendto(). The user should be allowed to make an informed
+>> decision,
 > 
-> IN_IGNORE flagged events *allow* inotify_rm_watch() calls to be monitored
-> asynchronously, but it is not stated whether triggering actions between a
-> most recent read() and an inotify_rm_watch() call *require* all other watch
-> events to be handled so when users key map inotify_event wd fields to local
-> objects.
+> Indeed. The document should not contain any simple statements about
+> one option being faster than another, because this invariably depends on
+> workload details (packet size, rate, threading, ...).
 > 
-> Similarly, a conservative user would need to keep a queue of removed objects
-> formerly associated with a watch descriptor if it is assumed possible that
-> the kernel can both deliver events on an rm'd wd and reuse wds before the
-> last pertinent event has been read.
+> Instead, it should just explain the technical details and their implications:
+> an mmapped ring reduces the number of system calls, as does
+> recvmmsg/sendmmsg. It does not necessarily reduce the number of
+> data copies (a common misconception). Etcetera.
 > 
-> If the purpose of IN_IGNORE being generated on the watch removal is to
-> protect against poll/blocking-read vs. inotify_rm_watch() races, it should
-> be plainly stated. Likewise, if it is needed for safely reacting to "stale"
-> events, this should be explained. I believe that the current language of
-> inotify_rm_watch(2) and the read(2) section of inotify(7) leave both
-> interpretations defensible, which is sub-optimal.
+>> which requires the manpage to tell the (ugly) truth that
+>> sendto() currently outperforms TX_RING.
+> 
+> I would not make such statements either way, then.
 
+You're right. I'll just a note regarding the necessity of careful
+performance considerations/evaluations :)
+Maybe, eventually, some of Jesper's findings regarding *_RING
+performance should end up in packet_mmap.txt.
 
-Jeff, thanks for the report. You're quite correct that there's no spec for the
-behavior (and your points about the implications of the lack of such spec are
-right on the money). However, man-pages is (sadly) not a spec, at least given
-current development practices. Nevertheless, something should be documented.
+>>>> Absolutely, perhaps explaining differences from TPACKET_V1 -> V3 API and the
+>>>> like.
+>>>
+>>> That would be very interesting. The packet -> block batching mechanism
+>>> likely was tested with small packet performance, but may have little
+>>> benefit for larger packets. A discussion of the trade offs from a user
+>>> point of view would be very interesting.
+>>
+>> Actually I intended to deal only with TPACKET_V2 for now, since it is
+>> simpler than TPACKET_V3 and can be use for RX and TX. TPACKET_V3 can be
+>> added later on or could remain in packet_mmap.txt.
+> 
+> Sure, let's leave that.
+> 
+> Your plan sounds good to me, Carsten.
 
-One thing that would have been useful in the bug report would have been a
-statement of what the existing behavior actually is. As far as I can see, as
-things stand, if a watch is removed, pending unread events for that watch
-descriptor remain pending. Can you confirm?
+Okay, it might take me a few weeks to come up with a first draft.
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Cheers,
+Carsten
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
