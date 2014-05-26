@@ -1,57 +1,409 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 76851] inotify_rm_watch(2) unspecified behavior
-Date: Mon, 26 May 2014 16:38:43 +0000
-Message-ID: <bug-76851-11311-JWr1plZj0w@https.bugzilla.kernel.org/>
-References: <bug-76851-11311@https.bugzilla.kernel.org/>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] localedef.1: add new page based on Debian localedef(1)
+Date: Mon, 26 May 2014 20:01:45 +0300
+Message-ID: <53837379.8030600@redhat.com>
+References: <53834E2B.1040100@redhat.com> <53835782.10204@gmail.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-76851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <53835782.10204-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Braakman <richard.braakman-4y2FMlU5MS8onNqTyK5kxQ@public.gmane.org>, Alastair McKinstry <mckinstry-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Lars Wirzenius <liw-X3B1VOXEql0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=76851
+Hi Michael,
 
---- Comment #3 from Jeff <junk.jsmith+kernel.org-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Michael Kerrisk from comment #2)
-> Jeff, thanks for the report. You're quite correct that there's no spec for
-> the behavior (and your points about the implications of the lack of such
-> spec are right on the money). However, man-pages is (sadly) not a spec, at
-> least given current development practices. Nevertheless, something should be
-> documented.
+On 2014-05-26 18:02, Michael Kerrisk (man-pages) wrote:
 > 
-> One thing that would have been useful in the bug report would have been a
-> statement of what the existing behavior actually is. As far as I can see, as
-> things stand, if a watch is removed, pending unread events for that watch
-> descriptor remain pending. Can you confirm?
+> Thanks for doing the work needed to get this page toward man-pages.
 
-Michael, I can confirm that this behavior, for at least 3.x kernels. I didn't
-test this or dig through the kernel source for anything older though.
+thanks for the detailed review. I think I've addressed now all your comments. Wrt POSIX conformance, my reading of http://pubs.opengroup.org/onlinepubs/9699919799/utilities/localedef.html makes me think we can state it is conforming to POSIX.1-2008.
 
-I've not been involved enough in the kernel scene to know best how to approach
-this, so far as claiming what exactly seemed wrong, but the documentation
-seemed like the most innocuous reasonable place to start. I frankly don't even
-know where "standard" system call APIs are supposed to be officially specified,
-if anywhere.
+Let me know if there's anything else that needs to be adjusted.
 
-I tried to be dispassionate in my initial report since I don't know what
-peoples' intents were, but it's my opinion that the current behavior is bad
-enough to warrant changing. I've never used any other multiplexing interface
-that can deliver events after a handle de-registration. I've also never seen
-anyone's inotify-handling code other than my own that even tried to safely
-handle late queued updates, and I suspect that some fraction of those people
-are ignorant of the hazards.
+>From c066dbbb5f547c3b212377920e0914280a76853d Mon Sep 17 00:00:00 2001
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date: Mon, 26 May 2014 19:53:13 +0300
+Subject: [PATCH] localedef.1: add new page based on Debian localedef(1)
 
-As I tried to imply above, extant IN_IGNORE event generation would provide
-sufficient safety from client poll/rm/read deadlock races in the event of an
-implementation change, but I don't have the slightest clue about tactfully
-approaching the kernel community with this, being a non-established individual.
+---
+ man1/localedef.1 |  357 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 357 insertions(+), 0 deletions(-)
+ create mode 100644 man1/localedef.1
+
+diff --git a/man1/localedef.1 b/man1/localedef.1
+new file mode 100644
+index 0000000..f5f20b8
+--- /dev/null
++++ b/man1/localedef.1
+@@ -0,0 +1,357 @@
++.\" Copyright (C) 2001 Richard Braakman
++.\" Copyright (C) 2004 Alastair McKinstry
++.\" Copyright (C) 2005 Lars Wirzenius
++.\" Copyright (C) 2014 Marko Myllynen
++.\" 
++.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
++.\" This is free documentation; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public License as
++.\" published by the Free Software Foundation; either version 2 of
++.\" the License, or (at your option) any later version.
++.\" 
++.\" The GNU General Public License's references to "object code"
++.\" and "executables" are to be interpreted as the output of any
++.\" document formatting or typesetting system, including
++.\" intermediate and printed output.
++.\"
++.\" This manual is distributed in the hope that it will be useful,
++.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
++.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++.\" GNU General Public License for more details.
++.\"
++.\" You should have received a copy of the GNU General Public
++.\" License along with this manual; if not, see
++.\" <http://www.gnu.org/licenses/>.
++.\" %%%LICENSE_END
++.\"
++.\" This manual page was initially written by Richard Braakman
++.\" on behalf of the Debian GNU/Linux Project and anyone else
++.\" who wants it. It was amended by Alastair McKinstry to 
++.\" explain new ISO 14652 elements, and amended further by
++.\" Lars Wirzenius to document new functionality (as of GNU
++.\" C library 2.3.5).
++.\"
++.TH LOCALEDEF 1 2014-05-26 "Linux" "Linux Programmer's Manual"
++.SH NAME
++localedef \- compile locale definition files
++.SH SYNOPSIS
++.ad l
++.nh
++.B localedef
++.RI [ options ]
++.I outputpath
++.br
++.B "localedef \-\-list\-archive"
++.RI [ options ]
++.br
++.B "localedef \-\-delete\-from\-archive"
++.RI [ options ]
++.IR localename " ..."
++.br
++.B "localedef \-\-add\-to\-archive"
++.RI [ options ]
++.IR compiledpath
++.br
++.B "localedef \-\-version"
++.br
++.B "localedef \-\-help"
++.br
++.B "localedef \-\-usage"
++.ad b
++.hy
++.SH DESCRIPTION
++The
++.B localedef
++program reads the indicated
++.I charmap
++and
++.I input
++files, compiles them to a binary form quickly usable by the
++.BR locale (7)
++functions in the C library, and places the output in 
++.IR outputpath .
++.PP
++If
++.I outputpath
++contains a slash character ('/'), it is directly the name of the output
++directory.
++In this case, there is a separate output file for each locale category
++(LC_CTIME, LC_NUMERIC, and so on).
++.PP
++Otherwise, if the 
++.B \-\-no\-archive
++option is used,
++.I outputpath
++is the name of a subdirectory in
++.B /usr/lib/locale
++where per-category compiled files are placed.
++.PP
++Otherwise, 
++.I outputpath
++is the name of a locale and the compiled locale data is added to the
++archive file 
++.IR /usr/lib/locale/locale-archive .
++A locale archive is a memory-mapped file which contains all the system 
++provided locales; it is used by all localized programs when the 
++environment variable
++.B LOCPATH
++is not set.
++.PP
++In any case,
++.B localedef
++aborts if the directory in which it tries to write locale files has
++not already been created.
++.PP
++If no
++.I charmapfile
++is given, the value
++.I ANSI_X3.4-1968
++(for ASCII) is used by default.
++If no
++.I inputfile
++is given, or if it is given as a dash
++.RB ( \- ),
++.B localedef
++reads from standard input.
++.SH OPTIONS
++.SS "Operation selection options"
++A few options direct 
++.B localedef
++to do something else than compile locale definitions.
++Only one of these should be used at a time.
++.TP
++.B \-\-delete\-from\-archive
++Delete the named locales from the locale archive file.
++.TP
++.B \-\-list\-archive
++List the locales contained in the locale archive file.
++.TP
++.B \-\-add\-to\-archive
++Add the 
++.I compiledpath
++directories to the locale archive file.
++The directories should have been created by previous runs of 
++.BR localedef ,
++using 
++.BR \-\-no\-archive .
++.SS "Other options"
++Some of the following options are only sensible for some operations; 
++generally, it should be self-evident which ones.
++.TP
++.BI \-f " charmapfile" ", \-\-charmap=" charmapfile
++Specify the file that defines the symbolic character names
++that are used by the input file.
++If
++.I charmapfile
++contains a slash character ('/'),
++it is directly the name of the character map.
++Otherwise, the file is searched from the current directory 
++and the default directory for character maps.
++If the environment variable
++.B I18NPATH
++is set, 
++.B $I18NPATH/charmaps/
++and
++.B $I18NPATH/
++are also searched after the current directory.
++The default directory for character maps is printed by
++.BR "localedef \-\-help" .
++.TP
++.BI \-i " inputfile" ", \-\-inputfile=" inputfile
++Specify the locale definition file to compile.
++The file is searched from the current directory
++and the default directory for locale definition files.
++If the environment variable
++.B I18NPATH
++is set, 
++.B $I18NPATH/locales/
++and
++.B $I18NPATH
++are also searched after the current directory.
++The default directory for locale definition files is printed by
++.BR "localedef \-\-help" .
++.TP
++.BI \-u " repertoirefile" ", \-\-repertoire-map=" repertoirefile
++Read mappings from symbolic names to Unicode UCS4 values from
++.IR repertoirefile .
++If
++.I repertoirefile
++contains a slash character ('/'),
++it is directly the name of the repertoire map.
++Otherwise, the file is searched from the current directory
++and the default directory for repertoire maps.
++If the environment variable
++.B I18NPATH
++is set, 
++.B $I18NPATH/repertoiremaps/
++and
++.B $I18NPATH
++are also searched after the current directory.
++The default directory for repertoire maps is printed by
++.BR "localedef \-\-help" .
++.TP
++.BI \-A " aliasfile" ", \-\-alias\-file=" aliasfile
++Use 
++.I aliasfile
++to look up aliases for locale names.
++There is no default aliases file.
++.TP
++.BI \-\-prefix= pathname
++Set prefix to be prepended to the full archive pathname.
++By default, the prefix is empty.
++Setting the prefix to 
++.IR foo ,
++the archive would be placed in
++.IR foo/usr/lib/locale/locale-archive .
++.TP
++.B "\-c, \-\-force"
++Write the output files even if warnings were generated about the input
++file.
++.TP
++.B \-\-old\-style
++Create old-style hash tables instead of 3-level access tables.
++.TP
++.B "\-v, \-\-verbose"
++Generate extra warnings about errors that are normally ignored.
++.TP
++.B \-\-quiet
++Suppress all notifications and warnings, and report only fatal errors.
++.TP
++.B \-\-posix
++Conform strictly to POSIX.  Implies
++.BR \-\-verbose .
++This option currently has no other effect.
++POSIX conformance is assumed if the environment variable
++.B POSIXLY_CORRECT
++is set.
++.TP
++.B \-\-replace
++Replace a locale in the locale archive file.
++Without this option, if the locale is in the archive file already,
++an error occurs.
++.TP
++.B \-\-no\-archive
++Do not use the locale archive file, instead create 
++.I outputpath
++as a subdirectory in the same directory as the locale archive file,
++and create separate output files for locale categories in it.
++.TP
++.B "\-\-help"
++Print a usage summary and exit.
++Also prints the default paths used by
++.BR localedef .
++.TP
++.B "\-\-usage"
++Print a short usage summary and exit.
++.TP
++.B "\-V, \-\-version"
++Print the version number, license, and disclaimer of warranty for
++.BR localedef .
++.SH EXIT STATUS
++One of the following exit values can be returned by
++.BR localedef :
++.RS 3
++.TP 10
++.B 0
++Command completed successfully.
++.TP
++.B 1
++Warnings or errors occurred, output files were written.
++.TP
++.B 4
++Errors encountered, no output created.
++.RE
++.SH ENVIRONMENT
++.TP
++.B POSIXLY_CORRECT
++The
++.B \-\-posix
++flag is assumed if this environment variable is set.
++.TP
++.B I18NPATH
++A colon-separated list of search directories for files.
++.SH FILES
++.TP
++.I /usr/share/i18n/charmaps
++Usual default character map path.
++.TP
++.I /usr/share/i18n/locales
++Usual default path for locale definition files.
++.TP
++.I /usr/share/i18n/repertoiremaps
++Usual default repertoire map path.
++.TP
++.I /usr/lib/locale/locale-archive
++Usual default locale archive location.
++.TP
++.I outputpath/LC_ADDRESS
++An output file that contains contains information about formatting of 
++addresses and geography-related items.
++.TP
++.I outputpath/LC_COLLATE
++An output file that contains information about the rules for comparing 
++strings.
++.TP
++.I outputpath/LC_CTYPE
++An output file that contains information about character classes.
++.TP
++.I outputpath/LC_IDENTIFICATION
++An output file that contains metadata about the locale.
++.TP
++.I outputpath/LC_MEASUREMENT
++An output file that contains information about locale measurements 
++(metric versus US customary).
++.TP
++.I outputpath/LC_MESSAGES/SYS_LC_MESSAGES
++An output file that contains information about the language messages 
++should be printed in, and what an affirmative or negative answer looks 
++like.
++.TP
++.I outputpath/LC_MONETARY
++An output file that contains information about formatting of monetary 
++values.
++.TP
++.I outputpath/LC_NAME
++An output file that contains information about salutations for persons.
++.TP
++.I outputpath/LC_NUMERIC
++An output file that contains information about formatting of nonmonetary 
++numeric values.
++.TP
++.I outputpath/LC_PAPER
++An output file that contains information about settings related to 
++standard paper size.
++.TP
++.I outputpath/LC_TELEPHONE
++An output file that contains information about formats to be used with 
++telephone services.
++.TP
++.I outputpath/LC_TIME
++An output file that contains information about formatting of data and 
++time values.
++.SH CONFORMING TO
++POSIX.1-2008.
++.SH EXAMPLE
++Compile the locale files for Finnish in the UTF\-8 character set
++and add it to the default locale archive with the name 
++.BR fi_FI.UTF\-8 :
++.PP
++.RS
++localedef \-f UTF\-8 \-i fi_FI fi_FI.UTF\-8
++.RE
++.PP
++The next example does the same thing, but generates files into the
++.B fi_FI.UTF\-8
++directory which can then be used by programs when the environment
++variable
++.B LOCPATH
++is set to the current directory (note that the last argument must 
++contain a slash):
++.PP
++.RS
++localedef \-f UTF\-8 \-i fi_FI ./fi_FI.UTF\-8
++.RE
++.SH "SEE ALSO"
++.BR locale (1),
++.BR locale (5),
++.BR locale (7)
+-- 
+1.7.1
+
+Thanks,
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
