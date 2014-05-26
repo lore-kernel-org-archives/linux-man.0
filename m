@@ -1,49 +1,99 @@
-From: HUSAM AL SAYED <Husamalsayed-NQqDYL4TTn4@public.gmane.org>
-Subject: Your Urgent reply.
-Date: Mon, 26 May 2014 22:00:48 +0400
-Message-ID: <CAKFyHyqE-jAV0G8GqYW7H_3cUYv2iXVQm5a6-m1VNZWRhKVXAg__40433.261000044$1401127306$gmane$org@mail.gmail.com>
-Reply-To: Husamalsayed-NQqDYL4TTn4@public.gmane.org
+From: Vasiliy Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
+Subject: Re: Documenting execve() and EAGAIN
+Date: Mon, 26 May 2014 22:11:20 +0400
+Message-ID: <20140526181120.GB11145@cachalot>
+References: <537CEC90.7060000@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <537CEC90.7060000-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Dear Friend,
+Hi Michael,
 
+On Wed, May 21, 2014 at 20:12 +0200, Michael Kerrisk (man-pages) wrote:
+> Vasily (and Motohiro),
+>=20
+> Sometime ago, Motohiro raised a documentation bug
+> ( https://bugzilla.kernel.org/show_bug.cgi?id=3D42704 ) which=20
+> relates to your commit 72fa59970f8698023045ab0713d66f3f4f96945c
+> ("move RLIMIT_NPROC check from set_user() to do_execve_common()")
+>=20
+> I have attempted to document this, and I would like to ask you
+> (and Motohiro) if you would review the text proposed below for
+> the exceve(2) man page.
+>=20
+> Thank you,
+>=20
+> Michael
+>=20
+>=20
+> ERRORS
+>        EAGAIN (since Linux 3.1)
+>               Having  changed its real UID using one of the set*uid()
+>               calls,  the  caller  was=E2=80=94and  is  now  still=E2=
+=80=94above  its
+>               RLIMIT_NPROC  resource limit (see setrlimit(2)).  For a
+>               more detailed explanation of this error, see NOTES.
+>=20
+> NOTES
+>    execve() and EAGAIN
+>        A more detailed explanation of the EAGAIN error that can occur
+>        (since Linux 3.1) when calling execve() is as follows.
+>=20
+>        The EAGAIN error can occur when a preceding call to setuid(2),
+>        setreuid(2), or setresuid(2) caused the real user  ID  of  the
+>        process  to  change,  and  that  change  caused the process to
+>        exceed its RLIMIT_NPROC resource limit (i.e.,  the  number  of
+>        processes  belonging  to the new real UID exceeds the resource
+>        limit).  In Linux 3.0 and earlier, this caused  the  set*uid()
+>        call to fail.
+>=20
+>        Since  Linux 3.1, the scenario just described no longer causes
+>        the set*uid() call to fail, because it too often led to  secu=E2=
+=80=90
+>        rity  holes because buggy applications didn't check the return
+>        status and assumed that=E2=80=94if the caller had root  privil=
+eges=E2=80=94the
+>        call  would  always succeed.  Instead, the set*uid() calls now
+>        successfully change real UID, but the kernel sets an  internal
+>        flag,  named  PF_NPROC_EXCEEDED, to note that the RLIMIT_NPROC
+>        resource limit has been exceeded.  If the  resource  limit  is
+>        still exceeded at the time of a subsequent execve() call, that
+>        call fails with the error EAGAIN.  This kernel  logic  ensures
+>        that the RLIMIT_NPROC resource limit is still enforced for the
+>        common privileged daemon workflow=E2=80=94namely, fork(2)+  se=
+t*uid()+
+>        execve(2).
+>=20
+>        If  the  resource  limit was not still exceeded at the time of
+>        the execve() call (because other processes belonging  to  this
+>        real  UID  terminated  between  the  set*uid()  call  and  the
+>        execve() call), then the execve() call succeeds and the kernel
+>        clears  the  PF_NPROC_EXCEEDED process flag.  The flag is also
+>        cleared if a subsequent call to fork(2) by this  process  suc=E2=
+=80=90
+>        ceeds.
 
-Compliments of the day.This mail May be a surprise to you Because you
-did not give me the permission to do so and Neither do you know me but
-before I tell you about myself I want you to please forgive me for
-sending this mail without your permission I have been in search of
-someone with this last name so when I saw you online, I was pushed to
-contact you and see how best we can assist each other. I am Mr. Husam
-Al Sayed, a Bank Officer here in U.A.E. I believe it is the wish of
-God for me to come across you now. I am having an important business
-discussion I wish to share with you which I  believe will interest
-you, because it is in connection with your last name and you are going
-to benefit from it.
+Probably explicitly state that NPROC check on execve() is processed onl=
+y
+in case of a previous set*uid() call?  If there was no previous
+set*uid() call the semantics of execve() checks are the same as before
+(IOW, RLIMIT_NPROC is ignored).
 
-One Late peter who was among the death victims in the May 27 2006
-Earthquake disaster in Java, Indonesia that killed over 5,000 people.
-He was in Indonesia on a business trip and that was how he met his
-end. My bank management is yet to know about his death, I knew about
-it because he was my friend and I am his account officer.he did not
-mention any Next of Kin/ Heir when the account was opened, and he was
-not married and no children. Last week my Bank Management requested
-that he should give instructions on what to do about his funds,I know
-this will happen and that is why I have been looking for a means to
-handle the situation,
+The rest is fine.
 
-If you are interested send me your private Email Address so that i can
-send you more details of the transaction,
-Thanks for your understanding
+Thanks!
 
-I am waiting for your reply.
-
-Best regards,
-
-Mr. Husam Al Sayed
+--=20
+Vasily Kulikov
+http://www.openwall.com - bringing security into open computing environ=
+ments
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
