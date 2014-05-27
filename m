@@ -1,51 +1,67 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] localedef.1: add new page based on Debian localedef(1)
-Date: Tue, 27 May 2014 11:18:05 +0300
-Message-ID: <53844A3D.1000600@redhat.com>
-References: <53834E2B.1040100@redhat.com> <53835782.10204@gmail.com> <53837379.8030600@redhat.com> <53844885.6010603@gmail.com>
-Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] proc.5: add missing proc stats fields
+Date: Tue, 27 May 2014 14:10:59 +0200
+Message-ID: <20140527121059.15025.95410.stgit@unused-4-157.brq.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53844885.6010603-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Braakman <richard.braakman-4y2FMlU5MS8onNqTyK5kxQ@public.gmane.org>, Alastair McKinstry <mckinstry-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Lars Wirzenius <liw-X3B1VOXEql0@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, johnsonm-MGnxaD/BIt43uPMLIKxrzw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Adding missing proc stats fields from https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: Table 1-4: Contents of the stat files (as of 2.6.30-rc7). Distribution: Fedora 20. Man-pages: man-pages-3.67.
 
-On 2014-05-27 11:10, Michael Kerrisk (man-pages) wrote:
-> On 05/26/2014 07:01 PM, Marko Myllynen wrote:
->> On 2014-05-26 18:02, Michael Kerrisk (man-pages) wrote:
-> 
->> +.SH DESCRIPTION
->> +The
->> +.B localedef
->> +program reads the indicated
->> +.I charmap
->> +and
->> +.I input
->> +files, compiles them to a binary form quickly usable by the
->> +.BR locale (7)
-> 
-> I changed 
-> "locale(7) function sin the C library" 
-> to 
-> "locale functions in the C library (setlocale(3), localeconv(3), etc.)"
-> 
-> Okay?
+Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+---
+ man5/proc.5 |   32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-Sure.
+diff --git a/man5/proc.5 b/man5/proc.5
+index a106b17..620e6e3 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1385,6 +1385,38 @@ for a guest operating system), measured in clock ticks (divide by
+ .IR sysconf(_SC_CLK_TCK) ).
+ .RE
+ .TP
++\fIstart_data\fP %lu (since Linux 2.6.30)
++(45) Address above which program data+bss is placed.
++.RE
++.TP
++\fIend_data\fP %lu (since Linux 2.6.30)
++(46) Address below which program data+bss is placed.
++.RE
++.TP
++\fIstart_brk\fP %lu (since Linux 2.6.30)
++(47) Address above which program heap can be expanded with brk().
++.RE
++.TP
++\fIarg_start\fP %lu (since Linux 2.6.30)
++(48) Address above which program command line is placed.
++.RE
++.TP
++\fIarg_end\fP %lu (since Linux 2.6.30)
++(49) Address below which program command line is placed.
++.RE
++.TP
++\fIenv_start\fP %lu (since Linux 2.6.30)
++(50) Address above which program environment is placed.
++.RE
++.TP
++\fIenv_end\fP %lu (since Linux 2.6.30)
++(51) Address below which program environment is placed.
++.RE
++.TP
++\fIexit_code\fP %d (since Linux 2.6.30)
++(52) The thread's exit_code in the form reported by the waitpid system.
++.RE
++.TP
+ .I /proc/[pid]/statm
+ Provides information about memory usage, measured in pages.
+ The columns are:
 
-Thanks for your help, and thanks to Richard, Alastair, and Lars for the
-foundation for this.
-
-Cheers,
-
--- 
-Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
