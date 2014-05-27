@@ -1,67 +1,33 @@
-From: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] proc.5: add missing proc stats fields
-Date: Tue, 27 May 2014 14:10:59 +0200
-Message-ID: <20140527121059.15025.95410.stgit@unused-4-157.brq.redhat.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 76851] inotify_rm_watch(2) unspecified behavior
+Date: Tue, 27 May 2014 16:25:24 +0000
+Message-ID: <bug-76851-11311-1esItzmpmN@https.bugzilla.kernel.org/>
+References: <bug-76851-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-76851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, johnsonm-MGnxaD/BIt43uPMLIKxrzw@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Adding missing proc stats fields from https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: Table 1-4: Contents of the stat files (as of 2.6.30-rc7). Distribution: Fedora 20. Man-pages: man-pages-3.67.
+https://bugzilla.kernel.org/show_bug.cgi?id=76851
 
-Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man5/proc.5 |   32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+--- Comment #4 from Jeff <junk.jsmith+kernel.org-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I should also add that my assumptions about watch descriptor reuse may very
+well be overly cautious. If there is a guarantee that a wd will never be
+returned by a inotify_add_watch() call until nothing with that wd remains in
+the read queue, clients could handle deregistration semi-synchronously by
+knowing to drop locally unmapped events.
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index a106b17..620e6e3 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -1385,6 +1385,38 @@ for a guest operating system), measured in clock ticks (divide by
- .IR sysconf(_SC_CLK_TCK) ).
- .RE
- .TP
-+\fIstart_data\fP %lu (since Linux 2.6.30)
-+(45) Address above which program data+bss is placed.
-+.RE
-+.TP
-+\fIend_data\fP %lu (since Linux 2.6.30)
-+(46) Address below which program data+bss is placed.
-+.RE
-+.TP
-+\fIstart_brk\fP %lu (since Linux 2.6.30)
-+(47) Address above which program heap can be expanded with brk().
-+.RE
-+.TP
-+\fIarg_start\fP %lu (since Linux 2.6.30)
-+(48) Address above which program command line is placed.
-+.RE
-+.TP
-+\fIarg_end\fP %lu (since Linux 2.6.30)
-+(49) Address below which program command line is placed.
-+.RE
-+.TP
-+\fIenv_start\fP %lu (since Linux 2.6.30)
-+(50) Address above which program environment is placed.
-+.RE
-+.TP
-+\fIenv_end\fP %lu (since Linux 2.6.30)
-+(51) Address below which program environment is placed.
-+.RE
-+.TP
-+\fIexit_code\fP %d (since Linux 2.6.30)
-+(52) The thread's exit_code in the form reported by the waitpid system.
-+.RE
-+.TP
- .I /proc/[pid]/statm
- Provides information about memory usage, measured in pages.
- The columns are:
+This is something that I've not investigated recently, and I am completely
+uncertain of any guarantees, but the kernel folks may have already done this
+and just not passed the information along to users.
 
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
