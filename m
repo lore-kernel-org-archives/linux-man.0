@@ -1,64 +1,80 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
-Date: Tue, 27 May 2014 21:28:37 +0200
-Message-ID: <CAKgNAkht1vubHueYPpkRu_W5B8OYW3rPUkHeLEq5WMVbCvO47w@mail.gmail.com>
-References: <536101C9.9090601@gmail.com> <CAKgNAkgA_xTfRZhpyVwuACpCY7xMK89e0bK4PuVMG9reNV6Skw@mail.gmail.com>
- <20140512143451.GB13801@kernel.org> <20140521210535.GA5414@kernel.org>
- <537E0961.8040005@gmail.com> <20140526134647.GB8176@kernel.org>
- <20140526211706.GA25474@kernel.org> <5384BEC5.2080607@gmail.com> <20140527192115.GD25474@kernel.org>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: inotify_rm_watch() user-space safety requirements?
+Date: Tue, 27 May 2014 21:32:11 +0200
+Message-ID: <5384E83B.1030209@gmx.de>
+References: <CAAih0NjG4gC-7fkD5vOvF0CQks+DhqVZLeycsju-8RMVP6dbBw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140527192115.GD25474-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAAih0NjG4gC-7fkD5vOvF0CQks+DhqVZLeycsju-8RMVP6dbBw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>
-Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?T25kxZllaiBCw61sa2E=?= <neleai-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>, Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>, =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi.denis-courmont-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, Paul Moore <paul-r2n+y4ga6xFZroRs9YW3xA@public.gmane.org>, Chris Friesen <chris.friesen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>, Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Jeff Smith <jsmith.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-FjpueFixGhCM4zKIHC2jIg@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, May 27, 2014 at 9:21 PM, Arnaldo Carvalho de Melo
-<acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org> wrote:
-> Em Tue, May 27, 2014 at 06:35:17PM +0200, Michael Kerrisk (man-pages) escreveu:
->> On 05/26/2014 11:17 PM, Arnaldo Carvalho de Melo wrote:
->> > Can you try the attached patch on top of the first one?
+On 27.05.2014 19:25, Jeff Smith wrote:
+> inotify's behavior concerning events from removed watches (they do
+> happen) and watch descriptor reuse (beyond my knowledge) is currently
+> undocumented.
 >
->> Patches on patches is a way to make your testers work unnecessarily
->> harder. Also, it means that anyone else who was interested in this
+> Although it mimics a standard multiplexing interface in most regards,
+> writing a robust user-space handler is comparatively more complex due
+> to the atypical delivery of "stale" wd events preceding an IN_IGNORE
+> event and a lack of guarantees about how quickly a wd can be reused
+> via inotify_add_watch(). Not being familiar with inotify/fsnotify
+> internals, it's not trivially obvious to me how the fsnotify_group
+> management is being done. Up to the present, I've maintained queues of
+> "dead" wd wrappers (or at least a counter) to filter stale events, but
+> I am clueless whether or not this is overkill.
 >
-> It was meant to highlight the changes with regard to the previous patch,
-> i.e. to make things easier for reviewing.
-
-(I don't think that works...)
-
->> thread likely got lost at this point, because they probably didn't
->> save the first patch. All of this to say: it makes life much easier
->> if you provide a complete new self-contained patch on each iteration.
+> If removed descriptors are reserved until the IN_IGNORE event is
+> drained from the read queue, could that be formally guaranteed? If
+> it's not, is it functionality that could ever reasonably be expected
+> to be added, short of some other form of new (optional?)
+> queue-filter-on-rm functionality? It's my experience that the
+> asynchronous handling of watch removals is a cost that seldom serves
+> much user benefit.
 >
-> If you prefer it that way, find one attached, that I was about to send
-> (but you can wait till I use your program to test it ;-) )
->
->> > It starts adding explicit parentheses on a ternary, as David requested,
->> > and then should return the remaining timeouts in cases like signals,
->> > etc.
->> >
->> > Please let me know if this is enough.
->>
->> Nope, it doesn't fix the problem. (I applied both patches against 3.15-rc7)
->
-> What was the problem experienced?
+ > Regards,
+ > Jeff
 
-The problem is that after EINTR, the timeout is not updated with the
-remaining time until expiry. (This was true with just patch 1 applied,
-and is also true with both patch 1 and patch 2 applied.)
+Hello Jeff,
 
-Cheers,
+I tried to dive a bit into the code. This is what I understand:
 
-Michael
+Function inotify_ignored_and_remove_idr is called after the mark has 
+been removed. This function puts an IN_IGNORED event onto the inotify 
+queue and removes the watch descriptor from the list of used watch 
+descriptors using function idr_remove.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+With a test program I could receive the IN_IGNORED event. This behavior 
+is currently not documented in the manpages (inotify.7 and 
+inotify_rm_watch.2).
+
+When inotify_add_watch is called it uses function idr_alloc_cyclic to 
+assign a watch descriptor ID. This function starts looking for an unused 
+id starting with the id after the last assigned watch descriptor.
+
+This implies that in most cases inotify_add_watch will return a watch 
+descriptor different to the one released by a prior call to 
+inotify_rm_watch. But there is no guarantee.
+
+I consider this a bug.
+
+I CCed the maintainers of the inotify interface hoping that they can 
+provide a better solution.
+
+Until such a solution is provided I suggest you use the following 
+workaround. After calling inotify_rm_watch read from the inotify file 
+descriptor until you reach the matching IN_IGNORED event.
+
+Only thereafter you can safely call inotify_add_watch again.
+
+Best regards
+
+Heinrich Schuchardt
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
