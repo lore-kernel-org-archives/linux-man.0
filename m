@@ -1,253 +1,132 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] host.conf(5): order option deprecated, replaced by nsswitch.conf(5)
-Date: Tue, 27 May 2014 07:53:46 +0200
-Message-ID: <CAKgNAki4Bkoz5-WQN_V1MNrYYp-PooD0S6Bq7L1xWV6tVUyJ-A@mail.gmail.com>
-References: <1355073222-13020-1-git-send-email-spaillard@debian.org> <53777D0A.3010601@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] localedef.1: add new page based on Debian localedef(1)
+Date: Tue, 27 May 2014 10:10:45 +0200
+Message-ID: <53844885.6010603@gmail.com>
+References: <53834E2B.1040100@redhat.com> <53835782.10204@gmail.com> <53837379.8030600@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53777D0A.3010601-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <53837379.8030600-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Braakman <richard.braakman-4y2FMlU5MS8onNqTyK5kxQ@public.gmane.org>, Alastair McKinstry <mckinstry-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Lars Wirzenius <liw-X3B1VOXEql0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Simon,
+On 05/26/2014 07:01 PM, Marko Myllynen wrote:
+> Hi Michael,
+> 
+> On 2014-05-26 18:02, Michael Kerrisk (man-pages) wrote:
+>>
+>> Thanks for doing the work needed to get this page toward man-pages.
+> 
+> thanks for the detailed review. I think I've addressed now all your
+> comments. Wrt POSIX conformance, my reading of
+> http://pubs.opengroup.org/onlinepubs/9699919799/utilities/localedef.html
+> makes me think we can state it is conforming to POSIX.1-2008.> 
+> Let me know if there's anything else that needs to be adjusted.
 
-Ping!
+Great stuff, Marko. I've merged this page.
+
+I made a few minor fixes, and have one comment below.
+
+>>From c066dbbb5f547c3b212377920e0914280a76853d Mon Sep 17 00:00:00 2001
+> From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date: Mon, 26 May 2014 19:53:13 +0300
+> Subject: [PATCH] localedef.1: add new page based on Debian localedef(1)
+> 
+> ---
+>  man1/localedef.1 |  357 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 files changed, 357 insertions(+), 0 deletions(-)
+>  create mode 100644 man1/localedef.1
+> 
+> diff --git a/man1/localedef.1 b/man1/localedef.1
+> new file mode 100644
+> index 0000000..f5f20b8
+> --- /dev/null
+> +++ b/man1/localedef.1
+> @@ -0,0 +1,357 @@
+> +.\" Copyright (C) 2001 Richard Braakman
+> +.\" Copyright (C) 2004 Alastair McKinstry
+> +.\" Copyright (C) 2005 Lars Wirzenius
+> +.\" Copyright (C) 2014 Marko Myllynen
+> +.\" 
+> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+> +.\" This is free documentation; you can redistribute it and/or
+> +.\" modify it under the terms of the GNU General Public License as
+> +.\" published by the Free Software Foundation; either version 2 of
+> +.\" the License, or (at your option) any later version.
+> +.\" 
+> +.\" The GNU General Public License's references to "object code"
+> +.\" and "executables" are to be interpreted as the output of any
+> +.\" document formatting or typesetting system, including
+> +.\" intermediate and printed output.
+> +.\"
+> +.\" This manual is distributed in the hope that it will be useful,
+> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +.\" GNU General Public License for more details.
+> +.\"
+> +.\" You should have received a copy of the GNU General Public
+> +.\" License along with this manual; if not, see
+> +.\" <http://www.gnu.org/licenses/>.
+> +.\" %%%LICENSE_END
+> +.\"
+> +.\" This manual page was initially written by Richard Braakman
+> +.\" on behalf of the Debian GNU/Linux Project and anyone else
+> +.\" who wants it. It was amended by Alastair McKinstry to 
+> +.\" explain new ISO 14652 elements, and amended further by
+> +.\" Lars Wirzenius to document new functionality (as of GNU
+> +.\" C library 2.3.5).
+> +.\"
+> +.TH LOCALEDEF 1 2014-05-26 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +localedef \- compile locale definition files
+> +.SH SYNOPSIS
+> +.ad l
+> +.nh
+> +.B localedef
+> +.RI [ options ]
+> +.I outputpath
+> +.br
+> +.B "localedef \-\-list\-archive"
+> +.RI [ options ]
+> +.br
+> +.B "localedef \-\-delete\-from\-archive"
+> +.RI [ options ]
+> +.IR localename " ..."
+> +.br
+> +.B "localedef \-\-add\-to\-archive"
+> +.RI [ options ]
+> +.IR compiledpath
+> +.br
+> +.B "localedef \-\-version"
+> +.br
+> +.B "localedef \-\-help"
+> +.br
+> +.B "localedef \-\-usage"
+> +.ad b
+> +.hy
+> +.SH DESCRIPTION
+> +The
+> +.B localedef
+> +program reads the indicated
+> +.I charmap
+> +and
+> +.I input
+> +files, compiles them to a binary form quickly usable by the
+> +.BR locale (7)
+
+I changed 
+"locale(7) function sin the C library" 
+to 
+"locale functions in the C library (setlocale(3), localeconv(3), etc.)"
+
+Okay?
 
 Cheers,
 
 Michael
-
-
-
-On Sat, May 17, 2014 at 5:15 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 12/09/2012 06:13 PM, Simon Paillard wrote:
->> http://www.sourceware.org/bugzilla/show_bug.cgi?id=2389
->> http://repo.or.cz/w/glibc.git/commit/b9c65d0902e5890c4f025b574725154032f8120a
->>
->> Reported at http://bugs.debian.org/270368 http://bugs.debian.org/396633
->> ---
->>  man3/resolver.3    |    2 +-
->>  man5/host.conf.5   |   14 ++------------
->>  man5/resolv.conf.5 |    4 +++-
->>  3 files changed, 6 insertions(+), 14 deletions(-)
->>
->> diff --git a/man3/resolver.3 b/man3/resolver.3
->> index 991b263..2cd4ec7 100644
->> --- a/man3/resolver.3
->> +++ b/man3/resolver.3
->> @@ -87,7 +87,7 @@ domain name servers.
->>  The
->>  .BR res_init ()
->>  function reads the configuration files (see
->> -resolv.conf(5)) to get the default domain name, search order and name
->> +resolv.conf(5)) to get the default domain name and name
->>  server address(es).
->>  If no server is given, the local host is tried.
->>  If no domain is given, that associated with the local host is used.
->> diff --git a/man5/host.conf.5 b/man5/host.conf.5
->> index 189e2e9..ed1403d 100644
->> --- a/man5/host.conf.5
->> +++ b/man5/host.conf.5
->> @@ -33,15 +33,9 @@ contains configuration information specific to the resolver library.
->>  It should contain one configuration keyword per line, followed by
->>  appropriate configuration information.
->>  The keywords recognized are
->> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->> +.IR trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->>  These keywords are described below.
->>  .TP
->> -.I order
->> -This keyword specifies how host lookups are to be performed.
->> -It should be followed by one or more lookup methods, separated by commas.
->> -Valid methods are
->> -.IR bind ", " hosts ", and " nis .
->> -.TP
->>  .I trim
->>  This keyword may be listed more than once.
->>  Each time it should be
->> @@ -141,11 +135,6 @@ override the behavior which is configured in
->>  If set this variable points to a file that should be read instead of
->>  .IR /etc/host.conf .
->>  .TP
->> -.B RESOLV_SERV_ORDER
->> -Overrides the
->> -.I order
->> -command.
->> -.TP
->>  .B RESOLV_SPOOF_CHECK
->>  Overrides the
->>  .IR nospoof ", " spoofalert " and " spoof
->> @@ -200,4 +189,5 @@ Line comments can appear anywhere and not only at the beginning of a line.
->>  .BR gethostbyname (3),
->>  .BR hostname (7),
->>  .BR named (8),
->> +.BR nsswitch.conf (5),
->>  .BR resolv+ (8)
->> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
->> index 9a3ca54..282f748 100644
->> --- a/man5/resolv.conf.5
->> +++ b/man5/resolv.conf.5
->> @@ -134,6 +134,7 @@ sets
->>  .BR RES_DEBUG
->>  in
->>  .IR _res.options .
->> +This option needs glibc to be build with debugging enabled.
->>  .TP
->>  .BI ndots: n
->>  .\" Since glibc 2.2
->> @@ -275,6 +276,7 @@ in the first column are treated as comments.
->>  .BR gethostbyname (3),
->>  .BR resolver (3),
->>  .BR hostname (7),
->> -.BR named (8)
->> +.BR named (8),
->> +.BR nsswitch.conf (5)
->>  .br
->>  Name Server Operations Guide for BIND
->
-> Simon,
->
-> I propose the patch below. Look okay to you?
->
-> Cheers,
->
-> Michael
->
-> diff --git a/man3/resolver.3 b/man3/resolver.3
-> index a3fd2e8..7dc2002 100644
-> --- a/man3/resolver.3
-> +++ b/man3/resolver.3
-> @@ -29,7 +29,7 @@
->  .\" Modified 1993-07-25 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified 2004-10-31 by aeb
->  .\"
-> -.TH RESOLVER 3 2013-03-05 "GNU" "Linux Programmer's Manual"
-> +.TH RESOLVER 3 2014-05-17 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  res_init, res_query, res_search, res_querydomain, res_mkquery, res_send,
->  dn_comp, dn_expand \- resolver routines
-> @@ -90,7 +90,7 @@ The
->  .BR res_init ()
->  function reads the configuration files (see
->  .BR resolv.conf (5))
-> -to get the default domain name, search order and name
-> +to get the default domain name and name
->  server address(es).
->  If no server is given, the local host is tried.
->  If no domain is given, that associated with the local host is used.
-> diff --git a/man5/host.conf.5 b/man5/host.conf.5
-> index a289cb4..e3d9073 100644
-> --- a/man5/host.conf.5
-> +++ b/man5/host.conf.5
-> @@ -23,7 +23,7 @@
->  .\" %%%LICENSE_END
->  .\"
->  .\" 2003-08-23 Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org> Updated according to glibc 2.3.2
-> -.TH HOST.CONF 5 2003-08-23 "Linux" "Linux System Administration"
-> +.TH HOST.CONF 5 2014-05-17 "Linux" "Linux System Administration"
->  .SH NAME
->  host.conf \- resolver configuration file
->  .SH DESCRIPTION
-> @@ -32,15 +32,7 @@ The file
->  contains configuration information specific to the resolver library.
->  It should contain one configuration keyword per line, followed by
->  appropriate configuration information.
-> -The keywords recognized are
-> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
-> -These keywords are described below.
-> -.TP
-> -.I order
-> -This keyword specifies how host lookups are to be performed.
-> -It should be followed by one or more lookup methods, separated by commas.
-> -Valid methods are
-> -.IR bind ", " hosts ", and " nis .
-> +The following keywords are recognized:
->  .TP
->  .I trim
->  This keyword may be listed more than once.
-> @@ -133,19 +125,14 @@ Reordering is done for all lookup methods.
->  The default value is
->  .IR off .
->  .SH ENVIRONMENT
-> -There are six environment variables that can be used to allow users to
-> +The following environment variables can be used to allow users to
->  override the behavior which is configured in
-> -.IR /etc/host.conf .
-> +.IR /etc/host.conf :
->  .TP
->  .B RESOLV_HOST_CONF
->  If set, this variable points to a file that should be read instead of
->  .IR /etc/host.conf .
->  .TP
-> -.B RESOLV_SERV_ORDER
-> -Overrides the
-> -.I order
-> -command.
-> -.TP
->  .B RESOLV_SPOOF_CHECK
->  Overrides the
->  .IR nospoof ", " spoofalert " and " spoof
-> @@ -196,8 +183,25 @@ and a new environment variable
->  can take arguments like
->  .IR off ", " nowarn " and " warn .
->  Line comments can appear anywhere and not only at the beginning of a line.
-> +.SS Historical
-> +In glibc 2.4 and earlier, the following keyword is recognized:
-> +.TP
-> +.I order
-> +This keyword specifies how host lookups are to be performed.
-> +It should be followed by one or more lookup methods, separated by commas.
-> +Valid methods are
-> +.IR bind ", " hosts ", and " nis .
-> +The
-> +.B RESOLV_SERV_ORDER
-> +environment variable could be used to override the
-> +.I order
-> +command.
-> +.PP
-> +The
-> +.BR nsswitch.conf (5)
-> +file is the modern way of controlling the order of host lookups.
->  .SH SEE ALSO
->  .BR gethostbyname (3),
-> +.BR nsswitch.conf (5)
->  .BR hostname (7),
-> -.BR named (8),
-> -.BR resolv+ (8)
-> +.BR named (8)
-> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-> index 3680a82..f9a0ba1 100644
-> --- a/man5/resolv.conf.5
-> +++ b/man5/resolv.conf.5
-> @@ -20,7 +20,7 @@
->  .\"
->  .\" Added ndots remark by Bernhard R. Link - debian bug #182886
->  .\"
-> -.TH RESOLV.CONF 5 2014-02-22 "" "Linux Programmer's Manual"
-> +.TH RESOLV.CONF 5 2014-05-17 "" "Linux Programmer's Manual"
->  .UC 4
->  .SH NAME
->  resolv.conf \- resolver configuration file
-> @@ -290,6 +290,7 @@ in the first column are treated as comments.
->  .SH SEE ALSO
->  .BR gethostbyname (3),
->  .BR resolver (3),
-> +.BR nsswitch.conf (5)
->  .BR hostname (7),
->  .BR named (8)
->  .br
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
 
 
 
