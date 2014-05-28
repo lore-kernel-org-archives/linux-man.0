@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 48641] [TRIVIAL]splice can return EAGAIN
-Date: Wed, 28 May 2014 13:18:15 +0000
-Message-ID: <bug-48641-11311-bbE8sFPEOx@https.bugzilla.kernel.org/>
+Date: Wed, 28 May 2014 13:27:16 +0000
+Message-ID: <bug-48641-11311-X7BxFyDtgn@https.bugzilla.kernel.org/>
 References: <bug-48641-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,9 +14,8 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=48641
 
---- Comment #3 from sakshi.april5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-Yes, I would like to work on this bug. Since this is my first time fixing a bug
-in Linux Kernel it would be nice if someone can help me out.
+--- Comment #4 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+This is a bug in the man page, not in the kernel...
 
 -- 
 You are receiving this mail because:
