@@ -1,55 +1,27 @@
-From: 'Arnaldo Carvalho de Melo' <acme@kernel.org>
-Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
-Date: Wed, 28 May 2014 18:49:33 -0300
-Message-ID: <20140528214933.GF2764@kernel.org>
-References: <20140526211706.GA25474@kernel.org>
- <5384BEC5.2080607@gmail.com>
- <20140527192115.GD25474@kernel.org>
- <CAKgNAkht1vubHueYPpkRu_W5B8OYW3rPUkHeLEq5WMVbCvO47w@mail.gmail.com>
- <20140527203010.GA2764@kernel.org>
- <5385D47A.3070401@gmail.com>
- <20140528150720.GB2764@kernel.org>
- <063D6719AE5E284EB5DD2968C1650D6D1724F2A0@AcuExch.aculab.com>
- <20140528195004.GD2764@kernel.org>
- <5386563F.8000901@windriver.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 60991] [TRIVIAL]Formula of CommitLimit is wrong
+Date: Wed, 28 May 2014 23:04:35 +0000
+Message-ID: <bug-60991-11311-F5dO6wyJJk@https.bugzilla.kernel.org/>
+References: <bug-60991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <5386563F.8000901@windriver.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Chris Friesen <chris.friesen@windriver.com>
-Cc: David Laight <David.Laight@ACULAB.COM>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, lkml <linux-kernel@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Ondrej =?iso-8859-1?Q?B=EDlka?= <neleai@seznam.cz>, Caitlin Bestler <caitlin.bestler@gmail.com>, Neil Horman <nhorman@tuxdriver.com>, Elie De Brauwer <eliedebrauwer@gmail.com>, David Miller <davem@davemloft.net>, Steven Whitehouse <steve@chygwyn.com>, =?iso-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis-courmont@nokia.com>, Paul Moore <paul@paul-moore.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-60991-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Em Wed, May 28, 2014 at 03:33:51PM -0600, Chris Friesen escreveu:
-> On 05/28/2014 01:50 PM, 'Arnaldo Carvalho de Melo' wrote:
- 
-> >What is being discussed here is how to return the EFAULT that may happen
-> >_after_ datagram processing, be it interrupted by an EFAULT, signal, or
-> >plain returning all that was requested, with no errors.
+https://bugzilla.kernel.org/show_bug.cgi?id=60991
 
-> >This EFAULT _after_ datagram processing may happen when updating the
-> >remaining timeout, because then how can userspace both receive the
-> >number of successfully copied datagrams (in any of the cases mentioned
-> >in the previous paragraph) and know that that timeout can't be used
-> >because there was a problem while trying to copy it to userspace
-> >(EFAULT)?
- 
-> How does select() handle this problem?  It updates the timeout and also
-> modifies other data.
- 
-> Could we just check whether the timeout pointer is valid before doing
-> anything else?  Of course we could still fault the page out while waiting
-> for messages and then fail to fault it back in later, but that seems like a
-> not-very-likely scenario.
+--- Comment #4 from sworddragon2-YDxpq3io04c@public.gmane.org ---
+The online documentation does still contain the old formula, does it maybe get
+always updated at a later time?
 
-I'll check how select behaves, and yes, I think it is not-very-likely
-and what we're doing now is reasonable for datagram protocols, i.e. to
-return -EFAULT when updating the timeout fails, not reporting if packets
-were successfully received, i.e. they end up being "dropped", as
-userspace can't easily figure out if some was received short of painting
-it with some pattern and then checking the ones that aren't with that
-pattern.
-
-- Arnaldo
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
