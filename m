@@ -1,121 +1,89 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] locale.5: document glibc conventions regarding days and
- week
-Date: Wed, 28 May 2014 17:19:33 +0200
-Message-ID: <5385FE85.3030809@gmail.com>
-References: <5382D64A.9020404@redhat.com> <CAKgNAkivXL4KwJoL9ZzEoc91zMx2sonKh=8ZV22Waa8BrWf6bQ@mail.gmail.com> <5385F087.2060602@redhat.com> <CAKgNAki4FD=2wJG+5bEqD7v7Q4ZD-2aOtRrQJEiBWKT2S2mMEA@mail.gmail.com> <5385F92F.5040301@redhat.com> <CAKgNAki=f8trD6a0DMV8SPJzQYFgSY1=5XsaVmVvvbDoFXX2QQ@mail.gmail.com> <5385FD8C.2060400@redhat.com>
+From: 'Arnaldo Carvalho de Melo' <acme@kernel.org>
+Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
+Date: Wed, 28 May 2014 16:50:04 -0300
+Message-ID: <20140528195004.GD2764@kernel.org>
+References: <537E0961.8040005@gmail.com>
+ <20140526134647.GB8176@kernel.org>
+ <20140526211706.GA25474@kernel.org>
+ <5384BEC5.2080607@gmail.com>
+ <20140527192115.GD25474@kernel.org>
+ <CAKgNAkht1vubHueYPpkRu_W5B8OYW3rPUkHeLEq5WMVbCvO47w@mail.gmail.com>
+ <20140527203010.GA2764@kernel.org>
+ <5385D47A.3070401@gmail.com>
+ <20140528150720.GB2764@kernel.org>
+ <063D6719AE5E284EB5DD2968C1650D6D1724F2A0@AcuExch.aculab.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5385FD8C.2060400-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Petr Baudis <pasky-+ZI9xUNit7I@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-locales-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <063D6719AE5E284EB5DD2968C1650D6D1724F2A0@AcuExch.aculab.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: David Laight <David.Laight@ACULAB.COM>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, lkml <linux-kernel@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Ondrej =?iso-8859-1?Q?B=EDlka?= <neleai@seznam.cz>, Caitlin Bestler <caitlin.bestler@gmail.com>, Neil Horman <nhorman@tuxdriver.com>, Elie De Brauwer <eliedebrauwer@gmail.com>, David Miller <davem@davemloft.net>, Steven Whitehouse <steve@chygwyn.com>, =?iso-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis-courmont@nokia.com>, Paul Moore <paul@paul-moore.com>, Chris Friesen <chris.friesen@windriver.com>
 List-Id: linux-man@vger.kernel.org
 
-On 05/28/2014 05:15 PM, Marko Myllynen wrote:
-> Hi,
+Em Wed, May 28, 2014 at 03:17:40PM +0000, David Laight escreveu:
+> From: Arnaldo Carvalho de Melo
+> ...
+> > > But, another question...
+> > >
+> > > In the case that the call is interrupted by a signal handler and some
+> > > datagrams have already been received, then the call succeeds, and
+> > > returns the number of datagrams received, and 'timeout' is updated with
+> > > the remaining time. Maybe that's the right behavior, but I just want to
+ 
+> > Note that what the comment in the existing code says should apply here,
+> > namely that the next recv (m or mmsg) syscall on this socket will return
+> > what is in sock->sk->sk_err, that is the signal:
+ 
+> ...
+ 
+> > So, yes, the user _can_ process the packets already copied to userspace,
+> > i.e. no packet loss, and then, on the next call, will receive the signal
+> > notification.
+ 
+> The application shouldn't need to see an EINTR response, any signal handler
+> should be run when the system call returns to user (regardless of the
+> system call result code).
+> If that doesn't happen Linux is badly broken!
+> >From an application point of view this is exactly the same as the signal
+> occurring just before/after the kernel entry/exit for the system call.
 > 
-> On 2014-05-28 18:03, Michael Kerrisk (man-pages) wrote:
->> On Wed, May 28, 2014 at 4:56 PM, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->>> On 2014-05-28 17:30, Michael Kerrisk (man-pages) wrote:
->>>> On Wed, May 28, 2014 at 4:19 PM, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->>>>> On 2014-05-28 14:54, Michael Kerrisk (man-pages) wrote:
->>>>>>
->>>>>> Looking at this patch more closely, there's a piece that seems to be broken.
->>>>>>
->>>>>> That sentence is garbled. Some words are missing, I think. Can you clarify?
->>>>>
->>>>> it was clumsy indeed, and also repetitive, I don't think it's needed at all
->>>>> as the previous paragraph already explains the same thing.
->>>>>
->>>>> Please see an updated and rebased patch below.
->>>>
->>>> Best just to tell me what needs to be dropped from the preceding
->>>> patch, since I've already merged and edited in a private branch.
->>>
->>> best to drop the sentence that was garbled. I'll double check it once it
->>> appears in a public branch.
->>
->> Done. And now the changes are published in Git.
+> The call should just return early with success status.
+> No need to preserve the EINTR response for later.
 > 
-> thanks, looks good, I'd add this tiny change to be explicit rather than implicit.
+> The same might be appropriate for other errors - maybe including EFAULT
+> copying non-initial messages to userspace.
+> Put the message being processed back on the socket queue and return
+> success with the (non-zero) partial message count.
 
-Applied, and pushed.
+We don't need to put anything back, if we get an EFAULT for a datagram,
+then we stop processing that packet, _dropping_ it (and that is just
+like recvmsg works, look at __skb_recv_datagram, the skb_unlink there,
+and udp_recvmsg, what happens if skb_copy_and_csum_datagram_iovec fails)
+and stop the batch, and if no datagrams were received, return the error
+straight away.
 
-Cheers,
+But if some datagrams were successfully received, and at that point
+_already_ removed from queues and sent successfully to userspace,
+recvmmsg will return the number of successfully copied datagrams and
+store the error so that it can return on the next syscall,
 
-Michael
+Please refer to the original discussion on how to report how many
+successfully copied datagrams and also report that it stopped before the
+timeout and the number of requested datagrams in a batch:
 
+http://lkml.kernel.org/r/200905221022.48790.remi.denis-courmont@nokia.com
 
->>From 4d8d8552aaf67f56278d1d8b90c88e531bfd111e Mon Sep 17 00:00:00 2001
-> From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Date: Wed, 28 May 2014 18:11:55 +0300
-> Subject: [PATCH] locale.5: minor NOTES clarification
-> 
-> ---
->  man5/locale.5 |   16 ++++++++++++----
->  1 files changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man5/locale.5 b/man5/locale.5
-> index d762858..572833d 100644
-> --- a/man5/locale.5
-> +++ b/man5/locale.5
-> @@ -1079,10 +1079,12 @@ Usual default path for locale definition files.
->  POSIX.2, ISO/IEC TR 14652.
->  .SH NOTES
->  The collective GNU C library community wisdom regarding
-> +.IR abday ,
->  .IR day ,
->  .IR week ,
-> +.IR first_weekday ,
->  and
-> -.I first_weekday
-> +.I first_workday
->  states at
->  https://sourceware.org/glibc/wiki/Locales
->  the following:
-> @@ -1090,13 +1092,17 @@ the following:
->  The value of the second
->  .I week
->  list item specifies the base of the
-> +.I abday
-> +and
->  .I day
-> -list.
-> +lists.
->  .IP *
->  .I first_weekday
->  specifies the offset of the first day-of-week in the
-> +.I abday
-> +and
->  .I day
-> -list.
-> +lists.
->  .IP *
->  For compatibility reasons, all glibc locales should set the value of the
->  second
-> @@ -1104,8 +1110,10 @@ second
->  list item to
->  .B 19971130
->  (Sunday) and base the
-> +.I abday
-> +and
->  .I day
-> -list appropriately, and set
-> +lists appropriately, and set
->  .I first_weekday
->  to
->  .B 1
-> 
+What is being discussed here is how to return the EFAULT that may happen
+_after_ datagram processing, be it interrupted by an EFAULT, signal, or
+plain returning all that was requested, with no errors.
 
+This EFAULT _after_ datagram processing may happen when updating the
+remaining timeout, because then how can userspace both receive the
+number of successfully copied datagrams (in any of the cases mentioned
+in the previous paragraph) and know that that timeout can't be used
+because there was a problem while trying to copy it to userspace
+(EFAULT)?
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+- Arnaldo
