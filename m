@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 60991] [TRIVIAL]Formula of CommitLimit is wrong
-Date: Wed, 28 May 2014 23:04:35 +0000
-Message-ID: <bug-60991-11311-F5dO6wyJJk@https.bugzilla.kernel.org/>
+Date: Thu, 29 May 2014 05:28:03 +0000
+Message-ID: <bug-60991-11311-DdQYH6Dwgu@https.bugzilla.kernel.org/>
 References: <bug-60991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,9 +14,9 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=60991
 
---- Comment #4 from sworddragon2-YDxpq3io04c@public.gmane.org ---
-The online documentation does still contain the old formula, does it maybe get
-always updated at a later time?
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Which online documentation? You can see the update at
+http://man7.org/linux/man-pages/man5/proc.5.html
 
 -- 
 You are receiving this mail because:
