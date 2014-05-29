@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 76851] inotify_rm_watch(2) unspecified behavior
-Date: Thu, 29 May 2014 17:03:35 +0000
-Message-ID: <bug-76851-11311-ZAGdNhOt8G@https.bugzilla.kernel.org/>
+Date: Thu, 29 May 2014 17:05:01 +0000
+Message-ID: <bug-76851-11311-jCVc8bBTfu@https.bugzilla.kernel.org/>
 References: <bug-76851-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,35 +14,20 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=76851
 
-Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> changed:
+--- Comment #6 from Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> ---
+Watch descriptor IDs are returned by inotify_add_watch.
+When calling inotify_rm_watch an IN_IGNORE is placed on the inotify queue
+pointing to the ID of the removed watch.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |xypron.glpk-Mmb7MZpHnFY@public.gmane.org
+inotify_add_watch should not return a watch descriptor ID for which events are
+still on the queue but should return an unused ID.
 
---- Comment #5 from Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> ---
-Created attachment 137681
-  --> https://bugzilla.kernel.org/attachment.cgi?id=137681&action=edit
-test_wd_reuse.c - Test watch descriptor reuse
+Unfortunately the existing Kernel code does not provide such a guarantee.
 
-The test program demonstrates that inotify_add_watch may return a watch
-descriptor ID for which events still exist on the inotify queue.
+Actually in rare cases watch descriptor IDs are returned by inotify_add_watch
+for which events are still on the inotify queue.
 
-It creates one watch for file "0" to demonstrate the problem.
-Afterwards it creates and removes watches again and again just to force
-idr_alloc_cyclic to reach INT_MAX.
-Then events are created for file "0" on the queue.
-The watch for "0" is removed.
-A watch for another file is created.
-
-Example program output (after a few hours, on Linux 3.14.4 x86_64):
-
-...
-2147459044      2147467235      2147475426      2147483617      2147483647      
-Preparation done
-BINGO Collision detected
-Watch descriptor 1 for /tmp/test/8192
-Watch descriptor 1 for /tmp/test/0
+I verified the problem exists with the appended test program (test_wd_reuse.c).
 
 -- 
 You are receiving this mail because:
