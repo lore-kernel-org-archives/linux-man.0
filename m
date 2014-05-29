@@ -1,56 +1,510 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] inotify.7: Bug 77111 - watch descriptor reuse
-Date: Thu, 29 May 2014 19:39:03 +0200
-Message-ID: <1401385143-19306-1-git-send-email-xypron.glpk@gmx.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.68 released
+Date: Thu, 29 May 2014 21:04:43 +0200
+Message-ID: <538784CB.1000504@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jeff Smith <jsmith.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Watch descriptor IDs are returned by inotify_add_watch.
-When calling inotify_rm_watch an IN_IGNORE is placed on the inotify queue
-pointing to the ID of the removed watch.
+Gidday,
 
-inotify_add_watch should not return a watch descriptor ID for which events are
-still on the queue but should return an unused ID.
+The Linux man-pages maintainer proudly announces his 150th release as
+project maintainer:
 
-Unfortunately the existing Kernel code does not provide such a guarantee.
+    man-pages-3.68 - man pages for Linux
 
-Actually in rare cases watch descriptor IDs are returned by inotify_add_watch
-for which events are still on the inotify queue.
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.68
 
-cf. https://bugzilla.kernel.org/show_bug.cgi?id=77111
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2014/05/man-pages-368-is-released.html
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man7/inotify.7 | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
 
-diff --git a/man7/inotify.7 b/man7/inotify.7
-index 1fc83f8..b1c2f6f 100644
---- a/man7/inotify.7
-+++ b/man7/inotify.7
-@@ -728,6 +728,18 @@ and the accompanying
- event might be fetched only on the next
- .BR read (2).
- .SH BUGS
-+As of Linux 3.14,
-+the following bug exists:
-+.IP * 3
-+.\" FIXME https://bugzilla.kernel.org/show_bug.cgi?id=77111
-+.BR inotify_add_watch (2)
-+may return a watch descriptor ID released by a prior call to
-+.BR inotify_rm_watch (2)
-+even if events for this watch descriptor still exist on the inotify queue.
-+As a workaround the inotify file descriptor can be read until the queue is
-+empty before calling
-+.BR inotify_add_watch (2).
-+.PP
- .\" FIXME kernel commit 611da04f7a31b2208e838be55a42c7a1310ae321
- .\" implies that unmount events were buggy 2.6.11 to 2.6.36
- .\"
-@@ -745,7 +757,7 @@ However, as an unintended effect of other changes,
- since Linux 2.6.36, an
- .B IN_IGNORED
- event is generated in this case.
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+   of a translation of the manual pages, or are the maintainer of the
+   manual pages set in a particular distribution, or have expressed
+   interest in helping with man-pages maintenance, or have otherwise
+   expressed interest in being notified about man-pages releases.
+   If you don't want to receive such messages from me, or you know of
+   some other translator or maintainer who may want to receive such
+   notifications, send me a message.
+
+Cheers,
+
+Michael
+
+
+==================== Changes in man-pages-3.68 ====================
+
+Released: 2014-05-28, Munich
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Alastair McKinstry <mckinstry-bdq14YP6qtRg9hUCZPvPmw@public.gmane.org>
+Carsten Grohmann <carstengrohmann-Mmb7MZpHnFY@public.gmane.org>
+Colin Williams <colinwilliams1968-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Lars Wirzenius <liw-X3B1VOXEql0@public.gmane.org>
+Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Richard Braakman <richard.braakman-4y2FMlU5MS8onNqTyK5kxQ@public.gmane.org>
+Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+localedef.1
+    Marko Myllynen, Richard Braakman, Alastair McKinstry, Lars Wirzenius
+        New page for localedef(1)
+            Add new page based on Debian localedef(1) page.
+
+
+New and changed links
+---------------------
+
+procfs.5
+    New link to proc.5
+        Since the term "procfs" is widely used, it seems reasonable to have
+        a link from that name to proc(5).
+
+
+Changes to individual pages
+---------------------------
+
+locale.1
+    Marko Myllynen
+        Provide a step-by-step example of how to use a custom locale
+    Marko Myllynen
+        Use LC_TELEPHONE instead of LC_MESSAGES in the example
+            yesstr/nostr in LC_MESSAGES are planned to be changed at some
+            point [1], so it's better to provide an example which won't
+            be obsoleted by that change.
+
+            [1] https://sourceware.org/bugzilla/show_bug.cgi?id=16975
+
+adjtimex.2
+    Michael Kerrisk
+        Add feature test macro requirements
+
+clone.2
+    Michael Kerrisk
+        ERRORS: add cross-reference to fork(2) for explanation of EAGAIN
+
+fork.2
+    Michael Kerrisk
+        ERRORS: add pid_max and threads-max to EAGAIN
+            And rewrite text to be the same as pthread_create(3).
+
+getrlimit.2
+    Michael Kerrisk
+        RLIMIT_NPROC is not enforced if CAP_SYS_ADMIN or CAP_SYS_RESOURCE
+
+remap_file_pages.2
+    Rasmus Villemoes
+        Fix prototype
+            The pgoff argument has type size_t, not ssize_t (and in the
+            kernel it is unsigned long).
+
+set_mempolicy.2
+    Rasmus Villemoes
+        Fix prototype for set_mempolicy(2)
+            The nodemask argument is const. The return type in numaif.h is long.
+
+swapon.2
+    Rasmus Villemoes
+        Remove header from synopsis
+            The <asm/page.h> header is not readily available, and the comment
+            seems to indicate that it is for getting PAGE_SIZE. But it is
+            never mentioned why one would need to know that, and it is in any
+            case better obtained using sysconf(), provided by <unistd.h>.
+
+a64l.3
+    Rasmus Villemoes
+        Fix prototype for a64l()
+            The argument is const, both according to POSIX and the
+            glibc headers.
+
+adjtime.3
+    Rasmus Villemoes
+        Add required header
+            The prototype for adjtime(3) is declared in <sys/time.h>.
+
+argz_add.3
+    Rasmus Villemoes
+        Fix prototypes
+            Update the prototypes of argz_{delete,extract,next} to agree with
+            glibc headers and manual.
+
+bstring.3
+    Rasmus Villemoes
+        Fix prototypes
+            The length parameter n has type size_t in bcmp(), bcopy() and
+            bzero().
+
+envz_add.3
+    Rasmus Villemoes
+        Fix prototypes
+            The envz_len parameters for envz_entry() and envz_get() are not
+            passed by reference.
+
+fpathconf.3
+    Rasmus Villemoes
+        Fix prototype
+            The path argument to pathconf() is const.
+
+fseek.3
+    Rasmus Villemoes
+        Fix prototype
+            The pos argument to fsetpos() is const.
+
+gcvt.3
+    Rasmus Villemoes
+        Fix prototype
+            The ndigit parameter to gcvt() has type int.
+
+getaddrinfo_a.3
+    Rasmus Villemoes
+        Fix prototype
+            The pointer arguments to gai_suspend() are const.
+
+getauxval.3
+    Rasmus Villemoes
+        Fix permissions
+            There doesn't seem to be any reason for getauxval.3 to be
+            executable...
+
+getnameinfo.3
+    Rasmus Villemoes
+        Fix prototype
+            The hostlen and servlen parameters have type socklen_t.
+            (The types changed in glibc 2.2)
+    Michael Kerrisk
+        Note types of 'hostlen'; and 'servlen' in glibc < 2.2
+
+getrpcent.3
+    Rasmus Villemoes
+        Fix prototype
+            The argument to getrpcbyname() is const.
+
+getrpcport.3
+    Rasmus Villemoes
+        Add #include and fix prototype
+            The prototype for getrpcport() is obtained by #include'ing
+            <rpc/rpc.h>. Also, update its prototype.
+
+getspnam.3
+    Rasmus Villemoes
+        Fix prototype
+            The struct spwd argument to putspent() is const.
+
+getutent.3
+    Rasmus Villemoes
+        Fix prototypes
+            The arguments to getutid(), getutline(), and pututline()
+            are const.
+
+inet.3
+    Rasmus Villemoes
+        Fix prototype
+            The parameters to inet_makeaddr have type in_addr_t.
+
+inet_net_pton.3
+    Rasmus Villemoes
+        srcfix, cfix
+            Use a consistent style throughout the man-pages.
+
+key_setsecret.3
+    Rasmus Villemoes
+        Fix prototypes
+            Remove const qualifiers from arguments to key_decryptsession,
+            key_encryptsession, and key_setsecret.
+
+makecontext.3
+    Rasmus Villemoes
+        Fix prototype
+            The second argument to swapcontext() is const.
+
+makedev.3
+    Rasmus Villemoes
+        Fix prototype
+            gnu_dev_makedev, and hence its trivial macro wrapper makedev, takes
+            two unsigned int parameters; this is consistent with it being the
+            inverse of (gnu_dev_)major/minor, which return unsigned int.
+
+malloc_trim.3
+    Rasmus Villemoes
+        Fix prototype
+            As mentioned further down, malloc_trim returns an integer.
+
+mq_getattr.3
+    Rasmus Villemoes
+        Fix prototype
+            The newattr parameter to mq_setattr is const.
+
+newlocale.3
+    Marko Myllynen
+        List all available category masks
+    Michael Kerrisk
+        Add LC_ALL_MASK description
+
+nl_langinfo.3
+    Marko Myllynen
+        Expand the example code a bit
+            Better illustrate querying elements from different categories.
+
+perror.3
+    Rasmus Villemoes
+        Fix declaration
+            The elements of the array sys_errlist are also const.
+
+pthread_attr_setaffinity_np.3
+pthread_attr_setdetachstate.3
+pthread_attr_setguardsize.3
+pthread_attr_setinheritsched.3
+pthread_attr_setschedparam.3
+pthread_attr_setschedpolicy.3
+pthread_attr_setscope.3
+pthread_attr_setstack.3
+pthread_attr_setstackaddr.3
+pthread_attr_setstacksize.3
+    Rasmus Villemoes
+        Constify parameters
+            Each of the pthread_attr_get* functions extract some piece of
+            information from a pthread_attr_t, which is passed by const
+            reference. Add the const keyword to the prototypes of these
+            functions.
+
+pthread_cleanup_push_defer_np.3
+    Michael Kerrisk  [Rasmus Villemoes]
+        Add feature test macro requirements
+
+pthread_create.3
+    Michael Kerrisk  [Carsten Grohmann]
+        Add pid_max limit to EAGAIN error cases
+
+pthread_equal.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function pthread_equal() is thread safe.
+
+pthread_exit.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function pthread_exit() is thread safe.
+
+pthread_getcpuclockid.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function pthread_getcpuclockid() is thread safe.
+
+pthread_setaffinity_np.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions pthread_setaffinity_np() and
+            pthread_getaffinity_np() are thread safe.
+
+pthread_setconcurrency.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions pthread_setconcurrency() and
+            pthread_getconcurrency() are thread safe.
+
+pthread_setname_np.3
+    Rasmus Villemoes
+        Fix prototype
+            The name parameter of pthread_getname_np is an output parameter and
+            hence not const.
+
+pthread_setschedparam.3
+    Rasmus Villemoes
+        Fix prototypes
+            Add return type for pthread_{s,g}etschedparam.
+
+pthread_setschedprio.3
+    Rasmus Villemoes
+        Fix prototype
+            Add return type for pthread_setschedprio.
+
+pthread_sigqueue.3
+    Rasmus Villemoes
+        Add missing #include <signal.h>
+
+rcmd.3
+    Rasmus Villemoes
+        Fix prototypes
+            Unlike the BSDs, the second argument of rcmd() and rcmd_af() has
+            type unsigned short.
+            The first argument of iruserok_af() has type const void*.
+
+re_comp.3
+    Rasmus Villemoes
+        Fix prototypes
+            re_comp and re_exec take const char* arguments.
+
+resolver.3
+    Rasmus Villemoes
+        Fix prototypes and extern-declaration
+            Fix const- and signedness of various char* parameters.
+
+            Also, there is no "struct state", but _res is a struct
+            __res_state. (Actually, _res is errno-like in that it is really a
+            macro expanding to (*__res_state()).)
+
+rexec.3
+    Rasmus Villemoes
+        Fix prototypes
+            The user, passwd and cmd arguments to rexec and rexec_af are all
+            const.
+
+rtime.3
+    Rasmus Villemoes
+        Replace header
+            The header <rpc/des_crypt.h> does not provide rtime();
+            <rpc/auth_des.h> does, as is also implied in both the NOTES and
+            EXAMPLE sections.
+
+scandir.3
+    Rasmus Villemoes
+        Fix prototypes
+            The alphasort and versionsort functions take arguments of type
+            const struct dirent **, not const void *.
+
+setlocale.3
+    Michael Kerrisk  [Marko Myllynen]
+        Simplify locale category listing and add GNU-specific locale categories
+            Some information that was here will move to locale(7).
+    Marko Myllynen
+        Remove now obsolete NOTES section
+
+setnetgrent.3
+    Rasmus Villemoes
+        Fix prototype
+            The buflen argument to getnetgrent_r has type size_t.
+
+sigvec.3
+    Rasmus Villemoes
+        Fix prototype
+            The vec argument to sigvec is const.
+
+tsearch.3
+    Rasmus Villemoes
+        Fix prototype
+            The rootp argument to tfind is "void * const *",
+            not "const void **".
+
+core.5
+    Michael Kerrisk
+        Core dump files are nowadays core.pid by default
+
+locale.5
+    Marko Myllynen
+        Document mon_grouping and grouping properly
+    Michael Kerrisk
+        Note default value for 'first_workday'
+    Michael Kerrisk  [Marko Myllynen]
+        Add brief descriptions of collating-element and collating-symbol
+    Marko Myllynen
+        t_fmt_ampm is needed only for locales that employ AM/PM convention
+    Michael Kerrisk  [Marko Myllynen]
+        Remove crufty reference to /usr/lib/nls/src
+            That file is nowhere to be found
+    Marko Myllynen
+        Clarify LC_TIME/am_pm and LC_NAME keywords usage
+            am_pm should be defined only if AM/PM convention is used to signal
+            applications they should not try to print them when using them in
+            unwanted.
+
+            Same for all LC_NAME keywords expect for name_fmt which should be
+            always defined.
+    Marko Myllynen
+        Clarify lang_term / lang_lib
+            As noted by Keld Simonsen in the lib-locales@sourceware mailing
+            list:
+
+                https://sourceware.org/ml/libc-locales/2014-q2/msg00008.html
+                From: Keld Simonsen <keld at rap dot rap dot dk>
+                To: Marko Myllynen <myllynen at redhat dot com>
+                Date: Tue, 29 Apr 2014 17:02:09 +0200
+
+                lang_term reflects ISO 639-2/T (terminology) codes, while
+                lang_lib reflects ISO 639-2/B (bibliographic) codes.
+                lang_term is preferred over lang_lib codes for locale names.
+                There are 20 specific ISO 639-2/B codes.
+    Marko Myllynen
+        Correct the FILES section
+
+proc.5
+    Michael Kerrisk
+        'pid_max' is a system-wide limit on number of threads and processes
+            Since PIDs > /proc/sys/kernel/pid_max are not allocated, this
+            file thus also imposes a system-wide limit on the number of
+            threads and processes.
+
+capabilities.7
+    Michael Kerrisk
+        CAP_SYS_ADMIN allows overriding RLIMIT_NPROC
+    Michael Kerrisk
+        CAP_SYS_PTRACE allows process_vm_readv(2) and process_vm_writev(2)
+
+charsets.7
+    Michael Kerrisk  [Marko Myllynen]
+        Remove crufty statement that Romanian may be switching to ISO 8859-16
+    Michael Kerrisk
+        Remove ancient paragraph on charsets supported in glibc 2.3.2
+            That test is rather ancient, and probably of little use.
+
+fanotify.7
+    Heinrich Schuchardt
+        Fix to example program: fanotify read() should use aligned buffer
+
+inotify.7
+    Heinrich Schuchardt
+        Add example program
+            This example of the usage of the inotify API shows the
+            usage of inotify_init1(2) and inotify_add_watch(2) as well
+            as polling and reading from the inotify file descriptor.
+    Heinrich Schuchardt
+        munmap() does not generate inotify events
+
+locale.7
+    Marko Myllynen [Michael Kerrisk]
+        Document the LOCPATH environment variable
+    Michael Kerrisk
+        Add further details on various categories
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
