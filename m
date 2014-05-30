@@ -1,141 +1,59 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Very bad advice in man 2 dup2
-Date: Fri, 30 May 2014 11:15:19 +0200
-Message-ID: <53884C27.7020207@gmail.com>
-References: <20140529210242.GP507@brightrain.aerifal.cx>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 76851] inotify_rm_watch(2) unspecified behavior
+Date: Fri, 30 May 2014 12:24:00 +0000
+Message-ID: <bug-76851-11311-q7imnnq1iG@https.bugzilla.kernel.org/>
+References: <bug-76851-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140529210242.GP507-C3MtFaGISjmo6RMmaWD+6Sb1p8zYI1N1@public.gmane.org>
+In-Reply-To: <bug-76851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Rich,
+https://bugzilla.kernel.org/show_bug.cgi?id=76851
 
-=46or discussions like this, it really is very important to CC the list=
-,
-so that there's an archived record of the reasons for the change.
-I've concatenated your two mails below.
+--- Comment #7 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Jeff from comment #3)
 
-I agree that the page needs to be fixed; thanks for the report!
-I am mulling over what the best fix is. One proposal below.
+Hi Jeff,
 
-On 05/29/2014 11:02 PM, Rich Felker wrote:
-> Hi,
->=20
-> The following text appears in the man page for dup2 and dup3:
->=20
->     If newfd was open, any errors that would have been reported at
->     close(2) time are lost. A careful programmer will not use dup2()
->     or dup3() without closing newfd first.
->=20
-> Such use of close is very bad advice, as it introduces a race
-> condition during which the file descriptor could be re-assigned and
-> subsequently clobbered by dup2/dup3.=20
+> I tried to be dispassionate in my initial report since I don't know what
+> peoples' intents were, but it's my opinion that the current behavior is bad
+> enough to warrant changing. I've never used any other multiplexing interface
+> that can deliver events after a handle de-registration. I've also never seen
+> anyone's inotify-handling code other than my own that even tried to safely
+> handle late queued updates, 
 
-Agreed. A more fundamental problem in the man page is that
-it does not mention the atomicity of dup2() (and dup3()),
-and why that is needed to avoid the race condition.
-I'll add some words on that.
+(I have some code that handles it.)
 
-> This type of bug can lead to
-> serious data leaks and/or data loss. The whole point of dup2/dup3 is
-> to _atomically_ replace a file descriptor.
->=20
-> For the most part there are no meaningful errors which close can
-> return, probably only obscure NFS behavior with bad caching settings
-> which are really not handlable by applications anyway, so I feel it
-> would be best to just drop this text (or find a way to detect such
-> errors without close, perhaps using fsync, and recommend that).
+> and I suspect that some fraction of those people
+> are ignorant of the hazards.
 
-On 05/30/2014 07:23 AM, Rich Felker wrote:
-[...]
-> Here is a proposed alternate text that was recommended to me by a use=
-r
-> on Stack Overflow:
+I expect you are right,
 
-It'd be great to add URLs when citing such discussions... With some=20
-effort, I found
-http://stackoverflow.com/questions/23440216/race-condition-when-using-d=
-up
+> As I tried to imply above, extant IN_IGNORE event generation would provide
+> sufficient safety from client poll/rm/read deadlock races in the event of an
+> implementation change, but I don't have the slightest clue about tactfully
+> approaching the kernel community with this, being a non-established
+> individual.
 
->     A careful programmer will first dup() the target descriptor, then
->     use dup2()/dup3() to replace the target descriptor atomically, an=
-d
->     finally close the initially duplicated target descriptor. This
->     replaces the target descriptor atomically, but also retains a
->     duplicate for closing so that close-time errors may be checked
->     for. (In Linux, close() should only be called once, as the
->     referred to descriptor is always closed, even in case of
->     errno=3D=3DEINTR.)
->=20
-> I'm not sure this is the best wording, since it suggests doing a lot
-> of work that's likely overkill (and useless in the case where the
-> target descriptor was read-only, for instance). I might balance such
-> text with a warning that it's an error to use dup2 or dup3 when the
-> target descriptor is not known to be open unless you know the code
-> will only be used in single-threaded programs. And I'm a little bit
-> hesitant on the parenthetical text about close() since the behavior
-> it's documenting is contrary to the requirements of the upcoming issu=
-e
-> 8 of POSIX,=20
+I'm not sure I understand the sentence "As I tried to imply...", but I'm
+guessing you mean that it would be sufficient to discard all pending events
+except the IN_IGNORED event, right?
 
-Again citing the Issue 8 discussion would be helpful. Could
-you tell me where it is? (It could be useful for the change log.)
-
-> and rather irrelevant since EINTR cannot happen in Linux's
-> close() except with custom device drivers anyway.
-
-So, how about something like the following (code not
-compile-tested...):
-
-       If newfd was open, any errors that would have been reported  at
-       close(2) time are lost.  If this is of concern, then=E2=80=94unl=
-ess the
-       program is single-threaded and does not allocate file  descrip=E2=
-=80=90
-       tors  in  signal  handlers=E2=80=94the correct approach is not t=
-o close
-       newfd before calling dup2(),  because  of  the  race  condition
-       described  above.   Instead,  code something like the following
-       could be used:
-
-           /* Obtain a duplicate of 'newfd' that can subsequently
-              be used to check for close() errors; an EBADF error
-              means that 'newfd' was not open. */
-
-           tmpfd =3D dup(newfd);
-           if (tmpfd =3D=3D -1 && errno !=3D EBADF) {
-               /* Handle unexpected dup() error */
-           }
-
-           /* Atomically duplicate 'oldfd' on 'newfd' */
-
-           if (dup2(oldfd, newfd) =3D=3D -1) {
-               /* Handle dup2() error */
-           }
-
-           /* Now check for close() errors on the file originally
-              referred to by 'newfd' */
-
-           if (tmpfd !=3D -1) {
-               if (close(tmpfd) =3D=3D -1) {
-                   /* Handle errors from close */
-               }
-           }
+It depends on the use case, I guess, some folk would, I expect, want to do log
+tracking -- that is, record all events that happened on a file. Such
+applications wouldn't want events to be discarded.
 
 Cheers,
 
 Michael
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
