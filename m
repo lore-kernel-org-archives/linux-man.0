@@ -1,96 +1,28 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: Re: [PATCH 1/1] inotify.7: Bug 77111 - watch descriptor reuse
-Date: Sun, 01 Jun 2014 13:29:39 +0200
-Message-ID: <538B0EA3.5040205@gmx.de>
-References: <1401385143-19306-1-git-send-email-xypron.glpk@gmx.de> <538883D9.5090709@gmail.com> <538A48D0.8020402@gmx.de> <538AE6C9.2060202@gmail.com>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH 2/3] mm: introduce fincore()
+Date: Sun, 1 Jun 2014 23:42:26 -0700
+Message-ID: <20140602064226.GA31675@infradead.org>
+References: <20140521193336.5df90456.akpm@linux-foundation.org>
+ <1401686699-9723-1-git-send-email-n-horiguchi@ah.jp.nec.com>
+ <1401686699-9723-3-git-send-email-n-horiguchi@ah.jp.nec.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <538AE6C9.2060202-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1401686699-9723-3-git-send-email-n-horiguchi-PaJj6Psr51x8UrSeD/g0lQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jeff Smith <jsmith.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Naoya Horiguchi <n-horiguchi-PaJj6Psr51x8UrSeD/g0lQ@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Konstantin Khlebnikov <koct9i-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Wu Fengguang <fengguang.wu-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>, Johannes Weiner <hannes-druUgvl0LCNAfugRpC6u6w@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Andres Freund <andres-lJk9oCk3lhPBpgsEml150g@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01.06.2014 10:39, Michael Kerrisk (man-pages) wrote:
-> On 05/31/2014 11:25 PM, Heinrich Schuchardt wrote:
->> On 30.05.2014 15:12, Michael Kerrisk (man-pages) wrote:
->>> [Adding Jan and Eric to the CC, in case they want to comment.]
->>>
->>> Background is bugs https://bugzilla.kernel.org/show_bug.cgi?id=76851
->>> and https://bugzilla.kernel.org/show_bug.cgi?id=77111 . The point is:
->>>
->>> 1. When an inotify watch descriptor is removed, pending unread
->>>      events remain pending.
->>> 2. When allocating a new watch descriptor, a past WD may
->>>      be recycled.
->>> 3. In theory, it could happen that events left over at 1 could
->>>      be interpreted as though they belonged to the filesystem
->>>      object watch in step 2.
->>>
->>> On 05/29/2014 07:39 PM, Heinrich Schuchardt wrote:
->>>> Watch descriptor IDs are returned by inotify_add_watch.
->>>> When calling inotify_rm_watch an IN_IGNORE is placed on the inotify queue
->>>> pointing to the ID of the removed watch.
->>>>
->>>> inotify_add_watch should not return a watch descriptor ID for which events are
->>>> still on the queue but should return an unused ID.
->>>>
->>>> Unfortunately the existing Kernel code does not provide such a guarantee.
->>>
->>> It's unfortunate, but I'm not sure that it's very serious. I mean, in
->>> order to trigger this bug you need to
->>>
->>> 0. Remove your watch descriptor (wd1),
->>> 1. Leave some unread events for wd1 on the queue. and in the meantime,
->>> 2. Cycle through INT_MAX watch descriptors until you reuse wd1.
->>>
->>> Unless I'm missing something, the chances of that are vanishingly small.
->>> However, that's not to say that the issue shouldn't be documented. Rather,
->>> if the issue is as unlikely to be hit as it appears to me in the above
->>> formulation, then I thing the tome of the write-up should indicate
->>> that the problem is more theoretical than practical. Perhaps Jan or Eric
->>> has a comment about this.
->>
->> 68 events per second add up to INT_MAX events a year.
->>
->> A server application restarted only once a year and handling a few
->> hundred request a second may be at risk. My idling workstation rebooted
->> once a day will never be hit.
->
-> Yes, but you skip the other piece of the puzzle. This bug relies on us
-> not reading events while at the same time cycling through INT_MAX watches.
-> That's pretty unlikey in a sane application.
+Please also provide a man page for the system call.
 
-In my example code there were just three events waiting on the queue and 
-they started waiting only **after** cycling through INT_MAX watches.
+I'm also very unhappy about the crazy different interpretation of the
+return value depending on flags, which probably becomes more obvious if
+you try to document it.
 
-Best regards
-
-Heinrich
-
->
->> I would feel more comfortable if the problem were not only documented
->> but fixed.
->
-> Agreed, it's better if the bug were not there. It's a question of
-> how much effort is required, and if there would be any significant
-> performance hit associated with the fix. Weighed up against the risk
-> that the bug could be hit.
->
->> Maybe Jan or Eric can comment on the following solution idea:
->>
->> Couldn't the idr ID be released in inotify_read when hitting IN_IGNORED
->> instead of being released inside inotify_rm_watch?
->
-> See comments above. What would be the performance impact here? This
-> would be some kind of check on *every* read(), no?
-> Cheers,
->
-> Michael
->
->
+That being said I think fincore is useful, but why not stick to the
+same simple interface as mincore?
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
