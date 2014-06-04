@@ -1,38 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/4] Trivialities
-Date: Wed, 04 Jun 2014 20:54:44 +0200
-Message-ID: <538F6B74.5020903@gmail.com>
-References: <1401899608-30515-1-git-send-email-rv@rasmusvillemoes.dk>
+Subject: Re: [PATCH] posix_fallocate.3: ATTRIBUTES: Note function that is
+ thread-safe
+Date: Wed, 04 Jun 2014 21:15:47 +0200
+Message-ID: <538F7063.4010300@gmail.com>
+References: <1401760989-14814-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1401899608-30515-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+In-Reply-To: <1401760989-14814-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/04/2014 06:33 PM, Rasmus Villemoes wrote:
-> Rasmus Villemoes (4):
->   getdate.3: Use blank definition of _GNU_SOURCE
->   open_by_handle_at.2: Add reference to feature_test_macros(7)
->   recvmmsg.2: Add reference to feature_test_macros(7)
->   sendmmsg.2: Add reference to feature_test_macros(7)
-> 
->  man2/open_by_handle_at.2 | 2 +-
->  man2/recvmmsg.2          | 2 +-
->  man2/sendmmsg.2          | 2 +-
->  man3/getdate.3           | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
+Hello Haitao,
 
-Small stuff like this often goes unnoticed for ages before it gets noticed
-and fixed. Thanks for catching this and sending the patches, Rasmus.
+A note: my workflow has changed a little. From now on, I'd prefer
+that patches don't update the page timestamp, which instead is 
+now automatically updated by scripts.
+
+Patch applied. Thank you!
 
 Cheers,
 
 Michael
+
+
+On 06/03/2014 04:03 AM, Peng Haitao wrote:
+> The function posix_fallocate() is thread safe.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/posix_fallocate.3 | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
+> index 6bf4f7c..921ae83 100644
+> --- a/man3/posix_fallocate.3
+> +++ b/man3/posix_fallocate.3
+> @@ -22,7 +22,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH POSIX_FALLOCATE 3  2013-02-12 "GNU" "Linux Programmer's Manual"
+> +.TH POSIX_FALLOCATE 3  2014-06-03 "GNU" "Linux Programmer's Manual"
+>  .SH NAME
+>  posix_fallocate \- allocate file space
+>  .SH SYNOPSIS
+> @@ -100,6 +100,11 @@ refers to a pipe.
+>  .SH VERSIONS
+>  .BR posix_fallocate ()
+>  is available since glibc 2.1.94.
+> +.SH ATTRIBUTES
+> +.SS Multithreading (see pthreads(7))
+> +The
+> +.BR posix_fallocate ()
+> +function is thread-safe.
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  
+> 
+
 
 -- 
 Michael Kerrisk
