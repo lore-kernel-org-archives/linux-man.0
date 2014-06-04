@@ -1,25 +1,33 @@
 From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH 0/4] Trivialities
-Date: Wed,  4 Jun 2014 18:33:24 +0200
-Message-ID: <1401899608-30515-1-git-send-email-rv@rasmusvillemoes.dk>
+Subject: [PATCH 4/4] sendmmsg.2: Add reference to feature_test_macros(7)
+Date: Wed,  4 Jun 2014 18:33:28 +0200
+Message-ID: <1401899608-30515-5-git-send-email-rv@rasmusvillemoes.dk>
+References: <1401899608-30515-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1401899608-30515-1-git-send-email-rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Rasmus Villemoes (4):
-  getdate.3: Use blank definition of _GNU_SOURCE
-  open_by_handle_at.2: Add reference to feature_test_macros(7)
-  recvmmsg.2: Add reference to feature_test_macros(7)
-  sendmmsg.2: Add reference to feature_test_macros(7)
+Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+---
+ man2/sendmmsg.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- man2/open_by_handle_at.2 | 2 +-
- man2/recvmmsg.2          | 2 +-
- man2/sendmmsg.2          | 2 +-
- man3/getdate.3           | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
+diff --git a/man2/sendmmsg.2 b/man2/sendmmsg.2
+index 97c7ede..f987139 100644
+--- a/man2/sendmmsg.2
++++ b/man2/sendmmsg.2
+@@ -30,7 +30,7 @@
+ sendmmsg \- send multiple messages on a socket
+ .SH SYNOPSIS
+ .nf
+-.B "#define _GNU_SOURCE"
++.B "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+ .BI "#include <sys/socket.h>"
+ 
+ .BI "int sendmmsg(int " sockfd ", struct mmsghdr *" msgvec \
 -- 
 1.9.2
 
