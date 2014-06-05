@@ -1,67 +1,39 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
-Date: Thu, 05 Jun 2014 16:54:28 +0200
-Message-ID: <539084A4.30301@bfs.de>
-References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] charsets.7: update to reflect past developments
+Date: Thu, 05 Jun 2014 19:10:02 +0300
+Message-ID: <5390965A.60501@redhat.com>
+References: <538EB3E0.5050600@redhat.com> <538FF7FC.2030409@gmail.com> <5390319E.6040106@redhat.com> <53906217.1090702@gmail.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140605140204.25995.48033.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
+In-Reply-To: <53906217.1090702-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: David Starner <dstarner98-RXPF2eSzNizNLxjTenLetw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi,
 
+On 2014-06-05 15:27, Michael Kerrisk (man-pages) wrote:
+> 
+>>  .TP
+>>  8859-8
+>>  Supports modern Hebrew without niqud (punctuation signs).
+>> -Niqud and full-fledged Biblical Hebrew are outside the scope of this
+>> -character set; under Linux, UTF-8 is the preferred encoding for
+>> -these.
+> 
+> Why remove this piece "under Linux, UTF-8...".
 
-Am 05.06.2014 16:02, schrieb jchaloup:
-> Man page for proc says:
-> /proc/fs
-> 	      Empty subdirectory.
-> 
-> But ls says something else:
-> $ ls /proc/fs/
-> ext4  jbd2  nfs  nfsd
-> 
-> In addition from https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: 1.9 Ext4 file system parameters:
-> 
-> Information about mounted ext4 file systems can be found in
-> /proc/fs/ext4.
-> 
-> This patch gives better description for the content. Open to give more description if someone knows more or where to find it.
-> 
-> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man5/proc.5 |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 8fd7b19..956760c 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
->  (excepted those that are marked with "nodev").
->  .TP
->  .I /proc/fs
-> -Empty subdirectory.
-> +Directory shows which file systems are exported.
->  .TP
->  .I /proc/ide
->  This directory
+hmm, good question, I think it was an oversight. Do you want me to send
+a patch once the change appears in public or can you address it before that?
 
-hi,
-exported sounds for me like nfs export. what is about:
-"Information about mounted file systems" (copied and ajusted from proc.txt)
+Thanks,
 
-re,
- wh
-
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
