@@ -1,25 +1,23 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 60991] [TRIVIAL]Formula of CommitLimit is wrong
-Date: Fri, 06 Jun 2014 05:41:55 +0000
-Message-ID: <bug-60991-11311-dVhNWgoozN@https.bugzilla.kernel.org/>
-References: <bug-60991-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 48641] [TRIVIAL]splice can return EAGAIN
+Date: Fri, 06 Jun 2014 05:42:11 +0000
+Message-ID: <bug-48641-11311-rgNdFhCngZ@https.bugzilla.kernel.org/>
+References: <bug-48641-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-60991-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-48641-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=60991
+https://bugzilla.kernel.org/show_bug.cgi?id=48641
 
---- Comment #9 from sakshi.april5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-I lookied into the man pages and the change has been updated there.
-So we need to make changes in the following file:
-https://www.kernel.org/doc/Documentation/filesystems/proc.txt
-
-Where can I get to download the code for that?
+--- Comment #8 from sakshi.april5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
+What I meant to ask is - do we have to replace every occurence of splice (2)
+with splice (2) can return EAGAIN in all the three files?
+Is that the only change?
 
 -- 
 You are receiving this mail because:
