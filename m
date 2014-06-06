@@ -1,27 +1,60 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 48641] [TRIVIAL]splice can return EAGAIN
-Date: Fri, 06 Jun 2014 05:42:11 +0000
-Message-ID: <bug-48641-11311-rgNdFhCngZ@https.bugzilla.kernel.org/>
-References: <bug-48641-11311@https.bugzilla.kernel.org/>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
+Date: Fri, 06 Jun 2014 10:37:41 +0200
+Message-ID: <53917DD5.5090708@redhat.com>
+References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com> <539084A4.30301@bfs.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-48641-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <539084A4.30301-fPG8STNUNVg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: wharms-fPG8STNUNVg@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=48641
-
---- Comment #8 from sakshi.april5-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-What I meant to ask is - do we have to replace every occurence of splice (2)
-with splice (2) can return EAGAIN in all the three files?
-Is that the only change?
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+On 06/05/2014 04:54 PM, walter harms wrote:
+> Am 05.06.2014 16:02, schrieb jchaloup:
+>> Man page for proc says:
+>> /proc/fs
+>> 	      Empty subdirectory.
+>>
+>> But ls says something else:
+>> $ ls /proc/fs/
+>> ext4  jbd2  nfs  nfsd
+>>
+>> In addition from https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: 1.9 Ext4 file system parameters:
+>>
+>> Information about mounted ext4 file systems can be found in
+>> /proc/fs/ext4.
+>>
+>> This patch gives better description for the content. Open to give more description if someone knows more or where to find it.
+>>
+>> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>> ---
+>>   man5/proc.5 |    2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/man5/proc.5 b/man5/proc.5
+>> index 8fd7b19..956760c 100644
+>> --- a/man5/proc.5
+>> +++ b/man5/proc.5
+>> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
+>>   (excepted those that are marked with "nodev").
+>>   .TP
+>>   .I /proc/fs
+>> -Empty subdirectory.
+>> +Directory shows which file systems are exported.
+>>   .TP
+>>   .I /proc/ide
+>>   This directory
+> hi,
+> exported sounds for me like nfs export. what is about:
+> "Information about mounted file systems" (copied and ajusted from proc.txt)
+Fine for me.
+> re,
+>   wh
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
