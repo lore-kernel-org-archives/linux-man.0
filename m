@@ -1,19 +1,20 @@
 From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] fanotify_mark.2: tfix
-Date: Sun,  8 Jun 2014 18:40:13 +0400
-Message-ID: <1402238413-6818-1-git-send-email-yuray@komyakino.ru>
+Subject: [PATCH] fanotify_mark.2: tfix fixed
+Date: Sun, 8 Jun 2014 18:47:51 +0400
+Message-ID: <20140608184751.4837450e@keeper.home.local>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/fanotify_mark.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello.
 
-diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-index 61bce45..929579a 100644
+Sorry, corrected version:
+
 --- a/man2/fanotify_mark.2
 +++ b/man2/fanotify_mark.2
 @@ -326,7 +326,7 @@ event.
@@ -21,12 +22,15 @@ index 61bce45..929579a 100644
  .BR fanotify_mark (2)
  is called with
 -.B FAN_MARK_FLUSH,
-+.B FAN_MARK_FLUSH ,
++.BR FAN_MARK_FLUSH ,
  .I flags
  is not checked for invalid values.
  .SH SEE ALSO
+
+
 -- 
-1.9.1
+Best Regards,
+Yuri Kozlov
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
