@@ -1,47 +1,48 @@
-From: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] mq_getattr.3: ATTRIBUTES: Note functions that are
- thread-safe
-Date: Mon, 9 Jun 2014 18:37:53 +0800
-Message-ID: <1402310273.1804.52.camel@fedora>
-References: <1402307414.1804.42.camel@fedora>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fanotify_mark.2: tfix fixed
+Date: Sun, 08 Jun 2014 21:16:54 +0200
+Message-ID: <5394B6A6.1040508@gmail.com>
+References: <20140608184751.4837450e@keeper.home.local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1402307414.1804.42.camel@fedora>
+In-Reply-To: <20140608184751.4837450e-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, carlos <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, aoliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions mq_getattr() and mq_setattr() are thread safe.
+Thanks, Yuri. Applied.
 
-Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/mq_getattr.3 | 7 +++++++
- 1 file changed, 7 insertions(+)
+Cheers,
 
-diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
-index 0fe370d..1c2321f 100644
---- a/man3/mq_getattr.3
-+++ b/man3/mq_getattr.3
-@@ -134,6 +134,13 @@ is invalid.
- .I newattr\->mq_flags
- contained set bits other than
- .BR O_NONBLOCK .
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR mq_getattr ()
-+and
-+.BR mq_setattr ()
-+functions are thread-safe.
- .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+Michael
+
+On 06/08/2014 04:47 PM, Yuri Kozlov wrote:
+> Hello.
+> 
+> Sorry, corrected version:
+> 
+> --- a/man2/fanotify_mark.2
+> +++ b/man2/fanotify_mark.2
+> @@ -326,7 +326,7 @@ event.
+>  If
+>  .BR fanotify_mark (2)
+>  is called with
+> -.B FAN_MARK_FLUSH,
+> +.BR FAN_MARK_FLUSH ,
+>  .I flags
+>  is not checked for invalid values.
+>  .SH SEE ALSO
+> 
+> 
+
+
 -- 
-1.8.3.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
