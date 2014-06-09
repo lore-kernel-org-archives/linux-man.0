@@ -1,36 +1,20 @@
-From: <gregkh@linuxfoundation.org>
-Subject: Patch "sched/deadline: Change sched_getparam() behaviour vs SCHED_DEADLINE" has been added to the 3.14-stable tree
-Date: Mon, 09 Jun 2014 12:14:41 -0700
-Message-ID: <14023412812007@kroah.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 3.14 34/78] sched/deadline: Change sched_getparam() behaviour vs SCHED_DEADLINE
+Date: Mon,  9 Jun 2014 15:48:14 -0700
+Message-ID: <20140609224814.443200272@linuxfoundation.org>
+References: <20140609224813.282275135@linuxfoundation.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-Return-path: <stable-owner@vger.kernel.org>
-Sender: stable-owner@vger.kernel.org
-To: peterz@infradead.org, gregkh@linuxfoundation.org, juri.lelli@gmail.com, linux-man@vger.kernel.org, mingo@kernel.org, mtk.manpages@gmail.com, raistlin@linux.it, torvalds@linux-foundation.org
-Cc: stable@vger.kernel.org, stable-commits@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20140609224813.282275135@linuxfoundation.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, Peter Zijlstra <peterz@infradead.org>, Dario Faggioli <raistlin@linux.it>, linux-man <linux-man@vger.kernel.org>, Juri Lelli <juri.lelli@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Ingo Molnar <mingo@kernel.org>
 List-Id: linux-man@vger.kernel.org
 
+3.14-stable review patch.  If anyone has any objections, please let me know.
 
-This is a note to let you know that I've just added the patch titled
-
-    sched/deadline: Change sched_getparam() behaviour vs SCHED_DEADLINE
-
-to the 3.14-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     sched-deadline-change-sched_getparam-behaviour-vs-sched_deadline.patch
-and it can be found in the queue-3.14 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
->From ce5f7f8200ca2504f6f290044393d73ca314965a Mon Sep 17 00:00:00 2001
-From: Peter Zijlstra <peterz@infradead.org>
-Date: Mon, 12 May 2014 22:50:34 +0200
-Subject: sched/deadline: Change sched_getparam() behaviour vs SCHED_DEADLINE
+------------------
 
 From: Peter Zijlstra <peterz@infradead.org>
 
@@ -83,19 +67,3 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	rcu_read_unlock();
  
  	/*
-
-
-Patches currently in stable-queue which might be from peterz@infradead.org are
-
-queue-3.14/sched-deadline-fix-memory-leak.patch
-queue-3.14/sched-use-cpupri_nr_priorities-instead-of-max_rt_prio-in-cpupri-check.patch
-queue-3.14/perf-prevent-false-warning-in-perf_swevent_add.patch
-queue-3.14/sched-dl-fix-race-in-dl_task_timer.patch
-queue-3.14/perf-fix-race-in-removing-an-event.patch
-queue-3.14/sched-fix-hotplug-vs.-set_cpus_allowed_ptr.patch
-queue-3.14/sched-deadline-restrict-user-params-max-value-to-2-63-ns.patch
-queue-3.14/sched-make-sched_setattr-correctly-return-efbig.patch
-queue-3.14/perf-limit-perf_event_attr-sample_period-to-63-bits.patch
-queue-3.14/sched-disallow-sched_attr-sched_policy-0.patch
-queue-3.14/sched-deadline-change-sched_getparam-behaviour-vs-sched_deadline.patch
-queue-3.14/sched-sanitize-irq-accounting-madness.patch
