@@ -1,42 +1,46 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] basename.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Mon, 9 Jun 2014 18:32:26 +0800
-Message-ID: <1402309946-3080-1-git-send-email-penght@cn.fujitsu.com>
+From: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] mq_getattr.3: ATTRIBUTES: Note functions that are
+ thread-safe
+Date: Mon, 9 Jun 2014 18:37:53 +0800
+Message-ID: <1402310273.1804.52.camel@fedora>
+References: <1402307414.1804.42.camel@fedora>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1402307414.1804.42.camel@fedora>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "mtk.manpages" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, carlos <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, aoliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions basename() and dirname() are thread safe.
+The functions mq_getattr() and mq_setattr() are thread safe.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/basename.3 | 7 +++++++
+ man3/mq_getattr.3 | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/man3/basename.3 b/man3/basename.3
-index bde1471..3894819 100644
---- a/man3/basename.3
-+++ b/man3/basename.3
-@@ -126,6 +126,13 @@ and
- return pointers to null-terminated strings.
- (Do not pass these pointers to
- .BR free (3).)
+diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
+index 0fe370d..1c2321f 100644
+--- a/man3/mq_getattr.3
++++ b/man3/mq_getattr.3
+@@ -134,6 +134,13 @@ is invalid.
+ .I newattr\->mq_flags
+ contained set bits other than
+ .BR O_NONBLOCK .
 +.SH ATTRIBUTES
 +.SS Multithreading (see pthreads(7))
 +The
-+.BR basename ()
++.BR mq_getattr ()
 +and
-+.BR dirname ()
++.BR mq_setattr ()
 +functions are thread-safe.
  .SH CONFORMING TO
  POSIX.1-2001.
  .SH NOTES
 -- 
-1.9.3
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
