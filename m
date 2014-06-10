@@ -1,11 +1,11 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] iconv.1: New page for iconv(1)
-Date: Tue, 10 Jun 2014 11:38:51 +0300
-Message-ID: <5396C41B.2040707@redhat.com>
+Subject: [PATCH] iconvconfig.8: New page for iconvconfig(8)
+Date: Tue, 10 Jun 2014 11:39:09 +0300
+Message-ID: <5396C42D.9070806@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -13,27 +13,24 @@ List-Id: linux-man@vger.kernel.org
 
 Hi,
 
-while updating the locale pages I noticed there was no iconv(1) page in=
- upstream so I wrote one, please see below.
+while writing the iconv(1) page I noticed there was no page for iconvconfig(8) so I wrote one, please see below.
 
-=46rom 006b3e251ae3883b3652bfb3f32a8d72ba803960 Mon Sep 17 00:00:00 200=
-1
-=46rom: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Date: Mon, 9 Jun 2014 08:09:57 +0300
-Subject: [PATCH] iconv.1: New page for iconv(1)
+>From 566561b63db0fe709570d3c5aca6262065d64f71 Mon Sep 17 00:00:00 2001
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Date: Mon, 9 Jun 2014 17:10:12 +0300
+Subject: [PATCH] iconvconfig.8: New page for iconvconfig(8)
 
 ---
- man1/iconv.1 |  156 ++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++
- 1 files changed, 156 insertions(+), 0 deletions(-)
- create mode 100644 man1/iconv.1
+ man8/iconvconfig.8 |   86 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 86 insertions(+), 0 deletions(-)
+ create mode 100644 man8/iconvconfig.8
 
-diff --git a/man1/iconv.1 b/man1/iconv.1
+diff --git a/man8/iconvconfig.8 b/man8/iconvconfig.8
 new file mode 100644
-index 0000000..ece7e6a
+index 0000000..db7d926
 --- /dev/null
-+++ b/man1/iconv.1
-@@ -0,0 +1,156 @@
++++ b/man8/iconvconfig.8
+@@ -0,0 +1,86 @@
 +'\" t -*- coding: UTF-8 -*-
 +.\"
 +.\" Copyright (C) 2014 Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
@@ -59,78 +56,43 @@ index 0000000..ece7e6a
 +.\" <http://www.gnu.org/licenses/>.
 +.\" %%%LICENSE_END
 +.\"
-+.TH ICONV 1 2014-06-06 "GNU" "Linux User Manual"
++.TH ICONVCONFIG 8 2014-06-09 "GNU" "Linux System Administration"
 +.SH NAME
-+iconv \- convert text from one character encoding to another
++iconvconfig \- create iconv module configuration cache
 +.SH SYNOPSIS
-+.B iconv
++.B iconvconfig
 +.RI [ options ]
-+.RI "[-f " from-encoding "]"
-+.RI "[-t " to-encoding "]"
-+.RI [ inputfile ]...
++.RI [ directory ]...
 +.SH DESCRIPTION
 +The
-+.B iconv
-+program reads in text in one encoding and outputs the text in another
-+encoding. If no input files are given, or if it is given as a dash (\-=
-),
-+.B iconv
-+reads from the standard input. If no output file is given,
-+.B iconv
-+writes to the standard output.
-+.PP
-+If no
-+.I from-encoding
-+is given, the default is derived from the current locale.
-+If no
-+.I to-encoding
-+is given, the default is derived from the current locale.
++.B iconvconfig
++program reads iconv module configuration files and writes
++a fastloading iconv module configuration cache file.
++Only the system default cache file is used by programs like
++.BR iconv (1),
++caching is disabled when additional gconv module directories
++are specified with the environment variable
++.BR GCONV_PATH .
 +.SH OPTIONS
 +.TP
-+.BI \-f " from-encoding" ", \-\-from-code=3D" from-encoding
-+Use
-+.I from-encoding
-+for input characters.
++.B "\-\-nostdlib"
++Do not search the system default gconv directory,
++only those provided on the command line.
 +.TP
-+.BI \-t " to-encoding" ", \-\-to-code=3D" to-encoding
-+Use
-+.I to-encoding
-+for output characters.
-+
-+If
-+.I to-encoding
-+is appended with
-+.BR //IGNORE ,
-+characters that cannot be converted are discarded and an error is
-+printed after conversion.
-+
-+If
-+.I to-encoding
-+is appended with
-+.BR //TRANSLIT ,
-+characters being converted are transliterated when needed and possible=
-=2E
-+Characters that are outside of the target character set and cannot be
-+transliterated are replaced with the question mark (?) in the output.
-+.TP
-+.B "\-l, \-\-list"
-+List all known character set encodings.
-+.TP
-+.B "\-c"
-+Silently discard characters that cannot be converted instead of
-+aborting on them.
-+.TP
-+.BI \-o " outputfile" ", \-\-output=3D" outputfile
++.BI \-o " outputfile" ", \-\-output=" outputfile
 +Use
 +.I outputfile
-+for output.
++for output instead of the system default cache location.
 +.TP
-+.B "\-s, \-\-silent"
-+This option is ignored, it is provided only for compatibility.
-+.TP
-+.B "\-\-verbose"
-+Print progress information on the standard error when processing
-+multiple files.
++.BI \-\-prefix= pathname
++Set the prefix to be prepended to the system pathnames.
++By default, the prefix is empty.
++Setting the prefix to
++.IR foo ,
++the gconv module configuration would be read from
++.IR foo/usr/lib/gconv/gconv-modules
++and the cache would be written to
++.IR foo/usr/lib/gconv/gconv-modules.cache .
 +.TP
 +.B "\-\-help"
 +Print a usage summary and exit.
@@ -143,25 +105,6 @@ index 0000000..ece7e6a
 +.BR iconv .
 +.SH EXIT STATUS
 +Zero on success, non-zero on errors.
-+.SH ENVIRONMENT
-+The
-+.B iconv
-+program supports any character set for which a
-+corresponding gconv configuration and module are provided for.
-+By default the system provided gconv configuration and modules
-+are used but
-+.B GCONV_PATH
-+can be defined as a list of pathnames, separated by colons (\(aq:\(aq)=
-,
-+for gconv configuration and module search path,
-+to be searched prior to the system provided configuration and modules.
-+If
-+.B GCONV_PATH
-+is set, the system gconv module configuration cache (created by
-+.BR iconvconfig (8))
-+will not be used. Only directories containing the
-+.I gconv-modules
-+configuration files will be looked for the specified gconv modules.
 +.SH FILES
 +.TP
 +.I /usr/lib/gconv
@@ -172,34 +115,14 @@ index 0000000..ece7e6a
 +.TP
 +.I /usr/lib/gconv/gconv-modules.cache
 +Usual default gconv module configuration cache.
-+.SH CONFORMING TO
-+POSIX.1-2001.
-+.SH EXAMPLE
-+Convert text from the ISO 8859-15 character encoding to UTF-8
-+encoding:
-+.PP
-+.RS
-+iconv \-f ISO\-8859\-15 -t UTF\-8 < input.txt > output.txt
-+.RE
-+.PP
-+The next example converts from UTF-8 to ASCII, transliterating when
-+possible, resulting "abc ss ? EUR abc" printed (without quotes) to the
-+standard output:
-+.PP
-+.RS
-+echo abc =C3=9F =CE=B1 =E2=82=AC =C3=A0=E1=B8=83=C3=A7 | iconv \-f UTF=
-\-8 \-t ASCII//TRANSLIT
-+.RE
 +.SH "SEE ALSO"
-+.BR locale (1),
-+.BR charsets (7),
-+.BR iconvconfig (8)
---=20
++.BR iconv (1)
+-- 
 1.7.1
 
 Thanks,
 
---=20
+-- 
 Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
