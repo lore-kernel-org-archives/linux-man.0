@@ -1,42 +1,43 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] charsets.7: update to reflect past developments
-Date: Tue, 10 Jun 2014 11:42:58 +0300
-Message-ID: <5396C512.4080500@redhat.com>
-References: <538EB3E0.5050600@redhat.com> <538FF7FC.2030409@gmail.com> <5390319E.6040106@redhat.com> <53906217.1090702@gmail.com> <5390965A.60501@redhat.com>
-Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] malloc_usable_size.3: ATTRIBUTES: Note function that is
+ thread-safe
+Date: Tue, 10 Jun 2014 16:46:08 +0800
+Message-ID: <1402389968.1169.9.camel@fedora>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5390965A.60501-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: David Starner <dstarner98-RXPF2eSzNizNLxjTenLetw@public.gmane.org>
+To: "mtk.manpages" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: aoliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, carlos <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+The function malloc_usable_size() is thread safe.
 
-On 2014-06-05 19:10, Marko Myllynen wrote:
-> On 2014-06-05 15:27, Michael Kerrisk (man-pages) wrote:
->>
->>>  .TP
->>>  8859-8
->>>  Supports modern Hebrew without niqud (punctuation signs).
->>> -Niqud and full-fledged Biblical Hebrew are outside the scope of this
->>> -character set; under Linux, UTF-8 is the preferred encoding for
->>> -these.
->>
->> Why remove this piece "under Linux, UTF-8...".
-> 
-> hmm, good question
+Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/malloc_usable_size.3 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-for the record, we decided to drop this after all, it avoids to give any
-impression that UTF-8 would not be preferred for all of them.
-
-Cheers,
-
+diff --git a/man3/malloc_usable_size.3 b/man3/malloc_usable_size.3
+index 5b06a65..e3313bc 100644
+--- a/man3/malloc_usable_size.3
++++ b/man3/malloc_usable_size.3
+@@ -45,6 +45,11 @@ the block of allocated memory pointed to by
+ If
+ .I ptr
+ is NULL, 0 is returned.
++.SH ATTRIBUTES
++.SS Multithreading (see pthreads(7))
++The
++.BR malloc_usable_size ()
++function is thread-safe.
+ .SH CONFORMING TO
+ This function is a GNU extension.
+ .SH NOTES
 -- 
-Marko Myllynen
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
