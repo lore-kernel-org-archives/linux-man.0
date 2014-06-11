@@ -1,50 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getdirentries.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Jun 2014 10:40:00 +0200
-Message-ID: <539815E0.9080703@gmail.com>
-References: <1402475140-22564-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] iconv.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Jun 2014 10:38:15 +0200
+Message-ID: <53981577.4000405@gmail.com>
+References: <1402470890.20654.12.camel@fedora>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1402475140-22564-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1402470890.20654.12.camel@fedora>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, aoliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, carlos <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?5b2t5rW35rab?= <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Thanks, Qian Lei. Applied.
 
 Cheers,
 
 Michael
 
-
-
-On 06/11/2014 10:25 AM, Peng Haitao wrote:
-> The function getdirentries() is thread safe.
+On 06/11/2014 09:14 AM, Qian Lei wrote:
+> The function iconv() is thread safe.
 > 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Reviewed-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getdirentries.3 | 5 +++++
+>  man3/iconv.3 | 5 +++++
 >  1 file changed, 5 insertions(+)
 > 
-> diff --git a/man3/getdirentries.3 b/man3/getdirentries.3
-> index 6b4ad5f..523bc38 100644
-> --- a/man3/getdirentries.3
-> +++ b/man3/getdirentries.3
-> @@ -61,6 +61,11 @@ If an error occurs, \-1 is returned, and
->  is set appropriately.
->  .SH ERRORS
->  See the Linux library source code for details.
+> diff --git a/man3/iconv.3 b/man3/iconv.3
+> index 39455d2..365ee8a 100644
+> --- a/man3/iconv.3
+> +++ b/man3/iconv.3
+> @@ -139,6 +139,11 @@ An invalid multibyte sequence has been encountered in the input.
+>  An incomplete multibyte sequence has been encountered in the input.
+>  .SH VERSIONS
+>  This function is available in glibc since version 2.1.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR getdirentries ()
+> +.BR iconv ()
 > +function is thread-safe.
 >  .SH CONFORMING TO
->  Not in POSIX.1-2001.
->  Present on the BSDs, and a few other systems.
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
