@@ -1,40 +1,120 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getdtablesize.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Jun 2014 17:15:44 +0800
-Message-ID: <1402478144-25758-1-git-send-email-penght@cn.fujitsu.com>
+From: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH] mq_unlink.3: ATTRIBUTES: Note function that is
+ thread-safe
+Date: Wed, 11 Jun 2014 17:28:19 +0800
+Message-ID: <1402478899.20654.47.camel@fedora>
+References: <1402285503.1804.34.camel@fedora> <5395F590.5060005@gmail.com>
+	 <1402381722.1169.1.camel@fedora> <539719C1.4050009@gmail.com>
+	 <1402465502.20654.7.camel@fedora> <539814E2.9020701@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <539814E2.9020701-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function getdtablesize() is thread safe.
+Hello Michael
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/getdtablesize.3 | 5 +++++
- 1 file changed, 5 insertions(+)
+On Wed, 2014-06-11 at 10:35 +0200, Michael Kerrisk (man-pages) wrote:
+> Hello Qian Lei,
+> 
+> On 06/11/2014 07:45 AM, Qian Lei wrote:
+> > Hello Michael
+> > 
+> > Thank you for your suggestions, I'll CC Peng Haitao and add
+> > "Reviewed-by" in my patches.
+> 
+> I want to check that we have not misunderstood each other here.
 
-diff --git a/man3/getdtablesize.3 b/man3/getdtablesize.3
-index ba5c221..f42a15b 100644
---- a/man3/getdtablesize.3
-+++ b/man3/getdtablesize.3
-@@ -66,6 +66,11 @@ On Linux,
- can return any of the errors described for
- .BR getrlimit (2);
- see NOTES below.
-+.SH ATTRIBUTES
-+.SS Multithreading (see pthreads(7))
-+The
-+.BR getdtablesize ()
-+function is thread-safe.
- .SH CONFORMING TO
- SVr4, 4.4BSD (the
- .BR getdtablesize ()
--- 
-1.9.3
+Sorry for my unclear description. I got it and understood what you mean.
+
+> My idea is that the Reviewed-by: tag should be added only if 
+> the other person has actually reviewed the patch. 
+
+Patches with the tag were reviewed by Peng Haitao before I posted.
+I will not add the tag to patches if nobody reviews them.
+
+Qian Lei
+
+> I'll normally
+> accept patches from the two of you without the need for the 
+> Reviewed-by: tag, but it would be nice to have that extra level 
+> of assurance, if possible.
+> 
+> Cheers,
+> 
+> Michael
+> 
+> > Qian Lei
+> > 
+> > On Tue, 2014-06-10 at 16:44 +0200, Michael Kerrisk (man-pages) wrote:
+> >> On 06/10/2014 08:28 AM, Qian Lei wrote:
+> >>> Hello Michael
+> >>>
+> >>> Yeah, You are right. I'm working together with Peng Haitao.
+> >>
+> >> Hello Qian Lei,
+> >>
+> >> Thanks for the info, 
+> >>
+> >> I do not know how closely you are working together, but if you are
+> >> reviewing each other's work, it would be great if you CCed each 
+> >> other on your patches, and perhaps also provided an "Reviewed-by" 
+> >> for each other's work.
+> >>
+> >> Thanks,
+> >>
+> >> Michael
+> >>
+> >>
+> >>> On Mon, 2014-06-09 at 19:57 +0200, Michael Kerrisk (man-pages) wrote:
+> >>>> On 06/09/2014 05:45 AM, Qian Lei wrote:
+> >>>>> The function mq_unlink() is thread safe.
+> >>>>
+> >>>> Hello Qian Lei,
+> >>>>
+> >>>> Am I correct to assume that you are working together with Peng Haitao?
+> >>>>
+> >>>> Cheers,
+> >>>>
+> >>>> Michael
+> >>>>
+> >>>>
+> >>>>> Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> >>>>> ---
+> >>>>>  man3/mq_unlink.3 | 5 +++++
+> >>>>>  1 file changed, 5 insertions(+)
+> >>>>>
+> >>>>> diff --git a/man3/mq_unlink.3 b/man3/mq_unlink.3
+> >>>>> index 19b977f..bf49e9c 100644
+> >>>>> --- a/man3/mq_unlink.3
+> >>>>> +++ b/man3/mq_unlink.3
+> >>>>> @@ -59,6 +59,11 @@ was too long.
+> >>>>>  .B ENOENT
+> >>>>>  There is no message queue with the given
+> >>>>>  .IR name .
+> >>>>> +.SH ATTRIBUTES
+> >>>>> +.SS Multithreading (see pthreads(7))
+> >>>>> +The
+> >>>>> +.BR mq_unlink ()
+> >>>>> +function is thread-safe.
+> >>>>>  .SH CONFORMING TO
+> >>>>>  POSIX.1-2001.
+> >>>>>  .SH SEE ALSO
+> >>>>>
+> >>>>
+> >>>>
+> >>>
+> >>>
+> >>
+> >>
+> > 
+> > 
+> 
+> 
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
