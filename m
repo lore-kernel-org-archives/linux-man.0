@@ -1,8 +1,8 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] siginterrupt.3: ATTRIBUTES: Note function that is not
  thread-safe
-Date: Wed, 11 Jun 2014 10:41:52 +0200
-Message-ID: <53981650.5020900@gmail.com>
+Date: Wed, 11 Jun 2014 10:41:18 +0200
+Message-ID: <5398162E.3060707@gmail.com>
 References: <1402470146-16506-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -15,9 +15,6 @@ Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T
 List-Id: linux-man@vger.kernel.org
 
 Thanks, Haitao. Applied.
-
-May I suggest that you CC Qian Lei on all of your patches, at least 
-for as long as you are both working on this topic?
 
 Cheers,
 
