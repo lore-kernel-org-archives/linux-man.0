@@ -1,43 +1,75 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] iconvconfig.8: New page for iconvconfig(8)
-Date: Wed, 11 Jun 2014 16:27:12 +0300
-Message-ID: <53985930.9070305@redhat.com>
-References: <5396C42D.9070806@redhat.com> <53975FC5.9060305@gmail.com> <53980ECB.7000307@redhat.com> <53982F78.5090504@gmail.com>
+Subject: Re: [PATCH] iconv.1: New page for iconv(1)
+Date: Wed, 11 Jun 2014 16:30:17 +0300
+Message-ID: <539859E9.8040306@redhat.com>
+References: <5396C41B.2040707@redhat.com> <53975C76.7060302@gmail.com> <53980EC4.2030508@redhat.com> <53982A56.2000509@gmail.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53982F78.5090504-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <53982A56.2000509-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Hi,
 
-On 2014-06-11 13:29, Michael Kerrisk (man-pages) wrote:
+On 2014-06-11 13:07, Michael Kerrisk (man-pages) wrote:
 > On 06/11/2014 10:09 AM, Marko Myllynen wrote:
->> On 2014-06-10 22:43, Michael Kerrisk (man-pages) wrote:
->>> On 06/10/2014 10:39 AM, Marko Myllynen wrote:
+>> On 2014-06-10 22:28, Michael Kerrisk (man-pages) wrote:
+>>> On 06/10/2014 10:38 AM, Marko Myllynen wrote:
 >>>>
->>>> while writing the iconv(1) page I noticed there was no page for
->>>> iconvconfig(8) so I wrote one, please see below.
+>>>> while updating the locale pages I noticed there was no iconv(1) page
+>>>> in upstream so I wrote one, please see below.
 >>>
->>> Again, some comments below. Could you address and send a v2, please.
+>>> Thanks for doing this. Could I ask you to look at the comments below, and send
+>>> a revised version, please.
 >>
 >> ok, please see below, hopefully the explanation are now clearer
 >> without going into too low level details.
->> +a fastloading gconv module configuration cache file.
 > 
-> I see that since you wrote the last version, you did a s/iconv/gconv/
-> in the above line. That typo really confused me before; now things make 
-> more sense.
+> Yes, thanks, a lot better. I have applied this, but have a question, below.
+> 
+>> +.SH ENVIRONMENT
+>> +Internally, the
+>> +.B iconv
+>> +program uses the
+>> +.BR iconv (3)
+>> +function which in turn uses
+>> +.I gconv
+>> +modules to convert to and from a character set.
+>> +.B iconv
+>> +supports any character set for which a
+>> +corresponding gconv configuration and module are provided for.
+>> +By default, the system provided gconv configuration and modules
+>> +are used, but
+>> +.B GCONV_PATH
+>> +can be defined as a list of pathnames, separated by colons (\(aq:\(aq),
+>> +for gconv configuration and module search path,
+>> +to be searched prior to the system provided configuration and modules.
+> 
+> That last sentence is long and hard to parse. What exactly is GCONV_PATH?
+> Is it a list of configuration paths? module search paths? I am
+> left uncertain after reading that sentence.
 
-I'm not sure does it really classify as a typo, it's more like that
-gconv = GNU (C library) iconv implementation, they can often be used
-interchangeably. It's indeed a bit confusing but sticking with one or
-the other is a bit hard given that the program name is iconv and the
-environment variable is GCONV_PATH.
+yeah, I think I was trying to make a long story too short.
+
+When a program, such as iconv(1), uses iconv(3) (the function), it first
+needs to allocate a conversion descriptor with iconv_open(3) and during
+the iconv_open() call glibc, if GCONV_PATH is not set, loads the system
+gconv cache file created by iconvconfig(8) and based on the
+configuration then loads the needed gconv modules for conversion (an
+example of a gconv module is CP1252.so). If GCONV_PATH is set, glibc
+first tries to load the configuration files from the paths in GCONV_PATH
+followed by the system configuration file. If a directory does not
+contain a gconv module configuration file, possible gconv modules in it
+are ignored. If a directory contains a gconv module configuration file
+and it is determined that a needed module for this conversion is
+available in the directory, then the needed module is loaded from there,
+the order being so that the first suitable module found in GCONV_PATH is
+used. This allows users to use custom modules and even replace system
+provided modules by providing such modules in GCONV_PATH directories.
 
 Thanks,
 
