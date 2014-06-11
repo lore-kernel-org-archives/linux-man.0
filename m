@@ -1,49 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] matherr.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Jun 2014 10:37:20 +0200
-Message-ID: <53981540.70808@gmail.com>
-References: <1402474873.20654.19.camel@fedora>
+Subject: Re: [PATCH] getdirentries.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Jun 2014 10:40:00 +0200
+Message-ID: <539815E0.9080703@gmail.com>
+References: <1402475140-22564-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1402474873.20654.19.camel@fedora>
+In-Reply-To: <1402475140-22564-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, aoliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, carlos <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?5b2t5rW35rab?= <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Qian Lei. Applied.
+Thanks, Haitao. Applied.
 
 Cheers,
 
 Michael
 
-On 06/11/2014 10:21 AM, Qian Lei wrote:
-> The function matherr() is thread safe.
+
+
+On 06/11/2014 10:25 AM, Peng Haitao wrote:
+> The function getdirentries() is thread safe.
 > 
-> Reviewed-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> Signed-off-by: Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/matherr.3 | 5 +++++
+>  man3/getdirentries.3 | 5 +++++
 >  1 file changed, 5 insertions(+)
 > 
-> diff --git a/man3/matherr.3 b/man3/matherr.3
-> index c3c1eee..53d7c6f 100644
-> --- a/man3/matherr.3
-> +++ b/man3/matherr.3
-> @@ -272,6 +272,11 @@ scalb() u/f	UNDERFLOW	copysign(	n	ERANGE
->  fmod(x,0)	DOMAIN	x	y	EDOM
->  remainder(x,0)	DOMAIN	NAN	y	EDOM	\" retval is 0.0/0.0
->  .TE
+> diff --git a/man3/getdirentries.3 b/man3/getdirentries.3
+> index 6b4ad5f..523bc38 100644
+> --- a/man3/getdirentries.3
+> +++ b/man3/getdirentries.3
+> @@ -61,6 +61,11 @@ If an error occurs, \-1 is returned, and
+>  is set appropriately.
+>  .SH ERRORS
+>  See the Linux library source code for details.
 > +.SH ATTRIBUTES
 > +.SS Multithreading (see pthreads(7))
 > +The
-> +.BR matherr ()
+> +.BR getdirentries ()
 > +function is thread-safe.
->  .SH EXAMPLE
->  The example program demonstrates the use of
->  .BR matherr ()
+>  .SH CONFORMING TO
+>  Not in POSIX.1-2001.
+>  Present on the BSDs, and a few other systems.
 > 
 
 
