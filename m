@@ -1,69 +1,73 @@
-From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Subject: [patch] times.2: spfix
-Date: Thu, 12 Jun 2014 21:43:22 +1000
-Message-ID: <20140612214322.6b9184d6@notabene.brown>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
+Date: Thu, 12 Jun 2014 13:45:12 +0200
+Message-ID: <539992C8.5020809@redhat.com>
+References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com> <539084A4.30301@bfs.de> <53917DD5.5090708@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=PGP-SHA1;
- boundary="Sig_/aVe6rr8=fgXbRDb0V_ArrHL"; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53917DD5.5090708-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: wharms-fPG8STNUNVg@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---Sig_/aVe6rr8=fgXbRDb0V_ArrHL
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
 
+On 06/06/2014 10:37 AM, Jan Chaloupka wrote:
+> On 06/05/2014 04:54 PM, walter harms wrote:
+>> Am 05.06.2014 16:02, schrieb jchaloup:
+>>> Man page for proc says:
+>>> /proc/fs
+>>>           Empty subdirectory.
+>>>
+>>> But ls says something else:
+>>> $ ls /proc/fs/
+>>> ext4  jbd2  nfs  nfsd
+>>>
+>>> In addition from 
+>>> https://www.kernel.org/doc/Documentation/filesystems/proc.txt, 
+>>> caption: 1.9 Ext4 file system parameters:
+>>>
+>>> Information about mounted ext4 file systems can be found in
+>>> /proc/fs/ext4.
+>>>
+>>> This patch gives better description for the content. Open to give 
+>>> more description if someone knows more or where to find it.
+>>>
+>>> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>>> ---
+>>>   man5/proc.5 |    2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/man5/proc.5 b/man5/proc.5
+>>> index 8fd7b19..956760c 100644
+>>> --- a/man5/proc.5
+>>> +++ b/man5/proc.5
+>>> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
+>>>   (excepted those that are marked with "nodev").
+>>>   .TP
+>>>   .I /proc/fs
+>>> -Empty subdirectory.
+>>> +Directory shows which file systems are exported.
+>>>   .TP
+>>>   .I /proc/ide
+>>>   This directory
+>> hi,
+>> exported sounds for me like nfs export. what is about:
+>> "Information about mounted file systems" (copied and ajusted from 
+>> proc.txt)
+> Fine for me.
 
-"passed" is a verb (in past tense), but the verb in this sentence (or claus=
-e,
-as "occur" is also a verb in a different clause of the sentence) is "wraps".
-"past" is, among other things, a preposition and it tells the position, with
-respect to the object ("the maximum value"), where the verb (wrapping)
-happens.
+Ping Michael
 
-So "past" is correct, not "passed".
-
-
-diff --git a/man2/times.2 b/man2/times.2
-index e605feb6aae2..8d68efc4358c 100644
---- a/man2/times.2
-+++ b/man2/times.2
-@@ -196,7 +196,7 @@ A limitation of the Linux system call conventions on so=
-me architectures
- (41 seconds) soon after boot when
- .BR times ()
- can return \-1, falsely indicating that an error occurred.
--The same problem can occur when the return value wraps passed
-+The same problem can occur when the return value wraps past
- the maximum value that can be stored in
- .BR clock_t .
- .\" The problem is that a syscall return of -4095 to -1
-
---Sig_/aVe6rr8=fgXbRDb0V_ArrHL
-Content-Type: application/pgp-signature; name=signature.asc
-Content-Disposition: attachment; filename=signature.asc
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIVAwUBU5mSWjnsnt1WYoG5AQIqCg//QEXmRiHklHFerbJH0EN6AtlAGRtEE5t7
-oYNLhUdyx0QXcUQh5buidkrByasVO7A9kEUrXIWrq46cAEBn2cBBolGTc4dA/rFf
-fyUP/PEAyoW2fDEZcs3ox1YGVyFudwtz3pj2K7yZTZ2GYGLEu91BbZXOBu7vGp0w
-k8Pl1DTkTei+HyWs/eZO7KTKV9NAZKdgPshlR4Yg8I5fCTYHFeA72KGWrzanJZqJ
-Mb9z9rMgelpwZ8zCRK6CBAIzPByw6+NNS1FdghDBJ1fATo4SPbKIt08AF93BUeZP
-B2W1UWiolIjzrMgomZVs0pIOUMnfQ7ItM2R2vr/4muagQB95vHVQfKL+4Nvhrvtp
-k9WAqNOBkDEDLkZ+mlV1R7oDuCfGXcvspxxBJvmj+Z9xXY4cH01pkvEa5VVXvWy/
-0vQ1fC5VjAnF3nJ4tVXz/c4qQeuvY/DOB7jJfeUxaS9yyHwE8gVmEwEaHLKn5eFz
-4N9ZWACVoHkVVqDLpd7AsG03DLRfeq+6R/qO6eFO2uVgKTmWpcIyuuUpv5hPESxx
-z8KidSQsnVsYo7tIr+nICA2CkQwfwKWcUtJ5xUNvV2PBmr8x0686pFjCLoSDhFJ5
-RRjvOL7QKn6Jyb6mPVACeIAAsFviqb2Y3ql0lH2NZTft5ZlsigaZNt0F+qbqLHeZ
-vu8P90kuYR8=
-=lNgE
------END PGP SIGNATURE-----
-
---Sig_/aVe6rr8=fgXbRDb0V_ArrHL--
+>> re,
+>>   wh
+>>
+> -- 
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
