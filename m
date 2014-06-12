@@ -1,84 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
-Date: Thu, 12 Jun 2014 15:16:40 +0200
-Message-ID: <CAKgNAkhWoYRWyi-UECHXiL6zChdamkgqrafXKgvnSH+VzK0iCg@mail.gmail.com>
-References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com>
- <539084A4.30301@bfs.de> <53917DD5.5090708@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: "Carlos O'Donell" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread safe
+ with exceptions
+Date: Thu, 12 Jun 2014 10:02:45 -0400
+Message-ID: <CAE2sS1iaG3CG2Zc-jsJQRBfRQi-AcM2zOyvTFNUtkYEZDoe4iw@mail.gmail.com>
+References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>
+	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>
+	<52FACFBB.6070607@cn.fujitsu.com>
+	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>
+	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>
+	<CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>
+	<CAKgNAkh029iy5=7+N1RiA1_X9Zeiv_coci59bFN1y-oQmOJykA@mail.gmail.com>
+	<CAE2sS1j4sLeczF_gR94+mZ89bi-C=RMMikE=_cOvu9id7v5sHw@mail.gmail.com>
+	<CAKgNAkj0b=-5EMqEWvxoq4_qfTH2wNOatkBmqVrXq5dOuQNHmw@mail.gmail.com>
+	<CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw@mail.gmail.com>
+	<CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53917DD5.5090708-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Jun 6, 2014 at 10:37 AM, Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> On 06/05/2014 04:54 PM, walter harms wrote:
->>
->> Am 05.06.2014 16:02, schrieb jchaloup:
->>>
->>> Man page for proc says:
->>> /proc/fs
->>>               Empty subdirectory.
->>>
->>> But ls says something else:
->>> $ ls /proc/fs/
->>> ext4  jbd2  nfs  nfsd
->>>
->>> In addition from
->>> https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: 1.9
->>> Ext4 file system parameters:
->>>
->>> Information about mounted ext4 file systems can be found in
->>> /proc/fs/ext4.
->>>
->>> This patch gives better description for the content. Open to give more
->>> description if someone knows more or where to find it.
->>>
->>> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->>> ---
->>>   man5/proc.5 |    2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/man5/proc.5 b/man5/proc.5
->>> index 8fd7b19..956760c 100644
->>> --- a/man5/proc.5
->>> +++ b/man5/proc.5
->>> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
->>>   (excepted those that are marked with "nodev").
->>>   .TP
->>>   .I /proc/fs
->>> -Empty subdirectory.
->>> +Directory shows which file systems are exported.
->>>   .TP
->>>   .I /proc/ide
->>>   This directory
->>
->> hi,
->> exported sounds for me like nfs export. what is about:
->> "Information about mounted file systems" (copied and ajusted from
->> proc.txt)
+On Thu, Jun 12, 2014 at 8:16 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> [1]   $ git pull
+>>       $ git checkout remotes/origin/attributes_reformat
 >
-> Fine for me.
+> For good measure, I also added
 >
+>     pthread_setcancelstate.3
+>
+> to show two different attribute types in a table.
 
-Walter's suggestion seems a reasonable place to start. I added the following:
-
-[[
-Contains subdirectories that in turn contain files
-with information about (certain) mounted filesystems.
-]]
+Looks amazing. Exactly the right way forward. Wicked job.
 
 Cheers,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
