@@ -1,121 +1,169 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] iconv.1: New page for iconv(1)
-Date: Thu, 12 Jun 2014 20:44:13 +0200
-Message-ID: <CAKgNAkgc4ASriZyv7bhjBJ-H17KYX0b4Pwb8175y++pCD1ZXbg@mail.gmail.com>
-References: <5396C41B.2040707@redhat.com> <53975C76.7060302@gmail.com>
- <53980EC4.2030508@redhat.com> <53982A56.2000509@gmail.com>
- <539859E9.8040306@redhat.com> <CAKgNAkj=Y6P+C4SYegOejWJwGJQE96Jr6=Hej9PQFRiDXLzTDQ@mail.gmail.com>
- <53986452.2030308@redhat.com> <5398AAE7.3090307@gmail.com> <5399E60D.8010607@redhat.com>
+Subject: Re: Very bad advice in man 2 dup2
+Date: Thu, 12 Jun 2014 20:53:38 +0200
+Message-ID: <CAKgNAkjdM2ZLY6B4==9Pz1kz4X48NTiq7rnSttbALwJV8ru79g@mail.gmail.com>
+References: <20140529210242.GP507@brightrain.aerifal.cx> <53884C27.7020207@gmail.com>
+ <CAKgNAkhFJ6-_RKfTFXYxAAU3jw-ij9ojgeO9G=V9L-WgKZQ62w@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5399E60D.8010607-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAKgNAkhFJ6-_RKfTFXYxAAU3jw-ij9ojgeO9G=V9L-WgKZQ62w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Marko,
+Another ping....
 
-On Thu, Jun 12, 2014 at 7:40 PM, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> w=
-rote:
-> Hi,
+
+On Thu, Jun 5, 2014 at 2:54 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Rich, Ping!
 >
-> On 2014-06-11 22:15, Michael Kerrisk (man-pages) wrote:
->> On 06/11/2014 04:14 PM, Marko Myllynen wrote:
->>> On 2014-06-11 17:03, Michael Kerrisk (man-pages) wrote:
->>>> On Wed, Jun 11, 2014 at 3:30 PM, Marko Myllynen <myllynen@redhat.c=
-om> wrote:
->>>>> On 2014-06-11 13:07, Michael Kerrisk (man-pages) wrote:
->>>>>> On 06/11/2014 10:09 AM, Marko Myllynen wrote:
->>>>>>> On 2014-06-10 22:28, Michael Kerrisk (man-pages) wrote:
->>>>>>>> On 06/10/2014 10:38 AM, Marko Myllynen wrote:
+> On Fri, May 30, 2014 at 11:15 AM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hi Rich,
 >>
->> So, how does the following look to you:
->
-> it looks very good, thanks for this!
->
->> ENVIRONMENT
->>        Internally, the iconv program uses the iconv(3) function  whi=
-ch
->>        in   turn   uses   gconv  modules  (dynamically  loaded  shar=
-ed
->>        libraries) to convert to and  from  a  character  set.   Befo=
-re
->>        calling  iconv(3), the iconv program must first allocate a co=
-n=E2=80=90
->>        version descriptor using iconv_open(3).  The operation  of  t=
-he
->>        latter  function is influenced by the setting of the GCONV_PA=
-TH
->>        environment variable:
+>> For discussions like this, it really is very important to CC the lis=
+t,
+>> so that there's an archived record of the reasons for the change.
+>> I've concatenated your two mails below.
 >>
->>        *  If GCONV_PATH is not set,  iconv_open(3)  loads  the  syst=
-em
->>           gconv  cache  file created by iconvconfig(8) and then, bas=
-ed
->>           on the configuration, loads the gconv modules needed to pe=
-r=E2=80=90
->>           form the conversion.
+>> I agree that the page needs to be fixed; thanks for the report!
+>> I am mulling over what the best fix is. One proposal below.
 >>
->>        *  If GCONV_PATH is defined (as a colon-separated list of pat=
-h=E2=80=90
->>           names), the system gconv module configuration cache  is  n=
-ot
->>           used.   Instead,  iconv_open(3) first tries to load the co=
-n=E2=80=90
->>           figuration files from one of the directories in  GCONV_PAT=
-H,
->>           followed  by  the system configuration file.  If a directo=
-ry
->>           does not contain a  gconv  module  configuration  file,  a=
-ny
->>           gconv  modules that it may contain are ignored.  If a dire=
-c=E2=80=90
->>           tory contains a gconv module configuration file  and  it  =
-is
->>           determined  that  a  module  needed  for  this conversion =
-is
->>           available in the directory, then the needed module is load=
-ed
->>           from  that  directory,  the  order being such that the fir=
-st
->>           suitable module found in GCONV_PATH is  used.   This  allo=
-ws
->>           users to use custom modules and even replace system-provid=
-ed
->>           modules by providing such modules in GCONV_PATH directorie=
-s.
+>> On 05/29/2014 11:02 PM, Rich Felker wrote:
+>>> Hi,
+>>>
+>>> The following text appears in the man page for dup2 and dup3:
+>>>
+>>>     If newfd was open, any errors that would have been reported at
+>>>     close(2) time are lost. A careful programmer will not use dup2(=
+)
+>>>     or dup3() without closing newfd first.
+>>>
+>>> Such use of close is very bad advice, as it introduces a race
+>>> condition during which the file descriptor could be re-assigned and
+>>> subsequently clobbered by dup2/dup3.
 >>
->>        iconv supports any character  set  for  which  a  correspondi=
+>> Agreed. A more fundamental problem in the man page is that
+>> it does not mention the atomicity of dup2() (and dup3()),
+>> and why that is needed to avoid the race condition.
+>> I'll add some words on that.
+>>
+>>> This type of bug can lead to
+>>> serious data leaks and/or data loss. The whole point of dup2/dup3 i=
+s
+>>> to _atomically_ replace a file descriptor.
+>>>
+>>> For the most part there are no meaningful errors which close can
+>>> return, probably only obscure NFS behavior with bad caching setting=
+s
+>>> which are really not handlable by applications anyway, so I feel it
+>>> would be best to just drop this text (or find a way to detect such
+>>> errors without close, perhaps using fsync, and recommend that).
+>>
+>> On 05/30/2014 07:23 AM, Rich Felker wrote:
+>> [...]
+>>> Here is a proposed alternate text that was recommended to me by a u=
+ser
+>>> on Stack Overflow:
+>>
+>> It'd be great to add URLs when citing such discussions... With some
+>> effort, I found
+>> http://stackoverflow.com/questions/23440216/race-condition-when-usin=
+g-dup
+>>
+>>>     A careful programmer will first dup() the target descriptor, th=
+en
+>>>     use dup2()/dup3() to replace the target descriptor atomically, =
+and
+>>>     finally close the initially duplicated target descriptor. This
+>>>     replaces the target descriptor atomically, but also retains a
+>>>     duplicate for closing so that close-time errors may be checked
+>>>     for. (In Linux, close() should only be called once, as the
+>>>     referred to descriptor is always closed, even in case of
+>>>     errno=3D=3DEINTR.)
+>>>
+>>> I'm not sure this is the best wording, since it suggests doing a lo=
+t
+>>> of work that's likely overkill (and useless in the case where the
+>>> target descriptor was read-only, for instance). I might balance suc=
+h
+>>> text with a warning that it's an error to use dup2 or dup3 when the
+>>> target descriptor is not known to be open unless you know the code
+>>> will only be used in single-threaded programs. And I'm a little bit
+>>> hesitant on the parenthetical text about close() since the behavior
+>>> it's documenting is contrary to the requirements of the upcoming is=
+sue
+>>> 8 of POSIX,
+>>
+>> Again citing the Issue 8 discussion would be helpful. Could
+>> you tell me where it is? (It could be useful for the change log.)
+>>
+>>> and rather irrelevant since EINTR cannot happen in Linux's
+>>> close() except with custom device drivers anyway.
+>>
+>> So, how about something like the following (code not
+>> compile-tested...):
+>>
+>>        If newfd was open, any errors that would have been reported  =
+at
+>>        close(2) time are lost.  If this is of concern, then=E2=80=94=
+unless the
+>>        program is single-threaded and does not allocate file  descri=
+p=E2=80=90
+>>        tors  in  signal  handlers=E2=80=94the correct approach is no=
+t to close
+>>        newfd before calling dup2(),  because  of  the  race  conditi=
+on
+>>        described  above.   Instead,  code something like the followi=
 ng
->>        gconv configuration and module are provided.
+>>        could be used:
 >>
->> I have two doubts about the above text:
+>>            /* Obtain a duplicate of 'newfd' that can subsequently
+>>               be used to check for close() errors; an EBADF error
+>>               means that 'newfd' was not open. */
 >>
->> * What is "the system configuration file"?
+>>            tmpfd =3D dup(newfd);
+>>            if (tmpfd =3D=3D -1 && errno !=3D EBADF) {
+>>                /* Handle unexpected dup() error */
+>>            }
+>>
+>>            /* Atomically duplicate 'oldfd' on 'newfd' */
+>>
+>>            if (dup2(oldfd, newfd) =3D=3D -1) {
+>>                /* Handle dup2() error */
+>>            }
+>>
+>>            /* Now check for close() errors on the file originally
+>>               referred to by 'newfd' */
+>>
+>>            if (tmpfd !=3D -1) {
+>>                if (close(tmpfd) =3D=3D -1) {
+>>                    /* Handle errors from close */
+>>                }
+>>            }
+>>
+>> Cheers,
+>>
+>> Michael
+>>
+>>
+>> --
+>> Michael Kerrisk
+>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+>> Linux/UNIX System Programming Training: http://man7.org/training/
 >
-> It is listed in the FILES section, does that clarify enough?
-
-I wondered about that. But the term "system configuration file" does
-not appear in FILES. Is it "Usual default gconv module configuration"?
-If so, that's not so obvious because the terms differ.
-
->> * The last sentence (left over from your earlier text) seems out
->> of place. Is it needed? If it is, I think we need a better place
->> for it.
 >
-> I think the same thing is already said (albeit slightly less explicit=
-ly)
-> above it so I don't think it's needed anymore.
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
 
-Okay -- I removed the sentence.
-
-Cheers,
-
-Michael
 
 
 --=20
