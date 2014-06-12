@@ -1,43 +1,109 @@
-From: "Carlos O'Donell" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
-Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread safe
- with exceptions
-Date: Thu, 12 Jun 2014 10:02:45 -0400
-Message-ID: <CAE2sS1iaG3CG2Zc-jsJQRBfRQi-AcM2zOyvTFNUtkYEZDoe4iw@mail.gmail.com>
-References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>
-	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>
-	<52FACFBB.6070607@cn.fujitsu.com>
-	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>
-	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>
-	<CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>
-	<CAKgNAkh029iy5=7+N1RiA1_X9Zeiv_coci59bFN1y-oQmOJykA@mail.gmail.com>
-	<CAE2sS1j4sLeczF_gR94+mZ89bi-C=RMMikE=_cOvu9id7v5sHw@mail.gmail.com>
-	<CAKgNAkj0b=-5EMqEWvxoq4_qfTH2wNOatkBmqVrXq5dOuQNHmw@mail.gmail.com>
-	<CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw@mail.gmail.com>
-	<CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew@mail.gmail.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] iconv.1: New page for iconv(1)
+Date: Thu, 12 Jun 2014 20:40:29 +0300
+Message-ID: <5399E60D.8010607@redhat.com>
+References: <5396C41B.2040707@redhat.com> <53975C76.7060302@gmail.com> <53980EC4.2030508@redhat.com> <53982A56.2000509@gmail.com> <539859E9.8040306@redhat.com> <CAKgNAkj=Y6P+C4SYegOejWJwGJQE96Jr6=Hej9PQFRiDXLzTDQ@mail.gmail.com> <53986452.2030308@redhat.com> <5398AAE7.3090307@gmail.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <5398AAE7.3090307-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jun 12, 2014 at 8:16 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> [1]   $ git pull
->>       $ git checkout remotes/origin/attributes_reformat
->
-> For good measure, I also added
->
->     pthread_setcancelstate.3
->
-> to show two different attribute types in a table.
+Hi,
 
-Looks amazing. Exactly the right way forward. Wicked job.
+On 2014-06-11 22:15, Michael Kerrisk (man-pages) wrote:
+> On 06/11/2014 04:14 PM, Marko Myllynen wrote:
+>> On 2014-06-11 17:03, Michael Kerrisk (man-pages) wrote:
+>>> On Wed, Jun 11, 2014 at 3:30 PM, Marko Myllynen <myllynen-H+wXaHxf7aJhl2p70BpVqQ@public.gmane.org=
+m> wrote:
+>>>> On 2014-06-11 13:07, Michael Kerrisk (man-pages) wrote:
+>>>>> On 06/11/2014 10:09 AM, Marko Myllynen wrote:
+>>>>>> On 2014-06-10 22:28, Michael Kerrisk (man-pages) wrote:
+>>>>>>> On 06/10/2014 10:38 AM, Marko Myllynen wrote:
+>=20
+> So, how does the following look to you:
 
-Cheers,
-Carlos.
+it looks very good, thanks for this!
+
+> ENVIRONMENT
+>        Internally, the iconv program uses the iconv(3) function  whic=
+h
+>        in   turn   uses   gconv  modules  (dynamically  loaded  share=
+d
+>        libraries) to convert to and  from  a  character  set.   Befor=
+e
+>        calling  iconv(3), the iconv program must first allocate a con=
+=E2=80=90
+>        version descriptor using iconv_open(3).  The operation  of  th=
+e
+>        latter  function is influenced by the setting of the GCONV_PAT=
+H
+>        environment variable:
+>=20
+>        *  If GCONV_PATH is not set,  iconv_open(3)  loads  the  syste=
+m
+>           gconv  cache  file created by iconvconfig(8) and then, base=
+d
+>           on the configuration, loads the gconv modules needed to per=
+=E2=80=90
+>           form the conversion.
+>=20
+>        *  If GCONV_PATH is defined (as a colon-separated list of path=
+=E2=80=90
+>           names), the system gconv module configuration cache  is  no=
+t
+>           used.   Instead,  iconv_open(3) first tries to load the con=
+=E2=80=90
+>           figuration files from one of the directories in  GCONV_PATH=
+,
+>           followed  by  the system configuration file.  If a director=
+y
+>           does not contain a  gconv  module  configuration  file,  an=
+y
+>           gconv  modules that it may contain are ignored.  If a direc=
+=E2=80=90
+>           tory contains a gconv module configuration file  and  it  i=
+s
+>           determined  that  a  module  needed  for  this conversion i=
+s
+>           available in the directory, then the needed module is loade=
+d
+>           from  that  directory,  the  order being such that the firs=
+t
+>           suitable module found in GCONV_PATH is  used.   This  allow=
+s
+>           users to use custom modules and even replace system-provide=
+d
+>           modules by providing such modules in GCONV_PATH directories=
+=2E
+>=20
+>        iconv supports any character  set  for  which  a  correspondin=
+g
+>        gconv configuration and module are provided.
+>=20
+> I have two doubts about the above text:
+>=20
+> * What is "the system configuration file"?
+
+It is listed in the FILES section, does that clarify enough?
+
+> * The last sentence (left over from your earlier text) seems out
+> of place. Is it needed? If it is, I think we need a better place
+> for it.
+
+I think the same thing is already said (albeit slightly less explicitly=
+)
+above it so I don't think it's needed anymore.
+
+Thanks,
+
+--=20
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
