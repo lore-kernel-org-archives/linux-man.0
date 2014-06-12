@@ -1,73 +1,93 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
-Date: Thu, 12 Jun 2014 13:45:12 +0200
-Message-ID: <539992C8.5020809@redhat.com>
-References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com> <539084A4.30301@bfs.de> <53917DD5.5090708@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread safe
+ with exceptions
+Date: Thu, 12 Jun 2014 14:16:46 +0200
+Message-ID: <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew@mail.gmail.com>
+References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>
+ <CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>
+ <52FACFBB.6070607@cn.fujitsu.com> <CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>
+ <CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>
+ <CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>
+ <CAKgNAkh029iy5=7+N1RiA1_X9Zeiv_coci59bFN1y-oQmOJykA@mail.gmail.com>
+ <CAE2sS1j4sLeczF_gR94+mZ89bi-C=RMMikE=_cOvu9id7v5sHw@mail.gmail.com>
+ <CAKgNAkj0b=-5EMqEWvxoq4_qfTH2wNOatkBmqVrXq5dOuQNHmw@mail.gmail.com> <CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53917DD5.5090708-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-
-On 06/06/2014 10:37 AM, Jan Chaloupka wrote:
-> On 06/05/2014 04:54 PM, walter harms wrote:
->> Am 05.06.2014 16:02, schrieb jchaloup:
->>> Man page for proc says:
->>> /proc/fs
->>>           Empty subdirectory.
->>>
->>> But ls says something else:
->>> $ ls /proc/fs/
->>> ext4  jbd2  nfs  nfsd
->>>
->>> In addition from 
->>> https://www.kernel.org/doc/Documentation/filesystems/proc.txt, 
->>> caption: 1.9 Ext4 file system parameters:
->>>
->>> Information about mounted ext4 file systems can be found in
->>> /proc/fs/ext4.
->>>
->>> This patch gives better description for the content. Open to give 
->>> more description if someone knows more or where to find it.
->>>
->>> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->>> ---
->>>   man5/proc.5 |    2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/man5/proc.5 b/man5/proc.5
->>> index 8fd7b19..956760c 100644
->>> --- a/man5/proc.5
->>> +++ b/man5/proc.5
->>> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
->>>   (excepted those that are marked with "nodev").
->>>   .TP
->>>   .I /proc/fs
->>> -Empty subdirectory.
->>> +Directory shows which file systems are exported.
->>>   .TP
->>>   .I /proc/ide
->>>   This directory
->> hi,
->> exported sounds for me like nfs export. what is about:
->> "Information about mounted file systems" (copied and ajusted from 
->> proc.txt)
-> Fine for me.
-
-Ping Michael
-
->> re,
->>   wh
+On Thu, Jun 12, 2014 at 1:27 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On Wed, Jun 11, 2014 at 10:31 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hi Carlos,
 >>
-> -- 
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>> On Wed, Jun 11, 2014 at 4:59 PM, Carlos O'Donell
+>> <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org> wrote:
+>>> On Wed, Jun 11, 2014 at 4:30 AM, Michael Kerrisk (man-pages)
+>>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>>> Hi Carlos, Haitao, Qian Lei, Alex,
+> [...]
+>>>> Does one of those approaches eem okay? Haitao, Qian Lei, what do you
+>>>> think? (I appreciate that there's a lot of pages to be fixed to follow
+>>>> this new approach: I'd do that, though you could help if you want.)
+>>>
+>>> I agree with Peng, I like the first approach of a single table.
+>>
+>> Alrighty, I need to hack a few of the pages to see that this approach
+>> works, and then we can make the change wholesale.
+>
+> Okay -- take a look[1] at the change in the 'attributes_reformat'
+> branch that I've just pushed. That tries to cover a representative
+> sampling of the changes that I think we need to make. In particular,
+> the changed pages are:
+>
+>     a64l.3
+>     abort.3
+>     abs.3
+>     atof.3
+>     bindresvport.3
+>     drand48.3
+>     fenv.3
+>
+> Does this seem okay?
+>
+>>> We should also evaluate the approach of adding the glibc version to
+>>> the table if and when the version change would change the result e.g.
+>>> the table lists the historical values.
+>>
+>> Good point. I'll give that a little thought.
+>
+> Take a look at bindresvport.3 for an example of how we might deal with
+> these cases.
+>
+> Cheers,
+>
+> Michael
+>
+> [1]   $ git pull
+>       $ git checkout remotes/origin/attributes_reformat
+
+For good measure, I also added
+
+    pthread_setcancelstate.3
+
+to show two different attribute types in a table.
+
+Cheers,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
