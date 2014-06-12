@@ -1,52 +1,79 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] setresuid.2: sfix
-Date: Thu, 12 Jun 2014 14:30:50 +0200
-Message-ID: <CAKgNAkgcSAjp4qHWiid=TM86ZPpoMm-oKf55Q_+sqSVmMtj4cw@mail.gmail.com>
-References: <1402575792-5331-1-git-send-email-yuray@komyakino.ru>
+Subject: Re: [PATCH] proc.5: /proc/fs is not empty directory
+Date: Thu, 12 Jun 2014 15:16:40 +0200
+Message-ID: <CAKgNAkhWoYRWyi-UECHXiL6zChdamkgqrafXKgvnSH+VzK0iCg@mail.gmail.com>
+References: <20140605140204.25995.48033.stgit@unused-4-157.brq.redhat.com>
+ <539084A4.30301@bfs.de> <53917DD5.5090708@redhat.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1402575792-5331-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+In-Reply-To: <53917DD5.5090708-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Yuri,
+On Fri, Jun 6, 2014 at 10:37 AM, Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 06/05/2014 04:54 PM, walter harms wrote:
+>>
+>> Am 05.06.2014 16:02, schrieb jchaloup:
+>>>
+>>> Man page for proc says:
+>>> /proc/fs
+>>>               Empty subdirectory.
+>>>
+>>> But ls says something else:
+>>> $ ls /proc/fs/
+>>> ext4  jbd2  nfs  nfsd
+>>>
+>>> In addition from
+>>> https://www.kernel.org/doc/Documentation/filesystems/proc.txt, caption: 1.9
+>>> Ext4 file system parameters:
+>>>
+>>> Information about mounted ext4 file systems can be found in
+>>> /proc/fs/ext4.
+>>>
+>>> This patch gives better description for the content. Open to give more
+>>> description if someone knows more or where to find it.
+>>>
+>>> Signed-off-by: jchaloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>>> ---
+>>>   man5/proc.5 |    2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/man5/proc.5 b/man5/proc.5
+>>> index 8fd7b19..956760c 100644
+>>> --- a/man5/proc.5
+>>> +++ b/man5/proc.5
+>>> @@ -1805,7 +1805,7 @@ Then filesystems contained in this file are tried
+>>>   (excepted those that are marked with "nodev").
+>>>   .TP
+>>>   .I /proc/fs
+>>> -Empty subdirectory.
+>>> +Directory shows which file systems are exported.
+>>>   .TP
+>>>   .I /proc/ide
+>>>   This directory
+>>
+>> hi,
+>> exported sounds for me like nfs export. what is about:
+>> "Information about mounted file systems" (copied and ajusted from
+>> proc.txt)
+>
+> Fine for me.
+>
 
-I fixed this one a couple of days ago. See commit
-29d3bdc4824833fe8fd3737c32328086e3c8a2dd
+Walter's suggestion seems a reasonable place to start. I added the following:
+
+[[
+Contains subdirectories that in turn contain files
+with information about (certain) mounted filesystems.
+]]
 
 Cheers,
 
 Michael
-
-
-
-On Thu, Jun 12, 2014 at 2:23 PM, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> wrote:
-> ---
->  man2/setresuid.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/man2/setresuid.2 b/man2/setresuid.2
-> index f0482cd..847e224 100644
-> --- a/man2/setresuid.2
-> +++ b/man2/setresuid.2
-> @@ -71,7 +71,7 @@ is set appropriately.
->  there are cases where
->  .BR setresuid ()
->  can fail even when the caller is UID 0;
-> -it is a grave security error to omit checking for a faulure return from
-> +it is a grave security error to omit checking for a failure return from
->  .BR setresuid ().
->  .SH ERRORS
->  .TP
-> --
-> 1.9.1
->
-
-
 
 -- 
 Michael Kerrisk
