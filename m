@@ -1,130 +1,329 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: should man page for syslog(2) be updated WRT log levels?
-Date: Sun, 15 Jun 2014 20:17:51 +0200
-Message-ID: <539DE34F.7020302@gmail.com>
-References: <alpine.LFD.2.11.1405260905100.6928@localhost>
+Subject: For review: sprof(1) manual page
+Date: Sun, 15 Jun 2014 20:56:56 +0200
+Message-ID: <539DEC78.1090809@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LFD.2.11.1405260905100.6928@localhost>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Robert P. J. Day" <rpjday-L09J2beyid0N/H6P543EQg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Robert,
+Hello all,
 
-On 05/26/2014 03:06 PM, Robert P. J. Day wrote:
-> 
->   hi, not sure if this question makes any sense but, currently, the
-> man page for syslog(2) claims:
-> 
-> The conventional meaning of the loglevel is defined in
-> .I <linux/kernel.h>
-> as follows:
-> 
-> .nf
-> #define KERN_EMERG    "<0>"  /* system is unusable               */
-> #define KERN_ALERT    "<1>"  /* action must be taken immediately */
-> #define KERN_CRIT     "<2>"  /* critical conditions              */
-> #define KERN_ERR      "<3>"  /* error conditions                 */
-> #define KERN_WARNING  "<4>"  /* warning conditions               */
-> #define KERN_NOTICE   "<5>"  /* normal but significant condition */
-> #define KERN_INFO     "<6>"  /* informational                    */
-> #define KERN_DEBUG    "<7>"  /* debug-level messages             */
-> 
->  first, those defines don't seem to exist anymore -- 
+There is currently no good documentation of glibc's 'sprof'
+command, so I wrote the man page below. Comments, error reports,
+and suggestions for improvement welcome.
 
-Yup. there was a change with kernel commit 
-04d2c8c83d0e3ac5f78aeede51babb3236200112, it seems.
-
-> in userspace, one
-> finds definitions in <sys/syslog.h>:
-> 
-> #define LOG_EMERG       0       /* system is unusable */
-> #define LOG_ALERT       1       /* action must be taken immediately */
-> #define LOG_CRIT        2       /* critical conditions */
-> #define LOG_ERR         3       /* error conditions */
-> #define LOG_WARNING     4       /* warning conditions */
-> #define LOG_NOTICE      5       /* normal but significant condition */
-> #define LOG_INFO        6       /* informational */
-> #define LOG_DEBUG       7       /* debug-level messages */
-
-Those defines are there for syslog(3).
-
->   also, in kernelspace, there is the newer header file kern_levels.h
-> which defines log levels differently these days:
-> 
-> #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-> #define KERN_SOH_ASCII  '\001'
-> 
-> #define KERN_EMERG      KERN_SOH "0"    /* system is unusable */
-> #define KERN_ALERT      KERN_SOH "1"    /* action must be taken immediately */
-> #define KERN_CRIT       KERN_SOH "2"    /* critical conditions */
-> #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-> #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
-> #define KERN_NOTICE     KERN_SOH "5"    /* normal but significant condition */
-> #define KERN_INFO       KERN_SOH "6"    /* informational */
-> #define KERN_DEBUG      KERN_SOH "7"    /* debug-level messages */
-> 
-> #define KERN_DEFAULT    KERN_SOH "d"    /* the default kernel loglevel */
-> 
->   i have no idea how any of that should affect the man page for
-> syslog(2), and possibly others. thoughts? or am i just totally
-> misunderstanding something?
-
-So, some details have changed, and I agree that the page could be clearer.
-But, in the meantime, I'll apply a patch something like the below.
-
-Cheers,
+Thanks
 
 Michael
 
-diff --git a/man2/syslog.2 b/man2/syslog.2
-index 5053b88..10894bf 100644
---- a/man2/syslog.2
-+++ b/man2/syslog.2
-@@ -1,3 +1,4 @@
-+'\" t
- .\" Copyright (C) 1995 Andries Brouwer (aeb-rh8NL+sEX9E@public.gmane.org)
- .\"
- .\" %%%LICENSE_START(VERBATIM)
-@@ -232,20 +233,21 @@ This level is
- (6) unless the line starts with <d>
- where \fId\fP is a digit in the range 1-7, in which case the level
- is \fId\fP.
--The conventional meaning of the loglevel is defined in
--.I <linux/kernel.h>
--as follows:
-+The conventional meaning of the loglevel is as follows:
- 
--.nf
--#define KERN_EMERG    "<0>"  /* system is unusable               */
--#define KERN_ALERT    "<1>"  /* action must be taken immediately */
--#define KERN_CRIT     "<2>"  /* critical conditions              */
--#define KERN_ERR      "<3>"  /* error conditions                 */
--#define KERN_WARNING  "<4>"  /* warning conditions               */
--#define KERN_NOTICE   "<5>"  /* normal but significant condition */
--#define KERN_INFO     "<6>"  /* informational                    */
--#define KERN_DEBUG    "<7>"  /* debug-level messages             */
--.fi
-+.TS
-+lB lB lB
-+lB c l.
-+Kernel constant        Level value     Meaning
-+KERN_EMERG     0       System is unusable
-+KERN_ALERT     1       Action must be taken immediately
-+KERN_CRIT      2       Critical conditions
-+KERN_ERR       3       Error conditions
-+KERN_WARNING   4       Warning conditions
-+KERN_NOTICE    5       Normal but significant condition
-+KERN_INFO      6       Informational
-+KERN_DEBUG     7       Debug-level messages
-+.TE
- .SH RETURN VALUE
- For \fItype\fP equal to 2, 3, or 4, a successful call to
- .BR syslog ()
+
+.\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
+.\"
+.TH SPROF 1 2014-06-10 "Linux" "Linux User Manual"
+.SH NAME
+sprof \- read and display shared object profiling data
+.SH SYNOPSIS
+.nf
+.BR sprof " [OPTION]... SHARED-OBJECT-PATH [PROFILE-DATA-PATH]"
+.fi
+.SH DESCRIPTION
+The
+.B sprof
+command displays a profiling summary for the
+shared object specified as its first command-line argument.
+The profiling summary is created using previously generated
+profiling data in the (optional) second command-line argument.
+If the profiling data pathname is omitted, then
+.B sprof
+will attempt to deduce it using the soname of the shared object,
+looking for a file with the name
+.IR <soname>.profile
+in the current directory.
+.SH OPTIONS
+The following command-line options specify the profile output
+to be produced:
+.TP
+.BR \-c ", " \-\-call\-pairs
+Print a list of pairs of call paths for the interfaces exported
+by the shared object,
+along with the number of times each path is used.
+.TP
+.BR \-p ", " \-\-flat\-profile
+Generate a flat profile of all of the functions in the monitored object,
+with counts and ticks.
+.TP
+.BR \-q ", " \-\-graph
+Generate a call graph.
+.PP
+If none of the above options are specified,
+then the default behavior is to display a flat profile and a call graph.
+.PP
+The following additional command-line options are available:
+.TP
+.BR \-? ", " \-\-help
+Display a summary of command-line options and arguments and exit.
+.TP
+.BR \-\-usage
+Display a short usage message and exit.
+.TP
+.BR \-V ", " \-\-version
+Display the program version and exit.
+.SH CONFORMING TO
+The
+.B sprof
+command is a GNU extension, not present in POSIX.1.
+.SH EXAMPLE
+The following example demonstrates the use of
+.BR sprof .
+The example consists of a main program that calls two functions
+in a shared library.
+First, the code of the main program:
+
+.in +4n
+.nf
+$ \fBcat prog.c\fP
+#include <stdlib.h>
+
+void x1(void);
+void x2(void);
+
+int
+main(int argc, char *argv[])
+{
+    x1();
+    x2();
+    exit(EXIT_SUCCESS);
+}
+.fi
+.in
+.PP
+The functions
+.IR x1()
+and
+.IR x2()
+are defined in the following source file that is used to
+construct the shared library:
+
+.in +4n
+.nf
+$ \fBcat libdemo.c\fP
+#include <unistd.h>
+
+void
+consumeCpu1(int lim)
+{
+    int j;
+
+    for (j = 0; j < lim; j++)
+	getppid();
+}
+
+void
+x1(void) {
+    int j;
+
+    for (j = 0; j < 100; j++)
+	consumeCpu1(200000);
+}
+
+void
+consumeCpu2(int lim)
+{
+    int j;
+
+    for (j = 0; j < lim; j++)
+	getppid();
+}
+
+void
+x2(void)
+{
+    int j;
+
+    for (j = 0; j < 1000; j++)
+	consumeCpu2(10000);
+}
+.fi
+.in
+.PP
+Now we construct the shared library with the real name
+.IR libdemo.so.1.0.1 ,
+and the soname
+.IR libdemo.so.1 :
+
+.in +4n
+.nf
+$ \fBcc \-g \-fPIC \-shared \-Wl,\-soname,libdemo.so.1 \e\fP
+        \fB\-o libdemo.so.1.0.1 libdemo.c\fP
+.fi
+.in
+.PP
+Then we construct symbolic links for the library soname and
+the library linker name:
+
+.in +4n
+.nf
+$ \fBln \-sf libdemo.so.1.0.1 libdemo.so.1\fP
+$ \fBln \-sf libdemo.so.1 libdemo.so\fP
+.fi
+.in
+.PP
+Next, we compile the main program, linking it against the shared library,
+and then list the dynamic dependencies of the program:
+
+.in +4n
+.nf
+$ \fBcc \-g \-o prog prog.c \-L. \-ldemo\fP
+$ \fBldd prog\fP
+	linux\-vdso.so.1 =>  (0x00007fff86d66000)
+	libdemo.so.1 => not found
+	libc.so.6 => /lib64/libc.so.6 (0x00007fd4dc138000)
+	/lib64/ld\-linux\-x86\-64.so.2 (0x00007fd4dc51f000)
+.fi
+.in
+.PP
+In order to get profiling information for the shared library,
+we define the environment variable
+.BR LD_PROFILE
+with the soname of the library:
+
+.in +4n
+.nf
+$ \fBexport LD_PROFILE=libdemo.so.1\fP
+.fi
+.in
+.PP
+We then define the environment variable
+.BR LD_PROFILE_OUTPUT
+with the pathname of the directory where profile output should be written,
+and create that directory if it does not exist already:
+
+.in +4n
+.nf
+$ \fBexport LD_PROFILE_OUTPUT=$(pwd)/prof_data\fP
+$ \fBmkdir \-p $LD_PROFILE_OUTPUT\fP
+.fi
+.in
+.PP
+.B LD_PROFILE
+causes profiling output to be
+.I appended
+to the output file if it already exists,
+so we ensure that there is no preexisting profiling data:
+
+.in +4n
+.nf
+$ \fBrm \-f $LD_PROFILE_OUTPUT/$LD_PROFILE.profile\fP
+.fi
+.in
+.PP
+We then run the program to produce the profiling output,
+which is written to a file in the directory specified in
+.BR LD_PROFILE_OUTPUT :
+
+.in +4n
+.nf
+$ \fBLD_LIBRARY_PATH=. ./prog\fP
+$ \fBls prof_data\fP
+libdemo.so.1.profile
+.fi
+.in
+.PP
+We then use the
+.BR "sprof \-p"
+option to generate a flat profile with counts and ticks:
+
+.in +4n
+.nf
+$ \fBsprof \-p libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total
+ time   seconds   seconds    calls  us/call  us/call  name
+ 60.00      0.06     0.06      100   600.00           consumeCpu1
+ 40.00      0.10     0.04     1000    40.00           consumeCpu2
+  0.00      0.10     0.00        1     0.00           x1
+  0.00      0.10     0.00        1     0.00           x2
+.fi
+.in
+.PP
+The
+.BR "sprof \-q"
+option generates a call graph:
+
+.in +4n
+.nf
+$ \fBsprof \-q libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
+
+index % time    self  children    called     name
+
+                0.00    0.00      100/100         x1 [1]
+[0]    100.0    0.00    0.00      100         consumeCpu1 [0]
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+                0.00    0.00        1/1           <UNKNOWN>
+[1]      0.0    0.00    0.00        1         x1 [1]
+                0.00    0.00      100/100         consumeCpu1 [0]
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+                0.00    0.00     1000/1000        x2 [3]
+[2]      0.0    0.00    0.00     1000         consumeCpu2 [2]
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+                0.00    0.00        1/1           <UNKNOWN>
+[3]      0.0    0.00    0.00        1         x2 [3]
+                0.00    0.00     1000/1000        consumeCpu2 [2]
+\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
+.fi
+.in
+.PP
+Above and below, the "<UNKNOWN>" strings represent identifiers that
+are outside of the profiled object (in this example, these are instances of
+.IR main() ).
+.PP
+The
+.BR "sprof \-c"
+option generates a list of call pairs and the number of their occurrences:
+
+.in +4n
+.nf
+$ \fBsprof \-c libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
+<UNKNOWN>                  x1                                 1
+x1                         consumeCpu1                      100
+<UNKNOWN>                  x2                                 1
+x2                         consumeCpu2                     1000
+.fi
+.in
+.SH SEE ALSO
+.BR gprof (1),
+.BR ldd (1),
+.BR ld.so (8)
+
 
 -- 
 Michael Kerrisk
