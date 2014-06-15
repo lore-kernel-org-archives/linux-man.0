@@ -1,190 +1,440 @@
-From: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
-Subject: Re: [PATCH] [RFC] xfs: wire up aio_fsync method
-Date: Sun, 15 Jun 2014 20:58:46 -0600
-Message-ID: <539E5D66.8040605@kernel.dk>
-References: <1402562047-31276-1-git-send-email-david@fromorbit.com> <20140612141329.GA11676@infradead.org> <20140612234441.GT9508@dastard> <20140613162352.GB23394@infradead.org> <20140615223323.GB9508@dastard> <20140616020030.GC9508@dastard>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.69 released
+Date: Sun, 15 Jun 2014 21:55:51 +0200
+Message-ID: <539DFA47.5030409@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140616020030.GC9508@dastard>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 2014-06-15 20:00, Dave Chinner wrote:
-> On Mon, Jun 16, 2014 at 08:33:23AM +1000, Dave Chinner wrote:
->> On Fri, Jun 13, 2014 at 09:23:52AM -0700, Christoph Hellwig wrote:
->>> On Fri, Jun 13, 2014 at 09:44:41AM +1000, Dave Chinner wrote:
->>>> On Thu, Jun 12, 2014 at 07:13:29AM -0700, Christoph Hellwig wrote:
->>>>> There doesn't really seem anything XFS specific here, so instead
->>>>> of wiring up ->aio_fsync I'd implement IOCB_CMD_FSYNC in fs/aio.c
->>>>> based on the workqueue and ->fsync.
->>>>
->>>> I really don't know whether the other ->fsync methods in other
->>>> filesystems can stand alone like that. I also don't have the
->>>> time to test that it works properly on all filesystems right now.
->>>
->>> Of course they can, as shown by various calls to vfs_fsync_range that
->>> is nothing but a small wrapper around ->fsync.
->>
->> Sure, but that's not getting 10,000 concurrent callers, is it? And
->> some fsync methods require journal credits, and others serialise
->> completely, and so on.
->>
->> Besides, putting an *unbound, highly concurrent* aio queue into the
->> kernel for an operation that can serialise the entire filesystem
->> seems like a pretty nasty user-level DOS vector to me.
->
-> FWIW, the non-linear system CPU overhead of a fs_mark test I've been
-> running isn't anything related to XFS.  The async fsync workqueue
-> results in several thousand worker threads dispatching IO
-> concurrently across 16 CPUs:
->
-> $ ps -ef |grep kworker |wc -l
-> 4693
-> $
->
-> Profiles from 3.15 + xfs for-next + xfs aio_fsync show:
->
-> -  51.33%  [kernel]            [k] percpu_ida_alloc
->     - percpu_ida_alloc
->        + 85.73% blk_mq_wait_for_tags
->        + 14.23% blk_mq_get_tag
-> -  14.25%  [kernel]            [k] _raw_spin_unlock_irqrestore
->     - _raw_spin_unlock_irqrestore
->        - 66.26% virtio_queue_rq
->           - __blk_mq_run_hw_queue
->              - 99.65% blk_mq_run_hw_queue
->                 + 99.47% blk_mq_insert_requests
->                 + 0.53% blk_mq_insert_request
-> .....
-> -   7.91%  [kernel]            [k] _raw_spin_unlock_irq
->     - _raw_spin_unlock_irq
->        - 69.59% __schedule
->           - 86.49% schedule
->              + 47.72% percpu_ida_alloc
->              + 21.75% worker_thread
->              + 19.12% schedule_timeout
-> ....
->        + 18.06% blk_mq_make_request
->
-> Runtime:
->
-> real    4m1.243s
-> user    0m47.724s
-> sys     11m56.724s
->
-> Most of the excessive CPU usage is coming from the blk-mq layer, and
-> XFS is barely showing up in the profiles at all - the IDA tag
-> allocator is burning 8 CPUs at about 60,000 write IOPS....
->
-> I know that the tag allocator has been rewritten, so I tested
-> against a current a current Linus kernel with the XFS aio-fsync
-> patch. The results are all over the place - from several sequential
-> runs of the same test (removing the files in between so each tests
-> starts from an empty fs):
->
-> Wall time	sys time	IOPS	 files/s
-> 4m58.151s	11m12.648s	30,000	 13,500
-> 4m35.075s	12m45.900s	45,000	 15,000
-> 3m10.665s	11m15.804s	65,000	 21,000
-> 3m27.384s	11m54.723s	85,000	 20,000
-> 3m59.574s	11m12.012s	50,000	 16,500
-> 4m12.704s	12m15.720s	50,000	 17,000
->
-> The 3.15 based kernel was pretty consistent around the 4m10 mark,
-> generally only +/-10s in runtime and not much change in system time.
-> The files/s rate reported by fs_mark doesn't vary that much, either.
-> So the new tag allocator seems to be no better in terms of IO
-> dispatch scalability, yet adds significant variability to IO
-> performance.
->
-> What I noticed is a massive jump in context switch overhead: from
-> around 250,000/s to over 800,000/s and the CPU profiles show that
-> this comes from the new tag allocator:
->
-> -  34.62%  [kernel]  [k] _raw_spin_unlock_irqrestore
->     - _raw_spin_unlock_irqrestore
->        - 58.22% prepare_to_wait
->             100.00% bt_get
->                blk_mq_get_tag
->                __blk_mq_alloc_request
->                blk_mq_map_request
->                blk_sq_make_request
->                generic_make_request
->        - 22.51% virtio_queue_rq
->             __blk_mq_run_hw_queue
-> ....
-> -  21.56%  [kernel]  [k] _raw_spin_unlock_irq
->     - _raw_spin_unlock_irq
->        - 58.73% __schedule
->           - 53.42% io_schedule
->                99.88% bt_get
->                   blk_mq_get_tag
->                   __blk_mq_alloc_request
->                   blk_mq_map_request
->                   blk_sq_make_request
->                   generic_make_request
->           - 35.58% schedule
->              + 49.31% worker_thread
->              + 32.45% schedule_timeout
->              + 10.35% _xfs_log_force_lsn
->              + 3.10% xlog_cil_force_lsn
-> ....
->
-> The new block-mq tag allocator is hammering the waitqueues and
-> that's generating a large amount of lock contention. It looks like
-> the new allocator replaces CPU burn doing work in the IDA allocator
-> with the same amount of CPU burn from extra context switch
-> overhead....
->
-> Oh, OH. Now I understand!
->
-> # echo 4 > /sys/block/vdc/queue/nr_requests
->
-> <run workload>
->
-> 80.56%  [kernel]  [k] _raw_spin_unlock_irqrestore
->     - _raw_spin_unlock_irqrestore
->        - 98.49% prepare_to_wait
->             bt_get
->             blk_mq_get_tag
->             __blk_mq_alloc_request
->             blk_mq_map_request
->             blk_sq_make_request
->             generic_make_request
->           + submit_bio
->        + 1.07% finish_wait
-> +  13.63%  [kernel]  [k] _raw_spin_unlock_irq
-> ...
->
-> It's context switch bound at 800,000 context switches/s, burning all
-> 16 CPUs waking up and going to sleep and doing very little real
-> work. How little real work? About 3000 IOPS for 2MB/s of IO. That
-> amount of IO should only take a single digit CPU percentage of one
-> CPU.
+Gidday,
 
-With thousands of threads? I think not. Sanely submitted 3000 IOPS, 
-correct, I would agree with you.
+The Linux man-pages maintainer proudly announces:
 
-> This seems like bad behaviour to have on a congested block device,
-> even a high performance one....
+    man-pages-3.69 - man pages for Linux
 
-That is pretty much the suck. How do I reproduce this (eg what are you 
-running, and what are the xfs aio fsync patches)? Even if dispatching 
-thousands of threads to do IO is a bad idea (it very much is), 
-gracefully handling is a must. I haven't seen any bad behavior from the 
-new allocator, it seems to be well behaved (for most normal cases, 
-anyway). I'd like to take a stab at ensuring this works, too.
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.69
 
-If you tell me exactly what you are running, I'll reproduce and get this 
-fixed up tomorrow.
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2014/06/man-pages-369-is-released.html
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+   of a translation of the manual pages, or are the maintainer of the
+   manual pages set in a particular distribution, or have expressed
+   interest in helping with man-pages maintenance, or have otherwise
+   expressed interest in being notified about man-pages releases.
+   If you don't want to receive such messages from me, or you know of
+   some other translator or maintainer who may want to receive such
+   notifications, send me a message.
+
+Cheers,
+
+Michael
+
+
+
+==================== Changes in man-pages-3.69 ====================
+
+Released: 2014-06-14, Munich
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
+Kirill A. Shutemov <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>
+Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
+Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Petr Gajdos <pgajdos-AlSwsSmVLrQ@public.gmane.org>
+Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Vasiliy Kulikov <segoon-cxoSlKxDwOJWk0Htik3J/w@public.gmane.org>
+Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+iconv.1
+    Marko Myllynen  [Michael Kerrisk]
+        New page for the iconv(1) command
+
+iconvconfig.8
+    Marko Myllynen
+        New page for iconvconfig(8)
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+fcntl.2
+    Jeff Layton, Michael Kerrisk
+        Document open file description locks
+            As provided by the fcntl() operations F_OFD_SETLK,
+            F_OFD_SETLKW, and F_OFD_GETLK
+
+
+Changes to individual pages
+---------------------------
+
+locale.1
+    Marko Myllynen
+        Add FILES section, add charmap(5) reference
+    Marko Myllynen
+        Align with recent charmap(5) / repertoiremap(5) changes
+
+execve.2
+    Michael Kerrisk  [NeilBrown]
+        Before kernel 2.6.0, RLIMIT_NPROC had no effect for set*uid()
+    Michael Kerrisk  [Vasiliy Kulikov]
+        RLIMIT_NPROC is checked only if preceded by set*uid()
+    Michael Kerrisk  [Vasiliy Kulikov, NeilBrown, KOSAKI Motohiro]
+        Document EAGAIN error
+            See also https://bugzilla.kernel.org/show_bug.cgi?id=42704
+
+fcntl.2
+    Michael Kerrisk
+        Detail the limitations of traditional (process-associated) locks
+    Michael Kerrisk  [Jeff Layton]
+        Describe how to check whether the kernel supports a particular command
+    Michael Kerrisk
+        ERRORS: add EINVAL for invalid 'cmd'
+    Michael Kerrisk
+        Add para introducing advisory locks and noting existence of OFD locks
+    Michael Kerrisk  [Jeff Layton]
+        Add notes on F_SETLKW deadlock detection and its limitations
+    Michael Kerrisk
+        Add an explicit note that mandatory locking is not in POSIX
+    Michael Kerrisk
+        Rewrite introductory paragraphs on mandatory locking
+            Make the structure more logical, and also explicitly mention
+            OFD locks.
+    Michael Kerrisk  [Jeff Layton]
+        Reword discussion of mandatory lock bug a little
+            Jeff Layton confirmed that the bug remains even in modern kernels.
+    Michael Kerrisk
+        Explain POSIX background to EACCES/EAGAIN error for F_GETLK
+    Michael Kerrisk
+        Add NOTES subhead for record locking and NFS
+    Michael Kerrisk  [NeilBrown]
+        Note treatment of locks when an NFS client loses contact with the server
+    Michael Kerrisk  [NeilBrown]
+        Refine discussion of locks when NFSv4 client loses contact with server
+    Michael Kerrisk  [Jeff Layton]
+        nfsv4leasetime controls the "contact lost" interval for NFSv4
+            Jeff Layton:
+
+flock.2
+    Michael Kerrisk
+        In some modern BSDs, fcntl() and flock() locks do interact
+            So, reword and extend the discussion of this topic in NOTES.
+    Michael Kerrisk
+        Move NOTES text describing implementation of flock()
+    Michael Kerrisk  [NeilBrown]
+        Add more details on NFS, including Linux 2.6.37 changes
+            Also: move NOTES text describing interaction of fcntl()
+            and flock() locks.
+
+fork.2
+    Michael Kerrisk
+        Add notes on inheritance of flock() and OFD locks across fork()
+
+lseek.2
+    Michael Kerrisk
+        Add reference to open(2) for discussion of file descriptors and OFDs
+
+open.2
+    Michael Kerrisk
+        Rework and extend the discussion of open file descriptions
+
+open_by_handle_at.2
+    Rasmus Villemoes
+        Add reference to feature_test_macros(7)
+
+recvmmsg.2
+    Rasmus Villemoes
+        Add reference to feature_test_macros(7)
+
+remap_file_pages.2
+    Michael Kerrisk  [Kirill A. Shutemov]
+        Note that remap_file_pages() is deprecated
+
+sendmmsg.2
+    Rasmus Villemoes
+        Add reference to feature_test_macros(7)
+
+seteuid.2
+    Michael Kerrisk
+        seteuid() and setegid() are implemented as library functions
+    Michael Kerrisk
+        Error checking should always be performed, even when caller is UID 0
+
+setresuid.2
+    Michael Kerrisk
+        Document EAGAIN error that can occur after kernel alloc_uid() failure
+    Michael Kerrisk
+        Since Linux 3.1, the EAGAIN case for RLIMIT_NPROC no longer occurs
+    Michael Kerrisk
+        Correct the description of the EAGAIN error
+    Michael Kerrisk
+        Error checking should always be performed, even when caller is UID 0
+
+setreuid.2
+    Michael Kerrisk
+        Document EAGAIN error that can occur after kernel alloc_uid() failure
+    Michael Kerrisk
+        Error checking should always be performed, even when caller is UID 0
+    Michael Kerrisk
+        Add EAGAIN error for hitting RLIMIT_NPROC limit
+    Michael Kerrisk
+        Since Linux 3.1, the EAGAIN case for RLIMIT_NPROC no longer occurs
+
+setuid.2
+    Michael Kerrisk
+        Document EAGAIN error that can occur after kernel alloc_uid() failure
+    Michael Kerrisk
+        Correct the description of the EAGAIN error
+    Michael Kerrisk
+        Error checking should always be performed, even when caller is UID 0
+    Michael Kerrisk
+        Since Linux 3.1, the EAGAIN case for RLIMIT_NPROC no longer occurs
+
+statfs.2
+    Cyril Hrubis
+        Update MAGIC constants
+            Most of the updates are taken from /usr/include/linux/magic.h,
+            some were found by grepping the Linux source code.
+    Cyril Hrubis  [Michael Kerrisk]
+        fstatfs(2) was broken on file descriptors from pipe(2)
+
+syscalls.2
+    Michael Kerrisk
+        Note that remap_file_pages() is deprecated
+
+basename.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions basename() and dirname() are thread safe.
+
+catgets.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function catgets() is thread safe.
+
+getdate.3
+    Rasmus Villemoes
+        Use blank definition of _GNU_SOURCE in example program
+
+getdirentries.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function getdirentries() is thread safe.
+
+getdtablesize.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function getdtablesize() is thread safe.
+
+iconv.3
+    Qian Lei  [Peng Haitao]
+        ATTRIBUTES: Note function that is thread-safe
+            The function iconv() is thread safe.
+    Michael Kerrisk
+        SEE ALSO: add iconvconfig(8)
+
+lockf.3
+    Qian Lei  [Peng Haitao]
+        ATTRIBUTES: Note function that is thread-safe
+            The function lockf() is thread safe.
+
+malloc_get_state.3
+    Rasmus Villemoes
+        SYNOPSIS: use correct header
+            The nonstandard functions malloc_set_state() and
+            malloc_get_state() are provided by <malloc.h> not <stdlib.h>.
+
+malloc_usable_size.3
+    Qian Lei
+        ATTRIBUTES: Note function that is thread-safe
+            The function malloc_usable_size() is thread safe.
+
+matherr.3
+    Qian Lei  [Peng Haitao]
+        ATTRIBUTES: Note function that is thread-safe
+            The function matherr() is thread safe.
+
+mkdtemp.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function mkdtemp() is thread safe.
+
+mkstemp.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions mkstemp(), mkostemp(), mkstemps() and mkostemps()
+            are thread safe.
+
+mq_close.3
+    Qian Lei
+        ATTRIBUTES: Note function that is thread-safe
+            The function mq_close() is thread safe.
+
+mq_getattr.3
+    Qian Lei
+        ATTRIBUTES: Note function that is thread-safe
+            The functions mq_getattr() and mq_setattr() are thread safe.
+
+mq_open.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function mq_open() is thread safe.
+
+mq_receive.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions mq_receive() and mq_timedreceive() are thread safe.
+
+mq_send.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions mq_send() and mq_timedsend() are thread safe.
+
+mq_unlink.3
+    Qian Lei
+        ATTRIBUTES: Note function that is thread-safe
+            The function mq_unlink() is thread safe.
+
+posix_fallocate.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function posix_fallocate() is thread safe.
+
+posix_openpt.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function posix_openpt() is thread safe.
+
+siginterrupt.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is not thread-safe
+            The function siginterrupt() is not thread safe.
+
+system.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function system() is thread safe.
+
+charmap.5
+    Marko Myllynen
+        Update to match current glibc
+            charmap(5) was outdated, bring it to closer to reality by fixing
+            syntax descriptions to match current glibc code and practices,
+            adding missing options, removing obsolete comments and references,
+            and removing now incorrect examples.
+
+locale.5
+    Marko Myllynen
+        Clarify AM/PM settings a bit
+            localedef(1) complains if really undefined, should be empty instead.
+            Also: add some SEE ALSO references.
+    Marko Myllynen
+        Document glibc conventions regarding days and week
+            Based on existing practice and glibc community wiki page at
+            https://sourceware.org/glibc/wiki/Locales
+
+proc.5
+    Michael Kerrisk  [Jan Chaloupka, Walter Harms]
+        Add a brief description of /proc/fs
+
+repertoiremap.5
+    Marko Myllynen
+        New page for repertoiremap(5)
+            Rather obsolete feature but localedef(1) refers to repertoiremaps.
+
+bootparam.7
+    Petr Gajdos
+        Describe 'rootflags' and 'rootdelay' kernel parameters
+            Patch based on text from Documentation/kernel-parameters.txt
+
+charsets.7
+    Marko Myllynen
+        Update to reflect past developments
+            Rewrite the introduction to make Unicode's prominence more obvious.
+            Reformulate parts of the text to reflect current Unicode world.
+            Minor clarification for ASCII/ISO sections, some other minor fixes.
+    Marko Myllynen
+        List CJK encodings in the order of C, J, K
+
+environ.7
+    Michael Kerrisk
+        SEE ALSO: add env(1), printenv(1), ld.so(8)
+
+locale.7
+    Marko Myllynen
+        Add some SEE ALSO references
+
+man-pages.7
+    Michael Kerrisk
+        Note that .TH 'date' field is nowadays automatically updated by scripts
+
+signal.7
+    Michael Kerrisk
+        Describe EINTR semantics for recvmmsg(2)
+    Michael Kerrisk
+        Clarify text describing EINTR semantics for socket interfaces
+
+unicode.7
+    Marko Myllynen
+        Update to reflect past developments
+            The unicode(7) page will look more modern with few small changes:
+
+            - drop old BUGS section, editors cope with UTF-8 ok these days,
+              and perhaps the state-of-the-art is better described elsewhere
+              anyway than in a man page
+            - drop old suggestion about avoiding combined characters
+            - refer to LANANA for Linux zone, add registry file reference
+            - drop a reference to an inactive/dead mailing list
+            - update some reference URLs
+
+utf-8.7
+    Marko Myllynen
+        Drop an old comment about UTF-8 replacing ISO 8859
+            And add locale(1) under SEE ALSO.
 
 -- 
-Jens Axboe
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
