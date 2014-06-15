@@ -1,335 +1,97 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: sprof(1) manual page
-Date: Sun, 15 Jun 2014 20:56:56 +0200
-Message-ID: <539DEC78.1090809@gmail.com>
+From: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH] [RFC] xfs: wire up aio_fsync method
+Date: Mon, 16 Jun 2014 08:33:23 +1000
+Message-ID: <20140615223323.GB9508@dastard>
+References: <1402562047-31276-1-git-send-email-david@fromorbit.com>
+ <20140612141329.GA11676@infradead.org>
+ <20140612234441.GT9508@dastard>
+ <20140613162352.GB23394@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ulrich Drepper <drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <20140613162352.GB23394@infradead.org>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Christoph Hellwig <hch@infradead.org>
+Cc: xfs@oss.sgi.com, linux-fsdevel@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+On Fri, Jun 13, 2014 at 09:23:52AM -0700, Christoph Hellwig wrote:
+> On Fri, Jun 13, 2014 at 09:44:41AM +1000, Dave Chinner wrote:
+> > On Thu, Jun 12, 2014 at 07:13:29AM -0700, Christoph Hellwig wrote:
+> > > There doesn't really seem anything XFS specific here, so instead
+> > > of wiring up ->aio_fsync I'd implement IOCB_CMD_FSYNC in fs/aio.c
+> > > based on the workqueue and ->fsync.
+> > 
+> > I really don't know whether the other ->fsync methods in other
+> > filesystems can stand alone like that. I also don't have the
+> > time to test that it works properly on all filesystems right now.
+> 
+> Of course they can, as shown by various calls to vfs_fsync_range that
+> is nothing but a small wrapper around ->fsync.
 
-There is currently no good documentation of glibc's 'sprof'
-command, so I wrote the man page below. Comments, error reports,
-and suggestions for improvement welcome.
+Sure, but that's not getting 10,000 concurrent callers, is it? And
+some fsync methods require journal credits, and others serialise
+completely, and so on.
 
-Thanks
+Besides, putting an *unbound, highly concurrent* aio queue into the
+kernel for an operation that can serialise the entire filesystem
+seems like a pretty nasty user-level DOS vector to me.
 
-Michael
+> I'm pretty sure if you
+> Cc linux-fsdevel you'll find plenty of testers.  -fsdevel and -man
+> should get a Cc anyway when implementing an ABI that had it's constants
+> defines but never was implemented properly.
 
+When the userspace ABIs are already fully documented and *just
+work*, I'm not sure that there's any need for an ABI or man page
+discussion...
 
-.\" Copyright (C) 2014 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" %%%LICENSE_START(VERBATIM)
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\" %%%LICENSE_END
-.\"
-.TH SPROF 1 2014-06-10 "Linux" "Linux User Manual"
-.SH NAME
-sprof \- read and display shared object profiling data
-.SH SYNOPSIS
-.nf
-.BR sprof " [OPTION]... SHARED-OBJECT-PATH [PROFILE-DATA-PATH]"
-.fi
-.SH DESCRIPTION
-The
-.B sprof
-command displays a profiling summary for the
-shared object specified as its first command-line argument.
-The profiling summary is created using previously generated
-profiling data in the (optional) second command-line argument.
-If the profiling data pathname is omitted, then
-.B sprof
-will attempt to deduce it using the soname of the shared object,
-looking for a file with the name
-.IR <soname>.profile
-in the current directory.
-.SH OPTIONS
-The following command-line options specify the profile output
-to be produced:
-.TP
-.BR \-c ", " \-\-call\-pairs
-Print a list of pairs of call paths for the interfaces exported
-by the shared object,
-along with the number of times each path is used.
-.TP
-.BR \-p ", " \-\-flat\-profile
-Generate a flat profile of all of the functions in the monitored object,
-with counts and ticks.
-.TP
-.BR \-q ", " \-\-graph
-Generate a call graph.
-.PP
-If none of the above options are specified,
-then the default behavior is to display a flat profile and a call graph.
-.PP
-The following additional command-line options are available:
-.TP
-.BR \-? ", " \-\-help
-Display a summary of command-line options and arguments and exit.
-.TP
-.BR \-\-usage
-Display a short usage message and exit.
-.TP
-.BR \-V ", " \-\-version
-Display the program version and exit.
-.SH CONFORMING TO
-The
-.B sprof
-command is a GNU extension, not present in POSIX.1.
-.SH EXAMPLE
-The following example demonstrates the use of
-.BR sprof .
-The example consists of a main program that calls two functions
-in a shared library.
-First, the code of the main program:
+> Talking about documentation:  The kernel aio manpages (io_*.2) seems
+> to not really be very useful, mostly because they don't explain how
+> to set up the iocbs.  Michael, any idea how to get started to improve
+> this?
 
-.in +4n
-.nf
-$ \fBcat prog.c\fP
-#include <stdlib.h>
+$ man 3 io_prep_fsync
 
-void x1(void);
-void x2(void);
+or, perhaps you just need to use:
 
-int
-main(int argc, char *argv[])
-{
-    x1();
-    x2();
-    exit(EXIT_SUCCESS);
-}
-.fi
-.in
-.PP
-The functions
-.IR x1()
-and
-.IR x2()
-are defined in the following source file that is used to
-construct the shared library:
+$ man 3 io_fsync
 
-.in +4n
-.nf
-$ \fBcat libdemo.c\fP
-#include <unistd.h>
+Which does all the prep and submission for you. Yup, I used those
+man pages to write the fs_mark modifications....
 
-void
-consumeCpu1(int lim)
-{
-    int j;
+> > Also, doing this implementation in fs/aio.c would mean we can't
+> > optimise it to reduce things like log forces by splitting up the
+> > work of concurrent fsyncs into a single log force of the highest
+> > LSN of the batch of fsyncs being run. We also want to be able to do
+> > "background fsync" where latency doesn't matter and we only want to
+> > trickle them out rather than issue them as fast as we possibly can.
+> 
+> It didn't really sound like you were aiming for that.  But in that
+> case the current implementation is still useful as a
+> generic_file_aio_fsync as suggested by Brian.
 
-    for (j = 0; j < lim; j++)
-	getppid();
-}
+It's an RFC - I'm not proposing it as is, but merely posting it to
+see what people think about the approach and where to take it from
+the. This is not production ready code, nor is it something we
+should implement generically as it stands because of things like the
+DOS potential it has.
 
-void
-x1(void) {
-    int j;
+> > So I really don't see this as the infrastructure solution that
+> > everyone uses. It could be made a generic method with the filesystem
+> > passing the workqueue to use to generic_aio_fsync(), but for XFS I
+> > see it turning into something much more complex and optimised...
+> 
+> Why not have a common workqueue?  In fact we already have a common
+> workqueue to call ->fsync from aio code to implement aio O_SYNC anyway.
 
-    for (j = 0; j < 100; j++)
-	consumeCpu1(200000);
-}
+Maybe a generic solution will eventually, but this isn't an RFC for
+a generic solution to the aio_fsync() hook...
 
-void
-consumeCpu2(int lim)
-{
-    int j;
+Cheers,
 
-    for (j = 0; j < lim; j++)
-	getppid();
-}
-
-void
-x2(void)
-{
-    int j;
-
-    for (j = 0; j < 1000; j++)
-	consumeCpu2(10000);
-}
-.fi
-.in
-.PP
-Now we construct the shared library with the real name
-.IR libdemo.so.1.0.1 ,
-and the soname
-.IR libdemo.so.1 :
-
-.in +4n
-.nf
-$ \fBcc \-g \-fPIC \-shared \-Wl,\-soname,libdemo.so.1 \e\fP
-        \fB\-o libdemo.so.1.0.1 libdemo.c\fP
-.fi
-.in
-.PP
-Then we construct symbolic links for the library soname and
-the library linker name:
-
-.in +4n
-.nf
-$ \fBln \-sf libdemo.so.1.0.1 libdemo.so.1\fP
-$ \fBln \-sf libdemo.so.1 libdemo.so\fP
-.fi
-.in
-.PP
-Next, we compile the main program, linking it against the shared library,
-and then list the dynamic dependencies of the program:
-
-.in +4n
-.nf
-$ \fBcc \-g \-o prog prog.c \-L. \-ldemo\fP
-$ \fBldd prog\fP
-	linux\-vdso.so.1 =>  (0x00007fff86d66000)
-	libdemo.so.1 => not found
-	libc.so.6 => /lib64/libc.so.6 (0x00007fd4dc138000)
-	/lib64/ld\-linux\-x86\-64.so.2 (0x00007fd4dc51f000)
-.fi
-.in
-.PP
-In order to get profiling information for the shared library,
-we define the environment variable
-.BR LD_PROFILE
-with the soname of the library:
-
-.in +4n
-.nf
-$ \fBexport LD_PROFILE=libdemo.so.1\fP
-.fi
-.in
-.PP
-We then define the environment variable
-.BR LD_PROFILE_OUTPUT
-with the pathname of the directory where profile output should be written,
-and create that directory if it does not exist already:
-
-.in +4n
-.nf
-$ \fBexport LD_PROFILE_OUTPUT=$(pwd)/prof_data\fP
-$ \fBmkdir \-p $LD_PROFILE_OUTPUT\fP
-.fi
-.in
-.PP
-.B LD_PROFILE
-causes profiling output to be
-.I appended
-to the output file if it already exists,
-so we ensure that there is no preexisting profiling data:
-
-.in +4n
-.nf
-$ \fBrm \-f $LD_PROFILE_OUTPUT/$LD_PROFILE.profile\fP
-.fi
-.in
-.PP
-We then run the program to produce the profiling output,
-which is written to a file in the directory specified in
-.BR LD_PROFILE_OUTPUT :
-
-.in +4n
-.nf
-$ \fBLD_LIBRARY_PATH=. ./prog\fP
-$ \fBls prof_data\fP
-libdemo.so.1.profile
-.fi
-.in
-.PP
-We then use the
-.BR "sprof \-p"
-option to generate a flat profile with counts and ticks:
-
-.in +4n
-.nf
-$ \fBsprof \-p libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
-Flat profile:
-
-Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total
- time   seconds   seconds    calls  us/call  us/call  name
- 60.00      0.06     0.06      100   600.00           consumeCpu1
- 40.00      0.10     0.04     1000    40.00           consumeCpu2
-  0.00      0.10     0.00        1     0.00           x1
-  0.00      0.10     0.00        1     0.00           x2
-.fi
-.in
-.PP
-The
-.BR "sprof \-q"
-option generates a call graph:
-
-.in +4n
-.nf
-$ \fBsprof \-q libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
-
-index % time    self  children    called     name
-
-                0.00    0.00      100/100         x1 [1]
-[0]    100.0    0.00    0.00      100         consumeCpu1 [0]
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-                0.00    0.00        1/1           <UNKNOWN>
-[1]      0.0    0.00    0.00        1         x1 [1]
-                0.00    0.00      100/100         consumeCpu1 [0]
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-                0.00    0.00     1000/1000        x2 [3]
-[2]      0.0    0.00    0.00     1000         consumeCpu2 [2]
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-                0.00    0.00        1/1           <UNKNOWN>
-[3]      0.0    0.00    0.00        1         x2 [3]
-                0.00    0.00     1000/1000        consumeCpu2 [2]
-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
-.fi
-.in
-.PP
-Above and below, the "<UNKNOWN>" strings represent identifiers that
-are outside of the profiled object (in this example, these are instances of
-.IR main() ).
-.PP
-The
-.BR "sprof \-c"
-option generates a list of call pairs and the number of their occurrences:
-
-.in +4n
-.nf
-$ \fBsprof \-c libdemo.so.1 $LD_PROFILE_OUTPUT/libdemo.so.1.profile\fP
-<UNKNOWN>                  x1                                 1
-x1                         consumeCpu1                      100
-<UNKNOWN>                  x2                                 1
-x2                         consumeCpu2                     1000
-.fi
-.in
-.SH SEE ALSO
-.BR gprof (1),
-.BR ldd (1),
-.BR ld.so (8)
-
-
+Dave.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Dave Chinner
+david@fromorbit.com
