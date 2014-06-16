@@ -1,99 +1,232 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Mon, 16 Jun 2014 05:53:22 +0200
-Message-ID: <539E6A32.7080605@gmail.com>
-References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>	<52FACFBB.6070607@cn.fujitsu.com>	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>	<CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>	<CAKgNAkh029iy5=7+N1RiA1_X9Zeiv_coci59bFN1y-oQmOJykA@mail.gmail.com>	<CAE2sS1j4sLeczF_gR94+mZ89bi-C=RMMikE=_cOvu9id7v5sHw@mail.gmail.com>	<CAKgNAkj0b=-5EMqEWvxoq4_qfTH2wNOatkBmqVrXq5dOuQNHmw@mail.gmail.com>	<CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw@mail.gmail.com> <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
+Subject: Re: [PATCH] [RFC] xfs: wire up aio_fsync method
+Date: Mon, 16 Jun 2014 17:19:51 +1000
+Message-ID: <20140616071951.GD9508@dastard>
+References: <1402562047-31276-1-git-send-email-david@fromorbit.com>
+ <20140612141329.GA11676@infradead.org>
+ <20140612234441.GT9508@dastard>
+ <20140613162352.GB23394@infradead.org>
+ <20140615223323.GB9508@dastard>
+ <20140616020030.GC9508@dastard>
+ <539E5D66.8040605@kernel.dk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <539E5D66.8040605-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
+Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao and Qian Lei,
+On Sun, Jun 15, 2014 at 08:58:46PM -0600, Jens Axboe wrote:
+> On 2014-06-15 20:00, Dave Chinner wrote:
+> >On Mon, Jun 16, 2014 at 08:33:23AM +1000, Dave Chinner wrote:
+> >>On Fri, Jun 13, 2014 at 09:23:52AM -0700, Christoph Hellwig wrote:
+> >>>On Fri, Jun 13, 2014 at 09:44:41AM +1000, Dave Chinner wrote:
+> >>>>On Thu, Jun 12, 2014 at 07:13:29AM -0700, Christoph Hellwig wrote:
+> >>>>>There doesn't really seem anything XFS specific here, so instead
+> >>>>>of wiring up ->aio_fsync I'd implement IOCB_CMD_FSYNC in fs/aio.c
+> >>>>>based on the workqueue and ->fsync.
+> >>>>
+> >>>>I really don't know whether the other ->fsync methods in other
+> >>>>filesystems can stand alone like that. I also don't have the
+> >>>>time to test that it works properly on all filesystems right now.
+> >>>
+> >>>Of course they can, as shown by various calls to vfs_fsync_range that
+> >>>is nothing but a small wrapper around ->fsync.
+> >>
+> >>Sure, but that's not getting 10,000 concurrent callers, is it? And
+> >>some fsync methods require journal credits, and others serialise
+> >>completely, and so on.
+> >>
+> >>Besides, putting an *unbound, highly concurrent* aio queue into the
+> >>kernel for an operation that can serialise the entire filesystem
+> >>seems like a pretty nasty user-level DOS vector to me.
+> >
+> >FWIW, the non-linear system CPU overhead of a fs_mark test I've been
+> >running isn't anything related to XFS.  The async fsync workqueue
+> >results in several thousand worker threads dispatching IO
+> >concurrently across 16 CPUs:
+> >
+> >$ ps -ef |grep kworker |wc -l
+> >4693
+> >$
+> >
+> >Profiles from 3.15 + xfs for-next + xfs aio_fsync show:
+> >
+> >-  51.33%  [kernel]            [k] percpu_ida_alloc
+> >    - percpu_ida_alloc
+> >       + 85.73% blk_mq_wait_for_tags
+> >       + 14.23% blk_mq_get_tag
+> >-  14.25%  [kernel]            [k] _raw_spin_unlock_irqrestore
+> >    - _raw_spin_unlock_irqrestore
+> >       - 66.26% virtio_queue_rq
+> >          - __blk_mq_run_hw_queue
+> >             - 99.65% blk_mq_run_hw_queue
+> >                + 99.47% blk_mq_insert_requests
+> >                + 0.53% blk_mq_insert_request
+> >.....
+> >-   7.91%  [kernel]            [k] _raw_spin_unlock_irq
+> >    - _raw_spin_unlock_irq
+> >       - 69.59% __schedule
+> >          - 86.49% schedule
+> >             + 47.72% percpu_ida_alloc
+> >             + 21.75% worker_thread
+> >             + 19.12% schedule_timeout
+> >....
+> >       + 18.06% blk_mq_make_request
+> >
+> >Runtime:
+> >
+> >real    4m1.243s
+> >user    0m47.724s
+> >sys     11m56.724s
+> >
+> >Most of the excessive CPU usage is coming from the blk-mq layer, and
+> >XFS is barely showing up in the profiles at all - the IDA tag
+> >allocator is burning 8 CPUs at about 60,000 write IOPS....
+> >
+> >I know that the tag allocator has been rewritten, so I tested
+> >against a current a current Linus kernel with the XFS aio-fsync
+> >patch. The results are all over the place - from several sequential
+> >runs of the same test (removing the files in between so each tests
+> >starts from an empty fs):
+> >
+> >Wall time	sys time	IOPS	 files/s
+> >4m58.151s	11m12.648s	30,000	 13,500
+> >4m35.075s	12m45.900s	45,000	 15,000
+> >3m10.665s	11m15.804s	65,000	 21,000
+> >3m27.384s	11m54.723s	85,000	 20,000
+> >3m59.574s	11m12.012s	50,000	 16,500
+> >4m12.704s	12m15.720s	50,000	 17,000
+> >
+> >The 3.15 based kernel was pretty consistent around the 4m10 mark,
+> >generally only +/-10s in runtime and not much change in system time.
+> >The files/s rate reported by fs_mark doesn't vary that much, either.
+> >So the new tag allocator seems to be no better in terms of IO
+> >dispatch scalability, yet adds significant variability to IO
+> >performance.
+> >
+> >What I noticed is a massive jump in context switch overhead: from
+> >around 250,000/s to over 800,000/s and the CPU profiles show that
+> >this comes from the new tag allocator:
+> >
+> >-  34.62%  [kernel]  [k] _raw_spin_unlock_irqrestore
+> >    - _raw_spin_unlock_irqrestore
+> >       - 58.22% prepare_to_wait
+> >            100.00% bt_get
+> >               blk_mq_get_tag
+> >               __blk_mq_alloc_request
+> >               blk_mq_map_request
+> >               blk_sq_make_request
+> >               generic_make_request
+> >       - 22.51% virtio_queue_rq
+> >            __blk_mq_run_hw_queue
+> >....
+> >-  21.56%  [kernel]  [k] _raw_spin_unlock_irq
+> >    - _raw_spin_unlock_irq
+> >       - 58.73% __schedule
+> >          - 53.42% io_schedule
+> >               99.88% bt_get
+> >                  blk_mq_get_tag
+> >                  __blk_mq_alloc_request
+> >                  blk_mq_map_request
+> >                  blk_sq_make_request
+> >                  generic_make_request
+> >          - 35.58% schedule
+> >             + 49.31% worker_thread
+> >             + 32.45% schedule_timeout
+> >             + 10.35% _xfs_log_force_lsn
+> >             + 3.10% xlog_cil_force_lsn
+> >....
+> >
+> >The new block-mq tag allocator is hammering the waitqueues and
+> >that's generating a large amount of lock contention. It looks like
+> >the new allocator replaces CPU burn doing work in the IDA allocator
+> >with the same amount of CPU burn from extra context switch
+> >overhead....
+> >
+> >Oh, OH. Now I understand!
+> >
+> ># echo 4 > /sys/block/vdc/queue/nr_requests
+> >
+> ><run workload>
+> >
+> >80.56%  [kernel]  [k] _raw_spin_unlock_irqrestore
+> >    - _raw_spin_unlock_irqrestore
+> >       - 98.49% prepare_to_wait
+> >            bt_get
+> >            blk_mq_get_tag
+> >            __blk_mq_alloc_request
+> >            blk_mq_map_request
+> >            blk_sq_make_request
+> >            generic_make_request
+> >          + submit_bio
+> >       + 1.07% finish_wait
+> >+  13.63%  [kernel]  [k] _raw_spin_unlock_irq
+> >...
+> >
+> >It's context switch bound at 800,000 context switches/s, burning all
+> >16 CPUs waking up and going to sleep and doing very little real
+> >work. How little real work? About 3000 IOPS for 2MB/s of IO. That
+> >amount of IO should only take a single digit CPU percentage of one
+> >CPU.
+> 
+> With thousands of threads? I think not. Sanely submitted 3000 IOPS,
+> correct, I would agree with you.
+> 
+> >This seems like bad behaviour to have on a congested block device,
+> >even a high performance one....
+> 
+> That is pretty much the suck. How do I reproduce this (eg what are
+> you running, and what are the xfs aio fsync patches)? Even if
 
-Any thoughts on the changes proposed in that Git branch (see below).
+http://oss.sgi.com/pipermail/xfs/2014-June/036773.html
+
+> dispatching thousands of threads to do IO is a bad idea (it very
+> much is), gracefully handling is a must. I haven't seen any bad
+> behavior from the new allocator, it seems to be well behaved (for
+> most normal cases, anyway). I'd like to take a stab at ensuring this
+> works, too.
+> 
+> If you tell me exactly what you are running, I'll reproduce and get
+> this fixed up tomorrow.
+
+Test case - take fs_mark:
+
+	git://oss.sgi.com/dgc/fs_mark
+
+Apply the patch for aio fsync support:
+
+http://oss.sgi.com/pipermail/xfs/2014-June/036774.html
+
+Run this test:
+
+$ time ./fs_mark  -D  10000  -S5 -n  50000  -s  4096  -L  5 -A \
+-d /mnt/scratch/0 -d  /mnt/scratch/1 -d  /mnt/scratch/2 \
+-d /mnt/scratch/3 -d  /mnt/scratch/4 -d  /mnt/scratch/5 \
+-d /mnt/scratch/6 -d  /mnt/scratch/7 -d  /mnt/scratch/8 \
+-d /mnt/scratch/9 -d  /mnt/scratch/10 -d  /mnt/scratch/11 \
+-d /mnt/scratch/12 -d  /mnt/scratch/13 -d  /mnt/scratch/14 \
+-d /mnt/scratch/15
+
+Drop the "-A" if you want to use normal fsync (but then you won't
+see the problem).
+
+Use a XFS filesystem that has at least 32 AGs (I'm using
+a sparse 500TB fs image on a virtio device). I'm also using mkfs
+options of "-m crc=1,finobt=1", but to use that last one you'll need
+a mkfs built from the xfsprogs git tree. It shouldn't make any
+difference to the result, though. I'm running on a VM with 16 CPUs
+and 16GB RAM, using fakenuma=4.
 
 Cheers,
 
-Michael
-
-
-On 06/12/2014 02:16 PM, Michael Kerrisk (man-pages) wrote:
-> On Thu, Jun 12, 2014 at 1:27 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> On Wed, Jun 11, 2014 at 10:31 PM, Michael Kerrisk (man-pages)
->> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> Hi Carlos,
->>>
->>> On Wed, Jun 11, 2014 at 4:59 PM, Carlos O'Donell
->>> <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org> wrote:
->>>> On Wed, Jun 11, 2014 at 4:30 AM, Michael Kerrisk (man-pages)
->>>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>>>> Hi Carlos, Haitao, Qian Lei, Alex,
->> [...]
->>>>> Does one of those approaches eem okay? Haitao, Qian Lei, what do you
->>>>> think? (I appreciate that there's a lot of pages to be fixed to follow
->>>>> this new approach: I'd do that, though you could help if you want.)
->>>>
->>>> I agree with Peng, I like the first approach of a single table.
->>>
->>> Alrighty, I need to hack a few of the pages to see that this approach
->>> works, and then we can make the change wholesale.
->>
->> Okay -- take a look[1] at the change in the 'attributes_reformat'
->> branch that I've just pushed. That tries to cover a representative
->> sampling of the changes that I think we need to make. In particular,
->> the changed pages are:
->>
->>     a64l.3
->>     abort.3
->>     abs.3
->>     atof.3
->>     bindresvport.3
->>     drand48.3
->>     fenv.3
->>
->> Does this seem okay?
->>
->>>> We should also evaluate the approach of adding the glibc version to
->>>> the table if and when the version change would change the result e.g.
->>>> the table lists the historical values.
->>>
->>> Good point. I'll give that a little thought.
->>
->> Take a look at bindresvport.3 for an example of how we might deal with
->> these cases.
->>
->> Cheers,
->>
->> Michael
->>
->> [1]   $ git pull
->>       $ git checkout remotes/origin/attributes_reformat
-> 
-> For good measure, I also added
-> 
->     pthread_setcancelstate.3
-> 
-> to show two different attribute types in a table.
-> 
-> Cheers,
-> 
-> Michael
-> 
-> 
-
-
+Dave.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Dave Chinner
+david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
