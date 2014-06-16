@@ -1,85 +1,85 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] iswblank.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Mon, 16 Jun 2014 15:49:44 +0800
-Message-ID: <539EA198.9090309@cn.fujitsu.com>
-References: <1392013239-31138-1-git-send-email-penght@cn.fujitsu.com>	<CAE2sS1g5w0jZ04EovvQoW=Cta4ACdHWVus-5zo+vw1J7E1SnZg@mail.gmail.com>	<52FACFBB.6070607@cn.fujitsu.com>	<CAE2sS1ijg2ef1WcswN0o+wmJOcgLDoCEbYrcNJyOxhS-HCxuSg@mail.gmail.com>	<CAKgNAkix8vTrKEV_vicpD2yH88NQmiSrMR9dgKoQ1u2NkqZexA@mail.gmail.com>	<CAE2sS1gZJCZdEhY7hpF8=dP069JFTyxD-B-nY9va0OTFV8jN4w@mail.gmail.com>	<CAKgNAkh029iy5=7+N1RiA1_X9Zeiv_coci59bFN1y-oQmOJykA@mail.gmail.com>	<CAE2sS1j4sLeczF_gR94+mZ89bi-C=RMMikE=_cOvu9id7v5sHw@mail.gmail.com>	<CAKgNAkj0b=-5EMqEWvxoq4_qfTH2wNOatkBmqVrXq5dOuQNHmw@mail.gmail.com>	<CAKgNAki5UXmOTa=SW1GEYZTP1f5uMiTsrbkcYN+MuYZf6mA0qw@mail.gmail.com> <CAKgNAkgDFuwXDD=Rjn3KAutyuOAy_-71imhR5UGZOS9fcMSnew@mail.gmail.com> <539E6A32.7080605@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
+Date: Mon, 16 Jun 2014 11:58:51 +0200
+Message-ID: <CAKgNAkj-MVfeqEeffWKMNok0yO-Rm1kyY+zhXEy-U9NkB+aLow@mail.gmail.com>
+References: <20140527192115.GD25474@kernel.org> <CAKgNAkht1vubHueYPpkRu_W5B8OYW3rPUkHeLEq5WMVbCvO47w@mail.gmail.com>
+ <20140527203010.GA2764@kernel.org> <5385D47A.3070401@gmail.com>
+ <20140528150720.GB2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724F2A0@AcuExch.aculab.com>
+ <20140528195004.GD2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724FB67@AcuExch.aculab.com>
+ <20140529135547.GG2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724FC78@AcuExch.aculab.com>
+ <20140529141705.GI2764@kernel.org>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <539E6A32.7080605-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Content-Type: text/plain; charset=UTF-8
+Return-path: <netdev-owner@vger.kernel.org>
+In-Reply-To: <20140529141705.GI2764@kernel.org>
+Sender: netdev-owner@vger.kernel.org
+To: Arnaldo Carvalho de Melo <acme@ghostprotocols.net>
+Cc: David Laight <David.Laight@aculab.com>, lkml <linux-kernel@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, netdev <netdev@vger.kernel.org>, =?UTF-8?Q?Ondrej_B=C3=ADlka?= <neleai@seznam.cz>, Caitlin Bestler <caitlin.bestler@gmail.com>, Neil Horman <nhorman@tuxdriver.com>, Elie De Brauwer <eliedebrauwer@gmail.com>, David Miller <davem@davemloft.net>, Steven Whitehouse <steve@chygwyn.com>, =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi.denis-courmont@nokia.com>, Paul Moore <paul@paul-moore.com>, Chris Friesen <chris.friesen@windriver.com>
 List-Id: linux-man@vger.kernel.org
 
+Hi Arnaldo,
 
-On 06/16/2014 11:53 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Haitao and Qian Lei,
-> 
-> Any thoughts on the changes proposed in that Git branch (see below).
-> 
+Things have gone quiet ;-). What's the current state of this patch?
 
-Sorry for the late reply. 
+Thanks,
 
->>> Okay -- take a look[1] at the change in the 'attributes_reformat'
->>> branch that I've just pushed. That tries to cover a representative
->>> sampling of the changes that I think we need to make. In particular,
->>> the changed pages are:
->>>
->>>     a64l.3
->>>     abort.3
->>>     abs.3
->>>     atof.3
->>>     bindresvport.3
->>>     drand48.3
->>>     fenv.3
->>>
->>> Does this seem okay?
->>>
+Michael
 
-Well done, thanks.
 
-atof.3 has an error: 
-".SS Multithreading (see pthreads(7))" should be deleted.
+On Thu, May 29, 2014 at 4:17 PM, Arnaldo Carvalho de Melo
+<acme@ghostprotocols.net> wrote:
+> Em Thu, May 29, 2014 at 02:06:04PM +0000, David Laight escreveu:
+>> From: 'Arnaldo Carvalho de Melo'
+>> ...
+>> > > I remember some discussions from an XNET standards meeting (I've forgotten
+>> > > exactly which errors on which calls were being discussed).
+>> > > My recollection is that you return success with a partial transfer
+>> > > count for ANY error that happens after some data has been transferred.
+>> > > The actual error will be returned when it happens again on the next
+>> > > system call - Note the AGAIN, not a saved error.
+>
+>> > A saved error, for the right entity, in the recvmmsg case, that
+>> > basically is batching multiple recvmsg syscalls, doesn't sound like a
+>> > problem, i.e. the idea is to, as much as possible, mimic what multiple
+>> > recvmsg calls would do, but reduce its in/out kernel (and inside kernel
+>> > subsystems) overhead.
+>
+>> > Perhaps we can have something in between, i.e. for things like EFAULT,
+>> > we should report straight away, effectively dropping whatever datagrams
+>> > successfully received in the current batch, do you agree?
+>
+>> Not unreasonable - EFAULT shouldn't happen unless the application
+>> is buggy.
+>
+> Ok.
+>
+>> > For transient errors the existing mechanism, fixed so that only per
+>> > socket errors are saved for later, as today, could be kept?
+>
+>> I don't think it is ever necessary to save an errno value for the
+>> next system call at all.
+>> Just process the next system call and see what happens.
+>
+>> If the call returns with less than the maximum number of datagrams
+>> and with a non-zero timeout left - then the application can infer
+>> that it was terminated by an abnormal event of some kind.
+>> This might be a signal.
+>
+> Then it could use getsockopt(SO_ERROR) perhaps? I.e. we don't return the
+> error on the next call, but we provide a way for the app to retrieve the
+> reason for the smaller than expected batch?
+>
+>> I'm not sure if an icmp error on a connected datagram socket could
+>> generate a 'disconnect'. It might happen if the interface is being
+>> used for something like SCTP.
+>> In either case the next call will detect the error.
+>
+> - Arnaldo
+
 
 
 -- 
-Best Regards,
-Peng
-
->>>>> We should also evaluate the approach of adding the glibc version to
->>>>> the table if and when the version change would change the result e.g.
->>>>> the table lists the historical values.
->>>>
->>>> Good point. I'll give that a little thought.
->>>
->>> Take a look at bindresvport.3 for an example of how we might deal with
->>> these cases.
->>>
->>> Cheers,
->>>
->>> Michael
->>>
->>> [1]   $ git pull
->>>       $ git checkout remotes/origin/attributes_reformat
->>
->> For good measure, I also added
->>
->>     pthread_setcancelstate.3
->>
->> to show two different attribute types in a table.
->>
->> Cheers,
->>
->> Michael
->>
->>
-> 
-> 
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
