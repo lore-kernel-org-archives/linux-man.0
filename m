@@ -1,263 +1,154 @@
-From: Jens Axboe <axboe-tSWWG44O7X1aa/9Udqfwiw@public.gmane.org>
-Subject: Re: [PATCH] [RFC] xfs: wire up aio_fsync method
-Date: Mon, 16 Jun 2014 13:30:42 -0600
-Message-ID: <539F45E2.5030909@kernel.dk>
-References: <1402562047-31276-1-git-send-email-david@fromorbit.com> <20140612141329.GA11676@infradead.org> <20140612234441.GT9508@dastard> <20140613162352.GB23394@infradead.org> <20140615223323.GB9508@dastard> <20140616020030.GC9508@dastard> <539E5D66.8040605@kernel.dk> <20140616071951.GD9508@dastard>
-Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------070900050408020205000309"
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] behaviour: use American spelling behavior instead
+Date: Mon, 16 Jun 2014 22:25:04 +0200
+Message-ID: <1402950304-26033-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140616071951.GD9508@dastard>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------070900050408020205000309
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+---
+ man2/eventfd.2   | 2 +-
+ man2/fallocate.2 | 2 +-
+ man2/open.2      | 2 +-
+ man2/sendmmsg.2  | 2 +-
+ man2/signalfd.2  | 2 +-
+ man5/proc.5      | 4 ++--
+ man7/sched.7     | 2 +-
+ man7/socket.7    | 2 +-
+ man7/udplite.7   | 2 +-
+ 9 files changed, 10 insertions(+), 10 deletions(-)
 
-On 06/16/2014 01:19 AM, Dave Chinner wrote:
-> On Sun, Jun 15, 2014 at 08:58:46PM -0600, Jens Axboe wrote:
->> On 2014-06-15 20:00, Dave Chinner wrote:
->>> On Mon, Jun 16, 2014 at 08:33:23AM +1000, Dave Chinner wrote:
->>>> On Fri, Jun 13, 2014 at 09:23:52AM -0700, Christoph Hellwig wrote:
->>>>> On Fri, Jun 13, 2014 at 09:44:41AM +1000, Dave Chinner wrote:
->>>>>> On Thu, Jun 12, 2014 at 07:13:29AM -0700, Christoph Hellwig wrote:
->>>>>>> There doesn't really seem anything XFS specific here, so instead
->>>>>>> of wiring up ->aio_fsync I'd implement IOCB_CMD_FSYNC in fs/aio.c
->>>>>>> based on the workqueue and ->fsync.
->>>>>>
->>>>>> I really don't know whether the other ->fsync methods in other
->>>>>> filesystems can stand alone like that. I also don't have the
->>>>>> time to test that it works properly on all filesystems right now.
->>>>>
->>>>> Of course they can, as shown by various calls to vfs_fsync_range that
->>>>> is nothing but a small wrapper around ->fsync.
->>>>
->>>> Sure, but that's not getting 10,000 concurrent callers, is it? And
->>>> some fsync methods require journal credits, and others serialise
->>>> completely, and so on.
->>>>
->>>> Besides, putting an *unbound, highly concurrent* aio queue into the
->>>> kernel for an operation that can serialise the entire filesystem
->>>> seems like a pretty nasty user-level DOS vector to me.
->>>
->>> FWIW, the non-linear system CPU overhead of a fs_mark test I've been
->>> running isn't anything related to XFS.  The async fsync workqueue
->>> results in several thousand worker threads dispatching IO
->>> concurrently across 16 CPUs:
->>>
->>> $ ps -ef |grep kworker |wc -l
->>> 4693
->>> $
->>>
->>> Profiles from 3.15 + xfs for-next + xfs aio_fsync show:
->>>
->>> -  51.33%  [kernel]            [k] percpu_ida_alloc
->>>    - percpu_ida_alloc
->>>       + 85.73% blk_mq_wait_for_tags
->>>       + 14.23% blk_mq_get_tag
->>> -  14.25%  [kernel]            [k] _raw_spin_unlock_irqrestore
->>>    - _raw_spin_unlock_irqrestore
->>>       - 66.26% virtio_queue_rq
->>>          - __blk_mq_run_hw_queue
->>>             - 99.65% blk_mq_run_hw_queue
->>>                + 99.47% blk_mq_insert_requests
->>>                + 0.53% blk_mq_insert_request
->>> .....
->>> -   7.91%  [kernel]            [k] _raw_spin_unlock_irq
->>>    - _raw_spin_unlock_irq
->>>       - 69.59% __schedule
->>>          - 86.49% schedule
->>>             + 47.72% percpu_ida_alloc
->>>             + 21.75% worker_thread
->>>             + 19.12% schedule_timeout
->>> ....
->>>       + 18.06% blk_mq_make_request
->>>
->>> Runtime:
->>>
->>> real    4m1.243s
->>> user    0m47.724s
->>> sys     11m56.724s
->>>
->>> Most of the excessive CPU usage is coming from the blk-mq layer, and
->>> XFS is barely showing up in the profiles at all - the IDA tag
->>> allocator is burning 8 CPUs at about 60,000 write IOPS....
->>>
->>> I know that the tag allocator has been rewritten, so I tested
->>> against a current a current Linus kernel with the XFS aio-fsync
->>> patch. The results are all over the place - from several sequential
->>> runs of the same test (removing the files in between so each tests
->>> starts from an empty fs):
->>>
->>> Wall time	sys time	IOPS	 files/s
->>> 4m58.151s	11m12.648s	30,000	 13,500
->>> 4m35.075s	12m45.900s	45,000	 15,000
->>> 3m10.665s	11m15.804s	65,000	 21,000
->>> 3m27.384s	11m54.723s	85,000	 20,000
->>> 3m59.574s	11m12.012s	50,000	 16,500
->>> 4m12.704s	12m15.720s	50,000	 17,000
->>>
->>> The 3.15 based kernel was pretty consistent around the 4m10 mark,
->>> generally only +/-10s in runtime and not much change in system time.
->>> The files/s rate reported by fs_mark doesn't vary that much, either.
->>> So the new tag allocator seems to be no better in terms of IO
->>> dispatch scalability, yet adds significant variability to IO
->>> performance.
->>>
->>> What I noticed is a massive jump in context switch overhead: from
->>> around 250,000/s to over 800,000/s and the CPU profiles show that
->>> this comes from the new tag allocator:
->>>
->>> -  34.62%  [kernel]  [k] _raw_spin_unlock_irqrestore
->>>    - _raw_spin_unlock_irqrestore
->>>       - 58.22% prepare_to_wait
->>>            100.00% bt_get
->>>               blk_mq_get_tag
->>>               __blk_mq_alloc_request
->>>               blk_mq_map_request
->>>               blk_sq_make_request
->>>               generic_make_request
->>>       - 22.51% virtio_queue_rq
->>>            __blk_mq_run_hw_queue
->>> ....
->>> -  21.56%  [kernel]  [k] _raw_spin_unlock_irq
->>>    - _raw_spin_unlock_irq
->>>       - 58.73% __schedule
->>>          - 53.42% io_schedule
->>>               99.88% bt_get
->>>                  blk_mq_get_tag
->>>                  __blk_mq_alloc_request
->>>                  blk_mq_map_request
->>>                  blk_sq_make_request
->>>                  generic_make_request
->>>          - 35.58% schedule
->>>             + 49.31% worker_thread
->>>             + 32.45% schedule_timeout
->>>             + 10.35% _xfs_log_force_lsn
->>>             + 3.10% xlog_cil_force_lsn
->>> ....
->>>
->>> The new block-mq tag allocator is hammering the waitqueues and
->>> that's generating a large amount of lock contention. It looks like
->>> the new allocator replaces CPU burn doing work in the IDA allocator
->>> with the same amount of CPU burn from extra context switch
->>> overhead....
->>>
->>> Oh, OH. Now I understand!
->>>
->>> # echo 4 > /sys/block/vdc/queue/nr_requests
->>>
->>> <run workload>
->>>
->>> 80.56%  [kernel]  [k] _raw_spin_unlock_irqrestore
->>>    - _raw_spin_unlock_irqrestore
->>>       - 98.49% prepare_to_wait
->>>            bt_get
->>>            blk_mq_get_tag
->>>            __blk_mq_alloc_request
->>>            blk_mq_map_request
->>>            blk_sq_make_request
->>>            generic_make_request
->>>          + submit_bio
->>>       + 1.07% finish_wait
->>> +  13.63%  [kernel]  [k] _raw_spin_unlock_irq
->>> ...
->>>
->>> It's context switch bound at 800,000 context switches/s, burning all
->>> 16 CPUs waking up and going to sleep and doing very little real
->>> work. How little real work? About 3000 IOPS for 2MB/s of IO. That
->>> amount of IO should only take a single digit CPU percentage of one
->>> CPU.
->>
->> With thousands of threads? I think not. Sanely submitted 3000 IOPS,
->> correct, I would agree with you.
->>
->>> This seems like bad behaviour to have on a congested block device,
->>> even a high performance one....
->>
->> That is pretty much the suck. How do I reproduce this (eg what are
->> you running, and what are the xfs aio fsync patches)? Even if
-> 
-> http://oss.sgi.com/pipermail/xfs/2014-June/036773.html
-> 
->> dispatching thousands of threads to do IO is a bad idea (it very
->> much is), gracefully handling is a must. I haven't seen any bad
->> behavior from the new allocator, it seems to be well behaved (for
->> most normal cases, anyway). I'd like to take a stab at ensuring this
->> works, too.
->>
->> If you tell me exactly what you are running, I'll reproduce and get
->> this fixed up tomorrow.
-> 
-> Test case - take fs_mark:
-> 
-> 	git://oss.sgi.com/dgc/fs_mark
-> 
-> Apply the patch for aio fsync support:
-> 
-> http://oss.sgi.com/pipermail/xfs/2014-June/036774.html
-> 
-> Run this test:
-> 
-> $ time ./fs_mark  -D  10000  -S5 -n  50000  -s  4096  -L  5 -A \
-> -d /mnt/scratch/0 -d  /mnt/scratch/1 -d  /mnt/scratch/2 \
-> -d /mnt/scratch/3 -d  /mnt/scratch/4 -d  /mnt/scratch/5 \
-> -d /mnt/scratch/6 -d  /mnt/scratch/7 -d  /mnt/scratch/8 \
-> -d /mnt/scratch/9 -d  /mnt/scratch/10 -d  /mnt/scratch/11 \
-> -d /mnt/scratch/12 -d  /mnt/scratch/13 -d  /mnt/scratch/14 \
-> -d /mnt/scratch/15
-> 
-> Drop the "-A" if you want to use normal fsync (but then you won't
-> see the problem).
-> 
-> Use a XFS filesystem that has at least 32 AGs (I'm using
-> a sparse 500TB fs image on a virtio device). I'm also using mkfs
-> options of "-m crc=1,finobt=1", but to use that last one you'll need
-> a mkfs built from the xfsprogs git tree. It shouldn't make any
-> difference to the result, though. I'm running on a VM with 16 CPUs
-> and 16GB RAM, using fakenuma=4.
-
-Can you try with this patch?
-
+diff --git a/man2/eventfd.2 b/man2/eventfd.2
+index e4fb639..6a251fa 100644
+--- a/man2/eventfd.2
++++ b/man2/eventfd.2
+@@ -39,7 +39,7 @@ This counter is initialized with the value specified in the argument
+ 
+ The following values may be bitwise ORed in
+ .IR flags
+-to change the behaviour of
++to change the behavior of
+ .BR eventfd ():
+ .TP
+ .BR EFD_CLOEXEC " (since Linux 2.6.27)"
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index fa2703c..d716db9 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -211,7 +211,7 @@ the behavior of the call is similar,
+ but the file size will not be changed even if
+ .IR offset + len
+ is greater than the file size.
+-This behaviour is the same as when preallocating space with
++This behavior is the same as when preallocating space with
+ .B FALLOC_FL_KEEP_SIZE
+ specified.
+ 
+diff --git a/man2/open.2 b/man2/open.2
+index 475d9e4..9d2bc87 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -1424,7 +1424,7 @@ Likewise, applications should avoid mixing
+ .BR mmap (2)
+ of files with direct I/O to the same files.
+ .LP
+-The behaviour of
++The behavior of
+ .B O_DIRECT
+ with NFS will differ from local filesystems.
+ Older kernels, or
+diff --git a/man2/sendmmsg.2 b/man2/sendmmsg.2
+index 2e88683..e3a6214 100644
+--- a/man2/sendmmsg.2
++++ b/man2/sendmmsg.2
+@@ -140,7 +140,7 @@ An error is returned only if no datagrams could be sent.
+ .\"     must retry starting at the first failed one and if the problem is
+ .\"     persistent the error will be returned.
+ .\"
+-.\"     This matches the behaviour of other syscalls like read/write - it
++.\"     This matches the behavior of other syscalls like read/write - it
+ .\"     is not an error if less than the requested number of elements are sent.
+ .SH VERSIONS
+ The
+diff --git a/man2/signalfd.2 b/man2/signalfd.2
+index 6102a98..b48a7ee 100644
+--- a/man2/signalfd.2
++++ b/man2/signalfd.2
+@@ -72,7 +72,7 @@ is used to replace the signal set associated with that descriptor.
+ 
+ Starting with Linux 2.6.27, the following values may be bitwise ORed in
+ .IR flags
+-to change the behaviour of
++to change the behavior of
+ .BR signalfd ():
+ .TP 14
+ .B SFD_NONBLOCK
+diff --git a/man5/proc.5 b/man5/proc.5
+index 1a91c21..2e4fae0 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -2844,7 +2844,7 @@ The minimum value that can be assigned to this file is the system page size.
+ .\" commit 800179c9b8a1e796e441674776d11cd4c05d61d7
+ When the value in this file is 0,
+ no restrictions are placed on the creation of hard links
+-(i.e., this is the historical behaviour before Linux 3.6).
++(i.e., this is the historical behavior before Linux 3.6).
+ When the value in this file is 1,
+ a hard link can be created to a target file
+ only if one of the following conditions is true:
+@@ -2894,7 +2894,7 @@ the administrator, or linking to special files.
+ .\" commit 800179c9b8a1e796e441674776d11cd4c05d61d7
+ When the value in this file is 0,
+ no restrictions are placed on following symbolic links
+-(i.e., this is the historical behaviour before Linux 3.6).
++(i.e., this is the historical behavior before Linux 3.6).
+ When the value in this file is 1, symbolic links are followed only
+ in the following circumstances:
+ .RS
+diff --git a/man7/sched.7 b/man7/sched.7
+index 8eeecd9..bb9382d 100644
+--- a/man7/sched.7
++++ b/man7/sched.7
+@@ -380,7 +380,7 @@ The difference is that this policy
+ will cause the scheduler to always assume
+ that the thread is CPU-intensive.
+ Consequently, the scheduler will apply a small scheduling
+-penalty with respect to wakeup behaviour,
++penalty with respect to wakeup behavior,
+ so that this thread is mildly disfavored in scheduling decisions.
+ 
+ .\" The following paragraph is drawn largely from the text that
+diff --git a/man7/socket.7 b/man7/socket.7
+index 36ff715..c21d331 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -562,7 +562,7 @@ when it is set using
+ and this doubled value is returned by
+ .BR getsockopt (2).
+ .\" The following thread on LMKL is quite informative:
+-.\" getsockopt/setsockopt with SO_RCVBUF and SO_SNDBUF "non-standard" behaviour
++.\" getsockopt/setsockopt with SO_RCVBUF and SO_SNDBUF "non-standard" behavior
+ .\" 17 July 2012
+ .\" http://thread.gmane.org/gmane.linux.kernel/1328935
+ The default value is set by the
+diff --git a/man7/udplite.7 b/man7/udplite.7
+index b951c10..1e279e2 100644
+--- a/man7/udplite.7
++++ b/man7/udplite.7
+@@ -53,7 +53,7 @@ in using a different IP protocol identifier (IANA number 136).
+ 
+ The UDP-Lite implementation is a full extension of
+ .BR udp (7)\(emthat
+-is, it shares the same API and API behaviour, and in addition
++is, it shares the same API and API behavior, and in addition
+ offers two socket options to control the checksum coverage.
+ .SS Address format
+ UDP-Litev4 uses the
 -- 
-Jens Axboe
+2.0.0.rc2
 
-
---------------070900050408020205000309
-Content-Type: text/x-patch;
- name="tag-batch-wakeup.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="tag-batch-wakeup.patch"
-
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 1aab39f..4f90f91 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -242,7 +242,7 @@ static int bt_get(struct blk_mq_alloc_data *data,
- 		bool was_empty;
- 
- 		was_empty = list_empty(&wait.task_list);
--		prepare_to_wait(&bs->wait, &wait, TASK_UNINTERRUPTIBLE);
-+		prepare_to_wait_exclusive(&bs->wait, &wait, TASK_UNINTERRUPTIBLE);
- 
- 		tag = __bt_get(hctx, bt, last_tag);
- 		if (tag != -1)
-@@ -345,7 +345,7 @@ static void bt_clear_tag(struct blk_mq_bitmap_tags *bt, unsigned int tag)
- 	if (bs && atomic_dec_and_test(&bs->wait_cnt)) {
- 		atomic_set(&bs->wait_cnt, bt->wake_cnt);
- 		bt_index_inc(&bt->wake_index);
--		wake_up(&bs->wait);
-+		wake_up_nr(&bs->wait, bt->wake_cnt);
- 	}
- }
- 
-
---------------070900050408020205000309--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
