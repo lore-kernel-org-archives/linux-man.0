@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 61171] adjtimex(2): incomplete description of the struct timex
-Date: Tue, 17 Jun 2014 08:55:40 +0000
-Message-ID: <bug-61171-11311-MiBTUsdwrN@https.bugzilla.kernel.org/>
+Date: Tue, 17 Jun 2014 11:54:17 +0000
+Message-ID: <bug-61171-11311-VifbCVIA79@https.bugzilla.kernel.org/>
 References: <bug-61171-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,24 +14,13 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=61171
 
---- Comment #2 from Matwey V. Kornilov <matwey.kornilov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-I hope so
+--- Comment #3 from Tina Johnson <tinajohnson.1234-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Created attachment 140071
+  --> https://bugzilla.kernel.org/attachment.cgi?id=140071&action=edit
+Added information about variables of timeval structure and different units of
+time used by them
 
-2014-06-17 12:48 GMT+04:00  <bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org>:
-> https://bugzilla.kernel.org/show_bug.cgi?id=61171
->
-> Tina Johnson <tinajohnson.1234-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
->
->            What    |Removed                     |Added
-> ----------------------------------------------------------------------------
->                  CC|                            |tinajohnson.1234-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
->
-> --- Comment #1 from Tina Johnson <tinajohnson.1234-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-> Do you suggest that we edit the man page of adjtimex?
->
-> --
-> You are receiving this mail because:
-> You reported the bug.
+Hope this is the required patch.
 
 -- 
 You are receiving this mail because:
