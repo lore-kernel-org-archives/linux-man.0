@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] gnu_get_libc_version.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 18 Jun 2014 17:09:07 +0800
-Message-ID: <1403082547-27368-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] iswdigit.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Wed, 18 Jun 2014 17:43:32 +0800
+Message-ID: <1403084612-29149-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,36 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions gnu_get_libc_version() and gnu_get_libc_release()
-are thread safe.
+The function iswdigit() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/gnu_get_libc_version.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/iswdigit.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/man3/gnu_get_libc_version.3 b/man3/gnu_get_libc_version.3
-index d622ead..ebbab1a 100644
---- a/man3/gnu_get_libc_version.3
-+++ b/man3/gnu_get_libc_version.3
-@@ -46,6 +46,19 @@ This will be a string such as
- .IR "stable" .
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/iswdigit.3 b/man3/iswdigit.3
+index 1194b7c..260741c 100644
+--- a/man3/iswdigit.3
++++ b/man3/iswdigit.3
+@@ -66,6 +66,18 @@ if
+ is a wide character
+ belonging to the wide-character class "digit".
+ Otherwise, it returns zero.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR gnu_get_libc_version (),
-+.BR gnu_get_libc_release ()
-+T}	Thread safety	MT-Safe
++.BR iswdigit ()
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- These functions are glibc-specific.
- .SH EXAMPLE
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
