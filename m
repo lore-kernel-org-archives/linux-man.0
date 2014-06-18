@@ -1,41 +1,65 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 48641] [TRIVIAL]splice can return EAGAIN
-Date: Wed, 18 Jun 2014 14:03:20 +0000
-Message-ID: <bug-48641-11311-FZwUMzqNTx@https.bugzilla.kernel.org/>
-References: <bug-48641-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: charmap.5: remove accidental ISO C compliance reference
+Date: Wed, 18 Jun 2014 15:43:03 +0200
+Message-ID: <53A19767.60303@gmail.com>
+References: <53A173EA.3050809@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-48641-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <53A173EA.3050809-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=48641
+On 06/18/2014 01:11 PM, Marko Myllynen wrote:
+> Hi,
+> 
+> a horrible braino slipped to charmap(5) introduction, it's probably
+> best just to remove it (alternatively something could be stated about
+> locales and charsets but perhas this is not the right place for it).
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Thanks, Marko. Applied.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+Cheers,
 
---- Comment #9 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-I've added the following text to each of the three man pages splice.2,
-vmsplice.2, tee.2:
-[[
-.TP
-.B EAGAIN
-.B SPLICE_F_NONBLOCK
-was specified in
-.IR flags ,
-and the operation would block.
-]]
+Michael
+
+> 
+>>From 46d2c698320125eb5e12a9dba2179931717a172f Mon Sep 17 00:00:00 2001
+> From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> Date: Wed, 18 Jun 2014 10:52:34 +0300
+> Subject: [PATCH] charmap.5: remove accidental ISO C compliance reference
+> 
+> glibc refers in locale/programs/charmap.c to ISO C 99 section 7.17.(2)
+> and ISO C 99 section 5.2.1.(3) that if a character map is not ASCII
+> compatible then the locale using it is not ISO C compliant. This does
+> not state anything about the character set itself.
+> ---
+>  man5/charmap.5 |    2 --
+>  1 files changed, 0 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man5/charmap.5 b/man5/charmap.5
+> index b9b2084..463e72d 100644
+> --- a/man5/charmap.5
+> +++ b/man5/charmap.5
+> @@ -22,8 +22,6 @@ charmap \- characters to define character sets
+>  .SH DESCRIPTION
+>  A character set description (charmap) defines all available characters
+>  and their encodings in a character set.
+> -All ISO C compliant character sets should have
+> -the ASCII character set as a proper subset.
+>  .SS Syntax
+>  The charmap file starts with a header that may consist of the
+>  following keywords:
+> 
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
