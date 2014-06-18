@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] makedev.3: ATTRIBUTES: Note macros that are thread-safe
-Date: Wed, 18 Jun 2014 16:01:46 +0800
-Message-ID: <1403078506-24020-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] gnu_get_libc_version.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 18 Jun 2014 17:09:07 +0800
+Message-ID: <1403082547-27368-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The macros makedev(), major() and minor() are thread safe.
+The functions gnu_get_libc_version() and gnu_get_libc_release()
+are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/makedev.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ man3/gnu_get_libc_version.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/makedev.3 b/man3/makedev.3
-index f6d191c..fb55f96 100644
---- a/man3/makedev.3
-+++ b/man3/makedev.3
-@@ -59,6 +59,20 @@ they return, respectively, the major and minor components.
- These macros can be useful to, for example,
- decompose the device IDs in the structure returned by
- .BR stat (2).
+diff --git a/man3/gnu_get_libc_version.3 b/man3/gnu_get_libc_version.3
+index d622ead..ebbab1a 100644
+--- a/man3/gnu_get_libc_version.3
++++ b/man3/gnu_get_libc_version.3
+@@ -46,6 +46,19 @@ This will be a string such as
+ .IR "stable" .
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw27 lb lb
++lbw23 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR makedev (),
-+.BR major (),
-+.BR minor ()
++.BR gnu_get_libc_version (),
++.BR gnu_get_libc_release ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- The
- .BR makedev (),
+ These functions are glibc-specific.
+ .SH EXAMPLE
 -- 
 1.9.3
 
