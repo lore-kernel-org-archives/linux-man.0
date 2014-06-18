@@ -1,48 +1,40 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iswdigit.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Wed, 18 Jun 2014 17:43:32 +0800
-Message-ID: <1403084612-29149-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Minor error in open(2) page, "O_PATH" flag descr.
+Date: Wed, 18 Jun 2014 12:14:47 +0200
+Message-ID: <CAKgNAkgVULvGQPA86kzY=npY7BoOAKKqzp3sc_J2FWsuveTo5g@mail.gmail.com>
+References: <CAGofgLsJs0YPUcKmuXPnXhkad5DuJyMTOAoQpw3VrqoM9adkLw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAGofgLsJs0YPUcKmuXPnXhkad5DuJyMTOAoQpw3VrqoM9adkLw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?UTF-8?B?0JrQuNGA0LjQu9C7?= <kirillnow-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function iswdigit() is thread safe with exceptions.
+On Wed, Jun 18, 2014 at 8:53 AM, =D0=9A=D0=B8=D1=80=D0=B8=D0=BB=D0=BB <=
+kirillnow-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>
+> "When O_PATH is specified in flags, flag bits other than
+>   O_DIRECTORY and O_NOFOLLOW are ignored."
+> You forgot O_CLOEXEC bit.
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/iswdigit.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Thanks for the report. I've verfied, and amended the page. A note for
+the future: your report would have been more useful (that is, it would
+have saved me some time), if you had explained how you determined the
+information.
 
-diff --git a/man3/iswdigit.3 b/man3/iswdigit.3
-index 1194b7c..260741c 100644
---- a/man3/iswdigit.3
-+++ b/man3/iswdigit.3
-@@ -66,6 +66,18 @@ if
- is a wide character
- belonging to the wide-character class "digit".
- Otherwise, it returns zero.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR iswdigit ()
-+T}	Thread safety	MT-Safe locale
-+.TE
- .SH CONFORMING TO
- C99.
- .SH NOTES
--- 
-1.9.3
+Thanks,
 
+Michael
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
