@@ -1,58 +1,63 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: charmap.5: remove accidental ISO C compliance reference
-Date: Wed, 18 Jun 2014 15:43:03 +0200
-Message-ID: <53A19767.60303@gmail.com>
-References: <53A173EA.3050809@redhat.com>
+Subject: Re: [PATCH] mktemp.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 18 Jun 2014 15:47:55 +0200
+Message-ID: <53A1988B.1030700@gmail.com>
+References: <1403070513-15363-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53A173EA.3050809-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1403070513-15363-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/18/2014 01:11 PM, Marko Myllynen wrote:
-> Hi,
-> 
-> a horrible braino slipped to charmap(5) introduction, it's probably
-> best just to remove it (alternatively something could be stated about
-> locales and charsets but perhas this is not the right place for it).
+Hello Haitao,
 
-Thanks, Marko. Applied.
+Looks good.
+
+For now, I am going to queue these patches in a local branch, which I'll release
+as we starte to make progress on the attributes(7) page and the reworking of the
+existing pages to the new form.
 
 Cheers,
 
 Michael
 
+
+
+On 06/18/2014 07:48 AM, Peng Haitao wrote:
+> The function mktemp() is thread safe.
 > 
->>From 46d2c698320125eb5e12a9dba2179931717a172f Mon Sep 17 00:00:00 2001
-> From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> Date: Wed, 18 Jun 2014 10:52:34 +0300
-> Subject: [PATCH] charmap.5: remove accidental ISO C compliance reference
-> 
-> glibc refers in locale/programs/charmap.c to ISO C 99 section 7.17.(2)
-> and ISO C 99 section 5.2.1.(3) that if a character map is not ASCII
-> compatible then the locale using it is not ISO C compliant. This does
-> not state anything about the character set itself.
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man5/charmap.5 |    2 --
->  1 files changed, 0 insertions(+), 2 deletions(-)
+>  man3/mktemp.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man5/charmap.5 b/man5/charmap.5
-> index b9b2084..463e72d 100644
-> --- a/man5/charmap.5
-> +++ b/man5/charmap.5
-> @@ -22,8 +22,6 @@ charmap \- characters to define character sets
->  .SH DESCRIPTION
->  A character set description (charmap) defines all available characters
->  and their encodings in a character set.
-> -All ISO C compliant character sets should have
-> -the ASCII character set as a proper subset.
->  .SS Syntax
->  The charmap file starts with a header that may consist of the
->  following keywords:
+> diff --git a/man3/mktemp.3 b/man3/mktemp.3
+> index 129757e..ca661cb 100644
+> --- a/man3/mktemp.3
+> +++ b/man3/mktemp.3
+> @@ -92,6 +92,18 @@ is set to indicate the error.
+>  .TP
+>  .B EINVAL
+>  The last six characters of \fItemplate\fP were not XXXXXX.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR mktemp ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  4.3BSD, POSIX.1-2001.
+>  POSIX.1-2008 removes the specification of
 > 
 
 
