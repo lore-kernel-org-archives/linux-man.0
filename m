@@ -1,25 +1,25 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wmemmove.3: Reformat thread-safety information
-Date: Thu, 19 Jun 2014 09:45:58 +0800
-Message-ID: <1403142358-7494-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wmemcpy.3: Reformat thread-safety information
+Date: Thu, 19 Jun 2014 09:58:39 +0800
+Message-ID: <1403143119-9079-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wmemmove.3 | 13 ++++++++++---
+ man3/wmemcpy.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wmemmove.3 b/man3/wmemmove.3
-index 5af7b94..7a7add4 100644
---- a/man3/wmemmove.3
-+++ b/man3/wmemmove.3
-@@ -48,10 +48,17 @@ characters at
+diff --git a/man3/wmemcpy.3 b/man3/wmemcpy.3
+index 49f3ce4..e39f825 100644
+--- a/man3/wmemcpy.3
++++ b/man3/wmemcpy.3
+@@ -50,10 +50,17 @@ characters at
  returns
  .IR dest .
  .SH ATTRIBUTES
@@ -33,7 +33,7 @@ index 5af7b94..7a7add4 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wmemmove ()
+ .BR wmemcpy ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
