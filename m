@@ -1,63 +1,72 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wmemcpy.3: Reformat thread-safety information
-Date: Thu, 19 Jun 2014 08:37:05 +0200
-Message-ID: <53A28511.7090507@gmail.com>
-References: <1403143119-9079-1-git-send-email-penght@cn.fujitsu.com>
+From: Karl-Philipp Richter <krichter-1KBjaw7Xf1+zQB+pC5nmwQ@public.gmane.org>
+Subject: Re: [patch] trivial extranous comma in host.conf.5 tfix
+Date: Thu, 19 Jun 2014 11:27:51 +0200
+Message-ID: <53A2AD17.1090108@posteo.de>
+References: <53A1F724.5060102@posteo.de> <53A283F3.6080607@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="wqREtQgXNdFGoUCxH1U2GQ8L4T7OuSB9m"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1403143119-9079-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <53A283F3.6080607-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--wqREtQgXNdFGoUCxH1U2GQ8L4T7OuSB9m
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+Hi,
+I've not seen that before, thanks for the enlightenment. And I thought I
+knew everything ;) ...
 
-Michael
-
-
-On 06/19/2014 03:58 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/wmemcpy.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/wmemcpy.3 b/man3/wmemcpy.3
-> index 49f3ce4..e39f825 100644
-> --- a/man3/wmemcpy.3
-> +++ b/man3/wmemcpy.3
-> @@ -50,10 +50,17 @@ characters at
->  returns
->  .IR dest .
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR wmemcpy ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  C99.
->  .SH SEE ALSO
-> 
+Am 19.06.2014 08:32, schrieb Michael Kerrisk (man-pages):
+> On 06/18/2014 10:31 PM, Karl-Philipp Richter wrote:
+>> Hi together,
+>> please find attached a trivial patch for a typo in man(5) page of host=
+=2Econf
+>>
+>> Best regards,
+>> Kalle Richter
+>=20
+> Hello Kalle,
+>=20
+> [patch not applied]
+>=20
+> There are different schools of thought on Serial Commas in English:
+> http://en.wikipedia.org/wiki/Oxford_comma
+>=20
+> In man-pages, I've followed the convention of using serial commas.
+>=20
+> Thanks,
+>=20
+> Michael
+>=20
+>=20
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--wqREtQgXNdFGoUCxH1U2GQ8L4T7OuSB9m
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
+
+iQEcBAEBAgAGBQJToq0XAAoJEGadKJ8eJ7ZGRggIAKuAgqP7OkpnCbuTgVyIiLPS
+QimIj0eMzkkkUeW5VfKX9XdubqQJjDwj0oA+VEbh1VfKiUArFKcI/IT2qhwON9XX
+ZvRE6cRobuvQlLpyJ7Qh+4GwGBBhyqexYA4F085bTK/+URyyRhZHf10erxs/Ev/m
+DBK6qwimlnoJ8PPbRGp1iLz07FxL5C6sLJIswSj2m7vnAhMRMNuYF86uoJJqWq0g
+2nb+Tg8euEyshe/xMGL7rRX30x4fFaKkXBpH+4g7zJAGg2g/lvx5GWvYUyH+b1AI
+wbuv83Up/iBxILcSi7LsthI58zyD+HNKGjNHxH3TKbu/vkv10yULanMayPUWllU=
+=wW3A
+-----END PGP SIGNATURE-----
+
+--wqREtQgXNdFGoUCxH1U2GQ8L4T7OuSB9m--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
