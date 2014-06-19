@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wmemset.3: Reformat thread-safety information
-Date: Thu, 19 Jun 2014 08:36:49 +0200
-Message-ID: <53A28501.60004@gmail.com>
-References: <1403141623-7089-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wmemmove.3: Reformat thread-safety information
+Date: Thu, 19 Jun 2014 08:36:57 +0200
+Message-ID: <53A28509.3060605@gmail.com>
+References: <1403142358-7494-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1403141623-7089-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1403142358-7494-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -19,19 +19,19 @@ Cheers,
 
 Michael
 
-On 06/19/2014 03:33 AM, Peng Haitao wrote:
+On 06/19/2014 03:45 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wmemset.3 | 13 ++++++++++---
+>  man3/wmemmove.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/wmemset.3 b/man3/wmemset.3
-> index 266a7f9..f973259 100644
-> --- a/man3/wmemset.3
-> +++ b/man3/wmemset.3
-> @@ -41,10 +41,17 @@ copies of the wide character
+> diff --git a/man3/wmemmove.3 b/man3/wmemmove.3
+> index 5af7b94..7a7add4 100644
+> --- a/man3/wmemmove.3
+> +++ b/man3/wmemmove.3
+> @@ -48,10 +48,17 @@ characters at
 >  returns
->  .IR wcs .
+>  .IR dest .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -43,7 +43,7 @@ On 06/19/2014 03:33 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR wmemset ()
+>  .BR wmemmove ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
