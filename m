@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wmemset.3: Reformat thread-safety information
-Date: Thu, 19 Jun 2014 09:33:43 +0800
-Message-ID: <1403141623-7089-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wmemmove.3: Reformat thread-safety information
+Date: Thu, 19 Jun 2014 09:45:58 +0800
+Message-ID: <1403142358-7494-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wmemset.3 | 13 ++++++++++---
+ man3/wmemmove.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wmemset.3 b/man3/wmemset.3
-index 266a7f9..f973259 100644
---- a/man3/wmemset.3
-+++ b/man3/wmemset.3
-@@ -41,10 +41,17 @@ copies of the wide character
+diff --git a/man3/wmemmove.3 b/man3/wmemmove.3
+index 5af7b94..7a7add4 100644
+--- a/man3/wmemmove.3
++++ b/man3/wmemmove.3
+@@ -48,10 +48,17 @@ characters at
  returns
- .IR wcs .
+ .IR dest .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 266a7f9..f973259 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wmemset ()
+ .BR wmemmove ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
