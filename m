@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 28692] no man page for dlmopen
-Date: Wed, 25 Jun 2014 12:33:24 +0000
-Message-ID: <bug-28692-11311-JMWqG56ltm@https.bugzilla.kernel.org/>
+Date: Wed, 25 Jun 2014 12:37:30 +0000
+Message-ID: <bug-28692-11311-lhrReCd280@https.bugzilla.kernel.org/>
 References: <bug-28692-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,9 +14,20 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=28692
 
---- Comment #4 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
-alan@alan:~$ man dlmopen
-No manual entry for dlmopen
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |INVALID
+
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Okay, already ;-).
+
+It's true there's not much point in a bug report like this. The page is among
+those listed as missing at http://www.kernel.org/doc/man-pages/
+
+So, let's not dispense with a bug report.
 
 -- 
 You are receiving this mail because:
