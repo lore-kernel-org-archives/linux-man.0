@@ -1,52 +1,33 @@
-From: Cyril Hrubis <metan-+ZI9xUNit7I@public.gmane.org>
-Subject: [PATCH] vmsplice.2: vmsplice() does not fail on nr_segs=0
-Date: Wed, 25 Jun 2014 16:12:35 +0200
-Message-ID: <20140625141235.GA10090@rei.Home>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14795] getdents manpage wrong
+Date: Wed, 25 Jun 2014 15:37:25 +0000
+Message-ID: <bug-14795-11311-pxqp9UFFmr@https.bugzilla.kernel.org/>
+References: <bug-14795-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <bug-14795-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This case is no-op and no error is returned.
+https://bugzilla.kernel.org/show_bug.cgi?id=14795
 
-See fs/splice.c vmsplice syscall which contains:
+xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
-        if (unlikely(nr_segs > UIO_MAXIOV))
-                return -EINVAL;
-        else if (unlikely(!nr_segs))
-                return 0;
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-and looking at the git log suggests that this snipped was always there.
-
-Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
----
- man2/vmsplice.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/man2/vmsplice.2 b/man2/vmsplice.2
-index 35ab07f..a9ad786 100644
---- a/man2/vmsplice.2
-+++ b/man2/vmsplice.2
-@@ -133,7 +133,7 @@ either not valid, or doesn't refer to a pipe.
- .TP
- .B EINVAL
- .I nr_segs
--is 0 or greater than
-+is greater than
- .BR IOV_MAX ;
- or memory not aligned if
- .B SPLICE_F_GIFT
--- 
-1.8.5.5
-
+--- Comment #2 from xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
+This bug is obsolete. Please test against a newer kernel to
+see if it still is valid.
+Cheers Nick
 
 -- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
