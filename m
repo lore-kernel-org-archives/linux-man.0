@@ -1,18 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 25292] async-signal-safe functions list in Linux
-Date: Wed, 25 Jun 2014 15:43:33 +0000
-Message-ID: <bug-25292-11311-5ErwAuXRcW@https.bugzilla.kernel.org/>
-References: <bug-25292-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 35852] SO_PRIORITY does not set TOS field in IP header
+Date: Wed, 25 Jun 2014 15:57:47 +0000
+Message-ID: <bug-35852-11311-TZ0BZwyVrd@https.bugzilla.kernel.org/>
+References: <bug-35852-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-25292-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-35852-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=25292
+https://bugzilla.kernel.org/show_bug.cgi?id=35852
 
 xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
@@ -21,8 +21,8 @@ xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
                  CC|                            |xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 --- Comment #1 from xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-This bug is outdated , please tell against a newer kernel.
-Thanks Nick
+This bug is against a old man pages. Please check with a newer verison.
+Nick
 
 -- 
 You are receiving this mail because:
