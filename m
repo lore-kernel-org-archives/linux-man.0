@@ -1,66 +1,26 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcwidth.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 11:04:42 +0200
-Message-ID: <53AA90AA.8010306@gmail.com>
-References: <1403663495-8696-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 28692] no man page for dlmopen
+Date: Wed, 25 Jun 2014 12:33:24 +0000
+Message-ID: <bug-28692-11311-JMWqG56ltm@https.bugzilla.kernel.org/>
+References: <bug-28692-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1403663495-8696-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-28692-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thank you, Haitao. Applied.
+https://bugzilla.kernel.org/show_bug.cgi?id=28692
 
-Cheers,
-
-Michael
-
-
-On 06/25/2014 04:31 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/wcwidth.3 | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/man3/wcwidth.3 b/man3/wcwidth.3
-> index 73e8303..c2d5767 100644
-> --- a/man3/wcwidth.3
-> +++ b/man3/wcwidth.3
-> @@ -43,13 +43,17 @@ function returns the number of
->  column positions for
->  .IR c .
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR wcwidth ()
-> -function is thread-safe with exceptions.
-> -It can be safely used in multithreaded applications, as long as
-> -.BR setlocale (3)
-> -is not called to change the locale during its execution.
-> +T}	Thread safety	MT-Safe locale
-> +.TE
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  
-> 
-
+--- Comment #4 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
+alan@alan:~$ man dlmopen
+No manual entry for dlmopen
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
