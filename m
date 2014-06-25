@@ -1,19 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 18132] ipv6(7) describes IP_PKTINFO, but should be
- IP_RECVPKTINFO instead
-Date: Wed, 25 Jun 2014 15:41:33 +0000
-Message-ID: <bug-18132-11311-q3ZBEM2bIB@https.bugzilla.kernel.org/>
-References: <bug-18132-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 25292] async-signal-safe functions list in Linux
+Date: Wed, 25 Jun 2014 15:43:33 +0000
+Message-ID: <bug-25292-11311-5ErwAuXRcW@https.bugzilla.kernel.org/>
+References: <bug-25292-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-18132-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-25292-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=18132
+https://bugzilla.kernel.org/show_bug.cgi?id=25292
 
 xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
@@ -21,9 +20,9 @@ xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 ----------------------------------------------------------------------------
                  CC|                            |xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
---- Comment #2 from xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-Please test this against a newer kernel to see if it's still valid.
-Cheers Nick
+--- Comment #1 from xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
+This bug is outdated , please tell against a newer kernel.
+Thanks Nick
 
 -- 
 You are receiving this mail because:
