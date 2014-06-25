@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcwidth.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 10:31:35 +0800
-Message-ID: <1403663495-8696-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wctype.3: Reformat thread-safety information
+Date: Wed, 25 Jun 2014 10:36:44 +0800
+Message-ID: <1403663804-9062-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcwidth.3 | 16 ++++++++++------
+ man3/wctype.3 | 16 ++++++++++------
  1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/man3/wcwidth.3 b/man3/wcwidth.3
-index 73e8303..c2d5767 100644
---- a/man3/wcwidth.3
-+++ b/man3/wcwidth.3
-@@ -43,13 +43,17 @@ function returns the number of
- column positions for
- .IR c .
+diff --git a/man3/wctype.3 b/man3/wctype.3
+index 1519b9a..fcad823 100644
+--- a/man3/wctype.3
++++ b/man3/wctype.3
+@@ -72,13 +72,17 @@ is valid.
+ Otherwise, it returns
+ .IR "(wctype_t) 0" .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 73e8303..c2d5767 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcwidth ()
+ .BR wctype ()
 -function is thread-safe with exceptions.
 -It can be safely used in multithreaded applications, as long as
 -.BR setlocale (3)
@@ -41,8 +41,8 @@ index 73e8303..c2d5767 100644
 +T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- POSIX.1-2001.
- 
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
