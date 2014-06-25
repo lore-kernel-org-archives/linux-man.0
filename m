@@ -1,48 +1,64 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 39652] connect (2) under IPv6 has an incomplete list of
- returnable error numbers
-Date: Wed, 25 Jun 2014 20:03:16 +0000
-Message-ID: <bug-39652-11311-oaQNcZSoe2@https.bugzilla.kernel.org/>
-References: <bug-39652-11311@https.bugzilla.kernel.org/>
+From: David Rientjes <rientjes@google.com>
+Subject: Re: [PATCH] mm: update the description for madvise_remove
+Date: Wed, 25 Jun 2014 15:30:31 -0700 (PDT)
+Message-ID: <alpine.DEB.2.02.1406251529530.4592@chino.kir.corp.google.com>
+References: <53A9116B.9030004@gmail.com> <alpine.DEB.2.02.1406241542040.29176@chino.kir.corp.google.com> <53AA2CD5.6060202@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-39652-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <53AA2CD5.6060202@gmail.com>
+Sender: owner-linux-mm@kvack.org
+To: Wang Sheng-Hui <shhuiw@gmail.com>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>, Johannes Weiner <hannes@cmpxchg.org>, Andi Kleen <ak@linux.intel.com>, Vladimir Cernov <gg.kaspersky@gmail.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D39652
+On Wed, 25 Jun 2014, Wang Sheng-Hui wrote:
 
---- Comment #2 from Tim Chappell <kernel-3dJX9IkHV5SkwWA8rprFa0EOCMrvLtNR@public.gmane.org> ---
-Nick,
+> Patch to man-page.
+> 
+> [PATCH] madvise.2: update the description for MADV_REMOVE
+> 
+> Currently we have more filesystems supporting fallcate, e.g ext4/btrfs,
+> which can response to MADV_REMOVE gracefully.
+> 
+> And if filesystems don't support fallocate, the return error would be
+> EOPNOTSUPP, instead of ENOSYS.
+> 
+> Signed-off-by: Wang Sheng-Hui <shhuiw@gmail.com>
 
-Thanks for the reply. I've just tested this with version 3.53 of the ma=
-n pages
-and it now seems correct, apart from:
+Great, thanks!  This looks like it can be applied immediately and doesn't 
+require us to wait for any kernel change.
 
-1. EHOSTUNREACH - this is still missing as a potential reason. I believ=
-e it
-should be added and the causes are ICMPv6 type 1 code 3 (Address unreac=
-hable -
-I've verified this to be the case) or ICMPv6 type 3 (Time exceeded =E2=80=
-=93 I haven't
-verified this case - please check source code).
+Good catch with the return value.
 
-2. There's also no mention of:
+> ---
+>  man2/madvise.2 | 10 +++-------
+>  1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index 032ead7..4ce869c 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -99,13 +99,9 @@ or zero-fill-on-demand pages for mappings
+>  without an underlying file.
+>  .TP
+>  .BR MADV_REMOVE " (since Linux 2.6.16)"
+> -Free up a given range of pages
+> -and its associated backing store.
+> -Currently,
+> -.\" 2.6.18-rc5
+> -only shmfs/tmpfs supports this; other filesystems return with the
+> -error
+> -.BR ENOSYS .
+> +Free up a given range of pages and its associated backing store.
+> +Filesystems that don't support fallocate will return error
+> +.BR EOPNOTSUPP.
+>  .\" Databases want to use this feature to drop a section of their
+>  .\" bufferpool (shared memory segments) - without writing back to
+>  .\" disk/swap space.  This feature is also useful for supporting
 
-EMSGSIZE or EPROTO - did you check these? I haven't rechecked the sourc=
-e since
-I originally raised the issue.
-
-Best wishes,
-
-Tim.
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.--
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
