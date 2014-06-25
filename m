@@ -1,37 +1,52 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 28692] no man page for dlmopen
-Date: Wed, 25 Jun 2014 12:37:30 +0000
-Message-ID: <bug-28692-11311-lhrReCd280@https.bugzilla.kernel.org/>
-References: <bug-28692-11311@https.bugzilla.kernel.org/>
+From: Cyril Hrubis <metan-+ZI9xUNit7I@public.gmane.org>
+Subject: [PATCH] vmsplice.2: vmsplice() does not fail on nr_segs=0
+Date: Wed, 25 Jun 2014 16:12:35 +0200
+Message-ID: <20140625141235.GA10090@rei.Home>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-28692-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=28692
+This case is no-op and no error is returned.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+See fs/splice.c vmsplice syscall which contains:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-         Resolution|---                         |INVALID
+        if (unlikely(nr_segs > UIO_MAXIOV))
+                return -EINVAL;
+        else if (unlikely(!nr_segs))
+                return 0;
 
---- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Okay, already ;-).
+and looking at the git log suggests that this snipped was always there.
 
-It's true there's not much point in a bug report like this. The page is among
-those listed as missing at http://www.kernel.org/doc/man-pages/
+Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+---
+ man2/vmsplice.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So, let's not dispense with a bug report.
+diff --git a/man2/vmsplice.2 b/man2/vmsplice.2
+index 35ab07f..a9ad786 100644
+--- a/man2/vmsplice.2
++++ b/man2/vmsplice.2
+@@ -133,7 +133,7 @@ either not valid, or doesn't refer to a pipe.
+ .TP
+ .B EINVAL
+ .I nr_segs
+-is 0 or greater than
++is greater than
+ .BR IOV_MAX ;
+ or memory not aligned if
+ .B SPLICE_F_GIFT
+-- 
+1.8.5.5
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
