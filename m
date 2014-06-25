@@ -1,18 +1,19 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 35852] SO_PRIORITY does not set TOS field in IP header
-Date: Wed, 25 Jun 2014 15:57:47 +0000
-Message-ID: <bug-35852-11311-TZ0BZwyVrd@https.bugzilla.kernel.org/>
-References: <bug-35852-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 39652] connect (2) under IPv6 has an incomplete list of
+ returnable error numbers
+Date: Wed, 25 Jun 2014 16:02:13 +0000
+Message-ID: <bug-39652-11311-QlJnQHL5ER@https.bugzilla.kernel.org/>
+References: <bug-39652-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-35852-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-39652-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=35852
+https://bugzilla.kernel.org/show_bug.cgi?id=39652
 
 xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
 
@@ -21,8 +22,9 @@ xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org changed:
                  CC|                            |xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 --- Comment #1 from xerofoify-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org ---
-This bug is against a old man pages. Please check with a newer verison.
-Nick
+Please test this bug against a newer version of man-pages to see if it's
+fixed.
+Thanks Nick
 
 -- 
 You are receiving this mail because:
