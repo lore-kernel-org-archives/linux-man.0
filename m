@@ -1,50 +1,32 @@
-From: Wang Sheng-Hui <shhuiw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH v2] madvise.2: update the description for MADV_REMOVE
-Date: Wed, 25 Jun 2014 07:44:27 +0800
-Message-ID: <53AA0D5B.6060504@gmail.com>
+From: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH v2] madvise.2: update the description for MADV_REMOVE
+Date: Tue, 24 Jun 2014 17:02:38 -0700 (PDT)
+Message-ID: <alpine.DEB.2.02.1406241702190.22030@chino.kir.corp.google.com>
+References: <53AA0D5B.6060504@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53AA0D5B.6060504-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+To: Wang Sheng-Hui <shhuiw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On Wed, 25 Jun 2014, Wang Sheng-Hui wrote:
 
-Currently we have more filesystems supporting fallcate, e.g ext4/btrfs,
-which can response to MADV_REMOVE gracefully.
+> 
+> Currently we have more filesystems supporting fallcate, e.g ext4/btrfs,
+> which can response to MADV_REMOVE gracefully.
+> 
+> And if filesystems don't support fallocate, the return error would be
+> EOPNOTSUPP, instead of ENOSYS.
+> 
+> Signed-off-by: Wang Sheng-Hui <shhuiw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-And if filesystems don't support fallocate, the return error would be
-EOPNOTSUPP, instead of ENOSYS.
+Could you reply to the thread where this is removed from the kernel source 
+on LKML so others know that you have taken care of it?
 
-Signed-off-by: Wang Sheng-Hui <shhuiw-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man2/madvise.2 | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/man2/madvise.2 b/man2/madvise.2
-index 032ead7..4ce869c 100644
---- a/man2/madvise.2
-+++ b/man2/madvise.2
-@@ -99,13 +99,9 @@ or zero-fill-on-demand pages for mappings
- without an underlying file.
- .TP
- .BR MADV_REMOVE " (since Linux 2.6.16)"
--Free up a given range of pages
--and its associated backing store.
--Currently,
--.\" 2.6.18-rc5
--only shmfs/tmpfs supports this; other filesystems return with the
--error
--.BR ENOSYS .
-+Free up a given range of pages and its associated backing store.
-+Filesystems that don't support fallocate will return error
-+.BR EOPNOTSUPP.
- .\" Databases want to use this feature to drop a section of their
- .\" bufferpool (shared memory segments) - without writing back to
- .\" disk/swap space.  This feature is also useful for supporting
--- 
-1.8.3.2
+Thanks.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
