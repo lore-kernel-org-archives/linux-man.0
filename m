@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcstok.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 14:33:44 +0800
-Message-ID: <1403678024-23709-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcstoimax.3: Reformat thread-safety information
+Date: Wed, 25 Jun 2014 14:49:45 +0800
+Message-ID: <1403678985-24245-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,34 +12,41 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcstok.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/wcstoimax.3 | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/man3/wcstok.3 b/man3/wcstok.3
-index 4cbe310..cec7427 100644
---- a/man3/wcstok.3
-+++ b/man3/wcstok.3
-@@ -77,10 +77,17 @@ The
- function returns a pointer to the next token,
- or NULL if no further token was found.
+diff --git a/man3/wcstoimax.3 b/man3/wcstoimax.3
+index 4585ccb..eede904 100644
+--- a/man3/wcstoimax.3
++++ b/man3/wcstoimax.3
+@@ -47,16 +47,18 @@ and
+ .IR uintmax_t ,
+ respectively.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
+-.BR wcstoimax ()
+-and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcstok ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
++.BR wcstoimax (),
+ .BR wcstoumax ()
+-functions are thread-safe with exceptions.
+-These functions can be safely used in multithreaded applications,
+-as long as
+-.BR setlocale (3)
+-is not called to change the locale during their execution.
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
  C99.
- .SH NOTES
+ .SH SEE ALSO
 -- 
 1.9.3
 
