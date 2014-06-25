@@ -1,35 +1,48 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 14303] futex(2) manpage missing FUTEX_WAKE_OP, *_PRIVATE,
- *_BITSET and *_PI options
-Date: Wed, 25 Jun 2014 07:06:01 +0000
-Message-ID: <bug-14303-11311-aV2QLzPkaM@https.bugzilla.kernel.org/>
-References: <bug-14303-11311@https.bugzilla.kernel.org/>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] iswgraph.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Wed, 25 Jun 2014 15:30:08 +0800
+Message-ID: <1403681408-27792-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-14303-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=14303
+The function iswgraph() is thread safe with exceptions.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/iswgraph.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-           Assignee|documentation_man-pages@ker |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-                   |nel-bugs.osdl.org           |
-
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-I have some notes from kernel devs that I'll work on integrating for these.
-Ping me in a while if nothing has happened.
-
+diff --git a/man3/iswgraph.3 b/man3/iswgraph.3
+index baf517e..c4eeded 100644
+--- a/man3/iswgraph.3
++++ b/man3/iswgraph.3
+@@ -59,6 +59,18 @@ if
+ is a wide character
+ belonging to the wide-character class "graph".
+ Otherwise, it returns zero.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR iswgraph ()
++T}	Thread safety	MT-Safe locale
++.TE
+ .SH CONFORMING TO
+ C99.
+ .SH NOTES
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
