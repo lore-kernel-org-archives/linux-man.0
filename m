@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctomb.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 13:35:18 +0800
-Message-ID: <1403674518-19831-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcswidth.3: Reformat thread-safety information
+Date: Wed, 25 Jun 2014 14:11:55 +0800
+Message-ID: <1403676715-21707-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctomb.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/wcswidth.3 | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/man3/wctomb.3 b/man3/wctomb.3
-index 9b86327..8fda93d 100644
---- a/man3/wctomb.3
-+++ b/man3/wctomb.3
-@@ -82,10 +82,17 @@ is NULL, the
- function returns nonzero if the
- encoding has nontrivial shift state, or zero if the encoding is stateless.
+diff --git a/man3/wcswidth.3 b/man3/wcswidth.3
+index 567fb86..9e0360b 100644
+--- a/man3/wcswidth.3
++++ b/man3/wcswidth.3
+@@ -45,13 +45,17 @@ wide-character string
+ truncated to at most length
+ .IR n .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,12 +33,15 @@ index 9b86327..8fda93d 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wctomb ()
--function is not thread-safe.
-+T}	Thread safety	MT-Unsafe
+ .BR wcswidth ()
+-function is thread-safe with exceptions.
+-It can be safely used in multithreaded applications, as long as
+-.BR setlocale (3)
+-is not called to change the locale during its execution.
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- C99.
+ POSIX.1-2001.
  .SH NOTES
 -- 
 1.9.3
