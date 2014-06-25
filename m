@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctype.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 10:36:44 +0800
-Message-ID: <1403663804-9062-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wctrans.3: Reformat thread-safety information
+Date: Wed, 25 Jun 2014 10:41:17 +0800
+Message-ID: <1403664077-9474-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctype.3 | 16 ++++++++++------
+ man3/wctrans.3 | 16 ++++++++++------
  1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/man3/wctype.3 b/man3/wctype.3
-index 1519b9a..fcad823 100644
---- a/man3/wctype.3
-+++ b/man3/wctype.3
-@@ -72,13 +72,17 @@ is valid.
+diff --git a/man3/wctrans.3 b/man3/wctrans.3
+index abc9603..5828d4b 100644
+--- a/man3/wctrans.3
++++ b/man3/wctrans.3
+@@ -60,13 +60,17 @@ is valid.
  Otherwise, it returns
- .IR "(wctype_t) 0" .
+ .IR "(wctrans_t)\ 0" .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 1519b9a..fcad823 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wctype ()
+ .BR wctrans ()
 -function is thread-safe with exceptions.
 -It can be safely used in multithreaded applications, as long as
 -.BR setlocale (3)
