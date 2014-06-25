@@ -1,34 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wmemchr.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 11:02:41 +0200
-Message-ID: <53AA9031.6080501@gmail.com>
-References: <1403225013-17384-1-git-send-email-penght@cn.fujitsu.com> <53A3CC51.7030101@gmail.com> <53AA278A.20607@cn.fujitsu.com>
+Subject: Re: [PATCH] wctrans.3: Reformat thread-safety information
+Date: Wed, 25 Jun 2014 11:06:01 +0200
+Message-ID: <53AA90F9.70800@gmail.com>
+References: <1403664077-9474-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53AA278A.20607-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1403664077-9474-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/25/2014 03:36 AM, Peng Haitao wrote:
-> 
-> On 06/20/2014 01:53 PM, Michael Kerrisk (man-pages) wrote:
->> Thank you, Haitao. Applied.
->>
->> Might I ask you to review my changes to the following:
->>
-> 
-> I have reviewed all the changes in the following man-pages and
-> sent the patch "[PATCH] des_crypt.3: tfix" to fix trivial errors.
-
-Thank you!
+Thank you, Haitao. Applied.
 
 Cheers,
 
 Michael
+
+On 06/25/2014 04:41 AM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/wctrans.3 | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man3/wctrans.3 b/man3/wctrans.3
+> index abc9603..5828d4b 100644
+> --- a/man3/wctrans.3
+> +++ b/man3/wctrans.3
+> @@ -60,13 +60,17 @@ is valid.
+>  Otherwise, it returns
+>  .IR "(wctrans_t)\ 0" .
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR wctrans ()
+> -function is thread-safe with exceptions.
+> -It can be safely used in multithreaded applications, as long as
+> -.BR setlocale (3)
+> -is not called to change the locale during its execution.
+> +T}	Thread safety	MT-Safe locale
+> +.TE
+>  .SH CONFORMING TO
+>  C99.
+>  .SH NOTES
+> 
 
 
 -- 
