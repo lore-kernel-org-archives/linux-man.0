@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getfsent.3: ATTRIBUTES: Note functions that are not thread-safe
-Date: Wed, 25 Jun 2014 11:12:06 +0800
-Message-ID: <1403665926-11682-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] mtrace.3: ATTRIBUTES: Note functions that are not thread-safe
+Date: Wed, 25 Jun 2014 13:26:54 +0800
+Message-ID: <1403674014-18733-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,41 +10,37 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions setfsent(), getfsent(), endfsent(), getfsspec()
-and getfsfile() are not thread safe.
+The functions mtrace() and muntrace() are not thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getfsent.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/mtrace.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/getfsent.3 b/man3/getfsent.3
-index 022895a..12c883a 100644
---- a/man3/getfsent.3
-+++ b/man3/getfsent.3
-@@ -112,6 +112,22 @@ Upon failure or end-of-file, these functions return NULL and 0, respectively.
- .\" The
- .\" .BR getfsent ()
- .\" function appeared in 4.0BSD; the other four functions appeared in 4.3BSD.
+diff --git a/man3/mtrace.3 b/man3/mtrace.3
+index ef93fcd..eb2e581 100644
+--- a/man3/mtrace.3
++++ b/man3/mtrace.3
+@@ -75,6 +75,19 @@ In set-user-ID and set-group-ID programs,
+ is ignored, and
+ .BR mtrace ()
+ has no effect.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw35 lb lb
++lbw20 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR setfsent (),
-+.BR getfsent (),
-+.BR endfsent (),
-+.BR getfsspec (),
-+.BR getfsfile ()
++.BR mtrace (),
++.BR muntrace ()
 +T}	Thread safety	MT-Unsafe
 +.TE
  .SH CONFORMING TO
- These functions are not in POSIX.1-2001.
- Several operating systems have them, for example,
+ These functions are GNU extensions.
+ .SH NOTES
 -- 
 1.9.3
 
