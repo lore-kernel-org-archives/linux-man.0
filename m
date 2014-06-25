@@ -1,48 +1,35 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsstr.3: Reformat thread-safety information
-Date: Wed, 25 Jun 2014 14:54:52 +0800
-Message-ID: <1403679292-24635-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 14303] futex(2) manpage missing FUTEX_WAKE_OP, *_PRIVATE,
+ *_BITSET and *_PI options
+Date: Wed, 25 Jun 2014 07:06:01 +0000
+Message-ID: <bug-14303-11311-aV2QLzPkaM@https.bugzilla.kernel.org/>
+References: <bug-14303-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-14303-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/wcsstr.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=14303
 
-diff --git a/man3/wcsstr.3 b/man3/wcsstr.3
-index c77c8bd..8823c37 100644
---- a/man3/wcsstr.3
-+++ b/man3/wcsstr.3
-@@ -54,10 +54,17 @@ the return value is always
- .I haystack
- itself.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
- .BR wcsstr ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- C99.
- .SH SEE ALSO
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+           Assignee|documentation_man-pages@ker |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+                   |nel-bugs.osdl.org           |
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I have some notes from kernel devs that I'll work on integrating for these.
+Ping me in a while if nothing has happened.
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
