@@ -1,64 +1,44 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [PATCH] mm: update the description for madvise_remove
-Date: Wed, 25 Jun 2014 15:30:31 -0700 (PDT)
-Message-ID: <alpine.DEB.2.02.1406251529530.4592@chino.kir.corp.google.com>
-References: <53A9116B.9030004@gmail.com> <alpine.DEB.2.02.1406241542040.29176@chino.kir.corp.google.com> <53AA2CD5.6060202@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
+Date: Fri, 27 Jun 2014 13:29:27 +0200
+Message-ID: <53AD5597.50205@gmail.com>
+References: <20140527203010.GA2764@kernel.org> <5385D47A.3070401@gmail.com> <20140528150720.GB2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724F2A0@AcuExch.aculab.com> <20140528195004.GD2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724FB67@AcuExch.aculab.com> <20140529135547.GG2764@kernel.org> <063D6719AE5E284EB5DD2968C1650D6D1724FC78@AcuExch.aculab.com> <20140529141705.GI2764@kernel.org> <CAKgNAkj-MVfeqEeffWKMNok0yO-Rm1kyY+zhXEy-U9NkB+aLow@mail.gmail.com> <20140624202541.GD3456@kernel.org>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <53AA2CD5.6060202@gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: Wang Sheng-Hui <shhuiw@gmail.com>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>, Johannes Weiner <hannes@cmpxchg.org>, Andi Kleen <ak@linux.intel.com>, Vladimir Cernov <gg.kaspersky@gmail.com>, linux-mm@kvack.org, linux-api@vger.kernel.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20140624202541.GD3456-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Arnaldo Carvalho de Melo <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, David Laight <David.Laight-JxhZ9S5GRejQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?ISO-8859-1?Q?Ondrej_B=EDlka?= <neleai-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>, Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>, =?ISO-8859-1?Q?R=E9mi_Denis-Courmont?= <remi.denis-courmont-xNZwKgViW5gAvxtiuMwx3w@public.gmane.org>, Paul Moore <paul-r2n+y4ga6xFZroRs9YW3xA@public.gmane.org>, Chris Friesen <chris.friesen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, 25 Jun 2014, Wang Sheng-Hui wrote:
-
-> Patch to man-page.
+On 06/24/2014 10:25 PM, Arnaldo Carvalho de Melo wrote:
+> Em Mon, Jun 16, 2014 at 11:58:51AM +0200, Michael Kerrisk (man-pages) escreveu:
+>> Hi Arnaldo,
+>>
+>> Things have gone quiet ;-). What's the current state of this patch?
 > 
-> [PATCH] madvise.2: update the description for MADV_REMOVE
+> Yeah, I kept meaning to prod the other people on this thread about what
+> they thought about my last messages, patches, etc. :-)
 > 
-> Currently we have more filesystems supporting fallcate, e.g ext4/btrfs,
-> which can response to MADV_REMOVE gracefully.
-> 
-> And if filesystems don't support fallocate, the return error would be
-> EOPNOTSUPP, instead of ENOSYS.
-> 
-> Signed-off-by: Wang Sheng-Hui <shhuiw@gmail.com>
+> Can I have acked-by or even tested-by on those? Is it ok?
 
-Great, thanks!  This looks like it can be applied immediately and doesn't 
-require us to wait for any kernel change.
+I just need to go back and test one point that sounds like it might still be 
+broken.
 
-Good catch with the return value.
+Cheers,
 
-> ---
->  man2/madvise.2 | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/man2/madvise.2 b/man2/madvise.2
-> index 032ead7..4ce869c 100644
-> --- a/man2/madvise.2
-> +++ b/man2/madvise.2
-> @@ -99,13 +99,9 @@ or zero-fill-on-demand pages for mappings
->  without an underlying file.
->  .TP
->  .BR MADV_REMOVE " (since Linux 2.6.16)"
-> -Free up a given range of pages
-> -and its associated backing store.
-> -Currently,
-> -.\" 2.6.18-rc5
-> -only shmfs/tmpfs supports this; other filesystems return with the
-> -error
-> -.BR ENOSYS .
-> +Free up a given range of pages and its associated backing store.
-> +Filesystems that don't support fallocate will return error
-> +.BR EOPNOTSUPP.
->  .\" Databases want to use this feature to drop a section of their
->  .\" bufferpool (shared memory segments) - without writing back to
->  .\" disk/swap space.  This feature is also useful for supporting
+Michael
 
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
