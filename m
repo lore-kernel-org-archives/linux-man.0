@@ -1,160 +1,827 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH/RFC] Re: recvmmsg() timeout behavior strangeness [RESEND]
-Date: Fri, 27 Jun 2014 13:37:02 +0200
-Message-ID: <53AD575E.7040902@gmail.com>
-References: <536101C9.9090601@gmail.com> <CAKgNAkgA_xTfRZhpyVwuACpCY7xMK89e0bK4PuVMG9reNV6Skw@mail.gmail.com> <20140512143451.GB13801@kernel.org> <20140521210535.GA5414@kernel.org> <537E0961.8040005@gmail.com> <20140526134647.GB8176@kernel.org> <20140526211706.GA25474@kernel.org> <5384BEC5.2080607@gmail.com> <20140527192115.GD25474@kernel.org> <CAKgNAkht1vubHueYPpkRu_W5B8OYW3rPUkHeLEq5WMVbCvO47w@mail.gmail.com> <20140527203010.GA2764@kernel.org> <5385D47A.3070401@gmail.com>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: POSIX Safety
+Date: Fri, 27 Jun 2014 09:45:25 -0400
+Message-ID: <53AD7575.9080202@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5385D47A.3070401-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, netdev <netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?T25kxZllaiBCw61sa2E=?= <neleai-9Vj9tDbzfuSlVyrhU4qvOw@public.gmane.org>, Caitlin Bestler <caitlin.bestler-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Neil Horman <nhorman-2XuSBdqkA4R54TAoqtyWWQ@public.gmane.org>, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, David Miller <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Steven Whitehouse <steve-TMeXKDtMCpxBDgjK7y7TUQ@public.gmane.org>, David Laight <David.Laight-ZS65k/vG3HxXrIkS9f7CXA@public.gmane.org>, Paul Moore <paul-r2n+y4ga6xFZroRs9YW3xA@public.gmane.org>, Chris Friesen <chris.friesen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Arnaldo,
+Michael,
 
-On 05/28/2014 02:20 PM, Michael Kerrisk (man-pages) wrote:
-> On 05/27/2014 10:30 PM, Arnaldo Carvalho de Melo wrote:
->> Em Tue, May 27, 2014 at 09:28:37PM +0200, Michael Kerrisk (man-pages) escreveu:
->>> On Tue, May 27, 2014 at 9:21 PM, Arnaldo Carvalho de Melo
->>> <acme-f8uhVLnGfZaxAyOMLChx1axOck334EZe@public.gmane.org> wrote:
->>>> Em Tue, May 27, 2014 at 06:35:17PM +0200, Michael Kerrisk (man-pages) escreveu:
->>>>> On 05/26/2014 11:17 PM, Arnaldo Carvalho de Melo wrote:
->>>>>> Can you try the attached patch on top of the first one?
->>>>
->>>>> Patches on patches is a way to make your testers work unnecessarily
->>>>> harder. Also, it means that anyone else who was interested in this
->>>>
->>>> It was meant to highlight the changes with regard to the previous patch,
->>>> i.e. to make things easier for reviewing.
->>>
->>> (I don't think that works...)
->>
->> Lets try both then, 
-> 
-> That's better!
-> 
->> attached goes the updated patch, and this is the
->> diff to the last combined one:
->>
->> diff --git a/net/socket.c b/net/socket.c
->> index 310a50971769..379be43879db 100644
->> --- a/net/socket.c
->> +++ b/net/socket.c
->> @@ -2478,8 +2478,7 @@ SYSCALL_DEFINE5(recvmmsg, int, fd, struct mmsghdr __user *, mmsg,
->>  
->>  	datagrams = __sys_recvmmsg(fd, mmsg, vlen, flags, &timeout_sys);
->>  
->> -	if (datagrams > 0 &&
->> -	    copy_to_user(timeout, &timeout_sys, sizeof(timeout_sys)))
->> +	if (copy_to_user(timeout, &timeout_sys, sizeof(timeout_sys)))
->>  		datagrams = -EFAULT;
->>  
->>  	return datagrams;
->>  
->> ------------------------------------------
->>
->> This is a quick thing just to show where the problem lies, need to think
->> how to report an -EFAULT at this point properly, i.e. look at
->> __sys_recvmmsg for something related (returning the number of
->> successfully copied datagrams to userspace while storing the error for
->> subsequent reporting):
->>
->>         if (err == 0)
->>                 return datagrams;
->>
->>         if (datagrams != 0) {
->>                 /*
->>                  * We may return less entries than requested (vlen) if
->>                  * the
->>                  * sock is non block and there aren't enough
->>                  * datagrams...
->>                  */
->>                 if (err != -EAGAIN) {
->>                         /*
->>                          * ... or  if recvmsg returns an error after we
->>                          * received some datagrams, where we record the
->>                          * error to return on the next call or if the
->>                          * app asks about it using getsockopt(SO_ERROR).
->>                          */
->>                         sock->sk->sk_err = -err;
->>                 }
->>
->>                 return datagrams;
->>         }
->>
->> I.e. userspace would have to use getsockopt(SO_ERROR)... need to think
->> more about it, sidetracked now, will be back to this.
->>
->> Anyway, attached goes the current combined patch.
-> 
-> So, I applied against net-next as you suggested offlist.
-> Builds and generally tests fine. Some observations:
-> 
-> * In the case that the call is interrupted by a signal handler and no
->   datagrams have been received, the call fails with EINTR, as expected.
-> 
-> * The call always updates 'timeout', both in the success case and in the
->   EINTR case. (That seems fine.)
+I submit the following text to the Linux Kernel Man Pages project.
+The goal being that we copy-edit this into a safety attributes
+man page and thus harmonize the definition of thread safe,
+async-cancel safe, and async-signal safe between glibc and the
+linux kernel man page project.
 
-So, returning to your recvmmsg-timeout-v3.patch. I think the behavior as
-implemented, and described above is okay.
+Please feel free to use all, some, or non of this document. It is
+included under GPLv2+_DOC_FULL for your use in the linux kernel man
+pages project. It is presently formatted as info, please feel free
+to reformat. For example the HURD parts of the doucment do not apply
+since the man pages are intended for systems using the Linux
+kernel e.g. GNU/Linux.
 
-> But, another question...
-> 
-> In the case that the call is interrupted by a signal handler and some
-> datagrams have already been received, then the call succeeds, and
-> returns the number of datagrams received, and 'timeout' is updated with
-> the remaining time. Maybe that's the right behavior, but I just want to
-> check. There is at least one other possibility:
->
-> * Fetch no datagrams (i.e., the datagrams are left to receive in a
->   future call), and the call fails with EINTR, and 'timeout' is updated.
-> 
-> Maybe that possibility is hard to implement (not sure). But my main point
-> is to make the current behavior clear, note the alternative, and ask:
-> is the current behavior the best choice. (I'm not saying it's not, but I
-> do want the choice to be a conscious one.)
-
-So, I think (can't find the mail right now) that you explained elsewhere
-that the above would be hard to implement. And in any case, I'm not sure
-it's desirable; I only wanted to check that the choice was a deliberate one.
-
-However, there is still a weirdness, which relates to the discussion you
-and David Laight had. 
-
-Suppose the following scenario.
-
-1. We do a recvmmsg() with 10 second timeout, asking for 5 messages.
-2. 3 messages arrive
-3. 6 seconds after the call, a signal handler interrupts the call.
-4. recvmmsg() returns success, telling us it got 3 messages.
-
-So far, so good. But
-
-5. We make a further recvmmsg() call.
-6. That call returns immediately, with an EINTR error.
-
-That really should not be happening. As noted elsewhere in this
-thread, EINTR is a property of a specific system call, not of the
-thread or the socket. By the time of step 5, the kernel should
-already have forgotten about the signal that occurred at step 3.
-I don't think I saw any other patch that fixes that behavior.
-
-I recall now that this was why I was waiting for you to follow up 
-in this thread with a new patch.
+As always I look forward to continued harmonization between the
+glibc manual and linux kernel man pages project :-)
 
 Cheers,
+Carlos.
 
-Michael
+---
+=2E\" Copyright (c) 2014, Red Hat, Inc.
+=2E\"
+=2E\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+=2E\" This is free documentation; you can redistribute it and/or
+=2E\" modify it under the terms of the GNU General Public License as
+=2E\" published by the Free Software Foundation; either version 2 of
+=2E\" the License, or (at your option) any later version.
+=2E\"
+=2E\" The GNU General Public License's references to "object code"
+=2E\" and "executables" are to be interpreted as the output of any
+=2E\" document formatting or typesetting system, including
+=2E\" intermediate and printed output.
+=2E\"
+=2E\" This manual is distributed in the hope that it will be useful,
+=2E\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+=2E\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+=2E\" GNU General Public License for more details.
+=2E\"
+=2E\" You should have received a copy of the GNU General Public
+=2E\" License along with this manual; if not, see
+=2E\" <http://www.gnu.org/licenses/>.
+=2E\" %%%LICENSE_END
 
+@node POSIX Safety Concepts, Unsafe Features, , POSIX
+@subsubsection POSIX Safety Concepts
+@cindex POSIX Safety Concepts
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+This manual documents various safety properties of @glibcadj{}
+functions, in lines that follow their prototypes and look like:
+
+@sampsafety{@prelim{}@mtsafe{}@assafe{}@acsafe{}}
+
+The properties are assessed according to the criteria set forth in the
+POSIX standard for such safety contexts as Thread-, Async-Signal- and
+Async-Cancel- -Safety.  Intuitive definitions of these properties,
+attempting to capture the meaning of the standard definitions, follow.
+
+@itemize @bullet
+
+@item
+@cindex MT-Safe
+@cindex Thread-Safe
+@code{MT-Safe} or Thread-Safe functions are safe to call in the presenc=
+e
+of other threads.  MT, in MT-Safe, stands for Multi Thread.
+
+Being MT-Safe does not imply a function is atomic, nor that it uses any
+of the memory synchronization mechanisms POSIX exposes to users.  It is
+even possible that calling MT-Safe functions in sequence does not yield
+an MT-Safe combination.  For example, having a thread call two MT-Safe
+functions one right after the other does not guarantee behavior
+equivalent to atomic execution of a combination of both functions, sinc=
+e
+concurrent calls in other threads may interfere in a destructive way.
+
+Whole-program optimizations that could inline functions across library
+interfaces may expose unsafe reordering, and so performing inlining
+across the @glibcadj{} interface is not recommended.  The documented
+MT-Safety status is not guaranteed under whole-program optimization.
+However, functions defined in user-visible headers are designed to be
+safe for inlining.
+
+@item
+@cindex AS-Safe
+@cindex Async-Signal-Safe
+@code{AS-Safe} or Async-Signal-Safe functions are safe to call from
+asynchronous signal handlers.  AS, in AS-Safe, stands for Asynchronous
+Signal.
+
+Many functions that are AS-Safe may set @code{errno}, or modify the
+floating-point environment, because their doing so does not make them
+unsuitable for use in signal handlers.  However, programs could
+misbehave should asynchronous signal handlers modify this thread-local
+state, and the signal handling machinery cannot be counted on to
+preserve it.  Therefore, signal handlers that call functions that may
+set @code{errno} or modify the floating-point environment @emph{must}
+save their original values, and restore them before returning.
+
+@item
+@cindex AC-Safe
+@cindex Async-Cancel-Safe
+@code{AC-Safe} or Async-Cancel-Safe functions are safe to call when
+asynchronous cancellation is enabled.  AC in AC-Safe stands for
+Asynchronous Cancellation.
+
+The POSIX standard defines only three functions to be AC-Safe, namely
+@code{pthread_cancel}, @code{pthread_setcancelstate}, and
+@code{pthread_setcanceltype}.  At present @theglibc{} provides no
+guarantees beyond these three functions, but does document which
+functions are presently AC-Safe.  This documentation is provided for us=
+e
+by @theglibc{} developers.
+
+Just like signal handlers, cancellation cleanup routines must configure
+the floating point environment they require.  The routines cannot assum=
+e
+a floating point environment, particularly when asynchronous
+cancellation is enabled.  If the configuration of the floating point
+environment cannot be performed atomically then it is also possible tha=
+t
+the environment encountered is internally inconsistent.
+
+@item
+@cindex MT-Unsafe
+@cindex Thread-Unsafe
+@cindex AS-Unsafe
+@cindex Async-Signal-Unsafe
+@cindex AC-Unsafe
+@cindex Async-Cancel-Unsafe
+@code{MT-Unsafe}, @code{AS-Unsafe}, @code{AC-Unsafe} functions are not
+safe to call within the safety contexts described above.  Calling them
+within such contexts invokes undefined behavior.
+
+=46unctions not explicitly documented as safe in a safety context shoul=
+d
+be regarded as Unsafe.
+
+@item
+@cindex Preliminary
+@code{Preliminary} safety properties are documented, indicating these
+properties may @emph{not} be counted on in future releases of
+@theglibc{}.
+
+Such preliminary properties are the result of an assessment of the
+properties of our current implementation, rather than of what is
+mandated and permitted by current and future standards.
+
+Although we strive to abide by the standards, in some cases our
+implementation is safe even when the standard does not demand safety,
+and in other cases our implementation does not meet the standard safety
+requirements.  The latter are most likely bugs; the former, when marked
+as @code{Preliminary}, should not be counted on: future standards may
+require changes that are not compatible with the additional safety
+properties afforded by the current implementation.
+
+=46urthermore, the POSIX standard does not offer a detailed definition =
+of
+safety.  We assume that, by ``safe to call'', POSIX means that, as long
+as the program does not invoke undefined behavior, the ``safe to call''
+function behaves as specified, and does not cause other functions to
+deviate from their specified behavior.  We have chosen to use its loose
+definitions of safety, not because they are the best definitions to use=
+,
+but because choosing them harmonizes this manual with POSIX.
+
+Please keep in mind that these are preliminary definitions and
+annotations, and certain aspects of the definitions are still under
+discussion and might be subject to clarification or change.
+
+Over time, we envision evolving the preliminary safety notes into stabl=
+e
+commitments, as stable as those of our interfaces.  As we do, we will
+remove the @code{Preliminary} keyword from safety notes.  As long as th=
+e
+keyword remains, however, they are not to be regarded as a promise of
+future behavior.
+
+@end itemize
+
+Other keywords that appear in safety notes are defined in subsequent
+sections.
+
+@node Unsafe Features, Conditionally Safe Features, POSIX Safety Concep=
+ts, POSIX
+@subsubsection Unsafe Features
+@cindex Unsafe Features
+
+=46unctions that are unsafe to call in certain contexts are annotated w=
+ith
+keywords that document their features that make them unsafe to call.
+AS-Unsafe features in this section indicate the functions are never saf=
+e
+to call when asynchronous signals are enabled.  AC-Unsafe features
+indicate they are never safe to call when asynchronous cancellation is
+enabled.  There are no MT-Unsafe marks in this section.
+
+@itemize @bullet
+
+@item @code{lock}
+@cindex lock
+
+=46unctions marked with @code{lock} as an AS-Unsafe feature may be
+interrupted by a signal while holding a non-recursive lock.  If the
+signal handler calls another such function that takes the same lock, th=
+e
+result is a deadlock.
+
+=46unctions annotated with @code{lock} as an AC-Unsafe feature may, if
+cancelled asynchronously, fail to release a lock that would have been
+released if their execution had not been interrupted by asynchronous
+thread cancellation.  Once a lock is left taken, attempts to take that
+lock will block indefinitely.
+
+@item @code{corrupt}
+@cindex corrupt
+
+=46unctions marked with @code{corrupt} as an AS-Unsafe feature may corr=
+upt
+data structures and misbehave when they interrupt, or are interrupted
+by, another such function.  Unlike functions marked with @code{lock},
+these take recursive locks to avoid MT-Safety problems, but this is not
+enough to stop a signal handler from observing a partially-updated data
+structure.  Further corruption may arise from the interrupted function'=
+s
+failure to notice updates made by signal handlers.
+
+=46unctions marked with @code{corrupt} as an AC-Unsafe feature may leav=
+e
+data structures in a corrupt, partially updated state.  Subsequent uses
+of the data structure may misbehave.
+
+@c A special case, probably not worth documenting separately, involves
+@c reallocing, or even freeing pointers.  Any case involving free could
+@c be easily turned into an ac-safe leak by resetting the pointer befor=
+e
+@c releasing it; I don't think we have any case that calls for this sor=
+t
+@c of fixing.  Fixing the realloc cases would require a new interface:
+@c instead of @code{ptr=3Drealloc(ptr,size)} we'd have to introduce
+@c @code{acsafe_realloc(&ptr,size)} that would modify ptr before
+@c releasing the old memory.  The ac-unsafe realloc could be implemente=
+d
+@c in terms of an internal interface with this semantics (say
+@c __acsafe_realloc), but since realloc can be overridden, the function
+@c we call to implement realloc should not be this internal interface,
+@c but another internal interface that calls __acsafe_realloc if reallo=
+c
+@c was not overridden, and calls the overridden realloc with async
+@c cancel disabled.  --lxoliva
+
+@item @code{heap}
+@cindex heap
+
+=46unctions marked with @code{heap} may call heap memory management
+functions from the @code{malloc}/@code{free} family of functions and ar=
+e
+only as safe as those functions.  This note is thus equivalent to:
+
+@sampsafety{@asunsafe{@asulock{}}@acunsafe{@aculock{} @acsfd{} @acsmem{=
+}}}
+
+@c Check for cases that should have used plugin instead of or in
+@c addition to this.  Then, after rechecking gettext, adjust i18n if
+@c needed.
+@item @code{dlopen}
+@cindex dlopen
+
+=46unctions marked with @code{dlopen} use the dynamic loader to load
+shared libraries into the current execution image.  This involves
+opening files, mapping them into memory, allocating additional memory,
+resolving symbols, applying relocations and more, all of this while
+holding internal dynamic loader locks.
+
+The locks are enough for these functions to be AS- and AC-Unsafe, but
+other issues may arise.  At present this is a placeholder for all
+potential safety issues raised by @code{dlopen}.
+
+@c dlopen runs init and fini sections of the module; does this mean
+@c dlopen always implies plugin?
+
+@item @code{plugin}
+@cindex plugin
+
+=46unctions annotated with @code{plugin} may run code from plugins that
+may be external to @theglibc{}.  Such plugin functions are assumed to b=
+e
+MT-Safe, AS-Unsafe and AC-Unsafe.  Examples of such plugins are stack
+@cindex NSS
+unwinding libraries, name service switch (NSS) and character set
+@cindex iconv
+conversion (iconv) back-ends.
+
+Although the plugins mentioned as examples are all brought in by means
+of dlopen, the @code{plugin} keyword does not imply any direct
+involvement of the dynamic loader or the @code{libdl} interfaces, those
+are covered by @code{dlopen}.  For example, if one function loads a
+module and finds the addresses of some of its functions, while another
+just calls those already-resolved functions, the former will be marked
+with @code{dlopen}, whereas the latter will get the @code{plugin}.  Whe=
+n
+a single function takes all of these actions, then it gets both marks.
+
+@item @code{i18n}
+@cindex i18n
+
+=46unctions marked with @code{i18n} may call internationalization
+functions of the @code{gettext} family and will be only as safe as thos=
+e
+functions.  This note is thus equivalent to:
+
+@sampsafety{@mtsafe{@mtsenv{}}@asunsafe{@asucorrupt{} @ascuheap{} @ascu=
+dlopen{}}@acunsafe{@acucorrupt{}}}
+
+@item @code{timer}
+@cindex timer
+
+=46unctions marked with @code{timer} use the @code{alarm} function or
+similar to set a time-out for a system call or a long-running operation=
+=2E
+In a multi-threaded program, there is a risk that the time-out signal
+will be delivered to a different thread, thus failing to interrupt the
+intended thread.  Besides being MT-Unsafe, such functions are always
+AS-Unsafe, because calling them in signal handlers may interfere with
+timers set in the interrupted code, and AC-Unsafe, because there is no
+safe way to guarantee an earlier timer will be reset in case of
+asynchronous cancellation.
+
+@end itemize
+
+@node Conditionally Safe Features, Other Safety Remarks, Unsafe Feature=
+s, POSIX
+@subsubsection Conditionally Safe Features
+@cindex Conditionally Safe Features
+
+=46or some features that make functions unsafe to call in certain
+contexts, there are known ways to avoid the safety problem other than
+refraining from calling the function altogether.  The keywords that
+follow refer to such features, and each of their definitions indicate
+how the whole program needs to be constrained in order to remove the
+safety problem indicated by the keyword.  Only when all the reasons tha=
+t
+make a function unsafe are observed and addressed, by applying the
+documented constraints, does the function become safe to call in a
+context.
+
+@itemize @bullet
+
+@item @code{init}
+@cindex init
+
+=46unctions marked with @code{init} as an MT-Unsafe feature perform
+MT-Unsafe initialization when they are first called.
+
+Calling such a function at least once in single-threaded mode removes
+this specific cause for the function to be regarded as MT-Unsafe.  If n=
+o
+other cause for that remains, the function can then be safely called
+after other threads are started.
+
+=46unctions marked with @code{init} as an AS- or AC-Unsafe feature use =
+the
+internal @code{libc_once} machinery or similar to initialize internal
+data structures.
+
+If a signal handler interrupts such an initializer, and calls any
+function that also performs @code{libc_once} initialization, it will
+deadlock if the thread library has been loaded.
+
+=46urthermore, if an initializer is partially complete before it is
+canceled or interrupted by a signal whose handler requires the same
+initialization, some or all of the initialization may be performed more
+than once, leaking resources or even resulting in corrupt internal data=
+=2E
+
+Applications that need to call functions marked with @code{init} as an
+AS- or AC-Unsafe feature should ensure the initialization is performed
+before configuring signal handlers or enabling cancellation, so that th=
+e
+AS- and AC-Safety issues related with @code{libc_once} do not arise.
+
+@c We may have to extend the annotations to cover conditions in which
+@c initialization may or may not occur, since an initial call in a safe
+@c context is no use if the initialization doesn't take place at that
+@c time: it doesn't remove the risk for later calls.
+
+@item @code{race}
+@cindex race
+
+=46unctions annotated with @code{race} as an MT-Safety issue operate on
+objects in ways that may cause data races or similar forms of
+destructive interference out of concurrent execution.  In some cases,
+the objects are passed to the functions by users; in others, they are
+used by the functions to return values to users; in others, they are no=
+t
+even exposed to users.
+
+We consider access to objects passed as (indirect) arguments to
+functions to be data race free.  The assurance of data race free object=
+s
+is the caller's responsibility.  We will not mark a function as
+MT-Unsafe or AS-Unsafe if it misbehaves when users fail to take the
+measures required by POSIX to avoid data races when dealing with such
+objects.  As a general rule, if a function is documented as reading fro=
+m
+an object passed (by reference) to it, or modifying it, users ought to
+use memory synchronization primitives to avoid data races just as they
+would should they perform the accesses themselves rather than by callin=
+g
+the library function.  @code{FILE} streams are the exception to the
+general rule, in that POSIX mandates the library to guard against data
+races in many functions that manipulate objects of this specific opaque
+type.  We regard this as a convenience provided to users, rather than a=
+s
+a general requirement whose expectations should extend to other types.
+
+In order to remind users that guarding certain arguments is their
+responsibility, we will annotate functions that take objects of certain
+types as arguments.  We draw the line for objects passed by users as
+follows: objects whose types are exposed to users, and that users are
+expected to access directly, such as memory buffers, strings, and
+various user-visible @code{struct} types, do @emph{not} give reason for
+functions to be annotated with @code{race}.  It would be noisy and
+redundant with the general requirement, and not many would be surprised
+by the library's lack of internal guards when accessing objects that ca=
+n
+be accessed directly by users.
+
+As for objects that are opaque or opaque-like, in that they are to be
+manipulated only by passing them to library functions (e.g.,
+@code{FILE}, @code{DIR}, @code{obstack}, @code{iconv_t}), there might b=
+e
+additional expectations as to internal coordination of access by the
+library.  We will annotate, with @code{race} followed by a colon and th=
+e
+argument name, functions that take such objects but that do not take
+care of synchronizing access to them by default.  For example,
+@code{FILE} stream @code{unlocked} functions will be annotated, but
+those that perform implicit locking on @code{FILE} streams by default
+will not, even though the implicit locking may be disabled on a
+per-stream basis.
+
+In either case, we will not regard as MT-Unsafe functions that may
+access user-supplied objects in unsafe ways should users fail to ensure
+the accesses are well defined.  The notion prevails that users are
+expected to safeguard against data races any user-supplied objects that
+the library accesses on their behalf.
+
+@c The above describes @mtsrace; @mtasurace is described below.
+
+This user responsibility does not apply, however, to objects controlled
+by the library itself, such as internal objects and static buffers used
+to return values from certain calls.  When the library doesn't guard
+them against concurrent uses, these cases are regarded as MT-Unsafe and
+AS-Unsafe (although the @code{race} mark under AS-Unsafe will be omitte=
+d
+as redundant with the one under MT-Unsafe).  As in the case of
+user-exposed objects, the mark may be followed by a colon and an
+identifier.  The identifier groups all functions that operate on a
+certain unguarded object; users may avoid the MT-Safety issues related
+with unguarded concurrent access to such internal objects by creating a
+non-recursive mutex related with the identifier, and always holding the
+mutex when calling any function marked as racy on that identifier, as
+they would have to should the identifier be an object under user
+control.  The non-recursive mutex avoids the MT-Safety issue, but it
+trades one AS-Safety issue for another, so use in asynchronous signals
+remains undefined.
+
+When the identifier relates to a static buffer used to hold return
+values, the mutex must be held for as long as the buffer remains in use
+by the caller.  Many functions that return pointers to static buffers
+offer reentrant variants that store return values in caller-supplied
+buffers instead.  In some cases, such as @code{tmpname}, the variant is
+chosen not by calling an alternate entry point, but by passing a
+non-@code{NULL} pointer to the buffer in which the returned values are
+to be stored.  These variants are generally preferable in multi-threade=
+d
+programs, although some of them are not MT-Safe because of other
+internal buffers, also documented with @code{race} notes.
+
+@item @code{const}
+@cindex const
+
+=46unctions marked with @code{const} as an MT-Safety issue non-atomical=
+ly
+modify internal objects that are better regarded as constant, because a
+substantial portion of @theglibc{} accesses them without
+synchronization.  Unlike @code{race}, that causes both readers and
+writers of internal objects to be regarded as MT-Unsafe and AS-Unsafe,
+this mark is applied to writers only.  Writers remain equally MT- and
+AS-Unsafe to call, but the then-mandatory constness of objects they
+modify enables readers to be regarded as MT-Safe and AS-Safe (as long a=
+s
+no other reasons for them to be unsafe remain), since the lack of
+synchronization is not a problem when the objects are effectively
+constant.
+
+The identifier that follows the @code{const} mark will appear by itself
+as a safety note in readers.  Programs that wish to work around this
+safety issue, so as to call writers, may use a non-recursve
+@code{rwlock} associated with the identifier, and guard @emph{all} call=
+s
+to functions marked with @code{const} followed by the identifier with a
+write lock, and @emph{all} calls to functions marked with the identifie=
+r
+by itself with a read lock.  The non-recursive locking removes the
+MT-Safety problem, but it trades one AS-Safety problem for another, so
+use in asynchronous signals remains undefined.
+
+@c But what if, instead of marking modifiers with const:id and readers
+@c with just id, we marked writers with race:id and readers with ro:id?
+@c Instead of having to define each instance of =93id=94, we'd have a
+@c general pattern governing all such =93id=94s, wherein race:id would
+@c suggest the need for an exclusive/write lock to make the function
+@c safe, whereas ro:id would indicate =93id=94 is expected to be read-o=
+nly,
+@c but if any modifiers are called (while holding an exclusive lock),
+@c then ro:id-marked functions ought to be guarded with a read lock for
+@c safe operation.  ro:env or ro:locale, for example, seems to convey
+@c more clearly the expectations and the meaning, than just env or
+@c locale.
+
+@item @code{sig}
+@cindex sig
+
+=46unctions marked with @code{sig} as a MT-Safety issue (that implies a=
+n
+identical AS-Safety issue, omitted for brevity) may temporarily install
+a signal handler for internal purposes, which may interfere with other
+uses of the signal, identified after a colon.
+
+This safety problem can be worked around by ensuring that no other uses
+of the signal will take place for the duration of the call.  Holding a
+non-recursive mutex while calling all functions that use the same
+temporary signal; blocking that signal before the call and resetting it=
+s
+handler afterwards is recommended.
+
+There is no safe way to guarantee the original signal handler is
+restored in case of asynchronous cancellation, therefore so-marked
+functions are also AC-Unsafe.
+
+@c fixme: at least deferred cancellation should get it right, and would
+@c obviate the restoring bit below, and the qualifier above.
+
+Besides the measures recommended to work around the MT- and AS-Safety
+problem, in order to avert the cancellation problem, disabling
+asynchronous cancellation @emph{and} installing a cleanup handler to
+restore the signal to the desired state and to release the mutex are
+recommended.
+
+@item @code{term}
+@cindex term
+
+=46unctions marked with @code{term} as an MT-Safety issue may change th=
+e
+terminal settings in the recommended way, namely: call @code{tcgetattr}=
+,
+modify some flags, and then call @code{tcsetattr}; this creates a windo=
+w
+in which changes made by other threads are lost.  Thus, functions marke=
+d
+with @code{term} are MT-Unsafe.  The same window enables changes made b=
+y
+asynchronous signals to be lost.  These functions are also AS-Unsafe,
+but the corresponding mark is omitted as redundant.
+
+It is thus advisable for applications using the terminal to avoid
+concurrent and reentrant interactions with it, by not using it in signa=
+l
+handlers or blocking signals that might use it, and holding a lock whil=
+e
+calling these functions and interacting with the terminal.  This lock
+should also be used for mutual exclusion with functions marked with
+@code{@mtasurace{:tcattr(fd)}}, where @var{fd} is a file descriptor for
+the controlling terminal.  The caller may use a single mutex for
+simplicity, or use one mutex per terminal, even if referenced by
+different file descriptors.
+
+=46unctions marked with @code{term} as an AC-Safety issue are supposed =
+to
+restore terminal settings to their original state, after temporarily
+changing them, but they may fail to do so if cancelled.
+
+@c fixme: at least deferred cancellation should get it right, and would
+@c obviate the restoring bit below, and the qualifier above.
+
+Besides the measures recommended to work around the MT- and AS-Safety
+problem, in order to avert the cancellation problem, disabling
+asynchronous cancellation @emph{and} installing a cleanup handler to
+restore the terminal settings to the original state and to release the
+mutex are recommended.
+
+@end itemize
+
+@node Other Safety Remarks, , Conditionally Safe Features, POSIX
+@subsubsection Other Safety Remarks
+@cindex Other Safety Remarks
+
+Additional keywords may be attached to functions, indicating features
+that do not make a function unsafe to call, but that may need to be
+taken into account in certain classes of programs:
+
+@itemize @bullet
+
+@item @code{locale}
+@cindex locale
+
+=46unctions annotated with @code{locale} as an MT-Safety issue read fro=
+m
+the locale object without any form of synchronization.  Functions
+annotated with @code{locale} called concurrently with locale changes ma=
+y
+behave in ways that do not correspond to any of the locales active
+during their execution, but an unpredictable mix thereof.
+
+We do not mark these functions as MT- or AS-Unsafe, however, because
+functions that modify the locale object are marked with
+@code{const:locale} and regarded as unsafe.  Being unsafe, the latter
+are not to be called when multiple threads are running or asynchronous
+signals are enabled, and so the locale can be considered effectively
+constant in these contexts, which makes the former safe.
+
+@c Should the locking strategy suggested under @code{const} be used,
+@c failure to guard locale uses is not as fatal as data races in
+@c general: unguarded uses will @emph{not} follow dangling pointers or
+@c access uninitialized, unmapped or recycled memory.  Each access will
+@c read from a consistent locale object that is or was active at some
+@c point during its execution.  Without synchronization, however, it
+@c cannot even be assumed that, after a change in locale, earlier
+@c locales will no longer be used, even after the newly-chosen one is
+@c used in the thread.  Nevertheless, even though unguarded reads from
+@c the locale will not violate type safety, functions that access the
+@c locale multiple times may invoke all sorts of undefined behavior
+@c because of the unexpected locale changes.
+
+@item @code{env}
+@cindex env
+
+=46unctions marked with @code{env} as an MT-Safety issue access the
+environment with @code{getenv} or similar, without any guards to ensure
+safety in the presence of concurrent modifications.
+
+We do not mark these functions as MT- or AS-Unsafe, however, because
+functions that modify the environment are all marked with
+@code{const:env} and regarded as unsafe.  Being unsafe, the latter are
+not to be called when multiple threads are running or asynchronous
+signals are enabled, and so the environment can be considered
+effectively constant in these contexts, which makes the former safe.
+
+@item @code{hostid}
+@cindex hostid
+
+The function marked with @code{hostid} as an MT-Safety issue reads from
+the system-wide data structures that hold the ``host ID'' of the
+machine.  These data structures cannot generally be modified atomically=
+=2E
+Since it is expected that the ``host ID'' will not normally change, the
+function that reads from it (@code{gethostid}) is regarded as safe,
+whereas the function that modifies it (@code{sethostid}) is marked with
+@code{@mtasuconst{:@mtshostid{}}}, indicating it may require special
+care if it is to be called.  In this specific case, the special care
+amounts to system-wide (not merely intra-process) coordination.
+
+@item @code{sigintr}
+@cindex sigintr
+
+=46unctions marked with @code{sigintr} as an MT-Safety issue access the
+@code{_sigintr} internal data structure without any guards to ensure
+safety in the presence of concurrent modifications.
+
+We do not mark these functions as MT- or AS-Unsafe, however, because
+functions that modify the this data structure are all marked with
+@code{const:sigintr} and regarded as unsafe.  Being unsafe, the latter
+are not to be called when multiple threads are running or asynchronous
+signals are enabled, and so the data structure can be considered
+effectively constant in these contexts, which makes the former safe.
+
+@item @code{fd}
+@cindex fd
+
+=46unctions annotated with @code{fd} as an AC-Safety issue may leak fil=
+e
+descriptors if asynchronous thread cancellation interrupts their
+execution.
+
+=46unctions that allocate or deallocate file descriptors will generally=
+ be
+marked as such.  Even if they attempted to protect the file descriptor
+allocation and deallocation with cleanup regions, allocating a new
+descriptor and storing its number where the cleanup region could releas=
+e
+it cannot be performed as a single atomic operation.  Similarly,
+releasing the descriptor and taking it out of the data structure
+normally responsible for releasing it cannot be performed atomically.
+There will always be a window in which the descriptor cannot be release=
+d
+because it was not stored in the cleanup handler argument yet, or it wa=
+s
+already taken out before releasing it.  It cannot be taken out after
+release: an open descriptor could mean either that the descriptor still
+has to be closed, or that it already did so but the descriptor was
+reallocated by another thread or signal handler.
+
+Such leaks could be internally avoided, with some performance penalty,
+by temporarily disabling asynchronous thread cancellation.  However,
+since callers of allocation or deallocation functions would have to do
+this themselves, to avoid the same sort of leak in their own layer, it
+makes more sense for the library to assume they are taking care of it
+than to impose a performance penalty that is redundant when the problem
+is solved in upper layers, and insufficient when it is not.
+
+This remark by itself does not cause a function to be regarded as
+AC-Unsafe.  However, cumulative effects of such leaks may pose a
+problem for some programs.  If this is the case, suspending asynchronou=
+s
+cancellation for the duration of calls to such functions is recommended=
+=2E
+
+@item @code{mem}
+@cindex mem
+
+=46unctions annotated with @code{mem} as an AC-Safety issue may leak
+memory if asynchronous thread cancellation interrupts their execution.
+
+The problem is similar to that of file descriptors: there is no atomic
+interface to allocate memory and store its address in the argument to a
+cleanup handler, or to release it and remove its address from that
+argument, without at least temporarily disabling asynchronous
+cancellation, which these functions do not do.
+
+This remark does not by itself cause a function to be regarded as
+generally AC-Unsafe.  However, cumulative effects of such leaks may be
+severe enough for some programs that disabling asynchronous cancellatio=
+n
+for the duration of calls to such functions may be required.
+
+@item @code{cwd}
+@cindex cwd
+
+=46unctions marked with @code{cwd} as an MT-Safety issue may temporaril=
+y
+change the current working directory during their execution, which may
+cause relative pathnames to be resolved in unexpected ways in other
+threads or within asynchronous signal or cancellation handlers.
+
+This is not enough of a reason to mark so-marked functions as MT- or
+AS-Unsafe, but when this behavior is optional (e.g., @code{nftw} with
+@code{FTW_CHDIR}), avoiding the option may be a good alternative to
+using full pathnames or file descriptor-relative (e.g. @code{openat})
+system calls.
+
+@item @code{!posix}
+@cindex !posix
+
+This remark, as an MT-, AS- or AC-Safety note to a function, indicates
+the safety status of the function is known to differ from the specified
+status in the POSIX standard.  For example, POSIX does not require a
+function to be Safe, but our implementation is, or vice-versa.
+
+=46or the time being, the absence of this remark does not imply the saf=
+ety
+properties we documented are identical to those mandated by POSIX for
+the corresponding functions.
+
+@item @code{:identifier}
+@cindex :identifier
+
+Annotations may sometimes be followed by identifiers, intended to group
+several functions that e.g. access the data structures in an unsafe way=
+,
+as in @code{race} and @code{const}, or to provide more specific
+information, such as naming a signal in a function marked with
+@code{sig}.  It is envisioned that it may be applied to @code{lock} and
+@code{corrupt} as well in the future.
+
+In most cases, the identifier will name a set of functions, but it may
+name global objects or function arguments, or identifiable properties o=
+r
+logical components associated with them, with a notation such as
+e.g. @code{:buf(arg)} to denote a buffer associated with the argument
+@var{arg}, or @code{:tcattr(fd)} to denote the terminal attributes of a
+file descriptor @var{fd}.
+
+The most common use for identifiers is to provide logical groups of
+functions and arguments that need to be protected by the same
+synchronization primitive in order to ensure safe operation in a given
+context.
+
+@item @code{/condition}
+@cindex /condition
+
+Some safety annotations may be conditional, in that they only apply if =
+a
+boolean expression involving arguments, global variables or even the
+underlying kernel evaluates evaluates to true.  Such conditions as
+@code{/hurd} or @code{/!linux!bsd} indicate the preceding marker only
+applies when the underlying kernel is the HURD, or when it is neither
+Linux nor a BSD kernel, respectively.  @code{/!ps} and
+@code{/one_per_line} indicate the preceding marker only applies when
+argument @var{ps} is NULL, or global variable @var{one_per_line} is
+nonzero.
+
+When all marks that render a function unsafe are adorned with such
+conditions, and none of the named conditions hold, then the function ca=
+n
+be regarded as safe.
+
+@end itemize
+---
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
