@@ -1,30 +1,48 @@
-From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: aiocb member aio_offset is off_t which is a signed 32bit int
-Date: Mon, 30 Jun 2014 11:51:30 +0100
-Message-ID: <CAGc9Evc1oZkCYfYAkYU+fNA=9-Q+T+sgdj8qWuTctZjjvUdxEA@mail.gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] iswlower.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Tue, 1 Jul 2014 09:25:21 +0800
+Message-ID: <1404177921-22019-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello mtk
+The function iswlower() is thread safe with exceptions.
 
-Is it worth clarifying something on this page:
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/iswlower.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-http://man7.org/linux/man-pages/man7/aio.7.html
+diff --git a/man3/iswlower.3 b/man3/iswlower.3
+index 3a8d442..ab5c315 100644
+--- a/man3/iswlower.3
++++ b/man3/iswlower.3
+@@ -73,6 +73,18 @@ if
+ is a wide character
+ belonging to the wide-character class "lower".
+ Otherwise, it returns zero.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR iswlower ()
++T}	Thread safety	MT-Safe locale
++.TE
+ .SH CONFORMING TO
+ C99.
+ .SH NOTES
+-- 
+1.9.3
 
-off_t           aio_offset;     /* File offset */
-
-Could clarify that off_t on a 32bit system will be a signed 32bit
-integer, meaning the maximum seek size is 2GB.
-
-I think this means that aio can only be used to access files up to
-2GB. There isn't an off64_t version like lseek64()
-
-Regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
