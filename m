@@ -1,58 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] iswupper.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Tue, 01 Jul 2014 08:51:29 +0200
-Message-ID: <53B25A71.1080308@gmail.com>
-References: <1404196350-9061-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [patch] man2/fcntl.2: F_SETPIPE_SZ returns pipe size, not 0.
+Date: Tue, 01 Jul 2014 11:43:22 +0200
+Message-ID: <53B282BA.6010309@gmail.com>
+References: <CACV4sJ8mYEnozgDOmN7VODFrvw_51EYDgw2OxsPRq4s5fSh2Cg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404196350-9061-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <CACV4sJ8mYEnozgDOmN7VODFrvw_51EYDgw2OxsPRq4s5fSh2Cg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tomi Salminen <tlsalmin-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Applied. Thanks, Haitao.
+On 07/01/2014 11:05 AM, Tomi Salminen wrote:
+> Hello.
+> 
+> I was using F_SETPIPE_SZ and noticed that fcntl was returning the
+> pipe size set to it and not zero on success. I checked the kernel
+> source, which seemed to return nr_pages * PAGE_SIZE; I made a patch 
+> to update the man-page of fcntl, since it specified only F_GETPIPE_SZ
+> as returning the pipe size and others zero.
+> 
+> Attaching patch made on top of commit
+> f070e9543a5a7cc600229ee6a3c725804c90de91
+
+Thanks for spotting that, Tomi. I applied a more extensive patch, below.
 
 Cheers,
 
 Michael
 
-
-On 07/01/2014 08:32 AM, Peng Haitao wrote:
-> The function iswupper() is thread safe with exceptions.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/iswupper.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/man3/iswupper.3 b/man3/iswupper.3
-> index 8398267..00b6b24 100644
-> --- a/man3/iswupper.3
-> +++ b/man3/iswupper.3
-> @@ -67,6 +67,18 @@ function returns nonzero if
->  is a wide character
->  belonging to the wide-character class "upper".
->  Otherwise, it returns zero.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR iswupper ()
-> +T}	Thread safety	MT-Safe locale
-> +.TE
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
-> 
+--- a/man2/fcntl.2
++++ b/man2/fcntl.2
+@@ -1257,9 +1257,7 @@ When allocating the buffer for the pipe,
+ the kernel may use a capacity larger than
+ .IR arg ,
+ if that is convenient for the implementation.
+-The
+-.B F_GETPIPE_SZ
+-operation returns the actual size used.
++The actual capacity that is set is returned as the function result.
+ Attempting to set the pipe capacity smaller than the amount
+ of buffer space currently used to store data produces the error
+ .BR EBUSY .
+@@ -1291,7 +1289,7 @@ for traditional
+ .B SIGIO
+ behavior.
+ .TP
+-.B F_GETPIPE_SZ
++.BR F_GETPIPE_SZ ", " F_SETPIPE_SZ
+ The pipe capacity.
+ .TP
+ All other commands
 
 
 -- 
