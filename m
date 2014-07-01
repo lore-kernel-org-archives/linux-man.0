@@ -1,31 +1,30 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iswspace.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Tue, 1 Jul 2014 13:56:01 +0800
-Message-ID: <1404194161-5539-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcsncat.3: Reformat thread-safety information
+Date: Tue, 1 Jul 2014 14:01:22 +0800
+Message-ID: <1404194482-6659-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function iswspace() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/iswspace.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/wcsncat.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/iswspace.3 b/man3/iswspace.3
-index 8045817..b0c3e33 100644
---- a/man3/iswspace.3
-+++ b/man3/iswspace.3
-@@ -53,6 +53,18 @@ function returns nonzero if
- is a wide character
- belonging to the wide-character class "space".
- Otherwise, it returns zero.
-+.SH ATTRIBUTES
+diff --git a/man3/wcsncat.3 b/man3/wcsncat.3
+index 7422885..11bd5ce 100644
+--- a/man3/wcsncat.3
++++ b/man3/wcsncat.3
+@@ -49,10 +49,17 @@ wide characters at
+ returns
+ .IR dest .
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -34,12 +33,13 @@ index 8045817..b0c3e33 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR iswspace ()
-+T}	Thread safety	MT-Safe locale
+ .BR wcsncat ()
+-function is thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  C99.
- .SH NOTES
+ .SH SEE ALSO
 -- 
 1.9.3
 
