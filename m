@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsspn.3: Reformat thread-safety information
-Date: Tue, 1 Jul 2014 09:38:12 +0800
-Message-ID: <1404178692-23224-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcsrchr.3: Reformat thread-safety information
+Date: Tue, 1 Jul 2014 09:43:48 +0800
+Message-ID: <1404179028-23601-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcsspn.3 | 13 ++++++++++---
+ man3/wcsrchr.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wcsspn.3 b/man3/wcsspn.3
-index 3f0eb67..82aa84e 100644
---- a/man3/wcsspn.3
-+++ b/man3/wcsspn.3
-@@ -58,10 +58,17 @@ or
- .I wcslen(wcs)
- if there is none.
+diff --git a/man3/wcsrchr.3 b/man3/wcsrchr.3
+index 246cd8d..b6e47fa 100644
+--- a/man3/wcsrchr.3
++++ b/man3/wcsrchr.3
+@@ -45,10 +45,17 @@ or NULL if
+ .I wc
+ does not occur in the string.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 3f0eb67..82aa84e 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcsspn ()
+ .BR wcsrchr ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
