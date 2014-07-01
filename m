@@ -1,41 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsncmp.3: Reformat thread-safety information
-Date: Tue, 01 Jul 2014 07:50:21 +0200
-Message-ID: <53B24C1D.8060907@gmail.com>
-References: <1404182567-28164-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcsncat.3: Reformat thread-safety information
+Date: Tue, 01 Jul 2014 08:34:02 +0200
+Message-ID: <53B2565A.5080905@gmail.com>
+References: <1404194482-6659-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404182567-28164-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1404194482-6659-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao,
-
-Applied.
+Thanks, Haitao. Applied.
 
 Cheers,
 
 Michael
 
 
-
-On 07/01/2014 04:42 AM, Peng Haitao wrote:
+On 07/01/2014 08:01 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsncmp.3 | 13 ++++++++++---
+>  man3/wcsncat.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/wcsncmp.3 b/man3/wcsncmp.3
-> index dc82409..782ab9f 100644
-> --- a/man3/wcsncmp.3
-> +++ b/man3/wcsncmp.3
-> @@ -71,10 +71,17 @@ wide-character
->  is less than
->  .IR s2[i] .
+> diff --git a/man3/wcsncat.3 b/man3/wcsncat.3
+> index 7422885..11bd5ce 100644
+> --- a/man3/wcsncat.3
+> +++ b/man3/wcsncat.3
+> @@ -49,10 +49,17 @@ wide characters at
+>  returns
+>  .IR dest .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -47,7 +44,7 @@ On 07/01/2014 04:42 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR wcsncmp ()
+>  .BR wcsncat ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
