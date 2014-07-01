@@ -1,30 +1,31 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsncmp.3: Reformat thread-safety information
-Date: Tue, 1 Jul 2014 10:42:47 +0800
-Message-ID: <1404182567-28164-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] iswpunct.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Tue, 1 Jul 2014 10:57:48 +0800
+Message-ID: <1404183468-28986-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+The function iswpunct() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcsncmp.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/iswpunct.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/man3/wcsncmp.3 b/man3/wcsncmp.3
-index dc82409..782ab9f 100644
---- a/man3/wcsncmp.3
-+++ b/man3/wcsncmp.3
-@@ -71,10 +71,17 @@ wide-character
- is less than
- .IR s2[i] .
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
+diff --git a/man3/iswpunct.3 b/man3/iswpunct.3
+index 945dd80..1f1785e 100644
+--- a/man3/iswpunct.3
++++ b/man3/iswpunct.3
+@@ -57,6 +57,18 @@ if
+ is a wide-character
+ belonging to the wide-character class "punct".
+ Otherwise, it returns zero.
++.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -33,13 +34,12 @@ index dc82409..782ab9f 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcsncmp ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
++.BR iswpunct ()
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
  C99.
- .SH SEE ALSO
+ .SH NOTES
 -- 
 1.9.3
 
