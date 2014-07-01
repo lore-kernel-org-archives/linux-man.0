@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsncasecmp.3: Reformat thread-safety information
-Date: Tue, 01 Jul 2014 08:34:09 +0200
-Message-ID: <53B25661.7010603@gmail.com>
-References: <1404195090-7026-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcslen.3: Reformat thread-safety information
+Date: Tue, 01 Jul 2014 08:34:23 +0200
+Message-ID: <53B2566F.3090902@gmail.com>
+References: <1404195335-7374-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404195090-7026-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1404195335-7374-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 07/01/2014 08:11 AM, Peng Haitao wrote:
+On 07/01/2014 08:15 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsncasecmp.3 | 16 ++++++++++------
->  1 file changed, 10 insertions(+), 6 deletions(-)
+>  man3/wcslen.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/wcsncasecmp.3 b/man3/wcsncasecmp.3
-> index b1cb9ff..81b95e9 100644
-> --- a/man3/wcsncasecmp.3
-> +++ b/man3/wcsncasecmp.3
-> @@ -86,13 +86,17 @@ The
->  .BR wcsncasecmp ()
->  function is provided in glibc since version 2.1.
+> diff --git a/man3/wcslen.3 b/man3/wcslen.3
+> index 773280e..beacf94 100644
+> --- a/man3/wcslen.3
+> +++ b/man3/wcslen.3
+> @@ -40,10 +40,17 @@ function returns the
+>  number of wide characters in
+>  .IR s .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -44,16 +44,13 @@ On 07/01/2014 08:11 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR wcsncasecmp ()
-> -function is thread-safe with exceptions.
-> -It can be safely used in multithreaded applications, as long as
-> -.BR setlocale (3)
-> -is not called to change the locale during its execution.
-> +T}	Thread safety	MT-Safe locale
+>  .BR wcslen ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  POSIX.1-2008.
->  This function is not specified in POSIX.1-2001,
+>  C99.
+>  .SH SEE ALSO
 > 
 
 
