@@ -1,31 +1,30 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iswprint.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Tue, 1 Jul 2014 10:21:51 +0800
-Message-ID: <1404181311-26006-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcsnlen.3: Reformat thread-safety information
+Date: Tue, 1 Jul 2014 10:27:04 +0800
+Message-ID: <1404181624-26811-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function iswprint() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/iswprint.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/wcsnlen.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/iswprint.3 b/man3/iswprint.3
-index d3ec6bc..efb4f34 100644
---- a/man3/iswprint.3
-+++ b/man3/iswprint.3
-@@ -45,6 +45,18 @@ function returns nonzero if
- is a
- wide character belonging to the wide-character class "print".
- Otherwise, it returns zero.
-+.SH ATTRIBUTES
+diff --git a/man3/wcsnlen.3 b/man3/wcsnlen.3
+index a8967ed..52551bd 100644
+--- a/man3/wcsnlen.3
++++ b/man3/wcsnlen.3
+@@ -80,10 +80,17 @@ The
+ .BR wcsnlen ()
+ function is provided in glibc since version 2.1.
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -34,12 +33,13 @@ index d3ec6bc..efb4f34 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR iswprint ()
-+T}	Thread safety	MT-Safe locale
+ .BR wcsnlen ()
+-function is thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C99.
- .SH NOTES
+ POSIX.1-2008.
+ .SH SEE ALSO
 -- 
 1.9.3
 
