@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsncpy.3: Reformat thread-safety information
-Date: Tue, 1 Jul 2014 10:33:26 +0800
-Message-ID: <1404182006-27840-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcsncmp.3: Reformat thread-safety information
+Date: Tue, 1 Jul 2014 10:42:47 +0800
+Message-ID: <1404182567-28164-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcsncpy.3 | 13 ++++++++++---
+ man3/wcsncmp.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wcsncpy.3 b/man3/wcsncpy.3
-index d30ed17..d830d97 100644
---- a/man3/wcsncpy.3
-+++ b/man3/wcsncpy.3
-@@ -67,10 +67,17 @@ characters at
- returns
- .IR dest .
+diff --git a/man3/wcsncmp.3 b/man3/wcsncmp.3
+index dc82409..782ab9f 100644
+--- a/man3/wcsncmp.3
++++ b/man3/wcsncmp.3
+@@ -71,10 +71,17 @@ wide-character
+ is less than
+ .IR s2[i] .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index d30ed17..d830d97 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcsncpy ()
+ .BR wcsncmp ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
