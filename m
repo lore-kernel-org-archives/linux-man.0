@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcslen.3: Reformat thread-safety information
-Date: Tue, 1 Jul 2014 14:15:35 +0800
-Message-ID: <1404195335-7374-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcscspn.3: Reformat thread-safety information
+Date: Tue, 1 Jul 2014 14:20:10 +0800
+Message-ID: <1404195610-7652-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcslen.3 | 13 ++++++++++---
+ man3/wcscspn.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wcslen.3 b/man3/wcslen.3
-index 773280e..beacf94 100644
---- a/man3/wcslen.3
-+++ b/man3/wcslen.3
-@@ -40,10 +40,17 @@ function returns the
- number of wide characters in
- .IR s .
+diff --git a/man3/wcscspn.3 b/man3/wcscspn.3
+index 9848608..5bd3f96 100644
+--- a/man3/wcscspn.3
++++ b/man3/wcscspn.3
+@@ -59,10 +59,17 @@ or
+ .IR wcslen(wcs)
+ if there is none.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 773280e..beacf94 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcslen ()
+ .BR wcscspn ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
