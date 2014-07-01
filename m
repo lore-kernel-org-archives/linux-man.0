@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsnlen.3: Reformat thread-safety information
-Date: Tue, 01 Jul 2014 06:35:07 +0200
-Message-ID: <53B23A7B.5030705@gmail.com>
-References: <1404181624-26811-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcsncpy.3: Reformat thread-safety information
+Date: Tue, 01 Jul 2014 06:35:38 +0200
+Message-ID: <53B23A9A.2050308@gmail.com>
+References: <1404182006-27840-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404181624-26811-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1404182006-27840-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -21,19 +21,19 @@ Cheers,
 
 Michael
 
-On 07/01/2014 04:27 AM, Peng Haitao wrote:
+On 07/01/2014 04:33 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsnlen.3 | 13 ++++++++++---
+>  man3/wcsncpy.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/wcsnlen.3 b/man3/wcsnlen.3
-> index a8967ed..52551bd 100644
-> --- a/man3/wcsnlen.3
-> +++ b/man3/wcsnlen.3
-> @@ -80,10 +80,17 @@ The
->  .BR wcsnlen ()
->  function is provided in glibc since version 2.1.
+> diff --git a/man3/wcsncpy.3 b/man3/wcsncpy.3
+> index d30ed17..d830d97 100644
+> --- a/man3/wcsncpy.3
+> +++ b/man3/wcsncpy.3
+> @@ -67,10 +67,17 @@ characters at
+>  returns
+>  .IR dest .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -45,12 +45,12 @@ On 07/01/2014 04:27 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR wcsnlen ()
+>  .BR wcsncpy ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  POSIX.1-2008.
+>  C99.
 >  .SH SEE ALSO
 > 
 
