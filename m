@@ -1,53 +1,66 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 79411] New: poll() fd negation trick doesn't work for fd 0
-Date: Wed, 02 Jul 2014 13:19:39 +0000
-Message-ID: <bug-79411-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] iswlower.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Tue, 01 Jul 2014 06:29:09 +0200
+Message-ID: <53B23915.4020902@gmail.com>
+References: <1404177921-22019-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1404177921-22019-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=79411
+Thanks, Haitao,
 
-            Bug ID: 79411
-           Summary: poll() fd negation trick doesn't work for fd 0
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: low
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
-        Regression: No
+Applied.
 
-poll(2) contains the following paragraph:
+Cheers,
 
-       The  field  fd  contains  a  file descriptor for an open file.  If this
-       field is negative, then the corresponding events field is  ignored  and
-       the revents field returns zero.  (This provides an easy way of ignoring
-       a file descriptor for a  single  poll()  call:  simply  negate  the  fd
-       field.)
+Michael
 
-The negation technique described here will work with one important assumption -
-that fd 0 isn't one of the polled descriptors. This will normally be the case
-(fd 0 will be stdin and not be polled), but it doesn't strictly have to be this
-way. I think this needs to be pointed out. Perhaps say:
 
-        (This provides an easy way of ignoring a file descriptor for a  single 
-poll()  call:  simply  negate  the  fd field. This technique will not work if
-one of the polled fd is 0).
+On 07/01/2014 03:25 AM, Peng Haitao wrote:
+> The function iswlower() is thread safe with exceptions.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/iswlower.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man3/iswlower.3 b/man3/iswlower.3
+> index 3a8d442..ab5c315 100644
+> --- a/man3/iswlower.3
+> +++ b/man3/iswlower.3
+> @@ -73,6 +73,18 @@ if
+>  is a wide character
+>  belonging to the wide-character class "lower".
+>  Otherwise, it returns zero.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR iswlower ()
+> +T}	Thread safety	MT-Safe locale
+> +.TE
+>  .SH CONFORMING TO
+>  C99.
+>  .SH NOTES
+> 
 
-Issue discovered by Avi Kivity.
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
