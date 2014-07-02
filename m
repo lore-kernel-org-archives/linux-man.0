@@ -1,48 +1,53 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iswupper.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Tue, 1 Jul 2014 14:32:30 +0800
-Message-ID: <1404196350-9061-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 79411] New: poll() fd negation trick doesn't work for fd 0
+Date: Wed, 02 Jul 2014 13:19:39 +0000
+Message-ID: <bug-79411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function iswupper() is thread safe with exceptions.
+https://bugzilla.kernel.org/show_bug.cgi?id=79411
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/iswupper.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+            Bug ID: 79411
+           Summary: poll() fd negation trick doesn't work for fd 0
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
+        Regression: No
 
-diff --git a/man3/iswupper.3 b/man3/iswupper.3
-index 8398267..00b6b24 100644
---- a/man3/iswupper.3
-+++ b/man3/iswupper.3
-@@ -67,6 +67,18 @@ function returns nonzero if
- is a wide character
- belonging to the wide-character class "upper".
- Otherwise, it returns zero.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR iswupper ()
-+T}	Thread safety	MT-Safe locale
-+.TE
- .SH CONFORMING TO
- C99.
- .SH NOTES
+poll(2) contains the following paragraph:
+
+       The  field  fd  contains  a  file descriptor for an open file.  If this
+       field is negative, then the corresponding events field is  ignored  and
+       the revents field returns zero.  (This provides an easy way of ignoring
+       a file descriptor for a  single  poll()  call:  simply  negate  the  fd
+       field.)
+
+The negation technique described here will work with one important assumption -
+that fd 0 isn't one of the polled descriptors. This will normally be the case
+(fd 0 will be stdin and not be polled), but it doesn't strictly have to be this
+way. I think this needs to be pointed out. Perhaps say:
+
+        (This provides an easy way of ignoring a file descriptor for a  single 
+poll()  call:  simply  negate  the  fd field. This technique will not work if
+one of the polled fd is 0).
+
+Issue discovered by Avi Kivity.
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
