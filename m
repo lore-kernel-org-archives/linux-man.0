@@ -1,82 +1,60 @@
-From: "Rafael J. Wysocki" <rjw-LthD3rsA81gm4RdzfppkhA@public.gmane.org>
-Subject: Re: [patch[ epoll_ctl.2, epoll.7: document EPOLLWAKEUP
-Date: Mon, 07 Jul 2014 13:26:49 +0200
-Message-ID: <17155391.vo4GYroE0r@vostro.rjw.lan>
-References: <20140706190351.423e9a93@notabene.brown> <53BA4244.30502@gmail.com> <20140707210157.1aa38ed0@notabene.brown>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH 2/2] pipe.7: Add reference that the pipe capacity can
+ be changed.
+Date: Mon, 07 Jul 2014 13:55:54 +0200
+Message-ID: <53BA8ACA.700@bfs.de>
+References: <1404654251-8293-1-git-send-email-eliedebrauwer@gmail.com> <1404654251-8293-3-git-send-email-eliedebrauwer@gmail.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140707210157.1aa38ed0-wvvUuzkyo1EYVZTmpyfIwg@public.gmane.org>
+In-Reply-To: <1404654251-8293-3-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Arve =?ISO-8859-1?Q?Hj=F8nnev=E5g?= <arve-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-pm-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Monday, July 07, 2014 09:01:57 PM NeilBrown wrote:
-> 
-> --Sig_/ryAieyiS4Xod5WCxzxhl62b
-> Content-Type: text/plain; charset=US-ASCII
-> Content-Transfer-Encoding: quoted-printable
-> 
-> 
-> (adding lkml and linux-pm and I probably should have done from the start).
 
-First off, thanks a lot for taking care of this!
 
-> On Mon, 07 Jul 2014 08:46:28 +0200 "Michael Kerrisk (man-pages)"
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+Am 06.07.2014 15:44, schrieb Elie De Brauwer:
+> In fcntl(2) F_SETPIPE_SZ, F_GETPIPE_SZ and /proc/sys/fs/pipe-max-size are
+> defined, however pipe(7) still defines the pipe capacity as being a static
+> entity. Adding a reference to fcntl(2).
 > 
-> > Hi Neil,
-> >=20
-> > On 07/06/2014 11:03 AM, NeilBrown wrote:
-> > >=20
-> > >=20
-> > > Signed-off-by: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-> > > --
-> > >=20
-> > > I noticed that this was missing so had a go at writing something.
-> >=20
-> > Thanks. I applied this, and also added the additional piece shown=20
-> > at the end of this mail.
-> >=20
-> > > Is there / Should there be a section 7 man page describing suspend and
-> > > autosuspend and wakelocks etc??
-> >=20
-> > Sounds like it might be useful, but I don't know for sure. On the=20
-> > assumption that it might be possible to convince you to write one,
-> > could you briefly list what you think should be covered in the page?
+> Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> ---
+>  man7/pipe.7 | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 > 
-> I was particularly thinking of "/sys/power/autosleep" because my change to
-> epoll.7 mentioned autosleep, but there was no man page to reference.
-> The interaction of /sys/power/wakeup_count" with suspend/resume is also wor=
-> th
-> documenting as is the use of wake_locks via /sys/power/wake_{,un}lock (which
-> could also usefully be referenced by epoll(7)).
-> 
-> Given the number of filenames here, maybe this belongs in section 5 rather
-> than section 7.  Similar to proc(5) we could have power(5) which
-> documents /sys/power ???
-> (OK, I can see this might be opening a can of worms - we'll be having
-> class(5) and bus(5) and devices(5) next... but maybe this is a good thing.
-> And seeing these are all part of the kernel API, maybe they should be in
-> section 2 with the systemcalls.  Or do with need a new section of API virtu=
-> al
-> files ....)
-> 
-> So I guess "ls /sys/power" is a brief list of what should be included in the
-> page :-)
+> diff --git a/man7/pipe.7 b/man7/pipe.7
+> index 78d1cea..64a6761 100644
+> --- a/man7/pipe.7
+> +++ b/man7/pipe.7
+> @@ -133,6 +133,16 @@ so that a writing process does not remain blocked.
+>  In Linux versions before 2.6.11, the capacity of a pipe was the same as
+>  the system page size (e.g., 4096 bytes on i386).
+>  Since Linux 2.6.11, the pipe capacity is 65536 bytes.
+> +Since Linux 2.6.35, the pipe capacity can be queried and set using the
+> +.BR fcntl (2)
+> +.BR F_GETPIPE_SZ
+> +and
+> +.BR F_SETPIPE_SZ
+> +operations.
+> +See
+> +.BR fcntl (2)
+> +for more information.
+> +
 
-That probably is a good estimation.
+Could to add a line like:
+"the default pipe capacity is still 65536 bytes." ? (or what ever)
 
-Please note that there is some documentation of these things in
-Documentation/ABI/testing/sysfs-power in the kernel tree that may be useful
-for creating that page.
+re,
+ wh
 
-Also please let me know if I can help.
-
-Rafael
-
+>  .SS PIPE_BUF
+>  POSIX.1-2001 says that
+>  .BR write (2)s
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
