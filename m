@@ -1,60 +1,53 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] pipe.7: Add reference that the pipe capacity can
- be changed.
-Date: Mon, 07 Jul 2014 14:35:54 +0200
-Message-ID: <53BA942A.3010807@gmail.com>
-References: <1404654251-8293-1-git-send-email-eliedebrauwer@gmail.com> <1404654251-8293-3-git-send-email-eliedebrauwer@gmail.com> <53BA8ACA.700@bfs.de>
+From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Subject: Re: [PATCH 01/11] fs: add O_BENEATH_ONLY flag to openat(2)
+Date: Tue, 8 Jul 2014 05:07:02 -0700
+Message-ID: <20140708120702.GB30459@infradead.org>
+References: <1404124096-21445-1-git-send-email-drysdale@google.com>
+ <1404124096-21445-2-git-send-email-drysdale@google.com>
+ <CALCETrU=HLmw9n-DxPkFV1xP5wtzQ7-YF3-uao6YiGZODA9kdw@mail.gmail.com>
+ <20140630154928.GB10375@google.com>
+ <CALCETrWJ-rqDo8OvSZWPUt1806gObNtwVHvC4M6kfQgvd3Eg9w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53BA8ACA.700-fPG8STNUNVg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CALCETrWJ-rqDo8OvSZWPUt1806gObNtwVHvC4M6kfQgvd3Eg9w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Cc: David Drysdale <drysdale-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, LSM List <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, James Morris <james.l.morris-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Meredydd Luff <meredydd-zPN50pYk8eUaUu29zAJCuw@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/07/2014 01:55 PM, walter harms wrote:
+On Mon, Jun 30, 2014 at 08:53:01AM -0700, Andy Lutomirski wrote:
+> > Wouldn't it need to be both O_BENEATH_ONLY (for openat()) and
+> > AT_BENEATH_ONLY (for other *at() functions), like O_NOFOLLOW and
+> > AT_SYMLINK_NOFOLLOW?  (I.e. aren't the AT_* flags in a different
+> > numbering space than O_* flags?)
+> >
+> > Or am I misunderstanding?
+> >
 > 
-> 
-> Am 06.07.2014 15:44, schrieb Elie De Brauwer:
->> In fcntl(2) F_SETPIPE_SZ, F_GETPIPE_SZ and /proc/sys/fs/pipe-max-size are
->> defined, however pipe(7) still defines the pipe capacity as being a static
->> entity. Adding a reference to fcntl(2).
->>
->> Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> ---
->>  man7/pipe.7 | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/man7/pipe.7 b/man7/pipe.7
->> index 78d1cea..64a6761 100644
->> --- a/man7/pipe.7
->> +++ b/man7/pipe.7
->> @@ -133,6 +133,16 @@ so that a writing process does not remain blocked.
->>  In Linux versions before 2.6.11, the capacity of a pipe was the same as
->>  the system page size (e.g., 4096 bytes on i386).
->>  Since Linux 2.6.11, the pipe capacity is 65536 bytes.
->> +Since Linux 2.6.35, the pipe capacity can be queried and set using the
->> +.BR fcntl (2)
->> +.BR F_GETPIPE_SZ
->> +and
->> +.BR F_SETPIPE_SZ
->> +operations.
->> +See
->> +.BR fcntl (2)
->> +for more information.
->> +
-> 
-> Could to add a line like:
-> "the default pipe capacity is still 65536 bytes." ? (or what ever)
+> Ugh, you're probably right.  I wish openat had separate flags and
+> atflags arguments.  Oh well.
 
-Yup, seems worthwhile. Added. Thanks, Walter.
+There's two different AT_* namespaces.  The flags that most *at syscalls
+has, and the the one for the dfd argument, which currently only contains
+AT_FDCWD, although a new constant has recently been proposed to it.
 
-Cheers,
+Having an AT_BENEATH magic value for the dfd argument certainly feels
+elegant to me, but seems to be against the language for openat in Posix:
 
-Michael
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+"The openat() function shall be equivalent to the open() function except
+in the case where path specifies a relative path. In this case the file
+to be opened is determined relative to the directory associated with the
+file descriptor fd instead of the current working directory. If the file
+descriptor was opened without O_SEARCH, the function shall check whether
+directory searches are permitted using the current permissions of the
+directory underlying the file descriptor. If the file descriptor was
+opened with O_SEARCH, the function shall not perform the check.
+
+The oflag parameter and the optional fourth parameter correspond exactly
+to the parameters of open().
+
+If openat() is passed the special value AT_FDCWD in the fd parameter,
+the current working directory shall be used and the behavior shall be
+identical to a call to open()."
