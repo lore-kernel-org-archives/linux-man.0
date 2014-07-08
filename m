@@ -1,48 +1,32 @@
-From: Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH 1/1] include/uapi: Define AT_FDNODIR constant as future
- guarantee
-Date: Tue, 8 Jul 2014 05:12:29 -0700
-Message-ID: <20140708121229.GA21107@infradead.org>
-References: <fb469d6277ef.53b85737@langara.bc.ca>
+From: Meredydd Luff <meredydd-zPN50pYk8eUaUu29zAJCuw@public.gmane.org>
+Subject: Re: [PATCH 01/11] fs: add O_BENEATH_ONLY flag to openat(2)
+Date: Tue, 8 Jul 2014 13:48:27 +0100
+Message-ID: <CAD=T17FQEZV+iy91wQAvAdd0PW2tsfjpU7atp-xeatm5sEGz5Q@mail.gmail.com>
+References: <1404124096-21445-1-git-send-email-drysdale@google.com>
+ <1404124096-21445-2-git-send-email-drysdale@google.com> <CALCETrU=HLmw9n-DxPkFV1xP5wtzQ7-YF3-uao6YiGZODA9kdw@mail.gmail.com>
+ <20140630154928.GB10375@google.com> <CALCETrWJ-rqDo8OvSZWPUt1806gObNtwVHvC4M6kfQgvd3Eg9w@mail.gmail.com>
+ <20140708120702.GB30459@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <fb469d6277ef.53b85737@langara.bc.ca>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Steven Stewart-Gallus <sstewartgallus00@mylangara.bc.ca>
-Cc: linux-kernel@vger.kernel.org, Jeff Layton <jlayton@poochiereds.net>, "J. Bruce Fields" <bfields@fieldses.org>, linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org, Andy Lutomirski <luto@amacapital.net>, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20140708120702.GB30459-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, David Drysdale <drysdale-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, LSM List <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, James Morris <james.l.morris-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat, Jul 05, 2014 at 07:51:19PM +0000, Steven Stewart-Gallus wrote:
-> From: Steven Stewart-Gallus <sstewartgallus00@mylangara.bc.ca
-> 
-> This constant means that in the far future it might be possible to
-> define other AT_FD* constants.
-> 
-> Signed-off-by: Steven Stewart-Gallus <sstewartgallus00@mylangara.bc.ca>
-> ---
-> 
-> This is my first kernel patch but this is really trivial so I hope I'm doing
-> this right.
+On 8 July 2014 13:07, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> wrote:
+> There's two different AT_* namespaces.  The flags that most *at syscalls
+> has, and the the one for the dfd argument, which currently only contains
+> AT_FDCWD, although a new constant has recently been proposed to it.
+>
+> Having an AT_BENEATH magic value for the dfd argument certainly feels
+> elegant to me
 
-Almost.  For one you really should explain what the flag does,
-especially if it's not actually use.
+How would that work? The directory beneath which openat is looking is
+conveyed in the dfd argument itself. If I'm understanding this right,
+you'd have to pass a different value for "open relative to fd#5" and
+"open relative to fd#5, but beneath it only", which doesn't sound
+hugely elegant to me.
 
-It took me a while that you're trying to document the way Linux
-currently behaves for the cases where the dfd argument to the various
-*at is neither a valid file descriptor nor the magic AT_FDCWD constant.
-
-Posix says that openat with an absolute path is equivalent to open, so
-the only strictly allowed other flags would those that allow some form
-of relative path, but treat it differently than the currently possible
-options.  I can't really think of a good way to do that, although we
-recently had a case where a different AT_* value would be useful, even
-if not fully conforming to that Posix wording.
-
-Your explanation of what this constant does should also go into the man
-page, so in addition to the kernel patch you should also propose a patch
-to the man page documenting it.
-
-Also I don't think AT_FDNODIR is a good choice of name, AT_ABSOLUTE
-would be a lot more descriptive.
+Meredydd
