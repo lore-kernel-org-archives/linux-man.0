@@ -1,51 +1,45 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] syslog.3: ATTRIBUTES: Note functions that are thread safe with exceptions
-Date: Wed, 9 Jul 2014 17:29:56 +0800
-Message-ID: <1404898196-3437-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] usleep.3: Reformat thread-safety information
+Date: Wed, 9 Jul 2014 17:37:01 +0800
+Message-ID: <1404898621-3895-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The functions openlog() and closelog() are thread safe.
-The functions syslog() and vsyslog() are thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/syslog.3 | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ man3/usleep.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/syslog.3 b/man3/syslog.3
-index 4c77ab4..94b870b 100644
---- a/man3/syslog.3
-+++ b/man3/syslog.3
-@@ -249,6 +249,23 @@ debug-level message
- The function
- .BR setlogmask (3)
- can be used to restrict logging to specified levels only.
-+.SH ATTRIBUTES
+diff --git a/man3/usleep.3 b/man3/usleep.3
+index 3229fe8..e98847e 100644
+--- a/man3/usleep.3
++++ b/man3/usleep.3
+@@ -89,10 +89,17 @@ Interrupted by a signal; see
+ \fIusec\fP is not smaller than 1000000.
+ (On systems where that is considered an error.)
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw21 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR openlog (),
-+.BR closelog ()
+ .BR usleep ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
-+T{
-+.BR syslog (),
-+.BR vsyslog ()
-+T}	Thread safety	MT-Safe env locale
 +.TE
  .SH CONFORMING TO
- The functions
- .BR openlog (),
+ 4.3BSD, POSIX.1-2001.
+ POSIX.1-2001 declares this function obsolete; use
 -- 
 1.9.3
 
