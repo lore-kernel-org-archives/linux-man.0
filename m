@@ -1,59 +1,28 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ungetwc.3: Reformat thread-safety information
-Date: Wed, 09 Jul 2014 13:09:54 +0200
-Message-ID: <53BD2302.6080505@gmail.com>
-References: <1404899154-4526-1-git-send-email-penght@cn.fujitsu.com>
+Subject: New remote branch for attributes reformat series
+Date: Wed, 09 Jul 2014 13:13:15 +0200
+Message-ID: <53BD23CB.7060106@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404899154-4526-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Hello Haitao,
 
-Applied. Thanks.
+I messed up while working on the 'attributes_reformat' branch.
+Simplest way for me to clean up was to delete that branch and
+create a new one, which is now on 'attributes_reformat_2' on 
+http://git.kernel.org/?p=docs/man-pages/man-pages.git
 
-Cheers,
+My apologies if this causes any inconvenience.
+
+Thanks,
 
 Michael
-
-
-On 07/09/2014 11:45 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/ungetwc.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/ungetwc.3 b/man3/ungetwc.3
-> index e0bdd91..1e20a99 100644
-> --- a/man3/ungetwc.3
-> +++ b/man3/ungetwc.3
-> @@ -75,10 +75,17 @@ when successful, or
->  upon
->  failure.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR ungetwc ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
-> 
 
 
 -- 
