@@ -1,46 +1,48 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getenv.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 9 Jul 2014 10:47:25 +0800
-Message-ID: <1404874045-12209-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcscasecmp.3: Reformat thread-safety information
+Date: Wed, 9 Jul 2014 10:52:31 +0800
+Message-ID: <1404874351-12551-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The functions getenv() and secure_getenv() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getenv.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/wcscasecmp.3 | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/man3/getenv.3 b/man3/getenv.3
-index 23d026f..f8e8cdc 100644
---- a/man3/getenv.3
-+++ b/man3/getenv.3
-@@ -93,6 +93,19 @@ environment, or NULL if there is no match.
- .SH VERSIONS
- .BR secure_getenv ()
- first appeared in glibc 2.17.
-+.SH ATTRIBUTES
+diff --git a/man3/wcscasecmp.3 b/man3/wcscasecmp.3
+index 547f2e2..f5db10a 100644
+--- a/man3/wcscasecmp.3
++++ b/man3/wcscasecmp.3
+@@ -81,13 +81,17 @@ The
+ .BR wcscasecmp ()
+ function is provided in glibc since version 2.1.
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw25 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getenv (),
-+.BR secure_getenv ()
-+T}	Thread safety	MT-Safe env
+ .BR wcscasecmp ()
+-function is thread-safe with exceptions.
+-It can be safely used in multithreaded applications, as long as
+-.BR setlocale (3)
+-is not called to change the locale during its execution.
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- .BR getenv ():
- SVr4, POSIX.1-2001, 4.3BSD, C89, C99.
+ POSIX.1-2008.
+ This function is not specified in POSIX.1-2001,
 -- 
 1.9.3
 
