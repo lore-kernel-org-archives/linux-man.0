@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] usleep.3: Reformat thread-safety information
-Date: Wed, 9 Jul 2014 17:37:01 +0800
-Message-ID: <1404898621-3895-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] unlockpt.3: Reformat thread-safety information
+Date: Wed, 9 Jul 2014 17:41:49 +0800
+Message-ID: <1404898909-4215-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/usleep.3 | 13 ++++++++++---
+ man3/unlockpt.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/usleep.3 b/man3/usleep.3
-index 3229fe8..e98847e 100644
---- a/man3/usleep.3
-+++ b/man3/usleep.3
-@@ -89,10 +89,17 @@ Interrupted by a signal; see
- \fIusec\fP is not smaller than 1000000.
- (On systems where that is considered an error.)
+diff --git a/man3/unlockpt.3 b/man3/unlockpt.3
+index b43bc0e..1c232b5 100644
+--- a/man3/unlockpt.3
++++ b/man3/unlockpt.3
+@@ -44,10 +44,17 @@ argument is not associated with a master pseudoterminal.
+ .BR unlockpt ()
+ is provided in glibc since version 2.1.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 3229fe8..e98847e 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR usleep ()
+ .BR unlockpt ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- POSIX.1-2001 declares this function obsolete; use
+ POSIX.1-2001.
+ .SH SEE ALSO
 -- 
 1.9.3
 
