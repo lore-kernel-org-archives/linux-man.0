@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getenv.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 09 Jul 2014 10:28:36 +0200
-Message-ID: <53BCFD34.3030605@gmail.com>
-References: <1404874045-12209-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] iswxdigit.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Wed, 09 Jul 2014 10:28:23 +0200
+Message-ID: <53BCFD27.8040103@gmail.com>
+References: <1404870895-7342-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404874045-12209-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1404870895-7342-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,38 +21,37 @@ Cheers,
 Michael
 
 
-On 07/09/2014 04:47 AM, Peng Haitao wrote:
-> The functions getenv() and secure_getenv() are thread safe.
+On 07/09/2014 03:54 AM, Peng Haitao wrote:
+> The function iswxdigit() is thread safe with exceptions.
 > 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getenv.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/iswxdigit.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/getenv.3 b/man3/getenv.3
-> index 23d026f..f8e8cdc 100644
-> --- a/man3/getenv.3
-> +++ b/man3/getenv.3
-> @@ -93,6 +93,19 @@ environment, or NULL if there is no match.
->  .SH VERSIONS
->  .BR secure_getenv ()
->  first appeared in glibc 2.17.
+> diff --git a/man3/iswxdigit.3 b/man3/iswxdigit.3
+> index 0da1535..dff6c77 100644
+> --- a/man3/iswxdigit.3
+> +++ b/man3/iswxdigit.3
+> @@ -58,6 +58,18 @@ function returns nonzero if
+>  is a wide character
+>  belonging to the wide-character class "xdigit".
+>  Otherwise, it returns zero.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw25 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR getenv (),
-> +.BR secure_getenv ()
-> +T}	Thread safety	MT-Safe env
+> +.BR iswxdigit ()
+> +T}	Thread safety	MT-Safe locale
 > +.TE
 >  .SH CONFORMING TO
->  .BR getenv ():
->  SVr4, POSIX.1-2001, 4.3BSD, C89, C99.
+>  C99.
+>  .SH NOTES
 > 
 
 
