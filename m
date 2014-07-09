@@ -1,31 +1,30 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iswxdigit.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Wed, 9 Jul 2014 09:54:55 +0800
-Message-ID: <1404870895-7342-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcscpy.3: Reformat thread-safety information
+Date: Wed, 9 Jul 2014 10:02:50 +0800
+Message-ID: <1404871370-9064-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function iswxdigit() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/iswxdigit.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/wcscpy.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/iswxdigit.3 b/man3/iswxdigit.3
-index 0da1535..dff6c77 100644
---- a/man3/iswxdigit.3
-+++ b/man3/iswxdigit.3
-@@ -58,6 +58,18 @@ function returns nonzero if
- is a wide character
- belonging to the wide-character class "xdigit".
- Otherwise, it returns zero.
-+.SH ATTRIBUTES
+diff --git a/man3/wcscpy.3 b/man3/wcscpy.3
+index d2eb21c..8b2881b 100644
+--- a/man3/wcscpy.3
++++ b/man3/wcscpy.3
+@@ -47,10 +47,17 @@ wide characters at
+ returns
+ .IR dest .
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -34,12 +33,13 @@ index 0da1535..dff6c77 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR iswxdigit ()
-+T}	Thread safety	MT-Safe locale
+ .BR wcscpy ()
+-function is thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  C99.
- .SH NOTES
+ .SH SEE ALSO
 -- 
 1.9.3
 
