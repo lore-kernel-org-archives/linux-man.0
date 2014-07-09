@@ -1,43 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] iswxdigit.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Wed, 09 Jul 2014 10:28:23 +0200
-Message-ID: <53BCFD27.8040103@gmail.com>
-References: <1404870895-7342-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] wcscpy.3: Reformat thread-safety information
+Date: Wed, 09 Jul 2014 10:29:40 +0200
+Message-ID: <53BCFD74.2070802@gmail.com>
+References: <1404871370-9064-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404870895-7342-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1404871370-9064-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied in my local branch.
+Thanks, Haitao. Applied.
 
 Cheers,
 
 Michael
 
 
-On 07/09/2014 03:54 AM, Peng Haitao wrote:
-> The function iswxdigit() is thread safe with exceptions.
-> 
+On 07/09/2014 04:02 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/iswxdigit.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  man3/wcscpy.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/iswxdigit.3 b/man3/iswxdigit.3
-> index 0da1535..dff6c77 100644
-> --- a/man3/iswxdigit.3
-> +++ b/man3/iswxdigit.3
-> @@ -58,6 +58,18 @@ function returns nonzero if
->  is a wide character
->  belonging to the wide-character class "xdigit".
->  Otherwise, it returns zero.
-> +.SH ATTRIBUTES
+> diff --git a/man3/wcscpy.3 b/man3/wcscpy.3
+> index d2eb21c..8b2881b 100644
+> --- a/man3/wcscpy.3
+> +++ b/man3/wcscpy.3
+> @@ -47,10 +47,17 @@ wide characters at
+>  returns
+>  .IR dest .
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
@@ -46,12 +44,13 @@ On 07/09/2014 03:54 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR iswxdigit ()
-> +T}	Thread safety	MT-Safe locale
+>  .BR wcscpy ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
 >  C99.
->  .SH NOTES
+>  .SH SEE ALSO
 > 
 
 
