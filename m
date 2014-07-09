@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcpncpy.3: Reformat thread-safety information
-Date: Wed, 9 Jul 2014 10:57:02 +0800
-Message-ID: <1404874622-13400-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] wcpcpy.3: Reformat thread-safety information
+Date: Wed, 9 Jul 2014 11:21:56 +0800
+Message-ID: <1404876116-14976-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcpncpy.3 | 13 ++++++++++---
+ man3/wcpcpy.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/wcpncpy.3 b/man3/wcpncpy.3
-index f0ef335..2a83334 100644
---- a/man3/wcpncpy.3
-+++ b/man3/wcpncpy.3
-@@ -91,10 +91,17 @@ characters at
- returns a pointer to the last wide character written, that is,
- .IR dest + n \-1.
+diff --git a/man3/wcpcpy.3 b/man3/wcpcpy.3
+index 3d437e9..c8bf6d4 100644
+--- a/man3/wcpcpy.3
++++ b/man3/wcpcpy.3
+@@ -65,10 +65,17 @@ returns a pointer to the end of the wide-character string
+ .IR dest ,
+ that is, a pointer to the terminating null wide character.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index f0ef335..2a83334 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR wcpncpy ()
+ .BR wcpcpy ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
