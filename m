@@ -1,79 +1,54 @@
-From: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-Subject: [PATCH] epoll_ctl.2: minor clarification concerning when a WAKEUP
- event is "processes"
-Date: Wed, 9 Jul 2014 13:37:46 +1000
-Message-ID: <20140709133746.70d0dffb@notabene.brown>
-References: <20140706190351.423e9a93@notabene.brown>
-	<53BA4244.30502@gmail.com>
-	<20140707210157.1aa38ed0@notabene.brown>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] syslog.3: ATTRIBUTES: Note functions that are thread safe with exceptions
+Date: Wed, 9 Jul 2014 17:29:56 +0800
+Message-ID: <1404898196-3437-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=PGP-SHA1;
- boundary="Sig_/BvtUQvnWLsVQBetw73gPkyQ"; protocol="application/pgp-signature"
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140707210157.1aa38ed0-wvvUuzkyo1EYVZTmpyfIwg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Arve =?UTF-8?B?SGrDuG5uZXbDpWc=?= <arve-z5hGa2qSFaRBDgjK7y7TUQ@public.gmane.org>, "Rafael J. Wysocki" <rjw-LthD3rsA81gm4RdzfppkhA@public.gmane.org>, linux-pm-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---Sig_/BvtUQvnWLsVQBetw73gPkyQ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+The functions openlog() and closelog() are thread safe.
+The functions syslog() and vsyslog() are thread safe with exceptions.
 
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/syslog.3 | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-I guess it should be obvious, but it never hurts to be explicit.
-When the epoll file descriptor is closed all events are assumed
-to be "processed".
-Also if the event is removed with EPOLL_CTL_DEL or the EPOLLWAKEUP
-flag is removed with EPOLL_CTL_MOD the event will be "processed".
+diff --git a/man3/syslog.3 b/man3/syslog.3
+index 4c77ab4..94b870b 100644
+--- a/man3/syslog.3
++++ b/man3/syslog.3
+@@ -249,6 +249,23 @@ debug-level message
+ The function
+ .BR setlogmask (3)
+ can be used to restrict logging to specified levels only.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw21 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR openlog (),
++.BR closelog ()
++T}	Thread safety	MT-Safe
++T{
++.BR syslog (),
++.BR vsyslog ()
++T}	Thread safety	MT-Safe env locale
++.TE
+ .SH CONFORMING TO
+ The functions
+ .BR openlog (),
+-- 
+1.9.3
 
-
-Signed-off-by: NeilBrown <neilb-l3A5Bk7waGM@public.gmane.org>
-
-diff --git a/man2/epoll_ctl.2 b/man2/epoll_ctl.2
-index 2936bc7e97f7..74a09b6c276b 100644
---- a/man2/epoll_ctl.2
-+++ b/man2/epoll_ctl.2
-@@ -173,7 +173,14 @@ until the next call to
- .BR epoll_wait (2)
- on the same
- .BR epoll (7)
--file descriptor.
-+file descriptor,
-+the closure of that file descriptor,
-+the removal of the event file descriptor with
-+.BR EPOLL_CTL_DEL ,
-+or the clearing of
-+.B EPOLLWAKEUP
-+for the event file descriptor with
-+.BR EPOLL_CTL_MOD .
- See also BUGS.
- .SH RETURN VALUE
- When successful,
-
---Sig_/BvtUQvnWLsVQBetw73gPkyQ
-Content-Type: application/pgp-signature; name=signature.asc
-Content-Disposition: attachment; filename=signature.asc
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
-
-iQIVAwUBU7y5Cjnsnt1WYoG5AQJjuQ/+JshOD5nn4wRh83j+QK8Y1ff1Fynw2jh4
-vWGGdF/XdEyJgagnFuIuVHHmn0yyGvGYE8xFzgtBJqs12O6+7AshRUXtCSjr6f7r
-kwa4dZQvwDMr0SchoIsftexZJJPQOE7zxDwm7jjk7682/VoePbCtXHUnVUM3G6Hl
-5n/11WDocetHFztj95lIF8KIQZ98Q7ZOETvdxnZXIvBtxxaPLVdOS/a7d8q2bcP3
-/rvM+JyA0SnUx3ZFTbqYWmUk/WWDjXhBEwt5fSqqph4zOT7sxjCH1kmap1MV4ej2
-ZzQ5rgecQDL+YAJTLYNKeDCeYpGQYVDNUK4oLq5ofsNLcump3jAlnUfmB96ifD7h
-iXxWExv9r1Zk3aS//ZRgFQuGas+w23wklEjaavwQFt9S0aoS6zmcsSWpucyvpYCW
-JOguVvqO4qphadh1gfOhWEpYVgD9AhADqICLymwcVAphYq/TenRqFPv7UdbcBE0l
-vDM5D8R0bLrcHLheA2YWwwxTDdZo49D08Pf7RopKbnoMxmwpoxRdkYiJ/n981wgR
-4S3FQgSAD+wsI87kwkf0uU3YXT5IYrMt5VoaQZysDTC1ryPuHn4JPexw0YRDOd7l
-D+SSounos3jqMTVsmKolA84pSMmEcPwQ0624QHouWWkGVlcApIw2xDgr1c6TYzPq
-s/V/0SXPztU=
-=8PYy
------END PGP SIGNATURE-----
-
---Sig_/BvtUQvnWLsVQBetw73gPkyQ--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
