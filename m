@@ -1,48 +1,32 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] inet_pton.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Thu, 10 Jul 2014 10:03:25 +0800
-Message-ID: <1404957805-6551-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 79411] poll() fd negation trick doesn't work for fd 0
+Date: Thu, 10 Jul 2014 05:28:27 +0000
+Message-ID: <bug-79411-11311-Q4j1tqeD70@https.bugzilla.kernel.org/>
+References: <bug-79411-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-79411-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function inet_pton() is thread safe with exceptions.
+https://bugzilla.kernel.org/show_bug.cgi?id=79411
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/inet_pton.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> changed:
 
-diff --git a/man3/inet_pton.3 b/man3/inet_pton.3
-index 6125de4..6472c6f 100644
---- a/man3/inet_pton.3
-+++ b/man3/inet_pton.3
-@@ -126,6 +126,18 @@ does not contain a valid address family, \-1 is returned and
- .I errno
- is set to
- .BR EAFNOSUPPORT .
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR inet_pton ()
-+T}	Thread safety	MT-Safe locale
-+.TE
- .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
+
+--- Comment #1 from Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> ---
+Fixed in man-pages-3.70 release.
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
