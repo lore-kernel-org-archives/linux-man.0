@@ -1,32 +1,61 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 79411] poll() fd negation trick doesn't work for fd 0
-Date: Thu, 10 Jul 2014 05:28:27 +0000
-Message-ID: <bug-79411-11311-Q4j1tqeD70@https.bugzilla.kernel.org/>
-References: <bug-79411-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Mijo Safradin <mijo-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH] proc.5: Add missing fields to /proc/PID/stat
+Date: Thu, 10 Jul 2014 11:10:20 +0200
+Message-ID: <1404983420-21338-1-git-send-email-mijo@linux.vnet.ibm.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-79411-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Mijo Safradin <mijo-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=79411
+Merge stat fields from upstream file 'fs/proc/array.c'
 
-Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> changed:
+Fields to add:
+'start_data', 'end_data', 'start_brk', 'arg_start',
+'arg_end', 'env_start', 'env_end', 'exit_code'
+---
+ man5/proc.5 |   25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
-
---- Comment #1 from Nadav Har'El <nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org> ---
-Fixed in man-pages-3.70 release.
-
+diff --git a/man5/proc.5 b/man5/proc.5
+index 239d8ac..617c20a 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1383,6 +1383,31 @@ for a guest operating system), measured in clock ticks (divide by
+ \fIcguest_time\fP %ld (since Linux 2.6.24)
+ (44) Guest time of the process's children, measured in clock ticks (divide by
+ .IR sysconf(_SC_CLK_TCK) ).
++.TP
++\fIstartdata\fP %lu
++(45) address above which program data+bss is placed.
++.TP
++\fIenddata\fP %lu
++(46) address below which program data+bss is placed.
++.TP
++\fIstartbrk\fP %lu
++(47) address above which program heap can be expanded with brk().
++.TP
++\fIargstart\fP %lu
++(48) address above which program command line is placed.
++.TP
++\fIargend\fP %lu
++(49) address below which program command line is placed.
++.TP
++\fIenvstart\fP %lu
++(50) address above which program environment is placed.
++.TP
++\fIenvend\fP %lu
++(51) address below which program environment is placed.
++.TP
++\fIexitcode\fP %lu
++(52) the thread's exit_code in the form reported by the waitpid system call.
++.TP
+ .RE
+ .TP
+ .I /proc/[pid]/statm
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.7.9.5
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
