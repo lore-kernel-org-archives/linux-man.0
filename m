@@ -1,64 +1,36 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] inet_pton.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Thu, 10 Jul 2014 12:28:12 +0200
-Message-ID: <53BE6ABC.60800@gmail.com>
-References: <1404957805-6551-1-git-send-email-penght@cn.fujitsu.com>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] cp1251.7: tfix
+Date: Sat, 12 Jul 2014 14:08:59 +0400
+Message-ID: <1405159739-3067-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1404957805-6551-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied in my local branch.
+---
+ man7/cp1251.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
+diff --git a/man7/cp1251.7 b/man7/cp1251.7
+index bfc9adb..de89469 100644
+--- a/man7/cp1251.7
++++ b/man7/cp1251.7
+@@ -113,7 +113,7 @@ _
+ 304	196	C4	=D0=94	CYRILLIC CAPITAL LETTER DE
+ 305	197	C5	=D0=95	CYRILLIC CAPITAL LETTER IE
+ 306	198	C6	=D0=96	CYRILLIC CAPITAL LETTER ZHE
+-307	199	C7	v	CYRILLIC CAPITAL LETTER ZE
++307	199	C7	=D0=97	CYRILLIC CAPITAL LETTER ZE
+ 310	200	C8	=D0=98	CYRILLIC CAPITAL LETTER I
+ 311	201	C9	=D0=99	CYRILLIC CAPITAL LETTER SHORT I
+ 312	202	CA	=D0=9A	CYRILLIC CAPITAL LETTER KA
+--=20
+2.0.0
 
-Michael
-
-
-On 07/10/2014 04:03 AM, Peng Haitao wrote:
-> The function inet_pton() is thread safe with exceptions.
-> 
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/inet_pton.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/man3/inet_pton.3 b/man3/inet_pton.3
-> index 6125de4..6472c6f 100644
-> --- a/man3/inet_pton.3
-> +++ b/man3/inet_pton.3
-> @@ -126,6 +126,18 @@ does not contain a valid address family, \-1 is returned and
->  .I errno
->  is set to
->  .BR EAFNOSUPPORT .
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR inet_pton ()
-> +T}	Thread safety	MT-Safe locale
-> +.TE
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
