@@ -1,45 +1,48 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] nl_langinfo.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Mon, 14 Jul 2014 14:42:20 +0800
-Message-ID: <1405320140-2308-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] trunc.3: Reformat thread-safety information
+Date: Mon, 14 Jul 2014 14:49:34 +0800
+Message-ID: <1405320574-2696-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function nl_langinfo() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/nl_langinfo.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/trunc.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/nl_langinfo.3 b/man3/nl_langinfo.3
-index d703c09..aa4bdb4 100644
---- a/man3/nl_langinfo.3
-+++ b/man3/nl_langinfo.3
-@@ -113,6 +113,18 @@ next call to
- .BR nl_langinfo ()
- or
- .BR setlocale (3).
-+.SH ATTRIBUTES
+diff --git a/man3/trunc.3 b/man3/trunc.3
+index d65c70f..3337401 100644
+--- a/man3/trunc.3
++++ b/man3/trunc.3
+@@ -73,13 +73,19 @@ No errors occur.
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw27 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR nl_langinfo ()
-+T}	Thread safety	MT-Safe locale
+ .BR trunc (),
+ .BR truncf (),
+-and
+ .BR truncl ()
+-functions are thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- SUSv2, POSIX.1-2001.
- .SH EXAMPLE
+ C99, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
