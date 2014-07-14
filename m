@@ -1,31 +1,30 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fnmatch.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Mon, 14 Jul 2014 13:54:22 +0800
-Message-ID: <1405317262-30630-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] ualarm.3: Reformat thread-safety information
+Date: Mon, 14 Jul 2014 14:01:18 +0800
+Message-ID: <1405317678-32199-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function fnmatch() is thread safe with exceptions.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/fnmatch.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/ualarm.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/fnmatch.3 b/man3/fnmatch.3
-index b743d5d..d788630 100644
---- a/man3/fnmatch.3
-+++ b/man3/fnmatch.3
-@@ -93,6 +93,18 @@ matches
- .IR pattern ,
- .B FNM_NOMATCH
- if there is no match or another nonzero value if there is an error.
-+.SH ATTRIBUTES
+diff --git a/man3/ualarm.3 b/man3/ualarm.3
+index e69d2ff..98120d0 100644
+--- a/man3/ualarm.3
++++ b/man3/ualarm.3
+@@ -90,10 +90,17 @@ Interrupted by a signal.
+ \fIusecs\fP or \fIinterval\fP is not smaller than 1000000.
+ (On systems where that is considered an error.)
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -34,12 +33,13 @@ index b743d5d..d788630 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR fnmatch ()
-+T}	Thread safety	MT-Safe env locale
+ .BR ualarm ()
+-function is thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.2.
- The
+ 4.3BSD, POSIX.1-2001.
+ POSIX.1-2001 marks
 -- 
 1.9.3
 
