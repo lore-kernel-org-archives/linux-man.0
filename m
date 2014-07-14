@@ -1,45 +1,38 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 -- clarify PERF_SAMPLE_STACK_USER usage
-Date: Sun, 13 Jul 2014 22:29:19 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1407132225330.15444@vincent-weaver-1.umelst.maine.edu>
+From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] charsets.7: Tidy up list
+Date: Sun, 13 Jul 2014 23:19:13 -0400
+Message-ID: <1405307953-24884-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Remove German from main list as Dutch and French were.
+---
+ man7/charsets.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This clarifies the PERF_SAMPLE_STACK_USER section.  I found these issus
-while implementing some code that uses the option.  The important change
-is fixing the name of the sample_stack_user parameter, the rest is just
-some wording fixes and minor clarifications.
+diff --git a/man7/charsets.7 b/man7/charsets.7
+index 300d819..45d18ce 100644
+--- a/man7/charsets.7
++++ b/man7/charsets.7
+@@ -68,7 +68,7 @@ Here are brief descriptions of each set:
+ .TP
+ 8859-1 (Latin-1)
+ Latin-1 covers many West European languages such as Albanian, Basque,
+-Danish, English, Faroese, Galician, German, Icelandic, Irish, Italian,
++Danish, English, Faroese, Galician, Icelandic, Irish, Italian,
+ Norwegian, Portuguese, Spanish, and Swedish.
+ The lack of the ligatures Dutch =C4=B2/=C4=B3, French =C5=93, and old-=
+style =E2=80=9EGerman=E2=80=9C
+ quotation marks was considered tolerable.
+--=20
+2.0.1
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 47e9984..4c54b6b 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1885,13 +1885,15 @@ bit mask.
- .IR size ", " data[size] ", " dyn_size
- If
- .B PERF_SAMPLE_STACK_USER
--is enabled, then record the user stack to enable backtracing.
-+is enabled, then the user stack is recorded.
-+This can be used to generate stack backtraces.
- .I size
- is the size requested by the user in
--.I stack_user_size
-+.I sample_stack_user
- or else the maximum record size.
- .I data
--is the stack data.
-+is the stack data (a raw dump of the memory pointed to by the
-+stack pointer at the time of sampling).
- .I dyn_size
- is the amount of data actually dumped (can be less than
- .IR size ).
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
