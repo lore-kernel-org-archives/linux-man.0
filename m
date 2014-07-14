@@ -1,142 +1,36 @@
-From: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: Things I wish I'd known about Inotify
-Date: Mon, 14 Jul 2014 13:28:38 +0200
-Message-ID: <20140714112838.GG30550@quack.suse.cz>
-References: <CAKgNAkjymzawYMKZGedK=fai55cwo4p=yeYe6GT8MdxWON__zw@mail.gmail.com>
- <20140403205236.GE14107@quack.suse.cz>
- <533E60D6.2000704@gmail.com>
- <20140404124338.GA26806@quack.suse.cz>
- <CAKgNAkj=j2Auym+Euis0qYot3nYoASkeaf4kFPWvL-M-FCXEvQ@mail.gmail.com>
+From: chrubis-AlSwsSmVLrQ@public.gmane.org
+Subject: Re: [PATCH] vmsplice.2: vmsplice() does not fail on nr_segs=0
+Date: Mon, 14 Jul 2014 14:57:03 +0200
+Message-ID: <20140714125703.GA22358@rei.suse.cz>
+References: <20140625141235.GA10090@rei.Home>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <CAKgNAkj=j2Auym+Euis0qYot3nYoASkeaf4kFPWvL-M-FCXEvQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20140625141235.GA10090-HSzIOc4LzcM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>, John McCutchan <john-jueV0HHMeujJJrXXpGQQMAC/G2K4zDHf@public.gmane.org>, Robert Love <rlove-L7G0xEPcOZbYtjvyW6yDsg@public.gmane.org>, Eric Paris <eparis-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>, Radu Voicilas <radu.voicilas-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, daniel-dYEgDbNUoShWk0Htik3J/w@public.gmane.org, Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, gamin-list-rDKQcyrBJuzYtjvyW6yDsg@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, inotify-tools-general-5NWGOfrQmneRv+LV9MX5uipxlwaOVQ5f@public.gmane.org, jake-T1hC0tSOHrs@public.gmane.org
+To: Cyril Hrubis <metan-+ZI9xUNit7I@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sat 12-07-14 21:06:45, Michael Kerrisk (man-pages) wrote:
-> Late follow up on this thread..., since another question occurred in
-> discussions with Jake.
->=20
-> On Fri, Apr 4, 2014 at 2:43 PM, Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org> wrote:
-> > On Fri 04-04-14 09:35:50, Michael Kerrisk (man-pages) wrote:
-> >> On 04/03/2014 10:52 PM, Jan Kara wrote:
-> >> > On Thu 03-04-14 08:34:44, Michael Kerrisk (man-pages) wrote:
-> [...]
-> >> >>    Dealing with rename() events
-> >> >>        The  IN_MOVED_FROM  and  IN_MOVED_TO events that are gen=
-erated by
-> >> >>        rename(2) are usually available as consecutive events wh=
-en  read=E2=80=90
-> >> >>        ing from the inotify file descriptor.  However, this is =
-not guar=E2=80=90
-> >> >>        anteed.  If multiple processes are triggering  events  f=
-or  moni=E2=80=90
-> >> >>        tored  objects,  then  (on rare occasions) an arbitrary =
-number of
-> >> >>        other events may appear between the IN_MOVED_FROM and IN=
-_MOVED_TO
-> >> >>        events.
-> >> >>
-> >> >>        Matching  up  the IN_MOVED_FROM and IN_MOVED_TO event pa=
-ir gener=E2=80=90
-> >> >>        ated by rename(2) is thus inherently racy.  (Don't forge=
-t that if
-> >> >>        an  object is renamed outside of a monitored directory, =
-there may
-> >> >>        not even be an IN_MOVED_TO event.)  Heuristic  approache=
-s  (e.g.,
-> >> >>        assume the events are always consecutive) can be used to=
- ensure a
-> >> >>        match in most cases, but will inevitably miss some cases=
-, causing
-> >> >>        the  application  to  perceive  the IN_MOVED_FROM and IN=
-_MOVED_TO
-> >> >>        events as being unrelated.  If watch  descriptors  are  =
-destroyed
-> >> >>        and  re-created as a result, then those watch descriptor=
-s will be
-> >> >>        inconsistent with the watch descriptors in  any  pending=
-  events.
-> >> >>        (Re-creating the inotify file descriptor and rebuilding =
-the cache
-> >> >>        may be useful to deal with this scenario.)
-> >> >   Well, but there's 'cookie' value meant exactly for matching up
-> >> > IN_MOVED_FROM and IN_MOVED_TO events. And 'cookie' is guaranteed=
- to be
-> >> > unique at least within the inotify instance (in fact currently i=
-t is unique
-> >> > within the whole system but I don't think we want to give that p=
-romise).
-> >>
-> >> Yes, that's already assumed by my discussion above (its described =
-elsewhere
-> >> in the page). But your comment makes me think I should add a few w=
-ords to
-> >> remind the reader of that fact. I'll do that.
-> >   Yes, that would be good.
-> >
-> >> But, the point is that even with the cookie, matching the events i=
-s
-> >> nontrivial, since:
-> >>
-> >> * There may not even be an IN_MOVED_FROM event
-> >> * There may be an arbitrary number of other events in between the
-> >>   IN_MOVED_FROM and the IN_MOVED_TO.
-> >>
-> >> Therefore, one has to use heuristic approaches such as "allow at l=
-east
-> >> N millisconds" or "check the next N events" to see if there is an
-> >> IN_MOVED_FROM that matches the IN_MOVED_TO. I can't see any way ar=
-ound
-> >> that being inherently racy. (It's unfortunate that the kernel can'=
-t
-> >> provide a guarantee that the two events are always consecutive, si=
-nce
-> >> that would simply user space's life considerably.)
-> >   Yeah, it's unpleasant but doing that would be quite costly/comple=
-x at the
-> > kernel side. And the race would in the worst case lead to applicati=
-on
-> > thinking there's been file moved outside of watched area & a file m=
-oved
-> > somewhere else inside the watched area. So the application will hav=
-e to
-> > possibly inspect that file. That doesn't seem too bad.
->=20
-> One further question. The IN_MOVED_FROM+IN_MOVED_TO pair may not be
-> guaranteed to be contiguous in the read buffer, but is their insertio=
-n
-> in the event queue guaranteed to be atomic from a user-space point of
-> view? That is to say: having read an IN_MOVED_FROM event, does user
-> space have the guarantee that if there is an IN_MOVED_TO event, then
-> it will already be in the queue? The reason I ask is that this would
-> affect how user space might try to read the IN_MOVED_TO event. If
-> there is no such guarantee, then a read() (or select()/poll()) with
-> (small) timeout is needed. If such a guarantee is provided, then a
-> nonblocking read() would suffice.
-  That's a good question... So the events are not generated atomically =
-even
-from userspace POV - i.e., a userspace process may see a state where
-IN_MOVED_FROM event is already in the buffer but IN_MOVED_TO event isn'=
-t
-generated yet.
+Hi!
+> This case is no-op and no error is returned.
+> 
+> See fs/splice.c vmsplice syscall which contains:
+> 
+>         if (unlikely(nr_segs > UIO_MAXIOV))
+>                 return -EINVAL;
+>         else if (unlikely(!nr_segs))
+>                 return 0;
+> 
+> and looking at the git log suggests that this snipped was always there.
 
-> PS I just now found this code by John McCutchan
-> https://git.gnome.org/browse/gnome-vfs/tree/modules/inotify-kernel.c#=
-n570
-> which suggests that the insertion of the event pair is not atomic
-> w.r.t. user space. Still, I wonder if there is any definitive
-> statement about this.
 
-								Honza
---=20
-Jan Kara <jack-AlSwsSmVLrQ@public.gmane.org>
-SUSE Labs, CR
+Ping?
+
+-- 
+Cyril Hrubis
+chrubis-AlSwsSmVLrQ@public.gmane.org
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
