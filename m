@@ -1,37 +1,47 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] charsets.7: Tidy up list
-Date: Sun, 13 Jul 2014 23:19:13 -0400
-Message-ID: <1405307953-24884-1-git-send-email-taffit@debian.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fnmatch.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Mon, 14 Jul 2014 13:54:22 +0800
+Message-ID: <1405317262-30630-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Remove German from main list as Dutch and French were.
----
- man7/charsets.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The function fnmatch() is thread safe with exceptions.
 
-diff --git a/man7/charsets.7 b/man7/charsets.7
-index 300d819..45d18ce 100644
---- a/man7/charsets.7
-+++ b/man7/charsets.7
-@@ -68,7 +68,7 @@ Here are brief descriptions of each set:
- .TP
- 8859-1 (Latin-1)
- Latin-1 covers many West European languages such as Albanian, Basque,
--Danish, English, Faroese, Galician, German, Icelandic, Irish, Italian,
-+Danish, English, Faroese, Galician, Icelandic, Irish, Italian,
- Norwegian, Portuguese, Spanish, and Swedish.
- The lack of the ligatures Dutch =C4=B2/=C4=B3, French =C5=93, and old-=
-style =E2=80=9EGerman=E2=80=9C
- quotation marks was considered tolerable.
---=20
-2.0.1
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fnmatch.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/man3/fnmatch.3 b/man3/fnmatch.3
+index b743d5d..d788630 100644
+--- a/man3/fnmatch.3
++++ b/man3/fnmatch.3
+@@ -93,6 +93,18 @@ matches
+ .IR pattern ,
+ .B FNM_NOMATCH
+ if there is no match or another nonzero value if there is an error.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR fnmatch ()
++T}	Thread safety	MT-Safe env locale
++.TE
+ .SH CONFORMING TO
+ POSIX.2.
+ The
+-- 
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
