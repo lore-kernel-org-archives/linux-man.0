@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] trunc.3: Reformat thread-safety information
-Date: Mon, 14 Jul 2014 14:49:34 +0800
-Message-ID: <1405320574-2696-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] towupper.3: Reformat thread-safety information
+Date: Mon, 14 Jul 2014 15:13:51 +0800
+Message-ID: <1405322031-4451-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/trunc.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/towupper.3 | 20 +++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/man3/trunc.3 b/man3/trunc.3
-index d65c70f..3337401 100644
---- a/man3/trunc.3
-+++ b/man3/trunc.3
-@@ -73,13 +73,19 @@ No errors occur.
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/towupper.3 b/man3/towupper.3
+index 6d3c7a8..bb4a8ea 100644
+--- a/man3/towupper.3
++++ b/man3/towupper.3
+@@ -89,14 +89,20 @@ returns its uppercase equivalent;
+ otherwise it returns
+ .IR wc .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,24 @@ index d65c70f..3337401 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw27 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR trunc (),
- .BR truncf (),
--and
- .BR truncl ()
--functions are thread-safe.
+ .BR towupper ()
+-function is thread-safe with exceptions.
+-It can be safely used in multithreaded applications, as long as
+-.BR setlocale (3)
+-is not called to change the locale during its execution.
+-.\" FIXME need a thread-safety statement about towupper_l()
++T}	Thread safety	MT-Safe locale
++T{
++.BR towupper_l ()
 +T}	Thread safety	MT-Safe
 +.TE
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH NOTES
+ .SH VERSIONS
+ The
+ .BR towupper_l ()
 -- 
 1.9.3
 
