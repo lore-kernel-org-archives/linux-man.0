@@ -1,30 +1,31 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] towlower.3: Reformat thread-safety information
-Date: Mon, 14 Jul 2014 15:20:34 +0800
-Message-ID: <1405322434-4778-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] tempnam.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 14 Jul 2014 15:32:07 +0800
+Message-ID: <1405323127-6238-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+The function tempnam() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/towlower.3 | 20 +++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
+ man3/tempnam.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/man3/towlower.3 b/man3/towlower.3
-index 7d93ee6..09b5ccc 100644
---- a/man3/towlower.3
-+++ b/man3/towlower.3
-@@ -89,14 +89,20 @@ returns its lowercase equivalent;
- otherwise it returns
- .IR wc .
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
+diff --git a/man3/tempnam.3 b/man3/tempnam.3
+index caf1867..aad5a0f 100644
+--- a/man3/tempnam.3
++++ b/man3/tempnam.3
+@@ -102,6 +102,18 @@ set to indicate the cause of the error.
+ .TP
+ .B ENOMEM
+ Allocation of storage failed.
++.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -33,20 +34,12 @@ index 7d93ee6..09b5ccc 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR towlower ()
--function is thread-safe with exceptions.
--It can be safely used in multithreaded applications, as long as
--.BR setlocale (3)
--is not called to change the locale during its execution.
--.\" FIXME need a thread-safety statement about towlower_l()
-+T}	Thread safety	MT-Safe locale
-+T{
-+.BR towlower_l ()
-+T}	Thread safety	MT-Safe
++.BR tempnam ()
++T}	Thread safety	MT-Safe env
 +.TE
- .SH VERSIONS
- The
- .BR towlower_l ()
+ .SH CONFORMING TO
+ SVr4, 4.3BSD, POSIX.1-2001.
+ POSIX.1-2008 marks
 -- 
 1.9.3
 
