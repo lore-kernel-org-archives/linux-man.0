@@ -1,36 +1,71 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: Re: [PATCH] vmsplice.2: vmsplice() does not fail on nr_segs=0
-Date: Mon, 14 Jul 2014 14:57:03 +0200
-Message-ID: <20140714125703.GA22358@rei.suse.cz>
-References: <20140625141235.GA10090@rei.Home>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch] perf_event_open.2 -- clarify PERF_SAMPLE_DATA_SRC usage
+Date: Mon, 14 Jul 2014 10:33:04 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1407141025570.16796@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20140625141235.GA10090-HSzIOc4LzcM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Cyril Hrubis <metan-+ZI9xUNit7I@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> This case is no-op and no error is returned.
-> 
-> See fs/splice.c vmsplice syscall which contains:
-> 
->         if (unlikely(nr_segs > UIO_MAXIOV))
->                 return -EINVAL;
->         else if (unlikely(!nr_segs))
->                 return 0;
-> 
-> and looking at the git log suggests that this snipped was always there.
 
+When checking the fields in the PERF_SAMPLE_DATA_SRC type samples you need 
+to shift the masks before doing the compare.
 
-Ping?
+Although the value you are checking (perf_mem_data_src) is specified as a 
+bitfield so this might all far apart if trying to access the field in a 
+cross-endian way.  The Power people were working on this issue, not sure
+if they resolved it.
 
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 47e9984..3d70300 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -1935,7 +1935,9 @@ Executable code
+ .PD
+ .TP
+ .I mem_lvl
+-Memory hierarchy level hit or miss, a bitwise combination of:
++Memory hierarchy level hit or miss, a bitwise combination of
++the following, shifted left by 
++.BR PERF_MEM_LVL_SHIFT :
+ 
+ .PD 0
+ .RS
+@@ -1985,7 +1987,8 @@ Uncached memory
+ .PD
+ .TP
+ .I mem_snoop
+-Snoop mode, a bitwise combination of:
++Snoop mode, a bitwise combination of the following, shifted left by
++.BR PERF_MEM_SNOOP_SHIFT :
+ 
+ .PD 0
+ .RS
+@@ -2008,7 +2011,8 @@ Snoop hit modified
+ .PD
+ .TP
+ .I mem_lock
+-Lock instruction, a bitwise combination of:
++Lock instruction, a bitwise combination of the following, shifted left by
++.BR PERF_MEM_LOCK_SHIFT :
+ 
+ .PD 0
+ .RS
+@@ -2022,7 +2026,9 @@ Locked transaction
+ .PD
+ .TP
+ .I mem_dtlb
+-TLB access hit or miss, a bitwise combination of:
++TLB access hit or miss, a bitwise combination of the following, shifted
++left by
++.BR PERF_MEM_TLB_SHIFT :
+ 
+ .PD 0
+ .RS
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
