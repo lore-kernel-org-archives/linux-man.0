@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] towupper.3: Reformat thread-safety information
-Date: Tue, 15 Jul 2014 07:14:10 +0200
-Message-ID: <53C4B8A2.6080304@gmail.com>
-References: <1405322031-4451-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] toupper.3: Reformat thread-safety information
+Date: Tue, 15 Jul 2014 07:14:46 +0200
+Message-ID: <53C4B8C6.1030207@gmail.com>
+References: <1405325149-8424-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405322031-4451-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1405325149-8424-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -19,44 +19,49 @@ Best regards,
 
 Michael
 
-On 07/14/2014 09:13 AM, Peng Haitao wrote:
+On 07/14/2014 10:05 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/towupper.3 | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
+>  man3/toupper.3 | 25 +++++++++++++++----------
+>  1 file changed, 15 insertions(+), 10 deletions(-)
 > 
-> diff --git a/man3/towupper.3 b/man3/towupper.3
-> index 6d3c7a8..bb4a8ea 100644
-> --- a/man3/towupper.3
-> +++ b/man3/towupper.3
-> @@ -89,14 +89,20 @@ returns its uppercase equivalent;
->  otherwise it returns
->  .IR wc .
+> diff --git a/man3/toupper.3 b/man3/toupper.3
+> index 6e835b2..08f4169 100644
+> --- a/man3/toupper.3
+> +++ b/man3/toupper.3
+> @@ -113,17 +113,22 @@ The value returned is that of the converted letter, or
+>  .I c
+>  if the conversion was not possible.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR toupper ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw24 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR towupper ()
-> -function is thread-safe with exceptions.
-> -It can be safely used in multithreaded applications, as long as
+> +.BR toupper (),
+>  .BR tolower ()
+> -functions are thread-safe with exceptions.
+> -These functions can be safely used in multithreaded applications,
+> -as long as
 > -.BR setlocale (3)
-> -is not called to change the locale during its execution.
-> -.\" FIXME need a thread-safety statement about towupper_l()
+> -is not called to change the locale during their execution.
+> -.\" FIXME Add toupper_l() and tolower_l()
 > +T}	Thread safety	MT-Safe locale
 > +T{
-> +.BR towupper_l ()
+> +.BR toupper_l (),
+> +.BR tolower_l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
->  .SH VERSIONS
->  The
->  .BR towupper_l ()
+>  .SH CONFORMING TO
+>  .BR toupper (),
+>  .BR tolower ():
 > 
 
 
