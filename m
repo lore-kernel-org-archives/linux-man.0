@@ -1,44 +1,40 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strptime.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Tue, 15 Jul 2014 07:09:52 +0200
-Message-ID: <53C4B7A0.8080407@gmail.com>
-References: <1405327461-10781-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] ttyname.3: Reformat thread-safety information
+Date: Tue, 15 Jul 2014 07:13:46 +0200
+Message-ID: <53C4B88A.7060209@gmail.com>
+References: <1405319472-1889-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405327461-10781-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1405319472-1889-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Thank you, Haitao. Applied.
 
-Cheers,
+Best regards,
 
 Michael
 
-
-
-On 07/14/2014 10:44 AM, Peng Haitao wrote:
-> The function strptime() is thread safe with exceptions.
-> 
+On 07/14/2014 08:31 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strptime.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  man3/ttyname.3 | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> diff --git a/man3/strptime.3 b/man3/strptime.3
-> index eccce51..cf9077a 100644
-> --- a/man3/strptime.3
-> +++ b/man3/strptime.3
-> @@ -299,6 +299,18 @@ If
->  fails to match all
->  of the format string and therefore an error occurred, the function
->  returns NULL.
-> +.SH ATTRIBUTES
+> diff --git a/man3/ttyname.3 b/man3/ttyname.3
+> index d90511c..d52d648 100644
+> --- a/man3/ttyname.3
+> +++ b/man3/ttyname.3
+> @@ -72,14 +72,20 @@ File descriptor does not refer to a terminal device.
+>  .I buflen
+>  was too small to allow storing the pathname.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
@@ -47,12 +43,19 @@ On 07/14/2014 10:44 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR strptime ()
-> +T}	Thread safety	MT-Safe env locale
+>  .BR ttyname ()
+> -function is not thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Unsafe
+> +T{
+>  .BR ttyname_r ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  SUSv2, POSIX.1-2001.
->  .SH NOTES
+>  4.2BSD, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
