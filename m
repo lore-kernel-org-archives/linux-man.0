@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 80311] Not a bug at all
-Date: Tue, 15 Jul 2014 21:22:15 +0000
-Message-ID: <bug-80311-11311-RmuX9AarvG@https.bugzilla.kernel.org/>
+Date: Tue, 15 Jul 2014 21:22:44 +0000
+Message-ID: <bug-80311-11311-RtVInz26qy@https.bugzilla.kernel.org/>
 References: <bug-80311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,15 +14,8 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=80311
 
-Worik <root-X6/7+m0v+V3YtjvyW6yDsg@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |root-X6/7+m0v+V3YtjvyW6yDsg@public.gmane.org
-         Resolution|---                         |INVALID
-            Summary|Man page for /etc/hosts is  |Not a bug at all
-                   |inadequate                  |
+--- Comment #1 from Worik <root-X6/7+m0v+V3YtjvyW6yDsg@public.gmane.org> ---
+I should have looked at the examples.  Duh!
 
 -- 
 You are receiving this mail because:
