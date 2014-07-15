@@ -1,71 +1,63 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2 -- clarify PERF_SAMPLE_DATA_SRC usage
-Date: Mon, 14 Jul 2014 10:33:04 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1407141025570.16796@vincent-weaver-1.umelst.maine.edu>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 80311] New: Man page for /etc/hosts is inadequate
+Date: Tue, 15 Jul 2014 21:17:42 +0000
+Message-ID: <bug-80311-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=80311
 
-When checking the fields in the PERF_SAMPLE_DATA_SRC type samples you need 
-to shift the masks before doing the compare.
+            Bug ID: 80311
+           Summary: Man page for /etc/hosts is inadequate
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: root-X6/7+m0v+V3YtjvyW6yDsg@public.gmane.org
+        Regression: No
 
-Although the value you are checking (perf_mem_data_src) is specified as a 
-bitfield so this might all far apart if trying to access the field in a 
-cross-endian way.  The Power people were working on this issue, not sure
-if they resolved it.
+I am editing a /etc/hosts file and hence reading the man page.  I have noticed
+two issues.
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 47e9984..3d70300 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1935,7 +1935,9 @@ Executable code
- .PD
- .TP
- .I mem_lvl
--Memory hierarchy level hit or miss, a bitwise combination of:
-+Memory hierarchy level hit or miss, a bitwise combination of
-+the following, shifted left by 
-+.BR PERF_MEM_LVL_SHIFT :
- 
- .PD 0
- .RS
-@@ -1985,7 +1987,8 @@ Uncached memory
- .PD
- .TP
- .I mem_snoop
--Snoop mode, a bitwise combination of:
-+Snoop mode, a bitwise combination of the following, shifted left by
-+.BR PERF_MEM_SNOOP_SHIFT :
- 
- .PD 0
- .RS
-@@ -2008,7 +2011,8 @@ Snoop hit modified
- .PD
- .TP
- .I mem_lock
--Lock instruction, a bitwise combination of:
-+Lock instruction, a bitwise combination of the following, shifted left by
-+.BR PERF_MEM_LOCK_SHIFT :
- 
- .PD 0
- .RS
-@@ -2022,7 +2026,9 @@ Locked transaction
- .PD
- .TP
- .I mem_dtlb
--TLB access hit or miss, a bitwise combination of:
-+TLB access hit or miss, a bitwise combination of the following, shifted
-+left by
-+.BR PERF_MEM_TLB_SHIFT :
- 
- .PD 0
- .RS
+1: I wish to associate at least two host names with one IP number.
+(killmartha.com and worik.org to start with).  It is not clear in the man page
+if I should use two lines:
+
+              IP_address1 hostname1
+              IP_address1 hostname2
+
+or 
+
+              IP_address1 hostname1 hostname2
+
+In the second case hostname2 would be an alias for hostname1.  From reading the
+man page I am guessing I use two lines but it is not clear.
+
+2: canonical_hostname is not defined in the document.  (I am fairly sure I know
+what it is but it should be defined in the document that uses it) and alias is
+defined but it is not clear from the definition if it can be used in the one
+line case above.
+
+I am confident I can sort this out for myself.  If so I can write what I think
+should be added to the man page if any one agrees with me that this is a
+problem.
+
+Worik
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
