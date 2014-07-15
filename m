@@ -1,85 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2 -- clarify PERF_SAMPLE_DATA_SRC usage
-Date: Tue, 15 Jul 2014 06:33:02 +0200
-Message-ID: <53C4AEFE.1050605@gmail.com>
-References: <alpine.DEB.2.11.1407141025570.16796@vincent-weaver-1.umelst.maine.edu>
+Subject: Re: [PATCH] fnmatch.3: ATTRIBUTES: Note function that is thread safe
+ with exceptions
+Date: Tue, 15 Jul 2014 07:08:35 +0200
+Message-ID: <53C4B753.4040901@gmail.com>
+References: <1405317262-30630-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1407141025570.16796-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <1405317262-30630-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/14/2014 04:33 PM, Vince Weaver wrote:
-> 
-> When checking the fields in the PERF_SAMPLE_DATA_SRC type samples you need 
-> to shift the masks before doing the compare.
-> 
-> Although the value you are checking (perf_mem_data_src) is specified as a 
-> bitfield so this might all far apart if trying to access the field in a 
-> cross-endian way.  The Power people were working on this issue, not sure
-> if they resolved it.
-
-Thanks, Vince. Applied.
-
-In the changelog text above, I changed "far" to "fall". Okay?
+Thank you, Haitao. Applied (in my local branch)
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+On 07/14/2014 07:54 AM, Peng Haitao wrote:
+> The function fnmatch() is thread safe with exceptions.
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 47e9984..3d70300 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -1935,7 +1935,9 @@ Executable code
->  .PD
->  .TP
->  .I mem_lvl
-> -Memory hierarchy level hit or miss, a bitwise combination of:
-> +Memory hierarchy level hit or miss, a bitwise combination of
-> +the following, shifted left by 
-> +.BR PERF_MEM_LVL_SHIFT :
->  
->  .PD 0
->  .RS
-> @@ -1985,7 +1987,8 @@ Uncached memory
->  .PD
->  .TP
->  .I mem_snoop
-> -Snoop mode, a bitwise combination of:
-> +Snoop mode, a bitwise combination of the following, shifted left by
-> +.BR PERF_MEM_SNOOP_SHIFT :
->  
->  .PD 0
->  .RS
-> @@ -2008,7 +2011,8 @@ Snoop hit modified
->  .PD
->  .TP
->  .I mem_lock
-> -Lock instruction, a bitwise combination of:
-> +Lock instruction, a bitwise combination of the following, shifted left by
-> +.BR PERF_MEM_LOCK_SHIFT :
->  
->  .PD 0
->  .RS
-> @@ -2022,7 +2026,9 @@ Locked transaction
->  .PD
->  .TP
->  .I mem_dtlb
-> -TLB access hit or miss, a bitwise combination of:
-> +TLB access hit or miss, a bitwise combination of the following, shifted
-> +left by
-> +.BR PERF_MEM_TLB_SHIFT :
->  
->  .PD 0
->  .RS
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/fnmatch.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man3/fnmatch.3 b/man3/fnmatch.3
+> index b743d5d..d788630 100644
+> --- a/man3/fnmatch.3
+> +++ b/man3/fnmatch.3
+> @@ -93,6 +93,18 @@ matches
+>  .IR pattern ,
+>  .B FNM_NOMATCH
+>  if there is no match or another nonzero value if there is an error.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR fnmatch ()
+> +T}	Thread safety	MT-Safe env locale
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.2.
+>  The
 > 
 
 
