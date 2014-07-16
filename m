@@ -1,37 +1,73 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 80311] Not a bug at all
-Date: Wed, 16 Jul 2014 07:17:14 +0000
-Message-ID: <bug-80311-11311-IeCqPP5I53@https.bugzilla.kernel.org/>
-References: <bug-80311-11311@https.bugzilla.kernel.org/>
+From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Subject: [PATCH] prctl.2: document SECCOMP_MODE_FILTER vs EFAULT
+Date: Wed, 16 Jul 2014 14:41:39 -0700
+Message-ID: <20140716214139.GA4421@www.outflux.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-80311-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=80311
+This notes the distinction made between EINVAL and EFAULT when attempting
+to use SECCOMP_MODE_FILTER with PR_SET_SECCOMP.
 
---- Comment #2 from walter <wharms-fPG8STNUNVg@public.gmane.org> ---
-Am 15.07.2014 23:22, schrieb bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org:
-> https://bugzilla.kernel.org/show_bug.cgi?id=80311
-> 
-> --- Comment #1 from Worik <root-X6/7+m0v+V3YtjvyW6yDsg@public.gmane.org> ---
-> I should have looked at the examples.  Duh!
-> 
+Suggested-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+---
+ man2/prctl.2 |   23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
+diff --git a/man2/prctl.2 b/man2/prctl.2
+index 1199891..b7ddaac 100644
+--- a/man2/prctl.2
++++ b/man2/prctl.2
+@@ -825,6 +825,19 @@ is set appropriately.
+ .I arg2
+ is an invalid address.
+ .TP
++.B EFAULT
++.I option
++is
++.BR PR_SET_SECCOMP ,
++.I arg2
++is
++.BR SECCOMP_MODE_FILTER ,
++the system was built with
++.BR CONFIG_SECCOMP_FILTER
++and
++.I arg3
++is an invalid address.
++.TP
+ .B EINVAL
+ The value of
+ .I option
+@@ -859,6 +872,16 @@ and the kernel was not configured with
+ .B EINVAL
+ .I option
+ is
++.BR PR_SET_SECCOMP ,
++.I arg2
++is
++.BR SECCOMP_MODE_FILTER ,
++and the kernel was not configured with
++.BR CONFIG_SECCOMP_FILTER .
++.TP
++.B EINVAL
++.I option
++is
+ .BR PR_SET_MM ,
+ and one of the following is true
+ .RS
+-- 
+1.7.9.5
 
-NTL it should also be clear from the text,
- feel free to post improvements.
-
-re,
- wh
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Kees Cook
+Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
