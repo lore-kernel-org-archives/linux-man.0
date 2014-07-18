@@ -1,47 +1,186 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 80541] New: man pages for unimplemented functions provoke name
- clash
-Date: Thu, 17 Jul 2014 21:37:00 +0000
-Message-ID: <bug-80541-11311@https.bugzilla.kernel.org/>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: For review: memusage(1) man page
+Date: Fri, 18 Jul 2014 11:00:52 +0200
+Message-ID: <53C8E244.2080901@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=80541
+Hi,
 
-            Bug ID: 80541
-           Summary: man pages for unimplemented functions provoke name
-                    clash
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org
-        Regression: No
+memusage command is no documented. My collegue (95%) and I (5%) have 
+written a man page for it. All informations come from inspecting the 
+script code. This is the first script, others are memusagestat (1) and 
+mtrace(1).
 
-A page like cerf(3), which says "not yet in glibc, as at version 2.12",
-provokes a name clash if some other library provides the missing
-implementation.
+Feel free to comment or ask any question.
 
-The rpm package managers reacts to such name clash by suggesting to uninstall
-libc, which is no clever resolution.
+Thank you
+Jan
 
-I suggest to resolve this problem by moving man pages of unimplemented
-functions to manual section 7, so that they can peacefully coexist in the
-shadow of section 3 pages provided by more specific libraries.
+.\" Copyright (c) 2013, Peter Schiffer (pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org)
+.\"
+.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+.\" This is free documentation; you can redistribute it and/or
+.\" modify it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2 of
+.\" the License, or (at your option) any later version.
+.\"
+.\" The GNU General Public License's references to "object code"
+.\" and "executables" are to be interpreted as the output of any
+.\" document formatting or typesetting system, including
+.\" intermediate and printed output.
+.\"
+.\" This manual is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with this manual; if not, see
+.\" <http://www.gnu.org/licenses/>.
+.\" %%%LICENSE_END
+.TH MEMUSAGE 1 2013-04-10 "GNU glibc 2.18" "Memory diagnostic tools"
+.SH NAME
+memusage \- profile memory usage of a program
+.SH SYNOPSIS
+.BR memusage " [\fIOPTION\fR]... \fIPROGRAM\fR [\fIPROGRAMOPTION\fR]..."
+.SH DESCRIPTION
+.B memusage
+is a bash script which can profile memory usage of a program. It preloads
+.B libmemusage.so
+library to the user's environment using
+.B LD_PRELOAD
+environment variable. The
+.B libmemusage.so
+library traces memory allocation by intercepting calls to
+.BR malloc (3),
+.BR free (3),
+.BR realloc (3)
+and various other calls.
+.PP
+.B memusage
+can output text representation of the collected data, or it can use
+.BR memusagestat (1)
+utility (see
+.B -p
+option)
+to create a PNG file containing graphical representation
+of the collected data.
+.TP
+List of monitored functions:
+.RS
+.BI "void *malloc(size_t " "size" );
+.RE
+.RS
+.BI "void *calloc(size_t " "nmemb" ", size_t " "size" );
+.RE
+.RS
+.BI "void *realloc(void " "*ptr" ", size_t "  "size" );
+.RE
+.RS
+.BI "void *mmap(void " "*addr" ", size_t " "length" ", int " "prot",
+.BI "int " "flags" ", int " "fd" ", off_t " "offset");
+.RE
+.RS
+.BI "void *mremap(void " "*old_address" ", size_t " "old_size",
+.BI "size_t " "new_size" ", int " "flags",
+.BI "... /* void " "*new_address" " */);"
+.RE
+.TP
+Description of a memory usage summary:
+.RE
+\fBheap total\fR:
+.RS
+Sum of \fIsize\fR arguments of all malloc calls,
+sum of all product of arguments (\fInmemb\fR*\fIsize\fR) of calloc call
+and sum of \fIlength\fR arguments of mmap calls.
+In a case of realloc, respectively mremap, if a new size of an original 
+malloc,
+respectively mremap call is bigger than an old one,
+sum of all such differences (new size - old size) is added.
+.RE
+\fBheap peak\fR:
+.RS
+Maximum of all \fIsize\fR arguments of malloc,
+all products of \fInmemb\fR*\fIsize\fR of calloc,
+all \fIsize\fR arguments of realloc, \fIlength\fR arguments of mmap and
+\fInew_size\fR arguments of mremap.
+.RE
+\fBstack peak\fR:
+.RS
+Before the first call to any monitored function,
+stack pointer address (base stack pointer) is saved.
+After each function call, actual stack pointer address is read and
+the difference between the base stack pointer computed.
+Maximum of these differences is then the stack peak.
+.RE
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+If a realloc function is called on a mallocced memory with a new size being
+smaller than an old one, total memory of realloc cell is not updated.
+This can cause sum of all cells (excluding free) of total memory being
+greater than free cell.
+.SH OPTIONS
+.TP
+.BI \-n\  name \fR,\ \fB\-\-progname= name
+Name of the program file to profile.
+.TP
+.BI \-p\  file \fR,\ \fB\-\-png= file
+Generate PNG graphic and store it in the file.
+.TP
+.BI \-d\  file \fR,\ \fB\-\-data= file
+Generate binary data file and store it in the file.
+.TP
+.BI \-u\fR,\ \fB\-\-unbuffered
+Do not buffer output.
+.TP
+.BI \-b\  size \fR,\ \fB\-\-buffer= size
+Collect size entries before writing them out.
+.TP
+.BI \fB\-\-no-timer
+Do not collect additional information through timer.
+.TP
+.BI \-m\fR,\ \fB\-\-mmap
+Also trace mmap and friends.
+.TP
+.BI \-?\fR,\ \fB\-\-help
+Print help and exit.
+.TP
+.BI \fB\-\-usage
+Print a short usage message and exit.
+.TP
+.BI \-V\fR,\ \fB\-\-version
+Print version information and exit.
+.TP
+The following options only apply when generating graphical output:
+.TP
+.BI \-t\fR,\ \fB\-\-time\-based
+Make graph linear in time.
+.TP
+.BI \-T\fR,\ \fB\-\-total
+Also draw graph of total memory use.
+.TP
+.BI \fB\-\-title= name
+Use the name as a title of the graph.
+.TP
+.BI \-x\  size \fR,\ \fB\-\-x\-size= size
+Make graphic size pixels wide.
+.TP
+.BI \-y\  size \fR,\ \fB\-\-y\-size= size
+Make graphic size pixels high.
+.SH EXIT STATUS
+Exit status is equal to the exit status of profiled program.
+.SH BUGS
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/libc/bugs.html>.
+.SH SEE ALSO
+.BR memusagestat (1),
+.BR ld.so (8)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
