@@ -1,7 +1,7 @@
 From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: For review: memusage(1) man page
-Date: Fri, 18 Jul 2014 11:00:52 +0200
-Message-ID: <53C8E244.2080901@redhat.com>
+Subject: For review: mtrace(1) man page
+Date: Fri, 18 Jul 2014 11:01:02 +0200
+Message-ID: <53C8E24E.3040704@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
@@ -11,12 +11,7 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
-
-memusage command is no documented. My collegue (95%) and I (5%) have 
-written a man page for it. All informations come from inspecting the 
-script code. This is the first script, others are memusagestat (1) and 
-mtrace(1).
+mtrace(1) command is not documented. All informations come from the script.
 
 Feel free to comment or ask any question.
 
@@ -45,142 +40,48 @@ Jan
 .\" License along with this manual; if not, see
 .\" <http://www.gnu.org/licenses/>.
 .\" %%%LICENSE_END
-.TH MEMUSAGE 1 2013-04-10 "GNU glibc 2.18" "Memory diagnostic tools"
+.TH MTRACE 1 2013-04-10 "GNU glibc 2.18" "Memory diagnostic tools"
 .SH NAME
-memusage \- profile memory usage of a program
+mtrace \- interpret the malloc trace log
 .SH SYNOPSIS
-.BR memusage " [\fIOPTION\fR]... \fIPROGRAM\fR [\fIPROGRAMOPTION\fR]..."
+.BR mtrace " [\fIOPTION\fR]... [\fIBINARY\fR] \fIMTRACEDATA\fR"
 .SH DESCRIPTION
-.B memusage
-is a bash script which can profile memory usage of a program. It preloads
-.B libmemusage.so
-library to the user's environment using
-.B LD_PRELOAD
-environment variable. The
-.B libmemusage.so
-library traces memory allocation by intercepting calls to
-.BR malloc (3),
-.BR free (3),
-.BR realloc (3)
-and various other calls.
-.PP
-.B memusage
-can output text representation of the collected data, or it can use
-.BR memusagestat (1)
-utility (see
-.B -p
-option)
-to create a PNG file containing graphical representation
-of the collected data.
-.TP
-List of monitored functions:
-.RS
-.BI "void *malloc(size_t " "size" );
-.RE
-.RS
-.BI "void *calloc(size_t " "nmemb" ", size_t " "size" );
-.RE
-.RS
-.BI "void *realloc(void " "*ptr" ", size_t "  "size" );
-.RE
-.RS
-.BI "void *mmap(void " "*addr" ", size_t " "length" ", int " "prot",
-.BI "int " "flags" ", int " "fd" ", off_t " "offset");
-.RE
-.RS
-.BI "void *mremap(void " "*old_address" ", size_t " "old_size",
-.BI "size_t " "new_size" ", int " "flags",
-.BI "... /* void " "*new_address" " */);"
-.RE
-.TP
-Description of a memory usage summary:
-.RE
-\fBheap total\fR:
-.RS
-Sum of \fIsize\fR arguments of all malloc calls,
-sum of all product of arguments (\fInmemb\fR*\fIsize\fR) of calloc call
-and sum of \fIlength\fR arguments of mmap calls.
-In a case of realloc, respectively mremap, if a new size of an original 
-malloc,
-respectively mremap call is bigger than an old one,
-sum of all such differences (new size - old size) is added.
-.RE
-\fBheap peak\fR:
-.RS
-Maximum of all \fIsize\fR arguments of malloc,
-all products of \fInmemb\fR*\fIsize\fR of calloc,
-all \fIsize\fR arguments of realloc, \fIlength\fR arguments of mmap and
-\fInew_size\fR arguments of mremap.
-.RE
-\fBstack peak\fR:
-.RS
-Before the first call to any monitored function,
-stack pointer address (base stack pointer) is saved.
-After each function call, actual stack pointer address is read and
-the difference between the base stack pointer computed.
-Maximum of these differences is then the stack peak.
-.RE
+.B mtrace
+is a Perl script used to interpret and provide human readable output
+of the trace log created by
+.BR mtrace (3)
+function stored in the
+.B MTRACEDATA
+file.
+If
+.B BINARY
+is provided, output of
+.B mtrace
+also contains source file name with line number information
+of problem location
+(assuming that
+.B BINARY
+was compiled with debugging information).
 
-If a realloc function is called on a mallocced memory with a new size being
-smaller than an old one, total memory of realloc cell is not updated.
-This can cause sum of all cells (excluding free) of total memory being
-greater than free cell.
+For more information about
+.BR mtrace (3)
+function and
+.B mtrace
+script usage, refer to the
+.BR mtrace (3)
+manual page.
 .SH OPTIONS
 .TP
-.BI \-n\  name \fR,\ \fB\-\-progname= name
-Name of the program file to profile.
-.TP
-.BI \-p\  file \fR,\ \fB\-\-png= file
-Generate PNG graphic and store it in the file.
-.TP
-.BI \-d\  file \fR,\ \fB\-\-data= file
-Generate binary data file and store it in the file.
-.TP
-.BI \-u\fR,\ \fB\-\-unbuffered
-Do not buffer output.
-.TP
-.BI \-b\  size \fR,\ \fB\-\-buffer= size
-Collect size entries before writing them out.
-.TP
-.BI \fB\-\-no-timer
-Do not collect additional information through timer.
-.TP
-.BI \-m\fR,\ \fB\-\-mmap
-Also trace mmap and friends.
-.TP
-.BI \-?\fR,\ \fB\-\-help
+.BI \fB\-\-help
 Print help and exit.
 .TP
-.BI \fB\-\-usage
-Print a short usage message and exit.
-.TP
-.BI \-V\fR,\ \fB\-\-version
+.BI \fB\-\-version
 Print version information and exit.
-.TP
-The following options only apply when generating graphical output:
-.TP
-.BI \-t\fR,\ \fB\-\-time\-based
-Make graph linear in time.
-.TP
-.BI \-T\fR,\ \fB\-\-total
-Also draw graph of total memory use.
-.TP
-.BI \fB\-\-title= name
-Use the name as a title of the graph.
-.TP
-.BI \-x\  size \fR,\ \fB\-\-x\-size= size
-Make graphic size pixels wide.
-.TP
-.BI \-y\  size \fR,\ \fB\-\-y\-size= size
-Make graphic size pixels high.
-.SH EXIT STATUS
-Exit status is equal to the exit status of profiled program.
 .SH BUGS
 For bug reporting instructions, please see:
 <http://www.gnu.org/software/libc/bugs.html>.
 .SH SEE ALSO
-.BR memusagestat (1),
-.BR ld.so (8)
+.BR mtrace (3)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
