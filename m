@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] tcgetsid.3: Reformat thread-safety information
-Date: Mon, 21 Jul 2014 16:17:55 +0800
-Message-ID: <1405930675-30777-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] tcgetpgrp.3: Reformat thread-safety information
+Date: Mon, 21 Jul 2014 16:24:32 +0800
+Message-ID: <1405931072-31131-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,29 +12,32 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/tcgetsid.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/tcgetpgrp.3 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man3/tcgetsid.3 b/man3/tcgetsid.3
-index 8dbc04b..fa6128e 100644
---- a/man3/tcgetsid.3
-+++ b/man3/tcgetsid.3
-@@ -63,10 +63,17 @@ it has one but it is not described by
- .BR tcgetsid ()
- is provided in glibc since version 2.1.
+diff --git a/man3/tcgetpgrp.3 b/man3/tcgetpgrp.3
+index da039e2..e50d796 100644
+--- a/man3/tcgetpgrp.3
++++ b/man3/tcgetpgrp.3
+@@ -107,12 +107,18 @@ of the calling process.
+ has a supported value, but is not the process group ID of a
+ process in the same session as the calling process.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
+-.BR tcgetpgrp ()
+-and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR tcgetsid ()
--function is thread-safe.
++.BR tcgetpgrp (),
+ .BR tcsetpgrp ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
