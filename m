@@ -1,35 +1,52 @@
-From: Jan Chaloupka <jchaloup@redhat.com>
-Subject: Re: For review: memusage(1) man page
-Date: Fri, 18 Jul 2014 11:50:54 +0200
-Message-ID: <53C8EDFE.5000908@redhat.com>
-References: <53C8E244.2080901@redhat.com> <E1X84Kh-00041J-2z@fencepost.gnu.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] catopen.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Mon, 21 Jul 2014 11:36:31 +0800
+Message-ID: <1405913791-16629-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-51829-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <E1X84Kh-00041J-2z@fencepost.gnu.org>
-To: ams@gnu.org
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, libc-alpha@sourceware.org, myllynen@redhat.com, drepper@gmail.com, pschiffe@redhat.com
+Content-Type: text/plain
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+The functions catopen() and catclose() are thread safe.
 
-On 07/18/2014 11:20 AM, Alfred M. Szmidt wrote:
->     memusage command is no documented. My collegue (95%) and I (5%)
->     have written a man page for it. All informations come from
->     inspecting the script code. This is the first script, others are
->     memusagestat (1) and mtrace(1).
->
-> This, memusagestat, and mtrace should rather be put into the glibc
-> manual.
-Having for example malloc in man pages, it is reasonable for me to put 
-these three man pages here too. Searching manual for memusagestat help 
-is time consuming. But yes, it should me in the manual too.
->    mtrace is already (though partially) documented there, and
-> much of the details regarding the mtrace functions.  Having the
-> corresponding commands documented would be awesome though.
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/catopen.3 | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/man3/catopen.3 b/man3/catopen.3
+index 0d8d33b..b582a4a 100644
+--- a/man3/catopen.3
++++ b/man3/catopen.3
+@@ -143,6 +143,21 @@ is set to
+ The language to use if
+ .I flag
+ is 0.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR catopen ()
++T}	Thread safety	MT-Safe env
++T{
++.BR catclose ()
++T}	Thread safety	MT-Safe
++.TE
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .\" In XPG 1987, Vol. 3 it says:
+-- 
+1.9.3
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
