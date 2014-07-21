@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] telldir.3: Reformat thread-safety information
-Date: Mon, 21 Jul 2014 16:13:48 +0800
-Message-ID: <1405930428-30511-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] tcgetsid.3: Reformat thread-safety information
+Date: Mon, 21 Jul 2014 16:17:55 +0800
+Message-ID: <1405930675-30777-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/telldir.3 | 13 ++++++++++---
+ man3/tcgetsid.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/telldir.3 b/man3/telldir.3
-index c61f1f2..60bb940 100644
---- a/man3/telldir.3
-+++ b/man3/telldir.3
-@@ -62,10 +62,17 @@ is set appropriately.
- .B EBADF
- Invalid directory stream descriptor \fIdirp\fP.
+diff --git a/man3/tcgetsid.3 b/man3/tcgetsid.3
+index 8dbc04b..fa6128e 100644
+--- a/man3/tcgetsid.3
++++ b/man3/tcgetsid.3
+@@ -63,10 +63,17 @@ it has one but it is not described by
+ .BR tcgetsid ()
+ is provided in glibc since version 2.1.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,12 +33,12 @@ index c61f1f2..60bb940 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR telldir ()
+ .BR tcgetsid ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
+ POSIX.1-2001.
  .SH NOTES
 -- 
 1.9.3
