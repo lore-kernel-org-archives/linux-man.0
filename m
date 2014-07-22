@@ -1,65 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] exec.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 22 Jul 2014 07:11:23 +0200
-Message-ID: <53CDF27B.6020300@gmail.com>
-References: <1405930093-30232-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] swab.3: Reformat thread-safety information
+Date: Tue, 22 Jul 2014 07:14:33 +0200
+Message-ID: <53CDF339.1080701@gmail.com>
+References: <1405998865-26447-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405930093-30232-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1405998865-26447-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied in my local branch.
+Thanks, Haitao. Applied.
 
 Cheers,
 
 Michael
 
 
-
-On 07/21/2014 10:08 AM, Peng Haitao wrote:
-> The functions execl(), execlp(), execle(), execv(), execvp() and
-> execvpe() are thread safe.
-> 
+On 07/22/2014 05:14 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/exec.3 | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
+>  man3/swab.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/exec.3 b/man3/exec.3
-> index 6356d2c..7756056 100644
-> --- a/man3/exec.3
-> +++ b/man3/exec.3
-> @@ -196,6 +196,25 @@ for any of the errors specified for
->  The
->  .BR execvpe ()
->  function first appeared in glibc 2.11.
-> +.SH ATTRIBUTES
+> diff --git a/man3/swab.3 b/man3/swab.3
+> index 007f685..8b5b217 100644
+> --- a/man3/swab.3
+> +++ b/man3/swab.3
+> @@ -70,10 +70,17 @@ The
+>  .BR swab ()
+>  function returns no value.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw29 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR execl (),
-> +.BR execle (),
-> +.BR execv ()
+>  .BR swab ()
+> -function is thread-safe.
 > +T}	Thread safety	MT-Safe
-> +T{
-> +.BR execlp (),
-> +.BR execvp (),
-> +.BR execvpe ()
-> +T}	Thread safety	MT-Safe env
 > +.TE
 >  .SH CONFORMING TO
->  POSIX.1-2001, POSIX.1-2008.
->  
+>  SVr4, 4.3BSD, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
