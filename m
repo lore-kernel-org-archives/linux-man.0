@@ -1,68 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: Reformat thread-safety information
-Date: Tue, 22 Jul 2014 07:08:00 +0200
-Message-ID: <53CDF1B0.2020501@gmail.com>
-References: <1405916128-18956-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] getw.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 22 Jul 2014 07:12:39 +0200
+Message-ID: <53CDF2C7.2060600@gmail.com>
+References: <1405998052-25687-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405916128-18956-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1405998052-25687-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Thanks, Haitao. Applied in my local branch.
 
 Cheers,
 
 Michael
 
 
-On 07/21/2014 06:15 AM, Peng Haitao wrote:
+
+On 07/22/2014 05:00 AM, Peng Haitao wrote:
+> The functions getw() and putw() are thread safe.
+> 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/termios.3 | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+>  man3/getw.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index fbf909b..9583f11 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -972,8 +972,16 @@ it may be necessary to follow this call with a further call to
->  .BR tcgetattr ()
->  to check that all changes have been performed successfully.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
+> diff --git a/man3/getw.3 b/man3/getw.3
+> index 7850de0..430343b 100644
+> --- a/man3/getw.3
+> +++ b/man3/getw.3
+> @@ -77,6 +77,19 @@ returns the word read, and
+>  .BR putw ()
+>  returns 0.
+>  On error, they return \fBEOF\fP.
+> +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
-> +.nh
-> +.ad l
 > +.TS
 > +allbox;
-> +lb lb lb
-> +lw37 l l.
+> +lbw14 lb lb
+> +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR tcgetattr (),
->  .BR tcsetattr (),
->  .BR tcsendbreak (),
-> @@ -985,9 +993,11 @@ The
->  .BR cfgetospeed (),
->  .BR cfsetispeed (),
->  .BR cfsetospeed (),
-> -and
->  .BR cfsetspeed ()
-> -functions are thread-safe.
+> +.BR getw (),
+> +.BR putw ()
 > +T}	Thread safety	MT-Safe
 > +.TE
-> +.ad
-> +.hy
 >  .SH CONFORMING TO
->  .BR tcgetattr (),
->  .BR tcsetattr (),
+>  SVr4, SUSv2.
+>  Not present in POSIX.1-2001.
 > 
 
 
