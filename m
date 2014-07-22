@@ -1,73 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Possible Manpage bug for bind(2)
-Date: Tue, 22 Jul 2014 07:40:15 +0200
-Message-ID: <53CDF93F.70202@gmail.com>
-References: <CA+D=RwhXRWwfVoxKwEaqviET0bOGJ2wOE8qMbmZH7a3-Bd6xYg@mail.gmail.com>
+Subject: Re: [PATCH] stat.2: nfix
+Date: Tue, 22 Jul 2014 07:17:20 +0200
+Message-ID: <53CDF3E0.2070407@gmail.com>
+References: <1405549510-8000-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CA+D=RwhXRWwfVoxKwEaqviET0bOGJ2wOE8qMbmZH7a3-Bd6xYg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1405549510-8000-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ryan Hammonds <rhammonds-AMWTPT7kBHDQT0dZR+AlfA@public.gmane.org>
+To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Ryan,
-
-On 07/17/2014 07:39 PM, Ryan Hammonds wrote:
-> Greetings,
-> I'd like to point out an issue in the manpage for bind(2). My
-> application is trying to bind an IPV4 UDP socket to an address. I've
-> found that passing an invalid address length to bind() causes bind to
-> return EINVAL. According to the bind(2) manpage, this should only
-> occur when using unix domain sockets (which I am not). 
-
-Yes, your report looks right to me. I applied the patch below.
-Thanks for the report.
-
-
-> This also
-> makes me wonder if the current description (EINVAL = "the socket is
-> already bound to an address") is correct in the first place.
-
-A bit of light testing suggests that it is (still) correct.
+Thanks, David. APplied.
 
 Cheers,
 
 Michael
 
---- a/man2/bind.2
-+++ b/man2/bind.2
-@@ -183,6 +183,12 @@ The socket is already bound to an address.
- .\" This may change in the future: see
- .\" .I linux/unix/sock.c for details.
- .TP
-+.B EINVAL
-+.I addrlen
-+is wrong, or
-+.I addr
-+is not a valid address for this socket's domain.
-+.TP
- .B ENOTSOCK
- .I sockfd
- is a descriptor for a file, not a socket.
-@@ -204,13 +210,6 @@ address was not local.
- .I addr
- points outside the user's accessible address space.
- .TP
--.B EINVAL
--The
--.I addrlen
--is wrong, or the socket was not in the
--.B AF_UNIX
--family.
--.TP
- .B ELOOP
- Too many symbolic links were encountered in resolving
- .IR addr .
+On 07/17/2014 12:25 AM, David Pr=E9vot wrote:
+> ---
+>  man2/stat.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man2/stat.2 b/man2/stat.2
+> index b70797d..1570568 100644
+> --- a/man2/stat.2
+> +++ b/man2/stat.2
+> @@ -337,7 +337,7 @@ if (S_ISREG(sb.st_mode)) {
+>  .fi
+>  .PP
+>  The definitions of most of the above file type test macros
+> -are provided if any of the following feature test macros are defined=
+:
+> +are provided if any of the following feature test macros is defined:
+>  .BR _BSD_SOURCE
+>  (in glibc 2.19 and earlier),
+>  .BR _SVID_SOURCE
+>=20
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
