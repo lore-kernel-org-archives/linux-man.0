@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] swab.3: Reformat thread-safety information
-Date: Tue, 22 Jul 2014 11:14:25 +0800
-Message-ID: <1405998865-26447-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] strtoul.3: Reformat thread-safety information
+Date: Tue, 22 Jul 2014 11:19:57 +0800
+Message-ID: <1405999197-26831-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/swab.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/strtoul.3 | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/man3/swab.3 b/man3/swab.3
-index 007f685..8b5b217 100644
---- a/man3/swab.3
-+++ b/man3/swab.3
-@@ -70,10 +70,17 @@ The
- .BR swab ()
- function returns no value.
+diff --git a/man3/strtoul.3 b/man3/strtoul.3
+index 60649cc..b4266d3 100644
+--- a/man3/strtoul.3
++++ b/man3/strtoul.3
+@@ -163,17 +163,19 @@ to
+ in case
+ no conversion was performed (no digits seen, and 0 returned).
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,17 +29,24 @@ index 007f685..8b5b217 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw32 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR swab ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
+ .BR strtoul (),
+ .BR strtoull (),
+-and
+ .BR strtouq ()
+-functions are thread-safe with exceptions.
+-These functions can be safely used in multithreaded applications,
+-as long as
+-.BR setlocale (3)
+-is not called to change the locale during their execution.
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- SVr4, 4.3BSD, POSIX.1-2001.
- .SH SEE ALSO
+ .BR strtoul ()
+ conforms to SVr4, C89, C99, and POSIX-2001, and
 -- 
 1.9.3
 
