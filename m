@@ -1,29 +1,28 @@
-From: ams-mXXj517/zsQ@public.gmane.org (Alfred M. Szmidt)
-Subject: Re: For review: memusage(1) man page
-Date: Tue, 22 Jul 2014 07:00:39 -0400
-Message-ID: <E1X9XoF-0007Vz-Lm@fencepost.gnu.org>
-References: <53C8E244.2080901@redhat.com> <E1X84Kh-00041J-2z@fencepost.gnu.org> <53CE004A.3060706@gmail.com> <E1X9VbA-0002Bk-Ox@fencepost.gnu.org> <53CE3AF3.40005@redhat.com>
-Reply-To: ams-mXXj517/zsQ@public.gmane.org
+From: "Carlos O'Donell" <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Subject: Re: [PATCH] getgrouplist.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Tue, 22 Jul 2014 07:42:20 -0400
+Message-ID: <CAE2sS1hVFTM+1e7A=18+WSjtkLoOakbJ=PYLh-rnMBwdLQwGPw@mail.gmail.com>
+References: <1406001158-28463-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <53CE3AF3.40005-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (message from Jan Chaloupka on Tue,
-	22 Jul 2014 12:20:35 +0200)
+In-Reply-To: <1406001158-28463-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-   > Jan, are you willing to assign copyright for those documenation
-   > bits to the FSF? I'll happily convert them into texinfo.
+On Mon, Jul 21, 2014 at 11:52 PM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+> The function getgrouplist() is thread safe with exceptions.
+> +T}     Thread safety   MT-Safe locale
 
-   Alfred, can you be more specific? What would it imply for me, Peter
-   and man pages? Is there a problem with GPLv2+ or the copyright?
-   What should be changed?
+Excellent continued use of the new safety attributes.
 
-Please see:
+Peng, I'm very happy to see such good work go into the linux kernel man pages.
 
-	https://sourceware.org/glibc/wiki/Contribution%20checklist#FSF_copyright_Assignment
-
-It should explain everything.
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
