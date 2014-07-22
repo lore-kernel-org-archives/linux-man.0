@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tanh.3: Reformat thread-safety information
-Date: Tue, 22 Jul 2014 07:09:07 +0200
-Message-ID: <53CDF1F3.2030204@gmail.com>
-References: <1405934473-2266-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] tcgetpgrp.3: Reformat thread-safety information
+Date: Tue, 22 Jul 2014 07:08:52 +0200
+Message-ID: <53CDF1E4.1050606@gmail.com>
+References: <1405931072-31131-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405934473-2266-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1405931072-31131-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -19,22 +19,24 @@ Cheers,
 
 Michael
 
-On 07/21/2014 11:21 AM, Peng Haitao wrote:
+On 07/21/2014 10:24 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/tanh.3 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>  man3/tcgetpgrp.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man3/tanh.3 b/man3/tanh.3
-> index 79edab1..fa76347 100644
-> --- a/man3/tanh.3
-> +++ b/man3/tanh.3
-> @@ -98,13 +98,19 @@ is positive infinity (negative infinity),
->  .SH ERRORS
->  No errors occur.
+> diff --git a/man3/tcgetpgrp.3 b/man3/tcgetpgrp.3
+> index da039e2..e50d796 100644
+> --- a/man3/tcgetpgrp.3
+> +++ b/man3/tcgetpgrp.3
+> @@ -107,12 +107,18 @@ of the calling process.
+>  has a supported value, but is not the process group ID of a
+>  process in the same session as the calling process.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR tcgetpgrp ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
@@ -43,16 +45,14 @@ On 07/21/2014 11:21 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR tanh (),
->  .BR tanhf (),
-> -and
->  .BR tanhl ()
+> +.BR tcgetpgrp (),
+>  .BR tcsetpgrp ()
 > -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
