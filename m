@@ -1,41 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] swab.3: Reformat thread-safety information
-Date: Tue, 22 Jul 2014 07:14:33 +0200
-Message-ID: <53CDF339.1080701@gmail.com>
-References: <1405998865-26447-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] getgrouplist.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Tue, 22 Jul 2014 07:12:53 +0200
+Message-ID: <53CDF2D5.3070409@gmail.com>
+References: <1406001158-28463-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405998865-26447-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1406001158-28463-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+Thanks, Haitao. Applied in my local branch.
 
 Cheers,
 
 Michael
 
 
-On 07/22/2014 05:14 AM, Peng Haitao wrote:
+
+On 07/22/2014 05:52 AM, Peng Haitao wrote:
+> The function getgrouplist() is thread safe with exceptions.
+> 
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/swab.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/getgrouplist.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/swab.3 b/man3/swab.3
-> index 007f685..8b5b217 100644
-> --- a/man3/swab.3
-> +++ b/man3/swab.3
-> @@ -70,10 +70,17 @@ The
->  .BR swab ()
->  function returns no value.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
+> diff --git a/man3/getgrouplist.3 b/man3/getgrouplist.3
+> index 3d28eed..b24532a 100644
+> --- a/man3/getgrouplist.3
+> +++ b/man3/getgrouplist.3
+> @@ -95,6 +95,18 @@ can be used to resize the buffer passed to a further call
+>  .BR getgrouplist ().
+>  .SH VERSIONS
+>  This function is present since glibc 2.2.4.
+> +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
@@ -44,13 +47,12 @@ On 07/22/2014 05:14 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR swab ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
+> +.BR getgrouplist ()
+> +T}	Thread safety	MT-Safe locale
 > +.TE
 >  .SH CONFORMING TO
->  SVr4, 4.3BSD, POSIX.1-2001.
->  .SH SEE ALSO
+>  This function is nonstandard; it appears on most BSDs.
+>  .SH BUGS
 > 
 
 
