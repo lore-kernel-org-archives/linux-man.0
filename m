@@ -1,65 +1,29 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH]: unix.7: mentioning SOCK_STREAM socket for ioctl_type of
- ioctl function
-Date: Wed, 23 Jul 2014 12:54:15 +0200
-Message-ID: <53CF9457.7070409@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: ams@gnu.org (Alfred M. Szmidt)
+Subject: Re: For review: memusage(1) man page
+Date: Wed, 23 Jul 2014 10:41:11 -0400
+Message-ID: <E1X9xjD-000201-2R@fencepost.gnu.org>
+References: <53C8E244.2080901@redhat.com> <E1X84Kh-00041J-2z@fencepost.gnu.org> <53CE004A.3060706@gmail.com> <E1X9VbA-0002Bk-Ox@fencepost.gnu.org> <53CEB52C.1000705@gmail.com>
+Reply-To: ams@gnu.org
+Return-path: <libc-alpha-return-51875-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-reply-to: <53CEB52C.1000705@gmail.com> (mtk.manpages@gmail.com)
+Cc: mtk.manpages@gmail.com, jchaloup@redhat.com, linux-man@vger.kernel.org, libc-alpha@sourceware.org, myllynen@redhat.com, drepper@gmail.com, pschiffe@redhat.com
 List-Id: linux-man@vger.kernel.org
 
- From https://bugzilla.redhat.com/show_bug.cgi?id=1110401.
+   I did not "accuse" anyone of anything, but it seems clear that
+   there are many cases where documentation was considered
+   unimportant.
 
-unix.7 is not clear about socket type of ioctl_type argument of ioctl 
-function. The description of SIOCINQ is applicable only for SOCK_STREAM 
-socket. For SOCK_DGRAM, udp(7) man page gives correct description of 
-SIOCINQ.
+There is a different team doing work now -- what might have been in
+the past is not what is now, documentation is not unimportant.
 
----
-  man7/unix.7 | 11 +++++++++--
-  1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/man7/unix.7 b/man7/unix.7
-index b0ade5b..6bcc8ba 100644
---- a/man7/unix.7
-+++ b/man7/unix.7
-@@ -299,7 +299,9 @@ The correct syntax is:
-  can be:
-  .TP
-  .B SIOCINQ
--Returns the amount of queued unread data in the receive buffer.
-+For
-+.B SOCK_STREAM
-+socket the function returns the amount of queued unread data in the 
-receive buffer.
-  The socket must not be in LISTEN state, otherwise an error
-  .RB ( EINVAL )
-  is returned.
-@@ -319,6 +321,10 @@ defined in
-  .\" That number is normally larger than the number of bytes of pending
-  .\" output. Since this info is, from userland's point of view, imprecise,
-  .\" and it may well change, probably best not to document this now.
-+For
-+.B SOCK_DGRAM
-+socket, see
-+.BR udp (7).
-  .SH ERRORS
-  .TP
-  .B EADDRINUSE
-@@ -450,4 +456,5 @@ see
-  .BR cmsg (3),
-  .BR capabilities (7),
-  .BR credentials (7),
--.BR socket (7)
-+.BR socket (7),
-+.BR udp (7)
--- 
-1.9.3
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To twist it, it would be very nice to merge whatever changes,
+additions, and improvments that the man pages have with regard to the
+glibc manual.  Anyone who would like to take a stab at doing that?  A
+good start would be a list of undocumented interfaces, tools, and
+such.
