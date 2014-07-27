@@ -1,47 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stat.2: nfix
-Date: Tue, 22 Jul 2014 07:17:20 +0200
-Message-ID: <53CDF3E0.2070407@gmail.com>
-References: <1405549510-8000-1-git-send-email-taffit@debian.org>
+Subject: Re: Man pages 3.70, system(3)
+Date: Sun, 27 Jul 2014 13:57:32 +0200
+Message-ID: <53D4E92C.9070706@gmail.com>
+References: <CAO2t6LvtdSzwWymYYBBsQEN9C5WhMSQyp6PO0y05koDQBb-t7w@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405549510-8000-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <CAO2t6LvtdSzwWymYYBBsQEN9C5WhMSQyp6PO0y05koDQBb-t7w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-8859-1?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Damir Nedzibovic <d.nedzibovic-pC13c+iqQS5Wk0Htik3J/w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, David. APplied.
+On 07/25/2014 02:50 PM, Damir Nedzibovic wrote:
+> Hello,
+> 
+> in the "DESCRIPTION" paragraph, it says:
+> 
+> execl("/bin/sh", "sh". "-c", command, (char *) 0);
+> 
+> I find the second parameter a bit funny ("sh". "-c") - shouldn't that read just "-c"?
+
+Hello Damir,
+
+Thanks for the report. That "," should be a ".". I've applied a fix.
 
 Cheers,
 
 Michael
 
-On 07/17/2014 12:25 AM, David Pr=E9vot wrote:
-> ---
->  man2/stat.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man2/stat.2 b/man2/stat.2
-> index b70797d..1570568 100644
-> --- a/man2/stat.2
-> +++ b/man2/stat.2
-> @@ -337,7 +337,7 @@ if (S_ISREG(sb.st_mode)) {
->  .fi
->  .PP
->  The definitions of most of the above file type test macros
-> -are provided if any of the following feature test macros are defined=
-:
-> +are provided if any of the following feature test macros is defined:
->  .BR _BSD_SOURCE
->  (in glibc 2.19 and earlier),
->  .BR _SVID_SOURCE
->=20
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
