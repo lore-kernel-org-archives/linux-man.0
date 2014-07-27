@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 81171] xfs_repair dd(8) instead of dd(1)
-Date: Sun, 27 Jul 2014 10:09:38 +0000
-Message-ID: <bug-81171-11311-1Nw1jfLINJ@https.bugzilla.kernel.org/>
+Date: Sun, 27 Jul 2014 11:22:56 +0000
+Message-ID: <bug-81171-11311-Wf0YD4lmK9@https.bugzilla.kernel.org/>
 References: <bug-81171-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,10 +14,13 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=81171
 
---- Comment #2 from Laurent Gateau <defwxyz-GANU6spQydw@public.gmane.org> ---
-I realized that I should submit this bug to oss.sgi.com/projects/xfs. 
-Hence I did it.
-The bug id is 1060 in their bugzilla system.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+         Resolution|---                         |INVALID
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
 -- 
 You are receiving this mail because:
