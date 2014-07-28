@@ -1,58 +1,52 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] inet.3: ATTRIBUTES: Note functions that are thread safe with exceptions
-Date: Mon, 28 Jul 2014 14:35:47 +0800
-Message-ID: <1406529347-29019-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] strtod.3: Reformat thread-safety information
+Date: Mon, 28 Jul 2014 15:13:10 +0800
+Message-ID: <1406531590-30824-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The functions inet_aton() and inet_addr() are thread safe with
-exceptions.
-The functions inet_network(), inet_ntoa(), inet_makeaddr(),
-inet_lnaof() and inet_netof() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/inet.3 | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ man3/strtod.3 | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/man3/inet.3 b/man3/inet.3
-index bf2cd28..6e4663c 100644
---- a/man3/inet.3
-+++ b/man3/inet.3
-@@ -215,6 +215,28 @@ struct in_addr {
- };
- .fi
- .in
-+.SH ATTRIBUTES
+diff --git a/man3/strtod.3 b/man3/strtod.3
+index 1b82a0a..4216e17 100644
+--- a/man3/strtod.3
++++ b/man3/strtod.3
+@@ -158,17 +158,19 @@ is stored in
+ .B ERANGE
+ Overflow or underflow occurred.
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw30 lb lb
++lbw29 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR inet_aton (),
-+.BR inet_addr ()
+ .BR strtod (),
+ .BR strtof (),
+-and
+ .BR strtold ()
+-functions are thread-safe with exceptions.
+-These functions can be safely used in multithreaded applications,
+-as long as
+-.BR setlocale (3)
+-is not called to change the locale during their execution.
 +T}	Thread safety	MT-Safe locale
-+T{
-+.BR inet_network (),
-+.BR inet_ntoa (),
-+.br
-+.BR inet_makeaddr (),
-+.BR inet_lnaof (),
-+.br
-+.BR inet_netof ()
-+T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- 4.3BSD.
- .BR inet_addr ()
+ C89 describes
+ .BR strtod (),
 -- 
 1.9.3
 
