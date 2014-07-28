@@ -1,57 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strlen.3: Reformat thread-safety information
-Date: Mon, 28 Jul 2014 12:30:11 +0200
-Message-ID: <53D62633.5090609@gmail.com>
-References: <1406533992-1726-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] getgrouplist.3: ATTRIBUTES: Note function that is thread
+ safe with exceptions
+Date: Mon, 28 Jul 2014 13:52:30 +0200
+Message-ID: <CAKgNAkgL3XP=jB5J9eg1bck=MgrZA+0CJzVCQqbob+ewo9UwNw@mail.gmail.com>
+References: <1406001158-28463-1-git-send-email-penght@cn.fujitsu.com> <CAE2sS1hVFTM+1e7A=18+WSjtkLoOakbJ=PYLh-rnMBwdLQwGPw@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1406533992-1726-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <CAE2sS1hVFTM+1e7A=18+WSjtkLoOakbJ=PYLh-rnMBwdLQwGPw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+On Tue, Jul 22, 2014 at 1:42 PM, Carlos O'Donell
+<carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org> wrote:
+> On Mon, Jul 21, 2014 at 11:52 PM, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+>> The function getgrouplist() is thread safe with exceptions.
+>> +T}     Thread safety   MT-Safe locale
+>
+> Excellent continued use of the new safety attributes.
+>
+> Peng, I'm very happy to see such good work go into the linux kernel man pages.
 
-Cheers,
+Seconded. Thanks, Haitaio, for all your work in reformatting the
+existing pages to the new ATTRIBUTES layout. ( continue working from
+the front of the alphabet, and we will eventually meet in the middle.
+But my time for this work is very limited right now, sorry.)
+
+Thanks,
 
 Michael
-
-
-On 07/28/2014 09:53 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/strlen.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/strlen.3 b/man3/strlen.3
-> index 13ad631..162762e 100644
-> --- a/man3/strlen.3
-> +++ b/man3/strlen.3
-> @@ -48,10 +48,17 @@ The
->  function returns the number of bytes in the string
->  .IR s .
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR strlen ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89, C99.
->  .SH SEE ALSO
-> 
 
 
 -- 
