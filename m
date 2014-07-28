@@ -1,31 +1,30 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strverscmp.3: ATTRIBUTES: Note function that is thread-safe
-Date: Mon, 28 Jul 2014 15:35:05 +0800
-Message-ID: <1406532905-419-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] strsep.3: Reformat thread-safety information
+Date: Mon, 28 Jul 2014 15:43:59 +0800
+Message-ID: <1406533439-811-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-The function strverscmp() is thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/strverscmp.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/strsep.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/strverscmp.3 b/man3/strverscmp.3
-index bba46e5..241065d 100644
---- a/man3/strverscmp.3
-+++ b/man3/strverscmp.3
-@@ -87,6 +87,18 @@ less than, equal to, or greater than zero if
- is found, respectively, to be earlier than, equal to,
- or later than
- .IR s2 .
-+.SH ATTRIBUTES
+diff --git a/man3/strsep.3 b/man3/strsep.3
+index f469ebf..c65bb0a 100644
+--- a/man3/strsep.3
++++ b/man3/strsep.3
+@@ -77,10 +77,17 @@ function returns a pointer to the token,
+ that is, it returns the original value of
+ .IR *stringp .
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
@@ -34,12 +33,13 @@ index bba46e5..241065d 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR strverscmp ()
+ .BR strsep ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH SEE ALSO
+ 4.4BSD.
+ .SH NOTES
 -- 
 1.9.3
 
