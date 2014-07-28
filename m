@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strtoimax.3: Reformat thread-safety information
-Date: Mon, 28 Jul 2014 12:28:17 +0200
-Message-ID: <53D625C1.3060700@gmail.com>
-References: <1406525937-26088-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strstr.3: Reformat thread-safety information
+Date: Mon, 28 Jul 2014 12:28:41 +0200
+Message-ID: <53D625D9.6030003@gmail.com>
+References: <1406531885-31082-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1406525937-26088-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1406531885-31082-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,44 +20,46 @@ Cheers,
 Michael
 
 
-On 07/28/2014 07:38 AM, Peng Haitao wrote:
+On 07/28/2014 09:18 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strtoimax.3 | 20 +++++++++++---------
->  1 file changed, 11 insertions(+), 9 deletions(-)
+>  man3/strstr.3 | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
 > 
-> diff --git a/man3/strtoimax.3 b/man3/strtoimax.3
-> index aa4f067..5eed5d6 100644
-> --- a/man3/strtoimax.3
-> +++ b/man3/strtoimax.3
-> @@ -56,16 +56,18 @@ is returned, and
->  is set to
->  .BR ERANGE .
+> diff --git a/man3/strstr.3 b/man3/strstr.3
+> index e8f82d8..babb562 100644
+> --- a/man3/strstr.3
+> +++ b/man3/strstr.3
+> @@ -63,17 +63,20 @@ but ignores the case of both arguments.
+>  These functions return a pointer to the beginning of the
+>  located substring, or NULL if the substring is not found.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
-> -.BR strtoimax ()
-> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR strtoimax (),
->  .BR strtoumax ()
-> -functions are thread-safe with exceptions.
-> -These functions can be safely used in multithreaded applications,
-> -as long as
+>  .BR strstr ()
+> -function is thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Safe
+> +T{
+>  .BR strcasestr ()
+> -function is thread-safe with exceptions.
+> -It can be safely used in multithreaded applications, as long as
 > -.BR setlocale (3)
-> -is not called to change the locale during their execution.
+> -is not called to change the locale during its execution.
 > +T}	Thread safety	MT-Safe locale
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  .SH SEE ALSO
+>  The
+>  .BR strstr ()
 > 
 
 
