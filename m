@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strpbrk.3: Reformat thread-safety information
-Date: Mon, 28 Jul 2014 12:29:54 +0200
-Message-ID: <53D62622.9050805@gmail.com>
-References: <1406533603-1072-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strnlen.3: Reformat thread-safety information
+Date: Mon, 28 Jul 2014 12:30:01 +0200
+Message-ID: <53D62629.4090300@gmail.com>
+References: <1406533860-1435-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1406533603-1072-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1406533860-1435-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 07/28/2014 09:46 AM, Peng Haitao wrote:
+On 07/28/2014 09:51 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strpbrk.3 | 13 ++++++++++---
+>  man3/strnlen.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/strpbrk.3 b/man3/strpbrk.3
-> index 0ae1c3a..32beb55 100644
-> --- a/man3/strpbrk.3
-> +++ b/man3/strpbrk.3
-> @@ -54,10 +54,17 @@ that matches one of the bytes in
->  or NULL
->  if no such byte is found.
+> diff --git a/man3/strnlen.3 b/man3/strnlen.3
+> index b994743..5731596 100644
+> --- a/man3/strnlen.3
+> +++ b/man3/strnlen.3
+> @@ -69,10 +69,17 @@ if there is no null byte (\(aq\\0\(aq) among the first
+>  bytes pointed to by
+>  .IR s .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -44,12 +44,12 @@ On 07/28/2014 09:46 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR strpbrk ()
+>  .BR strnlen ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89, C99.
+>  POSIX.1-2008.
 >  .SH SEE ALSO
 > 
 
