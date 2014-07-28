@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strtol.3: Reformat thread-safety information
-Date: Mon, 28 Jul 2014 12:27:47 +0200
-Message-ID: <53D625A3.9090905@gmail.com>
-References: <1406520593-21738-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strtok.3: Reformat thread-safety information
+Date: Mon, 28 Jul 2014 12:28:01 +0200
+Message-ID: <53D625B1.5040207@gmail.com>
+References: <1406520844-22001-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1406520593-21738-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1406520844-22001-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,20 +20,19 @@ Cheers,
 Michael
 
 
-
-On 07/28/2014 06:09 AM, Peng Haitao wrote:
+On 07/28/2014 06:14 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strtol.3 | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+>  man3/strtok.3 | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> diff --git a/man3/strtol.3 b/man3/strtol.3
-> index db3c8da..2e9a9b1 100644
-> --- a/man3/strtol.3
-> +++ b/man3/strtol.3
-> @@ -159,17 +159,19 @@ to
->  in case
->  no conversion was performed (no digits seen, and 0 returned).
+> diff --git a/man3/strtok.3 b/man3/strtok.3
+> index 4229c9f..1b3dfd7 100644
+> --- a/man3/strtok.3
+> +++ b/man3/strtok.3
+> @@ -167,14 +167,20 @@ and
+>  functions return a pointer to
+>  the next token, or NULL if there are no more tokens.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -41,24 +40,23 @@ On 07/28/2014 06:09 AM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw29 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR strtol (),
->  .BR strtoll (),
-> -and
->  .BR strtoq ()
-> -functions are thread-safe with exceptions.
-> -These functions can be safely used in multithreaded applications,
-> -as long as
-> -.BR setlocale (3)
-> -is not called to change the locale during their execution.
-> +T}	Thread safety	MT-Safe locale
+>  .BR strtok ()
+> -function is not thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Unsafe
+> +T{
+>  .BR strtok_r ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  .BR strtol ()
->  conforms to SVr4, 4.3BSD, C89, C99, and POSIX.1-2001, and
+>  .TP
+>  .BR strtok ()
 > 
 
 
