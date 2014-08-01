@@ -1,33 +1,34 @@
-From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Subject: [PATCH] capabilities.7: tfix
-Date: Fri,  1 Aug 2014 19:09:20 +0400
-Message-ID: <1406905760-2232-1-git-send-email-yuray@komyakino.ru>
+From: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] getline.3: fix memory leak in example
+Date: Fri,  1 Aug 2014 22:37:35 +0530
+Message-ID: <1406912855-8085-1-git-send-email-rahulbedarkar89@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man7/capabilities.7 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+close opened file at the end
 
-diff --git a/man7/capabilities.7 b/man7/capabilities.7
-index 3d37fdd..7d55f51 100644
---- a/man7/capabilities.7
-+++ b/man7/capabilities.7
-@@ -1105,7 +1105,8 @@ is based on the withdrawn POSIX.1e draft standard; see
- .UE .
- .SH NOTES
- Since kernel 2.5.27, capabilities are an optional kernel component,
--and can be enabled/disabled via the CONFIG_SECURITY_CAPABILITIES
-+and can be enabled/disabled via the
-+.B CONFIG_SECURITY_CAPABILITIES
- kernel configuration option.
+Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man3/getline.3 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/man3/getline.3 b/man3/getline.3
+index c0b77d3..4b9c452 100644
+--- a/man3/getline.3
++++ b/man3/getline.3
+@@ -167,6 +167,7 @@ main(void)
+     }
  
- The
+     free(line);
++    fclose(fp);
+     exit(EXIT_SUCCESS);
+ }
+ .fi
 -- 
-2.0.0
+1.8.3.2
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
