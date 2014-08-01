@@ -1,44 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] open.2: wfix
-Date: Fri, 01 Aug 2014 21:58:55 +0200
-Message-ID: <53DBF17F.1080505@gmail.com>
-References: <1406915246-8773-1-git-send-email-rahulbedarkar89@gmail.com>
+Subject: Re: [PATCH] capabilities.7: tfix
+Date: Fri, 01 Aug 2014 21:59:53 +0200
+Message-ID: <53DBF1B9.3050403@gmail.com>
+References: <1406905760-2232-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1406915246-8773-1-git-send-email-rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1406905760-2232-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/01/2014 07:47 PM, Rahul Bedarkar wrote:
-> Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man2/open.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man2/open.2 b/man2/open.2
-> index c413d96..84cbf0c 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -1176,7 +1176,7 @@ Data integrity completion can reduce the number of disk operations
->  that are required for applications that don't need the guarantees
->  of file integrity completion.
->  
-> -To understand the difference between the the two types of completion,
-> +To understand the difference between two types of completion,
->  consider two pieces of file metadata:
->  the file last modification timestamp
->  .RI ( st_mtime )
+Thanks, Yuri. Applied.
 
-Removing one "the" is good. Removing two is too many. I removed one.
-
-Thanks,
+Cheers,
 
 Michael
 
+
+
+
+On 08/01/2014 05:09 PM, Yuri Kozlov wrote:
+> ---
+>  man7/capabilities.7 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man7/capabilities.7 b/man7/capabilities.7
+> index 3d37fdd..7d55f51 100644
+> --- a/man7/capabilities.7
+> +++ b/man7/capabilities.7
+> @@ -1105,7 +1105,8 @@ is based on the withdrawn POSIX.1e draft standard; see
+>  .UE .
+>  .SH NOTES
+>  Since kernel 2.5.27, capabilities are an optional kernel component,
+> -and can be enabled/disabled via the CONFIG_SECURITY_CAPABILITIES
+> +and can be enabled/disabled via the
+> +.B CONFIG_SECURITY_CAPABILITIES
+>  kernel configuration option.
+>  
+>  The
+> 
 
 
 -- 
