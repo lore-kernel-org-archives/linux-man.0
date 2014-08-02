@@ -1,67 +1,34 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: For review: mtrace(1) man page
-Date: Sat, 02 Aug 2014 12:57:18 -0400
-Message-ID: <1777637.kUP8sTC8nC@vapier>
-References: <53C8E24E.3040704@redhat.com>
-Mime-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart46914435.hsthLpA5mn"; micalg="pgp-sha1"; protocol="application/pgp-signature"
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] proc.5: ffix
+Date: Sat,  2 Aug 2014 23:13:00 +0200
+Message-ID: <1407013980-31378-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53C8E24E.3040704-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+---
+ man5/proc.5 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
---nextPart46914435.hsthLpA5mn
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="us-ascii"
-
-On Fri 18 Jul 2014 11:01:02 Jan Chaloupka wrote:
-> mtrace(1) command is not documented. All informations come from the s=
-cript.
->=20
-> Feel free to comment or ask any question.
-
-it doesn't feel right for truly glibc-specific tools to have their man =
-pages=20
-hosted in the Linux man-pages project, especially when you consider=20
-functionality/flags/etc... skew across glibc versions trying to be trac=
-ked in=20
-an unrelated git repo.
-
-the GNU standard doesn't say that we can't include them in GNU projects=
-, just=20
-that they should be secondary to info pages.  so i think things like mt=
-race(1)=20
-are better in glibc itself.
-
-how else do people feel in this regard ?
-=2Dmike
---nextPart46914435.hsthLpA5mn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAABAgAGBQJT3RhuAAoJEEFjO5/oN/WBdZ0P/0K3/ff9tjGxDGp2YWuyXQ9M
-m2/fze1JFWgm6N8xJsYyjS37zdmh5gZpUF1wUCyOG2imnEpBoxvHTkLZcgppJSej
-FbkYmmgM+7BunfJiMmCudOpNEzfdtP5IL+qZk9IXtPYdah7qdOr6NoNatB2sybO1
-gqNIDhcVZMaAf8UXc5Vor6WyOGm9hk7/gYcRwrj2230lkx5flzyXBGa21muv9JIU
-adjgwbBPu26LMIHeWumrwKD8/71teWmuFAHW6S9uPXmbIxPGUpTFVFyJVpNP5TlY
-JMlVVqWMPd+mrZ+Sat0wKayc7AW14ffnF1czdNeCh8pDWNN6cTe33gCPNK1i/yZR
-Xf/NWDtmrejsyklwejnST2M2w2y11P6CNRY/4eNvptinvB4Q2DGvDsnWDvOSmfsf
-znoh+qZ6BvQn8mbvtMKvxmhuXSRQFKqyOqi//9GClhZCNP5PEMmfvtJ6mht1SdoY
-bXTyfjpTk+bVYzjGTWZPh+6ucYd7jbqQaDlKE0ZnnsJyJlE0yvpvVw3YHb009hjb
-VUlm2l0Fsu8ahCxMBvbzz95tHlmaG+dx9IbguvAJYNodWgCIR/qoD/ZJlPtu3Cy2
-fu9maoxGw/lKgEW/+b2gzgBVdJbuqMhS41Pg3ejxZpEGNy8YnXUIKrV6/+YAMwfn
-womg60DiCSjidwp9I2sc
-=qYxz
------END PGP SIGNATURE-----
-
---nextPart46914435.hsthLpA5mn--
+diff --git a/man5/proc.5 b/man5/proc.5
+index 040db32..942156b 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -4062,7 +4062,9 @@ The statistics can be retrieved by:
+ 
+     $ cat /proc/timer_stats
+ 
+-While sampling is enabled, each readout from /proc/timer_stats will see
++While sampling is enabled, each readout from
++.I /proc/timer_stats
++will see
+ newly updated statistics.
+ Once sampling is disabled, the sampled information
+ is kept until a new sample period is started.
+-- 
+2.0.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
