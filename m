@@ -1,20 +1,17 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: grfix
-Date: Sun, 03 Aug 2014 12:22:41 +0200
-Message-ID: <53DE0D71.3050907@gmail.com>
-References: <1407017123-475-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] proc.5: ffix
+Date: Sun, 03 Aug 2014 12:23:11 +0200
+Message-ID: <53DE0D8F.20401@gmail.com>
+References: <1407013980-31378-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407017123-475-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1407013980-31378-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
-
-On 08/03/2014 12:05 AM, Simon Paillard wrote:
-> Missing verb
 
 Thanks, Simon. Applied.
 
@@ -22,25 +19,26 @@ Cheers,
 
 Michael
 
-
-
+On 08/02/2014 11:13 PM, Simon Paillard wrote:
 > ---
->  man5/proc.5 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man5/proc.5 | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > diff --git a/man5/proc.5 b/man5/proc.5
-> index d721a3b..d69555b 100644
+> index 040db32..942156b 100644
 > --- a/man5/proc.5
 > +++ b/man5/proc.5
-> @@ -3467,7 +3467,7 @@ file is also nonzero, then the machine will be rebooted.
->  .IR /proc/sys/kernel/pid_max " (since Linux 2.5.34)"
->  This file specifies the value at which PIDs wrap around
->  (i.e., the value in this file is one greater than the maximum PID).
-> -PIDs greater than this value not allocated;
-> +PIDs greater than this value are not allocated;
->  thus, the value in this file also acts as a system-wide limit
->  on the total number of processes and threads.
->  The default value for this file, 32768,
+> @@ -4062,7 +4062,9 @@ The statistics can be retrieved by:
+>  
+>      $ cat /proc/timer_stats
+>  
+> -While sampling is enabled, each readout from /proc/timer_stats will see
+> +While sampling is enabled, each readout from
+> +.I /proc/timer_stats
+> +will see
+>  newly updated statistics.
+>  Once sampling is disabled, the sampled information
+>  is kept until a new sample period is started.
 > 
 
 
