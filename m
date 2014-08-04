@@ -1,35 +1,24 @@
-From: Jan Chaloupka <jchaloup@redhat.com>
-Subject: Re: For review: memusagestat(1) man page
-Date: Mon, 04 Aug 2014 07:25:42 +0200
-Message-ID: <53DF1956.3020309@redhat.com>
-References: <53C8E24A.10306@redhat.com>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: For review: memusage(1) man page
+Date: Mon, 04 Aug 2014 07:26:53 +0200
+Message-ID: <53DF199D.1060905@redhat.com>
+References: <53C8E244.2080901@redhat.com> <53CE0144.7050405@gmail.com> <53CE0517.2040005@redhat.com> <53CE1BC4.6040707@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-52049-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <53C8E24A.10306@redhat.com>
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org, myllynen@redhat.com, drepper@gmail.com, Peter Schiffer <pschiffe@redhat.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53CE1BC4.6040707-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 ping
 
-On 07/18/2014 11:00 AM, Jan Chaloupka wrote:
-> memusagestat command is not documented. All informations come 
-> frommalloc/memusagestat.c and frommalloc/memusagestat.sh .
+On 07/22/2014 10:07 AM, Jan Chaloupka wrote:
+> Adding example with small C code to demonstrate progress of memory usage
 >
-> Feel free to comment or ask any question.
->
-> Thank you
-> Jan
->
-> .\" Copyright (c) 2013, Peter Schiffer (pschiffe@redhat.com)
+> .\" Copyright (c) 2013, Peter Schiffer (pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org)
 > .\"
 > .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
 > .\" This is free documentation; you can redistribute it and/or
@@ -99,6 +88,47 @@ On 07/18/2014 11:00 AM, Jan Chaloupka wrote:
 > .TP
 > .BI \-V\fR,\ \fB\-\-version
 > Print version information and exit.
+> .SH EXAMPLES
+> Here is a simple program \fImemusagestatexample.c\fR simulating 
+> increase and decrease of memory usage:
+>
+> .RS 4
+> #include <stdio.h>
+> .RS 0
+> #include <stdlib.h>
+> .RE
+> .RS 0
+> #define CYCLES 20
+> .RE
+>
+> int main(int argc, char ** argv) {
+>         int i, j;
+>         int *p = NULL;
+>         printf("malloc: %d\\n", sizeof(int)*100);
+>         p = malloc(sizeof(int)*100);
+>
+>         for (i = 0; i < CYCLES; i++) {
+>                 if (i < CYCLES/2) j = i; else j--;
+>                 printf("realloc: %d\\n", sizeof(int)*((j)*50 + 110));
+>                 p = realloc(p, sizeof(int)*(j*50 + 100));
+>                 printf("realloc: %d\\n", sizeof(int)*((j+1)*150 + 110));
+>                 p = realloc(p, sizeof(int)*((j+1)*150 + 110));
+>         }
+>         free(p);
+>         return 0;
+> .RS 0
+> }
+> .RE
+> .RE
+>
+> After compiling and running the following, you can see progress of 
+> memory usage (memusagestatexample.png):
+>
+> memusage --data=memusagestatexample.dat ./memusagestatexample
+> .RS 0
+> memusagestat memusagestatexample.dat memusagestatexample.png
+> .RE
+>
 > .SH BUGS
 > For bug reporting instructions, please see:
 > <http://www.gnu.org/software/libc/bugs.html>.
@@ -106,7 +136,7 @@ On 07/18/2014 11:00 AM, Jan Chaloupka wrote:
 > .BR memusage (1)
 > -- 
 > To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo@vger.kernel.org
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 > More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 -- 
@@ -116,3 +146,8 @@ Jan Chaloupka
 * ENG Base Operating Systems *
 * Red Hat Czech, s. r. o.    *
 * UTC+1 (CET), jchaloup      *
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
