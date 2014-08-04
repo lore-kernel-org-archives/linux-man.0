@@ -1,7 +1,7 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] readv.2: tfix
-Date: Mon,  4 Aug 2014 23:11:29 +0200
-Message-ID: <1407186689-24626-1-git-send-email-spaillard@debian.org>
+Subject: [PATCH] open.2: grfix
+Date: Mon,  4 Aug 2014 23:26:22 +0200
+Message-ID: <1407187582-25469-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -9,22 +9,24 @@ Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 ---
- man2/readv.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man2/open.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man2/readv.2 b/man2/readv.2
-index 6cd4486..c19b729 100644
---- a/man2/readv.2
-+++ b/man2/readv.2
-@@ -240,7 +240,7 @@ However, the glibc wrapper functions do some extra work if
- they detect that the underlying kernel system call failed because this
- limit was exceeded.
- In the case of
--.BR readv ().
-+.BR readv (),
- the wrapper function allocates a temporary buffer large enough
- for all of the items specified by
- .IR iov ,
+diff --git a/man2/open.2 b/man2/open.2
+index c413d96..4cd5edd 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -101,8 +101,8 @@ By default, the new file descriptor is set to remain open across an
+ (i.e., the
+ .B FD_CLOEXEC
+ file descriptor flag described in
+-.BR fcntl (2))
+-is initially disabled; the
++.BR fcntl (2)
++is initially disabled); the
+ .B O_CLOEXEC
+ flag, described below, can be used to change this default.
+ The file offset is set to the beginning of the file (see
 -- 
 2.0.1
 
