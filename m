@@ -1,36 +1,32 @@
-From: "Carlos O'Donell" <carlos@redhat.com>
-Subject: Reminder: Document _BSD_SOURCE and _SVID_SOURCE transition to _DEFAULT_SOURCE.
-Date: Mon, 04 Aug 2014 11:05:22 -0400
-Message-ID: <53DFA132.4090606@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-52061-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] pthread_attr_setinheritsched.3: ffix
+Date: Mon,  4 Aug 2014 21:53:27 +0200
+Message-ID: <1407182007-20904-1-git-send-email-spaillard@debian.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Michael,
+---
+ man3/pthread_attr_setinheritsched.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This is a reminder so we all don't forget that _BSD_SOURCE
-and _SVID_SOURCE are transitioning to _DEFAULT_SOURCE.
+diff --git a/man3/pthread_attr_setinheritsched.3 b/man3/pthread_attr_setinheritsched.3
+index 84c5b40..c45cf24 100644
+--- a/man3/pthread_attr_setinheritsched.3
++++ b/man3/pthread_attr_setinheritsched.3
+@@ -145,5 +145,5 @@ See
+ .BR pthread_create (3),
+ .BR pthread_setschedparam (3),
+ .BR pthread_setschedprio (3),
+-.BR pthreads ,(7)
++.BR pthreads(7),
+ .BR sched (7)
+-- 
+2.0.1
 
-I have documented them here under:
-
-"3.2.2. Deprecation of _BSD_SOURCE and _SVID_SOURCE feature macros"
-https://sourceware.org/glibc/wiki/Release/2.20#Packaging_Changes
-
-We should say something in the manual pages about this transition.
-
-If you've got time please feel free to crib any and all of the
-text from that section. I wrote it all and I'm contributing it
-to the linux kernel man pages project as GPLv2.
-
-Cheers,
-Carlos.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
