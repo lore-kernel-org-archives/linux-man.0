@@ -1,45 +1,36 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Mon, 04 Aug 2014 10:46:30 -0400
-Message-ID: <53DF9CC6.3090003@redhat.com>
-References: <537346E5.4050407@gmail.com> <CF98E3EF.90564%dvhart@linux.intel.com> <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com> <5373D0CA.2050204@redhat.com> <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de> <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com> <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de> <53752157.9070803@gmail.com>
+From: "Carlos O'Donell" <carlos@redhat.com>
+Subject: Reminder: Document _BSD_SOURCE and _SVID_SOURCE transition to _DEFAULT_SOURCE.
+Date: Mon, 04 Aug 2014 11:05:22 -0400
+Message-ID: <53DFA132.4090606@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53752157.9070803-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <libc-alpha-return-52061-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
-
-On 05/15/2014 04:19 PM, Michael Kerrisk (man-pages) wrote:
-> On 05/15/2014 04:14 PM, Thomas Gleixner wrote:
->> On Thu, 15 May 2014, Michael Kerrisk (man-pages) wrote:
->>> And that universe would love to have your documentation of
->>> FUTEX_WAKE_BITSET and FUTEX_WAIT_BITSET ;-),
->>
->> I give you almost the full treatment, but I leave REQUEUE_PI to Darren
->> and FUTEX_WAKE_OP to Jakub. :)
-> 
-> Thanks Thomas--that's fantastic! Hopefully, Darren and Jakub fill in those
-> missing pieces...
 
 Michael,
 
-Do you need any help getting these additional futex error codes
-into the linux kernel man pages project? Thomas provided the
-missing bits and Darren commented... what else do we need?
+This is a reminder so we all don't forget that _BSD_SOURCE
+and _SVID_SOURCE are transitioning to _DEFAULT_SOURCE.
 
-I'm asking because I want to point other Red Hat engineers at
-these pages to say: "these are the canonical error codes." 
+I have documented them here under:
 
-We're trying to cleanup the userspace side of things.
+"3.2.2. Deprecation of _BSD_SOURCE and _SVID_SOURCE feature macros"
+https://sourceware.org/glibc/wiki/Release/2.20#Packaging_Changes
+
+We should say something in the manual pages about this transition.
+
+If you've got time please feel free to crib any and all of the
+text from that section. I wrote it all and I'm contributing it
+to the linux kernel man pages project as GPLv2.
 
 Cheers,
 Carlos.
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
