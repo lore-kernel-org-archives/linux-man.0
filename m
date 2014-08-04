@@ -1,7 +1,7 @@
 From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Subject: [PATCH] pthread_attr_setinheritsched.3: ffix
-Date: Mon,  4 Aug 2014 21:53:27 +0200
-Message-ID: <1407182007-20904-1-git-send-email-spaillard@debian.org>
+Date: Mon,  4 Aug 2014 21:57:22 +0200
+Message-ID: <1407182242-21583-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -13,7 +13,7 @@ List-Id: linux-man@vger.kernel.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man3/pthread_attr_setinheritsched.3 b/man3/pthread_attr_setinheritsched.3
-index 84c5b40..c45cf24 100644
+index 84c5b40..4d6bfab 100644
 --- a/man3/pthread_attr_setinheritsched.3
 +++ b/man3/pthread_attr_setinheritsched.3
 @@ -145,5 +145,5 @@ See
@@ -21,7 +21,7 @@ index 84c5b40..c45cf24 100644
  .BR pthread_setschedparam (3),
  .BR pthread_setschedprio (3),
 -.BR pthreads ,(7)
-+.BR pthreads(7),
++.BR pthreads (7),
  .BR sched (7)
 -- 
 2.0.1
