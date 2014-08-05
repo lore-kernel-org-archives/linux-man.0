@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] stdio_ext.3: Reformat thread-safety information
-Date: Tue, 5 Aug 2014 17:52:56 +0800
-Message-ID: <1407232376-3331-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] stdarg.3: Reformat thread-safety information
+Date: Tue, 5 Aug 2014 17:58:03 +0800
+Message-ID: <1407232683-4806-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/stdio_ext.3 | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ man3/stdarg.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/stdio_ext.3 b/man3/stdio_ext.3
-index ef052ea..bdf6194 100644
---- a/man3/stdio_ext.3
-+++ b/man3/stdio_ext.3
-@@ -130,24 +130,31 @@ The
- .BR __fpurge ()
- function discards the contents of the stream's buffer.
+diff --git a/man3/stdarg.3 b/man3/stdarg.3
+index 1d227b7..0adbff8 100644
+--- a/man3/stdarg.3
++++ b/man3/stdarg.3
+@@ -227,14 +227,20 @@ have
+ .B __va_copy
+ instead, since that was the name used in the draft proposal.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,38 +29,21 @@ index ef052ea..bdf6194 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw28 lb lb
++lbw21 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR __fbufsize (),
- .BR __fpending (),
--.BR __fpurge ()
+ .BR va_start (),
+ .BR va_arg (),
+ .BR va_end (),
 -and
-+.br
-+.BR __fpurge (),
- .BR __fsetlocking ()
--functions do not lock the stream, so they are not thread-safe.
--.LP
--The
-+T}	Thread safety	MT-Unsafe
-+T{
- .BR __flbf (),
- .BR __freadable (),
-+.br
- .BR __freading (),
- .BR __fwritable (),
--.BR __fwriting ()
--and
-+.br
-+.BR __fwriting (),
- .BR _flushlbf ()
--functions are thread-safe.
+ .BR va_copy ()
+-macros are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
- .SH SEE ALSO
- .BR flockfile (3),
- .BR fpurge (3)
+ .SH CONFORMING TO
+ The
+ .BR va_start (),
 -- 
 1.9.3
 
