@@ -1,34 +1,49 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] open.2: grfix
-Date: Mon,  4 Aug 2014 23:26:22 +0200
-Message-ID: <1407187582-25469-1-git-send-email-spaillard@debian.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] timegm.3: ATTRIBUTES: Note functions that are thread safe with exceptions
+Date: Tue, 5 Aug 2014 16:19:03 +0800
+Message-ID: <1407226743-29634-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/open.2 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The functions timelocal() and timegm() are thread safe with
+exceptions.
 
-diff --git a/man2/open.2 b/man2/open.2
-index c413d96..4cd5edd 100644
---- a/man2/open.2
-+++ b/man2/open.2
-@@ -101,8 +101,8 @@ By default, the new file descriptor is set to remain open across an
- (i.e., the
- .B FD_CLOEXEC
- file descriptor flag described in
--.BR fcntl (2))
--is initially disabled; the
-+.BR fcntl (2)
-+is initially disabled); the
- .B O_CLOEXEC
- flag, described below, can be used to change this default.
- The file offset is set to the beginning of the file (see
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/timegm.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/man3/timegm.3 b/man3/timegm.3
+index e2b74fd..07bbb7a 100644
+--- a/man3/timegm.3
++++ b/man3/timegm.3
+@@ -51,6 +51,19 @@ are the inverses of
+ .BR localtime (3)
+ and
+ .BR gmtime (3).
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw21 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR timelocal (),
++.BR timegm ()
++T}	Thread safety	MT-Safe env locale
++.TE
+ .SH CONFORMING TO
+ These functions are nonstandard GNU extensions
+ that are also present on the BSDs.
 -- 
-2.0.1
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
