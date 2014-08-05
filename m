@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] stpcpy.3: Reformat thread-safety information
-Date: Tue, 5 Aug 2014 17:07:54 +0800
-Message-ID: <1407229674-989-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] stdio_ext.3: Reformat thread-safety information
+Date: Tue, 5 Aug 2014 17:52:56 +0800
+Message-ID: <1407232376-3331-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/stpcpy.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/stdio_ext.3 | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
-diff --git a/man3/stpcpy.3 b/man3/stpcpy.3
-index f15d77e..bd75822 100644
---- a/man3/stpcpy.3
-+++ b/man3/stpcpy.3
-@@ -69,10 +69,17 @@ of the string
- (that is, the address of the terminating null byte)
- rather than the beginning.
+diff --git a/man3/stdio_ext.3 b/man3/stdio_ext.3
+index ef052ea..bdf6194 100644
+--- a/man3/stdio_ext.3
++++ b/man3/stdio_ext.3
+@@ -130,24 +130,31 @@ The
+ .BR __fpurge ()
+ function discards the contents of the stream's buffer.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,17 +29,38 @@ index f15d77e..bd75822 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw28 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR stpcpy ()
--function is thread-safe.
+ .BR __fbufsize (),
+ .BR __fpending (),
+-.BR __fpurge ()
+-and
++.br
++.BR __fpurge (),
+ .BR __fsetlocking ()
+-functions do not lock the stream, so they are not thread-safe.
+-.LP
+-The
++T}	Thread safety	MT-Unsafe
++T{
+ .BR __flbf (),
+ .BR __freadable (),
++.br
+ .BR __freading (),
+ .BR __fwritable (),
+-.BR __fwriting ()
+-and
++.br
++.BR __fwriting (),
+ .BR _flushlbf ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
- .SH CONFORMING TO
- This function was added to POSIX.1-2008.
- Before that, it was not part of
+ .SH SEE ALSO
+ .BR flockfile (3),
+ .BR fpurge (3)
 -- 
 1.9.3
 
