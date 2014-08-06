@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sigset.3: ATTRIBUTES: Note macros that are thread-safe
-Date: Wed, 6 Aug 2014 16:06:10 +0800
-Message-ID: <1407312370-12909-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] rand.3: ATTRIBUTES: Note macros that are thread-safe
+Date: Wed, 6 Aug 2014 17:24:41 +0800
+Message-ID: <1407317081-16194-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,41 +10,47 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The functions sigset(), sighold(), sigrelse() and sigignore()
-are thread safe.
+The functions rand(), rand_r() and srand() are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sigset.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/rand.3 | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/man3/sigset.3 b/man3/sigset.3
-index 5ff17a9..850469a 100644
---- a/man3/sigset.3
-+++ b/man3/sigset.3
-@@ -170,6 +170,22 @@ For
- .BR sigignore (),
- see the errors under
- .BR sigaction (2).
+diff --git a/man3/rand.3 b/man3/rand.3
+index afa41a7..62e6331 100644
+--- a/man3/rand.3
++++ b/man3/rand.3
+@@ -81,7 +81,7 @@ function is automatically seeded with a value of 1.
+ .PP
+ The function
+ .BR rand ()
+-is not reentrant or thread-safe, since it
++is not reentrant, since it
+ uses hidden state that is modified on each call.
+ This might just be the seed value to be used by the next call,
+ or it might be something more elaborate.
+@@ -126,6 +126,20 @@ functions return a value between 0 and
+ The
+ .BR srand ()
+ function returns no value.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lbw25 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR sigset (),
-+.BR sighold (),
-+.br
-+.BR sigrelse (),
-+.BR sigignore ()
++.BR rand (),
++.BR rand_r (),
++.BR srand ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- SVr4, POSIX.1-2001.
- These functions are obsolete: do not use them in new programs.
+ The functions
+ .BR rand ()
 -- 
 1.9.3
 
