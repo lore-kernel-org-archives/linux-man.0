@@ -1,48 +1,50 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] statvfs.3: Reformat thread-safety information
-Date: Tue, 5 Aug 2014 18:07:44 +0800
-Message-ID: <1407233264-9135-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sigset.3: ATTRIBUTES: Note macros that are thread-safe
+Date: Wed, 6 Aug 2014 16:06:10 +0800
+Message-ID: <1407312370-12909-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+The functions sigset(), sighold(), sigrelse() and sigignore()
+are thread safe.
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/statvfs.3 | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ man3/sigset.3 | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/man3/statvfs.3 b/man3/statvfs.3
-index e36630f..c529043 100644
---- a/man3/statvfs.3
-+++ b/man3/statvfs.3
-@@ -155,12 +155,18 @@ is not a directory.
- .B EOVERFLOW
- Some values were too large to be represented in the returned struct.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
--.BR statvfs ()
--and
+diff --git a/man3/sigset.3 b/man3/sigset.3
+index 5ff17a9..850469a 100644
+--- a/man3/sigset.3
++++ b/man3/sigset.3
+@@ -170,6 +170,22 @@ For
+ .BR sigignore (),
+ see the errors under
+ .BR sigaction (2).
++.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw21 lb lb
++lbw23 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR statvfs (),
- .BR fstatvfs ()
--functions are thread-safe.
++.BR sigset (),
++.BR sighold (),
++.br
++.BR sigrelse (),
++.BR sigignore ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ SVr4, POSIX.1-2001.
+ These functions are obsolete: do not use them in new programs.
 -- 
 1.9.3
 
