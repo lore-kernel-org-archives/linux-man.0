@@ -1,52 +1,98 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [PATCH 2/3] perf_event_open.2: document new mmap2 record type
-Date: Wed, 6 Aug 2014 14:01:33 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1408061400420.1325@vincent-weaver-1.umelst.maine.edu>
+Subject: [PATCH 3/3] perf_event_open.2: document new comm_exec flag
+Date: Wed, 6 Aug 2014 14:02:37 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1408061401400.1325@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Don Zickus <dzickus-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jiri Olsa <jolsa-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Adrian Hunter <adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-Linux 3.16 (more specifically, commit a5a5ba72843dd05f9 )
-enabled the enhanced mmap2 record support.
-The interface was added in Linux 3.12 but disabled until
-Linux 3.16.
+
+Linux 3.16 (more specifically, commit 82b897782d10fcc4 )
+added support for differentiating between process renames
+caused by exec versus those caused by other methods.
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 8004b0e..d1ad5ca 100644
+index d558379..cb15428 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -225,7 +225,8 @@ struct perf_event_attr {
-                                 /* exclude kernel callchains */
+@@ -226,7 +226,8 @@ struct perf_event_attr {
            exclude_callchain_user   : 1,
                                  /* exclude user callchains */
--          __reserved_1   : 41;
-+          mmap2          :  1,  /* include mmap with inode data */
-+          __reserved_1   : 40;
+           mmap2          :  1,  /* include mmap with inode data */
+-          __reserved_1   : 40;
++          comm_exec      :  1,  /* flag comm events that are due to exec */
++          __reserved_1   : 39;
  
      union {
          __u32 wakeup_events;    /* wakeup every n events */
-@@ -980,6 +981,13 @@ Do not include kernel callchains.
- .IR "exclude_callchain_user" " (since Linux 3.7)"
- Do not include user callchains.
+@@ -861,9 +862,16 @@ bit enables tracking of process command name as modified by the
+ .BR exec (2)
+ and
+ .BR prctl (PR_SET_NAME)
+-system calls.
+-Unfortunately for tools,
+-there is no way to distinguish one system call versus the other.
++system calls as well as writing to
++.IR /proc/self/comm .
++If the additional
++.I comm_exec
++flag can be set (starting with Linux 3.16)
++then the misc flag
++.B PERF_RECORD_MISC_COMM_EXEC
++can be used to differentiate the
++.BR exec (2)
++case from the others.
  .TP
-+.IR "mmap2" " (since Linux 3.16)"
-+Generate an extended executable mmap record that contains enough
-+additional information to uniquely identify shared mappings.
-+The
-+.I mmap
-+flag must also be set for this to work.
+ .IR "freq"
+ If this bit is set, then
+@@ -988,6 +996,21 @@ The
+ .I mmap
+ flag must also be set for this to work.
+ .TP
++.IR "comm_exec" " (since Linux 3.16)"
++This is purely a feature detection flag, it does not change
++kernel behavior.
++If this flag can successfully be set, then when
++.I comm
++is enabled a
++.B PERF_RECORD_MISC_COMM_EXEC
++flag will be set in the
++.I misc
++field of a comm record header if the rename event being
++reported was caused by a call to
++.BR exec (2).
++This allows tools to distinguish between the various
++types of process renaming.
 +.TP
  .IR "wakeup_events" ", " "wakeup_watermark"
  This union sets how many samples
  .RI ( wakeup_events )
-@@ -1584,6 +1592,23 @@ struct {
+@@ -1550,6 +1573,17 @@ In addition, one of the following bits can be set:
+ This is set when the mapping is not executable;
+ otherwise the mapping is executable.
+ .TP
++.B PERF_RECORD_MISC_COMM_EXEC
++This is set for a
++.B PERF_RECORD_COMM
++record on kernels more recent than Linux 3.16
++if a process name change was caused by an
++.BR exec (2)
++system call.
++It is an alias for
++.B PERF_RECORD_MISC_MMAP_DATA
++since the two values would not be set in the same record.
++.TP
+ .B PERF_RECORD_MISC_EXACT_IP
+ This indicates that the content of
+ .B PERF_SAMPLE_IP
+@@ -1645,6 +1679,17 @@ struct {
  };
  .fi
  .in
@@ -58,89 +104,12 @@ index 8004b0e..d1ad5ca 100644
 +.I tid
 +is the thread id.
 +.TP
-+.I addr
-+is the address of the allocated memory.
-+.I len
-+is the length of the allocated memory.
-+.I pgoff
-+is the page offset of the allocated memory.
-+.I filename
-+is a string describing the backing of the allocated memory.
++.I comm
++is a string containing the new name of the process.
 +.RE
  .TP
- .B PERF_RECORD_LOST
- This record indicates when events are lost.
-@@ -2099,6 +2124,70 @@ the high 32 bits of the field by shifting right by
- and masking with
- .BR PERF_TXN_ABORT_MASK .
- .RE
-+.TP
-+.B PERF_RECORD_MMAP2
-+This record includes extended information on
-+.BR mmap (2)
-+calls returning executable mappings.
-+The format is similar to that of the
-+.B PERF_RECORD_MMAP
-+record but includes extra values that allow uniquely identifying
-+shared mappings.
-+.in +4n
-+.nf
-+struct {
-+    struct perf_event_header header;
-+    u32 pid, tid;
-+    u64 addr;
-+    u64 len;
-+    u64 pgoff;
-+    u32 maj;
-+    u32 min;
-+    u64 ino;
-+    u64 ino_generation;
-+    u32 prot, flags;
-+    char filename[];
-+    struct sample_id sample_id;
-+};
-+.fi
-+.RS
-+.TP
-+.I pid
-+is the process id.
-+.TP
-+.I tid
-+is the thread id.
-+.TP
-+.I addr
-+is the address of the allocated memory.
-+.TP
-+.I len
-+is the length of the allocated memory.
-+.TP
-+.I pgoff
-+is the page offset of the allocated memory.
-+.TP
-+.I maj
-+is the major number of the underlying device.
-+.TP
-+.I min
-+is the minor number of the underlying device.
-+.TP
-+.I ino
-+is the inode.
-+.TP
-+.I ino_generation
-+is the inode generation.
-+.TP
-+.I prot
-+is the protection information.
-+.TP
-+.I flags
-+is the flags information.
-+.TP
-+.I filename
-+is a string describing the backing of the allocated memory.
-+.RE
- .RE
- .SS Signal overflow
- Events can be set to deliver a signal when a threshold is crossed.
+ .B PERF_RECORD_EXIT
+ This record indicates a process exit event.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
