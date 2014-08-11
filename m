@@ -1,56 +1,46 @@
-From: chrubis-AlSwsSmVLrQ@public.gmane.org
-Subject: Re: futex(2) man page update help request
-Date: Mon, 11 Aug 2014 12:19:16 +0200
-Message-ID: <20140811101916.GA17310@rei.suse.cz>
-References: <537346E5.4050407@gmail.com>
- <CF98E3EF.90564%dvhart@linux.intel.com>
- <20140515152834.GA6926@rei.Home>
- <CF9A3521.90ECC%dvhart@linux.intel.com>
- <20140515163004.GB7959@rei.Home>
- <CF9A3A75.90F40%dvhart@linux.intel.com>
- <20140515190529.GA8887@rei.Home>
- <CF9A658E.91322%dvhart@linux.intel.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] charsets.7: Tidy up list
+Date: Mon, 11 Aug 2014 16:53:41 +0300
+Message-ID: <53E8CAE5.5000907@redhat.com>
+References: <1405307953-24884-1-git-send-email-taffit@debian.org> <53C4ACF4.4010907@gmail.com> <53D6BB45.3040902@debian.org> <CAKgNAkj=3cnmYBjZitHHv3aZfkcE+=U2rBeYqvu3Wd3VLZnkhw@mail.gmail.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CF9A658E.91322%dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+In-Reply-To: <CAKgNAkj=3cnmYBjZitHHv3aZfkcE+=U2rBeYqvu3Wd3VLZnkhw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> >> How much LTP harness type code needs to be used?
-> >
-> >Not much.
-> >
-> >For this complexity of tests you would just need to call the tst_resm()
-> >interface to report success/failure and, at the end of the test,
-> >tst_exit() to return the stored overall test status.
-> >
-> >And ideally call the standard option parsing code and call the test in
-> >standard loop so that the test can take advantage of standard options as
-> >number of iterations to run, etc.
-> >
-> >Have a look at:
-> >
-> >https://github.com/linux-test-project/ltp/wiki/Test-Writing-Guidelines
-> >
-> >there is simple test example as well as description of the interfaces.
-> 
-> 
-> Thanks Cyril,
-> 
-> I'll follow up with you in a couple weeks most likely. I have some urgent
-> things that will be taking all my time and then some until then. Feel free
-> to poke me though if I lose track of it :-)
+Hi,
 
-Ping :)
+On 2014-07-29 11:29, Michael Kerrisk (man-pages) wrote:
+>> Le 15/07/2014 00:24, Michael Kerrisk (man-pages) a =C3=A9crit :
+>>> On 07/14/2014 05:19 AM, David Pr=C3=A9vot wrote:
+>>>> Remove German from main list as Dutch and French were.
+>>
+>>> Can you say a bit more about why this change is needed please.
+>>
+>> Well, needed is a strong word. In a8ed5f7430, Dutch and French have =
+been
+>> removed from the main list, I assume it=E2=80=99s because they are l=
+isted in the
+>> secondary list (language almost fully supported). I believe that Ger=
+man
+>> should also have been removed from them main list since it=E2=80=99s=
+ also on the
+>> secondary list.
+>=20
+> Hopefully, Marko can comment here.
 
--- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+the patch looks good to me.
+
+Thanks,
+
+--=20
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
