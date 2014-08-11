@@ -1,46 +1,34 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] charsets.7: Tidy up list
-Date: Mon, 11 Aug 2014 16:53:41 +0300
-Message-ID: <53E8CAE5.5000907@redhat.com>
-References: <1405307953-24884-1-git-send-email-taffit@debian.org> <53C4ACF4.4010907@gmail.com> <53D6BB45.3040902@debian.org> <CAKgNAkj=3cnmYBjZitHHv3aZfkcE+=U2rBeYqvu3Wd3VLZnkhw@mail.gmail.com>
-Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 80541] man pages for unimplemented functions provoke name clash
+Date: Mon, 11 Aug 2014 16:37:18 +0000
+Message-ID: <bug-80541-11311-WqCANdUtyD@https.bugzilla.kernel.org/>
+References: <bug-80541-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkj=3cnmYBjZitHHv3aZfkcE+=U2rBeYqvu3Wd3VLZnkhw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <bug-80541-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+https://bugzilla.kernel.org/show_bug.cgi?id=80541
 
-On 2014-07-29 11:29, Michael Kerrisk (man-pages) wrote:
->> Le 15/07/2014 00:24, Michael Kerrisk (man-pages) a =C3=A9crit :
->>> On 07/14/2014 05:19 AM, David Pr=C3=A9vot wrote:
->>>> Remove German from main list as Dutch and French were.
->>
->>> Can you say a bit more about why this change is needed please.
->>
->> Well, needed is a strong word. In a8ed5f7430, Dutch and French have =
-been
->> removed from the main list, I assume it=E2=80=99s because they are l=
-isted in the
->> secondary list (language almost fully supported). I believe that Ger=
-man
->> should also have been removed from them main list since it=E2=80=99s=
- also on the
->> secondary list.
->=20
-> Hopefully, Marko can comment here.
+--- Comment #2 from Joachim Wuttke <j.wuttke-97/bSmCnXvjoK6nBLMlh1Q@public.gmane.org> ---
+(In reply to Michael Kerrisk from comment #1)
 
-the patch looks good to me.
+cerf(3) and related functions are provided by libcerf. Source available from
+http://apps.jcns.fz-juelich.de/doku/sc/libcerf. For binary packages, see links
+at bottom of that page.
 
-Thanks,
+Removing the man pages of the non-implemented functions sounds like the easiest
+and most straightforward solution to me. Thanks for considering this further.
 
---=20
-Marko Myllynen
+Best regards - Joachim
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
