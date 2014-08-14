@@ -1,42 +1,43 @@
-From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
-Subject: Misleading info in statfs(2) man page
-Date: Tue, 12 Aug 2014 11:47:21 -0400
-Message-ID: <20140812154721.GA12620@brightrain.aerifal.cx>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] rename(2): fix spacing
+Date: Thu, 14 Aug 2014 03:15:18 -0400
+Message-ID: <1408000518-17709-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The man page for statfs(2) is using macros which are glibc
-implementation internals (not part of the public interface) for
-defining struct statfs. This leads programmers to believe they should
-use these macros in applications (a cast to __SWORD_TYPE has recently
-appeared in util-linux; see link [1] below) and __SWORD_TYPE isn't
-even the correct type on glibc/x32.
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man2/rename.2 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Note that glibc also has the signedness of these members wrong; in the
-kernel, they're rightfully unsigned for 32-bit and only signed on
-64-bit (where it doesn't matter). musl does not have this mismatch; we
-use unsigned types where they make sense (e.g. storing unsigned
-filesystem magic numbers that don't fit in signed 32-bit).
+diff --git a/man2/rename.2 b/man2/rename.2
+index a258972..02ef75c 100644
+--- a/man2/rename.2
++++ b/man2/rename.2
+@@ -121,7 +121,7 @@ If
+ refers to a symbolic link, the link is renamed; if
+ .I newpath
+ refers to a symbolic link, the link will be overwritten.
+-.SS renameat ()
++.SS renameat()
+ The
+ .BR renameat ()
+ system call operates in exactly the same way as
+@@ -409,7 +409,7 @@ was added to Linux in kernel 3.15.
+ .BR renameat ():
+ POSIX.1-2008.
+ 
+-.BR renameat2()
++.BR renameat2 ()
+ is Linux-specific.
+ .SH BUGS
+ On NFS filesystems, you can not assume that if the operation
+-- 
+2.0.0
 
-Since the types of these fields are such a mess, I think the man page
-should refrain from documenting specific types, and should include
-advice on safe usage, including how to safely compare f_type -- on
-glibc, the value will wrongly be negative for many filesystems, and
-although default integer promotions will fix this for direct
-comparison with the fs magic constants, the safe way to use f_type
-seems to be explicitly casting it to uint32_t.
-
-Rich
-
-
-
-[1] https://git.kernel.org/cgit/utils/util-linux/util-linux.git/tree/sys-utils/switch_root.c#n179
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
