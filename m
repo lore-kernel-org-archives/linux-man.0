@@ -1,59 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] statvfs.3: Reformat thread-safety information
-Date: Fri, 15 Aug 2014 20:37:59 +0200
-Message-ID: <53EE5387.5010404@gmail.com>
-References: <1407233264-9135-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] core.5: fix memory leak in example
+Date: Fri, 15 Aug 2014 20:56:53 +0200
+Message-ID: <53EE57F5.3060209@gmail.com>
+References: <1406973777-3078-1-git-send-email-rahulbedarkar89@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407233264-9135-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1406973777-3078-1-git-send-email-rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao, Applied.
+On 08/02/2014 12:02 PM, Rahul Bedarkar wrote:
+> close opened file at the end
+
+Thanks, Rahul. Applied.
 
 Cheers,
 
 Michael
 
 
-On 08/05/2014 12:07 PM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+
+
+> Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  man3/statvfs.3 | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  man5/core.5 | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/man3/statvfs.3 b/man3/statvfs.3
-> index e36630f..c529043 100644
-> --- a/man3/statvfs.3
-> +++ b/man3/statvfs.3
-> @@ -155,12 +155,18 @@ is not a directory.
->  .B EOVERFLOW
->  Some values were too large to be represented in the returned struct.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> -.BR statvfs ()
-> -and
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw21 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR statvfs (),
->  .BR fstatvfs ()
-> -functions are thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+> diff --git a/man5/core.5 b/man5/core.5
+> index 074add6..f2c3e36 100644
+> --- a/man5/core.5
+> +++ b/man5/core.5
+> @@ -422,6 +422,7 @@ main(int argc, char *argv[])
+>          tot += nread;
+>      fprintf(fp, "Total bytes in core dump: %d\\n", tot);
+>  
+> +    fclose(fp);
+>      exit(EXIT_SUCCESS);
+>  }
+>  .fi
 > 
 
 
