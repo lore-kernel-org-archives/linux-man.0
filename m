@@ -1,54 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] charsets.7: Tidy up list
-Date: Fri, 15 Aug 2014 20:11:08 +0200
-Message-ID: <53EE4D3C.6010106@gmail.com>
-References: <1405307953-24884-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] tzset.3: ATTRIBUTES: Note function that is thread safe
+ with exceptions
+Date: Fri, 15 Aug 2014 20:27:53 +0200
+Message-ID: <53EE5129.7070001@gmail.com>
+References: <1407147973-29332-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1405307953-24884-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1407147973-29332-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?RGF2aWQgUHLDqXZvdA==?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/14/2014 05:19 AM, David Pr=C3=A9vot wrote:
-> Remove German from main list as Dutch and French were.
+Thanks, Haitao. Applied (in my local branch).
 
-Applied, and added an Acked-by from Marko.
-
-Thanks,
+Cheers,
 
 Michael
 
 
-
+On 08/04/2014 12:26 PM, Peng Haitao wrote:
+> The function tzset() is thread safe with exceptions.
+> 
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man7/charsets.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man7/charsets.7 b/man7/charsets.7
-> index 300d819..45d18ce 100644
-> --- a/man7/charsets.7
-> +++ b/man7/charsets.7
-> @@ -68,7 +68,7 @@ Here are brief descriptions of each set:
->  .TP
->  8859-1 (Latin-1)
->  Latin-1 covers many West European languages such as Albanian, Basque=
-,
-> -Danish, English, Faroese, Galician, German, Icelandic, Irish, Italia=
-n,
-> +Danish, English, Faroese, Galician, Icelandic, Irish, Italian,
->  Norwegian, Portuguese, Spanish, and Swedish.
->  The lack of the ligatures Dutch =C4=B2/=C4=B3, French =C5=93, and ol=
-d-style =E2=80=9EGerman=E2=80=9C
->  quotation marks was considered tolerable.
->=20
+>  man3/tzset.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man3/tzset.3 b/man3/tzset.3
+> index 19ef971..e78abef 100644
+> --- a/man3/tzset.3
+> +++ b/man3/tzset.3
+> @@ -213,6 +213,18 @@ Often
+>  is a symlink to the file
+>  .I localtime
+>  or to the correct timezone file in the system timezone directory.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR tzset ()
+> +T}	Thread safety	MT-Safe env locale
+> +.TE
+>  .SH CONFORMING TO
+>  SVr4, POSIX.1-2001, 4.3BSD.
+>  .SH NOTES
+> 
 
 
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
