@@ -1,43 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] readv.2: tfix
-Date: Fri, 15 Aug 2014 20:22:58 +0200
-Message-ID: <53EE5002.3090904@gmail.com>
-References: <1407186689-24626-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] strchr.3: Reformat thread-safety information
+Date: Fri, 15 Aug 2014 20:34:44 +0200
+Message-ID: <53EE52C4.5060603@gmail.com>
+References: <1407228914-31797-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407186689-24626-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1407228914-31797-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Simon. Applied.
+Thanks, Haitao, Applied.
 
 Cheers,
 
 Michael
 
 
-On 08/04/2014 11:11 PM, Simon Paillard wrote:
+On 08/05/2014 10:55 AM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man2/readv.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man3/strchr.3 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man2/readv.2 b/man2/readv.2
-> index 6cd4486..c19b729 100644
-> --- a/man2/readv.2
-> +++ b/man2/readv.2
-> @@ -240,7 +240,7 @@ However, the glibc wrapper functions do some extra work if
->  they detect that the underlying kernel system call failed because this
->  limit was exceeded.
->  In the case of
-> -.BR readv ().
-> +.BR readv (),
->  the wrapper function allocates a temporary buffer large enough
->  for all of the items specified by
->  .IR iov ,
+> diff --git a/man3/strchr.3 b/man3/strchr.3
+> index 068d695..23a1f96 100644
+> --- a/man3/strchr.3
+> +++ b/man3/strchr.3
+> @@ -105,13 +105,19 @@ if the character is not found.
+>  .BR strchrnul ()
+>  first appeared in glibc in version 2.1.1.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw32 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR strchr (),
+>  .BR strrchr (),
+> -and
+>  .BR strchrnul ()
+> -functions are thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  .BR strchr ()
+>  and
 > 
 
 
