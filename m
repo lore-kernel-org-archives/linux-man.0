@@ -1,44 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_create.3: /proc/sys/kernel/threads-max limits
- process AND threads
-Date: Fri, 15 Aug 2014 20:22:17 +0200
-Message-ID: <53EE4FD9.8060409@gmail.com>
-References: <1407184343-22243-1-git-send-email-spaillard@debian.org>
+Subject: Re: [PATCH] strfry.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 15 Aug 2014 20:27:00 +0200
+Message-ID: <53EE50F4.3060903@gmail.com>
+References: <1407137444-20966-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407184343-22243-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1407137444-20966-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Simon. Applied.
+Thanks, Haitao. Applied (in my local branch).
 
 Cheers,
 
 Michael
 
 
-On 08/04/2014 10:32 PM, Simon Paillard wrote:
-> ---
->  man3/pthread_create.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 08/04/2014 09:30 AM, Peng Haitao wrote:
+> The function strfry() is thread safe.
 > 
-> diff --git a/man3/pthread_create.3 b/man3/pthread_create.3
-> index 1d33439..82f73e1 100644
-> --- a/man3/pthread_create.3
-> +++ b/man3/pthread_create.3
-> @@ -133,7 +133,7 @@ soft resource limit (set via
->  .BR setrlimit (2)),
->  which limits the number of processes and threads for a real user ID,
->  was reached;
-> -the kernel's system-wide limit on the number of processes threads,
-> +the kernel's system-wide limit on the number of processes and threads,
->  .IR /proc/sys/kernel/threads-max ,
->  was reached (see
->  .BR proc (5));
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/strfry.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man3/strfry.3 b/man3/strfry.3
+> index 2d69563..845d8da 100644
+> --- a/man3/strfry.3
+> +++ b/man3/strfry.3
+> @@ -54,6 +54,18 @@ The
+>  .BR strfry ()
+>  functions returns a pointer to the randomized
+>  string.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR strfry ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  The
+>  .BR strfry ()
 > 
 
 
