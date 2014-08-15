@@ -1,56 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stpcpy.3: Reformat thread-safety information
-Date: Fri, 15 Aug 2014 20:36:33 +0200
-Message-ID: <53EE5331.5060606@gmail.com>
-References: <1407229674-989-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] open_by_handle_at.2: ffix
+Date: Fri, 15 Aug 2014 20:22:44 +0200
+Message-ID: <53EE4FF4.900@gmail.com>
+References: <1407185165-23573-1-git-send-email-spaillard@debian.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407229674-989-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1407185165-23573-1-git-send-email-spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao, Applied.
+Thanks, Simon. Applied.
 
 Cheers,
 
 Michael
 
 
-On 08/05/2014 11:07 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 08/04/2014 10:46 PM, Simon Paillard wrote:
 > ---
->  man3/stpcpy.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man2/open_by_handle_at.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/stpcpy.3 b/man3/stpcpy.3
-> index f15d77e..bd75822 100644
-> --- a/man3/stpcpy.3
-> +++ b/man3/stpcpy.3
-> @@ -69,10 +69,17 @@ of the string
->  (that is, the address of the terminating null byte)
->  rather than the beginning.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR stpcpy ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  This function was added to POSIX.1-2008.
->  Before that, it was not part of
+> diff --git a/man2/open_by_handle_at.2 b/man2/open_by_handle_at.2
+> index 7badac7..ddf96b7 100644
+> --- a/man2/open_by_handle_at.2
+> +++ b/man2/open_by_handle_at.2
+> @@ -28,7 +28,7 @@ name_to_handle_at, open_by_handle_at \- obtain handle
+>  for a pathname and open file via a handle
+>  .SH SYNOPSIS
+>  .nf
+> -.B "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+> +.BR "#define _GNU_SOURCE" "         /* See feature_test_macros(7) */"
+>  .B #include <sys/types.h>
+>  .B #include <sys/stat.h>
+>  .B #include <fcntl.h>
 > 
 
 
