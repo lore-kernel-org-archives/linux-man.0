@@ -1,56 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strfry.3: ATTRIBUTES: Note function that is thread-safe
-Date: Fri, 15 Aug 2014 20:27:00 +0200
-Message-ID: <53EE50F4.3060903@gmail.com>
-References: <1407137444-20966-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strcmp.3: Reformat thread-safety information
+Date: Fri, 15 Aug 2014 20:34:04 +0200
+Message-ID: <53EE529C.3020008@gmail.com>
+References: <1407143487-25836-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407137444-20966-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1407143487-25836-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied (in my local branch).
+Thanks, Haitao, Applied.
 
 Cheers,
 
 Michael
 
 
-On 08/04/2014 09:30 AM, Peng Haitao wrote:
-> The function strfry() is thread safe.
-> 
+On 08/04/2014 11:11 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strfry.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  man3/strcmp.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man3/strfry.3 b/man3/strfry.3
-> index 2d69563..845d8da 100644
-> --- a/man3/strfry.3
-> +++ b/man3/strfry.3
-> @@ -54,6 +54,18 @@ The
->  .BR strfry ()
->  functions returns a pointer to the randomized
->  string.
-> +.SH ATTRIBUTES
+> diff --git a/man3/strcmp.3 b/man3/strcmp.3
+> index 04c3986..f95997e 100644
+> --- a/man3/strcmp.3
+> +++ b/man3/strcmp.3
+> @@ -77,12 +77,18 @@ bytes thereof) is found, respectively, to be less than, to
+>  match, or be greater than
+>  .IR s2 .
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> -.BR strcmp ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw19 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR strfry ()
+> +.BR strcmp (),
+>  .BR strncmp ()
+> -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  The
->  .BR strfry ()
+>  SVr4, 4.3BSD, C89, C99.
+>  .SH SEE ALSO
 > 
 
 
