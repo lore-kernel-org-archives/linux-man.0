@@ -1,67 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] rand.3: ATTRIBUTES: Note macros that are thread-safe
-Date: Fri, 15 Aug 2014 20:29:15 +0200
-Message-ID: <53EE517B.3090601@gmail.com>
-References: <1407317081-16194-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] strerror.3: Reformat thread-safety information
+Date: Fri, 15 Aug 2014 20:31:19 +0200
+Message-ID: <53EE51F7.7090907@gmail.com>
+References: <1407142414-23942-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1407317081-16194-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1407142414-23942-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org, qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied (in my local branch).
+Thanks, Haitao, Applied.
 
 Cheers,
 
 Michael
 
 
-On 08/06/2014 11:24 AM, Peng Haitao wrote:
-> The functions rand(), rand_r() and srand() are thread safe.
-> 
+On 08/04/2014 10:53 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/rand.3 | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
+>  man3/strerror.3 | 22 ++++++++++++++--------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
 > 
-> diff --git a/man3/rand.3 b/man3/rand.3
-> index afa41a7..62e6331 100644
-> --- a/man3/rand.3
-> +++ b/man3/rand.3
-> @@ -81,7 +81,7 @@ function is automatically seeded with a value of 1.
->  .PP
->  The function
->  .BR rand ()
-> -is not reentrant or thread-safe, since it
-> +is not reentrant, since it
->  uses hidden state that is modified on each call.
->  This might just be the seed value to be used by the next call,
->  or it might be something more elaborate.
-> @@ -126,6 +126,20 @@ functions return a value between 0 and
->  The
->  .BR srand ()
->  function returns no value.
-> +.SH ATTRIBUTES
+> diff --git a/man3/strerror.3 b/man3/strerror.3
+> index b8f9cd7..708e15b 100644
+> --- a/man3/strerror.3
+> +++ b/man3/strerror.3
+> @@ -200,15 +200,21 @@ is not a valid error number.
+>  .B ERANGE
+>  Insufficient storage was supplied to contain the error description string.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw25 lb lb
+> +lbw26 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR rand (),
-> +.BR rand_r (),
-> +.BR srand ()
+>  .BR strerror ()
+> -function is not thread-safe.
+> -.LP
+> -The
+> -.BR strerror_r ()
+> -function is thread-safe.
+> -.\" FIXME Need a thread-safety statement about strerror_l()
+> +T}	Thread safety	MT-Unsafe
+> +T{
+> +.BR strerror_r (),
+> +.BR strerror_l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
->  .SH CONFORMING TO
->  The functions
->  .BR rand ()
+>  .SH VERSIONS
+>  The
+>  .BR strerror_l ()
 > 
 
 
