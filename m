@@ -1,32 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 0/3] perf_event_open.2: new features in Linux 3.16
-Date: Fri, 15 Aug 2014 21:22:12 +0200
-Message-ID: <53EE5DE4.3040502@gmail.com>
-References: <alpine.DEB.2.11.1408061357510.1325@vincent-weaver-1.umelst.maine.edu>
+Subject: Re: [PATCH] statvfs.3: Reformat thread-safety information
+Date: Fri, 15 Aug 2014 20:37:59 +0200
+Message-ID: <53EE5387.5010404@gmail.com>
+References: <1407233264-9135-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1408061357510.1325-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <1407233264-9135-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/06/2014 07:59 PM, Vince Weaver wrote:
-> 
-> The following series of patches documents new perf_event_open.2
-> features found in the Linux 3.16 release.
-> 
-> At the request of the manpage maintainer I am cc'ing the 
-> perf_event maintainers in case they have comments.
-
-Thanks, Vince. I suggest also CCing the authors of the patches
-that implement each new feature that you document.
+Thanks, Haitao, Applied.
 
 Cheers,
 
 Michael
+
+
+On 08/05/2014 12:07 PM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/statvfs.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/man3/statvfs.3 b/man3/statvfs.3
+> index e36630f..c529043 100644
+> --- a/man3/statvfs.3
+> +++ b/man3/statvfs.3
+> @@ -155,12 +155,18 @@ is not a directory.
+>  .B EOVERFLOW
+>  Some values were too large to be represented in the returned struct.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> -.BR statvfs ()
+> -and
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw21 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR statvfs (),
+>  .BR fstatvfs ()
+> -functions are thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
+> 
 
 
 -- 
