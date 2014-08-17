@@ -1,50 +1,29 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 3/3] perf_event_open.2: document new comm_exec flag
-Date: Sun, 17 Aug 2014 10:27:59 -0500
-Message-ID: <53F0C9FF.9010302@gmail.com>
-References: <alpine.DEB.2.11.1408061401400.1325@vincent-weaver-1.umelst.maine.edu> <53EE5D84.5050809@gmail.com> <alpine.DEB.2.11.1408160654480.32274@vincent-weaver-1.umelst.maine.edu>
+Subject: Re: [PATCH] vdso(7): add new i386 vdso symbols in linux-3.15
+Date: Sun, 17 Aug 2014 10:36:31 -0500
+Message-ID: <53F0CBFF.8060108@gmail.com>
+References: <1406997983-23266-1-git-send-email-vapier@gentoo.org> <53EE5D6A.20104@gmail.com> <3845787.Mixr4J3axB@vapier>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1408160654480.32274-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <3845787.Mixr4J3axB@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Hunter <adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/16/2014 05:58 AM, Vince Weaver wrote:
-> On Fri, 15 Aug 2014, Michael Kerrisk (man-pages) wrote:
->>> +If the additional
->>> +.I comm_exec
->>> +flag can be set (starting with Linux 3.16)
->>
->> Would that last line be better as:
->>
->>     flag is set (possible since Linux 3.16)
->>
+On 08/16/2014 12:28 AM, Mike Frysinger wrote:
+> On Fri 15 Aug 2014 21:20:10 Michael Kerrisk wrote:
+>> Thanks. I've applied this patch, but I want to check a point.
+>> The subject line mentions Linux 3.15, but the version symbols
+>> in the patch say, LINUX_2.6. Is that correct?
 > 
-> It's tricky wording, as you can always set the flag, but the actual open 
-> call will fail pre-3.16 if the flag is set.
-> 
-> Maybe 
-> 	"flag is successfully set (possible since Linux 3.16)"
-> 
-> might be better?
+> i thought it weird too, but it's what the kernel is doing:
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=37c975545ec63320789962bf307f000f08fabd48
 
-Thanks. So, I've now made it 
-
-[[
-If the 
-.I comm_exec
-flag is also successfully set (possible since Linux 3.16),
-then the misc flag
-.B PERF_RECORD_MISC_COMM_EXEC
-can be used to differentiate the
-.BR exec (2)
-case from the others.
-]]
-
+Thanks for clearing that up, Mike. I've added the words
+"(exported since Linux 3.15)" to each of those three table rows.
 Okay?
 
 Cheers,
