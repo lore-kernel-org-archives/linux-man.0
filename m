@@ -1,43 +1,67 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: Re: [PATCH 3/3] perf_event_open.2: document new comm_exec flag
-Date: Mon, 18 Aug 2014 12:31:05 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1408181229370.2689@vincent-weaver-1.umelst.maine.edu>
-References: <alpine.DEB.2.11.1408061401400.1325@vincent-weaver-1.umelst.maine.edu> <53EE5D84.5050809@gmail.com> <alpine.DEB.2.11.1408160654480.32274@vincent-weaver-1.umelst.maine.edu> <53F0C9FF.9010302@gmail.com>
+From: Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
+Subject: Addition to connect(2)
+Date: Mon, 18 Aug 2014 18:58:59 +0200
+Message-ID: <E1XJQGp-0000UO-0v@palantir.moria.de>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: multipart/mixed;
+ boundary="=_53f230d3.S6my96Ur861dAJ2Qj0iI8RfspmDHov4OM1YseGumd1/FPFuu"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53F0C9FF.9010302-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Hunter <adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 17 Aug 2014, Michael Kerrisk (man-pages) wrote:
-> 
-> Thanks. So, I've now made it 
-> 
-> [[
-> If the 
-> .I comm_exec
-> flag is also successfully set (possible since Linux 3.16),
-> then the misc flag
-> .B PERF_RECORD_MISC_COMM_EXEC
-> can be used to differentiate the
-> .BR exec (2)
-> case from the others.
-> ]]
-> 
-> Okay?
+This is a multi-part message in MIME format.
 
-yes that looks fine.
+--=_53f230d3.S6my96Ur861dAJ2Qj0iI8RfspmDHov4OM1YseGumd1/FPFuu
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-I'm always at a loss to what tags are appropriate, but you can have a 
-Modifications-approved-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-or whatever the equivelant is.
+Hello,
 
-Thanks,
+the manual page does not describe the state of a socket after a
+failed connect call.  Surprisingly, there are TCP/IP stacks where
+it is unusable (met one today).  Opengroup also specifies that
+as allowed behaviour, so the manual should mention it.
 
-Vince
+Michael
+
+--=_53f230d3.S6my96Ur861dAJ2Qj0iI8RfspmDHov4OM1YseGumd1/FPFuu
+Content-Type: text/plain;
+ charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="connect.2.diff"
+
+--- /usr/share/man/man2/connect.2	2014-08-18 18:48:29.894304874 +0200
++++ ./connect.2	2014-08-18 18:53:24.945090422 +0200
+@@ -63,8 +63,9 @@
+ .\" Modified 1997-01-31 by Eric S. Raymond <esr-4uCgticg2UFBDgjK7y7TUQ@public.gmane.org>
+ .\" Modified 1998, 1999 by Andi Kleen
+ .\" Modified 2004-06-23 by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
++.\" Modified 2014-08-18 by Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
+ .\"
+-.TH CONNECT 2 2014-07-08 "Linux" "Linux Programmer's Manual"
++.TH CONNECT 2 2014-08-14 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ connect \- initiate a connection on a socket
+ .SH SYNOPSIS
+@@ -267,6 +268,12 @@
+ also used by glibc.
+ See also
+ .BR accept (2).
++
++Although it works in Linux, if
++.B connect()
++fails, consider the state of the socket as unspecified.  Portable
++applications should close the socket and create a new one for
++reconnecting.
+ .SH EXAMPLE
+ An example of the use of
+ .BR connect ()
+
+--=_53f230d3.S6my96Ur861dAJ2Qj0iI8RfspmDHov4OM1YseGumd1/FPFuu--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
