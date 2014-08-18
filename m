@@ -1,75 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Typo in example code of process_vm_readv
-Date: Sun, 17 Aug 2014 10:53:06 -0500
-Message-ID: <53F0CFE2.9040309@gmail.com>
-References: <53EF41F4.2030509@ylenius.net>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: Re: [PATCH 3/3] perf_event_open.2: document new comm_exec flag
+Date: Mon, 18 Aug 2014 12:31:05 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1408181229370.2689@vincent-weaver-1.umelst.maine.edu>
+References: <alpine.DEB.2.11.1408061401400.1325@vincent-weaver-1.umelst.maine.edu> <53EE5D84.5050809@gmail.com> <alpine.DEB.2.11.1408160654480.32274@vincent-weaver-1.umelst.maine.edu> <53F0C9FF.9010302@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53EF41F4.2030509-xG8NWnMrmhjR7s880joybQ@public.gmane.org>
+In-Reply-To: <53F0C9FF.9010302-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ville Ylenius <ville-xG8NWnMrmhjR7s880joybQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Adrian Hunter <adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/16/2014 06:35 AM, Ville Ylenius wrote:
-> Hi,
+On Sun, 17 Aug 2014, Michael Kerrisk (man-pages) wrote:
 > 
-> there is a small typo in the example code of the man page of 
-> "process_vm_readv" 
-> (http://man7.org/linux/man-pages/man2/process_vm_readv.2.html):
+> Thanks. So, I've now made it 
 > 
->         #include <sys/uio.h>
+> [[
+> If the 
+> .I comm_exec
+> flag is also successfully set (possible since Linux 3.16),
+> then the misc flag
+> .B PERF_RECORD_MISC_COMM_EXEC
+> can be used to differentiate the
+> .BR exec (2)
+> case from the others.
+> ]]
 > 
->         int
->         main(void)
->         {
->             struct iovec local[2];
->             struct iovec remote[1];
->             char buf1[10];
->             char buf2[10];
->             ssize_t nread;
->             pid_t pid = 10;             /* PID of remote process */
-> 
->             local[0].iov_base = buf1;
->             local[0].iov_len = 10;
->             local[1].iov_base = buf2;
->             local[1].iov_len = 10;
->             remote[0].iov_base = (void *) 0x10000;
->             remote[1].iov_len = 20;                     /**** <---- TYPO: 1 --> 0 ****/
-> 
->             nread = process_vm_readv(pid, local, 2, remote, 1, 0);
->             if (nread != 20)
->                 return 1;
->             else
->                 return 0;
->         }
-> 
-> 
-> There is no two objects in "remote"-array so program corrupts other 
-> variables memory.
-> 
-> Please change
-> 
-> remote[1].iov_len = 20;
-> 
-> to
-> 
-> remote[0].iov_len = 20;
+> Okay?
 
-Thanks, Ville. Fixed now.
+yes that looks fine.
 
-Cheers,
+I'm always at a loss to what tags are appropriate, but you can have a 
+Modifications-approved-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+or whatever the equivelant is.
 
-Michael
+Thanks,
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Vince
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
