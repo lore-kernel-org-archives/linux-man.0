@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sincos.3: Reformat thread-safety information
-Date: Tue, 19 Aug 2014 09:55:57 +0800
-Message-ID: <1408413357-21479-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sin.3: Reformat thread-safety information
+Date: Tue, 19 Aug 2014 10:27:44 +0800
+Message-ID: <1408415264-23273-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sincos.3 | 14 ++++++++++----
+ man3/sin.3 | 14 ++++++++++----
  1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/sincos.3 b/man3/sincos.3
-index 42009ff..ffcbda9 100644
---- a/man3/sincos.3
-+++ b/man3/sincos.3
-@@ -74,13 +74,19 @@ These functions do not set
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/sin.3 b/man3/sin.3
+index b110df0..ba2c9ca 100644
+--- a/man3/sin.3
++++ b/man3/sin.3
+@@ -106,13 +106,19 @@ An invalid floating-point exception
+ .RB ( FE_INVALID )
+ is raised.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,20 @@ index 42009ff..ffcbda9 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw30 lb lb
++lbw21 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sincos (),
- .BR sincosf (),
+ .BR sin (),
+ .BR sinf (),
 -and
- .BR sincosl ()
+ .BR sinl ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH SEE ALSO
+ C99, POSIX.1-2001.
+ The variant returning
 -- 
 1.9.3
 
