@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] signbit.3: Reformat thread-safety information
-Date: Tue, 19 Aug 2014 11:14:52 +0800
-Message-ID: <1408418092-453-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] siginterrupt.3: Reformat thread-safety information
+Date: Tue, 19 Aug 2014 11:22:20 +0800
+Message-ID: <1408418540-854-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/signbit.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/siginterrupt.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/signbit.3 b/man3/signbit.3
-index 3c72bd2..f213d6a 100644
---- a/man3/signbit.3
-+++ b/man3/signbit.3
-@@ -59,10 +59,17 @@ is negative; otherwise it returns zero.
- .SH ERRORS
- No errors occur.
+diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
+index 5e409d2..adcdf76 100644
+--- a/man3/siginterrupt.3
++++ b/man3/siginterrupt.3
+@@ -85,11 +85,17 @@ set to indicate the cause of the error.
+ .B EINVAL
+ The specified signal number is invalid.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,14 @@ index 3c72bd2..f213d6a 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR signbit ()
--macro is thread-safe.
-+T}	Thread safety	MT-Safe
+ .BR siginterrupt ()
+-function uses a global variable that is not protected,
+-so it is not thread-safe.
++T}	Thread safety	MT-Unsafe
 +.TE
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- This function is defined in IEC 559 (and the appendix with
+ 4.3BSD, POSIX.1-2001.
+ POSIX.1-2008 marks
 -- 
 1.9.3
 
