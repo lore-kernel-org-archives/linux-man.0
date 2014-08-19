@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sigqueue.3: Reformat thread-safety information
-Date: Tue, 19 Aug 2014 11:04:22 +0800
-Message-ID: <1408417462-32350-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sigpause.3: Reformat thread-safety information
+Date: Tue, 19 Aug 2014 11:11:07 +0800
+Message-ID: <1408417867-32649-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sigqueue.3 | 13 ++++++++++---
+ man3/sigpause.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/sigqueue.3 b/man3/sigqueue.3
-index 5f3422f..74436da 100644
---- a/man3/sigqueue.3
-+++ b/man3/sigqueue.3
-@@ -112,10 +112,17 @@ No process has a PID matching
- .SH VERSIONS
- This system call first appeared in Linux 2.2.
+diff --git a/man3/sigpause.3 b/man3/sigpause.3
+index 764d043..5eca967 100644
+--- a/man3/sigpause.3
++++ b/man3/sigpause.3
+@@ -54,10 +54,17 @@ with
+ set to
+ .BR EINTR .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 5f3422f..74436da 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sigqueue ()
+ .BR sigpause ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ The System V version of
+ .BR sigpause ()
 -- 
 1.9.3
 
