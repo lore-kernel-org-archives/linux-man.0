@@ -1,38 +1,68 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 82841] sendfile doesn't work with O_APPEND
-Date: Fri, 22 Aug 2014 02:18:48 +0000
-Message-ID: <bug-82841-11311-2L93ud9lfY@https.bugzilla.kernel.org/>
-References: <bug-82841-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] sincos.3: Reformat thread-safety information
+Date: Thu, 21 Aug 2014 17:28:23 -0500
+Message-ID: <53F67287.8000304@gmail.com>
+References: <1408413357-21479-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-82841-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1408413357-21479-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=82841
+Hello Haitao,
 
---- Comment #2 from Jason Newton <nevion-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-(In reply to Alan from comment #1)
-> O_APPEND is not supported for sendfile().
+Thanks. Applied.
+Cheers,
+
+Michael
+
+
+
+On 08/18/2014 08:55 PM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/sincos.3 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> It's documented in the splice() manual page but not for sendfile so I've
-> moved this to a documentation bug
+> diff --git a/man3/sincos.3 b/man3/sincos.3
+> index 42009ff..ffcbda9 100644
+> --- a/man3/sincos.3
+> +++ b/man3/sincos.3
+> @@ -74,13 +74,19 @@ These functions do not set
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw30 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR sincos (),
+>  .BR sincosf (),
+> -and
+>  .BR sincosl ()
+> -functions are thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  This function is a GNU extension.
+>  .SH SEE ALSO
+> 
 
-OK so this quirk was not out in the open in documentation - before I opened
-this bug report I read a few years old discussion:
-http://fixunix.com/kernel/543017-splice-vs-o_append.html
-
-Most of what they're talking about is splice, not sendfile.  They might use the
-same implementation but sendfile should be O_APPEND safe as there is no
-specifiable offset in the output filedescriptor.  Is there a reason to not
-support it?
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
