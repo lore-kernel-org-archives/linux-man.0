@@ -1,34 +1,66 @@
-From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] iconv.1: document gconv path for debian-based os
-Date: Thu, 21 Aug 2014 22:14:52 +0200
-Message-ID: <1408652092-18400-1-git-send-email-spaillard@debian.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] sockatmark.3: Reformat thread-safety information
+Date: Thu, 21 Aug 2014 16:58:05 -0500
+Message-ID: <53F66B6D.7060308@gmail.com>
+References: <1408412850-20695-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1408412850-20695-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man1/iconv.1 | 3 +++
- 1 file changed, 3 insertions(+)
+Hello Haitao,
 
-diff --git a/man1/iconv.1 b/man1/iconv.1
-index 54e2655..fd14f0a 100644
---- a/man1/iconv.1
-+++ b/man1/iconv.1
-@@ -171,6 +171,9 @@ directories.
- .I /usr/lib/gconv
- Usual default gconv module path.
- .TP
-+.I /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/gconv
-+Default gconv module path on recent systems based on Debian.
-+.TP
- .I /usr/lib/gconv/gconv-modules
- Usual system default gconv module configuration file.
- .TP
+Thanks. Applied in my local branch.
+
+Cheers,
+
+Michael
+
+
+
+On 08/18/2014 08:47 PM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/sockatmark.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man3/sockatmark.3 b/man3/sockatmark.3
+> index 6a90f89..7fb1fcf 100644
+> --- a/man3/sockatmark.3
+> +++ b/man3/sockatmark.3
+> @@ -71,10 +71,17 @@ can be applied.
+>  .BR sockatmark ()
+>  was added to glibc in version 2.2.4.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR sockatmark ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
+> 
+
+
 -- 
-2.1.0.rc1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
