@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] siginterrupt.3: Reformat thread-safety information
-Date: Thu, 21 Aug 2014 17:02:06 -0500
-Message-ID: <53F66C5E.5080908@gmail.com>
+Date: Thu, 21 Aug 2014 17:02:20 -0500
+Message-ID: <53F66C6C.7010802@gmail.com>
 References: <1408418540-854-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
