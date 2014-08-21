@@ -1,42 +1,34 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 82531] Nondumpable processes that are sandboxed with
- CLONE_NEWUSER can be ptraced from outside.
-Date: Thu, 21 Aug 2014 19:05:29 +0000
-Message-ID: <bug-82531-11311-BBBA3cQ8E7@https.bugzilla.kernel.org/>
-References: <bug-82531-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] iconv.1: document gconv path for debian-based os
+Date: Thu, 21 Aug 2014 22:14:52 +0200
+Message-ID: <1408652092-18400-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-82531-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=82531
+---
+ man1/iconv.1 | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-          Component|Other                       |man-pages
-           Assignee|other_other-ztI5WcYan/vzT1o0prF9pg@public.gmane.org |documentation_man-pages@ker
-                   |l.org                       |nel-bugs.osdl.org
-            Product|Other                       |Documentation
-
---- Comment #3 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
-If I am outside the sandbox then I can equally patch the kernel if I have all
-the rights I need.
-
-You either need everything sandboxed or you need a trusted element (TPM,
-smartcard etc) to do the crunching and keep the secrets.
-
-
-I don't think the docs are unclear but I'll move it to man pages
-
+diff --git a/man1/iconv.1 b/man1/iconv.1
+index 54e2655..fd14f0a 100644
+--- a/man1/iconv.1
++++ b/man1/iconv.1
+@@ -171,6 +171,9 @@ directories.
+ .I /usr/lib/gconv
+ Usual default gconv module path.
+ .TP
++.I /usr/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)/gconv
++Default gconv module path on recent systems based on Debian.
++.TP
+ .I /usr/lib/gconv/gconv-modules
+ Usual system default gconv module configuration file.
+ .TP
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.1.0.rc1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
