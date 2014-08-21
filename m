@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sigvec.3: Reformat thread-safety information
-Date: Thu, 21 Aug 2014 17:00:32 -0500
-Message-ID: <53F66C00.2070107@gmail.com>
-References: <1408416389-30357-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] sigwait.3: Reformat thread-safety information
+Date: Thu, 21 Aug 2014 17:00:14 -0500
+Message-ID: <53F66BEE.2040503@gmail.com>
+References: <1408415751-29803-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1408416389-30357-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1408415751-29803-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,19 +23,19 @@ Michael
 
 
 
-On 08/18/2014 09:46 PM, Peng Haitao wrote:
+On 08/18/2014 09:35 PM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/sigvec.3 | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
+>  man3/sigwait.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/sigvec.3 b/man3/sigvec.3
-> index 797d43d..8378dc1 100644
-> --- a/man3/sigvec.3
-> +++ b/man3/sigvec.3
-> @@ -219,18 +219,21 @@ See the ERRORS under
->  and
->  .BR sigprocmask (2).
+> diff --git a/man3/sigwait.3 b/man3/sigwait.3
+> index 3d6caa9..7204ea0 100644
+> --- a/man3/sigwait.3
+> +++ b/man3/sigwait.3
+> @@ -78,10 +78,17 @@ On error, it returns a positive error number (listed in ERRORS).
+>  .I set
+>  contains an invalid signal number.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -43,26 +43,17 @@ On 08/18/2014 09:46 PM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw32 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR sigvec (),
-> +.BR sigmask (),
->  .BR sigblock (),
->  .BR sigsetmask (),
-> -and
->  .BR siggetmask ()
-> -functions are thread-safe.
-> -.LP
-> -The
-> -.BR sigmask ()
-> -macro is thread-safe.
+>  .BR sigwait ()
+> -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  All of these functions were in
->  4.3BSD, except
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
