@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] signbit.3: Reformat thread-safety information
-Date: Thu, 21 Aug 2014 17:01:34 -0500
-Message-ID: <53F66C3E.5060809@gmail.com>
-References: <1408418092-453-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] siginterrupt.3: Reformat thread-safety information
+Date: Thu, 21 Aug 2014 17:02:06 -0500
+Message-ID: <53F66C5E.5080908@gmail.com>
+References: <1408418540-854-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1408418092-453-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1408418540-854-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,19 +23,19 @@ Michael
 
 
 
-On 08/18/2014 10:14 PM, Peng Haitao wrote:
+On 08/18/2014 10:22 PM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/signbit.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/siginterrupt.3 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/signbit.3 b/man3/signbit.3
-> index 3c72bd2..f213d6a 100644
-> --- a/man3/signbit.3
-> +++ b/man3/signbit.3
-> @@ -59,10 +59,17 @@ is negative; otherwise it returns zero.
->  .SH ERRORS
->  No errors occur.
+> diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
+> index 5e409d2..adcdf76 100644
+> --- a/man3/siginterrupt.3
+> +++ b/man3/siginterrupt.3
+> @@ -85,11 +85,17 @@ set to indicate the cause of the error.
+>  .B EINVAL
+>  The specified signal number is invalid.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -47,13 +47,14 @@ On 08/18/2014 10:14 PM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR signbit ()
-> -macro is thread-safe.
-> +T}	Thread safety	MT-Safe
+>  .BR siginterrupt ()
+> -function uses a global variable that is not protected,
+> -so it is not thread-safe.
+> +T}	Thread safety	MT-Unsafe
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  This function is defined in IEC 559 (and the appendix with
+>  4.3BSD, POSIX.1-2001.
+>  POSIX.1-2008 marks
 > 
 
 
