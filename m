@@ -1,68 +1,31 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sincos.3: Reformat thread-safety information
-Date: Thu, 21 Aug 2014 17:28:23 -0500
-Message-ID: <53F67287.8000304@gmail.com>
-References: <1408413357-21479-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 82841] sendfile doesn't work with O_APPEND
+Date: Fri, 22 Aug 2014 08:31:48 +0000
+Message-ID: <bug-82841-11311-wpcpf5WhcB@https.bugzilla.kernel.org/>
+References: <bug-82841-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1408413357-21479-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-82841-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao,
+https://bugzilla.kernel.org/show_bug.cgi?id=82841
 
-Thanks. Applied.
-Cheers,
+--- Comment #3 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
+sendfile is just a wrapper around splice()
 
-Michael
+Whether it could therefore support O_APPEND is a good question - but one that
+would need asking and discussing on the lists not here, and someone to
+contribute the patches to do so.
 
-
-
-On 08/18/2014 08:55 PM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/sincos.3 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
-> diff --git a/man3/sincos.3 b/man3/sincos.3
-> index 42009ff..ffcbda9 100644
-> --- a/man3/sincos.3
-> +++ b/man3/sincos.3
-> @@ -74,13 +74,19 @@ These functions do not set
->  .SH VERSIONS
->  These functions first appeared in glibc in version 2.1.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw30 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR sincos (),
->  .BR sincosf (),
-> -and
->  .BR sincosl ()
-> -functions are thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  This function is a GNU extension.
->  .SH SEE ALSO
-> 
-
+In the meantime we ought to get the man page fixed.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
