@@ -1,31 +1,39 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 82841] sendfile doesn't work with O_APPEND
-Date: Fri, 22 Aug 2014 08:31:48 +0000
-Message-ID: <bug-82841-11311-wpcpf5WhcB@https.bugzilla.kernel.org/>
-References: <bug-82841-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] getpwnam(3): fix wrapped arg alignment
+Date: Fri, 22 Aug 2014 04:36:12 -0400
+Message-ID: <1408696572-17488-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-82841-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=82841
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+---
+ man3/getpwnam.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- Comment #3 from Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> ---
-sendfile is just a wrapper around splice()
-
-Whether it could therefore support O_APPEND is a good question - but one that
-would need asking and discussing on the lists not here, and someone to
-contribute the patches to do so.
-
-In the meantime we ought to get the man page fixed.
-
+diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
+index 5b63f1e..50886e9 100644
+--- a/man3/getpwnam.3
++++ b/man3/getpwnam.3
+@@ -48,11 +48,11 @@ getpwnam, getpwnam_r, getpwuid, getpwuid_r \- get password file entry
+ .sp
+ .BI "int getpwnam_r(const char *" name ", struct passwd *" pwd ,
+ .br
+-.BI "            char *" buf ", size_t " buflen ", struct passwd **" result );
++.BI "               char *" buf ", size_t " buflen ", struct passwd **" result );
+ .sp
+ .BI "int getpwuid_r(uid_t " uid ", struct passwd *" pwd ,
+ .br
+-.BI "            char *" buf ", size_t " buflen ", struct passwd **" result );
++.BI "               char *" buf ", size_t " buflen ", struct passwd **" result );
+ .fi
+ .sp
+ .in -4n
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.0.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
