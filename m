@@ -1,67 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] siginterrupt.3: Reformat thread-safety information
-Date: Thu, 21 Aug 2014 17:02:20 -0500
-Message-ID: <53F66C6C.7010802@gmail.com>
-References: <1408418540-854-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 82841] sendfile doesn't work with O_APPEND
+Date: Fri, 22 Aug 2014 02:18:48 +0000
+Message-ID: <bug-82841-11311-2L93ud9lfY@https.bugzilla.kernel.org/>
+References: <bug-82841-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1408418540-854-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-82841-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao,
+https://bugzilla.kernel.org/show_bug.cgi?id=82841
 
-Thanks. Applied in my local branch.
-
-Cheers,
-
-Michael
-
-
-
-On 08/18/2014 10:22 PM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/siginterrupt.3 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+--- Comment #2 from Jason Newton <nevion-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Alan from comment #1)
+> O_APPEND is not supported for sendfile().
 > 
-> diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
-> index 5e409d2..adcdf76 100644
-> --- a/man3/siginterrupt.3
-> +++ b/man3/siginterrupt.3
-> @@ -85,11 +85,17 @@ set to indicate the cause of the error.
->  .B EINVAL
->  The specified signal number is invalid.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR siginterrupt ()
-> -function uses a global variable that is not protected,
-> -so it is not thread-safe.
-> +T}	Thread safety	MT-Unsafe
-> +.TE
->  .SH CONFORMING TO
->  4.3BSD, POSIX.1-2001.
->  POSIX.1-2008 marks
-> 
+> It's documented in the splice() manual page but not for sendfile so I've
+> moved this to a documentation bug
 
+OK so this quirk was not out in the open in documentation - before I opened
+this bug report I read a few years old discussion:
+http://fixunix.com/kernel/543017-splice-vs-o_append.html
+
+Most of what they're talking about is splice, not sendfile.  They might use the
+same implementation but sendfile should be O_APPEND safe as there is no
+specifiable offset in the output filedescriptor.  Is there a reason to not
+support it?
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
