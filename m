@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sched_getcpu.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:56:45 +0800
-Message-ID: <1408935405-13636-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] scalbln.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 11:01:46 +0800
+Message-ID: <1408935706-14710-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sched_getcpu.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/scalbln.3 | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/man3/sched_getcpu.3 b/man3/sched_getcpu.3
-index 10978aa..23f7cac 100644
---- a/man3/sched_getcpu.3
-+++ b/man3/sched_getcpu.3
-@@ -70,10 +70,17 @@ This kernel does not implement
+diff --git a/man3/scalbln.3 b/man3/scalbln.3
+index 2b611a5..32f20c2 100644
+--- a/man3/scalbln.3
++++ b/man3/scalbln.3
+@@ -158,16 +158,23 @@ These functions do not set
  .SH VERSIONS
- This function is available since glibc 2.6.
+ These functions first appeared in glibc in version 2.1.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,17 +29,24 @@ index 10978aa..23f7cac 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw33 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sched_getcpu ()
--function is thread-safe.
+ .BR scalbn (),
+ .BR scalbnf (),
+ .BR scalbnl (),
++.br
+ .BR scalbln (),
+ .BR scalblnf (),
+-and
+ .BR scalblnl ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- .BR sched_getcpu ()
- is glibc-specific.
+ C99, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
