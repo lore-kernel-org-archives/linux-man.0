@@ -1,54 +1,29 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] scalbln.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 11:01:46 +0800
-Message-ID: <1408935706-14710-1-git-send-email-penght@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain
+From: Christian von Roques <roques-DeIDFP5fInQ@public.gmane.org>
+Subject: [PATCH] open.2: tfix
+Date: Mon, 25 Aug 2014 08:40:42 -0400
+Message-ID: <1408970442-12572-1-git-send-email-roques@mti.ag>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Christian von Roques <roques-DeIDFP5fInQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/scalbln.3 | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/man3/scalbln.3 b/man3/scalbln.3
-index 2b611a5..32f20c2 100644
---- a/man3/scalbln.3
-+++ b/man3/scalbln.3
-@@ -158,16 +158,23 @@ These functions do not set
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw33 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
- .BR scalbn (),
- .BR scalbnf (),
- .BR scalbnl (),
-+.br
- .BR scalbln (),
- .BR scalblnf (),
--and
- .BR scalblnl ()
--functions are thread-safe.
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH NOTES
+diff --git a/man2/open.2 b/man2/open.2
+index 6dca2b8..51455aa 100644
+--- a/man2/open.2
++++ b/man2/open.2
+@@ -603,7 +603,7 @@ Write operations on the file will complete according to the requirements of
+ synchronized I/O
+ .I file
+ integrity completion
+-(by contrast with contrast with the
++(by contrast with the
+ synchronized I/O
+ .I data
+ integrity completion
 -- 
-1.9.3
+1.9.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
