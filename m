@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] seekdir.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:53:28 +0800
-Message-ID: <1408935208-12883-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sched_getcpu.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 10:56:45 +0800
+Message-ID: <1408935405-13636-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/seekdir.3 | 13 ++++++++++---
+ man3/sched_getcpu.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/seekdir.3 b/man3/seekdir.3
-index 7eeb822..0731f52 100644
---- a/man3/seekdir.3
-+++ b/man3/seekdir.3
-@@ -62,10 +62,17 @@ The
- .BR seekdir ()
- function returns no value.
+diff --git a/man3/sched_getcpu.3 b/man3/sched_getcpu.3
+index 10978aa..23f7cac 100644
+--- a/man3/sched_getcpu.3
++++ b/man3/sched_getcpu.3
+@@ -70,10 +70,17 @@ This kernel does not implement
+ .SH VERSIONS
+ This function is available since glibc 2.6.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 7eeb822..0731f52 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR seekdir ()
+ .BR sched_getcpu ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH NOTES
+ .BR sched_getcpu ()
+ is glibc-specific.
 -- 
 1.9.3
 
