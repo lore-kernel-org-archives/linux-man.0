@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sem_getvalue.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:47:10 +0800
-Message-ID: <1408934830-12345-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sem_destroy.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 10:50:30 +0800
+Message-ID: <1408935030-12606-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,14 +12,14 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sem_getvalue.3 | 13 ++++++++++---
+ man3/sem_destroy.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/sem_getvalue.3 b/man3/sem_getvalue.3
-index 74100c4..6f45a1b 100644
---- a/man3/sem_getvalue.3
-+++ b/man3/sem_getvalue.3
-@@ -63,10 +63,17 @@ is set to indicate the error.
+diff --git a/man3/sem_destroy.3 b/man3/sem_destroy.3
+index 2b14dde..623c615 100644
+--- a/man3/sem_destroy.3
++++ b/man3/sem_destroy.3
+@@ -64,10 +64,17 @@ is set to indicate the error.
  .I sem
  is not a valid semaphore.
  .SH ATTRIBUTES
@@ -33,7 +33,7 @@ index 74100c4..6f45a1b 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sem_getvalue ()
+ .BR sem_destroy ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
