@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sem_wait.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:28:40 +0800
-Message-ID: <1408933720-11219-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sem_unlink.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 10:32:15 +0800
+Message-ID: <1408933935-11502-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sem_wait.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/sem_unlink.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/sem_wait.3 b/man3/sem_wait.3
-index 6108b46..6d3184d 100644
---- a/man3/sem_wait.3
-+++ b/man3/sem_wait.3
-@@ -141,13 +141,19 @@ The call timed out before the semaphore could be locked.
- .\" POSIX.1-2001 also allows EDEADLK -- "A deadlock condition
- .\" was detected", but this does not occur on Linux(?).
+diff --git a/man3/sem_unlink.3 b/man3/sem_unlink.3
+index 5b3f882..3ff3647 100644
+--- a/man3/sem_unlink.3
++++ b/man3/sem_unlink.3
+@@ -60,10 +60,17 @@ was too long.
+ There is no semaphore with the given
+ .IR name .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,17 @@ index 6108b46..6d3184d 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw26 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sem_wait (),
- .BR sem_trywait (),
--and
- .BR sem_timedwait ()
--functions are thread-safe.
+ .BR sem_unlink ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  POSIX.1-2001.
- .SH NOTES
+ .SH SEE ALSO
 -- 
 1.9.3
 
