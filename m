@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] setbuf.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:23:22 +0800
-Message-ID: <1408933402-9764-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sem_wait.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 10:28:40 +0800
+Message-ID: <1408933720-11219-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/setbuf.3 | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ man3/sem_wait.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/setbuf.3 b/man3/setbuf.3
-index fdb53fd..d0fc30b 100644
---- a/man3/setbuf.3
-+++ b/man3/setbuf.3
-@@ -162,14 +162,21 @@ on failure.
- 
- The other functions do not return a value.
+diff --git a/man3/sem_wait.3 b/man3/sem_wait.3
+index 6108b46..6d3184d 100644
+--- a/man3/sem_wait.3
++++ b/man3/sem_wait.3
+@@ -141,13 +141,19 @@ The call timed out before the semaphore could be locked.
+ .\" POSIX.1-2001 also allows EDEADLK -- "A deadlock condition
+ .\" was detected", but this does not occur on Linux(?).
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,22 +29,20 @@ index fdb53fd..d0fc30b 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lbw26 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR setbuf (),
- .BR setbuffer (),
-+.br
- .BR setlinebuf (),
+ .BR sem_wait (),
+ .BR sem_trywait (),
 -and
- .BR setvbuf ()
+ .BR sem_timedwait ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- The
- .BR setbuf ()
+ POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
