@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sem_init.3: Reformat thread-safety information
-Date: Mon, 25 Aug 2014 10:39:52 +0800
-Message-ID: <1408934392-12045-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] sem_getvalue.3: Reformat thread-safety information
+Date: Mon, 25 Aug 2014 10:47:10 +0800
+Message-ID: <1408934830-12345-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sem_init.3 | 13 ++++++++++---
+ man3/sem_getvalue.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/sem_init.3 b/man3/sem_init.3
-index ec0acbf..fbea4c5 100644
---- a/man3/sem_init.3
-+++ b/man3/sem_init.3
-@@ -93,10 +93,17 @@ is nonzero,
- but the system does not support process-shared semaphores (see
- .BR sem_overview (7)).
+diff --git a/man3/sem_getvalue.3 b/man3/sem_getvalue.3
+index 74100c4..6f45a1b 100644
+--- a/man3/sem_getvalue.3
++++ b/man3/sem_getvalue.3
+@@ -63,10 +63,17 @@ is set to indicate the error.
+ .I sem
+ is not a valid semaphore.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index ec0acbf..fbea4c5 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR sem_init ()
+ .BR sem_getvalue ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
