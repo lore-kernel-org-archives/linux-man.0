@@ -1,32 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: For review: mtrace(1) man page
-Date: Fri, 22 Aug 2014 18:07:28 -0500
-Message-ID: <53F7CD30.2020002@gmail.com>
-References: <53C8E24E.3040704@redhat.com> <1777637.kUP8sTC8nC@vapier>
+Subject: Re: [PATCH] setbuf.3: Reformat thread-safety information
+Date: Wed, 27 Aug 2014 18:00:35 +0200
+Message-ID: <53FE00A3.6090309@gmail.com>
+References: <1408933402-9764-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1777637.kUP8sTC8nC@vapier>
+In-Reply-To: <1408933402-9764-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/02/2014 11:57 AM, Mike Frysinger wrote:
-> On Fri 18 Jul 2014 11:01:02 Jan Chaloupka wrote:
->> mtrace(1) command is not documented. All informations come from the script.
->>
->> Feel free to comment or ask any question.
-> 
-> it doesn't feel right for truly glibc-specific tools to have their man pages 
-> hosted in the Linux man-pages project, especially when you consider 
-> functionality/flags/etc... skew across glibc versions trying to be tracked in 
-> an unrelated git repo.
-
-Well, from a man-pages perspective, this doesn't seem terribly different from
-the Section 3 APIs. Also, a number of glibc commands are already (in many cases,
-since long ago) documented in man1 and man8.
+Thanks, Haitao. Applied.
 
 Cheers,
 
@@ -34,12 +21,43 @@ Michael
 
 
 
-> the GNU standard doesn't say that we can't include them in GNU projects, just 
-> that they should be secondary to info pages.  so i think things like mtrace(1) 
-> are better in glibc itself.
+
+On 08/25/2014 04:23 AM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/setbuf.3 | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 > 
-> how else do people feel in this regard ?
-> -mike
+> diff --git a/man3/setbuf.3 b/man3/setbuf.3
+> index fdb53fd..d0fc30b 100644
+> --- a/man3/setbuf.3
+> +++ b/man3/setbuf.3
+> @@ -162,14 +162,21 @@ on failure.
+>  
+>  The other functions do not return a value.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw23 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR setbuf (),
+>  .BR setbuffer (),
+> +.br
+>  .BR setlinebuf (),
+> -and
+>  .BR setvbuf ()
+> -functions are thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  The
+>  .BR setbuf ()
 > 
 
 
