@@ -1,56 +1,33 @@
-From: Sorin Dumitru <sorin-W1xJSxASJ7qhKNWrAYCRhA@public.gmane.org>
-Subject: [PATCH] packet.7: fix include file
-Date: Fri, 29 Aug 2014 16:20:06 +0300
-Message-ID: <1409318406-5217-1-git-send-email-sdumitru@ixiacom.com>
+From: Holger Hans Peter Freyther <holger-/0vNEYwyzy+/WdZNMWml2A@public.gmane.org>
+Subject: [PATCH] rtnetlink: Fix parameters for the send call in the example
+Date: Sat, 30 Aug 2014 15:36:33 +0200
+Message-ID: <1409405793-28111-1-git-send-email-holger@moiji-mobile.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, sorin-W1xJSxASJ7qhKNWrAYCRhA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-It looks like most of the socket options from this man pages
-are not defined in <netpacket/packet.h>. They are defined in
-<linux/if_packet.h> so we should include that one.
-
-Signed-off-by: Sorin Dumitru <sdumitru-+zzKsuq53OdBDgjK7y7TUQ@public.gmane.org>
+Signed-off-by: Holger Hans Peter Freyther <holger-/0vNEYwyzy+/WdZNMWml2A@public.gmane.org>
 ---
- man7/packet.7 | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ man3/rtnetlink.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man7/packet.7 b/man7/packet.7
-index 57cd3ca..7b6f20d 100644
---- a/man7/packet.7
-+++ b/man7/packet.7
-@@ -16,7 +16,7 @@ packet \- packet interface on device level
- .nf
- .B #include <sys/socket.h>
- .br
--.B #include <netpacket/packet.h>
-+.B #include <linux/if_packet.h>
- .br
- .B #include <net/ethernet.h>     /* the L2 protocols */
- .sp
-@@ -535,18 +535,6 @@ is a new feature in Linux 2.2.
- Earlier Linux versions supported only
- .BR SOCK_PACKET .
- .PP
--The include file
--.I <netpacket/packet.h>
--is present since glibc 2.1.
--Older systems need:
--.sp
--.in +4n
--.nf
--#include <asm/types.h>
--#include <linux/if_packet.h>
--#include <linux/if_ether.h>  /* The L2 protocols */
--.fi
--.in
- .SH NOTES
- For portable programs it is suggested to use
- .B AF_PACKET
+diff --git a/man3/rtnetlink.3 b/man3/rtnetlink.3
+index 6595bc0..213234d 100644
+--- a/man3/rtnetlink.3
++++ b/man3/rtnetlink.3
+@@ -116,7 +116,7 @@ Creating a rtnetlink message to set the MTU of a device:
+     req.n.nlmsg_len = NLMSG_ALIGN(req.nh.nlmsg_len) +
+                                   RTA_LENGTH(sizeof(mtu));
+     memcpy(RTA_DATA(rta), &mtu, sizeof(mtu));
+-    send(rtnetlink_sk, &req, req.nh.nlmsg_len);
++    send(rtnetlink_sk, &req, req.nh.nlmsg_len, 0);
+ .fi
+ .SH SEE ALSO
+ .BR netlink (3),
 -- 
-2.0.1
+2.1.0
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
