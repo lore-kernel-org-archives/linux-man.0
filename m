@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] random_r.3: Reformat thread-safety information
-Date: Mon, 01 Sep 2014 10:36:40 +0200
-Message-ID: <54043018.8000806@gmail.com>
-References: <1409541373-27863-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH v2] rexec.3: Reformat thread-safety information
+Date: Mon, 01 Sep 2014 10:37:32 +0200
+Message-ID: <5404304C.2010808@gmail.com>
+References: <1409538413-24058-1-git-send-email-penght@cn.fujitsu.com> <1409541959-29026-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1409541373-27863-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1409541959-29026-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -21,42 +21,40 @@ Michael
 
 
 
-On 09/01/2014 05:16 AM, Peng Haitao wrote:
+On 09/01/2014 05:25 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/random_r.3 | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+>  man3/rexec.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man3/random_r.3 b/man3/random_r.3
-> index 92fe430..71ca64d 100644
-> --- a/man3/random_r.3
-> +++ b/man3/random_r.3
-> @@ -126,14 +126,21 @@ argument to
->  .BR random_r ()
->  was NULL.
+> diff --git a/man3/rexec.3 b/man3/rexec.3
+> index 3cab94a..08744c3 100644
+> --- a/man3/rexec.3
+> +++ b/man3/rexec.3
+> @@ -140,12 +140,18 @@ The
+>  .BR rexec_af ()
+>  function was added to glibc in version 2.2.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR rexec ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw27 lb lb
+> +lbw19 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR random_r (),
->  .BR srandom_r (),
-> +.br
->  .BR initstate_r (),
-> -and
->  .BR setstate_r ()
-> -functions are thread-safe.
-> +T}	Thread safety	MT-Safe
+> +.BR rexec (),
+>  .BR rexec_af ()
+> -functions are not thread-safe.
+> +T}	Thread safety	MT-Unsafe
 > +.TE
 >  .SH CONFORMING TO
->  These functions are nonstandard glibc extensions.
->  .\" These functions appear to be on Tru64, but don't seem to be on
+>  These functions are not in POSIX.1-2001.
+>  The
 > 
 
 
