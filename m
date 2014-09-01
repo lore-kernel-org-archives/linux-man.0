@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] remove.3: Reformat thread-safety information
-Date: Mon, 01 Sep 2014 10:35:50 +0200
-Message-ID: <54042FE6.3000500@gmail.com>
-References: <1409540581-26995-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] random_r.3: Reformat thread-safety information
+Date: Mon, 01 Sep 2014 10:36:40 +0200
+Message-ID: <54043018.8000806@gmail.com>
+References: <1409541373-27863-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1409540581-26995-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1409541373-27863-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -21,19 +21,19 @@ Michael
 
 
 
-On 09/01/2014 05:03 AM, Peng Haitao wrote:
+On 09/01/2014 05:16 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/remove.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/random_r.3 | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/remove.3 b/man3/remove.3
-> index fbcbbc7..d0c0281 100644
-> --- a/man3/remove.3
-> +++ b/man3/remove.3
-> @@ -68,10 +68,17 @@ The errors that occur are those for
->  and
->  .BR rmdir (2).
+> diff --git a/man3/random_r.3 b/man3/random_r.3
+> index 92fe430..71ca64d 100644
+> --- a/man3/random_r.3
+> +++ b/man3/random_r.3
+> @@ -126,14 +126,21 @@ argument to
+>  .BR random_r ()
+>  was NULL.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -41,17 +41,22 @@ On 09/01/2014 05:03 AM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw27 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR remove ()
-> -function is thread-safe.
+>  .BR random_r (),
+>  .BR srandom_r (),
+> +.br
+>  .BR initstate_r (),
+> -and
+>  .BR setstate_r ()
+> -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C89, C99, 4.3BSD, POSIX.1-2001.
->  .SH NOTES
+>  These functions are nonstandard glibc extensions.
+>  .\" These functions appear to be on Tru64, but don't seem to be on
 > 
 
 
