@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] remquo.3: Reformat thread-safety information
-Date: Mon, 1 Sep 2014 10:35:47 +0800
-Message-ID: <1409538947-25265-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] remove.3: Reformat thread-safety information
+Date: Mon, 1 Sep 2014 11:03:01 +0800
+Message-ID: <1409540581-26995-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/remquo.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/remove.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/remquo.3 b/man3/remquo.3
-index 9478000..2b1c98d 100644
---- a/man3/remquo.3
-+++ b/man3/remquo.3
-@@ -122,13 +122,19 @@ These functions do not set
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/remove.3 b/man3/remove.3
+index fbcbbc7..d0c0281 100644
+--- a/man3/remove.3
++++ b/man3/remove.3
+@@ -68,10 +68,17 @@ The errors that occur are those for
+ and
+ .BR rmdir (2).
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,17 @@ index 9478000..2b1c98d 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw30 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR remquo (),
- .BR remquof (),
--and
- .BR remquol ()
--functions are thread-safe.
+ .BR remove ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH SEE ALSO
+ C89, C99, 4.3BSD, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
