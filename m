@@ -1,307 +1,116 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: For review: user_namespace(7) man page
-Date: Mon, 01 Sep 2014 19:31:43 +0200
-Message-ID: <5404AD7F.4070004@gmail.com>
-References: <53F5310A.5080503@gmail.com> <87d2bhfxvc.fsf@x220.int.ebiederm.org>
+Date: Mon, 01 Sep 2014 18:58:12 +0200
+Message-ID: <5404A5A4.2080108@gmail.com>
+References: <53F5310A.5080503@gmail.com>
+	<20140822211215.GA26308@mail.hallyn.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <87d2bhfxvc.fsf-JOvCrm2gF+uungPnsOpG7nhyD016LWXt@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <20140822211215.GA26308-7LNsyQBKDXoIagZqoN9o3w@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/30/2014 11:53 PM, Eric W. Biederman wrote:
-> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
->=20
->> Hello Eric et al.,
->>
->> For various reasons, my work on the namespaces man pages=20
->> fell off the table a while back. Nevertheless, the pages have
->> been close to completion for a while now, and I recently restarted,
->> in an effort to finish them. As you also noted to me f2f, there have
->> been recently been some small namespace changes that you may affect
->> the content of the pages. Therefore, I'll take the opportunity to
->> send the namespace-related pages out for further (final?) review.
->>
->> So, here, I start with the user_namespaces(7) page, which is shown=20
->> in rendered form below, with source attached to this mail. I'll
->> send various other pages in follow-on mails.
->>
->> Review comments/suggestions for improvements / bug fixes welcome.
->>
->> Cheers,
->>
->> Michael
->>
->> =3D=3D
->>
->> NAME
->>        user_namespaces - overview of Linux user_namespaces
->>
->> DESCRIPTION
->>        For an overview of namespaces, see namespaces(7).
->>
->>        User   namespaces   isolate   security-related   identifiers =
- and
->>        attributes, in particular, user IDs and group  IDs  (see  cre=
-den=E2=80=90
->>        tials(7), the root directory, keys (see keyctl(2)), and capab=
-ili=E2=80=90
->>        ties (see capabilities(7)).  A process's user and group  IDs =
- can
->>        be different inside and outside a user namespace.  In particu=
-lar,
->>        a process can have a normal unprivileged user ID outside  a  =
-user
->>        namespace while at the same time having a user ID of 0 inside=
- the
->>        namespace; in other words, the process has  full  privileges =
- for
->>        operations  inside  the  user  namespace, but is unprivileged=
- for
->>        operations outside the namespace.
->>
->>    Nested namespaces, namespace membership
->>        User namespaces can be nested;  that  is,  each  user  namesp=
-ace=E2=80=94
->>        except  the  initial  ("root") namespace=E2=80=94has a parent=
- user names=E2=80=90
->>        pace, and can have zero or more child user namespaces.  The  =
-par=E2=80=90
->>        ent user namespace is the user namespace of the process that =
-cre=E2=80=90
->>        ates the user namespace via a call to unshare(2) or clone(2) =
-with
->>        the CLONE_NEWUSER flag.
->>
->>        The kernel imposes (since version 3.11) a limit of 32 nested =
-lev=E2=80=90
->>        els of user namespaces.  Calls to  unshare(2)  or  clone(2)  =
-that
->>        would cause this limit to be exceeded fail with the error EUS=
-ERS.
->>
->>        Each  process  is  a  member  of  exactly  one user namespace=
-=2E  A
->>        process created via fork(2) or clone(2) without the CLONE_NEW=
-USER
->>        flag  is  a  member  of the same user namespace as its parent=
-=2E
->>        A
->            ^ single-threaded
->=20
-> Because of chroot and other things multi-threaded processes are not
-> allowed to join a user namespace.  For the documentation just saying
-> single-threaded sounds like enough here.
-
-Thanks. Fixed.
-
->>        process can join another user namespace with setns(2) if  it =
- has
->>        the  CAP_SYS_ADMIN  in  that namespace; upon doing so, it gai=
-ns a
->>        full set of capabilities in that namespace.
->>
->>        A call to clone(2) or  unshare(2)  with  the  CLONE_NEWUSER  =
-flag
->>        makes  the  new  child  process (for clone(2)) or the caller =
-(for
->>        unshare(2)) a member of the new user  namespace  created  by =
- the
->>        call.
->>
->>    Capabilities
->>        The child process created by clone(2) with the CLONE_NEWUSER =
-flag
->>        starts out with a complete set of capabilities in  the  new  =
-user
->>        namespace.  Likewise, a process that creates a new user names=
-pace
->>        using unshare(2)  or  joins  an  existing  user  namespace  u=
-sing
->>        setns(2)  gains a full set of capabilities in that namespace.=
-  On
->>        the other hand, that process has no capabilities  in  the  pa=
-rent
->>        (in  the case of clone(2)) or previous (in the case of unshar=
-e(2)
->>        and setns(2)) user namespace, even if the new namespace  is  =
-cre=E2=80=90
->>        ated  or  joined by the root user (i.e., a process with user =
-ID 0
->>        in the root namespace).
->>
->>        Note that a call to execve(2) will cause a process  to  lose =
- any
->>        capabilities that it has, unless it has a user ID of 0 within=
- the
->>        namespace.  See the discussion of user  and  group  ID  mappi=
-ngs,
->>        below.
->>
->>        A   call   to   clone(2),   unshare(2),  or  setns(2)  using =
- the
->>        CLONE_NEWUSER flag sets the  "securebits"  flags  (see  capab=
-ili=E2=80=90
->>        ties(7))  to  their  default  values  (all flags disabled) in=
- the
->>        child (for clone(2)) or caller  (for  unshare(2),  or  setns(=
-2)).
->>        Note  that  because  the caller no longer has capabilities in=
- its
->>        original user namespace after a call to setns(2), it is not  =
-pos=E2=80=90
->>        sible for a process to reset its "securebits" flags while ret=
-ain=E2=80=90
->>        ing its user namespace membership by using  a  pair  of  setn=
-s(2)
->>        calls  to  move  to another user namespace and then return to=
- its
->>        original user namespace.
->>
->>        Having a capability inside a user namespace permits a process=
-  to
->>        perform  operations  (that  require  privilege) only on resou=
-rces
->>        governed by that namespace.  The rules for determining whethe=
-r or
->>        not a process has a capability in a particular user namespace=
- are
->>        as follows:
->>
->>        1. A process has a capability inside a user namespace if it i=
-s  a
->>           member  of  that  namespace  and  it has the capability in=
- its
->>           effective capability set.  A process can gain capabilities=
-  in
->>           its effective capability set in various ways.  For example=
-, it
->>           may execute a set-user-ID program or an executable with  a=
-sso=E2=80=90
->>           ciated  file  capabilities.   In  addition, a process may =
-gain
->>           capabilities  via  the  effect  of  clone(2),  unshare(2),=
-  or
->>           setns(2), as already described.
->>
->>        2. If a process has a capability in a user namespace, then it=
- has
->>           that capability in all child (and further removed  descend=
-ant)
->>           namespaces as well.
->>
->>        3. When  a  user  namespace  is  created,  the kernel records=
- the
->>           effective user ID of the creating process as being the "ow=
-ner"
->>           of the namespace.  A process that resides in the parent of=
- the
->>           user namespace and whose effective user ID matches  the  o=
-wner
->>           of  the  namespace  has all capabilities in the namespace.=
-  By
->>           virtue of the previous rule, this means that the  process =
- has
->>           all capabilities in all further removed descendant user na=
-mes=E2=80=90
->>           paces as well.
->>
->>    Interaction of user namespaces and other types of namespaces
->>        Starting in Linux 3.8, unprivileged  processes  can  create  =
-user
->>        namespaces,  and mount, PID, IPC, network, and UTS namespaces=
- can
->>        be created with just the CAP_SYS_ADMIN capability in the call=
-er's
->>        user namespace.
->>
->>        If  CLONE_NEWUSER  is specified along with other CLONE_NEW* f=
-lags
->>        in a single clone(2) or unshare(2) call, the  user  namespace=
-  is
->>        guaranteed  to  be  created first, giving the child (clone(2)=
-) or
->>        caller (unshare(2)) privileges over the remaining namespaces =
-cre=E2=80=90
->>        ated by the call.  Thus, it is possible for an unprivileged c=
-all=E2=80=90
->>        er to specify this combination of flags.
->>
->>        When a new IPC, mount, network, PID, or UTS namespace is  cre=
-ated
->>        via clone(2) or unshare(2), the kernel records the user names=
-pace
->>        of the creating process against the new namespace.  (This ass=
-oci=E2=80=90
->>        ation  can't  be  changed.)   When a process in the new names=
-pace
->>        subsequently  performs  privileged  operations  that  operate=
-  on
->>        global resources isolated by the namespace, the permission ch=
-ecks
->>        are performed according to the process's capabilities in the =
-user
->>        namespace that the kernel associated with the new namespace.
->=20
-> Restrictions on mount namespaces.
->=20
-> - A mount namespace has a owner user namespace.  A mount namespace wh=
-ose
->   owner user namespace is different than the owerner user namespace o=
-f
->   it's parent mount namespace is considered a less privileged mount
->   namespace.
->=20
-> - When creating a less privileged mount namespace shared mounts are
->   reduced to slave mounts.  This ensures that mappings performed in l=
-ess
->   privileged mount namespaces will not propogate to more privielged
->   mount namespaces.
->=20
-> - Mounts that come as a single unit from more privileged mount are
->   locked together and may not be separated in a less privielged mount
->   namespace.
->=20
-> - The mount flags readonly, nodev, nosuid, noexec, and the mount atim=
-e
->   settings when propogated from a more privielged to a less privilege=
-d
->   mount namespace become locked, and may not be changed in the less
->   privielged mount namespace.
->=20
-> - (As of 3.18-rc1 (in todays Al Viros vfs.git#for-next tree)) A file =
-or
->   directory that is a mountpoint in one namespace that is not a mount
->   point in another namespace, may be renamed, unlinked, or rmdired in
->   the mount namespace in which it is not a mount namespace if the
->   ordinary permission checks pass.
->=20
->   Previously attemping to rmdir, unlink or rename a file or directory
->   that was a mount point in another mount namespace would result in
->   -EBUSY.  This behavior had technical problems of enforcement (nfs)
->   and resulted in a nice denial of servial attack against more
->   privileged users.  (Aka preventing individual files from being upda=
-ted
->   by bind mounting on top of them).
-
-I need some help here. What is your intention for the above text.
-Do you mean I should add it pretty much as is under a subheading
-"Restrictions on mount namespaces"?
-
-Thanks,
-
-Michael
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+T24gMDgvMjIvMjAxNCAxMToxMiBQTSwgU2VyZ2UgRS4gSGFsbHluIHdyb3RlOgo+IFF1b3Rpbmcg
+TWljaGFlbCBLZXJyaXNrIChtYW4tcGFnZXMpIChtdGsubWFucGFnZXNAZ21haWwuY29tKToKPj4g
+SGVsbG8gRXJpYyBldCBhbC4sCj4+Cj4+IEZvciB2YXJpb3VzIHJlYXNvbnMsIG15IHdvcmsgb24g
+dGhlIG5hbWVzcGFjZXMgbWFuIHBhZ2VzIAo+PiBmZWxsIG9mZiB0aGUgdGFibGUgYSB3aGlsZSBi
+YWNrLiBOZXZlcnRoZWxlc3MsIHRoZSBwYWdlcyBoYXZlCj4+IGJlZW4gY2xvc2UgdG8gY29tcGxl
+dGlvbiBmb3IgYSB3aGlsZSBub3csIGFuZCBJIHJlY2VudGx5IHJlc3RhcnRlZCwKPj4gaW4gYW4g
+ZWZmb3J0IHRvIGZpbmlzaCB0aGVtLiBBcyB5b3UgYWxzbyBub3RlZCB0byBtZSBmMmYsIHRoZXJl
+IGhhdmUKPj4gYmVlbiByZWNlbnRseSBiZWVuIHNvbWUgc21hbGwgbmFtZXNwYWNlIGNoYW5nZXMg
+dGhhdCB5b3UgbWF5IGFmZmVjdAo+PiB0aGUgY29udGVudCBvZiB0aGUgcGFnZXMuIFRoZXJlZm9y
+ZSwgSSdsbCB0YWtlIHRoZSBvcHBvcnR1bml0eSB0bwo+PiBzZW5kIHRoZSBuYW1lc3BhY2UtcmVs
+YXRlZCBwYWdlcyBvdXQgZm9yIGZ1cnRoZXIgKGZpbmFsPykgcmV2aWV3Lgo+Pgo+PiBTbywgaGVy
+ZSwgSSBzdGFydCB3aXRoIHRoZSB1c2VyX25hbWVzcGFjZXMoNykgcGFnZSwgd2hpY2ggaXMgc2hv
+d24gCj4+IGluIHJlbmRlcmVkIGZvcm0gYmVsb3csIHdpdGggc291cmNlIGF0dGFjaGVkIHRvIHRo
+aXMgbWFpbC4gSSdsbAo+PiBzZW5kIHZhcmlvdXMgb3RoZXIgcGFnZXMgaW4gZm9sbG93LW9uIG1h
+aWxzLgo+Pgo+PiBSZXZpZXcgY29tbWVudHMvc3VnZ2VzdGlvbnMgZm9yIGltcHJvdmVtZW50cyAv
+IGJ1ZyBmaXhlcyB3ZWxjb21lLgo+Pgo+PiBDaGVlcnMsCj4+Cj4+IE1pY2hhZWwKPj4KPj4gPT0K
+Pj4KPj4gTkFNRQo+PiAgICAgICAgdXNlcl9uYW1lc3BhY2VzIC0gb3ZlcnZpZXcgb2YgTGludXgg
+dXNlcl9uYW1lc3BhY2VzCj4+Cj4+IERFU0NSSVBUSU9OCj4+ICAgICAgICBGb3IgYW4gb3ZlcnZp
+ZXcgb2YgbmFtZXNwYWNlcywgc2VlIG5hbWVzcGFjZXMoNykuCj4+Cj4+ICAgICAgICBVc2VyICAg
+bmFtZXNwYWNlcyAgIGlzb2xhdGUgICBzZWN1cml0eS1yZWxhdGVkICAgaWRlbnRpZmllcnMgIGFu
+ZAo+PiAgICAgICAgYXR0cmlidXRlcywgaW4gcGFydGljdWxhciwgdXNlciBJRHMgYW5kIGdyb3Vw
+ICBJRHMgIChzZWUgIGNyZWRlbuKAkAo+PiAgICAgICAgdGlhbHMoNyksIHRoZSByb290IGRpcmVj
+dG9yeSwga2V5cyAoc2VlIGtleWN0bCgyKSksIGFuZCBjYXBhYmlsaeKAkAo+PiAgICAgICAgdGll
+cyAoc2VlIGNhcGFiaWxpdGllcyg3KSkuICBBIHByb2Nlc3MncyB1c2VyIGFuZCBncm91cCAgSURz
+ICBjYW4KPj4gICAgICAgIGJlIGRpZmZlcmVudCBpbnNpZGUgYW5kIG91dHNpZGUgYSB1c2VyIG5h
+bWVzcGFjZS4gIEluIHBhcnRpY3VsYXIsCj4+ICAgICAgICBhIHByb2Nlc3MgY2FuIGhhdmUgYSBu
+b3JtYWwgdW5wcml2aWxlZ2VkIHVzZXIgSUQgb3V0c2lkZSAgYSAgdXNlcgo+PiAgICAgICAgbmFt
+ZXNwYWNlIHdoaWxlIGF0IHRoZSBzYW1lIHRpbWUgaGF2aW5nIGEgdXNlciBJRCBvZiAwIGluc2lk
+ZSB0aGUKPj4gICAgICAgIG5hbWVzcGFjZTsgaW4gb3RoZXIgd29yZHMsIHRoZSBwcm9jZXNzIGhh
+cyAgZnVsbCAgcHJpdmlsZWdlcyAgZm9yCj4+ICAgICAgICBvcGVyYXRpb25zICBpbnNpZGUgIHRo
+ZSAgdXNlciAgbmFtZXNwYWNlLCBidXQgaXMgdW5wcml2aWxlZ2VkIGZvcgo+PiAgICAgICAgb3Bl
+cmF0aW9ucyBvdXRzaWRlIHRoZSBuYW1lc3BhY2UuCj4+Cj4+ICAgIE5lc3RlZCBuYW1lc3BhY2Vz
+LCBuYW1lc3BhY2UgbWVtYmVyc2hpcAo+PiAgICAgICAgVXNlciBuYW1lc3BhY2VzIGNhbiBiZSBu
+ZXN0ZWQ7ICB0aGF0ICBpcywgIGVhY2ggIHVzZXIgIG5hbWVzcGFjZeKAlAo+PiAgICAgICAgZXhj
+ZXB0ICB0aGUgIGluaXRpYWwgICgicm9vdCIpIG5hbWVzcGFjZeKAlGhhcyBhIHBhcmVudCB1c2Vy
+IG5hbWVz4oCQCj4+ICAgICAgICBwYWNlLCBhbmQgY2FuIGhhdmUgemVybyBvciBtb3JlIGNoaWxk
+IHVzZXIgbmFtZXNwYWNlcy4gIFRoZSAgcGFy4oCQCj4+ICAgICAgICBlbnQgdXNlciBuYW1lc3Bh
+Y2UgaXMgdGhlIHVzZXIgbmFtZXNwYWNlIG9mIHRoZSBwcm9jZXNzIHRoYXQgY3Jl4oCQCj4+ICAg
+ICAgICBhdGVzIHRoZSB1c2VyIG5hbWVzcGFjZSB2aWEgYSBjYWxsIHRvIHVuc2hhcmUoMikgb3Ig
+Y2xvbmUoMikgd2l0aAo+PiAgICAgICAgdGhlIENMT05FX05FV1VTRVIgZmxhZy4KPj4KPj4gICAg
+ICAgIFRoZSBrZXJuZWwgaW1wb3NlcyAoc2luY2UgdmVyc2lvbiAzLjExKSBhIGxpbWl0IG9mIDMy
+IG5lc3RlZCBsZXbigJAKPj4gICAgICAgIGVscyBvZiB1c2VyIG5hbWVzcGFjZXMuICBDYWxscyB0
+byAgdW5zaGFyZSgyKSAgb3IgIGNsb25lKDIpICB0aGF0Cj4+ICAgICAgICB3b3VsZCBjYXVzZSB0
+aGlzIGxpbWl0IHRvIGJlIGV4Y2VlZGVkIGZhaWwgd2l0aCB0aGUgZXJyb3IgRVVTRVJTLgo+Pgo+
+PiAgICAgICAgRWFjaCAgcHJvY2VzcyAgaXMgIGEgIG1lbWJlciAgb2YgIGV4YWN0bHkgIG9uZSB1
+c2VyIG5hbWVzcGFjZS4gIEEKPj4gICAgICAgIHByb2Nlc3MgY3JlYXRlZCB2aWEgZm9yaygyKSBv
+ciBjbG9uZSgyKSB3aXRob3V0IHRoZSBDTE9ORV9ORVdVU0VSCj4+ICAgICAgICBmbGFnICBpcyAg
+YSAgbWVtYmVyICBvZiB0aGUgc2FtZSB1c2VyIG5hbWVzcGFjZSBhcyBpdHMgcGFyZW50LiAgQQo+
+PiAgICAgICAgcHJvY2VzcyBjYW4gam9pbiBhbm90aGVyIHVzZXIgbmFtZXNwYWNlIHdpdGggc2V0
+bnMoMikgaWYgIGl0ICBoYXMKPj4gICAgICAgIHRoZSAgQ0FQX1NZU19BRE1JTiAgaW4gIHRoYXQg
+bmFtZXNwYWNlOyB1cG9uIGRvaW5nIHNvLCBpdCBnYWlucyBhCj4+ICAgICAgICBmdWxsIHNldCBv
+ZiBjYXBhYmlsaXRpZXMgaW4gdGhhdCBuYW1lc3BhY2UuCj4+Cj4+ICAgICAgICBBIGNhbGwgdG8g
+Y2xvbmUoMikgb3IgIHVuc2hhcmUoMikgIHdpdGggIHRoZSAgQ0xPTkVfTkVXVVNFUiAgZmxhZwo+
+PiAgICAgICAgbWFrZXMgIHRoZSAgbmV3ICBjaGlsZCAgcHJvY2VzcyAoZm9yIGNsb25lKDIpKSBv
+ciB0aGUgY2FsbGVyIChmb3IKPj4gICAgICAgIHVuc2hhcmUoMikpIGEgbWVtYmVyIG9mIHRoZSBu
+ZXcgdXNlciAgbmFtZXNwYWNlICBjcmVhdGVkICBieSAgdGhlCj4+ICAgICAgICBjYWxsLgo+Pgo+
+PiAgICBDYXBhYmlsaXRpZXMKPj4gICAgICAgIFRoZSBjaGlsZCBwcm9jZXNzIGNyZWF0ZWQgYnkg
+Y2xvbmUoMikgd2l0aCB0aGUgQ0xPTkVfTkVXVVNFUiBmbGFnCj4+ICAgICAgICBzdGFydHMgb3V0
+IHdpdGggYSBjb21wbGV0ZSBzZXQgb2YgY2FwYWJpbGl0aWVzIGluICB0aGUgIG5ldyAgdXNlcgo+
+PiAgICAgICAgbmFtZXNwYWNlLiAgTGlrZXdpc2UsIGEgcHJvY2VzcyB0aGF0IGNyZWF0ZXMgYSBu
+ZXcgdXNlciBuYW1lc3BhY2UKPj4gICAgICAgIHVzaW5nIHVuc2hhcmUoMikgIG9yICBqb2lucyAg
+YW4gIGV4aXN0aW5nICB1c2VyICBuYW1lc3BhY2UgIHVzaW5nCj4+ICAgICAgICBzZXRucygyKSAg
+Z2FpbnMgYSBmdWxsIHNldCBvZiBjYXBhYmlsaXRpZXMgaW4gdGhhdCBuYW1lc3BhY2UuICBPbgo+
+PiAgICAgICAgdGhlIG90aGVyIGhhbmQsIHRoYXQgcHJvY2VzcyBoYXMgbm8gY2FwYWJpbGl0aWVz
+ICBpbiAgdGhlICBwYXJlbnQKPj4gICAgICAgIChpbiAgdGhlIGNhc2Ugb2YgY2xvbmUoMikpIG9y
+IHByZXZpb3VzIChpbiB0aGUgY2FzZSBvZiB1bnNoYXJlKDIpCj4+ICAgICAgICBhbmQgc2V0bnMo
+MikpIHVzZXIgbmFtZXNwYWNlLCBldmVuIGlmIHRoZSBuZXcgbmFtZXNwYWNlICBpcyAgY3Jl4oCQ
+Cj4+ICAgICAgICBhdGVkICBvciAgam9pbmVkIGJ5IHRoZSByb290IHVzZXIgKGkuZS4sIGEgcHJv
+Y2VzcyB3aXRoIHVzZXIgSUQgMAo+PiAgICAgICAgaW4gdGhlIHJvb3QgbmFtZXNwYWNlKS4KPj4K
+Pj4gICAgICAgIE5vdGUgdGhhdCBhIGNhbGwgdG8gZXhlY3ZlKDIpIHdpbGwgY2F1c2UgYSBwcm9j
+ZXNzICB0byAgbG9zZSAgYW55Cj4+ICAgICAgICBjYXBhYmlsaXRpZXMgdGhhdCBpdCBoYXMsIHVu
+bGVzcyBpdCBoYXMgYSB1c2VyIElEIG9mIDAgd2l0aGluIHRoZQo+PiAgICAgICAgbmFtZXNwYWNl
+LiAgU2VlIHRoZSBkaXNjdXNzaW9uIG9mIHVzZXIgIGFuZCAgZ3JvdXAgIElEICBtYXBwaW5ncywK
+Pj4gICAgICAgIGJlbG93Lgo+IAo+IFRoZSBhYm92ZSBpcyBhbiBhcHByb3hpbWF0aW9uLCBidXQg
+YSBiaXQgbWlzbGVhZGluZy4gIE9uIGV4ZWMsIHRoZSB0YXNrCj4gY2FwYWJpbGl0eSBzZXQgaXMg
+cmVjYWxjdWxhdGVkIGFjY29yZGluZyB0byB0aGUgdXN1YWwgcnVsZXMuICBTbyBpZiB0aGUKPiBm
+aWxlIGJlaW5nIGV4ZWN1dGVkIGhhcyBmaWxlIGNhcGFiaWxpdGllcywgdGhlIHJlc3VsdCB0YXNr
+IG1heSBlbmQgdXAKPiB3aXRoIGNhcGFiaWxpdGllcyBldmVuIGlmIGl0IGlzIG5vdCByb290IChl
+dmVuIGlmIGl0IGlzIHVpZCAtMSkuCj4gCj4gUGVyaGFwcyBpdCBzaG91bGQgYmUgcGhyYXNlZCBh
+czoKPiAKPiAgICAgICAgIE5vdGUgdGhhdCBhIGNhbGwgdG8gZXhlY3ZlKDIpIHdpbGwgY2F1c2Ug
+YSBwcm9jZXNzJyBjYXBhYmlsaXRpZXMKPiAJdG8gYmUgcmVjYWxjdWxhdGVkIChzZWUgY2FwYWJp
+bGl0aWVzKDcpKSwgc28gdGhhdCB1c3VhbGx5LCB1bmxlc3MKPiAJaXQgaGFzIGEgdXNlciBJRCBv
+ZiAwIHdpdGhpbiB0aGUgbmFtZXNwYWNlLCBpdCB3aWxsIGxvc2UgYWxsCj4gCWNhcGFiaWxpdGll
+cy4gIFNlZSB0aGUgZGlzY3Vzc2lvbiBvZiB1c2VyICBhbmQgIGdyb3VwICBJRCAgbWFwcGluZ3Ms
+Cj4gICAgICAgICBiZWxvdy4KClRoYW5rcywgU2VyZ2UuIENoYW5nZWQgYXMgeW91IHN1Z2dlc3Qu
+CgpDaGVlcnMsCgpNaWNoYWVsCgoKCi0tIApNaWNoYWVsIEtlcnJpc2sKTGludXggbWFuLXBhZ2Vz
+IG1haW50YWluZXI7IGh0dHA6Ly93d3cua2VybmVsLm9yZy9kb2MvbWFuLXBhZ2VzLwpMaW51eC9V
+TklYIFN5c3RlbSBQcm9ncmFtbWluZyBUcmFpbmluZzogaHR0cDovL21hbjcub3JnL3RyYWluaW5n
+LwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpDb250YWlu
+ZXJzIG1haWxpbmcgbGlzdApDb250YWluZXJzQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0
+dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2NvbnRhaW5l
+cnM=
