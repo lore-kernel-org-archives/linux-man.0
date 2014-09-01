@@ -1,323 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: memusage (1) man page
-Date: Mon, 01 Sep 2014 17:39:04 +0200
-Message-ID: <54049318.4070404@gmail.com>
-References: <54041DD1.3010009@redhat.com>
+Subject: Re: For review: namespaces(7) man page
+Date: Mon, 1 Sep 2014 19:01:02 +0200
+Message-ID: <CAKgNAkjccb9kcpc_wCT2nFW_K7b3xJe-S8FNW9ja0937duWejw@mail.gmail.com>
+References: <53F5315D.6090003@gmail.com>
+	<14820c115f6.f730a96c253877.2650827516078037638@zoho.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54041DD1.3010009-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <14820c115f6.f730a96c253877.2650827516078037638-ytc+IHgoah0@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: Vitaly Rybnikov <frodox-ytc+IHgoah0@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Jan,
+On Fri, Aug 29, 2014 at 9:53 AM, Vitaly Rybnikov <frodox-ytc+IHgoah0@public.gmane.org> wrote:
+> Hello, Michael et al.
+>
+> You have an errata here:
+>
+>> /proc/[pid]/ns/uts (since Linux 3.0)
+>> This file is a handle for the IPC namespace of the
+>> process.
+>
+> It should be:
+> /proc/[pid]/ns/uts (since Linux 3.0)
+> This file is a handle for the UTS namespace of the
+> process.
 
-On 09/01/2014 09:18 AM, Jan Chaloupka wrote:
-> Hi,
-> 
-> memusage man page.
-
-Thank you for submitting this page on Peter's behalf. I've merged it.
-
-I edited both pages quite substantially, doing some clean up
-for man-pages style, and also adding many details to the memusage.1
-page. And--because I added various extra explanatory text about the
-output of memusage(1) and showed some of the sample output that
-results from memusage(1)--it seemed more sensible to have the EXAMPLE
-in the memusage.1 page, so I moved it from memusagestat.1 to here.
-
-You can find both updated pages in Git. I've also appended the
-revised memusage.1 page here, in case you or Peter would like to 
-check it over.
+Thanks, Vitaly. Fixed.
 
 Cheers,
 
 Michael
 
-.\" Copyright (c) 2013, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-.\" and Copyright (C) 2014, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\"
-.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-.\" This is free documentation; you can redistribute it and/or
-.\" modify it under the terms of the GNU General Public License as
-.\" published by the Free Software Foundation; either version 2 of
-.\" the License, or (at your option) any later version.
-.\"
-.\" The GNU General Public License's references to "object code"
-.\" and "executables" are to be interpreted as the output of any
-.\" document formatting or typesetting system, including
-.\" intermediate and printed output.
-.\"
-.\" This manual is distributed in the hope that it will be useful,
-.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-.\" GNU General Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public
-.\" License along with this manual; if not, see
-.\" <http://www.gnu.org/licenses/>.
-.\" %%%LICENSE_END
-.TH MEMUSAGE 1 2013-04-10 "GNU" "Linux user manual"
-.SH NAME
-memusage \- profile memory usage of a program
-.SH SYNOPSIS
-.BR memusage " [\fIoption\fR]... \fIprogram\fR [\fIprogramoption\fR]..."
-.SH DESCRIPTION
-.B memusage
-is a bash script which profiles memory usage of the program,
-.IR program .
-It preloads the
-.B libmemusage.so
-library into the caller's environment (via the
-.B LD_PRELOAD
-environment variable; see
-.BR ld.so (8)).
-The
-.B libmemusage.so
-library traces memory allocation by intercepting calls to
-.BR malloc (3),
-.BR calloc (3),
-.BR free (3),
-and
-.BR realloc (3);
-optionally, calls to
-.BR mmap (2),
-.BR mremap (2),
-and
-.BR munmap (2)
-can also be intercepted.
-.PP
-.B memusage
-can output the collected data in textual form, or it can use
-.BR memusagestat (1)
-(see the
-.B -p
-option,  below)
-to create a PNG file containing graphical representation
-of the collected data.
-.SS Memory usage summary
-The "Memory usage summary" line output by
-.BR memusage
-contains three fields:
-.RS 4
-.TP
-\fBheap total\fR
-Sum of \fIsize\fR arguments of all
-.BR malloc (3)
-calls,
-products of arguments (\fInmemb\fR*\fIsize\fR) of all
-.BR calloc (3)
-calls,
-and sum of \fIlength\fR arguments of all
-.BR mmap (2)
-calls.
-In the case of
-.BR realloc (3)
-and
-.BR mremap (2),
-if the new size of an allocation is larger than the previous size,
-the sum of all such differences (new size minus old size) is added.
-.TP
-.B "heap peak"
-Maximum of all \fIsize\fR arguments of
-.BR malloc (3),
-all products of \fInmemb\fR*\fIsize\fR of
-.BR calloc (3),
-all \fIsize\fR arguments of
-.BR realloc (3),
-.I length
-arguments of
-.BR mmap (2),
-and
-\fInew_size\fR arguments of
-.BR mremap (2).
-.TP
-.B "stack peak"
-Before the first call to any monitored function,
-the stack pointer address (base stack pointer) is saved.
-After each function call, the actual stack pointer address is read and
-the difference from the base stack pointer computed.
-The maximum of these differences is then the stack peak.
-.RE
-.PP
-Immediately following this summary line, a table shows the number calls,
-total memory allocated or deallocated, 
-and number of failed calls for each intercepted function.
-For
-.BR realloc (3)
-and
-.BR mremap (2),
-the additional field "nomove" shows reallocations that
-changed the address of a block,
-and the additional "dec" field shows reallocations that
-decreased the size of the block.
-For
-.BR realloc (3),
-the additional field "free" shows reallocations that
-caused a block to be freed (i.e., the reallocated size was 0).
 
-
-The "realloc/total memory" of the table output by
-.B memusage
-does not reflect cases where
-.BR realloc (3)
-is used to reallocate a block of memory
-to have a smaller size than previously.
-This can cause sum of all "total memory" cells (excluding "free")
-to be larger than the "free/total memory" cell.
-.SS Histogram for block sizes
-The "Histogram for block sizes" provides a breakdown of memory
-allocations into various bucket sizes.
-.SH OPTIONS
-.TP
-.BI \-n\  name \fR,\ \fB\-\-progname= name
-Name of the program file to profile.
-.TP
-.BI \-p\  file \fR,\ \fB\-\-png= file
-Generate PNG graphic and store it in
-.IR file .
-.TP
-.BI \-d\  file \fR,\ \fB\-\-data= file
-Generate binary data file and store it in
-.IR file .
-.TP
-.BI \-u\fR,\ \fB\-\-unbuffered
-Do not buffer output.
-.TP
-.BI \-b\  size \fR,\ \fB\-\-buffer= size
-Collect
-.I size
-entries before writing them out.
-.TP
-.BI \fB\-\-no-timer
-Disable timer-based
-.RB ( SIGPROF )
-sampling of stack pointer value.
-.TP
-.BI \-m\fR,\ \fB\-\-mmap
-Also trace
-.BR mmap (2),
-.BR mremap (2),
-and
-.BR mmap (2).
-.TP
-.BI \-?\fR,\ \fB\-\-help
-Print help and exit.
-.TP
-.BI \fB\-\-usage
-Print a short usage message and exit.
-.TP
-.BI \-V\fR,\ \fB\-\-version
-Print version information and exit.
-.TP
-The following options only apply when generating graphical output:
-.TP
-.BI \-t\fR,\ \fB\-\-time\-based
-Use time (rather than number of function calls) as the scale for the X axis.
-.TP
-.BI \-T\fR,\ \fB\-\-total
-Also draw a graph of total memory use.
-.TP
-.BI \fB\-\-title= name
-Use
-.I name
-as the title of the graph.
-.TP
-.BI \-x\  size \fR,\ \fB\-\-x\-size= size
-Make the graph
-.I size
-pixels wide.
-.TP
-.BI \-y\  size \fR,\ \fB\-\-y\-size= size
-Make the graph
-.I size
-pixels high.
-.SH EXIT STATUS
-Exit status is equal to the exit status of profiled program.
-.SH EXAMPLE
-Below is a simple program that reallocates a block of 
-memory in cycles that rise to a peak before then cyclically
-reallocating the memory in smaller blocks that return to zero.
-After compiling the program and running the following commands,
-a graph of the memory usage of the program can be found in the file
-.IR memusage.png :
-
-.in +4n
-.nf
-$ \fBmemusage --data=memusage.dat ./a.out\fP
-\&...
-Memory usage summary: heap total: 45200, heap peak: 6440, stack peak: 224
-        total calls  total memory  failed calls
- malloc|         1           400             0
-realloc|        40         44800             0  (nomove:40, dec:19, free:0)
- calloc|         0             0             0
-   free|         1           440
-Histogram for block sizes:
-  192-207             1   2% ================
-\&...
- 2192-2207            1   2% ================
- 2240-2255            2   4% =================================
- 2832-2847            2   4% =================================
- 3440-3455            2   4% =================================
- 4032-4047            2   4% =================================
- 4640-4655            2   4% =================================
- 5232-5247            2   4% =================================
- 5840-5855            2   4% =================================
- 6432-6447            1   2% ================
-$ \fBmemusagestat memusage.dat memusage.png\fP
-.fi
-.in
-.SS Program source
-.nf
-#include <stdio.h>
-#include <stdlib.h>
-
-#define CYCLES 20
-
-int
-main(int argc, char *argv[])
-{
-     int i, j;
-     int *p;
-
-     printf("malloc: %zd\\n", sizeof(int) * 100);
-     p = malloc(sizeof(int) * 100);
-
-     for (i = 0; i < CYCLES; i++) {
-         if (i < CYCLES / 2)
-             j = i;
-         else
-             j--;
-
-         printf("realloc: %zd\\n", sizeof(int) * (j * 50 + 110));
-         p = realloc(p, sizeof(int) * (j * 50 + 100));
-
-         printf("realloc: %zd\\n", sizeof(int) * ((j+1) * 150 + 110));
-         p = realloc(p, sizeof(int) * ((j + 1) * 150 + 110));
-     }
-
-     free(p);
-     exit(EXIT_SUCCESS);
-}
-.fi
-.SH BUGS
-To report bugs, see
-.UR http://www.gnu.org/software/libc/bugs.html
-.UE
-.SH SEE ALSO
-.BR memusagestat (1),
-.BR mtrace (1)
-.BR ld.so (8)
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
