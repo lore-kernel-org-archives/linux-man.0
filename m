@@ -1,116 +1,119 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: For review: user_namespace(7) man page
-Date: Mon, 01 Sep 2014 18:58:12 +0200
-Message-ID: <5404A5A4.2080108@gmail.com>
-References: <53F5310A.5080503@gmail.com>
-	<20140822211215.GA26308@mail.hallyn.com>
+Subject: Re: [PATCH] poll.2, select.2: fix erroneous description of "available
+ for write".
+Date: Mon, 01 Sep 2014 19:42:26 +0200
+Message-ID: <5404B002.5040809@gmail.com>
+References: <87oavgk2f2.fsf@rustcorp.com.au>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <20140822211215.GA26308-7LNsyQBKDXoIagZqoN9o3w@public.gmane.org>
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <87oavgk2f2.fsf-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-T24gMDgvMjIvMjAxNCAxMToxMiBQTSwgU2VyZ2UgRS4gSGFsbHluIHdyb3RlOgo+IFF1b3Rpbmcg
-TWljaGFlbCBLZXJyaXNrIChtYW4tcGFnZXMpIChtdGsubWFucGFnZXNAZ21haWwuY29tKToKPj4g
-SGVsbG8gRXJpYyBldCBhbC4sCj4+Cj4+IEZvciB2YXJpb3VzIHJlYXNvbnMsIG15IHdvcmsgb24g
-dGhlIG5hbWVzcGFjZXMgbWFuIHBhZ2VzIAo+PiBmZWxsIG9mZiB0aGUgdGFibGUgYSB3aGlsZSBi
-YWNrLiBOZXZlcnRoZWxlc3MsIHRoZSBwYWdlcyBoYXZlCj4+IGJlZW4gY2xvc2UgdG8gY29tcGxl
-dGlvbiBmb3IgYSB3aGlsZSBub3csIGFuZCBJIHJlY2VudGx5IHJlc3RhcnRlZCwKPj4gaW4gYW4g
-ZWZmb3J0IHRvIGZpbmlzaCB0aGVtLiBBcyB5b3UgYWxzbyBub3RlZCB0byBtZSBmMmYsIHRoZXJl
-IGhhdmUKPj4gYmVlbiByZWNlbnRseSBiZWVuIHNvbWUgc21hbGwgbmFtZXNwYWNlIGNoYW5nZXMg
-dGhhdCB5b3UgbWF5IGFmZmVjdAo+PiB0aGUgY29udGVudCBvZiB0aGUgcGFnZXMuIFRoZXJlZm9y
-ZSwgSSdsbCB0YWtlIHRoZSBvcHBvcnR1bml0eSB0bwo+PiBzZW5kIHRoZSBuYW1lc3BhY2UtcmVs
-YXRlZCBwYWdlcyBvdXQgZm9yIGZ1cnRoZXIgKGZpbmFsPykgcmV2aWV3Lgo+Pgo+PiBTbywgaGVy
-ZSwgSSBzdGFydCB3aXRoIHRoZSB1c2VyX25hbWVzcGFjZXMoNykgcGFnZSwgd2hpY2ggaXMgc2hv
-d24gCj4+IGluIHJlbmRlcmVkIGZvcm0gYmVsb3csIHdpdGggc291cmNlIGF0dGFjaGVkIHRvIHRo
-aXMgbWFpbC4gSSdsbAo+PiBzZW5kIHZhcmlvdXMgb3RoZXIgcGFnZXMgaW4gZm9sbG93LW9uIG1h
-aWxzLgo+Pgo+PiBSZXZpZXcgY29tbWVudHMvc3VnZ2VzdGlvbnMgZm9yIGltcHJvdmVtZW50cyAv
-IGJ1ZyBmaXhlcyB3ZWxjb21lLgo+Pgo+PiBDaGVlcnMsCj4+Cj4+IE1pY2hhZWwKPj4KPj4gPT0K
-Pj4KPj4gTkFNRQo+PiAgICAgICAgdXNlcl9uYW1lc3BhY2VzIC0gb3ZlcnZpZXcgb2YgTGludXgg
-dXNlcl9uYW1lc3BhY2VzCj4+Cj4+IERFU0NSSVBUSU9OCj4+ICAgICAgICBGb3IgYW4gb3ZlcnZp
-ZXcgb2YgbmFtZXNwYWNlcywgc2VlIG5hbWVzcGFjZXMoNykuCj4+Cj4+ICAgICAgICBVc2VyICAg
-bmFtZXNwYWNlcyAgIGlzb2xhdGUgICBzZWN1cml0eS1yZWxhdGVkICAgaWRlbnRpZmllcnMgIGFu
-ZAo+PiAgICAgICAgYXR0cmlidXRlcywgaW4gcGFydGljdWxhciwgdXNlciBJRHMgYW5kIGdyb3Vw
-ICBJRHMgIChzZWUgIGNyZWRlbuKAkAo+PiAgICAgICAgdGlhbHMoNyksIHRoZSByb290IGRpcmVj
-dG9yeSwga2V5cyAoc2VlIGtleWN0bCgyKSksIGFuZCBjYXBhYmlsaeKAkAo+PiAgICAgICAgdGll
-cyAoc2VlIGNhcGFiaWxpdGllcyg3KSkuICBBIHByb2Nlc3MncyB1c2VyIGFuZCBncm91cCAgSURz
-ICBjYW4KPj4gICAgICAgIGJlIGRpZmZlcmVudCBpbnNpZGUgYW5kIG91dHNpZGUgYSB1c2VyIG5h
-bWVzcGFjZS4gIEluIHBhcnRpY3VsYXIsCj4+ICAgICAgICBhIHByb2Nlc3MgY2FuIGhhdmUgYSBu
-b3JtYWwgdW5wcml2aWxlZ2VkIHVzZXIgSUQgb3V0c2lkZSAgYSAgdXNlcgo+PiAgICAgICAgbmFt
-ZXNwYWNlIHdoaWxlIGF0IHRoZSBzYW1lIHRpbWUgaGF2aW5nIGEgdXNlciBJRCBvZiAwIGluc2lk
-ZSB0aGUKPj4gICAgICAgIG5hbWVzcGFjZTsgaW4gb3RoZXIgd29yZHMsIHRoZSBwcm9jZXNzIGhh
-cyAgZnVsbCAgcHJpdmlsZWdlcyAgZm9yCj4+ICAgICAgICBvcGVyYXRpb25zICBpbnNpZGUgIHRo
-ZSAgdXNlciAgbmFtZXNwYWNlLCBidXQgaXMgdW5wcml2aWxlZ2VkIGZvcgo+PiAgICAgICAgb3Bl
-cmF0aW9ucyBvdXRzaWRlIHRoZSBuYW1lc3BhY2UuCj4+Cj4+ICAgIE5lc3RlZCBuYW1lc3BhY2Vz
-LCBuYW1lc3BhY2UgbWVtYmVyc2hpcAo+PiAgICAgICAgVXNlciBuYW1lc3BhY2VzIGNhbiBiZSBu
-ZXN0ZWQ7ICB0aGF0ICBpcywgIGVhY2ggIHVzZXIgIG5hbWVzcGFjZeKAlAo+PiAgICAgICAgZXhj
-ZXB0ICB0aGUgIGluaXRpYWwgICgicm9vdCIpIG5hbWVzcGFjZeKAlGhhcyBhIHBhcmVudCB1c2Vy
-IG5hbWVz4oCQCj4+ICAgICAgICBwYWNlLCBhbmQgY2FuIGhhdmUgemVybyBvciBtb3JlIGNoaWxk
-IHVzZXIgbmFtZXNwYWNlcy4gIFRoZSAgcGFy4oCQCj4+ICAgICAgICBlbnQgdXNlciBuYW1lc3Bh
-Y2UgaXMgdGhlIHVzZXIgbmFtZXNwYWNlIG9mIHRoZSBwcm9jZXNzIHRoYXQgY3Jl4oCQCj4+ICAg
-ICAgICBhdGVzIHRoZSB1c2VyIG5hbWVzcGFjZSB2aWEgYSBjYWxsIHRvIHVuc2hhcmUoMikgb3Ig
-Y2xvbmUoMikgd2l0aAo+PiAgICAgICAgdGhlIENMT05FX05FV1VTRVIgZmxhZy4KPj4KPj4gICAg
-ICAgIFRoZSBrZXJuZWwgaW1wb3NlcyAoc2luY2UgdmVyc2lvbiAzLjExKSBhIGxpbWl0IG9mIDMy
-IG5lc3RlZCBsZXbigJAKPj4gICAgICAgIGVscyBvZiB1c2VyIG5hbWVzcGFjZXMuICBDYWxscyB0
-byAgdW5zaGFyZSgyKSAgb3IgIGNsb25lKDIpICB0aGF0Cj4+ICAgICAgICB3b3VsZCBjYXVzZSB0
-aGlzIGxpbWl0IHRvIGJlIGV4Y2VlZGVkIGZhaWwgd2l0aCB0aGUgZXJyb3IgRVVTRVJTLgo+Pgo+
-PiAgICAgICAgRWFjaCAgcHJvY2VzcyAgaXMgIGEgIG1lbWJlciAgb2YgIGV4YWN0bHkgIG9uZSB1
-c2VyIG5hbWVzcGFjZS4gIEEKPj4gICAgICAgIHByb2Nlc3MgY3JlYXRlZCB2aWEgZm9yaygyKSBv
-ciBjbG9uZSgyKSB3aXRob3V0IHRoZSBDTE9ORV9ORVdVU0VSCj4+ICAgICAgICBmbGFnICBpcyAg
-YSAgbWVtYmVyICBvZiB0aGUgc2FtZSB1c2VyIG5hbWVzcGFjZSBhcyBpdHMgcGFyZW50LiAgQQo+
-PiAgICAgICAgcHJvY2VzcyBjYW4gam9pbiBhbm90aGVyIHVzZXIgbmFtZXNwYWNlIHdpdGggc2V0
-bnMoMikgaWYgIGl0ICBoYXMKPj4gICAgICAgIHRoZSAgQ0FQX1NZU19BRE1JTiAgaW4gIHRoYXQg
-bmFtZXNwYWNlOyB1cG9uIGRvaW5nIHNvLCBpdCBnYWlucyBhCj4+ICAgICAgICBmdWxsIHNldCBv
-ZiBjYXBhYmlsaXRpZXMgaW4gdGhhdCBuYW1lc3BhY2UuCj4+Cj4+ICAgICAgICBBIGNhbGwgdG8g
-Y2xvbmUoMikgb3IgIHVuc2hhcmUoMikgIHdpdGggIHRoZSAgQ0xPTkVfTkVXVVNFUiAgZmxhZwo+
-PiAgICAgICAgbWFrZXMgIHRoZSAgbmV3ICBjaGlsZCAgcHJvY2VzcyAoZm9yIGNsb25lKDIpKSBv
-ciB0aGUgY2FsbGVyIChmb3IKPj4gICAgICAgIHVuc2hhcmUoMikpIGEgbWVtYmVyIG9mIHRoZSBu
-ZXcgdXNlciAgbmFtZXNwYWNlICBjcmVhdGVkICBieSAgdGhlCj4+ICAgICAgICBjYWxsLgo+Pgo+
-PiAgICBDYXBhYmlsaXRpZXMKPj4gICAgICAgIFRoZSBjaGlsZCBwcm9jZXNzIGNyZWF0ZWQgYnkg
-Y2xvbmUoMikgd2l0aCB0aGUgQ0xPTkVfTkVXVVNFUiBmbGFnCj4+ICAgICAgICBzdGFydHMgb3V0
-IHdpdGggYSBjb21wbGV0ZSBzZXQgb2YgY2FwYWJpbGl0aWVzIGluICB0aGUgIG5ldyAgdXNlcgo+
-PiAgICAgICAgbmFtZXNwYWNlLiAgTGlrZXdpc2UsIGEgcHJvY2VzcyB0aGF0IGNyZWF0ZXMgYSBu
-ZXcgdXNlciBuYW1lc3BhY2UKPj4gICAgICAgIHVzaW5nIHVuc2hhcmUoMikgIG9yICBqb2lucyAg
-YW4gIGV4aXN0aW5nICB1c2VyICBuYW1lc3BhY2UgIHVzaW5nCj4+ICAgICAgICBzZXRucygyKSAg
-Z2FpbnMgYSBmdWxsIHNldCBvZiBjYXBhYmlsaXRpZXMgaW4gdGhhdCBuYW1lc3BhY2UuICBPbgo+
-PiAgICAgICAgdGhlIG90aGVyIGhhbmQsIHRoYXQgcHJvY2VzcyBoYXMgbm8gY2FwYWJpbGl0aWVz
-ICBpbiAgdGhlICBwYXJlbnQKPj4gICAgICAgIChpbiAgdGhlIGNhc2Ugb2YgY2xvbmUoMikpIG9y
-IHByZXZpb3VzIChpbiB0aGUgY2FzZSBvZiB1bnNoYXJlKDIpCj4+ICAgICAgICBhbmQgc2V0bnMo
-MikpIHVzZXIgbmFtZXNwYWNlLCBldmVuIGlmIHRoZSBuZXcgbmFtZXNwYWNlICBpcyAgY3Jl4oCQ
-Cj4+ICAgICAgICBhdGVkICBvciAgam9pbmVkIGJ5IHRoZSByb290IHVzZXIgKGkuZS4sIGEgcHJv
-Y2VzcyB3aXRoIHVzZXIgSUQgMAo+PiAgICAgICAgaW4gdGhlIHJvb3QgbmFtZXNwYWNlKS4KPj4K
-Pj4gICAgICAgIE5vdGUgdGhhdCBhIGNhbGwgdG8gZXhlY3ZlKDIpIHdpbGwgY2F1c2UgYSBwcm9j
-ZXNzICB0byAgbG9zZSAgYW55Cj4+ICAgICAgICBjYXBhYmlsaXRpZXMgdGhhdCBpdCBoYXMsIHVu
-bGVzcyBpdCBoYXMgYSB1c2VyIElEIG9mIDAgd2l0aGluIHRoZQo+PiAgICAgICAgbmFtZXNwYWNl
-LiAgU2VlIHRoZSBkaXNjdXNzaW9uIG9mIHVzZXIgIGFuZCAgZ3JvdXAgIElEICBtYXBwaW5ncywK
-Pj4gICAgICAgIGJlbG93Lgo+IAo+IFRoZSBhYm92ZSBpcyBhbiBhcHByb3hpbWF0aW9uLCBidXQg
-YSBiaXQgbWlzbGVhZGluZy4gIE9uIGV4ZWMsIHRoZSB0YXNrCj4gY2FwYWJpbGl0eSBzZXQgaXMg
-cmVjYWxjdWxhdGVkIGFjY29yZGluZyB0byB0aGUgdXN1YWwgcnVsZXMuICBTbyBpZiB0aGUKPiBm
-aWxlIGJlaW5nIGV4ZWN1dGVkIGhhcyBmaWxlIGNhcGFiaWxpdGllcywgdGhlIHJlc3VsdCB0YXNr
-IG1heSBlbmQgdXAKPiB3aXRoIGNhcGFiaWxpdGllcyBldmVuIGlmIGl0IGlzIG5vdCByb290IChl
-dmVuIGlmIGl0IGlzIHVpZCAtMSkuCj4gCj4gUGVyaGFwcyBpdCBzaG91bGQgYmUgcGhyYXNlZCBh
-czoKPiAKPiAgICAgICAgIE5vdGUgdGhhdCBhIGNhbGwgdG8gZXhlY3ZlKDIpIHdpbGwgY2F1c2Ug
-YSBwcm9jZXNzJyBjYXBhYmlsaXRpZXMKPiAJdG8gYmUgcmVjYWxjdWxhdGVkIChzZWUgY2FwYWJp
-bGl0aWVzKDcpKSwgc28gdGhhdCB1c3VhbGx5LCB1bmxlc3MKPiAJaXQgaGFzIGEgdXNlciBJRCBv
-ZiAwIHdpdGhpbiB0aGUgbmFtZXNwYWNlLCBpdCB3aWxsIGxvc2UgYWxsCj4gCWNhcGFiaWxpdGll
-cy4gIFNlZSB0aGUgZGlzY3Vzc2lvbiBvZiB1c2VyICBhbmQgIGdyb3VwICBJRCAgbWFwcGluZ3Ms
-Cj4gICAgICAgICBiZWxvdy4KClRoYW5rcywgU2VyZ2UuIENoYW5nZWQgYXMgeW91IHN1Z2dlc3Qu
-CgpDaGVlcnMsCgpNaWNoYWVsCgoKCi0tIApNaWNoYWVsIEtlcnJpc2sKTGludXggbWFuLXBhZ2Vz
-IG1haW50YWluZXI7IGh0dHA6Ly93d3cua2VybmVsLm9yZy9kb2MvbWFuLXBhZ2VzLwpMaW51eC9V
-TklYIFN5c3RlbSBQcm9ncmFtbWluZyBUcmFpbmluZzogaHR0cDovL21hbjcub3JnL3RyYWluaW5n
-LwpfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXwpDb250YWlu
-ZXJzIG1haWxpbmcgbGlzdApDb250YWluZXJzQGxpc3RzLmxpbnV4LWZvdW5kYXRpb24ub3JnCmh0
-dHBzOi8vbGlzdHMubGludXhmb3VuZGF0aW9uLm9yZy9tYWlsbWFuL2xpc3RpbmZvL2NvbnRhaW5l
-cnM=
+Hi Rusty,
+
+On 08/19/2014 03:57 PM, Rusty Russell wrote:
+> POSIX says: "POLLOUT Normal data may be written without blocking.".
+> This is "may" is misleading, see the POSIX write page:
+> 
+> Write requests to a pipe or FIFO shall be handled in the same way as
+> a regular file with the following exceptions: ... If the O_NONBLOCK
+> flag is clear, a write request may cause the thread to block, but on
+> normal completion it shall return nbyte.
+> 
+> ... When attempting to write to a file descriptor (other than a pipe
+> or FIFO) that supports non-blocking writes and cannot accept the data
+> immediately:
+> 
+> If the O_NONBLOCK flag is clear, write() shall block the calling
+> thread until the data can be accepted.
+> 
+> If the O_NONBLOCK flag is set, write() shall not block the thread. If
+> some data can be written without blocking the thread, write() shall
+> write what it can and return the number of bytes written. Otherwise,
+> it shall return -1 and set errno to [EAGAIN].> 
+> The net result is that write() of more than 1 byte on a socket, pipe or FIFO
+> which is "ready" may block: write() (unlike read!) will attempt to write
+> the entire buffer and only return a short write under exceptional
+> circumstances.
+> 
+> Indeed, this is the behaviour we see in Linux:
+> 
+> https://github.com/rustyrussell/ccan/commit/897626152d12d7fd13a8feb36989eb5c8c1f3485
+> https://plus.google.com/103188246877163594460/posts/BkTGTMHDFgZ
+> 
+> Signed-off-by: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+
+Thanks for the detailed log message. This all makes sense and
+I've applied the patch. One minor correction your point
+above. On pipes/FIFOs at least, select() and poll()
+return ready only if at least PIPE_BUF bytes of space
+are available. (On some other implementations that I've
+tested, they do however return true even if there is just
+one byte of space available.
+
+Cheers,
+
+Michael
+
+
+> diff --git a/man2/poll.2 b/man2/poll.2
+> index 53aec82..9167472 100644
+> --- a/man2/poll.2
+> +++ b/man2/poll.2
+> @@ -167,7 +167,10 @@ There is urgent data to read (e.g., out-of-band data on TCP socket;
+>  pseudoterminal master in packet mode has seen state change in slave).
+>  .TP
+>  .B POLLOUT
+> -Writing now will not block.
+> +Writing is now possible, though a write larger that the available space
+> +in a socket or pipe will still block (unless
+> +.B O_NONBLOCK
+> +is set).
+>  .TP
+>  .BR POLLRDHUP " (since Linux 2.6.17)"
+>  Stream socket peer closed connection,
+> diff --git a/man2/select.2 b/man2/select.2
+> index ac70b85..ea35986 100644
+> --- a/man2/select.2
+> +++ b/man2/select.2
+> @@ -86,9 +86,10 @@ allow a program to monitor multiple file descriptors,
+>  waiting until one or more of the file descriptors become "ready"
+>  for some class of I/O operation (e.g., input possible).
+>  A file descriptor is considered ready if it is possible to
+> -perform the corresponding I/O operation (e.g.,
+> -.BR read (2))
+> -without blocking.
+> +perform a corresponding I/O operation (e.g.,
+> +.BR read (2)
+> +without blocking, or a sufficiently small
+> +.BR write (2)).
+>  .PP
+>  The operation of
+>  .BR select ()
+> @@ -131,8 +132,8 @@ available for reading (more precisely, to see if a read will not
+>  block; in particular, a file descriptor is also ready on end-of-file),
+>  those in
+>  .I writefds
+> -will be watched to see if a write will not block, and
+> -those in
+> +will be watched to see if space is available for write (though a large
+> +write may still block), and those in
+>  .I exceptfds
+>  will be watched for exceptions.
+>  On exit, the sets are modified in place
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
