@@ -1,39 +1,76 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] open.2: tfix
-Date: Mon, 01 Sep 2014 19:07:26 +0200
-Message-ID: <5404A7CE.7030704@gmail.com>
-References: <1408970442-12572-1-git-send-email-roques@mti.ag>
+Subject: Re: [PATCH] packet.7: fix include file
+Date: Mon, 01 Sep 2014 19:25:33 +0200
+Message-ID: <5404AC0D.9050103@gmail.com>
+References: <1409318406-5217-1-git-send-email-sdumitru@ixiacom.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1408970442-12572-1-git-send-email-roques-DeIDFP5fInQ@public.gmane.org>
+In-Reply-To: <1409318406-5217-1-git-send-email-sdumitru-+zzKsuq53OdBDgjK7y7TUQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christian von Roques <roques-DeIDFP5fInQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Sorin Dumitru <sorin-W1xJSxASJ7qhKNWrAYCRhA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, netdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Christian. Applied.
+On 08/29/2014 03:20 PM, Sorin Dumitru wrote:
+> It looks like most of the socket options from this man pages
+> are not defined in <netpacket/packet.h>. They are defined in
+> <linux/if_packet.h> so we should include that one.
+
+Hello Sorin,
+
+It looks like <netpacket/packet.h> was based on some ancient
+version of <linux/if_packet.h> that has not been updated.
+Since linux/if_packet.h is under the "uapi" tree the
+proposed patch seems the best fix. Thanks for sending it.
+I've applied it.
 
 Cheers,
 
 Michael
 
 
-On 08/25/2014 02:40 PM, Christian von Roques wrote:
-> diff --git a/man2/open.2 b/man2/open.2
-> index 6dca2b8..51455aa 100644
-> --- a/man2/open.2
-> +++ b/man2/open.2
-> @@ -603,7 +603,7 @@ Write operations on the file will complete according to the requirements of
->  synchronized I/O
->  .I file
->  integrity completion
-> -(by contrast with contrast with the
-> +(by contrast with the
->  synchronized I/O
->  .I data
->  integrity completion
+
+
+
+> Signed-off-by: Sorin Dumitru <sdumitru-+zzKsuq53OdBDgjK7y7TUQ@public.gmane.org>
+> ---
+>  man7/packet.7 | 14 +-------------
+>  1 file changed, 1 insertion(+), 13 deletions(-)
+> 
+> diff --git a/man7/packet.7 b/man7/packet.7
+> index 57cd3ca..7b6f20d 100644
+> --- a/man7/packet.7
+> +++ b/man7/packet.7
+> @@ -16,7 +16,7 @@ packet \- packet interface on device level
+>  .nf
+>  .B #include <sys/socket.h>
+>  .br
+> -.B #include <netpacket/packet.h>
+> +.B #include <linux/if_packet.h>
+>  .br
+>  .B #include <net/ethernet.h>     /* the L2 protocols */
+>  .sp
+> @@ -535,18 +535,6 @@ is a new feature in Linux 2.2.
+>  Earlier Linux versions supported only
+>  .BR SOCK_PACKET .
+>  .PP
+> -The include file
+> -.I <netpacket/packet.h>
+> -is present since glibc 2.1.
+> -Older systems need:
+> -.sp
+> -.in +4n
+> -.nf
+> -#include <asm/types.h>
+> -#include <linux/if_packet.h>
+> -#include <linux/if_ether.h>  /* The L2 protocols */
+> -.fi
+> -.in
+>  .SH NOTES
+>  For portable programs it is suggested to use
+>  .B AF_PACKET
 > 
 
 
