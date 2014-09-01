@@ -1,181 +1,166 @@
 From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: memusage (1) man page
-Date: Mon, 01 Sep 2014 09:18:41 +0200
-Message-ID: <54041DD1.3010009@redhat.com>
+Subject: Re: For review: memusage(1) man page
+Date: Mon, 01 Sep 2014 09:22:01 +0200
+Message-ID: <54041E99.5020403@redhat.com>
+References: <53C8E244.2080901@redhat.com> <53CE0144.7050405@gmail.com> <53CE0517.2040005@redhat.com> <53CE1BC4.6040707@redhat.com> <5401D83C.3050806@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <5401D83C.3050806-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Hello, Michael
 
-memusage man page.
+On 08/30/2014 03:57 PM, Michael Kerrisk (man-pages) wrote:
+> Hi Jan,
+>
+> You resubmitted this page in the meusage(1) thread, but
+> it's a page for memusagestat(1). I'm getting a little
+> confused as I try to review these threads.
 
-Changelog:
-     options of command in synopsis to lowercase
+Oh, sorry about that. Man pages resent with changelog.
 
-.\" Copyright (c) 2013, Peter Schiffer (pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org)
-.\"
-.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-.\" This is free documentation; you can redistribute it and/or
-.\" modify it under the terms of the GNU General Public License as
-.\" published by the Free Software Foundation; either version 2 of
-.\" the License, or (at your option) any later version.
-.\"
-.\" The GNU General Public License's references to "object code"
-.\" and "executables" are to be interpreted as the output of any
-.\" document formatting or typesetting system, including
-.\" intermediate and printed output.
-.\"
-.\" This manual is distributed in the hope that it will be useful,
-.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-.\" GNU General Public License for more details.
-.\"
-.\" You should have received a copy of the GNU General Public
-.\" License along with this manual; if not, see
-.\" <http://www.gnu.org/licenses/>.
-.\" %%%LICENSE_END
-.TH MEMUSAGE 1 2013-04-10 "GNU glibc 2.18" "Memory diagnostic tools"
-.SH NAME
-memusage \- profile memory usage of a program
-.SH SYNOPSIS
-.BR memusage " [\fIoption\fR]... \fIprogram\fR [\fIprogramoption\fR]..."
-.SH DESCRIPTION
-.B memusage
-is a bash script which can profile memory usage of a program. It preloads
-.B libmemusage.so
-library to the user's environment using
-.B LD_PRELOAD
-environment variable. The
-.B libmemusage.so
-library traces memory allocation by intercepting calls to
-.BR malloc (3),
-.BR free (3),
-.BR realloc (3)
-and various other calls.
-.PP
-.B memusage
-can output text representation of the collected data, or it can use
-.BR memusagestat (1)
-utility (see
-.B -p
-option)
-to create a PNG file containing graphical representation
-of the collected data.
-.TP
-List of monitored functions:
-.RS
-.BI "void *malloc(size_t " "size" );
-.RE
-.RS
-.BI "void *calloc(size_t " "nmemb" ", size_t " "size" );
-.RE
-.RS
-.BI "void *realloc(void " "*ptr" ", size_t "  "size" );
-.RE
-.RS
-.BI "void *mmap(void " "*addr" ", size_t " "length" ", int " "prot",
-.BI "int " "flags" ", int " "fd" ", off_t " "offset");
-.RE
-.RS
-.BI "void *mremap(void " "*old_address" ", size_t " "old_size",
-.BI "size_t " "new_size" ", int " "flags",
-.BI "... /* void " "*new_address" " */);"
-.RE
-.TP
-Description of a memory usage summary:
-.RE
-\fBheap total\fR:
-.RS
-Sum of \fIsize\fR arguments of all malloc calls,
-sum of all product of arguments (\fInmemb\fR*\fIsize\fR) of calloc call
-and sum of \fIlength\fR arguments of mmap calls.
-In a case of realloc, respectively mremap, if a new size of an original 
-malloc,
-respectively mremap call is bigger than an old one,
-sum of all such differences (new size - old size) is added.
-.RE
-\fBheap peak\fR:
-.RS
-Maximum of all \fIsize\fR arguments of malloc,
-all products of \fInmemb\fR*\fIsize\fR of calloc,
-all \fIsize\fR arguments of realloc, \fIlength\fR arguments of mmap and
-\fInew_size\fR arguments of mremap.
-.RE
-\fBstack peak\fR:
-.RS
-Before the first call to any monitored function,
-stack pointer address (base stack pointer) is saved.
-After each function call, actual stack pointer address is read and
-the difference between the base stack pointer computed.
-Maximum of these differences is then the stack peak.
-.RE
+> Could I ask you to create two new threads that submit
+> the current memusage.1 and memusagestat.1 pages.
+> Along the way, could you convert the keywords in the
+> command lines to lowercase+italic (\fI). (See for example
+> the current mtrace.1 in Git.)
+>
+> My apologies for being so slow to follow up on this.
 
-If a realloc function is called on a mallocced memory with a new size being
-smaller than an old one, total memory of realloc cell is not updated.
-This can cause sum of all cells (excluding free) of total memory being
-greater than free cell.
-.SH OPTIONS
-.TP
-.BI \-n\  name \fR,\ \fB\-\-progname= name
-Name of the program file to profile.
-.TP
-.BI \-p\  file \fR,\ \fB\-\-png= file
-Generate PNG graphic and store it in the file.
-.TP
-.BI \-d\  file \fR,\ \fB\-\-data= file
-Generate binary data file and store it in the file.
-.TP
-.BI \-u\fR,\ \fB\-\-unbuffered
-Do not buffer output.
-.TP
-.BI \-b\  size \fR,\ \fB\-\-buffer= size
-Collect size entries before writing them out.
-.TP
-.BI \fB\-\-no-timer
-Do not collect additional information through timer.
-.TP
-.BI \-m\fR,\ \fB\-\-mmap
-Also trace mmap and friends.
-.TP
-.BI \-?\fR,\ \fB\-\-help
-Print help and exit.
-.TP
-.BI \fB\-\-usage
-Print a short usage message and exit.
-.TP
-.BI \-V\fR,\ \fB\-\-version
-Print version information and exit.
-.TP
-The following options only apply when generating graphical output:
-.TP
-.BI \-t\fR,\ \fB\-\-time\-based
-Make graph linear in time.
-.TP
-.BI \-T\fR,\ \fB\-\-total
-Also draw graph of total memory use.
-.TP
-.BI \fB\-\-title= name
-Use the name as a title of the graph.
-.TP
-.BI \-x\  size \fR,\ \fB\-\-x\-size= size
-Make graphic size pixels wide.
-.TP
-.BI \-y\  size \fR,\ \fB\-\-y\-size= size
-Make graphic size pixels high.
-.SH EXIT STATUS
-Exit status is equal to the exit status of profiled program.
-.SH BUGS
-For bug reporting instructions, please see:
-<http://www.gnu.org/software/libc/bugs.html>.
-.SH SEE ALSO
-.BR memusagestat (1),
-.BR ld.so (8)
+No big deal. These man pages are of low priority.
+
+>
+> Thanks,
+>
+> Michael
+>
+>
+>
+> On 07/22/2014 10:07 AM, Jan Chaloupka wrote:
+>> Adding example with small C code to demonstrate progress of memory usage
+>>
+>> .\" Copyright (c) 2013, Peter Schiffer (pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org)
+>> .\"
+>> .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>> .\" This is free documentation; you can redistribute it and/or
+>> .\" modify it under the terms of the GNU General Public License as
+>> .\" published by the Free Software Foundation; either version 2 of
+>> .\" the License, or (at your option) any later version.
+>> .\"
+>> .\" The GNU General Public License's references to "object code"
+>> .\" and "executables" are to be interpreted as the output of any
+>> .\" document formatting or typesetting system, including
+>> .\" intermediate and printed output.
+>> .\"
+>> .\" This manual is distributed in the hope that it will be useful,
+>> .\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+>> .\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+>> .\" GNU General Public License for more details.
+>> .\"
+>> .\" You should have received a copy of the GNU General Public
+>> .\" License along with this manual; if not, see
+>> .\" <http://www.gnu.org/licenses/>.
+>> .\" %%%LICENSE_END
+>> .TH MEMUSAGESTAT 1 2013-04-10 "GNU glibc 2.18" "Memory diagnostic tools"
+>> .SH NAME
+>> memusagestat \- generate graphic from memory profiling data
+>> .SH SYNOPSIS
+>> .BR memusagestat " [\fIOPTION\fR]... \fIDATAFILE\fR [\fIOUTFILE\fR]"
+>> .SH DESCRIPTION
+>> .B memusagestat
+>> can create a PNG file with graphical representation of memory profiling
+>> data.
+>> Red line in the graph shows the heap usage (allocated memory),
+>> green line shows the stack usage,
+>> x-scale number of memory handling functions calls or time (\fB-t\fR option).
+>> .I DATAFILE
+>> is a binary data file generated by
+>> .BR memusage (1)
+>> utility with
+>> .B -d
+>> option.
+>> .SH OPTIONS
+>> .TP
+>> .BI \-o\  file \fR,\ \fB\-\-output= file
+>> Name of the output file.
+>> .TP
+>> .BI \-s\  string \fR,\ \fB\-\-string= string
+>> Title string used in the output graphic.
+>> .TP
+>> .BI \-t\fR,\ \fB\-\-time
+>> Generate output linear to time
+>> (default is linear to number of function calls).
+>> .TP
+>> .BI \-T\fR,\ \fB\-\-total
+>> Also draw graph for total memory consumption.
+>> .TP
+>> .BI \-x\  size \fR,\ \fB\-\-x-size= size
+>> Make graphic size pixels wide.
+>> .TP
+>> .BI \-y\  size \fR,\ \fB\-\-y\-size= size
+>> Make graphic size pixels high.
+>> .TP
+>> .BI \-?\fR,\ \fB\-\-help
+>> Print help and exit.
+>> .TP
+>> .BI \fB\-\-usage
+>> Print a short usage message and exit.
+>> .TP
+>> .BI \-V\fR,\ \fB\-\-version
+>> Print version information and exit.
+>> .SH EXAMPLES
+>> Here is a simple program \fImemusagestatexample.c\fR simulating increase
+>> and decrease of memory usage:
+>>
+>> .RS 4
+>> #include <stdio.h>
+>> .RS 0
+>> #include <stdlib.h>
+>> .RE
+>> .RS 0
+>> #define CYCLES 20
+>> .RE
+>>
+>> int main(int argc, char ** argv) {
+>>           int i, j;
+>>           int *p = NULL;
+>>           printf("malloc: %d\\n", sizeof(int)*100);
+>>           p = malloc(sizeof(int)*100);
+>>
+>>           for (i = 0; i < CYCLES; i++) {
+>>                   if (i < CYCLES/2) j = i; else j--;
+>>                   printf("realloc: %d\\n", sizeof(int)*((j)*50 + 110));
+>>                   p = realloc(p, sizeof(int)*(j*50 + 100));
+>>                   printf("realloc: %d\\n", sizeof(int)*((j+1)*150 + 110));
+>>                   p = realloc(p, sizeof(int)*((j+1)*150 + 110));
+>>           }
+>>           free(p);
+>>           return 0;
+>> .RS 0
+>> }
+>> .RE
+>> .RE
+>>
+>> After compiling and running the following, you can see progress of
+>> memory usage (memusagestatexample.png):
+>>
+>> memusage --data=memusagestatexample.dat ./memusagestatexample
+>> .RS 0
+>> memusagestat memusagestatexample.dat memusagestatexample.png
+>> .RE
+>>
+>> .SH BUGS
+>> For bug reporting instructions, please see:
+>> <http://www.gnu.org/software/libc/bugs.html>.
+>> .SH SEE ALSO
+>> .BR memusage (1)
+>>
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
