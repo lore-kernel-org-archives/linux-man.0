@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] round.3: Reformat thread-safety information
-Date: Mon, 1 Sep 2014 10:00:33 +0800
-Message-ID: <1409536833-22410-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] rint.3: Reformat thread-safety information
+Date: Mon, 1 Sep 2014 10:16:21 +0800
+Message-ID: <1409537781-23063-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/round.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/rint.3 | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/man3/round.3 b/man3/round.3
-index 457f83d..fe4ec11 100644
---- a/man3/round.3
-+++ b/man3/round.3
-@@ -86,13 +86,19 @@ POSIX.1-2001 documents a range error for overflows, but see NOTES.
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/rint.3 b/man3/rint.3
+index f79e990..7ec0977 100644
+--- a/man3/rint.3
++++ b/man3/rint.3
+@@ -120,16 +120,24 @@ itself is returned.
+ No errors occur.
+ POSIX.1-2001 documents a range error for overflows, but see NOTES.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,14 +29,19 @@ index 457f83d..fe4ec11 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw27 lb lb
++lbw26 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR round (),
- .BR roundf (),
+ .BR nearbyint (),
+ .BR nearbyintf (),
++.br
+ .BR nearbyintl (),
+ .BR rint (),
++.br
+ .BR rintf (),
 -and
- .BR roundl ()
+ .BR rintl ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
