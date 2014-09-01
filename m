@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] rtime.3: Reformat thread-safety information
-Date: Mon, 1 Sep 2014 09:52:23 +0800
-Message-ID: <1409536343-21002-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] round.3: Reformat thread-safety information
+Date: Mon, 1 Sep 2014 10:00:33 +0800
+Message-ID: <1409536833-22410-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/rtime.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/round.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/rtime.3 b/man3/rtime.3
-index da4f417..a61aee9 100644
---- a/man3/rtime.3
-+++ b/man3/rtime.3
-@@ -55,10 +55,17 @@ The number of returned bytes is not 4.
- .B ETIMEDOUT
- The waiting time as defined in timeout has expired.
+diff --git a/man3/round.3 b/man3/round.3
+index 457f83d..fe4ec11 100644
+--- a/man3/round.3
++++ b/man3/round.3
+@@ -86,13 +86,19 @@ POSIX.1-2001 documents a range error for overflows, but see NOTES.
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,17 +29,20 @@ index da4f417..a61aee9 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw27 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR rtime ()
--function is thread-safe.
+ .BR round (),
+ .BR roundf (),
+-and
+ .BR roundl ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
  .SH NOTES
- Only IPv4 is supported.
- .LP
 -- 
 1.9.3
 
