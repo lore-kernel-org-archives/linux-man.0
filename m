@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] remove.3: Reformat thread-safety information
-Date: Mon, 1 Sep 2014 11:03:01 +0800
-Message-ID: <1409540581-26995-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] re_comp.3: Reformat thread-safety information
+Date: Mon, 1 Sep 2014 11:07:52 +0800
+Message-ID: <1409540872-27320-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,33 +12,36 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/remove.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/re_comp.3 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man3/remove.3 b/man3/remove.3
-index fbcbbc7..d0c0281 100644
---- a/man3/remove.3
-+++ b/man3/remove.3
-@@ -68,10 +68,17 @@ The errors that occur are those for
- and
- .BR rmdir (2).
+diff --git a/man3/re_comp.3 b/man3/re_comp.3
+index d027023..9c04dc7 100644
+--- a/man3/re_comp.3
++++ b/man3/re_comp.3
+@@ -64,12 +64,18 @@ otherwise it returns a pointer to an appropriate error message.
+ .BR re_exec ()
+ returns 1 for a successful match, zero for failure.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
+-.BR re_comp ()
+-and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw20 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR remove ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
++.BR re_comp (),
+ .BR re_exec ()
+-functions are not thread-safe.
++T}	Thread safety	MT-Unsafe
 +.TE
  .SH CONFORMING TO
- C89, C99, 4.3BSD, POSIX.1-2001.
+ 4.3BSD.
  .SH NOTES
 -- 
 1.9.3
