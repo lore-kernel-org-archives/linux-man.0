@@ -1,231 +1,331 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: For review: user_namespace(7) man page
-Date: Mon, 01 Sep 2014 20:05:47 -0500
-Message-ID: <87sikade6s.fsf@x220.int.ebiederm.org>
-References: <53F5310A.5080503@gmail.com>
-	<87d2bhfxvc.fsf@x220.int.ebiederm.org> <5404AD7F.4070004@gmail.com>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: memusage (1) man page
+Date: Wed, 03 Sep 2014 08:49:57 +0200
+Message-ID: <5406BA15.5030702@redhat.com>
+References: <54041DD1.3010009@redhat.com> <54049318.4070404@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <5404AD7F.4070004-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> (Michael Kerrisk's message of "Mon,
-	01 Sep 2014 19:31:43 +0200")
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54049318.4070404-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, drepper-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Ik1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdy
-aXRlczoKCj4gT24gMDgvMzAvMjAxNCAxMTo1MyBQTSwgRXJpYyBXLiBCaWVkZXJtYW4gd3JvdGU6
-Cj4+ICJNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykiIDxtdGsubWFucGFnZXNAZ21haWwuY29t
-PiB3cml0ZXM6Cgo+Pj4gRm9yIHZhcmlvdXMgcmVhc29ucywgbXkgd29yayBvbiB0aGUgbmFtZXNw
-YWNlcyBtYW4gcGFnZXMgCj4+PiBmZWxsIG9mZiB0aGUgdGFibGUgYSB3aGlsZSBiYWNrLiBOZXZl
-cnRoZWxlc3MsIHRoZSBwYWdlcyBoYXZlCj4+PiBiZWVuIGNsb3NlIHRvIGNvbXBsZXRpb24gZm9y
-IGEgd2hpbGUgbm93LCBhbmQgSSByZWNlbnRseSByZXN0YXJ0ZWQsCj4+PiBpbiBhbiBlZmZvcnQg
-dG8gZmluaXNoIHRoZW0uIEFzIHlvdSBhbHNvIG5vdGVkIHRvIG1lIGYyZiwgdGhlcmUgaGF2ZQo+
-Pj4gYmVlbiByZWNlbnRseSBiZWVuIHNvbWUgc21hbGwgbmFtZXNwYWNlIGNoYW5nZXMgdGhhdCB5
-b3UgbWF5IGFmZmVjdAo+Pj4gdGhlIGNvbnRlbnQgb2YgdGhlIHBhZ2VzLiBUaGVyZWZvcmUsIEkn
-bGwgdGFrZSB0aGUgb3Bwb3J0dW5pdHkgdG8KPj4+IHNlbmQgdGhlIG5hbWVzcGFjZS1yZWxhdGVk
-IHBhZ2VzIG91dCBmb3IgZnVydGhlciAoZmluYWw/KSByZXZpZXcuCj4+Pgo+Pj4gU28sIGhlcmUs
-IEkgc3RhcnQgd2l0aCB0aGUgdXNlcl9uYW1lc3BhY2VzKDcpIHBhZ2UsIHdoaWNoIGlzIHNob3du
-IAo+Pj4gaW4gcmVuZGVyZWQgZm9ybSBiZWxvdywgd2l0aCBzb3VyY2UgYXR0YWNoZWQgdG8gdGhp
-cyBtYWlsLiBJJ2xsCj4+PiBzZW5kIHZhcmlvdXMgb3RoZXIgcGFnZXMgaW4gZm9sbG93LW9uIG1h
-aWxzLgo+Pj4KPj4+IFJldmlldyBjb21tZW50cy9zdWdnZXN0aW9ucyBmb3IgaW1wcm92ZW1lbnRz
-IC8gYnVnIGZpeGVzIHdlbGNvbWUuCj4+Pgo+Pj4gQ2hlZXJzLAo+Pj4KPj4+IE1pY2hhZWwKPj4+
-Cj4+PiA9PQo+Pj4KPj4+IE5BTUUKPj4+ICAgICAgICB1c2VyX25hbWVzcGFjZXMgLSBvdmVydmll
-dyBvZiBMaW51eCB1c2VyX25hbWVzcGFjZXMKPj4+Cj4+PiBERVNDUklQVElPTgo+Pj4gICAgICAg
-IEZvciBhbiBvdmVydmlldyBvZiBuYW1lc3BhY2VzLCBzZWUgbmFtZXNwYWNlcyg3KS4KPj4+Cj4+
-PiAgICAgICAgVXNlciAgIG5hbWVzcGFjZXMgICBpc29sYXRlICAgc2VjdXJpdHktcmVsYXRlZCAg
-IGlkZW50aWZpZXJzICBhbmQKPj4+ICAgICAgICBhdHRyaWJ1dGVzLCBpbiBwYXJ0aWN1bGFyLCB1
-c2VyIElEcyBhbmQgZ3JvdXAgIElEcyAgKHNlZSAgY3JlZGVu4oCQCj4+PiAgICAgICAgdGlhbHMo
-NyksIHRoZSByb290IGRpcmVjdG9yeSwga2V5cyAoc2VlIGtleWN0bCgyKSksIGFuZCBjYXBhYmls
-aeKAkAo+Pj4gICAgICAgIHRpZXMgKHNlZSBjYXBhYmlsaXRpZXMoNykpLiAgQSBwcm9jZXNzJ3Mg
-dXNlciBhbmQgZ3JvdXAgIElEcyAgY2FuCj4+PiAgICAgICAgYmUgZGlmZmVyZW50IGluc2lkZSBh
-bmQgb3V0c2lkZSBhIHVzZXIgbmFtZXNwYWNlLiAgSW4gcGFydGljdWxhciwKPj4+ICAgICAgICBh
-IHByb2Nlc3MgY2FuIGhhdmUgYSBub3JtYWwgdW5wcml2aWxlZ2VkIHVzZXIgSUQgb3V0c2lkZSAg
-YSAgdXNlcgo+Pj4gICAgICAgIG5hbWVzcGFjZSB3aGlsZSBhdCB0aGUgc2FtZSB0aW1lIGhhdmlu
-ZyBhIHVzZXIgSUQgb2YgMCBpbnNpZGUgdGhlCj4+PiAgICAgICAgbmFtZXNwYWNlOyBpbiBvdGhl
-ciB3b3JkcywgdGhlIHByb2Nlc3MgaGFzICBmdWxsICBwcml2aWxlZ2VzICBmb3IKPj4+ICAgICAg
-ICBvcGVyYXRpb25zICBpbnNpZGUgIHRoZSAgdXNlciAgbmFtZXNwYWNlLCBidXQgaXMgdW5wcml2
-aWxlZ2VkIGZvcgo+Pj4gICAgICAgIG9wZXJhdGlvbnMgb3V0c2lkZSB0aGUgbmFtZXNwYWNlLgo+
-Pj4KPj4+ICAgIE5lc3RlZCBuYW1lc3BhY2VzLCBuYW1lc3BhY2UgbWVtYmVyc2hpcAo+Pj4gICAg
-ICAgIFVzZXIgbmFtZXNwYWNlcyBjYW4gYmUgbmVzdGVkOyAgdGhhdCAgaXMsICBlYWNoICB1c2Vy
-ICBuYW1lc3BhY2XigJQKPj4+ICAgICAgICBleGNlcHQgIHRoZSAgaW5pdGlhbCAgKCJyb290Iikg
-bmFtZXNwYWNl4oCUaGFzIGEgcGFyZW50IHVzZXIgbmFtZXPigJAKPj4+ICAgICAgICBwYWNlLCBh
-bmQgY2FuIGhhdmUgemVybyBvciBtb3JlIGNoaWxkIHVzZXIgbmFtZXNwYWNlcy4gIFRoZSAgcGFy
-4oCQCj4+PiAgICAgICAgZW50IHVzZXIgbmFtZXNwYWNlIGlzIHRoZSB1c2VyIG5hbWVzcGFjZSBv
-ZiB0aGUgcHJvY2VzcyB0aGF0IGNyZeKAkAo+Pj4gICAgICAgIGF0ZXMgdGhlIHVzZXIgbmFtZXNw
-YWNlIHZpYSBhIGNhbGwgdG8gdW5zaGFyZSgyKSBvciBjbG9uZSgyKSB3aXRoCj4+PiAgICAgICAg
-dGhlIENMT05FX05FV1VTRVIgZmxhZy4KPj4+Cj4+PiAgICAgICAgVGhlIGtlcm5lbCBpbXBvc2Vz
-IChzaW5jZSB2ZXJzaW9uIDMuMTEpIGEgbGltaXQgb2YgMzIgbmVzdGVkIGxlduKAkAo+Pj4gICAg
-ICAgIGVscyBvZiB1c2VyIG5hbWVzcGFjZXMuICBDYWxscyB0byAgdW5zaGFyZSgyKSAgb3IgIGNs
-b25lKDIpICB0aGF0Cj4+PiAgICAgICAgd291bGQgY2F1c2UgdGhpcyBsaW1pdCB0byBiZSBleGNl
-ZWRlZCBmYWlsIHdpdGggdGhlIGVycm9yIEVVU0VSUy4KPj4+Cj4+PiAgICAgICAgRWFjaCAgcHJv
-Y2VzcyAgaXMgIGEgIG1lbWJlciAgb2YgIGV4YWN0bHkgIG9uZSB1c2VyIG5hbWVzcGFjZS4gIEEK
-Pj4+ICAgICAgICBwcm9jZXNzIGNyZWF0ZWQgdmlhIGZvcmsoMikgb3IgY2xvbmUoMikgd2l0aG91
-dCB0aGUgQ0xPTkVfTkVXVVNFUgo+Pj4gICAgICAgIGZsYWcgIGlzICBhICBtZW1iZXIgIG9mIHRo
-ZSBzYW1lIHVzZXIgbmFtZXNwYWNlIGFzIGl0cyBwYXJlbnQuCj4+PiAgICAgICAgQQo+PiAgICAg
-ICAgICAgIF4gc2luZ2xlLXRocmVhZGVkCj4+IAo+PiBCZWNhdXNlIG9mIGNocm9vdCBhbmQgb3Ro
-ZXIgdGhpbmdzIG11bHRpLXRocmVhZGVkIHByb2Nlc3NlcyBhcmUgbm90Cj4+IGFsbG93ZWQgdG8g
-am9pbiBhIHVzZXIgbmFtZXNwYWNlLiAgRm9yIHRoZSBkb2N1bWVudGF0aW9uIGp1c3Qgc2F5aW5n
-Cj4+IHNpbmdsZS10aHJlYWRlZCBzb3VuZHMgbGlrZSBlbm91Z2ggaGVyZS4KPgo+IFRoYW5rcy4g
-Rml4ZWQuCj4KPj4+ICAgICAgICBwcm9jZXNzIGNhbiBqb2luIGFub3RoZXIgdXNlciBuYW1lc3Bh
-Y2Ugd2l0aCBzZXRucygyKSBpZiAgaXQgIGhhcwo+Pj4gICAgICAgIHRoZSAgQ0FQX1NZU19BRE1J
-TiAgaW4gIHRoYXQgbmFtZXNwYWNlOyB1cG9uIGRvaW5nIHNvLCBpdCBnYWlucyBhCj4+PiAgICAg
-ICAgZnVsbCBzZXQgb2YgY2FwYWJpbGl0aWVzIGluIHRoYXQgbmFtZXNwYWNlLgo+Pj4KPj4+ICAg
-ICAgICBBIGNhbGwgdG8gY2xvbmUoMikgb3IgIHVuc2hhcmUoMikgIHdpdGggIHRoZSAgQ0xPTkVf
-TkVXVVNFUiAgZmxhZwo+Pj4gICAgICAgIG1ha2VzICB0aGUgIG5ldyAgY2hpbGQgIHByb2Nlc3Mg
-KGZvciBjbG9uZSgyKSkgb3IgdGhlIGNhbGxlciAoZm9yCj4+PiAgICAgICAgdW5zaGFyZSgyKSkg
-YSBtZW1iZXIgb2YgdGhlIG5ldyB1c2VyICBuYW1lc3BhY2UgIGNyZWF0ZWQgIGJ5ICB0aGUKPj4+
-ICAgICAgICBjYWxsLgo+Pj4KPj4+ICAgIENhcGFiaWxpdGllcwo+Pj4gICAgICAgIFRoZSBjaGls
-ZCBwcm9jZXNzIGNyZWF0ZWQgYnkgY2xvbmUoMikgd2l0aCB0aGUgQ0xPTkVfTkVXVVNFUiBmbGFn
-Cj4+PiAgICAgICAgc3RhcnRzIG91dCB3aXRoIGEgY29tcGxldGUgc2V0IG9mIGNhcGFiaWxpdGll
-cyBpbiAgdGhlICBuZXcgIHVzZXIKPj4+ICAgICAgICBuYW1lc3BhY2UuICBMaWtld2lzZSwgYSBw
-cm9jZXNzIHRoYXQgY3JlYXRlcyBhIG5ldyB1c2VyIG5hbWVzcGFjZQo+Pj4gICAgICAgIHVzaW5n
-IHVuc2hhcmUoMikgIG9yICBqb2lucyAgYW4gIGV4aXN0aW5nICB1c2VyICBuYW1lc3BhY2UgIHVz
-aW5nCj4+PiAgICAgICAgc2V0bnMoMikgIGdhaW5zIGEgZnVsbCBzZXQgb2YgY2FwYWJpbGl0aWVz
-IGluIHRoYXQgbmFtZXNwYWNlLiAgT24KPj4+ICAgICAgICB0aGUgb3RoZXIgaGFuZCwgdGhhdCBw
-cm9jZXNzIGhhcyBubyBjYXBhYmlsaXRpZXMgIGluICB0aGUgIHBhcmVudAo+Pj4gICAgICAgIChp
-biAgdGhlIGNhc2Ugb2YgY2xvbmUoMikpIG9yIHByZXZpb3VzIChpbiB0aGUgY2FzZSBvZiB1bnNo
-YXJlKDIpCj4+PiAgICAgICAgYW5kIHNldG5zKDIpKSB1c2VyIG5hbWVzcGFjZSwgZXZlbiBpZiB0
-aGUgbmV3IG5hbWVzcGFjZSAgaXMgIGNyZeKAkAo+Pj4gICAgICAgIGF0ZWQgIG9yICBqb2luZWQg
-YnkgdGhlIHJvb3QgdXNlciAoaS5lLiwgYSBwcm9jZXNzIHdpdGggdXNlciBJRCAwCj4+PiAgICAg
-ICAgaW4gdGhlIHJvb3QgbmFtZXNwYWNlKS4KPj4+Cj4+PiAgICAgICAgTm90ZSB0aGF0IGEgY2Fs
-bCB0byBleGVjdmUoMikgd2lsbCBjYXVzZSBhIHByb2Nlc3MgIHRvICBsb3NlICBhbnkKPj4+ICAg
-ICAgICBjYXBhYmlsaXRpZXMgdGhhdCBpdCBoYXMsIHVubGVzcyBpdCBoYXMgYSB1c2VyIElEIG9m
-IDAgd2l0aGluIHRoZQo+Pj4gICAgICAgIG5hbWVzcGFjZS4gIFNlZSB0aGUgZGlzY3Vzc2lvbiBv
-ZiB1c2VyICBhbmQgIGdyb3VwICBJRCAgbWFwcGluZ3MsCj4+PiAgICAgICAgYmVsb3cuCj4+Pgo+
-Pj4gICAgICAgIEEgICBjYWxsICAgdG8gICBjbG9uZSgyKSwgICB1bnNoYXJlKDIpLCAgb3IgIHNl
-dG5zKDIpICB1c2luZyAgdGhlCj4+PiAgICAgICAgQ0xPTkVfTkVXVVNFUiBmbGFnIHNldHMgdGhl
-ICAic2VjdXJlYml0cyIgIGZsYWdzICAoc2VlICBjYXBhYmlsaeKAkAo+Pj4gICAgICAgIHRpZXMo
-NykpICB0byAgdGhlaXIgIGRlZmF1bHQgIHZhbHVlcyAgKGFsbCBmbGFncyBkaXNhYmxlZCkgaW4g
-dGhlCj4+PiAgICAgICAgY2hpbGQgKGZvciBjbG9uZSgyKSkgb3IgY2FsbGVyICAoZm9yICB1bnNo
-YXJlKDIpLCAgb3IgIHNldG5zKDIpKS4KPj4+ICAgICAgICBOb3RlICB0aGF0ICBiZWNhdXNlICB0
-aGUgY2FsbGVyIG5vIGxvbmdlciBoYXMgY2FwYWJpbGl0aWVzIGluIGl0cwo+Pj4gICAgICAgIG9y
-aWdpbmFsIHVzZXIgbmFtZXNwYWNlIGFmdGVyIGEgY2FsbCB0byBzZXRucygyKSwgaXQgaXMgbm90
-ICBwb3PigJAKPj4+ICAgICAgICBzaWJsZSBmb3IgYSBwcm9jZXNzIHRvIHJlc2V0IGl0cyAic2Vj
-dXJlYml0cyIgZmxhZ3Mgd2hpbGUgcmV0YWlu4oCQCj4+PiAgICAgICAgaW5nIGl0cyB1c2VyIG5h
-bWVzcGFjZSBtZW1iZXJzaGlwIGJ5IHVzaW5nICBhICBwYWlyICBvZiAgc2V0bnMoMikKPj4+ICAg
-ICAgICBjYWxscyAgdG8gIG1vdmUgIHRvIGFub3RoZXIgdXNlciBuYW1lc3BhY2UgYW5kIHRoZW4g
-cmV0dXJuIHRvIGl0cwo+Pj4gICAgICAgIG9yaWdpbmFsIHVzZXIgbmFtZXNwYWNlLgo+Pj4KPj4+
-ICAgICAgICBIYXZpbmcgYSBjYXBhYmlsaXR5IGluc2lkZSBhIHVzZXIgbmFtZXNwYWNlIHBlcm1p
-dHMgYSBwcm9jZXNzICB0bwo+Pj4gICAgICAgIHBlcmZvcm0gIG9wZXJhdGlvbnMgICh0aGF0ICBy
-ZXF1aXJlICBwcml2aWxlZ2UpIG9ubHkgb24gcmVzb3VyY2VzCj4+PiAgICAgICAgZ292ZXJuZWQg
-YnkgdGhhdCBuYW1lc3BhY2UuICBUaGUgcnVsZXMgZm9yIGRldGVybWluaW5nIHdoZXRoZXIgb3IK
-Pj4+ICAgICAgICBub3QgYSBwcm9jZXNzIGhhcyBhIGNhcGFiaWxpdHkgaW4gYSBwYXJ0aWN1bGFy
-IHVzZXIgbmFtZXNwYWNlIGFyZQo+Pj4gICAgICAgIGFzIGZvbGxvd3M6Cj4+Pgo+Pj4gICAgICAg
-IDEuIEEgcHJvY2VzcyBoYXMgYSBjYXBhYmlsaXR5IGluc2lkZSBhIHVzZXIgbmFtZXNwYWNlIGlm
-IGl0IGlzICBhCj4+PiAgICAgICAgICAgbWVtYmVyICBvZiAgdGhhdCAgbmFtZXNwYWNlICBhbmQg
-IGl0IGhhcyB0aGUgY2FwYWJpbGl0eSBpbiBpdHMKPj4+ICAgICAgICAgICBlZmZlY3RpdmUgY2Fw
-YWJpbGl0eSBzZXQuICBBIHByb2Nlc3MgY2FuIGdhaW4gY2FwYWJpbGl0aWVzICBpbgo+Pj4gICAg
-ICAgICAgIGl0cyBlZmZlY3RpdmUgY2FwYWJpbGl0eSBzZXQgaW4gdmFyaW91cyB3YXlzLiAgRm9y
-IGV4YW1wbGUsIGl0Cj4+PiAgICAgICAgICAgbWF5IGV4ZWN1dGUgYSBzZXQtdXNlci1JRCBwcm9n
-cmFtIG9yIGFuIGV4ZWN1dGFibGUgd2l0aCAgYXNzb+KAkAo+Pj4gICAgICAgICAgIGNpYXRlZCAg
-ZmlsZSAgY2FwYWJpbGl0aWVzLiAgIEluICBhZGRpdGlvbiwgYSBwcm9jZXNzIG1heSBnYWluCj4+
-PiAgICAgICAgICAgY2FwYWJpbGl0aWVzICB2aWEgIHRoZSAgZWZmZWN0ICBvZiAgY2xvbmUoMiks
-ICB1bnNoYXJlKDIpLCAgb3IKPj4+ICAgICAgICAgICBzZXRucygyKSwgYXMgYWxyZWFkeSBkZXNj
-cmliZWQuCj4+Pgo+Pj4gICAgICAgIDIuIElmIGEgcHJvY2VzcyBoYXMgYSBjYXBhYmlsaXR5IGlu
-IGEgdXNlciBuYW1lc3BhY2UsIHRoZW4gaXQgaGFzCj4+PiAgICAgICAgICAgdGhhdCBjYXBhYmls
-aXR5IGluIGFsbCBjaGlsZCAoYW5kIGZ1cnRoZXIgcmVtb3ZlZCAgZGVzY2VuZGFudCkKPj4+ICAg
-ICAgICAgICBuYW1lc3BhY2VzIGFzIHdlbGwuCj4+Pgo+Pj4gICAgICAgIDMuIFdoZW4gIGEgIHVz
-ZXIgIG5hbWVzcGFjZSAgaXMgIGNyZWF0ZWQsICB0aGUga2VybmVsIHJlY29yZHMgdGhlCj4+PiAg
-ICAgICAgICAgZWZmZWN0aXZlIHVzZXIgSUQgb2YgdGhlIGNyZWF0aW5nIHByb2Nlc3MgYXMgYmVp
-bmcgdGhlICJvd25lciIKPj4+ICAgICAgICAgICBvZiB0aGUgbmFtZXNwYWNlLiAgQSBwcm9jZXNz
-IHRoYXQgcmVzaWRlcyBpbiB0aGUgcGFyZW50IG9mIHRoZQo+Pj4gICAgICAgICAgIHVzZXIgbmFt
-ZXNwYWNlIGFuZCB3aG9zZSBlZmZlY3RpdmUgdXNlciBJRCBtYXRjaGVzICB0aGUgIG93bmVyCj4+
-PiAgICAgICAgICAgb2YgIHRoZSAgbmFtZXNwYWNlICBoYXMgYWxsIGNhcGFiaWxpdGllcyBpbiB0
-aGUgbmFtZXNwYWNlLiAgQnkKPj4+ICAgICAgICAgICB2aXJ0dWUgb2YgdGhlIHByZXZpb3VzIHJ1
-bGUsIHRoaXMgbWVhbnMgdGhhdCB0aGUgIHByb2Nlc3MgIGhhcwo+Pj4gICAgICAgICAgIGFsbCBj
-YXBhYmlsaXRpZXMgaW4gYWxsIGZ1cnRoZXIgcmVtb3ZlZCBkZXNjZW5kYW50IHVzZXIgbmFtZXPi
-gJAKPj4+ICAgICAgICAgICBwYWNlcyBhcyB3ZWxsLgo+Pj4KPj4+ICAgIEludGVyYWN0aW9uIG9m
-IHVzZXIgbmFtZXNwYWNlcyBhbmQgb3RoZXIgdHlwZXMgb2YgbmFtZXNwYWNlcwo+Pj4gICAgICAg
-IFN0YXJ0aW5nIGluIExpbnV4IDMuOCwgdW5wcml2aWxlZ2VkICBwcm9jZXNzZXMgIGNhbiAgY3Jl
-YXRlICB1c2VyCj4+PiAgICAgICAgbmFtZXNwYWNlcywgIGFuZCBtb3VudCwgUElELCBJUEMsIG5l
-dHdvcmssIGFuZCBVVFMgbmFtZXNwYWNlcyBjYW4KPj4+ICAgICAgICBiZSBjcmVhdGVkIHdpdGgg
-anVzdCB0aGUgQ0FQX1NZU19BRE1JTiBjYXBhYmlsaXR5IGluIHRoZSBjYWxsZXIncwo+Pj4gICAg
-ICAgIHVzZXIgbmFtZXNwYWNlLgo+Pj4KPj4+ICAgICAgICBJZiAgQ0xPTkVfTkVXVVNFUiAgaXMg
-c3BlY2lmaWVkIGFsb25nIHdpdGggb3RoZXIgQ0xPTkVfTkVXKiBmbGFncwo+Pj4gICAgICAgIGlu
-IGEgc2luZ2xlIGNsb25lKDIpIG9yIHVuc2hhcmUoMikgY2FsbCwgdGhlICB1c2VyICBuYW1lc3Bh
-Y2UgIGlzCj4+PiAgICAgICAgZ3VhcmFudGVlZCAgdG8gIGJlICBjcmVhdGVkIGZpcnN0LCBnaXZp
-bmcgdGhlIGNoaWxkIChjbG9uZSgyKSkgb3IKPj4+ICAgICAgICBjYWxsZXIgKHVuc2hhcmUoMikp
-IHByaXZpbGVnZXMgb3ZlciB0aGUgcmVtYWluaW5nIG5hbWVzcGFjZXMgY3Jl4oCQCj4+PiAgICAg
-ICAgYXRlZCBieSB0aGUgY2FsbC4gIFRodXMsIGl0IGlzIHBvc3NpYmxlIGZvciBhbiB1bnByaXZp
-bGVnZWQgY2FsbOKAkAo+Pj4gICAgICAgIGVyIHRvIHNwZWNpZnkgdGhpcyBjb21iaW5hdGlvbiBv
-ZiBmbGFncy4KPj4+Cj4+PiAgICAgICAgV2hlbiBhIG5ldyBJUEMsIG1vdW50LCBuZXR3b3JrLCBQ
-SUQsIG9yIFVUUyBuYW1lc3BhY2UgaXMgIGNyZWF0ZWQKPj4+ICAgICAgICB2aWEgY2xvbmUoMikg
-b3IgdW5zaGFyZSgyKSwgdGhlIGtlcm5lbCByZWNvcmRzIHRoZSB1c2VyIG5hbWVzcGFjZQo+Pj4g
-ICAgICAgIG9mIHRoZSBjcmVhdGluZyBwcm9jZXNzIGFnYWluc3QgdGhlIG5ldyBuYW1lc3BhY2Uu
-ICAoVGhpcyBhc3NvY2nigJAKPj4+ICAgICAgICBhdGlvbiAgY2FuJ3QgIGJlICBjaGFuZ2VkLikg
-ICBXaGVuIGEgcHJvY2VzcyBpbiB0aGUgbmV3IG5hbWVzcGFjZQo+Pj4gICAgICAgIHN1YnNlcXVl
-bnRseSAgcGVyZm9ybXMgIHByaXZpbGVnZWQgIG9wZXJhdGlvbnMgIHRoYXQgIG9wZXJhdGUgIG9u
-Cj4+PiAgICAgICAgZ2xvYmFsIHJlc291cmNlcyBpc29sYXRlZCBieSB0aGUgbmFtZXNwYWNlLCB0
-aGUgcGVybWlzc2lvbiBjaGVja3MKPj4+ICAgICAgICBhcmUgcGVyZm9ybWVkIGFjY29yZGluZyB0
-byB0aGUgcHJvY2VzcydzIGNhcGFiaWxpdGllcyBpbiB0aGUgdXNlcgo+Pj4gICAgICAgIG5hbWVz
-cGFjZSB0aGF0IHRoZSBrZXJuZWwgYXNzb2NpYXRlZCB3aXRoIHRoZSBuZXcgbmFtZXNwYWNlLgo+
-PiAKPj4gUmVzdHJpY3Rpb25zIG9uIG1vdW50IG5hbWVzcGFjZXMuCj4+IAo+PiAtIEEgbW91bnQg
-bmFtZXNwYWNlIGhhcyBhIG93bmVyIHVzZXIgbmFtZXNwYWNlLiAgQSBtb3VudCBuYW1lc3BhY2Ug
-d2hvc2UKPj4gICBvd25lciB1c2VyIG5hbWVzcGFjZSBpcyBkaWZmZXJlbnQgdGhhbiB0aGUgb3dl
-cm5lciB1c2VyIG5hbWVzcGFjZSBvZgo+PiAgIGl0J3MgcGFyZW50IG1vdW50IG5hbWVzcGFjZSBp
-cyBjb25zaWRlcmVkIGEgbGVzcyBwcml2aWxlZ2VkIG1vdW50Cj4+ICAgbmFtZXNwYWNlLgo+PiAK
-Pj4gLSBXaGVuIGNyZWF0aW5nIGEgbGVzcyBwcml2aWxlZ2VkIG1vdW50IG5hbWVzcGFjZSBzaGFy
-ZWQgbW91bnRzIGFyZQo+PiAgIHJlZHVjZWQgdG8gc2xhdmUgbW91bnRzLiAgVGhpcyBlbnN1cmVz
-IHRoYXQgbWFwcGluZ3MgcGVyZm9ybWVkIGluIGxlc3MKPj4gICBwcml2aWxlZ2VkIG1vdW50IG5h
-bWVzcGFjZXMgd2lsbCBub3QgcHJvcG9nYXRlIHRvIG1vcmUgcHJpdmllbGdlZAo+PiAgIG1vdW50
-IG5hbWVzcGFjZXMuCj4+IAo+PiAtIE1vdW50cyB0aGF0IGNvbWUgYXMgYSBzaW5nbGUgdW5pdCBm
-cm9tIG1vcmUgcHJpdmlsZWdlZCBtb3VudCBhcmUKPj4gICBsb2NrZWQgdG9nZXRoZXIgYW5kIG1h
-eSBub3QgYmUgc2VwYXJhdGVkIGluIGEgbGVzcyBwcml2aWVsZ2VkIG1vdW50Cj4+ICAgbmFtZXNw
-YWNlLgo+PiAKPj4gLSBUaGUgbW91bnQgZmxhZ3MgcmVhZG9ubHksIG5vZGV2LCBub3N1aWQsIG5v
-ZXhlYywgYW5kIHRoZSBtb3VudCBhdGltZQo+PiAgIHNldHRpbmdzIHdoZW4gcHJvcG9nYXRlZCBm
-cm9tIGEgbW9yZSBwcml2aWVsZ2VkIHRvIGEgbGVzcyBwcml2aWxlZ2VkCj4+ICAgbW91bnQgbmFt
-ZXNwYWNlIGJlY29tZSBsb2NrZWQsIGFuZCBtYXkgbm90IGJlIGNoYW5nZWQgaW4gdGhlIGxlc3MK
-Pj4gICBwcml2aWVsZ2VkIG1vdW50IG5hbWVzcGFjZS4KPj4gCj4+IC0gKEFzIG9mIDMuMTgtcmMx
-IChpbiB0b2RheXMgQWwgVmlyb3MgdmZzLmdpdCNmb3ItbmV4dCB0cmVlKSkgQSBmaWxlIG9yCj4+
-ICAgZGlyZWN0b3J5IHRoYXQgaXMgYSBtb3VudHBvaW50IGluIG9uZSBuYW1lc3BhY2UgdGhhdCBp
-cyBub3QgYSBtb3VudAo+PiAgIHBvaW50IGluIGFub3RoZXIgbmFtZXNwYWNlLCBtYXkgYmUgcmVu
-YW1lZCwgdW5saW5rZWQsIG9yIHJtZGlyZWQgaW4KPj4gICB0aGUgbW91bnQgbmFtZXNwYWNlIGlu
-IHdoaWNoIGl0IGlzIG5vdCBhIG1vdW50IG5hbWVzcGFjZSBpZiB0aGUKPj4gICBvcmRpbmFyeSBw
-ZXJtaXNzaW9uIGNoZWNrcyBwYXNzLgo+PiAKPj4gICBQcmV2aW91c2x5IGF0dGVtcGluZyB0byBy
-bWRpciwgdW5saW5rIG9yIHJlbmFtZSBhIGZpbGUgb3IgZGlyZWN0b3J5Cj4+ICAgdGhhdCB3YXMg
-YSBtb3VudCBwb2ludCBpbiBhbm90aGVyIG1vdW50IG5hbWVzcGFjZSB3b3VsZCByZXN1bHQgaW4K
-Pj4gICAtRUJVU1kuICBUaGlzIGJlaGF2aW9yIGhhZCB0ZWNobmljYWwgcHJvYmxlbXMgb2YgZW5m
-b3JjZW1lbnQgKG5mcykKPj4gICBhbmQgcmVzdWx0ZWQgaW4gYSBuaWNlIGRlbmlhbCBvZiBzZXJ2
-aWFsIGF0dGFjayBhZ2FpbnN0IG1vcmUKPj4gICBwcml2aWxlZ2VkIHVzZXJzLiAgKEFrYSBwcmV2
-ZW50aW5nIGluZGl2aWR1YWwgZmlsZXMgZnJvbSBiZWluZyB1cGRhdGVkCj4+ICAgYnkgYmluZCBt
-b3VudGluZyBvbiB0b3Agb2YgdGhlbSkuCj4KPiBJIG5lZWQgc29tZSBoZWxwIGhlcmUuIFdoYXQg
-aXMgeW91ciBpbnRlbnRpb24gZm9yIHRoZSBhYm92ZSB0ZXh0Lgo+IERvIHlvdSBtZWFuIEkgc2hv
-dWxkIGFkZCBpdCBwcmV0dHkgbXVjaCBhcyBpcyB1bmRlciBhIHN1YmhlYWRpbmcKPiAiUmVzdHJp
-Y3Rpb25zIG9uIG1vdW50IG5hbWVzcGFjZXMiPwoKCllvdSBoYXZlIHRoZSBoZWFkaW5nICJJbnRl
-cmFjdGlvbnMgb2YgdXNlciBuYW1lc3BhY2VzIGFuZCBvdGhlciB0eXBlcyBvZgpuYW1lc3BhY2Vz
-IiBhbmQgbG9va2luZyB0aHJvdWdoIHRoZSBtYW4gcGFnZXMgeW91IGhhdmUgcG9zdGVkIGZvciBy
-ZXZpZXcKc29tZXdoZXJlIHVuZGVyIHRoYXQgaGVhZGluZyBpcyB0aGUgYmVzdCBwbGFjZSBJIGNv
-dWxkIGZpbmQgZm9yIHRoaXMKY29udGVudC4gKEJldHRlciBzdWdnZXN0aW9ucyBhcmUgd2VsY29t
-ZSkuCgpNeSBleHBlcmllbmNlIHdpdGggd29ya2luZyB3aXRoIHlvdSBwcmV2aW91c2x5IGlzIHRo
-YXQgeW91IHRlbmRlZCB0bwpyZXdvcmQgd2hhdCBJIGhhZCB3cml0dGVuIHRvIG1ha2UgdGhlIGNv
-bnRlbnQgbW9yZSByZWFkYWJsZS4gIFBlcmhhcHMKc3RyYXlpbmcgZnJvbSBleGFjdGx5IGFjY3Vy
-YXRlIHRvIHRoZSBwcmFjdGljYWwuCgpTbyByYXRoZXIgdGhhbiB0cnkgYW5kIHdyaXRlIHRoZSBw
-ZXJmZWN0IGRlYXRobGVzcyBlbmQtdXNlciBwcm9zZSBJCmZpZ3VyZWQgSSB3b3VsZCB3cml0ZSBk
-b3duIHdoYXQgdGhlIHdlaXJkIHJlc3RyaWN0aW9ucyBhcmUgb24gbW91bnQKbmFtZXNwYWNlcyB3
-aGVuIHlvdSBjcmVhdGUgdGhlbSBpbiB1c2VyIG5hbWVzcGFjZXMgYWNjdXJhdGVseS4KClRoZSB0
-ZXN0IHdpbGwgZG8gZmluZSBhcyBhIHN1YnNlY3Rpb24gZW50aXRsZWQgIlJlc3RyaWN0aW9ucyBv
-biBtb3VudApuYW1lc3BhY2VzIiBhcyBJIGhhdmUgd3JpdHRlbiBpdC4gIE9yIGl0IGlzIGZpbmUg
-YXMgYSBzZWVkIGZvciBzb21ldGhpbmcKYmV0dGVyLiAgQnV0IHRob3NlIHJlc3RyaWN0aW9ucyBh
-cmUgaW1wb3J0YW50IHRvIGRvY3VtZW50IHNvIHRoYXQgcGVvcGxlCmtub3cgd2hhdCB0byBleHBl
-Y3QgZnJvbSBtb3VudCBuYW1lc3BhY2VzLgoKCgpPbiBhIHJlbGF0ZWQgbm90ZS4gIE9uZSB0aGlu
-ZyB0aGF0IGhhcyBjb21lIHVwIHJlY2VudGx5IChpbiAzIHNlcGFyYXRlCmltcGxlbWVudGF0aW9u
-cyBpcyB0aGF0IG1vdW50KE1TX1JFTU9VTlR8Li4uLC4uLikgbXVzdCBpbmNsdWRlIGFsbCBvZgp0
-aGUgbW91bnQgZmxhZ3MgdGhhdCBuZWVkIHRvIGJlIHByZXNlcnZlZC4gICBQZW9wbGUgY3JlYXRp
-bmcgcmVhZC1vbmx5CmJpbmQgbW91bnRzIHRlbmQgdG8gbWlzcyB0aGF0IGFuZCB0aGUgbG9ja2Vk
-IGZsYWdzIGluIG1vdW50IG5hbWVzcGFjZXMuClRoYXQgaXNzdWUgd2FzIGZsdXNoZWQgb3V0IG5v
-dyB0aGF0IHRoZSBrZXJuZWwgaXMgbm93IG5vdCBhbGxvd2luZyBtb3N0Cm1vdW50IGZsYWdzIHRv
-IGJlIGNsZWFyZWQgaW4gbW91bnQgbmFtZXNwYWNlcy4KCkVyaWMKX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18KQ29udGFpbmVycyBtYWlsaW5nIGxpc3QKQ29u
-dGFpbmVyc0BsaXN0cy5saW51eC1mb3VuZGF0aW9uLm9yZwpodHRwczovL2xpc3RzLmxpbnV4Zm91
-bmRhdGlvbi5vcmcvbWFpbG1hbi9saXN0aW5mby9jb250YWluZXJz
+
+On 09/01/2014 05:39 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Jan,
+>
+> On 09/01/2014 09:18 AM, Jan Chaloupka wrote:
+>> Hi,
+>>
+>> memusage man page.
+> Thank you for submitting this page on Peter's behalf. I've merged it.
+>
+> I edited both pages quite substantially, doing some clean up
+> for man-pages style, and also adding many details to the memusage.1
+> page. And--because I added various extra explanatory text about the
+> output of memusage(1) and showed some of the sample output that
+> results from memusage(1)--it seemed more sensible to have the EXAMPLE
+> in the memusage.1 page, so I moved it from memusagestat.1 to here.
+>
+> You can find both updated pages in Git. I've also appended the
+> revised memusage.1 page here, in case you or Peter would like to
+> check it over.
+
+Thank you very much, Michael.
+
+> Cheers,
+>
+> Michael
+>
+> .\" Copyright (c) 2013, Peter Schiffer <pschiffe-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> .\" and Copyright (C) 2014, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> .\"
+> .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+> .\" This is free documentation; you can redistribute it and/or
+> .\" modify it under the terms of the GNU General Public License as
+> .\" published by the Free Software Foundation; either version 2 of
+> .\" the License, or (at your option) any later version.
+> .\"
+> .\" The GNU General Public License's references to "object code"
+> .\" and "executables" are to be interpreted as the output of any
+> .\" document formatting or typesetting system, including
+> .\" intermediate and printed output.
+> .\"
+> .\" This manual is distributed in the hope that it will be useful,
+> .\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+> .\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> .\" GNU General Public License for more details.
+> .\"
+> .\" You should have received a copy of the GNU General Public
+> .\" License along with this manual; if not, see
+> .\" <http://www.gnu.org/licenses/>.
+> .\" %%%LICENSE_END
+> .TH MEMUSAGE 1 2013-04-10 "GNU" "Linux user manual"
+> .SH NAME
+> memusage \- profile memory usage of a program
+> .SH SYNOPSIS
+> .BR memusage " [\fIoption\fR]... \fIprogram\fR [\fIprogramoption\fR]..."
+> .SH DESCRIPTION
+> .B memusage
+> is a bash script which profiles memory usage of the program,
+> .IR program .
+> It preloads the
+> .B libmemusage.so
+> library into the caller's environment (via the
+> .B LD_PRELOAD
+> environment variable; see
+> .BR ld.so (8)).
+> The
+> .B libmemusage.so
+> library traces memory allocation by intercepting calls to
+> .BR malloc (3),
+> .BR calloc (3),
+> .BR free (3),
+> and
+> .BR realloc (3);
+> optionally, calls to
+> .BR mmap (2),
+> .BR mremap (2),
+> and
+> .BR munmap (2)
+> can also be intercepted.
+> .PP
+> .B memusage
+> can output the collected data in textual form, or it can use
+> .BR memusagestat (1)
+> (see the
+> .B -p
+> option,  below)
+> to create a PNG file containing graphical representation
+> of the collected data.
+> .SS Memory usage summary
+> The "Memory usage summary" line output by
+> .BR memusage
+> contains three fields:
+> .RS 4
+> .TP
+> \fBheap total\fR
+> Sum of \fIsize\fR arguments of all
+> .BR malloc (3)
+> calls,
+> products of arguments (\fInmemb\fR*\fIsize\fR) of all
+> .BR calloc (3)
+> calls,
+> and sum of \fIlength\fR arguments of all
+> .BR mmap (2)
+> calls.
+> In the case of
+> .BR realloc (3)
+> and
+> .BR mremap (2),
+> if the new size of an allocation is larger than the previous size,
+> the sum of all such differences (new size minus old size) is added.
+> .TP
+> .B "heap peak"
+> Maximum of all \fIsize\fR arguments of
+> .BR malloc (3),
+> all products of \fInmemb\fR*\fIsize\fR of
+> .BR calloc (3),
+> all \fIsize\fR arguments of
+> .BR realloc (3),
+> .I length
+> arguments of
+> .BR mmap (2),
+> and
+> \fInew_size\fR arguments of
+> .BR mremap (2).
+> .TP
+> .B "stack peak"
+> Before the first call to any monitored function,
+> the stack pointer address (base stack pointer) is saved.
+> After each function call, the actual stack pointer address is read and
+> the difference from the base stack pointer computed.
+> The maximum of these differences is then the stack peak.
+> .RE
+> .PP
+> Immediately following this summary line, a table shows the number calls,
+> total memory allocated or deallocated,
+> and number of failed calls for each intercepted function.
+> For
+> .BR realloc (3)
+> and
+> .BR mremap (2),
+> the additional field "nomove" shows reallocations that
+> changed the address of a block,
+> and the additional "dec" field shows reallocations that
+> decreased the size of the block.
+> For
+> .BR realloc (3),
+> the additional field "free" shows reallocations that
+> caused a block to be freed (i.e., the reallocated size was 0).
+>
+>
+> The "realloc/total memory" of the table output by
+> .B memusage
+> does not reflect cases where
+> .BR realloc (3)
+> is used to reallocate a block of memory
+> to have a smaller size than previously.
+> This can cause sum of all "total memory" cells (excluding "free")
+> to be larger than the "free/total memory" cell.
+> .SS Histogram for block sizes
+> The "Histogram for block sizes" provides a breakdown of memory
+> allocations into various bucket sizes.
+> .SH OPTIONS
+> .TP
+> .BI \-n\  name \fR,\ \fB\-\-progname= name
+> Name of the program file to profile.
+> .TP
+> .BI \-p\  file \fR,\ \fB\-\-png= file
+> Generate PNG graphic and store it in
+> .IR file .
+> .TP
+> .BI \-d\  file \fR,\ \fB\-\-data= file
+> Generate binary data file and store it in
+> .IR file .
+> .TP
+> .BI \-u\fR,\ \fB\-\-unbuffered
+> Do not buffer output.
+> .TP
+> .BI \-b\  size \fR,\ \fB\-\-buffer= size
+> Collect
+> .I size
+> entries before writing them out.
+> .TP
+> .BI \fB\-\-no-timer
+> Disable timer-based
+> .RB ( SIGPROF )
+> sampling of stack pointer value.
+> .TP
+> .BI \-m\fR,\ \fB\-\-mmap
+> Also trace
+> .BR mmap (2),
+> .BR mremap (2),
+> and
+> .BR mmap (2).
+> .TP
+> .BI \-?\fR,\ \fB\-\-help
+> Print help and exit.
+> .TP
+> .BI \fB\-\-usage
+> Print a short usage message and exit.
+> .TP
+> .BI \-V\fR,\ \fB\-\-version
+> Print version information and exit.
+> .TP
+> The following options only apply when generating graphical output:
+> .TP
+> .BI \-t\fR,\ \fB\-\-time\-based
+> Use time (rather than number of function calls) as the scale for the X axis.
+> .TP
+> .BI \-T\fR,\ \fB\-\-total
+> Also draw a graph of total memory use.
+> .TP
+> .BI \fB\-\-title= name
+> Use
+> .I name
+> as the title of the graph.
+> .TP
+> .BI \-x\  size \fR,\ \fB\-\-x\-size= size
+> Make the graph
+> .I size
+> pixels wide.
+> .TP
+> .BI \-y\  size \fR,\ \fB\-\-y\-size= size
+> Make the graph
+> .I size
+> pixels high.
+> .SH EXIT STATUS
+> Exit status is equal to the exit status of profiled program.
+> .SH EXAMPLE
+> Below is a simple program that reallocates a block of
+> memory in cycles that rise to a peak before then cyclically
+> reallocating the memory in smaller blocks that return to zero.
+> After compiling the program and running the following commands,
+> a graph of the memory usage of the program can be found in the file
+> .IR memusage.png :
+>
+> .in +4n
+> .nf
+> $ \fBmemusage --data=memusage.dat ./a.out\fP
+> \&...
+> Memory usage summary: heap total: 45200, heap peak: 6440, stack peak: 224
+>          total calls  total memory  failed calls
+>   malloc|         1           400             0
+> realloc|        40         44800             0  (nomove:40, dec:19, free:0)
+>   calloc|         0             0             0
+>     free|         1           440
+> Histogram for block sizes:
+>    192-207             1   2% ================
+> \&...
+>   2192-2207            1   2% ================
+>   2240-2255            2   4% =================================
+>   2832-2847            2   4% =================================
+>   3440-3455            2   4% =================================
+>   4032-4047            2   4% =================================
+>   4640-4655            2   4% =================================
+>   5232-5247            2   4% =================================
+>   5840-5855            2   4% =================================
+>   6432-6447            1   2% ================
+> $ \fBmemusagestat memusage.dat memusage.png\fP
+> .fi
+> .in
+> .SS Program source
+> .nf
+> #include <stdio.h>
+> #include <stdlib.h>
+>
+> #define CYCLES 20
+>
+> int
+> main(int argc, char *argv[])
+> {
+>       int i, j;
+>       int *p;
+>
+>       printf("malloc: %zd\\n", sizeof(int) * 100);
+>       p = malloc(sizeof(int) * 100);
+>
+>       for (i = 0; i < CYCLES; i++) {
+>           if (i < CYCLES / 2)
+>               j = i;
+>           else
+>               j--;
+>
+>           printf("realloc: %zd\\n", sizeof(int) * (j * 50 + 110));
+>           p = realloc(p, sizeof(int) * (j * 50 + 100));
+>
+>           printf("realloc: %zd\\n", sizeof(int) * ((j+1) * 150 + 110));
+>           p = realloc(p, sizeof(int) * ((j + 1) * 150 + 110));
+>       }
+>
+>       free(p);
+>       exit(EXIT_SUCCESS);
+> }
+> .fi
+> .SH BUGS
+> To report bugs, see
+> .UR http://www.gnu.org/software/libc/bugs.html
+> .UE
+> .SH SEE ALSO
+> .BR memusagestat (1),
+> .BR mtrace (1)
+> .BR ld.so (8)
+>
+>
+
+-- 
+Jan Chaloupka
+------------------------------
+* Software Engineer          *
+* ENG Base Operating Systems *
+* Red Hat Czech, s. r. o.    *
+* UTC+1 (CET), jchaloup      *
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
