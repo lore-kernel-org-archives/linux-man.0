@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_sigmask.3: Reformat thread-safety information
-Date: Tue, 9 Sep 2014 11:47:29 +0800
-Message-ID: <1410234449-2054-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_setschedprio.3: Reformat thread-safety information
+Date: Tue, 9 Sep 2014 13:12:34 +0800
+Message-ID: <1410239554-6331-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_sigmask.3 | 13 ++++++++++---
+ man3/pthread_setschedprio.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
-index c8d73a0..1106e2b 100644
---- a/man3/pthread_sigmask.3
-+++ b/man3/pthread_sigmask.3
-@@ -67,10 +67,17 @@ on error, it returns an error number.
- See
- .BR sigprocmask (2).
+diff --git a/man3/pthread_setschedprio.3 b/man3/pthread_setschedprio.3
+index 5860535..665ed3f 100644
+--- a/man3/pthread_setschedprio.3
++++ b/man3/pthread_setschedprio.3
+@@ -81,10 +81,17 @@ to an unsupported value") error for
+ .SH VERSIONS
+ This function is available in glibc since version 2.3.4.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,11 +29,11 @@ index c8d73a0..1106e2b 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw22 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR pthread_sigmask ()
+ .BR pthread_setschedprio ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
