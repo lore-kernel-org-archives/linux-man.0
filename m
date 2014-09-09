@@ -1,39 +1,69 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 84151]
- New:=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
-Date: Tue, 09 Sep 2014 07:04:42 +0000
-Message-ID: <bug-84151-11311@https.bugzilla.kernel.org/>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH]: unix.7: mentioning SOCK_STREAM socket for ioctl_type
+ of ioctl function
+Date: Tue, 09 Sep 2014 09:05:29 +0200
+Message-ID: <540EA6B9.7010207@redhat.com>
+References: <53CF9457.7070409@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <53CF9457.7070409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D84151
+ping
 
-            Bug ID: 84151
-           Summary: right and side =E2=86=92 right hand side
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: enhancement
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: jidanni-8D0D3YcSAvhAfugRpC6u6w@public.gmane.org
-        Regression: No
-
-$ zgrep right\ and
-/usr/share/doc/linux-doc-3.16/Documentation/x86/earlyprintk.txt.gz=20
-     right and side of the device (with the product logo facing up and
-
---=20
-You are receiving this mail because:
-You are watching the assignee of the bug.--
+On 07/23/2014 12:54 PM, Jan Chaloupka wrote:
+> From https://bugzilla.redhat.com/show_bug.cgi?id=1110401.
+>
+> unix.7 is not clear about socket type of ioctl_type argument of ioctl 
+> function. The description of SIOCINQ is applicable only for 
+> SOCK_STREAM socket. For SOCK_DGRAM, udp(7) man page gives correct 
+> description of SIOCINQ.
+>
+> ---
+>  man7/unix.7 | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/man7/unix.7 b/man7/unix.7
+> index b0ade5b..6bcc8ba 100644
+> --- a/man7/unix.7
+> +++ b/man7/unix.7
+> @@ -299,7 +299,9 @@ The correct syntax is:
+>  can be:
+>  .TP
+>  .B SIOCINQ
+> -Returns the amount of queued unread data in the receive buffer.
+> +For
+> +.B SOCK_STREAM
+> +socket the function returns the amount of queued unread data in the 
+> receive buffer.
+>  The socket must not be in LISTEN state, otherwise an error
+>  .RB ( EINVAL )
+>  is returned.
+> @@ -319,6 +321,10 @@ defined in
+>  .\" That number is normally larger than the number of bytes of pending
+>  .\" output. Since this info is, from userland's point of view, 
+> imprecise,
+>  .\" and it may well change, probably best not to document this now.
+> +For
+> +.B SOCK_DGRAM
+> +socket, see
+> +.BR udp (7).
+>  .SH ERRORS
+>  .TP
+>  .B EADDRINUSE
+> @@ -450,4 +456,5 @@ see
+>  .BR cmsg (3),
+>  .BR capabilities (7),
+>  .BR credentials (7),
+> -.BR socket (7)
+> +.BR socket (7),
+> +.BR udp (7)
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
