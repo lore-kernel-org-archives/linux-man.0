@@ -1,36 +1,39 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ilogb.3: tfix
-Date: Tue, 9 Sep 2014 13:55:33 +0800
-Message-ID: <1410242133-9514-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 84151]
+ New:=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
+Date: Tue, 09 Sep 2014 07:04:42 +0000
+Message-ID: <bug-84151-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/ilogb.3 | 1 -
- 1 file changed, 1 deletion(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D84151
 
-diff --git a/man3/ilogb.3 b/man3/ilogb.3
-index e8b16ad..caad9fa 100644
---- a/man3/ilogb.3
-+++ b/man3/ilogb.3
-@@ -144,7 +144,6 @@ or raise an exception for this case.
- .\" log(), log2(), log10() do set errno
- .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6794
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
- For an explanation of the terms used in this section, see
- .BR attributes (7).
- .TS
--- 
-1.9.3
+            Bug ID: 84151
+           Summary: right and side =E2=86=92 right hand side
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: enhancement
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: jidanni-8D0D3YcSAvhAfugRpC6u6w@public.gmane.org
+        Regression: No
 
---
+$ zgrep right\ and
+/usr/share/doc/linux-doc-3.16/Documentation/x86/earlyprintk.txt.gz=20
+     right and side of the device (with the product logo facing up and
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
