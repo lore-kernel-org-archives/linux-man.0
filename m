@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_setschedprio.3: Reformat thread-safety information
-Date: Tue, 9 Sep 2014 13:12:34 +0800
-Message-ID: <1410239554-6331-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_setschedparam.3: Reformat thread-safety information
+Date: Tue, 9 Sep 2014 13:18:10 +0800
+Message-ID: <1410239890-6622-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,29 +12,32 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_setschedprio.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/pthread_setschedparam.3 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man3/pthread_setschedprio.3 b/man3/pthread_setschedprio.3
-index 5860535..665ed3f 100644
---- a/man3/pthread_setschedprio.3
-+++ b/man3/pthread_setschedprio.3
-@@ -81,10 +81,17 @@ to an unsupported value") error for
- .SH VERSIONS
- This function is available in glibc since version 2.3.4.
+diff --git a/man3/pthread_setschedparam.3 b/man3/pthread_setschedparam.3
+index 3afcc00..ce46fd0 100644
+--- a/man3/pthread_setschedparam.3
++++ b/man3/pthread_setschedparam.3
+@@ -139,12 +139,18 @@ to an unsupported value") error for
+ .\" .SH VERSIONS
+ .\" Available since glibc 2.0
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
+-.BR pthread_setschedparam ()
+-and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw22 lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR pthread_setschedprio ()
--function is thread-safe.
++.BR pthread_setschedparam (),
+ .BR pthread_getschedparam ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
