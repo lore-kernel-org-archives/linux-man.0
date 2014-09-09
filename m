@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_sigqueue.3: Reformat thread-safety information
-Date: Tue, 9 Sep 2014 11:43:39 +0800
-Message-ID: <1410234219-1771-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_sigmask.3: Reformat thread-safety information
+Date: Tue, 9 Sep 2014 11:47:29 +0800
+Message-ID: <1410234449-2054-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_sigqueue.3 | 13 ++++++++++---
+ man3/pthread_sigmask.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/pthread_sigqueue.3 b/man3/pthread_sigqueue.3
-index 3e574a7..5e9d4e9 100644
---- a/man3/pthread_sigqueue.3
-+++ b/man3/pthread_sigqueue.3
-@@ -92,10 +92,17 @@ The
- .BR pthread_sigqueue ()
- function first appeared in glibc 2.11.
+diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
+index c8d73a0..1106e2b 100644
+--- a/man3/pthread_sigmask.3
++++ b/man3/pthread_sigmask.3
+@@ -67,10 +67,17 @@ on error, it returns an error number.
+ See
+ .BR sigprocmask (2).
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 3e574a7..5e9d4e9 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR pthread_sigqueue ()
+ .BR pthread_sigmask ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH SEE ALSO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
