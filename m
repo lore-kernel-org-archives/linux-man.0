@@ -1,55 +1,75 @@
-From: Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [PATCH] getgrent.3: Add ENOENT to error list.
-Date: Wed, 10 Sep 2014 20:23:07 +0530
-Message-ID: <20140910145307.GC14885@spoyarek.pnq.redhat.com>
+Date: Wed, 10 Sep 2014 12:45:25 -0400
+Message-ID: <54108025.3090500@redhat.com>
 References: <54105ED1.5020206@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="LyciRD1jyfeSSjG0"
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 In-Reply-To: <54105ED1.5020206-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Simo Sorce <ssorce-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jakub Hrozek <jhrozek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Simo Sorce <ssorce-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jakub Hrozek <jhrozek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-
---LyciRD1jyfeSSjG0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Sep 10, 2014 at 10:23:13AM -0400, Carlos O'Donell wrote:
+On 09/10/2014 10:23 AM, Carlos O'Donell wrote:
+> Michael,
+> 
 > It's possible to get ENOENT returned from getgrent
 > if the backend, for example say SSSD, isn't configured
 > or the daemon isn't running. The same can be said of any
 > of the NSS backend.
+> 
+> As POSIX does not list ENOENT, we can list it ourselves
+> and define it how we like.
+> 
+> I don't know how you handle errno values that are glibc
+> specific, but here is the patch that enhances getgrent
+> to make users aware of what ENOENT is intended to mean
+> from glibc.
+> 
+> Patch against master. Please apply.
 
-The daemon not running is internally a NSS_STATUS_TRYAGAIN +
-EAGAIN[1], i.e. that is what the sssd nss plugin should return to
-glibc.  glibc then should return that as a NOTFOUND, which for
-getgrent is a NULL return without errno set.  I don't see why ENOENT
-is necessary.
+While I'm fixing one I might as well fix the other.
 
-Siddhesh
+v1
+- Add ENOENT.
+v2
+- Add EAGAIN.
 
-[1] http://www.gnu.org/software/libc/manual/html_node/NSS-Modules-Interface.html
---LyciRD1jyfeSSjG0
-Content-Type: application/pgp-signature
+diff --git a/man3/getgrent.3 b/man3/getgrent.3
+index f49c746..599b9fd 100644
+--- a/man3/getgrent.3
++++ b/man3/getgrent.3
+@@ -129,6 +129,11 @@ or
+ .BR free (3).)
+ .SH ERRORS
+ .TP
++.B EAGAIN
++The service was temporarily unavailable; try again later.
++For NSS backends in glibc this indicates a temporary error talking to the backend.
++The error may correct itself, retrying later is suggested.
++.TP
+ .B EINTR
+ A signal was caught.
+ .TP
+@@ -141,6 +146,11 @@ The calling process already has too many open files.
+ .B ENFILE
+ Too many open files in the system.
+ .TP
++.\" not in POSIX
++.B ENOENT
++A necessary input file cannot be found.
++For NSS backends in glibc this indicates the backend is not correctly configured.
++.TP
+ .B ENOMEM
+ .\" not in POSIX
+ Insufficient memory to allocate
+---
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQEcBAEBAgAGBQJUEGXSAAoJEHnEPfvxzyGH+KUIAI+QvHi0H9B/k/W1fjSWGlq9
-S6jByEbMlwUA/N6DI8iGGdS8yr11XL5Tx0BU33HXd8bmf+09SsWdq7mAE60TTlGD
-/4UNYmUxM8viaed6zlsX6pUGUA3jkPdYAAl5ueSBSz5lEcaI/N01v1AZi8dG90JY
-FrY2W3coeEXLBQEAHlTSRtbwdej4d+PYn0dhpUI9EyFQ7TYPapD25or0EnqceyhG
-FhDACroEShkFSVx69KQ8o3vLSvuVFI0BKiqdXrrjzBOxcH0vW6gRj6LwctGYJ5M9
-R+I/Uo97Kzf6araZYzVyLt5VJdG5w91bl0QuIDrleacS9WP4MaYajLi260Q86/o=
-=ikNJ
------END PGP SIGNATURE-----
-
---LyciRD1jyfeSSjG0--
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
