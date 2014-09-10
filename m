@@ -1,55 +1,34 @@
-From: "Carlos O'Donell" <carlos@redhat.com>
-Subject: [PATCH] getgrent.3: Add ENOENT to error list.
-Date: Wed, 10 Sep 2014 10:23:13 -0400
-Message-ID: <54105ED1.5020206@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-Return-path: <libc-alpha-return-52676-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Simo Sorce <ssorce@redhat.com>, Jakub Hrozek <jhrozek@redhat.com>, GNU C Library <libc-alpha@sourceware.org>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] inotify.7: tfix
+Date: Wed, 10 Sep 2014 18:25:26 +0400
+Message-ID: <1410359126-3700-1-git-send-email-yuray@komyakino.ru>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Michael,
-
-It's possible to get ENOENT returned from getgrent
-if the backend, for example say SSSD, isn't configured
-or the daemon isn't running. The same can be said of any
-of the NSS backend.
-
-As POSIX does not list ENOENT, we can list it ourselves
-and define it how we like.
-
-I don't know how you handle errno values that are glibc
-specific, but here is the patch that enhances getgrent
-to make users aware of what ENOENT is intended to mean
-from glibc.
-
-Patch against master. Pleas apply.
-
-diff --git a/man3/getgrent.3 b/man3/getgrent.3
-index f49c746..02f26bd 100644
---- a/man3/getgrent.3
-+++ b/man3/getgrent.3
-@@ -141,6 +141,11 @@ The calling process already has too many open files.
- .B ENFILE
- Too many open files in the system.
- .TP
-+.\" not in POSIX
-+.B ENOENT
-+A necessary input file cannot be found.
-+For NSS backends in glibc this indicates the backend is not correctly configured.
-+.TP
- .B ENOMEM
- .\" not in POSIX
- Insufficient memory to allocate
 ---
+ man7/inotify.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-Carlos.
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index 725ae8e..aecdacf 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -801,7 +801,7 @@ since it requires that an application cycle through
+ .B INT_MAX
+ watch descriptors,
+ release a watch descriptor while leaving unread events for that
+-watch descriptor in the queue in the queue,
++watch descriptor in the queue,
+ and then recycle that watch descriptor.
+ For this reason, and because there have been no reports
+ of the bug occurring in real-world applications,
+-- 
+2.1.0
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
