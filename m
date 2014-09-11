@@ -1,38 +1,49 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [Q] ether_aton.3: where attributes(7) ?
-Date: Thu, 11 Sep 2014 10:17:47 +0800
-Message-ID: <5411064B.6070601@cn.fujitsu.com>
-References: <20140910134721.03372a02@keeper.home.local>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: For review: user_namespace(7) man page
+Date: Thu, 11 Sep 2014 07:40:12 -0700
+Message-ID: <5411B44C.5050405@gmail.com>
+References: <53F5310A.5080503@gmail.com>	<87d2bhfxvc.fsf@x220.int.ebiederm.org>
+	<5404AD7F.4070004@gmail.com>	<87sikade6s.fsf@x220.int.ebiederm.org>
+	<540F07FD.7010106@gmail.com> <87bnqon513.fsf@x220.int.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140910134721.03372a02-CpVCSV+zb/Ftei/ch0jEm2ZHpeb/A1Y/@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <87bnqon513.fsf-JOvCrm2gF+uungPnsOpG7nhyD016LWXt@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 09/09/2014 09:16 AM, Eric W. Biederman wrote:
+>>> On a related note.  One thing that has come up recently (in 3 separate
+>>> >> implementations is that mount(MS_REMOUNT|...,...) must include all of
+>>> >> the mount flags that need to be preserved.   People creating read-only
+>>> >> bind mounts tend to miss that and the locked flags in mount namespaces.
+>>> >> That issue was flushed out now that the kernel is now not allowing most
+>>> >> mount flags to be cleared in mount namespaces.
+>> >
+>> > So, are you meaning that something needs to be added to the page
+>> > regarding this point?
+> Yes.  The interface is non-intuitive and we should at least document
+> the weirdness.
 
-On 09/10/2014 05:47 PM, Yuri Kozlov wrote:
-> Hello.
-> 
->>From ether_aton.3:
-> "For an explanation of the terms used in this section, see B<attributes>(7)."
-> 
-> I do not found this file in the manpages git.
-> 
-> It is external man page?
-> 
+Okay -- I have added that piece to mount(2).
 
-attributes(7) has not been applied in manpages.
-http://www.spinics.net/lists/linux-man/msg06315.html
+Thanks,
+
+Michael
 
 
 -- 
-Best Regards,
-Peng
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
