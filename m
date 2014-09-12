@@ -1,43 +1,41 @@
-From: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Subject: Re: For review: user_namespace(7) man page
-Date: Thu, 11 Sep 2014 08:15:39 -0700
-Message-ID: <CALCETrXOgCUrrzeJYJ6VoPgR5Rt0HFCrhRC0H7+3XLv1Y+sJ_A@mail.gmail.com>
-References: <53F5310A.5080503@gmail.com>
-	<CALCETrX2qwvzmeoVcLFLxEK=1Fv+f0Ri0TouzzvbN_rgDjka4A@mail.gmail.com>
-	<540F0810.7030408@gmail.com> <87ppf4n5ib.fsf@x220.int.ebiederm.org>
-	<CALCETrV4WizRXD9JuwibUBbQE9hhNrRDJ3cYyXdhd=OfPziF5g@mail.gmail.com>
-	<5411B5F5.2090500@gmail.com>
+From: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
+Subject: clock(3) man page: precision vs accuracy
+Date: Fri, 12 Sep 2014 14:08:04 +0200
+Message-ID: <20140912120804.GE4404@xvii.vinc17.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <5411B5F5.2090500-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Sep 11, 2014 at 7:47 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->
-> So, in the current draft of the setns(2) page, there is
->
->     CLONE_NEWNS
->         ...
->         Since  Linux 3.9, CLONE_NEWUSER also automatically  implies
->         CLONE_FS.
->
-> Does that cover your point? Or did you mean that more needs to be said?
+http://man7.org/linux/man-pages/man3/clock.3.html contains:
 
-Looks good, although you could add CLONE_THREAD and the rest of the
-things implied by CLONE_THREAD if you want to be fancier.
+       In glibc 2.17 and earlier, clock() was implemented on top of
+       times(2).  For improved precision, since glibc 2.18, it is
+                      ^^^^^^^^^^^^^^^^^^
+       implemented on top of clock_gettime(2) (using the
+       CLOCK_PROCESS_CPUTIME_ID clock).
 
---Andy
+This looks strange. The user doesn't seek improved precision, but
+improved accuracy: if one gets more digits but the value itself is
+less accurate (i.e. the error against the ideal value is larger),
+this is bad. Perhaps changing "precision" to "accuracy" would be
+correct (I assume that the real goal of the change was not just
+improved precision, but more importantly the resulting improved
+accuracy). I've reported a bug about the glibc documentation:
+
+  https://sourceware.org/bugzilla/show_bug.cgi?id=3D17383
+
+--=20
+Vincent Lef=E8vre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org> - Web: <https://www.vinc17.net/>
+100% accessible validated (X)HTML - Blog: <https://www.vinc17.net/blog/=
+>
+Work: CR INRIA - computer arithmetic / AriC project (LIP, ENS-Lyon)
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
