@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_sigmask.3: Reformat thread-safety information
-Date: Sat, 13 Sep 2014 19:23:54 -0700
-Message-ID: <5414FC3A.1080007@gmail.com>
-References: <1410234449-2054-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_setschedprio.3: Reformat thread-safety information
+Date: Sat, 13 Sep 2014 19:24:04 -0700
+Message-ID: <5414FC44.1070703@gmail.com>
+References: <1410239554-6331-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410234449-2054-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1410239554-6331-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michel
 
 
-On 09/08/2014 08:47 PM, Peng Haitao wrote:
+On 09/08/2014 10:12 PM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_sigmask.3 | 13 ++++++++++---
+>  man3/pthread_setschedprio.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/pthread_sigmask.3 b/man3/pthread_sigmask.3
-> index c8d73a0..1106e2b 100644
-> --- a/man3/pthread_sigmask.3
-> +++ b/man3/pthread_sigmask.3
-> @@ -67,10 +67,17 @@ on error, it returns an error number.
->  See
->  .BR sigprocmask (2).
+> diff --git a/man3/pthread_setschedprio.3 b/man3/pthread_setschedprio.3
+> index 5860535..665ed3f 100644
+> --- a/man3/pthread_setschedprio.3
+> +++ b/man3/pthread_setschedprio.3
+> @@ -81,10 +81,17 @@ to an unsupported value") error for
+>  .SH VERSIONS
+>  This function is available in glibc since version 2.3.4.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -40,11 +40,11 @@ On 09/08/2014 08:47 PM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw22 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR pthread_sigmask ()
+>  .BR pthread_setschedprio ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
