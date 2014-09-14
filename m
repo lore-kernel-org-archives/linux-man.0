@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_yield.3: Reformat thread-safety information
-Date: Sat, 13 Sep 2014 19:23:13 -0700
-Message-ID: <5414FC11.3010609@gmail.com>
-References: <1410233543-773-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_testcancel.3: Reformat thread-safety information
+Date: Sat, 13 Sep 2014 19:23:22 -0700
+Message-ID: <5414FC1A.1000709@gmail.com>
+References: <1410233929-1259-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410233543-773-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1410233929-1259-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michel
 
 
-On 09/08/2014 08:32 PM, Peng Haitao wrote:
+On 09/08/2014 08:38 PM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_yield.3 | 13 ++++++++++---
+>  man3/pthread_testcancel.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/pthread_yield.3 b/man3/pthread_yield.3
-> index ee81f23..e186c35 100644
-> --- a/man3/pthread_yield.3
-> +++ b/man3/pthread_yield.3
-> @@ -51,10 +51,17 @@ On Linux, this call always succeeds
->  (but portable and future-proof applications should nevertheless
->  handle a possible error return).
+> diff --git a/man3/pthread_testcancel.3 b/man3/pthread_testcancel.3
+> index 08ea4c7..3a23e5b 100644
+> --- a/man3/pthread_testcancel.3
+> +++ b/man3/pthread_testcancel.3
+> @@ -56,10 +56,17 @@ This function always succeeds.
+>  .\" SH VERSIONS
+>  .\" Available since glibc 2.0
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -40,17 +40,17 @@ On 09/08/2014 08:32 PM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw20 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR pthread_yield ()
+>  .BR pthread_testcancel ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  This call is nonstandard, but present on several other systems.
->  Use the standardized
+>  POSIX.1-2001.
+>  .SH EXAMPLE
 > 
 
 
