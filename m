@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] raise.3: Reformat thread-safety information
-Date: Sat, 13 Sep 2014 19:20:51 -0700
-Message-ID: <5414FB83.5070808@gmail.com>
-References: <1410232816-31150-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] qecvt.3: Reformat thread-safety information
+Date: Sat, 13 Sep 2014 19:21:09 -0700
+Message-ID: <5414FB95.30800@gmail.com>
+References: <1410233154-31954-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410232816-31150-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1410233154-31954-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,37 +20,46 @@ Cheers,
 Michel
 
 
-On 09/08/2014 08:20 PM, Peng Haitao wrote:
+On 09/08/2014 08:25 PM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/raise.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/qecvt.3 | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
 > 
-> diff --git a/man3/raise.3 b/man3/raise.3
-> index d2a450c..61ef947 100644
-> --- a/man3/raise.3
-> +++ b/man3/raise.3
-> @@ -62,10 +62,17 @@ will return only after the signal handler has returned.
->  .BR raise ()
->  returns 0 on success, and nonzero for failure.
+> diff --git a/man3/qecvt.3 b/man3/qecvt.3
+> index ea50203..0917da9 100644
+> --- a/man3/qecvt.3
+> +++ b/man3/qecvt.3
+> @@ -83,16 +83,21 @@ See
+>  and
+>  .BR gcvt (3).
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR qecvt ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw16 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR raise ()
+> +.BR qecvt (),
+>  .BR qfcvt ()
+> -functions are not thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Unsafe
+> +T{
+>  .BR qgcvt ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C89, C99, POSIX.1-2001.
->  .SH NOTES
+>  SVr4.
+>  Not seen in most common UNIX implementations,
 > 
 
 
