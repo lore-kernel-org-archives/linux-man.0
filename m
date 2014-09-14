@@ -1,43 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: clock(3) man page: precision vs accuracy
-Date: Sat, 13 Sep 2014 19:33:19 -0700
-Message-ID: <5414FE6F.2030603@gmail.com>
-References: <20140912120804.GE4404@xvii.vinc17.org>
+Subject: Re: For review: user_namespace(7) man page
+Date: Sat, 13 Sep 2014 19:42:24 -0700
+Message-ID: <54150090.1050306@gmail.com>
+References: <53F5310A.5080503@gmail.com> <CALCETrX2qwvzmeoVcLFLxEK=1Fv+f0Ri0TouzzvbN_rgDjka4A@mail.gmail.com> <540F0810.7030408@gmail.com> <87ppf4n5ib.fsf@x220.int.ebiederm.org> <5411B5D6.9010201@gmail.com> <CALCETrV1EtrzfEhS55ToPD5VTbY9VjmmOA6bv2H9PGGQ-G=WGA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20140912120804.GE4404-Ljv1qFl2dU+MDATNRQa/ww@public.gmane.org>
+In-Reply-To: <CALCETrV1EtrzfEhS55ToPD5VTbY9VjmmOA6bv2H9PGGQ-G=WGA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, richard -rw- weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/12/2014 05:08 AM, Vincent Lefevre wrote:
-> http://man7.org/linux/man-pages/man3/clock.3.html contains:
+On 09/11/2014 08:14 AM, Andy Lutomirski wrote:
+> On Thu, Sep 11, 2014 at 7:46 AM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>> Hi Eric,
+>>
+>> On 09/09/2014 09:05 AM, Eric W. Biederman wrote:
+>>> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>>>
+>>>> Hi Andy, and Eric,
+>>>>>>        1. The  writing  process  must  have  the CAP_SETUID (CAP_SETGID)
+>>>>>>           capability in the user namespace of the process pid.
+>>>>>
+>>>>> This checked for the opening process (and I don't actually remember
+>>>>> whether it's checked for the writing process).
+>>>>
+>>>> Eric, can you comment?
+>>>
+>>> We have to check for the opening processes and that changes was made
+>>> after I implemented my interface. Pieces of the code appear to also
+>>> examine the writing process and verify everything applies to it as well.
+>>>
+>>> I goofed when I designed the interface originall and had not realized
+>>> what a classic design error it can be to not restrict by the opening
+>>> process.
+>>
+>> So, I still need some help here. Should the sentence above just read:
+>>
+>>         1. The  *opening*  process  must  have  the CAP_SETUID (CAP_SETGID)
+>>            capability in the user namespace of the process pid.
 > 
->        In glibc 2.17 and earlier, clock() was implemented on top of
->        times(2).  For improved precision, since glibc 2.18, it is
->                       ^^^^^^^^^^^^^^^^^^
->        implemented on top of clock_gettime(2) (using the
->        CLOCK_PROCESS_CPUTIME_ID clock).
+> I think this is sufficient.
 > 
-> This looks strange. The user doesn't seek improved precision, but
-> improved accuracy: if one gets more digits but the value itself is
-> less accurate (i.e. the error against the ideal value is larger),
-> this is bad. Perhaps changing "precision" to "accuracy" would be
-> correct (I assume that the real goal of the change was not just
-> improved precision, but more importantly the resulting improved
-> accuracy). I've reported a bug about the glibc documentation:
+>>
+>> or must something also be said about the writing process? (If so, i'd
+>> appreciate a completely formed sentence or two that I can just drop into
+>> the man page..)
 > 
->   https://sourceware.org/bugzilla/show_bug.cgi?id=17383
+> There might be a restriction there, too, but I think it could be
+> removed, and I also think that it's unlikely that anyone will
+> encounter it.
 
-It looks to me like your supposition is correct, Vincent.
-I have changed "precision" to "accuracy".
+Okay. Thanks, Andy.
 
 Cheers,
 
 Michael
+
 
 -- 
 Michael Kerrisk
