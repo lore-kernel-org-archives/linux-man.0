@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_attr_setstackaddr.3: Reformat thread-safety information
-Date: Mon, 15 Sep 2014 11:29:04 +0800
-Message-ID: <1410751744-18970-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] getcontext.3: tfix
+Date: Mon, 15 Sep 2014 11:51:47 +0800
+Message-ID: <1410753107-20175-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,37 +12,21 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_attr_setstackaddr.3 | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ man3/getcontext.3 | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/man3/pthread_attr_setstackaddr.3 b/man3/pthread_attr_setstackaddr.3
-index bf1a32f..23ab2c9 100644
---- a/man3/pthread_attr_setstackaddr.3
-+++ b/man3/pthread_attr_setstackaddr.3
-@@ -81,12 +81,18 @@ handle a possible error return).
- .SH VERSIONS
- These functions are provided by glibc since version 2.1.
+diff --git a/man3/getcontext.3 b/man3/getcontext.3
+index d592a83..8e35238 100644
+--- a/man3/getcontext.3
++++ b/man3/getcontext.3
+@@ -151,7 +151,6 @@ appropriately.
+ .SH ERRORS
+ None defined.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
--The
--.BR pthread_attr_setstackaddr ()
--and
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw28 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR pthread_attr_setstackaddr (),
- .BR pthread_attr_getstackaddr ()
--functions are thread-safe.
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- POSIX.1-2001 specifies these functions but marks them as obsolete.
- POSIX.1-2008 removes the specification of these functions.
+ For an explanation of the terms used in this section, see
+ .BR attributes (7).
+ .TS
 -- 
 1.9.3
 
