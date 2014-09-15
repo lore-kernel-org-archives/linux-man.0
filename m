@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_kill.3: Reformat thread-safety information
-Date: Mon, 15 Sep 2014 10:59:03 +0800
-Message-ID: <1410749943-16258-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_getcpuclockid.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 11:12:16 +0800
+Message-ID: <1410750736-16747-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_kill.3 | 13 ++++++++++---
+ man3/pthread_getcpuclockid.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/pthread_kill.3 b/man3/pthread_kill.3
-index 5c1d0c4..f323898 100644
---- a/man3/pthread_kill.3
-+++ b/man3/pthread_kill.3
-@@ -70,10 +70,17 @@ on error, it returns an error number, and no signal is sent.
- .B EINVAL
- An invalid signal was specified.
+diff --git a/man3/pthread_getcpuclockid.3 b/man3/pthread_getcpuclockid.3
+index 9f31331..405b434 100644
+--- a/man3/pthread_getcpuclockid.3
++++ b/man3/pthread_getcpuclockid.3
+@@ -63,10 +63,17 @@ could be found.
+ .SH VERSIONS
+ This function is available in glibc since version 2.2.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,16 +29,16 @@ index 5c1d0c4..f323898 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw23 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR pthread_kill ()
+ .BR pthread_getcpuclockid ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.1-2008.
+ POSIX.1-2001.
  .SH NOTES
 -- 
 1.9.3
