@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_equal.3: Reformat thread-safety information
-Date: Mon, 15 Sep 2014 11:13:53 +0200
-Message-ID: <5416ADD1.2020800@gmail.com>
-References: <1410751228-17299-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_exit.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 11:13:30 +0200
+Message-ID: <5416ADBA.4060505@gmail.com>
+References: <1410750953-17015-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410751228-17299-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1410750953-17015-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,17 +20,17 @@ Cheers,
 Michael
 
 
-On 09/15/2014 05:20 AM, Peng Haitao wrote:
+On 09/15/2014 05:15 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_equal.3 | 13 ++++++++++---
+>  man3/pthread_exit.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/pthread_equal.3 b/man3/pthread_equal.3
-> index 0cd3495..9d72fe7 100644
-> --- a/man3/pthread_equal.3
-> +++ b/man3/pthread_equal.3
-> @@ -45,10 +45,17 @@ returns a nonzero value; otherwise, it returns 0.
+> diff --git a/man3/pthread_exit.3 b/man3/pthread_exit.3
+> index 12b23c2..899d6a3 100644
+> --- a/man3/pthread_exit.3
+> +++ b/man3/pthread_exit.3
+> @@ -73,10 +73,17 @@ This function does not return to the caller.
 >  .SH ERRORS
 >  This function always succeeds.
 >  .SH ATTRIBUTES
@@ -44,7 +44,7 @@ On 09/15/2014 05:20 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR pthread_equal ()
+>  .BR pthread_exit ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
