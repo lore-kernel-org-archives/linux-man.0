@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getcontext.3: tfix
-Date: Mon, 15 Sep 2014 11:51:47 +0800
-Message-ID: <1410753107-20175-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] getpwnam.3: ffix
+Date: Mon, 15 Sep 2014 11:57:37 +0800
+Message-ID: <1410753457-21041-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,21 +12,36 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getcontext.3 | 1 -
- 1 file changed, 1 deletion(-)
+ man3/fenv.3     | 2 +-
+ man3/getpwnam.3 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/man3/getcontext.3 b/man3/getcontext.3
-index d592a83..8e35238 100644
---- a/man3/getcontext.3
-+++ b/man3/getcontext.3
-@@ -151,7 +151,6 @@ appropriately.
- .SH ERRORS
- None defined.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
- For an explanation of the terms used in this section, see
+diff --git a/man3/fenv.3 b/man3/fenv.3
+index 6884202..6db7c86 100644
+--- a/man3/fenv.3
++++ b/man3/fenv.3
+@@ -270,7 +270,7 @@ For an explanation of the terms used in this section, see
+ .TS
+ allbox;
+ lb lb lb
+-lw38 l l.
++lw37 l l.
+ Interface	Attribute	Value
+ T{
+ .BR feclearexcept (),
+diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
+index f14a637..512ca9e 100644
+--- a/man3/getpwnam.3
++++ b/man3/getpwnam.3
+@@ -219,7 +219,7 @@ For an explanation of the terms used in this section, see
  .BR attributes (7).
  .TS
+ allbox;
+-lbw22 lb lb
++lbw26 lb lb
+ l l l.
+ Interface	Attribute	Value
+ T{
 -- 
 1.9.3
 
