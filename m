@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_getcpuclockid.3: Reformat thread-safety information
-Date: Mon, 15 Sep 2014 11:12:16 +0800
-Message-ID: <1410750736-16747-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_exit.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 11:15:53 +0800
+Message-ID: <1410750953-17015-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_getcpuclockid.3 | 13 ++++++++++---
+ man3/pthread_exit.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/pthread_getcpuclockid.3 b/man3/pthread_getcpuclockid.3
-index 9f31331..405b434 100644
---- a/man3/pthread_getcpuclockid.3
-+++ b/man3/pthread_getcpuclockid.3
-@@ -63,10 +63,17 @@ could be found.
- .SH VERSIONS
- This function is available in glibc since version 2.2.
+diff --git a/man3/pthread_exit.3 b/man3/pthread_exit.3
+index 12b23c2..899d6a3 100644
+--- a/man3/pthread_exit.3
++++ b/man3/pthread_exit.3
+@@ -73,10 +73,17 @@ This function does not return to the caller.
+ .SH ERRORS
+ This function always succeeds.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,11 +29,11 @@ index 9f31331..405b434 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR pthread_getcpuclockid ()
+ .BR pthread_exit ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
