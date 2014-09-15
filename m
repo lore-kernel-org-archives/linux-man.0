@@ -1,50 +1,51 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getpwnam.3: ffix
-Date: Mon, 15 Sep 2014 11:57:37 +0800
-Message-ID: <1410753457-21041-1-git-send-email-penght@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fcntl.2: pfix
+Date: Mon, 15 Sep 2014 11:10:48 +0200
+Message-ID: <5416AD18.30003@gmail.com>
+References: <1410747921-16888-1-git-send-email-taffit@debian.org>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1410747921-16888-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?windows-1252?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/fenv.3     | 2 +-
- man3/getpwnam.3 | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thanks, David. Applied.
 
-diff --git a/man3/fenv.3 b/man3/fenv.3
-index 6884202..6db7c86 100644
---- a/man3/fenv.3
-+++ b/man3/fenv.3
-@@ -270,7 +270,7 @@ For an explanation of the terms used in this section, see
- .TS
- allbox;
- lb lb lb
--lw38 l l.
-+lw37 l l.
- Interface	Attribute	Value
- T{
- .BR feclearexcept (),
-diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
-index f14a637..512ca9e 100644
---- a/man3/getpwnam.3
-+++ b/man3/getpwnam.3
-@@ -219,7 +219,7 @@ For an explanation of the terms used in this section, see
- .BR attributes (7).
- .TS
- allbox;
--lbw22 lb lb
-+lbw26 lb lb
- l l l.
- Interface	Attribute	Value
- T{
--- 
-1.9.3
+Cheers,
 
+Michael
+
+
+On 09/15/2014 04:25 AM, David Pr=E9vot wrote:
+> ---
+>  man2/fcntl.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+> index 77892a2..59f22ce 100644
+> --- a/man2/fcntl.2
+> +++ b/man2/fcntl.2
+> @@ -475,7 +475,7 @@ in most respects identical to the traditional rec=
+ord locks described above.
+>  This lock type is Linux-specific,
+>  and available since Linux 3.15.
+>  For an explanation of open file descriptions, see
+> -.BR open (2)
+> +.BR open (2).
+> =20
+>  The principal difference between the two lock types
+>  is that whereas traditional record locks
+>=20
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
