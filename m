@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_self.3: Reformat thread-safety information
-Date: Mon, 15 Sep 2014 11:12:28 +0200
-Message-ID: <5416AD7C.6090802@gmail.com>
-References: <1410749556-14594-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_setconcurrency.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 11:11:44 +0200
+Message-ID: <5416AD50.5080109@gmail.com>
+References: <1410749045-14017-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410749556-14594-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1410749045-14017-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,32 +20,36 @@ Cheers,
 Michael
 
 
-On 09/15/2014 04:52 AM, Peng Haitao wrote:
+
+On 09/15/2014 04:44 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_self.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/pthread_setconcurrency.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man3/pthread_self.3 b/man3/pthread_self.3
-> index 2273bea..3705c04 100644
-> --- a/man3/pthread_self.3
-> +++ b/man3/pthread_self.3
-> @@ -48,10 +48,17 @@ This function always succeeds, returning the calling thread's ID.
->  .SH ERRORS
->  This function always succeeds.
+> diff --git a/man3/pthread_setconcurrency.3 b/man3/pthread_setconcurrency.3
+> index 0561a2e..3ee4bb4 100644
+> --- a/man3/pthread_setconcurrency.3
+> +++ b/man3/pthread_setconcurrency.3
+> @@ -81,12 +81,18 @@ would cause a system resource to be exceeded").
+>  .SH VERSIONS
+>  These functions are available in glibc since version 2.1.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR pthread_setconcurrency ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw25 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR pthread_self ()
-> -function is thread-safe.
+> +.BR pthread_setconcurrency (),
+>  .BR pthread_getconcurrency ()
+> -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
