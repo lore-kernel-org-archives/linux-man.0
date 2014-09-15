@@ -1,50 +1,41 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getcontext.3: tfix
-Date: Mon, 15 Sep 2014 11:14:32 +0200
-Message-ID: <5416ADF8.3070500@gmail.com>
-References: <1410753107-20175-1-git-send-email-penght@cn.fujitsu.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Thread-safety of iconv()
+Date: Mon, 15 Sep 2014 12:32:37 +0300
+Message-ID: <5416B235.8020309@redhat.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410753107-20175-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied in the attributes_reformat_2 branch.
+Hi Michael, Haitao,
 
-Cheers,
+iconv(3) states:
 
-Michael
+ATTRIBUTES
+   Multithreading (see pthreads(7))
+       The iconv() function is thread-safe.
 
+But iconv_open(3) says:
 
-On 09/15/2014 05:51 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/getcontext.3 | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/man3/getcontext.3 b/man3/getcontext.3
-> index d592a83..8e35238 100644
-> --- a/man3/getcontext.3
-> +++ b/man3/getcontext.3
-> @@ -151,7 +151,6 @@ appropriately.
->  .SH ERRORS
->  None defined.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
->  For an explanation of the terms used in this section, see
->  .BR attributes (7).
->  .TS
-> 
+A conversion descriptor contains a conversion  state.   After  creation
+using iconv_open(), the state is in the initial state.  Using iconv(3)
+modifies the descriptor's conversion state.  (This implies that a  con-
+version descriptor can not be used in multiple threads simultaneously.)
+To bring the state back to the initial state, use iconv(3) with NULL as
+inbuf argument.
 
+This looks a bit unclear, do you think you could clarify iconv(3) and/or
+iconv_open(3) a bit in thread-safety regard?
+
+Thanks,
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
