@@ -1,48 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fcntl.2: pfix
-Date: Mon, 15 Sep 2014 11:10:48 +0200
-Message-ID: <5416AD18.30003@gmail.com>
-References: <1410747921-16888-1-git-send-email-taffit@debian.org>
+Subject: Re: [PATCH] pthread_self.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 11:12:28 +0200
+Message-ID: <5416AD7C.6090802@gmail.com>
+References: <1410749556-14594-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410747921-16888-1-git-send-email-taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+In-Reply-To: <1410749556-14594-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?windows-1252?Q?David_Pr=E9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, David. Applied.
+Thanks, Haitao. Applied in the attributes_reformat_2 branch.
 
 Cheers,
 
 Michael
 
 
-On 09/15/2014 04:25 AM, David Pr=E9vot wrote:
+On 09/15/2014 04:52 AM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man2/fcntl.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man2/fcntl.2 b/man2/fcntl.2
-> index 77892a2..59f22ce 100644
-> --- a/man2/fcntl.2
-> +++ b/man2/fcntl.2
-> @@ -475,7 +475,7 @@ in most respects identical to the traditional rec=
-ord locks described above.
->  This lock type is Linux-specific,
->  and available since Linux 3.15.
->  For an explanation of open file descriptions, see
-> -.BR open (2)
-> +.BR open (2).
-> =20
->  The principal difference between the two lock types
->  is that whereas traditional record locks
->=20
+>  man3/pthread_self.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man3/pthread_self.3 b/man3/pthread_self.3
+> index 2273bea..3705c04 100644
+> --- a/man3/pthread_self.3
+> +++ b/man3/pthread_self.3
+> @@ -48,10 +48,17 @@ This function always succeeds, returning the calling thread's ID.
+>  .SH ERRORS
+>  This function always succeeds.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR pthread_self ()
+> -function is thread-safe.
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH NOTES
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
