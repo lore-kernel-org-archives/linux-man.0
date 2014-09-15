@@ -1,32 +1,50 @@
-From: =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
-Subject: [PATCH] fcntl.2: pfix
-Date: Sun, 14 Sep 2014 22:25:21 -0400
-Message-ID: <1410747921-16888-1-git-send-email-taffit@debian.org>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] pthread_setconcurrency.3: Reformat thread-safety information
+Date: Mon, 15 Sep 2014 10:44:05 +0800
+Message-ID: <1410749045-14017-1-git-send-email-penght@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?David=20Pr=C3=A9vot?= <taffit-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/fcntl.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/pthread_setconcurrency.3 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man2/fcntl.2 b/man2/fcntl.2
-index 77892a2..59f22ce 100644
---- a/man2/fcntl.2
-+++ b/man2/fcntl.2
-@@ -475,7 +475,7 @@ in most respects identical to the traditional record locks described above.
- This lock type is Linux-specific,
- and available since Linux 3.15.
- For an explanation of open file descriptions, see
--.BR open (2)
-+.BR open (2).
- 
- The principal difference between the two lock types
- is that whereas traditional record locks
+diff --git a/man3/pthread_setconcurrency.3 b/man3/pthread_setconcurrency.3
+index 0561a2e..3ee4bb4 100644
+--- a/man3/pthread_setconcurrency.3
++++ b/man3/pthread_setconcurrency.3
+@@ -81,12 +81,18 @@ would cause a system resource to be exceeded").
+ .SH VERSIONS
+ These functions are available in glibc since version 2.1.
+ .SH ATTRIBUTES
+-.SS Multithreading (see pthreads(7))
+-The
+-.BR pthread_setconcurrency ()
+-and
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw25 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR pthread_setconcurrency (),
+ .BR pthread_getconcurrency ()
+-functions are thread-safe.
++T}	Thread safety	MT-Safe
++.TE
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .SH NOTES
 -- 
-2.1.0
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
