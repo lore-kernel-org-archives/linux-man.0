@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 84871] New: Improve CONFIG_AUDITSYSCALL describtion
-Date: Sat, 20 Sep 2014 22:16:30 +0000
-Message-ID: <bug-84871-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 84901] New: drand48() unduely declared obsolete
+Date: Sun, 21 Sep 2014 11:12:45 +0000
+Message-ID: <bug-84901-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
@@ -10,41 +10,40 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=84871
+https://bugzilla.kernel.org/show_bug.cgi?id=84901
 
-            Bug ID: 84871
-           Summary: Improve CONFIG_AUDITSYSCALL describtion
+            Bug ID: 84901
+           Summary: drand48() unduely declared obsolete
            Product: Documentation
            Version: unspecified
-          Hardware: x86-64
+          Hardware: All
                 OS: Linux
             Status: NEW
           Severity: normal
           Priority: P1
          Component: man-pages
           Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nucrap-PkbjNfxxIARBDgjK7y7TUQ@public.gmane.org
+          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
         Regression: No
 
-Hi,
-I have recently configured my own kernel from pretty much from scratch and
-nearly everything went well. One thing that made issues however was consolekit.
+The drand48() manual page ends with a note:
 
-After some investigating and comparing my config with some generic kernels, the
-issue turned out to be that I have deactivated CONFIG_AUDITSYSCALL.
+"These functions are declared obsolete by SVID 3, which states that rand(3)
+should be used instead."
 
-The CONFIG_AUDITSYSCALL describtion states:
+The unsuspecting reader will see this, and think that these are obsolete
+functions he shouldn't use. But he most likely not know that "SVID 3" referred
+here is actually a document written 25 years ago, in 1989 (!), for SVr4. He
+will not know that Posix that came more than 10 years later did not call this
+function obsolete, and that till this day, it is not considered obsolete by
+Posix (see
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/drand48.html).
 
-> Enable low-overhead system-call auditing infrastructure that can be used independently or with another kernel subsystem, such as SELinux.
+So I think this statement about SVID 3 should be dropped. Or, if for some
+reason you want to keep it, at least add a clarification that this was in 1989
+and standards that followed it do not consider these functions obsolete.
 
-Since I do not use SElinux I thought it was save to disable this feature.
-
-IMO something like consolekit support should definately be mentioned in the
-describtion alongside with SElinux, considering that it is probably more
-frequently used than SElinux.
-Otherwise it may be misleading.
-
-Hope this gets fixed :)
+Thanks!
 
 -- 
 You are receiving this mail because:
