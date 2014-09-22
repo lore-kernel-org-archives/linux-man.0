@@ -1,36 +1,27 @@
-From: Wieland Hoffmann <themineo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] namespaces.7: tfix: CLONE_IPC -> CLONE_NEWIPC
-Date: Sun, 21 Sep 2014 22:50:35 +0200
-Message-ID: <1411332635-11983-1-git-send-email-themineo@gmail.com>
+From: "Benjamin Siaka" <siajaka-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: HOW ARE YOU?
+Date: Mon, 22 Sep 2014 01:18:18 +0000
+Message-ID: <20140922011829.0F2833AE86B3@studentsvm0.itb.ac.id>
+Reply-To: bensiaka-1lgz47149vU@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Wieland Hoffmann <themineo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-CLONE_NEWIPC is the correct constant, as can be seen in the detailed
-list of namespaces & their corresponding constants, as well as the
-clone(2) man page and include/uapi/linux/sched.h in the Linux source tree.
----
- man7/namespaces.7 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hello my Dear,
 
-diff --git a/man7/namespaces.7 b/man7/namespaces.7
-index 931d038..d14d258 100644
---- a/man7/namespaces.7
-+++ b/man7/namespaces.7
-@@ -41,7 +41,7 @@ Linux provides the following namespaces:
- lB lB lB
- l lB l.
- Namespace	Constant	Isolates
--IPC	CLONE_IPC	System V IPC, POSIX message queues
-+IPC	CLONE_NEWIPC	System V IPC, POSIX message queues
- Network	CLONE_NEWNET	Network devices, stacks, ports, etc.
- Mount	CLONE_NEWNS	Mount points
- PID	CLONE_NEWPID	Process IDs
--- 
-2.1.0
+I will greatly appreciate my correspondence meets you in good health condition.
 
+My name is Mr. Benjamin Siaka. I am seeking for your co-operation for investment partnership in your Country. I shall provide the FUND for the investment. When you acknowledged the receipt of this correspondence, thereafter I will give you the Full Details of my investment proposal.
+
+I await your response in earliest.
+
+My regards,
+Mr. Benjamin Siaka.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
