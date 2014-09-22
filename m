@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_attr_setscope.3: Reformat thread-safety information
-Date: Mon, 22 Sep 2014 14:36:46 +0800
-Message-ID: <1411367806-6924-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] pthread_attr_setschedpolicy.3: Reformat thread-safety information
+Date: Mon, 22 Sep 2014 14:42:01 +0800
+Message-ID: <1411368121-7238-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,37 +12,37 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_attr_setscope.3 | 16 +++++++++++-----
+ man3/pthread_attr_setschedpolicy.3 | 16 +++++++++++-----
  1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man3/pthread_attr_setscope.3 b/man3/pthread_attr_setscope.3
-index bb98531..cada9cd 100644
---- a/man3/pthread_attr_setscope.3
-+++ b/man3/pthread_attr_setscope.3
-@@ -117,12 +117,18 @@ specified the value
- .BR PTHREAD_SCOPE_PROCESS ,
- which is not supported on Linux.
+diff --git a/man3/pthread_attr_setschedpolicy.3 b/man3/pthread_attr_setschedpolicy.3
+index 4eb2594..14a9d46 100644
+--- a/man3/pthread_attr_setschedpolicy.3
++++ b/man3/pthread_attr_setschedpolicy.3
+@@ -98,12 +98,18 @@ error ("attempt was made to set the attribute to an unsupported value") for
+ .\" .SH VERSIONS
+ .\" Available since glibc 2.0.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
--.BR pthread_attr_setscope ()
+-.BR pthread_attr_setschedpolicy ()
 -and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw24 lb lb
++lbw30 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR pthread_attr_setscope (),
- .BR pthread_attr_getscope ()
++.BR pthread_attr_setschedpolicy (),
+ .BR pthread_attr_getschedpolicy ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  POSIX.1-2001.
- .SH NOTES
+ .SH EXAMPLE
 -- 
 1.9.3
 
