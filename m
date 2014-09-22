@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] posix_fallocate.3: Reformat thread-safety information
-Date: Mon, 22 Sep 2014 16:06:06 +0800
-Message-ID: <1411373166-16341-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] nextafter.3: Reformat thread-safety information
+Date: Mon, 22 Sep 2014 16:12:22 +0800
+Message-ID: <1411373542-16712-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/posix_fallocate.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/nextafter.3 | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
-index 921ae83..a0fff24 100644
---- a/man3/posix_fallocate.3
-+++ b/man3/posix_fallocate.3
-@@ -101,10 +101,17 @@ refers to a pipe.
- .BR posix_fallocate ()
- is available since glibc 2.1.94.
+diff --git a/man3/nextafter.3 b/man3/nextafter.3
+index 5548908..bee37d7 100644
+--- a/man3/nextafter.3
++++ b/man3/nextafter.3
+@@ -177,16 +177,24 @@ These functions do not set
+ .\" FIXME . Is it intentional that these functions do not set errno?
+ .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6799
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,17 +29,25 @@ index 921ae83..a0fff24 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw28 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR posix_fallocate ()
--function is thread-safe.
+ .BR nextafter (),
+ .BR nextafterf (),
++.br
+ .BR nextafterl (),
+ .BR nexttoward (),
++.br
+ .BR nexttowardf (),
+-and
+ .BR nexttowardl ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.1-2001.
- 
+ C99, POSIX.1-2001.
+ This function is defined in IEC 559 (and the appendix with
 -- 
 1.9.3
 
