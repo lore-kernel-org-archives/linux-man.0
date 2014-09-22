@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pthread_attr_setguardsize.3: Reformat thread-safety information
-Date: Mon, 22 Sep 2014 15:44:31 +0800
-Message-ID: <1411371871-14084-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] posix_openpt.3: Reformat thread-safety information
+Date: Mon, 22 Sep 2014 16:01:37 +0800
+Message-ID: <1411372897-16023-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,37 +12,34 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/pthread_attr_setguardsize.3 | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ man3/posix_openpt.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/pthread_attr_setguardsize.3 b/man3/pthread_attr_setguardsize.3
-index 42840bd..c68907d 100644
---- a/man3/pthread_attr_setguardsize.3
-+++ b/man3/pthread_attr_setguardsize.3
-@@ -104,12 +104,18 @@ handle a possible error return).
- .SH VERSIONS
- These functions are provided by glibc since version 2.1.
+diff --git a/man3/posix_openpt.3 b/man3/posix_openpt.3
+index a1e7c4b..7288c97 100644
+--- a/man3/posix_openpt.3
++++ b/man3/posix_openpt.3
+@@ -75,10 +75,17 @@ Glibc support for
+ .BR posix_openpt ()
+ has been provided since version 2.2.1.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
--.BR pthread_attr_setguardsize ()
--and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw28 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR pthread_attr_setguardsize (),
- .BR pthread_attr_getguardsize ()
--functions are thread-safe.
+ .BR posix_openpt ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+ .BR posix_openpt ()
+ is part of the UNIX 98 pseudoterminal support (see
 -- 
 1.9.3
 
