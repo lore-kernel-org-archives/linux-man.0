@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] posix_openpt.3: Reformat thread-safety information
-Date: Tue, 23 Sep 2014 06:24:15 +0200
-Message-ID: <5420F5EF.6040705@gmail.com>
-References: <1411372897-16023-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] pthread_attr_setguardsize.3: Reformat thread-safety information
+Date: Tue, 23 Sep 2014 06:24:12 +0200
+Message-ID: <5420F5EC.1010008@gmail.com>
+References: <1411371871-14084-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411372897-16023-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1411371871-14084-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,37 +20,40 @@ Cheers,
 
 Michael
 
-On 09/22/2014 10:01 AM, Peng Haitao wrote:
+On 09/22/2014 09:44 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/posix_openpt.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/pthread_attr_setguardsize.3 | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
 > 
-> diff --git a/man3/posix_openpt.3 b/man3/posix_openpt.3
-> index a1e7c4b..7288c97 100644
-> --- a/man3/posix_openpt.3
-> +++ b/man3/posix_openpt.3
-> @@ -75,10 +75,17 @@ Glibc support for
->  .BR posix_openpt ()
->  has been provided since version 2.2.1.
+> diff --git a/man3/pthread_attr_setguardsize.3 b/man3/pthread_attr_setguardsize.3
+> index 42840bd..c68907d 100644
+> --- a/man3/pthread_attr_setguardsize.3
+> +++ b/man3/pthread_attr_setguardsize.3
+> @@ -104,12 +104,18 @@ handle a possible error return).
+>  .SH VERSIONS
+>  These functions are provided by glibc since version 2.1.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
+> -.BR pthread_attr_setguardsize ()
+> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw28 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR posix_openpt ()
-> -function is thread-safe.
+> +.BR pthread_attr_setguardsize (),
+>  .BR pthread_attr_getguardsize ()
+> -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  .BR posix_openpt ()
->  is part of the UNIX 98 pseudoterminal support (see
+>  POSIX.1-2001.
+>  .SH NOTES
 > 
 
 
