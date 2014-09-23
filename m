@@ -1,42 +1,70 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] isalpha.3: tfix
-Date: Mon, 22 Sep 2014 17:17:09 +0800
-Message-ID: <1411377429-20255-1-git-send-email-penght@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 84701] execve(2) manual page ".sh" usage exposes implementation
+ detail
+Date: Tue, 23 Sep 2014 04:23:32 +0000
+Message-ID: <bug-84701-11311-kopoYrW9CJ@https.bugzilla.kernel.org/>
+References: <bug-84701-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-84701-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/isalpha.3 | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=84701
 
-diff --git a/man3/isalpha.3 b/man3/isalpha.3
-index a7f3b0c..346cc7f 100644
---- a/man3/isalpha.3
-+++ b/man3/isalpha.3
-@@ -223,13 +223,12 @@ The values returned are nonzero if the character
- .I c
- falls into the tested class, and zero if not.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
- For an explanation of the terms used in this section, see
- .BR attributes (7).
- .ad l
- .TS
- allbox;
--lbw33 lb lb
-+lbw32 lb lb
- l l l.
- Interface	Attribute	Value
- T{
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Alex, thanks for the detailed report. I've applied the patch below.
+
+Cheers,
+
+Michael
+
+diff --git a/man2/execve.2 b/man2/execve.2
+index 0b06974..dfa933b 100644
+--- a/man2/execve.2
++++ b/man2/execve.2
+@@ -729,10 +729,10 @@ program:
+
+ .in +4n
+ .nf
+-.RB "$" " cat > script.sh"
+-.B #! ./myecho script-arg
++.RB "$" " cat > script"
++.B #!./myecho script-arg
+ .B ^D
+-.RB "$" " chmod +x script.sh"
++.RB "$" " chmod +x script"
+ .fi
+ .in
+
+@@ -740,10 +740,10 @@ We can then use our program to exec the script:
+
+ .in +4n
+ .nf
+-.RB "$" " ./execve ./script.sh"
++.RB "$" " ./execve ./script"
+ argv[0]: ./myecho
+ argv[1]: script-arg
+-argv[2]: ./script.sh
++argv[2]: ./script
+ argv[3]: hello
+ argv[4]: world
+ .fi
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
