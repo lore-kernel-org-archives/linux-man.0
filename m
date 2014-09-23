@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_attr_setguardsize.3: Reformat thread-safety information
-Date: Tue, 23 Sep 2014 06:24:12 +0200
-Message-ID: <5420F5EC.1010008@gmail.com>
-References: <1411371871-14084-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] posix_fallocate.3: Reformat thread-safety information
+Date: Tue, 23 Sep 2014 06:24:18 +0200
+Message-ID: <5420F5F2.3010603@gmail.com>
+References: <1411373166-16341-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411371871-14084-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1411373166-16341-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,40 +20,37 @@ Cheers,
 
 Michael
 
-On 09/22/2014 09:44 AM, Peng Haitao wrote:
+On 09/22/2014 10:06 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pthread_attr_setguardsize.3 | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  man3/posix_fallocate.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/pthread_attr_setguardsize.3 b/man3/pthread_attr_setguardsize.3
-> index 42840bd..c68907d 100644
-> --- a/man3/pthread_attr_setguardsize.3
-> +++ b/man3/pthread_attr_setguardsize.3
-> @@ -104,12 +104,18 @@ handle a possible error return).
->  .SH VERSIONS
->  These functions are provided by glibc since version 2.1.
+> diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
+> index 921ae83..a0fff24 100644
+> --- a/man3/posix_fallocate.3
+> +++ b/man3/posix_fallocate.3
+> @@ -101,10 +101,17 @@ refers to a pipe.
+>  .BR posix_fallocate ()
+>  is available since glibc 2.1.94.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
-> -.BR pthread_attr_setguardsize ()
-> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw28 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR pthread_attr_setguardsize (),
->  .BR pthread_attr_getguardsize ()
-> -functions are thread-safe.
+>  .BR posix_fallocate ()
+> -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
 >  POSIX.1-2001.
->  .SH NOTES
+>  
 > 
 
 
