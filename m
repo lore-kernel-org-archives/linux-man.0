@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] modf.3: Reformat thread-safety information
-Date: Fri, 26 Sep 2014 16:19:59 +0800
-Message-ID: <1411719599-2801-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] mkstemp.3: Reformat thread-safety information
+Date: Fri, 26 Sep 2014 16:26:09 +0800
+Message-ID: <1411719969-3638-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/modf.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/mkstemp.3 | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/man3/modf.3 b/man3/modf.3
-index c481286..cbb95bd 100644
---- a/man3/modf.3
-+++ b/man3/modf.3
-@@ -93,13 +93,19 @@ is set to positive infinity (negative infinity).
- .SH ERRORS
- No errors occur.
+diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
+index 069b4ac..85dffc5 100644
+--- a/man3/mkstemp.3
++++ b/man3/mkstemp.3
+@@ -193,14 +193,21 @@ and
+ .BR mkostemps ()
+ are available since glibc 2.11.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,22 @@ index c481286..cbb95bd 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw24 lb lb
++lbw23 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR modf (),
- .BR modff (),
+ .BR mkstemp (),
+ .BR mkostemp (),
++.br
+ .BR mkstemps (),
 -and
- .BR modfl ()
+ .BR mkostemps ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
+ .BR mkstemp ():
+ 4.3BSD, POSIX.1-2001.
 -- 
 1.9.3
 
