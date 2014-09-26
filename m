@@ -1,48 +1,33 @@
-From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mkdtemp.3: Reformat thread-safety information
-Date: Fri, 26 Sep 2014 16:40:05 +0800
-Message-ID: <1411720805-5124-1-git-send-email-penght@cn.fujitsu.com>
+From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: strncat
+Date: Fri, 26 Sep 2014 12:21:35 +0100
+Message-ID: <CAGc9EveqpQ7qMcdVn_1GY50YNKM4EXHxVwx82GwUv-8ajTkduQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/mkdtemp.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Hello
 
-diff --git a/man3/mkdtemp.3 b/man3/mkdtemp.3
-index 244c3b8..8f870f4 100644
---- a/man3/mkdtemp.3
-+++ b/man3/mkdtemp.3
-@@ -84,10 +84,17 @@ for other possible values for \fIerrno\fP.
- .SH VERSIONS
- Available since glibc 2.1.91.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
- .BR mkdtemp ()
--function is thread-safe.
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- POSIX.1-2008.
- This function is present on the BSDs.
--- 
-1.9.3
+http://man7.org/linux/man-pages/man3/strcat.3.html
 
+"Therefore, the size of dest must be at least strlen(dest)+n+1."
+
+Is it worth clarifying that this means a user concatenating a string
+needs to carefully avoid an overrun by doing strncat(dest, src, n -
+strlen(dest));  ?
+
+e.g:
+size_t n = 20;
+char dest[n];
+char * src = "test";
+
+strncat(dest, src, n - strlen(dest));
+
+Bes regards, Jon
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
