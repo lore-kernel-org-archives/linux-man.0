@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mq_unlink.3: Reformat thread-safety information
-Date: Fri, 26 Sep 2014 15:33:31 +0800
-Message-ID: <1411716811-31817-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] mq_send.3: Reformat thread-safety information
+Date: Fri, 26 Sep 2014 15:53:36 +0800
+Message-ID: <1411718016-32270-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,34 +12,37 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mq_unlink.3 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ man3/mq_send.3 | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
-diff --git a/man3/mq_unlink.3 b/man3/mq_unlink.3
-index ecce2b8..0e69207 100644
---- a/man3/mq_unlink.3
-+++ b/man3/mq_unlink.3
-@@ -60,10 +60,17 @@ was too long.
- There is no message queue with the given
- .IR name .
+diff --git a/man3/mq_send.3 b/man3/mq_send.3
+index 4fc414b..617935d 100644
+--- a/man3/mq_send.3
++++ b/man3/mq_send.3
+@@ -159,12 +159,18 @@ attribute of the message queue.
+ .B ETIMEDOUT
+ The call timed out before a message could be transferred.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
+-.BR mq_send ()
+-and
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw25 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR mq_unlink ()
--function is thread-safe.
++.BR mq_send (),
+ .BR mq_timedsend ()
+-functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  POSIX.1-2001.
- .SH SEE ALSO
+ .SH NOTES
 -- 
 1.9.3
 
