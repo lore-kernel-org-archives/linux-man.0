@@ -1,46 +1,35 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify_init(2): BUG O_CLOEXEC ignored
-Date: Sat, 27 Sep 2014 11:17:01 +0200
-Message-ID: <1411809421-5012-1-git-send-email-xypron.glpk@gmx.de>
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] proc.5 addition of /proc/buddyinfo
+Date: Sat, 27 Sep 2014 19:35:47 +0200
+Message-ID: <1411839348-24345-1-git-send-email-eliedebrauwer@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The bug section should describe that O_CLOEXEC is ignored.
-A patch is pending.
+Hello Michael,
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/fanotify_init.2 | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+A patch follows which adds some information on using /proc/buddyinfo to
+diagnose memory fragmentation issues. The most popular information 
+online on this ticket is in the Redhat deployment guide [1] which actually
+got part of the formula wrong [2].
+Comments welcome but I mainly tried to focus on the contents on the file
+and not on the background of the underlying algorithm and kernel functions
+like get_free_pages(), dma_alloc_coherent() and friends.
 
-diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-index 8539325..9d42fa5 100644
---- a/man2/fanotify_init.2
-+++ b/man2/fanotify_init.2
-@@ -237,10 +237,18 @@ was introduced in version 2.6.36 of the Linux kernel and enabled in version
- .SH "CONFORMING TO"
- This system call is Linux-specific.
- .SH BUGS
--As of Linux 3.15,
-+As of Linux 3.17,
-+the following bug exists:
-+.IP * 3
-+.\" FIXME . Patch proposed: https://lkml.org/lkml/2014/9/24/967
-+.B O_CLOEXEC
-+passed in
-+.I event_f_flags
-+is ignored.
-+.PP
-+Up to Linux 3.15,
- the following bug exists:
- .IP * 3
--.\" FIXME . Patch accepted to mm tree.
- The
- .I event_f_flags
- argument is not checked for invalid flags.
+[1] https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6-Beta/html/Deployment_Guide/s1-proc-topfiles.html#s2-proc-buddyinfo
+[2]  https://bugzilla.redhat.com/show_bug.cgi?id=1131498
+
+my 2 cents
+E.
+
+Elie De Brauwer (1):
+  proc.5: Adding /proc/buddyinfo
+
+ man5/proc.5 | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
 -- 
 2.1.0
 
