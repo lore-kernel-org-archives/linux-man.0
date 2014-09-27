@@ -1,35 +1,74 @@
 From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] proc.5 addition of /proc/buddyinfo
-Date: Sat, 27 Sep 2014 19:35:47 +0200
-Message-ID: <1411839348-24345-1-git-send-email-eliedebrauwer@gmail.com>
+Subject: [PATCH] proc.5: Adding /proc/buddyinfo
+Date: Sat, 27 Sep 2014 19:35:48 +0200
+Message-ID: <1411839348-24345-2-git-send-email-eliedebrauwer@gmail.com>
+References: <1411839348-24345-1-git-send-email-eliedebrauwer@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1411839348-24345-1-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+This patch adds a short description about the contents of
+/proc/buddyinfo and how this file can be used to assist
+in checking for memory fragmentation issues.
 
-A patch follows which adds some information on using /proc/buddyinfo to
-diagnose memory fragmentation issues. The most popular information 
-online on this ticket is in the Redhat deployment guide [1] which actually
-got part of the formula wrong [2].
-Comments welcome but I mainly tried to focus on the contents on the file
-and not on the background of the underlying algorithm and kernel functions
-like get_free_pages(), dma_alloc_coherent() and friends.
-
-[1] https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6-Beta/html/Deployment_Guide/s1-proc-topfiles.html#s2-proc-buddyinfo
-[2]  https://bugzilla.redhat.com/show_bug.cgi?id=1131498
-
-my 2 cents
-E.
-
-Elie De Brauwer (1):
-  proc.5: Adding /proc/buddyinfo
-
+Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
  man5/proc.5 | 39 +++++++++++++++++++++++++++++++++++++++
  1 file changed, 39 insertions(+)
 
+diff --git a/man5/proc.5 b/man5/proc.5
+index 337f6b6..777611a 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -1825,6 +1825,45 @@ Advanced power management version and battery information when
+ .B CONFIG_APM
+ is defined at kernel compilation time.
+ .TP
++.I /proc/buddyinfo
++This file contains information which is used for diagnosing memory
++fragmentation issues.
++Each line starts with the identification of the node and the name
++of the zone which together identify a memory region, this is then
++followed by the count of available chunks of a certain order in
++which these zones are split.
++The size in bytes of a certain order is given by:
++.IR "(2^order)\ *\ PAGE_SIZE" .
++The binary buddy allocator algorithm inside the kernel will split
++one chunk into two chunks of a smaller order (thus with half the
++size) or combine two contiguous chunks into one larger chunk of
++a higher order (thus with double the size) to satisfy allocation
++requests and to counter memory fragmentation.
++The order matches the column number, when starting to count at zero.
++
++For example on a x86_64 system:
++.in +4n
++.nf
++Node 0, zone      DMA      1      1      1      0      2      1      1      0      1      1      3
++Node 0, zone    DMA32     65     47      4     81     52     28     13     10      5      1    404
++Node 0, zone   Normal    216     55    189    101     84     38     37     27      5      3    587
++.fi
++.in
++
++In this example there is one node containing three zones and there
++are 11 different chunk sizes.
++If the page size is 4 kilobyte, then the first zone called
++.I DMA
++(on x86 the first 16 megabyte of memory) has 1 chunk of 4 kilobyte
++(order 0) available and has 3 chunks of 4 megabyte (order 10) available.
++
++If the memory is heavily fragmentated, the counters for higher
++order chunks will be zero and allocation of large contiguous areas
++will fail.
++
++Further information about the zones can be found in
++.IR /proc/zoneinfo .
++.TP
+ .I /proc/bus
+ Contains subdirectories for installed busses.
+ .TP
 -- 
 2.1.0
 
