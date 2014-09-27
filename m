@@ -1,80 +1,50 @@
-From: =?utf-8?B?5bCP55m9?= <gamebox@xtimes.org>
-Subject: =?utf-8?B?55So5LqG5LiA5qyh5L2g5bCx5Lya6KeJ5b6X5piv5pyA5aW955qE55+t5L+h5Y+R6YCB5bmz5Y+wIA==?=
-	=?utf-8?B?ICAgICAgICAgICAgICAgICAgICA=?=
-	=?utf-8?B?ICAgICAgICAgICAgICAgICAgICA=?=
-	=?utf-8?B?ICAgICAgICAgICAgICAgICAgICA=?=
-	=?utf-8?B?ICAgICAgICBycXJrcg==?=
-Date: Sat, 27 Sep 2014 11:45:04 +0800
-Message-ID: <20140927114512845221@xtimes.org>
-Reply-To: <dingxj8@aliyun.com>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: linux-fsdevel@vger.kernel.org, linux-kernel-patch@vger.rutgers.edu, linux-lidong@126.com, linux-man@vger.kernel.org
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] fanotify_init(2): BUG O_CLOEXEC ignored
+Date: Sat, 27 Sep 2014 11:17:01 +0200
+Message-ID: <1411809421-5012-1-git-send-email-xypron.glpk@gmx.de>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-DQogIOi/meS4quefreS/oeWPkemAgeW5s+WPsOWunuWcqOaYr+WkquWlveeUqOS6hu+8jOWGjeS5
-n+S4jeaEgeaJvuS4jeWIsOWlveeahOW5s+WPsOS6hu+8jOWPquimgeaYr+S9oOWPkeeahOWGheWu
-ueaYr+ato+inhOeahO+8jOi9u+advuWwseWPr+S7peWPkemAgeWHuuWOu+OAguWKoFFRMTkzOTg5
-NzI15YW35L2T5ZKo6K+i77yM5Y+v5Lul5byA6LSm5Y+35rWL5pWI5p6c44CCDQoNCg0KDQoNCg0K
-IA0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0K
-DQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoN
-Cg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0K
-DQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCg0KDQoNCuivl+mfteW/g+S4reaDiuW8
-gu+8jOimgeefpemBk++8jOi/meWll+mimOWPr+aYr+mbhuS4reS6huWQhOenjeWBj+mimOaAqumi
-mO+8jOaAnei3r+WMquWkt+aJgOaAne+8jOW+iOWkmuino+mimOmZt+mYse+8jOaVheaEj+iuqeS9
-oOaAnei3r+i3keWBj++8jOWPr+aYr++8jOi/meWwj+WtkOS7luern+eEtuWPqumUmeS6huS4iemB
-k+OAgiAgICDlpKnllYrvvIEgICAg6L+Z5Liq5pe25YCZ77yM6K645bCP5pu856uv5pqX5pqX6IW5
-6K+944CCICAgIOWFtuWunuS5n+S4jemavueQhuino++8jOaVtOS4quKAnOebvOebvOKAnemhueeb
-ru+8jOWMheaLrOa1geawtOe6v+WFtuWunuW3sue7j+acieS6huS4gOWumueahOS6p+S4mumTvumr
-mOaViOaVtOWQiOeahOeQhuW/te+8jOavm+WIqea2puiZveeEtuS4jemrmO+8jOS4gOS4quS5n+Ww
-seWNgeadpeWdl+eahOWIqea2pu+8jOS9huaYr+acgOWPr+aAleeahOaYr+eUn+S6p+mAn+W6puWS
-jOmUgOWUrumAn+aUvuadvuOAgiAgICDlh7rkuobopb/moKHpl6jvvIzlsLHmmK/lj6Tln47lopnv
-vIzlt7Lnu4/mmK/mt7Hnp4vvvIzlnJ/lopnkuIrph47ojYnmnq/pu4TvvIzkuIDniYfokKfnkZ/l
-ronpnZnnmoTmma/oh7TjgIIgICAg5Z+O5aKZ6KW/5L6n5pyJ5LiA54mH6IyC5a+G55qE5bCP5qCR
-5p6X77yM5bmz5pe25Lq66L+5572V6Iez77yM5LiA5Yiw5ZGo5pyr5bCx5oiQ5LqG5oOF5L6j5Lus
-55qE57qm5Lya5Zyw54K577yM5aSP5bCP5rSb6ICB5amG77yM5bmz5pe25bCx54ix5Zug5Liq6bih
-5q+b6JKc55qu55qE5bCP5LqL5ZKM5Lq65ZC15p6277yM5pCe5b6X5Zub6YK75LiN5a6J77yM6bih
-6aOe54uX6Lez77yb5bCR5bm05LmD5piv5aW55YS/5a2Q546L5bu655S377yM6L+Z5bCP5a2Q5ZKM
-5aSP5bCP5rSb5ZCM54+t77yM5oiQ57up5aW977yM5Y+I5piv54+t6ZW/77yM5bmz5pe25rKh5bCR
-5omT5aSP5bCP5rSb55qE5bCP5oql5ZGK44CCICAgIOm7hOiKueiKuee/mOedgOWVhuacuuaXoOmZ
-kO+8jOi/mee7j+a1juWtpuS4k+S4muWnlOWunuaYr+eDremXqOS4k+S4mu+8jOW9k+eEtu+8jOWH
-oOWNgeW5tOWQjua7oeWkp+ihl+mDveaYr+Wtpue7j+a1jumHkeiejeeahOavleS4mueUn++8jOi6
-q+S7t+aApemAn+S4i+a7ke+8jOmDveaYr+eZveiPnOS7t+S6hu+8jOiHqueEtuS4jeWPr+WQjOaX
-peiAjOivreOAgiAgICDku5bmnKzmnaXlj6/ku6Xmib7kuKrlpb3lt6XkvZzvvIzkvYbmmK/kuLrk
-uoboh6rlt7HlsI/miYvlhrDlh4nvvIzigJzotbDlkKfvvIzlm57lr53lrqTvvIznvZfpqazkuI3m
-mK/kuIDlpKnlj6/ku6Xlu7rmiJDnmoTvvIzlrabkuaDkuZ/opoHlirPpgLjnu5PlkIjvvIzlvqrl
-uo/muJDov5vjgILigJ0gICAg5LuW55qE5omL5rip5pqW5Yiw54K954Ot77yM5aW55LmW5LmW5Zyw
-6Lef552A5LuW5b6A55Ci546J5qW86LWw5Y6744CCICAgIOWkmuaDs+atpOWIu+iDveawuOi/nO+8
-jOWkmuaDs+aXtumXtOiDveWcqOatpOWIuwkNCuacieS4gOeCueaWh+iJuuWkqei1i+eahO+8jOi/
-mOmdnuiuqeaIkeWGme+8geKAnSAgICDku5blh7rlhbbkuI3mhI/lnLDku47mpZrnp4Doj6HmiYvp
-h4zov4XpgJ/lnLDmir3lh7rpgqPlh6DlvKDnqL/lrZDvvIznrJHlmLvlmLvlnLDpgZPvvJrigJzk
-u6XlkI7liKvpl67miJHopoHnqL/lrZDkuobvvIHigJ0gICAg55yL5LuW6YKj5qC35a2Q77yM6KKr
-5aea6YGl5ZCm5a6a5LiN5LuF5LuF5LiN55Sf5rCU77yM6L+Y6YGT77yM5LiN6L+H5bCU5bCU5LmI
-77yBICAgIOiwgeaWmeeYpuWtkOWNtOS4gOaLjeahjOWtkO+8jOWkp+WjsOmBk++8muKAnOi1tue0
-p+aLm+WQp++8geaIkee7meS9oOaYjuivtO+8jOS9oOi/mee9quWQjeS4jeeul+atu+WIke+8jOS9
-huaYr+S5n+WPr+S7peeul+atu+WIke+8jOefpemBk+S4uuWVpeS4je+8n+S9oOeahOWBh+mFkuWW
-neatu+i/h+S6uu+8jOaIkeS7rOimgeaQnOi/meS4quivgeaNru+8jOS9oOWwseaYr+atu++8geS8
-muS6huino+a4healmu+8geKAnemrmOi3n+mei+aApeS/g+WcsOaVsuaJk+edgOiKseWyl+Wyqeea
-hOWcsOadv+OAgiAgICDlpI/lsI/mtJvliJnlhrLmnajmma/liJ3oi6Xml6DlhbbkuovlnLDnrJHk
-uobkuIDkuIvvvIzmgKXlvpfmnajmma/liJ3nm7Tot7rohJrvvIzlsI/lo7DpgZPvvJrigJzlpb3l
-pb3lnLDlkJHoi4/moKHplb/mib/orqTplJnor6/vvIHigJ0gICAg55yL552A5aSP5bCP5rSb6L+b
-5LqG5Zyo5LuW5b+D5Lit5YaF6ISP5oyW5LqG5Liq5Z2R5Y2W5o6J77yM5Zi/5Zi/77yM556s6Ze0
-5LmL5ZCO77yM6YKj5Y+q5oG254uX5raI5aSx5LiN6KeB5LqG44CCICAgIOeJh+WIu+S5i+WQju+8
-jOeLl+iCieeahOmmmeawlOWbm+a6ouOAgiAgICDmn7PmnIjnlKjmkKrnk7fohLjnm4bvvIznq6/l
-h7rmlbTmlbTkuKTlpKfnm4bni5fogonjgIIgICAg5LiN6ZyA6KaB5Lu75L2V6LCD5paZ77yM5pKS
-54K56Iqx5qSS5bCx6KGM5LqG77yM6YKj6ZK75YWl55a844CCICAgIOS4jei/h++8jOWkj+Wwj+a0
-m+S7mOS6humSse+8jOiuqeS7luS7rOS/qeeojeaEn+mdoumdouebuOinkeS4gOaXtumXtOS4jeef
-pemBk+WmguS9lemdouWvuei/meenjeeKtuWGteOAgiAgICDliqDkuIrnq4vmmILkuIDlj7fvvIzn
-pLzlk4Hml6Dorrrlk4HlkbPov5jmmK/op4TmqKHpg73mj5Dpq5jkuobkuIDkuKrmoaPmrKHvvIzl
-g4/mqKHlg4/moLfkuobjgIIgICAg5aSP5bCP5rSb6aKG552A5LqM5Lq66LWw6L+Q5aCC5Y205Z2a
-5oyB6KaB57uZ5aSP5bCP5rSb5Lil6IKD5aSE55CG77yM5Y2z5L2/5LiN5byA6Zmk5Lmf6KaB6YCa
-5oql5om56K+E55WZ5qCh5a+f55yL44CCICAgIOS7lueUqOedgOmipOaKlueahOWomOWomOiFlOWm
-guWQjOe7tee+iuWPq+S4gOiIrOmBk++8muKAnOi/meS4quKApuKApuWwiuW4iOmHjeaVme+8jOWb
-veWutuaPkOS6huWkmuWwkeW5tOS6hu+8jOaIkeS7rOeahOWcsOS9jeWRou+8jOS5n+aPkOmrmOS6
-huS4gOeCuQkNCg==
+The bug section should describe that O_CLOEXEC is ignored.
+A patch is pending.
 
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/fanotify_init.2 | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
+diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
+index 8539325..9d42fa5 100644
+--- a/man2/fanotify_init.2
++++ b/man2/fanotify_init.2
+@@ -237,10 +237,18 @@ was introduced in version 2.6.36 of the Linux kernel and enabled in version
+ .SH "CONFORMING TO"
+ This system call is Linux-specific.
+ .SH BUGS
+-As of Linux 3.15,
++As of Linux 3.17,
++the following bug exists:
++.IP * 3
++.\" FIXME . Patch proposed: https://lkml.org/lkml/2014/9/24/967
++.B O_CLOEXEC
++passed in
++.I event_f_flags
++is ignored.
++.PP
++Up to Linux 3.15,
+ the following bug exists:
+ .IP * 3
+-.\" FIXME . Patch accepted to mm tree.
+ The
+ .I event_f_flags
+ argument is not checked for invalid flags.
+-- 
+2.1.0
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
