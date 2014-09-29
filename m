@@ -1,78 +1,336 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify_init(2): BUG O_CLOEXEC ignored
-Date: Mon, 29 Sep 2014 16:48:07 +0200
-Message-ID: <54297127.5050005@gmail.com>
-References: <1411809421-5012-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1] getrandom(2) : new man page
+Date: Mon, 29 Sep 2014 17:22:05 +0200
+Message-ID: <5429791D.6080903@gmail.com>
+References: <1410614156-16175-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411809421-5012-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1410614156-16175-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, "Theodore Ts\\'o" <tytso-3s7WtUTddSA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich
+Hello Heinrich
 
-I've applied this with some tweaks. See below.
+Thank you for working on this!
 
-On 09/27/2014 11:17 AM, Heinrich Schuchardt wrote:
-> The bug section should describe that O_CLOEXEC is ignored.
-> A patch is pending.
+@Ted: could you please review the next version of 
+Heinrich's page?
+
+Heinrich, see my comments below.
+
+On 09/13/2014 03:15 PM, Heinrich Schuchardt wrote:
+> Kernel 3.17 introduces a new system call getrandom(2).
+> 
+> The man page in this patch is based on the commit message by
+> Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>.
 > 
 > Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> CC: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
 > ---
->  man2/fanotify_init.2 | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+>  man2/getrandom.2 | 198 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 198 insertions(+)
+>  create mode 100644 man2/getrandom.2
 > 
-> diff --git a/man2/fanotify_init.2 b/man2/fanotify_init.2
-> index 8539325..9d42fa5 100644
-> --- a/man2/fanotify_init.2
-> +++ b/man2/fanotify_init.2
-> @@ -237,10 +237,18 @@ was introduced in version 2.6.36 of the Linux kernel and enabled in version
->  .SH "CONFORMING TO"
->  This system call is Linux-specific.
->  .SH BUGS
-> -As of Linux 3.15,
-> +As of Linux 3.17,
-> +the following bug exists:
-> +.IP * 3
-> +.\" FIXME . Patch proposed: https://lkml.org/lkml/2014/9/24/967
-> +.B O_CLOEXEC
-> +passed in
-> +.I event_f_flags
-> +is ignored.
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> new file mode 100644
+> index 0000000..e649eea
+> --- /dev/null
+> +++ b/man2/getrandom.2
+> @@ -0,0 +1,198 @@
+> +.\" Copyright (C) 2014, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+> +.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of
+> +.\" this manual under the conditions for verbatim copying, provided that
+> +.\" the entire resulting derived work is distributed under the terms of
+> +.\" a permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+> +.\" no responsibility for errors or omissions, or for damages resulting.
+> +.\" from the use of the information contained herein.  The author(s) may.
+> +.\" not have taken the same level of care in the production of this.
+> +.\" manual, which is licensed free of charge, as they might when working.
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +
+> +.TH GETRANDOM 2 2014-09-13 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +getrandom \- fill buffer with random bytes
+> +.SH SYNOPSIS
+> +.B #include <linux/random.h>
+> +.sp
+> +.BI "int getrandom(void *"buf ", size_t " buflen ", unsigned int " flags );
+> +.SH DESCRIPTION
+> +The system call
+> +.BR getrandom ()
+> +fills the buffer pointed to by
+> +.I buf
+> +with up to
+> +.I buflen
+> +random bytes which can be used to seed user space random number
 
-The above looks good, and is applied.
+s/user space/user-space/
+
+> +generators (i.e., DRBG's) or for other cryptographic uses.
+
+Here, I assume DBRGs means "Deterministic Random Bit Generators".
+Best to write that in full, so that some readers are not left 
+puzzled by the acronym.
+
+> +It should not be used for Monte Carlo simulations or other programs/algorithms
+> +which are doing probabilistic sampling.
+
+It would be helpful to add to that last sentence an explanation of
+_why_ it should not be thus used.
 
 > +.PP
-> +Up to Linux 3.15,
->  the following bug exists:
->  .IP * 3
-> -.\" FIXME . Patch accepted to mm tree.
->  The
->  .I event_f_flags
->  argument is not checked for invalid flags.
+> +.I flags
+> +is a bit mask.
+> +The following bits can be set in
+> +.IR flags :
 
-It's a small thing, but really the above piece should have been a 
-separate patch. It is a separate (and important) point:
-A different bug was fixed in 3.15.
+I'd rather see:
 
-So, instead I made the text as follows:
-
-[[
-The following bug was present in Linux kernels before version 3.14:
-.IP * 3
-.\" Fixed by commit 48149e9d3a7e924010a0daab30a6197b7d7b6580
 The
-.I event_f_flags
-argument is not checked for invalid flags.
-]]
+.I flags
+argument is a bit mask that can contain zero or
+more of the following values ORed together:
 
-and applied this as a separate commit.
+> +.TP
+> +.B GRND_RANDOM
+> +If this flags bit is set, then random bytes are draw from the
 
-Thanks very much for the patch!
+s/flags//
+s/draw/drawn/
+
+> +.I /dev/random
+> +pool instead of the
+> +.I /dev/urandom
+> +pool.
+> +The
+> +.I /dev/random
+> +pool is limited based on the entropy that can be obtained from environmental
+> +noise, so if there is insufficient entropy, the requested number of bytes may
+> +not be returned.
+> +.TP
+> +.B GRND_NONBLOCK
+> +If this bit is set and there is no entropy available at all,
+> +.BR getrandom ()
+> +will return -1 with
+> +.I errno
+> +set to
+> +.BR EAGAIN .
+> +If the
+> +.B GRND_NONBLOCK
+> +bit is not set and there is no entropy available at all
+
+s/all/all,/
+
+> +.BR getrandom ()
+> +will block.
+
+I think it would be better to move the piece about OpenBSD's 
+getentropy() call to a subsection under NOTES, perhaps headed
+
+.SS Emulating OpenBSD's getentropy()
+
+> +.PP
+> +The
+> +.BR getentropy ()
+> +system call in OpenBSD can be emulated using the following
+> +function:
+> +
+> +.in +4n
+> +.nf
+> +int
+> +getentropy(void *buf, size_t buflen)
+> +{
+> +    int ret;
+> +
+> +    if (buflen > 256)
+> +        goto failure;
+> +    ret = getrandom(buf, buflen, 0);
+> +    if (ret < 0)
+> +        return ret;
+> +    if (ret == buflen)
+> +        return 0;
+> +failure:
+> +    errno = EIO;
+> +    return -1;
+> +}
+> +.fi
+> +.in
+> +.SH RETURN VALUE
+> +On success,
+> +.BR getrandom ()
+> +returns the number of bytes that were copied to the buffer
+> +.IR buf .
+> +This may not be all the bytes requested by the caller via
+> +.I buflen
+> +if insufficient entropy was present in the
+> +.IR/dev/random pool ,
+
+Missing space after "IR"
+
+> +or if the system call was interrupted by a signal.
+> +.PP
+> +On error, -1 is returned, and
+> +.I errno
+> +is set appropriately.
+> +.SH ERRORS
+> +.TP
+> +.B EINVAL
+> +An invalid flag was passed to
+> +.BR getrandom ().
+> +.TP
+> +.B EFAULT
+> +The address referenced in parameter
+> +.I buf
+> +is outside the accessible address space.
+> +.TP
+> +.B EAGAIN
+> +The requested entropy was not available, and
+> +.BR getrandom ()
+> +would have blocked if the
+> +.B GRND_NONBLOCK
+> +flag was not set.
+> +.TP
+> +.B EINTR
+> +While blocked waiting for entropy, the call was interrupted by a signal
+> +handler; see the description of how interrupted
+> +.BR read (2)
+> +calls on "slow" devices are handled with and without the
+> +.B SA_RESTART
+> +flag in the
+> +.BR signal (7)
+> +man page.
+
+Did you test whether SA_RESTART has an affect for getrandom()? 
+(For many system calls it is ignored.) I've not tested this,
+but reading the source suggests that it does.
+
+> +.SH NOTES
+> +For small requests
+> +.RI ( buflen
+> +<= 256)
+
+s/$/,/
+
+> +.IR getrandom ()
+
+s/.IR getrandom ()/.BR getrandom ()/
+
+(The same error needs fixing in other places too.)
+
+> +will not return
+> +.B EINTR
+> +when reading from the
+> +.I /dev/urandom
+> +pool once the entropy pool has been initialized,
+> +and it will return all of the bytes that have been requested.
+
+I find the previous sentence rather hard to understand. Can you 
+reword/enhance? To be clear: above, you mean that if "buflen"
+is <= 256, then getrandom() will not fail with EINTR if interrupted
+by a signal handler, right? Here, I think you are also talking
+about the case where GRND_RANDOM is not specified. Assuming that
+is so, I think you need to say that explicitly in this paragraph.
+
+> +This is the recommended way to use
+
+The meaning of "This" is not clear here, especially given the
+complexity of the previous sentence.
+
+> +.BR getrandom (),
+> +and is designed for compatibility with OpenBSD's
+> +.BR getentropy ()
+> +system call.
+> +.PP
+> +However, if you are using
+> +.BR GRND_RANDOM ,
+> +then
+> +.IR getrandom ()
+> +may block until the entropy accounting determines that sufficient environmental
+> +noise has been gathered such that
+> +.IR getrandom ()
+> +will be operating as a NRBG instead of a DRBG for those people who are working
+
+Write "Nondeterministic Random Bit Generator"
+
+> +in the NIST SP 800-90 regime.
+
+Perhaps a pointer to where the reader can get further info about
+"the NIST SP 800-90 regime" would be helpful here. Do you have one?
+
+> +Since it may block for a long time, these guarantees do NOT apply.
+
+Please use
+.I not
+for emphasis in the previous line.
+
+> +The user may want to interrupt a hanging process using a signal, so blocking
+> +until all of the requested bytes are returned would be unfriendly.
+> +.PP
+> +For this reason, the user of
+> +.IR getrandom ()
+> +MUST always check the return value, in case it returns some error,
+> +or if fewer bytes than requested was returned.
+> +In the case of
+> +.RB ! GRND_RANDOM
+> +and small request, the latter should never happen, but the careful userspace
+
+s/the careful userspace/careful user-sapce/
+
+> +code (and all crypto code should be careful) should check for this anyway!
+> +.PP
+> +Finally, unless you are doing long-term key generation (and perhaps not even
+> +then), you probably shouldn't be using
+> +.B GRND_RANDOM.
+> +The cryptographic algorithms used for
+> +.I /dev/urandom
+> +are quite conservative, and so should be sufficient for all purposes.
+> +The disadvantage of
+> +.I GRND_RANDOM
+
+s/.I/.B/
+
+> +is that it can block, and the increased complexity required to deal with
+> +partially fulfilled
+> +.IR getrandom ()
+> +requests.
+
+I'd write that last piece as a new sentence:
+
+Furthermore, the need to deal with partially fulfilled
+.IR getrandom ()
+requests increases code complexity.
+
+> +.SH VERSIONS
+> +.BR getrandom ()
+> +was introduced in version 3.17.0 of the Linux kernel for the x86 and amd64 architecture,
+> +.\" FIXME . Patch is in next-20140913.
+> +and is expected to be delivered in 3.18.0 for other architectures.
+
+Remove the ".0" at the end of the two previous kernel versions.
+
+> +.SH CONFORMING TO
+> +This system call is Linux-specific.
+
+The order of the .SH sections in this page does not match the order
+given in man-pages(7). Could you please reorder for the next version.
 
 Cheers,
 
