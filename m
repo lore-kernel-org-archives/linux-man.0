@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mq_close.3: Reformat thread-safety information
-Date: Mon, 29 Sep 2014 22:09:01 +0200
-Message-ID: <5429BC5D.3060201@gmail.com>
-References: <1411719296-2468-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] mkstemp.3: Reformat thread-safety information
+Date: Mon, 29 Sep 2014 22:09:24 +0200
+Message-ID: <5429BC74.9020204@gmail.com>
+References: <1411719969-3638-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411719296-2468-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1411719969-3638-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 09/26/2014 10:14 AM, Peng Haitao wrote:
+On 09/26/2014 10:26 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/mq_close.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+>  man3/mkstemp.3 | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/mq_close.3 b/man3/mq_close.3
-> index 47d9d96..be3b301 100644
-> --- a/man3/mq_close.3
-> +++ b/man3/mq_close.3
-> @@ -57,10 +57,17 @@ The descriptor specified in
->  .I mqdes
->  is invalid.
+> diff --git a/man3/mkstemp.3 b/man3/mkstemp.3
+> index 069b4ac..85dffc5 100644
+> --- a/man3/mkstemp.3
+> +++ b/man3/mkstemp.3
+> @@ -193,14 +193,21 @@ and
+>  .BR mkostemps ()
+>  are available since glibc 2.11.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -40,17 +40,22 @@ On 09/26/2014 10:14 AM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw23 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR mq_close ()
-> -function is thread-safe.
+>  .BR mkstemp (),
+>  .BR mkostemp (),
+> +.br
+>  .BR mkstemps (),
+> -and
+>  .BR mkostemps ()
+> -functions are thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+>  .BR mkstemp ():
+>  4.3BSD, POSIX.1-2001.
 > 
 
 
