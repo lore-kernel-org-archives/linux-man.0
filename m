@@ -1,64 +1,212 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mkdtemp.3: Reformat thread-safety information
-Date: Mon, 29 Sep 2014 22:10:00 +0200
-Message-ID: <5429BC98.7000808@gmail.com>
-References: <1411720805-5124-1-git-send-email-penght@cn.fujitsu.com>
+From: Davidlohr Bueso <dave@stgolabs.net>
+Subject: Re: Document POSIX MQ /proc/sys/fs/mqueue files
+Date: Mon, 29 Sep 2014 13:23:18 -0700
+Message-ID: <1412022198.23497.23.camel@linux-t7sj.site>
+References: <542921EA.4050709@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411720805-5124-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <542921EA.4050709@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Doug Ledford <dledford@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Madars Vitolins <m@silodev.com>, Manfred Spraul <manfred@colorfullife.com>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied in the attributes_reformat_2 branch.
+Hi Michael,
 
-Cheers,
+Cc'ing Manfred.
 
-Michael
+On Mon, 2014-09-29 at 11:10 +0200, Michael Kerrisk (man-pages) wrote:
+> Hello Doug, David,
+>=20
+> I think you two were the last ones to make significant=20
+> changes to the semantics of the files in /proc/sys/fs/mqueue,
+> so I wonder if you (or anyone else who is willing) might
+> take a look at the man page text below that I've written
+> (for the mq_overview(7) page) to describe past and current
+> reality, and let me know of improvements of corrections.
+
+Over the years posix mqueues have increasingly become a mess *sigh* :-/
+Thanks for doing this and untangling some of the historic changes.
+
+> From mq_overview(7) draft:
+>=20
+>    /proc interfaces
+>        The following interfaces can be used to limit the amount of  k=
+er=E2=80=90
+>        nel  memory  consumed  by  POSIX  message  queues  and to set =
+the
+>        default attributes for new message queues:
+>=20
+>        /proc/sys/fs/mqueue/msg_default (since Linux 3.5)
+>               This file  defines  the  value  used  for  a  new  queu=
+e's
+>               mq_maxmsg setting when the queue is created with a call=
+ to
+>               mq_open(3) where attr is specified as NULL.   The  defa=
+ult
+>               value for this file is 10.  The minimum and maximum are=
+ as
+>               for /proc/sys/fs/mqueue/msg_max.  If  msg_default  exce=
+eds
+>               msg_max,  a  new queue's default mq_maxmsg value is cap=
+ped
+>               to the msg_max limit.=20
+
+I think rephrasing this would read easier. Basically the behavior is
+this:
+
+		info->attr.mq_maxmsg =3D min(ipc_ns->mq_msg_max,
+					   ipc_ns->mq_msg_default);
+
+Something like:
+"a new queue's default mq_maxmsg value will be the smallest of msg_defa=
+ult and msg_max"
+
+>  Up until Linux 2.6.28, the  default
+>               mq_maxmsg  was  10;  from  Linux  2.6.28 to Linux 3.4, =
+the
+>               default was the value defined for the msg_max limit.
+>=20
+>        /proc/sys/fs/mqueue/msg_max
+>               This file can be used to view and change the ceiling va=
+lue
+>               for the maximum number of messages in a queue.  This va=
+lue
+>               acts as a ceiling on the attr->mq_maxmsg argument given=
+ to
+>               mq_open(3).   The  default  value  for msg_max is 10.  =
+The
+>               minimum value is 1 (10 in  kernels  before  2.6.28).   =
+The
+>               upper  limit is HARD_MSGMAX.  The msg_max limit is igno=
+red
+>               for  privileged  processes  (CAP_SYS_RESOURCE),  but   =
+the
+>               HARD_MSGMAX ceiling is nevertheless imposed.
+
+Note that the HARD_MSGMAX check is done *only* for privileged processes=
+,
+regular processes only check against namespace values. This is a pretty
+fundamental difference. The same goes of course for msgsize:
+
+	if (capable(CAP_SYS_RESOURCE)) {
+		if (attr->mq_maxmsg > HARD_MSGMAX ||
+		    attr->mq_msgsize > HARD_MSGSIZEMAX)
+			return -EINVAL;
+	} else {
+		if (attr->mq_maxmsg > ipc_ns->mq_msg_max ||
+		    attr->mq_msgsize > ipc_ns->mq_msgsize_max)
+			return -EINVAL;
+	}
 
 
-On 09/26/2014 10:40 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/mkdtemp.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/mkdtemp.3 b/man3/mkdtemp.3
-> index 244c3b8..8f870f4 100644
-> --- a/man3/mkdtemp.3
-> +++ b/man3/mkdtemp.3
-> @@ -84,10 +84,17 @@ for other possible values for \fIerrno\fP.
->  .SH VERSIONS
->  Available since glibc 2.1.91.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR mkdtemp ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  POSIX.1-2008.
->  This function is present on the BSDs.
-> 
+>               The  definition  of  HARD_MSGMAX has changed across ker=
+nel
+>               versions:
+>=20
+>               *  Up to Linux 2.6.32: 131072 / sizeof(void *)
+>=20
+>               *  Linux 2.6.33 to 3.4: (32768 * sizeof(void *) / 4)
+>=20
+>               *  Since Linux 3.5: 65,536
+>=20
+>        /proc/sys/fs/mqueue/msgsize_default (since Linux 3.5)
 
+You might want to mention the units (bytes) when refering to limits.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>               This file defines the value used for a new queue's mq_m=
+sg=E2=80=90
+>               size  setting  when  the  queue  is created with a call=
+ to
+>               mq_open(3) where attr is specified as NULL.   The  defa=
+ult
+>               value  for this file is 8192.  The minimum and maximum =
+are
+>               as   for   /proc/sys/fs/mqueue/msgsize_max.     If    m=
+sg=E2=80=90
+>               size_default  exceeds  msgsize_max,  a new queue's defa=
+ult
+>               mq_msgsize value is capped to the msgsize_max  limit.  =
+ Up
+>               until  Linux 2.6.28, the default mq_msgsize was 8192; f=
+rom
+>               Linux 2.6.28 to Linux  3.4,  the  default  was  the  va=
+lue
+>               defined for the msgsize_max limit.
+>=20
+>        /proc/sys/fs/mqueue/msgsize_max
+
+Ditto here.
+
+>               This  file  can  be used to view and change the ceiling=
+ on
+>               the maximum message size.  This value acts as a ceiling=
+ on
+>               the  attr->mq_msgsize  argument  given to mq_open(3).  =
+The
+>               default value for msgsize_max is 8192 bytes.  The  mini=
+mum
+>               value  is  128 (8192 in kernels before 2.6.28).  The up=
+per
+>               limit for msgsize_max has varied across kernel versions=
+:
+>=20
+>               *  Before Linux 2.6.28, the upper limit is INT_MAX.
+>=20
+>               *  From Linux 2.6.28 to 3.4, the limit is 1,048,576.
+>=20
+>               *  Since Linux 3.5, the limit is 16,777,216 (HARD_MSGSI=
+ZE=E2=80=90
+>                  MAX).
+>               The  msgsize_max  limit  is ignored for privileged proc=
+ess
+>               (CAP_SYS_RESOURCE), but, since Linux  3.5,  the  HARD_M=
+SG=E2=80=90
+>               SIZEMAX ceiling is enforced for privileged processes.
+>=20
+>        /proc/sys/fs/mqueue/queues_max
+>               This  file  can be used to view and change the system-w=
+ide
+>               limit on the number of message queues that can be creat=
+ed.
+>               The default value for queues_max is 256.  The semantics=
+ of
+>               this limit have changed across kernel versions as follo=
+ws:
+>=20
+>               *  Before Linux 3.5, this limit could be  changed  to  =
+any
+>                  value  in  the  range 0 to INT_MAX, but privileged p=
+ro=E2=80=90
+>                  cesses (CAP_SYS_RESOURCE) can exceed the limit.
+>=20
+>               *  Since Linux 3.5, there is a ceiling for this  limit =
+ of
+>                  1024     (HARD_QUEUESMAX).      Privileged    proces=
+ses
+>                  (CAP_SYS_RESOURCE) can exceed the queues_max limit, =
+but
+>                  the  HARD_QUEUESMAX  limit  is enforced even for pri=
+vi=E2=80=90
+>                  leged processes.
+>=20
+>               *  Starting with Linux 3.14, the HARD_QUEUESMAX ceiling=
+ is
+>                  removed: no ceiling is imposed on the queues_max lim=
+it,
+>                  and privileged processes (CAP_SYS_RESOURCE) can  exc=
+eed
+>                  the limit.
+
+Given that this was treated as a bug that breaks user-space, I don't
+think we really want to document the behavior between 3.5 and 3.14 (all
+three bullets). Stable kernels back to 3.5 now have the default
+behavior, so its as nothing ever changed(?). Now, if you explicitly wan=
+t
+to document such bug, I would agree, but just not mentioning it as
+intentional differences in behavior. Does that make sense?
+
+Thanks,
+Davidlohr
