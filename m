@@ -1,212 +1,66 @@
-From: Davidlohr Bueso <dave@stgolabs.net>
-Subject: Re: Document POSIX MQ /proc/sys/fs/mqueue files
-Date: Mon, 29 Sep 2014 13:23:18 -0700
-Message-ID: <1412022198.23497.23.camel@linux-t7sj.site>
-References: <542921EA.4050709@gmail.com>
+From: Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Subject: readlink(2) handling of empty strings
+Date: Tue, 30 Sep 2014 00:33:23 +0100
+Message-ID: <1412033603.9388.68.camel@decadent.org.uk>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <542921EA.4050709@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Doug Ledford <dledford@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Madars Vitolins <m@silodev.com>, Manfred Spraul <manfred@colorfullife.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-ov+Js1yvTX9Og1xmA7Jg"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
 
-Cc'ing Manfred.
+--=-ov+Js1yvTX9Og1xmA7Jg
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2014-09-29 at 11:10 +0200, Michael Kerrisk (man-pages) wrote:
-> Hello Doug, David,
->=20
-> I think you two were the last ones to make significant=20
-> changes to the semantics of the files in /proc/sys/fs/mqueue,
-> so I wonder if you (or anyone else who is willing) might
-> take a look at the man page text below that I've written
-> (for the mq_overview(7) page) to describe past and current
-> reality, and let me know of improvements of corrections.
+readlink(2) claims:
 
-Over the years posix mqueues have increasingly become a mess *sigh* :-/
-Thanks for doing this and untangling some of the historic changes.
-
-> From mq_overview(7) draft:
->=20
->    /proc interfaces
->        The following interfaces can be used to limit the amount of  k=
-er=E2=80=90
->        nel  memory  consumed  by  POSIX  message  queues  and to set =
+       Since  Linux 2.6.39, pathname can be an empty string, in which case =
 the
->        default attributes for new message queues:
->=20
->        /proc/sys/fs/mqueue/msg_default (since Linux 3.5)
->               This file  defines  the  value  used  for  a  new  queu=
-e's
->               mq_maxmsg setting when the queue is created with a call=
- to
->               mq_open(3) where attr is specified as NULL.   The  defa=
-ult
->               value for this file is 10.  The minimum and maximum are=
- as
->               for /proc/sys/fs/mqueue/msg_max.  If  msg_default  exce=
-eds
->               msg_max,  a  new queue's default mq_maxmsg value is cap=
-ped
->               to the msg_max limit.=20
+       call operates on the file referred to by dirfd  (which  may  have  b=
+een
+       obtained using the open(2) O_PATH flag).  In this case, dirfd can re=
+fer
+       to any type of file, not just a directory.
 
-I think rephrasing this would read easier. Basically the behavior is
-this:
+The last sentence seems to be incorrect.  dirfd must refer to a symlink
+that has been opened using the O_PATH flag.  (The symlink could refer to
+a file, directory, or nothing, but opening with O_PATH doesn't resolve
+it.)
 
-		info->attr.mq_maxmsg =3D min(ipc_ns->mq_msg_max,
-					   ipc_ns->mq_msg_default);
+Ben.
 
-Something like:
-"a new queue's default mq_maxmsg value will be the smallest of msg_defa=
-ult and msg_max"
+--=20
+Ben Hutchings
+The two most common things in the universe are hydrogen and stupidity.
 
->  Up until Linux 2.6.28, the  default
->               mq_maxmsg  was  10;  from  Linux  2.6.28 to Linux 3.4, =
-the
->               default was the value defined for the msg_max limit.
->=20
->        /proc/sys/fs/mqueue/msg_max
->               This file can be used to view and change the ceiling va=
-lue
->               for the maximum number of messages in a queue.  This va=
-lue
->               acts as a ceiling on the attr->mq_maxmsg argument given=
- to
->               mq_open(3).   The  default  value  for msg_max is 10.  =
-The
->               minimum value is 1 (10 in  kernels  before  2.6.28).   =
-The
->               upper  limit is HARD_MSGMAX.  The msg_max limit is igno=
-red
->               for  privileged  processes  (CAP_SYS_RESOURCE),  but   =
-the
->               HARD_MSGMAX ceiling is nevertheless imposed.
+--=-ov+Js1yvTX9Og1xmA7Jg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Note that the HARD_MSGMAX check is done *only* for privileged processes=
-,
-regular processes only check against namespace values. This is a pretty
-fundamental difference. The same goes of course for msgsize:
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-	if (capable(CAP_SYS_RESOURCE)) {
-		if (attr->mq_maxmsg > HARD_MSGMAX ||
-		    attr->mq_msgsize > HARD_MSGSIZEMAX)
-			return -EINVAL;
-	} else {
-		if (attr->mq_maxmsg > ipc_ns->mq_msg_max ||
-		    attr->mq_msgsize > ipc_ns->mq_msgsize_max)
-			return -EINVAL;
-	}
+iQIVAwUAVCnsSOe/yOyVhhEJAQoTTRAAwE65yUqj+E+QendYlF0tvgLKe+bXJnN0
+xtYYkGeiELiBqlIcVXrrqhSHpPz34pv0xFBe/CpLdb5qiQIpnE0zrm+8/ybleL4m
+TM8diAiuOmmbc1MYfPjHJUueGn56mnnkeiskS64EAOBSjUK48gbyS0t/DXRYDsAl
+s0t4CA+kWFcag0D4p/6RiLMXWuYdYNBWzzNqRRfKZmZsVMUUKcm6pa/KOpcAEZp7
+NtFP3/cA6JweIG1EaFXtFN84pN8JjnWmZRjh8kdTBQE3AjTHp5UCifMCcz1aiC7J
+unUR3kj+92ZrJnVkBjhgSney8PNCcHjJslsxY8tgk6ZTe90Nbfeec8suUS3MUXzV
+k/kKkHrSC8Bae+QqQOizq4C/6+o/2zng88P1IzyhgysFF1BIsErifx0LwdJ9rDp6
+/5MtCdPgBlLs5/1LJ4IHLmtX2fCZZ+PQ4hGjqzb+xoYFXb6NdbGgWiNyLqjGo6yO
+2AcFCJ1bMFIzmKdzkbtx6eATEAl6RuzyCk8qv8IZzZIU9zjwmoSgMTXZ1KXSADsQ
+LtoEHjAr4X3iEVMgnD0SwZKZiZUOGGzy4dNEgmdLUGC2Gcqk6AKQ+UmqnD9e67g+
+QawQQiXpzuQHz5VpA84PVXQKSuopbYgvrMBlpS/06666z1Kb2SzKjm8PGurE8Ug5
+HPj45mYnAPM=
+=0fwW
+-----END PGP SIGNATURE-----
 
-
->               The  definition  of  HARD_MSGMAX has changed across ker=
-nel
->               versions:
->=20
->               *  Up to Linux 2.6.32: 131072 / sizeof(void *)
->=20
->               *  Linux 2.6.33 to 3.4: (32768 * sizeof(void *) / 4)
->=20
->               *  Since Linux 3.5: 65,536
->=20
->        /proc/sys/fs/mqueue/msgsize_default (since Linux 3.5)
-
-You might want to mention the units (bytes) when refering to limits.
-
->               This file defines the value used for a new queue's mq_m=
-sg=E2=80=90
->               size  setting  when  the  queue  is created with a call=
- to
->               mq_open(3) where attr is specified as NULL.   The  defa=
-ult
->               value  for this file is 8192.  The minimum and maximum =
-are
->               as   for   /proc/sys/fs/mqueue/msgsize_max.     If    m=
-sg=E2=80=90
->               size_default  exceeds  msgsize_max,  a new queue's defa=
-ult
->               mq_msgsize value is capped to the msgsize_max  limit.  =
- Up
->               until  Linux 2.6.28, the default mq_msgsize was 8192; f=
-rom
->               Linux 2.6.28 to Linux  3.4,  the  default  was  the  va=
-lue
->               defined for the msgsize_max limit.
->=20
->        /proc/sys/fs/mqueue/msgsize_max
-
-Ditto here.
-
->               This  file  can  be used to view and change the ceiling=
- on
->               the maximum message size.  This value acts as a ceiling=
- on
->               the  attr->mq_msgsize  argument  given to mq_open(3).  =
-The
->               default value for msgsize_max is 8192 bytes.  The  mini=
-mum
->               value  is  128 (8192 in kernels before 2.6.28).  The up=
-per
->               limit for msgsize_max has varied across kernel versions=
-:
->=20
->               *  Before Linux 2.6.28, the upper limit is INT_MAX.
->=20
->               *  From Linux 2.6.28 to 3.4, the limit is 1,048,576.
->=20
->               *  Since Linux 3.5, the limit is 16,777,216 (HARD_MSGSI=
-ZE=E2=80=90
->                  MAX).
->               The  msgsize_max  limit  is ignored for privileged proc=
-ess
->               (CAP_SYS_RESOURCE), but, since Linux  3.5,  the  HARD_M=
-SG=E2=80=90
->               SIZEMAX ceiling is enforced for privileged processes.
->=20
->        /proc/sys/fs/mqueue/queues_max
->               This  file  can be used to view and change the system-w=
-ide
->               limit on the number of message queues that can be creat=
-ed.
->               The default value for queues_max is 256.  The semantics=
- of
->               this limit have changed across kernel versions as follo=
-ws:
->=20
->               *  Before Linux 3.5, this limit could be  changed  to  =
-any
->                  value  in  the  range 0 to INT_MAX, but privileged p=
-ro=E2=80=90
->                  cesses (CAP_SYS_RESOURCE) can exceed the limit.
->=20
->               *  Since Linux 3.5, there is a ceiling for this  limit =
- of
->                  1024     (HARD_QUEUESMAX).      Privileged    proces=
-ses
->                  (CAP_SYS_RESOURCE) can exceed the queues_max limit, =
-but
->                  the  HARD_QUEUESMAX  limit  is enforced even for pri=
-vi=E2=80=90
->                  leged processes.
->=20
->               *  Starting with Linux 3.14, the HARD_QUEUESMAX ceiling=
- is
->                  removed: no ceiling is imposed on the queues_max lim=
-it,
->                  and privileged processes (CAP_SYS_RESOURCE) can  exc=
-eed
->                  the limit.
-
-Given that this was treated as a bug that breaks user-space, I don't
-think we really want to document the behavior between 3.5 and 3.14 (all
-three bullets). Stable kernels back to 3.5 now have the default
-behavior, so its as nothing ever changed(?). Now, if you explicitly wan=
-t
-to document such bug, I would agree, but just not mentioning it as
-intentional differences in behavior. Does that make sense?
-
-Thanks,
-Davidlohr
+--=-ov+Js1yvTX9Og1xmA7Jg--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
