@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] modf.3: Reformat thread-safety information
-Date: Mon, 29 Sep 2014 22:09:11 +0200
-Message-ID: <5429BC67.6010201@gmail.com>
-References: <1411719599-2801-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] mkdtemp.3: Reformat thread-safety information
+Date: Mon, 29 Sep 2014 22:10:00 +0200
+Message-ID: <5429BC98.7000808@gmail.com>
+References: <1411720805-5124-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411719599-2801-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1411720805-5124-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 09/26/2014 10:19 AM, Peng Haitao wrote:
+On 09/26/2014 10:40 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/modf.3 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>  man3/mkdtemp.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/modf.3 b/man3/modf.3
-> index c481286..cbb95bd 100644
-> --- a/man3/modf.3
-> +++ b/man3/modf.3
-> @@ -93,13 +93,19 @@ is set to positive infinity (negative infinity).
->  .SH ERRORS
->  No errors occur.
+> diff --git a/man3/mkdtemp.3 b/man3/mkdtemp.3
+> index 244c3b8..8f870f4 100644
+> --- a/man3/mkdtemp.3
+> +++ b/man3/mkdtemp.3
+> @@ -84,10 +84,17 @@ for other possible values for \fIerrno\fP.
+>  .SH VERSIONS
+>  Available since glibc 2.1.91.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -40,20 +40,17 @@ On 09/26/2014 10:19 AM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR modf (),
->  .BR modff (),
-> -and
->  .BR modfl ()
-> -functions are thread-safe.
+>  .BR mkdtemp ()
+> -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  POSIX.1-2008.
+>  This function is present on the BSDs.
 > 
 
 
