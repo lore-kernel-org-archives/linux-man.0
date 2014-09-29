@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mq_getattr.3: Reformat thread-safety information
-Date: Mon, 29 Sep 2014 22:08:50 +0200
-Message-ID: <5429BC52.90700@gmail.com>
-References: <1411719105-2191-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] mq_close.3: Reformat thread-safety information
+Date: Mon, 29 Sep 2014 22:09:01 +0200
+Message-ID: <5429BC5D.3060201@gmail.com>
+References: <1411719296-2468-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1411719105-2191-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1411719296-2468-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,35 +20,32 @@ Cheers,
 Michael
 
 
-On 09/26/2014 10:11 AM, Peng Haitao wrote:
+On 09/26/2014 10:14 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/mq_getattr.3 | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
+>  man3/mq_close.3 | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
-> index 1c2321f..f81f189 100644
-> --- a/man3/mq_getattr.3
-> +++ b/man3/mq_getattr.3
-> @@ -135,12 +135,18 @@ is invalid.
->  contained set bits other than
->  .BR O_NONBLOCK .
+> diff --git a/man3/mq_close.3 b/man3/mq_close.3
+> index 47d9d96..be3b301 100644
+> --- a/man3/mq_close.3
+> +++ b/man3/mq_close.3
+> @@ -57,10 +57,17 @@ The descriptor specified in
+>  .I mqdes
+>  is invalid.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
-> -.BR mq_getattr ()
-> -and
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw26 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR mq_getattr (),
->  .BR mq_setattr ()
-> -functions are thread-safe.
+>  .BR mq_close ()
+> -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
