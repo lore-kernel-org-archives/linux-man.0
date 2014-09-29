@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] mq_open.3: Reformat thread-safety information
-Date: Mon, 29 Sep 2014 22:08:20 +0200
-Message-ID: <5429BC34.7050809@gmail.com>
+Date: Mon, 29 Sep 2014 22:08:33 +0200
+Message-ID: <5429BC41.1050503@gmail.com>
 References: <1411718862-1908-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
