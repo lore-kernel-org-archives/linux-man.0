@@ -1,240 +1,106 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Document POSIX MQ /proc/sys/fs/mqueue files
-Date: Tue, 30 Sep 2014 12:12:24 +0200
-Message-ID: <CAKgNAkj9+Z1yO-zrQ_qWFut7BqOkzNtNCruSSRyTKMpXZOcBaw@mail.gmail.com>
-References: <542921EA.4050709@gmail.com> <1412011687.15492.39.camel@firewall.xsintricity.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] ascii.7: charset pages unification, minor cleanups
+Date: Tue, 30 Sep 2014 13:29:11 +0300
+Message-ID: <542A85F7.60603@redhat.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1412011687.15492.39.camel-v+aXH1h/sVwpzh8Nc7Vzg+562jBIR2Zt@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Doug Ledford <dledford-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Madars Vitolins <m@silodev.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Doug,
+Hi,
 
-On Mon, Sep 29, 2014 at 7:28 PM, Doug Ledford <dledford-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wro=
-te:
-> On Mon, 2014-09-29 at 11:10 +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Doug, David,
->>
->> I think you two were the last ones to make significant
->> changes to the semantics of the files in /proc/sys/fs/mqueue,
->> so I wonder if you (or anyone else who is willing) might
->> take a look at the man page text below that I've written
->> (for the mq_overview(7) page) to describe past and current
->> reality, and let me know of improvements of corrections.
->>
->> By the way, Doug, your commit ce2d52cc1364 appears to have
->> changed/broken the semantics of the files in the /dev/mqueue
->> filesystem. Formerly, the QSIZE field in these files showed
->> the number of bytes of real user data in all of the queued
->> messages. After that commit, QSIZE now includes kernel
->> overhead bytes, which does not seem very useful for user
->> space. Was that change intentional? I see no mention of the
->> change in the commit message, so it sounds like it was not
->> intended.
->
-> That change didn't come in that commit.  That commit modified it, but
-> didn't introduce it.
+this and the follow-up patches will provide unification of charset pages, minor cleanups, and some unifying cosmetic changes. References are adjusted so that all pages include a reference to charsets(7) which contains description of these sets, stray comments are removed, some obsolete statements (like ISO 8859-1 being the de-facto ASCII replacement..) are removed, and some minor reformatting to minimize diff's between the pages are done.
 
-(Which commit was it then? d6629859b36 ?)
+The actual substance, the character tables, remain unchanged.
 
-> Now, was it intentional? Yes.  Is it valuable, useful?  That depends =
-on
-> your perspective.
+This series changes the following pages (under man7): ascii, armscii, cp1251, koi8-r, koi8-u, and all of iso_8859-*. Also adds a new page for cp1252.
 
-Thanks for the detailed explanation below. However, I don't understand
-why the (useful) work that you describe below necessitated a change in
-the QSIZE value that was exposed to user space. Surely the necessary
-changes could have been done internally while still leaving QSIZE to
-expose the same value it ever did? As things stand now (and unless I
-am missing something), QSIZE exposes an implementation-specific
-internal value that has little meaning or value to user space. And,
-it's unfortunate that the commit message made no mention of the fact
-that there was an ABI change here.
+CC'ing Lefteris who contributed many of these pages.
 
-[...]
+-----
+- adjust references
+- add null char description
+- cosmetics
+---
+ man7/ascii.7 |   14 ++++++++------
+ 1 files changed, 8 insertions(+), 6 deletions(-)
 
-> The man page below looks fine to me.
-
-Thanks for checking it!
-
-Cheers,
-
-Michael
-
-
-> It covers the various
-> incarnations.  If I add some tweaks to the priorities value though, i=
-t
-> will need updating again ;-)
->
-> Although this section wasn't included below, I would update how the
-> memory is calculated to match what I wrote above.  However, I would a=
-lso
-> put in a notation that the calculation can change when the kernel's
-> internal implementation changes and resource usage therefore changes.
->
->> Cheers,
->>
->> Michael
->>
->> From mq_overview(7) draft:
->>
->>    /proc interfaces
->>        The following interfaces can be used to limit the amount of  =
-ker=E2=80=90
->>        nel  memory  consumed  by  POSIX  message  queues  and to set=
- the
->>        default attributes for new message queues:
->>
->>        /proc/sys/fs/mqueue/msg_default (since Linux 3.5)
->>               This file  defines  the  value  used  for  a  new  que=
-ue's
->>               mq_maxmsg setting when the queue is created with a cal=
-l to
->>               mq_open(3) where attr is specified as NULL.   The  def=
-ault
->>               value for this file is 10.  The minimum and maximum ar=
-e as
->>               for /proc/sys/fs/mqueue/msg_max.  If  msg_default  exc=
-eeds
->>               msg_max,  a  new queue's default mq_maxmsg value is ca=
-pped
->>               to the msg_max limit.  Up until Linux 2.6.28, the  def=
-ault
->>               mq_maxmsg  was  10;  from  Linux  2.6.28 to Linux 3.4,=
- the
->>               default was the value defined for the msg_max limit.
->>
->>        /proc/sys/fs/mqueue/msg_max
->>               This file can be used to view and change the ceiling v=
-alue
->>               for the maximum number of messages in a queue.  This v=
-alue
->>               acts as a ceiling on the attr->mq_maxmsg argument give=
-n to
->>               mq_open(3).   The  default  value  for msg_max is 10. =
- The
->>               minimum value is 1 (10 in  kernels  before  2.6.28).  =
- The
->>               upper  limit is HARD_MSGMAX.  The msg_max limit is ign=
-ored
->>               for  privileged  processes  (CAP_SYS_RESOURCE),  but  =
- the
->>               HARD_MSGMAX ceiling is nevertheless imposed.
->>
->>               The  definition  of  HARD_MSGMAX has changed across ke=
-rnel
->>               versions:
->>
->>               *  Up to Linux 2.6.32: 131072 / sizeof(void *)
->>
->>               *  Linux 2.6.33 to 3.4: (32768 * sizeof(void *) / 4)
->>
->>               *  Since Linux 3.5: 65,536
->>
->>        /proc/sys/fs/mqueue/msgsize_default (since Linux 3.5)
->>               This file defines the value used for a new queue's mq_=
-msg=E2=80=90
->>               size  setting  when  the  queue  is created with a cal=
-l to
->>               mq_open(3) where attr is specified as NULL.   The  def=
-ault
->>               value  for this file is 8192.  The minimum and maximum=
- are
->>               as   for   /proc/sys/fs/mqueue/msgsize_max.     If    =
-msg=E2=80=90
->>               size_default  exceeds  msgsize_max,  a new queue's def=
-ault
->>               mq_msgsize value is capped to the msgsize_max  limit. =
-  Up
->>               until  Linux 2.6.28, the default mq_msgsize was 8192; =
-from
->>               Linux 2.6.28 to Linux  3.4,  the  default  was  the  v=
-alue
->>               defined for the msgsize_max limit.
->>
->>        /proc/sys/fs/mqueue/msgsize_max
->>               This  file  can  be used to view and change the ceilin=
-g on
->>               the maximum message size.  This value acts as a ceilin=
-g on
->>               the  attr->mq_msgsize  argument  given to mq_open(3). =
- The
->>               default value for msgsize_max is 8192 bytes.  The  min=
-imum
->>               value  is  128 (8192 in kernels before 2.6.28).  The u=
-pper
->>               limit for msgsize_max has varied across kernel version=
-s:
->>
->>               *  Before Linux 2.6.28, the upper limit is INT_MAX.
->>
->>               *  From Linux 2.6.28 to 3.4, the limit is 1,048,576.
->>
->>               *  Since Linux 3.5, the limit is 16,777,216 (HARD_MSGS=
-IZE=E2=80=90
->>                  MAX).
->>
->>               The  msgsize_max  limit  is ignored for privileged pro=
-cess
->>               (CAP_SYS_RESOURCE), but, since Linux  3.5,  the  HARD_=
-MSG=E2=80=90
->>               SIZEMAX ceiling is enforced for privileged processes.
->>
->>        /proc/sys/fs/mqueue/queues_max
->>               This  file  can be used to view and change the system-=
-wide
->>               limit on the number of message queues that can be crea=
-ted.
->>               The default value for queues_max is 256.  The semantic=
-s of
->>               this limit have changed across kernel versions as foll=
-ows:
->>
->>               *  Before Linux 3.5, this limit could be  changed  to =
- any
->>                  value  in  the  range 0 to INT_MAX, but privileged =
-pro=E2=80=90
->>                  cesses (CAP_SYS_RESOURCE) can exceed the limit.
->>
->>               *  Since Linux 3.5, there is a ceiling for this  limit=
-  of
->>                  1024     (HARD_QUEUESMAX).      Privileged    proce=
-sses
->>                  (CAP_SYS_RESOURCE) can exceed the queues_max limit,=
- but
->>                  the  HARD_QUEUESMAX  limit  is enforced even for pr=
-ivi=E2=80=90
->>                  leged processes.
->>
->>               *  Starting with Linux 3.14, the HARD_QUEUESMAX ceilin=
-g is
->>                  removed: no ceiling is imposed on the queues_max li=
-mit,
->>                  and privileged processes (CAP_SYS_RESOURCE) can  ex=
-ceed
->>                  the limit.
->>
->
->
-> --
-> Doug Ledford <dledford-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->               GPG KeyID: 0E572FDD
->
->
+diff --git a/man7/ascii.7 b/man7/ascii.7
+index f17c256..12375d9 100644
+--- a/man7/ascii.7
++++ b/man7/ascii.7
+@@ -1,6 +1,5 @@
+ '\" t
+ .\" Copyright (c) 1993 Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+-.\" Created Fri Apr  2 11:32:09 MET DST 1993
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+ .\" This is free documentation; you can redistribute it and/or
+@@ -23,6 +22,7 @@
+ .\" <http://www.gnu.org/licenses/>.
+ .\" %%%LICENSE_END
+ .\"
++.\" Created  1993-04-02 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+ .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+ .\" Modified 1994-05-15 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+ .\" Modified 1994-11-22 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+@@ -34,12 +34,13 @@
+ .\"
+ .TH ASCII 7 2014-02-26 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+-ascii \- ASCII character set encoded in octal, decimal, and hexadecimal
++ascii \- ASCII character set encoded in octal, decimal,
++and hexadecimal
+ .SH DESCRIPTION
+ ASCII is the American Standard Code for Information Interchange.
+ It is a 7-bit code.
+ Many 8-bit codes (e.g., ISO 8859-1) contain ASCII as their lower half.
+-The international counterpart of ASCII is known as ISO 646.
++The international counterpart of ASCII is known as ISO 646-IRV.
+ .LP
+ The following table contains the 128 ASCII characters.
+ .LP
+@@ -51,7 +52,7 @@ C program \f(CW\(aq\eX\(aq\fP escapes are noted.
+ l l l l l l l l.
+ Oct	Dec	Hex	Char	Oct	Dec	Hex	Char
+ _
+-000	0	00	NUL \(aq\e0\(aq	100	64	40	@
++000	0	00	NUL \(aq\e0\(aq (null character)	100	64	40	@
+ 001	1	01	SOH (start of heading)	101	65	41	A
+ 002	2	02	STX (start of text)	102	66	42	B
+ 003	3	03	ETX (end of text)	103	67	43	C
+@@ -121,7 +122,7 @@ _
+ .ft P
+ \}
+ .SS Tables
+-For convenience, let us give more compact tables in hex and decimal.
++For convenience, below are more compact tables in hex and decimal.
+ .sp
+ .nf
+ .if t \{\
+@@ -182,9 +183,10 @@ Standards Institute (USASI) in 1968.
+ .\" U.S. member body of ISO; private and nonprofit.
+ .\"
+ .SH SEE ALSO
+-.ad l
++.BR charsets (7),
+ .BR iso_8859-1 (7),
+ .BR iso_8859-10 (7),
++.BR iso_8859-11 (7),
+ .BR iso_8859-13 (7),
+ .BR iso_8859-14 (7),
+ .BR iso_8859-15 (7),
+-- 
+1.7.1
 
 
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+-- 
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
