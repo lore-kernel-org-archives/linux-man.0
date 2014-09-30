@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] iso_8859-7.7: charset pages unification, minor cleanups
-Date: Tue, 30 Sep 2014 13:30:11 +0300
-Message-ID: <542A8633.6030006@redhat.com>
+Subject: [PATCH] iso_8859-8.7: charset pages unification, minor cleanups
+Date: Tue, 30 Sep 2014 13:30:17 +0300
+Message-ID: <542A8639.6020303@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -16,33 +16,41 @@ List-Id: linux-man@vger.kernel.org
 - remove stray comments
 - cosmetics
 ---
- man7/iso_8859-7.7 |    7 +++----
- 1 files changed, 3 insertions(+), 4 deletions(-)
+ man7/iso_8859-8.7 |   14 +++++++-------
+ 1 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/man7/iso_8859-7.7 b/man7/iso_8859-7.7
-index 01131e4..4cab0e3 100644
---- a/man7/iso_8859-7.7
-+++ b/man7/iso_8859-7.7
-@@ -23,7 +23,6 @@
- .\" %%%LICENSE_END
- .\"
- .TH ISO_8859-7 7 2014-02-16 "Linux" "Linux Programmer's Manual"
--.nh
- .SH NAME
- iso_8859-7 \- ISO 8859-7 character set encoded in octal, decimal,
- and hexadecimal
-@@ -57,8 +56,6 @@ The following table displays the characters in ISO 8859-7, which
+diff --git a/man7/iso_8859-8.7 b/man7/iso_8859-8.7
+index 92ae55b..943ba13 100644
+--- a/man7/iso_8859-8.7
++++ b/man7/iso_8859-8.7
+@@ -31,10 +31,8 @@ and hexadecimal
+ .SH DESCRIPTION
+ The ISO 8859 standard includes several 8-bit extensions to the ASCII
+ character set (also known as ISO 646-IRV).
+-ISO 8859-8, or "ISO Hebrew" encodes the
+-characters used in Modern Hebrew (or Ivrit).
+-Neither short vowels nor diacritical marks are included,
+-and Yiddish is not provided for.
++ISO 8859-8 encodes the
++characters used in Modern Hebrew.
+ .SS ISO 8859 alphabets
+ The full set of ISO 8859 alphabets includes:
+ .TS
+@@ -60,8 +58,6 @@ The following table displays the characters in ISO 8859-8, which
  are printable and unlisted in the
  .BR ascii (7)
  manual page.
 -.\" The fourth column will only show the proper glyphs
--.\" in an environment configured for ISO 8859-7.
+-.\" in an environment configured for ISO 8859-8.
  .TS
  l l l c lp-1.
  Oct	Dec	Hex	Char	Description
-@@ -167,4 +164,6 @@ T}
+@@ -129,5 +125,9 @@ _
+ .TE
  .SH NOTES
- ISO 8859-7 was formerly known as ELOT-928 or ECMA-118:1986.
+ ISO 8859-8 was also known as ISO-IR-138.
++ISO 8859-8 does not include neither short vowels nor diacritical marks, 
++and Yiddish is not provided for.
  .SH SEE ALSO
 -.BR ascii (7)
 +.BR ascii (7),
