@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] iso_8859-11.7: charset pages unification, minor cleanups
-Date: Tue, 30 Sep 2014 13:30:33 +0300
-Message-ID: <542A8649.4060009@redhat.com>
+Subject: [PATCH] iso_8859-14.7: charset pages unification, minor cleanups
+Date: Tue, 30 Sep 2014 13:30:44 +0300
+Message-ID: <542A8654.7070202@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -16,42 +16,35 @@ List-Id: linux-man@vger.kernel.org
 - remove stray comments
 - cosmetics
 ---
- man7/iso_8859-11.7 |   15 ++++++++-------
- 1 files changed, 8 insertions(+), 7 deletions(-)
+ man7/iso_8859-14.7 |    9 +++++----
+ 1 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/man7/iso_8859-11.7 b/man7/iso_8859-11.7
-index d4027ae..f0fac9f 100644
---- a/man7/iso_8859-11.7
-+++ b/man7/iso_8859-11.7
-@@ -31,7 +31,8 @@ and hexadecimal
+diff --git a/man7/iso_8859-14.7 b/man7/iso_8859-14.7
+index 01d3006..eddd827 100644
+--- a/man7/iso_8859-14.7
++++ b/man7/iso_8859-14.7
+@@ -29,7 +29,8 @@ and hexadecimal
  .SH DESCRIPTION
  The ISO 8859 standard includes several 8-bit extensions to the ASCII
  character set (also known as ISO 646-IRV).
--ISO 8859-11 encodes the characters used in the Thai language.
-+ISO 8859-11 encodes the
-+characters used in the Thai language.
+-ISO 8859-14 encodes the characters used in Celtic languages.
++ISO 8859-14 encodes the
++characters used in Celtic languages.
  .SS ISO 8859 alphabets
  The full set of ISO 8859 alphabets includes:
  .TS
-@@ -57,8 +58,6 @@ The following table displays the characters in ISO 8859-11, which
+@@ -55,8 +56,6 @@ The following table displays the characters in ISO 8859-14, which
  are printable and unlisted in the
  .BR ascii (7)
  manual page.
 -.\" The fourth column will only show the proper glyphs
--.\" in an environment configured for ISO 8859-11.
+-.\" in an environment configured for ISO 8859-14.
  .TS
  l l l c lp-1.
  Oct	Dec	Hex	Char	Description
-@@ -154,8 +153,10 @@ _
- .TE
+@@ -161,4 +160,6 @@ _
  .SH NOTES
- ISO 8859-11 is the same as TIS (Thai Industrial Standard) 620-2253,
--commonly known as TIS-620, except for the character in position a0:
--ISO 8859-11 defines this as "nonbreaking space",
--while TIS 620 leaves it undefined.
-+commonly known as TIS-620, except for the character in position A0:
-+ISO 8859-11 defines this as NO-BREAK SPACE,
-+while TIS-620 leaves it undefined.
+ ISO 8859-14 is also known as Latin-8.
  .SH SEE ALSO
 -.BR ascii (7)
 +.BR ascii (7),
