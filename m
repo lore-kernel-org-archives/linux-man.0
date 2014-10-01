@@ -1,127 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ascii.7: charset pages unification, minor cleanups
-Date: Wed, 01 Oct 2014 12:07:49 +0200
-Message-ID: <542BD275.3040900@gmail.com>
-References: <542A85F7.60603@redhat.com> <542BC3E1.4070807@gmail.com>
+Subject: Re: [PATCH] vmsplice.2: vmsplice() does not fail on nr_segs=0
+Date: Wed, 01 Oct 2014 13:23:17 +0200
+Message-ID: <542BE425.9030103@gmail.com>
+References: <20140625141235.GA10090@rei.Home>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <542BC3E1.4070807-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20140625141235.GA10090-HSzIOc4LzcM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
+To: Cyril Hrubis <metan-+ZI9xUNit7I@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 10/01/2014 11:05 AM, Michael Kerrisk (man-pages) wrote:
-> On 09/30/2014 12:29 PM, Marko Myllynen wrote:
->> Hi,
->>
->> this and the follow-up patches will provide unification of charset
->> pages, minor cleanups, and some unifying cosmetic changes. References
->> are adjusted so that all pages include a reference to charsets(7)
->> which contains description of these sets, stray comments are removed,
->> some obsolete statements (like ISO 8859-1 being the de-facto ASCII
->> replacement..) are removed, and some minor reformatting to minimize
->> diff's between the pages are done.
->>
->> The actual substance, the character tables, remain unchanged.
->>
->> This series changes the following pages (under man7): ascii, armscii,
->> cp1251, koi8-r, koi8-u, and all of iso_8859-*. Also adds a new page
->> for cp1252.
->>
->> CC'ing Lefteris who contributed many of these pages.
+On 06/25/2014 04:12 PM, Cyril Hrubis wrote:
+> This case is no-op and no error is returned.
 > 
-> Thanks, Marko. Applied (for the moment, in a local branch).
+> See fs/splice.c vmsplice syscall which contains:
+> 
+>         if (unlikely(nr_segs > UIO_MAXIOV))
+>                 return -EINVAL;
+>         else if (unlikely(!nr_segs))
+>                 return 0;
+> 
+> and looking at the git log suggests that this snipped was always there.
 
-Hi Marko,
-
-I've now merged the local branch into main and pushed to kernel.org.
-Thanks very much for your effort on this!
+Apologies for the delay, Cyril (and thanks for pinging).
+I've applied this patch now.
 
 Cheers,
 
 Michael
 
 
-
-
->> -----
->> - adjust references
->> - add null char description
->> - cosmetics
->> ---
->>  man7/ascii.7 |   14 ++++++++------
->>  1 files changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/man7/ascii.7 b/man7/ascii.7
->> index f17c256..12375d9 100644
->> --- a/man7/ascii.7
->> +++ b/man7/ascii.7
->> @@ -1,6 +1,5 @@
->>  '\" t
->>  .\" Copyright (c) 1993 Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
->> -.\" Created Fri Apr  2 11:32:09 MET DST 1993
->>  .\"
->>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
->>  .\" This is free documentation; you can redistribute it and/or
->> @@ -23,6 +22,7 @@
->>  .\" <http://www.gnu.org/licenses/>.
->>  .\" %%%LICENSE_END
->>  .\"
->> +.\" Created  1993-04-02 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
->>  .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->>  .\" Modified 1994-05-15 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
->>  .\" Modified 1994-11-22 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
->> @@ -34,12 +34,13 @@
->>  .\"
->>  .TH ASCII 7 2014-02-26 "Linux" "Linux Programmer's Manual"
->>  .SH NAME
->> -ascii \- ASCII character set encoded in octal, decimal, and hexadecimal
->> +ascii \- ASCII character set encoded in octal, decimal,
->> +and hexadecimal
->>  .SH DESCRIPTION
->>  ASCII is the American Standard Code for Information Interchange.
->>  It is a 7-bit code.
->>  Many 8-bit codes (e.g., ISO 8859-1) contain ASCII as their lower half.
->> -The international counterpart of ASCII is known as ISO 646.
->> +The international counterpart of ASCII is known as ISO 646-IRV.
->>  .LP
->>  The following table contains the 128 ASCII characters.
->>  .LP
->> @@ -51,7 +52,7 @@ C program \f(CW\(aq\eX\(aq\fP escapes are noted.
->>  l l l l l l l l.
->>  Oct	Dec	Hex	Char	Oct	Dec	Hex	Char
->>  _
->> -000	0	00	NUL \(aq\e0\(aq	100	64	40	@
->> +000	0	00	NUL \(aq\e0\(aq (null character)	100	64	40	@
->>  001	1	01	SOH (start of heading)	101	65	41	A
->>  002	2	02	STX (start of text)	102	66	42	B
->>  003	3	03	ETX (end of text)	103	67	43	C
->> @@ -121,7 +122,7 @@ _
->>  .ft P
->>  \}
->>  .SS Tables
->> -For convenience, let us give more compact tables in hex and decimal.
->> +For convenience, below are more compact tables in hex and decimal.
->>  .sp
->>  .nf
->>  .if t \{\
->> @@ -182,9 +183,10 @@ Standards Institute (USASI) in 1968.
->>  .\" U.S. member body of ISO; private and nonprofit.
->>  .\"
->>  .SH SEE ALSO
->> -.ad l
->> +.BR charsets (7),
->>  .BR iso_8859-1 (7),
->>  .BR iso_8859-10 (7),
->> +.BR iso_8859-11 (7),
->>  .BR iso_8859-13 (7),
->>  .BR iso_8859-14 (7),
->>  .BR iso_8859-15 (7),
->>
+> Signed-off-by: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+> ---
+>  man2/vmsplice.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
+> diff --git a/man2/vmsplice.2 b/man2/vmsplice.2
+> index 35ab07f..a9ad786 100644
+> --- a/man2/vmsplice.2
+> +++ b/man2/vmsplice.2
+> @@ -133,7 +133,7 @@ either not valid, or doesn't refer to a pipe.
+>  .TP
+>  .B EINVAL
+>  .I nr_segs
+> -is 0 or greater than
+> +is greater than
+>  .BR IOV_MAX ;
+>  or memory not aligned if
+>  .B SPLICE_F_GIFT
 > 
 
 
