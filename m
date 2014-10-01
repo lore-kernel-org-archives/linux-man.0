@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cp1251.7: charset pages unification, minor cleanups
-Date: Wed, 01 Oct 2014 11:05:50 +0200
-Message-ID: <542BC3EE.2040807@gmail.com>
-References: <542A8601.1000200@redhat.com>
+Subject: Re: [PATCH] koi8-r.7: charset pages unification, minor cleanups
+Date: Wed, 01 Oct 2014 11:05:54 +0200
+Message-ID: <542BC3F2.4040604@gmail.com>
+References: <542A8609.5030109@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <542A8601.1000200-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <542A8609.5030109-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
@@ -15,7 +15,10 @@ List-Id: linux-man@vger.kernel.org
 
 On 09/30/2014 12:29 PM, Marko Myllynen wrote:
 > - adjust references
-> - remove stray comments
+> - remove stray comments, streamline description
+>   (charsets(7) and Wikipedia provide more detailed
+>    and up-to-date description)
+> - list differences between koi8-r.7 vs koi8-u.7
 > - cosmetics
 
 Thanks, Marko. Applied (for the moment, in a local branch).
@@ -26,65 +29,78 @@ Michael
 
 
 > ---
->  man7/cp1251.7 |   25 ++++++++++++++++---------
->  1 files changed, 16 insertions(+), 9 deletions(-)
+>  man7/koi8-r.7 |   43 ++++++++++++-------------------------------
+>  1 files changed, 12 insertions(+), 31 deletions(-)
 >=20
-> diff --git a/man7/cp1251.7 b/man7/cp1251.7
-> index de89469..6f8beec 100644
-> --- a/man7/cp1251.7
-> +++ b/man7/cp1251.7
-> @@ -22,24 +22,22 @@
->  .\" <http://www.gnu.org/licenses/>.
+> diff --git a/man7/koi8-r.7 b/man7/koi8-r.7
+> index 755392e..274ae21 100644
+> --- a/man7/koi8-r.7
+> +++ b/man7/koi8-r.7
+> @@ -1,8 +1,6 @@
+>  '\" t -*- coding: UTF-8 -*-
+>  .\" Copyright 2001      Alexey Mahotkin <alexm-MqrojJxo3WQox3rIn2DAYQ@public.gmane.org>
+>  .\"
+> -.\" Lots of text ripped from http://koi8.pp.ru/
+> -.\"
+>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>  .\" This is free documentation; you can redistribute it and/or
+>  .\" modify it under the terms of the GNU General Public License as
+> @@ -25,31 +23,13 @@
 >  .\" %%%LICENSE_END
 >  .\"
-> -.TH CP1251 7 2014-02-16 "Linux" "Linux Programmer's Manual"
-> +.TH CP\ 1251 7 2014-02-16 "Linux" "Linux Programmer's Manual"
+>  .TH KOI8-R 7 2014-02-16 "Linux" "Linux Programmer's Manual"
+> -.nh
 >  .SH NAME
->  cp1251 \- CP\ 1251 character set encoded in octal, decimal,
->  and hexadecimal
+> -koi8-r \- Russian character set encoded in octal, decimal, and
+> -hexadecimal
+> +koi8-r \- Russian character set encoded in octal, decimal,
+> +and hexadecimal
 >  .SH DESCRIPTION
->  The Windows Code Pages include several 8-bit extensions to the ASCII
->  character set (also known as ISO 646-IRV).
-> -CP\ 1251 encodes the characters used in Cyrillic scripts.
-> -.\" (In my system with glibc-2.8-20080929
-> -.\" I found only bg_BG and be_BY locales using this encoding).
-> +CP\ 1251 encodes the
-> +characters used in Cyrillic scripts.
-> +.SS CP\ 1251 characters
->  The following table displays the characters in CP\ 1251, which
+> -KOI8-R is the character set of choice for encoding Russian texts for
+> -many UNIX-like operation systems.
+> -KOI8-R is a successor for KOI-8, a
+> -de-facto standard for Internet Mail, News, WWW, and other interactiv=
+e
+> -services at least all over the ex-SU territory.
+> -.PP
+> -KOI8-R is defined by RFC\ 1489 (Registration of a Cyrillic Character
+> -Set).
+> -.SH NOTES
+> -KOI8-R was designed for mixed Russian/English texts and covers
+> -only Russian Cyrillic characters,
+> -so if you're looking for Cyrillic characters for Ukrainian,
+> -Byelorussian, and so on,
+> -try ISO-IR-111, or KOI8-U
+> -(Ukrainian Character Set), or KOI8-C (for ancient Russian texts)
+> -instead, which are identical to KOI8-R in the Russian Cyrillic lette=
+rs
+> -area.
+> -.PP
+> -A more complete set of Cyrillic characters is also defined by the
+> -ISO-8859-5 character set.
+> +RFC\ 1489 defines an 8-bit character set, KOI8-R.=20
+> +KOI8-R encodes the
+> +characters used in Russian.
+>  .SS KOI8-R characters
+>  The following table displays the characters in KOI8-R, which
 >  are printable and unlisted in the
->  .BR ascii (7)
->  manual page.
-> -.\" The fourth column will only show the proper glyphs
-> -.\" in an environment configured for CP\ 1251.
->  .TS
-> -l2 l2 l2 c2 lp-1.
-> +l l l c lp-1.
->  Oct	Dec	Hex	Char	Description
->  _
->  200	128	80	=D0=82	CYRILLIC CAPITAL LETTER DJE
-> @@ -92,7 +90,11 @@ _
->  257	175	AF	=D0=87	CYRILLIC CAPITAL LETTER YI
->  260	176	B0	=C2=B0	DEGREE SIGN
->  261	177	B1	=C2=B1	PLUS-MINUS SIGN
-> -262	178	B2	=D0=86	CYRILLIC CAPITAL LETTER BYELORUSSIAN-UKRAINIAN I
-> +262	178	B2	=D0=86	T{
-> +CYRILLIC CAPITAL LETTER
-> +.br
-> +BYELORUSSIAN-UKRAINIAN I
-> +T}
->  263	179	B3	=D1=96	CYRILLIC SMALL LETTER BYELORUSSIAN-UKRAINIAN I
->  264	180	B4	=D2=91	CYRILLIC SMALL LETTER GHE WITH UPTURN
->  265	181	B5	=C2=B5	MICRO SIGN
-> @@ -174,4 +176,9 @@ _
->  .SH NOTES
->  CP\ 1251 is also known as Windows Cyrillic.
+> @@ -196,11 +176,12 @@ T}
+>  376	254	FE	=D0=A7	CYRILLIC CAPITAL LETTER CHE
+>  377	255	FF	=D0=AA	CYRILLIC CAPITAL LETTER HARD SIGN
+>  .TE
+> +.SH NOTES
+> +The differences with KOI8-U are in the hex positions
+> +A4, A6, A7, AD, B4, B6, B7, and BD.
 >  .SH SEE ALSO
-> -.BR ascii (7)
-> +.BR ascii (7),
+>  .BR ascii (7),
+> -.BR iso-8859-5 (7),
+> -.BR koi8-u (7)
+> -
+> -RFC\ 1489,
+> -.UR http://koi8.pp.ru/
+> -.UE
 > +.BR charsets (7),
 > +.BR iso_8859-5 (7),
-> +.BR koi8-r (7),
 > +.BR koi8-u (7),
 > +.BR utf-8 (7)
 >=20
