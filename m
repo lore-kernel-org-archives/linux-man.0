@@ -1,23 +1,36 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] Add cp1252.7
-Date: Wed, 01 Oct 2014 11:05:32 +0200
-Message-ID: <542BC3DC.10805@gmail.com>
-References: <542A8605.8050705@redhat.com>
+Subject: Re: [PATCH] ascii.7: charset pages unification, minor cleanups
+Date: Wed, 01 Oct 2014 11:05:37 +0200
+Message-ID: <542BC3E1.4070807@gmail.com>
+References: <542A85F7.60603@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <542A8605.8050705-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <542A85F7.60603-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 On 09/30/2014 12:29 PM, Marko Myllynen wrote:
-> CP 1252 is probably one of the most used Windows Code Pages so let's
-> add a page for it alongside with the already provided CP 1251 page.
->=20
-> Table generated from /usr/share/i18n/charmaps/CP1252.
+> Hi,
+> 
+> this and the follow-up patches will provide unification of charset
+> pages, minor cleanups, and some unifying cosmetic changes. References
+> are adjusted so that all pages include a reference to charsets(7)
+> which contains description of these sets, stray comments are removed,
+> some obsolete statements (like ISO 8859-1 being the de-facto ASCII
+> replacement..) are removed, and some minor reformatting to minimize
+> diff's between the pages are done.
+> 
+> The actual substance, the character tables, remain unchanged.
+> 
+> This series changes the following pages (under man7): ascii, armscii,
+> cp1251, koi8-r, koi8-u, and all of iso_8859-*. Also adds a new page
+> for cp1252.
+> 
+> CC'ing Lefteris who contributed many of these pages.
 
 Thanks, Marko. Applied (for the moment, in a local branch).
 
@@ -26,196 +39,84 @@ Cheers,
 Michael
 
 
+
+> -----
+> - adjust references
+> - add null char description
+> - cosmetics
 > ---
->  man7/cp1252.7 |  174 +++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++
->  1 files changed, 174 insertions(+), 0 deletions(-)
->  create mode 100644 man7/cp1252.7
->=20
-> diff --git a/man7/cp1252.7 b/man7/cp1252.7
-> new file mode 100644
-> index 0000000..5ed6ec0
-> --- /dev/null
-> +++ b/man7/cp1252.7
-> @@ -0,0 +1,174 @@
-> +'\" t -*- coding: UTF-8 -*-
-> +.\" Copyright 2014 (C) Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
-> +.\" This is free documentation; you can redistribute it and/or
-> +.\" modify it under the terms of the GNU General Public License as
-> +.\" published by the Free Software Foundation; either version 2 of
-> +.\" the License, or (at your option) any later version.
-> +.\"
-> +.\" The GNU General Public License's references to "object code"
-> +.\" and "executables" are to be interpreted as the output of any
-> +.\" document formatting or typesetting system, including
-> +.\" intermediate and printed output.
-> +.\"
-> +.\" This manual is distributed in the hope that it will be useful,
-> +.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +.\" GNU General Public License for more details.
-> +.\"
-> +.\" You should have received a copy of the GNU General Public
-> +.\" License along with this manual; if not, see
-> +.\" <http://www.gnu.org/licenses/>.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH CP\ 1252 7 2014-02-16 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +cp1252 \- CP\ 1252 character set encoded in octal, decimal,
+>  man7/ascii.7 |   14 ++++++++------
+>  1 files changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man7/ascii.7 b/man7/ascii.7
+> index f17c256..12375d9 100644
+> --- a/man7/ascii.7
+> +++ b/man7/ascii.7
+> @@ -1,6 +1,5 @@
+>  '\" t
+>  .\" Copyright (c) 1993 Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+> -.\" Created Fri Apr  2 11:32:09 MET DST 1993
+>  .\"
+>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>  .\" This is free documentation; you can redistribute it and/or
+> @@ -23,6 +22,7 @@
+>  .\" <http://www.gnu.org/licenses/>.
+>  .\" %%%LICENSE_END
+>  .\"
+> +.\" Created  1993-04-02 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+>  .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+>  .\" Modified 1994-05-15 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+>  .\" Modified 1994-11-22 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+> @@ -34,12 +34,13 @@
+>  .\"
+>  .TH ASCII 7 2014-02-26 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> -ascii \- ASCII character set encoded in octal, decimal, and hexadecimal
+> +ascii \- ASCII character set encoded in octal, decimal,
 > +and hexadecimal
-> +.SH DESCRIPTION
-> +The Windows Code Pages include several 8-bit extensions to the ASCII
-> +character set (also known as ISO 646-IRV).
-> +CP\ 1252 encodes the
-> +characters used in many West European languages.
-> +.SS CP\ 1252 characters
-> +The following table displays the characters in CP\ 1252, which
-> +are printable and unlisted in the
-> +.BR ascii (7)
-> +manual page.
-> +.TS
-> +l l l c lp-1.
-> +Oct	Dec	Hex	Char	Description
-> +_
-> +200	128	80	=80	EURO SIGN
-> +202	130	82	=82	SINGLE LOW-9 QUOTATION MARK
-> +203	131	83	=83	LATIN SMALL LETTER F WITH HOOK
-> +204	132	84	=84	DOUBLE LOW-9 QUOTATION MARK
-> +205	133	85	=85	HORIZONTAL ELLIPSIS
-> +206	134	86	=86	DAGGER
-> +207	135	87	=87	DOUBLE DAGGER
-> +210	136	88	=88	MODIFIER LETTER CIRCUMFLEX ACCENT
-> +211	137	89	=89	PER MILLE SIGN
-> +212	138	8A	=8A	LATIN CAPITAL LETTER S WITH CARON
-> +213	139	8B	=8B	SINGLE LEFT-POINTING ANGLE QUOTATION MARK
-> +214	140	8C	=8C	LATIN CAPITAL LIGATURE OE
-> +216	142	8E	=8E	LATIN CAPITAL LETTER Z WITH CARON
-> +221	145	91	=91	LEFT SINGLE QUOTATION MARK
-> +222	146	92	=92	RIGHT SINGLE QUOTATION MARK
-> +223	147	93	=93	LEFT DOUBLE QUOTATION MARK
-> +224	148	94	=94	RIGHT DOUBLE QUOTATION MARK
-> +225	149	95	=95	BULLET
-> +226	150	96	=96	EN DASH
-> +227	151	97	=97	EM DASH
-> +230	152	98	=98	SMALL TILDE
-> +231	153	99	=99	TRADE MARK SIGN
-> +232	154	9A	=9A	LATIN SMALL LETTER S WITH CARON
-> +233	155	9B	=9B	SINGLE RIGHT-POINTING ANGLE QUOTATION MARK
-> +234	156	9C	=9C	LATIN SMALL LIGATURE OE
-> +236	158	9E	=9E	LATIN SMALL LETTER Z WITH CARON
-> +237	159	9F	=9F	LATIN CAPITAL LETTER Y WITH DIAERESIS
-> +240	160	A0	 	NO-BREAK SPACE
-> +241	161	A1	=A1	INVERTED EXCLAMATION MARK
-> +242	162	A2	=A2	CENT SIGN
-> +243	163	A3	=A3	POUND SIGN
-> +244	164	A4	=A4	CURRENCY SIGN
-> +245	165	A5	=A5	YEN SIGN
-> +246	166	A6	=A6	BROKEN BAR
-> +247	167	A7	=A7	SECTION SIGN
-> +250	168	A8	=A8	DIAERESIS
-> +251	169	A9	=A9	COPYRIGHT SIGN
-> +252	170	AA	=AA	FEMININE ORDINAL INDICATOR
-> +253	171	AB	=AB	LEFT-POINTING DOUBLE ANGLE QUOTATION MARK
-> +254	172	AC	=AC	NOT SIGN
-> +255	173	AD	=AD	SOFT HYPHEN
-> +256	174	AE	=AE	REGISTERED SIGN
-> +257	175	AF	=AF	MACRON
-> +260	176	B0	=B0	DEGREE SIGN
-> +261	177	B1	=B1	PLUS-MINUS SIGN
-> +262	178	B2	=B2	SUPERSCRIPT TWO
-> +263	179	B3	=B3	SUPERSCRIPT THREE
-> +264	180	B4	=B4	ACUTE ACCENT
-> +265	181	B5	=B5	MICRO SIGN
-> +266	182	B6	=B6	PILCROW SIGN
-> +267	183	B7	=B7	MIDDLE DOT
-> +270	184	B8	=B8	CEDILLA
-> +271	185	B9	=B9	SUPERSCRIPT ONE
-> +272	186	BA	=BA	MASCULINE ORDINAL INDICATOR
-> +273	187	BB	=BB	RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK
-> +274	188	BC	=BC	VULGAR FRACTION ONE QUARTER
-> +275	189	BD	=BD	VULGAR FRACTION ONE HALF
-> +276	190	BE	=BE	VULGAR FRACTION THREE QUARTERS
-> +277	191	BF	=BF	INVERTED QUESTION MARK
-> +300	192	C0	=C0	LATIN CAPITAL LETTER A WITH GRAVE
-> +301	193	C1	=C1	LATIN CAPITAL LETTER A WITH ACUTE
-> +302	194	C2	=C2	LATIN CAPITAL LETTER A WITH CIRCUMFLEX
-> +303	195	C3	=C3	LATIN CAPITAL LETTER A WITH TILDE
-> +304	196	C4	=C4	LATIN CAPITAL LETTER A WITH DIAERESIS
-> +305	197	C5	=C5	LATIN CAPITAL LETTER A WITH RING ABOVE
-> +306	198	C6	=C6	LATIN CAPITAL LETTER AE
-> +307	199	C7	=C7	LATIN CAPITAL LETTER C WITH CEDILLA
-> +310	200	C8	=C8	LATIN CAPITAL LETTER E WITH GRAVE
-> +311	201	C9	=C9	LATIN CAPITAL LETTER E WITH ACUTE
-> +312	202	CA	=CA	LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-> +313	203	CB	=CB	LATIN CAPITAL LETTER E WITH DIAERESIS
-> +314	204	CC	=CC	LATIN CAPITAL LETTER I WITH GRAVE
-> +315	205	CD	=CD	LATIN CAPITAL LETTER I WITH ACUTE
-> +316	206	CE	=CE	LATIN CAPITAL LETTER I WITH CIRCUMFLEX
-> +317	207	CF	=CF	LATIN CAPITAL LETTER I WITH DIAERESIS
-> +320	208	D0	=D0	LATIN CAPITAL LETTER ETH
-> +321	209	D1	=D1	LATIN CAPITAL LETTER N WITH TILDE
-> +322	210	D2	=D2	LATIN CAPITAL LETTER O WITH GRAVE
-> +323	211	D3	=D3	LATIN CAPITAL LETTER O WITH ACUTE
-> +324	212	D4	=D4	LATIN CAPITAL LETTER O WITH CIRCUMFLEX
-> +325	213	D5	=D5	LATIN CAPITAL LETTER O WITH TILDE
-> +326	214	D6	=D6	LATIN CAPITAL LETTER O WITH DIAERESIS
-> +327	215	D7	=D7	MULTIPLICATION SIGN
-> +330	216	D8	=D8	LATIN CAPITAL LETTER O WITH STROKE
-> +331	217	D9	=D9	LATIN CAPITAL LETTER U WITH GRAVE
-> +332	218	DA	=DA	LATIN CAPITAL LETTER U WITH ACUTE
-> +333	219	DB	=DB	LATIN CAPITAL LETTER U WITH CIRCUMFLEX
-> +334	220	DC	=DC	LATIN CAPITAL LETTER U WITH DIAERESIS
-> +335	221	DD	=DD	LATIN CAPITAL LETTER Y WITH ACUTE
-> +336	222	DE	=DE	LATIN CAPITAL LETTER THORN
-> +337	223	DF	=DF	LATIN SMALL LETTER SHARP S
-> +340	224	E0	=E0	LATIN SMALL LETTER A WITH GRAVE
-> +341	225	E1	=E1	LATIN SMALL LETTER A WITH ACUTE
-> +342	226	E2	=E2	LATIN SMALL LETTER A WITH CIRCUMFLEX
-> +343	227	E3	=E3	LATIN SMALL LETTER A WITH TILDE
-> +344	228	E4	=E4	LATIN SMALL LETTER A WITH DIAERESIS
-> +345	229	E5	=E5	LATIN SMALL LETTER A WITH RING ABOVE
-> +346	230	E6	=E6	LATIN SMALL LETTER AE
-> +347	231	E7	=E7	LATIN SMALL LETTER C WITH CEDILLA
-> +350	232	E8	=E8	LATIN SMALL LETTER E WITH GRAVE
-> +351	233	E9	=E9	LATIN SMALL LETTER E WITH ACUTE
-> +352	234	EA	=EA	LATIN SMALL LETTER E WITH CIRCUMFLEX
-> +353	235	EB	=EB	LATIN SMALL LETTER E WITH DIAERESIS
-> +354	236	EC	=EC	LATIN SMALL LETTER I WITH GRAVE
-> +355	237	ED	=ED	LATIN SMALL LETTER I WITH ACUTE
-> +356	238	EE	=EE	LATIN SMALL LETTER I WITH CIRCUMFLEX
-> +357	239	EF	=EF	LATIN SMALL LETTER I WITH DIAERESIS
-> +360	240	F0	=F0	LATIN SMALL LETTER ETH
-> +361	241	F1	=F1	LATIN SMALL LETTER N WITH TILDE
-> +362	242	F2	=F2	LATIN SMALL LETTER O WITH GRAVE
-> +363	243	F3	=F3	LATIN SMALL LETTER O WITH ACUTE
-> +364	244	F4	=F4	LATIN SMALL LETTER O WITH CIRCUMFLEX
-> +365	245	F5	=F5	LATIN SMALL LETTER O WITH TILDE
-> +366	246	F6	=F6	LATIN SMALL LETTER O WITH DIAERESIS
-> +367	247	F7	=F7	DIVISION SIGN
-> +370	248	F8	=F8	LATIN SMALL LETTER O WITH STROKE
-> +371	249	F9	=F9	LATIN SMALL LETTER U WITH GRAVE
-> +372	250	FA	=FA	LATIN SMALL LETTER U WITH ACUTE
-> +373	251	FB	=FB	LATIN SMALL LETTER U WITH CIRCUMFLEX
-> +374	252	FC	=FC	LATIN SMALL LETTER U WITH DIAERESIS
-> +375	253	FD	=FD	LATIN SMALL LETTER Y WITH ACUTE
-> +376	254	FE	=FE	LATIN SMALL LETTER THORN
-> +377	255	FF	=FF	LATIN SMALL LETTER Y WITH DIAERESIS
-> +.TE
-> +.SH NOTES
-> +CP\ 1252 is also known as Windows-1252.
-> +.SH SEE ALSO
-> +.BR ascii (7),
+>  .SH DESCRIPTION
+>  ASCII is the American Standard Code for Information Interchange.
+>  It is a 7-bit code.
+>  Many 8-bit codes (e.g., ISO 8859-1) contain ASCII as their lower half.
+> -The international counterpart of ASCII is known as ISO 646.
+> +The international counterpart of ASCII is known as ISO 646-IRV.
+>  .LP
+>  The following table contains the 128 ASCII characters.
+>  .LP
+> @@ -51,7 +52,7 @@ C program \f(CW\(aq\eX\(aq\fP escapes are noted.
+>  l l l l l l l l.
+>  Oct	Dec	Hex	Char	Oct	Dec	Hex	Char
+>  _
+> -000	0	00	NUL \(aq\e0\(aq	100	64	40	@
+> +000	0	00	NUL \(aq\e0\(aq (null character)	100	64	40	@
+>  001	1	01	SOH (start of heading)	101	65	41	A
+>  002	2	02	STX (start of text)	102	66	42	B
+>  003	3	03	ETX (end of text)	103	67	43	C
+> @@ -121,7 +122,7 @@ _
+>  .ft P
+>  \}
+>  .SS Tables
+> -For convenience, let us give more compact tables in hex and decimal.
+> +For convenience, below are more compact tables in hex and decimal.
+>  .sp
+>  .nf
+>  .if t \{\
+> @@ -182,9 +183,10 @@ Standards Institute (USASI) in 1968.
+>  .\" U.S. member body of ISO; private and nonprofit.
+>  .\"
+>  .SH SEE ALSO
+> -.ad l
 > +.BR charsets (7),
-> +.BR iso_8859-1 (7),
-> +.BR iso_8859-15 (7),
-> +.BR utf-8 (7)
->=20
+>  .BR iso_8859-1 (7),
+>  .BR iso_8859-10 (7),
+> +.BR iso_8859-11 (7),
+>  .BR iso_8859-13 (7),
+>  .BR iso_8859-14 (7),
+>  .BR iso_8859-15 (7),
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
