@@ -1,77 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Document POSIX MQ /proc/sys/fs/mqueue files
-Date: Wed, 01 Oct 2014 12:02:26 +0200
-Message-ID: <542BD132.7000105@gmail.com>
-References: <542921EA.4050709@gmail.com> <1412011687.15492.39.camel@firewall.xsintricity.com>
+Subject: Re: [PATCH] ascii.7: charset pages unification, minor cleanups
+Date: Wed, 01 Oct 2014 12:07:49 +0200
+Message-ID: <542BD275.3040900@gmail.com>
+References: <542A85F7.60603@redhat.com> <542BC3E1.4070807@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1412011687.15492.39.camel-v+aXH1h/sVwpzh8Nc7Vzg+562jBIR2Zt@public.gmane.org>
+In-Reply-To: <542BC3E1.4070807-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Doug Ledford <dledford-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Madars Vitolins <m@silodev.com>
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Lefteris Dimitroulakis <edimitro-6VGm6rrshF0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 09/29/2014 07:28 PM, Doug Ledford wrote:
-> On Mon, 2014-09-29 at 11:10 +0200, Michael Kerrisk (man-pages) wrote:
->> Hello Doug, David,
+On 10/01/2014 11:05 AM, Michael Kerrisk (man-pages) wrote:
+> On 09/30/2014 12:29 PM, Marko Myllynen wrote:
+>> Hi,
 >>
->> I think you two were the last ones to make significant 
->> changes to the semantics of the files in /proc/sys/fs/mqueue,
->> so I wonder if you (or anyone else who is willing) might
->> take a look at the man page text below that I've written
->> (for the mq_overview(7) page) to describe past and current
->> reality, and let me know of improvements of corrections.
+>> this and the follow-up patches will provide unification of charset
+>> pages, minor cleanups, and some unifying cosmetic changes. References
+>> are adjusted so that all pages include a reference to charsets(7)
+>> which contains description of these sets, stray comments are removed,
+>> some obsolete statements (like ISO 8859-1 being the de-facto ASCII
+>> replacement..) are removed, and some minor reformatting to minimize
+>> diff's between the pages are done.
 >>
->> By the way, Doug, your commit ce2d52cc1364 appears to have
->> changed/broken the semantics of the files in the /dev/mqueue 
->> filesystem. Formerly, the QSIZE field in these files showed
->> the number of bytes of real user data in all of the queued
->> messages. After that commit, QSIZE now includes kernel 
->> overhead bytes, which does not seem very useful for user 
->> space. Was that change intentional? I see no mention of the
->> change in the commit message, so it sounds like it was not 
->> intended.
+>> The actual substance, the character tables, remain unchanged.
+>>
+>> This series changes the following pages (under man7): ascii, armscii,
+>> cp1251, koi8-r, koi8-u, and all of iso_8859-*. Also adds a new page
+>> for cp1252.
+>>
+>> CC'ing Lefteris who contributed many of these pages.
 > 
-> That change didn't come in that commit.  That commit modified it, but
-> didn't introduce it.
-> 
-> Now, was it intentional? Yes.  Is it valuable, useful?  That depends on
-> your perspective.
-> 
-> One of the problems I ran into with that code relates to the rlimit
-> checks that happen at queue creation time.  We used to check to see if
-> 
->  msg_num * (msg_size + sizeof struct msg_msg *)
-> 
-> would fit within the user's currently available rlimit for
-> RLIMIT_MSGQUEUE.  This was not an accurate check though.  It accounted
-> for the msg number, and the payload size, and the array of pointers we
-> used to point to the msg_msg structs that held each message, but ignored
-> the msg_msg structs themselves.  Given that we accept the creation of
-> message queues with a msg_size of 1, this could be used to create a
-> minor DoS because of the fact that there was such a large size
-> difference between the sizeof struct msg_msg and the size of our
-> messages.  In this scenario, a msg_size of 1 would result in us
-> accounting 9/5 bytes per message on 64bit/32bit OSes respecitively, but
-> actually using 49bytes/19bytes respectively.  That's a 4:1 ratio at the
-> worst case for the different between actual memory used and memory usage
-> accounted against the RLIMIT_MSGQUEUE limit. So before I ever got around
-> to doing the rbtree update, I fixed this to at least be more accurate
-> and it became
-> 
->  msg_num * (msg_size + sizeof struct msg_msg * + sizeof struct msg_msg)
-> 
-> Even this wasn't totally accurate though, as large messages could result
-> in the allocation of additional msg_msgseg segments.  However, I ignored
-> that inaccuracy because once the message size is large enough to need
-> additional SG segments, we are no longer in danger of any sort of minor
-> DoS because our own overhead will become nothing more than noise to the
-> calculation.
+> Thanks, Marko. Applied (for the moment, in a local branch).
 
-So, for what it's worth, I applied the following patch in getrlimit.2
-to describe the post 3.5 behavior. Look okay?
+Hi Marko,
+
+I've now merged the local branch into main and pushed to kernel.org.
+Thanks very much for your effort on this!
 
 Cheers,
 
@@ -79,54 +46,84 @@ Michael
 
 
 
-diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
-index 91fed13..a3e4285 100644
---- a/man2/getrlimit.2
-+++ b/man2/getrlimit.2
-@@ -250,8 +250,19 @@ Each message queue that the user creates counts (until it i
-s removed)
- against this limit according to the formula:
- .nf
- 
--    bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) +
--            attr.mq_maxmsg * attr.mq_msgsize
-+    Since Linux 3.5:
-+        bytes = attr.mq_maxmsg * sizeof(struct msg_msg) +
-+                min(attr.mq_maxmsg, MQ_PRIO_MAX) *
-+                      sizeof(struct posix_msg_tree_node)+ 
-+                                /* For overhead */
-+                attr.mq_maxmsg * attr.mq_msgsize;
-+                                /* For message data */
-+
-+    Linux 3.4 and earlier:
-+        bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) +
-+                                /* For overhead */
-+                attr.mq_maxmsg * attr.mq_msgsize;
-+                                /* For message data */
- 
- .fi
- where
-@@ -259,11 +270,16 @@ where
- is the
- .I mq_attr
- structure specified as the fourth argument to
--.BR mq_open (3).
-+.BR mq_open (3),
-+and the
-+.I msg_msg
-+and
-+.I posix_msg_tree_node
-+structures are kernel-internal structures.
- 
--The first addend in the formula, which includes
--.I "sizeof(struct msg_msg\ *)"
--(4 bytes on Linux/i386), ensures that the user cannot
-+The "overhead" addend in the formula accounts for overhead
-+bytes required by the implementation
-+and ensures that the user cannot
- create an unlimited number of zero-length messages (such messages
- nevertheless each consume some system memory for bookkeeping overhead).
- .TP
+
+>> -----
+>> - adjust references
+>> - add null char description
+>> - cosmetics
+>> ---
+>>  man7/ascii.7 |   14 ++++++++------
+>>  1 files changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/man7/ascii.7 b/man7/ascii.7
+>> index f17c256..12375d9 100644
+>> --- a/man7/ascii.7
+>> +++ b/man7/ascii.7
+>> @@ -1,6 +1,5 @@
+>>  '\" t
+>>  .\" Copyright (c) 1993 Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+>> -.\" Created Fri Apr  2 11:32:09 MET DST 1993
+>>  .\"
+>>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>>  .\" This is free documentation; you can redistribute it and/or
+>> @@ -23,6 +22,7 @@
+>>  .\" <http://www.gnu.org/licenses/>.
+>>  .\" %%%LICENSE_END
+>>  .\"
+>> +.\" Created  1993-04-02 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+>>  .\" Modified 1993-07-24 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+>>  .\" Modified 1994-05-15 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+>>  .\" Modified 1994-11-22 by Daniel Quinlan (quinlan-7x81iamSd18S+FvcfC7Uqw@public.gmane.org)
+>> @@ -34,12 +34,13 @@
+>>  .\"
+>>  .TH ASCII 7 2014-02-26 "Linux" "Linux Programmer's Manual"
+>>  .SH NAME
+>> -ascii \- ASCII character set encoded in octal, decimal, and hexadecimal
+>> +ascii \- ASCII character set encoded in octal, decimal,
+>> +and hexadecimal
+>>  .SH DESCRIPTION
+>>  ASCII is the American Standard Code for Information Interchange.
+>>  It is a 7-bit code.
+>>  Many 8-bit codes (e.g., ISO 8859-1) contain ASCII as their lower half.
+>> -The international counterpart of ASCII is known as ISO 646.
+>> +The international counterpart of ASCII is known as ISO 646-IRV.
+>>  .LP
+>>  The following table contains the 128 ASCII characters.
+>>  .LP
+>> @@ -51,7 +52,7 @@ C program \f(CW\(aq\eX\(aq\fP escapes are noted.
+>>  l l l l l l l l.
+>>  Oct	Dec	Hex	Char	Oct	Dec	Hex	Char
+>>  _
+>> -000	0	00	NUL \(aq\e0\(aq	100	64	40	@
+>> +000	0	00	NUL \(aq\e0\(aq (null character)	100	64	40	@
+>>  001	1	01	SOH (start of heading)	101	65	41	A
+>>  002	2	02	STX (start of text)	102	66	42	B
+>>  003	3	03	ETX (end of text)	103	67	43	C
+>> @@ -121,7 +122,7 @@ _
+>>  .ft P
+>>  \}
+>>  .SS Tables
+>> -For convenience, let us give more compact tables in hex and decimal.
+>> +For convenience, below are more compact tables in hex and decimal.
+>>  .sp
+>>  .nf
+>>  .if t \{\
+>> @@ -182,9 +183,10 @@ Standards Institute (USASI) in 1968.
+>>  .\" U.S. member body of ISO; private and nonprofit.
+>>  .\"
+>>  .SH SEE ALSO
+>> -.ad l
+>> +.BR charsets (7),
+>>  .BR iso_8859-1 (7),
+>>  .BR iso_8859-10 (7),
+>> +.BR iso_8859-11 (7),
+>>  .BR iso_8859-13 (7),
+>>  .BR iso_8859-14 (7),
+>>  .BR iso_8859-15 (7),
+>>
+> 
+> 
+
 
 -- 
 Michael Kerrisk
