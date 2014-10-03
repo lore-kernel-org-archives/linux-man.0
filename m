@@ -1,7 +1,7 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 2/3] random.3: SEE ALSO getrandom.2
-Date: Fri,  3 Oct 2014 02:15:24 +0200
-Message-ID: <1412295324-8241-1-git-send-email-xypron.glpk@gmx.de>
+Subject: [PATCH 3/3] random.4: SEE ALSO getrandom.2
+Date: Fri,  3 Oct 2014 02:15:35 +0200
+Message-ID: <1412295335-8287-1-git-send-email-xypron.glpk@gmx.de>
 References: <1412295197-8100-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1412295197-8100-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
@@ -12,21 +12,21 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man3/random.3 | 1 +
+ man4/random.4 | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/man3/random.3 b/man3/random.3
-index dc6fa9f..9789cb6 100644
---- a/man3/random.3
-+++ b/man3/random.3
-@@ -196,6 +196,7 @@ is (as specified) set on error, but the function does not return NULL.
- .\" http://sourceware.org/bugzilla/show_bug.cgi?id=15380
+diff --git a/man4/random.4 b/man4/random.4
+index a193ddf..9ec0341 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -280,6 +280,7 @@ wall clock) to the pools.
+ .\" The kernel's random number generator was written by
+ .\" Theodore Ts'o (tytso-f/2Lh7Kzk888qNwGfFDJ/Q@public.gmane.org).
  .SH SEE ALSO
- .BR drand48 (3),
 +.BR getrandom (2),
- .BR rand (3),
- .BR random_r (3),
- .BR srand (3)
+ .BR mknod (1)
+ .br
+ RFC\ 1750, "Randomness Recommendations for Security"
 -- 
 2.1.0
 
