@@ -1,297 +1,328 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] getrandom.2: new manpage
-Date: Mon, 6 Oct 2014 20:13:11 +0200
-Message-ID: <CAKgNAkiz5Ja2b1JGk+OC4TbMtrxSikYUGhZdNps0t1mP9_=wJg@mail.gmail.com>
-References: <1412295197-8100-1-git-send-email-xypron.glpk@gmx.de> <1412295313-8198-1-git-send-email-xypron.glpk@gmx.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: man-pages-3.74 released
+Date: Mon, 06 Oct 2014 20:33:44 +0200
+Message-ID: <5432E088.20809@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1412295313-8198-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Ted,
+Gidday,
 
-Could you please check this page over and offer fixes or an Ack?
+The Linux man-pages maintainer proudly announces:
 
-Thanks,
+    man-pages-3.74 - man pages for Linux
+
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.74
+
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2014/10/man-pages-374-is-released.html
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+A few changes in this release that may be of interest to readers of
+this list are given below.
+
+Cheers,
 
 Michael
 
 
+==================== Changes in man-pages-3.74 ====================
 
-On Fri, Oct 3, 2014 at 2:15 AM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
-> Kernel 3.17 introduces a new system call getrandom(2).
->
-> The man page in this patch is based on the commit message by
-> Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org> and suggestion by
-> Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>.
->
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/getrandom.2 | 242 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 242 insertions(+)
->  create mode 100644 man2/getrandom.2
->
-> diff --git a/man2/getrandom.2 b/man2/getrandom.2
-> new file mode 100644
-> index 0000000..f6a8a1b
-> --- /dev/null
-> +++ b/man2/getrandom.2
-> @@ -0,0 +1,242 @@
-> +.\" Copyright (C) 2014, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
-> +.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of
-> +.\" this manual under the conditions for verbatim copying, provided that
-> +.\" the entire resulting derived work is distributed under the terms of
-> +.\" a permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-> +.\" no responsibility for errors or omissions, or for damages resulting.
-> +.\" from the use of the information contained herein.  The author(s) may.
-> +.\" not have taken the same level of care in the production of this.
-> +.\" manual, which is licensed free of charge, as they might when working.
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +
-> +.TH GETRANDOM 2 2014-10-03 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +getrandom \- obtain a series of random bytes
-> +.SH SYNOPSIS
-> +.B #include <linux/random.h>
-> +.sp
-> +.BI "int getrandom(void *"buf ", size_t " buflen ", unsigned int " flags );
-> +.SH DESCRIPTION
-> +The system call
-> +.BR getrandom ()
-> +fills the buffer pointed to by
-> +.I buf
-> +with up to
-> +.I buflen
-> +random bytes.
-> +These can be used to seed user-space random number generators
-> +or for other cryptographic purposes.
-> +.PP
-> +.BR getrandom ()
-> +relies on entropy gathered from device drivers and other sources of
-> +environmental noise.
-> +Unnecessarily reading large quantities of data will have a negative impact
-> +on other users of the
-> +.I /dev/random
-> +and the
-> +.I /dev/urandom
-> +devices.
-> +Therefore
-> +.BR getrandom ()
-> +should not be used for Monte Carlo simulations or other
-> +programs/algorithms which are doing probabilistic sampling.
-> +.PP
-> +The
-> +.I flags
-> +argument is a bit mask that can contain zero or more of the following values
-> +ORed together:
-> +.TP
-> +.B GRND_RANDOM
-> +If this bit is set, then random bytes are drawn from the
-> +.I /dev/random
-> +pool instead of the
-> +.I /dev/urandom
-> +pool.
-> +The
-> +.I /dev/random
-> +pool is limited based on the entropy that can be obtained from environmental
-> +noise.
-> +If less random bytes are available than are requested in argument
-> +.IR buflen ,
-> +the available random bytes will be copied and the call returns.
-> +If no random byte is available, the response will depend on the
-> +presence of
-> +.B GRND_NONBLOCK
-> +in the
-> +.I flags
-> +argument.
-> +.TP
-> +.B GRND_NONBLOCK
-> +If this bit is set and there is no random byte available at all,
-> +.BR getrandom ()
-> +will return -1 with
-> +.I errno
-> +set to
-> +.BR EAGAIN .
-> +If the
-> +.B GRND_NONBLOCK
-> +bit is not set and there is no random byte available at all,
-> +.BR getrandom ()
-> +will block.
-> +.SH RETURN VALUE
-> +On success,
-> +.BR getrandom ()
-> +returns the number of bytes that were copied to the buffer
-> +.IR buf .
-> +This may be less than the bytes requested by the caller via
-> +.I buflen
-> +if insufficient entropy was present in the
-> +.IR /dev/random
-> +pool, or if the system call was interrupted by a signal.
-> +.PP
-> +On error, -1 is returned, and
-> +.I errno
-> +is set appropriately.
-> +.SH ERRORS
-> +.TP
-> +.B EINVAL
-> +An invalid flag was passed to
-> +.BR getrandom ().
-> +.TP
-> +.B EFAULT
-> +The address referenced in parameter
-> +.I buf
-> +is outside the accessible address space.
-> +.TP
-> +.B EAGAIN
-> +The requested entropy was not available, and
-> +.BR getrandom ()
-> +would have blocked if the
-> +.B GRND_NONBLOCK
-> +flag was not set.
-> +.TP
-> +.B EINTR
-> +While blocked waiting for entropy, the call was interrupted by a signal
-> +handler; see the description of how interrupted
-> +.BR read (2)
-> +calls on "slow" devices are handled with and without the
-> +.B SA_RESTART
-> +flag in the
-> +.BR signal (7)
-> +man page.
-> +.SH VERSIONS
-> +.BR getrandom ()
-> +was introduced in version 3.17 of the Linux kernel.
-> +.SH CONFORMING TO
-> +This system call is Linux-specific.
-> +.SH NOTES
-> +.SS Interruption by a signal handler
-> +The reaction of
-> +.BR getrandom ()
-> +in case of an interruption of a blocking call by a signal
-> +when reading from
-> +.I /dev/urandom
-> +.RB ( GRND_RANDOM
-> +is not set)
-> +depends on the initialization state of the entropy buffer
-> +and on the request size
-> +.IR buflen .
-> +If the entropy is not yet initialized or the request size is large
-> +.RI ( buflen
-> +> 256),
-> +.B EINTR
-> +will be returned.
-> +If the entropy pool has been intialized and the request size is small
-> +.RI ( buflen
-> +<= 256),
-> +.BR getrandom ()
-> +will not return
-> +.BR EINTR .
-> +Instead, it will return all of the bytes that have been requested.
-> +.PP
-> +When reading from
-> +.I /dev/random
-> +.RB ( GRND_RANDOM
-> +is set)
-> +these guarantees do
-> +.I not
-> +apply.
-> +.PP
-> +Calling
-> +.BR getrandom ()
-> +to read
-> +.I /dev/urandom
-> +for small values (<= 256) of
-> +.I buflen
-> +is the preferred mode of usage.
-> +.PP
-> +The special treatment of small values of
-> +.I buflen
-> +was designed for compatibility with
-> +OpenBSD's
-> +.BR getentropy ()
-> +system call.
-> +.PP
-> +The user of
-> +.BR getrandom ()
-> +.I must
-> +always check the return value, in case it indicates some error,
-> +or if fewer bytes than requested were returned.
-> +In the case where
-> +.B GRND_RANDOM
-> +is not specified and
-> +.I buflen
-> +is less than or equal to 256,
-> +a return of fewer bytes than requested should never happen,
-> +but the careful user-space code should check for this anyway!
-> +.SS Choice of random device
-> +Unless you are doing long-term key generation (and perhaps not even
-> +then), you probably shouldn't be using
-> +.B GRND_RANDOM.
-> +The cryptographic algorithms used for
-> +.I /dev/urandom
-> +are quite conservative, and so should be sufficient for all purposes.
-> +The disadvantage of
-> +.B GRND_RANDOM
-> +is that it can block.
-> +Furthermore, dealing with partially fulfilled
-> +.BR getrandom ()
-> +requests increases code complexity.
-> +.SS Emulating OpenBSD's getentropy()
-> +The
-> +.BR getentropy ()
-> +system call in OpenBSD can be emulated using the following
-> +function:
-> +
-> +.in +4n
-> +.nf
-> +int
-> +getentropy(void *buf, size_t buflen)
-> +{
-> +    int ret;
-> +
-> +    if (buflen > 256)
-> +        goto failure;
-> +    ret = getrandom(buf, buflen, 0);
-> +    if (ret < 0)
-> +        return ret;
-> +    if (ret == buflen)
-> +        return 0;
-> +failure:
-> +    errno = EIO;
-> +    return -1;
-> +}
-> +.fi
-> +.in
-> +.SH SEE ALSO
-> +.BR random (4),
-> +.BR urandom (4)
-> --
-> 2.1.0
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Released: 2014-10-03, Munich
 
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Arto Bendiken <arto-TQ6thHYR8Svk1uMJSBkQmQ@public.gmane.org>
+Ben Hutchings <ben-/+tVBieCtBitmTQ+vhA3Yw@public.gmane.org>
+Benjamin Herr <ben-x1pcLkrQkvQ@public.gmane.org>
+C. Alex North-Keys <erlkonig-kJfcqb9dmRFg9hUCZPvPmw@public.gmane.org>
+Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
+Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>
+Doug Ledford <dledford-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Lanchon <lanchon-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Manfred Spraul <manfred-nhLOkwUX5cPe2c5cEj3t2g@public.gmane.org>
+Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Shriramana Sharma <samjnaa-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Thomas Mack <mack-WMLsJPcVvUbeKaaq6wa0og@public.gmane.org>
+Wieland Hoffmann <themineo-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+pldd.1
+    Michael Kerrisk
+        New page for pldd(1) command added to glibc in version 2.15
+
+cp1252.7
+    Marko Myllynen
+        New page documenting CP 1252
+            CP 1252 is probably one of the most used Windows Code Pages so
+            let's add a page for it alongside with the already provided
+            CP 1251 page.
+
+            Table generated from /usr/share/i18n/charmaps/CP1252.
+
+
+Newly documented interfaces in existing pages
+---------------------------------------------
+
+mq_overview.7
+    Michael Kerrisk
+        Document /proc/sys/fs/mqueue/msgsize_default
+    Michael Kerrisk
+        Document /proc/sys/fs/mqueue/msg_default
+
+
+Changes to individual pages
+---------------------------
+
+ldd.1
+    Michael Kerrisk
+        SEE ALSO: add pldd(1)
+
+execve.2
+    Michael Kerrisk  [C. Alex North-Keys]
+        Remove unneeded ".sh" extension in interpreter script example
+            See https://bugzilla.kernel.org/show_bug.cgi?id=84701
+
+fanotify_init.2
+    Heinrich Schuchardt
+        BUGS: O_CLOEXEC is ignored
+    Michael Kerrisk  [Heinrich Schuchardt]
+        The 'event_f_flags' failure to check invalid flags was fixed in 3.15
+
+fanotify_mark.2
+    Michael Kerrisk
+        Note that various bugs were fixed in Linux 3.16
+
+getrlimit.2
+    Michael Kerrisk  [Doug Ledford]
+        Since Linux 3.5, the accounting formula for RLIMIT_MSGQUEUE has changed
+
+open.2
+    Michael Kerrisk  [Shriramana Sharma]
+        Fix number and formula in description of EOVERFLOW error
+
+readlink.2
+    Michael Kerrisk  [Ben Hutchings]
+        Fix description of readlinkat() with empty 'pathname'
+    Michael Kerrisk
+        SEE ALSO: add realpath(3)
+
+sched_setattr.2
+sched_setscheduler.2
+    Michael Kerrisk
+        SEE ALSO: add chrt(1)
+
+shmget.2
+    Manfred Spraul  [Michael Kerrisk, Davidlohr Bueso]
+        Update for increase of SHMALL and SHMMAX
+            The default values of SHMALL and SHMMAX have been increased.
+
+syscalls.2
+    Michael Kerrisk
+        Add 3 new system calls added in Linux 3.17
+
+vmsplice.2
+    Cyril Hrubis
+        vmsplice() does not fail when nr_segs==0
+            This nr_segs==0 case is no-op; the call succeeds and no
+            EINVAL error is returned.
+
+dlopen.3
+    Michael Kerrisk
+        SEE ALSO: add pldd(1)
+
+fseeko.3
+    Michael Kerrisk  [Thomas Mack]
+        _FILE_OFFSET_BITS must be defined before including any header file
+
+getgrent.3
+    Carlos O'Donell
+        Add ENOENT and EAGAIN to error list
+
+mq_getattr.3
+    Michael Kerrisk
+        Add an example program
+            The example program can be used to discover the default
+            'mq_maxmsg' and 'mq_msgsize' values used to create a queue with
+            a mq_open(3) call in which 'attr' is NULL.
+
+mq_open.3
+    Michael Kerrisk
+        Two /proc files control the defaults for the attrp==NULL case
+            Refer the reader to the discussion in mq_overview(7) for a
+            discussion of these files, which exist since Linux 3.5.
+
+realpath.3
+    Michael Kerrisk
+        SEE ALSO: add realpath(1)
+
+proc.5
+    Elie De Brauwer
+        Document /proc/buddyinfo
+            This patch adds a short description about the contents of
+            /proc/buddyinfo and how this file can be used to assist
+            in checking for memory fragmentation issues.
+    Michael Kerrisk
+        Mention pmap(1) in discussion of /proc/PID/smaps
+
+armscii-8.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+ascii.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+            This and [the related *.7] patches will provide unification of
+            charset pages, minor cleanups, and some unifying cosmetic
+            changes. References are adjusted so that all pages include
+            a reference to charsets(7), which contains a description of
+            these sets, stray comments are removed, some obsolete
+            statements (like ISO 8859-1 being the de-facto ASCII
+            replacement) are removed, and some minor reformatting
+            to minimize diff's between the pages are done.
+
+            The actual substance, the character tables, remain unchanged.
+
+            This series changes the following pages (under man7): ascii,
+            armscii, cp1251, koi8-r, koi8-u, and all of iso_8859-*.
+
+cp1251.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-10.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-11.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-13.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-14.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-15.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-16.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-1.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-2.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-3.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-4.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-5.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-6.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-7.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-8.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+iso_8859-9.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+
+koi8-r.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+            - remove stray comments, streamline description
+              (charsets(7) and Wikipedia provide more detailed
+               and up-to-date description)
+            - list differences between koi8-r.7 vs koi8-u.7
+
+koi8-u.7
+    Marko Myllynen
+        Charset pages unification, minor cleanups
+            - remove stray comments, streamline description
+              (charsets(7) and Wikipedia provide more detailed
+               and up-to-date description)
+            - list differences between koi8-r.7 vs koi8-u.7
+
+mq_overview.7
+    Michael Kerrisk
+        Update queues_max details for Linux 3.14
+            And in general rework the text a little.
+    Michael Kerrisk
+        Update discussion of HARD_MSGMAX
+            The limit has changed in 2.6.33 and then again in 3.5.
+    Michael Kerrisk  [Arto Bendiken]
+        Update details for 'queues_max' limit
+            Things changed in Linux 3.5.
+            See https://bugs.launchpad.net/bugs/1155695
+    Michael Kerrisk
+        Update details on defaults and ceiling for 'msgsize_max' limit
+    Michael Kerrisk
+        Rework discussion of HARD_MSGMAX
+    Michael Kerrisk  [Davidlohr Bueso]
+        Various fixes after review from Davidlohr Bueso
+
+sched.7
+    Michael Kerrisk
+        SEE ALSO: add taskset(1)
+
+ld.so.8
+    Michael Kerrisk
+        SEE ALSO: add pldd(1)
+    Michael Kerrisk
+        SEE ALSO: add dlopen(3)
+    Michael Kerrisk
+        SEE ALSO: add ld(1)
 
 
 -- 
