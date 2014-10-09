@@ -1,64 +1,42 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4,
- ocfs2 and xfs as well
-Date: Tue, 07 Oct 2014 16:03:37 +0200
-Message-ID: <20141007140337.10571.62743.stgit@unused-4-157.brq.redhat.com>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: abs.3
+Date: Thu, 09 Oct 2014 19:51:09 +0200
+Message-ID: <5436CB0D.6040709@bfs.de>
+References: <CAGc9EvdrJA+_jnkRsxLpXgRcHSZnsvETtgMjC0aTgsgsm8Ap0Q@mail.gmail.com>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAGc9EvdrJA+_jnkRsxLpXgRcHSZnsvETtgMjC0aTgsgsm8Ap0Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-As from upstream commit:
 
-commit 3f31d07571eeea18a7d34db9af21d2285b807a17
-Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Date:   Tue May 29 15:06:40 2012 -0700
 
-    mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
+Am 09.10.2014 13:24, schrieb Jonny Grant:
+> http://man7.org/linux/man-pages/man3/abs.3.html
+> 
+> Hello
+> This page shows:
+> 
+> "GCC handles abs() and labs() as built-in functions. GCC 3.0 also
+>        handles llabs() and imaxabs() as built-ins."
+> 
+> As GCC3 has been around for 10 years now.. should these be combined? e.g.
+> 
+> " GCC handles abs(), labs(), llabs() and imaxabs() as built-in functions."
+> 
+> There may be other man pages with similar GCC 3.0 references that
+> could be combined now.
+> 
 
-    Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
-    to use do_fallocate() instead of vmtruncate_range(): which extends
-    madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
+I would add "By default gcc ..." since you have a switch not to use built-in's at all.
 
-madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
-
-bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
-
-Justification from Rafael Aquini:
-Well, that code is committed in kernel since v3.5 (2012) and it surely is
-the expected behaviour since. It seems to me that madvise(2) man page text
-for MADV_REMOVE just got out-of-date in that regard.
-
-This patch mentions this support in madvise.2 man page.
-
-Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
----
- man2/madvise.2 |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/man2/madvise.2 b/man2/madvise.2
-index 032ead7..44698ec 100644
---- a/man2/madvise.2
-+++ b/man2/madvise.2
-@@ -98,12 +98,12 @@ either in reloading of the memory contents from the underlying mapped file
- or zero-fill-on-demand pages for mappings
- without an underlying file.
- .TP
--.BR MADV_REMOVE " (since Linux 2.6.16)"
-+.BR MADV_REMOVE " (since Linux 3.5)"
- Free up a given range of pages
- and its associated backing store.
- Currently,
- .\" 2.6.18-rc5
--only shmfs/tmpfs supports this; other filesystems return with the
-+only shmfs/tmpfs, ext4, ocfs2 and xfs supports this; other filesystems return with the
- error
- .BR ENOSYS .
- .\" Databases want to use this feature to drop a section of their
+re,
+ wh
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
