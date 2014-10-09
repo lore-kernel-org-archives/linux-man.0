@@ -1,7 +1,7 @@
 From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: symlink.2 clarification of ENOENT
-Date: Thu, 9 Oct 2014 12:22:58 +0100
-Message-ID: <CAGc9EvcK9fkW+zmDvbQD00h57ZsJ6o4XX=ojM+MQ+jr46FbniA@mail.gmail.com>
+Subject: abs.3
+Date: Thu, 9 Oct 2014 12:24:07 +0100
+Message-ID: <CAGc9EvdrJA+_jnkRsxLpXgRcHSZnsvETtgMjC0aTgsgsm8Ap0Q@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,28 +10,22 @@ To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael
+http://man7.org/linux/man-pages/man3/abs.3.html
 
-http://man7.org/linux/man-pages/man2/symlink.2.html
+Hello
+This page shows:
 
-I saw that [linkpath] being the empty string "" also returns ENOENT. I
-feel worth clariying:
+"GCC handles abs() and labs() as built-in functions. GCC 3.0 also
+       handles llabs() and imaxabs() as built-ins."
 
-Current text:
-"ENOENT A directory component in linkpath does not exist or is a
-              dangling symbolic link, or target is the empty string."
+As GCC3 has been around for 10 years now.. should these be combined? e.g.
 
-Proposed new text:
-"ENOENT target or linkpath are empty strings. Or a directory component
-in linkpath does not exist or is a dangling symbolic link."
+" GCC handles abs(), labs(), llabs() and imaxabs() as built-in functions."
 
+There may be other man pages with similar GCC 3.0 references that
+could be combined now.
 
-I tested with
-    result = symlink("", NULL);
-    printf("symlink: '' NULL: %d, %d, '%s'\n", result, errno, strerror(errno));
-
-Output:
-symlink: '' NULL: -1, 2, 'No such file or directory'
+Regards, Jonny
 
 -- 
 Jonny  jg-hus3n9K41k0@public.gmane.org
