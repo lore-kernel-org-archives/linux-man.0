@@ -1,43 +1,39 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: abs.3
-Date: Thu, 09 Oct 2014 19:51:09 +0200
-Message-ID: <5436CB0D.6040709@bfs.de>
-References: <CAGc9EvdrJA+_jnkRsxLpXgRcHSZnsvETtgMjC0aTgsgsm8Ap0Q@mail.gmail.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: truncate.2
+Date: Fri, 10 Oct 2014 22:01:28 +0200
+Message-ID: <54383B18.4030302@gmail.com>
+References: <CAGc9EvfjFWD1OaJWXh=Mg-=zF24mmbSP-PB8Jx1=EC4aDO6ENg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGc9EvdrJA+_jnkRsxLpXgRcHSZnsvETtgMjC0aTgsgsm8Ap0Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAGc9EvfjFWD1OaJWXh=Mg-=zF24mmbSP-PB8Jx1=EC4aDO6ENg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On 10/09/2014 01:25 PM, Jonny Grant wrote:
+> http://man7.org/linux/man-pages/man2/truncate.2.html
+> 
+> Quoting:
+> "EFAULT Path points outside the process's allocated address space"
+> 
+> Not a major.. but should "Path" be lower-case, as it is a param? e.g. as "path"
+> Regards, Jonny
+
+Fixed.
+
+Thanks,
+
+Michael
 
 
-Am 09.10.2014 13:24, schrieb Jonny Grant:
-> http://man7.org/linux/man-pages/man3/abs.3.html
-> 
-> Hello
-> This page shows:
-> 
-> "GCC handles abs() and labs() as built-in functions. GCC 3.0 also
->        handles llabs() and imaxabs() as built-ins."
-> 
-> As GCC3 has been around for 10 years now.. should these be combined? e.g.
-> 
-> " GCC handles abs(), labs(), llabs() and imaxabs() as built-in functions."
-> 
-> There may be other man pages with similar GCC 3.0 references that
-> could be combined now.
-> 
 
-I would add "By default gcc ..." since you have a switch not to use built-in's at all.
-
-re,
- wh
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
