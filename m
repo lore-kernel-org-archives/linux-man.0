@@ -1,91 +1,66 @@
-From: Tobias Herzke <tobias.linuxpatches.2014-l5l7mIzdFukkB/skPZtzJg@public.gmane.org>
-Subject: [patch] pthread_attr_setschedparam.3 : Describe EINVAL in ERRORS
-Date: Sat, 11 Oct 2014 21:04:12 +0200
-Message-ID: <54397F2C.7000008@gi2.herzkes.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 86061] New: Condition for read(2) to return EINVAL is
+ inaccurate
+Date: Sat, 11 Oct 2014 19:58:04 +0000
+Message-ID: <bug-86061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------030904020202060909040001"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------030904020202060909040001
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+https://bugzilla.kernel.org/show_bug.cgi?id=86061
 
-The following example proves that the man page 
-pthread_attr_setschedparam.3 is incorrect when it claims that the 
-pthread_attr_setschedparam function always succeeds on linux:
+            Bug ID: 86061
+           Summary: Condition for read(2) to return EINVAL is inaccurate
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: nodakai-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-#include <pthread.h>
-#include <errno.h>
-int main() {
-   pthread_attr_t attr;
-   struct sched_param p = {-1}; /* invalid priority */
-   if (pthread_attr_init(&attr) == 0)
-     if (pthread_attr_setschedpolicy(&attr, SCHED_OTHER) == 0)
-       if (pthread_attr_setschedparam(&attr, &p) == EINVAL)
-	return 1;
-   return 0;
-}
+The man page reads
 
-The program exits with exit code 1, therefore pthread_attr_setschedparam 
-has returned error code EINVAL.
+> If count is greater than SSIZE_MAX, the result is unspecified.
 
-I could evoke this error on ubuntu 14.04, and verify it by examining the 
-eglibc-2.19 source code. The function is implemented in file 
-fbtl/pthread_attr_setschedparam.c. For error checking, it calls the 
-helper function check_sched_priority_attr which is implemented inline in 
-file ./fbtl/pthreadP.h. This function returns EINVAL if a range check fails.
+However when we look at the implementation, rw_verify_area() which is common to
+vfs_read(), vfs_write() and so on actually tests if count fits ssize_t or not
+and returns EINVAL otherwise.
 
-The attached patch corrects the man page. The patch is against the 
-current git master, 298f72af973e4bf3975d6a84369286b548e6fb63
+http://lxr.free-electrons.com/source/fs/read_write.c#L348
 
+So the man page should state so.
 
---------------030904020202060909040001
-Content-Type: text/x-patch;
- name="pthread_attr_setschedparam.3.diff"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="pthread_attr_setschedparam.3.diff"
+This is also important in terms of conformance/getting closer to POSIX. 
+Quotes from POSIX.1-2008:
 
-diff --git a/man3/pthread_attr_setschedparam.3 b/man3/pthread_attr_setschedparam.3
-index f3db870..8ea4f47 100644
---- a/man3/pthread_attr_setschedparam.3
-+++ b/man3/pthread_attr_setschedparam.3
-@@ -86,15 +86,22 @@ to
- On success, these functions return 0;
- on error, they return a nonzero error number.
- .SH ERRORS
--POSIX.1 documents
-+.BR pthread_attr_setschedparam ()
-+can fail with the following error:
-+.TP
- .B EINVAL
--and
-+the priority specified in
-+.I param
-+does not make sense for the current scheduling policy of
-+.IR attr .
-+.PP
-+POSIX.1 also documents an
- .B ENOTSUP
--errors for
-+error for
- .BR pthread_attr_setschedparam ().
--On Linux these functions always succeed
-+This value is never returned on Linux
- (but portable and future-proof applications should nevertheless
--handle a possible error return).
-+handle this error return value).
- .\" .SH VERSIONS
- .\" Available since glibc 2.0.
- .SH ATTRIBUTES
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/read.html
 
---------------030904020202060909040001--
+> If the value of nbyte is greater than {SSIZE_MAX}, the result is implementation-defined.
+
+where "implementation-defined" is defined as:
+
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap01.html#tag_01_05_02
+
+> Describes a value or behavior that is not defined by POSIX.1-2008 but is selected by an implementor. (...snip...)
+> 
+> The implementor shall document such a value or behavior so that it can be used correctly by an application.
+
+So it cannot be just "unspecified".
+
+Moreover, write(2) doesn't say anything about the SSIZE_MAX limit.
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
