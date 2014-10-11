@@ -1,45 +1,46 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 86001] New: Errors in sendfile man page
-Date: Fri, 10 Oct 2014 21:38:57 +0000
-Message-ID: <bug-86001-11311@https.bugzilla.kernel.org/>
+From: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Subject: [PATCH] lseek64.3: tfix
+Date: Sat, 11 Oct 2014 09:29:30 +0400
+Message-ID: <20141011092930.4e895614@keeper.home.local>
+References: <1412411878-5744-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1412411878-5744-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=86001
 
-            Bug ID: 86001
-           Summary: Errors in sendfile man page
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: safinaskar-JGs/UdohzUI@public.gmane.org
-        Regression: No
+Ping.
 
-Current "man sendfile" (git commit 36ad6ae0b4b6252a921a91dbd785de8fd88a364b)
-from kernel man pages contradicts to itself. The section "DESCRIPTION" says:
-"In Linux kernels before 2.6.33, out_fd must refer to a socket. Since Linux
-2.6.33 it can be any file", and AFAIK this is right current info. But the
-section "NOTES" says: "In Linux 2.4 and earlier, out_fd could also refer to a
-regular file" and this confuses. Also, the "NOTES" says: "The Linux-specific
-splice(2) call supports transferring data between arbitrary files (e.g., a pair
-of sockets)". This is wrong, because one splice call cannot splice together two
-sockets. So, please fix the man. Probably you should double-check whole man and
-make sure that whole man is up-to-date
+=D0=92 Sat,  4 Oct 2014 12:37:58 +0400
+Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+man3/lseek64.3 | 2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+diff --git a/man3/lseek64.3 b/man3/lseek64.3
+index 9e9c0c1..f02b573 100644
+--- a/man3/lseek64.3
++++ b/man3/lseek64.3
+@@ -126,7 +126,7 @@ is a 64-bit signed type.
+ The library routine
+ .BR llseek ()
+ .\" in libc 5.0.9, not in 4.7.6
+-is available and glibc and works without special defines.
++is available in the glibc and works without special defines.
+ However, the glibc headers do not provide a prototype.
+ Users should add
+ the above prototype, or something equivalent, to their own source.
+
+
+--=20
+Best Regards,
+Yuri Kozlov
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
