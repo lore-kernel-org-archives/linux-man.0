@@ -1,78 +1,33 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4, ocfs2
- and xfs as well
-Date: Mon, 13 Oct 2014 10:24:16 +0200
-Message-ID: <543B8C30.2070007@redhat.com>
-References: <20141007140337.10571.62743.stgit@unused-4-157.brq.redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] tzset.3: grfix
+Date: Tue, 14 Oct 2014 00:41:22 +0200
+Message-ID: <1413240082-18983-1-git-send-email-spaillard@debian.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20141007140337.10571.62743.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-ping
+The sentence is missing a word somewhere.
+---
+ man3/tzset.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 10/07/2014 04:03 PM, Jan Chaloupka wrote:
-> As from upstream commit:
->
-> commit 3f31d07571eeea18a7d34db9af21d2285b807a17
-> Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> Date:   Tue May 29 15:06:40 2012 -0700
->
->      mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
->
->      Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
->      to use do_fallocate() instead of vmtruncate_range(): which extends
->      madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
->
-> madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
->
-> bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
->
-> Justification from Rafael Aquini:
-> Well, that code is committed in kernel since v3.5 (2012) and it surely is
-> the expected behaviour since. It seems to me that madvise(2) man page text
-> for MADV_REMOVE just got out-of-date in that regard.
->
-> This patch mentions this support in madvise.2 man page.
->
-> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->   man2/madvise.2 |    4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/man2/madvise.2 b/man2/madvise.2
-> index 032ead7..44698ec 100644
-> --- a/man2/madvise.2
-> +++ b/man2/madvise.2
-> @@ -98,12 +98,12 @@ either in reloading of the memory contents from the underlying mapped file
->   or zero-fill-on-demand pages for mappings
->   without an underlying file.
->   .TP
-> -.BR MADV_REMOVE " (since Linux 2.6.16)"
-> +.BR MADV_REMOVE " (since Linux 3.5)"
->   Free up a given range of pages
->   and its associated backing store.
->   Currently,
->   .\" 2.6.18-rc5
-> -only shmfs/tmpfs supports this; other filesystems return with the
-> +only shmfs/tmpfs, ext4, ocfs2 and xfs supports this; other filesystems return with the
->   error
->   .BR ENOSYS .
->   .\" Databases want to use this feature to drop a section of their
->
-
+diff --git a/man3/tzset.3 b/man3/tzset.3
+index 1ae47e5..c1c98e1 100644
+--- a/man3/tzset.3
++++ b/man3/tzset.3
+@@ -196,7 +196,7 @@ the system timezone directory is determined using the
+ the environment variable.
+ If
+ .BR TZDIR
+-the default depends on the system setup, but is normally
++is not set, the default depends on the system setup, but is normally
+ .IR /usr/share/zoneinfo .
+ .LP
+ This timezone directory contains the files
 -- 
-Jan Chaloupka
-------------------------------
-* Software Engineer          *
-* ENG Base Operating Systems *
-* Red Hat Czech, s. r. o.    *
-* UTC+1 (CET), jchaloup      *
+2.1.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
