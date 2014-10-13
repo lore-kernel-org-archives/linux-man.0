@@ -1,56 +1,78 @@
-From: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
-Subject: [PATCH] cmsg.3: ensure buf is suitably aligned in sending example
-Date: Mon, 13 Oct 2014 09:14:51 +0100
-Message-ID: <sa7fvesqt4y.fsf@dwragg-laptop.config>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4, ocfs2
+ and xfs as well
+Date: Mon, 13 Oct 2014 10:24:16 +0200
+Message-ID: <543B8C30.2070007@redhat.com>
+References: <20141007140337.10571.62743.stgit@unused-4-157.brq.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141007140337.10571.62743.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Inspection of the definition of CMSG_FIRSTHDR (both in glibc and the
-suggested definition in RFC3542) shows that it yields the msg_control
-field.  So when sending, the pointer placed in msg_control should be
-suitably aligned as a struct cmsghdr. In the sending example, buf was
-declared as a bare char array, and so is not necessarily suitably aligned.
+ping
 
-The solution here involves placing buf inside a union, and is based on
-the sockets/scm_rights_send.c sample from The Linux Programming
-Interface "dist" source code collection.
+On 10/07/2014 04:03 PM, Jan Chaloupka wrote:
+> As from upstream commit:
+>
+> commit 3f31d07571eeea18a7d34db9af21d2285b807a17
+> Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Date:   Tue May 29 15:06:40 2012 -0700
+>
+>      mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
+>
+>      Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
+>      to use do_fallocate() instead of vmtruncate_range(): which extends
+>      madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
+>
+> madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
+>
+> bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
+>
+> Justification from Rafael Aquini:
+> Well, that code is committed in kernel since v3.5 (2012) and it surely is
+> the expected behaviour since. It seems to me that madvise(2) man page text
+> for MADV_REMOVE just got out-of-date in that regard.
+>
+> This patch mentions this support in madvise.2 man page.
+>
+> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>   man2/madvise.2 |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index 032ead7..44698ec 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -98,12 +98,12 @@ either in reloading of the memory contents from the underlying mapped file
+>   or zero-fill-on-demand pages for mappings
+>   without an underlying file.
+>   .TP
+> -.BR MADV_REMOVE " (since Linux 2.6.16)"
+> +.BR MADV_REMOVE " (since Linux 3.5)"
+>   Free up a given range of pages
+>   and its associated backing store.
+>   Currently,
+>   .\" 2.6.18-rc5
+> -only shmfs/tmpfs supports this; other filesystems return with the
+> +only shmfs/tmpfs, ext4, ocfs2 and xfs supports this; other filesystems return with the
+>   error
+>   .BR ENOSYS .
+>   .\" Databases want to use this feature to drop a section of their
+>
 
-Signed-off-by: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
----
- man3/cmsg.3 | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/man3/cmsg.3 b/man3/cmsg.3
-index f355e6b..03f542e 100644
---- a/man3/cmsg.3
-+++ b/man3/cmsg.3
-@@ -198,11 +198,16 @@ UNIX domain socket using
- struct msghdr msg = {0};
- struct cmsghdr *cmsg;
- int myfds[NUM_FD]; /* Contains the file descriptors to pass. */
--char buf[CMSG_SPACE(sizeof myfds)];  /* ancillary data buffer */
-+union {
-+    /* ancillary data buffer, wrapped in a union in order to ensure it is
-+       suitably aligned */
-+    char buf[CMSG_SPACE(sizeof myfds)];
-+    struct cmsghdr align;
-+} u;
- int *fdptr;
- 
--msg.msg_control = buf;
--msg.msg_controllen = sizeof buf;
-+msg.msg_control = u.buf;
-+msg.msg_controllen = sizeof u.buf;
- cmsg = CMSG_FIRSTHDR(&msg);
- cmsg\->cmsg_level = SOL_SOCKET;
- cmsg\->cmsg_type = SCM_RIGHTS;
 -- 
-1.9.3
+Jan Chaloupka
+------------------------------
+* Software Engineer          *
+* ENG Base Operating Systems *
+* Red Hat Czech, s. r. o.    *
+* UTC+1 (CET), jchaloup      *
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
