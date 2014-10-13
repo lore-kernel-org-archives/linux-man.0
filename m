@@ -1,66 +1,57 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 86061] New: Condition for read(2) to return EINVAL is
- inaccurate
-Date: Sat, 11 Oct 2014 19:58:04 +0000
-Message-ID: <bug-86061-11311@https.bugzilla.kernel.org/>
+From: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
+Subject: [PATCH] cmsg.3: ensure buf is suitably aligned in sending example
+Date: Mon, 13 Oct 2014 09:14:51 +0100
+Message-ID: <sa7fvesqt4y.fsf@dwragg-laptop.config>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=86061
+Inspection of the definition of CMSG_FIRSTHDR (both in glibc and the
+suggested definition in RFC3542) shows that it yields the msg_control
+field.  So when sending, the pointer placed in msg_control should be
+suitably aligned as a struct cmsghdr. In the sending example, buf was
+declared as a bare char array, and so is not necessarily suitably aligned.
 
-            Bug ID: 86061
-           Summary: Condition for read(2) to return EINVAL is inaccurate
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nodakai-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+The solution here involves placing buf inside a union, and is based on
+the sockets/scm_rights_send.c sample from The Linux Programming
+Interface "dist" source code collection.
 
-The man page reads
+Signed-off-by: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
+---
+ man3/cmsg.3 | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-> If count is greater than SSIZE_MAX, the result is unspecified.
-
-However when we look at the implementation, rw_verify_area() which is common to
-vfs_read(), vfs_write() and so on actually tests if count fits ssize_t or not
-and returns EINVAL otherwise.
-
-http://lxr.free-electrons.com/source/fs/read_write.c#L348
-
-So the man page should state so.
-
-This is also important in terms of conformance/getting closer to POSIX. 
-Quotes from POSIX.1-2008:
-
-http://pubs.opengroup.org/onlinepubs/9699919799/functions/read.html
-
-> If the value of nbyte is greater than {SSIZE_MAX}, the result is implementation-defined.
-
-where "implementation-defined" is defined as:
-
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap01.html#tag_01_05_02
-
-> Describes a value or behavior that is not defined by POSIX.1-2008 but is selected by an implementor. (...snip...)
-> 
-> The implementor shall document such a value or behavior so that it can be used correctly by an application.
-
-So it cannot be just "unspecified".
-
-Moreover, write(2) doesn't say anything about the SSIZE_MAX limit.
-
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+index f355e6b..03f542e 100644
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -198,11 +198,16 @@ UNIX domain socket using
+ struct msghdr msg = {0};
+ struct cmsghdr *cmsg;
+ int myfds[NUM_FD]; /* Contains the file descriptors to pass. */
+-char buf[CMSG_SPACE(sizeof myfds)];  /* ancillary data buffer */
++union {
++    /* ancillary data buffer, wrapped in a union in order to ensure it is
++       suitably aligned */
++    char buf[CMSG_SPACE(sizeof myfds)];
++    struct cmsghdr align;
++} u;
+ int *fdptr;
+ 
+-msg.msg_control = buf;
+-msg.msg_controllen = sizeof buf;
++msg.msg_control = u.buf;
++msg.msg_controllen = sizeof u.buf;
+ cmsg = CMSG_FIRSTHDR(&msg);
+ cmsg\->cmsg_level = SOL_SOCKET;
+ cmsg\->cmsg_type = SCM_RIGHTS;
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
