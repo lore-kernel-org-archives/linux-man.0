@@ -1,50 +1,29 @@
 From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Subject: Re: readlink.2 query
-Date: Tue, 14 Oct 2014 12:25:39 +0100
-Message-ID: <CAGc9EvcVd1UsqAfrztzR=0+oeQhbP0A9tEYLXnNKSdRf-nwSxA@mail.gmail.com>
-References: <CAGc9Evenz+moY7M_EYuj7JFKCQJcgMCkWdV10wRucE0GiEY_dw@mail.gmail.com>
-	<CAKgNAkjjBAKNMbJtyK2UYuSMKWKycz_k8tfCXvijO6H_BsVvrg@mail.gmail.com>
+Subject: gethostbyname.3
+Date: Tue, 14 Oct 2014 23:34:52 +0100
+Message-ID: <CAGc9EvetrL3i+3wfHC5=Sh8kLhvsr8w0orp+ObeR6t9TFZ6e_w@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjjBAKNMbJtyK2UYuSMKWKycz_k8tfCXvijO6H_BsVvrg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael
+Hello
+Just looking at this page:
 
-On 10 October 2014 21:26, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello Jonny
->
-> On Thu, Oct 9, 2014 at 1:22 PM, Jonny Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
->> Hello
->> Just looking at readlink.2 I have a query
->>
->> http://man7.org/linux/man-pages/man2/readlink.2.html
->>
->> r = readlink(argv[1], linkname, sb.st_size + 1);
->>
->> Would this example be better without +1 ? We need to save that byte
->> for nul terminator.
->
-> No -- it;s needed to detect the case
->
->     if (r > sb.st_size) {
+http://man7.org/linux/man-pages/man3/gethostbyname.3.html
 
-Ok, I understand now. It lets you catch that the size of the link has
-increased, by that 1 byte overrun (that we didn't expect)
+NO_ADDRESS or NO_DATA
+              The requested name is valid but does not have an IP address.
 
-I guess could even just check against st_size:
+These macros are actually the same value, is there a good way to
+explain that? i.e. no way to have a switch for both.
 
-if (r != sb.st_size)
-{
-        fprintf(stderr, "symlink changed size "
-                               "between lstat() and readlink()\n");
-               exit(EXIT_FAILURE);
-}
+perhaps just say NO_DATA, then add the following for compatibility?
+
+#define NO_ADDRESS NO_DATA
 
 Regards, Jonny
 --
