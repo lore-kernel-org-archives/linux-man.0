@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memcpy.3: Reformat thread-safety information
-Date: Tue, 14 Oct 2014 16:30:35 +0800
-Message-ID: <1413275435-13254-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] memcmp.3: Reformat thread-safety information
+Date: Tue, 14 Oct 2014 16:33:22 +0800
+Message-ID: <1413275602-13548-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/memcpy.3 | 13 ++++++++++---
+ man3/memcmp.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/memcpy.3 b/man3/memcpy.3
-index 9a19286..f4ba763 100644
---- a/man3/memcpy.3
-+++ b/man3/memcpy.3
-@@ -50,10 +50,17 @@ The
- .BR memcpy ()
- function returns a pointer to \fIdest\fP.
+diff --git a/man3/memcmp.3 b/man3/memcmp.3
+index f1331a4..e2c5c20 100644
+--- a/man3/memcmp.3
++++ b/man3/memcmp.3
+@@ -58,10 +58,17 @@ that differ in
+ and
+ .IR s2 .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,7 +33,7 @@ index 9a19286..f4ba763 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR memcpy ()
+ .BR memcmp ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
