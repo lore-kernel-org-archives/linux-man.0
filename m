@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memchr.3: Reformat thread-safety information
-Date: Tue, 14 Oct 2014 16:47:58 +0800
-Message-ID: <1413276478-14050-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] memccpy.3: Reformat thread-safety information
+Date: Tue, 14 Oct 2014 16:50:03 +0800
+Message-ID: <1413276603-14305-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/memchr.3 | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ man3/memccpy.3 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/memchr.3 b/man3/memchr.3
-index 7e35784..815af17 100644
---- a/man3/memchr.3
-+++ b/man3/memchr.3
-@@ -122,13 +122,19 @@ first appeared in glibc in version 2.1.
- .BR memrchr ()
- first appeared in glibc in version 2.2.
+diff --git a/man3/memccpy.3 b/man3/memccpy.3
+index 1b0e65f..f892dec 100644
+--- a/man3/memccpy.3
++++ b/man3/memccpy.3
+@@ -68,10 +68,17 @@ first
+ characters of
+ .IR src .
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,20 +29,17 @@ index 7e35784..815af17 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw32 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR memchr (),
- .BR memrchr (),
--and
- .BR rawmemchr ()
--functions are thread-safe.
+ .BR memccpy ()
+-function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- The
- .BR memchr ()
+ SVr4, 4.3BSD, POSIX.1-2001.
+ .SH SEE ALSO
 -- 
 1.9.3
 
