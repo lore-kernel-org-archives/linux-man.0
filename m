@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] memccpy.3: Reformat thread-safety information
-Date: Tue, 14 Oct 2014 16:50:03 +0800
-Message-ID: <1413276603-14305-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] mbsinit.3: Reformat thread-safety information
+Date: Tue, 14 Oct 2014 16:53:00 +0800
+Message-ID: <1413276780-14599-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/memccpy.3 | 13 ++++++++++---
+ man3/mbsinit.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/memccpy.3 b/man3/memccpy.3
-index 1b0e65f..f892dec 100644
---- a/man3/memccpy.3
-+++ b/man3/memccpy.3
-@@ -68,10 +68,17 @@ first
- characters of
- .IR src .
+diff --git a/man3/mbsinit.3 b/man3/mbsinit.3
+index 156f396..3ca4997 100644
+--- a/man3/mbsinit.3
++++ b/man3/mbsinit.3
+@@ -82,10 +82,17 @@ is an initial state, or if
+ is NULL.
+ Otherwise, it returns 0.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 1b0e65f..f892dec 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR memccpy ()
+ .BR mbsinit ()
 -function is thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- SVr4, 4.3BSD, POSIX.1-2001.
- .SH SEE ALSO
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
