@@ -1,63 +1,70 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mbsinit.3: Reformat thread-safety information
-Date: Thu, 16 Oct 2014 12:11:22 +0200
-Message-ID: <543F99CA.3000207@gmail.com>
-References: <1413276780-14599-1-git-send-email-penght@cn.fujitsu.com>
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4, ocfs2
+ and xfs as well
+Date: Thu, 16 Oct 2014 12:50:36 +0200
+Message-ID: <543FA2FC.1030603@redhat.com>
+References: <20141007140337.10571.62743.stgit@unused-4-157.brq.redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1413276780-14599-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20141007140337.10571.62743.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Haitao. Applied.
+ping
 
-Cheers,
-
-Michael
-
-
-On 10/14/2014 10:53 AM, Peng Haitao wrote:
-> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 10/07/2014 04:03 PM, Jan Chaloupka wrote:
+> As from upstream commit:
+>
+> commit 3f31d07571eeea18a7d34db9af21d2285b807a17
+> Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Date:   Tue May 29 15:06:40 2012 -0700
+>
+>      mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
+>
+>      Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
+>      to use do_fallocate() instead of vmtruncate_range(): which extends
+>      madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
+>
+> madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
+>
+> bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
+>
+> Justification from Rafael Aquini:
+> Well, that code is committed in kernel since v3.5 (2012) and it surely is
+> the expected behaviour since. It seems to me that madvise(2) man page text
+> for MADV_REMOVE just got out-of-date in that regard.
+>
+> This patch mentions this support in madvise.2 man page.
+>
+> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 > ---
->  man3/mbsinit.3 | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/mbsinit.3 b/man3/mbsinit.3
-> index 156f396..3ca4997 100644
-> --- a/man3/mbsinit.3
-> +++ b/man3/mbsinit.3
-> @@ -82,10 +82,17 @@ is an initial state, or if
->  is NULL.
->  Otherwise, it returns 0.
->  .SH ATTRIBUTES
-> -.SS Multithreading (see pthreads(7))
-> -The
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
->  .BR mbsinit ()
-> -function is thread-safe.
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  C99.
->  .SH NOTES
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+>   man2/madvise.2 |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index 032ead7..44698ec 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -98,12 +98,12 @@ either in reloading of the memory contents from the underlying mapped file
+>   or zero-fill-on-demand pages for mappings
+>   without an underlying file.
+>   .TP
+> -.BR MADV_REMOVE " (since Linux 2.6.16)"
+> +.BR MADV_REMOVE " (since Linux 3.5)"
+>   Free up a given range of pages
+>   and its associated backing store.
+>   Currently,
+>   .\" 2.6.18-rc5
+> -only shmfs/tmpfs supports this; other filesystems return with the
+> +only shmfs/tmpfs, ext4, ocfs2 and xfs supports this; other filesystems return with the
+>   error
+>   .BR ENOSYS .
+>   .\" Databases want to use this feature to drop a section of their
+>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
