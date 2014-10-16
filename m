@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] memcpy.3: Reformat thread-safety information
-Date: Thu, 16 Oct 2014 12:10:15 +0200
-Message-ID: <543F9987.6020808@gmail.com>
-References: <1413275435-13254-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] memcmp.3: Reformat thread-safety information
+Date: Thu, 16 Oct 2014 12:10:28 +0200
+Message-ID: <543F9994.6060207@gmail.com>
+References: <1413275602-13548-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1413275435-13254-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1413275602-13548-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 10/14/2014 10:30 AM, Peng Haitao wrote:
+On 10/14/2014 10:33 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/memcpy.3 | 13 ++++++++++---
+>  man3/memcmp.3 | 13 ++++++++++---
 >  1 file changed, 10 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/memcpy.3 b/man3/memcpy.3
-> index 9a19286..f4ba763 100644
-> --- a/man3/memcpy.3
-> +++ b/man3/memcpy.3
-> @@ -50,10 +50,17 @@ The
->  .BR memcpy ()
->  function returns a pointer to \fIdest\fP.
+> diff --git a/man3/memcmp.3 b/man3/memcmp.3
+> index f1331a4..e2c5c20 100644
+> --- a/man3/memcmp.3
+> +++ b/man3/memcmp.3
+> @@ -58,10 +58,17 @@ that differ in
+>  and
+>  .IR s2 .
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -44,7 +44,7 @@ On 10/14/2014 10:30 AM, Peng Haitao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR memcpy ()
+>  .BR memcmp ()
 > -function is thread-safe.
 > +T}	Thread safety	MT-Safe
 > +.TE
