@@ -1,68 +1,49 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH]: unix.7: mentioning SOCK_STREAM socket for ioctl_type
- of ioctl function
-Date: Thu, 16 Oct 2014 12:51:55 +0200
-Message-ID: <543FA34B.5080205@redhat.com>
-References: <53CF9457.7070409@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] lseek64.3: tfix
+Date: Thu, 16 Oct 2014 13:42:06 +0200
+Message-ID: <543FAF0E.80406@gmail.com>
+References: <1412411878-5744-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53CF9457.7070409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1412411878-5744-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-ping
+Thanks, Yuri. Applied.
 
-On 07/23/2014 12:54 PM, Jan Chaloupka wrote:
-> From https://bugzilla.redhat.com/show_bug.cgi?id=1110401.
->
-> unix.7 is not clear about socket type of ioctl_type argument of ioctl 
-> function. The description of SIOCINQ is applicable only for 
-> SOCK_STREAM socket. For SOCK_DGRAM, udp(7) man page gives correct 
-> description of SIOCINQ.
->
+Cheers,
+
+Michael
+
+On 10/04/2014 10:37 AM, Yuri Kozlov wrote:
 > ---
->  man7/unix.7 | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/man7/unix.7 b/man7/unix.7
-> index b0ade5b..6bcc8ba 100644
-> --- a/man7/unix.7
-> +++ b/man7/unix.7
-> @@ -299,7 +299,9 @@ The correct syntax is:
->  can be:
->  .TP
->  .B SIOCINQ
-> -Returns the amount of queued unread data in the receive buffer.
-> +For
-> +.B SOCK_STREAM
-> +socket the function returns the amount of queued unread data in the 
-> receive buffer.
->  The socket must not be in LISTEN state, otherwise an error
->  .RB ( EINVAL )
->  is returned.
-> @@ -319,6 +321,10 @@ defined in
->  .\" That number is normally larger than the number of bytes of pending
->  .\" output. Since this info is, from userland's point of view, 
-> imprecise,
->  .\" and it may well change, probably best not to document this now.
-> +For
-> +.B SOCK_DGRAM
-> +socket, see
-> +.BR udp (7).
->  .SH ERRORS
->  .TP
->  .B EADDRINUSE
-> @@ -450,4 +456,5 @@ see
->  .BR cmsg (3),
->  .BR capabilities (7),
->  .BR credentials (7),
-> -.BR socket (7)
-> +.BR socket (7),
-> +.BR udp (7)
+>  man3/lseek64.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man3/lseek64.3 b/man3/lseek64.3
+> index 9e9c0c1..f02b573 100644
+> --- a/man3/lseek64.3
+> +++ b/man3/lseek64.3
+> @@ -126,7 +126,7 @@ is a 64-bit signed type.
+>  The library routine
+>  .BR llseek ()
+>  .\" in libc 5.0.9, not in 4.7.6
+> -is available and glibc and works without special defines.
+> +is available in the glibc and works without special defines.
+>  However, the glibc headers do not provide a prototype.
+>  Users should add
+>  the above prototype, or something equivalent, to their own source.
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
