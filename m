@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] mbsinit.3: Reformat thread-safety information
-Date: Thu, 16 Oct 2014 12:11:15 +0200
-Message-ID: <543F99C3.5080208@gmail.com>
+Date: Thu, 16 Oct 2014 12:11:22 +0200
+Message-ID: <543F99CA.3000207@gmail.com>
 References: <1413276780-14599-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
@@ -12,6 +12,13 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
+
+Thanks, Haitao. Applied.
+
+Cheers,
+
+Michael
+
 
 On 10/14/2014 10:53 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
