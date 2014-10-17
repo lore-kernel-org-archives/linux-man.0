@@ -1,78 +1,78 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] pow.3: Add note on performance characteristics of pow
-Date: Fri, 17 Oct 2014 07:24:38 +0200
-Message-ID: <5440A816.8000002@gmail.com>
-References: <CAESRpQDx5TfgfRp1q69NiuCB5ve8+fR1NC2up9h5LOkogMKkqQ@mail.gmail.com>
+Subject: Re: [PATCH] getlogin.3: Reformat thread-safety information
+Date: Fri, 17 Oct 2014 08:05:29 +0200
+Message-ID: <5440B1A9.8020304@gmail.com>
+References: <1413518358-32200-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAESRpQDx5TfgfRp1q69NiuCB5ve8+fR1NC2up9h5LOkogMKkqQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1413518358-32200-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?windows-1252?Q?Manuel_L=F3pez-Ib=E1=F1ez?= <lopezibanez-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Manuel,
+Hello Haitao,
 
+Just double checking one point. See below.
 
-On 10/17/2014 01:51 AM, Manuel L=F3pez-Ib=E1=F1ez wrote:
-> Hello,
->=20
-> This patch documents
-> https://sourceware.org/bugzilla/show_bug.cgi?id=3D13932 as requested =
-in
-> https://sourceware.org/bugzilla/show_bug.cgi?id=3D15267. It would be
-> nice to add more details, but it seems the behavior and its
-> consequences is not well understood. The purpose of the note is to
-> warn users of this behavior and thus avoid frustration
-> (http://entropymine.com/imageworsener/slowpow/).
->=20
-> This is my first patch. I followed (hopefully correctly) the instruct=
-ions here:
-> https://www.kernel.org/doc/man-pages/patches.html
+On 10/17/2014 05:59 AM, Peng Haitao wrote:
+> Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/getlogin.3 | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+> 
+> diff --git a/man3/getlogin.3 b/man3/getlogin.3
+> index fcbd0fb..828df2b 100644
+> --- a/man3/getlogin.3
+> +++ b/man3/getlogin.3
+> @@ -138,19 +138,23 @@ password database file
+>  (traditionally \fI/etc/utmp\fP;
+>  some libc versions used \fI/var/adm/utmp\fP)
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR getlogin ()
+> -function is not thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Unsafe locale
 
+Should this be "MT-Safe locale"?
 
-Thanks for this patch. It looks good. But inline patches are easier to =
-review.
-One small question below.
-
-> diff --git a/man3/pow.3 b/man3/pow.3
-> index d0a2ea8..3d2151a 100644
-> --- a/man3/pow.3
-> +++ b/man3/pow.3
-> @@ -320,6 +320,17 @@ The variant returning
->  also conforms to
->  SVr4, 4.3BSD, C89.
->  .SH BUGS
-> +On 64-bits,
-> +.\"
-> +.\" https://sourceware.org/bugzilla/show_bug.cgi?id=3D13932
-> +.BR pow ()
-> +may be more than 10,000 times slower for some inputs than for other =
-nearby
-
-I plan to change "some" to "some (rare)". Sound okay? The point is not =
-to
-worry people that this is a problem that is commonly encountered. (Or i=
-s it?)
-
-Thanks,
+Cheers,
 
 Michael
 
-> +inputs. The inputs that produce such behavior are different for
-> +.BR powf (),
-> +.BR pow ()
-> +and
-> +.BR powl ().
-> +
->  In glibc 2.9 and earlier,
->  .\"
->  .\" http://sources.redhat.com/bugzilla/show_bug.cgi?id=3D6776
+
+> +T{
+>  .BR getlogin_r ()
+> -function is thread-safe.
+> -.LP
+> -The
+> +T}	Thread safety	MT-Safe locale
+> +T{
+>  .BR cuserid ()
+> -function is thread-safe with exceptions.
+> -It is not thread-safe if called with a NULL parameter.
+> +T}	Thread safety	MT-Unsafe race:cuserid/!string locale
+> +.TE
+>  .SH CONFORMING TO
+>  .BR getlogin ()
+>  and
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
