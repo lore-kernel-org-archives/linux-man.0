@@ -1,55 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Differences between man-pages and libc manual safety markings
-Date: Fri, 17 Oct 2014 15:26:18 +0200
-Message-ID: <544118FA.3070003@gmail.com>
+Subject: Re: [PATCH] resolv.conf.5: add missing no-tld-query option
+Date: Fri, 17 Oct 2014 15:48:15 +0200
+Message-ID: <54411E1F.7040009@gmail.com>
+References: <20141016104913.20972.85002.stgit@unused-4-157.brq.redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141016104913.20972.85002.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Haitao,
+On 10/16/2014 12:49 PM, Jan Chaloupka wrote:
+> Based on commit [1], no-tld-query options exists for resolv.conf configuration file.
+> Description of this option is documented in [2]. This patch just copies this option
+> into resolv.conf.5 man page. Plus changes 'a' member into 'an' before 'unqualified name as if it ...'
+> on the third line of [2]. Based on [3], this option was added in glibc 2.14 as solving [4] bug.
 
-I was comparing some of the MT-Safety markings in man-pages versus the glibc
-manual (https://www.gnu.org/software/libc/manual/html_mono/libc.html)
-I found four cases that seem to contradict. Are there errors in either
-the man pages or in the glibc manual?
-
-==
-ctermid.3       MT-Unsafe race:ctermid/!s
-	glibc: MT-Safe
-
-man-pages and glibc manual disagree (man-pages seems to be more
-precise than glibc).
-
-==
-getcwd.3        MT-Safe env
-	glibc: MT-Safe
-
-man-pages and glibc manual disagree on "env" (man-pages seems 
-to be more precise than glibc).
-
-==
-getlogin.3      MT-Unsafe race:cuserid/!string locale
-	glibc: MT-Unsafe race:getlogin race:utent sig:ALRM timer locale
-
-man-pages and glibc manual disagree on "race:cuserid/!string" versus
-"race:getlogin"
-
-==
-regex.3         MT-Safe env
-	glibc: MT-Safe locale
-
-man-pages and glibc manual disagree on "env" versus "locale"
-
-==
+Thanks, Jan. Applied.
 
 Cheers,
 
 Michael
+
+
+> [1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=f87dfb1f11c01f2ccdc40d81e134cd06b32e28e8
+> [2] http://www.daemon-systems.org/man/resolv.conf.5.html man page.
+> [3] https://sourceware.org/git/?p=glibc.git;a=blob;f=NEWS;h=952f32af17e7fb49c4c1a305de673a13075bfaf5;hb=f87dfb1f11c01f2ccdc40d81e134cd06b32e28e8
+> [4] https://sourceware.org/bugzilla/show_bug.cgi?id=12734
+> 
+> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man5/resolv.conf.5 |   11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+> index 3680a82..99ec91d 100644
+> --- a/man5/resolv.conf.5
+> +++ b/man5/resolv.conf.5
+> @@ -261,6 +261,17 @@ When that happens the client system will sit and wait for the second reply.
+>  Turning this option on changes this behavior
+>  so that if two requests from the same port are not handled correctly it will
+>  close the socket and open a new one before sending the second request.
+> +.TP
+> +.BR no-tld-query " (since glibc 2.14)"
+> +sets RES_NOTLDQUERY in
+> +.IR _res.options .
+> +This option causes
+> +.BR res_nsearch()
+> +to not attempt to resolve an unqualified name
+> +as if it were a top level domain (TLD).
+> +This option can cause problems if the site has ``localhost'' as a TLD
+> +rather than having localhost on one or more elements of the search list.
+> +This option has no effect if neither RES_DEFNAMES or RES_DNSRCH is set.
+>  .RE
+>  .LP
+>  The \fIdomain\fP and \fIsearch\fP keywords are mutually exclusive.
+> 
+> 
 
 
 -- 
