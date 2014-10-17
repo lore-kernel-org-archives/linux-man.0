@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tmpnam.3: Modify thread-safety information
-Date: Fri, 17 Oct 2014 07:11:43 +0200
-Message-ID: <5440A50F.3050104@gmail.com>
-References: <1413514866-28678-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] ctermid.3: Reformat thread-safety information
+Date: Fri, 17 Oct 2014 07:11:31 +0200
+Message-ID: <5440A503.4060304@gmail.com>
+References: <1413515429-29022-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1413514866-28678-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1413515429-29022-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -21,27 +21,38 @@ Michael
 
 
 
-On 10/17/2014 05:01 AM, Peng Haitao wrote:
-> When the argument s is NULL, tmpnam() should be MT-Unsafe.
-> 
+On 10/17/2014 05:10 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/tmpnam.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man3/ctermid.3 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/tmpnam.3 b/man3/tmpnam.3
-> index 0371d79..bf68159 100644
-> --- a/man3/tmpnam.3
-> +++ b/man3/tmpnam.3
-> @@ -93,7 +93,7 @@ l l l.
->  Interface	Attribute	Value
->  T{
->  .BR tmpnam ()
-> -T}	Thread safety	MT-Safe /!s
-> +T}	Thread safety	MT-Unsafe race:tmpnam/!s
->  T{
->  .BR tmpnam_r ()
->  T}	Thread safety	MT-Safe
+> diff --git a/man3/ctermid.3 b/man3/ctermid.3
+> index f78fc41..5e1fc36 100644
+> --- a/man3/ctermid.3
+> +++ b/man3/ctermid.3
+> @@ -59,11 +59,17 @@ is the maximum number of characters in the returned pathname.
+>  .SH RETURN VALUE
+>  The pointer to the pathname.
+>  .SH ATTRIBUTES
+> -.SS Multithreading (see pthreads(7))
+> -The
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+>  .BR ctermid ()
+> -function is thread-safe with exceptions.
+> -It is not thread-safe if called with a NULL parameter.
+> +T}	Thread safety	MT-Unsafe race:ctermid/!s
+> +.TE
+>  .SH CONFORMING TO
+>  Svr4, POSIX.1-2001.
+>  .SH BUGS
 > 
 
 
