@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mblen.3: Reformat thread-safety information
-Date: Fri, 17 Oct 2014 14:58:12 +0800
-Message-ID: <1413529092-9873-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] matherr.3: Reformat thread-safety information
+Date: Fri, 17 Oct 2014 15:02:58 +0800
+Message-ID: <1413529378-10372-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mblen.3 | 13 ++++++++++---
+ man3/matherr.3 | 13 ++++++++++---
  1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/man3/mblen.3 b/man3/mblen.3
-index 873cf53..85b02d6 100644
---- a/man3/mblen.3
-+++ b/man3/mblen.3
-@@ -85,10 +85,17 @@ It returns \-1, if an
- invalid multibyte sequence was encountered or if it couldn't parse a complete
- multibyte character.
+diff --git a/man3/matherr.3 b/man3/matherr.3
+index af761da..ad74007 100644
+--- a/man3/matherr.3
++++ b/man3/matherr.3
+@@ -273,10 +273,17 @@ fmod(x,0)	DOMAIN	x	y	EDOM
+ remainder(x,0)	DOMAIN	NAN	y	EDOM	\" retval is 0.0/0.0
+ .TE
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -33,13 +33,13 @@ index 873cf53..85b02d6 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR mblen ()
--function is not thread-safe.
-+T}	Thread safety	MT-Unsafe
+ .BR matherr ()
+-function is thread-safe.
++T}	Thread safety	MT-Safe
 +.TE
- .SH CONFORMING TO
- C99.
- .SH NOTES
+ .SH EXAMPLE
+ The example program demonstrates the use of
+ .BR matherr ()
 -- 
 1.9.3
 
