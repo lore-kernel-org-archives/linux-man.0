@@ -1,90 +1,49 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH]: unix.7: mentioning SOCK_STREAM socket for ioctl_type
- of ioctl function
-Date: Fri, 17 Oct 2014 16:35:32 +0200
-Message-ID: <54412934.9060602@gmail.com>
-References: <53CF9457.7070409@redhat.com>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: POSIX Safety
+Date: Fri, 17 Oct 2014 10:40:38 -0400
+Message-ID: <54412A66.8050909@redhat.com>
+References: <53AD7575.9080202@redhat.com> <5440A25F.9090507@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53CF9457.7070409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <5440A25F.9090507-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Jan,
-
-On 07/23/2014 12:54 PM, Jan Chaloupka wrote:
->  From https://bugzilla.redhat.com/show_bug.cgi?id=1110401.
+On 10/17/2014 01:00 AM, Michael Kerrisk (man-pages) wrote:
+> On 06/27/2014 03:45 PM, Carlos O'Donell wrote:
+>> Michael,
+>>
+>> I submit the following text to the Linux Kernel Man Pages project.
+>> The goal being that we copy-edit this into a safety attributes
+>> man page and thus harmonize the definition of thread safe,
+>> async-cancel safe, and async-signal safe between glibc and the
+>> linux kernel man page project.
+>>
+>> Please feel free to use all, some, or non of this document. It is
+>> included under GPLv2+_DOC_FULL for your use in the linux kernel man
+>> pages project. It is presently formatted as info, please feel free
+>> to reformat. For example the HURD parts of the doucment do not apply
+>> since the man pages are intended for systems using the Linux
+>> kernel e.g. GNU/Linux.
+>>
+>> As always I look forward to continued harmonization between the
+>> glibc manual and linux kernel man pages project :-)
 > 
-> unix.7 is not clear about socket type of ioctl_type argument of ioctl 
-> function. The description of SIOCINQ is applicable only for SOCK_STREAM 
-> socket. For SOCK_DGRAM, udp(7) man page gives correct description of 
-> SIOCINQ.
-
-Again, the intent of this patch seems correct, but some
-details need fixing, I think.
-
-> ---
->   man7/unix.7 | 11 +++++++++--
->   1 file changed, 9 insertions(+), 2 deletions(-)
+> Hi Carlos,
 > 
-> diff --git a/man7/unix.7 b/man7/unix.7
-> index b0ade5b..6bcc8ba 100644
-> --- a/man7/unix.7
-> +++ b/man7/unix.7
-> @@ -299,7 +299,9 @@ The correct syntax is:
->   can be:
->   .TP
->   .B SIOCINQ
-> -Returns the amount of queued unread data in the receive buffer.
-> +For
-> +.B SOCK_STREAM
-> +socket the function returns the amount of queued unread data in the 
-> receive buffer.
->   The socket must not be in LISTEN state, otherwise an error
->   .RB ( EINVAL )
->   is returned.
-> @@ -319,6 +321,10 @@ defined in
->   .\" That number is normally larger than the number of bytes of pending
->   .\" output. Since this info is, from userland's point of view, imprecise,
->   .\" and it may well change, probably best not to document this now.
-> +For
-> +.B SOCK_DGRAM
-> +socket, see
-> +.BR udp (7).
+> I started editing up some of this material for inclusion in
+> a man page. As well as the Copyright, I do find it useful to
+> list the authors for the text. Is that you, Alexandre, or both?
 
-It feels a bit odd to simply point at udp(7), since that describes
-another socket domain (Internet). Maybe say something like:
-
-    For SOCK_DRAM sockets, the returned value is the same as
-    for Internet domain datagram sockets; see udp(7).
-
-What do you think?
+Alexandre is the author of the text.
 
 Cheers,
+Carlos.
 
-Michael
-
->   .SH ERRORS
->   .TP
->   .B EADDRINUSE
-> @@ -450,4 +456,5 @@ see
->   .BR cmsg (3),
->   .BR capabilities (7),
->   .BR credentials (7),
-> -.BR socket (7)
-> +.BR socket (7),
-> +.BR udp (7)
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
