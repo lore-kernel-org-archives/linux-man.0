@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] atoi.3: Reformat thread-safety information
-Date: Fri, 17 Oct 2014 09:56:53 +0800
-Message-ID: <1413511013-23871-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] tmpnam.3: Modify thread-safety information
+Date: Fri, 17 Oct 2014 11:01:06 +0800
+Message-ID: <1413514866-28678-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,43 +10,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+When the argument s is NULL, tmpnam() should be MT-Unsafe.
+
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/atoi.3 | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ man3/tmpnam.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/atoi.3 b/man3/atoi.3
-index 0cea405..60464e7 100644
---- a/man3/atoi.3
-+++ b/man3/atoi.3
-@@ -91,17 +91,19 @@ is an obsolete name for
- .SH RETURN VALUE
- The converted value.
- .SH ATTRIBUTES
--.SS Multithreading (see pthreads(7))
--The
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw23 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
- .BR atoi (),
- .BR atol (),
--and
- .BR atoll ()
--functions are thread-safe with exceptions.
--These functions can be safely used in multithreaded applications,
--as long as
--.BR setlocale (3)
--is not called to change the locale during their execution.
-+T}	Thread safety	MT-Safe locale
-+.TE
- .SH CONFORMING TO
- SVr4, POSIX.1-2001, 4.3BSD, C99.
- C89 and
+diff --git a/man3/tmpnam.3 b/man3/tmpnam.3
+index 0371d79..bf68159 100644
+--- a/man3/tmpnam.3
++++ b/man3/tmpnam.3
+@@ -93,7 +93,7 @@ l l l.
+ Interface	Attribute	Value
+ T{
+ .BR tmpnam ()
+-T}	Thread safety	MT-Safe /!s
++T}	Thread safety	MT-Unsafe race:tmpnam/!s
+ T{
+ .BR tmpnam_r ()
+ T}	Thread safety	MT-Safe
 -- 
 1.9.3
 
