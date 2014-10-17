@@ -1,82 +1,90 @@
-From: =?ISO-8859-1?Q?Manuel_L=F3pez=2DIb=E1=F1ez?=
-	<lopezibanez-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] pow.3: Add note on performance characteristics of pow
-Date: Fri, 17 Oct 2014 15:51:06 +0200
-Message-ID: <CAESRpQB5K9U1sBreXUrNa4tPB69cwxC+fdu1bUr5BkU-dtxJMQ@mail.gmail.com>
-References: <CAESRpQDx5TfgfRp1q69NiuCB5ve8+fR1NC2up9h5LOkogMKkqQ@mail.gmail.com>
- <5440A816.8000002@gmail.com> <20141017075845.GL1552@spoyarek.pnq.redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4, ocfs2
+ and xfs as well
+Date: Fri, 17 Oct 2014 16:35:26 +0200
+Message-ID: <5441292E.5000008@gmail.com>
+References: <20141007140337.10571.62743.stgit@unused-4-157.brq.redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/mixed; boundary=001a11c3498c4cf16805059ea962
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20141017075845.GL1552-EBXREzpM9Zo4v7BKUif6HKfLeoKvNuZc@public.gmane.org>
+In-Reply-To: <20141007140337.10571.62743.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
---001a11c3498c4cf16805059ea962
-Content-Type: text/plain; charset=ISO-8859-1
+Hello Jan,
 
-On 17 October 2014 09:58, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> > +inputs. The inputs that produce such behavior are different for
->> > +.BR powf (),
->> > +.BR pow ()
->> > +and
->> > +.BR powl ().
->> > +
->
-> The slow fallback is only taken for pow, not powf or powl.
+On 10/07/2014 04:03 PM, Jan Chaloupka wrote:
+> As from upstream commit:
+> 
+> commit 3f31d07571eeea18a7d34db9af21d2285b807a17
+> Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Date:   Tue May 29 15:06:40 2012 -0700
+> 
+>     mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
+> 
+>     Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
+>     to use do_fallocate() instead of vmtruncate_range(): which extends
+>     madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
+> 
+> madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
+> 
+> bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
+> 
+> Justification from Rafael Aquini:
+> Well, that code is committed in kernel since v3.5 (2012) and it surely is
+> the expected behaviour since. It seems to me that madvise(2) man page text
+> for MADV_REMOVE just got out-of-date in that regard.
+> 
+> This patch mentions this support in madvise.2 man page.
 
-Updated patch inline:
+The intent of this patch seems correct, but I think the details
+need fixing. See below.
 
-diff --git a/man3/pow.3 b/man3/pow.3
-index d0a2ea8..1b05292 100644
---- a/man3/pow.3
-+++ b/man3/pow.3
-@@ -320,6 +320,18 @@ The variant returning
- also conforms to
- SVr4, 4.3BSD, C89.
- .SH BUGS
-+On 64-bits,
-+.\"
-+.\" https://sourceware.org/bugzilla/show_bug.cgi?id=13932
-+.BR pow ()
-+may be more than 10,000 times slower for some (rare) inputs than for
-other nearby
-+inputs.  This only affects
-+.BR pow (),
-+and not
-+.BR powf ()
-+nor
-+.BR powl ().
-+
- In glibc 2.9 and earlier,
- .\"
- .\" http://sources.redhat.com/bugzilla/show_bug.cgi?id=6776
 
-and attached in case gmail messes it up.
+> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/madvise.2 |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index 032ead7..44698ec 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -98,12 +98,12 @@ either in reloading of the memory contents from the underlying mapped file
+>  or zero-fill-on-demand pages for mappings
+>  without an underlying file.
+>  .TP
+> -.BR MADV_REMOVE " (since Linux 2.6.16)"
+> +.BR MADV_REMOVE " (since Linux 3.5)"
+
+I think the above should not change.
+
+>  Free up a given range of pages
+>  and its associated backing store.
+>  Currently,
+>  .\" 2.6.18-rc5
+> -only shmfs/tmpfs supports this; other filesystems return with the
+> +only shmfs/tmpfs, ext4, ocfs2 and xfs supports this; other filesystems return with the
+
+I think the above line should be:
+
+    only shmfs/tmpfs and (since Linux 3.5) ext4, ocfs2 and xfs supports this;
+    other filesystems return with the
+
+See what I mean? Could you fix and resubmit please?
 
 Cheers,
 
-Manuel.
+Michael
 
---001a11c3498c4cf16805059ea962
-Content-Type: text/plain; charset=US-ASCII; name="pow.diff"
-Content-Disposition: attachment; filename="pow.diff"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_i1dlgt2w0
 
-ZGlmZiAtLWdpdCBhL21hbjMvcG93LjMgYi9tYW4zL3Bvdy4zCmluZGV4IGQwYTJlYTguLjFiMDUy
-OTIgMTAwNjQ0Ci0tLSBhL21hbjMvcG93LjMKKysrIGIvbWFuMy9wb3cuMwpAQCAtMzIwLDYgKzMy
-MCwxOCBAQCBUaGUgdmFyaWFudCByZXR1cm5pbmcKIGFsc28gY29uZm9ybXMgdG8KIFNWcjQsIDQu
-M0JTRCwgQzg5LgogLlNIIEJVR1MKK09uIDY0LWJpdHMsCisuXCIKKy5cIiBodHRwczovL3NvdXJj
-ZXdhcmUub3JnL2J1Z3ppbGxhL3Nob3dfYnVnLmNnaT9pZD0xMzkzMgorLkJSIHBvdyAoKQorbWF5
-IGJlIG1vcmUgdGhhbiAxMCwwMDAgdGltZXMgc2xvd2VyIGZvciBzb21lIChyYXJlKSBpbnB1dHMg
-dGhhbiBmb3Igb3RoZXIgbmVhcmJ5CitpbnB1dHMuICBUaGlzIG9ubHkgYWZmZWN0cyAKKy5CUiBw
-b3cgKCksCithbmQgbm90IAorLkJSIHBvd2YgKCkKK25vcgorLkJSIHBvd2wgKCkuCisKIEluIGds
-aWJjIDIuOSBhbmQgZWFybGllciwKIC5cIgogLlwiIGh0dHA6Ly9zb3VyY2VzLnJlZGhhdC5jb20v
-YnVnemlsbGEvc2hvd19idWcuY2dpP2lkPTY3NzYK
---001a11c3498c4cf16805059ea962--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
