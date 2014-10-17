@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getttyent.3: Reformat thread-safety information
-Date: Fri, 17 Oct 2014 14:33:13 +0800
-Message-ID: <1413527593-7645-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] mbrtowc.3: Reformat thread-safety information
+Date: Fri, 17 Oct 2014 14:39:58 +0800
+Message-ID: <1413527998-7966-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,49 +12,35 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getttyent.3 | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ man3/mbrtowc.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/getttyent.3 b/man3/getttyent.3
-index 0271bc3..22a1bb3 100644
---- a/man3/getttyent.3
-+++ b/man3/getttyent.3
-@@ -70,22 +70,20 @@ can be:
- #define TTY_SECURE 0x02  /* allow UID 0 to login */
- .fi
+diff --git a/man3/mbrtowc.3 b/man3/mbrtowc.3
+index 1a5a9f9..603b311 100644
+--- a/man3/mbrtowc.3
++++ b/man3/mbrtowc.3
+@@ -171,11 +171,17 @@ character, meaning that
+ .I n
+ should be increased.
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
--The
--.BR getttyent ()
--function returns a pointer to a static variable, so it is not thread-safe.
--.LP
--The
--.BR setttyent ()
--and
--.BR endttyent ()
--functions use a static variable, so they are not thread-safe.
--.LP
 -The
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw25 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getttyent (),
-+.BR setttyent (),
-+.BR endttyent (),
- .BR getttynam ()
--function calls thread-unsafe function
--.BR getttyent ()
--so it is not thread-safe.
-+T}	Thread safety	MT-Unsafe race:ttyent
+ .BR mbrtowc ()
+-function is thread-safe with exceptions.
+-It is not thread-safe if called with a NULL \fIps\fP parameter.
++T}	Thread safety	MT-Unsafe race:mbrtowc/!ps
 +.TE
  .SH CONFORMING TO
- Not in POSIX.1-2001.
- Present on the BSDs, and perhaps other systems.
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
