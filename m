@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] localedef.1: list default path for compiled files
-Date: Mon, 20 Oct 2014 08:21:53 +0300
-Message-ID: <54449BF1.3050109@redhat.com>
+Subject: Subject: [PATCH] locale.7: improve LOCPATH description
+Date: Mon, 20 Oct 2014 08:23:17 +0300
+Message-ID: <54449C45.4010907@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
@@ -12,24 +12,61 @@ To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
----
- man1/localedef.1 |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+LOCPATH is ignored by privileged programs.
 
-diff --git a/man1/localedef.1 b/man1/localedef.1
-index 24da5d0..1f2cd7a 100644
---- a/man1/localedef.1
-+++ b/man1/localedef.1
-@@ -291,6 +291,9 @@ Usual default repertoire map path.
+Add locale archive references.
+
+Add FILES section.
+
+---
+ man7/locale.7 |   22 ++++++++++++++++------
+ 1 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/man7/locale.7 b/man7/locale.7
+index 6270739..3fb2ad3 100644
+--- a/man7/locale.7
++++ b/man7/locale.7
+@@ -330,17 +330,20 @@ The following environment variable is used by
+ .BR newlocale (3)
+ and
+ .BR setlocale (3),
+-and thus affects all localized programs:
++and thus affects all unprivileged localized programs:
  .TP
- .I /usr/lib/locale/locale-archive
- Usual default locale archive location.
-+.TP 
-+.I /usr/lib/locale               
-+Usual default path for compiled individual locale data files.
- .TP
- .I outputpath/LC_ADDRESS
- An output file that contains information about formatting of
+ .B LOCPATH
+ A list of pathnames, separated by colons (\(aq:\(aq),
+ that should be used to find locale data.
+-If this variable is set, only the individual locale data files from
++If this variable is set, only the individual compiled locale data files
++from
+ .I LOCPATH
+-and the system default locale data path are used; any available locale
+-archives are not used. The individual locale data files are searched
+-under subdirectories which depend on the currently used locale. For
+-example, when
++and the system default locale data path are used;
++any available locale archives are not used (see
++.BR localedef (1)).
++The individual compiled locale data files are searched under
++subdirectories which depend on the currently used locale.
++For example, when
+ .I en_GB.UTF-8
+ is used for a category, the following subdirectories are searched for,
+ in this order:
+@@ -351,6 +354,13 @@ in this order:
+ .IR en.utf8 ,
+ and
+ .IR en .
++.SH FILES
++.TP
++.I /usr/lib/locale/locale-archive
++Usual default locale archive location.
++.TP
++.I /usr/lib/locale
++Usual default path for compiled individual locale files.
+ .SH CONFORMING TO
+ POSIX.1-2001.
+ .\"
 -- 
 1.7.1
 
