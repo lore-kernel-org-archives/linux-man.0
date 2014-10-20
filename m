@@ -1,29 +1,29 @@
-From: Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Roland McGrath <roland@hack.frob.com>
 Subject: Re: For review: attributes(7) man page
-Date: Mon, 20 Oct 2014 23:51:53 +0200
-Message-ID: <544583F9.6050009@redhat.com>
+Date: Mon, 20 Oct 2014 14:54:55 -0700 (PDT)
+Message-ID: <20141020215455.63F382C3B08@topped-with-meat.com>
 References: <5444A1D8.2060908@gmail.com>
+	<544583F9.6050009@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5444A1D8.2060908-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Content-Type: text/plain; charset=unknown
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-53640-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: Florian Weimer's message of  Monday, 20 October 2014 23:51:53 +0200 <544583F9.6050009@redhat.com>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Peng Haitao <penght@cn.fujitsu.com>, Carlos O'Donell <carlos@systemhalted.org>, Alexandre Oliva <aoliva@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, libc-alpha <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-On 10/20/2014 07:47 AM, Michael Kerrisk (man-pages) wrote:
-> the text of this man page is based on the material taken from
-> the "POSIX Safety Concepts" section of the GNU C Library manual.
+> On 10/20/2014 07:47 AM, Michael Kerrisk (man-pages) wrote:
+> > the text of this man page is based on the material taken from
+> > the "POSIX Safety Concepts" section of the GNU C Library manual.
+> 
+> Shouldn't the manpage be under the GFDL, then?  (This might well be 
+> impractical I haven't seen any such manpages yet.)
 
-Shouldn't the manpage be under the GFDL, then?  (This might well be=20
-impractical=97I haven't seen any such manpages yet.)
-
---=20
-=46lorian Weimer / Red Hat Product Security
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+If it takes only the facts rather than the text, then it is not a derived work.
