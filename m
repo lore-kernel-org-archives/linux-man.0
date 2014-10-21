@@ -1,59 +1,98 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] getlogin.3: Reformat thread-safety information
-Date: Tue, 21 Oct 2014 15:48:04 +0800
-Message-ID: <54460FB4.40906@cn.fujitsu.com>
-References: <1413518358-32200-1-git-send-email-penght@cn.fujitsu.com>	<5440B1A9.8020304@gmail.com>	<5440B745.9020003@cn.fujitsu.com>	<5440BC77.3040906@gmail.com> <CAE2sS1gRBH=Xw671FRynxCYej7uhYTuJ4pxXC0+6_s78VGJayQ@mail.gmail.com>
+Subject: Re: Differences between man-pages and libc manual safety markings
+Date: Tue, 21 Oct 2014 16:31:30 +0800
+Message-ID: <544619E2.4060108@cn.fujitsu.com>
+References: <544118FA.3070003@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAE2sS1gRBH=Xw671FRynxCYej7uhYTuJ4pxXC0+6_s78VGJayQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <544118FA.3070003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
+Cc: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-On 10/20/2014 11:50 PM, Carlos O'Donell wrote:
-> On Fri, Oct 17, 2014 at 2:51 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> getlogin() is MT-Unsafe and is influenced by setlocale(),
->>> So "MT-Unsafe locale" is right.
->>
->> Thank you for the confirmation.
->>
->> Just by the way, I see that the glibc manual says of getlogin:
->>
->>     MT-Unsafe race:getlogin race:utent sig:ALRM timer locale
->>
->> I guess this covers some cases beyond what you document. Is that
->> correct?
+On 10/17/2014 09:26 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Haitao,
 > 
-> I haven't reviewed the technical details of this issue, but I would be
-> very worried if the linux-kernel man pages had different annotations
-> than glibc.
+> I was comparing some of the MT-Safety markings in man-pages versus the glibc
+> manual (https://www.gnu.org/software/libc/manual/html_mono/libc.html)
+> I found four cases that seem to contradict. Are there errors in either
+> the man pages or in the glibc manual?
 > 
-> My expectation is that Peng should review the glibc annotations and
-> come talk to us if they are different from what will be documented in
-> the man pages.
+> ==
+> ctermid.3       MT-Unsafe race:ctermid/!s
+> 	glibc: MT-Safe
 > 
-
-We are reviewing the glibc annotations, the next step will
-talk to you and Alexandre about the different annotations.
-
-> We should not have any differences. Either we adjust one or the other,
-> but both should match.
+> man-pages and glibc manual disagree (man-pages seems to be more
+> precise than glibc).
+> 
+> ==
+> getcwd.3        MT-Safe env
+> 	glibc: MT-Safe
+> 
+> man-pages and glibc manual disagree on "env" (man-pages seems 
+> to be more precise than glibc).
 > 
 
-This is our goal.
-Thanks.
+In getcwd.3 man-page:
+getcwd() and getwd() are "MT-Safe"
+get_current_dir_name() is "MT-Safe env"
+
+URL: http://thread.gmane.org/gmane.linux.man/6580
+
+The annotations are equal to glibc manual:)
+
+> ==
+> getlogin.3      MT-Unsafe race:cuserid/!string locale
+> 	glibc: MT-Unsafe race:getlogin race:utent sig:ALRM timer locale
+> 
+> man-pages and glibc manual disagree on "race:cuserid/!string" versus
+> "race:getlogin"
+> 
+
+In getlogin.3 man-page:
+getlogin() is "MT-Unsafe locale"
+getlogin_r() is "MT-Safe locale"
+cuserid() is "MT-Unsafe race:cuserid/!string locale"
+
+In glibc manual:
+getlogin() is "MT-Unsafe race:getlogin race:utent sig:ALRM timer locale"
+getlogin_r() is nonexistent
+cuserid() is "MT-Safe locale"
+
+glibc manual is more precise than man-page of getlogin().
+The difference of cuserid() is similar to ctermid().
+
+> ==
+> regex.3         MT-Safe env
+> 	glibc: MT-Safe locale
+> 
+
+In regex.3 man-page:
+regcomp() and regexec() are "MT-Safe locale"
+regerror() is "MT-Safe env"
+regfree() is "MT-Safe"
+
+URL: http://thread.gmane.org/gmane.linux.man/6609
+
+The annotations are equal to glibc manual:)
+
 
 -- 
 Best Regards,
 Peng
 
+> man-pages and glibc manual disagree on "env" versus "locale"
+> 
+> ==
+> 
 > Cheers,
-> Carlos.
+> 
+> Michael
+> 
 > 
 
 --
