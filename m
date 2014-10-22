@@ -1,161 +1,82 @@
-From: Milosz Tanski <milosz@adfin.com>
-Subject: [PATCH] Add preadv2/pwritev2 documentation.
-Date: Tue, 21 Oct 2014 16:59:02 -0400
-Message-ID: <1413925142-68031-1-git-send-email-milosz@adfin.com>
-References: <cover.1413923420.git.milosz@adfin.com>
-Return-path: <owner-linux-aio@kvack.org>
-In-Reply-To: <cover.1413923420.git.milosz@adfin.com>
-Sender: owner-linux-aio@kvack.org
-To: linux-kernel@vger.kernel.org
-Cc: Christoph Hellwig <hch@infradead.org>, linux-fsdevel@vger.kernel.org, linux-aio@kvack.org, Mel Gorman <mgorman@suse.de>, Volker Lendecke <Volker.Lendecke@sernet.de>, Tejun Heo <tj@kernel.org>, Jeff Moyer <jmoyer@redhat.com>, Theodore Ts'o <tytso@mit.edu>, Al Viro <viro@zeniv.linux.org.uk>, linux-api@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] madvise.2: madvise(, , MADV_REMOVE) supports ext4, ocfs2
+ and xfs as well
+Date: Wed, 22 Oct 2014 10:41:39 +0200
+Message-ID: <54476DC3.2030701@redhat.com>
+References: <20141018152240.14951.14405.stgit@unused-4-157.brq.redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141018152240.14951.14405.stgit-/v0jm+aXwyk2pP1PFFXgSPXAX3CI6PSWQQ4Iyu8u01E@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-New syscalls that are a variation on the preadv/pwritev but support an extra
-flag argument.
+ping
 
-Signed-off-by: Milosz Tanski <milosz@adfin.com>
-Suggested-by: Jeff Moyer <jmoyer@redhat.com>
-Fixes: Jeff Moyer <jmoyer@redhat.com>
----
- man2/readv.2 | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 61 insertions(+), 10 deletions(-)
-
-diff --git a/man2/readv.2 b/man2/readv.2
-index 8748efa..31b3870 100644
---- a/man2/readv.2
-+++ b/man2/readv.2
-@@ -45,6 +45,12 @@ readv, writev, preadv, pwritev \- read or write data into multiple buffers
- .sp
- .BI "ssize_t pwritev(int " fd ", const struct iovec *" iov ", int " iovcnt ,
- .BI "                off_t " offset );
-+.sp
-+.BI "ssize_t preadv2(int " fd ", const struct iovec *" iov ", int " iovcnt ,
-+.BI "                off_t " offset ", int " flags );
-+.sp
-+.BI "ssize_t pwritev2(int " fd ", const struct iovec *" iov ", int " iovcnt ,
-+.BI "                 off_t " offset ", int " flags );
- .fi
- .sp
- .in -4n
-@@ -162,9 +168,9 @@ The
- system call combines the functionality of
- .BR writev ()
- and
--.BR pwrite (2).
-+.BR pwrite (2) "."
- It performs the same task as
--.BR writev (),
-+.BR writev () ","
- but adds a fourth argument,
- .IR offset ,
- which specifies the file offset at which the output operation
-@@ -174,15 +180,41 @@ The file offset is not changed by these system calls.
- The file referred to by
- .I fd
- must be capable of seeking.
-+.SS preadv2() and pwritev2()
-+
-+This pair of system calls has similar functionality to the
-+.BR preadv ()
-+and
-+.BR pwritev ()
-+calls, but adds a fifth argument, \fIflags\fP, which modifies the behavior on a per call basis.
-+
-+Like the
-+.BR preadv ()
-+and
-+.BR pwritev ()
-+calls, they accept an \fIoffset\fP argument. Unlike those calls, if the \fIoffset\fP argument is set to -1 then the current file offset is used and updated.
-+
-+The \fIflags\fP arguments to
-+.BR preadv2 ()
-+and
-+.BR pwritev2 ()
-+contains a bitwise OR of one or more of the following flags:
-+.TP
-+.BR RWF_NONBLOCK " (only " preadv2() " since Linux 3.19)"
-+Performs a non-blocking operation for regular files (not sockets) opened in buffered mode (not
-+.BR O_DIRECT ")."
-+
- .SH RETURN VALUE
- On success,
--.BR readv ()
--and
-+.BR readv () ","
- .BR preadv ()
--return the number of bytes read;
--.BR writev ()
- and
-+.BR preadv2 ()
-+return the number of bytes read;
-+.BR writev () ","
- .BR pwritev ()
-+and
-+.BR pwritev2 ()
- return the number of bytes written.
- On error, \-1 is returned, and \fIerrno\fP is set appropriately.
- .SH ERRORS
-@@ -191,12 +223,22 @@ The errors are as given for
- and
- .BR write (2).
- Furthermore,
--.BR preadv ()
--and
-+.BR preadv () ","
-+.BR preadv2 () ","
- .BR pwritev ()
-+and
-+.BR pwritev2 ()
- can also fail for the same reasons as
- .BR lseek (2).
--Additionally, the following error is defined:
-+Additionally, the following errors are defined:
-+.TP
-+.B EAGAIN
-+The operation would block. This is possible if the file descriptor \fIfd\fP refers to a socket and has been marked nonblocking
-+.RB ( O_NONBLOCK ),
-+or the operation is a
-+.BR preadv2
-+and the \fIflags\fP argument is set to
-+.BR RWF_NONBLOCK.
- .TP
- .B EINVAL
- The sum of the
-@@ -205,12 +247,17 @@ values overflows an
- .I ssize_t
- value.
- Or, the vector count \fIiovcnt\fP is less than zero or greater than the
--permitted maximum.
-+permitted maximum. Or, an unknown flag is specified in \fIflags\fP.
- .SH VERSIONS
- .BR preadv ()
- and
- .BR pwritev ()
- first appeared in Linux 2.6.30; library support was added in glibc 2.10.
-+.sp
-+.BR preadv2 ()
-+and
-+.BR pwritev2 ()
-+first appeared in Linux 3.19 (if we're lucky);
- .SH CONFORMING TO
- .BR readv (),
- .BR writev ():
-@@ -223,6 +270,10 @@ first appeared in Linux 2.6.30; library support was added in glibc 2.10.
- .BR preadv (),
- .BR pwritev ():
- nonstandard, but present also on the modern BSDs.
-+.sp
-+.BR preadv2 (),
-+.BR pwritev2 ():
-+nonstandard, Linux extension.
- .SH NOTES
- .SS C library/kernel ABI differences
- POSIX.1-2001 allows an implementation to place a limit on
--- 
-1.9.1
-
+On 10/18/2014 05:22 PM, Jan Chaloupka wrote:
+> As from upstream commit:
+>
+> commit 3f31d07571eeea18a7d34db9af21d2285b807a17
+> Author: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Date:   Tue May 29 15:06:40 2012 -0700
+>
+>       mm/fs: route MADV_REMOVE to FALLOC_FL_PUNCH_HOLE
+>
+>       Now tmpfs supports hole-punching via fallocate(), switch madvise_remove()
+>       to use do_fallocate() instead of vmtruncate_range(): which extends
+>       madvise(,,MADV_REMOVE) support from tmpfs to ext4, ocfs2 and xfs.
+>
+> madvise(,,MADV_REMOVE) support was extended by ext4, ocfs2 and xfs.
+>
+> bug report: https://bugzilla.redhat.com/show_bug.cgi?id=1120294
+>
+> Justification from Rafael Aquini:
+> Well, that code is committed in kernel since v3.5 (2012) and it surely is
+> the expected behaviour since. It seems to me that madvise(2) man page text
+> for MADV_REMOVE just got out-of-date in that regard.
+>
+> This patch mentions this support in madvise.2 man page.
+>
+> Reworded and corrected by Michael Kerrisk and Hugh Dickins. Thank you.
+>
+> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>   man2/madvise.2 |   17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
+>
+> diff --git a/man2/madvise.2 b/man2/madvise.2
+> index 032ead7..b955864 100644
+> --- a/man2/madvise.2
+> +++ b/man2/madvise.2
+> @@ -101,11 +101,18 @@ without an underlying file.
+>   .BR MADV_REMOVE " (since Linux 2.6.16)"
+>   Free up a given range of pages
+>   and its associated backing store.
+> -Currently,
+> -.\" 2.6.18-rc5
+> -only shmfs/tmpfs supports this; other filesystems return with the
+> -error
+> -.BR ENOSYS .
+> +Originally, only shmfs/tmpfs supported this; but since Linux 3.5,
+> +any filesystem which supports the
+> +.BR fallocate(2)
+> +mode
+> +.BR FALLOC_FL_PUNCH_HOLE
+> +also supports the
+> +.BR madvise(2)
+> +advice
+> +.BR MADV_REMOVE .
+> +Other filesystems return with the
+> +.BR EOPNOTSUPP
+> +error.
+>   .\" Databases want to use this feature to drop a section of their
+>   .\" bufferpool (shared memory segments) - without writing back to
+>   .\" disk/swap space.  This feature is also useful for supporting
+>
 --
-To unsubscribe, send a message with 'unsubscribe linux-aio' in
-the body to majordomo@kvack.org.  For more info on Linux AIO,
-see: http://www.kvack.org/aio/
-Don't email: <a href=mailto:"aart@kvack.org">aart@kvack.org</a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
