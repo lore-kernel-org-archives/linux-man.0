@@ -1,7 +1,7 @@
 From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] lrint.3: Reformat thread-safety information
-Date: Mon, 27 Oct 2014 10:24:54 +0800
-Message-ID: <1414376694-18098-1-git-send-email-penght@cn.fujitsu.com>
+Subject: [PATCH] logb.3: Reformat thread-safety information
+Date: Mon, 27 Oct 2014 10:29:08 +0800
+Message-ID: <1414376948-19509-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,16 +12,16 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/lrint.3 | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ man3/logb.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/man3/lrint.3 b/man3/lrint.3
-index ae6e460..8ec9993 100644
---- a/man3/lrint.3
-+++ b/man3/lrint.3
-@@ -108,16 +108,23 @@ These functions do not set
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/logb.3 b/man3/logb.3
+index 4943bf4..5167ec0 100644
+--- a/man3/logb.3
++++ b/man3/logb.3
+@@ -141,13 +141,19 @@ These functions do not set
+ .\" function occurs in 4.3BSD.
+ .\" see IEEE.3 in the 4.3BSD manual
  .SH ATTRIBUTES
 -.SS Multithreading (see pthreads(7))
 -The
@@ -29,18 +29,14 @@ index ae6e460..8ec9993 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw30 lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
- .BR lrint (),
- .BR lrintf (),
- .BR lrintl (),
-+.br
- .BR llrint (),
- .BR llrintf (),
+ .BR logb (),
+ .BR logbf (),
 -and
- .BR llrintl ()
+ .BR logbl ()
 -functions are thread-safe.
 +T}	Thread safety	MT-Safe
 +.TE
