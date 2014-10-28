@@ -1,89 +1,304 @@
-From: Mark Thompson <mrt-W77v16wj1OVeoWH0uzbU5w@public.gmane.org>
-Subject: Re: Differences between man-pages and libc manual safety markings
-Date: Mon, 27 Oct 2014 20:46:24 +0000
-Message-ID: <544EAF20.8050509@jkqxz.net>
-References: <544118FA.3070003@gmail.com>	<CAE2sS1jbGRT4uvBBVAPJkX2Mi4gHG=ii_G713MHhQzyGxO4yyw@mail.gmail.com>	<54461F16.2080705@cn.fujitsu.com> <oroat3wbsl.fsf@free.home>	<1414056576.8483.79.camel@triegel.csb> <or38adofh9.fsf@free.home>	<1414152747.18538.26.camel@triegel.csb> <orioj9bfaa.fsf@free.home>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/3] getrandom.2: new manpage
+Date: Tue, 28 Oct 2014 12:37:36 +0100
+Message-ID: <CAKgNAkhZTHThGB+4_P6T4Gw9GBPbv4Wy5NvKOX7sG-vgk_SN3A@mail.gmail.com>
+References: <1412295197-8100-1-git-send-email-xypron.glpk@gmx.de> <1412295313-8198-1-git-send-email-xypron.glpk@gmx.de>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <orioj9bfaa.fsf-pcXFJVXz+5uzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <1412295313-8198-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 24/10/14 17:31, Alexandre Oliva wrote:
+Ping^2, Ted!
+
+I'm still hoping for your sign-off on this man-pages patch.
+
+Also adding LKML in CC, in case anyone else wants to comment.
+
+Cheers,
+
+Michael
+
+
+On Fri, Oct 3, 2014 at 2:15 AM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
+> Kernel 3.17 introduces a new system call getrandom(2).
 >
-> We're not talking about the strcpy contract in the abstract.  We're
-> talking about implementations we control, and that ought to be as
-> efficient as possible because it's such a frequently used function.
-> Writing intermediate states is not something such a function would want
-> to do.
+> The man page in this patch is based on the commit message by
+> Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org> and suggestion by
+> Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>.
 >
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/getrandom.2 | 242 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 242 insertions(+)
+>  create mode 100644 man2/getrandom.2
+>
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> new file mode 100644
+> index 0000000..f6a8a1b
+> --- /dev/null
+> +++ b/man2/getrandom.2
+> @@ -0,0 +1,242 @@
+> +.\" Copyright (C) 2014, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+> +.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of
+> +.\" this manual under the conditions for verbatim copying, provided that
+> +.\" the entire resulting derived work is distributed under the terms of
+> +.\" a permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+> +.\" no responsibility for errors or omissions, or for damages resulting.
+> +.\" from the use of the information contained herein.  The author(s) may.
+> +.\" not have taken the same level of care in the production of this.
+> +.\" manual, which is licensed free of charge, as they might when working.
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +
+> +.TH GETRANDOM 2 2014-10-03 "Linux" "Linux Programmer's Manual"
+> +.SH NAME
+> +getrandom \- obtain a series of random bytes
+> +.SH SYNOPSIS
+> +.B #include <linux/random.h>
+> +.sp
+> +.BI "int getrandom(void *"buf ", size_t " buflen ", unsigned int " flags );
+> +.SH DESCRIPTION
+> +The system call
+> +.BR getrandom ()
+> +fills the buffer pointed to by
+> +.I buf
+> +with up to
+> +.I buflen
+> +random bytes.
+> +These can be used to seed user-space random number generators
+> +or for other cryptographic purposes.
+> +.PP
+> +.BR getrandom ()
+> +relies on entropy gathered from device drivers and other sources of
+> +environmental noise.
+> +Unnecessarily reading large quantities of data will have a negative impact
+> +on other users of the
+> +.I /dev/random
+> +and the
+> +.I /dev/urandom
+> +devices.
+> +Therefore
+> +.BR getrandom ()
+> +should not be used for Monte Carlo simulations or other
+> +programs/algorithms which are doing probabilistic sampling.
+> +.PP
+> +The
+> +.I flags
+> +argument is a bit mask that can contain zero or more of the following values
+> +ORed together:
+> +.TP
+> +.B GRND_RANDOM
+> +If this bit is set, then random bytes are drawn from the
+> +.I /dev/random
+> +pool instead of the
+> +.I /dev/urandom
+> +pool.
+> +The
+> +.I /dev/random
+> +pool is limited based on the entropy that can be obtained from environmental
+> +noise.
+> +If less random bytes are available than are requested in argument
+> +.IR buflen ,
+> +the available random bytes will be copied and the call returns.
+> +If no random byte is available, the response will depend on the
+> +presence of
+> +.B GRND_NONBLOCK
+> +in the
+> +.I flags
+> +argument.
+> +.TP
+> +.B GRND_NONBLOCK
+> +If this bit is set and there is no random byte available at all,
+> +.BR getrandom ()
+> +will return -1 with
+> +.I errno
+> +set to
+> +.BR EAGAIN .
+> +If the
+> +.B GRND_NONBLOCK
+> +bit is not set and there is no random byte available at all,
+> +.BR getrandom ()
+> +will block.
+> +.SH RETURN VALUE
+> +On success,
+> +.BR getrandom ()
+> +returns the number of bytes that were copied to the buffer
+> +.IR buf .
+> +This may be less than the bytes requested by the caller via
+> +.I buflen
+> +if insufficient entropy was present in the
+> +.IR /dev/random
+> +pool, or if the system call was interrupted by a signal.
+> +.PP
+> +On error, -1 is returned, and
+> +.I errno
+> +is set appropriately.
+> +.SH ERRORS
+> +.TP
+> +.B EINVAL
+> +An invalid flag was passed to
+> +.BR getrandom ().
+> +.TP
+> +.B EFAULT
+> +The address referenced in parameter
+> +.I buf
+> +is outside the accessible address space.
+> +.TP
+> +.B EAGAIN
+> +The requested entropy was not available, and
+> +.BR getrandom ()
+> +would have blocked if the
+> +.B GRND_NONBLOCK
+> +flag was not set.
+> +.TP
+> +.B EINTR
+> +While blocked waiting for entropy, the call was interrupted by a signal
+> +handler; see the description of how interrupted
+> +.BR read (2)
+> +calls on "slow" devices are handled with and without the
+> +.B SA_RESTART
+> +flag in the
+> +.BR signal (7)
+> +man page.
+> +.SH VERSIONS
+> +.BR getrandom ()
+> +was introduced in version 3.17 of the Linux kernel.
+> +.SH CONFORMING TO
+> +This system call is Linux-specific.
+> +.SH NOTES
+> +.SS Interruption by a signal handler
+> +The reaction of
+> +.BR getrandom ()
+> +in case of an interruption of a blocking call by a signal
+> +when reading from
+> +.I /dev/urandom
+> +.RB ( GRND_RANDOM
+> +is not set)
+> +depends on the initialization state of the entropy buffer
+> +and on the request size
+> +.IR buflen .
+> +If the entropy is not yet initialized or the request size is large
+> +.RI ( buflen
+> +> 256),
+> +.B EINTR
+> +will be returned.
+> +If the entropy pool has been intialized and the request size is small
+> +.RI ( buflen
+> +<= 256),
+> +.BR getrandom ()
+> +will not return
+> +.BR EINTR .
+> +Instead, it will return all of the bytes that have been requested.
+> +.PP
+> +When reading from
+> +.I /dev/random
+> +.RB ( GRND_RANDOM
+> +is set)
+> +these guarantees do
+> +.I not
+> +apply.
+> +.PP
+> +Calling
+> +.BR getrandom ()
+> +to read
+> +.I /dev/urandom
+> +for small values (<= 256) of
+> +.I buflen
+> +is the preferred mode of usage.
+> +.PP
+> +The special treatment of small values of
+> +.I buflen
+> +was designed for compatibility with
+> +OpenBSD's
+> +.BR getentropy ()
+> +system call.
+> +.PP
+> +The user of
+> +.BR getrandom ()
+> +.I must
+> +always check the return value, in case it indicates some error,
+> +or if fewer bytes than requested were returned.
+> +In the case where
+> +.B GRND_RANDOM
+> +is not specified and
+> +.I buflen
+> +is less than or equal to 256,
+> +a return of fewer bytes than requested should never happen,
+> +but the careful user-space code should check for this anyway!
+> +.SS Choice of random device
+> +Unless you are doing long-term key generation (and perhaps not even
+> +then), you probably shouldn't be using
+> +.B GRND_RANDOM.
+> +The cryptographic algorithms used for
+> +.I /dev/urandom
+> +are quite conservative, and so should be sufficient for all purposes.
+> +The disadvantage of
+> +.B GRND_RANDOM
+> +is that it can block.
+> +Furthermore, dealing with partially fulfilled
+> +.BR getrandom ()
+> +requests increases code complexity.
+> +.SS Emulating OpenBSD's getentropy()
+> +The
+> +.BR getentropy ()
+> +system call in OpenBSD can be emulated using the following
+> +function:
+> +
+> +.in +4n
+> +.nf
+> +int
+> +getentropy(void *buf, size_t buflen)
+> +{
+> +    int ret;
+> +
+> +    if (buflen > 256)
+> +        goto failure;
+> +    ret = getrandom(buf, buflen, 0);
+> +    if (ret < 0)
+> +        return ret;
+> +    if (ret == buflen)
+> +        return 0;
+> +failure:
+> +    errno = EIO;
+> +    return -1;
+> +}
+> +.fi
+> +.in
+> +.SH SEE ALSO
+> +.BR random (4),
+> +.BR urandom (4)
+> --
+> 2.1.0
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
-I don't think this assumption is reasonable.  While it is not (to my 
-knowledge) violated anywhere in glibc yet, it is not a stretch that a 
-correct and useful implementation of strcpy would be written in the near 
-future on a currently-existing machine which does violate it.
-
-To offer a concrete example, consider an instruction which allocates a 
-cache line without reading it from memory, such as wh64 on alpha, 
-tilepro or tilegx.  The point of the instruction is to avoid loading 
-part of a cache line if you are going to overwrite all of it, so the 
-explicit semantics from the point of view of the user are that the 
-contents of the cache line addressed are replaced with unspecified data. 
-  Removing the redundant load reduces the memory bandwidth used in large 
-copy operations by one third, so this is certainly worth looking at for 
-long strcpy.
-
-Now suppose we have such an implementation.  Consider two distinct 
-threads copying the same thing which is longer than a cache line into a 
-cache-line-aligned buffer, on a uniprocessor machine:
-
-Thread 1:
-   Allocate cache line.
-   Overwrite whole cache line.
-   Return from call.
-   Get preempted.
-
-Enough other things happen to flush the whole cache back to memory, 
-including the written line.
-
-Thread 2:
-   Allocate cache line (the line is not already present in the cache, so 
-fill with unspecified data to avoid loading an old value from memory).
-   Overwrite the first byte or word, but not the whole line (so it is 
-now dirty, and must therefore overwrite the copy in memory if flushed).
-   Get preempted.
-
-Thread 1:
-   User code reads the result, it's wrong.
-
-This does have very strong alignment constraints so I don't know whether 
-anyone would actually bother to write an optimised strcpy like this, but 
-it certainly isn't a purely theoretical failing.
-
-Note also that if the strcpy here were replaced with strlen+memcpy, it 
-would already be wrong on alpha, tilepro and tilegx with currently 
-released glibc, as all have an optimised memcpy implementation using 
-this feature.
-
-Regards,
-
-- Mark
 
 
-P.S.  Even the "no point in writing redundant data" straw man is made of 
-surprisingly resilient straw.  Since strcpy will always write at least 
-one byte, can you really argue that adding "*dest = 0;" to the beginning 
-of a strcpy function is always a bad thing?  It seems to me that it 
-actually helps in at least some cases if neither source nor destination 
-is already present in cache, because we can then start loading the first 
-destination line from memory in parallel with the load of the first 
-source line without needing to wait for the data dependency on the source.
-
-
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
