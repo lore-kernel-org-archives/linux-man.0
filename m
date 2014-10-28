@@ -1,68 +1,104 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: Correct description of null-termination in PR_[GS]ET_NAME
-Date: Tue, 28 Oct 2014 14:26:46 +0100
-Message-ID: <544F9996.7090906@gmail.com>
-References: <mvmr3y1u1t8.fsf@hawking.suse.de>
+Subject: Re: [PATCH v2] proc.5: Document /proc/net/netfilter/nfnetlink_queue
+Date: Tue, 28 Oct 2014 14:55:57 +0100
+Message-ID: <544FA06D.5070809@gmail.com>
+References: <1413750097-9875-1-git-send-email-fw@strlen.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <mvmr3y1u1t8.fsf-8jEJWzg51KSXcDkGTvBoYw@public.gmane.org>
+In-Reply-To: <1413750097-9875-1-git-send-email-fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+To: Florian Westphal <fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Andreas,
+Thanks, Florian.
 
-On 10/21/2014 12:58 PM, Andreas Schwab wrote:
-> The size of the process name has always been at most 16 byte _including_
-> the null terminator.  This also means that the name returned by
-> PR_GET_NAME is always null-terminated.
-
-Thanks. I applied this. One comment below.
-
-
-> Signed-off-by: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
-> ---
->  man2/prctl.2 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 1199891..4351ff9 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -240,7 +240,7 @@ using the value in the location pointed to by
->  .IR "(char\ *) arg2" .
->  The name can be up to 16 bytes long,
->  .\" TASK_COMM_LEN in include/linux/sched.h
-> -and should be null-terminated if it contains fewer bytes.
-> +including the terminating null byte.
-
-I added here:
-
-  (If the length of the string, including the terminating null byte,
-  exceeds 16 bytes, the string is silently truncated.)
-
-Okay?
+Applied (at last!).
 
 Cheers,
 
 Michael
 
 
->  This is the same attribute that can be set via
->  .BR pthread_setname_np (3)
->  and retrieved using
-> @@ -256,7 +256,7 @@ Return the name of the calling thread,
->  in the buffer pointed to by
->  .IR "(char\ *) arg2" .
->  The buffer should allow space for up to 16 bytes;
-> -the returned string will be null-terminated if it is shorter than that.
-> +the returned string will be null-terminated.
+On 10/19/2014 10:21 PM, Florian Westphal wrote:
+> ---
+>  Changes since v1:
+>  made a minor edit to better explain the difference between
+>  'dropped' and 'user dropped' counters.
+> 
+>  man5/proc.5 | 57 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+> 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 7ca2226..da4b5b6 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -2770,6 +2770,63 @@ not yet supported in the kernel).
+>  \&"St" is the internal state of the
+>  socket and Path is the bound path (if any) of the socket.
 >  .TP
->  .BR PR_SET_NO_NEW_PRIVS " (since Linux 3.5)"
->  Set the calling process's
+> +.I /proc/net/netfilter/nfnetlink_queue
+> +This file contains information about netfilter userspace queueing, if used.
+> +Each line represents a queue.  Queues that have not been subscribed to
+> +by userspace are not shown.
+> +.nf
+> +
+> +   1   4207     0  2 65535     0     0        0  1
+> +  (1)   (2)    (3)(4)  (5)    (6)   (7)      (8)
+> +.fi
+> +.IP
+> +The fields in each line are:
+> +.RS 7
+> +.TP 5
+> +(1)
+> +The ID of the queue.  This matches what is specified in the
+> +.B \-\-queue\-num
+> +or
+> +.B \-\-queue\-balance
+> +options to the
+> +.BR iptables (8)
+> +NFQUEUE target.  See
+> +.BR iptables-extensions (8)
+> +for more information.
+> +.TP
+> +(2)
+> +The netlink port id subscribed to the queue.
+> +.TP
+> +(3)
+> +The number of packets currently queued and waiting to be processed by
+> +the application.
+> +.TP
+> +(4)
+> +The copy mode of the queue. It is either 1 (metadata only) or 2
+> +(also copy payload data to userspace).
+> +.TP
+> +(5)
+> +Copy range, i.e. how many bytes of packet payload should be copied to
+> +userspace at most.
+> +.TP
+> +(6)
+> +queue dropped.  Number of packets that had to be dropped by the kernel because
+> +too many packets are already waiting for userspace to send back the mandatory
+> +accept/drop verdicts.
+> +.TP
+> +(7)
+> +queue user dropped.  Number of packets that were dropped within the netlink
+> +subsystem.  Such drops usually happen when the corresponding socket buffer is
+> +full, i.e.  userspace is not able to read messages fast enough.
+> +.TP
+> +(8)
+> +sequence number. Every queued packet is associated with a (32-bit)
+> +monotonically-increasing sequence number.
+> +This shows the ID of the most recent packet queued.
+> +.RE
+> +.IP
+> +The last number only exists for compatibility reasons and is always 1.
+> +.TP
+>  .I /proc/partitions
+>  Contains the major and minor numbers of each partition as well as the number
+>  of 1024-byte blocks and the partition name.
 > 
 
 
