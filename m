@@ -1,63 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] fanotify.7: double mounted paths
-Date: Tue, 28 Oct 2014 13:02:12 +0100
-Message-ID: <544F85C4.5070404@gmail.com>
-References: <1414094958-3584-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: For review: attributes(7) man page
+Date: Tue, 28 Oct 2014 14:04:02 +0100
+Message-ID: <544F9442.3040105@gmail.com>
+References: <5444A1D8.2060908@gmail.com> <544583F9.6050009@redhat.com> <orsiifwdru.fsf@free.home>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1414094958-3584-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <orsiifwdru.fsf-pcXFJVXz+5uzQB+pC5nmwQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 10/23/2014 10:09 PM, Heinrich Schuchardt wrote:
-> Unfortunately fanotify does not inform listeners for all paths
-> under which a touched file system object is visible
-> but only the listener using the same path as the process
-> touching the file system object.
+On 10/23/2014 07:33 AM, Alexandre Oliva wrote:
+> On Oct 20, 2014, Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> 
+>> On 10/20/2014 07:47 AM, Michael Kerrisk (man-pages) wrote:
+>>> the text of this man page is based on the material taken from
+>>> the "POSIX Safety Concepts" section of the GNU C Library manual.
+> 
+>> Shouldn't the manpage be under the GFDL, then?
+> 
+> 'cept that we offered to license those portions under the GPL too.
 
-Hi Heinrich
-
-I applied this patch, and then did some tweaking which you 
-can see in Git. I also gave the patch what I hope is a more
-meaningful title:
-
-    fanotify notifies only events generated on the same mount
+Yes, and thanks for that. I'm not wanting to start any sort of debate
+about the pros and cons of GFDL, but man-pages avoids GFDL because 
+Debian has a problem with it. (At least, late time I looked into this, 
+it did.)
 
 Cheers,
 
 Michael
-
-
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man7/fanotify.7 | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/man7/fanotify.7 b/man7/fanotify.7
-> index bc5a11c..7f915c2 100644
-> --- a/man7/fanotify.7
-> +++ b/man7/fanotify.7
-> @@ -488,6 +488,14 @@ In this case, events are lost.
->  As of Linux 3.17,
->  the following bugs exist:
->  .IP * 3
-> +On Linux a file system object may be accessible through multiple paths,
-> +e.g. a part of the file system may be remounted using
-> +.B mount (8)
-> +--bind.
-> +A listener that marked a mount will only be notified of events that were
-> +triggered for a file system object using the same mount.
-> +Any other event will pass unnoticed.
-> +.IP *
->  .\" FIXME . A patch was proposed.
->  When an event is generated,
->  no check is made to see whether the user ID of the
-> 
 
 
 -- 
