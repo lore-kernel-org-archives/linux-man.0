@@ -1,38 +1,48 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: typos error in man page pthread_setschedparam(3)
-Date: Tue, 28 Oct 2014 15:29:25 +0100
-Message-ID: <544FA845.4040608@gmail.com>
-References: <9bd1496.6d0e.1492b94b860.Coremail.liupai_work@163.com>
+Subject: Re: [PATCH 2/3] random.3: SEE ALSO getrandom.2
+Date: Tue, 28 Oct 2014 15:37:35 +0100
+Message-ID: <544FAA2F.5040600@gmail.com>
+References: <1412295197-8100-1-git-send-email-xypron.glpk@gmx.de> <1412295324-8241-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <9bd1496.6d0e.1492b94b860.Coremail.liupai_work-9Onoh4P/yGk@public.gmane.org>
+In-Reply-To: <1412295324-8241-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?5YiY5rmD?= <liupai_work-9Onoh4P/yGk@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, =E5=88=98=E6=B9=83. I have applied your changes.
+Applied in a local branch.
 
-Cheers,
+Thanks,
 
 Michael
 
 
+On 10/03/2014 02:15 AM, Heinrich Schuchardt wrote:
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man3/random.3 | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/man3/random.3 b/man3/random.3
+> index dc6fa9f..9789cb6 100644
+> --- a/man3/random.3
+> +++ b/man3/random.3
+> @@ -196,6 +196,7 @@ is (as specified) set on error, but the function does not return NULL.
+>  .\" http://sourceware.org/bugzilla/show_bug.cgi?id=15380
+>  .SH SEE ALSO
+>  .BR drand48 (3),
+> +.BR getrandom (2),
+>  .BR rand (3),
+>  .BR random_r (3),
+>  .BR srand (3)
 
-On 10/20/2014 05:23 AM, =E5=88=98=E6=B9=83 wrote:
-> In Example, Program source=20
->=20
-> - fpe("\-i {e|s}         Set inherit scheduler attribute to\\n");
-> + fpe("\-i {e|i}         Set inherit scheduler attribute to\\n");
->=20
-> - usage(argv[0], "Bad policy for main thread (-s)\n");
-> + usage(argv[0], "Bad policy for main thread (-m)\n");
->=20
 
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
