@@ -1,104 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] proc.5: Document /proc/net/netfilter/nfnetlink_queue
-Date: Tue, 28 Oct 2014 14:55:57 +0100
-Message-ID: <544FA06D.5070809@gmail.com>
-References: <1413750097-9875-1-git-send-email-fw@strlen.de>
+Subject: Re: [PATCH] localedef.1: list default path for compiled files
+Date: Tue, 28 Oct 2014 15:04:18 +0100
+Message-ID: <544FA262.6020705@gmail.com>
+References: <54449BF1.3050109@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1413750097-9875-1-git-send-email-fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org>
+In-Reply-To: <54449BF1.3050109-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Florian Westphal <fw-HFFVJYpyMKqzQB+pC5nmwQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Florian.
-
-Applied (at last!).
+Thanks, Marko. Applied.
 
 Cheers,
 
 Michael
 
 
-On 10/19/2014 10:21 PM, Florian Westphal wrote:
+On 10/20/2014 07:21 AM, Marko Myllynen wrote:
+> 
 > ---
->  Changes since v1:
->  made a minor edit to better explain the difference between
->  'dropped' and 'user dropped' counters.
+>  man1/localedef.1 |    3 +++
+>  1 files changed, 3 insertions(+), 0 deletions(-)
 > 
->  man5/proc.5 | 57 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
-> 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 7ca2226..da4b5b6 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -2770,6 +2770,63 @@ not yet supported in the kernel).
->  \&"St" is the internal state of the
->  socket and Path is the bound path (if any) of the socket.
+> diff --git a/man1/localedef.1 b/man1/localedef.1
+> index 24da5d0..1f2cd7a 100644
+> --- a/man1/localedef.1
+> +++ b/man1/localedef.1
+> @@ -291,6 +291,9 @@ Usual default repertoire map path.
 >  .TP
-> +.I /proc/net/netfilter/nfnetlink_queue
-> +This file contains information about netfilter userspace queueing, if used.
-> +Each line represents a queue.  Queues that have not been subscribed to
-> +by userspace are not shown.
-> +.nf
-> +
-> +   1   4207     0  2 65535     0     0        0  1
-> +  (1)   (2)    (3)(4)  (5)    (6)   (7)      (8)
-> +.fi
-> +.IP
-> +The fields in each line are:
-> +.RS 7
-> +.TP 5
-> +(1)
-> +The ID of the queue.  This matches what is specified in the
-> +.B \-\-queue\-num
-> +or
-> +.B \-\-queue\-balance
-> +options to the
-> +.BR iptables (8)
-> +NFQUEUE target.  See
-> +.BR iptables-extensions (8)
-> +for more information.
-> +.TP
-> +(2)
-> +The netlink port id subscribed to the queue.
-> +.TP
-> +(3)
-> +The number of packets currently queued and waiting to be processed by
-> +the application.
-> +.TP
-> +(4)
-> +The copy mode of the queue. It is either 1 (metadata only) or 2
-> +(also copy payload data to userspace).
-> +.TP
-> +(5)
-> +Copy range, i.e. how many bytes of packet payload should be copied to
-> +userspace at most.
-> +.TP
-> +(6)
-> +queue dropped.  Number of packets that had to be dropped by the kernel because
-> +too many packets are already waiting for userspace to send back the mandatory
-> +accept/drop verdicts.
-> +.TP
-> +(7)
-> +queue user dropped.  Number of packets that were dropped within the netlink
-> +subsystem.  Such drops usually happen when the corresponding socket buffer is
-> +full, i.e.  userspace is not able to read messages fast enough.
-> +.TP
-> +(8)
-> +sequence number. Every queued packet is associated with a (32-bit)
-> +monotonically-increasing sequence number.
-> +This shows the ID of the most recent packet queued.
-> +.RE
-> +.IP
-> +The last number only exists for compatibility reasons and is always 1.
-> +.TP
->  .I /proc/partitions
->  Contains the major and minor numbers of each partition as well as the number
->  of 1024-byte blocks and the partition name.
+>  .I /usr/lib/locale/locale-archive
+>  Usual default locale archive location.
+> +.TP 
+> +.I /usr/lib/locale               
+> +Usual default path for compiled individual locale data files.
+>  .TP
+>  .I outputpath/LC_ADDRESS
+>  An output file that contains information about formatting of
 > 
 
 
