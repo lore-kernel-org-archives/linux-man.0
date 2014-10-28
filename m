@@ -1,90 +1,36 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Subject: [PATCH] locale.7: improve LOCPATH description
-Date: Tue, 28 Oct 2014 15:07:15 +0100
-Message-ID: <544FA313.4050708@gmail.com>
-References: <54449C45.4010907@redhat.com>
+Subject: Re: [PATCH] prctl.2: Correct description of null-termination in PR_[GS]ET_NAME
+Date: Tue, 28 Oct 2014 15:08:09 +0100
+Message-ID: <CAKgNAkjvyrMyYVGy2HcCFd9Bvyw681HgrU3Kpw_q91UdFE05HQ@mail.gmail.com>
+References: <mvmr3y1u1t8.fsf@hawking.suse.de> <544F9996.7090906@gmail.com> <mvmk33kmgrc.fsf@hawking.suse.de>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54449C45.4010907-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <mvmk33kmgrc.fsf-8jEJWzg51KSXcDkGTvBoYw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 10/20/2014 07:23 AM, Marko Myllynen wrote:
-> 
-> LOCPATH is ignored by privileged programs.
-> 
-> Add locale archive references.
-> 
-> Add FILES section.
+On Tue, Oct 28, 2014 at 3:05 PM, Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org> wrote:
+> "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+>
+>> I added here:
+>>
+>>   (If the length of the string, including the terminating null byte,
+>>   exceeds 16 bytes, the string is silently truncated.)
+>>
+>> Okay?
+>
+> Ok.
 
-Thanks, Marko. Applied.
+
+Thanks for the confirmation, Andreas.
 
 Cheers,
 
 Michael
-
-
-
-> ---
->  man7/locale.7 |   22 ++++++++++++++++------
->  1 files changed, 16 insertions(+), 6 deletions(-)
-> 
-> diff --git a/man7/locale.7 b/man7/locale.7
-> index 6270739..3fb2ad3 100644
-> --- a/man7/locale.7
-> +++ b/man7/locale.7
-> @@ -330,17 +330,20 @@ The following environment variable is used by
->  .BR newlocale (3)
->  and
->  .BR setlocale (3),
-> -and thus affects all localized programs:
-> +and thus affects all unprivileged localized programs:
->  .TP
->  .B LOCPATH
->  A list of pathnames, separated by colons (\(aq:\(aq),
->  that should be used to find locale data.
-> -If this variable is set, only the individual locale data files from
-> +If this variable is set, only the individual compiled locale data files
-> +from
->  .I LOCPATH
-> -and the system default locale data path are used; any available locale
-> -archives are not used. The individual locale data files are searched
-> -under subdirectories which depend on the currently used locale. For
-> -example, when
-> +and the system default locale data path are used;
-> +any available locale archives are not used (see
-> +.BR localedef (1)).
-> +The individual compiled locale data files are searched under
-> +subdirectories which depend on the currently used locale.
-> +For example, when
->  .I en_GB.UTF-8
->  is used for a category, the following subdirectories are searched for,
->  in this order:
-> @@ -351,6 +354,13 @@ in this order:
->  .IR en.utf8 ,
->  and
->  .IR en .
-> +.SH FILES
-> +.TP
-> +.I /usr/lib/locale/locale-archive
-> +Usual default locale archive location.
-> +.TP
-> +.I /usr/lib/locale
-> +Usual default path for compiled individual locale files.
->  .SH CONFORMING TO
->  POSIX.1-2001.
->  .\"
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
