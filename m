@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] logb.3: Reformat thread-safety information
-Date: Tue, 28 Oct 2014 21:22:15 +0100
-Message-ID: <544FFAF7.5080904@gmail.com>
-References: <1414376948-19509-1-git-send-email-penght@cn.fujitsu.com>
+Subject: Re: [PATCH] localeconv.3: Reformat and Modify thread-safety information
+Date: Tue, 28 Oct 2014 21:22:19 +0100
+Message-ID: <544FFAFB.8080702@gmail.com>
+References: <1414380282-21896-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1414376948-19509-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1414380282-21896-1-git-send-email-penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -20,19 +20,19 @@ Cheers,
 Michael
 
 
-On 10/27/2014 03:29 AM, Peng Haitao wrote:
+On 10/27/2014 04:24 AM, Peng Haitao wrote:
 > Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/logb.3 | 14 ++++++++++----
+>  man3/localeconv.3 | 14 ++++++++++----
 >  1 file changed, 10 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/logb.3 b/man3/logb.3
-> index 4943bf4..5167ec0 100644
-> --- a/man3/logb.3
-> +++ b/man3/logb.3
-> @@ -141,13 +141,19 @@ These functions do not set
->  .\" function occurs in 4.3BSD.
->  .\" see IEEE.3 in the 4.3BSD manual
+> diff --git a/man3/localeconv.3 b/man3/localeconv.3
+> index 707de11..0af0610 100644
+> --- a/man3/localeconv.3
+> +++ b/man3/localeconv.3
+> @@ -63,11 +63,17 @@ The
+>  .BR localeconv ()
+>  function always succeeds.
 >  .SH ATTRIBUTES
 > -.SS Multithreading (see pthreads(7))
 > -The
@@ -40,20 +40,18 @@ On 10/27/2014 03:29 AM, Peng Haitao wrote:
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
->  .BR logb (),
->  .BR logbf (),
-> -and
->  .BR logbl ()
-> -functions are thread-safe.
-> +T}	Thread safety	MT-Safe
+>  .BR localeconv ()
+> -function is not thread-safe, since it returns a pointer to a structure which
+> -might be overwritten by subsequent calls.
+> +T}	Thread safety	MT-Unsafe race:localeconv locale
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  .SH SEE ALSO
+>  C89, C99.
+>  .SH BUGS
 > 
 
 
