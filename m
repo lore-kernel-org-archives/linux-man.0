@@ -1,64 +1,44 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ilogb manpage
-Date: Fri, 31 Oct 2014 07:27:19 +0100
-Message-ID: <54532BC7.3000304@gmail.com>
-References: <CANu=DmhD79gzEoXR=cSoKkQC6rzYwrP_iGD-Ljn6zf9GWFY0Qg@mail.gmail.com>
+From: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fenv.3: tfix in thread-safety information
+Date: Fri, 31 Oct 2014 16:31:53 +0800
+Message-ID: <1414744313-6972-1-git-send-email-penght@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CANu=DmhD79gzEoXR=cSoKkQC6rzYwrP_iGD-Ljn6zf9GWFY0Qg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Will Newton <will.newton-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Will,
+fegetexceptflag() should be modified to feraiseexcept().
 
-On 10/29/2014 01:18 PM, Will Newton wrote:
-> Hi,
-> 
-> The ilogb manpage currently claims that errno is not set on error:
-> 
->        Domain error: x is 0 or a NaN
->               An invalid floating-point exception (FE_INVALID) is raised.
-> 
->               These functions do not set errno for this case.
-> 
->        Domain error: x is an infinity
-> 
->               These functions do not set errno or raise an exception
-> for this case.
-> 
-> However this is at odds with the ISO C standard an the most recent glibc code:
-> 
-> int
-> __ilogb (double x)
-> {
->   int r = __ieee754_ilogb (x);
->   if (__builtin_expect (r == FP_ILOGB0, 0)
->       || __builtin_expect (r == FP_ILOGBNAN, 0)
->       || __builtin_expect (r == INT_MAX, 0))
->     {
->       __set_errno (EDOM);
->       feraiseexcept (FE_INVALID);
->     }
->   return r;
-> }
+Signed-off-by: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fenv.3 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks for the report. Things were fixed in glibc 2.16
-( https://www.sourceware.org/bugzilla/show_bug.cgi?id=6794 )
-and I've now updated the man page.
-
-Cheers,
-
-Michael
-
-
+diff --git a/man3/fenv.3 b/man3/fenv.3
+index 6db7c86..bea73f9 100644
+--- a/man3/fenv.3
++++ b/man3/fenv.3
+@@ -270,12 +270,12 @@ For an explanation of the terms used in this section, see
+ .TS
+ allbox;
+ lb lb lb
+-lw37 l l.
++lw35 l l.
+ Interface	Attribute	Value
+ T{
+ .BR feclearexcept (),
+ .BR fegetexceptflag (),
+-.BR fegetexceptflag (),
++.BR feraiseexcept (),
+ .BR fesetexceptflag (),
+ .BR fetestexcept (),
+ .BR fegetround (),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+1.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
