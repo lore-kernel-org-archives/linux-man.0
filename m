@@ -1,44 +1,57 @@
-From: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
-Subject: [PATCH] proc.5: Document /proc/thread-self
-Date: Sun,  2 Nov 2014 22:08:40 +0100
-Message-ID: <1414962520-5480-1-git-send-email-bernhard@bwalle.de>
+From: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
+Subject: [PATCH] cmsg.3: ensure buf is suitably aligned in sending example
+Date: Sun, 02 Nov 2014 23:08:35 +0000
+Message-ID: <sa7fve1i4jw.fsf@wragg.org>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Add some words about /proc/thread-self that has been introduced in Linux
-3.17 with commit 0097875bd41528922fb3bb5f348c53f17e00e2fd.
+Inspection of the definition of CMSG_FIRSTHDR (both in glibc and the
+suggested definition in RFC3542) shows that it yields the msg_control
+field.  So when sending, the pointer placed in msg_control should be
+suitably aligned as a struct cmsghdr. In the sending example, buf was
+declared as a bare char array, and so is not necessarily suitably
+aligned.
 
-Signed-off-by: Bernhard Walle <bernhard-X9USDgGjgfuzQB+pC5nmwQ@public.gmane.org>
+The solution here involves placing buf inside a union, and is based on
+the sockets/scm_rights_send.c sample from The Linux Programming
+Interface "dist" source code collection.
+
+Signed-off-by: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
 ---
- man5/proc.5 | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ man3/cmsg.3 | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/man5/proc.5 b/man5/proc.5
-index da4b5b6..e5b090d 100644
---- a/man5/proc.5
-+++ b/man5/proc.5
-@@ -4217,6 +4217,16 @@ for easy understanding.
- .BR svipc (7)
- provides further background on the information shown by these files.
- .TP
-+.IR /proc/thread-self " (since Linux 3.17)"
-+This directory refers to the thread accessing the
-+.I /proc
-+filesystem,
-+and is identical to the
-+.I /proc/self/task/[tid]
-+directory named by the process thread ID
-+.RI ( [tid] )
-+of the same thread.
-+.TP
- .IR /proc/timer_list " (since Linux 2.6.21)"
- .\" commit 289f480af87e45f7a6de6ba9b4c061c2e259fe98
- This read-only file exposes a list of all currently pending
+diff --git a/man3/cmsg.3 b/man3/cmsg.3
+index f355e6b..03f542e 100644
+--- a/man3/cmsg.3
++++ b/man3/cmsg.3
+@@ -198,11 +198,16 @@ UNIX domain socket using
+ struct msghdr msg = {0};
+ struct cmsghdr *cmsg;
+ int myfds[NUM_FD]; /* Contains the file descriptors to pass. */
+-char buf[CMSG_SPACE(sizeof myfds)];  /* ancillary data buffer */
++union {
++    /* ancillary data buffer, wrapped in a union in order to ensure it is
++       suitably aligned */
++    char buf[CMSG_SPACE(sizeof myfds)];
++    struct cmsghdr align;
++} u;
+ int *fdptr;
+ 
+-msg.msg_control = buf;
+-msg.msg_controllen = sizeof buf;
++msg.msg_control = u.buf;
++msg.msg_controllen = sizeof u.buf;
+ cmsg = CMSG_FIRSTHDR(&msg);
+ cmsg\->cmsg_level = SOL_SOCKET;
+ cmsg\->cmsg_type = SCM_RIGHTS;
 -- 
-2.1.2
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
