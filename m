@@ -1,111 +1,146 @@
 From: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: Differences between man-pages and libc manual safety markings
-Date: Mon, 03 Nov 2014 03:13:16 -0200
-Message-ID: <or4mug27f7.fsf@free.home>
+Date: Mon, 03 Nov 2014 03:43:41 -0200
+Message-ID: <orzjc8zvn6.fsf@free.home>
 References: <544118FA.3070003@gmail.com>
 	<CAE2sS1jbGRT4uvBBVAPJkX2Mi4gHG=ii_G713MHhQzyGxO4yyw@mail.gmail.com>
 	<54461F16.2080705@cn.fujitsu.com> <oroat3wbsl.fsf@free.home>
 	<1414056576.8483.79.camel@triegel.csb> <or38adofh9.fsf@free.home>
 	<1414152747.18538.26.camel@triegel.csb> <orioj9bfaa.fsf@free.home>
-	<1414178101.18538.53.camel@triegel.csb> <orbnottnzb.fsf@free.home>
-	<1414695671.10085.180.camel@triegel.csb> <ora94b8fxl.fsf@free.home>
-	<1414838867.10085.431.camel@triegel.csb> <orwq7e22n2.fsf@free.home>
-	<1414868298.10085.488.camel@triegel.csb>
+	<544EAF20.8050509@jkqxz.net> <ork33jqmqe.fsf@free.home>
+	<1414573935.18538.74.camel@triegel.csb> <orfve5tp3e.fsf@free.home>
+	<1414694486.10085.165.camel@triegel.csb> <oregtn8h23.fsf@free.home>
+	<1414845631.10085.474.camel@triegel.csb> <or1tpm3hn5.fsf@free.home>
+	<1414871691.10085.529.camel@triegel.csb>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1414868298.10085.488.camel-I2ZjUw8blINjztcc/or7kQ@public.gmane.org> (Torvald Riegel's
-	message of "Sat, 01 Nov 2014 19:58:18 +0100")
+In-Reply-To: <1414871691.10085.529.camel-I2ZjUw8blINjztcc/or7kQ@public.gmane.org> (Torvald Riegel's
+	message of "Sat, 01 Nov 2014 20:54:51 +0100")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Mark Thompson <mrt-W77v16wj1OVeoWH0uzbU5w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 On Nov  1, 2014, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 
-> On Sat, 2014-11-01 at 16:32 -0200, Alexandre Oliva wrote:
->> That goes both ways.  While strcpy coded for current standards might
->> wish to make such optimizations, old code written for earlier standa=
-rds
->> that did not make allowances for the proposed strcpy optimization wo=
-uld
->> break.
+>> The information is all there: there's a static shared buffer (as
+>> required by ctermid(NULL), and that's usually not thread-safe, but
+>> that's tacit knowledge of our time not explicitly duplicated there),
 
-> Which earlier standard are you referring to?
+> Wow, really?  It supposed to be "tacit knowledge of our time" to not
+> have thread-safe initialization of a static buffer?
 
-I think going back to C90 would do.
+You seem to have misread what I wrote.  It's the fact that ctermid(NULL)
+is not required to be thread-safe that is tacit knowledge of our time.
 
-> Did any old standard have strcpy as something else than a
-> sequentially-specified function?
+> "but the internal buffer is always set
+> to /dev/tty" makes it obvious that there's a data race?
 
-Your question needs to be rephrased to take out the =E2=80=9Csequential=
-ly-=E2=80=9D
-noise that distorts your reasoning into some kind of tunnel vision.
+The reasoning indicates there's something non-obvious going on there.
+When there isn't, there's no reason for any such note.
 
-There's nothing specifically sequential about it, nor is it only
-before/after invocation: the standard states what the function does, an=
-d
-if it does something else that conflicts with the specification and is
-observable, it diverges from the specification.  Right?
+> Maybe we should make a poll on libc-alpha to see which percentage of
+> people actually understands this comment as implying that there is a
+> data race.
 
+Will you please stop putting words I didn't say in my mouth?
 
-> especially if all it does is write to the destination
-> string, in some way.
+Where did I say the comment meant to imply that there was a data race in
+there?
 
-The way is not specified, but it does not state that it is to write
-something else there before, and doing so is NOT allowed by the as-if
-rule.  Consider a function that goes:
+All it was meant to do was justify why I regarded the function as
+MT-Safe and AS-Safe, in spite of the possibility of concurrent
+initializations of the buffer.
 
-  for (;;) {
-    extern char buffer[];
-    strcpy (buffer, "foo");
-    signal (SIGUSR1, testme);
-    strcpy (buffer, "fool");
-    signal (SIGUSR1, SIG_IGN);
-  }=20
+> Also note that "your wishes" isn't what this is about -- it is about
+> maintainable documentation.  This affects glibc in general.
 
+That's still your wishes for additional documentation that nobody has
+stepped up to do.  Others (myself included) may share such a wish for
+better documentation on various fronts, but none of this would entitle
+you to demand me to do so, or to complain that I didn't, when I never
+agreed to do it.
 
-Now, if the signal handler testme were to inspect buffer[1] (knowing th=
-e
-only window in which it may be activated is the above, in a
-single-threaded program), what values could it possibly find there?
-Please justify with quotes from combinations of C and POSIX standards o=
-f
-the same vintage you can find.  How about buffer[0], and buffer[3]?
+> 1) Do the loads use an acquire fence (ie, atomic_read_barrier)?
 
+No.
 
-> It is not specified as operating on volatile-qualified data
+> If not, is any new locale data they can read from initialized before
+> those reads (e.g., at program startup, so happening before any spawned
+> threads)?
 
-volatile doesn't mean what you appear to suggest it does.
+No
 
-volatile means operations are not to be reordered, combined or otherwis=
-e
-optimized.  It does not mean writing garbage to a global variable is
-allowed just because it's not volatile, any more than it means the as-i=
-f
-rule allows a function to release a lock on entry and take it again
-before returning.  What if printf were to do that on the lock that
-controls stdout?  Surely that would be observable, as much as the
-contents of the buffer within the signal handler.
+> 2) If the compiler sees such a load (e.g., because it's a macro, or with
+> LTO and inlining), and it's not marked as an atomic access, it can be
+> free to reload it.  Which could lead to partially reading from the old
+> and new locale.
 
-> They didn't specify rules for multi-threaded execution, did they?
+Yes, but only if there's more than one use (thus marked locale).  If
+there's only one use, the compiler could, but would not do something
+that stupid.
 
-Exactly!
+>> Some functions access ctype data multiple times; given the above, and
+>> because the locale structures are accessed in a way that enable the
+>> compiler to load the global locale pointer only once, and the compiler
+>> performs this optimization
 
-I don't think you can push the as-if rule as far as you suggest when it
-comes to global symbols, or other symbols whose pointers have escaped.
-POSIX memory synchronization requirements might make speculative writes
-defensible for asynchronicity arising from threads, but from async
-signals?
+> So correctness applies in some cases on certain, optional compiler
+> optimizations to be performed?
 
-I don't see allowances for that, do you?
+That is glibc's locale design, yes.  Sane compilers help keep glibc sane
+and safe.  We are indeed relying on compiler sanity.
 
---=20
+> Then please refer me to the concrete old standard (and we should support
+> it, actually) and the wording in there that *requires* strcpy to issue a
+> certain set of stores instead of just, for example, requiring that when
+> the function returns, the string has been copied.
+
+These are equivalent requirements IMHO, because neither makes other
+allowances for using the user-visible storage as scratch space, and
+both, because of asynchronous signals, rule this possibility out for
+storage that the signal handler could observe.  Anyway, let's leave this
+point for the other sub-thread, to avoid duplication, shall we?
+
+> Second, when you've done that, could you please explain to me how a
+> compiler is supposed to optimize code without something like an as-if
+> rule?
+
+The key is external observability, and ordering requirements.
+
+strcpy's sequential specification does not mandate chars to be copied in
+any predetermined order, so strcpy is free to reorder and regroup loads
+and stores as it sees fit.  None of this steps out of its explicit
+specification.  Writing garbage, however, would step out, but it might
+still be allowed under the as-if rule if this couldn't be legitimately
+observed, e.g. if any attempt to observe it would invoke undefined
+behavior.
+
+>> and the
+>> no-data-races mandate.
+
+> For there to be data races, the standard must actually acknowledge that
+> things are supposed to work in a multi-threaded setting.  Could you
+> refer me to the respective wording too, please?
+
+Why are you doing this?  You know where this requirement is in POSIX!
+
+For a long time we have had threads as a POSIX add-on to C standards
+that said nothing about threads.  POSIX imports (defers to) standard C
+without conflicting with it.  It logically follows from these two
+statements that all requirements from standard C on strcpy
+implementations still apply under POSIX.  If you agree that a signal
+handlers' ability to observe deviations from standard-mandated behavior
+indicate deviation from the standard, rather than something that could
+be tolerated under the as-if rule, then this strcpy requirement carries
+over to the multi-thread extensions to C specified in POSIX.
+
+-- 
 Alexandre Oliva, freedom fighter    http://FSFLA.org/~lxoliva/
 You must be the change you wish to see in the world. -- Gandhi
 Be Free! -- http://FSFLA.org/   FSF Latin America board member
-=46ree Software Evangelist|Red Hat Brasil GNU Toolchain Engineer
+Free Software Evangelist|Red Hat Brasil GNU Toolchain Engineer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
