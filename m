@@ -1,60 +1,268 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: ioctl_list.2: complete overhaul needed
-Date: Sun, 09 Nov 2014 16:50:06 +0100
-Message-ID: <545F8D2E.5030308@gmx.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Edited kexec_load(2) [kexec_file_load()] man page for review
+Date: Sun, 09 Nov 2014 20:17:49 +0100
+Message-ID: <545FBDDD.9060801@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hello Vivek (and all),
 
-Hello Michael,
+Thanks for the kexec_file_load() patch [for the kexec_load(2) man page]
+that you quite some time ago sent. I have merged it and done some
+substantial editing as well. Could you please take a look at the 
+draft below, and check that the kexec_file_load() material is okay.
+Please could you especially pay attention to the pieces marked
+"FIXME(kexec_file_load)", since those are pieces about which i
+had questions or doubts.
 
-the current ioctl_list.2 man-page descripton starts
-"This  is  Ioctl List 1.3.27, a list of ioctl calls in Linux/i386 kernel 
-1.3.27."
-So the man-page represents the state of Sep 14th, 1995.
-It enumerates only 421 out of over 1200 calls.
+Thanks,
 
-The list contains hex values of different constants. I just wonder for 
-which architecture (alpha, i386, mips, or sparc at that time). No 
-information is supplied.
+Michael
 
-Current values depend on the architecture, e.g.
+.\" Copyright (C) 2010 Intel Corporation, Author: Andi Kleen
+.\" and Copyright 2014, Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
+.\"
+.TH KEXEC_LOAD 2 2014-08-19 "Linux" "Linux Programmer's Manual"
+.SH NAME
+kexec_load, kexec_file_load \- load a new kernel for later execution
+.SH SYNOPSIS
+.nf
+.B #include <linux/kexec.h>
 
-On amd64
-0x82307201      VFAT_IOCTL_READDIR_BOTH
-0x82307202      VFAT_IOCTL_READDIR_SHORT
-0x80047210      FAT_IOCTL_GET_ATTRIBUTES
-0x40047211      FAT_IOCTL_SET_ATTRIBUTES
-0x80047213      FAT_IOCTL_GET_VOLUME_ID
+.BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ","
+.BI "                struct kexec_segment *" segments \
+", unsigned long " flags ");"
 
-On mips
-0x42187201      VFAT_IOCTL_READDIR_BOTH
-0x42187202      VFAT_IOCTL_READDIR_SHORT
-0x40047210      FAT_IOCTL_GET_ATTRIBUTES
-0x80047211      FAT_IOCTL_SET_ATTRIBUTES
-0x40047213      FAT_IOCTL_GET_VOLUME_ID
+.\" FIXME(kexec_file_load):
+.\"     Why are the return types of kexec_load() and kexec_file_load()
+.\"     different?
+.BI "int kexec_file_load(int " kernel_fd ", int " initrd_fd ","
+.br
+.BI "                    unsigned long " cmdline_len  \
+", const char *" cmdline ","
+.BI "                    unsigned long " flags ");"
 
-Hence hex values should be removed.
+.fi
+.IR Note :
+There are no glibc wrappers for these system calls; see NOTES.
+.SH DESCRIPTION
+The
+.BR kexec_load ()
+system call loads a new kernel that can be executed later by
+.BR reboot (2).
+.PP
+The
+.I flags
+argument is a bit mask that controls the operation of the call.
+The following values can be specified in
+.IR flags :
+.TP
+.BR KEXEC_ON_CRASH " (since Linux 2.6.13)"
+Execute the new kernel automatically on a system crash.
+.\" FIXME Explain in more detail how KEXEC_ON_CRASH is actually used
+.TP
+.BR KEXEC_PRESERVE_CONTEXT " (since Linux 2.6.27)"
+Preserve the system hardware and
+software states before executing the new kernel.
+This could be used for system suspend.
+This flag is available only if the kernel was configured with
+.BR CONFIG_KEXEC_JUMP ,
+and is effective only if
+.I nr_segments
+is greater than 0.
+.PP
+The high-order bits (corresponding to the mask 0xffff0000) of
+.I flags
+contain the architecture of the to-be-executed kernel.
+Specify (OR) the constant
+.B KEXEC_ARCH_DEFAULT
+to use the current architecture,
+or one of the following architecture constants
+.BR KEXEC_ARCH_386 ,
+.BR KEXEC_ARCH_68K ,
+.BR KEXEC_ARCH_X86_64 ,
+.BR KEXEC_ARCH_PPC ,
+.BR KEXEC_ARCH_PPC64 ,
+.BR KEXEC_ARCH_IA_64 ,
+.BR KEXEC_ARCH_ARM ,
+.BR KEXEC_ARCH_S390 ,
+.BR KEXEC_ARCH_SH ,
+.BR KEXEC_ARCH_MIPS ,
+and
+.BR KEXEC_ARCH_MIPS_LE .
+The architecture must be executable on the CPU of the system.
 
-I further suggest to remove all documentation of structure details.
+The
+.I entry
+argument is the physical entry address in the kernel image.
+The
+.I nr_segments
+argument is the number of segments pointed to by the
+.I segments
+pointer;
+the kernel imposes an (arbitrary) limit of 16 on the number of segments.
+The
+.I segments
+argument is an array of
+.I kexec_segment
+structures which define the kernel layout:
+.in +4n
+.nf
 
-The following command can be used to create the raw data for a new list
+struct kexec_segment {
+    void   *buf;        /* Buffer in user space */
+    size_t  bufsz;      /* Buffer length in user space */
+    void   *mem;        /* Physical address of kernel */
+    size_t  memsz;      /* Physical address length */
+};
+.fi
+.in
+.PP
+.\" FIXME Explain the details of how the kernel image defined by segments
+.\" is copied from the calling process into previously reserved memory.
+The kernel image defined by
+.I segments
+is copied from the calling process into previously reserved memory.
+.SS kexec_file_load()
+The
+.BR kexec_file_load ()
+system call is similar to
+.BR kexec_load (),
+but it takes a different set of arguments.
+It reads the kernel to be loaded from the file referred to by the descriptor
+.IR kernel_fd ,
+and the initrd (initial RAM disk)
+to be loaded from file referred to by the descriptor
+.IR initrd_fd .
+The
+.IR cmdline
+argument is a pointer to a string containing the command line
+for the new kernel; the
+.IR cmdline_len
+argument specifies the length of the string in
+.IR cmdline .
 
-grep -GHrn -B3 -A3 --regexp="\s_IO[R|W|RW]\?[_BAD]\?\s*(" \
-include/uapi | \
-sed ':a;N;$!ba;s/\\\s*\n[^-]*-[^-]*-/ /g' | \
-sort | \
-grep --regexp="\s_IO[R|W|RW]\?[BAD]\?\s*(" | grep -n ''
+The
+.IR flags
+argument is a bit mask which modifies the behavior of the call.
+The following values can be specified in
+.IR flags :
+.TP
+.BR KEXEC_FILE_UNLOAD
+Unload the currently loaded kernel.
+.TP
+.BR KEXEC_FILE_ON_CRASH
+Load the new kernel in the memory region reserved for the crash kernel.
+This kernel is booted if the currently running kernel crashes.
+.TP
+.BR KEXEC_FILE_NO_INITRAMFS
+Loading initrd/initramfs is optional.
+Specify this flag if no initramfs is being loaded.
+If this flag is set, the value passed in
+.IR initrd_fd
+is ignored.
+.SH RETURN VALUE
+On success, these system calls returns 0.
+On error, \-1 is returned and
+.I errno
+is set to indicate the error.
+.SH ERRORS
+.TP
+.B EBUSY
+Another crash kernel is already being loaded
+or a crash kernel is already in use.
+.TP
+.B EINVAL
+.I flags
+is invalid; or
+.IR nr_segments
+is too large
+.\" KEXEC_SEGMENT_MAX == 16
+.TP
+.B ENOEXEC
+.I kernel_fd
+does not refer to an open file, or the kernel can't load this file.
+.TP
+.B EPERM
+The caller does not have the
+.BR CAP_SYS_BOOT
+capability.
+.SH VERSIONS
+The
+.BR kexec_load ()
+system call first appeared in Linux 2.6.13.
+The
+.BR kexec_file_load ()
+system call first appeared in Linux 3.17.
+.SH CONFORMING TO
+These system calls are Linux-specific.
+.SH NOTES
+Currently, there is no glibc support for these system calls.
+Call them using
+.BR syscall (2).
+.PP
+The required constants are in the Linux kernel source file
+.IR linux/kexec.h ,
+which is not currently exported to glibc.
+Therefore, these constants must be defined manually.
 
-Best regards
+.\" FIXME(kexec_file_load):
+.\" Is the following rationale accurate? Does it need expanding?
+The
+.BR kexec_file_load ()
+.\" See also http://lwn.net/Articles/603116/
+system call was added to provide support for systems
+where "kexec" loading should be restricted to
+only kernels that are signed.
 
-Heinrich Schuchardt
+The
+.BR kexec_load ()
+system call is available only if the kernel was configured with
+.BR CONFIG_KEXEC .
+The
+.BR kexec_file_load ()
+system call is available only if the kernel was configured with
+.BR CONFIG_KEXEC_FILE .
+.\" FIXME(kexec_file_load):
+.\"     Does kexec_file_load() need any other CONFIG_* options to be defined?
+.SH SEE ALSO
+.BR reboot (2),
+.BR syscall (2),
+.BR kexec (8)
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
