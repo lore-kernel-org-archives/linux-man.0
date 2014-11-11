@@ -1,73 +1,85 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] pow.3: Add note on performance characteristics of pow
-Date: Tue, 11 Nov 2014 13:58:33 +0100
-Message-ID: <546207F9.9050308@gmail.com>
-References: <CAESRpQDx5TfgfRp1q69NiuCB5ve8+fR1NC2up9h5LOkogMKkqQ@mail.gmail.com> <5440A816.8000002@gmail.com> <20141017075845.GL1552@spoyarek.pnq.redhat.com> <CAESRpQB5K9U1sBreXUrNa4tPB69cwxC+fdu1bUr5BkU-dtxJMQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-Return-path: <libc-alpha-return-54224-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <CAESRpQB5K9U1sBreXUrNa4tPB69cwxC+fdu1bUr5BkU-dtxJMQ@mail.gmail.com>
-To: =?windows-1252?Q?Manuel_L=F3pez-Ib=E1=F1ez?= <lopezibanez@gmail.com>, Siddhesh Poyarekar <siddhesh@redhat.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, GNU C Library <libc-alpha@sourceware.org>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH] getrandom.2: treatment of interrupts
+Date: Tue, 11 Nov 2014 17:19:58 +0100
+Message-ID: <1415722798-4894-1-git-send-email-xypron.glpk@gmx.de>
+References: <CAKgNAkj_Bs7d=YV_CFLNHuJacbp_+Kk_Jux_FdiBSuUAsObA=Q@mail.gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkj_Bs7d=YV_CFLNHuJacbp_+Kk_Jux_FdiBSuUAsObA=Q@mail.gmail.com>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Manuel,
+|| pick 0ef180e getrandom.2: Add a sentence to clarify the default behavior...
+|| pick 62342ef getrandom.2: Reword GRND_NONBLOCK description
+|| pick 0c90d3d getrandom.2: Reword GRND_RANDOM description
+These patches look ok.
 
-On 10/17/2014 03:51 PM, Manuel López-Ibáñez wrote:
-> On 17 October 2014 09:58, Siddhesh Poyarekar <siddhesh@redhat.com> wrote:
->>>> +inputs. The inputs that produce such behavior are different for
->>>> +.BR powf (),
->>>> +.BR pow ()
->>>> +and
->>>> +.BR powl ().
->>>> +
->>
->> The slow fallback is only taken for pow, not powf or powl.
-> 
-> Updated patch inline:
-> 
-> diff --git a/man3/pow.3 b/man3/pow.3
-> index d0a2ea8..1b05292 100644
-> --- a/man3/pow.3
-> +++ b/man3/pow.3
-> @@ -320,6 +320,18 @@ The variant returning
->  also conforms to
->  SVr4, 4.3BSD, C89.
->  .SH BUGS
-> +On 64-bits,
-> +.\"
-> +.\" https://sourceware.org/bugzilla/show_bug.cgi?id=13932
-> +.BR pow ()
-> +may be more than 10,000 times slower for some (rare) inputs than for
-> other nearby
-> +inputs.  This only affects
-> +.BR pow (),
-> +and not
-> +.BR powf ()
-> +nor
-> +.BR powl ().
-> +
->  In glibc 2.9 and earlier,
->  .\"
->  .\" http://sources.redhat.com/bugzilla/show_bug.cgi?id=6776
-> 
-> and attached in case gmail messes it up.
+|| FIXME is the following paragraph correct?
+Paragraph is correct. FIXME removed.
 
-Thanks for revising the patch. I've applied it.
+The appended patch removed two FIXMEs.
+The description of the treatment of interrupts is updated.
 
-Cheers,
+|| FIXME Here, I think there needs to be an opening paragraph ...
+The description of the treatment of interupts has been reworked.
+FIXME removed.
 
-Michael
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/getrandom.2 | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
-
+diff --git a/man2/getrandom.2 b/man2/getrandom.2
+index 59ebbe0..5bf57b7 100644
+--- a/man2/getrandom.2
++++ b/man2/getrandom.2
+@@ -55,7 +55,6 @@ Therefore
+ should not be used for Monte Carlo simulations or other
+ programs/algorithms which are doing probabilistic sampling.
+ 
+-.\" FIXME is the following paragraph correct?
+ By default,
+ .BR getrandom ()
+ draws entropy from the
+@@ -157,10 +156,14 @@ was introduced in version 3.17 of the Linux kernel.
+ This system call is Linux-specific.
+ .SH NOTES
+ .SS Interruption by a signal handler
+-.\" FIXME Here, I think there needs to be an opening paragraph that describes
+-.\" the cases where getrandom() can block. This should cover the cases with
+-.\" GRND_RANDOM and without GRND_RANDOM. Reading the existing page, I am
+-.\" still not completely confident that I know what the cases are.
++If a blocking call is interrupted by a signal
++when reading from
++.I /dev/random
++.RB ( GRND_RANDOM
++is set),
++.B EINTR
++will be returned.
++.PP
+ The reaction of
+ .BR getrandom ()
+ in case of an interruption of a blocking call by a signal
+@@ -182,14 +185,6 @@ will not return
+ .BR EINTR .
+ Instead, it will return all of the bytes that have been requested.
+ .PP
+-When reading from
+-.I /dev/random
+-.RB ( GRND_RANDOM
+-is set)
+-these guarantees do
+-.I not
+-apply.
+-.PP
+ Calling
+ .BR getrandom ()
+ to read
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.1.1
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
