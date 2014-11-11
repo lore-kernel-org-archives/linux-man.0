@@ -1,74 +1,308 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cmsg.3: ensure buf is suitably aligned in sending example
-Date: Tue, 11 Nov 2014 10:04:24 +0100
-Message-ID: <5461D118.6080706@gmail.com>
-References: <sa7fve1i4jw.fsf@wragg.org>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 1/3] getrandom.2: new manpage
+Date: Tue, 11 Nov 2014 12:44:36 +0100
+Message-ID: <CAKgNAkj_Bs7d=YV_CFLNHuJacbp_+Kk_Jux_FdiBSuUAsObA=Q@mail.gmail.com>
+References: <1412295197-8100-1-git-send-email-xypron.glpk@gmx.de> <1412295313-8198-1-git-send-email-xypron.glpk@gmx.de>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <sa7fve1i4jw.fsf-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1412295313-8198-1-git-send-email-xypron.glpk@gmx.de>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: Theodore Ts'o <tytso@mit.edu>, linux-man <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/03/2014 12:08 AM, David Wragg wrote:
-> Inspection of the definition of CMSG_FIRSTHDR (both in glibc and the
-> suggested definition in RFC3542) shows that it yields the msg_control
-> field.  So when sending, the pointer placed in msg_control should be
-> suitably aligned as a struct cmsghdr. In the sending example, buf was
-> declared as a bare char array, and so is not necessarily suitably
-> aligned.
-> 
-> The solution here involves placing buf inside a union, and is based on
-> the sockets/scm_rights_send.c sample from The Linux Programming
-> Interface "dist" source code collection.
+Hi Heinrich,
 
-Thanks, David. Applied.
+On Fri, Oct 3, 2014 at 2:15 AM, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+> Kernel 3.17 introduces a new system call getrandom(2).
+>
+> The man page in this patch is based on the commit message by
+> Theodore Ts'o <tytso@mit.edu> and suggestion by
+> Michael Kerrisk <mtk.manpages@gmail.com>.
+
+No word from Ted so far...
+
+I've added LKML to CC, because I think it's worth getting wider review
+of the page at this point.
+
+I've done some further editing on the page, and pushed the current
+version in public branch:
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/?h=draft_getrandom
+
+Could you please review the current version, appended below. Note that
+there are a couple of FIXMEs there. Also, could you pay special
+attention to the changes in these commits, to make sure I have not
+injected any errors:
+
+pick 0ef180e getrandom.2: Add a sentence to clarify the default behavior...
+pick 62342ef getrandom.2: Reword GRND_NONBLOCK description
+pick 0c90d3d getrandom.2: Reword GRND_RANDOM description
 
 Cheers,
 
 Michael
 
+.\" Copyright (C) 2014, Theodore Ts'o <tytso@mit.edu>
+.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk@gmx.de>
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of
+.\" this manual under the conditions for verbatim copying, provided that
+.\" the entire resulting derived work is distributed under the terms of
+.\" a permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+.\" no responsibility for errors or omissions, or for damages resulting.
+.\" from the use of the information contained herein.  The author(s) may.
+.\" not have taken the same level of care in the production of this.
+.\" manual, which is licensed free of charge, as they might when working.
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
 
-> Signed-off-by: David Wragg <david-vIJKVkNGfPnYtjvyW6yDsg@public.gmane.org>
-> ---
->  man3/cmsg.3 | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/man3/cmsg.3 b/man3/cmsg.3
-> index f355e6b..03f542e 100644
-> --- a/man3/cmsg.3
-> +++ b/man3/cmsg.3
-> @@ -198,11 +198,16 @@ UNIX domain socket using
->  struct msghdr msg = {0};
->  struct cmsghdr *cmsg;
->  int myfds[NUM_FD]; /* Contains the file descriptors to pass. */
-> -char buf[CMSG_SPACE(sizeof myfds)];  /* ancillary data buffer */
-> +union {
-> +    /* ancillary data buffer, wrapped in a union in order to ensure it is
-> +       suitably aligned */
-> +    char buf[CMSG_SPACE(sizeof myfds)];
-> +    struct cmsghdr align;
-> +} u;
->  int *fdptr;
->  
-> -msg.msg_control = buf;
-> -msg.msg_controllen = sizeof buf;
-> +msg.msg_control = u.buf;
-> +msg.msg_controllen = sizeof u.buf;
->  cmsg = CMSG_FIRSTHDR(&msg);
->  cmsg\->cmsg_level = SOL_SOCKET;
->  cmsg\->cmsg_type = SCM_RIGHTS;
-> 
+.TH GETRANDOM 2 2014-10-03 "Linux" "Linux Programmer's Manual"
+.SH NAME
+getrandom \- obtain a series of random bytes
+.SH SYNOPSIS
+.B #include <linux/random.h>
+.sp
+.BI "int getrandom(void *"buf ", size_t " buflen ", unsigned int " flags );
+.SH DESCRIPTION
+The system call
+.BR getrandom ()
+fills the buffer pointed to by
+.I buf
+with up to
+.I buflen
+random bytes.
+These can be used to seed user-space random number generators
+or for other cryptographic purposes.
+.PP
+.BR getrandom ()
+relies on entropy gathered from device drivers and other sources of
+environmental noise.
+Unnecessarily reading large quantities of data will have a negative impact
+on other users of the
+.I /dev/random
+and
+.I /dev/urandom
+devices.
+Therefore
+.BR getrandom ()
+should not be used for Monte Carlo simulations or other
+programs/algorithms which are doing probabilistic sampling.
 
+.\" FIXME is the following paragraph correct?
+By default,
+.BR getrandom ()
+draws entropy from the
+.IR /dev/urandom
+pool, and, if that pool has been initialized and
+.IR buflen
+is less than or equal to 256 (see NOTES, below),
+then the call never blocks when drawing from that pool
+and always returns the number of bytes requested in
+.IR buflen .
+This behavior can be changed via the
+.I flags
+argument.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The
+.I flags
+argument is a bit mask that can contain zero or more of the following values
+ORed together:
+.TP
+.B GRND_RANDOM
+If this bit is set, then random bytes are drawn from the
+.I /dev/random
+pool instead of the
+.I /dev/urandom
+pool.
+The
+.I /dev/random
+pool is limited based on the entropy that can be obtained from environmental
+noise.
+If the number of available bytes in
+.I /dev/random
+is less than requested in
+.IR buflen ,
+the call returns just the available random bytes.
+If no random byte is available, the response will depend on the
+presence of
+.B GRND_NONBLOCK
+in the
+.I flags
+argument.
+.TP
+.B GRND_NONBLOCK
+By default, if there is no random byte available at all,
+.BR getrandom ()
+blocks until data is available.
+If the
+.B GRND_NONBLOCK
+flag is set, then
+.BR getrandom ()
+instead immediately returns -1 with
+.I errno
+set to
+.BR EAGAIN .
+.SH RETURN VALUE
+On success,
+.BR getrandom ()
+returns the number of bytes that were copied to the buffer
+.IR buf .
+This may be less than the number of bytes requested via
+.I buflen
+if insufficient entropy was present in the
+.IR /dev/random
+pool, or if the system call was interrupted by a signal.
+.PP
+On error, -1 is returned, and
+.I errno
+is set appropriately.
+.SH ERRORS
+.TP
+.B EINVAL
+An invalid flag was specified in
+.IR flags .
+.TP
+.B EFAULT
+The address referred to by
+.I buf
+is outside the accessible address space.
+.TP
+.B EAGAIN
+The requested entropy was not available, and
+.BR getrandom ()
+would have blocked if the
+.B GRND_NONBLOCK
+flag was not set.
+.TP
+.B EINTR
+While blocked waiting for entropy, the call was interrupted by a signal
+handler; see the description of how interrupted
+.BR read (2)
+calls on "slow" devices are handled with and without the
+.B SA_RESTART
+flag in the
+.BR signal (7)
+man page.
+.SH VERSIONS
+.BR getrandom ()
+was introduced in version 3.17 of the Linux kernel.
+.SH CONFORMING TO
+This system call is Linux-specific.
+.SH NOTES
+.SS Interruption by a signal handler
+.\" FIXME Here, I think there needs to be an opening paragraph that describes
+.\" the cases where getrandom() can block. This should cover the cases with
+.\" GRND_RANDOM and without GRND_RANDOM. Reading the existing page, I am
+.\" still not completely confident that I know what the cases are.
+The reaction of
+.BR getrandom ()
+in case of an interruption of a blocking call by a signal
+when reading from
+.I /dev/urandom
+.RB ( GRND_RANDOM
+is not set)
+depends on the initialization state of the entropy buffer
+and on the request size
+.IR buflen .
+If the entropy is not yet initialized or the request size is large
+.RI ( buflen "\ >\ 256),"
+.B EINTR
+will be returned.
+If the entropy pool has been initialized and the request size is small
+.RI ( buflen "\ <=\ 256),"
+.BR getrandom ()
+will not return
+.BR EINTR .
+Instead, it will return all of the bytes that have been requested.
+.PP
+When reading from
+.I /dev/random
+.RB ( GRND_RANDOM
+is set)
+these guarantees do
+.I not
+apply.
+.PP
+Calling
+.BR getrandom ()
+to read
+.I /dev/urandom
+for small values (<=\ 256) of
+.I buflen
+is the preferred mode of usage.
+.PP
+The special treatment of small values of
+.I buflen
+was designed for compatibility with
+OpenBSD's
+.BR getentropy ()
+system call.
+.PP
+The user of
+.BR getrandom ()
+.I must
+always check the return value,
+to determine whether either an error occurred
+or fewer bytes than requested were returned.
+In the case where
+.B GRND_RANDOM
+is not specified and
+.I buflen
+is less than or equal to 256,
+a return of fewer bytes than requested should never happen,
+but the careful user-space code should check for this anyway!
+.SS Choice of random device
+Unless you are doing long-term key generation (and perhaps not even
+then), you probably shouldn't be using
+.B GRND_RANDOM.
+The cryptographic algorithms used for
+.I /dev/urandom
+are quite conservative, and so should be sufficient for all purposes.
+The disadvantage of
+.B GRND_RANDOM
+is that it can block.
+Furthermore, dealing with partially fulfilled
+.BR getrandom ()
+requests increases code complexity.
+.SS Emulating OpenBSD's getentropy()
+The
+.BR getentropy ()
+system call in OpenBSD can be emulated using the following
+function:
+
+.in +4n
+.nf
+int
+getentropy(void *buf, size_t buflen)
+{
+    int ret;
+
+    if (buflen > 256)
+        goto failure;
+    ret = getrandom(buf, buflen, 0);
+    if (ret < 0)
+        return ret;
+    if (ret == buflen)
+        return 0;
+failure:
+    errno = EIO;
+    return -1;
+}
+.fi
+.in
+.SH SEE ALSO
+.BR random (4),
+.BR urandom (4)
