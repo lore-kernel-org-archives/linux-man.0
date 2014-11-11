@@ -1,88 +1,73 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ioctl_list.2: complete overhaul needed
-Date: Tue, 11 Nov 2014 09:18:53 +0100
-Message-ID: <CAKgNAkiy_HZcWQLfR0amYQfOSW1gjY1ABF346RfEFCDp=B3Gxw@mail.gmail.com>
-References: <545F8D2E.5030308@gmx.de> <5461B768.7040603@gmail.com> <20141111075242.GB28132@vapier.wh0rd.info>
+Subject: Re: [bug report] fadvise64.2: Linux actually returns ESPIPE on FIFO/pipe
+Date: Tue, 11 Nov 2014 10:01:26 +0100
+Message-ID: <CAKgNAkgxCf-KVd05J7dwB+AZcX+-aK=7xQFiryTyNT7fMOD=NA@mail.gmail.com>
+References: <000001cffd7f$cc610ce0$652326a0$%yang@samsung.com> <CAL1ERfM1P4OYDDwWGJS0+XArDByaE2mUvPCRbhg8Ri-RsLutDA@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20141111075242.GB28132-eAEk4k+vi/E8xmjh+jFwDmGXanvQGlWp@public.gmane.org>
+In-Reply-To: <CAL1ERfM1P4OYDDwWGJS0+XArDByaE2mUvPCRbhg8Ri-RsLutDA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Weijie Yang <weijie.yang.kh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Mike,
-
-On Tue, Nov 11, 2014 at 8:52 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> On 11 Nov 2014 08:14, Michael Kerrisk (man-pages) wrote:
->> On 11/09/2014 04:50 PM, Heinrich Schuchardt wrote:
->> > The list contains hex values of different constants. I just wonder for
->> > which architecture (alpha, i386, mips, or sparc at that time). No
->> > information is supplied.
->> >
->> > Current values depend on the architecture, e.g.
->> >
->> > On amd64
->> > 0x82307201      VFAT_IOCTL_READDIR_BOTH
->> > 0x82307202      VFAT_IOCTL_READDIR_SHORT
->> > 0x80047210      FAT_IOCTL_GET_ATTRIBUTES
->> > 0x40047211      FAT_IOCTL_SET_ATTRIBUTES
->> > 0x80047213      FAT_IOCTL_GET_VOLUME_ID
->> >
->> > On mips
->> > 0x42187201      VFAT_IOCTL_READDIR_BOTH
->> > 0x42187202      VFAT_IOCTL_READDIR_SHORT
->> > 0x40047210      FAT_IOCTL_GET_ATTRIBUTES
->> > 0x80047211      FAT_IOCTL_SET_ATTRIBUTES
->> > 0x40047213      FAT_IOCTL_GET_VOLUME_ID
->> >
->> > Hence hex values should be removed.
+On Tue, Nov 11, 2014 at 8:33 AM, Weijie Yang <weijie.yang.kh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On Tue, Nov 11, 2014 at 3:18 PM, Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
+>> In man-page fadvise64.2(and its variants), the following is outdated:
 >>
->> It sounds like you are right that the hex values should be
->> removed. But, how did you determine those different
->> hex values above? Grepping the sources, it's not
->> obvious that amd64 and mips should be different.
->
-> ioctl's can integrate the type size right ?  so wouldn't be surprised if it
-> changed across arches.
-
-Yes. I'd actually noticed that detail,and should have said so. I
-suppose what I really meant was: is that the only source of the
-difference in the constants?
-
-> fwiw, strace carries a script to try and do all this magic automatically:
-> http://sourceforge.net/p/strace/code/ci/master/tree/linux/ioctlent.sh
-> of course it misses out on ioctls that aren't exported in headers and are
-> internal to specific drivers.  i.e. it's not perfect at all, but that's because
-> ioctls are a goddamn mess :).
-
-Thanks for that pointer.
-
-> i agree though that the man page should drop hex values as they aren't useful.
-> if you're using a "standard" ioctl, you should get it from the relevant header
-> file.  if you're using a "non-standard" ioctl, then you get the pieces.
-
-Agreed.
-
->> > I further suggest to remove all documentation of structure details.
+>> "ESPIPE The specified file descriptor refers to a pipe or FIFO.  (Linux actually returns EINVAL in this case.)"
 >>
->> Could you elaborate this point a little. Some examples, and
->> why you think they should be removed. I'm not disagreeing, just
->> looking to clarify what you mean.
+>>
+>> In Linux 2.6.12, kernel was modified to match the POSIX: return ESPIPE on FIFO/pipe
 >
-> i think for the common/standard ioctls, it's useful to have manpages that delve
-> down into the details.  but for the fringe ones, it's a waste of time for the
-> vast majority of people.
->
-> maybe one way to determine whether it's worth documenting, see if strace has a
-> decoder for it :).
+> I'm very sorry, the version is 2.6.15.
 
-Sounds like a reasonable idea to me.
+Hello Weijie Yang,
+
+Thanks for the report. I've amended the page. In fact, the kernel
+version was 2.6.16.
+
+See http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/?id=e0f1f1765bdde2d683103ae6a2502e3cadeebca6
 
 Cheers,
 
 Michael
+
+>> See detail:
+>>
+>> commit 87ba81dba431232548ce29d5d224115d0c2355ac
+>> Author: Valentine Barshak <vbarshak-hkdhdckH98+B+jHODAdFcQ@public.gmane.org>
+>> Date:   Sun Jan 8 01:03:44 2006 -0800
+>>
+>>     [PATCH] fadvise: return ESPIPE on FIFO/pipe
+>>
+>>     The patch makes posix_fadvise return ESPIPE on FIFO/pipe in order to be
+>>     fully POSIX-compliant.
+>>
+>>     Signed-off-by: Andrew Morton <akpm-3NddpPZAyC0@public.gmane.org>
+>>     Signed-off-by: Linus Torvalds <torvalds-3NddpPZAyC0@public.gmane.org>
+>>
+>> diff --git a/mm/fadvise.c b/mm/fadvise.c
+>> index 5f19e87..d257c89 100644
+>> --- a/mm/fadvise.c
+>> +++ b/mm/fadvise.c
+>> @@ -37,6 +37,11 @@ asmlinkage long sys_fadvise64_64(int fd, loff_t offset, loff_t len, int advice)
+>>         if (!file)
+>>                 return -EBADF;
+>>
+>> +       if (S_ISFIFO(file->f_dentry->d_inode->i_mode)) {
+>> +               ret = -ESPIPE;
+>> +               goto out;
+>> +       }
+>> +
+>>         mapping = file->f_mapping;
+>>         if (!mapping || len < 0) {
+>>                 ret = -EINVAL;
+>>
+
+
 
 -- 
 Michael Kerrisk
