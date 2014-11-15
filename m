@@ -1,171 +1,68 @@
-From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
-Subject: Re: [PATCH 2/2] groups: Allow unprivileged processes to use setgroups to drop groups
-Date: Sat, 15 Nov 2014 09:37:27 -0600
-Message-ID: <87d28osceg.fsf@x220.int.ebiederm.org>
+From: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Subject: Re: [PATCH 2/2] groups: Allow unprivileged processes to use
+ setgroups to drop groups
+Date: Sat, 15 Nov 2014 11:29:25 -0800
+Message-ID: <20141115192924.GB19060@thin>
 References: <3ccec8a13019b5e8ce7b1d7889677b778b070dc8.1416041823.git.josh@joshtriplett.org>
-	<0895c1f268bc0b01cc6c8ed4607d7c3953f49728.1416041823.git.josh@joshtriplett.org>
+ <0895c1f268bc0b01cc6c8ed4607d7c3953f49728.1416041823.git.josh@joshtriplett.org>
+ <87d28osceg.fsf@x220.int.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <0895c1f268bc0b01cc6c8ed4607d7c3953f49728.1416041823.git.josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
-	(Josh Triplett's message of "Sat, 15 Nov 2014 01:01:02 -0800")
+Content-Disposition: inline
+In-Reply-To: <87d28osceg.fsf-JOvCrm2gF+uungPnsOpG7nhyD016LWXt@public.gmane.org>
 Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org> writes:
+On Sat, Nov 15, 2014 at 09:37:27AM -0600, Eric W. Biederman wrote:
+> Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org> writes:
+> 
+> > Currently, unprivileged processes (without CAP_SETGID) cannot call
+> > setgroups at all.  In particular, processes with a set of supplementary
+> > groups cannot further drop permissions without obtaining elevated
+> > permissions first.
+> >
+> > Allow unprivileged processes to call setgroups with a subset of their
+> > current groups; only require CAP_SETGID to add a group the process does
+> > not currently have.
+> 
+> A couple of questions.
+> - Is there precedence in other unix flavors for this?
 
-> Currently, unprivileged processes (without CAP_SETGID) cannot call
-> setgroups at all.  In particular, processes with a set of supplementary
-> groups cannot further drop permissions without obtaining elevated
-> permissions first.
->
-> Allow unprivileged processes to call setgroups with a subset of their
-> current groups; only require CAP_SETGID to add a group the process does
-> not currently have.
+I found a few references to now-nonexistent pages at MIT about a system
+with this property, but other than that no.
 
-A couple of questions.
-- Is there precedence in other unix flavors for this?
-- What motiviates this change?
-- Have you looked to see if anything might for bug compatibilty
-  require applications not to be able to drop supplementary groups?
+I've also found more than a few references to people wanting this
+functionality.
 
-> The kernel already maintains the list of supplementary group IDs in
-> sorted order, and setgroups already needs to sort the new list, so this
-> just requires a linear comparison of the two sorted lists.
->
-> This moves the CAP_SETGID test from setgroups into set_current_groups.
->
-> Tested via the following test program:
->
-> #include <err.h>
-> #include <grp.h>
-> #include <stdio.h>
-> #include <sys/types.h>
-> #include <unistd.h>
->
-> void run_id(void)
-> {
->     pid_t p = fork();
->     switch (p) {
->         case -1:
->             err(1, "fork");
->         case 0:
->             execl("/usr/bin/id", "id", NULL);
->             err(1, "exec");
->         default:
->             if (waitpid(p, NULL, 0) < 0)
->                 err(1, "waitpid");
->     }
-> }
->
-> int main(void)
-> {
->     gid_t list1[] = { 1, 2, 3, 4, 5 };
->     gid_t list2[] = { 2, 3, 4 };
->     run_id();
->     if (setgroups(5, list1) < 0)
->         err(1, "setgroups 1");
->     run_id();
->     if (setresgid(1, 1, 1) < 0)
->         err(1, "setresgid");
->     if (setresuid(1, 1, 1) < 0)
->         err(1, "setresuid");
->     run_id();
->     if (setgroups(3, list2) < 0)
->         err(1, "setgroups 2");
->     run_id();
->     if (setgroups(5, list1) < 0)
->         err(1, "setgroups 3");
->     run_id();
->
->     return 0;
-> }
->
-> Without this patch, the test program gets EPERM from the second
-> setgroups call, after dropping root privileges.  With this patch, the
-> test program successfully drops groups 1 and 5, but then gets EPERM from
-> the third setgroups call, since that call attempts to add groups the
-> process does not currently have.
->
-> Signed-off-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
-> ---
->  kernel/groups.c | 33 ++++++++++++++++++++++++++++++---
->  kernel/uid16.c  |  2 --
->  2 files changed, 30 insertions(+), 5 deletions(-)
->
-> diff --git a/kernel/groups.c b/kernel/groups.c
-> index f0667e7..fe7367d 100644
-> --- a/kernel/groups.c
-> +++ b/kernel/groups.c
-> @@ -153,6 +153,29 @@ int groups_search(const struct group_info *group_info, kgid_t grp)
->  	return 0;
->  }
->  
-> +/* Compare two sorted group lists; return true if the first is a subset of the
-> + * second.
-> + */
-> +static bool is_subset(const struct group_info *g1, const struct group_info *g2)
-> +{
-> +	unsigned int i, j;
-> +
-> +	for (i = 0, j = 0; i < g1->ngroups; i++) {
-> +		kgid_t gid1 = GROUP_AT(g1, i);
-> +		kgid_t gid2;
-> +		for (; j < g2->ngroups; j++) {
-> +			gid2 = GROUP_AT(g2, j);
-> +			if (gid_lte(gid1, gid2))
-> +				break;
-> +		}
-> +		if (j >= g2->ngroups || !gid_eq(gid1, gid2))
-> +			return false;
-> +		j++;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->  /**
->   * set_groups_sorted - Change a group subscription in a set of credentials
->   * @new: The newly prepared set of credentials to alter
-> @@ -189,11 +212,17 @@ int set_current_groups(struct group_info *group_info)
->  {
->  	struct cred *new;
->  
-> +	groups_sort(group_info);
->  	new = prepare_creds();
->  	if (!new)
->  		return -ENOMEM;
-> +	if (!ns_capable(current_user_ns(), CAP_SETGID)
-> +	    && !is_subset(group_info, new->group_info)) {
-> +		abort_creds(new);
-> +		return -EPERM;
-> +	}
->  
-> -	set_groups(new, group_info);
-> +	set_groups_sorted(new, group_info);
->  	return commit_creds(new);
->  }
->  
-> @@ -233,8 +262,6 @@ SYSCALL_DEFINE2(setgroups, int, gidsetsize, gid_t __user *, grouplist)
->  	struct group_info *group_info;
->  	int retval;
->  
-> -	if (!ns_capable(current_user_ns(), CAP_SETGID))
-> -		return -EPERM;
->  	if ((unsigned)gidsetsize > NGROUPS_MAX)
->  		return -EINVAL;
->  
-> diff --git a/kernel/uid16.c b/kernel/uid16.c
-> index 602e5bb..b27e167 100644
-> --- a/kernel/uid16.c
-> +++ b/kernel/uid16.c
-> @@ -176,8 +176,6 @@ SYSCALL_DEFINE2(setgroups16, int, gidsetsize, old_gid_t __user *, grouplist)
->  	struct group_info *group_info;
->  	int retval;
->  
-> -	if (!ns_capable(current_user_ns(), CAP_SETGID))
-> -		return -EPERM;
->  	if ((unsigned)gidsetsize > NGROUPS_MAX)
->  		return -EINVAL;
+> - What motiviates this change?
+
+I have a series of patches planned to add more ways to drop elevated
+privileges without requiring a transition through root to do so.  That
+would improve the ability for unprivileged users to run programs
+sandboxed with even *less* privileges.  (Among other things, that would
+also allow programs running with no_new_privs to further *reduce* their
+privileges, which they can't currently do in this case.)
+
+> - Have you looked to see if anything might for bug compatibilty
+>   require applications not to be able to drop supplementary groups?
+
+I haven't found any such case; that doesn't mean such a case does not
+exist.  Feedback welcome.
+
+The only case I can think of (and I don't know of any examples of such a
+system): some kind of quota system that limits the members of a group to
+a certain amount of storage, but places no such limit on non-members.
+
+However, the idea of *holding* a credential (a supplementary group ID)
+giving *less* privileges, and *dropping* a credential giving *more*
+privileges, would completely invert normal security models.  (The sane
+way to design such a system would be to have a privileged group for
+"users who can exceed the quota".)
+
+If it turns out that a real case exists that people care about, I could
+easily make this configurable, either at compile time or via a sysctl.
+
+- Josh Triplett
