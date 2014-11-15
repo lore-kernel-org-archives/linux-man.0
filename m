@@ -1,33 +1,62 @@
-From: Andrea Balboni <andrea.balboni-rcYM44yAMweonA0d6jMUrA@public.gmane.org>
-Subject: [PATCH] pthread_attr_init.3: tfix
-Date: Fri, 14 Nov 2014 18:33:23 +0100
-Message-ID: <1415986403-27318-1-git-send-email-andrea.balboni@unimore.it>
+From: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Subject: [PATCH 1/2] groups: Factor out a function to set a pre-sorted group
+ list
+Date: Sat, 15 Nov 2014 01:00:40 -0800
+Message-ID: <3ccec8a13019b5e8ce7b1d7889677b778b070dc8.1416041823.git.josh@joshtriplett.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man3/pthread_attr_init.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This way, functions that already need to sort the group list need not do
+so twice.
 
-diff --git a/man3/pthread_attr_init.3 b/man3/pthread_attr_init.3
-index 6092283..3875519 100644
---- a/man3/pthread_attr_init.3
-+++ b/man3/pthread_attr_init.3
-@@ -106,7 +106,7 @@ we see the following:
- .in +4n
- .nf
- .\" Results from glibc 2.8, SUSE 11.0; Oct 2008
--.RB "$" " ulimit \-s" "       # No stack imit ==> default stack size is 2MB"
-+.RB "$" " ulimit \-s" "       # No stack limit ==> default stack size is 2MB"
- unlimited
- .RB "$" " ./a.out"
- Thread attributes:
+The new set_groups_sorted is intentionally not exported.
+
+Signed-off-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+---
+ kernel/groups.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/groups.c b/kernel/groups.c
+index 451698f..f0667e7 100644
+--- a/kernel/groups.c
++++ b/kernel/groups.c
+@@ -154,16 +154,26 @@ int groups_search(const struct group_info *group_info, kgid_t grp)
+ }
+ 
+ /**
++ * set_groups_sorted - Change a group subscription in a set of credentials
++ * @new: The newly prepared set of credentials to alter
++ * @group_info: The group list to install; must be sorted
++ */
++static void set_groups_sorted(struct cred *new, struct group_info *group_info)
++{
++	put_group_info(new->group_info);
++	get_group_info(group_info);
++	new->group_info = group_info;
++}
++
++/**
+  * set_groups - Change a group subscription in a set of credentials
+  * @new: The newly prepared set of credentials to alter
+  * @group_info: The group list to install
+  */
+ void set_groups(struct cred *new, struct group_info *group_info)
+ {
+-	put_group_info(new->group_info);
+ 	groups_sort(group_info);
+-	get_group_info(group_info);
+-	new->group_info = group_info;
++	set_groups_sorted(new, group_info);
+ }
+ 
+ EXPORT_SYMBOL(set_groups);
 -- 
 2.1.3
-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
