@@ -1,110 +1,52 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getrandom.2: treatment of interrupts
-Date: Sun, 16 Nov 2014 16:55:58 +0100
-Message-ID: <CAKgNAkgVUeekKZjyTsjWgkXfv_u72T_ms7qofSJ_omqhfExfCw@mail.gmail.com>
-References: <CAKgNAkj_Bs7d=YV_CFLNHuJacbp_+Kk_Jux_FdiBSuUAsObA=Q@mail.gmail.com>
- <1415722798-4894-1-git-send-email-xypron.glpk@gmx.de>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [patch] capabilities.7: NOTES: add last kernel versions for obsolete
+ options
+Date: Sun, 16 Nov 2014 17:03:38 +0000
+Message-ID: <5468D8EA.9070102@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1415722798-4894-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
 
-On Tue, Nov 11, 2014 at 5:19 PM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
-> || pick 0ef180e getrandom.2: Add a sentence to clarify the default behavior...
-> || pick 62342ef getrandom.2: Reword GRND_NONBLOCK description
-> || pick 0c90d3d getrandom.2: Reword GRND_RANDOM description
-> These patches look ok.
->
-> || FIXME is the following paragraph correct?
-> Paragraph is correct. FIXME removed.
->
-> The appended patch removed two FIXMEs.
-> The description of the treatment of interrupts is updated.
->
-> || FIXME Here, I think there needs to be an opening paragraph ...
-> The description of the treatment of interupts has been reworked.
-> FIXME removed.
->
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/getrandom.2 | 21 ++++++++-------------
->  1 file changed, 8 insertions(+), 13 deletions(-)
->
-> diff --git a/man2/getrandom.2 b/man2/getrandom.2
-> index 59ebbe0..5bf57b7 100644
-> --- a/man2/getrandom.2
-> +++ b/man2/getrandom.2
-> @@ -55,7 +55,6 @@ Therefore
->  should not be used for Monte Carlo simulations or other
->  programs/algorithms which are doing probabilistic sampling.
->
-> -.\" FIXME is the following paragraph correct?
->  By default,
->  .BR getrandom ()
->  draws entropy from the
-> @@ -157,10 +156,14 @@ was introduced in version 3.17 of the Linux kernel.
->  This system call is Linux-specific.
->  .SH NOTES
->  .SS Interruption by a signal handler
-> -.\" FIXME Here, I think there needs to be an opening paragraph that describes
-> -.\" the cases where getrandom() can block. This should cover the cases with
-> -.\" GRND_RANDOM and without GRND_RANDOM. Reading the existing page, I am
-> -.\" still not completely confident that I know what the cases are.
-> +If a blocking call is interrupted by a signal
-> +when reading from
-> +.I /dev/random
-> +.RB ( GRND_RANDOM
-> +is set),
-> +.B EINTR
-> +will be returned.
-> +.PP
+CONFIG_SECURITY_CAPABILITIES option removed by:
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/security?id=5915eb53861c5776cfec33ca4fcc1fd20d66dd27
 
-What I was meaning with my FIXME was: please describe the various
-cases where getrandom() can block, both with GRND_RANDOM and without
-GRND_RANDOM. As I read the man page, I am not sure that I understand
-which the cases are.
+CONFIG_SECURITY_FILE_CAPABILITIES option removed in Linux 2.6.33 as already mentioned in DESCRIPTION
 
-Thanks,
+Signed-off-by: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man7/capabilities.7 | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Michael
-
-
-
->  The reaction of
->  .BR getrandom ()
->  in case of an interruption of a blocking call by a signal
-> @@ -182,14 +185,6 @@ will not return
->  .BR EINTR .
->  Instead, it will return all of the bytes that have been requested.
->  .PP
-> -When reading from
-> -.I /dev/random
-> -.RB ( GRND_RANDOM
-> -is set)
-> -these guarantees do
-> -.I not
-> -apply.
-> -.PP
->  Calling
->  .BR getrandom ()
->  to read
-> --
-> 2.1.1
->
-
-
-
+diff --git a/man7/capabilities.7 b/man7/capabilities.7
+index a1adcb5..bc461a4 100644
+--- a/man7/capabilities.7
++++ b/man7/capabilities.7
+@@ -1124,7 +1124,7 @@ is based on the withdrawn POSIX.1e draft standard; see
+ .UR http://wt.tuxomania.net\:/publications\:/posix.1e/
+ .UE .
+ .SH NOTES
+-Since kernel 2.5.27, capabilities are an optional kernel component,
++From kernel 2.5.27 to kernel 2.6.26, capabilities are an optional kernel component,
+ and can be enabled/disabled via the
+ .B CONFIG_SECURITY_CAPABILITIES
+ kernel configuration option.
+@@ -1161,7 +1161,7 @@ It can be found at
+ .UR http://www.kernel.org\:/pub\:/linux\:/libs\:/security\:/linux-privs
+ .UE .
+ 
+-Before kernel 2.6.24, and since kernel 2.6.24 if
++Before kernel 2.6.24, and from kernel 2.6.24 to kernel 2.6.32 if
+ file capabilities are not enabled, a thread with the
+ .B CAP_SETPCAP
+ capability can manipulate the capabilities of threads other than itself.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.0.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
