@@ -1,43 +1,104 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_attr_init.3: tfix
-Date: Sun, 16 Nov 2014 16:50:33 +0100
-Message-ID: <5468C7C9.8080304@gmail.com>
-References: <1415986403-27318-1-git-send-email-andrea.balboni@unimore.it>
+Subject: Re: [PATCH] getrandom.2: treatment of interrupts
+Date: Sun, 16 Nov 2014 16:55:58 +0100
+Message-ID: <CAKgNAkgVUeekKZjyTsjWgkXfv_u72T_ms7qofSJ_omqhfExfCw@mail.gmail.com>
+References: <CAKgNAkj_Bs7d=YV_CFLNHuJacbp_+Kk_Jux_FdiBSuUAsObA=Q@mail.gmail.com>
+ <1415722798-4894-1-git-send-email-xypron.glpk@gmx.de>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1415986403-27318-1-git-send-email-andrea.balboni-rcYM44yAMweonA0d6jMUrA@public.gmane.org>
+In-Reply-To: <1415722798-4894-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andrea Balboni <andrea.balboni-rcYM44yAMweonA0d6jMUrA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Andrea. Applied.
+Hi Heinrich,
 
-Cheers,
+On Tue, Nov 11, 2014 at 5:19 PM, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
+> || pick 0ef180e getrandom.2: Add a sentence to clarify the default behavior...
+> || pick 62342ef getrandom.2: Reword GRND_NONBLOCK description
+> || pick 0c90d3d getrandom.2: Reword GRND_RANDOM description
+> These patches look ok.
+>
+> || FIXME is the following paragraph correct?
+> Paragraph is correct. FIXME removed.
+>
+> The appended patch removed two FIXMEs.
+> The description of the treatment of interrupts is updated.
+>
+> || FIXME Here, I think there needs to be an opening paragraph ...
+> The description of the treatment of interupts has been reworked.
+> FIXME removed.
+>
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/getrandom.2 | 21 ++++++++-------------
+>  1 file changed, 8 insertions(+), 13 deletions(-)
+>
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> index 59ebbe0..5bf57b7 100644
+> --- a/man2/getrandom.2
+> +++ b/man2/getrandom.2
+> @@ -55,7 +55,6 @@ Therefore
+>  should not be used for Monte Carlo simulations or other
+>  programs/algorithms which are doing probabilistic sampling.
+>
+> -.\" FIXME is the following paragraph correct?
+>  By default,
+>  .BR getrandom ()
+>  draws entropy from the
+> @@ -157,10 +156,14 @@ was introduced in version 3.17 of the Linux kernel.
+>  This system call is Linux-specific.
+>  .SH NOTES
+>  .SS Interruption by a signal handler
+> -.\" FIXME Here, I think there needs to be an opening paragraph that describes
+> -.\" the cases where getrandom() can block. This should cover the cases with
+> -.\" GRND_RANDOM and without GRND_RANDOM. Reading the existing page, I am
+> -.\" still not completely confident that I know what the cases are.
+> +If a blocking call is interrupted by a signal
+> +when reading from
+> +.I /dev/random
+> +.RB ( GRND_RANDOM
+> +is set),
+> +.B EINTR
+> +will be returned.
+> +.PP
+
+What I was meaning with my FIXME was: please describe the various
+cases where getrandom() can block, both with GRND_RANDOM and without
+GRND_RANDOM. As I read the man page, I am not sure that I understand
+which the cases are.
+
+Thanks,
 
 Michael
 
-On 11/14/2014 06:33 PM, Andrea Balboni wrote:
-> ---
->  man3/pthread_attr_init.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/man3/pthread_attr_init.3 b/man3/pthread_attr_init.3
-> index 6092283..3875519 100644
-> --- a/man3/pthread_attr_init.3
-> +++ b/man3/pthread_attr_init.3
-> @@ -106,7 +106,7 @@ we see the following:
->  .in +4n
->  .nf
->  .\" Results from glibc 2.8, SUSE 11.0; Oct 2008
-> -.RB "$" " ulimit \-s" "       # No stack imit ==> default stack size is 2MB"
-> +.RB "$" " ulimit \-s" "       # No stack limit ==> default stack size is 2MB"
->  unlimited
->  .RB "$" " ./a.out"
->  Thread attributes:
-> 
+
+
+>  The reaction of
+>  .BR getrandom ()
+>  in case of an interruption of a blocking call by a signal
+> @@ -182,14 +185,6 @@ will not return
+>  .BR EINTR .
+>  Instead, it will return all of the bytes that have been requested.
+>  .PP
+> -When reading from
+> -.I /dev/random
+> -.RB ( GRND_RANDOM
+> -is set)
+> -these guarantees do
+> -.I not
+> -apply.
+> -.PP
+>  Calling
+>  .BR getrandom ()
+>  to read
+> --
+> 2.1.1
+>
+
 
 
 -- 
