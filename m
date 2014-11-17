@@ -1,54 +1,47 @@
-From: Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
-Subject: Addition to memcmp(3)
-Date: Mon, 17 Nov 2014 09:07:55 +0100
-Message-ID: <E1XqHLn-00041P-MO@fangorn.moria.de>
+From: One Thousand Gnomes <gnomes-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org>
+Subject: Re: [PATCH 2/2] groups: Allow unprivileged processes to use
+ setgroups to drop groups
+Date: Mon, 17 Nov 2014 11:37:34 +0000
+Message-ID: <20141117113734.396798e6@lxorguk.ukuu.org.uk>
+References: <3ccec8a13019b5e8ce7b1d7889677b778b070dc8.1416041823.git.josh@joshtriplett.org>
+	<0895c1f268bc0b01cc6c8ed4607d7c3953f49728.1416041823.git.josh@joshtriplett.org>
+	<87d28osceg.fsf@x220.int.ebiederm.org>
+	<20141115192924.GB19060@thin>
+	<CALCETrUM=GqsOumTmDMF4B5GS1w=x56t41eE-2xW1bBOfUz02w@mail.gmail.com>
+	<20141115202042.GA20900@thin>
+	<20141116020511.GB5507@thunk.org>
+	<6C690A2C-8EB1-421A-94C3-9803AFB95760@joshtriplett.org>
+	<20141116034005.GC5507@thunk.org>
+	<20141116045232.GB18880@thin>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141116045232.GB18880@thin>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Cc: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+> optional), I can do that too.  The security model of "having a group
+> gives you less privilege than not having it" seems crazy, but
+> nonetheless I can see a couple of easy ways that we can avoid breaking
 
-memcmp(3) does not document the return value for length 0 and the
-CPU time depending on the number of compared bytes.  While both
-is obvious, it should still be documented.
+It's an old pattern of use that makes complete sense in a traditional
+Unix permission world because it's the only way to do "exclude {list}"
+nicely. Our default IMHO shouldn't break this.
 
-Michael
+> that pattern, no_new_privs being one of them.  I'd like to make sure
+> that nobody sees any other real-world corner case that unprivileged
+> setgroups would break.
 
---- memcmp.3.orig	2014-11-17 08:53:53.848805576 +0100
-+++ memcmp.3	2014-11-17 08:58:39.699005856 +0100
-@@ -27,6 +27,7 @@
- .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
- .\"     386BSD man pages
- .\" Modified Sat Jul 24 18:55:27 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
-+.\" Modified Mon Nov 17 07:45:13 2014 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
- .TH MEMCMP 3  2014-03-14 "" "Linux Programmer's Manual"
- .SH NAME
- memcmp \- compare memory areas
-@@ -42,6 +43,11 @@
- function compares the first \fIn\fP bytes (each interpreted as
- .IR "unsigned char" )
- of the memory areas \fIs1\fP and \fIs2\fP.
-+.PP
-+Do not use
-+.BR memcmp ()
-+to compare security critical data, such as cryptographic secrets,
-+because the required CPU time depends on the amount of equal bytes.
- .SH RETURN VALUE
- The
- .BR memcmp ()
-@@ -57,6 +63,8 @@
- .I s1
- and
- .IR s2 .
-+.PP
-+If \fIn\fP is zero, the return value is zero.
- .SH ATTRIBUTES
- .SS Multithreading (see pthreads(7))
- The
+Barring the usual risk of people doing improper error checking I don't
+see one immediately.
+
+For containers I think it actually makes sense that the sysctl can be
+applied per container anyway.
+
+Alan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
