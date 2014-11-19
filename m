@@ -1,29 +1,48 @@
-From: Mark Veltzer <mark.veltzer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Missing manual pages for pthread_mutexattr_{get|set}robust(3)
-Date: Wed, 19 Nov 2014 05:57:02 +0200
-Message-ID: <CABFkpbBuP2CwdtZd9C36aNr+qkhN=U9aQ0490fzdLw=pj2kcYw@mail.gmail.com>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] wordexp.3: Make it clear that WRDE_NOCMD prevents command
+ substitution.
+Date: Wed, 19 Nov 2014 14:45:12 -0500
+Message-ID: <546CF348.5080400@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "mtk.manpages" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-These functions actually exist and work in current day distributions
-(I am on ubuntu 13.10, 14.04 and 14.10) but are not documented in any
-way.
+The use of WRDE_NOCMD prevents command substitution. If the flag
+WRDE_NOCMD is set then no command substitution shall occur and
+the error WRDE_CMDSUB will be returned if such substitution is
+requested when processing the words.
 
-I actually found out that these functions exist using the pthread
-library on win32...:)
+The manual page as-is makes it seem like the command substitution
+occurs, and an error is returned *after* the substitution.
 
-These functions determine whether a futex is robust or not.
+This patch clarifies that.
 
-I have checked the latest version of manpages to make sure that it is
-indeed missing.
+Patch against trunk.
+
+Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+
+diff --git a/man3/wordexp.3 b/man3/wordexp.3
+index c695c08..e457943 100644
+--- a/man3/wordexp.3
++++ b/man3/wordexp.3
+@@ -169,7 +169,7 @@ flag
+ told us to consider this an error.
+ .TP
+ .B WRDE_CMDSUB
+-Command substitution occurred, and the
++Command substitution requested, but the
+ .B WRDE_NOCMD
+ flag told us to consider this an error.
+ .TP
+---
 
 Cheers,
-    Mark
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
