@@ -1,49 +1,40 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] wordexp.3: Make it clear that WRDE_NOCMD prevents command
- substitution.
-Date: Wed, 19 Nov 2014 14:45:12 -0500
-Message-ID: <546CF348.5080400@redhat.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: Re: [PATCH] Add supplementary UIDs, and getusers/setusers system calls
+Date: Thu, 20 Nov 2014 09:14:50 -0600
+Message-ID: <87egsxnbth.fsf@x220.int.ebiederm.org>
+References: <6b6bef0eb7328d466e8deef3d2c186a79633e0a7.1416121601.git.josh@joshtriplett.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <6b6bef0eb7328d466e8deef3d2c186a79633e0a7.1416121601.git.josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+	(Josh Triplett's message of "Sat, 15 Nov 2014 23:08:32 -0800")
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The use of WRDE_NOCMD prevents command substitution. If the flag
-WRDE_NOCMD is set then no command substitution shall occur and
-the error WRDE_CMDSUB will be returned if such substitution is
-requested when processing the words.
+Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org> writes:
 
-The manual page as-is makes it seem like the command substitution
-occurs, and an error is returned *after* the substitution.
+> Analogous to the supplementary GID list, the supplementary UID list
+> provides a set of additional user credentials that a process can act as.
+> A process with CAP_SETUID can set its UID list arbitrarily; a process
+> without CAP_SETUID can only reduce its UID list.
+>
+> This allows each user to have a set of UIDs that they can then use to
+> further sandbox individual child processes without first escalating to
+> root to change UIDs.  For instance, a PAM module could give each user a
+> block of UIDs to work with.
 
-This patch clarifies that.
+A couple of quick comments on this patch.
 
-Patch against trunk.
+1) user namespaces already allow you to do this.
 
-Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+2) After having looked at the group case I am afraid this intersects in
+   an unfortunate way with user namespaces.
 
-diff --git a/man3/wordexp.3 b/man3/wordexp.3
-index c695c08..e457943 100644
---- a/man3/wordexp.3
-+++ b/man3/wordexp.3
-@@ -169,7 +169,7 @@ flag
- told us to consider this an error.
- .TP
- .B WRDE_CMDSUB
--Command substitution occurred, and the
-+Command substitution requested, but the
- .B WRDE_NOCMD
- flag told us to consider this an error.
- .TP
----
+3) This intersects in a very unfortunate way with setresuid.
+   Applications that today know they are dropping all privileges
+   won't be dropping all privielges with this change.  Which sounds like
+   a recipe for a security exploit to me.
 
-Cheers,
-Carlos.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Eric
