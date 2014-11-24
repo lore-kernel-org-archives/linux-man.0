@@ -1,52 +1,27 @@
-From: Troy Davis <troy-EyOyorkO9KA@public.gmane.org>
-Subject: [patch] tcp.7: Clarify tcp_tw_recycle on Internet-facing hosts
-Date: Sun, 23 Nov 2014 08:28:21 -0800
-Message-ID: <CALQAp37_DD-sy480u7QfC68GaaNK1yqb23vdEyNwJMK91PmD-g@mail.gmail.com>
+From: Piotr Dobrogost <p@lists-2014.dobrogost.net>
+Subject: Lack of sshfs(1) man page
+Date: Mon, 24 Nov 2014 15:20:35 +0100
+Message-ID: <CAA6tFMtt4WO2SkSuMp=Yg9orSOGmD3ihnPH4LLDD30gTGzJK4Q@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Clarify that tcp_tw_recycle will break communication with many
-general-purpose remote Internet hosts (namely, remote NAT devices)
-even when the Linux device itself is not behind NAT.
+Hi!
 
-Sources:
-  - BCP to make NAT implementors aware of this problem (2013):
-https://tools.ietf.org/html/draft-penno-behave-rfc4787-5382-5508-bis-04#section-3.1.2
-  - RFC 1323 (PAWS)
-  - RFC 6191: Reducing the TIME-WAIT State Using TCP Timestamps
-  - The many users who unknowingly enabled this option on devices
-communicating with the general-purpose Internet:
-https://www.google.com/search?q=tcp_tw_recycle%20ip%20nat%20timestamp
-
-Patched against git HEAD as of this email
-(ac5ba355d52a5a29f2d26badc96e6da9e48c0097).
+I was looking for sshfs man page at
+http://man7.org/linux/man-pages/dir_section_1.html but it's not there.
+At the same time there is such a page at
+http://linux.die.net/man/1/sshfs
+Am I missing something?
+Also should I prefer man7.org/linux/man-pages/ man pages to
+http://linux.die.net/man/ ones?
 
 
-diff --git a/man7/tcp.7 b/man7/tcp.7
-index e6f5aee..06cc127 100644
---- a/man7/tcp.7
-+++ b/man7/tcp.7
-@@ -780,10 +780,11 @@ building larger TSO frames.
- .TP
- .IR tcp_tw_recycle " (Boolean; default: disabled; since Linux 2.4)"
- .\" Since 2.3.15
--Enable fast recycling of TIME_WAIT sockets.
--Enabling this option is not
--recommended since this causes problems when working
--with NAT (Network Address Translation).
-+Enable fast recycling of TIME_WAIT sockets. Enabling this option is
-+not recommended for devices communicating with the general Internet
-+or using NAT (Network Address Translation). Since some NAT gateways
-+pass through IP timestamp values, one IP can appear to have
-+non-increasing timestamps. See RFC 1323 (PAWS), RFC 6191.
- .\"
- .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
- .TP
+Regards,
+Piotr Dobrogost
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
