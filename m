@@ -1,27 +1,49 @@
-From: Piotr Dobrogost <p@lists-2014.dobrogost.net>
-Subject: Lack of sshfs(1) man page
-Date: Mon, 24 Nov 2014 15:20:35 +0100
-Message-ID: <CAA6tFMtt4WO2SkSuMp=Yg9orSOGmD3ihnPH4LLDD30gTGzJK4Q@mail.gmail.com>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] mmap.2:ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 25 Nov 2014 18:04:37 +0800
+Message-ID: <1416909877-13102-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
+The function mmap() and munmap() are thread safe.
 
-I was looking for sshfs man page at
-http://man7.org/linux/man-pages/dir_section_1.html but it's not there.
-At the same time there is such a page at
-http://linux.die.net/man/1/sshfs
-Am I missing something?
-Also should I prefer man7.org/linux/man-pages/ man pages to
-http://linux.die.net/man/ ones?
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man2/mmap.2 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
+diff --git a/man2/mmap.2 b/man2/mmap.2
+index 295df3d..f948866 100644
+--- a/man2/mmap.2
++++ b/man2/mmap.2
+@@ -492,6 +492,19 @@ Attempted write into a region mapped as read-only.
+ Attempted access to a portion of the buffer that does not correspond
+ to the file (for example, beyond the end of the file, including the
+ case where another process has truncated the file).
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw18 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR mmap (),
++.BR munmap ()
++T}	Thread safety	MT-Safe
++.TE
+ .SH CONFORMING TO
+ SVr4, 4.4BSD, POSIX.1-2001.
+ .\" SVr4 documents additional error codes ENXIO and ENODEV.
+-- 
+1.8.3.1
 
-Regards,
-Piotr Dobrogost
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
