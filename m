@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cacos.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 26 Nov 2014 11:36:39 +0800
-Message-ID: <1416972999-23249-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] clog.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 26 Nov 2014 11:38:06 +0800
+Message-ID: <1416973086-23416-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,19 +10,19 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function cacos(), cacosf() and cacosl() are thread safe.
+The function clog(), clogf() and clogl() are thread safe.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cacos.3 | 14 ++++++++++++++
+ man3/clog.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/cacos.3 b/man3/cacos.3
-index 36c7bc1..3550a1c 100644
---- a/man3/cacos.3
-+++ b/man3/cacos.3
-@@ -35,6 +35,20 @@ One has:
- .fi
+diff --git a/man3/clog.3 b/man3/clog.3
+index 0ef7148..e74a0e0 100644
+--- a/man3/clog.3
++++ b/man3/clog.3
+@@ -38,6 +38,20 @@ Note that
+ close to zero will cause an overflow.
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
@@ -30,18 +30,18 @@ index 36c7bc1..3550a1c 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw28 lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR cacos (),
-+.BR cacosf (),
-+.BR cacosl ()
++.BR clog (),
++.BR clogf (),
++.BR clogl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  C99.
- .SH EXAMPLE
+ .SH SEE ALSO
 -- 
 1.8.3.1
 
