@@ -1,52 +1,40 @@
-From: Cyril Hrubis <chrubis-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Wed, 26 Nov 2014 14:41:43 +0100
-Message-ID: <20141126134143.GB2243@rei>
-References: <537346E5.4050407@gmail.com>
- <CF98E3EF.90564%dvhart@linux.intel.com>
- <20140515152834.GA6926@rei.Home>
- <CF9A3521.90ECC%dvhart@linux.intel.com>
- <20140515163004.GB7959@rei.Home>
- <CF9A3A75.90F40%dvhart@linux.intel.com>
- <20140515190529.GA8887@rei.Home>
- <CF9A658E.91322%dvhart@linux.intel.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] random.4: mention PRNG used by urandom
+Date: Wed, 26 Nov 2014 23:58:29 +0100
+Message-ID: <1417042709-16767-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CF9A658E.91322%dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> >For this complexity of tests you would just need to call the tst_resm()
-> >interface to report success/failure and, at the end of the test,
-> >tst_exit() to return the stored overall test status.
-> >
-> >And ideally call the standard option parsing code and call the test in
-> >standard loop so that the test can take advantage of standard options as
-> >number of iterations to run, etc.
-> >
-> >Have a look at:
-> >
-> >https://github.com/linux-test-project/ltp/wiki/Test-Writing-Guidelines
-> >
-> >there is simple test example as well as description of the interfaces.
-> 
-> 
-> Thanks Cyril,
-> 
-> I'll follow up with you in a couple weeks most likely. I have some urgent
-> things that will be taking all my time and then some until then. Feel free
-> to poke me though if I lose track of it :-)
+/dev/urandom uses a pseudo random number generator to replace
+missing entropy.
 
-Do you still plan to work on this?
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man4/random.4 | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/man4/random.4 b/man4/random.4
+index 44d9e34..1be19b8 100644
+--- a/man4/random.4
++++ b/man4/random.4
+@@ -63,8 +63,9 @@ will be set to
+ .LP
+ A read from the \fI/dev/urandom\fP device will not block
+ waiting for more entropy.
+-As a result, if there is not sufficient entropy in the
+-entropy pool, the returned values are theoretically vulnerable to a
++If there is not sufficient entropy, a pseudorandom number generator is used
++to create the requested bytes.
++As a result, in this case the returned values are theoretically vulnerable to a
+ cryptographic attack on the algorithms used by the driver.
+ Knowledge of how to do this is not available in the current unclassified
+ literature, but it is theoretically possible that such an attack may
 -- 
-Cyril Hrubis
-chrubis-AlSwsSmVLrQ@public.gmane.org
+2.1.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
