@@ -1,51 +1,71 @@
-From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Subject: [PATCH 1/2 v3] adjtimex.2: add fields in struct timex description
-Date: Sun, 30 Nov 2014 11:14:46 +0100
-Message-ID: <547AEE16.20603@supelec.fr>
+From: Laurent Georget <laurent.georget@supelec.fr>
+Subject: [PATCH 2/2 v3] adjtimex.2: add explanation on ADJ_TAI mode
+Date: Sun, 30 Nov 2014 11:14:49 +0100
+Message-ID: <547AEE19.4040901@supelec.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>
+Cc: linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+This patch includes the adjtimex mode ADJ_TAI, intended to update the
+TAI offset. There are other FIXMEs in the man page and it's a bit
+outdated. I'll be on it once those first patches are accepted (to be
+sure to do the right thing).
 
-this is a refactored series of patches for adjtimex(2) man page. Please
-ignore all previous patches I sent for adjtimex.2.
-
-The first patch updates the man page with the new fields added in struct
-timex since last edition of the man page.
-
-Thank you for your time. These are my first patches so you may have to
-bear with me being a little inexpert and clumsy for some time. I
-apologize for that.
+Thanks
 
 Laurent
 
 diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index eb3fda1..0b919c5 100644
+index 0b919c5..396b8cc 100644
 --- a/man2/adjtimex.2
 +++ b/man2/adjtimex.2
-@@ -73,6 +73,15 @@ struct timex {
-                             (read-only) */
-     struct timeval time; /* current time (read-only) */
-     long tick;           /* usecs between clock ticks */
-+    long ppsfreq;        /* pps frequency (scaled ppm) (read-only) */
-+    long jitter;         /* pps jitter (usec) (read-only) */
-+    int shift;           /* interval duration (sec) (read-only) */
-+    long stabil;         /* pps stability (scaled ppm) (read-only) */
-+    long jitcnt;         /* jitter limit exceeded (read-only) */
-+    long calcnt;         /* calibration intervals (read-only) */
-+    long errcnt;         /* calibration errors (read-only) */
-+    long stbcnt;         /* stability limit exceeded (read-only) */
-+    int tai;             /* TAI offset (s) (read-only) */
- };
+@@ -24,9 +24,7 @@
+ .\" Modified 1997-01-31 by Eric S. Raymond <esr@thyrsus.com>
+ .\" Modified 1997-07-30 by Paul Slootman <paul@wurtel.demon.nl>
+ .\" Modified 2004-05-27 by Michael Kerrisk <mtk.manpages@gmail.com>
+-.\"
+-.\" FIXME Document ADJ_TAI (added in Linux 2.6.26)
+-.\"		commit 153b5d054ac2d98ea0d86504884326b6777f683d
++.\" Modified 2014-11-30 by Laurent Georget <laurent.georget@supelec.fr>
+ .\"
+ .\" FIXME Document ADJ_MICRO and ADJ_NANO (added in Linux 2.6.26)
+ .\"		commit eea83d896e318bda54be2d2770d2c5d6668d11db
+@@ -101,6 +99,7 @@ combination of zero or more of the following bits:
+ #define ADJ_ESTERROR          0x0008 /* estimated time error */
+ #define ADJ_STATUS            0x0010 /* clock status */
+ #define ADJ_TIMECONST         0x0020 /* pll time constant */
++#define ADJ_TAI               0x0080 /* TAI offset */
+ #define ADJ_TICK              0x4000 /* tick value */
+ #define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime() */
  .fi
- .in
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+@@ -110,6 +109,24 @@ Ordinary users are restricted to a zero value for
+ .IR modes .
+ Only the superuser may set any parameters.
+ .br
++In the case of
++.BR ADJ_TAI ,
++as
++.I buf->tai
++is read-only, the new value is passed through
++.IR buf->constant ,
++therefore
++.B ADJ_TIMECONST
++and
++.B ADJ_TAI
++should probably not be used at the same time.
++.PP
++Support for TAI (Atomic International Time, for a complete explanation
+about
++what it is and what is the difference between TAI and UTC, see
++.UR http://www.bipm.org/en/bipm/tai/tai.html
++.I BIPM
++.UE )
++has been added in version 2.6.26.
+ .ne 12v
+ .SH RETURN VALUE
+ On success,
