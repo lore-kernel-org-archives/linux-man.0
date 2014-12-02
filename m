@@ -1,71 +1,51 @@
-From: Laurent Georget <laurent.georget@supelec.fr>
-Subject: [PATCH 2/2 v3] adjtimex.2: add explanation on ADJ_TAI mode
-Date: Sun, 30 Nov 2014 11:14:49 +0100
-Message-ID: <547AEE19.4040901@supelec.fr>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] asin.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 2 Dec 2014 16:58:38 +0800
+Message-ID: <1417510718-23422-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, linux-man <linux-man@vger.kernel.org>
-Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This patch includes the adjtimex mode ADJ_TAI, intended to update the
-TAI offset. There are other FIXMEs in the man page and it's a bit
-outdated. I'll be on it once those first patches are accepted (to be
-sure to do the right thing).
+The function asin(), asinf() and asinl() are thread safe.
 
-Thanks
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/asin.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Laurent
+diff --git a/man3/asin.3 b/man3/asin.3
+index 782ee6a..b6c55e0 100644
+--- a/man3/asin.3
++++ b/man3/asin.3
+@@ -108,6 +108,20 @@ is set to
+ An invalid floating-point exception
+ .RB ( FE_INVALID )
+ is raised.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw24 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR asin (),
++.BR asinf (),
++.BR asinl ()
++T}	Thread safety	MT-Safe
++.TE
+ .SH CONFORMING TO
+ C99, POSIX.1-2001.
+ The variant returning
+-- 
+1.8.3.1
 
-diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index 0b919c5..396b8cc 100644
---- a/man2/adjtimex.2
-+++ b/man2/adjtimex.2
-@@ -24,9 +24,7 @@
- .\" Modified 1997-01-31 by Eric S. Raymond <esr@thyrsus.com>
- .\" Modified 1997-07-30 by Paul Slootman <paul@wurtel.demon.nl>
- .\" Modified 2004-05-27 by Michael Kerrisk <mtk.manpages@gmail.com>
--.\"
--.\" FIXME Document ADJ_TAI (added in Linux 2.6.26)
--.\"		commit 153b5d054ac2d98ea0d86504884326b6777f683d
-+.\" Modified 2014-11-30 by Laurent Georget <laurent.georget@supelec.fr>
- .\"
- .\" FIXME Document ADJ_MICRO and ADJ_NANO (added in Linux 2.6.26)
- .\"		commit eea83d896e318bda54be2d2770d2c5d6668d11db
-@@ -101,6 +99,7 @@ combination of zero or more of the following bits:
- #define ADJ_ESTERROR          0x0008 /* estimated time error */
- #define ADJ_STATUS            0x0010 /* clock status */
- #define ADJ_TIMECONST         0x0020 /* pll time constant */
-+#define ADJ_TAI               0x0080 /* TAI offset */
- #define ADJ_TICK              0x4000 /* tick value */
- #define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime() */
- .fi
-@@ -110,6 +109,24 @@ Ordinary users are restricted to a zero value for
- .IR modes .
- Only the superuser may set any parameters.
- .br
-+In the case of
-+.BR ADJ_TAI ,
-+as
-+.I buf->tai
-+is read-only, the new value is passed through
-+.IR buf->constant ,
-+therefore
-+.B ADJ_TIMECONST
-+and
-+.B ADJ_TAI
-+should probably not be used at the same time.
-+.PP
-+Support for TAI (Atomic International Time, for a complete explanation
-about
-+what it is and what is the difference between TAI and UTC, see
-+.UR http://www.bipm.org/en/bipm/tai/tai.html
-+.I BIPM
-+.UE )
-+has been added in version 2.6.26.
- .ne 12v
- .SH RETURN VALUE
- On success,
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
