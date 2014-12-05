@@ -1,40 +1,143 @@
-From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
-Subject: Erroneous text about EINTR in futex man page
-Date: Thu, 4 Dec 2014 14:08:46 -0500
-Message-ID: <20141204190846.GA25606@brightrain.aerifal.cx>
+From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: backtrace_symbols_fd() can trigger a call to malloc()
+Date: Fri, 5 Dec 2014 17:09:13 +0200
+Message-ID: <CACKs7VD8DcgDBOU85uxq6R2n5sC4cAEH7cdE90Zt9EN3Of7e=g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary=001a11c1a116b4f04e0509797579
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The following text in the futex(2) man page seems incorrect:
+--001a11c1a116b4f04e0509797579
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-       EINTR  A FUTEX_WAIT operation was interrupted by a signal (see
-              signal(7)) or a spurious wakeup.
+Hi Michael,
 
-I see no code in the kernel whereby a "spurious wakeup", or anything
-other than interruption by a signal handler that's not SA_RESTART, can
-cause futex to fail with EINTR. In general, overloading of EINTR
-and/or spurious EINTRs from a syscall make it impossible to use that
-syscall for implementing any function where EINTR is a mandatory
-failure on interruption-by-signal, since there is no way for userspace
-to distinguish whether the EINTR occurred as a result of an
-interrupting signal or some other reason. The kernel folks have gone
-to great lengths to fix spurious EINTRs (see signal(7) for history),
-especially by non-interrupting signal handlers, including in futex,
-and allowing EINTR here would be contrary to that goal.
+Currently, the backtrace(3) manual page says this about backtrace_symbols_f=
+d():
 
-It's my belief that the "or a spurious wakeup" text should simply be
-removed.
+back=E2=80=90
+       trace_symbols_fd() does not call malloc(3), and so can be
+employed in situations where the latter function might fail.
 
-The reason I'm raising this topic is its relevance to a thread on
-libc-alpha:
-[RFC] mutex destruction (#13690): problem description and workarounds
 
-Rich
+However, I watched a video of a presentation about signal handling and
+the speaker was saying that calling backtrace() can trigger a call to
+malloc - indirectly. That happens because the backtrace*() functions
+are part of libgcc, which gets dynamically loaded whenever needed;
+dynamic loading would, in turn, trigger a malloc. The talk can be
+found here: http://free-electrons.com/pub/video/2008/ols/ols2008-gilad-ben-=
+yossef-fault-handlers.ogg
+
+I decided to test it out, and it seems that this is still true (at
+least on Ubuntu 12.04). I compiled the attached program (I used
+CXXFLAGS =3D '-Wall -g -std=3Dc++0x', the -std=3D part is not really needed=
+)
+and ran it through gdb, putting a breakpoint on the line where
+backtrace is called. When that breakpoint is hit, I set a breakpoint
+on malloc, continued and voila:
+
+Breakpoint 2, __GI___libc_malloc (bytes=3D36) at malloc.c:2910
+2910    malloc.c: No such file or directory.
+(gdb) bt
+#0  __GI___libc_malloc (bytes=3D36) at malloc.c:2910
+#1  0x00007ffff7de294e in local_strdup (s=3D0x7ffff7ff2574
+"/lib/x86_64-linux-gnu/libgcc_s.so.1") at dl-load.c:162
+#2  _dl_map_object (loader=3D0x7ffff7ff94c0, name=3D0x7ffff7b94918
+"libgcc_s.so.1", type=3D2, trace_mode=3D0, mode=3D-1879048191,
+nsid=3D<optimized out>) at dl-load.c:2473
+#3  0x00007ffff7ded84b in dl_open_worker (a=3D0x7fffffffdcb0) at dl-open.c:=
+225
+#4  0x00007ffff7de9176 in _dl_catch_error (objname=3D0x7fffffffdcf8,
+errstring=3D0x7fffffffdd00, mallocedp=3D0x7fffffffdd0f,
+operate=3D0x7ffff7ded700 <dl_open_worker>, args=3D0x7fffffffdcb0) at
+dl-error.c:178
+#5  0x00007ffff7ded31a in _dl_open (file=3D0x7ffff7b94918
+"libgcc_s.so.1", mode=3D-2147483647, caller_dlopen=3D0x7ffff7b260a9,
+nsid=3D-2, argc=3D1, argv=3D<optimized out>, env=3D0x7fffffffe068) at
+dl-open.c:639
+#6  0x00007ffff7b4bc62 in do_dlopen (ptr=3D0x7fffffffdeb0) at dl-libc.c:89
+#7  0x00007ffff7de9176 in _dl_catch_error (objname=3D0x7fffffffdee0,
+errstring=3D0x7fffffffded0, mallocedp=3D0x7fffffffdeef,
+operate=3D0x7ffff7b4bc20 <do_dlopen>, args=3D0x7fffffffdeb0) at
+dl-error.c:178
+#8  0x00007ffff7b4bd24 in dlerror_run (args=3D0x7fffffffdeb0,
+operate=3D0x7ffff7b4bc20 <do_dlopen>) at dl-libc.c:48
+#9  __GI___libc_dlopen_mode (name=3D<optimized out>, mode=3D<optimized
+out>) at dl-libc.c:165
+#10 0x00007ffff7b260a9 in init () at ../sysdeps/x86_64/../ia64/backtrace.c:=
+53
+#11 __GI___backtrace (array=3D<optimized out>, size=3D20) at
+../sysdeps/x86_64/../ia64/backtrace.c:104
+#12 0x000000000040066c in g () at backtrace.cpp:20
+#13 0x000000000040068c in f () at backtrace.cpp:26
+#14 0x0000000000400697 in main () at backtrace.cpp:31
+
+Here's a tentative patch for backtrace.3 against git:
+
+
+diff --git a/man3/backtrace.3 b/man3/backtrace.3
+index 1b21794..5344d58 100644
+--- a/man3/backtrace.3
++++ b/man3/backtrace.3
+@@ -114,7 +114,8 @@ it writes the strings, one per line, to the file descri=
+ptor
+ .BR backtrace_symbols_fd ()
+ does not call
+ .BR malloc (3),
+-and so can be employed in situations where the latter function might fail.
++and so can be employed in situations where the latter function might
++fail, but see NOTES.
+ .SH RETURN VALUE
+ .BR backtrace ()
+ returns the number of addresses returned in
+@@ -156,6 +157,21 @@ violated.
+ Inlined functions do not have stack frames.
+ .IP *
+ Tail-call optimization causes one stack frame to replace another.
++.IP *
++.BR backtrace ()
++and
++.BR backtrace_symbols_fd ()
++don't call
++.BR malloc ()
++explicitly, but they are part of libgcc, which gets loaded dynamically
++when first used. Dynamic loading usually triggers a call to
++.BR malloc ().
++So you need to call
++.BR backtrace ()
++or some other libgcc function early in your program to trigger loading
++of libgcc in order to make sure that later calls don't trigger the
++indirect memory allocation (for instance when called from a signal
++handler).
+ .PP
+ The symbol names may be unavailable without the use of special linker
+ options.
+
+=3D=3D=3D=3D
+
+Thanks,
+Stefan.
+
+--001a11c1a116b4f04e0509797579
+Content-Type: text/x-c++src; charset=US-ASCII; name="backtrace.cpp"
+Content-Disposition: attachment; filename="backtrace.cpp"
+Content-Transfer-Encoding: base64
+X-Attachment-Id: f_i3boxwkp0
+
+CiNpbmNsdWRlIDxzeXMvdHlwZXMuaD4KI2luY2x1ZGUgPHN5cy9zdGF0Lmg+CiNpbmNsdWRlIDxm
+Y250bC5oPgoKI2luY2x1ZGUgPHN0ZGlvLmg+CiNpbmNsdWRlIDxleGVjaW5mby5oPgojaW5jbHVk
+ZSA8c3RkbGliLmg+CgpzdGF0aWMgY29uc3Qgc2l6ZV90IG1heEJhY2t0cmFjZVNpemUgPSAyMDsK
+c3RhdGljIHZvaWQgKmJhY2t0cmFjZUluZm9bbWF4QmFja3RyYWNlU2l6ZV07Cgp2b2lkIGcoKQp7
+CiAgICBpbnQgZmQgPSBvcGVuKCIvdG1wL3Zyei5sb2ciLCBPX1dST05MWSB8IE9fQ1JFQVQgfE9f
+VFJVTkMpOwogICAgaWYgKGZkIDwgMCkgewogICAgICAgIHBlcnJvcigib3BlbiIpOwogICAgICAg
+IGV4aXQoMSk7CiAgICB9CiAgICBpbnQgbGVuID0gYmFja3RyYWNlKGJhY2t0cmFjZUluZm8sIG1h
+eEJhY2t0cmFjZVNpemUpOwogICAgYmFja3RyYWNlX3N5bWJvbHNfZmQoYmFja3RyYWNlSW5mbywg
+bGVuLCBmZCk7Cn0KCnZvaWQgZigpCnsKICAgIGcoKTsKfQoKaW50IG1haW4oKQp7CiAgICBmKCk7
+CiAgICByZXR1cm4gMDsKfQo=
+--001a11c1a116b4f04e0509797579--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
