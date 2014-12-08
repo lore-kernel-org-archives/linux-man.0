@@ -1,72 +1,70 @@
-From: Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: backtrace_symbols_fd() can trigger a call to malloc()
-Date: Fri, 5 Dec 2014 19:04:02 +0200
-Message-ID: <CACKs7VDrN+oz2Yi8UqFf=Zw2JufpUMFVinO3aVorPTBA6yuXyw@mail.gmail.com>
-References: <CACKs7VD8DcgDBOU85uxq6R2n5sC4cAEH7cdE90Zt9EN3Of7e=g@mail.gmail.com>
-	<5481CCC3.3020405@bfs.de>
+From: ebiederm@xmission.com (Eric W. Biederman)
+Subject: [CFT][PATCH 1/7] userns: Document what the invariant required for safe unprivileged mappings.
+Date: Mon, 08 Dec 2014 16:06:06 -0600
+Message-ID: <87h9x5re41.fsf_-_@x220.int.ebiederm.org>
+References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net>
+	<87h9xez20g.fsf@x220.int.ebiederm.org>
+	<CALCETrXOz4C7Tu8mggBtR=k47ZmkuAhinVUxWJSFyS1Ep0HvRw@mail.gmail.com>
+	<87mw75ygwp.fsf@x220.int.ebiederm.org>
+	<CALCETrVfO4sBdZcQiZXsofPZMj7pqKeVbX+4g3dAj6WjUca+1w@mail.gmail.com>
+	<87fvcxyf28.fsf_-_@x220.int.ebiederm.org>
+	<874mtdyexp.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrXyC7XPaqj6oe-TmyypOVc_CkZbF6UAAx8YfkyD=gEMOQ@mail.gmail.com>
+	<87a935u3nj.fsf@x220.int.ebiederm.org>
+	<CALCETrXkEOiyzpvqtXtk1f4sL+M1Q-Y6rV=K91ez3yv2nb4Y0Q@mail.gmail.com>
+	<87388xodlj.fsf@x220.int.ebiederm.org>
+	<CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5481CCC3.3020405-fPG8STNUNVg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org
-Cc: lnx-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain
+Return-path: <linux-security-module-owner@vger.kernel.org>
+In-Reply-To: <CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
+	(Andy Lutomirski's message of "Tue, 2 Dec 2014 15:17:32 -0800")
+Sender: linux-security-module-owner@vger.kernel.org
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Linux Containers <containers@lists.linux-foundation.org>, Josh Triplett <josh@joshtriplett.org>, Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LSM <linux-security-module@vger.kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, "Serge E. Hallyn" <serge@hallyn.com>, Richard Weinberger <richard@nod.at>, Kenton Varda <kenton@sandstorm.io>, stable <stable@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Walter,
 
-On Fri, Dec 5, 2014 at 5:18 PM, walter harms <wharms-fPG8STNUNVg@public.gmane.org> wrote:
+The rule is simple.  Don't allow anything that wouldn't be allowed
+without unprivileged mappings.
 
->> +So you need to call
->> +.BR backtrace ()
->> +or some other libgcc function early in your program to trigger loading
->> +of libgcc in order to make sure that later calls don't trigger the
->> +indirect memory allocation (for instance when called from a signal
->> +handler).
->
-> I would drop that part. there are several way to load libgcc (e.g.LD_PRELOAD).
->
-> what about "make sure that libgcc is already loaded at the begining" ?
-> something like that.
->
->
+It was previously overlooked that establishing gid mappings would
+allow dropping groups and potentially gaining permission to files and
+directories that had lesser permissions for a specific group than for
+all other users.
 
-Yep, makes sense, thanks. New version below:
+This is the rule needed to fix CVE-2014-8989 and prevent any other
+security issues with new_idmap_permitted.
 
-diff --git a/man3/backtrace.3 b/man3/backtrace.3
-index 1b21794..0b2c6ba 100644
---- a/man3/backtrace.3
-+++ b/man3/backtrace.3
-@@ -114,7 +114,8 @@ it writes the strings, one per line, to the file descriptor
- .BR backtrace_symbols_fd ()
- does not call
- .BR malloc (3),
--and so can be employed in situations where the latter function might fail.
-+and so can be employed in situations where the latter function might
-+fail, but see NOTES.
- .SH RETURN VALUE
- .BR backtrace ()
- returns the number of addresses returned in
-@@ -156,6 +157,18 @@ violated.
- Inlined functions do not have stack frames.
- .IP *
- Tail-call optimization causes one stack frame to replace another.
-+.IP *
-+.BR backtrace ()
-+and
-+.BR backtrace_symbols_fd ()
-+don't call
-+.BR malloc ()
-+explicitly, but they are part of libgcc, which gets loaded dynamically
-+when first used. Dynamic loading usually triggers a call to
-+.BR malloc ().
-+If you need certain calls to the 2 functions to not allocate memory
-+(in signal handlers, for example), you need to make sure libgcc is
-+loaded beforehand.
- .PP
- The symbol names may be unavailable without the use of special linker
- options.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The reason for this rule is that the unix permission model is old and
+there are programs out there somewhere that take advantage of every
+little corner of it.  So allowing a uid or gid mapping to be
+established without privielge that would allow anything that would not
+be allowed without that mapping will result in expectations from some
+code somewhere being violated.  Violated expectations about the
+behavior of the OS is a long way to say a security issue.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
+---
+ kernel/user_namespace.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+index aa312b0dc3ec..b99c862a2e3f 100644
+--- a/kernel/user_namespace.c
++++ b/kernel/user_namespace.c
+@@ -812,7 +812,9 @@ static bool new_idmap_permitted(const struct file *file,
+ 				struct user_namespace *ns, int cap_setid,
+ 				struct uid_gid_map *new_map)
+ {
+-	/* Allow mapping to your own filesystem ids */
++	/* Don't allow mappings that would allow anything that wouldn't
++	 * be allowed without the establishment of unprivileged mappings.
++	 */
+ 	if ((new_map->nr_extents == 1) && (new_map->extent[0].count == 1)) {
+ 		u32 id = new_map->extent[0].lower_first;
+ 		if (cap_setid == CAP_SETUID) {
+-- 
+1.9.1
+
