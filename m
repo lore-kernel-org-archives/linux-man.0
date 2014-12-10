@@ -1,51 +1,50 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] pow10.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 10 Dec 2014 16:50:42 +0800
-Message-ID: <1418201442-24965-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: ebiederm@xmission.com (Eric W. Biederman)
+Subject: [CFT] Can I get some Tested-By's on this series?
+Date: Wed, 10 Dec 2014 10:39:57 -0600
+Message-ID: <87mw6vh31e.fsf_-_@x220.int.ebiederm.org>
+References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net>
+	<87h9xez20g.fsf@x220.int.ebiederm.org>
+	<CALCETrXOz4C7Tu8mggBtR=k47ZmkuAhinVUxWJSFyS1Ep0HvRw@mail.gmail.com>
+	<87mw75ygwp.fsf@x220.int.ebiederm.org>
+	<CALCETrVfO4sBdZcQiZXsofPZMj7pqKeVbX+4g3dAj6WjUca+1w@mail.gmail.com>
+	<87fvcxyf28.fsf_-_@x220.int.ebiederm.org>
+	<874mtdyexp.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrXyC7XPaqj6oe-TmyypOVc_CkZbF6UAAx8YfkyD=gEMOQ@mail.gmail.com>
+	<87a935u3nj.fsf@x220.int.ebiederm.org>
+	<CALCETrXkEOiyzpvqtXtk1f4sL+M1Q-Y6rV=K91ez3yv2nb4Y0Q@mail.gmail.com>
+	<87388xodlj.fsf@x220.int.ebiederm.org>
+	<CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
+	<87h9x5re41.fsf_-_@x220.int.ebiederm.org>
+	<87mw6xpzb0.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com>
+	<87ppbtn4mv.fsf@x220.int.ebiederm.org>
+	<CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com>
+	<87a92xn2io.fsf@x220.int.ebiederm.org>
+	<87r3w8liw4.fsf@x220.int.ebiederm.org>
+	<87iohklfvj.fsf_-_@x220.int.ebiederm.org>
 Mime-Version: 1.0
 Content-Type: text/plain
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Return-path: <stable-owner@vger.kernel.org>
+In-Reply-To: <87iohklfvj.fsf_-_@x220.int.ebiederm.org> (Eric W. Biederman's
+	message of "Tue, 09 Dec 2014 14:36:48 -0600")
+Sender: stable-owner@vger.kernel.org
+To: Andy Lutomirski <luto@amacapital.net>, "Serge E. Hallyn" <serge@hallyn.com>, Richard Weinberger <richard@nod.at>
+Cc: Linux Containers <containers@lists.linux-foundation.org>, Josh Triplett <josh@joshtriplett.org>, Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, Michael Kerrisk-manpages <mtk.manpages@gmail.com>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LSM <linux-security-module@vger.kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, Kenton Varda <kenton@sandstorm.io>, stable <stable@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-The function pow10(), pow10f() and pow10l() are thread safe.
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/pow10.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Will people please test these patches with their container project?
 
-diff --git a/man3/pow10.3 b/man3/pow10.3
-index d6368fc..9a80827 100644
---- a/man3/pow10.3
-+++ b/man3/pow10.3
-@@ -46,6 +46,20 @@ power
- .IR x .
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw28 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR pow10 (),
-+.BR pow10f (),
-+.BR pow10l ()
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- This is a GNU extension.
- .SH NOTES
--- 
-1.8.3.1
+These changes break container userspace (hopefully in a minimal way) if
+I could have that confirmed by testing I would really appreciate it.  I
+really don't want to send out a bug fix that accidentally breaks
+userspace again.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The only issue sort of under discussion is if there is a better name for
+/proc/<pid>/setgroups, and the name of the file will not affect the
+functionality of the patchset.
+
+With the code reviewed and written in simple obviously correct, easily
+reviewable ways I am hoping/planning to send this to Linus ASAP.
+
+Eric
