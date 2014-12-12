@@ -1,86 +1,53 @@
-From: "Chen, Hanxiao" <chenhanxiao-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: RE: [CFT] Can I get some Tested-By's on this series?
-Date: Fri, 12 Dec 2014 06:56:13 +0000
-Message-ID: <5871495633F38949900D2BF2DC04883E737908F5@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
-	<87h9x5re41.fsf_-_@x220.int.ebiederm.org>
-	<87mw6xpzb0.fsf_-_@x220.int.ebiederm.org>
-	<CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com>
-	<87ppbtn4mv.fsf@x220.int.ebiederm.org>
-	<CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com>
-	<87a92xn2io.fsf@x220.int.ebiederm.org>
-	<87r3w8liw4.fsf@x220.int.ebiederm.org>
-	<87iohklfvj.fsf_-_@x220.int.ebiederm.org>
-	<87mw6vh31e.fsf_-_@x220.int.ebiederm.org>
-	<20141210224822.GG20012@ubuntumail> <5488CE4D.1000606@nod.at>
-	<87r3w7f5yc.fsf@x220.int.ebiederm.org>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 89551] GNU is frequently spelled Gnu
+Date: Fri, 12 Dec 2014 13:00:38 +0000
+Message-ID: <bug-89551-11311-vIdyPW9V4P@https.bugzilla.kernel.org/>
+References: <bug-89551-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-In-Reply-To: <87r3w7f5yc.fsf-JOvCrm2gF+uungPnsOpG7nhyD016LWXt@public.gmane.org>
-Content-Language: zh-CN
-List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
-List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
-List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
-List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
-	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
-Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Serge Hallyn <serge.hallyn-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>, Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>, stable <stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Kenton Varda <kenton-AuYgBwuPrUQTaNkGU808tA@public.gmane.org>, LSM <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-89551-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+https://bugzilla.kernel.org/show_bug.cgi?id=89551
+
+Roland Kletzing <devzero-S0/GAf8tV78@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |devzero-S0/GAf8tV78@public.gmane.org
+
+--- Comment #1 from Roland Kletzing <devzero-S0/GAf8tV78@public.gmane.org> ---
+here is a list done via find/grep :
+
+./Documentation/Changes:o  Gnu C                  3.2                     # gcc
+--version
+./Documentation/Changes:o  Gnu make               3.80                    #
+make --version
+./Documentation/Changes:You will need Gnu make 3.80 or later to build the
+kernel.
+./arch/arm/nwfpe/ARM-gcc.h:example, the Gnu C Compiler (`gcc') requires that
+64-bit literals be
+./drivers/net/ethernet/i825xx/sun3_82586.c: * same Gnu Public License that
+covers that work.
+./drivers/net/ethernet/i825xx/sun3_82586.h: * same Gnu Public License that
+covers that work.
+./net/ipx/af_ipx.c: *   All the material in this file is subject to the Gnu
+license version 2.
+./scripts/ver_linux:'NR==1{print "Gnu C                 ", $1}'
+./scripts/ver_linux:      '/GNU Make/{print "Gnu make              ",$NF}'
 
 
-> -----Original Message-----
-> From: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
-> [mailto:containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org] On Behalf Of Eric W.
-> Biederman
-> Sent: Thursday, December 11, 2014 7:20 AM
-> To: Richard Weinberger
-> Cc: linux-man; Kees Cook; Linux API; Linux Containers; Serge Hallyn; Josh Triplett;
-> stable; Andy Lutomirski; Kenton Varda; LSM; Michael Kerrisk-manpages; Casey
-> Schaufler; Andrew Morton; linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> Subject: Re: [CFT] Can I get some Tested-By's on this series?
-> 
-> Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org> writes:
-> 
-> > Am 10.12.2014 um 23:48 schrieb Serge Hallyn:
-> >> Quoting Eric W. Biederman (ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org):
-> >>>
-> >>> Will people please test these patches with their container project?
-> >>>
-> >>> These changes break container userspace (hopefully in a minimal way) if
-> >>> I could have that confirmed by testing I would really appreciate it.  I
-> >>> really don't want to send out a bug fix that accidentally breaks
-> >>> userspace again.
-> >>>
-> >>> The only issue sort of under discussion is if there is a better name for
-> >>> /proc/<pid>/setgroups, and the name of the file will not affect the
-> >>> functionality of the patchset.
-> >>>
-> >>> With the code reviewed and written in simple obviously correct, easily
-> >>> reviewable ways I am hoping/planning to send this to Linus ASAP.
-> >>>
-> >>> Eric
-> >>
-> >> Is there a git tree we can clone?
-> >
-> > I was about to ask that too.
-> > Hopefully I can tomorrow find some time for testing.
-> 
-> git pull git.kernel.org:/pub/scm/linux/kernel/git/ebiederm/user-namespace.git
-> for-testing
-> 
-> That holds my entire queue of fixes against 3.18-rc6
-> 
+if you want this fixed, i think the best way to proceed is to send patches to
+lkml.
 
-Tested on Fedora20 with libvirt 1.2.11, works fine.
-
-Tested-by: Chen Hanxiao <chenhanxiao-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-
-Thanks,
-- Chen
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
