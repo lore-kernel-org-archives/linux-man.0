@@ -1,50 +1,46 @@
-From: Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>
-Subject: Re: [CFT] Can I get some Tested-By's on this series?
-Date: Tue, 16 Dec 2014 10:23:25 +0100
-Message-ID: <548FFA0D.7060008@nod.at>
-References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net> <87fvcxyf28.fsf_-_@x220.int.ebiederm.org> <874mtdyexp.fsf_-_@x220.int.ebiederm.org> <CALCETrXyC7XPaqj6oe-TmyypOVc_CkZbF6UAAx8YfkyD=gEMOQ@mail.gmail.com> <87a935u3nj.fsf@x220.int.ebiederm.org> <CALCETrXkEOiyzpvqtXtk1f4sL+M1Q-Y6rV=K91ez3yv2nb4Y0Q@mail.gmail.com> <87388xodlj.fsf@x220.int.ebiederm.org> <CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com> <87h9x5re41.fsf_-_@x220.int.ebiederm.org> <87mw6xpzb0.fsf_-_@x220.int.ebiederm.org> <CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com> <87ppbtn4mv.fsf@x220.int.ebiederm.org> <CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com> <87a92xn2io.fsf@x220.int.ebiederm.org> <87r3w8liw4.fsf@x220.int.ebiederm.org> <8
- 7iohklfvj.fsf_-_@x220.int.ebiederm.org> <87mw6vh31e.fsf_-_@x220.int.ebiederm.org> <CALCETrWXp3eq2O068NZcd+KPCg+N2y0T57Q0JzHcZLjzq+mXLA@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
+Subject: [PATCH] socket.7: document SO_REUSEPORT socket option.
+Date: Sat, 20 Dec 2014 05:14:29 +0000
+Message-ID: <1419052469-43586-1-git-send-email-dw@botanicus.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALCETrWXp3eq2O068NZcd+KPCg+N2y0T57Q0JzHcZLjzq+mXLA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
-Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LSM <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, Kenton Varda <kenton-AuYgBwuPrUQTaNkGU808tA@public.gmane.org>, stable <stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Am 16.12.2014 um 03:05 schrieb Andy Lutomirski:
-> On Wed, Dec 10, 2014 at 8:39 AM, Eric W. Biederman
-> <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
->>
->> Will people please test these patches with their container project?
->>
->> These changes break container userspace (hopefully in a minimal way) if
->> I could have that confirmed by testing I would really appreciate it.  I
->> really don't want to send out a bug fix that accidentally breaks
->> userspace again.
->>
->> The only issue sort of under discussion is if there is a better name for
->> /proc/<pid>/setgroups, and the name of the file will not affect the
->> functionality of the patchset.
->>
->> With the code reviewed and written in simple obviously correct, easily
->> reviewable ways I am hoping/planning to send this to Linus ASAP.
-> 
-> 
-> I tested this with Sandstorm.  It breaks as is and it works if I add
-> the setgroups thing.
-> 
-> Tested-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org> # breaks things as designed :(
-> 
-> I still don't like the name "setgroups".
+Signed-off-by: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
+---
+ man7/socket.7 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-I agree that the name is not optimal.
-But I don't have a counterproposal as my naming skills are miserable.
+diff --git a/man7/socket.7 b/man7/socket.7
+index ff98e3e..ff4c46b 100644
+--- a/man7/socket.7
++++ b/man7/socket.7
+@@ -662,6 +662,20 @@ with a specific port then it is not possible
+ to bind to this port for any local address.
+ Argument is an integer boolean flag.
+ .TP
++.BR SO_REUSEPORT " (since Linux 3.9)"
++Indicates that attempts to bind an identical listening address to
++multiple
++.B AF_INET
++or
++.B AF_INET6
++sockets by the same UID may succeed. This option allows
++.BR accept (2)
++load distribution in a multi-threaded server to be improved by
++using a distinct listener socket for each thread. This must be set
++on each socket prior to calling
++.BR bind (2)
++on the socket.
++.TP
+ .BR SO_RXQ_OVFL " (since Linux 2.6.33)"
+ .\" commit 3b885787ea4112eaa80945999ea0901bf742707f
+ Indicates that an unsigned 32-bit value ancillary message (cmsg)
+-- 
+2.1.1
 
-Thanks,
-//richard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
