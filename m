@@ -1,59 +1,67 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] pthread_setschedparam.3: Invalid free() in example code
-Date: Tue, 23 Dec 2014 16:31:27 +0100
-Message-ID: <54998ACF.8020800@gmail.com>
-References: <CAPQm1=PpBDnu9jW=0zuYF5X853F1HHomn3Po9vLMZ78LHq=thg@mail.gmail.com>
+Subject: Re: Missing "{" in perf_event_open's document
+Date: Tue, 23 Dec 2014 16:31:19 +0100
+Message-ID: <54998AC7.2050303@gmail.com>
+References: <CACeBgBsJVfFok5sv1DnOqe-_yRTG6ERso-x2Z15NH1bRLsrQ6g@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAPQm1=PpBDnu9jW=0zuYF5X853F1HHomn3Po9vLMZ78LHq=thg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CACeBgBsJVfFok5sv1DnOqe-_yRTG6ERso-x2Z15NH1bRLsrQ6g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Newton <nomis52-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: =?UTF-8?B?5bC55p2w?= <writalnaie-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Simon,
+On 12/18/2014 02:49 PM, =E5=B0=B9=E6=9D=B0 wrote:
+> Hi all,
+>=20
+> I am a operating system researcher in Tsinghua University. I find tha=
+t
+> there is a missing "{" in the definition of struct read_format's inne=
+r
+> struct definition in the function perf_event_open
+> <http://man7.org/linux/man-pages/man2/perf_event_open.2.html>'s docum=
+ent :
+>=20
+>              struct read_format {
+>                  u64 nr;            /* The number of events */
+>                  u64 time_enabled;  /* if PERF_FORMAT_TOTAL_TIME_ENAB=
+LED */
+>                  u64 time_running;  /* if PERF_FORMAT_TOTAL_TIME_RUNN=
+ING */
+>                  struct
+>                      u64 value;     /* The value of the event */
+>                      u64 id;        /* if PERF_FORMAT_ID */
+>                  } values[nr];
+>              };
+>=20
+>=20
+> should be
+>=20
+>              struct read_format {
+>                  u64 nr;            /* The number of events */
+>                  u64 time_enabled;  /* if PERF_FORMAT_TOTAL_TIME_ENAB=
+LED */
+>                  u64 time_running;  /* if PERF_FORMAT_TOTAL_TIME_RUNN=
+ING */
+>                  struct {
+>                      u64 value;     /* The value of the event */
+>                      u64 id;        /* if PERF_FORMAT_ID */
+>                  } values[nr];
+>              };
 
-On 11/29/2014 06:41 PM, Simon Newton wrote:
-> The example program will crash if -A is used, since attr is uninitialized.
-> 
-> $ ./a.out  -A
-> *** Error in `./a.out': free(): invalid pointer: 0xb779c3c4 ***
-> Aborted (core dumped)
-> 
-> 
-> 
-> diff --git a/man3/pthread_setschedparam.3 b/man3/pthread_setschedparam.3
-> index 971bc0c..36b00bd 100644
-> --- a/man3/pthread_setschedparam.3
-> +++ b/man3/pthread_setschedparam.3
-> @@ -424,9 +424,11 @@ main(int argc, char *argv[])
-> 
->      /* Destroy unneeded thread attributes object */
-> 
-> -    s = pthread_attr_destroy(&attr);
-> -    if (s != 0)
-> -        handle_error_en(s, "pthread_attr_destroy");
-> +    if (!use_null_attrib) {
-> +      s = pthread_attr_destroy(&attr);
-> +      if (s != 0)
-> +          handle_error_en(s, "pthread_attr_destroy");
-> +    }
-> 
->      s = pthread_join(thread, NULL);
->      if (s != 0)
+Hello Jie Yin,=20
 
-Thanks! Applied.
+Thanks for the report. I fixed the page as you suggest.
 
 Cheers,
 
 Michael
+=20
 
 
-
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
