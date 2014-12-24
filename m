@@ -1,55 +1,63 @@
-From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
-Subject: Re: Incorrect documentation for tgkill syscall when tgid==-1
-Date: Tue, 23 Dec 2014 12:14:21 -0500
-Message-ID: <20141223171421.GZ4574@brightrain.aerifal.cx>
-References: <20141219020553.GA23392@brightrain.aerifal.cx>
- <54998AC2.70202@gmail.com>
+From: Piotr Dobrogost <p@lists-2014.dobrogost.net>
+Subject: Re: Lack of sshfs(1) man page
+Date: Wed, 24 Dec 2014 01:07:38 +0100
+Message-ID: <CAA6tFMvS_+wjJ11T6CAgVGS4+nyGr6KiO-LVUWb-4Abf1nLU+Q@mail.gmail.com>
+References: <CAA6tFMtt4WO2SkSuMp=Yg9orSOGmD3ihnPH4LLDD30gTGzJK4Q@mail.gmail.com>
+ <54998C81.5090408@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <54998AC2.70202-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <54998C81.5090408-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Dec 23, 2014 at 04:31:14PM +0100, Michael Kerrisk (man-pages) wrote:
-> > Since there's therefore no way to achieve the same behavior as tkill
-> > using the tgkill syscall, I'd also like to request a removal of the
-> > text claiming tkill is obsolete. tgkill does not solve the race
-> > condition it claims to solve (this is documented to some extent in the
-> > relevant git commits to musl libc, and I intend to write more on the
-> > issue later) nor is it needed to solve the race (tkill works just as
-> > well if used correctly).
-> 
-> I guess the relevant bug here is
-> 
->     http://sourceware.org/bugzilla/show_bug.cgi?id=12889
-> 
-> right?
-> 
-> I'm a little puzzled. In that bug report, you say:
-> 
->      (The tgkill syscall was designed to eliminate a similar race
->      condition in tkill, but it only succeeded in eliminating races
->      where the tid gets reused in a different process, and does not
->      help if the same tid gets assigned to a new thread in the
->      same process.)
-> 
-> Is it not the case that tgkill() solves *some* of the race conditions
-> that tkill() is vulnerable to (i.e., TID recycled in a different 
-> process), and therefore is an improvement on tkill() (i.e., renders
-> it obsolete)?
+On Tue, Dec 23, 2014 at 4:38 PM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-Yes, I should have been more precise in my statement. It does solve
-that special case, but it's neither necessary nor sufficient to solve
-the problem in general. tkill is perfectly usable for solving the
-problem in general (it just requires locking local to the process, and
-solving the problem using tgkill would require the same locking), and
-there are some reasons to prefer it.
+Hello Michael,
 
-Rich
+I've already lost hope to see any reply to my post but here it is.
+Thanks for taking time to write your answers.
+
+>> I was looking for sshfs man page at
+>> http://man7.org/linux/man-pages/dir_section_1.html but it's not there.
+>
+> I've added it to my scripts, so it'll go out with the next site refresh.
+> (See http://blog.man7.org/2013/05/adding-further-man-pages-to-html.html)
+
+Thanks.
+
+>> Also should I prefer man7.org/linux/man-pages/ man pages to
+>> http://linux.die.net/man/ ones?
+>
+> It depends, and obviously I am biased. The pages rendered
+> at man7.org tend to be (*much*) more up to date, and the
+> COLOPHON tells you exactly where the page came from, and
+> when. That info is not available on most other sites that
+> provide HTML renderings, and the pages on some of those
+> sites are years out of date. As outlined in the blog post,
+> I am open to add projects to the rendered set, which currently
+> comprises around 100 projects.
+
+Thanks for info. Reading http://blog.man7.org/ I see you're maintainer
+of man-pages project and at https://www.kernel.org/doc/man-pages/ page
+there's a link ("Online man pages") to man7.org. Is there any
+"official" relation between these two projects (man-pages and
+man7.org)?
+
+Am I right to think that providing up to date man pages online for all
+"popular" projects seems to be very valuable service to the GNU/Linux
+community? If so does man7.org receive support from major
+institutions, projects and communities in the GNU/Linux world?  Is
+there any chance man7 and linux.die.net/man/ would cooperate so that
+it would be easier to find up to date online man pages? Also curious
+to know where does the name of "man7" come from?
+
+
+Regards,
+Piotr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
