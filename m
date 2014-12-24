@@ -1,74 +1,79 @@
-From: Sven Hoexter <sven-jJOYKVDXsn5H4x6Dk/4f9A@public.gmane.org>
-Subject: Re: [PATCH] proc.5: Add "VmSwap" to /proc/[pid]/status
-Date: Wed, 24 Dec 2014 01:24:12 +0100
-Message-ID: <20141224002412.GA1719@timegate.de>
-References: <E1Y0APl-0002WV-Ai@garkbit.lan>
- <549984F9.9090501@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 90261] New: The BUGS section of the getopt(3) man page
+ describes something that's no longer a bug
+Date: Wed, 24 Dec 2014 02:10:49 +0000
+Message-ID: <bug-90261-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <549984F9.9090501-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org
-Cc: Sven Hoexter <sven-jJOYKVDXsn5H4x6Dk/4f9A@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Dec 23, 2014 at 04:06:33PM +0100, Michael Kerrisk (man-pages) wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=90261
 
-Hi,
+            Bug ID: 90261
+           Summary: The BUGS section of the getopt(3) man page describes
+                    something that's no longer a bug
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: guy-FrUbXkNCsVf2fBVCVOL8/A@public.gmane.org
+        Regression: No
 
-> On 12/14/2014 03:20 PM, Sven Hoexter wrote:
-> > Documented as is in Documentation/filesystems/proc.txt of Linux 3.18.
-> > 
-> > Signed-off-by: Sven Hoexter <sven-jJOYKVDXsn5H4x6Dk/4f9A@public.gmane.org>
-> > ---
-> >  man5/proc.5 | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/man5/proc.5 b/man5/proc.5
-> > index 96077d0..b16f2a7 100644
-> > --- a/man5/proc.5
-> > +++ b/man5/proc.5
-> > @@ -1587,6 +1587,7 @@ VmStk:        88 kB
-> >  VmExe:       572 kB
-> >  VmLib:      1708 kB
-> >  VmPTE:        20 kB
-> > +VmSwap:        0 kB
-> >  Threads:        1
-> >  SigQ:   0/3067
-> >  SigPnd: 0000000000000000
-> > @@ -1672,6 +1673,9 @@ Shared library code size.
-> >  .IR VmPTE :
-> >  Page table entries size (since Linux 2.6.10).
-> >  .IP *
-> > +.IR VmSwap :
-> > +Size of swap usage (the number of referred swapents).
-> > +.IP *
-> >  .IR Threads :
-> >  Number of threads in process containing this thread.
-> >  .IP *
-> 
-> Thanks for this patch. I've applied, and added text that the field 
-> appeared in Linux 2.6.34. However, I have a question: what does the
-> text "(the number of referred swapents)" mean? Is this field
-> not just reporting a value in kB (i.e., the number of kB across all 
-> swap entries)?
+The BUGS section of the getopt(3) man page says:
 
-I copied the text verbatim from what I found in the proc.txt
-documentation. To be honest so far I failed to understand
-what exactly is counted and did not trust the kB unit at all.
-(It did not matter for my usecase.)
+       The POSIX.2 specification of getopt() has a technical error described
+       in POSIX.2 Interpretation 150.  The GNU implementation (and probably
+       all other implementations) implements the correct behavior rather
+       than that specified.
 
-Maybe KAMEZAWA Hiroyuki can shed some light on what exactly
-is counted here and if the kB unit makes sense here and why?
+The interpretation in question is at
 
-Looking at commit b084d4353ff99d824d3bc5a5c2c22c70b1fba722 
-it seems to be a value incremented/decremented with every
-page table entry moved to swap/moved out of swap, but I'm
-far away from claiming that this is stuff I understand.
+   
+https://collaboration.opengroup.org/external/pasc.org/interpretations/unofficial/db/p1003.2/pasc-1003.2-150.html
 
-Sven
+The request for the interpretation said
+
+    To match historic and expected practice, the "not less than argc" on
+POSIX.2, P733, L504-505 would need to be changed to "greater than argc".
+
+and the resolution of that interpretation is
+
+    In particular the interpretations committee do not believe that this
+change from historical practice was intended.
+    The interpretations committee beleive that on page 733, line 504,
+the words 'not less than' should be changed to 'greater than'.   
+
+and the Single UNIX Specification, Version 4, entry for getopt(), at
+
+    http://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html
+
+says
+
+    If the option was the last character in the string pointed to by an element
+of argv, then optarg shall contain the next element of argv, and optind shall
+be incremented by 2. If the resulting value of optind is greater than argc,
+this indicates a missing option-argument, and getopt() shall return an error
+indication.
+
+so it appears that the *current* version of POSIX - i.e., the Single UNIX
+Specification - has been changed in the fashion requested.
+
+The BUGS section should probably note this, so that nobody thinks that GNU
+libc's getopt() behaves in a non-standard fashion in that respect.  (The bug
+was 100% in the POSIX.2 edition, not in the code.)
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
