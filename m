@@ -1,43 +1,86 @@
-From: Masanari Iida <standby24x7@gmail.com>
-Subject: [PATCH 1/2] adjtimex.2: Update return value of adjtimex
-Date: Wed, 24 Dec 2014 22:00:39 +0900
-Message-ID: <1419426040-16090-1-git-send-email-standby24x7@gmail.com>
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Masanari Iida <standby24x7@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] proc.5: Add "VmSwap" to /proc/[pid]/status
+Date: Wed, 24 Dec 2014 15:26:06 +0100
+Message-ID: <549ACCFE.3030809@gmail.com>
+References: <E1Y0APl-0002WV-Ai@garkbit.lan> <549984F9.9090501@gmail.com> <20141224002412.GA1719@timegate.de>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141224002412.GA1719-ckv7mInNtAwb1SvskN2V4Q@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Sven Hoexter <sven-jJOYKVDXsn5H4x6Dk/4f9A@public.gmane.org>, kamezawa.hiroyu-+CUm20s59erQFUHtdCDX3A@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This patch update return value of adjtimex man page.
+On 12/24/2014 01:24 AM, Sven Hoexter wrote:
+> On Tue, Dec 23, 2014 at 04:06:33PM +0100, Michael Kerrisk (man-pages) wrote:
+> 
+> Hi,
+> 
+>> On 12/14/2014 03:20 PM, Sven Hoexter wrote:
+>>> Documented as is in Documentation/filesystems/proc.txt of Linux 3.18.
+>>>
+>>> Signed-off-by: Sven Hoexter <sven-jJOYKVDXsn5H4x6Dk/4f9A@public.gmane.org>
+>>> ---
+>>>  man5/proc.5 | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/man5/proc.5 b/man5/proc.5
+>>> index 96077d0..b16f2a7 100644
+>>> --- a/man5/proc.5
+>>> +++ b/man5/proc.5
+>>> @@ -1587,6 +1587,7 @@ VmStk:        88 kB
+>>>  VmExe:       572 kB
+>>>  VmLib:      1708 kB
+>>>  VmPTE:        20 kB
+>>> +VmSwap:        0 kB
+>>>  Threads:        1
+>>>  SigQ:   0/3067
+>>>  SigPnd: 0000000000000000
+>>> @@ -1672,6 +1673,9 @@ Shared library code size.
+>>>  .IR VmPTE :
+>>>  Page table entries size (since Linux 2.6.10).
+>>>  .IP *
+>>> +.IR VmSwap :
+>>> +Size of swap usage (the number of referred swapents).
+>>> +.IP *
+>>>  .IR Threads :
+>>>  Number of threads in process containing this thread.
+>>>  .IP *
+>>
+>> Thanks for this patch. I've applied, and added text that the field 
+>> appeared in Linux 2.6.34. However, I have a question: what does the
+>> text "(the number of referred swapents)" mean? Is this field
+>> not just reporting a value in kB (i.e., the number of kB across all 
+>> swap entries)?
+> 
+> I copied the text verbatim from what I found in the proc.txt
+> documentation. To be honest so far I failed to understand
+> what exactly is counted and did not trust the kB unit at all.
+> (It did not matter for my usecase.)
+> 
+> Maybe KAMEZAWA Hiroyuki can shed some light on what exactly
+> is counted here and if the kB unit makes sense here and why?
+> 
+> Looking at commit b084d4353ff99d824d3bc5a5c2c22c70b1fba722 
+> it seems to be a value incremented/decremented with every
+> page table entry moved to swap/moved out of swap, but I'm
+> far away from claiming that this is stuff I understand.
 
-Signed-off-by: Masanari Iida <standby24x7@gmail.com>
----
- man2/adjtimex.2 | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+Okay. Pending any input from KAMEZAWA Hiroyuki, I have simply removed
+the text "(the number of referred swapents)".
 
-diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index eb3fda1..f2a8b8c 100644
---- a/man2/adjtimex.2
-+++ b/man2/adjtimex.2
-@@ -109,12 +109,13 @@ returns the clock state:
- .PP
- .in +4n
- .nf
--#define TIME_OK   0 /* clock synchronized */
--#define TIME_INS  1 /* insert leap second */
--#define TIME_DEL  2 /* delete leap second */
--#define TIME_OOP  3 /* leap second in progress */
--#define TIME_WAIT 4 /* leap second has occurred */
--#define TIME_BAD  5 /* clock not synchronized */
-+#define TIME_OK    0 /* clock synchronized */
-+#define TIME_INS   1 /* insert leap second */
-+#define TIME_DEL   2 /* delete leap second */
-+#define TIME_OOP   3 /* leap second in progress */
-+#define TIME_WAIT  4 /* leap second has occurred */
-+#define TIME_ERROR 5 /* clock not synchronized */
-+#define TIME_BAD   TIME_ERROR /* bw compat */
- .fi
- .in
- .PP
+Thanks,
+
+Michael
+
+
 -- 
-2.2.1.62.g3f15098
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
