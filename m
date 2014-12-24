@@ -1,13 +1,13 @@
 From: MaShimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] log.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 24 Dec 2014 16:55:15 +0800
-Message-ID: <549A7F73.9070800@cn.fujitsu.com>
-References: <1418197854-20398-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] log10.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 24 Dec 2014 16:59:13 +0800
+Message-ID: <549A8061.7060006@cn.fujitsu.com>
+References: <1418199369-22354-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1418197854-20398-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1418199369-22354-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,34 +15,34 @@ List-Id: linux-man@vger.kernel.org
 
 Ping.
 
-On 12/10/2014 03:50 PM, Ma Shimiao wrote:
-> The function log(), logf() and logl() are thread safe.
+On 12/10/2014 04:16 PM, Ma Shimiao wrote:
+> The function log10(), log10f() and log10l() are thread safe.
 > 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/log.3 | 14 ++++++++++++++
+>  man3/log10.3 | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/log.3 b/man3/log.3
-> index 96be9ef..e12c9b1 100644
-> --- a/man3/log.3
-> +++ b/man3/log.3
-> @@ -125,6 +125,20 @@ is set to
->  A divide-by-zero floating-point exception
->  .RB ( FE_DIVBYZERO )
->  is raised.
+> diff --git a/man3/log10.3 b/man3/log10.3
+> index 8485f41..19d7e8f 100644
+> --- a/man3/log10.3
+> +++ b/man3/log10.3
+> @@ -86,6 +86,20 @@ when calling these functions.
+>  
+>  For a discussion of the errors that can occur for these functions, see
+>  .BR log (3).
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lbw28 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR log (),
-> +.BR logf (),
-> +.BR logl ()
+> +.BR log10 (),
+> +.BR log10f (),
+> +.BR log10l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
