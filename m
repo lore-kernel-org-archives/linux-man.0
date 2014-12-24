@@ -1,79 +1,113 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 90261] New: The BUGS section of the getopt(3) man page
- describes something that's no longer a bug
-Date: Wed, 24 Dec 2014 02:10:49 +0000
-Message-ID: <bug-90261-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Lack of sshfs(1) man page
+Date: Wed, 24 Dec 2014 09:21:41 +0100
+Message-ID: <549A7795.7070005@gmail.com>
+References: <CAA6tFMtt4WO2SkSuMp=Yg9orSOGmD3ihnPH4LLDD30gTGzJK4Q@mail.gmail.com> <54998C81.5090408@gmail.com> <CAA6tFMvS_+wjJ11T6CAgVGS4+nyGr6KiO-LVUWb-4Abf1nLU+Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAA6tFMvS_+wjJ11T6CAgVGS4+nyGr6KiO-LVUWb-4Abf1nLU+Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Piotr Dobrogost <p@lists-2014.dobrogost.net>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=90261
+Hello Piotr,
 
-            Bug ID: 90261
-           Summary: The BUGS section of the getopt(3) man page describes
-                    something that's no longer a bug
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: guy-FrUbXkNCsVf2fBVCVOL8/A@public.gmane.org
-        Regression: No
+>>> Also should I prefer man7.org/linux/man-pages/ man pages to
+>>> http://linux.die.net/man/ ones?
+>>
+>> It depends, and obviously I am biased. The pages rendered
+>> at man7.org tend to be (*much*) more up to date, and the
+>> COLOPHON tells you exactly where the page came from, and
+>> when. That info is not available on most other sites that
+>> provide HTML renderings, and the pages on some of those
+>> sites are years out of date. As outlined in the blog post,
+>> I am open to add projects to the rendered set, which currently
+>> comprises around 100 projects.
+> 
+> Thanks for info. Reading http://blog.man7.org/ I see you're maintainer
+> of man-pages project and at https://www.kernel.org/doc/man-pages/ page
+> there's a link ("Online man pages") to man7.org. Is there any
+> "official" relation between these two projects (man-pages and
+> man7.org)?
 
-The BUGS section of the getopt(3) man page says:
+No, the link is only personal. man7.org is my personal site.
 
-       The POSIX.2 specification of getopt() has a technical error described
-       in POSIX.2 Interpretation 150.  The GNU implementation (and probably
-       all other implementations) implements the correct behavior rather
-       than that specified.
+> Am I right to think that providing up to date man pages online for all
+> "popular" projects seems to be very valuable service to the GNU/Linux
+> community? 
 
-The interpretation in question is at
+It is certainly very useful, in my opinion at least.
 
-   
-https://collaboration.opengroup.org/external/pasc.org/interpretations/unofficial/db/p1003.2/pasc-1003.2-150.html
+> If so does man7.org receive support from major
+> institutions, projects and communities in the GNU/Linux world?  
 
-The request for the interpretation said
+Not as such, but I've not asked for such either. Some people help
+by pointing out errors or projects that might usefully be
+included in the set.
 
-    To match historic and expected practice, the "not less than argc" on
-POSIX.2, P733, L504-505 would need to be changed to "greater than argc".
+> Is
+> there any chance man7 and linux.die.net/man/ would cooperate so that
+> it would be easier to find up to date online man pages?
 
-and the resolution of that interpretation is
+Well, the man7.org pages are easy to find already ;-).
+But, aside from that, I suspect that the man pages at
+die.net are created by just dumping all of the pages off
+a particular distribution install. Thus, it's not always
+clear where the pages come from, or how old they are. Indeed
+they seem to go to some effort to obscure that information, 
+removing the page timestamps, and even, looking at
+http://linux.die.net/man/2/prctl for example, stripping out
+the COLOPHON that I place in the pages of the man-pages
+project. That COLOPHON notes which release of man-pages the
+page belongs to and has a pointer to a URL for information
+on the project and how to report bugs. I'm not impressed
+that they remove it. Mainly, I think those renderings are 
+about driving a few ad clicks... (I'm not really sure there's
+much to be gained from any sort of cooperation.)
 
-    In particular the interpretations committee do not believe that this
-change from historical practice was intended.
-    The interpretations committee beleive that on page 733, line 504,
-the words 'not less than' should be changed to 'greater than'.   
+> Also curious
+> to know where does the name of "man7" come from?
 
-and the Single UNIX Specification, Version 4, entry for getopt(), at
+I took over man-pages maintenance in 2004. Since that time,
+I've expanded the remit of that section to include pages that
+give overviews/big pictures of how APIs are related, so that
+now we have pages such as:
 
-    http://pubs.opengroup.org/onlinepubs/9699919799/functions/getopt.html
+aio(7)
+credentials(7)
+fanotify(7)
+feature_test_macros(7)
+inotify(7)
+libc(7)
+mq_overview(7)
+namespaces(7)
+numa(7)
+pid_namespaces(7)
+pipe(7)
+pthreads(7)
+pty(7)
+rtld-audit(7)
+sched(7)
+sem_overview(7)
+shm_overview(7)
+sigevent(7)
+standards(7)
+user_namespaces(7)
+ 
+So, man7 for me is about giving the big picture about Linux APIs,
+and was the inspiration for the domain name.
 
-says
+Cheers,
 
-    If the option was the last character in the string pointed to by an element
-of argv, then optarg shall contain the next element of argv, and optind shall
-be incremented by 2. If the resulting value of optind is greater than argc,
-this indicates a missing option-argument, and getopt() shall return an error
-indication.
-
-so it appears that the *current* version of POSIX - i.e., the Single UNIX
-Specification - has been changed in the fashion requested.
-
-The BUGS section should probably note this, so that nobody thinks that GNU
-libc's getopt() behaves in a non-standard fashion in that respect.  (The bug
-was 100% in the POSIX.2 edition, not in the code.)
+Michael
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
