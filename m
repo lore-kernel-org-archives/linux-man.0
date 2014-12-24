@@ -1,47 +1,43 @@
-From: Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 2/2] adjtimex.2: Update modes field of adjtimex
-Date: Wed, 24 Dec 2014 22:00:40 +0900
-Message-ID: <1419426040-16090-2-git-send-email-standby24x7@gmail.com>
-References: <1419426040-16090-1-git-send-email-standby24x7@gmail.com>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1419426040-16090-1-git-send-email-standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Masanari Iida <standby24x7@gmail.com>
+Subject: [PATCH 1/2] adjtimex.2: Update return value of adjtimex
+Date: Wed, 24 Dec 2014 22:00:39 +0900
+Message-ID: <1419426040-16090-1-git-send-email-standby24x7@gmail.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Masanari Iida <standby24x7@gmail.com>
 List-Id: linux-man@vger.kernel.org
 
-This patch update modes field of adjtimex man page.
+This patch update return value of adjtimex man page.
 
-Signed-off-by: Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Signed-off-by: Masanari Iida <standby24x7@gmail.com>
 ---
- man2/adjtimex.2 | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ man2/adjtimex.2 | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index f2a8b8c..b4450e8 100644
+index eb3fda1..f2a8b8c 100644
 --- a/man2/adjtimex.2
 +++ b/man2/adjtimex.2
-@@ -92,8 +92,15 @@ combination of zero or more of the following bits:
- #define ADJ_ESTERROR          0x0008 /* estimated time error */
- #define ADJ_STATUS            0x0010 /* clock status */
- #define ADJ_TIMECONST         0x0020 /* pll time constant */
-+#define ADJ_TAI               0x0080 /* set TAI offset */
-+#define ADJ_SETOFFSET         0x0100 /* add 'time' to current time */
-+#define ADJ_MICRO             0x1000 /* select microsecond
-+                                        resolution */
-+#define ADJ_NANO              0x2000 /* select nanosecond
-+                                        resolution */
- #define ADJ_TICK              0x4000 /* tick value */
--#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime() */
-+#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime */
-+#define ADJ_OFFSET_SS_READ    0xa001 /* read-only adjtime */
+@@ -109,12 +109,13 @@ returns the clock state:
+ .PP
+ .in +4n
+ .nf
+-#define TIME_OK   0 /* clock synchronized */
+-#define TIME_INS  1 /* insert leap second */
+-#define TIME_DEL  2 /* delete leap second */
+-#define TIME_OOP  3 /* leap second in progress */
+-#define TIME_WAIT 4 /* leap second has occurred */
+-#define TIME_BAD  5 /* clock not synchronized */
++#define TIME_OK    0 /* clock synchronized */
++#define TIME_INS   1 /* insert leap second */
++#define TIME_DEL   2 /* delete leap second */
++#define TIME_OOP   3 /* leap second in progress */
++#define TIME_WAIT  4 /* leap second has occurred */
++#define TIME_ERROR 5 /* clock not synchronized */
++#define TIME_BAD   TIME_ERROR /* bw compat */
  .fi
  .in
  .PP
 -- 
 2.2.1.62.g3f15098
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
