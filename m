@@ -1,36 +1,36 @@
 From: MaShimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] pow.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 24 Dec 2014 16:52:37 +0800
-Message-ID: <549A7ED5.3040706@cn.fujitsu.com>
-References: <1418200821-24048-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] log2.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 24 Dec 2014 16:55:05 +0800
+Message-ID: <549A7F69.2070603@cn.fujitsu.com>
+References: <1418198920-21776-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1418200821-24048-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1418198920-21776-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Ping
+Ping.
 
-On 12/10/2014 04:40 PM, Ma Shimiao wrote:
-> The function pow(), powf() and powl() are thread safe.
+On 12/10/2014 04:08 PM, Ma Shimiao wrote:
+> The function log2(), log2f() and log2l() are thread safe.
 > 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/pow.3 | 14 ++++++++++++++
+>  man3/log2.3 | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/pow.3 b/man3/pow.3
-> index fb31bd2..a31aaf3 100644
-> --- a/man3/pow.3
-> +++ b/man3/pow.3
-> @@ -313,6 +313,20 @@ is set to
->  An underflow floating-point exception
->  .RB ( FE_UNDERFLOW )
->  is raised.
+> diff --git a/man3/log2.3 b/man3/log2.3
+> index febd171..e14e653 100644
+> --- a/man3/log2.3
+> +++ b/man3/log2.3
+> @@ -88,6 +88,20 @@ For a discussion of the errors that can occur for these functions, see
+>  .BR log (3).
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -40,9 +40,9 @@ On 12/10/2014 04:40 PM, Ma Shimiao wrote:
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR pow (),
-> +.BR powf (),
-> +.BR powl ()
+> +.BR log2 (),
+> +.BR log2f (),
+> +.BR log2l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
