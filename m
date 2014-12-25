@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] readdir.3: Modify thread-safety information
-Date: Thu, 25 Dec 2014 14:22:19 +0800
-Message-ID: <1419488539-4621-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] qecvt.3: Modify thread-safety information
+Date: Thu, 25 Dec 2014 15:01:39 +0800
+Message-ID: <1419490899-7682-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,21 +15,31 @@ thread-safety information to be same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/readdir.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/qecvt.3 | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/man3/readdir.3 b/man3/readdir.3
-index 556da62..b67e31a 100644
---- a/man3/readdir.3
-+++ b/man3/readdir.3
-@@ -154,7 +154,7 @@ l l l.
+diff --git a/man3/qecvt.3 b/man3/qecvt.3
+index 0917da9..eada632 100644
+--- a/man3/qecvt.3
++++ b/man3/qecvt.3
+@@ -87,13 +87,15 @@ For an explanation of the terms used in this section, see
+ .BR attributes (7).
+ .TS
+ allbox;
+-lbw16 lb lb
++lb lb lb
+ l l l.
  Interface	Attribute	Value
  T{
- .BR readdir ()
+-.BR qecvt (),
++.BR qecvt ()
++T}	Thread safety	MT-Unsafe race:qecvt
++T{
+ .BR qfcvt ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:dirstream
++T}	Thread safety	MT-Unsafe race:qfcvt
  T{
- .BR readdir_r ()
+ .BR qgcvt ()
  T}	Thread safety	MT-Safe
 -- 
 1.8.3.1
