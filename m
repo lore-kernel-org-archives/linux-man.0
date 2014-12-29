@@ -1,64 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wordexp.3: Make it clear that WRDE_NOCMD prevents command
- substitution.
-Date: Fri, 26 Dec 2014 07:22:56 +0100
-Message-ID: <549CFEC0.8060606@gmail.com>
-References: <546CF348.5080400@redhat.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Subject: [PATCH] isfdtype.3: wsfix
+Date: Mon, 29 Dec 2014 12:27:08 +0100
+Message-ID: <1419852428-22516-1-git-send-email-rv@rasmusvillemoes.dk>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <546CF348.5080400-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Carlos,
+Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+---
+ man3/isfdtype.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 11/19/2014 08:45 PM, Carlos O'Donell wrote:
-> The use of WRDE_NOCMD prevents command substitution. If the flag
-> WRDE_NOCMD is set then no command substitution shall occur and
-> the error WRDE_CMDSUB will be returned if such substitution is
-> requested when processing the words.
-> 
-> The manual page as-is makes it seem like the command substitution
-> occurs, and an error is returned *after* the substitution.
-> 
-> This patch clarifies that.
-> 
-> Patch against trunk.
-> 
-> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> 
-> diff --git a/man3/wordexp.3 b/man3/wordexp.3
-> index c695c08..e457943 100644
-> --- a/man3/wordexp.3
-> +++ b/man3/wordexp.3
-> @@ -169,7 +169,7 @@ flag
->  told us to consider this an error.
->  .TP
->  .B WRDE_CMDSUB
-> -Command substitution occurred, and the
-> +Command substitution requested, but the
->  .B WRDE_NOCMD
->  flag told us to consider this an error.
->  .TP
-
-Thanks!
-
-Applied.
-
-Cheers,
-
-Michael
-
-
-
+diff --git a/man3/isfdtype.3 b/man3/isfdtype.3
+index bd7414e..292ecf5 100644
+--- a/man3/isfdtype.3
++++ b/man3/isfdtype.3
+@@ -31,7 +31,7 @@ isfdtype \- test file type of a file descriptor
+ .B #include <sys/stat.h>
+ .B #include <sys/socket.h>
+ 
+-.BI "int isfdtype(int " fd ", int" fdtype );
++.BI "int isfdtype(int " fd ", int " fdtype );
+ .fi
+ .sp
+ .in -4n
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.1.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
