@@ -1,22 +1,24 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] log10.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 30 Dec 2014 14:24:29 +0100
-Message-ID: <54A2A78D.4040006@gmail.com>
-References: <1418199369-22354-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] ecvt.3: Modify thread-safety information
+Date: Tue, 30 Dec 2014 14:27:57 +0100
+Message-ID: <54A2A85D.3020901@gmail.com>
+References: <1419487365-2790-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1418199369-22354-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1419487365-2790-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/10/2014 09:16 AM, Ma Shimiao wrote:
-> The function log10(), log10f() and log10l() are thread safe.
+On 12/25/2014 07:02 AM, Ma Shimiao wrote:
+> As annotation in glibc manual is more detailed, change the 
+> thread-safety information to be same as glibc manual.
 
-Thanks, Ma Shimiao. Applied in my local branch.
+
+Thanks, Ma Shimiao. Applied in the 'attributes_reformat_2' branch.
 
 Cheers,
 
@@ -24,36 +26,30 @@ Michael
 
 
 
+> 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/log10.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  man3/ecvt.3 | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man3/log10.3 b/man3/log10.3
-> index 8485f41..19d7e8f 100644
-> --- a/man3/log10.3
-> +++ b/man3/log10.3
-> @@ -86,6 +86,20 @@ when calling these functions.
->  
->  For a discussion of the errors that can occur for these functions, see
->  .BR log (3).
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw28 lb lb
-> +l l l.
-> +Interface	Attribute	Value
+> diff --git a/man3/ecvt.3 b/man3/ecvt.3
+> index f484a77..c468105 100644
+> --- a/man3/ecvt.3
+> +++ b/man3/ecvt.3
+> @@ -116,9 +116,11 @@ lb lb lb
+>  l l l.
+>  Interface	Attribute	Value
+>  T{
+> -.BR ecvt (),
+> +.BR ecvt ()
+> +T}	Thread safety	MT-Unsafe race:ecvt
 > +T{
-> +.BR log10 (),
-> +.BR log10f (),
-> +.BR log10l ()
-> +T}	Thread safety	MT-Safe
-> +.TE
+>  .BR fcvt ()
+> -T}	Thread safety	MT-Unsafe
+> +T}	Thread safety	MT-Unsafe race:fcvt
+>  .TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  SVr2;
 > 
 
 
