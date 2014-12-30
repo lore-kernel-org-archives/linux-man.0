@@ -1,33 +1,35 @@
-From: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
-Subject: [PATCH] isfdtype.3: wsfix
-Date: Mon, 29 Dec 2014 12:27:08 +0100
-Message-ID: <1419852428-22516-1-git-send-email-rv@rasmusvillemoes.dk>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] getpass.3:wsfix
+Date: Tue, 30 Dec 2014 14:47:39 +0800
+Message-ID: <1419922059-5924-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Rasmus Villemoes <rv-qQsb+v5E8BnlAoU/VqSP6n9LOBIZ5rWg@public.gmane.org>
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/isfdtype.3 | 2 +-
+ man3/getpass.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/isfdtype.3 b/man3/isfdtype.3
-index bd7414e..292ecf5 100644
---- a/man3/isfdtype.3
-+++ b/man3/isfdtype.3
-@@ -31,7 +31,7 @@ isfdtype \- test file type of a file descriptor
- .B #include <sys/stat.h>
- .B #include <sys/socket.h>
- 
--.BI "int isfdtype(int " fd ", int" fdtype );
-+.BI "int isfdtype(int " fd ", int " fdtype );
- .fi
+diff --git a/man3/getpass.3 b/man3/getpass.3
+index a3397c0..0f40652 100644
+--- a/man3/getpass.3
++++ b/man3/getpass.3
+@@ -27,7 +27,7 @@ getpass \- get a password
+ .SH SYNOPSIS
+ .B #include <unistd.h>
+ .sp
+-.BI "char *getpass( const char *" prompt );
++.BI "char *getpass(const char *" prompt );
  .sp
  .in -4n
+ Feature Test Macro Requirements for glibc (see
 -- 
-2.1.3
+1.8.3.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
