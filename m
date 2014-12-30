@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] exp2.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 30 Dec 2014 14:17:52 +0100
-Message-ID: <54A2A600.5010907@gmail.com>
-References: <1417575352-30915-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] pow10.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 30 Dec 2014 14:19:10 +0100
+Message-ID: <54A2A64E.3080102@gmail.com>
+References: <1418201442-24965-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1417575352-30915-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1418201442-24965-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/03/2014 03:55 AM, Ma Shimiao wrote:
-> The function exp2(), exp2f() and exp2l() are thread safe.
-
+On 12/10/2014 09:50 AM, Ma Shimiao wrote:
+> The function pow10(), pow10f() and pow10l() are thread safe.
 Thanks, Ma Shimiao. Applied in my local branch.
 
 Cheers,
@@ -26,15 +25,15 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/exp2.3 | 14 ++++++++++++++
+>  man3/pow10.3 | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/exp2.3 b/man3/exp2.3
-> index ef61568..48c60bf 100644
-> --- a/man3/exp2.3
-> +++ b/man3/exp2.3
-> @@ -88,6 +88,20 @@ For a discussion of the errors that can occur for these functions, see
->  .BR exp (3).
+> diff --git a/man3/pow10.3 b/man3/pow10.3
+> index d6368fc..9a80827 100644
+> --- a/man3/pow10.3
+> +++ b/man3/pow10.3
+> @@ -46,6 +46,20 @@ power
+>  .IR x .
 >  .SH VERSIONS
 >  These functions first appeared in glibc in version 2.1.
 > +.SH ATTRIBUTES
@@ -42,18 +41,18 @@ Michael
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lbw28 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR exp2 (),
-> +.BR exp2f (),
-> +.BR exp2l ()
+> +.BR pow10 (),
+> +.BR pow10f (),
+> +.BR pow10l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  This is a GNU extension.
+>  .SH NOTES
 > 
 
 
