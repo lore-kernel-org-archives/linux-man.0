@@ -1,61 +1,71 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getlogin.3: Reformat thread-safety information
-Date: Tue, 30 Dec 2014 21:39:31 +0100
-Message-ID: <CAKgNAkjD2kAczQxH_hs7nx+GNT7uiVhxiBKOj2WV8qdgn45GXw@mail.gmail.com>
-References: <1413518358-32200-1-git-send-email-penght@cn.fujitsu.com>
- <5440B1A9.8020304@gmail.com> <5440B745.9020003@cn.fujitsu.com>
- <5440BC77.3040906@gmail.com> <CAE2sS1gRBH=Xw671FRynxCYej7uhYTuJ4pxXC0+6_s78VGJayQ@mail.gmail.com>
- <54460FB4.40906@cn.fujitsu.com> <544FFE19.3040503@gmail.com>
- <54A2AB1A.3040207@gmail.com> <CAE2sS1icKhKdiT28s=5SiODeKax7s0LhHMn-pEF3ED_p6jMX7w@mail.gmail.com>
+Subject: Re: Addition to memcmp(3)
+Date: Tue, 30 Dec 2014 22:13:14 +0100
+Message-ID: <CAKgNAkjb4Kp+KmYj1uL9qXSJBj0JKWz8G0+eyD6UFJKFbGGPzQ@mail.gmail.com>
+References: <E1XqHLn-00041P-MO@fangorn.moria.de>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAE2sS1icKhKdiT28s=5SiODeKax7s0LhHMn-pEF3ED_p6jMX7w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <E1XqHLn-00041P-MO-zeUDcrRnZRzyzWfxuKwaJA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Dec 30, 2014 at 3:51 PM, Carlos O'Donell
-<carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org> wrote:
-> On Tue, Dec 30, 2014 at 8:39 AM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> Ping on my question at the end of this mail
->>> Do you have an idea of how long the review process might take?
->
-> Given Alex's work I would estimate anywhere between 6 months and a
-> year for a single person to review all the functions.
->
-> The work had a narrow scope in order to complete on those timelines.
-> For functions that were known either to be safe, or known to be
-> unsafe, we made a judgement call at the time to review them or not.
-> You can see this by looking at the per-function safety comments.
-> Functions that were not documented were not reviewed, but those
-> missing functions were added as comments in the documentation i.e.
-> look for "@c FIXME these are undocumented:". There are 18 functions in
-> filesys.texi, 9 in libdl.texi, 118 in threads.texi, and 2 in
-> users.texi which are not documented and thus were skipped in this
-> first round. I did not want their lack of documentation to stall this
-> work.
->
-> I am happy to see stubs in place in the glibc manual for all of the
-> undocumented functions, and I'm happy to see the stubs have safety
-> notations.
+Hello Michael,
 
-Hi Carlos,
+On Mon, Nov 17, 2014 at 9:07 AM, Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org> wrote:
+> Hello,
+>
+> memcmp(3) does not document the return value for length 0 and the
+> CPU time depending on the number of compared bytes.  While both
+> is obvious, it should still be documented.
 
-Maybe you have misunderstood my point. I don't expect Peng Haitao and
-his colleagues to repeat Alexandre's work, but I am hoping that he
-might compare the glibc annotations with the man-pages annotations,
-and account for the differences/make fixes as needed.
+Thanks for this patch. I applied, but see notes below.
+
+Note 1: this patch covers two unrelated points, so I manually split it.
+
+> --- memcmp.3.orig       2014-11-17 08:53:53.848805576 +0100
+> +++ memcmp.3    2014-11-17 08:58:39.699005856 +0100
+> @@ -27,6 +27,7 @@
+>  .\"     Lewine's _POSIX Programmer's Guide_ (O'Reilly & Associates, 1991)
+>  .\"     386BSD man pages
+>  .\" Modified Sat Jul 24 18:55:27 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+> +.\" Modified Mon Nov 17 07:45:13 2014 by Michael Haardt (michael-8s1n8bisGiQ@public.gmane.org)
+>  .TH MEMCMP 3  2014-03-14 "" "Linux Programmer's Manual"
+>  .SH NAME
+>  memcmp \- compare memory areas
+> @@ -42,6 +43,11 @@
+>  function compares the first \fIn\fP bytes (each interpreted as
+>  .IR "unsigned char" )
+>  of the memory areas \fIs1\fP and \fIs2\fP.
+> +.PP
+> +Do not use
+> +.BR memcmp ()
+> +to compare security critical data, such as cryptographic secrets,
+> +because the required CPU time depends on the amount of equal bytes.
+
+I placed this piece in a new NOTES section.
+
+Some text here about what one should do instead of using memcmp()
+might be helpful. Do you have any suggestions?
+
+>  .SH RETURN VALUE
+>  The
+>  .BR memcmp ()
+> @@ -57,6 +63,8 @@
+>  .I s1
+>  and
+>  .IR s2 .
+> +.PP
+> +If \fIn\fP is zero, the return value is zero.
+
+Good call to add this piece Thanks.
 
 Cheers,
 
 Michael
-
-
-
 
 -- 
 Michael Kerrisk
