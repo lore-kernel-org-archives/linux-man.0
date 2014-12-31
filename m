@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] putenv.3:ATTRIBUTES: Note function that is thread-unsafe
-Date: Wed, 31 Dec 2014 13:30:05 +0800
-Message-ID: <1420003805-4924-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] cabs.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 31 Dec 2014 13:46:40 +0800
+Message-ID: <1420004800-6461-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,35 +10,37 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function putenv() is thread unsafe.
+The function cabs(), cabsf() and cabsl() are thread safe.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/putenv.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/cabs.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man3/putenv.3 b/man3/putenv.3
-index ff5614e..3511027 100644
---- a/man3/putenv.3
-+++ b/man3/putenv.3
-@@ -76,6 +76,18 @@ is set to indicate the cause.
- .TP
- .B ENOMEM
- Insufficient space to allocate new environment.
+diff --git a/man3/cabs.3 b/man3/cabs.3
+index e6c11f2..e43e30e 100644
+--- a/man3/cabs.3
++++ b/man3/cabs.3
+@@ -25,6 +25,20 @@ function returns the absolute value of the complex number
+ The result is a real number.
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR putenv ()
-+T}	Thread safety	MT-Unsafe const:env
++.BR cabs (),
++.BR cabsf (),
++.BR cabsl ()
++T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- SVr4, POSIX.1-2001, 4.3BSD.
+ C99.
  .SH NOTES
 -- 
 1.8.3.1
