@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] carg.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 31 Dec 2014 13:54:19 +0800
-Message-ID: <1420005259-7132-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] exp.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 31 Dec 2014 14:19:15 +0800
+Message-ID: <1420006755-8995-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,38 +10,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function carg(), cargf() and cargl() are thread safe.
+The function exp(), expf() and expl() are thread safe.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/carg.3 | 14 ++++++++++++++
+ man3/exp.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/carg.3 b/man3/carg.3
-index 1cfe219..ee1295a 100644
---- a/man3/carg.3
-+++ b/man3/carg.3
-@@ -54,6 +54,20 @@ One has:
- The return value is the range of [\-pi,pi].
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
+diff --git a/man3/exp.3 b/man3/exp.3
+index 68a0c04..51048e8 100644
+--- a/man3/exp.3
++++ b/man3/exp.3
+@@ -125,6 +125,20 @@ is set to
+ An underflow floating-point exception
+ .RB ( FE_UNDERFLOW )
+ is raised.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw24 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR carg (),
-+.BR cargf (),
-+.BR cargl ()
++.BR exp (),
++.BR expf (),
++.BR expl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C99.
- .SH SEE ALSO
+ C99, POSIX.1-2001.
+ The variant returning
 -- 
 1.8.3.1
 
