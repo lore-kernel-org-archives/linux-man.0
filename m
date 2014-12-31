@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cabs.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 31 Dec 2014 13:46:40 +0800
-Message-ID: <1420004800-6461-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] carg.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 31 Dec 2014 13:54:19 +0800
+Message-ID: <1420005259-7132-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,19 +10,19 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function cabs(), cabsf() and cabsl() are thread safe.
+The function carg(), cargf() and cargl() are thread safe.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cabs.3 | 14 ++++++++++++++
+ man3/carg.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/cabs.3 b/man3/cabs.3
-index e6c11f2..e43e30e 100644
---- a/man3/cabs.3
-+++ b/man3/cabs.3
-@@ -25,6 +25,20 @@ function returns the absolute value of the complex number
- The result is a real number.
+diff --git a/man3/carg.3 b/man3/carg.3
+index 1cfe219..ee1295a 100644
+--- a/man3/carg.3
++++ b/man3/carg.3
+@@ -54,6 +54,20 @@ One has:
+ The return value is the range of [\-pi,pi].
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
@@ -34,14 +34,14 @@ index e6c11f2..e43e30e 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR cabs (),
-+.BR cabsf (),
-+.BR cabsl ()
++.BR carg (),
++.BR cargf (),
++.BR cargl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  C99.
- .SH NOTES
+ .SH SEE ALSO
 -- 
 1.8.3.1
 
