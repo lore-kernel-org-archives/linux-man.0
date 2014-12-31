@@ -1,115 +1,184 @@
-From: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: "Carlos O'Donell" <carlos@redhat.com>
 Subject: Re: Adding reentrancy information to safety notes?
-Date: Tue, 30 Dec 2014 23:43:35 -0200
-Message-ID: <orfvbwegqg.fsf@livre.home>
-References: <54A2C8A6.9050100@redhat.com> <ork318eoj4.fsf@livre.home>
-	<20141230230529.GT4574@brightrain.aerifal.cx>
+Date: Tue, 30 Dec 2014 23:12:40 -0500
+Message-ID: <54A377B8.60802@redhat.com>
+References: <54A2C8A6.9050100@redhat.com> <ork318eoj4.fsf@livre.home>	<20141230230529.GT4574@brightrain.aerifal.cx> <orfvbwegqg.fsf@livre.home>
 Mime-Version: 1.0
-Content-Type: text/plain
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20141230230529.GT4574-C3MtFaGISjmo6RMmaWD+6Sb1p8zYI1N1@public.gmane.org> (Rich Felker's
-	message of "Tue, 30 Dec 2014 18:05:29 -0500")
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
-Cc: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+Return-path: <libc-alpha-return-55923-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <orfvbwegqg.fsf@livre.home>
+To: Alexandre Oliva <aoliva@redhat.com>, Rich Felker <dalias@libc.org>
+Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Peng Haitao <penght@cn.fujitsu.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-On Dec 30, 2014, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org> wrote:
+On 12/30/2014 08:43 PM, Alexandre Oliva wrote:
+> On Dec 30, 2014, Rich Felker <dalias@libc.org> wrote:
+> 
+>> On Tue, Dec 30, 2014 at 08:55:11PM -0200, Alexandre Oliva wrote:
+> 
+>>> I suppose there might be scenarios in which a function doesn't qualify
+>>> for AS-Safe because it doesn't support async recursion, but it could
+>>> still be reentered by means of (indirect?) recursion safely.
+> 
+> I guess I got too carried away on this bit, but there are various other
+> uncertainties as to the meaning of Reentrant, and current POSIX doesn't
+> provide us with any definition AFAICT.  Earlier versions defined
+> Reentrant Function as "A function whose effect, when called by two or
+> more threads, is guaranteed to be as if the threads each executed the
+> function one after another in an undefined order, even if the actual
+> execution is interleaved."  This is a stronger requirement than
+> MT-Safety, and it is completely unrelated to AS-Safety and
+> Recursion-Safety, so I guess that's not what Carlos meant.
 
-> On Tue, Dec 30, 2014 at 08:55:11PM -0200, Alexandre Oliva wrote:
+That is not the definition of reentrancy that I had in mind.
 
->> I suppose there might be scenarios in which a function doesn't qualify
->> for AS-Safe because it doesn't support async recursion, but it could
->> still be reentered by means of (indirect?) recursion safely.
+[snip]
 
-I guess I got too carried away on this bit, but there are various other
-uncertainties as to the meaning of Reentrant, and current POSIX doesn't
-provide us with any definition AFAICT.  Earlier versions defined
-Reentrant Function as "A function whose effect, when called by two or
-more threads, is guaranteed to be as if the threads each executed the
-function one after another in an undefined order, even if the actual
-execution is interleaved."  This is a stronger requirement than
-MT-Safety, and it is completely unrelated to AS-Safety and
-Recursion-Safety, so I guess that's not what Carlos meant.
+> Or are these questions meaningless because this definition is not the
+> one we want to use for Reentrancy?
+ 
+We already use AS-safe to indicate that a function is safe to reenter
+from a signal handler.
 
-After some more research to try and find some alternate but consensual
-definition compatible with what Carlos wrote, but instead of consensus I
-found various meanings that are similar but different in various ways,
-sometimes minor, sometimes huge.
+We already use MT-safe to indicate that a function is safe to reenter
+from another thread.
 
-For example, I found definitions of reentrant that apply only to
-single-threaded programs, with variants as to whether it equates to
-recursion-safety or it must tolerate asynchronous interrupts also.
+The only definition of reentrancy I had in mind is that which is derived
+from the original definition of single-threaded program reetrancy, with
+the exclusion of signals.
 
-A pretty common (if misinformed IMHO) one equates reentrancy with
-thread-safety; others state the concepts are related, but neither one
-implies the other.  I find this a bit disturbing, for I don't see how a
-function that cannot be safely reentered in a separate thread (while
-already running on one thread) could qualify as reentrant.
+The reason I want to use this definition is to more formally describe
+those functions which are safe to call from a user provided malloc.
+A user provided malloc can be called from almost anywhere in glibc, it
+interrupts core glibc code, it only synchronously interrupts core
+glibc code (when malloc is called), and limiting a user provided malloc
+to AS-safe functions would be punative (though that is what we'll be
+doing in the initial documentation pass).
 
-Likewise, I don see how a funciton that cannot be safely reentered in
-the same thread, both within a signal and by means of (possibly
-indirect) recursion, could qualify as reentrant.
+Definition of reentrancy:
+=========================
+~~~~
+A function is reentrant if the one thread may safely call
+the function before a previous call to the same function
+by the same thread completes, but need not be safe if the
+second or subsequent calls are made while handling a signal.
+~~~~
+Safely implies no data loss.
 
+By definition all AS-safe functions are reetrant.
 
-The most natural (to me) definition is that the function is safe to call
-even if it is already running, upstack on the same thread, or on other
-threads.  This implies both AS-Safety (upstack of a signal handler) and
-MT-Safety (no problem with other threads), and this is enough AFAICT to
-make it recursive-safe as well.
+A reetrant function may be AS-unsafe and MT-unsafe.
 
-Under this understanding, that Reentrant implies MT- and AS-Safe, these
-are both necessary conditions for Reentrancy under my understanding of
-the term.  But are MT- and AS-Safety, taken together, both necessary and
-sufficient conditions for Reentrancy?  Or are there other necessary
-conditions, on top of MT- and AS-Safe?  (I believe AS-Safe implies
-Recursive-Safe, but if it doesn't, it would be an additional
-requirement)
+A reetrant function may be AS-unsafe and MT-safe.
 
-Or are these questions meaningless because this definition is not the
-one we want to use for Reentrancy?
+A reetrant function may be AS-safe (makes it reetrant by definition) and MT-unsafe.
 
+A reetrant function may be AS-safe (") and MT-safe.
 
->> Can you think of any that is AS-Safe, MT-Unsafe and Reentrant?
+Examples:
+=========
 
-> Anything written without memory barriers but that has proper compiler
-> barriers for AS-safety/reentrancy.
+The function `__as_mt_safe_malloc_r` is a AS-Safe, MT-safe, and
+reetrant malloc that falls back to a simple and provably safe
+allocator when recursion is detected (thus allowing it to return
+some memory after a first recursion).
 
->> Can you think of any that is AS-Unsafe, MT-Unsafe and Reentrant?
+A reentrant function can be AS-unsafe and MT-unsafe:
+~~~
+int *t;
+ 
+void swap_r(int *x, int *y)
+{
+  if (t == NULL)
+    t = __as_mt_safe_malloc_r (sizeof(int));
+  *t = *x;
+  *x = *y;
+  *y = *t;
+}
+~~~
+MT-unsafe: Race with multiple writers writing to t.
+AS-unsafe: Overwrites global state t.
+Reetrant: The function can only be reentered when it calls another
+	  function e.g. __as_mt_safe_malloc_r. It is safe to reenter
+	  at this point, but will leak sizeof(int) during initialization.
 
-> Anything written without memory or compiler barriers but that uses
-> global state in a reentrant way.
+A reetrant function can be AS-unsafe and MT-safe:
+~~~
+__thread int *t;
 
-Clearly you're using a different definition of Reentrancy.
-Unfortunately you have not provided a definition, and I can't derive one
-from your statements above to as much as tell what they mean, since
-"reentrancy" and "reentrant way" both refer back to the unknown-to-me
-definition.
+void swap_r(int *x, int *y)
+{
+  if (t == NULL)
+    t = __as_mt_safe_malloc_r (sizeof(int));
+  *t = *x;
+  *x = *y;
+  *y = *t;
+}
+~~~
+MT-safe: Uses thread local storage to hold t.
+AS-unsafe: Overwrites global state t.
+Reentrant: Yes.
 
+A reentrant function can be AS-safe and MT-unsafe:
+~~~
+int *t;
+ 
+void swap_r(int *x, int *y)
+{
+  int s;
+  s = *t; /* Save global.  */
+  if (t == NULL)
+    t = __as_mt_safe_malloc_r (sizeof(int));
+  *t = *x;
+  *x = *y;
+  *y = *t;
+  *t = s; /* Restore global.  */
+}
+~~~
+MT-unsafe: Race with multiple writers writing to t.
+AS-safe: Saves and restores the global state.
+	 Note: Assumes the loads and stores are atomic wrt to signals.
+	       Just pretend they are without me needing to use C11 atomics.
+Reentrant: Yes.
 
->> Can you think of any that is non-Reentrant but that is MT-Safe or
->> AS-Safe?
+A reentrant function can be AS-safe and MT-safe:
+~~~
+__thread int *t;
 
-> Non-reentrant but MT-safe: anything with non-recursive locks.
+void swap_r(int *x, int *y)
+{
+  int s;
+  s = *t; /* Save global.  */
+  if (t == NULL)
+    t = __as_mt_safe_malloc_r (sizeof(int));
+  *t = *x;
+  *x = *y;
+  *y = *t;
+  *t = s; /* Restore global.  */
+}
+~~~
+MT-safe: Uses thread local storage to hold t.
+AS-safe: Saves and restores global state.
+Reentrant: Yes.
 
-*nod*.  Non-recursive locks are AS-Unsafe, thus (?) Reentrant-Unsafe.
+The examples are toy examples, but it shows that a reetrant
+function can be completely orthogonal to MT-safe and AS-safe.
 
-> Non-reentrant but AS-safe: anything that achieves AS-safety by
-> blocking signals for the duration of the operation or any operation
-> that accesses the same data.
+It is much harder to come up with more complex examples that
+call other functions, but it should be possible with more work.
 
-Ok, so it looks like blocking signals for AS-Safety and taking recursive
-locks for MT-Safety still a non-Reentrant function could make, if the
-function is not a leaf, and functions it calls could possibly call it
-back.  Now, how could any such arising problems, that render such a
-function Recursion-Unsafe, not make it also AS-Unsafe or MT-Unsafe?
+Hopefully that clarifies the definition of reentrancy.
 
--- 
-Alexandre Oliva, freedom fighter    http://FSFLA.org/~lxoliva/
-You must be the change you wish to see in the world. -- Gandhi
-Be Free! -- http://FSFLA.org/   FSF Latin America board member
-Free Software Evangelist|Red Hat Brasil GNU Toolchain Engineer
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Cheers,
+Carlos.
+
+Note:
+- The wikipedia article on reentrancy has a lot of confused terms.
+  https://en.wikipedia.org/wiki/Talk:Reentrancy_%28computing%29
