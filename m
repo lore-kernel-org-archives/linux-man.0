@@ -1,76 +1,90 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
 Subject: Re: Adding reentrancy information to safety notes?
-Date: Wed, 31 Dec 2014 11:07:18 -0500
-Message-ID: <54A41F36.5010800@redhat.com>
-References: <54A2C8A6.9050100@redhat.com> <ork318eoj4.fsf@livre.home>	<20141230230529.GT4574@brightrain.aerifal.cx>	<orfvbwegqg.fsf@livre.home> <54A377B8.60802@redhat.com> <orppb0dur7.fsf@livre.home>
+Date: Wed, 31 Dec 2014 19:19:05 -0500
+Message-ID: <20150101001905.GU4574@brightrain.aerifal.cx>
+References: <54A2C8A6.9050100@redhat.com>
+ <ork318eoj4.fsf@livre.home>
+ <20141230230529.GT4574@brightrain.aerifal.cx>
+ <orfvbwegqg.fsf@livre.home>
+ <54A377B8.60802@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <orppb0dur7.fsf-o1YuAO9g/txBDLzU/O5InQ@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <54A377B8.60802-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/31/2014 04:38 AM, Alexandre Oliva wrote:
-> On Dec 31, 2014, "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+On Tue, Dec 30, 2014 at 11:12:40PM -0500, Carlos O'Donell wrote:
+> That is not the definition of reentrancy that I had in mind.
+
+Indeed. To me, "reentrancy" means the ability to enter the code again
+while one or more instances of the same function are already running
+in the same thread. In my view this doesn't necessarily include
+asynchronous reentrancy unless explicitly stated, and it doesn't have
+anything to do with the concept of reentrancy in the obsolete POSIX
+2001 that was removed and replaced with "thread safety" in later
+editions of POSIX.
+
+> [snip]
 > 
->> That is not the definition of reentrancy that I had in mind.
+> > Or are these questions meaningless because this definition is not the
+> > one we want to use for Reentrancy?
+>  
+> We already use AS-safe to indicate that a function is safe to reenter
+> from a signal handler.
+
+AS-safety means more than that. It means that it's safe to use the
+function from a signal handler no matter what function the signal
+handler interrupted, and that it's safe to call any standard function
+from a signal handler that interrupted the AS-safe function. Note that
+the latter part can be vacuously true if AS-safety is achieved by
+blocking signals for the duration of the function.
+
+> We already use MT-safe to indicate that a function is safe to reenter
+> from another thread.
 > 
-> Since reentrant is such an overloaded term, how about using the term
-> Recursion-Safe, that AFAICT covers only the concept you have in mind.
-> Another possible term that occurs to me is Synchronously Reentrant, to
-> indicate it doesn't cover asynchronous reentrancy out of signals or
-> multiple threads.  We could then shorten it as SR-Safe.
+> The only definition of reentrancy I had in mind is that which is derived
+> from the original definition of single-threaded program reetrancy, with
+> the exclusion of signals.
 
-Michael,
+This agrees with my definition.
 
-Any suggestion for an alternate term?
+> The reason I want to use this definition is to more formally describe
+> those functions which are safe to call from a user provided malloc.
+> A user provided malloc can be called from almost anywhere in glibc, it
+> interrupts core glibc code, it only synchronously interrupts core
+> glibc code (when malloc is called), and limiting a user provided malloc
+> to AS-safe functions would be punative (though that is what we'll be
+> doing in the initial documentation pass).
+> 
+> Definition of reentrancy:
+> =========================
+> ~~~~
+> A function is reentrant if the one thread may safely call
+> the function before a previous call to the same function
+> by the same thread completes, but need not be safe if the
+> second or subsequent calls are made while handling a signal.
+> ~~~~
+> Safely implies no data loss.
+> 
+> By definition all AS-safe functions are reetrant.
+> 
+> A reetrant function may be AS-unsafe and MT-unsafe.
+> 
+> A reetrant function may be AS-unsafe and MT-safe.
+> 
+> A reetrant function may be AS-safe (makes it reetrant by definition) and MT-unsafe.
 
-Alex,
- 
-In hindsight I see that reetrancy is an overloaded term.
-The POSIX standard uses "reentrant by signals" to mean AS-Safe.
-Several authors seem to use "reetrant by another thread" 
-to mean MT-safe. Thus without some kind of qualifier the term
-reentrant seems ambiguous at best.
+No, AS-safe does not imply reentrant. Consider a function that invokes
+a callback but blocks signals during its execution. It's vacuously
+AS-safe but instead of via a signal handler it can be re-entered via
+the callback, and whether such reentrancy is safe is a non-trivial
+question.
 
-You suggest "synchronously reentrant", and that might be the
-best and most flexible definition. You have to define at what
-points the function might be synchronously reentered, much like
-synchronous cancellation defines such points. In the case of
-glibc internals you can be synchronously reentered only if you
-call a function that might directly or indirectly call malloc,
-calloc, realloc, or free. AFAIK these are the only functions
-that allow users to synchronously interrupt glibc internal
-operations and call back into the runtime. Application calls
-to core runtime functions may be interposed and in those cases
-the interposing function must follow the standard requirements,
-but for maximum compatibility may need to adhere to the
-preliminary safety notes along with the new SR notes.
-
-Note that synchronously reetrant would still follow the
-definition I gave in the previous email. Restated here with
-some slight rewording:
-~~~~
-A function is synchronously reentrant if a thread may safely
-call the function before a previous call to the same function
-by the same thread completes, but need not be safe if the
-second or subsequent calls are made while handling an
-asynchronous signal or by another thread.
-~~~~
-
-I amended the definition to say "asynchronous signal" since
-it is possible for user code to synchronously handle signals
-and that such synchronous signal handlers could make effective
-use of SR-safe functions since such handlers would be known
-not to be asynchronously interrupting any such previous calls
-to the SR-safe functions. Similarly synchronous cancellation
-handlers should be able to call SR-safe functions?
-
-Cheers,
-Carlos.
+Rich
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
