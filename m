@@ -1,44 +1,62 @@
 From: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: Adding reentrancy information to safety notes?
-Date: Thu, 01 Jan 2015 05:05:14 -0200
-Message-ID: <ord26zdlqt.fsf@livre.home>
+Date: Thu, 01 Jan 2015 05:11:57 -0200
+Message-ID: <or8uhndlfm.fsf@livre.home>
 References: <54A2C8A6.9050100@redhat.com> <ork318eoj4.fsf@livre.home>
 	<20141230230529.GT4574@brightrain.aerifal.cx>
 	<orfvbwegqg.fsf@livre.home> <54A377B8.60802@redhat.com>
-	<ortx0cdv3c.fsf@livre.home> <54A41595.4010007@redhat.com>
+	<orppb0dur7.fsf@livre.home> <54A41F36.5010800@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54A41595.4010007-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (Carlos O'Donell's message of "Wed,
-	31 Dec 2014 10:26:13 -0500")
+In-Reply-To: <54A41F36.5010800-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (Carlos O'Donell's message of "Wed,
+	31 Dec 2014 11:07:18 -0500")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 On Dec 31, 2014, "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 
-> I did not know malloc was required to be AS-safe for POSIX compliance.
+> A function is synchronously reentrant if a thread may safely
+> call the function before a previous call to the same function
+> by the same thread completes, but need not be safe if the
+> second or subsequent calls are made while handling an
+> asynchronous signal or by another thread.
 
-Ugh.  Sorry, my bad, it's not.  malloc's AS-safety goal seems to have
-jumped from "desirable" to "mandatory" in my mind :-(
+I'd qualify the asynchronous signal to state that it need not be safe
+only if the signal interrupted asynchronously the execution of the
+previous call, otherwise it would also allow a(n indirectly) recursive
+function, called from the signal handler for the first time, to be
+unsafe when called recursively.
 
-> See: http://pubs.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html
-> 2.4.3 Signal Actions.
+I.e., stack traces such as:
 
-> The list of functions does not list malloc.
+  foo
+  bar
+  foo
+  [...]
+  <signal>
+  [...no foo...]
+  main
 
-Beware, that's a very old version of POSIX that you referenced above.
-What led me to realize it was the use of the term "reentrant" there ;-)
+should be just as safe as:
 
-Anyway, the corresponding table in current POSIX fails to list malloc as
-AS-Safe just the same ;-)
+  foo
+  bar
+  foo
+  [...no foo...]
+  main
 
-> My pleasure. A list of examples helps not just you but future readers.
+but it's ok if foo is unsafe here:
 
-*nod*
-
-Thanks, and happy GNU year to all!
+  foo
+  bar
+  [...]
+  <signal>
+  [...]
+  foo
+  [...]
 
 -- 
 Alexandre Oliva, freedom fighter    http://FSFLA.org/~lxoliva/
