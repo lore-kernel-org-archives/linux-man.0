@@ -1,90 +1,50 @@
-From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
+From: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Subject: Re: Adding reentrancy information to safety notes?
-Date: Wed, 31 Dec 2014 19:19:05 -0500
-Message-ID: <20150101001905.GU4574@brightrain.aerifal.cx>
-References: <54A2C8A6.9050100@redhat.com>
- <ork318eoj4.fsf@livre.home>
- <20141230230529.GT4574@brightrain.aerifal.cx>
- <orfvbwegqg.fsf@livre.home>
- <54A377B8.60802@redhat.com>
+Date: Thu, 01 Jan 2015 05:05:14 -0200
+Message-ID: <ord26zdlqt.fsf@livre.home>
+References: <54A2C8A6.9050100@redhat.com> <ork318eoj4.fsf@livre.home>
+	<20141230230529.GT4574@brightrain.aerifal.cx>
+	<orfvbwegqg.fsf@livre.home> <54A377B8.60802@redhat.com>
+	<ortx0cdv3c.fsf@livre.home> <54A41595.4010007@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <54A377B8.60802-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54A41595.4010007-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (Carlos O'Donell's message of "Wed,
+	31 Dec 2014 10:26:13 -0500")
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Dec 30, 2014 at 11:12:40PM -0500, Carlos O'Donell wrote:
-> That is not the definition of reentrancy that I had in mind.
+On Dec 31, 2014, "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
 
-Indeed. To me, "reentrancy" means the ability to enter the code again
-while one or more instances of the same function are already running
-in the same thread. In my view this doesn't necessarily include
-asynchronous reentrancy unless explicitly stated, and it doesn't have
-anything to do with the concept of reentrancy in the obsolete POSIX
-2001 that was removed and replaced with "thread safety" in later
-editions of POSIX.
+> I did not know malloc was required to be AS-safe for POSIX compliance.
 
-> [snip]
-> 
-> > Or are these questions meaningless because this definition is not the
-> > one we want to use for Reentrancy?
->  
-> We already use AS-safe to indicate that a function is safe to reenter
-> from a signal handler.
+Ugh.  Sorry, my bad, it's not.  malloc's AS-safety goal seems to have
+jumped from "desirable" to "mandatory" in my mind :-(
 
-AS-safety means more than that. It means that it's safe to use the
-function from a signal handler no matter what function the signal
-handler interrupted, and that it's safe to call any standard function
-from a signal handler that interrupted the AS-safe function. Note that
-the latter part can be vacuously true if AS-safety is achieved by
-blocking signals for the duration of the function.
+> See: http://pubs.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_04.html
+> 2.4.3 Signal Actions.
 
-> We already use MT-safe to indicate that a function is safe to reenter
-> from another thread.
-> 
-> The only definition of reentrancy I had in mind is that which is derived
-> from the original definition of single-threaded program reetrancy, with
-> the exclusion of signals.
+> The list of functions does not list malloc.
 
-This agrees with my definition.
+Beware, that's a very old version of POSIX that you referenced above.
+What led me to realize it was the use of the term "reentrant" there ;-)
 
-> The reason I want to use this definition is to more formally describe
-> those functions which are safe to call from a user provided malloc.
-> A user provided malloc can be called from almost anywhere in glibc, it
-> interrupts core glibc code, it only synchronously interrupts core
-> glibc code (when malloc is called), and limiting a user provided malloc
-> to AS-safe functions would be punative (though that is what we'll be
-> doing in the initial documentation pass).
-> 
-> Definition of reentrancy:
-> =========================
-> ~~~~
-> A function is reentrant if the one thread may safely call
-> the function before a previous call to the same function
-> by the same thread completes, but need not be safe if the
-> second or subsequent calls are made while handling a signal.
-> ~~~~
-> Safely implies no data loss.
-> 
-> By definition all AS-safe functions are reetrant.
-> 
-> A reetrant function may be AS-unsafe and MT-unsafe.
-> 
-> A reetrant function may be AS-unsafe and MT-safe.
-> 
-> A reetrant function may be AS-safe (makes it reetrant by definition) and MT-unsafe.
+Anyway, the corresponding table in current POSIX fails to list malloc as
+AS-Safe just the same ;-)
 
-No, AS-safe does not imply reentrant. Consider a function that invokes
-a callback but blocks signals during its execution. It's vacuously
-AS-safe but instead of via a signal handler it can be re-entered via
-the callback, and whether such reentrancy is safe is a non-trivial
-question.
+> My pleasure. A list of examples helps not just you but future readers.
 
-Rich
+*nod*
+
+Thanks, and happy GNU year to all!
+
+-- 
+Alexandre Oliva, freedom fighter    http://FSFLA.org/~lxoliva/
+You must be the change you wish to see in the world. -- Gandhi
+Be Free! -- http://FSFLA.org/   FSF Latin America board member
+Free Software Evangelist|Red Hat Brasil GNU Toolchain Engineer
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
