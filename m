@@ -1,127 +1,72 @@
-From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Subject: Re: [PATCH] adjtimex: PPM scaling is by 2^-16
-Date: Fri, 02 Jan 2015 17:39:17 +0100
-Message-ID: <54A6C9B5.4050904@supelec.fr>
-References: <54A2DEAD.2050708@supelec.fr> <20150102024118.GA8293@unpythonic.net> <20150102062920.GB4221@localhost.localdomain>
-Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WDed7UlwH7WVSfpFJjjlwGMbi74ANGlTd"
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: [PATCH] setns/pid_namespaces: mention the pid ns descendant limitation more
+Date: Fri,  2 Jan 2015 13:04:42 -0500
+Message-ID: <1420221882-12614-1-git-send-email-vapier@gentoo.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150102062920.GB4221-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Richard Cochran <richardcochran-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jeff Epler <jepler-ixP+gI44yfQ4d9/VWYMlNA@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WDed7UlwH7WVSfpFJjjlwGMbi74ANGlTd
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+The setns(2) man page already mentions that CLONE_NEWPID may only be
+used with descendant namespaces, but this nuance could be listed in
+a few more places so it is not missed.
 
-Hi,
-
-Le 02/01/2015 07:29, Richard Cochran a =E9crit :
-> On Thu, Jan 01, 2015 at 08:41:20PM -0600, Jeff Epler wrote:
->> Like Laurent Georget, I found by reading ntpd source
->> the scale is 2^16 (i.e., 1 ~=3D 1.5e-5 ppm, 65536 =3D 1ppm)
->=20
-> Yep, you wont find this documented in prose anywhere, not even at
-> ntp.org.
->=20
->> -    long freq;        /* Frequency offset, as scaled PPM
->> +    long freq;        /* Frequency offset, in units of 2^-16 PPM
->>                           (parts per million) */
->=20
-> This wording is correct.
->=20
-> IMHO, it is more understandable when you explain that this field is a
-> fixed point number, with a 16 bit binary fraction. For example, see
-> the comment in the function, ppb_to_scaled_ppm(), in
-> Documentation/ptp/testptp.c.
->=20
-
-Ah, ok, I finally understood what you meant by "fractional part".
-Perhaps we could explicit it in the man page like in the following patch?=
-
+Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 ---
- man2/adjtimex.2 | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ man2/setns.2          |  7 ++++++-
+ man7/pid_namespaces.7 | 10 ++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index 18823c8..ff4b23e 100644
---- a/man2/adjtimex.2
-+++ b/man2/adjtimex.2
-@@ -54,9 +54,8 @@ struct timex {
-     long offset;      /* Time offset; nanoseconds, if STA_NANO
-                          status flag is set, otherwise
-                          microseconds */
--    long freq;        /* Frequency offset, as scaled PPM
--                         (parts per million) */
--.\" FIXME What is the scaling unit of timex.freq?  2^16 ?
-+    long freq;        /* Frequency offset, in units of 2^-16 PPM
-+                         (parts per million) (see NOTES below) */
-     long maxerror;    /* Maximum error (microseconds) */
-     long esterror;    /* Estimated error (microseconds) */
-     int  status;      /* Clock command/status */
-@@ -72,13 +71,13 @@ struct timex {
-                          flag is set, otherwise microseconds */
-     long tick;        /* Microseconds between clock ticks */
-     long ppsfreq;     /* PPS (pulse per second) frequency
--                         (scaled PPM, read-only) */
-+                         (2^-16 PPM (see NOTES), read-only) */
-     long jitter;      /* PPS jitter (read-only); nanoseconds, if
-                          STA_NANO status flag is set, otherwise
-                          microseconds */
-     int  shift;       /* PPS interval duration
-                          (seconds, read-only) */
--    long stabil;      /* PPS stability (scaled PPM, read-only) */
-+    long stabil;      /* PPS stability (2^-16 PPM (see NOTES),
-read-only) */
-     long jitcnt;      /* PPS jitter limit exceeded (read-only) */
-     long calcnt;      /* PPS calibration intervals (read-only) */
-     long errcnt;      /* PPS calibration errors (read-only) */
-@@ -343,6 +342,18 @@ and the caller does not have sufficient privilege.
- Under Linux, the
- .B CAP_SYS_TIME
- capability is required.
-+.SH NOTES
-+In struct
-+.IR timex ,
-+.IR freq ,
-+.IR ppsfreq ,
-+and
-+.I stabil
-+are PPM (parts per million) with a 16-bits fractional part, which means
-that a
-+value of 1 in one of those fields actually means 2^-16 PPM, and
-2^16=3D65535 is
-+1 PPM. This is the case for both input values (in the case of
-+.IR freq )
-+and output values.
- .SH CONFORMING TO
- .BR adjtimex ()
- is Linux-specific and should not be used in programs
---=20
-2.0.4
+diff --git a/man2/setns.2 b/man2/setns.2
+index 926842b..3e6c4a5 100644
+--- a/man2/setns.2
++++ b/man2/setns.2
+@@ -55,7 +55,7 @@ must refer to a mount namespace.
+ .TP
+ .BR CLONE_NEWPID " (since Linux 3.8)"
+ .I fd
+-must refer to a PID namespace.
++must refer to a descendant PID namespace.
+ .TP
+ .BR CLONE_NEWUSER " (since Linux 3.8)"
+ .I fd
+@@ -157,6 +157,11 @@ refers to a namespace whose type does not match that specified in
+ There is problem with reassociating
+ the thread with the specified namespace.
+ .TP
++.\" See kernel/pid_namespace.c::pidns_install() [kernel 3.18 sources]
++.B EINVAL
++The caller tried to join an ancestor (parent, grandparent, etc...)
++pid namespace.
++.TP
+ .B EINVAL
+ The caller attempted to join the user namespace
+ in which it is already a member.
+diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
+index 8582da3..89c606b 100644
+--- a/man7/pid_namespaces.7
++++ b/man7/pid_namespaces.7
+@@ -188,6 +188,16 @@ PID namespace from the caller of
+ Calls to
+ .BR getppid (2)
+ for such processes return 0.
++
++While processes may freely descend into children PID namespaces
++(e.g. using
++.BR setns (2)
++with
++.BR CLONE_NEWPID ),
++they may not move in the other direction.
++That is to say, processes may not enter any ancestor namespaces
++(parent, grandparent, etc.).
++Changing PID namespaces is a one way operation.
+ .\"
+ .\" ============================================================
+ .\"
+-- 
+2.2.1
 
-Laurent
-
-
---WDed7UlwH7WVSfpFJjjlwGMbi74ANGlTd
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iF4EAREIAAYFAlSmycEACgkQRTidSplJch5ENAD/XdF79IWLTef6IXyP+hQPbxXY
-wnKiNh0fd40LNtvmOfYBALic0bJ/hEkxBUYjhf1H7xBnWYAlaJ1XJZttb6weCVgX
-=Oe0Q
------END PGP SIGNATURE-----
-
---WDed7UlwH7WVSfpFJjjlwGMbi74ANGlTd--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
