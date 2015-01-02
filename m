@@ -1,37 +1,38 @@
-From: Richard Cochran <richardcochran@gmail.com>
-Subject: Re: [PATCH] adjtimex: PPM scaling is by 2^-16
-Date: Fri, 2 Jan 2015 07:29:20 +0100
-Message-ID: <20150102062920.GB4221@localhost.localdomain>
-References: <54A2DEAD.2050708@supelec.fr>
- <20150102024118.GA8293@unpythonic.net>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <20150102024118.GA8293@unpythonic.net>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Jeff Epler <jepler@unpythonic.net>
-Cc: linux-man <linux-man@vger.kernel.org>, Laurent Georget <laurent.georget@supelec.fr>, linux-kernel@vger.kernel.org, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+From: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH 0/3] mem.4 updates
+Date: Fri,  2 Jan 2015 14:11:35 +0100
+Message-ID: <1420204298-25625-1-git-send-email-eliedebrauwer@gmail.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Jan 01, 2015 at 08:41:20PM -0600, Jeff Epler wrote:
-> Like Laurent Georget, I found by reading ntpd source
-> the scale is 2^16 (i.e., 1 ~= 1.5e-5 ppm, 65536 = 1ppm)
+Hello Michael,
 
-Yep, you wont find this documented in prose anywhere, not even at
-ntp.org.
+Attached are three patches which modify mem.4:
+ - One explains that /dev/kmem is only accessisble if CONFIG_DEVKMEM is set
+ - Another one which fixes an error in the group name used in the example
+   to create /dev/port.
+ - A last one which explains the impact of the CONFIG_STRICT_DEVMEM option
+   on /dev/mem.
 
-> -    long freq;        /* Frequency offset, as scaled PPM
-> +    long freq;        /* Frequency offset, in units of 2^-16 PPM
->                           (parts per million) */
-
-This wording is correct.
-
-IMHO, it is more understandable when you explain that this field is a
-fixed point number, with a 16 bit binary fraction. For example, see
-the comment in the function, ppb_to_scaled_ppm(), in
-Documentation/ptp/testptp.c.
+my 2 cents
+E.
 
 
-Thanks,
-Richard
+Elie De Brauwer (3):
+  mem.4: /dev/kmem depends on CONFIG_DEVKMEM
+  mem.4: correct /dev/port group in example
+  mem.4: Add CONFIG_STRICT_DEVMEM
+
+ man4/mem.4 | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+-- 
+2.1.3
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
