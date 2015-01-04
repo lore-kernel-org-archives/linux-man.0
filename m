@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: semop.2: Add section number for external reference
-Date: Mon, 5 Jan 2015 06:29:20 +0900
-Message-ID: <CALhU9t=YPqso=VhvQpoGRn8_ZG9GvVfs4++X+7tLaztHerRP9A@mail.gmail.com>
+Subject: ilogb.3: tfix
+Date: Mon, 5 Jan 2015 06:30:51 +0900
+Message-ID: <CALhU9t=z4xgTuPqvQ_V_bN=VXYN9NP=qA9YZuOh5fSdEDR7tGg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,19 +9,20 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man2/semop.2 b/man2/semop.2
-index 54078db..357132c 100644
---- a/man2/semop.2
-+++ b/man2/semop.2
-@@ -439,7 +439,7 @@ the corresponding
- .I semadj
- values in all processes are cleared.
- The
--.BR clone ()
-+.BR clone (2)
- .B CLONE_SYSVSEM
- flag allows more than one process to share a
- .I semadj
+diff --git a/man3/ilogb.3 b/man3/ilogb.3
+index aeacc29..0e8b8d7 100644
+--- a/man3/ilogb.3
++++ b/man3/ilogb.3
+@@ -145,7 +145,7 @@ functions are thread-safe.
+ C99, POSIX.1-2001.
+ .SH BUGS
+ .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6794
+-Before version 2.16, the following bugs xisted in the
++Before version 2.16, the following bugs existed in the
+ glibc implementation of these functions:
+ .IP * 3
+ The domain error case where
+
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
