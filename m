@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: shmget.2: typo fix
-Date: Mon, 5 Jan 2015 06:36:11 +0900
-Message-ID: <CALhU9tm2fRebgJz=a6u3ow277aHNsqP-eF3jtV1FtLXtkRBtpw@mail.gmail.com>
+Subject: shmget.2: format fix
+Date: Mon, 5 Jan 2015 06:37:09 +0900
+Message-ID: <CALhU9tmwe8YmqU7L1o+ioBsR2LNRkOwtd6sCjd4ygva7qd2G6Q@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,18 +10,22 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 diff --git a/man2/shmget.2 b/man2/shmget.2
-index 01a44a8..213a451 100644
+index 213a451..6d318d8 100644
 --- a/man2/shmget.2
 +++ b/man2/shmget.2
-@@ -209,7 +209,7 @@ but a shared memory segment already exists for
- A new segment was to be created and
- .I size
- is less than
--.B SHMIN
-+.B SHMMIN
- or greater than
- .BR SHMMAX .
+@@ -283,9 +283,7 @@ The following limits on shared memory segment
+resources affect the
+ call:
  .TP
+ .B SHMALL
+-System-wide limit on the number of
+-.I pages
+-of shared memory.
++System-wide limit on the number of pages of shared memory.
+
+ On Linux, this limit can be read and modified via
+ .IR /proc/sys/kernel/shmall .
+
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
