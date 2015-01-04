@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: mq_getattr.3: fix section number of mq_overview
-Date: Mon, 5 Jan 2015 06:32:11 +0900
-Message-ID: <CALhU9tkhPnvRf+qehekifg45S1ppGWe4EAj+1tDusCHmL0OQDQ@mail.gmail.com>
+Subject: mq_getattr.3: typo fix
+Date: Mon, 5 Jan 2015 06:34:09 +0900
+Message-ID: <CALhU9t=GQrvk5gQa9_OU7Yw9yBRey1BiF+yCghkK_M0VF8VxaQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,18 +10,18 @@ To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
-index 3dc66be..dc6372c 100644
+index 3dc66be..e3d8134 100644
 --- a/man3/mq_getattr.3
 +++ b/man3/mq_getattr.3
-@@ -90,7 +90,7 @@ Both of these fields must have a value greater than zero.
- Two
- .I /proc
- files that place ceilings on the values for these fields are described in
--.BR mq_overview (3).
-+.BR mq_overview (7).
-
- The
- .I mq_curmsgs
+@@ -187,7 +187,7 @@ $ \fBcat /proc/sys/fs/mqueue/msgsize_default\fP
+ 8192
+ .fi
+ .in
+-.SS Program course
++.SS Program source
+ \&
+ .nf
+ #include <mqueue.h>
 
 
 -- 
