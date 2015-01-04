@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: mq_getattr.3: typo fix
-Date: Mon, 5 Jan 2015 06:34:09 +0900
-Message-ID: <CALhU9t=GQrvk5gQa9_OU7Yw9yBRey1BiF+yCghkK_M0VF8VxaQ@mail.gmail.com>
+Subject: shmget.2: typo fix
+Date: Mon, 5 Jan 2015 06:36:11 +0900
+Message-ID: <CALhU9tm2fRebgJz=a6u3ow277aHNsqP-eF3jtV1FtLXtkRBtpw@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,20 +9,19 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
-index 3dc66be..e3d8134 100644
---- a/man3/mq_getattr.3
-+++ b/man3/mq_getattr.3
-@@ -187,7 +187,7 @@ $ \fBcat /proc/sys/fs/mqueue/msgsize_default\fP
- 8192
- .fi
- .in
--.SS Program course
-+.SS Program source
- \&
- .nf
- #include <mqueue.h>
-
+diff --git a/man2/shmget.2 b/man2/shmget.2
+index 01a44a8..213a451 100644
+--- a/man2/shmget.2
++++ b/man2/shmget.2
+@@ -209,7 +209,7 @@ but a shared memory segment already exists for
+ A new segment was to be created and
+ .I size
+ is less than
+-.B SHMIN
++.B SHMMIN
+ or greater than
+ .BR SHMMAX .
+ .TP
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
