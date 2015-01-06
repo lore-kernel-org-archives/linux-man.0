@@ -1,22 +1,23 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] putenv.3:ATTRIBUTES: Note function that is thread-unsafe
-Date: Tue, 06 Jan 2015 07:33:40 +0100
-Message-ID: <54AB81C4.2060008@gmail.com>
-References: <1420003805-4924-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] y0.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Tue, 06 Jan 2015 07:33:14 +0100
+Message-ID: <54AB81AA.40206@gmail.com>
+References: <1420011293-14923-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420003805-4924-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1420011293-14923-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/31/2014 06:30 AM, Ma Shimiao wrote:
-> The function putenv() is thread unsafe.
+On 12/31/2014 08:34 AM, Ma Shimiao wrote:
+> The function y0(), y1f() ynl() and so on are thread safe.
 
-Thanks, Ma Shimiao. Applied in my local branch.
+
+Thanks, Ma Shimiao. Applied.
 
 Cheers,
 
@@ -26,17 +27,17 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/putenv.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  man3/y0.3 | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
 > 
-> diff --git a/man3/putenv.3 b/man3/putenv.3
-> index ff5614e..3511027 100644
-> --- a/man3/putenv.3
-> +++ b/man3/putenv.3
-> @@ -76,6 +76,18 @@ is set to indicate the cause.
->  .TP
->  .B ENOMEM
->  Insufficient space to allocate new environment.
+> diff --git a/man3/y0.3 b/man3/y0.3
+> index a1b7dd6..a2808c1 100644
+> --- a/man3/y0.3
+> +++ b/man3/y0.3
+> @@ -227,6 +227,30 @@ is not set for this case.
+>  An overflow floating-point exception
+>  .RB ( FE_OVERFLOW )
+>  is raised.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -46,12 +47,24 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR putenv ()
-> +T}	Thread safety	MT-Unsafe const:env
+> +.BR y0 (),
+> +.BR y0f (),
+> +.BR y0l ()
+> +T}	Thread safety	MT-Safe
+> +T{
+> +.BR y1 (),
+> +.BR y1f (),
+> +.BR y1l ()
+> +T}	Thread safety	MT-Safe
+> +T{
+> +.BR yn (),
+> +.BR ynf (),
+> +.BR ynl ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  SVr4, POSIX.1-2001, 4.3BSD.
->  .SH NOTES
+>  The functions returning
+>  .I double
 > 
 
 
