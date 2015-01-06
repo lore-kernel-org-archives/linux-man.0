@@ -1,119 +1,72 @@
-From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
-Subject: Re: [PATCH 2/2] adjtimex.2: Change 'PPM' (parts per million) to 'ppm'
-Date: Tue, 06 Jan 2015 16:42:08 +0100
-Message-ID: <54AC0250.5080005@supelec.fr>
-References: <54A2DEAD.2050708@supelec.fr> <54A72360.3070807@supelec.fr> <54A724BE.8050409@supelec.fr> <54ABFD54.9000705@gmail.com>
+From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: shmget.2: format fix
+Date: Wed, 7 Jan 2015 01:06:03 +0900
+Message-ID: <CALhU9tk432R51QRqENgsqWCGRfeKswaats+AkrDD4VB96Ejnzw@mail.gmail.com>
+References: <CALhU9tmwe8YmqU7L1o+ioBsR2LNRkOwtd6sCjd4ygva7qd2G6Q@mail.gmail.com>
+ <54AB92A5.8060606@gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="LaLN2odBVIfuvGJrKdoT6CHcfU3hw03VW"
+Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54ABFD54.9000705-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <54AB92A5.8060606-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---LaLN2odBVIfuvGJrKdoT6CHcfU3hw03VW
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Hi Michael,
 
-Hi
+Thanks for the feedback. The intention of using italic sounds reasonable
+and keeping it as-is looks good to me.
 
-Le 06/01/2015 16:20, Michael Kerrisk (man-pages) a =C3=A9crit :
+I would like to mention one point.
+When I first saw this, I thought it is a variable/parameter, but it wasn't.
+Italic style is used for two purposes: variable name and emphasis.
+Though it is a general topic, I personally prefer to bold for
+emphasizing a word.
 
-> Laurent, please watch out: your patches are injecting trailing
-> white space on lines. My release scripts clean those up, but
-> it means that patches apply with "noise".
+Thanks,
+Akihiro
 
-Really? I see no extra whitespace in my diff. Where do they come?
-Anyway, I'll take extra care next time. Thank you.
-
-Laurent
-
+2015-01-06 16:45 GMT+09:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> Hello Akihiro Motoki,
+>
+> Thanks for the patch. However, I think I think it is perhaps a little
+> better to leave the text as is. The point of the .I is to emphasize
+> that the unit of this limit is *pages*, while for several of the
+> other limits it is *bytes*. Does that sound okay?
+>
+> Cheers,
+>
+> Michael
+>
+> On 01/04/2015 10:37 PM, Akihiro Motoki wrote:
+>> diff --git a/man2/shmget.2 b/man2/shmget.2
+>> index 213a451..6d318d8 100644
+>> --- a/man2/shmget.2
+>> +++ b/man2/shmget.2
+>> @@ -283,9 +283,7 @@ The following limits on shared memory segment
+>> resources affect the
+>>  call:
+>>  .TP
+>>  .B SHMALL
+>> -System-wide limit on the number of
+>> -.I pages
+>> -of shared memory.
+>> +System-wide limit on the number of pages of shared memory.
 >>
->> ---
->>  man2/adjtimex.2 | 15 +++++++--------
->>  1 file changed, 7 insertions(+), 8 deletions(-)
+>>  On Linux, this limit can be read and modified via
+>>  .IR /proc/sys/kernel/shmall .
 >>
->> diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
->> index ff4b23e..dbb2333 100644
->> --- a/man2/adjtimex.2
->> +++ b/man2/adjtimex.2
->> @@ -54,7 +54,7 @@ struct timex {
->>      long offset;      /* Time offset; nanoseconds, if STA_NANO
->>                           status flag is set, otherwise
->>                           microseconds */
->> -    long freq;        /* Frequency offset, in units of 2^-16 PPM
->> +    long freq;        /* Frequency offset, in units of 2^-16 ppm
->>                           (parts per million) (see NOTES below) */
->>      long maxerror;    /* Maximum error (microseconds) */
->>      long esterror;    /* Estimated error (microseconds) */
->> @@ -62,8 +62,7 @@ struct timex {
->>      long constant;    /* PLL (phase-locked loop) time constant */
->>      long precision;   /* Clock precision (microseconds,
->>                           read-only) */
->> -    long tolerance;   /* Clock frequency tolerance (PPM,
->> -                         read-only) */
->> +    long tolerance;   /* Clock frequency tolerance (ppm, read-only) *=
-/
->>      struct timeval time;
->>                        /* Current time (read-only, except for
->>                           ADJ_SETOFFSET); upon return, time.tv_usec
->> @@ -71,13 +70,13 @@ struct timex {
->>                           flag is set, otherwise microseconds */
->>      long tick;        /* Microseconds between clock ticks */
->>      long ppsfreq;     /* PPS (pulse per second) frequency
->> -                         (2^-16 PPM (see NOTES), read-only) */
->> +                         (2^-16 ppm (see NOTES), read-only) */
->>      long jitter;      /* PPS jitter (read-only); nanoseconds, if
->>                           STA_NANO status flag is set, otherwise
->>                           microseconds */
->>      int  shift;       /* PPS interval duration
->>                           (seconds, read-only) */
->> -    long stabil;      /* PPS stability (2^-16 PPM (see NOTES), read-o=
-nly) */
->> +    long stabil;      /* PPS stability (2^-16 ppm (see NOTES), read-o=
-nly) */
->>      long jitcnt;      /* PPS jitter limit exceeded (read-only) */
->>      long calcnt;      /* PPS calibration intervals (read-only) */
->>      long errcnt;      /* PPS calibration errors (read-only) */
->> @@ -349,9 +348,9 @@ In struct
->>  .IR ppsfreq ,
->>  and=20
->>  .I stabil
->> -are PPM (parts per million) with a 16-bits fractional part, which mea=
-ns that a
->> -value of 1 in one of those fields actually means 2^-16 PPM, and 2^16=3D=
-65535 is=20
->> -1 PPM. This is the case for both input values (in the case of
->> +are ppm (parts per million) with a 16-bits fractional part, which mea=
-ns that a
->> +value of 1 in one of those fields actually means 2^-16 ppm, and 2^16=3D=
-65535 is=20
->> +1 ppm. This is the case for both input values (in the case of
->>  .IR freq )
->>  and output values.
->>  .SH CONFORMING TO
 >>
->=20
->=20
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
 
-
---LaLN2odBVIfuvGJrKdoT6CHcfU3hw03VW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iF4EAREIAAYFAlSsAlsACgkQRTidSplJch7ezQD7BWpmH2D9agAp7HRQsVYmQBu9
-JvCTzhhg7V/JjtF98OgBAI/FrEgxcvqLILrU2I8V3LRQTHP/jTBUhib7EulXv0gD
-=KMve
------END PGP SIGNATURE-----
-
---LaLN2odBVIfuvGJrKdoT6CHcfU3hw03VW--
+-- 
+Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
