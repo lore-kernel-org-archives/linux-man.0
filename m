@@ -1,59 +1,62 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sqrt.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 06 Jan 2015 07:33:20 +0100
-Message-ID: <54AB81B0.4020803@gmail.com>
-References: <1420012506-16529-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 2/2] adjtimex.2: Update modes field of adjtimex
+Date: Tue, 06 Jan 2015 07:45:20 +0100
+Message-ID: <54AB8480.5060603@gmail.com>
+References: <1419426040-16090-1-git-send-email-standby24x7@gmail.com> <1419426040-16090-2-git-send-email-standby24x7@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420012506-16529-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1419426040-16090-2-git-send-email-standby24x7@gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Masanari Iida <standby24x7@gmail.com>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/31/2014 08:55 AM, Ma Shimiao wrote:
-> The function sqrt(), sqrtf() and sqrtl() are thread safe.
+On 12/24/2014 02:00 PM, Masanari Iida wrote:
+> This patch update modes field of adjtimex man page.
 
+Hello Masanari Iida,
 
-Thanks, Ma Shimiao. Applied.
+Thanks for this patch. As it happened, some other
+recent changes to the page covered the same changes
+already, so this patch is obsolete. You can find the no
+current version in Git (see
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/tree/man2/adjtimex.2
+)
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/sqrt.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/sqrt.3 b/man3/sqrt.3
-> index c978d94..659b40d 100644
-> --- a/man3/sqrt.3
-> +++ b/man3/sqrt.3
-> @@ -104,6 +104,20 @@ is set to
->  An invalid floating-point exception
->  .RB ( FE_INVALID )
->  is raised.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw24 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR sqrt (),
-> +.BR sqrtf (),
-> +.BR sqrtl ()
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
+> ---
+>  man2/adjtimex.2 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
+> index f2a8b8c..b4450e8 100644
+> --- a/man2/adjtimex.2
+> +++ b/man2/adjtimex.2
+> @@ -92,8 +92,15 @@ combination of zero or more of the following bits:
+>  #define ADJ_ESTERROR          0x0008 /* estimated time error */
+>  #define ADJ_STATUS            0x0010 /* clock status */
+>  #define ADJ_TIMECONST         0x0020 /* pll time constant */
+> +#define ADJ_TAI               0x0080 /* set TAI offset */
+> +#define ADJ_SETOFFSET         0x0100 /* add 'time' to current time */
+> +#define ADJ_MICRO             0x1000 /* select microsecond
+> +                                        resolution */
+> +#define ADJ_NANO              0x2000 /* select nanosecond
+> +                                        resolution */
+>  #define ADJ_TICK              0x4000 /* tick value */
+> -#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime() */
+> +#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime */
+> +#define ADJ_OFFSET_SS_READ    0xa001 /* read-only adjtime */
+>  .fi
+>  .in
+>  .PP
 > 
 
 
@@ -61,7 +64,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
