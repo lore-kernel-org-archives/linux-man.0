@@ -1,51 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] mem.4: /dev/kmem depends on CONFIG_DEVKMEM
-Date: Tue, 06 Jan 2015 11:41:50 +0100
-Message-ID: <54ABBBEE.2000600@gmail.com>
-References: <1420204298-25625-1-git-send-email-eliedebrauwer@gmail.com> <1420204298-25625-2-git-send-email-eliedebrauwer@gmail.com>
+Subject: Re: [PATCH 2/3] mem.4: correct /dev/port group in example
+Date: Tue, 06 Jan 2015 11:44:28 +0100
+Message-ID: <54ABBC8C.8070301@gmail.com>
+References: <1420204298-25625-1-git-send-email-eliedebrauwer@gmail.com> <1420204298-25625-3-git-send-email-eliedebrauwer@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420204298-25625-2-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1420204298-25625-3-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 01/02/2015 02:11 PM, Elie De Brauwer wrote:
-> Since 2.6.26 /dev/kmem depends on the CONFIG_DEVKMEM to be set.
+> mem.4 mentions that group for /dev/port should be set to 'mem' however
+> all other files (/dev/mem and /dev/kmem) use the kmem group in their
+> examples and on my system /dev/port belongs to kmem. Hence the 'mem'
+> group was probably a typo:
 
-Thanks, Elie. Applied.  
+Sounds reasonable to me. Patch Applied. Thanks, Elie.
 
 Cheers,
 
 Michael
 
 
-> See:
->  - changelog: http://kernelnewbies.org/Linux_2_6_26
->  - commit: http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=b781ecb6a379f155568ef7093e38c6c1d857fe53
+
+> edb@lapelidb:~$ cat /etc/group | grep -i mem
+> kmem:x:15:
+> edb@lapelidb:~$ ls -al /dev/port
+> crw-r----- 1 root kmem 1, 4 Jan  2 10:00 /dev/port
 > 
 > Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  man4/mem.4 | 3 +++
->  1 file changed, 3 insertions(+)
+>  man4/mem.4 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/man4/mem.4 b/man4/mem.4
-> index 74b7b89..fef007e 100644
+> index fef007e..6688345 100644
 > --- a/man4/mem.4
 > +++ b/man4/mem.4
-> @@ -54,7 +54,9 @@ is the same as
->  .BR mem ,
->  except that the kernel virtual memory
->  rather than physical memory is accessed.
-> +Since 2.6.26, this file is only available if the
-> +.B CONFIG_DEVKMEM
-> +kernel configuration option is enabled.
->  .LP
->  It is typically created by:
->  .RS
+> @@ -76,7 +76,7 @@ It is typically created by:
+>  .sp
+>  mknod \-m 660 /dev/port c 1 4
+>  .br
+> -chown root:mem /dev/port
+> +chown root:kmem /dev/port
+>  .RE
+>  .SH FILES
+>  .I /dev/mem
 > 
 
 
