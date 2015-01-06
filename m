@@ -1,71 +1,42 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] y0.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Tue, 06 Jan 2015 07:33:14 +0100
-Message-ID: <54AB81AA.40206@gmail.com>
-References: <1420011293-14923-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: Addition to memcmp(3)
+Date: Tue, 06 Jan 2015 07:33:30 +0100
+Message-ID: <54AB81BA.5010504@gmail.com>
+References: <E1XqHLn-00041P-MO@fangorn.moria.de> <CAKgNAkjb4Kp+KmYj1uL9qXSJBj0JKWz8G0+eyD6UFJKFbGGPzQ@mail.gmail.com> <E1Y66PS-0000RC-IQ@palantir.moria.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420011293-14923-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <E1Y66PS-0000RC-IQ-lBFDS8/7i9huFsqOOl7tcLNAH6kLmebB@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Michael Haardt <michael-8s1n8bisGiQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/31/2014 08:34 AM, Ma Shimiao wrote:
-> The function y0(), y1f() ynl() and so on are thread safe.
+On 12/31/2014 12:41 AM, Michael Haardt wrote:
+>> I placed this piece in a new NOTES section.
+>>
+>> Some text here about what one should do instead of using memcmp()
+>> might be helpful. Do you have any suggestions?
+> 
+> Obviously a comparison with constant CPU usage is asked for, which is
+> rather easy to implement given that secrets are usually only compared
+> for being equal.  AFAIK neither POSIX nor C99 offers a function for that.
+> I don't know if glibc does.  NetBSD does (consttime_memequal), but that
+> does not help portable code, so I have no good suggestion really.
 
+Thanks. I'll add this text to the page:
 
-Thanks, Ma Shimiao. Applied.
++Instead, a function that performs comparisons in constant time is required.
++Some operating systems provide such a function (e.g., NetBSD's
++.BR const_memequal ()),
++but no such function is specified in POSIX.
++On Linux, it may be necessary to implement such a function oneself.
 
 Cheers,
 
 Michael
 
-
-
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/y0.3 | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/man3/y0.3 b/man3/y0.3
-> index a1b7dd6..a2808c1 100644
-> --- a/man3/y0.3
-> +++ b/man3/y0.3
-> @@ -227,6 +227,30 @@ is not set for this case.
->  An overflow floating-point exception
->  .RB ( FE_OVERFLOW )
->  is raised.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR y0 (),
-> +.BR y0f (),
-> +.BR y0l ()
-> +T}	Thread safety	MT-Safe
-> +T{
-> +.BR y1 (),
-> +.BR y1f (),
-> +.BR y1l ()
-> +T}	Thread safety	MT-Safe
-> +T{
-> +.BR yn (),
-> +.BR ynf (),
-> +.BR ynl ()
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  The functions returning
->  .I double
-> 
 
 
 -- 
