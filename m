@@ -1,66 +1,118 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [PATCH 2/2] adjtimex.2: Update modes field of adjtimex
-Date: Tue, 06 Jan 2015 07:45:20 +0100
-Message-ID: <54AB8480.5060603@gmail.com>
-References: <1419426040-16090-1-git-send-email-standby24x7@gmail.com> <1419426040-16090-2-git-send-email-standby24x7@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2 exclude_host/exclude_guest clarification
+Date: Tue, 06 Jan 2015 07:45:34 +0100
+Message-ID: <54AB848E.2080808@gmail.com>
+References: <alpine.DEB.2.11.1412051027470.10310@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <1419426040-16090-2-git-send-email-standby24x7@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Masanari Iida <standby24x7@gmail.com>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1412051027470.10310-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gleb Natapov <gleb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Joerg Roedel <joro-zLv9SwRftAIdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 12/24/2014 02:00 PM, Masanari Iida wrote:
-> This patch update modes field of adjtimex man page.
+Hi Vince et al,
 
-Hello Masanari Iida,
+On 12/05/2014 04:41 PM, Vince Weaver wrote:
+> Hello
+> 
+> The PAPI developers recently ran into some issues with the various virtual 
+> machine related settings in the perf_event_open() system call.
+> 
+> What follows is what my proposed updated manpage sections look like; I'm 
+> hoping to get some sort of feedback about the correctness of these statements.
 
-Thanks for this patch. As it happened, some other
-recent changes to the page covered the same changes
-already, so this patch is obsolete. You can find the no
-current version in Git (see
-http://git.kernel.org/cgit/docs/man-pages/man-pages.git/tree/man2/adjtimex.2
-)
+Vince, thanks for the proposed patches.
 
-Cheers,
+Does anyone have feedback about the correctness of Vince's proposed patches?
+
+> 
+> 	exclude_hv
+> 		If this bit is set, the count excludes events that happen in 
+> 		the hypervisor.  This is mainly for PMUs that have 
+> 		built-in hardware support for this feature (such as POWER;
+> 		this setting is silently ignored on x86). 
+> 
+> ...
+> 
+> 	exclude_host (since Linux 3.2)
+> 		When  conducting  measurements that include processes 
+> 		running VM instances (i.e. have executed a KVM_RUN 
+> 		ioctl(2) ) only  measure events happening inside a guest 
+> 		instance.  This is only meaningful outside the guests; 
+> 		this setting does not change counts gathered inside of a 
+> 		guest.  Currently this functionality is x86 only.
+> 
+> 	exclude_guest (since Linux 3.2)
+> 		When conducting measurements that include processes 
+> 		running VM instances  (i.e.  have executed a KVM_RUN 
+> 		ioctl(2) ) do not measure events happening inside guest
+> 		instances.  This is only meaningful outside the guests;  
+> 		this setting does not change counts gathered inside of a 
+> 		guest.  Currently this functionality is x86 only.
+> 
+> 
+> 
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index 638124c..a413c13 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -833,10 +833,9 @@ If this bit is set, the count excludes events that happen in kernel-space.
+>  .IR "exclude_hv"
+>  If this bit is set, the count excludes events that happen in the
+>  hypervisor.
+> -This is mainly for PMUs that have built-in support for handling this
+> -(such as POWER).
+> -Extra support is needed for handling hypervisor measurements on most
+> -machines.
+> +This is mainly for PMUs that have built-in hardware support
+> +for this feature (such as POWER; this setting is silently
+> +ignored on x86).
+>  .TP
+>  .IR "exclude_idle"
+>  If set, don't count when the CPU is idle.
+> @@ -978,10 +977,24 @@ struct sample_id {
+>  .fi
+>  .TP
+>  .IR "exclude_host" " (since Linux 3.2)"
+> -Do not measure time spent in VM host.
+> +When conducting measurements that include processes running
+> +VM instances (i.e. have executed a
+> +.I KVM_RUN
+> +.BR ioctl (2)
+> +) only measure events happening inside a guest instance.
+> +This is only meaningful outside the guests; this setting does
+> +not change counts gathered inside of a guest.
+> +Currently this functionality is x86 only.
+>  .TP
+>  .IR "exclude_guest" " (since Linux 3.2)"
+> -Do not measure time spent in VM guest.
+> +When conducting measurements that include processes running
+> +VM instances (i.e. have executed a
+> +.I KVM_RUN
+> +.BR ioctl (2)
+> +) do not measure events happening inside guest instances.
+> +This is only meaningful outside the guests; this setting does
+> +not change counts gathered inside of a guest.
+> +Currently this functionality is x86 only.
+>  .TP
+>  .IR "exclude_callchain_kernel" " (since Linux 3.7)"
+>  Do not include kernel callchains.
+
+Thanks,
 
 Michael
-
-
-> 
-> Signed-off-by: Masanari Iida <standby24x7@gmail.com>
-> ---
->  man2/adjtimex.2 | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-> index f2a8b8c..b4450e8 100644
-> --- a/man2/adjtimex.2
-> +++ b/man2/adjtimex.2
-> @@ -92,8 +92,15 @@ combination of zero or more of the following bits:
->  #define ADJ_ESTERROR          0x0008 /* estimated time error */
->  #define ADJ_STATUS            0x0010 /* clock status */
->  #define ADJ_TIMECONST         0x0020 /* pll time constant */
-> +#define ADJ_TAI               0x0080 /* set TAI offset */
-> +#define ADJ_SETOFFSET         0x0100 /* add 'time' to current time */
-> +#define ADJ_MICRO             0x1000 /* select microsecond
-> +                                        resolution */
-> +#define ADJ_NANO              0x2000 /* select nanosecond
-> +                                        resolution */
->  #define ADJ_TICK              0x4000 /* tick value */
-> -#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime() */
-> +#define ADJ_OFFSET_SINGLESHOT 0x8001 /* old-fashioned adjtime */
-> +#define ADJ_OFFSET_SS_READ    0xa001 /* read-only adjtime */
->  .fi
->  .in
->  .PP
-> 
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
