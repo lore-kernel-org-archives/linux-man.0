@@ -1,55 +1,66 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/3] mem.4: correct /dev/port group in example
-Date: Tue, 06 Jan 2015 11:44:28 +0100
-Message-ID: <54ABBC8C.8070301@gmail.com>
-References: <1420204298-25625-1-git-send-email-eliedebrauwer@gmail.com> <1420204298-25625-3-git-send-email-eliedebrauwer@gmail.com>
+Subject: Re: [PATCH 3/3] mem.4: Add CONFIG_STRICT_DEVMEM
+Date: Tue, 06 Jan 2015 11:50:28 +0100
+Message-ID: <54ABBDF4.4030902@gmail.com>
+References: <1420204298-25625-1-git-send-email-eliedebrauwer@gmail.com> <1420204298-25625-4-git-send-email-eliedebrauwer@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420204298-25625-3-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1420204298-25625-4-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 01/02/2015 02:11 PM, Elie De Brauwer wrote:
-> mem.4 mentions that group for /dev/port should be set to 'mem' however
-> all other files (/dev/mem and /dev/kmem) use the kmem group in their
-> examples and on my system /dev/port belongs to kmem. Hence the 'mem'
-> group was probably a typo:
+> Since 2.6.26 the CONFIG_NONPROMISC_DEVMEM options limits the physical
+> addresses which can be accessed through /dev/mem.
 
-Sounds reasonable to me. Patch Applied. Thanks, Elie.
+Thanks, Elie. Applied.
 
 Cheers,
 
 Michael
 
 
-
-> edb@lapelidb:~$ cat /etc/group | grep -i mem
-> kmem:x:15:
-> edb@lapelidb:~$ ls -al /dev/port
-> crw-r----- 1 root kmem 1, 4 Jan  2 10:00 /dev/port
+> Sources:
+>  - Changelog: http://kernelnewbies.org/Linux_2_6_26
+>  - Initial commit: http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=ae531c26c5c2a28ca1b35a75b39b3b256850f2c8
+>  - Rename of name: http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=d092633bff3b19faffc480fe9810805e7792a029
 > 
 > Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  man4/mem.4 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man4/mem.4 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
 > diff --git a/man4/mem.4 b/man4/mem.4
-> index fef007e..6688345 100644
+> index 6688345..372d4fa 100644
 > --- a/man4/mem.4
 > +++ b/man4/mem.4
-> @@ -76,7 +76,7 @@ It is typically created by:
+> @@ -23,7 +23,7 @@
+>  .\" %%%LICENSE_END
+>  .\"
+>  .\" Modified Sat Jul 24 16:59:10 1993 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
+> -.TH MEM 4 1992-11-21 "Linux" "Linux Programmer's Manual"
+> +.TH MEM 4 2015-01-02 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  mem, kmem, port \- system memory, kernel memory and system ports
+>  .SH DESCRIPTION
+> @@ -40,6 +40,13 @@ References to nonexistent locations cause errors to be returned.
+>  Examining and patching is likely to lead to unexpected results
+>  when read-only or write-only bits are present.
+>  .LP
+> +Since 2.6.26, and depending on the architecture, the
+> +.B CONFIG_STRICT_DEVMEM
+> +kernel configuration option limits the areas
+> +which can be accessed through this file.
+> +For example: on x86, RAM access is not allowed but accessing
+> +memory-mapped PCI regions is.
+> +.LP
+>  It is typically created by:
+>  .RS
 >  .sp
->  mknod \-m 660 /dev/port c 1 4
->  .br
-> -chown root:mem /dev/port
-> +chown root:kmem /dev/port
->  .RE
->  .SH FILES
->  .I /dev/mem
 > 
 
 
