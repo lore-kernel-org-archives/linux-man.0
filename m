@@ -1,39 +1,91 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 89551] GNU is frequently spelled Gnu
-Date: Tue, 06 Jan 2015 14:15:55 +0000
-Message-ID: <bug-89551-11311-e20L9WhrZs@https.bugzilla.kernel.org/>
-References: <bug-89551-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] setns/pid_namespaces: mention the pid ns descendant limitation
+ more
+Date: Tue, 06 Jan 2015 15:20:50 +0100
+Message-ID: <54ABEF42.3040809@gmail.com>
+References: <1420221882-12614-1-git-send-email-vapier@gentoo.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-89551-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <1420221882-12614-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=89551
+On 01/02/2015 07:04 PM, Mike Frysinger wrote:
+> The setns(2) man page already mentions that CLONE_NEWPID may only be
+> used with descendant namespaces, but this nuance could be listed in
+> a few more places so it is not missed.
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Nice additions! Thanks, Mike. Patch applied.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |INVALID
-
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-By all means, you might want to try sending patches to get this fixed, but,
-please, I would prefer not to clutter the man-pages bugzilla with reports that
-aren't even man-pages related.
-
-Thanks,
+Cheers,
 
 Michael
 
+
+> 
+> Signed-off-by: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+> ---
+>  man2/setns.2          |  7 ++++++-
+>  man7/pid_namespaces.7 | 10 ++++++++++
+>  2 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man2/setns.2 b/man2/setns.2
+> index 926842b..3e6c4a5 100644
+> --- a/man2/setns.2
+> +++ b/man2/setns.2
+> @@ -55,7 +55,7 @@ must refer to a mount namespace.
+>  .TP
+>  .BR CLONE_NEWPID " (since Linux 3.8)"
+>  .I fd
+> -must refer to a PID namespace.
+> +must refer to a descendant PID namespace.
+>  .TP
+>  .BR CLONE_NEWUSER " (since Linux 3.8)"
+>  .I fd
+> @@ -157,6 +157,11 @@ refers to a namespace whose type does not match that specified in
+>  There is problem with reassociating
+>  the thread with the specified namespace.
+>  .TP
+> +.\" See kernel/pid_namespace.c::pidns_install() [kernel 3.18 sources]
+> +.B EINVAL
+> +The caller tried to join an ancestor (parent, grandparent, etc...)
+> +pid namespace.
+> +.TP
+>  .B EINVAL
+>  The caller attempted to join the user namespace
+>  in which it is already a member.
+> diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
+> index 8582da3..89c606b 100644
+> --- a/man7/pid_namespaces.7
+> +++ b/man7/pid_namespaces.7
+> @@ -188,6 +188,16 @@ PID namespace from the caller of
+>  Calls to
+>  .BR getppid (2)
+>  for such processes return 0.
+> +
+> +While processes may freely descend into children PID namespaces
+> +(e.g. using
+> +.BR setns (2)
+> +with
+> +.BR CLONE_NEWPID ),
+> +they may not move in the other direction.
+> +That is to say, processes may not enter any ancestor namespaces
+> +(parent, grandparent, etc.).
+> +Changing PID namespaces is a one way operation.
+>  .\"
+>  .\" ============================================================
+>  .\"
+> 
+
+
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
