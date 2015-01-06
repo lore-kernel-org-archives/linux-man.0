@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mq_getattr.3: typo fix
-Date: Tue, 06 Jan 2015 08:07:27 +0100
-Message-ID: <54AB89AF.2030908@gmail.com>
-References: <CALhU9t=GQrvk5gQa9_OU7Yw9yBRey1BiF+yCghkK_M0VF8VxaQ@mail.gmail.com>
+Subject: Re: statfs.2: format fix
+Date: Tue, 06 Jan 2015 08:08:56 +0100
+Message-ID: <54AB8A08.6030000@gmail.com>
+References: <CALhU9tndNX-vuBtL+u0R35_DZwwgxzwzUAqh5KsPYD2YOrPOvg@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9t=GQrvk5gQa9_OU7Yw9yBRey1BiF+yCghkK_M0VF8VxaQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALhU9tndNX-vuBtL+u0R35_DZwwgxzwzUAqh5KsPYD2YOrPOvg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -21,20 +21,22 @@ Cheers,
 
 Michael
 
-On 01/04/2015 10:34 PM, Akihiro Motoki wrote:
-> diff --git a/man3/mq_getattr.3 b/man3/mq_getattr.3
-> index 3dc66be..e3d8134 100644
-> --- a/man3/mq_getattr.3
-> +++ b/man3/mq_getattr.3
-> @@ -187,7 +187,7 @@ $ \fBcat /proc/sys/fs/mqueue/msgsize_default\fP
->  8192
->  .fi
+On 01/05/2015 01:33 AM, Akihiro Motoki wrote:
+> diff --git a/man2/statfs.2 b/man2/statfs.2
+> index 490d96d..8269a19 100644
+> --- a/man2/statfs.2
+> +++ b/man2/statfs.2
+> @@ -143,8 +143,8 @@ Filesystem types:
 >  .in
-> -.SS Program course
-> +.SS Program source
->  \&
->  .nf
->  #include <mqueue.h>
+>  .PP
+>  Most of these MAGIC constants are defined in
+> -.I /usr/include/linux/magic.h
+> -some are hardcoded in kernel sources.
+> +.IR /usr/include/linux/magic.h ,
+> +and some are hardcoded in kernel sources.
+>  .PP
+>  Nobody knows what
+>  .I f_fsid
 > 
 > 
 
