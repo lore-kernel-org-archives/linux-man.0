@@ -1,30 +1,29 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] scalb.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 07 Jan 2015 06:45:16 +0100
-Message-ID: <54ACC7EC.1000300@gmail.com>
-References: <1420593744-17553-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH V2] scalb.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 07 Jan 2015 06:45:22 +0100
+Message-ID: <54ACC7F2.2020400@gmail.com>
+References: <1420594250-18228-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420593744-17553-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1420594250-18228-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/07/2015 02:22 AM, Ma Shimiao wrote:
+On 01/07/2015 02:30 AM, Ma Shimiao wrote:
 > The function scalb(), scalbf() and scalbl() are thread safe.
 
 Hello Ma Shimiao,
 
-Patch applied in my local branch. 
+The patches look the same to me. What was the reason for the V2 
+of this patch?
 
 Thanks,
 
 Michael
-
-
 
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
