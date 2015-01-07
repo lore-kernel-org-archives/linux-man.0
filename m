@@ -1,55 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] netlink: add NETLINK_CRYPTO
-Date: Wed, 07 Jan 2015 08:44:08 +0100
-Message-ID: <54ACE3C8.20807@gmail.com>
-References: <3063949.uKkJtgaVA5@tauon>
+Subject: Re: [patch] tcp.7: Clarify tcp_tw_recycle on Internet-facing hosts
+Date: Wed, 07 Jan 2015 08:49:12 +0100
+Message-ID: <54ACE4F8.1000409@gmail.com>
+References: <CALQAp37_DD-sy480u7QfC68GaaNK1yqb23vdEyNwJMK91PmD-g@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <3063949.uKkJtgaVA5@tauon>
+In-Reply-To: <CALQAp37_DD-sy480u7QfC68GaaNK1yqb23vdEyNwJMK91PmD-g-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Steffen Klassert <steffen.klassert-opNxpl+3fjRBDgjK7y7TUQ@public.gmane.org>
+To: Troy Davis <troy-EyOyorkO9KA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[CC += Steffen Klassert]
-
-On 12/02/2014 01:16 PM, Stephan Mueller wrote:
-> Add the NETLINK_CRYPTO reference to netlink(7).
+On 11/23/2014 05:28 PM, Troy Davis wrote:
+> Clarify that tcp_tw_recycle will break communication with many
+> general-purpose remote Internet hosts (namely, remote NAT devices)
+> even when the Linux device itself is not behind NAT.
 > 
-> Signed-off-by: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-> ---
->  man7/netlink.7 | 5 +++++
->  1 file changed, 5 insertions(+)
+> Sources:
+>   - BCP to make NAT implementors aware of this problem (2013):
+> https://tools.ietf.org/html/draft-penno-behave-rfc4787-5382-5508-bis-04#section-3.1.2
+>   - RFC 1323 (PAWS)
+>   - RFC 6191: Reducing the TIME-WAIT State Using TCP Timestamps
+>   - The many users who unknowingly enabled this option on devices
+> communicating with the general-purpose Internet:
+> https://www.google.com/search?q=tcp_tw_recycle%20ip%20nat%20timestamp
 > 
-> diff --git a/man7/netlink.7 b/man7/netlink.7
-> index be7814a..bfeb381 100644
-> --- a/man7/netlink.7
-> +++ b/man7/netlink.7
-> @@ -113,6 +113,11 @@ Kernel messages to user space.
+> Patched against git HEAD as of this email
+> (ac5ba355d52a5a29f2d26badc96e6da9e48c0097).
+> 
+> 
+> diff --git a/man7/tcp.7 b/man7/tcp.7
+> index e6f5aee..06cc127 100644
+> --- a/man7/tcp.7
+> +++ b/man7/tcp.7
+> @@ -780,10 +780,11 @@ building larger TSO frames.
 >  .TP
->  .B NETLINK_GENERIC
->  Generic netlink family for simplified netlink usage.
-> +.TP
-> +.B NETLINK_CRYPTO
-> +Netlink interface to request information about ciphers registered
-> +with the kernel crypto API as well as allow configuration of the
-> +kernel crypto API.
->  .PP
->  Netlink messages consist of a byte stream with one or multiple
->  .I nlmsghdr
-> 
+>  .IR tcp_tw_recycle " (Boolean; default: disabled; since Linux 2.4)"
+>  .\" Since 2.3.15
+> -Enable fast recycling of TIME_WAIT sockets.
+> -Enabling this option is not
+> -recommended since this causes problems when working
+> -with NAT (Network Address Translation).
+> +Enable fast recycling of TIME_WAIT sockets. Enabling this option is
+> +not recommended for devices communicating with the general Internet
+> +or using NAT (Network Address Translation). Since some NAT gateways
+> +pass through IP timestamp values, one IP can appear to have
+> +non-increasing timestamps. See RFC 1323 (PAWS), RFC 6191.
+>  .\"
+>  .\" The following is from 2.6.12: Documentation/networking/ip-sysctl.txt
+>  .TP
 
-Thanks, Stephan. Applied.
+Hello Troy,
 
-@Steffen: is the API exposed via this netlink socket type
-actually documented anywhere?
+The patch is well described, so I'm just  going to take your word on all 
+of the above. Applied.
 
 Cheers,
 
 Michael
-
 
 
 -- 
