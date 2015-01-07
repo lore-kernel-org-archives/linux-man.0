@@ -1,50 +1,69 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] aio_init.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 7 Jan 2015 11:36:25 +0800
-Message-ID: <1420601785-27810-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] scalb.3:ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 07 Jan 2015 06:45:16 +0100
+Message-ID: <54ACC7EC.1000300@gmail.com>
+References: <1420593744-17553-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1420593744-17553-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The function aio_init() is thread safe.
+On 01/07/2015 02:22 AM, Ma Shimiao wrote:
+> The function scalb(), scalbf() and scalbl() are thread safe.
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/aio_init.3 | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Hello Ma Shimiao,
 
-diff --git a/man3/aio_init.3 b/man3/aio_init.3
-index 1d7f478..a44805a 100644
---- a/man3/aio_init.3
-+++ b/man3/aio_init.3
-@@ -93,7 +93,19 @@ The default value is 1.
- .SH VERSIONS
- The
- .BR aio_init ()
--function is available since glibc 2.1.
-+unction is available since glibc 2.1.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR aio_init ()
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- This function is a GNU extension.
- .SH SEE ALSO
+Patch applied in my local branch. 
+
+Thanks,
+
+Michael
+
+
+
+
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/scalb.3 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/man3/scalb.3 b/man3/scalb.3
+> index 300ad4f..74e954a 100644
+> --- a/man3/scalb.3
+> +++ b/man3/scalb.3
+> @@ -174,6 +174,20 @@ These functions do not set
+>  .\" FIXME . Is it intentional that these functions do not set errno?
+>  .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6803
+>  .\" Bug raised: http://sources.redhat.com/bugzilla/show_bug.cgi?id=6804
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw28 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR scalb (),
+> +.BR scalbf (),
+> +.BR scalbl ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  .BR scalb ()
+>  is specified in POSIX.1-2001, but marked obsolescent.
+> 
+
+
 -- 
-1.8.3.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
