@@ -1,60 +1,207 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 90911] New: About splice returning 0
-Date: Wed, 07 Jan 2015 20:17:42 +0000
-Message-ID: <bug-90911-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
+Date: Wed, 07 Jan 2015 22:17:56 +0100
+Message-ID: <54ADA284.30502@gmail.com>
+References: <545FBDDD.9060801@gmail.com> <20141111213037.GA31445@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20141111213037.GA31445-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=90911
+Hi Vivek,
 
-            Bug ID: 90911
-           Summary: About splice returning 0
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: safinaskar-JGs/UdohzUI@public.gmane.org
-        Regression: No
+Thanks for your comments, and my apologies for a the long delayed follow-up.
 
-"man 2 splice" at Linux man-pages 2012-05-04 says:
-"A return value of 0 means that there was no data to transfer, and it would not
-make sense to block, because there are no writers connected to the write end of
-the pipe referred to by fd_in."
+On 11/11/2014 10:30 PM, Vivek Goyal wrote:
+> On Sun, Nov 09, 2014 at 08:17:49PM +0100, Michael Kerrisk (man-pages) wrote:
+>> Hello Vivek (and all),
+>>
+>> Thanks for the kexec_file_load() patch [for the kexec_load(2) man page]
+>> that you quite some time ago sent. I have merged it and done some
+>> substantial editing as well. Could you please take a look at the 
+>> draft below, and check that the kexec_file_load() material is okay.
+>> Please could you especially pay attention to the pieces marked
+>> "FIXME(kexec_file_load)", since those are pieces about which i
+>> had questions or doubts.
+>>
+> 
+> Hi Michael,
+> 
+> Thanks for editing this man page. I have some thoughts inline.
+> 
+> [..]
+>> .B #include <linux/kexec.h>
+>>
+>> .BI "long kexec_load(unsigned long " entry ", unsigned long " nr_segments ","
+>> .BI "                struct kexec_segment *" segments \
+>> ", unsigned long " flags ");"
+>>
+>> .\" FIXME(kexec_file_load):
+>> .\"     Why are the return types of kexec_load() and kexec_file_load()
+>> .\"     different?
+>> .BI "int kexec_file_load(int " kernel_fd ", int " initrd_fd ","
+> 
+> I think this is ignorance on my part. It probably should be "long" as
+> SYSCALL_DEFINE() seems to expand to.
+> 
+> asmlinkage long SyS##name(__MAP(x,__SC_LONG,__VA_ARGS__));
 
-This is very hard-to-understand sentence, so, please rewrite it somehow.
+Okay -- I've changed to 'long' in the man page.
 
-First of all, this is not clear from this sentence that it speaks about reading
-from pipe and not about writing. (At first I wrongly decided from this sentence
-that it speaks about writing to broken pipe without readers [despite of word
-"writers"]).
+>> .br
+>> .BI "                    unsigned long " cmdline_len  \
+>> ", const char *" cmdline ","
+>> .BI "                    unsigned long " flags ");"
+>>
+>> .fi
+>> .IR Note :
+>> There are no glibc wrappers for these system calls; see NOTES.
+>> .SH DESCRIPTION
+>> The
+>> .BR kexec_load ()
+>> system call loads a new kernel that can be executed later by
+>> .BR reboot (2).
+>> .PP
+>> The
+>> .I flags
+>> argument is a bit mask that controls the operation of the call.
+>> The following values can be specified in
+>> .IR flags :
+>> .TP
+>> .BR KEXEC_ON_CRASH " (since Linux 2.6.13)"
+>> Execute the new kernel automatically on a system crash.
+>> .\" FIXME Explain in more detail how KEXEC_ON_CRASH is actually used
 
-So, at least, please write so:
-"If we read from pipe, then a return value of 0 means that there was no data to
-transfer, and it would not make sense to block, because there are no writers
-connected to the write end of the pipe referred to by fd_in."
+I wasn't expecting that you would respond to the FIXMEs that were 
+not labeled "kexec_file_load", but I was hoping you might ;-). Thanks!
+I have a few additional questions to your nice notes.
 
-Then, the actual truth is the following: splice returns 0 if and only if
-corresponding read would return 0, i. e. on EOF on input (and reading from pipe
-without writers is just a special case of EOF). And the sentence doesn't say
-anything about reading from files other that pipes. So, please, rewrite so:
-"A return value of 0 means end of input. If input is pipe then this means that
-there was no data to transfer, and it would not make sense to block, because
-there are no writers connected to the write end of the pipe referred to by
-fd_in."
+> Upon boot first kernel reserves a chunk of contiguous memory (if
+> crashkernel=<> command line paramter is passed). This memory is
+> is used to load the crash kernel (Kernel which will be booted into
+> if first kernel crashes).
+
+Can I just confirm: is it in all cases only possible to use kexec_load() 
+and kexec_file_load() if the kernel was booted with the 'crashkernel'
+parameter set?
+
+> Location of this reserved memory is exported to user space through
+> /proc/iomem file. 
+
+Is that export via an entry labeled "Crash kernel" in the 
+/proc/iomem file?
+
+> User space can parse it and prepare list of segments
+> specifying this reserved memory as destination.
+
+I'm not quite clear on "specifying this reserved memory as destination".
+Is that done by specifying the address in the kexec_segment.mem fields?
+
+> Once kernel sees the flag KEXEC_ON_CRASH, it makes sure that all the
+> segments are destined for reserved memory otherwise kernel load operation
+> fails.
+
+Could you point me to where this checking is done? Also, what is the
+error (errno) that occurs when the load operation fails? (I think the
+answers to these questions are "at the start of kimage_alloc_init()"
+and "EADDRNOTAVAIL", but I'd like to confirm.)
+
+> [..]
+>> struct kexec_segment {
+>>     void   *buf;        /* Buffer in user space */
+>>     size_t  bufsz;      /* Buffer length in user space */
+>>     void   *mem;        /* Physical address of kernel */
+>>     size_t  memsz;      /* Physical address length */
+>> };
+>> .fi
+>> .in
+>> .PP
+>> .\" FIXME Explain the details of how the kernel image defined by segments
+>> .\" is copied from the calling process into previously reserved memory.
+> 
+> Kernel image defined by segments is copied into kernel either in regular
+> memory 
+
+Could you clarify what you mean by "regular memory"?
+
+> or in reserved memory (if KEXEC_ON_CRASH is set). Kernel first
+> copies list of segments in kernel memory and then goes does various
+> sanity checks on the segments. If everything looks line, kernel copies
+> segment data to kernel memory.
+> 
+> In case of normal kexec, segment data is loaded in any available memory
+> and segment data is moved to final destination at the kexec reboot time.
+
+By "moved to final destination", do you mean "moved from user space to the
+final kernel-space destination"?
+
+> In case of kexec on panic (KEXEC_ON_CRASH flag set), segment data is
+> directly loaded to reserved memory and after crash kexec simply jumps
+
+By "directly", I assume you mean "at the time of the kexec_laod() call",
+right?
+
+> to starting point.
+> 
+> [..]
+>> .\" FIXME(kexec_file_load):
+>> .\" Is the following rationale accurate? Does it need expanding?
+>> The
+>> .BR kexec_file_load ()
+>> .\" See also http://lwn.net/Articles/603116/
+>> system call was added to provide support for systems
+>> where "kexec" loading should be restricted to
+>> only kernels that are signed.
+> 
+> Yes, this rationale looks good.
+
+Okay -- thanks.
+
+>> The
+>> .BR kexec_load ()
+>> system call is available only if the kernel was configured with
+>> .BR CONFIG_KEXEC .
+>> The
+>> .BR kexec_file_load ()
+>> system call is available only if the kernel was configured with
+>> .BR CONFIG_KEXEC_FILE .
+>> .\" FIXME(kexec_file_load):
+>> .\"     Does kexec_file_load() need any other CONFIG_* options to be defined?
+> 
+> Yes, it requires some other config options too.
+> 
+> depends on KEXEC
+> depends on X86_64
+> depends on CRYPTO=y
+> depends on CRYPTO_SHA256=y
+> 
+> CONFIG_KEXEC_VERIFY_SIG=y
+> CONFIG_KEXEC_BZIMAGE_VERIFY_SIG=y
+> CONFIG_SIGNED_PE_FILE_VERIFICATION=y
+> CONFIG_PKCS7_MESSAGE_PARSER=y
+> CONFIG_X509_CERTIFICATE_PARSER=y
+> CONFIG_ASYMMETRIC_PUBLIC_KEY_SUBTYPE=y
+> 
+> So dependency list seems pretty long. Not sure how many of these should
+> we specify in man page.
+
+On reflection, since they're dependencies of CONFIG_KEXEC_FILE, perhaps
+it's not necessary to add any of the others.
+
+Cheers,
+
+Michael
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
