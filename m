@@ -1,48 +1,64 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Edited seccomp.2 man page for review [v2]
-Date: Wed, 07 Jan 2015 13:41:39 +0100
-Message-ID: <54AD2983.2060108@gmail.com>
-References: <54A29722.1010901@gmail.com>	<CAGXu5j+C0SWQ+CeOb2ADXdsLWorUHahX4UhUg+UGbT6UuWiQFQ@mail.gmail.com>	<54A300D0.7090802@gmail.com> <CAGXu5jKCR8ft=2XNX+SsCOokEqCt9sZizKj4wfAGrXVzf6adcg@mail.gmail.com> <54AD1E37.8020509@gmail.com> <54AD2549.9040107@redhat.com>
+Subject: Re: [PATCH] constr.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 07 Jan 2015 13:55:33 +0100
+Message-ID: <54AD2CC5.8080504@gmail.com>
+References: <1420621795-18769-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54AD2549.9040107-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Daniel Borkmann <dborkman-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Will Drewry <wad-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1420621795-18769-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/07/2015 01:23 PM, Daniel Borkmann wrote:
-> On 01/07/2015 12:53 PM, Michael Kerrisk (man-pages) wrote:
-> ...
->> Still hoping to hear from Will Drewy regarding this FIXME in the
->> page source:
->>
->> .\" FIXME What is the significance of the line
->> .\"           ftest->code = BPF_LDX | BPF_W | BPF_ABS;
->> .\"       in kernel/seccomp.c::seccomp_check_filter()?
-> 
-> This came in from our rework via commit bd4cf0ed331a ("net: filter:
-> rework/optimize internal BPF interpreter's instruction set"), and
-> is kernel-internal only, and unused in classic BPF. It translates
-> into A = *(u32 *) (ctx + K) and will basically load an offset from
-> the populated seccomp_data (= ctx) to A. For the man-page itself
-> it has therefore no relevance, hope that clarifies it.
+On 01/07/2015 10:09 AM, Ma Shimiao wrote:
+> The function constr() is thread safe.
 
-Thanks, Daniel.
-
-Okay -- that was the last hurdle. The page should go out with the 
-next man-pages release.
+Thanks, Ma Shimiao. Patch applied in my local branch.
 
 Cheers,
 
 Michael
 
 
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/confstr.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/man3/confstr.3 b/man3/confstr.3
+> index 5aa16d9..fa04653 100644
+> --- a/man3/confstr.3
+> +++ b/man3/confstr.3
+> @@ -125,6 +125,18 @@ is set to
+>  The value of
+>  .I name
+>  is invalid.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR confstr ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.1-2001.
+>  .SH EXAMPLE
+> 
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
