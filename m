@@ -1,70 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Differences between man-pages and libc manual safety markings
-Date: Wed, 07 Jan 2015 07:16:48 +0100
-Message-ID: <54ACCF50.4070001@gmail.com>
-References: <544118FA.3070003@gmail.com>
+Subject: Re: [PATCH] aio_write.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 07 Jan 2015 07:22:35 +0100
+Message-ID: <54ACD0AB.1000609@gmail.com>
+References: <1420610916-6356-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <544118FA.3070003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1420610916-6356-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>"Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Ma Shimiao,
+On 01/07/2015 07:08 AM, Ma Shimiao wrote:
+> The function aio_write() is thread safe.
 
-You can see the whole discussion thread here:
+Thanks, Ma Shimiao.
 
-http://thread.gmane.org/gmane.linux.man/7223
+Patch applied in my local branch.
 
-Thanks,
+Cheers,
 
 Michael
 
 
-On 10/17/2014 03:26 PM, Michael Kerrisk (man-pages) wrote:
-> Hello Haitao,
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/aio_write.3 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 > 
-> I was comparing some of the MT-Safety markings in man-pages versus the glibc
-> manual (https://www.gnu.org/software/libc/manual/html_mono/libc.html)
-> I found four cases that seem to contradict. Are there errors in either
-> the man pages or in the glibc manual?
-> 
-> ==
-> ctermid.3       MT-Unsafe race:ctermid/!s
-> 	glibc: MT-Safe
-> 
-> man-pages and glibc manual disagree (man-pages seems to be more
-> precise than glibc).
-> 
-> ==
-> getcwd.3        MT-Safe env
-> 	glibc: MT-Safe
-> 
-> man-pages and glibc manual disagree on "env" (man-pages seems 
-> to be more precise than glibc).
-> 
-> ==
-> getlogin.3      MT-Unsafe race:cuserid/!string locale
-> 	glibc: MT-Unsafe race:getlogin race:utent sig:ALRM timer locale
-> 
-> man-pages and glibc manual disagree on "race:cuserid/!string" versus
-> "race:getlogin"
-> 
-> ==
-> regex.3         MT-Safe env
-> 	glibc: MT-Safe locale
-> 
-> man-pages and glibc manual disagree on "env" versus "locale"
-> 
-> ==
-> 
-> Cheers,
-> 
-> Michael
-> 
+> diff --git a/man3/aio_write.3 b/man3/aio_write.3
+> index a27817d..88f182a 100644
+> --- a/man3/aio_write.3
+> +++ b/man3/aio_write.3
+> @@ -134,6 +134,18 @@ is not implemented.
+>  The
+>  .BR aio_write ()
+>  function is available since glibc 2.1.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lb lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR aio_write ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  POSIX.1-2001, POSIX.1-2008.
+>  .SH NOTES
 > 
 
 
