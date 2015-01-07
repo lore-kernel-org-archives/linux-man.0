@@ -1,48 +1,77 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] aio_write.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 7 Jan 2015 14:08:36 +0800
-Message-ID: <1420610916-6356-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Differences between man-pages and libc manual safety markings
+Date: Wed, 07 Jan 2015 07:12:32 +0100
+Message-ID: <54ACCE50.3030703@gmail.com>
+References: <544118FA.3070003@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <544118FA.3070003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-v2tUB8YBRSi3e3T8WW9gsA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>"Michael Kerrisk (gmail)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function aio_write() is thread safe.
+[CC += Ma Shimiao]
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/aio_write.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Hello Ma Shimiao,
 
-diff --git a/man3/aio_write.3 b/man3/aio_write.3
-index a27817d..88f182a 100644
---- a/man3/aio_write.3
-+++ b/man3/aio_write.3
-@@ -134,6 +134,18 @@ is not implemented.
- The
- .BR aio_write ()
- function is available since glibc 2.1.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR aio_write ()
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008.
- .SH NOTES
+As the person taking over the ATTRIBUTES patch series for man-pages,
+are you aware of the earlier mail thread below? I will CC you into 
+one or two of the other notable mails in this thread as well.
+Thanks,
+
+Michael
+
+On 10/17/2014 03:26 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Haitao,
+> 
+> I was comparing some of the MT-Safety markings in man-pages versus the glibc
+> manual (https://www.gnu.org/software/libc/manual/html_mono/libc.html)
+> I found four cases that seem to contradict. Are there errors in either
+> the man pages or in the glibc manual?
+> 
+> ==
+> ctermid.3       MT-Unsafe race:ctermid/!s
+> 	glibc: MT-Safe
+> 
+> man-pages and glibc manual disagree (man-pages seems to be more
+> precise than glibc).
+> 
+> ==
+> getcwd.3        MT-Safe env
+> 	glibc: MT-Safe
+> 
+> man-pages and glibc manual disagree on "env" (man-pages seems 
+> to be more precise than glibc).
+> 
+> ==
+> getlogin.3      MT-Unsafe race:cuserid/!string locale
+> 	glibc: MT-Unsafe race:getlogin race:utent sig:ALRM timer locale
+> 
+> man-pages and glibc manual disagree on "race:cuserid/!string" versus
+> "race:getlogin"
+> 
+> ==
+> regex.3         MT-Safe env
+> 	glibc: MT-Safe locale
+> 
+> man-pages and glibc manual disagree on "env" versus "locale"
+> 
+> ==
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
+
+
 -- 
-1.8.3.1
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
