@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] addseverity.3: ATTRIBUTES: Note function is thread-safe
-Date: Wed, 07 Jan 2015 07:07:50 +0100
-Message-ID: <54ACCD36.50600@gmail.com>
-References: <1420599798-25292-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] aio_cancel.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 07 Jan 2015 07:07:52 +0100
+Message-ID: <54ACCD38.8090302@gmail.com>
+References: <1420600657-26323-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420599798-25292-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1420600657-26323-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/07/2015 04:03 AM, Ma Shimiao wrote:
-> The function addseverity() is thread safe.
+On 01/07/2015 04:17 AM, Ma Shimiao wrote:
+> The function aio_cancel() is thread safe.
 
 Hello Ma Shimiao,
 
@@ -28,17 +28,17 @@ Michael
 > 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/addseverity.3 | 12 ++++++++++++
+>  man3/aio_cancel.3 | 12 ++++++++++++
 >  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/addseverity.3 b/man3/addseverity.3
-> index 5e8cc06..a047293 100644
-> --- a/man3/addseverity.3
-> +++ b/man3/addseverity.3
-> @@ -57,6 +57,18 @@ nonexistent or default severity class.
->  .SH VERSIONS
->  .BR addseverity ()
->  is provided in glibc since version 2.1.
+> diff --git a/man3/aio_cancel.3 b/man3/aio_cancel.3
+> index abe1e96..9eea924 100644
+> --- a/man3/aio_cancel.3
+> +++ b/man3/aio_cancel.3
+> @@ -111,6 +111,18 @@ is not implemented.
+>  The
+>  .BR aio_cancel ()
+>  function is available since glibc 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -48,12 +48,12 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR addseverity ()
+> +.BR aio_cancel ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  This function is not specified in the X/Open Portability Guide
->  although the
+>  POSIX.1-2001, POSIX.1-2008.
+>  .SH EXAMPLE
 > 
 
 
