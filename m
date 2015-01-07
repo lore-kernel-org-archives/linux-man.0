@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] aio_cancel.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 07 Jan 2015 07:07:52 +0100
-Message-ID: <54ACCD38.8090302@gmail.com>
-References: <1420600657-26323-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] aio_fsync.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 07 Jan 2015 07:08:04 +0100
+Message-ID: <54ACCD44.80607@gmail.com>
+References: <1420601288-27156-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1420600657-26323-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1420601288-27156-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/07/2015 04:17 AM, Ma Shimiao wrote:
-> The function aio_cancel() is thread safe.
+On 01/07/2015 04:28 AM, Ma Shimiao wrote:
+> The function aio_fsync() is thread safe.
 
 Hello Ma Shimiao,
 
@@ -28,16 +28,16 @@ Michael
 > 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/aio_cancel.3 | 12 ++++++++++++
+>  man3/aio_fsync.3 | 12 ++++++++++++
 >  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/aio_cancel.3 b/man3/aio_cancel.3
-> index abe1e96..9eea924 100644
-> --- a/man3/aio_cancel.3
-> +++ b/man3/aio_cancel.3
-> @@ -111,6 +111,18 @@ is not implemented.
+> diff --git a/man3/aio_fsync.3 b/man3/aio_fsync.3
+> index 7779d6a..d23d287 100644
+> --- a/man3/aio_fsync.3
+> +++ b/man3/aio_fsync.3
+> @@ -100,6 +100,18 @@ is not implemented.
 >  The
->  .BR aio_cancel ()
+>  .BR aio_fsync ()
 >  function is available since glibc 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
@@ -48,12 +48,12 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR aio_cancel ()
+> +.BR aio_fsync ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
 >  POSIX.1-2001, POSIX.1-2008.
->  .SH EXAMPLE
+>  .SH SEE ALSO
 > 
 
 
