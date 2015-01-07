@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] malloc.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 7 Jan 2015 16:30:32 +0800
-Message-ID: <1420619432-15954-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] constr.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 7 Jan 2015 17:09:55 +0800
+Message-ID: <1420621795-18769-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,39 +10,36 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function malloc(), free(), calloc() and realloc() are thread safe.
+The function constr() is thread safe.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/malloc.3 | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ man3/confstr.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/man3/malloc.3 b/man3/malloc.3
-index 2684982..5e4132d 100644
---- a/man3/malloc.3
-+++ b/man3/malloc.3
-@@ -168,6 +168,21 @@ is returned.
- If
- .BR realloc ()
- fails, the original block is left untouched; it is not freed or moved.
+diff --git a/man3/confstr.3 b/man3/confstr.3
+index 5aa16d9..fa04653 100644
+--- a/man3/confstr.3
++++ b/man3/confstr.3
+@@ -125,6 +125,18 @@ is set to
+ The value of
+ .I name
+ is invalid.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw38 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR malloc (),
-+.BR free (),
-+.BR calloc (),
-+.BR realloc ()
++.BR confstr ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C89, C99.
- .SH NOTES
+ POSIX.1-2001.
+ .SH EXAMPLE
 -- 
 1.8.3.1
 
