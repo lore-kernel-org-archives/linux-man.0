@@ -1,201 +1,77 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] prctl.2: Add description of Intel MPX calls
-Date: Thu, 08 Jan 2015 11:27:22 +0100
-Message-ID: <54AE5B8A.4080607@gmail.com>
-References: <1418683928-28894-1-git-send-email-dave.hansen@intel.com>
+From: Laurent Georget <laurent.georget-vbcOdlJ0SulGWvitb5QawA@public.gmane.org>
+Subject: Re: [PATCH 2/2] adjtimex.2: Change 'PPM' (parts per million) to 'ppm'
+Date: Thu, 08 Jan 2015 17:29:14 +0100
+Message-ID: <54AEB05A.8060603@supelec.fr>
+References: <54A2DEAD.2050708@supelec.fr> <54A72360.3070807@supelec.fr> <54A724BE.8050409@supelec.fr> <54ABFD54.9000705@gmail.com> <54AC0250.5080005@supelec.fr> <54ACCB28.50100@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1418683928-28894-1-git-send-email-dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <54ACCB28.50100-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Qiaowei Ren <qiaowei.ren-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC += Qiaowei Ren, in case they might comment]
+Le 07/01/2015 06:59, Michael Kerrisk (man-pages) a =C3=A9crit :
+> Hi Laurent,
 
-Hello Dave,
+Hi
 
-Thanks for the patch. Quite a number of queries below. Could you
-address those and resubmit?
+> Looking more closely, it seems like your workflow may still be mangli=
+ng the patches. Here's a portion of what landed when I save your messag=
+e to a text file:
+>=20
+> [[
+> -    long stabil;      /* PPS stability (scaled PPM, read-only) */
+> +    long stabil;      /* PPS stability (2^-16 PPM (see NOTES), read-=
+only=3D
+> ) */
+>      long jitcnt;      /* PPS jitter limit exceeded (read-only) */
+>      long calcnt;      /* PPS calibration intervals (read-only) */
+>      long errcnt;      /* PPS calibration errors (read-only) */
+> @@ -343,6 +342,18 @@ and the caller does not have sufficient privileg=
+e.
+>  Under Linux, the
+>  .B CAP_SYS_TIME
+>  capability is required.
+> +.SH NOTES
+> +In struct
+> +.IR timex ,
+> +.IR freq ,
+> +.IR ppsfreq ,
+> +and=3D20
+> +.I stabil
+> +are PPM (parts per million) with a 16-bits fractional part, which me=
+ans =3D
+> that a
+> +value of 1 in one of those fields actually means 2^-16 PPM, and 2^16=
+=3D3D6=3D
+> 5535 is=3D20
+> +1 PPM. This is the case for both input values (in the case of
+> +.IR freq )
+> +and output values.
+>  .SH CONFORMING TO
+>  .BR adjtimex ()
+>  is Linux-specific and should not be used in programs
+> --=3D20
+> ]]
+>=20
+> Note, for example, the line with 'long stabil', and the lines=20
+> from 'are PPM (parts per million)' onward. Surprisingly, this all=20
+> seemed to apply okay, just with some noise.
+>=20
+Indeed, that's very bad. I didn't notice that because I tested my patch=
+ before sending it.
+I copied and pasted the patch in a new file and it applied correctly, w=
+ithout strange characters.
+Maybe the mangling comes from the mailer when it adds the PGP signature=
+=2E  I'll try without.
 
-On 12/15/2014 11:52 PM, Dave Hansen wrote:
-> From: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> 
-> (apologies if this is a duplicate mail, I didn't see my first one
->  hit either of the lists, so I assume Intel's mail relays ate it)
+Again, I'm sorry about all this. I hope it'll work better now and that =
+I'll stop wasting your time
+instead of helping...
 
-(Actually, both mails did arrive.)
-
-> The 3.19 kernel will have support for Intel MPX, including a pair
-> of new prctl() calls for enabling and disabling the kernel's
-> management of the "bounds tables".  Add some descriptions of the
-> interface.
-> 
-> The kernel patches were written by myself and another Intel
-> developer.
-
-(Thanks -- getting that piece of info is always helpful when
-I consider how carefully I need to review a patch.)
-
-> Signed-off-by: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> ---
->  man2/prctl.2 | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/man2/prctl.2 b/man2/prctl.2
-> index 4efabcf..6555d7a 100644
-> --- a/man2/prctl.2
-> +++ b/man2/prctl.2
-> @@ -47,6 +47,7 @@
->  .\"                             PR_GET_TIMERSLACK
->  .\" 2013-01-10 Kees Cook, document PR_SET_PTRACER
->  .\" 2012-02-04 Michael kerrisk, document PR_{SET,GET}_CHILD_SUBREAPER
-> +.\" 2014-11-10 Dave Hansen, Document PR_MPX_{EN,DIS}ABLE_MANAGEMENT
->  .\"
->  .\"
->  .TH PRCTL 2 2014-04-14 "Linux" "Linux Programmer's Manual"
-> @@ -737,6 +738,21 @@ value.
-
-It looks like this patch is misplaced in the source. Probably best to
-place the new text just above the RETURN VALUE section.
-
->  The requirements for the address are the same as for the
->  .BR PR_SET_MM_START_BRK
->  option.
-> +.TP
-> +.BR PR_MPX_ENABLE_MANAGEMENT / PR_MPX_DISABLE_MANAGEMENT
-
-Make this:
-
-.BR PR_MPX_ENABLE_MANAGEMENT / PR_MPX_DISABLE_MANAGEMENT " (since Linux 3.19)"
-
-And then just after please add the following source comments
-(for handy reference on future page edits):
-
-.\" commit fe3d197f84319d3bce379a9c0dc17b1f48ad358c
-.\" See also http://lwn.net/Articles/582712/
-.\" See also https://gcc.gnu.org/wiki/Intel%20MPX%20support%20in%20the%20GCC%20compiler
-
-> +
-> +Control the kernel's management of Intel Memory Protection eXtensions
-
-s/Memory Protection eXtensions/Memory Protection eXtensions (MPX)/
-
-> +tables.  When management is enabled, the kernel will take over allocation
-> +and freeing of MPX bounds tables.
-
-In between or after the two preceding sentences, I think it would be good 
-to some text explaining why MPX is useful. Something along the lines of 
-this text from Jon Corbet's article at http://lwn.net/Articles/582712/,
-though you may want to cut down, update, or improve the text.
-
-[[
-MPX is a hardware-assisted mechanism for performing bounds checking 
-on pointer accesses. The hardware, following direction from software, 
-maintains a table of pointers in use and the range of accessible 
-memory (the "bounds") associated with each. Whenever a pointer is 
-dereferenced, special instructions can be used to ensure that the 
-program is accessing memory within the range specified for that 
-particular pointer.
-
-When a bounds violation is detected, the processor will trap into 
-the kernel. The kernel, in turn, will turn the trap into a SIGSEGV 
-signal to be delivered to the application, similar to other types 
-of memory access errors. Applications that look at the siginfo 
-structure passed to the signal handler from the kernel will be able 
-to recognize a bounds error by checking the si_code field for the new 
-SEGV_BNDERR value. The offending address will be stored in si_addr, 
-while the bounds in effect at the time of the trap will be stored 
-in si_lower and si_upper.  
-]]
-
-> +
-> +The application must have allocated virtual space for the bounds
-> +directory and placed its location in bndcfgu before enabling management.
-
-s/bndcfgu/the bndcfgu register/
-
-So, let me make sure I understood the previous sentence correctly.
-Is this a good formulation:
-
-    Before enabling MPX management using PR_MPX_ENABLE_MANAGEMENT, 
-    the application must first have allocated a user-space buffer for
-    the bounds directory and placed the location of that directory in
-    the bndcfgu register.
-?
-
-If so, I think the patch could be reworded closer to that text, since
-it makes things a little clearer.
-
-By the way, what size should allocated for the buffer? And what can
-wrong if the allocated buffer is too small?
-
-> +Once management is enabled, the bounds directory may not be moved.
-
-A few things are not so clear to me, even after reading Jon's article
-and Documentation/x86/intel_mpx.txt. In particular, who has responsibility
-for populating the bounds directory, and what is its format? Is this 
-all invisible to the application? (Because I'm not quite clear on these
-points, I'm not sure if anything should be said in the man page.)
-
-> +
-> +These calls will fail if MPX support is not present in the CPU or the
-
-I suggest:
-s/if MPX support is not present in the CPU/if the CPU does not support MPX/
-
-> +kernel does not had support for MPX enabled.
-
-s/had/have/
-
-And add the following:
-
-Kernel support for MPX is enabled via the
-.BR CONFIG_X86_INTEL_MPX
-configuration option.
-You can check whether the CPU supports MPX using the following command:
-
-    cat /proc/cpuinfo | grep ' mpx '
-
-> +
-> +All threads in a process are affected by these calls.
-
-Please add here:
-
-For further information on Intel MPX, see the kernel source file
-.IR Documentation/x86/intel_mpx.txt .
-
->  .P
->  The following options are available since Linux 3.5.
->  .\" commit fe8c7f5cbf91124987106faa3bdf0c8b955c4cf7
-
-Could you add some text to the patch to explain the ENXIO error?
-
-What are the semantics of the MPX state with respect to the
-child of a fork(2)? (Probably, the man page needs to detail this.)
-
-What happens to the MPX state during an execve(2)? (Probably, 
-the man page needs to detail this.)
-
-Is there a way to discover the current state (enabled/disabled)
-of MPX management? (It appears not, but I would like to confirm.)
-
-I see that the prctl() operations fail to check that unused arguments
-are zero. See my patch sent in a separate mail to LKML et al.
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Laurent
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
