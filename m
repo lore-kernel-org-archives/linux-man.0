@@ -1,44 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2 typo with PERF_ATTR_SIZE_VER3
-Date: Thu, 08 Jan 2015 06:28:53 +0100
-Message-ID: <54AE1595.7070706@gmail.com>
-References: <alpine.DEB.2.11.1501071235140.11398@vincent-weaver-1.umelst.maine.edu>
+Subject: Re: [PATCH] casin.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 08 Jan 2015 06:30:06 +0100
+Message-ID: <54AE15DE.5070406@gmail.com>
+References: <1420687793-27619-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1501071235140.11398-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <1420687793-27619-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/07/2015 06:37 PM, Vince Weaver wrote:
-> 
-> There was a typo with the name of PERF_ATTR_SIZE_VER3
+On 01/08/2015 04:29 AM, Ma Shimiao wrote:
+> The functions casin(), casinf() and casinl() are thread safe.
+> Their markings match glibc markings.
 
-Thanks, Vince. Applied.
+Hello Ma Shimiao.
+
+Thanks. Applied in my local branch.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/casin.3 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 8bde791..34b939d 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -330,7 +330,7 @@ is set to 64; this was the size of the first published struct.
->  is 72, corresponding to the addition of breakpoints in Linux 2.6.33.
->  .B PERF_ATTR_SIZE_VER2
->  is 80 corresponding to the addition of branch sampling in Linux 3.4.
-> -.B PERF_ATR_SIZE_VER3
-> +.B PERF_ATTR_SIZE_VER3
->  is 96 corresponding to the addition
->  of
->  .I sample_regs_user
+> diff --git a/man3/casin.3 b/man3/casin.3
+> index 050fcb1..1721a86 100644
+> --- a/man3/casin.3
+> +++ b/man3/casin.3
+> @@ -34,6 +34,20 @@ One has:
+>  .fi
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw28 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR casin (),
+> +.BR casinf (),
+> +.BR casinl ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  C99.
+>  .SH SEE ALSO
 > 
 
 
