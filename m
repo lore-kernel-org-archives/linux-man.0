@@ -1,21 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] random.4: describe handling of O_NONBLOCK
-Date: Sat, 10 Jan 2015 14:32:18 +0100
-Message-ID: <54B129E2.3040407@gmail.com>
-References: <1417042565-16707-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1] random.4: mention PRNG used by urandom
+Date: Sat, 10 Jan 2015 14:34:18 +0100
+Message-ID: <54B12A5A.1050808@gmail.com>
+References: <1417042709-16767-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1417042565-16707-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1417042709-16767-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 11/26/2014 11:56 PM, Heinrich Schuchardt wrote:
-> /dev/random and /dev/urandom treat O_NONBLOCK differently.
-> This should be described in the manpage.
+On 11/26/2014 11:58 PM, Heinrich Schuchardt wrote:
+> /dev/urandom uses a pseudo random number generator to replace
+> missing entropy.
 
 Thanks, Heinrich. Applied.
 
@@ -26,52 +26,25 @@ Michael
 
 > Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 > ---
->  man4/random.4 | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+>  man4/random.4 | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/man4/random.4 b/man4/random.4
-> index a193ddf..44d9e34 100644
+> index 44d9e34..1be19b8 100644
 > --- a/man4/random.4
 > +++ b/man4/random.4
-> @@ -44,6 +44,22 @@ pool.
->  high quality randomness such as one-time pad or key generation.
->  When the entropy pool is empty, reads from \fI/dev/random\fP will block
->  until additional environmental noise is gathered.
-> +If
-> +.BR open (2)
-> +is called for
-> +.I /dev/random
-> +with flag
-> +.BR O_NONBLOCK ,
-> +a subsequent
-> +.BR read (2)
-> +will not block if the requested number of bytes is not available.
-> +Instead the available bytes are returned.
-> +If no byte is available
-> +.BR read (2)
-> +will return -1 and
-> +.I errno
-> +will be set to
-> +.BR EAGAIN .
+> @@ -63,8 +63,9 @@ will be set to
 >  .LP
 >  A read from the \fI/dev/urandom\fP device will not block
 >  waiting for more entropy.
-> @@ -55,6 +71,15 @@ literature, but it is theoretically possible that such an attack may
->  exist.
->  If this is a concern in your application, use \fI/dev/random\fP
->  instead.
-> +.B O_NONBLOCK
-> +has no effect when opening
-> +.IR /dev/urandom .
-> +When calling
-> +.BR read (2)
-> +for device
-> +.I /dev/urandom
-> +signals will not be handled until after the requested random bytes
-> +have been generated.
->  .LP
->  Writing to \fI/dev/random\fP or \fI/dev/urandom\fP will update the
->  entropy pool with the data written, but this will not result in a
+> -As a result, if there is not sufficient entropy in the
+> -entropy pool, the returned values are theoretically vulnerable to a
+> +If there is not sufficient entropy, a pseudorandom number generator is used
+> +to create the requested bytes.
+> +As a result, in this case the returned values are theoretically vulnerable to a
+>  cryptographic attack on the algorithms used by the driver.
+>  Knowledge of how to do this is not available in the current unclassified
+>  literature, but it is theoretically possible that such an attack may
 > 
 
 
