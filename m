@@ -1,57 +1,34 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] random.4: mention PRNG used by urandom
-Date: Sat, 10 Jan 2015 14:34:18 +0100
-Message-ID: <54B12A5A.1050808@gmail.com>
-References: <1417042709-16767-1-git-send-email-xypron.glpk@gmx.de>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 91061] select_tut: SHUT_RDWR -> SHUT_WR
+Date: Sat, 10 Jan 2015 13:39:27 +0000
+Message-ID: <bug-91061-11311-zAwur3TMBI@https.bugzilla.kernel.org/>
+References: <bug-91061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1417042709-16767-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <bug-91061-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 11/26/2014 11:58 PM, Heinrich Schuchardt wrote:
-> /dev/urandom uses a pseudo random number generator to replace
-> missing entropy.
+https://bugzilla.kernel.org/show_bug.cgi?id=91061
 
-Thanks, Heinrich. Applied.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Cheers,
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-Michael
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Hello Askar,
 
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man4/random.4 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man4/random.4 b/man4/random.4
-> index 44d9e34..1be19b8 100644
-> --- a/man4/random.4
-> +++ b/man4/random.4
-> @@ -63,8 +63,9 @@ will be set to
->  .LP
->  A read from the \fI/dev/urandom\fP device will not block
->  waiting for more entropy.
-> -As a result, if there is not sufficient entropy in the
-> -entropy pool, the returned values are theoretically vulnerable to a
-> +If there is not sufficient entropy, a pseudorandom number generator is used
-> +to create the requested bytes.
-> +As a result, in this case the returned values are theoretically vulnerable to a
->  cryptographic attack on the algorithms used by the driver.
->  Knowledge of how to do this is not available in the current unclassified
->  literature, but it is theoretically possible that such an attack may
-> 
-
+You could make this report more useful by determining if other changes to the
+code are required...
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
