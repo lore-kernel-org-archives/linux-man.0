@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] a64l.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 11:51:12 +0800
-Message-ID: <1421293872-21399-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] stdarg.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 12:00:49 +0800
+Message-ID: <1421294449-22289-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,27 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/a64l.3 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/stdarg.3 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/man3/a64l.3 b/man3/a64l.3
-index f9b88e4..353254e 100644
---- a/man3/a64l.3
-+++ b/man3/a64l.3
-@@ -70,7 +70,7 @@ l l l.
+diff --git a/man3/stdarg.3 b/man3/stdarg.3
+index 0adbff8..62dc1f5 100644
+--- a/man3/stdarg.3
++++ b/man3/stdarg.3
+@@ -236,10 +236,12 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR l64a ()
--T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:l64a
- T{
- .BR a64l ()
+ .BR va_start (),
+-.BR va_arg (),
+ .BR va_end (),
+ .BR va_copy ()
  T}	Thread safety	MT-Safe
++T{
++.BR va_arg ()
++T}	Thread safety	MT-Safe race:ap
+ .TE
+ .SH CONFORMING TO
+ The
 -- 
 1.8.3.1
 
