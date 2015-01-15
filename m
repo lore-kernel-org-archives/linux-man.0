@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strtok.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:01:21 +0800
-Message-ID: <1421287281-12891-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] strerror.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:01:50 +0800
+Message-ID: <1421287310-12993-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/strtok.3 | 2 +-
+ man3/strerror.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/strtok.3 b/man3/strtok.3
-index 1b3dfd7..b2edfac 100644
---- a/man3/strtok.3
-+++ b/man3/strtok.3
-@@ -176,7 +176,7 @@ l l l.
+diff --git a/man3/strerror.3 b/man3/strerror.3
+index 708e15b..0755c0a 100644
+--- a/man3/strerror.3
++++ b/man3/strerror.3
+@@ -209,7 +209,7 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR strtok ()
+ .BR strerror ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:strtok
++T}	Thread safety	MT-Unsafe race:strerror
  T{
- .BR strtok_r ()
- T}	Thread safety	MT-Safe
+ .BR strerror_r (),
+ .BR strerror_l ()
 -- 
 1.8.3.1
 
