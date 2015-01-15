@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fcloseall.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:03:29 +0800
-Message-ID: <1421287409-13320-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] ptsname.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:03:53 +0800
+Message-ID: <1421287433-13411-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/fcloseall.3 | 2 +-
+ man3/ptsname.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/fcloseall.3 b/man3/fcloseall.3
-index 7b15fdc..6235376 100644
---- a/man3/fcloseall.3
-+++ b/man3/fcloseall.3
-@@ -62,7 +62,7 @@ l l l.
+diff --git a/man3/ptsname.3 b/man3/ptsname.3
+index 7eeee1d..7310b8f 100644
+--- a/man3/ptsname.3
++++ b/man3/ptsname.3
+@@ -86,7 +86,7 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR fcloseall ()
+ .BR ptsname ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:streams
- .TE
- .PP
- The
++T}	Thread safety	MT-Unsafe race:ptsname
+ T{
+ .BR ptsname_r ()
+ T}	Thread safety	MT-Safe
 -- 
 1.8.3.1
 
