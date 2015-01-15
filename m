@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: pid_namespaces.7: remove duplicated 'that'
-Date: Fri, 16 Jan 2015 02:23:40 +0900
-Message-ID: <CALhU9t=GoW1XsZ9TfO5RaCpe2ges_xYuo8oBogChAMUMwaJ53A@mail.gmail.com>
+Subject: adjtimex.2: use italic for structure field
+Date: Fri, 16 Jan 2015 02:24:17 +0900
+Message-ID: <CALhU9tnq3iTe=Ta+z6yMG+BVotNgQC5=uaE4FCeG+HB-7bTgXQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,19 +9,19 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
-index e6aaa60..c465950 100644
---- a/man7/pid_namespaces.7
-+++ b/man7/pid_namespaces.7
-@@ -222,7 +222,7 @@ can't be combined with some other
- flags:
- .IP * 3
- .B CLONE_THREAD
--requires being in the same PID namespace in order that that
-+requires being in the same PID namespace in order that
- the threads in a process can send signals to each other.
- Similarly, it must be possible to see all of the threads
- of a processes in the
+diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
+index ea94610..954ffb1 100644
+--- a/man2/adjtimex.2
++++ b/man2/adjtimex.2
+@@ -195,7 +195,7 @@ which specifies an adjustment in microseconds.
+ .\" In kernel space there is ADJ_OFFSET_READONLY (0x2000) anded with
+ .\" ADJ_ADJTIME (0x8000) and ADJ_OFFSET_SINGLESHOT (0x0001) to give 0xa001)
+ Return (in
+-.BR buf.offset )
++.IR buf.offset )
+ the remaining amount of time to be adjusted after an earlier
+ .BR ADJ_OFFSET_SINGLESHOT
+ operation.
 
 
 -- 
