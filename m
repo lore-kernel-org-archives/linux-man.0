@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] encrypt.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:16:56 +0800
-Message-ID: <1421288216-14551-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] mblen.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:27:46 +0800
+Message-ID: <1421288866-15383-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/encrypt.3 | 2 +-
+ man3/mblen.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/encrypt.3 b/man3/encrypt.3
-index 4784d6b..85c6690 100644
---- a/man3/encrypt.3
-+++ b/man3/encrypt.3
-@@ -132,7 +132,7 @@ Interface	Attribute	Value
+diff --git a/man3/mblen.3 b/man3/mblen.3
+index 85b02d6..8a3025f 100644
+--- a/man3/mblen.3
++++ b/man3/mblen.3
+@@ -94,7 +94,7 @@ l l l.
+ Interface	Attribute	Value
  T{
- .BR encrypt (),
- .BR setkey ()
+ .BR mblen ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:crypt
- T{
- .BR encrypt_r (),
- .BR setkey_r ()
++T}	Thread safety	MT-Unsafe race
+ .TE
+ .SH CONFORMING TO
+ C99.
 -- 
 1.8.3.1
 
