@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctomb.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:04:14 +0800
-Message-ID: <1421287454-13481-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] crypt.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:11:05 +0800
+Message-ID: <1421287865-14035-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctomb.3 | 2 +-
+ man3/crypt.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/wctomb.3 b/man3/wctomb.3
-index 8fda93d..feadf37 100644
---- a/man3/wctomb.3
-+++ b/man3/wctomb.3
-@@ -91,7 +91,7 @@ l l l.
+diff --git a/man3/crypt.3 b/man3/crypt.3
+index ea7290e..a25afb0 100644
+--- a/man3/crypt.3
++++ b/man3/crypt.3
+@@ -181,7 +181,7 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR wctomb ()
+ .BR crypt ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race
- .TE
- .SH CONFORMING TO
- C99.
++T}	Thread safety	MT-Unsafe race:crypt
+ T{
+ .BR crypt_r ()
+ T}	Thread safety	MT-Safe
 -- 
 1.8.3.1
 
