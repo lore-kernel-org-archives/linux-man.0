@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: adjtimex.2: use italic for structure field
-Date: Fri, 16 Jan 2015 02:24:17 +0900
-Message-ID: <CALhU9tnq3iTe=Ta+z6yMG+BVotNgQC5=uaE4FCeG+HB-7bTgXQ@mail.gmail.com>
+Subject: locale.5: correct variable name
+Date: Fri, 16 Jan 2015 02:26:18 +0900
+Message-ID: <CALhU9tnv1zWxb6O00=L6TGrWX2Vjmp_wA2hAUW_GGaYhQQu5EA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,20 +9,21 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man2/adjtimex.2 b/man2/adjtimex.2
-index ea94610..954ffb1 100644
---- a/man2/adjtimex.2
-+++ b/man2/adjtimex.2
-@@ -195,7 +195,7 @@ which specifies an adjustment in microseconds.
- .\" In kernel space there is ADJ_OFFSET_READONLY (0x2000) anded with
- .\" ADJ_ADJTIME (0x8000) and ADJ_OFFSET_SINGLESHOT (0x0001) to give 0xa001)
- Return (in
--.BR buf.offset )
-+.IR buf.offset )
- the remaining amount of time to be adjusted after an earlier
- .BR ADJ_OFFSET_SINGLESHOT
- operation.
+I think "positive_sign" is used.
 
+diff --git a/man5/locale.5 b/man5/locale.5
+index 64444e0..e73a471 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -785,7 +785,7 @@ The same values are recognized as for
+ .TP
+ .I int_p_sign_posn
+ followed by an integer that indicates where the
+-.I negative_sign
++.I positive_sign
+ should be placed for a nonnegative
+ internationally formatted monetary quantity.
+ The same values are recognized as for
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
