@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getdate.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:02:39 +0800
-Message-ID: <1421287359-13158-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getpass.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:03:06 +0800
+Message-ID: <1421287386-13242-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,26 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getdate.3 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man3/getpass.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/getdate.3 b/man3/getdate.3
-index 11db129..0c9fb32 100644
---- a/man3/getdate.3
-+++ b/man3/getdate.3
-@@ -203,10 +203,10 @@ l l l.
+diff --git a/man3/getpass.3 b/man3/getpass.3
+index fb13819..181ba2b 100644
+--- a/man3/getpass.3
++++ b/man3/getpass.3
+@@ -103,7 +103,7 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR getdate ()
+ .BR getpass ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:getdate env locale
- T{
- .BR getdate_r ()
--T}	Thread safety	MT-Safe
-+T}	Thread safety	MT-Safe env locale
++T}	Thread safety	MT-Unsafe term
  .TE
  .SH CONFORMING TO
- POSIX.1-2001.
+ Present in SUSv2, but marked LEGACY.
 -- 
 1.8.3.1
 
