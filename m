@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mblen.3: Modify thread-safety information
-Date: Thu, 15 Jan 2015 10:27:46 +0800
-Message-ID: <1421288866-15383-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] exit.3: Modify thread-safety information
+Date: Thu, 15 Jan 2015 10:41:14 +0800
+Message-ID: <1421289674-16379-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mblen.3 | 2 +-
+ man3/exit.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/mblen.3 b/man3/mblen.3
-index 85b02d6..8a3025f 100644
---- a/man3/mblen.3
-+++ b/man3/mblen.3
-@@ -94,7 +94,7 @@ l l l.
+diff --git a/man3/exit.3 b/man3/exit.3
+index e44d8ac..b69bc94 100644
+--- a/man3/exit.3
++++ b/man3/exit.3
+@@ -97,7 +97,7 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR mblen ()
+ .BR exit ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race
++T}	Thread safety	MT-Unsafe race:exit
  .TE
- .SH CONFORMING TO
- C99.
+ .PP
+ The
 -- 
 1.8.3.1
 
