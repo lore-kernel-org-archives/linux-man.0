@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: printf.3: ffix
-Date: Fri, 16 Jan 2015 02:22:43 +0900
-Message-ID: <CALhU9tktSoyhnm3w0MbPt8j1+jBh-8oTDhPtJENVTUb0Jh8K8A@mail.gmail.com>
+Subject: pid_namespaces.7: remove duplicated 'that'
+Date: Fri, 16 Jan 2015 02:23:40 +0900
+Message-ID: <CALhU9t=GoW1XsZ9TfO5RaCpe2ges_xYuo8oBogChAMUMwaJ53A@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,19 +9,20 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index c6fe88c..e03453b 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -804,7 +804,7 @@ or
- The number of characters written so far is stored into the integer
- pointed to by the corresponding argument.
- That argument shall be an
--.I "int\ *",
-+.IR "int\ *" ,
- or variant whose size matches the (optionally)
- supplied integer length modifier.
- No argument is converted.
+diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
+index e6aaa60..c465950 100644
+--- a/man7/pid_namespaces.7
++++ b/man7/pid_namespaces.7
+@@ -222,7 +222,7 @@ can't be combined with some other
+ flags:
+ .IP * 3
+ .B CLONE_THREAD
+-requires being in the same PID namespace in order that that
++requires being in the same PID namespace in order that
+ the threads in a process can send signals to each other.
+ Similarly, it must be possible to see all of the threads
+ of a processes in the
+
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
