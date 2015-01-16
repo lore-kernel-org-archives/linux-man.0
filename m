@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 2/7] fclose.3: wfix
-Date: Thu, 15 Jan 2015 22:18:18 -0500
-Message-ID: <54B882FA.9070500@redhat.com>
+Subject: [patch 3/7] getspnam.3: wfix
+Date: Thu, 15 Jan 2015 22:18:21 -0500
+Message-ID: <54B882FD.9090009@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -17,40 +17,44 @@ and understand what they are looking at.
 
 Patch against master.
 
-diff --git a/man3/fclose.3 b/man3/fclose.3
-index 28c0d00..b07d444 100644
---- a/man3/fclose.3
-+++ b/man3/fclose.3
-@@ -47,12 +47,12 @@ fclose \- close a stream
- .SH SYNOPSIS
- .B #include <stdio.h>
+diff --git a/man3/getspnam.3 b/man3/getspnam.3
+index 13d6157..e230b78 100644
+--- a/man3/getspnam.3
++++ b/man3/getspnam.3
+@@ -24,11 +24,11 @@ lckpwdf, ulckpwdf \- get shadow password file entry
  .sp
--.BI "int fclose(FILE *" fp );
-+.BI "int fclose(FILE *" stream );
- .SH DESCRIPTION
- The
- .BR fclose ()
- function flushes the stream pointed to by
--.I fp
-+.I stream
- (writing any buffered output data using
- .BR fflush (3))
- and closes the underlying file descriptor.
-@@ -71,12 +71,12 @@ to the stream results in undefined behavior.
- .TP
- .B EBADF
- The file descriptor underlying
--.I fp
-+.I stream
- is not valid.
- .\"  This error cannot occur unless you are mixing ANSI C stdio operations and
- .\"  low-level file operations on the same stream. If you do get this error,
- .\"  you must have closed the stream's low-level file descriptor using
--.\"  something like close(fileno(fp)).
-+.\"  something like close(fileno(stream)).
- .PP
- The
- .BR fclose ()
+ .B void endspent(void);
+ .sp
+-.BI "struct spwd *fgetspent(FILE *" fp );
++.BI "struct spwd *fgetspent(FILE *" stream );
+ .sp
+ .BI "struct spwd *sgetspent(const char *" s );
+ .sp
+-.BI "int putspent(const struct spwd *" p ", FILE *" fp );
++.BI "int putspent(const struct spwd *" p ", FILE *" stream );
+ .sp
+ .B int lckpwdf(void);
+ .sp
+@@ -46,7 +46,7 @@ lckpwdf, ulckpwdf \- get shadow password file entry
+ .br
+ .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
+ .sp
+-.BI "int fgetspent_r(FILE *" fp ", struct spwd *" spbuf ,
++.BI "int fgetspent_r(FILE *" stream ", struct spwd *" spbuf ,
+ .br
+ .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
+ .sp
+@@ -137,8 +137,8 @@ The
+ function writes the contents of the supplied struct
+ .I spwd
+ .I *p
+-as a text line in the shadow password file format to the stream
+-.IR fp .
++as a text line in the shadow password file format to the
++.IR stream .
+ String entries with value NULL and numerical entries with value \-1
+ are written as an empty string.
+ .LP
 ---
 
 Cheers,
