@@ -1,21 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wctomb.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:14:10 +0100
-Message-ID: <54B8C852.4000604@gmail.com>
-References: <1421287454-13481-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] crypt.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:14:22 +0100
+Message-ID: <54B8C85E.2060304@gmail.com>
+References: <1421287865-14035-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421287454-13481-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421287865-14035-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/15/2015 03:04 AM, Ma Shimiao wrote:
+On 01/15/2015 03:11 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the
 > thread-safety information to be the same as glibc manual.
+
 
 Thanks, Ma Shimiao. Applied.
 
@@ -23,24 +24,25 @@ Cheers,
 
 Michael
 
+
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wctomb.3 | 2 +-
+>  man3/crypt.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/wctomb.3 b/man3/wctomb.3
-> index 8fda93d..feadf37 100644
-> --- a/man3/wctomb.3
-> +++ b/man3/wctomb.3
-> @@ -91,7 +91,7 @@ l l l.
+> diff --git a/man3/crypt.3 b/man3/crypt.3
+> index ea7290e..a25afb0 100644
+> --- a/man3/crypt.3
+> +++ b/man3/crypt.3
+> @@ -181,7 +181,7 @@ l l l.
 >  Interface	Attribute	Value
 >  T{
->  .BR wctomb ()
+>  .BR crypt ()
 > -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe race
->  .TE
->  .SH CONFORMING TO
->  C99.
+> +T}	Thread safety	MT-Unsafe race:crypt
+>  T{
+>  .BR crypt_r ()
+>  T}	Thread safety	MT-Safe
 > 
 
 
