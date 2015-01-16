@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mblen.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:14:41 +0100
-Message-ID: <54B8C871.7010102@gmail.com>
-References: <1421288866-15383-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] exit.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:14:49 +0100
+Message-ID: <54B8C879.3050703@gmail.com>
+References: <1421289674-16379-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421288866-15383-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421289674-16379-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/15/2015 03:27 AM, Ma Shimiao wrote:
+On 01/15/2015 03:41 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the 
 > thread-safety information to be the same as glibc manual.
 
@@ -23,24 +23,25 @@ Cheers,
 
 Michael
 
+
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/mblen.3 | 2 +-
+>  man3/exit.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/mblen.3 b/man3/mblen.3
-> index 85b02d6..8a3025f 100644
-> --- a/man3/mblen.3
-> +++ b/man3/mblen.3
-> @@ -94,7 +94,7 @@ l l l.
+> diff --git a/man3/exit.3 b/man3/exit.3
+> index e44d8ac..b69bc94 100644
+> --- a/man3/exit.3
+> +++ b/man3/exit.3
+> @@ -97,7 +97,7 @@ l l l.
 >  Interface	Attribute	Value
 >  T{
->  .BR mblen ()
+>  .BR exit ()
 > -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe race
+> +T}	Thread safety	MT-Unsafe race:exit
 >  .TE
->  .SH CONFORMING TO
->  C99.
+>  .PP
+>  The
 > 
 
 
