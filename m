@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 5/7] getpwent_r.3: wfix
-Date: Thu, 15 Jan 2015 22:18:26 -0500
-Message-ID: <54B88302.5070405@redhat.com>
+Subject: [patch 6/7] malloc_info.3: wfix
+Date: Thu, 15 Jan 2015 22:18:29 -0500
+Message-ID: <54B88305.8000509@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -17,30 +17,28 @@ and understand what they are looking at.
 
 Patch against master.
 
-diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
-index a9076a9..ac84e3b 100644
---- a/man3/getpwent_r.3
-+++ b/man3/getpwent_r.3
-@@ -32,7 +32,7 @@ getpwent_r, fgetpwent_r \- get passwd file entry reentrantly
- .br
- .BI "               size_t " buflen ", struct passwd **" pwbufp );
+diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
+index c7774f8..f8a487e 100644
+--- a/man3/malloc_info.3
++++ b/man3/malloc_info.3
+@@ -29,7 +29,7 @@ malloc_info \- export malloc state to a stream
+ .nf
+ .B #include <malloc.h>
  .sp
--.BI "int fgetpwent_r(FILE *" fp ", struct passwd *" pwbuf ", char *" buf ,
-+.BI "int fgetpwent_r(FILE *" stream ", struct passwd *" pwbuf ", char *" buf ,
- .br
- .BI "                size_t " buflen ", struct passwd **" pwbufp );
+-.BI "int malloc_info(int " options ", FILE *" fp );
++.BI "int malloc_info(int " options ", FILE *" stream );
  .fi
-@@ -58,8 +58,8 @@ and
- .BR fgetpwent (3).
- The former reads the next passwd entry from the stream initialized by
- .BR setpwent (3).
--The latter reads the next passwd entry from the stream
+ .SH DESCRIPTION
+ The
+@@ -38,7 +38,7 @@ function exports an XML string that describes the current state
+ of the memory-allocation
+ implementation in the caller.
+ The string is printed on the file stream
 -.IR fp .
-+The latter reads the next passwd entry from the
 +.IR stream .
- .PP
- The \fIpasswd\fP structure is defined in
- .I <pwd.h>
+ The exported string includes information about all arenas (see
+ .BR malloc (3)).
+ 
 ---
 
 Cheers,
