@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: pid_namespaces.7: remove duplicated 'that'
-Date: Fri, 16 Jan 2015 07:48:01 +0100
-Message-ID: <54B8B421.5010401@gmail.com>
-References: <CALhU9t=GoW1XsZ9TfO5RaCpe2ges_xYuo8oBogChAMUMwaJ53A@mail.gmail.com>
+Subject: Re: locale.5: correct variable name
+Date: Fri, 16 Jan 2015 07:48:47 +0100
+Message-ID: <54B8B44F.8050109@gmail.com>
+References: <CALhU9tnv1zWxb6O00=L6TGrWX2Vjmp_wA2hAUW_GGaYhQQu5EA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9t=GoW1XsZ9TfO5RaCpe2ges_xYuo8oBogChAMUMwaJ53A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALhU9tnv1zWxb6O00=L6TGrWX2Vjmp_wA2hAUW_GGaYhQQu5EA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -20,21 +20,22 @@ Cheers,
 Michael
 
 
-On 01/15/2015 06:23 PM, Akihiro Motoki wrote:
-> diff --git a/man7/pid_namespaces.7 b/man7/pid_namespaces.7
-> index e6aaa60..c465950 100644
-> --- a/man7/pid_namespaces.7
-> +++ b/man7/pid_namespaces.7
-> @@ -222,7 +222,7 @@ can't be combined with some other
->  flags:
->  .IP * 3
->  .B CLONE_THREAD
-> -requires being in the same PID namespace in order that that
-> +requires being in the same PID namespace in order that
->  the threads in a process can send signals to each other.
->  Similarly, it must be possible to see all of the threads
->  of a processes in the
+On 01/15/2015 06:26 PM, Akihiro Motoki wrote:
+> I think "positive_sign" is used.
 > 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index 64444e0..e73a471 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -785,7 +785,7 @@ The same values are recognized as for
+>  .TP
+>  .I int_p_sign_posn
+>  followed by an integer that indicates where the
+> -.I negative_sign
+> +.I positive_sign
+>  should be placed for a nonnegative
+>  internationally formatted monetary quantity.
+>  The same values are recognized as for
 > 
 
 
