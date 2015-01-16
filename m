@@ -1,62 +1,56 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: man-pages MT attributes status / update
-Date: Fri, 16 Jan 2015 09:35:32 +0100
-Message-ID: <54B8CD54.4090701@gmail.com>
+Subject: Re: man 4 tty_ioctl fixes
+Date: Fri, 16 Jan 2015 11:36:36 +0100
+Message-ID: <CAKgNAkh+8n5wJanAoBCgQBEca8TgOe1c85NZaP_irepV1DYFjg@mail.gmail.com>
+References: <CAEmTpZH2JX1EuFCPDxZwCR8Sbxdgm8VJ+EN+HdhAC+b9YL49xg@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAEmTpZH2JX1EuFCPDxZwCR8Sbxdgm8VJ+EN+HdhAC+b9YL49xg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: =?UTF-8?B?0JzQsNGA0Log0JrQvtGA0LXQvdCx0LXRgNCz?= <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Ma Shimiao
+Hello =D0=9C=D0=B0=D1=80=D0=BA.
 
-Now that you have started sending patches that bring the 
-man-pages and glibc MT-safety into agreement, I think 
-we'll soon be ready to release a lot of pent up patches 
-(~350!) into a mainline man-pages release. My thanks
-to you and you colleagues at Fujitsu for all of this 
-work!
+What is the purpose of your report?
 
-I imagine that there are still some remaining differences 
-between the man-pages and glibc MT-safety markings. Do you have
-an idea of how many pages remain to be fixed?
-
-By the way, as far as I can tell, we now have all man-pages 
-attributes markings in the "new look" boxed format. Can you 
-confirm?
-
-With all of the preceding in mind, I've done a bit of Git
-reorganization. I've removed the 'attributes_reformat_2' branch
-at http://git.kernel.org/cgit/docs/man-pages/man-pages.git .
-In its place, there is now a new branch 'mt_attributes'.
-I made that change for a couple of reasons:
-
-1. I rebased the changes in the attributes_reformat' branch
-   against man-pages-3.77. In the process, I resolved a handful
-   of conflicts, and as a result of the rebase the SHA-1 IDs
-   changed.
-
-2. Into 'mt_attributes', I have merged all of the other 
-   MT-safety patches that were in a private branch that I was 
-   running. These were the patches in the last few months that
-   added ATTRIBUTES to pages that did not have them.
-
-I hope that switching to the new branch does not present 
-any inconvenience to you. Of course, with this change, now
-the 'mt_attributes' branch shows all of the patches from you
-and your colleagues that I have merged. With luck, the view 
-in that branch should be completely consistent with your 
-local copy.
-
-Cheers,
+Thanks,
 
 Michael
 
 
--- 
+On 11 January 2015 at 20:58, =D0=9C=D0=B0=D1=80=D0=BA =D0=9A=D0=BE=D1=80=
+=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=B3 <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> $ egrep '[^A-Z0-9]EXTPROC' -r /usr/include
+> /usr/include/x86_64-linux-gnu/bits/termios.h:# define EXTPROC 0200000
+> /usr/include/asm-generic/termbits.h:#define EXTPROC 0200000
+> <-------- undocumented
+>
+> $ fgrep TIOCPKT -r /usr/include
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT 0x5420
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_DATA 0
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_FLUSHREAD 1
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_FLUSHWRITE 2
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_STOP 4
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_START 8
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_NOSTOP 16
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_DOSTOP 32
+> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_IOCTL 64  <------ u=
+ndocumented
+>
+> Some information:
+>
+> http://stackoverflow.com/questions/21641754/when-pty-pseudo-terminal-=
+slave-fd-settings-are-changed-by-tcsetattr-how-ca
+> http://lists.gnu.org/archive/html/bug-readline/2011-01/msg00004.html
+
+
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
