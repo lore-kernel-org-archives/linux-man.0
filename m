@@ -1,55 +1,106 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch]
-Date: Fri, 16 Jan 2015 07:14:24 +0100
-Message-ID: <54B8AC40.4060508@gmail.com>
-References: <54B8888F.4050403@redhat.com> <54B888D1.8050009@redhat.com>
+Subject: Re: [patch] getpw.3: Function could return -1 and set errno to zero.
+Date: Fri, 16 Jan 2015 07:38:35 +0100
+Message-ID: <54B8B1EB.4040000@gmail.com>
+References: <54B8857F.2060307@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B888D1.8050009-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54B8857F.2060307-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/16/2015 04:43 AM, Carlos O'Donell wrote:
-> Sorry, mailer failure.
+On 01/16/2015 04:29 AM, Carlos O'Donell wrote:
+> All of the BSD interfaces, including glibc's own implementation
+> of getpw return -1 and set errno to 0 to indicate that there
+> was no user corresponding to that uid.
 > 
-> Subject: [patch] getpwent_r.3: tfix
+> I have never under any condition seen an NSS backend return
+> ENOENT via the set of APIs that getpw uses internally in
+> glibc.
+> 
+> Therefore I would suggest the manual page be expanded to include
+> 0 in the list of valid errno values that indicate no corresponding
+> user. I reorganize the list of errors to have the non-error
+> at the top, as is done with getgrnam.3 and getpwnam.3 which have
+> similar behaviour in the non-error case.
 > 
 > Patch against master.
+> 
+> diff --git a/man3/getpw.3 b/man3/getpw.3
+> index 4054823..3eed9a7 100644
+> --- a/man3/getpw.3
+> +++ b/man3/getpw.3
+> @@ -77,14 +77,14 @@ function returns 0 on success; on error, it returns \-1, and
+>  is set to indicate the error.
+>  .SH ERRORS
+>  .TP
+> +.BR 0 " or " ENOENT
+> +No user corresponding to
+> +.IR uid .
+> +.TP
+>  .B EINVAL
+>  .I buf
+>  is NULL.
+>  .TP
+> -.B 0 or ENOENT
+> -No user corresponding to
+> -.IR uid .
+> -.TP
+>  .B ENOMEM
+>  Insufficient memory to allocate
+>  .I passwd
 
-Thanks. Applied with fixed subject.
+Hi Carlos,
 
-Cheers,
+This patch was broken. (I think you must have prepared a preceding
+patch that you did not send.
+
+I take your point, but I think a little more could be said. I instead
+applied the patch below. Okay?
+
+Thanks,
 
 Michael
 
-> On 01/15/2015 10:42 PM, Carlos O'Donell wrote:
->> Grammatical nit.
->>
->> diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
->> index ac84e3b..b7f6edc 100644
->> --- a/man3/getpwent_r.3
->> +++ b/man3/getpwent_r.3
->> @@ -119,7 +119,7 @@ Try again with larger buffer.
->>  These functions are GNU extensions, done in a style resembling
->>  the POSIX version of functions like
->>  .BR getpwnam_r (3).
->> -Other systems use prototype
->> +Other systems use the prototype
->>  .sp
->>  .nf
->>  .in +4n
->> ---
->>
->> Cheers,
->> Carlos.
->>
-> 
-> 
-
+diff --git a/man3/getpw.3 b/man3/getpw.3
+index cf7eb69..9f2732f 100644
+--- a/man3/getpw.3
++++ b/man3/getpw.3
+@@ -75,16 +75,26 @@ The
+ function returns 0 on success; on error, it returns \-1, and
+ .I errno
+ is set to indicate the error.
++
++If
++.I uid
++is not found in the password database,
++.BR getpw ()
++returns 0, sets
++.I errno
++to 0, and leaves
++.I buf
++unchanged.
+ .SH ERRORS
+ .TP
++.BR 0 " or " ENOENT
++No user corresponding to
++.IR uid .
++.TP
+ .B EINVAL
+ .I buf
+ is NULL.
+ .TP
+-.B ENOENT
+-No user corresponding to
+-.IR uid .
+-.TP
+ .B ENOMEM
+ Insufficient memory to allocate
+ .I passwd
 
 -- 
 Michael Kerrisk
