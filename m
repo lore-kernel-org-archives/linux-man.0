@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ptsname.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:14:02 +0100
-Message-ID: <54B8C84A.50804@gmail.com>
-References: <1421287433-13411-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] wctomb.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:14:10 +0100
+Message-ID: <54B8C852.4000604@gmail.com>
+References: <1421287454-13481-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421287433-13411-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421287454-13481-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/15/2015 03:03 AM, Ma Shimiao wrote:
+On 01/15/2015 03:04 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the
 > thread-safety information to be the same as glibc manual.
 
@@ -23,25 +23,24 @@ Cheers,
 
 Michael
 
-
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ptsname.3 | 2 +-
+>  man3/wctomb.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/ptsname.3 b/man3/ptsname.3
-> index 7eeee1d..7310b8f 100644
-> --- a/man3/ptsname.3
-> +++ b/man3/ptsname.3
-> @@ -86,7 +86,7 @@ l l l.
+> diff --git a/man3/wctomb.3 b/man3/wctomb.3
+> index 8fda93d..feadf37 100644
+> --- a/man3/wctomb.3
+> +++ b/man3/wctomb.3
+> @@ -91,7 +91,7 @@ l l l.
 >  Interface	Attribute	Value
 >  T{
->  .BR ptsname ()
+>  .BR wctomb ()
 > -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe race:ptsname
->  T{
->  .BR ptsname_r ()
->  T}	Thread safety	MT-Safe
+> +T}	Thread safety	MT-Unsafe race
+>  .TE
+>  .SH CONFORMING TO
+>  C99.
 > 
 
 
