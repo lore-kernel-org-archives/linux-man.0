@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] random_r.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:42:15 +0800
-Message-ID: <1421372535-17867-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getcontext.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:50:27 +0800
+Message-ID: <1421373027-18516-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/random_r.3 | 2 +-
+ man3/getcontext.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/random_r.3 b/man3/random_r.3
-index 71ca64d..6b990b8 100644
---- a/man3/random_r.3
-+++ b/man3/random_r.3
-@@ -139,7 +139,7 @@ T{
- .br
- .BR initstate_r (),
- .BR setstate_r ()
+diff --git a/man3/getcontext.3 b/man3/getcontext.3
+index 8e35238..db44326 100644
+--- a/man3/getcontext.3
++++ b/man3/getcontext.3
+@@ -161,7 +161,7 @@ Interface	Attribute	Value
+ T{
+ .BR getcontext (),
+ .BR setcontext ()
 -T}	Thread safety	MT-Safe
-+T}	Thread safety	MT-Safe race:buf
++T}	Thread safety	MT-Safe race:ucp
  .TE
  .SH CONFORMING TO
- These functions are nonstandard glibc extensions.
+ SUSv2, POSIX.1-2001.
 -- 
 1.8.3.1
 
