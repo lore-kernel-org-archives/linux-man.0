@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch 6/7] malloc_info.3: wfix
-Date: Fri, 16 Jan 2015 06:45:48 +0100
-Message-ID: <54B8A58C.6060600@gmail.com>
-References: <54B88305.8000509@redhat.com>
+Subject: Re: [patch 1/7] getgrent_r.3: wfix
+Date: Fri, 16 Jan 2015 06:59:45 +0100
+Message-ID: <54B8A8D1.60500@gmail.com>
+References: <54B882F8.3080203@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B88305.8000509-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54B882F8.3080203-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -27,30 +27,33 @@ Michael
 
 
 
+
 > Patch against master.
 > 
-> diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
-> index c7774f8..f8a487e 100644
-> --- a/man3/malloc_info.3
-> +++ b/man3/malloc_info.3
-> @@ -29,7 +29,7 @@ malloc_info \- export malloc state to a stream
->  .nf
->  .B #include <malloc.h>
+> diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
+> index 8f33851..6e1078d 100644
+> --- a/man3/getgrent_r.3
+> +++ b/man3/getgrent_r.3
+> @@ -32,7 +32,7 @@ getgrent_r, fgetgrent_r \- get group file entry reentrantly
+>  .br
+>  .BI "               size_t " buflen ", struct group **" gbufp );
 >  .sp
-> -.BI "int malloc_info(int " options ", FILE *" fp );
-> +.BI "int malloc_info(int " options ", FILE *" stream );
+> -.BI "int fgetgrent_r(FILE *" fp ", struct group *" gbuf ", char *" buf ,
+> +.BI "int fgetgrent_r(FILE *" stream ", struct group *" gbuf ", char *" buf ,
+>  .br
+>  .BI "                size_t " buflen ", struct group **" gbufp );
 >  .fi
->  .SH DESCRIPTION
->  The
-> @@ -38,7 +38,7 @@ function exports an XML string that describes the current state
->  of the memory-allocation
->  implementation in the caller.
->  The string is printed on the file stream
+> @@ -59,8 +59,8 @@ and
+>  .BR fgetgrent (3).
+>  The former reads the next group entry from the stream initialized by
+>  .BR setgrent (3).
+> -The latter reads the next group entry from the stream
 > -.IR fp .
+> +The latter reads the next group entry from the
 > +.IR stream .
->  The exported string includes information about all arenas (see
->  .BR malloc (3)).
->  
+>  .PP
+>  The \fIgroup\fP structure is defined in
+>  .I <grp.h>
 > ---
 > 
 > Cheers,
