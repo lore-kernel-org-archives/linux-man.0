@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch 4/7] putgrent.3: wfix
-Date: Fri, 16 Jan 2015 06:45:06 +0100
-Message-ID: <54B8A562.5000205@gmail.com>
-References: <54B88300.4000205@redhat.com>
+Subject: Re: [patch 6/7] malloc_info.3: wfix
+Date: Fri, 16 Jan 2015 06:45:48 +0100
+Message-ID: <54B8A58C.6060600@gmail.com>
+References: <54B88305.8000509@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B88300.4000205-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54B88305.8000509-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -29,29 +29,28 @@ Michael
 
 > Patch against master.
 > 
-> diff --git a/man3/putgrent.3 b/man3/putgrent.3
-> index 0d59c82..5954626 100644
-> --- a/man3/putgrent.3
-> +++ b/man3/putgrent.3
-> @@ -12,7 +12,7 @@ putgrent \- write a group database entry to a file
->  .br
->  .B #include <grp.h>
+> diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
+> index c7774f8..f8a487e 100644
+> --- a/man3/malloc_info.3
+> +++ b/man3/malloc_info.3
+> @@ -29,7 +29,7 @@ malloc_info \- export malloc state to a stream
+>  .nf
+>  .B #include <malloc.h>
 >  .sp
-> -.BI "int putgrent(const struct group *" grp ", FILE *" fp );
-> +.BI "int putgrent(const struct group *" grp ", FILE *" stream );
+> -.BI "int malloc_info(int " options ", FILE *" fp );
+> +.BI "int malloc_info(int " options ", FILE *" stream );
+>  .fi
 >  .SH DESCRIPTION
 >  The
->  .BR putgrent ()
-> @@ -21,8 +21,7 @@ function is the counterpart for
->  The function writes the content of the provided
->  .IR "struct group"
->  into the
-> -file pointed to by
+> @@ -38,7 +38,7 @@ function exports an XML string that describes the current state
+>  of the memory-allocation
+>  implementation in the caller.
+>  The string is printed on the file stream
 > -.IR fp .
 > +.IR stream .
->  The list of group members must be NULL-terminated or NULL-initialized.
->  .sp
->  The
+>  The exported string includes information about all arenas (see
+>  .BR malloc (3)).
+>  
 > ---
 > 
 > Cheers,
