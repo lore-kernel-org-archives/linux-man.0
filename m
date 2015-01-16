@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: clone.2: ffix
-Date: Fri, 16 Jan 2015 07:41:45 +0100
-Message-ID: <54B8B2A9.8030806@gmail.com>
-References: <CALhU9tnqxnG56rMosUUKo2Ab-vma7JFOWi_dKtfDmzXBxkkfJA@mail.gmail.com>
+Subject: Re: unshare.2: ffix
+Date: Fri, 16 Jan 2015 07:42:01 +0100
+Message-ID: <54B8B2B9.6020301@gmail.com>
+References: <CALhU9tmG39TE__PM6jvAd9wdh0pdy2tzNbGi71-deNyL_h_MyQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9tnqxnG56rMosUUKo2Ab-vma7JFOWi_dKtfDmzXBxkkfJA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALhU9tmG39TE__PM6jvAd9wdh0pdy2tzNbGi71-deNyL_h_MyQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -20,21 +20,12 @@ Cheers,
 Michael
 
 
-On 01/15/2015 06:20 PM, Akihiro Motoki wrote:
-> diff --git a/man2/clone.2 b/man2/clone.2
-> index 2d4fd1a..ec6b1f9 100644
-> --- a/man2/clone.2
-> +++ b/man2/clone.2
-> @@ -417,7 +417,7 @@ or
->  .BR clone ()
->  in Linux 2.6.23,
->  the current
-> -.BR clone()
-> +.BR clone ()
->  semantics were merged in Linux 3.5,
->  and the final pieces to make the user namespaces completely usable were
->  merged in Linux 3.8.)
-> @@ -1012,7 +1012,8 @@ does not have a mapping in the parent namespace (see
+On 01/15/2015 06:21 PM, Akihiro Motoki wrote:
+> diff --git a/man2/unshare.2 b/man2/unshare.2
+> index 9b1d506..3bc1f9a 100644
+> --- a/man2/unshare.2
+> +++ b/man2/unshare.2
+> @@ -311,7 +311,8 @@ does not have a mapping in the parent namespace (see
 >  .TP
 >  .BR EPERM " (since Linux 3.9)"
 >  .\" commit 3151527ee007b73a0ebd296010f1c0454a919c7d
