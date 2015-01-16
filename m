@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 7/7] getmntent.3: wfix
-Date: Thu, 15 Jan 2015 22:18:33 -0500
-Message-ID: <54B88309.6050505@redhat.com>
+Subject: [patch] getpw.3: Function could return -1 and set errno to zero.
+Date: Thu, 15 Jan 2015 22:29:03 -0500
+Message-ID: <54B8857F.2060307@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -10,72 +10,45 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Harmonize all the manual pages to use "stream" for FILE*
-instead of randomly using "fp" or "stream." Choosing something
-and being consistent helps users scan the man pages quickly
-and understand what they are looking at.
+All of the BSD interfaces, including glibc's own implementation
+of getpw return -1 and set errno to 0 to indicate that there
+was no user corresponding to that uid.
+
+I have never under any condition seen an NSS backend return
+ENOENT via the set of APIs that getpw uses internally in
+glibc.
+
+Therefore I would suggest the manual page be expanded to include
+0 in the list of valid errno values that indicate no corresponding
+user. I reorganize the list of errors to have the non-error
+at the top, as is done with getgrnam.3 and getpwnam.3 which have
+similar behaviour in the non-error case.
 
 Patch against master.
 
-diff --git a/man3/getmntent.3 b/man3/getmntent.3
-index 02759a2..8540bc5 100644
---- a/man3/getmntent.3
-+++ b/man3/getmntent.3
-@@ -40,18 +40,18 @@ getmntent_r \- get filesystem descriptor file entry
- .sp
- .BI "FILE *setmntent(const char *" filename ", const char *" type );
- .sp
--.BI "struct mntent *getmntent(FILE *" fp );
-+.BI "struct mntent *getmntent(FILE *" stream );
- .sp
--.BI "int addmntent(FILE *" fp ", const struct mntent *" mnt );
-+.BI "int addmntent(FILE *" stream ", const struct mntent *" mnt );
- .sp
--.BI "int endmntent(FILE *" fp );
-+.BI "int endmntent(FILE *" streamp );
- .sp
- .BI "char *hasmntopt(const struct mntent *" mnt ", const char *" opt );
- .sp
- /* GNU extension */
- .B #include <mntent.h>
- .sp
--.BI "struct mntent *getmntent_r(FILE *" fp ", struct mntent *" mntbuf ,
-+.BI "struct mntent *getmntent_r(FILE *" streamp ", struct mntent *" mntbuf ,
- .BI "                           char *" buf ", int " buflen );
- .fi
- .sp
-@@ -84,9 +84,9 @@ argument of
- .PP
- The
- .BR getmntent ()
--function reads the next line from the filesystem
--description file
--.I fp
-+function reads the next line of the filesystem
-+description file from
-+.I stream
- and returns a pointer to a structure
- containing the broken out fields from a line in the file.
- The pointer
-@@ -101,13 +101,14 @@ function adds the
- structure
- .I mnt
- to
--the end of the open file
--.IR fp .
-+the end of the open
-+.IR stream .
- .PP
- The
- .BR endmntent ()
--function closes the filesystem description file
--.IR fp .
-+function closes the
-+.IR stream
-+associated with the filesystem description file.
- .PP
- The
- .BR hasmntopt ()
+diff --git a/man3/getpw.3 b/man3/getpw.3
+index 4054823..3eed9a7 100644
+--- a/man3/getpw.3
++++ b/man3/getpw.3
+@@ -77,14 +77,14 @@ function returns 0 on success; on error, it returns \-1, and
+ is set to indicate the error.
+ .SH ERRORS
+ .TP
++.BR 0 " or " ENOENT
++No user corresponding to
++.IR uid .
++.TP
+ .B EINVAL
+ .I buf
+ is NULL.
+ .TP
+-.B 0 or ENOENT
+-No user corresponding to
+-.IR uid .
+-.TP
+ .B ENOMEM
+ Insufficient memory to allocate
+ .I passwd
 ---
 
 Cheers,
