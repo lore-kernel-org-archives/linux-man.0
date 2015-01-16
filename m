@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 6/7] malloc_info.3: wfix
-Date: Thu, 15 Jan 2015 22:18:29 -0500
-Message-ID: <54B88305.8000509@redhat.com>
+Subject: [patch 7/7] getmntent.3: wfix
+Date: Thu, 15 Jan 2015 22:18:33 -0500
+Message-ID: <54B88309.6050505@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -17,28 +17,65 @@ and understand what they are looking at.
 
 Patch against master.
 
-diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
-index c7774f8..f8a487e 100644
---- a/man3/malloc_info.3
-+++ b/man3/malloc_info.3
-@@ -29,7 +29,7 @@ malloc_info \- export malloc state to a stream
- .nf
- .B #include <malloc.h>
+diff --git a/man3/getmntent.3 b/man3/getmntent.3
+index 02759a2..8540bc5 100644
+--- a/man3/getmntent.3
++++ b/man3/getmntent.3
+@@ -40,18 +40,18 @@ getmntent_r \- get filesystem descriptor file entry
  .sp
--.BI "int malloc_info(int " options ", FILE *" fp );
-+.BI "int malloc_info(int " options ", FILE *" stream );
+ .BI "FILE *setmntent(const char *" filename ", const char *" type );
+ .sp
+-.BI "struct mntent *getmntent(FILE *" fp );
++.BI "struct mntent *getmntent(FILE *" stream );
+ .sp
+-.BI "int addmntent(FILE *" fp ", const struct mntent *" mnt );
++.BI "int addmntent(FILE *" stream ", const struct mntent *" mnt );
+ .sp
+-.BI "int endmntent(FILE *" fp );
++.BI "int endmntent(FILE *" streamp );
+ .sp
+ .BI "char *hasmntopt(const struct mntent *" mnt ", const char *" opt );
+ .sp
+ /* GNU extension */
+ .B #include <mntent.h>
+ .sp
+-.BI "struct mntent *getmntent_r(FILE *" fp ", struct mntent *" mntbuf ,
++.BI "struct mntent *getmntent_r(FILE *" streamp ", struct mntent *" mntbuf ,
+ .BI "                           char *" buf ", int " buflen );
  .fi
- .SH DESCRIPTION
+ .sp
+@@ -84,9 +84,9 @@ argument of
+ .PP
  The
-@@ -38,7 +38,7 @@ function exports an XML string that describes the current state
- of the memory-allocation
- implementation in the caller.
- The string is printed on the file stream
+ .BR getmntent ()
+-function reads the next line from the filesystem
+-description file
+-.I fp
++function reads the next line of the filesystem
++description file from
++.I stream
+ and returns a pointer to a structure
+ containing the broken out fields from a line in the file.
+ The pointer
+@@ -101,13 +101,14 @@ function adds the
+ structure
+ .I mnt
+ to
+-the end of the open file
 -.IR fp .
++the end of the open
 +.IR stream .
- The exported string includes information about all arenas (see
- .BR malloc (3)).
- 
+ .PP
+ The
+ .BR endmntent ()
+-function closes the filesystem description file
+-.IR fp .
++function closes the
++.IR stream
++associated with the filesystem description file.
+ .PP
+ The
+ .BR hasmntopt ()
 ---
 
 Cheers,
