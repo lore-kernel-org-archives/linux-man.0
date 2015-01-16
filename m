@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 4/7] putgrent.3: wfix
-Date: Thu, 15 Jan 2015 22:18:24 -0500
-Message-ID: <54B88300.4000205@redhat.com>
+Subject: [patch 5/7] getpwent_r.3: wfix
+Date: Thu, 15 Jan 2015 22:18:26 -0500
+Message-ID: <54B88302.5070405@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -17,29 +17,30 @@ and understand what they are looking at.
 
 Patch against master.
 
-diff --git a/man3/putgrent.3 b/man3/putgrent.3
-index 0d59c82..5954626 100644
---- a/man3/putgrent.3
-+++ b/man3/putgrent.3
-@@ -12,7 +12,7 @@ putgrent \- write a group database entry to a file
+diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
+index a9076a9..ac84e3b 100644
+--- a/man3/getpwent_r.3
++++ b/man3/getpwent_r.3
+@@ -32,7 +32,7 @@ getpwent_r, fgetpwent_r \- get passwd file entry reentrantly
  .br
- .B #include <grp.h>
+ .BI "               size_t " buflen ", struct passwd **" pwbufp );
  .sp
--.BI "int putgrent(const struct group *" grp ", FILE *" fp );
-+.BI "int putgrent(const struct group *" grp ", FILE *" stream );
- .SH DESCRIPTION
- The
- .BR putgrent ()
-@@ -21,8 +21,7 @@ function is the counterpart for
- The function writes the content of the provided
- .IR "struct group"
- into the
--file pointed to by
+-.BI "int fgetpwent_r(FILE *" fp ", struct passwd *" pwbuf ", char *" buf ,
++.BI "int fgetpwent_r(FILE *" stream ", struct passwd *" pwbuf ", char *" buf ,
+ .br
+ .BI "                size_t " buflen ", struct passwd **" pwbufp );
+ .fi
+@@ -58,8 +58,8 @@ and
+ .BR fgetpwent (3).
+ The former reads the next passwd entry from the stream initialized by
+ .BR setpwent (3).
+-The latter reads the next passwd entry from the stream
 -.IR fp .
++The latter reads the next passwd entry from the
 +.IR stream .
- The list of group members must be NULL-terminated or NULL-initialized.
- .sp
- The
+ .PP
+ The \fIpasswd\fP structure is defined in
+ .I <pwd.h>
 ---
 
 Cheers,
