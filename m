@@ -1,10 +1,10 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch]
-Date: Thu, 15 Jan 2015 22:42:07 -0500
-Message-ID: <54B8888F.4050403@redhat.com>
+Subject: [patch] getgrent_r.3: tfix
+Date: Thu, 15 Jan 2015 22:42:19 -0500
+Message-ID: <54B8889B.8060209@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,11 +12,11 @@ List-Id: linux-man@vger.kernel.org
 
 Grammatical nit.
 
-diff --git a/man3/getpwent_r.3 b/man3/getpwent_r.3
-index ac84e3b..b7f6edc 100644
---- a/man3/getpwent_r.3
-+++ b/man3/getpwent_r.3
-@@ -119,7 +119,7 @@ Try again with larger buffer.
+diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
+index 6e1078d..f5a0cbf 100644
+--- a/man3/getgrent_r.3
++++ b/man3/getgrent_r.3
+@@ -118,7 +118,7 @@ Try again with larger buffer.
  These functions are GNU extensions, done in a style resembling
  the POSIX version of functions like
  .BR getpwnam_r (3).
