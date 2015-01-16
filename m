@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch 3/7] getspnam.3: wfix
-Date: Fri, 16 Jan 2015 06:59:44 +0100
-Message-ID: <54B8A8D0.70404@gmail.com>
-References: <54B882FD.9090009@redhat.com>
+Subject: Re: [patch 7/7] getmntent.3: wfix
+Date: Fri, 16 Jan 2015 06:59:54 +0100
+Message-ID: <54B8A8DA.30300@gmail.com>
+References: <54B88309.6050505@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B882FD.9090009-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54B88309.6050505-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -29,44 +29,65 @@ Michael
 
 > Patch against master.
 > 
-> diff --git a/man3/getspnam.3 b/man3/getspnam.3
-> index 13d6157..e230b78 100644
-> --- a/man3/getspnam.3
-> +++ b/man3/getspnam.3
-> @@ -24,11 +24,11 @@ lckpwdf, ulckpwdf \- get shadow password file entry
+> diff --git a/man3/getmntent.3 b/man3/getmntent.3
+> index 02759a2..8540bc5 100644
+> --- a/man3/getmntent.3
+> +++ b/man3/getmntent.3
+> @@ -40,18 +40,18 @@ getmntent_r \- get filesystem descriptor file entry
 >  .sp
->  .B void endspent(void);
+>  .BI "FILE *setmntent(const char *" filename ", const char *" type );
 >  .sp
-> -.BI "struct spwd *fgetspent(FILE *" fp );
-> +.BI "struct spwd *fgetspent(FILE *" stream );
+> -.BI "struct mntent *getmntent(FILE *" fp );
+> +.BI "struct mntent *getmntent(FILE *" stream );
 >  .sp
->  .BI "struct spwd *sgetspent(const char *" s );
+> -.BI "int addmntent(FILE *" fp ", const struct mntent *" mnt );
+> +.BI "int addmntent(FILE *" stream ", const struct mntent *" mnt );
 >  .sp
-> -.BI "int putspent(const struct spwd *" p ", FILE *" fp );
-> +.BI "int putspent(const struct spwd *" p ", FILE *" stream );
+> -.BI "int endmntent(FILE *" fp );
+> +.BI "int endmntent(FILE *" streamp );
 >  .sp
->  .B int lckpwdf(void);
+>  .BI "char *hasmntopt(const struct mntent *" mnt ", const char *" opt );
 >  .sp
-> @@ -46,7 +46,7 @@ lckpwdf, ulckpwdf \- get shadow password file entry
->  .br
->  .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
+>  /* GNU extension */
+>  .B #include <mntent.h>
 >  .sp
-> -.BI "int fgetspent_r(FILE *" fp ", struct spwd *" spbuf ,
-> +.BI "int fgetspent_r(FILE *" stream ", struct spwd *" spbuf ,
->  .br
->  .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
+> -.BI "struct mntent *getmntent_r(FILE *" fp ", struct mntent *" mntbuf ,
+> +.BI "struct mntent *getmntent_r(FILE *" streamp ", struct mntent *" mntbuf ,
+>  .BI "                           char *" buf ", int " buflen );
+>  .fi
 >  .sp
-> @@ -137,8 +137,8 @@ The
->  function writes the contents of the supplied struct
->  .I spwd
->  .I *p
-> -as a text line in the shadow password file format to the stream
+> @@ -84,9 +84,9 @@ argument of
+>  .PP
+>  The
+>  .BR getmntent ()
+> -function reads the next line from the filesystem
+> -description file
+> -.I fp
+> +function reads the next line of the filesystem
+> +description file from
+> +.I stream
+>  and returns a pointer to a structure
+>  containing the broken out fields from a line in the file.
+>  The pointer
+> @@ -101,13 +101,14 @@ function adds the
+>  structure
+>  .I mnt
+>  to
+> -the end of the open file
 > -.IR fp .
-> +as a text line in the shadow password file format to the
+> +the end of the open
 > +.IR stream .
->  String entries with value NULL and numerical entries with value \-1
->  are written as an empty string.
->  .LP
+>  .PP
+>  The
+>  .BR endmntent ()
+> -function closes the filesystem description file
+> -.IR fp .
+> +function closes the
+> +.IR stream
+> +associated with the filesystem description file.
+>  .PP
+>  The
+>  .BR hasmntopt ()
 > ---
 > 
 > Cheers,
