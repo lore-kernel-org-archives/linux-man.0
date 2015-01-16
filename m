@@ -1,59 +1,77 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Fri, 16 Jan 2015 21:54:10 +0100
-Message-ID: <54B97A72.2050205@gmail.com>
-References: <537346E5.4050407@gmail.com> <CF98E3EF.90564%dvhart@linux.intel.com> <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com> <5373D0CA.2050204@redhat.com> <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de> <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com> <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de> <54B7D87C.3090901@gmail.com> <alpine.DEB.2.11.1501152313330.5526@nanos> <54B92B71.2090509@gmail.com> <alpine.DEB.2.11.1501161618080.5526@nanos>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [patch] getpw.3: Function could return -1 and set errno to zero.
+Date: Fri, 16 Jan 2015 16:02:42 -0500
+Message-ID: <54B97C72.6060809@redhat.com>
+References: <54B8857F.2060307@redhat.com> <54B8B1EB.4040000@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1501161618080.5526@nanos>
+In-Reply-To: <54B8B1EB.4040000-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/16/2015 04:20 PM, Thomas Gleixner wrote:
-> On Fri, 16 Jan 2015, Michael Kerrisk (man-pages) wrote:
+On 01/16/2015 01:38 AM, Michael Kerrisk (man-pages) wrote:
+> This patch was broken. (I think you must have prepared a preceding
+> patch that you did not send.
+
+Sorry for that, I had a busy tree and was trying to push out all the
+temporary patches I had pending.
+
+> I take your point, but I think a little more could be said. I instead
+> applied the patch below. Okay?
+
+Yes, modulo what I expect is a typo. Comments inline.
+
+> Thanks,
 > 
->> Hello Thomas,
->>
->> On 01/15/2015 11:23 PM, Thomas Gleixner wrote:
->>> On Thu, 15 Jan 2015, Michael Kerrisk (man-pages) wrote:
->>>>> [EINVAL] uaddr equal uaddr2. Requeue to same futex.
->>>>
->>>> ??? I added this, but does this error not occur only for PI requeues?
->>>
->>> It's equally wrong for normal futexes. And its actually the same code
->>> checking for this for all variants.
->>
->> I don't understand "equally wrong" in your reply, I'm sorry. Do you
->> mean:
->>
->> a) This error text should be there for both normal and PI requeues
+> Michael
 > 
-> It is there for both. The requeue code has that check independent of
-> the requeue type (normal/pi). It never makes sense to requeue
-> something to itself whether normal or pi futex. We added this for PI,
-> because there it is harmful, but we did not special case it. So normal
-> futexes get the same treatment.
+> diff --git a/man3/getpw.3 b/man3/getpw.3
+> index cf7eb69..9f2732f 100644
+> --- a/man3/getpw.3
+> +++ b/man3/getpw.3
+> @@ -75,16 +75,26 @@ The
+>  function returns 0 on success; on error, it returns \-1, and
+>  .I errno
+>  is set to indicate the error.
+> +
+> +If
+> +.I uid
+> +is not found in the password database,
+> +.BR getpw ()
+> +returns 0, sets
 
-Hello Thomas, 
+Should be "returns -1" not "returns 0".
 
-Color me stupid, but I can't see this in futex_requeue(). Where is that
-check that is "independent of the requeue type (normal/pi)"?
+> +.I errno
+> +to 0, and leaves
+> +.I buf
+> +unchanged.
+>  .SH ERRORS
+>  .TP
+> +.BR 0 " or " ENOENT
+> +No user corresponding to
+> +.IR uid .
+> +.TP
+>  .B EINVAL
+>  .I buf
+>  is NULL.
+>  .TP
+> -.B ENOENT
+> -No user corresponding to
+> -.IR uid .
+> -.TP
+>  .B ENOMEM
+>  Insufficient memory to allocate
+>  .I passwd
+> 
 
-When I look through futex_requeue(), all the likely looking sources
-of EINVAL are governed by a check on the 'requeue_pi' argument.
+OK with that change.
 
-Thanks,
-
-Michael
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Cheers,
+Carlos.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
