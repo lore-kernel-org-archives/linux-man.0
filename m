@@ -1,7 +1,7 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch 3/7] getspnam.3: wfix
-Date: Thu, 15 Jan 2015 22:18:21 -0500
-Message-ID: <54B882FD.9090009@redhat.com>
+Subject: [patch 4/7] putgrent.3: wfix
+Date: Thu, 15 Jan 2015 22:18:24 -0500
+Message-ID: <54B88300.4000205@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
@@ -17,44 +17,29 @@ and understand what they are looking at.
 
 Patch against master.
 
-diff --git a/man3/getspnam.3 b/man3/getspnam.3
-index 13d6157..e230b78 100644
---- a/man3/getspnam.3
-+++ b/man3/getspnam.3
-@@ -24,11 +24,11 @@ lckpwdf, ulckpwdf \- get shadow password file entry
- .sp
- .B void endspent(void);
- .sp
--.BI "struct spwd *fgetspent(FILE *" fp );
-+.BI "struct spwd *fgetspent(FILE *" stream );
- .sp
- .BI "struct spwd *sgetspent(const char *" s );
- .sp
--.BI "int putspent(const struct spwd *" p ", FILE *" fp );
-+.BI "int putspent(const struct spwd *" p ", FILE *" stream );
- .sp
- .B int lckpwdf(void);
- .sp
-@@ -46,7 +46,7 @@ lckpwdf, ulckpwdf \- get shadow password file entry
+diff --git a/man3/putgrent.3 b/man3/putgrent.3
+index 0d59c82..5954626 100644
+--- a/man3/putgrent.3
++++ b/man3/putgrent.3
+@@ -12,7 +12,7 @@ putgrent \- write a group database entry to a file
  .br
- .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
+ .B #include <grp.h>
  .sp
--.BI "int fgetspent_r(FILE *" fp ", struct spwd *" spbuf ,
-+.BI "int fgetspent_r(FILE *" stream ", struct spwd *" spbuf ,
- .br
- .BI "        char *" buf ", size_t " buflen ", struct spwd **" spbufp );
- .sp
-@@ -137,8 +137,8 @@ The
- function writes the contents of the supplied struct
- .I spwd
- .I *p
--as a text line in the shadow password file format to the stream
+-.BI "int putgrent(const struct group *" grp ", FILE *" fp );
++.BI "int putgrent(const struct group *" grp ", FILE *" stream );
+ .SH DESCRIPTION
+ The
+ .BR putgrent ()
+@@ -21,8 +21,7 @@ function is the counterpart for
+ The function writes the content of the provided
+ .IR "struct group"
+ into the
+-file pointed to by
 -.IR fp .
-+as a text line in the shadow password file format to the
 +.IR stream .
- String entries with value NULL and numerical entries with value \-1
- are written as an empty string.
- .LP
+ The list of group members must be NULL-terminated or NULL-initialized.
+ .sp
+ The
 ---
 
 Cheers,
