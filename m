@@ -1,21 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] random_r.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:15:27 +0100
-Message-ID: <54B8C89F.5050905@gmail.com>
-References: <1421372535-17867-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] getcontext.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:15:37 +0100
+Message-ID: <54B8C8A9.4000906@gmail.com>
+References: <1421373027-18516-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421372535-17867-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421373027-18516-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/16/2015 02:42 AM, Ma Shimiao wrote:
+On 01/16/2015 02:50 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the 
 > thread-safety information to be the same as glibc manual.
+
 
 Thanks, Ma Shimiao. Applied.
 
@@ -26,22 +27,22 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/random_r.3 | 2 +-
+>  man3/getcontext.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/random_r.3 b/man3/random_r.3
-> index 71ca64d..6b990b8 100644
-> --- a/man3/random_r.3
-> +++ b/man3/random_r.3
-> @@ -139,7 +139,7 @@ T{
->  .br
->  .BR initstate_r (),
->  .BR setstate_r ()
+> diff --git a/man3/getcontext.3 b/man3/getcontext.3
+> index 8e35238..db44326 100644
+> --- a/man3/getcontext.3
+> +++ b/man3/getcontext.3
+> @@ -161,7 +161,7 @@ Interface	Attribute	Value
+>  T{
+>  .BR getcontext (),
+>  .BR setcontext ()
 > -T}	Thread safety	MT-Safe
-> +T}	Thread safety	MT-Safe race:buf
+> +T}	Thread safety	MT-Safe race:ucp
 >  .TE
 >  .SH CONFORMING TO
->  These functions are nonstandard glibc extensions.
+>  SUSv2, POSIX.1-2001.
 > 
 
 
