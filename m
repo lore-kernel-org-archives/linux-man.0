@@ -1,45 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch 0/7] Use "FILE * stream" everywhere.
-Date: Fri, 16 Jan 2015 07:12:15 +0100
-Message-ID: <54B8ABBF.8000602@gmail.com>
-References: <54B882F4.1090203@redhat.com>
+Subject: Re: [patch] getgrent_r.3: tfix
+Date: Fri, 16 Jan 2015 07:12:49 +0100
+Message-ID: <54B8ABE1.8040601@gmail.com>
+References: <54B8889B.8060209@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B882F4.1090203-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <54B8889B.8060209-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Carlos,
+On 01/16/2015 04:42 AM, Carlos O'Donell wrote:
+> Grammatical nit.
+> 
+> diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
+> index 6e1078d..f5a0cbf 100644
+> --- a/man3/getgrent_r.3
+> +++ b/man3/getgrent_r.3
+> @@ -118,7 +118,7 @@ Try again with larger buffer.
+>  These functions are GNU extensions, done in a style resembling
+>  the POSIX version of functions like
+>  .BR getpwnam_r (3).
+> -Other systems use prototype
+> +Other systems use the prototype
+>  .sp
+>  .nf
+>  .in +4n
 
-On 01/16/2015 04:18 AM, Carlos O'Donell wrote:
-> Harmonize all the manual pages to use "stream" for FILE*
-> instead of randomly using "fp" or "stream." Choosing something
-> and being consistent helps users scan the man pages quickly
-> and understand what they are looking at.
+Applied.
 
-Agreed, and thanks for preparing the patches.
-
-> The next 7 patches convert all instances of "FILE *fp" to
-> "FILE *stream". The vast majority of man pages already use
-> the "FILE *stream" version which I also prefer.
-
-Yes, good. It's what POSIX uses too.
-
-I tweaked some wordings very slightly (adding or removing "the" 
-in a couple of places), and gave the patches the title:
-
-    Consistency fix: use "stream" as name for "FILE *" argument
-
-I also made related changes in fmemopen(3), fopencookie(3), and
-getline(3).
-
-Thanks,
+Cheers,
 
 Michael
+
 
 
 -- 
