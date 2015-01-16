@@ -1,144 +1,199 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man 4 tty_ioctl fixes
-Date: Fri, 16 Jan 2015 12:45:43 +0100
-Message-ID: <CAKgNAkgfhv1o9+Xb05SWNV-G5hQc23sX_SVfdPZrmfY3vh0vqg@mail.gmail.com>
-References: <CAEmTpZH2JX1EuFCPDxZwCR8Sbxdgm8VJ+EN+HdhAC+b9YL49xg@mail.gmail.com>
- <CAKgNAkh+8n5wJanAoBCgQBEca8TgOe1c85NZaP_irepV1DYFjg@mail.gmail.com>
- <CAEmTpZHGO9zSy-KEaGg2ymaL3EX+c6ZcWwrSJ0xYd7fgO=Y=ZA@mail.gmail.com>
- <CAKgNAkh-VnSpfY00nVLQy6mRPgp1vLGawPes54iKe+YVsU7pyA@mail.gmail.com> <CAEmTpZGGR0xzgs6K8=kztyy_h-HyCkECH-4Wvybx4bQv0Pyxsg@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
+Date: Fri, 16 Jan 2015 14:30:25 +0100
+Message-ID: <54B91271.3000600@gmail.com>
+References: <545FBDDD.9060801@gmail.com> <20141111213037.GA31445@redhat.com>
+ <54ADA284.30502@gmail.com> <20150112221634.GD16162@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAEmTpZGGR0xzgs6K8=kztyy_h-HyCkECH-4Wvybx4bQv0Pyxsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?0JzQsNGA0Log0JrQvtGA0LXQvdCx0LXRgNCz?= <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Return-path: <kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
+In-Reply-To: <20150112221634.GD16162-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+List-Unsubscribe: <http://lists.infradead.org/mailman/options/kexec>,
+ <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.infradead.org/pipermail/kexec/>
+List-Post: <mailto:kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
+List-Help: <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=help>
+List-Subscribe: <http://lists.infradead.org/mailman/listinfo/kexec>,
+ <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=subscribe>
+Sender: "kexec" <kexec-bounces-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
+Errors-To: kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
+To: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi =D0=9C=D0=B0=D1=80=D0=BA
+Hello Vivek,
 
-On 16 January 2015 at 12:28, =D0=9C=D0=B0=D1=80=D0=BA =D0=9A=D0=BE=D1=80=
-=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=B3 <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> 2015-01-16 16:20 GMT+05:00 Michael Kerrisk (man-pages) <mtk.manpages@=
-gmail.com>:
->> [CC restored]
+Thanks for your comments! I've added some further text to
+the page based on those comments. See some follow-up 
+questions below.
+
+On 01/12/2015 11:16 PM, Vivek Goyal wrote:
+> On Wed, Jan 07, 2015 at 10:17:56PM +0100, Michael Kerrisk (man-pages) wrote:
+> 
+> [..]
+>>>> .BR KEXEC_ON_CRASH " (since Linux 2.6.13)"
+>>>> Execute the new kernel automatically on a system crash.
+>>>> .\" FIXME Explain in more detail how KEXEC_ON_CRASH is actually used
 >>
->> Hello =D0=9C=D0=B0=D1=80=D0=BA
+>> I wasn't expecting that you would respond to the FIXMEs that were 
+>> not labeled "kexec_file_load", but I was hoping you might ;-). Thanks!
+>> I have a few additional questions to your nice notes.
 >>
->> On 16 January 2015 at 12:05, =D0=9C=D0=B0=D1=80=D0=BA =D0=9A=D0=BE=D1=
-=80=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=B3 <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>> EXTPROC is not documented (can be set on c_lflag in termios structu=
-re)
->>> TIOCPKT_IOCTL is not documented (this value will appear when using
->>> terminal in packet mode). Not sure if TIOCPKT_IOCTL will appear onl=
-y
->>> if EXTPROC is set.
+>>> Upon boot first kernel reserves a chunk of contiguous memory (if
+>>> crashkernel=<> command line paramter is passed). This memory is
+>>> is used to load the crash kernel (Kernel which will be booted into
+>>> if first kernel crashes).
+>>
+> 
+> Hi Michael,
+> 
+>> Can I just confirm: is it in all cases only possible to use kexec_load() 
+>> and kexec_file_load() if the kernel was booted with the 'crashkernel'
+>> parameter set?
+> 
+> As of now, only kexec_load() and kexec_file_load() system calls can
+> make use of memory reserved by crashkernel=<> kernel parameter. And
+> this is used only if we are trying to load a crash kernel (KEXEC_ON_CRASH
+> flag specified).
+
+Okay.
+
+>>> Location of this reserved memory is exported to user space through
+>>> /proc/iomem file. 
+>>
+>> Is that export via an entry labeled "Crash kernel" in the 
+>> /proc/iomem file?
+> 
+> Yes.
+
+Okay -- thanks.
+
+>>> User space can parse it and prepare list of segments
+>>> specifying this reserved memory as destination.
+>>
+>> I'm not quite clear on "specifying this reserved memory as destination".
+>> Is that done by specifying the address in the kexec_segment.mem fields?
+> 
+> You are absolutely right. User space can specify in kexec_segment.mem
+> field the memory location where it expecting a particular segment to
+> be loaded by kernel.
+> 
+>>
+>>> Once kernel sees the flag KEXEC_ON_CRASH, it makes sure that all the
+>>> segments are destined for reserved memory otherwise kernel load operation
+>>> fails.
+>>
+>> Could you point me to where this checking is done? Also, what is the
+>> error (errno) that occurs when the load operation fails? (I think the
+>> answers to these questions are "at the start of kimage_alloc_init()"
+>> and "EADDRNOTAVAIL", but I'd like to confirm.)
+> 
+> This checking happens in sanity_check_segment_list() which is called
+> by kimage_alloc_init().
+> 
+> And yes, error code returned is -EADDRNOTAVAIL.
+
+Thanks. I added EADDRNOTAVAIL to the ERRORS.
+
+>>> [..]
+>>>> struct kexec_segment {
+>>>>     void   *buf;        /* Buffer in user space */
+>>>>     size_t  bufsz;      /* Buffer length in user space */
+>>>>     void   *mem;        /* Physical address of kernel */
+>>>>     size_t  memsz;      /* Physical address length */
+>>>> };
+>>>> .fi
+>>>> .in
+>>>> .PP
+>>>> .\" FIXME Explain the details of how the kernel image defined by segments
+>>>> .\" is copied from the calling process into previously reserved memory.
 >>>
->>> I want you to dcument that constants, and behaviour that will be
->>> changed when applying that termios.
+>>> Kernel image defined by segments is copied into kernel either in regular
+>>> memory 
 >>
->> I'll cut to the chase: I want *you* to do it. Why do you presume tha=
-t
->> I should do it?
->
-> Since this letter is the form of reporting bug in man pages.
+>> Could you clarify what you mean by "regular memory"?
+> 
+> I meant memory which is not reserved memory.
 
-Making a bug report is fine (although your initial report was very
-cryptic), but it is different from *solving* a bug. My time is
-limited, and totally unpaid. I cannot solve all of the bug reports.
+Okay.
 
-> If you
-> know who can write CORRECT description of these constants -- it will
-> be nice.
-> I thought that you can write this description since, I think, you are
-> more expirienced developer than I. Also my English is not so good.
+>>> or in reserved memory (if KEXEC_ON_CRASH is set). Kernel first
+>>> copies list of segments in kernel memory and then goes does various
+>>> sanity checks on the segments. If everything looks line, kernel copies
+>>> segment data to kernel memory.
+>>>
+>>> In case of normal kexec, segment data is loaded in any available memory
+>>> and segment data is moved to final destination at the kexec reboot time.
+>>
+>> By "moved to final destination", do you mean "moved from user space to the
+>> final kernel-space destination"?
+> 
+> No. Segment data moves from user space to kernel space once kexec_load()
+> call finishes successfully. But when user does reboot (kexec -e), at that
+> time kernel moves that segment data to its final location. Kernel could
+> not place the segment at its final location during kexec_load() time as
+> that memory is already in use by running kernel. But once we are about
+> to reboot to new kernel, we can overwrite the old kernel's memory.
 
-You make many useful reports of minor bugs, and these are appreciated,
-=D0=9C=D0=B0=D1=80=D0=BA. It seems to me though, that maybe it's time t=
-o a bigger step:
-fix a bigger documentation problem. How about it? (And if your English
-text needs improving, I or someone else on the list might help.)
+Got it.
+
+>>> In case of kexec on panic (KEXEC_ON_CRASH flag set), segment data is
+>>> directly loaded to reserved memory and after crash kexec simply jumps
+>>
+>> By "directly", I assume you mean "at the time of the kexec_laod() call",
+>> right?
+> 
+> Yes.
+
+Thanks.
+
+So, returning to the kexeec_segment structure:
+
+           struct kexec_segment {
+               void   *buf;        /* Buffer in user space */
+               size_t  bufsz;      /* Buffer length in user space */
+               void   *mem;        /* Physical address of kernel */
+               size_t  memsz;      /* Physical address length */
+           };
+
+Are the following statements correct:
+* buf + bufsz identify a memory region in the caller's virtual 
+  address space that is the source of the copy
+* mem + memsz specify the target memory region of the copy
+* mem is  physical memory address, as seen from kernel space
+* the number of bytes copied from userspace is min(bufsz, memsz)
+* if bufsz > memsz, then excess bytes in the user-space buffer 
+  are ignored.
+* if memsz > bufsz, then excess bytes in the target kernel buffer
+  are filled with zeros.
+?
+
+Also, it seems to me that 'mem' need not be page aligned.
+Is that correct? Should the man page say something about that?
+(E.g., is it generally desirable that 'mem' should be page aligned?)
+
+Likewise, 'memsz' doesn't need to be a page multiple, IIUC.
+Should the man page say anything about this? For example, should 
+it note that the initialized kernel segment will be of size:
+
+     (mem % PAGE_SIZE + memsz) rounded up to the next multiple of PAGE_SIZE
+
+And should it note that if 'mem' is not a multiple of the page size, then
+the initial bytes (mem % PAGE_SIZE)) in the first page of the kernel segment 
+will be zeros?
+
+(Hopefully I have read kimage_load_normal_segment() correctly.)
+
+And one further question. Other than the fact that they are used with 
+different system calls, what is the difference between KEXEC_ON_CRASH 
+and KEXEC_FILE_ON_CRASH?
 
 Thanks,
 
 Michael
 
-
-
->>
->>
->>> 2015-01-16 15:36 GMT+05:00 Michael Kerrisk (man-pages) <mtk.manpage=
-s@gmail.com>:
->>>> Hello =D0=9C=D0=B0=D1=80=D0=BA.
->>>>
->>>> What is the purpose of your report?
->>>>
->>>> Thanks,
->>>>
->>>> Michael
->>>>
->>>>
->>>> On 11 January 2015 at 20:58, =D0=9C=D0=B0=D1=80=D0=BA =D0=9A=D0=BE=
-=D1=80=D0=B5=D0=BD=D0=B1=D0=B5=D1=80=D0=B3 <socketpair-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote=
-:
->>>>> $ egrep '[^A-Z0-9]EXTPROC' -r /usr/include
->>>>> /usr/include/x86_64-linux-gnu/bits/termios.h:# define EXTPROC 020=
-0000
->>>>> /usr/include/asm-generic/termbits.h:#define EXTPROC 0200000
->>>>> <-------- undocumented
->>>>>
->>>>> $ fgrep TIOCPKT -r /usr/include
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT 0x5420
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_DATA 0
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_FLUSHREAD 1
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_FLUSHWRITE 2
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_STOP 4
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_START 8
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_NOSTOP 16
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_DOSTOP 32
->>>>> /usr/include/asm-generic/ioctls.h:#define TIOCPKT_IOCTL 64  <----=
--- undocumented
->>>>>
->>>>> Some information:
->>>>>
->>>>> http://stackoverflow.com/questions/21641754/when-pty-pseudo-termi=
-nal-slave-fd-settings-are-changed-by-tcsetattr-how-ca
->>>>> http://lists.gnu.org/archive/html/bug-readline/2011-01/msg00004.h=
-tml
->>>>
->>>>
->>>>
->>>> --
->>>> Michael Kerrisk
->>>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->>>> Linux/UNIX System Programming Training: http://man7.org/training/
->>>
->>>
->>>
->>> --
->>> Segmentation fault
->>
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
->
->
->
-> --
-> Segmentation fault
-
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
