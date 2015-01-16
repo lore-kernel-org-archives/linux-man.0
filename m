@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] crypt.3: Modify thread-safety information
-Date: Fri, 16 Jan 2015 09:14:22 +0100
-Message-ID: <54B8C85E.2060304@gmail.com>
-References: <1421287865-14035-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] encrypt.3: Modify thread-safety information
+Date: Fri, 16 Jan 2015 09:14:31 +0100
+Message-ID: <54B8C867.3090604@gmail.com>
+References: <1421288216-14551-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421287865-14035-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421288216-14551-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/15/2015 03:11 AM, Ma Shimiao wrote:
-> As annotation in glibc manual is more detailed, change the
+On 01/15/2015 03:16 AM, Ma Shimiao wrote:
+> As annotation in glibc manual is more detailed, change the 
 > thread-safety information to be the same as glibc manual.
 
 
@@ -27,22 +27,22 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/crypt.3 | 2 +-
+>  man3/encrypt.3 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/crypt.3 b/man3/crypt.3
-> index ea7290e..a25afb0 100644
-> --- a/man3/crypt.3
-> +++ b/man3/crypt.3
-> @@ -181,7 +181,7 @@ l l l.
->  Interface	Attribute	Value
+> diff --git a/man3/encrypt.3 b/man3/encrypt.3
+> index 4784d6b..85c6690 100644
+> --- a/man3/encrypt.3
+> +++ b/man3/encrypt.3
+> @@ -132,7 +132,7 @@ Interface	Attribute	Value
 >  T{
->  .BR crypt ()
+>  .BR encrypt (),
+>  .BR setkey ()
 > -T}	Thread safety	MT-Unsafe
 > +T}	Thread safety	MT-Unsafe race:crypt
 >  T{
->  .BR crypt_r ()
->  T}	Thread safety	MT-Safe
+>  .BR encrypt_r (),
+>  .BR setkey_r ()
 > 
 
 
