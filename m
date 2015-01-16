@@ -1,197 +1,116 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
-Date: Fri, 16 Jan 2015 14:30:25 +0100
-Message-ID: <54B91271.3000600@gmail.com>
-References: <545FBDDD.9060801@gmail.com> <20141111213037.GA31445@redhat.com>
- <54ADA284.30502@gmail.com> <20150112221634.GD16162@redhat.com>
+Subject: Re: futex(2) man page update help request
+Date: Fri, 16 Jan 2015 16:17:05 +0100
+Message-ID: <54B92B71.2090509@gmail.com>
+References: <537346E5.4050407@gmail.com> <CF98E3EF.90564%dvhart@linux.intel.com> <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com> <5373D0CA.2050204@redhat.com> <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de> <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com> <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de> <54B7D87C.3090901@gmail.com> <alpine.DEB.2.11.1501152313330.5526@nanos>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
-In-Reply-To: <20150112221634.GD16162-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-List-Unsubscribe: <http://lists.infradead.org/mailman/options/kexec>,
- <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=unsubscribe>
-List-Archive: <http://lists.infradead.org/pipermail/kexec/>
-List-Post: <mailto:kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
-List-Help: <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=help>
-List-Subscribe: <http://lists.infradead.org/mailman/listinfo/kexec>,
- <mailto:kexec-request-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org?subject=subscribe>
-Sender: "kexec" <kexec-bounces-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>
-Errors-To: kexec-bounces+glkk-kexec=m.gmane.org-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org
-To: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1501152313330.5526@nanos>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Vivek,
+Hello Thomas,
 
-Thanks for your comments! I've added some further text to
-the page based on those comments. See some follow-up 
-questions below.
-
-On 01/12/2015 11:16 PM, Vivek Goyal wrote:
-> On Wed, Jan 07, 2015 at 10:17:56PM +0100, Michael Kerrisk (man-pages) wrote:
-> 
-> [..]
->>>> .BR KEXEC_ON_CRASH " (since Linux 2.6.13)"
->>>> Execute the new kernel automatically on a system crash.
->>>> .\" FIXME Explain in more detail how KEXEC_ON_CRASH is actually used
+On 01/15/2015 11:23 PM, Thomas Gleixner wrote:
+> On Thu, 15 Jan 2015, Michael Kerrisk (man-pages) wrote:
+>>> [EINVAL] uaddr equal uaddr2. Requeue to same futex.
 >>
->> I wasn't expecting that you would respond to the FIXMEs that were 
->> not labeled "kexec_file_load", but I was hoping you might ;-). Thanks!
->> I have a few additional questions to your nice notes.
->>
->>> Upon boot first kernel reserves a chunk of contiguous memory (if
->>> crashkernel=<> command line paramter is passed). This memory is
->>> is used to load the crash kernel (Kernel which will be booted into
->>> if first kernel crashes).
->>
+>> ??? I added this, but does this error not occur only for PI requeues?
 > 
-> Hi Michael,
-> 
->> Can I just confirm: is it in all cases only possible to use kexec_load() 
->> and kexec_file_load() if the kernel was booted with the 'crashkernel'
->> parameter set?
-> 
-> As of now, only kexec_load() and kexec_file_load() system calls can
-> make use of memory reserved by crashkernel=<> kernel parameter. And
-> this is used only if we are trying to load a crash kernel (KEXEC_ON_CRASH
-> flag specified).
+> It's equally wrong for normal futexes. And its actually the same code
+> checking for this for all variants.
 
-Okay.
+I don't understand "equally wrong" in your reply, I'm sorry. Do you
+mean:
 
->>> Location of this reserved memory is exported to user space through
->>> /proc/iomem file. 
+a) This error text should be there for both normal and PI requeues
+OR
+a) This error text should be there for neither normal nor PI requeues
+
+>>> [EDEADLOCK] The futex is already locked by the caller or the kernel 
+>>> detected a deadlock scenario in a nested lock chain
 >>
->> Is that export via an entry labeled "Crash kernel" in the 
->> /proc/iomem file?
+>> Added.
 > 
-> Yes.
+> It's actually EDEADLK
 
-Okay -- thanks.
+Yes, sorry -- I should have said that I already found and fixed 
+that problem.
 
->>> User space can parse it and prepare list of segments
->>> specifying this reserved memory as destination.
+>>> [EOWNERDIED] The owner of the futex died and the kernel made the 
+>>> caller the new owner. The kernel sets the FUTEX_OWNER_DIED bit in the
+>>> futex userspace value. Caller is responsible for cleanup
 >>
->> I'm not quite clear on "specifying this reserved memory as destination".
->> Is that done by specifying the address in the kexec_segment.mem fields?
+>> There is no such thing as an EOWNERDIED error. I had a look
+>> through the kernel source for the FUTEX_OWNER_DIED cases and didn't 
+>> see an obvious error associated with them. Can you clarify? (I think 
+>> the point is that this condition, which is described in
+>> Documentation/robust-futexes.txt, is not an error as such. However, I'm
+>> not yet sure of how to describe it in the man page.)
+>> I will add this point as a FIXME in the new draft man page.
 > 
-> You are absolutely right. User space can specify in kexec_segment.mem
-> field the memory location where it expecting a particular segment to
-> be loaded by kernel.
+> Oops. My bad. That's not the what the kernel does. The kernel merily
+> marks it in the futex itself with FUTEX_OWNER_DIED. User space needs
+> to deal with that and the posix users return EOWNERDEAD (not
+> EOWNERDIED], so it's not part of the futex call itself.
 > 
->>
->>> Once kernel sees the flag KEXEC_ON_CRASH, it makes sure that all the
->>> segments are destined for reserved memory otherwise kernel load operation
->>> fails.
->>
->> Could you point me to where this checking is done? Also, what is the
->> error (errno) that occurs when the load operation fails? (I think the
->> answers to these questions are "at the start of kimage_alloc_init()"
->> and "EADDRNOTAVAIL", but I'd like to confirm.)
-> 
-> This checking happens in sanity_check_segment_list() which is called
-> by kimage_alloc_init().
-> 
-> And yes, error code returned is -EADDRNOTAVAIL.
+> We had discussions about returning EOWNERDEAD in that case, but then
+> glibc with its sophisticated error handling prevented that ....
 
-Thanks. I added EADDRNOTAVAIL to the ERRORS.
+Okay. I'll add a FIXME to the draft page, to see if we get some good 
+text together to describe FUTEX_OWNER_DIED and how it is used.
 
->>> [..]
->>>> struct kexec_segment {
->>>>     void   *buf;        /* Buffer in user space */
->>>>     size_t  bufsz;      /* Buffer length in user space */
->>>>     void   *mem;        /* Physical address of kernel */
->>>>     size_t  memsz;      /* Physical address length */
->>>> };
->>>> .fi
->>>> .in
->>>> .PP
->>>> .\" FIXME Explain the details of how the kernel image defined by segments
->>>> .\" is copied from the calling process into previously reserved memory.
+>>> FUTEX_TRYLOCK_PI
 >>>
->>> Kernel image defined by segments is copied into kernel either in regular
->>> memory 
+>>> This operation tries to acquire the futex at uaddr. It deals with the
+>>> situation where the TID value at uaddr is 0, but the FUTEX_HAS_WAITER
+>>> bit is set. User space cannot handle this race free.
 >>
->> Could you clarify what you mean by "regular memory"?
-> 
-> I meant memory which is not reserved memory.
-
-Okay.
-
->>> or in reserved memory (if KEXEC_ON_CRASH is set). Kernel first
->>> copies list of segments in kernel memory and then goes does various
->>> sanity checks on the segments. If everything looks line, kernel copies
->>> segment data to kernel memory.
->>>
->>> In case of normal kexec, segment data is loaded in any available memory
->>> and segment data is moved to final destination at the kexec reboot time.
+>> Added.
 >>
->> By "moved to final destination", do you mean "moved from user space to the
->> final kernel-space destination"?
-> 
-> No. Segment data moves from user space to kernel space once kexec_load()
-> call finishes successfully. But when user does reboot (kexec -e), at that
-> time kernel moves that segment data to its final location. Kernel could
-> not place the segment at its final location during kexec_load() time as
-> that memory is already in use by running kernel. But once we are about
-> to reboot to new kernel, we can overwrite the old kernel's memory.
-
-Got it.
-
->>> In case of kexec on panic (KEXEC_ON_CRASH flag set), segment data is
->>> directly loaded to reserved memory and after crash kexec simply jumps
+>>> The arguments uaddr2, val, timeout and val3 are ignored.
 >>
->> By "directly", I assume you mean "at the time of the kexec_laod() call",
->> right?
+>> ??? But the code reads:
+>>
+>>         case FUTEX_TRYLOCK_PI:
+>>                 return futex_lock_pi(uaddr, flags, 0, timeout, 1);
+>>  
+>> which momentarily misleads one into thinking that 'timeout' is used.
+>> And: it's not quite ignored, since in futex_lock_pi() a non-NULL
+>> 'timeout' is unconditionally dereferenced (meaning you could get
+>> an EFAULT error for a bad 'timeout' pointer).
+>> I'm confused....
 > 
-> Yes.
+> Indeed. That's just wrong.
+>  
+>> Maybe the above code should be
+>>
+>>         case FUTEX_TRYLOCK_PI:
+>>                 return futex_lock_pi(uaddr, flags, 0, NULL, 1);
+>> ?
+> 
+> Care to send a patch?
 
-Thanks.
+Will do.
+  
+[...]
 
-So, returning to the kexeec_segment structure:
+>> ??? I don't believe this can happen. 'val3' is internally set to
+>> FUTEX_BITSET_MATCH_ANY. Can you confirm?
+> 
+> Right. We dont support that bitset stuff in requeue_pi ATM.
 
-           struct kexec_segment {
-               void   *buf;        /* Buffer in user space */
-               size_t  bufsz;      /* Buffer length in user space */
-               void   *mem;        /* Physical address of kernel */
-               size_t  memsz;      /* Physical address length */
-           };
+Thanks for the confirmation.
 
-Are the following statements correct:
-* buf + bufsz identify a memory region in the caller's virtual 
-  address space that is the source of the copy
-* mem + memsz specify the target memory region of the copy
-* mem is  physical memory address, as seen from kernel space
-* the number of bytes copied from userspace is min(bufsz, memsz)
-* if bufsz > memsz, then excess bytes in the user-space buffer 
-  are ignored.
-* if memsz > bufsz, then excess bytes in the target kernel buffer
-  are filled with zeros.
-?
-
-Also, it seems to me that 'mem' need not be page aligned.
-Is that correct? Should the man page say something about that?
-(E.g., is it generally desirable that 'mem' should be page aligned?)
-
-Likewise, 'memsz' doesn't need to be a page multiple, IIUC.
-Should the man page say anything about this? For example, should 
-it note that the initialized kernel segment will be of size:
-
-     (mem % PAGE_SIZE + memsz) rounded up to the next multiple of PAGE_SIZE
-
-And should it note that if 'mem' is not a multiple of the page size, then
-the initial bytes (mem % PAGE_SIZE)) in the first page of the kernel segment 
-will be zeros?
-
-(Hopefully I have read kimage_load_normal_segment() correctly.)
-
-And one further question. Other than the fact that they are used with 
-different system calls, what is the difference between KEXEC_ON_CRASH 
-and KEXEC_FILE_ON_CRASH?
-
-Thanks,
+Cheers,
 
 Michael
+
+
 
 -- 
 Michael Kerrisk
