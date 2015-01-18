@@ -1,188 +1,259 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tzset.3: correct file paths and TZ use
-Date: Sun, 18 Jan 2015 12:02:06 +0100
-Message-ID: <54BB92AE.4090604@gmail.com>
-References: <54BAFE98.2090402@gmx.com> <54BAFFAE.2020106@gmx.com>
+Subject: Re: [PATCH] ptrace.2, sigaction.2, seccomp.2: ptrace and siginfo
+ details
+Date: Sun, 18 Jan 2015 12:33:41 +0100
+Message-ID: <54BB9A15.2060509@gmail.com>
+References: <20150118062617.GA10640@www.outflux.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54BAFFAE.2020106-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <20150118062617.GA10640-0X9Bc/hWBUTk6RaD4rd5nQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
+To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello William,
+Hi Kees,
 
-On 01/18/2015 01:34 AM, JWP wrote:
-> Remove references to /usr/share/zoneinfo/{localtime,posixrules}
-> as they are not used.
-> 
-> Add information on invalid TZ values.
-> Add information on a TZ filespec that omits the colon.
-> Add information on system timezone configuration.
-> Add an ENVIRONMENT section.
-> Update the FILES section.
+On 01/18/2015 07:26 AM, Kees Cook wrote:
+> While writing some additional seccomp tests, I realized PTRACE_EVENT_SECCOMP
+> wasn't documented yet. Fixed this, and added additional notes related to
+> ptrace events SIGTRAP details.
 
-Thanks for submitting this, but it's very hard for me to use
-this patch in the submitted form. Specifically:
+Great! Thanks for doing this! Applied.
 
-* It groups a number of unrelated changes into a single patch.
-  Could you break each logical change into a separate commit/patch
-  please. This would allow me (and others) to independently review
-  each piece and decide whether it should be applied.
-
-* Please make the patch descriptions more than just a statement of
-  *what* you changed. Please explain what the problem was, and why 
-  you fixed it as you did, and where it makes sense add pointers 
-  to information that supports you reasoning.
-
-Thanks,
+Cheers,
 
 Michael
 
-
-> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+> Signed-off-by: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 > ---
+>  man2/ptrace.2    | 45 ++++++++++++++++++++++++++++++++++++++++++
+>  man2/seccomp.2   |  1 +
+>  man2/sigaction.2 | 59 ++++++++++++++++++++++++++++++++++++++++++++------------
+>  3 files changed, 93 insertions(+), 12 deletions(-)
 > 
-> The following changes since commit dc70d1eaef1643ae48a9b67fcde0cd0b59bf1f20:
-> 
->   ld.so.8: tfix (2015-01-16 15:07:43 +0100)
-> 
-> are available in the git repository at:
-> 
->   git-9UaJU3cA/F/QT0dZR+AlfA@public.gmane.org:jwpi/man-pages.git tzset
-> 
-> for you to fetch changes up to 13f95862d88f041ce652ff846b2706c3d1fccf6a:
-> 
->   tzset.3: correct file paths and TZ use (2015-01-17 16:51:42 -0500)
-> 
-> 
->  man3/tzset.3 | 81 +++++++++++++++++++++++++++---------------------------------
->  1 file changed, 37 insertions(+), 44 deletions(-)
-> 
-> diff --git a/man3/tzset.3 b/man3/tzset.3
-> index c1c98e1..1058d2c 100644
-> --- a/man3/tzset.3
-> +++ b/man3/tzset.3
-> @@ -30,7 +30,7 @@
->  .\" Modified 2001-11-13, aeb
->  .\" Modified 2004-12-01 mtk and Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index bb29502..67e0b32 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -40,6 +40,8 @@
+>  .\"        PTRACE_SETSIGINFO, PTRACE_SYSEMU, PTRACE_SYSEMU_SINGLESTEP
+>  .\"    (Thanks to Blaisorblade, Daniel Jacobowitz and others who helped.)
+>  .\" 2011-09, major update by Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+> +.\" 2015-01, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> +.\"    Added PTRACE_O_TRACESECCOMP, PTRACE_EVENT_SECCOMP
 >  .\"
-> -.TH TZSET 3  2014-08-19 "" "Linux Programmer's Manual"
-> +.TH TZSET 3  2015-01-16 "" "Linux Programmer's Manual"
+>  .TH PTRACE 2 2014-08-19 "Linux" "Linux Programmer's Manual"
 >  .SH NAME
->  tzset, tzname, timezone, daylight \- initialize time conversion information
->  .SH SYNOPSIS
-> @@ -75,15 +75,14 @@ the year when daylight saving time applies).
->  .PP
->  If the
->  .B TZ
-> -variable does not appear in the environment, the \fItzname\fP
-> -variable is initialized with the best approximation of local wall clock
-> -time, as specified by the
-> -.BR tzfile (5)-format
-> -file \fIlocaltime\fP
-> -found in the system timezone directory (see below).
-> -(One also often sees
-> -.I /etc/localtime
-> -used here, a symlink to the right file in the system timezone directory.)
-> +variable does not appear in the environment, the system timezone is used.
-> +The system timezone is configured by copying, or linking, a file in the
-> +.BR tzfile "(5) format to"
-> +.IR /etc/localtime .
-> +A timezone database of these files may be located in the system
-> +timezone directory (see the \fBFILES\fP section below).
-> +
-> +
->  .PP
->  If the
->  .B TZ
-> @@ -118,7 +117,7 @@ The second format is used when there is daylight saving time:
->  .I std offset dst [offset],start[/time],end[/time]
->  .RE
->  .sp
-> -There are no spaces in the specification.
-> +There are no spaces in either specification.
->  The initial \fIstd\fP and
->  \fIoffset\fP specify the standard timezone, as described above.
->  The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
-> @@ -170,47 +169,41 @@ from a file:
->  :[filespec]
->  .RE
->  .sp
-> -If the file specification \fIfilespec\fP is omitted, the timezone
-> -information is read from the file
-> -.I localtime
-> -in the system timezone directory, which nowadays usually is
-> -.IR /usr/share/zoneinfo .
-> -This file is in
-> +If the file specification \fIfilespec\fP is omitted, or its value cannot
-> +be interpreted, Coordinated Universal Time (UTC) is used.  A correct
-> +\%\fIfilespec\fP will be a path pointing to a file in the
->  .BR tzfile (5)
-> -format.
-> -If \fIfilespec\fP is given, it specifies another
-> -.BR tzfile (5)-format
-> -file to read the timezone information from.
-> -If \fIfilespec\fP does not begin with a \(aq/\(aq, the file specification is
-> -relative to the system timezone directory.
-> +format. A timezone database of these files may be located in the system
-> +timezone directory (see the \fBFILES\fP section below).  If
-> +\fIfilespec\fP does not begin with a \(aq/\(aq, the file specification
-> +is relative to the system timezone directory. If the colon is omitted
-> +each of the above three \fBTZ\fP formats will be tried in order.
->  .PP
->  Here's an example, once more for New Zealand:
->  .nf
+> @@ -566,6 +568,30 @@ value such that
 >  
->      TZ=":Pacific/Auckland"
->  .fi
-> +.SH ENVIRONMENT
+>  The PID of the new process can (since Linux 2.6.18) be retrieved with
+>  .BR PTRACE_GETEVENTMSG .
 > +.TP
-> +.B TZ
-> +.RB If \ TZ
-> +is set, its value takes precedence over the system configured timezone.
+> +.BR PTRACE_O_TRACESECCOMP " (since Linux 3.5)"
+> +Stop the tracee when a
+> +.BR seccomp (2)
+> +.BR SECCOMP_RET_TRACE
+> +rule is triggered. A
+> +.BR waitpid (2)
+> +by the tracer will return a
+> +.I status
+> +value such that
+> +
+> +.nf
+> +  status>>8 == (SIGTRAP | (PTRACE_EVENT_SECCOMP<<8))
+> +.fi
+> +
+> +While this triggers a
+> +.BR PTRACE_EVENT
+> +stop, it is similar to a syscall-enter-stop, in that the tracee has
+> +not yet entered the syscall that seccomp triggered on. The seccomp
+> +event message data (from the
+> +.BR SECCOMP_RET_DATA
+> +portion of the seccomp filter rule)
+> +can be retrieved with
+> +.BR PTRACE_GETEVENTMSG .
+>  .RE
+>  .TP
+>  .BR PTRACE_GETEVENTMSG " (since Linux 2.5.46)"
+> @@ -585,6 +611,13 @@ For
+>  and
+>  .BR PTRACE_EVENT_CLONE ,
+>  this is the PID of the new process.
+> +For
+> +.BR PTRACE_EVENT_SECCOMP ,
+> +this is the
+> +.BR seccomp (2)
+> +filter's
+> +.BR SECCOMP_RET_DATA
+> +associated with the triggered rule.
+>  .RI ( addr
+>  is ignored.)
+>  .TP
+> @@ -1310,6 +1343,17 @@ or
+>  if
+>  .B PTRACE_SEIZE
+>  was used.
 > +.TP
-> +.B TZDIR
-> +.RB If \ TZDIR
-> +is set, its value takes precedence over the system configured timezone
-> +database directory path.
->  .SH FILES
-> -Under glibc,
-> -the system timezone directory is determined using the
-> -.BR TZDIR
-> -the environment variable.
-> -If
-> -.BR TZDIR
-> -is not set, the default depends on the system setup, but is normally
-> -.IR /usr/share/zoneinfo .
-> -.LP
-> -This timezone directory contains the files
-> -
-> -.nf
-> -    localtime      local timezone file
-> -    posixrules     rules for POSIX-style TZ's
-> -.fi
-> -.LP
-> -Often,
-> -.I /etc/localtime
-> -is a symbolic link to the file
-> -.I localtime
-> -or to the correct timezone file in the system timezone directory.
-> +.TP
-> +.B /etc/localtime
-> +The system timezone file.
-> +.TP
-> +.B /usr/share/zoneinfo/
-> +The system timezone database directory.
+> +.B PTRACE_EVENT_SECCOMP
+> +Stop triggered by a
+> +.BR seccomp (2)
+> +rule on tracee syscall entry when
+> +.BR PTRACE_O_TRACESECCOMP
+> +has been set by the tracer. The seccomp event message data (from the
+> +.BR SECCOMP_RET_DATA
+> +portion of the seccomp filter rule)
+> +can be retrieved with
+> +.BR PTRACE_GETEVENTMSG .
+>  .LP
+>  .B PTRACE_GETSIGINFO
+>  on
+> @@ -2082,6 +2126,7 @@ attach.)
+>  .BR execve (2),
+>  .BR fork (2),
+>  .BR gettid (2),
+> +.BR seccomp (2),
+>  .BR sigaction (2),
+>  .BR tgkill (2),
+>  .BR vfork (2),
+> diff --git a/man2/seccomp.2 b/man2/seccomp.2
+> index ac72eb6..702ceb8 100644
+> --- a/man2/seccomp.2
+> +++ b/man2/seccomp.2
+> @@ -662,6 +662,7 @@ main(int argc, char **argv)
+>  .SH SEE ALSO
+>  .BR prctl (2),
+>  .BR ptrace (2),
+> +.BR sigaction (2),
+>  .BR signal (7),
+>  .BR socket (7)
+>  .sp
+> diff --git a/man2/sigaction.2 b/man2/sigaction.2
+> index aae572b..f06fe57 100644
+> --- a/man2/sigaction.2
+> +++ b/man2/sigaction.2
+> @@ -43,6 +43,8 @@
+>  .\"	out of this page into separate pages.
+>  .\" 2010-06-11 Andi Kleen, add hwpoison signal extensions
+>  .\" 2010-06-11 mtk, improvements to discussion of various siginfo_t fields.
+> +.\" 2015-01-17, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> +.\"	Added notes on ptrace SIGTRAP and SYS_SECCOMP.
+>  .\"
+>  .TH SIGACTION 2 2014-12-31 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -416,10 +418,6 @@ and
+>  fill in
+>  .I si_addr
+>  with the address of the fault.
+> -.\" FIXME . SIGTRAP also sets the following for ptrace_notify() ?
+> -.\"     info.si_code = exit_code;
+> -.\"     info.si_pid = task_pid_vnr(current);
+> -.\"     info.si_uid = current_uid();  /* Real UID */
+>  On some architectures,
+>  these signals also fill in the
+>  .I si_trapno
+> @@ -438,6 +436,20 @@ For example, if a full page was corrupted,
+>  .I si_addr_lsb
+>  contains
+>  .IR log2(sysconf(_SC_PAGESIZE)) .
+> +When
+> +.BR SIGTRAP
+> +is delivered in response to a
+> +.BR ptrace (2)
+> +event (PTRACE_EVENT_foo),
+> +.I si_addr
+> +is not populated, but
+> +.I si_pid
+> +and
+> +.I si_uid
+> +are populated with the respective process ID and user ID responsible for
+> +delivering the trap. In the case of
+> +.BR seccomp (2)
+> +the tracee will be shown as delivering the event.
+>  .B BUS_MCERR_*
+>  and
+>  .I si_addr_lsb
+> @@ -457,9 +469,8 @@ The
+>  .I si_fd
+>  field indicates the file descriptor for which the I/O event occurred.
+>  .IP *
+> -The
+>  .B SIGSYS
+> -signal that is (since Linux 3.5)
+> +(since Linux 3.5)
+>  .\" commit a0727e8ce513fe6890416da960181ceb10fbfae6
+>  generated when a seccomp filter returns
+>  .B SECCOMP_RET_TRAP
+> @@ -467,13 +478,26 @@ fills in
+>  .IR si_call_addr ,
+>  .IR si_syscall ,
+>  .IR si_arch ,
+> -and various other fields as described in
+> +.IR si_errno ,
+> +and other fields as described in
+>  .BR seccomp (2).
+>  .PP
+>  .I si_code
+>  is a value (not a bit mask)
+> -indicating why this signal was sent.
+> -The following list shows the values which can be placed in
+> +indicating why this signal was sent. For a
+> +.BR ptrace (2)
+> +event,
+> +.I si_code
+> +will contain
+> +.BR SIGTRAP
+> +and have the ptrace event in the high byte:
+> +
+> +.nf
+> +    (SIGTRAP | PTRACE_EVENT_foo << 8).
+> +.fi
+> +
+> +For a regular signal, the following list shows the values which can be
+> +placed in
+>  .I si_code
+>  for any signal, along with reason that the signal was generated.
+>  .RS 4
+> @@ -514,9 +538,6 @@ or
+>  .\" SI_DETHREAD is defined in 2.6.9 sources, but isn't implemented
+>  .\" It appears to have been an idea that was tried during 2.5.6
+>  .\" through to 2.5.24 and then was backed out.
+> -.\"
+> -.\" FIXME .
+> -.\" Eventually need to add the SYS_SECCOMP code here (see seccomp(2))
+>  .RE
+>  .PP
+>  The following values can be placed in
+> @@ -691,6 +712,19 @@ high priority input available
+>  .B POLL_HUP
+>  device disconnected
+>  .RE
 > +.PP
-> +Above are the current standard file locations, but they are
-> +configurable when glibc is compiled.
->  .SH CONFORMING TO
->  SVr4, POSIX.1-2001, 4.3BSD.
->  .SH NOTES
+> +The following value can be placed in
+> +.I si_code
+> +for a
+> +.BR SIGSYS
+> +signal:
+> +.RS 4
+> +.TP 15
+> +.BR SYS_SECCOMP " (since Linux 3.5)"
+> +triggered by a
+> +.BR seccomp (2)
+> +filter rule
+> +.RE
+>  .SH RETURN VALUE
+>  .BR sigaction ()
+>  returns 0 on success; on error, \-1 is returned, and
+> @@ -830,6 +864,7 @@ See
+>  .BR killpg (2),
+>  .BR pause (2),
+>  .BR restart_syscall (2),
+> +.BR seccomp (2)
+>  .BR sigaltstack (2),
+>  .BR signal (2),
+>  .BR signalfd (2),
 > 
 
 
