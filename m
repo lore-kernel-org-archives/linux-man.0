@@ -1,7 +1,7 @@
 From: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Subject: [PATCH[V2] 4/5] tzset.3: Add Environment section
-Date: Sun, 18 Jan 2015 15:07:10 -0500
-Message-ID: <54BC126E.1080904@gmx.com>
+Subject: [PATCH[V2] 5/5] tzset.3: TZ filespec omitts the colon
+Date: Sun, 18 Jan 2015 15:10:18 -0500
+Message-ID: <54BC132A.8090504@gmx.com>
 References: <54BAFE98.2090402@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -13,24 +13,15 @@ To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-FILES section was overly verbose and included
-environment variables.  Added ENVIRONMENT section,
-removing ENV VARS from the FILES section.
-Corrected Files section items.
+If the TZ filespec omits the leading colon, glibc
+will parse it for any valid format, i.e., it will
+still work.
 
-As stated in the previous commit
-/usr/share/zoneinfo/localtime
-is not used, nor recommended by glibc.
-
-Also not used is:
-/usr/share/zoneinfo/posixrules
-
-STEPS TO REPRODUCE NO posixrules:
-
-TZ=EST+5EDT,M1.3.0/2,M10.5.0/2 date
-Sun Jan 18 14:01:24 EDT 2015
-TZ=EST+5EDT,M1.4.0/2,M10.5.0/2 date
-Sun Jan 18 13:01:27 EST 2015
+STEPS TO REPRODUCE:
+TZ=:Europe/Kiev date
+Sun Jan 18 20:19:13 EET 2015
+TZ=Europe/Kiev date
+Sun Jan 18 20:19:20 EET 2015
 
 Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 ---
@@ -48,35 +39,24 @@ for you to fetch changes up to 2b0725c0b6f6788628567ea4d5cfc396898584a0:
   tzset.3: TZ filespec omitts the colon (2015-01-18 14:40:21 -0500)
 
 
- man3/tzset.3 | 40 +++++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 21 deletions(-)
+ man3/tzset.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/man3/tzset.3 b/man3/tzset.3
-index 09fac15..b49c8ee 100644
+index b49c8ee..5c721b6 100644
 --- a/man3/tzset.3
 +++ b/man3/tzset.3
-@@ -180,28 +180,26 @@ Here's an example, once more for New Zealand:
- 
-     TZ=":Pacific/Auckland"
- .fi
-+.SH ENVIRONMENT
-+.TP
-+.B TZ
-+.RB If \ TZ
-+is set, its value takes precedence over the system configured timezone.
-+.TP
-+.B TZDIR
-+.RB If \ TZDIR
-+is set, its value takes precedence over the system configured timezone
-+database directory path.
- .SH FILES
--Under glibc,
--the system timezone directory is determined using the
--.BR TZDIR
--the environment variable.
--If
--.BR TZDIR
--is not set, the default depends on the system setup, but is normally
--.IR /usr/share/zoneinfo .
--.LP
--This timezone directory contains the files
+@@ -173,7 +173,8 @@ If \fIfilespec\fP is given, it specifies another
+ .BR tzfile (5)-format
+ file to read the timezone information from.
+ If \fIfilespec\fP does not begin with a \(aq/\(aq, the file specification is
+-relative to the system timezone directory.
++relative to the system timezone directory.  If the colon is omitted each
++of the above three \fBTZ\fP formats will be tried in order.
+ .PP
+ Here's an example, once more for New Zealand:
+ .nf
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
