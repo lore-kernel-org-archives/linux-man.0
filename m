@@ -1,7 +1,7 @@
 From: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Subject: [PATCH[V2] 1/5] tzset.3: filespec omitted incorrect
-Date: Sun, 18 Jan 2015 15:00:07 -0500
-Message-ID: <54BC10C7.1030706@gmx.com>
+Subject: [PATCH[V2] 2/5] tzset.3: First TZ specification clarification
+Date: Sun, 18 Jan 2015 15:02:58 -0500
+Message-ID: <54BC1172.5060100@gmx.com>
 References: <54BAFE98.2090402@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -13,37 +13,11 @@ To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Paragraph three of the DESCRIPTION section says
-that when TZ is set, but empty, then UTC is used.
-
-Later it says if the TZ filespec is omitted then
-the file /usr/share/zoneinfo/localtime is used.
-This is incorrect, it will use UTC in that case as
-well.
-
-Steps to reproduce:
-
-cd /usr/share/zoneinfo/
-cp Antarctica/South_Pole localtime
-cd
-date
-Sun Jan 18 10:59:50 EST 2015
-TZ=:Hongkong date
-Sun Jan 18 23:59:56 HKT 2015
-TZ=:/usr/share/zoneinfo/localtime date
-Mon Jan 19 05:00:03 NZDT 2015
-TZ=: date
-Sun Jan 18 16:00:11 UTC 2015
-TZ=":" date
-Sun Jan 18 16:00:18 UTC 2015
-TZ=':' date
-Sun Jan 18 16:00:24 UTC 2015
-TZ=:/ date
-Sun Jan 18 16:00:34  2015
-TZ=":/" date
-Sun Jan 18 16:00:40  2015
-TZ="" date
-Sun Jan 18 16:00:45 UTC 2015
+The second TZ specification states that no spaces
+are allowed, this is true for the first
+specification as well. The text of these two are
+closely coupled so including the first
+specification by using 'either' is sufficient.
 
 Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 ---
@@ -61,30 +35,22 @@ for you to fetch changes up to 2b0725c0b6f6788628567ea4d5cfc396898584a0:
   tzset.3: TZ filespec omitts the colon (2015-01-18 14:40:21 -0500)
 
 
- man3/tzset.3 | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ man3/tzset.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man3/tzset.3 b/man3/tzset.3
-index c1c98e1..36d2fd7 100644
+index 36d2fd7..3f9b246 100644
 --- a/man3/tzset.3
 +++ b/man3/tzset.3
-@@ -170,14 +170,8 @@ from a file:
- :[filespec]
+@@ -118,7 +118,7 @@ The second format is used when there is daylight saving time:
+ .I std offset dst [offset],start[/time],end[/time]
  .RE
  .sp
--If the file specification \fIfilespec\fP is omitted, the timezone
--information is read from the file
--.I localtime
--in the system timezone directory, which nowadays usually is
--.IR /usr/share/zoneinfo .
--This file is in
--.BR tzfile (5)
--format.
-+If the file specification \fIfilespec\fP is omitted, or its value cannot
-+be interpreted, then Coordinated Universal Time (UTC) is used.
- If \fIfilespec\fP is given, it specifies another
- .BR tzfile (5)-format
- file to read the timezone information from.
+-There are no spaces in the specification.
++There are no spaces in either specification.
+ The initial \fIstd\fP and
+ \fIoffset\fP specify the standard timezone, as described above.
+ The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
