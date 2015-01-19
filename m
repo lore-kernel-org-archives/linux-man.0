@@ -1,77 +1,135 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: futex(2) man page update help request
-Date: Mon, 19 Jan 2015 15:07:36 +0100
-Message-ID: <54BD0FA8.60606@gmail.com>
-References: <537346E5.4050407@gmail.com> <CF98E3EF.90564%dvhart@linux.intel.com> <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com> <5373D0CA.2050204@redhat.com> <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de> <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com> <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de> <54B7D87C.3090901@gmail.com> <alpine.DEB.2.11.1501152313330.5526@nanos> <54B92B71.2090509@gmail.com> <alpine.DEB.2.11.1501161618080.5526@nanos> <54B97A72.2050205@gmail.com> <D0DEECA2.B7EAD%dvhart@linux.intel.com> <alpine.DEB.2.11.1501191144320.5526@nanos>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.11.1501191144320.5526@nanos>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Thomas Gleixner <tglx@linutronix.de>, Darren Hart <dvhart@linux.intel.com>
-Cc: mtk.manpages@gmail.com, Carlos O'Donell <carlos@redhat.com>, Ingo Molnar <mingo@elte.hu>, Jakub Jelinek <jakub@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Davidlohr Bueso <davidlohr.bueso@hp.com>, Arnd Bergmann <arnd@arndb.de>, Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Linux API <linux-api@vger.kernel.org>, Torvald Riegel <triegel@redhat.com>, Roland McGrath <roland@redhat.com>, Darren Hart <dvhart@infradead.org>, Anton Blanchard <anton@samba.org>, Petr Baudis <pasky@suse.cz>, Eric Dumazet <edumazet@google.com>, bill o gallmeister <bgallmeister@gmail.com>, Jan Kiszka <jan.kiszka@siemens.com>, Daniel Wagner <wagi@monom.org>, Rich Felker <dalias@libc.org>
+From: Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH] Manual page for new PCI memory access system calls
+Date: Mon, 19 Jan 2015 15:22:52 +0100
+Message-ID: <1421677372-15088-1-git-send-email-aishchuk@linux.vnet.ibm.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: blaschka-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, schwidefsky-tA70FqPdS9bQT0dZR+AlfA@public.gmane.org, heicars2-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/19/2015 11:45 AM, Thomas Gleixner wrote:
-> On Fri, 16 Jan 2015, Darren Hart wrote:
->> On 1/16/15, 12:54 PM, "Michael Kerrisk (man-pages)"
->> <mtk.manpages@gmail.com> wrote:
->>
->>> On 01/16/2015 04:20 PM, Thomas Gleixner wrote:
->>>> On Fri, 16 Jan 2015, Michael Kerrisk (man-pages) wrote:
->>>>
->>>>> Hello Thomas,
->>>>>
->>>>> On 01/15/2015 11:23 PM, Thomas Gleixner wrote:
->>>>>> On Thu, 15 Jan 2015, Michael Kerrisk (man-pages) wrote:
->>>>>>>> [EINVAL] uaddr equal uaddr2. Requeue to same futex.
->>>>>>>
->>>>>>> ??? I added this, but does this error not occur only for PI requeues?
->>>>>>
->>>>>> It's equally wrong for normal futexes. And its actually the same code
->>>>>> checking for this for all variants.
->>>>>
->>>>> I don't understand "equally wrong" in your reply, I'm sorry. Do you
->>>>> mean:
->>>>>
->>>>> a) This error text should be there for both normal and PI requeues
->>>>
->>>> It is there for both. The requeue code has that check independent of
->>>> the requeue type (normal/pi). It never makes sense to requeue
->>>> something to itself whether normal or pi futex. We added this for PI,
->>>> because there it is harmful, but we did not special case it. So normal
->>>> futexes get the same treatment.
->>>
->>> Hello Thomas, 
->>>
->>> Color me stupid, but I can't see this in futex_requeue(). Where is that
->>> check that is "independent of the requeue type (normal/pi)"?
->>>
->>> When I look through futex_requeue(), all the likely looking sources
->>> of EINVAL are governed by a check on the 'requeue_pi' argument.
->>
->>
->> Right, in the non-PI case, I believe there are valid use cases: move to
->> the back of the FIFO, for example (OK, maybe the only example?). Both
->> tests ensuring uaddr1 != uaddr2 are under the requeue_pi conditional
->> block. The second compares the keys in case they are not FUTEX_PRIVATE
->> (uaddrs would be different, but still the same backing store).
->>
->> Thomas, am I missing a test for this someplace else?
-> 
-> No, I had a short look at the code misread it. So, yes, it's a valid
-> operation for the non PI case. Sorry for the confusion.
+Add s390_pci_mmio_write.2 manual page for the new PCI MMIO memory access
+s390_pci_mmio_write () and s390_pci_mmio_read () system calls added for
+the s390 platform.
 
-Thanks for the confirmation, Thomas. Page updated to remove 
-FUTEX_CMP_REQUEUE from that error case.
+Signed-off-by: Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+---
+ man2/s390_pci_mmio_write.2 | 102 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
+ create mode 100644 man2/s390_pci_mmio_write.2
 
-Cheers,
-
-Michael
-
-
+diff --git a/man2/s390_pci_mmio_write.2 b/man2/s390_pci_mmio_write.2
+new file mode 100644
+index 0000000..4757be2
+--- /dev/null
++++ b/man2/s390_pci_mmio_write.2
+@@ -0,0 +1,102 @@
++.\" Copyright (c) IBM Corp. 2015
++.\" Author: Alexey Ishchuk <aishchuk-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
++.\"
++.\" %%%LICENSE_START(GPLv2+_DOC_FULL)
++.\" This is free documentation; you can redistribute it and/or
++.\" modify it under the terms of the GNU General Public License as
++.\" published by the Free Software Foundation; either version 2 of
++.\" the License, or (at your option) any later version.
++.\"
++.\" The GNU General Public License's references to "object code"
++.\" and "executables" are to be interpreted as the output of any
++.\" document formatting or typesetting system, including
++.\" intermediate and printed output.
++.\"
++.\" This manual is distributed in the hope that it will be useful,
++.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
++.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++.\" GNU General Public License for more details.
++.\"
++.\" You should have received a copy of the GNU General Public
++.\" License along with this manual; if not, see
++.\" <http://www.gnu.org/licenses/>.
++.\" %%%LICENSE_END
++.\"
++.TH S390_PCI_MMIO_WRITE 2 2015-01-15 "Linux Programmer's Manual"
++.SH NAME
++s390_pci_mmio_write, s390_pci_mmio_read \- transfer data to/from PCI
++MMIO memory page
++.SH SYNOPSIS
++.nf
++.B #include <asm/unistd.h>
++
++.BI "int s390_pci_mmio_write(unsigned long " mmio_addr ",
++.BI "                     void *" user_buffer ",
++.BI "                     size_t " length ");
++.br
++.BI "int s390_pci_mmio_read(unsigned long " mmio_addr ",
++.BI "                    void *" user_buffer ",
++.BI "                    size_t " length ");
++.fi
++.SH DESCRIPTION
++The
++.BR s390_pci_mmio_write ()
++system call writes data of length
++.IR length
++from the user space buffer
++.IR user_buffer
++to a PCI MMIO memory location.
++The
++.BR s390_pci_mmio_read ()
++system call reads data from a PCI MMIO memory location
++to the user space buffer
++.IR user_buffer
++of
++.IR length
++bytes size.
++
++These system calls must be used instead of the simple assignment
++or data transfer operations that are used to access the PCI MMIO
++memory areas mapped to the user space on the Linux on System z
++platform.
++The address specified by the
++.IR mmio_addr
++parameter must belong to a PCI MMIO memory page mapping in the user
++address space, and the data being written or read must not cross a
++page boundary. The
++.IR length
++parameter value cannot be greater than the page size.
++.SH RETURN VALUE
++On success,
++.BR s390_pci_mmio_write ()
++and
++.BR s390_pci_mmio_read ()
++return 0.
++On error, \-1 is returned and 
++.IR errno
++is set to one of the error codes listed below.
++.SH ERRORS
++.TP
++.B ENODEV
++PCI support is not enabled.
++.TP
++.B ENOMEM
++Insufficient memory.
++.TP
++.B EFAULT
++Invalid address was specified.
++.TP
++.B EINVAL
++Invalid parameter value.
++.SH VERSIONS
++These system calls are available since Linux 3.19.
++.SH CONFORMING TO
++This Linux-specific system call is available only on the s390
++architecture. The required PCI support is available beginning with
++System z EC12.
++.SH NOTES
++Glibc does not provide a wrapper for this system call, use
++.BR syscall (2)
++to call it.
++.SH SEE ALSO
++.BR syscall (2)
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.1.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
