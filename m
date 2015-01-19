@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] siginterrupt.3: Modify thread-safety information
-Date: Mon, 19 Jan 2015 10:19:04 +0100
-Message-ID: <54BCCC08.6020005@gmail.com>
-References: <1421636194-4578-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] makecontext.3: Modify thread-safety information
+Date: Mon, 19 Jan 2015 10:19:13 +0100
+Message-ID: <54BCCC11.2030501@gmail.com>
+References: <1421637334-6110-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421636194-4578-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421637334-6110-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/19/2015 03:56 AM, Ma Shimiao wrote:
+On 01/19/2015 04:15 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the 
 > thread-safety information to be the same as glibc manual.
 
@@ -26,22 +26,32 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/siginterrupt.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man3/makecontext.3 | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
-> index adcdf76..eb7749a 100644
-> --- a/man3/siginterrupt.3
-> +++ b/man3/siginterrupt.3
-> @@ -94,7 +94,7 @@ l l l.
+> diff --git a/man3/makecontext.3 b/man3/makecontext.3
+> index 2c83f0e..8719367 100644
+> --- a/man3/makecontext.3
+> +++ b/man3/makecontext.3
+> @@ -107,13 +107,15 @@ For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+>  .TS
+>  allbox;
+> -lbw28 lb lb
+> +lb lb lb
+>  l l l.
 >  Interface	Attribute	Value
 >  T{
->  .BR siginterrupt ()
-> -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe const:sigintr
+> -.BR makecontext (),
+> +.BR makecontext ()
+> +T}	Thread safety	MT-Safe race:ucp
+> +T{
+>  .BR swapcontext ()
+> -T}	Thread safety	MT-Safe
+> +T}	Thread safety	MT-Safe race:oucp race:ucp
 >  .TE
 >  .SH CONFORMING TO
->  4.3BSD, POSIX.1-2001.
+>  SUSv2, POSIX.1-2001.
 > 
 
 
