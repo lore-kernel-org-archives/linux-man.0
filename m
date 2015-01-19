@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] makecontext.3: Modify thread-safety information
-Date: Mon, 19 Jan 2015 11:15:34 +0800
-Message-ID: <1421637334-6110-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] drand48.3: Modify thread-safety information
+Date: Mon, 19 Jan 2015 14:32:12 +0800
+Message-ID: <1421649132-22952-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,32 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/makecontext.3 | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ man3/drand48.3 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/makecontext.3 b/man3/makecontext.3
-index 2c83f0e..8719367 100644
---- a/man3/makecontext.3
-+++ b/man3/makecontext.3
-@@ -107,13 +107,15 @@ For an explanation of the terms used in this section, see
- .BR attributes (7).
- .TS
- allbox;
--lbw28 lb lb
-+lb lb lb
- l l l.
- Interface	Attribute	Value
- T{
--.BR makecontext (),
-+.BR makecontext ()
-+T}	Thread safety	MT-Safe race:ucp
-+T{
- .BR swapcontext ()
--T}	Thread safety	MT-Safe
-+T}	Thread safety	MT-Safe race:oucp race:ucp
+diff --git a/man3/drand48.3 b/man3/drand48.3
+index adf4f06..bb0710d 100644
+--- a/man3/drand48.3
++++ b/man3/drand48.3
+@@ -262,7 +262,7 @@ T{
+ .BR seed48 (),
+ .BR lcong48 ()
+ T}	Thread safety	T{
+-MT-Unsafe
++MT-Unsafe race:drand48
+ T}
  .TE
- .SH CONFORMING TO
- SUSv2, POSIX.1-2001.
+ .ad
 -- 
 1.8.3.1
 
