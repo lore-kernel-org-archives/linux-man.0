@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getopt.3: Modify thread-safety information
-Date: Mon, 19 Jan 2015 10:41:34 +0800
-Message-ID: <1421635294-3412-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] siginterrupt.3: Modify thread-safety information
+Date: Mon, 19 Jan 2015 10:56:34 +0800
+Message-ID: <1421636194-4578-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,22 +15,22 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getopt.3 | 2 +-
+ man3/siginterrupt.3 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/getopt.3 b/man3/getopt.3
-index cffd6d3..105b273 100644
---- a/man3/getopt.3
-+++ b/man3/getopt.3
-@@ -327,7 +327,7 @@ T{
- .BR getopt (),
- .BR getopt_long (),
- .BR getopt_long_only ()
--T}	Thread safety	MT-Unsafe env
-+T}	Thread safety	MT-Unsafe race:getopt env
+diff --git a/man3/siginterrupt.3 b/man3/siginterrupt.3
+index adcdf76..eb7749a 100644
+--- a/man3/siginterrupt.3
++++ b/man3/siginterrupt.3
+@@ -94,7 +94,7 @@ l l l.
+ Interface	Attribute	Value
+ T{
+ .BR siginterrupt ()
+-T}	Thread safety	MT-Unsafe
++T}	Thread safety	MT-Unsafe const:sigintr
  .TE
  .SH CONFORMING TO
- .TP
+ 4.3BSD, POSIX.1-2001.
 -- 
 1.8.3.1
 
