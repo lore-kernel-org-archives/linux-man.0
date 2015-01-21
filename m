@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getpwnam.3: Modify thread-safety information
-Date: Wed, 21 Jan 2015 15:18:20 +0800
-Message-ID: <1421824700-9558-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getgrnam.3: Modify thread-safety information
+Date: Wed, 21 Jan 2015 15:24:38 +0800
+Message-ID: <1421825078-10487-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,14 +15,14 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getpwnam.3 | 11 +++++++----
+ man3/getgrnam.3 | 11 +++++++----
  1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
-index 7e85b57..14d7ac3 100644
---- a/man3/getpwnam.3
-+++ b/man3/getpwnam.3
-@@ -219,17 +219,20 @@ For an explanation of the terms used in this section, see
+diff --git a/man3/getgrnam.3 b/man3/getgrnam.3
+index 7453ef7..8ac1bad 100644
+--- a/man3/getgrnam.3
++++ b/man3/getgrnam.3
+@@ -213,17 +213,20 @@ For an explanation of the terms used in this section, see
  .BR attributes (7).
  .TS
  allbox;
@@ -31,17 +31,17 @@ index 7e85b57..14d7ac3 100644
  l l l.
  Interface	Attribute	Value
  T{
--.BR getpwnam (),
-+.BR getpwnam ()
-+T}	Thread safety	MT-Unsafe race:pwnam locale
+-.BR getgrnam (),
++.BR getgrnam ()
++T}	Thread safety	MT-Unsafe race:grnam locale
 +T{
- .BR getpwuid ()
+ .BR getgrgid ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:pwuid locale
++T}	Thread safety	MT-Unsafe race:grgid locale
  T{
- .BR getpwnam_r (),
+ .BR getgrnam_r (),
 +.br
- .BR getpwuid_r ()
+ .BR getgrgid_r ()
 -T}	Thread safety	MT-Safe
 +T}	Thread safety	MT-Safe locale
  .TE
