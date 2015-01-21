@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getgrnam.3: Modify thread-safety information
-Date: Wed, 21 Jan 2015 15:24:38 +0800
-Message-ID: <1421825078-10487-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] termios.3: Modify thread-safety information
+Date: Wed, 21 Jan 2015 15:40:12 +0800
+Message-ID: <1421826012-12616-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,38 +15,42 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getgrnam.3 | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ man3/termios.3 | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/man3/getgrnam.3 b/man3/getgrnam.3
-index 7453ef7..8ac1bad 100644
---- a/man3/getgrnam.3
-+++ b/man3/getgrnam.3
-@@ -213,17 +213,20 @@ For an explanation of the terms used in this section, see
- .BR attributes (7).
+diff --git a/man3/termios.3 b/man3/termios.3
+index 371bdf7..8eb04be 100644
+--- a/man3/termios.3
++++ b/man3/termios.3
+@@ -979,15 +979,14 @@ For an explanation of the terms used in this section, see
  .TS
  allbox;
--lbw26 lb lb
-+lb lb lb
- l l l.
+ lb lb lb
+-lw37 l l.
++l l l.
  Interface	Attribute	Value
  T{
--.BR getgrnam (),
-+.BR getgrnam ()
-+T}	Thread safety	MT-Unsafe race:grnam locale
-+T{
- .BR getgrgid ()
--T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:grgid locale
- T{
- .BR getgrnam_r (),
+ .BR tcgetattr (),
+ .BR tcsetattr (),
+-.BR tcsendbreak (),
+ .BR tcdrain (),
 +.br
- .BR getgrgid_r ()
--T}	Thread safety	MT-Safe
-+T}	Thread safety	MT-Safe locale
+ .BR tcflush (),
+-.BR tcflow (),
+ .BR cfmakeraw (),
+ .BR cfgetispeed (),
+ .BR cfgetospeed (),
+@@ -995,6 +994,10 @@ T{
+ .BR cfsetospeed (),
+ .BR cfsetspeed ()
+ T}	Thread safety	MT-Safe
++T{
++.BR tcsendbreak (),
++.BR tcflow ()
++T}	Thread safety	MT-Unsafe race:tcattr(filedes)/bsd
  .TE
- .SH CONFORMING TO
- SVr4, 4.3BSD, POSIX.1-2001.
+ .ad
+ .hy
 -- 
 1.8.3.1
 
