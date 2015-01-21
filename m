@@ -1,63 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: fcntl(2) man page patch for OFD locks
-Date: Wed, 21 Jan 2015 18:44:41 +0100
-Message-ID: <CAKgNAkhCrh1YYkrqb3E4r=iZcJchcLrz3Sdix2SC05T-62oRiw@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
+Subject: Re: fcntl(2) man page patch for OFD locks
+Date: Wed, 21 Jan 2015 12:47:28 -0500
+Message-ID: <20150121124728.350b7e4f@tlielax.poochiereds.net>
+References: <CAKgNAkhCrh1YYkrqb3E4r=iZcJchcLrz3Sdix2SC05T-62oRiw@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkhCrh1YYkrqb3E4r=iZcJchcLrz3Sdix2SC05T-62oRiw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jeff,
+On Wed, 21 Jan 2015 18:44:41 +0100
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
 
-I was recently checking some details of the man page for OFD locks,
-and realized that one paragraph is somewhat misleading:
+> Hi Jeff,
+> 
+> I was recently checking some details of the man page for OFD locks,
+> and realized that one paragraph is somewhat misleading:
+> 
+>        Open file description  locks  always  conflict  with  traditional
+>        record  locks, even when they are acquired by the same process on
+>        the same file descriptor.
+> 
+> This doesn't capture the full story, as far as I can tell. In
+> particular if we have two processes that take locks on the same region
+> of a file as follows:
+> 
+> F_OFD_SETLK F_RDLCK
+> and
+> F_SETLK F_RDLCK
+> 
+> then those pair of locks are compatible. I assume that's expected
+> behavior, right? I've drafted the patch below for the man page. Seem
+> okay?
+> 
+> Cheers,
+> 
+> Michael
+> 
+> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+> index 59f22ce..03c2ae8 100644
+> --- a/man2/fcntl.2
+> +++ b/man2/fcntl.2
+> @@ -495,7 +495,10 @@ and are only automatically released on the last close
+>  of the open file description,
+>  instead of being released on any close of the file.
+>  .PP
+> -Open file description locks always conflict with traditional record locks,
+> +Conflicting lock combinations
+> +(i.e., a read lock and a write lock or two write locks)
+> +where one lock is an open file description lock and the other
+> +is a traditional record lock conflict
+>  even when they are acquired by the same process on the same file descriptor.
+> 
+>  Open file description locks placed via the same open file description
+> 
+> 
 
-       Open file description  locks  always  conflict  with  traditional
-       record  locks, even when they are acquired by the same process on
-       the same file descriptor.
+Yes, that is expected behavior and your patch looks good to me.
 
-This doesn't capture the full story, as far as I can tell. In
-particular if we have two processes that take locks on the same region
-of a file as follows:
-
-F_OFD_SETLK F_RDLCK
-and
-F_SETLK F_RDLCK
-
-then those pair of locks are compatible. I assume that's expected
-behavior, right? I've drafted the patch below for the man page. Seem
-okay?
-
-Cheers,
-
-Michael
-
-diff --git a/man2/fcntl.2 b/man2/fcntl.2
-index 59f22ce..03c2ae8 100644
---- a/man2/fcntl.2
-+++ b/man2/fcntl.2
-@@ -495,7 +495,10 @@ and are only automatically released on the last close
- of the open file description,
- instead of being released on any close of the file.
- .PP
--Open file description locks always conflict with traditional record locks,
-+Conflicting lock combinations
-+(i.e., a read lock and a write lock or two write locks)
-+where one lock is an open file description lock and the other
-+is a traditional record lock conflict
- even when they are acquired by the same process on the same file descriptor.
-
- Open file description locks placed via the same open file description
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Acked-by: Jeff Layton <jlayton-vpEMnDpepFuMZCB2o+C8xQ@public.gmane.org>
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
