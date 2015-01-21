@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] hsearch.3: Modify thread-safety information
-Date: Wed, 21 Jan 2015 08:59:03 +0100
-Message-ID: <54BF5C47.6070306@gmail.com>
-References: <1421804065-629-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] getpwnam.3: Modify thread-safety information
+Date: Wed, 21 Jan 2015 08:59:28 +0100
+Message-ID: <54BF5C60.8020707@gmail.com>
+References: <1421824700-9558-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421804065-629-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1421824700-9558-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/21/2015 02:34 AM, Ma Shimiao wrote:
+On 01/21/2015 08:18 AM, Ma Shimiao wrote:
 > As annotation in glibc manual is more detailed, change the 
 > thread-safety information to be the same as glibc manual.
 
@@ -28,38 +28,38 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/hsearch.3 | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  man3/getpwnam.3 | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> diff --git a/man3/hsearch.3 b/man3/hsearch.3
-> index aced682..0f1af24 100644
-> --- a/man3/hsearch.3
-> +++ b/man3/hsearch.3
-> @@ -233,19 +233,21 @@ For an explanation of the terms used in this section, see
+> diff --git a/man3/getpwnam.3 b/man3/getpwnam.3
+> index 7e85b57..14d7ac3 100644
+> --- a/man3/getpwnam.3
+> +++ b/man3/getpwnam.3
+> @@ -219,17 +219,20 @@ For an explanation of the terms used in this section, see
 >  .BR attributes (7).
 >  .TS
 >  allbox;
-> -lbw38 lb lb
-> +lbw25 lb lb
+> -lbw26 lb lb
+> +lb lb lb
 >  l l l.
 >  Interface	Attribute	Value
 >  T{
->  .BR hcreate (),
->  .BR hsearch (),
-> +.br
->  .BR hdestroy ()
+> -.BR getpwnam (),
+> +.BR getpwnam ()
+> +T}	Thread safety	MT-Unsafe race:pwnam locale
+> +T{
+>  .BR getpwuid ()
 > -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe race:hsearch
+> +T}	Thread safety	MT-Unsafe race:pwuid locale
 >  T{
->  .BR hcreate_r (),
->  .BR hsearch_r (),
+>  .BR getpwnam_r (),
 > +.br
->  .BR hdestroy_r ()
+>  .BR getpwuid_r ()
 > -T}	Thread safety	MT-Safe
-> +T}	Thread safety	MT-Safe race:htab
+> +T}	Thread safety	MT-Safe locale
 >  .TE
 >  .SH CONFORMING TO
->  The functions
+>  SVr4, 4.3BSD, POSIX.1-2001.
 > 
 
 
