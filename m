@@ -1,39 +1,55 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: Re: [PATCH] syscall.2: add arm64 and mips
-Date: Tue, 20 Jan 2015 11:02:49 -0800
-Message-ID: <CAGXu5jJPYt0z4=UvKoimfju6A0wqxoMnMEXAo6vUEYUX36aHXQ@mail.gmail.com>
-References: <20150118072204.GA12237@www.outflux.net>
-	<54BB9FF3.5070706@gmail.com>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] hsearch.3: Modify thread-safety information
+Date: Wed, 21 Jan 2015 09:34:25 +0800
+Message-ID: <1421804065-629-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54BB9FF3.5070706-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Jan 18, 2015 at 3:58 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 01/18/2015 08:22 AM, Kees Cook wrote:
->> Added mips to tables. Extra column added for boolean error register, since
->> both ia64 and mips use this convention. Added explicit non-register argument
->> passing note for mips/o32.
->>
->> Added arm64 to tables.
->
-> Thanks Kees. I applied, but then tweaked. Because I do not want the tables
-> to render wider than 80 columns, I took the 'bool error' piece into a
-> paragraph below the table. See my commit eb83484fc.
-> Could you double check the result in the Git please.
+As annotation in glibc manual is more detailed, change the 
+thread-safety information to be the same as glibc manual.
 
-Ah, perfect, yes, that looks great. Thanks!
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/hsearch.3 | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
--Kees
-
+diff --git a/man3/hsearch.3 b/man3/hsearch.3
+index aced682..0f1af24 100644
+--- a/man3/hsearch.3
++++ b/man3/hsearch.3
+@@ -233,19 +233,21 @@ For an explanation of the terms used in this section, see
+ .BR attributes (7).
+ .TS
+ allbox;
+-lbw38 lb lb
++lbw25 lb lb
+ l l l.
+ Interface	Attribute	Value
+ T{
+ .BR hcreate (),
+ .BR hsearch (),
++.br
+ .BR hdestroy ()
+-T}	Thread safety	MT-Unsafe
++T}	Thread safety	MT-Unsafe race:hsearch
+ T{
+ .BR hcreate_r (),
+ .BR hsearch_r (),
++.br
+ .BR hdestroy_r ()
+-T}	Thread safety	MT-Safe
++T}	Thread safety	MT-Safe race:htab
+ .TE
+ .SH CONFORMING TO
+ The functions
 -- 
-Kees Cook
-Chrome OS Security
+1.8.3.1
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
