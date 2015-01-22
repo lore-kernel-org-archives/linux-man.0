@@ -1,52 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] proc.5: tfix
-Date: Thu, 22 Jan 2015 20:53:22 +0100
-Message-ID: <54C15532.8060500@gmail.com>
-References: <1421954463-2853-1-git-send-email-eliedebrauwer@gmail.com> <1421954463-2853-3-git-send-email-eliedebrauwer@gmail.com>
+Subject: Re: [PATCH 1/1] getrandom.2: mention bug concerning treatment of
+ interrupts
+Date: Thu, 22 Jan 2015 20:58:20 +0100
+Message-ID: <54C1565C.90908@gmail.com>
+References: <CAKgNAkiQUXFZ82jDNqEPxpBmdkKOg03uQXg=iEuUNzg0rvgkZA@mail.gmail.com> <1421951410-6420-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1421954463-2853-3-git-send-email-eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1421951410-6420-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks Elie!
+On 01/22/2015 07:30 PM, Heinrich Schuchardt wrote:
+> Theodore Ts'o confirmed the bug described in
+> https://lkml.org/lkml/2014/11/29/16
+> 
+> It should be mentioned in the manpage.
 
-Applied.
+Thanks, Heinrich. Applied.
 
 Cheers,
 
 Michael
 
 
-On 01/22/2015 08:21 PM, Elie De Brauwer wrote:
-> Signed-off-by: Elie De Brauwer <eliedebrauwer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 > ---
->  man5/proc.5 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  man2/getrandom.2 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index 5bff2a0..9138ead 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -1981,12 +1981,12 @@ Node 0, zone  Normal   216   55  189  101   84   38   37   27    5    3  587
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> index 5bf57b7..e9f62c5 100644
+> --- a/man2/getrandom.2
+> +++ b/man2/getrandom.2
+> @@ -23,7 +23,7 @@
+>  .\" the source, must acknowledge the copyright and authors of this work.
+>  .\" %%%LICENSE_END
 >  
->  In this example, there is one node containing three zones and there
->  are 11 different chunk sizes.
-> -If the page size is 4 kilobyteis, then the first zone called
-> +If the page size is 4 kilobytes, then the first zone called
->  .I DMA
->  (on x86 the first 16 megabyte of memory) has 1 chunk of 4 kilobytes
->  (order 0) available and has 3 chunks of 4 megabytes (order 10) available.
->  
-> -If the memory is heavily fragmentated, the counters for higher
-> +If the memory is heavily fragmented, the counters for higher
->  order chunks will be zero and allocation of large contiguous areas
->  will fail.
->  
+> -.TH GETRANDOM 2 2014-10-03 "Linux" "Linux Programmer's Manual"
+> +.TH GETRANDOM 2 2015-01-22 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  getrandom \- obtain a series of random bytes
+>  .SH SYNOPSIS
+> @@ -252,6 +252,13 @@ failure:
+>  }
+>  .fi
+>  .in
+> +.SH BUGS
+> +As of Linux 3.19, the following bug exists:
+> +.PP
+> +.\" FIXME patch proposed https://lkml.org/lkml/2014/11/29/16
+> +Depending on CPU load
+> +.BR getrandom ()
+> +does not react to interrupts before reading all bytes requested.
+>  .SH SEE ALSO
+>  .BR random (4),
+>  .BR urandom (4)
 > 
 
 
