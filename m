@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: fanotify_mark.2: tfix
-Date: Thu, 22 Jan 2015 20:48:38 +0100
-Message-ID: <54C15416.2030706@gmail.com>
-References: <CALhU9tn16qUxifE+=te3L7HUHYSzdnYRmJmk58--65cB2qSHVg@mail.gmail.com>
+Subject: Re: sigaction.2: tfix and ffix
+Date: Thu, 22 Jan 2015 20:49:06 +0100
+Message-ID: <54C15432.3060803@gmail.com>
+References: <CALhU9tmL-LpCewyaXE0QmcffNuKLKHYZOa-42wTQiOz2ub_zQQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9tn16qUxifE+=te3L7HUHYSzdnYRmJmk58--65cB2qSHVg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CALhU9tmL-LpCewyaXE0QmcffNuKLKHYZOa-42wTQiOz2ub_zQQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
@@ -20,20 +20,29 @@ Cheers,
 Michael
 
 
-On 01/21/2015 09:40 PM, Akihiro Motoki wrote:
-> diff --git a/man2/fanotify_mark.2 b/man2/fanotify_mark.2
-> index 32ecfd5..bab5d2c 100644
-> --- a/man2/fanotify_mark.2
-> +++ b/man2/fanotify_mark.2
-> @@ -72,7 +72,7 @@ will occur.
->  .B FAN_MARK_FLUSH
->  Remove either all mount or all non-mount marks from the fanotify group.
->  If
-> -.I flag
-> +.I flags
->  contains
->  .BR FAN_MARK_MOUNT ,
->  all marks for mounts are removed from the group.
+On 01/21/2015 09:41 PM, Akihiro Motoki wrote:
+> diff --git a/man2/sigaction.2 b/original/man2/sigaction.2
+> index 682678c..adfacd6 100644
+> --- a/man2/sigaction.2
+> +++ b/man2/sigaction.2
+> @@ -451,7 +451,7 @@ delivering the trap.
+>  In the case of
+>  .BR seccomp (2),
+>  the tracee will be shown as delivering the event.
+> -.B BUS_MCERR_*
+> +.B BUS_MCEERR_*
+>  and
+>  .I si_addr_lsb
+>  are Linux-specific extensions.
+> @@ -470,7 +470,7 @@ The
+>  .I si_fd
+>  field indicates the file descriptor for which the I/O event occurred.
+>  .IP *
+> -.BR SIGSYS,
+> +.BR SIGSYS ,
+>  generated (since Linux 3.5)
+>  .\" commit a0727e8ce513fe6890416da960181ceb10fbfae6
+>  when a seccomp filter returns
 > 
 
 
