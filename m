@@ -1,106 +1,483 @@
-From: Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: futex(2) man page update help request
-Date: Fri, 23 Jan 2015 19:29:48 +0100
-Message-ID: <1422037788.29655.0.camel@triegel.csb>
-References: <537346E5.4050407@gmail.com>
-	 <CF98E3EF.90564%dvhart@linux.intel.com>
-	 <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com>
-	 <5373D0CA.2050204@redhat.com>
-	 <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de>
-	 <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com>
-	 <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de>
-	 <54B7D87C.3090901@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH v3 1/1] ioctl-fat.2: new manpage for the ioctl fat API
+Date: Fri, 23 Jan 2015 20:54:44 +0100
+Message-ID: <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
+References: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A@mail.gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54B7D87C.3090901-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <davidlohr.bueso-VXdhtT5mjnY@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
+Cc: Ogawa Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, 2015-01-15 at 16:10 +0100, Michael Kerrisk (man-pages) wrote:
-> [Adding a few people to CC that have expressed interest in the 
-> progress of the updates of this page, or who may be able to
-> provide review feedback. Eventually, you'll all get CCed on
-> the new draft of the page.]
-> 
-> Hello Thomas,
-> 
-> On 05/15/2014 04:14 PM, Thomas Gleixner wrote:
-> > On Thu, 15 May 2014, Michael Kerrisk (man-pages) wrote:
-> >> And that universe would love to have your documentation of 
-> >> FUTEX_WAKE_BITSET and FUTEX_WAIT_BITSET ;-),
-> > 
-> > I give you almost the full treatment, but I leave REQUEUE_PI to
-> > Darren and FUTEX_WAKE_OP to Jakub. :)
-> 
-> Thank you for the great effort you put into compiling the
-> text below, and apologies for my long delay in following up.
-> 
-> I've integrated almost all of your suggestions into the 
-> manual page. I will shortly send out a new draft of the
-> page that contains various FIXMEs for points that remain 
-> unclear.
+The ioctl(2) system call may be used to retrieve information about
+the fat file system and to set file attributes.
 
-Michael, thanks for working on the draft!  I'll review the draft closely
-once you've sent it (or have I missed it?).
+This new manpage describes the details.
 
-There are a few things that I'd like to see covered.
+Michael Kerrisk suggested to CC linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org and
+linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org for review.
 
-First, we should discuss that users, until they control all code in the
-respective process, need to expect futexes to be affected by spurious
-futex_wake calls; see https://lkml.org/lkml/2014/11/27/472 for
-background and Linus' choice (AFAIU) to just document this.
-So, for example, a return code of 0 for FUTEX_WAIT can mean either being
-woken up by a FUTEX_WAKE intended for this futex, or a stale one
-intended for another futex used by, for example, glibc internally.
-(Note that as explained in this thread, this isn't just a glibc
-artifact, but a result of the general futex design mixed with
-destruction requirements for mutexes and other constructs in C++11 and
-POSIX.)
-It might also be necessary to further consider this when documenting the
-errors, because it does affect how to handle them. See this for a glibc
-perspective:
-https://sourceware.org/ml/libc-alpha/2014-09/msg00381.html
+version 3: correct typos
+version 2: consider comments by Michael Kerrisk
+verison 1: original patch
 
-Second, the current documentation for EINTR is that it can happen due to
-receiving a signal *or* due to a spurious wake-up.  This is difficult to
-handle when implementing POSIX semaphores, because they require that
-EINTR is returned from SEM_WAIT if and only if the interruption was due
-to a signal.  Thus, if FUTEX_WAIT returns EINTR, the semaphore
-implementation can't return EINTR from sem_wait; see this for more
-comments, including some discussion why use cases relying on the POSIX
-requirement around EINTR are borderline timing-dependent:
-https://sourceware.org/git/?p=glibc.git;a=blob;f=nptl/sem_waitcommon.c;h=96848d7ac5b6f8f1f3099b422deacc09323c796a;hb=HEAD#l282
-Others have commented that aio_suspend has a similar issue; if EINTR
-wouldn't in fact be returned spuriously, the POSIX-implementation-side
-would get easier.
+Signed-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/ioctl-fat.2 | 442 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 442 insertions(+)
+ create mode 100644 man2/ioctl-fat.2
 
-Third, I think it would be useful to -- somewhere -- explain which
-behavior the futex operations would have conceptually when expressed by
-C11 code.  We currently say that they wake up, sleep, etc, and which
-values they return.  But we never say how to properly synchronize with
-them on the userspace side.  The C11 memory model is probably the best
-model to use on the userspace side, so that's why I'm arguing for this.
-Basically, I think we need to (1) tell people that they should use
-memory_order_relaxed accesses to the futex variable (ie, the memory
-location associated with the whole futex construct on the kernel side --
-or do we have another name for this?), and (2) give some conceptual
-guarantees for the kernel-side synchronization so that one use this to
-derive how to use them correctly in userspace.
-
-The man pages might not be the right place for this, and maybe we just
-need a revision of "Futexes are tricky".  If you have other suggestions
-for where to document this, or on the content, let me know.  (I'm also
-willing to spend time on this :) ).
-
-
-Torvald
-
-
-
+diff --git a/man2/ioctl-fat.2 b/man2/ioctl-fat.2
+new file mode 100644
+index 0000000..80891d8
+--- /dev/null
++++ b/man2/ioctl-fat.2
+@@ -0,0 +1,442 @@
++.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
++.\"
++.\" %%%LICENSE_START(VERBATIM)
++.\" Permission is granted to make and distribute verbatim copies of this
++.\" manual provided the copyright notice and this permission notice are
++.\" preserved on all copies.
++.\"
++.\" Permission is granted to copy and distribute modified versions of
++.\" this manual under the conditions for verbatim copying, provided that
++.\" the entire resulting derived work is distributed under the terms of
++.\" a permission notice identical to this one.
++.\"
++.\" Since the Linux kernel and libraries are constantly changing, this
++.\" manual page may be incorrect or out-of-date.  The author(s) assume.
++.\" no responsibility for errors or omissions, or for damages resulting.
++.\" from the use of the information contained herein.  The author(s) may.
++.\" not have taken the same level of care in the production of this.
++.\" manual, which is licensed free of charge, as they might when working.
++.\" professionally.
++.\"
++.\" Formatted or processed versions of this manual, if unaccompanied by
++.\" the source, must acknowledge the copyright and authors of this work.
++.\" %%%LICENSE_END
++.TH IOCTl-FAT 2 2015-01-23 "Linux" "Linux Programmer's Manual"
++.SH "NAME"
++ioctl-fat \- manipulating the FAT filesystem
++.SH SYNOPSIS
++.nf
++.B #include <linux/msdos_fs.h>
++.br
++.B #include <sys/ioctl.h>
++.sp
++.BI "int ioctl(int " fd ", FAT_IOCTL_GET_ATTRIBUTES, uint32_t * " attr);
++.BI "int ioctl(int " fd ", FAT_IOCTL_SET_ATTRIBUTES, uint32_t * " attr);
++.BI "int ioctl(int " fd ", FAT_IOCTL_GET_VOLUME_ID, uint32_t * " id);
++.BI "int ioctl(int " fd ", VFAT_IOCTL_READDIR_BOTH,
++.BI "          struct __fat_dirent[2] " entry);
++.BI "int ioctl(int " fd ", VFAT_IOCTL_READDIR_SHORT,
++.BI "          struct __fat_dirent[2] " entry);
++.SH DESCRIPTION
++The
++.BR ioctl (2)
++function can be used to read and write metadata of the FAT filesystems that
++are not accessible using other system calls.
++.SS Reading and setting file attributes
++Files and directories in the FAT filesystem possess an attribute bit mask that
++can be read with
++.B FAT_IOCTL_GET_ATTRIBUTES
++and written with
++.BR FAT_IOCTL_SET_ATTRIBUTES .
++.PP
++The
++.I fd
++argument contains a file descriptor for the file or directory.
++It is sufficient to create the file descriptor by calling
++.BR open (2)
++with the
++.B O_RDONLY
++flag.
++.PP
++The
++.I attr
++argument contains a pointer to the bit mask.
++The bits of the bit mask are
++.TP
++.B ATTR_RO
++This bit specifies that the file or directory is read-only.
++.TP
++.B ATTR_HIDDEN
++This bit specifies that the file or directory is hidden.
++.TP
++.B ATTR_SYS
++This bit specifies that the file is a system file.
++.TP
++.B ATTR_VOLUME
++This bit specifies that the file is a volume label.
++This attribute is read-only.
++.TP
++.B ATTR_DIR
++This bit specifies that this is a directory.
++This attribute is read-only.
++.TP
++.B ATTR_ARCH
++This bit indicates that this file or directory should be archived.
++It is set when a file is created or modified.
++It is reset by an archiving system.
++.PP
++The zero value
++.B ATTR_NONE
++can be used to indicate that no attribute bit is set.
++.SS Reading the volume label
++Fat filesystems are identified by a volume label.
++The volume label can be read with
++.BR FAT_IOCTL_GET_VOLUME_ID .
++.PP
++The
++.I fd
++argument can be a file descriptor for any file or directory of the
++filesystem.
++It is sufficient to create the file descriptor by calling
++.BR open (2)
++with the
++.B O_RDONLY
++flag.
++.PP
++The
++.I id
++argument is a pointer to the field that will be filled with the volume ID.
++Typically the volume label is displayed to the user as a group of two
++16-bit fields.
++.PP
++.in +4n
++.nf
++printf("Volume ID %4x-%4x\\n", id >> 16, id & 0xFFFF);
++.fi
++.in
++.SS Reading short file names of a directory
++A file or directory on a FAT filesystem always has a short filename
++consisting of up to 8 capital letters, optionally followed by a period
++and up to 3 capital letters for the file extension.
++If the actual filename does not fit into this scheme, it is stored
++as a long filename of up to 255 UTF-16 characters.
++.PP
++The short filenames in a directory can be read with
++.BR VFAT_IOCTL_READDIR_SHORT .
++.B VFAT_IOCTL_READDIR_BOTH
++reads both the short and the long filenames.
++.PP
++The
++.I fd
++argument must be a file descriptor for a directory.
++It is sufficient to create the file descriptor by calling
++.BR open (2)
++with the
++.B O_RDONLY
++flag.
++The file descriptor can be only used once to iterate over the directory
++entries by calling
++.BR ioctl (2)
++repeatedly.
++.PP
++The
++.I entry
++argument is a two-element array of the following structures.
++
++.in +4n
++.nf
++struct __fat_dirent {
++    long            d_ino;
++    __kernel_off_t  d_off;
++    uint32_t short  d_reclen;
++    char            d_name[256];
++};
++.fi
++.in
++.PP
++The first entry in the array is for the short filename.
++The second entry is for the long filename.
++.PP
++Field
++.I d_reclen
++specifies the length of the filename in field
++.IR d_name .
++A length of 0 for the short filename signals that the end of the directory
++has been reached.
++.SH RETURN VALUE
++On error, -1 is returned, and errno is set to indicate the error.
++.SH ERRORS
++.TP
++.B ENOTDIR
++This error is returned by
++.B VFAT_IOCTL_READDIR_SHORT
++and
++.B VFAT_IOCTL_READDIR_SHORT
++if the file descriptor does not point to a directory.
++.TP
++.B ENOTTY
++This error signals that the file descriptor is not for a FAT filesystem.
++.PP
++For further error values see
++.BR ioctl (2).
++.SH VERSIONS
++.B FAT_IOCTL_GET_VOLUME_ID
++was introduced in version 3.11 of the Linux kernel.
++.PP
++.BR FAT_IOCTL_GET_ATTRIBUTES ,
++.BR FAT_IOCTL_SET_ATTRIBUTES ,
++.BR VFAT_IOCTL_READDIR_BOTH ,
++and
++.B VFAT_IOCTL_READDIR_SHORT
++were introduced before version 2.6.28 of the Linux kernel.
++.SH "CONFORMING TO"
++This API is Linux-specific.
++.SH EXAMPLE
++.SS Toggling the archive flag
++The following program demonstrates the usage of the ioctl API to manipulate
++file attributes.
++It reads and displays the archive attribute of a file.
++After inverting the value of the attribute, it reads and displays it again.
++.PP
++The following was recorded when applying the program for the file
++.IR /mnt/user/foo .
++.SS Example output
++.in +4n
++.nf
++# ./toggle_archive_flag /mnt/user/foo
++Archive flag is set
++Toggling archive flag
++Archive flag is not set
++.fi
++.in
++.SS Program source
++.in +4n
++.nf
++#include <fcntl.h>
++#include <linux/msdos_fs.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++/*
++ * Read file attributes of a file on a FAT filesystem.
++ * Output the state of the archive flag.
++ */
++static uint32_t
++readattr(int fd)
++{
++    uint32_t attr;
++    int ret;
++
++    ret = ioctl(fd, FAT_IOCTL_GET_ATTRIBUTES, &attr);
++    if (ret == \-1) {
++        perror("ioctl");
++        exit(EXIT_FAILURE);
++    }
++
++    if (attr & ATTR_ARCH)
++        printf("Archive flag is set\\n");
++    else
++        printf("Archive flag is not set\\n");
++
++    return attr;
++}
++
++int
++main(int argc, char *argv[])
++{
++    uint32_t attr;
++    int fd;
++    int ret;
++
++    if (argc != 2) {
++        printf("Usage: %s FILENAME\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    fd = open(argv[1], O_RDONLY);
++    if (fd == \-1) {
++        perror("open");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Read and display the FAT file attributes.
++     */
++    attr = readattr(fd);
++
++    /*
++     * Invert archive attribute.
++     */
++    printf("Toggling archive flag\\n");
++    attr ^= ATTR_ARCH;
++
++    /*
++     * Write the changed FAT file attributes.
++     */
++    ret = ioctl(fd, FAT_IOCTL_SET_ATTRIBUTES, &attr);
++    if (ret == \-1) {
++        perror("ioctl");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Read and display the FAT file attributes.
++     */
++    readattr(fd);
++
++    close(fd);
++
++    return EXIT_SUCCESS;
++}
++.fi
++.in
++.SS Reading the volume label
++The following program demonstrates the usage of the ioctl API to
++display the volume label of a FAT filesystem.
++.PP
++The following output was recorded when applying the program for
++directory
++.IR /mnt/user .
++.SS Example output
++.in +4n
++.nf
++$ ./display_volume_id /mnt/user
++Volume ID 6443-6241
++.fi
++.in
++.SS Program source
++.in +4n
++.nf
++#include <fcntl.h>
++#include <linux/msdos_fs.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++int
++main(int argc, char *argv[])
++{
++    uint32_t id;
++    int fd;
++    int ret;
++
++    if (argc != 2) {
++        printf("Usage: %s FILENAME\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    fd = open(argv[1], O_RDONLY);
++    if (fd == \-1) {
++        perror("open");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Read volume ID.
++     */
++    ret = ioctl(fd, FAT_IOCTL_GET_VOLUME_ID, &id);
++    if (ret == \-1) {
++        perror("ioctl");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Format the output as two groups of 16 bits each.
++     */
++    printf("Volume ID %4x\-%4x\\n", id >> 16, id & 0xFFFF);
++
++    close(fd);
++
++    return EXIT_SUCCESS;
++}
++.fi
++.in
++.SS Listing a directory
++The following program demonstrates the usage of the ioctl API to
++list a directory.
++.PP
++The following was recorded when applying the program for the directory
++.IR /mnt/user .
++.SS Example output
++.in +4n
++.nf
++$ ./fat_dir /mnt/user
++\[char46] -> ''
++\[char46]. -> ''
++ALONGF~1.TXT -> 'a long filename.txt'
++UPPER.TXT -> ''
++LOWER.TXT -> 'lower.txt'
++.fi
++.in
++.SS Program source
++.in +4n
++.nf
++#include <fcntl.h>
++#include <linux/msdos_fs.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++
++int
++main(int argc, char *argv[])
++{
++    struct __fat_dirent entry[2];
++    int fd;
++    int ret;
++
++    if (argc != 2) {
++        printf("Usage: %s DIRECTORY\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Open file descriptor for the directory.
++     */
++    fd = open(argv[1], O_RDONLY | O_DIRECTORY);
++    if (fd == \-1) {
++        perror("open");
++        exit(EXIT_FAILURE);
++    }
++
++    for (;;) {
++
++        /*
++         * Read next directory entry.
++         */
++        ret = ioctl( fd, VFAT_IOCTL_READDIR_BOTH, entry);
++
++        /*
++         * If an error occurs, the return value is \-1.
++         * If d_reclen is zero, the end of the directory
++         * list has been reached.
++         */
++        if (ret == \-1 || entry[0].d_reclen == 0)
++            break;
++
++        /*
++         * Write both the short name and the long name.
++         */
++        printf("%s \-> '%s'\\n", entry[0].d_name, entry[1].d_name);
++    }
++    if (ret == \-1) {
++        perror("VFAT_IOCTL_READDIR_BOTH");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Close the file descriptor.
++     */
++    close(fd);
++
++    return EXIT_SUCCESS;
++}
++.fi
++.in
++.SH SEE ALSO
++.BR ioctl (2)
+-- 
+2.1.4
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
