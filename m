@@ -1,37 +1,62 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH[V2] 2/5] tzset.3: First TZ specification clarification
-Date: Sun, 25 Jan 2015 15:10:50 +0100
-Message-ID: <54C4F96A.7000209@gmail.com>
-References: <54BAFE98.2090402@gmx.com> <54BC1172.5060100@gmx.com>
+Subject: Re: [PATCH[V2] 1/5] tzset.3: filespec omitted incorrect
+Date: Sun, 25 Jan 2015 15:11:09 +0100
+Message-ID: <54C4F97D.5000604@gmail.com>
+References: <54BAFE98.2090402@gmx.com> <54BC10C7.1030706@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54BC1172.5060100-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <54BC10C7.1030706-KK0ffGbhmjU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello William,
+On 01/18/2015 09:00 PM, JWP wrote:
+> Paragraph three of the DESCRIPTION section says
+> that when TZ is set, but empty, then UTC is used.
+> 
+> Later it says if the TZ filespec is omitted then
+> the file /usr/share/zoneinfo/localtime is used.
+> This is incorrect, it will use UTC in that case as
+> well.
 
-On 01/18/2015 09:02 PM, JWP wrote:
-> The second TZ specification states that no spaces
-> are allowed, this is true for the first
-> specification as well. The text of these two are
-> closely coupled so including the first
-> specification by using 'either' is sufficient.
+Looks good to me, William. Thanks for the patch. Applied.
 
-I think that's a little tricky for the reader. I've instead
-added a sentence in the discussion of the first format to
-say that there are no spaces.
+Just one note on your patch titles: using the nested brackets
+"[PATCH[V2]...] causes these patches to apply a little strangely.
+Better would be something like "[PATCH V2 1/5]".
 
-Thanks,
+Cheers,
 
 Michael
 
 
-
+> Steps to reproduce:
+> 
+> cd /usr/share/zoneinfo/
+> cp Antarctica/South_Pole localtime
+> cd
+> date
+> Sun Jan 18 10:59:50 EST 2015
+> TZ=:Hongkong date
+> Sun Jan 18 23:59:56 HKT 2015
+> TZ=:/usr/share/zoneinfo/localtime date
+> Mon Jan 19 05:00:03 NZDT 2015
+> TZ=: date
+> Sun Jan 18 16:00:11 UTC 2015
+> TZ=":" date
+> Sun Jan 18 16:00:18 UTC 2015
+> TZ=':' date
+> Sun Jan 18 16:00:24 UTC 2015
+> TZ=:/ date
+> Sun Jan 18 16:00:34  2015
+> TZ=":/" date
+> Sun Jan 18 16:00:40  2015
+> TZ="" date
+> Sun Jan 18 16:00:45 UTC 2015
+> 
 > Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 > ---
 > 
@@ -48,22 +73,30 @@ Michael
 >   tzset.3: TZ filespec omitts the colon (2015-01-18 14:40:21 -0500)
 > 
 > 
->  man3/tzset.3 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man3/tzset.3 | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 > 
 > diff --git a/man3/tzset.3 b/man3/tzset.3
-> index 36d2fd7..3f9b246 100644
+> index c1c98e1..36d2fd7 100644
 > --- a/man3/tzset.3
 > +++ b/man3/tzset.3
-> @@ -118,7 +118,7 @@ The second format is used when there is daylight saving time:
->  .I std offset dst [offset],start[/time],end[/time]
+> @@ -170,14 +170,8 @@ from a file:
+>  :[filespec]
 >  .RE
 >  .sp
-> -There are no spaces in the specification.
-> +There are no spaces in either specification.
->  The initial \fIstd\fP and
->  \fIoffset\fP specify the standard timezone, as described above.
->  The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
+> -If the file specification \fIfilespec\fP is omitted, the timezone
+> -information is read from the file
+> -.I localtime
+> -in the system timezone directory, which nowadays usually is
+> -.IR /usr/share/zoneinfo .
+> -This file is in
+> -.BR tzfile (5)
+> -format.
+> +If the file specification \fIfilespec\fP is omitted, or its value cannot
+> +be interpreted, then Coordinated Universal Time (UTC) is used.
+>  If \fIfilespec\fP is given, it specifies another
+>  .BR tzfile (5)-format
+>  file to read the timezone information from.
 > 
 
 
