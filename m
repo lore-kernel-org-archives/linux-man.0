@@ -1,61 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH[V2] 1/5] tzset.3: filespec omitted incorrect
-Date: Sun, 25 Jan 2015 15:11:09 +0100
-Message-ID: <54C4F97D.5000604@gmail.com>
-References: <54BAFE98.2090402@gmx.com> <54BC10C7.1030706@gmx.com>
+Subject: Re: [PATCH[V2] 3/5] tzset.3: correct system timezone file path
+Date: Sun, 25 Jan 2015 15:11:22 +0100
+Message-ID: <54C4F98A.4070101@gmail.com>
+References: <54BAFE98.2090402@gmx.com> <54BC11E2.9020906@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54BC10C7.1030706-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <54BC11E2.9020906-KK0ffGbhmjU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/18/2015 09:00 PM, JWP wrote:
-> Paragraph three of the DESCRIPTION section says
-> that when TZ is set, but empty, then UTC is used.
+On 01/18/2015 09:04 PM, JWP wrote:
+> The manual incorrectly states the system timezone
+> path as /usr/share/zoneinfo/localtime. Glibc does
+> not use that file for anything, it uses
+> $(prefix)/etc/localtime.
 > 
-> Later it says if the TZ filespec is omitted then
-> the file /usr/share/zoneinfo/localtime is used.
-> This is incorrect, it will use UTC in that case as
-> well.
+> There is an ambiguous reference in the man-page to
+> /etc/localtime, but it does not indicate that it
+> will be used. It states clearly that
+> /usr/share/zoneinfo/localtime is used.
+> 
+> A comment in the glibc Makeconfig even says that
+> file should not exist:
+> 
+>> ... relative to $(zonedir).  It is a good idea
+>> to put this somewhere other than there, so the
+>> zoneinfo directory contains only universal data,
+>> localizing the configuration data elsewhere.
+> 
+> Furthermore, the man-page does not indicate the
+> reason this file is being used; which is because
+> it is the configured system timezone.
+> 
+> A later patch in this series address the
+> possibility that /etc/localtime could be changed
+> during glibc's compilation. The language changed
+> in this patch points to the FILE section which is
+> where the explanation will be. There is no reason
+> to repeat that information multiple times
+> throughout the man-page.
 
-Looks good to me, William. Thanks for the patch. Applied.
-
-Just one note on your patch titles: using the nested brackets
-"[PATCH[V2]...] causes these patches to apply a little strangely.
-Better would be something like "[PATCH V2 1/5]".
+Thanks for the well-documented patch, William. Applied.
 
 Cheers,
 
 Michael
 
 
-> Steps to reproduce:
+> EVIDENCE:
+> 
+> glibc/Makeconfig:256: sysconfdir = $(prefix)/etc
+> glibc/Makeconfig:272: localtime-file = $(sysconfdir)/localtime
+> 
+> FROM INFO LIBC:
+> C.2 Installing the C Library
+> ============================
+>    To configure the locally used timezone, set the `TZ' environment
+> variable.  The script `tzselect' helps you to select the right value.
+> As an example, for Germany, `tzselect' would tell you to use
+> `TZ='Europe/Berlin''.  For a system wide installation (the given paths
+> are for an installation with `--prefix=/usr'), link the timezone file
+> which is in `/usr/share/zoneinfo' to the file `/etc/localtime'.  For
+> Germany, you might execute `ln -s /usr/share/zoneinfo/Europe/Berlin
+> /etc/localtime'.
+> 
+> STEPS TO REPRODUCE:
 > 
 > cd /usr/share/zoneinfo/
 > cp Antarctica/South_Pole localtime
+> cp /US/Eastern /etc/localtime
 > cd
 > date
-> Sun Jan 18 10:59:50 EST 2015
-> TZ=:Hongkong date
-> Sun Jan 18 23:59:56 HKT 2015
+> Sun Jan 18 12:06:36 EST 2015
 > TZ=:/usr/share/zoneinfo/localtime date
-> Mon Jan 19 05:00:03 NZDT 2015
-> TZ=: date
-> Sun Jan 18 16:00:11 UTC 2015
-> TZ=":" date
-> Sun Jan 18 16:00:18 UTC 2015
-> TZ=':' date
-> Sun Jan 18 16:00:24 UTC 2015
-> TZ=:/ date
-> Sun Jan 18 16:00:34  2015
-> TZ=":/" date
-> Sun Jan 18 16:00:40  2015
-> TZ="" date
-> Sun Jan 18 16:00:45 UTC 2015
+> Mon Jan 19 06:06:54 NZDT 2015
+> rm /etc/localtime
+> date
+> Sun Jan 18 17:08:37 UTC 2015
+> TZ=:/usr/share/zoneinfo/localtime date
+> Mon Jan 19 06:08:41 NZDT 2015
 > 
 > Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 > ---
@@ -73,30 +100,35 @@ Michael
 >   tzset.3: TZ filespec omitts the colon (2015-01-18 14:40:21 -0500)
 > 
 > 
->  man3/tzset.3 | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
+>  man3/tzset.3 | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
 > 
 > diff --git a/man3/tzset.3 b/man3/tzset.3
-> index c1c98e1..36d2fd7 100644
+> index 3f9b246..09fac15 100644
 > --- a/man3/tzset.3
 > +++ b/man3/tzset.3
-> @@ -170,14 +170,8 @@ from a file:
->  :[filespec]
->  .RE
->  .sp
-> -If the file specification \fIfilespec\fP is omitted, the timezone
-> -information is read from the file
-> -.I localtime
-> -in the system timezone directory, which nowadays usually is
-> -.IR /usr/share/zoneinfo .
-> -This file is in
-> -.BR tzfile (5)
-> -format.
-> +If the file specification \fIfilespec\fP is omitted, or its value cannot
-> +be interpreted, then Coordinated Universal Time (UTC) is used.
->  If \fIfilespec\fP is given, it specifies another
->  .BR tzfile (5)-format
->  file to read the timezone information from.
+> @@ -75,15 +75,12 @@ the year when daylight saving time applies).
+>  .PP
+>  If the
+>  .B TZ
+> -variable does not appear in the environment, the \fItzname\fP
+> -variable is initialized with the best approximation of local wall clock
+> -time, as specified by the
+> -.BR tzfile (5)-format
+> -file \fIlocaltime\fP
+> -found in the system timezone directory (see below).
+> -(One also often sees
+> -.I /etc/localtime
+> -used here, a symlink to the right file in the system timezone directory.)
+> +variable does not appear in the environment, the system timezone is used.
+> +The system timezone is configured by copying, or linking, a file in the
+> +.BR tzfile "(5) format to"
+> +.IR /etc/localtime .
+> +A timezone database of these files may be located in the system
+> +timezone directory (see the \fBFILES\fP section below).
+>  .PP
+>  If the
+>  .B TZ
 > 
 
 
