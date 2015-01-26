@@ -1,7 +1,7 @@
 From: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: locale.1: format fix
-Date: Tue, 27 Jan 2015 01:21:17 +0900
-Message-ID: <CALhU9tktwchejfJ9XgdKrjoUW=XMGbLyc0CPmChPqpNnprwgrQ@mail.gmail.com>
+Subject: restart_syscall.2: remove section number
+Date: Tue, 27 Jan 2015 01:21:59 +0900
+Message-ID: <CALhU9t=kM7Z7uO==e6vQ8eZJx1Vq9Gx+T1idTx8k80qMk0whrQ@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=ISO-8859-1
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -9,28 +9,29 @@ Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-diff --git a/man1/locale.1 b/original/man1/locale.1
-index ef240be..650a36e 100644
---- a/man1/locale.1
-+++ b/man1/locale.1
-@@ -65,7 +65,7 @@ metadata about each locale to be included in the output.
- Display the available charmaps (character set description files).
- .PP
- The
--.I locale
-+.B locale
- command can also be provided with one or more arguments,
- which are the names of locale keywords (for example,
- .IR date_fmt ,
-@@ -108,7 +108,7 @@ so that the output has the format:
-     \fIkeyword\fP="\fIvalue\fP"
- .PP
- The
--.I locale
-+.B locale
- command also knows about the following options:
- .TP
- .BR \-v ", " \-\-verbose
+diff --git a/man2/restart_syscall.2 b/original/man2/restart_syscall.2
+index a71b618..33081b7 100644
+--- a/man2/restart_syscall.2
++++ b/man2/restart_syscall.2
+@@ -115,7 +115,7 @@ In the case of system calls that take a timeout argument and
+ automatically restart after a stop signal plus
+ .BR SIGCONT ,
+ but which do not have the
+-.BR restart_syscall (2)
++.BR restart_syscall ()
+ mechanism built in, then, after the process resumes execution,
+ the time that the process spent in the stop state is
+ .I not
+@@ -127,7 +127,7 @@ and
+ .BR pselect (2).
+
+ From user space, the operation of
+-.BR restart_syscall (2)
++.BR restart_syscall ()
+ is largely invisible:
+ to the process that made the system call that is restarted,
+ it appears as though that system call executed and
+
 
 -- 
 Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
