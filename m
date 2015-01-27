@@ -1,36 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: locale.1: format fix
-Date: Tue, 27 Jan 2015 06:50:59 +0100
-Message-ID: <CAKgNAkjP1WnpPdju1tgwYARWfbja01GqFmM9bzQ3jRSxC1NtBg@mail.gmail.com>
-References: <CALhU9tktwchejfJ9XgdKrjoUW=XMGbLyc0CPmChPqpNnprwgrQ@mail.gmail.com>
- <54C6B1B1.6070504@gmail.com> <CALhU9tnjJxgk6ZUJLhjPGRoGWWwpDcTVyfSFC8jruk7jgDcd_w@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: futex(2) man page update help request
+Date: Tue, 27 Jan 2015 08:48:28 +0100
+Message-ID: <54C742CC.6030409@gmail.com>
+References: <537346E5.4050407@gmail.com>	 <CF98E3EF.90564%dvhart@linux.intel.com>	 <CAKgNAkh+PWzT2SByaLk_OtiAXeZSkWoMgu+ivDOt1dTWVtaatQ@mail.gmail.com>	 <5373D0CA.2050204@redhat.com>	 <alpine.DEB.2.02.1405150121230.6261@ionos.tec.linutronix.de>	 <CAKgNAkjQ5Dd_U9OojXdgeforpRevvPHNFAw99kBFPCwHgf7Ggg@mail.gmail.com>	 <alpine.DEB.2.02.1405151144390.6261@ionos.tec.linutronix.de>	 <54B7D87C.3090901@gmail.com> <1422037788.29655.0.camel@triegel.csb>	 <alpine.DEB.2.11.1501241116160.5526@nanos> <1422105142.29655.16.camel@triegel.csb>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALhU9tnjJxgk6ZUJLhjPGRoGWWwpDcTVyfSFC8jruk7jgDcd_w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1422105142.29655.16.camel-I2ZjUw8blINjztcc/or7kQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Akihiro,
+Hello Torvald,
 
-On 27 January 2015 at 06:10, Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hi Michael,
->
-> I found these minor items during updating Japanese translation. It's
-> not an automatic process.
+On 01/24/2015 02:12 PM, Torvald Riegel wrote:
+> On Sat, 2015-01-24 at 12:35 +0100, Thomas Gleixner wrote:
+>> So we should never see -EINTR in the case of a spurious wakeup here.
+>>
+>> But, here is the not so good news:
+>>
+>>  I did some archaeology. The restart handling of futex_wait() got
+>>  introduced in kernel 2.6.22, so anything older than that will have
+>>  the spurious -EINTR issues.
+>>
+>> futex_wait_pi() always had the restart handling and glibc folks back
+>> then (2006) requested that it should never return -EINTR, so it
+>> unconditionally restarts the syscall whether a signal had been
+>> delivered or not.
+>>
+>> So kernels >= 2.6.22 should never return -EINTR spuriously. If that
+>> happens it's a bug and needs to be fixed.
+> 
+> Thanks for looking into this.
+> 
+> Michael, can you include the above in the documentation please?  This is
+> useful for userspace code like glibc that expects a minimum kernel
+> version.  Thanks!
 
-Ahh -- okay.
+I've added some text to my draft to cover this point.
 
-If you would like me to add something about the Japanese translation
-project to https://www.kernel.org/doc/man-pages/translations.html, let
-me know.
-
-Thanks,
+Cheers,
 
 Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
