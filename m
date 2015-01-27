@@ -1,112 +1,133 @@
-From: Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
-Date: Tue, 27 Jan 2015 09:24:59 -0500
-Message-ID: <20150127142459.GA12851@redhat.com>
-References: <545FBDDD.9060801@gmail.com>
- <20141111213037.GA31445@redhat.com>
- <54ADA284.30502@gmail.com>
- <20150112221634.GD16162@redhat.com>
- <54B91271.3000600@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] getrandom.2: clarification of open questions
+Date: Tue, 27 Jan 2015 22:27:48 +0100
+Message-ID: <1422394068-10106-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <54B91271.3000600-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Jan 16, 2015 at 02:30:25PM +0100, Michael Kerrisk (man-pages) wrote:
-[..]
-> 
+With his last patches for getrandom.2 Michael Kerrisk posed a few
+questions and left some comments in the man-page. This patch
+seeks to clarify the open issues.
 
-Hi Michael,
+ 72 For example, if the call is interrupted by a signal handler,
+ 73 it may return a partially filled buffer, or fail with the error
+ 74 .BR EINTR .
+ 75 .\" Tested with buffer sizes > 256 bytes: both partial reads
+ 76 .\" and EINTR can occur, with the former being more frequent.
+ 77 .\"
 
-Please find my responses below. Sorry, I got stuck in other work and
-forgot about this thread.
+Michael's observation agrees with the code.
+For buffer size > 256: If the buffer is still empty EINTR occurs. If
+any number of bytes has been read to the buffer, that number is returned.
+The comment can be removed.
 
-> So, returning to the kexeec_segment structure:
-> 
->            struct kexec_segment {
->                void   *buf;        /* Buffer in user space */
->                size_t  bufsz;      /* Buffer length in user space */
->                void   *mem;        /* Physical address of kernel */
->                size_t  memsz;      /* Physical address length */
->            };
-> 
-> Are the following statements correct:
-> * buf + bufsz identify a memory region in the caller's virtual 
->   address space that is the source of the copy
+ 78 .\" mtk: In the absence of signals, in my testing, even very large reads
+ 79 .\" return full buffers. I found that reads of up to 33554431 always
+ 80 .\" returned a filled buffer. Specifying 'buflen' > 33554431 always
+ 81 .\" returned just 33554431 bytes. (I'm not sure where that number comes
+        from.
 
-Yes.
+The maximum number of bytes transferred is limited for /dev/urandom to
+nbytes = min_t(size_t, nbytes, INT_MAX >> (ENTROPY_SHIFT + 3));
+// <= 0x1fffff
 
-> * mem + memsz specify the target memory region of the copy
+and for /dev/random to
+nbytes = min_t(size_t, nbytes, SEC_XFER_SIZE); // <= 0x200
 
-Yes.
+Lets put this into the NOTES section.
 
-> * mem is  physical memory address, as seen from kernel space
+ 224 When reading from
+ 225 .IR /dev/random ,
+ 226 blocking requests of any size can be interrupted by a signal
+ 227 (the call fails with the error
+ 228 .BR EINTR ).
 
-Yes.
+Thats ok.
 
-> * the number of bytes copied from userspace is min(bufsz, memsz)
+ 82 If the pool has not yet been initialized, then the call blocks, unless
+ 83 .B GRND_RANDOM
+ 84 is specified in
+ 85 .IR flags .
+ 86 .\" FIXME We need a bit more information here.
+ 87 .\"       The reader will ask: when is /dev/urandom initialized?
+ 88 .\"       There should be some text here to explain that.
 
-Yes. bufsz can not be more than memsz. There is a check to validate
-this in kernel.
+Entropy is collected from different sources, e.g.
+ - time of reaping a thread
+ - MAC address of a network interfaces
+ - Allwinner security ID
+ - ROM content of a firewire device
+ - ...
 
-	result = -EINVAL;
-	for (i = 0; i < nr_segments; i++) {
-		if (image->segment[i].bufsz > image->segment[i].memsz)
-			return result;
-	}
+When more than 128 bits have been collected, the pool is set to initialized.
 
-> * if bufsz > memsz, then excess bytes in the user-space buffer 
->   are ignored.
+I suggest that detailed information about the initialization should be provided
+on the random.4 page.
 
-You will get -EINVAL.
+I added a paragraph in the NOTES section.
 
-> * if memsz > bufsz, then excess bytes in the target kernel buffer
->   are filled with zeros.
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/getrandom.2 | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
-Yes.
+diff --git a/man2/getrandom.2 b/man2/getrandom.2
+index f66cebe..469da27 100644
+--- a/man2/getrandom.2
++++ b/man2/getrandom.2
+@@ -72,20 +72,10 @@ No such guarantees apply for larger buffer sizes.
+ For example, if the call is interrupted by a signal handler,
+ it may return a partially filled buffer, or fail with the error
+ .BR EINTR .
+-.\" Tested with buffer sizes > 256 bytes: both partial reads
+-.\" and EINTR can occur, with the former being more frequent.
+-.\"
+-.\" mtk: In the absence of signals, in my testing, even very large reads
+-.\" return full buffers. I found that reads of up to 33554431 always
+-.\" returned a filled buffer. Specifying 'buflen' > 33554431 always
+-.\" returned just 33554431 bytes. (I'm not sure where that number comes from.
+ If the pool has not yet been initialized, then the call blocks, unless
+ .B GRND_RANDOM
+ is specified in
+ .IR flags .
+-.\" FIXME We need a bit more information here.
+-.\"       The reader will ask: when is /dev/urandom initialized?
+-.\"       There should be some text here to explain that.
+ 
+ The
+ .I flags
+@@ -179,6 +169,25 @@ was introduced in version 3.17 of the Linux kernel.
+ .SH CONFORMING TO
+ This system call is Linux-specific.
+ .SH NOTES
++.SS Maximum number of bytes returned
++As of Linux 3.19 the following limits apply:
++.IP * 3
++When reading from
++.I /dev/urandom
++a maximum of 33554431 bytes is returned by a single call to
++.BR getrandom ()
++on a system where
++.I int
++has a size of 32 bits.
++.IP *
++When reading from
++.I /dev/random
++a maximum of 512 bytes is returned.
++.SS Initilization of the entropy pool
++The kernel collects bits of entropy from environment.
++When a sufficient number of random bits has been collected the
++.I /dev/urandom
++entropy pool is set to initialized.
+ .SS Interruption by a signal handler
+ A call to
+ .BR getrandom ()
+-- 
+2.1.4
 
-> Also, it seems to me that 'mem' need not be page aligned.
-> Is that correct? Should the man page say something about that?
-> (E.g., is it generally desirable that 'mem' should be page aligned?)
-
-mem and memsz need to be page aligned. There is a check for that too.
-
-	mstart = image->segment[i].mem;
-	mend   = mstart + image->segment[i].memsz;
-	if ((mstart & ~PAGE_MASK) || (mend & ~PAGE_MASK))
-		return result;
-
-> 
-> Likewise, 'memsz' doesn't need to beta page multiple, IIUC.
-> Should the man page say anything about this? For example, should 
-> it note that the initialized kernel segment will be of size:
-> 
->      (mem % PAGE_SIZE + memsz) rounded up to the next multiple of PAGE_SIZE
-> 
-> And should it note that if 'mem' is not a multiple of the page size, then
-> the initial bytes (mem % PAGE_SIZE)) in the first page of the kernel segment 
-> will be zeros?
-> 
-> (Hopefully I have read kimage_load_normal_segment() correctly.)
-
-Both mem and memsz need to be page aligned.
-
-> 
-> And one further question. Other than the fact that they are used with 
-> different system calls, what is the difference between KEXEC_ON_CRASH 
-> and KEXEC_FILE_ON_CRASH?
-
-Right now I can't think of any other difference. They both tell respective
-system call that this kernel needs to be loaded in reserved memory region
-for crash kernel.
-
-Thanks
-Vivek
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
