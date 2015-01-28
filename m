@@ -1,21 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clog10.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 28 Jan 2015 12:05:58 +0100
-Message-ID: <54C8C296.1000903@gmail.com>
-References: <1422425374-20884-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] casinh.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 28 Jan 2015 12:05:00 +0100
+Message-ID: <54C8C25C.2000000@gmail.com>
+References: <1422425326-20751-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422425374-20884-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1422425326-20751-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2015 07:09 AM, Ma Shimiao wrote:
-> The functions clog10(), clog10f() and clog10l() in glibc are thread safe.
+On 01/28/2015 07:08 AM, Ma Shimiao wrote:
+> The functions casinh(), casinhf() and casinhl() in glibc are thread safe.
 > It's markings match glibc markings.
+
 
 Thanks, Ma Shimiao. Applied in the mt_attributes branch.
 
@@ -27,15 +28,15 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/clog10.3 | 14 ++++++++++++++
+>  man3/casinh.3 | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/clog10.3 b/man3/clog10.3
-> index 25b1655..35214a6 100644
-> --- a/man3/clog10.3
-> +++ b/man3/clog10.3
-> @@ -34,6 +34,20 @@ Note that
->  close to zero will cause an overflow.
+> diff --git a/man3/casinh.3 b/man3/casinh.3
+> index 9d2afe7..dfb6aef 100644
+> --- a/man3/casinh.3
+> +++ b/man3/casinh.3
+> @@ -34,6 +34,20 @@ One has:
+>  .fi
 >  .SH VERSIONS
 >  These functions first appeared in glibc in version 2.1.
 > +.SH ATTRIBUTES
@@ -47,14 +48,14 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR clog10 (),
-> +.BR clog10f (),
-> +.BR clog10l ()
+> +.BR casinh (),
+> +.BR casinhf (),
+> +.BR casinhl ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  This function is a GNU extension.
->  It is reserved for future use in C99.
+>  C99.
+>  .SH SEE ALSO
 > 
 
 
