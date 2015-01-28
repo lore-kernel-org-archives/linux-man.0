@@ -1,22 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cosh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 28 Jan 2015 12:06:13 +0100
-Message-ID: <54C8C2A5.1060004@gmail.com>
-References: <1422425420-21012-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] clog10.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 28 Jan 2015 12:05:58 +0100
+Message-ID: <54C8C296.1000903@gmail.com>
+References: <1422425374-20884-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422425420-21012-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1422425374-20884-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2015 07:10 AM, Ma Shimiao wrote:
-> The functions cosh(), coshf() and coshl() in glibc are thread safe.
+On 01/28/2015 07:09 AM, Ma Shimiao wrote:
+> The functions clog10(), clog10f() and clog10l() in glibc are thread safe.
 > It's markings match glibc markings.
-
 
 Thanks, Ma Shimiao. Applied in the mt_attributes branch.
 
@@ -28,34 +27,34 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/cosh.3 | 14 ++++++++++++++
+>  man3/clog10.3 | 14 ++++++++++++++
 >  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/cosh.3 b/man3/cosh.3
-> index c71b75c..912b9b3 100644
-> --- a/man3/cosh.3
-> +++ b/man3/cosh.3
-> @@ -116,6 +116,20 @@ is set to
->  An overflow floating-point exception
->  .RB ( FE_OVERFLOW )
->  is raised.
+> diff --git a/man3/clog10.3 b/man3/clog10.3
+> index 25b1655..35214a6 100644
+> --- a/man3/clog10.3
+> +++ b/man3/clog10.3
+> @@ -34,6 +34,20 @@ Note that
+>  close to zero will cause an overflow.
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lbw30 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR cosh (),
-> +.BR coshf (),
-> +.BR coshl ()
+> +.BR clog10 (),
+> +.BR clog10f (),
+> +.BR clog10l ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C99, POSIX.1-2001.
->  The variant returning
+>  This function is a GNU extension.
+>  It is reserved for future use in C99.
 > 
 
 
