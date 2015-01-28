@@ -1,39 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cfree.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 28 Jan 2015 12:05:51 +0100
-Message-ID: <54C8C28F.2040107@gmail.com>
-References: <1422425343-20809-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] closedir.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 28 Jan 2015 12:06:05 +0100
+Message-ID: <54C8C29D.9010702@gmail.com>
+References: <1422425402-20942-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422425343-20809-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1422425402-20942-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2015 07:09 AM, Ma Shimiao wrote:
-> The function cfree() in glibc is thread safe.
+On 01/28/2015 07:10 AM, Ma Shimiao wrote:
+> The function closedir() in glibc is thread safe.
 > It's marking matches glibc marking.
 
 
 Thanks, Ma Shimiao. Applied in the mt_attributes branch.
-One question below.
+
+Cheers,
+
+Michael
+
+
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/cfree.3 | 12 ++++++++++++
+>  man3/closedir.3 | 12 ++++++++++++
 >  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/cfree.3 b/man3/cfree.3
-> index 1401c63..c322dc9 100644
-> --- a/man3/cfree.3
-> +++ b/man3/cfree.3
-> @@ -109,6 +109,18 @@ was not a pointer to a block previously allocated by
->  one of the routines in the
->  .BR malloc (3)
->  family.
+> diff --git a/man3/closedir.3 b/man3/closedir.3
+> index 37cb6a7..1779bbf 100644
+> --- a/man3/closedir.3
+> +++ b/man3/closedir.3
+> @@ -64,6 +64,18 @@ is set appropriately.
+>  .B EBADF
+>  Invalid directory stream descriptor
+>  .IR dirp .
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -43,14 +48,13 @@ One question below.
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR cfree ()
-> +T}	Thread safety	MT-Safe /* In glibc */
-
-What is the "?* In glibc */" for?
-
-Cheers,
-
-Michael
+> +.BR closedir ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  SVr4, POSIX.1-2001, 4.3BSD.
+>  .SH SEE ALSO
+> 
 
 
 -- 
