@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cacosh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 28 Jan 2015 14:08:28 +0800
-Message-ID: <1422425308-20695-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] casinh.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 28 Jan 2015 14:08:46 +0800
+Message-ID: <1422425326-20751-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,19 +10,19 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions cacosh(), cacoshf() and cacoshl() in glibc are thread safe.
+The functions casinh(), casinhf() and casinhl() in glibc are thread safe.
 It's markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cacosh.3 | 14 ++++++++++++++
+ man3/casinh.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/cacosh.3 b/man3/cacosh.3
-index 054ea1c..7eb9cc3 100644
---- a/man3/cacosh.3
-+++ b/man3/cacosh.3
-@@ -38,6 +38,20 @@ One has:
+diff --git a/man3/casinh.3 b/man3/casinh.3
+index 9d2afe7..dfb6aef 100644
+--- a/man3/casinh.3
++++ b/man3/casinh.3
+@@ -34,6 +34,20 @@ One has:
  .fi
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
@@ -35,14 +35,14 @@ index 054ea1c..7eb9cc3 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR cacosh (),
-+.BR cacoshf (),
-+.BR cacoshl ()
++.BR casinh (),
++.BR casinhf (),
++.BR casinhl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
  C99.
- .SH EXAMPLE
+ .SH SEE ALSO
 -- 
 1.9.3
 
