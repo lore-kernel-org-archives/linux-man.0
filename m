@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 91931] fflush(3) is misleading about input streams
-Date: Wed, 28 Jan 2015 08:33:35 +0000
-Message-ID: <bug-91931-11311-KAIWiuN03H@https.bugzilla.kernel.org/>
+Date: Wed, 28 Jan 2015 08:31:33 +0000
+Message-ID: <bug-91931-11311-Hc8f73Wj4f@https.bugzilla.kernel.org/>
 References: <bug-91931-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,12 +14,21 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=91931
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to cubbi from comment #0)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |CODE_FIX
+> On a very minor note, fflush(3) also claims that
+> "The standards do not specify the behavior for input streams"
+> 
+> This is no longer precisely correct; POSIX specifies behavior for seekable
+> input streams to move fileno's offset to match FILE's offset and undo all
+> ungetc's:
+> http://pubs.opengroup.org/onlinepubs/9699919799/functions/fflush.html and
+> glibc conforms to that (or tries to,
+> https://sourceware.org/bugzilla/show_bug.cgi?id=5994 is still open)
+
+Thanks. I modified the text to note that POSIX.1-2008 does add specification
+for input streams.
 
 -- 
 You are receiving this mail because:
