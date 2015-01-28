@@ -1,21 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fclose.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 28 Jan 2015 12:06:28 +0100
-Message-ID: <54C8C2B4.5010201@gmail.com>
-References: <1422425466-21133-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] tgamma.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 28 Jan 2015 12:06:37 +0100
+Message-ID: <54C8C2BD.6050003@gmail.com>
+References: <1422425478-21183-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422425466-21133-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1422425478-21183-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 01/28/2015 07:11 AM, Ma Shimiao wrote:
-> The function fclose() is thread safe.
-> It's marking matches glibc marking.
+> The functions tgamma(), tgammaf() and tgammal() in glibc are thread safe.
+> It's markings match glibc markings.
 
 
 Thanks, Ma Shimiao. Applied in the mt_attributes branch.
@@ -26,33 +26,36 @@ Michael
 
 
 
+
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/fclose.3 | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  man3/tgamma.3 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/fclose.3 b/man3/fclose.3
-> index 3ba0f54..4b900d5 100644
-> --- a/man3/fclose.3
-> +++ b/man3/fclose.3
-> @@ -87,6 +87,18 @@ for any of the errors specified for the routines
->  .BR write (2)
->  or
->  .BR fflush (3).
+> diff --git a/man3/tgamma.3 b/man3/tgamma.3
+> index 58d6a12..0cb37bd 100644
+> --- a/man3/tgamma.3
+> +++ b/man3/tgamma.3
+> @@ -157,6 +157,20 @@ is not set for this case.
+>  .\" exception for various cases.
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
 > +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
+> +For an explanation of the terms used in this section, see 
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw30 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR fclose ()
+> +.BR tgamma (),
+> +.BR tgammaf (),
+> +.BR tgammal ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  C89, C99.
+>  C99, POSIX.1-2001.
 >  .SH NOTES
 > 
 
