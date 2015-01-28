@@ -1,66 +1,29 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] cacosh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 28 Jan 2015 12:04:50 +0100
-Message-ID: <54C8C252.60102@gmail.com>
-References: <1422425308-20695-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 91931] fflush(3) is misleading about input streams
+Date: Wed, 28 Jan 2015 08:33:35 +0000
+Message-ID: <bug-91931-11311-KAIWiuN03H@https.bugzilla.kernel.org/>
+References: <bug-91931-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422425308-20695-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-91931-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 01/28/2015 07:08 AM, Ma Shimiao wrote:
-> The functions cacosh(), cacoshf() and cacoshl() in glibc are thread safe.
-> It's markings match glibc markings.
+https://bugzilla.kernel.org/show_bug.cgi?id=91931
 
-Thanks, Ma Shimiao. Applied in the mt_attributes branch.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Cheers,
-
-Michael
-
-
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/cacosh.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/man3/cacosh.3 b/man3/cacosh.3
-> index 054ea1c..7eb9cc3 100644
-> --- a/man3/cacosh.3
-> +++ b/man3/cacosh.3
-> @@ -38,6 +38,20 @@ One has:
->  .fi
->  .SH VERSIONS
->  These functions first appeared in glibc in version 2.1.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw30 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR cacosh (),
-> +.BR cacoshf (),
-> +.BR cacoshl ()
-> +T}	Thread safety	MT-Safe
-> +.TE
->  .SH CONFORMING TO
->  C99.
->  .SH EXAMPLE
-> 
-
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
