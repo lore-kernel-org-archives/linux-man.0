@@ -1,49 +1,164 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fclose.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 28 Jan 2015 14:11:06 +0800
-Message-ID: <1422425466-21133-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/1] getrandom.2: clarification of open questions
+Date: Wed, 28 Jan 2015 07:11:55 +0100
+Message-ID: <54C87DAB.4080806@gmail.com>
+References: <1422394068-10106-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1422394068-10106-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The function fclose() is thread safe.
-It's marking matches glibc marking.
+Hello Heinrich,
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/fclose.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Patch applied, with a few minor wording/spelling tweaks. One change
+(addition) below.
 
-diff --git a/man3/fclose.3 b/man3/fclose.3
-index 3ba0f54..4b900d5 100644
---- a/man3/fclose.3
-+++ b/man3/fclose.3
-@@ -87,6 +87,18 @@ for any of the errors specified for the routines
- .BR write (2)
- or
- .BR fflush (3).
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR fclose ()
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- C89, C99.
- .SH NOTES
+On 01/27/2015 10:27 PM, Heinrich Schuchardt wrote:
+> With his last patches for getrandom.2 Michael Kerrisk posed a few
+> questions and left some comments in the man-page. This patch
+> seeks to clarify the open issues.
+> 
+>  72 For example, if the call is interrupted by a signal handler,
+>  73 it may return a partially filled buffer, or fail with the error
+>  74 .BR EINTR .
+>  75 .\" Tested with buffer sizes > 256 bytes: both partial reads
+>  76 .\" and EINTR can occur, with the former being more frequent.
+>  77 .\"
+> 
+> Michael's observation agrees with the code.
+> For buffer size > 256: If the buffer is still empty EINTR occurs. If
+> any number of bytes has been read to the buffer, that number is returned.
+> The comment can be removed.
+> 
+>  78 .\" mtk: In the absence of signals, in my testing, even very large reads
+>  79 .\" return full buffers. I found that reads of up to 33554431 always
+>  80 .\" returned a filled buffer. Specifying 'buflen' > 33554431 always
+>  81 .\" returned just 33554431 bytes. (I'm not sure where that number comes
+>         from.
+> 
+> The maximum number of bytes transferred is limited for /dev/urandom to
+> nbytes = min_t(size_t, nbytes, INT_MAX >> (ENTROPY_SHIFT + 3));
+> // <= 0x1fffff
+> 
+> and for /dev/random to
+> nbytes = min_t(size_t, nbytes, SEC_XFER_SIZE); // <= 0x200
+
+Ahh -- thanks for uncovering that.
+
+> Lets put this into the NOTES section.
+> 
+>  224 When reading from
+>  225 .IR /dev/random ,
+>  226 blocking requests of any size can be interrupted by a signal
+>  227 (the call fails with the error
+>  228 .BR EINTR ).
+> 
+> Thats ok.
+> 
+>  82 If the pool has not yet been initialized, then the call blocks, unless
+>  83 .B GRND_RANDOM
+>  84 is specified in
+>  85 .IR flags .
+>  86 .\" FIXME We need a bit more information here.
+>  87 .\"       The reader will ask: when is /dev/urandom initialized?
+>  88 .\"       There should be some text here to explain that.
+> 
+> Entropy is collected from different sources, e.g.
+>  - time of reaping a thread
+>  - MAC address of a network interfaces
+>  - Allwinner security ID
+>  - ROM content of a firewire device
+>  - ...
+> 
+> When more than 128 bits have been collected, the pool is set to initialized.
+> 
+> I suggest that detailed information about the initialization should be provided
+> on the random.4 page.
+
+Yes, that would be more appropriate.
+
+> 
+> I added a paragraph in the NOTES section.
+
+Thanks!
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/getrandom.2 | 29 +++++++++++++++++++----------
+>  1 file changed, 19 insertions(+), 10 deletions(-)
+> 
+> diff --git a/man2/getrandom.2 b/man2/getrandom.2
+> index f66cebe..469da27 100644
+> --- a/man2/getrandom.2
+> +++ b/man2/getrandom.2
+> @@ -72,20 +72,10 @@ No such guarantees apply for larger buffer sizes.
+>  For example, if the call is interrupted by a signal handler,
+>  it may return a partially filled buffer, or fail with the error
+>  .BR EINTR .
+> -.\" Tested with buffer sizes > 256 bytes: both partial reads
+> -.\" and EINTR can occur, with the former being more frequent.
+> -.\"
+> -.\" mtk: In the absence of signals, in my testing, even very large reads
+> -.\" return full buffers. I found that reads of up to 33554431 always
+> -.\" returned a filled buffer. Specifying 'buflen' > 33554431 always
+> -.\" returned just 33554431 bytes. (I'm not sure where that number comes from.
+>  If the pool has not yet been initialized, then the call blocks, unless
+>  .B GRND_RANDOM
+>  is specified in
+>  .IR flags .
+> -.\" FIXME We need a bit more information here.
+> -.\"       The reader will ask: when is /dev/urandom initialized?
+> -.\"       There should be some text here to explain that.
+>  
+>  The
+>  .I flags
+> @@ -179,6 +169,25 @@ was introduced in version 3.17 of the Linux kernel.
+>  .SH CONFORMING TO
+>  This system call is Linux-specific.
+>  .SH NOTES
+> +.SS Maximum number of bytes returned
+> +As of Linux 3.19 the following limits apply:
+> +.IP * 3
+> +When reading from
+> +.I /dev/urandom
+> +a maximum of 33554431 bytes is returned by a single call to
+> +.BR getrandom ()
+> +on a system where
+> +.I int
+> +has a size of 32 bits.
+> +.IP *
+> +When reading from
+> +.I /dev/random
+> +a maximum of 512 bytes is returned.
+> +.SS Initilization of the entropy pool
+> +The kernel collects bits of entropy from environment.
+> +When a sufficient number of random bits has been collected the
+> +.I /dev/urandom
+> +entropy pool is set to initialized.
+
+I added a sentence here:
+
+This state is normally reached early in the system bootstrap phase.
+
+>  .SS Interruption by a signal handler
+>  A call to
+>  .BR getrandom ()
+
+Thanks,
+
+Michael
+
+
+
 -- 
-1.9.3
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
