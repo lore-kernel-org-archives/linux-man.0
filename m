@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cosh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 28 Jan 2015 14:10:20 +0800
-Message-ID: <1422425420-21012-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] cpow.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 28 Jan 2015 14:10:33 +0800
+Message-ID: <1422425433-21064-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,22 +10,22 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions cosh(), coshf() and coshl() in glibc are thread safe.
+The functions cpow(), cpowf() and cpowl() in glibc are thread safe.
 It's markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cosh.3 | 14 ++++++++++++++
+ man3/cpow.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/cosh.3 b/man3/cosh.3
-index c71b75c..912b9b3 100644
---- a/man3/cosh.3
-+++ b/man3/cosh.3
-@@ -116,6 +116,20 @@ is set to
- An overflow floating-point exception
- .RB ( FE_OVERFLOW )
- is raised.
+diff --git a/man3/cpow.3 b/man3/cpow.3
+index 8f55bbc..523827a 100644
+--- a/man3/cpow.3
++++ b/man3/cpow.3
+@@ -30,6 +30,20 @@ raised to the power
+ along the negative real axis.)
+ .SH VERSIONS
+ These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -35,14 +35,14 @@ index c71b75c..912b9b3 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR cosh (),
-+.BR coshf (),
-+.BR coshl ()
++.BR cpow (),
++.BR cpowf (),
++.BR cpowl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- The variant returning
+ C99.
+ .SH SEE ALSO
 -- 
 1.9.3
 
