@@ -1,73 +1,68 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] tzset.3: Add description for posixrules file
-Date: Thu, 29 Jan 2015 06:51:35 +0100
-Message-ID: <54C9CA67.4080009@gmail.com>
-References: <54BAFE98.2090402@gmx.com> <54BC126E.1080904@gmx.com> <54C4F9E7.6090104@gmail.com> <54C97B45.2070300@gmx.com>
+Subject: Re: [PATCH] getfsent.3: Modify thread-safety information
+Date: Thu, 29 Jan 2015 06:53:31 +0100
+Message-ID: <54C9CADB.9080807@gmail.com>
+References: <1422502799-12796-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54C97B45.2070300-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <1422502799-12796-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi William,
+On 01/29/2015 04:39 AM, Ma Shimiao wrote:
+> As annotation in glibc manual is more detailed, change the 
+> thread-safety information to be the same as glibc manual.
 
-This patch also does not apply. Some comments also below.
+Thanks, Ma Shiniao.
 
-On 01/29/2015 01:13 AM, J William Piggott wrote:
-> 
-> Based upon reviewing the glibc source, the posixrules file is being used
-> for very specific TZ strings that can be represented as:
-> 
-> [:]stdoffsetdst[offset][,]
-> 
-> If anything follows the above string, even invalid data, posixrules will
-> not be used. Below is some shell output demonstrating this.
-> 
-> $ TZ="NZST-12:00:00NZDT-13:00:00,ANYTHING" \
->> strace -eopen date 2>&1 | grep -Ei 'posixrules|jan'
-> Thu Jan 29 06:53:35 NZDT 2015
-> 
-> $ TZ="NZST-12:00:00NZDT-13:00:00," \
->> strace -eopen date 2>&1 | grep -Ei 'posixrules|jan'
-> open("/usr/share/zoneinfo/posixrules", O_RDONLY|O_CLOEXEC) = 3
-> Thu Jan 29 05:54:58 NZST 2015
-> 
-> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-> ---
->  man3/tzset.3 | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/man3/tzset.3 b/man3/tzset.3
-> index 9011e5f..2e91fd8 100644
-> --- a/man3/tzset.3
-> +++ b/man3/tzset.3
-> @@ -201,6 +201,11 @@ The system timezone file.
->  The system timezone database directory.
->  .TP
->  .B /usr/share/zoneinfo/posixrules
-> +When a TZ string includes a dst timezone without anything following it,
-> +then this file is used for the start/end rules. It is in the
+Applied.
 
-Please start new sentences on new source lines. (See man-pages(7).)
-
-> +.B tzfile(5)
-> +format. By default, the zoneinfo Makefile hard links it to the
-
-As above.
-
-> +.IR America/New_York " tzfile."
->  .PP
->  Above are the current standard file locations, but they are
->  configurable when glibc is compiled.
-> 
-
-Thanks,
+Cheers,
 
 Michael
+
+
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/getfsent.3 | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/man3/getfsent.3 b/man3/getfsent.3
+> index 12c883a..892cf9c 100644
+> --- a/man3/getfsent.3
+> +++ b/man3/getfsent.3
+> @@ -117,16 +117,21 @@ For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+>  .TS
+>  allbox;
+> -lbw35 lb lb
+> +lb lb lbw24
+>  l l l.
+>  Interface	Attribute	Value
+>  T{
+> -.BR setfsent (),
+> -.BR getfsent (),
+>  .BR endfsent (),
+> +.br
+> +.BR setfsent ()
+> +T}	Thread safety	MT-Unsafe race:fsent
+> +T{
+> +.BR getfsent (),
+> +.br
+>  .BR getfsspec (),
+> +.br
+>  .BR getfsfile ()
+> -T}	Thread safety	MT-Unsafe
+> +T}	Thread safety	MT-Unsafe race:fsent locale
+>  .TE
+>  .SH CONFORMING TO
+>  These functions are not in POSIX.1-2001.
+> 
+
 
 -- 
 Michael Kerrisk
