@@ -1,71 +1,64 @@
-From: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Subject: [PATCH V3 1/1] tzset.3: Add Environment section
-Date: Wed, 28 Jan 2015 19:09:17 -0500
-Message-ID: <54C97A2D.2050908@gmx.com>
-References: <54BAFE98.2090402@gmx.com> <54BC126E.1080904@gmx.com> <54C4F9E7.6090104@gmail.com>
+From: Scot Doyle <lkml14@scotdoyle.com>
+Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
+Date: Thu, 29 Jan 2015 01:27:20 +0000 (UTC)
+Message-ID: <alpine.DEB.2.11.1501290010120.6022@localhost.localdomain>
+References: <20150112221634.GD16162@redhat.com> <54B91271.3000600@gmail.com> <20150127142459.GA12851@redhat.com> <54C89816.8030709@gmail.com> <20150128144803.GC15342@redhat.com> <CAKgNAkhhVq5fuqwH0aPdgR1bKkAPPPuS84hfAFg3grGEJNxS4w@mail.gmail.com>
+ <20150128203402.GG15342@redhat.com> <alpine.DEB.2.11.1501282104490.9275@localhost.localdomain> <20150128213125.GH15342@redhat.com> <alpine.DEB.2.11.1501282207570.5656@localhost.localdomain> <20150128222526.GJ15342@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54C4F9E7.6090104-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20150128222526.GJ15342@redhat.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Vivek Goyal <vgoyal@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: lkml <linux-kernel@vger.kernel.org>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, Kexec Mailing List <kexec@lists.infradead.org>, Andy Lutomirski <luto@amacapital.net>, Dave Young <dyoung@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>, "Eric W. Biederman" <ebiederm@xmission.com>, Andi Kleen <andi@firstfloor.org>
 List-Id: linux-man@vger.kernel.org
 
+On Wed, 28 Jan 2015, Vivek Goyal wrote:
+> On Wed, Jan 28, 2015 at 10:10:59PM +0000, Scot Doyle wrote:
+> > On Wed, 28 Jan 2015, Vivek Goyal wrote:
+> > > On Wed, Jan 28, 2015 at 09:14:03PM +0000, Scot Doyle wrote:
+> > > > When I tested, kexec_file_load required CONFIG_RELOCATABLE. Is the same 
+> > > > true for kexec_load? Would it make sense to note this in the man pages 
+> > > > along with the need for CONFIG_KEXEC_FILE, etc? Or as an error message?
+> > > 
+> > > Hmm.., I can't see an explicity dependency between RELOCATABLE and
+> > > KEXEC. Both KEXEC and KEXEC_FILE should be able to load a kernel
+> > > even if it had RELOCATABLE=n.
+> > > 
+> > > Just that kernel will run from the address it has been built for.
+> > > 
+> > > Thanks
+> > > Vivek
+> > 
+> > Confusing, right? kexec_file_load returns -ENOEXEC and dmesg says 
+> > "kexec-bzImage64: XLF_CAN_BE_LOADED_ABOVE_4G is not set." which leads to
+> > arch/x86/boot/header.S line 396:
+> > 
+> > #if defined(CONFIG_RELOCATABLE) && defined(CONFIG_X86_64)  
+> >    /* kernel/boot_param/ramdisk could be loaded above 4g */
+> > # define XLF1 XLF_CAN_BE_LOADED_ABOVE_4G
+> > #else
+> > # define XLF1 0
+> > #endif
+> 
+> Ah, this one. Actually generic kexec file loading implementation does not
+> impose this restriction. It is the image specific loader part which
+> decides what kind of bzImage it can load.
+> 
+> Current implementation (kexec-bzimage64.c), is only supporting loading
+> bzImages which are 64bit and can be loaded above 4G. This simplifies
+> the implementation of loader.
+> 
+> But there is nothing which prevents one from implementing other image
+> loaders.
+> 
+> So instead of saying that kexec_file_load() depends on CONFIG_RELOCATABLE,
+> it might be better to say in man page that currently this system call
+> supports only loading a bzImage which is 64bit and which can be loaded
+> above 4G too.
+> 
+> Thanks
+> Vivek
 
-FILES section was overly verbose and included
-environment variables.  Added ENVIRONMENT section,
-removing ENV VARS from the FILES section.
-
-As stated in commit 2c7f200
-/usr/share/zoneinfo/localtime
-is not used, nor recommended by glibc.
-
-Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
----
-
-The following changes since commit 91907c29c02f8ac81b1c4f7e62495b00cc005ed7:
-
-  kexec_load.2: srcfix: add mtk to copyright list (2015-01-28 21:56:38 +0100)
-
-are available in the git repository at:
-
-  git-9UaJU3cA/F/QT0dZR+AlfA@public.gmane.org:jwpi/man-pages.git tzsetv3
-
-for you to fetch changes up to 254e03f0c6864175df80f185ec78b9c75c7b8baa:
-
-  tzset.3: Add description for posixrules file (2015-01-28 17:26:06 -0500)
-
-
- man3/tzset.3 | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
-
-diff --git a/man3/tzset.3 b/man3/tzset.3
-index 81fbabe..9011e5f 100644
---- a/man3/tzset.3
-+++ b/man3/tzset.3
-@@ -182,28 +182,28 @@ Here's an example, once more for New Zealand:
-      TZ=":Pacific/Auckland"
- .fi
-+.SH ENVIRONMENT
-+.TP
-+.B TZ
-+.RB If \ TZ
-+is set, its value takes precedence over the system configured timezone.
-+.TP
-+.B TZDIR
-+.RB If \ TZDIR
-+is set, its value takes precedence over the system configured timezone
-+database directory path.
- .SH FILES
--Under glibc,
--the system timezone directory is determined using the
--.BR TZDIR
--the environment variable.
--If
--.BR TZDIR
--is not set, the default depends on the system setup, but is normally
--.IR /usr/share/zoneinfo .
--.LP
--This timezone directory contains the files
+Thanks, I agree, and think it would make sense to list them as part of the
+page's ENOEXEC error.
