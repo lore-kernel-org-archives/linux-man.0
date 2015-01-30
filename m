@@ -1,93 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH V4 1/1] tzset.3: Add Environment section
-Date: Fri, 30 Jan 2015 07:04:15 +0100
-Message-ID: <54CB1EDF.90809@gmail.com>
-References: <54BAFE98.2090402@gmx.com> <54BC126E.1080904@gmx.com> <54C4F9E7.6090104@gmail.com> <54C97A2D.2050908@gmx.com> <54C9CA11.207@gmail.com> <54CA5F5B.7070405@gmx.com>
+Subject: Re: [PATCH] socket.2: document AF_ALG
+Date: Fri, 30 Jan 2015 07:05:00 +0100
+Message-ID: <54CB1F0C.6070906@gmail.com>
+References: <2022953.c9E5IKVA29@tauon>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54CA5F5B.7070405-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <2022953.c9E5IKVA29@tauon>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 'Herbert Xu' <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/29/2015 05:27 PM, J William Piggott wrote:
-> FILES section was overly verbose and included
-> environment variables.  Added ENVIRONMENT section,
-> removing ENV VARS from the FILES section.
+On 01/29/2015 05:29 PM, Stephan Mueller wrote:
+> Add a reference to the AF_ALG protocol accessible via socket(2).
 > 
-> As stated in commit 2c7f200
-> /usr/share/zoneinfo/localtime
-> is not used, nor recommended by glibc.
+> Signed-off-by: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+> CC: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+> ---
+>  man2/socket.2 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/man2/socket.2 b/man2/socket.2
+> index 229dab3..8885079 100644
+> --- a/man2/socket.2
+> +++ b/man2/socket.2
+> @@ -116,6 +116,11 @@ Low level packet interface
+>  T}:T{
+>  .BR packet (7)
+>  T}
+> +T{
+> +.B AF_ALG
+> +T}:T{
+> +Interface to kernel crypto API
+> +T}
+>  .TE
+>  .PP
+>  The socket has the indicated
+> @@ -378,6 +383,12 @@ families.
+>  However, already the BSD man page promises: "The protocol
+>  family generally is the same as the address family", and subsequent
+>  standards use AF_* everywhere.
+> +
+> +The AF_ALG protocol type is added with kernel version 2.6.38. More
+> +information on this interface is provided with
+> +Documentation/crypto/crypto-API-userspace.txt provided in the
+> +Linux kernel source code tree.
+> +
 
-Thanks, William! Applied.
+Thanks, Stephan. Applied.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-> ---
->  man3/tzset.3 | 41 ++++++++++++++++++++---------------------
->  1 file changed, 20 insertions(+), 21 deletions(-)
-> 
-> diff --git a/man3/tzset.3 b/man3/tzset.3
-> index 81fbabe..a9b088d 100644
-> --- a/man3/tzset.3
-> +++ b/man3/tzset.3
-> @@ -182,28 +182,27 @@ Here's an example, once more for New Zealand:
->  
->      TZ=":Pacific/Auckland"
->  .fi
-> +.SH ENVIRONMENT
-> +.TP
-> +.B TZ
-> +If this variable is set its value takes precedence over the system
-> +configured timezone.
-> +.TP
-> +.B TZDIR
-> +If this variable is set its value takes precedence over the system
-> +configured timezone database directory path.
->  .SH FILES
-> -Under glibc,
-> -the system timezone directory is determined using the
-> -.BR TZDIR
-> -the environment variable.
-> -If
-> -.BR TZDIR
-> -is not set, the default depends on the system setup, but is normally
-> -.IR /usr/share/zoneinfo .
-> -.LP
-> -This timezone directory contains the files
-> -
-> -.nf
-> -    localtime      local timezone file
-> -    posixrules     rules for POSIX-style TZ's
-> -.fi
-> -.LP
-> -Often,
-> -.I /etc/localtime
-> -is a symbolic link to the file
-> -.I localtime
-> -or to the correct timezone file in the system timezone directory.
-> +.TP
-> +.B /etc/localtime
-> +The system timezone file.
-> +.TP
-> +.B /usr/share/zoneinfo/
-> +The system timezone database directory.
-> +.TP
-> +.B /usr/share/zoneinfo/posixrules
-> +.PP
-> +Above are the current standard file locations, but they are
-> +configurable when glibc is compiled.
->  .SH CONFORMING TO
->  SVr4, POSIX.1-2001, 4.3BSD.
->  .SH NOTES
-> 
 
 
 -- 
