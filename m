@@ -1,184 +1,89 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH manpages 2/2] arch_prctl.2, set_thread_area.2, get_thread_area.2:
- Improve TLS documentation
-Date: Fri, 30 Jan 2015 16:18:22 +0100
-Message-ID: <54CBA0BE.9000309@gmail.com>
-References: <cover.1422568013.git.luto@amacapital.net> <eea75b78032d04f45ba1f33626b26f6b4f5c8ca3.1422568013.git.luto@amacapital.net> <54CB802E.3050806@gmail.com> <CALCETrXK+GRN2uhfJJcYcbO1T3mruRyer3XMCYYJGNkinCjwbA@mail.gmail.com>
+Subject: Re: Edited kexec_load(2) [kexec_file_load()] man page for review
+Date: Fri, 30 Jan 2015 16:25:06 +0100
+Message-ID: <54CBA252.4050003@gmail.com>
+References: <20150112221634.GD16162@redhat.com> <54B91271.3000600@gmail.com> <20150127142459.GA12851@redhat.com> <54C89816.8030709@gmail.com> <20150128144803.GC15342@redhat.com> <CAKgNAkhhVq5fuqwH0aPdgR1bKkAPPPuS84hfAFg3grGEJNxS4w@mail.gmail.com> <20150128203402.GG15342@redhat.com> <alpine.DEB.2.11.1501282104490.9275@localhost.localdomain> <20150128213125.GH15342@redhat.com> <alpine.DEB.2.11.1501282207570.5656@localhost.localdomain> <20150128222526.GJ15342@redhat.com> <alpine.DEB.2.11.1501290010120.6022@localhost.localdomain> <CAKgNAkjBBRmcpu8DuaGCCRhvXP_AFotK5xrHx2HaR6g_8omULw@mail.gmail.com> <alpine.DEB.2.11.1501291429001.1597@localhost.localdomain>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CALCETrXK+GRN2uhfJJcYcbO1T3mruRyer3XMCYYJGNkinCjwbA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1501291429001.1597-bi+AKbBUZKY6gyzm1THtWbp2dZbC/Bob@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kexec Mailing List <kexec-IAPFreCvJWM7uuMidbF8XUB+6BGkLq7r@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Dave Young <dyoung-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 01/30/2015 03:45 PM, Andy Lutomirski wrote:
-> On Jan 30, 2015 8:59 AM, "Michael Kerrisk (man-pages)"
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>
->> Hi Andy,
->>
->> Thanks for this!
->>
->> I've merged this into a branch and done some light editing.
->> A few questions below.
->>
->> On 01/29/2015 10:47 PM, Andy Lutomirski wrote:
->>> The documentation for set_thread_area was very vague.  This improves
->>> it, accounts for recent kernel changes, and merges it with
->>> get_thread_area.2.
->>
->> (Yep, merging seems a good idea.)
+On 01/29/2015 05:06 PM, Scot Doyle wrote:
+> On Thu, 29 Jan 2015, Michael Kerrisk (man-pages) wrote:
+>> On 29 January 2015 at 02:27, Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org> wrote:
+>>> On Wed, 28 Jan 2015, Vivek Goyal wrote:
+>>>> On Wed, Jan 28, 2015 at 10:10:59PM +0000, Scot Doyle wrote:
+>>>>> On Wed, 28 Jan 2015, Vivek Goyal wrote:
+>>>>>> On Wed, Jan 28, 2015 at 09:14:03PM +0000, Scot Doyle wrote:
+>>>>>>> When I tested, kexec_file_load required CONFIG_RELOCATABLE. Is the same
+>>>>>>> true for kexec_load? Would it make sense to note this in the man pages
+>>>>>>> along with the need for CONFIG_KEXEC_FILE, etc? Or as an error message?
+>>>>>>
+>>>>>> Hmm.., I can't see an explicity dependency between RELOCATABLE and
+>>>>>> KEXEC. Both KEXEC and KEXEC_FILE should be able to load a kernel
+>>>>>> even if it had RELOCATABLE=n.
+>>>>>>
+>>>>>> Just that kernel will run from the address it has been built for.
+>>>>>>
+>>>>>> Thanks
+>>>>>> Vivek
+>>>>>
+>>>>> Confusing, right? kexec_file_load returns -ENOEXEC and dmesg says
+>>>>> "kexec-bzImage64: XLF_CAN_BE_LOADED_ABOVE_4G is not set." which leads to
+>>>>> arch/x86/boot/header.S line 396:
+>>>>>
+>>>>> #if defined(CONFIG_RELOCATABLE) && defined(CONFIG_X86_64)
+>>>>>    /* kernel/boot_param/ramdisk could be loaded above 4g */
+>>>>> # define XLF1 XLF_CAN_BE_LOADED_ABOVE_4G
+>>>>> #else
+>>>>> # define XLF1 0
+>>>>> #endif
+>>>>
+>>>> Ah, this one. Actually generic kexec file loading implementation does not
+>>>> impose this restriction. It is the image specific loader part which
+>>>> decides what kind of bzImage it can load.
+>>>>
+>>>> Current implementation (kexec-bzimage64.c), is only supporting loading
+>>>> bzImages which are 64bit and can be loaded above 4G. This simplifies
+>>>> the implementation of loader.
+>>>>
+>>>> But there is nothing which prevents one from implementing other image
+>>>> loaders.
+>>>>
+>>>> So instead of saying that kexec_file_load() depends on CONFIG_RELOCATABLE,
+>>>> it might be better to say in man page that currently this system call
+>>>> supports only loading a bzImage which is 64bit and which can be loaded
+>>>> above 4G too.
+>>>>
+>>>> Thanks
+>>>> Vivek
 >>>
->>> While I'm at it, clarify the related arch_prctl.2 man page.
->>>
->>> Signed-off-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
->>> ---
->>>  man2/arch_prctl.2      | 22 +++++++-----
->>>  man2/get_thread_area.2 | 58 +------------------------------
->>>  man2/set_thread_area.2 | 93 ++++++++++++++++++++++++++++++++++++++++++++++----
->>>  3 files changed, 102 insertions(+), 71 deletions(-)
->>>
->>> diff --git a/man2/arch_prctl.2 b/man2/arch_prctl.2
->>> index a3ab2b566915..c89fa3c7b744 100644
->>> --- a/man2/arch_prctl.2
->>> +++ b/man2/arch_prctl.2
->>> @@ -114,27 +114,33 @@ The 64-bit base changes when a new 32-bit segment selector is loaded.
->>>  is disabled in some kernels.
->>>
->>>  Context switches for 64-bit segment bases are rather expensive.
->>> -It may be a faster alternative to set a 32-bit base using a
->>> -segment selector by setting up an LDT with
->>> -.BR modify_ldt (2)
->>> -or using the
->>> +As an optimization, if a 32-bit TLS base address is used,
->>> +.BR arch_prctl (2)
->>> +may use a real TLS entry as if
->>>  .BR set_thread_area (2)
->>> -system call in kernel 2.5 or later.
->>> -.BR arch_prctl ()
->>> -is needed only when you want to set bases that are larger than 4GB.
->>> +had been called instead of manipulating the segment base register directly.
->>>  Memory in the first 2GB of address space can be allocated by using
->>>  .BR mmap (2)
->>>  with the
->>>  .B MAP_32BIT
->>>  flag.
->>>
->>> +As a result, using
+>>> Thanks, I agree, and think it would make sense to list them as part of the
+>>> page's ENOEXEC error.
 >>
->> Something doesn't quite flow here. "As a result" *of what*? Should this rather
->> be something like:
+>> Scott, could you then phras a couple of sentences that capture thge
+>> details, so I can add it to the ENOEXEC error?
 >>
->>     Because of the aforementioned optimization, using
-> 
-> Sure.
-
-Changed.
-
->>> +.BR arch_prctl (2)
->>> +and
->>> +.BR set_thread_area (2)
->>> +in the same thread is dangerous, as they may overwrite each other's
->>> +TLS entries.
->>> +
->>>  As of version 2.7, glibc provides no prototype for
->>>  .BR arch_prctl ().
->>>  You have to declare it yourself for now.
->>>  This may be fixed in future glibc versions.
->>>
->>>  .I FS
->>> -may be already used by the threading library.
->>> +may be already used by the threading library.  Glibc programs that use
+>> Thanks,
 >>
->> What is a "Glibc program"?
+>> Michael
 > 
-> A program that links against glibc.  Maybe that should just say "Programs".
-
-
-Okay /S/Glibc programs/Programs/
-
-> The idea I'm trying to get across is that using ARCH_SET_FS for
-> private purposes is a bad idea, since your threading library
-> (glibc/libpthread) is very likely to use ARCH_SET_FS for its own
-> purposes.  ARCH_SET_GS, on the other hand, is more likely to be
-> available for private use.
+> Yes, maybe something like "kernel_fd does not refer to an open file, or 
+> the file type is not supported. Currently, the file must be a bzImage
+> and contain an x86 kernel loadable above 4G in memory (see 
+> Documentation/x86/boot.txt)."?
 > 
-> This is most relevant for programs written for the purpose of testing
-> arch_prctl -- using ARCH_SET_FS following by calling any glibc
-> function is very likely to segfault.
+> boot.txt explains that loading above 4G implies 64-bit and is specified 
+> via a bit in xloadflags added in Linux 3.8.
 
-(Okay.)
+Added and pushed. Thanks, Scott.
 
-[...]
-
->>> diff --git a/man2/get_thread_area.2 b/man2/get_thread_area.2
->>> index 08589e413cc4..a03fe54fb08e 100644
->>> --- a/man2/set_thread_area.2
->>> +++ b/man2/set_thread_area.2
->>>  .IR Note :
->>>  There is no glibc wrapper for this system call; see NOTES.
->>>  .SH DESCRIPTION
->>> +Linux dedicates three global descriptor table (GDT) entries for
->>> +thread-local storage.  For more information about the LDT, see the
->>
->> s/LDT/GDT? in the previous line, right?
-> 
-> Yes.
-
-Fixed.
-
->>> +Intel Software Developer's Manual or the AMD Architecture Programming Manual.
->>> +
->>> +.BR get_thread_area ()
->>> +reads the GDT entry indicated by
->>> +.I u_info\->entry_number
->>> +and fills in the rest of the fields in
->>> +.I u_info.
->>> +
->>>  .BR set_thread_area ()
->>> -sets an entry in the current thread's thread-local storage (TLS) array.
->>> +sets a TLS entry in the GDT.
->>> +.PP
->>>  The TLS array entry set by
->>>  .BR set_thread_area ()
->>>  corresponds to the value of
->>> @@ -27,7 +56,7 @@ corresponds to the value of
->>>  passed in by the user.
->>>  If this value is in bounds,
->>>  .BR set_thread_area ()
->>> -copies the TLS descriptor pointed to by
->>> +writes the TLS descriptor pointed to by
->>>  .I u_info
->>>  into the thread's TLS array.
->>>  .PP
->>> @@ -35,12 +64,29 @@ When
->>>  .BR set_thread_area ()
->>>  is passed an
->>>  .I entry_number
->>> -of \-1, it uses a free TLS entry.
->>> +of \-1, it finds a free TLS entry.
->>
->> s/finds/searched for/ ?
-> 
-> How about "searches for"?
-
-D'oh! That's what I meant. Changed.
-
-[...]
-
->>> +.SH BUGS
->>> +On 64-bit kernels before Linux 3.19, one of the padding bits in
->>
->> Was that commit e30ab185c490e9a9381385529e0fd32f0a399495 ?
-> 
-> Yes.
-
-Okay.
-
-Thanks,
+Cheers,
 
 Michael
 
