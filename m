@@ -1,57 +1,73 @@
-From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] socket.2: document AF_ALG
-Date: Thu, 29 Jan 2015 17:29:34 +0100
-Message-ID: <2022953.c9E5IKVA29@tauon>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH V2 1/1] tzset.3: Add description for posixrules file
+Date: Fri, 30 Jan 2015 07:04:25 +0100
+Message-ID: <54CB1EE9.6070504@gmail.com>
+References: <54BAFE98.2090402@gmx.com> <54BC126E.1080904@gmx.com> <54C4F9E7.6090104@gmail.com> <54C97B45.2070300@gmx.com> <54C9CA67.4080009@gmail.com> <54CA604A.1050500@gmx.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54CA604A.1050500-KK0ffGbhmjU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: 'Herbert Xu' <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
+To: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Add a reference to the AF_ALG protocol accessible via socket(2).
+On 01/29/2015 05:31 PM, J William Piggott wrote:
+> Based upon reviewing the glibc source, the posixrules file is being used
+> for very specific TZ strings that can be represented as:
+> 
+> [:]stdoffsetdst[offset][,]
+> 
+> If anything follows the above string, even invalid data, posixrules will
+> not be used. Below is some shell output demonstrating this.
+> 
+> $ TZ="NZST-12:00:00NZDT-13:00:00,ANYTHING" \
+> strace -eopen date 2>&1 | grep -Ei 'posixrules|jan'
+> Thu Jan 29 06:53:35 NZDT 2015
+> 
+> $ TZ="NZST-12:00:00NZDT-13:00:00," \
+> strace -eopen date 2>&1 | grep -Ei 'posixrules|jan'
+> open("/usr/share/zoneinfo/posixrules", O_RDONLY|O_CLOEXEC) = 3
+> Thu Jan 29 05:54:58 NZST 2015
 
-Signed-off-by: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-CC: Herbert Xu <herbert-lOAM2aK0SrRLBo1qDEOMRrpzq4S04n8Q@public.gmane.org>
----
- man2/socket.2 | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Thanks, William. Applied.
 
-diff --git a/man2/socket.2 b/man2/socket.2
-index 229dab3..8885079 100644
---- a/man2/socket.2
-+++ b/man2/socket.2
-@@ -116,6 +116,11 @@ Low level packet interface
- T}:T{
- .BR packet (7)
- T}
-+T{
-+.B AF_ALG
-+T}:T{
-+Interface to kernel crypto API
-+T}
- .TE
- .PP
- The socket has the indicated
-@@ -378,6 +383,12 @@ families.
- However, already the BSD man page promises: "The protocol
- family generally is the same as the address family", and subsequent
- standards use AF_* everywhere.
-+
-+The AF_ALG protocol type is added with kernel version 2.6.38. More
-+information on this interface is provided with
-+Documentation/crypto/crypto-API-userspace.txt provided in the
-+Linux kernel source code tree.
-+
- .SH EXAMPLE
- An example of the use of
- .BR socket ()
+Cheers,
+
+Michael
+
+
+
+> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+> ---
+>  man3/tzset.3 | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/man3/tzset.3 b/man3/tzset.3
+> index a9b088d..9cb9d32 100644
+> --- a/man3/tzset.3
+> +++ b/man3/tzset.3
+> @@ -200,6 +200,12 @@ The system timezone file.
+>  The system timezone database directory.
+>  .TP
+>  .B /usr/share/zoneinfo/posixrules
+> +When a TZ string includes a dst timezone without anything following it,
+> +then this file is used for the start/end rules.
+> +It is in the
+> +.BR tzfile "(5) format."
+> +By default, the zoneinfo Makefile hard links it to the
+> +.IR America/New_York " tzfile."
+>  .PP
+>  Above are the current standard file locations, but they are
+>  configurable when glibc is compiled.
+> 
+
+
 -- 
-2.1.0
-
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
