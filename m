@@ -1,96 +1,68 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/3] tzset.3: There are only two TZ formats
-Date: Sun, 01 Feb 2015 16:31:29 +0100
-Message-ID: <54CE46D1.1080303@gmail.com>
-References: <54CE2689.7000704@gmx.com> <54CE272A.1090003@gmx.com>
+Subject: Re: [PATCH 3/3] tzset.3: typos and version bump
+Date: Sun, 01 Feb 2015 16:32:24 +0100
+Message-ID: <54CE4708.3080509@gmail.com>
+References: <54CE2689.7000704@gmx.com> <54CE278A.9000604@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54CE272A.1090003-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <54CE278A.9000604-KK0ffGbhmjU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/01/2015 02:16 PM, J William Piggott wrote:
-> 
-> tzset(3) currently states that there are three TZ formats. The
-> first two it lists are actually variations of the POSIX-style
-> TZ format, of which there are at least five variations.
-> 
-> This patch corrects this to match the POSIX specification of
-> TZ having only two formats.
+On 02/01/2015 02:18 PM, J William Piggott wrote:
 
-Thanks, William. Applied.
+Thanks, William. Applied. Note that there's no need to bump the
+page timestamp. Nowadays, my release scripts make sure it gets
+updated.
 
 Cheers,
 
 Michael
 
 
-> http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html
-> 
 > Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
 > ---
->  man3/tzset.3 | 21 ++++++---------------
->  1 file changed, 6 insertions(+), 15 deletions(-)
+>  man3/tzset.3 | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
 > diff --git a/man3/tzset.3 b/man3/tzset.3
-> index ed7f406..8002ee5 100644
+> index 8002ee5..0347ae8 100644
 > --- a/man3/tzset.3
 > +++ b/man3/tzset.3
-> @@ -90,12 +90,12 @@ below, Coordinated Universal Time (UTC) is used.
+> @@ -30,7 +30,7 @@
+>  .\" Modified 2001-11-13, aeb
+>  .\" Modified 2004-12-01 mtk and Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
+>  .\"
+> -.TH TZSET 3  2014-08-19 "" "Linux Programmer's Manual"
+> +.TH TZSET 3  2015-01-30 "" "Linux Programmer's Manual"
+>  .SH NAME
+>  tzset, tzname, timezone, daylight \- initialize time conversion information
+>  .SH SYNOPSIS
+> @@ -84,9 +84,9 @@ timezone directory (see the \fBFILES\fP section below).
+>  .PP
+>  If the
+>  .B TZ
+> -variable does appear in the environment but its value is empty
+> +variable does appear in the environment, but its value is empty,
+>  or its value cannot be interpreted using any of the formats specified
+> -below, Coordinated Universal Time (UTC) is used.
+> +below, then Coordinated Universal Time (UTC) is used.
 >  .PP
 >  The value of
 >  .B TZ
-> -can be one of three formats.
-> -The first format is used
-> -when there is no daylight saving time in the local timezone:
-> +can be one of two formats.
-> +The first format is a string of characters that directly represent the
-> +timezone to be used:
->  .sp
->  .RS
-> -.I std offset
-> +.RI stdoffset[ dst [ offset ][, start [ /time ], end [ /time ]]]
->  .RE
->  .sp
->  There are no spaces in the specification.
-> @@ -110,15 +110,6 @@ east.
->  The hour must be between 0 and 24, and the minutes and seconds
->  0 and 59.
->  .PP
-> -The second format is used when there is daylight saving time:
-> -.sp
-> -.RS
-> -.RI stdoffset[ dst [ offset ][, start [ /time ], end [ /time ]]]
-> -.RE
-> -.sp
-> -There are no spaces in the specification.
-> -The initial \fIstd\fP and
-> -\fIoffset\fP specify the standard timezone, as described above.
+> @@ -113,7 +113,7 @@ The hour must be between 0 and 24, and the minutes and seconds
 >  The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
 >  corresponding daylight saving timezone.
 >  If the offset is omitted,
-> @@ -161,7 +152,7 @@ and the changeovers happen at the default time of 02:00:00:
->      TZ="NZST-12:00:00NZDT-13:00:00,M10.1.0,M3.3.0"
->  .fi
+> -it default to one hour ahead of standard time.
+> +it defaults to one hour ahead of standard time.
 >  .PP
-> -The third format specifies that the timezone information should be read
-> +The second format specifies that the timezone information should be read
->  from a file:
->  .sp
->  .RS
-> @@ -175,7 +166,7 @@ If \fIfilespec\fP is given, it specifies another
->  file to read the timezone information from.
->  If \fIfilespec\fP does not begin with a \(aq/\(aq, the file specification is
->  relative to the system timezone directory.  If the colon is omitted each
-> -of the above three \fBTZ\fP formats will be tried in order.
-> +of the above \fBTZ\fP formats will be tried.
->  .PP
->  Here's an example, once more for New Zealand:
->  .nf
+>  The \fIstart\fP field specifies when daylight saving time goes into
+>  effect and the \fIend\fP field specifies when the change is made back to
 > 
 
 
