@@ -1,201 +1,111 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: man-pages-3.79 released
-Date: Mon, 02 Feb 2015 09:59:44 +0100
-Message-ID: <54CF3C80.3090906@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH 1/2] proc.5: Document /proc/[pid]/setgroups
+Date: Mon, 02 Feb 2015 16:36:53 +0100
+Message-ID: <54CF9995.1050409@gmail.com>
+References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net>	<CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>	<87h9x5re41.fsf_-_@x220.int.ebiederm.org>	<87mw6xpzb0.fsf_-_@x220.int.ebiederm.org>	<CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com>	<87ppbtn4mv.fsf@x220.int.ebiederm.org>	<CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com>	<87a92xn2io.fsf@x220.int.ebiederm.org>	<87r3w8liw4.fsf@x220.int.ebiederm.org>	<87iohklfvj.fsf_-_@x220.int.ebiederm.org>	<87fvcok11h.fsf_-_@x220.int.ebiederm.org>	<CALCETrVfKiXuY=KY_=nHpkTyLWgpy_3DK=4Mr2mhpyX9z1TzrA@mail.gmail.com>	<971ad3f6-90fd-4e3f-916c-8988af3c826d@email.android.com>	<CALCETrWpzvNm=fjOa3_+4QOqYP8qZUJvQAd6AsRZ71xyHZQRCg@mail.gmail.com>	<87wq5zf83t.fsf@x220.in
+ t.ebiederm.org>	<87iohh3c9c.fsf@x220.int.ebiederm.org>	<8761dh3b7k.fsf_-_@x220.int.ebiederm.org>	<878uicy1r9.fsf_-_@x220.int.ebiederm.org> <87vblg1qme.fsf@x220.int.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-security-module-owner@vger.kernel.org>
+In-Reply-To: <87vblg1qme.fsf@x220.int.ebiederm.org>
+Sender: linux-security-module-owner@vger.kernel.org
+To: "Eric W. Biederman" <ebiederm@xmission.com>
+Cc: mtk.manpages@gmail.com, Linux Containers <containers@lists.linux-foundation.org>, Josh Triplett <josh@joshtriplett.org>, Andrew Morton <akpm@linux-foundation.org>, Kees Cook <keescook@chromium.org>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, LSM <linux-security-module@vger.kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, "Serge E. Hallyn" <serge@hallyn.com>, Richard Weinberger <richard@nod.at>, Kenton Varda <kenton@sandstorm.io>, stable <stable@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>Josh Triplett <josh@joshtriplett.org>
 List-Id: linux-man@vger.kernel.org
 
-Gidday,
+[Adding Josh to CC in case he has anything to add.]
 
-The Linux man-pages maintainer proudly announces:
+On 12/12/2014 10:54 PM, Eric W. Biederman wrote:
+>=20
+> Signed-off-by: Eric W. Biederman <ebiederm@xmission.com>
+> ---
+>  man5/proc.5 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>=20
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index 96077d0dd195..d661e8cfeac9 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -1097,6 +1097,21 @@ are not available if the main thread has alrea=
+dy terminated
+>  .\"       Added in 2.6.9
+>  .\"       CONFIG_SCHEDSTATS
+>  .TP
+> +.IR /proc/[pid]/setgroups " (since Linux 3.19-rc1)"
+> +This file reports
+> +.BR allow
+> +if the setgroups system call is allowed in the current user namespac=
+e.
+> +This file reports
+> +.BR deny
+> +if the setgroups system call is not allowed in the current user name=
+space.
+> +This file may be written to with values of
+> +.BR allow
+> +and
+> +.BR deny
+> +before
+> +.IR /proc/[pid]/gid_map
+> +is written to (enabling setgroups) in a user namespace.
+> +.TP
+>  .IR /proc/[pid]/smaps " (since Linux 2.6.14)"
+>  This file shows memory consumption for each of the process's mapping=
+s.
+>  (The
 
-    man-pages-3.79 - man pages for Linux
+Hi Eric,
 
-Tarball download:
-    http://www.kernel.org/doc/man-pages/download.html
-Git repository:
-    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
-Online changelog:
-    http://man7.org/linux/man-pages/changelog.html#release_3.79
+Thanks for this patch. I applied it, and then tried to work in
+quite a few other details gleaned from the source code and commit=20
+message, and Jon Corbet's article at http://lwn.net/Articles/626665/.
+Could you please let me know if the following is correct:
 
-A short summary of the release is blogged at:
-http://linux-man-pages.blogspot.com/2015/02/man-pages-379-is-released.html
+    /proc/[pid]/setgroups (since Linux 3.19)
+           This file displays the string "allow"  if  processes  in=20
+           the  user  namespace  that  contains the process pid are
+           permitted to employ the setgroups(2)  system  call,  and
+           "deny"  if  setgroups(2)  is  not permitted in that user
+           namespace.
 
-The current version of the pages is browsable at:
-http://man7.org/linux/man-pages/
+           A privileged process (one with the  CAP_SYS_ADMIN  capa=E2=80=
+=90
+           bility in the namespace) may write either of the strings
+           "allow" or "deny" to this file before writing a group ID=20
+           mapping   for   this   user   namespace   to   the  file
+           /proc/[pid]/gid_map.  Writing the string "deny" prevents
+           any  process  in  the user namespace from employing set=E2=80=
+=90
+           groups(2).
 
-You are receiving this message either because:
+           The default value of  this  file  in  the  initial  user
+           namespace is "allow".
 
-a) You contributed to the content of this release.
+           Once  /proc/[pid]/gid_map has been written to (which has
+           the effect of enabling setgroups(2) in the  user  names=E2=80=
+=90
+           pace),  it is no longer possible to deny setgroups(2) by=20
+           writing to /proc/[pid]/setgroups.
 
-b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+           A child user namespace inherits the  /proc/[pid]/gid_map
+           setting from its parent.
 
-c) I have information (possibly inaccurate) that you are the maintainer
-   of a translation of the manual pages, or are the maintainer of the
-   manual pages set in a particular distribution, or have expressed
-   interest in helping with man-pages maintenance, or have otherwise
-   expressed interest in being notified about man-pages releases.
-   If you don't want to receive such messages from me, or you know of
-   some other translator or maintainer who may want to receive such
-   notifications, send me a message.
+           If  the  setgroups  file  has the value "deny", then the
+           setgroups(2) system call can't subsequently be reenabled
+           (by writing "allow" to the file) in this user namespace.
+           This restriction also propagates down to all child  user
+           namespaces of this user namespace.
 
-Cheers,
+Thanks,
 
 Michael
 
-==================== Changes in man-pages-3.79 ====================
-
-Released: 2015-02-01, Munich
-
-
-Contributors
-------------
-
-The following people contributed patches/fixes or (noted in brackets
-in the changelog below) reports, notes, and ideas that have been
-incorporated in changes in this release:
-
-Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
-Sergey V. Zubkov <cubbi-+Aw+eGX9mmUAvxtiuMwx3w@public.gmane.org>
-Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
-Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Vivek Goyal <vgoyal-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-
-Apologies if I missed anyone!
-
-
-New and rewritten pages
------------------------
-
-getrandom.2
-    Heinrich Schuchardt, Theodore T'so, Michael Kerrisk
-        New page documenting getrandom(2)
-            Kernel 3.17 introduces a new system call getrandom(2).
-
-kexec_load.2
-    Vivek Goyal, Michael Kerrisk
-        Add documentation of kexec_file_load(2)
-    Michael Kerrisk, Vivek Goyal
-        Rewrite and extend documentation of kexec_load().
-
-
-New and changed links
----------------------
-
-kexec_file_load.2
-    Michael Kerrisk
-        New link to kexec_load.2
-
-Changes to individual pages
----------------------------
-
-personality.2
-    Michael Kerrisk
-        SEE ALSO: add setarch(8)
-
-prctl.2
-    Michael Kerrisk
-        Unused arguments of PR_MPX_(EN,DIS}ABLE_MANAGEMENT must be zero
-
-reboot.2
-    Michael Kerrisk
-        SEE ALSO: add kexec_load(2)
-
-socket.2
-    Stephan Mueller
-        document AF_ALG
-            Add a reference to the AF_ALG protocol accessible via socket(2).
-
-fflush.3
-    Michael Kerrisk  [Sergey V. Zubkov]
-        Clarify that flushing of input streams occurs only for seekable files
-            See https://bugzilla.kernel.org/show_bug.cgi?id=91931
-    Michael Kerrisk  [Sergey V. Zubkov]
-        POSIX.1-2008 specifies the behavior when flushing input streams
-            POSIX.1-2001 did not have a specification for input streams,
-            but POSIX.1-2008 added one.
-
-getopt.3
-    Michael Kerrisk
-        SEE ALSO: add getopt(1)
-
-random.3
-    Heinrich Schuchardt
-        SEE ALSO: add getrandom(2)
-
-termios.3
-    Michael Kerrisk
-        SEE ALSO: add reset(1), setterm(1), tput(1)
-
-tzset.3
-    J William Piggott
-        Document behavior when TZ filespec omits the colon
-            If the TZ filespec omits the leading colon, glibc will parse
-            it for any valid format, i.e., it will still work.
-    J William Piggott
-        Add description for posixrules file
-    J William Piggott
-        Correct system timezone file path
-    J William Piggott
-        There are only two TZ formats
-            tzset(3) currently states that there are three TZ formats. The
-            first two it lists are actually variations of the POSIX-style
-            TZ format, of which there are at least five variations.
-
-            This patch corrects this to match the POSIX specification of
-            TZ having only two formats.
-    J William Piggott
-        Filespec omitted incorrect
-            Paragraph three of the DESCRIPTION section says
-            that when TZ is set, but empty, then UTC is used.
-
-            Later it says if the TZ filespec is omitted then the file
-            /usr/share/zoneinfo/localtime is used.  This is incorrect,
-            it will use UTC in that case as well.
-    J William Piggott
-        Fix incorrect TZ string representation
-            The TZ string representation indicates that the start/end
-            rules are required; this is incorrect.
-    J William Piggott
-        Add ENVIRONMENT section + other rearrangements
-            FILES section was overly verbose and included
-            environment variables.  Added ENVIRONMENT section,
-            removing ENV VARS from the FILES section.
-
-random.4
-    Heinrich Schuchardt
-        SEE ALSO: add getrandom(2)
-
-passwd.5
-    Michael Kerrisk
-        SEE ALSO: add chfn(1), chsh(1)
-
-capabilities.7
-    Michael Kerrisk
-        SEE ALSO: add setpriv(1)
-
-signal.7
-    Michael Kerrisk
-        Add getrandom(2) to list of restartable system calls
-    Michael Kerrisk
-        Add F_OFD_SETLKW to list of restartable operations
-
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To unsubscribe from this list: send the line "unsubscribe linux-securit=
+y-module" in
+the body of a message to majordomo@vger.kernel.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
