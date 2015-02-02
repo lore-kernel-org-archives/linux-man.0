@@ -1,77 +1,69 @@
-From: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Subject: Re: [PATCH] tzset.3: ffix
-Date: Mon, 02 Feb 2015 16:16:03 -0500
-Message-ID: <54CFE913.2040606@gmx.com>
-References: <54CE8BB2.5070100@gmx.com> <CAKgNAkjSUeKOXUHG5AU8ipVVxiATaJAb2WFnqgz-Y0KVNgL5pw@mail.gmail.com>
+From: Alban Crequy <alban.crequy-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 2/2] user_namespaces.7: Update the documention to reflect
+	the fixes for negative groups
+Date: Mon, 2 Feb 2015 22:31:08 +0100
+Message-ID: <CAMXgnP7phuYTko6fHnxjJTi=HRdoa32uH6dp8DyD9uWPWr2kAg@mail.gmail.com>
+References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net>
+	<87a935u3nj.fsf@x220.int.ebiederm.org>
+	<CALCETrXkEOiyzpvqtXtk1f4sL+M1Q-Y6rV=K91ez3yv2nb4Y0Q@mail.gmail.com>
+	<87388xodlj.fsf@x220.int.ebiederm.org>
+	<CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
+	<87h9x5re41.fsf_-_@x220.int.ebiederm.org>
+	<87mw6xpzb0.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com>
+	<87ppbtn4mv.fsf@x220.int.ebiederm.org>
+	<CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com>
+	<87a92xn2io.fsf@x220.int.ebiederm.org>
+	<87r3w8liw4.fsf@x220.int.ebiederm.org>
+	<87iohklfvj.fsf_-_@x220.int.ebiederm.org>
+	<87fvcok11h.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrVfKiXuY=KY_=nHpkTyLWgpy_3DK=4Mr2mhpyX9z1TzrA@mail.gmail.com>
+	<971ad3f6-90fd-4e3f-916c-8988af3c826d@email.android.com>
+	<CALCETrWpzvNm=fjOa3_+4QOqYP8qZUJvQAd6AsRZ71xyHZQRCg@mail.gmail.com>
+	<87wq5zf83t.fsf@x220.int.ebiederm.org>
+	<87iohh3c9c.fsf@x220.int.ebiederm.org>
+	<8761dh3b7k.fsf_-_@x220.int.ebiederm.org>
+	<878uicy1r9.fsf_-_@x220.int.ebiederm.org>
+	<87ppbo1ql4.fsf_-_@x220.int.ebiederm.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkjSUeKOXUHG5AU8ipVVxiATaJAb2WFnqgz-Y0KVNgL5pw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <87ppbo1ql4.fsf_-_-JOvCrm2gF+uungPnsOpG7nhyD016LWXt@public.gmane.org>
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>, stable <stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kenton Varda <kenton-AuYgBwuPrUQTaNkGU808tA@public.gmane.org>, LSM <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+Hello,
 
-On 02/02/2015 01:39 AM, Michael Kerrisk (man-pages) wrote:
-> Hi William,
-> 
-> On 1 February 2015 at 21:25, J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org> wrote:
->>
->> Fix tzset.3 regression, dst is optional.
->>
->> $ date
->> Sun Feb  1 15:14:33 EST 2015
->> $ TZ=NZST-12 date
->> Mon Feb  2 08:14:38 NZST 2015
->> $ TZ=EST5 date
->> Sun Feb  1 15:15:02 EST 2015
->>
->> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
->> ---
->>  man3/tzset.3 | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/man3/tzset.3 b/man3/tzset.3
->> index 1253241..7a4dd6a 100644
->> --- a/man3/tzset.3
->> +++ b/man3/tzset.3
->> @@ -95,7 +95,7 @@ The first format is a string of characters that directly represent the
->>  timezone to be used:
->>  .sp
->>  .RS
->> -.RI "std offset " dst [ offset ][, start [ /time ], end [ /time ]]
->> +.RI "std offset[" dst [ offset ][, start [ /time ], end [ /time ]]]
->>  .RE
->>  .sp
->>  There are no spaces in the specification.
-> 
-> Thanks, I've applied this, and then also made some more changes to
-> bring make that line a bit more consistent with formatting norm in man
-> pages.
+Thanks for updating the man page.
 
-My thinking regarding the format, was that because so much of the string 
-is optional, contrasting the compulsory part makes it easier to parse. 
-Did you look at how it rendered before changing it? It also highlights
-that portion as unique, as it is illustrated with a space that does not 
-exist when put into use; that is not true for the rest of the string. I 
-think it is good to have it standout. I would have made it bold, but that
-is for commands and might have been confusing.
+On 12 December 2014 at 22:54, Eric W. Biederman <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org> wrote:
+(...)
+> Furthermore to preserve in some form the useful applications that have
+> been setting gid_map without privilege the file /proc/[pid]/setgroups
+> was added to allow disabling setgroups.  With the setgroups system
+> call permanently disabled in a user namespace it again becomes safe to
+> allow writes to gid_map without privilege.
+>
+> Here is my meager attempt to update user_namespaces.7 to reflect these
+> issues.
 
-Well, it is better now either-way compared to the whole thing being italic
-as it was before.
+The program userns_child_exec.c in user_namespaces.7 should be updated
+to write in /proc/.../setgroups, near the line:
+/* Update the UID and GID maps in the child */
 
-Have a great day everyone.
- 
+Otherwise, the example given in the manpage does not work:
+$ ./userns_child_exec -p -m -U -M '0 1000 1' -G '0 1000 1' bash
 
-> 
-> Cheers,
-> 
-> Michael
-> 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Cheers,
+Alban
