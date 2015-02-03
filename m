@@ -1,61 +1,38 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+From: Andreas Dilger <adilger@dilger.ca>
 Subject: Re: [PATCH v3 1/1] ioctl-fat.2: new manpage for the ioctl fat API
-Date: Tue, 3 Feb 2015 09:25:50 +0100
-Message-ID: <CAKgNAkibtVVFS8Q7gwyn8t7B_qDTALtJ6K0H1rfecqb_p-AR6Q@mail.gmail.com>
-References: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A@mail.gmail.com>
- <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
-Reply-To: mtk.manpages@gmail.com
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Date: Tue, 3 Feb 2015 01:49:44 -0700
+Message-ID: <5984550D-1518-490C-9A3F-3F9B1FA2EA00@dilger.ca>
+References: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A@mail.gmail.com> <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2070.6\))
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8BIT
 Return-path: <linux-kernel-owner@vger.kernel.org>
 In-Reply-To: <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
 Sender: linux-kernel-owner@vger.kernel.org
 To: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc: Ogawa Hirofumi <hirofumi@mail.parknet.co.jp>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Ogawa Hirofumi <hirofumi@mail.parknet.co.jp>, Linux Filesystem Development List <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Heinrich and Ogawa,
-
-On 23 January 2015 at 20:54, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+On Jan 23, 2015, at 12:54 PM, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+> 
 > The ioctl(2) system call may be used to retrieve information about
 > the fat file system and to set file attributes.
->
+> 
 > This new manpage describes the details.
-
-@Ogawa, as the FAT maintainer, might you be willing to review this page?
-
-@Heinrich, thanks for this page. It's a nice piece of work. I renamed
-the page to ioctl_fat.2, since we already have
-
-console_ioctl (4)    - ioctls for console terminal and virtual consoles
-ioctl_list (2)       - list of ioctl calls in Linux/i386 kernel
-tty_ioctl (4)        - ioctls for terminals and serial lines
-
-and I think consistency is helpful.
-
-I made some minor edits to the page. You can find the current revision
-in a Git branch, at:
-http://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/?h=draft_ioctl_fat
-
-Thanks,
-
-Michael
-
-
-
+> 
 > Michael Kerrisk suggested to CC linux-fsdevel@vger.kernel.org and
 > linux-kernel@vger.kernel.org for review.
->
+> 
 > version 3: correct typos
 > version 2: consider comments by Michael Kerrisk
 > verison 1: original patch
->
+> 
 > Signed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
 > ---
->  man2/ioctl-fat.2 | 442 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 442 insertions(+)
->  create mode 100644 man2/ioctl-fat.2
->
+> man2/ioctl-fat.2 | 442 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> 1 file changed, 442 insertions(+)
+> create mode 100644 man2/ioctl-fat.2
+> 
 > diff --git a/man2/ioctl-fat.2 b/man2/ioctl-fat.2
 > new file mode 100644
 > index 0000000..80891d8
@@ -80,6 +57,9 @@ Michael
 > +.\" from the use of the information contained herein.  The author(s) may.
 > +.\" not have taken the same level of care in the production of this.
 > +.\" manual, which is licensed free of charge, as they might when working.
+
+There are extraneous periods at the end of each of these lines.
+
 > +.\" professionally.
 > +.\"
 > +.\" Formatted or processed versions of this manual, if unaccompanied by
@@ -96,6 +76,7 @@ Michael
 > +.sp
 > +.BI "int ioctl(int " fd ", FAT_IOCTL_GET_ATTRIBUTES, uint32_t * " attr);
 > +.BI "int ioctl(int " fd ", FAT_IOCTL_SET_ATTRIBUTES, uint32_t * " attr);
+
 > +.BI "int ioctl(int " fd ", FAT_IOCTL_GET_VOLUME_ID, uint32_t * " id);
 > +.BI "int ioctl(int " fd ", VFAT_IOCTL_READDIR_BOTH,
 > +.BI "          struct __fat_dirent[2] " entry);
@@ -129,12 +110,28 @@ Michael
 > +.TP
 > +.B ATTR_RO
 > +This bit specifies that the file or directory is read-only.
+
+It's too bad that these constants have such generic names. It would
+be better to use MSDOS_ATTR_* or FAT_ATTR_*, since these are also
+exposed to userspace, but are only used by FAT.
+
 > +.TP
 > +.B ATTR_HIDDEN
 > +This bit specifies that the file or directory is hidden.
 > +.TP
 > +.B ATTR_SYS
 > +This bit specifies that the file is a system file.
+
+It might be useful if the FS_IOC_GETFLAGS ioctl was implemented for
+FAT, and this was mapped to FS_IMMUTABLE_FL as it is in the kernel,
+so that the more common lsattr and chattr commands worked on it, as
+they do with ext*, btrfs, xfs, reiserfs, etc.
+
+I guess these aren't problems with the man page per-se, but something
+for the FAT developers to think about.
+
+Cheers, Andreas
+
 > +.TP
 > +.B ATTR_VOLUME
 > +This bit specifies that the file is a volume label.
@@ -504,13 +501,13 @@ Michael
 > +.in
 > +.SH SEE ALSO
 > +.BR ioctl (2)
-> --
+> -- 
 > 2.1.4
->
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-fsdevel" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Cheers, Andreas
