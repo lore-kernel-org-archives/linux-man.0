@@ -1,52 +1,83 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] getrandom.2: tfix
-Date: Tue, 03 Feb 2015 08:17:23 +0100
-Message-ID: <54D07603.1090304@gmail.com>
-References: <1422901090-5372-1-git-send-email-xypron.glpk@gmx.de>
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore repeated
+ MADV_DONTNEED hints
+Date: Tue, 03 Feb 2015 09:19:15 +0100
+Message-ID: <54D08483.40209@suse.cz>
+References: <20150202165525.GM2395@suse.de> <54CFF8AC.6010102@intel.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=iso-8859-15
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1422901090-5372-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <54CFF8AC.6010102@intel.com>
+Sender: owner-linux-mm@kvack.org
+To: Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, linux-mm@kvack.org
+Cc: Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mtk.manpages@gmail.com, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/02/2015 07:18 PM, Heinrich Schuchardt wrote:
-> Let's assume Michael's email address did not change.
+[CC linux-api, man pages]
 
-Good grief. Next thing you know I'll be misspelling my name! Applied.
-
-Thanks,
-
-Micheal
-
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/getrandom.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 02/02/2015 11:22 PM, Dave Hansen wrote:
+> On 02/02/2015 08:55 AM, Mel Gorman wrote:
+>> This patch identifies when a thread is frequently calling MADV_DONTNEED
+>> on the same region of memory and starts ignoring the hint. On an 8-core
+>> single-socket machine this was the impact on ebizzy using glibc 2.19.
 > 
-> diff --git a/man2/getrandom.2 b/man2/getrandom.2
-> index 26b3964..3e6e1d7 100644
-> --- a/man2/getrandom.2
-> +++ b/man2/getrandom.2
-> @@ -1,6 +1,6 @@
->  .\" Copyright (C) 2014, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
->  .\" Copyright (C) 2014,2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> -.\" Copyright (C) 2015, Michael Kerrisk <tmk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> +.\" Copyright (C) 2015, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->  .\"
->  .\" %%%LICENSE_START(VERBATIM)
->  .\" Permission is granted to make and distribute verbatim copies of this
+> The manpage, at least, claims that we zero-fill after MADV_DONTNEED is
+> called:
 > 
+>>      MADV_DONTNEED
+>>               Do  not  expect  access in the near future.  (For the time being, the application is finished with the given range, so the kernel can free resources
+>>               associated with it.)  Subsequent accesses of pages in this range will succeed, but will result either in reloading of the memory contents  from  the
+>>               underlying mapped file (see mmap(2)) or zero-fill-on-demand pages for mappings without an underlying file.
+> 
+> So if we have anything depending on the behavior that it's _always_
+> zero-filled after an MADV_DONTNEED, this will break it.
 
+OK, so that's a third person (including me) who understood it as a zero-fill
+guarantee. I think the man page should be clarified (if it's indeed not
+guaranteed), or we have a bug.
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+The implementation actually skips MADV_DONTNEED for
+VM_LOCKED|VM_HUGETLB|VM_PFNMAP vma's.
+
+I'm not sure about VM_PFNMAP, these are probably special enough. For mlock, one
+could expect that mlocking and MADV_DONTNEED would be in some opposition, but
+it's not documented in the manpage AFAIK. Neither is the hugetlb case, which
+could be really unexpected by the user.
+
+Next, what the man page says about guarantees:
+
+"The kernel is free to ignore the advice."
+
+- that would suggest that nothing is guaranteed
+
+"This call does not influence the semantics of the application (except in the
+case of MADV_DONTNEED)"
+
+- that depends if the reader understands it as "does influence by MADV_DONTNEED"
+or "may influence by MADV_DONTNEED"
+
+- btw, isn't MADV_DONTFORK another exception that does influence the semantics?
+And since it's mentioned as a workaround for some hardware, is it OK to ignore
+this advice?
+
+And the part you already cited:
+
+"Subsequent accesses of pages in this range will succeed, but will result either
+in reloading of the memory contents from the underlying mapped file (see
+mmap(2)) or zero-fill on-demand pages for mappings without an underlying file."
+
+- The word "will result" did sound as a guarantee at least to me. So here it
+could be changed to "may result (unless the advice is ignored)"?
+
+And if we agree that there is indeed no guarantee, what's the actual semantic
+difference from MADV_FREE? I guess none? So there's only a possible perfomance
+difference?
+
+Vlastimil
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
