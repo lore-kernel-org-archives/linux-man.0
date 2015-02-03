@@ -1,72 +1,42 @@
-From: Vlastimil Babka <vbabka@suse.cz>
+From: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
 Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
  repeated MADV_DONTNEED hints
-Date: Tue, 03 Feb 2015 12:42:53 +0100
-Message-ID: <54D0B43D.8000209@suse.cz>
-References: <20150202165525.GM2395@suse.de> <54CFF8AC.6010102@intel.com> <54D08483.40209@suse.cz> <20150203105301.GC14259@node.dhcp.inet.fi>
+Date: Tue, 3 Feb 2015 16:21:21 +0100
+Message-ID: <20150203152121.GC8914@dhcp22.suse.cz>
+References: <20150202165525.GM2395@suse.de>
+ <54CFF8AC.6010102@intel.com>
+ <54D08483.40209@suse.cz>
+ <20150203111600.GR2395@suse.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20150203105301.GC14259@node.dhcp.inet.fi>
-Sender: owner-linux-mm@kvack.org
-To: "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc: Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, linux-mm@kvack.org, Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20150203111600.GR2395-l3A5Bk7waGM@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
+Cc: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/03/2015 11:53 AM, Kirill A. Shutemov wrote:
+On Tue 03-02-15 11:16:00, Mel Gorman wrote:
 > On Tue, Feb 03, 2015 at 09:19:15AM +0100, Vlastimil Babka wrote:
->> [CC linux-api, man pages]
->> 
->> On 02/02/2015 11:22 PM, Dave Hansen wrote:
->> > On 02/02/2015 08:55 AM, Mel Gorman wrote:
->> >> This patch identifies when a thread is frequently calling MADV_DONTNEED
->> >> on the same region of memory and starts ignoring the hint. On an 8-core
->> >> single-socket machine this was the impact on ebizzy using glibc 2.19.
->> > 
->> > The manpage, at least, claims that we zero-fill after MADV_DONTNEED is
->> > called:
->> > 
->> >>      MADV_DONTNEED
->> >>               Do  not  expect  access in the near future.  (For the time being, the application is finished with the given range, so the kernel can free resources
->> >>               associated with it.)  Subsequent accesses of pages in this range will succeed, but will result either in reloading of the memory contents  from  the
->> >>               underlying mapped file (see mmap(2)) or zero-fill-on-demand pages for mappings without an underlying file.
->> > 
->> > So if we have anything depending on the behavior that it's _always_
->> > zero-filled after an MADV_DONTNEED, this will break it.
->> 
->> OK, so that's a third person (including me) who understood it as a zero-fill
->> guarantee. I think the man page should be clarified (if it's indeed not
->> guaranteed), or we have a bug.
->> 
->> The implementation actually skips MADV_DONTNEED for
->> VM_LOCKED|VM_HUGETLB|VM_PFNMAP vma's.
+[...]
+> > And if we agree that there is indeed no guarantee, what's the actual semantic
+> > difference from MADV_FREE? I guess none? So there's only a possible perfomance
+> > difference?
+> > 
 > 
-> It doesn't skip. It fails with -EINVAL. Or I miss something.
+> Timing. MADV_DONTNEED if it has an effect is immediate, is a heavier
+> operations and RSS is reduced. MADV_FREE only has an impact in the future
+> if there is memory pressure.
 
-No, I missed that. Thanks for pointing out. The manpage also explains EINVAL in
-this case:
-
-*  The application is attempting to release locked or shared pages (with
-MADV_DONTNEED).
-
-- that covers mlocking ok, not sure if the rest fits the "shared pages" case
-though. I dont see any check for other kinds of shared pages in the code.
-
->> - The word "will result" did sound as a guarantee at least to me. So here it
->> could be changed to "may result (unless the advice is ignored)"?
-> 
-> It's too late to fix documentation. Applications already depends on the
-> beheviour.
-
-Right, so as long as they check for EINVAL, it should be safe. It appears that
-jemalloc does.
-
-I still wouldnt be sure just by reading the man page that the clearing is
-guaranteed whenever I dont get an error return value, though,
-
+JFTR. the man page for MADV_FREE has been proposed already
+(https://lkml.org/lkml/2014/12/5/63 should be the last version AFAIR). I
+do not see it in the man-pages git tree but the patch was not in time
+for 3.19 so I guess it will only appear in 3.20.
+-- 
+Michal Hocko
+SUSE Labs
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
