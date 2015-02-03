@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] toupper.3: Modify thread-safety information
-Date: Tue, 3 Feb 2015 14:53:58 +0800
-Message-ID: <1422946438-13204-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] inet.3: Modify thread-safety information
+Date: Tue, 3 Feb 2015 15:05:45 +0800
+Message-ID: <1422947145-13487-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,31 +10,36 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-After researching and talking, we think toupper() and tolower()
-should not be marked with locale.
+After researching and talking, we think inet_network() and 
+inet_ntoa() should be marked with locale.
 After changing, the markings match glbc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/toupper.3 | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ man3/inet.3 | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/man3/toupper.3 b/man3/toupper.3
-index fd98245..e3abba0 100644
---- a/man3/toupper.3
-+++ b/man3/toupper.3
-@@ -122,9 +122,8 @@ l l l.
+diff --git a/man3/inet.3 b/man3/inet.3
+index 6e4663c..3669453 100644
+--- a/man3/inet.3
++++ b/man3/inet.3
+@@ -225,12 +225,12 @@ l l l.
  Interface	Attribute	Value
  T{
- .BR toupper (),
--.BR tolower ()
--T}	Thread safety	MT-Safe locale
--T{
-+.BR tolower (),
+ .BR inet_aton (),
+-.BR inet_addr ()
++.BR inet_addr (),
 +.br
- .BR toupper_l (),
- .BR tolower_l ()
- T}	Thread safety	MT-Safe
++.BR inet_network (),
++.BR inet_ntoa ()
+ T}	Thread safety	MT-Safe locale
+ T{
+-.BR inet_network (),
+-.BR inet_ntoa (),
+-.br
+ .BR inet_makeaddr (),
+ .BR inet_lnaof (),
+ .br
 -- 
 1.9.3
 
