@@ -1,83 +1,516 @@
-From: Vlastimil Babka <vbabka@suse.cz>
-Subject: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore repeated
- MADV_DONTNEED hints
-Date: Tue, 03 Feb 2015 09:19:15 +0100
-Message-ID: <54D08483.40209@suse.cz>
-References: <20150202165525.GM2395@suse.de> <54CFF8AC.6010102@intel.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH v3 1/1] ioctl-fat.2: new manpage for the ioctl fat API
+Date: Tue, 3 Feb 2015 09:25:50 +0100
+Message-ID: <CAKgNAkibtVVFS8Q7gwyn8t7B_qDTALtJ6K0H1rfecqb_p-AR6Q@mail.gmail.com>
+References: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A@mail.gmail.com>
+ <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <54CFF8AC.6010102@intel.com>
-Sender: owner-linux-mm@kvack.org
-To: Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, linux-mm@kvack.org
-Cc: Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mtk.manpages@gmail.com, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: Ogawa Hirofumi <hirofumi@mail.parknet.co.jp>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC linux-api, man pages]
+Hello Heinrich and Ogawa,
 
-On 02/02/2015 11:22 PM, Dave Hansen wrote:
-> On 02/02/2015 08:55 AM, Mel Gorman wrote:
->> This patch identifies when a thread is frequently calling MADV_DONTNEED
->> on the same region of memory and starts ignoring the hint. On an 8-core
->> single-socket machine this was the impact on ebizzy using glibc 2.19.
-> 
-> The manpage, at least, claims that we zero-fill after MADV_DONTNEED is
-> called:
-> 
->>      MADV_DONTNEED
->>               Do  not  expect  access in the near future.  (For the time being, the application is finished with the given range, so the kernel can free resources
->>               associated with it.)  Subsequent accesses of pages in this range will succeed, but will result either in reloading of the memory contents  from  the
->>               underlying mapped file (see mmap(2)) or zero-fill-on-demand pages for mappings without an underlying file.
-> 
-> So if we have anything depending on the behavior that it's _always_
-> zero-filled after an MADV_DONTNEED, this will break it.
+On 23 January 2015 at 20:54, Heinrich Schuchardt <xypron.glpk@gmx.de> wrote:
+> The ioctl(2) system call may be used to retrieve information about
+> the fat file system and to set file attributes.
+>
+> This new manpage describes the details.
 
-OK, so that's a third person (including me) who understood it as a zero-fill
-guarantee. I think the man page should be clarified (if it's indeed not
-guaranteed), or we have a bug.
+@Ogawa, as the FAT maintainer, might you be willing to review this page?
 
-The implementation actually skips MADV_DONTNEED for
-VM_LOCKED|VM_HUGETLB|VM_PFNMAP vma's.
+@Heinrich, thanks for this page. It's a nice piece of work. I renamed
+the page to ioctl_fat.2, since we already have
 
-I'm not sure about VM_PFNMAP, these are probably special enough. For mlock, one
-could expect that mlocking and MADV_DONTNEED would be in some opposition, but
-it's not documented in the manpage AFAIK. Neither is the hugetlb case, which
-could be really unexpected by the user.
+console_ioctl (4)    - ioctls for console terminal and virtual consoles
+ioctl_list (2)       - list of ioctl calls in Linux/i386 kernel
+tty_ioctl (4)        - ioctls for terminals and serial lines
 
-Next, what the man page says about guarantees:
+and I think consistency is helpful.
 
-"The kernel is free to ignore the advice."
+I made some minor edits to the page. You can find the current revision
+in a Git branch, at:
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/?h=draft_ioctl_fat
 
-- that would suggest that nothing is guaranteed
+Thanks,
 
-"This call does not influence the semantics of the application (except in the
-case of MADV_DONTNEED)"
+Michael
 
-- that depends if the reader understands it as "does influence by MADV_DONTNEED"
-or "may influence by MADV_DONTNEED"
 
-- btw, isn't MADV_DONTFORK another exception that does influence the semantics?
-And since it's mentioned as a workaround for some hardware, is it OK to ignore
-this advice?
 
-And the part you already cited:
+> Michael Kerrisk suggested to CC linux-fsdevel@vger.kernel.org and
+> linux-kernel@vger.kernel.org for review.
+>
+> version 3: correct typos
+> version 2: consider comments by Michael Kerrisk
+> verison 1: original patch
+>
+> Signed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> ---
+>  man2/ioctl-fat.2 | 442 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 442 insertions(+)
+>  create mode 100644 man2/ioctl-fat.2
+>
+> diff --git a/man2/ioctl-fat.2 b/man2/ioctl-fat.2
+> new file mode 100644
+> index 0000000..80891d8
+> --- /dev/null
+> +++ b/man2/ioctl-fat.2
+> @@ -0,0 +1,442 @@
+> +.\" Copyright (C) 2014, Heinrich Schuchardt <xypron.glpk@gmx.de>
+> +.\"
+> +.\" %%%LICENSE_START(VERBATIM)
+> +.\" Permission is granted to make and distribute verbatim copies of this
+> +.\" manual provided the copyright notice and this permission notice are
+> +.\" preserved on all copies.
+> +.\"
+> +.\" Permission is granted to copy and distribute modified versions of
+> +.\" this manual under the conditions for verbatim copying, provided that
+> +.\" the entire resulting derived work is distributed under the terms of
+> +.\" a permission notice identical to this one.
+> +.\"
+> +.\" Since the Linux kernel and libraries are constantly changing, this
+> +.\" manual page may be incorrect or out-of-date.  The author(s) assume.
+> +.\" no responsibility for errors or omissions, or for damages resulting.
+> +.\" from the use of the information contained herein.  The author(s) may.
+> +.\" not have taken the same level of care in the production of this.
+> +.\" manual, which is licensed free of charge, as they might when working.
+> +.\" professionally.
+> +.\"
+> +.\" Formatted or processed versions of this manual, if unaccompanied by
+> +.\" the source, must acknowledge the copyright and authors of this work.
+> +.\" %%%LICENSE_END
+> +.TH IOCTl-FAT 2 2015-01-23 "Linux" "Linux Programmer's Manual"
+> +.SH "NAME"
+> +ioctl-fat \- manipulating the FAT filesystem
+> +.SH SYNOPSIS
+> +.nf
+> +.B #include <linux/msdos_fs.h>
+> +.br
+> +.B #include <sys/ioctl.h>
+> +.sp
+> +.BI "int ioctl(int " fd ", FAT_IOCTL_GET_ATTRIBUTES, uint32_t * " attr);
+> +.BI "int ioctl(int " fd ", FAT_IOCTL_SET_ATTRIBUTES, uint32_t * " attr);
+> +.BI "int ioctl(int " fd ", FAT_IOCTL_GET_VOLUME_ID, uint32_t * " id);
+> +.BI "int ioctl(int " fd ", VFAT_IOCTL_READDIR_BOTH,
+> +.BI "          struct __fat_dirent[2] " entry);
+> +.BI "int ioctl(int " fd ", VFAT_IOCTL_READDIR_SHORT,
+> +.BI "          struct __fat_dirent[2] " entry);
+> +.SH DESCRIPTION
+> +The
+> +.BR ioctl (2)
+> +function can be used to read and write metadata of the FAT filesystems that
+> +are not accessible using other system calls.
+> +.SS Reading and setting file attributes
+> +Files and directories in the FAT filesystem possess an attribute bit mask that
+> +can be read with
+> +.B FAT_IOCTL_GET_ATTRIBUTES
+> +and written with
+> +.BR FAT_IOCTL_SET_ATTRIBUTES .
+> +.PP
+> +The
+> +.I fd
+> +argument contains a file descriptor for the file or directory.
+> +It is sufficient to create the file descriptor by calling
+> +.BR open (2)
+> +with the
+> +.B O_RDONLY
+> +flag.
+> +.PP
+> +The
+> +.I attr
+> +argument contains a pointer to the bit mask.
+> +The bits of the bit mask are
+> +.TP
+> +.B ATTR_RO
+> +This bit specifies that the file or directory is read-only.
+> +.TP
+> +.B ATTR_HIDDEN
+> +This bit specifies that the file or directory is hidden.
+> +.TP
+> +.B ATTR_SYS
+> +This bit specifies that the file is a system file.
+> +.TP
+> +.B ATTR_VOLUME
+> +This bit specifies that the file is a volume label.
+> +This attribute is read-only.
+> +.TP
+> +.B ATTR_DIR
+> +This bit specifies that this is a directory.
+> +This attribute is read-only.
+> +.TP
+> +.B ATTR_ARCH
+> +This bit indicates that this file or directory should be archived.
+> +It is set when a file is created or modified.
+> +It is reset by an archiving system.
+> +.PP
+> +The zero value
+> +.B ATTR_NONE
+> +can be used to indicate that no attribute bit is set.
+> +.SS Reading the volume label
+> +Fat filesystems are identified by a volume label.
+> +The volume label can be read with
+> +.BR FAT_IOCTL_GET_VOLUME_ID .
+> +.PP
+> +The
+> +.I fd
+> +argument can be a file descriptor for any file or directory of the
+> +filesystem.
+> +It is sufficient to create the file descriptor by calling
+> +.BR open (2)
+> +with the
+> +.B O_RDONLY
+> +flag.
+> +.PP
+> +The
+> +.I id
+> +argument is a pointer to the field that will be filled with the volume ID.
+> +Typically the volume label is displayed to the user as a group of two
+> +16-bit fields.
+> +.PP
+> +.in +4n
+> +.nf
+> +printf("Volume ID %4x-%4x\\n", id >> 16, id & 0xFFFF);
+> +.fi
+> +.in
+> +.SS Reading short file names of a directory
+> +A file or directory on a FAT filesystem always has a short filename
+> +consisting of up to 8 capital letters, optionally followed by a period
+> +and up to 3 capital letters for the file extension.
+> +If the actual filename does not fit into this scheme, it is stored
+> +as a long filename of up to 255 UTF-16 characters.
+> +.PP
+> +The short filenames in a directory can be read with
+> +.BR VFAT_IOCTL_READDIR_SHORT .
+> +.B VFAT_IOCTL_READDIR_BOTH
+> +reads both the short and the long filenames.
+> +.PP
+> +The
+> +.I fd
+> +argument must be a file descriptor for a directory.
+> +It is sufficient to create the file descriptor by calling
+> +.BR open (2)
+> +with the
+> +.B O_RDONLY
+> +flag.
+> +The file descriptor can be only used once to iterate over the directory
+> +entries by calling
+> +.BR ioctl (2)
+> +repeatedly.
+> +.PP
+> +The
+> +.I entry
+> +argument is a two-element array of the following structures.
+> +
+> +.in +4n
+> +.nf
+> +struct __fat_dirent {
+> +    long            d_ino;
+> +    __kernel_off_t  d_off;
+> +    uint32_t short  d_reclen;
+> +    char            d_name[256];
+> +};
+> +.fi
+> +.in
+> +.PP
+> +The first entry in the array is for the short filename.
+> +The second entry is for the long filename.
+> +.PP
+> +Field
+> +.I d_reclen
+> +specifies the length of the filename in field
+> +.IR d_name .
+> +A length of 0 for the short filename signals that the end of the directory
+> +has been reached.
+> +.SH RETURN VALUE
+> +On error, -1 is returned, and errno is set to indicate the error.
+> +.SH ERRORS
+> +.TP
+> +.B ENOTDIR
+> +This error is returned by
+> +.B VFAT_IOCTL_READDIR_SHORT
+> +and
+> +.B VFAT_IOCTL_READDIR_SHORT
+> +if the file descriptor does not point to a directory.
+> +.TP
+> +.B ENOTTY
+> +This error signals that the file descriptor is not for a FAT filesystem.
+> +.PP
+> +For further error values see
+> +.BR ioctl (2).
+> +.SH VERSIONS
+> +.B FAT_IOCTL_GET_VOLUME_ID
+> +was introduced in version 3.11 of the Linux kernel.
+> +.PP
+> +.BR FAT_IOCTL_GET_ATTRIBUTES ,
+> +.BR FAT_IOCTL_SET_ATTRIBUTES ,
+> +.BR VFAT_IOCTL_READDIR_BOTH ,
+> +and
+> +.B VFAT_IOCTL_READDIR_SHORT
+> +were introduced before version 2.6.28 of the Linux kernel.
+> +.SH "CONFORMING TO"
+> +This API is Linux-specific.
+> +.SH EXAMPLE
+> +.SS Toggling the archive flag
+> +The following program demonstrates the usage of the ioctl API to manipulate
+> +file attributes.
+> +It reads and displays the archive attribute of a file.
+> +After inverting the value of the attribute, it reads and displays it again.
+> +.PP
+> +The following was recorded when applying the program for the file
+> +.IR /mnt/user/foo .
+> +.SS Example output
+> +.in +4n
+> +.nf
+> +# ./toggle_archive_flag /mnt/user/foo
+> +Archive flag is set
+> +Toggling archive flag
+> +Archive flag is not set
+> +.fi
+> +.in
+> +.SS Program source
+> +.in +4n
+> +.nf
+> +#include <fcntl.h>
+> +#include <linux/msdos_fs.h>
+> +#include <stdint.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/ioctl.h>
+> +#include <unistd.h>
+> +
+> +/*
+> + * Read file attributes of a file on a FAT filesystem.
+> + * Output the state of the archive flag.
+> + */
+> +static uint32_t
+> +readattr(int fd)
+> +{
+> +    uint32_t attr;
+> +    int ret;
+> +
+> +    ret = ioctl(fd, FAT_IOCTL_GET_ATTRIBUTES, &attr);
+> +    if (ret == \-1) {
+> +        perror("ioctl");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    if (attr & ATTR_ARCH)
+> +        printf("Archive flag is set\\n");
+> +    else
+> +        printf("Archive flag is not set\\n");
+> +
+> +    return attr;
+> +}
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    uint32_t attr;
+> +    int fd;
+> +    int ret;
+> +
+> +    if (argc != 2) {
+> +        printf("Usage: %s FILENAME\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    fd = open(argv[1], O_RDONLY);
+> +    if (fd == \-1) {
+> +        perror("open");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Read and display the FAT file attributes.
+> +     */
+> +    attr = readattr(fd);
+> +
+> +    /*
+> +     * Invert archive attribute.
+> +     */
+> +    printf("Toggling archive flag\\n");
+> +    attr ^= ATTR_ARCH;
+> +
+> +    /*
+> +     * Write the changed FAT file attributes.
+> +     */
+> +    ret = ioctl(fd, FAT_IOCTL_SET_ATTRIBUTES, &attr);
+> +    if (ret == \-1) {
+> +        perror("ioctl");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Read and display the FAT file attributes.
+> +     */
+> +    readattr(fd);
+> +
+> +    close(fd);
+> +
+> +    return EXIT_SUCCESS;
+> +}
+> +.fi
+> +.in
+> +.SS Reading the volume label
+> +The following program demonstrates the usage of the ioctl API to
+> +display the volume label of a FAT filesystem.
+> +.PP
+> +The following output was recorded when applying the program for
+> +directory
+> +.IR /mnt/user .
+> +.SS Example output
+> +.in +4n
+> +.nf
+> +$ ./display_volume_id /mnt/user
+> +Volume ID 6443-6241
+> +.fi
+> +.in
+> +.SS Program source
+> +.in +4n
+> +.nf
+> +#include <fcntl.h>
+> +#include <linux/msdos_fs.h>
+> +#include <stdint.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/ioctl.h>
+> +#include <unistd.h>
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    uint32_t id;
+> +    int fd;
+> +    int ret;
+> +
+> +    if (argc != 2) {
+> +        printf("Usage: %s FILENAME\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    fd = open(argv[1], O_RDONLY);
+> +    if (fd == \-1) {
+> +        perror("open");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Read volume ID.
+> +     */
+> +    ret = ioctl(fd, FAT_IOCTL_GET_VOLUME_ID, &id);
+> +    if (ret == \-1) {
+> +        perror("ioctl");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Format the output as two groups of 16 bits each.
+> +     */
+> +    printf("Volume ID %4x\-%4x\\n", id >> 16, id & 0xFFFF);
+> +
+> +    close(fd);
+> +
+> +    return EXIT_SUCCESS;
+> +}
+> +.fi
+> +.in
+> +.SS Listing a directory
+> +The following program demonstrates the usage of the ioctl API to
+> +list a directory.
+> +.PP
+> +The following was recorded when applying the program for the directory
+> +.IR /mnt/user .
+> +.SS Example output
+> +.in +4n
+> +.nf
+> +$ ./fat_dir /mnt/user
+> +\[char46] -> ''
+> +\[char46]. -> ''
+> +ALONGF~1.TXT -> 'a long filename.txt'
+> +UPPER.TXT -> ''
+> +LOWER.TXT -> 'lower.txt'
+> +.fi
+> +.in
+> +.SS Program source
+> +.in +4n
+> +.nf
+> +#include <fcntl.h>
+> +#include <linux/msdos_fs.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <sys/ioctl.h>
+> +#include <unistd.h>
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    struct __fat_dirent entry[2];
+> +    int fd;
+> +    int ret;
+> +
+> +    if (argc != 2) {
+> +        printf("Usage: %s DIRECTORY\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Open file descriptor for the directory.
+> +     */
+> +    fd = open(argv[1], O_RDONLY | O_DIRECTORY);
+> +    if (fd == \-1) {
+> +        perror("open");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    for (;;) {
+> +
+> +        /*
+> +         * Read next directory entry.
+> +         */
+> +        ret = ioctl( fd, VFAT_IOCTL_READDIR_BOTH, entry);
+> +
+> +        /*
+> +         * If an error occurs, the return value is \-1.
+> +         * If d_reclen is zero, the end of the directory
+> +         * list has been reached.
+> +         */
+> +        if (ret == \-1 || entry[0].d_reclen == 0)
+> +            break;
+> +
+> +        /*
+> +         * Write both the short name and the long name.
+> +         */
+> +        printf("%s \-> '%s'\\n", entry[0].d_name, entry[1].d_name);
+> +    }
+> +    if (ret == \-1) {
+> +        perror("VFAT_IOCTL_READDIR_BOTH");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Close the file descriptor.
+> +     */
+> +    close(fd);
+> +
+> +    return EXIT_SUCCESS;
+> +}
+> +.fi
+> +.in
+> +.SH SEE ALSO
+> +.BR ioctl (2)
+> --
+> 2.1.4
+>
 
-"Subsequent accesses of pages in this range will succeed, but will result either
-in reloading of the memory contents from the underlying mapped file (see
-mmap(2)) or zero-fill on-demand pages for mappings without an underlying file."
 
-- The word "will result" did sound as a guarantee at least to me. So here it
-could be changed to "may result (unless the advice is ignored)"?
 
-And if we agree that there is indeed no guarantee, what's the actual semantic
-difference from MADV_FREE? I guess none? So there's only a possible perfomance
-difference?
-
-Vlastimil
-
---
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
