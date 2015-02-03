@@ -1,40 +1,55 @@
-From: OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
-Subject: Re: [PATCH v3 1/1] ioctl-fat.2: new manpage for the ioctl fat API
-Date: Tue, 03 Feb 2015 19:10:52 +0900
-Message-ID: <877fvze24z.fsf@mail.parknet.co.jp>
-References: <CAKgNAkhuGYKtUKkm2+wU+TwQb6iZ+EmnLDdr4qg4fWHJyL9K5A@mail.gmail.com>
-	<1422042884-10824-1-git-send-email-xypron.glpk@gmx.de>
-	<5984550D-1518-490C-9A3F-3F9B1FA2EA00@dilger.ca>
-	<CAKgNAki1EnYx+chg1eouwF54youb_tjQ+hW9Ea_M_=cvccu1nA@mail.gmail.com>
-	<775BBA28-BEDF-4F53-A845-D11F4337026B@dilger.ca>
-	<CAKgNAkjgChZ_R8Qbg29rHKdarV2rbwa2=rf7TgxniZOFePOW-A@mail.gmail.com>
+From: "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>
+Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
+ repeated MADV_DONTNEED hints
+Date: Tue, 3 Feb 2015 12:53:01 +0200
+Message-ID: <20150203105301.GC14259@node.dhcp.inet.fi>
+References: <20150202165525.GM2395@suse.de>
+ <54CFF8AC.6010102@intel.com>
+ <54D08483.40209@suse.cz>
 Mime-Version: 1.0
-Content-Type: text/plain
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkjgChZ_R8Qbg29rHKdarV2rbwa2=rf7TgxniZOFePOW-A@mail.gmail.com>
-	(Michael Kerrisk's message of "Tue, 3 Feb 2015 10:55:55 +0100")
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Andreas Dilger <adilger@dilger.ca>, Heinrich Schuchardt <xypron.glpk@gmx.de>, Linux Filesystem Development List <linux-fsdevel@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <54D08483.40209-AlSwsSmVLrQ@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Cc: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-"Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com> writes:
+On Tue, Feb 03, 2015 at 09:19:15AM +0100, Vlastimil Babka wrote:
+> [CC linux-api, man pages]
+> 
+> On 02/02/2015 11:22 PM, Dave Hansen wrote:
+> > On 02/02/2015 08:55 AM, Mel Gorman wrote:
+> >> This patch identifies when a thread is frequently calling MADV_DONTNEED
+> >> on the same region of memory and starts ignoring the hint. On an 8-core
+> >> single-socket machine this was the impact on ebizzy using glibc 2.19.
+> > 
+> > The manpage, at least, claims that we zero-fill after MADV_DONTNEED is
+> > called:
+> > 
+> >>      MADV_DONTNEED
+> >>               Do  not  expect  access in the near future.  (For the time being, the application is finished with the given range, so the kernel can free resources
+> >>               associated with it.)  Subsequent accesses of pages in this range will succeed, but will result either in reloading of the memory contents  from  the
+> >>               underlying mapped file (see mmap(2)) or zero-fill-on-demand pages for mappings without an underlying file.
+> > 
+> > So if we have anything depending on the behavior that it's _always_
+> > zero-filled after an MADV_DONTNEED, this will break it.
+> 
+> OK, so that's a third person (including me) who understood it as a zero-fill
+> guarantee. I think the man page should be clarified (if it's indeed not
+> guaranteed), or we have a bug.
+> 
+> The implementation actually skips MADV_DONTNEED for
+> VM_LOCKED|VM_HUGETLB|VM_PFNMAP vma's.
 
->> Given that FAT ioctls are not widely used by applications, the
->> actual ABI (numeric constants) isn't changing, and the workaround
->> is simple, I'd expect that the time before deprecating the old
->> constants could be fairly short.
->
-> True. And now that we're actually documenting this stuff, it would be
-> a good time to make the change, so that the new names appear in the
-> docs.
->
-> Hirofumi, what do you think?
+It doesn't skip. It fails with -EINVAL. Or I miss something.
 
-I have no strong opinion. I'm not sure whether it has value to change
-this ancient stuff though. If someone wants to do, I have no objection
-and will do ack.
+> - The word "will result" did sound as a guarantee at least to me. So here it
+> could be changed to "may result (unless the advice is ignored)"?
 
-Thanks.
+It's too late to fix documentation. Applications already depends on the
+beheviour.
+
 -- 
-OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>
+ Kirill A. Shutemov
