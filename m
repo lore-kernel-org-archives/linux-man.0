@@ -1,38 +1,67 @@
 From: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
- repeated MADV_DONTNEED hints
-Date: Tue, 3 Feb 2015 16:21:21 +0100
-Message-ID: <20150203152121.GC8914@dhcp22.suse.cz>
-References: <20150202165525.GM2395@suse.de>
- <54CFF8AC.6010102@intel.com>
- <54D08483.40209@suse.cz>
- <20150203111600.GR2395@suse.de>
+Subject: [PATCH] fork.2: EAGAIN is not reported when task allocation fails
+Date: Tue, 3 Feb 2015 16:48:37 +0100
+Message-ID: <20150203154837.GC8907@dhcp22.suse.cz>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20150203111600.GR2395-l3A5Bk7waGM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>
-Cc: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue 03-02-15 11:16:00, Mel Gorman wrote:
-> On Tue, Feb 03, 2015 at 09:19:15AM +0100, Vlastimil Babka wrote:
-[...]
-> > And if we agree that there is indeed no guarantee, what's the actual semantic
-> > difference from MADV_FREE? I guess none? So there's only a possible perfomance
-> > difference?
-> > 
-> 
-> Timing. MADV_DONTNEED if it has an effect is immediate, is a heavier
-> operations and RSS is reduced. MADV_FREE only has an impact in the future
-> if there is memory pressure.
+Hi,
+I am not sure why we have:
+"
+EAGAIN fork() cannot allocate sufficient memory to copy the parent's
+page tables and allocate a task structure for the child.
+"
+but it doesn't seem to reflect the reality. The text seems to be there
+from the time when man-pages were moved to git so there is no history
+for it. Unless I am missing something we need the patch below.
 
-JFTR. the man page for MADV_FREE has been proposed already
-(https://lkml.org/lkml/2014/12/5/63 should be the last version AFAIR). I
-do not see it in the man-pages git tree but the patch was not in time
-for 3.19 so I guess it will only appear in 3.20.
+Thanks!
+---
+>From 9d56f4b46d604fc52aed6d87aac8fa5719ede058 Mon Sep 17 00:00:00 2001
+From: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
+Date: Tue, 3 Feb 2015 16:34:45 +0100
+Subject: [PATCH] fork.2: EAGAIN is not reported when task allocation fails
+
+The man page currently claims:
+"
+EAGAIN fork() cannot allocate sufficient memory to copy the parent's
+page tables and allocate a task structure for the child.
+"
+
+but the kernel reports both dup_task_struct and dup_mm failures as
+ENOMEM to the userspace. This seems to be the case from early 2.x times
+so let's simply remove this part.
+
+Signed-off-by: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
+---
+ man2/fork.2 | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/man2/fork.2 b/man2/fork.2
+index e6695ade6f76..6aa91a93e545 100644
+--- a/man2/fork.2
++++ b/man2/fork.2
+@@ -185,11 +185,6 @@ is set appropriately.
+ .SH ERRORS
+ .TP
+ .B EAGAIN
+-.BR fork ()
+-cannot allocate sufficient memory to copy the parent's page tables and
+-allocate a task structure for the child.
+-.TP
+-.B EAGAIN
+ \" NOTE! The following should match the description in pthread_create(3)
+ A system-imposed limit on the number of threads was encountered.
+ There are a number of limits that may trigger this error: the
+-- 
+2.1.4
+
 -- 
 Michal Hocko
 SUSE Labs
