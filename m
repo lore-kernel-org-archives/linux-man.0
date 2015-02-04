@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] catanh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 4 Feb 2015 14:30:39 +0800
-Message-ID: <1423031439-12317-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] nan.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 4 Feb 2015 14:45:06 +0800
+Message-ID: <1423032306-12529-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,20 +10,19 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions catanh(), catanhf() and catanhl() in glibc are thread safe.
-It's markings match glibc markings.
+The markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/catanh.3 | 14 ++++++++++++++
+ man3/nan.3 | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/man3/catanh.3 b/man3/catanh.3
-index 435b181..1e313e2 100644
---- a/man3/catanh.3
-+++ b/man3/catanh.3
-@@ -35,6 +35,20 @@ One has:
- .fi
+diff --git a/man3/nan.3 b/man3/nan.3
+index 6c9deb6..da04cba 100644
+--- a/man3/nan.3
++++ b/man3/nan.3
+@@ -72,6 +72,20 @@ selects one.
+ On other systems it may do nothing.
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
@@ -31,18 +30,18 @@ index 435b181..1e313e2 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw30 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR catanh (),
-+.BR catanhf (),
-+.BR catanhl ()
-+T}	Thread safety	MT-Safe
++.BR nan (),
++.BR nanf (),
++.BR nanl ()
++T}	Thread safety	MT-Safe locale
 +.TE
  .SH CONFORMING TO
- C99.
- .SH EXAMPLE
+ C99, POSIX.1-2001.
+ See also IEC 559 and the appendix with
 -- 
 1.9.3
 
