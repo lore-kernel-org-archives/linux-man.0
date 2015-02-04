@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH] nan.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 04 Feb 2015 08:36:39 +0100
-Message-ID: <54D1CC07.8070701@gmail.com>
+Date: Wed, 04 Feb 2015 08:53:15 +0100
+Message-ID: <54D1CFEB.70109@gmail.com>
 References: <1423032306-12529-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
@@ -16,9 +16,12 @@ List-Id: linux-man@vger.kernel.org
 On 02/04/2015 07:45 AM, Ma Shimiao wrote:
 > The markings match glibc markings.
 
-Patch applied. Thanks, Ma Shimiao.
+Hi Ma Shimiao.
 
-Cheers,
+Patch applied. Thanks! But I had to fix up the formatting a little.
+Please do check the rendered version of each page that is patched.
+
+Thanks,
 
 Michael
 
