@@ -1,84 +1,33 @@
-From: Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
- repeated MADV_DONTNEED hints
-Date: Wed, 04 Feb 2015 18:02:02 +0100
-Message-ID: <54D2508A.9030804@suse.cz>
-References: <20150202165525.GM2395@suse.de> <54CFF8AC.6010102@intel.com> <54D08483.40209@suse.cz> <20150203105301.GC14259@node.dhcp.inet.fi> <54D0B43D.8000209@suse.cz> <54D0F56A.9050003@gmail.com> <54D22298.3040504@suse.cz> <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com>
+From: =?UTF-8?B?WmJpZ25pZXcgQnJ6ZXppxYRza2k=?=
+	<zbigniew.brzezinski-oe7qfRrRQfeJF7uKrljEXwW/Z0KtNXpV@public.gmane.org>
+Subject: Bug in getcpu(2) man page
+Date: Wed, 04 Feb 2015 18:23:33 +0200
+Message-ID: <54D24785.7030503@student.put.poznan.pl>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: mtk.manpages@gmail.com
-Cc: "Kirill A. Shutemov" <kirill@shutemov.name>, Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Hugh Dickins <hughd@google.com>
+Content-Type: text/plain; charset=utf-8;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/04/2015 03:00 PM, Michael Kerrisk (man-pages) wrote:
-> Hello Vlastimil,
->
-> On 4 February 2015 at 14:46, Vlastimil Babka <vbabka@suse.cz> wrote:
->>>> - that covers mlocking ok, not sure if the rest fits the "shared pages"
->>>> case
->>>> though. I dont see any check for other kinds of shared pages in the code.
->>>
->>> Agreed. "shared" here seems confused. I've removed it. And I've
->>> added mention of "Huge TLB pages" for this error.
->>
->> Thanks.
->
-> I also added those cases for MADV_REMOVE, BTW.
+A typo found in the online manual page for getcpu() sys call.
 
-Right. There's also the following for MADV_REMOVE that needs updating:
+http://man7.org/linux/man-pages/man2/getcpu.2.html
 
-"Currently, only shmfs/tmpfs supports this; other filesystems return 
-with the error ENOSYS."
+Section: "Notes"
 
-- it's not just shmem/tmpfs anymore. It should be best to refer to 
-fallocate(2) option FALLOC_FL_PUNCH_HOLE which seems to be (more) up to 
-date.
+=46irst sentence is:
+Linux makes a best effort to make this call as fast possible.
 
-- AFAICS it doesn't return ENOSYS but EOPNOTSUPP. Also neither error 
-code is listed in the ERRORS section.
+Might be:
+Linux makes a best effort to make this call as fast as possible.
 
->>>>>> - The word "will result" did sound as a guarantee at least to me. So
->>>>>> here it
->>>>>> could be changed to "may result (unless the advice is ignored)"?
->>>>>
->>>>> It's too late to fix documentation. Applications already depends on the
->>>>> beheviour.
->>>>
->>>> Right, so as long as they check for EINVAL, it should be safe. It appears
->>>> that
->>>> jemalloc does.
->>>
->>>
->>> So, first a brief question: in the cases where the call does not error
->>> out,
->>> are we agreed that in the current implementation, MADV_DONTNEED will
->>> always result in zero-filled pages when the region is faulted back in
->>> (when we consider pages that are not backed by a file)?
->>
->>
->> I'd agree at this point.
->
-> Thanks for the confirmation.
->
->> Also we should probably mention anonymously shared pages (shmem). I think
->> they behave the same as file here.
->
-> You mean tmpfs here, right? (I don't keep all of the synonyms straight.)
-
-shmem is tmpfs (that by itself would fit under "files" just fine), but 
-also sys V segments created by shmget(2) and also mappings created by 
-mmap with MAP_SHARED | MAP_ANONYMOUS. I'm not sure if there's a single 
-manpage to refer to the full list.
-
-Thanks,
-Vlastimil
-
+Cheers,
+Zbigniew Brzezi=C5=84ski
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
