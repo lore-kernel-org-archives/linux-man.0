@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] canonicalize_file_name.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 4 Feb 2015 13:03:41 +0800
-Message-ID: <1423026221-10877-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] tsearch.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 4 Feb 2015 13:04:18 +0800
+Message-ID: <1423026258-10938-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,37 +10,45 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The functions canonicalize_file_name() in glibc is thread safe.
-It's marking matches glibc marking.
+The functions' markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/canonicalize_file_name.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ man3/tsearch.3 | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/man3/canonicalize_file_name.3 b/man3/canonicalize_file_name.3
-index b126e26..a0a3541 100644
---- a/man3/canonicalize_file_name.3
-+++ b/man3/canonicalize_file_name.3
-@@ -70,6 +70,18 @@ to indicate the error.
- .SH ERRORS
- See
- .BR realpath (3).
+diff --git a/man3/tsearch.3 b/man3/tsearch.3
+index cd9d0ad..1de3050 100644
+--- a/man3/tsearch.3
++++ b/man3/tsearch.3
+@@ -187,6 +187,27 @@ also
+ return NULL if
+ .IR rootp
+ was NULL on entry.
 +.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see 
++For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw24 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR canonicalize_file_name ()
++.BR tsearch (),
++.BR tfind (),
++.br
++.BR tdelete ()
++T}	Thread safety	MT-Safe race:rootp
++T{
++.BR twalk ()
++T}	Thread safety	MT-Safe race:root
++T{
++.BR tdestroy ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH SEE ALSO
+ SVr4, POSIX.1-2001.
+ The function
 -- 
 1.9.3
 
