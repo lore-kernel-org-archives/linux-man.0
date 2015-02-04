@@ -1,121 +1,133 @@
-From: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [PATCH] statfs.2 does not describe f_flag field
-Date: Wed, 04 Feb 2015 14:01:19 +0100
-Message-ID: <54D2181F.9070300@redhat.com>
-References: <20150204084843.29485.58701.stgit@unused-4-157.brq.redhat.com> <CAKgNAkg19+w1O2JOKNEFziy8d3KvsWvQUr1PSpiM1Fk9818yig@mail.gmail.com>
+From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
+ repeated MADV_DONTNEED hints
+Date: Wed, 04 Feb 2015 14:46:00 +0100
+Message-ID: <54D22298.3040504@suse.cz>
+References: <20150202165525.GM2395@suse.de> <54CFF8AC.6010102@intel.com> <54D08483.40209@suse.cz> <20150203105301.GC14259@node.dhcp.inet.fi> <54D0B43D.8000209@suse.cz> <54D0F56A.9050003@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkg19+w1O2JOKNEFziy8d3KvsWvQUr1PSpiM1Fk9818yig-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: schwab-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Christoph Hellwig <hch-jcswGhMUV9g@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54D0F56A.9050003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>
+Cc: Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-
-On 02/04/2015 12:51 PM, Michael Kerrisk (man-pages) wrote:
-> Hi Jan,
+On 02/03/2015 05:20 PM, Michael Kerrisk (man-pages) wrote:
+> Hello Vlastimil
 >
-> On 4 February 2015 at 09:48, Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> Based on kernel commit [1], new flag f_flag is added to statfs struct.
->>
->> Before kernel 2.6.36, glibc's statvfs.f_flags was computed be iterating
->> through all mounted points. This was inefficient and could cause a delay.
->> Since kernel 2.6.36, statfs struct has new field f_flag, which already
->> extracts mount options without iterating through mount point.
->> statfs.f_flag flags of glibc and kernel are the same (plus kernel adds
->> additional flag ST_VALID used only internally). So no matter what version
->> of kernel is used, flags does not change.
->>
->> Flags used in statfs.f_flags can be enumerated from upstreams's
->> glibc/internal_statvfs.c, lines 155-173. Nine flags in sum:
->>
->> ST_RDONLY = 1
->> ST_NOSUID = 2
->> ST_NODEV = 4
->> ST_NOEXEC = 8
->> ST_SYNCHRONOUS = 16
->> ST_MANDLOCK = 64
->> ST_NOATIME = 1024
->> ST_NODIRATIME = 2048
->> ST_RELATIME = 4096
->>
->> This patch describes missing flag.
->>
->> [1] https://github.com/torvalds/linux/commit/365b18189789bfa1acd9939e6312b8a4b4577b28
-> Thanks for the heads up. But this patch is a bit muddled, since it
-> mixes details about statfs(2) and statvfs(3).
+> Thanks for CCing me into this thread.
 
-Yes. As kernel copied all the flags, it is now duplicated. But you are 
-right it more suites for statvfs(2).
+NP
 
->   I've instead made some more detailed changes for the statfs(2) and statvfs(2) pages.
+> On 02/03/2015 12:42 PM, Vlastimil Babka wrote:
+>> On 02/03/2015 11:53 AM, Kirill A. Shutemov wrote:
+>>> On Tue, Feb 03, 2015 at 09:19:15AM +0100, Vlastimil Babka wrote:
+>>>
+>>> It doesn't skip. It fails with -EINVAL. Or I miss something.
+>>
+>> No, I missed that. Thanks for pointing out. The manpage also explains EINVAL in
+>> this case:
+>>
+>> *  The application is attempting to release locked or shared pages (with
+>> MADV_DONTNEED).
+>
+> Yes, there is that. But the page could be more explicit when discussing
+> MADV_DONTNEED in the main text. I've done that.
+>
+>> - that covers mlocking ok, not sure if the rest fits the "shared pages" case
+>> though. I dont see any check for other kinds of shared pages in the code.
+>
+> Agreed. "shared" here seems confused. I've removed it. And I've
+> added mention of "Huge TLB pages" for this error.
 >
 
 Thanks.
 
+>>>> - The word "will result" did sound as a guarantee at least to me. So here it
+>>>> could be changed to "may result (unless the advice is ignored)"?
+>>>
+>>> It's too late to fix documentation. Applications already depends on the
+>>> beheviour.
+>>
+>> Right, so as long as they check for EINVAL, it should be safe. It appears that
+>> jemalloc does.
 >
+> So, first a brief question: in the cases where the call does not error out,
+> are we agreed that in the current implementation, MADV_DONTNEED will
+> always result in zero-filled pages when the region is faulted back in
+> (when we consider pages that are not backed by a file)?
+
+I'd agree at this point.
+Also we should probably mention anonymously shared pages (shmem). I 
+think they behave the same as file here.
+
+>> I still wouldnt be sure just by reading the man page that the clearing is
+>> guaranteed whenever I dont get an error return value, though,
+>
+> I'm not quite sure what you want here. I mean: if there's an error,
+
+I was just reiterating that the guarantee is not clear from if you 
+consider all the statements in the man page.
+
+> then the DONTNEED action didn't occur, right? Therefore, there won't
+> be zero-filled pages. But, for what it's worth, I added "If the
+> operation succeeds" at the start of that sentence beginning "Subsequent
+> accesses...".
+
+Yes, that should clarify it. Thanks!
+
+> Now, some history, explaining why the page is a bit of a mess,
+> and for that matter why I could really use more help on it from MM
+> folk (especially in the form of actual patches [1], rather than notes
+> about deficiencies in the documentation), because:
+>
+>      ***I simply cannot keep up with all of the details***.
+
+I see, and expected it would be like this. I would just send patch if 
+the situation was clear, but here we should agree first, and I thought 
+you should be involved from the beginning.
+
+> Once upon a time (Linux 2.4), there was madvise() with just 5 flags:
+>
+>         MADV_NORMAL
+>         MADV_RANDOM
+>         MADV_SEQUENTIAL
+>         MADV_WILLNEED
+>         MADV_DONTNEED
+>
+> And already a dozen years ago, *I* added the text about MADV_DONTNEED.
+> Back then, I believe it was true. I'm not sure if it's still true now,
+> but I assume for the moment that it is, and await feedback. And the
+> text saying that the call does not affect the semantics of memory
+> access dates back even further (and was then true, MADV_DONTNEED aside).
+>
+> Those 5 flags have analogs in POSIX's posix_madvise() (albeit, there
+> is a semantic mismatch between the destructive MADV_DONTNEED and
+> POSIX's nondestructive POSIX_MADV_DONTNEED). They also appear
+> on most other implementations.
+>
+> Since the original implementation, numerous pieces of cruft^W^W^W
+> excellent new flags have been overloaded into this one system call.
+> Some of those certainly violated the "does not change the semantics
+> of the application" statement, but, sadly, the kernel developers who
+> implemented MADV_REMOVE or MADV_DONTFORK did not think to send a
+> patch to the man page for those new flags, one that might have noted
+> that the semantics of the application are changed by such flags. Equally
+> sadly, I did overlook to scan the bigger page when *I* added
+> documentation of these flags to those pages, otherwise I might have
+> caught that detail.
+>
+> So, just to repeat, I  could really use more help on it from MM
+> folk in the form of actual patches to the man page.
+
+Thanks for the background. I'll try to remember to check for man-pages 
+part when I review some api changing patch.
+
 > Thanks,
 >
 > Michael
 >
+> [1] https://www.kernel.org/doc/man-pages/patches.html
 >
->> Signed-off-by: Jan Chaloupka <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->> ---
->>   man2/statfs.2 |   28 +++++++++++++++++++++++++++-
->>   1 file changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/man2/statfs.2 b/man2/statfs.2
->> index 714bc7c..46cfa5f 100644
->> --- a/man2/statfs.2
->> +++ b/man2/statfs.2
->> @@ -65,7 +65,9 @@ struct statfs {
->>       fsid_t       f_fsid;    /* filesystem id */
->>       __SWORD_TYPE f_namelen; /* maximum length of filenames */
->>       __SWORD_TYPE f_frsize;  /* fragment size (since Linux 2.6) */
->> -    __SWORD_TYPE f_spare[5];
->> +    __SWORD_TYPE f_flags;   /* mount flags of filesystem
->> +                               (since Linux 2.6.36) */
->> +    __SWORD_TYPE f_spare[4];
->>   };
->>
->>   Filesystem types:
->> @@ -146,6 +148,30 @@ Most of these MAGIC constants are defined in
->>   .IR /usr/include/linux/magic.h ,
->>   and some are hardcoded in kernel sources.
->>   .PP
->> +Mount flags of
->> +.I f_flags
->> +field are extracted from an option string of a mount point defined in
->> +.BR mount (8).
->> +The field can be combination of the following flags
->> +(corresponding mount options are in the right column):
->> +.in
->> +.nf
->> +
->> +   ST_RDONLY          ro
->> +   ST_NOSUID          nosuid
->> +   ST_NOEXEC          noexec
->> +   ST_NODEV           nodev
->> +   ST_SYNCHRONOUS     sync
->> +   ST_MANDLOCK        mand
->> +   ST_NOATIME         noatime
->> +   ST_NODIRATIME      nodiratime
->> +   ST_RELATIME        relatime
->> +
->> +.fi
->> +.in
->> +For kernel less than 2.6.36 option flags are extracted by iterating
->> +through individual mount points which can be inefficient and cause delay.
->> +.PP
->>   Nobody knows what
->>   .I f_fsid
->>   is supposed to contain (but see below).
->>
->
->
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
