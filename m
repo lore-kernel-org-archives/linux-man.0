@@ -1,68 +1,74 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] capabilities.7: NOTES: add last kernel versions for obsolete
- options
-Date: Thu, 05 Feb 2015 15:17:32 +0100
-Message-ID: <54D37B7C.7040505@gmail.com>
-References: <5468D8EA.9070102@gmail.com>
+From: Michal Hocko <mhocko@suse.cz>
+Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
+ repeated MADV_DONTNEED hints
+Date: Thu, 5 Feb 2015 16:41:02 +0100
+Message-ID: <20150205154102.GA20607@dhcp22.suse.cz>
+References: <20150202165525.GM2395@suse.de>
+ <54CFF8AC.6010102@intel.com>
+ <54D08483.40209@suse.cz>
+ <20150203105301.GC14259@node.dhcp.inet.fi>
+ <54D0B43D.8000209@suse.cz>
+ <54D0F56A.9050003@gmail.com>
+ <54D22298.3040504@suse.cz>
+ <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com>
+ <54D2508A.9030804@suse.cz>
+ <CAKgNAkhNbHQX7RukSsSe3bMqY11f493rYbDpTOA2jH7vsziNww@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5468D8EA.9070102-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Content-Transfer-Encoding: quoted-printable
+Return-path: <owner-linux-mm@kvack.org>
+Content-Disposition: inline
+In-Reply-To: <CAKgNAkhNbHQX7RukSsSe3bMqY11f493rYbDpTOA2jH7vsziNww@mail.gmail.com>
+Sender: owner-linux-mm@kvack.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, "Kirill A. Shutemov" <kirill@shutemov.name>, Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Hugh Dickins <hughd@google.com>
 List-Id: linux-man@vger.kernel.org
 
-On 11/16/2014 06:03 PM, Chris Mayo wrote:
-> 
-> CONFIG_SECURITY_CAPABILITIES option removed by:
-> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/security?id=5915eb53861c5776cfec33ca4fcc1fd20d66dd27
-> 
-> CONFIG_SECURITY_FILE_CAPABILITIES option removed in Linux 2.6.33 as already mentioned in DESCRIPTION
+On Wed 04-02-15 20:24:27, Michael Kerrisk wrote:
+[...]
+> So, how about this text:
+>=20
+>               After a successful MADV_DONTNEED operation, the seman=E2=80=
+=90
+>               tics  of  memory  access  in  the specified region are
+>               changed: subsequent accesses of  pages  in  the  range
+>               will  succeed,  but will result in either reloading of
+>               the memory contents from the  underlying  mapped  file
 
-Thanks, Chris. Applied.
+"
+result in either providing the up-to-date contents of the underlying
+mapped file
+"
 
-Cheers,
+Would be more precise IMO because reload might be interpreted as a major
+fault which is not necessarily the case (see below).
 
-Michael
+>               (for  shared file mappings, shared anonymous mappings,
+>               and shmem-based techniques such  as  System  V  shared
+>               memory  segments)  or  zero-fill-on-demand  pages  for
+>               anonymous private mappings.
 
+Yes, this wording is better because many users are not aware of
+MAP_ANON|MAP_SHARED being file backed in fact and mmap man page doesn't
+mention that.
 
-> Signed-off-by: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> ---
->  man7/capabilities.7 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man7/capabilities.7 b/man7/capabilities.7
-> index a1adcb5..bc461a4 100644
-> --- a/man7/capabilities.7
-> +++ b/man7/capabilities.7
-> @@ -1124,7 +1124,7 @@ is based on the withdrawn POSIX.1e draft standard; see
->  .UR http://wt.tuxomania.net\:/publications\:/posix.1e/
->  .UE .
->  .SH NOTES
-> -Since kernel 2.5.27, capabilities are an optional kernel component,
-> +From kernel 2.5.27 to kernel 2.6.26, capabilities are an optional kernel component,
->  and can be enabled/disabled via the
->  .B CONFIG_SECURITY_CAPABILITIES
->  kernel configuration option.
-> @@ -1161,7 +1161,7 @@ It can be found at
->  .UR http://www.kernel.org\:/pub\:/linux\:/libs\:/security\:/linux-privs
->  .UE .
->  
-> -Before kernel 2.6.24, and since kernel 2.6.24 if
-> +Before kernel 2.6.24, and from kernel 2.6.24 to kernel 2.6.32 if
->  file capabilities are not enabled, a thread with the
->  .B CAP_SETPCAP
->  capability can manipulate the capabilities of threads other than itself.
-> 
+I am just wondering whether it makes sense to mention that MADV_DONTNEED
+for shared mappings might be surprising and not freeing the backing
+pages thus not really freeing memory until there is a memory
+pressure. But maybe this is too implementation specific for a man
+page. What about the following wording on top of yours?
+"
+Please note that the MADV_DONTNEED hint on shared mappings might not
+lead to immediate freeing of pages in the range. The kernel is free to
+delay this until an appropriate moment. RSS of the calling process will
+be reduced however.
+"
+--=20
+Michal Hocko
+SUSE Labs
 
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=3Dmailto:"dont@kvack.org"> email@kvack.org </a>
