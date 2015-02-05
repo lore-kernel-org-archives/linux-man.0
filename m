@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strxfrm.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 05 Feb 2015 06:55:33 +0100
-Message-ID: <54D305D5.8070104@gmail.com>
-References: <1423107210-26431-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] mbstowcs.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 05 Feb 2015 06:55:49 +0100
+Message-ID: <54D305E5.9030003@gmail.com>
+References: <1423113524-27516-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1423107210-26431-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1423113524-27516-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/05/2015 04:33 AM, Ma Shimiao wrote:
+On 02/05/2015 06:18 AM, Ma Shimiao wrote:
 > The marking matches glibc marking.
 
 Thanks, Ma Shimiao. Applied.
@@ -23,19 +23,20 @@ Cheers,
 Michael
 
 
+
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/strxfrm.3 | 12 ++++++++++++
+>  man3/mbstowcs.3 | 12 ++++++++++++
 >  1 file changed, 12 insertions(+)
 > 
-> diff --git a/man3/strxfrm.3 b/man3/strxfrm.3
-> index 116a534..959f9a2 100644
-> --- a/man3/strxfrm.3
-> +++ b/man3/strxfrm.3
-> @@ -73,6 +73,18 @@ or more, the
->  contents of
->  .I dest
->  are indeterminate.
+> diff --git a/man3/mbstowcs.3 b/man3/mbstowcs.3
+> index 08f72a3..9ff1217 100644
+> --- a/man3/mbstowcs.3
+> +++ b/man3/mbstowcs.3
+> @@ -91,6 +91,18 @@ If an invalid multibyte sequence was
+>  encountered,
+>  .I (size_t)\ \-1
+>  is returned.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -45,11 +46,11 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR strxfrm ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR mbstowcs ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  SVr4, 4.3BSD, C89, C99.
+>  C99.
 >  .SH NOTES
 > 
 
