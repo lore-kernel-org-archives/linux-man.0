@@ -1,58 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] socket.7: document SO_REUSEPORT socket option.
-Date: Thu, 05 Feb 2015 14:47:09 +0100
-Message-ID: <54D3745D.1040205@gmail.com>
-References: <1419052469-43586-1-git-send-email-dw@botanicus.net>
+Subject: Re: [patch] capabilities.7: NOTES: add last kernel versions for obsolete
+ options
+Date: Thu, 05 Feb 2015 15:17:32 +0100
+Message-ID: <54D37B7C.7040505@gmail.com>
+References: <5468D8EA.9070102@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1419052469-43586-1-git-send-email-dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
+In-Reply-To: <5468D8EA.9070102-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 12/20/2014 06:14 AM, David Wilson wrote:
-> Signed-off-by: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
+On 11/16/2014 06:03 PM, Chris Mayo wrote:
+> 
+> CONFIG_SECURITY_CAPABILITIES option removed by:
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/security?id=5915eb53861c5776cfec33ca4fcc1fd20d66dd27
+> 
+> CONFIG_SECURITY_FILE_CAPABILITIES option removed in Linux 2.6.33 as already mentioned in DESCRIPTION
 
-Thanks, David. Applied.
+Thanks, Chris. Applied.
 
 Cheers,
 
 Michael
 
 
-
+> Signed-off-by: Chris Mayo <aklhfex-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 > ---
->  man7/socket.7 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  man7/capabilities.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man7/socket.7 b/man7/socket.7
-> index ff98e3e..ff4c46b 100644
-> --- a/man7/socket.7
-> +++ b/man7/socket.7
-> @@ -662,6 +662,20 @@ with a specific port then it is not possible
->  to bind to this port for any local address.
->  Argument is an integer boolean flag.
->  .TP
-> +.BR SO_REUSEPORT " (since Linux 3.9)"
-> +Indicates that attempts to bind an identical listening address to
-> +multiple
-> +.B AF_INET
-> +or
-> +.B AF_INET6
-> +sockets by the same UID may succeed. This option allows
-> +.BR accept (2)
-> +load distribution in a multi-threaded server to be improved by
-> +using a distinct listener socket for each thread. This must be set
-> +on each socket prior to calling
-> +.BR bind (2)
-> +on the socket.
-> +.TP
->  .BR SO_RXQ_OVFL " (since Linux 2.6.33)"
->  .\" commit 3b885787ea4112eaa80945999ea0901bf742707f
->  Indicates that an unsigned 32-bit value ancillary message (cmsg)
+> diff --git a/man7/capabilities.7 b/man7/capabilities.7
+> index a1adcb5..bc461a4 100644
+> --- a/man7/capabilities.7
+> +++ b/man7/capabilities.7
+> @@ -1124,7 +1124,7 @@ is based on the withdrawn POSIX.1e draft standard; see
+>  .UR http://wt.tuxomania.net\:/publications\:/posix.1e/
+>  .UE .
+>  .SH NOTES
+> -Since kernel 2.5.27, capabilities are an optional kernel component,
+> +From kernel 2.5.27 to kernel 2.6.26, capabilities are an optional kernel component,
+>  and can be enabled/disabled via the
+>  .B CONFIG_SECURITY_CAPABILITIES
+>  kernel configuration option.
+> @@ -1161,7 +1161,7 @@ It can be found at
+>  .UR http://www.kernel.org\:/pub\:/linux\:/libs\:/security\:/linux-privs
+>  .UE .
+>  
+> -Before kernel 2.6.24, and since kernel 2.6.24 if
+> +Before kernel 2.6.24, and from kernel 2.6.24 to kernel 2.6.32 if
+>  file capabilities are not enabled, a thread with the
+>  .B CAP_SETPCAP
+>  capability can manipulate the capabilities of threads other than itself.
 > 
 
 
