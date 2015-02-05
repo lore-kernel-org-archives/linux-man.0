@@ -1,50 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ptrace.2: Explain behaviour should ptrace tracer call
- execve
-Date: Thu, 05 Feb 2015 14:24:22 +0100
-Message-ID: <54D36F06.6080109@gmail.com>
-References: <50524A33.2030600@ubuntu.com>
+Subject: Re: [PATCH] socket.7: document SO_REUSEPORT socket option.
+Date: Thu, 05 Feb 2015 14:47:09 +0100
+Message-ID: <54D3745D.1040205@gmail.com>
+References: <1419052469-43586-1-git-send-email-dw@botanicus.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <50524A33.2030600-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <1419052469-43586-1-git-send-email-dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: james.hunt-GeWIH/nMZzLQT0dZR+AlfA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/13/2012 11:03 PM, James Hunt wrote:
-> This behaviour was verified by reading the kernel source and confirming
-> the behaviour using a test program.
-> 
-> Applies to latest git repo.
+On 12/20/2014 06:14 AM, David Wilson wrote:
+> Signed-off-by: David Wilson <dw-ahVZHQAumb4sV2N9l4h3zg@public.gmane.org>
 
-Thanks, James. Applied.
+Thanks, David. Applied.
 
 Cheers,
 
 Michael
 
 
----
- man2/ptrace.2 |    3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/man2/ptrace.2 b/man2/ptrace.2
-index c45e569..d051358 100644
---- a/man2/ptrace.2
-+++ b/man2/ptrace.2
-@@ -1660,6 +1660,9 @@ In Linux kernels before 2.6.26,
- .BR init (8),
- the process with PID 1, may not be traced.
- .LP
-+A tracees parent continues to be the tracer even if that tracer calls
-+.BR execve (2).
-+.LP
- The layout of the contents of memory and the USER area are
- quite operating-system- and architecture-specific.
- The offset supplied, and the data returned,
+> ---
+>  man7/socket.7 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/man7/socket.7 b/man7/socket.7
+> index ff98e3e..ff4c46b 100644
+> --- a/man7/socket.7
+> +++ b/man7/socket.7
+> @@ -662,6 +662,20 @@ with a specific port then it is not possible
+>  to bind to this port for any local address.
+>  Argument is an integer boolean flag.
+>  .TP
+> +.BR SO_REUSEPORT " (since Linux 3.9)"
+> +Indicates that attempts to bind an identical listening address to
+> +multiple
+> +.B AF_INET
+> +or
+> +.B AF_INET6
+> +sockets by the same UID may succeed. This option allows
+> +.BR accept (2)
+> +load distribution in a multi-threaded server to be improved by
+> +using a distinct listener socket for each thread. This must be set
+> +on each socket prior to calling
+> +.BR bind (2)
+> +on the socket.
+> +.TP
+>  .BR SO_RXQ_OVFL " (since Linux 2.6.33)"
+>  .\" commit 3b885787ea4112eaa80945999ea0901bf742707f
+>  Indicates that an unsigned 32-bit value ancillary message (cmsg)
+> 
+
 
 -- 
 Michael Kerrisk
