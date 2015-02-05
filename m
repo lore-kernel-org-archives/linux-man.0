@@ -1,78 +1,54 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] access.2: explain how access() check treats capabilities
-Date: Thu, 05 Feb 2015 11:44:28 +0100
-Message-ID: <54D3498C.7000904@gmail.com>
-References: <1410354068-6100-1-git-send-email-dvlasenk@redhat.com>
+Subject: Re: [PATCH] mprotect(2): mention effect of READ_IMPLIES_EXEC personality
+ flag
+Date: Thu, 05 Feb 2015 12:28:11 +0100
+Message-ID: <54D353CB.9050401@gmail.com>
+References: <w2ke1cf9ca11004230931yff731f6gb45134c3d0d51cbe@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1410354068-6100-1-git-send-email-dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <w2ke1cf9ca11004230931yff731f6gb45134c3d0d51cbe-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Mark Seaborn <mseaborn-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/10/2014 03:01 PM, Denys Vlasenko wrote:
-> We have users who are terribly confused why their binaries
-> with CAP_DAC_OVERRIDE capability see EACCESS from access() calls,
-> but are able to read the file.
-> 
-> The reason is access() isn't the "can I read/write/execute this file?"
-> question, it is the "(assuming that I'm a setuid binary,) can *the user
-> who invoked me* read/write/execute this file?" question.
-> 
-> That's why it uses real UIDs as documented, and why it ignores
-> capabilities when capability-endored binaries are run by non-root
-> (this patch adds this information).
-> 
-> To make users more likely to notice this less-known detail,
-> the patch expands the explanation with rationale for this logic
-> into a separate paragraph.
+On 04/23/2010 06:31 PM, Mark Seaborn wrote:
+> I puzzled over mprotect()'s effect on /proc/*/maps for a while
+> yesterday -- it was setting "x" without PROT_EXEC being specified.
+> Here is a patch to add some explanation.
 
-Thanks, Denys. Applied.
+Long after the fact... But applied now. Thanks, Mark.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> CC: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> ---
->  man2/access.2 | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
+> mprotect(2): mention effect of READ_IMPLIES_EXEC personality flag
 > 
-> diff --git a/man2/access.2 b/man2/access.2
-> index bfd85cd..73495ad 100644
-> --- a/man2/access.2
-> +++ b/man2/access.2
-> @@ -102,9 +102,22 @@ The check is done using the calling process's
->  UID and GID, rather than the effective IDs as is done when
->  actually attempting an operation (e.g.,
->  .BR open (2))
-> -on the file.
-> -This allows set-user-ID programs to
-> -easily determine the invoking user's authority.
-> +on the file. Similarly, for root user, the check uses the set of
-> +permitted capabilities rather than the set of effective
-> +capabilities; and for non-root user, the check uses an empty set
-> +of capabilities.
+> diff --git a/man2/mprotect.2 b/man2/mprotect.2
+> index d7b9712..a5aa2fb 100644
+> --- a/man2/mprotect.2
+> +++ b/man2/mprotect.2
+> @@ -125,7 +125,15 @@ Whether
+>  .B PROT_EXEC
+>  has any effect different from
+>  .B PROT_READ
+> -is architecture- and kernel version-dependent.
+> +depends on processor architecture, kernel version, and process state. If
+> +.B READ_IMPLIES_EXEC
+> +is set in the process's personality flags (see
+> +.BR personality (2)),
+> +specifying
+> +.B PROT_READ
+> +will implicitly add
+> +.BR PROT_EXEC.
 > +
-> +This allows set-user-ID programs and capability-endowed programs
-> +to easily determine the invoking user's authority. In other words:
-> +.BR access ()
-> +does not answer the "can I read/write/execute this file?" question.
-> +It answers a bit different question: "(assuming I'm a setuid binary,)
-> +can
-> +.I the user who invoked me
-> +read/write/execute this file?",
-> +with the intent to make it possible for setuid programs to not
-> +allow malicious users make them read files which users shouldn't be
-> +able to read.
->  
->  If the calling process is privileged (i.e., its real UID is zero),
->  then an
+>  On some hardware architectures (e.g., i386),
+>  .B PROT_WRITE
+>  implies
 > 
 
 
