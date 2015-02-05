@@ -1,90 +1,66 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] migrate_pages.2: add EFAULT/EINVAL errors
-Date: Thu, 05 Feb 2015 13:27:24 +0100
-Message-ID: <54D361AC.6000609@gmail.com>
-References: <6cd7930b9e00b18176837431ad6185c490256dfb.1343299362.git.jstancek@redhat.com>
+Subject: Re: [PATCH] clone.2, execve.2: Document interaction of execve(2)
+ with CLONE_FILES
+Date: Thu, 05 Feb 2015 13:40:22 +0100
+Message-ID: <54D364B6.1050708@gmail.com>
+References: <20130506061441.GA9249@chicago.guarana.org>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <6cd7930b9e00b18176837431ad6185c490256dfb.1343299362.git.jstancek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20130506061441.GA9249-Qr0l8DEfScZEV+tojptmR0B+6BGkLq7r@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jan Stancek <jstancek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Kevin Easton <kevin-RFfraI6bZkdAfugRpC6u6w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/26/2012 12:51 PM, Jan Stancek wrote:
-> migrate_pages(2) can return also EFAULT and EINVAL errors.
+On 05/06/2013 08:14 AM, Kevin Easton wrote:
+> Hi Michael,
+> 
+> This patch is against man-pages-3.51.  It documents the fact that a
+> successful execve(2) in a process that is sharing a file descriptor table
+> results in unsharing the table.
+> 
+> I discovered this through testing and verified it by source inspection - 
+> there is a call to unshare_files() early in do_execve_common().
 
-Applied. Thanks, Jan.
+Thanks, Kevin. Applied.
 
 Cheers,
 
 Michael
 
 
-> I encountered these errors while writing testcase for migrate_pages
-> syscall for LTP (Linux test project).
+> diff -ur man-pages-3.51.orig/man2/clone.2 man-pages-3.51/man2/clone.2
+> --- man-pages-3.51.orig/man2/clone.2    2013-04-19 21:57:19.000000000 +1000
+> +++ man-pages-3.51/man2/clone.2 2013-05-06 15:42:06.841539649 +1000
+> @@ -206,6 +206,9 @@
+>  .BR fcntl (2)
+>  .B F_SETFD
+>  operation), the other process is also affected.
+> +If a process sharing a file descriptor table calls
+> +.BR execve (2),
+> +its file descriptor table is duplicated (unshared).
 > 
-> I checked stable kernel tree 3.5 to see which paths return these.
-> Both can be returned from get_nodes(), which is called from:
-> SYSCALL_DEFINE4(migrate_pages, pid_t, pid, unsigned long, maxnode,
->                 const unsigned long __user *, old_nodes,
->                 const unsigned long __user *, new_nodes)
+>  If
+>  .B CLONE_FILES
+> Only in man-pages-3.51/man2: clone.2.orig
+> diff -ur man-pages-3.51.orig/man2/execve.2 man-pages-3.51/man2/execve.2
+> --- man-pages-3.51.orig/man2/execve.2   2013-04-19 21:57:19.000000000 +1000
+> +++ man-pages-3.51/man2/execve.2        2013-05-06 15:42:06.841539649 +1000
+> @@ -204,6 +204,11 @@
+>  .B SIGCHLD
+>  (see
+>  .BR clone (2)).
+> +.IP *
+> +The file descriptor table is unshared, undoing the effect of the
+> +.B CLONE_FILES
+> +flag of
+> +.BR clone (2).
+>  .PP
+>  Note the following further points:
+>  .IP * 3
 > 
-> The testcase does following:
-> EFAULT
-> a) old_nodes/new_nodes is area mmaped with PROT_NONE
-> b) old_nodes/new_nodes is area not mmapped in process address space,
->    -1 or area that has been just munmmaped
-> 
-> EINVAL
-> a) maxnodes overflows kernel limit
-> b) new_nodes contain node, which has no memory or does not exist or is
->    not returned for get_mempolicy(MPOL_F_MEMS_ALLOWED).
-> 
-> Signed-off-by: Jan Stancek <jstancek-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/migrate_pages.2 |   26 ++++++++++++++++++++++++++
->  1 files changed, 26 insertions(+), 0 deletions(-)
-> 
-> diff --git a/man2/migrate_pages.2 b/man2/migrate_pages.2
-> index 416a569..0493459 100644
-> --- a/man2/migrate_pages.2
-> +++ b/man2/migrate_pages.2
-> @@ -106,6 +106,32 @@ to access the specified target nodes.
->  No process matching
->  .I pid
->  could be found.
-> +.TP
-> +.B EFAULT
-> +Part or all of the memory range specified by
-> +.I old_nodes
-> +/
-> +.I new_nodes
-> +and
-> +.I maxnode
-> +points outside your accessible address space.
-> +.TP
-> +.B EINVAL
-> +The value specified by
-> +.I maxnode
-> +exceeds a kernel-imposed limit.
-> +.\" As at 3.5, this limit is "a page worth of bits", e.g.,
-> +.\" 8 * 4096 bits, assuming a 4kB page size.
-> +Or,
-> +.I old_nodes
-> +/
-> +.I new_nodes
-> +specifies one or more node IDs that are
-> +greater than the maximum supported node ID.
-> +Or, none of the node IDs specified by
-> +.I new_nodes
-> +are on-line and allowed by the process's current cpuset context,
-> +or none of the specified nodes contain memory.
->  .\" FIXME There are other errors
->  .SH VERSIONS
->  The
 > 
 
 
