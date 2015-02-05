@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mbstowcs.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 5 Feb 2015 13:18:44 +0800
-Message-ID: <1423113524-27516-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] putwchar.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 5 Feb 2015 13:26:02 +0800
+Message-ID: <1423113962-27689-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,17 +14,17 @@ The marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mbstowcs.3 | 12 ++++++++++++
+ man3/putwchar.3 | 12 ++++++++++++
  1 file changed, 12 insertions(+)
 
-diff --git a/man3/mbstowcs.3 b/man3/mbstowcs.3
-index 08f72a3..9ff1217 100644
---- a/man3/mbstowcs.3
-+++ b/man3/mbstowcs.3
-@@ -91,6 +91,18 @@ If an invalid multibyte sequence was
- encountered,
- .I (size_t)\ \-1
- is returned.
+diff --git a/man3/putwchar.3 b/man3/putwchar.3
+index f3e6d2e..1a9aa37 100644
+--- a/man3/putwchar.3
++++ b/man3/putwchar.3
+@@ -57,6 +57,18 @@ function returns
+ if no error occurred, or
+ .B WEOF
+ to indicate an error.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -34,7 +34,7 @@ index 08f72a3..9ff1217 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR mbstowcs ()
++.BR putwchar ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
