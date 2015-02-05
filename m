@@ -1,48 +1,96 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] putwchar.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 5 Feb 2015 13:26:02 +0800
-Message-ID: <1423113962-27689-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] nan.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 5 Feb 2015 06:53:37 +0100
+Message-ID: <CAKgNAkg3Gq=qmSwvzcOPZDkk2yBdZikj_U7q4BZUbU2ocyRHCQ@mail.gmail.com>
+References: <1423032306-12529-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+ <54D1CFEB.70109@gmail.com> <54D1DEB9.7020707@cn.fujitsu.com>
+ <CAKgNAkh-h3E45bq6RPBJEyjb2EsRagCeymQi1uCQyQXVzV54Rw@mail.gmail.com> <54D1EBE3.8060501@cn.fujitsu.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54D1EBE3.8060501-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/putwchar.3 | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/man3/putwchar.3 b/man3/putwchar.3
-index f3e6d2e..1a9aa37 100644
---- a/man3/putwchar.3
-+++ b/man3/putwchar.3
-@@ -57,6 +57,18 @@ function returns
- if no error occurred, or
- .B WEOF
- to indicate an error.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR putwchar ()
-+T}	Thread safety	MT-Safe
-+.TE
- .SH CONFORMING TO
- C99.
- .SH NOTES
--- 
-1.9.3
-
+T24gNCBGZWJydWFyeSAyMDE1IGF0IDEwOjUyLCBNYSBTaGltaWFvIDxtYXNoaW1pYW8uZm5zdEBj
+bi5mdWppdHN1LmNvbT4gd3JvdGU6DQo+IEhpIE1pY2hhZWwsDQo+DQo+IE9uIDAyLzA0LzIwMTUg
+MDU6MzEgUE0sIE1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSB3cm90ZToNCj4+IEhlbGxvIE1h
+IFNoaW1pYW8sDQo+Pg0KPj4gT24gNCBGZWJydWFyeSAyMDE1IGF0IDA5OjU2LCBNYSBTaGltaWFv
+IDxtYXNoaW1pYW8uZm5zdEBjbi5mdWppdHN1LmNvbT4gd3JvdGU6DQo+Pj4gSGkgTWljaGFlbCwN
+Cj4+PiBPbiAwMi8wNC8yMDE1IDAzOjUzIFBNLCBNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykg
+d3JvdGU6DQo+Pj4+IE9uIDAyLzA0LzIwMTUgMDc6NDUgQU0sIE1hIFNoaW1pYW8gd3JvdGU6DQo+
+Pj4+PiBUaGUgbWFya2luZ3MgbWF0Y2ggZ2xpYmMgbWFya2luZ3MuDQo+Pj4+DQo+Pj4+IEhpIE1h
+IFNoaW1pYW8uDQo+Pj4+DQo+Pj4+IFBhdGNoIGFwcGxpZWQuIFRoYW5rcyEgQnV0IEkgaGFkIHRv
+IGZpeCB1cCB0aGUgZm9ybWF0dGluZyBhIGxpdHRsZS4NCj4+Pj4gUGxlYXNlIGRvIGNoZWNrIHRo
+ZSByZW5kZXJlZCB2ZXJzaW9uIG9mIGVhY2ggcGFnZSB0aGF0IGlzIHBhdGNoZWQuDQo+Pj4NCj4+
+PiBTb3JyeSwgSSBjYW4ndCBmaW5kIG91dCB3aGF0J3Mgd3Jvbmcgd2l0aCB0aGUgZm9ybWF0dGlu
+Zy4NCj4+PiBDb3VsZCB5b3UgdGVsbCBtZSB3aGF0J3Mgd3Jvbmcgd2l0aCB0aGUgZm9ybWF0dGlu
+Zz8NCj4+PiBPciB5b3Ugc2VuZCBtZSB5b3VyIGZpeGVkIHZlcnNpb24sIGxldCBtZSBmaW5kIG91
+dCB0aGUgZGlmZmVyZW5jZS4NCj4+PiBUaGFua3MgYSBsb3QuDQo+Pg0KPj4gU29ycnkgLS0gb2Yg
+Y291cnNlIEkgc2hvdWxkIGhhdmUgZG9uZSB0aGF0LiBTZWUNCj4+IGh0dHA6Ly9naXQua2VybmVs
+Lm9yZy9jZ2l0L2RvY3MvbWFuLXBhZ2VzL21hbi1wYWdlcy5naXQvY29tbWl0Lz9oPW10X2F0dHJp
+YnV0ZXMmaWQ9ZjgzMzQ4YzZiMTJmZWUzZjAxNjQ0OWNiMmIxZWVlN2RkOTAxYWY2Yw0KPj4gVGhh
+dCBqdXN0IGZpeGVzIHRoZSBmb3JtYXR0aW5nIHNvIHRoYXQgd2UgZG9uJ3QgZ2V0IGxhcmdlIHdo
+aXRlc3BhY2VzDQo+PiBpbiB0aGUgbGVmdCBoYW5kIGNvbHVtbiBvZiB0aGUgdGFibGUuDQo+IFRo
+YW5rcyBmb3IgZml4aW5nLg0KPiBCdXQsIGNvdWxkIHlvdSB0ZWxsIG1lIHdoaWNoIGVkaXRvciBk
+byB5b3UgdXNlIHRvIHJldmlldyB0aGUgZm9ybWF0dGluZz8NCg0KSnVzdCBtYW4oMSkuIEJlZm9y
+ZSBteSBmaXggdGh0YWJsZSBsb29rcyBsaWtlIHRoaXM6DQoNCiAgICAgICDilIzilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKzilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKzilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJANCiAgICAgICDilIJJbnRlcmZh
+Y2UgICAgICAgICAgIOKUgiBBdHRyaWJ1dGUgICAgIOKUgiBWYWx1ZSAgICAgICAgICDilIINCiAg
+ICAgICDilJzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilLzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilLzilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilKQN
+CiAgICAgICDilIJuYW4oKSwgICAgICBuYW5mKCksIOKUgiBUaHJlYWQgc2FmZXR5IOKUgiBNVC1T
+YWZlIGxvY2FsZSDilIINCiAgICAgICDilIJuYW5sKCkgICAgICAgICAgICAgIOKUgiAgICAgICAg
+ICAgICAgIOKUgiAgICAgICAgICAgICAgICDilIINCiAgICAgICDilJTilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilLTilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilLTilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilJgNCg0KQWZ0ZXIgY29tbWl0IDc2ZTkyZGU2
+ZmQsIGl0IGxvb2tzIGxpa2UNCg0KICAgICAgIOKUjOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUrOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKU
+gOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUkA0KICAgICAgIOKUgkludGVyZmFjZSAgICAgICAg
+ICAgICDilIIgQXR0cmlidXRlICAgICDilIIgVmFsdWUgICAgICAgICAg4pSCDQogICAgICAg4pSc
+4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pSA4pSA4pSA4pS84pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA
+4pS84pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSkDQog
+ICAgICAg4pSCbmFuKCksIG5hbmYoKSwgbmFubCgpIOKUgiBUaHJlYWQgc2FmZXR5IOKUgiBNVC1T
+YWZlIGxvY2FsZSDilIINCiAgICAgICDilJTilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilLTilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilIDilIDilLTilIDilIDilIDilIDilIDilIDilIDilIDilIDi
+lIDilIDilIDilIDilIDilIDilIDilJgNCg0KVGhlIGRpZmZlcmVuY2UgdGhhdCBJIHdhcyBjb25j
+ZXJuZWQgYWJvdXQgaXMgaW4gcm93IDIsIGNvbHVtbiAxLg0KDQpDaGVlcnMsDQoNCk1pY2hhZWwN
+Cg0KDQo+Pj4+DQo+Pj4+IFRoYW5rcywNCj4+Pj4NCj4+Pj4gTWljaGFlbA0KPj4+Pg0KPj4+Pg0K
+Pj4+Pj4gU2lnbmVkLW9mZi1ieTogTWEgU2hpbWlhbyA8bWFzaGltaWFvLmZuc3RAY24uZnVqaXRz
+dS5jb20+DQo+Pj4+PiAtLS0NCj4+Pj4+ICBtYW4zL25hbi4zIHwgMTQgKysrKysrKysrKysrKysN
+Cj4+Pj4+ICAxIGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKQ0KPj4+Pj4NCj4+Pj4+IGRp
+ZmYgLS1naXQgYS9tYW4zL25hbi4zIGIvbWFuMy9uYW4uMw0KPj4+Pj4gaW5kZXggNmM5ZGViNi4u
+ZGEwNGNiYSAxMDA2NDQNCj4+Pj4+IC0tLSBhL21hbjMvbmFuLjMNCj4+Pj4+ICsrKyBiL21hbjMv
+bmFuLjMNCj4+Pj4+IEBAIC03Miw2ICs3MiwyMCBAQCBzZWxlY3RzIG9uZS4NCj4+Pj4+ICBPbiBv
+dGhlciBzeXN0ZW1zIGl0IG1heSBkbyBub3RoaW5nLg0KPj4+Pj4gIC5TSCBWRVJTSU9OUw0KPj4+
+Pj4gIFRoZXNlIGZ1bmN0aW9ucyBmaXJzdCBhcHBlYXJlZCBpbiBnbGliYyBpbiB2ZXJzaW9uIDIu
+MS4NCj4+Pj4+ICsuU0ggQVRUUklCVVRFUw0KPj4+Pj4gK0ZvciBhbiBleHBsYW5hdGlvbiBvZiB0
+aGUgdGVybXMgdXNlZCBpbiB0aGlzIHNlY3Rpb24sIHNlZQ0KPj4+Pj4gKy5CUiBhdHRyaWJ1dGVz
+ICg3KS4NCj4+Pj4+ICsuVFMNCj4+Pj4+ICthbGxib3g7DQo+Pj4+PiArbGIgbGIgbGINCj4+Pj4+
+ICtsIGwgbC4NCj4+Pj4+ICtJbnRlcmZhY2UgICBBdHRyaWJ1dGUgICAgICAgVmFsdWUNCj4+Pj4+
+ICtUew0KPj4+Pj4gKy5CUiBuYW4gKCksDQo+Pj4+PiArLkJSIG5hbmYgKCksDQo+Pj4+PiArLkJS
+IG5hbmwgKCkNCj4+Pj4+ICtUfSAgVGhyZWFkIHNhZmV0eSAgIE1ULVNhZmUgbG9jYWxlDQo+Pj4+
+PiArLlRFDQo+Pj4+PiAgLlNIIENPTkZPUk1JTkcgVE8NCj4+Pj4+ICBDOTksIFBPU0lYLjEtMjAw
+MS4NCj4+Pj4+ICBTZWUgYWxzbyBJRUMgNTU5IGFuZCB0aGUgYXBwZW5kaXggd2l0aA0KPj4+Pj4N
+Cj4+Pj4NCj4+Pj4NCj4+Pg0KPj4+DQo+Pj4gLS0NCj4+PiBNYSBTaGltaWFvDQo+Pj4gRGV2ZWxv
+cG1lbnQgRGVwdC5JDQo+Pj4gTmFuamluZyBGdWppdHN1IE5hbmRhIFNvZnR3YXJlIFRlY2guIENv
+LiwgTHRkLihGTlNUKQ0KPj4NCj4+DQo+Pg0KPg0KPg0KPiAtLQ0KPiBNYSBTaGltaWFvDQo+IERl
+dmVsb3BtZW50IERlcHQuSQ0KPiBOYW5qaW5nIEZ1aml0c3UgTmFuZGEgU29mdHdhcmUgVGVjaC4g
+Q28uLCBMdGQuKEZOU1QpDQoNCg0KDQotLSANCk1pY2hhZWwgS2Vycmlzaw0KTGludXggbWFuLXBh
+Z2VzIG1haW50YWluZXI7IGh0dHA6Ly93d3cua2VybmVsLm9yZy9kb2MvbWFuLXBhZ2VzLw0KTGlu
+dXgvVU5JWCBTeXN0ZW0gUHJvZ3JhbW1pbmcgVHJhaW5pbmc6IGh0dHA6Ly9tYW43Lm9yZy90cmFp
+bmluZy8NCg==
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
