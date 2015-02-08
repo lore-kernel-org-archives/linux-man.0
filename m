@@ -1,44 +1,214 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mprotect(2): mention effect of READ_IMPLIES_EXEC
- personality flag
-Date: Sun, 8 Feb 2015 09:08:36 +0100
-Message-ID: <CAKgNAkgx8vV4OTJ1+3vik=5Wr9acfT=A2u1=hu_eNFJExf+N7Q@mail.gmail.com>
-References: <w2ke1cf9ca11004230931yff731f6gb45134c3d0d51cbe@mail.gmail.com>
- <54D353CB.9050401@gmail.com> <CAL82V5M701JvwLnURQkO=anrAu8pp=bOZRZbCKN_umg7VxVdUA@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] listxattr.2: provide example code
+Date: Sun,  8 Feb 2015 17:22:08 +0100
+Message-ID: <1423412528-11512-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAL82V5M701JvwLnURQkO=anrAu8pp=bOZRZbCKN_umg7VxVdUA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Mark Seaborn <mseaborn-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andreas Gruenbacher <a.gruenbacher-bdq14YP6qtRg9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 7 February 2015 at 03:02, Mark Seaborn <mseaborn-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org> wrote:
-> On 5 February 2015 at 03:28, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> On 04/23/2010 06:31 PM, Mark Seaborn wrote:
->> > I puzzled over mprotect()'s effect on /proc/*/maps for a while
->> > yesterday -- it was setting "x" without PROT_EXEC being specified.
->> > Here is a patch to add some explanation.
->>
->> Long after the fact... But applied now. Thanks, Mark.
->
-> Wow, thanks!  What Git branch did you apply the fix on?  I looked at
-> http://git.kernel.org/cgit/docs/man-pages/man-pages.git/tree/man2/mprotect.2,
-> but I didn't see the change there.
+The description of listxattr did not point out how that the array
+of attributes itself is null-terminated.
 
-Not yet pushed to k.org, but you'll get a mail when the release goes out.
+The missing information has been added.
 
-Thanks,
+Furthermore example code is provided.
 
-Michael
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/listxattr.2 | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 139 insertions(+), 5 deletions(-)
 
+diff --git a/man2/listxattr.2 b/man2/listxattr.2
+index a67592f..05197c4 100644
+--- a/man2/listxattr.2
++++ b/man2/listxattr.2
+@@ -1,5 +1,6 @@
+ .\" Copyright (C) Andreas Gruenbacher, February 2001
+ .\" Copyright (C) Silicon Graphics Inc, September 2001
++.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+ .\" This is free documentation; you can redistribute it and/or
+@@ -22,7 +23,7 @@
+ .\" <http://www.gnu.org/licenses/>.
+ .\" %%%LICENSE_END
+ .\"
+-.TH LISTXATTR 2 2014-02-06 "Linux" "Linux Programmer's Manual"
++.TH LISTXATTR 2 2015-02-08 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ listxattr, llistxattr, flistxattr \- list extended attribute names
+ .SH SYNOPSIS
+@@ -95,13 +96,14 @@ size of a buffer which is sufficiently large to hold the list of names.
+ .SS Example
+ The
+ .I list
+-of names is returned as an unordered array of null-terminated character
+-strings (attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
++of names is returned as a null-terminated unordered array of
++null-terminated character strings
++(attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
+ .fam C
+ .RS
+ .nf
+ 
+-user.name1\\0system.name1\\0user.name2\\0
++user.name1\\0system.name1\\0user.name2\\0\\0
+ .fi
+ .RE
+ .fam T
+@@ -114,7 +116,7 @@ like this:
+ .RS
+ .nf
+ 
+-system.posix_acl_access\\0system.posix_acl_default\\0
++system.posix_acl_access\\0system.posix_acl_default\\0\\0
+ .fi
+ .RE
+ .fam T
+@@ -150,6 +152,138 @@ These system calls are Linux-specific.
+ .\" and the SGI XFS development team,
+ .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
+ .\" Please send any bug reports or comments to these addresses.
++.SH EXAMPLE
++The following program demonstrates the usage of
++.BR listxattr ()
++and
++.BR getxattr (2).
++For a path provided, it lists all extended file attributes and their values.
++
++The following output was recorded when first creating a file, setting
++some extended file attributes, and then listing them with the example code.
++
++.SS Example output
++.in +4n 
++.nf
++$ touch /tmp/foo
++$ setfattr -n user.fred -v chocolate /tmp/foo
++$ setfattr -n user.frieda -v bar /tmp/foo
++$ setfattr -n user.empty /tmp/foo
++$ ./listxattr /tmp/foo
++user.fred: chocolate
++user.frieda: bar
++user.empty: <no value>
++.fi
++.in
++.SS Program source
++.nf
++#include <malloc.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <attr/xattr.h>
++#include <sys/types.h>
++
++int
++main(int argc, char *argv[])
++{
++    ssize_t buflen;
++    char *buf, *p, *val;
++
++    if (argc != 2) {
++        fprintf(stderr, "usage: %s path\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * determine the length of the buffer needed
++     */
++    buflen = listxattr(argv[1], NULL, 0);
++    if (buflen == \-1) {
++        perror("listxattr");
++        exit(EXIT_FAILURE);
++    }
++    if (buflen == 0) {
++        printf("%s has no attibutes.\\n", argv[1]);
++        exit(EXIT_SUCCESS);
++    }
++
++    /*
++     * allocate the buffer
++     */
++    buf = malloc(buflen);
++    if (buf == NULL) {
++        perror("malloc");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * copy the attribute list to the buffer
++     */
++    buflen = listxattr(argv[1], buf, buflen);
++    if (buflen == \-1) {
++        perror("listxattr");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * The end of the list is marked by zero terminated string
++     * of length zero.
++     */
++    p = buf;
++    while (*p) {
++
++        /*
++         * output attribute name
++         */
++        printf("%s: ", p);
++
++        /*
++         * determine length of value
++         */
++        buflen = getxattr(argv[1], p, NULL, 0);
++        if (buflen == \-1)
++            perror("getxattr");
++
++        if (buflen > 0) {
++            /*
++             * allocate value buffer
++             */
++            val = malloc(buflen);
++            if (val == NULL) {
++                perror("malloc");
++                exit(EXIT_FAILURE);
++            }
++
++            /*
++             * read value to buffer
++             */
++            buflen = getxattr(argv[1], p, val, buflen);
++            if (buflen == \-1)
++                perror("getxattr");
++            else
++                /*
++                 * output attribute value
++                 */
++                printf("%s", val);
++
++            free(val);
++        } else
++            printf("<no value>");
++
++        printf("\\n");
++
++        /*
++         *forward to next attribute name
++         */
++        while(*++p);
++        ++p;
++    }
++
++    free(buf);
++    exit(EXIT_SUCCESS);
++}
++.nf
++.fi
+ .SH SEE ALSO
+ .BR getfattr (1),
+ .BR setfattr (1),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
