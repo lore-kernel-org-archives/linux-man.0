@@ -1,62 +1,475 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
- repeated MADV_DONTNEED hints
-Date: Mon, 09 Feb 2015 10:13:07 +0100
-Message-ID: <54D87A23.40703@gmail.com>
-References: <54D08483.40209@suse.cz> <20150203105301.GC14259@node.dhcp.inet.fi> <54D0B43D.8000209@suse.cz> <54D0F56A.9050003@gmail.com> <54D22298.3040504@suse.cz> <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com> <54D2508A.9030804@suse.cz> <CAKgNAkhNbHQX7RukSsSe3bMqY11f493rYbDpTOA2jH7vsziNww@mail.gmail.com> <20150205010757.GA20996@blaptop> <54D4E098.8050004@gmail.com> <20150209064600.GA32300@blaptop>
+From: "Heinrich Schuchardt" <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: Re: [PATCH 1/1] listxattr.2: provide example code
+Date: Mon, 9 Feb 2015 10:18:15 +0100
+Message-ID: <trinity-8f8ea4c5-76d3-462f-8ec4-c6ead7c3f6d4-1423473495556@msvc245>
+References: <1423412528-11512-1-git-send-email-xypron.glpk@gmx.de>,
+ <54D872EE.8070000@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <20150209064600.GA32300@blaptop>
-Sender: owner-linux-mm@kvack.org
-To: Minchan Kim <minchan@kernel.org>
-Cc: mtk.manpages@gmail.com, Vlastimil Babka <vbabka@suse.cz>, "Kirill A. Shutemov" <kirill@shutemov.name>, Dave Hansen <dave.hansen@intel.com>, Mel Gorman <mgorman@suse.de>, "linux-mm@kvack.org" <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, lkml <linux-kernel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Hugh Dickins <hughd@google.com>
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54D872EE.8070000-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andreas Gruenbacher <a.gruenbacher-bdq14YP6qtRg9hUCZPvPmw@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Minchan
+Hello Michael,
 
-On 02/09/2015 07:46 AM, Minchan Kim wrote:
-> Hello, Michael
+listxattr is implemented individually by the different filesystems.
+
+Tmpfs delivered a double zero in my tests. The length included this double zero.
+
+I need to check the coding of all file systems. They might be different.
+
+Best regards
+
+Heinrich Schuchardt
+
+http://www.xypron.de
+
+Am 09.02.15 um 09:42 schrieb Michael Kerrisk (man-pages)
+
+> Hello Heinrich,
 > 
-> On Fri, Feb 06, 2015 at 04:41:12PM +0100, Michael Kerrisk (man-pages) wrote:
->> On 02/05/2015 02:07 AM, Minchan Kim wrote:
->>> Hello,
->>>
->>> On Wed, Feb 04, 2015 at 08:24:27PM +0100, Michael Kerrisk (man-pages) wrote:
->>>> On 4 February 2015 at 18:02, Vlastimil Babka <vbabka@suse.cz> wrote:
->>>>> On 02/04/2015 03:00 PM, Michael Kerrisk (man-pages) wrote:
-
-[...]
-
->>> And we should make error section, too.
->>> "locked" covers mlock(2) and you said you will add hugetlb. Then,
->>> VM_PFNMAP? In that case, it fails. How can we say about VM_PFNMAP?
->>> special mapping for some drivers?
->>
->> I'm open for offers on what to add.
 > 
-> I suggests from quote "LWN" http://lwn.net/Articles/162860/
-> "*special mapping* which is not made up of "normal" pages.
-> It is usually created by device drivers which map special memory areas
-> into user space"
-
-Thanks. I've added mention of VM_PFNMAP in the discussion of both 
-MADV_DONTNEED and MADV_REMOVE, and noted that both of those
-operations will give an error when applied to VM_PFNMAP pages.
-
-Cheers,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
-
+> 
+> On 02/08/2015 05:22 PM, Heinrich Schuchardt wrote:
+> 
+> > The description of listxattr did not point out how that the array
+> 
+> > of attributes itself is null-terminated.
+> 
+> > 
+> 
+> > The missing information has been added.
+> 
+> > 
+> 
+> > Furthermore example code is provided.
+> 
+> 
+> 
+> Thanks for the patch. It is good to add an example program, but I think
+> 
+> you have some details wrong. please see below.
+> 
+> 
+> 
+> > Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> 
+> > ---
+> 
+> >  man2/listxattr.2 | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+> 
+> >  1 file changed, 139 insertions(+), 5 deletions(-)
+> 
+> > 
+> 
+> > diff --git a/man2/listxattr.2 b/man2/listxattr.2
+> 
+> > index a67592f..05197c4 100644
+> 
+> > --- a/man2/listxattr.2
+> 
+> > +++ b/man2/listxattr.2
+> 
+> > @@ -1,5 +1,6 @@
+> 
+> >  .\" Copyright (C) Andreas Gruenbacher, February 2001
+> 
+> >  .\" Copyright (C) Silicon Graphics Inc, September 2001
+> 
+> > +.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> 
+> >  .\"
+> 
+> >  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+> 
+> >  .\" This is free documentation; you can redistribute it and/or
+> 
+> > @@ -22,7 +23,7 @@
+> 
+> >  .\" <http://www.gnu.org/licenses/>.
+> 
+> >  .\" %%%LICENSE_END
+> 
+> >  .\"
+> 
+> > -.TH LISTXATTR 2 2014-02-06 "Linux" "Linux Programmer's Manual"
+> 
+> > +.TH LISTXATTR 2 2015-02-08 "Linux" "Linux Programmer's Manual"
+> 
+> >  .SH NAME
+> 
+> >  listxattr, llistxattr, flistxattr \- list extended attribute names
+> 
+> >  .SH SYNOPSIS
+> 
+> > @@ -95,13 +96,14 @@ size of a buffer which is sufficiently large to hold the list of names.
+> 
+> >  .SS Example
+> 
+> >  The
+> 
+> >  .I list
+> 
+> > -of names is returned as an unordered array of null-terminated character
+> 
+> > -strings (attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
+> 
+> > +of names is returned as a null-terminated unordered array of
+> 
+> > +null-terminated character strings
+> 
+> > +(attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
+> 
+> >  .fam C
+> 
+> >  .RS
+> 
+> >  .nf
+> 
+> >  
+> 
+> > -user.name1\\0system.name1\\0user.name2\\0
+> 
+> > +user.name1\\0system.name1\\0user.name2\\0\\0
+> 
+> 
+> 
+> I believe the above is incorrect. There is not, AFAIK, a double null byte 
+> 
+> at the end of the buffer. Rather, one determines the end of the list
+> 
+> using the length returned by the listxattr(). Could you check this please.
+> 
+> 
+> 
+> Thanks,
+> 
+> 
+> 
+> Michael
+> 
+> 
+> 
+> 
+> 
+> >  .fi
+> 
+> >  .RE
+> 
+> >  .fam T
+> 
+> > @@ -114,7 +116,7 @@ like this:
+> 
+> >  .RS
+> 
+> >  .nf
+> 
+> >  
+> 
+> > -system.posix_acl_access\\0system.posix_acl_default\\0
+> 
+> > +system.posix_acl_access\\0system.posix_acl_default\\0\\0
+> 
+> >  .fi
+> 
+> >  .RE
+> 
+> >  .fam T
+> 
+> > @@ -150,6 +152,138 @@ These system calls are Linux-specific.
+> 
+> >  .\" and the SGI XFS development team,
+> 
+> >  .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
+> 
+> >  .\" Please send any bug reports or comments to these addresses.
+> 
+> > +.SH EXAMPLE
+> 
+> > +The following program demonstrates the usage of
+> 
+> > +.BR listxattr ()
+> 
+> > +and
+> 
+> > +.BR getxattr (2).
+> 
+> > +For a path provided, it lists all extended file attributes and their values.
+> 
+> > +
+> 
+> > +The following output was recorded when first creating a file, setting
+> 
+> > +some extended file attributes, and then listing them with the example code.
+> 
+> > +
+> 
+> > +.SS Example output
+> 
+> > +.in +4n 
+> 
+> > +.nf
+> 
+> > +$ touch /tmp/foo
+> 
+> > +$ setfattr -n user.fred -v chocolate /tmp/foo
+> 
+> > +$ setfattr -n user.frieda -v bar /tmp/foo
+> 
+> > +$ setfattr -n user.empty /tmp/foo
+> 
+> > +$ ./listxattr /tmp/foo
+> 
+> > +user.fred: chocolate
+> 
+> > +user.frieda: bar
+> 
+> > +user.empty: <no value>
+> 
+> > +.fi
+> 
+> > +.in
+> 
+> > +.SS Program source
+> 
+> > +.nf
+> 
+> > +#include <malloc.h>
+> 
+> > +#include <stdio.h>
+> 
+> > +#include <stdlib.h>
+> 
+> > +#include <attr/xattr.h>
+> 
+> > +#include <sys/types.h>
+> 
+> > +
+> 
+> > +int
+> 
+> > +main(int argc, char *argv[])
+> 
+> > +{
+> 
+> > +    ssize_t buflen;
+> 
+> > +    char *buf, *p, *val;
+> 
+> > +
+> 
+> > +    if (argc != 2) {
+> 
+> > +        fprintf(stderr, "usage: %s path\\n", argv[0]);
+> 
+> > +        exit(EXIT_FAILURE);
+> 
+> > +    }
+> 
+> > +
+> 
+> > +    /*
+> 
+> > +     * determine the length of the buffer needed
+> 
+> > +     */
+> 
+> > +    buflen = listxattr(argv[1], NULL, 0);
+> 
+> > +    if (buflen == \-1) {
+> 
+> > +        perror("listxattr");
+> 
+> > +        exit(EXIT_FAILURE);
+> 
+> > +    }
+> 
+> > +    if (buflen == 0) {
+> 
+> > +        printf("%s has no attibutes.\\n", argv[1]);
+> 
+> > +        exit(EXIT_SUCCESS);
+> 
+> > +    }
+> 
+> > +
+> 
+> > +    /*
+> 
+> > +     * allocate the buffer
+> 
+> > +     */
+> 
+> > +    buf = malloc(buflen);
+> 
+> > +    if (buf == NULL) {
+> 
+> > +        perror("malloc");
+> 
+> > +        exit(EXIT_FAILURE);
+> 
+> > +    }
+> 
+> > +
+> 
+> > +    /*
+> 
+> > +     * copy the attribute list to the buffer
+> 
+> > +     */
+> 
+> > +    buflen = listxattr(argv[1], buf, buflen);
+> 
+> > +    if (buflen == \-1) {
+> 
+> > +        perror("listxattr");
+> 
+> > +        exit(EXIT_FAILURE);
+> 
+> > +    }
+> 
+> > +
+> 
+> > +    /*
+> 
+> > +     * The end of the list is marked by zero terminated string
+> 
+> > +     * of length zero.
+> 
+> > +     */
+> 
+> > +    p = buf;
+> 
+> > +    while (*p) {
+> 
+> > +
+> 
+> > +        /*
+> 
+> > +         * output attribute name
+> 
+> > +         */
+> 
+> > +        printf("%s: ", p);
+> 
+> > +
+> 
+> > +        /*
+> 
+> > +         * determine length of value
+> 
+> > +         */
+> 
+> > +        buflen = getxattr(argv[1], p, NULL, 0);
+> 
+> > +        if (buflen == \-1)
+> 
+> > +            perror("getxattr");
+> 
+> > +
+> 
+> > +        if (buflen > 0) {
+> 
+> > +            /*
+> 
+> > +             * allocate value buffer
+> 
+> > +             */
+> 
+> > +            val = malloc(buflen);
+> 
+> > +            if (val == NULL) {
+> 
+> > +                perror("malloc");
+> 
+> > +                exit(EXIT_FAILURE);
+> 
+> > +            }
+> 
+> > +
+> 
+> > +            /*
+> 
+> > +             * read value to buffer
+> 
+> > +             */
+> 
+> > +            buflen = getxattr(argv[1], p, val, buflen);
+> 
+> > +            if (buflen == \-1)
+> 
+> > +                perror("getxattr");
+> 
+> > +            else
+> 
+> > +                /*
+> 
+> > +                 * output attribute value
+> 
+> > +                 */
+> 
+> > +                printf("%s", val);
+> 
+> > +
+> 
+> > +            free(val);
+> 
+> > +        } else
+> 
+> > +            printf("<no value>");
+> 
+> > +
+> 
+> > +        printf("\\n");
+> 
+> > +
+> 
+> > +        /*
+> 
+> > +         *forward to next attribute name
+> 
+> > +         */
+> 
+> > +        while(*++p);
+> 
+> > +        ++p;
+> 
+> > +    }
+> 
+> > +
+> 
+> > +    free(buf);
+> 
+> > +    exit(EXIT_SUCCESS);
+> 
+> > +}
+> 
+> > +.nf
+> 
+> > +.fi
+> 
+> >  .SH SEE ALSO
+> 
+> >  .BR getfattr (1),
+> 
+> >  .BR setfattr (1),
+> 
+> > 
+> 
+> 
+> 
+> 
+> 
+> -- 
+> 
+> Michael Kerrisk
+> 
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> 
+> Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
