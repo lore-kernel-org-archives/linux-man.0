@@ -1,125 +1,232 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] ioctl_fat.2: d_ino, d_off, return value explained
-Date: Mon, 09 Feb 2015 09:12:38 +0100
-Message-ID: <54D86BF6.30907@gmail.com>
-References: <87fvane3ch.fsf@mail.parknet.co.jp> <1423260638-23504-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1] listxattr.2: provide example code
+Date: Mon, 09 Feb 2015 09:42:22 +0100
+Message-ID: <54D872EE.8070000@gmail.com>
+References: <1423412528-11512-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1423260638-23504-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1423412528-11512-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andreas Gruenbacher <a.gruenbacher-bdq14YP6qtRg9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/06/2015 11:10 PM, Heinrich Schuchardt wrote:
-> The fields d_ino and d_off of structure __fat_dirent are explained.
-> 
-> The different return values of VFAT_IOCTL_READDIR_BOTH and
-> VFAT_IOCTL_READDIR_SHORT are explained.
-> 
-> The usage of the return value in the example is corrected.
+Hello Heinrich,
 
-Thanks, Heinrich. Tweaked a little and pushed to the draft_ioctl_fat branch.
+On 02/08/2015 05:22 PM, Heinrich Schuchardt wrote:
+> The description of listxattr did not point out how that the array
+> of attributes itself is null-terminated.
+> 
+> The missing information has been added.
+> 
+> Furthermore example code is provided.
 
-Cheers,
+Thanks for the patch. It is good to add an example program, but I think
+you have some details wrong. please see below.
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/listxattr.2 | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 139 insertions(+), 5 deletions(-)
+> 
+> diff --git a/man2/listxattr.2 b/man2/listxattr.2
+> index a67592f..05197c4 100644
+> --- a/man2/listxattr.2
+> +++ b/man2/listxattr.2
+> @@ -1,5 +1,6 @@
+>  .\" Copyright (C) Andreas Gruenbacher, February 2001
+>  .\" Copyright (C) Silicon Graphics Inc, September 2001
+> +.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+>  .\"
+>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>  .\" This is free documentation; you can redistribute it and/or
+> @@ -22,7 +23,7 @@
+>  .\" <http://www.gnu.org/licenses/>.
+>  .\" %%%LICENSE_END
+>  .\"
+> -.TH LISTXATTR 2 2014-02-06 "Linux" "Linux Programmer's Manual"
+> +.TH LISTXATTR 2 2015-02-08 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  listxattr, llistxattr, flistxattr \- list extended attribute names
+>  .SH SYNOPSIS
+> @@ -95,13 +96,14 @@ size of a buffer which is sufficiently large to hold the list of names.
+>  .SS Example
+>  The
+>  .I list
+> -of names is returned as an unordered array of null-terminated character
+> -strings (attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
+> +of names is returned as a null-terminated unordered array of
+> +null-terminated character strings
+> +(attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
+>  .fam C
+>  .RS
+>  .nf
+>  
+> -user.name1\\0system.name1\\0user.name2\\0
+> +user.name1\\0system.name1\\0user.name2\\0\\0
+
+I believe the above is incorrect. There is not, AFAIK, a double null byte 
+at the end of the buffer. Rather, one determines the end of the list
+using the length returned by the listxattr(). Could you check this please.
+
+Thanks,
 
 Michael
 
 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man2/ioctl_fat.2 | 54 ++++++++++++++++++++++++++++++++++++++++++++++--------
->  1 file changed, 46 insertions(+), 8 deletions(-)
-> 
-> diff --git a/man2/ioctl_fat.2 b/man2/ioctl_fat.2
-> index 55417f6..2c28421 100644
-> --- a/man2/ioctl_fat.2
-> +++ b/man2/ioctl_fat.2
-> @@ -157,25 +157,61 @@ struct __fat_dirent {
->  The first entry in the array is for the short filename.
->  The second entry is for the long filename.
->  .PP
-> +Fields
-> +.I d_ino
-> +and
-> +.I d_off
-> +are only filled for long filenames.
-> +Field
-> +.I d_ino
-> +holds the inode number of the directory.
-> +Field
-> +.I d_off
-> +holds the offset of the file entry in the directory.
-> +As these values are not available for short filenames, the user code should
-> +simply ignore them.
-> +.PP
->  The field
->  .I d_reclen
->  contains the length of the filename in the field
->  .IR d_name .
-> -A length of 0 for the short filename signals that the end of the directory
-> -has been reached.
-> -.\" FIXME Missing here are explanations of the fileds ;d_ino' and 'd_off'
-> +To keep backwards compatibility a length of 0 for the short filename signals
-> +that the end of the directory has been reached.
-> +The user code should rely on the return value to identify the end of the
-> +directory.
-> +If no long filename exists, field
-> +.I d_reclen
-> +is set to 0 and
-> +.I d_name
-> +is a character string of length 0 for the long filename.
->  .SH RETURN VALUE
->  On error, \-1 is returned, and
->  .I errno
->  is set to indicate the error.
-> +.PP
-> +For
-> +.B VFAT_IOCTL_READDIR_BOTH
-> +and
-> +.B VFAT_IOCTL_READDIR_SHORT
-> +a return value of 1 signals that a new directory entry has been read and
-> +a return value of 0 signals that the end of the directory has been reached.
->  .SH ERRORS
->  .TP
-> -.B ENOTDIR
-> +.B ENOENT
->  This error is returned by
-> +.B VFAT_IOCTL_READDIR_BOTH
-> +and
->  .B VFAT_IOCTL_READDIR_SHORT
-> +if the file descriptor
-> +.I fd
-> +refers to a removed, but still open directory.
-> +.TP
-> +.B ENOTDIR
-> +This error is returned by
-> +.B VFAT_IOCTL_READDIR_BOTH
->  and
->  .B VFAT_IOCTL_READDIR_SHORT
-> -if
-> +if the file descriptor
->  .I fd
->  does not refer to a directory.
->  .TP
-> @@ -431,10 +467,12 @@ main(int argc, char *argv[])
+>  .fi
+>  .RE
+>  .fam T
+> @@ -114,7 +116,7 @@ like this:
+>  .RS
+>  .nf
 >  
->          /*
->           * If an error occurs, the return value is \-1.
-> -         * If d_reclen is zero, the end of the directory
-> -         * list has been reached.
-> +         * If the end of the directory list has been reached,
-> +         * the return value is 0.
-> +         * For backward compatibility the end of the directory
-> +         * list is also signaled by d_reclen == 0.
->           */
-> -        if (ret == \-1 || entry[0].d_reclen == 0)
-> +        if (ret < 1)
->              break;
->  
->          /*
+> -system.posix_acl_access\\0system.posix_acl_default\\0
+> +system.posix_acl_access\\0system.posix_acl_default\\0\\0
+>  .fi
+>  .RE
+>  .fam T
+> @@ -150,6 +152,138 @@ These system calls are Linux-specific.
+>  .\" and the SGI XFS development team,
+>  .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
+>  .\" Please send any bug reports or comments to these addresses.
+> +.SH EXAMPLE
+> +The following program demonstrates the usage of
+> +.BR listxattr ()
+> +and
+> +.BR getxattr (2).
+> +For a path provided, it lists all extended file attributes and their values.
+> +
+> +The following output was recorded when first creating a file, setting
+> +some extended file attributes, and then listing them with the example code.
+> +
+> +.SS Example output
+> +.in +4n 
+> +.nf
+> +$ touch /tmp/foo
+> +$ setfattr -n user.fred -v chocolate /tmp/foo
+> +$ setfattr -n user.frieda -v bar /tmp/foo
+> +$ setfattr -n user.empty /tmp/foo
+> +$ ./listxattr /tmp/foo
+> +user.fred: chocolate
+> +user.frieda: bar
+> +user.empty: <no value>
+> +.fi
+> +.in
+> +.SS Program source
+> +.nf
+> +#include <malloc.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <attr/xattr.h>
+> +#include <sys/types.h>
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    ssize_t buflen;
+> +    char *buf, *p, *val;
+> +
+> +    if (argc != 2) {
+> +        fprintf(stderr, "usage: %s path\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * determine the length of the buffer needed
+> +     */
+> +    buflen = listxattr(argv[1], NULL, 0);
+> +    if (buflen == \-1) {
+> +        perror("listxattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +    if (buflen == 0) {
+> +        printf("%s has no attibutes.\\n", argv[1]);
+> +        exit(EXIT_SUCCESS);
+> +    }
+> +
+> +    /*
+> +     * allocate the buffer
+> +     */
+> +    buf = malloc(buflen);
+> +    if (buf == NULL) {
+> +        perror("malloc");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * copy the attribute list to the buffer
+> +     */
+> +    buflen = listxattr(argv[1], buf, buflen);
+> +    if (buflen == \-1) {
+> +        perror("listxattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * The end of the list is marked by zero terminated string
+> +     * of length zero.
+> +     */
+> +    p = buf;
+> +    while (*p) {
+> +
+> +        /*
+> +         * output attribute name
+> +         */
+> +        printf("%s: ", p);
+> +
+> +        /*
+> +         * determine length of value
+> +         */
+> +        buflen = getxattr(argv[1], p, NULL, 0);
+> +        if (buflen == \-1)
+> +            perror("getxattr");
+> +
+> +        if (buflen > 0) {
+> +            /*
+> +             * allocate value buffer
+> +             */
+> +            val = malloc(buflen);
+> +            if (val == NULL) {
+> +                perror("malloc");
+> +                exit(EXIT_FAILURE);
+> +            }
+> +
+> +            /*
+> +             * read value to buffer
+> +             */
+> +            buflen = getxattr(argv[1], p, val, buflen);
+> +            if (buflen == \-1)
+> +                perror("getxattr");
+> +            else
+> +                /*
+> +                 * output attribute value
+> +                 */
+> +                printf("%s", val);
+> +
+> +            free(val);
+> +        } else
+> +            printf("<no value>");
+> +
+> +        printf("\\n");
+> +
+> +        /*
+> +         *forward to next attribute name
+> +         */
+> +        while(*++p);
+> +        ++p;
+> +    }
+> +
+> +    free(buf);
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.nf
+> +.fi
+>  .SH SEE ALSO
+>  .BR getfattr (1),
+>  .BR setfattr (1),
 > 
 
 
