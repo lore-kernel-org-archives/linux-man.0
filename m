@@ -1,153 +1,132 @@
-From: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
- repeated MADV_DONTNEED hints
-Date: Mon, 9 Feb 2015 15:50:45 +0900
-Message-ID: <20150209065045.GB32300@blaptop>
-References: <54D08483.40209@suse.cz>
- <20150203105301.GC14259@node.dhcp.inet.fi>
- <54D0B43D.8000209@suse.cz>
- <54D0F56A.9050003@gmail.com>
- <54D22298.3040504@suse.cz>
- <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com>
- <54D2508A.9030804@suse.cz>
- <CAKgNAkhNbHQX7RukSsSe3bMqY11f493rYbDpTOA2jH7vsziNww@mail.gmail.com>
- <20150205154102.GA20607@dhcp22.suse.cz>
- <54D4E47E.4020509@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/1] ioctl_fat.2: d_ino, d_off, return value explained
+Date: Mon, 09 Feb 2015 09:12:38 +0100
+Message-ID: <54D86BF6.30907@gmail.com>
+References: <87fvane3ch.fsf@mail.parknet.co.jp> <1423260638-23504-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <54D4E47E.4020509-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1423260638-23504-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>, Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, OGAWA Hirofumi <hirofumi-UIVanBePwB70ZhReMnHkpc8NsWr+9BEh@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andreas Dilger <adilger-m1MBpc4rdrD3fQ9qLvQP4Q@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 06, 2015 at 04:57:50PM +0100, Michael Kerrisk (man-pages) w=
-rote:
-> Hi Michael
->=20
-> On 02/05/2015 04:41 PM, Michal Hocko wrote:
-> > On Wed 04-02-15 20:24:27, Michael Kerrisk wrote:
-> > [...]
-> >> So, how about this text:
-> >>
-> >>               After a successful MADV_DONTNEED operation, the sema=
-n=E2=80=90
-> >>               tics  of  memory  access  in  the specified region a=
-re
-> >>               changed: subsequent accesses of  pages  in  the  ran=
-ge
-> >>               will  succeed,  but will result in either reloading =
-of
-> >>               the memory contents from the  underlying  mapped  fi=
-le
-> >=20
-> > "
-> > result in either providing the up-to-date contents of the underlyin=
-g
-> > mapped file
-> > "
->=20
-> Thanks! I did something like that. See below.
->=20
-> > Would be more precise IMO because reload might be interpreted as a =
-major
-> > fault which is not necessarily the case (see below).
-> >=20
-> >>               (for  shared file mappings, shared anonymous mapping=
-s,
-> >>               and shmem-based techniques such  as  System  V  shar=
-ed
-> >>               memory  segments)  or  zero-fill-on-demand  pages  f=
-or
-> >>               anonymous private mappings.
-> >=20
-> > Yes, this wording is better because many users are not aware of
-> > MAP_ANON|MAP_SHARED being file backed in fact and mmap man page doe=
-sn't
-> > mention that.
->=20
-> (Michal, would you have a text to propose to add to the mmap(2) page?
-> Maybe it would be useful to add something there.)
->=20
-> >=20
-> > I am just wondering whether it makes sense to mention that MADV_DON=
-TNEED
-> > for shared mappings might be surprising and not freeing the backing
-> > pages thus not really freeing memory until there is a memory
-> > pressure. But maybe this is too implementation specific for a man
-> > page. What about the following wording on top of yours?
-> > "
-> > Please note that the MADV_DONTNEED hint on shared mappings might no=
-t
-> > lead to immediate freeing of pages in the range. The kernel is free=
- to
-> > delay this until an appropriate moment. RSS of the calling process =
-will
-> > be reduced however.
-> > "
->=20
-> Thanks! I added this, but dropped in the word "immediately" in the la=
-st=20
-> sentence, since I assume that was implied. So now we have:
->=20
->               After  a  successful MADV_DONTNEED operation, the seman=
-=E2=80=90
->               tics of  memory  access  in  the  specified  region  ar=
-e
->               changed:  subsequent accesses of pages in the range wil=
-l
->               succeed, but will result in either repopulating the mem=
-=E2=80=90
->               ory  contents from the up-to-date contents of the under=
-=E2=80=90
->               lying mapped file  (for  shared  file  mappings,  share=
-d
->               anonymous  mappings,  and shmem-based techniques such a=
-s
->               System V shared memory segments) or  zero-fill-on-deman=
-d
->               pages for anonymous private mappings.
->=20
->               Note  that,  when applied to shared mappings, MADV_DONT=
-=E2=80=90
->               NEED might not lead to immediate freeing of the pages i=
-n
->               the  range.   The  kernel  is  free to delay freeing th=
-e
->               pages until an appropriate  moment.   The  resident  se=
-t
->               size  (RSS)  of  the calling process will be immediatel=
-y
->               reduced however.
+On 02/06/2015 11:10 PM, Heinrich Schuchardt wrote:
+> The fields d_ino and d_off of structure __fat_dirent are explained.
+> 
+> The different return values of VFAT_IOCTL_READDIR_BOTH and
+> VFAT_IOCTL_READDIR_SHORT are explained.
+> 
+> The usage of the return value in the example is corrected.
 
-Looks good. So, I can parse it that anonymous private mappings will lea=
-d
-to immediate freeing of the pages in the range so it's clearly differen=
-t
-with MADV_FREE.
+Thanks, Heinrich. Tweaked a little and pushed to the draft_ioctl_fat branch.
 
->=20
-> The current draft of the page can be found in a branch,
-> http://git.kernel.org/cgit/docs/man-pages/man-pages.git/log/?h=3Ddraf=
-t_madvise
->=20
-> Thanks,
->=20
-> Michael
->=20
->=20
->=20
-> --=20
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+Cheers,
 
---=20
-Kind regards,
-Minchan Kim
+Michael
+
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/ioctl_fat.2 | 54 ++++++++++++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 46 insertions(+), 8 deletions(-)
+> 
+> diff --git a/man2/ioctl_fat.2 b/man2/ioctl_fat.2
+> index 55417f6..2c28421 100644
+> --- a/man2/ioctl_fat.2
+> +++ b/man2/ioctl_fat.2
+> @@ -157,25 +157,61 @@ struct __fat_dirent {
+>  The first entry in the array is for the short filename.
+>  The second entry is for the long filename.
+>  .PP
+> +Fields
+> +.I d_ino
+> +and
+> +.I d_off
+> +are only filled for long filenames.
+> +Field
+> +.I d_ino
+> +holds the inode number of the directory.
+> +Field
+> +.I d_off
+> +holds the offset of the file entry in the directory.
+> +As these values are not available for short filenames, the user code should
+> +simply ignore them.
+> +.PP
+>  The field
+>  .I d_reclen
+>  contains the length of the filename in the field
+>  .IR d_name .
+> -A length of 0 for the short filename signals that the end of the directory
+> -has been reached.
+> -.\" FIXME Missing here are explanations of the fileds ;d_ino' and 'd_off'
+> +To keep backwards compatibility a length of 0 for the short filename signals
+> +that the end of the directory has been reached.
+> +The user code should rely on the return value to identify the end of the
+> +directory.
+> +If no long filename exists, field
+> +.I d_reclen
+> +is set to 0 and
+> +.I d_name
+> +is a character string of length 0 for the long filename.
+>  .SH RETURN VALUE
+>  On error, \-1 is returned, and
+>  .I errno
+>  is set to indicate the error.
+> +.PP
+> +For
+> +.B VFAT_IOCTL_READDIR_BOTH
+> +and
+> +.B VFAT_IOCTL_READDIR_SHORT
+> +a return value of 1 signals that a new directory entry has been read and
+> +a return value of 0 signals that the end of the directory has been reached.
+>  .SH ERRORS
+>  .TP
+> -.B ENOTDIR
+> +.B ENOENT
+>  This error is returned by
+> +.B VFAT_IOCTL_READDIR_BOTH
+> +and
+>  .B VFAT_IOCTL_READDIR_SHORT
+> +if the file descriptor
+> +.I fd
+> +refers to a removed, but still open directory.
+> +.TP
+> +.B ENOTDIR
+> +This error is returned by
+> +.B VFAT_IOCTL_READDIR_BOTH
+>  and
+>  .B VFAT_IOCTL_READDIR_SHORT
+> -if
+> +if the file descriptor
+>  .I fd
+>  does not refer to a directory.
+>  .TP
+> @@ -431,10 +467,12 @@ main(int argc, char *argv[])
+>  
+>          /*
+>           * If an error occurs, the return value is \-1.
+> -         * If d_reclen is zero, the end of the directory
+> -         * list has been reached.
+> +         * If the end of the directory list has been reached,
+> +         * the return value is 0.
+> +         * For backward compatibility the end of the directory
+> +         * list is also signaled by d_reclen == 0.
+>           */
+> -        if (ret == \-1 || entry[0].d_reclen == 0)
+> +        if (ret < 1)
+>              break;
+>  
+>          /*
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
