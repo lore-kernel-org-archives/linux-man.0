@@ -1,215 +1,205 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] listxattr.2: provide example code
-Date: Sun,  8 Feb 2015 17:22:08 +0100
-Message-ID: <1423412528-11512-1-git-send-email-xypron.glpk@gmx.de>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Andreas Gruenbacher <a.gruenbacher-bdq14YP6qtRg9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+From: Minchan Kim <minchan-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: MADV_DONTNEED semantics? Was: [RFC PATCH] mm: madvise: Ignore
+ repeated MADV_DONTNEED hints
+Date: Mon, 9 Feb 2015 15:46:00 +0900
+Message-ID: <20150209064600.GA32300@blaptop>
+References: <54D08483.40209@suse.cz>
+ <20150203105301.GC14259@node.dhcp.inet.fi>
+ <54D0B43D.8000209@suse.cz>
+ <54D0F56A.9050003@gmail.com>
+ <54D22298.3040504@suse.cz>
+ <CAKgNAkgOOCuzJz9whoVfFjqhxM0zYsz94B1+oH58SthC5Ut9sg@mail.gmail.com>
+ <54D2508A.9030804@suse.cz>
+ <CAKgNAkhNbHQX7RukSsSe3bMqY11f493rYbDpTOA2jH7vsziNww@mail.gmail.com>
+ <20150205010757.GA20996@blaptop>
+ <54D4E098.8050004@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <54D4E098.8050004-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>, "Kirill A. Shutemov" <kirill-oKw7cIdHH8eLwutG50LtGA@public.gmane.org>, Dave Hansen <dave.hansen-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Mel Gorman <mgorman-l3A5Bk7waGM@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The description of listxattr did not point out how that the array
-of attributes itself is null-terminated.
+Hello, Michael
 
-The missing information has been added.
+On Fri, Feb 06, 2015 at 04:41:12PM +0100, Michael Kerrisk (man-pages) w=
+rote:
+> On 02/05/2015 02:07 AM, Minchan Kim wrote:
+> > Hello,
+> >=20
+> > On Wed, Feb 04, 2015 at 08:24:27PM +0100, Michael Kerrisk (man-page=
+s) wrote:
+> >> On 4 February 2015 at 18:02, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org> wrot=
+e:
+> >>> On 02/04/2015 03:00 PM, Michael Kerrisk (man-pages) wrote:
+> >>>>
+> >>>> Hello Vlastimil,
+> >>>>
+> >>>> On 4 February 2015 at 14:46, Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org> wr=
+ote:
+> >>>>>>>
+> >>>>>>> - that covers mlocking ok, not sure if the rest fits the "sha=
+red pages"
+> >>>>>>> case
+> >>>>>>> though. I dont see any check for other kinds of shared pages =
+in the
+> >>>>>>> code.
+> >>>>>>
+> >>>>>>
+> >>>>>> Agreed. "shared" here seems confused. I've removed it. And I'v=
+e
+> >>>>>> added mention of "Huge TLB pages" for this error.
+> >>>>>
+> >>>>>
+> >>>>> Thanks.
+> >>>>
+> >>>>
+> >>>> I also added those cases for MADV_REMOVE, BTW.
+> >>>
+> >>>
+> >>> Right. There's also the following for MADV_REMOVE that needs upda=
+ting:
+> >>>
+> >>> "Currently, only shmfs/tmpfs supports this; other filesystems ret=
+urn with
+> >>> the error ENOSYS."
+> >>>
+> >>> - it's not just shmem/tmpfs anymore. It should be best to refer t=
+o
+> >>> fallocate(2) option FALLOC_FL_PUNCH_HOLE which seems to be (more)=
+ up to
+> >>> date.
+> >>>
+> >>> - AFAICS it doesn't return ENOSYS but EOPNOTSUPP. Also neither er=
+ror code is
+> >>> listed in the ERRORS section.
+> >>
+> >> Yup, I recently added that as well, based on a patch from Jan Chal=
+oupka.
+> >>
+> >>>>>>>>> - The word "will result" did sound as a guarantee at least =
+to me. So
+> >>>>>>>>> here it
+> >>>>>>>>> could be changed to "may result (unless the advice is ignor=
+ed)"?
+> >>>>>>>>
+> >>>>>>>> It's too late to fix documentation. Applications already dep=
+ends on
+> >>>>>>>> the
+> >>>>>>>> beheviour.
+> >>>>>>>
+> >>>>>>> Right, so as long as they check for EINVAL, it should be safe=
+=2E It
+> >>>>>>> appears
+> >>>>>>> that
+> >>>>>>> jemalloc does.
+> >>>>>>
+> >>>>>> So, first a brief question: in the cases where the call does n=
+ot error
+> >>>>>> out,
+> >>>>>> are we agreed that in the current implementation, MADV_DONTNEE=
+D will
+> >>>>>> always result in zero-filled pages when the region is faulted =
+back in
+> >>>>>> (when we consider pages that are not backed by a file)?
+> >>>>>
+> >>>>> I'd agree at this point.
+> >>>>
+> >>>> Thanks for the confirmation.
+> >>>>
+> >>>>> Also we should probably mention anonymously shared pages (shmem=
+). I think
+> >>>>> they behave the same as file here.
+> >>>>
+> >>>> You mean tmpfs here, right? (I don't keep all of the synonyms st=
+raight.)
+> >>>
+> >>> shmem is tmpfs (that by itself would fit under "files" just fine)=
+, but also
+> >>> sys V segments created by shmget(2) and also mappings created by =
+mmap with
+> >>> MAP_SHARED | MAP_ANONYMOUS. I'm not sure if there's a single manp=
+age to
+> >>> refer to the full list.
+> >>
+> >> So, how about this text:
+> >>
+> >>               After a successful MADV_DONTNEED operation, the sema=
+n=E2=80=90
+> >>               tics  of  memory  access  in  the specified region a=
+re
+> >>               changed: subsequent accesses of  pages  in  the  ran=
+ge
+> >>               will  succeed,  but will result in either reloading =
+of
+> >>               the memory contents from the  underlying  mapped  fi=
+le
+> >>               (for  shared file mappings, shared anonymous mapping=
+s,
+> >>               and shmem-based techniques such  as  System  V  shar=
+ed
+> >>               memory  segments)  or  zero-fill-on-demand  pages  f=
+or
+> >>               anonymous private mappings.
+> >=20
+> > Hmm, I'd like to clarify.
+> >=20
+> > Whether it was intention or not, some of userspace developers thoug=
+ht
+> > about that syscall drop pages instantly if was no-error return so t=
+hat
+> > they will see more free pages(ie, rss for the process will be decre=
+ased)
+> > with keeping the VMA. Can we rely on it?
+>=20
+> I do not know. Michael?
 
-Furthermore example code is provided.
+It's important to identify difference between MADV_DONTNEED and MADV_FR=
+EE
+so it would be better to clear out in this chance.
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/listxattr.2 | 144 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 139 insertions(+), 5 deletions(-)
+>=20
+> > And we should make error section, too.
+> > "locked" covers mlock(2) and you said you will add hugetlb. Then,
+> > VM_PFNMAP? In that case, it fails. How can we say about VM_PFNMAP?
+> > special mapping for some drivers?
+>=20
+> I'm open for offers on what to add.
 
-diff --git a/man2/listxattr.2 b/man2/listxattr.2
-index a67592f..05197c4 100644
---- a/man2/listxattr.2
-+++ b/man2/listxattr.2
-@@ -1,5 +1,6 @@
- .\" Copyright (C) Andreas Gruenbacher, February 2001
- .\" Copyright (C) Silicon Graphics Inc, September 2001
-+.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
- .\"
- .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
- .\" This is free documentation; you can redistribute it and/or
-@@ -22,7 +23,7 @@
- .\" <http://www.gnu.org/licenses/>.
- .\" %%%LICENSE_END
- .\"
--.TH LISTXATTR 2 2014-02-06 "Linux" "Linux Programmer's Manual"
-+.TH LISTXATTR 2 2015-02-08 "Linux" "Linux Programmer's Manual"
- .SH NAME
- listxattr, llistxattr, flistxattr \- list extended attribute names
- .SH SYNOPSIS
-@@ -95,13 +96,14 @@ size of a buffer which is sufficiently large to hold the list of names.
- .SS Example
- The
- .I list
--of names is returned as an unordered array of null-terminated character
--strings (attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
-+of names is returned as a null-terminated unordered array of
-+null-terminated character strings
-+(attribute names are separated by null bytes (\(aq\\0\(aq)), like this:
- .fam C
- .RS
- .nf
- 
--user.name1\\0system.name1\\0user.name2\\0
-+user.name1\\0system.name1\\0user.name2\\0\\0
- .fi
- .RE
- .fam T
-@@ -114,7 +116,7 @@ like this:
- .RS
- .nf
- 
--system.posix_acl_access\\0system.posix_acl_default\\0
-+system.posix_acl_access\\0system.posix_acl_default\\0\\0
- .fi
- .RE
- .fam T
-@@ -150,6 +152,138 @@ These system calls are Linux-specific.
- .\" and the SGI XFS development team,
- .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
- .\" Please send any bug reports or comments to these addresses.
-+.SH EXAMPLE
-+The following program demonstrates the usage of
-+.BR listxattr ()
-+and
-+.BR getxattr (2).
-+For a path provided, it lists all extended file attributes and their values.
-+
-+The following output was recorded when first creating a file, setting
-+some extended file attributes, and then listing them with the example code.
-+
-+.SS Example output
-+.in +4n 
-+.nf
-+$ touch /tmp/foo
-+$ setfattr -n user.fred -v chocolate /tmp/foo
-+$ setfattr -n user.frieda -v bar /tmp/foo
-+$ setfattr -n user.empty /tmp/foo
-+$ ./listxattr /tmp/foo
-+user.fred: chocolate
-+user.frieda: bar
-+user.empty: <no value>
-+.fi
-+.in
-+.SS Program source
-+.nf
-+#include <malloc.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <attr/xattr.h>
-+#include <sys/types.h>
-+
-+int
-+main(int argc, char *argv[])
-+{
-+    ssize_t buflen;
-+    char *buf, *p, *val;
-+
-+    if (argc != 2) {
-+        fprintf(stderr, "usage: %s path\\n", argv[0]);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * determine the length of the buffer needed
-+     */
-+    buflen = listxattr(argv[1], NULL, 0);
-+    if (buflen == \-1) {
-+        perror("listxattr");
-+        exit(EXIT_FAILURE);
-+    }
-+    if (buflen == 0) {
-+        printf("%s has no attibutes.\\n", argv[1]);
-+        exit(EXIT_SUCCESS);
-+    }
-+
-+    /*
-+     * allocate the buffer
-+     */
-+    buf = malloc(buflen);
-+    if (buf == NULL) {
-+        perror("malloc");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * copy the attribute list to the buffer
-+     */
-+    buflen = listxattr(argv[1], buf, buflen);
-+    if (buflen == \-1) {
-+        perror("listxattr");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * The end of the list is marked by zero terminated string
-+     * of length zero.
-+     */
-+    p = buf;
-+    while (*p) {
-+
-+        /*
-+         * output attribute name
-+         */
-+        printf("%s: ", p);
-+
-+        /*
-+         * determine length of value
-+         */
-+        buflen = getxattr(argv[1], p, NULL, 0);
-+        if (buflen == \-1)
-+            perror("getxattr");
-+
-+        if (buflen > 0) {
-+            /*
-+             * allocate value buffer
-+             */
-+            val = malloc(buflen);
-+            if (val == NULL) {
-+                perror("malloc");
-+                exit(EXIT_FAILURE);
-+            }
-+
-+            /*
-+             * read value to buffer
-+             */
-+            buflen = getxattr(argv[1], p, val, buflen);
-+            if (buflen == \-1)
-+                perror("getxattr");
-+            else
-+                /*
-+                 * output attribute value
-+                 */
-+                printf("%s", val);
-+
-+            free(val);
-+        } else
-+            printf("<no value>");
-+
-+        printf("\\n");
-+
-+        /*
-+         *forward to next attribute name
-+         */
-+        while(*++p);
-+        ++p;
-+    }
-+
-+    free(buf);
-+    exit(EXIT_SUCCESS);
-+}
-+.nf
-+.fi
- .SH SEE ALSO
- .BR getfattr (1),
- .BR setfattr (1),
--- 
-2.1.4
+I suggests from quote "LWN" http://lwn.net/Articles/162860/
+"*special mapping* which is not made up of "normal" pages.
+It is usually created by device drivers which map special memory areas
+into user space"
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> =20
+> > One more thing, "The kernel is free to ignore the advice".
+> > It conflicts "This call does not influence the semantics of the
+> > application (except in the case of MADV_DONTNEED)" so
+> > is it okay we can believe "The kernel is free to ingmore the advise
+> > except MADV_DONTNEED"?
+>=20
+> I decided to just drop the sentence
+>=20
+>      The kernel is free to ignore the advice.
+>=20
+> It creates misunderstandings, and does not really add information.
+
+Sounds good.
+
+>=20
+> Cheers,
+>=20
+> Michael
+>=20
+> --=20
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
+
+--=20
+Kind regards,
+Minchan Kim
