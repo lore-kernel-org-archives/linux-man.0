@@ -1,274 +1,194 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] host.conf(5): order option deprecated, replaced by nsswitch.conf(5)
-Date: Tue, 10 Feb 2015 13:39:12 +0100
-Message-ID: <CAKgNAkjuHyx6yoqEoJ5+ENxaD3cdCczVuXKbV5RkiPZOiEMRHA@mail.gmail.com>
-References: <1355073222-13020-1-git-send-email-spaillard@debian.org> <53777D0A.3010601@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH v3 1/1] listxattr.2: provide example code
+Date: Tue, 10 Feb 2015 20:11:06 +0100
+Message-ID: <1423595466-6016-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <53777D0A.3010601-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Simon Paillard <spaillard-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Marc Herbert <Marc.Herbert-vYW+cPY1g1pWj0EZb7rXcA@public.gmane.org>, Thomas Hood <jdthood-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Ferenc Wagner <wferi-eEbw3PyuezQ@public.gmane.org>, alex <alex-nSREKuDdAoaPMHZYdLIcP2D2FQJk+8+b@public.gmane.org>, Aurelien Jarno <aurelien-rXXEIb44qovR7s880joybQ@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-[CC expanded]
+Example code is provided.
 
-Hi Simon,
+Version 3:
+   Remove unused variable.
+   Use strlen instead of while(++p) to find end of string.
+   Rename some variables.
+   Correct comments.
 
-I've not heard from you in a long time. Are you still supporting the
-manpages package in Debian?
+Version 2:
 
-Ping! (And anyone else with input about my proposed upstream patch,
-shown below, and in
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=344233#44 , should
-feel free to jump in.)
+  As Michael correctly pointed out, the buffer length returned by
+  listxattr does not contain any byte after the 0x00 indicating
+  the end of the last list entry.
 
-Relevant Debian bugs:
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/listxattr.2 | 142 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 142 insertions(+)
 
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=344233
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=396633
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=270368 (merged with 396633)
-
-Cheers,
-
-Michael
-
-
-
-On 17 May 2014 at 17:15, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 12/09/2012 06:13 PM, Simon Paillard wrote:
->> http://www.sourceware.org/bugzilla/show_bug.cgi?id=2389
->> http://repo.or.cz/w/glibc.git/commit/b9c65d0902e5890c4f025b574725154032f8120a
->>
->> Reported at http://bugs.debian.org/270368 http://bugs.debian.org/396633
->> ---
->>  man3/resolver.3    |    2 +-
->>  man5/host.conf.5   |   14 ++------------
->>  man5/resolv.conf.5 |    4 +++-
->>  3 files changed, 6 insertions(+), 14 deletions(-)
->>
->> diff --git a/man3/resolver.3 b/man3/resolver.3
->> index 991b263..2cd4ec7 100644
->> --- a/man3/resolver.3
->> +++ b/man3/resolver.3
->> @@ -87,7 +87,7 @@ domain name servers.
->>  The
->>  .BR res_init ()
->>  function reads the configuration files (see
->> -resolv.conf(5)) to get the default domain name, search order and name
->> +resolv.conf(5)) to get the default domain name and name
->>  server address(es).
->>  If no server is given, the local host is tried.
->>  If no domain is given, that associated with the local host is used.
->> diff --git a/man5/host.conf.5 b/man5/host.conf.5
->> index 189e2e9..ed1403d 100644
->> --- a/man5/host.conf.5
->> +++ b/man5/host.conf.5
->> @@ -33,15 +33,9 @@ contains configuration information specific to the resolver library.
->>  It should contain one configuration keyword per line, followed by
->>  appropriate configuration information.
->>  The keywords recognized are
->> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->> +.IR trim ", " multi ", " nospoof ", " spoof ", and " reorder .
->>  These keywords are described below.
->>  .TP
->> -.I order
->> -This keyword specifies how host lookups are to be performed.
->> -It should be followed by one or more lookup methods, separated by commas.
->> -Valid methods are
->> -.IR bind ", " hosts ", and " nis .
->> -.TP
->>  .I trim
->>  This keyword may be listed more than once.
->>  Each time it should be
->> @@ -141,11 +135,6 @@ override the behavior which is configured in
->>  If set this variable points to a file that should be read instead of
->>  .IR /etc/host.conf .
->>  .TP
->> -.B RESOLV_SERV_ORDER
->> -Overrides the
->> -.I order
->> -command.
->> -.TP
->>  .B RESOLV_SPOOF_CHECK
->>  Overrides the
->>  .IR nospoof ", " spoofalert " and " spoof
->> @@ -200,4 +189,5 @@ Line comments can appear anywhere and not only at the beginning of a line.
->>  .BR gethostbyname (3),
->>  .BR hostname (7),
->>  .BR named (8),
->> +.BR nsswitch.conf (5),
->>  .BR resolv+ (8)
->> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
->> index 9a3ca54..282f748 100644
->> --- a/man5/resolv.conf.5
->> +++ b/man5/resolv.conf.5
->> @@ -134,6 +134,7 @@ sets
->>  .BR RES_DEBUG
->>  in
->>  .IR _res.options .
->> +This option needs glibc to be build with debugging enabled.
->>  .TP
->>  .BI ndots: n
->>  .\" Since glibc 2.2
->> @@ -275,6 +276,7 @@ in the first column are treated as comments.
->>  .BR gethostbyname (3),
->>  .BR resolver (3),
->>  .BR hostname (7),
->> -.BR named (8)
->> +.BR named (8),
->> +.BR nsswitch.conf (5)
->>  .br
->>  Name Server Operations Guide for BIND
->
-> Simon,
->
-> I propose the patch below. Look okay to you?
->
-> Cheers,
->
-> Michael
->
-> diff --git a/man3/resolver.3 b/man3/resolver.3
-> index a3fd2e8..7dc2002 100644
-> --- a/man3/resolver.3
-> +++ b/man3/resolver.3
-> @@ -29,7 +29,7 @@
->  .\" Modified 1993-07-25 by Rik Faith (faith-+5Oa3zvhR2o3uPMLIKxrzw@public.gmane.org)
->  .\" Modified 2004-10-31 by aeb
->  .\"
-> -.TH RESOLVER 3 2013-03-05 "GNU" "Linux Programmer's Manual"
-> +.TH RESOLVER 3 2014-05-17 "GNU" "Linux Programmer's Manual"
->  .SH NAME
->  res_init, res_query, res_search, res_querydomain, res_mkquery, res_send,
->  dn_comp, dn_expand \- resolver routines
-> @@ -90,7 +90,7 @@ The
->  .BR res_init ()
->  function reads the configuration files (see
->  .BR resolv.conf (5))
-> -to get the default domain name, search order and name
-> +to get the default domain name and name
->  server address(es).
->  If no server is given, the local host is tried.
->  If no domain is given, that associated with the local host is used.
-> diff --git a/man5/host.conf.5 b/man5/host.conf.5
-> index a289cb4..e3d9073 100644
-> --- a/man5/host.conf.5
-> +++ b/man5/host.conf.5
-> @@ -23,7 +23,7 @@
->  .\" %%%LICENSE_END
->  .\"
->  .\" 2003-08-23 Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org> Updated according to glibc 2.3.2
-> -.TH HOST.CONF 5 2003-08-23 "Linux" "Linux System Administration"
-> +.TH HOST.CONF 5 2014-05-17 "Linux" "Linux System Administration"
->  .SH NAME
->  host.conf \- resolver configuration file
->  .SH DESCRIPTION
-> @@ -32,15 +32,7 @@ The file
->  contains configuration information specific to the resolver library.
->  It should contain one configuration keyword per line, followed by
->  appropriate configuration information.
-> -The keywords recognized are
-> -.IR order ", " trim ", " multi ", " nospoof ", " spoof ", and " reorder .
-> -These keywords are described below.
-> -.TP
-> -.I order
-> -This keyword specifies how host lookups are to be performed.
-> -It should be followed by one or more lookup methods, separated by commas.
-> -Valid methods are
-> -.IR bind ", " hosts ", and " nis .
-> +The following keywords are recognized:
->  .TP
->  .I trim
->  This keyword may be listed more than once.
-> @@ -133,19 +125,14 @@ Reordering is done for all lookup methods.
->  The default value is
->  .IR off .
->  .SH ENVIRONMENT
-> -There are six environment variables that can be used to allow users to
-> +The following environment variables can be used to allow users to
->  override the behavior which is configured in
-> -.IR /etc/host.conf .
-> +.IR /etc/host.conf :
->  .TP
->  .B RESOLV_HOST_CONF
->  If set, this variable points to a file that should be read instead of
->  .IR /etc/host.conf .
->  .TP
-> -.B RESOLV_SERV_ORDER
-> -Overrides the
-> -.I order
-> -command.
-> -.TP
->  .B RESOLV_SPOOF_CHECK
->  Overrides the
->  .IR nospoof ", " spoofalert " and " spoof
-> @@ -196,8 +183,25 @@ and a new environment variable
->  can take arguments like
->  .IR off ", " nowarn " and " warn .
->  Line comments can appear anywhere and not only at the beginning of a line.
-> +.SS Historical
-> +In glibc 2.4 and earlier, the following keyword is recognized:
-> +.TP
-> +.I order
-> +This keyword specifies how host lookups are to be performed.
-> +It should be followed by one or more lookup methods, separated by commas.
-> +Valid methods are
-> +.IR bind ", " hosts ", and " nis .
-> +The
-> +.B RESOLV_SERV_ORDER
-> +environment variable could be used to override the
-> +.I order
-> +command.
-> +.PP
-> +The
-> +.BR nsswitch.conf (5)
-> +file is the modern way of controlling the order of host lookups.
->  .SH SEE ALSO
->  .BR gethostbyname (3),
-> +.BR nsswitch.conf (5)
->  .BR hostname (7),
-> -.BR named (8),
-> -.BR resolv+ (8)
-> +.BR named (8)
-> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-> index 3680a82..f9a0ba1 100644
-> --- a/man5/resolv.conf.5
-> +++ b/man5/resolv.conf.5
-> @@ -20,7 +20,7 @@
->  .\"
->  .\" Added ndots remark by Bernhard R. Link - debian bug #182886
->  .\"
-> -.TH RESOLV.CONF 5 2014-02-22 "" "Linux Programmer's Manual"
-> +.TH RESOLV.CONF 5 2014-05-17 "" "Linux Programmer's Manual"
->  .UC 4
->  .SH NAME
->  resolv.conf \- resolver configuration file
-> @@ -290,6 +290,7 @@ in the first column are treated as comments.
->  .SH SEE ALSO
->  .BR gethostbyname (3),
->  .BR resolver (3),
-> +.BR nsswitch.conf (5)
->  .BR hostname (7),
->  .BR named (8)
->  .br
->
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
-
-
-
+diff --git a/man2/listxattr.2 b/man2/listxattr.2
+index a67592f..c6ddb05 100644
+--- a/man2/listxattr.2
++++ b/man2/listxattr.2
+@@ -1,5 +1,6 @@
+ .\" Copyright (C) Andreas Gruenbacher, February 2001
+ .\" Copyright (C) Silicon Graphics Inc, September 2001
++.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+ .\" This is free documentation; you can redistribute it and/or
+@@ -150,6 +151,147 @@ These system calls are Linux-specific.
+ .\" and the SGI XFS development team,
+ .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
+ .\" Please send any bug reports or comments to these addresses.
++.SH EXAMPLE
++The following program demonstrates the usage of
++.BR listxattr ()
++and
++.BR getxattr (2).
++For a path provided, it lists all extended file attributes and their values.
++
++To keep the code simple, the assumption is made that attribute keys and
++values are constant during the runtime of the program.
++A production program should expect and handle changes during the runtime.
++
++The following output was recorded when first creating a file, setting
++some extended file attributes, and then listing them with the example code.
++
++.SS Example output
++.in +4n
++.nf
++$ touch /tmp/foo
++$ setfattr -n user.fred -v chocolate /tmp/foo
++$ setfattr -n user.frieda -v bar /tmp/foo
++$ setfattr -n user.empty /tmp/foo
++$ ./listxattr /tmp/foo
++user.fred: chocolate
++user.frieda: bar
++user.empty: <no value>
++.fi
++.in
++.SS Program source
++.nf
++#include <malloc.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <attr/xattr.h>
++#include <sys/types.h>
++
++int
++main(int argc, char *argv[])
++{
++    ssize_t buflen, keylen, vallen;
++    char *buf, *key, *val;
++
++    if (argc != 2) {
++        fprintf(stderr, "Usage: %s path\\n", argv[0]);
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Determine the length of the buffer needed.
++     */
++    buflen = listxattr(argv[1], NULL, 0);
++    if (buflen == \-1) {
++        perror("listxattr");
++        exit(EXIT_FAILURE);
++    }
++    if (buflen == 0) {
++        printf("%s has no attibutes.\\n", argv[1]);
++        exit(EXIT_SUCCESS);
++    }
++
++    /*
++     * Allocate the buffer.
++     */
++    buf = malloc(buflen);
++    if (buf == NULL) {
++        perror("malloc");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Copy the list of attribute keys to the buffer.
++     */
++    buflen = listxattr(argv[1], buf, buflen);
++    if (buflen == \-1) {
++        perror("listxattr");
++        exit(EXIT_FAILURE);
++    }
++
++    /*
++     * Loop over the list of zero terminated strings with the attribute keys.
++     * Use the remaining buffer length to determine the end of the list.
++     */
++    key = buf;
++    while (buflen > 0) {
++
++        /*
++         * Output attribute key.
++         */
++        printf("%s: ", key);
++
++        /*
++         * Determine length of the value.
++         */
++        vallen = getxattr(argv[1], key, NULL, 0);
++        if (vallen == \-1)
++            perror("getxattr");
++
++        if (vallen > 0) {
++
++            /*
++             * Allocate value buffer.
++             * One extra byte is needed to append 0x00.
++             */
++            val = malloc(vallen + 1);
++            if (val == NULL) {
++                perror("malloc");
++                exit(EXIT_FAILURE);
++            }
++
++            /*
++             * Copy value to buffer.
++             */
++            vallen = getxattr(argv[1], key, val, vallen);
++            if (vallen == \-1)
++                perror("getxattr");
++            else {
++                /*
++                 * Output attribute value.
++                 */
++                val[vallen] = 0;
++                printf("%s", val);
++            }
++
++            free(val);
++        } else if (vallen == 0)
++            printf("<no value>");
++
++        printf("\\n");
++
++        /*
++         * Forward to next attribute key.
++         */
++        keylen = strlen(key) + 1;
++        buflen \-= keylen;
++        key += keylen;
++    }
++
++    free(buf);
++    exit(EXIT_SUCCESS);
++}
++.fi
+ .SH SEE ALSO
+ .BR getfattr (1),
+ .BR setfattr (1),
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
