@@ -1,14 +1,19 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH v3 1/1] listxattr.2: provide example code
-Date: Tue, 10 Feb 2015 20:11:06 +0100
-Message-ID: <1423595466-6016-1-git-send-email-xypron.glpk@gmx.de>
+Subject: [PATCH v4 1/1] listxattr.2: provide example code
+Date: Tue, 10 Feb 2015 22:06:51 +0100
+Message-ID: <1423602411-11916-1-git-send-email-xypron.glpk@gmx.de>
+References: <1423595466-6016-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1423595466-6016-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 Example code is provided.
+
+Version 4:
+   Use #include <sys/xattr.h>
 
 Version 3:
    Remove unused variable.
@@ -28,7 +33,7 @@ Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
  1 file changed, 142 insertions(+)
 
 diff --git a/man2/listxattr.2 b/man2/listxattr.2
-index a67592f..c6ddb05 100644
+index a67592f..5fd9ec7 100644
 --- a/man2/listxattr.2
 +++ b/man2/listxattr.2
 @@ -1,5 +1,6 @@
@@ -75,8 +80,8 @@ index a67592f..c6ddb05 100644
 +#include <stdio.h>
 +#include <stdlib.h>
 +#include <string.h>
-+#include <attr/xattr.h>
 +#include <sys/types.h>
++#include <sys/xattr.h>
 +
 +int
 +main(int argc, char *argv[])
