@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getpwent.3: Modify thread-safety information
-Date: Tue, 10 Feb 2015 15:51:01 +0800
-Message-ID: <1423554661-26010-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getgrent.3: Modify thread-safety information
+Date: Tue, 10 Feb 2015 15:54:23 +0800
+Message-ID: <1423554863-26245-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -15,14 +15,14 @@ thread-safety information to be the same as glibc manual.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getpwent.3 | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ man3/getgrent.3 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/man3/getpwent.3 b/man3/getpwent.3
-index 8cfa9b4..c07dea1 100644
---- a/man3/getpwent.3
-+++ b/man3/getpwent.3
-@@ -156,16 +156,17 @@ For an explanation of the terms used in this section, see
+diff --git a/man3/getgrent.3 b/man3/getgrent.3
+index f3240aa..21d4759 100644
+--- a/man3/getgrent.3
++++ b/man3/getgrent.3
+@@ -168,16 +168,16 @@ For an explanation of the terms used in this section, see
  .BR attributes (7).
  .TS
  allbox;
@@ -31,15 +31,14 @@ index 8cfa9b4..c07dea1 100644
  l l l.
  Interface	Attribute	Value
  T{
- .BR getpwent ()
+ .BR getgrent ()
 -T}	Thread safety	MT-Unsafe
-+T}	Thread safety	MT-Unsafe race:pwent race:pwentbuf locale
++T}	Thread safety	MT-Unsafe race:grent race:grentbuf locale
  T{
- .BR setpwent (),
-+.br
- .BR endpwent ()
+ .BR setgrent (),
+ .BR endgrent ()
 -T}	Thread safety	MT-Safe
-+T}	Thread safety	MT-Unsafe race:pwent locale
++T}	Thread safety	MT-Unsafe race:grent locale
  .TE
  .SH CONFORMING TO
  SVr4, 4.3BSD, POSIX.1-2001.
