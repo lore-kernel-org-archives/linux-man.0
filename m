@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] backtrace.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 10:36:12 +0800
-Message-ID: <1423622172-18488-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] remainder.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 10:56:04 +0800
+Message-ID: <1423623364-18973-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,36 +14,39 @@ The markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/backtrace.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/remainder.3 | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/man3/backtrace.3 b/man3/backtrace.3
-index 1b21794..7018f12 100644
---- a/man3/backtrace.3
-+++ b/man3/backtrace.3
-@@ -140,6 +140,22 @@ on error, NULL is returned.
- and
- .BR backtrace_symbols_fd ()
- are provided in glibc since version 2.1.
+diff --git a/man3/remainder.3 b/man3/remainder.3
+index d2b4e79..7a18300 100644
+--- a/man3/remainder.3
++++ b/man3/remainder.3
+@@ -177,6 +177,25 @@ is set to
+ An invalid floating-point exception
+ .RB ( FE_INVALID )
+ is raised.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw22 lb lb
++lbw26 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR backtrace (),
++.BR drem (),
++.BR dremf (),
++.BR dreml (),
 +.br
-+.BR backtrace_symbols (),
++.BR remainder (),
++.BR remainderf (),
 +.br
-+.BR backtrace_symbols_fd ()
++.BR remainderl ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- These functions are GNU extensions.
- .SH NOTES
+ .\" IEC 60559.
+ The functions
 -- 
 1.9.3
 
