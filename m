@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ecvt_r.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 08:13:23 +0100
-Message-ID: <54DB0113.6070800@gmail.com>
-References: <1423631686-21642-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] opendir.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 08:13:34 +0100
+Message-ID: <54DB011E.2030807@gmail.com>
+References: <1423634469-22922-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1423631686-21642-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1423634469-22922-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/11/2015 06:14 AM, Ma Shimiao wrote:
+On 02/11/2015 07:01 AM, Ma Shimiao wrote:
 > The markings match glibc markings.
 
 
@@ -26,36 +26,33 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ecvt_r.3 | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  man3/opendir.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/ecvt_r.3 b/man3/ecvt_r.3
-> index d0fab32..2f31e61 100644
-> --- a/man3/ecvt_r.3
-> +++ b/man3/ecvt_r.3
-> @@ -85,6 +85,22 @@ and
->  .BR qecvt (3).
->  .SH RETURN VALUE
->  These functions return 0 on success, and \-1 otherwise.
-> ++.SH ATTRIBUTES
+> diff --git a/man3/opendir.3 b/man3/opendir.3
+> index d5bf3e3..575da78 100644
+> --- a/man3/opendir.3
+> +++ b/man3/opendir.3
+> @@ -115,6 +115,19 @@ Insufficient memory to complete the operation.
+>  .SH VERSIONS
+>  .BR fdopendir ()
+>  is available in glibc since version 2.4.
+> +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw20 lb lb
+> +lbw22 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR ecvt_r (),
-> +.BR fcvt_r (),
-> +.br
-> +.BR qecvt_r (),
-> +.BR qfcvt_r ()
+> +.BR opendir (),
+> +.BR fdopendir ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 >  .SH CONFORMING TO
->  These functions are GNU extensions.
->  .SH NOTES
+>  .BR opendir ()
+>  is present on SVr4, 4.3BSD, and specified in POSIX.1-2001.
 > 
 
 
