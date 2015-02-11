@@ -1,58 +1,115 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] access.2: explain how access() check treats capabilities
-Date: Wed, 11 Feb 2015 14:38:03 +0100
-Message-ID: <54DB5B3B.5060600@gmail.com>
-References: <1410354068-6100-1-git-send-email-dvlasenk@redhat.com> <54D3498C.7000904@gmail.com> <54DB5A71.6080606@redhat.com>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
+Subject: Re: [PATCH 1/2] proc.5: Document /proc/[pid]/setgroups
+Date: Wed, 11 Feb 2015 07:51:08 -0600
+Message-ID: <8761b8lfoz.fsf@x220.int.ebiederm.org>
+References: <52e0643bd47b1e5c65921d6e00aea1f724bb510a.1417281801.git.luto@amacapital.net>
+	<CALCETrXWx2-ZejEHmOi7aSoF-qJMRGR5yseeMhuurZwJRrQbUg@mail.gmail.com>
+	<87h9x5re41.fsf_-_@x220.int.ebiederm.org>
+	<87mw6xpzb0.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrU-o5mPr1jCaLXDuuF6J2N470zAtx=8Fa-SjF=ZpdE8mQ@mail.gmail.com>
+	<87ppbtn4mv.fsf@x220.int.ebiederm.org>
+	<CALCETrXSScp77BUJR5NSTh5-RnEZ9rqELSGJBeEzgdQ-OtohuQ@mail.gmail.com>
+	<87a92xn2io.fsf@x220.int.ebiederm.org>
+	<87r3w8liw4.fsf@x220.int.ebiederm.org>
+	<87iohklfvj.fsf_-_@x220.int.ebiederm.org>
+	<87fvcok11h.fsf_-_@x220.int.ebiederm.org>
+	<CALCETrVfKiXuY=KY_=nHpkTyLWgpy_3DK=4Mr2mhpyX9z1TzrA@mail.gmail.com>
+	<971ad3f6-90fd-4e3f-916c-8988af3c826d@email.android.com>
+	<CALCETrWpzvNm=fjOa3_+4QOqYP8qZUJvQAd6AsRZ71xyHZQRCg@mail.gmail.com>
+	<87wq5zf83t.fsf@x220.int.ebiederm.org>
+	<87iohh3c9c.fsf@x220.int.ebiederm.org>
+	<8761dh3b7k.fsf_-_@x220.int.ebiederm.org>
+	<878uicy1r9.fsf_-_@x220.int.ebiederm.org>
+	<87vblg1qme.fsf@x220.int.ebiederm.org> <54CF9995.1050409@gmail.com>
+	<CAKgNAkgWnZ=7E4bk3JhzFS88CJ32szYCYcm_Sx166yVuWKhhUA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54DB5A71.6080606-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+In-Reply-To: <CAKgNAkgWnZ=7E4bk3JhzFS88CJ32szYCYcm_Sx166yVuWKhhUA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+	(Michael Kerrisk's message of "Wed, 11 Feb 2015 09:01:57 +0100")
+List-Unsubscribe: <https://lists.linuxfoundation.org/mailman/options/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=unsubscribe>
+List-Archive: <http://lists.linuxfoundation.org/pipermail/containers/>
+List-Post: <mailto:containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
+List-Help: <mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=help>
+List-Subscribe: <https://lists.linuxfoundation.org/mailman/listinfo/containers>,
+	<mailto:containers-request-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org?subject=subscribe>
+Sender: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+Errors-To: containers-bounces-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>, Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>, stable <stable-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Kenton Varda <kenton-AuYgBwuPrUQTaNkGU808tA@public.gmane.org>, LSM <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Richard Weinberger <richard-/L3Ra7n9ekc@public.gmane.org>, Casey Schaufler <casey-iSGtlc1asvQWG2LlvL+J4A@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Denys,
-
-On 02/11/2015 02:34 PM, Denys Vlasenko wrote:
-> Hi Michael,
-> 
-> On 02/05/2015 11:44 AM, Michael Kerrisk (man-pages) wrote:
->> On 09/10/2014 03:01 PM, Denys Vlasenko wrote:
->>> We have users who are terribly confused why their binaries
->>> with CAP_DAC_OVERRIDE capability see EACCESS from access() calls,
->>> but are able to read the file.
->>>
->>> The reason is access() isn't the "can I read/write/execute this file?"
->>> question, it is the "(assuming that I'm a setuid binary,) can *the user
->>> who invoked me* read/write/execute this file?" question.
->>>
->>> That's why it uses real UIDs as documented, and why it ignores
->>> capabilities when capability-endored binaries are run by non-root
->>> (this patch adds this information).
->>>
->>> To make users more likely to notice this less-known detail,
->>> the patch expands the explanation with rationale for this logic
->>> into a separate paragraph.
->>
->> Thanks, Denys. Applied.
-> 
-> I don't see it in git://git.kernel.org/pub/scm/docs/man-pages/man-pages.git
-
-Currently, I have it in a local branch. You'll get a mail
-when it's released.
-
-Thanks,
-
-Michael
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Ik1pY2hhZWwgS2VycmlzayAobWFuLXBhZ2VzKSIgPG10ay5tYW5wYWdlc0BnbWFpbC5jb20+IHdy
+aXRlczoKCj4gSGkgRXJpYywKPgo+IFBpbmchCj4KPiBDaGVlcnMsCj4KPiBNaWNoYWVsCgpNeSBh
+cG9sb2dpZXMuICBZb3UgZGVzY3JpcHRpb24gd2Fzbid0IHdyb25nIGJ1dCBpdCBtYXkgYmUgYSBi
+aXQKbWlzbGVhZGluZywgZXhwbGFuYXRpb24gYmVsb3cuICBZb3Ugd2lsbCBoYXZlIHRvIGZpZ3Vy
+ZSBvdXQgaG93IHRvIHdvcmsKdGhhdCBpbnRvIHlvdXIgcHJvcG9zZWQgdGV4dC4KCj4gT24gMiBG
+ZWJydWFyeSAyMDE1IGF0IDE2OjM2LCBNaWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykKPiA8bXRr
+Lm1hbnBhZ2VzQGdtYWlsLmNvbT4gd3JvdGU6Cj4+IFtBZGRpbmcgSm9zaCB0byBDQyBpbiBjYXNl
+IGhlIGhhcyBhbnl0aGluZyB0byBhZGQuXQo+Pgo+PiBPbiAxMi8xMi8yMDE0IDEwOjU0IFBNLCBF
+cmljIFcuIEJpZWRlcm1hbiB3cm90ZToKPj4+Cj4+PiBTaWduZWQtb2ZmLWJ5OiBFcmljIFcuIEJp
+ZWRlcm1hbiA8ZWJpZWRlcm1AeG1pc3Npb24uY29tPgo+Pj4gLS0tCj4+PiAgbWFuNS9wcm9jLjUg
+fCAxNSArKysrKysrKysrKysrKysKPj4+ICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0aW9ucygr
+KQo+Pj4KPj4+IGRpZmYgLS1naXQgYS9tYW41L3Byb2MuNSBiL21hbjUvcHJvYy41Cj4+PiBpbmRl
+eCA5NjA3N2QwZGQxOTUuLmQ2NjFlOGNmZWFjOSAxMDA2NDQKPj4+IC0tLSBhL21hbjUvcHJvYy41
+Cj4+PiArKysgYi9tYW41L3Byb2MuNQo+Pj4gQEAgLTEwOTcsNiArMTA5NywyMSBAQCBhcmUgbm90
+IGF2YWlsYWJsZSBpZiB0aGUgbWFpbiB0aHJlYWQgaGFzIGFscmVhZHkgdGVybWluYXRlZAo+Pj4g
+IC5cIiAgICAgICBBZGRlZCBpbiAyLjYuOQo+Pj4gIC5cIiAgICAgICBDT05GSUdfU0NIRURTVEFU
+Uwo+Pj4gIC5UUAo+Pj4gKy5JUiAvcHJvYy9bcGlkXS9zZXRncm91cHMgIiAoc2luY2UgTGludXgg
+My4xOS1yYzEpIgo+Pj4gK1RoaXMgZmlsZSByZXBvcnRzCj4+PiArLkJSIGFsbG93Cj4+PiAraWYg
+dGhlIHNldGdyb3VwcyBzeXN0ZW0gY2FsbCBpcyBhbGxvd2VkIGluIHRoZSBjdXJyZW50IHVzZXIg
+bmFtZXNwYWNlLgo+Pj4gK1RoaXMgZmlsZSByZXBvcnRzCj4+PiArLkJSIGRlbnkKPj4+ICtpZiB0
+aGUgc2V0Z3JvdXBzIHN5c3RlbSBjYWxsIGlzIG5vdCBhbGxvd2VkIGluIHRoZSBjdXJyZW50IHVz
+ZXIgbmFtZXNwYWNlLgo+Pj4gK1RoaXMgZmlsZSBtYXkgYmUgd3JpdHRlbiB0byB3aXRoIHZhbHVl
+cyBvZgo+Pj4gKy5CUiBhbGxvdwo+Pj4gK2FuZAo+Pj4gKy5CUiBkZW55Cj4+PiArYmVmb3JlCj4+
+PiArLklSIC9wcm9jL1twaWRdL2dpZF9tYXAKPj4+ICtpcyB3cml0dGVuIHRvIChlbmFibGluZyBz
+ZXRncm91cHMpIGluIGEgdXNlciBuYW1lc3BhY2UuCj4+PiArLlRQCj4+PiAgLklSIC9wcm9jL1tw
+aWRdL3NtYXBzICIgKHNpbmNlIExpbnV4IDIuNi4xNCkiCj4+PiAgVGhpcyBmaWxlIHNob3dzIG1l
+bW9yeSBjb25zdW1wdGlvbiBmb3IgZWFjaCBvZiB0aGUgcHJvY2VzcydzIG1hcHBpbmdzLgo+Pj4g
+IChUaGUKPj4KPj4gSGkgRXJpYywKPj4KPj4gVGhhbmtzIGZvciB0aGlzIHBhdGNoLiBJIGFwcGxp
+ZWQgaXQsIGFuZCB0aGVuIHRyaWVkIHRvIHdvcmsgaW4KPj4gcXVpdGUgYSBmZXcgb3RoZXIgZGV0
+YWlscyBnbGVhbmVkIGZyb20gdGhlIHNvdXJjZSBjb2RlIGFuZCBjb21taXQKPj4gbWVzc2FnZSwg
+YW5kIEpvbiBDb3JiZXQncyBhcnRpY2xlIGF0IGh0dHA6Ly9sd24ubmV0L0FydGljbGVzLzYyNjY2
+NS8uCj4+IENvdWxkIHlvdSBwbGVhc2UgbGV0IG1lIGtub3cgaWYgdGhlIGZvbGxvd2luZyBpcyBj
+b3JyZWN0OgoKSXQgaXMgY2xvc2UgYnV0IGl0IG1heSBiZSBtaXNsZWFkaW5nLgoKPj4gICAgIC9w
+cm9jL1twaWRdL3NldGdyb3VwcyAoc2luY2UgTGludXggMy4xOSkKPj4gICAgICAgICAgICBUaGlz
+IGZpbGUgZGlzcGxheXMgdGhlIHN0cmluZyAiYWxsb3ciICBpZiAgcHJvY2Vzc2VzICBpbgo+PiAg
+ICAgICAgICAgIHRoZSAgdXNlciAgbmFtZXNwYWNlICB0aGF0ICBjb250YWlucyB0aGUgcHJvY2Vz
+cyBwaWQgYXJlCj4+ICAgICAgICAgICAgcGVybWl0dGVkIHRvIGVtcGxveSB0aGUgc2V0Z3JvdXBz
+KDIpICBzeXN0ZW0gIGNhbGwsICBhbmQKPj4gICAgICAgICAgICAiZGVueSIgIGlmICBzZXRncm91
+cHMoMikgIGlzICBub3QgcGVybWl0dGVkIGluIHRoYXQgdXNlcgo+PiAgICAgICAgICAgIG5hbWVz
+cGFjZS4KCldpdGggdGhlIGNhdmVhdCB0aGF0IHdoZW4gZ2lkX21hcCBpcyBub3Qgc2V0IHRoYXQg
+c2V0Z3JvdXBzIGlzIGFsc28gbm90CmFsbG93ZWQuCgo+PiAgICAgICAgICAgIEEgcHJpdmlsZWdl
+ZCBwcm9jZXNzIChvbmUgd2l0aCB0aGUgIENBUF9TWVNfQURNSU4gIGNhcGHigJAKPj4gICAgICAg
+ICAgICBiaWxpdHkgaW4gdGhlIG5hbWVzcGFjZSkgbWF5IHdyaXRlIGVpdGhlciBvZiB0aGUgc3Ry
+aW5ncwo+PiAgICAgICAgICAgICJhbGxvdyIgb3IgImRlbnkiIHRvIHRoaXMgZmlsZSBiZWZvcmUg
+d3JpdGluZyBhIGdyb3VwIElECj4+ICAgICAgICAgICAgbWFwcGluZyAgIGZvciAgIHRoaXMgICB1
+c2VyICAgbmFtZXNwYWNlICAgdG8gICB0aGUgIGZpbGUKPj4gICAgICAgICAgICAvcHJvYy9bcGlk
+XS9naWRfbWFwLiAgV3JpdGluZyB0aGUgc3RyaW5nICJkZW55IiBwcmV2ZW50cwo+PiAgICAgICAg
+ICAgIGFueSAgcHJvY2VzcyAgaW4gIHRoZSB1c2VyIG5hbWVzcGFjZSBmcm9tIGVtcGxveWluZyBz
+ZXTigJAKPj4gICAgICAgICAgICBncm91cHMoMikuCgpPciBtb3JlIHN1Y2NpbnRseS4gIFlvdSBh
+cmUgYWxsb3dlZCB0byB3cml0ZSB0byAvcHJvYy9bcGlkXS9zZXRncm91cHMKd2hlbiBjYWxsaW5n
+IHNldGdyb3VwcyBpcyBub3QgYWxsb3dlZCBiZWNhdXNlIGdpZF9tYXAgaXMgdW5zZXQuICBUaGlz
+CmVuc3VyZXMgd2UgZG8gbm90IGhhdmUgYW55IHRyYW5zaXRpb25zIGZyb20gYSBzdGF0ZSB3aGVy
+ZSBzZXRncm91cHMKaXMgYWxsb3dlZCB0byBhIHN0YXRlIHdoZXJlIHNldGdyb3VwcyBpcyBkZW5p
+ZWQuICBUaGVyZSBhcmUgb25seQp0cmFuc2l0aW9ucyBmcm9tIHNldGdyb3VwcyBub3QtYWxsb3dl
+ZCB0byBzZXRncm91cHMgYWxsb3dlZC4KCj4+ICAgICAgICAgICAgVGhlIGRlZmF1bHQgdmFsdWUg
+b2YgIHRoaXMgIGZpbGUgIGluICB0aGUgIGluaXRpYWwgIHVzZXIKPj4gICAgICAgICAgICBuYW1l
+c3BhY2UgaXMgImFsbG93Ii4KPj4KPj4gICAgICAgICAgICBPbmNlICAvcHJvYy9bcGlkXS9naWRf
+bWFwIGhhcyBiZWVuIHdyaXR0ZW4gdG8gKHdoaWNoIGhhcwo+PiAgICAgICAgICAgIHRoZSBlZmZl
+Y3Qgb2YgZW5hYmxpbmcgc2V0Z3JvdXBzKDIpIGluIHRoZSAgdXNlciAgbmFtZXPigJAKPj4gICAg
+ICAgICAgICBwYWNlKSwgIGl0IGlzIG5vIGxvbmdlciBwb3NzaWJsZSB0byBkZW55IHNldGdyb3Vw
+cygyKSBieQo+PiAgICAgICAgICAgIHdyaXRpbmcgdG8gL3Byb2MvW3BpZF0vc2V0Z3JvdXBzLgo+
+Pgo+PiAgICAgICAgICAgIEEgY2hpbGQgdXNlciBuYW1lc3BhY2UgaW5oZXJpdHMgdGhlICAvcHJv
+Yy9bcGlkXS9naWRfbWFwCj4+ICAgICAgICAgICAgc2V0dGluZyBmcm9tIGl0cyBwYXJlbnQuCj4+
+Cj4+ICAgICAgICAgICAgSWYgIHRoZSAgc2V0Z3JvdXBzICBmaWxlICBoYXMgdGhlIHZhbHVlICJk
+ZW55IiwgdGhlbiB0aGUKPj4gICAgICAgICAgICBzZXRncm91cHMoMikgc3lzdGVtIGNhbGwgY2Fu
+J3Qgc3Vic2VxdWVudGx5IGJlIHJlZW5hYmxlZAo+PiAgICAgICAgICAgIChieSB3cml0aW5nICJh
+bGxvdyIgdG8gdGhlIGZpbGUpIGluIHRoaXMgdXNlciBuYW1lc3BhY2UuCj4+ICAgICAgICAgICAg
+VGhpcyByZXN0cmljdGlvbiBhbHNvIHByb3BhZ2F0ZXMgZG93biB0byBhbGwgY2hpbGQgIHVzZXIK
+Pj4gICAgICAgICAgICBuYW1lc3BhY2VzIG9mIHRoaXMgdXNlciBuYW1lc3BhY2UuCgpFcmljCl9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCkNvbnRhaW5lcnMg
+bWFpbGluZyBsaXN0CkNvbnRhaW5lcnNAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcKaHR0cHM6
+Ly9saXN0cy5saW51eGZvdW5kYXRpb24ub3JnL21haWxtYW4vbGlzdGluZm8vY29udGFpbmVycw==
