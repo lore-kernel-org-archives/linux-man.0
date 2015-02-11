@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fgetgrent.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 15:32:27 +0800
-Message-ID: <1423639947-25066-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH V2] fgetgrent.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 15:35:56 +0800
+Message-ID: <1423640156-25233-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -18,7 +18,7 @@ Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.or
  1 file changed, 12 insertions(+)
 
 diff --git a/man3/fgetgrent.3 b/man3/fgetgrent.3
-index 57665dd..88676b0 100644
+index 57665dd..e599483 100644
 --- a/man3/fgetgrent.3
 +++ b/man3/fgetgrent.3
 @@ -90,6 +90,18 @@ is set to indicate the cause.
@@ -35,7 +35,7 @@ index 57665dd..88676b0 100644
 +Interface	Attribute	Value
 +T{
 +.BR fgetgrent ()
-+T}	Thread safety	MT-Unsafe race:fgetgrent
++T}	Thread safety	MT-Unsafe race:fgrent
 +.TE
  .SH CONFORMING TO
  SVr4.
