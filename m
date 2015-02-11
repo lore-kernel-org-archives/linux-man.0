@@ -1,82 +1,61 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getpwent.3: Modify thread-safety information
-Date: Wed, 11 Feb 2015 08:31:52 +0100
-Message-ID: <CAKgNAkiWpiRJH2ZTqv6GWAbRuCOrX2y3v0nMzjYTP1TN9y9yRw@mail.gmail.com>
-References: <1423554661-26010-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
- <54DB00EF.6050500@gmail.com> <54DB0483.5090401@cn.fujitsu.com>
+Subject: Re: [PATCH] fopen.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 08:33:02 +0100
+Message-ID: <CAKgNAkjwa-+FVrYgmd3spVc7mw_7erb-YzoTb2y0=ZGxcmZxsQ@mail.gmail.com>
+References: <1423634099-22581-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54DB0483.5090401-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1423634099-22581-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Ma Shimiao,
+On 11 February 2015 at 06:54, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+> The markings match glibc markings.
 
-On 11 February 2015 at 08:28, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
-> Hi Michael,
-> On 02/11/2015 03:12 PM, Michael Kerrisk (man-pages) wrote:
->> On 02/10/2015 08:51 AM, Ma Shimiao wrote:
->>> As annotation in glibc manual is more detailed, change the
->>> thread-safety information to be the same as glibc manual.
->>
->> Thanks, Ma Shimiao. Applied.
->>
->> By the way, how many pages still have remaining difference from
->> the glibc manual to be resolved?
->
-> There are still three pages remaining difference from the glibc manual.
-> They are getlogin.3, mtrace.3 and strverscmp.3.
-
-Great news! Thank you!
+Thanks, Ma Shimiao. Applied.
 
 Cheers,
 
 Michael
 
 
->>> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
->>> ---
->>>  man3/getpwent.3 | 7 ++++---
->>>  1 file changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/man3/getpwent.3 b/man3/getpwent.3
->>> index 8cfa9b4..c07dea1 100644
->>> --- a/man3/getpwent.3
->>> +++ b/man3/getpwent.3
->>> @@ -156,16 +156,17 @@ For an explanation of the terms used in this section, see
->>>  .BR attributes (7).
->>>  .TS
->>>  allbox;
->>> -lbw22 lb lb
->>> +lbw11 lb lbw41
->>>  l l l.
->>>  Interface   Attribute       Value
->>>  T{
->>>  .BR getpwent ()
->>> -T}  Thread safety   MT-Unsafe
->>> +T}  Thread safety   MT-Unsafe race:pwent race:pwentbuf locale
->>>  T{
->>>  .BR setpwent (),
->>> +.br
->>>  .BR endpwent ()
->>> -T}  Thread safety   MT-Safe
->>> +T}  Thread safety   MT-Unsafe race:pwent locale
->>>  .TE
->>>  .SH CONFORMING TO
->>>  SVr4, 4.3BSD, POSIX.1-2001.
->>>
->>
->>
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/fopen.3 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >
->
+> diff --git a/man3/fopen.3 b/man3/fopen.3
+> index 14364a4..57e4c95 100644
+> --- a/man3/fopen.3
+> +++ b/man3/fopen.3
+> @@ -243,6 +243,20 @@ for any of the errors specified for the routines
+>  .BR fclose (3),
+>  and
+>  .BR fflush (3).
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw28 lb lb
+> +l l l.
+> +Interface      Attribute       Value
+> +T{
+> +.BR fopen (),
+> +.BR fdopen (),
+> +.BR freopen ()
+> +T}     Thread safety   MT-Safe
+> +.TE
+>  .SH CONFORMING TO
+>  The
+>  .BR fopen ()
 > --
-> Ma Shimiao
-> Development Dept.I
-> Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
+> 1.9.3
+>
 
 
 
