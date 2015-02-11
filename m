@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getgrent.3: Modify thread-safety information
-Date: Wed, 11 Feb 2015 08:13:03 +0100
-Message-ID: <54DB00FF.2060502@gmail.com>
-References: <1423554863-26245-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] backtrace.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 08:13:10 +0100
+Message-ID: <54DB0106.5010803@gmail.com>
+References: <1423622172-18488-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1423554863-26245-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1423622172-18488-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/10/2015 08:54 AM, Ma Shimiao wrote:
-> As annotation in glibc manual is more detailed, change the 
-> thread-safety information to be the same as glibc manual.
+On 02/11/2015 03:36 AM, Ma Shimiao wrote:
+> The markings match glibc markings.
 
 Thanks, Ma Shimiao. Applied.
 
@@ -23,37 +22,39 @@ Cheers,
 
 Michael
 
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getgrent.3 | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  man3/backtrace.3 | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/man3/getgrent.3 b/man3/getgrent.3
-> index f3240aa..21d4759 100644
-> --- a/man3/getgrent.3
-> +++ b/man3/getgrent.3
-> @@ -168,16 +168,16 @@ For an explanation of the terms used in this section, see
->  .BR attributes (7).
->  .TS
->  allbox;
-> -lbw22 lb lb
-> +lbw11 lb lbw41
->  l l l.
->  Interface	Attribute	Value
->  T{
->  .BR getgrent ()
-> -T}	Thread safety	MT-Unsafe
-> +T}	Thread safety	MT-Unsafe race:grent race:grentbuf locale
->  T{
->  .BR setgrent (),
->  .BR endgrent ()
-> -T}	Thread safety	MT-Safe
-> +T}	Thread safety	MT-Unsafe race:grent locale
->  .TE
+> diff --git a/man3/backtrace.3 b/man3/backtrace.3
+> index 1b21794..7018f12 100644
+> --- a/man3/backtrace.3
+> +++ b/man3/backtrace.3
+> @@ -140,6 +140,22 @@ on error, NULL is returned.
+>  and
+>  .BR backtrace_symbols_fd ()
+>  are provided in glibc since version 2.1.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw22 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR backtrace (),
+> +.br
+> +.BR backtrace_symbols (),
+> +.br
+> +.BR backtrace_symbols_fd ()
+> +T}	Thread safety	MT-Safe
+> +.TE
 >  .SH CONFORMING TO
->  SVr4, 4.3BSD, POSIX.1-2001.
+>  These functions are GNU extensions.
+>  .SH NOTES
 > 
 
 
