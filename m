@@ -1,198 +1,51 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH v4 1/1] listxattr.2: provide example code
-Date: Tue, 10 Feb 2015 22:06:51 +0100
-Message-ID: <1423602411-11916-1-git-send-email-xypron.glpk@gmx.de>
-References: <1423595466-6016-1-git-send-email-xypron.glpk@gmx.de>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] backtrace.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 10:36:12 +0800
+Message-ID: <1423622172-18488-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1423595466-6016-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Example code is provided.
+The markings match glibc markings.
 
-Version 4:
-   Use #include <sys/xattr.h>
-
-Version 3:
-   Remove unused variable.
-   Use strlen instead of while(++p) to find end of string.
-   Rename some variables.
-   Correct comments.
-
-Version 2:
-
-  As Michael correctly pointed out, the buffer length returned by
-  listxattr does not contain any byte after the 0x00 indicating
-  the end of the last list entry.
-
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/listxattr.2 | 142 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 142 insertions(+)
+ man3/backtrace.3 | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/man2/listxattr.2 b/man2/listxattr.2
-index a67592f..5fd9ec7 100644
---- a/man2/listxattr.2
-+++ b/man2/listxattr.2
-@@ -1,5 +1,6 @@
- .\" Copyright (C) Andreas Gruenbacher, February 2001
- .\" Copyright (C) Silicon Graphics Inc, September 2001
-+.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
- .\"
- .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
- .\" This is free documentation; you can redistribute it and/or
-@@ -150,6 +151,147 @@ These system calls are Linux-specific.
- .\" and the SGI XFS development team,
- .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
- .\" Please send any bug reports or comments to these addresses.
-+.SH EXAMPLE
-+The following program demonstrates the usage of
-+.BR listxattr ()
-+and
-+.BR getxattr (2).
-+For a path provided, it lists all extended file attributes and their values.
-+
-+To keep the code simple, the assumption is made that attribute keys and
-+values are constant during the runtime of the program.
-+A production program should expect and handle changes during the runtime.
-+
-+The following output was recorded when first creating a file, setting
-+some extended file attributes, and then listing them with the example code.
-+
-+.SS Example output
-+.in +4n
-+.nf
-+$ touch /tmp/foo
-+$ setfattr -n user.fred -v chocolate /tmp/foo
-+$ setfattr -n user.frieda -v bar /tmp/foo
-+$ setfattr -n user.empty /tmp/foo
-+$ ./listxattr /tmp/foo
-+user.fred: chocolate
-+user.frieda: bar
-+user.empty: <no value>
-+.fi
-+.in
-+.SS Program source
-+.nf
-+#include <malloc.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/types.h>
-+#include <sys/xattr.h>
-+
-+int
-+main(int argc, char *argv[])
-+{
-+    ssize_t buflen, keylen, vallen;
-+    char *buf, *key, *val;
-+
-+    if (argc != 2) {
-+        fprintf(stderr, "Usage: %s path\\n", argv[0]);
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * Determine the length of the buffer needed.
-+     */
-+    buflen = listxattr(argv[1], NULL, 0);
-+    if (buflen == \-1) {
-+        perror("listxattr");
-+        exit(EXIT_FAILURE);
-+    }
-+    if (buflen == 0) {
-+        printf("%s has no attibutes.\\n", argv[1]);
-+        exit(EXIT_SUCCESS);
-+    }
-+
-+    /*
-+     * Allocate the buffer.
-+     */
-+    buf = malloc(buflen);
-+    if (buf == NULL) {
-+        perror("malloc");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * Copy the list of attribute keys to the buffer.
-+     */
-+    buflen = listxattr(argv[1], buf, buflen);
-+    if (buflen == \-1) {
-+        perror("listxattr");
-+        exit(EXIT_FAILURE);
-+    }
-+
-+    /*
-+     * Loop over the list of zero terminated strings with the attribute keys.
-+     * Use the remaining buffer length to determine the end of the list.
-+     */
-+    key = buf;
-+    while (buflen > 0) {
-+
-+        /*
-+         * Output attribute key.
-+         */
-+        printf("%s: ", key);
-+
-+        /*
-+         * Determine length of the value.
-+         */
-+        vallen = getxattr(argv[1], key, NULL, 0);
-+        if (vallen == \-1)
-+            perror("getxattr");
-+
-+        if (vallen > 0) {
-+
-+            /*
-+             * Allocate value buffer.
-+             * One extra byte is needed to append 0x00.
-+             */
-+            val = malloc(vallen + 1);
-+            if (val == NULL) {
-+                perror("malloc");
-+                exit(EXIT_FAILURE);
-+            }
-+
-+            /*
-+             * Copy value to buffer.
-+             */
-+            vallen = getxattr(argv[1], key, val, vallen);
-+            if (vallen == \-1)
-+                perror("getxattr");
-+            else {
-+                /*
-+                 * Output attribute value.
-+                 */
-+                val[vallen] = 0;
-+                printf("%s", val);
-+            }
-+
-+            free(val);
-+        } else if (vallen == 0)
-+            printf("<no value>");
-+
-+        printf("\\n");
-+
-+        /*
-+         * Forward to next attribute key.
-+         */
-+        keylen = strlen(key) + 1;
-+        buflen \-= keylen;
-+        key += keylen;
-+    }
-+
-+    free(buf);
-+    exit(EXIT_SUCCESS);
-+}
-+.fi
- .SH SEE ALSO
- .BR getfattr (1),
- .BR setfattr (1),
+diff --git a/man3/backtrace.3 b/man3/backtrace.3
+index 1b21794..7018f12 100644
+--- a/man3/backtrace.3
++++ b/man3/backtrace.3
+@@ -140,6 +140,22 @@ on error, NULL is returned.
+ and
+ .BR backtrace_symbols_fd ()
+ are provided in glibc since version 2.1.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw22 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR backtrace (),
++.br
++.BR backtrace_symbols (),
++.br
++.BR backtrace_symbols_fd ()
++T}	Thread safety	MT-Safe
++.TE
+ .SH CONFORMING TO
+ These functions are GNU extensions.
+ .SH NOTES
 -- 
-2.1.4
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
