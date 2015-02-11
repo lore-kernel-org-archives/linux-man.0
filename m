@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] opendir.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 14:01:09 +0800
-Message-ID: <1423634469-22922-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] fopencookie.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 14:05:53 +0800
+Message-ID: <1423634753-23153-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,37 +10,36 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+The marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/opendir.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/fopencookie.3 | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/man3/opendir.3 b/man3/opendir.3
-index d5bf3e3..575da78 100644
---- a/man3/opendir.3
-+++ b/man3/opendir.3
-@@ -115,6 +115,19 @@ Insufficient memory to complete the operation.
- .SH VERSIONS
- .BR fdopendir ()
- is available in glibc since version 2.4.
+diff --git a/man3/fopencookie.3 b/man3/fopencookie.3
+index 3f83196..fa1dc96 100644
+--- a/man3/fopencookie.3
++++ b/man3/fopencookie.3
+@@ -242,6 +242,18 @@ returns a pointer to the new stream.
+ On error, NULL is returned.
+ .\" .SH ERRORS
+ .\" It's not clear if errno ever gets set...
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw22 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR opendir (),
-+.BR fdopendir ()
++.BR fopencookie ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- .BR opendir ()
- is present on SVr4, 4.3BSD, and specified in POSIX.1-2001.
+ This function is a nonstandard GNU extension.
+ .SH EXAMPLE
 -- 
 1.9.3
 
