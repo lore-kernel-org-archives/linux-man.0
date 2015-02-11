@@ -1,94 +1,214 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH V2] fgetgrent.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 11:20:04 +0100
-Message-ID: <CAKgNAkiFiGHoTfS3P+Az13EDZzBTXqcBzjmCpt2ybH0KsfkK4Q@mail.gmail.com>
-References: <1423640156-25233-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
- <54DB0AE3.1080406@gmail.com> <54DB10D4.1050508@cn.fujitsu.com>
- <CAKgNAki3zOD8-C8PmsDmeqVdY0yOTA=wAR_1giZF3U3-N9i-fQ@mail.gmail.com> <54DB2306.2010101@cn.fujitsu.com>
+Subject: Re: [PATCH v4 1/1] listxattr.2: provide example code
+Date: Wed, 11 Feb 2015 12:14:05 +0100
+Message-ID: <CAKgNAkh9i1OxMXzrursa6_ijFiJiQvTecNEan=vDyPhtWgQ36Q@mail.gmail.com>
+References: <1423595466-6016-1-git-send-email-xypron.glpk@gmx.de> <1423602411-11916-1-git-send-email-xypron.glpk@gmx.de>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <54DB2306.2010101-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1423602411-11916-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Ma Shimiao,
+Hello Heinrich,
 
-On 11 February 2015 at 10:38, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
-> On 02/11/2015 04:28 PM, Michael Kerrisk (man-pages) wrote:
->> Hi Ma Shmiao,
->>
->> On 11 February 2015 at 09:20, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
->>> Hi Michael,
->>> On 02/11/2015 03:55 PM, Michael Kerrisk (man-pages) wrote:
->>>> On 02/11/2015 08:35 AM, Ma Shimiao wrote:
->>>>> The marking matches glibc marking.
->>>>>
->>>>> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
->>>>> ---
->>>>>  man3/fgetgrent.3 | 12 ++++++++++++
->>>>>  1 file changed, 12 insertions(+)
->>>>>
->>>>> diff --git a/man3/fgetgrent.3 b/man3/fgetgrent.3
->>>>> index 57665dd..e599483 100644
->>>>> --- a/man3/fgetgrent.3
->>>>> +++ b/man3/fgetgrent.3
->>>>> @@ -90,6 +90,18 @@ is set to indicate the cause.
->>>>>  Insufficient memory to allocate
->>>>>  .I group
->>>>>  structure.
->>>>> +.SH ATTRIBUTES
->>>>> +For an explanation of the terms used in this section, see
->>>>> +.BR attributes (7).
->>>>> +.TS
->>>>> +allbox;
->>>>> +lb lb lb
->>>>> +l l l.
->>>>> +Interface   Attribute       Value
->>>>> +T{
->>>>> +.BR fgetgrent ()
->>>>> +T}  Thread safety   MT-Unsafe race:fgrent
->>>>
->>>> Why the change here in the V2? What does "fgrent" refer to?
->>>
->>> race:fgrent is right mark, I made a mistake.
->>> race:fgrent is similar to race:grent.
->>> race:grent is used to indicate data race exists in getgrent(), setgrent() and endgrent().
->>> race:fgrent is used to indicate data race exists when using fgetgrent() in multi-thread.
->>
->> My question then is: how does the reader know that "grent" refers to
->> "getgrent(), setgrent() and endgrent()"?
+On 10 February 2015 at 22:06, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org> wrote:
+> Example code is provided.
 >
-> From definition of race in glibc manual, we get:
-> If data race exists and objects cause data race are not from user,
-> then the function should be annotated as MT-Unsafe and marked with race.
-> And we need a colon and an identifier follows race to tell user what causes data race.
->
-> getgrent(), setgrent() and endgrent() are usually used together.
-> Because they need to share an iterator, then data race occurs between them.
-> We want users to know when using them together in multi-thread, data race makes them
-> unsafe in multi-thread. But, we can't definitely write which internal object causes data race.
-> So, we extract the common string 'grent' from functions' name as a identifier which groups
-> getgrent(), setgrent() and endgrent() to tell users that the group of *grent() functions
-> can't be used together in multi-thread.
+> Version 4:
+>    Use #include <sys/xattr.h>
 
-All of the above is fine. But:
 
-> If a reader understand the definition of race, I think he can know that "grent" refers to
-> getgrent(), setgrent() and endgrent().
-
-I think many readers will not be able to deduce this. (And I think
-readers of the glibc manual will have exactly the same problem.) I
-think we somehow need to make this a bit clearer, perhaps in a
-sentence following the table. Would you have a proposal for such a
-sentence?
+Thanks. Applied.
 
 Cheers,
 
 Michael
+
+
+> Version 3:
+>    Remove unused variable.
+>    Use strlen instead of while(++p) to find end of string.
+>    Rename some variables.
+>    Correct comments.
+>
+> Version 2:
+>
+>   As Michael correctly pointed out, the buffer length returned by
+>   listxattr does not contain any byte after the 0x00 indicating
+>   the end of the last list entry.
+>
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man2/listxattr.2 | 142 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 142 insertions(+)
+>
+> diff --git a/man2/listxattr.2 b/man2/listxattr.2
+> index a67592f..5fd9ec7 100644
+> --- a/man2/listxattr.2
+> +++ b/man2/listxattr.2
+> @@ -1,5 +1,6 @@
+>  .\" Copyright (C) Andreas Gruenbacher, February 2001
+>  .\" Copyright (C) Silicon Graphics Inc, September 2001
+> +.\" Copyright (C) 2015 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+>  .\"
+>  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+>  .\" This is free documentation; you can redistribute it and/or
+> @@ -150,6 +151,147 @@ These system calls are Linux-specific.
+>  .\" and the SGI XFS development team,
+>  .\" .RI < linux-xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org >.
+>  .\" Please send any bug reports or comments to these addresses.
+> +.SH EXAMPLE
+> +The following program demonstrates the usage of
+> +.BR listxattr ()
+> +and
+> +.BR getxattr (2).
+> +For a path provided, it lists all extended file attributes and their values.
+> +
+> +To keep the code simple, the assumption is made that attribute keys and
+> +values are constant during the runtime of the program.
+> +A production program should expect and handle changes during the runtime.
+> +
+> +The following output was recorded when first creating a file, setting
+> +some extended file attributes, and then listing them with the example code.
+> +
+> +.SS Example output
+> +.in +4n
+> +.nf
+> +$ touch /tmp/foo
+> +$ setfattr -n user.fred -v chocolate /tmp/foo
+> +$ setfattr -n user.frieda -v bar /tmp/foo
+> +$ setfattr -n user.empty /tmp/foo
+> +$ ./listxattr /tmp/foo
+> +user.fred: chocolate
+> +user.frieda: bar
+> +user.empty: <no value>
+> +.fi
+> +.in
+> +.SS Program source
+> +.nf
+> +#include <malloc.h>
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <string.h>
+> +#include <sys/types.h>
+> +#include <sys/xattr.h>
+> +
+> +int
+> +main(int argc, char *argv[])
+> +{
+> +    ssize_t buflen, keylen, vallen;
+> +    char *buf, *key, *val;
+> +
+> +    if (argc != 2) {
+> +        fprintf(stderr, "Usage: %s path\\n", argv[0]);
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Determine the length of the buffer needed.
+> +     */
+> +    buflen = listxattr(argv[1], NULL, 0);
+> +    if (buflen == \-1) {
+> +        perror("listxattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +    if (buflen == 0) {
+> +        printf("%s has no attibutes.\\n", argv[1]);
+> +        exit(EXIT_SUCCESS);
+> +    }
+> +
+> +    /*
+> +     * Allocate the buffer.
+> +     */
+> +    buf = malloc(buflen);
+> +    if (buf == NULL) {
+> +        perror("malloc");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Copy the list of attribute keys to the buffer.
+> +     */
+> +    buflen = listxattr(argv[1], buf, buflen);
+> +    if (buflen == \-1) {
+> +        perror("listxattr");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    /*
+> +     * Loop over the list of zero terminated strings with the attribute keys.
+> +     * Use the remaining buffer length to determine the end of the list.
+> +     */
+> +    key = buf;
+> +    while (buflen > 0) {
+> +
+> +        /*
+> +         * Output attribute key.
+> +         */
+> +        printf("%s: ", key);
+> +
+> +        /*
+> +         * Determine length of the value.
+> +         */
+> +        vallen = getxattr(argv[1], key, NULL, 0);
+> +        if (vallen == \-1)
+> +            perror("getxattr");
+> +
+> +        if (vallen > 0) {
+> +
+> +            /*
+> +             * Allocate value buffer.
+> +             * One extra byte is needed to append 0x00.
+> +             */
+> +            val = malloc(vallen + 1);
+> +            if (val == NULL) {
+> +                perror("malloc");
+> +                exit(EXIT_FAILURE);
+> +            }
+> +
+> +            /*
+> +             * Copy value to buffer.
+> +             */
+> +            vallen = getxattr(argv[1], key, val, vallen);
+> +            if (vallen == \-1)
+> +                perror("getxattr");
+> +            else {
+> +                /*
+> +                 * Output attribute value.
+> +                 */
+> +                val[vallen] = 0;
+> +                printf("%s", val);
+> +            }
+> +
+> +            free(val);
+> +        } else if (vallen == 0)
+> +            printf("<no value>");
+> +
+> +        printf("\\n");
+> +
+> +        /*
+> +         * Forward to next attribute key.
+> +         */
+> +        keylen = strlen(key) + 1;
+> +        buflen \-= keylen;
+> +        key += keylen;
+> +    }
+> +
+> +    free(buf);
+> +    exit(EXIT_SUCCESS);
+> +}
+> +.fi
+>  .SH SEE ALSO
+>  .BR getfattr (1),
+>  .BR setfattr (1),
+> --
+> 2.1.4
+>
+
 
 
 -- 
