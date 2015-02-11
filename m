@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ecvt_r.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 11 Feb 2015 13:14:46 +0800
-Message-ID: <1423631686-21642-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] fopen.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 11 Feb 2015 13:54:59 +0800
+Message-ID: <1423634099-22581-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,36 +14,34 @@ The markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ecvt_r.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/fopen.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man3/ecvt_r.3 b/man3/ecvt_r.3
-index d0fab32..2f31e61 100644
---- a/man3/ecvt_r.3
-+++ b/man3/ecvt_r.3
-@@ -85,6 +85,22 @@ and
- .BR qecvt (3).
- .SH RETURN VALUE
- These functions return 0 on success, and \-1 otherwise.
-++.SH ATTRIBUTES
+diff --git a/man3/fopen.3 b/man3/fopen.3
+index 14364a4..57e4c95 100644
+--- a/man3/fopen.3
++++ b/man3/fopen.3
+@@ -243,6 +243,20 @@ for any of the errors specified for the routines
+ .BR fclose (3),
+ and
+ .BR fflush (3).
++.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw20 lb lb
++lbw28 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR ecvt_r (),
-+.BR fcvt_r (),
-+.br
-+.BR qecvt_r (),
-+.BR qfcvt_r ()
++.BR fopen (),
++.BR fdopen (),
++.BR freopen ()
 +T}	Thread safety	MT-Safe
 +.TE
  .SH CONFORMING TO
- These functions are GNU extensions.
- .SH NOTES
+ The
+ .BR fopen ()
 -- 
 1.9.3
 
