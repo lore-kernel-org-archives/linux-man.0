@@ -1,75 +1,110 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch] perf_event_open.2: Exclude_host/exclude_guest
- clarification
-Date: Wed, 11 Feb 2015 14:06:12 -0500 (EST)
-Message-ID: <alpine.DEB.2.11.1502111405040.16882@vincent-weaver-1.umelst.maine.edu>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: [PATCH V2] fgetgrent.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 12 Feb 2015 09:24:26 +0800
+Message-ID: <54DC00CA.5080407@cn.fujitsu.com>
+References: <1423640156-25233-1-git-send-email-mashimiao.fnst@cn.fujitsu.com> <54DB0AE3.1080406@gmail.com> <54DB10D4.1050508@cn.fujitsu.com> <CAKgNAki3zOD8-C8PmsDmeqVdY0yOTA=wAR_1giZF3U3-N9i-fQ@mail.gmail.com> <54DB2306.2010101@cn.fujitsu.com> <CAKgNAkiFiGHoTfS3P+Az13EDZzBTXqcBzjmCpt2ybH0KsfkK4Q@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkiFiGHoTfS3P+Az13EDZzBTXqcBzjmCpt2ybH0KsfkK4Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gleb Natapov <gleb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Joerg Roedel <joro-zLv9SwRftAIdnm+yROfE0A@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hi Michael,
+On 02/11/2015 06:20 PM, Michael Kerrisk (man-pages) wrote:
+> Hi Ma Shimiao,
+> 
+> On 11 February 2015 at 10:38, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+>> On 02/11/2015 04:28 PM, Michael Kerrisk (man-pages) wrote:
+>>> Hi Ma Shmiao,
+>>>
+>>> On 11 February 2015 at 09:20, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+>>>> Hi Michael,
+>>>> On 02/11/2015 03:55 PM, Michael Kerrisk (man-pages) wrote:
+>>>>> On 02/11/2015 08:35 AM, Ma Shimiao wrote:
+>>>>>> The marking matches glibc marking.
+>>>>>>
+>>>>>> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+>>>>>> ---
+>>>>>>  man3/fgetgrent.3 | 12 ++++++++++++
+>>>>>>  1 file changed, 12 insertions(+)
+>>>>>>
+>>>>>> diff --git a/man3/fgetgrent.3 b/man3/fgetgrent.3
+>>>>>> index 57665dd..e599483 100644
+>>>>>> --- a/man3/fgetgrent.3
+>>>>>> +++ b/man3/fgetgrent.3
+>>>>>> @@ -90,6 +90,18 @@ is set to indicate the cause.
+>>>>>>  Insufficient memory to allocate
+>>>>>>  .I group
+>>>>>>  structure.
+>>>>>> +.SH ATTRIBUTES
+>>>>>> +For an explanation of the terms used in this section, see
+>>>>>> +.BR attributes (7).
+>>>>>> +.TS
+>>>>>> +allbox;
+>>>>>> +lb lb lb
+>>>>>> +l l l.
+>>>>>> +Interface   Attribute       Value
+>>>>>> +T{
+>>>>>> +.BR fgetgrent ()
+>>>>>> +T}  Thread safety   MT-Unsafe race:fgrent
+>>>>>
+>>>>> Why the change here in the V2? What does "fgrent" refer to?
+>>>>
+>>>> race:fgrent is right mark, I made a mistake.
+>>>> race:fgrent is similar to race:grent.
+>>>> race:grent is used to indicate data race exists in getgrent(), setgrent() and endgrent().
+>>>> race:fgrent is used to indicate data race exists when using fgetgrent() in multi-thread.
+>>>
+>>> My question then is: how does the reader know that "grent" refers to
+>>> "getgrent(), setgrent() and endgrent()"?
+>>
+>> From definition of race in glibc manual, we get:
+>> If data race exists and objects cause data race are not from user,
+>> then the function should be annotated as MT-Unsafe and marked with race.
+>> And we need a colon and an identifier follows race to tell user what causes data race.
+>>
+>> getgrent(), setgrent() and endgrent() are usually used together.
+>> Because they need to share an iterator, then data race occurs between them.
+>> We want users to know when using them together in multi-thread, data race makes them
+>> unsafe in multi-thread. But, we can't definitely write which internal object causes data race.
+>> So, we extract the common string 'grent' from functions' name as a identifier which groups
+>> getgrent(), setgrent() and endgrent() to tell users that the group of *grent() functions
+>> can't be used together in multi-thread.
+> 
+> All of the above is fine. But:
+> 
+>> If a reader understand the definition of race, I think he can know that "grent" refers to
+>> getgrent(), setgrent() and endgrent().
+> 
+> I think many readers will not be able to deduce this. (And I think
+> readers of the glibc manual will have exactly the same problem.) I
+> think we somehow need to make this a bit clearer, perhaps in a
+> sentence following the table. Would you have a proposal for such a
+> sentence?
 
-This patch relates to the exclude_host and exclude_guest bits added 
-by the  following commit:
+How about the following sentence?
+"grent" in "race:grent" is an identifier which groups functions xxxgrent() used to remind that
+if functions xxxgrent() were used together in multi-thread, data race would occur.
 
-   exclude_host, exclude_guest; Linux 3.2
-        commit a240f76165e6255384d4bdb8139895fac7988799
-        Author: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
-        Date:   Wed Oct 5 14:01:16 2011 +0200
+Or any good ideas?
 
-            perf, core: Introduce attrs to count in either host or guest mode
+Thanks,
+> 
+> Cheers,
+> 
+> Michael
+> 
+> 
 
-            Signed-off-by: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
-            Signed-off-by: Gleb Natapov <gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-            Signed-off-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-            Link: http://lkml.kernel.org/r/1317816084-18026-2-git-send-email-gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-            Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 
-The updated manpage text clarifies that the "exclude_host" and
-"exclude_guest" perf_event_open() attr bits only apply in the 
-context of a KVM environment and are currently x86 only.
-
-This is a resend of the patch; the previous time I sent it
-(http://thread.gmane.org/gmane.linux.man/7500) it did not
-receive any comments.
-
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 39c8d8c..1ea56c9 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1006,11 +1006,25 @@ struct sample_id {
- .TP
- .IR "exclude_host" " (since Linux 3.2)"
- .\" commit a240f76165e6255384d4bdb8139895fac7988799
--Do not measure time spent in VM host.
-+When conducting measurements that include processes running
-+VM instances (i.e. have executed a
-+.I KVM_RUN
-+.BR ioctl (2)
-+) only measure events happening inside a guest instance.
-+This is only meaningful outside the guests; this setting does
-+not change counts gathered inside of a guest.
-+Currently this functionality is x86 only.
- .TP
- .IR "exclude_guest" " (since Linux 3.2)"
- .\" commit a240f76165e6255384d4bdb8139895fac7988799
--Do not measure time spent in VM guest.
-+When conducting measurements that include processes running
-+VM instances (i.e. have executed a
-+.I KVM_RUN
-+.BR ioctl (2)
-+) do not measure events happening inside guest instances.
-+This is only meaningful outside the guests; this setting does
-+not change counts gathered inside of a guest.
-+Currently this functionality is x86 only.
- .TP
- .IR "exclude_callchain_kernel" " (since Linux 3.7)"
- .\" commit d077526485d5c9b12fe85d0b2b3b7041e6bc5f91
+-- 
+Ma Shimiao
+Development Dept.I
+Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
