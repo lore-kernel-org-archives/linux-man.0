@@ -1,56 +1,45 @@
-From: Vince Weaver <vincent.weaver@maine.edu>
-Subject: [patch] perf_event_open.2: Clarify PERF_EVENT_IOC_REFRESH behavior
-Date: Thu, 12 Feb 2015 12:14:26 -0500 (EST)
-Message-ID: <alpine.DEB.2.11.1502121212360.18451@vincent-weaver-1.umelst.maine.edu>
+From: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
+Subject: [PATCH] tzset.3: add offset format
+Date: Fri, 13 Feb 2015 21:08:52 -0500
+Message-ID: <54DEAE34.5090002@gmx.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Paul Mackerras <paulus@samba.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+tzset.3 does not illustrate the POSIX offset format.
+Specifically, there is no indication in the manual
+what the optional components of it are.
 
-Currently the PERF_EVENT_IOC_REFRESH ioctl, when applied to a group
-leader, will refresh all children.  Also if a refresh value of 0
-is chosen then the refresh becomes infinite (never runs out).
-Back in 2011 PAPI was relying on these behaviors but I was told
-that both were unsupported and subject to being removed at any time.
-   (See https://lkml.org/lkml/2011/5/24/337 )
-However the behavior has not been changed.  
+Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+---
+ man3/tzset.3 | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-This patch updates the manpage to still list the behavior as
-unsupported, but removes the innacurate description of it 
-only being a problem with 2.6 kernels.
-
-Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
-
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 39c8d8c..76136e2 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -2353,6 +2353,12 @@ once the counter reaches 0
- is indicated and
- the underlying event is disabled.
- 
-+Refreshing an event group leader refreshes all siblings and
-+refreshing with a parameter of 0 currently enables infinite
-+refreshes;
-+these behaviors are unsupported and should not be relied on.
-+.\" See https://lkml.org/lkml/2011/5/24/337
-+
- Starting with Linux 3.18,
- .\" commit 179033b3e064d2cd3f5f9945e76b0a0f0fbf4883
- .B POLL_HUP
-@@ -2805,11 +2811,6 @@ Prior to Linux 2.6.35,
- .B PERF_FORMAT_GROUP
- did not work with attached processes.
- 
--In older Linux 2.6 versions,
--refreshing an event group leader refreshed all siblings,
--and refreshing with a parameter of 0 enabled infinite refresh.
--This behavior is unsupported and should not be relied on.
--
- There is a bug in the kernel code between
- Linux 2.6.36 and Linux 3.0 that ignores the
- "watermark" field and acts as if a wakeup_event
+diff --git a/man3/tzset.3 b/man3/tzset.3
+index 2bc246c..cfb2d4c 100644
+--- a/man3/tzset.3
++++ b/man3/tzset.3
+@@ -107,8 +107,12 @@ time to get Coordinated Universal Time (UTC).
+ The \fIoffset\fP is positive
+ if the local timezone is west of the Prime Meridian and negative if it is
+ east.
+-The hour must be between 0 and 24, and the minutes and seconds
+-0 and 59.
++The hour must be between 0 and 24, and the minutes and seconds 00 and 59:
++.sp
++.RS
++.RI [ + | - ] hh [ :mm [ :ss ]]
++.RE
++.sp
+ .PP
+ The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
+ corresponding daylight saving timezone.
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
