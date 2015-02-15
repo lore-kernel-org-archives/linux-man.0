@@ -1,52 +1,59 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug Report [Man page of tracepath]
-Date: Sun, 15 Feb 2015 16:15:11 +0100
-Message-ID: <54E0B7FF.8000403@gmail.com>
-References: <CAPkpC+FctDBKj5+vssGZGL_vGL0PxZA=tAdH81Rs6bgkTT7UzQ@mail.gmail.com>
+Subject: Re: [PATCH] tzset.3: add offset format
+Date: Sun, 15 Feb 2015 16:56:46 +0100
+Message-ID: <54E0C1BE.4060204@gmail.com>
+References: <54DEAE34.5090002@gmx.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAPkpC+FctDBKj5+vssGZGL_vGL0PxZA=tAdH81Rs6bgkTT7UzQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <54DEAE34.5090002-KK0ffGbhmjU@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?5YaF55Sw5rOw5bqD?= <uchy07a-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: JWP <elseifthen-KK0ffGbhmjU@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello =E5=86=85=E7=94=B0=E6=B3=B0=E5=BA=83
+On 02/14/2015 03:08 AM, JWP wrote:
+> tzset.3 does not illustrate the POSIX offset format.
+> Specifically, there is no indication in the manual
+> what the optional components of it are.
 
-On 02/14/2015 06:00 PM, =E5=86=85=E7=94=B0=E6=B3=B0=E5=BA=83 wrote:
-> Hello.
->=20
-> I'm Japanese Student [23 years Old].
->=20
-> I used CentOS 6.5.
->=20
-> I found the some bug in the "tracepath" man document.
->=20
-> ---------------------------------------------------------------------=
------
->=20
-> "OUTPUT" section
->=20
->=20
-> 1.
-> correspinding hetwork =E2=87=9B corresponding network
->=20
-> 2.
-> folloing keyword async. =E2=87=9B following keyword async.
->=20
-> ---------------------------------------------------------------------=
------
+Thanks for your continued input on the page, William. Patch 
+applied.
 
-This is not a page I maintain. For info on reporting bugs in this page,
-see http://man7.org/linux/man-pages/man8/tracepath.8.html#COLOPHON
-
-Thanks,
+Cheers,
 
 Michael
 
---=20
+
+> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+> ---
+>  man3/tzset.3 | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man3/tzset.3 b/man3/tzset.3
+> index 2bc246c..cfb2d4c 100644
+> --- a/man3/tzset.3
+> +++ b/man3/tzset.3
+> @@ -107,8 +107,12 @@ time to get Coordinated Universal Time (UTC).
+>  The \fIoffset\fP is positive
+>  if the local timezone is west of the Prime Meridian and negative if it is
+>  east.
+> -The hour must be between 0 and 24, and the minutes and seconds
+> -0 and 59.
+> +The hour must be between 0 and 24, and the minutes and seconds 00 and 59:
+> +.sp
+> +.RS
+> +.RI [ + | - ] hh [ :mm [ :ss ]]
+> +.RE
+> +.sp
+>  .PP
+>  The \fIdst\fP string and \fIoffset\fP specify the name and offset for the
+>  corresponding daylight saving timezone.
+> 
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
