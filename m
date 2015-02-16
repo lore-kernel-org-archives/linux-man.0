@@ -1,54 +1,58 @@
-From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Subject: Re: [PATCH] syscall.2: add arm64 and mips
-Date: Mon, 16 Feb 2015 11:30:20 -0800
-Message-ID: <CAGXu5jKyt2ZsFLhYrQpWfTWdipHYyCy1En3FObxYqxHuiLGgGA@mail.gmail.com>
-References: <20150118072204.GA12237@www.outflux.net>
-	<20150215104609.GF32251@vapier>
-	<54E0B77E.5090306@gmail.com>
-	<20150215175107.GC3910@vapier>
+From: Dave Chinner <david@fromorbit.com>
+Subject: Re: [PATCH RESEND 1/12] fs: Add support FALLOC_FL_INSERT_RANGE for
+ fallocate
+Date: Tue, 17 Feb 2015 10:53:47 +1100
+Message-ID: <20150216235346.GD4251@dastard>
+References: <1424101680-3301-1-git-send-email-linkinjeon@gmail.com>
+ <1424101680-3301-2-git-send-email-linkinjeon@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150215175107.GC3910@vapier>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-ext4-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <1424101680-3301-2-git-send-email-linkinjeon@gmail.com>
+Sender: linux-ext4-owner@vger.kernel.org
+To: Namjae Jeon <linkinjeon@gmail.com>
+Cc: tytso@mit.edu, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, xfs@oss.sgi.com, a.sangwan@samsung.com, bfoster@redhat.com, mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-api@vger.kernel.org, Namjae Jeon <namjae.jeon@samsung.com>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Feb 15, 2015 at 9:51 AM, Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> wrote:
-> On 15 Feb 2015 16:13, Michael Kerrisk (man-pages) wrote:
->> On 02/15/2015 11:46 AM, Mike Frysinger wrote:
->> > On 17 Jan 2015 23:22, Kees Cook wrote:
->> >> --- a/man2/syscall.2
->> >> +++ b/man2/syscall.2
->> >> @@ -36,6 +36,8 @@
->> >>  .\"
->> >>  .\" 2002-03-20  Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
->> >>  .\"       - adopted for Linux
->> >> +.\" 2015-01-17, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
->> >> +.\"       Added mips and arm64.
->> >>  .\"
->> >
->> > can we scrub changelogs from the man pages in general ?  they're usually
->> > incomplete and rarely provide more than `git log -p`.
->>
->> Yes, I tend to discourage them these days, but don't always worry too much if
->> someone adds them to  patch.
->
-> in this case, i think Kees was following apparent convention rather than
-> thinking he always add one.  so i'm suggesting we help out at least the
-> people who are just trying to DTRT by scrubbing the tree of existing ones
-> that aren't useful.
+On Tue, Feb 17, 2015 at 12:47:48AM +0900, Namjae Jeon wrote:
+> From: Namjae Jeon <namjae.jeon@samsung.com>
+> 
+> FALLOC_FL_INSERT_RANGE command is the opposite command of
+> FALLOC_FL_COLLAPSE_RANGE that is needed for advertisers or someone who want to
+> add some data in the middle of file. FALLOC_FL_INSERT_RANGE will create space
+> for writing new data within a file after shifting extents to right as given
+> length. and this command also has same limitation as FALLOC_FL_COLLAPSE_RANGE,
+> that is block boundary and use ftruncate(2) for crosses EOF.
+> 
+> Signed-off-by: Namjae Jeon <namjae.jeon@samsung.com>
+> Signed-off-by: Ashish Sangwan <a.sangwan@samsung.com>
+> Cc: Brian Foster<bfoster@redhat.com>
+> ---
+>  fs/open.c                   |    8 +++++++-
+>  include/uapi/linux/falloc.h |   17 +++++++++++++++++
+>  2 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/fs/open.c b/fs/open.c
+> index 813be03..762fb45 100644
+> --- a/fs/open.c
+> +++ b/fs/open.c
+> @@ -232,7 +232,8 @@ int vfs_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+>  
+>  	/* Return error if mode is not supported */
+>  	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |
+> -		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE))
+> +		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE |
+> +		     FALLOC_FL_INSERT_RANGE))
+>  		return -EOPNOTSUPP;
 
-Yeah, I tend to try to follow the convention in the file. It's wasn't
-clear what to do. I'm happy to send a patch to wipe my entries, if
-that's desired.
+Can we create a FALLOC_FL_SUPPORTED_MASK define in falloc.h
+so that we only need to add new flags to the mask in rather than
+change this code every time we add a new flag?
 
--Kees
+Cheers,
 
+Dave.
 -- 
-Kees Cook
-Chrome OS Security
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Dave Chinner
+david@fromorbit.com
