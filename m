@@ -1,59 +1,174 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Error in ldconfig(8)
-Date: Mon, 16 Feb 2015 07:05:30 +0100
-Message-ID: <54E188AA.2010800@gmail.com>
-References: <CAMDSSyBWHyD2Kzep0tUtoga1n090s92DL1BtLg8HreGRPGm8bQ@mail.gmail.com>
+From: Namjae Jeon <namjae.jeon@samsung.com>
+Subject: [PATCH] manpage: update FALLOC_FL_INSERT_RANGE flag in fallocate
+Date: Mon, 16 Feb 2015 18:49:25 +0900
+Message-ID: <006a01d049cd$d914d990$8b3e8cb0$@samsung.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAMDSSyBWHyD2Kzep0tUtoga1n090s92DL1BtLg8HreGRPGm8bQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Patrick Horgan <phorgan1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-language: ko
+Sender: linux-kernel-owner@vger.kernel.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
+Cc: Dave Chinner <david@fromorbit.com>, Theodore Ts'o <tytso@mit.edu>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ashish Sangwan <a.sangwan@samsung.com>
 List-Id: linux-man@vger.kernel.org
 
-Hello Patrick,
+Update FALLOC_FL_INSERT_RANGE flag in fallocate.
 
-On 02/15/2015 07:19 PM, Patrick Horgan wrote:
-> Confirmed against latest online man page. Seen on Fedora fc22 and using
-> ldconfig (GNU libc) 2.20
-> 
-> I noticed in the bottom of the man page it says that /etc/ld.so.conf is a
-> "File containing a list of colon, space, tab, new-line, or comma-separated
-> directories in which to search for libraries."
-> 
-> ldconfig expects directories to be one per line so only the new-line
-> separator is right.
-> 
-> If for example ld.so.conf had a line containing
-> 
-> /usr/local/lib:/usr/local/lib64
-> 
-> Then sudo ldconfig -v would output a line
-> 
-> ldconfig: Can't stat /usr/local/lib:/usr/local/lib64: No such file or
-> directory
-> 
-> Putting the same directories on separate lines works fine.
-> 
-> The -v argument to ldconfig is needed because otherwise ldconfig fails
-> silently. Comma, space, and tab separators all fail analogously.
+Signed-off-by: Namjae Jeon <namjae.jeon@samsung.com>
+Signed-off-by: Ashish Sangwan <a.sangwan@samsung.com>
+---
+ man2/fallocate.2 | 88 ++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 82 insertions(+), 6 deletions(-)
 
-Yes, I confirmed this also from checking the glibc source.
-And that text is no more true now that when it first appeared
-when the man page was added 14 years ago. I've removed mention of
-delimiters other than newlines.
-
-Thanks,
-
-Michael
-
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index adf42db..9b3c460 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -8,7 +8,7 @@
+ .\" 2011-09-19: Added FALLOC_FL_PUNCH_HOLE
+ .\" 2011-09-19: Substantial restructuring of the page
+ .\"
+-.TH FALLOCATE 2 2015-01-22 "Linux" "Linux Programmer's Manual"
++.TH FALLOCATE 2 2015-02-14 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ fallocate \- manipulate file space
+ .SH SYNOPSIS
+@@ -225,6 +225,56 @@ XFS (since Linux 3.14)
+ .IP *
+ ext4, for extent-based files (since Linux 3.14)
+ .\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
++.SS Increasing file space
++.\" TODO: Mention commit id and supporting Linux version
++Specifying the
++.BR FALLOC_FL_INSERT_RANGE
++flag in
++.I mode
++will increase the file space by inserting a hole within the file size without
++overwriting any existing data. The hole will start at
++.I offset
++and continue for
++.I len
++bytes. For inserting hole inside file, the contents of the file starting at
++.I offset
++will be shifted towards right by
++.I len
++bytes. Inserting a hole inside the file will increase the file size by
++.I len
++bytes.
++
++This mode has the same limitation as
++.BR FALLOC_FL_COLLAPSE_RANGE
++regarding the
++granularity of the operation.
++If the granulrity requirements are not met,
++.BR fallocate ()
++will fail with the error
++.BR EINVAL.
++If the
++.I offset
++overlaps with end of file OR if it is greater than end of file, an error is
++returned. For such type of operations, i.e. inserting a hole at the end of
++file,
++.BR ftruncate(2)
++should be used.
++In case
++.IR offset + len
++exceeds the maximum file size, errno will be set to
++.B EFBIG.
++
++No other flags may be specified in
++.IR mode
++in conjunction with
++.BR FALLOC_FL_INSERT_RANGE .
++
++As of Linux XXXX,
++.\" TODO: Mention commit id and supporting Linux version
++.B FALLOC_FL_INSERT_RANGE
++is supported by
++ext4 (only for extent-based files) and XFS.
++
+ .SH RETURN VALUE
+ On success,
+ .BR fallocate ()
+@@ -242,6 +292,12 @@ is not a valid file descriptor, or is not opened for writing.
+ .IR offset + len
+ exceeds the maximum file size.
+ .TP
++.B EFBIG
++.I mode
++is
++.BR FALLOC_FL_INSERT_RANGE ,
++the current file size+len excceds the maximum file size.
++.TP
+ .B EINTR
+ A signal was caught during execution.
+ .TP
+@@ -270,7 +326,17 @@ reaches or passes the end of the file.
+ .B EINVAL
+ .I mode
+ is
+-.BR FALLOC_FL_COLLAPSE_RANGE ,
++.BR FALLOC_FL_INSERT_RANGE
++and the range specified by
++.I offset
++reaches or passes the end of the file.
++.TP
++.B EINVAL
++.I mode
++is
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but either
+ .I offset
+ or
+@@ -279,18 +345,24 @@ is not a multiple of the filesystem block size.
+ .TP
+ .B EINVAL
+ .I mode
+-contains both
++contains either of
+ .B FALLOC_FL_COLLAPSE_RANGE
++or
++.B FALLOC_FL_INSERT_RANGE
+ and other flags;
+ no other flags are permitted with
+-.BR FALLOC_FL_COLLAPSE_RANGE .
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE .
+ .TP
+ .B EINVAL
+ .I mode
+ is
+ .BR FALLOC_FL_COLLAPSE_RANGE
+ or
+-.BR FALLOC_FL_ZERO_RANGE ,
++.BR FALLOC_FL_ZERO_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but the file referred to by
+ .I fd
+ is not a regular file.
+@@ -342,6 +414,8 @@ specifies
+ .BR FALLOC_FL_PUNCH_HOLE
+ or
+ .BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE
+ and
+ the file referred to by
+ .I fd
+@@ -360,7 +434,9 @@ refers to a pipe or FIFO.
+ .B ETXTBSY
+ .I mode
+ specifies
+-.BR FALLOC_FL_COLLAPSE_RANGE ,
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but the file referred to by
+ .IR fd
+ is currently being executed.
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+1.8.5.5
