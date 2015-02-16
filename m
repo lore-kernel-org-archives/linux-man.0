@@ -1,60 +1,39 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fork.2: child is created single threaded
-Date: Mon, 16 Feb 2015 11:42:44 +0100
-Message-ID: <1424083364-6259-1-git-send-email-xypron.glpk@gmx.de>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+From: Cyril Hrubis <chrubis@suse.cz>
+Subject: Re: futex(2) man page update help request
+Date: Mon, 16 Feb 2015 14:14:28 +0100
+Message-ID: <20150216131428.GA20568@rei.suse.de>
+References: <537346E5.4050407@gmail.com>
+ <CF98E3EF.90564%dvhart@linux.intel.com>
+ <20140515152834.GA6926@rei.Home>
+ <CF9A3521.90ECC%dvhart@linux.intel.com>
+ <20140515163004.GB7959@rei.Home>
+ <CF9A3A75.90F40%dvhart@linux.intel.com>
+ <20140515190529.GA8887@rei.Home>
+ <CF9A658E.91322%dvhart@linux.intel.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <CF9A658E.91322%dvhart@linux.intel.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>, Jakub Jelinek <jakub@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Davidlohr Bueso <davidlohr.bueso@hp.com>, Arnd Bergmann <arnd@arndb.de>, Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Linux API <linux-api@vger.kernel.org>, Carlos O'Donell <carlos@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-This important information should not be hidden in a note.
-Instead it should be moved to the start of the man-page.
+Hi!
+> I'll follow up with you in a couple weeks most likely. I have some urgent
+> things that will be taking all my time and then some until then. Feel free
+> to poke me though if I lose track of it :-)
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/fork.2 | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+FYI I've started to work on futex testcases for LTP. The first batch has
+been commited in:
 
-diff --git a/man2/fork.2 b/man2/fork.2
-index dce9bff..3329227 100644
---- a/man2/fork.2
-+++ b/man2/fork.2
-@@ -53,6 +53,10 @@ The calling process is referred to as the
- .I parent
- process.
- 
-+The child process is created with a single thread,
-+which is a copy of the one that called
-+.BR fork ().
-+
- The child process and the parent process run in separate memory spaces.
- At the time of
- .BR fork ()
-@@ -70,6 +74,9 @@ The child has its own unique process ID,
- and this PID does not match the ID of any existing process group
- .RB ( setpgid (2)).
- .IP *
-+The child thread has its own unique thread ID
-+.RB ( gettid (2)).
-+.IP *
- The child's parent process ID is the same as the parent's process ID.
- .IP *
- The child does not inherit its parent's memory locks
-@@ -152,9 +159,6 @@ the child must turn on any bits that it requires using
- .PP
- Note the following further points:
- .IP * 3
--The child process is created with a single thread\(emthe
--one that called
--.BR fork ().
- The entire virtual address space of the parent is replicated in the child,
- including the states of mutexes, condition variables,
- and other pthreads objects; the use of
+https://github.com/linux-test-project/ltp/commit/6270ba2ebe999ffdb1364e5e814d7e56070a0198
+
+Some of these are losely based on futextest some are written from
+scratch. The requeue operation, pi futexes and bitset are not covered
+yet.
+
 -- 
-2.1.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Cyril Hrubis
+chrubis@suse.cz
