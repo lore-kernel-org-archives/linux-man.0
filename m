@@ -1,78 +1,58 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] syscall.2: add arm64 and mips
-Date: Sun, 15 Feb 2015 12:51:07 -0500
-Message-ID: <20150215175107.GC3910@vapier>
-References: <20150118072204.GA12237@www.outflux.net>
- <20150215104609.GF32251@vapier>
- <54E0B77E.5090306@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Error in ldconfig(8)
+Date: Mon, 16 Feb 2015 07:05:30 +0100
+Message-ID: <54E188AA.2010800@gmail.com>
+References: <CAMDSSyBWHyD2Kzep0tUtoga1n090s92DL1BtLg8HreGRPGm8bQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/unnNtmY43mpUSKx"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <54E0B77E.5090306-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAMDSSyBWHyD2Kzep0tUtoga1n090s92DL1BtLg8HreGRPGm8bQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Patrick Horgan <phorgan1-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+Hello Patrick,
 
---/unnNtmY43mpUSKx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 02/15/2015 07:19 PM, Patrick Horgan wrote:
+> Confirmed against latest online man page. Seen on Fedora fc22 and using
+> ldconfig (GNU libc) 2.20
+> 
+> I noticed in the bottom of the man page it says that /etc/ld.so.conf is a
+> "File containing a list of colon, space, tab, new-line, or comma-separated
+> directories in which to search for libraries."
+> 
+> ldconfig expects directories to be one per line so only the new-line
+> separator is right.
+> 
+> If for example ld.so.conf had a line containing
+> 
+> /usr/local/lib:/usr/local/lib64
+> 
+> Then sudo ldconfig -v would output a line
+> 
+> ldconfig: Can't stat /usr/local/lib:/usr/local/lib64: No such file or
+> directory
+> 
+> Putting the same directories on separate lines works fine.
+> 
+> The -v argument to ldconfig is needed because otherwise ldconfig fails
+> silently. Comma, space, and tab separators all fail analogously.
 
-On 15 Feb 2015 16:13, Michael Kerrisk (man-pages) wrote:
-> On 02/15/2015 11:46 AM, Mike Frysinger wrote:
-> > On 17 Jan 2015 23:22, Kees Cook wrote:
-> >> --- a/man2/syscall.2
-> >> +++ b/man2/syscall.2
-> >> @@ -36,6 +36,8 @@
-> >>  .\"
-> >>  .\" 2002-03-20  Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> >>  .\"	- adopted for Linux
-> >> +.\" 2015-01-17, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-> >> +.\"	Added mips and arm64.
-> >>  .\"
-> >=20
-> > can we scrub changelogs from the man pages in general ?  they're usuall=
-y=20
-> > incomplete and rarely provide more than `git log -p`.
->=20
-> Yes, I tend to discourage them these days, but don't always worry too muc=
-h if
-> someone adds them to  patch.
+Yes, I confirmed this also from checking the glibc source.
+And that text is no more true now that when it first appeared
+when the man page was added 14 years ago. I've removed mention of
+delimiters other than newlines.
 
-in this case, i think Kees was following apparent convention rather than=20
-thinking he always add one.  so i'm suggesting we help out at least the=20
-people who are just trying to DTRT by scrubbing the tree of existing ones=
-=20
-that aren't useful.
--mike
+Thanks,
 
---/unnNtmY43mpUSKx
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Michael
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQIcBAEBAgAGBQJU4NyLAAoJEEFjO5/oN/WBU1AP/jYo7DJULvHGYuRbERTKpD2A
-IAUMnt06feGHuBSJqtTNvbt8JrcCTJQEw8SdBaMlDHtcjExhr7EcZUnQfCZ7d1xY
-LgFP4vX12fNUXLBExd2nix2NH1iOjEsLjSyMWvLSedCFr62wXJt0vhdbmPtvr/vl
-omN9Zb7eNIgFU55ImFo3y+p2PaNS9c4FKle7GApXO+y/0bOnGs3uMCEJ6iK7NIpY
-qivO5fs83ahYG9arhSATqdpsaUXkS3MT5AcohO/jPoAkZOlkELKjc8yOT9uwkjH1
-H4wcZvKzhLE9VTy3DOlDS/gtpSYh7rAGdk6z1TyWB86J3n1PthYPMCe/2YnC7iKG
-isLGsIybdh+o2TryNiIhHhhjTgSisoP0nC4qmooKXYCQmdm+8khbyOyI9v74qR5z
-C8Qzl99HwHniHx+Czk0fd13SOtbKZb1KBNIkI4g7oUA0nGT6NOzsB6DLqiMY0UIc
-YwIrkfEhDBUgyQLcPrXHQMLZRAHDEzHjP0IsD6jkD+/DEnGv7ZSRr3hGNcTA+4/E
-7zkZTJDXuliAyBr39PLqwq9mEutbmFyK+Z/0j7OFn19PYr0OFzHjkCmldDtoprDf
-cerNiVT117x3WYHBKAcFaTK/UHNvgnbaqkblo4bMKnEtDYn3hrwX8AitkJOBWu3b
-+cFQEKIKHiFzZ1ii5Z3y
-=kAMt
------END PGP SIGNATURE-----
-
---/unnNtmY43mpUSKx--
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
