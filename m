@@ -1,174 +1,58 @@
-From: Namjae Jeon <namjae.jeon@samsung.com>
-Subject: [PATCH] manpage: update FALLOC_FL_INSERT_RANGE flag in fallocate
-Date: Mon, 16 Feb 2015 18:49:25 +0900
-Message-ID: <006a01d049cd$d914d990$8b3e8cb0$@samsung.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-language: ko
-Sender: linux-kernel-owner@vger.kernel.org
-To: Michael Kerrisk <mtk.manpages@gmail.com>, linux-man@vger.kernel.org
-Cc: Dave Chinner <david@fromorbit.com>, Theodore Ts'o <tytso@mit.edu>, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, Ashish Sangwan <a.sangwan@samsung.com>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] fork.2: child and parent run in separate memory spaces
+Date: Mon, 16 Feb 2015 11:40:46 +0100
+Message-ID: <1424083246-6162-1-git-send-email-xypron.glpk@gmx.de>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Update FALLOC_FL_INSERT_RANGE flag in fallocate.
+fork.2 should clearly point out that child and parent
+process run in separate memory spaces.
 
-Signed-off-by: Namjae Jeon <namjae.jeon@samsung.com>
-Signed-off-by: Ashish Sangwan <a.sangwan@samsung.com>
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man2/fallocate.2 | 88 ++++++++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 82 insertions(+), 6 deletions(-)
+ man2/fork.2 | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/man2/fallocate.2 b/man2/fallocate.2
-index adf42db..9b3c460 100644
---- a/man2/fallocate.2
-+++ b/man2/fallocate.2
-@@ -8,7 +8,7 @@
- .\" 2011-09-19: Added FALLOC_FL_PUNCH_HOLE
- .\" 2011-09-19: Substantial restructuring of the page
- .\"
--.TH FALLOCATE 2 2015-01-22 "Linux" "Linux Programmer's Manual"
-+.TH FALLOCATE 2 2015-02-14 "Linux" "Linux Programmer's Manual"
- .SH NAME
- fallocate \- manipulate file space
- .SH SYNOPSIS
-@@ -225,6 +225,56 @@ XFS (since Linux 3.14)
- .IP *
- ext4, for extent-based files (since Linux 3.14)
- .\" commit b8a8684502a0fc852afa0056c6bb2a9273f6fcc0
-+.SS Increasing file space
-+.\" TODO: Mention commit id and supporting Linux version
-+Specifying the
-+.BR FALLOC_FL_INSERT_RANGE
-+flag in
-+.I mode
-+will increase the file space by inserting a hole within the file size without
-+overwriting any existing data. The hole will start at
-+.I offset
-+and continue for
-+.I len
-+bytes. For inserting hole inside file, the contents of the file starting at
-+.I offset
-+will be shifted towards right by
-+.I len
-+bytes. Inserting a hole inside the file will increase the file size by
-+.I len
-+bytes.
+diff --git a/man2/fork.2 b/man2/fork.2
+index e6695ad..dce9bff 100644
+--- a/man2/fork.2
++++ b/man2/fork.2
+@@ -46,9 +46,25 @@ fork \- create a child process
+ .SH DESCRIPTION
+ .BR fork ()
+ creates a new process by duplicating the calling process.
+-The new process, referred to as the \fIchild\fP,
+-is an exact duplicate of the calling process,
+-referred to as the \fIparent\fP, except for the following points:
++The new process is referred to as the
++.I child
++process.
++The calling process is referred to as the
++.I parent
++process.
 +
-+This mode has the same limitation as
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+regarding the
-+granularity of the operation.
-+If the granulrity requirements are not met,
-+.BR fallocate ()
-+will fail with the error
-+.BR EINVAL.
-+If the
-+.I offset
-+overlaps with end of file OR if it is greater than end of file, an error is
-+returned. For such type of operations, i.e. inserting a hole at the end of
-+file,
-+.BR ftruncate(2)
-+should be used.
-+In case
-+.IR offset + len
-+exceeds the maximum file size, errno will be set to
-+.B EFBIG.
++The child process and the parent process run in separate memory spaces.
++At the time of
++.BR fork ()
++both memory spaces have the same content.
++Memory writes, file mappings
++.RB ( mmap (2)),
++and unmappings
++.RB ( munmap (2))
++performed by one of the processes do not affect the other.
 +
-+No other flags may be specified in
-+.IR mode
-+in conjunction with
-+.BR FALLOC_FL_INSERT_RANGE .
-+
-+As of Linux XXXX,
-+.\" TODO: Mention commit id and supporting Linux version
-+.B FALLOC_FL_INSERT_RANGE
-+is supported by
-+ext4 (only for extent-based files) and XFS.
-+
- .SH RETURN VALUE
- On success,
- .BR fallocate ()
-@@ -242,6 +292,12 @@ is not a valid file descriptor, or is not opened for writing.
- .IR offset + len
- exceeds the maximum file size.
- .TP
-+.B EFBIG
-+.I mode
-+is
-+.BR FALLOC_FL_INSERT_RANGE ,
-+the current file size+len excceds the maximum file size.
-+.TP
- .B EINTR
- A signal was caught during execution.
- .TP
-@@ -270,7 +326,17 @@ reaches or passes the end of the file.
- .B EINVAL
- .I mode
- is
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_INSERT_RANGE
-+and the range specified by
-+.I offset
-+reaches or passes the end of the file.
-+.TP
-+.B EINVAL
-+.I mode
-+is
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but either
- .I offset
- or
-@@ -279,18 +345,24 @@ is not a multiple of the filesystem block size.
- .TP
- .B EINVAL
- .I mode
--contains both
-+contains either of
- .B FALLOC_FL_COLLAPSE_RANGE
-+or
-+.B FALLOC_FL_INSERT_RANGE
- and other flags;
- no other flags are permitted with
--.BR FALLOC_FL_COLLAPSE_RANGE .
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE .
- .TP
- .B EINVAL
- .I mode
- is
- .BR FALLOC_FL_COLLAPSE_RANGE
- or
--.BR FALLOC_FL_ZERO_RANGE ,
-+.BR FALLOC_FL_ZERO_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but the file referred to by
- .I fd
- is not a regular file.
-@@ -342,6 +414,8 @@ specifies
- .BR FALLOC_FL_PUNCH_HOLE
- or
- .BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE
- and
- the file referred to by
- .I fd
-@@ -360,7 +434,9 @@ refers to a pipe or FIFO.
- .B ETXTBSY
- .I mode
- specifies
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but the file referred to by
- .IR fd
- is currently being executed.
++The child process is an exact duplicate of the parent
++process except for the following points:
+ .IP * 3
+ The child has its own unique process ID,
+ and this PID does not match the ID of any existing process group
 -- 
-1.8.5.5
+2.1.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
