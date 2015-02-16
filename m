@@ -1,54 +1,56 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fork.2: child and parent run in separate memory spaces
-Date: Mon, 16 Feb 2015 11:40:46 +0100
-Message-ID: <1424083246-6162-1-git-send-email-xypron.glpk@gmx.de>
+Subject: [PATCH 1/1] fork.2: child is created single threaded
+Date: Mon, 16 Feb 2015 11:42:44 +0100
+Message-ID: <1424083364-6259-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-fork.2 should clearly point out that child and parent
-process run in separate memory spaces.
+This important information should not be hidden in a note.
+Instead it should be moved to the start of the man-page.
 
 Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man2/fork.2 | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ man2/fork.2 | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/man2/fork.2 b/man2/fork.2
-index e6695ad..dce9bff 100644
+index dce9bff..3329227 100644
 --- a/man2/fork.2
 +++ b/man2/fork.2
-@@ -46,9 +46,25 @@ fork \- create a child process
- .SH DESCRIPTION
+@@ -53,6 +53,10 @@ The calling process is referred to as the
+ .I parent
+ process.
+ 
++The child process is created with a single thread,
++which is a copy of the one that called
++.BR fork ().
++
+ The child process and the parent process run in separate memory spaces.
+ At the time of
  .BR fork ()
- creates a new process by duplicating the calling process.
--The new process, referred to as the \fIchild\fP,
--is an exact duplicate of the calling process,
--referred to as the \fIparent\fP, except for the following points:
-+The new process is referred to as the
-+.I child
-+process.
-+The calling process is referred to as the
-+.I parent
-+process.
-+
-+The child process and the parent process run in separate memory spaces.
-+At the time of
-+.BR fork ()
-+both memory spaces have the same content.
-+Memory writes, file mappings
-+.RB ( mmap (2)),
-+and unmappings
-+.RB ( munmap (2))
-+performed by one of the processes do not affect the other.
-+
-+The child process is an exact duplicate of the parent
-+process except for the following points:
- .IP * 3
- The child has its own unique process ID,
+@@ -70,6 +74,9 @@ The child has its own unique process ID,
  and this PID does not match the ID of any existing process group
+ .RB ( setpgid (2)).
+ .IP *
++The child thread has its own unique thread ID
++.RB ( gettid (2)).
++.IP *
+ The child's parent process ID is the same as the parent's process ID.
+ .IP *
+ The child does not inherit its parent's memory locks
+@@ -152,9 +159,6 @@ the child must turn on any bits that it requires using
+ .PP
+ Note the following further points:
+ .IP * 3
+-The child process is created with a single thread\(emthe
+-one that called
+-.BR fork ().
+ The entire virtual address space of the parent is replicated in the child,
+ including the states of mutexes, condition variables,
+ and other pthreads objects; the use of
 -- 
 2.1.4
 
