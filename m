@@ -1,39 +1,49 @@
-From: Cyril Hrubis <chrubis@suse.cz>
-Subject: Re: futex(2) man page update help request
-Date: Mon, 16 Feb 2015 14:14:28 +0100
-Message-ID: <20150216131428.GA20568@rei.suse.de>
-References: <537346E5.4050407@gmail.com>
- <CF98E3EF.90564%dvhart@linux.intel.com>
- <20140515152834.GA6926@rei.Home>
- <CF9A3521.90ECC%dvhart@linux.intel.com>
- <20140515163004.GB7959@rei.Home>
- <CF9A3A75.90F40%dvhart@linux.intel.com>
- <20140515190529.GA8887@rei.Home>
- <CF9A658E.91322%dvhart@linux.intel.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <CF9A658E.91322%dvhart@linux.intel.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@elte.hu>, Jakub Jelinek <jakub@redhat.com>, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Davidlohr Bueso <davidlohr.bueso@hp.com>, Arnd Bergmann <arnd@arndb.de>, Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Linux API <linux-api@vger.kernel.org>, Carlos O'Donell <carlos@redhat.com>
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] futex.7: SEE ALSO
+Date: Mon, 16 Feb 2015 16:42:13 +0100
+Message-ID: <1424101333-19091-1-git-send-email-xypron.glpk@gmx.de>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi!
-> I'll follow up with you in a couple weeks most likely. I have some urgent
-> things that will be taking all my time and then some until then. Feel free
-> to poke me though if I lose track of it :-)
+futex.7 is meant as overview of the usage of futexes. It should
+point to the related man-pages.
 
-FYI I've started to work on futex testcases for LTP. The first batch has
-been commited in:
+pthreads are the main usage of futexes, refer to pthread.7.
+Implementation of robust futexes requires knowledge of set_robust_list.2
+and get_robust_list.2.
+It is noworthy that a closing thread can wake up a futex. Hence mention
+clone.2 and set_tid_address.2.
 
-https://github.com/linux-test-project/ltp/commit/6270ba2ebe999ffdb1364e5e814d7e56070a0198
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man7/futex.7 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Some of these are losely based on futextest some are written from
-scratch. The requeue operation, pi futexes and bitset are not covered
-yet.
-
+diff --git a/man7/futex.7 b/man7/futex.7
+index 2be1511..87d2997 100644
+--- a/man7/futex.7
++++ b/man7/futex.7
+@@ -115,7 +115,12 @@ primitives; it is by no means the only one.
+ .\" Rusty Russell (IBM Linux Technology Center).
+ .\" This page written by bert hubert.
+ .SH SEE ALSO
+-.BR futex (2)
++.BR clone (2),
++.BR futex (2),
++.BR get_robust_list (2),
++.BR set_robust_list (2),
++.BR set_tid_address (2),
++.BR pthreads (7)
+ 
+ .IR "Fuss, Futexes and Furwocks: Fast Userlevel Locking in Linux"
+ (proceedings of the Ottawa Linux Symposium 2002),
 -- 
-Cyril Hrubis
-chrubis@suse.cz
+2.1.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
