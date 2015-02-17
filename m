@@ -1,64 +1,91 @@
-From: Namjae Jeon <namjae.jeon@samsung.com>
-Subject: RE: [PATCH RESEND 1/12] fs: Add support FALLOC_FL_INSERT_RANGE for
- fallocate
-Date: Tue, 17 Feb 2015 10:49:37 +0900
-Message-ID: <001301d04a53$fcd91310$f68b3930$@samsung.com>
-References: <1424101680-3301-1-git-send-email-linkinjeon@gmail.com>
- <1424101680-3301-2-git-send-email-linkinjeon@gmail.com>
- <20150216235346.GD4251@dastard>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH] syscall.2: add arm64 and mips
+Date: Mon, 16 Feb 2015 23:02:47 -0500
+Message-ID: <20150217040247.GA4400@vapier>
+References: <20150118072204.GA12237@www.outflux.net>
+ <20150215104609.GF32251@vapier>
+ <54E0B77E.5090306@gmail.com>
+ <20150215175107.GC3910@vapier>
+ <CAGXu5jKyt2ZsFLhYrQpWfTWdipHYyCy1En3FObxYqxHuiLGgGA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-In-reply-to: <20150216235346.GD4251@dastard>
-Content-language: ko
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: 'Dave Chinner' <david@fromorbit.com>
-Cc: tytso@mit.edu, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, xfs@oss.sgi.com, a.sangwan@samsung.com, bfoster@redhat.com, mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-api@vger.kernel.org, 'Namjae Jeon' <linkinjeon@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="k+w/mQv8wyuph6w0"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CAGXu5jKyt2ZsFLhYrQpWfTWdipHYyCy1En3FObxYqxHuiLGgGA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-> On Tue, Feb 17, 2015 at 12:47:48AM +0900, Namjae Jeon wrote:
-> > From: Namjae Jeon <namjae.jeon@samsung.com>
-> >
-> > FALLOC_FL_INSERT_RANGE command is the opposite command of
-> > FALLOC_FL_COLLAPSE_RANGE that is needed for advertisers or someone who want to
-> > add some data in the middle of file. FALLOC_FL_INSERT_RANGE will create space
-> > for writing new data within a file after shifting extents to right as given
-> > length. and this command also has same limitation as FALLOC_FL_COLLAPSE_RANGE,
-> > that is block boundary and use ftruncate(2) for crosses EOF.
-> >
-> > Signed-off-by: Namjae Jeon <namjae.jeon@samsung.com>
-> > Signed-off-by: Ashish Sangwan <a.sangwan@samsung.com>
-> > Cc: Brian Foster<bfoster@redhat.com>
-> > ---
-> >  fs/open.c                   |    8 +++++++-
-> >  include/uapi/linux/falloc.h |   17 +++++++++++++++++
-> >  2 files changed, 24 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/open.c b/fs/open.c
-> > index 813be03..762fb45 100644
-> > --- a/fs/open.c
-> > +++ b/fs/open.c
-> > @@ -232,7 +232,8 @@ int vfs_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
-> >
-> >  	/* Return error if mode is not supported */
-> >  	if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE |
-> > -		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE))
-> > +		     FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_ZERO_RANGE |
-> > +		     FALLOC_FL_INSERT_RANGE))
-> >  		return -EOPNOTSUPP;
-> 
-> Can we create a FALLOC_FL_SUPPORTED_MASK define in falloc.h
-> so that we only need to add new flags to the mask in rather than
-> change this code every time we add a new flag?
-Sure, I will do it. and share the patch with the others you gave me review points soon.
 
-Thanks for review!
-> 
-> Cheers,
-> 
-> Dave.
-> --
-> Dave Chinner
-> david@fromorbit.com
+--k+w/mQv8wyuph6w0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On 16 Feb 2015 11:30, Kees Cook wrote:
+> On Sun, Feb 15, 2015 at 9:51 AM, Mike Frysinger wrote:
+> > On 15 Feb 2015 16:13, Michael Kerrisk (man-pages) wrote:
+> >> On 02/15/2015 11:46 AM, Mike Frysinger wrote:
+> >> > On 17 Jan 2015 23:22, Kees Cook wrote:
+> >> >> --- a/man2/syscall.2
+> >> >> +++ b/man2/syscall.2
+> >> >> @@ -36,6 +36,8 @@
+> >> >>  .\"
+> >> >>  .\" 2002-03-20  Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> >> >>  .\"       - adopted for Linux
+> >> >> +.\" 2015-01-17, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> >> >> +.\"       Added mips and arm64.
+> >> >>  .\"
+> >> >
+> >> > can we scrub changelogs from the man pages in general ?  they're usu=
+ally
+> >> > incomplete and rarely provide more than `git log -p`.
+> >>
+> >> Yes, I tend to discourage them these days, but don't always worry too =
+much if
+> >> someone adds them to  patch.
+> >
+> > in this case, i think Kees was following apparent convention rather than
+> > thinking he always add one.  so i'm suggesting we help out at least the
+> > people who are just trying to DTRT by scrubbing the tree of existing on=
+es
+> > that aren't useful.
+>=20
+> Yeah, I tend to try to follow the convention in the file. It's wasn't
+> clear what to do. I'm happy to send a patch to wipe my entries, if
+> that's desired.
+
+i don't think we need to make you do that one off :).  if Michael is happy =
+with=20
+scrubbing the code base, lets go that route.
+-mike
+
+--k+w/mQv8wyuph6w0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBAgAGBQJU4r1nAAoJEEFjO5/oN/WBaq0QAILUWwdiEuh/YLVjXL1ZAx4V
+l0OAkFRg4ASUtcs7zghzapwNiuLjhFU+fe7PE5tAPujEeyxKgd7bonqDYfuC5Aai
+usU6+asbaxZsR2Sb+NcI+u7jaEfvJHTGPTf//sFj1sNwwfNAK6g8fh3Epj/8EA4g
+LCcn8EDpT82UzHGdn7QZXnFZ53qefHCX9qvAXSZl0Gl86vbqel0XAinDuVg6fT+u
+1JPggWDhFUgkG6olMvqKN9EcAPPziI2ahcufXytEfv3t8Kx7WlK60ZnMDAXB5QE0
+proq7Od+CNny4XVMoNzNxpSbkISRi54Wj4e3B1Pvvf9+2r8cVHaRYCG3FVpG0GZP
+q/GP7O0f3X0lQjCg0ZRYrc1orjF1ylGdQ7JAUmoQ4ueVbFqckNYWPqNpSHZVEEG2
+wpklZYivbB/Vt0dBet263XR2ovBZ9mFjoZcEVEmfZZoeLJ4giQzzh1ZNYtuFRp4g
+M7HlWv3szvVRfjwFJgKux3Q43mG6ZSU+ynIH5yAhTV9jWxtOn++sA3MxmOq7FbEq
+L69jOGLIqqnRmj81RZOvtegFwVJa4tdWaCJhIPRMhnDQzu+lI3O3BX5Yyce5VcTt
+NwYNZRkNuPAf+AGDsaA8IhVntEibR06BHqnv16HaQq55NYLSeC/twI9RUMpeAbdR
+4JVaGBVePl2bi2SfFiyh
+=k46Q
+-----END PGP SIGNATURE-----
+
+--k+w/mQv8wyuph6w0--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
