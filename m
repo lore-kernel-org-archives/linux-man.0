@@ -1,49 +1,70 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: Fwd: [PATCH 1/1] futex.7: NPTL, avoid abbreviation
-Date: Tue, 17 Feb 2015 10:45:42 +0100
-Message-ID: <54E30DC6.3020307@gmx.de>
-References: <1424165125-6278-1-git-send-email-xypron.glpk@gmx.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH 1/1] futex.2: do not reference futex.7 semantics
+Date: Tue, 17 Feb 2015 15:06:30 +0100
+Message-ID: <1424181990-13202-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424165125-6278-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org >> linux-man" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The abbreviation NPTL cannot be assumed to be common knowledge
-of all readers of futex.7.
+The futex.2 system call makes no assumption about the meaning
+of the values of a futex.
+It may check if the value changes.
 
-pthread.7 has details about the NPTL pthreads implementation.
+The current futex.7 speaks of incrementing and decrementing
+a futex. That choice is arbitrary and unwise as overflows may
+occur.
+
+If special considerations for the usage of futex.2 have to be made
+in a futex.7 example, this should be explained in futex.7
 
 Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man7/futex.7 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ man2/futex.2 | 33 +--------------------------------
+ 1 file changed, 1 insertion(+), 32 deletions(-)
 
-diff --git a/man7/futex.7 b/man7/futex.7
-index 87d2997..c3c57f0 100644
---- a/man7/futex.7
-+++ b/man7/futex.7
-@@ -29,7 +29,8 @@ but restricts itself to issues relevant for
- application and library development.
- Most programmers will in fact not be using futexes directly but will
- instead rely on system libraries built on them,
--such as the NPTL pthreads implementation.
-+such as the Native POSIX Thread Library (NPTL) (see
-+.BR pthreads (7)).
- .PP
- A futex is identified by a piece of memory which can be
- shared between processes or threads.
--- 
-2.1.4
-
-
-
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/futex.2 b/man2/futex.2
+index 6c02da7..0ea7db2 100644
+--- a/man2/futex.2
++++ b/man2/futex.2
+@@ -68,16 +68,6 @@ When a futex operation did not finish uncontended in user space, a
+ call needs to be made to the kernel to arbitrate.
+ Arbitration can either mean putting the caller
+ to sleep or, conversely, waking a waiting process or thread.
+-.PP
+-Callers of
+-.BR futex ()
+-are expected to adhere to the semantics described in
+-.BR futex (7).
+-As these semantics involve writing nonportable assembly instructions
+-(see the example library referred to in SEE ALSO),
+-this in turn probably means that most users will in fact be
+-library authors and not general application developers.
+-.\"
+ .SS Arguments
+ The
+ .I uaddr
+@@ -229,18 +219,6 @@ The arguments
+ and
+ .I val3
+ are ignored.
+-
+-For
+-.BR futex (7),
+-this call is executed if decrementing the count gave a negative value
+-(indicating contention),
+-and will sleep until another process or thread releases
+-the futex and executes the
+-.B FUTEX_WAKE
+-operation.
+-.\"
+-.\""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+-.\"
+ .TP
+ .BR FUTEX_WAKE " (since Linux 2.6.0)"
+ .\" Strictly speaking, since Linux 2.5.x
+@@ -266,15 +244,6 @@ The arguments
+ and
+ .I val3
+ are ignored.
