@@ -1,75 +1,81 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] perf_event_open.2: Clarify PERF_EVENT_IOC_REFRESH behavior
-Date: Tue, 17 Feb 2015 06:34:45 +0100
-Message-ID: <54E2D2F5.2020100@gmail.com>
-References: <alpine.DEB.2.11.1502121212360.18451@vincent-weaver-1.umelst.maine.edu>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: restart_syscall.2: remove section number
+Date: Tue, 17 Feb 2015 03:43:26 -0500
+Message-ID: <20150217084326.GG20008@vapier>
+References: <CALhU9t=kM7Z7uO==e6vQ8eZJx1Vq9Gx+T1idTx8k80qMk0whrQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.11.1502121212360.18451@vincent-weaver-1.umelst.maine.edu>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vince Weaver <vincent.weaver@maine.edu>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Paul Mackerras <paulus@samba.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="JkW1gnuWHDypiMFO"
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <CALhU9t=kM7Z7uO==e6vQ8eZJx1Vq9Gx+T1idTx8k80qMk0whrQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 02/12/2015 06:14 PM, Vince Weaver wrote:
-> 
-> Currently the PERF_EVENT_IOC_REFRESH ioctl, when applied to a group
-> leader, will refresh all children.  Also if a refresh value of 0
-> is chosen then the refresh becomes infinite (never runs out).
-> Back in 2011 PAPI was relying on these behaviors but I was told
-> that both were unsupported and subject to being removed at any time.
->    (See https://lkml.org/lkml/2011/5/24/337 )
-> However the behavior has not been changed.  
 
-Thanks, Vince. Applied.
+--JkW1gnuWHDypiMFO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+On 27 Jan 2015 01:21, Akihiro Motoki wrote:
+> diff --git a/man2/restart_syscall.2 b/original/man2/restart_syscall.2
+> index a71b618..33081b7 100644
+> --- a/man2/restart_syscall.2
+> +++ b/man2/restart_syscall.2
+> @@ -115,7 +115,7 @@ In the case of system calls that take a timeout argum=
+ent and
+>  automatically restart after a stop signal plus
+>  .BR SIGCONT ,
+>  but which do not have the
+> -.BR restart_syscall (2)
+> +.BR restart_syscall ()
+>  mechanism built in, then, after the process resumes execution,
+>  the time that the process spent in the stop state is
+>  .I not
+> @@ -127,7 +127,7 @@ and
+>  .BR pselect (2).
+>=20
+>  From user space, the operation of
+> -.BR restart_syscall (2)
+> +.BR restart_syscall ()
+>  is largely invisible:
+>  to the process that made the system call that is restarted,
+>  it appears as though that system call executed and
 
-Michael
+lgtm
 
+(posting mostly because your e-mail was flagged as spam by gmail, so want t=
+o=20
+make sure Michael sees it too)
+-mike
 
-> This patch updates the manpage to still list the behavior as
-> unsupported, but removes the innacurate description of it 
-> only being a problem with 2.6 kernels.
-> 
-> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
-> 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index 39c8d8c..76136e2 100644
-> --- a/man2/perf_event_open.2
-> +++ b/man2/perf_event_open.2
-> @@ -2353,6 +2353,12 @@ once the counter reaches 0
->  is indicated and
->  the underlying event is disabled.
->  
-> +Refreshing an event group leader refreshes all siblings and
-> +refreshing with a parameter of 0 currently enables infinite
-> +refreshes;
-> +these behaviors are unsupported and should not be relied on.
-> +.\" See https://lkml.org/lkml/2011/5/24/337
-> +
->  Starting with Linux 3.18,
->  .\" commit 179033b3e064d2cd3f5f9945e76b0a0f0fbf4883
->  .B POLL_HUP
-> @@ -2805,11 +2811,6 @@ Prior to Linux 2.6.35,
->  .B PERF_FORMAT_GROUP
->  did not work with attached processes.
->  
-> -In older Linux 2.6 versions,
-> -refreshing an event group leader refreshed all siblings,
-> -and refreshing with a parameter of 0 enabled infinite refresh.
-> -This behavior is unsupported and should not be relied on.
-> -
->  There is a bug in the kernel code between
->  Linux 2.6.36 and Linux 3.0 that ignores the
->  "watermark" field and acts as if a wakeup_event
-> 
-> 
+--JkW1gnuWHDypiMFO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+iQIcBAEBAgAGBQJU4v8uAAoJEEFjO5/oN/WBBhIP/2+o7QT6azEmuKVQvdvupJ7p
+XvpIADOJxVfhwB8kGiVD0jpEsn3nC5whYcTKTvyatNhKTXsAwUF9NUziCISxXZLr
+Fvacncml/zIDV31p8dPWAL2Yn0dpdsfR4VrIe2A10oFSpcJwztuM0WM22xfUEGcl
+flhMoHpqneVxLOFSkHiIKEuP5RU0FbqMelxt79l6eu1jXej6WBEYh1HcdgTJYcqc
+o++7jMcpOEJ9a0w1RsyRMSh4Qphfsg7ZFFKAUTTdxiMjgXZ/PZY6Wzr5LyH3W1vE
+IICA32LwajyzRRxXXaRt/40xuTV7ZM0gfB+7ztvekLtVsP+l0hK9p2lpXFkJHwu0
+2485JDHKBltauWRt7HQV2cuazQmH7ZzXAGwollZHF2NYhf754ws73zET5jE8WneL
+0PpydHEtxzZ8pxuIszk/tiW3KKWh3M3pOGiKoL5/mAVqaJIJkCgv61p8/iMIfaay
+uSPOtoCrNjfbOZ+CYYc7FJfPHzesXAbMZfT8LbRNjrGDfi25cH4w+D7PfGzBdM0B
+XvejU/Fa+QJv980g5OijblL+16NmCQsLzl7hdntIdBmWZnIvZAKj+Sb68XOOZ5fz
+JVmo6mO59NsO8bge7aHMU47l9x+mLutPXo70EyDoKKVB+zX9EtZttWKjEcCBF33L
+Z1dYyZsFUn0008g/F7Y9
+=vmzr
+-----END PGP SIGNATURE-----
+
+--JkW1gnuWHDypiMFO--
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
