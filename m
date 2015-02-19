@@ -1,19 +1,18 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 18132] ipv6(7) describes IP_PKTINFO, but should be
- IP_RECVPKTINFO instead
-Date: Thu, 19 Feb 2015 15:54:30 +0000
-Message-ID: <bug-18132-11311-WpDbaKcX7u@https.bugzilla.kernel.org/>
-References: <bug-18132-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 25292] async-signal-safe functions list in Linux
+Date: Thu, 19 Feb 2015 16:10:43 +0000
+Message-ID: <bug-25292-11311-MlFmmF1Rth@https.bugzilla.kernel.org/>
+References: <bug-25292-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-18132-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-25292-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=18132
+https://bugzilla.kernel.org/show_bug.cgi?id=25292
 
 Alan <alan-qBU/x9rampVanCEyBjwyrvXRex20P6io@public.gmane.org> changed:
 
