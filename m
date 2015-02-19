@@ -1,60 +1,48 @@
 From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: Function sigvec removed in glibc 2.21
-Date: Thu, 19 Feb 2015 13:40:22 -0500
-Message-ID: <54E62E16.2070906@redhat.com>
-References: <54E61B2D.3030402@redhat.com> <CAKgNAkhRrUA7EEvx3rJ1D5b=13i+_cC+EstryVgZwE_3iS_XjA@mail.gmail.com>
+Subject: Re: GSoc 2015 man-pages proposal: a parser for glibc feature test
+ macros
+Date: Thu, 19 Feb 2015 13:42:43 -0500
+Message-ID: <54E62EA3.8060208@redhat.com>
+References: <CAKgNAkgXgVjNDU=aSVXfdZ5xmo6TZ6qCXhVRNBqte69u6Kas3A@mail.gmail.com> <54E5F695.1060400@redhat.com> <CAKgNAkjmcP=ZKJpPzXAgPXRTAG7pNK9Wr3DKDk+DVf3DJ07B6Q@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkhRrUA7EEvx3rJ1D5b=13i+_cC+EstryVgZwE_3iS_XjA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAKgNAkjmcP=ZKJpPzXAgPXRTAG7pNK9Wr3DKDk+DVf3DJ07B6Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>
+Cc: "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 02/19/2015 01:18 PM, Michael Kerrisk (man-pages) wrote:
-> Hi Carlos,
+On 02/19/2015 01:28 PM, Michael Kerrisk (man-pages) wrote:
+>> I would be happy to be a backup mentor.
 > 
-> On 19 February 2015 at 18:19, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> Michael,
->>
->> We should update man3/sigvec.3 to indicate it can no longer be used
->> on Linux with glibc 2.21. The sigvec function was removed in glibc 2.21.
->>
->> https://sourceware.org/glibc/wiki/Release/2.21#Packaging_Changes
-> 
-> Thanks for the heads-up. I already committed the following a while back:
-> http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/man3/sigvec.3?id=5587b44c90ca19abf75e96c3e85371366b72e4da
-> 
-> Okay?
+> Thank you, Carlos! Do you by chance have a login on the GSoC system;
+> if so, I will add you as a project mentor there.
 
-Perfect.
+Should be carlos-v2tUB8YBRSi3e3T8WW9gsOG/Ez6ZCGd0@public.gmane.org
 
-> Cheers,
+>> The idea sounds interesting. I don't know that all combinations of
+>> FTMs are designed to be allowed, and I expect that the result will
+>> always need some human expert cleanup.
 > 
-> Michael
+> Agreed. But I hope for a tool that significantly eases the human task.
+
+Absolutely.
+
+>> Therefore it would be good
+>> to have glibc developer review of the results. I'm not suggesting
+>> I should be that reviewer, but the community should review to make
+>> sure it's correct.
 > 
-> diff --git a/man3/sigvec.3 b/man3/sigvec.3
-> index 797d43d..2ccd8e7 100644
-> --- a/man3/sigvec.3
-> +++ b/man3/sigvec.3
-> @@ -231,6 +231,13 @@ functions are thread-safe.
-> The
-> .BR sigmask ()
-> macro is thread-safe.
-> +.SH VERSIONS
-> +Starting with version 2.21, the GNU C library no longer exports the
-> +.BR sigvec ()
-> +function as part of the ABI.
-> +(To ensure backward compatibility,
-> +the glibc symbol versioning scheme continues to export the interface
-> +to binaries linked against older versions of the library.)
-> .SH CONFORMING TO
-> All of these functions were in
-> 4.3BSD, except
-> 
-> 
+> Yes, review would be good. In the first instance, we have a lot of
+> existing mark-up in the man pages that can serve as an initial measure
+> of correctness. (Of course, the man pages are also not perfectly up to
+> date, so we'd discover the problems in the pages as we go.)
+
+Understood.
+
+c.
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
