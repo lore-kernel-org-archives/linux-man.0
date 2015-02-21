@@ -1,55 +1,51 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: restart_syscall.2: remove section number
-Date: Sat, 21 Feb 2015 08:56:59 +0100
-Message-ID: <54E83A4B.90505@gmail.com>
-References: <CALhU9t=kM7Z7uO==e6vQ8eZJx1Vq9Gx+T1idTx8k80qMk0whrQ@mail.gmail.com> <20150217084326.GG20008@vapier>
+Subject: Re: Fwd: [PATCH 1/1] futex.7: NPTL, avoid abbreviation
+Date: Sat, 21 Feb 2015 08:56:52 +0100
+Message-ID: <54E83A44.4040508@gmail.com>
+References: <1424165125-6278-1-git-send-email-xypron.glpk@gmx.de> <54E30DC6.3020307@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150217084326.GG20008@vapier>
+In-Reply-To: <54E30DC6.3020307-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Akihiro Motoki <amotoki-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org >> linux-man" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/17/2015 09:43 AM, Mike Frysinger wrote:
-> On 27 Jan 2015 01:21, Akihiro Motoki wrote:
->> diff --git a/man2/restart_syscall.2 b/original/man2/restart_syscall.2
->> index a71b618..33081b7 100644
->> --- a/man2/restart_syscall.2
->> +++ b/man2/restart_syscall.2
->> @@ -115,7 +115,7 @@ In the case of system calls that take a timeout argument and
->>  automatically restart after a stop signal plus
->>  .BR SIGCONT ,
->>  but which do not have the
->> -.BR restart_syscall (2)
->> +.BR restart_syscall ()
->>  mechanism built in, then, after the process resumes execution,
->>  the time that the process spent in the stop state is
->>  .I not
->> @@ -127,7 +127,7 @@ and
->>  .BR pselect (2).
->>
->>  From user space, the operation of
->> -.BR restart_syscall (2)
->> +.BR restart_syscall ()
->>  is largely invisible:
->>  to the process that made the system call that is restarted,
->>  it appears as though that system call executed and
+On 02/17/2015 10:45 AM, Heinrich Schuchardt wrote:
+> The abbreviation NPTL cannot be assumed to be common knowledge
+> of all readers of futex.7.
 > 
-> lgtm
-> 
-> (posting mostly because your e-mail was flagged as spam by gmail, so want to 
-> make sure Michael sees it too)
+> pthread.7 has details about the NPTL pthreads implementation.
 
-Indeed, both my gmail and Thunderbird marked this as spam.
-Thanks, Mike. Patch applied; thanks, Akihiro.
+Applied. Thanks, Heinrich.
 
 Cheers,
 
 Michael
 
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man7/futex.7 | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man7/futex.7 b/man7/futex.7
+> index 87d2997..c3c57f0 100644
+> --- a/man7/futex.7
+> +++ b/man7/futex.7
+> @@ -29,7 +29,8 @@ but restricts itself to issues relevant for
+>  application and library development.
+>  Most programmers will in fact not be using futexes directly but will
+>  instead rely on system libraries built on them,
+> -such as the NPTL pthreads implementation.
+> +such as the Native POSIX Thread Library (NPTL) (see
+> +.BR pthreads (7)).
+>  .PP
+>  A futex is identified by a piece of memory which can be
+>  shared between processes or threads.
+> 
 
 
 -- 
