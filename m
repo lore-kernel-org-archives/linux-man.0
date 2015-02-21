@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [PATCH 1/1] futex.7: remove commonplace
-Date: Sat, 21 Feb 2015 08:59:11 +0100
-Message-ID: <54E83ACF.4050608@gmail.com>
+Date: Sat, 21 Feb 2015 13:31:30 +0100
+Message-ID: <54E87AA2.50704@gmail.com>
 References: <1424166247-6446-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
