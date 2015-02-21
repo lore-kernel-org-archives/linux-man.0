@@ -1,39 +1,55 @@
-From: Theodore Ts'o <tytso@mit.edu>
-Subject: Re: Documenting MS_LAZYTIME
-Date: Fri, 20 Feb 2015 21:56:36 -0500
-Message-ID: <20150221025636.GB7922@thunk.org>
-References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
- <54E7578E.4090809@redhat.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH 1/1] futex.7: remove commonplace
+Date: Sat, 21 Feb 2015 08:59:11 +0100
+Message-ID: <54E83ACF.4050608@gmail.com>
+References: <1424166247-6446-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-btrfs-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <54E7578E.4090809@redhat.com>
-Sender: linux-btrfs-owner@vger.kernel.org
-To: Eric Sandeen <sandeen@redhat.com>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Ext4 Developers List <linux-ext4@vger.kernel.org>, Linux btrfs Developers List <linux-btrfs@vger.kernel.org>, XFS Developers <xfs@oss.sgi.com>, linux-man@vger.kernel.org, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1424166247-6446-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 20, 2015 at 09:49:34AM -0600, Eric Sandeen wrote:
+On 02/17/2015 10:44 AM, Heinrich Schuchardt wrote:
+> The sentence is true for all man-pages. Remove it.
+
+Thanks, Heinrich. Applied.
+
+Cheers,
+
+Michael
+
+
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man7/futex.7 | 3 ---
+>  1 file changed, 3 deletions(-)
 > 
-> >               This mount option significantly reduces  writes  to  the
-> >               inode  table  for workloads that perform frequent random
-> >               writes to preallocated files.
+> diff --git a/man7/futex.7 b/man7/futex.7
+> index c3c57f0..c829886 100644
+> --- a/man7/futex.7
+> +++ b/man7/futex.7
+> @@ -24,9 +24,6 @@ Futexes are very basic and lend themselves well for building higher-level
+>  locking abstractions such as
+>  mutexes, condition variables, read-write locks, barriers, and semaphores.
+>  .PP
+> -This page does not set out to document all design decisions
+> -but restricts itself to issues relevant for
+> -application and library development.
+>  Most programmers will in fact not be using futexes directly but will
+>  instead rely on system libraries built on them,
+>  such as the Native POSIX Thread Library (NPTL) (see
 > 
-> This seems like an overly specific description of a single workload out
-> of many which may benefit, but what do others think?  "inode table" is also
-> fairly extN-specific.
 
-How about somethign like "This mount significantly reduces writes
-needed to update the inode's timestamps, especially mtime and actime.
-Examples of workloads where this could be a large win include frequent
-random writes to preallocated files, as well as cases where the
-MS_STRICTATIME mount option is enabled."?
 
-(The advantage of MS_STRICTATIME | MS_LAZYTIME is that stat system
-calls will return the correctly updated atime, but those atime updates
-won't get flushed to disk unless the inode needs to be updated for
-file system / data consistency reasons, or when the inode is pushed
-out of memory, or when the file system is unmounted.)
-
-						- Ted
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
