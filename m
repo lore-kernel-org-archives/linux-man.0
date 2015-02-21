@@ -1,63 +1,51 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] ioctl_list.2: SEE ALSO ioctl_fat.2
-Date: Sat, 21 Feb 2015 15:21:27 +0100
-Message-ID: <1424528487-15888-1-git-send-email-xypron.glpk@gmx.de>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+From: Namjae Jeon <linkinjeon@gmail.com>
+Subject: [PATCH v10 0/12] fs: Introduce FALLOC_FL_INSERT_RANGE for fallocate
+Date: Sun, 22 Feb 2015 00:45:42 +0900
+Message-ID: <1424533554-28024-1-git-send-email-linkinjeon@gmail.com>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: david@fromorbit.com, tytso@mit.edu
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org, xfs@oss.sgi.com, a.sangwan@samsung.com, bfoster@redhat.com, mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-api@vger.kernel.org, Namjae Jeon <linkinjeon@gmail.com>, Namjae Jeon <namjae.jeon@samsung.com>
 List-Id: linux-man@vger.kernel.org
 
-add FAT_IOCTL_GET_VOLUME_ID
-SEE ALSO ioctl_fat.2
+From: Namjae Jeon <namjae.jeon@samsung.com>
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/ioctl_list.2 | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+In continuation of the work of making the process of non linear editing of
+media files faster, we introduce here the new flag FALLOC_FL_INSERT_RANGE
+for fallocate.
 
-diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
-index d0d662f..d935f7d 100644
---- a/man2/ioctl_list.2
-+++ b/man2/ioctl_list.2
-@@ -27,6 +27,9 @@
- .\" 2007-12-29 Alain Portal <aportal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org> and Michael Kerrisk
- .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
- .\"          Various formatting improvements
-+.\"
-+.\" 2015-02-21 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-+.\"     SEE ALSO ioctl_fat(2), add FAT_IOCTL_GET_VOLUME_ID.
- .TH IOCTL_LIST 2 2013-09-17 "Linux" "Linux Programmer's Manual"
- .SH NAME
- ioctl_list \- list of ioctl calls in Linux/i386 kernel
-@@ -474,13 +477,15 @@ l l l l.
- 0x000089E1	SIOCGETSGCNT	struct sioc_sg_req *	// I-O
- .TE
- 
--// <include/linux/msdos_fs.h>
-+// <include/linux/msdos_fs.h> see 
-+.BR ioctl_fat (2)
- .TS
- l l l l.
- 0x82307201	VFAT_IOCTL_READDIR_BOTH	struct dirent [2]
- 0x82307202	VFAT_IOCTL_READDIR_SHORT	struct dirent [2]
- 0x80047210	FAT_IOCTL_GET_ATTRIBUTES	__u32 *
- 0x40047211	FAT_IOCTL_SET_ATTRIBUTES	const __u32 *
-+0x80047213	FAT_IOCTL_GET_VOLUME_ID	__u32 *
- .TE
- 
- // <include/linux/mtio.h>
-@@ -961,4 +966,5 @@ l l l.
- 0x00005404	SNDCTL_TMR_CONTINUE	TCSETSF
- .TE
- .SH SEE ALSO
--.BR ioctl (2)
-+.BR ioctl (2),
-+.BR ioctl_fat (2)
+This flag will work opposite to the FALLOC_FL_COLLAPSE_RANGE flag.
+As such, specifying FALLOC_FL_INSERT_RANGE flag will create new space inside file
+by inserting a hole within the range specified by offset and len. 
+User can write new data in this space. e.g. ads.
+Like collapse range, currently we have the limitation that offset and len should
+be block size aligned for both XFS and Ext4.
+
+The semantics of the flag are :
+1) It creates space within file by inserting a hole of  len bytes starting
+   at offset byte without overwriting any existing data. All the data blocks
+   from offset to EOF are shifted towards right to make hole space.
+2) It should be used exclusively. No other fallocate flag in combination.
+3) Offset and length supplied to fallocate should be fs block size aligned
+   in case of xfs and ext4.
+4) Insert range does not work for the case when offset is overlapping/beyond
+   i_size. If the user wants to insert space at the end of file they are
+   advised to use either ftruncate(2) or fallocate(2) with mode 0.
+5) It increses the size of file by len bytes.
+
+
+Namjae Jeon (12):
+ fs: Add support FALLOC_FL_INSERT_RANGE for fallocate
+ xfs: Add support FALLOC_FL_INSERT_RANGE for fallocate
+ ext4: Add support FALLOC_FL_INSERT_RANGE for fallocate
+ xfsprog: xfsio: update xfs_io manpage for FALLOC_FL_INSERT_RANGE
+ xfstests: generic/042: Standard insert range tests
+ xfstests: generic/043: Delayed allocation insert range
+ xfstests: generic/044: Multi insert range tests
+ xfstests: generic/045: Delayed allocation multi insert
+ xfstests: generic/046: Test multiple fallocate insert/collapse range calls
+ xfstests: fsstress: Add fallocate insert range operation
+ xfstests: fsx: Add fallocate insert range operation
+ manpage: update FALLOC_FL_INSERT_RANGE flag in fallocate
 -- 
-2.1.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+1.7.9.5
