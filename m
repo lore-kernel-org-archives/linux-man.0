@@ -1,7 +1,7 @@
 From: wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org
-Subject: [PATCH 3/4] ilogb.3: spfix
-Date: Mon, 23 Feb 2015 13:54:16 -0500
-Message-ID: <1424717657-9580-4-git-send-email-wfp5p@worldbroken.com>
+Subject: [PATCH 2/4] memfd_create.2: spfix
+Date: Mon, 23 Feb 2015 13:54:15 -0500
+Message-ID: <1424717657-9580-3-git-send-email-wfp5p@worldbroken.com>
 References: <1424717657-9580-1-git-send-email-wfp5p@worldbroken.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1424717657-9580-1-git-send-email-wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
@@ -12,24 +12,26 @@ List-Id: linux-man@vger.kernel.org
 
 From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 
+Change "behaviour" to American spelling "behavior".
+
 Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 ---
- man3/ilogb.3 | 2 +-
+ man2/memfd_create.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/ilogb.3 b/man3/ilogb.3
-index 0e8b8d7ebeca..03e3ffe8178a 100644
---- a/man3/ilogb.3
-+++ b/man3/ilogb.3
-@@ -152,7 +152,7 @@ The domain error case where
- .I x
- is 0 or a NaN did not cause
- .I errno
--to be set or (on some achitectures) raise a floating-point exception.
-+to be set or (on some architectures) raise a floating-point exception.
- .IP * 3
- The domain error case where
- .I x
+diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
+index 06c86012a516..e661336103e5 100644
+--- a/man2/memfd_create.2
++++ b/man2/memfd_create.2
+@@ -69,7 +69,7 @@ and as such multiple files can have the same name without any side effects.
+ 
+ The following values may be bitwise ORed in
+ .IR flags
+-to change the behaviour of
++to change the behavior of
+ .BR memfd_create ():
+ .TP
+ .BR MFD_CLOEXEC
 -- 
 2.1.0
 
