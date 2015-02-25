@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] assert.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 25 Feb 2015 15:53:16 +0800
-Message-ID: <1424850796-20472-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] assert_perror.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 25 Feb 2015 16:00:46 +0800
+Message-ID: <1424851246-20615-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,15 +14,15 @@ It's marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/assert.3 | 13 +++++++++++++
+ man3/assert_perror.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/assert.3 b/man3/assert.3
-index d126901..3351cb5 100644
---- a/man3/assert.3
-+++ b/man3/assert.3
-@@ -56,6 +56,19 @@ The message "assertion failed in file foo.c, function
- do_bar(), line 1287" is of no help at all to a user.
+diff --git a/man3/assert_perror.3 b/man3/assert_perror.3
+index b687221..2ff3fef 100644
+--- a/man3/assert_perror.3
++++ b/man3/assert_perror.3
+@@ -56,6 +56,19 @@ line number of the macro call, and the output of
+ .IR strerror(errnum) .
  .SH RETURN VALUE
  No value is returned.
 +.SH ATTRIBUTES
@@ -34,13 +34,13 @@ index d126901..3351cb5 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR assert ()
++.BR assert_perror ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001, C89, C99.
- In C89,
+ This is a GNU extension.
+ .SH BUGS
 -- 
 1.9.3
 
