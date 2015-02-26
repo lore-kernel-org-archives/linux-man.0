@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fgetc.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 26 Feb 2015 08:31:48 +0100
-Message-ID: <54EECBE4.1030205@gmail.com>
-References: <1424918409-8796-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] lio_listio.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 08:32:12 +0100
+Message-ID: <54EECBFC.6020606@gmail.com>
+References: <1424918764-8934-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424918409-8796-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1424918764-8934-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/26/2015 03:40 AM, Ma Shimiao wrote:
-> The markings match glibc markings.
+On 02/26/2015 03:46 AM, Ma Shimiao wrote:
+> It's marking matches glibc marking.
 
 
 Thanks, Ma Shimiao. Applied.
@@ -27,38 +27,33 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/fgetc.3 | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  man3/lio_listio.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/fgetc.3 b/man3/fgetc.3
-> index baf57c1..49aecf0 100644
-> --- a/man3/fgetc.3
-> +++ b/man3/fgetc.3
-> @@ -121,6 +121,24 @@ returns
->  on success, or
->  .B EOF
->  on error.
+> diff --git a/man3/lio_listio.3 b/man3/lio_listio.3
+> index d7acceb..6b0f9c8 100644
+> --- a/man3/lio_listio.3
+> +++ b/man3/lio_listio.3
+> @@ -202,6 +202,19 @@ then none of the I/O operations has been initiated.
+>  The
+>  .BR lio_listio ()
+>  function is available since glibc 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw25 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR fgetc (),
-> +.BR fgets (),
-> +.BR getc (),
-> +.br
-> +.BR getchar (),
-> +.BR ungetc ()
+> +.BR lio_listio ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  C89, C99, POSIX.1-2001.
->  
+>  POSIX.1-2001, POSIX.1-2008.
+>  .SH NOTES
 > 
 
 
