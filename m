@@ -1,20 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] assert_perror.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 08:11:40 +0100
-Message-ID: <54EEC72C.3010800@gmail.com>
-References: <1424851246-20615-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] envz_add.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 26 Feb 2015 08:12:04 +0100
+Message-ID: <54EEC744.2040602@gmail.com>
+References: <1424854010-21517-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424851246-20615-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1424854010-21517-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/25/2015 09:00 AM, Ma Shimiao wrote:
-> It's marking matches glibc marking.
+On 02/25/2015 09:46 AM, Ma Shimiao wrote:
+> The markings match glibc markings.
 
 Thanks, Ma Shimiao. Applied.
 
@@ -23,35 +23,43 @@ Cheers,
 Michael
 
 
+
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/assert_perror.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/envz_add.3 | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
 > 
-> diff --git a/man3/assert_perror.3 b/man3/assert_perror.3
-> index b687221..2ff3fef 100644
-> --- a/man3/assert_perror.3
-> +++ b/man3/assert_perror.3
-> @@ -56,6 +56,19 @@ line number of the macro call, and the output of
->  .IR strerror(errnum) .
->  .SH RETURN VALUE
->  No value is returned.
+> diff --git a/man3/envz_add.3 b/man3/envz_add.3
+> index 417bcb7..b0d4b76 100644
+> --- a/man3/envz_add.3
+> +++ b/man3/envz_add.3
+> @@ -115,6 +115,26 @@ All envz functions that do memory allocation have a return type of
+>  and return 0 for success, and
+>  .B ENOMEM
+>  if an allocation error occurs.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw27 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR assert_perror ()
+> +.BR envz_add (),
+> +.BR envz_entry (),
+> +.br
+> +.BR envz_get (),
+> +.BR envz_merge (),
+> +.br
+> +.BR envz_remove (),
+> +.BR envz_strip ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  This is a GNU extension.
->  .SH BUGS
+>  These functions are a GNU extension.
+>  Handle with care.
 > 
 
 
