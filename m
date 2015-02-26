@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wcsdup.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 08:31:22 +0100
-Message-ID: <54EECBCA.7070001@gmail.com>
-References: <1424915773-7626-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] gets.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 08:31:36 +0100
+Message-ID: <54EECBD8.4050107@gmail.com>
+References: <1424916654-8395-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424915773-7626-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1424916654-8395-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/26/2015 02:56 AM, Ma Shimiao wrote:
+On 02/26/2015 03:10 AM, Ma Shimiao wrote:
 > It's marking matches glibc marking.
 
 Thanks, Ma Shimiao. Applied.
@@ -23,20 +23,19 @@ Cheers,
 Michael
 
 
-
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wcsdup.3 | 13 +++++++++++++
+>  man3/gets.3 | 13 +++++++++++++
 >  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/wcsdup.3 b/man3/wcsdup.3
-> index 56afd53..1bd6353 100644
-> --- a/man3/wcsdup.3
-> +++ b/man3/wcsdup.3
-> @@ -67,6 +67,19 @@ set to indicate the cause of the error.
->  .TP
->  .B ENOMEM
->  Insufficient memory available to allocate duplicate string.
+> diff --git a/man3/gets.3 b/man3/gets.3
+> index 1fc1ef2..8dab158 100644
+> --- a/man3/gets.3
+> +++ b/man3/gets.3
+> @@ -55,6 +55,19 @@ on success, and NULL
+>  on error or when end of file occurs while no characters have been read.
+>  However, given the lack of buffer overrun checking, there can be no
+>  guarantees that the function will even return.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -46,13 +45,13 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR wcsdup ()
+> +.BR gets ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2008.
->  This function is not specified in POSIX.1-2001,
+>  C89, C99, POSIX.1-2001.
+>  
 > 
 
 
