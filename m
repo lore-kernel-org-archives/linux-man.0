@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strfmon.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 09:51:33 +0800
-Message-ID: <1424915493-7440-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] wcsdup.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 09:56:13 +0800
+Message-ID: <1424915773-7626-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,17 +14,17 @@ It's marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/strfmon.3 | 13 +++++++++++++
+ man3/wcsdup.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/strfmon.3 b/man3/strfmon.3
-index 679b0bc..b31c75c 100644
---- a/man3/strfmon.3
-+++ b/man3/strfmon.3
-@@ -135,6 +135,19 @@ Otherwise, it sets
- to
- .BR E2BIG ,
- returns \-1, and the contents of the array is undefined.
+diff --git a/man3/wcsdup.3 b/man3/wcsdup.3
+index 56afd53..1bd6353 100644
+--- a/man3/wcsdup.3
++++ b/man3/wcsdup.3
+@@ -67,6 +67,19 @@ set to indicate the cause of the error.
+ .TP
+ .B ENOMEM
+ Insufficient memory available to allocate duplicate string.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -34,13 +34,13 @@ index 679b0bc..b31c75c 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR strfmon ()
-+T}	Thread safety	MT-Safe locale
++.BR wcsdup ()
++T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- Not in POSIX.1-2001.
- Present on several other systems.
+ POSIX.1-2008.
+ This function is not specified in POSIX.1-2001,
 -- 
 1.9.3
 
