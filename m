@@ -1,65 +1,69 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] user_namespaces.7: Fix two groff warnings for escape
- character ignored
-Date: Thu, 26 Feb 2015 13:26:11 +0100
-Message-ID: <CAKgNAkiKPbhjJrT+Pf4hPhGX5og_zA2Ay3-GLP2+9U87HfKaOA@mail.gmail.com>
-References: <1424939021-3059-1-git-send-email-saulery@free.fr>
- <54EEE236.1000500@gmail.com> <20150226093938.GA3331@free.fr>
+Subject: Re: [patch] shutdown.2: POSIX compliant since version 3.7-rc1
+Date: Thu, 26 Feb 2015 13:28:48 +0100
+Message-ID: <CAKgNAkhO47NwYqECEiw2zap5LSzi1z-HiSja6GjSCseaP_jb2A@mail.gmail.com>
+References: <1424947131-4034-1-git-send-email-saulery@free.fr>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150226093938.GA3331-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1424947131-4034-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+To: saulery <saulery-GANU6spQydw@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello St=C3=A9phane
+Hi St=C3=A9phane
 
-On 26 February 2015 at 10:39, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wr=
-ote:
-> Hi Michael,
->
-> Le jeudi 26 f=C3=A9vrier 2015 =C3=A0 10:07:02, Michael Kerrisk (man-p=
-ages) a =C3=A9crit :
->>
->> When do you see these warnings? (I'm not seeing them.)
->
-> I use the command bellow for "debugging" manpages :
->
->    $ GROFF_ENCODING=3Dutf8 groff -b -ww -z -mandoc
+These patches of yours are good, but lack info in commit messages
+explaining why the change is being made, pointers bugzilla entries,
+etc. Could you amend this patch and resend?
 
-Thanks. I see now that the problem was a typo (twice). I applied the
-right fix, below. Thanks for the report.
-
-Cheers,
+Thanks,
 
 Michael
+to
 
+On 26 February 2015 at 11:38,  <saulery-GANU6spQydw@public.gmane.org> wrote:
+> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+>
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man2/shutdown.2 | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+>
+> diff --git a/man2/shutdown.2 b/man2/shutdown.2
+> index ab39cfd..2174de3 100644
+> --- a/man2/shutdown.2
+> +++ b/man2/shutdown.2
+> @@ -102,14 +102,11 @@ respectively, and are defined in
+>  .I <sys/socket.h>
+>  since glibc-2.1.91.
+>  .SH BUGS
+> -As currently implemented,
+> -checks for the validity of
+> -.I how
+> -are done in domain-specific code, and not all domains perform these =
+checks.
+> -.\" FIXME .
+> -.\" https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+> -Most notably, UNIX domain sockets simply ignore invalid values;
+> -this may change in the future.
+> +This implementation is POSIX compliant since version 3.7-rc1. Previo=
+usly, UNIX
+> +domain and DECnet sockets simply ignored invalid values of
+> +.IR how ,
+> +due to a domain-specific code. Applications that used invalid values=
+ to
+> +circumvent this lack should be corrected.
+>  .SH SEE ALSO
+>  .BR connect (2),
+>  .BR socket (2),
+> --
+> 2.1.4
+>
 
-diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
-index 4baf7aa..0a670a6 100644
---- a/man7/user_namespaces.7
-+++ b/man7/user_namespaces.7
-@@ -439,12 +439,12 @@ maps to a range starting at 0 in the
-(nonexistent) parent namespace,
- and the length of the range is the largest 32-bit unsigned integer.
- (This deliberately leaves 4294967295 (the 32-bit signed \-1 value) unm=
-apped.
- This is deliberate:
--.IR "(uid_t)\ -\1"
-+.IR "(uid_t)\ \-1"
- is used in several interfaces (e.g.,
- .BR setreuid (2))
- as a way to specify "no user ID".
- Leaving
--.IR "(uid_t)\ -\1"
-+.IR "(uid_t)\ \-1"
- unmapped and unusable guarantees that there will be no
- confusion when using these interfaces.
- .\"
 
 
 --=20
