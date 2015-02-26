@@ -1,47 +1,70 @@
-From: saulery-GANU6spQydw@public.gmane.org
-Subject: [patch] user_namespaces.7: Fix two groff warnings for escape character ignored
-Date: Thu, 26 Feb 2015 09:23:41 +0100
-Message-ID: <1424939021-3059-1-git-send-email-saulery@free.fr>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Thu, 26 Feb 2015 09:49:39 +0100
+Message-ID: <54EEDE23.6080009@gmail.com>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com> <54E7578E.4090809@redhat.com> <20150221025636.GB7922@thunk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20150221025636.GB7922-AKGzg7BKzIDYtjvyW6yDsg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+To: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Ext4 Developers List <linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux btrfs Developers List <linux-btrfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, XFS Developers <xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-=46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+Ted,
 
-Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
----
- man7/user_namespaces.7 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 02/21/2015 03:56 AM, Theodore Ts'o wrote:
+> On Fri, Feb 20, 2015 at 09:49:34AM -0600, Eric Sandeen wrote:
+>>
+>>>               This mount option significantly reduces  writes  to  the
+>>>               inode  table  for workloads that perform frequent random
+>>>               writes to preallocated files.
+>>
+>> This seems like an overly specific description of a single workload out
+>> of many which may benefit, but what do others think?  "inode table" is also
+>> fairly extN-specific.
+> 
+> How about somethign like "This mount significantly reduces writes
+> needed to update the inode's timestamps, especially mtime and actime.
 
-diff --git a/man7/user_namespaces.7 b/man7/user_namespaces.7
-index 4baf7aa..0e24d9a 100644
---- a/man7/user_namespaces.7
-+++ b/man7/user_namespaces.7
-@@ -439,12 +439,12 @@ maps to a range starting at 0 in the (nonexistent=
-) parent namespace,
- and the length of the range is the largest 32-bit unsigned integer.
- (This deliberately leaves 4294967295 (the 32-bit signed \-1 value) unm=
-apped.
- This is deliberate:
--.IR "(uid_t)\ -\1"
-+.IR "(uid_t) -1"
- is used in several interfaces (e.g.,
- .BR setreuid (2))
- as a way to specify "no user ID".
- Leaving
--.IR "(uid_t)\ -\1"
-+.IR "(uid_t) -1"
- unmapped and unusable guarantees that there will be no
- confusion when using these interfaces.
- .\"
---=20
-2.1.4
+What is "actime" in the preceding line? Should it be "ctime"?
 
+> Examples of workloads where this could be a large win include frequent
+> random writes to preallocated files, as well as cases where the
+> MS_STRICTATIME mount option is enabled."?
+
+I think some version of the following text could also usefully go 
+into the page, but...
+
+> (The advantage of MS_STRICTATIME | MS_LAZYTIME is that stat system
+> calls will return the correctly updated atime, but those atime updates
+> won't get flushed to disk unless the inode needs to be updated for
+> file system / data consistency reasons, or when the inode is pushed
+> out of memory, or when the file system is unmounted.)
+
+I find the wording of there a little confusing. Is the following 
+a correct rewrite:
+
+    The advantage of MS_STRICTATIME | MS_LAZYTIME is that stat(2)
+    will return the correctly updated atime, but the atime updates
+    will be flushed to disk only when (1) the inode needs to be 
+    updated for filesystem / data consistency reasons or (2) the 
+    inode is pushed out of memory, or (3) the filesystem is 
+    unmounted.)
+
+?
+
+Thanks,
+
+Michael
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
