@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] assert.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 08:11:25 +0100
-Message-ID: <54EEC71D.1050300@gmail.com>
-References: <1424850796-20472-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] assert_perror.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 08:11:40 +0100
+Message-ID: <54EEC72C.3010800@gmail.com>
+References: <1424851246-20615-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424850796-20472-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1424851246-20615-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/25/2015 08:53 AM, Ma Shimiao wrote:
+On 02/25/2015 09:00 AM, Ma Shimiao wrote:
 > It's marking matches glibc marking.
 
 Thanks, Ma Shimiao. Applied.
@@ -25,15 +25,15 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/assert.3 | 13 +++++++++++++
+>  man3/assert_perror.3 | 13 +++++++++++++
 >  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/assert.3 b/man3/assert.3
-> index d126901..3351cb5 100644
-> --- a/man3/assert.3
-> +++ b/man3/assert.3
-> @@ -56,6 +56,19 @@ The message "assertion failed in file foo.c, function
->  do_bar(), line 1287" is of no help at all to a user.
+> diff --git a/man3/assert_perror.3 b/man3/assert_perror.3
+> index b687221..2ff3fef 100644
+> --- a/man3/assert_perror.3
+> +++ b/man3/assert_perror.3
+> @@ -56,6 +56,19 @@ line number of the macro call, and the output of
+>  .IR strerror(errnum) .
 >  .SH RETURN VALUE
 >  No value is returned.
 > +.SH ATTRIBUTES
@@ -45,13 +45,13 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR assert ()
+> +.BR assert_perror ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2001, C89, C99.
->  In C89,
+>  This is a GNU extension.
+>  .SH BUGS
 > 
 
 
