@@ -1,51 +1,72 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] kill.2: tfix
-Date: Thu, 26 Feb 2015 08:41:14 +0100
-Message-ID: <54EECE1A.4040708@gmail.com>
-References: <20150222225849.GA3056@localhost>
+Subject: Re: [PATCH 1/1] ioctl_list.2: SEE ALSO ioctl_fat.2
+Date: Thu, 26 Feb 2015 08:42:58 +0100
+Message-ID: <54EECE82.7010906@gmail.com>
+References: <1424528487-15888-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150222225849.GA3056@localhost>
+In-Reply-To: <1424528487-15888-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tobias Stoeckmann <tobias-te0W2B6tFQkGQOE+iOL5gA@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hallo Tobias,
+On 02/21/2015 03:21 PM, Heinrich Schuchardt wrote:
+> add FAT_IOCTL_GET_VOLUME_ID
+> SEE ALSO ioctl_fat.2
 
-On 02/22/2015 11:58 PM, Tobias Stoeckmann wrote:
-> A missing s after send:
-
-It depends whether one believes that subjunctive[1] still exists 
-in English. Opinions are divided. I'm trying to hold onto it,
-so I've not applied this patch.
+Thanks, Heinrich. Applied.
 
 Cheers,
 
 Michael
 
-[1] http://en.wikipedia.org/wiki/Subjunctive_mood#English
 
-> POSIX.1-2001 requires that kill(-1,sig) send_s_ sig to [...]
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 > ---
->  man2/kill.2 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  man2/ioctl_list.2 | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man2/kill.2 b/man2/kill.2
-> index abd7807..e15c0a9 100644
-> --- a/man2/kill.2
-> +++ b/man2/kill.2
-> @@ -129,7 +129,7 @@ has explicitly installed signal handlers.
->  This is done to assure the
->  system is not brought down accidentally.
->  .LP
-> -POSIX.1-2001 requires that \fIkill(\-1,sig)\fP send \fIsig\fP
-> +POSIX.1-2001 requires that \fIkill(\-1,sig)\fP sends \fIsig\fP
->  to all processes that the calling process may send signals to,
->  except possibly for some implementation-defined system processes.
->  Linux allows a process to signal itself, but on Linux the call
+> diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
+> index d0d662f..d935f7d 100644
+> --- a/man2/ioctl_list.2
+> +++ b/man2/ioctl_list.2
+> @@ -27,6 +27,9 @@
+>  .\" 2007-12-29 Alain Portal <aportal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org> and Michael Kerrisk
+>  .\"     <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+>  .\"          Various formatting improvements
+> +.\"
+> +.\" 2015-02-21 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> +.\"     SEE ALSO ioctl_fat(2), add FAT_IOCTL_GET_VOLUME_ID.
+>  .TH IOCTL_LIST 2 2013-09-17 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+>  ioctl_list \- list of ioctl calls in Linux/i386 kernel
+> @@ -474,13 +477,15 @@ l l l l.
+>  0x000089E1	SIOCGETSGCNT	struct sioc_sg_req *	// I-O
+>  .TE
+>  
+> -// <include/linux/msdos_fs.h>
+> +// <include/linux/msdos_fs.h> see 
+> +.BR ioctl_fat (2)
+>  .TS
+>  l l l l.
+>  0x82307201	VFAT_IOCTL_READDIR_BOTH	struct dirent [2]
+>  0x82307202	VFAT_IOCTL_READDIR_SHORT	struct dirent [2]
+>  0x80047210	FAT_IOCTL_GET_ATTRIBUTES	__u32 *
+>  0x40047211	FAT_IOCTL_SET_ATTRIBUTES	const __u32 *
+> +0x80047213	FAT_IOCTL_GET_VOLUME_ID	__u32 *
+>  .TE
+>  
+>  // <include/linux/mtio.h>
+> @@ -961,4 +966,5 @@ l l l.
+>  0x00005404	SNDCTL_TMR_CONTINUE	TCSETSF
+>  .TE
+>  .SH SEE ALSO
+> -.BR ioctl (2)
+> +.BR ioctl (2),
+> +.BR ioctl_fat (2)
 > 
 
 
