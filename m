@@ -1,49 +1,54 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getgrant.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 10:57:09 +0800
-Message-ID: <1424919429-9267-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] fcntl.2: tfix
+Date: Thu, 26 Feb 2015 06:52:41 +0100
+Message-ID: <54EEB4A9.6060401@gmail.com>
+References: <1424872305-450-1-git-send-email-mityada@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1424872305-450-1-git-send-email-mityada-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: Dmitry Deshevoy <mityada-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-It's marking matches glibc marking.
+On 02/25/2015 02:51 PM, Dmitry Deshevoy wrote:
+> Signed-off-by: Dmitry Deshevoy <mityada-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/grantpt.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Thanks, Dmitry.
 
-diff --git a/man3/grantpt.3 b/man3/grantpt.3
-index 7cc0de0..b348a84 100644
---- a/man3/grantpt.3
-+++ b/man3/grantpt.3
-@@ -53,6 +53,19 @@ argument is valid but not associated with a master pseudoterminal.
- .SH VERSIONS
- .BR grantpt ()
- is provided in glibc since version 2.1.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR grantpt ()
-+T}	Thread safety	MT-Safe locale
-+.TE
-+
- .SH CONFORMING TO
- POSIX.1-2001.
- .SH NOTES
+Applied.
+
+Cheers,
+
+Michael
+
+
+> ---
+>  man2/fcntl.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/fcntl.2 b/man2/fcntl.2
+> index 60cec41..143c61f 100644
+> --- a/man2/fcntl.2
+> +++ b/man2/fcntl.2
+> @@ -1703,7 +1703,7 @@ but work is being done to have them included in the next version of POSIX.1.
+>  .BR F_ADD_SEALS
+>  and
+>  .BR F_GET_SEALS
+> -are Lnux-specific.
+> +are Linux-specific.
+>  .\" FIXME . Once glibc adds support, add a note about FTM requirements
+>  .SH NOTES
+>  The errors returned by
+> 
+
+
 -- 
-1.9.3
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
