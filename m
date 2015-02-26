@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] argz_add.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 26 Feb 2015 08:46:26 +0800
-Message-ID: <1424911586-5418-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] strfmon.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 09:51:33 +0800
+Message-ID: <1424915493-7440-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,51 +10,37 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+It's marking matches glibc marking.
+
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/argz_add.3 | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ man3/strfmon.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/argz_add.3 b/man3/argz_add.3
-index 4b2de7c..a571903 100644
---- a/man3/argz_add.3
-+++ b/man3/argz_add.3
-@@ -195,6 +195,35 @@ All argz functions that do memory allocation have a return type of
- and return 0 for success, and
- .B ENOMEM
- if an allocation error occurs.
+diff --git a/man3/strfmon.3 b/man3/strfmon.3
+index 679b0bc..b31c75c 100644
+--- a/man3/strfmon.3
++++ b/man3/strfmon.3
+@@ -135,6 +135,19 @@ Otherwise, it sets
+ to
+ .BR E2BIG ,
+ returns \-1, and the contents of the array is undefined.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw33 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR argz_add (),
-+.BR argz_add_sep (),
-+.br
-+.BR argz_append (),
-+.BR argz_count (),
-+.br
-+.BR argz_create (),
-+.BR argz_create_sep (),
-+.br
-+.BR argz_delete (),
-+.BR argz_extract (),
-+.br
-+.BR argz_insert (),
-+.BR argz_next (),
-+.br
-+.BR argz_replace (),
-+.BR argz_stringify ()
-+T}	Thread safety	MT-Safe
++.BR strfmon ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- These functions are a GNU extension.
- Handle with care.
+ Not in POSIX.1-2001.
+ Present on several other systems.
 -- 
 1.9.3
 
