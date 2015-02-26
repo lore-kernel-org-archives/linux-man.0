@@ -1,61 +1,28 @@
-From: saulery-GANU6spQydw@public.gmane.org
-Subject: [patch] shutdown.2: POSIX compliant since version 3.7-rc1
-Date: Thu, 26 Feb 2015 18:07:29 +0100
-Message-ID: <1424970450-5430-1-git-send-email-saulery@free.fr>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: (unknown)
+Date: Thu, 26 Feb 2015 19:00:16 +0100
+Message-ID: <20150226180016.GA5737@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-=46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+Hi Michael,
 
-Synchronizing the manpage with the new POSIX compliant behavior of shut=
-down().
-A warning message is kept to indicate possible problems with the old be=
-havior
-of UNIX domain sockets.
+I see lost but useful links in the comments. In getrlimit.2 (line 667) =
+for
+example, and I wonder if we could not incorporate there in BUGS section=
+=2E
 
-See bug report: https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+Cheers,
 
-Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
----
- man2/shutdown.2 | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/man2/shutdown.2 b/man2/shutdown.2
-index ab39cfd..2174de3 100644
---- a/man2/shutdown.2
-+++ b/man2/shutdown.2
-@@ -102,14 +102,11 @@ respectively, and are defined in
- .I <sys/socket.h>
- since glibc-2.1.91.
- .SH BUGS
--As currently implemented,
--checks for the validity of
--.I how
--are done in domain-specific code, and not all domains perform these ch=
-ecks.
--.\" FIXME .
--.\" https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
--Most notably, UNIX domain sockets simply ignore invalid values;
--this may change in the future.
-+This implementation is POSIX compliant since version 3.7-rc1. Previous=
-ly, UNIX
-+domain and DECnet sockets simply ignored invalid values of
-+.IR how ,
-+due to a domain-specific code. Applications that used invalid values t=
-o
-+circumvent this lack should be corrected.
- .SH SEE ALSO
- .BR connect (2),
- .BR socket (2),
 --=20
-2.1.4
-
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
