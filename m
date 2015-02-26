@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] lio_listio.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 10:46:04 +0800
-Message-ID: <1424918764-8934-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getgrant.3: ATTRIBUTES: Note function that is thread-safe
+Date: Thu, 26 Feb 2015 10:57:09 +0800
+Message-ID: <1424919429-9267-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,17 +14,17 @@ It's marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/lio_listio.3 | 13 +++++++++++++
+ man3/grantpt.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/lio_listio.3 b/man3/lio_listio.3
-index d7acceb..6b0f9c8 100644
---- a/man3/lio_listio.3
-+++ b/man3/lio_listio.3
-@@ -202,6 +202,19 @@ then none of the I/O operations has been initiated.
- The
- .BR lio_listio ()
- function is available since glibc 2.1.
+diff --git a/man3/grantpt.3 b/man3/grantpt.3
+index 7cc0de0..b348a84 100644
+--- a/man3/grantpt.3
++++ b/man3/grantpt.3
+@@ -53,6 +53,19 @@ argument is valid but not associated with a master pseudoterminal.
+ .SH VERSIONS
+ .BR grantpt ()
+ is provided in glibc since version 2.1.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -34,12 +34,12 @@ index d7acceb..6b0f9c8 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR lio_listio ()
-+T}	Thread safety	MT-Safe
++.BR grantpt ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008.
+ POSIX.1-2001.
  .SH NOTES
 -- 
 1.9.3
