@@ -1,19 +1,19 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch] perf_event_open.2: Exclude_hv clarification
-Date: Thu, 26 Feb 2015 08:50:33 +0100
-Message-ID: <54EED049.6090805@gmail.com>
-References: <alpine.DEB.2.11.1502111402140.16882@vincent-weaver-1.umelst.maine.edu> <54E2D272.1080607@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2: Exclude_host/exclude_guest clarification
+Date: Thu, 26 Feb 2015 08:50:51 +0100
+Message-ID: <54EED05B.7040301@gmail.com>
+References: <alpine.DEB.2.11.1502111405040.16882@vincent-weaver-1.umelst.maine.edu> <54E2D285.4090502@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <54E2D272.1080607@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vince Weaver <vincent.weaver@maine.edu>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Paul Mackerras <paulus@samba.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <54E2D285.4090502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gleb Natapov <gleb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Joerg Roedel <joro-zLv9SwRftAIdnm+yROfE0A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Paul,
+Hello Joerg,
 
 Ping!
 
@@ -21,9 +21,8 @@ Cheers,
 
 Michael
 
-
 On 02/17/2015 06:32 AM, Michael Kerrisk (man-pages) wrote:
-> Hi Paul Mackerass,
+> Hi Joerg,
 > 
 > Would you be willing to review/comment on Vince's patch, please.
 > 
@@ -31,49 +30,66 @@ On 02/17/2015 06:32 AM, Michael Kerrisk (man-pages) wrote:
 > 
 > Michael
 > 
-> On 02/11/2015 08:04 PM, Vince Weaver wrote:
+> On 02/11/2015 08:06 PM, Vince Weaver wrote:
 >>
->> This manpage patch relates to the exclude_hv bit added to the kernel
->> in the following commit:
+>> This patch relates to the exclude_host and exclude_guest bits added 
+>> by the  following commit:
 >>
->>     exclude_hv; Linux 2.6.31
->>         commit 0475f9ea8e2cc030298908949e0d5da9f2fc2cfe
->>         Author: Paul Mackerras <paulus@samba.org>
+>>    exclude_host, exclude_guest; Linux 3.2
+>>         commit a240f76165e6255384d4bdb8139895fac7988799
+>>         Author: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
+>>         Date:   Wed Oct 5 14:01:16 2011 +0200
 >>
->>             perf_counters: allow users to count user, kernel and/or hypervisor events
+>>             perf, core: Introduce attrs to count in either host or guest mode
 >>
->>             Signed-off-by: Paul Mackerras <paulus@samba.org>
+>>             Signed-off-by: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
+>>             Signed-off-by: Gleb Natapov <gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>>             Signed-off-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
+>>             Link: http://lkml.kernel.org/r/1317816084-18026-2-git-send-email-gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+>>             Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
 >>
->> The updated manpage text points out that the exclude_hv 
->> "exclude hypervisor" bit only applies on hardware that 
->> supports this  feature (such as PowerPC)
->> and is silently ignored on other platforms such as x86.
+>> The updated manpage text clarifies that the "exclude_host" and
+>> "exclude_guest" perf_event_open() attr bits only apply in the 
+>> context of a KVM environment and are currently x86 only.
 >>
 >> This is a resend of the patch; the previous time I sent it
 >> (http://thread.gmane.org/gmane.linux.man/7500) it did not
 >> receive any comments.
 >>
->>
->> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+>> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 >>
 >> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
->> index 39c8d8c..665aa31 100644
+>> index 39c8d8c..1ea56c9 100644
 >> --- a/man2/perf_event_open.2
 >> +++ b/man2/perf_event_open.2
->> @@ -856,10 +856,9 @@ If this bit is set, the count excludes events that happen in kernel-space.
->>  .IR "exclude_hv"
->>  If this bit is set, the count excludes events that happen in the
->>  hypervisor.
->> -This is mainly for PMUs that have built-in support for handling this
->> -(such as POWER).
->> -Extra support is needed for handling hypervisor measurements on most
->> -machines.
->> +This is mainly for PMUs that have built-in hardware support
->> +for this feature (such as POWER; this setting is silently
->> +ignored on x86).
+>> @@ -1006,11 +1006,25 @@ struct sample_id {
 >>  .TP
->>  .IR "exclude_idle"
->>  If set, don't count when the CPU is idle.
+>>  .IR "exclude_host" " (since Linux 3.2)"
+>>  .\" commit a240f76165e6255384d4bdb8139895fac7988799
+>> -Do not measure time spent in VM host.
+>> +When conducting measurements that include processes running
+>> +VM instances (i.e. have executed a
+>> +.I KVM_RUN
+>> +.BR ioctl (2)
+>> +) only measure events happening inside a guest instance.
+>> +This is only meaningful outside the guests; this setting does
+>> +not change counts gathered inside of a guest.
+>> +Currently this functionality is x86 only.
+>>  .TP
+>>  .IR "exclude_guest" " (since Linux 3.2)"
+>>  .\" commit a240f76165e6255384d4bdb8139895fac7988799
+>> -Do not measure time spent in VM guest.
+>> +When conducting measurements that include processes running
+>> +VM instances (i.e. have executed a
+>> +.I KVM_RUN
+>> +.BR ioctl (2)
+>> +) do not measure events happening inside guest instances.
+>> +This is only meaningful outside the guests; this setting does
+>> +not change counts gathered inside of a guest.
+>> +Currently this functionality is x86 only.
+>>  .TP
+>>  .IR "exclude_callchain_kernel" " (since Linux 3.7)"
+>>  .\" commit d077526485d5c9b12fe85d0b2b3b7041e6bc5f91
 >>
 > 
 > 
@@ -83,3 +99,7 @@ On 02/17/2015 06:32 AM, Michael Kerrisk (man-pages) wrote:
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
