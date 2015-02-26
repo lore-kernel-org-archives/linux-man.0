@@ -1,49 +1,41 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: bootparam.7 inconsistent use of quotes
-Date: Thu, 26 Feb 2015 13:32:34 +0100
-Message-ID: <CAKgNAkjCOJUSi_5_f5_zC5MTmtavLvAXnzPXh4XmkM=c8b2kKg@mail.gmail.com>
-References: <20150226111524.GA4485@free.fr>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Theodore Ts'o <tytso@mit.edu>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Thu, 26 Feb 2015 08:31:13 -0500
+Message-ID: <20150226133113.GD11217@thunk.org>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
+ <54E7578E.4090809@redhat.com>
+ <20150221025636.GB7922@thunk.org>
+ <54EEDE23.6080009@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150226111524.GA4485-GANU6spQydw@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <54EEDE23.6080009@gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Eric Sandeen <sandeen@redhat.com>, Ext4 Developers List <linux-ext4@vger.kernel.org>, Linux btrfs Developers List <linux-btrfs@vger.kernel.org>, XFS Developers <xfs@oss.sgi.com>, linux-man@vger.kernel.org, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello St=C3=A9phane,
+On Thu, Feb 26, 2015 at 09:49:39AM +0100, Michael Kerrisk (man-pages) wrote:
+> > How about somethign like "This mount significantly reduces writes
+> > needed to update the inode's timestamps, especially mtime and actime.
+> 
+> What is "actime" in the preceding line? Should it be "ctime"?
 
-On 26 February 2015 at 12:15, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wr=
-ote:
-> Hi Michael,
->
-> I want to correct a simple FIXME in bootparam.7 :
->
->    The use of quotes on this page is inconsistent
->    with the rest of man-pages.
->
-> What do you mean exactly by inconsistent ?
-> Have you some examples of good use of quote please ?
+Sorry, no, it should be "atime".
 
-It's been long enough now since I added this FIXME that I no longer
-recall the details. I just went back and looked at the page. I'm no
-longer conversed there's any serious problem. I'll remove that FIXME.
+> I find the wording of there a little confusing. Is the following 
+> a correct rewrite:
+> 
+>     The advantage of MS_STRICTATIME | MS_LAZYTIME is that stat(2)
+>     will return the correctly updated atime, but the atime updates
+>     will be flushed to disk only when (1) the inode needs to be 
+>     updated for filesystem / data consistency reasons or (2) the 
+>     inode is pushed out of memory, or (3) the filesystem is 
+>     unmounted.)
 
-Thanks,
+Yes, that's correct.  The only other thing I might add is that in the
+case of a crash, the atime (or mtime) fields on disk might be out of
+date by at most 24 hours.
 
-Michael
-
-
-
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+						- Ted
