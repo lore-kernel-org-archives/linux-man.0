@@ -1,43 +1,61 @@
-From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: Re: bootparam.7 inconsistent use of quotes
-Date: Thu, 26 Feb 2015 17:49:33 +0100
-Message-ID: <20150226164933.GA5228@free.fr>
-References: <20150226111524.GA4485@free.fr>
- <CAKgNAkjCOJUSi_5_f5_zC5MTmtavLvAXnzPXh4XmkM=c8b2kKg@mail.gmail.com>
+From: saulery-GANU6spQydw@public.gmane.org
+Subject: [patch] shutdown.2: POSIX compliant since version 3.7-rc1
+Date: Thu, 26 Feb 2015 18:07:29 +0100
+Message-ID: <1424970450-5430-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjCOJUSi_5_f5_zC5MTmtavLvAXnzPXh4XmkM=c8b2kKg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+=46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-Le jeudi 26 f=C3=A9vrier 2015 =C3=A0 01:32:34, Michael Kerrisk (man-pag=
-es) a =C3=A9crit :
->=20
-> On 26 February 2015 at 12:15, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> =
-wrote:
-> >
-> > I want to correct a simple FIXME in bootparam.7 :
-> >
-> >    The use of quotes on this page is inconsistent
-> >    with the rest of man-pages.
-> >
-> > What do you mean exactly by inconsistent ?
->=20
-> It's been long enough now since I added this FIXME that I no longer
-> recall the details. I just went back and looked at the page. I'm no
-> longer conversed there's any serious problem. I'll remove that FIXME.
+Synchronizing the manpage with the new POSIX compliant behavior of shut=
+down().
+A warning message is kept to indicate possible problems with the old be=
+havior
+of UNIX domain sockets.
 
-Ok, thanks.
+See bug report: https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
 
+Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+---
+ man2/shutdown.2 | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/man2/shutdown.2 b/man2/shutdown.2
+index ab39cfd..2174de3 100644
+--- a/man2/shutdown.2
++++ b/man2/shutdown.2
+@@ -102,14 +102,11 @@ respectively, and are defined in
+ .I <sys/socket.h>
+ since glibc-2.1.91.
+ .SH BUGS
+-As currently implemented,
+-checks for the validity of
+-.I how
+-are done in domain-specific code, and not all domains perform these ch=
+ecks.
+-.\" FIXME .
+-.\" https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+-Most notably, UNIX domain sockets simply ignore invalid values;
+-this may change in the future.
++This implementation is POSIX compliant since version 3.7-rc1. Previous=
+ly, UNIX
++domain and DECnet sockets simply ignored invalid values of
++.IR how ,
++due to a domain-specific code. Applications that used invalid values t=
+o
++circumvent this lack should be corrected.
+ .SH SEE ALSO
+ .BR connect (2),
+ .BR socket (2),
 --=20
-St=C3=A9phane Aulery
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
