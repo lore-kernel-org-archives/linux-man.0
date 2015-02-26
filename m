@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getgrant.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 26 Feb 2015 08:32:20 +0100
-Message-ID: <54EECC04.2060904@gmail.com>
-References: <1424919429-9267-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] getgrent.3: Add explanation for grent
+Date: Thu, 26 Feb 2015 08:34:21 +0100
+Message-ID: <54EECC7D.3070606@gmail.com>
+References: <1424841432-18853-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424919429-9267-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1424841432-18853-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/26/2015 03:57 AM, Ma Shimiao wrote:
-> It's marking matches glibc marking.
-
+On 02/25/2015 06:17 AM, Ma Shimiao wrote:
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
 Thanks, Ma Shimiao. Applied.
 
@@ -25,35 +24,35 @@ Michael
 
 
 
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+
 > ---
->  man3/grantpt.3 | 13 +++++++++++++
+>  man3/getgrent.3 | 13 +++++++++++++
 >  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/grantpt.3 b/man3/grantpt.3
-> index 7cc0de0..b348a84 100644
-> --- a/man3/grantpt.3
-> +++ b/man3/grantpt.3
-> @@ -53,6 +53,19 @@ argument is valid but not associated with a master pseudoterminal.
->  .SH VERSIONS
->  .BR grantpt ()
->  is provided in glibc since version 2.1.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR grantpt ()
-> +T}	Thread safety	MT-Safe locale
-> +.TE
+> diff --git a/man3/getgrent.3 b/man3/getgrent.3
+> index 7a39198..00d90ea 100644
+> --- a/man3/getgrent.3
+> +++ b/man3/getgrent.3
+> @@ -183,6 +183,19 @@ T{
+>  .BR endgrent ()
+>  T}	Thread safety	MT-Unsafe race:grent locale
+>  .TE
 > +
+> +[[
+> +In the above table,
+> +.I grent
+> +in
+> +.I race:grent
+> +signifies that if any of the functions
+> +.BR setgrent (),
+> +.BR getgrent (),
+> +or
+> +.BR endgrent ()
+> +are used in parallel in different threads of a program, then data races could occur.
+> +]]
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+>  SVr4, 4.3BSD, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
