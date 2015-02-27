@@ -1,52 +1,91 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] console_codes.4: Add missing escape sequence
-Date: Fri, 27 Feb 2015 08:32:27 +0100
-Message-ID: <54F01D8B.6090501@gmail.com>
-References: <alpine.LNX.2.11.1502270231140.723@localhost>
+Subject: Re: [patch] man-pages.7: improve the definition of sections in accordance
+ with intro pages
+Date: Fri, 27 Feb 2015 08:36:00 +0100
+Message-ID: <54F01E60.2080407@gmail.com>
+References: <1424996777-10600-1-git-send-email-saulery@free.fr> <1424996777-10600-3-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LNX.2.11.1502270231140.723@localhost>
+In-Reply-To: <1424996777-10600-3-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+To: saulery-GANU6spQydw@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Scott,
+On 02/27/2015 01:26 AM, saulery-GANU6spQydw@public.gmane.org wrote:
+> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-On 02/27/2015 03:35 AM, Scot Doyle wrote:
-> An undocumented escape sequence in drivers/tty/vt/vt.c brings the
-> previously accessed virtual terminal to the foreground.
-
-Thanks. Applied. Looks like this sequence appeared with ~2.6.0 or so.
-Do you know if this is so?
+Thanks, St=C3=A9phane. Applied.
 
 Cheers,
 
 Michael
 
-> Signed-off-by: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 > ---
->  man4/console_codes.4 | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/man4/console_codes.4 b/man4/console_codes.4
-> index 00b8c40..0d75149 100644
-> --- a/man4/console_codes.4
-> +++ b/man4/console_codes.4
-> @@ -373,6 +373,7 @@ ESC [ 11 ; \fIn\fP ]	Set bell duration in msec.
->  ESC [ 12 ; \fIn\fP ]	Bring specified console to the front.
->  ESC [ 13 ]      	Unblank the screen.
->  ESC [ 14 ; \fIn\fP ]   	Set the VESA powerdown interval in minutes.
-> +ESC [ 15 ]      	Bring the previous console to the front.
->  .TE
->  .SS Character sets
->  The kernel knows about 4 translations of bytes into console-screen
-> 
+>  man7/man-pages.7 | 24 +++++++++++++-----------
+>  1 file changed, 13 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/man7/man-pages.7 b/man7/man-pages.7
+> index ceead84..e17434e 100644
+> --- a/man7/man-pages.7
+> +++ b/man7/man-pages.7
+> @@ -48,32 +48,34 @@ for authors writing man pages for other projects.
+>  .PP
+>  The manual Sections are traditionally defined as follows:
+>  .TP 10
+> -.B 1 Commands (Programs)
+> +.B 1 User commands (Programs)
+>  Those commands that can be executed by the user from within
+>  a shell.
+>  .TP
+>  .B 2 System calls
+> -Those functions which must be performed by the kernel.
+> +Those functions which wrap operations performed by the kernel.
+>  .TP
+>  .B 3 Library calls
+> -Most of the
+> +All library functions excluding the system call wrappers
+> +(Most of the
+>  .I libc
+> -functions.
+> +functions).
+>  .TP
+>  .B 4 Special files (devices)
+>  Files found in
+> -.IR /dev .
+> +.I /dev
+> +which allow to access to devices through the kernel.
+>  .TP
+> -.B 5 File formats and conventions
+> -The format for
+> -.I /etc/passwd
+> -and other human-readable files.
+> +.B 5 File formats and configuration
+> +Describes various human-readable file formats and configuration file=
+s.
+>  .TP
+>  .B 6 Games
+> +Games and funny little programs available on the system.
+>  .TP
+>  .B 7 Overview, conventions, and miscellaneous
+> -Overviews of various topics, conventions and protocols,
+> -character set standards, and miscellaneous other things.
+> +Overviews or descriptions of various topics, conventions and protoco=
+ls,
+> +character set standards, the standard filesystem layout, and miscell=
+aneous
+> +other things.
+>  .TP
+>  .B 8 System management commands
+>  Commands like
+>=20
 
 
--- 
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
