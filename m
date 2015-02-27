@@ -1,32 +1,79 @@
-From: josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org
-Subject: Re: [PATCH] clone.2: Document that clone silently ignores
- CLONE_PID and CLONE_STOPPED
-Date: Fri, 27 Feb 2015 08:31:58 -0800
-Message-ID: <20150227163157.GA10309@cloud>
-References: <20150227004118.GA15530@jtriplet-mobl1>
- <54F011E4.1020502@gmail.com>
+From: "Darrick J. Wong" <darrick.wong@oracle.com>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Fri, 27 Feb 2015 09:51:59 -0800
+Message-ID: <20150227175159.GC11031@birch.djwong.org>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
+	<54E7578E.4090809@redhat.com> <20150221025636.GB7922@thunk.org>
+	<54EEDE23.6080009@gmail.com> <20150226133113.GD11217@thunk.org>
+	<54EF2161.90607@gmail.com> <20150227000409.GC17174@thunk.org>
+	<54F02446.2050008@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Return-path: <xfs-bounces@oss.sgi.com>
 Content-Disposition: inline
-In-Reply-To: <54F011E4.1020502-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <54F02446.2050008@gmail.com>
+List-Unsubscribe: <http://oss.sgi.com/mailman/options/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=unsubscribe>
+List-Archive: <http://oss.sgi.com/pipermail/xfs>
+List-Post: <mailto:xfs@oss.sgi.com>
+List-Help: <mailto:xfs-request@oss.sgi.com?subject=help>
+List-Subscribe: <http://oss.sgi.com/mailman/listinfo/xfs>,
+	<mailto:xfs-request@oss.sgi.com?subject=subscribe>
+Errors-To: xfs-bounces@oss.sgi.com
+Sender: xfs-bounces@oss.sgi.com
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>, Eric Sandeen <sandeen@redhat.com>, Linux API <linux-api@vger.kernel.org>, XFS Developers <xfs@oss.sgi.com>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Ext4 Developers List <linux-ext4@vger.kernel.org>, Linux btrfs Developers List <linux-btrfs@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Feb 27, 2015 at 07:42:44AM +0100, Michael Kerrisk (man-pages) wrote:
-> On 02/27/2015 01:41 AM, Josh Triplett wrote:
-> > Normally, system calls return EINVAL for flags they don't support.
-> > Explicitly document that clone does *not* produce an error for these two
-> > obsolete flags.
-> 
-> Thanks, Josh! Applied.
-
-Doesn't appear to be in the current git repository.
-
-- Josh Triplett
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+T24gRnJpLCBGZWIgMjcsIDIwMTUgYXQgMDk6MDE6MTBBTSArMDEwMCwgTWljaGFlbCBLZXJyaXNr
+IChtYW4tcGFnZXMpIHdyb3RlOgo+IE9uIDAyLzI3LzIwMTUgMDE6MDQgQU0sIFRoZW9kb3JlIFRz
+J28gd3JvdGU6Cj4gPiBPbiBUaHUsIEZlYiAyNiwgMjAxNSBhdCAwMjozNjozM1BNICswMTAwLCBN
+aWNoYWVsIEtlcnJpc2sgKG1hbi1wYWdlcykgd3JvdGU6Cj4gPj4KPiA+PiAgICAgVGhlIGRpc2Fk
+dmFudGFnZSBvZiBNU19TVFJJQ1RBVElNRSB8IE1TX0xBWllUSU1FIGlzIHRoYXQKPiA+PiAgICAg
+aW4gdGhlIGNhc2Ugb2YgYSBzeXN0ZW0gY3Jhc2gsIHRoZSBhdGltZSBhbmQgbXRpbWUgZmllbGRz
+Cj4gPj4gICAgIG9uIGRpc2sgbWlnaHQgYmUgb3V0IG9mIGRhdGUgYnkgYXQgbW9zdCAyNCBob3Vy
+cy4KPiA+IAo+ID4gSSdkIGNoYW5nZSB0byAiVGhlIGRpc2FkdmFudGFnZSBvZiBNU19MQVpZVElN
+RSBpcyB0aGF0Li4uIiAgYW5kCj4gPiBwZXJoYXBzIG1vdmUgdGhhdCBzbyBpdCdzIGNsZWFyIGl0
+IGFwcGxpZXMgdG8gYW55IHVzZSBvZiBNU19MQVpZVElNRQo+ID4gaGFzIHRoaXMgYXMgYSBkb3du
+c2lkZS4KPiA+IAo+ID4gRG9lcyB0aGF0IG1ha2Ugc2Vuc2U/Cj4gCj4gVGhhbmtzLCBUZWQuIEdv
+dCBpdC4gU28sIG5vdyB3ZSBoYXZlOgo+IAo+ICAgICAgICBNU19MQVpZVElNRSAoc2luY2UgTGlu
+dXggMy4yMCkKCiJzaW5jZSBMaW51eCA0LjAiLgoKLS1ECgo+ICAgICAgICAgICAgICAgUmVkdWNl
+ICBvbi1kaXNrICB1cGRhdGVzICBvZiAgaW5vZGUgIHRpbWVzdGFtcHMgIChhdGltZSwKPiAgICAg
+ICAgICAgICAgIG10aW1lLCBjdGltZSkgYnkgbWFpbnRhaW5pbmcgdGhlc2UgY2hhbmdlcyBvbmx5
+IGluICBtZW3igJAKPiAgICAgICAgICAgICAgIG9yeS4gIFRoZSBvbi1kaXNrIHRpbWVzdGFtcHMg
+YXJlIHVwZGF0ZWQgb25seSB3aGVuOgo+IAo+ICAgICAgICAgICAgICAgKGEpICB0aGUgaW5vZGUg
+bmVlZHMgdG8gYmUgdXBkYXRlZCBmb3Igc29tZSBjaGFuZ2UgdW5yZeKAkAo+ICAgICAgICAgICAg
+ICAgICAgICBsYXRlZCB0byBmaWxlIHRpbWVzdGFtcHM7Cj4gCj4gICAgICAgICAgICAgICAoYikg
+IHRoZSBhcHBsaWNhdGlvbiAgZW1wbG95cyAgZnN5bmMoMiksICBzeW5jZnMoMiksICBvcgo+ICAg
+ICAgICAgICAgICAgICAgICBzeW5jKDIpOwo+IAo+ICAgICAgICAgICAgICAgKGMpICBhbiB1bmRl
+bGV0ZWQgaW5vZGUgaXMgZXZpY3RlZCBmcm9tIG1lbW9yeTsgb3IKPiAKPiAgICAgICAgICAgICAg
+IChkKSAgbW9yZSAgdGhhbiAyNCBob3VycyBoYXZlIHBhc3NlZCBzaW5jZSB0aGUgaW5vZGUgd2Fz
+Cj4gICAgICAgICAgICAgICAgICAgIHdyaXR0ZW4gdG8gZGlzay4KPiAKPiAgICAgICAgICAgICAg
+IFRoaXMgbW91bnQgc2lnbmlmaWNhbnRseSByZWR1Y2VzIHdyaXRlcyBuZWVkZWQgdG8gdXBkYXRl
+Cj4gICAgICAgICAgICAgICB0aGUgIGlub2RlJ3MgIHRpbWVzdGFtcHMsICBlc3BlY2lhbGx5ICBt
+dGltZSAgYW5kIGF0aW1lLgo+ICAgICAgICAgICAgICAgSG93ZXZlciwgaW4gdGhlIGV2ZW50IG9m
+IGEgc3lzdGVtIGNyYXNoLCB0aGUgIGF0aW1lICBhbmQKPiAgICAgICAgICAgICAgIG10aW1lICBm
+aWVsZHMgIG9uICBkaXNrIG1pZ2h0IGJlIG91dCBvZiBkYXRlIGJ5IHVwIHRvIDI0Cj4gICAgICAg
+ICAgICAgICBob3Vycy4KPiAKPiAgICAgICAgICAgICAgIEV4YW1wbGVzIG9mIHdvcmtsb2FkcyB3
+aGVyZSB0aGlzIG9wdGlvbiBjb3VsZCBiZSBvZiBzaWfigJAKPiAgICAgICAgICAgICAgIG5pZmlj
+YW50ICBiZW5lZml0IGluY2x1ZGUgZnJlcXVlbnQgcmFuZG9tIHdyaXRlcyB0byBwcmXigJAKPiAg
+ICAgICAgICAgICAgIGFsbG9jYXRlZCBmaWxlcywgYXMgd2VsbCBhcyBjYXNlcyB3aGVyZSB0aGUg
+IE1TX1NUUklDVEHigJAKPiAgICAgICAgICAgICAgIFRJTUUgIG1vdW50ICBvcHRpb24gIGlzIGFs
+c28gZW5hYmxlZC4gIChUaGUgYWR2YW50YWdlIG9mCj4gICAgICAgICAgICAgICAoTVNfU1RSSUNU
+QVRJTUUgfCAgTVNfTEFaWVRJTUUpICBpcyAgdGhhdCAgc3RhdCgyKSAgd2lsbAo+ICAgICAgICAg
+ICAgICAgcmV0dXJuICB0aGUgIGNvcnJlY3RseSAgdXBkYXRlZCAgYXRpbWUsICBidXQgIHRoZSAg
+YXRpbWUKPiAgICAgICAgICAgICAgIHVwZGF0ZXMgd2lsbCBiZSBmbHVzaGVkIHRvIGRpc2sgb25s
+eSB3aGVuICgxKSB0aGUgIGlub2RlCj4gICAgICAgICAgICAgICBuZWVkcyAgdG8gIGJlICB1cGRh
+dGVkIGZvciBmaWxlc3lzdGVtIC8gZGF0YSBjb25zaXN0ZW5jeQo+ICAgICAgICAgICAgICAgcmVh
+c29ucyBvciAoMikgdGhlIGlub2RlIGlzIHB1c2hlZCBvdXQgb2YgbWVtb3J5LCBvciAoMykKPiAg
+ICAgICAgICAgICAgIHRoZSBmaWxlc3lzdGVtIGlzIHVubW91bnRlZC4pCj4gCj4gQ2hlZXJzLAo+
+IAo+IE1pY2hhZWwKPiAKPiAKPiAtLSAKPiBNaWNoYWVsIEtlcnJpc2sKPiBMaW51eCBtYW4tcGFn
+ZXMgbWFpbnRhaW5lcjsgaHR0cDovL3d3dy5rZXJuZWwub3JnL2RvYy9tYW4tcGFnZXMvCj4gTGlu
+dXgvVU5JWCBTeXN0ZW0gUHJvZ3JhbW1pbmcgVHJhaW5pbmc6IGh0dHA6Ly9tYW43Lm9yZy90cmFp
+bmluZy8KPiAtLQo+IFRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC1leHQ0IiBpbgo+IHRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
+YWpvcmRvbW9Admdlci5rZXJuZWwub3JnCj4gTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDov
+L3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCgpfX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fXwp4ZnMgbWFpbGluZyBsaXN0Cnhmc0Bvc3Muc2dp
+LmNvbQpodHRwOi8vb3NzLnNnaS5jb20vbWFpbG1hbi9saXN0aW5mby94ZnMK
