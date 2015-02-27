@@ -1,52 +1,40 @@
-From: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
-Subject: [PATCH] clone.2: Document that clone silently ignores CLONE_PID and
- CLONE_STOPPED
-Date: Thu, 26 Feb 2015 16:41:20 -0800
-Message-ID: <20150227004118.GA15530@jtriplet-mobl1>
+From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] mtrace.3: Add FIXME
+Date: Fri, 27 Feb 2015 09:38:55 +0800
+Message-ID: <1425001135-31056-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Normally, system calls return EINVAL for flags they don't support.
-Explicitly document that clone does *not* produce an error for these two
-obsolete flags.
-
-Signed-off-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/clone.2 | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ man3/mtrace.3 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/man2/clone.2 b/man2/clone.2
-index 91c3684..10cef7d 100644
---- a/man2/clone.2
-+++ b/man2/clone.2
-@@ -534,7 +534,8 @@ This is good for hacking the system, but otherwise
- of not much use.
- Since 2.3.21 this flag can be
- specified only by the system boot process (PID 0).
--It disappeared in Linux 2.5.16.
-+It disappeared in Linux 2.5.16.  Since then, the kernel silently ignores it
-+without error.
- .TP
- .BR CLONE_PTRACE " (since Linux 2.2)"
- If
-@@ -599,7 +600,8 @@ This flag was
- from Linux 2.6.25 onward,
- and was
- .I removed
--altogether in Linux 2.6.38.
-+altogether in Linux 2.6.38.  Since then, the kernel silently ignores it without
-+error.
- .\" glibc 2.8 removed this defn from bits/sched.h
- .TP
- .BR CLONE_SYSVSEM " (since Linux 2.5.10)"
+diff --git a/man3/mtrace.3 b/man3/mtrace.3
+index eb2e581..a775753 100644
+--- a/man3/mtrace.3
++++ b/man3/mtrace.3
+@@ -86,6 +86,13 @@ Interface	Attribute	Value
+ T{
+ .BR mtrace (),
+ .BR muntrace ()
++.\" FIXME: the following marking is different from which in glibc manual,
++.\" markings in glibc manual are more detailed.
++.\" mtrace: MT-Unsafe env race:mtrace const:malloc_hooks init
++.\" muntrace: MT-Unsafe race:mtrace const:malloc_hooks locale
++.\" But there is something wrong in glibc manual, for example:
++.\" glibc manual says muntrace should have marking locale because it calls 
++.\" fprintf(), but muntrace does not execute area which cause locale problem.
+ T}	Thread safety	MT-Unsafe
+ .TE
+ .SH CONFORMING TO
 -- 
-2.1.4
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
