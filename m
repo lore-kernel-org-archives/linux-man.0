@@ -1,50 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] intro.8: tfix
-Date: Fri, 27 Feb 2015 07:39:36 +0100
-Message-ID: <54F01128.90709@gmail.com>
-References: <1424996777-10600-1-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH] clone.2: Document that clone silently ignores CLONE_PID
+ and CLONE_STOPPED
+Date: Fri, 27 Feb 2015 07:42:44 +0100
+Message-ID: <54F011E4.1020502@gmail.com>
+References: <20150227004118.GA15530@jtriplet-mobl1>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1424996777-10600-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <20150227004118.GA15530@jtriplet-mobl1>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: saulery-GANU6spQydw@public.gmane.org
+To: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/27/2015 01:26 AM, saulery-GANU6spQydw@public.gmane.org wrote:
-> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+On 02/27/2015 01:41 AM, Josh Triplett wrote:
+> Normally, system calls return EINVAL for flags they don't support.
+> Explicitly document that clone does *not* produce an error for these two
+> obsolete flags.
 
-Thanks, St=C3=A9phane. Applied.
+Thanks, Josh! Applied.
 
 Cheers,
 
 Michael
 
-> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+
+
+> Signed-off-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
 > ---
->  man8/intro.8 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man8/intro.8 b/man8/intro.8
-> index 20023c4..dab9af4 100644
-> --- a/man8/intro.8
-> +++ b/man8/intro.8
-> @@ -35,7 +35,7 @@ which either can be or are used only by the superus=
-er,
->  like system-administration commands, daemons,
->  and hardware-related commands.
-> =20
-> -As with the commands in described Section 1, the commands described
-> +As with the commands described in Section 1, the commands described
->  in this section terminate with an exit status that indicates
->  whether the command succeeded or failed.
->  See
->=20
+>  man2/clone.2 | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/clone.2 b/man2/clone.2
+> index 91c3684..10cef7d 100644
+> --- a/man2/clone.2
+> +++ b/man2/clone.2
+> @@ -534,7 +534,8 @@ This is good for hacking the system, but otherwise
+>  of not much use.
+>  Since 2.3.21 this flag can be
+>  specified only by the system boot process (PID 0).
+> -It disappeared in Linux 2.5.16.
+> +It disappeared in Linux 2.5.16.  Since then, the kernel silently ignores it
+> +without error.
+>  .TP
+>  .BR CLONE_PTRACE " (since Linux 2.2)"
+>  If
+> @@ -599,7 +600,8 @@ This flag was
+>  from Linux 2.6.25 onward,
+>  and was
+>  .I removed
+> -altogether in Linux 2.6.38.
+> +altogether in Linux 2.6.38.  Since then, the kernel silently ignores it without
+> +error.
+>  .\" glibc 2.8 removed this defn from bits/sched.h
+>  .TP
+>  .BR CLONE_SYSVSEM " (since Linux 2.5.10)"
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
