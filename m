@@ -1,45 +1,33 @@
-From: wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org
-Subject: [PATCH] msgop.2: remove EAGAIN as msgrcv errno
-Date: Thu, 26 Feb 2015 18:36:00 -0500
-Message-ID: <1424993760-15047-1-git-send-email-wfp5p@worldbroken.com>
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+From: Theodore Ts'o <tytso@mit.edu>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Thu, 26 Feb 2015 19:04:09 -0500
+Message-ID: <20150227000409.GC17174@thunk.org>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
+ <54E7578E.4090809@redhat.com>
+ <20150221025636.GB7922@thunk.org>
+ <54EEDE23.6080009@gmail.com>
+ <20150226133113.GD11217@thunk.org>
+ <54EF2161.90607@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <54EF2161.90607@gmail.com>
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: Eric Sandeen <sandeen@redhat.com>, Ext4 Developers List <linux-ext4@vger.kernel.org>, Linux btrfs Developers List <linux-btrfs@vger.kernel.org>, XFS Developers <xfs@oss.sgi.com>, linux-man@vger.kernel.org, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+On Thu, Feb 26, 2015 at 02:36:33PM +0100, Michael Kerrisk (man-pages) wrote:
+> 
+>     The disadvantage of MS_STRICTATIME | MS_LAZYTIME is that
+>     in the case of a system crash, the atime and mtime fields
+>     on disk might be out of date by at most 24 hours.
 
-The list of errnos for msgrcv lists both EAGAIN and ENOMSG as the
-errno for no message available with the IPC_NOWAIT flag.  ENOMSG is
-the errno that will be set.
+I'd change to "The disadvantage of MS_LAZYTIME is that..."  and
+perhaps move that so it's clear it applies to any use of MS_LAZYTIME
+has this as a downside.
 
-Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
----
- man2/msgop.2 | 6 ------
- 1 file changed, 6 deletions(-)
+Does that make sense?
 
-diff --git a/man2/msgop.2 b/man2/msgop.2
-index d1bd2125344d..286c9965d595 100644
---- a/man2/msgop.2
-+++ b/man2/msgop.2
-@@ -417,12 +417,6 @@ and does not have the
- .B CAP_IPC_OWNER
- capability.
- .TP
--.B EAGAIN
--No message was available in the queue and
--.B IPC_NOWAIT
--was specified in
--.IR msgflg .
--.TP
- .B EFAULT
- The address pointed to by
- .I msgp
--- 
-2.1.0
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+						- Ted
