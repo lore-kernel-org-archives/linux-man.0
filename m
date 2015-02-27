@@ -1,61 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] clone.2: Document that clone silently ignores CLONE_PID
- and CLONE_STOPPED
-Date: Fri, 27 Feb 2015 07:42:44 +0100
-Message-ID: <54F011E4.1020502@gmail.com>
-References: <20150227004118.GA15530@jtriplet-mobl1>
+Subject: Re: [PATCH] memusage.1: tfix
+Date: Fri, 27 Feb 2015 07:50:34 +0100
+Message-ID: <54F013BA.6080806@gmail.com>
+References: <1424960605-31766-1-git-send-email-namhyung@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150227004118.GA15530@jtriplet-mobl1>
+In-Reply-To: <1424960605-31766-1-git-send-email-namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+To: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/27/2015 01:41 AM, Josh Triplett wrote:
-> Normally, system calls return EINVAL for flags they don't support.
-> Explicitly document that clone does *not* produce an error for these two
-> obsolete flags.
+On 02/26/2015 03:23 PM, Namhyung Kim wrote:
+> Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 
-Thanks, Josh! Applied.
+Thank you, Namhyung Kim. Applied.
 
 Cheers,
 
 Michael
 
 
-
-> Signed-off-by: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
 > ---
->  man2/clone.2 | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  man1/memusage.1 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/clone.2 b/man2/clone.2
-> index 91c3684..10cef7d 100644
-> --- a/man2/clone.2
-> +++ b/man2/clone.2
-> @@ -534,7 +534,8 @@ This is good for hacking the system, but otherwise
->  of not much use.
->  Since 2.3.21 this flag can be
->  specified only by the system boot process (PID 0).
-> -It disappeared in Linux 2.5.16.
-> +It disappeared in Linux 2.5.16.  Since then, the kernel silently ignores it
-> +without error.
+> diff --git a/man1/memusage.1 b/man1/memusage.1
+> index 1bcb758..2e477f5 100644
+> --- a/man1/memusage.1
+> +++ b/man1/memusage.1
+> @@ -163,7 +163,7 @@ Also trace
+>  .BR mmap (2),
+>  .BR mremap (2),
+>  and
+> -.BR mmap (2).
+> +.BR munmap (2).
 >  .TP
->  .BR CLONE_PTRACE " (since Linux 2.2)"
->  If
-> @@ -599,7 +600,8 @@ This flag was
->  from Linux 2.6.25 onward,
->  and was
->  .I removed
-> -altogether in Linux 2.6.38.
-> +altogether in Linux 2.6.38.  Since then, the kernel silently ignores it without
-> +error.
->  .\" glibc 2.8 removed this defn from bits/sched.h
->  .TP
->  .BR CLONE_SYSVSEM " (since Linux 2.5.10)"
+>  .BI \-?\fR,\ \fB\-\-help
+>  Print help and exit.
 > 
 
 
