@@ -1,33 +1,64 @@
-From: Theodore Ts'o <tytso@mit.edu>
-Subject: Re: Documenting MS_LAZYTIME
-Date: Thu, 26 Feb 2015 19:04:09 -0500
-Message-ID: <20150227000409.GC17174@thunk.org>
-References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
- <54E7578E.4090809@redhat.com>
- <20150221025636.GB7922@thunk.org>
- <54EEDE23.6080009@gmail.com>
- <20150226133113.GD11217@thunk.org>
- <54EF2161.90607@gmail.com>
+From: saulery-GANU6spQydw@public.gmane.org
+Subject: [patch] shutdown.2: POSIX compliant since version 3.7-rc1
+Date: Fri, 27 Feb 2015 01:21:56 +0100
+Message-ID: <1424996516-10470-1-git-send-email-saulery@free.fr>
+References: <CAKgNAkhO47NwYqECEiw2zap5LSzi1z-HiSja6GjSCseaP_jb2A@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-fsdevel-owner@vger.kernel.org>
-Content-Disposition: inline
-In-Reply-To: <54EF2161.90607@gmail.com>
-Sender: linux-fsdevel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Eric Sandeen <sandeen@redhat.com>, Ext4 Developers List <linux-ext4@vger.kernel.org>, Linux btrfs Developers List <linux-btrfs@vger.kernel.org>, XFS Developers <xfs@oss.sgi.com>, linux-man@vger.kernel.org, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <CAKgNAkhO47NwYqECEiw2zap5LSzi1z-HiSja6GjSCseaP_jb2A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, Feb 26, 2015 at 02:36:33PM +0100, Michael Kerrisk (man-pages) wrote:
-> 
->     The disadvantage of MS_STRICTATIME | MS_LAZYTIME is that
->     in the case of a system crash, the atime and mtime fields
->     on disk might be out of date by at most 24 hours.
+=46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-I'd change to "The disadvantage of MS_LAZYTIME is that..."  and
-perhaps move that so it's clear it applies to any use of MS_LAZYTIME
-has this as a downside.
+Synchronizing the manpage with the new POSIX compliant behavior of shut=
+down().
+A warning message is kept to indicate possible problems with the old be=
+havior
+of UNIX domain sockets.
 
-Does that make sense?
+See bug report: https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
 
-						- Ted
+Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+---
+ man2/shutdown.2 | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
+
+diff --git a/man2/shutdown.2 b/man2/shutdown.2
+index ab39cfd..2174de3 100644
+--- a/man2/shutdown.2
++++ b/man2/shutdown.2
+@@ -102,14 +102,11 @@ respectively, and are defined in
+ .I <sys/socket.h>
+ since glibc-2.1.91.
+ .SH BUGS
+-As currently implemented,
+-checks for the validity of
+-.I how
+-are done in domain-specific code, and not all domains perform these ch=
+ecks.
+-.\" FIXME .
+-.\" https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+-Most notably, UNIX domain sockets simply ignore invalid values;
+-this may change in the future.
++This implementation is POSIX compliant since version 3.7-rc1. Previous=
+ly, UNIX
++domain and DECnet sockets simply ignored invalid values of
++.IR how ,
++due to a domain-specific code. Applications that used invalid values t=
+o
++circumvent this lack should be corrected.
+ .SH SEE ALSO
+ .BR connect (2),
+ .BR socket (2),
+--=20
+2.1.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
