@@ -1,53 +1,32 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: mt_attributes branch has been merged to man-pages mainline
-Date: Fri, 27 Feb 2015 14:49:01 +0100
-Message-ID: <CAKgNAkj8nY7CAxkQrTbCf4WvrfmLwF2=1fFDhouiFEQ2VcXJwg@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Fri, 27 Feb 2015 09:18:11 -0500
+Message-ID: <20150227141811.GA5404@thunk.org>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com>
+ <54E7578E.4090809@redhat.com>
+ <20150221025636.GB7922@thunk.org>
+ <54EEDE23.6080009@gmail.com>
+ <20150226133113.GD11217@thunk.org>
+ <54EF2161.90607@gmail.com>
+ <20150227000409.GC17174@thunk.org>
+ <54F02446.2050008@gmail.com>
+ <20150227080800.GA20442@mew>
+ <54F02C73.5090601@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <54F02C73.5090601-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Qian Lei <qianl.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Omar Sandoval <osandov-nWWhXC5lh1RBDgjK7y7TUQ@public.gmane.org>, Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, XFS Developers <xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org>, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Ext4 Developers List <linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux btrfs Developers List <linux-btrfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Ma Shimiao,
+With Omar's suggestions, this looks great.
 
-I have merged the 'mt_attributes' branch into mainline, and deleted
-the 'mt_attributes' branch on kernel.org. In the process, I needed to
-do a rebase, so the commit hashes have changed.
+Thanks!!
 
-Thus, around 450 new patches documenting multithread safety or
-modifying the markup format to the new table form or fixing
-differences between the glibc amd man-pages MT-Safety markings,
-written by you and your colleagues Peng Haitao and Qian Lei, will go
-out with the next man-pages release. Thank you to the three of you for
-so much work that has gone into this.
-
-Also in the next release will be the new attributes(7) page that I
-created based on the text of Alexandre. (Thanks Alexandre for the
-text, and Carlos, for enabling that!)
-
-Ma Shimiao, as you have noted to me offlist, there there remain 3
-man-pages whose MT-Safety markings differ from the markings in the
-glibc manual. Hopefully in the coming weeks you can resolve these
-differences with Alexandre. However, that resolution does not need to
-hold up releasing all of the work that you and your colleagues at
-Fujitsu have done.
-
-Best regards,
-
-Michael
-
-PS By the way, in this work, Peng Haitao and you have respectively
-become the second and fourth contributors of the most patches to
-man-pages (at least: during my time as maintainer); and actually,
-you'll soon move into third place, I see!
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+					- Ted
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
