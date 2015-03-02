@@ -1,42 +1,50 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: Re: [patch] perf_event_open.2: 3.19 PERF_SAMPLE_REGS_INTR support
-Date: Mon, 2 Mar 2015 14:31:40 -0500 (EST)
-Message-ID: <alpine.DEB.2.11.1503021425220.17687@vincent-weaver-1.umelst.maine.edu>
-References: <alpine.DEB.2.11.1502120031150.17793@vincent-weaver-1.umelst.maine.edu> <20150228222605.GA13177@krava.redhat.com> <CABPqkBQQ3JZp_BdwRJDEGpyqrchixfGG_1Lqh88HJtzXWOGE7Q@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Subject: [PATCH 1/1] ioctl_list.2: include/linux/ext2_fs.h
+Date: Mon,  2 Mar 2015 21:04:22 +0100
+Message-ID: <1425326662-7567-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CABPqkBQQ3JZp_BdwRJDEGpyqrchixfGG_1Lqh88HJtzXWOGE7Q-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Chuck Ebbert <cebbert.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sun, 1 Mar 2015, Stephane Eranian wrote:
+Include linux/ext2_fs.h does not contain any ioctl definitions
+anymore.
 
-> You need to describe your test better. Are you saying that the register values
-> you were seeing with REGS_USER, REGS_INTR, precise_ip > 0 are all
-> the same? That is certainly not impossible. If your PMU interrupts are all
-> at the user level, then REGS_INTR = REGS_USER. With precise_ip > 0,
-> you will get the machine state on retirement of the sampled instruction.
-> But if you have no sampling skid without precise_ip, then both states
-> the REGS_INTR and REGS_INTR+precise_ip>0 could be identical.
+Request codes EXT2_IOC* have been replaced by FS_IOC* in
+linux/fs.h.
 
-If you enable both PERF_SAMPLE_REGS_USER and PERF_SAMPLE_REGS_INTR
-then you will get in the PERF_RECORD_SAMPLE results for both user
-and intr. However they will be identical, always, because
-the kernel code just checks if PERF_SAMPLE_REGS_INTR was given and
-then returns the PEBS state for both.
+Some definitions of FS_IOC_* use long* but the actual code expects
+int* (see fs/ext2/ioctl.c).
 
-My test was expecting that if you specified PERF_SAMPLE_REGS_USER and
-PERF_SAMPLE_REGS_INTR then for the PERF_SAMPLE_REGS_USER values you'd
-get the same results as when PERF_SAMPLE_REGS_INTR were not specified, but 
-that's not the case.
+Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+---
+ man2/ioctl_list.2 | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-This is an obscure corner case, but I found the results unexpected.
-
-Vince
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
+index dc1505f..75fb3df 100644
+--- a/man2/ioctl_list.2
++++ b/man2/ioctl_list.2
+@@ -30,6 +30,9 @@
+ .\"
+ .\" 2015-02-21 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+ .\"     SEE ALSO ioctl_fat(2), add FAT_IOCTL_GET_VOLUME_ID.
++.\"
++.\" 2015-03-02 Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
++.\"     EXT2_IOC* have been replaced by FS_IOC*.
+ .TH IOCTL_LIST 2 2013-09-17 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ ioctl_list \- list of ioctl calls in Linux/i386 kernel
+@@ -273,15 +276,6 @@ l l l.
+ 0x00435909	CYSETDEFTIMEOUT	int
+ .TE
+ 
+-// <include/linux/ext2_fs.h>
+-.TS
+-l l l.
+-0x80046601	EXT2_IOC_GETFLAGS	int *
+-0x40046602	EXT2_IOC_SETFLAGS	const int *
+-0x80047601	EXT2_IOC_GETVERSION	int *
+-0x40047602	EXT2_IOC_SETVERSION	const int *
+-.TE
