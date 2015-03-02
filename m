@@ -1,39 +1,36 @@
-From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: [fixed-upstream] manpages-dev: Missing description in xdr(3) fails
- XDR codec API in some cases
-Date: Mon, 2 Mar 2015 22:02:48 +0100
-Message-ID: <20150302210247.GA11344@free.fr>
-Reply-To: 20150224182106.GA14880-GANU6spQydw@public.gmane.org
+From: Vince Weaver <vincent.weaver@maine.edu>
+Subject: Re: [patch] perf_event_open.2: 3.19 PERF_SAMPLE_REGS_INTR support
+Date: Mon, 2 Mar 2015 16:19:15 -0500 (EST)
+Message-ID: <alpine.DEB.2.11.1503021617260.17687@vincent-weaver-1.umelst.maine.edu>
+References: <alpine.DEB.2.11.1502120031150.17793@vincent-weaver-1.umelst.maine.edu> <20150228222605.GA13177@krava.redhat.com> <CABPqkBQQ3JZp_BdwRJDEGpyqrchixfGG_1Lqh88HJtzXWOGE7Q@mail.gmail.com> <alpine.DEB.2.11.1503021425220.17687@vincent-weaver-1.umelst.maine.edu>
+ <CABPqkBTc=_8=nRfYpZwZ4eKbpWLnBuy_4aWoTrPupWGu=oK+jg@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: control-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, 628099-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <CABPqkBTc=_8=nRfYpZwZ4eKbpWLnBuy_4aWoTrPupWGu=oK+jg@mail.gmail.com>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Stephane Eranian <eranian@google.com>
+Cc: Jiri Olsa <jolsa@redhat.com>, "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>, linux-man@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Peter Zijlstra <a.p.zijlstra@chello.nl>, Paul Mackerras <paulus@samba.org>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Chuck Ebbert <cebbert.lkml@gmail.com>, Linus Torvalds <torvalds@linux-foundation.org>, Andi Kleen <andi@firstfloor.org>
 List-Id: linux-man@vger.kernel.org
 
-tags 628099 + fixed-upstream
-stop
+On Mon, 2 Mar 2015, Stephane Eranian wrote:
 
-----------------------------------------------------------------------
+> vince,
 
-See commits:
+> PEBS machine state. Problem is that there is only one set of pt_regs passed to
+> __intel_pmu_pebs_event(). And if REGS_INTR is set, then the pt_regs
+> registers are
+> indeed overwritten with PEBS captured state. To avoid the issue, we
+> would have to
+> carry around two sets of pt_regs.
 
-[1] 2015-03-02 16:22:26 (GMT) 2915b726167ea9bee8cfe08be0861220d642bba6
-[2] 2015-03-02 16:22:26 (GMT) 0e6be1168c15bee37aeae6239a78f5babf1886e3
+I don't think we have to carry around both (would that ever be useful?)
+Just that the behavior is a bit surprising and I should document it in the 
+manpage.
 
-[1] https://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/man=
-3/xdr.3?id=3D2915b726167ea9bee8cfe08be0861220d642bba6
-[2] https://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/man=
-3/xdr.3?id=3D0e6be1168c15bee37aeae6239a78f5babf1886e3
+One question I do have: if it never makes sense to measure REGS_USER and 
+REGS_INTR at the same time, why was the latter added at all?  Why not just 
+have the REGS_USER information automatically upgrade to REGS_INTR if 
+precise_ip is high enough?
 
-Must be in next release of man-pages (3.82).
-
---=20
-St=C3=A9phane Aulery
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Vince
