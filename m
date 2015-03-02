@@ -1,44 +1,974 @@
-From: josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org
-Subject: Re: [PATCH] clone.2: Document that clone silently ignores
- CLONE_PID and CLONE_STOPPED
-Date: Mon, 2 Mar 2015 08:40:50 -0800
-Message-ID: <20150302164050.GA29046@cloud>
-References: <20150227004118.GA15530@jtriplet-mobl1>
- <54F011E4.1020502@gmail.com>
- <20150227163157.GA10309@cloud>
- <CAKgNAkjCvzeo+tHUW+mwL+ptdCX7k=j8fmRX6OtLfFM9HVXJjQ@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man-pages-3.81 released
+Date: Mon, 02 Mar 2015 17:41:14 +0100
+Message-ID: <54F492AA.9060809@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAKgNAkjCvzeo+tHUW+mwL+ptdCX7k=j8fmRX6OtLfFM9HVXJjQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 02, 2015 at 05:27:38PM +0100, Michael Kerrisk (man-pages) wrote:
-> On 27 February 2015 at 17:31,  <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org> wrote:
-> > On Fri, Feb 27, 2015 at 07:42:44AM +0100, Michael Kerrisk (man-pages) wrote:
-> >> On 02/27/2015 01:41 AM, Josh Triplett wrote:
-> >> > Normally, system calls return EINVAL for flags they don't support.
-> >> > Explicitly document that clone does *not* produce an error for these two
-> >> > obsolete flags.
-> >>
-> >> Thanks, Josh! Applied.
-> >
-> > Doesn't appear to be in the current git repository.
-> 
-> Pushed now, Josh. (I needed to get another release out of the way first.)
+Gidday,
 
-No problem; thanks for the update.
+The Linux man-pages maintainer proudly announces:
 
-Related issue: the errors section of clone.2 claims it'll return EPERM
-for CLONE_PID by something other than PID 0 (meaning, outside the
-kernel), but that doesn't actually happen.  Should that be dropped?  (I
-can send a patch if so.)
+    man-pages-3.81 - man pages for Linux
 
-- Josh Triplett
+Tarball download:
+    http://www.kernel.org/doc/man-pages/download.html
+Git repository:
+    https://git.kernel.org/cgit/docs/man-pages/man-pages.git/
+Online changelog:
+    http://man7.org/linux/man-pages/changelog.html#release_3.81
+
+A short summary of the release is blogged at:
+http://linux-man-pages.blogspot.com/2015/03/man-pages-381-is-released.html
+
+The current version of the pages is browsable at:
+http://man7.org/linux/man-pages/
+
+You are receiving this message either because:
+
+a) You contributed to the content of this release.
+
+b) You are subscribed to linux-man-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+
+c) I have information (possibly inaccurate) that you are the maintainer
+   of a translation of the manual pages, or are the maintainer of the
+   manual pages set in a particular distribution, or have expressed
+   interest in helping with man-pages maintenance, or have otherwise
+   expressed interest in being notified about man-pages releases.
+   If you don't want to receive such messages from me, or you know of
+   some other translator or maintainer who may want to receive such
+   notifications, send me a message.
+
+d) (Probably a one-off) You are subscribed to libc-alpha@.
+
+===
+
+The changes in man-pages-3.81 relate exclusively to the (glibc) 
+thread-safety markings in various man pages. More than 400 patches, 
+mainly by Ma Shimiao and Peng Haitao of Fujitsu brought the following 
+changes:
+
+* Thread-safety information has been added to many more pages.
+* The thread-safety notation in man-pages has been made consistent 
+  with the notation used in the GNU C Library Manual.
+* Thread-safety information in man-pages has been checked for 
+  consistency with the same information in the GNU C Library Manual.
+  In some cases these, this has resulted in refinements to the 
+  markings in man-pages.
+* The thread-safety information in man-pages has been been converted 
+  from a plain text layout to a tabular layout, for ease of reading.
+
+By now, thanks mainly to the work of Peng Haitao and Ma Shimiao, 
+nearly 400 of the (around 980) pages in man-pages carry thread-safety 
+information.
+
+In addition, a new attributes(7) man page, based on text supplied 
+by Alexandre Oliva (who was responsible for adding thread-safety 
+information to the GNU C Library manual) provides an overview of the 
+thread-safety concepts documented in man-pages, and a description of 
+the notation used in man-pages to describe the thread safety of 
+functions. (Thanks also to Carlos O'Donell for helping us to obtain 
+the permissions needed so that man-pages could recycle this text 
+from the GNU C Library manual.)
+
+Cheers,
+
+Michael
+
+==================== Changes in man-pages-3.81 ====================
+
+Released: 2015-03-02, Munich
+
+
+Contributors
+------------
+
+The following people contributed patches/fixes or (noted in brackets
+in the changelog below) reports, notes, and ideas that have been
+incorporated in changes in this release:
+
+Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Peng Haitao <penght-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+
+Apologies if I missed anyone!
+
+
+New and rewritten pages
+-----------------------
+
+attributes.7
+    Alexandre Oliva, Michael Kerrisk  [Carlos O'Donell]
+        New page describing POSIX safety concepts
+
+
+Global changes
+--------------
+
+Many pages
+    Peng Haitao, Michael Kerrisk
+        Reformat existing thread-safety information to use a
+        tabular format, rather than plain text.
+
+
+Changes to individual pages
+---------------------------
+
+mmap.2
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function mmap() and munmap() are thread safe.
+
+a64l.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+acos.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function acos(), acosf() and acosl() are thread safe.
+
+acosh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function acosh(), acoshf() and acoshl() are thread safe.
+
+addseverity.3
+    Ma Shimiao
+        ATTRIBUTES: Note function is thread-safe
+            The function addseverity() is thread safe.
+
+aio_cancel.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function aio_cancel() is thread safe.
+
+aio_fsync.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function aio_fsync() is thread safe.
+
+aio_read.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function aio_read() is thread safe.
+
+aio_suspend.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function aio_suspend() is thread safe.
+
+aio_write.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function aio_write() is thread safe.
+
+argz_add.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+
+asin.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function asin(), asinf() and asinl() are thread safe.
+
+assert.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+assert_perror.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+atan2.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function atan2(), atan2f() and atan2l() are thread safe.
+
+atanh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function atanh(), atanhf() and atanhl() are thread safe.
+
+backtrace.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The markings match glibc markings.
+
+btowc.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function btowc() in glibc is thread safe.
+            Its marking matches glibc marking.
+
+cabs.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function cabs(), cabsf() and cabsl() are thread safe.
+
+cacos.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function cacos(), cacosf() and cacosl() are thread safe.
+
+cacosh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions cacosh(), cacoshf() and cacoshl() in glibc are
+            thread safe.  Its markings match glibc markings.
+
+canonicalize_file_name.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The functions canonicalize_file_name() in glibc is thread safe.
+            Its marking matches glibc marking.
+
+carg.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function carg(), cargf() and cargl() are thread safe.
+
+casin.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions casin(), casinf() and casinl() are thread safe.
+            Their markings match glibc markings.
+
+casinh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions casinh(), casinhf() and casinhl() in glibc are
+            thread safe.  Its markings match glibc markings.
+
+catan.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions catan(), catanf() and catanl() are thread safe.
+            Their markings match glibc markings.
+
+catanh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions catanh(), catanhf() and catanhl() in glibc are
+            thread safe.  Its markings match glibc markings.
+
+catopen.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions catopen() and catclose() are thread safe.
+
+cfree.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function cfree() in glibc is thread safe.
+            Its marking matches glibc marking.
+
+clog10.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions clog10(), clog10f() and clog10l() in glibc are
+            thread safe.  Its markings match glibc markings.
+
+clog.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function clog(), clogf() and clogl() are thread safe.
+
+closedir.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function closedir() in glibc is thread safe.
+            Its marking matches glibc marking.
+
+confstr.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function confstr() is thread safe.
+
+cosh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions cosh(), coshf() and coshl() in glibc are thread safe.
+            Its markings match glibc markings.
+
+cpow.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions cpow(), cpowf() and cpowl() in glibc are thread safe.
+            Its markings match glibc markings.
+
+crypt.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+ctermid.3
+    Ma Shimiao
+        Modify thread-safety information
+            According to the change of source code, ctermid's level has been
+            changed from MT-Unsafe to MT-Safe.  After modifying, the marking
+            matches the glibc marking.
+
+drand48.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+drand48_r.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+ecvt.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be same as glibc manual.
+
+ecvt_r.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The markings match glibc markings.
+
+encrypt.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+envz_add.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The markings match glibc markings.
+
+exec.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions execl(), execlp(), execle(), execv(), execvp() and
+            execvpe() are thread safe.
+
+exit.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+exp10.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+
+exp2.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function exp2(), exp2f() and exp2l() are thread safe.
+
+exp.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function exp(), expf() and expl() are thread safe.
+
+fclose.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The function fclose() is thread safe.
+            Its marking matches glibc marking.
+
+fcloseall.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+fgetc.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The markings match glibc markings.
+
+fgetwc.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The markings match glibc markings.
+
+fgetws.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+fmod.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function fmod(), fmodf() and fmodl() are thread safe.
+
+fnmatch.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function fnmatch() is thread safe with exceptions.
+
+fopen.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The markings match glibc markings.
+
+fopencookie.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+fread.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions fread() and fwrite() are thread safe.
+
+gamma.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are not thread-safe
+            The functions gamma(), gammaf() and gammal() are not thread safe.
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getcontext.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getcwd.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions getcwd(), getwd() and get_current_dir_name() are
+            thread safe.
+
+getdate.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getenv.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions getenv() and secure_getenv() are thread safe.
+
+getfsent.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are not thread-safe
+            The functions setfsent(), getfsent(), endfsent(), getfsspec()
+            and getfsfile() are not thread safe.
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getgrent.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getgrnam.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getgrouplist.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function getgrouplist() is thread safe with exceptions.
+
+getlogin.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getopt.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are not thread-safe
+            The functions getopt(), getopt_long() and getopt_long_only() are
+            not thread safe.
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getpass.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getpwent.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+getpwnam.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+gets.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+getw.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions getw() and putw() are thread safe.
+
+gnu_get_libc_version.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions gnu_get_libc_version() and gnu_get_libc_release()
+            are thread safe.
+
+hsearch.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+iconv.3
+    Peng Haitao
+        Modify thread-safety information
+
+inet.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread safe with exceptions
+            The functions inet_aton() and inet_addr() are thread safe with
+            exceptions.
+            The functions inet_network(), inet_ntoa(), inet_makeaddr(),
+            inet_lnaof() and inet_netof() are thread safe.
+        Modify thread-safety information
+            After researching and talking, we think inet_network() and
+            inet_ntoa() should be marked with locale.
+            After changing, the markings match glbc markings.
+
+inet_pton.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function inet_pton() is thread safe with exceptions.
+
+iswdigit.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswdigit() is thread safe with exceptions.
+
+iswgraph.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswgraph() is thread safe with exceptions.
+
+iswlower.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswlower() is thread safe with exceptions.
+
+iswprint.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswprint() is thread safe with exceptions.
+
+iswpunct.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswpunct() is thread safe with exceptions.
+
+iswspace.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswspace() is thread safe with exceptions.
+
+iswupper.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswupper() is thread safe with exceptions.
+
+iswxdigit.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function iswxdigit() is thread safe with exceptions.
+
+j0.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function j0(), j1f() jnl() and so on are thread safe.
+
+lio_listio.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+log10.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function log10(), log10f() and log10l() are thread safe.
+
+log2.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function log2(), log2f() and log2l() are thread safe.
+
+log.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function log(), logf() and logl() are thread safe.
+
+makecontext.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+makedev.3
+    Peng Haitao
+        ATTRIBUTES: Note macros that are thread-safe
+            The macros makedev(), major() and minor() are thread safe.
+
+malloc.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function malloc(), free(), calloc() and realloc() are
+            thread safe.
+
+mblen.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+mbstowcs.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+mbtowc.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is not thread-safe
+            The function mbtowc() is not thread safe.
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+mktemp.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function mktemp() is thread safe.
+
+mtrace.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are not thread-safe
+            The functions mtrace() and muntrace() are not thread safe.
+
+nan.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The markings match glibc markings.
+
+nl_langinfo.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function nl_langinfo() is thread safe with exceptions.
+
+opendir.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The markings match glibc markings.
+
+pow10.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function pow10(), pow10f() and pow10l() are thread safe.
+
+pow.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function pow(), powf() and powl() are thread safe.
+
+pthread_setcancelstate.3
+    Michael Kerrisk
+        Add async-signal-safety information
+
+ptsname.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+putenv.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-unsafe
+            The function putenv() is thread unsafe.
+
+puts.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions fputc(), fputs(), putc(), putchar() and puts() are
+            thread safe.
+
+putwchar.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+qecvt.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be same as glibc manual.
+
+rand.3
+    Peng Haitao
+        ATTRIBUTES: Note macros that are thread-safe
+            The functions rand(), rand_r() and srand() are thread safe.
+
+random_r.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+readdir.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be same as glibc manual.
+
+realpath.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+regex.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread safe with exceptions
+            The functions regcomp() and regexec() are thread safe with
+            exceptions.
+            The functions regerror() and regfree() are thread safe.
+
+remainder.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The markings match glibc markings.
+
+scalb.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function scalb(), scalbf() and scalbl() are thread safe.
+
+setenv.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-unsafe
+            The function setenv() and unsetenv() are thread unsafe.
+
+siginterrupt.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+sigset.3
+    Peng Haitao
+        ATTRIBUTES: Note macros that are thread-safe
+            The functions sigset(), sighold(), sigrelse() and sigignore()
+            are thread safe.
+
+sinh.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function sinh(), sinhf() and sinhl() are thread safe.
+
+sqrt.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function sqrt(), sqrtf() and sqrtl() are thread safe.
+
+stdarg.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+stdio_ext.3
+    Ma Shimiao
+        Modify thread-safety information
+            Change the thread safety information to be the same as glibc.
+
+strcasecmp.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread safe with exceptions
+            The functions strcasecmp() and strncasecmp() are thread safe
+            with exceptions.
+
+strerror.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+strfmon.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+strfry.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function strfry() is thread safe.
+
+strftime.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function strftime() is thread safe with exceptions.
+
+strptime.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function strptime() is thread safe with exceptions.
+
+strtok.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+strverscmp.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function strverscmp() is thread safe.
+
+strxfrm.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            The marking matches glibc marking.
+
+syslog.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread safe with exceptions
+            The functions openlog() and closelog() are thread safe.
+            The functions syslog() and vsyslog() are thread safe with
+            exceptions.
+
+tempnam.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread-safe
+            The function tempnam() is thread safe.
+
+termios.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+    Ma Shimiao
+        Modify thread-safety information
+            As this is man page for Linux, we don't need thread safety
+            information for bsd
+
+tgamma.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions tgamma(), tgammaf() and tgammal() in glibc are
+            thread safe.  Its markings match glibc markings.
+
+timegm.3
+    Peng Haitao
+        ATTRIBUTES: Note functions that are thread safe with exceptions
+            The functions timelocal() and timegm() are thread safe with
+            exceptions.
+
+tmpfile.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its markings match glibc markings.
+
+tmpnam.3
+    Peng Haitao
+        Modify thread-safety information
+            When the argument s is NULL, tmpnam() should be MT-Unsafe.
+
+toupper.3
+    Ma Shimiao
+        Modify thread-safety information
+            After researching and talking, we think toupper() and tolower()
+            should not be marked with locale.
+            After changing, the markings match glbc markings.
+
+tsearch.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The functions' markings match glibc markings.
+
+ttyname.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be same as glibc manual.
+
+tzset.3
+    Peng Haitao
+        ATTRIBUTES: Note function that is thread safe with exceptions
+            The function tzset() is thread safe with exceptions.
+
+wcsdup.3
+    Ma Shimiao
+        ATTRIBUTES: Note function that is thread-safe
+            Its marking matches glibc marking.
+
+wctomb.3
+    Ma Shimiao
+        Modify thread-safety information
+            As annotation in glibc manual is more detailed, change the
+            thread-safety information to be the same as glibc manual.
+
+y0.3
+    Ma Shimiao
+        ATTRIBUTES: Note functions that are thread-safe
+            The function y0(), y1f() ynl() and so on are thread safe.
+
+man-pages.7
+    Michael Kerrisk
+        Refer reader to attributes(7) for details of ATTRIBUTES section
+    Michael Kerrisk
+        SEE ALSO: add attributes(7)
+
+pthreads.7
+    Michael Kerrisk
+        SEE ALSO: add attributes(7)
+
+standards.7
+    Michael Kerrisk
+        SEE ALSO: add attributes(7)
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
