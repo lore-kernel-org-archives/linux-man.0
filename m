@@ -1,43 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] console_codes.4: Add missing escape sequence
-Date: Tue, 03 Mar 2015 08:11:30 +0100
-Message-ID: <54F55EA2.8020103@gmail.com>
-References: <alpine.LNX.2.11.1502270231140.723@localhost> <54F01D8B.6090501@gmail.com> <alpine.LNX.2.11.1502271409270.274@localhost>
+Subject: Re: Documenting MS_LAZYTIME
+Date: Tue, 03 Mar 2015 08:14:08 +0100
+Message-ID: <54F55F40.6010508@gmail.com>
+References: <CAHO5Pa0k7QkV_6BDjwTVxa7LV9tFyN9nGFFcSvOC6HYO08wfrw@mail.gmail.com> <54E7578E.4090809@redhat.com> <20150221025636.GB7922@thunk.org> <54EEDE23.6080009@gmail.com> <20150226133113.GD11217@thunk.org> <54EF2161.90607@gmail.com> <20150227000409.GC17174@thunk.org> <54F02446.2050008@gmail.com> <20150227175159.GC11031@birch.djwong.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.LNX.2.11.1502271409270.274@localhost>
+In-Reply-To: <20150227175159.GC11031-PTl6brltDGh4DFYR7WNSRA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Darrick J. Wong" <darrick.wong-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>, Eric Sandeen <sandeen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ext4 Developers List <linux-ext4-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux btrfs Developers List <linux-btrfs-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, XFS Developers <xfs-VZNHf3L845pBDgjK7y7TUQ@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux-Fsdevel <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 02/27/2015 03:32 PM, Scot Doyle wrote:
-> On Fri, 27 Feb 2015, Michael Kerrisk (man-pages) wrote:
->> Hello Scott,
+On 02/27/2015 06:51 PM, Darrick J. Wong wrote:
+> On Fri, Feb 27, 2015 at 09:01:10AM +0100, Michael Kerrisk (man-pages) wrote:
+>> On 02/27/2015 01:04 AM, Theodore Ts'o wrote:
+>>> On Thu, Feb 26, 2015 at 02:36:33PM +0100, Michael Kerrisk (man-pages) wrote:
+>>>>
+>>>>     The disadvantage of MS_STRICTATIME | MS_LAZYTIME is that
+>>>>     in the case of a system crash, the atime and mtime fields
+>>>>     on disk might be out of date by at most 24 hours.
+>>>
+>>> I'd change to "The disadvantage of MS_LAZYTIME is that..."  and
+>>> perhaps move that so it's clear it applies to any use of MS_LAZYTIME
+>>> has this as a downside.
+>>>
+>>> Does that make sense?
 >>
->> On 02/27/2015 03:35 AM, Scot Doyle wrote:
->>> An undocumented escape sequence in drivers/tty/vt/vt.c brings the
->>> previously accessed virtual terminal to the foreground.
+>> Thanks, Ted. Got it. So, now we have:
 >>
->> Thanks. Applied. Looks like this sequence appeared with ~2.6.0 or so.
->> Do you know if this is so?
->>
->> Cheers,
->>
->> Michael
+>>        MS_LAZYTIME (since Linux 3.20)
 > 
-> "git log -p -- drivers/char/vt.c" shows that it's included in the initial 
-> 2005 git commit. Is there an easier way to view early kernel history than 
-> digging through kernel tarballs?
+> "since Linux 4.0".
 
-Tarballs is what I use in such cases... (And what I did in this case...)
+D'oh! Yes, thanks. Fixed.
 
 Cheers,
 
 Michael
-
 
 
 -- 
