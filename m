@@ -1,49 +1,42 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mq_open.3: Add EINVAL error case for invalid name.
-Date: Tue, 03 Mar 2015 08:27:47 +0100
-Message-ID: <54F56273.1050202@gmail.com>
-References: <20150228090402.GA23727@lira.corp.xrtc.net>
+Subject: Re: [PATCH] ecvt_r.3: tfix
+Date: Tue, 03 Mar 2015 08:29:21 +0100
+Message-ID: <54F562D1.8040708@gmail.com>
+References: <1425117558-7642-1-git-send-email-yuray@komyakino.ru>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150228090402.GA23727-LZG+QLMPa+1K62Tw8EOquqxOck334EZe@public.gmane.org>
+In-Reply-To: <1425117558-7642-1-git-send-email-yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Duncan Smith <Duncan-QHpCrFqKTQg@public.gmane.org>
+To: Yuri Kozlov <yuray-YPGtXv8QU+00kPtPmH8OGQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 02/28/2015 10:04 AM, Duncan Smith wrote:
-> This behavior is implementation-defined by POSIX.  If the name doesn't
-> start with a '/', glibc returns EINVAL without attempting the syscall.
-
-Thanks, Duncan. Applied.
+Thanks, Yuri. Applied.
 
 Cheers,
 
 Michael
 
-
+On 02/28/2015 10:59 AM, Yuri Kozlov wrote:
 > ---
->  man3/mq_open.3 | 5 +++++
->  1 file changed, 5 insertions(+)
+>  man3/ecvt_r.3 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/mq_open.3 b/man3/mq_open.3
-> index e5f74d4..243aca0 100644
-> --- a/man3/mq_open.3
-> +++ b/man3/mq_open.3
-> @@ -168,6 +168,11 @@ but a queue with this
->  already exists.
->  .TP
->  .B EINVAL
-> +.I name
-> +doesn't follow the format in
-> +.BR mq_overview (7).
-> +.TP
-> +.B EINVAL
->  .B O_CREAT
->  was specified in
->  .IR oflag ,
+> diff --git a/man3/ecvt_r.3 b/man3/ecvt_r.3
+> index 2f31e61..17c7a95 100644
+> --- a/man3/ecvt_r.3
+> +++ b/man3/ecvt_r.3
+> @@ -85,7 +85,7 @@ and
+>  .BR qecvt (3).
+>  .SH RETURN VALUE
+>  These functions return 0 on success, and \-1 otherwise.
+> -+.SH ATTRIBUTES
+> +.SH ATTRIBUTES
+>  For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+>  .TS
 > 
 
 
