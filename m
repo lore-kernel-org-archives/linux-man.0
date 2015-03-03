@@ -1,7 +1,7 @@
 From: saulery-GANU6spQydw@public.gmane.org
-Subject: filesystems.5: wfix
-Date: Tue,  3 Mar 2015 22:21:15 +0100
-Message-ID: <1425417676-13816-5-git-send-email-saulery@free.fr>
+Subject: filesystems.5: Specifies the scope of this list and its limits.
+Date: Tue,  3 Mar 2015 22:21:16 +0100
+Message-ID: <1425417676-13816-6-git-send-email-saulery@free.fr>
 References: <1425417676-13816-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,37 +15,27 @@ List-Id: linux-man@vger.kernel.org
 
 =46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-XIA filesystem Linux module name is xiafs
-
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man5/filesystems.5 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man5/filesystems.5 | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/man5/filesystems.5 b/man5/filesystems.5
-index f6ee334..dd9101a 100644
+index dd9101a..040d2bd 100644
 --- a/man5/filesystems.5
 +++ b/man5/filesystems.5
-@@ -28,7 +28,7 @@
- .SH NAME
- filesystems \- Linux filesystem types: ext, ext2, ext3, ext4, hpfs, is=
-o9660,
- jfs, minix, msdos, ncpfs, nfs, ntfs, proc, reiserfs, smb, sysv, umsdos=
-, vfat,
--xfs, xia
-+xfs, xiafs
- .SH DESCRIPTION
- When, as is customary, the
- .B proc
-@@ -199,7 +199,7 @@ extending the Minix filesystem code.
- It provides the basic most
- requested features without undue complexity.
- The
--.B xia
-+.B xiafs
- filesystem is no longer actively developed or maintained.
- It was removed from the kernel in 2.1.21.
- .SH SEE ALSO
+@@ -48,7 +48,9 @@ In order to use a filesystem, you have to
+ it; see
+ .BR mount (8).
+=20
+-Below a short description of a few of the available filesystems.
++Below a short description of the available or historically available
++filesystems in Linux kernel. See kernel documentation for a comprehens=
+ive
++description of all options and limitations.
+ .TP 10
+ .B ext
+ is an elaborate extension of the
 --=20
 2.1.4
 
