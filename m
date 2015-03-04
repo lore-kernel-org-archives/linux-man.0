@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] popen.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 4 Mar 2015 11:09:48 +0800
-Message-ID: <1425438588-14242-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] wctob.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 4 Mar 2015 13:21:38 +0800
+Message-ID: <1425446498-15698-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,34 +14,33 @@ The marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/popen.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ man3/wctob.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/popen.3 b/man3/popen.3
-index 87d7c1f..f511810 100644
---- a/man3/popen.3
-+++ b/man3/popen.3
-@@ -169,6 +169,20 @@ cannot obtain the child status,
- .I errno
- is set to
- .BR ECHILD .
+diff --git a/man3/wctob.3 b/man3/wctob.3
+index 89a3d1f..e7b0f5a 100644
+--- a/man3/wctob.3
++++ b/man3/wctob.3
+@@ -47,6 +47,19 @@ function returns the single-byte representation of
+ if it exists, of
+ .B EOF
+ otherwise.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw17 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR popen (),
-+.BR pclose ()
++.BR wctob ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001.
- 
+ C99.
+ .SH NOTES
 -- 
 2.1.0
 
