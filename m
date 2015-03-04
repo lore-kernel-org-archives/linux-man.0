@@ -1,49 +1,42 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcstombs.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 4 Mar 2015 13:26:46 +0800
-Message-ID: <1425446806-15836-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] filesystems.5: original patch reworked
+Date: Wed, 04 Mar 2015 06:42:57 +0100
+Message-ID: <54F69B61.2060508@gmail.com>
+References: <1425417676-13816-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1425417676-13816-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+To: saulery-GANU6spQydw@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
+On 03/03/2015 10:21 PM, saulery-GANU6spQydw@public.gmane.org wrote:
+> Hello Michael,
+>=20
+> I reworked my original patch without including new file systems, pend=
+ing your
+> opinion about my previous email.
 
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/wcstombs.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Hi St=E9phane,
 
-diff --git a/man3/wcstombs.3 b/man3/wcstombs.3
-index 60efef1..ff37eaf 100644
---- a/man3/wcstombs.3
-+++ b/man3/wcstombs.3
-@@ -86,6 +86,19 @@ If a wide character was encountered which could not be
- converted,
- .I (size_t)\ \-1
- is returned.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR wcstombs ()
-+T}	Thread safety	MT-Safe
-+.TE
-+
- .SH CONFORMING TO
- C99.
- .SH NOTES
--- 
-2.1.0
+Something is wrong. None of these filesystems.5 patches apply to master=
+=2E
+Also, if these patches need to be applied in order (I'm not sure if the=
+y
+do), it would be best to number them "[patch 1/5]" etc.
 
+Cheers,
+
+Michael
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
