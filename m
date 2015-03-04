@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wctob.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 4 Mar 2015 13:21:38 +0800
-Message-ID: <1425446498-15698-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] wcstombs.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 4 Mar 2015 13:26:46 +0800
+Message-ID: <1425446806-15836-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,17 +14,17 @@ The marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wctob.3 | 13 +++++++++++++
+ man3/wcstombs.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/wctob.3 b/man3/wctob.3
-index 89a3d1f..e7b0f5a 100644
---- a/man3/wctob.3
-+++ b/man3/wctob.3
-@@ -47,6 +47,19 @@ function returns the single-byte representation of
- if it exists, of
- .B EOF
- otherwise.
+diff --git a/man3/wcstombs.3 b/man3/wcstombs.3
+index 60efef1..ff37eaf 100644
+--- a/man3/wcstombs.3
++++ b/man3/wcstombs.3
+@@ -86,6 +86,19 @@ If a wide character was encountered which could not be
+ converted,
+ .I (size_t)\ \-1
+ is returned.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -34,7 +34,7 @@ index 89a3d1f..e7b0f5a 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR wctob ()
++.BR wcstombs ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
