@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] wctob.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 04 Mar 2015 07:06:24 +0100
-Message-ID: <54F6A0E0.2060602@gmail.com>
-References: <1425446498-15698-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] wcstombs.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 04 Mar 2015 07:06:44 +0100
+Message-ID: <54F6A0F4.7000002@gmail.com>
+References: <1425446806-15836-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425446498-15698-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1425446806-15836-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/04/2015 06:21 AM, Ma Shimiao wrote:
+On 03/04/2015 06:26 AM, Ma Shimiao wrote:
 > The marking matches glibc marking.
 
 
@@ -26,17 +26,17 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/wctob.3 | 13 +++++++++++++
+>  man3/wcstombs.3 | 13 +++++++++++++
 >  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/wctob.3 b/man3/wctob.3
-> index 89a3d1f..e7b0f5a 100644
-> --- a/man3/wctob.3
-> +++ b/man3/wctob.3
-> @@ -47,6 +47,19 @@ function returns the single-byte representation of
->  if it exists, of
->  .B EOF
->  otherwise.
+> diff --git a/man3/wcstombs.3 b/man3/wcstombs.3
+> index 60efef1..ff37eaf 100644
+> --- a/man3/wcstombs.3
+> +++ b/man3/wcstombs.3
+> @@ -86,6 +86,19 @@ If a wide character was encountered which could not be
+>  converted,
+>  .I (size_t)\ \-1
+>  is returned.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -46,7 +46,7 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR wctob ()
+> +.BR wcstombs ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
