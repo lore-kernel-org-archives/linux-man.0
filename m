@@ -1,114 +1,181 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 94271] New: fcntl.2 and pipe.7 need to say more about use of
- O_ASYNC
-Date: Wed, 04 Mar 2015 16:06:22 +0000
-Message-ID: <bug-94271-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org
+Subject: [PATCH v2] msgop.2: add an example program
+Date: Wed,  4 Mar 2015 20:31:03 -0500
+Message-ID: <1425519063-23013-1-git-send-email-wfp5p@worldbroken.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=94271
+From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 
-            Bug ID: 94271
-           Summary: fcntl.2 and pipe.7 need to say more about use of
-                    O_ASYNC
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+---
+ man2/msgop.2 | 140 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 138 insertions(+), 2 deletions(-)
 
-Created attachment 169011
-  --> https://bugzilla.kernel.org/attachment.cgi?id=169011&action=edit
-program that demonstrates the problem.
-
-This problem lost me a couple of hours debugging today, 
-so I thought I should report it so that others do not waste time.
-It is correct, but not entirely sufficient, to say in pipe.7 :
-"
-   Setting the O_ASYNC flag for the read end of a pipe causes a signal 
-   (SIGIO by  default)  to  be  generated when  new  input becomes available 
-   on the pipe (see fcntl(2) for details)
-"
-and in fcntl.2:
-"  If you set the O_ASYNC status flag on a file descriptor by using the F_SETFL 
-   command of fcntl(),  a SIGIO  signal  is sent whenever input or output
-   becomes possible on that file descriptor.
-" 
-In fact, unless you have used :
-  fnctl(fd, F_SETOWN, getpid());
-for the fd that you have set the O_ASYNC flag for, no SIGIO signals are ever
-sent.
-Please could those lines be modified to say something like :
-pipe.7 :
-"
-   Setting the O_ASYNC flag for the read end of a pipe causes a signal 
-   (SIGIO by  default)  to  be  generated when  new  input becomes available 
-   on the pipe (see fcntl(2) for details), and you have set the receiver of 
-   the signal with fcntl(2)'s F_SETOWN command. No signal will be sent for
-   an FD when new input becomes available unless both the O_ASYNC flag has
-   been set and the receiver of the signal has been set with F_SETOWN.
-"
-fnctl.2:
-'     F_SETOWN (int)
-      ...
-             If you set the O_ASYNC status flag on a file descriptor by using
-             the F_SETFL command of fcntl(),  a  SIGIO signal  is sent 
-             whenever input or output becomes possible on that file descriptor,
-             if and only if the fnctl F_SETOWN command has also been issued 
-             for that file descriptor.
-'
-There was nothing in the pipe.7 manual page or in the fcntl.2 manual page 
-to say that without calling fcntl(fd, F_SETOWN, getpid()), no IO signals are
-ever sent for that fd.  
-I had expected that in the absence of a fcntl(fd, F_SETOWN, getpid()) call, the
-default receiver of IO signals would be the process that issued the 
-  fcntl(fd, F_SETFL, O_ASYNC)
-or which did
-  fd = open(... O_ASYNC ...) ;
-This is illustrated by the attached test program .
-Compiling the program with no -D flags allows it to wait for new input
-to become available on its input pipe :
-   $ gcc -o -std=gnu99 pio pio.c
-   $ mkfifo /tmp/p.in /tmp/p.out
-   $ ./pio </tmp/p.in >/tmp/p.out &
-   [7] 10059
-   $ echo 'line1' > /tmp/p.out ; read line </tmp/p.in; echo "$line";
-   read nothing - waiting for SIGIO signal
-   read: line1
-   $ echo 'line2' >/tmp/p.in; read line < /tmp/p.out; echo "$line"
-   read nothing - waiting for SIGIO signal
-   read: line2
-But if the program is compiled with -DNO_SETOWN flag, preventing it from
-issuing the
-   fcntl(0, F_SETOWN, getpid());
-call:
-   $ gcc -std=gnu99 -DNO_SETOWN -o pio pio.c
-   $ ./pio </tmp/p.in >/tmp/p.out &
-   [7] 10135
-   $ echo 'line1' >/tmp/p.in; read line < /tmp/p.out; echo "$line"
-   read nothing - waiting for SIGIO signal
-   read: line1
-   $ echo 'line2' >/tmp/p.in; read line < /tmp/p.out; echo "$line"
-   ^C
-Now it just hangs because it never gets a SIGIO signal.
-It is very difficult to write a program to use named fifos for input and output
-unless one appreciates that one must call fcntl(fd,F_SETOWN,getpid()) -
-please document this fact.
-
+diff --git a/man2/msgop.2 b/man2/msgop.2
+index d1bd2125344d..2546d241e960 100644
+--- a/man2/msgop.2
++++ b/man2/msgop.2
+@@ -36,8 +36,6 @@
+ .\"	Language and formatting clean-ups
+ .\"	Added notes on /proc files
+ .\"
+-.\" FIXME Add example programs to this page.
+-.\"
+ .TH MSGOP 2 2015-02-21 "Linux" "Linux Programmer's Manual"
+ .SH NAME
+ msgrcv, msgsnd \- System V message queue operations
+@@ -578,6 +576,144 @@ this error was not diagnosed by
+ This bug is fixed
+ .\" commit 4f87dac386cc43d5525da7a939d4b4e7edbea22c
+ in Linux 3.14.
++.SH EXAMPLE
++The program below demonstrates the use of
++.BR msgsnd ()
++and
++.BR msgrcv ().
++
++The example program is first run with the \fB\-s\fP option to send a
++message and then run again with the \fB-r\fP option to receive a
++message.
++
++The following shell session shows a sample run of the program:
++.in +4n
++.nf
++
++.RB "$" " ./a.out \-s"
++sent: a message at Wed Mar  4 16:25:45 2015
++
++.RB "$" " ./a.out \-r"
++message received: a message at Wed Mar  4 16:25:45 2015
++
++.fi
++.in
++.SS Program source
++\&
++.nf
++/* msgop.c */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <time.h>
++#include <unistd.h>
++#include <errno.h>
++#include <sys/types.h>
++#include <sys/ipc.h>
++#include <sys/msg.h>
++
++struct msgbuf {
++    long mtype;
++    char mtext[80];
++};
++
++static void
++usage(char *prog_name, char *msg)
++{
++    if (msg != NULL)
++        fputs(msg, stderr);
++
++    fprintf(stderr, "Usage: %s [options]\\n", prog_name);
++    fprintf(stderr, "Options are:\\n");
++    fprintf(stderr, "\-s        send message using msgsnd()\\n");
++    fprintf(stderr, "\-r        read message using msgrcv()\\n");
++    fprintf(stderr, "\-t        message type (default is 1)\\n");
++    fprintf(stderr, "\-k        message queue key (default is 1234)\\n");
++    exit(EXIT_FAILURE);
++}
++
++static void
++send_msg(int qid, int msgtype)
++{
++    struct msgbuf msg;
++    time_t t;
++
++    msg.mtype = msgtype;
++
++    time(&t);
++    snprintf(msg.mtext, sizeof(msg.mtext), "a message at %s", ctime(&t));
++
++    if (msgsnd(qid, (void *) &msg, sizeof(msg.mtext), IPC_NOWAIT) == \-1) {
++        perror("msgsnd error");
++        exit(EXIT_FAILURE);
++    }
++    printf("sent: %s\\n", msg.mtext);
++}
++
++static void
++get_msg(int qid, int msgtype)
++{
++    struct msgbuf msg;
++
++    if (msgrcv(qid, (void *) &msg, sizeof(msg.mtext), msgtype,
++               MSG_NOERROR | IPC_NOWAIT) == \-1) {
++        if (errno != ENOMSG) {
++            perror("msgrcv");
++            exit(EXIT_FAILURE);
++        }
++        printf("No message available for msgrcv()\\n");
++    } else
++        printf("message received: %s\\n", msg.mtext);
++}
++
++int
++main(int argc, char *argv[])
++{
++    int qid, opt;
++    int mode = 0;               /* 1 = send, 2 = receive */
++    int msgtype = 1;
++    int msgkey = 1234;
++
++    while ((opt = getopt(argc, argv, "srt:k:")) != \-1) {
++        switch (opt) {
++        case \(aqs\(aq:
++            mode = 1;
++            break;
++        case \(aqr\(aq:
++            mode = 2;
++            break;
++        case \(aqt\(aq:
++            msgtype = atoi(optarg);
++            if (msgtype <= 0)
++                usage(argv[0], "\-t option must be greater than 0\\n");
++            break;
++        case \(aqk\(aq:
++            msgkey = atoi(optarg);
++            break;
++        default:
++            usage(argv[0], "Unrecognized option\\n");
++        }
++    }
++
++    if (mode == 0)
++        usage(argv[0], "must use either \-s or \-r option\\n");
++
++    qid = msgget(msgkey, IPC_CREAT | 0666);
++
++    if (qid == \-1) {
++        perror("msgget");
++        exit(EXIT_FAILURE);
++    }
++
++    if (mode == 2)
++        get_msg(qid, msgtype);
++    else
++        send_msg(qid, msgtype);
++
++    exit(EXIT_SUCCESS);
++}
++.fi
+ .SH SEE ALSO
+ .BR msgctl (2),
+ .BR msgget (2),
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.1.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
