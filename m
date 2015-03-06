@@ -1,7 +1,7 @@
 From: saulery-GANU6spQydw@public.gmane.org
-Subject: [PATCH 6/6] filesystems.5: Specifies the scope of this list and its limits.
-Date: Fri,  6 Mar 2015 13:11:21 +0100
-Message-ID: <1425643881-6581-7-git-send-email-saulery@free.fr>
+Subject: [PATCH 4/6] filesystems.5: ffix
+Date: Fri,  6 Mar 2015 13:11:19 +0100
+Message-ID: <1425643881-6581-5-git-send-email-saulery@free.fr>
 References: <1425643881-6581-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,27 +15,51 @@ List-Id: linux-man@vger.kernel.org
 
 =46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
+Highlight all file systems citations
+
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man5/filesystems.5 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ man5/filesystems.5 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/man5/filesystems.5 b/man5/filesystems.5
-index 2380a00..37bff37 100644
+index 5638d49..cc43b71 100644
 --- a/man5/filesystems.5
 +++ b/man5/filesystems.5
-@@ -48,7 +48,9 @@ In order to use a filesystem, you have to
- it; see
- .BR mount (8).
-=20
--Below a short description of a few of the available filesystems.
-+Below a short description of the available or historically available
-+filesystems in Linux kernel. See kernel documentation for a comprehens=
-ive
-+description of all options and limitations.
- .TP 10
- .B minix
- is the filesystem used in the Minix operating system, the first to run
+@@ -77,12 +77,17 @@ offers the best performance (in terms of speed and =
+CPU usage) of
+ the filesystems supported under Linux.
+ .TP
+ .B ext3
+-is a journaling version of the ext2 filesystem.
++is a journaling version of the
++.B ext2
++filesystem.
+ It is easy to
+-switch back and forth between ext2 and ext3.
++switch back and forth between
++.BR=C2=A0ext2 " and " ext3 .
+ .TP
+ .B ext4
+-is a set of upgrades to ext3 including substantial performance and
++is a set of upgrades to
++.B ext3
++including substantial performance and
+ reliability enhancements,
+ plus large increases in volume, file, and directory size limits.
+ .TP
+@@ -123,7 +128,8 @@ sacrificing compatibility with DOS.
+ .TP
+ .B vfat
+ is an extended DOS filesystem used by Microsoft Windows95 and Windows =
+NT.
+-vfat adds the capability to use long filenames under the MSDOS filesys=
+tem.
++.B vfat
++adds the capability to use long filenames under the MSDOS filesystem.
+ .TP
+ .B ntfs
+ replaces Microsoft Window's FAT filesystems (VFAT, FAT32).
 --=20
 2.1.4
 
