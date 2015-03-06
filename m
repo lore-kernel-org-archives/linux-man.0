@@ -1,19 +1,19 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 4/6] filesystems.5: ffix
-Date: Fri, 06 Mar 2015 14:45:14 +0100
-Message-ID: <54F9AF6A.3030402@gmail.com>
-References: <1425643881-6581-1-git-send-email-saulery@free.fr> <1425643881-6581-5-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH 2/6] intro.1: Add cross references cited
+Date: Fri, 06 Mar 2015 14:46:42 +0100
+Message-ID: <54F9AFC2.3070607@gmail.com>
+References: <1425646053-7294-1-git-send-email-saulery@free.fr> <1425646053-7294-2-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425643881-6581-5-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425646053-7294-2-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: saulery-GANU6spQydw@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/06/2015 01:11 PM, saulery-GANU6spQydw@public.gmane.org wrote:
+On 03/06/2015 01:47 PM, saulery-GANU6spQydw@public.gmane.org wrote:
 > From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
 
@@ -24,52 +24,31 @@ Cheers,
 Michael
 
 
-> Highlight all file systems citations
->=20
 > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 > ---
->  man5/filesystems.5 | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
+>  man1/intro.1 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 >=20
-> diff --git a/man5/filesystems.5 b/man5/filesystems.5
-> index 5638d49..cc43b71 100644
-> --- a/man5/filesystems.5
-> +++ b/man5/filesystems.5
-> @@ -77,12 +77,17 @@ offers the best performance (in terms of speed an=
-d CPU usage) of
->  the filesystems supported under Linux.
->  .TP
->  .B ext3
-> -is a journaling version of the ext2 filesystem.
-> +is a journaling version of the
-> +.B ext2
-> +filesystem.
->  It is easy to
-> -switch back and forth between ext2 and ext3.
-> +switch back and forth between
-> +.BR ext2 " and " ext3 .
->  .TP
->  .B ext4
-> -is a set of upgrades to ext3 including substantial performance and
-> +is a set of upgrades to
-> +.B ext3
-> +including substantial performance and
->  reliability enhancements,
->  plus large increases in volume, file, and directory size limits.
->  .TP
-> @@ -123,7 +128,8 @@ sacrificing compatibility with DOS.
->  .TP
->  .B vfat
->  is an extended DOS filesystem used by Microsoft Windows95 and Window=
-s NT.
-> -vfat adds the capability to use long filenames under the MSDOS files=
-ystem.
-> +.B vfat
-> +adds the capability to use long filenames under the MSDOS filesystem=
-=2E
->  .TP
->  .B ntfs
->  replaces Microsoft Window's FAT filesystems (VFAT, FAT32).
+> diff --git a/man1/intro.1 b/man1/intro.1
+> index c554884..0caa0c4 100644
+> --- a/man1/intro.1
+> +++ b/man1/intro.1
+> @@ -300,4 +300,15 @@ and use a browser if you find HTML files there.
+>  .\" Actual examples? Separate section for each of cat, cp, ...?
+>  .\" gzip, bzip2, tar, rpm
+>  .SH SEE ALSO
+> +.BR ash (1),
+> +.BR bash (1),
+> +.BR chsh (1),
+> +.BR csh (1),
+> +.BR locate (1),
+> +.BR login (1),
+> +.BR man (1),
+> +.BR xterm (1),
+> +.BR zsh(1),
+> +.BR wait (2),
+> +.BR man-pages (7),
+>  .BR standards (7)
 >=20
 
 
