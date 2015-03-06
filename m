@@ -1,73 +1,63 @@
-From: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>
-Subject: Re: Documenting RENAME_WHITEOUT
-Date: Sat, 7 Mar 2015 08:44:57 +1100
-Message-ID: <20150306214457.GC13958@dastard>
-References: <CAKgNAkiog0S5kHYNb_4+d2ZXcA-nPw-cBsuNG03AyEPt3K34nw@mail.gmail.com>
- <20150306161145.GA13649@tucsk.suse.de>
+From: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>
+Subject: Re: [patch] perf_event_open.2: 3.19 PERF_SAMPLE_REGS_INTR support
+Date: Sat, 7 Mar 2015 00:05:56 +0100
+Message-ID: <20150306230556.GN823@two.firstfloor.org>
+References: <alpine.DEB.2.11.1502120031150.17793@vincent-weaver-1.umelst.maine.edu>
+ <20150228222605.GA13177@krava.redhat.com>
+ <CABPqkBQQ3JZp_BdwRJDEGpyqrchixfGG_1Lqh88HJtzXWOGE7Q@mail.gmail.com>
+ <alpine.DEB.2.11.1503021425220.17687@vincent-weaver-1.umelst.maine.edu>
+ <CABPqkBTc=_8=nRfYpZwZ4eKbpWLnBuy_4aWoTrPupWGu=oK+jg@mail.gmail.com>
+ <alpine.DEB.2.11.1503021617260.17687@vincent-weaver-1.umelst.maine.edu>
+ <CABPqkBSpDg08CTAzknjGpYtHw4QDRFA89SDBcE-5TS9ed1aqAA@mail.gmail.com>
+ <alpine.DEB.2.11.1503021721090.20187@vincent-weaver-1.umelst.maine.edu>
+ <20150302225807.GJ823@two.firstfloor.org>
+ <alpine.DEB.2.11.1503061332150.25334@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <20150306161145.GA13649-YynjPCA0bi1olqkO4TVVkw@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1503061332150.25334-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: Andi Kleen <andi-Vw/NltI1exuRpAAqCnN02g@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Chuck Ebbert <cebbert.lkml-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Mar 06, 2015 at 05:11:45PM +0100, Miklos Szeredi wrote:
-> On Thu, Jan 29, 2015 at 11:01:08AM +0100, Michael Kerrisk (man-pages) wrote:
-> > Hi Miklos,
-> > 
-> > I just noticed that your RENAME_WHITEOUT flag went into Linux 3.18:
-> > commit 0d7a855526dd672e114aff2ac22b60fc6f155b08
-> > commit 787fb6bc9682ec7c05fb5d9561b57100fbc1cc41
-> > 
-> > Would you be willing to write some text for the rename(2)/renameat2(2)
-> > man page that described this flag. In that text it would be great to
-> > have an explanation of what a whiteout is and why they are useful.
+> so if the sample_type has *both* PERF_SAMPLE_REGS_INTR and
+> PERF_SAMPLE_REGS_USER set, then the PERF_SAMPLE_REGS_USER values
+> will have the same register values as the PERF_SAMPLE_REGS_INTR values.
 > 
-> Hi Michael,
-> 
-> Sorry for the delay...
-> 
->   RENAME_WHITEOUT is a special operation, that only makes sense for
->   overlay/union type filesystem implementations.  Currently it is used
->   internally by the overlay filesystem.
 
-However, it is exposed to userspace by renameat2, and filesystem
-developers still need to know it's exact semantics documented so
-they can implement it.
+It ultimatively calls this code:
 
->   Specifying RENAME_WHITEOUT will create a "whiteout" object at the source of
->   the rename at the same time as performing the rename.  The whole operation is
->   still atomic, so if the rename succeeds then the whiteout will also have been
->   created.
-> 
->   A "whiteout" is an object that has special meaning in union/overlay type file
->   system constructs, in these constructs multiple layers exists and only the top
->   one is ever modified.  A whiteout on an upper layer will effectively hide the
->   matching file on the lower layer, making it appear if the file didn't exist.
-> 
->   When a file that exists on the lower layer is renamed, the file is first
->   copied up (if not already on the upper layer) and then renamed on the upper,
->   read-write layer.  At the same time the source file needs to be "whiteouted".
->   The whole operation needs to be done atomically.
+static void perf_sample_regs_user(struct perf_regs *regs_user,
+                                  struct pt_regs *regs,
+                                  struct pt_regs *regs_user_copy)
+{
+        if (user_mode(regs)) {
+                regs_user->abi = perf_reg_abi(current);
+                regs_user->regs = regs;
+        } else if (current->mm) {
+                perf_get_regs_user(regs_user, regs, regs_user_copy);
+        } else {
+                regs_user->abi = PERF_SAMPLE_REGS_ABI_NONE;
+                regs_user->regs = NULL;
+        }
+}
 
-This doesn't explain exactly what the RENAME_WHITEOUT operation is
-supposed to do. It explains how overlayfs uses them, not the
-semantics and behaviour of RENAME_WHITEOUT. e.g. source
-restrictions, target restrictions, can you RENAME_WHITEOUT over
-another whiteout, etc. I've noticed these restrictions are very
-different from other rename operations, but I don't know whether
-that is ext4 implementation bugs or intentional because there is no
-documentation or regression tests in xfstests for it...
+And perf_get_regs_user gets the task pt_regs at the top of the stack.
+So if we interrupted in the kernel it will use that.
 
-Cheers,
+I think the first check handling the user case is bogus however
+(although it will be very rarely wrong). The stack pointer could 
+actually have changed since PEBS was logging 
+the register and the PMI was finally triggered.
 
-Dave.
+It should probably be dropped.
+
+-Andi
+
 -- 
-Dave Chinner
-david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org
+ak-VuQAYsv1563Yd54FQh9/CA@public.gmane.org -- Speaking for myself only.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
