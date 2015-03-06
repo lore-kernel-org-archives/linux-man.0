@@ -1,7 +1,7 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Subject: Re: [patch] filesystems.5: original patch reworked (2)
-Date: Fri, 06 Mar 2015 14:49:27 +0100
-Message-ID: <54F9B067.6010402@gmail.com>
+Date: Fri, 06 Mar 2015 15:01:45 +0100
+Message-ID: <54F9B349.5050206@gmail.com>
 References: <1425643881-6581-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
@@ -16,9 +16,9 @@ List-Id: linux-man@vger.kernel.org
 On 03/06/2015 01:11 PM, saulery-GANU6spQydw@public.gmane.org wrote:
 > The even better separate series, orderly, and numbered. I send the rest later.
 
-Good stuff!. thanks!
+All changes now pushed to the public Git.
 
-Cheers,
+Thanks,
 
 Michael
 
