@@ -1,7 +1,7 @@
 From: saulery-GANU6spQydw@public.gmane.org
-Subject: [PATCH 3/6] filesystems.5: wfix
-Date: Fri,  6 Mar 2015 13:11:18 +0100
-Message-ID: <1425643881-6581-4-git-send-email-saulery@free.fr>
+Subject: [PATCH 1/6] filesystems.5: srcfix
+Date: Fri,  6 Mar 2015 13:11:16 +0100
+Message-ID: <1425643881-6581-2-git-send-email-saulery@free.fr>
 References: <1425643881-6581-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,36 +15,26 @@ List-Id: linux-man@vger.kernel.org
 
 =46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-XIA filesystem Linux module name is xiafs
+Remove useless quotes
 
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man5/filesystems.5 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ man5/filesystems.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/man5/filesystems.5 b/man5/filesystems.5
-index 1d6feed..5638d49 100644
+index 34d2aa1..006408d 100644
 --- a/man5/filesystems.5
 +++ b/man5/filesystems.5
-@@ -27,7 +27,7 @@
- .nh
- .SH NAME
- filesystems \- Linux filesystem types: minix, ext, ext2, ext3, ext4, r=
-eiserfs,
--xfs, jfs, xia, msdos,
-+xfs, jfs, xiafs, msdos,
- umsdos, vfat, ntfs, proc, nfs, iso9660, hpfs, sysv, smb, ncpfs
- .SH DESCRIPTION
- When, as is customary, the
-@@ -104,7 +104,7 @@ extending the Minix filesystem code.
- It provides the basic most
- requested features without undue complexity.
- The
--.B xia
-+.B xiafs
- filesystem is no longer actively developed or maintained.
- It was removed from the kernel in 2.1.21.
- .TP
+@@ -50,7 +50,7 @@ it; see
+=20
+ Below a short description of a few of the available filesystems.
+ .TP 10
+-.B "minix"
++.B minix
+ is the filesystem used in the Minix operating system, the first to run
+ under Linux.
+ It has a number of shortcomings, including a 64MB partition size
 --=20
 2.1.4
 
