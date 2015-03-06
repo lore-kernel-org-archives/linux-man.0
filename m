@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/6] filesystems.5: Add cross references for ext filsystems
-Date: Fri, 06 Mar 2015 14:45:21 +0100
-Message-ID: <54F9AF71.6030408@gmail.com>
-References: <1425643881-6581-1-git-send-email-saulery@free.fr> <1425643881-6581-6-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH 4/6] filesystems.5: ffix
+Date: Fri, 06 Mar 2015 14:45:14 +0100
+Message-ID: <54F9AF6A.3030402@gmail.com>
+References: <1425643881-6581-1-git-send-email-saulery@free.fr> <1425643881-6581-5-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425643881-6581-6-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425643881-6581-5-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: saulery-GANU6spQydw@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -24,49 +24,52 @@ Cheers,
 Michael
 
 
+> Highlight all file systems citations
+>=20
 > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 > ---
->  man5/filesystems.5 | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  man5/filesystems.5 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
 >=20
 > diff --git a/man5/filesystems.5 b/man5/filesystems.5
-> index cc43b71..2380a00 100644
+> index 5638d49..cc43b71 100644
 > --- a/man5/filesystems.5
 > +++ b/man5/filesystems.5
-> @@ -75,6 +75,7 @@ extended filesystem
->  .B ext2
->  offers the best performance (in terms of speed and CPU usage) of
+> @@ -77,12 +77,17 @@ offers the best performance (in terms of speed an=
+d CPU usage) of
 >  the filesystems supported under Linux.
-> +.RB See " ext2 " (5).
 >  .TP
 >  .B ext3
->  is a journaling version of the
-> @@ -83,6 +84,7 @@ filesystem.
+> -is a journaling version of the ext2 filesystem.
+> +is a journaling version of the
+> +.B ext2
+> +filesystem.
 >  It is easy to
->  switch back and forth between
->  .BR ext2 " and " ext3 .
-> +.RB See " ext3 " (5).
+> -switch back and forth between ext2 and ext3.
+> +switch back and forth between
+> +.BR ext2 " and " ext3 .
 >  .TP
 >  .B ext4
->  is a set of upgrades to
-> @@ -90,6 +92,7 @@ is a set of upgrades to
->  including substantial performance and
+> -is a set of upgrades to ext3 including substantial performance and
+> +is a set of upgrades to
+> +.B ext3
+> +including substantial performance and
 >  reliability enhancements,
 >  plus large increases in volume, file, and directory size limits.
-> +.RB See " ext4 " (5).
 >  .TP
->  .B reiserfs
->  is a journaling filesystem, designed by Hans Reiser,
-> @@ -200,6 +203,9 @@ you need special programs, which can be found at
->  .UR ftp://linux01.gwdg.de\:/pub\:/ncpfs
->  .UE .
->  .SH SEE ALSO
-> +.BR ext2 (5),
-> +.BR ext3 (5),
-> +.BR ext4 (5),
->  .BR proc (5),
->  .BR fsck (8),
->  .BR mkfs (8),
+> @@ -123,7 +128,8 @@ sacrificing compatibility with DOS.
+>  .TP
+>  .B vfat
+>  is an extended DOS filesystem used by Microsoft Windows95 and Window=
+s NT.
+> -vfat adds the capability to use long filenames under the MSDOS files=
+ystem.
+> +.B vfat
+> +adds the capability to use long filenames under the MSDOS filesystem=
+=2E
+>  .TP
+>  .B ntfs
+>  replaces Microsoft Window's FAT filesystems (VFAT, FAT32).
 >=20
 
 
