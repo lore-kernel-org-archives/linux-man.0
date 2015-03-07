@@ -1,72 +1,58 @@
-From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Subject: [PATCH] securetty.5: Note that the pam_securetty module also uses this file
-Date: Sat,  7 Mar 2015 17:06:58 +0100
-Message-ID: <1425744418-26003-1-git-send-email-saulery@free.fr>
-References: <20090510105952.GA19341@nekral.nekral.homelinux.net>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: Facilitate sending patch
+Date: Sat, 7 Mar 2015 14:26:59 -0500
+Message-ID: <20150307192659.GI12857@vapier>
+References: <20150307143937.GA23839@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pXLKCnUjo+CxjWTT"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20090510105952.GA19341-pDMkYksm/NDBVznEOA0nCqMXiC8k1aZu0e7PPNI6Mm0@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20150307143937.GA23839-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: 528015-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Debian Bug #528015 reported by "Nicolas FRANCOIS (Nekral)" <nicolas.fra=
-ncois-Fa7rcPG4DJn7nK0/Xc0eeg@public.gmane.org>
 
-See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D528015
+--pXLKCnUjo+CxjWTT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch is a modified version of the one proposed without specific p=
-art to
-Debian.
+On 07 Mar 2015 15:39, St=C3=A9phane Aulery wrote:
+> If it is possible to customize the file .git/config of the main
+> repository, it would be nice to add the following lines to make life
+> easier for (occasional) contributors:
 
-Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
----
- man5/securetty.5 | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+=2Egit/config is a local setting.  it is not possible to have the remote re=
+po push=20
+this to local clones.
+-mike
 
-diff --git a/man5/securetty.5 b/man5/securetty.5
-index 99f6c57..88f9fb6 100644
---- a/man5/securetty.5
-+++ b/man5/securetty.5
-@@ -29,17 +29,26 @@ securetty \- file which lists terminals from which =
-root can log in
- .SH DESCRIPTION
- The file
- .I /etc/securetty
--is used by (some versions of)
--.BR login (1).
--The file contains the device names of terminal lines
-+contains the names of terminals
- (one per line, without leading
- .IR /dev/ )
-+which are considered secure for the transmission of certain authentica=
-tion
-+tokens.
-+.P
-+It is used by (some versions of)
-+.BR login (1)
-+to restrict the terminals
- on which root is allowed to login.
- See
- .BR login.defs (5)
- if you use the shadow suite.
-+.P
-+On PAM enabled systems, it is used for the same purpose by
-+.BR pam_securetty (8)
-+to restrict the terminals on which empty passwords are accepted.
- .SH FILES
- .I /etc/securetty
- .SH SEE ALSO
- .BR login (1),
--.BR login.defs (5)
-+.BR login.defs (5),
-+.BR pam_securetty (8)
---=20
-2.1.4
+--pXLKCnUjo+CxjWTT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJU+1EDAAoJEEFjO5/oN/WBCisP/1Vp0RC5i/FF91bGyF+jrYqo
+J7T7CpyDetLwr4/SYrFyMlTKaLNpkEVtgddGg+L+djjvGyWd/oemEVNRgbaUh2Kb
+Tgo/wtV/FWI9xHn39LRKNdnyDNAyvaME4kVNJV7pkUCcYdWnN6P8qBI00c9VaF59
+JgTa54yrI8UT7dWz5QlRxmykpSY2SSApVFKycp06cKJiu8tTEmyBQ4dnPeaWirhk
+gm7UVweoQui1cksWvwDUtRx8/7t7GsWU72d63NQL9UYxZpg0ktA0PPNQMNyuyFE3
+ULWuK/StVX4dUn3n35FRC8oCx8B2RUgWSTSjqDOPc4fZn2gAocI/IfgYUUmE80Zi
+D7eKL99XjtxO2QvEFxnahYzSC78X/Mnre16D0vbwWcmh2JZoMLfahaVDO1E8i2+h
+l71upQMuX8OFHqHx1MpRvXtK9nstCuawbeenNv2Vb0B7VC1pi7DHmCfeZ2dKY3XD
+SiVaq8hRjnl6IeHs+dinPhJAfvpwmQXgBAyPiVPmW0/ikpIZ0fZ5T4GwcNM8o+Ls
+oltHPo8IpKPh125dLs3AOY5SCD4d6V1rOAHa64pHQOvJBPTNa8SnbRKNbpGef9ZG
+g/fn3O6XZr1PvCNu4I0UZ7ZhGPYOJkk85J1KN3C0WmYX0zIG7bADc/xdLZ9eQ8qQ
+vgDTqZ8992yhZta9vZps
+=mhWW
+-----END PGP SIGNATURE-----
+
+--pXLKCnUjo+CxjWTT--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
