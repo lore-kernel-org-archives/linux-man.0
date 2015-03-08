@@ -1,51 +1,41 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: undocumented man pages
-Date: Sun, 08 Mar 2015 09:08:09 +0100
-Message-ID: <54FC0369.3010705@gmail.com>
-References: <20150307145716.GA24297@free.fr>
+Subject: Re: posix_fadvise(2) typo
+Date: Sun, 08 Mar 2015 09:09:26 +0100
+Message-ID: <54FC03B6.3030807@gmail.com>
+References: <CAPRyNvqVXd9+hn2=-x0DYDyP4rxiGHP9mN4EKjxNt+jXhHeBew@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150307145716.GA24297-GANU6spQydw@public.gmane.org>
+In-Reply-To: <CAPRyNvqVXd9+hn2=-x0DYDyP4rxiGHP9mN4EKjxNt+jXhHeBew-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
+To: Chris Delozier <c.s.delozier-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello St=C3=A9phane,
+On 03/07/2015 02:08 AM, Chris Delozier wrote:
+> http://man7.org/linux/man-pages/man2/posix_fadvise.2.html
+> 
+> Section: Notes
+> 
+> Subsection: Architecture-specific variants
+> 
+> Sentence: "Therefore, these architectures define a version of the
+> system call that orders the arguments suitably, but otherwise is
+> otherwise exactly the same as posix_fadvise()."
+> 
+> Suggestion: "Therefore, these architectures define a version of the
+> system call that orders the arguments suitably, but is otherwise
+> exactly the same as posix_fadvise()."
 
-On 03/07/2015 03:57 PM, St=C3=A9phane Aulery wrote:
-> Hello Michael,
->=20
-> Bug reports about the missing pages are frequent but unnecessary. The=
- web page
-> "missing_pages.html" of the site is very clear about this but unfortu=
-nately
-> "invisible" to end users.
->=20
-> What do you think about to add a "undocumented" page for each section=
- (as
-> undocumented.3) and create each missing pages with a reference to the
-> appropriate "undocumented" page. Thus we can also encourage users to =
-become
-> contributors and avoid unnecessary reports.
-
-My problem with this idea is that my simple test when wondering if
-a man page exists for an API is to look in the appropriate man?/=20
-directory for a file with the right name. With the scheme above, I then
-need to look inside the file to see if it is a link to undocumented.x.
-That would be a small inconvenience.
-
-Yes, the reports about missing pages are a minor irritation, but I'm
-a little doubtful that such an "undocumented" page would encourage much
-contribution. (I could be wrong, that's just my guess.)
+Thanks, Chris. Fixed.
 
 Cheers,
 
 Michael
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
