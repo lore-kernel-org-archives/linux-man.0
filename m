@@ -1,20 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ldd.1: Order SEE ALSO section
-Date: Sun, 08 Mar 2015 08:55:14 +0100
-Message-ID: <54FC0062.4010204@gmail.com>
-References: <1425781194-30033-1-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH] host.conf.5, hosts.5, resolv.conf.5: Cross references
+ of these pages.
+Date: Sun, 08 Mar 2015 08:56:24 +0100
+Message-ID: <54FC00A8.5030409@gmail.com>
+References: <1425763876-23539-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425781194-30033-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425763876-23539-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 298259-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/08/2015 03:19 AM, St=C3=A9phane Aulery wrote:
-> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+On 03/07/2015 10:31 PM, St=C3=A9phane Aulery wrote:
+> Debian bug #298259 reported by Paul E Condon <pecondon@mesanetworks.n=
+et>
 
 
 Thanks, St=C3=A9phane. Applied.
@@ -24,24 +26,58 @@ Cheers,
 Michael
 
 
-> ---
->  man1/ldd.1 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D298259
 >=20
-> diff --git a/man1/ldd.1 b/man1/ldd.1
-> index 24979db..033284c 100644
-> --- a/man1/ldd.1
-> +++ b/man1/ldd.1
-> @@ -106,7 +106,7 @@ on one of these programs, the program will attemp=
-t to run with
->  .\" David Engel.
->  .\" Roland McGrath and Ulrich Drepper.
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man5/host.conf.5   | 4 +++-
+>  man5/hosts.5       | 2 ++
+>  man5/resolv.conf.5 | 4 +++-
+>  3 files changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man5/host.conf.5 b/man5/host.conf.5
+> index a07e85f..9ff2ed3 100644
+> --- a/man5/host.conf.5
+> +++ b/man5/host.conf.5
+> @@ -202,6 +202,8 @@ The
+>  file is the modern way of controlling the order of host lookups.
 >  .SH SEE ALSO
-> -.BR sprof (1),
->  .BR pldd (1),
-> +.BR sprof (1),
->  .BR ld.so (8),
->  .BR ldconfig (8)
+>  .BR gethostbyname (3),
+> -.BR nsswitch.conf (5)
+> +.BR hosts (5),
+> +.BR nsswitch.conf (5),
+> +.BR resolv.conf (5),
+>  .BR hostname (7),
+>  .BR named (8)
+> diff --git a/man5/hosts.5 b/man5/hosts.5
+> index aca5a43..9ec8cb2 100644
+> --- a/man5/hosts.5
+> +++ b/man5/hosts.5
+> @@ -114,6 +114,8 @@ I just found three, from 92,
+>  .fi
+>  .SH SEE ALSO
+>  .BR hostname (1),
+> +.BR host.conf (5),
+> +.BR resolv.conf (5),
+>  .BR resolver (3),
+>  .BR resolver (5),
+>  .BR hostname (7),
+> diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+> index 4eb6c73..1777c8a 100644
+> --- a/man5/resolv.conf.5
+> +++ b/man5/resolv.conf.5
+> @@ -300,8 +300,10 @@ in the first column are treated as comments.
+>  .I <resolv.h>
+>  .SH SEE ALSO
+>  .BR gethostbyname (3),
+> +.BR host.conf (5),
+> +.BR hosts (5),
+>  .BR resolver (3),
+> -.BR nsswitch.conf (5)
+> +.BR nsswitch.conf (5),
+>  .BR hostname (7),
+>  .BR named (8)
+>  .br
 >=20
 
 
