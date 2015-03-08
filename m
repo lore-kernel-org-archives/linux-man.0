@@ -1,43 +1,49 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Facilitate sending patch
-Date: Sun, 08 Mar 2015 09:00:50 +0100
-Message-ID: <54FC01B2.5070208@gmail.com>
-References: <20150307143937.GA23839@free.fr> <20150307192659.GI12857@vapier> <20150307193501.GA22040@free.fr> <20150307223928.GQ12857@vapier>
+Subject: Re: undocumented man pages
+Date: Sun, 08 Mar 2015 09:08:09 +0100
+Message-ID: <54FC0369.3010705@gmail.com>
+References: <20150307145716.GA24297@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150307223928.GQ12857@vapier>
+In-Reply-To: <20150307145716.GA24297-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/07/2015 11:39 PM, Mike Frysinger wrote:
-> On 07 Mar 2015 20:35, St=C3=A9phane Aulery wrote:
->> Le samedi 07 mars 2015 =C3=A0 02:26:59, Mike Frysinger a =C3=A9crit =
-:
->>> On 07 Mar 2015 15:39, St=C3=A9phane Aulery wrote:
->>>> If it is possible to customize the file .git/config of the main
->>>> repository, it would be nice to add the following lines to make li=
-fe
->>>> easier for (occasional) contributors:
->>>
->>> .git/config is a local setting.  it is not possible to have the rem=
-ote repo push=20
->>> this to local clones.
->>
->> And there is no other possible way for clones retrieve this configur=
-ation?
->=20
-> nope -- this is simply how git works.
+Hello St=C3=A9phane,
 
-Thanks for jumping in Mike. I wasn't aware of the details.
+On 03/07/2015 03:57 PM, St=C3=A9phane Aulery wrote:
+> Hello Michael,
+>=20
+> Bug reports about the missing pages are frequent but unnecessary. The=
+ web page
+> "missing_pages.html" of the site is very clear about this but unfortu=
+nately
+> "invisible" to end users.
+>=20
+> What do you think about to add a "undocumented" page for each section=
+ (as
+> undocumented.3) and create each missing pages with a reference to the
+> appropriate "undocumented" page. Thus we can also encourage users to =
+become
+> contributors and avoid unnecessary reports.
+
+My problem with this idea is that my simple test when wondering if
+a man page exists for an API is to look in the appropriate man?/=20
+directory for a file with the right name. With the scheme above, I then
+need to look inside the file to see if it is a link to undocumented.x.
+That would be a small inconvenience.
+
+Yes, the reports about missing pages are a minor irritation, but I'm
+a little doubtful that such an "undocumented" page would encourage much
+contribution. (I could be wrong, that's just my guess.)
 
 Cheers,
 
 Michael
-
 
 --=20
 Michael Kerrisk
