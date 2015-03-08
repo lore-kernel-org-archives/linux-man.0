@@ -1,7 +1,7 @@
 From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Subject: [PATCH] intro.1: srcfix
-Date: Sun,  8 Mar 2015 13:08:22 +0100
-Message-ID: <1425816502-2339-1-git-send-email-saulery@free.fr>
+Subject: [PATCH] resolv.conf.5: tfix
+Date: Sun,  8 Mar 2015 13:18:35 +0100
+Message-ID: <1425817115-2617-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,32 +11,26 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Remove non breaking spaces accidentally inserted.
-
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man1/intro.1 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man5/resolv.conf.5 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man1/intro.1 b/man1/intro.1
-index 1abdc44..e9daccf 100644
---- a/man1/intro.1
-+++ b/man1/intro.1
-@@ -311,11 +311,11 @@ and use a browser if you find HTML files there.
- .\" Actual examples? Separate section for each of cat, cp, ...?
- .\" gzip, bzip2, tar, rpm
- .SH SEE ALSO
--.BR=C2=A0ash (1),
-+.BR ash (1),
- .BR bash (1),
- .BR chsh (1),
--.BR=C2=A0csh (1),
--.BR=C2=A0locate (1),
-+.BR csh (1),
-+.BR locate (1),
- .BR login (1),
- .BR man (1),
- .BR xterm (1),
+diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+index 1777c8a..f01bf57 100644
+--- a/man5/resolv.conf.5
++++ b/man5/resolv.conf.5
+@@ -203,7 +203,7 @@ sets
+ .BR RES_USE_INET6
+ in
+ .IR _res.options .
+-This has the effect of trying a AAAA query before an A query inside th=
+e
++This has the effect of trying an AAAA query before an A query inside t=
+he
+ .BR gethostbyname (3)
+ function, and of mapping IPv4 responses in IPv6 "tunneled form"
+ if no AAAA records are found but an A record set exists.
 --=20
 2.1.4
 
