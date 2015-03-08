@@ -1,82 +1,62 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Documenting RENAME_WHITEOUT
-Date: Sun, 08 Mar 2015 09:37:39 +0100
-Message-ID: <54FC0A53.5060804@gmail.com>
-References: <CAKgNAkiog0S5kHYNb_4+d2ZXcA-nPw-cBsuNG03AyEPt3K34nw@mail.gmail.com> <20150306161145.GA13649@tucsk.suse.de> <20150306214457.GC13958@dastard>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: undocumented man pages
+Date: Sun, 8 Mar 2015 12:12:40 +0100
+Message-ID: <20150308111240.GA1839@free.fr>
+References: <20150307145716.GA24297@free.fr>
+ <54FC0369.3010705@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150306214457.GC13958@dastard>
+Content-Disposition: inline
+In-Reply-To: <54FC0369.3010705-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/06/2015 10:44 PM, Dave Chinner wrote:
-> On Fri, Mar 06, 2015 at 05:11:45PM +0100, Miklos Szeredi wrote:
->> On Thu, Jan 29, 2015 at 11:01:08AM +0100, Michael Kerrisk (man-pages) wrote:
->>> Hi Miklos,
->>>
->>> I just noticed that your RENAME_WHITEOUT flag went into Linux 3.18:
->>> commit 0d7a855526dd672e114aff2ac22b60fc6f155b08
->>> commit 787fb6bc9682ec7c05fb5d9561b57100fbc1cc41
->>>
->>> Would you be willing to write some text for the rename(2)/renameat2(2)
->>> man page that described this flag. In that text it would be great to
->>> have an explanation of what a whiteout is and why they are useful.
->>
->> Hi Michael,
->>
->> Sorry for the delay...
->>
->>   RENAME_WHITEOUT is a special operation, that only makes sense for
->>   overlay/union type filesystem implementations.  Currently it is used
->>   internally by the overlay filesystem.
-> 
-> However, it is exposed to userspace by renameat2, and filesystem
-> developers still need to know it's exact semantics documented so
-> they can implement it.
-> 
->>   Specifying RENAME_WHITEOUT will create a "whiteout" object at the source of
->>   the rename at the same time as performing the rename.  The whole operation is
->>   still atomic, so if the rename succeeds then the whiteout will also have been
->>   created.
->>
->>   A "whiteout" is an object that has special meaning in union/overlay type file
->>   system constructs, in these constructs multiple layers exists and only the top
->>   one is ever modified.  A whiteout on an upper layer will effectively hide the
->>   matching file on the lower layer, making it appear if the file didn't exist.
->>
->>   When a file that exists on the lower layer is renamed, the file is first
->>   copied up (if not already on the upper layer) and then renamed on the upper,
->>   read-write layer.  At the same time the source file needs to be "whiteouted".
->>   The whole operation needs to be done atomically.
-> 
-> This doesn't explain exactly what the RENAME_WHITEOUT operation is
-> supposed to do. It explains how overlayfs uses them, not the
-> semantics and behaviour of RENAME_WHITEOUT. e.g. source
-> restrictions, target restrictions, can you RENAME_WHITEOUT over
-> another whiteout, etc. I've noticed these restrictions are very
-> different from other rename operations, but I don't know whether
-> that is ext4 implementation bugs or intentional because there is no
-> documentation or regression tests in xfstests for it...
+Hello Michael,
 
-What Dave said!
+Le dimanche 08 mars 2015 =C3=A0 09:08:09, Michael Kerrisk (man-pages) a=
+ =C3=A9crit :
+>=20
+> On 03/07/2015 03:57 PM, St=C3=A9phane Aulery wrote:
+> >=20
+> > What do you think about to add a "undocumented" page for each secti=
+on (as
+> > undocumented.3) and create each missing pages with a reference to t=
+he
+> > appropriate "undocumented" page. Thus we can also encourage users t=
+o become
+> > contributors and avoid unnecessary reports.
+>=20
+> My problem with this idea is that my simple test when wondering if
+> a man page exists for an API is to look in the appropriate man?/=20
+> directory for a file with the right name. With the scheme above, I th=
+en
+> need to look inside the file to see if it is a link to undocumented.x=
+=2E
+> That would be a small inconvenience.
 
-Miklos, AFAICS, RENAME_WHITEOUT is user-space visible. Would you be 
-willing to write some piece for the man page to explain things
-from a user-space perspective?
+How is obtained the list of missing pages? Another solution would be to
+provide a script that generates the missing pages with the redirection.
 
-Thanks,
+> Yes, the reports about missing pages are a minor irritation, but I'm
+> a little doubtful that such an "undocumented" page would encourage mu=
+ch
+> contribution. (I could be wrong, that's just my guess.)
 
-Michael
+I too could be wrong. I'm probably too optimistic. I feel that if the
+user sees clearly that the page is not yet written and needs of its
+contribution, it is better information for him and a better chance for
+us.
 
+PS: Thank you for patches, you are very responsive !
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Cheers,
+
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
