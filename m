@@ -1,65 +1,86 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: manpages-dev: please note thread safeness of %m in vfprintf(3)
-Date: Mon, 9 Mar 2015 14:20:07 +0800
-Message-ID: <54FD3B97.5050400@cn.fujitsu.com>
-References: <20150307103821.GA2043@free.fr>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: undocumented man pages
+Date: Mon, 9 Mar 2015 08:06:30 +0100
+Message-ID: <CAKgNAkhvGtPMwq1kdf-ZJZ=FNGQqLjHuyakgbaUqLbdhAueL-A@mail.gmail.com>
+References: <20150307145716.GA24297@free.fr> <54FC0369.3010705@gmail.com> <20150308111240.GA1839@free.fr>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150307103821.GA2043-GANU6spQydw@public.gmane.org>
+In-Reply-To: <20150308111240.GA1839-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 621057-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
+To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello St=C3=A9phane=EF=BC=8C
-
-On 03/07/2015 06:38 PM, St=C3=A9phane Aulery wrote:
-> Hello Ma Shimiao,
->=20
-> A Debian user has applied to mention that strerror_r(3) is thread saf=
-e.
->=20
-> I quote his message [1]:
->=20
->> Frome Martin Godisch <martin-AOktpf5JBruELgA04lAiVw@public.gmane.org>, Wed, 6 Apr 2011 09:30:30 +=
-0200
+On 8 March 2015 at 12:12, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote:
+> Hello Michael,
+>
+> Le dimanche 08 mars 2015 =C3=A0 09:08:09, Michael Kerrisk (man-pages)=
+ a =C3=A9crit :
 >>
->> Please add a note to vfprintf(3) telling users that the %m conversio=
-n
->> specifier is thread safe.
-
-I'm not sure why he need a note to indicate that the %m conversion spec=
-ifier=20
-is thread safe.
-=46rom our research and glibc's document, vfprintf(3) is thread safe ex=
-cept when users pass float formatting,
-custom formatting or single quota may cause locale dependency problem.
-And I'm going to add thread safety information of vfprintf() into print=
-f.3.
-If there is something special about %m, we'd like to know.
-And I'm willing to add it.
-
-Best regards,
+>> On 03/07/2015 03:57 PM, St=C3=A9phane Aulery wrote:
+>> >
+>> > What do you think about to add a "undocumented" page for each sect=
+ion (as
+>> > undocumented.3) and create each missing pages with a reference to =
+the
+>> > appropriate "undocumented" page. Thus we can also encourage users =
+to become
+>> > contributors and avoid unnecessary reports.
 >>
->> Rationale: errno(3) is thread local, strerror_r(3) is thread safe, a=
-nd
->> vfprintf(3) uses errno and strerror_r (in
->> eglibc-2.11.2/stdio-common/vfprintf.c:974).
->=20
-> This is your area, it may interest you.
->=20
-> [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D621057
->=20
-> Regards,
->=20
+>> My problem with this idea is that my simple test when wondering if
+>> a man page exists for an API is to look in the appropriate man?/
+>> directory for a file with the right name. With the scheme above, I t=
+hen
+>> need to look inside the file to see if it is a link to undocumented.=
+x.
+>> That would be a small inconvenience.
+>
+> How is obtained the list of missing pages? Another solution would be =
+to
+> provide a script that generates the missing pages with the redirectio=
+n.
+
+I worked from scripts shown at
+https://www.kernel.org/doc/man-pages/missing_pages.html
+but manual work on top of that was also needed.
+
+>> Yes, the reports about missing pages are a minor irritation, but I'm
+>> a little doubtful that such an "undocumented" page would encourage m=
+uch
+>> contribution. (I could be wrong, that's just my guess.)
+>
+> I too could be wrong. I'm probably too optimistic. I feel that if the
+> user sees clearly that the page is not yet written and needs of its
+> contribution, it is better information for him and a better chance fo=
+r
+> us.
+
+Maybe. So, here's another idea. Since I don't really want to pollute
+the Git repo with a lot of useless links, another possibility would be
+a release-time script that generates the "undocumented" pages from
+plain test file lists (e.g., one function name per line). Those lists
+could live in the Git repo, and then be used to autogenerate a page
+such as undocumented(3) (which does *not* list  a lot of the
+undocumented functions, and has no links). Thoughts?
+
+> PS: Thank you for patches, you are very responsive !
+
+Not always, unfortunately. Things get dropped too often. You should
+ping when I don't respond to patches in a week or two.
+
+Cheers,
+
+Michael
+
 
 
 --=20
-Ma Shimiao
-Development Dept.I
-Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
