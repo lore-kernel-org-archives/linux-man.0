@@ -1,37 +1,78 @@
-From: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Subject: Re: ebpf(2) man page
-Date: Mon, 09 Mar 2015 10:28:21 -0700
-Message-ID: <54FDD835.60605@plumgrid.com>
-References: <CAKgNAki-qkJzuuq=dXMJnE2sqjeViLeG7-yjvP7kTcShMX7hrA@mail.gmail.com>
+From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Subject: Re: Handling of updates to kernel Documentation/ tree
+Date: Mon, 9 Mar 2015 13:40:57 -0400
+Message-ID: <20150309174057.GC12857@vapier>
+References: <3421611.4D45Q2BAys@tauon>
+ <20150309150739.GA6131@infradead.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="j9XQ5cF5hebrmXqw"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAki-qkJzuuq=dXMJnE2sqjeViLeG7-yjvP7kTcShMX7hrA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <20150309150739.GA6131-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Michael Kerrisk <michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 3/9/15 7:18 AM, Michael Kerrisk (man-pages) wrote:
-> Hello Alexei
->
-> A while ago you posted a man page text for ebpf(2) at
-> http://lwn.net/Articles/613387/
-> I have taken a while to catch up, but will aim to get that into
-> man-pages at some point in the not too distant future.
->
-> Is the text at that link the latest version?
->
-> Also, is you text just a plain text file, or is there a man source
-> mark up file? If the latter exists, could you send it?
 
-Thanks for the ping.
-My excuse for not sending official man-pages.git patch yet is that
-I was hoping to land bpf+tracing bits and talk about both tracing
-and networking use cases in the man page.
-I guess it's ok to update it incrementally. Will send it soon.
+--j9XQ5cF5hebrmXqw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On 09 Mar 2015 08:07, Christoph Hellwig wrote:
+> On Mon, Mar 09, 2015 at 03:17:58PM +0100, Stephan Mueller wrote:
+> > how shall an update to the Documentation/ tree be handled in man pages=
+=20
+> > that contain a pointer to these documents?
+> >=20
+> > Specifically, socket(2) contains a reference to=20
+> > Documentation/crypto/crypto-API-userspace.txt. With the patch [1] the=
+=20
+> > document is gone and its contents is moved into a DocBook.
+> >=20
+> > Shall the kernel DocBook website [2] be referenced? If so, when is it=
+=20
+> > appropriate to add the patch (note, the change is expected to be=20
+> > propagated to Linus' tree in 4.1-rc1).
+>=20
+> Referencing a kernel Documentation file from a man page sounds like
+> a bad idea to me.  Why can't we include a nroff-yfied version of the
+> content in the man-pages repository?
+
+isn't that way worse ?  now we have to keep the man pages git repo in sync =
+with=20
+the kernel Documentation/ subtree.
+
+i think having the man pages refer to the public docbook kernel.org pages s=
+hould=20
+be fine.
+-mike
+
+--j9XQ5cF5hebrmXqw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJU/dspAAoJEEFjO5/oN/WBfCsQAIHvCHhNgQjofYkqR/N2IspP
+pT4MwZAsQUe2wmnN9BZeEHOjyHp2kXA8badKOHotDiAKPiIdX72nV0ooSgY5aoAW
+h6SChPaJAZe7lL1QlXkjVcgJD+Grai8fP9I4Rah61hRTeMYN+1yzGQHjIw7NcJD4
+UoTzlPbPoyFzMEhp56DlRJcv05wvI61RnE95OWbSjPhKsY5vks6U6s6Er3ycFIKt
+wLuBPAk6fYn4f3FRUTfgYgGLCPP9tHYjVRXEKqeudzIJRQbYVw+z2NdVRYGbLNOg
+E+E2uIvlSNQBycHqUKltymtaixdUj8GHtIBbVEG5lDtjpJ92PZnjxnvgaipa7/FD
+o0kywxxzzk6Kf63sF8+IgkCMQAfx5zsRJUBjDiDRupRW3ptuNbFP6u3qXGzHLEOg
+C49gC6mfvj0t2U2oyupWNjbFiTQDnpZgEvGoNRNSZolIf/JNPK6wFsqQ6sFgXFxP
+pUkCk+EVea+EWIChiYg8eY4V31y/eW6nUNSXEp0ZtaY0XEMxAjsdsY8O5nSBVrBH
+2mkRDPKkZXvavxtLwlgii2b8QMeydxyYePiQthvTmv5YB3K2P0vH/sFoQpaQKkoS
+fMGR0LRtVh7t1F0txFSdjV0I9w3Wxd5aMmU3ngViPQ1vIZz/1jvfOw/rtRsNSufw
+0M7pKVaSfc7QRKjJ865X
+=u6+D
+-----END PGP SIGNATURE-----
+
+--j9XQ5cF5hebrmXqw--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
