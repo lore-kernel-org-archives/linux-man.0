@@ -1,33 +1,39 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: ebpf(2) man page
-Date: Mon, 9 Mar 2015 15:18:48 +0100
-Message-ID: <CAKgNAki-qkJzuuq=dXMJnE2sqjeViLeG7-yjvP7kTcShMX7hrA@mail.gmail.com>
-Reply-To: mtk.manpages@gmail.com
+From: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+Subject: Handling of updates to kernel Documentation/ tree
+Date: Mon, 09 Mar 2015 15:17:58 +0100
+Message-ID: <3421611.4D45Q2BAys@tauon>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Alexei Starovoitov <ast@plumgrid.com>
-Cc: Daniel Borkmann <dborkman@redhat.com>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7Bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Alexei
+Hi Michael,
 
-A while ago you posted a man page text for ebpf(2) at
-http://lwn.net/Articles/613387/
-I have taken a while to catch up, but will aim to get that into
-man-pages at some point in the not too distant future.
+how shall an update to the Documentation/ tree be handled in man pages 
+that contain a pointer to these documents?
 
-Is the text at that link the latest version?
+Specifically, socket(2) contains a reference to 
+Documentation/crypto/crypto-API-userspace.txt. With the patch [1] the 
+document is gone and its contents is moved into a DocBook.
 
-Also, is you text just a plain text file, or is there a man source
-mark up file? If the latter exists, could you send it?
+Shall the kernel DocBook website [2] be referenced? If so, when is it 
+appropriate to add the patch (note, the change is expected to be 
+propagated to Linus' tree in 4.1-rc1).
 
-Thanks,
 
-Michael
+[1] 
+https://git.kernel.org/cgit/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=dbe5fe7e1b3b3632bef2c09964a5f5505de4d744
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+[2] https://www.kernel.org/doc/htmldocs/crypto-API/index.html
+
+Ciao
+Stephan
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
