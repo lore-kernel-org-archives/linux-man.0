@@ -1,199 +1,58 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] msgop.2: add an example program
-Date: Mon, 09 Mar 2015 08:31:13 +0100
-Message-ID: <54FD4C41.50300@gmail.com>
-References: <1425519063-23013-1-git-send-email-wfp5p@worldbroken.com>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: manpages-dev: please note thread safeness of %m in vfprintf(3)
+Date: Mon, 9 Mar 2015 08:47:35 +0100
+Message-ID: <20150309074735.GA1144@free.fr>
+References: <20150307103821.GA2043@free.fr>
+ <54FD3B97.5050400@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425519063-23013-1-git-send-email-wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <54FD3B97.5050400-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 621057-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Bill,
+Hello Ma Shimiao,
 
-On 03/05/2015 02:31 AM, wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org wrote:
-> From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+Le lundi 09 mars 2015 =C3=A0 02:20:07, Ma Shimiao a =C3=A9crit :
+>=20
+> On 03/07/2015 06:38 PM, St=C3=A9phane Aulery wrote:
+> >=20
+> > A Debian user has applied to mention that strerror_r(3) is thread s=
+afe.
+> >=20
+> >> Frome Martin Godisch <martin-AOktpf5JBruELgA04lAiVw@public.gmane.org>, Wed, 6 Apr 2011 09:30:30=
+ +0200
+> >>
+> >> Please add a note to vfprintf(3) telling users that the %m convers=
+ion
+> >> specifier is thread safe.
+>=20
+> I'm not sure why he need a note to indicate that the %m conversion sp=
+ecifier=20
+> is thread safe.
+> From our research and glibc's document, vfprintf(3) is thread safe ex=
+cept when users pass float formatting,
+> custom formatting or single quota may cause locale dependency problem=
+=2E
+> And I'm going to add thread safety information of vfprintf() into pri=
+ntf.3.
+> If there is something special about %m, we'd like to know.
+> And I'm willing to add it.
 
-Looks good! Applied. Thanks very much for the patch!
+I will send you answer to Martin Godisch, but I don't think there is so=
+mething
+special. I will wait your patch before closing this bug.
 
-Cheers,
+Thanks.
 
-Michael
+Regards,
 
-> Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
-> ---
->  man2/msgop.2 | 140 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 138 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man2/msgop.2 b/man2/msgop.2
-> index d1bd2125344d..2546d241e960 100644
-> --- a/man2/msgop.2
-> +++ b/man2/msgop.2
-> @@ -36,8 +36,6 @@
->  .\"	Language and formatting clean-ups
->  .\"	Added notes on /proc files
->  .\"
-> -.\" FIXME Add example programs to this page.
-> -.\"
->  .TH MSGOP 2 2015-02-21 "Linux" "Linux Programmer's Manual"
->  .SH NAME
->  msgrcv, msgsnd \- System V message queue operations
-> @@ -578,6 +576,144 @@ this error was not diagnosed by
->  This bug is fixed
->  .\" commit 4f87dac386cc43d5525da7a939d4b4e7edbea22c
->  in Linux 3.14.
-> +.SH EXAMPLE
-> +The program below demonstrates the use of
-> +.BR msgsnd ()
-> +and
-> +.BR msgrcv ().
-> +
-> +The example program is first run with the \fB\-s\fP option to send a
-> +message and then run again with the \fB-r\fP option to receive a
-> +message.
-> +
-> +The following shell session shows a sample run of the program:
-> +.in +4n
-> +.nf
-> +
-> +.RB "$" " ./a.out \-s"
-> +sent: a message at Wed Mar  4 16:25:45 2015
-> +
-> +.RB "$" " ./a.out \-r"
-> +message received: a message at Wed Mar  4 16:25:45 2015
-> +
-> +.fi
-> +.in
-> +.SS Program source
-> +\&
-> +.nf
-> +/* msgop.c */
-> +
-> +#include <stdio.h>
-> +#include <stdlib.h>
-> +#include <string.h>
-> +#include <time.h>
-> +#include <unistd.h>
-> +#include <errno.h>
-> +#include <sys/types.h>
-> +#include <sys/ipc.h>
-> +#include <sys/msg.h>
-> +
-> +struct msgbuf {
-> +    long mtype;
-> +    char mtext[80];
-> +};
-> +
-> +static void
-> +usage(char *prog_name, char *msg)
-> +{
-> +    if (msg != NULL)
-> +        fputs(msg, stderr);
-> +
-> +    fprintf(stderr, "Usage: %s [options]\\n", prog_name);
-> +    fprintf(stderr, "Options are:\\n");
-> +    fprintf(stderr, "\-s        send message using msgsnd()\\n");
-> +    fprintf(stderr, "\-r        read message using msgrcv()\\n");
-> +    fprintf(stderr, "\-t        message type (default is 1)\\n");
-> +    fprintf(stderr, "\-k        message queue key (default is 1234)\\n");
-> +    exit(EXIT_FAILURE);
-> +}
-> +
-> +static void
-> +send_msg(int qid, int msgtype)
-> +{
-> +    struct msgbuf msg;
-> +    time_t t;
-> +
-> +    msg.mtype = msgtype;
-> +
-> +    time(&t);
-> +    snprintf(msg.mtext, sizeof(msg.mtext), "a message at %s", ctime(&t));
-> +
-> +    if (msgsnd(qid, (void *) &msg, sizeof(msg.mtext), IPC_NOWAIT) == \-1) {
-> +        perror("msgsnd error");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +    printf("sent: %s\\n", msg.mtext);
-> +}
-> +
-> +static void
-> +get_msg(int qid, int msgtype)
-> +{
-> +    struct msgbuf msg;
-> +
-> +    if (msgrcv(qid, (void *) &msg, sizeof(msg.mtext), msgtype,
-> +               MSG_NOERROR | IPC_NOWAIT) == \-1) {
-> +        if (errno != ENOMSG) {
-> +            perror("msgrcv");
-> +            exit(EXIT_FAILURE);
-> +        }
-> +        printf("No message available for msgrcv()\\n");
-> +    } else
-> +        printf("message received: %s\\n", msg.mtext);
-> +}
-> +
-> +int
-> +main(int argc, char *argv[])
-> +{
-> +    int qid, opt;
-> +    int mode = 0;               /* 1 = send, 2 = receive */
-> +    int msgtype = 1;
-> +    int msgkey = 1234;
-> +
-> +    while ((opt = getopt(argc, argv, "srt:k:")) != \-1) {
-> +        switch (opt) {
-> +        case \(aqs\(aq:
-> +            mode = 1;
-> +            break;
-> +        case \(aqr\(aq:
-> +            mode = 2;
-> +            break;
-> +        case \(aqt\(aq:
-> +            msgtype = atoi(optarg);
-> +            if (msgtype <= 0)
-> +                usage(argv[0], "\-t option must be greater than 0\\n");
-> +            break;
-> +        case \(aqk\(aq:
-> +            msgkey = atoi(optarg);
-> +            break;
-> +        default:
-> +            usage(argv[0], "Unrecognized option\\n");
-> +        }
-> +    }
-> +
-> +    if (mode == 0)
-> +        usage(argv[0], "must use either \-s or \-r option\\n");
-> +
-> +    qid = msgget(msgkey, IPC_CREAT | 0666);
-> +
-> +    if (qid == \-1) {
-> +        perror("msgget");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    if (mode == 2)
-> +        get_msg(qid, msgtype);
-> +    else
-> +        send_msg(qid, msgtype);
-> +
-> +    exit(EXIT_SUCCESS);
-> +}
-> +.fi
->  .SH SEE ALSO
->  .BR msgctl (2),
->  .BR msgget (2),
-> 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
