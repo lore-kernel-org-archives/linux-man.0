@@ -1,98 +1,115 @@
-From: Miklos Szeredi <miklos-sUDqSbJrdHQHWmgEVkV9KA@public.gmane.org>
-Subject: Re: Documenting RENAME_WHITEOUT
-Date: Mon, 9 Mar 2015 11:45:56 +0100
-Message-ID: <20150309104556.GA2052@tucsk>
-References: <CAKgNAkiog0S5kHYNb_4+d2ZXcA-nPw-cBsuNG03AyEPt3K34nw@mail.gmail.com>
- <20150306161145.GA13649@tucsk.suse.de>
- <20150306214457.GC13958@dastard>
- <54FC0A53.5060804@gmail.com>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: [PATCH] resolver.3: documents missing options used by _res
+ structure defined in resolv.h and indicates defaults options
+Date: Mon, 9 Mar 2015 11:38:53 +0100
+Message-ID: <20150309103853.GA10262@free.fr>
+References: <20090505194602.GA7897@cavendish.icomputing.pl>
+ <1425761903-22748-1-git-send-email-saulery@free.fr>
+ <54FC0642.6050800@gmail.com>
+ <20150308120348.GB2050@free.fr>
+ <54FD4AB6.3090102@gmail.com>
+ <20150309075456.GA1253@free.fr>
+ <54FD6CC3.1000706@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <54FC0A53.5060804-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <54FD6CC3.1000706-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, "linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: 527136-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Sun, Mar 08, 2015 at 09:37:39AM +0100, Michael Kerrisk (man-pages) wrote:
-> On 03/06/2015 10:44 PM, Dave Chinner wrote:
-> > On Fri, Mar 06, 2015 at 05:11:45PM +0100, Miklos Szeredi wrote:
-> >> On Thu, Jan 29, 2015 at 11:01:08AM +0100, Michael Kerrisk (man-pages) wrote:
-> >>> Hi Miklos,
+Le lundi 09 mars 2015 =C3=A0 10:49:55, Michael Kerrisk (man-pages) a =C3=
+=A9crit :
+> On 03/09/2015 08:54 AM, St=C3=A9phane Aulery wrote:
+> > Le lundi 09 mars 2015 =C3=A0 08:24:38, Michael Kerrisk (man-pages) =
+a =C3=A9crit :
+> >=20
+> >>>>> +.B RES_BLAST
+> >>>>> +When resolvers want to even out the load on their nameservers,=
+ following
+> >>>>> +them.=20
+> >>>>
+> >>>> I do not understand that last sentence. Could you clarify please=
+=2E
 > >>>
-> >>> I just noticed that your RENAME_WHITEOUT flag went into Linux 3.18:
-> >>> commit 0d7a855526dd672e114aff2ac22b60fc6f155b08
-> >>> commit 787fb6bc9682ec7c05fb5d9561b57100fbc1cc41
+> >>> I must admit that it's not clear to me either. I think this means=
+ that
+> >>> server alias are swapped between each request. I have wrong? The =
+word
+> >>> "blast" leaves me skeptical.
 > >>>
-> >>> Would you be willing to write some text for the rename(2)/renameat2(2)
-> >>> man page that described this flag. In that text it would be great to
-> >>> have an explanation of what a whiteout is and why they are useful.
+> >>> What I found in code source:
+> >>>
+> >>> Form res_send.c
+> >>>
+> >>> /*
+> >>> * Some resolvers want to even out the load on their nameservers.
+> >>> * Note that RES_BLAST overrides RES_ROTATE.
+> >>> */
+> >>> if (__builtin_expect ((statp->options & RES_ROTATE) !=3D 0, 0) &&
+> >>>    (statp->options & RES_BLAST) =3D=3D 0) {
+> >>>       struct sockaddr_in6 *ina;
+> >>>       unsigned int map;
+> >>>
+> >>>       n =3D 0;
+> >>>       while (n < MAXNS && EXT(statp).nsmap[n] =3D=3D MAXNS)
+> >>>          n++;
+> >>>       if (n < MAXNS) {
+> >>>          ina =3D EXT(statp).nsaddrs[n];
+> >>>          map =3D EXT(statp).nsmap[n];
+> >>>          for (;;) {
+> >>>             ns =3D n + 1;
+> >>>             while (ns < MAXNS
+> >>>                && EXT(statp).nsmap[ns] =3D=3D MAXNS)
+> >>>                ns++;
+> >>>             if (ns =3D=3D MAXNS)
+> >>>                break;
+> >>>             EXT(statp).nsaddrs[n] =3D EXT(statp).nsaddrs[ns];
+> >>>             EXT(statp).nsmap[n] =3D EXT(statp).nsmap[ns];
+> >>>             n =3D ns;
+> >>>          }
+> >>>          EXT(statp).nsaddrs[n] =3D ina;
+> >>>          EXT(statp).nsmap[n] =3D map;
+> >>>       }
+> >>> }
 > >>
-> >> Hi Michael,
-> >>
-> >> Sorry for the delay...
-> >>
-> >>   RENAME_WHITEOUT is a special operation, that only makes sense for
-> >>   overlay/union type filesystem implementations.  Currently it is used
-> >>   internally by the overlay filesystem.
-> > 
-> > However, it is exposed to userspace by renameat2, and filesystem
-> > developers still need to know it's exact semantics documented so
-> > they can implement it.
-> > 
-> >>   Specifying RENAME_WHITEOUT will create a "whiteout" object at the source of
-> >>   the rename at the same time as performing the rename.  The whole operation is
-> >>   still atomic, so if the rename succeeds then the whiteout will also have been
-> >>   created.
-> >>
-> >>   A "whiteout" is an object that has special meaning in union/overlay type file
-> >>   system constructs, in these constructs multiple layers exists and only the top
-> >>   one is ever modified.  A whiteout on an upper layer will effectively hide the
-> >>   matching file on the lower layer, making it appear if the file didn't exist.
-> >>
-> >>   When a file that exists on the lower layer is renamed, the file is first
-> >>   copied up (if not already on the upper layer) and then renamed on the upper,
-> >>   read-write layer.  At the same time the source file needs to be "whiteouted".
-> >>   The whole operation needs to be done atomically.
-> > 
-> > This doesn't explain exactly what the RENAME_WHITEOUT operation is
-> > supposed to do. It explains how overlayfs uses them, not the
-> > semantics and behaviour of RENAME_WHITEOUT. e.g. source
-> > restrictions, target restrictions, can you RENAME_WHITEOUT over
-> > another whiteout, etc. I've noticed these restrictions are very
-> > different from other rename operations, but I don't know whether
-> > that is ext4 implementation bugs or intentional because there is no
-> > documentation or regression tests in xfstests for it...
-> 
-> What Dave said!
-> 
-> Miklos, AFAICS, RENAME_WHITEOUT is user-space visible. Would you be 
-> willing to write some piece for the man page to explain things
-> from a user-space perspective?
+> >> Okay -- I leave it to your discretion to choose what to do here.
+> >=20
+> > No please, I need your help.
+>=20
+> Sorry -- the code is not clear to me, and I don't have the time=20
+> to investigate deeper.
 
-The text explains why whiteouts are useful.  That's what you asked me, so that's
-what I wrote...
+Thank you for your help.
 
-If that's not interesting we can just leave that part out:
+> Google turns up this detail from the O'Reilly DNS and BIND
+> book:
+>=20
+>     "Blast" all recursive servers by sending queries to=20
+>     the simultaneously. Not implemented yet.
+>=20
+> The first sentence makes sense. I'm not sure whether
+> the second is true for glibc or not. But, I just grepped
+> the entire C source code for Fedora 20, and found no users=20
+> of RES_BLAST, so indeed maybe it is not implemented.
 
-  Specifying RENAME_WHITEOUT will create a "whiteout" object at the source of
-  the rename at the same time as performing the rename.  The whole operation is
-  still atomic, so if the rename succeeds then the whiteout will also have been
-  created.
+Options not implemented are explicitly mentioned. [1]
+So for me it is.
 
-  The whiteout is represented as a char device with 0,0 device number.
-  RENAME_WHITEOUT needs the same privileges as creating a device node
-  (CAP_MKNOD) and will fail with EPERM error if that capability is missing.
+I propose:
 
-  If RENAME_WHITEOUT is specified together wuth RENAME_EXCHANGE, then the rename
-  with fail with EINVAL error.
+    Send each query simultaneously and recursively to all servers.
 
-That's it.  No other special behavior relative to normal rename.
+[1] https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dresolv/res_d=
+ebug.c;hb=3D95f386609f378063b35e0c4ede8c2d2ceea91f51#l564
 
-Thanks,
-Miklos
+Regards,
+
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
