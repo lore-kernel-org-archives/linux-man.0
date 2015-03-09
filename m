@@ -1,68 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug#773443: host.conf.5: spoof deprecated ?
-Date: Mon, 09 Mar 2015 10:03:09 +0100
-Message-ID: <54FD61CD.2060900@gmail.com>
-References: <20150308130510.GA3004@free.fr> <54FD4A19.2030203@gmail.com> <20150309075913.GA1341@free.fr>
+Subject: Re: [PATCH] msgop.2: remove EAGAIN as msgrcv errno
+Date: Mon, 09 Mar 2015 10:05:08 +0100
+Message-ID: <54FD6244.9040701@gmail.com>
+References: <1424993760-15047-1-git-send-email-wfp5p@worldbroken.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150309075913.GA1341-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1424993760-15047-1-git-send-email-wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 773443-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/09/2015 08:59 AM, St=C3=A9phane Aulery wrote:
-> Le lundi 09 mars 2015 =C3=A0 08:22:01, Michael Kerrisk (man-pages) a =
-=C3=A9crit :
->> Hello St=C3=A9phane
->>
->> On 03/08/2015 02:05 PM, St=C3=A9phane Aulery wrote:
->>> ** COPY OF GLIBC BUGZILLA #18091 FOR INFORMATION **
->>> https://sourceware.org/bugzilla/show_bug.cgi?id=3D18091
->>>
->>> -----------------------------------------------------
->>>
->>> Hello,
->>>
->>> A Debian user reported that [1]:
->>>
->>>> spoof* keywords (nospoof, spoofalert, spoof) are here from 1996,
->>>> they are still valid keywords but do not have any effect apparentl=
-y,
->>>> no libraries or tools use them
->>>>
->>>> it is misleading to see references to resolv+ and rlogin, the keyw=
-ords
->>>> are just ignored these days; the only meaning they have is that th=
-ey
->>>> are
->>>> allowed by host.conf syntax
->>>
->>> The glibc source code seems to confirm that the keywords nospoof,
->>> spoofalert and spoof are accepted but without effects. I could find
->>> nothing in the changelog. Could you please confirm that they are
->>> obsolete? I could correct the man page accordingly.
->>
->> I had a quick grep in the glibc source code.
->>
->> It appears that you (and the reporter) are correct. (Even back in=20
->> glibc 2.1, things look the same).
->>
->> A patch would be appreciated!
->=20
-> Eventually, I may check others values too.
-> Do you to want to drop obsolete values or add a note ?
+On 02/27/2015 12:36 AM, wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org wrote:
+> From: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
 
-Best to keep a note that they exist, but do nothing.
+Thanks, Bill. Applied.
 
 Cheers,
 
 Michael
 
 
---=20
+> The list of errnos for msgrcv lists both EAGAIN and ENOMSG as the
+> errno for no message available with the IPC_NOWAIT flag.  ENOMSG is
+> the errno that will be set.
+> 
+> Signed-off-by: Bill Pemberton <wfp5p-rupya+Y+cgAvmQRmTv5wTA@public.gmane.org>
+> ---
+>  man2/msgop.2 | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/man2/msgop.2 b/man2/msgop.2
+> index d1bd2125344d..286c9965d595 100644
+> --- a/man2/msgop.2
+> +++ b/man2/msgop.2
+> @@ -417,12 +417,6 @@ and does not have the
+>  .B CAP_IPC_OWNER
+>  capability.
+>  .TP
+> -.B EAGAIN
+> -No message was available in the queue and
+> -.B IPC_NOWAIT
+> -was specified in
+> -.IR msgflg .
+> -.TP
+>  .B EFAULT
+>  The address pointed to by
+>  .I msgp
+> 
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
