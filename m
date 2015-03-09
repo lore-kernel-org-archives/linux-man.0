@@ -1,67 +1,71 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: manpages-dev: please note thread safeness of %m in vfprintf(3)
-Date: Mon, 9 Mar 2015 16:23:49 +0800
-Message-ID: <54FD5895.8090805@cn.fujitsu.com>
-References: <20150307103821.GA2043@free.fr> <54FD3B97.5050400@cn.fujitsu.com> <20150309074735.GA1144@free.fr>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Bug#773443: host.conf.5: spoof deprecated ?
+Date: Mon, 09 Mar 2015 10:03:09 +0100
+Message-ID: <54FD61CD.2060900@gmail.com>
+References: <20150308130510.GA3004@free.fr> <54FD4A19.2030203@gmail.com> <20150309075913.GA1341@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150309074735.GA1144-GANU6spQydw@public.gmane.org>
+In-Reply-To: <20150309075913.GA1341-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, 621057-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 773443-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi St=C3=A9phane,
-
-On 03/09/2015 03:47 PM, St=C3=A9phane Aulery wrote:
-> Hello Ma Shimiao,
->=20
-> Le lundi 09 mars 2015 =C3=A0 02:20:07, Ma Shimiao a =C3=A9crit :
+On 03/09/2015 08:59 AM, St=C3=A9phane Aulery wrote:
+> Le lundi 09 mars 2015 =C3=A0 08:22:01, Michael Kerrisk (man-pages) a =
+=C3=A9crit :
+>> Hello St=C3=A9phane
 >>
->> On 03/07/2015 06:38 PM, St=C3=A9phane Aulery wrote:
+>> On 03/08/2015 02:05 PM, St=C3=A9phane Aulery wrote:
+>>> ** COPY OF GLIBC BUGZILLA #18091 FOR INFORMATION **
+>>> https://sourceware.org/bugzilla/show_bug.cgi?id=3D18091
 >>>
->>> A Debian user has applied to mention that strerror_r(3) is thread s=
-afe.
+>>> -----------------------------------------------------
 >>>
->>>> Frome Martin Godisch <martin-AOktpf5JBruELgA04lAiVw@public.gmane.org>, Wed, 6 Apr 2011 09:30:30=
- +0200
+>>> Hello,
+>>>
+>>> A Debian user reported that [1]:
+>>>
+>>>> spoof* keywords (nospoof, spoofalert, spoof) are here from 1996,
+>>>> they are still valid keywords but do not have any effect apparentl=
+y,
+>>>> no libraries or tools use them
 >>>>
->>>> Please add a note to vfprintf(3) telling users that the %m convers=
-ion
->>>> specifier is thread safe.
+>>>> it is misleading to see references to resolv+ and rlogin, the keyw=
+ords
+>>>> are just ignored these days; the only meaning they have is that th=
+ey
+>>>> are
+>>>> allowed by host.conf syntax
+>>>
+>>> The glibc source code seems to confirm that the keywords nospoof,
+>>> spoofalert and spoof are accepted but without effects. I could find
+>>> nothing in the changelog. Could you please confirm that they are
+>>> obsolete? I could correct the man page accordingly.
 >>
->> I'm not sure why he need a note to indicate that the %m conversion s=
-pecifier=20
->> is thread safe.
->> From our research and glibc's document, vfprintf(3) is thread safe e=
-xcept when users pass float formatting,
->> custom formatting or single quota may cause locale dependency proble=
-m.
->> And I'm going to add thread safety information of vfprintf() into pr=
-intf.3.
->> If there is something special about %m, we'd like to know.
->> And I'm willing to add it.
+>> I had a quick grep in the glibc source code.
+>>
+>> It appears that you (and the reporter) are correct. (Even back in=20
+>> glibc 2.1, things look the same).
+>>
+>> A patch would be appreciated!
 >=20
-> I will send you answer to Martin Godisch, but I don't think there is =
-something
-> special. I will wait your patch before closing this bug.
+> Eventually, I may check others values too.
+> Do you to want to drop obsolete values or add a note ?
 
-OK. I will send my patch as soon as possible.
+Best to keep a note that they exist, but do nothing.
 
-Best regards,
->=20
-> Thanks.
->=20
-> Regards,
->=20
+Cheers,
+
+Michael
 
 
 --=20
-Ma Shimiao
-Development Dept.I
-Nanjing Fujitsu Nanda Software Tech. Co., Ltd.(FNST)
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
