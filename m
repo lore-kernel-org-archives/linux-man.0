@@ -1,35 +1,40 @@
-From: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: Handling of updates to kernel Documentation/ tree
-Date: Tue, 10 Mar 2015 07:11:04 -0700
-Message-ID: <20150310141104.GA17228@infradead.org>
-References: <3421611.4D45Q2BAys@tauon>
- <20150309150739.GA6131@infradead.org>
- <20150309174057.GC12857@vapier>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Question about seccomp(2) man page example code
+Date: Tue, 10 Mar 2015 18:24:21 +0100
+Message-ID: <CAKgNAkhz=Dx9SRVadU_cVEiU-yxjAPxANwd2ZyJUxoWZkYUQEQ@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20150309174057.GC12857@vapier>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Michael Kerrisk <michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Mon, Mar 09, 2015 at 01:40:57PM -0400, Mike Frysinger wrote:
-> > Referencing a kernel Documentation file from a man page sounds like
-> > a bad idea to me.  Why can't we include a nroff-yfied version of the
-> > content in the man-pages repository?
-> 
-> isn't that way worse ?  now we have to keep the man pages git repo in sync with 
-> the kernel Documentation/ subtree.
+Hi Kees,
 
-The content really should not change that much for public APIs.
+I was looking further at the seccomp(2) man page we put togetehr a
+while ago, and in particular at the example [1]. I realized that from
+a readability view, the order of the statements is rather contorted,
+so that we have branches to the end of the code (labels 5 and 6) to
+handle the syscall and arch mismatch cases, rather than swapping the
+branch order on the statements labeled 0 and 1, and having the kill
+statements immediately follow the test statements.
 
-> i think having the man pages refer to the public docbook kernel.org pages should 
-> be fine.
+However, I presume the ordering is as it is for efficiency reasons, so
+that the common case involves no branch forward (i.e., a branch offset
+of 0). Is that the case? If so, probably something should be said in
+the man page.
 
-Pointing to kernel.org posted html renderings sounds perfectly fine to
-me.  The reference to files inside a kernel source tree is what I object
-to.
+Cheers,
+
+Michael
+
+[1] http://man7.org/linux/man-pages/man2/seccomp.2.html#EXAMPLE
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
