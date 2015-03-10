@@ -1,89 +1,181 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug#773443: host.conf.5: spoof deprecated ?
-Date: Tue, 10 Mar 2015 07:00:34 +0100
-Message-ID: <CAKgNAkiuBTwSpYuZ6XqtsGmGExU5xJMKc1M=kz253pSXPJ7dOA@mail.gmail.com>
-References: <20150308130510.GA3004@free.fr> <54FD4A19.2030203@gmail.com>
- <20150309075913.GA1341@free.fr> <54FD61CD.2060900@gmail.com> <20150309232628.GA17006@free.fr>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] intro.1: some improvements
+Date: Tue, 10 Mar 2015 07:09:10 +0100
+Message-ID: <54FE8A86.9040405@gmail.com>
+References: <54F6BBC0.4010401@gmail.com> <1425932797-16050-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150309232628.GA17006-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425932797-16050-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: 773443-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 Hello St=C3=A9phane,
 
-On 10 March 2015 at 00:26, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote=
-:
-> Hello Michael,
->
-> Le lundi 09 mars 2015 =C3=A0 10:03:09, Michael Kerrisk (man-pages) a =
-=C3=A9crit :
->> On 03/09/2015 08:59 AM, St=C3=A9phane Aulery wrote:
->> > Le lundi 09 mars 2015 =C3=A0 08:22:01, Michael Kerrisk (man-pages)=
- a =C3=A9crit :
->> >>
->> >> On 03/08/2015 02:05 PM, St=C3=A9phane Aulery wrote:
->> >>>
->> >>> A Debian user reported that [1]:
->> >>>
->> >>>> spoof* keywords (nospoof, spoofalert, spoof) are here from 1996=
-,
->> >>>> they are still valid keywords but do not have any effect appare=
-ntly,
->> >>>> no libraries or tools use them
->> >>>>
->> >>>> it is misleading to see references to resolv+ and rlogin, the k=
-eywords
->> >>>> are just ignored these days; the only meaning they have is that=
- they
->> >>>> are
->> >>>> allowed by host.conf syntax
->> >>>
->> >>> The glibc source code seems to confirm that the keywords nospoof=
-,
->> >>> spoofalert and spoof are accepted but without effects. I could f=
-ind
->> >>> nothing in the changelog. Could you please confirm that they are
->> >>> obsolete? I could correct the man page accordingly.
->> >>
->> >> I had a quick grep in the glibc source code.
->> >>
->> >> It appears that you (and the reporter) are correct. (Even back in
->> >> glibc 2.1, things look the same).
->> >>
->> >> A patch would be appreciated!
->
-> I dug a little further comparing versions 2.0.6 [1], 2.0.7 [2]
-> and trunk [3] of glibc and I come to a different conclusion.
->
-> The keywords nospoof, spoofalert, spoof and RESOLV_SPOOF_CHECK were
-> added to glibc 2.0.7 but never implemented and documented in the
-> changelog.
+I applied most of the patch, but...
 
-Perfect -- that's exactly the sort of detail it's great to have in man-=
-pages!
+On 03/09/2015 09:26 PM, St=C3=A9phane Aulery wrote:
+> - Add a section Logout and poweroff and change login/logout by open/c=
+lose session
+
+=2E.. not this first piece. See comments below.
+
+> - Add ref. to other common shells dash(1), ksh(1)
+> - Add a ref. to stdout(3)
+> - Separate cp and mv descriptions
+> - Add examples of special cases of cd
+> - Add su(1) and shutdown(8) ref. for section Logout and poweroff
+> - Move Control-D to section Logout and poweroff
+> - Fix some little format errors
+>=20
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man1/intro.1 | 59 ++++++++++++++++++++++++++++++++++++++++++++------=
+---------
+>  1 file changed, 44 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/man1/intro.1 b/man1/intro.1
+> index e9daccf..4b95871 100644
+> --- a/man1/intro.1
+> +++ b/man1/intro.1
+> @@ -60,12 +60,10 @@ That is faster and more powerful,
+>  but requires finding out what the commands are.
+>  Below a bare minimum, to get started.
+>  .SS Login
+> -In order to start working, you probably first have to login,
+> -that is, give your username and password.
+> -See also
+> -.BR login (1).
+> +In order to start working, you probably first have to open a session=
+ by
+> +giving, your username and password.
+>  The program
+> -.I login
+> +.BR login (1)
+>  now starts a
+>  .I shell
+>  (command interpreter) for you.
+> @@ -73,6 +71,19 @@ In case of a graphical login, you get a screen wit=
+h menus or icons
+>  and a mouse click will start a shell in a window.
+>  See also
+>  .BR xterm (1).
+> +.SS Logout and poweroff
+> +When you work is finished,
+> +you can press Control-D to close the current session.
+> +This does not turn off the machine.
+> +Only superusers have access to this command.
+> +If you are the single user you can also not log off
+> +and becoming a superuser by typing the command
+> +.BR su (1).
+> +Also you must type yours password.
+> +Finally enter the command "shutdown -P +1",
+> +which will turn off the computer after one minute.
+> +See
+> +.BR shutdown (8).
+
+I'm not sure that we really need most of the above piece. I mean, in th=
+ese=20
+days of GUI and laptops. Most of us use the GUI or close the lid to=20
+shutdown/suspend.
 
 Cheers,
 
 Michael
 
 
-> [1] http://ftp.gnu.org/gnu/glibc/glibc-2.0.6.tar.gz
-> [2] http://archive.debian.org/debian/dists/hamm/main/source/libs/glib=
-c_2.0.7t.orig.tar.gz
-> [3] https://sourceware.org/git/?p=3Dglibc.git&a=3Dsearch&h=3DHEAD&st=3D=
-grep&s=3Dspoof&sr=3D1
->
-> Regards,
->
-> --
-> St=C3=A9phane Aulery
-
+>  .SS The shell
+>  One types commands to the
+>  .IR shell ,
+> @@ -85,12 +96,14 @@ The standard one is called
+>  See also
+>  .BR ash (1),
+>  .BR bash (1),
+> +.BR chsh (1),
+>  .BR csh (1),
+> -.BR zsh (1),
+> -.BR chsh (1).
+> +.BR dash (1),
+> +.BR ksh (1),
+> +.BR zsh (1).
+> +.LP
+> +A session might go like:
+>  .LP
+> -A session might go like
+> -
+>  .RS
+>  .nf
+>  .RB "knuth login: " aeb
+> @@ -134,7 +147,7 @@ maja    0501\-1136285
+>  $
+>  .fi
+>  .RE
+> -and here typing Control-D ended the session.
+> +.LP
+>  The
+>  .B $
+>  here was the command prompt\(emit is the shell's way of indicating
+> @@ -171,15 +184,19 @@ The command
+>  .I cat
+>  will show the contents of a file.
+>  (The name is from "concatenate and print": all files given as
+> -parameters are concatenated and sent to "standard output", here
+> +parameters are concatenated and sent to "standard output"
+> +(see
+> +.BR stdout (3)),
+> +here
+>  the terminal screen.)
+>  .LP
+>  The command
+>  .I cp
+>  (from "copy") will copy a file.
+> -On the other hand, the command
+> +.LP
+> +The command
+>  .I mv
+> -(from "move") only renames it.
+> +(from "move"), on the other hand, only renames it.
+>  .LP
+>  The command
+>  .I diff
+> @@ -223,7 +240,14 @@ prints the current directory.
+>  The command
+>  .I cd
+>  changes the current directory.
+> -Try "cd /" and "pwd" and "cd" and "pwd".
+> +.LP
+> +Try alternatively
+> +.I cd
+> +and
+> +.I pwd
+> +commands and explore
+> +.I cd
+> +usage: "cd", "cd .", "cd ..", "cd /" and "cd ~".
+>  .SS Directories
+>  The command
+>  .I mkdir
+> @@ -315,11 +339,16 @@ and use a browser if you find HTML files there.
+>  .BR bash (1),
+>  .BR chsh (1),
+>  .BR csh (1),
+> +.BR dash (1),
+> +.BR ksh (1),
+>  .BR locate (1),
+>  .BR login (1),
+>  .BR man (1),
+> +.BR su (1),
+>  .BR xterm (1),
+>  .BR zsh(1),
+>  .BR wait (2),
+> +.BR stdout (3),
+>  .BR man-pages (7),
+> -.BR standards (7)
+> +.BR standards (7),
+> +.BR shutdown (8)
+>=20
 
 
 --=20
