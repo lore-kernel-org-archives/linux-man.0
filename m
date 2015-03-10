@@ -1,180 +1,179 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] intro.1: some improvements
-Date: Tue, 10 Mar 2015 07:09:10 +0100
-Message-ID: <54FE8A86.9040405@gmail.com>
-References: <54F6BBC0.4010401@gmail.com> <1425932797-16050-1-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH] resolver.3: documents missing options used by _res structure
+ defined in resolv.h and indicates defaults options
+Date: Tue, 10 Mar 2015 07:12:32 +0100
+Message-ID: <54FE8B50.7040307@gmail.com>
+References: <54FD6CC3.1000706@gmail.com> <1425933851-16360-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1425932797-16050-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425933851-16360-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 527136-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello St=C3=A9phane,
-
-I applied most of the patch, but...
-
-On 03/09/2015 09:26 PM, St=C3=A9phane Aulery wrote:
-> - Add a section Logout and poweroff and change login/logout by open/c=
-lose session
-
-=2E.. not this first piece. See comments below.
-
-> - Add ref. to other common shells dash(1), ksh(1)
-> - Add a ref. to stdout(3)
-> - Separate cp and mv descriptions
-> - Add examples of special cases of cd
-> - Add su(1) and shutdown(8) ref. for section Logout and poweroff
-> - Move Control-D to section Logout and poweroff
-> - Fix some little format errors
+On 03/09/2015 09:44 PM, St=C3=A9phane Aulery wrote:
+> Missing options: RES_INSECURE1, RES_INSECURE2, RES_NOALIASES, USE_INE=
+T6,
+> ROTATE, NOCHECKNAME, RES_KEEPTSIG, BLAST, USEBSTRING, NOIP6DOTINT, US=
+E_EDNS0,
+> SNGLKUP, SNGLKUPREOP, RES_USE_DNSSEC, NOTLDQUERY, DEFAULT
 >=20
-> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
-> ---
->  man1/intro.1 | 59 ++++++++++++++++++++++++++++++++++++++++++++------=
----------
->  1 file changed, 44 insertions(+), 15 deletions(-)
->=20
-> diff --git a/man1/intro.1 b/man1/intro.1
-> index e9daccf..4b95871 100644
-> --- a/man1/intro.1
-> +++ b/man1/intro.1
-> @@ -60,12 +60,10 @@ That is faster and more powerful,
->  but requires finding out what the commands are.
->  Below a bare minimum, to get started.
->  .SS Login
-> -In order to start working, you probably first have to login,
-> -that is, give your username and password.
-> -See also
-> -.BR login (1).
-> +In order to start working, you probably first have to open a session=
- by
-> +giving, your username and password.
->  The program
-> -.I login
-> +.BR login (1)
->  now starts a
->  .I shell
->  (command interpreter) for you.
-> @@ -73,6 +71,19 @@ In case of a graphical login, you get a screen wit=
-h menus or icons
->  and a mouse click will start a shell in a window.
->  See also
->  .BR xterm (1).
-> +.SS Logout and poweroff
-> +When you work is finished,
-> +you can press Control-D to close the current session.
-> +This does not turn off the machine.
-> +Only superusers have access to this command.
-> +If you are the single user you can also not log off
-> +and becoming a superuser by typing the command
-> +.BR su (1).
-> +Also you must type yours password.
-> +Finally enter the command "shutdown -P +1",
-> +which will turn off the computer after one minute.
-> +See
-> +.BR shutdown (8).
+> Written from the glibc source and resolv.conf.5.
 
-I'm not sure that we really need most of the above piece. I mean, in th=
-ese=20
-days of GUI and laptops. Most of us use the GUI or close the lid to=20
-shutdown/suspend.
+Thanks St=C3=A9phane! Applied.
 
 Cheers,
 
 Michael
 
 
->  .SS The shell
->  One types commands to the
->  .IR shell ,
-> @@ -85,12 +96,14 @@ The standard one is called
->  See also
->  .BR ash (1),
->  .BR bash (1),
-> +.BR chsh (1),
->  .BR csh (1),
-> -.BR zsh (1),
-> -.BR chsh (1).
-> +.BR dash (1),
-> +.BR ksh (1),
-> +.BR zsh (1).
-> +.LP
-> +A session might go like:
->  .LP
-> -A session might go like
-> -
->  .RS
->  .nf
->  .RB "knuth login: " aeb
-> @@ -134,7 +147,7 @@ maja    0501\-1136285
->  $
->  .fi
->  .RE
-> -and here typing Control-D ended the session.
-> +.LP
->  The
->  .B $
->  here was the command prompt\(emit is the shell's way of indicating
-> @@ -171,15 +184,19 @@ The command
->  .I cat
->  will show the contents of a file.
->  (The name is from "concatenate and print": all files given as
-> -parameters are concatenated and sent to "standard output", here
-> +parameters are concatenated and sent to "standard output"
-> +(see
-> +.BR stdout (3)),
-> +here
->  the terminal screen.)
->  .LP
->  The command
->  .I cp
->  (from "copy") will copy a file.
-> -On the other hand, the command
-> +.LP
-> +The command
->  .I mv
-> -(from "move") only renames it.
-> +(from "move"), on the other hand, only renames it.
->  .LP
->  The command
->  .I diff
-> @@ -223,7 +240,14 @@ prints the current directory.
->  The command
->  .I cd
->  changes the current directory.
-> -Try "cd /" and "pwd" and "cd" and "pwd".
-> +.LP
-> +Try alternatively
-> +.I cd
+> Debian bug #527136 reported by Jakub Wilk <ubanus-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
+>=20
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D527136
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man3/resolver.3 | 99 +++++++++++++++++++++++++++++++++++++++++++++++=
++++++-----
+>  1 file changed, 91 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/man3/resolver.3 b/man3/resolver.3
+> index 19c4192..06704b1 100644
+> --- a/man3/resolver.3
+> +++ b/man3/resolver.3
+> @@ -197,19 +197,20 @@ which is not the default.
+>  Accept authoritative answers only.
+>  .BR res_send ()
+>  continues until
+> -it finds an authoritative answer or returns an error.  [Not currentl=
+y
+> -implemented].
+> +it finds an authoritative answer or returns an error.
+> +[Not currently implemented].
+>  .TP
+>  .B RES_USEVC
+>  Use TCP connections for queries rather than UDP datagrams.
+>  .TP
+>  .B RES_PRIMARY
+>  Query primary domain name server only.
+> +[Not currently implemented].
+>  .TP
+>  .B RES_IGNTC
+>  Ignore truncation errors.
+> -Don't retry with TCP.  [Not currently
+> -implemented].
+> +Don't retry with TCP.
+> +[Not currently implemented].
+>  .TP
+>  .B RES_RECURSE
+>  Set the recursion desired bit in queries.
+> @@ -238,10 +239,92 @@ domain and in parent domains.
+>  This option is used by
+>  .BR gethostbyname (3).
+>  [Enabled by default].
+> -.PP
+> -This list is not complete.
+> -You can find some other flags described in
+> -.BR resolv.conf (5).
+> +.TP
+> +.B RES_INSECURE1
+> +Accept a response from a wrong server and show it on standard output
+> +(for debug purpose only).
+> +.TP
+> +.B RES_INSECURE2
+> +Accept a response which contains a wrong query and show it on standa=
+rd
+> +output (for debug purpose only).
+> +.TP
+> +.B RES_NOALIASES
+> +Disable usage of
+> +.B HOSTALIASES
+> +environment variable.
+> +.TP
+> +.B RES_USE_INET6
+> +Try an AAAA query before an A query inside the
+> +.BR gethostbyname ()
+> +function, and map IPv4 responses in IPv6 "tunneled form" if no AAAA =
+records
+> +are found but an A record set exists.
+> +.TP
+> +.B RES_ROTATE
+> +Causes round-robin selection of name servers from among those listed=
+=2E
+> +This has the effect of spreading the query load among all listed ser=
+vers,
+> +rather than having all clients try the first listed server first eve=
+ry
+> +time.
+> +.TP
+> +.B RES_NOCHECKNAME
+> +Disable the modern BIND checking of incoming hostnames and mail name=
+s
+> +for invalid characters such as underscore (_), non-ASCII,
+> +or control characters.
+> +[Not currently implemented].
+> +.TP
+> +.B RES_KEEPTSIG
+> +Do not strip TSIG records.
+> +[Not currently implemented].
+> +.TP
+> +.B RES_BLAST
+> +Send each query simultaneously and recursively to all servers.
+> +Note this option overrides
+> +.BR RES_ROTATE .
+> +.TP
+> +.BR RES_USEBSTRING " (since glibc 2.3.4)"
+> +Make reverse IPv6 lookups using the bit-label format described in RF=
+C 2673;
+> +if this option is not set, then nibble format is used.
+> +.TP
+> +.B RES_NOIP6DOTINT
+> +Use
+> +.I ip6.arpa
+> +zone in IPv6 reverse lookup instead of
+> +.IR ip6.int ,
+> +which is deprecated since glibc 2.3.4.
+> +[Enabled by default].
+> +.TP
+> +.BR RES_USE_EDNS0 " (since glibc 2.6)"
+> +Enables support for the DNS extensions (EDNS0) described in RFC 2671=
+=2E
+> +.TP
+> +.BR RES_SNGLKUP " (since glibc 2.10)"
+> +By default, glibc performs IPv4 and IPv6 lookups in parallel since
+> +version 2.9.
+> +Some appliance DNS servers cannot handle these queries properly
+> +and make the requests time out.
+> +This option disables the behavior and makes glibc
+> +perform the IPv6 and IPv4 requests sequentially
+> +(at the cost of some slowdown of the resolving process).
+> +.TP
+> +.B RES_SNGLKUPREOP
+> +When
+> +.B RES_SNGLKUP
+> +option is enabled, opens a new socket for the each request.
+> +.TP
+> +.B RES_USE_DNSSEC
+> +Use DNSSEC with OK bit in OPT record.
+> +This option implies
+> +.BR RES_USE_EDNS0 .
+> +.TP
+> +.B RES_NOTLDQUERY
+> +Do not look up unqualified name as a top-level domain (TLD).
+> +.TP
+> +.B RES_DEFAULT
+> +Default option which implies:
+> +.BR RES_RECURSE ,
+> +.BR RES_DEFNAMES ,
+> +.BR RES_DNSRCH
 > +and
-> +.I pwd
-> +commands and explore
-> +.I cd
-> +usage: "cd", "cd .", "cd ..", "cd /" and "cd ~".
->  .SS Directories
->  The command
->  .I mkdir
-> @@ -315,11 +339,16 @@ and use a browser if you find HTML files there.
->  .BR bash (1),
->  .BR chsh (1),
->  .BR csh (1),
-> +.BR dash (1),
-> +.BR ksh (1),
->  .BR locate (1),
->  .BR login (1),
->  .BR man (1),
-> +.BR su (1),
->  .BR xterm (1),
->  .BR zsh(1),
->  .BR wait (2),
-> +.BR stdout (3),
->  .BR man-pages (7),
-> -.BR standards (7)
-> +.BR standards (7),
-> +.BR shutdown (8)
+> +.BR RES_NOIP6DOTINT .
+> +
+>  .SH RETURN VALUE
+>  The
+>  .BR res_init ()
 >=20
 
 
