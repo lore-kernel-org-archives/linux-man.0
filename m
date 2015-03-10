@@ -1,132 +1,51 @@
 From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: Re: [PATCH] resolver.3: documents missing options used by _res
- structure defined in resolv.h and indicates defaults options
-Date: Wed, 11 Mar 2015 00:33:48 +0100
-Message-ID: <20150310233348.GA2511@free.fr>
-References: <54FD6CC3.1000706@gmail.com>
- <1425933851-16360-1-git-send-email-saulery@free.fr>
- <54FECB89.5000401@bfs.de>
+Subject: Re: man5/filesystems.5: updated list and descriptions of supported
+ filesystems
+Date: Wed, 11 Mar 2015 00:46:52 +0100
+Message-ID: <20150310234652.GA2988@free.fr>
+References: <1425373111-3584-1-git-send-email-saulery@free.fr>
+ <1425373111-3584-2-git-send-email-saulery@free.fr>
+ <54F5A5A1.7060401@gmail.com>
+ <20150309182939.GA13767@free.fr>
+ <54FE87DD.8090003@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <54FECB89.5000401-fPG8STNUNVg@public.gmane.org>
+In-Reply-To: <54FE87DD.8090003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 527136-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello walter,
-
-Le mardi 10 mars 2015 =C3=A0 11:46:33, walter harms a =C3=A9crit :
->=20
-> Am 09.03.2015 21:44, schrieb St=C3=A9phane Aulery:
-> > Missing options: RES_INSECURE1, RES_INSECURE2, RES_NOALIASES, USE_I=
-NET6,
-> > ROTATE, NOCHECKNAME, RES_KEEPTSIG, BLAST, USEBSTRING, NOIP6DOTINT, =
-USE_EDNS0,
-> > SNGLKUP, SNGLKUPREOP, RES_USE_DNSSEC, NOTLDQUERY, DEFAULT
+Le mardi 10 mars 2015 =C3=A0 06:57:49, Michael Kerrisk (man-pages) a =C3=
+=A9crit :
+> On 03/09/2015 07:29 PM, St=C3=A9phane Aulery wrote:
 > >=20
-> > Written from the glibc source and resolv.conf.5.
+> > Le mardi 03 mars 2015 =C3=A0 01:14:25, Michael Kerrisk (man-pages) =
+a =C3=A9crit :
+> >>
+> >> b) Send me a *list* of the filesystems you propose to add,=20
+> >>    possibly with suggestions on how those FSes could be added=20
+> >>    in patches that add multiple related FSes.
 > >=20
-> > Debian bug #527136 reported by Jakub Wilk <ubanus-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
+> > Here is a list:
 > >=20
-> > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D527136
-> > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
-> > ---
-> >  man3/resolver.3 | 99 +++++++++++++++++++++++++++++++++++++++++++++=
-+++++++-----
-> >  1 file changed, 91 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/man3/resolver.3 b/man3/resolver.3
-> > index 19c4192..06704b1 100644
-> > --- a/man3/resolver.3
-> > +++ b/man3/resolver.3
-> > @@ -197,19 +197,20 @@ which is not the default.
-> >  Accept authoritative answers only.
-> >  .BR res_send ()
-> >  continues until
-> > -it finds an authoritative answer or returns an error.  [Not curren=
-tly
-> > -implemented].
-> > +it finds an authoritative answer or returns an error.
-> > +[Not currently implemented].
-> >  .TP
-> >  .B RES_USEVC
-> >  Use TCP connections for queries rather than UDP datagrams.
-> >  .TP
-> >  .B RES_PRIMARY
-> >  Query primary domain name server only.
-> > +[Not currently implemented].
+> > adfs, afs, affs (five variants: DOS/0, DOS/1, DOS/2, DOS/3, DOS/4, =
+DOS/5),
+> > befs, bfs, btrfs, ceph, cifs, coda, coherent, configfs, cramfs, deb=
+ugfs,
+> > devpts, dlmfs, ecryptfs, efivarfs, exofs, f2fs, fat, gfs2, hfs, hfs=
+plus,
+> > logfs, nilfs2, ocfs2, omfs, pohmelfs, qnx6, ramfs, reiserfs, romfs,=
+ spufs,
+> > spufs, squashfs, sysfs, tmpfs, ubifs, udf, ufs, v9fs, usbfs, xenix
 >=20
-> pitpicking:
->  the phrase is normally "not yet implemented"
+> Any ideas about ways of grouping these? I'd rather not receive one=20
+> patch with them all...
 
-That's not me. We can change it ?
-
-> perhaps you can add as comment what version you have tested to
-> give pple a hint where to look.
-
-I have not tested. It is written in code:
-
-https://sourceware.org/git/?p=3Dglibc.git;a=3Dblob;f=3Dresolv/res_debug=
-=2Ec;hb=3D44a6213c8eebf3f69712a5fba9a33bbb90a79023#l565
-
-=46or that matter to seek versions, why not just give the version of th=
-is
-that is implemented. This will be information that does not expires.
-
-> >  .TP
-> >  .B RES_IGNTC
-> >  Ignore truncation errors.
-> > -Don't retry with TCP.  [Not currently
-> > -implemented].
-> > +Don't retry with TCP.
-> > +[Not currently implemented].
-> >  .TP
-> >  .B RES_RECURSE
-> >  Set the recursion desired bit in queries.
-> > @@ -238,10 +239,92 @@ domain and in parent domains.
-> >  This option is used by
-> >  .BR gethostbyname (3).
-> >  [Enabled by default].
-> > -.PP
-> > -This list is not complete.
-> > -You can find some other flags described in
-> > -.BR resolv.conf (5).
-> > +.TP
-> > +.B RES_INSECURE1
-> > +Accept a response from a wrong server and show it on standard outp=
-ut
-> > +(for debug purpose only).
->=20
-> is there a debug mode switch or is this a compiletime option ?
-> this could be of interest for admins that do not want this.
->=20
-> just my 2 cents,
->  wh
-
-That's options are always available. The message display is subjected t=
-o the
-simultaneous use of RES_DEBUG option. However, the commentary and optio=
-n name
-imply that it is to test security flaws, but at your own risk:
-
-    /*
-    * response from wrong server? ignore it.
-    * XXX - potential security hazard could
-    * be detected here.
-    */
-
-I realize that my description may not be entirely fair. It could be :
-
-    Accept a response from a wrong server. Potential security hazard
-    could be detected here, but you need to compile glibc with debuggin=
-g
-    enabled and use RES_DEBUG option.
-
-Regards,
+No idea of grouping. In packages of two or three?
 
 --=20
 St=C3=A9phane Aulery
