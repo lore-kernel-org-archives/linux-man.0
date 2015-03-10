@@ -1,53 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Handling of updates to kernel Documentation/ tree
-Date: Tue, 10 Mar 2015 06:56:40 +0100
-Message-ID: <54FE8798.2050104@gmail.com>
-References: <3421611.4D45Q2BAys@tauon> <20150309150739.GA6131@infradead.org> <20150309174057.GC12857@vapier>
+Subject: Re: man5/filesystems.5: updated list and descriptions of supported
+ filesystems
+Date: Tue, 10 Mar 2015 06:57:49 +0100
+Message-ID: <54FE87DD.8090003@gmail.com>
+References: <1425373111-3584-1-git-send-email-saulery@free.fr> <1425373111-3584-2-git-send-email-saulery@free.fr> <54F5A5A1.7060401@gmail.com> <20150309182939.GA13767@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150309174057.GC12857@vapier>
+In-Reply-To: <20150309182939.GA13767-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, Michael Kerrisk <michael.kerrisk-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/09/2015 06:40 PM, Mike Frysinger wrote:
-> On 09 Mar 2015 08:07, Christoph Hellwig wrote:
->> On Mon, Mar 09, 2015 at 03:17:58PM +0100, Stephan Mueller wrote:
->>> how shall an update to the Documentation/ tree be handled in man pages 
->>> that contain a pointer to these documents?
->>>
->>> Specifically, socket(2) contains a reference to 
->>> Documentation/crypto/crypto-API-userspace.txt. With the patch [1] the 
->>> document is gone and its contents is moved into a DocBook.
->>>
->>> Shall the kernel DocBook website [2] be referenced? If so, when is it 
->>> appropriate to add the patch (note, the change is expected to be 
->>> propagated to Linus' tree in 4.1-rc1).
+On 03/09/2015 07:29 PM, St=C3=A9phane Aulery wrote:
+> Hello Michael,
+>=20
+> Le mardi 03 mars 2015 =C3=A0 01:14:25, Michael Kerrisk (man-pages) a =
+=C3=A9crit :
 >>
->> Referencing a kernel Documentation file from a man page sounds like
->> a bad idea to me.  Why can't we include a nroff-yfied version of the
->> content in the man-pages repository?
-> 
-> isn't that way worse ?  now we have to keep the man pages git repo in sync with 
-> the kernel Documentation/ subtree.
+>> On 03/03/2015 09:58 AM, saulery-GANU6spQydw@public.gmane.org wrote:
+>>> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+>>
+>> I appreciate the work your doing on man pages, but it would=20
+>> be helpful if you could do the following:
+>>
+>> b) Send me a *list* of the filesystems you propose to add,=20
+>>    possibly with suggestions on how those FSes could be added=20
+>>    in patches that add multiple related FSes.
+>=20
+> Here is a list:
+>=20
+> adfs, afs, affs (five variants: DOS/0, DOS/1, DOS/2, DOS/3, DOS/4, DO=
+S/5),
+> befs, bfs, btrfs, ceph, cifs, coda, coherent, configfs, cramfs, debug=
+fs,
+> devpts, dlmfs, ecryptfs, efivarfs, exofs, f2fs, fat, gfs2, hfs, hfspl=
+us,
+> logfs, nilfs2, ocfs2, omfs, pohmelfs, qnx6, ramfs, reiserfs, romfs, s=
+pufs,
+> spufs, squashfs, sysfs, tmpfs, ubifs, udf, ufs, v9fs, usbfs, xenix
 
-Agreed. Unless it's totally automated, keeping things in synch is too 
-painful.
+Any ideas about ways of grouping these? I'd rather not receive one=20
+patch with them all...
 
-> i think having the man pages refer to the public docbook kernel.org pages should 
-> be fine.
-
-It's acceptable, IMO, though proper installed documentation is better.
-
-Cheers,
+Thanks,
 
 Michael
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
