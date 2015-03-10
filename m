@@ -1,53 +1,88 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: man5/filesystems.5: updated list and descriptions of supported
- filesystems
-Date: Tue, 10 Mar 2015 06:57:49 +0100
-Message-ID: <54FE87DD.8090003@gmail.com>
-References: <1425373111-3584-1-git-send-email-saulery@free.fr> <1425373111-3584-2-git-send-email-saulery@free.fr> <54F5A5A1.7060401@gmail.com> <20150309182939.GA13767@free.fr>
+Subject: Re: Bug#773443: host.conf.5: spoof deprecated ?
+Date: Tue, 10 Mar 2015 07:00:34 +0100
+Message-ID: <CAKgNAkiuBTwSpYuZ6XqtsGmGExU5xJMKc1M=kz253pSXPJ7dOA@mail.gmail.com>
+References: <20150308130510.GA3004@free.fr> <54FD4A19.2030203@gmail.com>
+ <20150309075913.GA1341@free.fr> <54FD61CD.2060900@gmail.com> <20150309232628.GA17006@free.fr>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150309182939.GA13767-GANU6spQydw@public.gmane.org>
+In-Reply-To: <20150309232628.GA17006-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: 773443-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/09/2015 07:29 PM, St=C3=A9phane Aulery wrote:
+Hello St=C3=A9phane,
+
+On 10 March 2015 at 00:26, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote=
+:
 > Hello Michael,
->=20
-> Le mardi 03 mars 2015 =C3=A0 01:14:25, Michael Kerrisk (man-pages) a =
+>
+> Le lundi 09 mars 2015 =C3=A0 10:03:09, Michael Kerrisk (man-pages) a =
 =C3=A9crit :
->>
->> On 03/03/2015 09:58 AM, saulery-GANU6spQydw@public.gmane.org wrote:
->>> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
->>
->> I appreciate the work your doing on man pages, but it would=20
->> be helpful if you could do the following:
->>
->> b) Send me a *list* of the filesystems you propose to add,=20
->>    possibly with suggestions on how those FSes could be added=20
->>    in patches that add multiple related FSes.
->=20
-> Here is a list:
->=20
-> adfs, afs, affs (five variants: DOS/0, DOS/1, DOS/2, DOS/3, DOS/4, DO=
-S/5),
-> befs, bfs, btrfs, ceph, cifs, coda, coherent, configfs, cramfs, debug=
-fs,
-> devpts, dlmfs, ecryptfs, efivarfs, exofs, f2fs, fat, gfs2, hfs, hfspl=
-us,
-> logfs, nilfs2, ocfs2, omfs, pohmelfs, qnx6, ramfs, reiserfs, romfs, s=
-pufs,
-> spufs, squashfs, sysfs, tmpfs, ubifs, udf, ufs, v9fs, usbfs, xenix
+>> On 03/09/2015 08:59 AM, St=C3=A9phane Aulery wrote:
+>> > Le lundi 09 mars 2015 =C3=A0 08:22:01, Michael Kerrisk (man-pages)=
+ a =C3=A9crit :
+>> >>
+>> >> On 03/08/2015 02:05 PM, St=C3=A9phane Aulery wrote:
+>> >>>
+>> >>> A Debian user reported that [1]:
+>> >>>
+>> >>>> spoof* keywords (nospoof, spoofalert, spoof) are here from 1996=
+,
+>> >>>> they are still valid keywords but do not have any effect appare=
+ntly,
+>> >>>> no libraries or tools use them
+>> >>>>
+>> >>>> it is misleading to see references to resolv+ and rlogin, the k=
+eywords
+>> >>>> are just ignored these days; the only meaning they have is that=
+ they
+>> >>>> are
+>> >>>> allowed by host.conf syntax
+>> >>>
+>> >>> The glibc source code seems to confirm that the keywords nospoof=
+,
+>> >>> spoofalert and spoof are accepted but without effects. I could f=
+ind
+>> >>> nothing in the changelog. Could you please confirm that they are
+>> >>> obsolete? I could correct the man page accordingly.
+>> >>
+>> >> I had a quick grep in the glibc source code.
+>> >>
+>> >> It appears that you (and the reporter) are correct. (Even back in
+>> >> glibc 2.1, things look the same).
+>> >>
+>> >> A patch would be appreciated!
+>
+> I dug a little further comparing versions 2.0.6 [1], 2.0.7 [2]
+> and trunk [3] of glibc and I come to a different conclusion.
+>
+> The keywords nospoof, spoofalert, spoof and RESOLV_SPOOF_CHECK were
+> added to glibc 2.0.7 but never implemented and documented in the
+> changelog.
 
-Any ideas about ways of grouping these? I'd rather not receive one=20
-patch with them all...
+Perfect -- that's exactly the sort of detail it's great to have in man-=
+pages!
 
-Thanks,
+Cheers,
 
 Michael
+
+
+> [1] http://ftp.gnu.org/gnu/glibc/glibc-2.0.6.tar.gz
+> [2] http://archive.debian.org/debian/dists/hamm/main/source/libs/glib=
+c_2.0.7t.orig.tar.gz
+> [3] https://sourceware.org/git/?p=3Dglibc.git&a=3Dsearch&h=3DHEAD&st=3D=
+grep&s=3Dspoof&sr=3D1
+>
+> Regards,
+>
+> --
+> St=C3=A9phane Aulery
 
 
 
