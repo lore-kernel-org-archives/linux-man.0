@@ -1,139 +1,190 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] intro.1: some improvements
-Date: Tue, 10 Mar 2015 09:53:23 +0100
-Message-ID: <54FEB103.6070200@gmail.com>
-References: <54F6BBC0.4010401@gmail.com> <1425932797-16050-1-git-send-email-saulery@free.fr> <54FE8A86.9040405@gmail.com> <20150310074041.GA1627@free.fr>
+From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
+Subject: Re: [PATCH] resolver.3: documents missing options used by _res structure
+ defined in resolv.h and indicates defaults options
+Date: Tue, 10 Mar 2015 11:46:33 +0100
+Message-ID: <54FECB89.5000401@bfs.de>
+References: <54FD6CC3.1000706@gmail.com> <1425933851-16360-1-git-send-email-saulery@free.fr>
+Reply-To: wharms-fPG8STNUNVg@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150310074041.GA1627-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1425933851-16360-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, 527136-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi St=C3=A9phane
 
-[I'll reorder the text a mail a little for ease of reply]
 
->> I'm not sure that we really need most of the above piece. I mean, in=
- these=20
->> days of GUI and laptops. Most of us use the GUI or close the lid to=20
->> shutdown/suspend.
+Am 09.03.2015 21:44, schrieb St=C3=A9phane Aulery:
+> Missing options: RES_INSECURE1, RES_INSECURE2, RES_NOALIASES, USE_INE=
+T6,
+> ROTATE, NOCHECKNAME, RES_KEEPTSIG, BLAST, USEBSTRING, NOIP6DOTINT, US=
+E_EDNS0,
+> SNGLKUP, SNGLKUPREOP, RES_USE_DNSSEC, NOTLDQUERY, DEFAULT
 >=20
-> I use startx / shutdown, so it does not shock me. This addition and t=
-he
-> other I have proposed that the reader knows what to do if X does not
-> start.
-
-Okay. So, some observations:
-
-1. I've never been a huge fan of the extended intro.1 page. I just thin=
-k
-   it's a little out of place as man page. For the most part, tutorials
-   are best put somewhere else. That said, the intro(1) page was alread=
+> Written from the glibc source and resolv.conf.5.
+>=20
+> Debian bug #527136 reported by Jakub Wilk <ubanus-iA+eEnwkJgzk1uMJSBkQmQ@public.gmane.org>
+>=20
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D527136
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man3/resolver.3 | 99 +++++++++++++++++++++++++++++++++++++++++++++++=
++++++-----
+>  1 file changed, 91 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/man3/resolver.3 b/man3/resolver.3
+> index 19c4192..06704b1 100644
+> --- a/man3/resolver.3
+> +++ b/man3/resolver.3
+> @@ -197,19 +197,20 @@ which is not the default.
+>  Accept authoritative answers only.
+>  .BR res_send ()
+>  continues until
+> -it finds an authoritative answer or returns an error.  [Not currentl=
 y
-   there when I arrived as maintainer, and I'm not so disturbed by
-   the tutorial content that I want to eliminate it. I will even take
-   reasonable additions to it.
+> -implemented].
+> +it finds an authoritative answer or returns an error.
+> +[Not currently implemented].
+>  .TP
+>  .B RES_USEVC
+>  Use TCP connections for queries rather than UDP datagrams.
+>  .TP
+>  .B RES_PRIMARY
+>  Query primary domain name server only.
+> +[Not currently implemented].
 
-2. I don't want this page to grow enormous.
+pitpicking:
+ the phrase is normally "not yet implemented"
+perhaps you can add as comment what version you have tested to
+give pple a hint where to look.
 
-3. I'd like it to focus on the commonly used commands. Or, where it=20
-   covers less commonly used commands, then a few words of explanation
-   are in order. For example, one could say: "Although the X Windows
-   system is commonly started automatically, and the system is shut dow=
-n
-   or suspended through a graphical interface, there are commands that
-   can be used from the shell to perform each of these steps..."
-   See what I mean?
 
-> If you do not want, no problem, but now the page is incoherent:
->=20
-> - Control-D was moved to the non-added portion
-> - Su (1), shutdown (8) in excess in SEE ALSO
 
-Good point. So, some clean up is needed. Could you take a look?
-But see comments below.
+>  .TP
+>  .B RES_IGNTC
+>  Ignore truncation errors.
+> -Don't retry with TCP.  [Not currently
+> -implemented].
+> +Don't retry with TCP.
+> +[Not currently implemented].
+>  .TP
+>  .B RES_RECURSE
+>  Set the recursion desired bit in queries.
+> @@ -238,10 +239,92 @@ domain and in parent domains.
+>  This option is used by
+>  .BR gethostbyname (3).
+>  [Enabled by default].
+> -.PP
+> -This list is not complete.
+> -You can find some other flags described in
+> -.BR resolv.conf (5).
+> +.TP
+> +.B RES_INSECURE1
+> +Accept a response from a wrong server and show it on standard output
+> +(for debug purpose only).
 
-> Le mardi 10 mars 2015 =C3=A0 07:09:10, Michael Kerrisk (man-pages) a =
-=C3=A9crit :
->>
->> I applied most of the patch, but...
->>
->> On 03/09/2015 09:26 PM, St=C3=A9phane Aulery wrote:
->>> - Add a section Logout and poweroff and change login/logout by open=
-/close session
->>
->> ... not this first piece. See comments below.
+is there a debug mode switch or is this a compiletime option ?
+this could be of interest for admins that do not want this.
 
-So, a metacomment. This piece really would have been better as a
-separate patch, since it's rather a new topi, and then we could
-have started this conversation sooner, and also avoided the small
-incoherent piece that we now have.
+just my 2 cents,
+ wh
 
-I would probably take a patch that covers this stuff, but addresses my=20
-idea above. But see also the comments below.
-
->>> +.SS Logout and poweroff
->>> +When you work is finished,
->>> +you can press Control-D to close the current session.
-
-This text is confusing. What is the "current session"?
-
->>> +This does not turn off the machine.
-
-What is "This"? I think it's confusing to bring together the
-discussion of terminating a shell session and shutting down the system.
-
->>> +Only superusers have access to this command.
-
-What is "this command"?
-
->>> +If you are the single user you can also not log off
-
-What is "the single user"?
-
->>> +and becoming a superuser by typing the command
->>> +.BR su (1).
-
-In general, I can't understand what the last sentence is trying=20
-to say...
-
->>> +Also you must type yours password.
-
-s/yours/your/
-
->>> +Finally enter the command "shutdown -P +1",
->>> +which will turn off the computer after one minute.
->>> +See
->>> +.BR shutdown (8).
-
-So, you see pat of my problem was also that I think the text=20
-still needed much work. I should have explained that, but I=20
-left off to so, since I was not convinced we need this stuff=20
-in general. (But, if you want to do the work to make something,
-I will probably take it.)
-
-I'd propose this, if you want to try and add these pieces:
-
-* Split any discussion of closing a shell session off into a=20
-  separate piece.
-* Explain startx if you want.
-* Explain shutdown if you want.
-
-But, I think all of these pieces are more or less
-orthogonal and should be explained separately.
-
-Thanks,
-
-Michael
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+> +.TP
+> +.B RES_INSECURE2
+> +Accept a response which contains a wrong query and show it on standa=
+rd
+> +output (for debug purpose only).
+> +.TP
+> +.B RES_NOALIASES
+> +Disable usage of
+> +.B HOSTALIASES
+> +environment variable.
+> +.TP
+> +.B RES_USE_INET6
+> +Try an AAAA query before an A query inside the
+> +.BR gethostbyname ()
+> +function, and map IPv4 responses in IPv6 "tunneled form" if no AAAA =
+records
+> +are found but an A record set exists.
+> +.TP
+> +.B RES_ROTATE
+> +Causes round-robin selection of name servers from among those listed=
+=2E
+> +This has the effect of spreading the query load among all listed ser=
+vers,
+> +rather than having all clients try the first listed server first eve=
+ry
+> +time.
+> +.TP
+> +.B RES_NOCHECKNAME
+> +Disable the modern BIND checking of incoming hostnames and mail name=
+s
+> +for invalid characters such as underscore (_), non-ASCII,
+> +or control characters.
+> +[Not currently implemented].
+> +.TP
+> +.B RES_KEEPTSIG
+> +Do not strip TSIG records.
+> +[Not currently implemented].
+> +.TP
+> +.B RES_BLAST
+> +Send each query simultaneously and recursively to all servers.
+> +Note this option overrides
+> +.BR RES_ROTATE .
+> +.TP
+> +.BR RES_USEBSTRING " (since glibc 2.3.4)"
+> +Make reverse IPv6 lookups using the bit-label format described in RF=
+C 2673;
+> +if this option is not set, then nibble format is used.
+> +.TP
+> +.B RES_NOIP6DOTINT
+> +Use
+> +.I ip6.arpa
+> +zone in IPv6 reverse lookup instead of
+> +.IR ip6.int ,
+> +which is deprecated since glibc 2.3.4.
+> +[Enabled by default].
+> +.TP
+> +.BR RES_USE_EDNS0 " (since glibc 2.6)"
+> +Enables support for the DNS extensions (EDNS0) described in RFC 2671=
+=2E
+> +.TP
+> +.BR RES_SNGLKUP " (since glibc 2.10)"
+> +By default, glibc performs IPv4 and IPv6 lookups in parallel since
+> +version 2.9.
+> +Some appliance DNS servers cannot handle these queries properly
+> +and make the requests time out.
+> +This option disables the behavior and makes glibc
+> +perform the IPv6 and IPv4 requests sequentially
+> +(at the cost of some slowdown of the resolving process).
+> +.TP
+> +.B RES_SNGLKUPREOP
+> +When
+> +.B RES_SNGLKUP
+> +option is enabled, opens a new socket for the each request.
+> +.TP
+> +.B RES_USE_DNSSEC
+> +Use DNSSEC with OK bit in OPT record.
+> +This option implies
+> +.BR RES_USE_EDNS0 .
+> +.TP
+> +.B RES_NOTLDQUERY
+> +Do not look up unqualified name as a top-level domain (TLD).
+> +.TP
+> +.B RES_DEFAULT
+> +Default option which implies:
+> +.BR RES_RECURSE ,
+> +.BR RES_DEFNAMES ,
+> +.BR RES_DNSRCH
+> +and
+> +.BR RES_NOIP6DOTINT .
+> +
+>  .SH RETURN VALUE
+>  The
+>  .BR res_init ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
