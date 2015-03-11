@@ -1,32 +1,28 @@
 From: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH 0/2] boot.7: Copy editing and update
-Date: Thu, 12 Mar 2015 15:00:24 -0000
-Message-ID: <892a44c6ff3d40b79ca3121c3290fae0-mfwitten@gmail.com>
+Subject: [PATCH 1/2] boot.7: Copy edit
+Date: Wed, 11 Mar 2015 19:54:44 -0000
+Message-ID: <bb335978674c4676933438ca9bd11e1f-mfwitten@gmail.com>
+References: <892a44c6ff3d40b79ca3121c3290fae0-mfwitten@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <892a44c6ff3d40b79ca3121c3290fae0-mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The patches are as follows:
+While a lot of the changes are issues of presentation,
+there are also issues of grammar and punctuation.
 
-  boot.7: Copy edit
-  boot.7: Mention `systemd(1)' and its related `bootup(7)'
-
-   man7/boot.7 | 253 ++++++++++++++++++++++++++++++++----------------------------
-   1 file changed, 137 insertions(+), 116 deletions(-)
-
-The following is the collective patch; it's probably best just
-to read the result directly via `man'.
-
-Sincerely,
-Michael Witten
+Signed-off-by: Michael Witten <mfwitten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man7/boot.7 | 241 ++++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 127 insertions(+), 114 deletions(-)
 
 diff --git a/man7/boot.7 b/man7/boot.7
-index 584c771..4541b8c 100644
+index 584c771..0b209d8 100644
 --- a/man7/boot.7
 +++ b/man7/boot.7
-@@ -12,194 +12,215 @@
+@@ -12,188 +12,201 @@
  .\"
  .\" Modified 2004-11-03 patch from Martin Schulze <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>
  .\"
@@ -199,15 +195,6 @@ index 584c771..4541b8c 100644
 +to which are passed the parameters that haven't already been
 +handled by the kernel.
 +.SS Root user-space process
-+.TP
-+Note:
-+The following description applies to an OS based on UNIX System V Release 4.
-+Namely, a number of widely used systems have adopted a related but
-+fundamentally alternative approach known as
-+.BR systemd (1),
-+for which the bootup process is detailed in its associated
-+.BR bootup (7).
-+.LP
 +When
 +.I /sbin/init
 +starts, it reads
@@ -245,11 +232,12 @@ index 584c771..4541b8c 100644
 -The following description applies to System V release 4-based systems, which
 -currently covers most commercial UNIX systems (Solaris, HP-UX, Irix, Tru64)
 -as well as the major Linux distributions (Red Hat, Debian, Mandriva,
--SUSE, Ubuntu).
--Some systems (Slackware Linux, FreeBSD, OpenBSD)
++The following description applies to an OS based on UNIX System V Release 4,
++which currently covers most commercial UNIX systems (Solaris, HP-UX, Irix,
++Tru64) as well as the major Linux distributions (Red Hat, Debian, Mandriva,
+ SUSE, Ubuntu).
+ Some systems (Slackware Linux, FreeBSD, OpenBSD)
 -have a somewhat different scheme of boot scripts.
-+The following description applies to an OS based on UNIX System V Release 4.
-+Namely, a number of widely used systems (Slackware Linux, FreeBSD, OpenBSD)
 +have a somewhat different scheme for boot scripts.
  .LP
 -For each managed service (mail, nfs server, cron, etc.) there is
@@ -333,7 +321,7 @@ index 584c771..4541b8c 100644
 +inputs without editing an entire boot script,
 +some separate configuration file is used, and is located in a specific
 +directory where an associated boot script may find it
-+(\fI/etc/sysconfig\fR on older Red Hat systems).
++(\fI/etc/sysconfig\fR on Red Hat systems).
  
 -In older UNIX systems, these files contained the actual command line
 -options for the daemons, but in modern Linux systems (and also
@@ -350,15 +338,6 @@ index 584c771..4541b8c 100644
  .SH FILES
  .LP
  .IR /etc/init.d/ ,
- .IR /etc/rc[S0\-6].d/ ,
- .I /etc/sysconfig/
- .SH SEE ALSO
-+.BR bootup (7)
-+.BR systemd (1)
- .BR inittab (5),
- .BR bootparam (7),
- .BR init (1),
-
 -- 
 1.7.11.2.252.gc4a64c8
 
