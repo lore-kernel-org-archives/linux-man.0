@@ -1,82 +1,82 @@
-From: walter harms <wharms-fPG8STNUNVg@public.gmane.org>
-Subject: Re: [PATCH v2 man-pages] bpf.2: new page documenting bpf(2)
-Date: Thu, 12 Mar 2015 11:09:03 +0100
-Message-ID: <550165BF.1010208@bfs.de>
-References: <1426048097-14726-1-git-send-email-ast@plumgrid.com>
-Reply-To: wharms-fPG8STNUNVg@public.gmane.org
+From: Jann Horn <jann@thejh.net>
+Subject: [PATCH] seccomp.2: Add note about alarm(2) not being sufficient to
+ limit runtime
+Date: Thu, 12 Mar 2015 14:07:01 +0100
+Message-ID: <20150312130701.GA11073@pc.thejh.net>
+References: <20150311174204.GA5712@pc.thejh.net>
+ <21760.46870.338764.599348@gargle.gargle.HOWL>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1426048097-14726-1-git-send-email-ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <21760.46870.338764.599348@gargle.gargle.HOWL>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Mikael Pettersson <mikpelinux@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Kerrisk <mtk.manpages@gmail.com>, Russell King <linux@arm.linux.org.uk>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>, x86@kernel.org, Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>, Kees Cook <keescook@chromium.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-
-
-Am 11.03.2015 05:28, schrieb Alexei Starovoitov:
-> Signed-off-by: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-> ---
->  man2/bpf.2 |  630 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 630 insertions(+)
->  create mode 100644 man2/bpf.2
+On Wed, Mar 11, 2015 at 10:43:50PM +0100, Mikael Pettersson wrote:
+> Jann Horn writes:
+>  > Or should I throw this patch away and write a patch
+>  > for the prctl() manpage instead that documents that
+>  > being able to call sigreturn() implies being able to
+>  > effectively call sigprocmask(), at least on some
+>  > architectures like X86?
 > 
-> diff --git a/man2/bpf.2 b/man2/bpf.2
-> new file mode 100644
-> index 0000000..a605489
-> --- /dev/null
-> +++ b/man2/bpf.2
-> @@ -0,0 +1,630 @@
-> +.\" Copyright (C) 2015 Alexei Starovoitov <ast-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> +.\"
-> +.\" %%%LICENSE_START(VERBATIM)
-> +.\" Permission is granted to make and distribute verbatim copies of this
-> +.\" manual provided the copyright notice and this permission notice are
-> +.\" preserved on all copies.
-> +.\"
-> +.\" Permission is granted to copy and distribute modified versions of this
-> +.\" manual under the conditions for verbatim copying, provided that the
-> +.\" entire resulting derived work is distributed under the terms of a
-> +.\" permission notice identical to this one.
-> +.\"
-> +.\" Since the Linux kernel and libraries are constantly changing, this
-> +.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-> +.\" responsibility for errors or omissions, or for damages resulting from
-> +.\" the use of the information contained herein.  The author(s) may not
-> +.\" have taken the same level of care in the production of this manual,
-> +.\" which is licensed free of charge, as they might when working
-> +.\" professionally.
-> +.\"
-> +.\" Formatted or processed versions of this manual, if unaccompanied by
-> +.\" the source, must acknowledge the copyright and authors of this work.
-> +.\" %%%LICENSE_END
-> +.\"
-> +.TH BPF 2 2015-03-10 "Linux" "Linux Programmer's Manual"
-> +.SH NAME
-> +bpf - perform a command on an extended BPF map or program
-> +.SH SYNOPSIS
-> +.nf
-> +.B #include <linux/bpf.h>
-> +.sp
-> +.BI "int bpf(int cmd, union bpf_attr *attr, unsigned int size);
-> +
-> +.SH DESCRIPTION
-> +.BR bpf()
-> +syscall is a multiplexor for a range of different operations on extended BPF
-syscall is a multiplexor for a range of different operations on extended
-Berkeley Packet Filter (eBPF).
+> Well, that is the semantics of sigreturn().  It is essentially
+> setcontext() [which includes the actions of sigprocmask()], but
+> with restrictions on parameter placement (at least on x86).
+> 
+> You could introduce some setting to restrict that aspect for
+> seccomp processes, but you can't change this for normal processes
+> without breaking things.
 
-just introduce the abv. early as possible,
+Then I think it's probably better and easier to just document the existing
+behavior? If a new setting would have to be introduced and developers would
+need to be aware of that, it's probably easier to just tell everyone to use
+SIGKILL.
 
-hope that helps,
-re
- wh
+Does this manpage patch look good?
 
+---
+ man2/seccomp.2 | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/seccomp.2 b/man2/seccomp.2
+index 702ceb8..f762d07 100644
+--- a/man2/seccomp.2
++++ b/man2/seccomp.2
+@@ -64,6 +64,31 @@ Strict secure computing mode is useful for number-crunching
+ applications that may need to execute untrusted byte code, perhaps
+ obtained by reading from a pipe or socket.
+ 
++Note that although the calling thread can no longer call
++.BR sigprocmask (2),
++it can use
++.BR sigreturn (2)
++to block all signals apart from
++.BR SIGKILL
++and
++.BR SIGSTOP .
++Therefore, to reliably terminate it,
++.BR SIGKILL
++has to be used, meaning that e.g.
++.BR alarm (2)
++is not sufficient for restricting its runtime. Instead, use
++.BR timer_create (2)
++with
++.BR SIGEV_SIGNAL
++and
++.BR sigev_signo
++set to
++.BR SIGKILL
++or use
++.BR setrlimit (2)
++to set the hard limit for
++.BR RLIMIT_CPU .
++
+ This operation is available only if the kernel is configured with
+ .BR CONFIG_SECCOMP
+ enabled.
+-- 
+2.1.4
