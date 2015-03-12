@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] fputws.3: ATTRIBUTES: Note function that is thread-safe
-Date: Thu, 12 Mar 2015 11:08:35 +0800
-Message-ID: <1426129715-1698-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] getline.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 12 Mar 2015 11:35:21 +0800
+Message-ID: <1426131321-1942-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,33 +14,34 @@ The marking matches glibc marking.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/fputws.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/getline.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man3/fputws.3 b/man3/fputws.3
-index 8584949..3f17794 100644
---- a/man3/fputws.3
-+++ b/man3/fputws.3
-@@ -40,6 +40,19 @@ The
- function returns a
- nonnegative integer if the operation was
- successful, or \-1 to indicate an error.
+diff --git a/man3/getline.3 b/man3/getline.3
+index 9ba07e5..ca94dd0 100644
+--- a/man3/getline.3
++++ b/man3/getline.3
+@@ -134,6 +134,20 @@ or
+ is NULL, or
+ .I stream
+ is not valid).
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw21 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR fputws ()
++.BR getline (),
++.BR getdelim ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- C99, POSIX.1-2001.
- .SH NOTES
+ Both
+ .BR getline ()
 -- 
 2.1.0
 
