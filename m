@@ -1,7 +1,7 @@
 From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Subject: [PATCH 3/6] fanotify.7: tfix
-Date: Sun, 15 Mar 2015 02:12:59 +0100
-Message-ID: <1426381982-10434-3-git-send-email-saulery@free.fr>
+Subject: [PATCH 4/6] inotify.7: tfix
+Date: Sun, 15 Mar 2015 02:13:00 +0100
+Message-ID: <1426381982-10434-4-git-send-email-saulery@free.fr>
 References: <1426381982-10434-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -15,23 +15,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man7/fanotify.7 | 2 +-
+ man7/inotify.7 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index e867b78..83d83c0 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -321,7 +321,7 @@ The macro returns a pointer to the next metadata st=
-ructure that follows
- .IR meta ,
- and reduces
- .I len
--by the number of bytes in the the metadata structure that
-+by the number of bytes in the metadata structure that
- has been skipped over (i.e., it subtracts
- .IR meta\->event_len
- from
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index 1f433b6..3742bb8 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -84,7 +84,7 @@ the state of a set of filesystem objects.
+ However, robust applications should allow for the fact that bugs
+ in the monitoring logic or races of the kind described below
+ may leave the cache inconsistent with the filesystem state.
+-It is probably wise to to do some consistency checking,
++It is probably wise to do some consistency checking,
+ and rebuild the cache when inconsistencies are detected.
+ .SS Reading events from an inotify file descriptor
+ To determine what events have occurred, an application
 --=20
 2.1.4
 
