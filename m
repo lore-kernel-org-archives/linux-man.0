@@ -1,11 +1,13 @@
 From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Subject: [PATCH] find_repeated_words.sh: Do not process files that are redirects.
-Date: Sun, 15 Mar 2015 01:15:24 +0100
-Message-ID: <1426378524-31758-1-git-send-email-saulery@free.fr>
+Subject: [PATCH 2/6] stat.2: tfix
+Date: Sun, 15 Mar 2015 02:12:58 +0100
+Message-ID: <1426381982-10434-2-git-send-email-saulery@free.fr>
+References: <1426381982-10434-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1426381982-10434-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -13,30 +15,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- scripts/find_repeated_words.sh | 4 ++++
- 1 file changed, 4 insertions(+)
+ man2/stat.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/find_repeated_words.sh b/scripts/find_repeated_wor=
-ds.sh
-index 50133be..747872e 100644
---- a/scripts/find_repeated_words.sh
-+++ b/scripts/find_repeated_words.sh
-@@ -25,6 +25,9 @@
- #
+diff --git a/man2/stat.2 b/man2/stat.2
+index 16c7548..94f74ce 100644
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -172,7 +172,7 @@ across architectures.
+ In addition,
+ the definition above does not show the padding bytes
+ that may be present between some fields on various architectures.
+-Consult the the glibc and kernel source code
++Consult the glibc and kernel source code
+ if you need to know the details.
 =20
- for file in "$@" ; do=20
-+   # Do not process files that are redirects.
-+   grep -qE "^\.so man.*" "$file"
-+   if test $? -ne 0; then
-     words=3D$(MANWIDTH=3D2000 man -l "$file" 2> /dev/null | col -b | \
- 	tr ' \008' '\012' | sed -e '/^$/d' | \
- 	sed 's/ *$//' |=20
-@@ -33,4 +36,5 @@ for file in "$@" ; do
-     if test -n "$words"; then
-         echo "$file: $words"
-     fi
-+   fi
- done
+ The
 --=20
 2.1.4
 
