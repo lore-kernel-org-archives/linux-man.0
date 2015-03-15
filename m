@@ -1,7 +1,7 @@
 From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
-Subject: [PATCH 1/2] ioctl_list.2: srcfix
-Date: Sun, 15 Mar 2015 03:16:28 +0100
-Message-ID: <1426385789-12406-1-git-send-email-saulery@free.fr>
+Subject: [PATCH] hier.7: document /initrd, /lost+found and /sys
+Date: Sun, 15 Mar 2015 13:46:53 +0100
+Message-ID: <1426423613-4307-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
@@ -11,31 +11,59 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-=46ix a warning of groff: line 527: warning [p 6, 2.3i]: cannot adjust =
-line
+Ubuntu Bug #70094 reported by Brian Beck
 
+https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/70094
 Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 ---
- man2/ioctl_list.2 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ man7/hier.7 | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
-index 00f6c4b..994e0f4 100644
---- a/man2/ioctl_list.2
-+++ b/man2/ioctl_list.2
-@@ -525,9 +525,9 @@ l l l l.
- // <include/linux/scsi.h>
- .TS
- l l l.
--0x00005382	SCSI_IOCTL_GET_IDLUN	struct { int [2]; } *
--0x00005383	SCSI_IOCTL_TAGGED_ENABLE	void
--0x00005384	SCSI_IOCTL_TAGGED_DISABLE	void
-+0x00005382	SCSI_IOCTL_GET_IDLUN       struct { int [2]; } *
-+0x00005383	SCSI_IOCTL_TAGGED_ENABLE   void
-+0x00005384	SCSI_IOCTL_TAGGED_DISABLE  void
- .TE
- .TS
- l l l l.
+diff --git a/man7/hier.7 b/man7/hier.7
+index 77f365c..f28b384 100644
+--- a/man7/hier.7
++++ b/man7/hier.7
+@@ -51,6 +51,10 @@ and configuration files should go to
+ .I /sbin
+ and
+ .IR /etc .
++The operating system kernel (initrd for example) must be located in ei=
+ther
++.I /
++or
++.IR /boot .
+ .TP
+ .I /dev
+ Special or device files, which refer to physical devices.
+@@ -107,6 +111,11 @@ libraries (optional).
+ .I /lib/modules
+ Loadable kernel modules (optional).
+ .TP
++.I /lost+found
++This directory contains items lost on file system.
++These items are usually chunks of files
++mangled by a slowly rotting disk.
++.TP
+ .I /media
+ This directory contains mount points for removable media such as CD
+ and DVD disks or USB sticks.
+@@ -161,6 +170,14 @@ usually not executed by normal users.
+ .I /srv
+ This directory contains site-specific data that is served by this syst=
+em.
+ .TP
++.I /sys
++This is a mount point for the sysfr filesystem, which provides informa=
+tion
++about the kernel.
++It was created to replace
++.I /proc
++and provide more structured information.
++Any new information on the kernel is added to this file system.
++.TP
+ .I /tmp
+ This directory contains temporary files which may be deleted with no
+ notice, such as by a regular job or at system boot up.
 --=20
 2.1.4
 
