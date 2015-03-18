@@ -1,38 +1,47 @@
-From: Alexander Holler <holler-SXC+2es9fhnfWeYVQQPykw@public.gmane.org>
-Subject: aio_return(3): misleading RETURN VALUE
-Date: Wed, 18 Mar 2015 09:03:38 +0100
-Message-ID: <5509315A.1040103@ahsoftware.de>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: aio_return(3): misleading RETURN VALUE
+Date: Wed, 18 Mar 2015 13:14:47 +0100
+Message-ID: <20150318121446.GA5160@free.fr>
+References: <5509315A.1040103@ahsoftware.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <5509315A.1040103-SXC+2es9fhnfWeYVQQPykw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Alexander Holler <holler-SXC+2es9fhnfWeYVQQPykw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello,
+Hello Alexander,
 
-I've just typed in the following commit message:
+Le mercredi 18 mars 2015 =C3=A0 09:03:38, Alexander Holler a =C3=A9crit=
+ :
+>=20
+> I suggest to use the same wording as in write(2) in the paragraph RET=
+URN
+> VALUE:
+>=20
+> "On error, -1 is returned, and errno is set appropriately."
 
---
-The man page was misleading and I must have had a bad moment 
-mechanically coding what the man page says without thinking about it.
-So I seem to have assumed that aio_return() might return EINVAL which 
-can't be the case. In fact the error is returned in errno which isn't 
-mentioned by the Linux man page for aio_return.
---
+Like that ?
 
-I suggest to use the same wording as in write(2) in the paragraph RETURN 
-VALUE:
+    If the asynchronous I/O operation has completed, this function
+    returns the value that would have been returned in case of a
+    synchronous read(2), write(2), fsync(2) or fdatasync(2), call. On
+    error, -1 is returned, and errno is set appropriately.
 
-"On error, -1 is returned, and errno is set appropriately."
+    If the asynchronous I/O operation has not yet completed, the return
+    value and effect of aio_return() are undefined.
 
-I've verified it by looking at the source for aio_return of glibc.
+I think that's what you meant. What will happen if the asynchronous I/O
+operation has not yet completed please ?
 
 Regards,
 
-Alexander Holler
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
