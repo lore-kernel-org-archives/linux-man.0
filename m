@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95191] document behavior of open(2) when path names a  fifo
  with no readers
-Date: Sat, 21 Mar 2015 20:56:38 +0000
-Message-ID: <bug-95191-11311-dwx1Isz2xs@https.bugzilla.kernel.org/>
+Date: Sat, 21 Mar 2015 21:16:24 +0000
+Message-ID: <bug-95191-11311-guCV5wq0tE@https.bugzilla.kernel.org/>
 References: <bug-95191-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,11 +15,8 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95191
 
---- Comment #5 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Oops :
-$ ./t_sigio_writer_no_open </tmp/a.fifo &
-should have been:
-$ ./t_sigio_writer_no_open >/tmp/a.fifo &
+--- Comment #6 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Oops! Actually, all tests pass if compiled with '-pthread' .
 
 -- 
 You are receiving this mail because:
