@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95191] document behavior of open(2) when path names a  fifo
  with no readers
-Date: Sat, 21 Mar 2015 20:21:19 +0000
-Message-ID: <bug-95191-11311-PYkWuvISWv@https.bugzilla.kernel.org/>
+Date: Sat, 21 Mar 2015 20:29:29 +0000
+Message-ID: <bug-95191-11311-xWm5DrjPMv@https.bugzilla.kernel.org/>
 References: <bug-95191-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,10 +15,11 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95191
 
---- Comment #2 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Created attachment 171551
-  --> https://bugzilla.kernel.org/attachment.cgi?id=171551&action=edit
-illustrates problem - #1 working version that uses open
+--- Comment #3 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Created attachment 171561
+  --> https://bugzilla.kernel.org/attachment.cgi?id=171561&action=edit
+illustration #2: program that attempts to enable SIGIO on output fd 1 only -
+fails to recieve SIGIO
 
 -- 
 You are receiving this mail because:
