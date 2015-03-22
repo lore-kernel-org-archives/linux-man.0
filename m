@@ -1,75 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] lgamma.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sun, 22 Mar 2015 15:51:03 +0100
-Message-ID: <550ED6D7.3050407@gmail.com>
-References: <1426742587-32262-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 95191] document behavior of open(2) when path names a  fifo
+ with no readers
+Date: Sun, 22 Mar 2015 15:10:37 +0000
+Message-ID: <bug-95191-11311-v83lI7iQe7@https.bugzilla.kernel.org/>
+References: <bug-95191-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1426742587-32262-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <bug-95191-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/19/2015 06:23 AM, Ma Shimiao wrote:
-> The markings match glibc markings.
+https://bugzilla.kernel.org/show_bug.cgi?id=95191
 
-Hello Ma Shimiao,
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Patch applied. 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+--- Comment #8 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Hello Jason,
+
+(In reply to Jason Vas Dias from comment #0)
+> linux 3.13 open() , if the path refers to a fifo, and O_WRONLY is set in
+> its flags , but not O_NONBLOCK, then it does not return until a reader has
+> connected to the output end of the pipe.
+> 
+> This fact is not documented anywhere in the open(2) manual page
+
+[...]
+
+> Please add words to the effect :
+> 
+>   "If the path refers to a named pipe (FIFO), and O_NONBLOCK is not set,
+>    open() will block until a reader is connected to the write end of the
+> pipe.
+>   "
+> to the open(2) manual page.
+
+Well, there is already this text in the man page:
+
+    O_NONBLOCK or O_NDELAY
+        .... For the handling of FIFOs (named pipes), see also fifo(7).
+
+(Were you aware of the fifo(7) page?)
+
+But it's true that something could be said more prominently in 
+open(2), I think. I added the following under NOTES:
+
+   FIFOs
+       Opening  the read or write end of a FIFO blocks until the other
+       end is also opened (by another process or thread).  See fifo(7)
+       for further details.
 
 Thanks,
 
 Michael
 
-
-
-> ---
->  man3/lgamma.3 | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/man3/lgamma.3 b/man3/lgamma.3
-> index 26859c1..fabdda0 100644
-> --- a/man3/lgamma.3
-> +++ b/man3/lgamma.3
-> @@ -155,6 +155,28 @@ An overflow floating-point exception
->  is raised.
->  .\" glibc (as at 2.8) also supports an inexact
->  .\" exception for various cases.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw24 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR lgamma (),
-> +.BR lgammaf (),
-> +.br
-> +.BR lgammal ()
-> +T}	Thread safety	MT-Safe race:signgam
-> +T{
-> +.BR lgamma_r (),
-> +.BR lgammaf)r (),
-> +.br
-> +.BR lgammal_r ()
-> +T}	Thread safety	MT-Safe
-> +.TE
-> +
->  .SH CONFORMING TO
->  The
->  .BR lgamma ()
-> 
-
-
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
