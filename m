@@ -1,267 +1,92 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 5/5] hier.7: Add missing directories defined by FHS 2.3
- (last patch for conformance)
-Date: Sun, 22 Mar 2015 16:52:14 +0100
-Message-ID: <550EE52E.8080906@gmail.com>
-References: <1426374917-11484-1-git-send-email-saulery@free.fr> <1426374917-11484-5-git-send-email-saulery@free.fr>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [PATCH] seccomp.2: Explain arch checking, value (non-)truncation,
+ expand example
+Date: Sun, 22 Mar 2015 16:58:17 +0100
+Message-ID: <CAKgNAkjsNCQSCmpxgeo9Vq6oEHzUzWgT8rz5Bec6=Pqgtwi4Tw@mail.gmail.com>
+References: <20150316180154.GA10663@pc.thejh.net> <CAGXu5j+mjC4HQWbJVSDb+gSTud=R1+UCBJBY8ysQuj9NETrSEQ@mail.gmail.com>
+ <20150316233457.GA9227@pc.thejh.net>
+Reply-To: mtk.manpages@gmail.com
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1426374917-11484-5-git-send-email-saulery-GANU6spQydw@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <20150316233457.GA9227@pc.thejh.net>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Jann Horn <jann@thejh.net>
+Cc: Kees Cook <keescook@chromium.org>, linux-man <linux-man@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, Andy Lutomirski <luto@amacapital.net>, Will Drewry <wad@chromium.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/15/2015 12:15 AM, St=C3=A9phane Aulery wrote:
-> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+Hi Jann,
 
-Thanks, St=C3=A9phane. Applied.
+Thanks for working on this page. I'm a little unclear at this point.
+Am I correct to assume you are going to revise this patch in the light
+of Kees's comments and send a new patch?
 
-Cheers,
+Thanks,
 
 Michael
 
-> ---
->  man7/hier.7 | 118 ++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++
->  1 file changed, 118 insertions(+)
->=20
-> diff --git a/man7/hier.7 b/man7/hier.7
-> index 70ada3c..77f365c 100644
-> --- a/man7/hier.7
-> +++ b/man7/hier.7
-> @@ -98,9 +98,38 @@ depends on local administration decisions (optiona=
-l).
->  This directory should hold those shared libraries that are necessary
->  to boot the system and to run the commands in the root filesystem.
->  .TP
-> +.I /lib<qual>
-> +These directories are variants of
-> +.I /lib
-> +on system which support more than one binary format requiring separa=
-te
-> +libraries (optional).
-> +.TP
-> +.I /lib/modules
-> +Loadable kernel modules (optional).
-> +.TP
->  .I /media
->  This directory contains mount points for removable media such as CD
->  and DVD disks or USB sticks.
-> +On systems where more than one device exists
-> +for mounting a certain type of media,
-> +mount directories can be created by appending a digit
-> +to the name of those available above starting with '0',
-> +but the unqualified name must also exist.
-> +.TP
-> +.I /media/floppy[1\-9]
-> +Floppy drive (optional).
-> +.TP
-> +.I /media/cdrom[1\-9]
-> +CD-ROM drive (optional).
-> +.TP
-> +.I /media/cdrecorder[1\-9]
-> +CD writer (optional).
-> +.TP
-> +.I /media/zip[1\-9]
-> +Zip drive (optional).
-> +.TP
-> +.I /media/usp[1\-9]
-> +USB drive (optional).
->  .TP
->  .I /mnt
->  This directory is a mount point for a temporarily mounted filesystem=
-=2E
-> @@ -173,6 +202,9 @@ executed by normal users which are not needed for=
- booting or for
->  repairing the system and which are not installed locally should be
->  placed in this directory.
->  .TP
-> +.I /usr/bin/mh
-> +Commands for the MH mail handling system (optional).
-> +.TP
->  .I /usr/bin/X11
->  is the traditional place to look for X11 executables; on Linux, it
->  usually is a symbolic link to
-> @@ -204,6 +236,9 @@ Binaries for games and educational programs (opti=
-onal).
->  .I /usr/include
->  Include files for the C compiler.
->  .TP
-> +.I /usr/include/bsd
-> +BSD compatibility include files (optional).
-> +.TP
->  .I /usr/include/X11
->  Include files for the C compiler and the X\-Window system.
->  This is
-> @@ -246,6 +281,14 @@ which usually are not invoked directly.
->  More complicated programs may
->  have whole subdirectories there.
->  .TP
-> +.I /usr/lib<qual>
-> +These directories are variants of
-> +.I /usr/lib
-> +on system which support more than one binary format requiring separa=
-te
-> +libraries, except that the symbolic link
-> +.I /usr/lib<qual>/X11
-> +is not required (optional).
-> +.TP
->  .I /usr/lib/X11
->  The usual place for data files associated with X programs, and
->  configuration files for the X system itself.
-> @@ -282,6 +325,12 @@ Binaries for locally installed games.
->  .I /usr/local/lib
->  Files associated with locally installed programs.
->  .TP
-> +.I /usr/local/lib<qual>
-> +These directories are variants of
-> +.I /usr/local/lib
-> +on system which support more than one binary format requiring separa=
-te
-> +libraries (optional).
-> +.TP
->  .I /usr/local/include
->  Header files for the local C compiler.
->  .TP
-> @@ -324,6 +373,9 @@ or
->  .I /usr/share/dict
->  Contains the word lists used by spell checkers (optional).
->  .TP
-> +.I /usr/share/dict/words
-> +List of English words (optional).
-> +.TP
->  .I /usr/share/doc
->  Documentation about installed programs (optional).
->  .TP
-> @@ -357,6 +409,18 @@ The message catalogs for native language support=
- go here (optional).
->  .I /usr/share/sgml
->  Files for SGML (optional).
->  .TP
-> +.I /usr/share/sgml/docbook
-> +DocBook DTD (optional).
-> +.TP
-> +.I /usr/share/sgml/tei
-> +TEI DTD (optional).
-> +.TP
-> +.I /usr/share/sgml/html
-> +HTML DTD (optional).
-> +.TP
-> +.I /usr/share/sgml/mathtml
-> +MathML DTD (optional).
-> +.TP
->  .I /usr/share/terminfo
->  The database for terminfo (optional).
->  .TP
-> @@ -366,6 +430,15 @@ Troff macros that are not distributed with groff=
- (optional).
->  .I /usr/share/xml
->  Files for XML (optional).
->  .TP
-> +.I /usr/share/xml/docbook
-> +DocBook DTD (optional).
-> +.TP
-> +.I /usr/share/xml/xhtml
-> +XHTML DTD (optional).
-> +.TP
-> +.I /usr/share/xml/mathml
-> +MathML DTD (optional).
-> +.TP
->  .I /usr/share/zoneinfo
->  Files for timezone information (optional).
->  .TP
-> @@ -391,6 +464,9 @@ This link is present only for compatibility reaso=
-ns and shouldn't be used.
->  This directory contains files which may change in size, such as spoo=
-l
->  and log files.
->  .TP
-> +.I /var/account
-> +Process accounting logs (optional).
-> +.TP
->  .I /var/adm
->  This directory is superseded by
->  .I /var/log
-> @@ -403,17 +479,56 @@ Reserved for historical reasons.
->  .I /var/cache
->  Data cached for programs.
->  .TP
-> +.I /var/cache/fonts
-> +Locally-generated fonts (optional).
-> +.TP
-> +.I /var/cache/man
-> +Locally-formatted man pages (optional).
-> +.TP
-> +.I /var/cache/www
-> +WWW proxy or cache data (optional).
-> +.TP
-> +.I /var/cache/<package>
-> +Package specific cache data (optional).
-> +.TP
->  .IR /var/catman/cat[1\-9] " or " /var/cache/man/cat[1\-9]
->  These directories contain preformatted manual pages according to the=
-ir
->  man page section.
->  (The use of preformatted manual pages is deprecated.)
->  .TP
-> +.I /var/crash
-> +System crash dumps (optional).
-> +.TP
->  .I /var/cron
->  Reserved for historical reasons.
->  .TP
-> +.I /var/games
-> +Variable game data (optional).
-> +.TP
->  .I /var/lib
->  Variable state information for programs.
->  .TP
-> +.I /var/lib/hwclock
-> +State directory for hwclock (optional).
-> +.TP
-> +.I /var/lib/misc
-> +Miscellaneous state data.
-> +.TP
-> +.I /var/lib/xdm
-> +X display manager variable data (optional).
-> +.TP
-> +.I /var/lib/<editor>
-> +Editor backup files and state (optional).
-> +.TP
-> +.I /var/lib/<name>
-> +These directories must be used for all distribution packaging suppor=
-t.
-> +.TP
-> +.I /var/lib/<package>
-> +State data for packages and subsystems (optional).
-> +.TP
-> +.I /var/lib/<pkgtool>
-> +Packaging support files (optional).
-> +.TP
->  .I /var/local
->  Variable data for
->  .IR /usr/local .
-> @@ -468,6 +583,9 @@ Spooled jobs for
->  .I /var/spool/lpd
->  Spooled files for printing (optional).
->  .TP
-> +.I /var/spool/lpd/printer
-> +Spools for a specific printer (optional).
-> +.TP
->  .I /var/spool/mail
->  Replaced by
->  .IR /var/mail .
->=20
+
+On 17 March 2015 at 00:34, Jann Horn <jann@thejh.net> wrote:
+> On Mon, Mar 16, 2015 at 03:25:56PM -0700, Kees Cook wrote:
+>> On Mon, Mar 16, 2015 at 11:01 AM, Jann Horn <jann@thejh.net> wrote:
+>> > Document some more-or-less surprising things about seccomp.
+>> > I'm not sure whether changing the example code like that is a
+>> > good idea - maybe that part of the patch should be left out?
+>> >
+>> > Demo code for the X32 issue:
+>> > https://gist.github.com/thejh/c5b670a816bbb9791a6d
+>> >
+>> > Demo code for full 64bit registers being visible in seccomp
+>> > if the i386 ABI is used on a 64bit system:
+>> > https://gist.github.com/thejh/c37b27aefc44ab775db5
+>>
+>> So, it is probably worth noting the x32 ABI somewhere, and seccomp.2
+>> is probably reasonable, though maybe it should be explicitly detailed
+>> in syscall.2?
+>
+> I guess that would be sensible. However, I still think that the seccomp
+> manpage should mention it, too, or advise the reader to also carefully
+> read the syscall.2 manpage.
+>
+>
+>> In the seccomp.2 manpage, though, I think we should discourage
+>> blacklisting, since whitelisting is a much more effective way to do
+>> attack surface reduction on syscalls. (And, as such, x32 would be
+>> already eliminated from x86-64 filters.)
+>
+> I agree, whitelisting should be encouraged. However, as far as I can
+> tell, people use seccomp not only for proper, strict sandboxing, but
+> also to e.g. fix small security problems in containers or to provide
+> additional precautions for them. In that case, I think that the use
+> of a blacklist is more understandable, and various project use
+> seccomp that way or at least support the use of blacklists: The
+> default policy of LXC is a blacklist, sandstorm.io uses a seccomp
+> blacklist and blacklists specific ptrace calls, systemd-nspawn uses a
+> blacklist (although the manpage says that that's meant as a precaution
+> against accidental damage, not as a security measure), systemd
+> supports both whitelists and blacklists in the SystemCallFilter
+> directive.
+>
+>
+>> It is, however, reasonable to update the example just so it can be
+>> super-explicit, though I'd change the comments to say something more
+>> direct about the whitelisting vs blacklisting, like "While this
+>> example uses whitelisting,
+>
+> You mean you would want to change the example to use whitelisting?
+> That sounds like a good idea.
+>
+>
+>> this is how an overlapping syscall ABI
+>> could be tested." or something. Additionally, I think it would be
+>> better to test for >= instead of & to avoid having to reload the
+>> syscall nr.
+>
+> Yes, sounds good.
 
 
---=20
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
