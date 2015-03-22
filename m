@@ -1,46 +1,80 @@
-From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: Re: [PATCH 5/6] vfork.2: tfix
-Date: Sun, 22 Mar 2015 19:16:45 +0100
-Message-ID: <20150322181645.GB2839@free.fr>
-References: <1426381982-10434-1-git-send-email-saulery@free.fr>
- <1426381982-10434-5-git-send-email-saulery@free.fr>
- <550EE2F0.6050908@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] tcp.7: Document removal of TCP_SYNQ_HSIZE
+Date: Sun, 22 Mar 2015 19:45:11 +0100
+Message-ID: <550F0DB7.2030806@gmail.com>
+References: <CAA7vvKmzVsKmma=w5Lwx6ujjCcfgSsKSqt1DGEzfjb9naujkVA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <550EE2F0.6050908-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <CAA7vvKmzVsKmma=w5Lwx6ujjCcfgSsKSqt1DGEzfjb9naujkVA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Peter Adkins <peter.adkins-1p82Gqdf9CmhyYOOkqQQgw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Le dimanche 22 mars 2015 =C3=A0 04:42:40, Michael Kerrisk (man-pages) a=
- =C3=A9crit :
-> On 03/15/2015 02:13 AM, St=C3=A9phane Aulery wrote:
-> > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
-> > ---
-> >  man2/vfork.2 | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/man2/vfork.2 b/man2/vfork.2
-> > index 0354456..0f90b2a 100644
-> > --- a/man2/vfork.2
-> > +++ b/man2/vfork.2
-> > @@ -203,7 +203,7 @@ can't be implemented on such systems.
-> >  .BR vfork ()
-> >  from the standard; the POSIX rationale for the
-> >  .BR posix_spawn (3)
-> > -function notes that that function,
-> > +function notes that function,
->=20
-> Actually, this is correct English. The "that"s are different.
+On 03/12/2015 08:15 AM, Peter Adkins wrote:
+> Hello there,
+> 
+> Looking over the man page for 'tcp' I came across a reference to
+> tuning the 'TCP_SYNQ_HSIZE' parameter when increasing
+> 'tcp_max_syn_backlog' above 1024. However, this static sizing was
+> removed back in Linux 2.6.20 in favour of dynamic scaling - as part of
+> commit 72a3effaf633bcae9034b7e176bdbd78d64a71db.
+> 
+> I have included a patch below with reference to this commit, and that
+> the process detailed is not required on >= Linux 2.6.20. This is my
+> first patch for a man page, as well as groff, so I apologize if
+> anything is incorrect. If so, please let me know and I will resolve
+> and resubmit.
+> 
+> This patch was prepared against the current HEAD - at time of writing
+> - from the Kernel.org man-page repository
+> (f6d086878485f63e390d10f59b6beae7b96c4120), which looks to be version
+> 3.82.
 
-It's odd. Each language has its peculiarities.
+Thanks, Peter! Applied.
 
---=20
-St=C3=A9phane Aulery
+Cheers,
+
+Michael
+
+
+> ---
+>  man7/tcp.7 | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/man7/tcp.7 b/man7/tcp.7
+> index 5723bde..794c636 100644
+> --- a/man7/tcp.7
+> +++ b/man7/tcp.7
+> @@ -530,12 +530,16 @@ The default value of 256 is increased to
+>  1024 when the memory present in the system is adequate or
+>  greater (>= 128Mb), and reduced to 128 for those systems with
+>  very low memory (<= 32Mb).
+> -It is recommended that if this
+> -needs to be increased above 1024, TCP_SYNQ_HSIZE in
+> +
+> +Prior to Linux 2.6.20,
+> +.\" commit 72a3effaf633bcae9034b7e176bdbd78d64a71db
+> +it was recommended that if this needed to be increased above 1024,
+> +the size of the SYNACK hash table (TCP_SYNQ_HSIZE) in
+>  .I include/net/tcp.h
+>  be modified to keep
+>  TCP_SYNQ_HSIZE*16<=tcp_max_syn_backlog, and the kernel be
+> -recompiled.
+> +recompiled. In Linux 2.6.20, the fixed sized TCP_SYNQ_HSIZE was removed
+> +in favour of dynamic sizing.
+>  .TP
+>  .IR tcp_max_tw_buckets " (integer; default: see below; since Linux 2.4)"
+>  .\" Since 2.3.41
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
