@@ -1,63 +1,36 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] hosts.5: mention 127.0.1.1 for FQDN and IPv6 examples
-Date: Sun, 22 Mar 2015 19:55:35 +0100
-Message-ID: <550F1027.2030702@gmail.com>
-References: <1426194745-8406-1-git-send-email-saulery@free.fr>
+Subject: Re: For review: nptl(7) man page
+Date: Sun, 22 Mar 2015 20:02:12 +0100
+Message-ID: <CAKgNAkj=Bx=+T6bNKPqNoTderGg=J46Z79E=-4JOdmtL4f-dyg@mail.gmail.com>
+References: <550ED3F4.1080403@gmail.com> <CAKPyHN2VTcP3eOPA-er+iOs0VCRd4ALzuqPY4HJOVOmDH7Arug@mail.gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1426194745-8406-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <CAKPyHN2VTcP3eOPA-er+iOs0VCRd4ALzuqPY4HJOVOmDH7Arug-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>, 562890-forwarded-61a8vm9lEZVf4u+23C9RwQ@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/12/2015 10:12 PM, St=C3=A9phane Aulery wrote:
-> Debian bug #562890 reported by Vincent Lefevre <vincent-buymaDBGzMOsTnJN9+BGXg@public.gmane.org>
+Hello Bert,
 
-Applied. Thanks, St=C3=A9phane.
+On 22 March 2015 at 16:51, Bert Wesarg <bert.wesarg-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org> wrote:
+> On Sun, Mar 22, 2015 at 3:38 PM, Michael Kerrisk (man-pages)
+> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+[...]
+>> to each of the other threads that must change change its credentials.
+>
+> s/change change/change/
+
+Thanks; fixed.
 
 Cheers,
 
 Michael
 
 
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D562890
-> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
-> ---
->  man5/hosts.5 | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/man5/hosts.5 b/man5/hosts.5
-> index 9ec8cb2..2eaeb69 100644
-> --- a/man5/hosts.5
-> +++ b/man5/hosts.5
-> @@ -106,11 +106,20 @@ I just found three, from 92,
->  94, and 95.
->  .SH EXAMPLE
->  .nf
-> +# The following lines are desirable for IPv4 capable hosts
->  127.0.0.1       localhost
-> +
-> +# 127.0.1.1 is often used for the FQDN of the machine
-> +127.0.1.1       thishost.mydomain.org  thishost
->  192.168.1.10    foo.mydomain.org       foo
->  192.168.1.13    bar.mydomain.org       bar
->  146.82.138.7    master.debian.org      master
->  209.237.226.90  www.opensource.org
-> +
-> +# The following lines are desirable for IPv6 capable hosts
-> +::1             localhost ip6-localhost ip6-loopback
-> +ff02::1         ip6-allnodes
-> +ff02::2         ip6-allrouters
->  .fi
->  .SH SEE ALSO
->  .BR hostname (1),
->=20
-
-
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
