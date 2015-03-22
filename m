@@ -1,67 +1,82 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] tzset.3: Add 'std' quoting information
-Date: Sun, 22 Mar 2015 19:12:14 +0100
-Message-ID: <550F05FE.2010905@gmail.com>
-References: <550494E3.9080508@gmx.com>
+Subject: Re: [PATCH] filesystems.5: Add filesystems adfs and afs
+Date: Sun, 22 Mar 2015 19:17:26 +0100
+Message-ID: <CAKgNAkjVZ4PJC1oqdbP6CgmNghavsOPjQfGjPGxvMaN0EDMgVQ@mail.gmail.com>
+References: <1426074953-4589-1-git-send-email-saulery@free.fr>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <550494E3.9080508-KK0ffGbhmjU@public.gmane.org>
+In-Reply-To: <1426074953-4589-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 03/14/2015 09:06 PM, J William Piggott wrote:
-> 
-> Signed-off-by: J William Piggott <elseifthen-KK0ffGbhmjU@public.gmane.org>
+Hello St=C3=A9phane
 
-Thanks! Applied.
+On 11 March 2015 at 12:55, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote=
+:
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man5/filesystems.5 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/man5/filesystems.5 b/man5/filesystems.5
+> index 0c66f9e..b204e26 100644
+> --- a/man5/filesystems.5
+> +++ b/man5/filesystems.5
+> @@ -52,6 +52,17 @@ Below a short description of the available or hist=
+orically available
+>  filesystems in Linux kernel. See kernel documentation for a comprehe=
+nsive
+>  description of all options and limitations.
+>  .TP 10
+> +.B adfs
+> +is the Acorn Advanced Disc Filing System, the standard filesystem of=
+ RiscOS
+> +operating system which runs on Acorn's ARM-based Risc PC systems
+> +and the Acorn Archimedes range of machines,
 
-Cheers,
+s/,/./
+
+> +that was integrated into Linux in kernel 2.1.
+
+s/that/This filesystem/
+
+> +.TP
+> +.B afs
+> +is the distributed AFS (Andrew File System) fs. It is under developm=
+ent
+
+s/AFS (Andrew File System) fs/Andrew File System/
+
+> +and does not yet provide the full feature set.
+
+That last sentence is vague. What is the full feature set? Or,
+otherwise, what pieces are missing?
+
+> +It does not yet support pioctl() system call.
+
+Or is that the only piece missing from "afs"?
+
+Thanks,
 
 Michael
 
 
-> ---
-> 
-> The following changes since commit f6d086878485f63e390d10f59b6beae7b96c4120:
-> 
->   host.conf.5: grfix (2015-03-10 08:19:07 +0100)
-> 
-> are available in the git repository at:
-> 
->   git-9UaJU3cA/F/QT0dZR+AlfA@public.gmane.org:jwpi/man-pages.git tzset4
-> 
-> for you to fetch changes up to 5667215d996032e6cc8616039082a48adda0d01b:
-> 
->   tzset.3: Add 'std' quoting information (2015-03-14 15:42:28 -0400)
-> 
->  man3/tzset.3 | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/man3/tzset.3 b/man3/tzset.3
-> index 2eec8a3..f09ba9f 100644
-> --- a/man3/tzset.3
-> +++ b/man3/tzset.3
-> @@ -99,8 +99,11 @@ timezone to be used:
->  .RE
->  .sp
->  There are no spaces in the specification.
-> -The \fIstd\fP string specifies the name of the timezone and must be
-> +The \fIstd\fP string specifies an abbreviation for the timezone and must be
->  three or more alphabetic characters.
-> +When enclosed between the less-than (<) and greater-than (>) signs, the
-> +characters set is expanded to include the plus (+) sign, the minus (-)
-> +sign, and digits.
->  The \fIoffset\fP string immediately
->  follows \fIstd\fP and specifies the time value to be added to the local
->  time to get Coordinated Universal Time (UTC).
-> 
+> +.TP
+>  .B ext
+>  is an elaborate extension of the
+>  .B minix
+> --
+> 2.1.4
+>
 
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
