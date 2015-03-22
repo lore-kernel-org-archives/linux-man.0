@@ -1,143 +1,66 @@
-From: Szabolcs Nagy <nsz@port70.net>
-Subject: Re: For review: nptl(7) man page
-Date: Sun, 22 Mar 2015 20:56:33 +0100
-Message-ID: <20150322195632.GM16260@port70.net>
-References: <550ED3F4.1080403@gmail.com>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: [PATCH] ipv6.7: SOL_IPV6 and other SOL_* options socket are not
+ portable
+Date: Sun, 22 Mar 2015 21:07:08 +0100
+Message-ID: <20150322200708.GA3922@free.fr>
+References: <54F6A535.3030103@gmail.com>
+ <1425906293-12161-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <libc-alpha-return-58108-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <550ED3F4.1080403@gmail.com>
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, libc-alpha <libc-alpha@sourceware.org>, shawn Landden <shawn@churchofgit.com>
+In-Reply-To: <1425906293-12161-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-* Michael Kerrisk (man-pages) <mtk.manpages@gmail.com> [2015-03-22 15:38:44 +0100]:
-> .\"
-> .TH NPTL 7 2015-03-21 "Linux" "Linux Programmer's Manual"
-> .SH NAME
-> nptl \- Native POSIX Threads Library
-> .SH DESCRIPTION
-> NPTL (Native POSIX Threads Library)
-> is the GNU C library POSIX threads implementation that is used on modern
-> Linux systems.
-> .\"
-> .SS NPTL and signals
-> NPTL makes internal use of the first two real-time signals
-> (signal numbers 32 and 33).
-> One of these signals is used to support thread cancellation and POSIX timers;
-> the other is used as part of a mechanism that ensures all threads in
-> a process always have the same UIDs and GIDs, as required by POSIX.
-> These signals cannot be used in applications.
-> 
-> To prevent accidental use of these signals in applications,
-> which might interfere with the operation of the NPTL implementation,
-> various glibc library functions and system call wrapper functions
-> attempt to hide these signals from applications,
-> as follows:
-> .IP * 3
-> .B SIGRTMIN
-> is defined with the value 34 (rather than 32).
-> .IP *
-> The
-> .BR sigwaitinfo (2),
-> .BR sigtimedwait (2),
-> and
-> .BR sigwait (3)
-> interfaces silently ignore requests to wait for these two signals
-> if they are specified in the signal set argument of these calls.
-> .IP *
-> The
-> .BR sigprocmask (2)
-> and
-> .BR pthread_sigmask (3)
-> interfaces silently ignore attempts to block these two signals.
-> .IP *
-> The
-> .BR sigaction (2),
-> .BR pthread_kill (3),
-> and
-> .BR pthread_sigqueue (3)
-> interfaces fail with the error
-> .B EINVAL
-> (indicating an invalid signal number) if these signals are specified.
-> .IP *
-> .BR sigfillset (3)
-> does not include these two signals when it creates a full signal set.
-> .\"
+Only this patch you forgot.
 
-are these abi details expected to be stable?
-(i'm not against documenting the existing
-implementation just curious if this is supposed
-to hold for all new archs)
 
-in theory for an application it is enough to know
-that it can only use the signals it can name and
-there might be implementation internal signals
-that cannot be masked (which might need to be taken
-into account when calculating a thread stack size).
+Le lundi 09 mars 2015 =C3=A0 02:04:53, AULERY St=C3=A9phane a =C3=A9cri=
+t :
+> Fix for Debian bug #472447 reported by David Madore <david.madore@ens=
+=2Efr>
+>=20
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D472447
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man7/ipv6.7 | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/man7/ipv6.7 b/man7/ipv6.7
+> index c4e6cac..16c760b 100644
+> --- a/man7/ipv6.7
+> +++ b/man7/ipv6.7
+> @@ -393,6 +393,18 @@ Programs that assume that all address types can =
+be stored safely in a
+>  need to be changed to use
+>  .I struct sockaddr_storage
+>  for that instead.
+> +.PP
+> +.BR SOL_IP ,
+> +.BR SOL_IPV6 ,
+> +.B SOL_ICMPV6
+> +and other
+> +.BR SOL_ *
+> +socket options are not portable
+> +variants of
+> +.BR IPPROTO_ *.
+> +For more information, see
+> +.BR ip (7),
+> +glibc and kernel headers.
+>  .SH BUGS
+>  The IPv6 extended API as in RFC\ 2292 is currently only partly
+>  implemented;
+> --=20
+> 2.1.4
+>=20
 
-> .SS NPTL and process credential changes
-> At the Linux kernel level,
-> credentials (user and group IDs) are a per-thread attribute.
-> However, POSIX requires that all of the POSIX threads in a process
-> have the same credentials.
-> To accommodate this requirement,
-> the NPTL implementation wraps all of the system calls that
-> change process credentials with functions that,
-> in addition to invoking the underlying system call,
-> arrange for all other threads in the process to also change their credentials.
-> 
-> The implementation of each of these system calls involves the use of 
-> a real-time signal that is sent (using
-> .BR tgkill (2))
-> to each of the other threads that must change change its credentials.
-> Before sending these signals, the thread that is changing credentials
-> saves the new credential(s) and records the system call being employed
-> in a global buffer.
-> A signal handler in the receiving thread(s) fetches this information and
-> then uses the same system call to change its credentials.
-> 
-
-i think the situation described in
-
-https://sourceware.org/bugzilla/show_bug.cgi?id=14749
-
-might be worth documenting
-
-vfork is not serialized wrt setxid functions
-
-(but it would be better if the kernel got fixed
-to have a new set of posix setxid syscalls that
-change credentials atomically for the process)
-
-> Wrapper functions employing this technique are provided for
-> .BR setgid (2),
-> .BR setuid (2),
-> .BR setegid (2),
-> .BR seteuid (2),
-> .BR setregid (2),
-> .BR setreuid (2),
-> .BR setresgid (2),
-> .BR setresuid (2),
-> and
-> .BR setgroups (2).
-> .SH CONFORMING TO
-> For details of the conformance of NPTL to the POSIX standard, see
-> .BR pthreads (7).
-> .SH SEE ALSO
-> .BR credentials (7),
-> .BR pthreads (7),
-> .BR signal (7),
-> .BR standards (7)
-> 
-> -- 
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+--=20
+St=C3=A9phane Aulery
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
