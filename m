@@ -1,53 +1,55 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ipv6.7: SOL_IPV6 and other SOL_* options socket are not portable
-Date: Mon, 23 Mar 2015 09:16:58 +0100
-Message-ID: <CAKgNAkhtbDN2NSfktmo=Ee0yhmyrnZuaxu-7xiM8H4uEp1_3Uw@mail.gmail.com>
-References: <54F6A535.3030103@gmail.com> <1425906293-12161-1-git-send-email-saulery@free.fr>
- <550FB015.3050504@gmail.com> <20150323075800.GA1734@free.fr>
+Subject: Re: [PATCH] filesystems.5: Add filesystems adfs and afs
+Date: Mon, 23 Mar 2015 09:17:59 +0100
+Message-ID: <CAKgNAkgsLOpbHedSHYxtau70x+DtPpZvn-3VbkPt28vHkEGdHQ@mail.gmail.com>
+References: <1426074953-4589-1-git-send-email-saulery@free.fr>
+ <CAKgNAkjVZ4PJC1oqdbP6CgmNghavsOPjQfGjPGxvMaN0EDMgVQ@mail.gmail.com>
+ <20150322205522.GA5055@free.fr> <550FADD4.8030405@gmail.com> <20150323080857.GA1875@free.fr>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150323075800.GA1734-GANU6spQydw@public.gmane.org>
+In-Reply-To: <20150323080857.GA1875-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: =?UTF-8?Q?St=C3=A9phane_Aulery?= <saulery-GANU6spQydw@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 23 March 2015 at 08:58, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote=
+On 23 March 2015 at 09:08, St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org> wrote=
 :
 > Hi Michael,
 >
-> Le lundi 23 mars 2015 =C3=A0 07:17:57, Michael Kerrisk (man-pages) a =
+> Le lundi 23 mars 2015 =C3=A0 07:08:20, Michael Kerrisk (man-pages) a =
 =C3=A9crit :
->> Hi St=C3=A9phane,
->>
->> On 03/09/2015 02:04 PM, St=C3=A9phane Aulery wrote:
->> > Fix for Debian bug #472447 reported by David Madore <david.madore@=
-ens.fr>
+>> On 03/22/2015 09:55 PM, St=C3=A9phane Aulery wrote:
 >> >
->> > https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D472447
->> > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+>> > Given your remarks just on the first patch so that there must have=
+ about
+>> > 20, I propose to send the complete list of description to add with=
+out
+>> > formatting for easy review. As we agree I do one final patch. Is t=
+hat
+>> > okay with you?
 >>
->> Applied, but some comments below.
->>
->> Take a look also at commit 8013e4ef703e3d1199dfb628e6fe1e0fd290ca49
->> to see how you could tweak your commit messages to better fit with
->> my normal layout.
+>> I'd really prefer not one big patch. And, though you don't know it, =
+you
+>> might too ;-). What I mean is, it's likely that a big patch will sit
+>> around *much* longer until I find time to review it. On the other ha=
+nd,
+>> I do not mind if you make the patches bigger, covering 4 or 6
+>> filesystems at a time.
 >
-> Is the field "Reported-by:" an option of git format-patch ?
+> I will also make multiple patches. But are you willing to drafting th=
+e
+> text, I want to do it in a separate file without the difficulties of
+> formatting?
 
-I think not. I just add it manually.
+Okay -- let's try that.
 
 Cheers,
 
 Michael
-
-
-> St=C3=A9phane Aulery
-
-
 
 --=20
 Michael Kerrisk
