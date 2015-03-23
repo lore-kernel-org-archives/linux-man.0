@@ -1,73 +1,89 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getutent.3: ATTRIBUTES: Note functions those aren't thread-safe
-Date: Mon, 23 Mar 2015 12:24:11 +0800
-Message-ID: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] hier.7: document /initrd, /lost+found and /sys
+Date: Mon, 23 Mar 2015 07:03:40 +0100
+Message-ID: <550FACBC.9090905@gmail.com>
+References: <CAKgNAkho0SiSMXNNEA=2OzhYMnVzFeH_CyPVehaRNoNMYV08ug@mail.gmail.com> <1427056668-4715-2-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1427056668-4715-2-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: saulery-GANU6spQydw@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+On 03/22/2015 09:37 PM, saulery-GANU6spQydw@public.gmane.org wrote:
+> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/getutent.3 | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+Thanks, St=C3=A9phane.
 
-diff --git a/man3/getutent.3 b/man3/getutent.3
-index 4ff5581..2160969 100644
---- a/man3/getutent.3
-+++ b/man3/getutent.3
-@@ -155,6 +155,42 @@ functions can also fail for the reasons described in
- /var/run/utmp	database of currently logged-in users
- .br
- /var/log/wtmp	database of past user logins
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR getutent ()
-+T}	Thread safety	T{
-+MT-Unsafe init race:utent
-+.br
-+race:utentbuf sig:ALRM timer
-+T}
-+T{
-+.BR getutid (),
-+.br
-+.BR getutline ()
-+T}	Thread safety	T{
-+MT-Unsafe init race:utent sig:ALRM
-+.br
-+timer
-+T}
-+T{
-+.BR pututline ()
-+T}	Thread safety	MT-Unsafe race:utent sig:ALRM timer
-+T{
-+.BR setutent (),
-+.br
-+.BR endutent (),
-+.br
-+.BR utmpname ()
-+T}	Thread safety	MT-Unsafe race:utent
-+.TE
-+
- .SH CONFORMING TO
- XPG2, SVr4.
- .LP
--- 
-1.9.3
+Applied.
 
+Cheers,
+
+Michael
+
+
+> Ubuntu Bug #70094 reported by Brian Beck
+>=20
+> https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/70094
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> ---
+>  man7/hier.7 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>=20
+> diff --git a/man7/hier.7 b/man7/hier.7
+> index 77f365c..615ad65 100644
+> --- a/man7/hier.7
+> +++ b/man7/hier.7
+> @@ -51,6 +51,10 @@ and configuration files should go to
+>  .I /sbin
+>  and
+>  .IR /etc .
+> +The operating system kernel (initrd for example) must be located in =
+either
+> +.I /
+> +or
+> +.IR /boot .
+>  .TP
+>  .I /dev
+>  Special or device files, which refer to physical devices.
+> @@ -107,6 +111,11 @@ libraries (optional).
+>  .I /lib/modules
+>  Loadable kernel modules (optional).
+>  .TP
+> +.I /lost+found
+> +This directory contains items lost in the filesystem.
+> +These items are usually chunks of files mangled as a consequence of
+> +a faulty disk or a system crash.
+> +.TP
+>  .I /media
+>  This directory contains mount points for removable media such as CD
+>  and DVD disks or USB sticks.
+> @@ -161,6 +170,12 @@ usually not executed by normal users.
+>  .I /srv
+>  This directory contains site-specific data that is served by this sy=
+stem.
+>  .TP
+> +.I /sys
+> +This is a mount point for the sysfs filesystem, which provides infor=
+mation
+> +about the kernel like
+> +.IR /proc ,
+> +but better structured, following the formalism of kobject infrastruc=
+ture.
+> +.TP
+>  .I /tmp
+>  This directory contains temporary files which may be deleted with no
+>  notice, such as by a regular job or at system boot up.
+>=20
+
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
