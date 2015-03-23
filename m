@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] scandir.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Mon, 23 Mar 2015 12:24:14 +0800
-Message-ID: <1427084656-7273-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] perror.3: ATTRIBUTES: Note function that is thread-safe
+Date: Mon, 23 Mar 2015 12:24:12 +0800
+Message-ID: <1427084656-7273-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,22 +12,22 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+The marking matches glibc marking.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/scandir.3 | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ man3/perror.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/scandir.3 b/man3/scandir.3
-index 6322c2e..1c6ec1c 100644
---- a/man3/scandir.3
-+++ b/man3/scandir.3
-@@ -226,6 +226,24 @@ was added to glibc in version 2.1.
- 
- .BR scandirat ()
- was added to glibc in version 2.15.
+diff --git a/man3/perror.3 b/man3/perror.3
+index 20f2209..2d67edc 100644
+--- a/man3/perror.3
++++ b/man3/perror.3
+@@ -108,6 +108,19 @@ Thus, if a failing call is not immediately followed by a call to
+ the value of
+ .I errno
+ should be saved.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -37,18 +37,13 @@ index 6322c2e..1c6ec1c 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR scandir (),
-+.BR scandirat ()
-+T}	Thread safety	MT-Safe
-+T{
-+.BR alphasort (),
-+.BR versionsort ()
-+T}	Thread safety	MT-Safe locale
++.BR perror ()
++T}	Thread safety	MT-Safe race:stderr
 +.TE
 +
  .SH CONFORMING TO
- .BR alphasort (),
- .BR scandir ():
+ The function
+ .BR perror ()
 -- 
 1.9.3
 
