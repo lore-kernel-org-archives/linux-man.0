@@ -1,37 +1,58 @@
-From: Nicholas Miell <nmiell@gmail.com>
-Subject: Re: For review: nptl(7) man page
-Date: Sun, 22 Mar 2015 14:38:03 -0700
-Message-ID: <550F363B.801@gmail.com>
-References: <550ED3F4.1080403@gmail.com>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] scandir.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Mon, 23 Mar 2015 12:24:14 +0800
+Message-ID: <1427084656-7273-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <libc-alpha-return-58109-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-In-Reply-To: <550ED3F4.1080403@gmail.com>
-To: libc-alpha@sourceware.org
-Cc: linux-man@vger.kernel.org
+Content-Type: text/plain
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1427084656-7273-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/22/2015 07:38 AM, Michael Kerrisk (man-pages) wrote:
-> Hello all,
->
-> I wrote a short man page documented some of the details of
-> NPTL that might affect application developers. Review comments
-> would be most welcome.
->
-> Thanks,
->
-> Michael
+The markings match glibc markings.
 
-POSIX specifies that process-shared pthread_mutex_t's can be manipulated 
-by independent processes, however the AMD64 and i386 versions of the 
-mutex structures are incompatible and cannot be shared.
+Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/scandir.3 | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-This might be true of the other supposedly sharable primitives, I never 
-bothered to check the rest when I first noticed the problem with mutexes.
+diff --git a/man3/scandir.3 b/man3/scandir.3
+index 6322c2e..1c6ec1c 100644
+--- a/man3/scandir.3
++++ b/man3/scandir.3
+@@ -226,6 +226,24 @@ was added to glibc in version 2.1.
+ 
+ .BR scandirat ()
+ was added to glibc in version 2.15.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR scandir (),
++.BR scandirat ()
++T}	Thread safety	MT-Safe
++T{
++.BR alphasort (),
++.BR versionsort ()
++T}	Thread safety	MT-Safe locale
++.TE
++
+ .SH CONFORMING TO
+ .BR alphasort (),
+ .BR scandir ():
+-- 
+1.9.3
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
