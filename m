@@ -1,40 +1,55 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
- information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Mon, 23 Mar 2015 20:25:55 +0000
-Message-ID: <bug-95331-11311-mbTq7S775X@https.bugzilla.kernel.org/>
-References: <bug-95331-11311@https.bugzilla.kernel.org/>
+From: =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
+Subject: [PATCH] resolver.3: More information about RES_INSECURE1 and RES_INSECURE2 option in debug mode
+Date: Mon, 23 Mar 2015 22:58:20 +0100
+Message-ID: <1427147900-15468-1-git-send-email-saulery@free.fr>
+References: <550FAD49.20706@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-95331-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <550FAD49.20706-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?UTF-8?q?St=C3=A9phane=20Aulery?= <saulery-GANU6spQydw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=95331
+Asked by Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
 
---- Comment #2 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Incidentally, nowhere do the man-pages state that unless you use 
-an SA_ONSTACK handler, having used sigaltstack() to set the 
-stack used to invoke the handler, then you get garbage pointed
-to by the siginfo_t 'si' pointer 2nd parameter to the handler,
-which is definitely the case.
-Also, unless you actually call fcntl(fd, F_SETSIG, signum), then
-no si->_sifields._sigpoll information is set at all - the 
-manual pages definitely suggest that SIGIO / SIGPOLL is the
-default, but do not mention that the default does not apply
-to SA_SIGACTION signal handlers .
+Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+---
+ man3/resolver.3 | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-Oh well, I was hoping to avoid having to do so, but I guess there
-is no alternative to making the program use poll / pselect .
-But the documentation is definitely in need of clarification of
-the above points.
+diff --git a/man3/resolver.3 b/man3/resolver.3
+index 4a1c97d..a070c57 100644
+--- a/man3/resolver.3
++++ b/man3/resolver.3
+@@ -240,12 +240,18 @@ This option is used by
+ [Enabled by default].
+ .TP
+ .B RES_INSECURE1
+-Accept a response from a wrong server and show it on standard output
+-(for debug purpose only).
++Accept a response from a wrong server.
++This can be used to detect potential security hazards,
++but you need to compile glibc with debugging enabled and use
++.B RES_DEBUG
++option (for debug purpose only).
+ .TP
+ .B RES_INSECURE2
+-Accept a response which contains a wrong query and show it on standard
+-output (for debug purpose only).
++Accept a response which contains a wrong query.
++This can be used to detect potential security hazards,
++but you need to compile glibc with debugging enabled and use
++.B RES_DEBUG
++option (for debug purpose only).
+ .TP
+ .B RES_NOALIASES
+ Disable usage of
+--=20
+2.1.4
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
