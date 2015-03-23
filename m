@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] printf.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Mon, 23 Mar 2015 12:24:13 +0800
-Message-ID: <1427084656-7273-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] scanf.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Mon, 23 Mar 2015 12:24:15 +0800
+Message-ID: <1427084656-7273-5-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -17,17 +17,17 @@ The markings match glibc markings.
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/printf.3 | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ man3/scanf.3 | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index bf84f07..8b24f20 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -822,6 +822,29 @@ A \(aq%\(aq is written.
- No argument is converted.
- The complete conversion
- specification is \(aq%%\(aq.
+diff --git a/man3/scanf.3 b/man3/scanf.3
+index 02455b4..a0e45a1 100644
+--- a/man3/scanf.3
++++ b/man3/scanf.3
+@@ -574,6 +574,26 @@ Out of memory.
+ .B ERANGE
+ The result of an integer conversion would exceed the size
+ that can be stored in the corresponding integer type.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -37,23 +37,20 @@ index bf84f07..8b24f20 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR printf (),
-+.BR fprintf (),
++.BR scanf (),
++.BR fscanf (),
 +.br
-+.BR sprintf (),
-+.BR snprintf (),
++.BR sscanf (),
++.BR vscanf (),
 +.br
-+.BR vprintf (),
-+.BR vfprintf (),
-+.br
-+.BR vsprintf (),
-+.BR vsnprintf ()
++.BR vsscanf (),
++.BR vfscanf ()
 +T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- The
- .BR fprintf (),
+ The functions
+ .BR fscanf (),
 -- 
 1.9.3
 
