@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
  information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Mon, 23 Mar 2015 19:58:30 +0000
-Message-ID: <bug-95331-11311-B2W2wTAQaJ@https.bugzilla.kernel.org/>
+Date: Mon, 23 Mar 2015 20:25:55 +0000
+Message-ID: <bug-95331-11311-mbTq7S775X@https.bugzilla.kernel.org/>
 References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,32 +15,22 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
---- Comment #1 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-To test (under kernel 3.13, Linux x86_64 8-core)
+--- Comment #2 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Incidentally, nowhere do the man-pages state that unless you use 
+an SA_ONSTACK handler, having used sigaltstack() to set the 
+stack used to invoke the handler, then you get garbage pointed
+to by the siginfo_t 'si' pointer 2nd parameter to the handler,
+which is definitely the case.
+Also, unless you actually call fcntl(fd, F_SETSIG, signum), then
+no si->_sifields._sigpoll information is set at all - the 
+manual pages definitely suggest that SIGIO / SIGPOLL is the
+default, but do not mention that the default does not apply
+to SA_SIGACTION signal handlers .
 
-   $ gcc -g -pthread -o t_sigio_rdwr  t_sigio_rdwr.c
-   $ mkfifo -m 0600 /tmp/f.in /tmp/f.out
-   $ strace -f bash -c './t_sigio_rdwr </tmp/f.in >/tmp/f.out' &
-   ...
-   $ echo 'hello' >/tmp/f.in && read res </tmp/f.out && echo "RES: $res"
-   RES: hello
-   ...
-   $ echo 'hel2o' >/tmp/f.in 
-   ...
-   $ read res </tmp/f.out && echo "RES: $res"
-   ^C
-   ^- now you have to press <CTRL+C>, at which time the t_sigio_rdwr
-      process does get a SIGIO with si->si_fd == 1, but it is now too late -
-      the reader has disconnected.
-
-Can anyone answer the question:
-  For output (O_WRONLY|O_ASYNC) file descriptors, WHEN is the F_SETOWN signal 
-  or SIGIO meant to be sent ? Is it upon connection of a new reader FD to the
-  read end of the the pipe, or when a reader FD is closed, or both ? 
-  IMHO, it must be possible to trigger the first case (sent on connection of
-new 
-  reader) but I can't see how to do it - the process only gets a SIGIO when a
-  reader disconnects.
+Oh well, I was hoping to avoid having to do so, but I guess there
+is no alternative to making the program use poll / pselect .
+But the documentation is definitely in need of clarification of
+the above points.
 
 -- 
 You are receiving this mail because:
