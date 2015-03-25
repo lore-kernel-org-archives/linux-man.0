@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] unlocked_stdio.3: ATTRIBUTES: Note functions thoes aren't thread-safe
-Date: Wed, 25 Mar 2015 16:14:30 +0800
-Message-ID: <1427271273-8602-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] wcsrtombs.3: ATTRIBUTES: Note function that is thread safe with exceptions
+Date: Wed, 25 Mar 2015 16:14:33 +0800
+Message-ID: <1427271273-8602-8-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,66 +12,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+The marking matches glibc marking.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/unlocked_stdio.3 | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+ man3/wcsrtombs.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/unlocked_stdio.3 b/man3/unlocked_stdio.3
-index d5aada7..24bd179 100644
---- a/man3/unlocked_stdio.3
-+++ b/man3/unlocked_stdio.3
-@@ -110,6 +110,47 @@ without the "_unlocked" suffix, except that they do not use locking
- of locks set by others) and hence are thread-unsafe.
- See
- .BR flockfile (3).
+diff --git a/man3/wcsrtombs.3 b/man3/wcsrtombs.3
+index 144ef47..8c01701 100644
+--- a/man3/wcsrtombs.3
++++ b/man3/wcsrtombs.3
+@@ -123,6 +123,19 @@ is returned, and
+ .I errno
+ set to
+ .BR EILSEQ .
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw20 lb lb
++lb lb lbw28
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getc_unlocked (),
-+.BR putc_unlocked (),
-+.BR clearerr_unlocked (),
-+.BR fflush_unlocked (),
-+.BR fgetc_unlocked (),
-+.BR fputc_unlocked (),
-+.BR fread_unlocked (),
-+.BR fwrite_unlocked (),
-+.BR fgets_unlocked (),
-+.BR fputs_unlocked (),
-+.BR getwc_unlocked (),
-+.BR fgetwc_unlocked (),
-+.BR fputwc_unlocked (),
-+.BR putwc_unlocked (),
-+.BR fgetws_unlocked (),
-+.BR fputws_unlocked ()
-+T}	Thread safety	MT-Safe race:stream
-+T{
-+.BR getchar_unlocked (),
-+.BR getwchar_unlocked ()
-+T}	Thread safety	MT-Unsafe race:stdin
-+T{
-+.BR putchar_unlocked (),
-+.BR putwchar_unlocked ()
-+T}	Thread safety	MT-Unsafe race:stdout
-+T{
-+.BR feof_unlocked (),
-+.BR ferror_unlocked (),
-+.BR fileno_unlocked ()
-+T}	Thread safety	MT-Safe
++.BR wcsrtombs ()
++T}	Thread safety	MT-Unsafe race:wcsrtombs/!ps
 +.TE
 +
  .SH CONFORMING TO
- The four functions
- .BR getc_unlocked (),
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
