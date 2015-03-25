@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH v2] printf.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Wed, 25 Mar 2015 11:15:27 +0800
-Message-ID: <1427253330-27357-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH v2] wprintf.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Wed, 25 Mar 2015 11:15:30 +0800
+Message-ID: <1427253330-27357-6-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -16,43 +16,40 @@ The markings match glibc markings.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/printf.3 | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ man3/wprintf.3 | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index bf84f07..fc1b1a0 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -822,6 +822,29 @@ A \(aq%\(aq is written.
- No argument is converted.
- The complete conversion
- specification is \(aq%%\(aq.
+diff --git a/man3/wprintf.3 b/man3/wprintf.3
+index 57d1cf4..219560d 100644
+--- a/man3/wprintf.3
++++ b/man3/wprintf.3
+@@ -208,6 +208,26 @@ case of the functions
+ and
+ .BR vswprintf ().
+ They return \-1 when an error occurs.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR printf (),
-+.BR fprintf (),
++.BR wprintf (),
++.BR fwprintf (),
 +.br
-+.BR sprintf (),
-+.BR snprintf (),
++.BR swprintf (),
++.BR vwprintf (),
 +.br
-+.BR vprintf (),
-+.BR vfprintf (),
-+.br
-+.BR vsprintf (),
-+.BR vsnprintf ()
++.BR vfwprintf (),
++.BR vswprintf ()
 +T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- The
- .BR fprintf (),
+ C99.
+ .SH NOTES
 -- 
 1.9.3
 
