@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH v2] wprintf.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Wed, 25 Mar 2015 11:15:30 +0800
-Message-ID: <1427253330-27357-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH v2] scanf.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Wed, 25 Mar 2015 11:15:29 +0800
+Message-ID: <1427253330-27357-5-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -16,40 +16,40 @@ The markings match glibc markings.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wprintf.3 | 20 ++++++++++++++++++++
+ man3/scanf.3 | 20 ++++++++++++++++++++
  1 file changed, 20 insertions(+)
 
-diff --git a/man3/wprintf.3 b/man3/wprintf.3
-index 57d1cf4..219560d 100644
---- a/man3/wprintf.3
-+++ b/man3/wprintf.3
-@@ -208,6 +208,26 @@ case of the functions
- and
- .BR vswprintf ().
- They return \-1 when an error occurs.
+diff --git a/man3/scanf.3 b/man3/scanf.3
+index 02455b4..6018694 100644
+--- a/man3/scanf.3
++++ b/man3/scanf.3
+@@ -574,6 +574,26 @@ Out of memory.
+ .B ERANGE
+ The result of an integer conversion would exceed the size
+ that can be stored in the corresponding integer type.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw24 lb lb
++lbw20 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR wprintf (),
-+.BR fwprintf (),
++.BR scanf (),
++.BR fscanf (),
 +.br
-+.BR swprintf (),
-+.BR vwprintf (),
++.BR sscanf (),
++.BR vscanf (),
 +.br
-+.BR vfwprintf (),
-+.BR vswprintf ()
++.BR vsscanf (),
++.BR vfscanf ()
 +T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- C99.
- .SH NOTES
+ The functions
+ .BR fscanf (),
 -- 
 1.9.3
 
