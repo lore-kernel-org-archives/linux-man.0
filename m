@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH v2] scandir.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Wed, 25 Mar 2015 11:15:28 +0800
-Message-ID: <1427253330-27357-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH v2] printf.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Wed, 25 Mar 2015 11:15:27 +0800
+Message-ID: <1427253330-27357-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -16,38 +16,43 @@ The markings match glibc markings.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/scandir.3 | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ man3/printf.3 | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/man3/scandir.3 b/man3/scandir.3
-index 6322c2e..640a275 100644
---- a/man3/scandir.3
-+++ b/man3/scandir.3
-@@ -226,6 +226,24 @@ was added to glibc in version 2.1.
- 
- .BR scandirat ()
- was added to glibc in version 2.15.
+diff --git a/man3/printf.3 b/man3/printf.3
+index bf84f07..fc1b1a0 100644
+--- a/man3/printf.3
++++ b/man3/printf.3
+@@ -822,6 +822,29 @@ A \(aq%\(aq is written.
+ No argument is converted.
+ The complete conversion
+ specification is \(aq%%\(aq.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw26 lb lb
++lbw23 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR scandir (),
-+.BR scandirat ()
-+T}	Thread safety	MT-Safe
-+T{
-+.BR alphasort (),
-+.BR versionsort ()
++.BR printf (),
++.BR fprintf (),
++.br
++.BR sprintf (),
++.BR snprintf (),
++.br
++.BR vprintf (),
++.BR vfprintf (),
++.br
++.BR vsprintf (),
++.BR vsnprintf ()
 +T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- .BR alphasort (),
- .BR scandir ():
+ The
+ .BR fprintf (),
 -- 
 1.9.3
 
