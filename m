@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH v2] perror.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 25 Mar 2015 11:15:26 +0800
-Message-ID: <1427253330-27357-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH v2] scandir.3: ATTRIBUTES: Note functions those are thread-safe
+Date: Wed, 25 Mar 2015 11:15:28 +0800
+Message-ID: <1427253330-27357-4-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,37 +12,42 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
+The markings match glibc markings.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/perror.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/scandir.3 | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/man3/perror.3 b/man3/perror.3
-index 20f2209..2d67edc 100644
---- a/man3/perror.3
-+++ b/man3/perror.3
-@@ -108,6 +108,19 @@ Thus, if a failing call is not immediately followed by a call to
- the value of
- .I errno
- should be saved.
+diff --git a/man3/scandir.3 b/man3/scandir.3
+index 6322c2e..640a275 100644
+--- a/man3/scandir.3
++++ b/man3/scandir.3
+@@ -226,6 +226,24 @@ was added to glibc in version 2.1.
+ 
+ .BR scandirat ()
+ was added to glibc in version 2.15.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw26 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR perror ()
-+T}	Thread safety	MT-Safe race:stderr
++.BR scandir (),
++.BR scandirat ()
++T}	Thread safety	MT-Safe
++T{
++.BR alphasort (),
++.BR versionsort ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- The function
- .BR perror ()
+ .BR alphasort (),
+ .BR scandir ():
 -- 
 1.9.3
 
