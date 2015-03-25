@@ -1,53 +1,62 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsnrtombs.3: ATTRIBUTES: Note function that is thread safe with exceptions
-Date: Wed, 25 Mar 2015 16:14:32 +0800
-Message-ID: <1427271273-8602-7-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] vt: add cursor blink interval escape sequence
+Date: Wed, 25 Mar 2015 12:19:49 +0100
+Message-ID: <20150325111949.GA24230@kroah.com>
+References: <alpine.DEB.2.11.1501262034380.1945@localhost.localdomain>
+ <alpine.DEB.2.11.1501262040380.2052@localhost.localdomain>
+ <20150225094946.GA24627@amd>
+ <alpine.LNX.2.11.1502252319330.276@localhost>
+ <20150226220243.GC9935@amd>
+ <alpine.LNX.2.11.1502271905580.4212@localhost>
+ <alpine.LNX.2.11.1502271911380.4248@localhost>
 Mime-Version: 1.0
-Content-Type: text/plain
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427271273-8602-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Content-Type: text/plain; charset=us-ascii
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Content-Disposition: inline
+In-Reply-To: <alpine.LNX.2.11.1502271911380.4248@localhost>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Scot Doyle <lkml14@scotdoyle.com>
+Cc: Jiri Slaby <jslaby@suse.cz>, Tomi Valkeinen <tomi.valkeinen@ti.com>, Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>, Michael Kerrisk <mtk.manpages@gmail.com>, Pavel Machek <pavel@ucw.cz>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-api@vger.kernel.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
+On Fri, Feb 27, 2015 at 07:13:48PM +0000, Scot Doyle wrote:
+> Add an escape sequence to specify the current console's cursor blink
+> interval. The interval is specified as a number of milliseconds until
+> the next cursor display state toggle, from 50 to 65535. /proc/loadavg
+> did not show a difference with a one msec interval, but the lower
+> bound is set to 50 msecs since slower hardware wasn't tested.
+> 
+> Store the interval in the vc_data structure for later access by fbcon,
+> initializing the value to fbcon's current hardcoded value of 200 msecs.
+> 
+> Signed-off-by: Scot Doyle <lkml14@scotdoyle.com>
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> ---
+>  drivers/tty/vt/vt.c            | 9 +++++++++
+>  include/linux/console_struct.h | 1 +
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+> index 6e00572..ab1f173 100644
+> --- a/drivers/tty/vt/vt.c
+> +++ b/drivers/tty/vt/vt.c
+> @@ -135,6 +135,7 @@ const struct consw *conswitchp;
+>   */
+>  #define DEFAULT_BELL_PITCH	750
+>  #define DEFAULT_BELL_DURATION	(HZ/8)
+> +#define DEFAULT_CURSOR_BLINK_MS	200
+>  
+>  struct vc vc_cons [MAX_NR_CONSOLES];
+>  
+> @@ -1590,6 +1591,13 @@ static void setterm_command(struct vc_data *vc)
+>  		case 15: /* activate the previous console */
+>  			set_console(last_console);
+>  			break;
+> +		case 16: /* set cursor blink duration in msec */
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/wcsnrtombs.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Where is this now documented?  Is this a "standard" ASCII command
+somewhere?  Adding new userspace apis have to be documented properly.
 
-diff --git a/man3/wcsnrtombs.3 b/man3/wcsnrtombs.3
-index a02c603..ab69767 100644
---- a/man3/wcsnrtombs.3
-+++ b/man3/wcsnrtombs.3
-@@ -157,6 +157,19 @@ is returned, and
- .I errno
- set to
- .BR EILSEQ .
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lbw29
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR wcsnrtombs ()
-+T}	Thread safety	MT-Unsafe race:wcsnrtombs/!ps
-+.TE
-+
- .SH CONFORMING TO
- POSIX.1-2008.
- .SH NOTES
--- 
-1.9.3
+Without that, I can't take this series, sorry.
 
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+greg k-h
