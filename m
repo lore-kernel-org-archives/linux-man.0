@@ -1,58 +1,67 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: "man 3 vsprintf" : simple bug in EXAMPLE section
-Date: Fri, 27 Mar 2015 07:06:24 +0100
-Message-ID: <CAKgNAkjY=YpuZ7ifA1HCN68jZZ_PgFRw4KYfKaXeViPAvs+m+w@mail.gmail.com>
-References: <551584DE020000D400069A4C@relay2.provo.novell.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [patch][resend] MAP_HUGETLB munmap fails with size not 2MB aligned
+Date: Fri, 27 Mar 2015 10:45:44 +0100
+Message-ID: <551526C8.1000105@suse.cz>
+References: <alpine.DEB.2.10.1410221518160.31326@davide-lnx3> <alpine.LSU.2.11.1503251708530.5592@eggly.anvils> <alpine.DEB.2.10.1503251754320.26501@davide-lnx3> <alpine.DEB.2.10.1503251938170.16714@chino.kir.corp.google.com> <alpine.DEB.2.10.1503260431290.2755@mbplnx> <alpine.DEB.2.10.1503261201440.8238@chino.kir.corp.google.com> <alpine.DEB.2.10.1503261221470.5119@davide-lnx3>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <551584DE020000D400069A4C-8qcz4lDFMZvD8XXLLHKrIiOjQekVJEpY@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zhen Ren <zren-IBi9RG/b67k@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1503261221470.5119@davide-lnx3>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, KOSAKI Motohiro <kosaki.motohiro-+CUm20s59erQFUHtdCDX3A@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Joern Engel <joern-PCqxUs/MD9bYtjvyW6yDsg@public.gmane.org>, Jianguo Wu <wujianguo-hv44wF8Li93QT0dZR+AlfA@public.gmane.org>, Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, Linux Kernel Mailing List <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Zhen Ren,
+On 03/26/2015 08:39 PM, Davide Libenzi wrote:
+> On Thu, 26 Mar 2015, David Rientjes wrote:
+> 
+>> Yes, this munmap() behavior of lengths <= hugepage_size - PAGE_SIZE for a 
+>> hugetlb vma is long standing and there may be applications that break as a 
+>> result of changing the behavior: a database that reserves all allocated 
+>> hugetlb memory with mmap() so that it always has exclusive access to those 
+>> hugepages, whether they are faulted or not, and maintains its own hugepage 
+>> pool (which is common), may test the return value of munmap() and depend 
+>> on it returning -EINVAL to determine if it is freeing memory that was 
+>> either dynamically allocated or mapped from the hugetlb reserved pool.
+> 
+> You went a long way to create such a case.
+> But, in your case, that application will erroneously considering hugepage 
+> mmaped memory, as dynamically allocated, since it will always get EINVAL, 
+> unless it passes an aligned size. Aligned size, which a fix like the one 
+> posted in the patch will still leave as success.
+> OTOH, an application, which might be more common than the one you posted,
+> which calls munmap() to release a pointer which it validly got from a 
+> previous mmap(), will leak huge pages as all the issued munmaps will fail.
+> 
+> 
+>> If we were to go back in time and decide this when the munmap() behavior 
+>> for hugetlb vmas was originally introduced, that would be valid.  The 
+>> problem is that it could lead to userspace breakage and that's a 
+>> non-starter.
+>> 
+>> What we can do is improve the documentation and man-page to clearly 
+>> specify the long-standing behavior so that nobody encounters unexpected 
+>> results in the future.
+> 
+> This way you will leave the mmap API with broken semantics.
+> In any case, I am done arguing.
+> I will leave to Andrew to sort it out, and to Michael Kerrisk to update 
+> the mmap man pages with the new funny behaviour.
 
-On 27 March 2015 at 06:27, Zhen Ren <zren-IBi9RG/b67k@public.gmane.org> wrote:
-> Hi,
-> There is simple bug in EXAMPLE section of "man 3 vsprintf".
->
-> Function will return nothing if  it steps into the last "else {}".
->
-> ------------------ example code -----------------
->  char *
->        make_message(const char *fmt, ...)
->        {
->            int n;
->            int size = 100;     /* Guess we need no more than 100 bytes */
->            char *p, *np;
->            va_list ap;
-> .
-> .cut off
-> .
->                np = realloc(p, size);
->                if (np == NULL) {
->                    free(p);
->                    return NULL;
->                } else {
->                    p = np;
-> +                return p;
->                }
->            }
->        }
++ CC's
 
-I have not looked too closely at the code, but the above report
-appears incorrect to me. The function should NOT be returning at that
-point. It should be falling through and then round the loop once more.
-If I've missed something, could you elaborate a little more on the
-problem, please?
+You know that people don't always magically CC themselves, or read all of
+lkml/linux-mm? :)
 
-Cheers,
-
-Michael
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+> 
+> - Davide
+> 
+> 
+> --
+> To unsubscribe, send a message with 'unsubscribe linux-mm' in
+> the body to majordomo-Bw31MaZKKs0EbZ0PF+XxCw@public.gmane.org  For more info on Linux MM,
+> see: http://www.linux-mm.org/ .
+> Don't email: <a href=mailto:"dont-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org"> email-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org </a>
+> 
