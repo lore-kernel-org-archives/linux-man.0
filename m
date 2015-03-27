@@ -1,52 +1,57 @@
-From: "Zhen Ren" <zren-IBi9RG/b67k@public.gmane.org>
-Subject: "man 3 vsprintf" : simple bug in EXAMPLE section
-Date: Thu, 26 Mar 2015 23:27:10 -0600
-Message-ID: <551584DE020000D400069A4C@relay2.provo.novell.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: "man 3 vsprintf" : simple bug in EXAMPLE section
+Date: Fri, 27 Mar 2015 07:06:24 +0100
+Message-ID: <CAKgNAkjY=YpuZ7ifA1HCN68jZZ_PgFRw4KYfKaXeViPAvs+m+w@mail.gmail.com>
+References: <551584DE020000D400069A4C@relay2.provo.novell.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <551584DE020000D400069A4C-8qcz4lDFMZvD8XXLLHKrIiOjQekVJEpY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Zhen Ren <zren-IBi9RG/b67k@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
-There is simple bug in EXAMPLE section of "man 3 vsprintf".
+Hello Zhen Ren,
 
-Function will return nothing if  it steps into the last "else {}".
+On 27 March 2015 at 06:27, Zhen Ren <zren-IBi9RG/b67k@public.gmane.org> wrote:
+> Hi,
+> There is simple bug in EXAMPLE section of "man 3 vsprintf".
+>
+> Function will return nothing if  it steps into the last "else {}".
+>
+> ------------------ example code -----------------
+>  char *
+>        make_message(const char *fmt, ...)
+>        {
+>            int n;
+>            int size = 100;     /* Guess we need no more than 100 bytes */
+>            char *p, *np;
+>            va_list ap;
+> .
+> .cut off
+> .
+>                np = realloc(p, size);
+>                if (np == NULL) {
+>                    free(p);
+>                    return NULL;
+>                } else {
+>                    p = np;
+> +                return p;
+>                }
+>            }
+>        }
 
------------------- example code -----------------
- char *
-       make_message(const char *fmt, ...)
-       {
-           int n;
-           int size = 100;     /* Guess we need no more than 100 bytes */
-           char *p, *np;
-           va_list ap;
-.
-cut off
-.
-               np = realloc(p, size);
-               if (np == NULL) {
-                   free(p);
-                   return NULL;
-               } else {
-                   p = np;
-+                return p;
-               }
-           }
-       }
-------------------------------------------------
+I have not looked too closely at the code, but the above report
+appears incorrect to me. The function should NOT be returning at that
+point. It should be falling through and then round the loop once more.
+If I've missed something, could you elaborate a little more on the
+problem, please?
 
+Cheers,
 
---
-Best regards,
-Eric, Ren
-HA team, SUSE
-
-
+Michael
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
