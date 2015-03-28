@@ -1,139 +1,68 @@
-From: "Zhen Ren" <zren-IBi9RG/b67k@public.gmane.org>
-Subject: Re: "man 3 vsprintf" : simple bug in EXAMPLE section
-Date: Fri, 27 Mar 2015 09:26:39 -0600
-Message-ID: <5516115F020000D400069AD9@relay2.provo.novell.com>
-References: <551584DE020000D400069A4C@relay2.provo.novell.com>
- <CAKgNAkjY=YpuZ7ifA1HCN68jZZ_PgFRw4KYfKaXeViPAvs+m+w@mail.gmail.com>
- <5515C2F9020000D400069A6F@relay2.provo.novell.com>
- <55152F0A.7090708@bfs.de>
+From: Mike Frysinger <vapier@gentoo.org>
+Subject: Re: [PATCH v2 1/3] vt: add cursor blink interval escape sequence
+Date: Fri, 27 Mar 2015 20:35:03 -0400
+Message-ID: <20150328003503.GB27135@vapier>
+References: <alpine.DEB.2.11.1501262034380.1945@localhost.localdomain>
+ <alpine.DEB.2.11.1501262040380.2052@localhost.localdomain>
+ <20150225094946.GA24627@amd>
+ <alpine.LNX.2.11.1502252319330.276@localhost>
+ <20150226220243.GC9935@amd>
+ <alpine.LNX.2.11.1502271905580.4212@localhost>
+ <alpine.LNX.2.11.1502271911380.4248@localhost>
+ <20150325111949.GA24230@kroah.com>
+ <alpine.DEB.2.11.1503261341260.2164@local>
+ <alpine.DEB.2.11.1503261352200.2411@local>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8BIT
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55152F0A.7090708-fPG8STNUNVg@public.gmane.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4SFOXa2GPu3tIq4H"
+Return-path: <linux-kernel-owner@vger.kernel.org>
 Content-Disposition: inline
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: wharms-fPG8STNUNVg@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+In-Reply-To: <alpine.DEB.2.11.1503261352200.2411@local>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Scot Doyle <lkml14@scotdoyle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Kerrisk <mtk.manpages@gmail.com>, Jiri Slaby <jslaby@suse.cz>, Tomi Valkeinen <tomi.valkeinen@ti.com>, Jean-Christophe Plagniol-Villard <plagnioj@jcrosoft.com>, Pavel Machek <pavel@ucw.cz>, Geert Uytterhoeven <geert@linux-m68k.org>, linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org, linux-man@vger.kernel.org, linux-api@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-Hi walter,
-The way you implemented is more straightforward and  more efficient.
-No more realloc call which is expensive.
 
-Thanks very much ;-)
+--4SFOXa2GPu3tIq4H
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On 26 Mar 2015 13:54, Scot Doyle wrote:
+> Add an escape sequence to specify the current console's cursor blink
+> interval. The interval is specified as a number of milliseconds until
+> the next cursor display state toggle, from 50 to 65535. /proc/loadavg
+> did not show a difference with a one msec interval, but the lower
+> bound is set to 50 msecs since slower hardware wasn't tested.
 
---
-Best regards,
- 
-Eric Ren
-HA team,SUSE.
+if they want to be crazy, why not let them ?  it's not like we generally pr=
+event=20
+the user from destroying their machine.  i.e. just require the value to be =
+> 0=20
+(unless you want to let 0 disable things).
+-mike
 
+--4SFOXa2GPu3tIq4H
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
->>> walter harms <wharms-fPG8STNUNVg@public.gmane.org> 03/27/15 6:21 PM >>>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-hi Zhen Ren,
-i tried to create a more simple example. Do you think this is more
-helpful for you ?
+iQIcBAEBCAAGBQJVFfc3AAoJEEFjO5/oN/WBHCoP/jO8/MZ5+A4hCgPNMX23x0ZR
+G9UlQ+tbWPQOVpHmVQW80CS+CMp0Wf7xbybZuU5XLt4Z+e41GR4SO4AeiMUjSwTM
+pr7w8xq66Q+PYk4hn3rImjsVVCSaERLMRVqvwm6cE4APXXitPrQX3zWCmUOy6O9M
+7kKl0UZK5yAh8Oo8teW8OTKlb3GSeSnsEn9glXuqUJ/Md7Wkprh/okyClm5oBF9D
+LveiSK8xMAogir6sWcg5dZTRz76oEzjSKRPRqo0eSYHfX5qETdkUaPrIAj5y0jsU
+EnYwjluMnxsY6GhmNsSUl1EuwR9EKheM5L18a5ntYJJiuC4e9SuIJz7xGLXM1lBV
+Vsz9/PefqsT6vcIbJDxK+AWLPTp7/kVlvxVpeJlGe0NuWVnFSTNGnMh588TrJQch
+JXLwU1Os89w8K5KgVR82EXYmCp6JTm8d+wop+vBn3Bqpe2tAJ+BLz77ESIa9SF37
+VyYXh4XsjBT3PbH7x6OHB8v+AurxhhAY+fSTQt3FjJFzloqkNeKkTP3G6B3H9Hiy
+APbCTEo4lWbROhCf87O+oNgMt0L9s2F5QHuhPJr94CWoNG1SrMJ0qp1PNIe0NAXB
+yo48/y+WeI7dTZHO6NVq7fFc9XPXIYFxS4mXvNCuoEEZQpFg6zejCITP7WJ+DcrI
+AnzBfH5q2eWiFI5LrClD
+=L86v
+-----END PGP SIGNATURE-----
 
-re,
- wh
-
-char *
-make_message2 (const char *fmt, ...)
-{
-  int n,size = 0;
-  char *p = NULL;
-  va_list ap;
-
-  /* figure our required size */
-  va_start (ap, fmt);
-  size = vsnprintf (p, size, fmt, ap);
-  va_end (ap);
-
-  if (size < 0)
-    return NULL;
-
-  /* leave room for \0 */
-  size++;
-  p = malloc (size);
-  if (p == NULL)
-    return NULL;
-
-  va_start (ap, fmt);
-  n = vsnprintf (p, size, fmt, ap);
-  va_end (ap);
-
-return p;
-}
-
-
-Am 27.03.2015 10:52, schrieb Zhen Ren:
-> Hi Michael,
-> 
-> I'm so sorry for this negative report.
-> 
-> Yeah, you're right. It'll fall through,loop again,do "vsprintf" and return if done.
-> 
-> --
-> Best regards,
-> Eric, Ren
-> HA team, SUSE
-> 
-> 
->>>>
->> Hello Zhen Ren, 
->>  
->> On 27 March 2015 at 06:27, Zhen Ren <zren-IBi9RG/b67k@public.gmane.org> wrote: 
->>> Hi, 
->>> There is simple bug in EXAMPLE section of "man 3 vsprintf". 
->>>
->>> Function will return nothing if  it steps into the last "else {}". 
->>>
->>> ------------------ example code ----------------- 
->>>  char * 
->>>        make_message(const char *fmt, ...) 
->>>        { 
->>>            int n; 
->>>            int size = 100;     /* Guess we need no more than 100 bytes */ 
->>>            char *p, *np; 
->>>            va_list ap; 
->>> . 
->>> .cut off 
->>> . 
->>>                np = realloc(p, size); 
->>>                if (np == NULL) { 
->>>                    free(p); 
->>>                    return NULL; 
->>>                } else { 
->>>                    p = np; 
->>> +                return p; 
->>>                } 
->>>            } 
->>>        } 
->>  
->> I have not looked too closely at the code, but the above report 
->> appears incorrect to me. The function should NOT be returning at that 
->> point. It should be falling through and then round the loop once more. 
->> If I've missed something, could you elaborate a little more on the 
->> problem, please? 
->>  
->> Cheers, 
->>  
->> Michael 
->>  
->>  
-> 
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-
-
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+--4SFOXa2GPu3tIq4H--
