@@ -1,53 +1,43 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] futex.2: explanation of blocking
-Date: Sun, 29 Mar 2015 21:13:03 +0200
-Message-ID: <1427656383-8779-1-git-send-email-xypron.glpk@gmx.de>
+From: Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>
+Subject: Re: Revised futex(2) man page for review
+Date: Tue, 31 Mar 2015 12:18:41 +1030
+Message-ID: <871tk6os1y.fsf@rustcorp.com.au>
+References: <55166C01.7000803@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <55166C01.7000803-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man@vger.kernel.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert@neth>
 List-Id: linux-man@vger.kernel.org
 
-Use shorter sentences.
+"Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> writes:
+> When executing a futex operation that requests to block a thread,
+> the kernel will only block if the futex word has the value that the
+> calling thread supplied as expected value.
+> The load from the futex word, the comparison with
+> the expected value,
+> and the actual blocking will happen atomically and totally
+> ordered with respect to concurrently executing futex operations
+> on the same futex word,
+> such as operations that wake threads blocked on this futex word.
+> Thus, the futex word is used to connect the synchronization in user spac
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/futex.2 | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+Missing 'e' in "space".
 
-diff --git a/man2/futex.2 b/man2/futex.2
-index dea50ea..6a4d45c 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -85,14 +85,18 @@ In the uncontended case,
- a thread can access or modify the lock state with atomic instructions,
- for example atomically changing it from not acquired to acquired
- using an atomic compare-and-exchange instruction.
--If a thread cannot acquire a lock because
--it is already acquired by another thread,
--it can request to block if and only the lock is still acquired by
--using the lock's flag as futex word and expecting a value that
--represents the acquired state.
-+A thread maybe unable acquire a lock because
-+it is already acquired by another thread.
-+It then may pass the lock's flag as futex word and the value
-+representing the acquired state as expected value to a
-+.BR futex ()
-+wait operation.
-+.BR futex ()
-+will block if and only if the lock is still acquired.
- When releasing the lock, a thread has to first reset the
--lock state to not acquired and then execute the futex operation that
--wakes one thread blocked on the futex word that is the lock's flag
-+lock state to not acquired and then execute a
-+.BR futex ()
-+operation that wakes threads blocked on the lock flag used as futex word.
- (this can be be further optimized to avoid unnecessary wake-ups).
- See
- .BR futex (7)
--- 
-2.1.4
+> .\" FIXME Please confirm that the following is correct:
+> No guarantee is provided about which waiters are awoken
+> (e.g., a waiter with a higher scheduling priority is not guaranteed
+> to be awoken in preference to a waiter with a lower priority).
 
+This is true.
+
+I didn't read the rest, as that stuff was all written by others.
+Documenting them is pretty heroic; good job!
+
+Thanks,
+Rusty.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
