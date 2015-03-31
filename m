@@ -1,59 +1,54 @@
-From: Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: Revised futex(2) man page for review
-Date: Tue, 31 Mar 2015 13:36:45 -0700
-Message-ID: <1427834205.20009.19.camel@stgolabs.net>
-References: <55166C01.7000803@gmail.com>
-	 <20150328114725.GJ27490@worktop.programming.kicks-ass.net>
-	 <20150328120337.GB32047@worktop.ger.corp.intel.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150328120337.GB32047-IIpfhp3q70xoDWY/xQGDymt3HXsI98Cx0E9HWUfgJXw@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb8U04JRNCRQjg@public.gmane.org>
+From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+Subject: [PATCH] ld.so.8: add some multi-arch notes, linker paths are quite varied (but standardized to each arch)
+Date: Tue, 31 Mar 2015 13:48:57 -0700
+Message-ID: <1427834937-207547-1-git-send-email-shawn@churchofgit.com>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Sat, 2015-03-28 at 13:03 +0100, Peter Zijlstra wrote:
-> >               If the timeout argument is non-NULL, its contents spe=
-cify a rel=E2=80=90
-> >               ative   timeout   for   the  wait,  measured  accordi=
-ng  to  the
-> >               CLOCK_MONOTONIC clock.  (This interval will be rounde=
-d up to the
-> >               system clock granularity, and kernel scheduling delay=
-s mean that
-> >               the blocking interval may overrun by a small amount.)=
-  If  time=E2=80=90
-> >               out is NULL, the call blocks indefinitely.
->=20
-> Would it not be better to only state that the wait will not return
-> before the timeout -- unless woken -- and not bother with clock
-> granularity and scheduling delays?
+---
+ man8/ld.so.8 | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-Yeah, similarly we also have this:
+diff --git a/man8/ld.so.8 b/man8/ld.so.8
+index 3bf8a36..096c2e2 100644
+--- a/man8/ld.so.8
++++ b/man8/ld.so.8
+@@ -33,6 +33,8 @@ during compilation.
+ The program
+ .B ld.so
+ handles a.out binaries, a format used long ago;
++on i386
++.\" there are so many linker paths for each arch...
+ .B ld-linux.so*
+ handles ELF (\fI/lib/ld-linux.so.1\fP for libc5, \fI/lib/ld-linux.so.2\fP
+ for glibc2), which everybody has been using for years now.
+@@ -85,7 +87,18 @@ and then
+ (On some 64-bit archiectures, the default spaths for 64-bit libraries are
+ .IR /lib64 ,
+ and then
+-.IR /usr/lib64 .)
++.IR /usr/lib64 .
++Debian and derived distributions use
++.\".BR multiarch (7)
++multiarch paths of
++.IR /lib/${TRIPLET}
++and
++.IR /usr/lib/${TIPLET}
++and then
++.IR /lib ,
++and
++.IR /usr/lib .)
++.\" And Arch does not search in /lib or /lib64 at all
+ If the binary was linked with the
+ .B \-z nodeflib
+ linker option, this step is skipped.
+-- 
+2.2.1.209.g41e5f3a
 
-     FUTEX_PRIVATE_FLAG (since Linux 2.6.22)
-              This option bit can be employed with all futex  operation=
-s.   It
-              tells  the  kernel  that  the  futex  is process-private =
-and not
-              shared with another process (i.e., it is  only  being  us=
-ed  for
-              synchronization  between  threads  of  the  same process)=
-=2E  This
-              allows the kernel to choose the fast  path  for  validati=
-ng  the
-              user-space address and avoids expensive VMA lookups, taki=
-ng ref=E2=80=90
-              erence counts on file backing store, and so on.
-
-This to me reads a bit too much into the kernel (fastpath, refcnt,
-vmas). Why not just mention that it avoids overhead in the kernel or
-something? I don't recall any manpage mentioning such details, but I
-could be wrong. In any case its a nit, the whole doc is pretty good and
-I hope you can merge it soon and then just increment ;)
-
-Thanks,
-Davidlohr
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
