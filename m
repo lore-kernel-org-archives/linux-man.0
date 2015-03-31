@@ -1,53 +1,111 @@
 From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH] ld.so.8: add some multi-arch notes, linker paths are quite varied (but standardized to each arch)
-Date: Tue, 31 Mar 2015 13:48:57 -0700
-Message-ID: <1427834937-207547-1-git-send-email-shawn@churchofgit.com>
+Subject: Re: [PATCH] ld.so.8: add some multi-arch notes, linker paths are
+ quite varied (but standardized to each arch)
+Date: Tue, 31 Mar 2015 20:52:27 +0000
+Message-ID: <20150331205227.GA9105@churchofgit.com>
+References: <1427834937-207547-1-git-send-email-shawn@churchofgit.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <1427834937-207547-1-git-send-email-shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man8/ld.so.8 | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+I started a multiarch.7 man-page, but I am not sure it belongs in man-pages...
+at least we should not cover all the package manager details.
 
-diff --git a/man8/ld.so.8 b/man8/ld.so.8
-index 3bf8a36..096c2e2 100644
---- a/man8/ld.so.8
-+++ b/man8/ld.so.8
-@@ -33,6 +33,8 @@ during compilation.
- The program
- .B ld.so
- handles a.out binaries, a format used long ago;
-+on i386
-+.\" there are so many linker paths for each arch...
- .B ld-linux.so*
- handles ELF (\fI/lib/ld-linux.so.1\fP for libc5, \fI/lib/ld-linux.so.2\fP
- for glibc2), which everybody has been using for years now.
-@@ -85,7 +87,18 @@ and then
- (On some 64-bit archiectures, the default spaths for 64-bit libraries are
- .IR /lib64 ,
- and then
--.IR /usr/lib64 .)
-+.IR /usr/lib64 .
-+Debian and derived distributions use
-+.\".BR multiarch (7)
-+multiarch paths of
-+.IR /lib/${TRIPLET}
-+and
-+.IR /usr/lib/${TIPLET}
-+and then
-+.IR /lib ,
-+and
-+.IR /usr/lib .)
-+.\" And Arch does not search in /lib or /lib64 at all
- If the binary was linked with the
- .B \-z nodeflib
- linker option, this step is skipped.
--- 
-2.2.1.209.g41e5f3a
-
+.\" Copyright (c) 2015 by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
+.\"
+.\"
+.TH NPTL 7 2015-03-31 "Linux" "Linux Programmer's Manual"
+.SH NAME
+multiarch \- Multiarch support
+.SH DESCRIPTION
+Multiarch
+is a way of installing multiple binary targets (such as i386-linux-gnu and
+amd64-linux-gnu) on one
+.BR hier (7)
+filesystem, which originated in (but is not limited to)
+Debian and Ubuntu.
+.\"
+.SS Overview and scope
+Multiarch allows binaries of many ABI targets to co-exist on the same system.
+Through the use of
+.BR qemu-user-static (1)
+and
+.BR binfmt.d (5)
+it is even possible to run targets that are not natively runnable. It also can
+be used for cross-compilation.
+.sp
+The current spec does not address having multiple binaries of the same name, and
+thus does not effect
+.BR path_resolution (7)
+.
+.\"
+.SS Library paths
+.IR /lib/${TRIPLET}
+then
+.IR /usr/lib/${TRIPLET}
+then
+.IR /lib/
+then
+.IR /usr/lib/
+.\"
+.SS Include paths
+.IR /lib/include/${TRIPLET}
+then
+.IR /lib/include/
+then
+.IR /usr/lib/include/${TRIPLET}
+then
+.IR /usr/lib/include/
+.\"
+.SS Existing triplets
+The multiarch triplet is a normalized GNU triplet. 
++               "/usr/lib/x86_64-linux-gnu/", "/lib/x86_64-linux-gnu/",
++               "/usr/lib/i386-linux-gnu/", "/lib/i386-linux-gnu/",
++               "/usr/lib/arm-linux-gnueabihf/", "/lib/arm-linux-gnueabihf/",
++               "/usr/lib/arm-linux-gnueabi/", "/lib/arm-linux-gnueabi/",
++               "/usr/lib/aarch64-linux-gnu/", "/lib/aarch64-linux-gnu/",
++               "/usr/lib/ia64-linux-gnu/", "/lib/ia64-linux-gnu/",
++               "/usr/lib/mips-linux-gnu/", "/lib/mips-linux-gnu/",
++               "/usr/lib/mipsel-linux-gnu/", "/lib/mipsel-linux-gnu/",
++               "/usr/lib/powerpc-linux-gnu/", "/lib/powerpc-linux-gnu/",
++               "/usr/lib/ppc64-linux-gnu/", "/lib/ppc64-linux-gnu/",
++               "/usr/lib/s390-linux-gnu/", "/lib/s390-linux-gnu/",
++               "/usr/lib/s390x-linux-gnu/", "/lib/s390x-linux-gnu/",
++               "/usr/lib/sh4-linux-gnu/", "/lib/sh4-linux-gnu/",
++               "/usr/lib/sparc-linux-gnu/", "/lib/sparc-linux-gnu/",
++               "/usr/lib/sparc64-linux-gnu/", "/lib/sparc64-linux-gnu/",
++               "/usr/lib/x86_64-linux-gnux32/", "/lib/x86_64-linux-gnux32/",
+.\"
+.SH CONFORMING TO
+https://wiki.ubuntu.com/MultiarchSpec
+https://wiki.ubuntu.com/MultiarchCross
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
