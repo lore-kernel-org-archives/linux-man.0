@@ -1,90 +1,49 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getnetent.3: ATTRIBUTES: Note functions thoes aren't thread-safe
-Date: Wed, 1 Apr 2015 18:13:57 +0800
-Message-ID: <1427883237-21242-3-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: Dima Tisnek <dimaqq-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: man 2 getdents64 struct linux_dirent incorrect.
+Date: Wed, 1 Apr 2015 12:47:14 +0200
+Message-ID: <CAGGBzXKT2jtrSBS_Oa56if6pvw5zsnBq-1_65LbxBDZAiDHZdA@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427883237-21242-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+Per current man page (shared between getdents and getdents64):
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/getnetent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+           struct linux_dirent {
+               unsigned long  d_ino;     /* Inode number */
+               unsigned long  d_off;     /* Offset to next linux_dirent */
+               unsigned short d_reclen;  /* Length of this linux_dirent */
+               char           d_name[];  /* Filename (null-terminated) */
+                                   /* length is actually (d_reclen - 2 -
+                                      offsetof(struct linux_dirent, d_name) */
+               /*
+               char           pad;       // Zero padding byte
+               char           d_type;    // File type (only since Linux 2.6.4;
+                                         // offset is (d_reclen - 1))
+               */
 
-diff --git a/man3/getnetent.3 b/man3/getnetent.3
-index f071744..c4f197e 100644
---- a/man3/getnetent.3
-+++ b/man3/getnetent.3
-@@ -142,6 +142,57 @@ error occurs or the end of the file is reached.
- .TP
- .I /etc/networks
- networks database file
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw14 lb lbw25
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR getnetent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netent
-+.br
-+race:netentbuf env locale
-+T}
-+T{
-+.BR getnetbyname ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netbyname
-+.br
-+env locale
-+T}
-+T{
-+.BR getnetbyaddr ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netbyaddr
-+.br
-+locale
-+T}
-+T{
-+.BR setnetent (),
-+.br
-+.BR endnetent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netent env
-+.br
-+locale
-+T}
-+.TE
-+
-+In the above table,
-+.I netent
-+in
-+.I race:netent
-+signifies that if any of the functions
-+.BR setnetent (3),
-+.BR getnetent (3),
-+or
-+.BR endnetent (3)
-+are used in parallel in different threads of a program,
-+then data races could occur.
- .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH NOTES
--- 
-1.9.3
+           }
 
+However, when I issue this system call, the data seems to be:
+
+           struct linux_dirent {
+               unsigned long  d_ino;  // 8 bytes
+               unsigned long  d_off;  // 8 bytes
+               unsigned short d_reclen;  // 2 bytes
+               char d_type;  // 1 byte
+               char           d_name[];  // null-terminated
+               char           pad[];  // 0..7 bytes
+           }
+
+Most important is that `d_type` is before `d_name`, not after.
+
+Tested on ext4 and virtual like tmpfs, devpts, cgroup, etc.
+
+
+d.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
