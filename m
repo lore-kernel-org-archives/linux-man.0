@@ -1,10 +1,12 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ctime.3: ATTRIBUTES: Note functions thoes aren't thread-safe
-Date: Wed, 1 Apr 2015 18:13:55 +0800
-Message-ID: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getnetent.3: ATTRIBUTES: Note functions thoes aren't thread-safe
+Date: Wed, 1 Apr 2015 18:13:57 +0800
+Message-ID: <1427883237-21242-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1427883237-21242-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,53 +17,71 @@ The markings match glibc markings.
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ctime.3 | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ man3/getnetent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
-diff --git a/man3/ctime.3 b/man3/ctime.3
-index b127716..c5959d1 100644
---- a/man3/ctime.3
-+++ b/man3/ctime.3
-@@ -279,6 +279,39 @@ Each of these functions returns the value described, or NULL
- (\-1 in case of
- .BR mktime ())
- in case an error was detected.
+diff --git a/man3/getnetent.3 b/man3/getnetent.3
+index f071744..c4f197e 100644
+--- a/man3/getnetent.3
++++ b/man3/getnetent.3
+@@ -142,6 +142,57 @@ error occurs or the end of the file is reached.
+ .TP
+ .I /etc/networks
+ networks database file
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw14 lb lbw31
++lbw14 lb lbw25
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR asctime ()
-+T}	Thread safety	MT-Unsafe race:asctime locale
-+T{
-+.BR asctime_r ()
-+T}	Thread safety	MT-Safe locale
-+T{
-+.BR ctime ()
++.BR getnetent ()
 +T}	Thread safety	T{
-+MT-Unsafe race:tmbuf
++MT-Unsafe race:netent
 +.br
-+race:asctime env locale
++race:netentbuf env locale
 +T}
 +T{
-+.BR ctime_r (),
-+.BR gmtime_r (),
-+.BR localtime_r (),
-+.BR mktime ()
-+T}	Thread safety	MT-Safe env locale
++.BR getnetbyname ()
++T}	Thread safety	T{
++MT-Unsafe race:netbyname
++.br
++env locale
++T}
 +T{
-+.BR gmtime (),
-+.BR localtime ()
-+T}	Thread safety	MT-Unsafe race:tmbuf env locale
++.BR getnetbyaddr ()
++T}	Thread safety	T{
++MT-Unsafe race:netbyaddr
++.br
++locale
++T}
++T{
++.BR setnetent (),
++.br
++.BR endnetent ()
++T}	Thread safety	T{
++MT-Unsafe race:netent env
++.br
++locale
++T}
 +.TE
 +
++In the above table,
++.I netent
++in
++.I race:netent
++signifies that if any of the functions
++.BR setnetent (3),
++.BR getnetent (3),
++or
++.BR endnetent (3)
++are used in parallel in different threads of a program,
++then data races could occur.
  .SH CONFORMING TO
- POSIX.1-2001.
- C89 and C99 specify
+ 4.3BSD, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
