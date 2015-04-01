@@ -1,12 +1,12 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH v3] getutent.3: ATTRIBUTES: Note functions those aren't thread-safe
-Date: Wed, 1 Apr 2015 17:01:03 +0800
-Message-ID: <1427878863-17821-1-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] gethostbyname.3: ATTRIBUTES: Note functions thoes aren't thread-safe
+Date: Wed, 1 Apr 2015 18:13:56 +0800
+Message-ID: <1427883237-21242-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427253330-27357-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427883237-21242-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -17,75 +17,91 @@ The markings match glibc markings.
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getutent.3 | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 55 insertions(+)
+ man3/gethostbyname.3 | 71 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
 
-diff --git a/man3/getutent.3 b/man3/getutent.3
-index 4ff5581..1611d9b 100644
---- a/man3/getutent.3
-+++ b/man3/getutent.3
-@@ -155,6 +155,61 @@ functions can also fail for the reasons described in
- /var/run/utmp	database of currently logged-in users
- .br
- /var/log/wtmp	database of past user logins
+diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+index 41a5886..91898b9 100644
+--- a/man3/gethostbyname.3
++++ b/man3/gethostbyname.3
+@@ -314,6 +314,77 @@ host database file
+ .TP
+ .I /etc/nsswitch.conf
+ name service switch configuration
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw28
++lbw18 lb lbw29
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getutent ()
++.BR gethostbyname ()
 +T}	Thread safety	T{
-+MT-Unsafe init race:utent
++MT-Unsafe race:hostbyname env
 +.br
-+race:utentbuf sig:ALRM timer
++locale
 +T}
 +T{
-+.BR getutid (),
-+.br
-+.BR getutline ()
++.BR gethostbyaddr ()
 +T}	Thread safety	T{
-+MT-Unsafe init race:utent
++MT-Unsafe race:hostbyaddr env
 +.br
-+sig:ALRM timer
++locale
 +T}
 +T{
-+.BR pututline ()
-+T}	Thread safety	T{
-+MT-Unsafe race:utent
++.BR sethostent (),
 +.br
-+sig:ALRM timer
++.BR endhostent (),
++.br
++.BR gethostent_r ()
++T}	Thread safety	T{
++MT-Unsafe race:hostent env
++.br
++locale
 +T}
 +T{
-+.BR setutent (),
++.BR herror (),
 +.br
-+.BR endutent (),
++.BR hstrerror ()
++T}	Thread safety	MT-Safe
++T{
++.BR gethostent ()
++T}	Thread safety	T{
++MT-Unsafe race:hostent
 +.br
-+.BR utmpname ()
-+T}	Thread safety	MT-Unsafe race:utent
++race:hostentbuf env locale
++T}
++T{
++.BR gethostbyname2 ()
++T}	Thread safety	T{
++MT-Unsafe race:hostbyname2
++.br
++env locale
++T}
++T{
++.BR gethostbyaddr_r (),
++.BR gethostbyname_r (),
++.BR gethostbyname2_r ()
++T}	Thread safety	MT-Safe env locale
 +.TE
 +
 +In the above table,
-+.I utent
++.I hostent
 +in
-+.I race:utent
++.I race:hostent
 +signifies that if any of the functions
-+.BR setutent (3),
-+.BR getutent (3),
-+.BR getutid (3),
-+.BR getutline (3),
-+.BR pututline (3),
-+.BR utmpname (3),
++.BR sethostent (3),
++.BR gethostent (3),
++.BR gethostent_r (3),
 +or
-+.BR endutent (3)
++.BR endhostent (3)
 +are used in parallel in different threads of a program,
 +then data races could occur.
  .SH CONFORMING TO
- XPG2, SVr4.
- .LP
+ POSIX.1-2001 specifies
+ .BR gethostbyname (),
 -- 
 1.9.3
 
