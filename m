@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] cexp.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 2 Apr 2015 09:31:55 +0800
-Message-ID: <1427938315-27322-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] csin.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 2 Apr 2015 09:35:19 +0800
+Message-ID: <1427938519-27432-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -10,18 +10,16 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
-
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/cexp.3 | 15 +++++++++++++++
+ man3/csin.3 | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
-diff --git a/man3/cexp.3 b/man3/cexp.3
-index f5518a0..94da7c8 100644
---- a/man3/cexp.3
-+++ b/man3/cexp.3
-@@ -29,6 +29,21 @@ One has:
+diff --git a/man3/csin.3 b/man3/csin.3
+index ea41bd7..d08096b 100644
+--- a/man3/csin.3
++++ b/man3/csin.3
+@@ -25,6 +25,21 @@ The complex sine function is defined as:
  .fi
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
@@ -34,9 +32,9 @@ index f5518a0..94da7c8 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR cexp (),
-+.BR cexpf (),
-+.BR cexpl ()
++.BR csin (),
++.BR csinf (),
++.BR csinl ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
