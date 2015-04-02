@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ccos.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 2 Apr 2015 09:27:35 +0800
-Message-ID: <1427938055-27173-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] cexp.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 2 Apr 2015 09:31:55 +0800
+Message-ID: <1427938315-27322-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,14 +14,14 @@ The markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ccos.3 | 15 +++++++++++++++
+ man3/cexp.3 | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
-diff --git a/man3/ccos.3 b/man3/ccos.3
-index 3b11fff..329ccb7 100644
---- a/man3/ccos.3
-+++ b/man3/ccos.3
-@@ -25,6 +25,21 @@ The complex cosine function is defined as:
+diff --git a/man3/cexp.3 b/man3/cexp.3
+index f5518a0..94da7c8 100644
+--- a/man3/cexp.3
++++ b/man3/cexp.3
+@@ -29,6 +29,21 @@ One has:
  .fi
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
@@ -34,9 +34,9 @@ index 3b11fff..329ccb7 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR ccos (),
-+.BR ccosf (),
-+.BR ccosl ()
++.BR cexp (),
++.BR cexpf (),
++.BR cexpl ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
