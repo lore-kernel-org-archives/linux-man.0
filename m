@@ -1,7 +1,7 @@
 From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] csqrt.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 2 Apr 2015 09:40:50 +0800
-Message-ID: <1427938850-27733-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: [PATCH] ctan.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 2 Apr 2015 09:44:44 +0800
+Message-ID: <1427939084-27875-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -14,15 +14,15 @@ The markings match glibc markings.
 
 Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/csqrt.3 | 15 +++++++++++++++
+ man3/ctan.3 | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
-diff --git a/man3/csqrt.3 b/man3/csqrt.3
-index 859eae6..3e34889 100644
---- a/man3/csqrt.3
-+++ b/man3/csqrt.3
-@@ -26,6 +26,21 @@ with a branch cut along the negative real axis.
- real number.)
+diff --git a/man3/ctan.3 b/man3/ctan.3
+index dc9cdb3..f265b29 100644
+--- a/man3/ctan.3
++++ b/man3/ctan.3
+@@ -25,6 +25,21 @@ The complex tangent function is defined as:
+ .fi
  .SH VERSIONS
  These functions first appeared in glibc in version 2.1.
 +.SH ATTRIBUTES
@@ -30,13 +30,13 @@ index 859eae6..3e34889 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw27 lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR csqrt (),
-+.BR csqrtf (),
-+.BR csqrtl ()
++.BR ctan (),
++.BR ctanf (),
++.BR ctanl ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
