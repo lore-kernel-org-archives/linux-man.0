@@ -1,50 +1,33 @@
-From: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ctanh.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 2 Apr 2015 09:46:53 +0800
-Message-ID: <1427939213-27997-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
-Mime-Version: 1.0
-Content-Type: text/plain
+From: Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] boot.7: tfix: Fix spelling typo in boot.7
+Date: Thu,  2 Apr 2015 19:30:05 +0900
+Message-ID: <1427970605-8984-1-git-send-email-standby24x7@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
-
-Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: Masanari Iida <standby24x7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 ---
- man3/ctanh.3 | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ man7/boot.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man3/ctanh.3 b/man3/ctanh.3
-index 69639e2..f94ea81 100644
---- a/man3/ctanh.3
-+++ b/man3/ctanh.3
-@@ -26,6 +26,21 @@ mathematically as:
- .fi
- .SH VERSIONS
- These functions first appeared in glibc in version 2.1.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw27 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR ctanh (),
-+.BR ctanhf (),
-+.BR ctanhl ()
-+T}	Thread safety	MT-Safe
-+.TE
-+
- .SH CONFORMING TO
- C99.
- .SH SEE ALSO
+diff --git a/man7/boot.7 b/man7/boot.7
+index fada43e..d126e1b 100644
+--- a/man7/boot.7
++++ b/man7/boot.7
+@@ -100,7 +100,7 @@ kernel), and mounts some filesystem at the root path,
+ 
+ Some of the parameters that may be passed to the kernel
+ relate to these activities (for example, the default root filesystem
+-can be overriden); for further information
++can be overridden); for further information
+ on Linux kernel parameters, read
+ .BR bootparam (7).
+ 
 -- 
-2.1.0
+2.4.0.rc0.43.gcf8a8c6
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
