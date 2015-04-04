@@ -1,50 +1,44 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getutent.3: ATTRIBUTES: Note functions those aren't thread-safe
-Date: Sat, 04 Apr 2015 08:49:24 +0100
-Message-ID: <551F9784.5050507@gmail.com>
-References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] perror.3: ATTRIBUTES: Note function that is thread-safe
+Date: Sat, 04 Apr 2015 08:49:30 +0100
+Message-ID: <551F978A.6030509@gmail.com>
+References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427084656-7273-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427084656-7273-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427084656-7273-2-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Zeng Lingang,
-
-It looks like you will be some work with Ma Shimiao. Is 
-that correct?
-
 On 03/23/2015 04:24 AM, Zeng Linggang wrote:
-> The markings match glibc markings.
+> The marking matches glibc marking.
 
-I've applied your patch, but for other future patches,
-please note that there is an English grammar mistake in 
-your patch title: "those" should be "that".
+Hello Zend Linggang,
 
-Thanks,
+Patch applied. Thank you.
+
+Cheers,
 
 Michael
-
 
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getutent.3 | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+>  man3/perror.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/getutent.3 b/man3/getutent.3
-> index 4ff5581..2160969 100644
-> --- a/man3/getutent.3
-> +++ b/man3/getutent.3
-> @@ -155,6 +155,42 @@ functions can also fail for the reasons described in
->  /var/run/utmp	database of currently logged-in users
->  .br
->  /var/log/wtmp	database of past user logins
+> diff --git a/man3/perror.3 b/man3/perror.3
+> index 20f2209..2d67edc 100644
+> --- a/man3/perror.3
+> +++ b/man3/perror.3
+> @@ -108,6 +108,19 @@ Thus, if a failing call is not immediately followed by a call to
+>  the value of
+>  .I errno
+>  should be saved.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -54,36 +48,13 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR getutent ()
-> +T}	Thread safety	T{
-> +MT-Unsafe init race:utent
-> +.br
-> +race:utentbuf sig:ALRM timer
-> +T}
-> +T{
-> +.BR getutid (),
-> +.br
-> +.BR getutline ()
-> +T}	Thread safety	T{
-> +MT-Unsafe init race:utent sig:ALRM
-> +.br
-> +timer
-> +T}
-> +T{
-> +.BR pututline ()
-> +T}	Thread safety	MT-Unsafe race:utent sig:ALRM timer
-> +T{
-> +.BR setutent (),
-> +.br
-> +.BR endutent (),
-> +.br
-> +.BR utmpname ()
-> +T}	Thread safety	MT-Unsafe race:utent
+> +.BR perror ()
+> +T}	Thread safety	MT-Safe race:stderr
 > +.TE
 > +
 >  .SH CONFORMING TO
->  XPG2, SVr4.
->  .LP
+>  The function
+>  .BR perror ()
 > 
 
 
