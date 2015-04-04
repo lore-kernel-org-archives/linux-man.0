@@ -1,13 +1,14 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] asprintf.3: ATTRIBUTES: Note functions those are thread-safe
-Date: Sat, 04 Apr 2015 08:59:33 +0100
-Message-ID: <551F99E5.6050604@gmail.com>
-References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] get_nprocs_conf.3: ATTRIBUTES: Note functions those are
+ thread-safe
+Date: Sat, 04 Apr 2015 08:59:50 +0100
+Message-ID: <551F99F6.6070809@gmail.com>
+References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427271273-8602-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427271273-8602-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427271273-8602-2-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -25,37 +26,39 @@ Cheers,
 Michael
 
 
+
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/asprintf.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  man3/get_nprocs_conf.3 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-> diff --git a/man3/asprintf.3 b/man3/asprintf.3
-> index f8f9a9b..981126c 100644
-> --- a/man3/asprintf.3
-> +++ b/man3/asprintf.3
-> @@ -58,6 +58,20 @@ If memory allocation wasn't possible, or some other error occurs,
->  these functions will return \-1, and the contents of
->  .I strp
->  is undefined.
+> diff --git a/man3/get_nprocs_conf.3 b/man3/get_nprocs_conf.3
+> index 8faf84f..157ac01 100644
+> --- a/man3/get_nprocs_conf.3
+> +++ b/man3/get_nprocs_conf.3
+> @@ -45,6 +45,21 @@ This may be less than the number returned by
+>  because processors may be offline (e.g., on hotpluggable systems).
+>  .SH RETURN VALUE
+>  As given in DESCRIPTION.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw23 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR asprintf (),
-> +.BR vasprintf ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR get_nprocs (),
+> +.br
+> +.BR get_nprocs_conf ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  These functions are GNU extensions, not in C or POSIX.
->  They are also available under *BSD.
+>  These functions are GNU extensions.
+>  .SH NOTES
 > 
 
 
