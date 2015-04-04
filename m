@@ -1,56 +1,29 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: ATTRIBUTES patch problems!
-Date: Sat, 04 Apr 2015 09:35:43 +0100
-Message-ID: <551FA25F.9020804@gmail.com>
-References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427878863-17821-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] getutent.3: ATTRIBUTES: Note functions those aren't thread-safe
+Date: Sat, 04 Apr 2015 08:49:24 +0100
+Message-ID: <551F9784.5050507@gmail.com>
+References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427878863-17821-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427084656-7273-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[Was: Re: [PATCH v3] getutent.3: ATTRIBUTES: Note functions those 
-aren't thread-safe]
+Hello Zeng Lingang,
 
-On 04/01/2015 10:01 AM, Zeng Linggang wrote:
+It looks like you will be some work with Ma Shimiao. Is 
+that correct?
+
+On 03/23/2015 04:24 AM, Zeng Linggang wrote:
 > The markings match glibc markings.
 
-Hello Zeng Linggang and Ma Shimiao,
-
-Arrgghhh! What is going on?
-
-I started processing this queue of patches from Zeng Linggang, 
-and now I see there are v2 and even now a v3 patch for some 
-of the pages! With no explanation of the differences in 
-one version of the patches from one version to the next...
-And all of the different versions of the patches with a 
-statement that the markings match the glibc markings...
-That can't be true, because the different versions of the 
-man-pages patches have different markings! (At least in the 
-cases that I looked at.) Please explain.
-
-And, all of the v1 patches are signed off by Ma Shimiao, implying
-some degree of review by Ma Shimiao. Is this true? If so, why
-do I get two or even three versions of the patches? Please 
-explain.
-
-I'm not happy about this. And I'd rather you could explain what's 
-happening, and fix the problem. I'm sorry, but Zeng Linggang,
-I have just reverted all the patches that I just applied from you,
-and I've deleted the remaining v2 and v3 patches from you. Could you
-get together with Ma Shimiao and send me new correct versions 
-of these patches. And please, Ma Shimiao, if your name goes
-into the Signed-off-by, I take this as some indication that you
-checked the patches. If that's not the case, I should not see a 
-Signed-off-by.
-
-For the future, could you both, when sending patches, please 
-in the commit message also quote the text of the glibc markings
-so I can compare. (Just quoting the source text is fine.)
+I've applied your patch, but for other future patches,
+please note that there is an English grammar mistake in 
+your patch title: "those" should be "that".
 
 Thanks,
 
@@ -61,14 +34,14 @@ Michael
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getutent.3 | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
+>  man3/getutent.3 | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
 > 
 > diff --git a/man3/getutent.3 b/man3/getutent.3
-> index 4ff5581..1611d9b 100644
+> index 4ff5581..2160969 100644
 > --- a/man3/getutent.3
 > +++ b/man3/getutent.3
-> @@ -155,6 +155,61 @@ functions can also fail for the reasons described in
+> @@ -155,6 +155,42 @@ functions can also fail for the reasons described in
 >  /var/run/utmp	database of currently logged-in users
 >  .br
 >  /var/log/wtmp	database of past user logins
@@ -77,7 +50,7 @@ Michael
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lbw28
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
@@ -92,17 +65,13 @@ Michael
 > +.br
 > +.BR getutline ()
 > +T}	Thread safety	T{
-> +MT-Unsafe init race:utent
+> +MT-Unsafe init race:utent sig:ALRM
 > +.br
-> +sig:ALRM timer
+> +timer
 > +T}
 > +T{
 > +.BR pututline ()
-> +T}	Thread safety	T{
-> +MT-Unsafe race:utent
-> +.br
-> +sig:ALRM timer
-> +T}
+> +T}	Thread safety	MT-Unsafe race:utent sig:ALRM timer
 > +T{
 > +.BR setutent (),
 > +.br
@@ -112,21 +81,6 @@ Michael
 > +T}	Thread safety	MT-Unsafe race:utent
 > +.TE
 > +
-> +In the above table,
-> +.I utent
-> +in
-> +.I race:utent
-> +signifies that if any of the functions
-> +.BR setutent (3),
-> +.BR getutent (3),
-> +.BR getutid (3),
-> +.BR getutline (3),
-> +.BR pututline (3),
-> +.BR utmpname (3),
-> +or
-> +.BR endutent (3)
-> +are used in parallel in different threads of a program,
-> +then data races could occur.
 >  .SH CONFORMING TO
 >  XPG2, SVr4.
 >  .LP
