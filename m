@@ -1,60 +1,45 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] perror.3: ATTRIBUTES: Note function that is thread-safe
-Date: Sat, 04 Apr 2015 08:49:30 +0100
-Message-ID: <551F978A.6030509@gmail.com>
-References: <1427084656-7273-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427084656-7273-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] umount.2: fix typo
+Date: Sat, 04 Apr 2015 09:42:23 +0100
+Message-ID: <551FA3EF.4070303@gmail.com>
+References: <20150401161012.GA16041@glebfm.cloud.tilaa.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427084656-7273-2-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20150401161012.GA16041-N9aU+Tdk7XkoO014n+3aBsY9il7ykmry@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Gleb Fotengauer-Malinovskiy <glebfm-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 03/23/2015 04:24 AM, Zeng Linggang wrote:
-> The marking matches glibc marking.
+On 04/01/2015 05:10 PM, Gleb Fotengauer-Malinovskiy wrote:
+> Signed-off-by: Gleb Fotengauer-Malinovskiy <glebfm-u2l5PoMzF/Vg9hUCZPvPmw@public.gmane.org>
 
-Hello Zend Linggang,
-
-Patch applied. Thank you.
+Thanks, Gleb. Applied.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/perror.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man2/umount.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man3/perror.3 b/man3/perror.3
-> index 20f2209..2d67edc 100644
-> --- a/man3/perror.3
-> +++ b/man3/perror.3
-> @@ -108,6 +108,19 @@ Thus, if a failing call is not immediately followed by a call to
->  the value of
->  .I errno
->  should be saved.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR perror ()
-> +T}	Thread safety	MT-Safe race:stderr
-> +.TE
-> +
->  .SH CONFORMING TO
->  The function
->  .BR perror ()
+> diff --git a/man2/umount.2 b/man2/umount.2
+> index 149da1a..7c4452a 100644
+> --- a/man2/umount.2
+> +++ b/man2/umount.2
+> @@ -164,7 +164,7 @@ are available in glibc since version 2.11.
+>  These functions are Linux-specific and should not be used in
+>  programs intended to be portable.
+>  .SH NOTES
+> -.SS umount() amd shared mount points
+> +.SS umount() and shared mount points
+>  Shared mount points cause any mount activity on a mount point, including
+>  .BR umount (2)
+>  operations, to be forwarded to every shared mount point in the
 > 
 
 
