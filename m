@@ -1,21 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mbsrtowcs.3: ATTRIBUTES: Note function that is thread
- safe with exceptions
-Date: Sat, 04 Apr 2015 09:00:39 +0100
-Message-ID: <551F9A27.9010001@gmail.com>
-References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427271273-8602-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] unlocked_stdio.3: ATTRIBUTES: Note functions thoes aren't
+ thread-safe
+Date: Sat, 04 Apr 2015 09:01:31 +0100
+Message-ID: <551F9A5B.6040100@gmail.com>
+References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1427271273-8602-5-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427271273-8602-4-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427271273-8602-5-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 03/25/2015 08:14 AM, Zeng Linggang wrote:
-> The marking matches glibc marking.
+> The markings match glibc markings.
+
 
 Hello Zeng Linggang,
 
@@ -26,36 +27,65 @@ Cheers,
 Michael
 
 
+
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/mbsrtowcs.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/unlocked_stdio.3 | 41 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
 > 
-> diff --git a/man3/mbsrtowcs.3 b/man3/mbsrtowcs.3
-> index 4df9986..6391b13 100644
-> --- a/man3/mbsrtowcs.3
-> +++ b/man3/mbsrtowcs.3
-> @@ -123,6 +123,19 @@ is returned, and
->  .I errno
->  set to
->  .BR EILSEQ .
+> diff --git a/man3/unlocked_stdio.3 b/man3/unlocked_stdio.3
+> index d5aada7..24bd179 100644
+> --- a/man3/unlocked_stdio.3
+> +++ b/man3/unlocked_stdio.3
+> @@ -110,6 +110,47 @@ without the "_unlocked" suffix, except that they do not use locking
+>  of locks set by others) and hence are thread-unsafe.
+>  See
+>  .BR flockfile (3).
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lbw28
+> +lbw20 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR mbsrtowcs ()
-> +T}	Thread safety	MT-Unsafe race:mbsrtowcs/!ps
+> +.BR getc_unlocked (),
+> +.BR putc_unlocked (),
+> +.BR clearerr_unlocked (),
+> +.BR fflush_unlocked (),
+> +.BR fgetc_unlocked (),
+> +.BR fputc_unlocked (),
+> +.BR fread_unlocked (),
+> +.BR fwrite_unlocked (),
+> +.BR fgets_unlocked (),
+> +.BR fputs_unlocked (),
+> +.BR getwc_unlocked (),
+> +.BR fgetwc_unlocked (),
+> +.BR fputwc_unlocked (),
+> +.BR putwc_unlocked (),
+> +.BR fgetws_unlocked (),
+> +.BR fputws_unlocked ()
+> +T}	Thread safety	MT-Safe race:stream
+> +T{
+> +.BR getchar_unlocked (),
+> +.BR getwchar_unlocked ()
+> +T}	Thread safety	MT-Unsafe race:stdin
+> +T{
+> +.BR putchar_unlocked (),
+> +.BR putwchar_unlocked ()
+> +T}	Thread safety	MT-Unsafe race:stdout
+> +T{
+> +.BR feof_unlocked (),
+> +.BR ferror_unlocked (),
+> +.BR fileno_unlocked ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  C99.
->  .SH NOTES
+>  The four functions
+>  .BR getc_unlocked (),
 > 
 
 
