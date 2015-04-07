@@ -1,11 +1,11 @@
 From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 Subject: [PATCH] man7/multiarch.7: new manpage
-Date: Mon,  6 Apr 2015 18:07:11 -0700
-Message-ID: <1428368831-104295-1-git-send-email-shawn@churchofgit.com>
+Date: Mon,  6 Apr 2015 18:08:58 -0700
+Message-ID: <1428368938-104443-1-git-send-email-shawn@churchofgit.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+Cc: cross-build-0aAXYlwwYIJuHlm7Suoebg@public.gmane.org, debian-embedded-0aAXYlwwYIJuHlm7Suoebg@public.gmane.org, Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 ---
