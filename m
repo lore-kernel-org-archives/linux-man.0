@@ -1,131 +1,163 @@
-From: Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
-Subject: [PATCH] man7/multiarch.7: new manpage
-Date: Mon,  6 Apr 2015 18:08:58 -0700
-Message-ID: <1428368938-104443-1-git-send-email-shawn@churchofgit.com>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: Re: ATTRIBUTES patch problems!
+Date: Tue, 7 Apr 2015 12:29:11 +0800
+Message-ID: <1428380951.6749.60.camel@G08JYZSD130126.localdomain>
+References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+	 <1427878863-17821-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+	 <551FA25F.9020804@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <551FA25F.9020804-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: cross-build-0aAXYlwwYIJuHlm7Suoebg@public.gmane.org, debian-embedded-0aAXYlwwYIJuHlm7Suoebg@public.gmane.org, Shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man7/multiarch.7 | 105 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 man7/multiarch.7
+Hello, Mr Michael!
 
-diff --git a/man7/multiarch.7 b/man7/multiarch.7
-new file mode 100644
-index 0000000..dc80859
---- /dev/null
-+++ b/man7/multiarch.7
-@@ -0,0 +1,105 @@
-+.\" Copyright (c) 2015 by Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of this
-+.\" manual under the conditions for verbatim copying, provided that the
-+.\" entire resulting derived work is distributed under the terms of a
-+.\" permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-+.\" responsibility for errors or omissions, or for damages resulting from
-+.\" the use of the information contained herein.  The author(s) may not
-+.\" have taken the same level of care in the production of this manual,
-+.\" which is licensed free of charge, as they might when working
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.\"
-+.TH MULTIARCH 7 2015-04-06 "Linux" "Linux Programmer's Manual"
-+.SH NAME
-+multiarch \- Multiarch support
-+.SH DESCRIPTION
-+Multiarch
-+is a way of installing multiple binary targets (such as
-+.BR i386-linux-gnu
-+and
-+.BR amd64-linux-gnu )
-+on one
-+.BR hier (7)
-+filesystem, which originated in (but is not limited to)
-+Debian and Ubuntu.
-+.sp
-+This manpage covers the filesystem aspects of multi-arch.
-+For packaging details refer either to the spec linked to at the bottom of this
-+document or the documentation for
-+.BR dpkg (1).
-+For a list of variables set during cross-compilation see
-+.BR dpkg-architecture (1).
-+.\"
-+.SS Overview and scope
-+Multiarch allows binaries of many ABI targets to co-exist on the same system.
-+Through the use of
-+.BR qemu-user-static (1)
-+and
-+.BR binfmt.d (5)
-+it is even possible to run targets that are not natively runnable. It also can
-+be used for cross-compilation.
-+.sp
-+The current spec does not address having multiple binaries of the same name, and
-+does not effect
-+.BR path_resolution (7)
-+.
-+.\"
-+.SS Library paths
-+.IR /lib/${TUPLE}
-+then
-+.br
-+.IR /usr/lib/${TUPLE}
-+then
-+.br
-+.IR /lib/
-+then
-+.br
-+.IR /usr/lib/
-+.\"
-+.SS Include paths
-+.IR /lib/include/${TUPLE}
-+then
-+.br
-+.IR /lib/include/
-+then
-+.br
-+.IR /usr/lib/include/${TUPLE}
-+then
-+.br
-+.IR /usr/lib/include/
-+.\"
-+.SS Multiarch tuples
-+A multiarch tuple is a normalized GNU tuple. In most cases this is the
-+same as the GNU tuple. The most notable exception is that
-+.BR i386-linux-gnu
-+includes
-+.BR i486-linux-gnu ,
-+.BR i586-linux-gnu ,
-+and
-+.BR i686-linux-gnu .
-+.\"
-+.SS 
-+.\"
-+.SH CONFORMING TO
-+.BR https://wiki.ubuntu.com/MultiarchSpec
-+.sp
-+.BR https://wiki.ubuntu.com/MultiarchCross
-+.sp
-+.BR https://wiki.debian.org/Multiarch/Tuples
-+.\"
-+.SH SEE ALSO
-+.BR dpkg-architecture (1)
--- 
-2.2.1.209.g41e5f3a
+On Sat, 2015-04-04 at 09:35 +0100, Michael Kerrisk (man-pages) wrote:
+> [Was: Re: [PATCH v3] getutent.3: ATTRIBUTES: Note functions those 
+> aren't thread-safe]
+> 
+> On 04/01/2015 10:01 AM, Zeng Linggang wrote:
+> > The markings match glibc markings.
+> 
+> Hello Zeng Linggang and Ma Shimiao,
+> 
+> Arrgghhh! What is going on?
+> 
+
+We are so sorry to bring you so much trouble.
+
+> I started processing this queue of patches from Zeng Linggang, 
+> and now I see there are v2 and even now a v3 patch for some 
+> of the pages! With no explanation of the differences in 
+> one version of the patches from one version to the next...
+> And all of the different versions of the patches with a 
+> statement that the markings match the glibc markings...
+> That can't be true, because the different versions of the 
+> man-pages patches have different markings! (At least in the 
+> cases that I looked at.) Please explain.
+> 
+
+Hmm, we have checked the different version carefully, we did not change
+the markings. We just found some blemish in V1('lb' --> 'lbw[x]' and in
+the third column some markings are too long we added '.br'). In V3 we
+just added explanation for "race:utent". So sorry for no adding any
+statements for the changes. If you find the different markings, we are
+glad to be noticed.
+
+> And, all of the v1 patches are signed off by Ma Shimiao, implying
+> some degree of review by Ma Shimiao. Is this true? If so, why
+> do I get two or even three versions of the patches? Please 
+> explain.
+> 
+> I'm not happy about this. And I'd rather you could explain what's 
+> happening, and fix the problem. I'm sorry, but Zeng Linggang,
+> I have just reverted all the patches that I just applied from you,
+> and I've deleted the remaining v2 and v3 patches from you. Could you
+> get together with Ma Shimiao and send me new correct versions 
+> of these patches. And please, Ma Shimiao, if your name goes
+> into the Signed-off-by, I take this as some indication that you
+> checked the patches. If that's not the case, I should not see a 
+> Signed-off-by.
+> 
+> For the future, could you both, when sending patches, please 
+> in the commit message also quote the text of the glibc markings
+> so I can compare. (Just quoting the source text is fine.)
+> 
+
+OK. We will send new patches with the glibc markings ASAP.
+
+Thank you very much.
+
+Best regards,
+Zeng
+
+> Thanks,
+> 
+> Michael
+> 
+> 
+> 
+> > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> > ---
+> >  man3/getutent.3 | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 55 insertions(+)
+> > 
+> > diff --git a/man3/getutent.3 b/man3/getutent.3
+> > index 4ff5581..1611d9b 100644
+> > --- a/man3/getutent.3
+> > +++ b/man3/getutent.3
+> > @@ -155,6 +155,61 @@ functions can also fail for the reasons described in
+> >  /var/run/utmp	database of currently logged-in users
+> >  .br
+> >  /var/log/wtmp	database of past user logins
+> > +.SH ATTRIBUTES
+> > +For an explanation of the terms used in this section, see
+> > +.BR attributes (7).
+> > +.TS
+> > +allbox;
+> > +lb lb lbw28
+> > +l l l.
+> > +Interface	Attribute	Value
+> > +T{
+> > +.BR getutent ()
+> > +T}	Thread safety	T{
+> > +MT-Unsafe init race:utent
+> > +.br
+> > +race:utentbuf sig:ALRM timer
+> > +T}
+> > +T{
+> > +.BR getutid (),
+> > +.br
+> > +.BR getutline ()
+> > +T}	Thread safety	T{
+> > +MT-Unsafe init race:utent
+> > +.br
+> > +sig:ALRM timer
+> > +T}
+> > +T{
+> > +.BR pututline ()
+> > +T}	Thread safety	T{
+> > +MT-Unsafe race:utent
+> > +.br
+> > +sig:ALRM timer
+> > +T}
+> > +T{
+> > +.BR setutent (),
+> > +.br
+> > +.BR endutent (),
+> > +.br
+> > +.BR utmpname ()
+> > +T}	Thread safety	MT-Unsafe race:utent
+> > +.TE
+> > +
+> > +In the above table,
+> > +.I utent
+> > +in
+> > +.I race:utent
+> > +signifies that if any of the functions
+> > +.BR setutent (3),
+> > +.BR getutent (3),
+> > +.BR getutid (3),
+> > +.BR getutline (3),
+> > +.BR pututline (3),
+> > +.BR utmpname (3),
+> > +or
+> > +.BR endutent (3)
+> > +are used in parallel in different threads of a program,
+> > +then data races could occur.
+> >  .SH CONFORMING TO
+> >  XPG2, SVr4.
+> >  .LP
+> > 
+> 
+> 
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
