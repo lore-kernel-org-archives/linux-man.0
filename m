@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] printf.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 8 Apr 2015 10:56:21 +0800
-Message-ID: <1428461788-7518-11-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] perror.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 8 Apr 2015 10:56:20 +0800
+Message-ID: <1428461788-7518-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,56 +12,39 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
+The marking matches glibc marking.
 
-printf:    MT-Safe locale
-fprintf:   MT-Safe locale
-sprintf:   MT-Safe locale
-snprintf:  MT-Safe locale
-vprintf:   MT-Safe locale
-vfprintf:  MT-Safe locale
-vsprintf:  MT-Safe locale
-vsnprintf: MT-Safe locale
+perror: MT-Safe race:stderr
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/printf.3 | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ man3/perror.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/printf.3 b/man3/printf.3
-index db60850..8c95f96 100644
---- a/man3/printf.3
-+++ b/man3/printf.3
-@@ -822,6 +822,29 @@ A \(aq%\(aq is written.
- No argument is converted.
- The complete conversion
- specification is \(aq%%\(aq.
+diff --git a/man3/perror.3 b/man3/perror.3
+index 20f2209..2d67edc 100644
+--- a/man3/perror.3
++++ b/man3/perror.3
+@@ -108,6 +108,19 @@ Thus, if a failing call is not immediately followed by a call to
+ the value of
+ .I errno
+ should be saved.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw23 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR printf (),
-+.BR fprintf (),
-+.br
-+.BR sprintf (),
-+.BR snprintf (),
-+.br
-+.BR vprintf (),
-+.BR vfprintf (),
-+.br
-+.BR vsprintf (),
-+.BR vsnprintf ()
-+T}	Thread safety	MT-Safe locale
++.BR perror ()
++T}	Thread safety	MT-Safe race:stderr
 +.TE
 +
  .SH CONFORMING TO
- The
- .BR fprintf (),
+ The function
+ .BR perror ()
 -- 
 1.9.3
 
