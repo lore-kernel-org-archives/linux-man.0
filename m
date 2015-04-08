@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ctime.3: ATTRIBUTES: Note functions that aren't thread-safe
-Date: Wed, 8 Apr 2015 10:56:13 +0800
-Message-ID: <1428461788-7518-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] scandir.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 8 Apr 2015 10:56:22 +0800
+Message-ID: <1428461788-7518-12-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,69 +14,46 @@ List-Id: linux-man@vger.kernel.org
 
 The markings match glibc markings.
 
-asctime:     MT-Unsafe race:asctime locale
+scandir:     MT-Safe
+scandirat:   MT-Safe
 
-asctime_r:   MT-Safe locale
-
-ctime:       MT-Unsafe race:tmbuf race:asctime env locale
-
-ctime_r:     MT-Safe env locale
-gmtime_r:    MT-Safe env locale
-localtime_r: MT-Safe env locale
-mktime:      MT-Safe env locale
-
-gmtime:      MT-Unsafe race:tmbuf env locale
-localtime:   MT-Unsafe race:tmbuf env locale
+alphasort:   MT-Safe locale
+versionsort: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ctime.3 | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ man3/scandir.3 | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/man3/ctime.3 b/man3/ctime.3
-index b127716..c5959d1 100644
---- a/man3/ctime.3
-+++ b/man3/ctime.3
-@@ -279,6 +279,39 @@ Each of these functions returns the value described, or NULL
- (\-1 in case of
- .BR mktime ())
- in case an error was detected.
+diff --git a/man3/scandir.3 b/man3/scandir.3
+index 6322c2e..640a275 100644
+--- a/man3/scandir.3
++++ b/man3/scandir.3
+@@ -226,6 +226,24 @@ was added to glibc in version 2.1.
+ 
+ .BR scandirat ()
+ was added to glibc in version 2.15.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw14 lb lbw31
++lbw26 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR asctime ()
-+T}	Thread safety	MT-Unsafe race:asctime locale
++.BR scandir (),
++.BR scandirat ()
++T}	Thread safety	MT-Safe
 +T{
-+.BR asctime_r ()
++.BR alphasort (),
++.BR versionsort ()
 +T}	Thread safety	MT-Safe locale
-+T{
-+.BR ctime ()
-+T}	Thread safety	T{
-+MT-Unsafe race:tmbuf
-+.br
-+race:asctime env locale
-+T}
-+T{
-+.BR ctime_r (),
-+.BR gmtime_r (),
-+.BR localtime_r (),
-+.BR mktime ()
-+T}	Thread safety	MT-Safe env locale
-+T{
-+.BR gmtime (),
-+.BR localtime ()
-+T}	Thread safety	MT-Unsafe race:tmbuf env locale
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001.
- C89 and C99 specify
+ .BR alphasort (),
+ .BR scandir ():
 -- 
 1.9.3
 
