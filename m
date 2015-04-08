@@ -1,14 +1,14 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] asprintf.3: ATTRIBUTES: Note functions those are
+Subject: Re: [PATCH] ctime.3: ATTRIBUTES: Note functions thoes aren't
  thread-safe
-Date: Wed, 8 Apr 2015 11:05:54 +0800
-Message-ID: <1428462354.2516.2.camel@G08JYZSD130126.localdomain>
-References: <1427271273-8602-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Date: Wed, 8 Apr 2015 11:06:36 +0800
+Message-ID: <1428462396.2516.3.camel@G08JYZSD130126.localdomain>
+References: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427271273-8602-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427883237-21242-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -22,40 +22,59 @@ correct versions just a moment ago.
 Best regards,
 Zeng
 
-On Wed, 2015-03-25 at 16:14 +0800, Zeng Linggang wrote:
+On Wed, 2015-04-01 at 18:13 +0800, Zeng Linggang wrote:
 > The markings match glibc markings.
 > 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/asprintf.3 | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  man3/ctime.3 | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
 > 
-> diff --git a/man3/asprintf.3 b/man3/asprintf.3
-> index f8f9a9b..981126c 100644
-> --- a/man3/asprintf.3
-> +++ b/man3/asprintf.3
-> @@ -58,6 +58,20 @@ If memory allocation wasn't possible, or some other error occurs,
->  these functions will return \-1, and the contents of
->  .I strp
->  is undefined.
+> diff --git a/man3/ctime.3 b/man3/ctime.3
+> index b127716..c5959d1 100644
+> --- a/man3/ctime.3
+> +++ b/man3/ctime.3
+> @@ -279,6 +279,39 @@ Each of these functions returns the value described, or NULL
+>  (\-1 in case of
+>  .BR mktime ())
+>  in case an error was detected.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw23 lb lb
+> +lbw14 lb lbw31
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR asprintf (),
-> +.BR vasprintf ()
+> +.BR asctime ()
+> +T}	Thread safety	MT-Unsafe race:asctime locale
+> +T{
+> +.BR asctime_r ()
 > +T}	Thread safety	MT-Safe locale
+> +T{
+> +.BR ctime ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:tmbuf
+> +.br
+> +race:asctime env locale
+> +T}
+> +T{
+> +.BR ctime_r (),
+> +.BR gmtime_r (),
+> +.BR localtime_r (),
+> +.BR mktime ()
+> +T}	Thread safety	MT-Safe env locale
+> +T{
+> +.BR gmtime (),
+> +.BR localtime ()
+> +T}	Thread safety	MT-Unsafe race:tmbuf env locale
 > +.TE
 > +
 >  .SH CONFORMING TO
->  These functions are GNU extensions, not in C or POSIX.
->  They are also available under *BSD.
+>  POSIX.1-2001.
+>  C89 and C99 specify
 
 
 --
