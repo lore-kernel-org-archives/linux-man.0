@@ -1,14 +1,14 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: [PATCH] ctime.3: ATTRIBUTES: Note functions thoes aren't
+Subject: Re: [PATCH v2] getutent.3: ATTRIBUTES: Note functions those aren't
  thread-safe
-Date: Wed, 8 Apr 2015 11:06:36 +0800
-Message-ID: <1428462396.2516.3.camel@G08JYZSD130126.localdomain>
-References: <1427883237-21242-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Date: Wed, 8 Apr 2015 11:07:00 +0800
+Message-ID: <1428462420.2516.4.camel@G08JYZSD130126.localdomain>
+References: <1427253330-27357-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427883237-21242-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427253330-27357-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -22,59 +22,65 @@ correct versions just a moment ago.
 Best regards,
 Zeng
 
-On Wed, 2015-04-01 at 18:13 +0800, Zeng Linggang wrote:
+On Wed, 2015-03-25 at 11:15 +0800, Zeng Linggang wrote:
 > The markings match glibc markings.
 > 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ctime.3 | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  man3/getutent.3 | 40 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 40 insertions(+)
 > 
-> diff --git a/man3/ctime.3 b/man3/ctime.3
-> index b127716..c5959d1 100644
-> --- a/man3/ctime.3
-> +++ b/man3/ctime.3
-> @@ -279,6 +279,39 @@ Each of these functions returns the value described, or NULL
->  (\-1 in case of
->  .BR mktime ())
->  in case an error was detected.
+> diff --git a/man3/getutent.3 b/man3/getutent.3
+> index 4ff5581..3365382 100644
+> --- a/man3/getutent.3
+> +++ b/man3/getutent.3
+> @@ -155,6 +155,46 @@ functions can also fail for the reasons described in
+>  /var/run/utmp	database of currently logged-in users
+>  .br
+>  /var/log/wtmp	database of past user logins
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw14 lb lbw31
+> +lb lb lbw28
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR asctime ()
-> +T}	Thread safety	MT-Unsafe race:asctime locale
-> +T{
-> +.BR asctime_r ()
-> +T}	Thread safety	MT-Safe locale
-> +T{
-> +.BR ctime ()
+> +.BR getutent ()
 > +T}	Thread safety	T{
-> +MT-Unsafe race:tmbuf
+> +MT-Unsafe init race:utent
 > +.br
-> +race:asctime env locale
+> +race:utentbuf sig:ALRM timer
 > +T}
 > +T{
-> +.BR ctime_r (),
-> +.BR gmtime_r (),
-> +.BR localtime_r (),
-> +.BR mktime ()
-> +T}	Thread safety	MT-Safe env locale
+> +.BR getutid (),
+> +.br
+> +.BR getutline ()
+> +T}	Thread safety	T{
+> +MT-Unsafe init race:utent
+> +.br
+> +sig:ALRM timer
+> +T}
 > +T{
-> +.BR gmtime (),
-> +.BR localtime ()
-> +T}	Thread safety	MT-Unsafe race:tmbuf env locale
+> +.BR pututline ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:utent
+> +.br
+> +sig:ALRM timer
+> +T}
+> +T{
+> +.BR setutent (),
+> +.br
+> +.BR endutent (),
+> +.br
+> +.BR utmpname ()
+> +T}	Thread safety	MT-Unsafe race:utent
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  C89 and C99 specify
+>  XPG2, SVr4.
+>  .LP
 
 
 --
