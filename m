@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcrtomb.3: ATTRIBUTES: Note function that isn't thread-safe
-Date: Wed, 8 Apr 2015 10:56:25 +0800
-Message-ID: <1428461788-7518-15-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] wcsnrtombs.3: ATTRIBUTES: Note function that isn't thread-safe
+Date: Wed, 8 Apr 2015 10:56:26 +0800
+Message-ID: <1428461788-7518-16-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,18 +14,18 @@ List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
 
-wcrtomb: MT-Unsafe race:wcrtomb/!ps
+wcsnrtombs: MT-Unsafe race:wcsnrtombs/!ps
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcrtomb.3 | 13 +++++++++++++
+ man3/wcsnrtombs.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/wcrtomb.3 b/man3/wcrtomb.3
-index 059e724..98bbba5 100644
---- a/man3/wcrtomb.3
-+++ b/man3/wcrtomb.3
-@@ -106,6 +106,19 @@ is returned, and
+diff --git a/man3/wcsnrtombs.3 b/man3/wcsnrtombs.3
+index a02c603..ab69767 100644
+--- a/man3/wcsnrtombs.3
++++ b/man3/wcsnrtombs.3
+@@ -157,6 +157,19 @@ is returned, and
  .I errno
  set to
  .BR EILSEQ .
@@ -34,16 +34,16 @@ index 059e724..98bbba5 100644
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw26
++lb lb lbw29
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR wcrtomb ()
-+T}	Thread safety	MT-Unsafe race:wcrtomb/!ps
++.BR wcsnrtombs ()
++T}	Thread safety	MT-Unsafe race:wcsnrtombs/!ps
 +.TE
 +
  .SH CONFORMING TO
- C99.
+ POSIX.1-2008.
  .SH NOTES
 -- 
 1.9.3
