@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] get_nprocs_conf.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 8 Apr 2015 10:56:16 +0800
-Message-ID: <1428461788-7518-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] ctime.3: ATTRIBUTES: Note functions that aren't thread-safe
+Date: Wed, 8 Apr 2015 10:56:13 +0800
+Message-ID: <1428461788-7518-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,40 +14,69 @@ List-Id: linux-man@vger.kernel.org
 
 The markings match glibc markings.
 
-get_nprocs:      MT-Safe
-get_nprocs_conf: MT-Safe
+asctime:     MT-Unsafe race:asctime locale
+
+asctime_r:   MT-Safe locale
+
+ctime:       MT-Unsafe race:tmbuf race:asctime env locale
+
+ctime_r:     MT-Safe env locale
+gmtime_r:    MT-Safe env locale
+localtime_r: MT-Safe env locale
+mktime:      MT-Safe env locale
+
+gmtime:      MT-Unsafe race:tmbuf env locale
+localtime:   MT-Unsafe race:tmbuf env locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/get_nprocs_conf.3 | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ man3/ctime.3 | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/man3/get_nprocs_conf.3 b/man3/get_nprocs_conf.3
-index 8faf84f..157ac01 100644
---- a/man3/get_nprocs_conf.3
-+++ b/man3/get_nprocs_conf.3
-@@ -45,6 +45,21 @@ This may be less than the number returned by
- because processors may be offline (e.g., on hotpluggable systems).
- .SH RETURN VALUE
- As given in DESCRIPTION.
+diff --git a/man3/ctime.3 b/man3/ctime.3
+index b127716..c5959d1 100644
+--- a/man3/ctime.3
++++ b/man3/ctime.3
+@@ -279,6 +279,39 @@ Each of these functions returns the value described, or NULL
+ (\-1 in case of
+ .BR mktime ())
+ in case an error was detected.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw14 lb lbw31
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR get_nprocs (),
++.BR asctime ()
++T}	Thread safety	MT-Unsafe race:asctime locale
++T{
++.BR asctime_r ()
++T}	Thread safety	MT-Safe locale
++T{
++.BR ctime ()
++T}	Thread safety	T{
++MT-Unsafe race:tmbuf
 +.br
-+.BR get_nprocs_conf ()
-+T}	Thread safety	MT-Safe
++race:asctime env locale
++T}
++T{
++.BR ctime_r (),
++.BR gmtime_r (),
++.BR localtime_r (),
++.BR mktime ()
++T}	Thread safety	MT-Safe env locale
++T{
++.BR gmtime (),
++.BR localtime ()
++T}	Thread safety	MT-Unsafe race:tmbuf env locale
 +.TE
 +
  .SH CONFORMING TO
- These functions are GNU extensions.
- .SH NOTES
+ POSIX.1-2001.
+ C89 and C99 specify
 -- 
 1.9.3
 
