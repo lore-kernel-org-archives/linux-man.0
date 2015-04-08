@@ -1,10 +1,11 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] wcsrtombs.3: ATTRIBUTES: Note function that isn't thread-safe
-Date: Wed, 8 Apr 2015 10:56:27 +0800
-Message-ID: <1428461788-7518-17-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] gethostbyname.3: ATTRIBUTES: Note functions that aren't thread-safe
+Date: Wed, 8 Apr 2015 10:56:14 +0800
+Message-ID: <1428461788-7518-4-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 In-Reply-To: <1428461788-7518-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,40 +13,116 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
+The markings match glibc markings.
 
-wcsrtombs: MT-Unsafe race:wcsrtombs/!ps
+gethostbyname:    MT-Unsafe race:hostbyname env locale
+
+gethostbyaddr:    MT-Unsafe race:hostbyaddr env locale
+
+sethostent:       MT-Unsafe race:hostent env locale
+endhostent:       MT-Unsafe race:hostent env locale
+gethostent_r:     MT-Unsafe race:hostent env locale
+
+herror:           MT=E2=80=90Safe
+hstrerror:        MT=E2=80=90Safe
+
+gethostent:       MT-Unsafe race:hostent race:hostentbuf env locale
+
+gethostbyname2:   MT-Unsafe race:hostbyname2 env locale
+
+gethostbyaddr_r:  MT-Safe env locale
+gethostbyname_r:  MT-Safe env locale
+gethostbyname2_r: MT-Safe env locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/wcsrtombs.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/gethostbyname.3 | 71 ++++++++++++++++++++++++++++++++++++++++++++=
+++++++++
+ 1 file changed, 71 insertions(+)
 
-diff --git a/man3/wcsrtombs.3 b/man3/wcsrtombs.3
-index 144ef47..8c01701 100644
---- a/man3/wcsrtombs.3
-+++ b/man3/wcsrtombs.3
-@@ -123,6 +123,19 @@ is returned, and
- .I errno
- set to
- .BR EILSEQ .
+diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+index 41a5886..91898b9 100644
+--- a/man3/gethostbyname.3
++++ b/man3/gethostbyname.3
+@@ -314,6 +314,77 @@ host database file
+ .TP
+ .I /etc/nsswitch.conf
+ name service switch configuration
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw28
++lbw18 lb lbw29
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR wcsrtombs ()
-+T}	Thread safety	MT-Unsafe race:wcsrtombs/!ps
++.BR gethostbyname ()
++T}	Thread safety	T{
++MT-Unsafe race:hostbyname env
++.br
++locale
++T}
++T{
++.BR gethostbyaddr ()
++T}	Thread safety	T{
++MT-Unsafe race:hostbyaddr env
++.br
++locale
++T}
++T{
++.BR sethostent (),
++.br
++.BR endhostent (),
++.br
++.BR gethostent_r ()
++T}	Thread safety	T{
++MT-Unsafe race:hostent env
++.br
++locale
++T}
++T{
++.BR herror (),
++.br
++.BR hstrerror ()
++T}	Thread safety	MT-Safe
++T{
++.BR gethostent ()
++T}	Thread safety	T{
++MT-Unsafe race:hostent
++.br
++race:hostentbuf env locale
++T}
++T{
++.BR gethostbyname2 ()
++T}	Thread safety	T{
++MT-Unsafe race:hostbyname2
++.br
++env locale
++T}
++T{
++.BR gethostbyaddr_r (),
++.BR gethostbyname_r (),
++.BR gethostbyname2_r ()
++T}	Thread safety	MT-Safe env locale
 +.TE
 +
++In the above table,
++.I hostent
++in
++.I race:hostent
++signifies that if any of the functions
++.BR sethostent (3),
++.BR gethostent (3),
++.BR gethostent_r (3),
++or
++.BR endhostent (3)
++are used in parallel in different threads of a program,
++then data races could occur.
  .SH CONFORMING TO
- C99.
- .SH NOTES
--- 
+ POSIX.1-2001 specifies
+ .BR gethostbyname (),
+--=20
 1.9.3
 
 --
