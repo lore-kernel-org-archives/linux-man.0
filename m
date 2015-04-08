@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getnetent.3: ATTRIBUTES: Note functions that aren't thread-safe
-Date: Wed, 8 Apr 2015 10:56:15 +0800
-Message-ID: <1428461788-7518-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] scanf.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 8 Apr 2015 10:56:23 +0800
+Message-ID: <1428461788-7518-13-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1428461788-7518-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,82 +14,49 @@ List-Id: linux-man@vger.kernel.org
 
 The markings match glibc markings.
 
-getnetent:    MT-Unsafe race:netent race:netentbuf env locale
-
-getnetbyname: MT-Unsafe race:netbyname env locale
-
-getnetbyaddr: MT-Unsafe race:netbyaddr locale
-
-setnetent:    MT-Unsafe race:netent env locale
-endnetent:    MT-Unsafe race:netent env locale
+scanf:   MT-Safe locale
+fscanf:  MT-Safe locale
+sscanf:  MT-Safe locale
+vscanf:  MT-Safe locale
+vsscanf: MT-Safe locale
+vfscanf: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getnetent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ man3/scanf.3 | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/man3/getnetent.3 b/man3/getnetent.3
-index f071744..c4f197e 100644
---- a/man3/getnetent.3
-+++ b/man3/getnetent.3
-@@ -142,6 +142,57 @@ error occurs or the end of the file is reached.
- .TP
- .I /etc/networks
- networks database file
+diff --git a/man3/scanf.3 b/man3/scanf.3
+index 02455b4..6018694 100644
+--- a/man3/scanf.3
++++ b/man3/scanf.3
+@@ -574,6 +574,26 @@ Out of memory.
+ .B ERANGE
+ The result of an integer conversion would exceed the size
+ that can be stored in the corresponding integer type.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw14 lb lbw25
++lbw20 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getnetent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netent
++.BR scanf (),
++.BR fscanf (),
 +.br
-+race:netentbuf env locale
-+T}
-+T{
-+.BR getnetbyname ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netbyname
++.BR sscanf (),
++.BR vscanf (),
 +.br
-+env locale
-+T}
-+T{
-+.BR getnetbyaddr ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netbyaddr
-+.br
-+locale
-+T}
-+T{
-+.BR setnetent (),
-+.br
-+.BR endnetent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:netent env
-+.br
-+locale
-+T}
++.BR vsscanf (),
++.BR vfscanf ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
-+In the above table,
-+.I netent
-+in
-+.I race:netent
-+signifies that if any of the functions
-+.BR setnetent (3),
-+.BR getnetent (3),
-+or
-+.BR endnetent (3)
-+are used in parallel in different threads of a program,
-+then data races could occur.
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH NOTES
+ The functions
+ .BR fscanf (),
 -- 
 1.9.3
 
