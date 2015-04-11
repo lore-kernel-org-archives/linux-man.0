@@ -1,21 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ctan.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 11 Apr 2015 08:33:49 +0200
-Message-ID: <5528C04D.8000702@gmail.com>
-References: <1427939084-27875-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] ctanh.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Sat, 11 Apr 2015 08:33:56 +0200
+Message-ID: <5528C054.1080908@gmail.com>
+References: <1427939213-27997-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1427939084-27875-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1427939213-27997-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/02/2015 03:44 AM, Ma Shimiao wrote:
+On 04/02/2015 03:46 AM, Ma Shimiao wrote:
 > The markings match glibc markings.
-
 
 Hello Ma Shimiao,
 
@@ -25,17 +24,16 @@ Cheers,
 
 Michael
 
-
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/ctan.3 | 15 +++++++++++++++
+>  man3/ctanh.3 | 15 +++++++++++++++
 >  1 file changed, 15 insertions(+)
 > 
-> diff --git a/man3/ctan.3 b/man3/ctan.3
-> index dc9cdb3..f265b29 100644
-> --- a/man3/ctan.3
-> +++ b/man3/ctan.3
-> @@ -25,6 +25,21 @@ The complex tangent function is defined as:
+> diff --git a/man3/ctanh.3 b/man3/ctanh.3
+> index 69639e2..f94ea81 100644
+> --- a/man3/ctanh.3
+> +++ b/man3/ctanh.3
+> @@ -26,6 +26,21 @@ mathematically as:
 >  .fi
 >  .SH VERSIONS
 >  These functions first appeared in glibc in version 2.1.
@@ -44,13 +42,13 @@ Michael
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw24 lb lb
+> +lbw27 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR ctan (),
-> +.BR ctanf (),
-> +.BR ctanl ()
+> +.BR ctanh (),
+> +.BR ctanhf (),
+> +.BR ctanhl ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
