@@ -1,82 +1,145 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/1] futex.2: explanation of blocking
-Date: Sat, 11 Apr 2015 09:09:34 +0200
-Message-ID: <CAKgNAkhgYLbcUiM6uujBBEa5FL0d_ZpZYk75o4=6a_CQq=p=7A@mail.gmail.com>
-References: <1427656383-8779-1-git-send-email-xypron.glpk@gmx.de> <5528C6F6.7050300@gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: "man 3 vsprintf" : simple bug in EXAMPLE section
+Date: Sat, 11 Apr 2015 09:30:29 +0200
+Message-ID: <5528CD95.7010204@gmail.com>
+References: <551584DE020000D400069A4C@relay2.provo.novell.com> <CAKgNAkjY=YpuZ7ifA1HCN68jZZ_PgFRw4KYfKaXeViPAvs+m+w@mail.gmail.com> <5515C2F9020000D400069A6F@relay2.provo.novell.com> <55152F0A.7090708@bfs.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5528C6F6.7050300-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <55152F0A.7090708-fPG8STNUNVg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: wharms-fPG8STNUNVg@public.gmane.org, Zhen Ren <zren-IBi9RG/b67k@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
+On 03/27/2015 11:20 AM, walter harms wrote:
+> 
+> hi Zhen Ren,
+> i tried to create a more simple example. Do you think this is more
+> helpful for you ?
 
+Walter,
 
+Your version seems better. See comments below.
 
-On 11 April 2015 at 09:02, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> On 03/29/2015 09:13 PM, Heinrich Schuchardt wrote:
->> Use shorter sentences.
->
->
-> Thanks, Heinrich. Applied.
+> re,
+>  wh
+> 
+> char *
+> make_message2 (const char *fmt, ...)
+> {
+>   int n,size = 0;
+>   char *p = NULL;
+>   va_list ap;
+> 
+>   /* figure our required size */
 
-Those changes are now pushed to kernel.org in the draft_futex branch.
-I made a few tweaks to the page in commit 4d5a782726b1, some of which
-included small changes to your patches (just formatting changes,
-really).
+>   va_start (ap, fmt);
+>   size = vsnprintf (p, size, fmt, ap);
+>   va_end (ap);
+> 
+>   if (size < 0)
+>     return NULL;
+> 
+>   /* leave room for \0 */
+>   size++;
+>   p = malloc (size);
+>   if (p == NULL)
+>     return NULL;
+> 
+>   va_start (ap, fmt);
+>   n = vsnprintf (p, size, fmt, ap);
 
-Cheers,
+What's missing here is a check on the return value from
+the vsnprintf() call. I added one.
+
+I've put your code into the page, replacing the existing
+example, with the fix noted above.
+
+Thanks,
 
 Michael
 
 
->> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
->> ---
->>  man2/futex.2 | 18 +++++++++++-------
->>  1 file changed, 11 insertions(+), 7 deletions(-)
+
+>   va_end (ap);
+> 
+> return p;
+> }
+
+> Am 27.03.2015 10:52, schrieb Zhen Ren:
+>> Hi Michael,
 >>
->> diff --git a/man2/futex.2 b/man2/futex.2
->> index dea50ea..6a4d45c 100644
->> --- a/man2/futex.2
->> +++ b/man2/futex.2
->> @@ -85,14 +85,18 @@ In the uncontended case,
->>  a thread can access or modify the lock state with atomic instructions,
->>  for example atomically changing it from not acquired to acquired
->>  using an atomic compare-and-exchange instruction.
->> -If a thread cannot acquire a lock because
->> -it is already acquired by another thread,
->> -it can request to block if and only the lock is still acquired by
->> -using the lock's flag as futex word and expecting a value that
->> -represents the acquired state.
->> +A thread maybe unable acquire a lock because
->> +it is already acquired by another thread.
->> +It then may pass the lock's flag as futex word and the value
->> +representing the acquired state as expected value to a
->> +.BR futex ()
->> +wait operation.
->> +.BR futex ()
->> +will block if and only if the lock is still acquired.
->>  When releasing the lock, a thread has to first reset the
->> -lock state to not acquired and then execute the futex operation that
->> -wakes one thread blocked on the futex word that is the lock's flag
->> +lock state to not acquired and then execute a
->> +.BR futex ()
->> +operation that wakes threads blocked on the lock flag used as futex word.
->>  (this can be be further optimized to avoid unnecessary wake-ups).
->>  See
->>  .BR futex (7)
+>> I'm so sorry for this negative report.
 >>
->
->
+>> Yeah, you're right. It'll fall through,loop again,do "vsprintf" and return if done.
+>>
+>> --
+>> Best regards,
+>> Eric, Ren
+>> HA team, SUSE
+>>
+>>
+>>>>>
+>>> Hello Zhen Ren, 
+>>>  
+>>> On 27 March 2015 at 06:27, Zhen Ren <zren-IBi9RG/b67k@public.gmane.org> wrote: 
+>>>> Hi, 
+>>>> There is simple bug in EXAMPLE section of "man 3 vsprintf". 
+>>>>
+>>>> Function will return nothing if  it steps into the last "else {}". 
+>>>>
+>>>> ------------------ example code ----------------- 
+>>>>  char * 
+>>>>        make_message(const char *fmt, ...) 
+>>>>        { 
+>>>>            int n; 
+>>>>            int size = 100;     /* Guess we need no more than 100 bytes */ 
+>>>>            char *p, *np; 
+>>>>            va_list ap; 
+>>>> . 
+>>>> .cut off 
+>>>> . 
+>>>>                np = realloc(p, size); 
+>>>>                if (np == NULL) { 
+>>>>                    free(p); 
+>>>>                    return NULL; 
+>>>>                } else { 
+>>>>                    p = np; 
+>>>> +                return p; 
+>>>>                } 
+>>>>            } 
+>>>>        } 
+>>>  
+>>> I have not looked too closely at the code, but the above report 
+>>> appears incorrect to me. The function should NOT be returning at that 
+>>> point. It should be falling through and then round the loop once more. 
+>>> If I've missed something, could you elaborate a little more on the 
+>>> problem, please? 
+>>>  
+>>> Cheers, 
+>>>  
+>>> Michael 
+>>>  
+>>>  
+>>
+>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 > --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
