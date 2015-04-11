@@ -1,123 +1,65 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: stat(2)
-Date: Sat, 11 Apr 2015 08:04:15 +0200
-Message-ID: <5528B95F.7010008@gmail.com>
-References: <CAGc9Evd5yJ0jvMbwiQ2e0Obcj01srNxo2G3zUpub+4zfYATjBw@mail.gmail.com>
+Subject: Re: [PATCH] ccos.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Sat, 11 Apr 2015 08:33:12 +0200
+Message-ID: <5528C028.9000808@gmail.com>
+References: <1427938055-27173-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGc9Evd5yJ0jvMbwiQ2e0Obcj01srNxo2G3zUpub+4zfYATjBw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1427938055-27173-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Jonny,
+On 04/02/2015 03:27 AM, Ma Shimiao wrote:
+> The markings match glibc markings.
 
-On 04/02/2015 06:59 PM, Jonny Grant wrote:
-> Hello
->=20
-> I see:
-> http://man7.org/linux/man-pages/man3/lseek64.3.html
-> Grammar feedback, "the glibc", prefix word "the" is not needed.
+Hello Ma Shimiao,
 
-=46ixed. Thanks.
+Patch applied. Thank you.
 
-> http://man7.org/linux/man-pages/man2/fstat64.2.html
-> Has page heading stat(2),=20
-
-The doc for stat/fstat/lstat is combined into a single page...
-
-> and does not contain any information about fstat64()
-> Any ideas?
-
-See below.
-
-> I saw this one looks as expected:
-> http://man7.org/linux/man-pages/man3/lseek64.3.html
-
-Actually, that page is a bit of an aberration that appeared=20
-before my time as maintainer.
-
-> I saw this page has similar problem:
-> http://man7.org/linux/man-pages/man2/stat64.2.html
->=20
-> No mention of stat64()
-
-That's not precisely true. See the "C library/kernel ABI differences" a=
-t=20
-http://man7.org/linux/man-pages/man2/stat.2.html#NOTES. Note also
-the sentence "Similar remarks apply for fstat() and lstat()."
-
-That said, the details are thin, and I've written  some text to explain
-things in a little more detail:
-
-   C library/kernel ABI differences
-       Over time, increases in the size of the stat structure  have  le=
-d
-       to   three   successive  versions  of  stat():  sys_stat()  (slo=
-t
-       __NR_oldstat), sys_newstat() (slot __NR_stat),  and  sys_stat64(=
-)
-       (slot  __NR_stat64)  on 32-bit platforms such as i386.  The firs=
-t
-       two versions were already present in Linux 1.0 (albeit with  dif=
-=E2=80=90
-       ferent  names); the last was added in Linux 2.4.  Similar remark=
-s
-       apply for fstat() and lstat().
-
-       The kernel-internal versions of the stat structure dealt with  b=
-y
-       the different versions are, respectively:
-
-              __old_kernel_stat
-                     The  original structure, with rather narrow fields=
-,
-                     and no padding.
-
-              stat   Larger st_ino field and padding  added  to  variou=
-s
-                     parts  of  the structure to allow for future expan=
-=E2=80=90
-                     sion.
-
-              stat64 Even larger st_ino field, larger st_uid and  st_gi=
-d
-                     fields  to  accommodate  the Linux-2.4 expansion o=
-f
-                     UIDs  and  GIDs  to  32  bits,  and  various  othe=
-r
-                     enlarged  fields  and further padding in the struc=
-=E2=80=90
-                     ture.  (Various padding bytes were eventually  con=
-=E2=80=90
-                     sumed  in  Linux  2.6,  with  the  advent of 32-bi=
-t
-                     device IDs and nanosecond components for the  time=
-=E2=80=90
-                     stamp fields.)
-
-       The glibc stat() wrapper function hides these details from appli=
-=E2=80=90
-       cations, invoking the most recent version of the system call pro=
-=E2=80=90
-       vided  by  the  kernel, and repacking the returned information i=
-f
-       required for old binaries.
-
-       On modern 64-bit systems, life is  simpler:  there  is  a  singl=
-e
-       stat()  system  call  and  the kernel deals with a stat structur=
-e
-       that contains fields of a sufficient size.
-
-Thanks,
+Cheers,
 
 Michael
 
---=20
+
+> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> ---
+>  man3/ccos.3 | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/man3/ccos.3 b/man3/ccos.3
+> index 3b11fff..329ccb7 100644
+> --- a/man3/ccos.3
+> +++ b/man3/ccos.3
+> @@ -25,6 +25,21 @@ The complex cosine function is defined as:
+>  .fi
+>  .SH VERSIONS
+>  These functions first appeared in glibc in version 2.1.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
+> +.TS
+> +allbox;
+> +lbw24 lb lb
+> +l l l.
+> +Interface	Attribute	Value
+> +T{
+> +.BR ccos (),
+> +.BR ccosf (),
+> +.BR ccosl ()
+> +T}	Thread safety	MT-Safe
+> +.TE
+> +
+>  .SH CONFORMING TO
+>  C99.
+>  .SH SEE ALSO
+> 
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
