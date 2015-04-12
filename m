@@ -1,39 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Non utf8 characters in page standards.7
-Date: Sun, 12 Apr 2015 09:22:49 +0200
-Message-ID: <CAKgNAkhQKtQ-hDyi2NzWZ-icWwVP3ECc-NBXPy89Lu-UY=2a-w@mail.gmail.com>
-References: <CAGc9EveXMqUoTRDtjWE0h6rqXNcchdxghJZ9DMd0xR399aZMBQ@mail.gmail.com>
+Subject: Re: strcasecmp
+Date: Sun, 12 Apr 2015 09:45:27 +0200
+Message-ID: <CAKgNAkhfSn4s9higqgzNXJew_jywC7daR0+Z__rcjFC2pfozmg@mail.gmail.com>
+References: <CAGc9EvfOOamRbXtG_jtNS8cfFkTupJtkrb74nNSu2KhF_j=zVg@mail.gmail.com>
+ <CAGc9EvfXHQAK3=NiMx+1gG8YbnF48+8JGh0MpnH1JRdD52ET7A@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGc9EveXMqUoTRDtjWE0h6rqXNcchdxghJZ9DMd0xR399aZMBQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAGc9EvfXHQAK3=NiMx+1gG8YbnF48+8JGh0MpnH1JRdD52ET7A-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 9 October 2014 at 13:24, Jonny Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> http://man7.org/linux/man-pages/man7/standards.7.html
->
+On 2 September 2014 at 15:16, Jonny Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
 > Hello
-> I noticed this page has come corrupt bytes in HTML source:
 >
-> under the auspices of the Austin group
-> ??<a href="http://www.opengroup.org/austin/">http://www.opengroup.org/austin/</a>??.
+> http://man7.org/linux/man-pages/man3/strcasecmp.3.html
 >
->
-> See ?? in my quote above.
->
-> In hex, the bytes are E2 9F A8  and  E2 9F A9
->
-> Any ideas?
->
-> There are other occurances with other links too. may affect other pages too
+> Is it worth clarifying that this is a byte-wise comparison, or does it also
+> check locale?
 
-These are the characters generated to the .UR/.UE macro pair (see groff_man(7)).
+It's byte-wise, AFAIK. POSIX says:
 
-Cheers,
+        When the LC_CTYPE category of the locale being used is  from  the
+        POSIX  locale, these functions shall behave as if the strings had
+        been converted to lowercase and then a byte comparison performed.
+         Otherwise, the results are unspecified.
+
+I added some text to the man page to clarify.
+
+Thanks,
 
 Michael
 
