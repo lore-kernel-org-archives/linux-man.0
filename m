@@ -1,40 +1,50 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: aiocb member aio_offset is off_t which is a signed 32bit int
-Date: Sun, 12 Apr 2015 10:03:46 +0200
-Message-ID: <CAKgNAkj5nh7=yVAOps6mPva3A93qtkTDMrMBmYbXAN4AAi_+2A@mail.gmail.com>
-References: <CAGc9Evc1oZkCYfYAkYU+fNA=9-Q+T+sgdj8qWuTctZjjvUdxEA@mail.gmail.com>
+Subject: Re: gethostbyname.3
+Date: Sun, 12 Apr 2015 10:09:46 +0200
+Message-ID: <CAKgNAkj5Z3TYe6qrdyp3Nw+-EQd1pSYurCn+fCqzL2wWUDjvuQ@mail.gmail.com>
+References: <CAGc9EvetrL3i+3wfHC5=Sh8kLhvsr8w0orp+ObeR6t9TFZ6e_w@mail.gmail.com>
 Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAGc9Evc1oZkCYfYAkYU+fNA=9-Q+T+sgdj8qWuTctZjjvUdxEA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <CAGc9EvetrL3i+3wfHC5=Sh8kLhvsr8w0orp+ObeR6t9TFZ6e_w-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Jonny,
+Hello Jonny,
 
-On 30 June 2014 at 12:51, Jonny Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
-> Hello mtk
+On 15 October 2014 at 00:34, Jonny Grant <jg-hus3n9K41k0@public.gmane.org> wrote:
+> Hello
+> Just looking at this page:
 >
-> Is it worth clarifying something on this page:
+> http://man7.org/linux/man-pages/man3/gethostbyname.3.html
 >
-> http://man7.org/linux/man-pages/man7/aio.7.html
+> NO_ADDRESS or NO_DATA
+>               The requested name is valid but does not have an IP address.
 >
-> off_t           aio_offset;     /* File offset */
+> These macros are actually the same value, is there a good way to
+> explain that? i.e. no way to have a switch for both.
 >
-> Could clarify that off_t on a 32bit system will be a signed 32bit
-> integer, meaning the maximum seek size is 2GB.
+> perhaps just say NO_DATA, then add the following for compatibility?
 >
-> I think this means that aio can only be used to access files up to
-> 2GB.
+> #define NO_ADDRESS NO_DATA
+>
+> Regards, Jonny
 
-I don't believe this is true. See <aio.h> and the defintion of this field there.
+I added this sentence:
 
-Cheers,
+    The constant NO_ADDRESS is a synonym for NO_DATA.
+
+Thanks,
 
 Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
