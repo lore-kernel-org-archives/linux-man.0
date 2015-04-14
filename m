@@ -1,56 +1,38 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] futex.2: casting utime to uint32_t
-Date: Mon, 13 Apr 2015 20:50:18 +0200
-Message-ID: <1428951018-5770-1-git-send-email-xypron.glpk@gmx.de>
+From: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+Subject: Re: Revised futex(2) man page for review
+Date: Tue, 14 Apr 2015 23:40:21 +0200 (CEST)
+Message-ID: <alpine.DEB.2.11.1504142323290.3845@nanos>
+References: <55166C01.7000803@gmail.com> <20150328114725.GJ27490@worktop.programming.kicks-ass.net>
+Mime-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <20150328114725.GJ27490-IIpfhp3q70z/8w/KjCw3T+5/BudmfyzbbVWyRVo5IupeoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb9+dknx18iblw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The kernel uses the following cast:
+On Sat, 28 Mar 2015, Peter Zijlstra wrote:
+> On Sat, Mar 28, 2015 at 09:53:21AM +0100, Michael Kerrisk (man-pages) wrote:
+> > So, please take a look at the page below. At this point,
+> > I would most especially appreciate help with the FIXMEs.
+> 
+> For people who cannot read that troff gibberish (me)..
 
-  if (cmd == FUTEX_REQUEUE || cmd == FUTEX_CMP_REQUEUE ||
-      cmd == FUTEX_CMP_REQUEUE_PI || cmd == FUTEX_WAKE_OP)
-    val2 = (u32) (unsigned long) utime;
+Ditto :)
+ 
+> NOTES
+>        Glibc does not provide a wrapper for this system call;  call  it  using
+>        syscall(2).
 
-This ensures that always the least significant four bytes of the
-pointer are used, both on ILP32 and LP64 systems.
+You might mention that pthread_mutex, pthread_condvar interfaces are
+high level wrappers for the syscall and recommended to be used for
+normal use cases. IIRC unnamed semaphores are implemented with futexes
+as well.
 
-On a big endian system a simple cast from 64 bit pointer to 32 bit
-integer would return the most significant four bytes.
+Thanks,
 
-We have to make the reader of the man-page aware of the usage of the
-least significant bytes.
-
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man2/futex.2 | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/man2/futex.2 b/man2/futex.2
-index 9fd8a51..7732822 100644
---- a/man2/futex.2
-+++ b/man2/futex.2
-@@ -136,11 +136,13 @@ argument is a pointer to a
- .IR timespec
- structure that specifies a timeout for the operation.
- However,  notwithstanding the prototype shown above, for some operations,
--this argument is instead a four-byte integer whose meaning
-+the least significant four bytes are used as an integer whose meaning
- is determined by the operation.
- For these operations, the kernel casts the
- .I timeout
--value to
-+value first to
-+.IR "unsigned long",
-+then to
- .IR uint32_t ,
- and in the remainder of this page, this argument is referred to as
- .I val2
--- 
-2.1.4
-
+	tglx
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
