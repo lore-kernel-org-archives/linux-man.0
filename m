@@ -1,73 +1,40 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] glob.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Thu, 16 Apr 2015 13:09:32 +0800
-Message-ID: <1429160978-15236-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: =?ISO-2022-JP?B?WU9TSElGVUpJIEhpZGVha2kvGyRCNUhGIzFRTEAbKEI=?=
+	<hideaki.yoshifuji-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>
+Subject: [PATCH] icmp.7: Document net.ipv4.ping_group_range knob.
+Date: Thu, 16 Apr 2015 20:28:42 +0900
+Message-ID: <552F9CEA.7010209@miraclelinux.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, =?ISO-2022-JP?B?WU9TSElGVUpJIEhpZGVha2kvGyRCNUgbKEI=?= =?ISO-2022-JP?B?GyRCRiMxUUxAGyhC?= <hideaki.yoshifuji-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>, "YOSHIFUJI Hideaki (USAGI Project)" <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
-
-glob:     MT-Unsafe race:utent env sig:ALRM timer local
-
-globfree: MT-Safe
-
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Signed-off-by: YOSHIFUJI Hideaki <hideaki.yoshifuji-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>
 ---
- man3/glob.3 | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ man7/icmp.7 | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/man3/glob.3 b/man3/glob.3
-index 857dff0..65fc6a8 100644
---- a/man3/glob.3
-+++ b/man3/glob.3
-@@ -273,6 +273,40 @@ for a read error, and
- .TP
- .B GLOB_NOMATCH
- for no found matches.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lbw24
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR glob ()
-+T}	Thread safety	T{
-+MT-Unsafe race:utent env
-+.br
-+sig:ALRM timer locale
-+T}
-+T{
-+.BR globfree ()
-+T}	Thread safety	MT-Safe
-+.TE
-+
-+In the above table,
-+.I utent
-+in
-+.I race:utent
-+signifies that if any of the functions
-+.BR setutent (3),
-+.BR getutent (3),
-+or
-+.BR endutent (3)
-+are used in parallel in different threads of a program,
-+then data races could occur.
-+.BR glob (3)
-+calls those functions,
-+so we use race:utent to remind users.
- .SH CONFORMING TO
- POSIX.2, POSIX.1-2001.
- .SH NOTES
+diff --git a/man7/icmp.7 b/man7/icmp.7
+index ea86cb4..2f9d370 100644
+--- a/man7/icmp.7
++++ b/man7/icmp.7
+@@ -158,6 +158,11 @@ Maximum rate for sending
+ packets.
+ These packets are
+ sent to prevent loops when a packet has crossed too many hops.
++.TP
++.IR ping_group_range " (two integers; default: see below; since Linux 2.6.39)"
++Range of group IDs (minimum and maximum group IDs, inclusive)
++allowed to create ICMP Echo sockets.  Default is "1 0", which
++means no group is allowed to create ICMP Echo sockets.
+ .SH VERSIONS
+ Support for the
+ .B ICMP_ADDRESS
 -- 
-1.9.3
+1.9.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
