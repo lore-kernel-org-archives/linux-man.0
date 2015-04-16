@@ -1,7 +1,7 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 08/10] perf_event_open.2: 4.1 add aux_watermark
-Date: Thu, 16 Apr 2015 14:18:25 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1504161417460.15181@vincent-weaver-1.umelst.maine.edu>
+Subject: [patch 09/10] perf_event_open.2: 4.1 add PERF_RECORD_ITRACE_START
+Date: Thu, 16 Apr 2015 14:19:13 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1504161418300.15181@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,13 +11,13 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY7
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the aux_watermark attr
-field in the following commit:
+This manpage patch relates to the addition of the PERF_RECORD_ITRACE_START
+record type in the following commit:
 
-	commit 1a5941312414c71dece6717da9a0fa1303127afa
+	commit ec0d7729bbaed4b9d2d3fada693278e13a3d1368
 	Author: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-	perf: Add wakeup watermark control to the AUX area
+	perf: Add ITRACE_START record to indicate that tracing has started
 
 	Signed-off-by: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
@@ -36,49 +36,45 @@ field in the following commit:
 	Cc: kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
-	Link: http://lkml.kernel.org/r/1421237903-181015-10-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+	Link: http://lkml.kernel.org/r/1421237903-181015-15-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
 	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 01ee579..fa6f6c5 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -256,6 +256,8 @@ struct perf_event_attr {
-     __u32 sample_stack_user;    /* size of stack to dump on
-                                    samples */
-     __u32 __reserved_2;         /* Align to u64 */
-+    __u32   aux_watermark;
-+    __u32   __reserved_2;       /* align to u64 */
- 
- };
- .fi
-@@ -350,6 +352,11 @@ and
- .I sample_stack_user
- in Linux 3.7.
- .\" commit 1659d129ed014b715b0b2120e6fd929bdd33ed03
-+.B PERF_ATTR_SIZE_VER5
-+is 112 corresponding to the addition of
-+.I aux_watermak
-+.\" commit 1a5941312414c71dece6717da9a0fa1303127afa
-+in Linux 4.1.
- .TP
- .I "config"
- This specifies which event you want, in conjunction with
-@@ -1218,6 +1225,12 @@ described in the kernel header
- This defines the size of the user stack to dump if
- .B PERF_SAMPLE_STACK_USER
- is specified.
+@@ -2356,6 +2356,29 @@
+ buffer size.
+ .RE
+ .RE
 +.TP
-+.IR "aux_watermark" " (since Linux 4.1)"
-+.\" commit 1a5941312414c71dece6717da9a0fa1303127afa
-+This specifies how much data is required to trigger a
-+.B PERF_RECORD_AUX
-+sample.
- .SS Reading results
- Once a
- .BR perf_event_open ()
++.BR PERF_RECORD_ITRACE_START " (since Linux 4.1)"
++\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
++This record indicates which process has initiated an instruction
++trace event, allowing tools to properly correlate the instruction
++addresses in the AUX buffer with the proper executable.
++
++.in +4n
++.nf
++struct {
++    struct perf_event_header header;
++    u32 pid;
++    u32 tid;
++};
++.fi
++.RS
++.TP
++.I pid
++process id of the thread starting an instruction trace.
++.TP
++.I tid
++thread id of the thread starting an instruction trace.
++.RE
+ .RE
+ .SS Overflow handling
+ Events can be set to notify when a threshold is crossed,
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
