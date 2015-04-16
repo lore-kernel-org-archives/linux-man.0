@@ -1,7 +1,8 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 06/10] perf_event_open.2: 4.1 add AUX sample support
-Date: Thu, 16 Apr 2015 14:16:39 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1504161415570.15181@vincent-weaver-1.umelst.maine.edu>
+Subject: [patch 07/10] perf_event_open.2: 4.1 add AUX_FLAG_OVERWRITE
+ support
+Date: Thu, 16 Apr 2015 14:17:39 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1504161416470.15181@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,17 +12,16 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY7
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the AUX sample type
-as added in the following commit:
+This manpage patch relates to the addition of the AUX sample flag
+AUX_FLAG_OVERWRITE as added in the following commit:
 
-	commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
+	commit 2023a0d2829e521fe6ad6b9907f3f90bfbf57142
 	Author: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-	perf: Add AUX record
+	perf: Support overwrite mode for the AUX area
 
 	Signed-off-by: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-	Cc: Arnaldo Carvalho de Melo <acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 	Cc: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>
 	Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 	Cc: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
@@ -32,60 +32,46 @@ as added in the following commit:
 	Cc: Robert Richter <rric-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 	Cc: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 	Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+	Cc: acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
 	Cc: adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
-	Link: http://lkml.kernel.org/r/1421237903-181015-7-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+	Link: http://lkml.kernel.org/r/1421237903-181015-9-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
 	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
-
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
- 
+
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 01ee579..98aef57 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -2310,6 +2310,39 @@ is the flags information.
- .I filename
- is a string describing the backing of the allocated memory.
- .RE
-+.TP
-+.BR PERF_RECORD_AUX " (since Linux 4.1)"
-+\" commit 68db7e98c3a6ebe7284b6cf14906ed7c55f3f7f0
-+This record reports that new data is available in the separate
-+AUX buffer region.
+@@ -1590,6 +1590,15 @@
+ .I perf_event_mlock_kb
+ allowance.
+ 
++By default the AUX buffer will be truncated if it will not fit
++in the available space in the ring buffer.
++If the AUX buffer is mapped as a read only buffer, then it will
++operate in ring buffer mode where old data will be overwritten
++by new.
++In overwrite mode it might not be possible to infer where the
++new data began, and it is the consumer's job to disable
++measurement while reading to avoid possible data races.
 +
-+.in +4n
-+.nf
-+struct {
-+    struct perf_event_header header;
-+    u64 aux_offset;
-+    u64 aux_size;
-+    u64 flags;
-+    struct sample_id sample_id;
-+};
-+.fi
-+.RS
+ The
+ .IR aux_head " and " aux_tail
+ ring buffer pointers have the same behavior and ordering
+@@ -2372,6 +2381,10 @@
+ .B PERF_AUX_FLAG_TRUNCATED
+ if set then the data returned was truncated to fix the available
+ buffer size.
 +.TP
-+.I aux_offset
-+offset in the AUX mmap region where the new data begins.
-+.TP
-+.I aux_size
-+size of the data made available.
-+.TP
-+.I flags
-+describes the aux update.
-+.RS
-+.TP
-+.B PERF_AUX_FLAG_TRUNCATED
-+if set then the data returned was truncated to fix the available
-+buffer size.
-+.RE
-+.RE
++.B PERF_AUX_FLAG_OVERWRITE
++.\" commit 2023a0d2829e521fe6ad6b9907f3f90bfbf57142
++if set then the data returned has overwritten previous data.
  .RE
- .SS Overflow handling
- Events can be set to notify when a threshold is crossed,
+ .RE
+ .RE
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
