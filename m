@@ -1,8 +1,7 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 07/10] perf_event_open.2: 4.1 add AUX_FLAG_OVERWRITE
- support
-Date: Thu, 16 Apr 2015 14:17:39 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1504161416470.15181@vincent-weaver-1.umelst.maine.edu>
+Subject: [patch 08/10] perf_event_open.2: 4.1 add aux_watermark
+Date: Thu, 16 Apr 2015 14:18:25 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1504161417460.15181@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -12,13 +11,13 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY7
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the AUX sample flag
-AUX_FLAG_OVERWRITE as added in the following commit:
+This manpage patch relates to the addition of the aux_watermark attr
+field in the following commit:
 
-	commit 2023a0d2829e521fe6ad6b9907f3f90bfbf57142
+	commit 1a5941312414c71dece6717da9a0fa1303127afa
 	Author: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 
-	perf: Support overwrite mode for the AUX area
+	perf: Add wakeup watermark control to the AUX area
 
 	Signed-off-by: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
@@ -37,41 +36,49 @@ AUX_FLAG_OVERWRITE as added in the following commit:
 	Cc: kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
 	Cc: mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
-	Link: http://lkml.kernel.org/r/1421237903-181015-9-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+	Link: http://lkml.kernel.org/r/1421237903-181015-10-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
 	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index 01ee579..fa6f6c5 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -1590,6 +1590,15 @@
- .I perf_event_mlock_kb
- allowance.
+@@ -256,6 +256,8 @@ struct perf_event_attr {
+     __u32 sample_stack_user;    /* size of stack to dump on
+                                    samples */
+     __u32 __reserved_2;         /* Align to u64 */
++    __u32   aux_watermark;
++    __u32   __reserved_2;       /* align to u64 */
  
-+By default the AUX buffer will be truncated if it will not fit
-+in the available space in the ring buffer.
-+If the AUX buffer is mapped as a read only buffer, then it will
-+operate in ring buffer mode where old data will be overwritten
-+by new.
-+In overwrite mode it might not be possible to infer where the
-+new data began, and it is the consumer's job to disable
-+measurement while reading to avoid possible data races.
-+
- The
- .IR aux_head " and " aux_tail
- ring buffer pointers have the same behavior and ordering
-@@ -2372,6 +2381,10 @@
- .B PERF_AUX_FLAG_TRUNCATED
- if set then the data returned was truncated to fix the available
- buffer size.
+ };
+ .fi
+@@ -350,6 +352,11 @@ and
+ .I sample_stack_user
+ in Linux 3.7.
+ .\" commit 1659d129ed014b715b0b2120e6fd929bdd33ed03
++.B PERF_ATTR_SIZE_VER5
++is 112 corresponding to the addition of
++.I aux_watermak
++.\" commit 1a5941312414c71dece6717da9a0fa1303127afa
++in Linux 4.1.
+ .TP
+ .I "config"
+ This specifies which event you want, in conjunction with
+@@ -1218,6 +1225,12 @@ described in the kernel header
+ This defines the size of the user stack to dump if
+ .B PERF_SAMPLE_STACK_USER
+ is specified.
 +.TP
-+.B PERF_AUX_FLAG_OVERWRITE
-+.\" commit 2023a0d2829e521fe6ad6b9907f3f90bfbf57142
-+if set then the data returned has overwritten previous data.
- .RE
- .RE
- .RE
++.IR "aux_watermark" " (since Linux 4.1)"
++.\" commit 1a5941312414c71dece6717da9a0fa1303127afa
++This specifies how much data is required to trigger a
++.B PERF_RECORD_AUX
++sample.
+ .SS Reading results
+ Once a
+ .BR perf_event_open ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
