@@ -1,58 +1,99 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 01/10] perf_event_open.2: 4.1 PERF_SAMPLE_BRANCH_CALL_STACK
-Date: Thu, 16 Apr 2015 14:11:50 -0400 (EDT)
-Message-ID: <alpine.DEB.2.11.1504161410430.15181@vincent-weaver-1.umelst.maine.edu>
+Subject: [patch 02/10] perf_event_open.2: 4.1 clockid support
+Date: Thu, 16 Apr 2015 14:12:47 -0400 (EDT)
+Message-ID: <alpine.DEB.2.11.1504161411580.15181@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, David Ahern <dsahern-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the
-PERF_SAMPLE_BRANCH_CALL_STACK functionaliry added in the
-following commit:
+This manpage patch relates to the addition of the clockid
+functionaliry added in the following commit:
 
-	commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70
+	commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
 	Author: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-	perf/x86/intel: Expose LBR callstack to user space tooling
-    
-	With LBR call stack feature enable, there are three callchain options.
-	Enable the 3rd callchain option (LBR callstack) to user space tooling.
-    
+	perf: Add per event clockid support
+
 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+	Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+	Cc: Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+	Cc: David Ahern <dsahern-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 	Cc: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-	Cc: Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-	Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-	Cc: Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
+	Cc: John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
 	Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-	Cc: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-	Cc: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-	Cc: linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-	Link: http://lkml.kernel.org/r/20141105093759.GQ10501-IIpfhp3q70z/8w/KjCw3T+5/BudmfyzbbVWyRVo5IupeoWH0uzbU5w@public.gmane.org
+	Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+	Cc: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+	Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
 	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 01ee579..691b16b 100644
+index 01ee579..d879651 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -1203,6 +1203,11 @@ Branch in transactional memory transaction.
- .BR PERF_SAMPLE_BRANCH_NO_TX " (since Linux 3.11)"
- .\" commit 135c5612c460f89657c4698fe2ea753f6f667963
- Branch not in transactional memory transaction.
-+.BR PERF_SAMPLE_BRANCH_CALL_STACK " (since Linux 4.1)"
-+.\" commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70
-+Branch is part of a hardware generated call stack.
-+This requires hardware support, currently only found
-+on Intel x86 Haswell or newer.
- .RE
+@@ -233,7 +233,9 @@ struct perf_event_attr {
+                                 /* exclude user callchains */
+           mmap2          :  1,  /* include mmap with inode data */
+           comm_exec      :  1,  /* flag comm events that are due to exec */
+-          __reserved_1   : 39;
++          use_clockid    :  1,  /* use clockid for time fields */
++
++          __reserved_1   : 38;
  
+     union {
+         __u32 wakeup_events;    /* wakeup every n events */
+@@ -255,7 +257,7 @@ struct perf_event_attr {
+     __u64 sample_regs_user;     /* user regs to dump on samples */
+     __u32 sample_stack_user;    /* size of stack to dump on
+                                    samples */
+-    __u32 __reserved_2;         /* Align to u64 */
++    __s32 clockid;              /* clock to use for time fields */
+ 
+ };
+ .fi
+@@ -1049,6 +1051,15 @@ reported was caused by a call to
+ This allows tools to distinguish between the various
+ types of process renaming.
  .TP
++.IR "use_clockid" " (since Linux 4.1)"
++.\" commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
++This allows selecting which internal Linux clock to use
++when generating timestamps via the
++.I clockid
++field.
++This can make it easier to correlate perf sample times with
++timestamps generated by other tools.
++.TP
+ .IR "wakeup_events" ", " "wakeup_watermark"
+ This union sets how many samples
+ .RI ( wakeup_events )
+@@ -1218,6 +1229,19 @@ described in the kernel header
+ This defines the size of the user stack to dump if
+ .B PERF_SAMPLE_STACK_USER
+ is specified.
++.TP
++.IR "clockid" " (since Linux 4.1)"
++.\" commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
++If
++.I use_clockid
++is set, then this field selects which internal Linux timer to
++use for timestamps.
++The available timers are defined in
++.IR linux/time.h ,
++with
++.BR CLOCK_MONOTONIC , CLOCK_MONOTONIC_RAW , CLOCK_REALTIME ,
++.BR CLOCK_BOOTTIME ", and " CLOCK_TAI
++currently supported.
+ .SS Reading results
+ Once a
+ .BR perf_event_open ()
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
