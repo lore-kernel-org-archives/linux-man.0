@@ -1,25 +1,20 @@
-From: "Robin H. Johnson" <robbat2@gentoo.org>
+From: "Robin H. Johnson" <robbat2-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Subject: [PATCH] getent.1: Document options.
-Date: Thu, 16 Apr 2015 23:53:04 -0700
-Message-ID: <1429253584-14733-1-git-send-email-robbat2@gentoo.org>
-Return-path: <libc-alpha-return-58479-glibc-alpha=m.gmane.org@sourceware.org>
-List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
-List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
-List-Archive: <http://sourceware.org/ml/libc-alpha/>
-List-Post: <mailto:libc-alpha@sourceware.org>
-List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
-Sender: libc-alpha-owner@sourceware.org
-To: mtk.manpages@gmail.com
-Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org, "Robin H. Johnson" <robbat2@gentoo.org>, Nalin Dahyabhai <nalin@redhat.com>, Jay Fenlason <fenlason@redhat.com>, Ulrich Drepper <drepper@redhat.com>
+Date: Thu, 16 Apr 2015 23:53:52 -0700
+Message-ID: <1429253632-14804-1-git-send-email-robbat2@gentoo.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org, "Robin H. Johnson" <robbat2-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>, Nalin Dahyabhai <nalin-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jay Fenlason <fenlason-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 The options to getent are now documented, after being around for nearly
 a decade without changes.
 
-Signed-off-by: Robin H. Johnson <robbat2@gentoo.org>
-CC: Nalin Dahyabhai <nalin@redhat.com> (original -s {service} option)
-CC: Jay Fenlason <fenlason@redhat.com> (-s {database}:{service} addition)
-CC: Ulrich Drepper <drepper@redhat.com> (IDN flags)
+Signed-off-by: Robin H. Johnson <robbat2-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+CC: Nalin Dahyabhai <nalin-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (original -s {service} option)
+CC: Jay Fenlason <fenlason-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (-s {database}:{service} addition)
+CC: Ulrich Drepper <drepper-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> (IDN flags)
 ---
  man1/getent.1 | 22 ++++++++++++++++++++--
  1 file changed, 20 insertions(+), 2 deletions(-)
@@ -29,8 +24,8 @@ index a15d880..16f2668 100644
 --- a/man1/getent.1
 +++ b/man1/getent.1
 @@ -1,4 +1,5 @@
- .\" Copyright (c) 2011, Mark R. Bannister <cambridge@users.sourceforge.net>
-+.\" Copyright (c) 2015, Robin H. Johnson <robbat2@gentoo.org>
+ .\" Copyright (c) 2011, Mark R. Bannister <cambridge-Rn4VEauK+AKRv+LV9MX5uipxlwaOVQ5f@public.gmane.org>
++.\" Copyright (c) 2015, Robin H. Johnson <robbat2-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
  .\"
  .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
  .\" This is free documentation; you can redistribute it and/or
@@ -71,3 +66,8 @@ index a15d880..16f2668 100644
  .BR getent :
 -- 
 2.3.0
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
