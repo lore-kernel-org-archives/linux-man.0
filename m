@@ -1,41 +1,73 @@
-From: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Subject: Re: [patch 03/10] perf_event_open.2: 4.1 PERF_EVENT_IOC_SET_BPF support
-Date: Thu, 16 Apr 2015 12:00:19 -0700
-Message-ID: <553006C3.40802@plumgrid.com>
-References: <alpine.DEB.2.11.1504161412550.15181@vincent-weaver-1.umelst.maine.edu>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1504161412550.15181-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Masami Hiramatsu <masami.hiramatsu.pt-FCd8Q96Dh0JBDgjK7y7TUQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>, "David S. Miller" <davem-fT/PcQaiUtIeIZ0/mPfg9Q@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Namhyung Kim <namhyung-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+From: "Robin H. Johnson" <robbat2@gentoo.org>
+Subject: [PATCH] getent.1: Document options.
+Date: Thu, 16 Apr 2015 23:53:04 -0700
+Message-ID: <1429253584-14733-1-git-send-email-robbat2@gentoo.org>
+Return-path: <libc-alpha-return-58479-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+To: mtk.manpages@gmail.com
+Cc: linux-man@vger.kernel.org, libc-alpha@sourceware.org, "Robin H. Johnson" <robbat2@gentoo.org>, Nalin Dahyabhai <nalin@redhat.com>, Jay Fenlason <fenlason@redhat.com>, Ulrich Drepper <drepper@redhat.com>
 List-Id: linux-man@vger.kernel.org
 
-On 4/16/15 11:13 AM, Vince Weaver wrote:
->
-> This manpage patch relates to the addition of the
-> PERF_EVENT_IOC_SET_BPF ioctl in the following commit:
->
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
->
-> +.TP
-> +.BR PERF_EVENT_IOC_SET_BPF " (since Linux 4.1)"
-> +.\" commit 2541517c32be2531e0da59dfd7efc1ce844644f5
-> +This allows attaching a Berkeley Packet Filter (BPF)
-> +program to an existing kprobe tracepoint event.
-> +
-> +The argument is a BPF program id that was created by
+The options to getent are now documented, after being around for nearly
+a decade without changes.
 
-... is a BPF program FD ...
+Signed-off-by: Robin H. Johnson <robbat2@gentoo.org>
+CC: Nalin Dahyabhai <nalin@redhat.com> (original -s {service} option)
+CC: Jay Fenlason <fenlason@redhat.com> (-s {database}:{service} addition)
+CC: Ulrich Drepper <drepper@redhat.com> (IDN flags)
+---
+ man1/getent.1 | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-other than that it looks good. Thank you for documenting!
-
-btw, I'll refresh my month old bpf(2) patch:
-http://thread.gmane.org/gmane.linux.man/8676
-with the latest details and repost.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man1/getent.1 b/man1/getent.1
+index a15d880..16f2668 100644
+--- a/man1/getent.1
++++ b/man1/getent.1
+@@ -1,4 +1,5 @@
+ .\" Copyright (c) 2011, Mark R. Bannister <cambridge@users.sourceforge.net>
++.\" Copyright (c) 2015, Robin H. Johnson <robbat2@gentoo.org>
+ .\"
+ .\" %%%LICENSE_START(GPLv2+_DOC_FULL)
+ .\" This is free documentation; you can redistribute it and/or
+@@ -25,8 +26,7 @@
+ .SH NAME
+ getent \- get entries from Name Service Switch libraries
+ .SH SYNOPSIS
+-.B "getent
+-.IR database " [" key " ...]"
++.BR getent\ [\fIoption\fP]...\ \fIdatabase\fP\ \fIkey\fP...
+ .SH DESCRIPTION
+ The
+ .B getent
+@@ -342,6 +342,24 @@ in succession to
+ .BR getspnam (3)
+ and display the result.
+ .RE
++.SH OPTIONS
++.TP
++.BR \-s\ \fIservice\fP\ \-\-service\ \fIservice\fP
++.\" commit 9d0881aa76b399e6a025c5cf44bebe2ae0efa8af (glibc)
++Override all databases with the specified service. (Since glibc-2.2.5.)
++.TP
++.BR \-s\ \fIdatabase\fP:\fIservice\fP\ \-\-service\ \fIdatabase\fP:\fIservice\fP
++.\" commit b4f6f4be85d32b9c03361c38376e36f08100e3e8 (glibc)
++Override only specified databases with the specified service. The option may be used
++multiple times, but only the last service for each database will be used. (Since glibc-2.4.)
++.TP
++.BR \-i\ \-\-no\-idn
++.\" commit a160f8d808cf8020b13bd0ef4a9eaf3c11f964ad (glibc)
++Disables IDN encoding in lookups for
++.BR ahosts
++/
++.BR getaddrinfo (3)
++(Since glibc-2.13.)
+ .SH EXIT STATUS
+ One of the following exit values can be returned by
+ .BR getent :
+-- 
+2.3.0
