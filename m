@@ -1,24 +1,22 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] significand.3:ATTRIBUTES: Note functions that are thread-safe
-Date: Sat, 18 Apr 2015 20:32:33 +0200
-Message-ID: <5532A341.10102@gmail.com>
-References: <1429159787-31605-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
+Subject: Re: [PATCH] clock.3: ATTRIBUTES: Note functions that is thread-safe
+Date: Sat, 18 Apr 2015 20:32:43 +0200
+Message-ID: <5532A34B.5040300@gmail.com>
+References: <1429160247-32008-1-git-send-email-mashimiao.fnst@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429159787-31605-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1429160247-32008-1-git-send-email-mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/16/2015 06:49 AM, Ma Shimiao wrote:
+On 04/16/2015 06:57 AM, Ma Shimiao wrote:
 > The marking matches glibc marking.
-> markings of functions in glibc are:
-> - significand: MT-Safe
-> - significandf: MT-Safe
-> - significandl: MT-Safe
+> The marking of functions in glibc is:
+> - clock: MT-Safe
 
 Thanks, Ma Shimiao. Applied.
 
@@ -29,17 +27,17 @@ Michael
 
 > Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/significand.3 | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  man3/clock.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/significand.3 b/man3/significand.3
-> index ae7ab03..2798ec6 100644
-> --- a/man3/significand.3
-> +++ b/man3/significand.3
-> @@ -46,6 +46,23 @@ scalb(x, (double) \-ilogb(x))
->  .PP
->  This function exists mainly for use in certain standardized tests
->  for IEEE 754 conformance.
+> diff --git a/man3/clock.3 b/man3/clock.3
+> index 745754a..95f84e3 100644
+> --- a/man3/clock.3
+> +++ b/man3/clock.3
+> @@ -47,6 +47,19 @@ to get the number of seconds used, divide by
+>  If the processor time used is not available or its value cannot
+>  be represented, the function returns the value
+>  .IR (clock_t)\ \-1 .
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -49,17 +47,13 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR significand (),
-> +.br
-> +.BR significandf (),
-> +.br
-> +.BR significandl ()
+> +.BR clock ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  These functions are nonstandard; the
->  .I double
+>  C89, C99, POSIX.1-2001.
+>  XSI requires that
 > 
 
 
