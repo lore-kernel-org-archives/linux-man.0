@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] glob.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Sat, 18 Apr 2015 20:36:31 +0200
-Message-ID: <5532A42F.4010404@gmail.com>
-References: <1429160978-15236-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] wordexp.3: ATTRIBUTES: Note functions that isn't thread-safe
+Date: Sat, 18 Apr 2015 20:36:41 +0200
+Message-ID: <5532A439.1030701@gmail.com>
+References: <1429160978-15236-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1429160978-15236-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429160978-15236-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1429160978-15236-7-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,7 +16,6 @@ List-Id: linux-man@vger.kernel.org
 On 04/16/2015 07:09 AM, Zeng Linggang wrote:
 > The markings match glibc markings.
 
-
 Thanks, Zeng. Applied.
 
 Cheers,
@@ -24,40 +23,40 @@ Cheers,
 Michael
 
 
-> glob:     MT-Unsafe race:utent env sig:ALRM timer local
+> wordexp:  MT-Unsafe race:utent const:env env sig:ALRM timer locale
 > 
-> globfree: MT-Safe
+> wordfree: MT-Safe
 > 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/glob.3 | 34 ++++++++++++++++++++++++++++++++++
+>  man3/wordexp.3 | 34 ++++++++++++++++++++++++++++++++++
 >  1 file changed, 34 insertions(+)
 > 
-> diff --git a/man3/glob.3 b/man3/glob.3
-> index 857dff0..65fc6a8 100644
-> --- a/man3/glob.3
-> +++ b/man3/glob.3
-> @@ -273,6 +273,40 @@ for a read error, and
->  .TP
->  .B GLOB_NOMATCH
->  for no found matches.
+> diff --git a/man3/wordexp.3 b/man3/wordexp.3
+> index 4d352cb..a38c931 100644
+> --- a/man3/wordexp.3
+> +++ b/man3/wordexp.3
+> @@ -184,6 +184,40 @@ unmatched quotes.
+>  and
+>  .BR wordfree ()
+>  are provided in glibc since version 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lbw24
+> +lb lb lbw30
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR glob ()
+> +.BR wordexp ()
 > +T}	Thread safety	T{
-> +MT-Unsafe race:utent env
+> +MT-Unsafe race:utent const:env
 > +.br
-> +sig:ALRM timer locale
+> +env sig:ALRM timer locale
 > +T}
 > +T{
-> +.BR globfree ()
+> +.BR wordfree ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
@@ -72,12 +71,12 @@ Michael
 > +.BR endutent (3)
 > +are used in parallel in different threads of a program,
 > +then data races could occur.
-> +.BR glob (3)
+> +.BR wordexp (3)
 > +calls those functions,
 > +so we use race:utent to remind users.
 >  .SH CONFORMING TO
->  POSIX.2, POSIX.1-2001.
->  .SH NOTES
+>  POSIX.1-2001.
+>  .SH EXAMPLE
 > 
 
 
