@@ -1,52 +1,47 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ioctl_list.2: TFD_IOC_SET_TICKS
-Date: Sat, 18 Apr 2015 20:39:41 +0200
-Message-ID: <5532A4ED.9080803@gmail.com>
-References: <1429368975-15015-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1] futex.2: tfix
+Date: Sat, 18 Apr 2015 20:43:34 +0200
+Message-ID: <5532A5D6.8030304@gmail.com>
+References: <1428947385-32126-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429368975-15015-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1428947385-32126-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/18/2015 04:56 PM, Heinrich Schuchardt wrote:
-> timerfd_create.2 mentions TFD_IOC_SET_TICKS. We should add it to
-> ioctl_list.2, too.
+On 04/13/2015 07:49 PM, Heinrich Schuchardt wrote:
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+
 
 Thanks, Heinrich. Applied.
 
-Cheers
+Cheers,
 
 Michael
 
 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+
 > ---
->  man2/ioctl_list.2 | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  man2/futex.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
-> index ba993a1..d0390c7 100644
-> --- a/man2/ioctl_list.2
-> +++ b/man2/ioctl_list.2
-> @@ -738,6 +738,13 @@ l l l l.
->  0xC0044DFF	SOUND_MIXER_WRITE_RECSRC	int *	// I-O
->  .TE
->  
-> +// <include/linux/timerfd.h> see
-> +.BR timerfd_create (2)
-> +.TS
-> +l l l l.
-> +0x40085400	TFD_IOC_SET_TICKS	uint64_t *
-> +.TE
-> +
->  // <include/linux/umsdos_fs.h>
->  .TS
->  l l l l.
+> diff --git a/man2/futex.2 b/man2/futex.2
+> index 9bfd934..baf356d 100644
+> --- a/man2/futex.2
+> +++ b/man2/futex.2
+> @@ -93,7 +93,7 @@ The call to
+>  will block if and only if the lock is still acquired.
+>  When releasing the lock, a thread has to first reset the
+>  lock state to not acquired and then execute a futex
+> -operation that wakes threads blocked on the lock flag used as futex word.
+> +operation that wakes threads blocked on the lock flag used as futex word
+>  (this can be be further optimized to avoid unnecessary wake-ups).
+>  See
+>  .BR futex (7)
 > 
 
 
