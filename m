@@ -1,62 +1,52 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] updwtmp.3: ATTRIBUTES: Note functions that aren't thread-safe
-Date: Sat, 18 Apr 2015 20:38:08 +0200
-Message-ID: <5532A490.3090308@gmail.com>
-References: <1429160978-15236-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1429160978-15236-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] ioctl_list.2: TFD_IOC_SET_TICKS
+Date: Sat, 18 Apr 2015 20:39:41 +0200
+Message-ID: <5532A4ED.9080803@gmail.com>
+References: <1429368975-15015-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429160978-15236-6-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1429368975-15015-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Cyrill Gorcunov <gorcunov-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/16/2015 07:09 AM, Zeng Linggang wrote:
-> The markings match glibc markings.
+On 04/18/2015 04:56 PM, Heinrich Schuchardt wrote:
+> timerfd_create.2 mentions TFD_IOC_SET_TICKS. We should add it to
+> ioctl_list.2, too.
 
-Thanks, Zeng. Applied.
+Thanks, Heinrich. Applied.
 
-Cheers,
+Cheers
 
 Michael
 
 
-> updwtmp: MT-Unsafe sig:ALRM timer
-> logwtmp: MT-Unsafe sig:ALRM timer
-> 
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 > ---
->  man3/updwtmp.3 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  man2/ioctl_list.2 | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/man3/updwtmp.3 b/man3/updwtmp.3
-> index 3f451fc..70281f4 100644
-> --- a/man3/updwtmp.3
-> +++ b/man3/updwtmp.3
-> @@ -59,6 +59,21 @@ to append the structure to the wtmp file.
->  .TP
->  .I /var/log/wtmp
->  database of past user logins
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
+> diff --git a/man2/ioctl_list.2 b/man2/ioctl_list.2
+> index ba993a1..d0390c7 100644
+> --- a/man2/ioctl_list.2
+> +++ b/man2/ioctl_list.2
+> @@ -738,6 +738,13 @@ l l l l.
+>  0xC0044DFF	SOUND_MIXER_WRITE_RECSRC	int *	// I-O
+>  .TE
+>  
+> +// <include/linux/timerfd.h> see
+> +.BR timerfd_create (2)
 > +.TS
-> +allbox;
-> +lb lb lbw24
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR updwtmp (),
-> +.br
-> +.BR logwtmp ()
-> +T}	Thread safety	MT-Unsafe sig:ALRM timer
+> +l l l l.
+> +0x40085400	TFD_IOC_SET_TICKS	uint64_t *
 > +.TE
 > +
->  .SH CONFORMING TO
->  Not in POSIX.1-2001.
->  Present on Solaris, NetBSD, and perhaps other systems.
+>  // <include/linux/umsdos_fs.h>
+>  .TS
+>  l l l l.
 > 
 
 
