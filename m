@@ -1,54 +1,75 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] icmp.7: Document net.ipv4.ping_group_range knob.
-Date: Sat, 18 Apr 2015 23:10:13 +0200
-Message-ID: <5532C835.2070604@gmail.com>
-References: <552F9CEA.7010209@miraclelinux.com>
+From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Subject: Re: [patch] seccomp.2: Note that memory area is read-only
+Date: Sat, 18 Apr 2015 16:37:35 -0700
+Message-ID: <CAGXu5jLriPDQR=BDDe7ztVua+-0wLDd-vsFZt5eu18ThYN69nA@mail.gmail.com>
+References: <5522A66F.9060606@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <552F9CEA.7010209-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>
+In-Reply-To: <5522A66F.9060606-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?ISO-2022-JP?B?WU9TSElGVUpJIEhpZGVha2kvGyRCNUhGIzFRTEAbKEI=?= <hideaki.yoshifuji-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "YOSHIFUJI Hideaki (USAGI Project)" <yoshfuji-VfPWfsRibaP+Ru+s062T9g@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 04/16/2015 01:28 PM, YOSHIFUJI Hideaki/吉藤英明 wrote:
-> Signed-off-by: YOSHIFUJI Hideaki <hideaki.yoshifuji-GmhWrQMWH5w7YuNMryXyOw@public.gmane.org>
+On Mon, Apr 6, 2015 at 8:29 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hi Kees,
+>
+> I recently was asked about the point below, and had to go check the code
+> to be sure, since the man page said nothing. It would be good to have
+> a confirmation: the seccomp_data buffer supplied to a seccomp BPF program
+> is read-only, right? (That is, one can't write to the buffer in order to
+> change the arguments that a system call actually receives.)
 
-Thank you, Hideaki. Applied.
+That's correct. If BPF even allows changing the data, it's not copied
+back to the syscall when it runs. Anything wanting to do things like
+that would need to use ptrace to catch the call an directly modify the
+registers before continuing with the call.
 
-Cheers,
+>
+> A small man page patch below.
 
-Michael
+Looks good, thanks!
 
-> ---
->  man7/icmp.7 | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/man7/icmp.7 b/man7/icmp.7
-> index ea86cb4..2f9d370 100644
-> --- a/man7/icmp.7
-> +++ b/man7/icmp.7
-> @@ -158,6 +158,11 @@ Maximum rate for sending
->  packets.
->  These packets are
->  sent to prevent loops when a packet has crossed too many hops.
-> +.TP
-> +.IR ping_group_range " (two integers; default: see below; since Linux 2.6.39)"
-> +Range of group IDs (minimum and maximum group IDs, inclusive)
-> +allowed to create ICMP Echo sockets.  Default is "1 0", which
-> +means no group is allowed to create ICMP Echo sockets.
->  .SH VERSIONS
->  Support for the
->  .B ICMP_ADDRESS
-> 
+-Kees
+
+>
+> Cheers,
+>
+> Michael
+>
+> --- a/man2/seccomp.2
+> +++ b/man2/seccomp.2
+> @@ -232,15 +232,15 @@ struct sock_filter {            /* Filter block */
+>  };
+>  .fi
+>  .in
+>
+>  When executing the instructions, the BPF program operates on the
+>  system call information made available (i.e., use the
+>  .BR BPF_ABS
+> -addressing mode) as a buffer of the following form:
+> +addressing mode) as a (read-only) buffer of the following form:
+>
+>  .in +4n
+>  .nf
+>  struct seccomp_data {
+>      int   nr;                   /* System call number */
+>      __u32 arch;                 /* AUDIT_ARCH_* value
+>                                     (see <linux/audit.h>) */
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
+
 
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Kees Cook
+Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
