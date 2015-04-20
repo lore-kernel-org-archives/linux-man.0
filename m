@@ -1,66 +1,91 @@
-From: William Woodruff <william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
-Subject: [PATCH]  undocumented.3: remove documented functions
-Date: Mon, 20 Apr 2015 16:41:04 -0400
-Message-ID: <55356460.4090103@tuffbizz.com>
+From: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] stat.2: add note about stat being racy
+Date: Mon, 20 Apr 2015 22:46:01 +0200
+Message-ID: <20150420204601.GA9904@pc.thejh.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Removed documented functions from undocumented(3).
-Applies to 3.83.
 
+--qMm9M+Fa2AknHoGS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: William Woodruff <william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
+The same thing was fixed for execve() in commit
+8b01fc86b9f425899f8a3a8fc1c47d73c2c20543, but for performance
+reasons, that simple patch won't work for stat().
 ---
- man3/undocumented.3 | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ man2/stat.2 | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/man3/undocumented.3 b/man3/undocumented.3
-index a483710..c120639 100644
---- a/man3/undocumented.3
-+++ b/man3/undocumented.3
-@@ -25,6 +25,7 @@
- .\"
- .\" 1996-11-08, meem-HWoMVPdnuBlk8Cqr0lzv/je48wsgrGvP@public.gmane.org, corrections
- .\" 2004-10-31, aeb, changed maintainer address, updated list
-+.\" 2015-04-20, william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org, updated list
- .\"
- .TH UNDOCUMENTED 3 2012-12-21 "Linux" "Linux Programmer's Manual"
- .SH NAME
-@@ -67,8 +68,6 @@ for inclusion in the next man page release.
- .BR getdirentries64 (3),
- .BR getmsg (3),
- .BR getnetname (3),
--.BR get_nprocs (3),
--.BR get_nprocs_conf (3),
- .BR get_phys_pages (3),
- .BR getpublickey (3),
- .BR getsecretkey (3),
-@@ -79,7 +78,6 @@ for inclusion in the next man page release.
- .BR inet_nsap_ntoa (3),
- .BR init_des (3),
- .BR libc_nls_init (3),
--.BR lio_listio (3),
- .BR mstats (3),
- .BR netname2host (3),
- .BR netname2user (3),
-@@ -123,8 +121,6 @@ for inclusion in the next man page release.
- .BR ufc_dofinalperm (3),
- .BR ufc_doit (3),
- .BR user2netname (3),
--.BR vlimit (3),
--.BR vtimes (3),
- .BR wcschrnul (3),
- .BR wcsftime (3),
- .BR wscanf (3),
--- 
-1.9.1
+diff --git a/man2/stat.2 b/man2/stat.2
+index 0d244af..69ec6a4 100644
+--- a/man2/stat.2
++++ b/man2/stat.2
+@@ -175,6 +175,29 @@ that may be present between some fields on various arc=
+hitectures.
+ Consult the glibc and kernel source code
+ if you need to know the details.
+=20
++\# Background: inode attributes are modified with i_mutex held, but
++\# read by stat() without taking the mutex.
++.I Note:
++For performance and simplicity reasons, different fields in the
++.I stat
++structure may contain state information from different moments
++during the execution of the syscall. For example, if
++.IR st_mode ,
++.IR st_uid
++and
++.IR st_gid
++are changed by another process by calling
++.BR chown (2) ,
++.BR stat ()
++might return the old
++.I st_mode
++together with the new
++.IR st_uid ,
++or the old
++.I st_uid
++together with the new
++.IR st_mode .
++
+ The
+ .I st_dev
+ field describes the device on which this file resides.
+--=20
+2.1.4
 
+--qMm9M+Fa2AknHoGS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJVNWWJAAoJED4KNFJOeCOojD8QAJ1t/at3qaZeIkqrLkQynp5p
+3vk1cNlzWX5RZDovF3VEe/2gdc1TgJZvnacoIw2C6+WgwT6xvpxT7aG1xXajklWZ
+DK9uvXWcaWJuKUx5s3z/edKIScWQzsfglzwDnEqU8cIDgTePHlctmZ9gH5M68LPe
+Q64ELlgkzAopYR+7SU+l6W6b6jHtwItpucl8gdOyO/UyrfDfSKcS1ziPgzDqhqsm
+8IHxOdzGJ8Wec5OhCkwPMKS7o17XM9z4tcdNyaeeuGjJ02ChF7CIYJ1nkqUQCCf0
+PE5SJzWvlkLp9KyciuTIDqO9bhC3aWIQ+RzDF9G6hSKcTDk6Z2khPVaRgQ+2uz26
+zNJOb7WVbXhsuYHL6LiaUGjN511/FLnOvQzrreNpu2Z6OYOL0owo+OMx8u0BLGYK
+yhQcAwuIDyjYtpoNNjKmDz7k1xLAeaAXd8oXSmBQK2OitNzs87Rmz+ZaQXDQLkjW
+mDUvAhuuldL9pI7KutINssg8a74zCLRkQTekfkmf9Krjmpm5Pa2MQyPxKeV75MH4
+D+rQWb6Si6GdJZRMreFLOGt9q5nykUSUzJk6/mYajInhNS9uaORLLPmnnv52/t30
+KeQWN2oeoSCrCUpymLerMnIcLU3xVbggZRhxqIWzi7BPtk97IHrVr4GSFPTj1ICV
+J9eau6zdGEluPEE8Bem5
+=uSnt
+-----END PGP SIGNATURE-----
+
+--qMm9M+Fa2AknHoGS--
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
