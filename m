@@ -1,63 +1,70 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] umask.2, open.2, mknod.2, mkdir.2: Explain what default
- acls do
-Date: Tue, 21 Apr 2015 14:39:43 +0200
-Message-ID: <5536450F.3050806@gmail.com>
-References: <fe89279fbad286454188b3146b311442cdb7401f.1428946673.git.andreas.gruenbacher@gmail.com> <3fa52386efe0d027409e803629c6b751e0b7b602.1428946673.git.andreas.gruenbacher@gmail.com>
+Subject: Re: [PATCH] stat.2: add note about stat being racy
+Date: Tue, 21 Apr 2015 14:44:44 +0200
+Message-ID: <5536463C.1060406@gmail.com>
+References: <20150420204601.GA9904@pc.thejh.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <3fa52386efe0d027409e803629c6b751e0b7b602.1428946673.git.andreas.gruenbacher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <20150420204601.GA9904-J1fxOzX/cBvk1uMJSBkQmQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Andreas Gruenbacher <andreas.gruenbacher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Andreas,
+On 04/20/2015 10:46 PM, Jann Horn wrote:
+> The same thing was fixed for execve() in commit
+> 8b01fc86b9f425899f8a3a8fc1c47d73c2c20543, but for performance
+> reasons, that simple patch won't work for stat().
 
-I applied, but fixed a little, including one important detail below.
-
-On 04/13/2015 07:38 PM, Andreas Gruenbacher wrote:
-> Explain the effect that default acls have (instead of the umask) in umask.2.
-> Mention that default acls can have an affect in open.2, mknod.2, and mkdir.2.
-> 
-> Signed-off-by: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> ---
->  man2/mkdir.2 |  5 ++---
->  man2/mknod.2 |  5 +++--
->  man2/open.2  |  3 ++-
->  man2/umask.2 | 11 +++++++++++
->  4 files changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/man2/mkdir.2 b/man2/mkdir.2
-> index 41fad55..42fc26b 100644
-> --- a/man2/mkdir.2
-> +++ b/man2/mkdir.2
-> @@ -54,7 +54,8 @@ The argument
->  specifies the permissions to use.
->  It is modified by the process's
->  .I umask
-> -in the usual way: the permissions of the created directory are
-> +in the usual way: in the absence of a default acl, the permissions of the
-> +created directory are
->  .RI ( mode " & ~" umask " & 0777)."
->  Other mode bits of the created directory depend on the operating system.
->  For Linux, see below.
-> @@ -212,8 +213,6 @@ POSIX.1-2008.
->  Under Linux, apart from the permission bits, only the
->  .B S_ISVTX
->  mode bit is honored.
-> -That is, under Linux the created directory actually gets mode
-> -.RI ( mode " & ~" umask " & 01777)."
-
-You dropped a "1" from the expression here. I restored it.
-
-Thanks for the patch!
+Thanks, Jann! Applied.
 
 Cheers,
 
 Michael
+
+
+> ---
+>  man2/stat.2 | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/man2/stat.2 b/man2/stat.2
+> index 0d244af..69ec6a4 100644
+> --- a/man2/stat.2
+> +++ b/man2/stat.2
+> @@ -175,6 +175,29 @@ that may be present between some fields on various architectures.
+>  Consult the glibc and kernel source code
+>  if you need to know the details.
+>  
+> +\# Background: inode attributes are modified with i_mutex held, but
+> +\# read by stat() without taking the mutex.
+> +.I Note:
+> +For performance and simplicity reasons, different fields in the
+> +.I stat
+> +structure may contain state information from different moments
+> +during the execution of the syscall. For example, if
+> +.IR st_mode ,
+> +.IR st_uid
+> +and
+> +.IR st_gid
+> +are changed by another process by calling
+> +.BR chown (2) ,
+> +.BR stat ()
+> +might return the old
+> +.I st_mode
+> +together with the new
+> +.IR st_uid ,
+> +or the old
+> +.I st_uid
+> +together with the new
+> +.IR st_mode .
+> +
+>  The
+>  .I st_dev
+>  field describes the device on which this file resides.
+> 
+
 
 -- 
 Michael Kerrisk
