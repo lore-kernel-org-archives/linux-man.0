@@ -1,51 +1,70 @@
-From: =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?= <andreas.gruenbacher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] open.2: Clarify which create mode bits are relevant
-Date: Tue, 21 Apr 2015 15:02:09 +0200
-Message-ID: <CAHpGcMLAphV8v0yPsuoiDjtG6Vqfy8wvrFTk23_mjZNAqjpwzA@mail.gmail.com>
-References: <fe89279fbad286454188b3146b311442cdb7401f.1428946673.git.andreas.gruenbacher@gmail.com>
-	<553644D4.2050905@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] resolver.3: More information about RES_INSECURE1 and
+ RES_INSECURE2 option in debug mode
+Date: Tue, 21 Apr 2015 15:02:12 +0200
+Message-ID: <55364A54.2060403@gmail.com>
+References: <550FAD49.20706@gmail.com> <1427147900-15468-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <553644D4.2050905-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1427147900-15468-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Michael,
+On 03/23/2015 10:58 PM, St=C3=A9phane Aulery wrote:
+> Asked by Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+>=20
+> Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-thanks for your further improvements. I agree with most of them, some
-things didn't go so well though:
+Thanks, St=C3=A9phane. Applied.
 
+Cheers,
 
-Commit "stat.2: Tighten wording: use 'mode bit' rather than
-'permission bit'" is bad:
-
-The stat man page distinguishes between the "file type component" and
-"file permissions component" of the mode; now this distinction is
-broken. Also, the second sentence now even makes less sense (not that
-it did make much sense before):
-
-"According to POSIX.1-2001, lstat() on a symbolic link need return
-valid information only in the st_size field and the file-type
-component of the st_mode field of the stat structure.  POSIX.1-2008
-tightens the specification, requiring lstat() to return valid
-information in all fields except the mode bits in st_mode."
-
-My guess wuold be that POSIX.1-2008 actually requires valid permission
-bits as well.
+Michael
 
 
-Commit "mkdir.2: Fix a small error added by Andreas's patch" is also bad:
+> ---
+>  man3/resolver.3 | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/man3/resolver.3 b/man3/resolver.3
+> index 4a1c97d..a070c57 100644
+> --- a/man3/resolver.3
+> +++ b/man3/resolver.3
+> @@ -240,12 +240,18 @@ This option is used by
+>  [Enabled by default].
+>  .TP
+>  .B RES_INSECURE1
+> -Accept a response from a wrong server and show it on standard output
+> -(for debug purpose only).
+> +Accept a response from a wrong server.
+> +This can be used to detect potential security hazards,
+> +but you need to compile glibc with debugging enabled and use
+> +.B RES_DEBUG
+> +option (for debug purpose only).
+>  .TP
+>  .B RES_INSECURE2
+> -Accept a response which contains a wrong query and show it on standa=
+rd
+> -output (for debug purpose only).
+> +Accept a response which contains a wrong query.
+> +This can be used to detect potential security hazards,
+> +but you need to compile glibc with debugging enabled and use
+> +.B RES_DEBUG
+> +option (for debug purpose only).
+>  .TP
+>  .B RES_NOALIASES
+>  Disable usage of
+>=20
 
-The mkdir(2) man page was describing the general behavior under
-DESCRIPTION and the Linux behavior under NOTES; it should still do so
-but now it doesn't anymore.
 
-
-Thanks,
-Andreas
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
