@@ -1,68 +1,72 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] stat.2: add note about stat being racy
-Date: Tue, 21 Apr 2015 14:44:44 +0200
-Message-ID: <5536463C.1060406@gmail.com>
-References: <20150420204601.GA9904@pc.thejh.net>
+Subject: Re: [PATCH]  undocumented.3: remove documented functions
+Date: Tue, 21 Apr 2015 14:45:58 +0200
+Message-ID: <55364686.3010005@gmail.com>
+References: <55356460.4090103@tuffbizz.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150420204601.GA9904-J1fxOzX/cBvk1uMJSBkQmQ@public.gmane.org>
+In-Reply-To: <55356460.4090103-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexander Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: William Woodruff <william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 04/20/2015 10:46 PM, Jann Horn wrote:
-> The same thing was fixed for execve() in commit
-> 8b01fc86b9f425899f8a3a8fc1c47d73c2c20543, but for performance
-> reasons, that simple patch won't work for stat().
+On 04/20/2015 10:41 PM, William Woodruff wrote:
+> Removed documented functions from undocumented(3).
+> Applies to 3.83.
 
-Thanks, Jann! Applied.
+Thanks, William. Applied.
 
 Cheers,
 
 Michael
 
 
+> Signed-off-by: William Woodruff <william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
 > ---
->  man2/stat.2 | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  man3/undocumented.3 | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
-> diff --git a/man2/stat.2 b/man2/stat.2
-> index 0d244af..69ec6a4 100644
-> --- a/man2/stat.2
-> +++ b/man2/stat.2
-> @@ -175,6 +175,29 @@ that may be present between some fields on various architectures.
->  Consult the glibc and kernel source code
->  if you need to know the details.
->  
-> +\# Background: inode attributes are modified with i_mutex held, but
-> +\# read by stat() without taking the mutex.
-> +.I Note:
-> +For performance and simplicity reasons, different fields in the
-> +.I stat
-> +structure may contain state information from different moments
-> +during the execution of the syscall. For example, if
-> +.IR st_mode ,
-> +.IR st_uid
-> +and
-> +.IR st_gid
-> +are changed by another process by calling
-> +.BR chown (2) ,
-> +.BR stat ()
-> +might return the old
-> +.I st_mode
-> +together with the new
-> +.IR st_uid ,
-> +or the old
-> +.I st_uid
-> +together with the new
-> +.IR st_mode .
-> +
->  The
->  .I st_dev
->  field describes the device on which this file resides.
+> diff --git a/man3/undocumented.3 b/man3/undocumented.3
+> index a483710..c120639 100644
+> --- a/man3/undocumented.3
+> +++ b/man3/undocumented.3
+> @@ -25,6 +25,7 @@
+>  .\"
+>  .\" 1996-11-08, meem-HWoMVPdnuBlk8Cqr0lzv/je48wsgrGvP@public.gmane.org, corrections
+>  .\" 2004-10-31, aeb, changed maintainer address, updated list
+> +.\" 2015-04-20, william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org, updated list
+>  .\"
+>  .TH UNDOCUMENTED 3 2012-12-21 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -67,8 +68,6 @@ for inclusion in the next man page release.
+>  .BR getdirentries64 (3),
+>  .BR getmsg (3),
+>  .BR getnetname (3),
+> -.BR get_nprocs (3),
+> -.BR get_nprocs_conf (3),
+>  .BR get_phys_pages (3),
+>  .BR getpublickey (3),
+>  .BR getsecretkey (3),
+> @@ -79,7 +78,6 @@ for inclusion in the next man page release.
+>  .BR inet_nsap_ntoa (3),
+>  .BR init_des (3),
+>  .BR libc_nls_init (3),
+> -.BR lio_listio (3),
+>  .BR mstats (3),
+>  .BR netname2host (3),
+>  .BR netname2user (3),
+> @@ -123,8 +121,6 @@ for inclusion in the next man page release.
+>  .BR ufc_dofinalperm (3),
+>  .BR ufc_doit (3),
+>  .BR user2netname (3),
+> -.BR vlimit (3),
+> -.BR vtimes (3),
+>  .BR wcschrnul (3),
+>  .BR wcsftime (3),
+>  .BR wscanf (3),
 > 
 
 
