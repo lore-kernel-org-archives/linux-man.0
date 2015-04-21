@@ -1,52 +1,84 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97051] New: get_mempolicy(2) inconsistent with numaif.h
-Date: Tue, 21 Apr 2015 22:28:38 +0000
-Message-ID: <bug-97051-11311@https.bugzilla.kernel.org/>
+From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
+Subject: Re: [patch] shutdown.2: POSIX compliant since version 3.7-rc1
+Date: Wed, 22 Apr 2015 01:01:09 +0200
+Message-ID: <20150421230109.GA22561@free.fr>
+References: <CAKgNAkhO47NwYqECEiw2zap5LSzi1z-HiSja6GjSCseaP_jb2A@mail.gmail.com>
+ <1424996516-10470-1-git-send-email-saulery@free.fr>
+ <55364E18.4060005@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <55364E18.4060005-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97051
+Hello Michael,
 
-            Bug ID: 97051
-           Summary: get_mempolicy(2) inconsistent with numaif.h
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: nyh-TS7m/3hpY0sOpacJJkBjfT4kX+cae0hd@public.gmane.org
-        Regression: No
+Le mardi 21 avril 2015 =C3=A0 03:18:16, Michael Kerrisk (man-pages) a =C3=
+=A9crit :
+>=20
+> On 02/27/2015 01:21 AM, saulery-GANU6spQydw@public.gmane.org wrote:
+> > From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> >=20
+> > Synchronizing the manpage with the new POSIX compliant behavior of =
+shutdown().
+> > A warning message is kept to indicate possible problems with the ol=
+d behavior
+> > of UNIX domain sockets.
+> >=20
+> > See bug report: https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+> >
+> > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+> > ---
+> >  man2/shutdown.2 | 13 +++++--------
+> >  1 file changed, 5 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/man2/shutdown.2 b/man2/shutdown.2
+> > index ab39cfd..2174de3 100644
+> > --- a/man2/shutdown.2
+> > +++ b/man2/shutdown.2
+> > @@ -102,14 +102,11 @@ respectively, and are defined in
+> >  .I <sys/socket.h>
+> >  since glibc-2.1.91.
+> >  .SH BUGS
+> > -As currently implemented,
+> > -checks for the validity of
+> > -.I how
+> > -are done in domain-specific code, and not all domains perform thes=
+e checks.
+> > -.\" FIXME .
+> > -.\" https://bugzilla.kernel.org/show_bug.cgi?id=3D47111
+> > -Most notably, UNIX domain sockets simply ignore invalid values;
+> > -this may change in the future.
+> > +This implementation is POSIX compliant since version 3.7-rc1. Prev=
+iously, UNIX
+> > +domain and DECnet sockets simply ignored invalid values of
+> > +.IR how ,
+> > +due to a domain-specific code. Applications that used invalid valu=
+es to
+> > +circumvent this lack should be corrected.
+> >  .SH SEE ALSO
+> >  .BR connect (2),
+> >  .BR socket (2),
+>=20
+> I think the above patch probably goes into a little too much detail.
+> I think few people care about DECnet these days, so I'd prefer not
+> to clutter the page with mention of it.
+>=20
+> I instead applied the patch below. Thanks for spotting that this kern=
+el
+> bug had been fixed!
 
-get_mempolicy(2)'s synopsis is:
+Chic, even a bug in my list of conquests. Thank you Michael.
 
-       #include <numaif.h>
+> Cheers,
 
-       int get_mempolicy(int *mode, unsigned long *nodemask,
-                         unsigned long maxnode, unsigned long addr,
-                         unsigned long flags);
-
-However, the actual prototype in numif.h (and implementation in numactl's
-syscall.c) is subtly different:
-
-       long get_mempolicy(int *policy, const unsigned long *nmask,
-                        unsigned long maxnode, void *addr, int flags);
-
-The funny thing is, that prototype is isn't quite right either - it pretends
-nmask is a const pointer, but it most definitely isn't, and the data pointed by
-it get written to. But that isn't a man-page bug.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+--=20
+St=C3=A9phane Aulery
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
