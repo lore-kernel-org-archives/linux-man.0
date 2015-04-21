@@ -1,115 +1,77 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/2] open.2: Clarify which create mode bits are relevant
-Date: Tue, 21 Apr 2015 15:58:36 +0200
-Message-ID: <5536578C.2080502@gmail.com>
-References: <fe89279fbad286454188b3146b311442cdb7401f.1428946673.git.andreas.gruenbacher@gmail.com>	<553644D4.2050905@gmail.com> <CAHpGcMLAphV8v0yPsuoiDjtG6Vqfy8wvrFTk23_mjZNAqjpwzA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] syscall.2: add x32 ABI
+Date: Tue, 21 Apr 2015 16:01:11 +0200
+Message-ID: <CAKgNAkihLXniE+bgqi_xjVAqKcUr1Gkiq9hKGK7t_a3EPT_fJg@mail.gmail.com>
+References: <20150316180154.GA10663@pc.thejh.net> <CAGXu5j+mjC4HQWbJVSDb+gSTud=R1+UCBJBY8ysQuj9NETrSEQ@mail.gmail.com>
+ <20150316233457.GA9227@pc.thejh.net> <20150324184043.GC5677@pc.thejh.net>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAHpGcMLAphV8v0yPsuoiDjtG6Vqfy8wvrFTk23_mjZNAqjpwzA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <20150324184043.GC5677-J1fxOzX/cBvk1uMJSBkQmQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?UTF-8?B?QW5kcmVhcyBHcsO8bmJhY2hlcg==?= <andreas.gruenbacher-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Will Drewry <wad-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Andreas,
+Hi Jann,
 
-On 04/21/2015 03:02 PM, Andreas Gr=C3=BCnbacher wrote:
-> Michael,
->=20
-> thanks for your further improvements. I agree with most of them, some
-> things didn't go so well though:
->=20
->=20
-> Commit "stat.2: Tighten wording: use 'mode bit' rather than
-> 'permission bit'" is bad:
->=20
-> The stat man page distinguishes between the "file type component" and
-> "file permissions component" of the mode; now this distinction is
-> broken. Also, the second sentence now even makes less sense (not that
-> it did make much sense before):
+On 24 March 2015 at 19:40, Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org> wrote:
+> [added H. Peter Anvin to CC for this patch because he
+> seems to have contributed large parts of the X32 code]
 
-The thing is, POSIX goes into slightly finer granularity than that,=20
-and that's why I made these changes (though it may be that further
-tweaks are still required).
-
-POSIX breaks down st_mode as follows:
-
-* File type
-* File mode, which consists of:
-    (1) The permissions bits
-    (2) The three bits S_ISVTX, S_ISUID, S_ISGID
-
-Quoting POSIX:
-
-[[
-3.169 File Mode Bits
-A file's file permission bits, set-user-ID-on-execution bit=20
-(S_ISUID), set-group-ID-on-execution bit (S_ISGID), and, on
-directories, the restricted deletion flag bit (S_ISVTX).
-
-3.175 File Permission Bits
-Information about a file that is used, along with other=20
-information, to determine whether a process has read, write, or
-execute/search permission to a file. The bits are divided into three
-parts: owner, group, and other. Each part is used with the=20
-corresponding file class of processes. These bits are contained in=20
-the file mode.
-]]
-
-I.e., the file mode bits are a superset of the filer permission bits.
-
-And then in the specification of open(), POSIX says:
-
-    When bits other than the file permission bits are set,=20
-    the effect is unspecified.
-
-So, that's the impetus for my changes. And now I've added this text to =
-stat(2):
-
-       POSIX  refers  to the 12 st_mode bits corresponding to the mask
-       07777 as the file mode bits and the least  significant  9  bits
-       (00777) as the file permission bits.
-
-With all of that said, does the changes to stat(2) (and other pages)
-seem okay to you now?
-
-> "According to POSIX.1-2001, lstat() on a symbolic link need return
-> valid information only in the st_size field and the file-type
-> component of the st_mode field of the stat structure.  POSIX.1-2008
-> tightens the specification, requiring lstat() to return valid
-> information in all fields except the mode bits in st_mode."
->=20
-> My guess wuold be that POSIX.1-2008 actually requires valid permissio=
-n
-> bits as well.
-
-But it doesn't. The file type in st_mode is required to be valid, but t=
-he=20
-(12) file _mode_ bits are not. POSIX says:
-
-       For symbolic links, the st_mode member shall contain meaningful
-       information  when used with the file type macros. The file mode
-       bits in st_mode are unspecified.
-
-> Commit "mkdir.2: Fix a small error added by Andreas's patch" is also =
-bad:
->=20
-> The mkdir(2) man page was describing the general behavior under
-> DESCRIPTION and the Linux behavior under NOTES; it should still do so
-> but now it doesn't anymore.
-
-The problem I saw was that the page was somewhat contradictory. But I=20
-see that you're right, that I mushed things somewhat in trying to fix
-this. I've reworked the text now. Hopefully you find it better. Thanks
-for spotting the mess up.
+It looks like I did not reply to this mail. But as you'll probably have seen
+from the man-pages-3.83 release announcement, I did apply this patch.
+Thanks!
 
 Cheers,
 
 Michael
 
---=20
+
+>
+> ---
+>  man2/syscall.2 | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/man2/syscall.2 b/man2/syscall.2
+> index ef8f3cf..1f25255 100644
+> --- a/man2/syscall.2
+> +++ b/man2/syscall.2
+> @@ -170,12 +170,18 @@ s390      svc 0   r1      r2      See below
+>  s390x  svc 0   r1      r2      See below
+>  sparc/32       t 0x10  g1      o0
+>  sparc/64       t 0x6d  g1      o0
+> -x86_64 syscall rax     rax
+> +x86_64 syscall rax     rax     See below
+> +x32    syscall rax     rax     See below
+>  .TE
+>  .PP
+>  For s390 and s390x, NR (the system call number)
+>  may be passed directly with "svc NR" if it is less than 256.
+>
+> +The x32 ABI uses the same instruction as the x86_64 ABI and is used on
+> +the same processors. To differentiate between them, the bitmask
+> +.I __X32_SYSCALL_BIT
+> +is bitwise-ORed into the syscall number for syscalls under the x32 ABI.
+> +
+>  On a few architectures,
+>  a register is used to indicate simple boolean failure of the system call:
+>  ia64 uses
+> @@ -210,6 +216,7 @@ s390x       r2    r3    r4    r5    r6    r7    -
+>  sparc/32    o0    o1    o2    o3    o4    o5    -
+>  sparc/64    o0    o1    o2    o3    o4    o5    -
+>  x86_64      rdi   rsi   rdx   r10   r8    r9    -
+> +x32         rdi   rsi   rdx   r10   r8    r9    -
+>  .TE
+>  .PP
+>  The mips/o32 system call convention passes
+> --
+> 2.1.4
+
+
+
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
