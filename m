@@ -1,56 +1,31 @@
-From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: Re: [PATCH 3/3] resolv.conf.5: document RES_SNGLKUPREOP
-Date: Wed, 22 Apr 2015 12:03:36 +0200
-Message-ID: <20150422100336.GA25430@free.fr>
-References: <1429662071-23797-1-git-send-email-saulery@free.fr>
- <1429662071-23797-3-git-send-email-saulery@free.fr>
- <553765C2.6060807@gmail.com>
- <20150422091013.GA4051@free.fr>
- <55377257.3010804@gmail.com>
+From: =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?= <agruen-mXXj517/zsQ@public.gmane.org>
+Subject: Re: [Acl-devel] Moving attr(5) man page to man-pages
+Date: Wed, 22 Apr 2015 12:13:19 +0200
+Message-ID: <CAHpGcM+xaWk8QprVx_KGpp6FLiri1q9j8pw0ZNNWQ2hf0AvmiA@mail.gmail.com>
+References: <5537620E.3000601@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <55377257.3010804-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <5537620E.3000601-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marco Curreli <marcocurreli-IWqWACnzNjyonA0d6jMUrA@public.gmane.org>, Jan Haloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, acl-devel-qX2TKyscuCcdnm+yROfE0A@public.gmane.org, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Petr Gajdos <PGajdos-AlSwsSmVLrQ@public.gmane.org>, =?UTF-8?Q?Giulio_Daprel=C3=A0?= <giulio-pvpjhgE6P/E@public.gmane.org>, base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Christophe-dWQ4ybOOSWIdnm+yROfE0A@public.gmane.org, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Alain Portal <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Rob Landley <rob-VoJi6FS/r0vR7s880joybQ@public.gmane.org>, Ruediger
 List-Id: linux-man@vger.kernel.org
 
-Le mercredi 22 avril 2015 =C3=A0 12:05:11, Michael Kerrisk (man-pages) =
-a =C3=A9crit :
-> On 04/22/2015 11:10 AM, St=C3=A9phane Aulery wrote:
-> >=20
-> > Le mercredi 22 avril 2015 =C3=A0 11:11:30, Michael Kerrisk (man-pag=
-es) a =C3=A9crit :
-> >> On 04/22/2015 02:21 AM, saulery-GANU6spQydw@public.gmane.org wrote:
-> >>> From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
-> >>>
-> >>> Fix Ubuntu bug #1110781:
-> >>> https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/1110781
-> >>
-> >> I need some help here. How is this patch fixing that bug.
-> >> I need a short explanation of the connection for the changelog.
-> >=20
-> > Yes, this bug have been partially resolved by commit:
-> >=20
-> > https://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/man=
-5/resolv.conf.5?id=3Daa87a3f3f8c74fc1f5cb614f6e63aea34fe1a459
-> >=20
-> > and tagged fixe-upstream by Simon Paillard for this Debian bug #699=
-387.
-> >=20
-> > Ubuntu bug #1110781 report is more comprehensive and passing I saw =
-that
-> > RES_SNGLKUPREOP was missed.
->=20
-> Thanks, patch applied. And I added the above points to the changelog.
+Michael,
 
-Ok, thanks.
+2015-04-22 10:55 GMT+02:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
+> Hi Andreas,
+>
+> As we discussed offlist, it makes sense to have the attr(5) man
+> page in man-pages, rather than as part of the 'attr' project
+> documentation, since it mostly relates to kernel details.
 
---=20
-St=C3=A9phane Aulery
+thanks for that; I have removed the attr.5 man page from the attr package.
+
+I'll reply to the man page changes separately.
+
+Andreas
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
