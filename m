@@ -1,44 +1,50 @@
-From: =?utf-8?B?U3TDqXBoYW5l?= Aulery <saulery-GANU6spQydw@public.gmane.org>
-Subject: Re: [PATCH] resolver.3: More information about RES_INSECURE1 and
- RES_INSECURE2 option in debug mode
-Date: Wed, 22 Apr 2015 01:16:00 +0200
-Message-ID: <20150421231559.GA22648@free.fr>
-References: <550FAD49.20706@gmail.com>
- <1427147900-15468-1-git-send-email-saulery@free.fr>
- <55364A54.2060403@gmail.com>
+From: saulery-GANU6spQydw@public.gmane.org
+Subject: [PATCH 1/3] resolv.conf.5: document use-vc option added to glibc 2.14
+Date: Wed, 22 Apr 2015 02:21:09 +0200
+Message-ID: <1429662071-23797-1-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <55364A54.2060403-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, saulery-GANU6spQydw@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Michael,
+=46rom: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 
-Le mardi 21 avril 2015 =C3=A0 03:02:12, Michael Kerrisk (man-pages) a =C3=
-=A9crit :
-> On 03/23/2015 10:58 PM, St=C3=A9phane Aulery wrote:
-> > Asked by Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
-> >=20
-> > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
->=20
-> Thanks, St=C3=A9phane. Applied.
+=46ix Ubuntu bug #1110781:
+https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/1110781
 
-Thanks, Michael.
+Reported-by: Thomas Hood
+Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
+---
+ man5/resolv.conf.5 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I understood that you were busy with other things right now so I turned
-my attention to other urgent work. If you are more available again, I g=
-o
-back to work?
-
-Cheers,
-
+diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
+index f5c8cad..7b6804a 100644
+--- a/man5/resolv.conf.5
++++ b/man5/resolv.conf.5
+@@ -272,6 +272,13 @@ as if it were a top level domain (TLD).
+ This option can cause problems if the site has ``localhost'' as a TLD
+ rather than having localhost on one or more elements of the search lis=
+t.
+ This option has no effect if neither RES_DEFNAMES or RES_DNSRCH is set=
+=2E
++.TP
++.BR use-vc " (since glibc 2.14)"
++sets
++.BR RES_USEVC
++in
++.IR _res.options .
++This option forces the usage of TCP for DNS resolutions.
+ .RE
+ .LP
+ The \fIdomain\fP and \fIsearch\fP keywords are mutually exclusive.
 --=20
-St=C3=A9phane Aulery
+2.1.4
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
