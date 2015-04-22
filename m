@@ -1,14 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 1/3] resolv.conf.5: document use-vc option added to glibc
- 2.14
-Date: Wed, 22 Apr 2015 11:08:30 +0200
-Message-ID: <5537650E.2090305@gmail.com>
-References: <1429662071-23797-1-git-send-email-saulery@free.fr>
+Subject: Re: [PATCH 2/3] resolv.conf.5: ffix
+Date: Wed, 22 Apr 2015 11:09:00 +0200
+Message-ID: <5537652C.6030700@gmail.com>
+References: <1429662071-23797-1-git-send-email-saulery@free.fr> <1429662071-23797-2-git-send-email-saulery@free.fr>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429662071-23797-1-git-send-email-saulery-GANU6spQydw@public.gmane.org>
+In-Reply-To: <1429662071-23797-2-git-send-email-saulery-GANU6spQydw@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: saulery-GANU6spQydw@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,45 +15,36 @@ List-Id: linux-man@vger.kernel.org
 
 On 04/22/2015 02:21 AM, saulery-GANU6spQydw@public.gmane.org wrote:
 > From: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
->=20
-> Fix Ubuntu bug #1110781:
-> https://bugs.launchpad.net/ubuntu/+source/manpages/+bug/1110781
 
-Applied. Thanks, St=C3=A9phane.
+Thanks, St=C3=A9phane. Applied.
 
 Cheers,
 
 Michael
 
 
-
-> Reported-by: Thomas Hood
 > Signed-off-by: St=C3=A9phane Aulery <saulery-GANU6spQydw@public.gmane.org>
 > ---
->  man5/resolv.conf.5 | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  man5/resolv.conf.5 | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/man5/resolv.conf.5 b/man5/resolv.conf.5
-> index f5c8cad..7b6804a 100644
+> index 7b6804a..ac43184 100644
 > --- a/man5/resolv.conf.5
 > +++ b/man5/resolv.conf.5
-> @@ -272,6 +272,13 @@ as if it were a top level domain (TLD).
->  This option can cause problems if the site has ``localhost'' as a TL=
-D
->  rather than having localhost on one or more elements of the search l=
-ist.
->  This option has no effect if neither RES_DEFNAMES or RES_DNSRCH is s=
-et.
-> +.TP
-> +.BR use-vc " (since glibc 2.14)"
+> @@ -263,7 +263,9 @@ so that if two requests from the same port are no=
+t handled correctly it will
+>  close the socket and open a new one before sending the second reques=
+t.
+>  .TP
+>  .BR no-tld-query " (since glibc 2.14)"
+> -sets RES_NOTLDQUERY in
 > +sets
-> +.BR RES_USEVC
+> +.BR RES_NOTLDQUERY
 > +in
-> +.IR _res.options .
-> +This option forces the usage of TCP for DNS resolutions.
->  .RE
->  .LP
->  The \fIdomain\fP and \fIsearch\fP keywords are mutually exclusive.
+>  .IR _res.options .
+>  This option causes
+>  .BR res_nsearch ()
 >=20
 
 
