@@ -1,33 +1,44 @@
-From: =?UTF-8?Q?Andreas_Gr=C3=BCnbacher?= <agruen-mXXj517/zsQ@public.gmane.org>
-Subject: Re: [Acl-devel] Moving attr(5) man page to man-pages
-Date: Wed, 22 Apr 2015 14:12:19 +0200
-Message-ID: <CAHpGcMLgpvMEs1x59cwQ3UGGUFks5F5m2WYLsgSGUodsL4ue5Q@mail.gmail.com>
-References: <5537620E.3000601@gmail.com>
-	<20150422102128.GA24625@infradead.org>
-	<553787D8.602@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 75991] Clarify host.conf and resolv.conf status
+Date: Wed, 22 Apr 2015 12:13:05 +0000
+Message-ID: <bug-75991-11311-fRb6IhKgRq@https.bugzilla.kernel.org/>
+References: <bug-75991-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <553787D8.602-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <bug-75991-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Christoph Hellwig <hch-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Marco Curreli <marcocurreli-IWqWACnzNjyonA0d6jMUrA@public.gmane.org>, Jan Haloup <jchaloup-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Kaveh Mousavi <kavehmz-/E1597aS9LQAvxtiuMwx3w@public.gmane.org>, acl-devel-qX2TKyscuCcdnm+yROfE0A@public.gmane.org, Ron Hale-Evans <rwhe-cwvAZfDeW+Ednm+yROfE0A@public.gmane.org>, Stefan Puiu <stefan.puiu-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Andreas Gruenbacher <agruenba-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "Martin (Joey) Schulze" <joey-1lCxjdRlhQ9g9hUCZPvPmw@public.gmane.org>, Petr Gajdos <PGajdos-AlSwsSmVLrQ@public.gmane.org>, Giulio Daprel?? <giulio-pvpjhgE6P/E@public.gmane.org>, base-system-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org, manpages-fr maintainer <manpagesfr-GANU6spQydw@public.gmane.org>, Aleksandr Blokhin <sass-u2l5PoMzF/Uox3rIn2DAYQ@public.gmane.org>, Christophe-dWQ4ybOOSWIdnm+yROfE0A@public.gmane.org, Eduardo Madeira Fleury <efleury-xuelUoVDAHHQT0dZR+AlfA@public.gmane.org>, Ivana Varekova <varekova-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Jim Zemlin <jzemlin-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Stepan Kasal <kasal-+ZI9xUNit7I@public.gmane.org>, Andries Brouwer <Andries.Brouwer-rh8NL+sEX9E@public.gmane.org>, Theodore T'so <tytso-3s7WtUTddSA@public.gmane.org>, Alain Portal <alain.portal-CD6X2pywdrkGaKE8qFNMvg@public.gmane.org>, Rob Landley <rob@>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-2015-04-22 13:36 GMT+02:00 Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>:
-> On 04/22/2015 12:21 PM, Christoph Hellwig wrote:
->> Can you also rename it to xattr while we're at it?
->
-> While I actually like the name "xattr" more, I'm a little reluctant
-> to change this, because the page has been around for a long time
-> under the other name. But, I'm open for further argumentation
-> about it. Andreas, what do you think?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D75991
 
+Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> changed:
 
-attr.5 as an alias to xattr.7 maybe?
+           What    |Removed                     |Added
+-----------------------------------------------------------------------=
+-----
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |CODE_FIX
 
-Andreas
---
+--- Comment #1 from Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> ---
+St=C3=A9phane has done updates on this area recently and I think this b=
+ug can be
+closed, see especially the two following changes which address the issu=
+es
+mentioned in the bug description:
+
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/?id=3D7b=
+46b4fae359c9525c9d51ba18df5c46bb85f7dc
+http://git.kernel.org/cgit/docs/man-pages/man-pages.git/commit/?id=3De5=
+1f148aa1040a89485a3c740410108a56db4144
+
+Thanks St=C3=A9phane.
+
+--=20
+You are receiving this mail because:
+You are watching the assignee of the bug.--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
