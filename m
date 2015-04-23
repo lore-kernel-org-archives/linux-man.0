@@ -1,53 +1,55 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] strsignal.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Thu, 23 Apr 2015 12:51:50 +0800
-Message-ID: <1429764710-8598-10-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 97161] New: bootparam(7): 'debug' parameter: reference to
+ <linux/kernel.h> for information on log levels is misleading.
+Date: Thu, 23 Apr 2015 17:07:58 +0000
+Message-ID: <bug-97161-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429764710-8598-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-The marking of functions in glibc is:
-- strsignal: MT-Unsafe race:strsignal locale
+https://bugzilla.kernel.org/show_bug.cgi?id=97161
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/strsignal.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+            Bug ID: 97161
+           Summary: bootparam(7): 'debug' parameter: reference to
+                    <linux/kernel.h> for information on log levels is
+                    misleading.
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: a.c.kalker-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-diff --git a/man3/strsignal.3 b/man3/strsignal.3
-index 8c82a6f..c0e887e 100644
---- a/man3/strsignal.3
-+++ b/man3/strsignal.3
-@@ -81,6 +81,19 @@ function returns the appropriate description
- string, or an unknown signal message if the signal number is invalid.
- On some systems (but not on Linux), NULL may instead be
- returned for an invalid signal number.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lbw31
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR strsignal ()
-+T}	Thread safety	MT-Unsafe race:strsignal locale
-+.TE
-+
- .SH CONFORMING TO
- POSIX.1-2008.
- Present on Solaris and the BSDs.
+The section on the 'debug' parameter refers the user to <linux/kernel.h> for
+more information on kernel log levels, however, that file contains neither a
+description of console_loglevel nor nor a description of the various log
+levels.
+
+The closest I can find is <include/linux/kern_levels.h>, which defines the
+various log levels but doesn't explain console_loglevel, Also, it only exists
+in recent kernels, version 3.5 and up.
+Another candidate would be <include/linux/printk.h>, which does define
+console_loglevel but doesn't explain the individual log levels.
+
+Perhaps both references (<include/linux/printk.h>,
+<include/linux/kern_levels.h>) could be included?
+
+Kind regards,
+
+Alain
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
