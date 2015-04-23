@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] gethostid.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Thu, 23 Apr 2015 12:51:42 +0800
-Message-ID: <1429764710-8598-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getmntent.3: ATTRIBUTES: Note functions that isn't thread-safe
+Date: Thu, 23 Apr 2015 12:51:43 +0800
+Message-ID: <1429764710-8598-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,41 +14,53 @@ List-Id: linux-man@vger.kernel.org
 
 The markings match glibc markings.
 markings of functions in glibc are:
-- gethostid: MT-Safe hostid env locale
-- sethostid: MT-Unsafe const:hostid
+- setmntent:   MT-Safe
+- endmntent:   MT-Safe
+- hasmntopt:   MT-Safe
+- getmntent:   MT-Unsafe race:mntentbuf locale
+- addmntent:   MT-Safe race:stream locale
+- getmntent_r: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/gethostid.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/getmntent.3 | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/man3/gethostid.3 b/man3/gethostid.3
-index bbeb4a5..4b46deb 100644
---- a/man3/gethostid.3
-+++ b/man3/gethostid.3
-@@ -89,6 +89,22 @@ to store the host ID.
- .B EPERM
- The calling process's effective user or group ID is not the same
- as its corresponding real ID.
+diff --git a/man3/getmntent.3 b/man3/getmntent.3
+index 085c632..130ec82 100644
+--- a/man3/getmntent.3
++++ b/man3/getmntent.3
+@@ -199,6 +199,30 @@ a match is found and NULL otherwise.
+ /etc/fstab          filesystem description file
+ /etc/mtab           mounted filesystem description file
+ .fi
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw25
++lbw13 lb lbw31
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR gethostid ()
-+T}	Thread safety	MT-Safe hostid env locale
++.BR setmntent (),
++.BR endmntent (),
++.BR hasmntopt ()
++T}	Thread safety	MT-Safe
 +T{
-+.BR sethostid ()
-+T}	Thread safety	MT-Unsafe const:hostid
++.BR getmntent ()
++T}	Thread safety	MT-Unsafe race:mntentbuf locale
++T{
++.BR addmntent ()
++T}	Thread safety	MT-Safe race:stream locale
++T{
++.BR getmntent_r ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- 4.2BSD; these functions were dropped in 4.4BSD.
- SVr4 includes
+ The nonreentrant functions are from SunOS 4.1.3.
+ A routine
 -- 
 1.9.3
 
