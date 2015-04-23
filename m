@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] setlogmask.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Thu, 23 Apr 2015 12:51:48 +0800
-Message-ID: <1429764710-8598-8-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] strsignal.3: ATTRIBUTES: Note functions that isn't thread-safe
+Date: Thu, 23 Apr 2015 12:51:50 +0800
+Message-ID: <1429764710-8598-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,37 +14,37 @@ List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
 The marking of functions in glibc is:
-- setlogmask: MT-Unsafe race:LogMask
+- strsignal: MT-Unsafe race:strsignal locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/setlogmask.3 | 13 +++++++++++++
+ man3/strsignal.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/setlogmask.3 b/man3/setlogmask.3
-index fe708f4..4d45d98 100644
---- a/man3/setlogmask.3
-+++ b/man3/setlogmask.3
-@@ -72,6 +72,19 @@ This function returns the previous log priority mask.
- None.
- .\" .SH NOTES
- .\" The glibc logmask handling was broken in versions before glibc 2.1.1.
+diff --git a/man3/strsignal.3 b/man3/strsignal.3
+index 8c82a6f..c0e887e 100644
+--- a/man3/strsignal.3
++++ b/man3/strsignal.3
+@@ -81,6 +81,19 @@ function returns the appropriate description
+ string, or an unknown signal message if the signal number is invalid.
+ On some systems (but not on Linux), NULL may instead be
+ returned for an invalid signal number.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw22
++lb lb lbw31
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR setlogmask ()
-+T}	Thread safety	MT-Unsafe race:LogMask
++.BR strsignal ()
++T}	Thread safety	MT-Unsafe race:strsignal locale
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001.
- Note that the description in POSIX.1-2001 is flawed.
+ POSIX.1-2008.
+ Present on Solaris and the BSDs.
 -- 
 1.9.3
 
