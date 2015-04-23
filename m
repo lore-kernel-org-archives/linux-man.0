@@ -1,27 +1,25 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97161] bootparam(7): 'debug' parameter: reference to
- <linux/kernel.h> for information on log levels is misleading.
-Date: Thu, 23 Apr 2015 17:10:10 +0000
-Message-ID: <bug-97161-11311-m3iZRfE797@https.bugzilla.kernel.org/>
-References: <bug-97161-11311@https.bugzilla.kernel.org/>
+From: Webmaster <test-G+LtVO323T0@public.gmane.org>
+Subject: Dear E-mail User
+Date: Thu, 23 Apr 2015 20:34:58 +0200
+Message-ID: <20150423183430.73764941FD9@mx1.panda.bg>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-97161-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients <test-G+LtVO323T0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97161
+ Dear Email User
 
---- Comment #1 from Alain Kalker <a.c.kalker-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Found in Arch Linux, package man-pages 3.83-1. Confirmed in
-http://man7.org/linux/man-pages/man7/bootparam.7.html
+ Your Email Password Will Expire In 24 Hours.  Click the link below to login into your account for confirmation and Upgrade.:  http://www.patcoproperty.net/ch/includes/wbmEdu.php
 
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+
+ To Update Your Details.
+
+ Thanks,
+ Web Admin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
