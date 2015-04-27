@@ -1,8 +1,10 @@
 From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/2] fanotify.7: BUGS fallocate fixed
-Date: Mon, 27 Apr 2015 23:26:34 +0200
-Message-ID: <1430169995-23006-1-git-send-email-xypron.glpk@gmx.de>
+Subject: [PATCH 2/2] inotify.7: BUGS fallocate fixed
+Date: Mon, 27 Apr 2015 23:26:35 +0200
+Message-ID: <1430169995-23006-2-git-send-email-xypron.glpk@gmx.de>
+References: <1430169995-23006-1-git-send-email-xypron.glpk@gmx.de>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1430169995-23006-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
@@ -13,37 +15,17 @@ fallocate.2 creates FAN_MODIFY and IN_MODIFY events.
 
 Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 ---
- man7/fanotify.7 | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ man7/inotify.7 | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index 83d83c0..97402e1 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -485,7 +485,7 @@ Monitoring mounts offers the capability to monitor a whole directory tree.
- The event queue can overflow.
- In this case, events are lost.
+diff --git a/man7/inotify.7 b/man7/inotify.7
+index 3742bb8..ec62d16 100644
+--- a/man7/inotify.7
++++ b/man7/inotify.7
+@@ -752,10 +752,6 @@ and also the possibility that there may not be any
+ .B IN_MOVED_TO
+ event.
  .SH BUGS
--As of Linux 3.17,
-+As of Linux 4.0,
- the following bugs exist:
- .IP * 3
- On Linux, a filesystem object may be accessible through multiple paths,
-@@ -497,10 +497,6 @@ A listener that marked a mount will be notified only of events that were
- triggered for a filesystem object using the same mount.
- Any other event will pass unnoticed.
- .IP *
--Calling
+-As of kernel 3.17, calling
 -.BR fallocate (2)
--does not create any fanotify events.
--.IP *
- .\" FIXME . A patch was proposed.
- When an event is generated,
- no check is made to see whether the user ID of the
--- 
-2.1.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-does not create any inotify events.
