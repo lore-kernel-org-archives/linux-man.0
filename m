@@ -1,51 +1,57 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97491] New: sendfile man page should mention short "sends"
-Date: Wed, 29 Apr 2015 08:09:38 +0000
-Message-ID: <bug-97491-11311@https.bugzilla.kernel.org/>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] ftw.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 29 Apr 2015 18:09:19 +0800
+Message-ID: <1430302166-1700-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1430302166-1700-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97491
+The marking matches glibc marking.
+markings of functions in glibc are:
+- nftw: MT-Safe cwd
+- ftw:  MT-Safe
 
-            Bug ID: 97491
-           Summary: sendfile man page should mention short "sends"
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: gjasny-S0/GAf8tV78@public.gmane.org
-        Regression: No
+Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/ftw.3 | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-Hello,
-
-Linux 3.16 (3.16.0-4-amd64 #1 SMP Debian 3.16.7-ckt4-1, glibc 2.19-18) seems to
-truncate larger requests to 2G (file to file copy):
-
-strace output:
-  sendfile(4, 3, [0], 10240000000)        = 2147479552
-
-
-I know one should expect this behavior from read/write calls but for sendfile
-it was somehow unexpected.
-
-Maybe you could mention that fact in the man page for sendfile?
-
-Thanks,
-Gregor
-
+diff --git a/man3/ftw.3 b/man3/ftw.3
+index b24cfd6..b421c00 100644
+--- a/man3/ftw.3
++++ b/man3/ftw.3
+@@ -350,6 +350,22 @@ and that value is returned as the result of
+ .SH VERSIONS
+ .BR nftw ()
+ is available under glibc since version 2.1.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR nftw ()
++T}	Thread safety	MT-Safe cwd
++T{
++.BR ftw ()
++T}	Thread safety	MT-Safe
++.TE
++
+ .SH CONFORMING TO
+ POSIX.1-2001, POSIX.1-2008, SVr4, SUSv1.
+ POSIX.1-2008 marks
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.9.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
