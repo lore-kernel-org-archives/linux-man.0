@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] on_exit.3: ATTRIBUTES: Note functions that is thread-safe
-Date: Wed, 29 Apr 2015 18:09:23 +0800
-Message-ID: <1430302166-1700-7-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] sysconf.3: ATTRIBUTES: Note functions that is thread-safe
+Date: Wed, 29 Apr 2015 18:09:26 +0800
+Message-ID: <1430302166-1700-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,21 +14,21 @@ List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
 The marking of functions in glibc is:
-- on_exit: MT-Safe
+- sysconf: MT-Safe env
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/on_exit.3 | 13 +++++++++++++
+ man3/sysconf.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/on_exit.3 b/man3/on_exit.3
-index 31d2b82..2502f13 100644
---- a/man3/on_exit.3
-+++ b/man3/on_exit.3
-@@ -78,6 +78,19 @@ The
- .BR on_exit ()
- function returns the value 0 if successful; otherwise
- it returns a nonzero value.
+diff --git a/man3/sysconf.3 b/man3/sysconf.3
+index 99a2c41..276629f 100644
+--- a/man3/sysconf.3
++++ b/man3/sysconf.3
+@@ -324,6 +324,19 @@ is not changed.
+ In the case of options, a positive value is returned if a queried option
+ is available, and \-1 if it is not.
+ In the case of limits, \-1 means that there is no definite limit.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -38,13 +38,13 @@ index 31d2b82..2502f13 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR on_exit ()
-+T}	Thread safety	MT-Safe
++.BR sysconf ()
++T}	Thread safety	MT-Safe env
 +.TE
 +
  .SH CONFORMING TO
- This function comes from SunOS 4, but is also present in glibc.
- It no longer occurs in Solaris (SunOS 5).
+ POSIX.1-2001.
+ .SH BUGS
 -- 
 1.9.3
 
