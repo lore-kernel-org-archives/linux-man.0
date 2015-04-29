@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] inet_ntop.3: ATTRIBUTES: Note functions that is thread-safe
-Date: Wed, 29 Apr 2015 21:22:23 +0200
-Message-ID: <55412F6F.2040501@gmail.com>
-References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1430302166-1700-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] ftw.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 29 Apr 2015 21:21:38 +0200
+Message-ID: <55412F42.2080705@gmail.com>
+References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1430302166-1700-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1430302166-1700-5-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1430302166-1700-3-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -15,11 +15,11 @@ List-Id: linux-man@vger.kernel.org
 
 On 04/29/2015 12:09 PM, Zeng Linggang wrote:
 > The marking matches glibc marking.
-> The marking of functions in glibc is:
-> - inet_ntop: MT-Safe locale
+> markings of functions in glibc are:
+> - nftw: MT-Safe cwd
+> - ftw:  MT-Safe
 
-Thanks, Zeng. Applied. (Again a number disagreement in the title 
-of this patch; s/functions/function/)
+Thanks, Zeng. Applied.
 
 Cheers,
 
@@ -27,19 +27,20 @@ Michael
 
 
 
+
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/inet_ntop.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/ftw.3 | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/man3/inet_ntop.3 b/man3/inet_ntop.3
-> index 5144344..5cd8c83 100644
-> --- a/man3/inet_ntop.3
-> +++ b/man3/inet_ntop.3
-> @@ -97,6 +97,19 @@ was not a valid address family.
->  .B ENOSPC
->  The converted address string would exceed the size given by
->  .IR size .
+> diff --git a/man3/ftw.3 b/man3/ftw.3
+> index b24cfd6..b421c00 100644
+> --- a/man3/ftw.3
+> +++ b/man3/ftw.3
+> @@ -350,6 +350,22 @@ and that value is returned as the result of
+>  .SH VERSIONS
+>  .BR nftw ()
+>  is available under glibc since version 2.1.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
@@ -49,13 +50,16 @@ Michael
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR inet_ntop ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR nftw ()
+> +T}	Thread safety	MT-Safe cwd
+> +T{
+> +.BR ftw ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  Note that RFC\ 2553 defines a prototype where the last argument
+>  POSIX.1-2001, POSIX.1-2008, SVr4, SUSv1.
+>  POSIX.1-2008 marks
 > 
 
 
