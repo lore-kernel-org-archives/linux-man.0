@@ -1,55 +1,55 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] lsearch.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 29 Apr 2015 18:09:22 +0800
-Message-ID: <1430302166-1700-6-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 97511] New: Document vm.overcommit_memory=2 interaction with
+ mmap/mprotect/madvise
+Date: Wed, 29 Apr 2015 15:15:29 +0000
+Message-ID: <bug-97511-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1430302166-1700-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-markings of functions in glibc are:
-- lfind:   MT-Safe
-- lsearch: MT-Safe
+https://bugzilla.kernel.org/show_bug.cgi?id=97511
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/lsearch.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+            Bug ID: 97511
+           Summary: Document vm.overcommit_memory=2 interaction with
+                    mmap/mprotect/madvise
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+        Regression: No
 
-diff --git a/man3/lsearch.3 b/man3/lsearch.3
-index 3b4637d..f192960 100644
---- a/man3/lsearch.3
-+++ b/man3/lsearch.3
-@@ -77,6 +77,20 @@ NULL if no match is found.
- returns a pointer to
- a matching member of the array, or to the newly added member if no
- match is found.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw18 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR lfind (),
-+.BR lsearch ()
-+T}	Thread safety	MT-Safe
-+.TE
-+
- .SH CONFORMING TO
- SVr4, 4.3BSD, POSIX.1-2001.
- Present in libc since libc-4.6.27.
+For mmap and MAP_NORESERVE:
+
+In vm.overcommit_memory=2, private mappings still count towards the commit
+limit, despite what the flag name might imply.
+
+For mmap and PROT_NONE:
+
+Mappings created with this protection flag do not count towards the commit
+limit in vm.overcommit_memory=2 mode.  mprotect can subsequently be used to
+change the flags of (parts of) the mapping, to allocate memory as needed, at
+which point mprotect may fail with ENOMEM.
+
+For mprotect and madvise:
+
+mprotect/madvise cannot be used to mark a previously allocated memory region as
+unallocated, but reserved, and not have it count towards the
+vm.overcommit_memory=2 limit.  Instead, use mmap with MAP_FIXED and a PROT_NONE
+memory area, which will mark the region as unused.
+
 -- 
-1.9.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
