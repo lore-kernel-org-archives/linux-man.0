@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] inet_ntop.3: ATTRIBUTES: Note functions that is thread-safe
-Date: Wed, 29 Apr 2015 18:09:21 +0800
-Message-ID: <1430302166-1700-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] on_exit.3: ATTRIBUTES: Note functions that is thread-safe
+Date: Wed, 29 Apr 2015 18:09:23 +0800
+Message-ID: <1430302166-1700-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,21 +14,21 @@ List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
 The marking of functions in glibc is:
-- inet_ntop: MT-Safe locale
+- on_exit: MT-Safe
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/inet_ntop.3 | 13 +++++++++++++
+ man3/on_exit.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/inet_ntop.3 b/man3/inet_ntop.3
-index 5144344..5cd8c83 100644
---- a/man3/inet_ntop.3
-+++ b/man3/inet_ntop.3
-@@ -97,6 +97,19 @@ was not a valid address family.
- .B ENOSPC
- The converted address string would exceed the size given by
- .IR size .
+diff --git a/man3/on_exit.3 b/man3/on_exit.3
+index 31d2b82..2502f13 100644
+--- a/man3/on_exit.3
++++ b/man3/on_exit.3
+@@ -78,6 +78,19 @@ The
+ .BR on_exit ()
+ function returns the value 0 if successful; otherwise
+ it returns a nonzero value.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -38,13 +38,13 @@ index 5144344..5cd8c83 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR inet_ntop ()
-+T}	Thread safety	MT-Safe locale
++.BR on_exit ()
++T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001.
- Note that RFC\ 2553 defines a prototype where the last argument
+ This function comes from SunOS 4, but is also present in glibc.
+ It no longer occurs in Solaris (SunOS 5).
 -- 
 1.9.3
 
