@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] err.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 29 Apr 2015 21:13:52 +0200
-Message-ID: <55412D70.6030903@gmail.com>
-References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] gethostid.3: ATTRIBUTES: Note functions that isn't thread-safe
+Date: Wed, 29 Apr 2015 21:14:52 +0200
+Message-ID: <55412DAC.2020404@gmail.com>
+References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1429764710-8598-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429764710-8598-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1429764710-8598-2-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,63 +16,53 @@ List-Id: linux-man@vger.kernel.org
 On 04/23/2015 06:51 AM, Zeng Linggang wrote:
 > The markings match glibc markings.
 > markings of functions in glibc are:
-> - err:    MT-Safe locale
-> - err:    MT-Safe locale
-> - errx:   MT-Safe locale
-> - warn:   MT-Safe locale
-> - warnx:  MT-Safe locale
-> - verr:   MT-Safe locale
-> - verrx:  MT-Safe locale
-> - vwarn:  MT-Safe locale
-> - vwarnx: MT-Safe locale
+> - gethostid: MT-Safe hostid env locale
+> - sethostid: MT-Unsafe const:hostid
+
 
 Thanks, Zeng. Applied.
+
+It's probably better to title patches like this as:
+
+     ATTRIBUTES: Note functions that are/aren't thread-safe
 
 Cheers,
 
 Michael
 
 
-
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/err.3 | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
+>  man3/gethostid.3 | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/man3/err.3 b/man3/err.3
-> index 783d60a..14eb6e5 100644
-> --- a/man3/err.3
-> +++ b/man3/err.3
-> @@ -106,6 +106,29 @@ and
->  .BR verrx ()
->  functions do not return, but exit with the value of the argument
->  .IR eval .
+> diff --git a/man3/gethostid.3 b/man3/gethostid.3
+> index bbeb4a5..4b46deb 100644
+> --- a/man3/gethostid.3
+> +++ b/man3/gethostid.3
+> @@ -89,6 +89,22 @@ to store the host ID.
+>  .B EPERM
+>  The calling process's effective user or group ID is not the same
+>  as its corresponding real ID.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw17 lb lb
+> +lb lb lbw25
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR err (),
-> +.BR errx (),
-> +.br
-> +.BR warn (),
-> +.BR warnx (),
-> +.br
-> +.BR verr (),
-> +.BR verrx (),
-> +.br
-> +.BR vwarn (),
-> +.BR vwarnx ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR gethostid ()
+> +T}	Thread safety	MT-Safe hostid env locale
+> +T{
+> +.BR sethostid ()
+> +T}	Thread safety	MT-Unsafe const:hostid
 > +.TE
 > +
 >  .SH CONFORMING TO
->  These functions are nonstandard BSD extensions.
->  .\" .SH HISTORY
+>  4.2BSD; these functions were dropped in 4.4BSD.
+>  SVr4 includes
 > 
 
 
