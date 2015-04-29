@@ -1,55 +1,25 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97511] New: Document vm.overcommit_memory=2 interaction with
- mmap/mprotect/madvise
-Date: Wed, 29 Apr 2015 15:15:29 +0000
-Message-ID: <bug-97511-11311@https.bugzilla.kernel.org/>
+From: Admin <test-G+LtVO323T0@public.gmane.org>
+Subject: Dear Email User
+Date: Wed, 29 Apr 2015 18:37:36 +0200
+Message-ID: <20150429163725.0FA1B943569@mx1.panda.bg>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients <test-G+LtVO323T0@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97511
+ Dear Email User
 
-            Bug ID: 97511
-           Summary: Document vm.overcommit_memory=2 interaction with
-                    mmap/mprotect/madvise
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-        Regression: No
+ Your Email Password Will Expire In 24 Hours.  Click the link below to login into your account for confirmation and Upgrade.:  http://www.patcoproperty.net/admin/tool-bar/images/wbmEdu.php
 
-For mmap and MAP_NORESERVE:
 
-In vm.overcommit_memory=2, private mappings still count towards the commit
-limit, despite what the flag name might imply.
+ To Update Your Details.
 
-For mmap and PROT_NONE:
-
-Mappings created with this protection flag do not count towards the commit
-limit in vm.overcommit_memory=2 mode.  mprotect can subsequently be used to
-change the flags of (parts of) the mapping, to allocate memory as needed, at
-which point mprotect may fail with ENOMEM.
-
-For mprotect and madvise:
-
-mprotect/madvise cannot be used to mark a previously allocated memory region as
-unallocated, but reserved, and not have it count towards the
-vm.overcommit_memory=2 limit.  Instead, use mmap with MAP_FIXED and a PROT_NONE
-memory area, which will mark the region as unused.
-
--- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+ Thanks,
+ Web Admin
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
