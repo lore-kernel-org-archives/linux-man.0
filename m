@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] ftw.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 29 Apr 2015 18:09:19 +0800
-Message-ID: <1430302166-1700-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] bsearch.3: ATTRIBUTES: Note functions that is thread-safe
+Date: Wed, 29 Apr 2015 18:09:18 +0800
+Message-ID: <1430302166-1700-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -13,23 +13,22 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
-markings of functions in glibc are:
-- nftw: MT-Safe cwd
-- ftw:  MT-Safe
+The marking of functions in glibc is:
+- bsearch: MT-Safe
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/ftw.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ man3/bsearch.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/ftw.3 b/man3/ftw.3
-index b24cfd6..b421c00 100644
---- a/man3/ftw.3
-+++ b/man3/ftw.3
-@@ -350,6 +350,22 @@ and that value is returned as the result of
- .SH VERSIONS
- .BR nftw ()
- is available under glibc since version 2.1.
+diff --git a/man3/bsearch.3 b/man3/bsearch.3
+index 22c2ee3..ac0b1f4 100644
+--- a/man3/bsearch.3
++++ b/man3/bsearch.3
+@@ -74,6 +74,19 @@ function returns a pointer to a matching member of the
+ array, or NULL if no match is found.
+ If there are multiple elements that
+ match the key, the element returned is unspecified.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -39,16 +38,13 @@ index b24cfd6..b421c00 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR nftw ()
-+T}	Thread safety	MT-Safe cwd
-+T{
-+.BR ftw ()
++.BR bsearch ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- POSIX.1-2001, POSIX.1-2008, SVr4, SUSv1.
- POSIX.1-2008 marks
+ SVr4, 4.3BSD, POSIX.1-2001, C89, C99.
+ .SH EXAMPLE
 -- 
 1.9.3
 
