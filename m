@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] iconv_close.3: ATTRIBUTES: Note functions that is thread-safe
-Date: Wed, 29 Apr 2015 18:09:20 +0800
-Message-ID: <1430302166-1700-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] putpwent.3: ATTRIBUTES: Note functions that is thread-safe
+Date: Wed, 29 Apr 2015 18:09:24 +0800
+Message-ID: <1430302166-1700-8-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,21 +14,21 @@ List-Id: linux-man@vger.kernel.org
 
 The marking matches glibc marking.
 The marking of functions in glibc is:
-- iconv_close: MT-Safe
+- putpwent: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/iconv_close.3 | 13 +++++++++++++
+ man3/putpwent.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/iconv_close.3 b/man3/iconv_close.3
-index 6b80be0..9634f08 100644
---- a/man3/iconv_close.3
-+++ b/man3/iconv_close.3
-@@ -36,6 +36,19 @@ In case of error, it sets
- and returns \-1.
- .SH VERSIONS
- This function is available in glibc since version 2.1.
+diff --git a/man3/putpwent.3 b/man3/putpwent.3
+index 3bcb09d..043aa50 100644
+--- a/man3/putpwent.3
++++ b/man3/putpwent.3
+@@ -79,6 +79,19 @@ is set to indicate the cause.
+ .TP
+ .B EINVAL
+ Invalid (NULL) argument given.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -38,12 +38,12 @@ index 6b80be0..9634f08 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR iconv_close ()
-+T}	Thread safety	MT-Safe
++.BR putpwent ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- UNIX98, POSIX.1-2001.
+ SVr4.
  .SH SEE ALSO
 -- 
 1.9.3
