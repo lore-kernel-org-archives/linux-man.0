@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sleep.3: ATTRIBUTES: Note functions that isn't thread-safe
-Date: Wed, 29 Apr 2015 21:18:22 +0200
-Message-ID: <55412E7E.8040503@gmail.com>
-References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1429764710-8598-9-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] strsignal.3: ATTRIBUTES: Note functions that isn't thread-safe
+Date: Wed, 29 Apr 2015 21:18:30 +0200
+Message-ID: <55412E86.3000109@gmail.com>
+References: <1429764710-8598-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1429764710-8598-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1429764710-8598-9-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1429764710-8598-10-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -16,7 +16,7 @@ List-Id: linux-man@vger.kernel.org
 On 04/23/2015 06:51 AM, Zeng Linggang wrote:
 > The marking matches glibc marking.
 > The marking of functions in glibc is:
-> - sleep: MT-Unsafe sig:SIGCHLD/linux
+> - strsignal: MT-Unsafe race:strsignal locale
 
 
 Thanks, Zeng. Applied. (Again a number disagreement in the title 
@@ -31,33 +31,33 @@ Michael
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/sleep.3 | 13 +++++++++++++
+>  man3/strsignal.3 | 13 +++++++++++++
 >  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/sleep.3 b/man3/sleep.3
-> index e50d617..f761ed8 100644
-> --- a/man3/sleep.3
-> +++ b/man3/sleep.3
-> @@ -41,6 +41,19 @@ seconds have elapsed or a signal arrives which is not ignored.
->  Zero if the requested time has elapsed,
->  or the number of seconds left to sleep,
->  if the call was interrupted by a signal handler.
+> diff --git a/man3/strsignal.3 b/man3/strsignal.3
+> index 8c82a6f..c0e887e 100644
+> --- a/man3/strsignal.3
+> +++ b/man3/strsignal.3
+> @@ -81,6 +81,19 @@ function returns the appropriate description
+>  string, or an unknown signal message if the signal number is invalid.
+>  On some systems (but not on Linux), NULL may instead be
+>  returned for an invalid signal number.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lbw27
+> +lb lb lbw31
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR sleep ()
-> +T}	Thread safety	MT-Unsafe sig:SIGCHLD/linux
+> +.BR strsignal ()
+> +T}	Thread safety	MT-Unsafe race:strsignal locale
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH BUGS
+>  POSIX.1-2008.
+>  Present on Solaris and the BSDs.
 > 
 
 
