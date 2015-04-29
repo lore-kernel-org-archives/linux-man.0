@@ -1,26 +1,26 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] putpwent.3: ATTRIBUTES: Note functions that is thread-safe
-Date: Wed, 29 Apr 2015 21:23:25 +0200
-Message-ID: <55412FAD.50200@gmail.com>
-References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1430302166-1700-8-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] qsort.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 29 Apr 2015 21:23:44 +0200
+Message-ID: <55412FC0.2060106@gmail.com>
+References: <1430302166-1700-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1430302166-1700-9-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1430302166-1700-8-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1430302166-1700-9-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 04/29/2015 12:09 PM, Zeng Linggang wrote:
-> The marking matches glibc marking.
-> The marking of functions in glibc is:
-> - putpwent: MT-Safe locale
+> qsort() matches glibc marking.
+>>From research, We think qsort_r() is thread-safe. But, there
+> is not marking of qsort_r() in glibc document.
+> - qsort:   MT-Safe
+> - qsort_r: MT-Safe
 
-
-Thanks, Zeng. Applied. (Again a number disagreement in the title 
-of this patch; s/functions/function/)
+Thanks, Zeng. Applied.
 
 Cheers,
 
@@ -31,33 +31,34 @@ Michael
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/putpwent.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/qsort.3 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/putpwent.3 b/man3/putpwent.3
-> index 3bcb09d..043aa50 100644
-> --- a/man3/putpwent.3
-> +++ b/man3/putpwent.3
-> @@ -79,6 +79,19 @@ is set to indicate the cause.
->  .TP
->  .B EINVAL
->  Invalid (NULL) argument given.
+> diff --git a/man3/qsort.3 b/man3/qsort.3
+> index 442ae15..286263a 100644
+> --- a/man3/qsort.3
+> +++ b/man3/qsort.3
+> @@ -97,6 +97,20 @@ functions return no value.
+>  .SH VERSIONS
+>  .BR qsort_r ()
+>  was added to glibc in version 2.8.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw18 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR putpwent ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR qsort (),
+> +.BR qsort_r ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  SVr4.
->  .SH SEE ALSO
+>  The
+>  .BR qsort ()
 > 
 
 
