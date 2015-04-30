@@ -1,49 +1,96 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [update report]proc.5: account pmd page tables to the process
-Date: Thu, 30 Apr 2015 11:20:50 +0200
-Message-ID: <CAKgNAkgRMB3K0di=8BMzRDw4Qn1ZLCFO_AMTYQ=Q6topC5oogw@mail.gmail.com>
-References: <000001d08190$019414e0$04bc3ea0$@yang@samsung.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH 1/2] fanotify.7: BUGS fallocate fixed
+Date: Thu, 30 Apr 2015 12:12:48 +0200
+Message-ID: <55420020.5010308@gmail.com>
+References: <1430169995-23006-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <000001d08190$019414e0$04bc3ea0$@yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+In-Reply-To: <1430169995-23006-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Weijie Yang <weijie.yang.kh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-[CC += Kirill]
+Hi Heinrich,
 
-Hello Weijie Yang, and Kirill,
+Thanks for following through on this with a man pages patch.
+I actually applied a different patch. See below.
 
-Kirill, your commit changed the user-space ABI but there was nothing
-in the commit message about that, nor did it CC linux-api@. It makes
-my life easier when those things happen ;-).
+On 04/27/2015 11:26 PM, Heinrich Schuchardt wrote:
+> Since Linux 3.19 (820c12d5d6c0890bc93dd63893924a13041fdc35)
+> fallocate.2 creates FAN_MODIFY and IN_MODIFY events.
+> 
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man7/fanotify.7 | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/man7/fanotify.7 b/man7/fanotify.7
+> index 83d83c0..97402e1 100644
+> --- a/man7/fanotify.7
+> +++ b/man7/fanotify.7
+> @@ -485,7 +485,7 @@ Monitoring mounts offers the capability to monitor a whole directory tree.
+>  The event queue can overflow.
+>  In this case, events are lost.
+>  .SH BUGS
+> -As of Linux 3.17,
+> +As of Linux 4.0,
+>  the following bugs exist:
+>  .IP * 3
+>  On Linux, a filesystem object may be accessible through multiple paths,
+> @@ -497,10 +497,6 @@ A listener that marked a mount will be notified only of events that were
+>  triggered for a filesystem object using the same mount.
+>  Any other event will pass unnoticed.
+>  .IP *
+> -Calling
+> -.BR fallocate (2)
+> -does not create any fanotify events.
+> -.IP *
+>  .\" FIXME . A patch was proposed.
+>  When an event is generated,
+>  no check is made to see whether the user ID of the
 
-On 28 April 2015 at 10:47, Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
-> Since kernel v4.0, pmd page account is added into /proc/[pid]/status
->
-> See detail:
-> commit dc6c9a35b66b520cf67e05d8ca60ebecad3b0479
-> Author: Kirill A. Shutemov <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-> Date:   Wed Feb 11 15:26:50 2015 -0800
->
->     mm: account pmd page tables to the process
->
->
-> I don't find a description for it when I read the latest man-page, so I send this email.
-> Maybe there is already a plan for it and I miss it, anyway, I send this report.
-
-I added the following to the proc(5) entry for /proc/PID/status:
-
-      VmPMD :  Page middle directory size (since Linux 4.0).
-
-Thanks for the report, Weijie Yang.
+A patch that preserves the historical information is better, since both
+fallocate(2) and fanotify are longstanding, and some people may be using
+older kernels. I applied the patch below.
 
 Cheers,
 
 Michael
+
+--- a/man7/fanotify.7
++++ b/man7/fanotify.7
+@@ -485,6 +485,17 @@ Monitoring mounts offers the capability to monitor a whole directory tree.
+ The event queue can overflow.
+ In this case, events are lost.
+ .SH BUGS
++Before Linux 3.19,
++.BR fallocate (2)
++did not generate fanotify events.
++Since Linux 3.19,
++.\" commit 820c12d5d6c0890bc93dd63893924a13041fdc35
++calls to
++.BR fallocate (2)
++generate
++.B FAN_MODIFY
++events.
++
+ As of Linux 3.17,
+ the following bugs exist:
+ .IP * 3
+@@ -497,10 +508,6 @@ A listener that marked a mount will be notified only of events that were
+ triggered for a filesystem object using the same mount.
+ Any other event will pass unnoticed.
+ .IP *
+-Calling
+-.BR fallocate (2)
+-does not create any fanotify events.
+-.IP *
+ .\" FIXME . A patch was proposed.
+ When an event is generated,
+ no check is made to see whether the user ID of the
 
 -- 
 Michael Kerrisk
