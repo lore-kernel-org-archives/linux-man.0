@@ -1,7 +1,7 @@
 From: Admin <test-G+LtVO323T0@public.gmane.org>
 Subject: Dear Email User
-Date: Thu, 30 Apr 2015 05:29:06 +0200
-Message-ID: <20150430032835.650D4949364@mx1.panda.bg>
+Date: Thu, 30 Apr 2015 06:00:33 +0200
+Message-ID: <20150430035945.D08BA945739@mx1.panda.bg>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7BIT
