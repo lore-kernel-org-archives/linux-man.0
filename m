@@ -1,80 +1,50 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH 2/2] inotify.7: BUGS fallocate fixed
-Date: Thu, 30 Apr 2015 12:13:29 +0200
-Message-ID: <55420049.8020100@gmail.com>
-References: <1430169995-23006-1-git-send-email-xypron.glpk@gmx.de> <1430169995-23006-2-git-send-email-xypron.glpk@gmx.de>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+From: "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Subject: Re: [update report]proc.5: account pmd page tables to the process
+Date: Thu, 30 Apr 2015 14:14:48 +0300 (EEST)
+Message-ID: <20150430111448.44B11A5@black.fi.intel.com>
+References: <000001d08190$019414e0$04bc3ea0$@yang@samsung.com>
+ <CAKgNAkgRMB3K0di=8BMzRDw4Qn1ZLCFO_AMTYQ=Q6topC5oogw@mail.gmail.com>
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1430169995-23006-2-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <CAKgNAkgRMB3K0di=8BMzRDw4Qn1ZLCFO_AMTYQ=Q6topC5oogw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Weijie Yang <weijie.yang.kh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Heinrich,
-
-On 04/27/2015 11:26 PM, Heinrich Schuchardt wrote:
-> Since Linux 3.19 (820c12d5d6c0890bc93dd63893924a13041fdc35)
-> fallocate.2 creates FAN_MODIFY and IN_MODIFY events.
+Michael Kerrisk (man-pages) wrote:
+> [CC += Kirill]
 > 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-> ---
->  man7/inotify.7 | 4 ----
->  1 file changed, 4 deletions(-)
+> Hello Weijie Yang, and Kirill,
 > 
-> diff --git a/man7/inotify.7 b/man7/inotify.7
-> index 3742bb8..ec62d16 100644
-> --- a/man7/inotify.7
-> +++ b/man7/inotify.7
-> @@ -752,10 +752,6 @@ and also the possibility that there may not be any
->  .B IN_MOVED_TO
->  event.
->  .SH BUGS
-> -As of kernel 3.17, calling
-> -.BR fallocate (2)
-> -does not create any inotify events.
-> -
->  .\" FIXME . kernel commit 611da04f7a31b2208e838be55a42c7a1310ae321
->  .\" implies that unmount events were buggy 2.6.11 to 2.6.36
->  .\"
+> Kirill, your commit changed the user-space ABI but there was nothing
+> in the commit message about that, nor did it CC linux-api@. It makes
+> my life easier when those things happen ;-).
+> 
+> On 28 April 2015 at 10:47, Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
+> > Since kernel v4.0, pmd page account is added into /proc/[pid]/status
+> >
+> > See detail:
+> > commit dc6c9a35b66b520cf67e05d8ca60ebecad3b0479
+> > Author: Kirill A. Shutemov <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> > Date:   Wed Feb 11 15:26:50 2015 -0800
+> >
+> >     mm: account pmd page tables to the process
+> >
+> >
+> > I don't find a description for it when I read the latest man-page, so I send this email.
+> > Maybe there is already a plan for it and I miss it, anyway, I send this report.
+> 
+> I added the following to the proc(5) entry for /proc/PID/status:
+> 
+>       VmPMD :  Page middle directory size (since Linux 4.0).
 
-Thanks. I instead applied the patch below, so as to preserve the historical
-details.
+I'm not native speaker, but I think "directory" should be plural --
+there are more than one directory.
 
-Cheers,
-
-Michael
-
---- a/man7/inotify.7
-+++ b/man7/inotify.7
-@@ -752,9 +752,16 @@ and also the possibility that there may not be any
- .B IN_MOVED_TO
- event.
- .SH BUGS
--As of kernel 3.17, calling
-+Before Linux 3.19,
- .BR fallocate (2)
--does not create any inotify events.
-+did not create any inotify events.
-+Since Linux 3.19,
-+.\" commit 820c12d5d6c0890bc93dd63893924a13041fdc35
-+calls to
-+.BR fallocate (2)
-+generate
-+.B IN_MODIFY
-+events.
- 
- .\" FIXME . kernel commit 611da04f7a31b2208e838be55a42c7a1310ae321
- .\" implies that unmount events were buggy 2.6.11 to 2.6.36
-
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+And I would rather say "Size of second level page tables".
+PMD is not really in middle since 4-level page tables was introduced and
+definitely will not be in middle when we get 5-level page tables.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
