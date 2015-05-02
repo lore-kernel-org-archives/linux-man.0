@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
  information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Sat, 02 May 2015 23:53:26 +0000
-Message-ID: <bug-95331-11311-hM6kjjAxF0@https.bugzilla.kernel.org/>
+Date: Sat, 02 May 2015 23:56:30 +0000
+Message-ID: <bug-95331-11311-SAinOurjng@https.bugzilla.kernel.org/>
 References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,31 +15,13 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
---- Comment #14 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Also in pipe poll :
-
-    if (filp->f_mode & FMODE_WRITE) {
-        mask |= (nrbufs < pipe->buffers) ? POLLOUT | POLLWRNORM : 0;
-        /*
-         * Most Unices do not set POLLERR for FIFOs but on Linux they
-         * behave exactly like pipes for poll().
-         */
-        if ((!pipe->readers) &&( (!pipe->sigio_on_write_enabled) ||
-(pipe->last_readers != 0)))
-            mask |= POLLERR;
-    }
-
-
-
-Also in pipe_read(), perhaps it should make the call :
-
-   if (do_wakeup) {
-            wake_up_interruptible_sync_poll(&pipe->wait, POLLOUT | POLLWRNORM);
-             kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
-        }
-
- BEFORE it does the read ? Else how is the writer meant to know it has a new
-reader ?
+--- Comment #15 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I'd also really like to know where precisely all this is meant to be specified
+/ documented . The POSIX standards are rather vague on this, but do suggest
+that
+SIGIO is meant to be sent when I/O is possible on a file descriptor ,
+regardless 
+of whether it is readable or writable .
 
 -- 
 You are receiving this mail because:
