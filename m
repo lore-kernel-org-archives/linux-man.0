@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
  information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Sat, 02 May 2015 20:32:31 +0000
-Message-ID: <bug-95331-11311-TrQewpXFGZ@https.bugzilla.kernel.org/>
+Date: Sat, 02 May 2015 20:45:36 +0000
+Message-ID: <bug-95331-11311-D0WH0Ru122@https.bugzilla.kernel.org/>
 References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,8 +15,10 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
---- Comment #11 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-simply by entering pause()
+--- Comment #12 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+One cannot handle the case for currently open pipe FDs, where no reader has yet
+connected, as are inherited by shell re-directs, without using some
+form of user-space polling and sleeping or busy-waiting.
 
 -- 
 You are receiving this mail because:
