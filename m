@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 95331] fcntl.2 + sigaction.2 + signal.7 need further
  information about use of a SA_SIGINFO signal handler that uses si->si_fd
-Date: Sat, 02 May 2015 20:45:36 +0000
-Message-ID: <bug-95331-11311-D0WH0Ru122@https.bugzilla.kernel.org/>
+Date: Sat, 02 May 2015 23:24:34 +0000
+Message-ID: <bug-95331-11311-94wTaFUQ9L@https.bugzilla.kernel.org/>
 References: <bug-95331-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,10 +15,48 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=95331
 
---- Comment #12 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-One cannot handle the case for currently open pipe FDs, where no reader has yet
-connected, as are inherited by shell re-directs, without using some
-form of user-space polling and sleeping or busy-waiting.
+--- Comment #13 from Jason Vas Dias <jason.vas.dias-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I think it is because in fs/pipe.c :
+
+static int
+pipe_fasync(int fd, struct file *filp, int on)
+{
+    struct pipe_inode_info *pipe = filp->private_data;
+    int retval = 0;
+
+    __pipe_lock(pipe);
+    if (filp->f_mode & FMODE_READ)
+        retval = fasync_helper(fd, filp, on, &pipe->fasync_readers);
+    if ((filp->f_mode & FMODE_WRITE) && retval >= 0) {
+        retval = fasync_helper(fd, filp, on, &pipe->fasync_writers);
+        if (retval < 0 && (filp->f_mode & FMODE_READ))
+            /* this can happen only if on == T */
+            fasync_helper(-1, filp, 0, &pipe->fasync_readers);
+    }
+    __pipe_unlock(pipe);
+    return retval;
+}
+
+
+Perhaps a pipe FD ioctl could be provided that would set a pipe inode 
+'sigio_on_write_enabled' flag that could be handled ? : 
+
+    ... else
+        if (pipe->sigio_on_write_enabled && (filp->f_mode & FMODE_WRITE) && 
+           (retval == -1 ) && (pipe->last_retval != -1) &&  
+           (pipe->last_readers != 0) ) 
+        { pipe->last_retval = -1;
+          if( pipe->readers == 0 )
+              kill_fasync(&pipe->fasync_readers, SIGIO, POLL_OUT);
+          retval = fasync_helper(fd, filp, on, &pipe->fasync_writers);
+        } pipe->last_retval = retval; pipe->last_readers = pipe->readers;
+    __pipe_unlock(pipe);
+    return retval;
+}
+
+ie. so if the last error status was NOT -1, but is now -1, and O_ASYNC is
+enabled, and readers is now 0, then if this special new sigio_on_write_enabled
+flag was set, then a sigio might be sent for it ?
 
 -- 
 You are receiving this mail because:
