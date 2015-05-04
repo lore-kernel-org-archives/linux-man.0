@@ -1,189 +1,159 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: get_phys_pages.3 review
-Date: Mon, 04 May 2015 20:24:50 +0200
-Message-ID: <5547B972.9050502@gmail.com>
-References: <55468DF3.3070908@tuffbizz.com> <554728F2.6050406@gmail.com> <55476D0B.8070301@gmx.com> <5547798D.2070507@gmail.com> <55477B04.7030001@tuffbizz.com> <5547A843.901@tuffbizz.com>
+Subject: Re: [patch] gethostbyname.3: NSS plugins searched first.
+Date: Mon, 04 May 2015 22:14:43 +0200
+Message-ID: <5547D333.8050602@gmail.com>
+References: <554113E3.4040105@redhat.com> <5541ECAE.6080108@gmail.com> <5542DE76.7030201@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5547A843.901-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>
+In-Reply-To: <5542DE76.7030201-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: William Woodruff <william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, =?UTF-8?B?U3TDqXBoYW5lIEF1bGVyeQ==?= <saulery-GANU6spQydw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi William,
-
-On 05/04/2015 07:11 PM, William Woodruff wrote:
-> Just following up on my previous message, here's the updated
-> page. If you think it's ready for addition, I'll submit the patch for
-> it tonight.
-
-I think you can submit the page, but see one comment below.
-
-> .\" Copyright (c) 2015 William Woodruff (william-d4iiUcZhRQBWk0Htik3J/w@public.gmane.org)
-> .\"
-> .\" %%%LICENSE_START(VERBATIM)
-> .\" Permission is granted to make and distribute verbatim copies of t=
-his
-> .\" manual provided the copyright notice and this permission notice a=
-re
-> .\" preserved on all copies.
-> .\"
-> .\" Permission is granted to copy and distribute modified versions of=
- this
-> .\" manual under the conditions for verbatim copying, provided that t=
-he
-> .\" entire resulting derived work is distributed under the terms of a
-> .\" permission notice identical to this one.
-> .\"
-> .\" Since the Linux kernel and libraries are constantly changing, thi=
-s
-> .\" manual page may be incorrect or out-of-date.  The author(s) assum=
-e no
-> .\" responsibility for errors or omissions, or for damages resulting =
-from
-> .\" the use of the information contained herein.  The author(s) may n=
-ot
-> .\" have taken the same level of care in the production of this manua=
-l,
-> .\" which is licensed free of charge, as they might when working
-> .\" professionally.
-> .\"
-> .\" Formatted or processed versions of this manual, if unaccompanied =
-by
-> .\" the source, must acknowledge the copyright and authors of this wo=
-rk.
-> .\" %%%LICENSE_END
-> .\"
-> .TH GET_PHYS_PAGES 3  2015-03-02 "GNU" "Linux Programmer's Manual"
-> .SH NAME
-> get_phys_pages, get_avphys_pages \- get total and available physical
-> page counts
-> .SH SYNOPSIS
-> .nf
-> .B "#include <sys/sysinfo.h>"
-> .sp
-> .B long int get_phys_pages(void);
-> .B long int get_av_phys_pages(void);
-> .SH DESCRIPTION
-> The function
-> .BR get_phys_pages ()
-> returns the total number of physical pages of memory available on the
-> system.
+On 05/01/2015 04:01 AM, Carlos O'Donell wrote:
+> On 04/30/2015 04:49 AM, Michael Kerrisk (man-pages) wrote:
+>> [CC +=3D St=C3=A9phane, since he's been working on related pages rec=
+ently]
+>>
+>> Hi Carlos,
+>>
+>> On 04/29/2015 07:24 PM, Carlos O'Donell wrote:
+>>> The gethostbyname man page should first and foremost list that
+>>> the source of the data comes from the NSS plugins. I accept
+>>> that the man page is intentionally trying to be vague because
+>>> these things are not guaranteed anywhere, the truth is far
+>>> more mundane and "default" here IMO applies to a normal glibc
+>>> installation on Linux, and the fallback is always a localhost
+>>> nameserver.
+>>>
+>>> I suggest the following changes, but feel free to reword as
+>>> you see fit.
+>>
+>> Thanks. Applied, with a few formatting teaks.
+>>
+>> One question below.
+>>
+>>> Patch against master.
+>>>
+>>> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>>>
+>>> diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+>>> index 7875f88..59c7bb1 100644
+>>> --- a/man3/gethostbyname.3
+>>> +++ b/man3/gethostbyname.3
+>>> @@ -224,18 +224,20 @@ The domain name queries carried out by
+>>>  .BR gethostbyname ()
+>>>  and
+>>>  .BR gethostbyaddr ()
+>>> -use a combination of any or all of the name server
+>>> +use a combination of any or all of Name Service Switch
+>>> +.BR nsswitch.conf(5)
+>>> +configured sources, name servers in \fI/etc/resolv.conf\fP
+>>> +.BR resolv.conf(5),
+>>> +a local name server
+>>>  .BR named (8),
+>>>  a broken out line from \fI/etc/hosts\fP, and the Network
+>>>  Information Service (NIS or YP), depending upon the contents of th=
+e
+>>>  \fIorder\fP line in
+>>>  .IR /etc/host.conf .
+>>
+>> Your patch didn't change the last few lines, but you may be able to
+>> help... Is the reference to "order" and /etc/host.conf on this page =
+not
+>> obsolete by now. Looking at host.conf(5), one sees,=20
 >=20
-> The function
-> .BR get_avphys_pages ()
-> returns the number of available physical pages of memory available on=
- the
-> system.
+> No, order *is* obsolete.
+>=20
+>>   Historical
+>>        The  nsswitch.conf(5) file is the modern way of controlling t=
+he
+>>        order of host lookups.
+>>
+>>        In glibc 2.4 and earlier, the following keyword is recognized=
+:
+>>
+>>        order  This keyword specifies how host lookups are to  be  pe=
+r=E2=80=90
+>>               formed.   It  should  be  followed by one or more look=
+up
+>>               methods, separated by commas.  Valid methods  are  bin=
+d,
+>>               hosts, and nis.
+>>
+>> So, it looks like some fix is required here also. Right?
+>=20
+> Yes. I didn't know how we wanted to talk about this particular topic.
+> The use of "order" is obsolete as of 2.5.
+>=20
+> The following is a sketch of how I'd rewrite this to be more correct,
+> I'm out of time for today, but if you want to fix the formatting and
+> check it in that would be awesome.
 
-One too many "available" in that last sentence.
+Applied, with a minor formatting tweak. Thanks, Carlos!
 
-Thanks,
+Cheers,
 
 Michael
 
 
-> .SH RETURN VALUE
-> On success, these functions return a nonnegative value as given in
-> DESCRIPTION.
-> On failure, they return \-1 and set
-> .I errno
-> to indicate the cause of the error.
-> .SH ERRORS
-> .TP
-> .B ENOSYS
-> The system could not provide the required information
-> (possibly because the
-> .I /proc
-> filesystem was not mounted).
-> .SH CONFORMING TO
-> These functions are GNU extensions.
-> .SH NOTES
-> These functions obtain the required information by scanning the
-> .I MemTotal
-> and
-> .I MemFree
-> fields of
-> .IR /proc/meminfo .
+
+> diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+> index 96f8cd6..5ce1e17 100644
+> --- a/man3/gethostbyname.3
+> +++ b/man3/gethostbyname.3
+> @@ -224,23 +224,26 @@ The domain name queries carried out by
+>  .BR gethostbyname ()
+>  and
+>  .BR gethostbyaddr ()
+> -use a combination of any or all of the Name Service Switch
+> +rely on the Name Service Switch
+>  .RB ( nsswitch.conf (5))
+> -configured sources, name servers in \fI/etc/resolv.conf\fP
+> -.RB ( resolv.conf (5)),
+> -a local name server
+> -.RB ( named (8)),
+> -a broken-out line from
+> -.IR /etc/hosts
+> -.RB ( hosts (5)),
+> -and the Network
+> -Information Service (NIS or YP), depending on the contents of the
+> -\fIorder\fP line in
+> -.IR /etc/host.conf .
+> +configured sources or a local name server
+> +.RB ( named (8)).
+>  The default action is to query the Name Service Switch
+>  .RB ( nsswitch.conf(5))
+> -configured sources, followed by a local name server
+> +configured sources, failing that, a local name server
+>  .RB ( named (8)).
+> +
+> +.SS Historical
+> +The
+> +.BR nsswitch.conf (5)
+> +file is the modern way of controlling the order of host lookups.
+> +.PP
+> +In glibc 2.4 and earlier, the
+> +.I order
+> +keyword was used to control the order of host lookups as defined in
+> +.IR /etc/host.conf
+> +.RB ( host.conf(5)).
+> +
+>  .PP
+>  The \fIhostent\fP structure is defined in \fI<netdb.h>\fP as follows=
+:
+>  .sp
+> ---
 >=20
-> The following
-> .BR sysconf (3)
-> calls provide a portable means of obtaining the same information as t=
-he
-> functions described on this page.
->=20
-> .nf
->     total_pages =3D sysconf(_SC_PHYS_PAGES);    /* total pages */
->     avl_pages =3D sysconf(_SC_AVPHYS_PAGES);    /* available pages */
-> .fi
-> .SH EXAMPLE
-> The following example shows how
-> .BR get_phys_pages ()
-> and
-> .BR get_avphys_pages ()
-> can be used.
->=20
-> .nf
-> #include <stdio.h>
-> #include <stdlib.h>
-> #include <sys/sysinfo.h>
->=20
-> int
-> main(int argc, char *argv[])
-> {
->     printf("This system has %ld pages of physical memory and "
->             "%ld pages of physical memory available.\\n",
->             get_phys_pages(), get_avphys_pages());
->     exit(EXIT_SUCCESS);
-> }
-> .fi
-> .SH SEE ALSO
-> .BR sysconf (3)
+> Cheers,
+> Carlos.
 >=20
 >=20
-> Best,
-> William
 >=20
-> On 05/04/2015 09:58 AM, William Woodruff wrote:
->> Hi Michael, William,
->>
->> On 05/04/2015 09:52 AM, Michael Kerrisk (man-pages) wrote:
->>> Hi William,
->>>
->>> On 05/04/2015 02:58 PM, J William Piggott wrote:
->>>> On 05/04/2015 04:08 AM, Michael Kerrisk (man-pages) wrote:
->>>>> Hello William,
->>>>>
->>>>> On 05/03/2015 11:06 PM, William Woodruff wrote:
->>>>
->>>>
->>>>>> returns the total number of physical pages of memory available o=
-n the
->>>>>> system.
->>>>>> .sp
->>>>>
->>>>> No need for .sp here. Just use a blank line for the para break.
->>>>
->>>> This is Groff specific behavior. From roff(7):
->>>>  =C2=B7      Never include empty or blank lines in a roff document=
-=2E
->>>
->>> I'm not sure whether that text applies or not. But in any case,
->>> we've got hundreds of pages that happily use blank lines.
->>> If you mist, you can instead use ".PP", but ".sp" seems
->>> wrong to me.
->>
->> I'll follow your advice here. I've seen the rule about never using
->> blank lines in groff, but if other pages do it, I'll assume the beha=
-vior
->> is reasonable.
->>
->> Best,
->> William Woodruff
->>
+>=20
 >=20
 
 
