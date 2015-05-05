@@ -1,7 +1,7 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 97721] signal(7) is unclear on EINTR behavior against disks
-Date: Tue, 05 May 2015 21:35:13 +0000
-Message-ID: <bug-97721-11311-RQo9QmFirj@https.bugzilla.kernel.org/>
+Date: Tue, 05 May 2015 21:45:25 +0000
+Message-ID: <bug-97721-11311-u3fKS63uCx@https.bugzilla.kernel.org/>
 References: <bug-97721-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -14,11 +14,18 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=97721
 
---- Comment #2 from Steinar H. Gunderson <sgunderson-jG/AHqQBv7lBDgjK7y7TUQ@public.gmane.org> ---
-Thanks! This makes it much clearer.
+Michael Wright <mdwrigh2-e4nNhFGpWWo@public.gmane.org> changed:
 
-In a sense, it's sad that FUSE is the way it is, but I think that's maybe more
-of a FUSE bug than a documentation bug.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mdwrigh2-e4nNhFGpWWo@public.gmane.org
+
+--- Comment #3 from Michael Wright <mdwrigh2-e4nNhFGpWWo@public.gmane.org> ---
+Note that a btrfs formatted drive can also return EINTR during an ioctl
+(https://github.com/torvalds/linux/blob/master/fs/btrfs/ioctl.c#L825) and FUSE
+explicitly documents this behavior
+(https://github.com/torvalds/linux/blob/master/Documentation/filesystems/fuse.txt#L169).
+Is there documentation somewhere about this restriction?
 
 -- 
 You are receiving this mail because:
