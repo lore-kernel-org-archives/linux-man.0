@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
  for an argument
-Date: Tue, 05 May 2015 15:18:39 +0000
-Message-ID: <bug-55371-11311-kio0gz8fcV@https.bugzilla.kernel.org/>
+Date: Tue, 05 May 2015 18:01:47 +0000
+Message-ID: <bug-55371-11311-gHVXvDjuy6@https.bugzilla.kernel.org/>
 References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,19 +15,24 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=55371
 
-Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|RESOLVED                    |REOPENED
-         Resolution|CODE_FIX                    |---
+             Status|REOPENED                    |RESOLVED
+         Resolution|---                         |WILL_NOT_FIX
 
---- Comment #4 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Thanks for the change.
+--- Comment #7 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+So, I've stepped back from this a little, to think about it more. I don't agree
+with the characterization of this problem as an error. The sentence you refer
+to is a generalization. The exceptions are clarified later. I don't think it
+help comprehensibility, nor readability, to clutter the initial discussion with
+a note that there are some exceptions. By the time folk get to the point in the
+page where %% is discussed, it's also noted as an exception to the general
+rule; problem solved. printf() is a complex API. It's reasonable to expect that
+people should read the documentation with some care.
 
-Regarding "%", I agree it is explained later, but the sentence remains
-incorrect (and the topic is complicated enough that each error is one too
-many).
+Summary: there's nothing to fix here, so I'm not fixing it.
 
 -- 
 You are receiving this mail because:
