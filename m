@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
  for an argument
-Date: Tue, 05 May 2015 18:01:47 +0000
-Message-ID: <bug-55371-11311-gHVXvDjuy6@https.bugzilla.kernel.org/>
+Date: Tue, 05 May 2015 18:57:14 +0000
+Message-ID: <bug-55371-11311-guEeeLueUO@https.bugzilla.kernel.org/>
 References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,24 +15,19 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=55371
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--- Comment #8 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Few students will be given man printf to read in school. The vast majority of
+consultations will happen when people try to interpret or write a call to
+printf(). It is unlikely that these readers will read the entire page at once.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|REOPENED                    |RESOLVED
-         Resolution|---                         |WILL_NOT_FIX
+If the documentation says each conversion specifier asks for the next argument,
+it is reasonable to expect that readers - whether careful or not - will
+conclude that each conversion specifier asks for the next argument, unless they
+read up to the point where this is contradicted.
 
---- Comment #7 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-So, I've stepped back from this a little, to think about it more. I don't agree
-with the characterization of this problem as an error. The sentence you refer
-to is a generalization. The exceptions are clarified later. I don't think it
-help comprehensibility, nor readability, to clutter the initial discussion with
-a note that there are some exceptions. By the time folk get to the point in the
-page where %% is discussed, it's also noted as an exception to the general
-rule; problem solved. printf() is a complex API. It's reasonable to expect that
-people should read the documentation with some care.
-
-Summary: there's nothing to fix here, so I'm not fixing it.
+If you think a note about exceptions would clutter, terminology can be used,
+for example "regular conversion specifier" versus "special conversion
+specifier".
 
 -- 
 You are receiving this mail because:
