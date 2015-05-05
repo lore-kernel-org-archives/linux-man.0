@@ -1,68 +1,44 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [update report]proc.5: account pmd page tables to the process
-Date: Tue, 5 May 2015 18:39:11 +0200
-Message-ID: <CAKgNAkjPEQ+yV_eVrcEdnJxthOQhO7GHvhUf+tAEP+4tmX4rAA@mail.gmail.com>
-References: <CAKgNAkgRMB3K0di=8BMzRDw4Qn1ZLCFO_AMTYQ=Q6topC5oogw@mail.gmail.com>
- <20150430111448.44B11A5@black.fi.intel.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
+ for an argument
+Date: Tue, 05 May 2015 16:05:17 +0000
+Message-ID: <bug-55371-11311-xpBxffMZF9@https.bugzilla.kernel.org/>
+References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150430111448.44B11A5-mPwCgTtGw1Jrdx17CPfAsdBPR1lH4CV8@public.gmane.org>
+In-Reply-To: <bug-55371-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Kirill A. Shutemov" <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Cc: Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Weijie Yang <weijie.yang.kh-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 30 April 2015 at 13:14, Kirill A. Shutemov
-<kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> wrote:
-> Michael Kerrisk (man-pages) wrote:
->> [CC += Kirill]
->>
->> Hello Weijie Yang, and Kirill,
->>
->> Kirill, your commit changed the user-space ABI but there was nothing
->> in the commit message about that, nor did it CC linux-api@. It makes
->> my life easier when those things happen ;-).
->>
->> On 28 April 2015 at 10:47, Weijie Yang <weijie.yang-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
->> > Since kernel v4.0, pmd page account is added into /proc/[pid]/status
->> >
->> > See detail:
->> > commit dc6c9a35b66b520cf67e05d8ca60ebecad3b0479
->> > Author: Kirill A. Shutemov <kirill.shutemov-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
->> > Date:   Wed Feb 11 15:26:50 2015 -0800
->> >
->> >     mm: account pmd page tables to the process
->> >
->> >
->> > I don't find a description for it when I read the latest man-page, so I send this email.
->> > Maybe there is already a plan for it and I miss it, anyway, I send this report.
->>
->> I added the following to the proc(5) entry for /proc/PID/status:
->>
->>       VmPMD :  Page middle directory size (since Linux 4.0).
->
-> I'm not native speaker, but I think "directory" should be plural --
-> there are more than one directory.
->
-> And I would rather say "Size of second level page tables".
+https://bugzilla.kernel.org/show_bug.cgi?id=55371
 
-Thanks, Kirill. I change the text to what you wrote.
+Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-> PMD is not really in middle since 4-level page tables was introduced and
-> definitely will not be in middle when we get 5-level page tables.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|RESOLVED                    |REOPENED
+         Resolution|CODE_FIX                    |---
 
-Oh -- I didn't realize we were getting another level of PTs!
+--- Comment #6 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Please do not close this ticket until the issue has been solved.
 
-Cheers,
+A simple patch for this issue is trivial - just rectify that only some
+conversion specifiers ask for the next arguments, for example:
 
-Michael
+By default, the arguments are used in the order given, where each '*' and each
+conversion specifier (except for some) asks for the next argument (and it is an
+error if insufficiently many arguments are given).
+
+
+A patch which would keep the current sentence's precision would have to list
+the exceptions.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
