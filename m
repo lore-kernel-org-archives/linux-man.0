@@ -1,29 +1,25 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 84871] Improve CONFIG_AUDITSYSCALL describtion
-Date: Tue, 05 May 2015 08:53:28 +0000
-Message-ID: <bug-84871-11311-bBby1NVTvb@https.bugzilla.kernel.org/>
-References: <bug-84871-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 95421] Outdated documentation on posix_fadvise?
+Date: Tue, 05 May 2015 08:57:52 +0000
+Message-ID: <bug-95421-11311-tvcEABiC9W@https.bugzilla.kernel.org/>
+References: <bug-95421-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-84871-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-95421-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=84871
+https://bugzilla.kernel.org/show_bug.cgi?id=95421
 
-Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+--- Comment #2 from Maik Zumstrull <maik-pC6eOnvJXUcJGwgDXS7ZQA@public.gmane.org> ---
+Last paragraph under NOTES. "Pages that have not yet been written out will be
+unaffected, so if the application wishes to guarantee that pages will be
+released, it should call fsync(2) or fdatasync(2) first."
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-         Resolution|---                         |INVALID
-
---- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Sorrry -- closing this, as it's not a man-pages bug.
+Unless I'm misreading the code, this is not true.
 
 -- 
 You are receiving this mail because:
