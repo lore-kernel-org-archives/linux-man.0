@@ -1,33 +1,41 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
- for an argument
-Date: Tue, 05 May 2015 18:57:14 +0000
-Message-ID: <bug-55371-11311-guEeeLueUO@https.bugzilla.kernel.org/>
-References: <bug-55371-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 53061] pthread_kill() should describe it may cause SEGV when
+ target thread doesn't exist
+Date: Tue, 05 May 2015 19:12:47 +0000
+Message-ID: <bug-53061-11311-V5vdaIjNZj@https.bugzilla.kernel.org/>
+References: <bug-53061-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-55371-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-53061-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=55371
+https://bugzilla.kernel.org/show_bug.cgi?id=53061
 
---- Comment #8 from Filipus Klutiero <chealer-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Few students will be given man printf to read in school. The vast majority of
-consultations will happen when people try to interpret or write a call to
-printf(). It is unlikely that these readers will read the entire page at once.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-If the documentation says each conversion specifier asks for the next argument,
-it is reasonable to expect that readers - whether careful or not - will
-conclude that each conversion specifier asks for the next argument, unless they
-read up to the point where this is contradicted.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |CODE_FIX
 
-If you think a note about exceptions would clutter, terminology can be used,
-for example "regular conversion specifier" versus "special conversion
-specifier".
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+The pthreads(7) page now carries this text:
+
+[[
+The system may reuse a thread ID after a terminated thread has been joined,
+or a detached thread has terminated.
+POSIX says: "If an application attempts to use a thread ID whose
+lifetime has ended, the behavior is undefined."
+]]
+
+I think that more or less satisfies your request, so I'm closing this bug.
+
+Thanks for the report.
 
 -- 
 You are receiving this mail because:
