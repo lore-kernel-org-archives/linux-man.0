@@ -1,38 +1,32 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97721] signal(7) is unclear on EINTR behavior against disks
-Date: Tue, 05 May 2015 14:46:33 +0000
-Message-ID: <bug-97721-11311-il9wLD7mwD@https.bugzilla.kernel.org/>
-References: <bug-97721-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 55371] printf: a conversion specifier doesn't necessarily ask
+ for an argument
+Date: Tue, 05 May 2015 15:23:15 +0000
+Message-ID: <bug-55371-11311-ajHAnwVgFo@https.bugzilla.kernel.org/>
+References: <bug-55371-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-97721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-55371-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97721
+https://bugzilla.kernel.org/show_bug.cgi?id=55371
 
 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
            What    |Removed                     |Added
 ----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+             Status|REOPENED                    |RESOLVED
          Resolution|---                         |CODE_FIX
 
---- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-I've amended the mention of sick devices to instead say
-
-
-    Note that a (local) disk is not a slow device according to 
-    this definition; I/O operations on disk devices are not 
-    interrupted by signals.
-
-Beyond the hint "(local)", I'm reluctant to say anything about NFS, and I don't
-know what the FUSE details are, so I'll close this bug now. Please reopen, if
-you think more is required.
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Sorry. Please do not reopen this bug, unless you have a concrete proposal for a
+fix--i.e., a patch. As far as I'm concerned the text is adequate, and I'm not
+doing further work on the page, but if you want you can propose a patch on the
+mailing list.
 
 -- 
 You are receiving this mail because:
