@@ -1,35 +1,46 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 97721] signal(7) is unclear on EINTR behavior against disks
-Date: Tue, 05 May 2015 21:45:25 +0000
-Message-ID: <bug-97721-11311-u3fKS63uCx@https.bugzilla.kernel.org/>
-References: <bug-97721-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: mcheck(3): add a notice that the current implementation is not
+ thread-safe
+Date: Wed, 06 May 2015 07:05:53 +0200
+Message-ID: <5549A131.5020404@gmail.com>
+References: <5408D288.1050407@googlemail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-97721-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <5408D288.1050407-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=97721
+Hello Toga,
 
-Michael Wright <mdwrigh2-e4nNhFGpWWo@public.gmane.org> changed:
+On 09/04/2014 10:58 PM, Tolga Dalman wrote:
+> Hello Michael,
+> 
+> mcheck is known to be unusable for quite some time with multi-threaded
+> applications:
+> 
+> 	https://sourceware.org/bugzilla/show_bug.cgi?id=9939
+> 
+> Until yesterday (including many hours of bug-hunting) this fact was not
+> known to me, thus, I would like to suggest to add a note in the mcheck(3) manual
+> page (and probably in the GLIBC documentation as well). I think one sentence in
+> the NOTES section should suffice.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |mdwrigh2-e4nNhFGpWWo@public.gmane.org
+It is sometime since your mail, but FYI, notes on the thread-non-safety of 
+mcheck() were added to the page in the last months.
 
---- Comment #3 from Michael Wright <mdwrigh2-e4nNhFGpWWo@public.gmane.org> ---
-Note that a btrfs formatted drive can also return EINTR during an ioctl
-(https://github.com/torvalds/linux/blob/master/fs/btrfs/ioctl.c#L825) and FUSE
-explicitly documents this behavior
-(https://github.com/torvalds/linux/blob/master/Documentation/filesystems/fuse.txt#L169).
-Is there documentation somewhere about this restriction?
+Thanks,
+
+Michael
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
