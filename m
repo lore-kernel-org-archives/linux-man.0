@@ -1,36 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: mcheck(3): add a notice that the current implementation is not
- thread-safe
-Date: Wed, 06 May 2015 07:05:53 +0200
-Message-ID: <5549A131.5020404@gmail.com>
-References: <5408D288.1050407@googlemail.com>
+Subject: Re: Bug about UNIX_PATH_MAX in the manpage of Unix(7)
+Date: Wed, 06 May 2015 10:24:46 +0200
+Message-ID: <5549CFCE.3090103@gmail.com>
+References: <4CD173D2.8020003@telecom-bretagne.eu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5408D288.1050407-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <4CD173D2.8020003-+sCGM1tQGJejRLBOWInFB+yrfmlZI2zM@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tolga Dalman <tolga.dalman-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+To: Christophe Lohr <Christophe.Lohr-+sCGM1tQGJejRLBOWInFB+yrfmlZI2zM@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hello Toga,
+Christophe,
 
-On 09/04/2014 10:58 PM, Tolga Dalman wrote:
-> Hello Michael,
+On 11/03/2010 03:38 PM, Christophe Lohr wrote:
+> File: /usr/share/man/man7/unix.7.gz
+> Version: 3.25-1
+> System: debian testing
 > 
-> mcheck is known to be unusable for quite some time with multi-threaded
-> applications:
 > 
-> 	https://sourceware.org/bugzilla/show_bug.cgi?id=9939
+> Hi,
+>    Manpage of Unix(7) says:
 > 
-> Until yesterday (including many hours of bug-hunting) this fact was not
-> known to me, thus, I would like to suggest to add a note in the mcheck(3) manual
-> page (and probably in the GLIBC documentation as well). I think one sentence in
-> the NOTES section should suffice.
+> ---------------------------------
+> |    SYNOPSIS
+> |           #include <sys/socket.h>
+> |           #include <sys/un.h>
+> (../..)
+> |    DESCRIPTION
+> (../..)
+> |
+> |       Address Format
+> |           A Unix domain socket address is represented in the following 
+> structure:
+> |
+> |               #define UNIX_PATH_MAX    108
+> |
+> |               struct sockaddr_un {
+> |                   sa_family_t sun_family;               /* AF_UNIX */
+> |                   char        sun_path[UNIX_PATH_MAX];  /* pathname */
+> |               };
+> ---------------------------------
+> 
+> 
+> However, UNIX_PATH_MAX is not defined in the mentioned include <sys/un.h>.
+> In fact, these definitions come from <linux/un.h>.
+> 
+> There is a confusion between the two includes (sys/un.h and linux/un.h).
+> 
+> Maybe they should be merged, but today it is not the case... :-(
 
-It is sometime since your mail, but FYI, notes on the thread-non-safety of 
-mcheck() were added to the page in the last months.
+Long after the fact... I've removed mention of UNIX_PATH_MAX from the page.
 
 Thanks,
 
