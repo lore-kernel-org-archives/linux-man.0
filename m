@@ -1,64 +1,169 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug
- 84151]=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
-Date: Thu, 07 May 2015 04:45:20 +0000
-Message-ID: <bug-84151-11311-Z9neqIxbpc@https.bugzilla.kernel.org/>
-References: <bug-84151-11311@https.bugzilla.kernel.org/>
+From: Namjae Jeon <namjae.jeon@samsung.com>
+Subject: [PATCH v2] manpage: update FALLOC_FL_INSERT_RANGE flag in fallocate
+Date: Thu, 07 May 2015 14:15:41 +0900
+Message-ID: <006d01d08884$dcfc7ea0$96f57be0$@samsung.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-84151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-fsdevel-owner@vger.kernel.org>
+Content-language: ko
+Sender: linux-fsdevel-owner@vger.kernel.org
+To: Michael Kerrisk <mtk.manpages@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-man@vger.kernel.org, Linux API <linux-api@vger.kernel.org>, Dave Chinner <david@fromorbit.com>, Theodore Ts'o <tytso@mit.edu>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=84151
+Update FALLOC_FL_INSERT_RANGE flag in fallocate.
 
---- Comment #3 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-Dan,
+Signed-off-by: Namjae Jeon <namjae.jeon@samsung.com>
+Signed-off-by: Ashish Sangwan <a.sangwan@samsung.com>
+---
+ man2/fallocate.2 | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 84 insertions(+), 5 deletions(-)
 
-(In reply to Dan Jacobson from comment #2)
-> 1) There is only a vague mention of a list at the bottom of that page. No
-> mention of a person.
-
-Did you look in MAINTAINERS?
-
-DOCUMENTATION
-M:      Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>
-L:      linux-doc-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-S:      Maintained
-F:      Documentation/
-X:      Documentation/ABI/
-X:      Documentation/devicetree/
-X:      Documentation/acpi
-X:      Documentation/power
-X:      Documentation/spi
-T:      git git://git.lwn.net/linux-2.6.git docs-next
-
-
-> 2) If I send a message to that list will the problem will get solved, or
-> might it drop through the cracks and get ignored maybe.
-
-Did you try?
-
-> 3) Please reassign this bug to the correct component.
-
-Who says there is a correct component? Not every kernel component makes use
-Bugzilla.
-
-In any case, raising reports for trivial problems like this really is a waste
-of everyone's time. Please don't do it. Do some minimal research (see "1)") to
-find the best path for solving the problem and send a patch.
-
-Thanks,
-
-Michael
-
+diff --git a/man2/fallocate.2 b/man2/fallocate.2
+index 0cc1a00..0d31027 100644
+--- a/man2/fallocate.2
++++ b/man2/fallocate.2
+@@ -228,6 +228,59 @@ ext4, for extent-based files (since Linux 3.15)
+ .IP *
+ SMB3 (since Linux 3.17)
+ .\" commit 30175628bf7f521e9ee31ac98fa6d6fe7441a556
++.SS Increasing file space
++flag (available since Linux 4.1)
++.\" commit dd46c787788d5bf5b974729d43e4c405814a4c7d
++Specifying the
++.BR FALLOC_FL_INSERT_RANGE
++flag in
++.I mode
++will increase the file space by inserting a hole within the file size without
++overwriting any existing data.
++The hole will start at
++.I offset
++and continue for
++.I len
++bytes.
++For inserting hole inside file, the contents of the file starting at
++.I offset
++will be shifted towards right by
++.I len
++bytes.
++Inserting a hole inside the file will increase the file size by
++.I len
++bytes.
++
++This mode has the same limitation as
++.BR FALLOC_FL_COLLAPSE_RANGE
++regarding the
++granularity of the operation.
++If the granularity requirements are not met,
++.BR fallocate ()
++will fail with the error
++.BR EINVAL.
++If the
++.I offset
++overlaps with end of file OR if it is greater than end of file, an error is
++returned.
++For such type of operations, i.e. inserting a hole at the end of file,
++.BR ftruncate(2)
++should be used.
++In case
++.IR offset + len
++exceeds the maximum file size, errno will be set to
++.B EFBIG.
++
++No other flags may be specified in
++.IR mode
++in conjunction with
++.BR FALLOC_FL_INSERT_RANGE .
++
++As of Linux 4.1,
++.B FALLOC_FL_INSERT_RANGE
++is supported by
++XFS.
++.\" commit a904b1ca5751faf5ece8600e18cd3b674afcca1b
+ .SH RETURN VALUE
+ On success,
+ .BR fallocate ()
+@@ -245,6 +298,12 @@ is not a valid file descriptor, or is not opened for writing.
+ .IR offset + len
+ exceeds the maximum file size.
+ .TP
++.B EFBIG
++.I mode
++is
++.BR FALLOC_FL_INSERT_RANGE ,
++the current file size+len exceeds the maximum file size.
++.TP
+ .B EINTR
+ A signal was caught during execution.
+ .TP
+@@ -273,7 +332,17 @@ reaches or passes the end of the file.
+ .B EINVAL
+ .I mode
+ is
+-.BR FALLOC_FL_COLLAPSE_RANGE ,
++.BR FALLOC_FL_INSERT_RANGE
++and the range specified by
++.I offset
++reaches or passes the end of the file.
++.TP
++.B EINVAL
++.I mode
++is
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but either
+ .I offset
+ or
+@@ -282,18 +351,24 @@ is not a multiple of the filesystem block size.
+ .TP
+ .B EINVAL
+ .I mode
+-contains both
++contains either of
+ .B FALLOC_FL_COLLAPSE_RANGE
++or
++.B FALLOC_FL_INSERT_RANGE
+ and other flags;
+ no other flags are permitted with
+-.BR FALLOC_FL_COLLAPSE_RANGE .
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE .
+ .TP
+ .B EINVAL
+ .I mode
+ is
+ .BR FALLOC_FL_COLLAPSE_RANGE
+ or
+-.BR FALLOC_FL_ZERO_RANGE ,
++.BR FALLOC_FL_ZERO_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but the file referred to by
+ .I fd
+ is not a regular file.
+@@ -345,6 +420,8 @@ specifies
+ .BR FALLOC_FL_PUNCH_HOLE
+ or
+ .BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE
+ and
+ the file referred to by
+ .I fd
+@@ -363,7 +440,9 @@ refers to a pipe or FIFO.
+ .B ETXTBSY
+ .I mode
+ specifies
+-.BR FALLOC_FL_COLLAPSE_RANGE ,
++.BR FALLOC_FL_COLLAPSE_RANGE
++or
++.BR FALLOC_FL_INSERT_RANGE ,
+ but the file referred to by
+ .IR fd
+ is currently being executed.
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+1.8.5.5
+
