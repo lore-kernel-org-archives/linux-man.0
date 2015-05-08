@@ -1,172 +1,52 @@
-From: Namjae Jeon <namjae.jeon-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
-Subject: [PATCH v3] manpage: update FALLOC_FL_INSERT_RANGE flag in fallocate
-Date: Fri, 08 May 2015 14:28:42 +0900
-Message-ID: <009201d0894f$d87f0890$897d19b0$@samsung.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug
+ 84151]=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
+Date: Fri, 08 May 2015 09:37:51 +0000
+Message-ID: <bug-84151-11311-5HUV4g97Ch@https.bugzilla.kernel.org/>
+References: <bug-84151-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-language: ko
+In-Reply-To: <bug-84151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-fsdevel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Dave Chinner <david-FqsqvQoI3Ljby3iVrkZq2A@public.gmane.org>, Theodore Ts'o <tytso-3s7WtUTddSA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Update FALLOC_FL_INSERT_RANGE flag in fallocate.
+https://bugzilla.kernel.org/show_bug.cgi?id=84151
 
-Signed-off-by: Namjae Jeon <namjae.jeon-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
-Signed-off-by: Ashish Sangwan <a.sangwan-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
----
- man2/fallocate.2 | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 84 insertions(+), 5 deletions(-)
+--- Comment #5 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+(In reply to Dan Jacobson from comment #4)
+> All I am trying to say is that you need a general bug tracker for such
+> problems. People will not know that they are supposed to look in various
+> files to find various names. And indeed posting to that list often meets
+> with no answer. So do consider a Debian-like policy, where one can
+> always still post to their bug-tracker, no matter what.
 
-diff --git a/man2/fallocate.2 b/man2/fallocate.2
-index 0cc1a00..0d31027 100644
---- a/man2/fallocate.2
-+++ b/man2/fallocate.2
-@@ -228,6 +228,59 @@ ext4, for extent-based files (since Linux 3.15)
- .IP *
- SMB3 (since Linux 3.17)
- .\" commit 30175628bf7f521e9ee31ac98fa6d6fe7441a556
-+.SS Increasing file space
-+flag (available since Linux 4.1)
-+.\" commit dd46c787788d5bf5b974729d43e4c405814a4c7d
-+Specifying the
-+.BR FALLOC_FL_INSERT_RANGE
-+flag in
-+.I mode
-+will increase the file space by inserting a hole within the file size without
-+overwriting any existing data.
-+The hole will start at
-+.I offset
-+and continue for
-+.I len
-+bytes.
-+For inserting hole inside file, the contents of the file starting at
-+.I offset
-+will be shifted towards right by
-+.I len
-+bytes.
-+Inserting a hole inside the file will increase the file size by
-+.I len
-+bytes.
-+
-+This mode has the same limitation as
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+regarding the
-+granularity of the operation.
-+If the granularity requirements are not met,
-+.BR fallocate ()
-+will fail with the error
-+.BR EINVAL.
-+If the
-+.I offset
-+is greater than or equal to the end of file, an error is
-+returned.
-+For such type of operations, i.e. inserting a hole at the end of file,
-+.BR ftruncate(2)
-+should be used.
-+In case
-+.IR offset + len
-+exceeds the maximum file size, errno will be set to
-+.B EFBIG.
-+
-+No other flags may be specified in
-+.IR mode
-+in conjunction with
-+.BR FALLOC_FL_INSERT_RANGE .
-+
-+As of Linux 4.1,
-+.B FALLOC_FL_INSERT_RANGE
-+is supported by
-+XFS.
-+.\" commit a904b1ca5751faf5ece8600e18cd3b674afcca1b
- .SH RETURN VALUE
- On success,
- .BR fallocate ()
-@@ -245,6 +298,12 @@ is not a valid file descriptor, or is not opened for writing.
- .IR offset + len
- exceeds the maximum file size.
- .TP
-+.B EFBIG
-+.I mode
-+is
-+.BR FALLOC_FL_INSERT_RANGE ,
-+the current file size+len exceeds the maximum file size.
-+.TP
- .B EINTR
- A signal was caught during execution.
- .TP
-@@ -273,7 +332,17 @@ reaches or passes the end of the file.
- .B EINVAL
- .I mode
- is
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_INSERT_RANGE
-+and the range specified by
-+.I offset
-+reaches or passes the end of the file.
-+.TP
-+.B EINVAL
-+.I mode
-+is
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but either
- .I offset
- or
-@@ -282,18 +351,24 @@ is not a multiple of the filesystem block size.
- .TP
- .B EINVAL
- .I mode
--contains both
-+contains either of
- .B FALLOC_FL_COLLAPSE_RANGE
-+or
-+.B FALLOC_FL_INSERT_RANGE
- and other flags;
- no other flags are permitted with
--.BR FALLOC_FL_COLLAPSE_RANGE .
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE .
- .TP
- .B EINVAL
- .I mode
- is
- .BR FALLOC_FL_COLLAPSE_RANGE
- or
--.BR FALLOC_FL_ZERO_RANGE ,
-+.BR FALLOC_FL_ZERO_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but the file referred to by
- .I fd
- is not a regular file.
-@@ -345,6 +420,8 @@ specifies
- .BR FALLOC_FL_PUNCH_HOLE
- or
- .BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE
- and
- the file referred to by
- .I fd
-@@ -363,7 +440,9 @@ refers to a pipe or FIFO.
- .B ETXTBSY
- .I mode
- specifies
--.BR FALLOC_FL_COLLAPSE_RANGE ,
-+.BR FALLOC_FL_COLLAPSE_RANGE
-+or
-+.BR FALLOC_FL_INSERT_RANGE ,
- but the file referred to by
- .IR fd
- is currently being executed.
+The kernel community is heterogeneous in this respect--some use the bug
+tracker, some don't. There is no global (ly enforced) policy. BTSs are of
+course not a panacea. I know from my own experience with Debisn that man pages
+bug reports sometimes sit there for *years* unattended, sometimes even for
+years after I add a note saying the problem is fixed upstream.
+
+The general problem I think is this: Bug Trackers facilitate throwing a problem
+to someone else, rather than rolling up your sleeves and getting involved in
+the fixing yourself. Yes, we need bug reporters, but the problem is there
+aren't enough bug *fixers*. And I think bug reports like this illustrate the
+problem quite well. You may say that mails to that list are sometimes ignored,
+and I won't disagree, but I think if you sent a well formatted patch to the
+list, it'd likely be attended to. For my part, with respect to man-pages, I
+explicitly request[1] that people don't use Bugzilla for this kind of report.
+
+Thanks,
+
+Michael
+
+[1] https://www.kernel.org/doc/man-pages/reporting_bugs.html
+
 -- 
-1.8.5.5
-
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
