@@ -1,198 +1,43 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: sysctl_writes_strict documentation  + an oddity?
-Date: Sat, 09 May 2015 10:54:11 +0200
-Message-ID: <554DCB33.8080101@gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug
+ 84151]=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
+Date: Sat, 09 May 2015 10:16:04 +0000
+Message-ID: <bug-84151-11311-EQilPK0MaK@https.bugzilla.kernel.org/>
+References: <bug-84151-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-84151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Randy Dunlap <rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Kees,
+https://bugzilla.kernel.org/show_bug.cgi?id=84151
 
-I discovered that you added /proc/sys/kernel/sysctl_writes_strict in
-Linux 3.16. In passing, I'll just mention that was an API change that
-should have been CCed to linux-api-u79uwXL29TaiAVqoAR/hOA@public.gmane.org
+--- Comment #6 from Dan Jacobson <jidanni-8D0D3YcSAvhAfugRpC6u6w@public.gmane.org> ---
+Indeed recently some of my 12 year old Debian bugs got fixed.
 
-Anyway, I've tried to write this file up for the proc(5) man page,=20
-and I have two requests:
+Here in Taiwan several cities have set up catch-all one stop toll-free
+numbers for any problem.
 
-1) Could you review this text?
-2) I've found some behavior that surprised me, and I am wondering if it
-   is intended. Could you let me know your thoughts?
+Even though a free software project in contrast makes no promise the
+bugs will ever get fixed, but at least having somewhere to put them is
+better than having nowhere. Also at least the user will do some minimal
+categorization when entering the bug. Or at least try.
 
-=3D=3D=3D=3D=3D 1) man-page text =3D=3D=3D=3D=3D
+Anyway back to my city example, I think getting citizens to report
+problems at all is much more valuable than trying to train them about
+which department to hopefully contact like back in the old days.
 
-The man-page text, heavily based on your text in
-Documentation/sysctl/kernel.txt, is as follows:
+Anyway for all organizations, if a user gets the message that little
+reports are unwelcome, well you are not going to get big reports either.
 
-       /proc/sys/kernel/sysctl_writes_strict (since Linux 3.16)
-              The  value  in  this  file  determines how the file offse=
-t
-              affects the behavior of updating entries  in  files  unde=
-r
-              /proc/sys.  The file has three possible values:
+OK I won't report anymore bugs.
 
-              -1  This  provides  legacy  handling, with no printk warn=
-=E2=80=90
-                  ings.  Each write(2) must fully contain the  value  t=
-o
-                  be  written,  and  multiple  writes  on  the same fil=
-e
-                  descriptor will overwrite the entire value, regardles=
-s
-                  of the file position.
-
-              0   (default)  This  provides the same behavior as for -1=
-,
-                  but printk warnings are  written  for  processes  tha=
-t
-                  perform writes when the file offset is not 0.
-
-              1   Respect  the  file  offset  when  writing strings int=
-o
-                  /proc/sys files.  Multiple writes will append  to  th=
-e
-                  value  buffer.   Anything  written  beyond the maximu=
-m
-                  length of the value buffer will be ignored.  Writes t=
-o
-                  numeric  /proc/sys entries must always be at file off=
-=E2=80=90
-                  set 0 and the value must be  fully  contained  in  th=
-e
-                  buffer provided to write(2).
-
-=3D=3D=3D=3D=3D 2) Behavior puzzle (a) =3D=3D=3D=3D=3D
-
-The last sentence quoted from the man page was based on your sentence
-
-    Writes to numeric sysctl entries must always be at file position 0=20
-    and the value must be fully contained in the buffer sent in the wri=
-te=20
-    syscall.
-
-So, I had interpreted /proc/sys/kernel/sysctl_writes_strict=3D=3D1 to
-mean that if one writes into a numeric /proc/sys file at an offset
-other than zero, the write() will fail with some kind of error.
-But this seems not to be the case. Instead, the write() succeeds,=20
-but the file is left unmodified. That's surprising, I find. So, I'm
-wondering whether the implementation deviates from your intention.
-
-There's a test program below, which takes arguments as follows
-
-    ./a.out pathname offset string
-
-And here's a test run that demonstrates the behavior:
-
-$ sudo sh -c "echo 1 > /proc/sys/kernel/sysctl_writes_strict"
-$ cat /proc/sys/kernel/pid_max
-32768
-$ sudo dmesg --clear
-$ sudo ./a.out /proc/sys/kernel/pid_max 1 3000
-write() succeeded (return value 4)
-$ cat /proc/sys/kernel/pid_max
-32768
-$ dmesg
-
-As you can see above, an attempt was made to write into the
-/proc/sys/kernel/pid_max file at offset 1.
-The write() returned successfully (reporting 4 bytes written)
-but the file contents were unchanged, and no printk() warning
-was issued. Is this intended behavior?
-
-=3D=3D=3D=3D=3D 2) Behavior puzzle (b) =3D=3D=3D=3D=3D
-
-In commit f88083005ab319abba5d0b2e4e997558245493c8, there is this note:
-
-    This adds the sysctl kernel.sysctl_writes_strict to control the wri=
-te
-    behavior.  The default (0) reports when VFS position is non-0 on a
-    write, but retains legacy behavior, -1 disables the warning, and 1
-    enables the position-respecting behavior.
-   =20
-    The long-term plan here is to wait for userspace to be fixed in res=
-ponse
-    to the new warning and to then switch the default kernel behavior t=
-o the
-    new position-respecting behavior.
-
-(That last para was added to the commit message by AKPM, I see.)
-
-But, I wonder here whether /proc/sys/kernel/sysctl_writes_strict=3D=3D0
-is going to help with the long-term plan. The problem is that in=20
-warn_sysctl_write(), pr_warn_once() is used. This means that only=20
-the first offending user-space application that writes to *any*=20
-/proc/sys file will generate the printk warning. If that application=20
-isn't fixed, then none of the other "broken" applications will be=20
-discovered. It therefore seems possible that it could be a very long
-time before we could "switch the default kernel behavior to the
-new position-respecting behavior".
-
-Looking over old mails
-(http://thread.gmane.org/gmane.linux.kernel/1695177/focus=3D23240),
-I see that you're aware of the problem, but it seems to me that
-the switch to pr_warn_once() (for fear of spamming the log) likely
-dooms the long-term plan to failure. Your thoughts?
-
-Cheers,
-
-Michael
-
-
-8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--8x--
-
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/types.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-
-#define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
-
-int
-main(int argc, char *argv[])
-{
-    char *pathname;
-    off_t offset;
-    char *string;
-    int fd;
-    ssize_t numWritten;
-
-    if (argc !=3D 4) {
-        fprintf(stderr, "Usage: %s pathname offset string\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
-
-    pathname =3D argv[1];
-    offset =3D strtoll(argv[2], NULL, 0);
-    string =3D argv[3];
-
-    fd =3D open(pathname, O_RDWR);
-    if (fd =3D=3D -1)
-        errExit("open");
-
-    if (lseek(fd, offset, SEEK_SET) =3D=3D -1)
-        errExit("lseek");
-
-    numWritten =3D write(fd, string, strlen(string));
-    if (numWritten =3D=3D -1)
-        errExit("write");
-
-    printf("write() succeeded (return value %zd)\n", numWritten);
-
-    exit(EXIT_SUCCESS);
-}
-
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
