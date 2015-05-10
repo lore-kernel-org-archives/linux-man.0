@@ -1,43 +1,46 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug
- 84151]=?UTF-8?Q?=20right=20and=20side=20=E2=86=92=20right=20hand=20side?=
-Date: Sat, 09 May 2015 10:16:04 +0000
-Message-ID: <bug-84151-11311-EQilPK0MaK@https.bugzilla.kernel.org/>
-References: <bug-84151-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: Clarification for man 7 packet: sll_family is used for binding.
+Date: Sun, 10 May 2015 13:03:02 +0200
+Message-ID: <554F3AE6.6030201@gmail.com>
+References: <BANLkTi=ZhuSVkOEGsV8G+DT+SJjBgSpQAQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-84151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <BANLkTi=ZhuSVkOEGsV8G+DT+SJjBgSpQAQ-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Cortland Setlow <cortland.setlow-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=84151
+Hello Cortland,
 
---- Comment #6 from Dan Jacobson <jidanni-8D0D3YcSAvhAfugRpC6u6w@public.gmane.org> ---
-Indeed recently some of my 12 year old Debian bugs got fixed.
+On 06/16/2011 07:55 PM, Cortland Setlow wrote:
+> Hi,
+> 
+> In the packet (7) manpage ( I retrieved the HTML version from
+> kernel.orgtoday ) it says
+> "For bind only sll_protocol and sll_ifindex are used." but I get EINVAL
+> unless I also
+> use sll_family.  Could you amend this sentence to say that sll_family is
+> used for binding?
+> 
+> Granted, the man page already says that sll_family is always AF_PACKET,
+> but it wasn't very clear to me.  Either way, best regards.
 
-Here in Taiwan several cities have set up catch-all one stop toll-free
-numbers for any problem.
+Long after the fact...
 
-Even though a free software project in contrast makes no promise the
-bugs will ever get fixed, but at least having somewhere to put them is
-better than having nowhere. Also at least the user will do some minimal
-categorization when entering the bug. Or at least try.
+Agreed it would be helpful to mention 'sll_family' here. I've added it.
 
-Anyway back to my city example, I think getting citizens to report
-problems at all is much more valuable than trying to train them about
-which department to hopefully contact like back in the old days.
+Thanks,
 
-Anyway for all organizations, if a user gets the message that little
-reports are unwelcome, well you are not going to get big reports either.
+Michael
 
-OK I won't report anymore bugs.
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
