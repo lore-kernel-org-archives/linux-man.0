@@ -1,108 +1,96 @@
-From: Jian Wen <wenjianhn-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] packet.7: Fix description of binding a packet socket to
- an interface
-Date: Mon, 11 May 2015 10:05:37 +0800
-Message-ID: <CAMXzGWLWQ2urY1F344Qq0681DPwU9WQhJKKp72ph8QwgBJJtUg@mail.gmail.com>
-References: <CAMXzGWJodsZjNnYj-MaeEDuaPE=t4ig=3vk=WiArJ3aMtATNsw@mail.gmail.com>
- <554F3CBC.90503@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: gethostbyname(3) / IPv6
+Date: Mon, 11 May 2015 11:17:01 +0200
+Message-ID: <5550738D.1090909@gmail.com>
+References: <Pine.LNX.4.64.1003040102490.6496@login01.caesar.elte.hu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <554F3CBC.90503-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <Pine.LNX.4.64.1003040102490.6496-a7N6hpt6sEOGMAd2kvhVmjlnRINgEMlm@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Cortland Setlow <cortland.setlow-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Ersek, Laszlo" <lacos-hjAHdpL4VZo5Z0SDYBDJZg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Cool!
+Hello Laszlo,
 
-Thanks.
+On 03/04/2010 01:14 AM, Ersek, Laszlo wrote:
+> Hi,
+> 
+> we were having a discussion in the comp.unix.programmer Usenet newsgroup, 
+> starting with Message-ID: 
+> <e8e1cb1d-9693-4803-bf29-b4828de384e0-nbjlO0B5Z98wq+9lhVFwFGB/v6IoIuQBVpNB7YpNyf8@public.gmane.org>. 
+> Consequently, I'd like to report two bugs (in separate e-mails):
+> 
+> (2/2) gethostbyname(3) fails to resolve the IPv6 address "::1", but the 
+> manual page says: "If name is an IPv4 or IPv6 address, no lookup is 
+> performed and gethostbyname() simply copies name into the h_name field 
+> [...]".
+> 
+> Debian bug report:
+> 
+> http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=455762
+> 
+> glibc bug report:
+> 
+> http://sourceware.org/bugzilla/show_bug.cgi?id=5479
+> 
+> SUSv3 link for gethostbyname(3):
+> 
+> http://www.opengroup.org/onlinepubs/000095399/functions/gethostbyname.html
+> 
+> It seems that the glibc behavior is conformant, and the manual page is in 
+> error.
+> 
+> I'm using the manpages-dev package, version 3.05-1, under Debian Lenny. 
+> However, before sending this report, I've verified the bug's existence in 
+> the online page under
+> 
+> http://www.kernel.org/doc/man-pages/online/pages/man3/gethostbyname.3.html
+> 
+> If this goes anywhere on linux-man@vger, please keep me CC'd.
 
-On Sun, May 10, 2015 at 7:10 PM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Hello =E6=96=87=E5=89=91,
->
-> On 08/11/2011 06:04 PM, =E6=96=87=E5=89=91 wrote:
->> As mentioned in packet(7), "Only  the  sll_protocol  and  the  sll_i=
-findex
->> address fields are used for purposes of binding."
->> But in my test, sll_family is also used for binding a packet socket =
-to an
->> interface.
->
-> I'm catching up with some very old mail.
->
-> I've applied your patch (for a problem that Cortland also reported).
-> Thank you for sending it, and sorry that it sat on the floor for so
-> long.
->
-> Cheers,
->
-> Michael
->
->
->> My enviroment:  2.6.38-10-generic Ubuntu-11.04 i686
->>
->> Against man-pages 3.33.
->>
->> Signed-off-by: Jian Wen
->>
->> ---
->>  man7/packet.7 |   18 ++++++++----------
->>  1 files changed, 8 insertions(+), 10 deletions(-)
->>
->> diff --git a/man7/packet.7 b/man7/packet.7
->> index 5e35ae2..3de2550 100644
->> --- a/man7/packet.7
->> +++ b/man7/packet.7
->> @@ -84,11 +84,14 @@ To only get packets from a specific interface us=
-e
->>  specifying an address in a
->>  .I struct sockaddr_ll
->>  to bind the packet socket to an interface.
->> -Only the
->> -.I sll_protocol
->> -and the
->> -.I sll_ifindex
->> -address fields are used for purposes of binding.
->> +Fields used for binding are
->> +.IR sll_family (should
->> +be
->> +.BR AF_PACKET ),
->> +.IR sll_protocol ,
->> +and
->> +.IR sll_ifindex .
->> +
->>
->>  The
->>  .BR connect (2)
->> @@ -166,11 +169,6 @@ The other fields should be 0.
->>  and
->>  .I sll_pkttype
->>  are set on received packets for your information.
->> -For bind only
->> -.I sll_protocol
->> -and
->> -.I sll_ifindex
->> -are used.
->>  .SS Socket Options
->>  Packet sockets can be used to configure physical layer multicasting
->>  and promiscuous mode.
->>
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+Late follow up. That text about Ipv6 addresses has been in the
+man page since the beginning, but it appears that the author
+didn't test this point. I verified your test. The appropriate
+path seems to remove mention of IPv6 from the man page, which I 
+have done with the patch below.
+
+Thanks for the report.
+
+Cheers,
+
+Michael
+
+diff --git a/man3/gethostbyname.3 b/man3/gethostbyname.3
+index e0b94b0..d79eb32 100644
+--- a/man3/gethostbyname.3
++++ b/man3/gethostbyname.3
+@@ -149,13 +149,11 @@ for the given host
+ .IR name .
+ Here
+ .I name
+-is either a hostname, or an IPv4 address in standard dot notation (as for
+-.BR inet_addr (3)),
+-or an IPv6 address in colon (and possibly dot) notation.
+-(See RFC\ 1884 for the description of IPv6 addresses.)
++is either a hostname or an IPv4 address in standard dot notation (as for
++.BR inet_addr (3)).
+ If
+ .I name
+-is an IPv4 or IPv6 address, no lookup is performed and
++is an IPv4 address, no lookup is performed and
+ .BR gethostbyname ()
+ simply copies
+ .I name
 
 
 
---=20
-Best,
-
-Jian
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
