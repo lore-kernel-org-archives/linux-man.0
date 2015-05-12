@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: document charclass and charconv
-Date: Tue, 12 May 2015 16:57:58 +0300
-Message-ID: <555206E6.6020807@redhat.com>
+Subject: [PATCH] locale.5: document outdigit and alt_digits
+Date: Tue, 12 May 2015 16:58:08 +0300
+Message-ID: <555206F0.5020103@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -12,46 +12,46 @@ To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gm
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-See e.g. the locales ja_JP and ko_KR and
-
-http://en.cppreference.com/w/cpp/string/wide/towctrans
-http://en.cppreference.com/w/cpp/string/wide/wctrans
+See e.g. fa_IR for reference.
 
 ---
- man5/locale.5 |   10 ++++++++--
- 1 files changed, 8 insertions(+), 2 deletions(-)
+ man5/locale.5 |    7 ++++++-
+ 1 files changed, 6 insertions(+), 1 deletions(-)
 
 diff --git a/man5/locale.5 b/man5/locale.5
-index d2c67dc..b7e1d15 100644
+index b7e1d15..5a540f8 100644
 --- a/man5/locale.5
 +++ b/man5/locale.5
-@@ -244,8 +244,6 @@ in the first column.
+@@ -244,7 +244,6 @@ in the first column.
  The following keywords are allowed:
  .\" FIXME The following LC_CTYPE keywords are not documented:
  .\"	translit_start + translit_end
--.\"	charclass
--.\"	charconv
- .\"	outdigit
+-.\"	outdigit
  .\"	include
  .\"	map (to_inpunct, to_outpunct)
-@@ -431,6 +429,14 @@ followed by a list of mappings from uppercase to lowercase
- letters.
- If the keyword tolower is not present, the reverse of the
- toupper list is used.
+ .TP
+@@ -437,6 +436,9 @@ which are then to be defined in the locale.
+ .I charconv
+ followed by a list of locale-specific character map names
+ which are then to be defined in the locale.
 +.TP
-+.I charclass
-+followed by a list of locale-specific character class names
-+which are then to be defined in the locale.
-+.TP
-+.I charconv
-+followed by a list of locale-specific character map names
-+which are then to be defined in the locale.
++.I outdigit
++followed by a list of alternate output digits for the locale.
  .PP
  The
  .B LC_CTYPE
+@@ -1109,6 +1111,9 @@ Right-left from top.
+ .I date_fmt
+ followed by the appropriate date representation for
+ .BR date (1).
++.TP
++.I alt_digits
++followed by the alternative digits used for date and time in the locale.
+ .PP
+ The
+ .B LC_TIME
 -- 
 1.7.1
-
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
