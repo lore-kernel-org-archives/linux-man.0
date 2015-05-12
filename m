@@ -1,72 +1,91 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Some locale related updates
-Date: Tue, 12 May 2015 16:23:28 +0200
-Message-ID: <55520CE0.8080302@gmail.com>
-References: <555206C7.8000308@redhat.com>
+From: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: ptrace.2: BUGS (missing WIFEXITED notification)
+Date: Tue, 12 May 2015 16:31:08 +0200
+Message-ID: <55520EAC.2010003@oracle.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <555206C7.8000308-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Quentin Casasnovas <quentin.casasnovas-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Marko,
+[resend with Cc: linux-man]
 
-On 05/12/2015 03:57 PM, Marko Myllynen wrote:
-> Hi Michael,
-> 
-> I'll send some locale related updates shortly, most of them should be
-> pretty self-explanatory but I'll provide some references in few cases
-> and I'm sure you can come up with slightly better wording here and there.
+Hi again :-)
 
-I've applied all of the following:
+We hit another edge case in the ptrace() interface and after several
+hours of chasing it down, we found that it was already described in the
+"BUGS" section:
 
-    locale.5: document class in LC_CTYPE
-    locale.5: document default_missing
-    locale.5: document character transliteration
-    locale.5: document map "totitle"
-    locale.5: copy is not exclusive in LC_CTYPE and LC_COLLATE
-    locale.5: document map to_inpunct, map to_outpunct
-    locale.5: document outdigit and alt_digits
-    locale.5: document charclass and charconv
-    locale.7: LC_CTYPE determines transliteration rules on glibc systems
+"If a thread group leader is traced and exits by calling _exit(2), a
+PTRACE_EVENT_EXIT stop will happen for it (if requested), but the
+subsequent WIFEXITED notification will not be delivered until all other
+threads exit. As explained above, if one of other threads calls
+execve(2), the death of the thread group leader will never be reported.
+If the execed thread is not traced by this tracer, the tracer will never
+know that execve(2) happened. One possible workaround is to
+PTRACE_DETACH the thread group leader instead of restarting it in this
+case. Last confirmed on 2.6.38.6."
 
-and also this one that you just sent
+I wanted to write that we've also noticed the same thing not only for
+_exit() but also for terminating signals, however we also came across
+this bit in the manual source:
 
-    locale.5: fix country_isbn format
+.\" Note from Denys Vlasenko:
+.\" Here "exits" means any kind of death - _exit, exit_group,
+.\" signal death. Signal death and exit_group cases are trivial,
+.\" though: since signal death and exit_group kill all other threads
+.\" too, "until all other threads exit" thing happens rather soon
+.\" in these cases. Therefore, only _exit presents observably
+.\" puzzling behavior to ptrace users: thread leader _exit's,
+.\" but WIFEXITED isn't reported! We are trying to explain here
+.\" why it is so.
 
-Are there more to come?
+There is a difference, however -- this behaviour can also be observed
+for the other types of death if you are currently tracing the other
+threads too!
 
-> Related to wording, I see that setlocale(3) states:
-> 
-> The locale "C" or "POSIX" is a portable locale; its LC_CTYPE part
-> corresponds to the 7-bit ASCII character set.
-> 
-> And
-> http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap07.html#tag_07_02
-> states:
-> 
-> The tables in Locale Definition describe the characteristics and
-> behavior of the POSIX locale for data consisting entirely of characters
-> from the portable character set and the control character set. For other
-> characters, the behavior is unspecified.
-> 
-> Do you think setlocale(3) is consistent with the above?
+In other words, when multiple threads are being traced and the group
+leader exits, waitpid() on this group leader will hang indefinitely
+(because the other threads won't exit until we wait for and CONT/DETACH
+them, and we don't receive the exit notification for the group leader
+until the other threads have really exited).
 
-Help me here ;-). Do you see a problem? If yes, what is it?
+To me, this means that not only _exit() but also other types of death
+present "observably puzzling behavior to ptrace users".
 
-Thanks,
+I'd propose the following changes:
 
-Michael
+1) include some (if not all) of Denys's explanation in the actual text:
+
+-If a thread group leader is traced and exits by calling _exit(2)...
++If a thread group leader is traced and exits for any reason (_exit,
+exit_group, signal death, etc.), ...
+
+2) include the bits about tracing other threads:
+
++If the other threads in the thread group are being traced, they will
+not exit until they have been either waited for and restarted or
+detached, thereby blocking the exit notification (WIFEXITED) of the
+group leader to wait()/waitpid().
+
+3) there's a typo in the original text:
+
+-one of other threads
++one of the other threads
+
+Feel free to rephrase any of the above.
+
+Thoughts? We can also provide more details, including a reproducer, or
+clarification if needed.
+
+(PS: Please also credit Quentin Casasnovas with the report as we've both
+spent more than a few hours tracking this down!)
 
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Vegard
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
