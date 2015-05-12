@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: document class in LC_CTYPE
-Date: Tue, 12 May 2015 16:59:23 +0300
-Message-ID: <5552073B.8060102@redhat.com>
+Subject: [PATCH] locale.5: fix country_isbn format
+Date: Tue, 12 May 2015 17:21:19 +0300
+Message-ID: <55520C5F.1030805@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -12,31 +12,25 @@ To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gm
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-See e.g. the locale zh_CN and
-
-http://en.cppreference.com/w/cpp/string/wide/towctrans
-http://en.cppreference.com/w/cpp/string/wide/wctrans
+Both plain numbers and Unicode code points are used in glibc locales but checking the code reveals that country_isbn is handled like the rest of its category expect for country_num which was clarified earlier.
 
 ---
- man5/locale.5 |    5 +++++
- 1 files changed, 5 insertions(+), 0 deletions(-)
+ man5/locale.5 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/man5/locale.5 b/man5/locale.5
-index 2519ad2..314adf6 100644
+index d2c67dc..bc9ed8e 100644
 --- a/man5/locale.5
 +++ b/man5/locale.5
-@@ -437,6 +437,11 @@ followed by a list of mapping pairs of
- characters and letters
- to be used in titles (headings).
+@@ -213,7 +213,7 @@ followed by the numeric country code as plain numbers (ISO 3166).
+ followed by the code for the country car number.
  .TP
-+.I class
-+followed by a locale-specific character class definition,
-+starting with the class name followed by the characters
-+belonging to the class.
-+.TP
- .I charclass
- followed by a list of locale-specific character class names
- which are then to be defined in the locale.
+ .I country_isbn
+-followed by the ISBN code as plain numbers (for books).
++followed by the ISBN code (for books).
+ .TP
+ .I lang_name
+ followed by the language name in the language of the current document.
 -- 
 1.7.1
 
