@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: document default_missing
-Date: Tue, 12 May 2015 16:59:11 +0300
-Message-ID: <5552072F.4080205@redhat.com>
+Subject: [PATCH] locale.5: document class in LC_CTYPE
+Date: Tue, 12 May 2015 16:59:23 +0300
+Message-ID: <5552073B.8060102@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -12,28 +12,31 @@ To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gm
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+See e.g. the locale zh_CN and
+
+http://en.cppreference.com/w/cpp/string/wide/towctrans
+http://en.cppreference.com/w/cpp/string/wide/wctrans
 
 ---
- man5/locale.5 |    6 ++++++
- 1 files changed, 6 insertions(+), 0 deletions(-)
+ man5/locale.5 |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
 diff --git a/man5/locale.5 b/man5/locale.5
-index ae60879..2519ad2 100644
+index 2519ad2..314adf6 100644
 --- a/man5/locale.5
 +++ b/man5/locale.5
-@@ -483,6 +483,12 @@ a transliteration rule file
- (and optionally a repertoire map file)
- .
+@@ -437,6 +437,11 @@ followed by a list of mapping pairs of
+ characters and letters
+ to be used in titles (headings).
  .TP
-+.I default_missing
-+in the transliteration rules section 
-+defines the default character to be used for 
-+transliteration where none of the targets cannot be presented
-+in the target character set.
++.I class
++followed by a locale-specific character class definition,
++starting with the class name followed by the characters
++belonging to the class.
 +.TP
- .I translit_end
- marks the end of the transliteration rules.
- .PP
+ .I charclass
+ followed by a list of locale-specific character class names
+ which are then to be defined in the locale.
 -- 
 1.7.1
 
