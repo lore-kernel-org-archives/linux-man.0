@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] mq_notify.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 13 May 2015 14:53:48 +0800
-Message-ID: <1431500032-26865-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] shm_open.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 13 May 2015 14:53:51 +0800
+Message-ID: <1431500032-26865-9-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,39 +12,41 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-After research, We think mq_notify() is thread-safe. But, there
-is not marking of mq_notify() in glibc document.
-- mq_notify: MT-Safe
+The marking matches glibc marking.
+markings of functions in glibc are:
+- shm_open:   MT-Safe locale
+- shm_unlink: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/mq_notify.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/shm_open.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man3/mq_notify.3 b/man3/mq_notify.3
-index 9709e19..e1a7c2f 100644
---- a/man3/mq_notify.3
-+++ b/man3/mq_notify.3
-@@ -171,6 +171,19 @@ error if
- is NULL, and the caller is not currently registered to receive
- notifications for the queue
- .IR mqdes .
+diff --git a/man3/shm_open.3 b/man3/shm_open.3
+index 3ad7592..a4eb22a 100644
+--- a/man3/shm_open.3
++++ b/man3/shm_open.3
+@@ -248,6 +248,20 @@ a
+ that does not exist.
+ .SH VERSIONS
+ These functions are provided in glibc 2.2 and later.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw24 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR mq_notify ()
-+T}	Thread safety	MT-Safe
++.BR shm_open (),
++.BR shm_unlink ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
  POSIX.1-2001.
- .SH NOTES
+ .LP
 -- 
 1.8.4.2
 
