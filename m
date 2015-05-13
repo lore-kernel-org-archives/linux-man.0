@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sigaltstack.2: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 13 May 2015 14:53:52 +0800
-Message-ID: <1431500032-26865-10-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getrlimit.2: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 13 May 2015 14:53:44 +0800
+Message-ID: <1431500032-26865-2-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,39 +12,44 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-The marking of functions in glibc is:
-- sigaltstack: MT-Safe
+After research, We think prlimit() is thread-safe. But, there
+is not marking of prlimit() in glibc document.
+getrlimit() and setrlimit() match glibc markings.
+- getrlimit: MT-Safe
+- setrlimit: MT-Safe
+- prlimit:   MT-Safe
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man2/sigaltstack.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man2/getrlimit.2 | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/man2/sigaltstack.2 b/man2/sigaltstack.2
-index fb58593..a33d59b 100644
---- a/man2/sigaltstack.2
-+++ b/man2/sigaltstack.2
-@@ -155,6 +155,19 @@ was less than
- An attempt was made to change the alternate signal stack while
- it was active (i.e., the process was already executing
- on the current alternate signal stack).
+diff --git a/man2/getrlimit.2 b/man2/getrlimit.2
+index 211ff69..ec464fe 100644
+--- a/man2/getrlimit.2
++++ b/man2/getrlimit.2
+@@ -508,6 +508,21 @@ The
+ .BR prlimit ()
+ system call is available since Linux 2.6.36.
+ Library support is available since glibc 2.13.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw35 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR sigaltstack ()
++.BR getrlimit (),
++.BR setrlimit (),
++.BR prlimit ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- SUSv2, SVr4, POSIX.1-2001.
- .SH NOTES
+ .BR getrlimit (),
+ .BR setrlimit ():
 -- 
 1.8.4.2
 
