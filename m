@@ -1,51 +1,50 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getifaddrs.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 13 May 2015 14:53:43 +0800
-Message-ID: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getrusage.2: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 13 May 2015 14:53:45 +0800
+Message-ID: <1431500032-26865-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1431500032-26865-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-After research, We think getifaddrs() and freeifaddrs() are not
-thread-safe. But, there is not markings of getifaddrs() and
-freeifaddrs() in glibc document.
-- getifaddrs:  MT-Safe
-- freeifaddrs: MT-Safe
+The marking matches glibc marking.
+The marking of functions in glibc is:
+- getrusage: MT-Safe
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getifaddrs.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ man2/getrusage.2 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/getifaddrs.3 b/man3/getifaddrs.3
-index ae6ac8e..0437b08 100644
---- a/man3/getifaddrs.3
-+++ b/man3/getifaddrs.3
-@@ -167,6 +167,20 @@ the implementation supported only IPv4 addresses;
- IPv6 support was added in glibc 2.3.3.
- Support of address families other than IPv4 is available only
- on kernels that support netlink.
+diff --git a/man2/getrusage.2 b/man2/getrusage.2
+index 07dcc03..5e8e35e 100644
+--- a/man2/getrusage.2
++++ b/man2/getrusage.2
+@@ -199,6 +199,19 @@ points outside the accessible address space.
+ .B EINVAL
+ .I who
+ is invalid.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw27 lb lb
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getifaddrs (),
-+.BR freeifaddrs ()
++.BR getrusage ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH CONFORMING TO
- Not in POSIX.1-2001.
- This function first appeared in BSDi and is
+ SVr4, 4.3BSD.
+ POSIX.1-2001 specifies
 -- 
 1.8.4.2
 
