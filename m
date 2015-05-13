@@ -1,56 +1,44 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] psignal.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 13 May 2015 14:53:49 +0800
-Message-ID: <1431500032-26865-7-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] locale.5: add iconv(1) reference
+Date: Wed, 13 May 2015 11:50:25 +0300
+Message-ID: <55531051.3080305@redhat.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1431500032-26865-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-After research, We think psiginfo() is thread-safe. But, there
-is not marking of psiginfo() in glibc document.
-psignal() matches glibc marking.
-- psignal:  MT-Safe locale
-- psiginfo: MT-Safe locale
+Hi,
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+one more tweak to locale(5) page, since it now describes transliteration
+let's add a reference to iconv(1) which has an example how it works and
+how it can be tested.
+
 ---
- man3/psignal.3 | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ man5/locale.5 |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-diff --git a/man3/psignal.3 b/man3/psignal.3
-index 12124be..3ded4b0 100644
---- a/man3/psignal.3
-+++ b/man3/psignal.3
-@@ -96,6 +96,20 @@ functions return no value.
- The
- .BR psiginfo ()
- function was added to glibc in version 2.10.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lbw21 lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR psignal (),
-+.BR psiginfo ()
-+T}	Thread safety	MT-Safe locale
-+.TE
-+
- .SH CONFORMING TO
- POSIX.1-2008, 4.3BSD.
- .SH BUGS
+diff --git a/man5/locale.5 b/man5/locale.5
+index a1b94be..40c360e 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -1236,6 +1236,7 @@ This manual page isn't complete.
+ .\" .SH AUTHOR
+ .\" Jochen Hein (Hein-SVAqIv1tV6Auki3NsKDZl5HjxUfvIkdz@public.gmane.org)
+ .SH SEE ALSO
++.BR iconv (1),
+ .BR locale (1),
+ .BR localedef (1),
+ .BR localeconv (3),
+
+Thanks,
+
 -- 
-1.8.4.2
-
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
