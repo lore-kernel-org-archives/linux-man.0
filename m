@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: add iconv(1) reference
-Date: Wed, 13 May 2015 11:50:25 +0300
-Message-ID: <55531051.3080305@redhat.com>
+Subject: /proc/{diskstats,schedstat,vmstat} documentation
+Date: Wed, 13 May 2015 12:50:23 +0300
+Message-ID: <55531E5F.2090803@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -12,28 +12,25 @@ To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gm
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+Hi Michael,
 
-one more tweak to locale(5) page, since it now describes transliteration
-let's add a reference to iconv(1) which has an example how it works and
-how it can be tested.
+it seems that /proc/vmstat is undocumented in proc(5), is it just
+because nobody has written the documentation yet or are some files
+considered out of scope for proc(5)? Other such "interesting" file which
+would be nice to have documented in-line is IMHO /proc/diskstats.
 
----
- man5/locale.5 |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+FWIW, for /proc/vmstat first search hit is
+http://www.linuxinsight.com/proc_vmstat.html which looks decent.
 
-diff --git a/man5/locale.5 b/man5/locale.5
-index a1b94be..40c360e 100644
---- a/man5/locale.5
-+++ b/man5/locale.5
-@@ -1236,6 +1236,7 @@ This manual page isn't complete.
- .\" .SH AUTHOR
- .\" Jochen Hein (Hein-SVAqIv1tV6Auki3NsKDZl5HjxUfvIkdz@public.gmane.org)
- .SH SEE ALSO
-+.BR iconv (1),
- .BR locale (1),
- .BR localedef (1),
- .BR localeconv (3),
+I also see that /proc/schedstat and /proc/<pid>/schedstat are missing,
+some information about them can be found at
+http://eaglet.rain.com/rick/linux/schedstat/v15/format-15.html and
+https://www.kernel.org/doc/Documentation/scheduler/sched-stats.txt.
+
+Lastly, /proc/<pid>/{loginuid,sessionid} are missing.
+
+PS. Yes, I think I try to provide patches at least for a couple of these
+cases if time permits.
 
 Thanks,
 
