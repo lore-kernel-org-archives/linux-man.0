@@ -1,35 +1,54 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 50151] glibc 2.16 included a new function __ppc_get_timebase
-Date: Tue, 12 May 2015 22:12:16 +0000
-Message-ID: <bug-50151-11311-P67GQs6NFb@https.bugzilla.kernel.org/>
-References: <bug-50151-11311@https.bugzilla.kernel.org/>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] getifaddrs.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 13 May 2015 14:53:43 +0800
+Message-ID: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-50151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=50151
+After research, We think getifaddrs() and freeifaddrs() are not
+thread-safe. But, there is not markings of getifaddrs() and
+freeifaddrs() in glibc document.
+- getifaddrs:  MT-Safe
+- freeifaddrs: MT-Safe
 
---- Comment #6 from Tulio Magno Quites Machado Filho <tuliom-Igl6534fJ5VwFqzsTH5u/w@public.gmane.org> ---
-(In reply to Michael Kerrisk from comment #5)
-> Okay -- this fell on the ground for a very long time. Sorry about that. But
-> your patch is applied now.
+Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/getifaddrs.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Thanks for applying it!
-
-> What shall we do about __ppc_get_timebase_freq()?  (I see there is documentation in the glibc manual.)
-
-Yes, it does.
-I'll add it to the same man page.  Just give me some time because I'll be on a
-trip for the next 2 weeks.
-
+diff --git a/man3/getifaddrs.3 b/man3/getifaddrs.3
+index ae6ac8e..0437b08 100644
+--- a/man3/getifaddrs.3
++++ b/man3/getifaddrs.3
+@@ -167,6 +167,20 @@ the implementation supported only IPv4 addresses;
+ IPv6 support was added in glibc 2.3.3.
+ Support of address families other than IPv4 is available only
+ on kernels that support netlink.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw27 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR getifaddrs (),
++.BR freeifaddrs ()
++T}	Thread safety	MT-Safe
++.TE
++
+ .SH CONFORMING TO
+ Not in POSIX.1-2001.
+ This function first appeared in BSDi and is
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+1.8.4.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
