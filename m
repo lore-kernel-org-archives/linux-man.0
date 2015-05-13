@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: /proc/{diskstats,schedstat,vmstat} documentation
-Date: Wed, 13 May 2015 12:50:23 +0300
-Message-ID: <55531E5F.2090803@redhat.com>
+Subject: [PATCH] proc.5: tfix
+Date: Wed, 13 May 2015 12:50:43 +0300
+Message-ID: <55531E73.2020405@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -12,30 +12,34 @@ To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gm
 Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
 
-it seems that /proc/vmstat is undocumented in proc(5), is it just
-because nobody has written the documentation yet or are some files
-considered out of scope for proc(5)? Other such "interesting" file which
-would be nice to have documented in-line is IMHO /proc/diskstats.
+---
+ man5/proc.5 |    6 +++---
+ 1 files changed, 3 insertions(+), 3 deletions(-)
 
-FWIW, for /proc/vmstat first search hit is
-http://www.linuxinsight.com/proc_vmstat.html which looks decent.
-
-I also see that /proc/schedstat and /proc/<pid>/schedstat are missing,
-some information about them can be found at
-http://eaglet.rain.com/rick/linux/schedstat/v15/format-15.html and
-https://www.kernel.org/doc/Documentation/scheduler/sched-stats.txt.
-
-Lastly, /proc/<pid>/{loginuid,sessionid} are missing.
-
-PS. Yes, I think I try to provide patches at least for a couple of these
-cases if time permits.
-
-Thanks,
-
--- 
-Marko Myllynen
+diff --git a/man5/proc.5 b/man5/proc.5
+index d0a7629..c3996eb 100644
+--- a/man5/proc.5
++++ b/man5/proc.5
+@@ -93,15 +93,15 @@ directories but their own (the
+ .IR /proc/[pid]
+ directories themselves remain visible).
+ Sensitive files such as
+-.IR /proc/[pid]cmdline
++.IR /proc/[pid]/cmdline
+ and
+-.IR /proc/[pid]status
++.IR /proc/[pid]/status
+ are now protected against other users.
+ This makes it impossible to learn whether any user is running a
+ specific program
+ (so long as the program doesn't otherwise reveal itself by its behavior).
+ .\" As an additional bonus, since
+-.\" .IR /proc/[pid]cmdline
++.\" .IR /proc/[pid]/cmdline
+ .\" is unaccessible for other users,
+ .\" poorly written programs passing sensitive information via
+ .\" program arguments are now protected against local eavesdroppers.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
