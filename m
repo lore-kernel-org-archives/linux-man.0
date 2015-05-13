@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] malloc_info.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 13 May 2015 14:53:46 +0800
-Message-ID: <1431500032-26865-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] psignal.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 13 May 2015 14:53:49 +0800
+Message-ID: <1431500032-26865-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1431500032-26865-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,39 +12,42 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-After research, We think malloc_info() is thread-safe. But, there
-is not marking of malloc_info() in glibc document.
-- malloc_info: MT-Safe
+After research, We think psiginfo() is thread-safe. But, there
+is not marking of psiginfo() in glibc document.
+psignal() matches glibc marking.
+- psignal:  MT-Safe locale
+- psiginfo: MT-Safe locale
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/malloc_info.3 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ man3/psignal.3 | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/man3/malloc_info.3 b/man3/malloc_info.3
-index 0374e2e..580d0e9 100644
---- a/man3/malloc_info.3
-+++ b/man3/malloc_info.3
-@@ -60,6 +60,19 @@ was nonzero.
- .SH VERSIONS
- .BR malloc_info ()
- was added to glibc in version 2.10.
+diff --git a/man3/psignal.3 b/man3/psignal.3
+index 12124be..3ded4b0 100644
+--- a/man3/psignal.3
++++ b/man3/psignal.3
+@@ -96,6 +96,20 @@ functions return no value.
+ The
+ .BR psiginfo ()
+ function was added to glibc in version 2.10.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lb
++lbw21 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR malloc_info ()
-+T}	Thread safety	MT-Safe
++.BR psignal (),
++.BR psiginfo ()
++T}	Thread safety	MT-Safe locale
 +.TE
 +
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH NOTES
+ POSIX.1-2008, 4.3BSD.
+ .SH BUGS
 -- 
 1.8.4.2
 
