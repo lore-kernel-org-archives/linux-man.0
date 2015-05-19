@@ -1,89 +1,45 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace.2: BUGS (missing WIFEXITED notification)
-Date: Fri, 15 May 2015 14:05:23 +0200
-Message-ID: <CAKgNAkixHtPEdmwuVhic8k2gz8ooLmW1rJ3760oWGUC07K-5hg@mail.gmail.com>
-References: <55520EAC.2010003@oracle.com> <5554A6B0.2090409@gmail.com>
- <5554A8A4.7060404@redhat.com> <20150514162807.GA13385@chrystal.uk.oracle.com>
- <5554CFDF.6070602@redhat.com> <5555C69A.3070509@oracle.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: Kevin Hilman <khilman-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+Subject: Re: [PATCH v2 2/3] fbcon: use the cursor blink interval provided by vt
+Date: Tue, 19 May 2015 14:15:41 -0700
+Message-ID: <CAMAWPa-6ZbE5cDkEZq0XpYa2pHcnf3qweSSVHAXhfhUAUCbKcA@mail.gmail.com>
+References: <alpine.DEB.2.11.1501262034380.1945@localhost.localdomain>
+	<alpine.DEB.2.11.1501262040380.2052@localhost.localdomain>
+	<20150225094946.GA24627@amd>
+	<alpine.LNX.2.11.1502252319330.276@localhost>
+	<20150226220243.GC9935@amd>
+	<alpine.LNX.2.11.1502271905580.4212@localhost>
+	<alpine.LNX.2.11.1502271911380.4248@localhost>
+	<20150325111949.GA24230@kroah.com>
+	<alpine.DEB.2.11.1503261341260.2164@local>
+	<alpine.DEB.2.11.1503261354550.2411@local>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5555C69A.3070509-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Quentin Casasnovas <quentin.casasnovas-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1503261354550.2411@local>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+Cc: Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Tomi Valkeinen <tomi.valkeinen-l0cyMroinI0@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jiri Slaby <jslaby-AlSwsSmVLrQ@public.gmane.org>, Jean-Christophe Plagniol-Villard <plagnioj-sclMFOaUSTBWk0Htik3J/w@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, Geert Uytterhoeven <geert-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Tyler Baker <tyler.baker-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Olof Johansson <olof-nZhT3qVonbNeoWH0uzbU5w@public.gmane.org>, Daniel Stone <daniel-rLtY4a/8tF1rovVCs/uTlw@public.gmane.org>, Thierry Reding <thierry.reding-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Vegard,
-
-On 15 May 2015 at 12:12, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org> wrote:
-> On 05/14/2015 06:39 PM, Denys Vlasenko wrote:
->>
->> On 05/14/2015 06:28 PM, Quentin Casasnovas wrote:
->>>
->>> On Thu, May 14, 2015 at 03:52:36PM +0200, Denys Vlasenko wrote:
->>>>
->>>> On 05/14/2015 03:44 PM, Michael Kerrisk (man-pages) wrote:
->>>>>
->>>>> Hi Denys,
->>>>>
->>>>> Do you have any thoughts on the below?
->>>>
->>>>
->>>> Yes, the poster is right: this part needs fixing, the behavior is
->>>> the same on any kind of process termination.
->>>>
->>>>
->>>>> On 05/12/2015 04:31 PM, Vegard Nossum wrote:
->>>>>>
->>>>>> We hit another edge case in the ptrace() interface and after several
->>>>>> hours of chasing it down, we found that it was already described in
->>>>>> the
->>>>>> "BUGS" section:
->>>>>>
->>>>>> "If a thread group leader is traced and exits by calling _exit(2), a
->>>>
->>>>
->>>> I think a possible fix is just to replace "exits by calling _exit(2)"
->>>> part
->>>> of the above text with "terminates".
->>>>
->>>
->>> Should we also add a little paragraph detailing that waitpid() would hang
->>> indefinitely if one thread terminates while the others are in
->>> ptrace-stop?
->>
->>
->> It implies this by saying "but the subsequent WIFEXITED notification
->> will not be delivered until all other threads exit".
->>
->> If another thread is in ptrace-stop, it did not exit yet. Therefore,
->> WIFEXITED notification to the thread group leader will not be delivered.
->> Therefore, waitpid() on it would hang.
+On Thu, Mar 26, 2015 at 6:56 AM, Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org> wrote:
+> vt now provides a cursor blink interval via vc_data. Use this
+> interval instead of the currently hardcoded 200 msecs. Store it in
+> fbcon_ops to avoid locking the console in cursor_timer_handler().
 >
->
-> While I agree that the information in the current man page is strictly
-> speaking sufficient, I personally still think it would be an improvement
-> to mention it explicitly (i.e. my proposed change #2 in the original
-> e-mail). Just because I think it's a sort of non-obvious pitfall; out of
-> hand, you don't expect a call to waitpid() on a process that has exited
-> to hang. That's just my opinion, though.
+> Signed-off-by: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+> Acked-by: Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 
-That sounds okay to me. Would you and/or Quentin be willing to put
-together a patch to the man page?
+This patch hit next-20150519 in the form of commit 27a4c827c34a
+(fbcon: use the cursor blink interval provided by vt) and has caused
+boot failure on a handful of ARM platforms when booting a MMC root
+filesystem.  This error was spotted by the kernelci.org bot on
+exynos5800-peach-pi[1] and Thierry and Daniel (Cc'd) have seen it on
+some tegra platforms too.
 
-Thanks,
+Thierry spotted this commit as a potential cause, and both Daniel and
+I have reverted and boot tested on exynos5 and tegra respectively and
+the boot panics disappear.
 
-Michael
+Kevin
 
-
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+[1] http://storage.kernelci.org/next/next-20150519/arm-exynos_defconfig/lab-khilman/boot-exynos5800-peach-pi_rootfs:mmc.html
