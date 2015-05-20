@@ -1,24 +1,24 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] pthread_join.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 20 May 2015 16:16:08 +0200
-Message-ID: <555C9728.3070802@gmail.com>
-References: <1432116011-10181-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1432116011-10181-8-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] utimensat.2: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 20 May 2015 16:16:26 +0200
+Message-ID: <555C973A.2000401@gmail.com>
+References: <1432116011-10181-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1432116011-10181-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1432116011-10181-8-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1432116011-10181-10-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 05/20/2015 12:00 PM, Zeng Linggang wrote:
-> After research, We think pthread_join() is thread-safe. But, there
-> is not marking of pthread_join() in glibc document.
+> After research, We think utimensat() and futimens() are thread-safe.
+> But, there are not markings of utimensat() and futimens() in glibc
+> document.
 > 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-
 
 Thanks, Zeng Linggang. Patch applied.
 
@@ -27,35 +27,35 @@ Cheers,
 Michael
 
 
-
 > ---
->  man3/pthread_join.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man2/utimensat.2 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
-> diff --git a/man3/pthread_join.3 b/man3/pthread_join.3
-> index 00eafb9..3340172 100644
-> --- a/man3/pthread_join.3
-> +++ b/man3/pthread_join.3
-> @@ -95,6 +95,19 @@ Another thread is already waiting to join with this thread.
->  No thread with the ID
->  .I thread
->  could be found.
+> diff --git a/man2/utimensat.2 b/man2/utimensat.2
+> index 80094d7..1dc941a 100644
+> --- a/man2/utimensat.2
+> +++ b/man2/utimensat.2
+> @@ -418,6 +418,20 @@ glibc support was added with version 2.6.
+>  Support for
+>  .BR futimens ()
+>  first appeared in glibc 2.6.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw23 lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR pthread_join ()
+> +.BR utimensat (),
+> +.BR futimens ()
 > +T}	Thread safety	MT-Safe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  POSIX.1-2001.
->  .SH NOTES
+>  .BR futimens ()
+>  and
 > 
 
 
