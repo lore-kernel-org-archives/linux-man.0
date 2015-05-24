@@ -1,97 +1,199 @@
-From: Thierry Reding <thierry.reding-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2 2/3] fbcon: use the cursor blink interval provided by
- vt
-Date: Fri, 22 May 2015 16:44:09 +0200
-Message-ID: <20150522144407.GC19922@ulmo.nvidia.com>
-References: <alpine.DEB.2.11.1503261354550.2411@local>
- <20150522020031.GA3516@kroah.com>
- <20150522100002.GB16507@ulmo>
- <3661627.JqpS87pBks@wuerfel>
- <20150522114957.GF16507@ulmo>
- <20150522143205.GA6508@kroah.com>
+From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide
+ examples.
+Date: Sun, 24 May 2015 00:58:25 -0400
+Message-ID: <55615A71.4010600@redhat.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <20150522143205.GA6508-U8xfFu+wG4EAvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-Cc: Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Kevin Hilman <khilman-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>, Tomi Valkeinen <tomi.valkeinen-l0cyMroinI0@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jiri Slaby <jslaby-AlSwsSmVLrQ@public.gmane.org>, Jean-Christophe Plagniol-Villard <plagnioj-sclMFOaUSTBWk0Htik3J/w@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>, Geert Uytterhoeven <geert-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Tyler Baker <tyler.baker-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Olof Johansson <olof-nZhT3qVonbNeoWH0uzbU5w@public.gmane.org>, Daniel Stone <daniel-rLtY4a/8tF1rovVCs/uTlw@public.gmane.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Arjun,
 
---gatW/ieO32f1wygP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As promised. Does this look good to you?
 
-On Fri, May 22, 2015 at 07:32:05AM -0700, Greg Kroah-Hartman wrote:
-> On Fri, May 22, 2015 at 01:49:58PM +0200, Thierry Reding wrote:
-> > On Fri, May 22, 2015 at 12:33:42PM +0200, Arnd Bergmann wrote:
-> > > On Friday 22 May 2015 12:00:03 Thierry Reding wrote:
-> > > >=20
-> > > > > Remember, if I have to hand-edit, or do something special with yo=
-ur
-> > > > > patch, I will not do it, you need to do it correctly to make
-> > > > > maintainer's lives easier, not harder, given that maintainers are=
- the
-> > > > > limited resouce, not developers.
-> > > >=20
-> > > > I understand. I'll make a mental note to never send you patches as
-> > > > attachment again.
-> > > >=20
-> > >=20
-> > > Better make that a general rule. My workflow is different from Greg's
-> > > but also doesn't cope well with attachments. A lot of people in turn
-> > > have problems quoting from an attachment when replying to the patch,
-> > > which happens to work for me.
-> >=20
-> > Okay. Any hints on how to simplify sending out such patches with the
-> > same list of recipients? I find it very annoying to have to manually
-> > copy each recipient into the git send-email command-line, but I don't
-> > know of a better way to do it. Replying to an email from the MUA will
-> > at least do that automatically.
->=20
-> Reply from the MUA and then just put the patch in the email body.  If
-> you have a good MUA it should be trivial to do[1]
->=20
-> thanks,
->=20
-> greg k-h
->=20
-> 1) mutt drops you to your editor, and then you can just read in the
->    patch file directly to that buffer.
+Michael,
 
-Indeed, that should work. As I understand it, I wouldn't even have to
-further edit the email (except strip the reply) because git am prefers
-headers in the patch to headers in the message (it certainly does that
-for From:, so I suspect it would do it for Date: and Subject: as well).
-Or if that doesn't work, Arnd's suggestion to use a scissors line is a
-good alternative as well.
+In some recent work with a Red Hat customer I had the opportunity
+to discuss the fine nuances of the ruserok() function and related
+API which are used to implement rlogin and rsh.
 
-Thanks guys for the suggestions,
-Thierry
+It came to my attention after working with QE on some automated
+internal testing that there were no good examples in the hosts.equiv
+manual page showing how the format was supposed to work for this
+file and for ~/.rhosts, worse the "format" line showed that there
+should be spaces between arguments when that would clearly lead
+to incorrect behaviour. In addition some things that the format
+allows you to write are just wrong like "-host -user" which makes
+no sense since the host is already rejected, and should be written
+as "host -user" instead. I added notes in the example to make it
+clear that "-host -user" is invalid.
 
---gatW/ieO32f1wygP
-Content-Type: application/pgp-signature
+I fixed three things:
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+(a) The format line.
+- Either +, or [-]hostname, or +@netgrp or -@netgrp.
+- Either +, or [-]username, or +@netgrp or -@netgrp.
+- You must specify something in the hostname portion so remove
+  optional brackets.
 
-iQIcBAABCAAGBQJVX0C3AAoJEN0jrNd/PrOhQ7oQAKArrF2b4QBsmIiS3d5sd+p2
-YIL4IdzKGa1AiYzyrkFj4j2xZ6dpdrJkWz23kwrBLoneYcFG9WqMlh/cGHhwBBX9
-zNUtfxKZNuvmJamkLq54UsNGdm7lXD+462dA4E8aLedaA36FgzPprWR+6WHsVKl4
-brs6uMGGFMQAhgxP8YO1qHu6mrsXLe4l+6JRHY+nmRG8dah0WUQm0n6rGfHB3dSw
-8UOq0mowjEDHuugSlsTkkAL9jqXLGXFIFAAtZA+Jbew51k07MYIGHV3jlhKlZRP2
-bRg2hfxaZMuurN6kbuD8MlDHH3t1ayN6UADkJLt6uykI+WqKCI5VjQsjNdWt8df1
-/CuFAk6/a1pv+Rxn7xhnh5oaen33Yt08dEEfvDN0tI5Nbq6fXWRQnVGH0NIjsfa+
-bJPwWA4/hzYH4jQZmnsdH0Z6GnoiOdmfI8G0MwGOpYDAnsW3NiiLNXYFxlwWazz8
-gayda7BtfhB2wrtdprI18cfltwW59BIPruW5PaY95tTBJbVEtzu4nVForN4nb/y3
-5WIHqhwz/o9DC5UUCbQ1D/mA93HyOSMvUxislahzItG5V/bPL/qkjPSSqGadcDEq
-7jHodQaQ7kHW0YYeFdbnd4QeGaXjU+EstIDSuWa1Qed8r+diNQUfN5XHsNf2nW6i
-WJaSAw9MdGgJjMYLkUKW
-=dqlF
------END PGP SIGNATURE-----
+(b) Clarify language around credentials
+- If the host is not trusted you must provide credentials to
+  the login system and that could be anything really and it
+  depends on your configuration e.g. PAM or whatever IdM you have.
 
---gatW/ieO32f1wygP--
+(c) Provide real-world examples
+- Provide several real world examples and some corner case
+  examples for how you would write something. Hopefully others
+  can add examples as they see fit.
+
+Patch applies to trunk.
+
+Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+
+diff --git a/man5/hosts.equiv.5 b/man5/hosts.equiv.5
+index 89d0b4a..c8e85ac 100644
+--- a/man5/hosts.equiv.5
++++ b/man5/hosts.equiv.5
+@@ -22,7 +22,7 @@ supplying a password.
+ .PP
+ The file uses the following format:
+ .TP
+-\fI[ + | \- ]\fP \fI[hostname]\fP \fI[username]\fP
++\fI+|[\-]hostname|+@netgroup|\-@netgroup\fP \fI[+|[\-]username|+@netgroup|\-@netgroup]\fP
+ .PP
+ The
+ .I hostname
+@@ -37,9 +37,9 @@ If the plus sign is used alone, it allows any host to access your system.
+ You can explicitly deny access to a host by preceding the
+ .I hostname
+ by a minus (\-) sign.
+-Users from that host must always supply a password.
+-For security reasons you should always use the FQDN of the hostname and
+-not the short hostname.
++Users from that host must always supply additional credentials,
++including possibly a password. For security reasons you should always
++use the FQDN of the hostname and not the short hostname.
+ .PP
+ The
+ .I username
+@@ -81,6 +81,112 @@ character which means "any host" only when the word
+ is added to the auth component line in your PAM file for
+ the particular service
+ .RB "(e.g., " rlogin ).
++.SH EXAMPLE
++Here are some example
++.I /etc/host.equiv
++or
++.I ~/.rhosts
++files:
++.TP
++Allow any user to login from any host:
++.LP
++.RS 4
++.TP
+++
++.PD
++.RE
++.TP
++Allow any user from host with a matching local account to login:
++.LP
++.RS 4
++.TP
++host
++.PD
++.RE
++.PP
++Note: The use of
++.B +host
++is never a valid syntax, including attempting to specify that any user from the host is allowed.
++.TP
++Allow any user from host to login:
++.LP
++.RS 4
++.TP
++host +
++.PD
++.RE
++.PP
++Note: This is distinct from the previous example since it does not require a matching local account.
++.TP
++Allow user from host to login:
++.LP
++.RS 4
++.TP
++host user
++.PD
++.RE
++.TP
++Allow all users with matching local accounts from host to login except for baduser:
++.LP
++.RS 4
++.PD 0
++.TP
++host -baduser
++.TP
++host
++.PD
++.RE
++.TP
++Deny all users from host:
++.LP
++.RS 4
++.TP
++-host
++.PD
++.RE
++.PP
++Note: The use of
++.B -host -user
++is never a valid syntax, including attempting to specify that a particular user from the host is not trusted.
++.TP
++Allow all users with matching local accounts in all hosts in the netgroup:
++.LP
++.RS 4
++.TP
+++@netgroup
++.PD
++.RE
++.TP
++Disallow all users in all hosts in the netgroup:
++.LP
++.RS 4
++.TP
++-@netgroup
++.PD
++.RE
++.TP
++Allow all users in netgroup to login from host:
++.LP
++.RS 4
++.TP
++host +@netgroup
++.PD
++.RE
++.TP
++Allow all users with matching local accounts in all hosts in the netgroup except baduser:
++.LP
++.RS 4
++.PD 0
++.TP
+++@netgroup -baduser
++.TP
+++@netgroup
++.PD
++.RE
++.TP
++Note: The deny statements must always preceed the allow statements because the file is processed one line at a time.
++
++
+ .SH SEE ALSO
+ .BR rhosts (5),
+ .BR rlogind (8),
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
