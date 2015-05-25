@@ -1,35 +1,34 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 98851] the man page tc-filters is missing
-Date: Mon, 25 May 2015 09:04:59 +0000
-Message-ID: <bug-98851-11311-Ue7JP9ZQFY@https.bugzilla.kernel.org/>
-References: <bug-98851-11311@https.bugzilla.kernel.org/>
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+From: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] llseek.2: wfix
+Date: Tue, 26 May 2015 00:20:41 +0900
+Message-ID: <1432567241-8825-1-git-send-email-namhyung@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-98851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=98851
+Signed-off-by: Namhyung Kim <namhyung-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+---
+ man2/llseek.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> changed:
-
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org
-
---- Comment #1 from Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org> ---
-not a problem w/the man-pages project: `tc` is provided by iproute2, not
-man-pages.  my guess is it's a problem with your system (missing package) or
-your distro (package is broken).  `man tc` works for me.
-
-status -> RESOLVED:INVALID
-
+diff --git a/man2/llseek.2 b/man2/llseek.2
+index da674df..2426315 100644
+--- a/man2/llseek.2
++++ b/man2/llseek.2
+@@ -61,7 +61,7 @@ It returns the resulting file position in the argument
+ .IR result .
+ 
+ This system call exists on various 32-bit platforms to support
+-seeking lo large file offsets.
++seeking large file offsets.
+ .SH RETURN VALUE
+ Upon successful completion,
+ .BR _llseek ()
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+2.4.0
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
