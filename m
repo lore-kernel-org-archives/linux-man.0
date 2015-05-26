@@ -1,26 +1,29 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 50151] glibc 2.16 included a new function __ppc_get_timebase
-Date: Mon, 25 May 2015 19:10:37 +0000
-Message-ID: <bug-50151-11311-wo4YPxnIgD@https.bugzilla.kernel.org/>
-References: <bug-50151-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 98851] the man page tc-filters is missing
+Date: Tue, 26 May 2015 03:59:11 +0000
+Message-ID: <bug-98851-11311-YuKoafz552@https.bugzilla.kernel.org/>
+References: <bug-98851-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-50151-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <bug-98851-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=50151
+https://bugzilla.kernel.org/show_bug.cgi?id=98851
 
---- Comment #7 from Tulio Magno Quites Machado Filho <tuliom-Igl6534fJ5VwFqzsTH5u/w@public.gmane.org> ---
-(In reply to Michael Kerrisk from comment #5)
-> What shall we do about __ppc_get_timebase_freq()?
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-I've just sent a patch adding it to the same page.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |INVALID
 
-http://marc.info/?l=linux-man&m=143258058005074&w=2
+--- Comment #2 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Mike, thanks for the input, all of which I agree with. Closing this.
 
 -- 
 You are receiving this mail because:
