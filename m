@@ -1,150 +1,923 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] __ppc_get_timebase_freq.3: Document a glibc extension
- for Power
-Date: Wed, 27 May 2015 10:32:57 +0200
-Message-ID: <55658139.5000504@gmail.com>
-References: <1432580532-29036-1-git-send-email-tuliom@linux.vnet.ibm.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Edited draft of bpf(2) man page for review/enhancement
+Date: Wed, 27 May 2015 10:43:32 +0200
+Message-ID: <556583B4.4000607@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1432580532-29036-1-git-send-email-tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Tulio Magno Quites Machado Filho <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Alexei Starovoitov <ast@plumgrid.com>
+Cc: mtk.manpages@gmail.com, Silvan Jegen <s.jegen@gmail.com>, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>, Walter Harms <wharms@bfs.de>
 List-Id: linux-man@vger.kernel.org
 
-Hello Tulio,
+Hello Alexei,
 
+I took the draft 3 of the bpf(2) man page that you sent back in March 
+and did some substantial editing to clarify the language and add a 
+few technical details. Could you please check the revised  version
+below, to ensure I did not inject any errors.
 
-On 05/25/2015 09:02 PM, Tulio Magno Quites Machado Filho wrote:
-> Glibc 2.17 provides new function to read the frequency at which the Time
-> Base Register of Power processors is updated.
-
-Thanks! Patch applied.
+I also added a number of FIXMEs for pieces of the page that need
+further work. Could you take a look at these and let me know your
+thoughts, please.
 
 Cheers,
 
 Michael
 
+.\" Copyright (C) 2015 Alexei Starovoitov <ast@kernel.org>
+.\"
+.\" %%%LICENSE_START(VERBATIM)
+.\" Permission is granted to make and distribute verbatim copies of this
+.\" manual provided the copyright notice and this permission notice are
+.\" preserved on all copies.
+.\"
+.\" Permission is granted to copy and distribute modified versions of this
+.\" manual under the conditions for verbatim copying, provided that the
+.\" entire resulting derived work is distributed under the terms of a
+.\" permission notice identical to this one.
+.\"
+.\" Since the Linux kernel and libraries are constantly changing, this
+.\" manual page may be incorrect or out-of-date.  The author(s) assume no
+.\" responsibility for errors or omissions, or for damages resulting from
+.\" the use of the information contained herein.  The author(s) may not
+.\" have taken the same level of care in the production of this manual,
+.\" which is licensed free of charge, as they might when working
+.\" professionally.
+.\"
+.\" Formatted or processed versions of this manual, if unaccompanied by
+.\" the source, must acknowledge the copyright and authors of this work.
+.\" %%%LICENSE_END
+.\"
+.TH BPF 2 2015-03-10 "Linux" "Linux Programmer's Manual"
+.SH NAME
+bpf - perform a command on an extended BPF map or program
+.SH SYNOPSIS
+.nf
+.B #include <linux/bpf.h>
+.sp
+.BI "int bpf(int cmd, union bpf_attr *attr, unsigned int size);
 
-> Signed-off-by: Tulio Magno Quites Machado Filho <tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-> ---
->  man3/__ppc_get_timebase.3      | 66 ++++++++++++++++++++++++++++++++++++++----
->  man3/__ppc_get_timebase_freq.3 |  1 +
->  2 files changed, 61 insertions(+), 6 deletions(-)
->  create mode 100644 man3/__ppc_get_timebase_freq.3
-> 
-> diff --git a/man3/__ppc_get_timebase.3 b/man3/__ppc_get_timebase.3
-> index 6af2d43..e691a5c 100644
-> --- a/man3/__ppc_get_timebase.3
-> +++ b/man3/__ppc_get_timebase.3
-> @@ -25,30 +25,84 @@
->  .TH __PPC_GET_TIMEBASE 3 2012-08-13 "GNU C Library" "Linux Programmer's\
->  Manual"
->  .SH NAME
-> -__ppc_get_timebase \- get the current value of the Time Base Register on
-> -Power architecture
-> +__ppc_get_timebase, __ppc_get_timebase_freq \- get the current value
-> + of the Time Base Register on Power architecture and its frequency.
->  .SH SYNOPSIS
->  .B #include <sys/platform/ppc.h>
->  .sp
->  .BI "uint64_t __ppc_get_timebase(void)"
-> +
-> +.BI "uint64_t __ppc_get_timebase_freq(void);"
->  .SH DESCRIPTION
->  .BR __ppc_get_timebase ()
-> -reads the current value of the Time Base Register and returns its value.
-> +reads the current value of the Time Base Register and returns its
-> +value, while
-> +.BR __ppc_get_timebase_freq ()
-> +returns the frequency in which the Time Base Register is updated.
-> +
->  The Time Base Register is a 64-bit register provided by Power Architecture
->  processors.
->  It stores a monotonically incremented value that is updated at a
->  system-dependent frequency that may be different from the processor
->  frequency.
->  .SH RETURN VALUE
-> -Returns a 64-bit unsigned integer that represents the current value of the
-> +.BR __ppc_get_timebase ()
-> +returns a 64-bit unsigned integer that represents the current value of the
->  Time Base Register.
-> +
-> +.BR __ppc_get_timebase_freq ()
-> +returns a 64-bit unsigned integer that represents the frequency at
-> +which the Time Base Register is updated.
->  .SH VERSIONS
->  GNU C Library support for
->  .\" commit d9dc34cd569bcfe714fe8c708e58c028106e8b2e
->  .BR __ppc_get_timebase ()
-> -has been provided since version 2.16.
-> +has been provided since version 2.16 and
-> +.\" commit 8ad11b9a9cf1de82bd7771306b42070b91417c11
-> +.BR __ppc_get_timebase_freq ()
-> +has been available since version 2.17.
->  .SH CONFORMING TO
-> -This function is a nonstandard GNU extension.
-> +Both functions are nonstandard GNU extensions.
-> +.SH EXAMPLE
-> +The following program will calculate the time, in microseconds, spent
-> +between two calls to __ppc_get_timebase ().
-> +.SS Program source
-> +\&
-> +.nf
-> +#include <inttypes.h>
-> +#include <stdint.h>
-> +#include <stdio.h>
-> +#include <sys/platform/ppc.h>
-> +
-> +/* Maximum value of the Time Base Register: 2^60 - 1.  Source: POWER ISA.  */
-> +#define MAX_TB 0xFFFFFFFFFFFFFFF
-> +
-> +int
-> +main ()
-> +{
-> +  uint64_t tb1, tb2, diff;
-> +
-> +  uint64_t freq = __ppc_get_timebase_freq ();
-> +  printf ("Time Base frequency = %"PRIu64" Hz\\n", freq);
-> +
-> +  tb1 = __ppc_get_timebase ();
-> +
-> +  // Do some stuff...
-> +
-> +  tb2 = __ppc_get_timebase ();
-> +
-> +  if (tb2 > tb1) {
-> +    diff = tb2 - tb1;
-> +  } else {
-> +    /* Treat Time Base Register overflow.  */
-> +    diff = (MAX_TB - tb2) + tb1;
-> +  }
-> +
-> +  printf ("Elapsed time  = %1.2f usecs\\n", (double) diff * 1000000 / freq );
-> +
-> +  return 0;
-> +}
-> +.fi
->  .SH SEE ALSO
->  .BR time (2),
->  .BR usleep (3)
-> diff --git a/man3/__ppc_get_timebase_freq.3 b/man3/__ppc_get_timebase_freq.3
-> new file mode 100644
-> index 0000000..8599293
-> --- /dev/null
-> +++ b/man3/__ppc_get_timebase_freq.3
-> @@ -0,0 +1 @@
-> +.so man3/__ppc_get_timebase.3
-> 
+.SH DESCRIPTION
+The
+.BR bpf ()
+system call performs a range of operations related to extended
+Berkeley Packet Filters.
+Extended BPF (or eBPF) is similar to
+the original BPF (or classic BPF) used to filter network packets.
+For both BPF and eBPF programs,
+the kernel statically analyzes the programs before loading them,
+in order to ensure that they cannot harm the running system.
+.P
+eBPF extends classic BPF in multiple ways including the ability to call
+in-kernel helper functions (via the
+.B BPF_CALL
+opcode extension provided by eBPF)
+and access shared data structures such as BPF maps.
+The programs can be written in a restricted C that is compiled into
+.\" FIXME In the next line, what is "a restricted C"? Where does
+.\"       one get further information about it?
+eBPF bytecode and executed on the in-kernel virtual machine or
+just-in-time compiled into native code.
+.SS Extended BPF Design/Architecture
+.P
+.\" FIXME In the following line, what does "different data types" mean?
+.\"       Are the values in a map not just blobs?
+BPF maps are a generic data structure for storage of different data types.
+A user process can create multiple maps (with key/value-pairs being
+opaque bytes of data) and access them via file descriptors.
+BPF programs can access maps from inside the kernel in parallel.
+It's up to the user process and BPF program to decide what they store
+inside maps.
+.P
+BPF programs are similar to kernel modules.
+They are loaded by the user
+process and automatically unloaded when the process exits.
+Each BPF program is a set of instructions that is safe to run until
+its completion.
+The in-kernel BPF verifier statically determines that the program
+terminates and is safe to execute.
+.\" FIXME In the following sentence, what does "takes hold" mean?
+During verification, the program takes hold of maps that it intends to use,
+so selected maps cannot be removed until the program is unloaded.
 
+BPF programs can be attached to different events.
+.\" FIXME: In the next sentence , "packets" are not "events". What
+.\" do you really mean to say here? ("the arrival of a network packet"?)
+These events can be packets, tracing
+events, and other types that may be added in the future.
+A new event triggers execution of the BPF program, which
+may store information about the event in the maps.
+Beyond storing data, BPF programs may call into in-kernel helper functions.
+The same program can be attached to multiple events and different programs can
+access the same map:
+.\" FIXME Can maps be shared between processes? (E.g., what happens
+.\"       when fork() is called?)
+
+.in +4n
+.nf
+tracing     tracing     tracing     packet     packet
+event A     event B     event C     on eth0    on eth1
+ |             |          |           |          |
+ |             |          |           |          |
+ --> tracing <--      tracing       socket     socket
+      prog_1           prog_2       prog_3     prog_4
+      |  |               |            |
+   |---  -----|  |-------|           map_3
+ map_1       map_2
+.fi
+.in
+.SS Arguments
+The operation to be performed by the
+.BR bpf ()
+system call is determined by the
+.IR cmd
+argument, which can be one of the following:
+.TP
+.B BPF_MAP_CREATE
+Create a map with the specified type and attributes and return 
+a file descriptor that refers to the map.
+.TP
+.B BPF_MAP_LOOKUP_ELEM
+Look up an element by key in a specified map and return its value.
+.TP
+.B BPF_MAP_UPDATE_ELEM
+Create or update an element (key/value pair) in a specified map.
+.TP
+.B BPF_MAP_DELETE_ELEM
+Look up and delete an element by key in a specified map.
+.TP
+.B BPF_MAP_GET_NEXT_KEY
+Look up an element by key in a specified map and return the key
+of the next element.
+.TP
+.B BPF_PROG_LOAD
+Verify and load a BPF program.
+.PP
+The
+.I attr
+argument is a pointer to a union of type
+.IR bpf_attr
+(see below);
+.I size
+is the size of the union pointed to by
+.IR attr .
+.P
+The
+.I bpf_attr
+union consists of various anonymous structures that are used by different
+.BR bpf ()
+commands:
+
+.in +4n
+.nf
+union bpf_attr {
+    struct {    /* Used by BPF_MAP_CREATE */
+        __u32         map_type;
+        __u32         key_size;    /* size of key in bytes */
+        __u32         value_size;  /* size of value in bytes */
+        __u32         max_entries; /* maximum number of entries
+                                      in a map */
+    };
+
+    struct {    /* Used by BPF_MAP_*_ELEM commands */
+        __u32         map_fd;
+        __aligned_u64 key;
+        union {
+            __aligned_u64 value;
+            __aligned_u64 next_key;
+        };
+        __u64         flags;
+    };
+
+    struct {    /* Used by BPF_PROG_LOAD */
+        __u32         prog_type;
+        __u32         insn_cnt;
+        __aligned_u64 insns;      /* 'const struct bpf_insn *' */
+        __aligned_u64 license;    /* 'const char *' */
+        __u32         log_level;  /* verbosity level of verifier */
+        __u32         log_size;   /* size of user buffer */
+        __aligned_u64 log_buf;    /* user supplied 'char *'
+                                     buffer */
+    };
+} __attribute__((aligned(8)));
+.fi
+.in
+.SS BPF maps
+Maps are a generic data structure for storage of different types
+and sharing data between the kernel and user-space programs.
+
+Each map type has the following attributes:
+
+.PD 0
+.IP * 3
+type
+.IP *
+maximum number of elements
+.IP *
+key size in bytes
+.IP *
+value size in bytes
+.PD
+.PP
+The following wrapper functions demonstrate how various
+.BR bpf ()
+commands can be used to access the maps.
+The functions use the
+.IR cmd
+argument to invoke different operations.
+.TP 4
+.B BPF_MAP_CREATE
+The
+.B BPF_MAP_CREATE
+command creates a new map.
+
+.in +4n
+.nf
+int
+bpf_create_map(enum bpf_map_type map_type, int key_size,
+               int value_size, int max_entries)
+{
+    union bpf_attr attr = {
+        .map_type = map_type,
+        .key_size = key_size,
+        .value_size = value_size,
+        .max_entries = max_entries
+    };
+
+    return bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
+}
+.fi
+.in
+
+The new map has the type specified by
+.IR map_type ,
+and attributes as specified in
+.IR key_size ,
+.IR value_size ,
+and
+.IR max_entries .
+.\" FIXME: In the next sentence, what does "process-local" mean?
+On success, this operation returns a process-local file descriptor.
+On error, \-1 is returned and
+.I errno
+is set to
+.BR EINVAL ,
+.BR EPERM ,
+or
+.BR ENOMEM .
+
+The attributes
+.I key_size
+and
+.I value_size
+will be used by the verifier during program loading to check that the program
+is calling
+.BR bpf_map_*_elem ()
+helper functions with a correctly initialized
+.I key
+and that the program doesn't access the map element
+.I value
+beyond the specified
+.IR value_size .
+For example, when a map is created with a
+.IR key_size
+of 8 and the program calls
+
+.in +4n
+.nf
+bpf_map_lookup_elem(map_fd, fp - 4)
+.fi
+.in
+
+the program will be rejected,
+since the in-kernel helper function
+
+    bpf_map_lookup_elem(map_fd, void *key)
+
+expects to read 8 bytes from
+.I key
+pointer, but
+.IR "fp\ -\ 4"
+.\" FIXME I'm lost! What is 'fp' in this context?
+starting address will cause out-of-bounds stack access.
+
+Similarly, when a map is created with a
+.I value_size
+of 1 and the program calls
+
+.in +4n
+.nf
+value = bpf_map_lookup_elem(...);
+*(u32 *) value = 1;
+.fi
+.in
+
+the program will be rejected, since it accesses the
+.I value
+pointer beyond the specified 1 byte
+.I value_size
+limit.
+
+Currently, two
+.I map_type
+are supported:
+
+.in +4n
+.nf
+enum bpf_map_type {
+    BPF_MAP_TYPE_UNSPEC,
+    BPF_MAP_TYPE_HASH,
+    BPF_MAP_TYPE_ARRAY,
+};
+.fi
+.in
+.\" FIXME Explain the purpose of BPF_MAP_TYPE_UNSPEC
+
+.I map_type
+selects one of the available map implementations in the kernel.
+.\" FIXME We need an explanation of BPF_MAP_TYPE_HASH here
+.\" FIXME We need an explanation of BPF_MAP_TYPE_ARRAY here
+.\" FIXME We need an explanation of why one might choose HASH versus ARRAY
+For all map types,
+programs access maps with the same
+.BR bpf_map_lookup_elem ()/
+.BR bpf_map_update_elem ()
+helper functions.
+.TP
+.B BPF_MAP_LOOKUP_ELEM
+The
+.B BPF_MAP_LOOKUP_ELEM
+command looks up an element with a given
+.I key
+in the map referred to by the file descriptor
+.IR fd .
+
+.in +4n
+.nf
+int
+bpf_lookup_elem(int fd, void *key, void *value)
+{
+    union bpf_attr attr = {
+        .map_fd = fd,
+        .key = ptr_to_u64(key),
+        .value = ptr_to_u64(value),
+    };
+
+    return bpf(BPF_MAP_LOOKUP_ELEM, &attr, sizeof(attr));
+}
+.fi
+.in
+
+If an element is found,
+the operation returns zero and stores the element's value into
+.I value.
+.\" FIXME Here, I think we need some statement about what 'value' must
+.\"       point to. Presumable, it must be a buffer at least as large as
+.\"       the map's 'value_size' attribute?
+
+If no element is found, the operation returns \-1 and sets
+.I errno
+to
+.BR ENOENT .
+.TP
+.B BPF_MAP_UPDATE_ELEM
+The
+.B BPF_MAP_UPDATE_ELEM
+command
+creates or updates an element with a given
+.I key/value
+in the map referred to by the file descriptor
+.IR fd .
+
+.in +4n
+.nf
+int
+bpf_update_elem(int fd, void *key, void *value, __u64 flags)
+{
+    union bpf_attr attr = {
+        .map_fd = fd,
+        .key = ptr_to_u64(key),
+        .value = ptr_to_u64(value),
+        .flags = flags,
+    };
+
+    return bpf(BPF_MAP_UPDATE_ELEM, &attr, sizeof(attr));
+}
+.fi
+.in
+
+The
+.I flags
+argument should be specified as one of the following:
+.RS
+.TP
+.B BPF_ANY
+Create a new element or update an existing element.
+.TP
+.B BPF_NOEXIST
+Create a new element only if it did not exist.
+.TP
+.B BPF_EXIST
+Update an existing element.
+.RE
+.IP
+On success, the operation returns zero.
+On error, \-1 is returned and
+.I errno
+is set to
+.BR EINVAL ,
+.BR EPERM ,
+.BR ENOMEM ,
+or
+.BR E2BIG .
+.B E2BIG
+indicates that the number of elements in the map reached the
+.I max_entries
+limit specified at map creation time.
+.B EEXIST
+will be returned if
+.I flags
+specifies
+.B BPF_NOEXIST
+and the element with
+.I key
+already exists in the map.
+.B ENOENT
+will be returned if 
+.I flags
+specifies
+.B BPF_EXIST
+and the element with
+.I key
+doesn't exist in the map.
+.TP
+.B BPF_MAP_DELETE_ELEM
+The
+.B BPF_MAP_DELETE_ELEM
+command
+deleted the element whose key is
+.I key
+from the map referred to by the file descriptor
+.IR fd .
+
+.in +4n
+.nf
+int
+bpf_delete_elem(int fd, void *key)
+{
+    union bpf_attr attr = {
+        .map_fd = fd,
+        .key = ptr_to_u64(key),
+    };
+
+    return bpf(BPF_MAP_DELETE_ELEM, &attr, sizeof(attr));
+}
+.fi
+.in
+
+On success, zero is returned.
+If the element is not found, \-1 is returned and
+.I errno
+is set to
+.BR ENOENT .
+.TP
+.B BPF_MAP_GET_NEXT_KEY
+The
+.B BPF_MAP_GET_NEXT_KEY
+command looks up an element by
+.I key
+in the map referred to by the file descriptor
+.IR fd 
+and sets the
+.I next_key
+pointer to the key of the next element.
+
+.nf
+.in +4n
+int
+bpf_get_next_key(int fd, void *key, void *next_key)
+{
+    union bpf_attr attr = {
+        .map_fd = fd,
+        .key = ptr_to_u64(key),
+        .next_key = ptr_to_u64(next_key),
+    };
+
+    return bpf(BPF_MAP_GET_NEXT_KEY, &attr, sizeof(attr));
+}
+.fi
+.in
+
+.\" FIXME Need to explain the return value on success here.
+If
+.I key
+is not found, the operation returns zero and sets the
+.I next_key
+pointer to the key of the first element.
+If
+.I key
+is the last element, \-1 is returned and
+.I errno
+is set to
+.BR ENOENT .
+Other possible
+.I errno
+values are
+.BR ENOMEM ,
+.BR EFAULT ,
+.BR EPERM ,
+and
+.BR EINVAL .
+This method can be used to iterate over all elements in the map.
+.TP
+.B close(map_fd)
+Delete the map referred to by the file descriptor
+.IR map_fd .
+When the user-space program that created a map exits, all maps will
+be deleted automatically.
+.\" FIXME What are the semantics when a file descriptor is duplicated
+.\"       (dup() etc.)? (I.e., when is a map deallocated automatically?)
+.\"
+.SS BPF programs
+.TP 4
+.B BPF_PROG_LOAD
+The
+.B BPF_PROG_LOAD
+command is used to load an extended BPF program into the kernel.
+
+.in +4n
+.nf
+char bpf_log_buf[LOG_BUF_SIZE];
+
+int
+bpf_prog_load(enum bpf_prog_type prog_type,
+              const struct bpf_insn *insns, int insn_cnt,
+              const char *license)
+{
+    union bpf_attr attr = {
+        .prog_type = prog_type,
+        .insns = ptr_to_u64(insns),
+        .insn_cnt = insn_cnt,
+        .license = ptr_to_u64(license),
+        .log_buf = ptr_to_u64(bpf_log_buf),
+        .log_size = LOG_BUF_SIZE,
+        .log_level = 1,
+    };
+
+    return bpf(BPF_PROG_LOAD, &attr, sizeof(attr));
+}
+.fi
+.in
+
+.I prog_type
+is one of the available program types:
+
+.in +4n
+.nf
+enum bpf_prog_type {
+    BPF_PROG_TYPE_UNSPEC,
+.\" FIXME Explain the purpose of BPF_PROG_TYPE_UNSPEC
+    BPF_PROG_TYPE_SOCKET_FILTER,
+    BPF_PROG_TYPE_SCHED_CLS,
+.\" FIXME BPF_PROG_TYPE_SCHED_CLS appears not to exist?
+};
+.fi
+.in
+
+By picking
+.IR prog_type ,
+the program author selects a set of helper functions that can be called from
+the BPF program and the corresponding format of
+.I struct bpf_context
+(which is the data blob passed into the program as the first argument).
+For example, programs loaded with
+
+    prog_type = BPF_PROG_TYPE_SOCKET_FILTER
+
+may call the
+.BR bpf_map_lookup_elem ()
+helper,
+whereas some future program types may not.
+The set of functions available to BPF programs of a given type may increase
+in the future.
+
+Currently, the set of functions for
+.B BPF_PROG_TYPE_SOCKET_FILTER
+is:
+
+.in +4n
+.nf
+bpf_map_lookup_elem(map_fd, void *key)
+                    /* look up key in a map_fd */
+bpf_map_update_elem(map_fd, void *key, void *value)
+                    /* update key/value */
+bpf_map_delete_elem(map_fd, void *key)
+                    /* delete key in a map_fd */
+.fi
+.in
+
+.\" FIXME The next sentence fragment is incomplete
+and
+.I bpf_context
+is a pointer to a
+.IR "struct sk_buff" .
+Programs cannot access fields of
+.I sk_buff
+directly.
+
+More program types may be added in the future.
+.\" FIXME The following sentence is grammatically broken.
+.\"       What should it say?
+Like
+.B BPF_PROG_TYPE_KPROBE
+and
+.I bpf_context
+for it may be defined as a pointer to a
+.IR "struct pt_regs" .
+
+The fields of
+.I bpf_attr
+are set as follows:
+.RS
+.IP * 3
+.I insns
+is an array of
+.I "struct bpf_insn"
+instructions.
+.IP *
+.I insn_cnt
+is the number of instructions in the program referred to by
+.IR insns .
+.IP *
+.I license
+is a license string, which must be GPL compatible to call helper functions
+.\" FIXME Maybe we should list the GPL compatible strings that can be
+.\"       specified?
+marked
+.IR gpl_only .
+.IP *
+.I log_buf
+is a pointer to a caller-allocated buffer in which the in-kernel
+verifier can store the verification log.
+This log is a multi-line string that can be checked by
+the program author in order to understand how the verifier came to
+the conclusion that the BPF program is unsafe.
+The format of the output can change at any time as the verifier evolves.
+.IP *
+.I log_size
+size of the buffer pointed to by
+.IR log_bug .
+If the size of the buffer is not large enough to store all
+verifier messages, \-1 is returned and
+.I errno
+is set to
+.BR ENOSPC .
+.IP *
+.I log_level
+verbosity level of the verifier.
+A value of zero means that the verifier will
+not provide a log.
+.RE
+.TP
+.B close(prog_fd)
+will unload the BPF program.
+.P
+Maps are accessible from BPF programs and are used to exchange data between
+BPF programs and between BPF programs and user-space programs.
+Programs process various events (like kprobe, packets) and
+store their data into maps.
+User-space programs fetch data from the maps.
+.\" FIXME We need some elaboration here... What does the next sentence mean?
+Either the same or a different map may be used by user space
+as a configuration space to alter program behavior on the fly.
+.SS Events
+Once a program is loaded, it can be attached to an event.
+Various kernel
+subsystems have different ways to do so.
+For example:
+
+.in +4n
+.nf
+setsockopt(sockfd, SOL_SOCKET, SO_ATTACH_BPF,
+           &prog_fd, sizeof(prog_fd));
+.fi
+.in
+
+will attach the program
+.I prog_fd
+to the socket
+.IR sockfd ,
+which was received from a prior call to
+.BR socket (2).
+
+In the future,
+
+.in +4n
+.nf
+ioctl(event_fd, PERF_EVENT_IOC_SET_BPF, prog_fd);
+.fi
+.in
+
+may attach the program
+.I prog_fd
+to perf event
+.I event_fd
+which was received by prior call to
+.BR perf_event_open (2).
+
+.SH EXAMPLES
+.\" FIXME It would be nice if this was a complete working example
+.nf
+/* bpf+sockets example:
+ * 1. create array map of 256 elements
+ * 2. load program that counts number of packets received
+ *    r0 = skb->data[ETH_HLEN + offsetof(struct iphdr, protocol)]
+ *    map[r0]++
+ * 3. attach prog_fd to raw socket via setsockopt()
+ * 4. print number of received TCP/UDP packets every second
+ */
+int
+main(int argc, char **argv)
+{
+    int sock, map_fd, prog_fd, key;
+    long long value = 0, tcp_cnt, udp_cnt;
+
+    map_fd = bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(key),
+                            sizeof(value), 256);
+    if (map_fd < 0) {
+        printf("failed to create map '%s'\\n", strerror(errno));
+        /* likely not run as root */
+        return 1;
+    }
+
+    struct bpf_insn prog[] = {
+        BPF_MOV64_REG(BPF_REG_6, BPF_REG_1),        /* r6 = r1 */
+        BPF_LD_ABS(BPF_B, ETH_HLEN + offsetof(struct iphdr, protocol)),
+                                /* r0 = ip->proto */
+        BPF_STX_MEM(BPF_W, BPF_REG_10, BPF_REG_0, -4),
+                                /* *(u32 *)(fp - 4) = r0 */
+        BPF_MOV64_REG(BPF_REG_2, BPF_REG_10),       /* r2 = fp */
+        BPF_ALU64_IMM(BPF_ADD, BPF_REG_2, -4),      /* r2 = r2 - 4 */
+        BPF_LD_MAP_FD(BPF_REG_1, map_fd),           /* r1 = map_fd */
+        BPF_CALL_FUNC(BPF_FUNC_map_lookup_elem),
+                                /* r0 = map_lookup(r1, r2) */
+        BPF_JMP_IMM(BPF_JEQ, BPF_REG_0, 0, 2),
+                                /* if (r0 == 0) goto pc+2 */
+        BPF_MOV64_IMM(BPF_REG_1, 1),                /* r1 = 1 */
+        BPF_XADD(BPF_DW, BPF_REG_0, BPF_REG_1, 0, 0),
+.\" FIXME What does 'lock' in the line below mean?
+                                /* lock *(u64 *) r0 += r1 */
+        BPF_MOV64_IMM(BPF_REG_0, 0),                /* r0 = 0 */
+        BPF_EXIT_INSN(),                            /* return r0 */
+    };
+
+    prog_fd = bpf_prog_load(BPF_PROG_TYPE_SOCKET_FILTER, prog,
+.\" FIXME The next line looks wrong. Should it not be
+.\"
+.\"           sizeof(prog) / sizeof(struct bpf_insn) ?
+                            sizeof(prog), "GPL");
+
+    sock = open_raw_sock("lo");
+
+    assert(setsockopt(sock, SOL_SOCKET, SO_ATTACH_BPF, &prog_fd,
+                      sizeof(prog_fd)) == 0);
+
+    for (;;) {
+        key = IPPROTO_TCP;
+        assert(bpf_lookup_elem(map_fd, &key, &tcp_cnt) == 0);
+        key = IPPROTO_UDP
+        assert(bpf_lookup_elem(map_fd, &key, &udp_cnt) == 0);
+        printf("TCP %lld UDP %lld packets\n", tcp_cnt, udp_cnt);
+        sleep(1);
+    }
+
+    return 0;
+}
+.fi
+.SH RETURN VALUE
+For a successful call, the return value depends on the operation:
+.TP
+.B BPF_MAP_CREATE
+The new file descriptor associated with the BPF map.
+.TP
+.B BPF_PROG_LOAD
+The new file descriptor associated with the BPF program.
+.TP
+All other commands
+Zero.
+.PP
+On error, \-1 is returned, and
+.I errno
+is set appropriately.
+.SH ERRORS
+.TP
+.B EPERM
+The call was made without sufficient privilege
+(without the
+.B CAP_SYS_ADMIN
+capability).
+.TP
+.B ENOMEM
+Cannot allocate sufficient memory.
+.TP
+.B EBADF
+.I fd
+is not an open file descriptor
+.TP
+.B EFAULT
+One of the pointers
+.RI ( key
+or
+.I value
+or
+.I log_buf
+or
+.IR insns )
+is outside the accessible address space.
+.TP
+.B EINVAL
+The value specified in
+.I cmd
+is not recognized by this kernel.
+.TP
+.B EINVAL
+For
+.BR BPF_MAP_CREATE ,
+either
+.I map_type
+or attributes are invalid.
+.TP
+.B EINVAL
+For
+.BR BPF_MAP_*_ELEM
+commands,
+some of the fields of
+.I "union bpf_attr"
+that are not used by this command
+are not set to zero.
+.TP
+.B EINVAL
+For
+.BR BPF_PROG_LOAD,
+indicates an attempt to load an invalid program.
+BPF programs can be deemed
+invalid due to unrecognized instructions, the use of reserved fields, jumps
+out of range, infinite loops or calls of unknown functions.
+.TP
+.BR EACCES
+For
+.BR BPF_PROG_LOAD,
+even though all program instructions are valid, the program has been
+rejected because it was deemed unsafe.
+This may be because it may have
+accessed a disallowed memory region or an uninitialized stack/register or
+because the function constraints don't match the actual types or because
+there was a misaligned memory access.
+In this case, it is recommended to call
+.BR bpf ()
+again with
+.I log_level = 1
+and examine
+.I log_buf
+for the specific reason provided by the verifier.
+.TP
+.BR ENOENT
+For
+.B BPF_MAP_LOOKUP_ELEM
+or
+.BR BPF_MAP_DELETE_ELEM ,
+indicates that the element with the given
+.I key
+was not found.
+.TP
+.BR E2BIG
+The BPF program is too large or a map reached the
+.I max_entries
+limit (maximum number of elements).
+.SH VERSIONS
+The
+.BR bpf ()
+system call first appeared in Linux 3.18.
+.SH CONFORMING TO
+The
+.BR bpf ()
+system call is Linux-specific.
+.SH NOTES
+In the current implementation, all
+.BR bpf ()
+commands require the caller to have the
+.B CAP_SYS_ADMIN
+capability.
+.SH SEE ALSO
+.BR seccomp (2),
+.BR socket (7)
+
+Both classic and extended BPF are explained in the kernel source file
+.IR Documentation/networking/filter.txt .
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
