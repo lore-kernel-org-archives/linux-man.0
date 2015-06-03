@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getservent.3: ATTRIBUTES: Note functions that aren't thread-safe
-Date: Wed, 3 Jun 2015 18:16:30 +0800
-Message-ID: <1433326594-25001-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] malloc_trim.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 3 Jun 2015 18:16:32 +0800
+Message-ID: <1433326594-25001-8-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1433326594-25001-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,84 +12,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-markings of functions in glibc are:
-- getservent:    MT-Unsafe race:servent race:serventbuf locale
-
-- getservbyname: MT-Unsafe race:servbyname locale
-
-- getservbyport: MT-Unsafe race:servbyport locale
-
-- setservent:    MT-Unsafe race:servent locale
-- endservent:    MT-Unsafe race:servent locale
+After research, We think malloc_trim() is thread-safe. But, there
+is not marking of malloc_trim() in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getservent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ man3/malloc_trim.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/getservent.3 b/man3/getservent.3
-index c229053..a475b2e 100644
---- a/man3/getservent.3
-+++ b/man3/getservent.3
-@@ -154,6 +154,57 @@ error occurs or the end of the file is reached.
- .TP
- .I /etc/services
- services database file
+diff --git a/man3/malloc_trim.3 b/man3/malloc_trim.3
+index 74ef07e..769f1c1 100644
+--- a/man3/malloc_trim.3
++++ b/man3/malloc_trim.3
+@@ -57,6 +57,19 @@ or 0 if it was not possible to release any memory.
+ No errors are defined.
+ .\" .SH VERSIONS
+ .\" Available already in glibc 2.0, possibly earlier
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw15 lb lbw25
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getservent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:servent
-+.br
-+race:serventbuf locale
-+T}
-+T{
-+.BR getservbyname ()
-+T}	Thread safety	T{
-+MT-Unsafe race:servbyname
-+.br
-+locale
-+T}
-+T{
-+.BR getservbyport ()
-+T}	Thread safety	T{
-+MT-Unsafe race:servbyport
-+.br
-+locale
-+T}
-+T{
-+.BR setservent (),
-+.br
-+.BR endservent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:servent
-+.br
-+locale
-+T}
++.BR malloc_trim ()
++T}	Thread safety	MT-Safe
 +.TE
 +
-+In the above table,
-+.I servent
-+in
-+.I race:servent
-+signifies that if any of the functions
-+.BR setservent (3),
-+.BR getservent (3),
-+or
-+.BR endservent (3)
-+are used in parallel in different threads of a program,
-+then data races could occur.
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH SEE ALSO
+ This function is a GNU extension.
+ .SH NOTES
 -- 
 1.9.3
 
