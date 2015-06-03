@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] malloc_trim.3: ATTRIBUTES: Note function that is thread-safe
-Date: Wed, 3 Jun 2015 18:16:32 +0800
-Message-ID: <1433326594-25001-8-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getrpcport.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 3 Jun 2015 18:16:29 +0800
+Message-ID: <1433326594-25001-5-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1433326594-25001-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,22 +12,22 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-After research, We think malloc_trim() is thread-safe. But, there
-is not marking of malloc_trim() in glibc document.
+After research, We think getrpcport() is thread-safe. But, there
+is not marking of getrpcport() in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/malloc_trim.3 | 13 +++++++++++++
+ man3/getrpcport.3 | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
-diff --git a/man3/malloc_trim.3 b/man3/malloc_trim.3
-index 74ef07e..769f1c1 100644
---- a/man3/malloc_trim.3
-+++ b/man3/malloc_trim.3
-@@ -57,6 +57,19 @@ or 0 if it was not possible to release any memory.
- No errors are defined.
- .\" .SH VERSIONS
- .\" Available already in glibc 2.0, possibly earlier
+diff --git a/man3/getrpcport.3 b/man3/getrpcport.3
+index 13f970f..476f203 100644
+--- a/man3/getrpcport.3
++++ b/man3/getrpcport.3
+@@ -35,6 +35,19 @@ is registered but not with version
+ it will still return a port number (for some version of the program)
+ indicating that the program is indeed registered.
+ The version mismatch will be detected upon the first call to the service.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
@@ -37,13 +37,13 @@ index 74ef07e..769f1c1 100644
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR malloc_trim ()
-+T}	Thread safety	MT-Safe
++.BR getrpcport ()
++T}	Thread safety	MT-Safe env locale
 +.TE
 +
  .SH CONFORMING TO
- This function is a GNU extension.
- .SH NOTES
+ Not in POSIX.1-2001.
+ Present on the BSDs, Solaris, and many other systems.
 -- 
 1.9.3
 
