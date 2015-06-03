@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getprotoent.3: ATTRIBUTES: Note functions that aren't thread-safe
-Date: Wed, 3 Jun 2015 18:16:28 +0800
-Message-ID: <1433326594-25001-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getnameinfo.3: ATTRIBUTES: Note function that is thread-safe
+Date: Wed, 3 Jun 2015 18:16:27 +0800
+Message-ID: <1433326594-25001-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1433326594-25001-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -12,84 +12,38 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The marking matches glibc marking.
-markings of functions in glibc are:
-- getprotoent:      MT-Unsafe race:protoent race:protoentbuf locale
-
-- getprotobyname:   MT-Unsafe race:protobyname locale
-
-- getprotobynumber: MT-Unsafe race:protobynumber locale
-
-- setprotoent:      MT-Unsafe race:protoent locale
-- endprotoent:      MT-Unsafe race:protoent locale
+After research, We think getnameinfo() is thread-safe. But, there
+is not marking of getnameinfo() in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getprotoent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ man3/getnameinfo.3 | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/man3/getprotoent.3 b/man3/getprotoent.3
-index d41e926..56fac15 100644
---- a/man3/getprotoent.3
-+++ b/man3/getprotoent.3
-@@ -137,6 +137,57 @@ error occurs or the end of the file is reached.
- .I /etc/protocols
- protocol database file
- .PD
+diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
+index 3d4c042..45a62a1 100644
+--- a/man3/getnameinfo.3
++++ b/man3/getnameinfo.3
+@@ -203,6 +203,19 @@ suitable for error reporting.
+ .SH VERSIONS
+ .BR getnameinfo ()
+ is provided in glibc since version 2.1.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw18 lb lbw28
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getprotoent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:protoent
-+.br
-+race:protoentbuf locale
-+T}
-+T{
-+.BR getprotobyname ()
-+T}	Thread safety	T{
-+MT-Unsafe race:protobyname
-+.br
-+locale
-+T}
-+T{
-+.BR getprotobynumber ()
-+T}	Thread safety	T{
-+MT-Unsafe race:protobynumber
-+.br
-+locale
-+T}
-+T{
-+.BR setprotoent (),
-+.br
-+.BR endprotoent ()
-+T}	Thread safety	T{
-+MT-Unsafe race:protoent
-+.br
-+locale
-+T}
++.BR getnameinfo ()
++T}	Thread safety	MT-Safe env locale
 +.TE
 +
-+In the above table,
-+.I protoent
-+in
-+.I race:protoent
-+signifies that if any of the functions
-+.BR setprotoent (3),
-+.BR getprotoent (3),
-+or
-+.BR endprotoent (3)
-+are used in parallel in different threads of a program,
-+then data races could occur.
  .SH CONFORMING TO
- 4.3BSD, POSIX.1-2001.
- .SH SEE ALSO
+ RFC\ 2553, POSIX.1-2001.
+ .SH NOTES
 -- 
 1.9.3
 
