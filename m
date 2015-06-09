@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: refer to strftime(3) where appropriate
-Date: Tue, 09 Jun 2015 17:18:48 +0300
-Message-ID: <5576F5C8.7020903@redhat.com>
+Subject: [PATCH] localedef.1: tfix
+Date: Tue, 09 Jun 2015 17:19:01 +0300
+Message-ID: <5576F5D5.3080501@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,66 +14,25 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-the relationship between the locale time format syntax
-and strftime() cannot be considered as obvious.
+the subject says it all.
 
 ---
- man5/locale.5 |   22 +++++++++++++++++-----
- 1 files changed, 17 insertions(+), 5 deletions(-)
+ man1/localedef.1 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/man5/locale.5 b/man5/locale.5
-index 374f6b2..2a2edc1 100644
---- a/man5/locale.5
-+++ b/man5/locale.5
-@@ -1106,16 +1106,25 @@ strings.
- This should be left empty for locales not using AM/PM convention.
- .TP
- .I d_t_fmt
--followed by the appropriate date and time format.
-+followed by the appropriate date and time format
-+(for syntax, see
-+.BR strftime ()).
- .TP
- .I d_fmt
--followed by the appropriate date format.
-+followed by the appropriate date format
-+(for syntax, see
-+.BR strftime ()).
- .TP
- .I t_fmt
--followed by the appropriate time format.
-+followed by the appropriate time format
-+(for syntax, see
-+.BR strftime ()).
- .TP
- .I t_fmt_ampm
--followed by the appropriate time format when using 12h clock format.
-+followed by the appropriate time format
-+(for syntax, see
-+.BR strftime ())
-+when using 12h clock format.
- This should be left empty for locales not using AM/PM convention.
- .TP
- .I week
-@@ -1169,7 +1178,9 @@ Right-left from top.
- .TP
- .I date_fmt
- followed by the appropriate date representation for
--.BR date (1).
-+.BR date (1)
-+(for syntax, see
-+.BR strftime ()).
- .TP
- .I alt_digits
- followed by the alternative digits used for date and time in the locale.
-@@ -1244,6 +1255,7 @@ This manual page isn't complete.
- .BR localeconv (3),
- .BR newlocale (3),
- .BR setlocale (3),
-+.BR strftime (3),
- .BR uselocale (3),
- .BR charmap (5),
- .BR charsets (7),
+diff --git a/man1/localedef.1 b/man1/localedef.1
+index 2996f91..765d770 100644
+--- a/man1/localedef.1
++++ b/man1/localedef.1
+@@ -82,7 +82,7 @@ If
+ contains a slash character ('/'), it is interpreted as the name of the
+ directory where the output definitions are to be stored.
+ In this case, there is a separate output file for each locale category
+-.RI ( LC_CTIME ,
++.RI ( LC_TIME ,
+ .IR LC_NUMERIC ,
+ and so on).
+ .IP *
 
 Thanks,
 
