@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: sfix
-Date: Tue, 09 Jun 2015 17:20:01 +0300
-Message-ID: <5576F611.1060205@redhat.com>
+Subject: [PATCH] locale.5: tfix / minor clarification
+Date: Tue, 09 Jun 2015 17:20:10 +0300
+Message-ID: <5576F61A.9090707@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,36 +14,24 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-the subject says it all, the former is consistent with
-other keywords, the latter fixes a rendering issue.
-
+the subject says it all, for reference see e.g. ja_JP.
 ---
- man5/locale.5 |    5 ++---
- 1 files changed, 2 insertions(+), 3 deletions(-)
+ man5/locale.5 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/man5/locale.5 b/man5/locale.5
-index bbc46b7..ee7c4f6 100644
+index ee7c4f6..2f16677 100644
 --- a/man5/locale.5
 +++ b/man5/locale.5
-@@ -438,7 +438,7 @@ letters.
- If the keyword tolower is not present, the reverse of the
- toupper list is used.
+@@ -449,7 +449,7 @@ starting with the class name followed by the characters
+ belonging to the class.
  .TP
--.I map "totitle"
-+.I map totitle
- followed by a list of mapping pairs of
- characters and letters
- to be used in titles (headings).
-@@ -487,8 +487,7 @@ character will be used instead.
- .I include
- in the transliteration rules section includes
- a transliteration rule file
--(and optionally a repertoire map file)
--.
-+(and optionally a repertoire map file).
+ .I charconv
+-followed by a list of locale-specific character map names
++followed by a list of locale-specific character mapping names
+ which are then to be defined in the locale.
  .TP
- .I default_missing
- in the transliteration rules section 
+ .I outdigit
 
 Thanks,
 
