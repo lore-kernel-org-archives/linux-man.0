@@ -1,11 +1,11 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] strfmon.3: rewrite the example
-Date: Tue, 09 Jun 2015 17:18:40 +0300
-Message-ID: <5576F5C0.7080208@redhat.com>
+Subject: [PATCH] locale.5: refer to strftime(3) where appropriate
+Date: Tue, 09 Jun 2015 17:18:48 +0300
+Message-ID: <5576F5C8.7020903@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
@@ -14,65 +14,70 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-I think the example is more accurate when we use the exact
-locale names and also the Euro sign where appropriate.
----
- man3/strfmon.3 |   29 +++++++++++++++--------------
- 1 files changed, 15 insertions(+), 14 deletions(-)
+the relationship between the locale time format syntax
+and strftime() cannot be considered as obvious.
 
-diff --git a/man3/strfmon.3 b/man3/strfmon.3
-index 1fcfbf0..fe2a086 100644
---- a/man3/strfmon.3
-+++ b/man3/strfmon.3
-@@ -189,27 +189,28 @@ strfmon(buf, sizeof(buf), "[%^=3D*#6n] [%=3D*#6i]=
-",
- outputs
- .in +4n
-=20
--[ fl **1234,57] [ NLG  **1 234,57]
-+[=E2=82=AC **1234,57] [EUR **1 234,57]
-=20
- .in
--in the Dutch locale (with fl for "florijnen" and NLG for Netherlands G=
-uilders).
--The grouping character is very ugly because it takes as much space
--as a digit, while it should not take more than half that,
--and will no doubt cause confusion.
--Surprisingly, the "fl" is preceded and followed by a space,
--and "NLG" is preceded by one and followed by two spaces.
--This may be a bug in the locale files.
--The Italian, Australian, Swiss,
--and Portuguese locales yield
-+in the
-+.I nl_NL
-+locale.
-+The=20
-+.IR de_DE ,
-+.IR de_CH ,
-+.IR en_AU ,
-+and
-+.I en_GB
-+locales yield
- .in +4n
-=20
--[ L. **1235] [ ITL  **1.235]
-+[ **1234,57 =E2=82=AC] [ **1.234,57 EUR]
- .br
--[ $**1234.57] [ AUD **1,234.57]
-+[ Fr. **1234.57] [ CHF **1'234.57]
- .br
--[Fr. **1234,57] [CHF  **1.234,57]
-+[ $**1234.57] [ AUD**1,234.57]
- .br
--[ **1234$57Esc] [ **1.234$57PTE ]
-+[ =C2=A3**1234.57] [ GBP**1,234.57]
- .in
- .SH SEE ALSO
- .BR duplocale (3),
+---
+ man5/locale.5 |   22 +++++++++++++++++-----
+ 1 files changed, 17 insertions(+), 5 deletions(-)
+
+diff --git a/man5/locale.5 b/man5/locale.5
+index 374f6b2..2a2edc1 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -1106,16 +1106,25 @@ strings.
+ This should be left empty for locales not using AM/PM convention.
+ .TP
+ .I d_t_fmt
+-followed by the appropriate date and time format.
++followed by the appropriate date and time format
++(for syntax, see
++.BR strftime ()).
+ .TP
+ .I d_fmt
+-followed by the appropriate date format.
++followed by the appropriate date format
++(for syntax, see
++.BR strftime ()).
+ .TP
+ .I t_fmt
+-followed by the appropriate time format.
++followed by the appropriate time format
++(for syntax, see
++.BR strftime ()).
+ .TP
+ .I t_fmt_ampm
+-followed by the appropriate time format when using 12h clock format.
++followed by the appropriate time format
++(for syntax, see
++.BR strftime ())
++when using 12h clock format.
+ This should be left empty for locales not using AM/PM convention.
+ .TP
+ .I week
+@@ -1169,7 +1178,9 @@ Right-left from top.
+ .TP
+ .I date_fmt
+ followed by the appropriate date representation for
+-.BR date (1).
++.BR date (1)
++(for syntax, see
++.BR strftime ()).
+ .TP
+ .I alt_digits
+ followed by the alternative digits used for date and time in the locale.
+@@ -1244,6 +1255,7 @@ This manual page isn't complete.
+ .BR localeconv (3),
+ .BR newlocale (3),
+ .BR setlocale (3),
++.BR strftime (3),
+ .BR uselocale (3),
+ .BR charmap (5),
+ .BR charsets (7),
 
 Thanks,
 
---=20
+-- 
 Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
