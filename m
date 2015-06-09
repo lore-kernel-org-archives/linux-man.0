@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] setlocale.3: tweak C/POSIX locale portability description
-Date: Tue, 09 Jun 2015 17:18:09 +0300
-Message-ID: <5576F5A1.9030202@redhat.com>
+Subject: [PATCH] locale.5: refer to locale(7) more prominently
+Date: Tue, 09 Jun 2015 17:18:24 +0300
+Message-ID: <5576F5B0.3010404@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,36 +14,26 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-as discussed earlier, the current description might be a little
-bit too stringent, let's avoid the issue by describing the
-portability aspect on a slightly higher level.
-
-References:
-
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap06.html
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html
-http://pubs.opengroup.org/onlinepubs/9699919799/functions/setlocale.html
+it's probably a good idea to refer to locale(7) so that a reader
+can check what a category is about before describing them in
+detail.
 ---
- man3/setlocale.3 |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+ man5/locale.5 |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
 
-diff --git a/man3/setlocale.3 b/man3/setlocale.3
-index a3102ba..1d05ba7 100644
---- a/man3/setlocale.3
-+++ b/man3/setlocale.3
-@@ -117,10 +117,8 @@ The locale
- .B """C"""
- or
- .B """POSIX"""
--is a portable locale; its
--.B LC_CTYPE
--part corresponds to the 7-bit ASCII
--character set.
-+is a portable locale;
-+it exists on all conforming systems.
- .PP
- A locale name is typically of the form
- .IR language "[_" territory "][." codeset "][@" modifier "],"
+diff --git a/man5/locale.5 b/man5/locale.5
+index ee0d353..374f6b2 100644
+--- a/man5/locale.5
++++ b/man5/locale.5
+@@ -34,6 +34,8 @@ command needs to convert it into the binary locale database.
+ 
+ The definition files consist of sections which each describe a
+ locale category in detail.
++.BR locale (7)
++provides additional descriptions for these categories.
+ .SS Syntax
+ The locale definition file starts with a header that may consist
+ of the following keywords:
 
 Thanks,
 
