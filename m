@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] setlocale.3: update CONFORMING TO
-Date: Tue, 09 Jun 2015 17:18:16 +0300
-Message-ID: <5576F5A8.50409@redhat.com>
+Subject: [PATCH] strfmon.3: fix CONFORMING TO
+Date: Tue, 09 Jun 2015 17:18:29 +0300
+Message-ID: <5576F5B5.4060407@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,26 +14,28 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-a tiny update to setlocale's CONFORMING TO section.
+AFAICS strfmon(3) is now defined in POSIX and the glibc
+implementation is as specified there.
 
-http://pubs.opengroup.org/onlinepubs/9699919799/functions/setlocale.html
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/strfmon.html
 ---
- man3/setlocale.3 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ man3/strfmon.3 |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
-diff --git a/man3/setlocale.3 b/man3/setlocale.3
-index 1d05ba7..1b31cf8 100644
---- a/man3/setlocale.3
-+++ b/man3/setlocale.3
-@@ -185,7 +185,7 @@ T}	Thread safety	MT-Unsafe const:locale env
+diff --git a/man3/strfmon.3 b/man3/strfmon.3
+index 3c1c19b..4964b36 100644
+--- a/man3/strfmon.3
++++ b/man3/strfmon.3
+@@ -149,8 +149,7 @@ T}	Thread safety	MT-Safe locale
  .TE
  
  .SH CONFORMING TO
--C89, C99, POSIX.1-2001.
-+C89, C99, POSIX.1-2001, POSIX.1-2008.
- .SH SEE ALSO
- .BR locale (1),
- .BR localedef (1),
+-Not in POSIX.1-2001.
+-Present on several other systems.
++POSIX.1-2008.
+ .SH EXAMPLE
+ The call
+ .in +4n
 
 Thanks,
 
