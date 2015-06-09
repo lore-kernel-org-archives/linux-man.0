@@ -1,7 +1,7 @@
 From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: refer to locale(7) more prominently
-Date: Tue, 09 Jun 2015 17:18:24 +0300
-Message-ID: <5576F5B0.3010404@redhat.com>
+Subject: [PATCH] setlocale.3: update CONFORMING TO
+Date: Tue, 09 Jun 2015 17:18:16 +0300
+Message-ID: <5576F5A8.50409@redhat.com>
 Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -14,26 +14,26 @@ List-Id: linux-man@vger.kernel.org
 
 Hi Michael,
 
-it's probably a good idea to refer to locale(7) so that a reader
-can check what a category is about before describing them in
-detail.
----
- man5/locale.5 |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+a tiny update to setlocale's CONFORMING TO section.
 
-diff --git a/man5/locale.5 b/man5/locale.5
-index ee0d353..374f6b2 100644
---- a/man5/locale.5
-+++ b/man5/locale.5
-@@ -34,6 +34,8 @@ command needs to convert it into the binary locale database.
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/setlocale.html
+---
+ man3/setlocale.3 |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/man3/setlocale.3 b/man3/setlocale.3
+index 1d05ba7..1b31cf8 100644
+--- a/man3/setlocale.3
++++ b/man3/setlocale.3
+@@ -185,7 +185,7 @@ T}	Thread safety	MT-Unsafe const:locale env
+ .TE
  
- The definition files consist of sections which each describe a
- locale category in detail.
-+.BR locale (7)
-+provides additional descriptions for these categories.
- .SS Syntax
- The locale definition file starts with a header that may consist
- of the following keywords:
+ .SH CONFORMING TO
+-C89, C99, POSIX.1-2001.
++C89, C99, POSIX.1-2001, POSIX.1-2008.
+ .SH SEE ALSO
+ .BR locale (1),
+ .BR localedef (1),
 
 Thanks,
 
