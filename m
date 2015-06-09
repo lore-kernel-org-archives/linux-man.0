@@ -1,36 +1,54 @@
-From: Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] sched_setattr.2: Remove a const attribute
-Date: Tue,  9 Jun 2015 14:11:41 +0200
-Message-ID: <1433851901-25034-1-git-send-email-ju.orth@gmail.com>
+From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [PATCH] setlocale.3: tweak C/POSIX locale portability description
+Date: Tue, 09 Jun 2015 17:18:09 +0300
+Message-ID: <5576F5A1.9030202@redhat.com>
+Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The attr argument of sched_setattr was documented as const but the
-kernel will modify the size field of this struct if it contains an
-invalid value. See the documentation of the size field for details.
+Hi Michael,
+
+as discussed earlier, the current description might be a little
+bit too stringent, let's avoid the issue by describing the
+portability aspect on a slightly higher level.
+
+References:
+
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap06.html
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap07.html
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/setlocale.html
 ---
- man2/sched_setattr.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ man3/setlocale.3 |    6 ++----
+ 1 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/man2/sched_setattr.2 b/man2/sched_setattr.2
-index dff8e6d..df14ab4 100644
---- a/man2/sched_setattr.2
-+++ b/man2/sched_setattr.2
-@@ -31,7 +31,7 @@ set and get scheduling policy and attributes
- .nf
- .B #include <sched.h>
- 
--.BI "int sched_setattr(pid_t " pid ", const struct sched_attr *" attr ,
-+.BI "int sched_setattr(pid_t " pid ", struct sched_attr *" attr ,
- .BI "                  unsigned int " flags );
- 
- .BI "int sched_getattr(pid_t " pid ", struct sched_attr *" attr ,
+diff --git a/man3/setlocale.3 b/man3/setlocale.3
+index a3102ba..1d05ba7 100644
+--- a/man3/setlocale.3
++++ b/man3/setlocale.3
+@@ -117,10 +117,8 @@ The locale
+ .B """C"""
+ or
+ .B """POSIX"""
+-is a portable locale; its
+-.B LC_CTYPE
+-part corresponds to the 7-bit ASCII
+-character set.
++is a portable locale;
++it exists on all conforming systems.
+ .PP
+ A locale name is typically of the form
+ .IR language "[_" territory "][." codeset "][@" modifier "],"
+
+Thanks,
+
 -- 
-2.4.2
-
+Marko Myllynen
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
