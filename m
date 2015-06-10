@@ -1,42 +1,33 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.5: tfix / minor clarification
-Date: Tue, 09 Jun 2015 17:20:10 +0300
-Message-ID: <5576F61A.9090707@redhat.com>
-Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: [PATCH] capget.2: capset works with gettid not getpid.
+Date: Wed, 10 Jun 2015 21:56:33 +0200
+Message-ID: <1433966193-19774-1-git-send-email-ju.orth@gmail.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
-
-the subject says it all, for reference see e.g. ja_JP.
 ---
- man5/locale.5 |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ man2/capget.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man5/locale.5 b/man5/locale.5
-index ee7c4f6..2f16677 100644
---- a/man5/locale.5
-+++ b/man5/locale.5
-@@ -449,7 +449,7 @@ starting with the class name followed by the characters
- belonging to the class.
- .TP
- .I charconv
--followed by a list of locale-specific character map names
-+followed by a list of locale-specific character mapping names
- which are then to be defined in the locale.
- .TP
- .I outdigit
-
-Thanks,
-
+diff --git a/man2/capget.2 b/man2/capget.2
+index 44ba568..014b974 100644
+--- a/man2/capget.2
++++ b/man2/capget.2
+@@ -140,7 +140,7 @@ That is, with VFS support, for
+ calls the only permitted values for
+ .I hdrp->pid
+ are 0 or
+-.BR getpid (2),
++.BR gettid (2),
+ which are equivalent.
+ .SS Without VFS capability support
+ When the kernel does not support VFS capabilities,
 -- 
-Marko Myllynen
+2.4.2
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
