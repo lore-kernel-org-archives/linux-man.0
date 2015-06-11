@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] setaliasent.3: ATTRIBUTES: Note functions that are/aren't thread-safe
-Date: Thu, 11 Jun 2015 10:04:30 +0800
-Message-ID: <1433988270-8599-10-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] getservent_r.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 11 Jun 2015 10:04:26 +0800
+Message-ID: <1433988270-8599-6-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -13,52 +13,43 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 After research, We think
-* setaliasent(),
-* endaliasent(),
-* getaliasent_r(),
-* getaliasbyname_r(),
-are thread-safe. And
-* getaliasent(),
-* getaliasbyname(),
-are not thread-safe. But, there are not
+* getservent_r(),
+* getservbyname_r(),
+* getservbyport_r(),
+are thread-safe. But, there are not
 markings of them in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/setaliasent.3 | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ man3/getservent_r.3 | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/man3/setaliasent.3 b/man3/setaliasent.3
-index d78fd43..c8dd7d3 100644
---- a/man3/setaliasent.3
-+++ b/man3/setaliasent.3
-@@ -98,6 +98,26 @@ The default alias database is the file
- This can be changed in the
- .I /etc/nsswitch.conf
- file.
+diff --git a/man3/getservent_r.3 b/man3/getservent_r.3
+index a655ab1..0804395 100644
+--- a/man3/getservent_r.3
++++ b/man3/getservent_r.3
+@@ -127,6 +127,21 @@ is too small.
+ Try again with a larger buffer
+ (and increased
+ .IR buflen ).
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw19 lb lb
++lbw18 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR setaliasent (),
-+.BR endaliasent (),
-+.BR getaliasent_r (),
-+.BR getaliasbyname_r ()
++.BR getservent_r (),
++.BR getservbyname_r (),
++.BR getservbyport_r ()
 +T}	Thread safety	MT-Safe locale
-+T{
-+.BR getaliasent (),
-+.BR getaliasbyname ()
-+T}	Thread safety	MT-Unsafe
 +.TE
 +
  .SH CONFORMING TO
- These routines are glibc-specific.
- The NeXT system has similar routines:
+ These functions are GNU extensions.
+ Functions with similar names exist on some other systems,
 -- 
 1.9.3
 
