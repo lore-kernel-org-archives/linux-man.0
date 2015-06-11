@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] rcmd.3: ATTRIBUTES: Note functions that are/aren't thread-safe
-Date: Thu, 11 Jun 2015 10:04:28 +0800
-Message-ID: <1433988270-8599-8-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] setaliasent.3: ATTRIBUTES: Note functions that are/aren't thread-safe
+Date: Thu, 11 Jun 2015 10:04:30 +0800
+Message-ID: <1433988270-8599-10-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -13,58 +13,52 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 After research, We think
-* rresvport(),
-* iruserok(),
-* ruserok(),
-* rresvport_af(),
-* iruserok_af(),
-* ruserok_af(),
+* setaliasent(),
+* endaliasent(),
+* getaliasent_r(),
+* getaliasbyname_r(),
 are thread-safe. And
-* rcmd(),
-* rcmd_af(),
+* getaliasent(),
+* getaliasbyname(),
 are not thread-safe. But, there are not
 markings of them in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/rcmd.3 | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ man3/setaliasent.3 | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/man3/rcmd.3 b/man3/rcmd.3
-index 7bc7313..64feb53 100644
---- a/man3/rcmd.3
-+++ b/man3/rcmd.3
-@@ -267,6 +267,30 @@ The functions
- and
- .BR ruserok_af ()
- functions are provide in glibc since version 2.2.
+diff --git a/man3/setaliasent.3 b/man3/setaliasent.3
+index d78fd43..c8dd7d3 100644
+--- a/man3/setaliasent.3
++++ b/man3/setaliasent.3
+@@ -98,6 +98,26 @@ The default alias database is the file
+ This can be changed in the
+ .I /etc/nsswitch.conf
+ file.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw17 lb lb
++lbw19 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR rcmd (),
-+.BR rcmd_af ()
-+T}	Thread safety	MT-Unsafe
-+T{
-+.BR rresvport (),
-+.BR rresvport_af ()
-+T}	Thread safety	MT-Safe
-+T{
-+.BR iruserok (),
-+.BR ruserok (),
-+.BR iruserok_af (),
-+.BR ruserok_af ()
++.BR setaliasent (),
++.BR endaliasent (),
++.BR getaliasent_r (),
++.BR getaliasbyname_r ()
 +T}	Thread safety	MT-Safe locale
++T{
++.BR getaliasent (),
++.BR getaliasbyname ()
++T}	Thread safety	MT-Unsafe
 +.TE
 +
  .SH CONFORMING TO
- Not in POSIX.1-2001.
- Present on the BSDs, Solaris, and many other systems.
+ These routines are glibc-specific.
+ The NeXT system has similar routines:
 -- 
 1.9.3
 
