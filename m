@@ -1,32 +1,62 @@
-From: Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [PATCH] capget.2: capset works with gettid not getpid.
-Date: Wed, 10 Jun 2015 21:56:33 +0200
-Message-ID: <1433966193-19774-1-git-send-email-ju.orth@gmail.com>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fts.3: ATTRIBUTES: Note functions that are/aren't thread-safe
+Date: Thu, 11 Jun 2015 10:04:21 +0800
+Message-ID: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Mime-Version: 1.0
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
----
- man2/capget.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+After research, We think
+* fts_open(),
+* fts_set(),
+* fts_close(),
+are thread-safe. And
+* fts_read(),
+* fts_children(),
+are not thread-safe. But, there are not
+markings of them in glibc document.
 
-diff --git a/man2/capget.2 b/man2/capget.2
-index 44ba568..014b974 100644
---- a/man2/capget.2
-+++ b/man2/capget.2
-@@ -140,7 +140,7 @@ That is, with VFS support, for
- calls the only permitted values for
- .I hdrp->pid
- are 0 or
--.BR getpid (2),
-+.BR gettid (2),
- which are equivalent.
- .SS Without VFS capability support
- When the kernel does not support VFS capabilities,
+Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fts.3 | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/man3/fts.3 b/man3/fts.3
+index 7427fac..418a69a 100644
+--- a/man3/fts.3
++++ b/man3/fts.3
+@@ -772,6 +772,25 @@ as follows:
+ The options were invalid.
+ .SH VERSIONS
+ These functions are available in Linux since glibc2.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lbw34 lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR fts_open (),
++.BR fts_set (),
++.BR fts_close ()
++T}	Thread safety	MT-Safe
++T{
++.BR fts_read (),
++.BR fts_children ()
++T}	Thread safety	MT-Unsafe
++.TE
++
+ .SH CONFORMING TO
+ 4.4BSD.
+ .SH BUGS
 -- 
-2.4.2
+1.9.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
