@@ -1,25 +1,21 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getservent_r.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Fri, 12 Jun 2015 21:40:11 +0200
-Message-ID: <557B359B.5080709@gmail.com>
-References: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1433988270-8599-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] profil.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Fri, 12 Jun 2015 21:40:26 +0200
+Message-ID: <557B35AA.3010503@gmail.com>
+References: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1433988270-8599-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1433988270-8599-6-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1433988270-8599-7-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 06/11/2015 04:04 AM, Zeng Linggang wrote:
-> After research, We think
-> * getservent_r(),
-> * getservbyname_r(),
-> * getservbyport_r(),
-> are thread-safe. But, there are not
-> markings of them in glibc document.
+> After research, We think profil() is not thread-safe. But,
+> there is not marking of profil() in glibc document.
 
 
 Thanks, Zeng Linggang. Applied.
@@ -31,35 +27,33 @@ Michael
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getservent_r.3 | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
+>  man3/profil.3 | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/man3/getservent_r.3 b/man3/getservent_r.3
-> index a655ab1..0804395 100644
-> --- a/man3/getservent_r.3
-> +++ b/man3/getservent_r.3
-> @@ -127,6 +127,21 @@ is too small.
->  Try again with a larger buffer
->  (and increased
->  .IR buflen ).
+> diff --git a/man3/profil.3 b/man3/profil.3
+> index 437ee28..e087e7a 100644
+> --- a/man3/profil.3
+> +++ b/man3/profil.3
+> @@ -67,6 +67,19 @@ If
+>  is NULL, profiling is disabled.
+>  .SH RETURN VALUE
+>  Zero is always returned.
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lbw18 lb lb
+> +lb lb lb
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR getservent_r (),
-> +.BR getservbyname_r (),
-> +.BR getservbyport_r ()
-> +T}	Thread safety	MT-Safe locale
+> +.BR profil ()
+> +T}	Thread safety	MT-Unsafe
 > +.TE
 > +
 >  .SH CONFORMING TO
->  These functions are GNU extensions.
->  Functions with similar names exist on some other systems,
+>  Similar to a call in SVr4 (but not POSIX.1-2001).
+>  .SH BUGS
 > 
 
 
