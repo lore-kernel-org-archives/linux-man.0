@@ -1,24 +1,28 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] setlocale.3: update CONFORMING TO
-Date: Fri, 12 Jun 2015 20:17:56 +0200
-Message-ID: <557B2254.8070309@gmail.com>
-References: <5576F5A8.50409@redhat.com>
+Subject: Re: [PATCH] locale.5: remove the FIXME for timezone
+Date: Fri, 12 Jun 2015 20:18:03 +0200
+Message-ID: <557B225B.90200@gmail.com>
+References: <5576F5E2.7050301@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5576F5A8.50409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <5576F5E2.7050301-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/09/2015 04:18 PM, Marko Myllynen wrote:
+On 06/09/2015 04:19 PM, Marko Myllynen wrote:
 > Hi Michael,
 > 
-> a tiny update to setlocale's CONFORMING TO section.
-> 
-> http://pubs.opengroup.org/onlinepubs/9699919799/functions/setlocale.html
+> the timezone of LC_TIME is not in POSIX, only 6 (out of ~300)
+> glibc locales define it, the glibc code comment below from
+> glibc.git/programs/ld-time.c seems to suggest it's not a good
+> idea, and there's been a proposal in upstream [1] to remove the
+> existing timezone definitions from glibc locales so I think
+> it's actually better to leave this one undocumented:
+
 
 Thanks, Marko. Applied.
 
@@ -27,23 +31,52 @@ Cheers,
 Michael
 
 
-> ---
->  man3/setlocale.3 |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+> /* XXX We don't perform any tests on the timezone value since this is
+>    simply useless, stupid $&$!@...  */
 > 
-> diff --git a/man3/setlocale.3 b/man3/setlocale.3
-> index 1d05ba7..1b31cf8 100644
-> --- a/man3/setlocale.3
-> +++ b/man3/setlocale.3
-> @@ -185,7 +185,7 @@ T}	Thread safety	MT-Unsafe const:locale env
->  .TE
+> 1) https://sourceware.org/ml/libc-alpha/2015-06/msg00098.html
+> 
+> Move the remaining LC_COLLATE FIXMEs together while at it.
+> 
+> ---
+>  man5/locale.5 |   10 ++++------
+>  1 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index 2a2edc1..556c745 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -512,6 +512,10 @@ in the first column.
 >  
->  .SH CONFORMING TO
-> -C89, C99, POSIX.1-2001.
-> +C89, C99, POSIX.1-2001, POSIX.1-2008.
->  .SH SEE ALSO
->  .BR locale (1),
->  .BR localedef (1),
+>  The following keywords are allowed:
+>  .\" FIXME The following LC_COLLATE keywords are not documented:
+> +.\" 	reorder-after
+> +.\" 	reorder-end
+> +.\" 	reorder-sections-after
+> +.\" 	reorder-sections-end
+>  .\" 	script
+>  .\" 	symbol-equivalence
+>  .TP
+> @@ -534,11 +538,6 @@ or
+>  The order definition consists of lines that describe the order
+>  and is terminated with the keyword
+>  .IR order_end .
+> -.\" FIXME The following LC_COLLATE keywords are not documented:
+> -.\" 	reorder-after
+> -.\" 	reorder-end
+> -.\" 	reorder-sections-after
+> -.\" 	reorder-sections-end
+>  .PP
+>  The
+>  .B LC_COLLATE
+> @@ -1073,7 +1072,6 @@ The following keywords are allowed:
+>  .\"	era_d_fmt
+>  .\"	era_d_t_fmt
+>  .\"	era_t_fmt
+> -.\"	timezone
+>  .TP
+>  .I abday
+>  followed by a list of abbreviated names of the days of the week.
 > 
 > Thanks,
 > 
