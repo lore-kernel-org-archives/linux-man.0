@@ -1,43 +1,43 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] listxattr.2: tfix
-Date: Fri, 12 Jun 2015 20:16:48 +0200
-Message-ID: <557B2210.90409@gmail.com>
-References: <1433610714-27588-1-git-send-email-jann@thejh.net>
+Subject: Re: [PATCH] capget.2: capset works with gettid not getpid.
+Date: Fri, 12 Jun 2015 20:17:45 +0200
+Message-ID: <557B2249.8050509@gmail.com>
+References: <1433966193-19774-1-git-send-email-ju.orth@gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1433610714-27588-1-git-send-email-jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <1433966193-19774-1-git-send-email-ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+To: Julian Orth <ju.orth-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Jann. Applied.
+Thanks, Julian. Applied.
 
 Cheers,
 
 Michael
 
 
-On 06/06/2015 07:11 PM, Jann Horn wrote:
+On 06/10/2015 09:56 PM, Julian Orth wrote:
 > ---
->  man2/listxattr.2 | 2 +-
+>  man2/capget.2 | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/man2/listxattr.2 b/man2/listxattr.2
-> index 779fdb7..7519bff 100644
-> --- a/man2/listxattr.2
-> +++ b/man2/listxattr.2
-> @@ -138,7 +138,7 @@ is set appropriately.
->  .B E2BIG
->  The size of the list of attribute names for this file exceeds
->  the system-imposed limit.
-> -See BUSG.
-> +See BUGS.
->  .TP
->  .B ENOTSUP
->  Extended attributes are not supported by the filesystem, or are disabled.
+> diff --git a/man2/capget.2 b/man2/capget.2
+> index 44ba568..014b974 100644
+> --- a/man2/capget.2
+> +++ b/man2/capget.2
+> @@ -140,7 +140,7 @@ That is, with VFS support, for
+>  calls the only permitted values for
+>  .I hdrp->pid
+>  are 0 or
+> -.BR getpid (2),
+> +.BR gettid (2),
+>  which are equivalent.
+>  .SS Without VFS capability support
+>  When the kernel does not support VFS capabilities,
 > 
 
 
