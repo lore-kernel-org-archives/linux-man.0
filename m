@@ -1,82 +1,89 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] locale.5: remove the FIXME for timezone
-Date: Fri, 12 Jun 2015 20:18:03 +0200
-Message-ID: <557B225B.90200@gmail.com>
-References: <5576F5E2.7050301@redhat.com>
+Subject: Re: [PATCH] locale.5: refer to strftime(3) where appropriate
+Date: Fri, 12 Jun 2015 20:18:00 +0200
+Message-ID: <557B2258.8070308@gmail.com>
+References: <5576F5C8.7020903@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5576F5E2.7050301-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <5576F5C8.7020903-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/09/2015 04:19 PM, Marko Myllynen wrote:
+On 06/09/2015 04:18 PM, Marko Myllynen wrote:
 > Hi Michael,
 > 
-> the timezone of LC_TIME is not in POSIX, only 6 (out of ~300)
-> glibc locales define it, the glibc code comment below from
-> glibc.git/programs/ld-time.c seems to suggest it's not a good
-> idea, and there's been a proposal in upstream [1] to remove the
-> existing timezone definitions from glibc locales so I think
-> it's actually better to leave this one undocumented:
+> the relationship between the locale time format syntax
+> and strftime() cannot be considered as obvious.
 
-
-Thanks, Marko. Applied.
+Thanks, Marko. Applied. One point, though: the references should 
+include the section number. I'll fix that.
 
 Cheers,
 
 Michael
 
 
-> /* XXX We don't perform any tests on the timezone value since this is
->    simply useless, stupid $&$!@...  */
-> 
-> 1) https://sourceware.org/ml/libc-alpha/2015-06/msg00098.html
-> 
-> Move the remaining LC_COLLATE FIXMEs together while at it.
-> 
 > ---
->  man5/locale.5 |   10 ++++------
->  1 files changed, 4 insertions(+), 6 deletions(-)
+>  man5/locale.5 |   22 +++++++++++++++++-----
+>  1 files changed, 17 insertions(+), 5 deletions(-)
 > 
 > diff --git a/man5/locale.5 b/man5/locale.5
-> index 2a2edc1..556c745 100644
+> index 374f6b2..2a2edc1 100644
 > --- a/man5/locale.5
 > +++ b/man5/locale.5
-> @@ -512,6 +512,10 @@ in the first column.
->  
->  The following keywords are allowed:
->  .\" FIXME The following LC_COLLATE keywords are not documented:
-> +.\" 	reorder-after
-> +.\" 	reorder-end
-> +.\" 	reorder-sections-after
-> +.\" 	reorder-sections-end
->  .\" 	script
->  .\" 	symbol-equivalence
+> @@ -1106,16 +1106,25 @@ strings.
+>  This should be left empty for locales not using AM/PM convention.
 >  .TP
-> @@ -534,11 +538,6 @@ or
->  The order definition consists of lines that describe the order
->  and is terminated with the keyword
->  .IR order_end .
-> -.\" FIXME The following LC_COLLATE keywords are not documented:
-> -.\" 	reorder-after
-> -.\" 	reorder-end
-> -.\" 	reorder-sections-after
-> -.\" 	reorder-sections-end
->  .PP
->  The
->  .B LC_COLLATE
-> @@ -1073,7 +1072,6 @@ The following keywords are allowed:
->  .\"	era_d_fmt
->  .\"	era_d_t_fmt
->  .\"	era_t_fmt
-> -.\"	timezone
+>  .I d_t_fmt
+> -followed by the appropriate date and time format.
+> +followed by the appropriate date and time format
+> +(for syntax, see
+> +.BR strftime ()).
 >  .TP
->  .I abday
->  followed by a list of abbreviated names of the days of the week.
+>  .I d_fmt
+> -followed by the appropriate date format.
+> +followed by the appropriate date format
+> +(for syntax, see
+> +.BR strftime ()).
+>  .TP
+>  .I t_fmt
+> -followed by the appropriate time format.
+> +followed by the appropriate time format
+> +(for syntax, see
+> +.BR strftime ()).
+>  .TP
+>  .I t_fmt_ampm
+> -followed by the appropriate time format when using 12h clock format.
+> +followed by the appropriate time format
+> +(for syntax, see
+> +.BR strftime ())
+> +when using 12h clock format.
+>  This should be left empty for locales not using AM/PM convention.
+>  .TP
+>  .I week
+> @@ -1169,7 +1178,9 @@ Right-left from top.
+>  .TP
+>  .I date_fmt
+>  followed by the appropriate date representation for
+> -.BR date (1).
+> +.BR date (1)
+> +(for syntax, see
+> +.BR strftime ()).
+>  .TP
+>  .I alt_digits
+>  followed by the alternative digits used for date and time in the locale.
+> @@ -1244,6 +1255,7 @@ This manual page isn't complete.
+>  .BR localeconv (3),
+>  .BR newlocale (3),
+>  .BR setlocale (3),
+> +.BR strftime (3),
+>  .BR uselocale (3),
+>  .BR charmap (5),
+>  .BR charsets (7),
 > 
 > Thanks,
 > 
