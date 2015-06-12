@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] strfmon.3: fix CONFORMING TO
-Date: Fri, 12 Jun 2015 20:18:22 +0200
-Message-ID: <557B226E.5020408@gmail.com>
-References: <5576F5B5.4060407@redhat.com>
+Subject: Re: [PATCH] strfmon.3: document strfmon_l(3)
+Date: Fri, 12 Jun 2015 20:18:26 +0200
+Message-ID: <557B2272.1010001@gmail.com>
+References: <5576F5BC.3010300@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5576F5B5.4060407-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <5576F5BC.3010300-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -16,8 +16,7 @@ List-Id: linux-man@vger.kernel.org
 On 06/09/2015 04:18 PM, Marko Myllynen wrote:
 > Hi Michael,
 > 
-> AFAICS strfmon(3) is now defined in POSIX and the glibc
-> implementation is as specified there.
+> please find below an attempt to describe strfmon_l(3).
 
 
 Thanks, Marko. Applied.
@@ -29,23 +28,90 @@ Michael
 
 > http://pubs.opengroup.org/onlinepubs/9699919799/functions/strfmon.html
 > ---
->  man3/strfmon.3 |    3 +--
->  1 files changed, 1 insertions(+), 2 deletions(-)
+>  man3/strfmon.3   |   33 ++++++++++++++++++++++++++++++---
+>  man3/strfmon_l.3 |    1 +
+>  2 files changed, 31 insertions(+), 3 deletions(-)
+>  create mode 100644 man3/strfmon_l.3
 > 
 > diff --git a/man3/strfmon.3 b/man3/strfmon.3
-> index 3c1c19b..4964b36 100644
+> index 4964b36..1fcfbf0 100644
 > --- a/man3/strfmon.3
 > +++ b/man3/strfmon.3
-> @@ -149,8 +149,7 @@ T}	Thread safety	MT-Safe locale
+> @@ -23,23 +23,46 @@
+>  .\"
+>  .TH STRFMON 3  2015-03-02 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> -strfmon \- convert monetary value to a string
+> +strfmon, strfmon_l \- convert monetary value to a string
+>  .SH SYNOPSIS
+> +.nf
+>  .B #include <monetary.h>
+>  .sp
+>  .BI "ssize_t strfmon(char *" s ", size_t " max ", const char *" format ,
+>  .B "...);"
+> +
+> +.BI "ssize_t strfmon_l(char *" s ", size_t " max ", locale_t " locale ", 
+> +.B const char *" format , "...);"
+> +.fi
+>  .SH DESCRIPTION
+>  The
+>  .BR strfmon ()
+> -function formats the specified amounts
+> -according to the format specification
+> +function formats the specified monetary amount
+> +according to the current locale
+> +and format specification
+>  .I format
+>  and places the
+>  result in the character array
+>  .I s
+>  of size
+>  .IR max .
+> +
+> +The
+> +.BR strfmon_l ()
+> +function performs the same task,
+> +but uses
+> +the locale specified by
+> +.IR locale .
+> +The behavior of
+> +.BR strfmon_l ()
+> +is undefined if
+> +.I locale
+> +is the special locale object
+> +.BR LC_GLOBAL_LOCALE
+> +(see
+> +.BR duplocale (3))
+> +or is not a valid locale object handle.
+> +
+>  .PP
+>  Ordinary characters in
+>  .I format
+> @@ -146,6 +169,9 @@ Interface	Attribute	Value
+>  T{
+>  .BR strfmon ()
+>  T}	Thread safety	MT-Safe locale
+> +T{
+> +.BR strfmon_l ()
+> +T}	Thread safety	MT-Safe
 >  .TE
 >  
 >  .SH CONFORMING TO
-> -Not in POSIX.1-2001.
-> -Present on several other systems.
-> +POSIX.1-2008.
->  .SH EXAMPLE
->  The call
->  .in +4n
+> @@ -186,6 +212,7 @@ and Portuguese locales yield
+>  [ **1234$57Esc] [ **1.234$57PTE ]
+>  .in
+>  .SH SEE ALSO
+> +.BR duplocale (3),
+>  .BR setlocale (3),
+>  .BR sprintf (3),
+>  .BR locale (7)
+> diff --git a/man3/strfmon_l.3 b/man3/strfmon_l.3
+> new file mode 100644
+> index 0000000..cdbc310
+> --- /dev/null
+> +++ b/man3/strfmon_l.3
+> @@ -0,0 +1 @@
+> +.so man3/strfmon.3
 > 
 > Thanks,
 > 
