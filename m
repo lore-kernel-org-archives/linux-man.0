@@ -1,21 +1,30 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getrpcport.3: ATTRIBUTES: Note function that is thread-safe
-Date: Fri, 12 Jun 2015 21:26:38 +0200
-Message-ID: <557B326E.9060802@gmail.com>
-References: <1433326594-25001-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1433326594-25001-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] getservent.3: ATTRIBUTES: Note functions that aren't
+ thread-safe
+Date: Fri, 12 Jun 2015 21:26:59 +0200
+Message-ID: <557B3283.8090805@gmail.com>
+References: <1433326594-25001-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1433326594-25001-6-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1433326594-25001-5-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1433326594-25001-6-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 06/03/2015 12:16 PM, Zeng Linggang wrote:
-> After research, We think getrpcport() is thread-safe. But, there
-> is not marking of getrpcport() in glibc document.
+> The marking matches glibc marking.
+> markings of functions in glibc are:
+> - getservent:    MT-Unsafe race:servent race:serventbuf locale
+> 
+> - getservbyname: MT-Unsafe race:servbyname locale
+> 
+> - getservbyport: MT-Unsafe race:servbyport locale
+> 
+> - setservent:    MT-Unsafe race:servent locale
+> - endservent:    MT-Unsafe race:servent locale
 
 
 Thanks, Zeng Linggang. Applied.
@@ -27,33 +36,71 @@ Michael
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/getrpcport.3 | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  man3/getservent.3 | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 51 insertions(+)
 > 
-> diff --git a/man3/getrpcport.3 b/man3/getrpcport.3
-> index 13f970f..476f203 100644
-> --- a/man3/getrpcport.3
-> +++ b/man3/getrpcport.3
-> @@ -35,6 +35,19 @@ is registered but not with version
->  it will still return a port number (for some version of the program)
->  indicating that the program is indeed registered.
->  The version mismatch will be detected upon the first call to the service.
+> diff --git a/man3/getservent.3 b/man3/getservent.3
+> index c229053..a475b2e 100644
+> --- a/man3/getservent.3
+> +++ b/man3/getservent.3
+> @@ -154,6 +154,57 @@ error occurs or the end of the file is reached.
+>  .TP
+>  .I /etc/services
+>  services database file
 > +.SH ATTRIBUTES
 > +For an explanation of the terms used in this section, see
 > +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw15 lb lbw25
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR getrpcport ()
-> +T}	Thread safety	MT-Safe env locale
+> +.BR getservent ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:servent
+> +.br
+> +race:serventbuf locale
+> +T}
+> +T{
+> +.BR getservbyname ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:servbyname
+> +.br
+> +locale
+> +T}
+> +T{
+> +.BR getservbyport ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:servbyport
+> +.br
+> +locale
+> +T}
+> +T{
+> +.BR setservent (),
+> +.br
+> +.BR endservent ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:servent
+> +.br
+> +locale
+> +T}
 > +.TE
 > +
+> +In the above table,
+> +.I servent
+> +in
+> +.I race:servent
+> +signifies that if any of the functions
+> +.BR setservent (3),
+> +.BR getservent (3),
+> +or
+> +.BR endservent (3)
+> +are used in parallel in different threads of a program,
+> +then data races could occur.
 >  .SH CONFORMING TO
->  Not in POSIX.1-2001.
->  Present on the BSDs, Solaris, and many other systems.
+>  4.3BSD, POSIX.1-2001.
+>  .SH SEE ALSO
 > 
 
 
