@@ -1,50 +1,50 @@
-From: Marko Myllynen <myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [PATCH] locale.1: minor output format clarification
-Date: Fri, 12 Jun 2015 16:31:53 +0300
-Message-ID: <557ADF49.40303@redhat.com>
-Reply-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] listxattr.2: tfix
+Date: Fri, 12 Jun 2015 20:16:48 +0200
+Message-ID: <557B2210.90409@gmail.com>
+References: <1433610714-27588-1-git-send-email-jann@thejh.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1433610714-27588-1-git-send-email-jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Jann Horn <jann-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Thanks, Jann. Applied.
 
-a minor clarification for the locale output format which was brought up
-at https://sourceware.org/bugzilla/show_bug.cgi?id=18516.
+Cheers,
 
-------
+Michael
 
-For reference, see
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=18516
-http://pubs.opengroup.org/onlinepubs/9699919799/utilities/locale.html
----
- man1/locale.1 | 2 ++
- 1 file changed, 2 insertions(+)
+On 06/06/2015 07:11 PM, Jann Horn wrote:
+> ---
+>  man2/listxattr.2 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/man2/listxattr.2 b/man2/listxattr.2
+> index 779fdb7..7519bff 100644
+> --- a/man2/listxattr.2
+> +++ b/man2/listxattr.2
+> @@ -138,7 +138,7 @@ is set appropriately.
+>  .B E2BIG
+>  The size of the list of attribute names for this file exceeds
+>  the system-imposed limit.
+> -See BUSG.
+> +See BUGS.
+>  .TP
+>  .B ENOTSUP
+>  Extended attributes are not supported by the filesystem, or are disabled.
+> 
 
-diff --git a/man1/locale.1 b/man1/locale.1
-index 1bd233e..19cf13e 100644
---- a/man1/locale.1
-+++ b/man1/locale.1
-@@ -45,6 +45,8 @@ displays the current locale settings for each locale category (see
- based on the settings of the environment variables that control the locale
- (see
- .BR locale (7)).
-+Values for variables set in the environment are printed without double 
-+quotes, implied values are printed with double quotes.
- 
- If either the
- .B \-a
-
-Thanks,
 
 -- 
-Marko Myllynen
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
