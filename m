@@ -1,58 +1,46 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] locale.1: minor output format clarification
-Date: Fri, 12 Jun 2015 20:18:40 +0200
-Message-ID: <557B2280.8070408@gmail.com>
-References: <557ADF49.40303@redhat.com>
+Subject: Re: [PATCH] fexecve.3: ATTRIBUTES: Note function that is thread-safe
+Date: Fri, 12 Jun 2015 21:01:33 +0200
+Message-ID: <557B2C8D.3030401@gmail.com>
+References: <1432721584-11342-1-git-send-email-zenglg.jy@cn.fujitsu.com> <CAJYzjmf22=VTKOd1Fk-o_vAATp4RRZSoohh-uDdpQHh9UWBdXA@mail.gmail.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <557ADF49.40303-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <CAJYzjmf22=VTKOd1Fk-o_vAATp4RRZSoohh-uDdpQHh9UWBdXA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Samuel Bronson <naesten-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/12/2015 03:31 PM, Marko Myllynen wrote:
-> Hi Michael,
+Hi Zeng Linggang,
+
+On 05/27/2015 05:42 PM, Samuel Bronson wrote:
+> On Wed, May 27, 2015 at 6:12 AM, Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org> wrote:
+>> After research, We think fexecve() is thread-safe. But, there
+>> is not marking of fexecve() in glibc document.
 > 
-> a minor clarification for the locale output format which was brought up
-> at https://sourceware.org/bugzilla/show_bug.cgi?id=18516.
+> Um, fexecve() is just like execve(), only on a file descriptor.  (In
+> fact, it appears to be implemented using execve() on
+> /proc/self/fd/$FD.)
+> 
+> As such, the following point from execve(2) applies:
+> 
+>        *  All threads other than the calling thread are  destroyed  during  an
+>           execve().   Mutexes, condition variables, and other pthreads objects
+>           are not preserved.
+> 
+> This does not seem to correspond with the usual notion of "thread
+> safe", though I guess it would be technically safe to, say, have
+> several threads racing to run fexecve(). Further text is probably
+> warranted here.
 
-
-Thanks, Marko. Applied.
+Did you have any thoughts on Samuel's point?
 
 Cheers,
 
 Michael
 
-
-> ------
-> 
-> For reference, see
-> 
-> https://sourceware.org/bugzilla/show_bug.cgi?id=18516
-> http://pubs.opengroup.org/onlinepubs/9699919799/utilities/locale.html
-> ---
->  man1/locale.1 | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/man1/locale.1 b/man1/locale.1
-> index 1bd233e..19cf13e 100644
-> --- a/man1/locale.1
-> +++ b/man1/locale.1
-> @@ -45,6 +45,8 @@ displays the current locale settings for each locale category (see
->  based on the settings of the environment variables that control the locale
->  (see
->  .BR locale (7)).
-> +Values for variables set in the environment are printed without double 
-> +quotes, implied values are printed with double quotes.
->  
->  If either the
->  .B \-a
-> 
-> Thanks,
-> 
 
 
 -- 
