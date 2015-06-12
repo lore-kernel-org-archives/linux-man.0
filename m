@@ -1,22 +1,24 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] localedef.1: tfix
-Date: Fri, 12 Jun 2015 20:18:35 +0200
-Message-ID: <557B227B.70803@gmail.com>
-References: <5576F5D5.3080501@redhat.com>
+Subject: Re: [PATCH] locale.1: minor output format clarification
+Date: Fri, 12 Jun 2015 20:18:40 +0200
+Message-ID: <557B2280.8070408@gmail.com>
+References: <557ADF49.40303@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5576F5D5.3080501-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <557ADF49.40303-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/09/2015 04:19 PM, Marko Myllynen wrote:
+On 06/12/2015 03:31 PM, Marko Myllynen wrote:
 > Hi Michael,
 > 
-> the subject says it all.
+> a minor clarification for the locale output format which was brought up
+> at https://sourceware.org/bugzilla/show_bug.cgi?id=18516.
+
 
 Thanks, Marko. Applied.
 
@@ -24,23 +26,30 @@ Cheers,
 
 Michael
 
-> ---
->  man1/localedef.1 |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+
+> ------
 > 
-> diff --git a/man1/localedef.1 b/man1/localedef.1
-> index 2996f91..765d770 100644
-> --- a/man1/localedef.1
-> +++ b/man1/localedef.1
-> @@ -82,7 +82,7 @@ If
->  contains a slash character ('/'), it is interpreted as the name of the
->  directory where the output definitions are to be stored.
->  In this case, there is a separate output file for each locale category
-> -.RI ( LC_CTIME ,
-> +.RI ( LC_TIME ,
->  .IR LC_NUMERIC ,
->  and so on).
->  .IP *
+> For reference, see
+> 
+> https://sourceware.org/bugzilla/show_bug.cgi?id=18516
+> http://pubs.opengroup.org/onlinepubs/9699919799/utilities/locale.html
+> ---
+>  man1/locale.1 | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/man1/locale.1 b/man1/locale.1
+> index 1bd233e..19cf13e 100644
+> --- a/man1/locale.1
+> +++ b/man1/locale.1
+> @@ -45,6 +45,8 @@ displays the current locale settings for each locale category (see
+>  based on the settings of the environment variables that control the locale
+>  (see
+>  .BR locale (7)).
+> +Values for variables set in the environment are printed without double 
+> +quotes, implied values are printed with double quotes.
+>  
+>  If either the
+>  .B \-a
 > 
 > Thanks,
 > 
