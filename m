@@ -1,82 +1,55 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] setaliasent.3: ATTRIBUTES: Note functions that are/aren't
- thread-safe
-Date: Fri, 12 Jun 2015 21:41:26 +0200
-Message-ID: <557B35E6.8030406@gmail.com>
-References: <1433988270-8599-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1433988270-8599-10-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 99901] New: iopl is lost on fork and execve
+Date: Sat, 13 Jun 2015 17:36:08 +0000
+Message-ID: <bug-99901-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1433988270-8599-10-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/11/2015 04:04 AM, Zeng Linggang wrote:
-> After research, We think
-> * setaliasent(),
-> * endaliasent(),
-> * getaliasent_r(),
-> * getaliasbyname_r(),
-> are thread-safe. And
-> * getaliasent(),
-> * getaliasbyname(),
-> are not thread-safe. But, there are not
-> markings of them in glibc document.
+https://bugzilla.kernel.org/show_bug.cgi?id=99901
 
+            Bug ID: 99901
+           Summary: iopl is lost on fork and execve
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-Thanks, Zeng Linggang. Applied.
+Created attachment 179841
+  --> https://bugzilla.kernel.org/attachment.cgi?id=179841&action=edit
+iopl3 test program
 
-Cheers,
+`man iopl` currently states "Permissions are inherited by fork(2) and
+execve(2)." This is not true. iopl has never been preserved across fork or
+execve on x64 kernels,[1] and it has not been preserved across those syscalls
+on x86 kernels since Linux 3.7.[2] There are no plans to change the current
+behavior for either architecture.[3-6]
 
-Michael
+A test program to demonstrate this behavior is attached.
 
-
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/setaliasent.3 | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/man3/setaliasent.3 b/man3/setaliasent.3
-> index d78fd43..c8dd7d3 100644
-> --- a/man3/setaliasent.3
-> +++ b/man3/setaliasent.3
-> @@ -98,6 +98,26 @@ The default alias database is the file
->  This can be changed in the
->  .I /etc/nsswitch.conf
->  file.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw19 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR setaliasent (),
-> +.BR endaliasent (),
-> +.BR getaliasent_r (),
-> +.BR getaliasbyname_r ()
-> +T}	Thread safety	MT-Safe locale
-> +T{
-> +.BR getaliasent (),
-> +.BR getaliasbyname ()
-> +T}	Thread safety	MT-Unsafe
-> +.TE
-> +
->  .SH CONFORMING TO
->  These routines are glibc-specific.
->  The NeXT system has similar routines:
-> 
-
+[1]
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/arch/x86/kernel/process_64.c
+[2]
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/arch/x86/kernel/process_32.c?id=6783eaa2e1253fbcbe2c2f6bb4c843abf1343caf
+[3] https://lkml.org/lkml/2015/5/11/1054
+[4] https://lkml.org/lkml/2015/5/12/55
+[5] https://lkml.org/lkml/2015/5/12/537
+[6] https://lkml.org/lkml/2015/5/12/545
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
