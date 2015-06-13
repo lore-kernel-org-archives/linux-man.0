@@ -1,42 +1,42 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 99911] New: ioperm is kept on fork
-Date: Sat, 13 Jun 2015 17:36:52 +0000
-Message-ID: <bug-99911-11311@https.bugzilla.kernel.org/>
+Subject: [Bug 82531] Nondumpable processes that are sandboxed with
+ CLONE_NEWUSER can be ptraced from outside.
+Date: Sat, 13 Jun 2015 18:56:57 +0000
+Message-ID: <bug-82531-11311-FRnP0FHoMD@https.bugzilla.kernel.org/>
+References: <bug-82531-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <bug-82531-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=99911
+https://bugzilla.kernel.org/show_bug.cgi?id=82531
 
-            Bug ID: 99911
-           Summary: ioperm is kept on fork
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-        Regression: No
+Jann Horn <jann+kernelbugzilla-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org> changed:
 
-Created attachment 179851
-  --> https://bugzilla.kernel.org/attachment.cgi?id=179851&action=edit
-fork-and-beep test program
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jann+kernelbugzilla@thejh.n
+                   |                            |et
 
-`man ioperm` currently states "Permissions are not inherited by the child
-created by fork(2); following a fork(2) the child must turn on those
-permissions that it needs." This is not true. I do not know if it was true at
-some point in the past, but ioperm is preserved across a fork at least as far
-back as Linux 2.6.26.
+--- Comment #5 from Jann Horn <jann+kernelbugzilla-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org> ---
+This is documented. See user_namespaces.7:
 
-A test program to demonstrate this behavior is attached.
+       3. When a user namespace is created, the kernel records the effective
+          user ID of the creating process as being the "owner" of the
+          namespace.  A process that resides in the parent of the user
+          namespace and whose effective user ID matches the owner of the
+          namespace has all capabilities in the namespace.
+
+So, a process outside the namespace with the same EUID as the process that
+moved itself into a new namespace has CAP_SYS_PTRACE inside the namespace. And
+as capabilities.7 documents:
+
+       CAP_SYS_PTRACE
+              *  Trace arbitrary processes using ptrace(2);
 
 -- 
 You are receiving this mail because:
