@@ -1,8 +1,8 @@
 From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
 Subject: [Bug 82531] Nondumpable processes that are sandboxed with
  CLONE_NEWUSER can be ptraced from outside.
-Date: Sat, 13 Jun 2015 19:08:54 +0000
-Message-ID: <bug-82531-11311-b1tGy07Cp9@https.bugzilla.kernel.org/>
+Date: Sat, 13 Jun 2015 21:02:52 +0000
+Message-ID: <bug-82531-11311-mRKHQjD1rV@https.bugzilla.kernel.org/>
 References: <bug-82531-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
@@ -15,11 +15,9 @@ List-Id: linux-man@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=82531
 
---- Comment #7 from Steven Stewart-Gallus <sstewartgallus00-QKvm5KDIoDa7M0a00MdBSQ@public.gmane.org> ---
-Jann Horn doesn't that require root privileges or certain capabilities? My
-whole scenario starts from a nonroot application that sandboxes itself. I
-suppose one could argue that one should use a setuid shim or invoke a daemon
-that has root privileges such as systemd for these kinds of purposes though.
+--- Comment #8 from Jann Horn <jann+kernelbugzilla-XZ1E9jl8jIdeoWH0uzbU5w@public.gmane.org> ---
+Right, that would require root privileges. Might be nice to have some new
+clone() flag to disable that or so - but that's not a man-pages bug.
 
 -- 
 You are receiving this mail because:
