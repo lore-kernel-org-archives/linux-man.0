@@ -1,216 +1,118 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide
- examples.
-Date: Tue, 16 Jun 2015 12:06:09 +0200
-Message-ID: <557FF511.7040500@gmail.com>
-References: <55615A71.4010600@redhat.com>
+From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Subject: Re: sysctl_writes_strict documentation + an oddity?
+Date: Tue, 16 Jun 2015 09:32:05 -0700
+Message-ID: <CAGXu5jKoJWRCFak9s_=OLk5CsMZVTaBmOAPz2ti-oLDJBK_98g@mail.gmail.com>
+References: <554DCB33.8080101@gmail.com>
+	<CAGXu5jL-9ZMDXPCNkhEB+jzVxHcK6Sa4gwg16kn60epwT+gJAQ@mail.gmail.com>
+	<557FF484.9000207@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55615A71.4010600-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <557FF484.9000207-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Randy Dunlap <rdunlap-/UHa2rfvQTnk1uMJSBkQmQ@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 05/24/2015 06:58 AM, Carlos O'Donell wrote:
-> Arjun,
-> 
-> As promised. Does this look good to you?
+On Tue, Jun 16, 2015 at 3:03 AM, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> On 06/04/2015 09:36 PM, Kees Cook wrote:
+>> On Sat, May 9, 2015 at 1:54 AM, Michael Kerrisk (man-pages)
+>> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+>>> ===== 2) Behavior puzzle (a) =====
+>>>
+>>> The last sentence quoted from the man page was based on your sentence
+>>>
+>>>     Writes to numeric sysctl entries must always be at file position 0
+>>>     and the value must be fully contained in the buffer sent in the write
+>>>     syscall.
+>>>
+>>> So, I had interpreted /proc/sys/kernel/sysctl_writes_strict==1 to
+>>> mean that if one writes into a numeric /proc/sys file at an offset
+>>> other than zero, the write() will fail with some kind of error.
+>>
+>> Reporting back an error wasn't something I'd tested before. Looking at
+>> the code again now, it should be possible make this change.
+>> Regardless, in the case of the numeric value error condition, it's the
+>> same as the "past the end" string error condition: "Anything written
+>> beyond the maximum length of the value buffer will be ignored." i.e.
+>> anything other than file offset 0 is considered "past the end of the
+>> buffer" for a numeric value and is ignored.
+>>
+>>> But this seems not to be the case. Instead, the write() succeeds,
+>>> but the file is left unmodified. That's surprising, I find. So, I'm
+>>> wondering whether the implementation deviates from your intention.
+>>>
+>>> There's a test program below, which takes arguments as follows
+>>>
+>>>     ./a.out pathname offset string
+>>
+>> I have tests in tools/testing/selftests/sysctl for checking the
+>> various behaviors too. They don't actually examine any error
+>> conditions from the sysctl writing itself. It should be simple to make
+>> sysctl_writes_strict failures return an error, though.
+>
+> So, what do you think: is it *desirable* to make sysctl_writes_strict
+> failures return an error?
 
-Just a note: I'm hoping for a response from Arjun before I commit this.
+I think it would be desirable, yes. I want to improve the tests to add
+error checking first, so I can make sure the change doesn't introduce
+anything unexpected. The fix is simple, but since the code is a little
+twisty, I want to be careful.
 
-Cheers,
+>>> ===== 2) Behavior puzzle (b) =====
+>>>
+>>> In commit f88083005ab319abba5d0b2e4e997558245493c8, there is this note:
+>>>
+>>>     This adds the sysctl kernel.sysctl_writes_strict to control the write
+>>>     behavior.  The default (0) reports when VFS position is non-0 on a
+>>>     write, but retains legacy behavior, -1 disables the warning, and 1
+>>>     enables the position-respecting behavior.
+>>>
+>>>     The long-term plan here is to wait for userspace to be fixed in response
+>>>     to the new warning and to then switch the default kernel behavior to the
+>>>     new position-respecting behavior.
+>>>
+>>> (That last para was added to the commit message by AKPM, I see.)
+>>>
+>>> But, I wonder here whether /proc/sys/kernel/sysctl_writes_strict==0
+>>> is going to help with the long-term plan. The problem is that in
+>>> warn_sysctl_write(), pr_warn_once() is used. This means that only
+>>> the first offending user-space application that writes to *any*
+>>> /proc/sys file will generate the printk warning. If that application
+>>> isn't fixed, then none of the other "broken" applications will be
+>>> discovered. It therefore seems possible that it could be a very long
+>>> time before we could "switch the default kernel behavior to the
+>>> new position-respecting behavior".
+>>>
+>>> Looking over old mails
+>>> (http://thread.gmane.org/gmane.linux.kernel/1695177/focus=23240),
+>>> I see that you're aware of the problem, but it seems to me that
+>>> the switch to pr_warn_once() (for fear of spamming the log) likely
+>>> dooms the long-term plan to failure. Your thoughts?
+>>
+>> In actual regular use, the situation that triggers the warning should
+>> be vanishingly rare, but the condition can be trivially met by someone
+>> intending to hit it for the purposes of filling log files. As such, it
+>> makes sense to me to use _once to avoid spamming, but still catch a
+>> rare usage under normal conditions.
+>
+> So, I'm not clear whether you think I'm wrong or not ;-).
+> Do you disagree with my point that this approach may doom
+> the long-term project to failure? (That was my main point.)
 
-Michael
+Sorry! No, I don't think using pr_warn_once() will doom the
+transition. I think that if we see the warning, we need to investigate
+what's using sysctl that way. If we never see it, then we can switch
+the default. (Using _once protects against log spamming.) I would
+basically expect to never see this warning, but akpm wanted to be very
+cautious, which I can't argue with. :)
 
-
-> Michael,
-> 
-> In some recent work with a Red Hat customer I had the opportunity
-> to discuss the fine nuances of the ruserok() function and related
-> API which are used to implement rlogin and rsh.
-> 
-> It came to my attention after working with QE on some automated
-> internal testing that there were no good examples in the hosts.equiv
-> manual page showing how the format was supposed to work for this
-> file and for ~/.rhosts, worse the "format" line showed that there
-> should be spaces between arguments when that would clearly lead
-> to incorrect behaviour. In addition some things that the format
-> allows you to write are just wrong like "-host -user" which makes
-> no sense since the host is already rejected, and should be written
-> as "host -user" instead. I added notes in the example to make it
-> clear that "-host -user" is invalid.
-> 
-> I fixed three things:
-> 
-> (a) The format line.
-> - Either +, or [-]hostname, or +@netgrp or -@netgrp.
-> - Either +, or [-]username, or +@netgrp or -@netgrp.
-> - You must specify something in the hostname portion so remove
->   optional brackets.
-> 
-> (b) Clarify language around credentials
-> - If the host is not trusted you must provide credentials to
->   the login system and that could be anything really and it
->   depends on your configuration e.g. PAM or whatever IdM you have.
-> 
-> (c) Provide real-world examples
-> - Provide several real world examples and some corner case
->   examples for how you would write something. Hopefully others
->   can add examples as they see fit.
-> 
-> Patch applies to trunk.
-> 
-> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-> 
-> diff --git a/man5/hosts.equiv.5 b/man5/hosts.equiv.5
-> index 89d0b4a..c8e85ac 100644
-> --- a/man5/hosts.equiv.5
-> +++ b/man5/hosts.equiv.5
-> @@ -22,7 +22,7 @@ supplying a password.
->  .PP
->  The file uses the following format:
->  .TP
-> -\fI[ + | \- ]\fP \fI[hostname]\fP \fI[username]\fP
-> +\fI+|[\-]hostname|+@netgroup|\-@netgroup\fP \fI[+|[\-]username|+@netgroup|\-@netgroup]\fP
->  .PP
->  The
->  .I hostname
-> @@ -37,9 +37,9 @@ If the plus sign is used alone, it allows any host to access your system.
->  You can explicitly deny access to a host by preceding the
->  .I hostname
->  by a minus (\-) sign.
-> -Users from that host must always supply a password.
-> -For security reasons you should always use the FQDN of the hostname and
-> -not the short hostname.
-> +Users from that host must always supply additional credentials,
-> +including possibly a password. For security reasons you should always
-> +use the FQDN of the hostname and not the short hostname.
->  .PP
->  The
->  .I username
-> @@ -81,6 +81,112 @@ character which means "any host" only when the word
->  is added to the auth component line in your PAM file for
->  the particular service
->  .RB "(e.g., " rlogin ).
-> +.SH EXAMPLE
-> +Here are some example
-> +.I /etc/host.equiv
-> +or
-> +.I ~/.rhosts
-> +files:
-> +.TP
-> +Allow any user to login from any host:
-> +.LP
-> +.RS 4
-> +.TP
-> ++
-> +.PD
-> +.RE
-> +.TP
-> +Allow any user from host with a matching local account to login:
-> +.LP
-> +.RS 4
-> +.TP
-> +host
-> +.PD
-> +.RE
-> +.PP
-> +Note: The use of
-> +.B +host
-> +is never a valid syntax, including attempting to specify that any user from the host is allowed.
-> +.TP
-> +Allow any user from host to login:
-> +.LP
-> +.RS 4
-> +.TP
-> +host +
-> +.PD
-> +.RE
-> +.PP
-> +Note: This is distinct from the previous example since it does not require a matching local account.
-> +.TP
-> +Allow user from host to login:
-> +.LP
-> +.RS 4
-> +.TP
-> +host user
-> +.PD
-> +.RE
-> +.TP
-> +Allow all users with matching local accounts from host to login except for baduser:
-> +.LP
-> +.RS 4
-> +.PD 0
-> +.TP
-> +host -baduser
-> +.TP
-> +host
-> +.PD
-> +.RE
-> +.TP
-> +Deny all users from host:
-> +.LP
-> +.RS 4
-> +.TP
-> +-host
-> +.PD
-> +.RE
-> +.PP
-> +Note: The use of
-> +.B -host -user
-> +is never a valid syntax, including attempting to specify that a particular user from the host is not trusted.
-> +.TP
-> +Allow all users with matching local accounts in all hosts in the netgroup:
-> +.LP
-> +.RS 4
-> +.TP
-> ++@netgroup
-> +.PD
-> +.RE
-> +.TP
-> +Disallow all users in all hosts in the netgroup:
-> +.LP
-> +.RS 4
-> +.TP
-> +-@netgroup
-> +.PD
-> +.RE
-> +.TP
-> +Allow all users in netgroup to login from host:
-> +.LP
-> +.RS 4
-> +.TP
-> +host +@netgroup
-> +.PD
-> +.RE
-> +.TP
-> +Allow all users with matching local accounts in all hosts in the netgroup except baduser:
-> +.LP
-> +.RS 4
-> +.PD 0
-> +.TP
-> ++@netgroup -baduser
-> +.TP
-> ++@netgroup
-> +.PD
-> +.RE
-> +.TP
-> +Note: The deny statements must always preceed the allow statements because the file is processed one line at a time.
-> +
-> +
->  .SH SEE ALSO
->  .BR rhosts (5),
->  .BR rlogind (8),
-> 
-
+-Kees
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Kees Cook
+Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
