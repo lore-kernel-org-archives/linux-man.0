@@ -1,55 +1,68 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] socket.2: update documentation reference for AF_ALG
-Date: Tue, 16 Jun 2015 10:07:23 +0200
-Message-ID: <557FD93B.9030609@gmail.com>
-References: <1512015.DlDWklcC4u@tauon.atsec.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 99901] iopl is lost on fork and execve
+Date: Tue, 16 Jun 2015 09:48:09 +0000
+Message-ID: <bug-99901-11311-510Q2exEgl@https.bugzilla.kernel.org/>
+References: <bug-99901-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1512015.DlDWklcC4u-gNvIQDDl/k7Ia13z/PHSgg@public.gmane.org>
+In-Reply-To: <bug-99901-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/14/2015 03:01 PM, Stephan Mueller wrote:
-> Signed-off-by: Stephan Mueller <stephan.mueller-fwYZOkdEjagAvxtiuMwx3w@public.gmane.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=99901
 
-Thanks, Stephan. Applied.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+Alex,
+
+Thanks for this report and also for
+https://bugzilla.kernel.org/show_bug.cgi?id=99911
+I recall seeing your mailing list discussions on this and had been meaning to
+follow up.
+
+(In reply to Alex Henrie from comment #0)
+> Created attachment 179841 [details]
+> iopl3 test program
+> 
+> `man iopl` currently states "Permissions are inherited by fork(2) and
+> execve(2)." This is not true. iopl has never been preserved across fork or
+> execve on x64 kernels,[1] and it has not been preserved across those
+> syscalls on x86 kernels since Linux 3.7.[2] There are no plans to change the
+> current behavior for either architecture.[3-6]
+
+Okay -- I'll come up with some man page text, but first I have a question in
+the other bug.
 
 Cheers,
 
 Michael
 
 
-> ---
->  man2/socket.2 | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/man2/socket.2 b/man2/socket.2
-> index 38cd84f..411e8b9 100644
-> --- a/man2/socket.2
-> +++ b/man2/socket.2
-> @@ -387,8 +387,9 @@ standards use AF_* everywhere.
->  The
->  .B AF_ALG
->  protocol type was added in Linux 2.6.38.
-> -More information on this interface is provided in the kernel source file,
-> -.IR Documentation/crypto/crypto-API-userspace.txt .
-> +More information on this interface is provided with the kernel HTML
-> +documentation at
-> +.IR https://www.kernel.org/doc/htmldocs/crypto-API/User.html .
->  .SH EXAMPLE
->  An example of the use of
->  .BR socket ()
+> A test program to demonstrate this behavior is attached.
 > 
-
+> [1]
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/arch/
+> x86/kernel/process_64.c
+> [2]
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/arch/
+> x86/kernel/process_32.c?id=6783eaa2e1253fbcbe2c2f6bb4c843abf1343caf
+> [3] https://lkml.org/lkml/2015/5/11/1054
+> [4] https://lkml.org/lkml/2015/5/12/55
+> [5] https://lkml.org/lkml/2015/5/12/537
+> [6] https://lkml.org/lkml/2015/5/12/545
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
