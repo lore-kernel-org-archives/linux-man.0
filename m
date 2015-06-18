@@ -1,242 +1,74 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide
- examples.
-Date: Thu, 18 Jun 2015 21:22:02 +0200
-Message-ID: <55831A5A.2050407@gmail.com>
-References: <55615A71.4010600@redhat.com> <558134D3.2010603@gmail.com>
+From: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+Subject: Re: [PATCH] ptrace.2: add PTRACE_O_SUSPEND_SECCOMP flag
+Date: Thu, 18 Jun 2015 12:27:48 -0700
+Message-ID: <CAGXu5j+OucgCTOOwd80sHHqjqcAAF6+NR+dVovN8OtpwNmicDg@mail.gmail.com>
+References: <1434562933-2995-1-git-send-email-tycho@tycho.ws>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <558134D3.2010603-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1434562933-2995-1-git-send-email-tycho-E0fblnxP3wo@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+Cc: Michael Kerrisk-manpages <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Carlos,
+On Wed, Jun 17, 2015 at 10:42 AM, Tycho Andersen
+<tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org> wrote:
+> From: Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+>
+> I'm assuming (although I don't know) that this will make it into 4.2; the
+> "since" message may need to be updated. The commit e9e3ae0b that implements
+> this feature is in seccomp/tip now, though.
+>
+> Signed-off-by: Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+> CC: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+> CC: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+> CC: Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+> ---
+>  man2/ptrace.2 | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/man2/ptrace.2 b/man2/ptrace.2
+> index b7c514f..5dfec3b 100644
+> --- a/man2/ptrace.2
+> +++ b/man2/ptrace.2
+> @@ -42,6 +42,8 @@
+>  .\" 2011-09, major update by Denys Vlasenko <vda.linux-gM/Ye1E23mwN+BqQ9rBEUg@public.gmane.org>
+>  .\" 2015-01, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
+>  .\"    Added PTRACE_O_TRACESECCOMP, PTRACE_EVENT_SECCOMP
+> +.\" 2015-06, Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+> +.\"    Added PTRACE_O_SUSPEND_SECCOMP
+>  .\"
+>  .TH PTRACE 2 2015-02-21 "Linux" "Linux Programmer's Manual"
+>  .SH NAME
+> @@ -592,6 +594,13 @@ The seccomp event message data (from the
+>  .BR SECCOMP_RET_DATA
+>  portion of the seccomp filter rule) can be retrieved with
+>  .BR PTRACE_GETEVENTMSG .
+> +.TP
+> +.BR PTRACE_O_SUSPEND_SECCOMP " (since Linux 4.2)"
+> +Suspend the tracee's seccomp protections. This applies regardless of mode, and
+> +can be used when the tracee has not yet installed seccomp filters. That is, a
+> +valid usecase is to suspend a tracee's seccomp protections before they are
+> +installed by the tracee, let the tracee install the filters, and then clear
+> +this flag when the filters should be resumed.
+>  .RE
+>  .TP
+>  .BR PTRACE_GETEVENTMSG " (since Linux 2.5.46)"
+> --
+> 2.1.4
+>
 
-In this earlier reply, I should have highlighted that there is
-one open question I have about you patch, at the end of the mail
-below. Could you take a look please.
+This should probably also mention the CAP_SYS_ADMIN requirement.
+Otherwise, it looks good!
 
-Cheers,
+Thanks,
 
-Michael
-
-
-On 06/17/2015 10:50 AM, Michael Kerrisk (man-pages) wrote:
-> Hi Carlos,
-> 
-> I've applied this patch, making a number of formatting changes along
-> the way. You might want to review the (rendered) result.
-> 
-> One other comment bewlow
-> On 05/24/2015 06:58 AM, Carlos O'Donell wrote:
->> Arjun,
->>
->> As promised. Does this look good to you?
->>
->> Michael,
->>
->> In some recent work with a Red Hat customer I had the opportunity
->> to discuss the fine nuances of the ruserok() function and related
->> API which are used to implement rlogin and rsh.
->>
->> It came to my attention after working with QE on some automated
->> internal testing that there were no good examples in the hosts.equiv
->> manual page showing how the format was supposed to work for this
->> file and for ~/.rhosts, worse the "format" line showed that there
->> should be spaces between arguments when that would clearly lead
->> to incorrect behaviour. In addition some things that the format
->> allows you to write are just wrong like "-host -user" which makes
->> no sense since the host is already rejected, and should be written
->> as "host -user" instead. I added notes in the example to make it
->> clear that "-host -user" is invalid.
->>
->> I fixed three things:
->>
->> (a) The format line.
->> - Either +, or [-]hostname, or +@netgrp or -@netgrp.
->> - Either +, or [-]username, or +@netgrp or -@netgrp.
->> - You must specify something in the hostname portion so remove
->>   optional brackets.
->>
->> (b) Clarify language around credentials
->> - If the host is not trusted you must provide credentials to
->>   the login system and that could be anything really and it
->>   depends on your configuration e.g. PAM or whatever IdM you have.
->>
->> (c) Provide real-world examples
->> - Provide several real world examples and some corner case
->>   examples for how you would write something. Hopefully others
->>   can add examples as they see fit.
->>
->> Patch applies to trunk.
->>
->> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
->>
->> diff --git a/man5/hosts.equiv.5 b/man5/hosts.equiv.5
->> index 89d0b4a..c8e85ac 100644
->> --- a/man5/hosts.equiv.5
->> +++ b/man5/hosts.equiv.5
->> @@ -22,7 +22,7 @@ supplying a password.
->>  .PP
->>  The file uses the following format:
->>  .TP
->> -\fI[ + | \- ]\fP \fI[hostname]\fP \fI[username]\fP
->> +\fI+|[\-]hostname|+@netgroup|\-@netgroup\fP \fI[+|[\-]username|+@netgroup|\-@netgroup]\fP
->>  .PP
->>  The
->>  .I hostname
->> @@ -37,9 +37,9 @@ If the plus sign is used alone, it allows any host to access your system.
->>  You can explicitly deny access to a host by preceding the
->>  .I hostname
->>  by a minus (\-) sign.
->> -Users from that host must always supply a password.
->> -For security reasons you should always use the FQDN of the hostname and
->> -not the short hostname.
->> +Users from that host must always supply additional credentials,
->> +including possibly a password. For security reasons you should always
->> +use the FQDN of the hostname and not the short hostname.
->>  .PP
->>  The
->>  .I username
->> @@ -81,6 +81,112 @@ character which means "any host" only when the word
->>  is added to the auth component line in your PAM file for
->>  the particular service
->>  .RB "(e.g., " rlogin ).
->> +.SH EXAMPLE
->> +Here are some example
->> +.I /etc/host.equiv
->> +or
->> +.I ~/.rhosts
->> +files:
->> +.TP
->> +Allow any user to login from any host:
->> +.LP
->> +.RS 4
->> +.TP
->> ++
->> +.PD
->> +.RE
->> +.TP
->> +Allow any user from host with a matching local account to login:
->> +.LP
->> +.RS 4
->> +.TP
->> +host
->> +.PD
->> +.RE
->> +.PP
->> +Note: The use of
->> +.B +host
->> +is never a valid syntax, including attempting to specify that any user from the host is allowed.
->> +.TP
->> +Allow any user from host to login:
->> +.LP
->> +.RS 4
->> +.TP
->> +host +
->> +.PD
->> +.RE
->> +.PP
->> +Note: This is distinct from the previous example since it does not require a matching local account.
->> +.TP
->> +Allow user from host to login:
->> +.LP
->> +.RS 4
->> +.TP
->> +host user
->> +.PD
->> +.RE
->> +.TP
->> +Allow all users with matching local accounts from host to login except for baduser:
->> +.LP
->> +.RS 4
->> +.PD 0
->> +.TP
->> +host -baduser
->> +.TP
->> +host
->> +.PD
->> +.RE
->> +.TP
->> +Deny all users from host:
->> +.LP
->> +.RS 4
->> +.TP
->> +-host
->> +.PD
->> +.RE
->> +.PP
->> +Note: The use of
->> +.B -host -user
->> +is never a valid syntax, including attempting to specify that a particular user from the host is not trusted.
->> +.TP
->> +Allow all users with matching local accounts in all hosts in the netgroup:
->> +.LP
->> +.RS 4
->> +.TP
->> ++@netgroup
->> +.PD
->> +.RE
->> +.TP
->> +Disallow all users in all hosts in the netgroup:
->> +.LP
->> +.RS 4
->> +.TP
->> +-@netgroup
->> +.PD
->> +.RE
->> +.TP
->> +Allow all users in netgroup to login from host:
->> +.LP
->> +.RS 4
->> +.TP
->> +host +@netgroup
->> +.PD
->> +.RE
->> +.TP
->> +Allow all users with matching local accounts in all hosts in the netgroup except baduser:
->> +.LP
->> +.RS 4
->> +.PD 0
->> +.TP
->> ++@netgroup -baduser
->> +.TP
->> ++@netgroup
->> +.PD
->> +.RE
->> +.TP
->> +Note: The deny statements must always preceed the allow statements because the file is processed one line at a time.
-> 
-> This last explanation feels incomplete. Should it not be something like:
-> 
->    The deny statements must always precede the allow statements 
->    because the file is processed sequentially until the first
->    matching rule is found.
-> 
-> ?
-> 
->> +
->> +
->>  .SH SEE ALSO
->>  .BR rhosts (5),
->>  .BR rlogind (8),
-> 
-> Cheers,
-> 
-> Michael
->  
-> 
-> 
-
+-Kees
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Kees Cook
+Chrome OS Security
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
