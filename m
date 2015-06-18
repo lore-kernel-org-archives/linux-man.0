@@ -1,53 +1,37 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide examples.
-Date: Thu, 18 Jun 2015 08:34:52 +0200
-Message-ID: <CAKgNAkjK89FgqHPMp2znUvO2jYyiHmTreLPZc7DwG8LV-RP33w@mail.gmail.com>
-References: <55615A71.4010600@redhat.com> <557FF511.7040500@gmail.com>
- <558091DD.30004@redhat.com> <20150617181755.0bea170c@zion>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 100081] sll_family required for bind() on AF_PACKET socket
+Date: Thu, 18 Jun 2015 06:42:51 +0000
+Message-ID: <bug-100081-11311-hWTmRsVXOV@https.bugzilla.kernel.org/>
+References: <bug-100081-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <20150617181755.0bea170c@zion>
+In-Reply-To: <bug-100081-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 17 June 2015 at 18:17, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
->> > Just a note: I'm hoping for a response from Arjun before I commit this.
->> Hope is not a plan :-)
->
-> I see that I got here a little late. This looks good, but I have one
-> nitpick:
->
->> +Allow user from host to login:
->> +.LP
->> +.RS 4
->> +.TP
->> +host user
->
-> It might make sense to repeat here that such an entry will allow the
-> specified user on the remote host to login as *any* user on the local host.
->
-> i.e., something like:
->
-> -Allow user from host to login:
-> +Allow user from host to login as any non-root user:
+https://bugzilla.kernel.org/show_bug.cgi?id=100081
 
-Arjun: thanks. I've made that change.
+Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
 
-Carlos: when you have a moment, please review the current draft in Git
-and let me know if  my edits injected any errors.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+                 CC|                            |mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+         Resolution|---                         |PATCH_ALREADY_AVAILABLE
 
-Cheers,
+--- Comment #1 from Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+By chance, this was actually reported and fixed a few weeks ago, and the text
+that will appear in the next man-pages release is:
 
-Michael
+       Fields used for binding are sll_family (should be
+       AF_PACKET), sll_protocol, and sll_ifindex.
 
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
