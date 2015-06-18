@@ -1,57 +1,53 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] gsignal.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 18 Jun 2015 13:36:51 +0800
-Message-ID: <1434605811-18306-4-git-send-email-zenglg.jy@cn.fujitsu.com>
-References: <1434605811-18306-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide examples.
+Date: Thu, 18 Jun 2015 08:34:52 +0200
+Message-ID: <CAKgNAkjK89FgqHPMp2znUvO2jYyiHmTreLPZc7DwG8LV-RP33w@mail.gmail.com>
+References: <55615A71.4010600@redhat.com> <557FF511.7040500@gmail.com>
+ <558091DD.30004@redhat.com> <20150617181755.0bea170c@zion>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1434605811-18306-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <20150617181755.0bea170c@zion>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-The markings match glibc markings.
-markings of functions in glibc are:
-- gsignal: MT-Safe
-- ssignal: MT-Safe sigintr
+On 17 June 2015 at 18:17, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+>> > Just a note: I'm hoping for a response from Arjun before I commit this.
+>> Hope is not a plan :-)
+>
+> I see that I got here a little late. This looks good, but I have one
+> nitpick:
+>
+>> +Allow user from host to login:
+>> +.LP
+>> +.RS 4
+>> +.TP
+>> +host user
+>
+> It might make sense to repeat here that such an entry will allow the
+> specified user on the remote host to login as *any* user on the local host.
+>
+> i.e., something like:
+>
+> -Allow user from host to login:
+> +Allow user from host to login as any non-root user:
 
-Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
----
- man3/gsignal.3 | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Arjun: thanks. I've made that change.
 
-diff --git a/man3/gsignal.3 b/man3/gsignal.3
-index ff2f582..71bb697 100644
---- a/man3/gsignal.3
-+++ b/man3/gsignal.3
-@@ -92,6 +92,22 @@ and returns the value returned by that function.
- The range of possible values
- .I signum
- varies (often 1-15 or 1-17).
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR gsignal ()
-+T}	Thread safety	MT-Safe
-+T{
-+.BR ssignal ()
-+T}	Thread safety	MT-Safe sigintr
-+.TE
-+
- .SH CONFORMING TO
- These functions are available under AIX, DG/UX, HP-UX, SCO, Solaris, Tru64.
- They are called obsolete under most of these systems, and are
+Carlos: when you have a moment, please review the current draft in Git
+and let me know if  my edits injected any errors.
+
+Cheers,
+
+Michael
+
 -- 
-1.9.3
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
