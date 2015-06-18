@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] getgrent_r.3: ATTRIBUTES: Note functions that are/aren't thread-safe
-Date: Thu, 18 Jun 2015 13:36:49 +0800
-Message-ID: <1434605811-18306-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] gsignal.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Thu, 18 Jun 2015 13:36:51 +0800
+Message-ID: <1434605811-18306-4-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1434605811-18306-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,53 +14,41 @@ List-Id: linux-man@vger.kernel.org
 
 The markings match glibc markings.
 markings of functions in glibc are:
-- getgrent_r:  MT-Unsafe race:grent locale
-- fgetgrent_r: MT-Safe
+- gsignal: MT-Safe
+- ssignal: MT-Safe sigintr
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/getgrent_r.3 | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ man3/gsignal.3 | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/man3/getgrent_r.3 b/man3/getgrent_r.3
-index 00927d6..847e69c 100644
---- a/man3/getgrent_r.3
-+++ b/man3/getgrent_r.3
-@@ -114,6 +114,34 @@ No more entries.
- .B ERANGE
- Insufficient buffer space supplied.
- Try again with larger buffer.
+diff --git a/man3/gsignal.3 b/man3/gsignal.3
+index ff2f582..71bb697 100644
+--- a/man3/gsignal.3
++++ b/man3/gsignal.3
+@@ -92,6 +92,22 @@ and returns the value returned by that function.
+ The range of possible values
+ .I signum
+ varies (often 1-15 or 1-17).
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lb lb lbw27
++lb lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR getgrent_r ()
-+T}	Thread safety	MT-Unsafe race:grent locale
-+T{
-+.BR fgetgrent_r ()
++.BR gsignal ()
 +T}	Thread safety	MT-Safe
++T{
++.BR ssignal ()
++T}	Thread safety	MT-Safe sigintr
 +.TE
 +
-+In the above table,
-+.I grent
-+in
-+.I race:grent
-+signifies that if any of the functions
-+.BR setgrent (),
-+.BR getgrent (),
-+.BR endgrent (),
-+or
-+.BR getgrent_r ()
-+are used in parallel in different threads of a program,
-+then data races could occur.
  .SH CONFORMING TO
- These functions are GNU extensions, done in a style resembling
- the POSIX version of functions like
+ These functions are available under AIX, DG/UX, HP-UX, SCO, Solaris, Tru64.
+ They are called obsolete under most of these systems, and are
 -- 
 1.9.3
 
