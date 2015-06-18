@@ -1,65 +1,77 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] gsignal.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Thu, 18 Jun 2015 09:05:35 +0200
-Message-ID: <55826DBF.9040804@gmail.com>
-References: <1434605811-18306-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1434605811-18306-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [patch] hosts.equiv.5: Clarify that `host <user>` enables
+ non-like-named account logins.
+Date: Thu, 18 Jun 2015 15:07:15 +0200
+Message-ID: <CAKgNAkgJLgkYpG2G5EBLUvKmrch+j5RF5-JjuT70Fgybr02oUQ@mail.gmail.com>
+References: <55615A71.4010600@redhat.com> <557FF511.7040500@gmail.com>
+ <558091DD.30004@redhat.com> <20150617181755.0bea170c@zion> <5581AAEA.9090709@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1434605811-18306-4-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <5581AAEA.9090709-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/18/2015 07:36 AM, Zeng Linggang wrote:
-> The markings match glibc markings.
-> markings of functions in glibc are:
-> - gsignal: MT-Safe
-> - ssignal: MT-Safe sigintr
+Hi Carlos,
 
 
-Thanks, Zeng Linggang. Applied.
+On 17 June 2015 at 19:14, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 06/17/2015 12:17 PM, Arjun Shankar wrote:
+>>>> Just a note: I'm hoping for a response from Arjun before I commit this.
+>>> Hope is not a plan :-)
+>>
+>> I see that I got here a little late. This looks good, but I have one
+>> nitpick:
+>>
+>>> +Allow user from host to login:
+>>> +.LP
+>>> +.RS 4
+>>> +.TP
+>>> +host user
+>>
+>> It might make sense to repeat here that such an entry will allow the
+>> specified user on the remote host to login as *any* user on the local host.
+>>
+>> i.e., something like:
+>>
+>> -Allow user from host to login:
+>> +Allow user from host to login as any non-root user:
+>
+> Good point.
+>
+> Signed-off-by: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+>
+> diff --git a/man5/hosts.equiv.5 b/man5/hosts.equiv.5
+> index b6ecb94..9ee0e6e 100644
+> --- a/man5/hosts.equiv.5
+> +++ b/man5/hosts.equiv.5
+> @@ -116,7 +116,7 @@ Allow
+>  .I user
+>  from
+>  .I host
+> -to login:
+> +to login as any non-root user:
+>
+>      host user
+>
+> @@ -152,7 +152,8 @@ Disallow all users on all hosts in a
+>  Allow all users in a
+>  .I netgroup
+>  to log in from
+> -.IR host :
+> +.IR host
+> +as any non-root user:
+>
+>      host +@netgroup
+
+Okay -- I made this change already after I saw Arjun's comment.
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/gsignal.3 | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/man3/gsignal.3 b/man3/gsignal.3
-> index ff2f582..71bb697 100644
-> --- a/man3/gsignal.3
-> +++ b/man3/gsignal.3
-> @@ -92,6 +92,22 @@ and returns the value returned by that function.
->  The range of possible values
->  .I signum
->  varies (often 1-15 or 1-17).
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR gsignal ()
-> +T}	Thread safety	MT-Safe
-> +T{
-> +.BR ssignal ()
-> +T}	Thread safety	MT-Safe sigintr
-> +.TE
-> +
->  .SH CONFORMING TO
->  These functions are available under AIX, DG/UX, HP-UX, SCO, Solaris, Tru64.
->  They are called obsolete under most of these systems, and are
-> 
 
 
 -- 
