@@ -1,84 +1,75 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: ptrace.2: BUGS (missing WIFEXITED notification)
-Date: Thu, 18 Jun 2015 08:49:59 +0200
-Message-ID: <55826A17.8000804@gmail.com>
-References: <55520EAC.2010003@oracle.com>	<5554A6B0.2090409@gmail.com>	<5554A8A4.7060404@redhat.com>	<20150514162807.GA13385@chrystal.uk.oracle.com>	<5554CFDF.6070602@redhat.com>	<5555C69A.3070509@oracle.com> <CAKgNAkixHtPEdmwuVhic8k2gz8ooLmW1rJ3760oWGUC07K-5hg@mail.gmail.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: [PATCH] fgetpwent.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Thu, 18 Jun 2015 09:02:33 +0200
+Message-ID: <55826D09.3040707@gmail.com>
+References: <1423640516-25520-1-git-send-email-mashimiao.fnst@cn.fujitsu.com> <5532A1DB.3030009@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkixHtPEdmwuVhic8k2gz8ooLmW1rJ3760oWGUC07K-5hg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <5532A1DB.3030009-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
-Cc: Denys Vlasenko <dvlasenk-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Quentin Casasnovas <quentin.casasnovas-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>, Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Alexandre Oliva <aoliva-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Vegard (and Quentin): Ping!
+Hello Zeng Linggang,
 
-On 05/15/2015 02:05 PM, Michael Kerrisk (man-pages) wrote:
-> Hi Vegard,
+This patch from a while ago was sent by Ma Shimiao. Since you've now
+taken up the work of Ma Shimiao, I bring you into this discussion.
+The patch stalled because of some terminology questions that Ma Shimiao
+wanted to resolve with Alexandre (in CC), but I'm not sure if there
+was any progress. (I'll thread you into that discussion as well, which
+took place off list.) Maybe you can discuss with Ma Shimiao and pursue 
+with Alexandre?
+
+Cheers,
+
+Michael
+
+
+On 04/18/2015 08:26 PM, Michael Kerrisk (man-pages) wrote:
+> On 02/11/2015 08:41 AM, Ma Shimiao wrote:
+>> The marking matches glibc marking.
 > 
-> On 15 May 2015 at 12:12, Vegard Nossum <vegard.nossum-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org> wrote:
->> On 05/14/2015 06:39 PM, Denys Vlasenko wrote:
->>>
->>> On 05/14/2015 06:28 PM, Quentin Casasnovas wrote:
->>>>
->>>> On Thu, May 14, 2015 at 03:52:36PM +0200, Denys Vlasenko wrote:
->>>>>
->>>>> On 05/14/2015 03:44 PM, Michael Kerrisk (man-pages) wrote:
->>>>>>
->>>>>> Hi Denys,
->>>>>>
->>>>>> Do you have any thoughts on the below?
->>>>>
->>>>>
->>>>> Yes, the poster is right: this part needs fixing, the behavior is
->>>>> the same on any kind of process termination.
->>>>>
->>>>>
->>>>>> On 05/12/2015 04:31 PM, Vegard Nossum wrote:
->>>>>>>
->>>>>>> We hit another edge case in the ptrace() interface and after several
->>>>>>> hours of chasing it down, we found that it was already described in
->>>>>>> the
->>>>>>> "BUGS" section:
->>>>>>>
->>>>>>> "If a thread group leader is traced and exits by calling _exit(2), a
->>>>>
->>>>>
->>>>> I think a possible fix is just to replace "exits by calling _exit(2)"
->>>>> part
->>>>> of the above text with "terminates".
->>>>>
->>>>
->>>> Should we also add a little paragraph detailing that waitpid() would hang
->>>> indefinitely if one thread terminates while the others are in
->>>> ptrace-stop?
->>>
->>>
->>> It implies this by saying "but the subsequent WIFEXITED notification
->>> will not be delivered until all other threads exit".
->>>
->>> If another thread is in ptrace-stop, it did not exit yet. Therefore,
->>> WIFEXITED notification to the thread group leader will not be delivered.
->>> Therefore, waitpid() on it would hang.
->>
->>
->> While I agree that the information in the current man page is strictly
->> speaking sufficient, I personally still think it would be an improvement
->> to mention it explicitly (i.e. my proposed change #2 in the original
->> e-mail). Just because I think it's a sort of non-obvious pitfall; out of
->> hand, you don't expect a call to waitpid() on a process that has exited
->> to hang. That's just my opinion, though.
+> Hello Ma Shimiao,
 > 
-> That sounds okay to me. Would you and/or Quentin be willing to put
-> together a patch to the man page?
+> This is just a reminder for us both that this patch is awaiting
+> resolution of some questions with Alexandre.
 > 
-> Thanks,
+> Cheers,
 > 
 > Michael
 > 
+>> Signed-off-by: Ma Shimiao <mashimiao.fnst-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+>> ---
+>>  man3/fgetpwent.3 | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>
+>> diff --git a/man3/fgetpwent.3 b/man3/fgetpwent.3
+>> index 3076494..3c4a57a 100644
+>> --- a/man3/fgetpwent.3
+>> +++ b/man3/fgetpwent.3
+>> @@ -98,6 +98,18 @@ structure.
+>>  .TP
+>>  .I /etc/passwd
+>>  password database file
+>> +.SH ATTRIBUTES
+>> +For an explanation of the terms used in this section, see
+>> +.BR attributes (7).
+>> +.TS
+>> +allbox;
+>> +lb lb lb
+>> +l l l.
+>> +Interface	Attribute	Value
+>> +T{
+>> +.BR fgetpwent ()
+>> +T}	Thread safety	MT-Unsafe race:fpwent
+>> +.TE
+>>  .SH CONFORMING TO
+>>  SVr4.
+>>  .SH SEE ALSO
+>>
 > 
 > 
 
