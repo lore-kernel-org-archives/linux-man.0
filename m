@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] xdr.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 24 Jun 2015 17:28:39 +0800
-Message-ID: <1435138119-30051-4-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] rpc.3: ATTRIBUTES: Note functions that are thread-safe
+Date: Wed, 24 Jun 2015 17:28:38 +0800
+Message-ID: <1435138119-30051-3-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1435138119-30051-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -13,105 +13,166 @@ Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 After research, We think
-xdr_array(), xdr_bool(),
-xdr_bytes(), xdr_char(),
-xdr_destroy(), xdr_double(),
-xdr_enum(), xdr_float(),
-xdr_free(), xdr_getpos(),
-xdr_inline(), xdr_int(),
-xdr_long(), xdrmem_create(),
-xdr_opaque(), xdr_pointer(),
-xdrrec_create(), xdrrec_eof(),
-xdrrec_endofrecord(),
-xdrrec_skiprecord(),
-xdr_reference(), xdr_setpos(),
-xdr_short(), xdrstdio_create(),
-xdr_string(), xdr_u_char(),
-xdr_u_int(), xdr_u_long(),
-xdr_u_short(), xdr_union(),
-xdr_vector(), xdr_void(),
-xdr_wrapstring(),
+auth_destroy(), authnone_create(),
+authunix_create(), authunix_create_default(),
+callrpc(), clnt_broadcast(),
+clnt_call(), clnt_destroy(),
+clnt_create(), clnt_control(),
+clnt_freeres(), clnt_geterr(),
+clnt_pcreateerror(), clnt_perrno(),
+clnt_perror(), clnt_spcreateerror(),
+clnt_sperrno(), clnt_sperror(),
+clntraw_create(), clnttcp_create(),
+clntudp_create(), clntudp_bufcreate(),
+get_myaddress(), pmap_getmaps(),
+pmap_getport(), pmap_rmtcall(),
+pmap_set(), pmap_unset(),
+registerrpc(), svc_destroy(),
+svc_freeargs(), svc_getargs(),
+svc_getcaller(), svc_getreqset(),
+svc_getreq(), svc_register(),
+svc_run(), svc_sendreply(),
+svc_unregister(), svcerr_auth(),
+svcerr_decode(), svcerr_noproc(),
+svcerr_noprog(), svcerr_progvers(),
+svcerr_systemerr(), svcerr_weakauth(),
+svcfd_create(), svcraw_create(),
+svctcp_create(), svcudp_bufcreate(),
+svcudp_create(), xdr_accepted_reply(),
+xdr_authunix_parms(), xdr_callhdr(),
+xdr_callmsg(), xdr_opaque_auth(),
+xdr_pmap(), xdr_pmaplist(),
+xdr_rejected_reply(), xdr_replymsg(),
+xprt_register(), xprt_unregister(),
 are thread-safe. But, there are not
 markings of them in glibc document.
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/xdr.3 | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+ man3/rpc.3 | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
-diff --git a/man3/xdr.3 b/man3/xdr.3
-index 0e2d939..2b83694 100644
---- a/man3/xdr.3
-+++ b/man3/xdr.3
-@@ -545,6 +545,68 @@ routines as arguments, and
- .BR xdr_string (),
- one of the most frequently used primitives, requires three.
- Returns one if it succeeds, zero otherwise.
+diff --git a/man3/rpc.3 b/man3/rpc.3
+index 9c6d2b4..20f532e 100644
+--- a/man3/rpc.3
++++ b/man3/rpc.3
+@@ -1100,6 +1100,116 @@ it should unregister itself with the RPC service package.
+ This routine modifies the global variable
+ .IR svc_fds .
+ Service implementors usually do not need this routine.
 +.SH ATTRIBUTES
 +For an explanation of the terms used in this section, see
 +.BR attributes (7).
 +.TS
 +allbox;
-+lbw31 lb lb
++lbw35 lb lb
 +l l l.
 +Interface	Attribute	Value
 +T{
-+.BR xdr_array (),
-+.BR xdr_bool (),
++.BR auth_destroy (),
++.BR authnone_create (),
 +.br
-+.BR xdr_bytes (),
-+.BR xdr_char (),
++.BR authunix_create (),
 +.br
-+.BR xdr_destroy (),
-+.BR xdr_double (),
++.BR authunix_create_default (),
 +.br
-+.BR xdr_enum (),
-+.BR xdr_float (),
++.BR callrpc (),
++.BR clnt_broadcast (),
 +.br
-+.BR xdr_free (),
-+.BR xdr_getpos (),
++.BR clnt_call (),
++.BR clnt_destroy (),
 +.br
-+.BR xdr_inline (),
-+.BR xdr_int (),
++.BR clnt_create (),
++.BR clnt_control (),
 +.br
-+.BR xdr_long (),
-+.BR xdrmem_create (),
++.BR clnt_freeres (),
++.BR clnt_geterr (),
 +.br
-+.BR xdr_opaque (),
-+.BR xdr_pointer (),
++.BR clnt_pcreateerror (),
++.BR clnt_perrno (),
 +.br
-+.BR xdrrec_create (),
-+.BR xdrrec_eof (),
++.BR clnt_perror (),
 +.br
-+.BR xdrrec_endofrecord (),
++.BR clnt_spcreateerror (),
 +.br
-+.BR xdrrec_skiprecord (),
++.BR clnt_sperrno (),
++.BR clnt_sperror (),
 +.br
-+.BR xdr_reference (),
-+.BR xdr_setpos (),
++.BR clntraw_create (),
++.BR clnttcp_create (),
 +.br
-+.BR xdr_short (),
-+.BR xdrstdio_create (),
++.BR clntudp_create (),
 +.br
-+.BR xdr_string (),
-+.BR xdr_u_char (),
++.BR clntudp_bufcreate (),
 +.br
-+.BR xdr_u_int (),
-+.BR xdr_u_long (),
++.BR get_myaddress (),
++.BR pmap_getmaps (),
 +.br
-+.BR xdr_u_short (),
-+.BR xdr_union (),
++.BR pmap_getport (),
++.BR pmap_rmtcall (),
 +.br
-+.BR xdr_vector (),
-+.BR xdr_void (),
++.BR pmap_set (),
++.BR pmap_unset (),
 +.br
-+.BR xdr_wrapstring ()
++.BR registerrpc (),
++.BR svc_destroy (),
++.br
++.BR svc_freeargs (),
++.BR svc_getargs (),
++.br
++.BR svc_getcaller (),
++.BR svc_getreqset (),
++.br
++.BR svc_getreq (),
++.BR svc_register (),
++.br
++.BR svc_run (),
++.BR svc_sendreply (),
++.br
++.BR svc_unregister (),
++.BR svcerr_auth (),
++.br
++.BR svcerr_decode (),
++.BR svcerr_noproc (),
++.br
++.BR svcerr_noprog (),
++.BR svcerr_progvers (),
++.br
++.BR svcerr_systemerr (),
++.BR svcerr_weakauth (),
++.br
++.BR svcfd_create (),
++.BR svcraw_create (),
++.br
++.BR svctcp_create (),
++.br
++.BR svcudp_bufcreate (),
++.br
++.BR svcudp_create (),
++.BR xdr_accepted_reply (),
++.br
++.BR xdr_authunix_parms (),
++.br
++.BR xdr_callhdr (),
++.br
++.BR xdr_callmsg (),
++.BR xdr_opaque_auth (),
++.br
++.BR xdr_pmap (),
++.BR xdr_pmaplist (),
++.br
++.BR xdr_rejected_reply (),
++.br
++.BR xdr_replymsg (),
++.br
++.BR xprt_register (),
++.BR xprt_unregister ()
 +T}	Thread safety	MT-Safe
 +.TE
 +
  .SH SEE ALSO
- .BR rpc (3)
- .LP
+ .\" We don't have an rpc_secure.3 page in the set at the moment -- MTK, 19 Sep 05
+ .\" .BR rpc_secure (3),
 -- 
 1.9.3
 
