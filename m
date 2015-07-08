@@ -1,51 +1,32 @@
-From: "Carlos O'Donell" <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] hosts.equiv.5: Fix format, clarify IdM needs, and provide
- examples.
-Date: Wed, 08 Jul 2015 01:16:23 -0400
-Message-ID: <559CB227.802@redhat.com>
-References: <55615A71.4010600@redhat.com> <558134D3.2010603@gmail.com> <55831A5A.2050407@gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta-X3B1VOXEql0@public.gmane.org>
+Subject: [PATCH] man-pages-4.01.Announce: spfix
+Date: Wed,  8 Jul 2015 10:12:59 +0300
+Message-ID: <1436339579-4945-1-git-send-email-ville.skytta@iki.fi>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55831A5A.2050407-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arjun Shankar <arjun-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Siddhesh Poyarekar <siddhesh-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 06/18/2015 03:22 PM, Michael Kerrisk (man-pages) wrote:
-> Hi Carlos,
-> 
-> In this earlier reply, I should have highlighted that there is
-> one open question I have about you patch, at the end of the mail
-> below. Could you take a look please.
+---
+ man-pages-4.01.Announce | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Certainly.
-
->>> +Allow all users with matching local accounts in all hosts in the netgroup except baduser:
->>> +.LP
->>> +.RS 4
->>> +.PD 0
->>> +.TP
->>> ++@netgroup -baduser
->>> +.TP
->>> ++@netgroup
->>> +.PD
->>> +.RE
->>> +.TP
->>> +Note: The deny statements must always preceed the allow statements because the file is processed one line at a time.
->>
->> This last explanation feels incomplete. Should it not be something like:
->>
->>    The deny statements must always precede the allow statements 
->>    because the file is processed sequentially until the first
->>    matching rule is found.
-
-Your text is certainly correct and clearer. The processing does stop at
-the first match.
-
-Cheers,
-Carlos.
+diff --git a/man-pages-4.01.Announce b/man-pages-4.01.Announce
+index df5204b..b14693d 100644
+--- a/man-pages-4.01.Announce
++++ b/man-pages-4.01.Announce
+@@ -43,7 +43,7 @@ Here is a breakdown of what this distribution contains:
+ 
+     Note that only Section 2 is rather complete, but Section 3 contains
+     several hundred man pages.  If you want to write some man pages,
+-    or suggest improvments to existing pages, please visit
++    or suggest improvements to existing pages, please visit
+     http://www.kernel.org/doc/man-pages/ .
+ 
+ 
+-- 
+2.4.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
