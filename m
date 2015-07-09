@@ -1,33 +1,29 @@
-From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta-X3B1VOXEql0@public.gmane.org>
-Subject: [PATCH] ldconfig.8: wsfix
-Date: Wed,  8 Jul 2015 10:14:58 +0300
-Message-ID: <1436339698-19824-1-git-send-email-ville.skytta@iki.fi>
+From: adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: your protracted and stalled funds transfer from the U.K.
+Date: Thu, 09 Jul 2015 11:38:40 +0200
+Message-ID: <20150709094025.AC80420A41@mailhost.usc.br>
+Reply-To: adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Recipients <adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
----
- man8/ldconfig.8 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Attention Pls,
 
-diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
-index 14956bd..233647e 100644
---- a/man8/ldconfig.8
-+++ b/man8/ldconfig.8
-@@ -131,7 +131,7 @@ instead of
- .IR /etc/ld.so.conf .
- .\" FIXME glibc 2.7 added -i
- .TP
--.BR \-i ", " \-\-ignore\-aux\-cache	
-+.BR \-i ", " \-\-ignore\-aux\-cache
- (Since glibc 2.7)
- .\"             commit 27d9ffda17df4d2388687afd12897774fde39bcc
- Ignore auxiliary cache file.
--- 
-2.4.3
+I am writing you with regards to your protracted and stalled funds transfer from the U.K. and would urge you to accord this correspondence your full indulgence and attention, as the authenticity and difference would be evident if you do so.
 
+As a freelance, independent External Audit expert assisting a private financial institution here in Britain in all aspects of their work, your transfer file came to my attention just this morning, and I was compelled to take special interest in it owing to its peculiar history of procedural inconsistencies. Obviously all the persons you assigned to process your transfer have proved to be incompetent. Simply put it that they have given room to some management of the Bank to try and smuggle your fund through a non-existent back door.
+
+My intention is to quickly reactivate and sort out your transfer without any distraction through a simple, transparent and authoritative means where you will not be required to pay any unauthorized fees. You are forbidden to preempt anyone of this contact and I await your response at your earliest convenience.
+
+Thank you.
+
+Sincerely,
+Adam Witkover
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
