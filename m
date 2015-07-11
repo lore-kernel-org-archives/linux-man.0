@@ -1,29 +1,35 @@
-From: adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Subject: Re: your protracted and stalled funds transfer from the U.K.
-Date: Thu, 09 Jul 2015 11:38:40 +0200
-Message-ID: <20150709094025.AC80420A41@mailhost.usc.br>
-Reply-To: adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+From: John Matthew <ejededaweinnocent-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Loan Offer At 3% Interest Rate
+Date: Sat, 11 Jul 2015 23:56:56 +0100
+Message-ID: <CACcDXXFfA9rA84sQWFeSRmoWKgri0kU53DD_O6Ox4WR1O86MAQ@mail.gmail.com>
+Reply-To: johnmatthewloanlender-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Description: Mail message body
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Recipients <adamwitkover56-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Attention Pls,
+Good Day Sir/Madam.
 
-I am writing you with regards to your protracted and stalled funds transfer from the U.K. and would urge you to accord this correspondence your full indulgence and attention, as the authenticity and difference would be evident if you do so.
+I am Mr John Matthew, A private Money lender. I am Writing you to
+introduce a small and large business money lending service to you.  I
+can service your financial need with less payback problem that is why
+we fund you for just 3%. Need business or a personal loan Fill the
+Short application below.Contact us today for that loan you need with
+this email address :johnmatthewloanlender-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 
-As a freelance, independent External Audit expert assisting a private financial institution here in Britain in all aspects of their work, your transfer file came to my attention just this morning, and I was compelled to take special interest in it owing to its peculiar history of procedural inconsistencies. Obviously all the persons you assigned to process your transfer have proved to be incompetent. Simply put it that they have given room to some management of the Bank to try and smuggle your fund through a non-existent back door.
+NAME.................
+COUNTRY.............
+STATE.............
+ADDRESS...............
+PHONE NUMBER...........
+AMOUNT NEEDED AS LOAN..
+LOAN DURATION..........
+MONTHLY INCOME.........
 
-My intention is to quickly reactivate and sort out your transfer without any distraction through a simple, transparent and authoritative means where you will not be required to pay any unauthorized fees. You are forbidden to preempt anyone of this contact and I await your response at your earliest convenience.
 
-Thank you.
-
-Sincerely,
-Adam Witkover
+Your's Faithfully:
+Mr John Matthew:
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
