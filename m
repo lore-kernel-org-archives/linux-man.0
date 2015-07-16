@@ -1,89 +1,159 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] error.3: ATTRIBUTES: Note functions that are/aren't thread-safe
-Date: Fri, 17 Jul 2015 00:05:11 +0200
-Message-ID: <55A82A97.9020702@gmail.com>
-References: <1435138119-30051-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1435138119-30051-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] locale.5: document era keywords
+Date: Fri, 17 Jul 2015 00:05:20 +0200
+Message-ID: <55A82AA0.1010404@gmail.com>
+References: <558BB0D7.9010307@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1435138119-30051-2-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <558BB0D7.9010307-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 06/24/2015 11:28 AM, Zeng Linggang wrote:
-> The markings match glibc markings.
-> markings of functions in glibc are:
-> - error:         MT-Safe locale
-> - error_at_line: MT-Unsafe race:error_at_line/error_one_per_line locale
+Hi Marko,
+
+On 06/25/2015 09:42 AM, Marko Myllynen wrote:
+> Hi Michael,
 > 
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-
-
-Hi, Zeng Linggang. 
-
-I'm having some trouble understanding the text you've added. Could you review
-and resubmit, please? See below.
-
-> ---
->  man3/error.3 | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+> this patch completes the LC_TIME section - since these era keywords are
+> so tightly coupled, I'm providing them as a single patch.
 > 
-> diff --git a/man3/error.3 b/man3/error.3
-> index 7e1d47c..f040a26 100644
-> --- a/man3/error.3
-> +++ b/man3/error.3
-> @@ -118,6 +118,35 @@ is assigned the address of a function
->  instead of prefixing the message with the program name and colon.
->  The function should print a suitable string to
->  .IR stderr .
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lbw37
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR error ()
-> +T}	Thread safety	MT-Safe locale
-> +T{
-> +.BR error_at_line ()
-> +T}	Thread safety	T{
-> +MT-Unsafe race:error_at_line/error_one_per_line locale
-> +T}
-> +.TE
-> +
-> +The internal
-> +.I error_one_per_line
-> +variable is accessed (without any form of
-> +synchronization, but since it's an int used once, it should be safe
-> +enough) and, if this mode is enabled, static variables used to hold
+> Based on
+> 
+> http://pubs.opengroup.org/onlinepubs/009695399/basedefs/xbd_chap07.html
+> http://www.open-std.org/jtc1/SC22/WG20/docs/n972-14652ft.pdf
 
-What does "this mode" refer to? That needs to be made clearer in
-the text.
+Thanks! Applied. Sorry for the delay.
 
-> +the last printed file name and line number are accessed and modified
-> +without synchronization; the update is not atomic and it occurs
-> +before disabling cancellation, so it can be interrupted after only
-> +one of the two variables is modified.  After that, it's very much
-
-What does "it" (in "it's") refer to? error_at_line()? 
-That needs to be made clearer in the text.
-
-> +like
-> +.BR error (3).
->  .SH CONFORMING TO
->  These functions and variables are GNU extensions, and should not be
->  used in programs intended to be portable.
-
-Thanks,
+Cheers,
 
 Michael
 
+
+> ---
+>  man5/locale.5 | 89 +++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 84 insertions(+), 5 deletions(-)
+> 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index e6c1f07..22cda04 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -1067,11 +1067,6 @@ The definition starts with the string
+>  in the first column.
+>  
+>  The following keywords are allowed:
+> -.\" FIXME The following LC_TIME keywords are not documented:
+> -.\"	era
+> -.\"	era_d_fmt
+> -.\"	era_d_t_fmt
+> -.\"	era_t_fmt
+>  .TP
+>  .I abday
+>  followed by a list of abbreviated names of the days of the week.
+> @@ -1125,6 +1120,89 @@ followed by the appropriate time format
+>  when using 12h clock format.
+>  This should be left empty for locales not using AM/PM convention.
+>  .TP
+> +.I era
+> +followed by semicolon-separated strings that define how years are
+> +counted and displayed for each era in the locale.
+> +Each string has the following format:
+> +.RS
+> +.PP
+> +.IR direction ":" offset ":" start_date ":" end_date ":" era_name ":" era_format
+> +.PP
+> +The fields are to be defined as follows:
+> +.PP
+> +.TP 4
+> +.I direction
+> +Either
+> +.BR +
+> +or
+> +.BR -.
+> +.BR +
+> +means the years closer to
+> +.IR start_date
+> +have lower numbers than years closer to
+> +.IR end_date .
+> +.BR -
+> +means the opposite.
+> +.TP
+> +.I offset
+> +The number of the year closest to
+> +.IR start_date
+> +in the era, corresponding to the
+> +.IR %Ey
+> +descriptor (see
+> +.BR strptime (3)).
+> +.TP
+> +.I start_date
+> +The start of the era in the form of
+> +.IR yyyy/mm/dd .
+> +Years prior AD 1 are represented as negative numbers.
+> +.TP
+> +.I end_date
+> +The end of the era in the form of
+> +.IR yyyy/mm/dd ,
+> +or one of the two special values of
+> +.BR -*
+> +or
+> +.BR +* .
+> +.BR -*
+> +means the ending date is the beginning of time.
+> +.BR +*
+> +means the ending date is the end of time.
+> +.TP
+> +.I era_name
+> +The name of the era corresponding to the
+> +.I %EC 
+> +descriptor (see
+> +.BR strptime (3)).
+> +.TP
+> +.I era_format
+> +The format of the year in the era corresponding to the
+> +.I %EY
+> +descriptor (see
+> +.BR strptime (3)).
+> +.RE
+> +.TP
+> +.I era_d_fmt
+> +followed by the format of the date in alternative era notation,
+> +corresponding to the
+> +.I %Ex
+> +descriptor (see
+> +.BR strptime (3)).
+> +.TP
+> +.I era_t_fmt
+> +followed by the format of the time in alternative era notation,
+> +corresponding to the
+> +.I %EX
+> +descriptor (see
+> +.BR strptime (3)).
+> +.TP
+> +.I era_d_t_fmt
+> +followed by the format of the date and time in alternative era notation,
+> +corresponding to the
+> +.I %Ec
+> +descriptor (see
+> +.BR strptime (3)).
+> +.TP
+>  .I alt_digits
+>  followed by the alternative digits used for date and time in the locale.
+>  .TP
+> @@ -1254,6 +1332,7 @@ This manual page isn't complete.
+>  .BR newlocale (3),
+>  .BR setlocale (3),
+>  .BR strftime (3),
+> +.BR strptime (3),
+>  .BR uselocale (3),
+>  .BR charmap (5),
+>  .BR charsets (7),
+> 
+> Thanks,
+> 
 
 
 -- 
