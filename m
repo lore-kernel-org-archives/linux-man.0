@@ -1,46 +1,57 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] ldconfig.8: wsfix
-Date: Fri, 17 Jul 2015 00:05:34 +0200
-Message-ID: <55A82AAE.5010504@gmail.com>
-References: <1436339698-19824-1-git-send-email-ville.skytta@iki.fi>
+Subject: Re: [PATCH] locale.5: update BUGS note
+Date: Fri, 17 Jul 2015 00:05:43 +0200
+Message-ID: <55A82AB7.4080309@gmail.com>
+References: <558BB0DE.9060504@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1436339698-19824-1-git-send-email-ville.skytta-X3B1VOXEql0@public.gmane.org>
+In-Reply-To: <558BB0DE.9060504-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?windows-1252?Q?Ville_Skytt=E4?= <ville.skytta-X3B1VOXEql0@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: myllynen-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Ville. Applied.
+Hi Marko,
+
+On 06/25/2015 09:42 AM, Marko Myllynen wrote:
+> Hi Michael,
+> 
+> let's at least update the BUGS note in locale(5), not sure is it
+> really needed any more at all.
+
+Nah. I'll just kill that section altogether, I think.
 
 Cheers,
 
 Michael
 
-On 07/08/2015 09:14 AM, Ville Skytt=E4 wrote:
 > ---
->  man8/ldconfig.8 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man8/ldconfig.8 b/man8/ldconfig.8
-> index 14956bd..233647e 100644
-> --- a/man8/ldconfig.8
-> +++ b/man8/ldconfig.8
-> @@ -131,7 +131,7 @@ instead of
->  .IR /etc/ld.so.conf .
->  .\" FIXME glibc 2.7 added -i
->  .TP
-> -.BR \-i ", " \-\-ignore\-aux\-cache=09
-> +.BR \-i ", " \-\-ignore\-aux\-cache
->  (Since glibc 2.7)
->  .\"             commit 27d9ffda17df4d2388687afd12897774fde39bcc
->  Ignore auxiliary cache file.
->=20
+>  man5/locale.5 | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/man5/locale.5 b/man5/locale.5
+> index 22cda04..2d29b6e 100644
+> --- a/man5/locale.5
+> +++ b/man5/locale.5
+> @@ -1321,7 +1321,9 @@ or
+>  depending on whether the week and work week actually starts on Sunday or
+>  Monday for the locale.
+>  .SH BUGS
+> -This manual page isn't complete.
+> +The above
+> +.I LC_COLLATE
+> +section is not complete.
+>  .\" .SH AUTHOR
+>  .\" Jochen Hein (Hein-SVAqIv1tV6Auki3NsKDZl5HjxUfvIkdz@public.gmane.org)
+>  .SH SEE ALSO
+> 
+> Thanks,
+> 
 
 
---=20
+-- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
