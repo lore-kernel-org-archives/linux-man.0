@@ -1,81 +1,38 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] dlopen.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Sun, 19 Jul 2015 22:00:18 +0200
-Message-ID: <55AC01D2.6050705@gmail.com>
-References: <1435138119-30051-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [patch 00/10] perf_event_open.2: Changes introduced in Linux 4.1
+ and 4.0
+Date: Tue, 21 Jul 2015 09:58:20 +0200
+Message-ID: <CAKgNAkg7RdsLwGuSPJEU1CDk3QTMBEnRsYyqbw1WsRqii_bfVg@mail.gmail.com>
+References: <alpine.DEB.2.11.1504161408030.15181@vincent-weaver-1.umelst.maine.edu>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1435138119-30051-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1504161408030.15181-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Zeng Linggang,
+Hi Vince,
 
-On 06/24/2015 11:28 AM, Zeng Linggang wrote:
-> After research, We think
-> * dlopen(),
-> * dlerror(),
-> * dlsym(),
-> * dlclose(),
-> * dladdr(),
-> * dlvsym()
-> are thread-safe. But, there are not
-> markings of them in glibc document.
 
-Thanks. I've applied this manually, since it happens that I am currently
-working on splitting the dlopen(3) page into smaller pieces. So, it will
-be a short while before your changes in this patch are released.
+On 16 April 2015 at 20:10, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org> wrote:
+>
+> The following series of patches to the perf_event_open manpage
+> document the large number of changes made to the interface
+> in Linux 4.1 (with patch #10 a change that somehow slipped by me in
+> Linux 4.0)
+>
+> I am sending these out earlier than usual because it seems like
+> it takes a while to get feedback on these changes.
 
-You might also want to check the thread safety of dlinfo(), dlmopen(),
-and dladdr1(), since man pages for those functions will, I hope, soon
-appear.
+I've not integrated this patch set yest, but now that 4.1 is out the
+door,  what should we do.with these patches?
 
 Cheers,
 
 Michael
-
-
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/dlopen.3 | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
-> 
-> diff --git a/man3/dlopen.3 b/man3/dlopen.3
-> index cb5dbf9..53d3f16 100644
-> --- a/man3/dlopen.3
-> +++ b/man3/dlopen.3
-> @@ -396,6 +396,25 @@ provided by glibc since version 2.1,
->  does the same as
->  .BR dlsym ()
->  but takes a version string as an additional argument.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw29 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR dlopen (),
-> +.BR dlerror (),
-> +.BR dlsym (),
-> +.br
-> +.BR dlclose (),
-> +.BR dladdr (),
-> +.BR dlvsym ()
-> +T}	Thread safety	MT-Safe
-> +.TE
-> +
->  .SH CONFORMING TO
->  POSIX.1-2001 describes
->  .BR dlclose (),
-> 
-
 
 -- 
 Michael Kerrisk
