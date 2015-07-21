@@ -1,36 +1,67 @@
-From: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
-Subject: Re: [PATCH v2 3/3] console_codes.4: Add CSI sequence for cursor
- blink interval
-Date: Tue, 21 Jul 2015 18:45:34 +0000 (UTC)
-Message-ID: <alpine.DEB.2.11.1507211827520.3781@local>
-References: <alpine.DEB.2.11.1501262034380.1945@localhost.localdomain> <alpine.DEB.2.11.1501262040380.2052@localhost.localdomain> <20150225094946.GA24627@amd> <alpine.LNX.2.11.1502252319330.276@localhost> <20150226220243.GC9935@amd> <alpine.LNX.2.11.1502271905580.4212@localhost>
- <alpine.LNX.2.11.1502271911380.4248@localhost> <20150325111949.GA24230@kroah.com> <alpine.DEB.2.11.1503261341260.2164@local> <alpine.DEB.2.11.1503261356490.2411@local> <alpine.DEB.2.11.1507051724240.1696@local>
- <CAKgNAkgqTckfydFTDFsoqB1b_fAEiDZGYP=7b-bhN8d4Mp-bsg@mail.gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: man page mlock/munlock
+Date: Tue, 21 Jul 2015 20:50:18 +0200
+Message-ID: <CAKgNAkjMuMdu952zj_3kL7cmC-xeRzTzDo_2emxwjEoG+2YVFQ@mail.gmail.com>
+References: <87k2wm84eo.fsf@student.vu.nl>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAKgNAkgqTckfydFTDFsoqB1b_fAEiDZGYP=7b-bhN8d4Mp-bsg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <87k2wm84eo.fsf-oe7qfRrRQfcprfpi5Sxi9A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
+To: Mehdi Aqadjani Memar <m.aqadjanimemar-oe7qfRrRQfcprfpi5Sxi9A@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 21 Jul 2015, Michael Kerrisk (man-pages) wrote:
-> On 5 July 2015 at 19:41, Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org> wrote:
-> > On Thu, 26 Mar 2015, Scot Doyle wrote:
-> >> Add a Console Private CSI sequence to specify the current console's
-> >> cursor blink interval. The interval is specified as a number of
-> >> milliseconds until the next cursor display state toggle, from 50 to
-> >> 65535.
-> >>
-> >> Signed-off-by: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
-> 
-> I've applied this, adding Pavel's Acked-by.
-> 
-> I also added some text to note that this appeared in Linux 4.2. Okay?
+Hello Mehdi
 
-Yes, thank you.
+On 6 May 2015 at 10:49, Mehdi Aqadjani Memar
+<m.aqadjanimemar-oe7qfRrRQfcprfpi5Sxi9A@public.gmane.org> wrote:
+> Dear Michael Kerrisk,
+> in my application I am using munlock() as described in the man page. =
+munlock()
+> fails and returns ENOMEM. The man page for this error has not helped =
+me to find
+> out what the problem was. I traced my code and discovered that this e=
+rror
+> appears when "the process's maximum number of mappings would have bee=
+n
+> exceeded", as it is mentioned at the man page of mmap(). This happens=
+ because
+> munlock() splits the vma's.
+> I believe that this information should be a part of the man page of m=
+unlock().
+> --
+> Met vriendelijke groet/Kind regards
+> Mehdi Aqadjani Memar
 
+Thanks for the report, and sorry for the delayed response. I've
+confirmed your point. How would the following text be:
+
+       ENOMEM Locking  or  unlocking  a region would result in the tota=
+l
+              number of mappings with distinct attributes (e.g.,  locke=
+d
+              versus  unlocked)  exceeding  the  allowed  maximum.  (Fo=
+r
+              example, unlocking a range in the middle  of  a  currentl=
+y
+              locked  mapping would result in three mappings: two locke=
+d
+              mappings at each end and an unlocked mapping in  the  mid=
+=E2=80=90
+              dle.)
+?
+
+Thanks,
+
+Michael
+
+--=20
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
