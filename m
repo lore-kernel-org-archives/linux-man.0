@@ -1,76 +1,75 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch v3] perf_event_open.2: Exclude_host/exclude_guest
- clarification
-Date: Tue, 21 Jul 2015 12:05:38 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1507211203040.29103@vincent-weaver-1.umelst.maine.edu>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH v2 3/3] console_codes.4: Add CSI sequence for cursor blink interval
+Date: Tue, 21 Jul 2015 18:55:11 +0200
+Message-ID: <CAKgNAkgqTckfydFTDFsoqB1b_fAEiDZGYP=7b-bhN8d4Mp-bsg@mail.gmail.com>
+References: <alpine.DEB.2.11.1501262034380.1945@localhost.localdomain>
+ <alpine.DEB.2.11.1501262040380.2052@localhost.localdomain>
+ <20150225094946.GA24627@amd> <alpine.LNX.2.11.1502252319330.276@localhost>
+ <20150226220243.GC9935@amd> <alpine.LNX.2.11.1502271905580.4212@localhost>
+ <alpine.LNX.2.11.1502271911380.4248@localhost> <20150325111949.GA24230@kroah.com>
+ <alpine.DEB.2.11.1503261341260.2164@local> <alpine.DEB.2.11.1503261356490.2411@local>
+ <alpine.DEB.2.11.1507051724240.1696@local>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Gleb Natapov <gleb-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Joerg Roedel <joro-zLv9SwRftAIdnm+yROfE0A@public.gmane.org>
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.11.1507051724240.1696@local>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
+Cc: lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-fbdev-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Pavel Machek <pavel-+ZI9xUNit7I@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+Hello Scot,
 
-This patch relates to the exclude_host and exclude_guest bits added
-by the following commit:
+On 5 July 2015 at 19:41, Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org> wrote:
+> On Thu, 26 Mar 2015, Scot Doyle wrote:
+>> Add a Console Private CSI sequence to specify the current console's
+>> cursor blink interval. The interval is specified as a number of
+>> milliseconds until the next cursor display state toggle, from 50 to
+>> 65535.
+>>
+>> Signed-off-by: Scot Doyle <lkml14-enLWO88E2pdl57MIdRCFDg@public.gmane.org>
 
-   exclude_host, exclude_guest; Linux 3.2
-        commit a240f76165e6255384d4bdb8139895fac7988799
-        Author: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
-        Date:   Wed Oct 5 14:01:16 2011 +0200
+I've applied this, adding Pavel's Acked-by.
 
-            perf, core: Introduce attrs to count in either host or guest mode
+I also added some text to note that this appeared in Linux 4.2. Okay?
 
-            Signed-off-by: Joerg Roedel <joerg.roedel-5C7GfCeVMHo@public.gmane.org>
-            Signed-off-by: Gleb Natapov <gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-            Signed-off-by: Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>
-            Link: http://lkml.kernel.org/r/1317816084-18026-2-git-send-email-gleb-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-            Signed-off-by: Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>
+Cheers,
 
-The updated manpage text clarifies that the "exclude_host" and
-"exclude_guest" perf_event_open() attr bits only apply in the
-context of a KVM environment and are currently x86 only.
+Michael
 
-The patch is the same as the previous version with the addition
-of Joerf Roedel's ACK.
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Acked-by: Joerg Roedel <jroedel-l3A5Bk7waGM@public.gmane.org>
+>> ---
+>>  man4/console_codes.4 | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/man4/console_codes.4 b/man4/console_codes.4
+>> index 34f7535..7d05076 100644
+>> --- a/man4/console_codes.4
+>> +++ b/man4/console_codes.4
+>> @@ -377,6 +377,7 @@ ESC [ 15 ]        T{
+>>  Bring the previous console to the front
+>>  (since Linux 2.6.0).
+>>  T}
+>> +ESC [ 16 ; \fIn\fP ]         Set the cursor blink interval in milliseconds.
+>>  .TE
+>>  .SS Character sets
+>>  The kernel knows about 4 translations of bytes into console-screen
+>> --
+>> 2.1.0
+>>
+>
+> Hi Michael,
+>
+> Will you apply now that Linus has pulled the rest?
+> (see bd63364caa8df38bad2b25b11b2a1b849475cce5)
+>
+> Thank you,
+> Scot
 
-diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 39c8d8c..1ea56c9 100644
---- a/man2/perf_event_open.2
-+++ b/man2/perf_event_open.2
-@@ -1006,11 +1006,25 @@ struct sample_id {
- .TP
- .IR "exclude_host" " (since Linux 3.2)"
- .\" commit a240f76165e6255384d4bdb8139895fac7988799
--Do not measure time spent in VM host.
-+When conducting measurements that include processes running
-+VM instances (i.e. have executed a
-+.I KVM_RUN
-+.BR ioctl (2)
-+) only measure events happening inside a guest instance.
-+This is only meaningful outside the guests; this setting does
-+not change counts gathered inside of a guest.
-+Currently this functionality is x86 only.
- .TP
- .IR "exclude_guest" " (since Linux 3.2)"
- .\" commit a240f76165e6255384d4bdb8139895fac7988799
--Do not measure time spent in VM guest.
-+When conducting measurements that include processes running
-+VM instances (i.e. have executed a
-+.I KVM_RUN
-+.BR ioctl (2)
-+) do not measure events happening inside guest instances.
-+This is only meaningful outside the guests; this setting does
-+not change counts gathered inside of a guest.
-+Currently this functionality is x86 only.
- .TP
- .IR "exclude_callchain_kernel" " (since Linux 3.7)"
- .\" commit d077526485d5c9b12fe85d0b2b3b7041e6bc5f91
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
