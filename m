@@ -1,406 +1,193 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+From: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
 Subject: Re: Edited draft of bpf(2) man page for review/enhancement
-Date: Wed, 22 Jul 2015 16:52:55 +0200
-Message-ID: <55AFAE47.70209@gmail.com>
-References: <556583B4.4000607@gmail.com> <55669E44.6050907@plumgrid.com>
+Date: Wed, 22 Jul 2015 17:12:32 +0200
+Message-ID: <55AFB2E0.5060307@iogearbox.net>
+References: <556583B4.4000607@gmail.com> <55658DB4.6000106@iogearbox.net> <55AFAD7A.6090009@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55669E44.6050907-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
+In-Reply-To: <55AFAD7A.6090009-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello Alexei,
+On 07/22/2015 04:49 PM, Michael Kerrisk (man-pages) wrote:
+> Hi Daniel,
+>
+> Sorry for the long delay in following up....
 
-Sorry for the long delay in following up....
+No worries, eBPF is quite some material. ;)
 
-On 05/28/2015 06:49 AM, Alexei Starovoitov wrote:
-> On 5/27/15 1:43 AM, Michael Kerrisk (man-pages) wrote:
->> Hello Alexei,
+> On 05/27/2015 11:26 AM, Daniel Borkmann wrote:
+>> On 05/27/2015 10:43 AM, Michael Kerrisk (man-pages) wrote:
+>>> Hello Alexei,
+>>>
+>>> I took the draft 3 of the bpf(2) man page that you sent back in March
+>>> and did some substantial editing to clarify the language and add a
+>>> few technical details. Could you please check the revised  version
+>>> below, to ensure I did not inject any errors.
+>>>
+>>> I also added a number of FIXMEs for pieces of the page that need
+>>> further work. Could you take a look at these and let me know your
+>>> thoughts, please.
 >>
->> I took the draft 3 of the bpf(2) man page that you sent back in Marc=
-h
->> and did some substantial editing to clarify the language and add a
->> few technical details. Could you please check the revised  version
->> below, to ensure I did not inject any errors.
->=20
-> Great!
->=20
->> I also added a number of FIXMEs for pieces of the page that need
->> further work. Could you take a look at these and let me know your
->> thoughts, please.
->=20
-> Thanks to Daniel for answering some of them :)
->=20
-> Other answers and comments:
->=20
->> .SH DESCRIPTION
->> The
->> .BR bpf ()
->> system call performs a range of operations related to extended
->> Berkeley Packet Filters.
->> Extended BPF (or eBPF) is similar to
->> the original BPF (or classic BPF) used to filter network packets.
->> For both BPF and eBPF programs,
->=20
-> btw, for tc man page we've adopted eBPF and cBPF abbreviations.
-> Since just BPF was confusing especially in tc context that supports
-> both. This man page mainly talking about eBPF, but I think it would
-> help to call 'classic BPF' as 'cBPF' as well.
-> tc-bpf manpage:
-> https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/=
-tree/man/man8/tc-bpf.8?h=3Dnet-next
-
-I've made corresponding changes now in the bpf(2) page.
-
->> .\" FIXME In the next line, what is "a restricted C"? Where does
->> .\"       one get further information about it?
->=20
-> As Daniel said there is no spec for this C. It's a normal C where
-> things like loops, global variables, vararg, floating point,
-> struct passing and bunch of other things are not supported.
-
-I assume we're talking about the LLVM front-end, right?
-
-Am I correct that these kernel source files are examples of this restri=
-cted C:
-
-samples/bpf/tcbpf1_kern.c
-samples/bpf/tracex2_kern.c
-samples/bpf/tracex4_kern.c
-samples/bpf/tracex1_kern.c
-samples/bpf/tracex3_kern.c
-samples/bpf/sockex1_kern.c
-samples/bpf/sockex2_kern.c
-
-?
-
-And samples/bpf/Makefile shows the necessary LLVM incantation
-to produce the BPF binaries, right?
-
-If that's correct, let me know, and I will then add some pointers
-to these examples in the man page.
-
->> .\" FIXME In the following sentence, what does "takes hold" mean?
->> During verification, the program takes hold of maps that it intends =
-to use,
->> so selected maps cannot be removed until the program is unloaded.
->=20
-> if 'takes hold' is confusing, just remove that sentence.
-> Its purpose was to describe that map will be still alive while
-> some program is using it. Traditional refcnt approach.
-
-See my reply to Daniel. (I added a sentence about reference counting.)
-
->> BPF programs can be attached to different events.
->> .\" FIXME: In the next sentence , "packets" are not "events". What
->> .\" do you really mean to say here? ("the arrival of a network packe=
-t"?)
->> These events can be packets, tracing
->> events, and other types that may be added in the future.
->=20
-> yes. For eBPF programs attached to sockets 'event =3D=3D arrival of
-> a packet on that socket'.
-
-Thanks. I amended the page text to make that clearer.
-
-> For eBPF attached to tc classifier 'event =3D=3D classification
-> request by qdisc'.
-
-I added some words for this case too.
-
-
->> .\" FIXME Can maps be shared between processes? (E.g., what happens
->> .\"       when fork() is called?)
->=20
-> yes. Would be good to mention ability to pass prog and map FDs
-> via scm_rights.
-
-I realize now that the existing page text could make it clearer
-that BPF_PROG_LOAD returns a new file descriptor referring to the=20
-eBPF program. (Right?) I've added some words in a couple of places
-to make that more obvious.
-
-Anyway, I added the following text in NOTES:
-
-       eBPF objects (maps and programs) can  be  shared  between  pro=E2=
-=80=90
-       cesses.   For  example,  after fork(2), the child inherits file
-       descriptors referring to the same eBPF objects.   In  addition,
-       file  descriptors  referring to eBPF objects can be transferred
-       over UNIX domain sockets.  File descriptors referring  to  eBPF
-       objects  can  be  duplicated in the usual way, using dup(2) and
-       similar calls.  An eBPF object is deallocated  only  after  all
-       file descriptors referring to the object have been closed.
-
-Is the above all correct?
-
->>      struct {    /* Used by BPF_PROG_LOAD */
->>          __u32         prog_type;
->>          __u32         insn_cnt;
->>          __aligned_u64 insns;      /* 'const struct bpf_insn *' */
->>          __aligned_u64 license;    /* 'const char *' */
->>          __u32         log_level;  /* verbosity level of verifier */
->>          __u32         log_size;   /* size of user buffer */
->>          __aligned_u64 log_buf;    /* user supplied 'char *'
->>                                       buffer */
->>      };
->=20
-> this part is already obsolete. The following field was added:
-> __u32           kern_version;   /* checked when prog_type=3Dkprobe */
-> see commit 2541517c32be2.
-
-Okay. Added.
-
->> bpf_create_map(enum bpf_map_type map_type, int key_size,
->>                 int value_size, int max_entries)
->> {
->>      union bpf_attr attr =3D {
->>          .map_type =3D map_type,
->>          .key_size =3D key_size,
->>          .value_size =3D value_size,
->>          .max_entries =3D max_entries
->>      };
+>> That's great, thanks! Minor comments:
 >>
->>      return bpf(BPF_MAP_CREATE, &attr, sizeof(attr));
->> }
->=20
-> btw, this simple wrappers are currently in samples/bpf/ and
-> in iproute2/tc/tc_bpf.c. We're trying to consolidate them
-> into generic libbpf library in tools/lib/
-
-This makes me curious: why was the BPF functionality not designed as
-a *set* of system calls (as per these wrappers), rather than the existi=
-ng
-multiplexed call?
-
->> Currently, two
->> .I map_type
->> are supported:
+>> ...
+>>> .TH BPF 2 2015-03-10 "Linux" "Linux Programmer's Manual"
+>>> .SH NAME
+>>> bpf - perform a command on an extended BPF map or program
+>>> .SH SYNOPSIS
+>>> .nf
+>>> .B #include <linux/bpf.h>
+>>> .sp
+>>> .BI "int bpf(int cmd, union bpf_attr *attr, unsigned int size);
+>>>
+>>> .SH DESCRIPTION
+>>> The
+>>> .BR bpf ()
+>>> system call performs a range of operations related to extended
+>>> Berkeley Packet Filters.
+>>> Extended BPF (or eBPF) is similar to
+>>> the original BPF (or classic BPF) used to filter network packets.
+>>> For both BPF and eBPF programs,
+>>> the kernel statically analyzes the programs before loading them,
+>>> in order to ensure that they cannot harm the running system.
+>>> .P
+>>> eBPF extends classic BPF in multiple ways including the ability to call
+>>> in-kernel helper functions (via the
+>>> .B BPF_CALL
+>>> opcode extension provided by eBPF)
+>>> and access shared data structures such as BPF maps.
 >>
- >> .in +4n
->> .nf
->> enum bpf_map_type {
->>      BPF_MAP_TYPE_UNSPEC,
->>      BPF_MAP_TYPE_HASH,
->>      BPF_MAP_TYPE_ARRAY,
->=20
-> in the net-next tree we have BPF_MAP_TYPE_PROG_ARRAY as well.
+>> I would perhaps emphasize that maps can be shared among in-kernel
+>> eBPF programs, but also between kernel and user space.
+>
+> This is covered later in the page, under the "BPF maps" subheading.
+> Maybe you missed that? (Or did you think it doesn't suffice?)
 
-Okay. I see that that has hit 4.2, and we'll need to have some document=
-ation.
-I've added a FIXME placeholder.
+Okay, I presume you mean:
 
->> .\" FIXME Explain the purpose of BPF_MAP_TYPE_UNSPEC
->=20
-> only to reserve zero as invalid type. both for programs and maps.
+   Maps are a generic data structure for storage of different types
+   and sharing data between the kernel and user-space programs.
 
-Okay. Thanks.
+Maybe, to emphasize both options a bit (not sure if it's better in
+my words, though):
 
->> .\" FIXME We need an explanation of BPF_MAP_TYPE_HASH here
->> .\" FIXME We need an explanation of BPF_MAP_TYPE_ARRAY here
->> .\" FIXME We need an explanation of why one might choose HASH versus=
- ARRAY
->=20
-> type implies underlying implementation.
-> commit 0f8e4bd8a1fc8c4 describes hash map.
-> commit 28fbcfa08d8ed7c describes array map.
-> Briefly:
-> hash - hashtable where map_update_elem() replaces elements in atomic=20
-> way. Elements allocated on the fly.
-> array - all elements pre-allocated, zero initialized and cannot be
-> delete. Fastest possible lookup (just like arrays in C)
+   Maps are a generic data structure for storage of different types
+   and allow for sharing data among eBPF kernel programs, but also
+   between kernel and user-space applications.
 
-Okay -- I have tried to extract suitable text from the commit messages.
-I'll send that in the next version for review.
-
->> .\" FIXME Here, I think we need some statement about what 'value' mu=
-st
->> .\"       point to. Presumable, it must be a buffer at least as larg=
-e as
->> .\"       the map's 'value_size' attribute?
->=20
-> yes. that's correct. Though buffer > value_size doesn't make sense.
-
-Thanks. I added that info to the page.
-
->> bpf_get_next_key(int fd, void *key, void *next_key)
->> {
->>      union bpf_attr attr =3D {
->>          .map_fd =3D fd,
->>          .key =3D ptr_to_u64(key),
->>          .next_key =3D ptr_to_u64(next_key),
->>      };
+>>> The programs can be written in a restricted C that is compiled into
+>>> .\" FIXME In the next line, what is "a restricted C"? Where does
+>>> .\"       one get further information about it?
 >>
->>      return bpf(BPF_MAP_GET_NEXT_KEY, &attr, sizeof(attr));
->> }
->> .fi
->> .in
+>> So far only from the kernel samples directory and for tc classifier
+>> and action, from the tc man page and/or examples/bpf/ in the tc git
+>> tree.
+>
+> So, given that we are several weeks down the track, and things may have
+> changed, I'll re-ask the questions ;-) :
+>
+> * Is this restricted C documented anywhere?
+
+Not (yet) that I'm aware of. We were thinking that short-mid term
+to polish the stuff that resides in the kernel documentation, that
+is, Documentation/networking/filter.txt, to get it in a better
+shape, which I presume, would also include a documentation on the
+restricted C. So far, examples are provided in the tc-bpf man page
+(see link below).
+
+The set of available helper functions callable from eBPF resides
+under (enum bpf_func_id):
+
+   https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/bpf.h
+
+> * Is the procedure for compiling this restricted C documented anywhere?
+>    (Yes, it's LLVM, but are the suitable pipelines/options documented
+>    somewhere?)
+>
+>>> eBPF bytecode and executed on the in-kernel virtual machine or
+>>> just-in-time compiled into native code.
+>>> .SS Extended BPF Design/Architecture
+>>> .P
+>>> .\" FIXME In the following line, what does "different data types" mean?
+>>> .\"       Are the values in a map not just blobs?
 >>
->> .\" FIXME Need to explain the return value on success here.
->=20
-> hmm, you mean something like:
-> 'If key is found, returns zero and sets next_key to the next element'=
-?
-
-So:
-
-[[
-If
-=2EI key
-is found, the operation returns zero and sets the=20
-=2EI next_key
-pointer to the key of the next element.
-]]
-
-right?
-
->> When the user-space program that created a map exits, all maps will
->> be deleted automatically.
->> .\" FIXME What are the semantics when a file descriptor is duplicate=
-d
->> .\"       (dup() etc.)? (I.e., when is a map deallocated automatical=
-ly?)
->=20
-> just like other pseudo files. The kernel side will be freed
-> when refcnt reaches zero, so dup or scm_rights passing will
-> keep map/program alive.
-
-Thanks. As noted elsewhere, I added some text to cover this.
-
->> enum bpf_prog_type {
->>      BPF_PROG_TYPE_UNSPEC,
->> .\" FIXME Explain the purpose of BPF_PROG_TYPE_UNSPEC
->>      BPF_PROG_TYPE_SOCKET_FILTER,
->>      BPF_PROG_TYPE_SCHED_CLS,
->> .\" FIXME BPF_PROG_TYPE_SCHED_CLS appears not to exist?
->=20
-> The current list is:
-> enum bpf_prog_type {
->          BPF_PROG_TYPE_UNSPEC,
->          BPF_PROG_TYPE_SOCKET_FILTER,
->          BPF_PROG_TYPE_KPROBE,
->          BPF_PROG_TYPE_SCHED_CLS,
->          BPF_PROG_TYPE_SCHED_ACT,
-> };
-
-Thanks. Obviously some new stuff there to be documented. I've
-added some FIXME placeholders.
-
->> .\" FIXME The next sentence fragment is incomplete
->> and
->> .I bpf_context
->> is a pointer to a
->> .IR "struct sk_buff" .
->> Programs cannot access fields of
->> .I sk_buff
->> directly.
->=20
-> Actually now in case of SOCKET_FILTER, SCHED_CLS, SCHED_ACT
-> the program can now access skb fields.
-> See 'struct __sk_buff' and commit 9bac3d6d548e5
-
-Okay. For the moment I've added a FIXME placeholder for this.
-
->> More program types may be added in the future.
->> .\" FIXME The following sentence is grammatically broken.
->> .\"       What should it say?
->> Like
->> .B BPF_PROG_TYPE_KPROBE
->> and
->> .I bpf_context
->> for it may be defined as a pointer to a
->> .IR "struct pt_regs" .
->=20
-> Sorry. I meant to say that 'struct bpf_context * =3D=3D struct pt_reg=
-s *'
-> in case of TYPE_KPROBE.
-
-Okay. I see now that we have more program types in 4.1.
-I've added some FIXME placeholders to remind us to document them.
-
->> is a license string, which must be GPL compatible to call helper fun=
-ctions
->> .\" FIXME Maybe we should list the GPL compatible strings that can b=
-e
->> .\"       specified?
->=20
-> probably not. At least I wouldn't.
+>> Sort of, currently, these blobs can have different sizes of keys
+>> and values (you can even have structs as keys). For the map itself
+>> they are treated as blob internally. However, recently, bpf tail call
+>> got added where you can lookup another program from an array map and
+>> call into it. Here, that particular type of map can only have entries
+>> of type of eBPF program fd. I think, if needed, adding a paragraph to
+>> the tail call could be done as follow-up after we have an initial man
+>> page in the tree included.
+>
+> Okay -- I've added a FIXME placeholder for this, so we can revisit.
 
 Okay.
 
->> Maps are accessible from BPF programs and are used to exchange data =
-between
->> BPF programs and between BPF programs and user-space programs.
->> Programs process various events (like kprobe, packets) and
->> store their data into maps.
->> User-space programs fetch data from the maps.
->> .\" FIXME We need some elaboration here... What does the next senten=
-ce mean?
->> Either the same or a different map may be used by user space
->> as a configuration space to alter program behavior on the fly.
->=20
-> Sorry. I tried to emphasize that user space can use maps as a way to
-> pass information to the program.
-> For example, typical tracing program aggregates information
-> about kprobe events into a map, then user space reads it.
-> The information can go the other way too.
-> User space can populate a map with some data and depending
-> on that data, the program will do different things.
-
-Thanks for the clarification. I did some rewording here.
-
->> .SH EXAMPLES
->> .\" FIXME It would be nice if this was a complete working example
->=20
-> open_raw_sock() takes too many lines not related to bpf.
-> The examples in samples/bpf/*_kern.c are all functional :)
-> May be a reference will work instead?
-
-Thanks. I added a reference under EXAMPLES
-
->>          BPF_MOV64_IMM(BPF_REG_1, 1),                /* r1 =3D 1 */
->>          BPF_XADD(BPF_DW, BPF_REG_0, BPF_REG_1, 0, 0),
->> .\" FIXME What does 'lock' in the line below mean?
->>                                  /* lock *(u64 *) r0 +=3D r1 */
->=20
-> it means that it's 'lock xadd' equivalent.
-
-Sorry -- you've assumed I'm cleverer than I am... :-}
-I'm not wiser after that comment. What is 'lock xadd'?
-
->>          BPF_MOV64_IMM(BPF_REG_0, 0),                /* r0 =3D 0 */
->>          BPF_EXIT_INSN(),                            /* return r0 */
->>      };
+>>> BPF maps are a generic data structure for storage of different data types.
+>>> A user process can create multiple maps (with key/value-pairs being
+>>> opaque bytes of data) and access them via file descriptors.
+>>> BPF programs can access maps from inside the kernel in parallel.
+>>> It's up to the user process and BPF program to decide what they store
+>>> inside maps.
+>>> .P
+>>> BPF programs are similar to kernel modules.
+>>> They are loaded by the user
+>>> process and automatically unloaded when the process exits.
 >>
->>      prog_fd =3D bpf_prog_load(BPF_PROG_TYPE_SOCKET_FILTER, prog,
->> .\" FIXME The next line looks wrong. Should it not be
->> .\"
->> .\"           sizeof(prog) / sizeof(struct bpf_insn) ?
->>                              sizeof(prog), "GPL");
->=20
-> sizeof(prog) is correct for this particular sample code.
-> btw, this full example is in samples/bpf/sock_example.c
+>> Generally that's true. Btw, in 4.1 kernel, tc(8) also got support for
+>> eBPF classifier and actions, and here it's slightly different: in tc,
+>> we load the programs, maps etc, and push down the eBPF program fd in
+>> order to let the kernel hold reference on the program itself.
+>>
+>> Thus, there, the program fd that the application owns is gone when the
+>> application terminates, but the eBPF program itself still lives on
+>> inside the kernel. But perhaps it's already too much detail to mention
+>> here ...
+>
+> Well, it should be documented somewhere....
 
-Okay. Thanks.
+Yep, fwiw some time ago I've hacked together a man page for tc:
 
-If you might have a chance to look at my questions above and
-let me know your thoughts, then I could further edit the page
-before sending out the next draft.
+https://git.kernel.org/cgit/linux/kernel/git/shemminger/iproute2.git/commit/?id=cbdd1e6921d21815e35d2a96526cfbad5ac98e09
 
-Cheers,
+>>> Each BPF program is a set of instructions that is safe to run until
+>>> its completion.
+>>> The in-kernel BPF verifier statically determines that the program
+>>> terminates and is safe to execute.
+>>> .\" FIXME In the following sentence, what does "takes hold" mean?
+>>
+>> Takes a reference. Meaning, that maps cannot disappear under us while
+>> the eBPF program that is using them in the kernel is still alive.
+>
+> So, I changed this to:
+>
+> [[
+> During verification, the kernel increments reference counts for each of
+> the maps that the eBPF program uses,
+> so that the selected maps cannot be removed until the program is unloaded.
+> ]]
+>
+> Okay?
 
-Michael
+Okay.
 
+[...]
+> I'll send out a new draft soon, but in the meantime hopefully you
+> or Alexei might have a chance to answer some open questions (see my
+> other mail to Alexei, which will be sent soon), so I can further edit
+> the page before sending it out.
 
+Later on, we should also add a paragraph on eBPF tail calls, but one
+step at a time.
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks again,
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
