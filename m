@@ -1,69 +1,61 @@
-From: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Subject: Re: Draft 3 of bpf(2) man page for review
-Date: Wed, 22 Jul 2015 15:12:05 -0700
-Message-ID: <55B01535.4080809@plumgrid.com>
-References: <55AFE46F.3090800@gmail.com> <55AFED75.2030208@plumgrid.com>
- <55AFF8BF.3050204@gmail.com>
+From: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [patch] mmap.2: document the munmap exception for underlying
+ page size
+Date: Wed, 22 Jul 2015 16:31:31 -0700
+Message-ID: <55B027D3.4020608@oracle.com>
+References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55AFF8BF.3050204-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1507211736300.24133-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 7/22/15 1:10 PM, Michael Kerrisk (man-pages) wrote:
->         BPF  maps  are  a generic data structure for storage of diffe=
-rent
->         data types.  A  user  process  can  create  multiple  maps  (=
-with
->         key/value-pairs  being  opaque bytes of data) and access them=
- via
->         file descriptors.  Differnt eBPF programs  can  access  the  =
-same
->         maps  in  parallel.  It's up to the user process and eBPF pro=
-gram
->         to decide what they store inside maps.
+On 07/21/2015 05:41 PM, David Rientjes wrote:
+> munmap(2) will fail with an errno of EINVAL for hugetlb memory if the
+> length is not a multiple of the underlying page size.
+>
+> Documentation/vm/hugetlbpage.txt was updated to specify this behavior
+> since Linux 4.1 in commit 80d6b94bd69a ("mm, doc: cleanup and clarify
+> munmap behavior for hugetlb memory").
+>
+> Signed-off-by: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> ---
+>   man2/mmap.2 | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/man2/mmap.2 b/man2/mmap.2
+> --- a/man2/mmap.2
+> +++ b/man2/mmap.2
+> @@ -383,6 +383,10 @@ All pages containing a part
+>   of the indicated range are unmapped, and subsequent references
+>   to these pages will generate
+>   .BR SIGSEGV .
+> +An exception is when the underlying memory is not of the native page
+> +size, such as hugetlb page sizes, whereas
+> +.I length
+> +must be a multiple of the underlying page size.
+>   It is not an error if the
+>   indicated range does not contain any mapped pages.
+>   .SS Timestamps changes for file-backed mappings
+>
+> --
 
-typo in 'Different'
+Should we also add a similar comment for the mmap offset?  Currently
+the man page says:
 
->     eBPF program types
->         By picking prog_type, the program author selects a set of  he=
-lper
->         functions that can be called from the eBPF program and the co=
-rre=E2=80=90
->         sponding format of struct bpf_context (which  is  the  data  =
-blob
->         passed  into  the eBPF program as the first argument).  For e=
-xam=E2=80=90
->         ple,     programs     loaded     with     a     prog_type    =
-  of
->         BPF_PROG_TYPE_SOCKET_FILTER  may  call  the bpf_map_lookup_el=
-em()
->         helper, whereas some other program  types  may  not  be  able=
-  to
->         employ  this helper.  The set of functions available to eBPF =
-pro=E2=80=90
->         grams of a given type may increase in the future.
+"offset must be a multiple of the page size as returned by
+  sysconf(_SC_PAGE_SIZE)."
 
-overall it's all correct, but today bpf_map_lookup_elem() is allowed
-for all program types. May be change that to:
-"BPF_PROG_TYPE_KPROBE may call the bpf_probe_read() helper"
-since only type_kprobe programs can call it.
-type_sockets/type_sched_* cannot.
+For hugetlbfs, I beieve the offset must be a multiple of the
+hugetlb page size.  A similar comment/exception about using
+the "underlying page size" would apply here as well.
 
->                The bpf_context argument is a pointer to a struct sk_b=
-uff.
->                Programs cannot access the fields of sk_buff directly.
-
-Probably drop last sentence and replace 'sk_buff' with '__sk_buff'
-in the first? Or for the first version we can drop both sentences.
-
-The rest looks great. Thank you much!
-
+-- 
+Mike Kravetz
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
