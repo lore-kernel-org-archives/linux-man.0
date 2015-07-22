@@ -1,87 +1,70 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH v2] dlopen.3: ATTRIBUTES: Note functions that are thread-safe
-Date: Wed, 22 Jul 2015 19:07:23 +0200
-Message-ID: <55AFCDCB.5090101@gmail.com>
-References: <1435138119-30051-1-git-send-email-zenglg.jy@cn.fujitsu.com>	 <55AC01D2.6050705@gmail.com> <1437563774.7073.2.camel@G08FNSTD140232>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] mmap.2: document the munmap exception for underlying
+ page size
+Date: Wed, 22 Jul 2015 19:16:57 +0200
+Message-ID: <55AFD009.6080706@gmail.com>
+References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1437563774.7073.2.camel@G08FNSTD140232>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+To: David Rientjes <rientjes@google.com>
+Cc: mtk.manpages@gmail.com, Hugh Dickins <hughd@google.com>, Davide Libenzi <davidel@xmailserver.org>, Eric B Munson <emunson@akamai.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/22/2015 01:16 PM, Zeng Linggang wrote:
-> After research, We think
-> * dlopen(),
-> * dlerror(),
-> * dlsym(),
-> * dlclose(),
-> * dladdr(),
-> * dlvsym(),
-> * dlinfo(),
-> * dlmopen(),
-> * dladdr1()
-> are thread-safe. But, there are not
-> markings of them in glibc document.
+Hi David,
 
-Thanks for the fast response, Zeng Linggang.
-I've incorporated the new pieces from your patch.
+On 07/22/2015 02:41 AM, David Rientjes wrote:
+> munmap(2) will fail with an errno of EINVAL for hugetlb memory if the 
+> length is not a multiple of the underlying page size.
+> 
+> Documentation/vm/hugetlbpage.txt was updated to specify this behavior 
+> since Linux 4.1 in commit 80d6b94bd69a ("mm, doc: cleanup and clarify 
+> munmap behavior for hugetlb memory").
+> 
+> Signed-off-by: David Rientjes <rientjes@google.com>
+> ---
+>  man2/mmap.2 | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/man2/mmap.2 b/man2/mmap.2
+> --- a/man2/mmap.2
+> +++ b/man2/mmap.2
+> @@ -383,6 +383,10 @@ All pages containing a part
+>  of the indicated range are unmapped, and subsequent references
+>  to these pages will generate
+>  .BR SIGSEGV .
+> +An exception is when the underlying memory is not of the native page
+> +size, such as hugetlb page sizes, whereas
+> +.I length
+> +must be a multiple of the underlying page size.
+>  It is not an error if the
+>  indicated range does not contain any mapped pages.
+>  .SS Timestamps changes for file-backed mappings
 
-Cheers,
+I'm struggling a bit to understand your text. Is the point this:
+
+    If we have a hugetlb area, then the munmap() length
+    must be a multiple of the page size.
+
+?
+
+Are there any requirements about 'addr'? Must it also me huge-page-aligned?
+
+Thanks,
 
 Michael
-
-
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-> ---
->  man3/dlopen.3 | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
-> diff --git a/man3/dlopen.3 b/man3/dlopen.3
-> index cb5dbf9..f8e8667 100644
-> --- a/man3/dlopen.3
-> +++ b/man3/dlopen.3
-> @@ -396,6 +396,29 @@ provided by glibc since version 2.1,
->  does the same as
->  .BR dlsym ()
->  but takes a version string as an additional argument.
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lbw30 lb lb
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR dlopen (),
-> +.BR dlerror (),
-> +.BR dlsym (),
-> +.br
-> +.BR dlclose (),
-> +.BR dladdr (),
-> +.BR dlvsym (),
-> +.br
-> +.BR dlinfo (),
-> +.BR dlmopen (),
-> +.BR dladdr1 ()
-> +T}	Thread safety	MT-Safe
-> +.TE
-> +
->  .SH CONFORMING TO
->  POSIX.1-2001 describes
->  .BR dlclose (),
-> 
 
 
 -- 
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
