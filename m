@@ -1,72 +1,70 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [patch] mmap.2: document the munmap exception for underlying
- page size
-Date: Wed, 22 Jul 2015 15:03:18 -0700 (PDT)
-Message-ID: <alpine.DEB.2.10.1507221457300.21468@chino.kir.corp.google.com>
-References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com> <55AFD009.6080706@gmail.com>
+From: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
+Subject: Re: Draft 3 of bpf(2) man page for review
+Date: Wed, 22 Jul 2015 15:12:05 -0700
+Message-ID: <55B01535.4080809@plumgrid.com>
+References: <55AFE46F.3090800@gmail.com> <55AFED75.2030208@plumgrid.com>
+ <55AFF8BF.3050204@gmail.com>
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <55AFD009.6080706@gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Hugh Dickins <hughd@google.com>, Davide Libenzi <davidel@xmailserver.org>, Eric B Munson <emunson@akamai.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=utf-8;
+	format=flowed
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <55AFF8BF.3050204-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, 22 Jul 2015, Michael Kerrisk (man-pages) wrote:
+On 7/22/15 1:10 PM, Michael Kerrisk (man-pages) wrote:
+>         BPF  maps  are  a generic data structure for storage of diffe=
+rent
+>         data types.  A  user  process  can  create  multiple  maps  (=
+with
+>         key/value-pairs  being  opaque bytes of data) and access them=
+ via
+>         file descriptors.  Differnt eBPF programs  can  access  the  =
+same
+>         maps  in  parallel.  It's up to the user process and eBPF pro=
+gram
+>         to decide what they store inside maps.
 
-> > diff --git a/man2/mmap.2 b/man2/mmap.2
-> > --- a/man2/mmap.2
-> > +++ b/man2/mmap.2
-> > @@ -383,6 +383,10 @@ All pages containing a part
-> >  of the indicated range are unmapped, and subsequent references
-> >  to these pages will generate
-> >  .BR SIGSEGV .
-> > +An exception is when the underlying memory is not of the native page
-> > +size, such as hugetlb page sizes, whereas
-> > +.I length
-> > +must be a multiple of the underlying page size.
-> >  It is not an error if the
-> >  indicated range does not contain any mapped pages.
-> >  .SS Timestamps changes for file-backed mappings
-> 
-> I'm struggling a bit to understand your text. Is the point this:
-> 
->     If we have a hugetlb area, then the munmap() length
->     must be a multiple of the page size.
-> 
-> ?
-> 
+typo in 'Different'
 
-Of the hugetlb page size, yes, which was meant by the "underlying page 
-size" since we have configurable hugetlb sizes.  This is different from 
-the native page size, whereas the length is rounded up to be page aligned 
-per POSIX.
+>     eBPF program types
+>         By picking prog_type, the program author selects a set of  he=
+lper
+>         functions that can be called from the eBPF program and the co=
+rre=E2=80=90
+>         sponding format of struct bpf_context (which  is  the  data  =
+blob
+>         passed  into  the eBPF program as the first argument).  For e=
+xam=E2=80=90
+>         ple,     programs     loaded     with     a     prog_type    =
+  of
+>         BPF_PROG_TYPE_SOCKET_FILTER  may  call  the bpf_map_lookup_el=
+em()
+>         helper, whereas some other program  types  may  not  be  able=
+  to
+>         employ  this helper.  The set of functions available to eBPF =
+pro=E2=80=90
+>         grams of a given type may increase in the future.
 
-> Are there any requirements about 'addr'? Must it also me huge-page-aligned?
-> 
+overall it's all correct, but today bpf_map_lookup_elem() is allowed
+for all program types. May be change that to:
+"BPF_PROG_TYPE_KPROBE may call the bpf_probe_read() helper"
+since only type_kprobe programs can call it.
+type_sockets/type_sched_* cannot.
 
-Yes, so it looks like we need to fix up the reference to "address addr 
-must be a multiple of the page size" to something like "address addr must 
-be a multiple of the underlying page size" but I think the distinction 
-isn't explicit enough as I'd like it.  I think it's better to explicitly 
-show the exception for hugetlb page sizes and compare the underlying page 
-size to the native page size to define how the behavior differs.
+>                The bpf_context argument is a pointer to a struct sk_b=
+uff.
+>                Programs cannot access the fields of sk_buff directly.
 
-Would something like
+Probably drop last sentence and replace 'sk_buff' with '__sk_buff'
+in the first? Or for the first version we can drop both sentences.
 
-	An exception is when the underlying memory, such as hugetlb 
-	memory, is not of the native page size: the address addr and
-	the length must be a multiple of the underlying page size.
-
-suffice?
-
-Also, is it typical to reference the commit of the documentation change 
-in the kernel source that defines this?  I see this done with .\" blocks 
-for MAP_STACK in the same man page.
+The rest looks great. Thank you much!
 
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
