@@ -1,59 +1,79 @@
-From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 01/11] perf_event_open.2: 4.1 PERF_SAMPLE_BRANCH_CALL_STACK
-Date: Thu, 23 Jul 2015 13:08:16 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1507231307280.3742@vincent-weaver-1.umelst.maine.edu>
+From: Vince Weaver <vincent.weaver@maine.edu>
+Subject: [patch 09/11] perf_event_open.2: 4.1 add PERF_RECORD_ITRACE_START
+Date: Thu, 23 Jul 2015 13:15:18 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1507231314400.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Stephane Eranian <eranian@google.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Frederic Weisbecker <fweisbec@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>, Kaixu Xia <kaixu.xia@linaro.org>, Linus Torvalds <torvalds@linux-foundation.org>, Mike Galbraith <efault@gmx.de>, Robert Richter <rric@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, adrian.hunter@intel.com, kan.liang@intel.com, markus.t.metzger@intel.com, mathieu.poirier@linaro.org, Vince Weaver <vincent.weaver@maine.edu>
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the
-PERF_SAMPLE_BRANCH_CALL_STACK functionaliry added in the
-following commit:
 
-	commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70
-	Author: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+This manpage patch relates to the addition of the PERF_RECORD_ITRACE_START
+record type in the following commit:
 
-	perf/x86/intel: Expose LBR callstack to user space tooling
-    
-	With LBR call stack feature enable, there are three callchain options.
-	Enable the 3rd callchain option (LBR callstack) to user space tooling.
-    
-	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-	Cc: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-	Cc: Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-	Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-	Cc: Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-	Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-	Cc: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-	Cc: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-	Cc: linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-	Link: http://lkml.kernel.org/r/20141105093759.GQ10501-IIpfhp3q70z/8w/KjCw3T+5/BudmfyzbbVWyRVo5IupeoWH0uzbU5w@public.gmane.org
-	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+	commit ec0d7729bbaed4b9d2d3fada693278e13a3d1368
+	Author: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 
-Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+	perf: Add ITRACE_START record to indicate that tracing has started
+
+	Signed-off-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+	Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+	Cc: Borislav Petkov <bp@alien8.de>
+	Cc: Frederic Weisbecker <fweisbec@gmail.com>
+	Cc: H. Peter Anvin <hpa@zytor.com>
+	Cc: Kaixu Xia <kaixu.xia@linaro.org>
+	Cc: Linus Torvalds <torvalds@linux-foundation.org>
+	Cc: Mike Galbraith <efault@gmx.de>
+	Cc: Paul Mackerras <paulus@samba.org>
+	Cc: Robert Richter <rric@kernel.org>
+	Cc: Stephane Eranian <eranian@google.com>
+	Cc: Thomas Gleixner <tglx@linutronix.de>
+	Cc: acme@infradead.org
+	Cc: adrian.hunter@intel.com
+	Cc: kan.liang@intel.com
+	Cc: markus.t.metzger@intel.com
+	Cc: mathieu.poirier@linaro.org
+	Link: http://lkml.kernel.org/r/1421237903-181015-15-git-send-email-alexander.shishkin@linux.intel.com
+	Signed-off-by: Ingo Molnar <mingo@kernel.org>
+
+
+Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 856ec64..71bfb17 100644
+index 19c5c23..8ef9ec6 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -1240,6 +1240,11 @@ Branch in transactional memory transaction.
- .BR PERF_SAMPLE_BRANCH_NO_TX " (since Linux 3.11)"
- .\" commit 135c5612c460f89657c4698fe2ea753f6f667963
- Branch not in transactional memory transaction.
-+.BR PERF_SAMPLE_BRANCH_CALL_STACK " (since Linux 4.1)"
-+.\" commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70
-+Branch is part of a hardware generated call stack.
-+This requires hardware support, currently only found
-+on Intel x86 Haswell or newer.
+@@ -2505,6 +2505,29 @@ buffer size.
+ if set then the data returned has overwritten previous data.
  .RE
- 
- .TP
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+ .RE
++.TP
++.BR PERF_RECORD_ITRACE_START " (since Linux 4.1)"
++\" ec0d7729bbaed4b9d2d3fada693278e13a3d1368
++This record indicates which process has initiated an instruction
++trace event, allowing tools to properly correlate the instruction
++addresses in the AUX buffer with the proper executable.
++
++.in +4n
++.nf
++struct {
++    struct perf_event_header header;
++    u32 pid;
++    u32 tid;
++};
++.fi
++.RS
++.TP
++.I pid
++process id of the thread starting an instruction trace.
++.TP
++.I tid
++thread id of the thread starting an instruction trace.
++.RE
+ .RE
+ .SS Overflow handling
+ Events can be set to notify when a threshold is crossed,
