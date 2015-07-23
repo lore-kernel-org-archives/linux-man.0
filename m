@@ -1,97 +1,63 @@
 From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Subject: [patch 10/11] perf_event_open.2: 4.0 update rdpmc documentation
-Date: Thu, 23 Jul 2015 13:16:01 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1507231315230.3742@vincent-weaver-1.umelst.maine.edu>
+Subject: [patch 11/11] perf_event_open.2: add possibility of EBUSY error
+Date: Thu, 23 Jul 2015 13:16:55 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1507231316050.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "hillf.zj" <hillf.zj-gPhfCIXyaqCqndwCJWfcng@public.gmane.org>, Valdis Kletnieks <Valdis.Kletnieks-PjAqaU27lzQ@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Kaixu Xia <kaixu.xia-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Robert Richter <rric-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org, Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-The rdpmc instruction allows reading performance counters directly
-from usersapce.  Prior to Linux 4.0 any process could use this
-instruction when a perf event was running, even if the process itself
-did not have any open.  The following changesets changed the default
-behavior so that only processes with active events can use rdpmc.
+Linux 4.1 added the possibility of perf_event_open() returning
+EBUSY if an existing exclusive event controls the PMU.
 
-Note this change broke the ABI.  Previously:
-	/sys/bus/event_source/devices/cpu/rdpmc
-Set to "1" meant allow across whole system.
+This was introduced by the following commit:
 
-After the change "2" means the whole system, and "1" means per-process.
+	commit bed5b25ad9c8a2f5d735ef0bc746ec870c01c1b0
+	Author: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+	Date:   Fri Jan 30 12:31:06 2015 +0200
 
-Probably a better change would have been to add "2" to mean per-process
-and make that the default setting.  Probably too late to fix that now.
+	perf: Add a pmu capability for "exclusive" events
 
-	commit a66734297f78707ce39d756b656bfae861d53f62
-	Author: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-
-	perf/x86: Add /sys/devices/cpu/rdpmc=2 to allow rdpmc for all tasks
-
-	commit 7911d3f7af14a614617e38245fedf98a724e46a9
-	Author: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
-
-	perf/x86: Only allow rdpmc if a perf_event is mapped
-
-	Signed-off-by: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>
+	Signed-off-by: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-	Cc: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
-	Cc: Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-	Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>
-	Cc: Andrea Arcangeli <aarcange-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-	Cc: Vince Weaver <vince-yfjdyHUqu3OsTnJN9+BGXg@public.gmane.org>
-	Cc: "hillf.zj" <hillf.zj-gPhfCIXyaqCqndwCJWfcng@public.gmane.org>
-	Cc: Valdis Kletnieks <Valdis.Kletnieks-PjAqaU27lzQ@public.gmane.org>
+	Cc: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>
+	Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+	Cc: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+	Cc: Kaixu Xia <kaixu.xia-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
 	Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
-	Link: http://lkml.kernel.org/r/caac3c1c707dcca48ecbc35f4def21495856f479.1414190806.git.luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org
-	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+	Cc: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+	Cc: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
+	Cc: Robert Richter <rric-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+	Cc: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+	Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+	Cc: acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
+	Cc: adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+	Cc: kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+	Cc: markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+	Cc: mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
 
 Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index 8ef9ec6..b3cd93f 100644
+index b3cd93f..3d03786 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -2595,6 +2595,16 @@ Support for this can be detected with the
- .I cap_usr_rdpmc
- field in the mmap page; documentation on how
- to calculate event values can be found in that section.
-+
-+Originally, when rdpmc support was enabled, any process (not just ones
-+with an active perf event) could use the rdpmc instruction to access
-+the counters.
-+Starting with Linux 4.0
-+.\" 7911d3f7af14a614617e38245fedf98a724e46a9
-+rdpmc support is only allowed if an event is currently enabled
-+in a process' context.
-+To restore the old behavior, write the value 2 to
-+.IR /sys/devices/cpu/rdpmc .
- .SS perf_event ioctl calls
- .PP
- Various ioctls act on
-@@ -2783,11 +2793,18 @@ field of
- .I perf_event_attr
- to indicate that you wish to use this PMU.
+@@ -2911,6 +2911,11 @@ the cgroup file descriptor in
+ .I pid
+ is not valid.
  .TP
--.IR /sys/bus/event_source/devices/*/rdpmc " (since Linux 3.4)"
-+.IR /sys/bus/event_source/devices/cpu/rdpmc " (since Linux 3.4)"
- .\" commit 0c9d42ed4cee2aa1dfc3a260b741baae8615744f
- If this file is 1, then direct user-space access to the
- performance counter registers is allowed via the rdpmc instruction.
- This can be disabled by echoing 0 to the file.
-+
-+As of Linux 4.0
-+.\" a66734297f78707ce39d756b656bfae861d53f62
-+.\" 7911d3f7af14a614617e38245fedf98a724e46a9
-+the behavior has changed, so that 1 now means only allow access
-+to processes with active perf events, with 2 indicating the old
-+allow-anyone-access behavior.
- .TP
- .IR /sys/bus/event_source/devices/*/format/ " (since Linux 3.4)"
- .\" commit 641cc938815dfd09f8fa1ec72deb814f0938ac33
++.BR EBUSY " (since Linux 4.1)"
++.\" bed5b25ad9c8a2f5d735ef0bc746ec870c01c1b0
++Returned if another event already has exclusive
++access to the PMU.
++.TP
+ .B EFAULT
+ Returned if the
+ .I attr
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
