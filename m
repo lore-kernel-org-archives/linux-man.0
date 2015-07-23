@@ -1,65 +1,100 @@
-From: Vince Weaver <vincent.weaver@maine.edu>
-Subject: [patch 03/11] perf_event_open.2: 4.1 PERF_EVENT_IOC_SET_BPF
- support
-Date: Thu, 23 Jul 2015 13:10:21 -0400 (EDT)
-Message-ID: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
+From: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Subject: [patch 02/11] perf_event_open.2: 4.1 clockid support
+Date: Thu, 23 Jul 2015 13:09:26 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1507231308281.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Return-path: <linux-kernel-owner@vger.kernel.org>
-Sender: linux-kernel-owner@vger.kernel.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Stephane Eranian <eranian@google.com>, Alexei Starovoitov <ast@plumgrid.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>, Andrew Morton <akpm@linux-foundation.org>, Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, Jiri Olsa <jolsa@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Namhyung Kim <namhyung@kernel.org>, Vince Weaver <vincent.weaver@maine.edu>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, David Ahern <dsahern-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Vince Weaver <vincent.weaver-bvMMpHTKXwo3uPMLIKxrzw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
 
-This manpage patch relates to the addition of the
-PERF_EVENT_IOC_SET_BPF ioctl in the following commit:
+This manpage patch relates to the addition of the clockid
+functionaliry added in the following commit:
 
-	commit 2541517c32be2531e0da59dfd7efc1ce844644f5
-	Author: Alexei Starovoitov <ast@plumgrid.com>
-    
-	tracing, perf: Implement BPF programs attached to kprobes
+	commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
+	Author: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
 
-	Signed-off-by: Alexei Starovoitov <ast@plumgrid.com>
-	Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-	Reviewed-by: Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>
-	Cc: Andrew Morton <akpm@linux-foundation.org>
-	Cc: Arnaldo Carvalho de Melo <acme@infradead.org>
-	Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
-	Cc: Daniel Borkmann <daniel@iogearbox.net>
-	Cc: David S. Miller <davem@davemloft.net>
-	Cc: Jiri Olsa <jolsa@redhat.com>
-	Cc: Linus Torvalds <torvalds@linux-foundation.org>
-	Cc: Namhyung Kim <namhyung@kernel.org>
-	Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
-	Cc: Peter Zijlstra <peterz@infradead.org>
-	Link: http://lkml.kernel.org/r/1427312966-8434-4-git-send-email-ast@plumgrid.com
-	Signed-off-by: Ingo Molnar <mingo@kernel.org>
+	perf: Add per event clockid support
+
+	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+	Cc: Andrew Morton <akpm-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+	Cc: Arnaldo Carvalho de Melo <acme-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+	Cc: David Ahern <dsahern-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+	Cc: Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+	Cc: John Stultz <john.stultz-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+	Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+	Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+	Cc: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+	Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 
 
-Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 
 diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-index a6b90ec..09eda9a 100644
+index 71bfb17..a6b90ec 100644
 --- a/man2/perf_event_open.2
 +++ b/man2/perf_event_open.2
-@@ -2570,6 +2570,19 @@ This returns the event ID value for the given event file descriptor.
- 
- The argument is a pointer to a 64-bit unsigned integer
- to hold the result.
-+.TP
-+.BR PERF_EVENT_IOC_SET_BPF " (since Linux 4.1)"
-+.\" commit 2541517c32be2531e0da59dfd7efc1ce844644f5
-+This allows attaching a Berkeley Packet Filter (BPF)
-+program to an existing kprobe tracepoint event.
-+You need
-+.B CAP_SYS_ADMIN
-+privileges to use this ioctl.
+@@ -233,7 +233,9 @@ struct perf_event_attr {
+                                 /* exclude user callchains */
+           mmap2          :  1,  /* include mmap with inode data */
+           comm_exec      :  1,  /* flag comm events that are due to exec */
+-          __reserved_1   : 39;
++          use_clockid    :  1,  /* use clockid for time fields */
 +
-+The argument is a BPF program file descriptor that was created by
-+a previous
-+.BR bpf (2)
-+system call.
- .SS Using prctl
- A process can enable or disable all the event groups that are
- attached to it using the
++          __reserved_1   : 38;
+ 
+     union {
+         __u32 wakeup_events;    /* wakeup every n events */
+@@ -255,7 +257,7 @@ struct perf_event_attr {
+     __u64 sample_regs_user;     /* user regs to dump on samples */
+     __u32 sample_stack_user;    /* size of stack to dump on
+                                    samples */
+-    __u32 __reserved_2;         /* Align to u64 */
++    __s32 clockid;              /* clock to use for time fields */
+     __u64 sample_regs_intr;     /* regs to dump on samples */
+ };
+ .fi
+@@ -1086,6 +1088,15 @@ reported was caused by a call to
+ This allows tools to distinguish between the various
+ types of process renaming.
+ .TP
++.IR "use_clockid" " (since Linux 4.1)"
++.\" commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
++This allows selecting which internal Linux clock to use
++when generating timestamps via the
++.I clockid
++field.
++This can make it easier to correlate perf sample times with
++timestamps generated by other tools.
++.TP
+ .IR "wakeup_events" ", " "wakeup_watermark"
+ This union sets how many samples
+ .RI ( wakeup_events )
+@@ -1260,6 +1271,19 @@ described in the kernel header
+ This defines the size of the user stack to dump if
+ .B PERF_SAMPLE_STACK_USER
+ is specified.
++.TP
++.IR "clockid" " (since Linux 4.1)"
++.\" commit 34f439278cef7b1177f8ce24f9fc81dfc6221d3b
++If
++.I use_clockid
++is set, then this field selects which internal Linux timer to
++use for timestamps.
++The available timers are defined in
++.IR linux/time.h ,
++with
++.BR CLOCK_MONOTONIC , CLOCK_MONOTONIC_RAW , CLOCK_REALTIME ,
++.BR CLOCK_BOOTTIME ", and " CLOCK_TAI
++currently supported.
+ .SS Reading results
+ Once a
+ .BR perf_event_open ()
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
