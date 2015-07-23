@@ -1,295 +1,89 @@
-From: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
-Subject: Re: Draft 3 of bpf(2) man page for review
-Date: Thu, 23 Jul 2015 14:47:14 +0200
-Message-ID: <55B0E252.2010207@iogearbox.net>
-References: <55AFE46F.3090800@gmail.com> <55AFED75.2030208@plumgrid.com> <55AFF8BF.3050204@gmail.com> <55B0B461.1020201@iogearbox.net> <55B0CECA.2010105@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] mmap.2: document the munmap exception for underlying
+ page size
+Date: Thu, 23 Jul 2015 15:05:20 +0200
+Message-ID: <55B0E690.3040601@gmail.com>
+References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com> <55AFD009.6080706@gmail.com> <alpine.DEB.2.10.1507221457300.21468@chino.kir.corp.google.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8;
-	format=flowed
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55B0CECA.2010105-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <owner-linux-mm@kvack.org>
+In-Reply-To: <alpine.DEB.2.10.1507221457300.21468@chino.kir.corp.google.com>
+Sender: owner-linux-mm@kvack.org
+To: David Rientjes <rientjes@google.com>
+Cc: mtk.manpages@gmail.com, Hugh Dickins <hughd@google.com>, Davide Libenzi <davidel@xmailserver.org>, Eric B Munson <emunson@akamai.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/23/2015 01:23 PM, Michael Kerrisk (man-pages) wrote:
-=2E..
->> Btw, a user obviously can close() the map fds if he
->> wants to, but ultimatively they're freed when the program unloads.
->
-> Okay. (Not sure if you meant that something should be added to the pa=
-ge.)
-
-I think not necessary.
-
-[...]
->>>                 The attributes key_size and value_size will be used=
- by the
+On 07/23/2015 12:03 AM, David Rientjes wrote:
+> On Wed, 22 Jul 2015, Michael Kerrisk (man-pages) wrote:
+> 
+>>> diff --git a/man2/mmap.2 b/man2/mmap.2
+>>> --- a/man2/mmap.2
+>>> +++ b/man2/mmap.2
+>>> @@ -383,6 +383,10 @@ All pages containing a part
+>>>  of the indicated range are unmapped, and subsequent references
+>>>  to these pages will generate
+>>>  .BR SIGSEGV .
+>>> +An exception is when the underlying memory is not of the native page
+>>> +size, such as hugetlb page sizes, whereas
+>>> +.I length
+>>> +must be a multiple of the underlying page size.
+>>>  It is not an error if the
+>>>  indicated range does not contain any mapped pages.
+>>>  .SS Timestamps changes for file-backed mappings
 >>
->> attribute's?
->
-> Nope. But I changed this to "The key_size and value_size attributes w=
-ill be",
-> which may read clearer.
-
-Sorry, true, I was a bit confused. :)
-
-[...]
->> The type __u64 is kernel internal, so if there's no strict reason to=
- use it,
->> we should just use what's provided by stdint.h.
->
-> Agreed. Done. (By the way, what about all the __u32 and __u64 element=
-s in the
-> bpf_attr union?)
-
-I wouldn't change the bpf_attr from the uapi.
-
-Just the provided example code here, I presume people might copy from h=
-ere when
-they build their own library and in userspace uint64_t seems to be more=
- natural.
-
-[...]
->>>                 *  map_update_elem()  replaces  elements  in an non=
--atomic
->>>                    fashion; for atomic updates, a hash-table map sh=
-ould be
->>>                    used instead.
+>> I'm struggling a bit to understand your text. Is the point this:
 >>
->> This point here is most important, i.e. to not have false user expec=
-ations.
->> Maybe it's also worth mentioning that when you have a value_size of =
-sizeof(long),
->> you can however use __sync_fetch_and_add() atomic builtin from the L=
-LVM backend.
->
-> I think I'll leave out that detail for the moment.
-
-Ok, I guess we could revisit/clarify that at a later point in time. I'd=
- add
-a TODO comment to the source or the like, as this also is related to th=
-e 2nd
-below use case (aggregation/accounting), where an array is typically us=
-ed.
-
->>>                 Among the uses for array maps are the following:
->>>
->>>                 *  As "global" eBPF variables: an array of 1 elemen=
-t whose
->>>                    key is (index) 0 and where the value is a collec=
-tion of
->>>                    'global'  variables which eBPF programs can use =
-to keep
->>>                    state between events.
->>>
->>>                 *  Aggregation of tracing events into a fixed set o=
-f buck=E2=80=90
->>>                    ets.
-
-[...]
->>>          *  license is a license string, which must be GPL  compati=
-ble  to
->>>             call helper functions marked gpl_only.
+>>     If we have a hugetlb area, then the munmap() length
+>>     must be a multiple of the page size.
 >>
->> Not strictly. So here, the same rules apply as with kernel modules. =
-I.e. what
->> the kernel checks for are the following license strings:
+>> ?
 >>
->> static inline int license_is_gpl_compatible(const char *license)
->> {
->> 	return (strcmp(license, "GPL") =3D=3D 0
->> 		|| strcmp(license, "GPL v2") =3D=3D 0
->> 		|| strcmp(license, "GPL and additional rights") =3D=3D 0
->> 		|| strcmp(license, "Dual BSD/GPL") =3D=3D 0
->> 		|| strcmp(license, "Dual MIT/GPL") =3D=3D 0
->> 		|| strcmp(license, "Dual MPL/GPL") =3D=3D 0);
->> }
+> 
+> Of the hugetlb page size, yes, which was meant by the "underlying page 
+> size" since we have configurable hugetlb sizes.  This is different from 
+> the native page size, whereas the length is rounded up to be page aligned 
+> per POSIX.
+> 
+>> Are there any requirements about 'addr'? Must it also me huge-page-aligned?
 >>
->> With any of them, the eBPF program is declared GPL compatible. Maybe=
- of interest
->> for those that want to use dual licensing of some sort.
->
-> So, I'm a little unclear here. What text do you suggest for the page?
+> 
+> Yes, so it looks like we need to fix up the reference to "address addr 
+> must be a multiple of the page size" to something like "address addr must 
+> be a multiple of the underlying page size" but I think the distinction 
+> isn't explicit enough as I'd like it.  I think it's better to explicitly 
+> show the exception for hugetlb page sizes and compare the underlying page 
+> size to the native page size to define how the behavior differs.
+> 
+> Would something like
+> 
+> 	An exception is when the underlying memory, such as hugetlb 
+> 	memory, is not of the native page size: the address addr and
+> 	the length must be a multiple of the underlying page size.
 
-Maybe we should mention in addition that the same licensing rules apply=
- as
-in case with kernel modules, so also dual licenses could be used.
+See my suggestion in another mail (in a few minutes).
 
->>>          *  log_buf is a pointer to a caller-allocated buffer in wh=
-ich the
->>>             in-kernel verifier can store the verification log.   Th=
-is  log
->>>             is  a  multi-line  string  that  can be checked by the =
-program
->>>             author in order to understand how the  verifier  came  =
-to  the
->>>             conclusion  that the BPF program is unsafe.  The format=
- of the
->>>             output can change at any time as the verifier evolves.
->>>
->>>          *  log_size size of the buffer pointed to  by  log_bug.   =
-If  the
->>>             size  of  the buffer is not large enough to store all v=
-erifier
->>>             messages, -1 is returned and errno is set to ENOSPC.
->>>
->>>          *  log_level verbosity level of the verifier.  A  value  o=
-f  zero
->>>             means that the verifier will not provide a log.
->>
->> Note that the log buffer is optional as mentioned here log_level =3D=
- 0. The
->> above example code of bpf_prog_load() suggests that it always needs =
-to be
->> provided.
->>
->> I once ran indeed into an issue where the program itself was correct=
-, but
->> it got rejected by the kernel, because my log buffer size was too sm=
-all, so
->> in tc, we now have it larger as bpf_log_buf[65536] ...
->
-> So, I'm not clear. Do you mean that some piece of text here in the pa=
-ge
-> should be changed? If so, could elaborate?
+> suffice?
+> 
+> Also, is it typical to reference the commit of the documentation change 
+> in the kernel source that defines this?  I see this done with .\" blocks 
+> for MAP_STACK in the same man page.
 
-I'd maybe only mention in addition that in log_level=3D0 case, we also =
-must not
-provide a log_buf and log_size, otherwise we get EINVAL.
-
-[...]
->> I had to read this twice. ;) Maybe this needs to be reworded slightl=
-y.
->>
->> It just means that depending on the program type that the author sel=
-ects,
->> you might end up with a different subset of helper functions, and a
->> different program input/context. For example tracing does not have t=
-he
->> exact same helpers as socket filters (it might have some that can be=
- used
->> by both). Also, the eBPF program input (context) for socket filters =
-is a
->> network packet, wheras for tracing you operate on a set of registers=
-=2E
->
-> Changed. Now we have:
->
->     eBPF program types
->         The eBPF program type (prog_type) determines the subset of a =
-ker=E2=80=90
->         nel helper functions that the program may call.  The program =
-type
-
-s/a//
-
->         also determines dthe program input (context)=E2=80=94the form=
-at of struct
-
-s/dthe/the/
-
->         bpf_context (which is the data blob passed into the eBPF  pro=
-gram
->         as the first argument).
->
->         For  example, a tracing program does not have the exact same =
-sub=E2=80=90
->         set of helper functions as a socket filter program  (though  =
-they
->         may have some helpers in common).  Similarly, the input (cont=
-ext)
->         for a tracing program is a set of register values,  while  fo=
-r  a
->         socket filter it is a network packet.
->
->         The  set  of functions available to eBPF programs of a given =
-type
->         may increase in the future.
-
-That's fine with me.
-
-[...]
->> I would also make a note about the JIT compiler here, i.e. that it's=
- disabled
->> by default, and can be enabled via:
->>
->> * Normal mode: echo 1 > /proc/sys/net/core/bpf_jit_enable
->>
->> * Debugging mode: echo 2 > /proc/sys/net/core/bpf_jit_enable
->>     [opcodes dumped in hex into the kernel log, which can then be di=
-sassembled
->
-> Here, I assume you mean thet the generated (native) opcodes are dumpe=
-ed, right?
-
-Yes.
-
->>      with tools/net/bpf_jit_disasm.c from the kernel tree]
->>
->> When enabled, after a eBPF program gets loaded, it's transparently c=
-ompiled /
->> translated inside the kernel into machine opcodes for better perform=
-ance,
->> currently on x86_64, arm64 and s390.
->
-> According to Documentation/networking/filter.txt the JIT compiler sup=
-ports
-> many more architectures:
->
->      The Linux kernel has a built-in BPF JIT compiler for x86_64,
->      SPARC, PowerPC, ARM, ARM64, MIPS and s390 and can be enabled
->      through CONFIG_BPF_JIT.
->
-> Or am I misunderstanding something?
-
-The others only work for cBPF and have not (yet) be converted over to e=
-BPF.
-
-=46or the three mentioned above, the kernel internally migrates cBPF in=
-to eBPF
-instructions and then JITs the eBPF result eventually.
-
-> I added the following:
->
->         The kernel contains a just-in-time (JIT) compiler that transl=
-ates
->         eBPF  bytecode  into  native machine code for better performa=
-nce.
->         The JIT compiler is disabled by default, but its operation ca=
-n be
->         controlled   by   writing   one   of   the  following  values=
-  to
->         /proc/sys/net/core/bpf_jit_enable:
->
->         0  Disable JIT compilation (default).
->
->         1  Normal compilation.
->
->         2  Debugging mode.  The generated opcodes are dumped in hexad=
-eci=E2=80=90
->            mal  into the kernel log.  These opcodes can then be disas=
-sem=E2=80=90
->            bled using the program tools/net/bpf_jit_disasm.c provided=
-  in
->            the kernel source tree.
->
->>> SEE ALSO
->>>          seccomp(2), socket(7), tc(8), tc-bpf(8)
->>>
->>>          Both classic and extended BPF are explained in the kernel =
- source
->>>          file Documentation/networking/filter.txt.
->>>
->>
-
-Rest looks good for an initial version!
+I find it handy to add such references, for later references.
+By the way, are you saying that some piece of behavior has
+changed in recent times for munmap() on HugeTLB?
 
 Thanks,
-Daniel
+
+Michael
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+
 --
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
