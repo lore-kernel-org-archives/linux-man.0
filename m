@@ -1,53 +1,65 @@
-From: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
-Subject: Re: Draft 3 of bpf(2) man page for review
-Date: Thu, 23 Jul 2015 15:39:41 +0200
-Message-ID: <55B0EE9D.7000600@iogearbox.net>
-References: <55AFE46F.3090800@gmail.com> <55AFED75.2030208@plumgrid.com> <55AFF8BF.3050204@gmail.com> <55B0B461.1020201@iogearbox.net> <55B0CECA.2010105@gmail.com> <55B0E252.2010207@iogearbox.net> <55B0EDD7.8020407@gmail.com>
+From: Vince Weaver <vincent.weaver@maine.edu>
+Subject: [patch 03/11] perf_event_open.2: 4.1 PERF_EVENT_IOC_SET_BPF
+ support
+Date: Thu, 23 Jul 2015 13:10:21 -0400 (EDT)
+Message-ID: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55B0EDD7.8020407-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Silvan Jegen <s.jegen-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Walter Harms <wharms-fPG8STNUNVg@public.gmane.org>
+Content-Type: text/plain; charset=US-ASCII
+Return-path: <linux-kernel-owner@vger.kernel.org>
+Sender: linux-kernel-owner@vger.kernel.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Stephane Eranian <eranian@google.com>, Alexei Starovoitov <ast@plumgrid.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>, Andrew Morton <akpm@linux-foundation.org>, Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, Jiri Olsa <jolsa@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Namhyung Kim <namhyung@kernel.org>, Vince Weaver <vincent.weaver@maine.edu>
 List-Id: linux-man@vger.kernel.org
 
-On 07/23/2015 03:36 PM, Michael Kerrisk (man-pages) wrote:
-...
->> Ok, I guess we could revisit/clarify that at a later point in time. I'd add
->> a TODO comment to the source or the like, as this also is related to the 2nd
->> below use case (aggregation/accounting), where an array is typically used.
->
-> Okay. FIXME added.
 
-Great.
+This manpage patch relates to the addition of the
+PERF_EVENT_IOC_SET_BPF ioctl in the following commit:
 
-[...]
->> I'd maybe only mention in addition that in log_level=0 case, we also must not
->> provide a log_buf and log_size, otherwise we get EINVAL.
->
-> I changed the text to:
->
->         *  log_level  verbosity  level  of the verifier.  A value of zero
->            means that the verifier will not provide a log; in this  case,
->            log_buf must be a NULL pointer, and log_size must be zero.
+	commit 2541517c32be2531e0da59dfd7efc1ce844644f5
+	Author: Alexei Starovoitov <ast@plumgrid.com>
+    
+	tracing, perf: Implement BPF programs attached to kprobes
 
-Ok.
+	Signed-off-by: Alexei Starovoitov <ast@plumgrid.com>
+	Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+	Reviewed-by: Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>
+	Cc: Andrew Morton <akpm@linux-foundation.org>
+	Cc: Arnaldo Carvalho de Melo <acme@infradead.org>
+	Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+	Cc: Daniel Borkmann <daniel@iogearbox.net>
+	Cc: David S. Miller <davem@davemloft.net>
+	Cc: Jiri Olsa <jolsa@redhat.com>
+	Cc: Linus Torvalds <torvalds@linux-foundation.org>
+	Cc: Namhyung Kim <namhyung@kernel.org>
+	Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
+	Cc: Peter Zijlstra <peterz@infradead.org>
+	Link: http://lkml.kernel.org/r/1427312966-8434-4-git-send-email-ast@plumgrid.com
+	Signed-off-by: Ingo Molnar <mingo@kernel.org>
 
-[...]
-> Thanks for clearing that up -- I added the following sentence
->
->      JIT compiler for eBPF is currently available for the x86-64, arm64,
->      and s390 architectures.
->
-> Okay?
 
-Yep.
+Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
 
-Thanks,
-Daniel
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+index a6b90ec..09eda9a 100644
+--- a/man2/perf_event_open.2
++++ b/man2/perf_event_open.2
+@@ -2570,6 +2570,19 @@ This returns the event ID value for the given event file descriptor.
+ 
+ The argument is a pointer to a 64-bit unsigned integer
+ to hold the result.
++.TP
++.BR PERF_EVENT_IOC_SET_BPF " (since Linux 4.1)"
++.\" commit 2541517c32be2531e0da59dfd7efc1ce844644f5
++This allows attaching a Berkeley Packet Filter (BPF)
++program to an existing kprobe tracepoint event.
++You need
++.B CAP_SYS_ADMIN
++privileges to use this ioctl.
++
++The argument is a BPF program file descriptor that was created by
++a previous
++.BR bpf (2)
++system call.
+ .SS Using prctl
+ A process can enable or disable all the event groups that are
+ attached to it using the
