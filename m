@@ -1,73 +1,121 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] mmap.2: document the munmap exception for underlying page size
-Date: Fri, 24 Jul 2015 08:57:34 +0200
-Message-ID: <CAKgNAkj+FvuXh0sjx6A_RD9_0BaYm_xsyXS6Ym5svcmXtBVKmg@mail.gmail.com>
-References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com>
- <55B027D3.4020608@oracle.com> <alpine.DEB.2.10.1507221646100.14953@chino.kir.corp.google.com>
- <55B0E900.8090207@gmail.com> <alpine.DEB.2.10.1507231349080.31024@chino.kir.corp.google.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Subject: Re: For review: nptl(7) man page
+Date: Fri, 24 Jul 2015 09:56:21 +0200
+Message-ID: <55B1EFA5.9000304@gmail.com>
+References: <550ED3F4.1080403@gmail.com> <20150322195632.GM16260@port70.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.10.1507231349080.31024-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+In-Reply-To: <20150322195632.GM16260-4P1ElwuDYu6sTnJN9+BGXg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-Cc: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+To: Szabolcs Nagy <nsz-4P1ElwuDYu6sTnJN9+BGXg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, shawn Landden <shawn-01I/ocv1qBBILuwUvNxBeQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello David,
+On 03/22/2015 08:56 PM, Szabolcs Nagy wrote:
+> * Michael Kerrisk (man-pages) <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> [2015-03-22 15:38:44 +0100]:
+>> .\"
+>> .TH NPTL 7 2015-03-21 "Linux" "Linux Programmer's Manual"
+>> .SH NAME
+>> nptl \- Native POSIX Threads Library
+>> .SH DESCRIPTION
+>> NPTL (Native POSIX Threads Library)
+>> is the GNU C library POSIX threads implementation that is used on modern
+>> Linux systems.
+>> .\"
+>> .SS NPTL and signals
+>> NPTL makes internal use of the first two real-time signals
+>> (signal numbers 32 and 33).
+>> One of these signals is used to support thread cancellation and POSIX timers;
+>> the other is used as part of a mechanism that ensures all threads in
+>> a process always have the same UIDs and GIDs, as required by POSIX.
+>> These signals cannot be used in applications.
+>>
+>> To prevent accidental use of these signals in applications,
+>> which might interfere with the operation of the NPTL implementation,
+>> various glibc library functions and system call wrapper functions
+>> attempt to hide these signals from applications,
+>> as follows:
+>> .IP * 3
+>> .B SIGRTMIN
+>> is defined with the value 34 (rather than 32).
+>> .IP *
+>> The
+>> .BR sigwaitinfo (2),
+>> .BR sigtimedwait (2),
+>> and
+>> .BR sigwait (3)
+>> interfaces silently ignore requests to wait for these two signals
+>> if they are specified in the signal set argument of these calls.
+>> .IP *
+>> The
+>> .BR sigprocmask (2)
+>> and
+>> .BR pthread_sigmask (3)
+>> interfaces silently ignore attempts to block these two signals.
+>> .IP *
+>> The
+>> .BR sigaction (2),
+>> .BR pthread_kill (3),
+>> and
+>> .BR pthread_sigqueue (3)
+>> interfaces fail with the error
+>> .B EINVAL
+>> (indicating an invalid signal number) if these signals are specified.
+>> .IP *
+>> .BR sigfillset (3)
+>> does not include these two signals when it creates a full signal set.
+>> .\"
+> 
+> are these abi details expected to be stable?
+> (i'm not against documenting the existing
+> implementation just curious if this is supposed
+> to hold for all new archs)
 
-On 23 July 2015 at 22:52, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
-> On Thu, 23 Jul 2015, Michael Kerrisk (man-pages) wrote:
->
->> >> Should we also add a similar comment for the mmap offset?  Currently
->> >> the man page says:
->> >>
->> >> "offset must be a multiple of the page size as returned by
->> >>  sysconf(_SC_PAGE_SIZE)."
->> >>
->> >> For hugetlbfs, I beieve the offset must be a multiple of the
->> >> hugetlb page size.  A similar comment/exception about using
->> >> the "underlying page size" would apply here as well.
->> >>
->> >
->> > Yes, that makes sense, thanks.  We should also explicitly say that mmap(2)
->> > automatically aligns length to be hugepage aligned if backed by hugetlbfs.
->>
->> And, surely, it also does something similar for mmap()'s 'addr'
->> argument?
->>
->> I suggest we add a subsection to describe the HugeTLB differences. How
->> about something like:
->>
->>    Huge page (Huge TLB) mappings
->>        For  mappings  that  employ  huge pages, the requirements for the
->>        arguments  of  mmap()  and  munmap()  differ  somewhat  from  the
->>        requirements for mappings that use the native system page size.
->>
->>        For mmap(), offset must be a multiple of the underlying huge page
->>        size.  The system automatically aligns length to be a multiple of
->>        the underlying huge page size.
->>
->>        For  munmap(),  addr  and  length  must both be a multiple of the
->>        underlying huge page size.
->> ?
->>
->
-> Looks good, please add my acked-by.
+I'm not sure, sorry.
 
-Done. Thanks for checking the text.
+> in theory for an application it is enough to know
+> that it can only use the signals it can name and
+> there might be implementation internal signals
+> that cannot be masked (which might need to be taken
+> into account when calculating a thread stack size).
+> 
+>> .SS NPTL and process credential changes
+>> At the Linux kernel level,
+>> credentials (user and group IDs) are a per-thread attribute.
+>> However, POSIX requires that all of the POSIX threads in a process
+>> have the same credentials.
+>> To accommodate this requirement,
+>> the NPTL implementation wraps all of the system calls that
+>> change process credentials with functions that,
+>> in addition to invoking the underlying system call,
+>> arrange for all other threads in the process to also change their credentials.
+>>
+>> The implementation of each of these system calls involves the use of 
+>> a real-time signal that is sent (using
+>> .BR tgkill (2))
+>> to each of the other threads that must change change its credentials.
+>> Before sending these signals, the thread that is changing credentials
+>> saves the new credential(s) and records the system call being employed
+>> in a global buffer.
+>> A signal handler in the receiving thread(s) fetches this information and
+>> then uses the same system call to change its credentials.
+>>
+> 
+> i think the situation described in
+> 
+> https://sourceware.org/bugzilla/show_bug.cgi?id=14749
+> 
+> might be worth documenting
+> 
+> vfork is not serialized wrt setxid functions
 
-> The commit that expanded on the
-> documentation of this behavior was
-> 80d6b94bd69a7a49b52bf503ef6a841f43cf5bbb.
->
-> Answering from your other email, no, this behavior in the kernel has not
-> changed recently but we found it wasn't properly documented so we wanted
-> to fix that both in the kernel tree and in the man-pages to make it
-> explicit.
+Do you have any proposed text for this? (In the meantime, I added a FIXME.)
 
-Okay -- thanks for the clarification.
+> (but it would be better if the kernel got fixed
+> to have a new set of posix setxid syscalls that
+> change credentials atomically for the process)
 
 Cheers,
 
