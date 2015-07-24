@@ -1,330 +1,81 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: For review: dladdr(3) man page
-Date: Fri, 24 Jul 2015 11:30:01 +0200
-Message-ID: <55B20599.9030503@gmail.com>
+From: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+Subject: Re: Further work on bpf(2)
+Date: Fri, 24 Jul 2015 15:28:56 +0200
+Message-ID: <55B23D98.4010206@iogearbox.net>
+References: <55B20151.50303@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <55B20151.50303-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, libc-alpha <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
+Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello all,
+On 07/24/2015 11:11 AM, Michael Kerrisk (man-pages) wrote:
+> Hello Alexei, Daniel
+>
+> Now that we have a version of the bpf(2) man page out the door, I'd
+> like to see it refined, since there are a number of missing pieces.
+> In particular:
+>
+> * The page lacks documentation of the BPF_MAP_TYPE_PROG_ARRAY
+>    map type.
+>
+> * The page needs more info on the BPF_PROG_TYPE_SOCKET_FILTER
+>    program type.
+>
+> * The page lacks documentation of the BPF_PROG_TYPE_SOCKET_FILTER
+>    program type.
+>
+>      commit 2541517c32be2531e0da59dfd7efc1ce844644f5
+>      Author: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
+>      Date:   Wed Mar 25 12:49:20 2015 -0700
+>
+>          tracing, perf: Implement BPF programs attached to kprobes
+>
+> * The page lacks documentation of the BPF_PROG_TYPE_SCHED_CLS
+>    program type.
+>
+>      commit 96be4325f443dbbfeb37d2a157675ac0736531a1
+>      Author: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+>      Date:   Sun Mar 1 12:31:46 2015 +0100
+>
+>          ebpf: add sched_cls_type and map it to sk_filter's verifier ops
+>
+>      commit e2e9b6541dd4b31848079da80fe2253daaafb549
+>      Author: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+>      Date:   Sun Mar 1 12:31:48 2015 +0100
+>
+>          cls_bpf: add initial eBPF support for programmable classifiers
+>
+> * The page lacks documentation of the BPF_PROG_TYPE_SCHED_ACT
+>    program type.
+>
+>      commit 94caee8c312d96522bcdae88791aaa9ebcd5f22c
+>      Author: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+>      Date:   Fri Mar 20 15:11:11 2015 +0100
+>
+>          ebpf: add sched_act_type and map it to sk_filter's verifier ops
+>
+>      commit a8cb5f556b567974d75ea29c15181c445c541b1f
+>      Author: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+>      Date:   Fri Mar 20 15:11:12 2015 +0100
+>
+>          act_bpf: add initial eBPF support for actions
+>
+> Between the two of you, could you propose some text for each of the
+> above, ideally as man-page patches.
+>
+> There are also various other pieces of the page that need work,
+> which I've marked with FIXMEs. Could you take a look at these please?
 
-I've recently been working on improving documentation of the
-dlopen API, and as part of that work, I split dladdr(3) out of 
-the dlopen(3) man page, and added documentation for the formerly 
-undocumented dladdr1() API. 
+Ok, sure. We will sort this out and get back to you with a couple
+of patches some time next week.
 
-I would be happy to receive review comments, suggestions for
-fixes or improvements, or offers of more beer in Prague next month.
-
-Page source provided inline below. (Extract and use "man -l file"
-to render.)
-
-Cheers,
-
-Michael
-
-'\" t
-.\" Copyright (C) 2015 Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-.\" and Copyright (C) 2008 Petr Baudis <pasky-AlSwsSmVLrQ@public.gmane.org> (dladdr caveat)
-.\"
-.\" %%%LICENSE_START(VERBATIM)
-.\" Permission is granted to make and distribute verbatim copies of this
-.\" manual provided the copyright notice and this permission notice are
-.\" preserved on all copies.
-.\"
-.\" Permission is granted to copy and distribute modified versions of this
-.\" manual under the conditions for verbatim copying, provided that the
-.\" entire resulting derived work is distributed under the terms of a
-.\" permission notice identical to this one.
-.\"
-.\" Since the Linux kernel and libraries are constantly changing, this
-.\" manual page may be incorrect or out-of-date.  The author(s) assume no
-.\" responsibility for errors or omissions, or for damages resulting from
-.\" the use of the information contained herein.  The author(s) may not
-.\" have taken the same level of care in the production of this manual,
-.\" which is licensed free of charge, as they might when working
-.\" professionally.
-.\"
-.\" Formatted or processed versions of this manual, if unaccompanied by
-.\" the source, must acknowledge the copyright and authors of this work.
-.\" %%%LICENSE_END
-.\"
-.TH DLADDR 3 2015-07-06 "Linux" "Linux Programmer's Manual"
-.SH NAME
-dladdr, dladdr1 \- translate address to symbolic information
-.SH SYNOPSIS
-.nf
-.B #define _GNU_SOURCE
-.B #include <dlfcn.h>
-
-.BI "int dladdr(void *" addr ", Dl_info *" info );
-
-.BI "int dladdr1(void *" addr ", Dl_info *" info ", void **" \
-        extra_info ", int " flags );
-
-Link with \fI\-ldl\fP.
-.fi
-.SH DESCRIPTION
-The function
-.BR dladdr ()
-determines whether the address specified in
-.IR addr
-is located in one of the shared objects loaded by the calling application.
-If it is, then
-.BR dladdr ()
-returns information about the shared object and symbol that overlaps
-.IR addr .
-This information is returned in a
-.I Dl_info
-structure:
-.sp
-.in +4n
-.nf
-typedef struct {
-    const char *dli_fname;  /* Pathname of shared object that
-                               contains address */
-    void       *dli_fbase;  /* Base address at which shared
-                               object is loaded */
-    const char *dli_sname;  /* Name of symbol whose definition
-                               overlaps \fIaddr\fP */
-    void       *dli_saddr;  /* Exact address of symbol named
-                               in \fIdli_sname\fP */
-} Dl_info;
-.fi
-.in
-.PP
-If no symbol matching
-.I addr
-could be found, then
-.I dli_sname
-and
-.I dli_saddr
-are set to NULL.
-
-The function
-.BR dladdr1 ()
-is like
-.BR dladdr (),
-but returns additional information via the argument
-.IR extra_info .
-The information returned depends on the value specified in
-.IR flags ,
-which can have one of the following values:
-.TP
-.B RTLD_DL_LINKMAP
-Obtain a pointer to the link map for the matched file.
-The
-.IR extra_info
-argument points to a pointer to a
-.I link_map
-structure (i.e.,
-.IR "struct link_map\ **" ),
-defined in
-.I <link.h>
-as:
-
-.in +4n
-.nf
-struct link_map {
-    ElfW(Addr) l_addr;  /* Difference between the
-                           address in the ELF file and
-                           the address in memory */
-    char      *l_name;  /* Absolute pathname where
-                           object was found */
-    ElfW(Dyn) *l_ld;    /* Dynamic section of the
-                           shared object */
-    struct link_map *l_next, *l_prev;
-                        /* Chain of loaded objects */
-
-    /* Plus additional fields private to the
-       implementation */
-};
-.fi
-.in
-.TP
-.B RTLD_DL_SYMENT
-Obtain a pointer to the ELF symbol table entry of the matching symbol.
-The
-.IR extra_info
-argument is a pointer to a symbol pointer:
-.IR "const ElfW(Sym) **" .
-The
-.IR ElfW ()
-macro definition turns its argument into the name of an ELF data
-type suitable for the hardware architecture.
-For example, on a 64-bit platform,
-.I ElfW(Sym)
-yields the data type name
-.IR Elf64_Sym ,
-which is defined in
-.IR <elf.h>
-as:
-
-.in +4n
-.nf
-typedef struct  { 
-    Elf64_Word    st_name;     /* Symbol name */
-    unsigned char st_info;     /* Symbol type and binding */
-    unsigned char st_other;    /* Symbol visibility */
-    Elf64_Section st_shndx;    /* Section index */
-    Elf64_Addr    st_value;    /* Symbol value */
-    Elf64_Xword   st_size;     /* Symbol size */
-} Elf64_Sym;
-.fi
-.in
-
-The
-.I st_name
-field is an index into the string table.
-
-The
-.I st_info
-field encodes the symbol's type and binding.
-The type can be extracted using the macro
-.BR ELF64_ST_TYPE(st_info)
-(or
-.BR ELF32_ST_TYPE()
-on 32-bit platforms), which yields one of the following values:
-.in +4n
-.TS
-lb lb
-lb l.
-Value	Description
-STT_NOTYPE	Symbol type is unspecified
-STT_OBJECT	Symbol is a data object
-STT_FUNC	Symbol is a code object
-STT_SECTION	Symbol associated with a section
-STT_FILE	Symbol's name is file name
-STT_COMMON	Symbol is a common data object
-STT_TLS	Symbol is thread-local data object
-STT_GNU_IFUNC	Symbol is indirect code object
-.TE
-.in
-.IP
-The symbol binding can be extracted from the
-.I st_info
-field using the macro
-.BR ELF64_ST_BIND(st_info)
-(or
-.BR ELF32_ST_BIND()
-on 32-bit platforms), which yields one of the following values:
-
-.in +4n
-.TS
-lb lb
-lb l.
-Value	Description
-STB_LOCAL	Local symbol
-STB_GLOBAL	Global symbol
-STB_WEAK	Weak symbol
-STB_GNU_UNIQUE	Unique symbol
-.TE
-.in
-.IP
-The
-.I st_other
-field contains the symbol's visibility, which can be extracted using the macro
-.BR ELF64_ST_VISIBILITY(st_info)
-(or
-.BR ELF32_ST_VISIBILITY()
-on 32-bit platforms), which yields one of the following values:
-.in +4n
-.TS
-lb lb
-lb l.
-Value	Description
-STV_DEFAULT	Default symbol visibility rules
-STV_INTERNAL	Processor-specific hidden class
-STV_HIDDEN	Symbol unavailable in other modules
-STV_PROTECTED	Not preemptible, not exported
-.TE
-.in
-.SH RETURN VALUE
-On success, these functions return a nonzero value.
-If the address specified in
-.I addr
-could be matched to a shared object,
-but not to a symbol in the shared object, then the
-.I info->dli_sname
-and
-.I info->dli_saddr
-fields are set to NULL.
-
-
-If the address specified in
-.I addr
-could not be matched to a shared object, then these functions return 0.
-In this case, an error message is
-.I not
-.\" According to the FreeBSD man page, dladdr1() does signal an
-.\" error via dlerror() for this case.
-available via
-.BR dlerror (3).
-.SH VERSIONS
-.BR dladdr ()
-is present in glibc 2.0 and later.
-.BR dladdr1 ()
-first appeared in glibc 2.3.3.
-.SH ATTRIBUTES
-For an explanation of the terms used in this section, see
-.BR attributes (7).
-.TS
-allbox;
-lbw19 lb lb
-l l l.
-Interface	Attribute	Value
-T{
-.BR dladdr (),
-.BR dladdr1 ()
-T}	Thread safety	MT-Safe
-.TE
-.SH CONFORMING TO
-These functions are nonstandard GNU extensions
-that are also present on Solaris.
-.SH BUGS
-Sometimes, the function pointers you pass to
-.BR dladdr ()
-may surprise you.
-On some architectures (notably i386 and x86_64),
-.I dli_fname
-and
-.I dli_fbase
-may end up pointing back at the object from which you called
-.BR dladdr (),
-even if the function used as an argument should come from
-a dynamically linked library.
-.PP
-The problem is that the function pointer will still be resolved
-at compile time, but merely point to the
-.I plt
-(Procedure Linkage Table)
-section of the original object (which dispatches the call after
-asking the dynamic linker to resolve the symbol).
-To work around this,
-you can try to compile the code to be position-independent:
-then, the compiler cannot prepare the pointer
-at compile time anymore and today's
-.BR gcc (1)
-will generate code that just loads the final symbol address from the
-.I got
-(Global Offset Table) at run time before passing it to
-.BR dladdr ().
-.SH SEE ALSO
-.BR dl_iterate_phdr (3),
-.BR dlinfo (3),
-.BR dlopen (3),
-.BR dlsym (3),
-.BR ld.so (8)
-
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+Thanks,
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
