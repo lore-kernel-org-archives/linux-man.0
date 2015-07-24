@@ -1,65 +1,85 @@
-From: David Rientjes <rientjes@google.com>
-Subject: Re: [patch] mmap.2: document the munmap exception for underlying
- page size
-Date: Thu, 23 Jul 2015 13:52:02 -0700 (PDT)
-Message-ID: <alpine.DEB.2.10.1507231349080.31024@chino.kir.corp.google.com>
-References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com> <55B027D3.4020608@oracle.com> <alpine.DEB.2.10.1507221646100.14953@chino.kir.corp.google.com> <55B0E900.8090207@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] mmap.2: document the munmap exception for underlying page size
+Date: Fri, 24 Jul 2015 08:57:34 +0200
+Message-ID: <CAKgNAkj+FvuXh0sjx6A_RD9_0BaYm_xsyXS6Ym5svcmXtBVKmg@mail.gmail.com>
+References: <alpine.DEB.2.10.1507211736300.24133@chino.kir.corp.google.com>
+ <55B027D3.4020608@oracle.com> <alpine.DEB.2.10.1507221646100.14953@chino.kir.corp.google.com>
+ <55B0E900.8090207@gmail.com> <alpine.DEB.2.10.1507231349080.31024@chino.kir.corp.google.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
-Return-path: <owner-linux-mm@kvack.org>
-In-Reply-To: <55B0E900.8090207@gmail.com>
-Sender: owner-linux-mm@kvack.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Cc: Mike Kravetz <mike.kravetz@oracle.com>, Hugh Dickins <hughd@google.com>, Davide Libenzi <davidel@xmailserver.org>, Eric B Munson <emunson@akamai.com>, linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-man@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.10.1507231349080.31024-X6Q0R45D7oAcqpCFd4KODRPsWskHk0ljAL8bYrjMMd8@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+Cc: Mike Kravetz <mike.kravetz-QHcLZuEGTsvQT0dZR+AlfA@public.gmane.org>, Hugh Dickins <hughd-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Davide Libenzi <davidel-AhlLAIvw+VEjIGhXcJzhZg@public.gmane.org>, Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org" <linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Thu, 23 Jul 2015, Michael Kerrisk (man-pages) wrote:
+Hello David,
 
-> >> Should we also add a similar comment for the mmap offset?  Currently
-> >> the man page says:
-> >>
-> >> "offset must be a multiple of the page size as returned by
-> >>  sysconf(_SC_PAGE_SIZE)."
-> >>
-> >> For hugetlbfs, I beieve the offset must be a multiple of the
-> >> hugetlb page size.  A similar comment/exception about using
-> >> the "underlying page size" would apply here as well.
-> >>
-> > 
-> > Yes, that makes sense, thanks.  We should also explicitly say that mmap(2) 
-> > automatically aligns length to be hugepage aligned if backed by hugetlbfs.
-> 
-> And, surely, it also does something similar for mmap()'s 'addr'
-> argument? 
-> 
-> I suggest we add a subsection to describe the HugeTLB differences. How 
-> about something like:
-> 
->    Huge page (Huge TLB) mappings
->        For  mappings  that  employ  huge pages, the requirements for the
->        arguments  of  mmap()  and  munmap()  differ  somewhat  from  the
->        requirements for mappings that use the native system page size.
-> 
->        For mmap(), offset must be a multiple of the underlying huge page
->        size.  The system automatically aligns length to be a multiple of
->        the underlying huge page size.
-> 
->        For  munmap(),  addr  and  length  must both be a multiple of the
->        underlying huge page size.
-> ?
-> 
+On 23 July 2015 at 22:52, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org> wrote:
+> On Thu, 23 Jul 2015, Michael Kerrisk (man-pages) wrote:
+>
+>> >> Should we also add a similar comment for the mmap offset?  Currently
+>> >> the man page says:
+>> >>
+>> >> "offset must be a multiple of the page size as returned by
+>> >>  sysconf(_SC_PAGE_SIZE)."
+>> >>
+>> >> For hugetlbfs, I beieve the offset must be a multiple of the
+>> >> hugetlb page size.  A similar comment/exception about using
+>> >> the "underlying page size" would apply here as well.
+>> >>
+>> >
+>> > Yes, that makes sense, thanks.  We should also explicitly say that mmap(2)
+>> > automatically aligns length to be hugepage aligned if backed by hugetlbfs.
+>>
+>> And, surely, it also does something similar for mmap()'s 'addr'
+>> argument?
+>>
+>> I suggest we add a subsection to describe the HugeTLB differences. How
+>> about something like:
+>>
+>>    Huge page (Huge TLB) mappings
+>>        For  mappings  that  employ  huge pages, the requirements for the
+>>        arguments  of  mmap()  and  munmap()  differ  somewhat  from  the
+>>        requirements for mappings that use the native system page size.
+>>
+>>        For mmap(), offset must be a multiple of the underlying huge page
+>>        size.  The system automatically aligns length to be a multiple of
+>>        the underlying huge page size.
+>>
+>>        For  munmap(),  addr  and  length  must both be a multiple of the
+>>        underlying huge page size.
+>> ?
+>>
+>
+> Looks good, please add my acked-by.
 
-Looks good, please add my acked-by.  The commit that expanded on the 
-documentation of this behavior was 
-80d6b94bd69a7a49b52bf503ef6a841f43cf5bbb.
+Done. Thanks for checking the text.
 
-Answering from your other email, no, this behavior in the kernel has not 
-changed recently but we found it wasn't properly documented so we wanted 
-to fix that both in the kernel tree and in the man-pages to make it 
-explicit.
+> The commit that expanded on the
+> documentation of this behavior was
+> 80d6b94bd69a7a49b52bf503ef6a841f43cf5bbb.
+>
+> Answering from your other email, no, this behavior in the kernel has not
+> changed recently but we found it wasn't properly documented so we wanted
+> to fix that both in the kernel tree and in the man-pages to make it
+> explicit.
 
+Okay -- thanks for the clarification.
+
+Cheers,
+
+Michael
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
-To unsubscribe, send a message with 'unsubscribe linux-mm' in
-the body to majordomo@kvack.org.  For more info on Linux MM,
-see: http://www.linux-mm.org/ .
-Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
