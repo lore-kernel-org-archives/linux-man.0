@@ -1,144 +1,79 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: For review: nptl(7) man page
-Date: Sun, 26 Jul 2015 22:29:59 +0200
-Message-ID: <55B54347.5050806@gmail.com>
-References: <550ED3F4.1080403@gmail.com>	<550F363B.801@gmail.com>	<55B1EFFA.9070608@gmail.com>	<CAODz2cDq4o85NOzqCDg9cH8eCvqt3Tq5QXKMMJtXbik5h5bL+Q@mail.gmail.com>	<55B54215.6070502@gmail.com> <CAODz2cAmqVtkoNSwUA5p0_=pcFAdrS3ovohyjwnXMapgEhc4qg@mail.gmail.com>
+Subject: Re: Revised futex(2) man page for review
+Date: Mon, 27 Jul 2015 13:00:50 +0200
+Message-ID: <55B60F62.6010303@gmail.com>
+References: <55166C01.7000803@gmail.com>	 <20150328114725.GJ27490@worktop.programming.kicks-ass.net>	 <20150328120337.GB32047@worktop.ger.corp.intel.com> <1427834205.20009.19.camel@stgolabs.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: QUOTED-PRINTABLE
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAODz2cAmqVtkoNSwUA5p0_=pcFAdrS3ovohyjwnXMapgEhc4qg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nicholas Miell <nmiell-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1427834205.20009.19.camel-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>
+Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron>
 List-Id: linux-man@vger.kernel.org
 
-On 07/26/2015 10:27 PM, Nicholas Miell wrote:
-> Sounds good.
+Hi David,
 
-That was quick! Thanks for checking, and thanks for the report, Nichola=
-s!
+On 03/31/2015 10:36 PM, Davidlohr Bueso wrote:
+> On Sat, 2015-03-28 at 13:03 +0100, Peter Zijlstra wrote:
+>>>               If the timeout argument is non-NULL, its contents spe=
+cify a rel=E2=80=90
+>>>               ative   timeout   for   the  wait,  measured  accordi=
+ng  to  the
+>>>               CLOCK_MONOTONIC clock.  (This interval will be rounde=
+d up to the
+>>>               system clock granularity, and kernel scheduling delay=
+s mean that
+>>>               the blocking interval may overrun by a small amount.)=
+  If  time=E2=80=90
+>>>               out is NULL, the call blocks indefinitely.
+>>
+>> Would it not be better to only state that the wait will not return
+>> before the timeout -- unless woken -- and not bother with clock
+>> granularity and scheduling delays?
+>=20
+> Yeah, similarly we also have this:
+>=20
+>      FUTEX_PRIVATE_FLAG (since Linux 2.6.22)
+>               This option bit can be employed with all futex  operati=
+ons.   It
+>               tells  the  kernel  that  the  futex  is process-privat=
+e and not
+>               shared with another process (i.e., it is  only  being  =
+used  for
+>               synchronization  between  threads  of  the  same proces=
+s).  This
+>               allows the kernel to choose the fast  path  for  valida=
+ting  the
+>               user-space address and avoids expensive VMA lookups, ta=
+king ref=E2=80=90
+>               erence counts on file backing store, and so on.
+>=20
+> This to me reads a bit too much into the kernel (fastpath, refcnt,
+> vmas). Why not just mention that it avoids overhead in the kernel or
+> something? I don't recall any manpage mentioning such details, but I
+> could be wrong.=20
+
+Thanks. Agreed. I changed this to
+
+    This allows the kernel to make some additional performance optimiza=
+tions.
+
+> In any case its a nit, the whole doc is pretty good and
+> I hope you can merge it soon and then just increment ;)
+
+I ran out of time and energy at a certain point. And also got a little
+disheartened that I got more people complaining about groff markup
+than actually looked looked at the FIXMEs in the page source :-).=20
+I'll try to reboot the process.
 
 Cheers,
 
 Michael
 
 
-> On Sun, Jul 26, 2015 at 1:24 PM, Michael Kerrisk (man-pages)
-> <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->> On 07/24/2015 05:51 PM, Nicholas Miell wrote:
->>> PTHREAD_PROCESS_SHARED says any thread with access to the memory co=
-ntaining
->>> the mutex can operate on the mutex and POSIX basically ignores the =
-idea
->>> that different processes could be running completely incompatible
->>> executables or whatever.
->>>
->>> pthread_mutex_t has a bunch of #ifdefs in the middle of it that cha=
-nge the
->>> structure size and layout between i386 and x86_64.
->>>
->>> Most importantly, the positions of the __nusers and __kind fields a=
-re
->>> swapped (this looks to be an oversight dating back to 2003 when __n=
-users
->>> was first introduced and carefully preserved when the separate i386=
- and
->>> x86_64 versions of pthreadtypes.h were merged into the single x86 v=
-ersion),
->>> which means that when the lock and unlock functions attempt to figu=
-re out
->>> what kind of mutex it is (recursive/adaptive/whatever), they'll loo=
-k at the
->>> wrong field if the mutex is from the wrong architecture and then th=
-ings
->>> will break.
->>>
->>> And then there's the fact that the rest of the struct is a union in=
- the
->>> 32-bit version and flat in the 64-bit version, but that could have =
-been
->>> worked around if you put a flag in the __kind field that tells the =
-64-bit
->>> pthread library that it is looking at a 32-bit mutex.
->>
->> Thanks for the additional detail, Nicholas. So, how about a paragrap=
-h such
->> as the following for the manual page:
->>
->>        POSIX says that any thread in any process with access to the =
-mem=E2=80=90
->>        ory containing a  process-shared  (PTHREAD_PROCESS_SHARED)  m=
-utex
->>        can  operate  on that mutex.  However, on 64-bit x86 systems,=
- the
->>        mutex definition for x86-64 is incompatible with the mutex  d=
-efi=E2=80=90
->>        nition  for  i386,  meaning that 32-bit and 64-bit binaries c=
-an't
->>        share mutexes on x86-64 systems.
->> ?
->>
->> Cheers,
->>
->> Michael
->>
->>
->>> On Fri, Jul 24, 2015 at 12:57 AM, Michael Kerrisk (man-pages) <
->>> mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
->>>
->>>> On 03/22/2015 10:38 PM, Nicholas Miell wrote:
->>>>> On 03/22/2015 07:38 AM, Michael Kerrisk (man-pages) wrote:
->>>>>> Hello all,
->>>>>>
->>>>>> I wrote a short man page documented some of the details of
->>>>>> NPTL that might affect application developers. Review comments
->>>>>> would be most welcome.
->>>>>>
->>>>>> Thanks,
->>>>>>
->>>>>> Michael
->>>>>
->>>>> POSIX specifies that process-shared pthread_mutex_t's can be mani=
-pulated
->>>>> by independent processes, however the AMD64 and i386 versions of =
-the
->>>>> mutex structures are incompatible and cannot be shared.
->>>>>
->>>>> This might be true of the other supposedly sharable primitives, I=
- never
->>>>> bothered to check the rest when I first noticed the problem with =
-mutexes.
->>>>
->>>> Nicholas,
->>>>
->>>> Can you provide pointers to further information on this topic?
->>>>
->>>> Cheers,
->>>>
->>>> Michael
->>>>
->>>>
->>>> --
->>>> Michael Kerrisk
->>>> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->>>> Linux/UNIX System Programming Training: http://man7.org/training/
->>>>
->>>
->>
->>
->> --
->> Michael Kerrisk
->> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
->> Linux/UNIX System Programming Training: http://man7.org/training/
->=20
-
-
 --=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
