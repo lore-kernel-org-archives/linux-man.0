@@ -1,25 +1,44 @@
-From: Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>
-Subject: Re: Revised futex(2) man page for review
-Date: Tue, 28 Jul 2015 10:52:54 -0700
-Message-ID: <1438105974.2249.67.camel@stgolabs.net>
-References: <55166C01.7000803@gmail.com>
-	 <20150328114725.GJ27490@worktop.programming.kicks-ass.net>
-	 <1427813146.20009.2.camel@stgolabs.net> <55B611B3.7030005@gmail.com>
-	 <1438053377.2249.25.camel@stgolabs.net> <55B732C6.9080905@gmail.com>
+From: Alexei Starovoitov <ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org>
+Subject: Re: [PATCH man] ebpf.2: various updates to address some fixmes
+Date: Tue, 28 Jul 2015 11:01:20 -0700
+Message-ID: <55B7C370.1050708@plumgrid.com>
+References: <a8aa1bd1ddb4cd90a26887f2ce68d79c1e1e4c1f.1438097188.git.daniel@iogearbox.net>
+ <55B7BB08.9070608@plumgrid.com> <55B7BD6E.4080205@iogearbox.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55B732C6.9080905-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Darren Hart <dvhart-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <55B7BD6E.4080205-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, 2015-07-28 at 09:44 +0200, Michael Kerrisk (man-pages) wrote:
-> Maybe you still have some further improvements for the paragraph?
+On 7/28/15 10:35 AM, Daniel Borkmann wrote:
+> On 07/28/2015 07:25 PM, Alexei Starovoitov wrote:
+>> On 7/28/15 8:29 AM, Daniel Borkmann wrote:
+>>> +.BR __sync_fetch_and_add()
+>>> +can be used on map values in case the map has a value_size of
+>>> sizeof(long).
+>>> +This is quite often useful for aggregation and accounting of events.
+>>
+>> The above is a bit not clear, since both u32 and u64 can be used
+>> as atomic counters.
+>
+> Right, it's unclear indeed. Perhaps the sizeof(long) should be dropped and
+> it should say instead "the map has a value_size of 4 or 8 bytes".
 
-Nah, this is fine enough. Looks good.
+that also probably not ideal, since value_size == sizeof(struct elemval)
+struct elemval {
+   u64 packet_rx;
+   u64 byte_rx;
+   u32 another_counter;
+   ...
+   u32 some_useful_field;
+};
+so the program can keep multiple counters in each map element.
 
-Thanks,
-Davidlohr
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
