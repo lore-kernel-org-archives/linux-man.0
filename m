@@ -1,52 +1,39 @@
-From: Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: Next round: revised futex(2) man page for review
-Date: Tue, 28 Jul 2015 22:45:08 +0200
-Message-ID: <20150728204508.GG19282@twins.programming.kicks-ass.net>
-References: <55B61EF3.7080302@gmail.com>
- <alpine.DEB.2.11.1507282054370.3825@nanos>
+From: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+Subject: Re: [PATCH man v2] bpf.2: various updates/follow-ups to address some
+ fixmes
+Date: Tue, 28 Jul 2015 22:57:59 +0200
+Message-ID: <55B7ECD7.4020103@iogearbox.net>
+References: <36d5ffdcb1dc318cb25e0785eba31aff3014772f.1438109790.git.daniel@iogearbox.net> <55B7DC72.40205@gmail.com> <55B7E57E.9090401@iogearbox.net>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.11.1507282054370.3825@nanos>
+In-Reply-To: <55B7E57E.9090401-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
-Cc: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: ast-uqk4Ao+rVK5Wk0Htik3J/w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Tue, Jul 28, 2015 at 10:23:51PM +0200, Thomas Gleixner wrote:
+On 07/28/2015 10:26 PM, Daniel Borkmann wrote:
+> On 07/28/2015 09:48 PM, Michael Kerrisk (man-pages) wrote:
+>> Hi Daniel,
+>>
+>> On 07/28/2015 08:59 PM, Daniel Borkmann wrote:
+>>> A couple of follow-ups to the bpf(2) man-page.
+>>
+>> Could you write a short change log summarizing the changes
+>> made by the patch, please :-).
+>>
+>> Nice work, but I have some comments below. Would you be so kind as to
+>> send a v3?
+>
+> Ok, done. I think I've addressed all your feedback.
 
-> >        FUTEX_WAKE (since Linux 2.6.0)
-> >               This  operation  wakes at most val of the waiters tha=
-t are
-> >               waiting (e.g., inside FUTEX_WAIT) on the futex word a=
-t the
-> >               address  uaddr.  Most commonly, val is specified as e=
-ither
-> >               1 (wake up a single waiter) or INT_MAX (wake up all  =
-wait=E2=80=90
-> >               ers).   No  guarantee  is provided about which waiter=
-s are
-> >               awoken (e.g., a waiter with a higher  scheduling  pri=
-ority
-> >               is  not  guaranteed to be awoken in preference to a w=
-aiter
-> >               with a lower priority).
->=20
-> That's only correct up to Linux 2.6.21.
->=20
-> Since 2.6.22 we have a priority ordered wakeup. For SCHED_OTHER
-> threads this takes the nice level into account. Threads with the same
-> priority are woken in FIFO order.
+Couple of more follow-ups will come later on to address program
+types, etc.
 
-Maybe don't mention the effects of SCHED_OTHER, order by nice value is
-'wrong'.
-
-Also, this code seems to use plist, which means it won't do the right
-thing for SCHED_DEADLINE either.
-
-Do we want to go fix that?
+Thanks!
+Daniel
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
