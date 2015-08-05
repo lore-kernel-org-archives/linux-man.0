@@ -1,146 +1,77 @@
-From: "Gabriel F. T. Gomes" <gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
-Subject: [PATCH 1/2] __ppc_yield.3: Document new glibc function
-Date: Wed,  5 Aug 2015 16:29:06 -0300
-Message-ID: <1438802947-4372-1-git-send-email-gftg@linux.vnet.ibm.com>
+From: Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>
+Subject: Re: For review: nptl(7) man page
+Date: Wed, 5 Aug 2015 15:46:13 -0400
+Message-ID: <20150805194613.GB14639@brightrain.aerifal.cx>
+References: <CAODz2cDq4o85NOzqCDg9cH8eCvqt3Tq5QXKMMJtXbik5h5bL+Q@mail.gmail.com>
+ <55B54215.6070502@gmail.com>
+ <1438616740.20974.81.camel@localhost.localdomain>
+ <20150803200825.GJ16376@brightrain.aerifal.cx>
+ <20150804150648.9E9F42C3B01@topped-with-meat.com>
+ <3848244D-C3FE-4FD1-B137-AF7AD6252659@gmail.com>
+ <1438767393.20974.211.camel@localhost.localdomain>
+ <BCB9D422-563C-4317-B0CB-B14001FE0EA3@gmail.com>
+ <20150805182327.GA14639@brightrain.aerifal.cx>
+ <55C25D2B.4040905@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
+In-Reply-To: <55C25D2B.4040905-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org, krisman-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Nicholas Miell <nmiell-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org" <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-GNU C Library 2.18 adds functions to hint a processor that performance
-could be improved if shared resources are released for use by other
-processors.
+On Wed, Aug 05, 2015 at 08:59:55PM +0200, Michael Kerrisk (man-pages) wrote:
+> >>> The semaphore example shows that there can be a disadvantage to
+> >>> guaranteeing 32/64b interoperability (specifically, the 64b code is more
+> >>> efficient).  For mutex, I *currently* don't see a reason why we couldn't
+> >>> get away with just doing 32b stuff for the pshared case, but there's no
+> >>> guarantee that I can foresee all future needs either.
+> >>>
+> >>> Thus, if we would decide to guarantee 32/64b interoperability, we'd need
+> >>> to have at least strong use cases for that and a decent amount of
+> >>> confidence that making such a guarantee is unlikely to constrain the
+> >>> implementation in the future.
+> >>
+> >> Well, POSIX semaphores are supposed to be a replacement for System V
+> >> semaphores (and this extends to the rest of the POSIX IPC
+> >> primitives); right now they aren't.
+> > 
+> > Only for some usage cases. As far as I can tell, POSIX semaphores are
+> > not intended to be required to be implemented as a kernel resource.
+> 
+> That last is also true of SysV semaphores, surely?
 
-Signed-off-by: Gabriel F. T. Gomes <gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
----
- man3/__ppc_mdoio.3 |  1 +
- man3/__ppc_mdoom.3 |  1 +
- man3/__ppc_yield.3 | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 98 insertions(+)
- create mode 100644 man3/__ppc_mdoio.3
- create mode 100644 man3/__ppc_mdoom.3
- create mode 100644 man3/__ppc_yield.3
+The grammar of my sentence was rather complicated and perhaps
+confusing. The intent was to say that SysV semaphores absolutely have
+to be a kernel resource, but POSIX semaphores don't (and aren't).
 
-diff --git a/man3/__ppc_mdoio.3 b/man3/__ppc_mdoio.3
-new file mode 100644
-index 0000000..c9f047f
---- /dev/null
-+++ b/man3/__ppc_mdoio.3
-@@ -0,0 +1 @@
-+.so man3/__ppc_yield.3
-diff --git a/man3/__ppc_mdoom.3 b/man3/__ppc_mdoom.3
-new file mode 100644
-index 0000000..c9f047f
---- /dev/null
-+++ b/man3/__ppc_mdoom.3
-@@ -0,0 +1 @@
-+.so man3/__ppc_yield.3
-diff --git a/man3/__ppc_yield.3 b/man3/__ppc_yield.3
-new file mode 100644
-index 0000000..6a06cc9
---- /dev/null
-+++ b/man3/__ppc_yield.3
-@@ -0,0 +1,96 @@
-+.\" Copyright (c) 2015, IBM Corporation.
-+.\"
-+.\" %%%LICENSE_START(VERBATIM)
-+.\" Permission is granted to make and distribute verbatim copies of this
-+.\" manual provided the copyright notice and this permission notice are
-+.\" preserved on all copies.
-+.\"
-+.\" Permission is granted to copy and distribute modified versions of
-+.\" this manual under the conditions for verbatim copying, provided that
-+.\" the entire resulting derived work is distributed under the terms of
-+.\" a permission notice identical to this one.
-+.\"
-+.\" Since the Linux kernel and libraries are constantly changing, this
-+.\" manual page may be incorrect or out-of-date.  The author(s) assume.
-+.\" no responsibility for errors or omissions, or for damages resulting.
-+.\" from the use of the information contained herein.  The author(s) may.
-+.\" not have taken the same level of care in the production of this.
-+.\" manual, which is licensed free of charge, as they might when working.
-+.\" professionally.
-+.\"
-+.\" Formatted or processed versions of this manual, if unaccompanied by
-+.\" the source, must acknowledge the copyright and authors of this work.
-+.\" %%%LICENSE_END
-+.\"
-+.\" Process this file with
-+.\" groff -man -Tascii foo.1
-+.\"
-+.TH __PPC_YIELD 3 2015-08-05 "GNU C Library" "Linux Programmer's\
-+Manual"
-+.SH NAME
-+__ppc_yield, __ppc_mdoio, __ppc_mdoom \-
-+Hint the processor to release shared resources
-+.SH SYNOPSIS
-+.B #include <sys/platform/ppc.h>
-+.sp
-+.B void __ppc_yield(void);
-+.br
-+.B void __ppc_mdoio(void);
-+.br
-+.B void __ppc_mdoom(void);
-+.SH DESCRIPTION
-+The functions
-+.BR __ppc_yield (),
-+.BR __ppc_mdoio ()
-+and
-+.BR __ppc_mdoom ()
-+provide hints about the usage of resources that are shared with other
-+processors.
-+They can be used, for example, if a program waiting on a lock intends
-+to divert the shared resources to be used by other processors.
-+More information is available in Power ISA 2.06b - Book II - Section
-+3.2.
-+.P
-+.BR __ppc_yield ()
-+provides a hint that performance will probably be improved if shared
-+resources dedicated to the executing processor are released for use by
-+other processors.
-+.P
-+.BR __ppc_mdoio ()
-+provides a hint that performance will probably be improved if shared
-+resources dedicated to the executing processor are released until all
-+outstanding storage accesses to caching-inhibited storage have been
-+completed.
-+.P
-+.BR __ppc_mdoom ()
-+provides a hint that performance will probably be improved if shared
-+resources dedicated to the executing processor are released until all
-+outstanding storage accesses to cacheable storage for which the data
-+is not in the cache have been completed.
-+.SH VERSIONS
-+GNU C Library added support for
-+.BR __ppc_yield (),
-+.BR __ppc_mdoio ()
-+and
-+.BR __ppc_mdoom ()
-+in version 2.18.
-+.SH ATTRIBUTES
-+For an explanation of the terms used in this section, see
-+.BR attributes (7).
-+.ad l
-+.TS
-+allbox;
-+lb lb lb
-+l l l.
-+Interface	Attribute	Value
-+T{
-+.BR __ppc_yield (),
-+.BR __ppc_mdoio (),
-+.BR __ppc_mdoom ()
-+T}	Thread safety	MT-Safe
-+.TE
-+.ad
-+.SH CONFORMING TO
-+These functions are nonstandard GNU extensions.
-+.SH SEE ALSO
-+.BR __ppc_set_ppr_med (3)
--- 
-2.1.0
+> > They don't have permissions enforcement/safety against malicious
+> > processes, 
+> 
+> (I'm a little lost here. POSIX semaphores do have a permissions mask.)
 
+Yes, named semaphores have fs-like permissions, and of course you can
+do that with unnamed ones in named shared memory objects or files.
+However, as implemented in the real world, that provides no protection
+from a malicious process that _does_ have access permissions. With SysV
+semaphores, the worst a malicious process with access can do is
+wait/post the semaphore. With current implementations of POSIX
+semaphores, and other process-shared pthread sync objects, a malicious
+process that has access can utterly corrupt the state of the object. I
+am not sure of the extent of damage that can be achieved here, but
+there is not explicit effort to harden against it.
+
+> >  backout on async process termination, etc.
+> 
+> Actually, System V semaphores don't reliably have this either (see BUGS
+> in semop(2)).
+
+That's something of a design bug, but irrelevant to the reasonable
+usage which would be to post, not wait.
+
+Rich
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
