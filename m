@@ -1,50 +1,60 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Bug report - stat 2 - Description section
-Date: Wed, 05 Aug 2015 21:00:15 +0200
-Message-ID: <55C25D3F.5010400@gmail.com>
-References: <CAP6jbrRRJkdjc3jt3t3sjTFkicmq1Jjrizij5Bw-QUrD=GG6pA@mail.gmail.com>
+Subject: Re: [patch] sched.7: Fix swapped descriptions of sched_get_priority_max
+ and sched_get_priority_min
+Date: Wed, 05 Aug 2015 21:14:16 +0200
+Message-ID: <55C26088.9090604@gmail.com>
+References: <1438682920.3375.7.camel@redhat.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <CAP6jbrRRJkdjc3jt3t3sjTFkicmq1Jjrizij5Bw-QUrD=GG6pA-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
+In-Reply-To: <1438682920.3375.7.camel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Yaarit <yaarit-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/05/2015 03:30 PM, Yaarit wrote:
-> Hello there,
-> 
-> I believe there is a small mistake in the *Description* section of these
-> man pages:
-> http://man7.org/linux/man-pages/man2/stat.2.html
-> http://man7.org/linux/man-pages/man2/fstatat.2.html
-> http://man7.org/linux/man-pages/man2/lstat.2.html
-> http://man7.org/linux/man-pages/man2/stat64.2.html
-> http://man7.org/linux/man-pages/man2/lstat64.2.html
-> http://man7.org/linux/man-pages/man2/fstat64.2.html
-> 
-> 
-> When referring to the functions' second argument (*struct stat ***buf*) in
-> the Description, it reads:
-> 
-> These functions return information about a file, in the buffer pointed
-> to by *stat*.
-> 
-> instead of:
-> 
-> These functions return information about a file, in the buffer pointed
-> to by *buf*.
+Hi Nikola,
 
-Thanks, Yaarit. Fixed.
+Thanks for the patch. I applied it. But, be aware that your mailer
+is mangling patches (line wrapping), so I had to manually fix before
+I applied.
 
 Cheers,
 
 Michael
 
+On 08/04/2015 12:08 PM, Nikola Forr=C3=B3 wrote:
+> ---
+>  man7/sched.7 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/man7/sched.7 b/man7/sched.7
+> index ac518b2..743d52b 100644
+> --- a/man7/sched.7
+> +++ b/man7/sched.7
+> @@ -49,10 +49,10 @@ Set the scheduling parameters of a specified
+> thread.
+>  Fetch the scheduling parameters of a specified thread.
+>  .TP
+>  .BR sched_get_priority_max (2)
+> -Return the minimum priority available in a specified scheduling
+> policy.
+> +Return the maximum priority available in a specified scheduling
+> policy.
+>  .TP
+>  .BR sched_get_priority_min (2)
+> -Return the maximum priority available in a specified scheduling
+> policy.
+> +Return the minimum priority available in a specified scheduling
+> policy.
+>  .TP
+>  .BR sched_rr_get_interval (2)
+>  Fetch the quantum used for threads that are scheduled under
+>=20
 
--- 
+
+--=20
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
