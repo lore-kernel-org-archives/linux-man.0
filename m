@@ -1,42 +1,61 @@
-From: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Subject: [PATCH 1/1] fanotify.7: clarify effects of file moves
-Date: Thu,  6 Aug 2015 22:49:43 +0200
-Message-ID: <1438894183-3979-1-git-send-email-xypron.glpk@gmx.de>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] bpf(2): fix func signature
+Date: Fri, 07 Aug 2015 11:16:54 +0200
+Message-ID: <55C47786.5020002@gmail.com>
+References: <1438149380-21363-1-git-send-email-vapier@gentoo.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1438149380-21363-1-git-send-email-vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+To: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-If files or directories are moved to other mounts the inode is
-deleted. Fanotify marks are lost.
+On 07/29/2015 07:56 AM, Mike Frysinger wrote:
+> Also add a missing period in the errno section.
 
-Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
----
- man7/fanotify.7 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks, Mike. Applied.
 
-diff --git a/man7/fanotify.7 b/man7/fanotify.7
-index 54b1ea6..f63fb51 100644
---- a/man7/fanotify.7
-+++ b/man7/fanotify.7
-@@ -91,10 +91,10 @@ ignore mask and the file cache entry can be updated.
- .PP
- The entries in the fanotify notification groups refer to files and
- directories via their inode number and to mounts via their mount ID.
--If files or directories are renamed or moved,
-+If files or directories are renamed or moved within the same mount,
- the respective entries survive.
--If files or directories are deleted or mounts are unmounted,
--the corresponding entries are deleted.
-+If files or directories are deleted or moved to another mount or if mounts are
-+unmounted, the corresponding entries are deleted.
- .SS The event queue
- As events occur on the filesystem objects monitored by a notification group,
- the fanotify system generates events that are collected in a queue.
+Cheers,
+
+Michael
+
+
+> ---
+>  man2/bpf.2 | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/man2/bpf.2 b/man2/bpf.2
+> index 2b96ebc..d7e638c 100644
+> --- a/man2/bpf.2
+> +++ b/man2/bpf.2
+> @@ -30,7 +30,7 @@ bpf - perform a command on an extended BPF map or program
+>  .nf
+>  .B #include <linux/bpf.h>
+>  .sp
+> -.BI "int bpf(int cmd, union bpf_attr *attr, unsigned int size);
+> +.BI "int bpf(int " cmd ", union bpf_attr *" attr ", unsigned int " size ");
+>  .SH DESCRIPTION
+>  The
+>  .BR bpf ()
+> @@ -969,7 +969,7 @@ Cannot allocate sufficient memory.
+>  .TP
+>  .B EBADF
+>  .I fd
+> -is not an open file descriptor
+> +is not an open file descriptor.
+>  .TP
+>  .B EFAULT
+>  One of the pointers
+> 
+
+
 -- 
-2.1.4
-
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
