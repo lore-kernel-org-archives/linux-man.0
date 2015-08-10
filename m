@@ -1,44 +1,38 @@
-From: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
-Subject: [PATCH] getaddrinfo.3: require POSIX.1-2001
-Date: Mon, 10 Aug 2015 12:33:12 +0200
-Message-ID: <mvmio8nmo0n.fsf@hawking.suse.de>
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: Re: [patch] sched.7: Fix swapped descriptions of
+ sched_get_priority_max and sched_get_priority_min
+Date: Mon, 10 Aug 2015 14:32:52 +0200
+Message-ID: <1439209972.3676.9.camel@redhat.com>
+References: <1438682920.3375.7.camel@redhat.com>
+	 <55C26088.9090604@gmail.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <55C26088.9090604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Since glibc 2.22 getaddrinfo etc. are only declared for POSIX.1-2001 or later.
+Michael Kerrisk (man-pages) p=C3=AD=C5=A1e v St 05. 08. 2015 v 21:14 +0=
+200:
+> Hi Nikola,
+>=20
+> Thanks for the patch. I applied it. But, be aware that your mailer
+> is mangling patches (line wrapping), so I had to manually fix before
+> I applied.
+>=20
+> Cheers,
+>=20
+> Michael
+>=20
 
-Signed-off-by: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
----
- man3/getaddrinfo.3 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Sorry about that, I'll make sure it won't happen next time.
 
-diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
-index 7bf815a..a746bf4 100644
---- a/man3/getaddrinfo.3
-+++ b/man3/getaddrinfo.3
-@@ -70,7 +70,8 @@ Feature Test Macro Requirements for glibc (see
- .BR freeaddrinfo (),
- .BR gai_strerror ():
- .RS 4
--_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
-+_XOPEN_SOURCE\ >=\ 600 || _POSIX_C_SOURCE\ >=\ 200112L
-+.\" since glibc 2.22
- .RE
- .ad b
- .SH DESCRIPTION
--- 
-2.5.0
-
-
--- 
-Andreas Schwab, SUSE Labs, schwab-l3A5Bk7waGM@public.gmane.org
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+Regards,
+Nikola
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
