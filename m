@@ -1,37 +1,44 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 102551] New: fmemopen.3 manpage needs update for glibc-2.22
-Date: Sun, 09 Aug 2015 19:23:31 +0000
-Message-ID: <bug-102551-11311@https.bugzilla.kernel.org/>
+From: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+Subject: [PATCH] getaddrinfo.3: require POSIX.1-2001
+Date: Mon, 10 Aug 2015 12:33:12 +0200
+Message-ID: <mvmio8nmo0n.fsf@hawking.suse.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=102551
+Since glibc 2.22 getaddrinfo etc. are only declared for POSIX.1-2001 or later.
 
-            Bug ID: 102551
-           Summary: fmemopen.3 manpage needs update for glibc-2.22
-           Product: Documentation
-           Version: unspecified
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: man-pages
-          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
-          Reporter: ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
-        Regression: No
+Signed-off-by: Andreas Schwab <schwab-l3A5Bk7waGM@public.gmane.org>
+---
+ man3/getaddrinfo.3 | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-In particular, the binary mode is gone in this commit:
-https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=fdb7d390dd0d96e4a8239c46f3aa64598b90842b
+diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+index 7bf815a..a746bf4 100644
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -70,7 +70,8 @@ Feature Test Macro Requirements for glibc (see
+ .BR freeaddrinfo (),
+ .BR gai_strerror ():
+ .RS 4
+-_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
++_XOPEN_SOURCE\ >=\ 600 || _POSIX_C_SOURCE\ >=\ 200112L
++.\" since glibc 2.22
+ .RE
+ .ad b
+ .SH DESCRIPTION
+-- 
+2.5.0
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Andreas Schwab, SUSE Labs, schwab-l3A5Bk7waGM@public.gmane.org
+GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
+"And now for something completely different."
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
