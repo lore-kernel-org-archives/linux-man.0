@@ -1,38 +1,56 @@
-From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: Re: [patch] sched.7: Fix swapped descriptions of
- sched_get_priority_max and sched_get_priority_min
-Date: Mon, 10 Aug 2015 14:32:52 +0200
-Message-ID: <1439209972.3676.9.camel@redhat.com>
-References: <1438682920.3375.7.camel@redhat.com>
-	 <55C26088.9090604@gmail.com>
-Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+From: Orion Poplawski <orion-CVdf0l11yl+B+jHODAdFcQ@public.gmane.org>
+Subject: Changes for getaddrinfio()
+Date: Wed, 12 Aug 2015 10:08:31 -0600
+Message-ID: <55CB6F7F.3020409@cora.nwra.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55C26088.9090604-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Michael Kerrisk (man-pages) p=C3=AD=C5=A1e v St 05. 08. 2015 v 21:14 +0=
-200:
-> Hi Nikola,
->=20
-> Thanks for the patch. I applied it. But, be aware that your mailer
-> is mangling patches (line wrapping), so I had to manually fix before
-> I applied.
->=20
-> Cheers,
->=20
-> Michael
->=20
+See https://sourceware.org/bugzilla/show_bug.cgi?id=18529
 
-Sorry about that, I'll make sure it won't happen next time.
+The declarations needed to expose getaddrinfo() have changed.  New
+requirements are:
 
-Regards,
-Nikola
+  _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600
+
+diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
+index 7bf815a..427f062 100644
+--- a/man3/getaddrinfo.3
++++ b/man3/getaddrinfo.3
+@@ -70,7 +70,7 @@ Feature Test Macro Requirements for glibc (see
+ .BR freeaddrinfo (),
+ .BR gai_strerror ():
+ .RS 4
+-_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
++_POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE >= 600
+ .RE
+ .ad b
+ .SH DESCRIPTION
+diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
+index 0dc1d29..1fe8585 100644
+--- a/man3/getnameinfo.3
++++ b/man3/getnameinfo.3
+@@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
+ .in
+ .sp
+ .BR getnameinfo ():
+-_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
++_POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE >= 600
+ .ad b
+ .SH DESCRIPTION
+ The
+
+
+-- 
+Orion Poplawski
+Technical Manager                     303-415-9701 x222
+NWRA, Boulder/CoRA Office             FAX: 303-415-9702
+3380 Mitchell Lane                       orion-CfuHcwXVrUc@public.gmane.org
+Boulder, CO 80301                   http://www.nwra.com
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
