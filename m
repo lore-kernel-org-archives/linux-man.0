@@ -1,56 +1,67 @@
-From: Orion Poplawski <orion-CVdf0l11yl+B+jHODAdFcQ@public.gmane.org>
-Subject: Changes for getaddrinfio()
-Date: Wed, 12 Aug 2015 10:08:31 -0600
-Message-ID: <55CB6F7F.3020409@cora.nwra.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 103011] New: struct dl_phdr_info has additional members not yet
+ documented in  dl_iterate_phdr man page.
+Date: Sun, 16 Aug 2015 17:50:05 +0000
+Message-ID: <bug-103011-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-See https://sourceware.org/bugzilla/show_bug.cgi?id=18529
+https://bugzilla.kernel.org/show_bug.cgi?id=103011
 
-The declarations needed to expose getaddrinfo() have changed.  New
-requirements are:
+            Bug ID: 103011
+           Summary: struct dl_phdr_info has additional members not yet
+                    documented in  dl_iterate_phdr man page.
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: ppluzhnikov-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org
+        Regression: No
 
-  _POSIX_C_SOURCE >= 200112L || _XOPEN_SOURCE >= 600
+>From glibc-2.19 link.h:
 
-diff --git a/man3/getaddrinfo.3 b/man3/getaddrinfo.3
-index 7bf815a..427f062 100644
---- a/man3/getaddrinfo.3
-+++ b/man3/getaddrinfo.3
-@@ -70,7 +70,7 @@ Feature Test Macro Requirements for glibc (see
- .BR freeaddrinfo (),
- .BR gai_strerror ():
- .RS 4
--_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
-+_POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE >= 600
- .RE
- .ad b
- .SH DESCRIPTION
-diff --git a/man3/getnameinfo.3 b/man3/getnameinfo.3
-index 0dc1d29..1fe8585 100644
---- a/man3/getnameinfo.3
-+++ b/man3/getnameinfo.3
-@@ -27,7 +27,7 @@ Feature Test Macro Requirements for glibc (see
- .in
- .sp
- .BR getnameinfo ():
--_POSIX_C_SOURCE\ >=\ 1 || _XOPEN_SOURCE || _POSIX_SOURCE
-+_POSIX_C_SOURCE\ >=\ 200112L || _XOPEN_SOURCE >= 600
- .ad b
- .SH DESCRIPTION
- The
+struct dl_phdr_info
+  {
+    ElfW(Addr) dlpi_addr;
+    const char *dlpi_name;
+    const ElfW(Phdr) *dlpi_phdr;
+    ElfW(Half) dlpi_phnum;
 
+    /* Note: Following members were introduced after the first
+       version of this structure was available.  Check the SIZE
+       argument passed to the dl_iterate_phdr callback to determine
+       whether or not each later member is available.  */
+
+    /* Incremented when a new object may have been added.  */
+    __extension__ unsigned long long int dlpi_adds;
+    /* Incremented when an object may have been removed.  */
+    __extension__ unsigned long long int dlpi_subs;
+
+    /* If there is a PT_TLS segment, its module ID as used in
+       TLS relocations, else zero.  */
+    size_t dlpi_tls_modid;
+
+    /* The address of the calling thread's instance of this module's
+       PT_TLS segment, if it has one and it has been allocated
+       in the calling thread, otherwise a null pointer.  */
+    void *dlpi_tls_data;
+  };
+
+These were added in d78efd9f all the way back in 2006.
 
 -- 
-Orion Poplawski
-Technical Manager                     303-415-9701 x222
-NWRA, Boulder/CoRA Office             FAX: 303-415-9702
-3380 Mitchell Lane                       orion-CfuHcwXVrUc@public.gmane.org
-Boulder, CO 80301                   http://www.nwra.com
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
