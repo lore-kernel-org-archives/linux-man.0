@@ -1,7 +1,7 @@
-From: Tobias Stoeckmann <tobias-te0W2B6tFQkGQOE+iOL5gA@public.gmane.org>
-Subject: [patch] setsid.2: tfix
-Date: Tue, 18 Aug 2015 16:41:10 +0200
-Message-ID: <20150818144110.GA1805@localhost>
+From: "S. Gilles" <sgilles-X9d1TDB9xtu3n+kRt3O4EA@public.gmane.org>
+Subject: Constancy of non-standard sysconf() calls
+Date: Wed, 19 Aug 2015 00:22:32 -0400
+Message-ID: <20150819042232.GY5334@number18>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
@@ -11,27 +11,47 @@ To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-it -> its
----
- man2/setsid.2 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The manual for sysconf() currently reads
 
-diff --git a/man2/setsid.2 b/man2/setsid.2
-index 22885dd..089bf26 100644
---- a/man2/setsid.2
-+++ b/man2/setsid.2
-@@ -46,7 +46,7 @@ The calling process is the leader of the new session
- (i.e., its session ID is made the same as its process ID).
- The calling process also becomes
- the process group leader of a new process group in the session
--(i.e., its process group ID is made the same as it process ID).
-+(i.e., its process group ID is made the same as its process ID).
- 
- The calling process will be the only process in
- the new process group and in the new session.
+    The values obtained from these functions are system configuration
+    constants.  They do not change during the lifetime of a process.
+
+This is not strictly true for some of the non-standard options. In
+particular, sysconf(_SC_NPROCESSORS_ONLN) may change on a hotpluggable
+machine during the life of a program (at least with glibc 2.21). For example:
+
+#include <stdio.h>
+#include <unistd.h>
+
+int
+main(void)
+{
+        while (1) {
+                printf("%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
+                sleep(1);
+        }
+
+        return 0;
+}
+
+may print different things over time if, during the running life of
+the program, I twiddle with /sys/devices/system/cpu/cpu*/online .
+
+This value is noted as possibly non-standard, and is certainly not
+standard in the wild (e.g. musl-libc treats _SC_NPROCESSORS_ONLN as
+_SC_NPROCESSORS_CONF, while under glibc the two arguments can give
+different results), but the current wording of the page seems to cover
+even non-standard values.  Perhaps the unchangingness could be
+qualified, for example
+
+    When given standard arguments as defined below, these functions
+    return values that are system configuration constants.  They do
+    not change during the lifetime of a process.
+
+How does this sound?
+
 -- 
-2.5.0
-
+S. Gilles
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
