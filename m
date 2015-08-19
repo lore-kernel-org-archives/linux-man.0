@@ -1,57 +1,44 @@
-From: "S. Gilles" <sgilles-X9d1TDB9xtu3n+kRt3O4EA@public.gmane.org>
-Subject: Constancy of non-standard sysconf() calls
-Date: Wed, 19 Aug 2015 00:22:32 -0400
-Message-ID: <20150819042232.GY5334@number18>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 103181] New: Some definitions are not available in sys/ptrace.h
+Date: Wed, 19 Aug 2015 20:50:59 +0000
+Message-ID: <bug-103181-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-The manual for sysconf() currently reads
+https://bugzilla.kernel.org/show_bug.cgi?id=103181
 
-    The values obtained from these functions are system configuration
-    constants.  They do not change during the lifetime of a process.
+            Bug ID: 103181
+           Summary: Some definitions are not available in sys/ptrace.h
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: low
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: philglva-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
-This is not strictly true for some of the non-standard options. In
-particular, sysconf(_SC_NPROCESSORS_ONLN) may change on a hotpluggable
-machine during the life of a program (at least with glibc 2.21). For example:
+Ptrace(2) describes some 'request' macro, as PTRACE_GETSIGMASK or
+PTRACE_SETSIGMASK, which are not defined in the header ("sys/ptrace.h")
+indicated in the synopsis.
 
-#include <stdio.h>
-#include <unistd.h>
+However, these macros are defined in "linux/ptrace.h" but I haven't found any
+inclusion of this header is "sys/ptrace.h".
 
-int
-main(void)
-{
-        while (1) {
-                printf("%ld\n", sysconf(_SC_NPROCESSORS_ONLN));
-                sleep(1);
-        }
-
-        return 0;
-}
-
-may print different things over time if, during the running life of
-the program, I twiddle with /sys/devices/system/cpu/cpu*/online .
-
-This value is noted as possibly non-standard, and is certainly not
-standard in the wild (e.g. musl-libc treats _SC_NPROCESSORS_ONLN as
-_SC_NPROCESSORS_CONF, while under glibc the two arguments can give
-different results), but the current wording of the page seems to cover
-even non-standard values.  Perhaps the unchangingness could be
-qualified, for example
-
-    When given standard arguments as defined below, these functions
-    return values that are system configuration constants.  They do
-    not change during the lifetime of a process.
-
-How does this sound?
+I checked this fact on Arch Linux (4.1.3-1-ARCH) and Ubuntu
+(3.16.0-43-generic).
 
 -- 
-S. Gilles
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
