@@ -1,35 +1,48 @@
-From: Mark Singer <MSinger-V4g1V1h5389A/TtdH+1Z3g@public.gmane.org>
-Subject: (unknown)
-Date: Thu, 20 Aug 2015 00:12:49 -0700
-Message-ID: <66EA9C2C53B30B46B1D28150E6EB8FB5015BB1A6902C__11782.8966038816$1440055137$gmane$org@mail.napavalley.edu>
+From: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
+Subject: poll(2) and select(2) should document spurious EAGAIN for portable
+ programs
+Date: Sun, 23 Aug 2015 00:32:12 -0700
+Message-ID: <20150823073212.GA20753@x>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Subject: 
-Content-Language: en-US
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+On some systems (reported by Jeremy Sequoia as occurring on Darwin),
+poll(2) and select(2) can spuriously return EAGAIN if they fail to
+allocate kernel-internal resources, rather than ENOMEM as Linux does.
+The spec allows this for poll(2):
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/poll.html says
+poll may return EAGAIN if "The allocation of internal data structures
+failed but a subsequent request may succeed."  The spec for select(2)
+at http://pubs.opengroup.org/onlinepubs/9699919799/functions/select.html
+doesn't specify EAGAIN, but apparently Darwin can return it in that case
+too.
+
+I'd suggest the following text for poll(2)'s NOTES section:
+
+Some other UNIX systems can return EAGAIN if they fail to allocate
+kernel-internal resources, rather than ENOMEM as Linux does.  The Single
+Unix Specification allows this behavior for poll(2).  Portable programs
+may wish to check for EAGAIN and loop, just as with EINTR.
 
 
+And the following text for select(2)'s NOTES section:
 
-Do you need an investor?
-Our investors fund project and business. We also give out loan/credit t=
-o any individual and company at 3% interest rate yearly. For more infor=
-mation, Contact us via Email: devonfps-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=20
+Some other UNIX systems can return EAGAIN if they fail to allocate
+kernel-internal resources, rather than ENOMEM as Linux does.  The Single
+Unix Specification allows this behavior for poll(2), but not for
+select(2); nonetheless, some systems do return EAGAIN from select(2).
+Portable programs may wish to check for EAGAIN and loop, just as with
+EINTR.
 
-If you need an investor or quick funding, forward your response ONLY to=
- this E-mail: devonfps-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=20
-=2E...
-Haben Sie einen Investor brauchen?
-Unsere Investoren Fonds Projekt- und Gesch=E4fts. Wir geben auch Darleh=
-en / Kredite an jeden einzelnen und Unternehmen bei 3% Zinsen j=E4hrlic=
-h. F=FCr weitere Informationen, kontaktieren Sie uns per E-Mail: devonf=
-ps-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org=20
 
-Wenn Sie ein Investor oder schnelle Finanzierung ben=F6tigen, senden Si=
-e Ihre Antwort nur auf diese E-mail: devonfps-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org --
+- Josh Triplett
+--
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 More majordomo info at  http://vger.kernel.org/majordomo-info.html
