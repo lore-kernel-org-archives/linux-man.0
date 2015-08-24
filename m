@@ -1,7 +1,7 @@
 From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: [PATCH] sigpause.3: srcfix: add FIXME
-Date: Mon, 24 Aug 2015 18:19:55 +0800
-Message-ID: <1440411596-2566-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: [PATCH] termios.3: srcfix: add FIXME
+Date: Mon, 24 Aug 2015 18:19:56 +0800
+Message-ID: <1440411596-2566-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain
@@ -14,26 +14,27 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 ---
- man3/sigpause.3 | 6 ++++++
- 1 file changed, 6 insertions(+)
+ man3/termios.3 | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/man3/sigpause.3 b/man3/sigpause.3
-index 847bd10..dbc10de 100644
---- a/man3/sigpause.3
-+++ b/man3/sigpause.3
-@@ -63,6 +63,12 @@ l l l.
- Interface	Attribute	Value
- T{
- .BR sigpause ()
-+.\" FIXME: the following marking is different from which in glibc manual,
-+.\" marking in glibc manual is more detailed.
-+.\" sigpause: MT-Unsafe race:sigprocmask/!bsd!linux
-+.\" glibc manual says /!linux!bsd indicate the preceding marker only applies
-+./" when the underlying kernel is neither Linux nor a BSD kernel.
+diff --git a/man3/termios.3 b/man3/termios.3
+index 02aee64..1ea5236 100644
+--- a/man3/termios.3
++++ b/man3/termios.3
+@@ -994,6 +994,13 @@ T{
+ .BR cfsetispeed (),
+ .BR cfsetospeed (),
+ .BR cfsetspeed ()
++.\" FIXME: the following markings are different from which in glibc manual,
++.\" markings in glibc manual are more detailed.
++.\" tcsendbreak: MT-Unsafe race:tcattr(filedes)/bsd
++.\" tcflow: MT-Unsafe race:tcattr(filedes)/bsd
++.\" glibc manual says /bsd indicate the preceding marker only applies
++./" when the underlying kernel is a BSD kernel.
 +.\" So, it is safety in Linux kernel.
  T}	Thread safety	MT-Safe
  .TE
- .SH CONFORMING TO
+ .ad
 -- 
 1.9.3
 
