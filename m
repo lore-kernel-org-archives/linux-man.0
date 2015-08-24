@@ -1,47 +1,64 @@
-From: Josh Triplett <josh-iaAMLnmF4UmaiuxdJuQwMA@public.gmane.org>
-Subject: poll(2) and select(2) should document spurious EAGAIN for portable
- programs
-Date: Sun, 23 Aug 2015 00:32:12 -0700
-Message-ID: <20150823073212.GA20753@x>
+From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+Subject: [PATCH] fgetgrent.3: ATTRIBUTES: Note function that is not thread-safe
+Date: Mon, 24 Aug 2015 18:19:51 +0800
+Message-ID: <1440411596-2566-2-git-send-email-zenglg.jy@cn.fujitsu.com>
+References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
+In-Reply-To: <1440411596-2566-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On some systems (reported by Jeremy Sequoia as occurring on Darwin),
-poll(2) and select(2) can spuriously return EAGAIN if they fail to
-allocate kernel-internal resources, rather than ENOMEM as Linux does.
-The spec allows this for poll(2):
-http://pubs.opengroup.org/onlinepubs/9699919799/functions/poll.html says
-poll may return EAGAIN if "The allocation of internal data structures
-failed but a subsequent request may succeed."  The spec for select(2)
-at http://pubs.opengroup.org/onlinepubs/9699919799/functions/select.html
-doesn't specify EAGAIN, but apparently Darwin can return it in that case
-too.
+The marking matches glibc marking.
+marking of function in glibc is:
+- fgetgrent: MT-Unsafe race:fgrent
 
-I'd suggest the following text for poll(2)'s NOTES section:
+ps: We think race:fgrent in glibc maybe hard for users to understand,
+and have sent a patch to the GNU libc community for changing it to
+race:fgetgrent, however, something about the copyright impeded the progress.
+Here we mark it "race:fgetgrent", so there is a little different.
 
-Some other UNIX systems can return EAGAIN if they fail to allocate
-kernel-internal resources, rather than ENOMEM as Linux does.  The Single
-Unix Specification allows this behavior for poll(2).  Portable programs
-may wish to check for EAGAIN and loop, just as with EINTR.
+Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+---
+ man3/fgetgrent.3 | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
+diff --git a/man3/fgetgrent.3 b/man3/fgetgrent.3
+index 57665dd..aa08e0f 100644
+--- a/man3/fgetgrent.3
++++ b/man3/fgetgrent.3
+@@ -90,6 +90,25 @@ is set to indicate the cause.
+ Insufficient memory to allocate
+ .I group
+ structure.
++.SH ATTRIBUTES
++For an explanation of the terms used in this section, see
++.BR attributes (7).
++.TS
++allbox;
++lb lb lb
++l l l.
++Interface	Attribute	Value
++T{
++.BR fgetgrent ()
++.\" FIXME: the following marking is different from which in glibc manual,
++.\" marking in glibc manual is,
++.\" fgetgrent: MT-Unsafe race:fgrent
++.\" We think race:fgrent in glibc maybe hard for users to understand,
++.\" and have sent a patch to the GNU libc community for changing it to
++.\" race:fgetgrent, however, something about the copyright impeded the progress.
++T}	Thread safety	MT-Unsafe race:fgetgrent
++.TE
++
+ .SH CONFORMING TO
+ SVr4.
+ .SH SEE ALSO
+-- 
+1.9.3
 
-And the following text for select(2)'s NOTES section:
-
-Some other UNIX systems can return EAGAIN if they fail to allocate
-kernel-internal resources, rather than ENOMEM as Linux does.  The Single
-Unix Specification allows this behavior for poll(2), but not for
-select(2); nonetheless, some systems do return EAGAIN from select(2).
-Portable programs may wish to check for EAGAIN and loop, just as with
-EINTR.
-
-
-- Josh Triplett
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
