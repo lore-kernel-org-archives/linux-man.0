@@ -1,73 +1,56 @@
-From: Kees Cook <keescook@chromium.org>
-Subject: Re: Seccomp questions for updates to seccomp(2) man page
-Date: Wed, 26 Aug 2015 21:32:40 -0700
-Message-ID: <CAGXu5j+__DYvHE36B3SfRAv6t+CP6WRvoAcVSusUXP_J7zO17w@mail.gmail.com>
-References: <CAKgNAkj8Yboqeq4nB+DbM2K76w3eiwnaUVCoSRzv=r-YGHy5uQ@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <CAKgNAkj8Yboqeq4nB+DbM2K76w3eiwnaUVCoSRzv=r-YGHy5uQ@mail.gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Michael Kerrisk-manpages <mtk.manpages@gmail.com>
-Cc: Will Drewry <wad@chromium.org>, lkml <linux-kernel@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>, Alexei Starovoitov <ast@plumgrid.com>, Daniel Borkmann <daniel@iogearbox.net>
+From: Eric B Munson <emunson@akamai.com>
+Subject: [PATCH] mremap.2: Add note about mremap with locked areas
+Date: Fri, 28 Aug 2015 14:42:52 -0400
+Message-ID: <1440787372-30214-1-git-send-email-emunson@akamai.com>
+Return-path: <owner-linux-mm@kvack.org>
+Sender: owner-linux-mm@kvack.org
+To: mtk.manpages@gmail.com
+Cc: Eric B Munson <emunson@akamai.com>, Michal Hocko <mhocko@suse.cz>, David Rientjes <rientjes@google.com>, linux-man@vger.kernel.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Aug 26, 2015 at 6:42 PM, Michael Kerrisk (man-pages)
-<mtk.manpages@gmail.com> wrote:
-> Hello Kees, Will,
->
-> In recent times I've been asked a couple of questions about seccomp(),
-> and it seems like it would be worthwhile to include these topics in
-> the seccomp(2) man page. Would you be able to help out with some
-> answers?
->
-> === Use of the instruction pointer in seccomp filters ===
->
-> The seccomp_data describing the system call includes the process's
-> instruction pointer value. What use can be made of this information?
+When mremap() is used to move or expand a mapping that is locked with
+mlock() or equivalent it will attempt to populate the new area.
+However, like mmap(MAP_LOCKED), mremap() will not fail if the area
+cannot be populated.  Also like mmap(MAP_LOCKED) this might come as a
+surprise to users and should be noted.
 
-Will may have some other history to add here, but it seemed like it
-was a handy thing to add, as it's a dynamic value attached to the
-execution environment. I'm actually not aware of any programs that
-build filters with reference to it.
+Signed-off-by: Eric B Munson <emunson@akamai.com>
+Cc: Michal Hocko <mhocko@suse.cz>
+Cc: David Rientjes <rientjes@google.com>
+Cc: linux-man@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+---
+ man2/mremap.2 | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> My best guess is that you can use this information in conjunction with
-> /proc/PID/maps to introspect the process layout and thus construct
-> filters that conditionally operate based on which DSO is performing a
-> system call. Is that a reasonable use case? Are there others?
-
-That's reasonable. Filters limiting syscalls to certain memory ranges
-would likely also want to lock down mmap and mprotect calls, to stop
-anything malicious from trying to sneak into the protected range.
-
-> === Chained seccomp filters and SECCOMP_RET_KILL ===
->
-> The man page describes the behavior when multiple filter are installed
->
->        If  multiple  filters  exist, they are all executed, in reverse
->        order of their addition to the  filter  tree  (i.e.,  the  most
->        recently installed filter is executed first).  The return value
->        for the evaluation of a given system  call  is  the  first-seen
->        SECCOMP_RET_ACTION  value of highest precedence (along with its
->        accompanying data) returned by execution of all of the filters.
->
-> The question is: suppose one of the early filters returns
-> SECCOMP_RET_KILL (which is the highest priority action), what is the
-> purpose of executing the remaining filters. My best guess is that this
-> about preventing the user from discovering which filter rule causes
-> the sandboxed program to fail. Is this correct, or is there another
-> reason?
-
-It's just because it would be an optimization that would only speed up
-the RET_KILL case, but it's the uncommon one and the one that doesn't
-benefit meaningfully from such a change (you need to kill the process
-really quickly?). We would speed up killing a program at the (albeit
-tiny) expense to all other filtered programs. Best to keep the filter
-execution logic clear, simple, and as fast as possible for all
-filters.
-
--Kees
-
+diff --git a/man2/mremap.2 b/man2/mremap.2
+index 071adb5..cf884e6 100644
+--- a/man2/mremap.2
++++ b/man2/mremap.2
+@@ -196,6 +196,17 @@ and the prototype for
+ did not allow for the
+ .I new_address
+ argument.
++
++If
++.BR mremap ()
++is used to move or expand an area locked with
++.BR mlock (2)
++or equivalent, the
++.BR mremap ()
++call will make a best effort to populate the new area but will not fail
++with
++.B ENOMEM
++if the area cannot be populated.
+ .SH SEE ALSO
+ .BR brk (2),
+ .BR getpagesize (2),
 -- 
-Kees Cook
-Chrome OS Security
+1.9.1
+
+--
+To unsubscribe, send a message with 'unsubscribe linux-mm' in
+the body to majordomo@kvack.org.  For more info on Linux MM,
+see: http://www.linux-mm.org/ .
+Don't email: <a href=mailto:"dont@kvack.org"> email@kvack.org </a>
