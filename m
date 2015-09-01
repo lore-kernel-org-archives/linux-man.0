@@ -1,61 +1,69 @@
-From: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
-Subject: Re: patchset for fgetgrent fgetpwent getspnam mallinfo sigpause and
- termios
-Date: Tue, 1 Sep 2015 16:00:43 +0800
-Message-ID: <1441094443.341.0.camel@G08FNSTD140232>
-References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] mallopt.3: Document M_ARENA_TEST, and M_ARENA_MAX.
+Date: Tue, 1 Sep 2015 15:35:50 +0200
+Message-ID: <CAKgNAkiJ5Y7y0UTwsLNijgJPtqv4Ejgce0YKErWOFv3QBOY_ZA@mail.gmail.com>
+References: <55DB40AE.7080405@redhat.com> <55E2F1BD.8050609@gmail.com> <55E454AA.6080409@redhat.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440411596-2566-1-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <55E454AA.6080409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hello,
-
-Ping! :)
-
-Thanks and best regards,
-Zeng
-
-On Mon, 2015-08-24 at 18:19 +0800, Zeng Linggang wrote:
-> Hello,
-> 
-> This patchset is for fgetgrent.3, fgetpwent.3, sigpause.3, termios.3,
-> getspnam.3 and mallinfo.3
-> 
-> 1. fgetgrent.3 and fgetpwent.3:
->    We have some discussions about these two functions, the Subject:
->    "Re: question about markings of fgetgrent and fgetpwent"
->    However, something about the copyright impeded the progress.
->    I am sorry for that, if you are OK, please see these two patches below,
->    I have added some "FIXME:" descriptions in them.
-> 
-> 2. getspnam.3
->    getspnam.3 is a little like fgetgrent.3 and fgetpwent.3, but there are not
->    markings in glibc document. I use the function names for the identifiers like
->    fgetgrent.3 and fgetpwent.3.
-> 
-> 3. mallinfo.3
->    Hope the descriptions about "const:mallopt" could explain clearly enough in
->    the patch.
-> 
-> 4. sigpause.3 and termios.3
->    These two functions are safety in Linux kernel, the markings in glibc manual
->    are more detailed. I also have added some "FIXME:" descriptions in them.
-> 
-> 
-> Thanks and best regards,
-> Zeng
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-man" in
-> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+On 31 August 2015 at 15:20, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
+> On 08/30/2015 08:06 AM, Michael Kerrisk (man-pages) wrote:
+>> diff --git a/man3/mallopt.3 b/man3/mallopt.3
+>> index c09e801..fd41bf0 100644
+>> --- a/man3/mallopt.3
+>> +++ b/man3/mallopt.3
+>> @@ -66,8 +66,8 @@ and since glibc 2.15 by default.
+>>  In some versions of the allocator there was no limit on the number
+>>  of created arenas (e.g., CentOS 5, RHEL 5).
+>>
+>> -When running programs on newer glibc versions,
+>> -these applications may exhibit high contention when accessing arenas.
+>> +When employing newer glibc versions, applications may in
+>> +some cases exhibit high contention when accessing arenas.
+>
+> OK.
+>
+>>  In these cases, it may be beneficial to increase
+>>  .B M_ARENA_MAX
+>>  to match the number of threads.
+>> @@ -79,7 +79,7 @@ This is the limit, in number of arenas created, at which the system
+>>  configuration will be examined to evaluate a hard limit on the
+>>  number of created arenas.
+>>  The computed limit is implementation-defined
+>> -and is usually a multiple of the number of available cores.
+>> +and is usually a multiple of the number of available CPUs.
+>
+> I like this. This is better than what I wrote, since a core is not
+> the right unit here, we are reading /sys/devices/system/cpu/online,
+> or /proc/stat or /proc/cpuinfo to compute the number of online cpus.
+>
+>>  Once the limit is computed, the result is final and constrains
+>>  the total number of arenas.
+>>  See
+>
+> Thanks for the commit and fixup!
 
 
+Thanks for checking the changes, Carlos!
+
+Cheers,
+
+Michael
+
+
+
+
+-- 
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
