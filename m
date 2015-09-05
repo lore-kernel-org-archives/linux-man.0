@@ -1,69 +1,33 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch] mallopt.3: Document M_ARENA_TEST, and M_ARENA_MAX.
-Date: Tue, 1 Sep 2015 15:35:50 +0200
-Message-ID: <CAKgNAkiJ5Y7y0UTwsLNijgJPtqv4Ejgce0YKErWOFv3QBOY_ZA@mail.gmail.com>
-References: <55DB40AE.7080405@redhat.com> <55E2F1BD.8050609@gmail.com> <55E454AA.6080409@redhat.com>
-Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: =?UTF-8?q?Ville=20Skytt=C3=A4?= <ville.skytta-X3B1VOXEql0@public.gmane.org>
+Subject: [PATCH] man-pages.7: ffix
+Date: Sat,  5 Sep 2015 09:27:35 +0300
+Message-ID: <1441434455-12165-1-git-send-email-ville.skytta@iki.fi>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <55E454AA.6080409-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Cc: "linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org" <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, GNU C Library <libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 31 August 2015 at 15:20, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> wrote:
-> On 08/30/2015 08:06 AM, Michael Kerrisk (man-pages) wrote:
->> diff --git a/man3/mallopt.3 b/man3/mallopt.3
->> index c09e801..fd41bf0 100644
->> --- a/man3/mallopt.3
->> +++ b/man3/mallopt.3
->> @@ -66,8 +66,8 @@ and since glibc 2.15 by default.
->>  In some versions of the allocator there was no limit on the number
->>  of created arenas (e.g., CentOS 5, RHEL 5).
->>
->> -When running programs on newer glibc versions,
->> -these applications may exhibit high contention when accessing arenas.
->> +When employing newer glibc versions, applications may in
->> +some cases exhibit high contention when accessing arenas.
->
-> OK.
->
->>  In these cases, it may be beneficial to increase
->>  .B M_ARENA_MAX
->>  to match the number of threads.
->> @@ -79,7 +79,7 @@ This is the limit, in number of arenas created, at which the system
->>  configuration will be examined to evaluate a hard limit on the
->>  number of created arenas.
->>  The computed limit is implementation-defined
->> -and is usually a multiple of the number of available cores.
->> +and is usually a multiple of the number of available CPUs.
->
-> I like this. This is better than what I wrote, since a core is not
-> the right unit here, we are reading /sys/devices/system/cpu/online,
-> or /proc/stat or /proc/cpuinfo to compute the number of online cpus.
->
->>  Once the limit is computed, the result is final and constrains
->>  the total number of arenas.
->>  See
->
-> Thanks for the commit and fixup!
+---
+ man7/man-pages.7 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Thanks for checking the changes, Carlos!
-
-Cheers,
-
-Michael
-
-
-
-
+diff --git a/man7/man-pages.7 b/man7/man-pages.7
+index c2c4ab7..df5b2b9 100644
+--- a/man7/man-pages.7
++++ b/man7/man-pages.7
+@@ -452,7 +452,7 @@ A comma-separated list of related man pages, possibly followed by
+ other related pages or documents.
+ 
+ The list should be ordered by section number and
+-then alphabetically by name
++then alphabetically by name.
+ Do not terminate this list with a period.
+ .IP
+ Where the SEE ALSO list contains many long manual page names,
 -- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
+2.4.3
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
