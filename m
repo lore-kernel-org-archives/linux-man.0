@@ -1,51 +1,66 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] man-pages.7: ffix
-Date: Sat, 05 Sep 2015 09:02:31 +0200
-Message-ID: <55EA9387.7080101@gmail.com>
-References: <1441434455-12165-1-git-send-email-ville.skytta@iki.fi>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org
+Subject: [PATCH] signal.7: add missing async-signal-safe functions
+Date: Mon,  7 Sep 2015 17:07:49 +0200
+Message-ID: <1441638469-22062-1-git-send-email-mhocko@kernel.org>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1441434455-12165-1-git-send-email-ville.skytta-X3B1VOXEql0@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: =?windows-1252?Q?Ville_Skytt=E4?= <ville.skytta-X3B1VOXEql0@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Thanks, Ville. Applied.
+From: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
 
-Cheers,
+It seems that few async-signal-safe functions listed by POSIX.1-2008
+http://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03
+are not mentioned in the man page. I am not exactly sure in which
+version of the standard they have declared as signal safe. So they
+were added to the section according to which standard they conform to:
 
-Michael
+POSIX.1-2001
+- fchdir
+- pthread_self
+- pthread_sigmask
 
+POSIX.1-2008
+- pthread_kill
 
-On 09/05/2015 08:27 AM, Ville Skytt=E4 wrote:
-> ---
->  man7/man-pages.7 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/man7/man-pages.7 b/man7/man-pages.7
-> index c2c4ab7..df5b2b9 100644
-> --- a/man7/man-pages.7
-> +++ b/man7/man-pages.7
-> @@ -452,7 +452,7 @@ A comma-separated list of related man pages, poss=
-ibly followed by
->  other related pages or documents.
-> =20
->  The list should be ordered by section number and
-> -then alphabetically by name
-> +then alphabetically by name.
->  Do not terminate this list with a period.
->  .IP
->  Where the SEE ALSO list contains many long manual page names,
->=20
+Signed-off-by: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
+---
+ man7/signal.7 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
+diff --git a/man7/signal.7 b/man7/signal.7
+index 4710945a2ab8..18871420cb16 100644
+--- a/man7/signal.7
++++ b/man7/signal.7
+@@ -510,6 +510,7 @@ execve()
+ fchmod()
+ fchown()
+ fcntl()
++fchdir()
+ fdatasync()
+ fork()
+ fpathconf()
+@@ -541,6 +542,8 @@ pipe()
+ poll()
+ posix_trace_event()
+ pselect()
++pthread_self()
++pthread_sigmask()
+ raise()
+ read()
+ readlink()
+@@ -622,6 +625,7 @@ mkfifoat()
+ mknod()
+ mknodat()
+ openat()
++pthread_kill()
+ readlinkat()
+ renameat()
+ symlinkat()
+-- 
+2.5.0
 
---=20
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
