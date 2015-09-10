@@ -1,40 +1,32 @@
-From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH] getent.1: ffix
-Date: Wed,  9 Sep 2015 16:18:39 +0200
-Message-ID: <1441808319-2128-1-git-send-email-jwilk@jwilk.net>
+From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+Subject: Re: [PATCH v2] mlock.2: mlock2.2: Add entry to for new mlock2 syscall
+Date: Thu, 10 Sep 2015 11:31:49 +0200
+Message-ID: <55F14E05.6020304@suse.cz>
+References: <1441030820-2960-1-git-send-email-emunson@akamai.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-2
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1441030820-2960-1-git-send-email-emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
----
- man1/getent.1 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 08/31/2015 04:20 PM, Eric B Munson wrote:
+> Update the mlock.2 man page with information on mlock2() and the new
+> mlockall() flag MCL_ONFAULT.
+> 
+> Signed-off-by: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
+> Acked-by: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
 
-diff --git a/man1/getent.1 b/man1/getent.1
-index af162fd..a1a49fd 100644
---- a/man1/getent.1
-+++ b/man1/getent.1
-@@ -344,12 +344,12 @@ and display the result.
- .RE
- .SH OPTIONS
- .TP
--.BR \-s\ \fIservice\fP, \-\-service\ \fIservice\fP
-+.BR \-s\ \fIservice\fP ", " \-\-service\ \fIservice\fP
- .\" commit 9d0881aa76b399e6a025c5cf44bebe2ae0efa8af (glibc)
- Override all databases with the specified service.
- (Since glibc 2.2.5.)
- .TP
--.BR \-s\ \fIdatabase\fP:\fIservice\fP,\ \
-+.BR \-s\ \fIdatabase\fP:\fIservice\fP ", "\
- \-\-service\ \fIdatabase\fP:\fIservice\fP
- .\" commit b4f6f4be85d32b9c03361c38376e36f08100e3e8 (glibc)
- Override only specified databases with the specified service.
--- 
-2.5.1
+Looks like I acked v1 too late and not v2, so:
 
+Acked-by: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+
+However, looks like it won't be in Linux 4.3 so that part is outdated.
+Also, what about glibc wrapper for mlock2()? Does it have to come before or
+after the manpage and who gets it in?
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
