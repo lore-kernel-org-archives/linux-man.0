@@ -1,27 +1,37 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] fgetpwent.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Fri, 11 Sep 2015 12:06:16 +0200
-Message-ID: <55F2A798.7030107@gmail.com>
-References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-3-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] getspnam.3: ATTRIBUTES: Note functions that are/aren't
+ thread-safe
+Date: Fri, 11 Sep 2015 12:06:36 +0200
+Message-ID: <55F2A7AC.2020402@gmail.com>
+References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-4-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440411596-2566-3-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1440411596-2566-4-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 08/24/2015 12:19 PM, Zeng Linggang wrote:
-> The marking matches glibc marking.
-> marking of function in glibc is:
-> - fgetgrent: MT-Unsafe race:fpwent
-> 
-> ps: We think race:fpwent in glibc maybe hard for users to understand,
-> and have sent a patch to the GNU libc community for changing it to
-> race:fgetpwent, however, something about the copyright impeded the progress.
-> Here we mark it "race:fgetpwent", so there is a little different.
+> After research, We think
+> * getspnam(),
+> * getspent(),
+> * setspent(),
+> * endspent(),
+> * getspent_r(),
+> * fgetspent(),
+> * sgetspent(),
+> are not thread-safe. And
+> * putspent(),
+> * getspnam_r(),
+> * sgetspent_r(),
+> * lckpwdf(),
+> * ulckpwdf(),
+> * fgetspent_r(),
+> are thread-safe. But, there are not
+> markings of them in glibc document.
 
 Applied!  Thanks, Zeng Linggang.
 
@@ -31,36 +41,80 @@ Michael
 
 > Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/fgetpwent.3 | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  man3/getspnam.3 | 60 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
 > 
-> diff --git a/man3/fgetpwent.3 b/man3/fgetpwent.3
-> index 3076494..84e0379 100644
-> --- a/man3/fgetpwent.3
-> +++ b/man3/fgetpwent.3
-> @@ -98,6 +98,22 @@ structure.
->  .TP
->  .I /etc/passwd
->  password database file
+> diff --git a/man3/getspnam.3 b/man3/getspnam.3
+> index 43ee61c..9efd643 100644
+> --- a/man3/getspnam.3
+> +++ b/man3/getspnam.3
+> @@ -246,6 +246,66 @@ The include file
+>  defines the constant
+>  .B _PATH_SHADOW
+>  to the pathname of the shadow password file.
+> +.SH ATTRIBUTES
+> +For an explanation of the terms used in this section, see
+> +.BR attributes (7).
 > +.TS
 > +allbox;
-> +lb lb lb
+> +lbw25 lb lbw30
 > +l l l.
 > +Interface	Attribute	Value
 > +T{
-> +.BR fgetpwent ()
-> +.\" FIXME: the following marking is different from which in glibc manual,
-> +.\" marking in glibc manual is,
-> +.\" fgetpwent: MT-Unsafe race:fpwent
-> +.\" We think race:fpwent in glibc maybe hard for users to understand,
-> +.\" and have sent a patch to the GNU libc community for changing it to
-> +.\" race:fgetpwent, however, something about the copyright impeded the progress.
-> +T}	Thread safety	MT-Unsafe race:fgetpwent
+> +.BR getspnam ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:getspnam locale
+> +T}
+> +T{
+> +.BR getspent ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:getspent
+> +.br
+> +race:spentbuf locale
+> +T}
+> +T{
+> +.BR setspent (),
+> +.BR endspent (),
+> +.br
+> +.BR getspent_r ()
+> +T}	Thread safety	T{
+> +MT-Unsafe race:getspent locale
+> +T}
+> +T{
+> +.BR fgetspent ()
+> +T}	Thread safety	MT-Unsafe race:fgetspent
+> +T{
+> +.BR sgetspent ()
+> +T}	Thread safety	MT-Unsafe race:sgetspent
+> +T{
+> +.BR putspent (),
+> +.BR getspnam_r (),
+> +.br
+> +.BR sgetspent_r ()
+> +T}	Thread safety	MT-Safe locale
+> +T{
+> +.BR lckpwdf (),
+> +.BR ulckpwdf (),
+> +.br
+> +.BR fgetspent_r ()
+> +T}	Thread safety	MT-Safe
 > +.TE
 > +
+> +In the above table,
+> +.I getspent
+> +in
+> +.I race:getspent
+> +signifies that if any of the functions
+> +.BR setspent (3),
+> +.BR getspent (3),
+> +.BR getspent_r (3),
+> +or
+> +.BR endspent (3)
+> +are used in parallel in different threads of a program,
+> +then data races could occur.
 >  .SH CONFORMING TO
->  SVr4.
->  .SH SEE ALSO
+>  The shadow password database and its associated API are
+>  not specified in POSIX.1.
 > 
 
 
