@@ -1,49 +1,86 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] termios.3: srcfix: add FIXME
-Date: Fri, 11 Sep 2015 12:07:31 +0200
-Message-ID: <55F2A7E3.1080105@gmail.com>
-References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-7-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: patchset for fgetgrent fgetpwent getspnam mallinfo sigpause and
+ termios
+Date: Fri, 11 Sep 2015 12:10:57 +0200
+Message-ID: <55F2A8B1.9070808@gmail.com>
+References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com>	 <1441094443.341.0.camel@G08FNSTD140232> <1441776711.22425.6.camel@G08FNSTD140232>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440411596-2566-7-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1441776711.22425.6.camel@G08FNSTD140232>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/24/2015 12:19 PM, Zeng Linggang wrote:
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+On 09/09/2015 07:31 AM, Zeng Linggang wrote:
+> Hello,
+> 
+> Could someone help to review these?
+> I think these codes is not really too much if you have scanned them.
+> Please keep a little patience. :)
 
-Applied!  Thanks, Zeng Linggang.
+My apologies for the delay, Zeng Linggang. I'm a little too busy
+at the moment.
 
 Cheers,
 
 Michael
 
-> ---
->  man3/termios.3 | 7 +++++++
->  1 file changed, 7 insertions(+)
+
+> Thanks and best regards,
+> Zeng
 > 
-> diff --git a/man3/termios.3 b/man3/termios.3
-> index 02aee64..1ea5236 100644
-> --- a/man3/termios.3
-> +++ b/man3/termios.3
-> @@ -994,6 +994,13 @@ T{
->  .BR cfsetispeed (),
->  .BR cfsetospeed (),
->  .BR cfsetspeed ()
-> +.\" FIXME: the following markings are different from which in glibc manual,
-> +.\" markings in glibc manual are more detailed.
-> +.\" tcsendbreak: MT-Unsafe race:tcattr(filedes)/bsd
-> +.\" tcflow: MT-Unsafe race:tcattr(filedes)/bsd
-> +.\" glibc manual says /bsd indicate the preceding marker only applies
-> +./" when the underlying kernel is a BSD kernel.
-> +.\" So, it is safety in Linux kernel.
->  T}	Thread safety	MT-Safe
->  .TE
->  .ad
+> On Tue, 2015-09-01 at 16:00 +0800, Zeng Linggang wrote:
+>> Hello,
+>>
+>> Ping! :)
+>>
+>> Thanks and best regards,
+>> Zeng
+>>
+>> On Mon, 2015-08-24 at 18:19 +0800, Zeng Linggang wrote:
+>>> Hello,
+>>>
+>>> This patchset is for fgetgrent.3, fgetpwent.3, sigpause.3, termios.3,
+>>> getspnam.3 and mallinfo.3
+>>>
+>>> 1. fgetgrent.3 and fgetpwent.3:
+>>>    We have some discussions about these two functions, the Subject:
+>>>    "Re: question about markings of fgetgrent and fgetpwent"
+>>>    However, something about the copyright impeded the progress.
+>>>    I am sorry for that, if you are OK, please see these two patches below,
+>>>    I have added some "FIXME:" descriptions in them.
+>>>
+>>> 2. getspnam.3
+>>>    getspnam.3 is a little like fgetgrent.3 and fgetpwent.3, but there are not
+>>>    markings in glibc document. I use the function names for the identifiers like
+>>>    fgetgrent.3 and fgetpwent.3.
+>>>
+>>> 3. mallinfo.3
+>>>    Hope the descriptions about "const:mallopt" could explain clearly enough in
+>>>    the patch.
+>>>
+>>> 4. sigpause.3 and termios.3
+>>>    These two functions are safety in Linux kernel, the markings in glibc manual
+>>>    are more detailed. I also have added some "FIXME:" descriptions in them.
+>>>
+>>>
+>>> Thanks and best regards,
+>>> Zeng
+>>> --
+>>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+>>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+>>
+>>
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-man" in
+>> the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+> 
 > 
 
 
