@@ -1,13 +1,13 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] sigpause.3: srcfix: add FIXME
-Date: Fri, 11 Sep 2015 12:07:13 +0200
-Message-ID: <55F2A7D1.8080307@gmail.com>
-References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-6-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] termios.3: srcfix: add FIXME
+Date: Fri, 11 Sep 2015 12:07:31 +0200
+Message-ID: <55F2A7E3.1080105@gmail.com>
+References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-7-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440411596-2566-6-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1440411596-2566-7-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -23,26 +23,27 @@ Cheers,
 Michael
 
 > ---
->  man3/sigpause.3 | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  man3/termios.3 | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/man3/sigpause.3 b/man3/sigpause.3
-> index 847bd10..dbc10de 100644
-> --- a/man3/sigpause.3
-> +++ b/man3/sigpause.3
-> @@ -63,6 +63,12 @@ l l l.
->  Interface	Attribute	Value
->  T{
->  .BR sigpause ()
-> +.\" FIXME: the following marking is different from which in glibc manual,
-> +.\" marking in glibc manual is more detailed.
-> +.\" sigpause: MT-Unsafe race:sigprocmask/!bsd!linux
-> +.\" glibc manual says /!linux!bsd indicate the preceding marker only applies
-> +./" when the underlying kernel is neither Linux nor a BSD kernel.
+> diff --git a/man3/termios.3 b/man3/termios.3
+> index 02aee64..1ea5236 100644
+> --- a/man3/termios.3
+> +++ b/man3/termios.3
+> @@ -994,6 +994,13 @@ T{
+>  .BR cfsetispeed (),
+>  .BR cfsetospeed (),
+>  .BR cfsetspeed ()
+> +.\" FIXME: the following markings are different from which in glibc manual,
+> +.\" markings in glibc manual are more detailed.
+> +.\" tcsendbreak: MT-Unsafe race:tcattr(filedes)/bsd
+> +.\" tcflow: MT-Unsafe race:tcattr(filedes)/bsd
+> +.\" glibc manual says /bsd indicate the preceding marker only applies
+> +./" when the underlying kernel is a BSD kernel.
 > +.\" So, it is safety in Linux kernel.
 >  T}	Thread safety	MT-Safe
 >  .TE
->  .SH CONFORMING TO
+>  .ad
 > 
 
 
