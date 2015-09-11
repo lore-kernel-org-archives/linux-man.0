@@ -1,56 +1,66 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] proc.5: /proc/sys: describe whitespace characters
-Date: Fri, 11 Sep 2015 13:36:01 +0200
-Message-ID: <55F2BCA1.4070904@gmail.com>
-References: <1440537197-14327-1-git-send-email-xypron.glpk@gmx.de>
+Subject: Re: [PATCH] mremap.2: Add note about mremap with locked areas
+Date: Fri, 11 Sep 2015 13:47:42 +0200
+Message-ID: <55F2BF5E.2000505@gmail.com>
+References: <1440787372-30214-1-git-send-email-emunson@akamai.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440537197-14327-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+In-Reply-To: <1440787372-30214-1-git-send-email-emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/25/2015 11:13 PM, Heinrich Schuchardt wrote:
-> Suggested patch
-> https://lkml.org/lkml/2015/8/24/171
-> indicates missing documentation.
+On 08/28/2015 08:42 PM, Eric B Munson wrote:
+> When mremap() is used to move or expand a mapping that is locked with
+> mlock() or equivalent it will attempt to populate the new area.
+> However, like mmap(MAP_LOCKED), mremap() will not fail if the area
+> cannot be populated.  Also like mmap(MAP_LOCKED) this might come as a
+> surprise to users and should be noted.
 
-Thanks, Heinrich. Applied.
+Thanks, Eric! 
+
+Applied, with Michael's Acked-by added.
 
 Cheers,
 
 Michael
 
 
-> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> Signed-off-by: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
+> Cc: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
+> Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+> Cc: linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
+> Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 > ---
->  man5/proc.5 | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  man2/mremap.2 | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/man5/proc.5 b/man5/proc.5
-> index bb648d4..85e3b76 100644
-> --- a/man5/proc.5
-> +++ b/man5/proc.5
-> @@ -3303,6 +3303,16 @@ These variables can be read and sometimes modified using
->  the \fI/proc\fP filesystem, and the (deprecated)
->  .BR sysctl (2)
->  system call.
+> diff --git a/man2/mremap.2 b/man2/mremap.2
+> index 071adb5..cf884e6 100644
+> --- a/man2/mremap.2
+> +++ b/man2/mremap.2
+> @@ -196,6 +196,17 @@ and the prototype for
+>  did not allow for the
+>  .I new_address
+>  argument.
 > +
-> +String values may be terminated by either of \'\\0\' or \'\\n\'.
-> +
-> +Integer and long values may be written either in decimal or in
-> +hexadecimal notation (e.g. 0x3FFF).
-> +When writing multiple integer or long values these may be separated
-> +by either of the following whitespace characters:
-> +\' \', \'\\t\', or \'\\n\'.
-> +Using other separators leads to an error
-> +.BR EINVAL .
->  .TP
->  .IR /proc/sys/abi " (since Linux 2.4.10)"
->  This directory may contain files with application binary information.
+> +If
+> +.BR mremap ()
+> +is used to move or expand an area locked with
+> +.BR mlock (2)
+> +or equivalent, the
+> +.BR mremap ()
+> +call will make a best effort to populate the new area but will not fail
+> +with
+> +.B ENOMEM
+> +if the area cannot be populated.
+>  .SH SEE ALSO
+>  .BR brk (2),
+>  .BR getpagesize (2),
 > 
 
 
