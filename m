@@ -1,67 +1,58 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mremap.2: Add note about mremap with locked areas
-Date: Fri, 11 Sep 2015 13:47:42 +0200
-Message-ID: <55F2BF5E.2000505@gmail.com>
-References: <1440787372-30214-1-git-send-email-emunson@akamai.com>
+Subject: Re: [PATCH] ptrace.2: add PTRACE_O_SUSPEND_SECCOMP flag
+Date: Fri, 11 Sep 2015 14:02:51 +0200
+Message-ID: <CAKgNAkimMneguqaKXuHP3rm1CG+QvudQFzS1D9XNetyjmz1K=A@mail.gmail.com>
+References: <1434562933-2995-1-git-send-email-tycho@tycho.ws>
+ <CAGXu5j+OucgCTOOwd80sHHqjqcAAF6+NR+dVovN8OtpwNmicDg@mail.gmail.com> <20150618213122.GC11501@hopstrocity>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440787372-30214-1-git-send-email-emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <20150618213122.GC11501@hopstrocity>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>
+Cc: Kees Cook <keescook-F7+t8E8rja9g9hUCZPvPmw@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Oleg Nesterov <oleg-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On 08/28/2015 08:42 PM, Eric B Munson wrote:
-> When mremap() is used to move or expand a mapping that is locked with
-> mlock() or equivalent it will attempt to populate the new area.
-> However, like mmap(MAP_LOCKED), mremap() will not fail if the area
-> cannot be populated.  Also like mmap(MAP_LOCKED) this might come as a
-> surprise to users and should be noted.
+Hello Tycho,
 
-Thanks, Eric! 
+On 18 June 2015 at 23:31, Tycho Andersen <tycho.andersen-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org> wrote:
+> On Thu, Jun 18, 2015 at 12:27:48PM -0700, Kees Cook wrote:
+>>
+>> This should probably also mention the CAP_SYS_ADMIN requirement.
+>> Otherwise, it looks good!
+>
+> Good point, attached is an updated patch.
 
-Applied, with Michael's Acked-by added.
+Thanks for the patch. I applied, and updated the kernel version to be 4.3.
 
 Cheers,
 
 Michael
 
-
-> Signed-off-by: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
-> Cc: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>
-> Cc: David Rientjes <rientjes-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
-> Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> Cc: linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org
-> Cc: linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-> ---
->  man2/mremap.2 | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/man2/mremap.2 b/man2/mremap.2
-> index 071adb5..cf884e6 100644
-> --- a/man2/mremap.2
-> +++ b/man2/mremap.2
-> @@ -196,6 +196,17 @@ and the prototype for
->  did not allow for the
->  .I new_address
->  argument.
-> +
-> +If
-> +.BR mremap ()
-> +is used to move or expand an area locked with
-> +.BR mlock (2)
-> +or equivalent, the
-> +.BR mremap ()
-> +call will make a best effort to populate the new area but will not fail
-> +with
-> +.B ENOMEM
-> +if the area cannot be populated.
->  .SH SEE ALSO
->  .BR brk (2),
->  .BR getpagesize (2),
-> 
+diff --git a/man2/ptrace.2 b/man2/ptrace.2
+index c2c92cd..47c96b1 100644
+--- a/man2/ptrace.2
++++ b/man2/ptrace.2
+@@ -592,6 +592,18 @@ The seccomp event message data (from the
+ .BR SECCOMP_RET_DATA
+ portion of the seccomp filter rule) can be retrieved with
+ .BR PTRACE_GETEVENTMSG .
++.TP
++.BR PTRACE_O_SUSPEND_SECCOMP " (since Linux 4.2)"
++Suspend the tracee's seccomp protections. This applies regardless of mode, and
++can be used when the tracee has not yet installed seccomp filters. That is, a
++valid usecase is to suspend a tracee's seccomp protections before they are
++installed by the tracee, let the tracee install the filters, and then clear
++this flag when the filters should be resumed. Setting this option requires that
++the tracer have
++.BR CAP_SYS_ADMIN ,
++not have any seccomp protections installed, and not have
++.BR PTRACE_O_SUSPEND_SECCOMP
++set on itself.
+ .RE
+ .TP
+ .BR PTRACE_GETEVENTMSG " (since Linux 2.5.46)"
 
 
 -- 
