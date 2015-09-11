@@ -1,107 +1,152 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] signal.7: add missing async-signal-safe functions
-Date: Fri, 11 Sep 2015 12:59:31 +0200
-Message-ID: <55F2B413.5090003@gmail.com>
-References: <1441638469-22062-1-git-send-email-mhocko@kernel.org>
+Subject: Re: [PATCH] Refactoring the description of nonblocking splice behaviour
+Date: Fri, 11 Sep 2015 13:03:09 +0200
+Message-ID: <CAKgNAkheL_33hFKSQLHU-74ibJsypDNROZSoE4dFM8U3CHGFdg@mail.gmail.com>
+References: <1505261556150.21456@jazz.pogo.org.uk> <55C33FA9.1030304@gmail.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1441638469-22062-1-git-send-email-mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+In-Reply-To: <55C33FA9.1030304-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>, Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
+To: Mark Hills <mark-tknEL9DgK0w@public.gmane.org>
+Cc: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi Michael,
+Hi Mark,
 
-On 09/07/2015 05:07 PM, mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org wrote:
-> From: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
-> 
-> It seems that few async-signal-safe functions listed by POSIX.1-2008
-> http://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03
-> are not mentioned in the man page. I am not exactly sure in which
-> version of the standard they have declared as signal safe. So they
-> were added to the section according to which standard they conform to:
-> 
-> POSIX.1-2001
-> - fchdir
-> - pthread_self
-> - pthread_sigmask
-> 
-> POSIX.1-2008
-> - pthread_kill
+Might you have a chance to look at this?
 
-Thanks for spotting this. I had missed it myself.
-I see now that those 4 functions were added in POSIX.1-2008
-Technical Corrigendum 1 (2013). So, I've applied a different
-patch (below). Thanks for catching this, and the effort on the
-patch.
-
-Cheers,
+Thanks,
 
 Michael
 
 
---- a/man7/signal.7
-+++ b/man7/signal.7
-@@ -630,6 +630,18 @@ utimensat()
- utimes()
- .fi
- .in
-+.PP
-+POSIX.1-2008 Technical Corrigendum 1 (2013)
-+adds the following functions:
-+.PP
-+.in +4n
-+.nf
-+fchdir()
-+pthread_kill()
-+pthread_self()
-+pthread_sigmask()
-+.fi
-+.in
- .SS Interruption of system calls and library functions by signal handlers
- If a signal handler is invoked while a system call or library
- function call is blocked, then either:
+On 6 August 2015 at 13:06, Michael Kerrisk (man-pages)
+<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
+> Hello Mark,
+>
+> Sorry for the delay in following up. Thanks for the proposal.
+> Could you take a look at the comments below and revise your patch?
+>
+> On 05/26/2015 04:58 PM, Mark Hills wrote:
+>> Rather than the detail of SPLICE_F_NONBLOCK getting long, move this
+>> to its own section where it can grow to include the information with
+>> greater clarity.
+>>
+>> Added a description of the behaviour against a blocking file
+>> descriptor, including an important gotcha.
+>>
+>> I have aimed to keep to the section headings specified in man-pages(7).
+>>
+>> The description that "splice() may nevertheless block because the file
+>> descriptors that are spliced to/from may block" remains although I did
+>> not observe or investigate this behaviour myself.
+>
+> I think the changelog entry could be clearer. It seems to me that the
+> second paragraph is the key point, and it should come at the top. Also,
+> that paragraph could note what the gotcha actually is (see also my comment
+> below). And, then, surely this patch is more than a refactoring, so I'd
+> title the patch differently... not sure what's best here though; do you
+> have a suggestion?
+>
+>> ---
+>>  man2/splice.2 |   47 ++++++++++++++++++++++++++++++++++++++++-------
+>>  1 files changed, 40 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/man2/splice.2 b/man2/splice.2
+>> index 035aac4..cf1e2f6 100644
+>> --- a/man2/splice.2
+>> +++ b/man2/splice.2
+>> @@ -105,13 +105,11 @@ call);
+>>  in the future, a correct implementation may be restored.
+>>  .TP
+>>  .B SPLICE_F_NONBLOCK
+>> -Do not block on I/O.
+>> -This makes the splice pipe operations nonblocking, but
+>> -.BR splice ()
+>> -may nevertheless block because the file descriptors that
+>> -are spliced to/from may block (unless they have the
+>> -.B O_NONBLOCK
+>> -flag set).
+>> +Make the splice operation itself nonblocking. See the
+>
+> New sentences should start on new lines please.
+>
+>> +.B NOTES
+>> +on
+>> +.B Nonblocking behaviours
+>
+> man-pages uses American spelling consistently. s/iours/iors/
+> (and below also)
+>
+>> +below.
+>>  .TP
+>>  .B SPLICE_F_MORE
+>>  More data will be coming in a subsequent splice.
+>> @@ -184,6 +182,41 @@ library support was added to glibc in version 2.5.
+>>  .SH CONFORMING TO
+>>  This system call is Linux-specific.
+>>  .SH NOTES
+>> +.SS Nonblocking behaviours
+>> +Whether
+>> +.BR splice ()
+>> +may block is influenced by the
+>> +.B O_NONBLOCK
+>> +flag on
+>> +.I fd_in
+>> +and
+>> +.IR fd_out ,
+>> +and the
+>> +.B SPLICE_F_NONBLOCK
+>> +flag.
+>> +
+>> +Without
+>> +.B SPLICE_F_NONBLOCK
+>> +the behaviour of the underlying
+>> +file descriptors defines when the
+>> +.BR splice()
+>> +operation will block.
+>> +
+>> +If
+>> +.B SPLICE_F_NONBLOCK
+>> +is set then the movement of data within
+>> +.BR splice()
+>> +is unblocking.
+>
+> s/unblocking/nonblocking/
+>
+>> +However,
+>> +.BR splice()
+>> +may nevertheless block because the file descriptors that
+>> +are spliced to/from may block.
+>> +Care should be taken with this flag as
+>> +.BR splice()
+>> +will not block if data from a blocking file descriptor is not resident
+>> +in memory; there can be a difference in behaviour where file
+>> +content is or is not already cached to RAM.
+>
+> I'm not disputing your assertion here, but how did you verify this
+> last point? It would be good to include that information in the commit
+> message.
+>
+>> +.SS Related calls
+>>  The three system calls
+>>  .BR splice (),
+>>  .BR vmsplice (2),
+>
+> Cheers,
+>
+> Michael
+>
+>
+>
+>
+> --
+> Michael Kerrisk
+> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+> Linux/UNIX System Programming Training: http://man7.org/training/
 
-
-
-> Signed-off-by: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
-> ---
->  man7/signal.7 | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/man7/signal.7 b/man7/signal.7
-> index 4710945a2ab8..18871420cb16 100644
-> --- a/man7/signal.7
-> +++ b/man7/signal.7
-> @@ -510,6 +510,7 @@ execve()
->  fchmod()
->  fchown()
->  fcntl()
-> +fchdir()
->  fdatasync()
->  fork()
->  fpathconf()
-> @@ -541,6 +542,8 @@ pipe()
->  poll()
->  posix_trace_event()
->  pselect()
-> +pthread_self()
-> +pthread_sigmask()
->  raise()
->  read()
->  readlink()
-> @@ -622,6 +625,7 @@ mkfifoat()
->  mknod()
->  mknodat()
->  openat()
-> +pthread_kill()
->  readlinkat()
->  renameat()
->  symlinkat()
-> 
 
 
 -- 
