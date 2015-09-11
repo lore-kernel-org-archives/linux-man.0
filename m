@@ -1,32 +1,30 @@
-From: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
-Subject: Re: [PATCH v2] mlock.2: mlock2.2: Add entry to for new mlock2 syscall
-Date: Thu, 10 Sep 2015 11:31:49 +0200
-Message-ID: <55F14E05.6020304@suse.cz>
-References: <1441030820-2960-1-git-send-email-emunson@akamai.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 99911] ioperm is kept on fork
+Date: Fri, 11 Sep 2015 03:13:21 +0000
+Message-ID: <bug-99911-11311-eKy0tKkdTZ@https.bugzilla.kernel.org/>
+References: <bug-99911-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1441030820-2960-1-git-send-email-emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
+In-Reply-To: <bug-99911-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>, mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Michal Hocko <mhocko-AlSwsSmVLrQ@public.gmane.org>, Jonathan Corbet <corbet-T1hC0tSOHrs@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-mm-Bw31MaZKKs3YtjvyW6yDsg@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/31/2015 04:20 PM, Eric B Munson wrote:
-> Update the mlock.2 man page with information on mlock2() and the new
-> mlockall() flag MCL_ONFAULT.
-> 
-> Signed-off-by: Eric B Munson <emunson-JqFfY2XvxFXQT0dZR+AlfA@public.gmane.org>
-> Acked-by: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
+https://bugzilla.kernel.org/show_bug.cgi?id=99911
 
-Looks like I acked v1 too late and not v2, so:
+--- Comment #2 from Alex Henrie <alexhenrie24-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
+I used QEMU to test Slackware 8.0,[1] which included both Linux 2.2.19 and
+Linux 2.4.5. On 2.2.19, ioperm is lost on fork, but on 2.4.5, ioperm is kept on
+fork. My guess is that the behavior changed in 2.4.0.
 
-Acked-by: Vlastimil Babka <vbabka-AlSwsSmVLrQ@public.gmane.org>
+[1]
+http://slackware.cs.utah.edu/pub/slackware/slackware-8.0-iso/slackware-8.0-livefs-d2.iso
 
-However, looks like it won't be in Linux 4.3 so that part is outdated.
-Also, what about glibc wrapper for mlock2()? Does it have to come before or
-after the manpage and who gets it in?
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
