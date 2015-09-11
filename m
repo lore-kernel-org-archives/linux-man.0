@@ -1,22 +1,20 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] mallinfo.3: ATTRIBUTES: Note function that is not thread-safe
-Date: Fri, 11 Sep 2015 12:06:53 +0200
-Message-ID: <55F2A7BD.3070308@gmail.com>
-References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-5-git-send-email-zenglg.jy@cn.fujitsu.com>
+Subject: Re: [PATCH] sigpause.3: srcfix: add FIXME
+Date: Fri, 11 Sep 2015 12:07:13 +0200
+Message-ID: <55F2A7D1.8080307@gmail.com>
+References: <1440411596-2566-1-git-send-email-zenglg.jy@cn.fujitsu.com> <1440411596-2566-6-git-send-email-zenglg.jy@cn.fujitsu.com>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1440411596-2566-5-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
+In-Reply-To: <1440411596-2566-6-git-send-email-zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
 On 08/24/2015 12:19 PM, Zeng Linggang wrote:
-> The marking matches glibc marking.
-> The marking of functions in glibc is:
-> - mallinfo: MT-Unsafe init const:mallopt
+> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 
 Applied!  Thanks, Zeng Linggang.
 
@@ -24,47 +22,27 @@ Cheers,
 
 Michael
 
-> Signed-off-by: Zeng Linggang <zenglg.jy-BthXqXjhjHXQFUHtdCDX3A@public.gmane.org>
 > ---
->  man3/mallinfo.3 | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
+>  man3/sigpause.3 | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/man3/mallinfo.3 b/man3/mallinfo.3
-> index 7797169..e6661d1 100644
-> --- a/man3/mallinfo.3
-> +++ b/man3/mallinfo.3
-> @@ -107,6 +107,31 @@ This is the maximum number of bytes that could ideally
->  .BR malloc_trim (3).
->  .\" .SH VERSIONS
->  .\" Available already in glibc 2.0, possibly earlier
-> +.SH ATTRIBUTES
-> +For an explanation of the terms used in this section, see
-> +.BR attributes (7).
-> +.TS
-> +allbox;
-> +lb lb lbw28
-> +l l l.
-> +Interface	Attribute	Value
-> +T{
-> +.BR mallinfo ()
-> +T}	Thread safety	MT-Unsafe init const:mallopt
-> +.TE
-> +
-> +.BR mallinfo ()
-> +would access some global iternal objects. If modify them with non-atomically,
-> +may get inconsistent results.
-> +The identifier
-> +.I mallopt
-> +in
-> +.I const:mallopt
-> +mean that
-> +.BR mallopt ()
-> +would modify the global iternal objects with atomics, that make sure
-> +.BR mallinfo ()
-> +is safe enough, others modify with non-atomically maybe not.
+> diff --git a/man3/sigpause.3 b/man3/sigpause.3
+> index 847bd10..dbc10de 100644
+> --- a/man3/sigpause.3
+> +++ b/man3/sigpause.3
+> @@ -63,6 +63,12 @@ l l l.
+>  Interface	Attribute	Value
+>  T{
+>  .BR sigpause ()
+> +.\" FIXME: the following marking is different from which in glibc manual,
+> +.\" marking in glibc manual is more detailed.
+> +.\" sigpause: MT-Unsafe race:sigprocmask/!bsd!linux
+> +.\" glibc manual says /!linux!bsd indicate the preceding marker only applies
+> +./" when the underlying kernel is neither Linux nor a BSD kernel.
+> +.\" So, it is safety in Linux kernel.
+>  T}	Thread safety	MT-Safe
+>  .TE
 >  .SH CONFORMING TO
->  This function is not specified by POSIX or the C standards.
->  A similar function exists on many System V derivatives,
 > 
 
 
