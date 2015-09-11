@@ -1,49 +1,72 @@
-From: Michal Hocko <mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-Subject: Re: [PATCH] signal.7: add missing async-signal-safe functions
-Date: Fri, 11 Sep 2015 13:28:28 +0200
-Message-ID: <20150911112828.GG3417@dhcp22.suse.cz>
-References: <1441638469-22062-1-git-send-email-mhocko@kernel.org>
- <55F2B413.5090003@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] proc.5: details for threads-max
+Date: Fri, 11 Sep 2015 13:30:20 +0200
+Message-ID: <55F2BB4C.9040908@gmail.com>
+References: <1440538574-14549-1-git-send-email-xypron.glpk@gmx.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <55F2B413.5090003-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+In-Reply-To: <1440538574-14549-1-git-send-email-xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Takashi Iwai <tiwai-l3A5Bk7waGM@public.gmane.org>
+To: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri 11-09-15 12:59:31, Michael Kerrisk wrote:
-> Hi Michael,
-> 
-> On 09/07/2015 05:07 PM, mhocko-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org wrote:
-> > From: Michal Hocko <mhocko-IBi9RG/b67k@public.gmane.org>
-> > 
-> > It seems that few async-signal-safe functions listed by POSIX.1-2008
-> > http://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03
-> > are not mentioned in the man page. I am not exactly sure in which
-> > version of the standard they have declared as signal safe. So they
-> > were added to the section according to which standard they conform to:
-> > 
-> > POSIX.1-2001
-> > - fchdir
-> > - pthread_self
-> > - pthread_sigmask
-> > 
-> > POSIX.1-2008
-> > - pthread_kill
-> 
-> Thanks for spotting this. I had missed it myself.
-> I see now that those 4 functions were added in POSIX.1-2008
-> Technical Corrigendum 1 (2013). So, I've applied a different
-> patch (below). Thanks for catching this, and the effort on the
-> patch.
+Hello Heinrich,
 
-OK, thanks for fixing that up!
+On 08/25/2015 11:36 PM, Heinrich Schuchardt wrote:
+> Add detail information for threads-max.
+> The checks for minimum and maximum values exist since kernel 4.1.
+> https://lkml.org/lkml/2015/3/15/96
+> 
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+> ---
+>  man5/proc.5 | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/man5/proc.5 b/man5/proc.5
+> index bb648d4..83f30af 100644
+> --- a/man5/proc.5
+> +++ b/man5/proc.5
+> @@ -4265,8 +4265,22 @@ this is the fifth kernel built from this source base and the
+>  date following it indicates the time the kernel was built.
+>  .TP
+>  .IR /proc/sys/kernel/threads-max " (since Linux 2.3.11)"
+> +.\" The following is based on Documentation/sysctl/kernel.txt
+>  This file specifies the system-wide limit on the number of
+>  threads (tasks) that can be created on the system.
+> +
+> +The minimum value that can be written to threads-max is 20.
+> +The maximum value that can be written to threads-max is given by the
+> +constant
+> +.B FUTEX_TID_MASK
+> +(0x3fffffff).
+> +If a value outside of this range is written to threads-max an error
+> +.B EINVAL
+> +occurs.
+> +
+> +The value written is checked against the available RAM pages.
+> +If the thread structures would occupy too much (more than 1/8th)
+> +of the available RAM pages, threads-max is reduced accordingly.
+>  .TP
+>  .IR /proc/sys/kernel/zero-paged " (PowerPC only) "
+>  This file
+
+Thanks. Applied. 
+
+It's also important to not the kernel version that added these
+range checks, I think. So I've added that info also.
+
+Cheers,
+
+Michael
+
+
 -- 
-Michal Hocko
-SUSE Labs
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
