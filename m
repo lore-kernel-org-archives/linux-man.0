@@ -1,52 +1,95 @@
 From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] getent.1: ffix
-Date: Fri, 11 Sep 2015 10:46:06 +0200
-Message-ID: <55F294CE.2050700@gmail.com>
-References: <1441808319-2128-1-git-send-email-jwilk@jwilk.net>
+Subject: Re: [PATCH man] tcp.7: improve paragraphs on tcp_ecn and add tcp_ecn_fallback
+ bullet
+Date: Fri, 11 Sep 2015 11:16:34 +0200
+Message-ID: <55F29BF2.3000408@gmail.com>
+References: <381a72e4388904195a6b4bae56e40fed965f9cd8.1440590425.git.daniel@iogearbox.net>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1441808319-2128-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+In-Reply-To: <381a72e4388904195a6b4bae56e40fed965f9cd8.1440590425.git.daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+To: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
 Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/09/2015 04:18 PM, Jakub Wilk wrote:
-> Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Hi Daniel,
 
-Thanks, Jakub. Applied.
+On 08/26/2015 02:02 PM, Daniel Borkmann wrote:
+> Improve description around tcp_ecn, fix the RFC number and it's not a
+> boolean anymore since long time, and add a description for tcp_ecn_fallback.
+> 
+> See also kernel doc under Documentation/networking/ip-sysctl.txt on
+> tcp_ecn and tcp_ecn_fallback.
+
+Thanks for this.
+
+> Signed-off-by: Daniel Borkmann <daniel-FeC+5ew28dpmcu3hnIyYJQ@public.gmane.org>
+> ---
+>  man7/tcp.7 | 35 ++++++++++++++++++++++++++++++-----
+>  1 file changed, 30 insertions(+), 5 deletions(-)
+> 
+> diff --git a/man7/tcp.7 b/man7/tcp.7
+> index 2f290a2..0409a66 100644
+> --- a/man7/tcp.7
+> +++ b/man7/tcp.7
+> @@ -396,12 +396,37 @@ option.
+>  .\" Since 2.4.0-test7
+>  Enable RFC\ 2883 TCP Duplicate SACK support.
+>  .TP
+> -.IR tcp_ecn " (Boolean; default: disabled; since Linux 2.4)"
+> +.IR tcp_ecn " (Integer; default: 2; since Linux 2.4)"
+>  .\" Since 2.4.0-test7
+> -Enable RFC\ 2884 Explicit Congestion Notification.
+> -When enabled, connectivity to some
+> -destinations could be affected due to older, misbehaving
+> -routers along the path causing connections to be dropped.
+> +Enable RFC\ 3168 Explicit Congestion Notification.
+> +
+> +This file can have one of the following values:
+> +.RS
+> +.IP 0
+> +Disable ECN.
+> +Neither initiate nor accept ECN.
+> +.IP 1
+> +Enable ECN when requested by incoming connections and also
+> +request ECN on outgoing connection attempts.
+> +.IP 2
+> +Enable ECN when requested by incoming connections,
+> +but do not request ECN on outgoing connections.
+
+I also added a note here that option 2 first appeared in Linux 2.6.31.
+
+> +.RE
+
+> +.IP
+> +When enabled, connectivity to some destinations could be affected
+> +due to older, misbehaving middle boxes along the path, causing
+> +connections to be dropped.
+> +However, to facilitate and encourage deployment with option 1, and
+> +to work around such buggy equipment,
+> +.B tcp_ecn_fallback
+> +option has been introduced.
+> +.TP
+> +.IR tcp_ecn_fallback " (Boolean; default: enabled; since Linux 4.1)"
+> +.\" commit 492135557dc090a1abb2cfbe1a412757e3ed68ab
+
+(Thanks for including the commit ID.)
+
+> +Enable RFC\ 3168, Section 6.1.1.1. fallback.
+> +When enabled, outgoing ECN-setup SYNs that time out within the
+> +normal SYN retransmission timeout will be resent with CWR and
+> +ECE cleared.
+>  .TP
+>  .IR tcp_fack " (Boolean; default: enabled; since Linux 2.2)"
+>  .\" Since 2.1.92
+
+Thanks. Applied. Sorry for the delay.
 
 Cheers,
 
 Michael
-
-
-> ---
->  man1/getent.1 | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/man1/getent.1 b/man1/getent.1
-> index af162fd..a1a49fd 100644
-> --- a/man1/getent.1
-> +++ b/man1/getent.1
-> @@ -344,12 +344,12 @@ and display the result.
->  .RE
->  .SH OPTIONS
->  .TP
-> -.BR \-s\ \fIservice\fP, \-\-service\ \fIservice\fP
-> +.BR \-s\ \fIservice\fP ", " \-\-service\ \fIservice\fP
->  .\" commit 9d0881aa76b399e6a025c5cf44bebe2ae0efa8af (glibc)
->  Override all databases with the specified service.
->  (Since glibc 2.2.5.)
->  .TP
-> -.BR \-s\ \fIdatabase\fP:\fIservice\fP,\ \
-> +.BR \-s\ \fIdatabase\fP:\fIservice\fP ", "\
->  \-\-service\ \fIdatabase\fP:\fIservice\fP
->  .\" commit b4f6f4be85d32b9c03361c38376e36f08100e3e8 (glibc)
->  Override only specified databases with the specified service.
-> 
 
 
 -- 
