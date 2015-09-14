@@ -1,29 +1,47 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug
- 104511]=?UTF-8?Q?=20Add=20=E2=80=9Clocale=20=2Dc=20charmap=E2=80=9D=20as=20an=20example=20to=20locale?=(1)
-Date: Mon, 14 Sep 2015 09:41:53 +0000
-Message-ID: <bug-104511-11311-b4uqWT9k5S@https.bugzilla.kernel.org/>
-References: <bug-104511-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch] ld.so.8: outline missed cases of secure run
+Date: Mon, 14 Sep 2015 20:42:21 +0200
+Message-ID: <CAKgNAkjgs9rBz8MvgMW1Xts95nBo433RAvoyOZFKuU6cDFO_zg@mail.gmail.com>
+References: <01f701d0e407$c718f530$554adf90$@guseva@samsung.com> <55E55162.5080702@samsung.com>
+Reply-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-104511-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
+In-Reply-To: <55E55162.5080702-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+Cc: Maria Guseva <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, v.garbuzov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=104511
+Yury,
 
-Florian Weimer <fweimer-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> changed:
+On 1 September 2015 at 09:18, Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
+> On 08/31/2015 07:12 PM, Maria Guseva wrote:
+>>
+>> Hello,
+>>
+>> For the purpose of security many ld.so options(e.g. --inhibit-rpath,
+>> LD_LIBRARY_PATH and others) are disabled for secure types of programs.
+>> Current ld.so man page mentions them as set-user-ID/set-group-ID binaries.
+>> However according to GNU libc sources there could be other cases where
+>> __libc_enable_secure is set to non-zero -- when AT_SECURE value is set in
+>> auxiliary vector:
+>
+>
+> While at it, could you also mention that /etc/suid-debug enables LD_DEBUG
+> for suids?
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-           Severity|normal                      |enhancement
+Does it? I can't see that in the glibc source. Am I missing something?
+
+Cheers,
+
+Michael
+
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
