@@ -1,45 +1,58 @@
-From: Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
-Subject: Re: [patch] ld.so.8: outline missed cases of secure run
-Date: Tue, 15 Sep 2015 12:13:47 +0300
-Message-ID: <55F7E14B.8070402@samsung.com>
-References: <"01f701d0e407$c718f530$554adf90$@guseva"@samsung.com>
- <55E55162.5080702@samsung.com>
- <CAKgNAkjgs9rBz8MvgMW1Xts95nBo433RAvoyOZFKuU6cDFO_zg@mail.gmail.com>
+From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
+Subject: [Bug 104601] New: Description of getname-related syscalls wrong
+Date: Tue, 15 Sep 2015 15:28:35 +0000
+Message-ID: <bug-104601-11311@https.bugzilla.kernel.org/>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-reply-to: <CAKgNAkjgs9rBz8MvgMW1Xts95nBo433RAvoyOZFKuU6cDFO_zg-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Maria Guseva <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, v.garbuzov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org
+To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 09/14/2015 09:42 PM, Michael Kerrisk (man-pages) wrote:
-> Yury,
->
-> On 1 September 2015 at 09:18, Yury Gribov <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org> wrote:
->> On 08/31/2015 07:12 PM, Maria Guseva wrote:
->>>
->>> Hello,
->>>
->>> For the purpose of security many ld.so options(e.g. --inhibit-rpath,
->>> LD_LIBRARY_PATH and others) are disabled for secure types of programs.
->>> Current ld.so man page mentions them as set-user-ID/set-group-ID binaries.
->>> However according to GNU libc sources there could be other cases where
->>> __libc_enable_secure is set to non-zero -- when AT_SECURE value is set in
->>> auxiliary vector:
->>
->>
->> While at it, could you also mention that /etc/suid-debug enables LD_DEBUG
->> for suids?
->
-> Does it? I can't see that in the glibc source. Am I missing something?
+https://bugzilla.kernel.org/show_bug.cgi?id=104601
 
-I was looking at process_envvars (in rtld.c): it resets dl_debug_mask 
-for AT_SECURE binaries unless /etc/suid-debug exists.
+            Bug ID: 104601
+           Summary: Description of getname-related syscalls wrong
+           Product: Documentation
+           Version: unspecified
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P1
+         Component: man-pages
+          Assignee: documentation_man-pages-ztI5WcYan/vQLgFONoPN62D2FQJk+8+b@public.gmane.org
+          Reporter: mattator-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+        Regression: No
 
--Y
+For instance, if I look at the getsockname man page on ubuntu 15.04:
+===
+       getsockname()  returns  the current address to which the socket sockfd
+is bound, in the buffer
+       pointed to by addr.  The addrlen argument should be initialized  to 
+indicate  the  amount  of
+       space  (in  bytes)  pointed  to  by addr.  On return it contains the
+actual size of the socket
+       address.
+
+       The returned address is truncated if the buffer provided is too
+       small; in this case, addrlen will return a value greater than was
+       supplied to the call.
+===
+
+I've looked at some getname function for different protocols in the 4.3 and
+3.14 kernels and the addrlen parameter was never considered as an input or the
+returned sockaddr* truncated.
+This was the cause of a stack smashing in a userspace application I use and
+possibly many others so I ranked it high.
+
+More details here:
+http://stackoverflow.com/questions/32522031/mismatch-between-manpage-and-kernel-behavior-about-getsockname
+
+-- 
+You are receiving this mail because:
+You are watching the assignee of the bug.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
