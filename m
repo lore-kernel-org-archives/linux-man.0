@@ -1,43 +1,36 @@
-From: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [RFC PATCH 1/1] pthread_detach.3: remove invalid and confusing statement
-Date: Sat, 26 Sep 2015 11:34:17 +0530
-Message-ID: <1443247457-3507-1-git-send-email-rahulbedarkar89@gmail.com>
+From: Gabriel Corona <gabriel.corona-Pj3lBMu8rt9bbU8NOSLlsg@public.gmane.org>
+Subject: STV_PROTECTED
+Date: Tue, 29 Sep 2015 12:14:22 +0200
+Message-ID: <20150929101411.GA17105@skagos.loria.fr>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-In notes section, statement
+Hi,
 
-"(But note that the resources of all threads are freed when the
-process terminates.)"
+The elf manpage [2] claims that:
 
-is confusing and invalid. In Linux, we don't really need to wait
-until application termination for system resources to be freed unless
-there is bug in application logic.
+> STV_PROTECTED   Not preemptible, not exported.
 
-Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
----
- man3/pthread_detach.3 | 2 --
- 1 file changed, 2 deletions(-)
+However the System V gABI [1] claims that:
 
-diff --git a/man3/pthread_detach.3 b/man3/pthread_detach.3
-index 106914b..2c53409 100644
---- a/man3/pthread_detach.3
-+++ b/man3/pthread_detach.3
-@@ -101,8 +101,6 @@ or
- .BR pthread_detach ()
- should be called for each thread that an application creates,
- so that system resources for the thread can be released.
--(But note that the resources of all threads are freed when the
--process terminates.)
- .SH EXAMPLE
- The following statement detaches the calling thread:
- 
--- 
-1.8.3.2
+> A symbol defined in the current component is protected if it is
+> visible in other components but not preemptable
 
+Should the manpage read something like:
+
+> STV_PROTECTED   Not preemptible but exported.
+
+[1] http://www.sco.com/developers/gabi/2003-12-17/ch4.symtab.html
+
+[2] http://man7.org/linux/man-pages/man5/elf.5.html
+
+--
+Gabriel Corona
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
