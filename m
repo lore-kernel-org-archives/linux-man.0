@@ -1,36 +1,28 @@
-From: Gabriel Corona <gabriel.corona-Pj3lBMu8rt9bbU8NOSLlsg@public.gmane.org>
-Subject: STV_PROTECTED
-Date: Tue, 29 Sep 2015 12:14:22 +0200
-Message-ID: <20150929101411.GA17105@skagos.loria.fr>
+From: Jonny Grant <jg-hus3n9K41k0@public.gmane.org>
+Subject: ENOSPC
+Date: Wed, 30 Sep 2015 22:50:03 +0100
+Message-ID: <560C590B.2040607@jguk.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Hi,
+http://man7.org/linux/man-pages/man3/errno.3.html
 
-The elf manpage [2] claims that:
+[ENOSPC]
+"No space left on device (POSIX.1)"
 
-> STV_PROTECTED   Not preemptible, not exported.
+Would be clearer to say "No space available on device"
 
-However the System V gABI [1] claims that:
+"left" has different meanings, "available" only has one meaning.
 
-> A symbol defined in the current component is protected if it is
-> visible in other components but not preemptable
+Would you agree with this change?
 
-Should the manpage read something like:
-
-> STV_PROTECTED   Not preemptible but exported.
-
-[1] http://www.sco.com/developers/gabi/2003-12-17/ch4.symtab.html
-
-[2] http://man7.org/linux/man-pages/man5/elf.5.html
-
---
-Gabriel Corona
+Regards, Jonny
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
