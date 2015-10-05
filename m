@@ -1,115 +1,115 @@
-From: bugzilla-daemon-590EEB7GvNiWaY/ihj7yzEB+6BGkLq7r@public.gmane.org
-Subject: [Bug 61511] scanf man page is incomplete re out-of-range integer
- conversions
-Date: Sun, 04 Oct 2015 21:09:00 +0000
-Message-ID: <bug-61511-11311-qHKddemFmu@https.bugzilla.kernel.org/>
-References: <bug-61511-11311@https.bugzilla.kernel.org/>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch] posix_fallocate.3: Mention glibc emulation caveats.
+Date: Mon, 05 Oct 2015 10:06:14 +0100
+Message-ID: <56123D86.9050601@gmail.com>
+References: <560E0567.7040204@redhat.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <bug-61511-11311-3bo0kxnWaOQUvHkbgXJLS5sdmw4N0Rt+2LY78lusg7I@public.gmane.org/>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Return-path: <libc-alpha-return-63660-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <560E0567.7040204@redhat.com>
+To: Carlos O'Donell <carlos@redhat.com>
+Cc: mtk.manpages@gmail.com, "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=61511
+Hi Carlos,
 
-Jon Harper <jon.harper87-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> changed:
+On 10/02/2015 05:17 AM, Carlos O'Donell wrote:
+> Michael,
+> 
+> You're going to really enjoy reading this patch ;-)
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |jon.harper87-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Thanks for the patch. What a sad story :-{
 
---- Comment #3 from Jon Harper <jon.harper87-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> ---
-strtod(3) has the following note:
-NOTES
-       Since 0 can legitimately be returned on both success and failure, the
-calling program should set errno to 0 before the call, and
-       then determine if an error occurred by checking whether errno has a
-nonzero value after the call.
+> Patch applies to master.
+> 
+> When the glibc implementation of posix_fallocate detects
+> that the underlying filesystem does not support fallocate
+> it uses an emulation function to attempt to allocate the
+> space requested. The most common case is calling
+> posix_fallocate for a file that is on NFS where the
+> NFS server is not new enough to support the recent fallocate
+> extensions. This emulation has various serious caveats that
+> must be understood in order to use posix_fallocate robustly
+> on all filesystems. The change document the caveats in the
+> glibc implementation.
+> 
+> Lastly, we expand the meaning of EINVAL to match POSIX
+> 2013 (Issue 7). If the underlying filesystem doesn't support
+> posix_fallocate the implementation can return EINVAL, but
+> glibc does not do this, it emulates the operation instead.
 
-Maybe add the same note to scanf(3) ?
+Thanks. I've applied. I tweaked the wording a bit in a further
+commit, and then made a further commit where I tried to fine tune
+the  technical details a little. Could you please check commit
+624fbe44d9c1ef54eb3fd36328f59a5037b87986 and let me know if there
+ia any technical misstep there?
 
+Thanks,
 
-Also, the example program from scanf(3) is:
-           char *p;
-           int n;
+Michael
 
-           errno = 0;
-           n = scanf("%m[a-z]", &p);
-           if (n == 1) {
-               printf("read: %s\n", p);
-               free(p);
-           } else if (errno != 0) {
-               perror("scanf");
-           } else {
-               fprintf(stderr, "No matching characters\n");
-           }
+> Signed-off-by: Carlos O'Donell <carlos@redhat.com>
+> 
+> diff --git a/man3/posix_fallocate.3 b/man3/posix_fallocate.3
+> index e35dcb9..1b91a37 100644
+> --- a/man3/posix_fallocate.3
+> +++ b/man3/posix_fallocate.3
+> @@ -83,7 +83,8 @@ exceeds the maximum file size.
+>  .I offset
+>  was less than 0, or
+>  .I len
+> -was less than or equal to 0.
+> +was less than or equal to 0, or the underlying filesystem does not
+> +support the operation.
+>  .TP
+>  .B ENODEV
+>  .I fd
+> @@ -142,6 +143,30 @@ In the glibc implementation,
+>  .BR posix_fallocate ()
+>  is implemented using
+>  .BR fallocate (2).
+> +If the underlying filesystem does not support the
+> +.BR fallocate (2)
+> +syscall then the operation is emulated with the following caveats:
+> +.IP * 2
+> +The emulation is inefficient.
+> +.IP *
+> +There is a race condition where concurrent writes from another thread or
+> +process could be overwritten with null bytes.
+> +.IP *
+> +There is a race condition where concurrent file size increase by
+> +another thread or process could result in a file whose size is smaller
+> +than expected.
+> +.IP *
+> +If fd has been opened with the O_APPEND or O_WRONLY flags the function
+> +will fail with
+> +.B EBADF.
+> +.PP
+> +In general the emulation is not MT-safe. On Linux, applications may use
+> +.BR fallocate (2)
+> +if they cannot work around the emulation caveats. In general this is
+> +only recommended if the application plans to terminate the operation if
+> +.B EOPNOTSUPP
+> +is returned, otherwise the application itself will need to implement an
+> +fallback with all the same problems as the emulation provided by glibc.
+>  .SH SEE ALSO
+>  .BR fallocate (1),
+>  .BR fallocate (2),
+> ---
+> 
+> Cheers,
+> Carlos.
+> 
 
-which suggests checking for the return value of scanf before checking for
-errno, which is wrong in the integer overflow case as scanf returns 1. Change
-the order of the checks ?
-
-
-Also, for scanf, it doesn't set i to a constant value (adapting the example
-program to read an int):
-jon@zog:~$ cat dez.c 
-#include "stdlib.h"
-#include "stdio.h"
-#include "errno.h"
-
-int main() {
-           int res;
-           int n;
-
-           errno = 0;
-           n = scanf("%d", &res);
-           if (n == 1) {
-               printf("read: %d\n", res);
-           } else if (errno != 0) {
-               perror("scanf");
-           } else {
-               fprintf(stderr, "No matching characters\n");
-           }
-}
-
-jon@zog:~$ for ((i=0; i<30; i++)); do echo "$((10**i -1))" | ./dez; done
-read: 0
-read: 9
-read: 99
-read: 999
-read: 9999
-read: 99999
-read: 999999
-read: 9999999
-read: 99999999
-read: 999999999
-read: 1410065407
-read: 1215752191
-read: -727379969
-read: 1316134911
-read: 276447231
-read: -1530494977
-read: 1874919423
-read: 1569325055
-read: -1486618625
-read: -1981284353
-read: 1661992959
-read: -559939585
-read: -1304428545
-read: -159383553
-read: -1593835521
-read: 1241513983
-read: -469762049
-read: -402653185
-read: 268435455
-read: -1610612737
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
