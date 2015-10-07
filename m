@@ -1,88 +1,127 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: Next round: revised futex(2) man page for review
-Date: Wed, 07 Oct 2015 10:34:19 +0100
-Message-ID: <5614E71B.3040500@gmail.com>
-References: <55B61EF3.7080302@gmail.com> <20150805222140.GA74817@vmdeb7> <alpine.DEB.2.11.1508200031220.3873@nanos>
+From: Thomas Schwinge <thomas@codesourcery.com>
+Subject: abort might not flush all open streams before process termination (was: aarch64-suse-linux-gnu: libgomp.oacc-c-c++-common/abort-1.c, libgomp.oacc-c-c++-common/abort-3.c FAILs)
+Date: Wed, 7 Oct 2015 12:13:41 +0200
+Message-ID: <871td7ouju.fsf@kepler.schwinge.homeip.net>
+References: <560e717f.+EOSyvrXa02mQ6Bg%schwab@linux-m68k.org> <87twq4p9f4.fsf@kepler.schwinge.homeip.net> <mvmlhbg8e0g.fsf@hawking.suse.de> <87oagcp6kc.fsf@kepler.schwinge.homeip.net> <mvm612k8b57.fsf@hawking.suse.de>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.11.1508200031220.3873@nanos>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: multipart/signed; boundary="=-=-="; micalg=pgp-sha1;	protocol="application/pgp-signature"
+Return-path: <gcc-patches-return-409471-gcc-patches=m.gmane.org@gcc.gnu.org>
+List-Unsubscribe: <mailto:gcc-patches-unsubscribe-gcc-patches=m.gmane.org@gcc.gnu.org>
+List-Archive: <http://gcc.gnu.org/ml/gcc-patches/>
+List-Post: <mailto:gcc-patches@gcc.gnu.org>
+List-Help: <mailto:gcc-patches-help@gcc.gnu.org>
+Sender: gcc-patches-owner@gcc.gnu.org
+In-Reply-To: <mvm612k8b57.fsf@hawking.suse.de>
+To: Andreas Schwab <schwab@linux-m68k.org>, mtk.manpages@gmail.com, Jakub Jelinek <jakub@redhat.com>
+Cc: gcc@gcc.gnu.org, linux-man@vger.kernel.org, gcc-patches@gcc.gnu.org, libc-alpha@sourceware.org
 List-Id: linux-man@vger.kernel.org
 
-On 08/19/2015 03:40 PM, Thomas Gleixner wrote:
-> On Wed, 5 Aug 2015, Darren Hart wrote:
->> On Mon, Jul 27, 2015 at 02:07:15PM +0200, Michael Kerrisk (man-pages) wrote:
->>> .\" FIXME XXX ===== Start of adapted Hart/Guniguntala text =====
->>> .\"       The following text is drawn from the Hart/Guniguntala paper
->>> .\"       (listed in SEE ALSO), but I have reworded some pieces
->>> .\"       significantly. Please check it.
->>>
->>>        The PI futex operations described below  differ  from  the  other
->>>        futex  operations  in  that  they impose policy on the use of the
->>>        value of the futex word:
->>>
->>>        *  If the lock is not acquired, the futex word's value  shall  be
->>>           0.
->>>
->>>        *  If  the  lock is acquired, the futex word's value shall be the
->>>           thread ID (TID; see gettid(2)) of the owning thread.
->>>
->>>        *  If the lock is owned and there are threads contending for  the
->>>           lock,  then  the  FUTEX_WAITERS  bit shall be set in the futex
->>>           word's value; in other words, this value is:
->>>
->>>               FUTEX_WAITERS | TID
->>>
->>>
->>>        Note that a PI futex word never just has the value FUTEX_WAITERS,
->>>        which is a permissible state for non-PI futexes.
->>
->> The second clause is inappropriate. I don't know if that was yours or
->> mine, but non-PI futexes do not have a kernel defined value policy, so
->> ==FUTEX_WAITERS cannot be a "permissible state" as any value is
->> permissible for non-PI futexes, and none have a kernel defined state.
-> 
-> Depends. If the regular futex is configured as robust, then we have a
-> kernel defined value policy as well.
 
-Okay -- so do we need a change to the text here?
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
->>> .\" FIXME I'm not quite clear on the meaning of the following sentence.
->>> .\"       Is this trying to say that while blocked in a
->>> .\"       FUTEX_WAIT_REQUEUE_PI, it could happen that another
->>> .\"       task does a FUTEX_WAKE on uaddr that simply causes
->>> .\"       a normal wake, with the result that the FUTEX_WAIT_REQUEUE_PI
->>> .\"       does not complete? What happens then to the FUTEX_WAIT_REQUEUE_PI
->>> .\"       opertion? Does it remain blocked, or does it unblock
->>> .\"       In which case, what does user space see?
->>>
->>>               The
->>>               waiter   can  be  removed  from  the  wait  on  uaddr  via
->>>               FUTEX_WAKE without requeueing on uaddr2.
->>
->> Userspace should see the task wake and continue executing. This would
->> effectively be a cancelation operation - which I didn't think was
->> supported. Thomas?
-> 
-> We probably never intended to support it, but looking at the code it
-> works (did not try it though). It returns to user space with
-> -EWOULDBLOCK. So it basically behaves like any other spurious wakeup.
+Hi!
 
-Again, I assume no changes are required to the man page(?).
+Copying glibc for your information/in case anyone has any further
+comments, and the man-pages maintainer, Michael Kerrisk.  The issue is
+that abort might not flush all open streams before process termination;
+original thread starting at
+<http://news.gmane.org/find-root.php?message_id=3D%3C87twq4p9f4.fsf%40keple=
+r.schwinge.homeip.net%3E>.
 
-Cheers,
+On Tue, 06 Oct 2015 13:55:00 +0200, Andreas Schwab <schwab@linux-m68k.org> =
+wrote:
+> Thomas Schwinge <thomas@codesourcery.com> writes:
+>=20
+> > | The two regressed test cases use __builtin_printf instead of fprintf =
+to
+> > | stderr, but as far as I know, abort is to flush all open streams befo=
+re
+> > | process termination?
+>=20
+> It can't, since abort must be async-signal-safe.
 
-Michael
+It's still surprising to me that the message written to stderr is lost in
+your aarch64-suse-linux-gnu configuration (only): from a quick look,
+(current) glibc's stdlib/abort.c tries to actually close/flush all open
+streams before process termination.  This is also what's documented on
+<http://man7.org/linux/man-pages/man3/abort.3.html>: "all open streams
+are closed and flushed".
+<http://pubs.opengroup.org/onlinepubs/9699919799/functions/abort.html>
+does sound more "conservative": "[abort] may include an attempt to effect
+fclose() on all open streams".  Should the man-page be edited to that
+effect?  And, the following patch be applied to GCC?
 
--- 
-Michael Kerrisk
-Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+commit e270bce5dadf61b838706c4cfb824fa9dd22fb93
+Author: Thomas Schwinge <thomas@codesourcery.com>
+Date:   Wed Oct 7 11:52:15 2015 +0200
+
+    abort might not flush all open streams before process termination
+=20=20=20=20
+    	libgomp/
+    	* testsuite/libgomp.oacc-c-c++-common/abort-1.c: Print to stderr.
+    	* testsuite/libgomp.oacc-c-c++-common/abort-3.c: Likewise.
+---
+ libgomp/testsuite/libgomp.oacc-c-c++-common/abort-1.c | 3 ++-
+ libgomp/testsuite/libgomp.oacc-c-c++-common/abort-3.c | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git libgomp/testsuite/libgomp.oacc-c-c++-common/abort-1.c libgomp/te=
+stsuite/libgomp.oacc-c-c++-common/abort-1.c
+index 6a9b1df..296708f 100644
+--- libgomp/testsuite/libgomp.oacc-c-c++-common/abort-1.c
++++ libgomp/testsuite/libgomp.oacc-c-c++-common/abort-1.c
+@@ -1,11 +1,12 @@
+ /* { dg-do run } */
+=20
++#include <stdio.h>
+ #include <stdlib.h>
+=20
+ int
+ main (void)
+ {
+-  __builtin_printf ("CheCKpOInT\n");
++  fprintf (stderr, "CheCKpOInT\n");
+ #pragma acc parallel
+   {
+     abort ();
+diff --git libgomp/testsuite/libgomp.oacc-c-c++-common/abort-3.c libgomp/te=
+stsuite/libgomp.oacc-c-c++-common/abort-3.c
+index 2c8f347..bca425e 100644
+--- libgomp/testsuite/libgomp.oacc-c-c++-common/abort-3.c
++++ libgomp/testsuite/libgomp.oacc-c-c++-common/abort-3.c
+@@ -1,11 +1,12 @@
+ /* { dg-do run } */
+=20
++#include <stdio.h>
+ #include <stdlib.h>
+=20
+ int
+ main (void)
+ {
+-  __builtin_printf ("CheCKpOInT\n");
++  fprintf (stderr, "CheCKpOInT\n");
+ #pragma acc kernels
+   {
+     abort ();
+
+
+Gr=C3=BC=C3=9Fe,
+ Thomas
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBAgAGBQJWFPBVAAoJEK3/DN1sMFFt1CMH/RYC6AHsK0cg3vHRJQHQ0xxb
+JcE+kzy9Ufo3rLrcjrNSPbOXnqearCA3zOHLH/3cCGj59f2vALh/vojpbB2YcyBZ
+w5ke4ozYdF2ikuoJJZcALz4oMpEhagJlS6+oZydKZTa8PVUqP8J1frMM9DjxvXZl
+IwN/CMw406vtYU4fXEnBWh9vNXltZqv5AgwLg8bgsGmMeYEFQ2Z4G4eXfSlVnKIA
+JsBJJoM8XUVi3PVpmPPOYWOr+sUwLv0Gas+zM3MpuD/4r6iPox5R8IkrPw8J7WSZ
+s/AaICkk0OCJvLpJb+YdgBTokAJgq5GvawWH7iAkv2uBQAnygGxfNutPRMUOzZk=
+=OMAy
+-----END PGP SIGNATURE-----
+--=-=-=--
