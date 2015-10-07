@@ -1,48 +1,58 @@
-From: Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org>
-Subject: Re: abort might not flush all open streams before process termination
-Date: Wed, 07 Oct 2015 12:18:45 +0200
-Message-ID: <mvma8rv6kxm.fsf@hawking.suse.de>
-References: <560e717f.+EOSyvrXa02mQ6Bg%schwab@linux-m68k.org>
-	<87twq4p9f4.fsf@kepler.schwinge.homeip.net>
-	<mvmlhbg8e0g.fsf@hawking.suse.de>
-	<87oagcp6kc.fsf@kepler.schwinge.homeip.net>
-	<mvm612k8b57.fsf@hawking.suse.de>
-	<871td7ouju.fsf@kepler.schwinge.homeip.net>
+From: "Carlos O'Donell" <carlos@redhat.com>
+Subject: Re: [patch] posix_fallocate.3: Mention glibc emulation caveats.
+Date: Wed, 7 Oct 2015 09:44:54 -0400
+Message-ID: <561521D6.50106@redhat.com>
+References: <560E0567.7040204@redhat.com> <56123D86.9050601@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <871td7ouju.fsf-clhehnSHAb8h2wMQzzS6eAmar9SRMdY1rE5yTffgRl4@public.gmane.org> (Thomas Schwinge's
-	message of "Wed, 7 Oct 2015 12:13:41 +0200")
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Thomas Schwinge <thomas-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, gcc-/MQLu3FmUzdAfugRpC6u6w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, gcc-patches-/MQLu3FmUzdAfugRpC6u6w@public.gmane.org, libc-alpha-9JcytcrH/bA+uJoB2kUjGw@public.gmane.org
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Return-path: <libc-alpha-return-63739-glibc-alpha=m.gmane.org@sourceware.org>
+List-Unsubscribe: <mailto:libc-alpha-unsubscribe-glibc-alpha=m.gmane.org@sourceware.org>
+List-Subscribe: <mailto:libc-alpha-subscribe@sourceware.org>
+List-Archive: <http://sourceware.org/ml/libc-alpha/>
+List-Post: <mailto:libc-alpha@sourceware.org>
+List-Help: <mailto:libc-alpha-help@sourceware.org>, <http://sourceware.org/ml/#faqs>
+Sender: libc-alpha-owner@sourceware.org
+In-Reply-To: <56123D86.9050601@gmail.com>
+To: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Cc: "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>, GNU C Library <libc-alpha@sourceware.org>
 List-Id: linux-man@vger.kernel.org
 
-Thomas Schwinge <thomas-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org> writes:
+On 10/05/2015 05:06 AM, Michael Kerrisk (man-pages) wrote:
+> Hi Carlos,
+> 
+> On 10/02/2015 05:17 AM, Carlos O'Donell wrote:
+>> Michael,
+>>
+>> You're going to really enjoy reading this patch ;-)
+> 
+> Thanks for the patch. What a sad story :-{
 
-> On Tue, 06 Oct 2015 13:55:00 +0200, Andreas Schwab <schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org> wrote:
->> Thomas Schwinge <thomas-qD8j1LwMmJjtCj0u4l0SBw@public.gmane.org> writes:
->> 
->> > | The two regressed test cases use __builtin_printf instead of fprintf to
->> > | stderr, but as far as I know, abort is to flush all open streams before
->> > | process termination?
->> 
->> It can't, since abort must be async-signal-safe.
->
-> It's still surprising to me that the message written to stderr is lost in
-> your aarch64-suse-linux-gnu configuration (only): from a quick look,
-> (current) glibc's stdlib/abort.c tries to actually close/flush all open
-> streams before process termination.
+I've gotten at least one hate mail for documenting how broken
+it is when the underlying filesystem doesn't support it ;-)
 
-This is <https://sourceware.org/bugzilla/show_bug.cgi?id=15436>.
+Florian Weimer (Red Hat) started a rather long and interesting
+discussion on libc-alpha about removing the emulation layer,
+but we found that it was impossible to do without breaking a
+lot of userspace applications that operate over NFS, are
+single-threaded, and expect posix_fallocate to work correctly.
 
-Andreas.
+The best compromise was to document the behaviour, and wait
+for everyone to use NFS 4.2, at which point the issue goes
+away. Until then we need to help users cope.
 
--- 
-Andreas Schwab, schwab-Td1EMuHUCqxL1ZNQvxDV9g@public.gmane.org
-GPG Key fingerprint = 58CA 54C7 6D53 942B 1756  01D3 44D5 214B 8276 4ED5
-"And now for something completely different."
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
+The worst case scenario would be that we remove the fallback
+and all the downstream users start implementing their own
+incorrect and poorly tested fallback. One fallback
+in one project, reviewed by a dozen people is sane.
+
+> Thanks. I've applied. I tweaked the wording a bit in a further
+> commit, and then made a further commit where I tried to fine tune
+> the  technical details a little. Could you please check commit
+> 624fbe44d9c1ef54eb3fd36328f59a5037b87986 and let me know if there
+> ia any technical misstep there?
+
+Looks perfect. The goal is to scare you into reviewing your code ;-)
+
+Cheers,
+Carlos.
