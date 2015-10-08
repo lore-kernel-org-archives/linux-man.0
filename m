@@ -1,99 +1,162 @@
-From: Darren Hart <dvhart-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-Subject: Re: Next round: revised futex(2) man page for review
-Date: Thu, 8 Oct 2015 15:46:34 +0100
-Message-ID: <20151008144634.GC101005@vmdeb7>
-References: <55B61EF3.7080302@gmail.com>
- <20150805222140.GA74817@vmdeb7>
- <alpine.DEB.2.11.1508200031220.3873@nanos>
- <5614E71B.3040500@gmail.com>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [PATCH] __ppc_set_ppr_med.3: Document PPC functions providing
+ access to PPR
+Date: Thu, 08 Oct 2015 23:09:49 +0200
+Message-ID: <5616DB9D.80304@gmail.com>
+References: <1443010136-21033-1-git-send-email-gftg@linux.vnet.ibm.com>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <5614E71B.3040500-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, Torvald Riegel <triegel-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Carlos O'Donell <carlos-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Ingo Molnar <mingo-X9Un+BFzKDI@public.gmane.org>, Jakub Jelinek <jakub-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, lkml <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Davidlohr Bueso <dave-h16yJtLeMjHk1uMJSBkQmQ@public.gmane.org>, Arnd Bergmann <arnd-r2nGTMty4D4@public.gmane.org>, Steven Rostedt <rostedt-nx8X9YLhiw1AfugRpC6u6w@public.gmane.org>, Peter Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>, Linux API <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, Roland McGrath <roland-/Z5OmTQCD9xF6kxbq+BtvQ@public.gmane.org>, Anton Blanchard <anton-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>, Eric Dumazet <edumazet-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, bill o gallmeister <bgallmeister-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Jan Kiszka <jan.kiszka-kv7WeFo6aLtBDgjK7y7TUQ@public.gmane.org>, Daniel Wagner <wagi-kQCPcA+X3s7YtjvyW6yDsg@public.gmane.org>, Rich Felker <dalias-8zAoT0mYgF4@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, bert hubert <bert.hubert-dxZxOz86jR8sYtaaK7K+xw@public.gmane.org>, Rusty Russell <rusty-8n+1lVoiYb80n/F98K4Iww@public.gmane.org>, Heinrich Schuchardt <xypron.glpk-Mmb7MZpHnFY@public.gmane.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1443010136-21033-1-git-send-email-gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "Gabriel F. T. Gomes" <gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, tuliom-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Oct 07, 2015 at 10:34:19AM +0100, Michael Kerrisk (man-pages) wrote:
-> On 08/19/2015 03:40 PM, Thomas Gleixner wrote:
-> > On Wed, 5 Aug 2015, Darren Hart wrote:
-> >> On Mon, Jul 27, 2015 at 02:07:15PM +0200, Michael Kerrisk (man-pages) wrote:
-> >>> .\" FIXME XXX ===== Start of adapted Hart/Guniguntala text =====
-> >>> .\"       The following text is drawn from the Hart/Guniguntala paper
-> >>> .\"       (listed in SEE ALSO), but I have reworded some pieces
-> >>> .\"       significantly. Please check it.
-> >>>
-> >>>        The PI futex operations described below  differ  from  the  other
-> >>>        futex  operations  in  that  they impose policy on the use of the
-> >>>        value of the futex word:
-> >>>
-> >>>        *  If the lock is not acquired, the futex word's value  shall  be
-> >>>           0.
-> >>>
-> >>>        *  If  the  lock is acquired, the futex word's value shall be the
-> >>>           thread ID (TID; see gettid(2)) of the owning thread.
-> >>>
-> >>>        *  If the lock is owned and there are threads contending for  the
-> >>>           lock,  then  the  FUTEX_WAITERS  bit shall be set in the futex
-> >>>           word's value; in other words, this value is:
-> >>>
-> >>>               FUTEX_WAITERS | TID
-> >>>
-> >>>
-> >>>        Note that a PI futex word never just has the value FUTEX_WAITERS,
-> >>>        which is a permissible state for non-PI futexes.
-> >>
-> >> The second clause is inappropriate. I don't know if that was yours or
-> >> mine, but non-PI futexes do not have a kernel defined value policy, so
-> >> ==FUTEX_WAITERS cannot be a "permissible state" as any value is
-> >> permissible for non-PI futexes, and none have a kernel defined state.
-> > 
-> > Depends. If the regular futex is configured as robust, then we have a
-> > kernel defined value policy as well.
+Hello Gabriel,
+
+On 09/23/2015 01:08 PM, Gabriel F. T. Gomes wrote:
+> Hi.
 > 
-
-Right.
-
-> Okay -- so do we need a change to the text here?
-
-Hrm. We probably need a way to indicate that kernel-defined futex word
-value policy only applies to PI and or ROBUST futexes.
-
-
+> The commit ID referred to below is already integrated into glibc's master
+> branch, however glibc 2.23 (mentioned in the text) has not yet been released.
 > 
-> >>> .\" FIXME I'm not quite clear on the meaning of the following sentence.
-> >>> .\"       Is this trying to say that while blocked in a
-> >>> .\"       FUTEX_WAIT_REQUEUE_PI, it could happen that another
-> >>> .\"       task does a FUTEX_WAKE on uaddr that simply causes
-> >>> .\"       a normal wake, with the result that the FUTEX_WAIT_REQUEUE_PI
-> >>> .\"       does not complete? What happens then to the FUTEX_WAIT_REQUEUE_PI
-> >>> .\"       opertion? Does it remain blocked, or does it unblock
-> >>> .\"       In which case, what does user space see?
-> >>>
-> >>>               The
-> >>>               waiter   can  be  removed  from  the  wait  on  uaddr  via
-> >>>               FUTEX_WAKE without requeueing on uaddr2.
-> >>
-> >> Userspace should see the task wake and continue executing. This would
-> >> effectively be a cancelation operation - which I didn't think was
-> >> supported. Thomas?
-> > 
-> > We probably never intended to support it, but looking at the code it
-> > works (did not try it though). It returns to user space with
-> > -EWOULDBLOCK. So it basically behaves like any other spurious wakeup.
+> Ok to already commit?
+
+Sorry for the delay. I've applied this patch.
+
+Cheers,
+
+Michael
+
+
+> -- 8< --
+> GNU C Library commit 1747fcda4902a3b46183d93fb16ed9b436b2608b extends the
+> priorities that can be set to the Program Priority Register (PPR), with the
+> functions: __ppc_set_ppr_very_low(3) and __ppc_set_ppr_med_high(3).
 > 
-> Again, I assume no changes are required to the man page(?).
-
-I'd rather not document this as supported or intended behavior.
-FUTEX_WAIT_REQUEUE_PI is documented as being paired with and only with
-FUTEX_CMP_REQUEUE_PI. Anything else is undefined behavior.
-
-If we want to support a cancelation, it should be deliberate - and we should
-probably test it ;-)
+> Signed-off-by: Gabriel F. T. Gomes <gftg-23VcF4HTsmIX0ybBhKVfKdBPR1lH4CV8@public.gmane.org>
+> ---
+>  man3/__ppc_set_ppr_med.3      | 41 +++++++++++++++++++++++++++++++++++++----
+>  man3/__ppc_set_ppr_med_high.3 |  1 +
+>  man3/__ppc_set_ppr_very_low.3 |  1 +
+>  3 files changed, 39 insertions(+), 4 deletions(-)
+>  create mode 100644 man3/__ppc_set_ppr_med_high.3
+>  create mode 100644 man3/__ppc_set_ppr_very_low.3
+> 
+> diff --git a/man3/__ppc_set_ppr_med.3 b/man3/__ppc_set_ppr_med.3
+> index b106647..2fd5d6f 100644
+> --- a/man3/__ppc_set_ppr_med.3
+> +++ b/man3/__ppc_set_ppr_med.3
+> @@ -25,16 +25,20 @@
+>  .TH __PPC_SET_PPR_MED 3 2015-08-05 "GNU C Library" "Linux\
+>  Programmer's Manual"
+>  .SH NAME
+> -__ppc_set_ppr_med, __ppc_set_ppr_low, __ppc_set_ppr_med_low \-
+> +__ppc_set_ppr_med, __ppc_set_ppr_very_low, __ppc_set_ppr_low, __ppc_set_ppr_med_low, __ppc_set_ppr_med_high \-
+>  Set the Program Priority Register
+>  .SH SYNOPSIS
+>  .B #include <sys/platform/ppc.h>
+>  .sp
+>  .B void __ppc_set_ppr_med(void);
+>  .br
+> +.B void __ppc_set_ppr_very_low(void);
+> +.br
+>  .B void __ppc_set_ppr_low(void);
+>  .br
+>  .B void __ppc_set_ppr_med_low(void);
+> +.br
+> +.B void __ppc_set_ppr_med_high(void);
+>  .SH DESCRIPTION
+>  These functions provide access to the
+>  .I Program Priority Register
+> @@ -44,13 +48,17 @@ The PPR is a 64-bit register that controls the program's priority.
+>  By adjusting the PPR value the programmer may improve system
+>  throughput by causing system resources to be used more
+>  efficiently, especially in contention situations.
+> -The three unprivileged states available are covered by the following functions:
+> +The four unprivileged states available are covered by the following functions:
+>  .IP * 3
+>  .BR __ppc_set_ppr_med ()
+>  sets the Program Priority Register value to
+>  .IR medium
+>  (default).
+>  .IP *
+> +.BR __ppc_set_ppr_very_low ()
+> +sets the Program Priority Register value to
+> +.IR "very low" .
+> +.IP *
+>  .BR __ppc_set_ppr_low ()
+>  sets the Program Priority Register value to
+>  .IR low .
+> @@ -58,8 +66,31 @@ sets the Program Priority Register value to
+>  .BR __ppc_set_ppr_med_low ()
+>  sets the Program Priority Register value to
+>  .IR "medium low" .
+> +.P
+> +The privileged state
+> +.IR "medium high"
+> +may also be set during certain time intervals by problem-state (unprivileged)
+> +programs, with the following function:
+> +.IP * 3
+> +.BR __ppc_set_ppr_med_high ()
+> +sets the Program Priority to
+> +.IR "medium high" .
+> +.P
+> +If the program priority is medium high when the time interval expires or if an
+> +attempt is made to set the priority to medium high when it is not allowed, the
+> +priority is set to medium.
+>  .SH VERSIONS
+> -These functions first appeared in glibc in version 2.18.
+> +The functions
+> +.BR __ppc_set_ppr_med (),
+> +.BR __ppc_set_ppr_low ()
+> +and
+> +.BR __ppc_set_ppr_med_low ()
+> +are provided by glibc since version 2.18.
+> +The functions
+> +.BR __ppc_set_ppr_very_low ()
+> +and
+> +.BR __ppc_set_ppr_med_high ()
+> +first appeared in glibc in version 2.23.
+>  .SH ATTRIBUTES
+>  For an explanation of the terms used in this section, see
+>  .BR attributes (7).
+> @@ -71,8 +102,10 @@ l l l.
+>  Interface	Attribute	Value
+>  T{
+>  .BR __ppc_set_ppr_med (),
+> +.BR __ppc_set_ppr_very_low (),
+>  .BR __ppc_set_ppr_low (),
+> -.BR __ppc_set_ppr_med_low ()
+> +.BR __ppc_set_ppr_med_low (),
+> +.BR __ppc_set_ppr_med_high ()
+>  T}	Thread safety	MT-Safe
+>  .TE
+>  .ad
+> diff --git a/man3/__ppc_set_ppr_med_high.3 b/man3/__ppc_set_ppr_med_high.3
+> new file mode 100644
+> index 0000000..a6d6cf3
+> --- /dev/null
+> +++ b/man3/__ppc_set_ppr_med_high.3
+> @@ -0,0 +1 @@
+> +.so man3/__ppc_set_ppr_med.3
+> diff --git a/man3/__ppc_set_ppr_very_low.3 b/man3/__ppc_set_ppr_very_low.3
+> new file mode 100644
+> index 0000000..a6d6cf3
+> --- /dev/null
+> +++ b/man3/__ppc_set_ppr_very_low.3
+> @@ -0,0 +1 @@
+> +.so man3/__ppc_set_ppr_med.3
+> 
 
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
+Michael Kerrisk
+Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
+Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
