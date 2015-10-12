@@ -1,45 +1,36 @@
-From: Krzysztof Adamski <k@japko.eu>
-Subject: [PATCH] execve.2: EPERM from filesystem capabilities.
-Date: Mon, 12 Oct 2015 21:45:06 +0200
-Message-ID: <20151012194506.GA6346@box2.japko.eu>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+From: Arthur Gautier <baloo-M8Sm6a3kpgNeoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH] capget.2: capability.h is now in linux uapi + tfix
+Date: Mon, 12 Oct 2015 20:25:46 +0000
+Message-ID: <1444681546-28408-1-git-send-email-baloo@gandi.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Cc: Arthur Gautier <baloo-M8Sm6a3kpgNeoWH0uzbU5w@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-An EPERM error can be returned when using filesystem capabilities and
-capabilities to be added are not in permitted set.
+introduced in 607ca46e97a1b6594b29647d98a32d545c24bdff
 
-This error return values was introduced by this patch:
-5459c16 security: protect legacy applications from executing with
-insufficient privilege
-
-Signed-off-by: Krzysztof Adamski <k@japko.eu>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+Signed-off-by: Arthur Gautier <baloo-M8Sm6a3kpgNeoWH0uzbU5w@public.gmane.org>
 ---
- man2/execve.2 | 4 ++++
- 1 file changed, 4 insertions(+)
+ man2/capget.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/execve.2 b/man2/execve.2
-index 8f4c616..723e622 100644
---- a/man2/execve.2
-+++ b/man2/execve.2
-@@ -465,6 +465,10 @@ and the file has the set-user-ID or set-group-ID bit set.
- The process is being traced, the user is not the superuser and the
- file has the set-user-ID or set-group-ID bit set.
- .TP
-+.BR EPERM " (since Linux 2.6.27)"
-+The file has filesystem capabilities defined that are not on a permitted set of
-+capabilities of the process.
-+.TP
- .B ETXTBSY
- Executable was open for writing by one or more processes.
- .SH CONFORMING TO
+diff --git a/man2/capget.2 b/man2/capget.2
+index 40b8a4eda595..29f0bdb69514 100644
+--- a/man2/capget.2
++++ b/man2/capget.2
+@@ -16,7 +16,7 @@
+ .SH NAME
+ capget, capset \- set/get capabilities of thread(s)
+ .SH SYNOPSIS
+-.B #include <sys/capability.h>
++.B #include <linux/capability.h>
+ .sp
+ .BI "int capget(cap_user_header_t " hdrp ", cap_user_data_t " datap );
+ .sp
 -- 
-2.1.4
+2.5.1
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
