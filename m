@@ -1,96 +1,64 @@
-From: Rahul Bedarkar <rpal143-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [RFC PATCH 1/1] pthread_detach.3: remove invalid and confusing statement
-Date: Tue, 13 Oct 2015 09:18:30 +0530
-Message-ID: <CA+NV+Vmh7SHoqyToYbznHeO6qgr=c0dfw=4hnT5d0=VSNP5eNQ@mail.gmail.com>
-References: <1443247457-3507-1-git-send-email-rahulbedarkar89@gmail.com> <5616DBB4.7060903@gmail.com>
+From: Lennart Poettering <lennart-mdGvqq1h2p+GdvJs77BJ7Q@public.gmane.org>
+Subject: cmsg(3) doesn't mention that memory must be zero-initialized when
+ using CMSG_NXTHDR() to construct a cmsg
+Date: Tue, 13 Oct 2015 12:54:55 +0200
+Message-ID: <20151013105455.GA4208@gardel-login>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <5616DBB4.7060903-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Content-Disposition: inline
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, daniel-cYrQPVfZoowdnm+yROfE0A@public.gmane.org, dh.herrmann-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On Fri, Oct 9, 2015 at 2:40 AM, Michael Kerrisk (man-pages)
-<mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org> wrote:
-> Rahul,
->
-> On 09/26/2015 07:04 AM, Rahul Bedarkar wrote:
->> In notes section, statement
->>
->> "(But note that the resources of all threads are freed when the
->> process terminates.)"
->>
->> is confusing and invalid. In Linux, we don't really need to wait
->> until application termination for system resources to be freed unless
->> there is bug in application logic.
->
-> While I'm not sure that that sentence is essential, it does serve
-> to remind the reader that all resources are freed on process
-> termination, regardless of whether pthread_detach() and pthread_join()
-> are used.
->
-> It's not clear to me why you find it confusing or invalid.
-> Can you say more?
+Michael,
 
-Hi Michael,
+http://man7.org/linux/man-pages/man3/cmsg.3.html
 
-Why it should be a special case about pthread that we should mention
-that all resources are freed on process termination which is feature
-of an Operating system.
+currently says this:
 
-When we don't mention it in open.2 or free.3, I thought it should not
-be mentioned in pthread case, as it is something not related to it.
+       To create ancillary data, first initialize the msg_controllen
+       member of the msghdr with the length of the control message
+       buffer.  Use CMSG_FIRSTHDR() on the msghdr to get the first
+       control message and CMSG_NXTHDR() to get all subsequent ones.
+       In each control message, initialize cmsg_len (with CMSG_LEN()),
+       the other cmsghdr header fields, and the data portion using
+       CMSG_DATA().  Finally, the msg_controllen field of the msghdr
+       should be set to the sum of the CMSG_SPACE() of the length of
+       all control messages in the buffer.  For more information on
+       the msghdr, see recvmsg(2).
 
-The sentence in bracket looks more confusing if we read previous one.
+This does not mention that the memory that CMSG_NXTHDR() is used on
+to construct a cmsg data must be zero-initialized, but that's
+apparently the case as the macro verifies the cmsg_len field after
+increasing the pointers.
 
-"Either pthread_join(3) or pthread_detach() should be called for each
-thread that an application creates, so that  system  resources for the
-thread can be released.  (But note that the resources of all threads
-are freed when the process terminates.)"
+The example at the end of the man page (which constructs a cmsg, but
+does not actually use CMSG_NXTHDR) does not initialize the memory to
+NUL, hence one would normally assume that NUL-initialization is not
+necessary when constructing cmsgs when reading the man page.
 
-I think above sentences convey that you should call either
-pthread_join() or pthread_detach() so that resources are can be freed.
-But note that those won't get freed until process is terminated.
+We ran into this in systemd:
 
-That's why it looks confusing to me and looks invalid because note in
-bracket conveys different meaning than intended.
+https://github.com/systemd/systemd/pull/1540
+https://github.com/systemd/systemd/issues/1505
 
-Regards,
-Rahul
+I figure the man page should mention the requirement to NUL
+initialize. Also, the example should explicitly NUL-initialize the
+memory it uses. Even better of course would be an example that
+actually uses CMSG_NXTHDR().
 
->
-> Thanks,
->
-> Michael
->
->
->> Signed-off-by: Rahul Bedarkar <rahulbedarkar89-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
->> ---
->>  man3/pthread_detach.3 | 2 --
->>  1 file changed, 2 deletions(-)
->>
->> diff --git a/man3/pthread_detach.3 b/man3/pthread_detach.3
->> index 106914b..2c53409 100644
->> --- a/man3/pthread_detach.3
->> +++ b/man3/pthread_detach.3
->> @@ -101,8 +101,6 @@ or
->>  .BR pthread_detach ()
->>  should be called for each thread that an application creates,
->>  so that system resources for the thread can be released.
->> -(But note that the resources of all threads are freed when the
->> -process terminates.)
->>  .SH EXAMPLE
->>  The following statement detaches the calling thread:
->>
->>
->
->
-> --
-> Michael Kerrisk
-> Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
-> Linux/UNIX System Programming Training: http://man7.org/training/
+Also, while we are at it, I figure the last sentence in the paragraph
+should probably mention sendmsg() rather than recvmsg(), as you
+construct cmsg yourself only for the fromer, not the latter...
+
+Thanks, and keep up the great work on the man pages!
+
+Lennart
+
+-- 
+Lennart Poettering, Red Hat
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
