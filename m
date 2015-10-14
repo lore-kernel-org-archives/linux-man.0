@@ -1,32 +1,22 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: [patch 01/11] perf_event_open.2: 4.1 PERF_SAMPLE_BRANCH_CALL_STACK
-Date: Wed, 14 Oct 2015 08:26:08 +0200
-Message-ID: <561DF580.50509@gmail.com>
-References: <alpine.DEB.2.20.1507231307280.3742@vincent-weaver-1.umelst.maine.edu>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
+Subject: Re: [patch 03/11] perf_event_open.2: 4.1 PERF_EVENT_IOC_SET_BPF support
+Date: Wed, 14 Oct 2015 08:27:43 +0200
+Message-ID: <561DF5DF.9050404@gmail.com>
+References: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <alpine.DEB.2.20.1507231307280.3742-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Jiri Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Kan Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+Return-path: <linux-kernel-owner@vger.kernel.org>
+In-Reply-To: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
+Sender: linux-kernel-owner@vger.kernel.org
+To: Vince Weaver <vincent.weaver@maine.edu>
+Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Stephane Eranian <eranian@google.com>, Alexei Starovoitov <ast@plumgrid.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>, Andrew Morton <akpm@linux-foundation.org>, Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, Jiri Olsa <jolsa@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Namhyung Kim <namhyung@kernel.org>
 List-Id: linux-man@vger.kernel.org
 
-On 07/23/2015 07:08 PM, Vince Weaver wrote:
+On 07/23/2015 07:10 PM, Vince Weaver wrote:
 > 
-> This manpage patch relates to the addition of the 
-> PERF_SAMPLE_BRANCH_CALL_STACK functionaliry added in the following
-> commit:
-> 
-> commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70 Author: Peter
-> Zijlstra <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
-> 
-> perf/x86/intel: Expose LBR callstack to user space tooling
-> 
-> With LBR call stack feature enable, there are three callchain
-> options. Enable the 3rd callchain option (LBR callstack) to user
-> space tooling.
+> This manpage patch relates to the addition of the
+> PERF_EVENT_IOC_SET_BPF ioctl in the following commit:
 
 Thanks, Vince. Applied.
 
@@ -35,32 +25,55 @@ Cheers,
 Michael
 
 
-> Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org> Cc: Jiri
-> Olsa <jolsa-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org> Cc: Arnaldo Carvalho de Melo
-> <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org> Cc: Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org> Cc: Kan
-> Liang <kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org> Cc: Linus Torvalds
-> <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org> Cc: Paul Mackerras
-> <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org> Cc: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org> Cc:
-> linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org Link:
-> http://lkml.kernel.org/r/20141105093759.GQ10501-IIpfhp3q70z/8w/KjCw3T+5/BudmfyzbbVWyRVo5IupeoWH0uzbU5w@public.gmane.org
->
-> Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
-> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+
+> 	commit 2541517c32be2531e0da59dfd7efc1ce844644f5
+> 	Author: Alexei Starovoitov <ast@plumgrid.com>
+>     
+> 	tracing, perf: Implement BPF programs attached to kprobes
 > 
-> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2 index
-> 856ec64..71bfb17 100644 --- a/man2/perf_event_open.2 +++
-> b/man2/perf_event_open.2 @@ -1240,6 +1240,11 @@ Branch in
-> transactional memory transaction. .BR PERF_SAMPLE_BRANCH_NO_TX "
-> (since Linux 3.11)" .\" commit
-> 135c5612c460f89657c4698fe2ea753f6f667963 Branch not in transactional
-> memory transaction. +.BR PERF_SAMPLE_BRANCH_CALL_STACK " (since Linux
-> 4.1)" +.\" commit 2c44b1936bb3b135a3fac8b3493394d42e51cf70 +Branch is
-> part of a hardware generated call stack. +This requires hardware
-> support, currently only found +on Intel x86 Haswell or newer. .RE
+> 	Signed-off-by: Alexei Starovoitov <ast@plumgrid.com>
+> 	Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+> 	Reviewed-by: Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>
+> 	Cc: Andrew Morton <akpm@linux-foundation.org>
+> 	Cc: Arnaldo Carvalho de Melo <acme@infradead.org>
+> 	Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
+> 	Cc: Daniel Borkmann <daniel@iogearbox.net>
+> 	Cc: David S. Miller <davem@davemloft.net>
+> 	Cc: Jiri Olsa <jolsa@redhat.com>
+> 	Cc: Linus Torvalds <torvalds@linux-foundation.org>
+> 	Cc: Namhyung Kim <namhyung@kernel.org>
+> 	Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
+> 	Cc: Peter Zijlstra <peterz@infradead.org>
+> 	Link: http://lkml.kernel.org/r/1427312966-8434-4-git-send-email-ast@plumgrid.com
+> 	Signed-off-by: Ingo Molnar <mingo@kernel.org>
 > 
-> .TP -- To unsubscribe from this list: send the line "unsubscribe
-> linux-man" in the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org More
-> majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+> 
+> diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
+> index a6b90ec..09eda9a 100644
+> --- a/man2/perf_event_open.2
+> +++ b/man2/perf_event_open.2
+> @@ -2570,6 +2570,19 @@ This returns the event ID value for the given event file descriptor.
+>  
+>  The argument is a pointer to a 64-bit unsigned integer
+>  to hold the result.
+> +.TP
+> +.BR PERF_EVENT_IOC_SET_BPF " (since Linux 4.1)"
+> +.\" commit 2541517c32be2531e0da59dfd7efc1ce844644f5
+> +This allows attaching a Berkeley Packet Filter (BPF)
+> +program to an existing kprobe tracepoint event.
+> +You need
+> +.B CAP_SYS_ADMIN
+> +privileges to use this ioctl.
+> +
+> +The argument is a BPF program file descriptor that was created by
+> +a previous
+> +.BR bpf (2)
+> +system call.
+>  .SS Using prctl
+>  A process can enable or disable all the event groups that are
+>  attached to it using the
 > 
 
 
@@ -68,7 +81,3 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
---
-To unsubscribe from this list: send the line "unsubscribe linux-man" in
-the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-More majordomo info at  http://vger.kernel.org/majordomo-info.html
