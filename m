@@ -1,22 +1,24 @@
-From: "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>
-Subject: Re: [patch 03/11] perf_event_open.2: 4.1 PERF_EVENT_IOC_SET_BPF support
-Date: Wed, 14 Oct 2015 08:27:43 +0200
-Message-ID: <561DF5DF.9050404@gmail.com>
-References: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
+From: "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Subject: Re: [patch 04/11] perf_event_open.2: 4.1 data_offset and data_size
+ fields
+Date: Wed, 14 Oct 2015 08:29:24 +0200
+Message-ID: <561DF644.4030703@gmail.com>
+References: <alpine.DEB.2.20.1507231310270.3742@vincent-weaver-1.umelst.maine.edu>
 Mime-Version: 1.0
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <alpine.DEB.2.20.1507231309330.3742@vincent-weaver-1.umelst.maine.edu>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Vince Weaver <vincent.weaver@maine.edu>
-Cc: mtk.manpages@gmail.com, linux-man@vger.kernel.org, linux-kernel@vger.kernel.org, Peter Zijlstra <a.p.zijlstra@chello.nl>, Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, Stephane Eranian <eranian@google.com>, Alexei Starovoitov <ast@plumgrid.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>, Andrew Morton <akpm@linux-foundation.org>, Daniel Borkmann <daniel@iogearbox.net>, "David S. Miller" <davem@davemloft.net>, Jiri Olsa <jolsa@redhat.com>, Linus Torvalds <torvalds@linux-foundation.org>, Namhyung Kim <namhyung@kernel.org>
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <alpine.DEB.2.20.1507231310270.3742-6xBS8L8d439fDsnSvq7Uqyn2WXadKZNJe7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
+Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Peter Zijlstra <a.p.zijlstra-/NLkJaSkS4VmR6Xm/wNWPw@public.gmane.org>, Ingo Molnar <mingo-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>, Arnaldo Carvalho de Melo <acme-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>, Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>, Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, "H. Peter Anvin" <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>, Kaixu Xia <kaixu.xia-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>, Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>, Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>, Robert Richter <rric-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>, Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>, adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org, mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-On 07/23/2015 07:10 PM, Vince Weaver wrote:
+On 07/23/2015 07:11 PM, Vince Weaver wrote:
 > 
-> This manpage patch relates to the addition of the
-> PERF_EVENT_IOC_SET_BPF ioctl in the following commit:
+> This manpage patch relates to the addition of the data_offset
+> and data_size fields to the perf_event mmap buffer, as added
+> in the following commit:
 
 Thanks, Vince. Applied.
 
@@ -26,54 +28,65 @@ Michael
 
 
 
-> 	commit 2541517c32be2531e0da59dfd7efc1ce844644f5
-> 	Author: Alexei Starovoitov <ast@plumgrid.com>
->     
-> 	tracing, perf: Implement BPF programs attached to kprobes
+> 	commit e8c6deac69629c0cb97c3d3272f8631ef17f8f0f
+> 	Author: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
 > 
-> 	Signed-off-by: Alexei Starovoitov <ast@plumgrid.com>
-> 	Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-> 	Reviewed-by: Masami Hiramatsu <masami.hiramatsu.pt@hitachi.com>
-> 	Cc: Andrew Morton <akpm@linux-foundation.org>
-> 	Cc: Arnaldo Carvalho de Melo <acme@infradead.org>
-> 	Cc: Arnaldo Carvalho de Melo <acme@redhat.com>
-> 	Cc: Daniel Borkmann <daniel@iogearbox.net>
-> 	Cc: David S. Miller <davem@davemloft.net>
-> 	Cc: Jiri Olsa <jolsa@redhat.com>
-> 	Cc: Linus Torvalds <torvalds@linux-foundation.org>
-> 	Cc: Namhyung Kim <namhyung@kernel.org>
-> 	Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
-> 	Cc: Peter Zijlstra <peterz@infradead.org>
-> 	Link: http://lkml.kernel.org/r/1427312966-8434-4-git-send-email-ast@plumgrid.com
-> 	Signed-off-by: Ingo Molnar <mingo@kernel.org>
+> 	perf: Add data_{offset,size} to user_page
+> 
+> 	Signed-off-by: Alexander Shishkin <alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+> 	Signed-off-by: Peter Zijlstra (Intel) <peterz-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org>
+> 	Cc: Borislav Petkov <bp-Gina5bIWoIWzQB+pC5nmwQ@public.gmane.org>
+> 	Cc: Frederic Weisbecker <fweisbec-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> 	Cc: H. Peter Anvin <hpa-YMNOUZJC4hwAvxtiuMwx3w@public.gmane.org>
+> 	Cc: Kaixu Xia <kaixu.xia-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org>
+> 	Cc: Linus Torvalds <torvalds-de/tnXTf+JLsfHDXvbKv3WD2FQJk+8+b@public.gmane.org>
+> 	Cc: Mike Galbraith <efault-Mmb7MZpHnFY@public.gmane.org>
+> 	Cc: Paul Mackerras <paulus-eUNUBHrolfbYtjvyW6yDsg@public.gmane.org>
+> 	Cc: Robert Richter <rric-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
+> 	Cc: Stephane Eranian <eranian-hpIqsD4AKlfQT0dZR+AlfA@public.gmane.org>
+> 	Cc: Thomas Gleixner <tglx-hfZtesqFncYOwBW4kG4KsQ@public.gmane.org>
+> 	Cc: acme-wEGCiKHe2LqWVfeAwA7xHQ@public.gmane.org
+> 	Cc: adrian.hunter-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+> 	Cc: kan.liang-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+> 	Cc: markus.t.metzger-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org
+> 	Cc: mathieu.poirier-QSEj5FYQhm4dnm+yROfE0A@public.gmane.org
+> 	Link: http://lkml.kernel.org/r/1421237903-181015-2-git-send-email-alexander.shishkin-VuQAYsv1563Yd54FQh9/CA@public.gmane.org
+> 	Signed-off-by: Ingo Molnar <mingo-DgEjT+Ai2ygdnm+yROfE0A@public.gmane.org>
 > 
 > 
-> Signed-off-by: Vince Weaver <vincent.weaver@maine.edu>
+> Signed-off-by: Vince Weaver <vincent.weaver-e7X0jjDqjFGHXe+LvDLADg@public.gmane.org>
 > 
 > diff --git a/man2/perf_event_open.2 b/man2/perf_event_open.2
-> index a6b90ec..09eda9a 100644
+> index 09eda9a..a3bebaa 100644
 > --- a/man2/perf_event_open.2
 > +++ b/man2/perf_event_open.2
-> @@ -2570,6 +2570,19 @@ This returns the event ID value for the given event file descriptor.
->  
->  The argument is a pointer to a 64-bit unsigned integer
->  to hold the result.
-> +.TP
-> +.BR PERF_EVENT_IOC_SET_BPF " (since Linux 4.1)"
-> +.\" commit 2541517c32be2531e0da59dfd7efc1ce844644f5
-> +This allows attaching a Berkeley Packet Filter (BPF)
-> +program to an existing kprobe tracepoint event.
-> +You need
-> +.B CAP_SYS_ADMIN
-> +privileges to use this ioctl.
+> @@ -1414,6 +1414,9 @@ struct perf_event_mmap_page {
+>      __u64 __reserved[120];   /* Pad to 1k */
+>      __u64 data_head;         /* head in the data section */
+>      __u64 data_tail;         /* user-space written tail */
+> +    __u64 data_offset;       /* where the buffer starts */
+> +    __u64 data_size;         /* data buffer size */
 > +
-> +The argument is a BPF program file descriptor that was created by
-> +a previous
-> +.BR bpf (2)
-> +system call.
->  .SS Using prctl
->  A process can enable or disable all the event groups that are
->  attached to it using the
+>  }
+>  .fi
+>  .in
+> @@ -1630,6 +1633,16 @@ the
+>  .I data_tail
+>  value should be written by user space to reflect the last read data.
+>  In this case, the kernel will not overwrite unread data.
+> +.TP
+> +.IR data_offset " (since Linux 4.1)"
+> +.\" commit e8c6deac69629c0cb97c3d3272f8631ef17f8f0f
+> +Contains the offset of the location in the mmap buffer
+> +where perf sample data begins.
+> +.TP
+> +.IR data_size " (since Linux 4.1)"
+> +.\" commit e8c6deac69629c0cb97c3d3272f8631ef17f8f0f
+> +Contains the size of the perf sample region within
+> +the mmap buffer.
+>  .PP
+>  The following 2^n ring-buffer pages have the layout described below.
+>  
 > 
 
 
@@ -81,3 +94,7 @@ Michael
 Michael Kerrisk
 Linux man-pages maintainer; http://www.kernel.org/doc/man-pages/
 Linux/UNIX System Programming Training: http://man7.org/training/
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
