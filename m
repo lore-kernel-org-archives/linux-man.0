@@ -1,78 +1,145 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
+From: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>
 Subject: Re: [PATCH] userns/capability: Add user namespace capability
-Date: Sun, 18 Oct 2015 20:28:07 -0400
-Message-ID: <20151019002807.GP28215@vapier.lan>
+Date: Sun, 18 Oct 2015 20:41:12 -0500
+Message-ID: <20151019014112.GA1683@mail.hallyn.com>
 References: <5622700C.9090107@miglix.eu>
- <CAFLxGvzJONWTbpD8GFfDWDQiPxONrFaRAuXonXXUWaR1pcTUgw@mail.gmail.com>
- <5623FD86.2030609@miglix.eu>
+ <20151017215501.GA22900@mail.hallyn.com>
+ <5623FD82.4030902@miglix.eu>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="uX2tiToO0oGq+LKk"
+Content-Type: text/plain; charset=us-ascii
 Return-path: <linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Content-Disposition: inline
-In-Reply-To: <5623FD86.2030609-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org>
+In-Reply-To: <5623FD82.4030902-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org>
 Sender: linux-api-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Tobias Markus <tobias-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org>
-Cc: Richard Weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, LKML <linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Al Viro <viro-RmSDqhL/yNMiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Serge Hallyn <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Andrew Morton <akpm-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, LSM <linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, "open list:ABI/API" <linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>, linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, "Eric W. Biederman" <ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org>, Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Serge Hallyn <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Andrew Morton <akpm-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
+On Sun, Oct 18, 2015 at 10:13:54PM +0200, Tobias Markus wrote:
+> On 17.10.2015 23:55, Serge E. Hallyn wrote:
+> > On Sat, Oct 17, 2015 at 05:58:04PM +0200, Tobias Markus wrote:
+> >> Add capability CAP_SYS_USER_NS.
+> >> Tasks having CAP_SYS_USER_NS are allowed to create a new user namespace
+> >> when calling clone or unshare with CLONE_NEWUSER.
+> >>
+> >> Rationale:
+> >>
+> >> Linux 3.8 saw the introduction of unpriviledged user namespaces,
+> >> allowing unpriviledged users (without CAP_SYS_ADMIN) to be a "fake" root
+> >> inside a separate user namespace. Before that, any namespace creation
+> >> required CAP_SYS_ADMIN (or, in practice, the user had to be root).
+> >> Unfortunately, there have been some security-relevant bugs in the
+> >> meantime. Because of the fairly complex nature of user namespaces, it is
+> >> reasonable to say that future vulnerabilties can not be excluded. Some
+> >> distributions even wholly disable user namespaces because of this.
+> > 
+> > Fwiw I'm not in favor of this.  Debian has a patch (I believe the one
+> > I originally wrote for Ubuntu but which Ubuntu dropped long ago) adding a
+> > sysctl, off by default, for enabling user namespaces.
+> 
+> While it certainly works, enabling a feature like this at runtime
+> doesn't seem like a long term solution.
 
---uX2tiToO0oGq+LKk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We shouldn't need a long-term solution.  Your concern is bugs.  After
+some time surely we'll feel that we have achieved a stable solution?
 
-On 18 Oct 2015 22:13, Tobias Markus wrote:
-> On 17.10.2015 22:17, Richard Weinberger wrote:
-> > On Sat, Oct 17, 2015 at 5:58 PM, Tobias Markus <tobias-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org> wrote:
-> >> One question remains though: Does this break userspace executables that
-> >> expect being able to create user namespaces without priviledge? Since
-> >> creating user namespaces without CAP_SYS_ADMIN was not possible before
-> >> Linux 3.8, programs should already expect a potential EPERM upon calli=
-ng
-> >> clone. Since creating a user namespace without CAP_SYS_USER_NS would
-> >> also cause EPERM, we should be on the safe side.
-> >=20
-> > In case of doubt, yes it will break existing software.
-> > Hiding user namespaces behind CAP_SYS_USER_NS will not magically
-> > make them secure.
->=20
-> The goal is not to make user namespaces secure, but to limit access to
-> them somewhat in order to reduce the potential attack surface.
+> The fact that Debian added this patch in the first place already
+> demonstrates that there is demand for a way to limit unpriviledged user
 
-the irony is that disallowing non-privileged processes access to userns mea=
-ns
-processes cannot jail themselves and thus make themselves more secure.  i've
-been adding userns to various projects purely to get access to things like
-mount, net, pid, sysv, and ipc namespaces.
+No it does not.  As i said, I wrote that patch originally in the very
+early days, when wanting it turned off was much more understandable.
+I do not know whether Debian would have written its own patch if I
+hadn't.  (They may have)
 
-putting this behind a cap also breaks the Chromium sandbox -- they were able
-to drop set*id on the sandbox binary and utilize userns instead.
-https://chromium.googlesource.com/chromium/src/+/master/docs/linux_sandboxi=
-ng.md
-https://code.google.com/p/chromium/issues/detail?id=3D312380
--mike
+> namespace creation. Please, don't get me wrong: I would *really like* to
+> see widespread adoption and continued development of user namespaces!
+> But the status quo remains: Distributions outright disabling user
+> namespaces (e.g. Arch Linux) won't make it easier.
+> 
+> > 
+> > Posix capabilities are intended for privileged actions, not for
+> > actions which explicitly should not require privilege, but which
+> > we feel are in development.
+> > 
+> 
+> Certainly, in an ideal world, user namespaces will never lead to any
+> kernel-level exploits. But reality is different: There *have been*
+> serious kernel vulnerabilities due to user namespaces, and there *will
+> be* serious kernel vulnerabilities due to user namespaces.
 
---uX2tiToO0oGq+LKk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+As there will be due to sctp and futex.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+> Now, those are the alternatives imho:
+> 
+> * Status quo: Some distributions will disable user namespaces by default
+> in some way or another. User wishing to use user namespaces will have to
+> use a custom kernel or enable a sysctl flag that was patched in by the
+> downstream developers. On distributions that enable user namespaces by
+> default, even users that don't wish to use them in the first places will
+> be affected by vulnerabilities.
+> 
+> * Adding a capabilitiy: First of all, there would be no need for any
+> downstream patches or custom kernels. Users that wish to use user
+> namespaces would only have to enable the capability on the affected
+> executables, if that hasn't been done by the package maintainers
+> already. Users that might not even know of user namespaces have their peace.
+> 
+> > In general, the feeling is that putting a feature like this behind a
+> > wall will only slow down the finding of any bugs, so I think the goal
+> > itself is questionable.  But the chosen means for achieving your goal
+> > are definately wrong.
+> 
+> I'm not talking about removing user namespaces altogether or making them
+> impossible to use - as I said above, user wouldn't notice anything in
+> the best case. Replacing setuid binaries with capabilitiy-based ones has
+> been done for quite some time now and I don't think anyone complained.
 
-iQIcBAEBCAAGBQJWJDkXAAoJEEFjO5/oN/WBofsP/1qQ2m7A86ppAOihhgwhKrhl
-ikxGiqv0JzlW1Dvqv+pkz6n5qKvRMgg7Tt3mKTsTKANNdHPX3IMmNIZ4uCCZe0iU
-slnKl5EaSK57Jq2VM/DT51KsKmosOwOpkOcfQTZQfwnNEH7jTney7iNAznmrh8Tr
-5wIBbg2wVln9VYQyGnWOgRWJgZYpOPaa/gKWqE4p12uRdSh1uZHbQTBTeZBmGbYX
-H9QOJ0bynoTO4tUCglR2rLrTO0ADWOEdkslbXpiSFvsvZS0db6QcC1w8M871nKsF
-fVSXS6pP66gelNb/c8qYs7ZwwbqW22pa1NAf8UsVhgYol2bQ+m1v7tm8UU7v0YmN
-g22H4ueBJb5aR8Um6sUT4/SHQPCMW95CLZsEp0xq5jdLbhJ7/32lWS/YiU+hVM+l
-tG2aX1CXMYmalRl1PsS6evdV5ciab3X2LI7wBPaCZ6B/AZy/f7cFy8rynb/MqCNr
-UitByL5cKkDS+WbJdsYzLkn2XSlahDv/LFxM7p39c+S1SfVY/qxjoYphA2W57h7x
-2wt6f6Qo/S3dxA0VIzpPeS2BVajlimX2W/toNvDRNTbXMIgZpIcvjV0dVbgU96x8
-yLDTRZ4ghk850c9VhV4QCMDhvxWBTsVr5aXQEh+27EaiBTQ2VnWfDy79j/rnfSQU
-rJCoRB/01SHMaQ8iokuR
-=C+zO
------END PGP SIGNATURE-----
+That's the opposite - making something easier to use with less privilege,
+as opposed to requiring more.
 
---uX2tiToO0oGq+LKk--
+> I honestly don't see why adding a new capability would slow down finding
+> bugs. Not every program magically profits from user namespaces. Why
+> would, say, GCC, date or vim improve by using user namespaces? My point
+
+<shrug> this is irrelevant, but I could certainly envision value in
+something like gcc, which takes arbitrary input, running as kuid -1
+(not uid -1).  Or especially ffmpeg.  chromium.
+
+> is that use cases for user namespaces won't magically rain down from
+> Heaven just because it possible to use them without priviledge. And it
+> is hardly difficult to add the capabilitiy to those applications that
+> use user namespaces, is it? setcap cap_sys_user_ns+ep $binary doesn't
+> sound very complicated to me.
+
+But it requires root privilege, for something designed to not need root
+privilege.
+
+> I would actually say not adding this capability would slow down finding
+> bugs since users are less inclined to enable the feature if they can't
+> limit its security impact.
+> 
+> Furthermore, saying "let's enable this complex security-relevant feature
+> by default and make it impossible to limit it to certain files so users
+> will find more bugs" is fundamentally wrong approach to security imho.
+> First, you aren't likely to get more bug reports because distributions
+> aren't that risky. Second, even if you get more bug reports, _the damage
+> is already done_. Sysadmins won't be that happy and will very likely
+> disable the very feature that caused the damage in the first place.
+
+Posix capabilities are privileges.  Like the privileges to create
+device nodes, or open another user's files regardless of permission
+settings, or the ability to read syslog.
+We require privilege for things which affect shared resouces or would
+otherwise impact other users.  We do not require privilege because
+something may have bugs.  The user namespace is designed precisely to
+*not* require privilege.
+
+If you feel the userns *design* is inherently buggy, then suggest
+ripping it out.  If you feel the implementation is buggy, then compile
+it out, or upstreaming the sysctl could makes sense.  We can have those
+discussions.  But assigning a privilege to it doesn't make sense.
+
+I'm not saying this as someone who championed and acked the userns
+patchet, but as the capabilities maintainer.
+
+-serge
