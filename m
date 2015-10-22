@@ -1,101 +1,140 @@
-From: Andy Lutomirski <luto@amacapital.net>
+From: ebiederm-aS9lmoZGLiVWk0Htik3J/w@public.gmane.org (Eric W. Biederman)
 Subject: Re: [PATCH] userns/capability: Add user namespace capability
-Date: Thu, 22 Oct 2015 10:10:43 -0700
-Message-ID: <CALCETrWzT2CaY3AUSTjWgzogRofW8p3-Rowjn=v4VisTrCrATw@mail.gmail.com>
-References: <5622700C.9090107@miglix.eu> <5624FD3B.2050401@gmail.com>
- <CALCETrWfZ9hXvLPtJnZhU-ZdoUbYNo-QSydMPvP6Q7Rp0oCQaw@mail.gmail.com> <5627E3D3.1070407@gmail.com>
+Date: Thu, 22 Oct 2015 15:45:09 -0500
+Message-ID: <87twpi63ai.fsf@x220.int.ebiederm.org>
+References: <5622700C.9090107@miglix.eu>
+	<20151017215501.GA22900@mail.hallyn.com> <5623FD82.4030902@miglix.eu>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Return-path: <linux-kernel-owner@vger.kernel.org>
-In-Reply-To: <5627E3D3.1070407@gmail.com>
-Sender: linux-kernel-owner@vger.kernel.org
-To: Austin S Hemmelgarn <ahferroin7@gmail.com>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>, Christoph Lameter <cl@linux.com>, Al Viro <viro@zeniv.linux.org.uk>, Serge Hallyn <serge.hallyn@canonical.com>, LSM List <linux-security-module@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Tobias Markus <tobias@miglix.eu>, linux-man <linux-man@vger.kernel.org>, Andrew Morton <akpm@linuxfoundation.org>, "Eric W. Biederman" <ebiederm@xmission.com>, Linux API <linux-api@vger.kernel.org>
+Content-Type: text/plain
+Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <5623FD82.4030902-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org> (Tobias Markus's message of "Sun, 18
+	Oct 2015 22:13:54 +0200")
+Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Tobias Markus <tobias-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org>
+Cc: "Serge E. Hallyn" <serge-A9i7LUbDfNHQT0dZR+AlfA@public.gmane.org>, linux-kernel-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Al Viro <viro-3bDd1+5oDREiFSDQTTA3OLVCufUGDwFn@public.gmane.org>, Serge Hallyn <serge.hallyn-Z7WLFzj8eWMS+FvcfC7Uqw@public.gmane.org>, Andrew Morton <akpm-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Andy Lutomirski <luto-kltTT9wpgjJwATOyAt5JVQ@public.gmane.org>, Christoph Lameter <cl-vYTEC60ixJUAvxtiuMwx3w@public.gmane.org>, "Michael Kerrisk (man-pages)" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, linux-security-module-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-api-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Richard Weinberger <richard.weinberger-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Yves-Alexis Perez <corsac-8fiUuRrzOP0dnm+yROfE0A@public.gmane.org>, Austin S Hemmelgarn <ahferroin7-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>, Linux Containers <containers-cunTk1MwBs9QetFLy7KEm3xJsTq8ys+cHZ5vskTnxNA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-On Wed, Oct 21, 2015 at 12:13 PM, Austin S Hemmelgarn
-<ahferroin7@gmail.com> wrote:
-> On 2015-10-21 14:53, Andy Lutomirski wrote:
->>
->> On Oct 19, 2015 7:25 AM, "Austin S Hemmelgarn" <ahferroin7@gmail.com>
->> wrote:
+
+Thank you for a creative solution to a problem that you perceive.  I
+appreciate it when people aim to solve problems they see.
+
+Tobias Markus <tobias-gyUQdkDHmHmHXe+LvDLADg@public.gmane.org> writes:
+
+> On 17.10.2015 23:55, Serge E. Hallyn wrote:
+>> On Sat, Oct 17, 2015 at 05:58:04PM +0200, Tobias Markus wrote:
+>>> Add capability CAP_SYS_USER_NS.
+>>> Tasks having CAP_SYS_USER_NS are allowed to create a new user namespace
+>>> when calling clone or unshare with CLONE_NEWUSER.
 >>>
+>>> Rationale:
 >>>
->>> On 2015-10-17 11:58, Tobias Markus wrote:
->>>>
->>>>
->>>> Add capability CAP_SYS_USER_NS.
->>>> Tasks having CAP_SYS_USER_NS are allowed to create a new user namespace
->>>> when calling clone or unshare with CLONE_NEWUSER.
->>>>
->>>> Rationale:
->>>>
->>>> Linux 3.8 saw the introduction of unpriviledged user namespaces,
->>>> allowing unpriviledged users (without CAP_SYS_ADMIN) to be a "fake" root
->>>> inside a separate user namespace. Before that, any namespace creation
->>>> required CAP_SYS_ADMIN (or, in practice, the user had to be root).
->>>> Unfortunately, there have been some security-relevant bugs in the
->>>> meantime. Because of the fairly complex nature of user namespaces, it is
->>>> reasonable to say that future vulnerabilties can not be excluded. Some
->>>> distributions even wholly disable user namespaces because of this.
->>>>
->>>> Both options, user namespaces with and without CAP_SYS_ADMIN, can be
->>>> said to represent the extreme end of the spectrum. In practice, there is
->>>> no reason for every process to have the abilitiy to create user
->>>> namespaces. Indeed, only very few and specialized programs require user
->>>> namespaces. This seems to be a perfect fit for the (file) capability
->>>> system: Priviledged users could manually allow only a certain executable
->>>> to be able to create user namespaces by setting a certain capability,
->>>> I'd suggest the name CAP_SYS_USER_NS. Executables completely unrelated
->>>> to user namespaces should and can not create them.
->>>>
->>>> The capability should only be required in the "root" user namespace (the
->>>> user namespace with level 0) though, to allow nested user namespaces to
->>>> work as intended. If a user namespace has a level greater than 0, the
->>>> original process must have had CAP_SYS_USER_NS, so it is "trusted"
->>>> anyway.
->>>>
->>>> One question remains though: Does this break userspace executables that
->>>> expect being able to create user namespaces without priviledge? Since
->>>> creating user namespaces without CAP_SYS_ADMIN was not possible before
->>>> Linux 3.8, programs should already expect a potential EPERM upon calling
->>>> clone. Since creating a user namespace without CAP_SYS_USER_NS would
->>>> also cause EPERM, we should be on the safe side.
->>>
->>>
->>>
->>> Potentially stupid counter proposal:
->>> Make it CAP_SYS_NS, make it allow access to all namespace types for
->>> non-root/CAP_SYS_ADMIN users, and teach the stuff that's using userns just
->>> to get to mount/pid/net/ipc namespaces to use those instead when it's
->>> something that doesn't really need to think it's running as root.
->>>
->>> While this would still add a new capability (which is arguably not a good
->>> thing), the resultant capability would be significantly more useful for many
->>> of the use cases.
->>
->>
->> Then you'd have to come up with some argument that it could possibly
->> be safe.  You'd need *at least* no_new_privs forced on.  You would
->> also have fun defining the privilege to own such a namespace once
->> created.
+>>> Linux 3.8 saw the introduction of unpriviledged user namespaces,
+>>> allowing unpriviledged users (without CAP_SYS_ADMIN) to be a "fake" root
+>>> inside a separate user namespace. Before that, any namespace creation
+>>> required CAP_SYS_ADMIN (or, in practice, the user had to be root).
+>>> Unfortunately, there have been some security-relevant bugs in the
+>>> meantime. Because of the fairly complex nature of user namespaces, it is
+>>> reasonable to say that future vulnerabilties can not be excluded. Some
+>>> distributions even wholly disable user namespaces because of this.
+>> 
+>> Fwiw I'm not in favor of this.  Debian has a patch (I believe the one
+>> I originally wrote for Ubuntu but which Ubuntu dropped long ago) adding a
+>> sysctl, off by default, for enabling user namespaces.
 >
-> Excellent point about the privileges, although wouldn't that also apply to
-> just using a capability for non-root/CAP_SYS_ADMIN access to userns?
+> While it certainly works, enabling a feature like this at runtime
+> doesn't seem like a long term solution.
 >
+> The fact that Debian added this patch in the first place already
+> demonstrates that there is demand for a way to limit unpriviledged user
+> namespace creation. Please, don't get me wrong: I would *really like* to
+> see widespread adoption and continued development of user namespaces!
+> But the status quo remains: Distributions outright disabling user
+> namespaces (e.g. Arch Linux) won't make it easier.
 
-I'm not sure I understand your question.
+Let me say I applaud Arch Linux for not doing what so many distributions
+do and enable every feature in the kernel.  I appreciate a distribution
+that does not enable interesting kernel features while they are still
+having their bugs shaken out of them.
 
-Allowing the owner of a userns(or a holder of sufficient privilege in
-that namespace) to create other types of namespaces in that userns is
-safe, as long as there are no bug left.  There are plenty of ways for
-the creator of a network namespace, mount namespace, or similar to
-corrupt the user namespace to which they belong, which is why
-unprivileged userns creators can only create new namespaces of other
-types within the userns that they control.
+I also think Debians approach to limit things while they mature is also
+wisdom.
 
---Andy
+>> Posix capabilities are intended for privileged actions, not for
+>> actions which explicitly should not require privilege, but which
+>> we feel are in development.
+>> 
+>
+> Certainly, in an ideal world, user namespaces will never lead to any
+> kernel-level exploits. But reality is different: There *have been*
+> serious kernel vulnerabilities due to user namespaces, and there *will
+> be* serious kernel vulnerabilities due to user namespaces.
 
--- 
-Andy Lutomirski
-AMA Capital Management, LLC
+When you start talk about the future that is not yet real you have
+stopped talking about reality.  That sounds like a pessimists world view
+rather than reality.
+
+The reality is new features are buggy and take time to mature.  It takes
+time for understanding to percolate through peoples heads.
+
+> Now, those are the alternatives imho:
+>
+> * Status quo: Some distributions will disable user namespaces by default
+> in some way or another. User wishing to use user namespaces will have to
+> use a custom kernel or enable a sysctl flag that was patched in by the
+> downstream developers. On distributions that enable user namespaces by
+> default, even users that don't wish to use them in the first places will
+> be affected by vulnerabilities.
+
+Again I disagree.  I see distributions waiting to enable user namespaces
+until they mature and until they are interesting enough.  I do not see
+rushing to enable the newest features as wisdom, unless that the point
+of your distribution is to enable people to play with the latest
+features.
+
+I suspect we are quickly coming to a point where user namespaces will be
+sufficiently compelling that they will be enabled more widely.  
+
+
+At this point the most helpful things I can see to be done are.
+- Verify all userns related fixes have made it back into 4.1.x
+- Play with and/or audit the userns code to see if more bugs can be
+  found.
+- Analyze user namespaces and see if they are uniquely worse than
+  anything else.
+
+I agree that if user namespaces pose a unique security challenge to
+the kernel we should do something about them.  I think it is a healthy
+question to ask.  For the conversation to be productive I think we need
+numbers and analsysis, not just worst case analsysis based on fear.  To
+date all I see are teething pains.
+
+My back of the napkin analysis is that there are maybe 3,000 lines of
+code executed in user namespaces (mostly from fs/namespace.c) that
+are not otherwise reachable from unprivileged users, while there are
+perhaps 100,000 - 250,000 lines of code reachable by unprivileged users
+(not counting drivers).
+
+At this point I do not expect that removing access to 3 lines out of 100
+will significanlty reduce the probability that someone will find
+exploitable code in the kernel.
+
+I do think I goofed and enabled the code in fs/namespace.c before it was
+ready to be accessed by unprivileged users.  My apologies to everyone
+inconvinenced by that.
+
+
+Tobias I do think you have fallen into a fault in your analysis of the
+situtation that many other people have.  The assumption that by limiting
+access to who can create user namespaces that we limit badness by people
+who are root in a user namespace.   Very few of the problems I have seen
+go away if a user is not able to create a user namespace.  Most problems
+exist in some when an application is root inside a user namespace.
+
+Tobias your proposal to me reads as enabling a feature only for those
+users most likely to exploit it, which honestly seems backwards.
+
+Eric
+--
+To unsubscribe from this list: send the line "unsubscribe linux-man" in
+the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+More majordomo info at  http://vger.kernel.org/majordomo-info.html
