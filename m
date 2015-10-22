@@ -1,10 +1,8 @@
 From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
-Subject: [PATCH 3/4] tee.2: tfix
-Date: Thu, 22 Oct 2015 16:44:13 +0200
-Message-ID: <1445525054-2880-3-git-send-email-jwilk@jwilk.net>
-References: <1445525054-2880-1-git-send-email-jwilk@jwilk.net>
+Subject: [PATCH 1/4] bpf.2: tfix
+Date: Thu, 22 Oct 2015 16:44:11 +0200
+Message-ID: <1445525054-2880-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <1445525054-2880-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
 Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
@@ -12,22 +10,22 @@ List-Id: linux-man@vger.kernel.org
 
 Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 ---
- man2/tee.2 | 2 +-
+ man2/bpf.2 | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/man2/tee.2 b/man2/tee.2
-index 722d92c..6a8fbc9 100644
---- a/man2/tee.2
-+++ b/man2/tee.2
-@@ -55,7 +55,7 @@ therefore, that data can be copied by a subsequent
- .BR splice (2).
- 
- .I flags
--is a a bit mask that is composed by ORing together
-+is a bit mask that is composed by ORing together
- zero or more of the following values:
- .TP 1.9i
- .B SPLICE_F_MOVE
+diff --git a/man2/bpf.2 b/man2/bpf.2
+index 385d44a..5d583c7 100644
+--- a/man2/bpf.2
++++ b/man2/bpf.2
+@@ -85,7 +85,7 @@ unloaded when the process exits.
+ In some cases, for example,
+ .BR tc-bpf (8),
+ the program will continue to stay alive inside the kernel even after the
+-the process that loaded the program exits.
++process that loaded the program exits.
+ In that case,
+ the tc subsystem holds a reference to the eBPF program after the
+ file descriptor has been closed by the user-space program.
 -- 
 2.6.1
 
