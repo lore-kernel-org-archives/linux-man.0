@@ -1,19 +1,36 @@
-From: Alan Cox <etchedpixels-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: [TRIVIAL] gamma man page claims gamma is not in a standard
-Date: Thu, 22 Oct 2015 12:09:56 +0100
-Message-ID: <CAK9X0+uZCQMhKbgrb871peopLhtsins0atAd_y-MDwt1KUzwvw@mail.gmail.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+From: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+Subject: [PATCH 3/4] tee.2: tfix
+Date: Thu, 22 Oct 2015 16:44:13 +0200
+Message-ID: <1445525054-2880-3-git-send-email-jwilk@jwilk.net>
+References: <1445525054-2880-1-git-send-email-jwilk@jwilk.net>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+In-Reply-To: <1445525054-2880-1-git-send-email-jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
-gamma() is documented in SVID 2.
+Signed-off-by: Jakub Wilk <jwilk-tXgOlIzOKNReoWH0uzbU5w@public.gmane.org>
+---
+ man2/tee.2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-However the rest of the man page saying "use tgamma" is still totally correct !
+diff --git a/man2/tee.2 b/man2/tee.2
+index 722d92c..6a8fbc9 100644
+--- a/man2/tee.2
++++ b/man2/tee.2
+@@ -55,7 +55,7 @@ therefore, that data can be copied by a subsequent
+ .BR splice (2).
+ 
+ .I flags
+-is a a bit mask that is composed by ORing together
++is a bit mask that is composed by ORing together
+ zero or more of the following values:
+ .TP 1.9i
+ .B SPLICE_F_MOVE
+-- 
+2.6.1
 
-Alan
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
