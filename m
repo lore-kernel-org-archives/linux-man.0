@@ -1,37 +1,53 @@
-From: Florian Weimer <fw-d32yF4oPJVt0XxTmqZlbVQ@public.gmane.org>
-Subject: Re: [patch] document that O_TMPFILE works with shm_open
-Date: Tue, 27 Oct 2015 23:12:18 +0100
-Message-ID: <87ziz4c665.fsf@mid.deneb.enyo.de>
-References: <562B2CD9.80901@dancol.org>
+From: Maria Guseva <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
+Subject: RE: [patch] ld.so.8: outline missed cases of secure run
+Date: Thu, 29 Oct 2015 12:21:34 +0300
+Message-ID: <"000301d1122b$35737db0$a05a7910$@guseva"@samsung.com>
+References: <"01f701d0e407$c718f530$554adf90$@guseva"@samsung.com>
+ <55F65D25.1080708@gmail.com>
 Mime-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-In-Reply-To: <562B2CD9.80901-CpwT7fMy01Ydnm+yROfE0A@public.gmane.org> (Daniel Colascione's message of "Sat,
-	24 Oct 2015 00:01:45 -0700")
+In-reply-to: 
+Content-language: ru
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Daniel Colascione <dancol-CpwT7fMy01Ydnm+yROfE0A@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: "'Michael Kerrisk (man-pages)'" <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: 'Yury Gribov' <y.gribov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>, v.garbuzov-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, 'Maria Guseva' <m.guseva-Sze3O3UU22JBDgjK7y7TUQ@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-* Daniel Colascione:
+Ping.
 
-> This test program works fine. (Watch it work in strace.) This patch is
-> against git master. It's okay to document accidental features, right?
->
-> int
-> main()
-> {
->     int shmfd = shm_open(".", O_TMPFILE | O_RDWR | O_EXCL, 0600);
->     ftruncate(shmfd, 1000);
->     mmap(NULL, 1000, PROT_READ | PROT_WRITE, MAP_SHARED, shmfd, 0);
->
->     return 0;
-> }
+On 09/22/2015 11:58 AM, Maria Guseva wrote:
 
-This looks more like a bug to me.  I wouldn't count on it continuing
-to work.  glibc already tightened the rules for the name once.
+Hello Michael, Yury
 
-Florian
+> What do you think of the alternative patch below?
+Thank you, the patch you proposed looks much better. 
+
+>>> While at it, could you also mention that /etc/suid-debug enables 
+>>> LD_DEBUG for suids?
+>>
+>> Does it? I can't see that in the glibc source. Am I missing something?
+
+>I was looking at process_envvars (in rtld.c): it resets dl_debug_mask for
+AT_SECURE binaries unless /etc/suid-debug exists.
+
+So I think it should mentioned in LD_DEBUG environment variable description,
+here:
+
+.B LD_DEBUG
+-is ignored for set-user-ID/set-group-ID binaries.
++is ignored in secure-execution mode.
++However, if the file
++.IR /etc/suid\-debug
++exists (the content of the file is irrelevant), then .BR LD_DEBUG has 
++an effect in secure-execution mode.
+.TP
+
+
+Regards,
+Maria
+
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
