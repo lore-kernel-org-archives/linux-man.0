@@ -1,58 +1,51 @@
-From: Mike Frysinger <vapier-aBrp7R+bbdUdnm+yROfE0A@public.gmane.org>
-Subject: Re: Typo "functiop" in gdb manpage
-Date: Fri, 30 Oct 2015 18:43:41 -0400
-Message-ID: <20151030224341.GN5154@vapier.lan>
-References: <CAA4U+pjAkJtNggNnmFJV2hyaG3E6MT9mU5Bo2k75ufkhAkGxxw@mail.gmail.com>
+From: Mike Mestnik <cheako-2RaclcuBPGKiK054olCwYw@public.gmane.org>
+Subject: strtok: posturing: Last item is returned as delimited, even if it is not.
+Date: Fri, 30 Oct 2015 17:43:56 -0500
+Message-ID: <CAF8px57Td+X21+LvLUzKXcV0quzMBzZa9oRVhAzHHXKK-8G6mQ@mail.gmail.com>
 Mime-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Z1Z8UV8BNhgCynIS"
+Content-Type: text/plain; charset=UTF-8
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
-Content-Disposition: inline
-In-Reply-To: <CAA4U+pjAkJtNggNnmFJV2hyaG3E6MT9mU5Bo2k75ufkhAkGxxw-JsoAwUIsXosN+BqQ9rBEUg@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: Nikita Yerenkov-Scott <yerenkov.scott-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 List-Id: linux-man@vger.kernel.org
 
+github reference:
+https://github.com/cheako/ihlt/commit/ecf0b29fdb0aa127a555f2fafa57f194563e4ed2#diff-0235f01a49d01b35e981a41f59a9d2d6R48
 
---Z1Z8UV8BNhgCynIS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+an example client, illustrates the desired effect:
+https://github.com/cheako/ihlt/commit/8f8eb2222a5ee6cb62f901afc6d2232d8c6f9b47#diff-6fbb7f44f186dbc200f4f149d8c13132R49
 
-On 30 Oct 2015 22:04, Nikita Yerenkov-Scott wrote:
-> I have found a typo in the gdb manpage (which I have checked for in
-> the latest version of the manpage and it is still there). The typo is
-> on the line that says "break [file:]functiop", where "functiop" should
-> be "function".
+effect:
+s/ +/,/g, s/[\r\n]+/!\n/g
 
-this group does not maintain the gdb man page.  you want the gdb project
-instead:
-https://sourceware.org/gdb/
--mike
+Despite the working code that illustrates that strtok does tokenize
+the last part of a string that's not delimited, the man page does not
+address the possibility, instead it indicates that tokens must be
+delimited.
 
---Z1Z8UV8BNhgCynIS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Note: URIs with line numbers would be helpful.
+http://man7.org/linux/man-pages/man3/strtok.3.html
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+"The start of the
+       next token is determined by scanning forward for the next
+       nondelimiter byte in str.  If such a byte is found, it is taken as
+       the start of the next token.  If no such byte is found, then there
+       are no more tokens, and strtok() returns NULL."
 
-iQIcBAEBCAAGBQJWM/KdAAoJEEFjO5/oN/WBkr0QAJefAd9OErH8vq3+A8eEzp1A
-sPZdf3FpJwq6Zt1lW1b8nnFmA/rvPEGUy77M5CMaAFDMjIO/zxBOq7KxEZic9JE8
-urHIyu9FrxBZg9ujjRY7Qq1F+BYFqd7Sf2fB9LJJiparKGzz/wPSx2omjf767/tf
-vOpxbycVd/f9U+Mspa+mPgizTdsMtiyLMMEIHP/yxQq/62vz1WQ0TkJaHmypoA2Y
-Y8JNeD+eW7siog0cYp9c80oBvv2hK7ASuhilW287vGuCMn6cHpHzY+5Jigzuds2i
-Bq6eWQpZoVquTgM5BxQ0P1F/HZJvb9f23YsSlNLvhNMhZBKY9SrdYZPSpC+Ni7PL
-R+cTMnZayCDWTVVXfmCZlMcVSquQgdcBvpOcL4yMZHkiu3jZdFDoaZP21XH2GP9n
-NdLnw7q3n7hNX6gf444np80s5ttjRPPGCgcr5s7MGsYDEdzH13fhgX3iP6TBgonu
-UsACXwqNUGCpRTu22E/2qWtDURJkp301on8zpKEdvw099rq5ZAjv+euEDlzT6mU6
-pIHz1ehFtd/Ck7T9qVMFQSCUhh30evJb3Yb0IQhMXps1eQmd044VyqXxoIk0PDkW
-EgO2ksdgBuXH86Rt6oL1h9/5sM2RAJjzt/+hxyrzpNjNxzFlQM4TXOPhoupt3C5l
-xdGCCAT/saGK6AHjFISh
-=xGU6
------END PGP SIGNATURE-----
+This would be more accurate:
 
---Z1Z8UV8BNhgCynIS--
+The start of the
+       next token is determined by scanning forward for the next
+       nondelimiter byte in str.  If such a byte is found, it is taken as
+       the start of the next token.
+
+I'm unsure of how this situation can be explained, it creates a mess
+of code attempting to use strtok.  In my example the for loop is what
+I consider upside down and it's just plain uggly hack  to discover if
+the token found was the end of the string and not a token.
+
+Cheers.
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
 the body of a message to majordomo-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
