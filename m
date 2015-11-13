@@ -1,51 +1,91 @@
-From: Ross Zwisler <ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: [PATCH] core: Add info about DAX coredump filtering flags
-Date: Wed, 11 Nov 2015 11:03:02 -0700
-Message-ID: <1447264982-20535-1-git-send-email-ross.zwisler@linux.intel.com>
+From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+Subject: [patch] nsswitch.conf.5: Add list of files being read when "files"
+ service is used
+Date: Fri, 13 Nov 2015 14:14:32 +0100
+Message-ID: <1447420472.3144.3.camel@redhat.com>
+Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
-To: mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org
-Cc: Ross Zwisler <ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>, linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
+To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-Kernel 4.4 added two new core dump filtering flags, MMF_DUMP_DAX_PRIVATE
-and MMF_DUMP_DAX_SHARED.
+This is not mentioned anywhere. Users can assume that the file being re=
+ad
+is something like /etc/$DATABASE, but that's not always the case. It's =
+better
+to explicitly specify which file is read for each respective database.
+The list of files was acquired from glibc source code.
 
-These flags allow us to explicitly filter DAX mappings.  This is desirable
-because DAX mappings, like hugetlb mappings, have the potential to be very
-large.
-
-Signed-off-by: Ross Zwisler <ross.zwisler-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
 ---
+ man5/nsswitch.conf.5 | 46 ++++++++++++++++++++++++++++++++++++++++++++=
+++
+ 1 file changed, 46 insertions(+)
 
-The patches adding these flags have been merged for v4.4, but we're
-currently still very early in the v4.4 release cycle.  I'm not sure if it's
-correct to apply this documentation patch now, or if you'd rather wait
-until v4.4 is actually released.
-
----
- man5/core.5 | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/man5/core.5 b/man5/core.5
-index fc7f927..b8a8182 100644
---- a/man5/core.5
-+++ b/man5/core.5
-@@ -288,6 +288,12 @@ Dump private huge pages.
- .TP
- bit 6 (since Linux 2.6.28)
- Dump shared huge pages.
-+.TP
-+bit 7 (since Linux 4.4)
-+Dump private DAX pages.
-+.TP
-+bit 8 (since Linux 4.4)
-+Dump shared DAX pages.
- .RE
+diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
+index 33b1c64..c990733 100644
+--- a/man5/nsswitch.conf.5
++++ b/man5/nsswitch.conf.5
+@@ -330,6 +330,52 @@ implements "nis" source.
+ implements "nisplus" source.
  .PD
- .PP
--- 
-2.1.0
+ .RE
++.LP
++The following files are read when "files" source is specified
++for respective databases:
++.RS 4
++.TP 12
++.PD 0
++.B aliases
++.I /etc/aliases
++.TP
++.B ethers
++.I /etc/ethers
++.TP
++.B group
++.I /etc/group
++.TP
++.B hosts
++.I /etc/hosts
++.TP
++.B initgroups
++.I /etc/group
++.TP
++.B netgroup
++.I /etc/netgroup
++.TP
++.B networks
++.I /etc/networks
++.TP
++.B passwd
++.I /etc/passwd
++.TP
++.B protocols
++.I /etc/protocols
++.TP
++.B publickey
++.I /etc/publickey
++.TP
++.B rpc
++.I /etc/rpc
++.TP
++.B services
++.I /etc/services
++.TP
++.B shadow
++.I /etc/shadow
++.PD
++.RE
+ .SH NOTES
+ Within each process that uses
+ .BR nsswitch.conf ,
+--=20
+2.4.3
+
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
