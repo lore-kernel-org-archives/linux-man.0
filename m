@@ -1,91 +1,53 @@
-From: Nikola =?ISO-8859-1?Q?Forr=F3?= <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
-Subject: [patch] nsswitch.conf.5: Add list of files being read when "files"
- service is used
-Date: Fri, 13 Nov 2015 14:14:32 +0100
-Message-ID: <1447420472.3144.3.camel@redhat.com>
-Reply-To: nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+From: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
+Subject: [PATCH] tty_ioctl.4: Remove TIOCTTYGSTRUCT ioctl info
+Date: Mon, 16 Nov 2015 16:39:29 -0500
+Message-ID: <1447709969-26477-1-git-send-email-peter@hurleysoftware.com>
 Return-path: <linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
 Sender: linux-man-owner-u79uwXL29TY76Z2rM5mHXA@public.gmane.org
 To: Michael Kerrisk <mtk.manpages-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Cc: linux-man <linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org>
+Cc: linux-man-u79uwXL29TY76Z2rM5mHXA@public.gmane.org, Greg Kroah-Hartman <gregkh-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>, Jiri Slaby <jslaby-AlSwsSmVLrQ@public.gmane.org>, Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
 List-Id: linux-man@vger.kernel.org
 
-This is not mentioned anywhere. Users can assume that the file being re=
-ad
-is something like /etc/$DATABASE, but that's not always the case. It's =
-better
-to explicitly specify which file is read for each respective database.
-The list of files was acquired from glibc source code.
+Thankfully, TIOCTTYGSTRUCT was removed in v2.5.67 by:
 
-Signed-off-by: Nikola Forr=C3=B3 <nforro-H+wXaHxf7aLQT0dZR+AlfA@public.gmane.org>
+    commit b3506a09d15dc5aee6d4bb88d759b157016e1864
+    Author: Andries E. Brouwer <andries.brouwer-rh8NL+sEX9E@public.gmane.org>
+    Date:   Tue Apr 1 04:42:46 2003 -0800
+
+    [PATCH] kill TIOCTTYGSTRUCT
+
+    Only used for (dubious) debugging purposes, and exposes
+    internal kernel state.
+
+[The git SHA is from Thomas Gleixner's history tree at
+https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git]
+
+Signed-off-by: Peter Hurley <peter-WaGBZJeGNqdsbIuE7sb01tBPR1lH4CV8@public.gmane.org>
 ---
- man5/nsswitch.conf.5 | 46 ++++++++++++++++++++++++++++++++++++++++++++=
-++
- 1 file changed, 46 insertions(+)
+ man4/tty_ioctl.4 | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/man5/nsswitch.conf.5 b/man5/nsswitch.conf.5
-index 33b1c64..c990733 100644
---- a/man5/nsswitch.conf.5
-+++ b/man5/nsswitch.conf.5
-@@ -330,6 +330,52 @@ implements "nis" source.
- implements "nisplus" source.
- .PD
- .RE
-+.LP
-+The following files are read when "files" source is specified
-+for respective databases:
-+.RS 4
-+.TP 12
-+.PD 0
-+.B aliases
-+.I /etc/aliases
-+.TP
-+.B ethers
-+.I /etc/ethers
-+.TP
-+.B group
-+.I /etc/group
-+.TP
-+.B hosts
-+.I /etc/hosts
-+.TP
-+.B initgroups
-+.I /etc/group
-+.TP
-+.B netgroup
-+.I /etc/netgroup
-+.TP
-+.B networks
-+.I /etc/networks
-+.TP
-+.B passwd
-+.I /etc/passwd
-+.TP
-+.B protocols
-+.I /etc/protocols
-+.TP
-+.B publickey
-+.I /etc/publickey
-+.TP
-+.B rpc
-+.I /etc/rpc
-+.TP
-+.B services
-+.I /etc/services
-+.TP
-+.B shadow
-+.I /etc/shadow
-+.PD
-+.RE
- .SH NOTES
- Within each process that uses
- .BR nsswitch.conf ,
---=20
-2.4.3
-
+diff --git a/man4/tty_ioctl.4 b/man4/tty_ioctl.4
+index 53645d8..c3bee35 100644
+--- a/man4/tty_ioctl.4
++++ b/man4/tty_ioctl.4
+@@ -471,14 +471,6 @@ For the
+ .B TIOCLINUX
+ ioctl, see
+ .BR console_ioctl (4).
+-.SS Kernel debugging
+-.B "#include <linux/tty.h>"
+-.TP
+-.BI "TIOCTTYGSTRUCT	struct tty_struct *" argp
+-Get the
+-.I tty_struct
+-corresponding to
+-.IR fd .
+ .\"
+ .\" .SS Serial info
+ .\" .BR "#include <linux/serial.h>"
+-- 
+2.6.3
 
 --
 To unsubscribe from this list: send the line "unsubscribe linux-man" in
